@@ -68,7 +68,9 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
         Target optical output :math:`C` in :math:`cd/m^2` of the ideal
         reference display.
     L_p : numeric, optional
-        Display peak luminance :math:`cd/m^2`.
+        System peak luminance :math:`cd/m^2`, this parameter should stay at its
+        default :math:`10000 cd/m^2` value for practical applications. It is
+        exposed so that the definition can be used as a fitting function.
     constants : Structure, optional
         *SMPTE ST 2084:2014* constants.
 
@@ -78,6 +80,10 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
         Color value abbreviated as :math:`N`, that is directly proportional to
         the encoded signal representation, and which is not directly
         proportional to the optical output of a display device.
+
+    Warnings
+    --------
+    *SMPTE ST 2084:2014* is an absolute transfer function.
 
     Notes
     -----
@@ -94,6 +100,10 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     | ``N``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
+    -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
+        domain and range values for the *Reference* and *1* scales are only
+        indicative that the data is not affected by scale transformations.
+
     References
     ----------
     :cite:`Miller2014a`,
@@ -101,7 +111,7 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
 
     Examples
     --------
-    >>> oetf_ST2084(10.0, 1000)  # doctest: +ELLIPSIS
+    >>> oetf_ST2084(100)  # doctest: +ELLIPSIS
     0.5080784...
     """
 
@@ -130,7 +140,9 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
         the encoded signal representation, and which is not directly
         proportional to the optical output of a display device.
     L_p : numeric, optional
-        Display peak luminance :math:`cd/m^2`.
+        System peak luminance :math:`cd/m^2`, this parameter should stay at its
+        default :math:`10000 cd/m^2` value for practical applications. It is
+        exposed so that the definition can be used as a fitting function.
     constants : Structure, optional
         *SMPTE ST 2084:2014* constants.
 
@@ -139,6 +151,10 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     numeric or ndarray
           Target optical output :math:`C` in :math:`cd/m^2` of the ideal
           reference display.
+
+    Warnings
+    --------
+    *SMPTE ST 2084:2014* is an absolute transfer function.
 
     Notes
     -----
@@ -154,6 +170,10 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     +============+=======================+===============+
     | ``C``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
+
+    -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
+        domain and range values for the *Reference* and *1* scales are only
+        indicative that the data is not affected by scale transformations.
 
     References
     ----------
