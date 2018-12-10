@@ -91,10 +91,10 @@ def XYZ_to_sd_Meng2015(
 
     Examples
     --------
+    # Doctests skip for Python 2.x compatibility.
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> sd = XYZ_to_sd_Meng2015(XYZ, interval=10)
-    # Doctests skip for Python 2.x compatibility.
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +SKIP
     SpectralDistribution([[ 360.        ,    0.0780368...],
