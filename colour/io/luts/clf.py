@@ -15,8 +15,9 @@ from colour.io.luts import (AbstractLUTSequenceOperator,
                             Matrix,
                             Range)
 
-__all__ = ['half_to_uint16', 'uint16_to_half', 'halfDomain1D', 'halfDomain2D',
-           'read_IndexMap', 'string_to_array', 'simple_clf_parse']
+__all__ = ['half_to_uint16', 'uint16_to_half', 'halfDomain_lookup',
+           'halfDomain1D', 'halfDomain2D', 'read_IndexMap', 'string_to_array',
+           'simple_clf_parse']
 
 def half_to_uint16(x):
     x_half = np.copy(np.asarray(x)).astype(np.float16)
@@ -27,6 +28,20 @@ def uint16_to_half(y):
     y_int = np.copy(np.asarray(y)).astype(np.uint16)
     return as_numeric(np.frombuffer(y_int.tobytes(),
         dtype=np.float16).reshape(y_int.shape).astype(DEFAULT_FLOAT_DTYPE))
+
+def halfDomain_lookup(x, LUT, rawHalfs=True):
+    h0 = half_to_uint16(x)
+    f0 = uint16_to_half(h0)
+    f1 = uint16_to_half(h0 - 1)
+    f2 = uint16_to_half(h0 + 1)
+    h1 = np.where((x - f0) * (x - f1) > 0.0, h0 - 1, h0 + 1)
+    f = (x - uint16_to_half(h1)) / (f0 - uint16_to_half(h1))
+    out0 = LUT[h0]
+    out1 = LUT[h1]
+    if rawHalfs:
+        out0 = uint16_to_half(out0)
+        out1 = uint16_to_half(out1)
+    return np.where(np.isinf(f0), out0, f * out0 + (1 - f) * out1)
 
 class halfDomain1D(AbstractLUTSequenceOperator):
     def __init__(self,
@@ -57,11 +72,7 @@ class halfDomain1D(AbstractLUTSequenceOperator):
             return uint16_to_half(np.arange(65536, dtype='uint16'))
 
     def apply(self, RGB):
-        RGB = as_float_array(RGB)
-        if self.rawHalfs:
-            return uint16_to_half(self.table[half_to_uint16(RGB)])
-        else:
-            return self.table[half_to_uint16(RGB)]
+        return halfDomain_lookup(RGB, self.table, rawHalfs=self.rawHalfs)
 
 class halfDomain2D(AbstractLUTSequenceOperator):
     def __init__(self,
@@ -95,14 +106,9 @@ class halfDomain2D(AbstractLUTSequenceOperator):
     def apply(self, RGB):
         r, g, b = tsplit(as_float_array(RGB))
         table_r, table_g, table_b = tsplit(self.table)
-        if self.rawHalfs:
-            r =  uint16_to_half(table_r[half_to_uint16(r)])
-            g =  uint16_to_half(table_g[half_to_uint16(g)])
-            b =  uint16_to_half(table_b[half_to_uint16(b)])
-        else:
-            r = table_r[half_to_uint16(r)]
-            g = table_g[half_to_uint16(g)]
-            b = table_b[half_to_uint16(b)]
+        r = halfDomain_lookup(r, table_r, rawHalfs=self.rawHalfs)
+        g = halfDomain_lookup(g, table_g, rawHalfs=self.rawHalfs)
+        b = halfDomain_lookup(b, table_b, rawHalfs=self.rawHalfs)
         return tstack((r, g, b))
 
 def read_IndexMap(IndexMap):
@@ -130,9 +136,9 @@ def add_LUT1D(LUT, node):
         if 'rawHalfs' in node.keys():
             is_rawHalfs = bool(node.attrib['rawHalfs'])
     for child in node:
-        if child.tag.endswith('IndexMap'):
+        if child.tag.lower().endswith('indexmap'):
             shaper = read_IndexMap(child.text)
-        if child.tag.endswith('Array'):
+        if child.tag.lower().endswith('array'):
             dim = child.attrib['dim']
             r = int(dim.split()[0])
             c = int(dim.split()[1])
@@ -160,10 +166,10 @@ def add_LUT1D(LUT, node):
 def add_LUT3D(LUT, node):
     shaper = None
     for child in node:
-        if child.tag.endswith('IndexMap'):
+        if child.tag.lower().endswith('indexmap'):
             shaper = read_IndexMap(child.text)
             shaper.table /= np.max(shaper.table)
-        if child.tag.endswith('Array'):
+        if child.tag.lower().endswith('array'):
             dim = child.attrib['dim']
             size_r = int(dim.split()[0])
             size_g = int(dim.split()[1])
@@ -181,18 +187,18 @@ def add_LUT3D(LUT, node):
 def add_Range(LUT, node):
     range = Range()
     if 'style' in node.keys():
-        if node.attrib['style'] == 'NoClamp':
+        if node.attrib['style'].lower() == 'noclamp':
             range.noClamp = True
-        if node.attrib['style'] == 'Clamp':
+        if node.attrib['style'].lower() == 'clamp':
             range.noClamp = False
     for child in node:
-        if child.tag.endswith('minInValue'):
+        if child.tag.lower().endswith('mininvalue'):
             range.minInValue = float(child.text)
-        if child.tag.endswith('maxInValue'):
+        if child.tag.lower().endswith('maxinvalue'):
             range.maxInValue = float(child.text)
-        if child.tag.endswith('minOutValue'):
+        if child.tag.lower().endswith('minoutvalue'):
             range.minOutValue = float(child.text)
-        if child.tag.endswith('maxOutValue'):
+        if child.tag.lower().endswith('maxoutvalue'):
             range.maxOutValue = float(child.text)
     LUT.append(range)
     return LUT
@@ -212,26 +218,26 @@ def add_Matrix(LUT, node):
 def add_ASC_CDL(LUT, node):
     cdl = ASC_CDL()
     if 'style' in node.keys():
-        if node.attrib['style'] == 'FwdNoClamp':
+        if node.attrib['style'].lower() == 'fwdnoclamp':
             cdl.clamp, cdl.rev = False, False
-        if node.attrib['style'] == 'RevNoClamp':
+        if node.attrib['style'].lower() == 'revnoclamp':
             cdl.clamp, cdl.rev = False, True
-        if node.attrib['style'] == 'Fwd':
+        if node.attrib['style'].lower() == 'fwd':
             cdl.clamp, cdl.rev = True, False
-        if node.attrib['style'] == 'Rev':
+        if node.attrib['style'].lower() == 'rev':
             cdl.clamp, cdl.rev = True, True
     for child in node:
-        if child.tag.endswith('SOPNode'):
+        if child.tag.lower().endswith('sopnode'):
             for grandchild in child:
-                if grandchild.tag.endswith('Slope'):
+                if grandchild.tag.lower().endswith('slope'):
                     cdl.slope = parse_array(grandchild.text)
-                if grandchild.tag.endswith('Offset'):
+                if grandchild.tag.lower().endswith('offset'):
                     cdl.offset = parse_array(grandchild.text)
-                if grandchild.tag.endswith('Power'):
+                if grandchild.tag.lower().endswith('power'):
                     cdl.power = parse_array(grandchild.text)
-        if child.tag.endswith('SatNode'):
+        if child.tag.lower().endswith('satnode'):
             for grandchild in child:
-                if grandchild.tag.endswith('Saturation'):
+                if grandchild.tag.lower().endswith('saturation'):
                     cdl.sat = float(grandchild.text)
     LUT.append(cdl)
     return LUT
@@ -249,14 +255,14 @@ def simple_clf_parse(path):
             #LUT.InputDescriptor = node.text
         #if node.tag.endswith('OutputDescriptor'):
             #LUT.OutputDescriptor = node.text
-        if node.tag.endswith('LUT1D'):
+        if node.tag.lower().endswith('lut1d'):
             LUT = add_LUT1D(LUT, node)
-        if node.tag.endswith('LUT3D'):
+        if node.tag.lower().endswith('lut3d'):
             LUT = add_LUT3D(LUT, node)
-        if node.tag.endswith('Range'):
+        if node.tag.lower().endswith('range'):
             LUT = add_Range(LUT, node)
-        if node.tag.endswith('Matrix'):
+        if node.tag.lower().endswith('matrix'):
             LUT = add_Matrix(LUT, node)
-        if node.tag.endswith('ASC_CDL'):
+        if node.tag.lower().endswith('asc_cdl'):
             LUT = add_ASC_CDL(LUT, node)
     return LUT
