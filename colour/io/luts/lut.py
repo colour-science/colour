@@ -2334,7 +2334,8 @@ class LUTSequence(MutableSequence):
               interpolator_1D=LinearInterpolator,
               interpolator_1D_args=None,
               interpolator_3D=table_interpolation_trilinear,
-              interpolator_3D_args=None):
+              interpolator_3D_args=None,
+              clip_input_to_domain=False):
         """
         Applies the *LUT* sequence sequentially to given *RGB* colourspace
         array.
@@ -2379,6 +2380,18 @@ class LUTSequence(MutableSequence):
         """
 
         for operation in self:
+            if clip_input_to_domain:
+                if isinstance(operation, LUT1D):
+                    RGB = np.clip(RGB,
+                                  np.nanmin(operation.domain),
+                                  np.nanmax(operation.domain))
+                elif isinstance(operation, (LUT2D, LUT3D)):
+                    r, g, b = tsplit(RGB)
+                    domain_r, domain_g, domain_b = tsplit(operation.domain)
+                    r = np.clip(r, np.nanmin(domain_r), np.nanmax(domain_r))
+                    g = np.clip(g, np.nanmin(domain_g), np.nanmax(domain_g))
+                    b = np.clip(b, np.nanmin(domain_b), np.nanmax(domain_b))
+                    RGB = tstack((r, g, b))
             if isinstance(operation, (LUT1D, LUT2D)):
                 RGB = operation.apply(RGB, interpolator_1D,
                                       interpolator_1D_args)
