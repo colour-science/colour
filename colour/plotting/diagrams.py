@@ -22,6 +22,7 @@ from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
 from colour.colorimetry import sd_to_XYZ
+from colour.constants import EPSILON
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
@@ -264,6 +265,8 @@ def plot_chromaticity_diagram_colours(
     ii, jj = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
     ij = tstack([ii, jj])
+    # Avoiding zero division in later colour transformations.
+    ij = np.where(ij == 0, EPSILON, ij)
 
     if method == 'CIE 1931':
         XYZ = xy_to_XYZ(ij)
