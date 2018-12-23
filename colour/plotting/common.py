@@ -33,14 +33,15 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
 import re
-from collections import namedtuple
+from collections import OrderedDict, namedtuple
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
 
 from colour.characterisation import COLOURCHECKERS
 from colour.colorimetry import (CMFS, ILLUMINANTS_SDS)
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
-from colour.utilities import (Structure, as_float_array, is_sibling, is_string,
+from colour.utilities import (CaseInsensitiveMapping, Structure,
+                              as_float_array, is_sibling, is_string,
                               filter_mapping, runtime_warning)
 
 __author__ = 'Colour Developers'
@@ -674,6 +675,43 @@ def filter_passthrough(mapping,
     Returns mapping objects matching given filterers while passing through
     class instances whose type is one of the mapping element types.
 
+    This definition allows passing custom but compatible objects to the various
+    plotting definitions that by default expect the key from a dataset element.
+    For example, a typical call to :func:`colour.plotting.\
+plot_multi_illuminant_sds` definition is as follows:
+
+    >>> import colour
+    >>> import colour.plotting
+    >>> colour.plotting.plot_multi_illuminant_sds(['A'])
+    ... # doctest: +SKIP
+
+    But it is also possible to pass a custom spectral distribution as follows:
+
+    >>> data = {
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360
+    ... }
+    >>> colour.plotting.plot_multi_illuminant_sds(
+    ...     ['A', colour.SpectralDistribution(data)])
+    ... # doctest: +SKIP
+
+    Similarly, a typical call to :func:`colour.plotting.\
+plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
+
+    >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(
+    ...     ['A'])
+    ... # doctest: +SKIP
+
+    But it is also possible to pass a custom whitepoint as follows:
+
+    >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(
+    ...     ['A', {'Custom': np.array([1 / 3 + 0.05, 1 / 3 + 0.05])}])
+    ... # doctest: +SKIP
+
     Parameters
     ----------
     mapping : dict_like
@@ -727,15 +765,19 @@ def filter_passthrough(mapping,
                                       flags)
 
     for filterer in object_filterers:
-        try:
-            name = filterer.name
-        except AttributeError:
+        if isinstance(filterer, (dict, OrderedDict, CaseInsensitiveMapping)):
+            for key, value in filterer.items():
+                filtered_mapping[key] = value
+        else:
             try:
-                name = filterer.__name__
+                name = filterer.name
             except AttributeError:
-                name = str(id(filterer))
+                try:
+                    name = filterer.__name__
+                except AttributeError:
+                    name = str(id(filterer))
 
-        filtered_mapping[name] = filterer
+            filtered_mapping[name] = filterer
 
     return filtered_mapping
 
