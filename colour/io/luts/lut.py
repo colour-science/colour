@@ -2690,14 +2690,14 @@ class ASC_CDL(AbstractLUTSequenceOperator):
     ------------------
     <BLANKLINE>
     <ColorCorrection id="">
-    	<SOPNode>
-    		<Slope> 1.0 1.0 1.0 </Slope>
-     		<Offset> 0.0 0.0 0.0 </Offset>
-    		<Power> 1.0 1.0 1.0 </Power>
-    	</SOPNode>
-    	<SATNode>
-    		<Saturation> 1.0 </Saturation>
-    	</SATNode>
+        <SOPNode>
+            <Slope> 1.0 1.0 1.0 </Slope>
+             <Offset> 0.0 0.0 0.0 </Offset>
+            <Power> 1.0 1.0 1.0 </Power>
+        </SOPNode>
+        <SATNode>
+            <Saturation> 1.0 </Saturation>
+        </SATNode>
     </ColorCorrection>
     <BLANKLINE>
     Clamping   : Yes
@@ -2715,14 +2715,14 @@ class ASC_CDL(AbstractLUTSequenceOperator):
     -----------------------
 
     <ColorCorrection id="">
-    	<SOPNode>
-    		<Slope> 1.1 1.0 0.9 </Slope>
-    		<Offset> -0.1 0.0 0.1 </Offset>
-    		<Power> 0.9 1.0 1.1 </Power>
-    	</SOPNode>
-    	<SATNode>
-    		<Saturation> 0.9 </Saturation>
-    	</SATNode>
+        <SOPNode>
+            <Slope> 1.1 1.0 0.9 </Slope>
+            <Offset> -0.1 0.0 0.1 </Offset>
+            <Power> 0.9 1.0 1.1 </Power>
+        </SOPNode>
+        <SATNode>
+            <Saturation> 0.9 </Saturation>
+        </SATNode>
     </ColorCorrection>
 
     Clamping   : Yes
@@ -2776,14 +2776,14 @@ class ASC_CDL(AbstractLUTSequenceOperator):
         return ('ASC CDL - {0}\n'
                 '{1}\n\n'
                 '<ColorCorrection id="{2}">\n'
-                '\t<SOPNode>\n'
-                '\t\t<Slope> {3} </Slope>\n'
-                '\t\t<Offset> {4} </Offset>\n'
-                '\t\t<Power> {5} </Power>\n'
-                '\t</SOPNode>\n'
-                '\t<SATNode>\n'
-                '\t\t<Saturation> {6} </Saturation>\n'
-                '\t</SATNode>\n'
+                '    <SOPNode>\n'
+                '        <Slope> {3} </Slope>\n'
+                '        <Offset> {4} </Offset>\n'
+                '        <Power> {5} </Power>\n'
+                '    </SOPNode>\n'
+                '    <SATNode>\n'
+                '        <Saturation> {6} </Saturation>\n'
+                '    </SATNode>\n'
                 '</ColorCorrection>\n\n'
                 'Clamping   : {7}\n'
                 'Reverse    : {8}'
