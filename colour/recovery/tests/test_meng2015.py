@@ -56,7 +56,15 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_integration(
-                XYZ_to_sd_Meng2015(XYZ, interval=10, tolerance=1e-3),
+                XYZ_to_sd_Meng2015(
+                    XYZ,
+                    interval=10,
+                    optimisation_parameters={
+                        'options': {
+                            'ftol': 1e-10,
+                            'maxiter': 2000
+                        }
+                    }),
                 cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
