@@ -18,26 +18,30 @@ from __future__ import absolute_import
 import os
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+
 from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT2D, LUT3D,
-                  LUTSequence, LUT_to_LUT, Range, Matrix, ASC_CDL)
+                  LUTSequence, LUT_to_LUT, Range, Matrix)
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
 from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
 from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 from .sony_spimtx import read_LUT_SonySPImtx, write_LUT_SonySPImtx
 from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
-from .asc_cdl import read_LUT_cdl_xml, read_LUT_cdl_edl, read_LUT_cdl_ale
+from .asc_cdl import (ASC_CDL, read_LUT_cdl_xml, read_LUT_cdl_edl,
+                      read_LUT_cdl_ale)
 
 __all__ = [
     'AbstractLUTSequenceOperator', 'LUT1D', 'LUT2D', 'LUT3D', 'LUTSequence',
-    'LUT_to_LUT', 'Range', 'Matrix', 'ASC_CDL'
+    'LUT_to_LUT', 'Range', 'Matrix'
 ]
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
 __all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']
 __all__ += ['read_LUT_SonySPI1D', 'write_LUT_SonySPI1D']
 __all__ += ['read_LUT_SonySPI3D', 'write_LUT_SonySPI3D']
 __all__ += ['read_LUT_Cinespace', 'write_LUT_Cinespace']
-__all__ += ['read_LUT_cdl_xml', 'read_LUT_cdl_edl', 'read_LUT_cdl_ale']
+__all__ += [
+    'ASC_CDL', 'read_LUT_cdl_xml', 'read_LUT_cdl_edl', 'read_LUT_cdl_ale'
+]
 
 EXTENSION_TO_LUT_FORMAT_MAPPING = CaseInsensitiveMapping({
     '.cube': 'Iridas Cube',
@@ -65,9 +69,9 @@ LUT_READ_METHODS = CaseInsensitiveMapping({
     'Sony SPI1D': read_LUT_SonySPI1D,
     'Sony SPI3D': read_LUT_SonySPI3D,
     'Sony SPImtx': read_LUT_SonySPImtx,
-    'ASC CDL' : read_LUT_cdl_xml,
-    'EDL' : read_LUT_cdl_edl,
-    'ALE' : read_LUT_cdl_ale
+    'ASC CDL': read_LUT_cdl_xml,
+    'EDL': read_LUT_cdl_edl,
+    'ALE': read_LUT_cdl_ale
 })
 LUT_READ_METHODS.__doc__ = """
 Supported *LUT* reading methods.

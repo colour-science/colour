@@ -15,9 +15,7 @@ import numpy as np
 import os
 import re
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import Matrix
-from colour.utilities import as_float_array, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -32,13 +30,16 @@ __all__ = ['read_LUT_SonySPImtx', 'write_LUT_SonySPImtx']
 def read_LUT_SonySPImtx(path):
     array = np.loadtxt(path)
     array = array.reshape(3, 4)
+    # TODO: Update with "develop" generic function.
     title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
+
     return Matrix(array, title)
 
 
-def write_LUT_SonySPImtx(mat, path, decimals=6):
-    if mat.array.shape == (3, 4):
-        array = mat.array
+def write_LUT_SonySPImtx(matrix, path, decimals=6):
+    if matrix.array.shape == (3, 4):
+        array = matrix.array
     else:
-        array = np.hstack([mat.array, np.zeros((3, 1))])
-    np.savetxt(path, array, fmt='%.{0}f'.format(decimals).encode('ascii'))
+        array = np.hstack([matrix.array, np.zeros((3, 1))])
+
+    np.savetxt(path, array, fmt='%.{0}f'.format(decimals).encode('utf-8'))
