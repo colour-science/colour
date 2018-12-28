@@ -63,7 +63,9 @@ def plot_colour_quality_bars(specifications,
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.quality.plot_colour_quality_bars`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -179,7 +181,9 @@ def plot_single_sd_colour_rendering_index_bars(sd, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.quality.plot_colour_quality_bars`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
@@ -227,7 +231,9 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.quality.plot_colour_quality_bars`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
@@ -303,7 +309,9 @@ def plot_single_sd_colour_quality_scale_bars(sd, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.quality.plot_colour_quality_bars`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
@@ -351,7 +359,9 @@ def plot_multi_sds_colour_quality_scales_bars(sds, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.quality.plot_colour_quality_bars`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},

@@ -64,13 +64,9 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
         ``interval`` is, the longer the computations will be.
-    tolerance : numeric, optional
+    optimisation_parameters : dict_like, optional
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
-        Tolerance for termination. The lower ``tolerance`` is, the smoother
-        the recovered spectral distribution will be.
-    maximum_iterations : int, optional
-        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
-        Maximum number of iterations to perform.
+        Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------

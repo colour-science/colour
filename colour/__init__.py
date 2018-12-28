@@ -13,10 +13,10 @@ Sub-packages
 -   appearance: Colour appearance models.
 -   biochemistry: Biochemistry computations.
 -   blindness: Colour vision deficiency models.
--   continuous: Base objects for continuous data representation.
 -   characterisation: Colour fitting and camera characterisation.
 -   colorimetry: Core objects for colour computations.
 -   constants: *CIE* and *CODATA* constants.
+-   continuous: Base objects for continuous data representation.
 -   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.

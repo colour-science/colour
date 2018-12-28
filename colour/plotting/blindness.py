@@ -50,7 +50,8 @@ def plot_cvd_simulation_Machado2009(RGB,
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.plot_image`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Notes

@@ -579,6 +579,8 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.diagrams.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -685,6 +687,8 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.diagrams.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -747,6 +751,8 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.diagrams.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -809,6 +815,8 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.diagrams.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1060,6 +1068,8 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.models.\
+plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1119,6 +1129,8 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.models.\
+plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1178,6 +1190,8 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.models.\
+plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1222,7 +1236,9 @@ def plot_single_cctf(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_functions`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -1264,7 +1280,9 @@ def plot_multi_cctfs(cctfs=None, decoding_cctf=False, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_functions`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns

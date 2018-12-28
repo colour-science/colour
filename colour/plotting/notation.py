@@ -42,7 +42,9 @@ def plot_single_munsell_value_function(function='ASTM D1535-08', **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_functions`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -78,7 +80,9 @@ def plot_multi_munsell_value_functions(functions=None, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_functions`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns

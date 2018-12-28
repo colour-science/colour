@@ -74,13 +74,17 @@ Acknowledgements
 
     *ACES RGB IDT* technical support.
 
--   **Charles Poynton**, *Mathematician & Colour Scientist*
+-   **Joseph Goldstone**, *Image Science Engineer @ ARRI*
 
     Technical support.
 
 -   **Yoshi Ohno**, *Mathematician & Colour Scientist*
 
     *Ohno (2013)* correlated colour temperature calculation technical support.
+
+-   **Charles Poynton**, *Mathematician & Colour Scientist*
+
+    Technical support.
 
 Special Mentions
 ----------------
@@ -90,9 +94,18 @@ Special Mentions
 Issues & Discussions
 --------------------
 
--   Joseph Goldstone
+-   Ryan Bass
+-   Giuseppe Di Guglielmo
+-   Vlad Enache
+-   Christophe Go
+-   Michal Krompiec
+-   Max Marrone
+-   Marie Meyer
 -   Nick Porcino
+-   Iman Sajedian
 -   Nick Spiker
+-   Albert Szostkiewicz
+-   Vishal Vashistha
 -   @Ampersandme
 -   @Chandler
 -   @Edwardlin-zlt
@@ -126,6 +139,7 @@ Issues & Discussions
 -   @stakemura
 -   @tashdor
 -   @tingeman
+-   @totyped
 -   @zachlewis
 
 About

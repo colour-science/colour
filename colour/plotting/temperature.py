@@ -321,6 +321,8 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.temperature.plot_planckian_locus`,
         :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
@@ -380,6 +382,8 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.temperature.plot_planckian_locus`,
         :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},

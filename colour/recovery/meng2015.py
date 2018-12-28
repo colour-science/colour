@@ -44,8 +44,7 @@ def XYZ_to_sd_Meng2015(
         XYZ,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
         interval=5,
-        tolerance=1e-10,
-        maximum_iterations=2000):
+        optimisation_parameters=None):
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus values
     using *Meng et al. (2015)* method.
@@ -59,11 +58,8 @@ def XYZ_to_sd_Meng2015(
     interval : numeric, optional
         Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
         ``interval`` is, the longer the computations will be.
-    tolerance : numeric, optional
-        Tolerance for termination. The lower ``tolerance`` is, the smoother
-        the recovered spectral distribution will be.
-    maximum_iterations : int, optional
-        Maximum number of iterations to perform.
+    optimisation_parameters : dict_like, optional
+        Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
@@ -178,20 +174,22 @@ def XYZ_to_sd_Meng2015(
     wavelengths = sd.wavelengths
     bins = wavelengths.size
 
-    constraints = {'type': 'eq', 'fun': function_constraint}
+    optimisation_settings = {
+        'method': 'SLSQP',
+        'constraints': {
+            'type': 'eq',
+            'fun': function_constraint
+        },
+        'bounds': np.tile(np.array([0, 1000]), (bins, 1)),
+        'options': {
+            'ftol': 1e-10,
+            'maxiter': 2000
+        },
+    }
+    if optimisation_parameters is not None:
+        optimisation_settings.update(optimisation_parameters)
 
-    bounds = np.tile(np.array([0, 1000]), (bins, 1))
-
-    result = minimize(
-        function_objective,
-        sd.values,
-        method='SLSQP',
-        constraints=constraints,
-        bounds=bounds,
-        options={
-            'ftol': tolerance,
-            'maxiter': maximum_iterations
-        })
+    result = minimize(function_objective, sd.values, **optimisation_settings)
 
     if not result.success:
         raise RuntimeError(
