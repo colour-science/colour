@@ -281,10 +281,6 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
         'colour.plotting.plot_cvd_simulation_Machado2009',
     ],
     [
-        'colour.plotting.ellipses_MacAdam1942_chromaticity_diagram_plot',
-        'colour.plotting.plot_ellipses_MacAdam1942_in_chromaticity_diagram',
-    ],
-    [
         'colour.plotting.equal_axes3d',
         'colour.plotting.uniform_axes3d',
     ],
