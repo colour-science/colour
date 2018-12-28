@@ -304,7 +304,9 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_cmfs`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -428,7 +430,9 @@ def plot_single_illuminant_sd(illuminant='A',
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_single_sd`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     out_of_gamut_clipping : bool, optional
         {:func:`colour.plotting.plot_single_sd`},
@@ -478,7 +482,9 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_sds`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     use_sds_colours : bool, optional
         {:func:`colour.plotting.plot_multi_sds`}
@@ -538,7 +544,9 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_single_sd`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -600,7 +608,9 @@ def plot_single_lightness_function(function='CIE 1976', **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_functions`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -636,7 +646,9 @@ def plot_multi_lightness_functions(functions=None, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_functions`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -685,7 +697,9 @@ def plot_single_luminance_function(function='CIE 1976', **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_functions`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -721,7 +735,9 @@ def plot_multi_luminance_functions(functions=None, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_functions`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -778,7 +794,9 @@ def plot_blackbody_spectral_radiance(
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_single_sd`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
