@@ -9,6 +9,7 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (lightness_Glasser1958, lightness_Wyszecki1963,
+                                function_intermediate_lightness_CIE1976,
                                 lightness_CIE1976, lightness_Fairchild2010,
                                 lightness_Fairchild2011)
 from colour.colorimetry.lightness import lightness
@@ -23,8 +24,8 @@ __status__ = 'Production'
 
 __all__ = [
     'TestLightnessGlasser1958', 'TestLightnessWyszecki1963',
-    'TestLightnessCIE1976', 'TestLightnessFairchild2010',
-    'TestLightnessFairchild2011', 'TestLightness'
+    'TestFunctionIntermediateLightnessCIE1976', 'TestLightnessCIE1976',
+    'TestLightnessFairchild2010', 'TestLightnessFairchild2011', 'TestLightness'
 ]
 
 
@@ -165,6 +166,87 @@ class TestLightnessWyszecki1963(unittest.TestCase):
         """
 
         lightness_Wyszecki1963(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestFunctionIntermediateLightnessCIE1976(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.lightness.\
+function_intermediate_lightness_CIE1976` definition unit tests methods.
+    """
+
+    def test_function_intermediate_lightness_CIE1976(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.\
+function_intermediate_lightness_CIE1976` definition.
+        """
+
+        self.assertAlmostEqual(
+            function_intermediate_lightness_CIE1976(12.19722535),
+            0.495929964178047,
+            places=7)
+
+        self.assertAlmostEqual(
+            function_intermediate_lightness_CIE1976(23.04276781),
+            0.613072093530391,
+            places=7)
+
+        self.assertAlmostEqual(
+            function_intermediate_lightness_CIE1976(6.15720079),
+            0.394876333449113,
+            places=7)
+
+    def test_n_dimensional_function_intermediate_lightness_CIE1976(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.\
+function_intermediate_lightness_CIE1976` definition n-dimensional arrays
+        support.
+        """
+
+        Y = 12.19722535
+        f_Y_Y_n = 0.495929964178047
+        np.testing.assert_almost_equal(
+            function_intermediate_lightness_CIE1976(Y), f_Y_Y_n, decimal=7)
+
+        Y = np.tile(Y, 6)
+        f_Y_Y_n = np.tile(f_Y_Y_n, 6)
+        np.testing.assert_almost_equal(
+            function_intermediate_lightness_CIE1976(Y), f_Y_Y_n, decimal=7)
+
+        Y = np.reshape(Y, (2, 3))
+        f_Y_Y_n = np.reshape(f_Y_Y_n, (2, 3))
+        np.testing.assert_almost_equal(
+            function_intermediate_lightness_CIE1976(Y), f_Y_Y_n, decimal=7)
+
+        Y = np.reshape(Y, (2, 3, 1))
+        f_Y_Y_n = np.reshape(f_Y_Y_n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            function_intermediate_lightness_CIE1976(Y), f_Y_Y_n, decimal=7)
+
+    def test_domain_range_scale_function_intermediate_lightness_CIE1976(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.\
+function_intermediate_lightness_CIE1976` definition domain and range scale
+        support.
+        """
+
+        f_Y_Y_n = function_intermediate_lightness_CIE1976(12.19722535, 100)
+
+        for scale in ('reference', 1, 100):
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    function_intermediate_lightness_CIE1976(12.19722535, 100),
+                    f_Y_Y_n,
+                    decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_function_intermediate_lightness_CIE1976(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.\
+function_intermediate_lightness_CIE1976` definition nan support.
+        """
+
+        function_intermediate_lightness_CIE1976(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

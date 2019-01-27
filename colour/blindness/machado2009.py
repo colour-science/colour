@@ -299,13 +299,14 @@ def cvd_matrix_Machado2009(deficiency, severity):
         {'Protanomaly', 'Deuteranomaly', 'Tritanomaly'}
         Colour blindness / vision deficiency types :
         - *Protanomaly* : defective long-wavelength cones (L-cones). The
-        complete absence of L-cones is called *Protanopia* or *red-dichromacy*.
+        complete absence of L-cones is known as *Protanopia* or
+        *red-dichromacy*.
         - *Deuteranomaly* : defective medium-wavelength cones (M-cones) with
-        peak of sensitivity being moved towards the red sensitive cones. The
-        complete absence of M-cones is called *Deuteranopia*.
+        peak of sensitivity moved towards the red sensitive cones. The complete
+        absence of M-cones is known as *Deuteranopia*.
         - *Tritanomaly* : defective short-wavelength cones (S-cones), an
         alleviated form of blue-yellow color blindness. The complete absence of
-        S-cones is called *Tritanopia*.
+        S-cones is known as *Tritanopia*.
     severity : numeric
         Severity of the colour vision deficiency in domain [0, 1].
 

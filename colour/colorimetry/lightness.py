@@ -30,6 +30,9 @@ blob/master/notebooks/colorimetry/lightness.ipynb>`_
 
 References
 ----------
+-   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
+    spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
+    ISBN:978-3-901-90633-6
 -   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).
     hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of
     High-Dynamic-Range and Wide-Color-Gamut Images. In Proc. of Color and
@@ -41,9 +44,6 @@ References
 -   :cite:`Glasser1958a` : Glasser, L. G., McKinney, A. H., Reilly, C. D., &
     Schnelle, P. D. (1958). Cube-Root Color Coordinate System. Journal of the
     Optical Society of America, 48(10), 736. doi:10.1364/JOSA.48.000736
--   :cite:`Lindbloom2003d` : Lindbloom, B. (2003). A Continuity Study of the
-    CIE L* Function. Retrieved February 24, 2014, from
-    http://brucelindbloom.com/LContinuity.html
 -   :cite:`Wikipedia2007c` : ﻿Wikipedia. (2007). Lightness. Retrieved April
     13, 2014, from http://en.wikipedia.org/wiki/Lightness
 -   :cite:`Wyszecki1963b` : Wyszecki, G. (1963). Proposal for a New
@@ -61,7 +61,6 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.biochemistry import reaction_rate_MichealisMenten
-from colour.constants import CIE_E, CIE_K
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, from_range_100,
                               get_domain_range_scale, to_domain_1,
@@ -75,7 +74,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'lightness_Glasser1958', 'lightness_Wyszecki1963', 'lightness_CIE1976',
+    'lightness_Glasser1958', 'lightness_Wyszecki1963',
+    'function_intermediate_lightness_CIE1976', 'lightness_CIE1976',
     'lightness_Fairchild2010', 'lightness_Fairchild2011', 'LIGHTNESS_METHODS',
     'lightness'
 ]
@@ -180,6 +180,68 @@ def lightness_Wyszecki1963(Y):
     return from_range_100(W)
 
 
+def function_intermediate_lightness_CIE1976(Y, Y_n=100):
+    """
+    Returns the intermediate value :math:`f(Y/Yn)` in the *Lightness*
+    :math:`L^*` computation for given *luminance* :math:`Y` using given
+    reference white *luminance* :math:`Y_n` as per *CIE 1976* recommendation.
+
+    Parameters
+    ----------
+    Y : numeric or array_like
+        *luminance* :math:`Y`.
+    Y_n : numeric or array_like, optional
+        White reference *luminance* :math:`Y_n`.
+
+    Returns
+    -------
+    numeric or array_like
+        Intermediate value :math:`f(Y/Yn)`.
+
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``Y``       | [0, 100]              | [0, 100]      |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``f_Y_Y_n`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`CIETC1-482004m`, :cite:`Wyszecki2000bd`
+
+    Examples
+    --------
+    >>> function_intermediate_lightness_CIE1976(12.19722535)
+    ... # doctest: +ELLIPSIS
+    0.4959299...
+    >>> function_intermediate_lightness_CIE1976(12.19722535, 95)
+    ... # doctest: +ELLIPSIS
+    0.5044821...
+    """
+
+    Y = as_float_array(Y)
+    Y_n = as_float_array(Y_n)
+
+    Y_Y_n = Y / Y_n
+
+    f_Y_Y_n = as_float(
+        np.where(
+            Y_Y_n > (24 / 116) ** 3,
+            spow(Y_Y_n, 1 / 3),
+            (841 / 108) * Y_Y_n + 16 / 116,
+        ))
+
+    return f_Y_Y_n
+
+
 def lightness_CIE1976(Y, Y_n=100):
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
@@ -215,7 +277,7 @@ def lightness_CIE1976(Y, Y_n=100):
 
     References
     ----------
-    :cite:`Lindbloom2003d`, :cite:`Wyszecki2000bd`
+    :cite:`CIETC1-482004m`, :cite:`Wyszecki2000bd`
 
     Examples
     --------
@@ -226,14 +288,7 @@ def lightness_CIE1976(Y, Y_n=100):
     Y = to_domain_100(Y)
     Y_n = as_float_array(Y_n)
 
-    L_star = Y / Y_n
-
-    L_star = as_float(
-        np.where(
-            L_star <= CIE_E,
-            CIE_K * L_star,
-            116 * spow(L_star, 1 / 3) - 16,
-        ))
+    L_star = 116 * function_intermediate_lightness_CIE1976(Y, Y_n) - 16
 
     return from_range_100(L_star)
 
@@ -369,8 +424,8 @@ Supported *Lightness* computations methods.
 
 References
 ----------
-:cite:`Fairchild2010`, :cite:`Fairchild2011`, :cite:`Glasser1958a`,
-:cite:`Lindbloom2003d`, :cite:`Wyszecki1963b`, :cite:`Wyszecki2000bd`
+:cite:`CIETC1-482004m`, :cite:`Fairchild2010`, :cite:`Fairchild2011`,
+:cite:`Glasser1958a`, :cite:`Wyszecki1963b`, :cite:`Wyszecki2000bd`
 
 LIGHTNESS_METHODS : CaseInsensitiveMapping
     **{'Glasser 1958', 'Wyszecki 1963', 'CIE 1976', 'Fairchild 2010',
@@ -428,8 +483,8 @@ def lightness(Y, method='CIE 1976', **kwargs):
 
     References
     ----------
-    :cite:`Fairchild2010`, :cite:`Fairchild2011`, :cite:`Glasser1958a`,
-    :cite:`Lindbloom2003d`, :cite:`Wikipedia2007c`, :cite:`Wyszecki1963b`,
+    :cite:`CIETC1-482004m`, :cite:`Fairchild2010`, :cite:`Fairchild2011`,
+    :cite:`Glasser1958a`, :cite:`Wikipedia2007c`, :cite:`Wyszecki1963b`,
     :cite:`Wyszecki2000bd`
 
     Examples

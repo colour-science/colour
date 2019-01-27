@@ -56,8 +56,8 @@ References
 -   :cite:`CVRLt` : CVRL. (n.d.). Stiles & Burch individual 10-deg colour
     matching data. Retrieved February 24, 2014, from
     http://www.cvrl.org/stilesburch10_ind.htm
--   :cite:`CVRLu` : CVRL. (n.d.). Cone Fundamentals. Retrieved June 23, 2014,
-    from http://www.cvrl.org/cones.htm
+-   :cite:`CVRLu` : Stockman, A., & Sharpe, L. T. (2000). Cone Fundamentals.
+    Retrieved June 23, 2014, from http://www.cvrl.org/cones.htm
 -   :cite:`CVRLw` : CVRL. (n.d.). Stiles & Burch individual 2-deg colour
     matching data. Retrieved February 24, 2014, from
     http://www.cvrl.org/stilesburch2_ind.htm

@@ -34,6 +34,9 @@ References
 -   :cite:`ASTMInternational2008a` : ASTM International. (2008).
     ASTM D1535-08e1 - Standard Practice for Specifying Color by the Munsell
     System. doi:10.1520/D1535-08E01
+-   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
+    spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
+    ISBN:978-3-901-90633-6
 -   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).
     hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of
     High-Dynamic-Range and Wide-Color-Gamut Images. In Proc. of Color and
@@ -42,9 +45,6 @@ References
     lightness, and specifying color in high-dynamic-range scenes and images.
     In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
     System Performance VIII (p. 78670O). doi:10.1117/12.872075
--   :cite:`Lindbloom2003d` : Lindbloom, B. (2003). A Continuity Study of the
-    CIE L* Function. Retrieved February 24, 2014, from
-    http://brucelindbloom.com/LContinuity.html
 -   :cite:`Newhall1943a` : Newhall, S. M., Nickerson, D., & Judd, D. B. (1943).
     Final Report of the OSA Subcommittee on the Spacing of the Munsell Colors.
     Journal of the Optical Society of America, 33(7), 385.
@@ -62,11 +62,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.biochemistry import substrate_concentration_MichealisMenten
-from colour.constants import CIE_E, CIE_K
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, from_range_1, from_range_100,
-                              get_domain_range_scale, to_domain_10,
-                              to_domain_100)
+                              get_domain_range_scale,
+                              to_domain_10, to_domain_100)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -76,7 +75,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'luminance_Newhall1943', 'luminance_ASTMD153508', 'luminance_CIE1976',
+    'luminance_Newhall1943', 'luminance_ASTMD153508',
+    'function_intermediate_luminance_CIE1976', 'luminance_CIE1976',
     'luminance_Fairchild2010', 'luminance_Fairchild2011', 'LUMINANCE_METHODS',
     'luminance'
 ]
@@ -124,8 +124,8 @@ def luminance_Newhall1943(V):
 
     V = to_domain_10(V)
 
-    R_Y = (1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 *
-           (V ** 4) + 0.0008404 * (V ** 5))
+    R_Y = (1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) -
+           0.021009 * (V ** 4) + 0.0008404 * (V ** 5))
 
     return from_range_100(R_Y)
 
@@ -172,10 +172,70 @@ def luminance_ASTMD153508(V):
 
     V = to_domain_10(V)
 
-    Y = (1.1914 * V - 0.22533 * (V ** 2) + 0.23352 * (V ** 3) - 0.020484 *
-         (V ** 4) + 0.00081939 * (V ** 5))
+    Y = (1.1914 * V - 0.22533 * (V ** 2) + 0.23352 * (V ** 3) -
+         0.020484 * (V ** 4) + 0.00081939 * (V ** 5))
 
     return from_range_100(Y)
+
+
+def function_intermediate_luminance_CIE1976(f_Y_Y_n, Y_n=100):
+    """
+    Returns the *luminance* :math:`Y` in the *luminance* :math:`Y`
+    computation for given intermediate value :math:`f(Y/Yn)` using given
+    reference white *luminance* :math:`Y_n` as per *CIE 1976* recommendation.
+
+    Parameters
+    ----------
+    f_Y_Y_n : numeric or array_like
+        Intermediate value :math:`f(Y/Yn)`.
+    Y_n : numeric or array_like
+        White reference *luminance* :math:`Y_n`.
+
+    Returns
+    -------
+    numeric or array_like
+        *luminance* :math:`Y`.
+
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``f_Y_Y_n`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``Y``       | [0, 100]              | [0, 100]      |
+    +-------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`CIETC1-482004m`, :cite:`Wyszecki2000bd`
+
+    Examples
+    --------
+    >>> function_intermediate_luminance_CIE1976(0.495929964178047)
+    ... # doctest: +ELLIPSIS
+    12.1972253...
+    >>> function_intermediate_luminance_CIE1976(0.504482161449319, 95)
+    ... # doctest: +ELLIPSIS
+    12.1972253...
+    """
+
+    f_Y_Y_n = as_float_array(f_Y_Y_n)
+    Y_n = as_float_array(Y_n)
+
+    Y = as_float(
+        np.where(
+            f_Y_Y_n > 24 / 116,
+            Y_n * f_Y_Y_n ** 3,
+            Y_n * (f_Y_Y_n - 16 / 116) * (108 / 841),
+        ))
+
+    return Y
 
 
 def luminance_CIE1976(L_star, Y_n=100):
@@ -212,7 +272,7 @@ def luminance_CIE1976(L_star, Y_n=100):
 
     References
     ----------
-    :cite:`Lindbloom2003d`, :cite:`Wyszecki2000bd`
+    :cite:`CIETC1-482004m`, :cite:`Wyszecki2000bd`
 
     Examples
     --------
@@ -225,12 +285,9 @@ def luminance_CIE1976(L_star, Y_n=100):
     L_star = to_domain_100(L_star)
     Y_n = as_float_array(Y_n)
 
-    Y = as_float(
-        np.where(
-            L_star > CIE_K * CIE_E,
-            Y_n * ((L_star + 16) / 116) ** 3,
-            Y_n * (L_star / CIE_K),
-        ))
+    f_Y_Y_n = (L_star + 16) / 116
+
+    Y = function_intermediate_luminance_CIE1976(f_Y_Y_n, Y_n)
 
     return from_range_100(Y)
 
@@ -369,8 +426,8 @@ Supported *luminance* computations methods.
 
 References
 ----------
-:cite:`ASTMInternational2008a`, :cite:`Fairchild2010`, :cite:`Fairchild2011`,
-:cite:`Lindbloom2003d`, :cite:`Newhall1943a`, :cite:`Wyszecki2000bd`
+:cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`, :cite:`Fairchild2010`,
+:cite:`Fairchild2011`, :cite:`Newhall1943a`, :cite:`Wyszecki2000bd`
 
 LUMINANCE_METHODS : CaseInsensitiveMapping
     **{'Newhall 1943', 'ASTM D1535-08', 'CIE 1976', 'Fairchild 2010'}**
@@ -430,8 +487,8 @@ def luminance(LV, method='CIE 1976', **kwargs):
 
     References
     ----------
-    :cite:`ASTMInternational2008a`, :cite:`Fairchild2010`,
-    :cite:`Fairchild2011`, :cite:`Lindbloom2003d`, :cite:`Newhall1943a`,
+    :cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`,
+    :cite:`Fairchild2010`, :cite:`Fairchild2011`, :cite:`Newhall1943a`,
     :cite:`Wikipedia2001b`, :cite:`Wyszecki2000bd`
 
     Examples

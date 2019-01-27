@@ -27,9 +27,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import cartesian_to_polar, polar_to_cartesian, spow
-from colour.colorimetry import ILLUMINANTS
-from colour.constants import CIE_E, CIE_K
+from colour.algebra import cartesian_to_polar, polar_to_cartesian
+from colour.colorimetry import (ILLUMINANTS,
+                                function_intermediate_lightness_CIE1976,
+                                function_intermediate_luminance_CIE1976)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (from_range_1, from_range_100, from_range_degrees,
                               to_domain_1, to_domain_100, to_domain_degrees,
@@ -97,23 +98,17 @@ def XYZ_to_Lab(
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
 
-    XYZ = to_domain_1(XYZ)
+    X, Y, Z = tsplit(to_domain_1(XYZ))
 
-    XYZ_r = xyY_to_XYZ(xy_to_xyY(illuminant))
+    X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    XYZ_f = XYZ / XYZ_r
+    f_X_X_n = function_intermediate_lightness_CIE1976(X, X_n)
+    f_Y_Y_n = function_intermediate_lightness_CIE1976(Y, Y_n)
+    f_Z_Z_n = function_intermediate_lightness_CIE1976(Z, Z_n)
 
-    XYZ_f = np.where(
-        XYZ_f > CIE_E,
-        spow(XYZ_f, 1 / 3),
-        (CIE_K * XYZ_f + 16) / 116,
-    )
-
-    X_f, Y_f, Z_f = tsplit(XYZ_f)
-
-    L = 116 * Y_f - 16
-    a = 500 * (X_f - Y_f)
-    b = 200 * (Y_f - Z_f)
+    L = 116 * f_Y_Y_n - 16
+    a = 500 * (f_X_X_n - f_Y_Y_n)
+    b = 200 * (f_Y_Y_n - f_Z_Z_n)
 
     Lab = tstack([L, a, b])
 
@@ -174,17 +169,17 @@ def Lab_to_XYZ(
 
     L, a, b = tsplit(to_domain_100(Lab))
 
-    XYZ_r = xyY_to_XYZ(xy_to_xyY(illuminant))
+    X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    f_y = (L + 16) / 116
-    f_x = a / 500 + f_y
-    f_z = f_y - b / 200
+    f_Y_Y_n = (L + 16) / 116
+    f_X_X_n = a / 500 + f_Y_Y_n
+    f_Z_Z_n = f_Y_Y_n - b / 200
 
-    x_r = np.where(f_x ** 3 > CIE_E, f_x ** 3, (116 * f_x - 16) / CIE_K)
-    y_r = np.where(L > CIE_K * CIE_E, ((L + 16) / 116) ** 3, L / CIE_K)
-    z_r = np.where(f_z ** 3 > CIE_E, f_z ** 3, (116 * f_z - 16) / CIE_K)
+    X = function_intermediate_luminance_CIE1976(f_X_X_n, X_n)
+    Y = function_intermediate_luminance_CIE1976(f_Y_Y_n, Y_n)
+    Z = function_intermediate_luminance_CIE1976(f_Z_Z_n, Z_n)
 
-    XYZ = tstack([x_r, y_r, z_r]) * XYZ_r
+    XYZ = tstack([X, Y, Z])
 
     return from_range_1(XYZ)
 

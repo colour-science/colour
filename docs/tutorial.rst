@@ -157,7 +157,12 @@ The various sub-packages also expose their public API:
 
 
     Constants
-    ['CIE_E', 'CIE_K', 'K_M', 'KP_M', 'AVOGADRO_CONSTANT', '...']
+    ['K_M',
+     'KP_M',
+     'AVOGADRO_CONSTANT',
+     'BOLTZMANN_CONSTANT',
+     'LIGHT_SPEED',
+     '...']
 
 
     Corresponding
