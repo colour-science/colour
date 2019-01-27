@@ -481,14 +481,6 @@ API_CHANGES = {
             'colour.adaptation.chromatic_adaptation_VonKries',
         ],
         [
-            'colour.CIE_E',
-            'colour.constants.CIE_E',
-        ],
-        [
-            'colour.CIE_K',
-            'colour.constants.CIE_K',
-        ],
-        [
             'colour.CIE_RGB_COLOURSPACE',
             'colour.models.CIE_RGB_COLOURSPACE',
         ],
