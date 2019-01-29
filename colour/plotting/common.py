@@ -72,7 +72,11 @@ COLOUR_STYLE_CONSTANTS = Structure(
                         '#222222',
                     'dark':
                         '#333333',
+                    'dim':
+                        '#505050',
                     'average':
+                        '#808080',
+                    'light':
                         '#D5D5D5',
                     'bright':
                         '#EEEEEE',
@@ -220,7 +224,7 @@ def colour_style(use_style=True):
         'axes.axisbelow': True,
         'grid.linewidth': constants.geometry.short * 0.5,
         'grid.linestyle': '--',
-        'grid.color': constants.colour.average,
+        'grid.color': constants.colour.light,
 
         # Legend
         'legend.frameon': True,

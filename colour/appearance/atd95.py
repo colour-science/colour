@@ -245,7 +245,6 @@ def luminance_to_retinal_illuminance(XYZ, Y_c):
     ----------
     XYZ : array_like
         *CIE XYZ* tristimulus values.
-
     Y_c : numeric or array_like
         Absolute adapting field luminance in :math:`cd/m^2`.
 
