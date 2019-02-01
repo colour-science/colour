@@ -17,6 +17,7 @@ Sub-packages
 -   colorimetry: Core objects for colour computations.
 -   constants: *CIE* and *CODATA* constants.
 -   continuous: Base objects for continuous data representation.
+-   contrast: Objects for contrast sensitivity computation.
 -   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
@@ -126,6 +127,8 @@ from .corresponding import (BRENEMAN_EXPERIMENTS,
                             BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
                             corresponding_chromaticities_prediction)
+from .contrast import (CONTRAST_SENSITIVITY_METHODS,
+                       function_contrast_sensitivity)
 from .phenomena import (rayleigh_scattering, scattering_cross_section,
                         sd_rayleigh_scattering)
 from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
@@ -251,6 +254,7 @@ __all__ += [
     'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
     'corresponding_chromaticities_prediction'
 ]
+__all__ += ['CONTRAST_SENSITIVITY_METHODS', 'function_contrast_sensitivity']
 __all__ += [
     'rayleigh_scattering', 'scattering_cross_section', 'sd_rayleigh_scattering'
 ]
