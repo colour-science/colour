@@ -34,20 +34,23 @@ def uint16_to_half(y):
 
 
 def half_domain_lookup(x, LUT, raw_halfs=True):
-    h0 = half_to_uint16(x)
-    f0 = uint16_to_half(h0)
-    f1 = uint16_to_half(h0 - 1)
-    # TODO: Investigate why f2 is not used.
-    f2 = uint16_to_half(h0 + 1)
+    h0 = half_to_uint16(x) # nearest integer which codes for x
+    f0 = uint16_to_half(h0) # convert back to float
+    f1 = uint16_to_half(h0 - 1) # float value for preceding integer
+    # find h1 such that h0 and h1 code floats either side of x
     h1 = np.where((x - f0) * (x - f1) > 0, h0 - 1, h0 + 1)
+    # ratio of position of x in the interval
     f = (x - uint16_to_half(h1)) / (f0 - uint16_to_half(h1))
+    # get table entries either side of x
     out0 = LUT[h0]
     out1 = LUT[h1]
 
-    if raw_halfs:
+    if raw_halfs: # convert table entries to float if necessary
         out0 = uint16_to_half(out0)
         out1 = uint16_to_half(out1)
 
+    # calculate linear interpolated value between table entries,
+    # or just the nearest table entry if the input value was an inf
     return np.where(np.isinf(f0), out0, f * out0 + (1 - f) * out1)
 
 
