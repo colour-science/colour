@@ -44,7 +44,7 @@ References
 -   :cite:`Glasser1958a` : Glasser, L. G., McKinney, A. H., Reilly, C. D., &
     Schnelle, P. D. (1958). Cube-Root Color Coordinate System. Journal of the
     Optical Society of America, 48(10), 736. doi:10.1364/JOSA.48.000736
--   :cite:`Wikipedia2007c` : ﻿Wikipedia. (2007). Lightness. Retrieved April
+-   :cite:`Wikipedia2007c` : Wikipedia. (2007). Lightness. Retrieved April
     13, 2014, from http://en.wikipedia.org/wiki/Lightness
 -   :cite:`Wyszecki1963b` : Wyszecki, G. (1963). Proposal for a New
     Color-Difference Formula. Journal of the Optical Society of America,

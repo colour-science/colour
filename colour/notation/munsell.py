@@ -110,7 +110,7 @@ References
     Toolbox. Retrieved January 23, 2018, from
     http://www.munsellcolourscienceforpainters.com/\
 MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
--   :cite:`Wikipedia2007c` : ﻿Wikipedia. (2007). Lightness. Retrieved April
+-   :cite:`Wikipedia2007c` : Wikipedia. (2007). Lightness. Retrieved April
     13, 2014, from http://en.wikipedia.org/wiki/Lightness
 """
 

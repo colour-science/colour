@@ -13,10 +13,10 @@ blob/master/notebooks/volume/spectrum.ipynb>`_
 
 References
 ----------
--   :cite:`Lindbloom2015` :﻿﻿Lindbloom, B. (2015). About the Lab Gamut.
+-   :cite:`Lindbloom2015` :Lindbloom, B. (2015). About the Lab Gamut.
     Retrieved August 20, 2018, from
     http://www.brucelindbloom.com/LabGamutDisplayHelp.html
--   :cite:`Mansencal2018` :﻿Mansencal, T. (2018). How is the visible gamut
+-   :cite:`Mansencal2018` :Mansencal, T. (2018). How is the visible gamut
     bounded? Retrieved August 19, 2018, from https://stackoverflow.com/a/\
 48396021/931625
 """

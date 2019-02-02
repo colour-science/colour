@@ -21,7 +21,7 @@ blob/master/notebooks/colorimetry/generation.ipynb>`_
 
 References
 ----------
--   :cite:`Ohno2005` : ﻿Ohno, Y. (2005). Spectral design considerations for
+-   :cite:`Ohno2005` : Ohno, Y. (2005). Spectral design considerations for
     white LED color rendering. Optical Engineering, 44(11), 111302.
     doi:10.1117/1.2130694
 -   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
