@@ -11,7 +11,7 @@ objects.
 
 References
 ----------
--   :cite:`Chamberlain2015` :﻿Chamberlain, P. (2015). LUT documentation
+-   :cite:`Chamberlain2015`: Chamberlain, P. (2015). LUT documentation
     (to create from another program). Retrieved August 23, 2018, from
     https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=40284#p232952
 """
