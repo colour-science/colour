@@ -95,13 +95,13 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
 
     *Meng (2015)* reflectance recovery:
 
-    # Doctests skip for Python 2.x compatibility.
     >>> import numpy as np
     >>> from colour.utilities import numpy_print_options
     >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
     >>> sd = XYZ_to_sd(XYZ, interval=10)
     >>> with numpy_print_options(suppress=True):
+    ...     # Doctests skip for Python 2.x compatibility.
     ...     sd  # doctest: +SKIP
     SpectralDistribution([[ 360.        ,    0.0741540...],
                           [ 370.        ,    0.0741409...],
