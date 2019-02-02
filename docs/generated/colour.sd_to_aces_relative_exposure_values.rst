@@ -1,6 +1,6 @@
-colour.models.spectral\_to\_aces\_relative\_exposure\_values
-============================================================
+colour.sd\_to\_aces\_relative\_exposure\_values
+===============================================
 
-.. currentmodule:: colour.models
+.. currentmodule:: colour
 
 .. autofunction:: sd_to_aces_relative_exposure_values
