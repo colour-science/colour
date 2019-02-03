@@ -391,21 +391,50 @@ def function_contrast_sensitivity_Barten1999(u,
     :math:`1 / 1.27` is used for the conversion from sinusoidal to rectangular
     waves.
 
-    >>> L = np.linspace(0.01, 100, 10)
+    >>> from scipy.optimize import fmin
+    >>> settings_BT2246 = {
+    ...     'k': 3.0,
+    ...     'T': 0.1,
+    ...     'X_max': 12,
+    ...     'N_max': 15,
+    ...     'n': 0.03,
+    ...     'p': 1.2274 * 10 ** 6,
+    ...     'phi_0': 3 * 10 ** -8,
+    ...     'u_0': 7,
+    ... }
+    >>>
+    >>> def maximise_spatial_frequency(L):
+    ...     maximised_spatial_frequency = []
+    ...     for L_v in L:
+    ...         X_0 = 60
+    ...         d = pupil_diameter_Barten1999(L_v, X_0)
+    ...         sigma = sigma_Barten1999(0.5 / 60, 0.08 / 60, d)
+    ...         E = retinal_illuminance_Barten1999(L_v, d, True)
+    ...         maximised_spatial_frequency.append(
+    ...             fmin(lambda x: (
+    ...                     -function_contrast_sensitivity_Barten1999(
+    ...                         u=x,
+    ...                         sigma=sigma,
+    ...                         X_0=X_0,
+    ...                         E=E,
+    ...                         **settings_BT2246)
+    ...                 ), 0, disp=False)[0])
+    ...         return as_float(np.array(maximised_spatial_frequency))
+    >>>
+    >>> L = np.logspace(np.log10(0.01), np.log10(100), 10)
     >>> X_0 = Y_0 = 60
     >>> d = pupil_diameter_Barten1999(L, X_0, Y_0)
     >>> sigma = sigma_Barten1999(0.5 / 60, 0.08 / 60, d)
     >>> E = retinal_illuminance_Barten1999(L, d)
-
-    The *15* value is not given in the report and has been arbitrarily chosen.
-    >>> u = X_0 / 15
-    >>> 1 / function_contrast_sensitivity_Barten1999(
-    ...     u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0) * 2 * (1/ 1.27)
+    >>> u = maximise_spatial_frequency(L)
+    >>> (1 / function_contrast_sensitivity_Barten1999(
+    ...     u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246)
+    ...  * 2 * (1/ 1.27))
     ... # doctest: +ELLIPSIS
-    array([ 0.0662425...,  0.0049682...,  0.0039827...,  0.0035159...,  \
-0.0032351...,
-            0.0030452...,  0.0029073...,  0.0028022...,  0.0027192...,  \
-0.0026520...])
+    array([ 0.0207396...,  0.0134885...,  0.0096063...,  0.0077299...,  \
+0.0068983...,
+            0.0065057...,  0.0062712...,  0.0061198...,  0.0060365...,  \
+0.0059984...])
     """
 
     u = as_float_array(u)

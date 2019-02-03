@@ -6,9 +6,10 @@ Showcases contrast sensitivity computations.
 from pprint import pprint
 
 import numpy as np
+from scipy.optimize import fmin
 
 import colour
-from colour.utilities import message_box
+from colour.utilities import as_float, message_box
 from colour.plotting import colour_style, plot_single_function
 
 message_box('Contrast Sensitivity Computations')
@@ -25,29 +26,77 @@ pprint(
 
 print('\n')
 
-message_box(
-    ('Computing the minimum detectable contrast with the assumed '
-     'conditions for UHDTV applications using "Barten (1999)" method.'))
+message_box(('Computing the minimum detectable contrast with the assumed '
+             'conditions for UHDTV applications as given in "ITU-R BT.2246-4"'
+             '"Figure 31" and using "Barten (1999)" method.'))
 
-L = np.linspace(0.01, 100, 10000)
+settings_BT2246 = {
+    'k': 3.0,
+    'T': 0.1,
+    'X_max': 12,
+    'N_max': 15,
+    'n': 0.03,
+    'p': 1.2274 * 10 ** 6,
+    'phi_0': 3 * 10 ** -8,
+    'u_0': 7,
+}
+
+
+def maximise_spatial_frequency(L):
+    """
+    Maximises the spatial frequency :math:`u` for given luminance value.
+
+    Parameters
+    ----------
+    L : numeric or array_like
+        Luminance value at which to maximize the spatial frequency :math:`u`.
+
+    Returns
+    -------
+    numeric or ndarray
+        Maximised spatial frequency :math:`u`.
+    """
+
+    maximised_spatial_frequency = []
+    for L_v in L:
+        X_0 = 60
+        d = colour.contrast.pupil_diameter_Barten1999(L_v, X_0)
+        sigma = colour.contrast.sigma_Barten1999(0.5 / 60, 0.08 / 60, d)
+        E = colour.contrast.retinal_illuminance_Barten1999(L_v, d, True)
+        maximised_spatial_frequency.append(
+            fmin(lambda x: (
+                    -colour.contrast.function_contrast_sensitivity_Barten1999(
+                        u=x,
+                        sigma=sigma,
+                        X_0=X_0,
+                        E=E,
+                        **settings_BT2246)
+                ), 0, disp=False)[0])
+
+    return as_float(np.array(maximised_spatial_frequency))
+
+
+L = np.logspace(np.log10(0.01), np.log10(100), 100)
 X_0 = Y_0 = 60
 d = colour.contrast.barten1999.pupil_diameter_Barten1999(L, X_0, Y_0)
 sigma = colour.contrast.barten1999.sigma_Barten1999(0.5 / 60, 0.08 / 60, d)
 E = colour.contrast.barten1999.retinal_illuminance_Barten1999(L, d)
-u = X_0 / 15
+u = maximise_spatial_frequency(L)
 
 pprint(1 / colour.function_contrast_sensitivity(
-    u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0) * 2 * (1 / 1.27))
+    u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246) * 2 *
+       (1 / 1.27))
 pprint(1 / colour.contrast.function_contrast_sensitivity_Barten1999(
-    u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0) * 2 * (1 / 1.27))
+    u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246) * 2 *
+       (1 / 1.27))
 
 plot_single_function(
-    lambda x: 1 / colour.contrast.function_contrast_sensitivity_Barten1999(
-        u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0) * 2 * (1 / 1.27),
+    lambda x: (
+        1 / colour.contrast.function_contrast_sensitivity_Barten1999(
+            u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246)
+        * 2 * (1 / 1.27)),
     samples=L,
     log_x=10,
-    log_y=10,
-    bounding_box=[0.1, 100, 0.001, 0.1],
     **{
         'title':
             'Examples of HVS Minimum Detectable Contrast Characteristics',
