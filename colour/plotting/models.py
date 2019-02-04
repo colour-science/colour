@@ -169,9 +169,10 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
             return xy_to_Luv_uv(xy)
 
     else:
-        raise ValueError('Invalid method: "{0}", must be one of '
-                         '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.
-                         format(method))
+        raise ValueError(
+            'Invalid method: "{0}", must be one of '
+            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+                method))
 
     ij = xy_to_ij(as_float_array(POINTER_GAMUT_BOUNDARIES))
     alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
@@ -323,9 +324,10 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.1], [0.7]
     else:
-        raise ValueError('Invalid method: "{0}", must be one of '
-                         '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.
-                         format(method))
+        raise ValueError(
+            'Invalid method: "{0}", must be one of '
+            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+                method))
 
     settings = {'colour_cycle_count': len(colourspaces)}
     settings.update(kwargs)

@@ -596,7 +596,7 @@ def describe_environment(runtime_packages=True,
     if print_environment:
         message = str()
         for category in ('Interpreter', 'colour-science.org', 'Runtime',
-                          'Development'):
+                         'Development'):
             elements = environment.get(category)
             if not elements:
                 continue
