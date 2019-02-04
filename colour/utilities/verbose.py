@@ -595,13 +595,13 @@ def describe_environment(runtime_packages=True,
 
     if print_environment:
         message = str()
-        for categorie in ('Interpreter', 'colour-science.org', 'Runtime',
+        for category in ('Interpreter', 'colour-science.org', 'Runtime',
                           'Development'):
-            elements = environment.get(categorie)
+            elements = environment.get(category)
             if not elements:
                 continue
 
-            message += '{0} :\n'.format(categorie)
+            message += '{0} :\n'.format(category)
             for key, value in elements.items():
                 lines = value.split('\n')
                 message += '    {0} : {1}\n'.format(key, lines.pop(0))
