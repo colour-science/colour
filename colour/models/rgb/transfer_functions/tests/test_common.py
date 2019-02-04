@@ -230,7 +230,7 @@ class TestTransferFunctions(unittest.TestCase):
             [np.linspace(0, 1, 1e5),
              np.linspace(0, 65504, 65504 * 10)])
 
-        for encoding_mapping, decoding_mapping in reciprocal_mappings:
+        for encoding_mapping, _decoding_mapping in reciprocal_mappings:
             for name in encoding_mapping:
                 if name in ignored_transfer_functions:
                     continue

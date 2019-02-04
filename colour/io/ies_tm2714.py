@@ -18,8 +18,8 @@ from __future__ import division, unicode_literals
 import os
 import re
 from collections import namedtuple
-from xml.etree import ElementTree
-from xml.dom import minidom
+from xml.etree import ElementTree  # nosec
+from xml.dom import minidom  # nosec
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -961,7 +961,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         formatter = './{{{0}}}{1}/{{{0}}}{2}'
 
-        tree = ElementTree.parse(self._path)
+        tree = ElementTree.parse(self._path)  # nosec
         root = tree.getroot()
 
         namespace = re.match('{(.*)}', root.tag).group(1)
@@ -1050,7 +1050,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     mapping.data.write_conversion(wavelength)
             }
 
-        xml = minidom.parseString(ElementTree.tostring(root)).toprettyxml()
+        xml = minidom.parseString(
+            ElementTree.tostring(root)).toprettyxml()  # nosec
 
         with open(self._path, 'w') as file:
             file.write(xml)

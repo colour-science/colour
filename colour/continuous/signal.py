@@ -292,7 +292,7 @@ class Signal(AbstractContinuousFunction):
         if value is not None:
             if not np.all(np.isfinite(value)):
                 runtime_warning(
-                    '"{0}" new "domain" variable is not finite: {0}, '
+                    '"{0}" new "domain" variable is not finite: {1}, '
                     'unpredictable results may occur!'.format(
                         self.name, value))
 
@@ -339,7 +339,7 @@ class Signal(AbstractContinuousFunction):
         if value is not None:
             if not np.all(np.isfinite(value)):
                 runtime_warning(
-                    '"{0}" new "range" variable is not finite: {0}, '
+                    '"{0}" new "range" variable is not finite: {1}, '
                     'unpredictable results may occur!'.format(
                         self.name, value))
 

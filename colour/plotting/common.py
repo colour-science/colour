@@ -1042,7 +1042,7 @@ def plot_multi_colour_swatches(colour_swatches,
         :alt: plot_multi_colour_swatches
     """
 
-    figure, axes = artist(**kwargs)
+    _figure, axes = artist(**kwargs)
 
     if compare_swatches is not None:
         assert len(colour_swatches) % 2 == 0, (
@@ -1242,7 +1242,7 @@ def plot_multi_functions(functions,
     settings = {}
     settings.update(kwargs)
 
-    figure, axes = artist(**settings)
+    _figure, axes = artist(**settings)
 
     if log_x is not None and log_y is not None:
         assert log_x >= 2 and log_y >= 2, (
@@ -1331,7 +1331,7 @@ def plot_image(image,
         :alt: plot_image
     """
 
-    figure, axes = artist(**kwargs)
+    _figure, axes = artist(**kwargs)
 
     text_settings = {
         'text': None,

@@ -110,7 +110,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
     settings = {'uniform': True}
     settings.update(kwargs)
 
-    figure, axes = artist(**settings)
+    _figure, axes = artist(**settings)
 
     method = method.upper()
 
@@ -169,10 +169,9 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
             return xy_to_Luv_uv(xy)
 
     else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
-                method))
+        raise ValueError('Invalid method: "{0}", must be one of '
+                         '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.
+                         format(method))
 
     ij = xy_to_ij(as_float_array(POINTER_GAMUT_BOUNDARIES))
     alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
@@ -183,10 +182,9 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
         label='Pointer\'s Gamut',
         color=colour_p,
         alpha=alpha_p)
-    axes.plot(
-        (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
-        color=colour_p,
-        alpha=alpha_p)
+    axes.plot((ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
+              color=colour_p,
+              alpha=alpha_p)
 
     XYZ = Lab_to_XYZ(
         LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -264,7 +262,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
     settings = {'uniform': True}
     settings.update(kwargs)
 
-    figure, axes = artist(**settings)
+    _figure, axes = artist(**settings)
 
     method = method.upper()
 
@@ -325,10 +323,9 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.1], [0.7]
     else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
-                method))
+        raise ValueError('Invalid method: "{0}", must be one of '
+                         '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.
+                         format(method))
 
     settings = {'colour_cycle_count': len(colourspaces)}
     settings.update(kwargs)
@@ -349,20 +346,22 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         P = xy_to_ij(P)
         W = xy_to_ij(colourspace.whitepoint)
 
-        axes.plot(
-            (W[0], W[0]), (W[1], W[1]),
-            color=(R, G, B),
-            label=colourspace.name)
+        axes.plot((W[0], W[0]), (W[1], W[1]),
+                  color=(R, G, B),
+                  label=colourspace.name)
 
         if show_whitepoints:
             axes.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
 
-        axes.plot(
-            (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]), 'o-', color=(R, G, B))
-        axes.plot(
-            (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]), 'o-', color=(R, G, B))
-        axes.plot(
-            (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]), 'o-', color=(R, G, B))
+        axes.plot((P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
+                  'o-',
+                  color=(R, G, B))
+        axes.plot((P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
+                  'o-',
+                  color=(R, G, B))
+        axes.plot((P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
+                  'o-',
+                  color=(R, G, B))
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
         y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -607,7 +606,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_Plot.png
     settings = {'uniform': True}
     settings.update(kwargs)
 
-    figure, axes = artist(**settings)
+    _figure, axes = artist(**settings)
 
     method = method.upper()
 
@@ -907,12 +906,13 @@ def ellipses_MacAdam1942(method='CIE 1931'):
     else:
         raise ValueError(
             'Invalid method: "{0}", must be one of '
-            '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
+            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
                 method))
 
     x, y, _a, _b, _theta, a, b, theta = tsplit(MACADAM_1942_ELLIPSES_DATA)
 
     ellipses_coefficients = []
+    # pylint: disable=C0200
     for i in range(len(theta)):
         xy = point_at_angle_on_ellipse(
             np.linspace(0, 360, 36),
@@ -977,7 +977,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
     settings = {'uniform': True}
     settings.update(kwargs)
 
-    figure, axes = artist(**settings)
+    _figure, axes = artist(**settings)
 
     settings = dict(kwargs)
     settings.update({'axes': axes, 'standalone': False})
@@ -1013,7 +1013,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
         'alpha': 0.4,
         'edgecolor': COLOUR_STYLE_CONSTANTS.colour.cycle[1],
         'linewidth': colour_style()['lines.linewidth']
-    } for _ in range(len(ellipses_coefficients))]
+    } for _ellipses_coefficient in ellipses_coefficients]
 
     if ellipse_parameters is not None:
         if not isinstance(ellipse_parameters, dict):
@@ -1257,8 +1257,8 @@ def plot_single_cctf(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
 
     settings = {
         'title':
-            '{0} - {1} CCTF'.format(cctf, 'Decoding'
-                                    if decoding_cctf else 'Encoding')
+            '{0} - {1} CCTF'.format(
+                cctf, 'Decoding' if decoding_cctf else 'Encoding')
     }
     settings.update(kwargs)
 
@@ -1302,8 +1302,8 @@ def plot_multi_cctfs(cctfs=None, decoding_cctf=False, **kwargs):
     if cctfs is None:
         cctfs = ('ITU-R BT.709', 'sRGB')
 
-    cctfs = filter_passthrough(DECODING_CCTFS
-                               if decoding_cctf else ENCODING_CCTFS, cctfs)
+    cctfs = filter_passthrough(
+        DECODING_CCTFS if decoding_cctf else ENCODING_CCTFS, cctfs)
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
     title = '{0} - {1} CCTFs'.format(', '.join([cctf for cctf in cctfs]), mode)

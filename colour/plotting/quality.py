@@ -92,7 +92,7 @@ def plot_colour_quality_bars(specifications,
     settings = {'uniform': True}
     settings.update(kwargs)
 
-    figure, axes = artist(**settings)
+    _figure, axes = artist(**settings)
 
     bar_width = 0.5
     y_ticks_interval = 10
@@ -283,7 +283,7 @@ Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png
             colorimetry_data[0][i] = TCS_ColorimetryData(
                 c_d.name, c_d.XYZ / 100, c_d.uv, c_d.UVW)
 
-    figure, axes = plot_colour_quality_bars(specifications, **settings)
+    _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = 'Colour Rendering Index - {0}'.format(', '.join(
         [sd.strict_name for sd in sds]))
@@ -400,7 +400,7 @@ Plot_Multi_SDs_Colour_Quality_Scales_Bars.png
         colour_quality_scale(sd, additional_data=True) for sd in sds
     ]
 
-    figure, axes = plot_colour_quality_bars(specifications, **settings)
+    _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = 'Colour Quality Scale - {0}'.format(', '.join(
         [sd.strict_name for sd in sds]))

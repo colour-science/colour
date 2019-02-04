@@ -111,7 +111,7 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
 
     colour_checkers = filter_colour_checkers(colour_checkers).values()
 
-    figure, axes = artist(**kwargs)
+    _figure, axes = artist(**kwargs)
 
     compare_swatches = len(colour_checkers) == 2
 

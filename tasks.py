@@ -181,7 +181,7 @@ def examples(ctx, plots=False):
 
     message_box('Running examples...')
 
-    for root, dirnames, filenames in os.walk(
+    for root, _dirnames, filenames in os.walk(
             os.path.join(PYTHON_PACKAGE_NAME, 'examples')):
         for filename in fnmatch.filter(filenames, '*.py'):
             if not plots and ('plotting' in root or

@@ -124,6 +124,8 @@ class AbstractLUT:
 
         self._dimensions = dimensions
 
+        # TODO: Re-enable when dropping Python 2.7.
+        # pylint: disable=E1121
         self._table = self.linear_table(size, domain)
         self.table = table
         self._domain = None
@@ -2284,6 +2286,7 @@ class LUTSequence(MutableSequence):
         if len(self) != len(other):
             return False
 
+        # pylint: disable=C0200
         for i in range(len(self)):
             if self[i] != other[i]:
                 return False
@@ -2307,6 +2310,7 @@ class LUTSequence(MutableSequence):
 
         return not (self == other)
 
+    # pylint: disable=W0221
     def insert(self, index, LUT):
         """
         Inserts given *LUT* at given index into the *LUT* sequence.

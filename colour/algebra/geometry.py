@@ -506,7 +506,7 @@ def ellipse_fitting_Halir1998(a):
     M = S1 + np.dot(S2, T)
     M = np.array([M[2, :] / 2, -M[1, :], M[0, :] / 2])
 
-    w, v = np.linalg.eig(M)
+    _w, v = np.linalg.eig(M)
 
     A1 = v[:, np.nonzero(4 * v[0, :] * v[2, :] - v[1, :] ** 2 > 0)[0]]
     A2 = np.dot(T, A1)

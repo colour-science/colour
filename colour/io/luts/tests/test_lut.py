@@ -337,8 +337,10 @@ class TestLUT(unittest.TestCase):
         if self._LUT_factory is None:
             return
 
+        # pylint: disable=E1102
         self.assertFalse(self._LUT_factory().is_domain_explicit())
 
+        # pylint: disable=E1102
         self.assertTrue(
             self._LUT_factory(self._table_3,
                               domain=self._domain_3).is_domain_explicit())

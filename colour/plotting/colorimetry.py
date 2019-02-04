@@ -114,7 +114,7 @@ def plot_single_sd(sd,
         :alt: plot_single_sd
     """
 
-    figure, axes = artist(**kwargs)
+    _figure, axes = artist(**kwargs)
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
@@ -238,7 +238,7 @@ def plot_multi_sds(sds,
         :alt: plot_multi_sds
     """
 
-    figure, axes = artist(**kwargs)
+    _figure, axes = artist(**kwargs)
 
     if isinstance(sds, MultiSpectralDistribution):
         sds = sds.to_sds()
@@ -371,7 +371,7 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
 
     cmfs = filter_cmfs(cmfs).values()
 
-    figure, axes = artist(**kwargs)
+    _figure, axes = artist(**kwargs)
 
     axes.axhline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
 
@@ -575,7 +575,7 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
     settings.update(kwargs)
     settings['standalone'] = False
 
-    figure, axes = plot_single_sd(
+    _figure, axes = plot_single_sd(
         sd_ones(cmfs.shape),
         cmfs=cmfs,
         out_of_gamut_clipping=out_of_gamut_clipping,
@@ -899,7 +899,7 @@ def plot_blackbody_colours(
         :alt: plot_blackbody_colours
     """
 
-    figure, axes = artist(**kwargs)
+    _figure, axes = artist(**kwargs)
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 

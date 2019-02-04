@@ -124,6 +124,7 @@ ACES_CCT_CONSTANTS : Structure
 """
 
 
+# pylint: disable=W0102
 def log_encoding_ACESproxy(lin_AP1,
                            bit_depth=10,
                            out_int=False,
@@ -210,6 +211,7 @@ def log_encoding_ACESproxy(lin_AP1,
         return as_float(from_range_1(ACESproxy / (2 ** bit_depth - 1)))
 
 
+# pylint: disable=W0102
 def log_decoding_ACESproxy(ACESproxy,
                            bit_depth=10,
                            in_int=False,
@@ -401,6 +403,7 @@ def log_decoding_ACEScc(ACEScc):
     return as_float(from_range_1(lin_AP1))
 
 
+# pylint: disable=W0102
 def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
     """
     Defines the *ACEScct* colourspace log encoding / opto-electronic transfer
@@ -457,6 +460,7 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
     return as_float(from_range_1(ACEScct))
 
 
+# pylint: disable=W0102
 def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
     """
     Defines the *ACEScct* colourspace log decoding / electro-optical transfer

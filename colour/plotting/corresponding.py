@@ -70,7 +70,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     settings = {'uniform': True}
     settings.update(kwargs)
 
-    figure, axes = artist(**settings)
+    _figure, axes = artist(**settings)
 
     title = (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
               'Experiment {2}\nCIE 1976 UCS Chromaticity Diagram').format(

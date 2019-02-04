@@ -81,7 +81,7 @@ def plot_planckian_locus(planckian_locus_colours=None,
     settings = {'uniform': True}
     settings.update(kwargs)
 
-    figure, axes = artist(**settings)
+    _figure, axes = artist(**settings)
 
     if method == 'CIE 1931':
 
@@ -107,7 +107,7 @@ def plot_planckian_locus(planckian_locus_colours=None,
         D_uv = 0.025
     else:
         raise ValueError('Invalid method: "{0}", must be one of '
-                         '{\'CIE 1931\', \'CIE 1960 UCS\'}'.format(method))
+                         '{{\'CIE 1931\', \'CIE 1960 UCS\'}}'.format(method))
 
     start, end = 1667, 100000
     ij = np.array([
@@ -197,7 +197,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     settings = {'uniform': True}
     settings.update(kwargs)
 
-    figure, axes = artist(**settings)
+    _figure, axes = artist(**settings)
 
     method = method.upper()
 
@@ -233,7 +233,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
     else:
         raise ValueError('Invalid method: "{0}", must be one of '
-                         '{\'CIE 1931\', \'CIE 1960 UCS\'}'.format(method))
+                         '{{\'CIE 1931\', \'CIE 1960 UCS\'}}'.format(method))
 
     annotate_settings_collection = [{
         'annotate': True,
