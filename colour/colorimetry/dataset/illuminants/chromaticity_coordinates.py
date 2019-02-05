@@ -47,6 +47,9 @@ Notes
 
 References
 ----------
+-   :cite:`CIETC1-482004h` : CIE TC 1-48. (2004). CIE 015:2004 Colorimetry,
+    3rd Edition. CIE 015:2004 Colorimetry, 3rd Edition. Commission
+    internationale de l’éclairage. ISBN:978-3-901-90633-6
 -   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).
     Digital Cinema System Specification - Version 1.1. Retrieved from
     http://www.dcimovies.com/archives/spec_v1_1/\
@@ -81,7 +84,7 @@ __all__ = [
 ]
 
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
-    'A': np.array([0.44757, 0.40745]),
+    'A': np.array([0.44758, 0.40745]),
     'B': np.array([0.34842, 0.35161]),
     'C': np.array([0.31006, 0.31616]),
     'D50': np.array([0.34570, 0.35850]),
@@ -217,7 +220,7 @@ computed as follows::
 
 References
 ----------
-:cite:`DigitalCinemaInitiatives2007b`,
+:cite:`CIETC1-482004h`, :cite:`DigitalCinemaInitiatives2007b`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`, :cite:`Wikipedia2006a`
 
 ILLUMINANTS : CaseInsensitiveMapping
