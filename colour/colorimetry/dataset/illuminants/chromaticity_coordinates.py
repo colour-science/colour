@@ -91,7 +91,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'D55': np.array([0.33243, 0.34744]),
     'D60': np.array([0.321626242047397, 0.337736995955436]),
     'D65': np.array([0.31270, 0.32900]),
-    'D75': np.array([0.29902, 0.31485]),
+    'D75': np.array([0.29903, 0.31488]),
     'E': np.array([1 / 3, 1 / 3]),
     'F1': np.array([0.31310, 0.33727]),
     'F2': np.array([0.37208, 0.37529]),
