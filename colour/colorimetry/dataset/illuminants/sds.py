@@ -18,9 +18,9 @@ The following *CIE* illuminants are available:
 -   CIE Illuminant C
 -   CIE Illuminant D Series (D50, D55, D60, D65, D75)
 -   CIE Illuminant E
--   Illuminants F Series (F1, F10, F11, F12, F2, F3, F4, F5, F6, F7, F8, F9,
-    FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2, FL3.3, FL3.4,
-    FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
+-   Illuminants F Series (FL1, FL2, FL3, FL4, FL5, FL6, FL7, FL8, FL9, FL10,
+    FL11, FL12, FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2,
+    FL3.3, FL3.4, FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
 -   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
 
 See Also
@@ -957,7 +957,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 100.000,
         780: 100.000
     },
-    'F1': {
+    'FL1': {
         380: 1.87,
         385: 2.36,
         390: 2.94,
@@ -1040,7 +1040,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 0.52,
         780: 0.43
     },
-    'F2': {
+    'FL2': {
         380: 1.18,
         385: 1.48,
         390: 1.84,
@@ -1123,7 +1123,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 0.33,
         780: 0.27
     },
-    'F3': {
+    'FL3': {
         380: 0.82,
         385: 1.02,
         390: 1.26,
@@ -1206,7 +1206,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 0.28,
         780: 0.21
     },
-    'F4': {
+    'FL4': {
         380: 0.57,
         385: 0.70,
         390: 0.87,
@@ -1289,7 +1289,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 0.26,
         780: 0.19
     },
-    'F5': {
+    'FL5': {
         380: 1.87,
         385: 2.35,
         390: 2.92,
@@ -1372,7 +1372,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 0.47,
         780: 0.40
     },
-    'F6': {
+    'FL6': {
         380: 1.05,
         385: 1.31,
         390: 1.63,
@@ -1455,7 +1455,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 0.26,
         780: 0.21
     },
-    'F7': {
+    'FL7': {
         380: 2.56,
         385: 3.18,
         390: 3.84,
@@ -1538,7 +1538,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 0.99,
         780: 0.81
     },
-    'F8': {
+    'FL8': {
         380: 1.21,
         385: 1.50,
         390: 1.81,
@@ -1621,7 +1621,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 1.61,
         780: 1.32
     },
-    'F9': {
+    'FL9': {
         380: 0.90,
         385: 1.12,
         390: 1.36,
@@ -1704,7 +1704,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 1.38,
         780: 1.12
     },
-    'F10': {
+    'FL10': {
         380: 1.11,
         385: 0.80,
         390: 0.62,
@@ -1787,7 +1787,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 0.12,
         780: 0.09
     },
-    'F11': {
+    'FL11': {
         380: 0.91,
         385: 0.63,
         390: 0.46,
@@ -1870,7 +1870,7 @@ ILLUMINANTS_SDS_DATA = {
         775: 0.12,
         780: 0.09
     },
-    'F12': {
+    'FL12': {
         380: 0.96,
         385: 0.64,
         390: 0.40,
@@ -3634,30 +3634,30 @@ ILLUMINANTS_SDS = CaseInsensitiveMapping({
         SpectralDistribution(ILLUMINANTS_SDS_DATA['D75'], name='D75'),
     'E':
         SpectralDistribution(ILLUMINANTS_SDS_DATA['E'], name='E'),
-    'F1':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F1'], name='F1'),
-    'F2':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F2'], name='F2'),
-    'F3':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F3'], name='F3'),
-    'F4':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F4'], name='F4'),
-    'F5':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F5'], name='F5'),
-    'F6':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F6'], name='F6'),
-    'F7':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F7'], name='F7'),
-    'F8':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F8'], name='F8'),
-    'F9':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F9'], name='F9'),
-    'F10':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F10'], name='F10'),
-    'F11':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F11'], name='F11'),
-    'F12':
-        SpectralDistribution(ILLUMINANTS_SDS_DATA['F12'], name='F12'),
+    'FL1':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL1'], name='FL1'),
+    'FL2':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL2'], name='FL2'),
+    'FL3':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3'], name='FL3'),
+    'FL4':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL4'], name='FL4'),
+    'FL5':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL5'], name='FL5'),
+    'FL6':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL6'], name='FL6'),
+    'FL7':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL7'], name='FL7'),
+    'FL8':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL8'], name='FL8'),
+    'FL9':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL9'], name='FL9'),
+    'FL10':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL10'], name='FL10'),
+    'FL11':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL11'], name='FL11'),
+    'FL12':
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL12'], name='FL12'),
     'FL3.1':
         SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.1'], name='FL3.1'),
     'FL3.2':

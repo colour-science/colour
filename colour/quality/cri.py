@@ -111,7 +111,7 @@ def colour_rendering_index(sd_test, additional_data=False):
     Examples
     --------
     >>> from colour import ILLUMINANTS_SDS
-    >>> sd = ILLUMINANTS_SDS['F2']
+    >>> sd = ILLUMINANTS_SDS['FL2']
     >>> colour_rendering_index(sd)  # doctest: +ELLIPSIS
     64.1515202...
     """

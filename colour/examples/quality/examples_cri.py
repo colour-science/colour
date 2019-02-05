@@ -11,7 +11,7 @@ from colour.utilities import message_box
 message_box('Colour Rendering Index Computations')
 
 message_box('Computing "F2" illuminant "Colour Rendering Index (CRI)".')
-print(colour.colour_rendering_index(colour.ILLUMINANTS_SDS['F2']))
+print(colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2']))
 
 print('\n')
 
@@ -19,7 +19,7 @@ message_box(('Computing "F2" illuminant "Colour Rendering Index" (CRI) with '
              'detailed output data.'))
 pprint(
     colour.colour_rendering_index(
-        colour.ILLUMINANTS_SDS['F2'], additional_data=True))
+        colour.ILLUMINANTS_SDS['FL2'], additional_data=True))
 
 print('\n')
 
