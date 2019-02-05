@@ -18,7 +18,7 @@ message_box('Colorimetry Plots')
 
 colour_style()
 
-message_box(('Plotting a single illuminant spectral ' 'distribution.'))
+message_box('Plotting a single illuminant spectral ' 'distribution.')
 plot_single_illuminant_sd('F1')
 
 print('\n')
