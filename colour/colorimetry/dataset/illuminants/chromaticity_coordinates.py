@@ -14,7 +14,7 @@ The following *CIE* illuminants are available:
 -   CIE Illuminant C
 -   CIE Illuminant D Series (D50, D55, D60, D65, D75)
 -   CIE Illuminant E
--   Illuminants F Series (F1, F10, F11, F12, F2, F3, F4, F5, F6, F7, F8, F9,
+-   Illuminants F Series (F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
     FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2, FL3.3, FL3.4,
     FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
 -   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
@@ -217,6 +217,12 @@ computed as follows::
     colour.XYZ_to_xy(
         colour.sd_to_XYZ(
             sd, colour.CMFS['CIE 1964 10 Degree Standard Observer']) / 100.0)
+
+*CIE Illuminant D Series D50* illuminant and
+*CIE Standard Illuminant D Series D65* chromaticity coordinates are rounded to
+4 decimals as given in the typical RGB colourspaces litterature. Their
+chromaticity coordinates as given in :cite:`CIETC1-482004h` are
+(0.34567, 0.35851) and (0.31272, 0.32903) respectively.
 
 References
 ----------
