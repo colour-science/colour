@@ -1526,6 +1526,11 @@ API_CHANGES = {
         ],
     ]
 }
+"""
+Defines *colour* package API changes.
+
+API_CHANGES : dict
+"""
 
 API_CHANGES.update({
     'Removed': [
@@ -1580,11 +1585,6 @@ API_CHANGES.update({
         ],
     ]
 })
-"""
-Defines *colour* package API changes.
-
-API_CHANGES : dict
-"""
 
 # v0.3.12
 API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
