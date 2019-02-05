@@ -19,14 +19,14 @@ message_box('Colorimetry Plots')
 colour_style()
 
 message_box('Plotting a single illuminant spectral ' 'distribution.')
-plot_single_illuminant_sd('F1')
+plot_single_illuminant_sd('FL1')
 
 print('\n')
 
 message_box(('Plotting multiple illuminants spectral ' 'distributions.'))
 pprint(sorted(colour.ILLUMINANTS_SDS.keys()))
 plot_multi_illuminant_sds(
-    ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'F1'])
+    ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'FL1'])
 
 print('\n')
 

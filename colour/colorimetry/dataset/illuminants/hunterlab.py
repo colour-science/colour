@@ -62,7 +62,7 @@ HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
     ('D60', np.array([95.23, 100.00, 100.86]), np.array([172.47, 64.72])),
     ('D65', np.array([95.02, 100.00, 108.82]), np.array([172.30, 67.20])),
     ('D75', np.array([94.96, 100.00, 122.53]), np.array([172.22, 71.30])),
-    ('F2', np.array([98.09, 100.00, 67.53]), np.array([175.00, 52.90])),
+    ('FL2', np.array([98.09, 100.00, 67.53]), np.array([175.00, 52.90])),
     ('TL 4', np.array([101.40, 100.00, 65.90]), np.array([178.00, 52.30])),
     ('UL 3000', np.array([107.99, 100.00, 33.91]), np.array([183.70, 37.50])))
 # yapf: enable
@@ -91,7 +91,7 @@ HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA = (
     ('D60', np.array([95.21, 100.00, 99.60]), np.array([172.45, 64.28])),
     ('D65', np.array([94.83, 100.00, 107.38]), np.array([172.10, 66.70])),
     ('D75', np.array([94.45, 100.00, 120.70]), np.array([171.76, 70.76])),
-    ('F2', np.array([102.13, 100.00, 69.37]), np.array([178.60, 53.60])),
+    ('FL2', np.array([102.13, 100.00, 69.37]), np.array([178.60, 53.60])),
     ('TL 4', np.array([103.82, 100.00, 66.90]), np.array([180.10, 52.70])),
     ('UL 3000', np.array([111.12, 100.00, 35.21]), np.array([186.30, 38.20])))
 # yapf: enable

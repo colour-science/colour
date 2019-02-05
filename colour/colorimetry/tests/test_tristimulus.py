@@ -442,7 +442,7 @@ sd_to_XYZ_integration`
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANTS_SDS['F2']),
+            sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANTS_SDS['FL2']),
             np.array([11.57834054, 9.98738373, 3.95462625]),
             decimal=7)
 
@@ -496,7 +496,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME30815`
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['F2']),
+                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['FL2']),
             np.array([11.57837130, 9.98734511, 3.95499522]),
             decimal=7)
 

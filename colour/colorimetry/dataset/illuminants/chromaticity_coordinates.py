@@ -14,9 +14,9 @@ The following *CIE* illuminants are available:
 -   CIE Illuminant C
 -   CIE Illuminant D Series (D50, D55, D60, D65, D75)
 -   CIE Illuminant E
--   Illuminants F Series (F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
-    FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2, FL3.3, FL3.4,
-    FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
+-   Illuminants F Series (FL1, FL2, FL3, FL4, FL5, FL6, FL7, FL8, FL9, FL10,
+    FL11, FL12, FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2,
+    FL3.3, FL3.4, FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
 -   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
 
 The following other illuminants are available:
@@ -93,18 +93,18 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'D65': np.array([0.31270, 0.32900]),
     'D75': np.array([0.29903, 0.31488]),
     'E': np.array([1 / 3, 1 / 3]),
-    'F1': np.array([0.31310, 0.33710]),
-    'F2': np.array([0.37210, 0.37510]),
-    'F3': np.array([0.40910, 0.39410]),
-    'F4': np.array([0.44020, 0.40310]),
-    'F5': np.array([0.31380, 0.34520]),
-    'F6': np.array([0.37790, 0.38820]),
-    'F7': np.array([0.31290, 0.32920]),
-    'F8': np.array([0.34580, 0.35860]),
-    'F9': np.array([0.37410, 0.37270]),
-    'F10': np.array([0.34580, 0.35880]),
-    'F11': np.array([0.38050, 0.37690]),
-    'F12': np.array([0.43700, 0.40420])
+    'FL1': np.array([0.31310, 0.33710]),
+    'FL2': np.array([0.37210, 0.37510]),
+    'FL3': np.array([0.40910, 0.39410]),
+    'FL4': np.array([0.44020, 0.40310]),
+    'FL5': np.array([0.31380, 0.34520]),
+    'FL6': np.array([0.37790, 0.38820]),
+    'FL7': np.array([0.31290, 0.32920]),
+    'FL8': np.array([0.34580, 0.35860]),
+    'FL9': np.array([0.37410, 0.37270]),
+    'FL10': np.array([0.34580, 0.35880]),
+    'FL11': np.array([0.38050, 0.37690]),
+    'FL12': np.array([0.43700, 0.40420])
 })
 """
 *CIE* illuminant chromaticity coordinates for
@@ -151,18 +151,18 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'D65': np.array([0.31382, 0.33100]),
     'D75': np.array([0.29968, 0.31740]),
     'E': np.array([1 / 3, 1 / 3]),
-    'F1': np.array([0.31811, 0.33559]),
-    'F2': np.array([0.37925, 0.36733]),
-    'F3': np.array([0.41761, 0.38324]),
-    'F4': np.array([0.44920, 0.39074]),
-    'F5': np.array([0.31975, 0.34246]),
-    'F6': np.array([0.38660, 0.37847]),
-    'F7': np.array([0.31569, 0.32960]),
-    'F8': np.array([0.34902, 0.35939]),
-    'F9': np.array([0.37829, 0.37045]),
-    'F10': np.array([0.35090, 0.35444]),
-    'F11': np.array([0.38541, 0.37123]),
-    'F12': np.array([0.44256, 0.39717])
+    'FL1': np.array([0.31811, 0.33559]),
+    'FL2': np.array([0.37925, 0.36733]),
+    'FL3': np.array([0.41761, 0.38324]),
+    'FL4': np.array([0.44920, 0.39074]),
+    'FL5': np.array([0.31975, 0.34246]),
+    'FL6': np.array([0.38660, 0.37847]),
+    'FL7': np.array([0.31569, 0.32960]),
+    'FL8': np.array([0.34902, 0.35939]),
+    'FL9': np.array([0.37829, 0.37045]),
+    'FL10': np.array([0.35090, 0.35444]),
+    'FL11': np.array([0.38541, 0.37123]),
+    'FL12': np.array([0.44256, 0.39717])
 })
 """
 *CIE* illuminant chromaticity coordinates for

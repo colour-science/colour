@@ -32,12 +32,12 @@ class TestColourQualityScale(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour_quality_scale(ILLUMINANTS_SDS['F1']),
+            colour_quality_scale(ILLUMINANTS_SDS['FL1']),
             75.332008182589348,
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(ILLUMINANTS_SDS['F2']),
+            colour_quality_scale(ILLUMINANTS_SDS['FL2']),
             64.686339173112856,
             places=7)
 

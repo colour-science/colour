@@ -116,7 +116,7 @@ class TestColourRenderingIndex(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour_rendering_index(ILLUMINANTS_SDS['F2']),
+            colour_rendering_index(ILLUMINANTS_SDS['FL2']),
             64.151520202968015,
             places=7)
 
