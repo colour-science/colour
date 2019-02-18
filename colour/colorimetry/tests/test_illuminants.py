@@ -8,10 +8,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (ILLUMINANTS_SDS, SpectralShape,
-                                sd_CIE_standard_illuminant_A,
-                                sd_CIE_illuminant_D_series)
+from colour.colorimetry import (
+    ILLUMINANTS_SDS, SpectralShape, sd_CIE_standard_illuminant_A,
+    sd_CIE_illuminant_D_series, daylight_locus_function)
 from colour.temperature import CCT_to_xy_CIE_D
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -21,7 +22,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'A_DATA', 'TestSdCIEStandardIlluminantA', 'TestSd_CIEIlluminantDSeries'
+    'A_DATA', 'TestSdCIEStandardIlluminantA', 'TestSd_CIEIlluminantDSeries',
+    'TestDaylightLocusFunction'
 ]
 
 A_DATA = np.array([
@@ -169,6 +171,60 @@ sd_CIE_illuminant_D_series` definition.
                 sd_t[sd_r.wavelengths],
                 rtol=tolerance,
                 atol=tolerance)
+
+
+class TestDaylightLocusFunction(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.illuminants.daylight_locus_function`
+    definition unit tests methods.
+    """
+
+    def test_daylight_locus_function(self):
+        """
+        Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
+        definition.
+        """
+
+        self.assertAlmostEqual(
+            daylight_locus_function(0.31270), 0.329105129999999, places=7)
+
+        self.assertAlmostEqual(
+            daylight_locus_function(0.34570), 0.358633529999999, places=7)
+
+        self.assertAlmostEqual(
+            daylight_locus_function(0.44758), 0.408571030799999, places=7)
+
+    def test_n_dimensional_daylight_locus_function(self):
+        """
+        Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
+        definition n-dimensions support.
+        """
+
+        x_D = np.array([0.31270])
+        y_D = np.array([0.329105129999999])
+        np.testing.assert_almost_equal(
+            daylight_locus_function(x_D), y_D, decimal=7)
+
+        x_D = np.tile(x_D, (6, 1))
+        y_D = np.tile(y_D, (6, 1))
+        np.testing.assert_almost_equal(
+            daylight_locus_function(x_D), y_D, decimal=7)
+
+        x_D = np.reshape(x_D, (2, 3, 1))
+        y_D = np.reshape(y_D, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            daylight_locus_function(x_D), y_D, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_daylight_locus_function(self):
+        """
+        Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        for case in cases:
+            daylight_locus_function(case)
 
 
 if __name__ == '__main__':
