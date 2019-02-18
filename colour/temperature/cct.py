@@ -89,9 +89,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (ASTME30815_PRACTISE_SHAPE,
-                                STANDARD_OBSERVERS_CMFS, sd_blackbody,
-                                sd_to_XYZ)
+from colour.colorimetry import (
+    ASTME30815_PRACTISE_SHAPE, STANDARD_OBSERVERS_CMFS,
+    daylight_locus_function, sd_blackbody, sd_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, runtime_warning, tsplit, tstack,
@@ -980,7 +980,7 @@ def CCT_to_xy_CIE_D(CCT):
         0.24748 * 10 ** 3 / CCT + 0.23704,
     )
 
-    y = -3 * x ** 2 + 2.87 * x - 0.275
+    y = daylight_locus_function(x)
 
     xy = tstack([x, y])
 

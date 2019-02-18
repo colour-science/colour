@@ -50,6 +50,7 @@ Spectral Data Generation
     :toctree: generated/
 
     blackbody_spectral_radiance
+    daylight_locus_function
     planck_law
     sd_gaussian_normal
     sd_gaussian_fwhm
