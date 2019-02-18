@@ -13,7 +13,7 @@ Contrast Sensitivity
 .. autosummary::
     :toctree: generated/
 
-    function_contrast_sensitivity
+    contrast_sensitivity_function
     CONTRAST_SENSITIVITY_METHODS
 
 Barten (1999) Contrast Sensitivity Function
@@ -26,7 +26,7 @@ Barten (1999) Contrast Sensitivity Function
 .. autosummary::
     :toctree: generated/
 
-    function_contrast_sensitivity_Barten1999
+    contrast_sensitivity_function_Barten1999
 
 **Ancillary Objects**
 

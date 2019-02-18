@@ -128,7 +128,7 @@ from .corresponding import (BRENEMAN_EXPERIMENTS,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
                             corresponding_chromaticities_prediction)
 from .contrast import (CONTRAST_SENSITIVITY_METHODS,
-                       function_contrast_sensitivity)
+                       contrast_sensitivity_function)
 from .phenomena import (rayleigh_scattering, scattering_cross_section,
                         sd_rayleigh_scattering)
 from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
@@ -254,7 +254,7 @@ __all__ += [
     'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
     'corresponding_chromaticities_prediction'
 ]
-__all__ += ['CONTRAST_SENSITIVITY_METHODS', 'function_contrast_sensitivity']
+__all__ += ['CONTRAST_SENSITIVITY_METHODS', 'contrast_sensitivity_function']
 __all__ += [
     'rayleigh_scattering', 'scattering_cross_section', 'sd_rayleigh_scattering'
 ]

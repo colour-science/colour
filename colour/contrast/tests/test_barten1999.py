@@ -12,7 +12,7 @@ from itertools import permutations
 from colour.contrast import (optical_MTF_Barten1999, pupil_diameter_Barten1999,
                              sigma_Barten1999, retinal_illuminance_Barten1999,
                              maximum_angular_size_Barten1999,
-                             function_contrast_sensitivity_Barten1999)
+                             contrast_sensitivity_function_Barten1999)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -26,7 +26,7 @@ __all__ = [
     'TestOpticalMTFBarten1999', 'TestPupilDiameterBarten1999',
     'TestSigmaBarten1999', 'TestRetinalIlluminanceBarten1999',
     'TestMaximumAngularSizeBarten1999',
-    'TestFunctionContrastSensitivityBarten1999'
+    'TestContrastSensitivityFunctionBarten1999'
 ]
 
 
@@ -366,20 +366,20 @@ maximum_angular_size_Barten1999` definition nan support.
                 np.array(case), np.array(case), np.array(case), np.array(case))
 
 
-class TestFunctionContrastSensitivityBarten1999(unittest.TestCase):
+class TestContrastSensitivityFunctionBarten1999(unittest.TestCase):
     """
     Defines :func:`colour.contrast.barten1999.\
-function_contrast_sensitivity_Barten1999` definition unit tests methods.
+contrast_sensitivity_function_Barten1999` definition unit tests methods.
     """
 
-    def test_function_contrast_sensitivity_Barten1999(self):
+    def test_contrast_sensitivity_function_Barten1999(self):
         """
         Tests :func:`colour.contrast.barten1999.\
-function_contrast_sensitivity_Barten1999` definition.
+contrast_sensitivity_function_Barten1999` definition.
         """
 
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
                 E=65,
@@ -392,7 +392,7 @@ function_contrast_sensitivity_Barten1999` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=8,
                 sigma=0.01,
                 E=65,
@@ -405,7 +405,7 @@ function_contrast_sensitivity_Barten1999` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.02,
                 E=65,
@@ -418,7 +418,7 @@ function_contrast_sensitivity_Barten1999` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
                 E=130,
@@ -431,7 +431,7 @@ function_contrast_sensitivity_Barten1999` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
                 E=65,
@@ -444,7 +444,7 @@ function_contrast_sensitivity_Barten1999` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
                 E=65,
@@ -457,7 +457,7 @@ function_contrast_sensitivity_Barten1999` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
                 E=65,
@@ -466,7 +466,7 @@ function_contrast_sensitivity_Barten1999` definition.
                 Y_0=60,
                 Y_max=12,
                 p=1.2 * 10 ** 6),
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
                 E=65,
@@ -478,7 +478,7 @@ function_contrast_sensitivity_Barten1999` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
                 E=65,
@@ -490,10 +490,10 @@ function_contrast_sensitivity_Barten1999` definition.
             374.791328640476140,
             decimal=7)
 
-    def test_n_dimensional_function_contrast_sensitivity_Barten1999(self):
+    def test_n_dimensional_contrast_sensitivity_function_Barten1999(self):
         """
         Tests :func:`colour.contrast.barten1999.\
-function_contrast_sensitivity_Barten1999` definition n-dimensions support.
+contrast_sensitivity_function_Barten1999` definition n-dimensions support.
         """
 
         u = np.array([4, 8, 12])
@@ -502,7 +502,7 @@ function_contrast_sensitivity_Barten1999` definition n-dimensions support.
         X_0 = np.array([60, 120, 240])
         S = np.array([39.86810824, 142.24417024, 4.39800166])
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=u, sigma=sigma, E=E, X_0=X_0),
             S,
             decimal=7)
@@ -511,7 +511,7 @@ function_contrast_sensitivity_Barten1999` definition n-dimensions support.
         E = np.tile(E, (6, 1))
         S = np.tile(S, (6, 1))
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=u, sigma=sigma, E=E, X_0=X_0),
             S,
             decimal=7)
@@ -520,22 +520,22 @@ function_contrast_sensitivity_Barten1999` definition n-dimensions support.
         E = np.reshape(E, (2, 3, 3))
         S = np.reshape(S, (2, 3, 3))
         np.testing.assert_almost_equal(
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=u, sigma=sigma, E=E, X_0=X_0),
             S,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_function_contrast_sensitivity_Barten1999(self):
+    def test_nan_contrast_sensitivity_function_Barten1999(self):
         """
         Tests :func:`colour.contrast.barten1999.\
-function_contrast_sensitivity_Barten1999` definition nan support.
+contrast_sensitivity_function_Barten1999` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            function_contrast_sensitivity_Barten1999(
+            contrast_sensitivity_function_Barten1999(
                 u=np.array(case),
                 sigma=np.array(case),
                 E=np.array(case),

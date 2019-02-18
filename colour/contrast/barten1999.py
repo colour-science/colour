@@ -5,7 +5,7 @@ Barten (1999) Contrast Sensitivity Function
 
 Defines *Barten (1999)* contrast sensitivity function:
 
--   :func:`colour.contrast.function_contrast_sensitivity_Barten1999`
+-   :func:`colour.contrast.contrast_sensitivity_function_Barten1999`
 
 See Also
 --------
@@ -47,7 +47,7 @@ __status__ = 'Production'
 __all__ = [
     'optical_MTF_Barten1999', 'pupil_diameter_Barten1999', 'sigma_Barten1999',
     'retinal_illuminance_Barten1999', 'maximum_angular_size_Barten1999',
-    'function_contrast_sensitivity_Barten1999'
+    'contrast_sensitivity_function_Barten1999'
 ]
 
 
@@ -268,7 +268,7 @@ def maximum_angular_size_Barten1999(u, X_0=60, X_max=12, N_max=15):
     return (1 / X_0 ** 2 + 1 / X_max ** 2 + u ** 2 / N_max ** 2) ** -0.5
 
 
-def function_contrast_sensitivity_Barten1999(u,
+def contrast_sensitivity_function_Barten1999(u,
                                              sigma=sigma_Barten1999(
                                                  0.5 / 60, 0.08 / 60, 2.1),
                                              k=3.0,
@@ -376,7 +376,7 @@ def function_contrast_sensitivity_Barten1999(u,
 
     Examples
     --------
-    >>> function_contrast_sensitivity_Barten1999(4)  # doctest: +ELLIPSIS
+    >>> contrast_sensitivity_function_Barten1999(4)  # doctest: +ELLIPSIS
     360.8691122...
 
     Reproducing *Figure 31* in \
@@ -412,7 +412,7 @@ def function_contrast_sensitivity_Barten1999(u,
     ...         E = retinal_illuminance_Barten1999(L_v, d, True)
     ...         maximised_spatial_frequency.append(
     ...             fmin(lambda x: (
-    ...                     -function_contrast_sensitivity_Barten1999(
+    ...                     -contrast_sensitivity_function_Barten1999(
     ...                         u=x,
     ...                         sigma=sigma,
     ...                         X_0=X_0,
@@ -427,7 +427,7 @@ def function_contrast_sensitivity_Barten1999(u,
     >>> sigma = sigma_Barten1999(0.5 / 60, 0.08 / 60, d)
     >>> E = retinal_illuminance_Barten1999(L, d)
     >>> u = maximise_spatial_frequency(L)
-    >>> (1 / function_contrast_sensitivity_Barten1999(
+    >>> (1 / contrast_sensitivity_function_Barten1999(
     ...     u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246)
     ...  * 2 * (1/ 1.27))
     ... # doctest: +ELLIPSIS

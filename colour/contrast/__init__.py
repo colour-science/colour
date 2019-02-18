@@ -24,16 +24,16 @@ from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 from .barten1999 import (optical_MTF_Barten1999, pupil_diameter_Barten1999,
                          sigma_Barten1999, retinal_illuminance_Barten1999,
                          maximum_angular_size_Barten1999,
-                         function_contrast_sensitivity_Barten1999)
+                         contrast_sensitivity_function_Barten1999)
 
 __all__ = [
     'optical_MTF_Barten1999', 'pupil_diameter_Barten1999', 'sigma_Barten1999',
     'retinal_illuminance_Barten1999', 'maximum_angular_size_Barten1999',
-    'function_contrast_sensitivity_Barten1999'
+    'contrast_sensitivity_function_Barten1999'
 ]
 
 CONTRAST_SENSITIVITY_METHODS = CaseInsensitiveMapping({
-    'Barten 1999': function_contrast_sensitivity_Barten1999,
+    'Barten 1999': contrast_sensitivity_function_Barten1999,
 })
 CONTRAST_SENSITIVITY_METHODS.__doc__ = """
 Supported contrast sensitivity methods.
@@ -48,7 +48,7 @@ CONTRAST_SENSITIVITY_METHODS : CaseInsensitiveMapping
 """
 
 
-def function_contrast_sensitivity(method='Barten 1999', **kwargs):
+def contrast_sensitivity_function(method='Barten 1999', **kwargs):
     """
     Returns the contrast sensitivity function (CSF) of the human eye using
     given method.
@@ -62,54 +62,54 @@ def function_contrast_sensitivity(method='Barten 1999', **kwargs):
     Other Parameters
     ----------------
     E : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Retinal illuminance :math:`E` in Trolands.
     N_max : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Maximum number of cycles :math:`N_{max}` over which the eye can
         integrate the information.
     T : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Integration time :math:`T` in seconds of the eye.
     X_0 : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Angular size :math:`X_0` in degrees of the object in the x direction.
     Y_0 : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Angular size :math:`Y_0` in degrees of the object in the y direction.
     X_max : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Maximum angular size :math:`X_{max}` in degrees of the integration
         area in the x direction.
     Y_max : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Maximum angular size :math:`Y_{max}` in degrees of the integration
         area in the y direction.
     k : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Signal-to-noise (SNR) ratio :math:`k`.
     n : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Quantum efficiency of the eye :math:`n`.
     p : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Photon conversion factor :math:`p` in
         :math:`photons\\div seconds\\div degrees^2\\div Trolands` that
         depends on the light source.
     phi_0 : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Spectral density :math:`\\phi_0` in :math:`seconds degrees^2` of the
         neural noise.
     sigma : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Standard deviation :math:`\\sigma` of the line-spread function
         resulting from the convolution of the different elements of the
         convolution process.
     u : numeric
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Spatial frequency :math:`u`, the cycles per degree.
     u_0 : numeric or array_like, optional
-        {:func:`colour.contrast.function_contrast_sensitivity_Barten1999`},
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Spatial frequency :math:`u_0` in :math:`cycles\\div degrees` above
         which the lateral inhibition ceases.
 
@@ -125,9 +125,9 @@ def function_contrast_sensitivity(method='Barten 1999', **kwargs):
 
     Examples
     --------
-    >>> function_contrast_sensitivity(u=4)  # doctest: +ELLIPSIS
+    >>> contrast_sensitivity_function(u=4)  # doctest: +ELLIPSIS
     360.8691122...
-    >>> function_contrast_sensitivity('Barten 1999', u=4)  # doctest: +ELLIPSIS
+    >>> contrast_sensitivity_function('Barten 1999', u=4)  # doctest: +ELLIPSIS
     360.8691122...
     """
 
@@ -138,4 +138,4 @@ def function_contrast_sensitivity(method='Barten 1999', **kwargs):
     return S
 
 
-__all__ += ['CONTRAST_SENSITIVITY_METHODS', 'function_contrast_sensitivity']
+__all__ += ['CONTRAST_SENSITIVITY_METHODS', 'contrast_sensitivity_function']
