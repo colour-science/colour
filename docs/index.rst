@@ -10,12 +10,21 @@ comprehensive number of colour theory transformations and algorithms.
 It is open source and freely available under the
 `New BSD License <http://opensource.org/licenses/BSD-3-Clause>`_ terms.
 
+Draft Release Notes
+-------------------
+
+The draft release notes from the
+`develop <https://github.com/colour-science/colour/tree/develop>`_
+branch are available at this
+`url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`_.
+
 Features
 --------
 
 `Colour <https://github.com/colour-science/colour>`_ features a rich dataset
 and collection of objects, please see the
-`features <https://www.colour-science.org/features/>`_ page for more information.
+`features <https://www.colour-science.org/features/>`_ page for more
+information.
 
 Installation
 ------------
