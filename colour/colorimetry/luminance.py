@@ -76,7 +76,7 @@ __status__ = 'Production'
 
 __all__ = [
     'luminance_Newhall1943', 'luminance_ASTMD153508',
-    'function_intermediate_luminance_CIE1976', 'luminance_CIE1976',
+    'intermediate_luminance_function_CIE1976', 'luminance_CIE1976',
     'luminance_Fairchild2010', 'luminance_Fairchild2011', 'LUMINANCE_METHODS',
     'luminance'
 ]
@@ -178,7 +178,7 @@ def luminance_ASTMD153508(V):
     return from_range_100(Y)
 
 
-def function_intermediate_luminance_CIE1976(f_Y_Y_n, Y_n=100):
+def intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n=100):
     """
     Returns the *luminance* :math:`Y` in the *luminance* :math:`Y`
     computation for given intermediate value :math:`f(Y/Yn)` using given
@@ -217,10 +217,10 @@ def function_intermediate_luminance_CIE1976(f_Y_Y_n, Y_n=100):
 
     Examples
     --------
-    >>> function_intermediate_luminance_CIE1976(0.495929964178047)
+    >>> intermediate_luminance_function_CIE1976(0.495929964178047)
     ... # doctest: +ELLIPSIS
     12.1972253...
-    >>> function_intermediate_luminance_CIE1976(0.504482161449319, 95)
+    >>> intermediate_luminance_function_CIE1976(0.504482161449319, 95)
     ... # doctest: +ELLIPSIS
     12.1972253...
     """
@@ -287,7 +287,7 @@ def luminance_CIE1976(L_star, Y_n=100):
 
     f_Y_Y_n = (L_star + 16) / 116
 
-    Y = function_intermediate_luminance_CIE1976(f_Y_Y_n, Y_n)
+    Y = intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n)
 
     return from_range_100(Y)
 

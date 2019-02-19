@@ -30,7 +30,7 @@ import numpy as np
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import (ILLUMINANTS,
                                 intermediate_lightness_function_CIE1976,
-                                function_intermediate_luminance_CIE1976)
+                                intermediate_luminance_function_CIE1976)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (from_range_1, from_range_100, from_range_degrees,
                               to_domain_1, to_domain_100, to_domain_degrees,
@@ -175,9 +175,9 @@ def Lab_to_XYZ(
     f_X_X_n = a / 500 + f_Y_Y_n
     f_Z_Z_n = f_Y_Y_n - b / 200
 
-    X = function_intermediate_luminance_CIE1976(f_X_X_n, X_n)
-    Y = function_intermediate_luminance_CIE1976(f_Y_Y_n, Y_n)
-    Z = function_intermediate_luminance_CIE1976(f_Z_Z_n, Z_n)
+    X = intermediate_luminance_function_CIE1976(f_X_X_n, X_n)
+    Y = intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n)
+    Z = intermediate_luminance_function_CIE1976(f_Z_Z_n, Z_n)
 
     XYZ = tstack([X, Y, Z])
 

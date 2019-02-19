@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (
-    luminance_Newhall1943, function_intermediate_luminance_CIE1976,
+    luminance_Newhall1943, intermediate_luminance_function_CIE1976,
     luminance_CIE1976, luminance_ASTMD153508, luminance_Fairchild2010,
     luminance_Fairchild2011)
 from colour.colorimetry.luminance import luminance
@@ -24,7 +24,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestLuminanceNewhall1943', 'TestLuminanceASTMD153508',
-    'TestFunctionIntermediateLuminanceCIE1976', 'TestLuminanceCIE1976',
+    'TestIntermediateLuminanceFunctionCIE1976', 'TestLuminanceCIE1976',
     'TestLuminanceFairchild2010', 'TestLuminanceFairchild2011', 'TestLuminance'
 ]
 
@@ -169,85 +169,85 @@ class TestLuminanceASTMD153508(unittest.TestCase):
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestFunctionIntermediateLuminanceCIE1976(unittest.TestCase):
+class TestIntermediateLuminanceFunctionCIE1976(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.luminance.\
-function_intermediate_luminance_CIE1976` definition unit tests methods.
+intermediate_luminance_function_CIE1976` definition unit tests methods.
     """
 
-    def test_function_intermediate_luminance_CIE1976(self):
+    def test_intermediate_luminance_function_CIE1976(self):
         """
         Tests :func:`colour.colorimetry.luminance.\
-function_intermediate_luminance_CIE1976` definition.
+intermediate_luminance_function_CIE1976` definition.
         """
 
         self.assertAlmostEqual(
-            function_intermediate_luminance_CIE1976(0.495929964178047),
+            intermediate_luminance_function_CIE1976(0.495929964178047),
             12.197225350000002,
             places=7)
 
         self.assertAlmostEqual(
-            function_intermediate_luminance_CIE1976(0.613072093530391),
+            intermediate_luminance_function_CIE1976(0.613072093530391),
             23.042767810000004,
             places=7)
 
         self.assertAlmostEqual(
-            function_intermediate_luminance_CIE1976(0.394876333449113),
+            intermediate_luminance_function_CIE1976(0.394876333449113),
             6.157200790000001,
             places=7)
 
-    def test_n_dimensional_function_intermediate_luminance_CIE1976(self):
+    def test_n_dimensional_intermediate_luminance_function_CIE1976(self):
         """
         Tests :func:`colour.colorimetry.luminance.\
-function_intermediate_luminance_CIE1976` definition n-dimensional arrays
+intermediate_luminance_function_CIE1976` definition n-dimensional arrays
 support.
         """
 
         f_Y_Y_n = 0.495929964178047
         Y = 12.197225350000002
         np.testing.assert_almost_equal(
-            function_intermediate_luminance_CIE1976(f_Y_Y_n), Y, decimal=7)
+            intermediate_luminance_function_CIE1976(f_Y_Y_n), Y, decimal=7)
 
         f_Y_Y_n = np.tile(f_Y_Y_n, 6)
         Y = np.tile(Y, 6)
         np.testing.assert_almost_equal(
-            function_intermediate_luminance_CIE1976(f_Y_Y_n), Y, decimal=7)
+            intermediate_luminance_function_CIE1976(f_Y_Y_n), Y, decimal=7)
 
         f_Y_Y_n = np.reshape(f_Y_Y_n, (2, 3))
         Y = np.reshape(Y, (2, 3))
         np.testing.assert_almost_equal(
-            function_intermediate_luminance_CIE1976(f_Y_Y_n), Y, decimal=7)
+            intermediate_luminance_function_CIE1976(f_Y_Y_n), Y, decimal=7)
 
         f_Y_Y_n = np.reshape(f_Y_Y_n, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
         np.testing.assert_almost_equal(
-            function_intermediate_luminance_CIE1976(f_Y_Y_n), Y, decimal=7)
+            intermediate_luminance_function_CIE1976(f_Y_Y_n), Y, decimal=7)
 
-    def test_domain_range_scale_function_intermediate_luminance_CIE1976(self):
+    def test_domain_range_scale_intermediate_luminance_function_CIE1976(self):
         """
         Tests :func:`colour.colorimetry.luminance.\
-function_intermediate_luminance_CIE1976` definition domain and range scale
+intermediate_luminance_function_CIE1976` definition domain and range scale
 support.
         """
 
-        Y = function_intermediate_luminance_CIE1976(41.527875844653451, 100)
+        Y = intermediate_luminance_function_CIE1976(41.527875844653451, 100)
 
         for scale in ('reference', 1, 100):
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    function_intermediate_luminance_CIE1976(
+                    intermediate_luminance_function_CIE1976(
                         41.527875844653451, 100),
                     Y,
                     decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_function_intermediate_luminance_CIE1976(self):
+    def test_nan_intermediate_luminance_function_CIE1976(self):
         """
         Tests :func:`colour.colorimetry.luminance.\
-    function_intermediate_luminance_CIE1976` definition nan support.
+    intermediate_luminance_function_CIE1976` definition nan support.
         """
 
-        function_intermediate_luminance_CIE1976(
+        intermediate_luminance_function_CIE1976(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
