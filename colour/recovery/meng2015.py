@@ -155,14 +155,14 @@ def XYZ_to_sd_Meng2015(
     illuminant = sd_ones(shape)
     sd = sd_ones(shape)
 
-    def function_objective(a):
+    def objective_function(a):
         """
         Objective function.
         """
 
         return np.sum(np.diff(a) ** 2)
 
-    def function_constraint(a):
+    def constraint_function(a):
         """
         Function defining the constraint.
         """
@@ -178,7 +178,7 @@ def XYZ_to_sd_Meng2015(
         'method': 'SLSQP',
         'constraints': {
             'type': 'eq',
-            'fun': function_constraint
+            'fun': constraint_function
         },
         'bounds': np.tile(np.array([0, 1000]), (bins, 1)),
         'options': {
@@ -189,7 +189,7 @@ def XYZ_to_sd_Meng2015(
     if optimisation_parameters is not None:
         optimisation_settings.update(optimisation_parameters)
 
-    result = minimize(function_objective, sd.values, **optimisation_settings)
+    result = minimize(objective_function, sd.values, **optimisation_settings)
 
     if not result.success:
         raise RuntimeError(
