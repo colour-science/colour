@@ -25,7 +25,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -89,8 +89,8 @@ DON_RGB_4_COLOURSPACE = RGB_Colourspace(
     DON_RGB_4_WHITEPOINT_NAME,
     DON_RGB_4_TO_XYZ_MATRIX,
     XYZ_TO_DON_RGB_4_MATRIX,
-    partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2),
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2),
 )
 DON_RGB_4_COLOURSPACE.__doc__ = """
 *Don RGB 4* colourspace.

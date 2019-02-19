@@ -25,7 +25,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -88,8 +88,8 @@ MAX_RGB_COLOURSPACE = RGB_Colourspace(
     MAX_RGB_WHITEPOINT_NAME,
     MAX_RGB_TO_XYZ_MATRIX,
     XYZ_TO_MAX_RGB_MATRIX,
-    partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2),
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2),
 )
 MAX_RGB_COLOURSPACE.__doc__ = """
 *Max RGB* colourspace.

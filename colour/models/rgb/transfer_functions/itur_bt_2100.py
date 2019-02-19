@@ -61,7 +61,7 @@ __status__ = 'Production'
 __all__ = [
     'oetf_BT2100_PQ', 'oetf_reverse_BT2100_PQ', 'eotf_BT2100_PQ',
     'eotf_reverse_BT2100_PQ', 'ootf_BT2100_PQ', 'ootf_reverse_BT2100_PQ',
-    'BT2100_HLG_WEIGHTS', 'BT2100_HLG_CONSTANTS', 'function_gamma_BT2100_HLG',
+    'BT2100_HLG_WEIGHTS', 'BT2100_HLG_CONSTANTS', 'gamma_function_BT2100_HLG',
     'oetf_BT2100_HLG', 'oetf_reverse_BT2100_HLG', 'eotf_BT2100_HLG',
     'eotf_reverse_BT2100_HLG', 'ootf_BT2100_HLG', 'ootf_reverse_BT2100_HLG'
 ]
@@ -376,7 +376,7 @@ BT2100_HLG_CONSTANTS : Structure
 """
 
 
-def function_gamma_BT2100_HLG(L_W=1000):
+def gamma_function_BT2100_HLG(L_W=1000):
     """
     Returns the *Reference HLG* system gamma value for given display nominal
     peak luminance.
@@ -394,11 +394,11 @@ def function_gamma_BT2100_HLG(L_W=1000):
 
     Examples
     --------
-    >>> function_gamma_BT2100_HLG()
+    >>> gamma_function_BT2100_HLG()
     1.2
-    >>> function_gamma_BT2100_HLG(2000)  # doctest: +ELLIPSIS
+    >>> gamma_function_BT2100_HLG(2000)  # doctest: +ELLIPSIS
     1.3264325...
-    >>> function_gamma_BT2100_HLG(4000)  # doctest: +ELLIPSIS
+    >>> gamma_function_BT2100_HLG(4000)  # doctest: +ELLIPSIS
     1.4528651...
     """
 
@@ -681,7 +681,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack([R_S, G_S, B_S]), axis=-1)
 
     if gamma is None:
-        gamma = function_gamma_BT2100_HLG(L_W)
+        gamma = gamma_function_BT2100_HLG(L_W)
 
     R_D = alpha * R_S * np.abs(Y_S) ** (gamma - 1) + beta
     G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1) + beta
@@ -764,7 +764,7 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     beta = L_B
 
     if gamma is None:
-        gamma = function_gamma_BT2100_HLG(L_W)
+        gamma = gamma_function_BT2100_HLG(L_W)
 
     R_S = np.where(
         Y_D == beta,

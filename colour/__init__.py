@@ -116,7 +116,7 @@ from .models import (
     XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY,
     YCBCR_WEIGHTS, YCbCr_to_RGB, YcCbcCrc_to_RGB, YCoCg_to_RGB,
     chromatically_adapted_primaries, decoding_cctf, encoding_cctf, eotf,
-    eotf_reverse, full_to_legal, function_gamma, function_linear,
+    eotf_reverse, full_to_legal, gamma_function, function_linear,
     hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, legal_to_full, log_decoding_curve,
     log_encoding_curve, normalised_primary_matrix, oetf, oetf_reverse, ootf,
     ootf_reverse, primaries_whitepoint, sd_to_aces_relative_exposure_values,
@@ -239,7 +239,7 @@ __all__ += [
     'XYZ_to_hdr_CIELab', 'XYZ_to_hdr_IPT', 'XYZ_to_sRGB', 'XYZ_to_xy',
     'XYZ_to_xyY', 'YCBCR_WEIGHTS', 'YCbCr_to_RGB', 'YcCbcCrc_to_RGB',
     'YCoCg_to_RGB', 'chromatically_adapted_primaries', 'decoding_cctf',
-    'encoding_cctf', 'eotf', 'eotf_reverse', 'full_to_legal', 'function_gamma',
+    'encoding_cctf', 'eotf', 'eotf_reverse', 'full_to_legal', 'gamma_function',
     'function_linear', 'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full',
     'log_decoding_curve', 'log_encoding_curve', 'normalised_primary_matrix',
     'oetf', 'oetf_reverse', 'ootf', 'ootf_reverse', 'primaries_whitepoint',
@@ -1639,6 +1639,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.IES_TM2714_Spd',
         'colour.SpectralDistribution_IESTM2714',
+    ],
+    [
+        'colour.function_gamma',
+        'colour.gamma_function',
     ],
     [
         'colour.mesopic_luminous_efficiency_function',

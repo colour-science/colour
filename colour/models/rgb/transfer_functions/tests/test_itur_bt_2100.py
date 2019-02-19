@@ -15,7 +15,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_BT2100_HLG, oetf_reverse_BT2100_HLG, eotf_BT2100_HLG,
     eotf_reverse_BT2100_HLG, ootf_BT2100_HLG, ootf_reverse_BT2100_HLG)
 from colour.models.rgb.transfer_functions.itur_bt_2100 import (
-    function_gamma_BT2100_HLG)
+    gamma_function_BT2100_HLG)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -28,7 +28,7 @@ __status__ = 'Production'
 __all__ = [
     'TestOetf_BT2100_PQ', 'TestOetf_reverse_BT2100_PQ', 'TestEotf_BT2100_PQ',
     'TestEotf_reverse_BT2100_PQ', 'TestOotf_BT2100_PQ',
-    'TestOotf_reverse_BT2100_PQ', 'TestFunction_gamma_BT2100_HLG',
+    'TestOotf_reverse_BT2100_PQ', 'TestGamma_function_BT2100_HLG',
     'TestOetf_BT2100_HLG', 'TestOetf_reverse_BT2100_HLG',
     'TestEotf_BT2100_HLG', 'TestEotf_reverse_BT2100_HLG',
     'TestOotf_BT2100_HLG', 'TestOotf_reverse_BT2100_HLG'
@@ -461,29 +461,29 @@ ootf_reverse_BT2100_PQ` definition nan support.
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestFunction_gamma_BT2100_HLG(unittest.TestCase):
+class TestGamma_function_BT2100_HLG(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-function_gamma_BT2100_HLG` definition unit tests methods.
+gamma_function_BT2100_HLG` definition unit tests methods.
     """
 
-    def test_function_gamma_BT2100_HLG(self):
+    def test_gamma_function_BT2100_HLG(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-function_gamma_BT2100_HLG` definition.
+gamma_function_BT2100_HLG` definition.
         """
 
         self.assertAlmostEqual(
-            function_gamma_BT2100_HLG(1000.0), 1.2, places=7)
+            gamma_function_BT2100_HLG(1000.0), 1.2, places=7)
 
         self.assertAlmostEqual(
-            function_gamma_BT2100_HLG(2000.0), 1.326432598178872, places=7)
+            gamma_function_BT2100_HLG(2000.0), 1.326432598178872, places=7)
 
         self.assertAlmostEqual(
-            function_gamma_BT2100_HLG(4000.0), 1.452865196357744, places=7)
+            gamma_function_BT2100_HLG(4000.0), 1.452865196357744, places=7)
 
         self.assertAlmostEqual(
-            function_gamma_BT2100_HLG(10000.0), 1.619999999999999, places=7)
+            gamma_function_BT2100_HLG(10000.0), 1.619999999999999, places=7)
 
 
 class TestOetf_BT2100_HLG(unittest.TestCase):

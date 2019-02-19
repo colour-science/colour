@@ -23,7 +23,7 @@ from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
 from .filmlight_tlog import (log_encoding_FilmLightTLog,
                              log_decoding_FilmLightTLog)
-from .gamma import function_gamma
+from .gamma import gamma_function
 from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_reverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_reverse_BT709
@@ -71,7 +71,7 @@ __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
 __all__ += ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']
 __all__ += ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']
-__all__ += ['function_gamma']
+__all__ += ['gamma_function']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
 __all__ += ['oetf_BT601', 'oetf_reverse_BT601']
 __all__ += ['oetf_BT709', 'oetf_reverse_BT709']
@@ -682,9 +682,9 @@ ENCODING_CCTFS = CaseInsensitiveMapping(LOG_ENCODING_CURVES)
 ENCODING_CCTFS.update(OETFS)
 ENCODING_CCTFS.update(EOTFS_REVERSE)
 ENCODING_CCTFS.update({
-    'Gamma 2.2': partial(function_gamma, exponent=1 / 2.2),
-    'Gamma 2.4': partial(function_gamma, exponent=1 / 2.4),
-    'Gamma 2.6': partial(function_gamma, exponent=1 / 2.6),
+    'Gamma 2.2': partial(gamma_function, exponent=1 / 2.2),
+    'Gamma 2.4': partial(gamma_function, exponent=1 / 2.4),
+    'Gamma 2.6': partial(gamma_function, exponent=1 / 2.6),
 })
 ENCODING_CCTFS.__doc__ = """
 Supported encoding colour component transfer functions (Encoding CCTFs), a
@@ -765,9 +765,9 @@ DECODING_CCTFS = CaseInsensitiveMapping(LOG_DECODING_CURVES)
 DECODING_CCTFS.update(OETFS_REVERSE)
 DECODING_CCTFS.update(EOTFS)
 DECODING_CCTFS.update({
-    'Gamma 2.2': partial(function_gamma, exponent=2.2),
-    'Gamma 2.4': partial(function_gamma, exponent=2.4),
-    'Gamma 2.6': partial(function_gamma, exponent=2.6),
+    'Gamma 2.2': partial(gamma_function, exponent=2.2),
+    'Gamma 2.4': partial(gamma_function, exponent=2.4),
+    'Gamma 2.6': partial(gamma_function, exponent=2.6),
 })
 DECODING_CCTFS.__doc__ = """
 Supported decoding colour component transfer functions (Decoding CCTFs), a

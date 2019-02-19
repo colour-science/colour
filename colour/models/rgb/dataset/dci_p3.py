@@ -35,7 +35,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -132,8 +132,8 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     DCI_P3_WHITEPOINT_NAME,
     DCI_P3_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_MATRIX,
-    partial(function_gamma, exponent=1 / 2.6),
-    partial(function_gamma, exponent=2.6),
+    partial(gamma_function, exponent=1 / 2.6),
+    partial(gamma_function, exponent=2.6),
 )
 DCI_P3_COLOURSPACE.__doc__ = """
 *DCI-P3* colourspace.
@@ -153,8 +153,8 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     DCI_P3_WHITEPOINT_NAME,
     DCI_P3_P_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_P_MATRIX,
-    partial(function_gamma, exponent=1 / 2.6),
-    partial(function_gamma, exponent=2.6),
+    partial(gamma_function, exponent=1 / 2.6),
+    partial(gamma_function, exponent=2.6),
 )
 DCI_P3_P_COLOURSPACE.__doc__ = """
 *DCI-P3+* colourspace.

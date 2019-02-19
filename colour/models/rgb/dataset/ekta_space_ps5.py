@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -88,8 +88,8 @@ EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
     EKTA_SPACE_PS_5_V_WHITEPOINT_NAME,
     EKTA_SPACE_PS_5_TO_XYZ_MATRIX,
     XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
-    partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2),
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2),
 )
 EKTA_SPACE_PS_5_COLOURSPACE.__doc__ = """
 *Ekta Space PS 5* colourspace.
