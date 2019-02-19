@@ -35,7 +35,7 @@ from .itur_bt_2100 import (
     eotf_reverse_BT2100_PQ, ootf_BT2100_PQ, ootf_reverse_BT2100_PQ,
     oetf_BT2100_HLG, oetf_reverse_BT2100_HLG, eotf_BT2100_HLG,
     eotf_reverse_BT2100_HLG, ootf_BT2100_HLG, ootf_reverse_BT2100_HLG)
-from .linear import function_linear
+from .linear import linear_function
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
@@ -84,7 +84,7 @@ __all__ += [
     'oetf_BT2100_HLG', 'oetf_reverse_BT2100_HLG', 'eotf_BT2100_HLG',
     'eotf_reverse_BT2100_HLG', 'ootf_BT2100_HLG', 'ootf_reverse_BT2100_HLG'
 ]
-__all__ += ['function_linear']
+__all__ += ['linear_function']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
