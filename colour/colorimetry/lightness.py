@@ -75,7 +75,7 @@ __status__ = 'Production'
 
 __all__ = [
     'lightness_Glasser1958', 'lightness_Wyszecki1963',
-    'function_intermediate_lightness_CIE1976', 'lightness_CIE1976',
+    'intermediate_lightness_function_CIE1976', 'lightness_CIE1976',
     'lightness_Fairchild2010', 'lightness_Fairchild2011', 'LIGHTNESS_METHODS',
     'lightness'
 ]
@@ -180,7 +180,7 @@ def lightness_Wyszecki1963(Y):
     return from_range_100(W)
 
 
-def function_intermediate_lightness_CIE1976(Y, Y_n=100):
+def intermediate_lightness_function_CIE1976(Y, Y_n=100):
     """
     Returns the intermediate value :math:`f(Y/Yn)` in the *Lightness*
     :math:`L^*` computation for given *luminance* :math:`Y` using given
@@ -219,10 +219,10 @@ def function_intermediate_lightness_CIE1976(Y, Y_n=100):
 
     Examples
     --------
-    >>> function_intermediate_lightness_CIE1976(12.19722535)
+    >>> intermediate_lightness_function_CIE1976(12.19722535)
     ... # doctest: +ELLIPSIS
     0.4959299...
-    >>> function_intermediate_lightness_CIE1976(12.19722535, 95)
+    >>> intermediate_lightness_function_CIE1976(12.19722535, 95)
     ... # doctest: +ELLIPSIS
     0.5044821...
     """
@@ -288,7 +288,7 @@ def lightness_CIE1976(Y, Y_n=100):
     Y = to_domain_100(Y)
     Y_n = as_float_array(Y_n)
 
-    L_star = 116 * function_intermediate_lightness_CIE1976(Y, Y_n) - 16
+    L_star = 116 * intermediate_lightness_function_CIE1976(Y, Y_n) - 16
 
     return from_range_100(L_star)
 

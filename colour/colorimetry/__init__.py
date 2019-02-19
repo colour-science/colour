@@ -41,7 +41,7 @@ from .lightness import lightness
 from .lightness import (lightness_Glasser1958, lightness_Wyszecki1963,
                         lightness_CIE1976, lightness_Fairchild2010,
                         lightness_Fairchild2011)
-from .lightness import function_intermediate_lightness_CIE1976
+from .lightness import intermediate_lightness_function_CIE1976
 from .luminance import LUMINANCE_METHODS
 from .luminance import luminance
 from .luminance import (luminance_Newhall1943, luminance_ASTMD153508,
@@ -107,7 +107,7 @@ __all__ += [
     'lightness_Glasser1958', 'lightness_Wyszecki1963', 'lightness_CIE1976',
     'lightness_Fairchild2010', 'lightness_Fairchild2011'
 ]
-__all__ += ['function_intermediate_lightness_CIE1976']
+__all__ += ['intermediate_lightness_function_CIE1976']
 __all__ += ['LUMINANCE_METHODS']
 __all__ += ['luminance']
 __all__ += [

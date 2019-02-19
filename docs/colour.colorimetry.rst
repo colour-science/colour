@@ -289,7 +289,7 @@ CIE 1976
     :toctree: generated/
 
     lightness_CIE1976
-    function_intermediate_lightness_CIE1976
+    intermediate_lightness_function_CIE1976
 
 Fairchild and Wyble (2010)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
