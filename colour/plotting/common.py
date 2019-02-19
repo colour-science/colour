@@ -1167,7 +1167,7 @@ def plot_single_function(function,
 
     Examples
     --------
-    >>> plot_single_function(partial(function_gamma, exponent=1 / 2.2))
+    >>> plot_single_function(partial(gamma_function, exponent=1 / 2.2))
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_Plot_Single_Function.png

@@ -6,7 +6,7 @@ Linear Colour Component Transfer Function
 Defines linear encoding / decoding colour component transfer function related
 objects:
 
-- :func:`colour.function_linear`
+- :func:`colour.linear_function`
 
 See Also
 --------
@@ -24,10 +24,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['function_linear']
+__all__ = ['linear_function']
 
 
-def function_linear(a):
+def linear_function(a):
     """
     Defines a typical linear encoding / decoding function, essentially a
     pass-through function.
@@ -44,7 +44,7 @@ def function_linear(a):
 
     Examples
     --------
-    >>> function_linear(0.18)
+    >>> linear_function(0.18)
     0.18
     """
 

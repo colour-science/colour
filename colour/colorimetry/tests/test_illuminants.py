@@ -22,7 +22,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'A_DATA', 'TestSdCIEStandardIlluminantA', 'TestSd_CIEIlluminantDSeries',
+    'A_DATA', 'TestSdCIEStandardIlluminantA', 'TestSdCIEIlluminantDSeries',
     'TestDaylightLocusFunction'
 ]
 
@@ -143,7 +143,7 @@ sd_CIE_standard_illuminant_A` definition.
             decimal=7)
 
 
-class TestSd_CIEIlluminantDSeries(unittest.TestCase):
+class TestSdCIEIlluminantDSeries(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.illuminants.sd_CIE_illuminant_D_series`
     definition unit tests methods.

@@ -402,8 +402,8 @@ Opto-Electronic Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    function_gamma
-    function_linear
+    gamma_function
+    linear_function
 
 Electro-Optical Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

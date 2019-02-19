@@ -289,7 +289,7 @@ CIE 1976
     :toctree: generated/
 
     lightness_CIE1976
-    function_intermediate_lightness_CIE1976
+    intermediate_lightness_function_CIE1976
 
 Fairchild and Wyble (2010)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -351,7 +351,7 @@ CIE 1976
     :toctree: generated/
 
     luminance_CIE1976
-    function_intermediate_luminance_CIE1976
+    intermediate_luminance_function_CIE1976
 
 ASTM D1535-08e1
 ~~~~~~~~~~~~~~~

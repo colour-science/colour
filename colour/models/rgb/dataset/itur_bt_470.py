@@ -28,7 +28,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -94,8 +94,8 @@ BT470_525_COLOURSPACE = RGB_Colourspace(
     BT470_525_WHITEPOINT_NAME,
     BT470_525_TO_XYZ_MATRIX,
     XYZ_TO_BT470_525_MATRIX,
-    partial(function_gamma, exponent=1 / 2.8),
-    partial(function_gamma, exponent=2.8),
+    partial(gamma_function, exponent=1 / 2.8),
+    partial(gamma_function, exponent=2.8),
 )
 BT470_525_COLOURSPACE.__doc__ = """
 *ITU-R BT.470 - 525* colourspace.
@@ -151,8 +151,8 @@ BT470_625_COLOURSPACE = RGB_Colourspace(
     BT470_625_WHITEPOINT_NAME,
     BT470_625_TO_XYZ_MATRIX,
     XYZ_TO_BT470_625_MATRIX,
-    partial(function_gamma, exponent=1 / 2.8),
-    partial(function_gamma, exponent=2.8),
+    partial(gamma_function, exponent=1 / 2.8),
+    partial(gamma_function, exponent=2.8),
 )
 BT470_625_COLOURSPACE.__doc__ = """
 *ITU-R BT.470 - 625* colourspace.

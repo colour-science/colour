@@ -14,7 +14,7 @@ from colour.algebra import random_triplet_generator, spow
 from colour.io.luts.lut import AbstractLUT
 from colour.io.luts import (AbstractLUTSequenceOperator, LUT1D, LUT2D, LUT3D,
                             LUTSequence, LUT_to_LUT)
-from colour.models import function_gamma
+from colour.models import gamma_function
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -1174,7 +1174,7 @@ class TestLUTSequence(unittest.TestCase):
                     Processed *RGB* colourspace array.
                 """
 
-                return function_gamma(RGB, self._gamma)
+                return gamma_function(RGB, self._gamma)
 
         LUT_sequence = self._LUT_sequence.copy()
         LUT_sequence.insert(1, GammaOperator(1 / 2.2))
