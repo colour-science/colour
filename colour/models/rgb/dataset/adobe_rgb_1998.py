@@ -26,7 +26,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, function_gamma
+from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -97,8 +97,8 @@ ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
     ADOBE_RGB_1998_WHITEPOINT_NAME,
     ADOBE_RGB_1998_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_RGB_1998_MATRIX,
-    partial(function_gamma, exponent=1 / (563 / 256)),
-    partial(function_gamma, exponent=563 / 256),
+    partial(gamma_function, exponent=1 / (563 / 256)),
+    partial(gamma_function, exponent=563 / 256),
 )
 ADOBE_RGB_1998_COLOURSPACE.__doc__ = """
 *Adobe RGB (1998)* colourspace.

@@ -7,6 +7,7 @@ Defines *CIE* illuminants computation related objects:
 
 -   :func:`colour.sd_CIE_standard_illuminant_A`
 -   :func:`colour.sd_CIE_illuminant_D_series`
+-   :func:`colour.daylight_locus_function`
 
 See Also
 --------
@@ -21,6 +22,9 @@ References
 -   :cite:`CIETC1-482004n` : CIE TC 1-48. (2004). 3.1 Recommendations
     concerning standard physical data of illuminants. In CIE 015:2004
     Colorimetry, 3rd Edition (pp. 12-13). ISBN:978-3-901-90633-6
+-   :cite:`Wyszecki2000a` : Wyszecki, G., & Stiles, W. S. (2000). Equation
+    I(1.2.1). In Color Science: Concepts and Methods, Quantitative Data and
+    Formulae (p. 8). Wiley. ISBN:978-0471399186
 -   :cite:`Wyszecki2000z` : Wyszecki, G., & Stiles, W. S. (2000). CIE Method of
     Calculating D-Illuminants. In Color Science: Concepts and Methods,
     Quantitative Data and Formulae (pp. 145-146). Wiley. ISBN:978-0471399186
@@ -32,7 +36,7 @@ import numpy as np
 
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANTS_S_SDS,
                                 SpectralDistribution)
-from colour.utilities import tsplit
+from colour.utilities import as_float_array, as_numeric, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -41,7 +45,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series']
+__all__ = [
+    'sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series',
+    'daylight_locus_function'
+]
 
 
 def sd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
@@ -290,3 +297,34 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
 
     return SpectralDistribution(
         distribution, S0.wavelengths, name='CIE Illuminant D Series')
+
+
+def daylight_locus_function(x_D):
+    """
+    Returns the daylight locus as *xy* chromaticity coordinates.
+
+    Parameters
+    ----------
+    x_D : numeric or array_like
+        *x* chromaticity coordinates
+
+    Returns
+    -------
+    numeric or array_like
+        Daylight locus as *xy* chromaticity coordinates.
+
+    References
+    ----------
+    :cite:`Wyszecki2000a`
+
+    Examples
+    --------
+    >>> daylight_locus_function(0.31270)  # doctest: +ELLIPSIS
+    0.3291051...
+    """
+
+    x_D = as_float_array(x_D)
+
+    y_D = -3.000 * x_D ** 2 + 2.870 * x_D - 0.275
+
+    return as_numeric(y_D)

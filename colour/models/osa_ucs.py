@@ -203,7 +203,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
     if optimisation_parameters is not None:
         optimisation_settings.update(optimisation_parameters)
 
-    def function_error(XYZ, Ljg):
+    def error_function(XYZ, Ljg):
         """
         Error function.
         """
@@ -216,7 +216,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
 
     x_0 = np.array([30, 30, 30])
     XYZ = np.array([
-        fmin(function_error, x_0, (Ljg_i, ), **optimisation_settings)
+        fmin(error_function, x_0, (Ljg_i, ), **optimisation_settings)
         for Ljg_i in Ljg
     ])
 

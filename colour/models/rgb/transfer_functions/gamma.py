@@ -6,7 +6,7 @@ Gamma Colour Component Transfer Function
 Defines gamma encoding / decoding colour component transfer function related
 objects:
 
-- :func:`colour.function_gamma`
+- :func:`colour.gamma_function`
 
 See Also
 --------
@@ -29,10 +29,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['function_gamma']
+__all__ = ['gamma_function']
 
 
-def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
+def gamma_function(a, exponent=1, negative_number_handling='Indeterminate'):
     """
     Defines a typical gamma encoding / decoding function.
 
@@ -69,17 +69,17 @@ def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
 
     Examples
     --------
-    >>> function_gamma(0.18, 2.2)  # doctest: +ELLIPSIS
+    >>> gamma_function(0.18, 2.2)  # doctest: +ELLIPSIS
     0.0229932...
-    >>> function_gamma(-0.18, 2.0)  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.0)  # doctest: +ELLIPSIS
     0.0323999...
-    >>> function_gamma(-0.18, 2.2)
+    >>> gamma_function(-0.18, 2.2)
     nan
-    >>> function_gamma(-0.18, 2.2, 'Mirror')  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.2, 'Mirror')  # doctest: +ELLIPSIS
     -0.0229932...
-    >>> function_gamma(-0.18, 2.2, 'Preserve')  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.2, 'Preserve')  # doctest: +ELLIPSIS
     -0.1...
-    >>> function_gamma(-0.18, 2.2, 'Clamp')  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.2, 'Clamp')  # doctest: +ELLIPSIS
     0.0
     """
 

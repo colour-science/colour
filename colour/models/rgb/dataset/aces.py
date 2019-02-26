@@ -68,7 +68,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
-    RGB_Colourspace, function_linear, normalised_primary_matrix,
+    RGB_Colourspace, linear_function, normalised_primary_matrix,
     log_encoding_ACEScc, log_decoding_ACEScc, log_encoding_ACEScct,
     log_decoding_ACEScct, log_encoding_ACESproxy, log_decoding_ACESproxy)
 
@@ -166,8 +166,8 @@ ACES_2065_1_COLOURSPACE = RGB_Colourspace(
     ACES_WHITEPOINT_NAME,
     AP0_TO_XYZ_MATRIX,
     XYZ_TO_AP0_MATRIX,
-    function_linear,
-    function_linear,
+    linear_function,
+    linear_function,
 )
 ACES_2065_1_COLOURSPACE.__doc__ = """
 *ACES2065-1* colourspace, base encoding, used for exchange of full fidelity
@@ -189,8 +189,8 @@ ACES_CG_COLOURSPACE = RGB_Colourspace(
     ACES_WHITEPOINT_NAME,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
-    function_linear,
-    function_linear,
+    linear_function,
+    linear_function,
 )
 ACES_CG_COLOURSPACE.__doc__ = """
 *ACEScg* colourspace, a working space for paint/compositor applications that
