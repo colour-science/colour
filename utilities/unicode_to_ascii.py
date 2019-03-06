@@ -29,6 +29,7 @@ SUBSTITUTIONS = {
     '”': '"',
     '‘': "'",
     '’': "'",
+    '′': "'",
 }
 
 
@@ -47,8 +48,10 @@ def unicode_to_ascii(root_directory):
         for filename in filenames:
             if (not filename.endswith('.py') and
                     not filename.endswith('.bib') and
-                    not filename.endswith('.rst') and
-                    filename != 'unicode_to_ascii.py'):
+                    not filename.endswith('.rst')):
+                continue
+
+            if filename == 'unicode_to_ascii.py':
                 continue
 
             filename = os.path.join(root, filename)
