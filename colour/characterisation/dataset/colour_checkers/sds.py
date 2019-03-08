@@ -48,7 +48,7 @@ from colour.utilities import CaseInsensitiveMapping
 from collections import OrderedDict
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __copyright__ += ', '
 __copyright__ += (
     'BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale '

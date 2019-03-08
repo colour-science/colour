@@ -25,7 +25,7 @@ from colour.plotting.temperature import (
     plot_planckian_locus, plot_planckian_locus_in_chromaticity_diagram)
 from colour.utilities import domain_range_scale
 
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
