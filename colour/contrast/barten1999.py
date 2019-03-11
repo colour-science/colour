@@ -285,8 +285,8 @@ def contrast_sensitivity_function_Barten1999(u,
                                              phi_0=3 * 10 ** -8,
                                              u_0=7):
     """
-    Returns the contrast sensitivity function (CSF) of the human eye using
-    *Barten (1999)* method.
+    Returns the contrast sensitivity :math:`S` of the human eye according to
+    the contrast sensitivity function (CSF) described by *Barten (1999)*.
 
     Contrast sensitivity is defined as the inverse of the modulation threshold
     of a sinusoidal luminance pattern. The modulation threshold of this pattern
@@ -340,7 +340,7 @@ def contrast_sensitivity_function_Barten1999(u,
     Returns
     -------
     ndarray
-        Contrast sensitivity function :math:`S`.
+        Contrast sensitivity :math:`S`.
 
     Warnings
     --------

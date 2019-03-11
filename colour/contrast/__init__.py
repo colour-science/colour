@@ -50,8 +50,8 @@ CONTRAST_SENSITIVITY_METHODS : CaseInsensitiveMapping
 
 def contrast_sensitivity_function(method='Barten 1999', **kwargs):
     """
-    Returns the contrast sensitivity function (CSF) of the human eye using
-    given method.
+    Returns the contrast sensitivity :math:`S` of the human eye according to
+    the contrast sensitivity function (CSF) described by given method.
 
     Parameters
     ----------
@@ -116,7 +116,7 @@ def contrast_sensitivity_function(method='Barten 1999', **kwargs):
     Returns
     -------
     ndarray
-        Contrast sensitivity function :math:`S`.
+        Contrast sensitivity :math:`S`.
 
     References
     ----------
