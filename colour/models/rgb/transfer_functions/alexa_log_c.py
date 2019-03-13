@@ -17,7 +17,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 References
 ----------
 -   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
-    Retrieved from http://www.arri.com/?eID=registration&file_uid=8026
+    Retrieved from https://drive.google.com/\
+open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
 """
 
 from __future__ import division, unicode_literals
