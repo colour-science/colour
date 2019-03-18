@@ -6,6 +6,9 @@ Invoke - Tasks
 
 from __future__ import unicode_literals
 
+import sys
+if sys.version_info[:2] >= (3, 2):
+    import biblib.bib
 import fnmatch
 import glob
 import os
@@ -26,9 +29,10 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APPLICATION_NAME', 'PYTHON_PACKAGE_NAME', 'PYPI_PACKAGE_NAME', 'clean',
-    'formatting', 'tests', 'quality', 'examples', 'docs', 'todo', 'preflight',
-    'build', 'virtualise', 'tag', 'release', 'sha256'
+    'APPLICATION_NAME', 'PYTHON_PACKAGE_NAME', 'PYPI_PACKAGE_NAME',
+    'BIBLIOGRAPHY_NAME', 'clean', 'formatting', 'tests', 'quality', 'examples',
+    'docs', 'todo', 'preflight', 'build', 'virtualise', 'tag', 'release',
+    'sha256'
 ]
 
 APPLICATION_NAME = colour.__application_name__
@@ -36,6 +40,8 @@ APPLICATION_NAME = colour.__application_name__
 PYTHON_PACKAGE_NAME = colour.__name__
 
 PYPI_PACKAGE_NAME = 'colour-science'
+
+BIBLIOGRAPHY_NAME = 'BIBLIOGRAPHY.bib'
 
 
 @task
@@ -73,7 +79,7 @@ def clean(ctx, docs=True, bytecode=False):
 
 
 @task
-def formatting(ctx, yapf=False, asciify=True):
+def formatting(ctx, yapf=False, asciify=True, bibtex=True):
     """
     Formats the codebase with *Yapf* and converts unicode characters to ASCII.
 
@@ -85,6 +91,8 @@ def formatting(ctx, yapf=False, asciify=True):
         Whether to format the codebase with *Yapf*.
     asciify : bool, optional
         Whether to convert unicode characters to ASCII.
+    bibtex : bool, optional
+        Whether to cleanup the *BibTeX* file.
 
     Returns
     -------
@@ -100,6 +108,26 @@ def formatting(ctx, yapf=False, asciify=True):
         message_box('Converting unicode characters to ASCII...')
         with ctx.cd('utilities'):
             ctx.run('./unicode_to_ascii.py')
+
+    if bibtex and sys.version_info[:2] >= (3, 2):
+        message_box('Cleaning up "BibTeX" file...')
+        bibtex_path = BIBLIOGRAPHY_NAME
+        with open(bibtex_path) as bibtex_file:
+            bibtex = biblib.bib.Parser().parse(
+                bibtex_file.read()).get_entries()
+
+        for entry in sorted(bibtex.values(), key=lambda x: x.key):
+            try:
+                del entry['file']
+            except KeyError:
+                pass
+            for key, value in entry.items():
+                entry[key] = re.sub('(?<!\\\\)\\&', '\\&', value)
+
+        with open(bibtex_path, 'w') as bibtex_file:
+            for entry in bibtex.values():
+                bibtex_file.write(entry.to_bib())
+                bibtex_file.write('\n')
 
 
 @task

@@ -1,4 +1,4 @@
-colour.contrast.function\_contrast\_sensitivity\_Barten1999
+colour.contrast.contrast\_sensitivity\_function\_Barten1999
 ===========================================================
 
 .. currentmodule:: colour.contrast

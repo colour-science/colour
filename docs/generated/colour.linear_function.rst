@@ -1,4 +1,4 @@
-colour.function\_linear
+colour.linear\_function
 =======================
 
 .. currentmodule:: colour

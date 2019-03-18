@@ -1,4 +1,4 @@
-colour.function\_gamma
+colour.gamma\_function
 ======================
 
 .. currentmodule:: colour
