@@ -49,7 +49,7 @@ References
 ----------
 -   :cite:`CIETC1-482004h` : CIE TC 1-48. (2004). CIE 015:2004 Colorimetry,
     3rd Edition. CIE 015:2004 Colorimetry, 3rd Edition. Commission
-    internationale de l’éclairage. ISBN:978-3-901-90633-6
+    internationale de l'éclairage. ISBN:978-3-901-90633-6
 -   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).
     Digital Cinema System Specification - Version 1.1. Retrieved from
     http://www.dcimovies.com/archives/spec_v1_1/\
