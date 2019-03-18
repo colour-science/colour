@@ -16,6 +16,7 @@ colour.LUTSequence
       ~LUTSequence.__init__
       ~LUTSequence.append
       ~LUTSequence.apply
+      ~LUTSequence.clear
       ~LUTSequence.copy
       ~LUTSequence.count
       ~LUTSequence.extend

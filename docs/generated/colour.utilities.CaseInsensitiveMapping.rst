@@ -18,9 +18,6 @@ colour.utilities.CaseInsensitiveMapping
       ~CaseInsensitiveMapping.copy
       ~CaseInsensitiveMapping.get
       ~CaseInsensitiveMapping.items
-      ~CaseInsensitiveMapping.iteritems
-      ~CaseInsensitiveMapping.iterkeys
-      ~CaseInsensitiveMapping.itervalues
       ~CaseInsensitiveMapping.keys
       ~CaseInsensitiveMapping.lower_items
       ~CaseInsensitiveMapping.pop

@@ -1,4 +1,4 @@
-colour.colorimetry.function\_intermediate\_luminance\_CIE1976
+colour.colorimetry.intermediate\_luminance\_function\_CIE1976
 =============================================================
 
 .. currentmodule:: colour.colorimetry

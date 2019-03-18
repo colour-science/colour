@@ -1,4 +1,4 @@
-colour.function\_contrast\_sensitivity
+colour.contrast\_sensitivity\_function
 ======================================
 
 .. currentmodule:: colour
