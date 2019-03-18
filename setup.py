@@ -10,7 +10,6 @@ from __future__ import unicode_literals
 import os
 import re
 import sys
-
 from setuptools import setup
 from setuptools import find_packages
 
@@ -54,6 +53,11 @@ if sys.version_info[:2] <= (3, 2):
 DEVELOPMENT_REQUIREMENTS = DOCS_REQUIREMENTS + TESTS_REQUIREMENTS + [
     'invoke', 'restructuredtext_lint', 'twine', 'yapf'
 ]
+if sys.version_info[:2] >= (3, 2):
+    DEVELOPMENT_REQUIREMENTS += [
+        'biblib @ git+ssh://git@github.comcolour-science/biblib'
+        '@v0.1.0#egg=biblib'
+    ]
 
 
 def get_version():
