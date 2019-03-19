@@ -786,7 +786,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.ILLUMINANTS_SDS['F2'])
+    >>> colour.colour_quality_scale(colour.ILLUMINANTS_SDS['FL2'])
     64.686416902221609
 
 Colour Quality Scale
@@ -794,7 +794,7 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['F2'])
+    >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2'])
     64.151520202968015
 
 Reflectance Recovery
@@ -891,7 +891,7 @@ Spectral Distribution
 
 .. code-block:: python
 
-    >>> plot_single_illuminant_sd('F1')
+    >>> plot_single_illuminant_sd('FL1')
 
 ..  image:: docs/_static/Examples_Plotting_Illuminant_F1_SD.png
 
@@ -1006,7 +1006,7 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> plot_single_sd_colour_rendering_index_bars(
-    ...     colour.ILLUMINANTS_SDS['F2'])
+    ...     colour.ILLUMINANTS_SDS['FL2'])
 
 ..  image:: docs/_static/Examples_Plotting_CRI.png
 
