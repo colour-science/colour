@@ -116,7 +116,7 @@ Spectral Computations
     >>> colour.sd_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
-    [u'ASTM E308-15', u'Integration', u'astm2015']
+    ['ASTM E308-15', 'Integration', 'astm2015']
 
 Multi-Spectral Computations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -152,7 +152,7 @@ Multi-Spectral Computations
       [ 38.64801062  26.70860262  15.08396538]
       [  8.77151115  10.56330761   4.28940206]]]
     >>> sorted(colour.MULTI_SPECTRAL_TO_XYZ_METHODS.keys())
-    [u'Integration']
+    ['Integration']
 
 Blackbody Spectral Radiance Computation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -170,7 +170,7 @@ Blackbody Spectral Radiance Computation
                          interpolator=SpragueInterpolator,
                          interpolator_args={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
+                         extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
 
 Dominant, Complementary Wavelength & Colour Purity Computation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -192,12 +192,12 @@ Lightness Computation
     >>> colour.lightness(12.19722535)
     41.527875844653451
     >>> sorted(colour.LIGHTNESS_METHODS.keys())
-    [u'CIE 1976',
-     u'Fairchild 2010',
-     u'Fairchild 2011',
-     u'Glasser 1958',
-     u'Lstar1976',
-     u'Wyszecki 1963']
+    ['CIE 1976',
+     'Fairchild 2010',
+     'Fairchild 2011',
+     'Glasser 1958',
+     'Lstar1976',
+     'Wyszecki 1963']
 
 Luminance Computation
 ^^^^^^^^^^^^^^^^^^^^^
@@ -207,13 +207,13 @@ Luminance Computation
     >>> colour.luminance(41.52787585)
     12.197225353400775
     >>> sorted(colour.LUMINANCE_METHODS.keys())
-    [u'ASTM D1535-08',
-     u'CIE 1976',
-     u'Fairchild 2010',
-     u'Fairchild 2011',
-     u'Newhall 1943',
-     u'astm2008',
-     u'cie1976']
+    ['ASTM D1535-08',
+     'CIE 1976',
+     'Fairchild 2010',
+     'Fairchild 2011',
+     'Newhall 1943',
+     'astm2008',
+     'cie1976']
 
 Whiteness Computation
 ^^^^^^^^^^^^^^^^^^^^^
@@ -223,13 +223,13 @@ Whiteness Computation
     >>> colour.whiteness(xy=[0.3167, 0.3334], Y=100, xy_n=[0.3139, 0.3311])
     array([ 93.85 ,  -1.305])
     >>> sorted(colour.WHITENESS_METHODS.keys())
-    [u'ASTM E313',
-     u'Berger 1959',
-     u'CIE 2004',
-     u'Ganz 1979',
-     u'Stensby 1968',
-     u'Taube 1960',
-     u'cie2004']
+    ['ASTM E313',
+     'Berger 1959',
+     'CIE 2004',
+     'Ganz 1979',
+     'Stensby 1968',
+     'Taube 1960',
+     'cie2004']
 
 Yellowness Computation
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -240,7 +240,7 @@ Yellowness Computation
     >>> colour.yellowness(XYZ)
     11.065000000000003
     >>> sorted(colour.YELLOWNESS_METHODS.keys())
-    [u'ASTM D1925', u'ASTM E313']
+    ['ASTM D1925', 'ASTM E313']
 
 Luminous Flux, Efficiency & Efficacy Computation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -252,7 +252,7 @@ Luminous Flux
 
     >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
     >>> colour.luminous_flux(sd)
-    3807.655527367202
+    23807.655527367202
 
 Luminous Efficiency
 *******************
@@ -495,58 +495,60 @@ RGB Colourspaces
 .. code-block:: python
 
     >>> sorted(colour.RGB_COLOURSPACES.keys())
-    [u'ACES2065-1',
-     u'ACEScc',
-     u'ACEScct',
-     u'ACEScg',
-     u'ACESproxy',
-     u'ALEXA Wide Gamut',
-     u'Adobe RGB (1998)',
-     u'Adobe Wide Gamut RGB',
-     u'Apple RGB',
-     u'Best RGB',
-     u'Beta RGB',
-     u'CIE RGB',
-     u'Cinema Gamut',
-     u'ColorMatch RGB',
-     u'DCDM XYZ',
-     u'DCI-P3',
-     u'DCI-P3+',
-     u'DRAGONcolor',
-     u'DRAGONcolor2',
-     u'Don RGB 4',
-     u'ECI RGB v2',
-     u'ERIMM RGB',
-     u'Ekta Space PS 5',
-     u'ITU-R BT.2020',
-     u'ITU-R BT.470 - 525',
-     u'ITU-R BT.470 - 625',
-     u'ITU-R BT.709',
-     u'Max RGB',
-     u'NTSC',
-     u'P3-D65',
-     u'Pal/Secam',
-     u'ProPhoto RGB',
-     u'Protune Native',
-     u'REDWideGamutRGB',
-     u'REDcolor',
-     u'REDcolor2',
-     u'REDcolor3',
-     u'REDcolor4',
-     u'RIMM RGB',
-     u'ROMM RGB',
-     u'Russell RGB',
-     u'S-Gamut',
-     u'S-Gamut3',
-     u'S-Gamut3.Cine',
-     u'SMPTE 240M',
-     u'Sharp RGB',
-     u'V-Gamut',
-     u'Xtreme RGB',
+    ['ACES2065-1',
+     'ACEScc',
+     'ACEScct',
+     'ACEScg',
+     'ACESproxy',
+     'ALEXA Wide Gamut',
+     'Adobe RGB (1998)',
+     'Adobe Wide Gamut RGB',
+     'Apple RGB',
+     'Best RGB',
+     'Beta RGB',
+     'CIE RGB',
+     'Cinema Gamut',
+     'ColorMatch RGB',
+     'DCDM XYZ',
+     'DCI-P3',
+     'DCI-P3+',
+     'DJI D-Gamut',
+     'DRAGONcolor',
+     'DRAGONcolor2',
+     'Don RGB 4',
+     'ECI RGB v2',
+     'ERIMM RGB',
+     'Ekta Space PS 5',
+     'FilmLight E-Gamut',
+     'ITU-R BT.2020',
+     'ITU-R BT.470 - 525',
+     'ITU-R BT.470 - 625',
+     'ITU-R BT.709',
+     'Max RGB',
+     'NTSC',
+     'P3-D65',
+     'Pal/Secam',
+     'ProPhoto RGB',
+     'Protune Native',
+     'REDWideGamutRGB',
+     'REDcolor',
+     'REDcolor2',
+     'REDcolor3',
+     'REDcolor4',
+     'RIMM RGB',
+     'ROMM RGB',
+     'Russell RGB',
+     'S-Gamut',
+     'S-Gamut3',
+     'S-Gamut3.Cine',
+     'SMPTE 240M',
+     'Sharp RGB',
+     'V-Gamut',
+     'Xtreme RGB',
      'aces',
      'adobe1998',
      'prophoto',
-     u'sRGB']
+     'sRGB']
 
 OETFs
 ^^^^^
@@ -555,8 +557,7 @@ OETFs
 
     >>> sorted(colour.OETFS.keys())
     ['ARIB STD-B67',
-     'DCI-P3',
-     'P3-D65',
+     'DCDM',
      'DICOM GSDF',
      'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
@@ -576,7 +577,7 @@ EOTFs
 .. code-block:: python
 
     >>> sorted(colour.EOTFS.keys())
-    ['DCI-P3',
+    ['DCDM',
      'DICOM GSDF',
      'ITU-R BT.1886',
      'ITU-R BT.2020',
@@ -610,7 +611,9 @@ Log Encoding / Decoding Curves
      'Canon Log 2',
      'Canon Log 3',
      'Cineon',
+     'D-Log',
      'ERIMM RGB',
+     'Filmic Pro 6',
      'Log3G10',
      'Log3G12',
      'PLog',
@@ -621,6 +624,7 @@ Log Encoding / Decoding Curves
      'S-Log',
      'S-Log2',
      'S-Log3',
+     'T-Log',
      'V-Log',
      'ViperLog']
 
@@ -686,7 +690,7 @@ Colour Correction
     >>> colour.colour_correction(RGB, M_T, M_R)
     array([ 0.15205429,  0.08974029,  0.04141435])
     >>> sorted(colour.COLOUR_CORRECTION_METHODS.keys())
-    [u'Cheung 2004', u'Finlayson 2015', u'Vandermonde']
+    ['Cheung 2004', 'Finlayson 2015', 'Vandermonde']
 
 Colour Notation Systems
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -699,14 +703,14 @@ Munsell Value
     >>> colour.munsell_value(12.23634268)
     4.0824437076525664
     >>> sorted(colour.MUNSELL_VALUE_METHODS.keys())
-    [u'ASTM D1535-08',
-     u'Ladd 1955',
-     u'McCamy 1987',
-     u'Moon 1943',
-     u'Munsell 1933',
-     u'Priest 1920',
-     u'Saunderson 1944',
-     u'astm2008']
+    ['ASTM D1535-08',
+     'Ladd 1955',
+     'McCamy 1987',
+     'Moon 1943',
+     'Munsell 1933',
+     'Priest 1920',
+     'Saunderson 1944',
+     'astm2008']
 
 Munsell Colour
 **************
@@ -714,7 +718,7 @@ Munsell Colour
 .. code-block:: python
 
     >>> colour.xyY_to_munsell_colour([0.38736945, 0.35751656, 0.59362000])
-    u'4.2YR 8.1/5.3'
+    '4.2YR 8.1/5.3'
     >>> colour.munsell_colour_to_xyY('4.2YR 8.1/5.3')
     array([ 0.38736945,  0.35751656,  0.59362   ])
 
@@ -741,16 +745,16 @@ Optical Phenomena
 
     >>> colour.rayleigh_scattering_sd()
     SpectralDistribution([[  3.60000000e+02,   5.99101337e-01],
-                               [  3.61000000e+02,   5.92170690e-01],
-                               [  3.62000000e+02,   5.85341006e-01],
-                               ...
-                               [  7.78000000e+02,   2.55208377e-02],
-                               [  7.79000000e+02,   2.53887969e-02],
-                               [  7.80000000e+02,   2.52576106e-02]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
+                          [  3.61000000e+02,   5.92170690e-01],
+                          [  3.62000000e+02,   5.85341006e-01],
+                          ...
+                          [  7.78000000e+02,   2.55208377e-02],
+                          [  7.79000000e+02,   2.53887969e-02],
+                          [  7.80000000e+02,   2.52576106e-02]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
 
 Light Quality
 ^^^^^^^^^^^^^
@@ -778,16 +782,16 @@ Reflectance Recovery
 
     >>> colour.XYZ_to_sd([0.20654008, 0.12197225, 0.05136952])
     SpectralDistribution([[  3.60000000e+02,   7.73462151e-02],
-                               [  3.65000000e+02,   7.73632975e-02],
-                               [  3.70000000e+02,   7.74299705e-02],
-                               ...
-                               [  8.20000000e+02,   3.93126353e-01],
-                               [  8.25000000e+02,   3.93158148e-01],
-                               [  8.30000000e+02,   3.93163548e-01]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
+                          [  3.65000000e+02,   7.73632975e-02],
+                          [  3.70000000e+02,   7.74299705e-02],
+                          ...
+                          [  8.20000000e+02,   3.93126353e-01],
+                          [  8.25000000e+02,   3.93158148e-01],
+                          [  8.30000000e+02,   3.93163548e-01]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
 
     >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS.keys())
     ['Meng 2015', 'Smits 1999']
@@ -800,28 +804,47 @@ Correlated Colour Temperature Computation Methods
     >>> colour.uv_to_CCT([0.1978, 0.3122])
     array([  6.50751282e+03,   3.22335875e-03])
     >>> sorted(colour.UV_TO_CCT_METHODS.keys())
-    [u'Ohno 2013', u'Robertson 1968', u'ohno2013', u'robertson1968']
+    ['Ohno 2013', 'Robertson 1968', 'ohno2013', 'robertson1968']
     >>> sorted(colour.UV_TO_CCT_METHODS.keys())
-    [u'Krystek 1985',
-     u'Ohno 2013',
-     u'Robertson 1968',
-     u'ohno2013',
-     u'robertson1968']
+    ['Krystek 1985',
+     'Ohno 2013',
+     'Robertson 1968',
+     'ohno2013',
+     'robertson1968']
      >>> sorted(colour.XY_TO_CCT_METHODS.keys())
-     [u'Hernandez 1999', u'McCamy 1992', u'hernandez1999', u'mccamy1992']
+     ['Hernandez 1999', 'McCamy 1992', 'hernandez1999', 'mccamy1992']
      >>> sorted(colour.CCT_TO_XY_METHODS.keys())
-     [u'CIE Illuminant D Series', u'Kang 2002', su'cie_d', u'kang2002']
+     ['CIE Illuminant D Series', 'Kang 2002', 'cie_d', 'kang2002']
 
 Volume
 ^^^^^^
 
 .. code-block:: python
 
-    >>> colour.RGB_colourspace_volume_MonteCarlo(colour.sRGB_COLOURSPACE)
-    857011.5
+    >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE['sRGB'])
+    821958.30000000005
+
+Contrast Sensitivity Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> colour.contrast_sensitivity_function(u=4, X_0=60, E=65)
+    358.51180789884984
+    >>> sorted(colour.CONTRAST_SENSITIVITY_METHODS.keys())
+    ['Barten 1999']
 
 IO
 ^^
+
+Images
+******
+
+.. code-block:: python
+
+    >>> RGB = colour.read_image('Ishihara_Colour_Blindness_Test_Plate_3.png')
+    >>> RGB.shape
+    (276, 281, 3)
 
 Look Up Table (LUT) Data
 ************************
