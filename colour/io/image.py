@@ -127,8 +127,10 @@ def read_image(path, bit_depth='float32', attributes=False):
         shape = (specification.height, specification.width,
                  specification.nchannels)
 
-        image = np.squeeze(
-            np.array(image.read_image(bit_depth)).reshape(shape))
+        image_data = image.read_image(bit_depth)
+        image.close()
+        image = np.squeeze(np.array(image_data).reshape(shape))
+
         if attributes:
             extra_attributes = []
             for i in range(len(specification.extra_attribs)):
