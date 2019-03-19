@@ -23,7 +23,6 @@ API but will still be a good introduction.
     plot_visible_spectrum()
 
 
-
 .. image:: _static/Tutorial_Visible_Spectrum.png
 
 
@@ -39,6 +38,7 @@ around various sub-packages:
 -  :doc:`biochemistry <colour.biochemistry>`: Biochemistry computations.
 -  :doc:`blindness <colour.blindness>`: Colour vision deficiency models.
 -  :doc:`continuous <colour.continuous>`: Base objects for continuous data representation.
+-  :doc:`contrast <colour.contrast>`: Objects for contrast sensitivity computation.
 -  :doc:`characterisation <colour.characterisation>`: Colour fitting and camera characterisation.
 -  :doc:`colorimetry <colour.colorimetry>`: Core objects for colour computations.
 -  :doc:`constants <colour.constants>`: *CIE* and *CODATA* constants.
@@ -69,7 +69,7 @@ Most of the public API is available from the root ``colour`` namespace:
 
 .. code-block:: text
 
-    ['handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors', 'print_numpy_errors', 'warn_numpy_errors', '...']
+    ['domain_range_scale', 'get_domain_range_scale', 'set_domain_range_scale', 'CHROMATIC_ADAPTATION_METHODS', 'CHROMATIC_ADAPTATION_TRANSFORMS', '...']
 
 
 The various sub-packages also expose their public API:
@@ -82,7 +82,7 @@ The various sub-packages also expose their public API:
 
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
                         'blindness', 'characterisation', 'colorimetry',
-                        'constants', 'continuous', 'corresponding',
+                        'constants', 'continuous', 'contrast', 'corresponding',
                         'difference', 'io', 'models', 'notation', 'phenomena',
                         'plotting', 'quality', 'recovery', 'temperature',
                         'utilities', 'volume'):
@@ -139,29 +139,33 @@ The various sub-packages also expose their public API:
      'RGB_DisplayPrimaries',
      'CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
      'COLOURCHECKERS',
-     'COLOURCHECKER_INDEXES_TO_NAMES_MAPPING',
+     'ColourChecker',
      '...']
 
 
     Colorimetry
     ['SpectralShape',
+     'DEFAULT_SPECTRAL_SHAPE',
      'SpectralDistribution',
      'MultiSpectralDistribution',
-     'DEFAULT_SPECTRAL_SHAPE',
-     'sd_constant',
+     'sd_blackbody',
      '...']
+
+
+    Constants
+    ['K_M', 'KP_M', 'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', '...']
 
 
     Continuous
     ['AbstractContinuousFunction', 'Signal', 'MultiSignal', '...']
 
 
-    Constants
-    ['K_M',
-     'KP_M',
-     'AVOGADRO_CONSTANT',
-     'BOLTZMANN_CONSTANT',
-     'LIGHT_SPEED',
+    Contrast
+    ['optical_MTF_Barten1999',
+     'pupil_diameter_Barten1999',
+     'sigma_Barten1999',
+     'retinal_illuminance_Barten1999',
+     'maximum_angular_size_Barten1999',
      '...']
 
 
@@ -175,25 +179,30 @@ The various sub-packages also expose their public API:
 
 
     Difference
-    ['DELTA_E_METHODS',
-     'delta_E',
-     'delta_E_CIE1976',
-     'delta_E_CIE1994',
-     'delta_E_CIE2000',
+    ['delta_E_CAM02LCD',
+     'delta_E_CAM02SCD',
+     'delta_E_CAM02UCS',
+     'delta_E_CAM16LCD',
+     'delta_E_CAM16SCD',
      '...']
 
 
     Io
     ['SpectralDistribution_IESTM2714',
-     'read_image',
-     'write_image',
-     'read_spectral_data_from_csv_file',
-     'read_sds_from_csv_file',
+     'AbstractLUTSequenceOperator',
+     'LUT1D',
+     'LUT2D',
+     'LUT3D',
      '...']
 
 
     Models
-    ['XYZ_to_xyY', 'xyY_to_XYZ', 'xy_to_xyY', 'xyY_to_xy', 'xy_to_XYZ', '...']
+    ['JMh_CIECAM02_to_CAM02LCD',
+     'CAM02LCD_to_JMh_CIECAM02',
+     'JMh_CIECAM02_to_CAM02SCD',
+     'CAM02SCD_to_JMh_CIECAM02',
+     'JMh_CIECAM02_to_CAM02UCS',
+     '...']
 
 
     Notation
@@ -209,16 +218,16 @@ The various sub-packages also expose their public API:
     ['scattering_cross_section',
      'rayleigh_optical_depth',
      'rayleigh_scattering',
-     'rayleigh_scattering_sd',
+     'sd_rayleigh_scattering',
      '...']
 
 
     Plotting
     ['ASTM_G_173_ETR',
-     'PLOTTING_RESOURCES_DIRECTORY',
-     'DEFAULT_FIGURE_ASPECT_RATIO',
-     'DEFAULT_FIGURE_WIDTH',
-     'DEFAULT_FIGURE_HEIGHT',
+     'ASTM_G_173_GLOBAL_TILT',
+     'ASTM_G_173_DIRECT_CIRCUMSOLAR',
+     'COLOUR_STYLE_CONSTANTS',
+     'COLOUR_ARROW_STYLE',
      '...']
 
 
@@ -235,7 +244,7 @@ The various sub-packages also expose their public API:
     ['SMITS_1999_SDS',
      'XYZ_to_sd_Meng2015',
      'RGB_to_sd_Smits1999',
-     'REFLECTANCE_RECOVERY_METHODS',
+     'XYZ_TO_SD_METHODS',
      'XYZ_to_sd',
      '...']
 
@@ -250,11 +259,11 @@ The various sub-packages also expose their public API:
 
 
     Utilities
-    ['handle_numpy_errors',
+    ['Lookup',
+     'Structure',
+     'CaseInsensitiveMapping',
+     'handle_numpy_errors',
      'ignore_numpy_errors',
-     'raise_numpy_errors',
-     'print_numpy_errors',
-     'warn_numpy_errors',
      '...']
 
 
@@ -263,10 +272,8 @@ The various sub-packages also expose their public API:
      'is_within_macadam_limits',
      'is_within_mesh_volume',
      'is_within_pointer_gamut',
-     'is_within_visible_spectrum',
+     'generate_pulse_waves',
      '...']
-
-
 
 
 The code is documented and almost every docstrings have usage examples:
@@ -312,7 +319,6 @@ The code is documented and almost every docstrings have usage examples:
         array([ 0.1977999...,  0.3122004...])
 
 
-
 At the core of `Colour <https://github.com/colour-science/Colour/>`__ is
 the ``colour.colorimetry`` sub-package, it defines the objects needed
 for spectral related computations and many others:
@@ -327,12 +333,9 @@ for spectral related computations and many others:
 .. code-block:: text
 
     ['SpectralShape',
+     'DEFAULT_SPECTRAL_SHAPE',
      'SpectralDistribution',
      'MultiSpectralDistribution',
-     'DEFAULT_SPECTRAL_SHAPE',
-     'sd_constant',
-     'sd_zeros',
-     'sd_ones',
      'sd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
@@ -352,11 +355,38 @@ for spectral related computations and many others:
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS',
+     'sd_constant',
+     'sd_zeros',
+     'sd_ones',
+     'SD_GAUSSIAN_METHODS',
+     'sd_gaussian',
+     'sd_gaussian_normal',
+     'sd_gaussian_fwhm',
+     'SD_SINGLE_LED_METHODS',
+     'sd_single_led',
+     'sd_single_led_Ohno2005',
+     'SD_MULTI_LED_METHODS',
+     'sd_multi_led',
+     'sd_multi_led_Ohno2005',
+     'SD_TO_XYZ_METHODS',
+     'MULTI_SD_TO_XYZ_METHODS',
+     'sd_to_XYZ',
+     'multi_sd_to_XYZ',
+     'ASTME30815_PRACTISE_SHAPE',
+     'lagrange_coefficients_ASTME202211',
+     'tristimulus_weighting_factors_ASTME202211',
+     'adjust_tristimulus_weighting_factors_ASTME30815',
+     'sd_to_XYZ_integration',
+     'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+     'sd_to_XYZ_ASTME30815',
+     'multi_sd_to_XYZ_integration',
+     'wavelength_to_XYZ',
      'BANDPASS_CORRECTION_METHODS',
      'bandpass_correction',
      'bandpass_correction_Stearns1988',
-     'sd_CIE_illuminant_D_series',
      'sd_CIE_standard_illuminant_A',
+     'sd_CIE_illuminant_D_series',
+     'daylight_locus_function',
      'sd_mesopic_luminous_efficiency_function',
      'mesopic_weighting_function',
      'LIGHTNESS_METHODS',
@@ -366,6 +396,7 @@ for spectral related computations and many others:
      'lightness_CIE1976',
      'lightness_Fairchild2010',
      'lightness_Fairchild2011',
+     'intermediate_lightness_function_CIE1976',
      'LUMINANCE_METHODS',
      'luminance',
      'luminance_Newhall1943',
@@ -373,6 +404,7 @@ for spectral related computations and many others:
      'luminance_CIE1976',
      'luminance_Fairchild2010',
      'luminance_Fairchild2011',
+     'intermediate_luminance_function_CIE1976',
      'dominant_wavelength',
      'complementary_wavelength',
      'excitation_purity',
@@ -385,16 +417,6 @@ for spectral related computations and many others:
      'RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
      'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
      'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
-     'SPECTRAL_TO_XYZ_METHODS',
-     'sd_to_XYZ',
-     'ASTME30815_PRACTISE_SHAPE',
-     'lagrange_coefficients_ASTME202211',
-     'tristimulus_weighting_factors_ASTME202211',
-     'adjust_tristimulus_weighting_factors_ASTME30815',
-     'sd_to_XYZ_integration',
-     'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-     'sd_to_XYZ_ASTME30815',
-     'wavelength_to_XYZ',
      'WHITENESS_METHODS',
      'whiteness',
      'whiteness_Berger1959',
@@ -439,12 +461,11 @@ following data:
 
 
 From Spectral Distribution
---------------------------------
+--------------------------
 
 Whether it be a sample spectral distribution, colour matching
 functions or illuminants, spectral data is manipulated using an object
-built with the ``colour.SpectralDistribution`` class or based on
-it:
+built with the ``colour.SpectralDistribution`` class or based on it:
 
 .. code:: python
 
@@ -539,90 +560,90 @@ it:
 .. code-block:: text
 
     SpectralDistribution([[  3.80000000e+02,   4.80000000e-02],
-                               [  3.85000000e+02,   5.10000000e-02],
-                               [  3.90000000e+02,   5.50000000e-02],
-                               [  3.95000000e+02,   6.00000000e-02],
-                               [  4.00000000e+02,   6.50000000e-02],
-                               [  4.05000000e+02,   6.80000000e-02],
-                               [  4.10000000e+02,   6.80000000e-02],
-                               [  4.15000000e+02,   6.70000000e-02],
-                               [  4.20000000e+02,   6.40000000e-02],
-                               [  4.25000000e+02,   6.20000000e-02],
-                               [  4.30000000e+02,   5.90000000e-02],
-                               [  4.35000000e+02,   5.70000000e-02],
-                               [  4.40000000e+02,   5.50000000e-02],
-                               [  4.45000000e+02,   5.40000000e-02],
-                               [  4.50000000e+02,   5.30000000e-02],
-                               [  4.55000000e+02,   5.30000000e-02],
-                               [  4.60000000e+02,   5.20000000e-02],
-                               [  4.65000000e+02,   5.20000000e-02],
-                               [  4.70000000e+02,   5.20000000e-02],
-                               [  4.75000000e+02,   5.30000000e-02],
-                               [  4.80000000e+02,   5.40000000e-02],
-                               [  4.85000000e+02,   5.50000000e-02],
-                               [  4.90000000e+02,   5.70000000e-02],
-                               [  4.95000000e+02,   5.90000000e-02],
-                               [  5.00000000e+02,   6.10000000e-02],
-                               [  5.05000000e+02,   6.20000000e-02],
-                               [  5.10000000e+02,   6.50000000e-02],
-                               [  5.15000000e+02,   6.70000000e-02],
-                               [  5.20000000e+02,   7.00000000e-02],
-                               [  5.25000000e+02,   7.20000000e-02],
-                               [  5.30000000e+02,   7.40000000e-02],
-                               [  5.35000000e+02,   7.50000000e-02],
-                               [  5.40000000e+02,   7.60000000e-02],
-                               [  5.45000000e+02,   7.80000000e-02],
-                               [  5.50000000e+02,   7.90000000e-02],
-                               [  5.55000000e+02,   8.20000000e-02],
-                               [  5.60000000e+02,   8.70000000e-02],
-                               [  5.65000000e+02,   9.20000000e-02],
-                               [  5.70000000e+02,   1.00000000e-01],
-                               [  5.75000000e+02,   1.07000000e-01],
-                               [  5.80000000e+02,   1.15000000e-01],
-                               [  5.85000000e+02,   1.22000000e-01],
-                               [  5.90000000e+02,   1.29000000e-01],
-                               [  5.95000000e+02,   1.34000000e-01],
-                               [  6.00000000e+02,   1.38000000e-01],
-                               [  6.05000000e+02,   1.42000000e-01],
-                               [  6.10000000e+02,   1.46000000e-01],
-                               [  6.15000000e+02,   1.50000000e-01],
-                               [  6.20000000e+02,   1.54000000e-01],
-                               [  6.25000000e+02,   1.58000000e-01],
-                               [  6.30000000e+02,   1.63000000e-01],
-                               [  6.35000000e+02,   1.67000000e-01],
-                               [  6.40000000e+02,   1.73000000e-01],
-                               [  6.45000000e+02,   1.80000000e-01],
-                               [  6.50000000e+02,   1.88000000e-01],
-                               [  6.55000000e+02,   1.96000000e-01],
-                               [  6.60000000e+02,   2.04000000e-01],
-                               [  6.65000000e+02,   2.13000000e-01],
-                               [  6.70000000e+02,   2.22000000e-01],
-                               [  6.75000000e+02,   2.31000000e-01],
-                               [  6.80000000e+02,   2.42000000e-01],
-                               [  6.85000000e+02,   2.51000000e-01],
-                               [  6.90000000e+02,   2.61000000e-01],
-                               [  6.95000000e+02,   2.71000000e-01],
-                               [  7.00000000e+02,   2.82000000e-01],
-                               [  7.05000000e+02,   2.94000000e-01],
-                               [  7.10000000e+02,   3.05000000e-01],
-                               [  7.15000000e+02,   3.18000000e-01],
-                               [  7.20000000e+02,   3.34000000e-01],
-                               [  7.25000000e+02,   3.54000000e-01],
-                               [  7.30000000e+02,   3.72000000e-01],
-                               [  7.35000000e+02,   3.92000000e-01],
-                               [  7.40000000e+02,   4.09000000e-01],
-                               [  7.45000000e+02,   4.20000000e-01],
-                               [  7.50000000e+02,   4.36000000e-01],
-                               [  7.55000000e+02,   4.50000000e-01],
-                               [  7.60000000e+02,   4.62000000e-01],
-                               [  7.65000000e+02,   4.65000000e-01],
-                               [  7.70000000e+02,   4.48000000e-01],
-                               [  7.75000000e+02,   4.32000000e-01],
-                               [  7.80000000e+02,   4.21000000e-01]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
+                          [  3.85000000e+02,   5.10000000e-02],
+                          [  3.90000000e+02,   5.50000000e-02],
+                          [  3.95000000e+02,   6.00000000e-02],
+                          [  4.00000000e+02,   6.50000000e-02],
+                          [  4.05000000e+02,   6.80000000e-02],
+                          [  4.10000000e+02,   6.80000000e-02],
+                          [  4.15000000e+02,   6.70000000e-02],
+                          [  4.20000000e+02,   6.40000000e-02],
+                          [  4.25000000e+02,   6.20000000e-02],
+                          [  4.30000000e+02,   5.90000000e-02],
+                          [  4.35000000e+02,   5.70000000e-02],
+                          [  4.40000000e+02,   5.50000000e-02],
+                          [  4.45000000e+02,   5.40000000e-02],
+                          [  4.50000000e+02,   5.30000000e-02],
+                          [  4.55000000e+02,   5.30000000e-02],
+                          [  4.60000000e+02,   5.20000000e-02],
+                          [  4.65000000e+02,   5.20000000e-02],
+                          [  4.70000000e+02,   5.20000000e-02],
+                          [  4.75000000e+02,   5.30000000e-02],
+                          [  4.80000000e+02,   5.40000000e-02],
+                          [  4.85000000e+02,   5.50000000e-02],
+                          [  4.90000000e+02,   5.70000000e-02],
+                          [  4.95000000e+02,   5.90000000e-02],
+                          [  5.00000000e+02,   6.10000000e-02],
+                          [  5.05000000e+02,   6.20000000e-02],
+                          [  5.10000000e+02,   6.50000000e-02],
+                          [  5.15000000e+02,   6.70000000e-02],
+                          [  5.20000000e+02,   7.00000000e-02],
+                          [  5.25000000e+02,   7.20000000e-02],
+                          [  5.30000000e+02,   7.40000000e-02],
+                          [  5.35000000e+02,   7.50000000e-02],
+                          [  5.40000000e+02,   7.60000000e-02],
+                          [  5.45000000e+02,   7.80000000e-02],
+                          [  5.50000000e+02,   7.90000000e-02],
+                          [  5.55000000e+02,   8.20000000e-02],
+                          [  5.60000000e+02,   8.70000000e-02],
+                          [  5.65000000e+02,   9.20000000e-02],
+                          [  5.70000000e+02,   1.00000000e-01],
+                          [  5.75000000e+02,   1.07000000e-01],
+                          [  5.80000000e+02,   1.15000000e-01],
+                          [  5.85000000e+02,   1.22000000e-01],
+                          [  5.90000000e+02,   1.29000000e-01],
+                          [  5.95000000e+02,   1.34000000e-01],
+                          [  6.00000000e+02,   1.38000000e-01],
+                          [  6.05000000e+02,   1.42000000e-01],
+                          [  6.10000000e+02,   1.46000000e-01],
+                          [  6.15000000e+02,   1.50000000e-01],
+                          [  6.20000000e+02,   1.54000000e-01],
+                          [  6.25000000e+02,   1.58000000e-01],
+                          [  6.30000000e+02,   1.63000000e-01],
+                          [  6.35000000e+02,   1.67000000e-01],
+                          [  6.40000000e+02,   1.73000000e-01],
+                          [  6.45000000e+02,   1.80000000e-01],
+                          [  6.50000000e+02,   1.88000000e-01],
+                          [  6.55000000e+02,   1.96000000e-01],
+                          [  6.60000000e+02,   2.04000000e-01],
+                          [  6.65000000e+02,   2.13000000e-01],
+                          [  6.70000000e+02,   2.22000000e-01],
+                          [  6.75000000e+02,   2.31000000e-01],
+                          [  6.80000000e+02,   2.42000000e-01],
+                          [  6.85000000e+02,   2.51000000e-01],
+                          [  6.90000000e+02,   2.61000000e-01],
+                          [  6.95000000e+02,   2.71000000e-01],
+                          [  7.00000000e+02,   2.82000000e-01],
+                          [  7.05000000e+02,   2.94000000e-01],
+                          [  7.10000000e+02,   3.05000000e-01],
+                          [  7.15000000e+02,   3.18000000e-01],
+                          [  7.20000000e+02,   3.34000000e-01],
+                          [  7.25000000e+02,   3.54000000e-01],
+                          [  7.30000000e+02,   3.72000000e-01],
+                          [  7.35000000e+02,   3.92000000e-01],
+                          [  7.40000000e+02,   4.09000000e-01],
+                          [  7.45000000e+02,   4.20000000e-01],
+                          [  7.50000000e+02,   4.36000000e-01],
+                          [  7.55000000e+02,   4.50000000e-01],
+                          [  7.60000000e+02,   4.62000000e-01],
+                          [  7.65000000e+02,   4.65000000e-01],
+                          [  7.70000000e+02,   4.48000000e-01],
+                          [  7.75000000e+02,   4.32000000e-01],
+                          [  7.80000000e+02,   4.21000000e-01]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
 
 The sample spectral distribution can be easily plotted against the
@@ -632,7 +653,6 @@ visible spectrum:
 
     # Plotting the sample spectral distribution.
     plot_single_sd(sd)
-
 
 
 .. image:: _static/Tutorial_Sample_SD.png
@@ -659,12 +679,9 @@ The shape returned is an instance of ``colour.SpectralShape`` class:
     repr(sd.shape)
 
 
-
-
 .. code-block:: text
 
     'SpectralShape(380.0, 780.0, 5.0)'
-
 
 
 ``colour.SpectralShape`` is used throughout
@@ -698,14 +715,11 @@ spectral dimensions and is instantiated as follows:
     10.0
 
 
-
-
 .. code-block:: text
 
     array([  0. ,   0.5,   1. ,   1.5,   2. ,   2.5,   3. ,   3.5,   4. ,
              4.5,   5. ,   5.5,   6. ,   6.5,   7. ,   7.5,   8. ,   8.5,
              9. ,   9.5,  10. ])
-
 
 
 `Colour <https://github.com/colour-science/Colour/>`__ defines three
@@ -774,12 +788,9 @@ distribution with user defined dimensions:
     colour.sd_ones(colour.SpectralShape(400, 700, 5))[450]
 
 
-
-
 .. code-block:: text
 
     1.0
-
 
 
 The ``colour.SpectralDistribution`` class supports the following
@@ -862,19 +873,15 @@ interpolator.
     sd_copy[401]
 
 
-
-
 .. code-block:: text
 
     0.065809599999999996
-
 
 
 .. code:: python
 
     # Comparing the interpolated spectral distribution with the original one.
     plot_multi_sds([sd, sd_copy], bounding_box=[730,780, 0.25, 0.5])
-
 
 
 .. image:: _static/Tutorial_SD_Interpolation.png
@@ -892,12 +899,9 @@ nearest measured value of the appropriate quantity in truncation :cite:`CIETC1-4
     sd_copy[340], sd_copy[830]
 
 
-
-
 .. code-block:: text
 
     (0.065000000000000002, 0.44800000000000018)
-
 
 
 The underlying interpolator can be swapped for any of the
@@ -928,46 +932,43 @@ The underlying interpolator can be swapped for any of the
         colour.SpectralShape(400, 700, 10), interpolator=colour.LinearInterpolator)
 
 
-
-
 .. code-block:: text
 
     SpectralDistribution([[  4.00000000e+02,   6.50000000e-02],
-                               [  4.10000000e+02,   6.80000000e-02],
-                               [  4.20000000e+02,   6.40000000e-02],
-                               [  4.30000000e+02,   5.90000000e-02],
-                               [  4.40000000e+02,   5.50000000e-02],
-                               [  4.50000000e+02,   5.30000000e-02],
-                               [  4.60000000e+02,   5.20000000e-02],
-                               [  4.70000000e+02,   5.20000000e-02],
-                               [  4.80000000e+02,   5.40000000e-02],
-                               [  4.90000000e+02,   5.70000000e-02],
-                               [  5.00000000e+02,   6.10000000e-02],
-                               [  5.10000000e+02,   6.50000000e-02],
-                               [  5.20000000e+02,   7.00000000e-02],
-                               [  5.30000000e+02,   7.40000000e-02],
-                               [  5.40000000e+02,   7.60000000e-02],
-                               [  5.50000000e+02,   7.90000000e-02],
-                               [  5.60000000e+02,   8.70000000e-02],
-                               [  5.70000000e+02,   1.00000000e-01],
-                               [  5.80000000e+02,   1.15000000e-01],
-                               [  5.90000000e+02,   1.29000000e-01],
-                               [  6.00000000e+02,   1.38000000e-01],
-                               [  6.10000000e+02,   1.46000000e-01],
-                               [  6.20000000e+02,   1.54000000e-01],
-                               [  6.30000000e+02,   1.63000000e-01],
-                               [  6.40000000e+02,   1.73000000e-01],
-                               [  6.50000000e+02,   1.88000000e-01],
-                               [  6.60000000e+02,   2.04000000e-01],
-                               [  6.70000000e+02,   2.22000000e-01],
-                               [  6.80000000e+02,   2.42000000e-01],
-                               [  6.90000000e+02,   2.61000000e-01],
-                               [  7.00000000e+02,   2.82000000e-01]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
-
+                          [  4.10000000e+02,   6.80000000e-02],
+                          [  4.20000000e+02,   6.40000000e-02],
+                          [  4.30000000e+02,   5.90000000e-02],
+                          [  4.40000000e+02,   5.50000000e-02],
+                          [  4.50000000e+02,   5.30000000e-02],
+                          [  4.60000000e+02,   5.20000000e-02],
+                          [  4.70000000e+02,   5.20000000e-02],
+                          [  4.80000000e+02,   5.40000000e-02],
+                          [  4.90000000e+02,   5.70000000e-02],
+                          [  5.00000000e+02,   6.10000000e-02],
+                          [  5.10000000e+02,   6.50000000e-02],
+                          [  5.20000000e+02,   7.00000000e-02],
+                          [  5.30000000e+02,   7.40000000e-02],
+                          [  5.40000000e+02,   7.60000000e-02],
+                          [  5.50000000e+02,   7.90000000e-02],
+                          [  5.60000000e+02,   8.70000000e-02],
+                          [  5.70000000e+02,   1.00000000e-01],
+                          [  5.80000000e+02,   1.15000000e-01],
+                          [  5.90000000e+02,   1.29000000e-01],
+                          [  6.00000000e+02,   1.38000000e-01],
+                          [  6.10000000e+02,   1.46000000e-01],
+                          [  6.20000000e+02,   1.54000000e-01],
+                          [  6.30000000e+02,   1.63000000e-01],
+                          [  6.40000000e+02,   1.73000000e-01],
+                          [  6.50000000e+02,   1.88000000e-01],
+                          [  6.60000000e+02,   2.04000000e-01],
+                          [  6.70000000e+02,   2.22000000e-01],
+                          [  6.80000000e+02,   2.42000000e-01],
+                          [  6.90000000e+02,   2.61000000e-01],
+                          [  7.00000000e+02,   2.82000000e-01]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
 
 The extrapolation behaviour can be changed for *Linear* method instead
@@ -984,12 +985,9 @@ and *right* values:
     sd_copy[340], sd_copy[830]
 
 
-
-
 .. code-block:: text
 
     (0.046999999999999348, 0.0)
-
 
 
 Aligning a spectral distribution is a convenient way to first
@@ -1005,12 +1003,9 @@ required, extrapolate any missing values to match the requested shape:
     sd_copy[340], sd_copy[830]
 
 
-
-
 .. code-block:: text
 
     (0.065000000000000002, 0.28199999999999975)
-
 
 
 The ``colour.SpectralDistribution`` class also supports various
@@ -1109,14 +1104,11 @@ this tutorial but we can illustrate its core capability.
     signal[np.random.uniform(0, 9, 10)]
 
 
-
-
 .. code-block:: text
 
     array([ 55.91309735,  65.4172615 ,  65.54495059,  88.17819416,
             61.88860248,  10.53878826,  55.25130534,  46.14659783,
             86.41406136,  84.59897703])
-
 
 
 Convert to Tristimulus Values
@@ -1141,7 +1133,6 @@ can be calculated:
     [ 10.97085572   9.70278591   6.05562778]
 
 
-
 From *CIE XYZ* Colourspace
 --------------------------
 
@@ -1156,29 +1147,29 @@ computations are available, cascading to even more computations:
 
 .. code-block:: text
 
-    ['XYZ_to_Hunt',
-     'XYZ_to_ATD95',
+    ['XYZ_to_ATD95',
+     'XYZ_to_CAM16',
      'XYZ_to_CIECAM02',
+     'XYZ_to_Hunt',
      'XYZ_to_LLAB',
      'XYZ_to_Nayatani95',
      'XYZ_to_RLAB',
-     'XYZ_to_xyY',
-     'XYZ_to_xy',
+     'XYZ_to_Hunter_Lab',
+     'XYZ_to_Hunter_Rdab',
+     'XYZ_to_IPT',
+     'XYZ_to_JzAzBz',
+     'XYZ_to_K_ab_HunterLab1966',
      'XYZ_to_Lab',
      'XYZ_to_Luv',
+     'XYZ_to_OSA_UCS',
+     'XYZ_to_RGB',
      'XYZ_to_UCS',
      'XYZ_to_UVW',
      'XYZ_to_hdr_CIELab',
-     'XYZ_to_K_ab_HunterLab1966',
-     'XYZ_to_Hunter_Lab',
-     'XYZ_to_Hunter_Rdab',
-     'XYZ_to_Hunter_Rdab',
-     'XYZ_to_IPT',
      'XYZ_to_hdr_IPT',
-     'XYZ_to_colourspace_model',
-     'XYZ_to_RGB',
      'XYZ_to_sRGB',
-     'XYZ_to_sd_Meng2015',
+     'XYZ_to_xy',
+     'XYZ_to_xyY',
      'XYZ_to_sd']
 
 
@@ -1208,7 +1199,6 @@ We can for instance converts the *CIE XYZ* tristimulus values into
     plot_single_colour_swatch(
         ColourSwatch('Sample', RGB),
         text_parameters={'size': 'x-large'})
-
 
 
 .. image:: _static/Tutorial_Sample_Swatch.png
@@ -1265,7 +1255,6 @@ various colour rendition charts:
         text_parameters={'size': 'x-large'})
 
 
-
 .. image:: _static/Tutorial_Neutral5.png
 
 
@@ -1276,7 +1265,6 @@ figures:
 .. code:: python
 
     plot_single_colour_checker(colour_checker='ColorChecker 2005', text_parameters={'visible': False})
-
 
 
 .. image:: _static/Tutorial_Colour_Checker.png
@@ -1329,7 +1317,6 @@ Chromaticity Diagram*:
         limits=(-0.1, 0.9, -0.1, 0.9),
         x_tighten=True,
         y_tighten=True)
-
 
 
 .. image:: _static/Tutorial_CIE_1931_Chromaticity_Diagram.png

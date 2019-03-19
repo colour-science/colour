@@ -66,7 +66,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Illuminant_F1_SD.png')
-    plot_single_illuminant_sd('F1', **arguments)
+    plot_single_illuminant_sd('FL1', **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_Blackbodies.png')
@@ -143,7 +143,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_CRI.png')
-    plot_single_sd_colour_rendering_index_bars(colour.ILLUMINANTS_SDS['F2'],
+    plot_single_sd_colour_rendering_index_bars(colour.ILLUMINANTS_SDS['FL2'],
                                                **arguments)
 
     # *************************************************************************
@@ -427,7 +427,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Colour_Quality_Bars.png')
-    illuminant = colour.ILLUMINANTS_SDS['F2']
+    illuminant = colour.ILLUMINANTS_SDS['FL2']
     light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
     light_source = light_source.copy().align(colour.SpectralShape(360, 830, 1))
     cqs_i = colour.colour_quality_scale(illuminant, additional_data=True)
@@ -437,7 +437,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Single_SD_Colour_Rendering_Index_Bars.png')
-    illuminant = colour.ILLUMINANTS_SDS['F2']
+    illuminant = colour.ILLUMINANTS_SDS['FL2']
     plot_single_sd_colour_rendering_index_bars(illuminant, **arguments)
 
     arguments['filename'] = os.path.join(
@@ -450,7 +450,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Single_SD_Colour_Quality_Scale_Bars.png')
-    illuminant = colour.ILLUMINANTS_SDS['F2']
+    illuminant = colour.ILLUMINANTS_SDS['FL2']
     plot_single_sd_colour_quality_scale_bars(illuminant, **arguments)
 
     arguments['filename'] = os.path.join(
