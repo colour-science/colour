@@ -6,7 +6,7 @@ Digital Cinema Distribution Master (DCDM)
 Defines the *DCDM* opto-electrical transfer function (OETF / OECF) and
 electro-optical transfer function (EOTF / EOCF):
 
--   :func:`colour.models.oetf_DCDM`
+-   :func:`colour.models.eotf_reverse_DCDM`
 -   :func:`colour.models.eotf_DCDM`
 
 See Also
@@ -38,12 +38,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_DCDM', 'eotf_DCDM']
+__all__ = ['eotf_reverse_DCDM', 'eotf_DCDM']
 
 
-def oetf_DCDM(XYZ, out_int=False):
+def eotf_reverse_DCDM(XYZ, out_int=False):
     """
-    Defines the *DCDM* opto-electronic transfer function (OETF / OECF).
+    Defines the *DCDM* reverse electro-optical transfer function (EOTF / EOCF).
 
     Parameters
     ----------
@@ -82,9 +82,9 @@ def oetf_DCDM(XYZ, out_int=False):
 
     Examples
     --------
-    >>> oetf_DCDM(0.18)  # doctest: +ELLIPSIS
+    >>> eotf_reverse_DCDM(0.18)  # doctest: +ELLIPSIS
     0.1128186...
-    >>> oetf_DCDM(0.18, out_int=True)
+    >>> eotf_reverse_DCDM(0.18, out_int=True)
     462
     """
 

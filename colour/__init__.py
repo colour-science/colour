@@ -61,7 +61,7 @@ from .colorimetry import (
     ILLUMINANTS_SDS, LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCES_SDS,
     LMS_CMFS, LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS,
     MultiSpectralDistribution, PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS,
-    SD_GAUSSIAN_METHODS, SD_MULTI_LED_METHODS, SD_SINGLE_LED_METHODS,
+    SD_GAUSSIAN_METHODS, SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS,
     SD_TO_XYZ_METHODS, STANDARD_OBSERVERS_CMFS, SpectralDistribution,
     SpectralShape, WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
@@ -69,7 +69,7 @@ from .colorimetry import (
     luminous_efficiency, luminous_flux, multi_sd_to_XYZ,
     sd_CIE_standard_illuminant_A, sd_CIE_illuminant_D_series, sd_blackbody,
     sd_constant, sd_gaussian, sd_mesopic_luminous_efficiency_function,
-    sd_multi_led, sd_ones, sd_single_led, sd_zeros, sd_to_XYZ,
+    sd_multi_leds, sd_ones, sd_single_led, sd_zeros, sd_to_XYZ,
     wavelength_to_XYZ, whiteness, yellowness)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
@@ -175,15 +175,16 @@ __all__ += [
     'ILLUMINANTS_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
     'LIGHT_SOURCES_SDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
     'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistribution', 'PHOTOPIC_LEFS',
-    'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS', 'SD_MULTI_LED_METHODS',
-    'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS', 'STANDARD_OBSERVERS_CMFS',
-    'SpectralDistribution', 'SpectralShape', 'WHITENESS_METHODS',
-    'YELLOWNESS_METHODS', 'bandpass_correction', 'colorimetric_purity',
-    'complementary_wavelength', 'dominant_wavelength', 'excitation_purity',
-    'lightness', 'luminance', 'luminous_efficacy', 'luminous_efficiency',
-    'luminous_flux', 'multi_sd_to_XYZ', 'sd_CIE_standard_illuminant_A',
-    'sd_CIE_illuminant_D_series', 'sd_blackbody', 'sd_constant', 'sd_gaussian',
-    'sd_mesopic_luminous_efficiency_function', 'sd_multi_led', 'sd_ones',
+    'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS',
+    'SD_MULTI_LEDS_METHODS', 'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS',
+    'STANDARD_OBSERVERS_CMFS', 'SpectralDistribution', 'SpectralShape',
+    'WHITENESS_METHODS', 'YELLOWNESS_METHODS', 'bandpass_correction',
+    'colorimetric_purity', 'complementary_wavelength', 'dominant_wavelength',
+    'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
+    'luminous_efficiency', 'luminous_flux', 'multi_sd_to_XYZ',
+    'sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series',
+    'sd_blackbody', 'sd_constant', 'sd_gaussian',
+    'sd_mesopic_luminous_efficiency_function', 'sd_multi_leds', 'sd_ones',
     'sd_zeros', 'sd_single_led', 'sd_to_XYZ', 'wavelength_to_XYZ', 'whiteness',
     'yellowness'
 ]
@@ -649,7 +650,7 @@ API_CHANGES = {
             'colour.models.eotf_BT2100_PQ',
         ],
         [
-            'colour.eotf_DCDM',
+            'colour.eotf_DCIP3',
             'colour.models.eotf_DCDM',
         ],
         [
@@ -1109,8 +1110,8 @@ API_CHANGES = {
             'colour.models.oetf_BT709',
         ],
         [
-            'colour.oetf_DCDM',
-            'colour.models.oetf_DCDM',
+            'colour.oetf_DCIP3',
+            'colour.models.eotf_reverse_DCIP3',
         ],
         [
             'colour.oetf_DICOMGSDF',
