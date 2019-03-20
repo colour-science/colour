@@ -650,7 +650,7 @@ API_CHANGES = {
             'colour.models.eotf_BT2100_PQ',
         ],
         [
-            'colour.eotf_DCDM',
+            'colour.eotf_DCIP3',
             'colour.models.eotf_DCDM',
         ],
         [
@@ -1110,8 +1110,8 @@ API_CHANGES = {
             'colour.models.oetf_BT709',
         ],
         [
-            'colour.oetf_DCDM',
-            'colour.models.oetf_DCDM',
+            'colour.oetf_DCIP3',
+            'colour.models.eotf_reverse_DCIP3',
         ],
         [
             'colour.oetf_DICOMGSDF',

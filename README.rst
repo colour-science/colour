@@ -583,7 +583,6 @@ OETFs
 
     >>> sorted(colour.OETFS.keys())
     ['ARIB STD-B67',
-     'DCDM',
      'DICOM GSDF',
      'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',

@@ -27,7 +27,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, eotf_DCDM,
-                               normalised_primary_matrix, oetf_DCDM)
+                               normalised_primary_matrix, eotf_reverse_DCDM)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -89,7 +89,7 @@ DCDM_XYZ_COLOURSPACE = RGB_Colourspace(
     DCDM_XYZ_WHITEPOINT_NAME,
     DCDM_XYZ_TO_XYZ_MATRIX,
     XYZ_TO_DCDM_XYZ_MATRIX,
-    oetf_DCDM,
+    eotf_reverse_DCDM,
     eotf_DCDM,
 )
 DCDM_XYZ_COLOURSPACE.__doc__ = """
