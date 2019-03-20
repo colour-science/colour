@@ -25,6 +25,10 @@ Defines various objects for *Munsell Renotation System* computations:
 -   :func:`colour.notation.munsell_value_ASTMD153508`: *Munsell* value
     :math:`V` computation of given *luminance* :math:`Y` using
     *ASTM D1535-08e1* method.
+-   :attr:`colour.MUNSELL_VALUE_METHODS`: Supported *Munsell* value
+    computations methods.
+-   :func:`colour.munsell_value`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using given method.
 -   :func:`colour.munsell_colour_to_xyY`
 -   :func:`colour.xyY_to_munsell_colour`
 

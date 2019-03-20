@@ -10,7 +10,7 @@ from colour.utilities import message_box
 
 message_box('"Y\'CbCr" Colour Encoding Computations')
 
-RGB = np.array([0.70573936, 0.19248268, 0.22354168])
+RGB = np.array([0.45620519, 0.03081071, 0.04091952])
 message_box(
     ('Converting to "Y\'CbCr" colour encoding from given "ITU-R BT.709" '
      'colourspace values:\n'

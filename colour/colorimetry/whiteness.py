@@ -22,6 +22,10 @@ Defines *whiteness* index :math:`W` computation objects:
 -   :func:`colour.colorimetry.whiteness_CIE2004`: *Whiteness* :math:`W` or
     :math:`W_{10}` and *tint* :math:`T` or :math:`T_{10}` computation of given
     sample *xy* chromaticity coordinates using *CIE 2004* method.
+-   :attr:`colour.WHITENESS_METHODS`: Supported *whiteness* computations
+    methods.
+-   :func:`colour.whiteness`: *Whiteness* :math:`W` computation using given
+    method.
 
 See Also
 --------

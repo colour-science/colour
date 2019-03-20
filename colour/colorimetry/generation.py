@@ -10,8 +10,14 @@ Defines various objects performing spectral generation:
 -   :func:`colour.sd_ones`
 -   :func:`colour.colorimetry.sd_gaussian_normal`
 -   :func:`colour.colorimetry.sd_gaussian_fwhm`
+-   :attr:`colour.SD_GAUSSIAN_METHODS`
+-   :func:`colour.sd_gaussian`
 -   :func:`colour.colorimetry.sd_single_led_Ohno2005`
+-   :attr:`colour.SD_SINGLE_LED_METHODS`
+-   :func:`colour.sd_single_led`
 -   :func:`colour.colorimetry.sd_multi_led_Ohno2005`
+-   :attr:`colour.SD_MULTI_LED_METHODS`
+-   :func:`colour.sd_multi_led`
 
 See Also
 --------

@@ -21,6 +21,10 @@ The following methods are available:
 -   :func:`colour.colorimetry.lightness_Fairchild2011`: *Lightness*
     :math:`L_{hdr}` computation of given *luminance* :math:`Y` using
     *Fairchild and Chen (2011)* method.
+-   :attr:`colour.LIGHTNESS_METHODS`: Supported *Lightness* :math:`L`
+    computations methods.
+-   :func:`colour.lightness`: *Lightness* :math:`L` computation of given
+    *luminance* :math:`Y` using given method.
 
 See Also
 --------
@@ -440,7 +444,8 @@ LIGHTNESS_METHODS['Lstar1976'] = LIGHTNESS_METHODS['CIE 1976']
 
 def lightness(Y, method='CIE 1976', **kwargs):
     """
-    Returns the *Lightness* :math:`L` using given method.
+    Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
+    given method.
 
     Parameters
     ----------

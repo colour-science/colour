@@ -94,52 +94,54 @@ Special Mentions
 Issues & Discussions
 --------------------
 
--   Ryan Bass
--   Giuseppe Di Guglielmo
--   Vlad Enache
--   Christophe Go
--   Michal Krompiec
--   Max Marrone
--   Marie Meyer
--   Nick Porcino
--   Iman Sajedian
--   Nick Spiker
 -   Albert Szostkiewicz
+-   Christophe Go
+-   Giuseppe Di Guglielmo
+-   Iman Sajedian
+-   Marie Meyer
+-   Max Marrone
+-   Michal Krompiec
+-   Nick Porcino
+-   Nick Spiker
+-   Ryan Bass
 -   Vishal Vashistha
+-   Vlad Enache
 -   @Ampersandme
--   @Chandler
--   @Edwardlin-zlt
--   @Floschoe
--   @Kunkka1988
--   @Legendin
--   @Rob-Welch
--   @Ron024
--   @TFiFiE
--   @Willingo
 -   @awehring
 -   @brandondube
 -   @briend
 -   @cclauss
+-   @Chandler
 -   @codycuellar
--   @fangjy88
--   @habemus-papadum
+-   @Edwardlin-zlt
 -   @eyeforcolor
+-   @fangjy88
+-   @Floschoe
 -   @foutoucour
+-   @habemus-papadum
 -   @henczati
--   @jaguarondi
 -   @iCagarro
 -   @iinnovations
+-   @jaguarondi
+-   @KOLANICH
+-   @Kunkka1988
+-   @Legendin
 -   @lensz
 -   @naavis
 -   @nschloe
 -   @peteroupc
+-   @Queuecumber
+-   @Rob-Welch
 -   @robbuckley
+-   @Ron024
 -   @shanest
 -   @sobotka
 -   @stakemura
 -   @tashdor
+-   @TFiFiE
 -   @tingeman
 -   @totyped
+-   @Willingo
 -   @zachlewis
 
 About
