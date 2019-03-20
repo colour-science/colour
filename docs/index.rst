@@ -570,6 +570,19 @@ OETFs
      'ST 2084',
      'sRGB']
 
+OETFs Reverse
+^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> sorted(colour.OETFS_REVERSE.keys())
+    ['ARIB STD-B67',
+     'ITU-R BT.2100 HLD',
+     'ITU-R BT.2100 PQ',
+     'ITU-R BT.601',
+     'ITU-R BT.709',
+     'sRGB']
+
 EOTFs
 ^^^^^
 
@@ -588,12 +601,28 @@ EOTFs
      'SMPTE 240M',
      'ST 2084']
 
+EOTFs Reverse
+^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> sorted(colour.EOTFS_REVERSE.keys())
+    ['DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
+
 OOTFs
 ^^^^^
 
 .. code-block:: python
 
     >>> sorted(colour.OOTFS.keys())
+    ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
+
+OOTFs Reverse
+^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> sorted(colour.OOTFs_REVERSE.keys())
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
 Log Encoding / Decoding Curves
