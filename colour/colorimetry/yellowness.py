@@ -11,6 +11,10 @@ Defines *yellowness* index :math:`Y` computation objects:
 -   :func:`colour.colorimetry.yellowness_ASTME313`: *Yellowness* index
     :math:`YI` computation of given sample *CIE XYZ* tristimulus values using
     *ASTM E313* method.
+-   :attr:`colour.YELLOWNESS_METHODS`: Supported *yellowness* computations
+    methods.
+-   :func:`colour.whiteness`: *Yellowness* :math:`YI` computation using given
+    method.
 
 See Also
 --------

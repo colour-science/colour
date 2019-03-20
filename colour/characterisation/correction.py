@@ -12,6 +12,10 @@ Defines various objects for colour correction, like colour matching two images:
     method.
 -   :func:`colour.characterisation.polynomial_expansion_Vandermonde` :
     Polynomial expansion using *Vandermonde* method.
+-   :attr:`colour.POLYNOMIAL_EXPANSION_METHODS`: Supported polynomial expansion
+    methods.
+-   :func:`colour.polynomial_expansion`: Polynomial expansion of given
+    :math:`a` array.
 -   :func:`colour.characterisation.colour_correction_matrix_Cheung2004` :
     Colour correction matrix computation using *Cheung et al. (2004)* method.
 -   :func:`colour.characterisation.colour_correction_matrix_Finlayson2015` :
@@ -19,12 +23,22 @@ Defines various objects for colour correction, like colour matching two images:
     method.
 -   :func:`colour.characterisation.colour_correction_matrix_Vandermonde`
     Colour correction matrix computation using *Vandermonde* method.
+-   :attr:`colour.COLOUR_CORRECTION_MATRIX_METHODS`: Supported colour
+    correction matrix methods.
+-   :func:`colour.colour_correction_matrix`: Colour correction matrix
+    computation from given :math:`M_T` colour array to :math:`M_R` colour
+    array.
 -   :func:`colour.characterisation.colour_correction_Cheung2004` :
     Colour correction using *Cheung et al. (2004)* method.
 -   :func:`colour.characterisation.colour_correction_Finlayson2015` :
     Colour correction using *Finlayson et al. (2015)* method.
 -   :func:`colour.characterisation.colour_correction_Vandermonde` :
     Colour correction using *Vandermonde* method.
+-   :attr:`colour.COLOUR_CORRECTION_METHODS`: Supported colour correction
+    methods.
+-   :func:`colour.colour_correction`: Colour correction of given *RGB*
+    colourspace array using the colour correction matrix from given
+    :math:`M_T` colour array to :math:`M_R` colour array.
 
 See Also
 --------
@@ -139,8 +153,8 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
         ])
     elif terms == 14:
         return tstack([
-            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B, R
-            ** 3, G ** 3, B ** 3, ones
+            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
+            R ** 3, G ** 3, B ** 3, ones
         ])
     elif terms == 16:
         return tstack([
@@ -240,8 +254,8 @@ def polynomial_expansion_Finlayson2015(RGB,
             ])
         else:
             return tstack([
-                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3, G
-                ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
+                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3,
+                G ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
                 B * G ** 2, B * R ** 2, R * G * B
             ])
     elif degree == 4:
@@ -259,8 +273,8 @@ def polynomial_expansion_Finlayson2015(RGB,
             ])
         else:
             return tstack([
-                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3, G
-                ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
+                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3,
+                G ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
                 B * G ** 2, B * R ** 2, R * G * B, R ** 4, G ** 4, B ** 4,
                 R ** 3 * G, R ** 3 * B, G ** 3 * R, G ** 3 * B, B ** 3 * R,
                 B ** 3 * G, R ** 2 * G ** 2, G ** 2 * B ** 2, R ** 2 * B ** 2,
@@ -418,7 +432,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
                                            degree=1,
                                            root_polynomial_expansion=True):
     """
-    Computes a colour correction from given :math:`M_T` colour array to
+    Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
     Parameters
@@ -459,7 +473,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
 
 def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
     """
-    Computes a colour correction from given :math:`M_T` colour array to
+    Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Vandermonde* method.
 
     Parameters
@@ -515,7 +529,7 @@ POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
 
 def colour_correction_matrix(M_T, M_R, method='Cheung 2004', **kwargs):
     """
-    Computes a colour correction from given :math:`M_T` colour array to
+    Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array.
 
     The resulting colour correction matrix is computed using multiple linear or

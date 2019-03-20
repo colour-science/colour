@@ -20,6 +20,18 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
     *uv* chromaticity coordinates computation of given correlated colour
     temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
     *Robertson (1968)* method.
+-   :attr:`colour.UV_TO_CCT_METHODS`: Supported *CIE UCS* colourspace *uv*
+    chromaticity coordinates to correlated colour temperature :math:`T_{cp}`
+    computation methods.
+-   :func:`colour.uv_to_CCT`: Correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` computation from given *CIE UCS* colourspace *uv*
+    chromaticity coordinates using given method.
+-   :attr:`colour.CCT_TO_UV_METHODS`: Supported correlated colour temperature
+    :math:`T_{cp}` to *CIE UCS* colourspace *uv* chromaticity coordinates
+    computation methods.
+-   :func:`colour.CCT_to_uv`: *CIE UCS* colourspace *uv* chromaticity
+    coordinates computation from given correlated colour temperature
+    :math:`T_{cp}` using given method.
 -   :func:`colour.temperature.CCT_to_uv_Krystek1985`: *CIE UCS* colourspace
     *uv* chromaticity coordinates computation of given correlated colour
     temperature :math:`T_{cp}` using *Krystek (1985)* method.
@@ -38,6 +50,18 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
     *xy* chromaticity coordinates computation of *CIE Illuminant D Series* from
     given correlated colour temperature :math:`T_{cp}` of that
     *CIE Illuminant D Series*.
+-   :attr:`colour.XY_TO_CCT_METHODS`: Supported *CIE XYZ* tristimulus values
+    *xy* chromaticity coordinates to correlated colour temperature
+    :math:`T_{cp}` computation methods.
+-   :func:`colour.xy_to_CCT`: Correlated colour temperature :math:`T_{cp}`
+    computation from given *CIE XYZ* tristimulus values *xy* chromaticity
+    coordinates using given method.
+-   :attr:`colour.CCT_TO_XY_METHODS`: Supported correlated colour temperature
+    :math:`T_{cp}` to *CIE XYZ* tristimulus values *xy* chromaticity
+    coordinates computation methods.
+-   :func:`colour.CCT_to_xy`: *CIE XYZ* tristimulus values *xy* chromaticity
+    coordinates computation from given correlated colour temperature
+    :math:`T_{cp}` using given method.
 
 See Also
 --------

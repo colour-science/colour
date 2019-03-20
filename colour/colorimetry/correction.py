@@ -10,6 +10,10 @@ The following correction methods are available:
 -   :func:`colour.colorimetry.bandpass_correction_Stearns1988`:
     *Stearns and Stearns (1988)* spectral bandpass dependence correction
     method.
+-   :attr:`colour.BANDPASS_CORRECTION_METHODS`: Supported spectral bandpass
+    dependence correction methods.
+-   :func:`colour.bandpass_correction`: Spectral bandpass dependence
+    correction using given method.
 
 See Also
 --------

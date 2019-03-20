@@ -22,6 +22,11 @@ The following methods are available:
 -   :func:`colour.colorimetry.luminance_Fairchild2011`: *luminance* :math:`Y`
     computation of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Chen (2011)* method.
+-   :attr:`colour.LUMINANCE_METHODS`: Supported *luminance* :math:`Y`
+    computations methods.
+-   :func:`colour.luminance`: *Luminance* :math:`Y` computation of given
+    *Lightness* :math:`L^*` or given *Munsell* value :math:`V` using given
+    method.
 
 See Also
 --------

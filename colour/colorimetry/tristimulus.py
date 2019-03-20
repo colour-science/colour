@@ -10,8 +10,10 @@ Defines objects for tristimulus values computation from spectral data:
 -   :func:`colour.colorimetry.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME30815`
 -   :func:`colour.colorimetry.sd_to_XYZ_ASTME30815`
+-   :attr:`colour.SD_TO_XYZ_METHODS`
 -   :func:`colour.sd_to_XYZ`
 -   :func:`colour.colorimetry.multi_sd_to_XYZ_integration`
+-   :attr:`colour.MULTI_SD_TO_XYZ_METHODS`
 -   :func:`colour.multi_sd_to_XYZ`
 -   :func:`colour.wavelength_to_XYZ`
 

@@ -19,10 +19,14 @@ Defines classes and definitions for interpolating variables.
 -   :class:`colour.NullInterpolator`: 1-D function null interpolation.
 -   :func:`colour.lagrange_coefficients`: Computation of
     *Lagrange Coefficients*.
--   :func:`colour.table_interpolation_trilinear`: Trilinear interpolation with
-    table.
--   :func:`colour.table_interpolation_tetrahedral`: Tetrahedral interpolation
-    with table.
+-   :func:`colour.algebra.table_interpolation_trilinear`: Trilinear
+    interpolation with table.
+-   :func:`colour.algebra.table_interpolation_tetrahedral`: Tetrahedral
+    interpolation with table.
+-   :attr:`colour.TABLE_INTERPOLATION_METHODS`: Supported table interpolation
+    methods.
+-   :func:`colour.table_interpolation`: Interpolation with table using given
+    method.
 
 References
 ----------
