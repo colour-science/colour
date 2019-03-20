@@ -39,8 +39,8 @@ Spectral Data Generation
     sd_gaussian
     SD_SINGLE_LED_METHODS
     sd_single_led
-    SD_MULTI_LED_METHODS
-    sd_multi_led
+    SD_MULTI_LEDS_METHODS
+    sd_multi_leds
 
 ``colour.colorimetry``
 
@@ -55,7 +55,7 @@ Spectral Data Generation
     sd_gaussian_normal
     sd_gaussian_fwhm
     sd_single_led_Ohno2005
-    sd_multi_led_Ohno2005
+    sd_multi_leds_Ohno2005
 
 Conversion to Tristimulus Values
 --------------------------------

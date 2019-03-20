@@ -10,7 +10,7 @@ import unittest
 
 from colour.colorimetry.generation import (
     sd_constant, sd_zeros, sd_ones, sd_gaussian_normal, sd_gaussian_fwhm,
-    sd_single_led_Ohno2005, sd_multi_led_Ohno2005)
+    sd_single_led_Ohno2005, sd_multi_leds_Ohno2005)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -21,7 +21,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestSdConstant', 'TestSdZeros', 'TestSdOnes', 'TestSdGaussianNormal',
-    'TestSdGaussianFwhm', 'TestSdSingleLedOhno2005', 'TestSdMultiLedOhno2005'
+    'TestSdGaussianFwhm', 'TestSdSingleLedOhno2005', 'TestSdMultiLedsOhno2005'
 ]
 
 
@@ -149,19 +149,19 @@ class TestSdSingleLedOhno2005(unittest.TestCase):
         self.assertAlmostEqual(sd[580], 0.127118445056538, places=7)
 
 
-class TestSdMultiLedOhno2005(unittest.TestCase):
+class TestSdMultiLedsOhno2005(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.sd_multi_led_Ohno2005`
+    Defines :func:`colour.colorimetry.generation.sd_multi_leds_Ohno2005`
     definition unit tests methods.
     """
 
-    def test_sd_multi_led_Ohno2005(self):
+    def test_sd_multi_leds_Ohno2005(self):
         """
-        Tests :func:`colour.colorimetry.generation.sd_multi_led_Ohno2005`
+        Tests :func:`colour.colorimetry.generation.sd_multi_leds_Ohno2005`
         definition.
         """
 
-        sd = sd_multi_led_Ohno2005(
+        sd = sd_multi_leds_Ohno2005(
             np.array([457, 530, 615]),
             np.array([20, 30, 20]),
             np.array([0.731, 1.000, 1.660]),
@@ -173,7 +173,7 @@ class TestSdMultiLedOhno2005(unittest.TestCase):
 
         self.assertAlmostEqual(sd[640], 0.116433257970624, places=7)
 
-        sd = sd_multi_led_Ohno2005(
+        sd = sd_multi_leds_Ohno2005(
             np.array([457, 530, 615]),
             np.array([20, 30, 20]),
         )

@@ -19,8 +19,8 @@ from .generation import SD_GAUSSIAN_METHODS
 from .generation import sd_gaussian, sd_gaussian_normal, sd_gaussian_fwhm
 from .generation import SD_SINGLE_LED_METHODS
 from .generation import sd_single_led, sd_single_led_Ohno2005
-from .generation import SD_MULTI_LED_METHODS
-from .generation import sd_multi_led, sd_multi_led_Ohno2005
+from .generation import SD_MULTI_LEDS_METHODS
+from .generation import sd_multi_leds, sd_multi_leds_Ohno2005
 from .tristimulus import SD_TO_XYZ_METHODS, MULTI_SD_TO_XYZ_METHODS
 from .tristimulus import sd_to_XYZ, multi_sd_to_XYZ
 from .tristimulus import (
@@ -80,8 +80,8 @@ __all__ += ['SD_GAUSSIAN_METHODS']
 __all__ += ['sd_gaussian', 'sd_gaussian_normal', 'sd_gaussian_fwhm']
 __all__ += ['SD_SINGLE_LED_METHODS']
 __all__ += ['sd_single_led', 'sd_single_led_Ohno2005']
-__all__ += ['SD_MULTI_LED_METHODS']
-__all__ += ['sd_multi_led', 'sd_multi_led_Ohno2005']
+__all__ += ['SD_MULTI_LEDS_METHODS']
+__all__ += ['sd_multi_leds', 'sd_multi_leds_Ohno2005']
 __all__ += ['SD_TO_XYZ_METHODS', 'MULTI_SD_TO_XYZ_METHODS']
 __all__ += ['sd_to_XYZ', 'multi_sd_to_XYZ']
 __all__ += [

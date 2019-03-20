@@ -15,9 +15,9 @@ Defines various objects performing spectral generation:
 -   :func:`colour.colorimetry.sd_single_led_Ohno2005`
 -   :attr:`colour.SD_SINGLE_LED_METHODS`
 -   :func:`colour.sd_single_led`
--   :func:`colour.colorimetry.sd_multi_led_Ohno2005`
--   :attr:`colour.SD_MULTI_LED_METHODS`
--   :func:`colour.sd_multi_led`
+-   :func:`colour.colorimetry.sd_multi_leds_Ohno2005`
+-   :attr:`colour.SD_MULTI_LEDS_METHODS`
+-   :func:`colour.sd_multi_leds`
 
 See Also
 --------
@@ -54,7 +54,7 @@ __all__ = [
     'sd_constant', 'sd_zeros', 'sd_ones', 'sd_gaussian_normal',
     'sd_gaussian_fwhm', 'SD_GAUSSIAN_METHODS', 'sd_gaussian',
     'sd_single_led_Ohno2005', 'SD_SINGLE_LED_METHODS', 'sd_single_led',
-    'sd_multi_led_Ohno2005', 'SD_MULTI_LED_METHODS', 'sd_multi_led'
+    'sd_multi_leds_Ohno2005', 'SD_MULTI_LEDS_METHODS', 'sd_multi_leds'
 ]
 
 
@@ -429,10 +429,10 @@ def sd_single_led(peak_wavelength,
     return SD_SINGLE_LED_METHODS[method](peak_wavelength, fwhm, shape)
 
 
-def sd_multi_led_Ohno2005(peak_wavelengths,
-                          fwhm,
-                          peak_power_ratios=None,
-                          shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_multi_leds_Ohno2005(peak_wavelengths,
+                           fwhm,
+                           peak_power_ratios=None,
+                           shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a multi *LED* spectral distribution of given spectral shape at
     given peak wavelengths and full widths at half maximum according to
@@ -473,7 +473,7 @@ def sd_multi_led_Ohno2005(peak_wavelengths,
 
     Examples
     --------
-    >>> sd = sd_multi_led_Ohno2005(
+    >>> sd = sd_multi_leds_Ohno2005(
     ...     np.array([457, 530, 615]),
     ...     np.array([20, 30, 20]),
     ...     np.array([0.731, 1.000, 1.660]),
@@ -526,22 +526,22 @@ def sd_multi_led_Ohno2005(peak_wavelengths,
     return sd
 
 
-SD_MULTI_LED_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': sd_multi_led_Ohno2005,
+SD_MULTI_LEDS_METHODS = CaseInsensitiveMapping({
+    'Ohno 2005': sd_multi_leds_Ohno2005,
 })
-SD_MULTI_LED_METHODS.__doc__ = """
+SD_MULTI_LEDS_METHODS.__doc__ = """
 Supported multi *LED* spectral distribution computation methods.
 
-SD_MULTI_LED_METHODS : CaseInsensitiveMapping
+SD_MULTI_LEDS_METHODS : CaseInsensitiveMapping
     **{'Ohno 2005'}**
 """
 
 
-def sd_multi_led(peak_wavelengths,
-                 fwhm,
-                 peak_power_ratios=None,
-                 shape=DEFAULT_SPECTRAL_SHAPE,
-                 method='Ohno 2005'):
+def sd_multi_leds(peak_wavelengths,
+                  fwhm,
+                  peak_power_ratios=None,
+                  shape=DEFAULT_SPECTRAL_SHAPE,
+                  method='Ohno 2005'):
     """
     Returns a multi *LED* spectral distribution of given spectral shape at
     given peak wavelengths and full widths at half maximum according to given
@@ -581,7 +581,7 @@ def sd_multi_led(peak_wavelengths,
 
     Examples
     --------
-    >>> sd = sd_multi_led(
+    >>> sd = sd_multi_leds(
     ...     np.array([457, 530, 615]),
     ...     np.array([20, 30, 20]),
     ...     np.array([0.731, 1.000, 1.660]),
@@ -592,5 +592,5 @@ def sd_multi_led(peak_wavelengths,
     0.1295132...
     """
 
-    return SD_MULTI_LED_METHODS[method](peak_wavelengths, fwhm,
-                                        peak_power_ratios, shape)
+    return SD_MULTI_LEDS_METHODS[method](peak_wavelengths, fwhm,
+                                         peak_power_ratios, shape)
