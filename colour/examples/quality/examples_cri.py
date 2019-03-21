@@ -114,5 +114,6 @@ SAMPLE_SD_DATA = {
     780: 0.00293663
 }
 
-print(colour.colour_rendering_index(
-    colour.SpectralDistribution(SAMPLE_SD_DATA, name='Sample')))
+print(
+    colour.colour_rendering_index(
+        colour.SpectralDistribution(SAMPLE_SD_DATA, name='Sample')))

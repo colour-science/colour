@@ -46,9 +46,10 @@ def unicode_to_ascii(root_directory):
 
     for root, dirnames, filenames in os.walk(root_directory):
         for filename in filenames:
-            if (not filename.endswith('.tex') and not filename.endswith('.py')
-                    and not filename.endswith('.bib')
-                    and not filename.endswith('.rst')):
+            if (not filename.endswith('.tex') and
+                    not filename.endswith('.py') and
+                    not filename.endswith('.bib') and
+                    not filename.endswith('.rst')):
                 continue
 
             if filename == 'unicode_to_ascii.py':

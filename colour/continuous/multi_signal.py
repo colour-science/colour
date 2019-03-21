@@ -674,8 +674,9 @@ dict_like
                 np.hstack([self.domain[:, np.newaxis], self.range]))
             representation = representation.replace('array',
                                                     self.__class__.__name__)
-            representation = representation.replace('       [', '{0}['.format(
-                ' ' * (len(self.__class__.__name__) + 2)))
+            representation = representation.replace(
+                '       [',
+                '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
             representation = ('{0},\n'
                               '{1}labels={2},\n'
                               '{1}interpolator={3},\n'

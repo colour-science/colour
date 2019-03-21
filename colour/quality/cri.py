@@ -215,9 +215,9 @@ def tcs_colorimetry_data(sd_t, sd_r, sds_tcs, cmfs,
             c_t, d_t = c(u_t, v_t), d(u_t, v_t)
             c_r, d_r = c(u_r, v_r), d(u_r, v_r)
             tcs_c, tcs_d = c(u_tcs, v_tcs), d(u_tcs, v_tcs)
-            u_tcs = ((
-                10.872 + 0.404 * c_r / c_t * tcs_c - 4 * d_r / d_t * tcs_d) /
-                     (16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d))
+            u_tcs = (
+                (10.872 + 0.404 * c_r / c_t * tcs_c - 4 * d_r / d_t * tcs_d) /
+                (16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d))
             v_tcs = (5.52 /
                      (16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d))
 

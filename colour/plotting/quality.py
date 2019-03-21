@@ -143,12 +143,13 @@ def plot_colour_quality_bars(specifications,
     axes.axhline(
         y=100, color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
 
-    axes.set_xticks(
-        (np.arange(
-            0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-            dtype=DEFAULT_FLOAT_DTYPE) * bar_width +
-         (count_s * bar_width / 2)), ['Qa'] +
-        ['Q{0}'.format(index + 1) for index in range(0, count_Q_as + 1, 1)])
+    axes.set_xticks((np.arange(
+        0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
+        dtype=DEFAULT_FLOAT_DTYPE) * bar_width + (count_s * bar_width / 2)),
+                    ['Qa'] + [
+                        'Q{0}'.format(index + 1)
+                        for index in range(0, count_Q_as + 1, 1)
+                    ])
     axes.set_yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
     aspect = 1 / (120 / (bar_width + len(Q_as) + bar_width * 2))

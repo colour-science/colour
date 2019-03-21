@@ -320,23 +320,24 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     delta_H_prime = (2 * np.sqrt(c_1_prime * c_2_prime) * np.sin(
         np.deg2rad(0.5 * delta_h_prime)))
 
-    s_L = 1 + ((0.015 * (l_bar_prime - 50) *
-                (l_bar_prime - 50)) / np.sqrt(20 + (l_bar_prime - 50) *
-                                              (l_bar_prime - 50)))
+    s_L = 1 + ((0.015 * (l_bar_prime - 50) * (l_bar_prime - 50)) /
+               np.sqrt(20 + (l_bar_prime - 50) * (l_bar_prime - 50)))
     s_C = 1 + 0.045 * c_bar_prime
     s_H = 1 + 0.015 * c_bar_prime * t
 
-    delta_theta = (30 * np.exp(-((h_bar_prime - 275) / 25) *
-                               ((h_bar_prime - 275) / 25)))
+    delta_theta = (
+        30 * np.exp(-((h_bar_prime - 275) / 25) * ((h_bar_prime - 275) / 25)))
 
     c_bar_prime7 = c_bar_prime ** 7
 
     r_C = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
     r_T = -2 * r_C * np.sin(np.deg2rad(2 * delta_theta))
 
-    d_E = np.sqrt((delta_L_prime / (k_L * s_L)) ** 2 + (delta_C_prime / (
-        k_C * s_C)) ** 2 + (delta_H_prime / (k_H * s_H)) ** 2 + (
-            delta_C_prime / (k_C * s_C)) * (delta_H_prime / (k_H * s_H)) * r_T)
+    d_E = np.sqrt((delta_L_prime / (k_L * s_L)) ** 2 +
+                  (delta_C_prime / (k_C * s_C)) ** 2 +
+                  (delta_H_prime / (k_H * s_H)) ** 2 +
+                  (delta_C_prime / (k_C * s_C)) * (delta_H_prime /
+                                                   (k_H * s_H)) * r_T)
 
     return d_E
 

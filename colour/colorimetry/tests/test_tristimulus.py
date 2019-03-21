@@ -23,7 +23,7 @@ from colour.colorimetry import (
     tristimulus_weighting_factors_ASTME202211,
     adjust_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_ASTME30815,
-    multi_sd_to_XYZ_integration, wavelength_to_XYZ)
+    multi_sds_to_XYZ_integration, wavelength_to_XYZ)
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -36,12 +36,12 @@ __status__ = 'Production'
 __all__ = [
     'SAMPLE_SD', 'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B',
     'A_CIE_1964_10_10_TWF', 'A_CIE_1964_10_20_TWF', 'D65_CIE_1931_2_20_TWF',
-    'D65_CIE_1931_2_20_ATWF', 'MSD', 'XYZ_D65',
-    'TestLagrangeCoefficientsASTME202211',
+    'D65_CIE_1931_2_20_TWF_K1', 'D65_CIE_1931_2_20_ATWF', 'MSD', 'XYZ_D65',
+    'XYZ_D65_K1', 'TestLagrangeCoefficientsASTME202211',
     'TestTristimulusWeightingFactorsASTME202211',
     'TestAdjustTristimulusWeightingFactorsASTME30815',
     'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME30815',
-    'TestMultiSd_to_XYZ_integration', 'TestWavelength_to_XYZ'
+    'TestMultiSds_to_XYZ_integration', 'TestWavelength_to_XYZ'
 ]
 
 SAMPLE_SD = SpectralDistribution({
@@ -275,6 +275,33 @@ D65_CIE_1931_2_20_TWF = np.array([
     [0.000, 0.000, 0.000],
 ])
 
+D65_CIE_1931_2_20_TWF_K1 = np.array([
+    [-0.10095678, -0.00265636, -0.48295051],
+    [-0.83484763, -0.02190274, -4.11563004],
+    [18.94315946, 0.22803520, 87.62930101],
+    [268.66426663, 7.45156533, 1289.46785306],
+    [704.84093814, 47.85119956, 3554.47729494],
+    [669.16372619, 139.09334752, 3839.47028848],
+    [233.89418975, 309.95075927, 1931.47489098],
+    [5.51347204, 725.55154566, 585.77542998],
+    [142.48116090, 1490.55009270, 170.27819443],
+    [609.43424752, 2005.73581058, 40.34233506],
+    [1194.21293134, 1993.32004423, 7.15981395],
+    [1717.79835378, 1633.12477710, 2.59651081],
+    [1895.00791740, 1130.54333854, 1.34461357],
+    [1481.55235852, 663.25632432, 0.29999368],
+    [745.76471129, 289.85683288, 0.01943154],
+    [267.01875994, 97.97358872, -0.00261658],
+    [70.75239887, 25.56445574, -0.00019929],
+    [14.78862574, 5.31713332, 0.00000000],
+    [3.67620064, 1.32650433, 0.00000000],
+    [0.89699648, 0.32392186, 0.00000000],
+    [0.16623785, 0.06003153, 0.00000000],
+    [0.04824448, 0.01742197, 0.00000000],
+    [0.01310759, 0.00473339, 0.00000000],
+    [0.00223616, 0.00080752, 0.00000000],
+])
+
 D65_CIE_1931_2_20_ATWF = np.array([
     [0.170, 0.002, 0.785],
     [2.542, 0.071, 12.203],
@@ -325,6 +352,25 @@ XYZ_D65 = np.array([
         [41.81950400, 27.11920225, 14.26746010],
         [9.24148668, 20.20448258, 20.19416075],
         [24.78545992, 26.22388193, 36.44325237],
+    ],
+])
+
+XYZ_D65_K1 = np.array([
+    [
+        [776.11755347, 416.61356647, 1089.40789347],
+        [2758.67169575, 1587.73804035, 3759.10653835],
+        [1896.63363103, 3081.11250154, 3255.83833518],
+        [1221.74071019, 912.65263825, 852.43651028],
+        [2120.45103874, 3839.05259546, 3790.50750799],
+        [4942.66142767, 4234.93698798, 5587.03443988],
+    ],
+    [
+        [952.05669281, 1443.91347280, 3296.97938475],
+        [2408.86005021, 2044.82547598, 1012.91236929],
+        [721.77378835, 277.85825207, 1430.21253594],
+        [4510.96245706, 2925.27867434, 1538.99426670],
+        [996.85542597, 2179.40562871, 2178.29223889],
+        [2673.54388456, 2828.70277157, 3931.04000571],
     ],
 ])
 
@@ -395,6 +441,11 @@ tristimulus_weighting_factors_ASTME202211` definition.
         np.testing.assert_almost_equal(
             np.round(twf, 3), D65_CIE_1931_2_20_TWF, decimal=3)
 
+        twf = tristimulus_weighting_factors_ASTME202211(
+            cmfs, D65, SpectralShape(360, 830, 20), k=1)
+        np.testing.assert_almost_equal(
+            twf, D65_CIE_1931_2_20_TWF_K1, decimal=7)
+
 
 class TestAdjustTristimulusWeightingFactorsASTME30815(unittest.TestCase):
     """
@@ -444,6 +495,12 @@ sd_to_XYZ_integration`
         np.testing.assert_almost_equal(
             sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANTS_SDS['FL2']),
             np.array([11.57834054, 9.98738373, 3.95462625]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            sd_to_XYZ_integration(
+                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['FL2'], k=683),
+            np.array([122441.23450378, 105616.82732832, 41820.26940409]),
             decimal=7)
 
     def test_domain_range_scale_sd_to_XYZ_integration(self):
@@ -521,6 +578,15 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME30815`
             np.array([14.38356848, 10.74613294, 2.01526418]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+                SAMPLE_SD.copy().interpolate(SpectralShape(400, 700, 20)),
+                cmfs,
+                ILLUMINANTS_SDS['A'],
+                k=1),
+            np.array([1636.74286798, 1222.82981953, 229.32204062]),
+            decimal=7)
+
     def test_domain_range_scale_sd_to_XYZ_twf_ASTME30815(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
@@ -579,8 +645,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(400, 700, 1)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 1)), self._cmfs,
+                self._A),
             np.array([14.54173397, 10.88628632, 2.04965822]),
             decimal=7)
 
@@ -593,6 +660,15 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             np.array([14.54203076, 10.88636754, 2.04964877]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 1)),
+                self._cmfs,
+                self._A,
+                k=1),
+            np.array([1568.98152997, 1174.57671769, 221.14803420]),
+            decimal=7)
+
     def test_sd_to_XYZ_ASTME30815_mi_5nm(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
@@ -600,8 +676,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(360, 830, 5)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(360, 830, 5)), self._cmfs,
+                self._A),
             np.array([14.46372173, 10.85832502, 2.04664734]),
             decimal=7)
 
@@ -624,8 +701,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(400, 700, 5)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 5)), self._cmfs,
+                self._A),
             np.array([14.54025742, 10.88576251, 2.04950226]),
             decimal=7)
 
@@ -667,6 +745,15 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             np.array([14.54051772, 10.88583590, 2.04950113]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 5)),
+                self._cmfs,
+                self._A,
+                k=1),
+            np.array([1568.82479013, 1174.52212708, 221.13156963]),
+            decimal=7)
+
     def test_sd_to_XYZ_ASTME30815_mi_10nm(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
@@ -674,8 +761,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(360, 830, 10)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(360, 830, 10)), self._cmfs,
+                self._A),
             np.array([14.47779980, 10.86358645, 2.04751388]),
             decimal=7)
 
@@ -689,8 +777,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(400, 700, 10)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 10)), self._cmfs,
+                self._A),
             np.array([14.54137532, 10.88641727, 2.04931318]),
             decimal=7)
 
@@ -703,6 +792,15 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             np.array([14.54167211, 10.88649849, 2.04930374]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 10)),
+                self._cmfs,
+                self._A,
+                k=1),
+            np.array([1568.94283333, 1174.59084705, 221.11080639]),
+            decimal=7)
+
     def test_sd_to_XYZ_ASTME30815_mi_20nm(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
@@ -710,8 +808,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(360, 820, 20)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(360, 820, 20)), self._cmfs,
+                self._A),
             np.array([14.50187464, 10.87217124, 2.04918305]),
             decimal=7)
 
@@ -734,8 +833,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(400, 700, 20)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 20)), self._cmfs,
+                self._A),
             np.array([14.54114025, 10.88634755, 2.04916445]),
             decimal=7)
 
@@ -777,31 +877,51 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             np.array([14.54272240, 10.88702210, 2.04918701]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 20)),
+                self._cmfs,
+                self._A,
+                k=1),
+            np.array([1568.91747040, 1174.58332427, 221.09475945]),
+            decimal=7)
 
-class TestMultiSd_to_XYZ_integration(unittest.TestCase):
+
+class TestMultiSds_to_XYZ_integration(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.tristimulus.\
-multi_sd_to_XYZ_integration` definition unit tests methods.
+multi_sds_to_XYZ_integration` definition unit tests methods.
     """
 
-    def test_multi_sd_to_XYZ_integration(self):
+    def test_multi_sds_to_XYZ_integration(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-multi_sd_to_XYZ_integration`
+multi_sds_to_XYZ_integration`
         definition.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            multi_sd_to_XYZ_integration(MSD, SpectralShape(400, 700, 60), cmfs,
-                                        ILLUMINANTS_SDS['D65']),
+            multi_sds_to_XYZ_integration(MSD, SpectralShape(400, 700, 60),
+                                         cmfs, ILLUMINANTS_SDS['D65']),
             XYZ_D65,
             decimal=7)
 
-    def test_domain_range_scale_multi_sd_to_XYZ_integration(self):
+        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+        np.testing.assert_almost_equal(
+            multi_sds_to_XYZ_integration(
+                MSD,
+                SpectralShape(400, 700, 60),
+                cmfs,
+                ILLUMINANTS_SDS['D65'],
+                k=1),
+            XYZ_D65_K1,
+            decimal=7)
+
+    def test_domain_range_scale_multi_sds_to_XYZ_integration(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-multi_sd_to_XYZ_integration` definition domain and range scale support.
+multi_sds_to_XYZ_integration` definition domain and range scale support.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
@@ -810,8 +930,9 @@ multi_sd_to_XYZ_integration` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    multi_sd_to_XYZ_integration(MSD, SpectralShape(
-                        400, 700, 60), cmfs, ILLUMINANTS_SDS['D65']),
+                    multi_sds_to_XYZ_integration(MSD,
+                                                 SpectralShape(400, 700, 60),
+                                                 cmfs, ILLUMINANTS_SDS['D65']),
                     XYZ_D65 * factor,
                     decimal=7)
 

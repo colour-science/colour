@@ -153,8 +153,8 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
         ])
     elif terms == 14:
         return tstack([
-            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            R ** 3, G ** 3, B ** 3, ones
+            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B, R
+            ** 3, G ** 3, B ** 3, ones
         ])
     elif terms == 16:
         return tstack([
@@ -254,8 +254,8 @@ def polynomial_expansion_Finlayson2015(RGB,
             ])
         else:
             return tstack([
-                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3,
-                G ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
+                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3, G
+                ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
                 B * G ** 2, B * R ** 2, R * G * B
             ])
     elif degree == 4:
@@ -273,8 +273,8 @@ def polynomial_expansion_Finlayson2015(RGB,
             ])
         else:
             return tstack([
-                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3,
-                G ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
+                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3, G
+                ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
                 B * G ** 2, B * R ** 2, R * G * B, R ** 4, G ** 4, B ** 4,
                 R ** 3 * G, R ** 3 * B, G ** 3 * R, G ** 3 * B, B ** 3 * R,
                 B ** 3 * G, R ** 2 * G ** 2, G ** 2 * B ** 2, R ** 2 * B ** 2,

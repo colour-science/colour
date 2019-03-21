@@ -1700,11 +1700,13 @@ MultiSpectralDistribution.to_sds` method.
         self.assertEqual(len(sds), 3)
 
         for i, sd in sds:
-            self.assertEqual(sd.name, '{0} - {1}'.format(
-                self._labels[i], self._non_uniform_sample_multi_sd.name))
-            self.assertEqual(sd.strict_name, '{0} - {1}'.format(
-                self._strict_labels[i],
-                self._non_uniform_sample_multi_sd.name))
+            self.assertEqual(
+                sd.name, '{0} - {1}'.format(
+                    self._labels[i], self._non_uniform_sample_multi_sd.name))
+            self.assertEqual(
+                sd.strict_name, '{0} - {1}'.format(
+                    self._strict_labels[i],
+                    self._non_uniform_sample_multi_sd.name))
 
 
 if __name__ == '__main__':

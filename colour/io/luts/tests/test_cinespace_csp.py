@@ -132,9 +132,10 @@ class TestWriteLUTCinespace(unittest.TestCase):
         LUT_1_r = read_LUT_Cinespace(
             os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.csp'))
 
-        write_LUT_Cinespace(LUT_1_r,
-                            os.path.join(self._temporary_directory,
-                                         'ACES_Proxy_10_to_ACES.csp'))
+        write_LUT_Cinespace(
+            LUT_1_r,
+            os.path.join(self._temporary_directory,
+                         'ACES_Proxy_10_to_ACES.csp'))
 
         LUT_1_t = read_LUT_Cinespace(
             os.path.join(self._temporary_directory,
@@ -146,9 +147,8 @@ class TestWriteLUTCinespace(unittest.TestCase):
 
         LUT_2_r = read_LUT_Cinespace(os.path.join(LUTS_DIRECTORY, 'Demo.csp'))
 
-        write_LUT_Cinespace(LUT_2_r,
-                            os.path.join(self._temporary_directory,
-                                         'Demo.csp'))
+        write_LUT_Cinespace(
+            LUT_2_r, os.path.join(self._temporary_directory, 'Demo.csp'))
 
         LUT_2_t = read_LUT_Cinespace(
             os.path.join(self._temporary_directory, 'Demo.csp'))
@@ -159,9 +159,10 @@ class TestWriteLUTCinespace(unittest.TestCase):
         LUT_3_r = read_LUT_Cinespace(
             os.path.join(LUTS_DIRECTORY, 'ThreeDimensionalTable.csp'))
 
-        write_LUT_Cinespace(LUT_3_r,
-                            os.path.join(self._temporary_directory,
-                                         'ThreeDimensionalTable.csp'))
+        write_LUT_Cinespace(
+            LUT_3_r,
+            os.path.join(self._temporary_directory,
+                         'ThreeDimensionalTable.csp'))
 
         LUT_3_t = read_LUT_Cinespace(
             os.path.join(self._temporary_directory,
@@ -181,9 +182,9 @@ class TestWriteLUTCinespace(unittest.TestCase):
 
         LUT_4_t = LUT2D(domain=domain, table=domain * 2)
 
-        write_LUT_Cinespace(LUT_4_t,
-                            os.path.join(self._temporary_directory,
-                                         'ragged_domain.csp'))
+        write_LUT_Cinespace(
+            LUT_4_t,
+            os.path.join(self._temporary_directory, 'ragged_domain.csp'))
 
         LUT_4_r = read_LUT_Cinespace(
             os.path.join(self._temporary_directory, 'ragged_domain.csp'))

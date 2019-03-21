@@ -337,8 +337,8 @@ DRAGON_COLOR_WHITEPOINT = RED_COLOR_WHITEPOINT
 DRAGON_COLOR_WHITEPOINT : ndarray
 """
 
-DRAGON_COLOR_TO_XYZ_MATRIX = normalised_primary_matrix(DRAGON_COLOR_PRIMARIES,
-                                                       DRAGON_COLOR_WHITEPOINT)
+DRAGON_COLOR_TO_XYZ_MATRIX = normalised_primary_matrix(
+    DRAGON_COLOR_PRIMARIES, DRAGON_COLOR_WHITEPOINT)
 """
 *DRAGONcolor* colourspace to *CIE XYZ* tristimulus values matrix.
 

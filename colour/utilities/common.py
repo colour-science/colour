@@ -346,9 +346,8 @@ def is_sibling(element, mapping):
         Whether given element type is present in given mapping types.
     """
 
-    return isinstance(element,
-                      tuple(
-                          set(type(element) for element in mapping.values())))
+    return isinstance(
+        element, tuple(set(type(element) for element in mapping.values())))
 
 
 def filter_kwargs(function, **kwargs):

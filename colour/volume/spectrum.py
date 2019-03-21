@@ -28,7 +28,7 @@ import numpy as np
 from colour.algebra import NearestNeighbourInterpolator
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS,
-    multi_sd_to_XYZ_integration, SpectralShape, sd_ones)
+    multi_sds_to_XYZ_integration, SpectralShape, sd_ones)
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
@@ -130,8 +130,9 @@ def generate_pulse_waves(bins):
 def XYZ_outer_surface(
         interval=10,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
-            'CIE 1931 2 Degree Standard Observer'].shape)):
+        illuminant=sd_ones(
+            STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+            shape)):
     """
     Generates the *CIE XYZ* colourspace outer surface for given colour matching
     functions using multi-spectral conversion of pulse waves to *CIE XYZ*
@@ -206,8 +207,8 @@ def XYZ_outer_surface(
             values.append(
                 NearestNeighbourInterpolator(wavelengths, wave)(domain))
 
-        XYZ = multi_sd_to_XYZ_integration(values, DEFAULT_SPECTRAL_SHAPE, cmfs,
-                                          illuminant)
+        XYZ = multi_sds_to_XYZ_integration(values, DEFAULT_SPECTRAL_SHAPE,
+                                           cmfs, illuminant)
 
         XYZ = XYZ / np.max(XYZ[-1, 1])
 
@@ -220,8 +221,9 @@ def is_within_visible_spectrum(
         XYZ,
         interval=10,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
-            'CIE 1931 2 Degree Standard Observer'].shape),
+        illuminant=sd_ones(
+            STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+            shape),
         tolerance=None):
     """
     Returns if given *CIE XYZ* tristimulus values are within visible spectrum

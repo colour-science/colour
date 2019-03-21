@@ -185,9 +185,9 @@ class TestWriteLUTSonySPI3D(unittest.TestCase):
         LUT_r = read_LUT_SonySPI3D(
             os.path.join(LUTS_DIRECTORY, 'ColourCorrect.spi3d'))
 
-        write_LUT_SonySPI3D(LUT_r,
-                            os.path.join(self._temporary_directory,
-                                         'ColourCorrect.spi3d'))
+        write_LUT_SonySPI3D(
+            LUT_r,
+            os.path.join(self._temporary_directory, 'ColourCorrect.spi3d'))
 
         LUT_t = read_LUT_SonySPI3D(
             os.path.join(self._temporary_directory, 'ColourCorrect.spi3d'))

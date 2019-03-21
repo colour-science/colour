@@ -124,9 +124,10 @@ class TestWriteLUTIridasCube(unittest.TestCase):
         LUT_1_r = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.cube'))
 
-        write_LUT_IridasCube(LUT_1_r,
-                             os.path.join(self._temporary_directory,
-                                          'ACES_Proxy_10_to_ACES.cube'))
+        write_LUT_IridasCube(
+            LUT_1_r,
+            os.path.join(self._temporary_directory,
+                         'ACES_Proxy_10_to_ACES.cube'))
 
         LUT_1_t = read_LUT_IridasCube(
             os.path.join(self._temporary_directory,
@@ -144,9 +145,8 @@ class TestWriteLUTIridasCube(unittest.TestCase):
         LUT_2_r = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, 'Demo.cube'))
 
-        write_LUT_IridasCube(LUT_2_r,
-                             os.path.join(self._temporary_directory,
-                                          'Demo.cube'))
+        write_LUT_IridasCube(
+            LUT_2_r, os.path.join(self._temporary_directory, 'Demo.cube'))
 
         LUT_2_t = read_LUT_IridasCube(
             os.path.join(self._temporary_directory, 'Demo.cube'))
@@ -157,9 +157,10 @@ class TestWriteLUTIridasCube(unittest.TestCase):
         LUT_3_r = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, 'ThreeDimensionalTable.cube'))
 
-        write_LUT_IridasCube(LUT_3_r,
-                             os.path.join(self._temporary_directory,
-                                          'ThreeDimensionalTable.cube'))
+        write_LUT_IridasCube(
+            LUT_3_r,
+            os.path.join(self._temporary_directory,
+                         'ThreeDimensionalTable.cube'))
 
         LUT_3_t = read_LUT_IridasCube(
             os.path.join(self._temporary_directory,

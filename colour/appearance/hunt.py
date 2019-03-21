@@ -930,8 +930,8 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     N_cb = as_float_array(N_cb)
     F_t = as_float_array(F_t)
 
-    M_yb = (100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s *
-                                               (10 / 13) * N_c * N_cb * F_t))
+    M_yb = (
+        100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s * (10 / 13) * N_c * N_cb * F_t))
 
     return M_yb
 

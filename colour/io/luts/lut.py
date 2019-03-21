@@ -322,12 +322,14 @@ class AbstractLUT:
         representation = repr(self.table)
         representation = representation.replace('array',
                                                 self.__class__.__name__)
-        representation = representation.replace('       [', '{0}['.format(
-            ' ' * (len(self.__class__.__name__) + 2)))
+        representation = representation.replace(
+            '       [',
+            '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
 
         domain = repr(self.domain).replace('array(', '').replace(')', '')
-        domain = domain.replace('       [', '{0}['.format(
-            ' ' * (len(self.__class__.__name__) + 9)))
+        domain = domain.replace(
+            '       [',
+            '{0}['.format(' ' * (len(self.__class__.__name__) + 9)))
 
         indentation = ' ' * (len(self.__class__.__name__) + 1)
         representation = ('{0},\n'
@@ -2242,9 +2244,10 @@ class LUTSequence(MutableSequence):
                 'Overview\n\n'
                 '    {0}\n\n'
                 'Operations\n\n'
-                '{1}').format(' ---> '.join(
-                    [a.__class__.__name__ for a in self._sequence]),
-                              operations)
+                '{1}').format(
+                    ' ---> '.join(
+                        [a.__class__.__name__ for a in self._sequence]),
+                    operations)
 
     def __repr__(self):
         """

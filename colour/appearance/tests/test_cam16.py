@@ -70,9 +70,9 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
         XYZ = tstack([data['X'], data['Y'], data['Z']])
         XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
 
-        specification = XYZ_to_CAM16(XYZ, XYZ_w, data['L_A'], data['Y_b'],
-                                     CAM16_InductionFactors(
-                                         data['F'], data['c'], data['N_c']))
+        specification = XYZ_to_CAM16(
+            XYZ, XYZ_w, data['L_A'], data['Y_b'],
+            CAM16_InductionFactors(data['F'], data['c'], data['N_c']))
 
         return specification
 

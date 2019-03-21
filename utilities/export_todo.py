@@ -105,8 +105,8 @@ def export_todo_items(todo_items, file_path):
     for module, todo_items in todo_items.items():
         todo_rst.append('-   {0}\n'.format(module))
         for line_numer, todo_item in todo_items:
-            todo_rst.append(
-                '    -   Line {0} : {1}'.format(line_numer, todo_item))
+            todo_rst.append('    -   Line {0} : {1}'.format(
+                line_numer, todo_item))
 
         todo_rst.append('\n')
 

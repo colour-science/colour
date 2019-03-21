@@ -389,18 +389,19 @@ extrapolator_args` property.
         multi_signal.extrapolator_args = {
             'method': 'Linear',
         }
-        np.testing.assert_array_equal(multi_signal[np.array([-1000, 1000])],
-                                      np.array([[-9990.0, -9980.0, -9970.0],
-                                                [10010.0, 10020.0, 10030.0]]))
+        np.testing.assert_array_equal(
+            multi_signal[np.array([-1000, 1000])],
+            np.array([[-9990.0, -9980.0, -9970.0], [10010.0, 10020.0,
+                                                    10030.0]]))
 
         multi_signal.extrapolator_args = {
             'method': 'Constant',
             'left': 0,
             'right': 1
         }
-        np.testing.assert_array_equal(multi_signal[np.array([-1000, 1000])],
-                                      np.array([[0.0, 0.0, 0.0],
-                                                [1.0, 1.0, 1.0]]))
+        np.testing.assert_array_equal(
+            multi_signal[np.array([-1000, 1000])],
+            np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]))
 
     def test__setitem__(self):
         """

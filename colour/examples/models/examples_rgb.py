@@ -37,8 +37,9 @@ message_box(
 cat = colour.chromatic_adaptation_matrix_VonKries(
     colour.xy_to_XYZ(colourspace.whitepoint),
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['ITU-R BT.709'].whitepoint))
-print(np.dot(colour.RGB_COLOURSPACES['ITU-R BT.709'].XYZ_to_RGB_matrix,
-             np.dot(cat, colourspace.RGB_to_XYZ_matrix)))
+print(
+    np.dot(colour.RGB_COLOURSPACES['ITU-R BT.709'].XYZ_to_RGB_matrix,
+           np.dot(cat, colourspace.RGB_to_XYZ_matrix)))
 
 print('\n')
 
@@ -47,8 +48,9 @@ message_box(
     ('Converting from "ITU-R BT.709" colourspace to "ACEScg" colourspace '
      'given "RGB" values:\n'
      '\n\t{0}'.format(RGB)))
-print(colour.RGB_to_RGB(
-    RGB,
-    colour.RGB_COLOURSPACES['ITU-R BT.709'],
-    colour.RGB_COLOURSPACES['ACEScg'],
-))
+print(
+    colour.RGB_to_RGB(
+        RGB,
+        colour.RGB_COLOURSPACES['ITU-R BT.709'],
+        colour.RGB_COLOURSPACES['ACEScg'],
+    ))

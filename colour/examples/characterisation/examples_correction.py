@@ -102,10 +102,12 @@ message_box(
      '"Finlayson, MacKiewicz and Hurlbert (2015)" method '
      'with polynomial of degree 3.'))
 
-print(colour.characterisation.colour_correction_matrix_Finlayson2015(
-    M_T, M_R, 3))
-print(colour.colour_correction_matrix(
-    M_T, M_R, method='Finlayson 2015', degree=3))
+print(
+    colour.characterisation.colour_correction_matrix_Finlayson2015(
+        M_T, M_R, 3))
+print(
+    colour.colour_correction_matrix(
+        M_T, M_R, method='Finlayson 2015', degree=3))
 
 print('\n')
 
@@ -124,10 +126,10 @@ message_box(
      'colour rendition chart to a "M_R" one using '
      '"Vandermonde" method with polynomial of degree 3.'))
 
-print(colour.characterisation.colour_correction_matrix_Vandermonde(
-    M_T, M_R, 3))
-print(colour.colour_correction_matrix(
-    M_T, M_R, method='Vandermonde', degree=3))
+print(
+    colour.characterisation.colour_correction_matrix_Vandermonde(M_T, M_R, 3))
+print(
+    colour.colour_correction_matrix(M_T, M_R, method='Vandermonde', degree=3))
 
 print('\n')
 
@@ -172,10 +174,10 @@ message_box(
      '"Finlayson, MacKiewicz and Hurlbert (2015)" method with polynomial of '
      'degree 3.'))
 
-print(colour.characterisation.colour_correction_Finlayson2015(
-    RGB, M_T, M_R, 3))
-print(colour.colour_correction(
-    RGB, M_T, M_R, method='Finlayson 2015', degree=3))
+print(
+    colour.characterisation.colour_correction_Finlayson2015(RGB, M_T, M_R, 3))
+print(
+    colour.colour_correction(RGB, M_T, M_R, method='Finlayson 2015', degree=3))
 
 print('\n')
 
