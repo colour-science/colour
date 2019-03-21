@@ -134,5 +134,5 @@ msa = np.array([
      [0.00305180, 0.11288624, 0.11357290, 0.12924391, 0.00195315, 0.21771573]],
 ])
 print(
-    colour.multi_sd_to_XYZ(msa, colour.SpectralShape(400, 700, 60), cmfs,
-                           illuminant))
+    colour.multi_sds_to_XYZ(msa, colour.SpectralShape(400, 700, 60), cmfs,
+                            illuminant))

@@ -12,9 +12,9 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME30815`
 -   :func:`colour.colorimetry.sd_to_XYZ_ASTME30815`
 -   :attr:`colour.SD_TO_XYZ_METHODS`
 -   :func:`colour.sd_to_XYZ`
--   :func:`colour.colorimetry.multi_sd_to_XYZ_integration`
+-   :func:`colour.colorimetry.multi_sds_to_XYZ_integration`
 -   :attr:`colour.MULTI_SD_TO_XYZ_METHODS`
--   :func:`colour.multi_sd_to_XYZ`
+-   :func:`colour.multi_sds_to_XYZ`
 -   :func:`colour.wavelength_to_XYZ`
 
 The default implementation is based on practise *ASTM E308-15* method.
@@ -57,8 +57,8 @@ __all__ = [
     'adjust_tristimulus_weighting_factors_ASTME30815', 'sd_to_XYZ_integration',
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
     'sd_to_XYZ_ASTME30815', 'SD_TO_XYZ_METHODS', 'sd_to_XYZ',
-    'multi_sd_to_XYZ_integration', 'MULTI_SD_TO_XYZ_METHODS',
-    'multi_sd_to_XYZ', 'wavelength_to_XYZ'
+    'multi_sds_to_XYZ_integration', 'MULTI_SD_TO_XYZ_METHODS',
+    'multi_sds_to_XYZ', 'wavelength_to_XYZ'
 ]
 
 ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
@@ -917,7 +917,7 @@ def sd_to_XYZ(
         sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
 
 
-def multi_sd_to_XYZ_integration(
+def multi_sds_to_XYZ_integration(
         msd,
         shape,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
@@ -999,7 +999,7 @@ def multi_sd_to_XYZ_integration(
     ...     ],
     ... ])
     >>> D65 = ILLUMINANTS_SDS['D65']
-    >>> multi_sd_to_XYZ(
+    >>> multi_sds_to_XYZ(
     ... msd, SpectralShape(400, 700, 60), illuminant=D65)
     ... # doctest: +ELLIPSIS
     array([[[  7.1958378...,   3.8605390...,  10.1016398...],
@@ -1045,7 +1045,7 @@ def multi_sd_to_XYZ_integration(
 
 
 MULTI_SD_TO_XYZ_METHODS = CaseInsensitiveMapping({
-    'Integration': multi_sd_to_XYZ_integration
+    'Integration': multi_sds_to_XYZ_integration
 })
 MULTI_SD_TO_XYZ_METHODS.__doc__ = """
 Supported multi-spectral array to *CIE XYZ* tristimulus values conversion
@@ -1060,7 +1060,7 @@ MULTI_SD_TO_XYZ_METHODS : CaseInsensitiveMapping
 """
 
 
-def multi_sd_to_XYZ(
+def multi_sds_to_XYZ(
         msd,
         shape=DEFAULT_SPECTRAL_SHAPE,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
@@ -1092,7 +1092,7 @@ def multi_sd_to_XYZ(
     Other Parameters
     ----------------
     k : numeric, optional
-        {:func:`colour.colorimetry.multi_sd_to_XYZ_integration`},
+        {:func:`colour.colorimetry.multi_sds_to_XYZ_integration`},
         Normalisation constant :math:`k`. For reflecting or transmitting object
         colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
         which the spectral reflectance factor :math:`R(\\lambda)` of the object
@@ -1147,7 +1147,7 @@ def multi_sd_to_XYZ(
     ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
     ...     ],
     ... ])
-    >>> multi_sd_to_XYZ(msd, SpectralShape(400, 700, 60))
+    >>> multi_sds_to_XYZ(msd, SpectralShape(400, 700, 60))
     ... # doctest: +ELLIPSIS
     array([[[  7.6862675...,   4.0925470...,   8.4950412...],
             [ 27.4119366...,  15.5014764...,  29.2825122...],

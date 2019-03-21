@@ -69,7 +69,7 @@ Conversion to Tristimulus Values
 
     sd_to_XYZ
     SD_TO_XYZ_METHODS
-    multi_sd_to_XYZ
+    multi_sds_to_XYZ
     MULTI_SD_TO_XYZ_METHODS
     wavelength_to_XYZ
 
@@ -110,7 +110,7 @@ Integration
     :toctree: generated/
 
     sd_to_XYZ_integration
-    multi_sd_to_XYZ_integration
+    multi_sds_to_XYZ_integration
 
 Spectral Bandpass Dependence Correction
 ---------------------------------------

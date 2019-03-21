@@ -23,7 +23,7 @@ from colour.colorimetry import (
     tristimulus_weighting_factors_ASTME202211,
     adjust_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_ASTME30815,
-    multi_sd_to_XYZ_integration, wavelength_to_XYZ)
+    multi_sds_to_XYZ_integration, wavelength_to_XYZ)
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -41,7 +41,7 @@ __all__ = [
     'TestTristimulusWeightingFactorsASTME202211',
     'TestAdjustTristimulusWeightingFactorsASTME30815',
     'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME30815',
-    'TestMultiSd_to_XYZ_integration', 'TestWavelength_to_XYZ'
+    'TestMultiSds_to_XYZ_integration', 'TestWavelength_to_XYZ'
 ]
 
 SAMPLE_SD = SpectralDistribution({
@@ -887,29 +887,29 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
 
-class TestMultiSd_to_XYZ_integration(unittest.TestCase):
+class TestMultiSds_to_XYZ_integration(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.tristimulus.\
-multi_sd_to_XYZ_integration` definition unit tests methods.
+multi_sds_to_XYZ_integration` definition unit tests methods.
     """
 
-    def test_multi_sd_to_XYZ_integration(self):
+    def test_multi_sds_to_XYZ_integration(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-multi_sd_to_XYZ_integration`
+multi_sds_to_XYZ_integration`
         definition.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            multi_sd_to_XYZ_integration(MSD, SpectralShape(400, 700, 60), cmfs,
-                                        ILLUMINANTS_SDS['D65']),
+            multi_sds_to_XYZ_integration(MSD, SpectralShape(400, 700, 60),
+                                         cmfs, ILLUMINANTS_SDS['D65']),
             XYZ_D65,
             decimal=7)
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            multi_sd_to_XYZ_integration(
+            multi_sds_to_XYZ_integration(
                 MSD,
                 SpectralShape(400, 700, 60),
                 cmfs,
@@ -918,10 +918,10 @@ multi_sd_to_XYZ_integration`
             XYZ_D65_K1,
             decimal=7)
 
-    def test_domain_range_scale_multi_sd_to_XYZ_integration(self):
+    def test_domain_range_scale_multi_sds_to_XYZ_integration(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-multi_sd_to_XYZ_integration` definition domain and range scale support.
+multi_sds_to_XYZ_integration` definition domain and range scale support.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
@@ -930,8 +930,9 @@ multi_sd_to_XYZ_integration` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    multi_sd_to_XYZ_integration(MSD, SpectralShape(
-                        400, 700, 60), cmfs, ILLUMINANTS_SDS['D65']),
+                    multi_sds_to_XYZ_integration(MSD,
+                                                 SpectralShape(400, 700, 60),
+                                                 cmfs, ILLUMINANTS_SDS['D65']),
                     XYZ_D65 * factor,
                     decimal=7)
 
