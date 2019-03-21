@@ -645,8 +645,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(400, 700, 1)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 1)), self._cmfs,
+                self._A),
             np.array([14.54173397, 10.88628632, 2.04965822]),
             decimal=7)
 
@@ -675,8 +676,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(360, 830, 5)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(360, 830, 5)), self._cmfs,
+                self._A),
             np.array([14.46372173, 10.85832502, 2.04664734]),
             decimal=7)
 
@@ -699,8 +701,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(400, 700, 5)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 5)), self._cmfs,
+                self._A),
             np.array([14.54025742, 10.88576251, 2.04950226]),
             decimal=7)
 
@@ -758,8 +761,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(360, 830, 10)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(360, 830, 10)), self._cmfs,
+                self._A),
             np.array([14.47779980, 10.86358645, 2.04751388]),
             decimal=7)
 
@@ -773,8 +777,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(400, 700, 10)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 10)), self._cmfs,
+                self._A),
             np.array([14.54137532, 10.88641727, 2.04931318]),
             decimal=7)
 
@@ -803,8 +808,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(360, 820, 20)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(360, 820, 20)), self._cmfs,
+                self._A),
             np.array([14.50187464, 10.87217124, 2.04918305]),
             decimal=7)
 
@@ -827,8 +833,9 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(
-                SpectralShape(400, 700, 20)), self._cmfs, self._A),
+            sd_to_XYZ_ASTME30815(
+                self._sd.copy().align(SpectralShape(400, 700, 20)), self._cmfs,
+                self._A),
             np.array([14.54114025, 10.88634755, 2.04916445]),
             decimal=7)
 

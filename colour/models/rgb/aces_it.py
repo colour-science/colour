@@ -54,8 +54,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'FLARE_PERCENTAGE', 'S_FLARE_FACTOR',
-    'sd_to_aces_relative_exposure_values'
+    'FLARE_PERCENTAGE', 'S_FLARE_FACTOR', 'sd_to_aces_relative_exposure_values'
 ]
 
 FLARE_PERCENTAGE = 0.00500

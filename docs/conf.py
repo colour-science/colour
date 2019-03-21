@@ -402,8 +402,7 @@ def _continuous_signal_repr(self):
     return "{0}(name='{1}', ...)".format(self.__class__.__name__, self.name)
 
 
-package.colorimetry.SpectralDistribution.__repr__ = (
-    _continuous_signal_repr)
+package.colorimetry.SpectralDistribution.__repr__ = (_continuous_signal_repr)
 package.colorimetry.MultiSpectralDistribution.__repr__ = (
     _continuous_signal_repr)
 
@@ -419,10 +418,10 @@ def _case_insensitive_mapping_repr(self):
         Ellipsis string representation.
     """
 
-    return "{0}({1})".format(self.__class__.__name__,
-                             repr(dict(zip(self.keys(),
-                                           ['...'] * len(self)))).replace(
-                                               "'...'", '...'))
+    return "{0}({1})".format(
+        self.__class__.__name__,
+        repr(dict(zip(self.keys(), ['...'] * len(self)))).replace(
+            "'...'", '...'))
 
 
 package.utilities.CaseInsensitiveMapping.__repr__ = (

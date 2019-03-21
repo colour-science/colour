@@ -164,9 +164,8 @@ class TestReadSdsFromCsvFile(unittest.TestCase):
         for sd in sds.values():
             self.assertIsInstance(sd, SpectralDistribution)
 
-        self.assertEqual(sds['1'],
-                         SpectralDistribution(
-                             COLOURCHECKER_N_OHTA_1, name='1'))
+        self.assertEqual(
+            sds['1'], SpectralDistribution(COLOURCHECKER_N_OHTA_1, name='1'))
 
 
 class TestWriteSdsToCsvFile(unittest.TestCase):

@@ -298,9 +298,8 @@ def RGB_to_YCbCr(RGB,
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get('in_range',
                                   CV_range(in_bits, in_legal, in_int))
-    Y_min, Y_max, C_min, C_max = kwargs.get('out_range',
-                                            YCbCr_ranges(
-                                                out_bits, out_legal, out_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get(
+        'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
 
     RGB_float = RGB.astype(DEFAULT_FLOAT_DTYPE) - RGB_min
     RGB_float *= 1 / (RGB_max - RGB_min)
@@ -429,9 +428,8 @@ def YCbCr_to_RGB(YCbCr,
 
     Y, Cb, Cr = tsplit(YCbCr.astype(DEFAULT_FLOAT_DTYPE))
     Kr, Kb = K
-    Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
-                                            YCbCr_ranges(
-                                                in_bits, in_legal, in_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get(
+        'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
     RGB_min, RGB_max = kwargs.get('out_range',
                                   CV_range(out_bits, out_legal, out_int))
 
@@ -533,9 +531,8 @@ def RGB_to_YcCbcCrc(RGB,
     """
 
     R, G, B = tsplit(to_domain_1(RGB))
-    Y_min, Y_max, C_min, C_max = kwargs.get('out_range',
-                                            YCbCr_ranges(
-                                                out_bits, out_legal, out_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get(
+        'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
 
@@ -645,9 +642,8 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
         YcCbcCrc = to_domain_1(YcCbcCrc)
 
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(DEFAULT_FLOAT_DTYPE))
-    Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
-                                            YCbCr_ranges(
-                                                in_bits, in_legal, in_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get(
+        'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
 
     Yc -= Y_min
     Cbc -= (C_max + C_min) / 2

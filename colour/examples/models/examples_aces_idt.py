@@ -13,10 +13,12 @@ message_box(('Computing "ACES" relative exposure '
              'values for some colour rendition chart spectral '
              'distributions:\n'
              '\n\t("dark skin", \n\t"blue sky")'))
-print(colour.sd_to_aces_relative_exposure_values(
-    colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']))
-print(colour.sd_to_aces_relative_exposure_values(
-    colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['blue sky']))
+print(
+    colour.sd_to_aces_relative_exposure_values(
+        colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']))
+print(
+    colour.sd_to_aces_relative_exposure_values(
+        colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['blue sky']))
 
 print('\n')
 

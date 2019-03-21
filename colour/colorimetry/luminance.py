@@ -69,8 +69,8 @@ import numpy as np
 from colour.biochemistry import substrate_concentration_MichealisMenten
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, from_range_1, from_range_100,
-                              get_domain_range_scale,
-                              to_domain_10, to_domain_100)
+                              get_domain_range_scale, to_domain_10,
+                              to_domain_100)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'

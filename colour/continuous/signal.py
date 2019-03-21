@@ -567,8 +567,9 @@ class Signal(AbstractContinuousFunction):
             representation = repr(tstack([self.domain, self.range]))
             representation = representation.replace('array',
                                                     self.__class__.__name__)
-            representation = representation.replace('       [', '{0}['.format(
-                ' ' * (len(self.__class__.__name__) + 2)))
+            representation = representation.replace(
+                '       [',
+                '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
             representation = ('{0},\n'
                               '{1}interpolator={2},\n'
                               '{1}interpolator_args={3},\n'

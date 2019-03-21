@@ -173,8 +173,8 @@ def air_refraction_index_Peck1972(wavelength):
 
     wl = as_float_array(wavelength)
 
-    n = (8060.51 + 2480990 / (132.274 - wl ** (-2)) + 17455.7 /
-         (39.32957 - wl ** (-2)))
+    n = (8060.51 + 2480990 / (132.274 - wl **
+                              (-2)) + 17455.7 / (39.32957 - wl ** (-2)))
     n /= 1.0e8
     n += +1
 
@@ -266,8 +266,8 @@ def O2_depolarisation(wavelength):
 
     wl = as_float_array(wavelength)
 
-    O2 = (1.096 + 1.385 * 1.0e-3 * (1 / wl ** 2) + 1.448 * 1.0e-4 *
-          (1 / wl ** 4))
+    O2 = (1.096 + 1.385 * 1.0e-3 * (1 / wl ** 2) +
+          1.448 * 1.0e-4 * (1 / wl ** 4))
 
     return O2
 
@@ -363,8 +363,8 @@ def F_air_Bates1984(wavelength):
     Ar = 1.00
     CO2 = 1.15
 
-    F_air = ((78.084 * N2 + 20.946 * O2 + CO2 + Ar) /
-             (78.084 + 20.946 + Ar + CO2))
+    F_air = (
+        (78.084 * N2 + 20.946 * O2 + CO2 + Ar) / (78.084 + 20.946 + Ar + CO2))
 
     return F_air
 
@@ -1143,7 +1143,8 @@ def sd_rayleigh_scattering(shape=DEFAULT_SPECTRAL_SHAPE,
     wavelengths = shape.range()
     return SpectralDistribution(
         data=dict(
-            zip(wavelengths,
+            zip(
+                wavelengths,
                 rayleigh_optical_depth(wavelengths * 10e-8, CO2_concentration,
                                        temperature, pressure, latitude,
                                        altitude, avogadro_constant, n_s,

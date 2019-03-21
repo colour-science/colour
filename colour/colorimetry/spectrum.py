@@ -587,9 +587,9 @@ dict_like, optional
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
-        kwargs['interpolator'] = kwargs.get('interpolator', SpragueInterpolator
-                                            if uniform else
-                                            CubicSplineInterpolator)
+        kwargs['interpolator'] = kwargs.get(
+            'interpolator', SpragueInterpolator
+            if uniform else CubicSplineInterpolator)
         kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)
@@ -1589,9 +1589,9 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
-        kwargs['interpolator'] = kwargs.get('interpolator', SpragueInterpolator
-                                            if uniform else
-                                            CubicSplineInterpolator)
+        kwargs['interpolator'] = kwargs.get(
+            'interpolator', SpragueInterpolator
+            if uniform else CubicSplineInterpolator)
         kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)

@@ -1117,10 +1117,10 @@ class TestLUTSequence(unittest.TestCase):
         Tests :class:`colour.io.luts.lut.LUTSequence.__neq__` method.
         """
 
-        self.assertNotEqual(self._LUT_sequence,
-                            LUTSequence(self._LUT_1,
-                                        self._LUT_2.copy() * 0.75,
-                                        self._LUT_3))
+        self.assertNotEqual(
+            self._LUT_sequence,
+            LUTSequence(self._LUT_1,
+                        self._LUT_2.copy() * 0.75, self._LUT_3))
 
     def test_insert(self):
         """
@@ -1131,13 +1131,14 @@ class TestLUTSequence(unittest.TestCase):
 
         LUT_sequence.insert(1, self._LUT_2.copy())
 
-        self.assertEqual(LUT_sequence,
-                         LUTSequence(
-                             self._LUT_1,
-                             self._LUT_2,
-                             self._LUT_2,
-                             self._LUT_3,
-                         ))
+        self.assertEqual(
+            LUT_sequence,
+            LUTSequence(
+                self._LUT_1,
+                self._LUT_2,
+                self._LUT_2,
+                self._LUT_3,
+            ))
 
     def test_apply(self):
         """
@@ -1411,11 +1412,11 @@ class TestLUT_to_LUT(unittest.TestCase):
             force_conversion=True,
             channel_weights=channel_weights)
 
-        self.assertEqual(LUT,
-                         LUT1D(
-                             np.sum(
-                                 self._LUT_2.table * channel_weights, axis=-1),
-                             domain=domain))
+        self.assertEqual(
+            LUT,
+            LUT1D(
+                np.sum(self._LUT_2.table * channel_weights, axis=-1),
+                domain=domain))
 
         # "LUT" 2D to "LUT" 2D.
         LUT = LUT_to_LUT(self._LUT_2, LUT2D)

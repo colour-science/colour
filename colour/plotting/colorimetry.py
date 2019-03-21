@@ -512,8 +512,8 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
 
     illuminants = filter_illuminants(illuminants).values()
 
-    title = '{0} - Illuminants Spectral Distributions'.format(
-        ', '.join([illuminant.strict_name for illuminant in illuminants]))
+    title = '{0} - Illuminants Spectral Distributions'.format(', '.join(
+        [illuminant.strict_name for illuminant in illuminants]))
 
     settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)

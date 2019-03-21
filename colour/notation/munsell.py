@@ -574,9 +574,9 @@ def munsell_value_McCamy1987(Y):
     V = np.where(
         Y <= 0.9,
         0.87445 * spow(Y, 0.9967),
-        2.49268 * spow(Y, 1 / 3) - 1.5614 -
-        (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
-        (0.0133 / spow(Y, 2.3)) + 0.0084 * np.sin(4.1 * spow(Y, 1 / 3) + 1) +
+        2.49268 * spow(Y, 1 / 3) - 1.5614 - (0.985 / ((
+            (0.1073 * Y - 3.084) ** 2) + 7.54)) + (0.0133 / spow(Y, 2.3)) +
+        0.0084 * np.sin(4.1 * spow(Y, 1 / 3) + 1) +
         (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
         (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53)),
     )
@@ -998,8 +998,8 @@ def xyY_to_munsell_specification(xyY):
 
             hue_angle_inner = ((hue_angle_current + iterations_inner *
                                 (phi_input - phi_current)) % 360)
-            hue_angle_difference_inner = (iterations_inner *
-                                          (phi_input - phi_current) % 360)
+            hue_angle_difference_inner = (
+                iterations_inner * (phi_input - phi_current) % 360)
             if hue_angle_difference_inner > 180:
                 hue_angle_difference_inner -= 360
 
@@ -1081,8 +1081,8 @@ def xyY_to_munsell_specification(xyY):
                 raise RuntimeError(('Maximum inner iterations count reached '
                                     'without convergence!'))
 
-            chroma_inner = (((
-                rho_input / rho_current) ** iterations_inner) * chroma_current)
+            chroma_inner = (((rho_input / rho_current) ** iterations_inner) *
+                            chroma_current)
             if chroma_inner > chroma_maximum:
                 chroma_inner = specification_current[2] = chroma_maximum
 
@@ -1672,10 +1672,10 @@ def interpolation_method_from_renotation_ovoid(specification):
         assert 2 <= chroma <= 50, (
             '"{0}" specification chroma must be normalised to domain '
             '[2, 50]!'.format(specification))
-        assert abs(2 *
-                   (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
-                       '"{0}" specification chroma must be an integer and '
-                       'multiple of 2!').format(specification))
+        assert abs(
+            2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
+                '"{0}" specification chroma must be an integer and '
+                'multiple of 2!').format(specification))
 
         chroma = 2 * round(chroma / 2)
 
@@ -1950,10 +1950,10 @@ def xy_from_renotation_ovoid(specification):
         assert 2 <= chroma <= 50, (
             '"{0}" specification chroma must be normalised to domain '
             '[2, 50]!'.format(specification))
-        assert abs(2 *
-                   (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
-                       '"{0}" specification chroma must be an integer and '
-                       'multiple of 2!').format(specification))
+        assert abs(
+            2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
+                '"{0}" specification chroma must be an integer and '
+                'multiple of 2!').format(specification))
 
         chroma = 2 * round(chroma / 2)
 
@@ -2017,8 +2017,8 @@ def xy_from_renotation_ovoid(specification):
                                      (rho_minus, rho_plus))(hue_angle)
 
             x, y = tsplit(
-                polar_to_cartesian((rho, np.radians(theta))) + as_float_array(
-                    (x_grey, y_grey)))
+                polar_to_cartesian((rho, np.radians(theta))) +
+                as_float_array((x_grey, y_grey)))
         else:
             raise ValueError('Invalid interpolation method: "{0}"'.format(
                 interpolation_method))

@@ -1085,27 +1085,30 @@ def plot_multi_colour_swatches(colour_swatches,
         x_0, x_1 = offset_X, offset_X + width
         y_0, y_1 = offset_Y, offset_Y + height
 
-        axes.fill((x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
-                  color=reference_colour_swatches[i].RGB)
+        axes.fill(
+            (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
+            color=reference_colour_swatches[i].RGB)
 
         if compare_swatches == 'stacked':
             margin_X = width * 0.25
             margin_Y = height * 0.25
-            axes.fill((
-                x_0 + margin_X,
-                x_1 - margin_X,
-                x_1 - margin_X,
-                x_0 + margin_X,
-            ), (
-                y_0 + margin_Y,
-                y_0 + margin_Y,
-                y_1 - margin_Y,
-                y_1 - margin_Y,
-            ),
-                      color=test_colour_swatches[i].RGB)
+            axes.fill(
+                (
+                    x_0 + margin_X,
+                    x_1 - margin_X,
+                    x_1 - margin_X,
+                    x_0 + margin_X,
+                ), (
+                    y_0 + margin_Y,
+                    y_0 + margin_Y,
+                    y_1 - margin_Y,
+                    y_1 - margin_Y,
+                ),
+                color=test_colour_swatches[i].RGB)
         else:
-            axes.fill((x_0, x_1, x_1), (y_0, y_0, y_1),
-                      color=test_colour_swatches[i].RGB)
+            axes.fill(
+                (x_0, x_1, x_1), (y_0, y_0, y_1),
+                color=test_colour_swatches[i].RGB)
 
         if colour_swatch.name is not None and text_settings['visible']:
             axes.text(
@@ -1192,8 +1195,9 @@ def plot_single_function(function,
     }
     settings.update(kwargs)
 
-    return plot_multi_functions({name: function}, samples, log_x, log_y,
-                                **settings)
+    return plot_multi_functions({
+        name: function
+    }, samples, log_x, log_y, **settings)
 
 
 @override_style()

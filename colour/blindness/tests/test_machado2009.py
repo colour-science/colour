@@ -42,44 +42,44 @@ anomalous_trichromacy_cmfs_Machado2009` definition.
 
         cmfs = LMS_CMFS.get('Smith & Pokorny 1975 Normal Trichromats')
         np.testing.assert_almost_equal(
-            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([0, 0, 0],
-                                                                  ))[450],
+            anomalous_trichromacy_cmfs_Machado2009(cmfs,
+                                                   np.array([0, 0, 0], ))[450],
             cmfs[450],
             decimal=7)
 
         np.testing.assert_almost_equal(
-            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([1, 0, 0],
-                                                                  ))[450],
+            anomalous_trichromacy_cmfs_Machado2009(cmfs,
+                                                   np.array([1, 0, 0], ))[450],
             np.array([0.03631700, 0.06350000, 0.91000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([0, 1, 0],
-                                                                  ))[450],
+            anomalous_trichromacy_cmfs_Machado2009(cmfs,
+                                                   np.array([0, 1, 0], ))[450],
             np.array([0.03430000, 0.06178404, 0.91000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([0, 0, 1],
-                                                                  ))[450],
+            anomalous_trichromacy_cmfs_Machado2009(cmfs,
+                                                   np.array([0, 0, 1], ))[450],
             np.array([0.03430000, 0.06350000, 0.92270240]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([10, 0, 0],
-                                                                  ))[450],
+            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array(
+                [10, 0, 0], ))[450],
             np.array([0.05447001, 0.06350000, 0.91000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([0, 10, 0],
-                                                                  ))[450],
+            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array(
+                [0, 10, 0], ))[450],
             np.array([0.03430000, 0.04634036, 0.91000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([0, 0, 10],
-                                                                  ))[450],
+            anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array(
+                [0, 0, 10], ))[450],
             np.array([0.03430000, 0.06350000, 1.00000000]),
             decimal=7)
 

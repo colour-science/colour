@@ -180,12 +180,13 @@ class TestAsNametuple(unittest.TestCase):
 
         self.assertEqual(named_tuple, as_namedtuple(named_tuple, NamedTuple))
 
-        self.assertEqual(named_tuple,
-                         as_namedtuple({
-                             'a': a_a,
-                             'b': a_b,
-                             'c': a_c
-                         }, NamedTuple))
+        self.assertEqual(
+            named_tuple,
+            as_namedtuple({
+                'a': a_a,
+                'b': a_b,
+                'c': a_c
+            }, NamedTuple))
 
         self.assertEqual(named_tuple, as_namedtuple([a_a, a_b, a_c],
                                                     NamedTuple))

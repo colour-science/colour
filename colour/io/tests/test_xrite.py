@@ -75,15 +75,14 @@ class TestReadSdsFromXRiteFile(unittest.TestCase):
         Tests :func:`colour.io.xrite.read_sds_from_xrite_file` definition.
         """
 
-        colour_checker_xrite = os.path.join(RESOURCES_DIRECTORY,
-                                            'xrite_digital_colour_checker.txt')
+        colour_checker_xrite = os.path.join(
+            RESOURCES_DIRECTORY, 'xrite_digital_colour_checker.txt')
         sds = read_sds_from_xrite_file(colour_checker_xrite)
         for sd in sds.values():
             self.assertIsInstance(sd, SpectralDistribution)
 
-        self.assertEqual(sds['X1'],
-                         SpectralDistribution(
-                             COLOURCHECKER_XRITE_1, name='X1'))
+        self.assertEqual(
+            sds['X1'], SpectralDistribution(COLOURCHECKER_XRITE_1, name='X1'))
 
 
 if __name__ == '__main__':

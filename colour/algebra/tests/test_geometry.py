@@ -195,17 +195,19 @@ class TestIntersectLineSegments(unittest.TestCase):
                        [0.7578749, 0.17613012], [np.nan, np.nan]]]),
             decimal=7)
 
-        np.testing.assert_array_equal(s.intersect,
-                                      np.array([[False, True, False, False],
-                                                [True, True, True, False]]))
+        np.testing.assert_array_equal(
+            s.intersect,
+            np.array([[False, True, False, False], [True, True, True, False]]))
 
-        np.testing.assert_array_equal(s.parallel,
-                                      np.array([[False, False, False, False],
-                                                [False, False, False, True]]))
+        np.testing.assert_array_equal(
+            s.parallel,
+            np.array([[False, False, False, False],
+                      [False, False, False, True]]))
 
-        np.testing.assert_array_equal(s.coincident,
-                                      np.array([[False, False, False, False],
-                                                [False, False, False, True]]))
+        np.testing.assert_array_equal(
+            s.coincident,
+            np.array([[False, False, False, False],
+                      [False, False, False, True]]))
 
 
 class TestEllipseCoefficientsCanonicalForm(unittest.TestCase):

@@ -406,8 +406,8 @@ def log_encoding_ERIMMRGB(X,
         0,
         I_max * ((np.log(E_t) - np.log(E_min)) /
                  (np.log(E_clip) - np.log(E_min))) * (X / E_t),
-        I_max * ((np.log(X) - np.log(E_min)) /
-                 (np.log(E_clip) - np.log(E_min))),
+        I_max * (
+            (np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
         I_max,
     ])
 
@@ -485,12 +485,12 @@ def log_decoding_ERIMMRGB(X_p,
     E_t = np.exp(1) * E_min
 
     X = np.where(
-        X_p <= I_max * ((np.log(E_t) - np.log(E_min)) /
-                        (np.log(E_clip) - np.log(E_min))),
-        ((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min))) *
-        ((X_p * E_t) / I_max),
-        np.exp((X_p / I_max) *
-               (np.log(E_clip) - np.log(E_min)) + np.log(E_min)),
+        X_p <= I_max * (
+            (np.log(E_t) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
+        ((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min))) * (
+            (X_p * E_t) / I_max),
+        np.exp((X_p / I_max) * (np.log(E_clip) - np.log(E_min)) +
+               np.log(E_min)),
     )
 
     return as_float(from_range_1(X))

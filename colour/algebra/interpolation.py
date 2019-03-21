@@ -256,8 +256,8 @@ def kernel_cardinal_spline(x, a=0.5, b=0.0):
     x_abs = np.abs(x)
     y = np.where(
         x_abs < 1,
-        (-6 * a - 9 * b + 12) * x_abs ** 3 +
-        (6 * a + 12 * b - 18) * x_abs ** 2 - 2 * b + 6,
+        (-6 * a - 9 * b + 12) * x_abs ** 3 + (6 * a + 12 * b - 18) * x_abs ** 2
+        - 2 * b + 6,
         (-6 * a - b) * x_abs ** 3 + (30 * a + 6 * b) * x_abs ** 2 +
         (-48 * a - 12 * b) * x_abs + 24 * a + 8 * b,
     )
@@ -640,17 +640,17 @@ class KernelInterpolator(object):
         x_interval = interval(self._x)[0]
         x_f = np.floor(x / x_interval)
 
-        windows = (x_f[:, np.newaxis] +
-                   np.arange(-self._window + 1, self._window + 1))
+        windows = (x_f[:, np.newaxis] + np.arange(-self._window + 1,
+                                                  self._window + 1))
         clip_l = min(self._x_p) / x_interval
         clip_h = max(self._x_p) / x_interval
         windows = np.clip(windows, clip_l, clip_h) - clip_l
         windows = np.around(windows).astype(DEFAULT_INT_DTYPE)
 
         return np.sum(
-            self._y_p[windows] *
-            self._kernel(x[:, np.newaxis] / x_interval - windows -
-                         min(self._x_p) / x_interval, **self._kernel_args),
+            self._y_p[windows] * self._kernel(
+                x[:, np.newaxis] / x_interval - windows -
+                min(self._x_p) / x_interval, **self._kernel_args),
             axis=-1)
 
     def _validate_dimensions(self):
@@ -1707,10 +1707,10 @@ def table_interpolation_trilinear(V_xyz, table):
     x, y, z = [f[:, np.newaxis] for f in tsplit(V_xyzr)]
 
     weights = np.moveaxis(
-        np.transpose([(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
-                      (1 - x) * y * (1 - z), (1 - x) * y * z, x * (1 - y) *
-                      (1 - z), x * (1 - y) * z, x * y * (1 - z), x * y * z]),
-        0, -1)
+        np.transpose(
+            [(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
+             (1 - x) * y * (1 - z), (1 - x) * y * z, x * (1 - y) * (1 - z),
+             x * (1 - y) * z, x * y * (1 - z), x * y * z]), 0, -1)
 
     xyz_o = np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
 

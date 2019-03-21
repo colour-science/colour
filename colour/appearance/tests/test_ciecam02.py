@@ -66,9 +66,9 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
         XYZ = tstack([data['X'], data['Y'], data['Z']])
         XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
 
-        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, data['L_A'], data['Y_b'],
-                                        CIECAM02_InductionFactors(
-                                            data['F'], data['c'], data['N_c']))
+        specification = XYZ_to_CIECAM02(
+            XYZ, XYZ_w, data['L_A'], data['Y_b'],
+            CIECAM02_InductionFactors(data['F'], data['c'], data['N_c']))
 
         return specification
 
@@ -172,10 +172,9 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             k: data[k]
         }, CIECAM02_Specification)
 
-        XYZ = CIECAM02_to_XYZ(CIECAM02_specification, XYZ_w, data['L_A'],
-                              data['Y_b'],
-                              CIECAM02_InductionFactors(
-                                  data['F'], data['c'], data['N_c']))
+        XYZ = CIECAM02_to_XYZ(
+            CIECAM02_specification, XYZ_w, data['L_A'], data['Y_b'],
+            CIECAM02_InductionFactors(data['F'], data['c'], data['N_c']))
 
         return XYZ
 

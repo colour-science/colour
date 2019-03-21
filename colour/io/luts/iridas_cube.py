@@ -242,8 +242,8 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
             for comment in LUT.comments:
                 cube_file.write('# {0}\n'.format(comment))
 
-        cube_file.write('{0} {1}\n'.format('LUT_1D_SIZE' if is_2D else
-                                           'LUT_3D_SIZE', LUT.table.shape[0]))
+        cube_file.write('{0} {1}\n'.format(
+            'LUT_1D_SIZE' if is_2D else 'LUT_3D_SIZE', LUT.table.shape[0]))
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
         if not np.array_equal(LUT.domain, default_domain):

@@ -112,8 +112,9 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
-                                                     E_o1, E_o2))
+print(
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                   E_o1, E_o2))
 
 print('\n')
 
@@ -125,8 +126,9 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
-                                                     E_o1, E_o2))
+print(
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                   E_o1, E_o2))
 
 print('\n')
 
@@ -142,8 +144,9 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
-                                                     E_o1, E_o2))
+print(
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                   E_o1, E_o2))
 
 print('\n')
 
@@ -160,8 +163,9 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
-                                                     E_o1, E_o2))
+print(
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                   E_o1, E_o2))
 
 print('\n')
 
@@ -196,5 +200,6 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
-                                                     E_o1, E_o2))
+print(
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                   E_o1, E_o2))

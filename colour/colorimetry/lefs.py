@@ -547,7 +547,8 @@ def sd_mesopic_luminous_efficiency_function(
     wavelengths = shape.range()
 
     sd_data = dict(
-        zip(wavelengths,
+        zip(
+            wavelengths,
             mesopic_weighting_function(wavelengths, Lp, source, method,
                                        photopic_lef, scotopic_lef)))
 

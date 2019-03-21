@@ -21,8 +21,9 @@ print(colour.adaptation.chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr))
 print('\n')
 
 message_box('Using "Bradford" CAT.')
-print(colour.adaptation.chromatic_adaptation_matrix_VonKries(
-    XYZ_w, XYZ_wr, transform='Bradford'))
+print(
+    colour.adaptation.chromatic_adaptation_matrix_VonKries(
+        XYZ_w, XYZ_wr, transform='Bradford'))
 
 print('\n')
 
@@ -31,8 +32,9 @@ message_box(('Computing the chromatic adaptation matrix from '
              '"CIE Standard Illuminant D Series D65" using "Von Kries" CAT.'))
 A = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
 D65 = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
-print(colour.adaptation.chromatic_adaptation_matrix_VonKries(
-    colour.xy_to_XYZ(A), colour.xy_to_XYZ(D65), transform='Von Kries'))
+print(
+    colour.adaptation.chromatic_adaptation_matrix_VonKries(
+        colour.xy_to_XYZ(A), colour.xy_to_XYZ(D65), transform='Von Kries'))
 
 print('\n')
 
@@ -41,7 +43,9 @@ message_box(('Adapting given "CIE XYZ" tristimulus values from '
              '"CIE Standard Illuminant A" to '
              '"CIE Standard Illuminant D Series D65" using "Sharp" CAT.\n'
              '\n\t"XYZ":\n\t\t{0}'.format(XYZ)))
-print(colour.chromatic_adaptation(
-    XYZ, colour.xy_to_XYZ(A), colour.xy_to_XYZ(D65), transform='Sharp'))
-print(colour.adaptation.chromatic_adaptation_VonKries(
-    XYZ, colour.xy_to_XYZ(A), colour.xy_to_XYZ(D65), transform='Sharp'))
+print(
+    colour.chromatic_adaptation(
+        XYZ, colour.xy_to_XYZ(A), colour.xy_to_XYZ(D65), transform='Sharp'))
+print(
+    colour.adaptation.chromatic_adaptation_VonKries(
+        XYZ, colour.xy_to_XYZ(A), colour.xy_to_XYZ(D65), transform='Sharp'))

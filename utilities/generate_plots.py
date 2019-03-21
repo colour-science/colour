@@ -242,8 +242,8 @@ def generate_documentation_plots(output_directory):
     plot_blackbody_spectral_radiance(
         3500, blackbody='VY Canis Major', **arguments)
 
-    arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_Blackbody_Colours.png')
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_Blackbody_Colours.png')
     plot_blackbody_colours(colour.SpectralShape(150, 12500, 50), **arguments)
 
     arguments['filename'] = os.path.join(
@@ -343,40 +343,40 @@ def generate_documentation_plots(output_directory):
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
         ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
 
-    arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_RGB_Colourspaces_In_'
-                                         'Chromaticity_Diagram_CIE1960UCS.png')
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_RGB_Colourspaces_In_'
+        'Chromaticity_Diagram_CIE1960UCS.png')
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
         ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
 
-    arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_RGB_Colourspaces_In_'
-                                         'Chromaticity_Diagram_CIE1976UCS.png')
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_RGB_Colourspaces_In_'
+        'Chromaticity_Diagram_CIE1976UCS.png')
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
         ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
 
-    arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_RGB_Chromaticities_In_'
-                                         'Chromaticity_Diagram_Plot.png')
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
+        'Chromaticity_Diagram_Plot.png')
     RGB = np.random.random((128, 128, 3))
     plot_RGB_chromaticities_in_chromaticity_diagram(RGB, 'ITU-R BT.709',
                                                     **arguments)
 
-    arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_RGB_Chromaticities_In_'
-                                         'Chromaticity_Diagram_CIE1931.png')
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
+        'Chromaticity_Diagram_CIE1931.png')
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         RGB, 'ITU-R BT.709', **arguments)
 
-    arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_RGB_Chromaticities_In_'
-                                         'Chromaticity_Diagram_CIE1960UCS.png')
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
+        'Chromaticity_Diagram_CIE1960UCS.png')
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
         RGB, 'ITU-R BT.709', **arguments)
 
-    arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_RGB_Chromaticities_In_'
-                                         'Chromaticity_Diagram_CIE1976UCS.png')
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
+        'Chromaticity_Diagram_CIE1976UCS.png')
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
         RGB, 'ITU-R BT.709', **arguments)
 
