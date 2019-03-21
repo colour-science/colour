@@ -102,7 +102,7 @@ def formatting(ctx, yapf=False, asciify=True, bibtex=True):
 
     if yapf:
         message_box('Formatting codebase with "Yapf"...')
-        ctx.run('yapf -p -i -r .')
+        ctx.run('yapf -p -i -r --exclude \'.git\' .')
 
     if asciify:
         message_box('Converting unicode characters to ASCII...')
