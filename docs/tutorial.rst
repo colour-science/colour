@@ -2,15 +2,15 @@ Tutorial
 ========
 
 `Colour <https://github.com/colour-science/Colour/>`__ spreads over
-various domains of Colour Science from colour models to optical
-phenomena, this tutorial will not give you a complete overview of the
-API but will still be a good introduction.
+various domains of Colour Science, from colour models to optical
+phenomena, this tutorial does not give a complete overview of the
+API but is a good introduction to the main concepts.
 
 .. note::
 
-    A directory full of examples is available at this path in your
+    A directory with examples is available at this path in
     `Colour <https://github.com/colour-science/Colour/>`__ installation:
-    *colour/examples*. You can also explore it directly on Github:
+    *colour/examples*. It can be explored directly on Github:
     https://github.com/colour-science/colour/tree/master/colour/examples
 
 
@@ -854,9 +854,9 @@ interpolator.
 
 .. note::
 
-    Interpolation happens in place and may alter your original
+    Interpolation happens in place and may alter the original
     data, use the ``colour.SpectralDistribution.copy`` method to
-    produce a copy of your spectral distribution before
+    produce a copy of the spectral distribution before
     interpolation.
 
 
@@ -1213,7 +1213,7 @@ sample.
 .. note::
 
     This is useful for render time checks in the VFX industry,
-    where you can use a synthetic colour chart into your render and
+    where a synthetic colour chart can be inserted into a render to
     ensure the colour management is acting as expected.
 
 
@@ -1325,8 +1325,8 @@ Chromaticity Diagram*:
 And More...
 -----------
 
-We hope that this small introduction has been useful and gave you the
-envy to see more, if you want to explore the API a good place to start
+We hope that this small introduction has been useful and gave envy to see more,
+to explore the API further more a good place to start
 is the `Jupyter
 Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
 page.
