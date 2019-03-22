@@ -373,7 +373,7 @@ def virtualise(ctx, tests=True):
         ctx.run('virtualenv staging')
         with ctx.cd('{0}-*'.format(PYPI_PACKAGE_NAME)):
             ctx.run('pwd')
-            ctx.run('{0} install numpy==1.13.3'.format(pip_binary))
+            ctx.run('{0} install numpy'.format(pip_binary))
             ctx.run('{0} install -e .'.format(pip_binary))
             ctx.run('{0} install matplotlib'.format(pip_binary))
             ctx.run('{0} install nose'.format(pip_binary))
