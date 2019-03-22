@@ -22,7 +22,7 @@ import re
 import warnings
 from collections import OrderedDict
 from copy import deepcopy
-from six import string_types
+from six import integer_types, string_types
 
 from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
 from colour.utilities import Lookup
@@ -296,7 +296,10 @@ def is_numeric(a):
     """
 
     return isinstance(
-        a, (int, float, complex, np.integer, np.floating, np.complex))
+        a,
+        tuple(
+            list(integer_types) +
+            [float, complex, np.integer, np.floating, np.complex]))
 
 
 def is_integer(a):
