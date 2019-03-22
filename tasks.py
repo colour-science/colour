@@ -213,11 +213,13 @@ def examples(ctx, plots=False):
             os.path.join(PYTHON_PACKAGE_NAME, 'examples')):
         for filename in fnmatch.filter(filenames, '*.py'):
             if not plots and ('plotting' in root or
-                              'examples_interpolation' in filename):
+                              'examples_interpolation' in filename or
+                              'examples_contrast' in filename):
                 continue
 
             if plots and ('plotting' not in root and
-                          'examples_interpolation' not in filename):
+                          'examples_interpolation' not in filename and
+                          'examples_contrast' not in filename):
                 continue
 
             ctx.run('python {0}'.format(os.path.join(root, filename)))

@@ -177,7 +177,7 @@ print(colour.sd_constant(3.1415)[400])
 print('\n')
 
 message_box('Zeros filled spectral distribution.')
-print(colour.zeros_sd()[400])
+print(colour.sd_zeros()[400])
 
 print('\n')
 
