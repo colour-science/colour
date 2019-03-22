@@ -213,11 +213,13 @@ def examples(ctx, plots=False):
             os.path.join(PYTHON_PACKAGE_NAME, 'examples')):
         for filename in fnmatch.filter(filenames, '*.py'):
             if not plots and ('plotting' in root or
-                              'examples_interpolation' in filename):
+                              'examples_interpolation' in filename or
+                              'examples_contrast' in filename):
                 continue
 
             if plots and ('plotting' not in root and
-                          'examples_interpolation' not in filename):
+                          'examples_interpolation' not in filename and
+                          'examples_contrast' not in filename):
                 continue
 
             ctx.run('python {0}'.format(os.path.join(root, filename)))
@@ -373,7 +375,7 @@ def virtualise(ctx, tests=True):
         ctx.run('virtualenv staging')
         with ctx.cd('{0}-*'.format(PYPI_PACKAGE_NAME)):
             ctx.run('pwd')
-            ctx.run('{0} install numpy==1.13.3'.format(pip_binary))
+            ctx.run('{0} install numpy'.format(pip_binary))
             ctx.run('{0} install -e .'.format(pip_binary))
             ctx.run('{0} install matplotlib'.format(pip_binary))
             ctx.run('{0} install nose'.format(pip_binary))

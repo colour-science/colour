@@ -51,13 +51,10 @@ if sys.version_info[:2] <= (3, 2):
     TESTS_REQUIREMENTS += ['mock']
 
 DEVELOPMENT_REQUIREMENTS = DOCS_REQUIREMENTS + TESTS_REQUIREMENTS + [
-    'invoke', 'restructuredtext_lint', 'twine', 'yapf=0.23.0'
+    'invoke', 'restructuredtext_lint', 'twine', 'yapf==0.23.0'
 ]
 if sys.version_info[:2] >= (3, 2):
-    DEVELOPMENT_REQUIREMENTS += [
-        'biblib @ git+ssh://git@github.comcolour-science/biblib'
-        '@v0.1.0#egg=biblib'
-    ]
+    DEVELOPMENT_REQUIREMENTS += ['biblib-simple']
 
 
 def get_version():
