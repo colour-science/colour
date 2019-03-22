@@ -6,7 +6,7 @@ TODO
 
 -   colour/__init__.py
 
-    -   Line 289 : # TODO: Remove legacy printing support when deemed appropriate.
+    -   Line 290 : # TODO: Remove legacy printing support when deemed appropriate.
 
 
 -   colour/colorimetry/spectrum.py
@@ -16,7 +16,7 @@ TODO
 
 -   colour/colorimetry/tristimulus.py
 
-    -   Line 699 : # TODO: Investigate code vectorisation.
+    -   Line 765 : # TODO: Investigate code vectorisation.
 
 
 -   colour/colorimetry/tests/test_spectrum.py
@@ -109,13 +109,13 @@ TODO
 
     -   Line 380 : # TODO: Check for interpolator capabilities.
     -   Line 445 : # TODO: Check for extrapolator capabilities.
-    -   Line 585 : # TODO: Discuss what is the most suitable behaviour, either the following or __str__ one.
+    -   Line 586 : # TODO: Discuss what is the most suitable behaviour, either the following or __str__ one.
 
 
 -   colour/continuous/multi_signal.py
 
-    -   Line 697 : # TODO: Discuss what is the most suitable behaviour, either the following or __str__ one.
-    -   Line 1318 : # TODO: Implement support for Signal class passing.
+    -   Line 698 : # TODO: Discuss what is the most suitable behaviour, either the following or __str__ one.
+    -   Line 1319 : # TODO: Implement support for Signal class passing.
 
 
 -   colour/volume/rgb.py
