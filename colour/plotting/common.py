@@ -33,6 +33,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
 import re
+import textwrap
 from collections import OrderedDict, namedtuple
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
@@ -54,11 +55,12 @@ __status__ = 'Production'
 __all__ = [
     'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
-    'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
-    'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
-    'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
-    'plot_single_colour_swatch', 'plot_multi_colour_swatches',
-    'plot_single_function', 'plot_multi_functions', 'plot_image'
+    'colour_cycle', 'artist', 'camera', 'render', 'wrap_label',
+    'label_rectangles', 'uniform_axes3d', 'filter_passthrough',
+    'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
+    'filter_colour_checkers', 'plot_single_colour_swatch',
+    'plot_multi_colour_swatches', 'plot_single_function',
+    'plot_multi_functions', 'plot_image'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -498,6 +500,9 @@ def render(**kwargs):
         Whether to turn off the background patch. Default is *False*.
     title : unicode, optional
         Figure title.
+    wrap_title : unicode, optional
+        Whether to wrap the figure title, the default is to wrap at a number
+        of characters equal to the width of the figure multiplied by 10.
     x_label : unicode, optional
         *X* axis label.
     y_label : unicode, optional
@@ -533,6 +538,7 @@ def render(**kwargs):
             'legend_columns': 1,
             'transparent_background': True,
             'title': None,
+            'wrap_title': True,
             'x_label': None,
             'y_label': None,
             'x_ticker': True,
@@ -549,7 +555,11 @@ def render(**kwargs):
         axes.set_ylim(settings.bounding_box[2], settings.bounding_box[3])
 
     if settings.title:
-        axes.set_title(settings.title)
+        title = settings.title
+        if settings.wrap_title:
+            title = wrap_label(settings.title,
+                               int(plt.rcParams['figure.figsize'][0] * 10))
+        axes.set_title(title)
     if settings.x_label:
         axes.set_xlabel(settings.x_label)
     if settings.y_label:
@@ -573,6 +583,40 @@ def render(**kwargs):
             plt.show()
 
     return figure, axes
+
+
+def wrap_label(label, wrap_length=60):
+    """
+    Wraps given label at given length.
+
+    The intent of this definition is to wrap long titles so that they don't
+    overflow the figure.
+
+    Parameters
+    ----------
+    label : unicode
+        Label to wrap.
+    wrap_length : int, optional
+        Length at which wrapping should occur.
+
+    Returns
+    -------
+    unicode
+        Wrapped label.
+
+    Examples
+    --------
+    >>> wrap_label(  # doctest: +SKIP
+    ...     'This is a very long figure title that would overflow the figure '
+    ...     'container if it was not wrapped.')
+    'This is a very long figure title that would overflow the figure \
+container if it\\nwas not wrapped.'
+    """
+
+    if wrap_length is not None:
+        return '\n'.join(textwrap.wrap(label, wrap_length))
+    else:
+        return label
 
 
 def label_rectangles(labels,
@@ -1085,30 +1129,27 @@ def plot_multi_colour_swatches(colour_swatches,
         x_0, x_1 = offset_X, offset_X + width
         y_0, y_1 = offset_Y, offset_Y + height
 
-        axes.fill(
-            (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
-            color=reference_colour_swatches[i].RGB)
+        axes.fill((x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
+                  color=reference_colour_swatches[i].RGB)
 
         if compare_swatches == 'stacked':
             margin_X = width * 0.25
             margin_Y = height * 0.25
-            axes.fill(
-                (
-                    x_0 + margin_X,
-                    x_1 - margin_X,
-                    x_1 - margin_X,
-                    x_0 + margin_X,
-                ), (
-                    y_0 + margin_Y,
-                    y_0 + margin_Y,
-                    y_1 - margin_Y,
-                    y_1 - margin_Y,
-                ),
-                color=test_colour_swatches[i].RGB)
+            axes.fill((
+                x_0 + margin_X,
+                x_1 - margin_X,
+                x_1 - margin_X,
+                x_0 + margin_X,
+            ), (
+                y_0 + margin_Y,
+                y_0 + margin_Y,
+                y_1 - margin_Y,
+                y_1 - margin_Y,
+            ),
+                      color=test_colour_swatches[i].RGB)
         else:
-            axes.fill(
-                (x_0, x_1, x_1), (y_0, y_0, y_1),
-                color=test_colour_swatches[i].RGB)
+            axes.fill((x_0, x_1, x_1), (y_0, y_0, y_1),
+                      color=test_colour_swatches[i].RGB)
 
         if colour_swatch.name is not None and text_settings['visible']:
             axes.text(
@@ -1195,9 +1236,8 @@ def plot_single_function(function,
     }
     settings.update(kwargs)
 
-    return plot_multi_functions({
-        name: function
-    }, samples, log_x, log_y, **settings)
+    return plot_multi_functions({name: function}, samples, log_x, log_y,
+                                **settings)
 
 
 @override_style()
