@@ -11,7 +11,7 @@ import unittest
 import shutil
 import tempfile
 
-from colour.io import LUTSequence, LUT2D
+from colour.io import LUTSequence, LUT3x1D
 from colour.io import read_LUT_Cinespace, write_LUT_Cinespace
 from colour.utilities import tstack
 
@@ -98,7 +98,7 @@ class TestReadLUTCinespace(unittest.TestCase):
         self.assertEqual(LUT_3.size, 2)
 
         LUT_4 = read_LUT_Cinespace(
-            os.path.join(LUTS_DIRECTORY, 'non_uniform.csp'))
+            os.path.join(LUTS_DIRECTORY, 'NonUniform.csp'))
         self.assertEqual(LUT_4[0].is_domain_explicit(), True)
         self.assertEqual(LUT_4[1].table.shape, (2, 3, 4, 3))
 
@@ -180,7 +180,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
 
         domain = tstack((r, g, b))
 
-        LUT_4_t = LUT2D(domain=domain, table=domain * 2)
+        LUT_4_t = LUT3x1D(domain=domain, table=domain * 2)
 
         write_LUT_Cinespace(
             LUT_4_t,

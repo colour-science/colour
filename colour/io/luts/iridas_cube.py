@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
+from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import parse_array, path_to_title
 from colour.utilities import as_float_array, usage_warning
 
@@ -45,8 +45,8 @@ def read_LUT_IridasCube(path):
 
     Returns
     -------
-    LUT2D or LUT3d
-        :class:`LUT2D` or :class:`LUT3D` class instance.
+    LUT3x1D or LUT3d
+        :class:`LUT3x1D` or :class:`LUT3D` class instance.
 
     References
     ----------
@@ -54,15 +54,15 @@ def read_LUT_IridasCube(path):
 
     Examples
     --------
-    Reading a 2D *Iridas* *.cube* *LUT*:
+    Reading a 3x1D *Iridas* *.cube* *LUT*:
 
     >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'iridas_cube',
     ...     'ACES_Proxy_10_to_ACES.cube')
     >>> print(read_LUT_IridasCube(path))
-    LUT2D - ACES Proxy 10 to ACES
-    -----------------------------
+    LUT3x1D - ACES Proxy 10 to ACES
+    -------------------------------
     <BLANKLINE>
     Dimensions : 2
     Domain     : [[ 0.  0.  0.]
@@ -89,8 +89,8 @@ def read_LUT_IridasCube(path):
     ...     os.path.dirname(__file__), 'tests', 'resources', 'iridas_cube',
     ...     'Demo.cube')
     >>> print(read_LUT_IridasCube(path))
-    LUT2D - Demo
-    ------------
+    LUT3x1D - Demo
+    --------------
     <BLANKLINE>
     Dimensions : 2
     Domain     : [[ 0.  0.  0.]
@@ -136,7 +136,7 @@ def read_LUT_IridasCube(path):
 
     table = as_float_array(table)
     if dimensions == 2:
-        return LUT2D(
+        return LUT3x1D(
             table,
             title,
             np.vstack([domain_min, domain_max]),
@@ -160,8 +160,8 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
 
     Parameters
     ----------
-    LUT : LUT2D or LUT3d or LUTSequence
-        :class:`LUT2D`, :class:`LUT3D` or :class:`LUTSequence` class instance
+    LUT : LUT3x1D or LUT3d or LUTSequence
+        :class:`LUT3x1D`, :class:`LUT3D` or :class:`LUTSequence` class instance
         to write at given path.
     path : unicode
         *LUT* path.
@@ -184,12 +184,12 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
 
     Examples
     --------
-    Writing a 2D *Iridas* *.cube* *LUT*:
+    Writing a 3x1D *Iridas* *.cube* *LUT*:
 
     >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
-    >>> LUT = LUT2D(
-    ...     spow(LUT2D.linear_table(16, domain), 1 / 2.2),
+    >>> LUT = LUT3x1D(
+    ...     spow(LUT3x1D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
     ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])
@@ -215,15 +215,15 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
 
     if isinstance(LUT, LUT1D):
-        LUT = LUT.as_LUT(LUT2D)
+        LUT = LUT.as_LUT(LUT3x1D)
 
-    assert (isinstance(LUT, LUT2D) or
-            isinstance(LUT, LUT3D)), '"LUT" must be a 1D, 2D or 3D "LUT"!'
+    assert (isinstance(LUT, LUT3x1D) or
+            isinstance(LUT, LUT3D)), '"LUT" must be a 1D, 3x1D or 3D "LUT"!'
 
-    is_2D = isinstance(LUT, LUT2D)
+    is_3x1D = isinstance(LUT, LUT3x1D)
 
     size = LUT.size
-    if is_2D:
+    if is_3x1D:
         assert 2 <= size <= 65536, '"LUT" size must be in domain [2, 65536]!'
     else:
         assert 2 <= size <= 256, '"LUT" size must be in domain [2, 256]!'
@@ -243,7 +243,7 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
                 cube_file.write('# {0}\n'.format(comment))
 
         cube_file.write('{0} {1}\n'.format(
-            'LUT_1D_SIZE' if is_2D else 'LUT_3D_SIZE', LUT.table.shape[0]))
+            'LUT_1D_SIZE' if is_3x1D else 'LUT_3D_SIZE', LUT.table.shape[0]))
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
         if not np.array_equal(LUT.domain, default_domain):
@@ -252,7 +252,7 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
             cube_file.write('DOMAIN_MAX {0}\n'.format(
                 _format_array(LUT.domain[1])))
 
-        if not is_2D:
+        if not is_3x1D:
             table = LUT.table.reshape([-1, 3], order='F')
         else:
             table = LUT.table

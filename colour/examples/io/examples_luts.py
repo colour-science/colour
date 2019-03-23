@@ -14,7 +14,7 @@ RESOURCES_DIRECTORY = os.path.join(
 
 message_box('Look Up Table (LUT) Data')
 
-message_box('Reading "Iridas" ".cube" 2D LUT file.')
+message_box('Reading "Iridas" ".cube" 3x1D LUT file.')
 path = os.path.join(RESOURCES_DIRECTORY, 'iridas_cube',
                     'ACES_Proxy_10_to_ACES.cube')
 print(colour.io.read_LUT_IridasCube(path))
@@ -40,9 +40,9 @@ print(colour.read_LUT(path))
 
 print('\n')
 
-message_box('Reading "Sony" ".spi1d" 2D LUT file.')
+message_box('Reading "Sony" ".spi1d" 3x1D LUT file.')
 path = os.path.join(RESOURCES_DIRECTORY, 'sony_spi1d',
-                    'oetf_reverse_sRGB_2D.spi1d')
+                    'oetf_reverse_sRGB_3x1D.spi1d')
 print(colour.io.read_LUT_SonySPI1D(path))
 print('\n')
 print(colour.read_LUT(path))
@@ -58,7 +58,8 @@ print(LUT.apply(RGB))
 
 print('\n')
 
-message_box(('Applying 2D LUT to given "RGB" values:\n' '\n\t{0}'.format(RGB)))
+message_box(('Applying 3x1D LUT to given "RGB" values:\n'
+             '\n\t{0}'.format(RGB)))
 path = os.path.join(RESOURCES_DIRECTORY, 'iridas_cube',
                     'ACES_Proxy_10_to_ACES.cube')
 LUT = colour.io.read_LUT(path)

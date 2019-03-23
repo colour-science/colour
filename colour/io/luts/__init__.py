@@ -18,7 +18,7 @@ from __future__ import absolute_import
 import os
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
-from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT2D, LUT3D,
+from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D,
                   LUTSequence, LUT_to_LUT)
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
@@ -27,7 +27,7 @@ from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
 
 __all__ = [
-    'AbstractLUTSequenceOperator', 'LUT1D', 'LUT2D', 'LUT3D', 'LUTSequence',
+    'AbstractLUTSequenceOperator', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUTSequence',
     'LUT_to_LUT'
 ]
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
@@ -84,8 +84,8 @@ def read_LUT(path, method=None, **kwargs):
 
     Returns
     -------
-    LUT1D or LUT2D or LUT3D
-        :class:`LUT1D`, :class:`LUT2D` or :class:`LUT3D` class instance.
+    LUT1D or LUT3x1D or LUT3D
+        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` class instance.
 
     References
     ----------
@@ -94,14 +94,14 @@ def read_LUT(path, method=None, **kwargs):
 
     Examples
     --------
-    Reading a 2D *Iridas* *.cube* *LUT*:
+    Reading a 3x1D *Iridas* *.cube* *LUT*:
 
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'iridas_cube',
     ...     'ACES_Proxy_10_to_ACES.cube')
     >>> print(read_LUT(path))
-    LUT2D - ACES Proxy 10 to ACES
-    -----------------------------
+    LUT3x1D - ACES Proxy 10 to ACES
+    -------------------------------
     <BLANKLINE>
     Dimensions : 2
     Domain     : [[ 0.  0.  0.]
@@ -173,8 +173,8 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     Parameters
     ----------
-    LUT : LUT1D or LUT2D or LUT3D
-        :class:`LUT1D`, :class:`LUT2D` or :class:`LUT3D` class instance to
+    LUT : LUT1D or LUT3x1D or LUT3D
+        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` class instance to
         write at given path.
     path : unicode
         *LUT* path.
@@ -197,13 +197,13 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     Examples
     --------
-    Writing a 2D *Iridas* *.cube* *LUT*:
+    Writing a 3x1D *Iridas* *.cube* *LUT*:
 
     >>> import numpy as np
     >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
-    >>> LUT = LUT2D(
-    ...     spow(LUT2D.linear_table(16, domain), 1 / 2.2),
+    >>> LUT = LUT3x1D(
+    ...     spow(LUT3x1D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
     ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])

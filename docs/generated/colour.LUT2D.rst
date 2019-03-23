@@ -1,9 +1,9 @@
-colour.LUT2D
-============
+colour.LUT3x1D
+==============
 
 .. currentmodule:: colour
 
-.. autoclass:: LUT2D
+.. autoclass:: LUT3x1D
 
    
    .. automethod:: __init__
@@ -13,13 +13,13 @@ colour.LUT2D
 
    .. autosummary::
    
-      ~LUT2D.__init__
-      ~LUT2D.apply
-      ~LUT2D.arithmetical_operation
-      ~LUT2D.as_LUT
-      ~LUT2D.copy
-      ~LUT2D.is_domain_explicit
-      ~LUT2D.linear_table
+      ~LUT3x1D.__init__
+      ~LUT3x1D.apply
+      ~LUT3x1D.arithmetical_operation
+      ~LUT3x1D.as_LUT
+      ~LUT3x1D.copy
+      ~LUT3x1D.is_domain_explicit
+      ~LUT3x1D.linear_table
    
    
 
@@ -29,11 +29,11 @@ colour.LUT2D
 
    .. autosummary::
    
-      ~LUT2D.comments
-      ~LUT2D.dimensions
-      ~LUT2D.domain
-      ~LUT2D.name
-      ~LUT2D.size
-      ~LUT2D.table
+      ~LUT3x1D.comments
+      ~LUT3x1D.dimensions
+      ~LUT3x1D.domain
+      ~LUT3x1D.name
+      ~LUT3x1D.size
+      ~LUT3x1D.table
    
    
