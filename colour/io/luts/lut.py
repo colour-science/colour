@@ -306,8 +306,8 @@ class AbstractLUT:
                     self.__class__.__name__, self.name,
                     '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
                     self.dimensions, _indent_array(self.domain),
-                    str(self.table.shape).replace("L", ""),
-                    '\n{0}'.format('\n'.join(comments)) if comments else '')
+                    str(self.table.shape).replace("L", ""), '\n{0}'.format(
+                        '\n'.join(comments)) if comments else '')
 
     def __repr__(self):
         """

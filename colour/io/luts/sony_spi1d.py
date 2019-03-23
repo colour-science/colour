@@ -186,9 +186,8 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
 
     assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
 
-    assert (isinstance(LUT, LUT1D) or
-            isinstance(LUT, LUT3x1D)), (
-        '"LUT" must be either a 1D or 3x1D "LUT"!')
+    assert (isinstance(LUT, LUT1D) or isinstance(
+        LUT, LUT3x1D)), ('"LUT" must be either a 1D or 3x1D "LUT"!')
 
     is_1D = isinstance(LUT, LUT1D)
 
