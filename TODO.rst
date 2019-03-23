@@ -6,7 +6,7 @@ TODO
 
 -   colour/__init__.py
 
-    -   Line 290 : # TODO: Remove legacy printing support when deemed appropriate.
+    -   Line 291 : # TODO: Remove legacy printing support when deemed appropriate.
 
 
 -   colour/colorimetry/spectrum.py
