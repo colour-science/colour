@@ -276,7 +276,7 @@ The various sub-packages also expose their public API:
      '...']
 
 
-The code is documented and almost every docstrings have usage examples:
+The codebase is documented and most docstrings have usage examples:
 
 .. code:: python
 
@@ -285,43 +285,41 @@ The code is documented and almost every docstrings have usage examples:
 
 .. code-block:: text
 
+    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
+    colour matching functions using *Ohno (2013)* method.
 
-        Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-        correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
-        colour matching functions using *Ohno (2013)* method.
+    Parameters
+    ----------
+    CCT : numeric
+        Correlated colour temperature :math:`T_{cp}`.
+    D_uv : numeric, optional
+        :math:`\Delta_{uv}`.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions.
 
-        Parameters
-        ----------
-        CCT : numeric
-            Correlated colour temperature :math:`T_{cp}`.
-        D_uv : numeric, optional
-            :math:`\Delta_{uv}`.
-        cmfs : XYZ_ColourMatchingFunctions, optional
-            Standard observer colour matching functions.
+    Returns
+    -------
+    ndarray
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
 
-        Returns
-        -------
-        ndarray
-            *CIE UCS* colourspace *uv* chromaticity coordinates.
+    References
+    ----------
+    :cite:`Ohno2014a`
 
-        References
-        ----------
-        .. [4]  Ohno, Y. (2014). Practical Use and Calculation of CCT and Duv.
-                LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
-
-        Examples
-        --------
-        >>> from colour import STANDARD_OBSERVERS_CMFS
-        >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-        >>> CCT = 6507.4342201047066
-        >>> D_uv = 0.003223690901513
-        >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
-        array([ 0.1977999...,  0.3122004...])
+    Examples
+    --------
+    >>> from colour import STANDARD_OBSERVERS_CMFS
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> CCT = 6507.4342201047066
+    >>> D_uv = 0.003223690901513
+    >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
+    array([ 0.1977999...,  0.3122004...])
 
 
 At the core of `Colour <https://github.com/colour-science/Colour/>`__ is
 the ``colour.colorimetry`` sub-package, it defines the objects needed
-for spectral related computations and many others:
+for spectral computations and many others:
 
 .. code:: python
 
@@ -432,9 +430,8 @@ for spectral related computations and many others:
 
 
 `Colour <https://github.com/colour-science/Colour/>`__ computations
-leverage a comprehensive dataset available in pretty much each
-sub-packages, for example ``colour.colorimetry.dataset`` defines the
-following data:
+leverage a comprehensive dataset available in most sub-packages, for example
+the ``colour.colorimetry.dataset`` defines the following components:
 
 .. code:: python
 
@@ -463,9 +460,9 @@ following data:
 From Spectral Distribution
 --------------------------
 
-Whether it be a sample spectral distribution, colour matching
-functions or illuminants, spectral data is manipulated using an object
-built with the ``colour.SpectralDistribution`` class or based on it:
+Whether it be a sample spectral distribution, colour matching functions or
+illuminants, spectral data is manipulated using an object built with the
+``colour.SpectralDistribution`` class or based on it:
 
 .. code:: python
 
@@ -646,8 +643,8 @@ built with the ``colour.SpectralDistribution`` class or based on it:
                          extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
 
-The sample spectral distribution can be easily plotted against the
-visible spectrum:
+The sample spectral distribution can be easily plotted against the visible
+spectrum:
 
 .. code:: python
 
@@ -658,8 +655,8 @@ visible spectrum:
 .. image:: _static/Tutorial_Sample_SD.png
 
 
-With the sample spectral distribution defined, we can retrieve its
-shape:
+With the sample spectral distribution defined, its shape is retrieved as
+follows:
 
 .. code:: python
 
@@ -672,7 +669,7 @@ shape:
     (380.0, 780.0, 5.0)
 
 
-The shape returned is an instance of ``colour.SpectralShape`` class:
+The returned shape is an instance of the ``colour.SpectralShape`` class:
 
 .. code:: python
 
@@ -766,9 +763,9 @@ convenient objects to create constant spectral distributions:
 
 
 By default the shape used by ``colour.sd_constant``,
-``colour.sd_zeros`` and ``colour.sd_ones`` is the one defined by
-``colour.DEFAULT_SPECTRAL_SHAPE`` attribute using the *CIE 1931 2°
-Standard Observer* shape.
+``colour.sd_zeros`` and ``colour.sd_ones`` is the one defined by the
+``colour.DEFAULT_SPECTRAL_SHAPE`` attribute and based on *ASTM E308-15*
+practise shape.
 
 .. code:: python
 
@@ -780,8 +777,8 @@ Standard Observer* shape.
     SpectralShape(360, 780, 1)
 
 
-A custom shape can be passed to construct a constant spectral
-distribution with user defined dimensions:
+A custom shape can be passed to construct a constant spectral distribution
+with user defined dimensions:
 
 .. code:: python
 
@@ -800,6 +797,7 @@ arithmetical operations:
 -  *subtraction*
 -  *multiplication*
 -  *division*
+-  *exponentiation*
 
 .. code:: python
 
@@ -826,16 +824,15 @@ arithmetical operations:
     2.0
 
 
-Often interpolation of the spectral distribution is needed, this
-is achieved with the ``colour.SpectralDistribution.interpolate``
-method. Depending on the wavelengths uniformity, the default
-interpolation method will differ. Following *CIE 167:2005*
-recommendation: The method developed by *Sprague* (1880) should be used
-for interpolating functions having a uniformly spaced independent
-variable and a *Cubic Spline* method for non-uniformly spaced
+Often interpolation of the spectral distribution is required, this is achieved
+with the ``colour.SpectralDistribution.interpolate`` method. Depending on the
+wavelengths uniformity, the default interpolation method will differ.
+Following *CIE 167:2005* recommendation: The method developed by
+*Sprague (1880)* should be used for interpolating functions having a uniformly
+spaced independent variable and a *Cubic Spline* method for non-uniformly spaced
 independent variable  :cite:`CIETC1-382005e`.
 
-We can check the uniformity of the sample spectral distribution:
+The uniformity of the sample spectral distribution is assessed as follows:
 
 .. code:: python
 
@@ -848,22 +845,17 @@ We can check the uniformity of the sample spectral distribution:
     True
 
 
-Since the sample spectral distribution is uniform the
-interpolation will default to the ``colour.SpragueInterpolator``
-interpolator.
+In this case, since the sample spectral distribution is uniform the
+interpolation defaults to the ``colour.SpragueInterpolator`` interpolator.
 
 .. note::
 
-    Interpolation happens in place and may alter the original
-    data, use the ``colour.SpectralDistribution.copy`` method to
-    produce a copy of the spectral distribution before
-    interpolation.
+    Interpolation happens in place and may alter the original data, use the
+    ``colour.SpectralDistribution.copy`` method to generate a copy of the
+    spectral distribution before interpolation.
 
 
 .. code:: python
-
-    # *Colour* can emit a substantial amount of warnings, we filter them.
-    colour.utilities.filter_warnings(True, False)
 
     # Copying the sample spectral distribution.
     sd_copy = sd.copy()
@@ -887,10 +879,10 @@ interpolator.
 .. image:: _static/Tutorial_SD_Interpolation.png
 
 
-Extrapolation although dangerous can be used to help aligning two
-spectral distributions together. *CIE publication CIE 15:2004
-“Colorimetry”* recommends that unmeasured values may be set equal to the
-nearest measured value of the appropriate quantity in truncation :cite:`CIETC1-482004h`:
+Extrapolation although dangerous can be used to help aligning two spectral
+distributions together. *CIE publication CIE 15:2004 “Colorimetry”* recommends
+that unmeasured values may be set equal to the nearest measured value of the
+appropriate quantity in truncation :cite:`CIETC1-482004h`:
 
 .. code:: python
 
@@ -971,9 +963,9 @@ The underlying interpolator can be swapped for any of the
                          extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
 
-The extrapolation behaviour can be changed for *Linear* method instead
-of the *Constant* default method or even use arbitrary constant *left*
-and *right* values:
+The extrapolation behaviour can be changed for ``Linear`` method instead
+of the ``Constant`` default method or even use arbitrary constant ``left``
+and ``right`` values:
 
 .. code:: python
 
@@ -990,14 +982,14 @@ and *right* values:
     (0.046999999999999348, 0.0)
 
 
-Aligning a spectral distribution is a convenient way to first
-interpolates the current data within its original bounds, then, if
-required, extrapolate any missing values to match the requested shape:
+Aligning a spectral distribution is a convenient way to first interpolates the
+current data within its original bounds, then, if required, extrapolate any
+missing values to match the requested shape:
 
 .. code:: python
 
     # Aligning the cloned sample spectral distribution.
-    # We first trim the spectral distribution as above.
+    # The spectral distribution is first trimmed as above.
     sd_copy.interpolate(colour.SpectralShape(400, 700))
     sd_copy.align(colour.SpectralShape(340, 830, 5))
     sd_copy[340], sd_copy[830]
@@ -1008,9 +1000,9 @@ required, extrapolate any missing values to match the requested shape:
     (0.065000000000000002, 0.28199999999999975)
 
 
-The ``colour.SpectralDistribution`` class also supports various
-arithmetic operations like *addition*, *subtraction*, *multiplication*
-or *division* with *numeric* and *array_like* variables or other
+The ``colour.SpectralDistribution`` class also supports various arithmetic
+operations like *addition*, *subtraction*, *multiplication*, *division* or
+*exponentiation* with *numeric* and *array_like* variables or other
 ``colour.SpectralDistribution`` class instances:
 
 .. code:: python
@@ -1039,8 +1031,7 @@ or *division* with *numeric* and *array_like* variables or other
     [ 1.5  3.   4.5  6.   4.5  3.   nan  1.5]
 
 
-The spectral distribution can be normalised with an arbitrary
-factor:
+The spectral distribution can be normalised with an arbitrary factor:
 
 .. code:: python
 
@@ -1069,7 +1060,7 @@ with the function dependent and already known range stored in the
 ``colour.continuous.Signal.range`` attribute.
 
 Describing the ``colour.continuous.Signal`` class is beyond the scope of
-this tutorial but we can illustrate its core capability.
+this tutorial but the core capability can be described.
 
 .. code:: python
 
@@ -1114,8 +1105,8 @@ this tutorial but we can illustrate its core capability.
 Convert to Tristimulus Values
 -----------------------------
 
-From a given spectral distribution, *CIE XYZ* tristimulus values
-can be calculated:
+From a given spectral distribution, *CIE XYZ* tristimulus values can be
+calculated:
 
 .. code:: python
 
@@ -1137,7 +1128,7 @@ From *CIE XYZ* Colourspace
 --------------------------
 
 *CIE XYZ* is the central colourspace for Colour Science from which many
-computations are available, cascading to even more computations:
+computations are available, expanding to even more computations:
 
 .. code:: python
 
@@ -1176,14 +1167,14 @@ computations are available, cascading to even more computations:
 Convert to Screen Colours
 -------------------------
 
-We can for instance converts the *CIE XYZ* tristimulus values into
-*sRGB* colourspace *RGB* values in order to display them on screen:
+*CIE XYZ* tristimulus values can be converted into *sRGB* colourspace *RGB*
+values in order to display them on screen:
 
 .. code:: python
 
     # The output domain of *colour.sd_to_XYZ* is [0, 100] and the input
-    # domain of *colour.XYZ_to_sRGB* is [0, 1]. We need to take it in account and
-    # rescale the input *CIE XYZ* colourspace matrix.
+    # domain of *colour.XYZ_to_sRGB* is [0, 1]. It needs to be accounted for,
+    # thus the input *CIE XYZ* tristimulus values are scaled.
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
     print(RGB)
 
@@ -1207,8 +1198,7 @@ We can for instance converts the *CIE XYZ* tristimulus values into
 Generate Colour Rendition Charts
 --------------------------------
 
-In the same way, we can compute values from a colour rendition chart
-sample.
+Likewise, colour values from a colour rendition chart sample can be computed.
 
 .. note::
 
@@ -1231,15 +1221,15 @@ various colour rendition charts:
 
 .. code-block:: text
 
-    [u'BabelColor Average', u'ColorChecker 1976', u'ColorChecker 2005', u'babel_average', u'cc2005']
-    [u'BabelColor Average', u'ColorChecker N Ohta', u'babel_average', u'cc_ohta']
+    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
+    ['BabelColor Average', 'ColorChecker N Ohta', 'babel_average', 'cc_ohta']
 
 
 .. note::
 
-    The above `cc2005`, `babel_average` and `cc_ohta` keys are
-    convenient aliases for respectively `ColorChecker 2005`, `BabelColor
-    Average` and `ColorChecker N Ohta` keys.
+    The above ``cc2005``, ``babel_average`` and ``cc_ohta`` keys are
+    convenient aliases for respectively ``ColorChecker 2005``, ``BabelColor Average``
+    and ``ColorChecker N Ohta`` keys.
 
 
 .. code:: python
@@ -1259,8 +1249,7 @@ various colour rendition charts:
 
 
 `Colour <https://github.com/colour-science/Colour/>`__ defines a
-convenient plotting object to draw synthetic colour rendition charts
-figures:
+convenient plotting object to draw synthetic colour rendition charts figures:
 
 .. code:: python
 
@@ -1273,8 +1262,8 @@ figures:
 Convert to Chromaticity Coordinates
 -----------------------------------
 
-Given a spectral distribution, chromaticity coordinates *xy* can
-be computed using the ``colour.XYZ_to_xy`` definition:
+Given a spectral distribution, chromaticity coordinates *xy* can be computed
+using the ``colour.XYZ_to_xy`` definition:
 
 .. code:: python
 
@@ -1288,16 +1277,15 @@ be computed using the ``colour.XYZ_to_xy`` definition:
     [ 0.31259787  0.32870029]
 
 
-Chromaticity coordinates *xy* can be plotted into the *CIE 1931
-Chromaticity Diagram*:
+Chromaticity coordinates *xy* can be plotted into the *CIE 1931 Chromaticity Diagram*:
 
 .. code:: python
 
     import matplotlib.pyplot as plt
 
     # Plotting the *CIE 1931 Chromaticity Diagram*.
-    # The argument *standalone=False* is passed so that the plot doesn't get displayed
-    # and can be used as a basis for other plots.
+    # The argument *standalone=False* is passed so that the plot doesn't get
+    # displayed and can be used as a basis for other plots.
     plot_chromaticity_diagram_CIE1931(standalone=False)
 
     # Plotting the *xy* chromaticity coordinates.
@@ -1325,8 +1313,7 @@ Chromaticity Diagram*:
 And More...
 -----------
 
-We hope that this small introduction has been useful and gave envy to see more,
-to explore the API further more a good place to start
-is the `Jupyter
-Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
+With the hope that this small introduction was useful and gave envy to see more,
+a good place to explore the API further more is the
+`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
 page.
