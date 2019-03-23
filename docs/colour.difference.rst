@@ -91,3 +91,15 @@ Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)
     delta_E_CAM16LCD
     delta_E_CAM16SCD
     delta_E_CAM16UCS
+
+DIN99
+-----
+
+``colour.difference``
+
+.. currentmodule:: colour.difference
+
+.. autosummary::
+    :toctree: generated/
+
+    delta_E_DIN99

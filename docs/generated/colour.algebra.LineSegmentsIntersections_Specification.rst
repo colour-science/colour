@@ -1,5 +1,5 @@
-colour\.algebra\.LineSegmentsIntersections\_Specification
-=========================================================
+colour.algebra.LineSegmentsIntersections\_Specification
+=======================================================
 
 .. currentmodule:: colour.algebra
 
@@ -19,5 +19,14 @@ colour\.algebra\.LineSegmentsIntersections\_Specification
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LineSegmentsIntersections_Specification.coincident
+      ~LineSegmentsIntersections_Specification.intersect
+      ~LineSegmentsIntersections_Specification.parallel
+      ~LineSegmentsIntersections_Specification.xy
    
    

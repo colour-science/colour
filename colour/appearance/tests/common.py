@@ -15,7 +15,7 @@ from collections import defaultdict
 from colour.constants import DEFAULT_FLOAT_DTYPE
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -81,8 +81,8 @@ class ColourAppearanceModelTest(object):
         """
 
         path = os.path.dirname(__file__)
-        with open(
-                os.path.join(path, fixtures_directory, file_name)) as in_file:
+        with open(os.path.join(path, fixtures_directory,
+                               file_name)) as in_file:
             result = []
             for case_data in csv.DictReader(in_file):
                 for key in case_data:

@@ -56,7 +56,7 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -106,7 +106,8 @@ spreadsheet that doesn't mention the data source thus the light source names
 cannot be accurately verified.
 
 References
--   :cite:`Pointer1980a`
+----------
+:cite:`Pointer1980a`
 
 LIGHT_SOURCES_RIT_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
     **{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
@@ -170,7 +171,7 @@ Traditional light sources chromaticity coordinates from *NIST*
 
 References
 ----------
--   :cite:`Ohno2008a`
+:cite:`Ohno2008a`
 
 LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
@@ -439,7 +440,7 @@ Projectors and Xenon Arc Lamps.
 
 References
 ----------
--   :cite:`Houston2015a`
+:cite:`Houston2015a`
 
 LIGHT_SOURCES_PROJECTORS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping

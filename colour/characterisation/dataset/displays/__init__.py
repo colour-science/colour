@@ -20,12 +20,11 @@ from colour.utilities import CaseInsensitiveMapping
 DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(CRT_DISPLAYS_RGB_PRIMARIES)
 DISPLAYS_RGB_PRIMARIES.update(LCD_DISPLAYS_RGB_PRIMARIES)
 DISPLAYS_RGB_PRIMARIES.__doc__ = """
-Displays *RGB* primaries multi-spectral power distributions.
+Displays *RGB* primaries multi-spectral distributions.
 
 References
 ----------
--   :cite:`Fairchild1998b`
--   :cite:`Machado2010a`
+:cite:`Fairchild1998b`, :cite:`Machado2010a`
 
 DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
     **{Apple Studio Display, Typical CRT Brainard 1997}**

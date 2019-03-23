@@ -1,5 +1,5 @@
-colour\.read\_spectral\_data\_from\_csv\_file
-=============================================
+colour.read\_spectral\_data\_from\_csv\_file
+============================================
 
 .. currentmodule:: colour
 

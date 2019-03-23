@@ -10,7 +10,7 @@ from colour.utilities import message_box
 
 message_box('"Munsell Renotation System" Computations')
 
-Y = 10.08
+Y = 12.23634268
 message_box(('Computing "Munsell" value using '
              '"Priest, Gibson and MacNicholas (1920)" method for given '
              '"luminance" value:\n'

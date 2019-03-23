@@ -1,5 +1,5 @@
-colour\.colorimetry\.whiteness\_CIE2004
-=======================================
+colour.colorimetry.whiteness\_CIE2004
+=====================================
 
 .. currentmodule:: colour.colorimetry
 

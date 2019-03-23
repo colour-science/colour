@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Colour Matching Functions Spectral Power Distributions
-======================================================
+Colour Matching Functions Spectral Distributions
+================================================
 
 Defines various colour matching functions involved in spectral computations.
 
 The colour matching functions data is in the form of a *dict* of
-:class:`colour.colorimetry.MultiSpectralPowerDistribution` classes as follows::
+:class:`colour.colorimetry.MultiSpectralDistribution` classes as follows::
 
-    {'name': MultiSpectralPowerDistribution,
+    {'name': MultiSpectralDistribution,
     ...,
-    'name': MultiSpectralPowerDistribution}
+    'name': MultiSpectralDistribution}
 
 The following colour matching functions are available:
 
@@ -56,8 +56,8 @@ References
 -   :cite:`CVRLt` : CVRL. (n.d.). Stiles & Burch individual 10-deg colour
     matching data. Retrieved February 24, 2014, from
     http://www.cvrl.org/stilesburch10_ind.htm
--   :cite:`CVRLu` : CVRL. (n.d.). Cone Fundamentals. Retrieved June 23, 2014,
-    from http://www.cvrl.org/cones.htm
+-   :cite:`CVRLu` : Stockman, A., & Sharpe, L. T. (2000). Cone Fundamentals.
+    Retrieved June 23, 2014, from http://www.cvrl.org/cones.htm
 -   :cite:`CVRLw` : CVRL. (n.d.). Stiles & Burch individual 2-deg colour
     matching data. Retrieved February 24, 2014, from
     http://www.cvrl.org/stilesburch2_ind.htm
@@ -74,7 +74,7 @@ from colour.colorimetry import (LMS_ConeFundamentals,
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -1081,8 +1081,7 @@ LMS_CMFS.__doc__ = """
 
 References
 ----------
--   :cite:`CVRLu`
--   :cite:`Machado2010a`
+:cite:`CVRLu`, :cite:`Machado2010a`
 
 LMS_CMFS : CaseInsensitiveMapping
     {'Stockman & Sharpe 2 Degree Cone Fundamentals',
@@ -1343,7 +1342,8 @@ RGB_CMFS = CaseInsensitiveMapping({
         RGB_ColourMatchingFunctions(
             RGB_CMFS_DATA['Wright & Guild 1931 2 Degree RGB CMFs'],
             name='Wright & Guild 1931 2 Degree RGB CMFs',
-            strict_name='Wright & Guild (1931) 2$^\\circ$ RGB CMFs', ),
+            strict_name='Wright & Guild (1931) 2$^\\circ$ RGB CMFs',
+        ),
     'Stiles & Burch 1955 2 Degree RGB CMFs':
         RGB_ColourMatchingFunctions(
             RGB_CMFS_DATA['Stiles & Burch 1955 2 Degree RGB CMFs'],
@@ -1360,9 +1360,7 @@ RGB_CMFS.__doc__ = """
 
 References
 ----------
--   :cite:`Broadbent2009a`
--   :cite:`CVRLt`
--   :cite:`CVRLw`
+:cite:`Broadbent2009a`, :cite:`CVRLt`, :cite:`CVRLw`
 
 RGB_CMFS : CaseInsensitiveMapping
     **{'Wright & Guild 1931 2 Degree RGB CMFs',
@@ -3236,8 +3234,7 @@ STANDARD_OBSERVERS_CMFS.__doc__ = """
 
 References
 ----------
--   :cite:`CVRLr`
--   :cite:`CVRLs`
+:cite:`CVRLr`, :cite:`CVRLs`
 
 STANDARD_OBSERVERS_CMFS : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
@@ -3261,13 +3258,8 @@ Aggregated colour matching functions.
 
 References
 ----------
--   :cite:`Broadbent2009a`
--   :cite:`CVRLr`
--   :cite:`CVRLs`
--   :cite:`CVRLt`
--   :cite:`CVRLu`
--   :cite:`CVRLw`
--   :cite:`Machado2010a`
+:cite:`Broadbent2009a`, :cite:`CVRLr`, :cite:`CVRLs`, :cite:`CVRLt`,
+:cite:`CVRLu`, :cite:`CVRLw`, :cite:`Machado2010a`
 
 CMFS : CaseInsensitiveMapping
     **{'Stockman & Sharpe 10 Degree Cone Fundamentals',

@@ -1,5 +1,5 @@
-colour\.utilities\.ndarray\_write
-=================================
+colour.utilities.ndarray\_write
+===============================
 
 .. currentmodule:: colour.utilities
 

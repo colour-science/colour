@@ -7,11 +7,9 @@ matrix:
   - python: 3.6
     env:
     - PYTHON_VERSION="3.6"
-    - NUMPY_VERSION="1.13.3"
   - python: 2.7
     env:
     - PYTHON_VERSION="2.7"
-    - NUMPY_VERSION="1.13.3"
 
 notifications:
   slack: colour-science:Y6lPPcN7y53Js94geqUpqsAP
@@ -39,7 +37,7 @@ before_script:
   - export PYTHONWARNINGS=ignore
 
 script:
-  - flake8 colour --exclude=examples
+  - flake8 colour
   - nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=colour colour
 
 after_success:

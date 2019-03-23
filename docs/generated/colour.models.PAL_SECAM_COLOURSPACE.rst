@@ -1,5 +1,5 @@
-colour\.models\.PAL\_SECAM\_COLOURSPACE
-=======================================
+colour.models.PAL\_SECAM\_COLOURSPACE
+=====================================
 
 .. currentmodule:: colour.models
 

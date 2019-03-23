@@ -1,5 +1,5 @@
-colour\.models\.eotf\_BT2020
-============================
+colour.models.eotf\_BT2020
+==========================
 
 .. currentmodule:: colour.models
 

@@ -29,16 +29,21 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.algebra import spow
+from colour.utilities import (Structure, as_float, domain_range_scale,
+                              from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['BT2020_CONSTANTS', 'oetf_BT2020', 'eotf_BT2020']
+__all__ = [
+    'BT2020_CONSTANTS', 'BT2020_CONSTANTS_PRECISE', 'oetf_BT2020',
+    'eotf_BT2020'
+]
 
 BT2020_CONSTANTS = Structure(
     alpha=lambda x: 1.0993 if x else 1.099,
@@ -49,8 +54,21 @@ BT2020_CONSTANTS = Structure(
 BT2020_CONSTANTS : Structure
 """
 
+BT2020_CONSTANTS_PRECISE = Structure(
+    alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807)
+"""
+*BT.2020* colourspace constants at double precision to connect the two curve
+segments smoothly.
 
-def oetf_BT2020(E, is_12_bits_system=False):
+References
+----------
+:cite:`InternationalTelecommunicationUnion2015h`
+
+BT2020_CONSTANTS_PRECISE : Structure
+"""
+
+
+def oetf_BT2020(E, is_12_bits_system=False, constants=BT2020_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2020* opto-electrical transfer function
     (OETF / OECF).
@@ -58,20 +76,37 @@ def oetf_BT2020(E, is_12_bits_system=False):
     Parameters
     ----------
     E : numeric or array_like
-        Voltage :math:`E` normalized by the reference white level and
+        Voltage :math:`E` normalised by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera colour channel R, G, B.
     is_12_bits_system : bool
         *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
     numeric or ndarray
         Resulting non-linear signal :math:`E'`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015h`
+    :cite:`InternationalTelecommunicationUnion2015h`
 
     Examples
     --------
@@ -79,15 +114,17 @@ def oetf_BT2020(E, is_12_bits_system=False):
     0.4090077...
     """
 
-    E = np.asarray(E)
+    E = to_domain_1(E)
 
-    a = BT2020_CONSTANTS.alpha(is_12_bits_system)
-    b = BT2020_CONSTANTS.beta(is_12_bits_system)
+    a = constants.alpha(is_12_bits_system)
+    b = constants.beta(is_12_bits_system)
 
-    return as_numeric(np.where(E < b, E * 4.5, a * (E ** 0.45) - (a - 1)))
+    E_p = np.where(E < b, E * 4.5, a * spow(E, 0.45) - (a - 1))
+
+    return as_float(from_range_1(E_p))
 
 
-def eotf_BT2020(E_p, is_12_bits_system=False):
+def eotf_BT2020(E_p, is_12_bits_system=False, constants=BT2020_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2020* electro-optical transfer function
     (EOTF / EOCF).
@@ -98,15 +135,32 @@ def eotf_BT2020(E_p, is_12_bits_system=False):
         Non-linear signal :math:`E'`.
     is_12_bits_system : bool
         *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
     numeric or ndarray
         Resulting voltage :math:`E`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015h`
+    :cite:`InternationalTelecommunicationUnion2015h`
 
     Examples
     --------
@@ -114,11 +168,16 @@ def eotf_BT2020(E_p, is_12_bits_system=False):
     0.4999999...
     """
 
-    E_p = np.asarray(E_p)
+    E_p = to_domain_1(E_p)
 
-    a = BT2020_CONSTANTS.alpha(is_12_bits_system)
-    b = BT2020_CONSTANTS.beta(is_12_bits_system)
+    a = constants.alpha(is_12_bits_system)
+    b = constants.beta(is_12_bits_system)
 
-    return as_numeric(
-        np.where(E_p < oetf_BT2020(b), E_p / 4.5, ((E_p + (a - 1)) / a) ** (
-            1 / 0.45)))
+    with domain_range_scale('ignore'):
+        E = np.where(
+            E_p < oetf_BT2020(b),
+            E_p / 4.5,
+            spow((E_p + (a - 1)) / a, 1 / 0.45),
+        )
+
+    return as_float(from_range_1(E))

@@ -11,7 +11,7 @@ import unittest
 from colour.algebra import is_identity
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -32,16 +32,16 @@ class TestIsIdentity(unittest.TestCase):
         """
 
         self.assertTrue(
-            is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape((3, 3))))
+            is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3])))
 
         self.assertFalse(
-            is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape((3, 3))))
+            is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3])))
 
         self.assertTrue(
-            is_identity(np.array([1, 0, 0, 1]).reshape((2, 2)), n=2))
+            is_identity(np.array([1, 0, 0, 1]).reshape([2, 2]), n=2))
 
         self.assertFalse(
-            is_identity(np.array([1, 2, 0, 1]).reshape((2, 2)), n=2))
+            is_identity(np.array([1, 2, 0, 1]).reshape([2, 2]), n=2))
 
 
 if __name__ == '__main__':

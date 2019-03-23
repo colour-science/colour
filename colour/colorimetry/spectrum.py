@@ -6,8 +6,8 @@ Spectrum
 Defines the classes handling spectral data computations:
 
 -   :class:`colour.SpectralShape`
--   :class:`colour.SpectralPowerDistribution`
--   :class:`colour.MultiSpectralPowerDistribution`
+-   :class:`colour.SpectralDistribution`
+-   :class:`colour.MultiSpectralDistribution`
 
 See Also
 --------
@@ -36,36 +36,35 @@ from colour.algebra import (Extrapolator, CubicSplineInterpolator,
                             SpragueInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignal
-from colour.utilities import (as_numeric, first_item, is_iterable, is_numeric,
-                              is_string, is_uniform, interval, warning)
+from colour.utilities import (as_float, first_item, is_iterable, is_numeric,
+                              is_string, is_uniform, interval, runtime_warning)
 from colour.utilities.deprecation import Removed, Renamed
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'SpectralShape', 'SpectralPowerDistribution',
-    'MultiSpectralPowerDistribution', 'DEFAULT_SPECTRAL_SHAPE', 'constant_spd',
-    'zeros_spd', 'ones_spd'
+    'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
+    'MultiSpectralDistribution'
 ]
 
 
 class SpectralShape(object):
     """
-    Defines the base object for spectral power distribution shape.
+    Defines the base object for spectral distribution shape.
 
     Parameters
     ----------
     start : numeric, optional
-        Wavelength :math:`\lambda_{i}` range start in nm.
+        Wavelength :math:`\\lambda_{i}` range start in nm.
     end : numeric, optional
-        Wavelength :math:`\lambda_{i}` range end in nm.
+        Wavelength :math:`\\lambda_{i}` range end in nm.
     interval : numeric, optional
-        Wavelength :math:`\lambda_{i}` range interval.
+        Wavelength :math:`\\lambda_{i}` range interval.
 
     Attributes
     ----------
@@ -310,17 +309,17 @@ class SpectralShape(object):
     def __contains__(self, wavelength):
         """
         Returns if the spectral shape contains given wavelength
-        :math:`\lambda`.
+        :math:`\\lambda`.
 
         Parameters
         ----------
         wavelength : numeric or array_like
-            Wavelength :math:`\lambda`.
+            Wavelength :math:`\\lambda`.
 
         Returns
         -------
         bool
-            Is wavelength :math:`\lambda` contained in the spectral shape.
+            Is wavelength :math:`\\lambda` contained in the spectral shape.
 
         Examples
         --------
@@ -340,17 +339,17 @@ class SpectralShape(object):
 
         return np.all(
             np.in1d(
-                np.around(wavelength / tolerance).astype(int),
-                np.around(self.range() / tolerance).astype(int)))
+                np.around(wavelength / tolerance).astype(np.int64),
+                np.around(self.range() / tolerance).astype(np.int64)))
 
     def __len__(self):
         """
-        Returns the spectral shape wavelength :math:`\lambda_n` count.
+        Returns the spectral shape wavelength :math:`\\lambda_n` count.
 
         Returns
         -------
         int
-            Spectral shape wavelength :math:`\lambda_n` count.
+            Spectral shape wavelength :math:`\\lambda_n` count.
 
         Examples
         --------
@@ -421,7 +420,7 @@ class SpectralShape(object):
         Returns
         -------
         ndarray
-            Iterable range for the spectral power distribution shape
+            Iterable range for the spectral distribution shape
 
         Raises
         ------
@@ -460,41 +459,49 @@ class SpectralShape(object):
 
             if current_interval != self._interval:
                 self._interval = current_interval
-                warning(('"{0}" shape could not be honoured, using '
-                         '"{1}"!').format((self._start, self._end,
-                                           self._interval), self))
+                runtime_warning(
+                    ('"{0}" shape could not be honoured, using '
+                     '"{1}"!').format((self._start, self._end, self._interval),
+                                      self))
 
         return self._range
 
 
-class SpectralPowerDistribution(Signal):
+DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
+"""
+Default spectral shape according to *ASTM E308-15* practise shape.
+
+DEFAULT_SPECTRAL_SHAPE : SpectralShape
+"""
+
+
+class SpectralDistribution(Signal):
     """
-    Defines the spectral power distribution: the base object for spectral
+    Defines the spectral distribution: the base object for spectral
     computations.
 
-    The spectral power distribution will be initialised according to
-    *CIE 15:2004* recommendation: the method developed by
-    *Sprague (1880)* will be used for interpolating functions having a
-    uniformly spaced independent variable and the *Cubic Spline* method for
-    non-uniformly spaced independent variable. Extrapolation is performed
-    according to *CIE 167:2005* recommendation.
+    The spectral distribution will be initialised according to *CIE 15:2004*
+    recommendation: the method developed by *Sprague (1880)* will be used for
+    interpolating functions having a uniformly spaced independent variable and
+    the *Cubic Spline* method for non-uniformly spaced independent variable.
+    Extrapolation is performed according to *CIE 167:2005* recommendation.
 
     Parameters
     ----------
-    data : Series or Signal, SpectralPowerDistribution or array_like or \
+    data : Series or Signal, SpectralDistribution or array_like or \
 dict_like, optional
-        Data to be stored in the spectral power distribution.
+        Data to be stored in the spectral distribution.
     domain : array_like, optional
         Values to initialise the
-        :attr:`colour.SpectralPowerDistribution.wavelength` attribute with.
+        :attr:`colour.SpectralDistribution.wavelength` attribute with.
         If both ``data`` and ``domain`` arguments are defined, the latter will
         be used to initialise the
-        :attr:`colour.SpectralPowerDistribution.wavelength` attribute.
+        :attr:`colour.SpectralDistribution.wavelength` attribute.
 
     Other Parameters
     ----------------
     name : unicode, optional
-        Spectral power distribution name.
+        Spectral distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function.
     interpolator_args : dict_like, optional
@@ -504,8 +511,8 @@ dict_like, optional
     extrapolator_args : dict_like, optional
         Arguments to use when instantiating the extrapolating function.
     strict_name : unicode, optional
-        Spectral power distribution name for figures, default to
-        :attr:`colour.SpectralPowerDistribution.name` attribute value.
+        Spectral distribution name for figures, default to
+        :attr:`colour.SpectralDistribution.name` attribute value.
 
     Attributes
     ----------
@@ -525,14 +532,12 @@ dict_like, optional
 
     References
     ----------
-    -   :cite:`CIETC1-382005e`
-    -   :cite:`CIETC1-382005g`
-    -   :cite:`CIETC1-482004l`
+    :cite:`CIETC1-382005e`, :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
 
     Examples
     --------
-    Instantiating a spectral power distribution with a uniformly spaced
-    independent variable:
+    Instantiating a spectral distribution with a uniformly spaced independent
+    variable:
 
     >>> from colour.utilities import numpy_print_options
     >>> data = {
@@ -544,35 +549,35 @@ dict_like, optional
     ...     600: 0.1360
     ... }
     >>> with numpy_print_options(suppress=True):
-    ...     SpectralPowerDistribution(data)  # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 500.    ,    0.0651],
-                               [ 520.    ,    0.0705],
-                               [ 540.    ,    0.0772],
-                               [ 560.    ,    0.087 ],
-                               [ 580.    ,    0.1128],
-                               [ 600.    ,    0.136 ]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={...})
+    ...     SpectralDistribution(data)  # doctest: +ELLIPSIS
+    SpectralDistribution([[ 500.    ,    0.0651],
+                          [ 520.    ,    0.0705],
+                          [ 540.    ,    0.0772],
+                          [ 560.    ,    0.087 ],
+                          [ 580.    ,    0.1128],
+                          [ 600.    ,    0.136 ]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
 
-    Instantiating a spectral power distribution with a non-uniformly spaced
+    Instantiating a spectral distribution with a non-uniformly spaced
     independent variable:
 
     >>> data[510] = 0.31416
     >>> with numpy_print_options(suppress=True):
-    ...     SpectralPowerDistribution(data)  # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 500.     ,    0.0651 ],
-                               [ 510.     ,    0.31416],
-                               [ 520.     ,    0.0705 ],
-                               [ 540.     ,    0.0772 ],
-                               [ 560.     ,    0.087  ],
-                               [ 580.     ,    0.1128 ],
-                               [ 600.     ,    0.136  ]],
-                              interpolator=CubicSplineInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={...})
+    ...     SpectralDistribution(data)  # doctest: +ELLIPSIS
+    SpectralDistribution([[ 500.     ,    0.0651 ],
+                          [ 510.     ,    0.31416],
+                          [ 520.     ,    0.0705 ],
+                          [ 540.     ,    0.0772 ],
+                          [ 560.     ,    0.087  ],
+                          [ 580.     ,    0.1128 ],
+                          [ 600.     ,    0.136  ]],
+                         interpolator=CubicSplineInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
     """
 
     def __init__(self, data=None, domain=None, **kwargs):
@@ -582,9 +587,9 @@ dict_like, optional
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
-        kwargs['interpolator'] = kwargs.get('interpolator', SpragueInterpolator
-                                            if uniform else
-                                            CubicSplineInterpolator)
+        kwargs['interpolator'] = kwargs.get(
+            'interpolator', SpragueInterpolator
+            if uniform else CubicSplineInterpolator)
         kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)
@@ -594,8 +599,7 @@ dict_like, optional
             'right': None
         })
 
-        super(SpectralPowerDistribution, self).__init__(
-            range_, domain, **kwargs)
+        super(SpectralDistribution, self).__init__(range_, domain, **kwargs)
 
         self._strict_name = None
         self.strict_name = kwargs.get('strict_name')
@@ -603,18 +607,17 @@ dict_like, optional
     @property
     def strict_name(self):
         """
-        Getter and setter property for the spectral power distribution strict
-        name.
+        Getter and setter property for the spectral distribution strict name.
 
         Parameters
         ----------
         value : unicode
-            Value to set the spectral power distribution strict name with.
+            Value to set the spectral distribution strict name with.
 
         Returns
         -------
         unicode
-            Spectral power distribution strict name.
+            Spectral distribution strict name.
         """
 
         if self._strict_name is not None:
@@ -637,19 +640,19 @@ dict_like, optional
     @property
     def wavelengths(self):
         """
-        Getter and setter property for the spectral power distribution
-        wavelengths :math:`\lambda_n`.
+        Getter and setter property for the spectral distribution wavelengths
+        :math:`\\lambda_n`.
 
         Parameters
         ----------
         value : array_like
-            Value to set the spectral power distribution wavelengths
-            :math:`\lambda_n` with.
+            Value to set the spectral distribution wavelengths
+            :math:`\\lambda_n` with.
 
         Returns
         -------
         ndarray
-            Spectral power distribution wavelengths :math:`\lambda_n`.
+            Spectral distribution wavelengths :math:`\\lambda_n`.
         """
 
         return self.domain
@@ -665,18 +668,18 @@ dict_like, optional
     @property
     def values(self):
         """
-        Getter and setter property for the spectral power distribution values.
+        Getter and setter property for the spectral distribution values.
 
         Parameters
         ----------
         value : array_like
-            Value to set the spectral power distribution wavelengths values
+            Value to set the spectral distribution wavelengths values
             with.
 
         Returns
         -------
         ndarray
-            Spectral power distribution values.
+            Spectral distribution values.
         """
 
         return self.range
@@ -692,28 +695,28 @@ dict_like, optional
     @property
     def shape(self):
         """
-        Getter and setter property for the spectral power distribution shape.
+        Getter and setter property for the spectral distribution shape.
 
         Returns
         -------
         SpectralShape
-            Spectral power distribution shape.
+            Spectral distribution shape.
 
         Notes
         -----
-        -   A spectral power distribution with a non-uniformly spaced
-            independent variable have multiple intervals, in that case
-            :attr:`colour.SpectralPowerDistribution.shape` attribute returns
+        -   A spectral distribution with a non-uniformly spaced independent
+            variable have multiple intervals, in that case
+            :attr:`colour.SpectralDistribution.shape` attribute returns
             the *minimum* interval size.
 
         Warning
         -------
-        :attr:`colour.SpectralPowerDistribution.shape` attribute is read only.
+        :attr:`colour.SpectralDistribution.shape` attribute is read only.
 
         Examples
         --------
-        Shape of a spectral power distribution with a uniformly spaced
-        independent variable:
+        Shape of a spectral distribution with a uniformly spaced independent
+        variable:
 
         >>> data = {
         ...     500: 0.0651,
@@ -723,31 +726,31 @@ dict_like, optional
         ...     580: 0.1128,
         ...     600: 0.1360
         ... }
-        >>> SpectralPowerDistribution(data).shape
+        >>> SpectralDistribution(data).shape
         SpectralShape(500.0, 600.0, 20.0)
 
-        Shape of a spectral power distribution with a non-uniformly spaced
+        Shape of a spectral distribution with a non-uniformly spaced
         independent variable:
 
         >>> data[510] = 0.31416
-        >>> SpectralPowerDistribution(data).shape
+        >>> SpectralDistribution(data).shape
         SpectralShape(500.0, 600.0, 10.0)
         """
 
         wavelengths_interval = interval(self.wavelengths)
         if wavelengths_interval.size != 1:
-            warning(('"{0}" spectral power distribution is not uniform, '
-                     'using minimum interval!'.format(self.name)))
+            runtime_warning(('"{0}" spectral distribution is not uniform, '
+                             'using minimum interval!'.format(self.name)))
 
         return SpectralShape(
-            min(self.wavelengths),
-            max(self.wavelengths), as_numeric(min(wavelengths_interval)))
+            min(self.wavelengths), max(self.wavelengths),
+            as_float(min(wavelengths_interval)))
 
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
-        Extrapolates the spectral power distribution in-place according to
-        *CIE 15:2004* and *CIE 167:2005* recommendations or given
-        extrapolation arguments.
+        Extrapolates the spectral distribution in-place according to
+        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
+        arguments.
 
         Parameters
         ----------
@@ -760,13 +763,12 @@ dict_like, optional
 
         Returns
         -------
-        SpectralPowerDistribution
-            Extrapolated spectral power distribution.
+        SpectralDistribution
+            Extrapolated spectral distribution.
 
         References
         ----------
-        -   :cite:`CIETC1-382005g`
-        -   :cite:`CIETC1-482004l`
+        :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
 
         Examples
         --------
@@ -779,11 +781,11 @@ dict_like, optional
         ...     580: 0.1128,
         ...     600: 0.1360
         ... }
-        >>> spd = SpectralPowerDistribution(data)
-        >>> spd.extrapolate(SpectralShape(400, 700)).shape
+        >>> sd = SpectralDistribution(data)
+        >>> sd.extrapolate(SpectralShape(400, 700)).shape
         SpectralShape(400.0, 700.0, 20.0)
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd)
+        ...     print(sd)
         [[ 400.        0.0651]
          [ 420.        0.0651]
          [ 440.        0.0651]
@@ -825,6 +827,8 @@ dict_like, optional
         self.extrapolator = extrapolator
         self.extrapolator_args = extrapolator_args
 
+        # The following self-assignment is written as intended and triggers the
+        # extrapolation.
         self[wavelengths] = self[wavelengths]
 
         self.extrapolator = self_extrapolator
@@ -834,7 +838,7 @@ dict_like, optional
 
     def interpolate(self, shape, interpolator=None, interpolator_args=None):
         """
-        Interpolates the spectral power distribution in-place according to
+        Interpolates the spectral distribution in-place according to
         *CIE 167:2005* recommendation or given interpolation arguments.
 
         Parameters
@@ -848,31 +852,31 @@ dict_like, optional
 
         Returns
         -------
-        SpectralPowerDistribution
-            Interpolated spectral power distribution.
+        SpectralDistribution
+            Interpolated spectral distribution.
 
         Notes
         -----
         -   Interpolation will be performed over boundaries range, if you need
-            to extend the range of the spectral power distribution use the
-            :meth:`colour.SpectralPowerDistribution.extrapolate` or
-            :meth:`colour.SpectralPowerDistribution.align` methods.
+            to extend the range of the spectral distribution use the
+            :meth:`colour.SpectralDistribution.extrapolate` or
+            :meth:`colour.SpectralDistribution.align` methods.
 
         Warning
         -------
         -   *Cubic Spline* interpolator requires at least 3 wavelengths
-            :math:`\lambda_n` for interpolation.
+            :math:`\\lambda_n` for interpolation.
         -   *Sprague (1880)* interpolator requires at least 6 wavelengths
-            :math:`\lambda_n` for interpolation.
+            :math:`\\lambda_n` for interpolation.
 
         References
         ----------
-        -   :cite:`CIETC1-382005e`
+        :cite:`CIETC1-382005e`
 
         Examples
         --------
-        Spectral power distribution with a uniformly spaced independent
-        variable uses *Sprague (1880)* interpolation:
+        Spectral distribution with a uniformly spaced independent variable uses
+        *Sprague (1880)* interpolation:
 
         >>> from colour.utilities import numpy_print_options
         >>> data = {
@@ -883,9 +887,9 @@ dict_like, optional
         ...     580: 0.1128,
         ...     600: 0.1360
         ... }
-        >>> spd = SpectralPowerDistribution(data)
+        >>> sd = SpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd.interpolate(SpectralShape(interval=1)))
+        ...     print(sd.interpolate(SpectralShape(interval=1)))
         ... # doctest: +ELLIPSIS
         [[ 500.            0.0651   ...]
          [ 501.            0.0653522...]
@@ -989,13 +993,13 @@ dict_like, optional
          [ 599.            0.1349201...]
          [ 600.            0.136    ...]]
 
-        Spectral power distribution with a no-uniformly spaced independent
-        variable uses *Cubic Spline* interpolation:
+        Spectral distribution with a no-uniformly spaced independent variable
+        uses *Cubic Spline* interpolation:
 
-        >>> spd = SpectralPowerDistribution(data)
-        >>> spd[510] = np.pi / 10
+        >>> sd = SpectralDistribution(data)
+        >>> sd[510] = np.pi / 10
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd.interpolate(SpectralShape(interval=1)))
+        ...     print(sd.interpolate(SpectralShape(interval=1)))
         ... # doctest: +ELLIPSIS
         [[ 500.            0.0651   ...]
          [ 501.            0.1365202...]
@@ -1104,12 +1108,13 @@ dict_like, optional
         s_e_i = zip((shape.start, shape.end, shape.interval),
                     (self_shape.start, self_shape.end, self_shape.interval))
         shape = SpectralShape(
-            * [x[0] if x[0] is not None else x[1] for x in s_e_i])
+            *[x[0] if x[0] is not None else x[1] for x in s_e_i])
         # Defining proper interpolation bounds.
         # TODO: Provide support for fractional interval like 0.1, etc...
         if (round(self_shape.start) != self_shape.start or
                 round(self_shape.end) != self_shape.end):
-            warning('Fractional bound encountered, rounding will occur!')
+            runtime_warning(
+                'Fractional bound encountered, rounding will occur!')
 
         shape.start = max(shape.start, np.ceil(self_shape.start))
         shape.end = min(shape.end, np.floor(self_shape.end))
@@ -1138,8 +1143,8 @@ dict_like, optional
               extrapolator=None,
               extrapolator_args=None):
         """
-        Aligns the spectral power distribution in-place to given spectral
-        shape: Interpolates first then extrapolates to fit the given range.
+        Aligns the spectral distribution in-place to given spectral shape:
+        Interpolates first then extrapolates to fit the given range.
 
         Parameters
         ----------
@@ -1156,8 +1161,8 @@ dict_like, optional
 
         Returns
         -------
-        SpectralPowerDistribution
-            Aligned spectral power distribution.
+        SpectralDistribution
+            Aligned spectral distribution.
 
         Examples
         --------
@@ -1170,9 +1175,9 @@ dict_like, optional
         ...     580: 0.1128,
         ...     600: 0.1360
         ... }
-        >>> spd = SpectralPowerDistribution(data)
+        >>> sd = SpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd.align(SpectralShape(505, 565, 1)))
+        ...     print(sd.align(SpectralShape(505, 565, 1)))
         ... # doctest: +ELLIPSIS
         [[ 505.            0.0663929...]
          [ 506.            0.0666509...]
@@ -1244,8 +1249,7 @@ dict_like, optional
 
     def trim(self, shape):
         """
-        Trims the spectral power distribution wavelengths to given spectral
-        shape.
+        Trims the spectral distribution wavelengths to given spectral shape.
 
         Parameters
         ----------
@@ -1254,8 +1258,8 @@ dict_like, optional
 
         Returns
         -------
-        SpectralPowerDistribution
-            Trimmed spectral power distribution.
+        SpectralDistribution
+            Trimmed spectral distribution.
 
         Examples
         --------
@@ -1268,10 +1272,10 @@ dict_like, optional
         ...     580: 0.1128,
         ...     600: 0.1360
         ... }
-        >>> spd = SpectralPowerDistribution(data)
-        >>> spd = spd.interpolate(SpectralShape(interval=1))
+        >>> sd = SpectralDistribution(data)
+        >>> sd = sd.interpolate(SpectralShape(interval=1))
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd.trim(SpectralShape(520, 580, 5)))
+        ...     print(sd.trim(SpectralShape(520, 580, 5)))
         ... # doctest: +ELLIPSIS
         [[ 520.            0.0705   ...]
          [ 521.            0.0708155...]
@@ -1352,8 +1356,7 @@ dict_like, optional
 
     def normalise(self, factor=1):
         """
-        Normalises the spectral power distribution using given normalization
-        factor.
+        Normalises the spectral distribution using given normalization factor.
 
         Parameters
         ----------
@@ -1362,8 +1365,8 @@ dict_like, optional
 
         Returns
         -------
-        SpectralPowerDistribution
-            Normalised spectral power distribution.
+        SpectralDistribution
+            Normalised spectral distribution.
 
         Examples
         --------
@@ -1376,9 +1379,9 @@ dict_like, optional
         ...     580: 0.1128,
         ...     600: 0.1360
         ... }
-        >>> spd = SpectralPowerDistribution(data)
+        >>> sd = SpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd.normalise())  # doctest: +ELLIPSIS
+        ...     print(sd.normalise())  # doctest: +ELLIPSIS
         [[ 500.            0.4786764...]
          [ 520.            0.5183823...]
          [ 540.            0.5676470...]
@@ -1397,113 +1400,111 @@ dict_like, optional
     @property
     def title(self):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.title',
-                        'SpectralPowerDistribution.strict_name')))
+                        'SpectralDistribution.strict_name')))
 
         return self.strict_name
 
     @title.setter
     def title(self, value):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.title',
-                        'SpectralPowerDistribution.strict_name')))
+                        'SpectralDistribution.strict_name')))
 
         self.strict_name = value
 
     @property
     def data(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralPowerDistribution.data')))
+        raise AttributeError(str(Removed('SpectralDistribution.data')))
 
     @property
     def items(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralPowerDistribution.items')))
+        raise AttributeError(str(Removed('SpectralDistribution.items')))
 
     def __iter__(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(Removed('SpectralPowerDistribution.__iter__')))
+        raise AttributeError(str(Removed('SpectralDistribution.__iter__')))
 
     def get(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralPowerDistribution.get')))
+        raise AttributeError(str(Removed('SpectralDistribution.get')))
 
     def zeros(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralPowerDistribution.zeros')))
+        raise AttributeError(str(Removed('SpectralDistribution.zeros')))
 
     def trim_wavelengths(self, shape):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.trim_wavelengths',
-                        'SpectralPowerDistribution.trim')))
+                        'SpectralDistribution.trim')))
 
         return self.trim(shape)
 
     def clone(self):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.clone',
-                        'SpectralPowerDistribution.copy')))
+                        'SpectralDistribution.copy')))
 
         return self.copy()
 
 
-class MultiSpectralPowerDistribution(MultiSignal):
+class MultiSpectralDistribution(MultiSignal):
     """
-    Defines multi-spectral power distribution: the base object for multi
-    spectral computations. It is used to model colour matching functions,
-    display primaries, camera sensitivities, etc...
+    Defines multi-spectral distribution: the base object for multi spectral
+    computations. It is used to model colour matching functions, display
+    primaries, camera sensitivities, etc...
 
-    The multi-spectral power distribution will be initialised according to
-    *CIE 15:2004* recommendation: the method developed by
-    *Sprague (1880)* will be used for interpolating functions having a
-    uniformly spaced independent variable and the *Cubic Spline* method for
-    non-uniformly spaced independent variable. Extrapolation is performed
-    according to *CIE 167:2005* recommendation.
+    The multi-spectral distribution will be initialised according to
+    *CIE 15:2004* recommendation: the method developed by *Sprague (1880)* will
+    be used for interpolating functions having a uniformly spaced independent
+    variable and the *Cubic Spline* method for non-uniformly spaced independent
+    variable. Extrapolation is performed according to *CIE 167:2005*
+    recommendation.
 
     Parameters
     ----------
     data : Series or Dataframe or Signal or MultiSignal or \
-MultiSpectralPowerDistribution or array_like or dict_like, optional
-        Data to be stored in the multi-spectral power distribution.
+MultiSpectralDistribution or array_like or dict_like, optional
+        Data to be stored in the multi-spectral distribution.
     domain : array_like, optional
-        Values to initialise the multiple
-        :class:`colour.SpectralPowerDistribution` class instances
-        :attr:`colour.continuous.Signal.wavelengths` attribute with. If both
-        ``data`` and ``domain`` arguments are defined, the latter will be used
-        to initialise the :attr:`colour.continuous.Signal.wavelengths`
-        attribute.
+        Values to initialise the multiple :class:`colour.SpectralDistribution`
+        class instances :attr:`colour.continuous.Signal.wavelengths` attribute
+        with. If both ``data`` and ``domain`` arguments are defined, the latter
+        will be used to initialise the
+        :attr:`colour.continuous.Signal.wavelengths` attribute.
     labels : array_like, optional
-        Names to use for the :class:`colour.SpectralPowerDistribution` class
+        Names to use for the :class:`colour.SpectralDistribution` class
         instances.
 
     Other Parameters
     ----------------
     name : unicode, optional
-       Multi-spectral power distribution name.
+       Multi-spectral distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
-        :class:`colour.SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralDistribution` class instances.
     interpolator_args : dict_like, optional
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.SpectralPowerDistribution` class instances.
+        Arguments to use when instantiating the interpolating function of the
+        :class:`colour.SpectralDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
-        :class:`colour.SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralDistribution` class instances.
     extrapolator_args : dict_like, optional
-        Arguments to use when instantiating the extrapolating function
-        of the :class:`colour.SpectralPowerDistribution` class instances.
+        Arguments to use when instantiating the extrapolating function of the
+        :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
-        Multi-spectral power distribution labels for figures, default to
-        :attr:`colour.MultiSpectralPowerDistribution.labels` attribute value.
+        Multi-spectral distribution labels for figures, default to
+        :attr:`colour.MultiSpectralDistribution.labels` attribute value.
 
     Attributes
     ----------
@@ -1520,16 +1521,15 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     align
     trim
     normalise
+    to_sds
 
     References
     ----------
-    -   :cite:`CIETC1-382005e`
-    -   :cite:`CIETC1-382005g`
-    -   :cite:`CIETC1-482004l`
+    :cite:`CIETC1-382005e`, :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
 
     Examples
     --------
-    Instantiating a multi-spectral power distribution with a uniformly spaced
+    Instantiating a multi-spectral distribution with a uniformly spaced
     independent variable:
 
     >>> from colour.utilities import numpy_print_options
@@ -1544,7 +1544,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     ... }
     >>> labels = ('x_bar', 'y_bar', 'z_bar')
     >>> with numpy_print_options(suppress=True):
-    ...     MultiSpectralPowerDistribution(data, labels=labels)
+    ...     MultiSpectralDistribution(data, labels=labels)
     ... # doctest: +ELLIPSIS
     MultiSpectral...([[ 500.     ,    0.0049 ,    0.323  ,    0.272  ],
                  ...  [ 510.     ,    0.0093 ,    0.503  ,    0.1582 ],
@@ -1559,12 +1559,12 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
                  ... extrapolator=Extrapolator,
                  ... extrapolator_args={...})
 
-    Instantiating a spectral power distribution with a non-uniformly spaced
+    Instantiating a spectral distribution with a non-uniformly spaced
     independent variable:
 
     >>> data[511] = (0.00314, 0.31416, 0.03142)
     >>> with numpy_print_options(suppress=True):
-    ...     MultiSpectralPowerDistribution(data, labels=labels)
+    ...     MultiSpectralDistribution(data, labels=labels)
     ... # doctest: +ELLIPSIS
     MultiSpectral...([[ 500.     ,    0.0049 ,    0.323  ,    0.272  ],
                  ...  [ 510.     ,    0.0093 ,    0.503  ,    0.1582 ],
@@ -1589,9 +1589,9 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
-        kwargs['interpolator'] = kwargs.get('interpolator', SpragueInterpolator
-                                            if uniform else
-                                            CubicSplineInterpolator)
+        kwargs['interpolator'] = kwargs.get(
+            'interpolator', SpragueInterpolator
+            if uniform else CubicSplineInterpolator)
         kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)
@@ -1601,8 +1601,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
             'right': None
         })
 
-        super(MultiSpectralPowerDistribution, self).__init__(
-            signals, domain, signal_type=SpectralPowerDistribution, **kwargs)
+        super(MultiSpectralDistribution, self).__init__(
+            signals, domain, signal_type=SpectralDistribution, **kwargs)
 
         self._strict_name = None
         self.strict_name = kwargs.get('strict_name')
@@ -1612,19 +1612,18 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     @property
     def strict_name(self):
         """
-        Getter and setter property for the multi-spectral power distribution
-        strict name.
+        Getter and setter property for the multi-spectral distribution strict
+        name.
 
         Parameters
         ----------
         value : unicode
-            Value to set the multi-spectral power distribution strict name
-            with.
+            Value to set the multi-spectral distribution strict name with.
 
         Returns
         -------
         unicode
-            Multi-spectral power distribution strict name.
+            Multi-spectral distribution strict name.
         """
 
         if self._strict_name is not None:
@@ -1647,19 +1646,18 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     @property
     def strict_labels(self):
         """
-        Getter and setter property for the multi-spectral power distribution
-        strict labels.
+        Getter and setter property for the multi-spectral distribution strict
+        labels.
 
         Parameters
         ----------
         value : array_like
-            Value to set the multi-spectral power distribution strict labels
-            with.
+            Value to set the multi-spectral distribution strict labels with.
 
         Returns
         -------
         array_like
-            Multi-spectral power distribution strict labels.
+            Multi-spectral distribution strict labels.
         """
 
         if self._strict_labels is not None:
@@ -1678,27 +1676,27 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
                 '"{0}" attribute: "{1}" is not an "iterable" like object!'.
                 format('strict_labels', value))
 
-            assert len(value) == len(self.labels), (
-                '"{0}" attribute: length must be "{1}"!'.format(
+            assert len(value) == len(
+                self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
                     'strict_labels', len(self.labels)))
             self._strict_labels = value
 
     @property
     def wavelengths(self):
         """
-        Getter and setter property for the multi-spectral power distribution
-        wavelengths :math:`\lambda_n`.
+        Getter and setter property for the multi-spectral distribution
+        wavelengths :math:`\\lambda_n`.
 
         Parameters
         ----------
         value : array_like
-            Value to set the multi-spectral power distribution wavelengths
-            :math:`\lambda_n` with.
+            Value to set the multi-spectral distribution wavelengths
+            :math:`\\lambda_n` with.
 
         Returns
         -------
         ndarray
-            Multi-spectral power distribution wavelengths :math:`\lambda_n`.
+            Multi-spectral distribution wavelengths :math:`\\lambda_n`.
         """
 
         return self.domain
@@ -1714,19 +1712,18 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     @property
     def values(self):
         """
-        Getter and setter property for the multi-spectral power distribution
-        values.
+        Getter and setter property for the multi-spectral distribution values.
 
         Parameters
         ----------
         value : array_like
-            Value to set the multi-spectral power distribution wavelengths
-            values with.
+            Value to set the multi-spectral distribution wavelengths values
+            with.
 
         Returns
         -------
         ndarray
-            Multi-spectral power distribution values.
+            Multi-spectral distribution values.
         """
 
         return self.range
@@ -1742,29 +1739,27 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     @property
     def shape(self):
         """
-        Getter and setter property for the multi-spectral power distribution
-        shape.
+        Getter and setter property for the multi-spectral distribution shape.
 
         Returns
         -------
         SpectralShape
-            Multi-spectral power distribution shape.
+            Multi-spectral distribution shape.
 
         Notes
         -----
-        -   A multi-spectral power distribution with a non-uniformly spaced
+        -   A multi-spectral distribution with a non-uniformly spaced
             independent variable have multiple intervals, in that case
-            :attr:`colour.MultiSpectralPowerDistribution.shape` attribute
-            returns the *minimum* interval size.
+            :attr:`colour.MultiSpectralDistribution.shape` attribute returns
+            the *minimum* interval size.
 
         Warning
         -------
-        :attr:`colour.MultiSpectralPowerDistribution.shape` attribute is read
-        only.
+        :attr:`colour.MultiSpectralDistribution.shape` attribute is read only.
 
         Examples
         --------
-        Shape of a multi-spectral power distribution with a uniformly spaced
+        Shape of a multi-spectral distribution with a uniformly spaced
         independent variable:
 
         >>> from colour.utilities import numpy_print_options
@@ -1777,14 +1772,14 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> MultiSpectralPowerDistribution(data).shape
+        >>> MultiSpectralDistribution(data).shape
         SpectralShape(500.0, 560.0, 10.0)
 
-        Shape of a multi-spectral power distribution with a non-uniformly
-        spaced independent variable:
+        Shape of a multi-spectral distribution with a non-uniformly spaced
+        independent variable:
 
         >>> data[511] = (0.00314, 0.31416, 0.03142)
-        >>> MultiSpectralPowerDistribution(data).shape
+        >>> MultiSpectralDistribution(data).shape
         SpectralShape(500.0, 560.0, 1.0)
         """
 
@@ -1793,9 +1788,9 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
-        Extrapolates the multi-spectral power distribution in-place accordingly
-        to *CIE 15:2004* and *CIE 167:2005* recommendations or given
-        extrapolation arguments.
+        Extrapolates the multi-spectral distribution in-place according to
+        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
+        arguments.
 
         Parameters
         ----------
@@ -1808,13 +1803,12 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralPowerDistribution
-            Extrapolated multi-spectral power distribution.
+        MultiSpectralDistribution
+            Extrapolated multi-spectral distribution.
 
         References
         ----------
-        -   :cite:`CIETC1-382005g`
-        -   :cite:`CIETC1-482004l`
+        :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
 
         Examples
         --------
@@ -1828,11 +1822,11 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_spd = MultiSpectralPowerDistribution(data)
-        >>> multi_spd.extrapolate(SpectralShape(400, 700)).shape
+        >>> multi_sd = MultiSpectralDistribution(data)
+        >>> multi_sd.extrapolate(SpectralShape(400, 700)).shape
         SpectralShape(400.0, 700.0, 10.0)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd)
+        ...     print(multi_sd)
         [[ 400.         0.0049     0.323      0.272  ]
          [ 410.         0.0049     0.323      0.272  ]
          [ 420.         0.0049     0.323      0.272  ]
@@ -1873,8 +1867,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     def interpolate(self, shape, interpolator=None, interpolator_args=None):
         """
-        Interpolates the multi-spectral power distribution in-place accordingly
-        to *CIE 167:2005* recommendation or given interpolation arguments.
+        Interpolates the multi-spectral distribution in-place according to
+        *CIE 167:2005* recommendation or given interpolation arguments.
 
         Parameters
         ----------
@@ -1887,26 +1881,26 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralPowerDistribution
-            Interpolated multi-spectral power distribution.
+        MultiSpectralDistribution
+            Interpolated multi-spectral distribution.
 
         Notes
         -----
-        -   See :meth:`colour.SpectralPowerDistribution.interpolate` method
-            notes section.
+        -   See :meth:`colour.SpectralDistribution.interpolate` method notes
+        section.
 
         Warning
         -------
-        See :meth:`colour.SpectralPowerDistribution.interpolate` method warning
+        See :meth:`colour.SpectralDistribution.interpolate` method warning
         section.
 
         References
         ----------
-        -   :cite:`CIETC1-382005e`
+        :cite:`CIETC1-382005e`
 
         Examples
         --------
-        Multi-spectral power distribution with a uniformly spaced independent
+        Multi-spectral distribution with a uniformly spaced independent
         variable uses *Sprague (1880)* interpolation:
 
         >>> from colour.utilities import numpy_print_options
@@ -1919,9 +1913,9 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_spd = MultiSpectralPowerDistribution(data)
+        >>> multi_sd = MultiSpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd.interpolate(SpectralShape(interval=1)))
+        ...     print(multi_sd.interpolate(SpectralShape(interval=1)))
         ... # doctest: +ELLIPSIS
         [[ 500.            0.0049   ...    0.323    ...    0.272    ...]
          [ 501.            0.0043252...    0.3400642...    0.2599848...]
@@ -1985,13 +1979,13 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
          [ 559.            0.5780267...    0.9957974...    0.0042671...]
          [ 560.            0.5945   ...    0.995    ...    0.0039   ...]]
 
-        Multi-spectral power distribution with a non-uniformly spaced
-        independent variable uses *Cubic Spline* interpolation:
+        Multi-spectral distribution with a non-uniformly spaced independent
+        variable uses *Cubic Spline* interpolation:
 
         >>> data[511] = (0.00314, 0.31416, 0.03142)
-        >>> multi_spd = MultiSpectralPowerDistribution(data)
+        >>> multi_sd = MultiSpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd.interpolate(SpectralShape(interval=1)))
+        ...     print(multi_sd.interpolate(SpectralShape(interval=1)))
         ... # doctest: +ELLIPSIS
         [[ 500.            0.0049   ...    0.323    ...    0.272    ...]
          [ 501.            0.0300110...    0.9455153...    0.5985102...]
@@ -2068,7 +2062,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
               extrapolator=None,
               extrapolator_args=None):
         """
-        Aligns the multi-spectral power distribution in-place to given spectral
+        Aligns the multi-spectral distribution in-place to given spectral
         shape: Interpolates first then extrapolates to fit the given range.
 
         Parameters
@@ -2086,8 +2080,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralPowerDistribution
-            Aligned multi-spectral power distribution.
+        MultiSpectralDistribution
+            Aligned multi-spectral distribution.
 
         Examples
         --------
@@ -2101,9 +2095,9 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_spd = MultiSpectralPowerDistribution(data)
+        >>> multi_sd = MultiSpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd.align(SpectralShape(505, 565, 1)))
+        ...     print(multi_sd.align(SpectralShape(505, 565, 1)))
         ... # doctest: +ELLIPSIS
         [[ 505.            0.0031582...    0.4091067...    0.2126801...]
          [ 506.            0.0035019...    0.4268629...    0.2012748...]
@@ -2176,7 +2170,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     def trim(self, shape):
         """
-        Trims the multi-spectral power distribution wavelengths to given shape.
+        Trims the multi-spectral distribution wavelengths to given shape.
 
         Parameters
         ----------
@@ -2185,8 +2179,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralPowerDistribution
-            Trimmed multi-spectral power distribution.
+        MultiSpectralDistribution
+            Trimmed multi-spectral distribution.
 
         Examples
         --------
@@ -2200,10 +2194,10 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_spd = MultiSpectralPowerDistribution(data)
-        >>> multi_spd = multi_spd.interpolate(SpectralShape(interval=1))
+        >>> multi_sd = MultiSpectralDistribution(data)
+        >>> multi_sd = multi_sd.interpolate(SpectralShape(interval=1))
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd.trim(SpectralShape(520, 580, 5)))
+        ...     print(multi_sd.trim(SpectralShape(520, 580, 5)))
         ... # doctest: +ELLIPSIS
         [[ 520.            0.06327  ...    0.71     ...    0.07825  ...]
          [ 521.            0.0715642...    0.7283456...    0.0728614...]
@@ -2255,8 +2249,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     def normalise(self, factor=1):
         """
-        Normalises the multi-spectral power distribution with given
-        normalization factor.
+        Normalises the multi-spectral distribution with given normalization
+        factor.
 
         Parameters
         ----------
@@ -2265,13 +2259,13 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralPowerDistribution
-            Normalised multi- spectral power distribution.
+        MultiSpectralDistribution
+            Normalised multi- spectral distribution.
 
         Notes
         -----
         -   The implementation uses the maximum value for each
-            :class:`colour.SpectralPowerDistribution` class instances.
+            :class:`colour.SpectralDistribution` class instances.
 
         Examples
         --------
@@ -2285,9 +2279,9 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_spd = MultiSpectralPowerDistribution(data)
+        >>> multi_sd = MultiSpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd.normalise())  # doctest: +ELLIPSIS
+        ...     print(multi_sd.normalise())  # doctest: +ELLIPSIS
         [[ 500.            0.0082422...    0.3246231...    1.       ...]
          [ 510.            0.0156434...    0.5055276...    0.5816176...]
          [ 520.            0.1064255...    0.7135678...    0.2876838...]
@@ -2302,204 +2296,147 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         return self
 
+    def to_sds(self):
+        """
+        Converts the multi-spectral distributions to a list of spectral
+        distributions and update their name and strict name using the labels
+        and strict labels.
+
+        Returns
+        -------
+        list
+            List of spectral distributions.
+
+        Examples
+        --------
+        >>> from colour.utilities import numpy_print_options
+        >>> data = {
+        ...     500: (0.004900, 0.323000, 0.272000),
+        ...     510: (0.009300, 0.503000, 0.158200),
+        ...     520: (0.063270, 0.710000, 0.078250),
+        ...     530: (0.165500, 0.862000, 0.042160),
+        ...     540: (0.290400, 0.954000, 0.020300),
+        ...     550: (0.433450, 0.994950, 0.008750),
+        ...     560: (0.594500, 0.995000, 0.003900)
+        ... }
+        >>> multi_sd = MultiSpectralDistribution(data)
+        >>> with numpy_print_options(suppress=True):
+        ...     for sd in multi_sd.to_sds():
+        ...         print(sd)  # doctest: +ELLIPSIS
+        [[ 500.         0.0049 ...]
+         [ 510.         0.0093 ...]
+         [ 520.         0.06327...]
+         [ 530.         0.1655 ...]
+         [ 540.         0.2904 ...]
+         [ 550.         0.43345...]
+         [ 560.         0.5945 ...]]
+        [[ 500.         0.323  ...]
+         [ 510.         0.503  ...]
+         [ 520.         0.71   ...]
+         [ 530.         0.862  ...]
+         [ 540.         0.954  ...]
+         [ 550.         0.99495...]
+         [ 560.         0.995  ...]]
+        [[ 500.         0.272  ...]
+         [ 510.         0.1582 ...]
+         [ 520.         0.07825...]
+         [ 530.         0.04216...]
+         [ 540.         0.0203 ...]
+         [ 550.         0.00875...]
+         [ 560.         0.0039 ...]]
+        """
+
+        sds = []
+        for i, signal in enumerate(self.signals.values()):
+            signal = signal.copy()
+            signal.name = '{0} - {1}'.format(self.labels[i], signal.name)
+            signal.strict_name = '{0} - {1}'.format(self.strict_labels[i],
+                                                    signal.strict_name)
+
+            sds.append(signal)
+
+        return sds
+
     # ------------------------------------------------------------------------#
     # ---              API Changes and Deprecation Management              ---#
     # ------------------------------------------------------------------------#
     @property
     def title(self):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.title',
-                        'SpectralPowerDistribution.strict_name')))
+                Renamed('TriSpectralPowerDistribution.title',
+                        'SpectralDistribution.strict_name')))
 
         return self.strict_name
 
     @title.setter
     def title(self, value):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.title',
-                        'SpectralPowerDistribution.strict_name')))
+                Renamed('TriSpectralPowerDistribution.title',
+                        'SpectralDistribution.strict_name')))
 
         self.strict_name = value
 
     @property
     def data(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(Removed('MultiSpectralPowerDistribution.data')))
+        raise AttributeError(str(Removed('MultiSpectralDistribution.data')))
 
     @property
     def items(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(Removed('MultiSpectralPowerDistribution.items')))
+        raise AttributeError(str(Removed('MultiSpectralDistribution.items')))
 
     @property
     def mapping(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(Removed('MultiSpectralPowerDistribution.mapping')))
+        raise AttributeError(str(Removed('MultiSpectralDistribution.mapping')))
 
     @property
     def x(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralPowerDistribution.x')))
+        raise AttributeError(str(Removed('MultiSpectralDistribution.x')))
 
     @property
     def y(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralPowerDistribution.y')))
+        raise AttributeError(str(Removed('MultiSpectralDistribution.y')))
 
     @property
     def z(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralPowerDistribution.z')))
+        raise AttributeError(str(Removed('MultiSpectralDistribution.z')))
 
     def __iter__(self):
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(
-            str(Removed('MultiSpectralPowerDistribution.__iter__')))
+            str(Removed('MultiSpectralDistribution.__iter__')))
 
     def get(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(Removed('MultiSpectralPowerDistribution.get')))
+        raise AttributeError(str(Removed('MultiSpectralDistribution.get')))
 
     def zeros(self):
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(Removed('MultiSpectralPowerDistribution.zeros')))
+        raise AttributeError(str(Removed('MultiSpectralDistribution.zeros')))
 
     def trim_wavelengths(self, shape):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
-                Renamed('MultiSpectralPowerDistribution.trim_wavelengths',
-                        'MultiSpectralPowerDistribution.trim')))
+                Renamed('TriSpectralPowerDistribution.trim_wavelengths',
+                        'MultiSpectralDistribution.trim')))
 
         return self.trim(shape)
 
     def clone(self):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
-                Renamed('MultiSpectralPowerDistribution.clone',
-                        'MultiSpectralPowerDistribution.copy')))
+                Renamed('TriSpectralPowerDistribution.clone',
+                        'MultiSpectralDistribution.copy')))
 
         return self.copy()
-
-
-DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
-"""
-Default spectral shape according to *ASTM E308-15* practise shape.
-
-DEFAULT_SPECTRAL_SHAPE : SpectralShape
-"""
-
-
-def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
-    """
-    Returns a spectral power distribution of given spectral shape filled with
-    constant :math:`k` values.
-
-    Parameters
-    ----------
-    k : numeric
-        Constant :math:`k` to fill the spectral power distribution with.
-    shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
-    dtype : type
-        Data type used for the spectral power distribution.
-
-    Returns
-    -------
-    SpectralPowerDistribution
-        Constant :math:`k` to filled spectral power distribution.
-
-    Notes
-    -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
-
-    Examples
-    --------
-    >>> spd = constant_spd(100)
-    >>> spd.shape
-    SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[400]
-    100.0
-    """
-
-    wavelengths = shape.range(dtype)
-    values = np.full(len(wavelengths), k, dtype)
-
-    name = '{0} Constant'.format(k)
-    return SpectralPowerDistribution(
-        values, wavelengths, name=name, dtype=dtype)
-
-
-def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
-    """
-    Returns a spectral power distribution of given spectral shape filled with
-    zeros.
-
-    Parameters
-    ----------
-    shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
-
-    Returns
-    -------
-    SpectralPowerDistribution
-        Zeros filled spectral power distribution.
-
-    Notes
-    -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
-
-    Examples
-    --------
-    >>> spd = zeros_spd()
-    >>> spd.shape
-    SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[400]
-    0.0
-    """
-
-    return constant_spd(0, shape)
-
-
-def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
-    """
-    Returns a spectral power distribution of given spectral shape filled with
-    ones.
-
-    Parameters
-    ----------
-    shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
-
-    Returns
-    -------
-    SpectralPowerDistribution
-        Ones filled spectral power distribution.
-
-    Notes
-    -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
-
-    Examples
-    --------
-    >>> spd = ones_spd()
-    >>> spd.shape
-    SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[400]
-    1.0
-    """
-
-    return constant_spd(1, shape)

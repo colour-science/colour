@@ -23,13 +23,15 @@ message_box(('Computing chromatic adaptation using "CIE 1994" chromatic '
              '\n\t"E_o2":\n\t\t{5}\n\n'
              'Warning: The input domain and output range of that definition '
              'are non standard!'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.chromatic_adaptation(
-    XYZ_1,
-    colour.xy_to_XYZ(xy_o1),
-    colour.xy_to_XYZ(xy_o2),
-    method='CIE 1994',
-    Y_o=Y_o,
-    E_o1=E_o1,
-    E_o2=E_o2))
-print(colour.adaptation.chromatic_adaptation_CIE1994(
-    XYZ_1 * 100.0, xy_o1, xy_o2, Y_o, E_o1, E_o2)) / 100.0
+print(
+    colour.chromatic_adaptation(
+        XYZ_1,
+        colour.xy_to_XYZ(xy_o1),
+        colour.xy_to_XYZ(xy_o2),
+        method='CIE 1994',
+        Y_o=Y_o,
+        E_o1=E_o1,
+        E_o2=E_o2))
+print(
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1 * 100.0, xy_o1, xy_o2,
+                                                   Y_o, E_o1, E_o2) / 100.0)

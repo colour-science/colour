@@ -1,5 +1,5 @@
-colour\.adaptation\.CAT02\_BRILL\_CAT
-=====================================
+colour.adaptation.CAT02\_BRILL\_CAT
+===================================
 
 .. currentmodule:: colour.adaptation
 

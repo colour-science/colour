@@ -1,5 +1,5 @@
-colour\.models\.log\_decoding\_ACESproxy
-========================================
+colour.models.log\_decoding\_ACESproxy
+======================================
 
 .. currentmodule:: colour.models
 

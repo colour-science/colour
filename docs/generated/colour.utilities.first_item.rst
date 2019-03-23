@@ -1,5 +1,5 @@
-colour\.utilities\.first\_item
-==============================
+colour.utilities.first\_item
+============================
 
 .. currentmodule:: colour.utilities
 

@@ -3,7 +3,7 @@
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 =========================================================================
 
-Defines the *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS*
+Defines the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS*
 colourspaces transformations:
 
 -   :func:`colour.JMh_CIECAM02_to_CAM02LCD`
@@ -32,10 +32,12 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
+from colour.utilities import (CaseInsensitiveMapping, from_range_100,
+                              from_range_degrees, to_domain_100,
+                              to_domain_degrees, tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -53,7 +55,7 @@ __all__ = [
 class Coefficients_UCS_Luo2006(
         namedtuple('Coefficients_UCS_Luo2006', ('K_L', 'c_1', 'c_2'))):
     """
-    Defines the the class storing *Luo et alii (2006)* fitting coefficients for
+    Defines the the class storing *Luo et al. (2006)* fitting coefficients for
     the *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces.
     """
 
@@ -64,7 +66,7 @@ COEFFICIENTS_UCS_LUO2006 = CaseInsensitiveMapping({
     'CAM02-UCS': Coefficients_UCS_Luo2006(1.00, 0.007, 0.0228)
 })
 """
-*Luo et alii (2006)* fitting coefficients for the *CAM02-LCD*, *CAM02-SCD*, and
+*Luo et al. (2006)* fitting coefficients for the *CAM02-LCD*, *CAM02-SCD*, and
 *CAM02-UCS* colourspaces.
 
 COEFFICIENTS_UCS_LUO2006 : CaseInsensitiveMapping
@@ -75,7 +77,7 @@ COEFFICIENTS_UCS_LUO2006 : CaseInsensitiveMapping
 def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to one of the
-    *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
     :math:`J'a'b'` array.
 
     The :math:`JMh` correlates array is constructed using the CIECAM02
@@ -88,14 +90,37 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     JMh : array_like
         *CIECAM02* correlates array :math:`JMh`.
     coefficients : array_like
-        Coefficients of one of the *Luo et alii (2006)* *CAM02-LCD*,
+        Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Returns
     -------
     ndarray
-        *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+        *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
+
+    Notes
+    -----
+
+    +------------+------------------------+--------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
+    +------------+------------------------+--------------------+
+
+    +------------+------------------------+--------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
+    |            |                        |                    |
+    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
+    |            |                        |                    |
+    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    +------------+------------------------+--------------------+
 
     Examples
     --------
@@ -116,35 +141,64 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     """
 
     J, M, h = tsplit(JMh)
+    J = to_domain_100(J)
+    M = to_domain_100(M)
+    h = to_domain_degrees(h)
+
     _K_L, c_1, c_2 = tsplit(coefficients)
 
     J_p = ((1 + 100 * c_1) * J) / (1 + c_1 * J)
     M_p = (1 / c_2) * np.log(1 + c_2 * M)
 
-    a_p, b_p = tsplit(polar_to_cartesian(tstack((M_p, np.radians(h)))))
+    a_p, b_p = tsplit(polar_to_cartesian(tstack([M_p, np.radians(h)])))
 
-    return tstack((J_p, a_p, b_p))
+    Jpapbp = tstack([J_p, a_p, b_p])
+
+    return from_range_100(Jpapbp)
 
 
 def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     """
-    Converts from one of the *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or
+    Converts from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
     *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIECAM02* :math:`JMh`
     correlates array.
 
     Parameters
     ----------
     Jpapbp : array_like
-        *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+        *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
     coefficients : array_like
-        Coefficients of one of the *Luo et alii (2006)* *CAM02-LCD*,
+        Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Returns
     -------
     ndarray
         *CIECAM02* correlates array :math:`JMh`.
+
+    Notes
+    -----
+
+    +------------+------------------------+--------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
+    |            |                        |                    |
+    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
+    |            |                        |                    |
+    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    +------------+------------------------+--------------------+
+
+    +------------+------------------------+--------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
+    +------------+------------------------+--------------------+
 
     Examples
     --------
@@ -155,22 +209,28 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
 
-    J_p, a_p, b_p = tsplit(Jpapbp)
+    J_p, a_p, b_p = tsplit(to_domain_100(Jpapbp))
     _K_L, c_1, c_2 = tsplit(coefficients)
 
     J = -J_p / (c_1 * J_p - 1 - 100 * c_1)
 
-    M_p, h = tsplit(cartesian_to_polar(tstack((a_p, b_p))))
+    M_p, h = tsplit(cartesian_to_polar(tstack([a_p, b_p])))
 
     M = (np.exp(M_p / (1 / c_2)) - 1) / c_2
 
-    return tstack((J, M, np.degrees(h) % 360))
+    JMh = tstack([
+        from_range_100(J),
+        from_range_100(M),
+        from_range_degrees(np.degrees(h) % 360)
+    ])
+
+    return JMh
 
 
 def JMh_CIECAM02_to_CAM02LCD(JMh):
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to
-    *Luo et alii (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+    *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -180,11 +240,34 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
     Returns
     -------
     ndarray
-        *Luo et alii (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+
+    Notes
+    -----
+
+    +------------+------------------------+--------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
+    +------------+------------------------+--------------------+
+
+    +------------+------------------------+--------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
+    |            |                        |                    |
+    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
+    |            |                        |                    |
+    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    +------------+------------------------+--------------------+
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -209,22 +292,45 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
 
 def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
     """
-    Converts from *Luo et alii (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
+    Converts from *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
     Jpapbp : array_like
-        *Luo et alii (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Returns
     -------
     ndarray
         *CIECAM02* correlates array :math:`JMh`.
 
+    Notes
+    -----
+
+    +------------+------------------------+--------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
+    |            |                        |                    |
+    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
+    |            |                        |                    |
+    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    +------------+------------------------+--------------------+
+
+    +------------+------------------------+--------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
+    +------------+------------------------+--------------------+
+
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -240,7 +346,7 @@ def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
 def JMh_CIECAM02_to_CAM02SCD(JMh):
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to
-    *Luo et alii (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+    *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -250,11 +356,34 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
     Returns
     -------
     ndarray
-        *Luo et alii (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+
+    Notes
+    -----
+
+    +------------+------------------------+--------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
+    +------------+------------------------+--------------------+
+
+    +------------+------------------------+--------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
+    |            |                        |                    |
+    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
+    |            |                        |                    |
+    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    +------------+------------------------+--------------------+
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -279,22 +408,45 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
 
 def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
     """
-    Converts from *Luo et alii (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
+    Converts from *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
     Jpapbp : array_like
-        *Luo et alii (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Returns
     -------
     ndarray
         *CIECAM02* correlates array :math:`JMh`.
 
+    Notes
+    -----
+
+    +------------+------------------------+--------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
+    |            |                        |                    |
+    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
+    |            |                        |                    |
+    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    +------------+------------------------+--------------------+
+
+    +------------+------------------------+--------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
+    +------------+------------------------+--------------------+
+
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -310,7 +462,7 @@ def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
 def JMh_CIECAM02_to_CAM02UCS(JMh):
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to
-    *Luo et alii (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+    *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -320,11 +472,34 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
     Returns
     -------
     ndarray
-        *Luo et alii (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+
+    Notes
+    -----
+
+    +------------+------------------------+--------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
+    +------------+------------------------+--------------------+
+
+    +------------+------------------------+--------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
+    |            |                        |                    |
+    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
+    |            |                        |                    |
+    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    +------------+------------------------+--------------------+
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -349,22 +524,45 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
 
 def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
     """
-    Converts from *Luo et alii (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
+    Converts from *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
     Jpapbp : array_like
-        *Luo et alii (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Returns
     -------
     ndarray
         *CIECAM02* correlates array :math:`JMh`.
 
+    Notes
+    -----
+
+    +------------+------------------------+--------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
+    |            |                        |                    |
+    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
+    |            |                        |                    |
+    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    +------------+------------------------+--------------------+
+
+    +------------+------------------------+--------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
+    +============+========================+====================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
+    |            |                        |                    |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
+    +------------+------------------------+--------------------+
+
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------

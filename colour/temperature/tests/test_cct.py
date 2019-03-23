@@ -19,7 +19,7 @@ from colour.temperature.cct import (planckian_table,
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -165,9 +165,8 @@ class TestPlanckianTable(unittest.TestCase):
         cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
 
         np.testing.assert_almost_equal(
-            [(x.Ti, x.ui, x.vi, x.di)
-             for x in planckian_table(
-                 np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)],
+            [(x.Ti, x.ui, x.vi, x.di) for x in planckian_table(
+                np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)],
             PLANCKIAN_TABLE)
 
 
@@ -529,6 +528,11 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
         """
         Tests :func:`colour.temperature.cct.CCT_to_xy_CIE_D` definition.
         """
+
+        np.testing.assert_almost_equal(
+            CCT_to_xy_CIE_D(4000.0),
+            np.array([0.382343625000000, 0.383766261015578]),
+            decimal=7)
 
         np.testing.assert_almost_equal(
             CCT_to_xy_CIE_D(4000),

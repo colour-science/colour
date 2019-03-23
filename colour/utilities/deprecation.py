@@ -13,10 +13,10 @@ from importlib import import_module
 from collections import namedtuple
 from operator import attrgetter
 
-from colour.utilities import warning
+from colour.utilities import usage_warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -237,7 +237,7 @@ class ModuleAPI(object):
         change = self._changes.get(attribute)
         if change is not None:
             if not isinstance(change, Removed):
-                warning(str(change))
+                usage_warning(str(change))
                 return get_attribute(change[1])
             else:
                 raise AttributeError(str(change))
@@ -246,7 +246,7 @@ class ModuleAPI(object):
 
     def __dir__(self):
         """
-        Returns list of names in the module local scope filtered accordingly to
+        Returns list of names in the module local scope filtered according to
         the changes.
 
         Returns

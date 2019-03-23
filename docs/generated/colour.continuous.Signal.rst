@@ -1,5 +1,5 @@
-colour\.continuous\.Signal
-==========================
+colour.continuous.Signal
+========================
 
 .. currentmodule:: colour.continuous
 
@@ -25,5 +25,19 @@ colour\.continuous\.Signal
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Signal.domain
+      ~Signal.dtype
+      ~Signal.extrapolator
+      ~Signal.extrapolator_args
+      ~Signal.function
+      ~Signal.interpolator
+      ~Signal.interpolator_args
+      ~Signal.name
+      ~Signal.range
    
    

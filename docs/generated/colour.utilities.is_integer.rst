@@ -1,5 +1,5 @@
-colour\.utilities\.is\_integer
-==============================
+colour.utilities.is\_integer
+============================
 
 .. currentmodule:: colour.utilities
 

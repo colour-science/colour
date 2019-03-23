@@ -26,11 +26,11 @@ except ImportError:
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
-from colour.utilities import (fill_nan, is_pandas_installed, tsplit, tstack,
-                              warning)
+from colour.utilities import (as_array, fill_nan, is_pandas_installed,
+                              runtime_warning, tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -44,8 +44,8 @@ class Signal(AbstractContinuousFunction):
     Defines the base class for continuous signal.
 
     The class implements the :meth:`Signal.function` method so that evaluating
-    the function for any independent domain :math:`x \in \mathbb{R}` variable
-    returns a corresponding range :math:`y \in \mathbb{R}` variable.
+    the function for any independent domain :math:`x \\in\\mathbb{R}` variable
+    returns a corresponding range :math:`y \\in\\mathbb{R}` variable.
     It adopts an interpolating function encapsulated inside an extrapolating
     function. The resulting function independent domain, stored as discrete
     values in the :attr:`colour.continuous.Signal.domain` attribute corresponds
@@ -93,6 +93,7 @@ class Signal(AbstractContinuousFunction):
     -------
     __str__
     __repr__
+    __hash__
     __getitem__
     __setitem__
     __contains__
@@ -251,12 +252,14 @@ class Signal(AbstractContinuousFunction):
 
             assert value in float_dtypes, ((
                 '"{0}" attribute: "{1}" type is not in "{2}"!').format(
-                    'dtype', value, ', '.join(
-                        [float_dtype.__name__
-                         for float_dtype in float_dtypes])))
+                    'dtype', value, ', '.join([
+                        float_dtype.__name__ for float_dtype in float_dtypes
+                    ])))
 
             self._dtype = value
 
+            # The following self-assignments are written as intended and
+            # triggers the rebuild of the underlying function.
             self.domain = self.domain
             self.range = self.range
 
@@ -288,17 +291,20 @@ class Signal(AbstractContinuousFunction):
 
         if value is not None:
             if not np.all(np.isfinite(value)):
-                warning('"domain" variable is not finite, '
-                        'unpredictable results may occur!\n{0}'.format(value))
+                runtime_warning(
+                    '"{0}" new "domain" variable is not finite: {1}, '
+                    'unpredictable results may occur!'.format(
+                        self.name, value))
 
             value = np.copy(value).astype(self.dtype)
 
             if self._range is not None:
                 if value.size != self._range.size:
-                    warning(
-                        '"domain" and "range" variables have different size, '
-                        '"range" variable will be resized to '
-                        '"domain" variable shape!')
+                    runtime_warning(
+                        '"{0}" new "domain" and current "range" variables '
+                        'have different size, "range" variable will be '
+                        'resized to "domain" variable shape!'.format(
+                            self.name))
                     self._range = np.resize(self._range, value.shape)
 
             self._domain = value
@@ -332,8 +338,10 @@ class Signal(AbstractContinuousFunction):
 
         if value is not None:
             if not np.all(np.isfinite(value)):
-                warning('"range" variable is not finite, '
-                        'unpredictable results may occur!\n{0}'.format(value))
+                runtime_warning(
+                    '"{0}" new "range" variable is not finite: {1}, '
+                    'unpredictable results may occur!'.format(
+                        self.name, value))
 
             value = np.copy(value).astype(self.dtype)
 
@@ -522,7 +530,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         try:
-            return str(tstack((self.domain, self.range)))
+            return str(tstack([self.domain, self.range]))
         except TypeError:
             return super(Signal, self).__str__()
 
@@ -556,11 +564,12 @@ class Signal(AbstractContinuousFunction):
         """
 
         try:
-            representation = repr(tstack((self.domain, self.range)))
+            representation = repr(tstack([self.domain, self.range]))
             representation = representation.replace('array',
                                                     self.__class__.__name__)
-            representation = representation.replace('       [', '{0}['.format(
-                ' ' * (len(self.__class__.__name__) + 2)))
+            representation = representation.replace(
+                '       [',
+                '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
             representation = ('{0},\n'
                               '{1}interpolator={2},\n'
                               '{1}interpolator_args={3},\n'
@@ -578,6 +587,18 @@ class Signal(AbstractContinuousFunction):
             # TODO: Discuss what is the most suitable behaviour, either the
             # following or __str__ one.
             return '{0}()'.format(self.__class__.__name__)
+
+    def __hash__(self):
+        """
+        Returns the abstract continuous function hash.
+
+        Returns
+        -------
+        int
+            Object hash.
+        """
+
+        return hash(repr(self))
 
     def __getitem__(self, x):
         """
@@ -744,8 +765,11 @@ class Signal(AbstractContinuousFunction):
 
         return np.all(
             np.where(
-                np.logical_and(x >= np.min(self._domain), x <=
-                               np.max(self._domain)), True, False))
+                np.logical_and(x >= np.min(self._domain),
+                               x <= np.max(self._domain)),
+                True,
+                False,
+            ))
 
     def __eq__(self, other):
         """
@@ -754,7 +778,7 @@ class Signal(AbstractContinuousFunction):
         Parameters
         ----------
         other : object
-            Object to test whether it is equal to continuous signal.
+            Object to test whether it is equal to the continuous signal.
 
         Returns
         -------
@@ -847,9 +871,9 @@ class Signal(AbstractContinuousFunction):
 
                 Other Parameters
                 ----------------
-                \*args : list, optional
+                \\*args : list, optional
                     Arguments.
-                \**kwargs : dict, optional
+                \\**kwargs : dict, optional
                     Keywords arguments.
 
                 Raises
@@ -1112,10 +1136,10 @@ class Signal(AbstractContinuousFunction):
         if domain is not None and range_u is not None:
             assert len(domain) == len(range_u), (
                 'User "domain" is not compatible with unpacked range!')
-            domain_u = np.asarray(domain, dtype)
+            domain_u = as_array(domain, dtype)
 
         if range_u is not None:
-            range_u = np.asarray(range_u, dtype)
+            range_u = as_array(range_u, dtype)
 
         return domain_u, range_u
 

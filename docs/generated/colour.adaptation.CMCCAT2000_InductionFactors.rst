@@ -1,5 +1,5 @@
-colour\.adaptation\.CMCCAT2000\_InductionFactors
-================================================
+colour.adaptation.CMCCAT2000\_InductionFactors
+==============================================
 
 .. currentmodule:: colour.adaptation
 
@@ -19,5 +19,11 @@ colour\.adaptation\.CMCCAT2000\_InductionFactors
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CMCCAT2000_InductionFactors.F
    
    

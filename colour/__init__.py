@@ -12,10 +12,12 @@ Sub-packages
 -   algebra: Algebra utilities.
 -   appearance: Colour appearance models.
 -   biochemistry: Biochemistry computations.
--   continuous: Base objects for continuous data representation.
+-   blindness: Colour vision deficiency models.
 -   characterisation: Colour fitting and camera characterisation.
 -   colorimetry: Core objects for colour computations.
 -   constants: *CIE* and *CODATA* constants.
+-   continuous: Base objects for continuous data representation.
+-   contrast: Objects for contrast sensitivity computation.
 -   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
@@ -34,35 +36,44 @@ Sub-packages
 
 from __future__ import absolute_import
 
+import numpy as np
 import sys
 
 from .utilities.deprecation import (FutureAccessChange, FutureAccessRemove,
                                     ModuleAPI, Removed, Renamed)
 from .utilities.documentation import is_documentation_building
+from .utilities.common import (domain_range_scale, get_domain_range_scale,
+                               set_domain_range_scale)
 
 from .adaptation import (CHROMATIC_ADAPTATION_METHODS,
                          CHROMATIC_ADAPTATION_TRANSFORMS,
                          CMCCAT2000_VIEWING_CONDITIONS, chromatic_adaptation)
-from .algebra import (
-    CubicSplineInterpolator, Extrapolator, KernelInterpolator,
-    LinearInterpolator, NullInterpolator, PchipInterpolator,
-    SpragueInterpolator, kernel_cardinal_spline, kernel_lanczos, kernel_linear,
-    kernel_nearest_neighbour, kernel_sinc, lagrange_coefficients)
+from .algebra import (CubicSplineInterpolator, Extrapolator,
+                      KernelInterpolator, NearestNeighbourInterpolator,
+                      LinearInterpolator, NullInterpolator, PchipInterpolator,
+                      SpragueInterpolator, TABLE_INTERPOLATION_METHODS,
+                      kernel_cardinal_spline, kernel_lanczos, kernel_linear,
+                      kernel_nearest_neighbour, kernel_sinc,
+                      table_interpolation, lagrange_coefficients)
 from .colorimetry import (
-    ASTME30815_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS,
-    CIE_standard_illuminant_A_function, CMFS, DEFAULT_SPECTRAL_SHAPE,
-    D_illuminant_relative_spd, HUNTERLAB_ILLUMINANTS, ILLUMINANTS,
-    ILLUMINANTS_RELATIVE_SPDS, LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES,
-    LIGHT_SOURCES_RELATIVE_SPDS, LMS_CMFS, LUMINANCE_METHODS,
-    MultiSpectralPowerDistribution, PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS,
-    SPECTRAL_TO_XYZ_METHODS, STANDARD_OBSERVERS_CMFS,
-    SpectralPowerDistribution, SpectralShape, WHITENESS_METHODS,
-    YELLOWNESS_METHODS, bandpass_correction, blackbody_spd,
-    colorimetric_purity, complementary_wavelength, constant_spd,
-    dominant_wavelength, excitation_purity, lightness, luminance,
-    luminous_efficacy, luminous_efficiency, luminous_flux,
-    mesopic_luminous_efficiency_function, ones_spd, spectral_to_XYZ,
-    wavelength_to_XYZ, whiteness, yellowness, zeros_spd)
+    ASTME30815_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS, CMFS,
+    DEFAULT_SPECTRAL_SHAPE, HUNTERLAB_ILLUMINANTS, ILLUMINANTS,
+    ILLUMINANTS_SDS, LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCES_SDS,
+    LMS_CMFS, LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS,
+    MultiSpectralDistribution, PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS,
+    SD_GAUSSIAN_METHODS, SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS,
+    SD_TO_XYZ_METHODS, STANDARD_OBSERVERS_CMFS, SpectralDistribution,
+    SpectralShape, WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
+    colorimetric_purity, complementary_wavelength, dominant_wavelength,
+    excitation_purity, lightness, luminance, luminous_efficacy,
+    luminous_efficiency, luminous_flux, multi_sds_to_XYZ,
+    sd_CIE_standard_illuminant_A, sd_CIE_illuminant_D_series, sd_blackbody,
+    sd_constant, sd_gaussian, sd_mesopic_luminous_efficiency_function,
+    sd_multi_leds, sd_ones, sd_single_led, sd_zeros, sd_to_XYZ,
+    wavelength_to_XYZ, whiteness, yellowness)
+from .blindness import (
+    CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
+    anomalous_trichromacy_matrix_Machado2009, cvd_matrix_Machado2009)
 from .appearance import (
     ATD95_Specification, CAM16_Specification, CAM16_VIEWING_CONDITIONS,
     CAM16_to_XYZ, CIECAM02_Specification, CIECAM02_VIEWING_CONDITIONS,
@@ -72,49 +83,59 @@ from .appearance import (
     XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB, XYZ_to_Nayatani95,
     XYZ_to_RLAB)
 from .difference import DELTA_E_METHODS, delta_E
-from .characterisation import (CAMERAS_RGB_SPECTRAL_SENSITIVITIES,
-                               COLOURCHECKERS, COLOURCHECKERS_SPDS,
-                               DISPLAYS_RGB_PRIMARIES, first_order_colour_fit)
-from .io import (IES_TM2714_Spd, read_image, read_spds_from_csv_file,
-                 read_spds_from_xrite_file, read_spectral_data_from_csv_file,
-                 write_image, write_spds_to_csv_file)
+from .characterisation import (
+    CAMERAS_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKERS_SDS,
+    DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
+    COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
+    COLOUR_CORRECTION_METHODS, colour_correction)
+from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence,
+                 SpectralDistribution_IESTM2714, read_image, read_LUT,
+                 read_sds_from_csv_file, read_sds_from_xrite_file,
+                 read_spectral_data_from_csv_file, write_image, write_LUT,
+                 write_sds_to_csv_file)
 from .models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM16LCD_to_JMh_CAM16, CAM16SCD_to_JMh_CAM16,
     CAM16UCS_to_JMh_CAM16, CMYK_to_CMY, CMY_to_CMYK, CMY_to_RGB, CV_range,
-    EOTFS, EOTFS_REVERSE, HDR_CIELAB_METHODS, HDR_IPT_METHODS, HSL_to_RGB,
-    HSV_to_RGB, Hunter_Lab_to_XYZ, ICTCP_to_RGB, IPT_hue_angle, IPT_to_XYZ,
-    JMh_CAM16_to_CAM16LCD, JMh_CAM16_to_CAM16SCD, JMh_CAM16_to_CAM16UCS,
-    JMh_CIECAM02_to_CAM02LCD, JMh_CIECAM02_to_CAM02SCD,
-    JMh_CIECAM02_to_CAM02UCS, LCHab_to_Lab, LCHuv_to_Luv, LOG_DECODING_CURVES,
-    LOG_ENCODING_CURVES, Lab_to_LCHab, Lab_to_XYZ, Luv_to_LCHuv, Luv_to_XYZ,
-    Luv_to_uv, Luv_uv_to_xy, OETFS, OETFS_REVERSE, OOTFS, OOTFS_REVERSE,
-    POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT,
-    Prismatic_to_RGB, RGB_COLOURSPACES, RGB_Colourspace, RGB_luminance,
-    RGB_luminance_equation, RGB_to_CMY, RGB_to_HSL, RGB_to_HSV, RGB_to_ICTCP,
-    RGB_to_Prismatic, RGB_to_RGB, RGB_to_RGB_matrix, RGB_to_XYZ, RGB_to_YCbCr,
-    RGB_to_YcCbcCrc, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy, XYZ_to_Hunter_Lab,
-    XYZ_to_Hunter_Rdab, XYZ_to_IPT, XYZ_to_K_ab_HunterLab1966, XYZ_to_Lab,
-    XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW, XYZ_to_hdr_CIELab,
-    XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY, YCBCR_WEIGHTS,
-    YCbCr_to_RGB, YcCbcCrc_to_RGB, chromatically_adapted_primaries, eotf,
-    eotf_reverse, full_to_legal, function_gamma, function_linear,
-    hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, legal_to_full, log_decoding_curve,
+    DECODING_CCTFS, DIN99_to_Lab, ENCODING_CCTFS, EOTFS, EOTFS_REVERSE,
+    HDR_CIELAB_METHODS, HDR_IPT_METHODS, HSL_to_RGB, HSV_to_RGB,
+    Hunter_Lab_to_XYZ, Hunter_Rdab_to_XYZ, ICTCP_to_RGB, IPT_hue_angle,
+    IPT_to_XYZ, JMh_CAM16_to_CAM16LCD, JMh_CAM16_to_CAM16SCD,
+    JMh_CAM16_to_CAM16UCS, JMh_CIECAM02_to_CAM02LCD, JMh_CIECAM02_to_CAM02SCD,
+    JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ, LCHab_to_Lab, LCHuv_to_Luv,
+    LOG_DECODING_CURVES, LOG_ENCODING_CURVES, Lab_to_DIN99, Lab_to_LCHab,
+    Lab_to_XYZ, Luv_to_LCHuv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy,
+    MACADAM_1942_ELLIPSES_DATA, OETFS, OETFS_REVERSE, OOTFS, OOTFS_REVERSE,
+    OSA_UCS_to_XYZ, POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA,
+    POINTER_GAMUT_ILLUMINANT, Prismatic_to_RGB, RGB_COLOURSPACES,
+    RGB_Colourspace, RGB_luminance, RGB_luminance_equation, RGB_to_CMY,
+    RGB_to_HSL, RGB_to_HSV, RGB_to_ICTCP, RGB_to_Prismatic, RGB_to_RGB,
+    RGB_to_RGB_matrix, RGB_to_XYZ, RGB_to_YCbCr, RGB_to_YcCbcCrc, RGB_to_YCoCg,
+    UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy, UVW_to_XYZ, XYZ_to_Hunter_Lab,
+    XYZ_to_Hunter_Rdab, XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_K_ab_HunterLab1966,
+    XYZ_to_Lab, XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW,
+    XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY,
+    YCBCR_WEIGHTS, YCbCr_to_RGB, YcCbcCrc_to_RGB, YCoCg_to_RGB,
+    chromatically_adapted_primaries, decoding_cctf, encoding_cctf, eotf,
+    eotf_reverse, full_to_legal, gamma_function, hdr_CIELab_to_XYZ,
+    hdr_IPT_to_XYZ, legal_to_full, linear_function, log_decoding_curve,
     log_encoding_curve, normalised_primary_matrix, oetf, oetf_reverse, ootf,
-    ootf_reverse, primaries_whitepoint, sRGB_to_XYZ,
-    spectral_to_aces_relative_exposure_values, xyY_to_XYZ, xyY_to_xy,
-    xy_to_XYZ, xy_to_xyY)
+    ootf_reverse, primaries_whitepoint, sd_to_aces_relative_exposure_values,
+    sRGB_to_XYZ, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ,
+    xy_to_xyY)
 from .corresponding import (BRENEMAN_EXPERIMENTS,
                             BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
                             corresponding_chromaticities_prediction)
-from .phenomena import (rayleigh_scattering, rayleigh_scattering_spd,
-                        scattering_cross_section)
+from .contrast import (CONTRAST_SENSITIVITY_METHODS,
+                       contrast_sensitivity_function)
+from .phenomena import (rayleigh_scattering, scattering_cross_section,
+                        sd_rayleigh_scattering)
 from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
                        munsell_colour_to_xyY, munsell_value,
                        xyY_to_munsell_colour)
-from .quality import (colour_quality_scale, colour_rendering_index)
-from .recovery import (REFLECTANCE_RECOVERY_METHODS, XYZ_to_spectral)
+from .quality import colour_quality_scale, colour_rendering_index
+from .recovery import XYZ_TO_SD_METHODS, XYZ_to_sd
 from .temperature import (CCT_TO_UV_METHODS, CCT_TO_XY_METHODS, CCT_to_uv,
                           CCT_to_xy, UV_TO_CCT_METHODS, XY_TO_CCT_METHODS,
                           uv_to_CCT, xy_to_CCT)
@@ -127,39 +148,49 @@ from .volume import (
     is_within_mesh_volume, is_within_pointer_gamut, is_within_visible_spectrum)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = []
+__all__ = [
+    'domain_range_scale', 'get_domain_range_scale', 'set_domain_range_scale'
+]
 __all__ += [
     'CHROMATIC_ADAPTATION_METHODS', 'CHROMATIC_ADAPTATION_TRANSFORMS',
     'CMCCAT2000_VIEWING_CONDITIONS', 'chromatic_adaptation'
 ]
 __all__ += [
     'CubicSplineInterpolator', 'Extrapolator', 'KernelInterpolator',
-    'LinearInterpolator', 'NullInterpolator', 'PchipInterpolator',
-    'SpragueInterpolator', 'kernel_cardinal_spline', 'kernel_lanczos',
-    'kernel_linear', 'kernel_nearest_neighbour', 'kernel_sinc',
+    'NearestNeighbourInterpolator', 'LinearInterpolator', 'NullInterpolator',
+    'PchipInterpolator', 'SpragueInterpolator', 'TABLE_INTERPOLATION_METHODS',
+    'kernel_cardinal_spline', 'kernel_lanczos', 'kernel_linear',
+    'kernel_nearest_neighbour', 'kernel_sinc', 'table_interpolation',
     'lagrange_coefficients'
 ]
 __all__ += [
-    'ASTME30815_PRACTISE_SHAPE', 'BANDPASS_CORRECTION_METHODS',
-    'CIE_standard_illuminant_A_function', 'CMFS', 'DEFAULT_SPECTRAL_SHAPE',
-    'D_illuminant_relative_spd', 'HUNTERLAB_ILLUMINANTS', 'ILLUMINANTS',
-    'ILLUMINANTS_RELATIVE_SPDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
-    'LIGHT_SOURCES_RELATIVE_SPDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
-    'MultiSpectralPowerDistribution', 'PHOTOPIC_LEFS', 'RGB_CMFS',
-    'SCOTOPIC_LEFS', 'SPECTRAL_TO_XYZ_METHODS', 'STANDARD_OBSERVERS_CMFS',
-    'SpectralPowerDistribution', 'SpectralShape', 'WHITENESS_METHODS',
-    'YELLOWNESS_METHODS', 'bandpass_correction', 'blackbody_spd',
-    'colorimetric_purity', 'complementary_wavelength', 'constant_spd',
-    'dominant_wavelength', 'excitation_purity', 'lightness', 'luminance',
-    'luminous_efficacy', 'luminous_efficiency', 'luminous_flux',
-    'mesopic_luminous_efficiency_function', 'ones_spd', 'spectral_to_XYZ',
-    'wavelength_to_XYZ', 'whiteness', 'yellowness', 'zeros_spd'
+    'ASTME30815_PRACTISE_SHAPE', 'BANDPASS_CORRECTION_METHODS', 'CMFS',
+    'DEFAULT_SPECTRAL_SHAPE', 'HUNTERLAB_ILLUMINANTS', 'ILLUMINANTS',
+    'ILLUMINANTS_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
+    'LIGHT_SOURCES_SDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
+    'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistribution', 'PHOTOPIC_LEFS',
+    'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS',
+    'SD_MULTI_LEDS_METHODS', 'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS',
+    'STANDARD_OBSERVERS_CMFS', 'SpectralDistribution', 'SpectralShape',
+    'WHITENESS_METHODS', 'YELLOWNESS_METHODS', 'bandpass_correction',
+    'colorimetric_purity', 'complementary_wavelength', 'dominant_wavelength',
+    'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
+    'luminous_efficiency', 'luminous_flux', 'multi_sds_to_XYZ',
+    'sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series',
+    'sd_blackbody', 'sd_constant', 'sd_gaussian',
+    'sd_mesopic_luminous_efficiency_function', 'sd_multi_leds', 'sd_ones',
+    'sd_zeros', 'sd_single_led', 'sd_to_XYZ', 'wavelength_to_XYZ', 'whiteness',
+    'yellowness'
+]
+__all__ += [
+    'CVD_MATRICES_MACHADO2010', 'anomalous_trichromacy_cmfs_Machado2009',
+    'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
 ]
 __all__ += [
     'ATD95_Specification', 'CAM16_Specification', 'CAM16_VIEWING_CONDITIONS',
@@ -174,58 +205,67 @@ __all__ += [
 __all__ += ['DELTA_E_METHODS', 'delta_E']
 __all__ += [
     'CAMERAS_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS',
-    'COLOURCHECKERS_SPDS', 'DISPLAYS_RGB_PRIMARIES', 'first_order_colour_fit'
+    'COLOURCHECKERS_SDS', 'DISPLAYS_RGB_PRIMARIES',
+    'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
+    'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
+    'COLOUR_CORRECTION_METHODS', 'colour_correction'
 ]
 __all__ += [
-    'IES_TM2714_Spd', 'read_image', 'read_spds_from_csv_file',
-    'read_spds_from_xrite_file', 'read_spectral_data_from_csv_file',
-    'write_image', 'write_spds_to_csv_file'
+    'LUT1D', 'LUT3x1D', 'LUT3D', 'LUTSequence',
+    'SpectralDistribution_IESTM2714', 'read_image', 'read_LUT',
+    'read_sds_from_csv_file', 'read_sds_from_xrite_file',
+    'read_spectral_data_from_csv_file', 'write_image', 'write_LUT',
+    'write_sds_to_csv_file'
 ]
 __all__ += [
     'CAM02LCD_to_JMh_CIECAM02', 'CAM02SCD_to_JMh_CIECAM02',
     'CAM02UCS_to_JMh_CIECAM02', 'CAM16LCD_to_JMh_CAM16',
     'CAM16SCD_to_JMh_CAM16', 'CAM16UCS_to_JMh_CAM16', 'CMYK_to_CMY',
-    'CMY_to_CMYK', 'CMY_to_RGB', 'CV_range', 'EOTFS', 'EOTFS_REVERSE',
-    'HDR_CIELAB_METHODS', 'HDR_IPT_METHODS', 'HSL_to_RGB', 'HSV_to_RGB',
-    'Hunter_Lab_to_XYZ', 'ICTCP_to_RGB', 'IPT_hue_angle', 'IPT_to_XYZ',
+    'CMY_to_CMYK', 'CMY_to_RGB', 'CV_range', 'DECODING_CCTFS', 'DIN99_to_Lab',
+    'ENCODING_CCTFS', 'EOTFS', 'EOTFS_REVERSE', 'HDR_CIELAB_METHODS',
+    'HDR_IPT_METHODS', 'HSL_to_RGB', 'HSV_to_RGB', 'Hunter_Lab_to_XYZ',
+    'Hunter_Rdab_to_XYZ', 'ICTCP_to_RGB', 'IPT_hue_angle', 'IPT_to_XYZ',
     'JMh_CAM16_to_CAM16LCD', 'JMh_CAM16_to_CAM16SCD', 'JMh_CAM16_to_CAM16UCS',
     'JMh_CIECAM02_to_CAM02LCD', 'JMh_CIECAM02_to_CAM02SCD',
-    'JMh_CIECAM02_to_CAM02UCS', 'LCHab_to_Lab', 'LCHuv_to_Luv',
-    'LOG_DECODING_CURVES', 'LOG_ENCODING_CURVES', 'Lab_to_LCHab', 'Lab_to_XYZ',
-    'Luv_to_LCHuv', 'Luv_to_XYZ', 'Luv_to_uv', 'Luv_uv_to_xy', 'OETFS',
-    'OETFS_REVERSE', 'OOTFS', 'OOTFS_REVERSE', 'POINTER_GAMUT_BOUNDARIES',
-    'POINTER_GAMUT_DATA', 'POINTER_GAMUT_ILLUMINANT', 'Prismatic_to_RGB',
-    'RGB_COLOURSPACES', 'RGB_Colourspace', 'RGB_luminance',
-    'RGB_luminance_equation', 'RGB_to_CMY', 'RGB_to_HSL', 'RGB_to_HSV',
-    'RGB_to_ICTCP', 'RGB_to_Prismatic', 'RGB_to_RGB', 'RGB_to_RGB_matrix',
-    'RGB_to_XYZ', 'RGB_to_YCbCr', 'RGB_to_YcCbcCrc', 'UCS_to_XYZ', 'UCS_to_uv',
-    'UCS_uv_to_xy', 'XYZ_to_Hunter_Lab', 'XYZ_to_Hunter_Rdab', 'XYZ_to_IPT',
-    'XYZ_to_K_ab_HunterLab1966', 'XYZ_to_Lab', 'XYZ_to_Luv', 'XYZ_to_RGB',
-    'XYZ_to_UCS', 'XYZ_to_UVW', 'XYZ_to_hdr_CIELab', 'XYZ_to_hdr_IPT',
-    'XYZ_to_sRGB', 'XYZ_to_xy', 'XYZ_to_xyY', 'YCBCR_WEIGHTS', 'YCbCr_to_RGB',
-    'YcCbcCrc_to_RGB', 'chromatically_adapted_primaries', 'eotf',
-    'eotf_reverse', 'full_to_legal', 'function_gamma', 'function_linear',
-    'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full',
+    'JMh_CIECAM02_to_CAM02UCS', 'JzAzBz_to_XYZ', 'LCHab_to_Lab',
+    'LCHuv_to_Luv', 'LOG_DECODING_CURVES', 'LOG_ENCODING_CURVES',
+    'Lab_to_DIN99', 'Lab_to_LCHab', 'Lab_to_XYZ', 'Luv_to_LCHuv', 'Luv_to_XYZ',
+    'Luv_to_uv', 'Luv_uv_to_xy', 'OETFS', 'OETFS_REVERSE', 'OOTFS',
+    'MACADAM_1942_ELLIPSES_DATA', 'OOTFS_REVERSE', 'OSA_UCS_to_XYZ',
+    'POINTER_GAMUT_BOUNDARIES', 'POINTER_GAMUT_DATA',
+    'POINTER_GAMUT_ILLUMINANT', 'Prismatic_to_RGB', 'RGB_COLOURSPACES',
+    'RGB_Colourspace', 'RGB_luminance', 'RGB_luminance_equation', 'RGB_to_CMY',
+    'RGB_to_HSL', 'RGB_to_HSV', 'RGB_to_ICTCP', 'RGB_to_Prismatic',
+    'RGB_to_RGB', 'RGB_to_RGB_matrix', 'RGB_to_XYZ', 'RGB_to_YCbCr',
+    'RGB_to_YcCbcCrc', 'RGB_to_YCoCg', 'UCS_to_XYZ', 'UCS_to_uv',
+    'UCS_uv_to_xy', 'UVW_to_XYZ', 'XYZ_to_Hunter_Lab', 'XYZ_to_Hunter_Rdab',
+    'XYZ_to_IPT', 'XYZ_to_JzAzBz', 'XYZ_to_K_ab_HunterLab1966', 'XYZ_to_Lab',
+    'XYZ_to_Luv', 'XYZ_to_OSA_UCS', 'XYZ_to_RGB', 'XYZ_to_UCS', 'XYZ_to_UVW',
+    'XYZ_to_hdr_CIELab', 'XYZ_to_hdr_IPT', 'XYZ_to_sRGB', 'XYZ_to_xy',
+    'XYZ_to_xyY', 'YCBCR_WEIGHTS', 'YCbCr_to_RGB', 'YcCbcCrc_to_RGB',
+    'YCoCg_to_RGB', 'chromatically_adapted_primaries', 'decoding_cctf',
+    'encoding_cctf', 'eotf', 'eotf_reverse', 'full_to_legal', 'gamma_function',
+    'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full', 'linear_function',
     'log_decoding_curve', 'log_encoding_curve', 'normalised_primary_matrix',
     'oetf', 'oetf_reverse', 'ootf', 'ootf_reverse', 'primaries_whitepoint',
-    'sRGB_to_XYZ', 'spectral_to_aces_relative_exposure_values', 'xyY_to_XYZ',
-    'xyY_to_xy', 'xy_to_XYZ', 'xy_to_xyY'
+    'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'xyY_to_XYZ',
+    'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ', 'xy_to_xyY'
 ]
 __all__ += [
     'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
     'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
     'corresponding_chromaticities_prediction'
 ]
+__all__ += ['CONTRAST_SENSITIVITY_METHODS', 'contrast_sensitivity_function']
 __all__ += [
-    'rayleigh_scattering', 'rayleigh_scattering_spd',
-    'scattering_cross_section'
+    'rayleigh_scattering', 'scattering_cross_section', 'sd_rayleigh_scattering'
 ]
 __all__ += [
     'MUNSELL_COLOURS', 'MUNSELL_VALUE_METHODS', 'munsell_colour_to_xyY',
     'munsell_value', 'xyY_to_munsell_colour'
 ]
 __all__ += ['colour_quality_scale', 'colour_rendering_index']
-__all__ += ['REFLECTANCE_RECOVERY_METHODS', 'XYZ_to_spectral']
+__all__ += ['XYZ_TO_SD_METHODS', 'XYZ_to_sd']
 __all__ += [
     'CCT_TO_UV_METHODS', 'CCT_TO_XY_METHODS', 'CCT_to_uv', 'CCT_to_xy',
     'UV_TO_CCT_METHODS', 'XY_TO_CCT_METHODS', 'uv_to_CCT', 'xy_to_CCT'
@@ -243,11 +283,17 @@ __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '11'
+__change_version__ = '12'
 __version__ = '.'.join(
     (__major_version__,
      __minor_version__,
      __change_version__))  # yapf: disable
+
+# TODO: Remove legacy printing support when deemed appropriate.
+try:
+    np.set_printoptions(legacy='1.13')
+except TypeError:
+    pass
 
 
 # ----------------------------------------------------------------------------#
@@ -265,6 +311,7 @@ colour.__minor_version__ = __minor_version__
 colour.__change_version__ = __change_version__
 colour.__version__ = __version__
 
+# v0.3.11
 API_CHANGES = {
     'Future Access Change': [
         [
@@ -440,14 +487,6 @@ API_CHANGES = {
             'colour.adaptation.chromatic_adaptation_VonKries',
         ],
         [
-            'colour.CIE_E',
-            'colour.constants.CIE_E',
-        ],
-        [
-            'colour.CIE_K',
-            'colour.constants.CIE_K',
-        ],
-        [
             'colour.CIE_RGB_COLOURSPACE',
             'colour.models.CIE_RGB_COLOURSPACE',
         ],
@@ -513,7 +552,7 @@ API_CHANGES = {
         ],
         [
             'colour.D_ILLUMINANTS_S_SPDS',
-            'colour.colorimetry.D_ILLUMINANTS_S_SPDS',
+            'colour.colorimetry.D_ILLUMINANTS_S_SDS',
         ],
         [
             'colour.DCI_P3_COLOURSPACE',
@@ -613,7 +652,7 @@ API_CHANGES = {
         ],
         [
             'colour.eotf_DCIP3',
-            'colour.models.eotf_DCIP3',
+            'colour.models.eotf_DCDM',
         ],
         [
             'colour.eotf_DICOMGSDF',
@@ -1073,7 +1112,7 @@ API_CHANGES = {
         ],
         [
             'colour.oetf_DCIP3',
-            'colour.models.oetf_DCIP3',
+            'colour.models.eotf_reverse_DCIP3',
         ],
         [
             'colour.oetf_DICOMGSDF',
@@ -1236,8 +1275,8 @@ API_CHANGES = {
             'colour.characterisation.RGB_SpectralSensitivities',
         ],
         [
-            'colour.RGB_to_spectral_Smits1999',
-            'colour.recovery.RGB_to_spectral_Smits1999',
+            'colour.RGB_to_sd_Smits1999',
+            'colour.recovery.RGB_to_sd_Smits1999',
         ],
         [
             'colour.RIMM_RGB_COLOURSPACE',
@@ -1277,19 +1316,19 @@ API_CHANGES = {
         ],
         [
             'colour.SMITS_1999_SPDS',
-            'colour.recovery.SMITS_1999_SPDS',
+            'colour.recovery.SMITS_1999_SDS',
         ],
         [
             'colour.SMPTE_240M_COLOURSPACE',
             'colour.models.SMPTE_240M_COLOURSPACE',
         ],
         [
-            'colour.spectral_to_XYZ_ASTME30815',
-            'colour.colorimetry.spectral_to_XYZ_ASTME30815',
+            'colour.sd_to_XYZ_ASTME30815',
+            'colour.colorimetry.sd_to_XYZ_ASTME30815',
         ],
         [
-            'colour.spectral_to_XYZ_integration',
-            'colour.colorimetry.spectral_to_XYZ_integration',
+            'colour.sd_to_XYZ_integration',
+            'colour.colorimetry.sd_to_XYZ_integration',
         ],
         [
             'colour.spherical_to_cartesian',
@@ -1309,7 +1348,7 @@ API_CHANGES = {
         ],
         [
             'colour.TCS_SPDS',
-            'colour.quality.TCS_SPDS',
+            'colour.quality.TCS_SDS',
         ],
         [
             'colour.tsplit',
@@ -1337,7 +1376,7 @@ API_CHANGES = {
         ],
         [
             'colour.VS_SPDS',
-            'colour.quality.VS_SPDS',
+            'colour.quality.VS_SDS',
         ],
         [
             'colour.warn_numpy_errors',
@@ -1392,8 +1431,8 @@ API_CHANGES = {
             'colour.adaptation.XYZ_SCALING_CAT',
         ],
         [
-            'colour.XYZ_to_spectral_Meng2015',
-            'colour.recovery.XYZ_to_spectral_Meng2015',
+            'colour.XYZ_to_sd_Meng2015',
+            'colour.recovery.XYZ_to_sd_Meng2015',
         ],
         [
             'colour.yellowness_ASTMD1925',
@@ -1483,9 +1522,9 @@ API_CHANGES = {
             'colour.colorimetry.lagrange_coefficients_ASTME202211',
         ],
         [
-            'colour.spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+            'colour.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
             'colour.colorimetry.'
-            'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+            'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
         ],
         [
             'colour.tristimulus_weighting_factors_ASTME202211',
@@ -1493,6 +1532,11 @@ API_CHANGES = {
         ],
     ]
 }
+"""
+Defines *colour* package API changes.
+
+API_CHANGES : dict
+"""
 
 API_CHANGES.update({
     'Removed': [
@@ -1541,13 +1585,116 @@ API_CHANGES.update({
             'colour.SMPTE_C_RGB_COLOURSPACE',
             'colour.models.SMPTE_240M_COLOURSPACE',
         ],
+        [
+            'colour.TriSpectralPowerDistribution',
+            'colour.MultiSpectralDistribution',
+        ],
     ]
 })
-"""
-Defines *colour* package API changes.
 
-API_CHANGES : dict
-"""
+# v0.3.12
+API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+    [
+        'colour.CIE_standard_illuminant_A_function',
+        'colour.sd_CIE_standard_illuminant_A',
+    ],
+    [
+        'colour.COLOURCHECKERS_SPDS',
+        'colour.COLOURCHECKERS_SDS',
+    ],
+    [
+        'colour.D_illuminant_relative_spd',
+        'colour.sd_CIE_illuminant_D_series',
+    ],
+    [
+        'colour.ILLUMINANTS_RELATIVE_SPDS',
+        'colour.ILLUMINANTS_SDS',
+    ],
+    [
+        'colour.LIGHT_SOURCES_RELATIVE_SPDS',
+        'colour.LIGHT_SOURCES_SDS',
+    ],
+    [
+        'colour.MultiSpectralPowerDistribution',
+        'colour.MultiSpectralDistribution',
+    ],
+    [
+        'colour.REFLECTANCE_RECOVERY_METHODS',
+        'colour.XYZ_TO_SD_METHODS',
+    ],
+    [
+        'colour.SPECTRAL_TO_XYZ_METHODS',
+        'colour.SD_TO_XYZ_METHODS',
+    ],
+    [
+        'colour.SpectralPowerDistribution',
+        'colour.SpectralDistribution',
+    ],
+    [
+        'colour.blackbody_spd',
+        'colour.sd_blackbody',
+    ],
+    [
+        'colour.constant_spd',
+        'colour.sd_constant',
+    ],
+    [
+        'colour.first_order_colour_fit',
+        'colour.colour_correction_matrix',
+    ],
+    [
+        'colour.IES_TM2714_Spd',
+        'colour.SpectralDistribution_IESTM2714',
+    ],
+    [
+        'colour.function_gamma',
+        'colour.gamma_function',
+    ],
+    [
+        'colour.function_linear',
+        'colour.linear_function',
+    ],
+    [
+        'colour.mesopic_luminous_efficiency_function',
+        'colour.sd_mesopic_luminous_efficiency_function',
+    ],
+    [
+        'colour.ones_spd',
+        'colour.sd_ones',
+    ],
+    [
+        'colour.rayleigh_scattering_spd',
+        'colour.sd_rayleigh_scattering',
+    ],
+    [
+        'colour.read_spds_from_csv_file',
+        'colour.read_sds_from_csv_file',
+    ],
+    [
+        'colour.read_spds_from_xrite_file',
+        'colour.read_sds_from_xrite_file',
+    ],
+    [
+        'colour.spectral_to_aces_relative_exposure_values',
+        'colour.sd_to_aces_relative_exposure_values',
+    ],
+    [
+        'colour.spectral_to_XYZ',
+        'colour.sd_to_XYZ',
+    ],
+    [
+        'colour.write_spds_to_csv_file',
+        'colour.write_sds_to_csv_file',
+    ],
+    [
+        'colour.XYZ_to_spectral',
+        'colour.XYZ_to_sd',
+    ],
+    [
+        'colour.zeros_spd',
+        'colour.sd_zeros',
+    ],
+]
 
 
 def _setup_api_changes():

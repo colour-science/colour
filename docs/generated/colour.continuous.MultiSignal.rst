@@ -1,5 +1,5 @@
-colour\.continuous\.MultiSignal
-===============================
+colour.continuous.MultiSignal
+=============================
 
 .. currentmodule:: colour.continuous
 
@@ -25,5 +25,22 @@ colour\.continuous\.MultiSignal
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MultiSignal.domain
+      ~MultiSignal.dtype
+      ~MultiSignal.extrapolator
+      ~MultiSignal.extrapolator_args
+      ~MultiSignal.function
+      ~MultiSignal.interpolator
+      ~MultiSignal.interpolator_args
+      ~MultiSignal.labels
+      ~MultiSignal.name
+      ~MultiSignal.range
+      ~MultiSignal.signal_type
+      ~MultiSignal.signals
    
    

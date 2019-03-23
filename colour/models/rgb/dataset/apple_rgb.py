@@ -25,18 +25,18 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APPLE_RGB_PRIMARIES', 'APPLE_RGB_ILLUMINANT', 'APPLE_RGB_WHITEPOINT',
+    'APPLE_RGB_PRIMARIES', 'APPLE_RGB_WHITEPOINT_NAME', 'APPLE_RGB_WHITEPOINT',
     'APPLE_RGB_TO_XYZ_MATRIX', 'XYZ_TO_APPLE_RGB_MATRIX',
     'APPLE_RGB_COLOURSPACE'
 ]
@@ -52,15 +52,15 @@ APPLE_RGB_PRIMARIES = np.array([
 APPLE_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-APPLE_RGB_ILLUMINANT = 'D65'
+APPLE_RGB_WHITEPOINT_NAME = 'D65'
 """
-*Apple RGB* colourspace whitepoint name as illuminant.
+*Apple RGB* colourspace whitepoint name.
 
-APPLE_RGB_ILLUMINANT : unicode
+APPLE_RGB_WHITEPOINT_NAME : unicode
 """
 
-APPLE_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][APPLE_RGB_ILLUMINANT])
+APPLE_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    APPLE_RGB_WHITEPOINT_NAME])
 """
 *Apple RGB* colourspace whitepoint.
 
@@ -86,17 +86,18 @@ APPLE_RGB_COLOURSPACE = RGB_Colourspace(
     'Apple RGB',
     APPLE_RGB_PRIMARIES,
     APPLE_RGB_WHITEPOINT,
-    APPLE_RGB_ILLUMINANT,
+    APPLE_RGB_WHITEPOINT_NAME,
     APPLE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_APPLE_RGB_MATRIX,
-    partial(function_gamma, exponent=1 / 1.8),
-    partial(function_gamma, exponent=1.8), )
+    partial(gamma_function, exponent=1 / 1.8),
+    partial(gamma_function, exponent=1.8),
+)
 APPLE_RGB_COLOURSPACE.__doc__ = """
 *Apple RGB* colourspace.
 
 References
 ----------
--   :cite:`Susstrunk1999a`
+:cite:`Susstrunk1999a`
 
 APPLE_RGB_COLOURSPACE : RGB_Colourspace
 """

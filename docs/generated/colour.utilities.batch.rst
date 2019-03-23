@@ -1,5 +1,5 @@
-colour\.utilities\.batch
-========================
+colour.utilities.batch
+======================
 
 .. currentmodule:: colour.utilities
 

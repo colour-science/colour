@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_RLAB
-=====================
+colour.XYZ\_to\_RLAB
+====================
 
 .. currentmodule:: colour
 

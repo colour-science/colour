@@ -1,5 +1,5 @@
-colour\.IPT\_hue\_angle
-=======================
+colour.IPT\_hue\_angle
+======================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.colorimetry\.yellowness\_ASTMD1925
-==========================================
+colour.colorimetry.yellowness\_ASTMD1925
+========================================
 
 .. currentmodule:: colour.colorimetry
 

@@ -1,5 +1,5 @@
-colour\.utilities\.ignore\_python\_warnings
-===========================================
+colour.utilities.ignore\_python\_warnings
+=========================================
 
 .. currentmodule:: colour.utilities
 

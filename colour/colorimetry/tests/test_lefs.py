@@ -9,22 +9,22 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (mesopic_weighting_function,
-                                mesopic_luminous_efficiency_function)
+                                sd_mesopic_luminous_efficiency_function)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'MESOPIC_LEF_SPD_DATA', 'TestMesopicWeightingFunction',
-    'TestMesopicLuminousEfficiencyFunction'
+    'MESOPIC_LEF_SD_DATA', 'TestMesopicWeightingFunction',
+    'TestSdMesopicLuminousEfficiencyFunction'
 ]
 
-MESOPIC_LEF_SPD_DATA = (
+MESOPIC_LEF_SD_DATA = (
     0.000423996221042, 0.000478105586021, 0.000539901310829, 0.000612292743837,
     0.000696128469661, 0.000792943994169, 0.000907002019269, 0.001038991062951,
     0.001192298013423, 0.001370309788741, 0.001577100133700, 0.001816732944066,
@@ -188,21 +188,21 @@ class TestMesopicWeightingFunction(unittest.TestCase):
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 0.2),
 
 
-class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
+class TestSdMesopicLuminousEfficiencyFunction(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.lefs.\
-mesopic_luminous_efficiency_function` definition unit tests methods.
+sd_mesopic_luminous_efficiency_function` definition unit tests methods.
     """
 
-    def test_mesopic_luminous_efficiency_function(self):
+    def test_sd_mesopic_luminous_efficiency_function(self):
         """
         Tests :func:`colour.colorimetry.lefs.\
-mesopic_luminous_efficiency_function` definition.
+sd_mesopic_luminous_efficiency_function` definition.
         """
 
         np.testing.assert_almost_equal(
-            mesopic_luminous_efficiency_function(0.2).values,
-            MESOPIC_LEF_SPD_DATA,
+            sd_mesopic_luminous_efficiency_function(0.2).values,
+            MESOPIC_LEF_SD_DATA,
             decimal=7)
 
 

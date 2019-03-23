@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-CQS Test Colour Samples Spectral Power Distributions
+CQS Test Colour Samples Spectral Distributions
 ====================================================
 
-Defines the *CQS (Color Quality Scale)* test colour samples spectral power
+Defines the *CQS (Color Quality Scale)* test colour samples spectral
 distributions.
 
 The *2005 NIST-CQS* test colour samples data is in the form of a *dict* of
-:class:`colour.SpectralPowerDistribution` classes as
+:class:`colour.SpectralDistribution` classes as
 follows::
 
-    {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
+    {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
 See Also
 --------
@@ -27,17 +27,17 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import SpectralDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['VS_APPROXIMATE_MUNSELL_NOTATIONS', 'VS_SPDS_DATA', 'VS_SPDS']
+__all__ = ['VS_APPROXIMATE_MUNSELL_NOTATIONS', 'VS_SDS_DATA', 'VS_SDS']
 
 VS_INDEXES_TO_NAMES = {
     1: 'VS1',
@@ -85,7 +85,7 @@ CQS test colour samples *Munsell* colour approximations.
 VS_APPROXIMATE_MUNSELL_NOTATIONS : CaseInsensitiveMapping
 """
 
-VS_SPDS_DATA = {
+VS_SDS_DATA = {
     'VS1': {
         380: 0.1086,
         385: 0.1380,
@@ -1483,15 +1483,15 @@ VS_SPDS_DATA = {
     }
 }
 
-VS_SPDS = CaseInsensitiveMapping(
-    dict((key, SpectralPowerDistribution(value, name=key))
-         for key, value in VS_SPDS_DATA.items()))
+VS_SDS = CaseInsensitiveMapping(
+    dict((key, SpectralDistribution(value, name=key))
+         for key, value in VS_SDS_DATA.items()))
 """
-CQS test colour samples spectral power distributions.
+CQS test colour samples spectral distributions.
 
 References
 ----------
--   :cite:`Ohno2008a`
+:cite:`Ohno2008a`
 
-VS_SPDS : CaseInsensitiveMapping
+VS_SDS : CaseInsensitiveMapping
 """

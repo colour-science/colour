@@ -16,10 +16,11 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -115,17 +116,17 @@ def legal_to_full(CV, bit_depth=10, in_int=False, out_int=False):
     1023
     """
 
-    CV = np.asarray(CV)
+    CV = as_float_array(CV)
 
     MV = 2 ** bit_depth - 1
 
-    CV = np.round(CV).astype(np.int_) if in_int else CV * MV
+    CV = np.round(CV).astype(DEFAULT_INT_DTYPE) if in_int else CV * MV
 
     B, W = CV_range(bit_depth, True, True)
 
     CV = (CV - B) / (W - B)
 
-    return np.round(CV * MV).astype(np.int_) if out_int else CV
+    return np.round(CV * MV).astype(DEFAULT_INT_DTYPE) if out_int else CV
 
 
 def full_to_legal(CV, bit_depth=10, in_int=False, out_int=False):
@@ -174,14 +175,14 @@ def full_to_legal(CV, bit_depth=10, in_int=False, out_int=False):
     940
     """
 
-    CV = np.asarray(CV)
+    CV = as_float_array(CV)
 
     MV = 2 ** bit_depth - 1
 
-    CV = np.round(CV / MV).astype(np.int_) if in_int else CV
+    CV = np.round(CV / MV).astype(DEFAULT_INT_DTYPE) if in_int else CV
 
     B, W = CV_range(bit_depth, True, True)
 
     CV = (W - B) * CV + B
 
-    return np.round(CV).astype(np.int_) if out_int else CV / MV
+    return np.round(CV).astype(DEFAULT_INT_DTYPE) if out_int else CV / MV

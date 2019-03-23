@@ -1,5 +1,5 @@
-colour\.LIGHT\_SOURCES
-======================
+colour.LIGHT\_SOURCES
+=====================
 
 .. currentmodule:: colour
 

@@ -28,7 +28,7 @@ Development & Technical Support
 
     Technical support.
 
--   **Kevin Wheatley**, *Head of Imaging at Framestore @ Framestore*
+-   **Kevin Wheatley**, *Head of Imaging @ Framestore*
 
     Technical support.
 
@@ -39,6 +39,14 @@ Development & Technical Support
 -   **Ofek Lev**
 
     Documentation improvements.
+
+-   **Katrin Leinweber**
+
+    Documentation improvements.
+
+-   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
+
+    Technical support.
 
 Acknowledgements
 ----------------
@@ -66,7 +74,7 @@ Acknowledgements
 
     *ACES RGB IDT* technical support.
 
--   **Charles Poynton**, *Mathematician & Colour Scientist*
+-   **Joseph Goldstone**, *Image Science Engineer @ ARRI*
 
     Technical support.
 
@@ -74,43 +82,72 @@ Acknowledgements
 
     *Ohno (2013)* correlated colour temperature calculation technical support.
 
+-   **Charles Poynton**, *Mathematician & Colour Scientist*
+
+    Technical support.
+
 Special Mentions
 ----------------
 
--   **Aurélia Sellier**, *Line Producer @ Cube Creative*
+-   **Aurélia Sellier**, *FX Production Coordinator @ Weta Digital*
 
 Issues & Discussions
 --------------------
 
--   Joseph Goldstone
+-   Albert Szostkiewicz
+-   Christophe Go
+-   Giuseppe Di Guglielmo
+-   Iman Sajedian
+-   Marie Meyer
+-   Max Marrone
+-   Michal Krompiec
 -   Nick Porcino
 -   Nick Spiker
+-   Ryan Bass
+-   Vishal Vashistha
+-   Vlad Enache
 -   @Ampersandme
--   @Chandler
--   @Kunkka1988
--   @Rob-Welch
--   @Ron024
 -   @awehring
 -   @brandondube
--   @fangjy88
+-   @briend
+-   @cclauss
+-   @Chandler
+-   @codycuellar
+-   @Edwardlin-zlt
 -   @eyeforcolor
+-   @fangjy88
+-   @Floschoe
 -   @foutoucour
+-   @habemus-papadum
 -   @henczati
--   @jaguarondi
 -   @iCagarro
+-   @iinnovations
+-   @jaguarondi
+-   @KOLANICH
+-   @Kunkka1988
+-   @Legendin
 -   @lensz
 -   @naavis
 -   @nschloe
 -   @peteroupc
+-   @Queuecumber
+-   @Rob-Welch
+-   @robbuckley
+-   @Ron024
+-   @shanest
 -   @sobotka
 -   @stakemura
+-   @tashdor
+-   @TFiFiE
 -   @tingeman
+-   @totyped
+-   @Willingo
 -   @zachlewis
 
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2018
-| Copyright © 2013-2018 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| **Colour** by Colour Developers - 2013-2019
+| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_

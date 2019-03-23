@@ -9,19 +9,18 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (SpectralShape, planck_law, blackbody_spd)
+from colour.colorimetry import (SpectralShape, planck_law, sd_blackbody)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PLANCK_LAW_DATA', 'BLACKBODY_SPD_DATA', 'TestPlanckLaw',
-    'TestBlackbodySpd'
+    'PLANCK_LAW_DATA', 'BLACKBODY_SD_DATA', 'TestPlanckLaw', 'TestSdBlackbody'
 ]
 
 PLANCK_LAW_DATA = {
@@ -4031,7 +4030,7 @@ PLANCK_LAW_DATA = {
     }
 }
 
-BLACKBODY_SPD_DATA = (
+BLACKBODY_SD_DATA = (
     6654278270641.816406250000000,
     6709605279251.824218750000000,
     6764825121520.021484375000000,
@@ -4560,23 +4559,20 @@ class TestPlanckLaw(unittest.TestCase):
             planck_law(case, case),
 
 
-class TestBlackbodySpd(unittest.TestCase):
+class TestSdBlackbody(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.blackbody.blackbody_spd`
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.blackbody.sd_blackbody` definition unit
+    tests methods.
     """
 
-    def test_blackbody_spd(self):
+    def test_sd_blackbody(self):
         """
-        Tests
-        :func:`colour.colorimetry.blackbody.blackbody_spd`
-        definition.
+        Tests :func:`colour.colorimetry.blackbody.sd_blackbody` definition.
         """
 
         np.testing.assert_allclose(
-            blackbody_spd(5000, SpectralShape(360, 830, 1)).values,
-            BLACKBODY_SPD_DATA,
+            sd_blackbody(5000, SpectralShape(360, 830, 1)).values,
+            BLACKBODY_SD_DATA,
             rtol=0.0000001,
             atol=0.0000001)
 

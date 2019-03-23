@@ -1,5 +1,5 @@
-colour\.WHITENESS\_METHODS
-==========================
+colour.WHITENESS\_METHODS
+=========================
 
 .. currentmodule:: colour
 

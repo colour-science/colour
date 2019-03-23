@@ -16,7 +16,7 @@ from colour.corresponding.prediction import (
     corresponding_chromaticities_prediction_Fairchild1990)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -108,8 +108,7 @@ corresponding_chromaticities_prediction_Fairchild1990` definition.
 
         np.testing.assert_almost_equal(
             np.array(
-                [(p.uvp_m, p.uvp_p)
-                 for p in
+                [(p.uvp_m, p.uvp_p) for p in
                  corresponding_chromaticities_prediction_Fairchild1990()]),
             FAIRCHILD1990_PREDICTION_DATA,
             decimal=7)

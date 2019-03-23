@@ -1,5 +1,5 @@
-colour\.utilities\.as\_namedtuple
-=================================
+colour.utilities.as\_namedtuple
+===============================
 
 .. currentmodule:: colour.utilities
 

@@ -1,5 +1,5 @@
-colour\.colorimetry\.lightness\_Wyszecki1963
-============================================
+colour.colorimetry.lightness\_Wyszecki1963
+==========================================
 
 .. currentmodule:: colour.colorimetry
 

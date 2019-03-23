@@ -35,22 +35,22 @@ from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
                                oetf_SMPTE240M, eotf_SMPTE240M)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'SMPTE_240M_PRIMARIES', 'SMPTE_240M_ILLUMINANT', 'SMPTE_240M_WHITEPOINT',
-    'SMPTE_240M_TO_XYZ_MATRIX', 'XYZ_TO_SMPTE_240M_MATRIX',
-    'SMPTE_240M_COLOURSPACE'
+    'SMPTE_240M_PRIMARIES', 'SMPTE_240M_WHITEPOINT_NAME',
+    'SMPTE_240M_WHITEPOINT', 'SMPTE_240M_TO_XYZ_MATRIX',
+    'XYZ_TO_SMPTE_240M_MATRIX', 'SMPTE_240M_COLOURSPACE'
 ]
 
 SMPTE_240M_PRIMARIES = np.array([
-    [0.630, 0.340],
-    [0.310, 0.595],
-    [0.155, 0.070],
+    [0.6300, 0.3400],
+    [0.3100, 0.5950],
+    [0.1550, 0.0700],
 ])
 """
 *SMPTE 240M* colourspace primaries.
@@ -58,15 +58,15 @@ SMPTE_240M_PRIMARIES = np.array([
 SMPTE_240M_PRIMARIES : ndarray, (3, 2)
 """
 
-SMPTE_240M_ILLUMINANT = 'D65'
+SMPTE_240M_WHITEPOINT_NAME = 'D65'
 """
-*SMPTE 240M* colourspace whitepoint name as illuminant.
+*SMPTE 240M* colourspace whitepoint name.
 
-SMPTE_240M_ILLUMINANT : unicode
+SMPTE_240M_WHITEPOINT_NAME : unicode
 """
 
-SMPTE_240M_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][SMPTE_240M_ILLUMINANT])
+SMPTE_240M_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    SMPTE_240M_WHITEPOINT_NAME])
 """
 *SMPTE 240M* colourspace whitepoint.
 
@@ -92,18 +92,19 @@ SMPTE_240M_COLOURSPACE = RGB_Colourspace(
     'SMPTE 240M',
     SMPTE_240M_PRIMARIES,
     SMPTE_240M_WHITEPOINT,
-    SMPTE_240M_ILLUMINANT,
+    SMPTE_240M_WHITEPOINT_NAME,
     SMPTE_240M_TO_XYZ_MATRIX,
     XYZ_TO_SMPTE_240M_MATRIX,
     oetf_SMPTE240M,
-    eotf_SMPTE240M, )
+    eotf_SMPTE240M,
+)
 SMPTE_240M_COLOURSPACE.__doc__ = """
 *SMPTE 240M* colourspace.
 
 References
 ----------
--   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
--   :cite:`SocietyofMotionPictureandTelevisionEngineers2004a`
+:cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
+:cite:`SocietyofMotionPictureandTelevisionEngineers2004a`
 
 SMPTE_240M_COLOURSPACE : RGB_Colourspace
 """

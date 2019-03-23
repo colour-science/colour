@@ -1,5 +1,5 @@
-colour\.difference\.delta\_E\_CAM16LCD
-======================================
+colour.difference.delta\_E\_CAM16LCD
+====================================
 
 .. currentmodule:: colour.difference
 

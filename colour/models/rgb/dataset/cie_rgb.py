@@ -27,17 +27,17 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, function_gamma
+from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'CIE_RGB_PRIMARIES', 'CIE_RGB_ILLUMINANT', 'CIE_RGB_WHITEPOINT',
+    'CIE_RGB_PRIMARIES', 'CIE_RGB_WHITEPOINT_NAME', 'CIE_RGB_WHITEPOINT',
     'CIE_RGB_TO_XYZ_MATRIX', 'XYZ_TO_CIE_RGB_MATRIX', 'CIE_RGB_COLOURSPACE'
 ]
 
@@ -58,15 +58,15 @@ Notes
     and :func:`colour.primaries_whitepoint` definition.
 """
 
-CIE_RGB_ILLUMINANT = 'E'
+CIE_RGB_WHITEPOINT_NAME = 'E'
 """
-*CIE RGB* colourspace whitepoint name as illuminant.
+*CIE RGB* colourspace whitepoint name.
 
-CIE_RGB_ILLUMINANT : unicode
+CIE_RGB_WHITEPOINT_NAME : unicode
 """
 
-CIE_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][CIE_RGB_ILLUMINANT])
+CIE_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    CIE_RGB_WHITEPOINT_NAME])
 """
 *CIE RGB* colourspace whitepoint.
 
@@ -95,17 +95,18 @@ CIE_RGB_COLOURSPACE = RGB_Colourspace(
     'CIE RGB',
     CIE_RGB_PRIMARIES,
     CIE_RGB_WHITEPOINT,
-    CIE_RGB_ILLUMINANT,
+    CIE_RGB_WHITEPOINT_NAME,
     CIE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_CIE_RGB_MATRIX,
-    partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2), )
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2),
+)
 CIE_RGB_COLOURSPACE.__doc__ = """
 *CIE RGB* colourspace.
 
 References
 ----------
--   :cite:`Fairman1997`
+:cite:`Fairman1997`
 
 CIE_RGB_COLOURSPACE : RGB_Colourspace
 """

@@ -1,5 +1,5 @@
-colour\.colorimetry\.blackbody\_spectral\_radiance
-==================================================
+colour.colorimetry.blackbody\_spectral\_radiance
+================================================
 
 .. currentmodule:: colour.colorimetry
 

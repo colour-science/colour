@@ -1,5 +1,5 @@
-colour\.HUNT\_VIEWING\_CONDITIONS
-=================================
+colour.HUNT\_VIEWING\_CONDITIONS
+================================
 
 .. currentmodule:: colour
 

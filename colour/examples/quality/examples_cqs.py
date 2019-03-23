@@ -11,7 +11,7 @@ from colour.utilities import message_box
 message_box('"Colour Quality Scale (CQS)" Computations')
 
 message_box('Computing "F2" illuminant "Colour Quality Scale (CQS)".')
-print(colour.colour_quality_scale(colour.ILLUMINANTS_RELATIVE_SPDS['F2']))
+print(colour.colour_quality_scale(colour.ILLUMINANTS_SDS['FL2']))
 
 print('\n')
 
@@ -19,20 +19,20 @@ message_box(('Computing "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" '
              'with detailed output data.'))
 pprint(
     colour.colour_quality_scale(
-        colour.LIGHT_SOURCES_RELATIVE_SPDS['H38HT-100 (Mercury)'],
-        additional_data=True))
+        colour.LIGHT_SOURCES_SDS['H38HT-100 (Mercury)'], additional_data=True))
 
 print('\n')
 
 message_box('Computing "SDW-T 100W/LV Super HPS" lamp '
             '"Colour Quality Scale (CQS)".')
-print(colour.colour_quality_scale(colour.LIGHT_SOURCES_RELATIVE_SPDS[
-    'SDW-T 100W/LV (Super HPS)']))
+print(
+    colour.colour_quality_scale(
+        colour.LIGHT_SOURCES_SDS['SDW-T 100W/LV (Super HPS)']))
 
 print('\n')
 
 message_box('Computing sample light "Colour Quality Scale (CQS)".')
-SAMPLE_SPD_DATA = {
+SAMPLE_SD_DATA = {
     380: 0.00588346,
     385: 0.00315377,
     390: 0.00242868,
@@ -116,5 +116,6 @@ SAMPLE_SPD_DATA = {
     780: 0.00293663
 }
 
-print(colour.colour_quality_scale(
-    colour.SpectralPowerDistribution(SAMPLE_SPD_DATA, name='Sample')))
+print(
+    colour.colour_quality_scale(
+        colour.SpectralDistribution(SAMPLE_SD_DATA, name='Sample')))

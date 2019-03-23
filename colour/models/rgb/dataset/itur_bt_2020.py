@@ -31,21 +31,21 @@ from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
                                oetf_BT2020, eotf_BT2020)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'BT2020_PRIMARIES', 'BT2020_ILLUMINANT', 'BT2020_WHITEPOINT',
+    'BT2020_PRIMARIES', 'BT2020_WHITEPOINT_NAME', 'BT2020_WHITEPOINT',
     'BT2020_TO_XYZ_MATRIX', 'XYZ_TO_BT2020_MATRIX', 'BT2020_COLOURSPACE'
 ]
 
 BT2020_PRIMARIES = np.array([
-    [0.708, 0.292],
-    [0.170, 0.797],
-    [0.131, 0.046],
+    [0.7080, 0.2920],
+    [0.1700, 0.7970],
+    [0.1310, 0.0460],
 ])
 """
 *ITU-R BT.2020* colourspace primaries.
@@ -53,15 +53,15 @@ BT2020_PRIMARIES = np.array([
 BT2020_PRIMARIES : ndarray, (3, 2)
 """
 
-BT2020_ILLUMINANT = 'D65'
+BT2020_WHITEPOINT_NAME = 'D65'
 """
-*ITU-R BT.2020* colourspace whitepoint name as illuminant.
+*ITU-R BT.2020* colourspace whitepoint name.
 
-BT2020_ILLUMINANT : unicode
+BT2020_WHITEPOINT_NAME : unicode
 """
 
 BT2020_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT2020_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT2020_WHITEPOINT_NAME])
 """
 *ITU-R BT.2020* colourspace whitepoint.
 
@@ -87,17 +87,18 @@ BT2020_COLOURSPACE = RGB_Colourspace(
     'ITU-R BT.2020',
     BT2020_PRIMARIES,
     BT2020_WHITEPOINT,
-    BT2020_ILLUMINANT,
+    BT2020_WHITEPOINT_NAME,
     BT2020_TO_XYZ_MATRIX,
     XYZ_TO_BT2020_MATRIX,
     oetf_BT2020,
-    eotf_BT2020, )
+    eotf_BT2020,
+)
 BT2020_COLOURSPACE.__doc__ = """
 *ITU-R BT.2020* colourspace.
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion2015h`
+:cite:`InternationalTelecommunicationUnion2015h`
 
 BT2020_COLOURSPACE : RGB_Colourspace
 """

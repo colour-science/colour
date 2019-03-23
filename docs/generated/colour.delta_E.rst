@@ -1,5 +1,5 @@
-colour\.delta\_E
-================
+colour.delta\_E
+===============
 
 .. currentmodule:: colour
 

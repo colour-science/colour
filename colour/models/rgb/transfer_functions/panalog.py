@@ -25,8 +25,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import from_range_1, to_domain_1
+
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -57,9 +59,24 @@ def log_encoding_Panalog(x, black_offset=10 ** ((64 - 681) / 444)):
     These are estimations known to be close enough, the actual log encoding
     curves are not published.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -67,10 +84,11 @@ def log_encoding_Panalog(x, black_offset=10 ** ((64 - 681) / 444)):
     0.3745767...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
-    return ((
-        681 + 444 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
+    y = (681 + 444 * np.log10(x * (1 - black_offset) + black_offset)) / 1023
+
+    return from_range_1(y)
 
 
 def log_decoding_Panalog(y, black_offset=10 ** ((64 - 681) / 444)):
@@ -95,9 +113,24 @@ def log_decoding_Panalog(y, black_offset=10 ** ((64 - 681) / 444)):
     These are estimations known to be close enough, the actual log encoding
     curves are not published.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -105,7 +138,8 @@ def log_decoding_Panalog(y, black_offset=10 ** ((64 - 681) / 444)):
     0.1...
     """
 
-    y = np.asarray(y)
+    y = to_domain_1(y)
 
-    return ((10 ** ((1023 * y - 681) / 444) - black_offset) /
-            (1 - black_offset))
+    x = (10 ** ((1023 * y - 681) / 444) - black_offset) / (1 - black_offset)
+
+    return from_range_1(x)

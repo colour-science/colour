@@ -1,5 +1,5 @@
-colour\.models\.DON\_RGB\_4\_COLOURSPACE
-========================================
+colour.models.DON\_RGB\_4\_COLOURSPACE
+======================================
 
 .. currentmodule:: colour.models
 

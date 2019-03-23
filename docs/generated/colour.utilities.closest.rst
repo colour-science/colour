@@ -1,5 +1,5 @@
-colour\.utilities\.closest
-==========================
+colour.utilities.closest
+========================
 
 .. currentmodule:: colour.utilities
 

@@ -2,15 +2,15 @@ Tutorial
 ========
 
 `Colour <https://github.com/colour-science/Colour/>`__ spreads over
-various domains of Colour Science from colour models to optical
-phenomena, this tutorial will not give you a complete overview of the
-API but will still be a good introduction.
+various domains of Colour Science, from colour models to optical
+phenomena, this tutorial does not give a complete overview of the
+API but is a good introduction to the main concepts.
 
 .. note::
 
-    A directory full of examples is available at this path in your
+    A directory with examples is available at this path in
     `Colour <https://github.com/colour-science/Colour/>`__ installation:
-    *colour/examples*. You can also explore it directly on Github:
+    *colour/examples*. It can be explored directly on Github:
     https://github.com/colour-science/colour/tree/master/colour/examples
 
 
@@ -18,10 +18,9 @@ API but will still be a good introduction.
 
     from colour.plotting import *
 
-    colour_plotting_defaults()
+    colour_style()
 
-    visible_spectrum_plot()
-
+    plot_visible_spectrum()
 
 
 .. image:: _static/Tutorial_Visible_Spectrum.png
@@ -37,7 +36,9 @@ around various sub-packages:
 -  :doc:`algebra <colour.algebra>`: Algebra utilities.
 -  :doc:`appearance <colour.appearance>`: Colour appearance models.
 -  :doc:`biochemistry <colour.biochemistry>`: Biochemistry computations.
+-  :doc:`blindness <colour.blindness>`: Colour vision deficiency models.
 -  :doc:`continuous <colour.continuous>`: Base objects for continuous data representation.
+-  :doc:`contrast <colour.contrast>`: Objects for contrast sensitivity computation.
 -  :doc:`characterisation <colour.characterisation>`: Colour fitting and camera characterisation.
 -  :doc:`colorimetry <colour.colorimetry>`: Core objects for colour computations.
 -  :doc:`constants <colour.constants>`: *CIE* and *CODATA* constants.
@@ -57,7 +58,7 @@ around various sub-packages:
 -  :doc:`volume <colour.volume>`: Colourspace volumes computation and optimal colour
    stimuli.
 
-Most of the public API is available from the root colour namespace:
+Most of the public API is available from the root ``colour`` namespace:
 
 .. code:: python
 
@@ -68,7 +69,7 @@ Most of the public API is available from the root colour namespace:
 
 .. code-block:: text
 
-    ['handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors', 'print_numpy_errors', 'warn_numpy_errors', '...']
+    ['domain_range_scale', 'get_domain_range_scale', 'set_domain_range_scale', 'CHROMATIC_ADAPTATION_METHODS', 'CHROMATIC_ADAPTATION_TRANSFORMS', '...']
 
 
 The various sub-packages also expose their public API:
@@ -80,10 +81,11 @@ The various sub-packages also expose their public API:
     import colour.plotting
 
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
-                        'characterisation', 'colorimetry', 'constants',
-                        'continuous', 'corresponding', 'difference', 'io',
-                        'models', 'notation', 'phenomena', 'plotting', 'quality',
-                        'recovery', 'temperature', 'utilities', 'volume'):
+                        'blindness', 'characterisation', 'colorimetry',
+                        'constants', 'continuous', 'contrast', 'corresponding',
+                        'difference', 'io', 'models', 'notation', 'phenomena',
+                        'plotting', 'quality', 'recovery', 'temperature',
+                        'utilities', 'volume'):
         print(sub_package.title())
         pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
         print('\n')
@@ -124,30 +126,47 @@ The various sub-packages also expose their public API:
      '...']
 
 
+    Blindness
+    ['CVD_MATRICES_MACHADO2010',
+     'anomalous_trichromacy_cmfs_Machado2009',
+     'anomalous_trichromacy_matrix_Machado2009',
+     'cvd_matrix_Machado2009',
+     '...']
+
+
     Characterisation
     ['RGB_SpectralSensitivities',
      'RGB_DisplayPrimaries',
      'CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
      'COLOURCHECKERS',
-     'COLOURCHECKER_INDEXES_TO_NAMES_MAPPING',
+     'ColourChecker',
      '...']
 
 
     Colorimetry
     ['SpectralShape',
-     'SpectralPowerDistribution',
-     'MultiSpectralPowerDistribution',
      'DEFAULT_SPECTRAL_SHAPE',
-     'constant_spd',
+     'SpectralDistribution',
+     'MultiSpectralDistribution',
+     'sd_blackbody',
      '...']
+
+
+    Constants
+    ['K_M', 'KP_M', 'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', '...']
 
 
     Continuous
     ['AbstractContinuousFunction', 'Signal', 'MultiSignal', '...']
 
 
-    Constants
-    ['CIE_E', 'CIE_K', 'K_M', 'KP_M', 'AVOGADRO_CONSTANT', '...']
+    Contrast
+    ['optical_MTF_Barten1999',
+     'pupil_diameter_Barten1999',
+     'sigma_Barten1999',
+     'retinal_illuminance_Barten1999',
+     'maximum_angular_size_Barten1999',
+     '...']
 
 
     Corresponding
@@ -160,25 +179,30 @@ The various sub-packages also expose their public API:
 
 
     Difference
-    ['DELTA_E_METHODS',
-     'delta_E',
-     'delta_E_CIE1976',
-     'delta_E_CIE1994',
-     'delta_E_CIE2000',
+    ['delta_E_CAM02LCD',
+     'delta_E_CAM02SCD',
+     'delta_E_CAM02UCS',
+     'delta_E_CAM16LCD',
+     'delta_E_CAM16SCD',
      '...']
 
 
     Io
-    ['IES_TM2714_Spd',
-     'read_image',
-     'write_image',
-     'read_spectral_data_from_csv_file',
-     'read_spds_from_csv_file',
+    ['SpectralDistribution_IESTM2714',
+     'AbstractLUTSequenceOperator',
+     'LUT1D',
+     'LUT3x1D',
+     'LUT3D',
      '...']
 
 
     Models
-    ['XYZ_to_xyY', 'xyY_to_XYZ', 'xy_to_xyY', 'xyY_to_xy', 'xy_to_XYZ', '...']
+    ['JMh_CIECAM02_to_CAM02LCD',
+     'CAM02LCD_to_JMh_CIECAM02',
+     'JMh_CIECAM02_to_CAM02SCD',
+     'CAM02SCD_to_JMh_CIECAM02',
+     'JMh_CIECAM02_to_CAM02UCS',
+     '...']
 
 
     Notation
@@ -194,22 +218,22 @@ The various sub-packages also expose their public API:
     ['scattering_cross_section',
      'rayleigh_optical_depth',
      'rayleigh_scattering',
-     'rayleigh_scattering_spd',
+     'sd_rayleigh_scattering',
      '...']
 
 
     Plotting
     ['ASTM_G_173_ETR',
-     'PLOTTING_RESOURCES_DIRECTORY',
-     'DEFAULT_FIGURE_ASPECT_RATIO',
-     'DEFAULT_FIGURE_WIDTH',
-     'DEFAULT_FIGURE_HEIGHT',
+     'ASTM_G_173_GLOBAL_TILT',
+     'ASTM_G_173_DIRECT_CIRCUMSOLAR',
+     'COLOUR_STYLE_CONSTANTS',
+     'COLOUR_ARROW_STYLE',
      '...']
 
 
     Quality
-    ['TCS_SPDS',
-     'VS_SPDS',
+    ['TCS_SDS',
+     'VS_SDS',
      'CRI_Specification',
      'colour_rendering_index',
      'CQS_Specification',
@@ -217,11 +241,11 @@ The various sub-packages also expose their public API:
 
 
     Recovery
-    ['SMITS_1999_SPDS',
-     'XYZ_to_spectral_Meng2015',
-     'RGB_to_spectral_Smits1999',
-     'REFLECTANCE_RECOVERY_METHODS',
-     'XYZ_to_spectral',
+    ['SMITS_1999_SDS',
+     'XYZ_to_sd_Meng2015',
+     'RGB_to_sd_Smits1999',
+     'XYZ_TO_SD_METHODS',
+     'XYZ_to_sd',
      '...']
 
 
@@ -235,11 +259,11 @@ The various sub-packages also expose their public API:
 
 
     Utilities
-    ['handle_numpy_errors',
+    ['Lookup',
+     'Structure',
+     'CaseInsensitiveMapping',
+     'handle_numpy_errors',
      'ignore_numpy_errors',
-     'raise_numpy_errors',
-     'print_numpy_errors',
-     'warn_numpy_errors',
      '...']
 
 
@@ -248,13 +272,11 @@ The various sub-packages also expose their public API:
      'is_within_macadam_limits',
      'is_within_mesh_volume',
      'is_within_pointer_gamut',
-     'is_within_visible_spectrum',
+     'generate_pulse_waves',
      '...']
 
 
-
-
-The code is documented and almost every docstrings have usage examples:
+The codebase is documented and most docstrings have usage examples:
 
 .. code:: python
 
@@ -263,44 +285,41 @@ The code is documented and almost every docstrings have usage examples:
 
 .. code-block:: text
 
+    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
+    colour matching functions using *Ohno (2013)* method.
 
-        Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-        correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
-        colour matching functions using *Ohno (2013)* method.
+    Parameters
+    ----------
+    CCT : numeric
+        Correlated colour temperature :math:`T_{cp}`.
+    D_uv : numeric, optional
+        :math:`\Delta_{uv}`.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions.
 
-        Parameters
-        ----------
-        CCT : numeric
-            Correlated colour temperature :math:`T_{cp}`.
-        D_uv : numeric, optional
-            :math:`\Delta_{uv}`.
-        cmfs : XYZ_ColourMatchingFunctions, optional
-            Standard observer colour matching functions.
+    Returns
+    -------
+    ndarray
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
 
-        Returns
-        -------
-        ndarray
-            *CIE UCS* colourspace *uv* chromaticity coordinates.
+    References
+    ----------
+    :cite:`Ohno2014a`
 
-        References
-        ----------
-        .. [4]  Ohno, Y. (2014). Practical Use and Calculation of CCT and Duv.
-                LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
-
-        Examples
-        --------
-        >>> from colour import STANDARD_OBSERVERS_CMFS
-        >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-        >>> CCT = 6507.4342201047066
-        >>> D_uv = 0.003223690901513
-        >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
-        array([ 0.1977999...,  0.3122004...])
-
+    Examples
+    --------
+    >>> from colour import STANDARD_OBSERVERS_CMFS
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> CCT = 6507.4342201047066
+    >>> D_uv = 0.003223690901513
+    >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
+    array([ 0.1977999...,  0.3122004...])
 
 
 At the core of `Colour <https://github.com/colour-science/Colour/>`__ is
 the ``colour.colorimetry`` sub-package, it defines the objects needed
-for spectral related computations and many others:
+for spectral computations and many others:
 
 .. code:: python
 
@@ -312,13 +331,10 @@ for spectral related computations and many others:
 .. code-block:: text
 
     ['SpectralShape',
-     'SpectralPowerDistribution',
-     'MultiSpectralPowerDistribution',
      'DEFAULT_SPECTRAL_SHAPE',
-     'constant_spd',
-     'zeros_spd',
-     'ones_spd',
-     'blackbody_spd',
+     'SpectralDistribution',
+     'MultiSpectralDistribution',
+     'sd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
      'LMS_ConeFundamentals',
@@ -329,20 +345,47 @@ for spectral related computations and many others:
      'RGB_CMFS',
      'STANDARD_OBSERVERS_CMFS',
      'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SPDS',
+     'D_ILLUMINANTS_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_RELATIVE_SPDS',
+     'ILLUMINANTS_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_RELATIVE_SPDS',
+     'LIGHT_SOURCES_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS',
+     'sd_constant',
+     'sd_zeros',
+     'sd_ones',
+     'SD_GAUSSIAN_METHODS',
+     'sd_gaussian',
+     'sd_gaussian_normal',
+     'sd_gaussian_fwhm',
+     'SD_SINGLE_LED_METHODS',
+     'sd_single_led',
+     'sd_single_led_Ohno2005',
+     'SD_MULTI_LEDS_METHODS',
+     'sd_multi_leds',
+     'sd_multi_leds_Ohno2005',
+     'SD_TO_XYZ_METHODS',
+     'MULTI_SD_TO_XYZ_METHODS',
+     'sd_to_XYZ',
+     'multi_sds_to_XYZ',
+     'ASTME30815_PRACTISE_SHAPE',
+     'lagrange_coefficients_ASTME202211',
+     'tristimulus_weighting_factors_ASTME202211',
+     'adjust_tristimulus_weighting_factors_ASTME30815',
+     'sd_to_XYZ_integration',
+     'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+     'sd_to_XYZ_ASTME30815',
+     'multi_sds_to_XYZ_integration',
+     'wavelength_to_XYZ',
      'BANDPASS_CORRECTION_METHODS',
      'bandpass_correction',
      'bandpass_correction_Stearns1988',
-     'D_illuminant_relative_spd',
-     'CIE_standard_illuminant_A_function',
-     'mesopic_luminous_efficiency_function',
+     'sd_CIE_standard_illuminant_A',
+     'sd_CIE_illuminant_D_series',
+     'daylight_locus_function',
+     'sd_mesopic_luminous_efficiency_function',
      'mesopic_weighting_function',
      'LIGHTNESS_METHODS',
      'lightness',
@@ -351,6 +394,7 @@ for spectral related computations and many others:
      'lightness_CIE1976',
      'lightness_Fairchild2010',
      'lightness_Fairchild2011',
+     'intermediate_lightness_function_CIE1976',
      'LUMINANCE_METHODS',
      'luminance',
      'luminance_Newhall1943',
@@ -358,6 +402,7 @@ for spectral related computations and many others:
      'luminance_CIE1976',
      'luminance_Fairchild2010',
      'luminance_Fairchild2011',
+     'intermediate_luminance_function_CIE1976',
      'dominant_wavelength',
      'complementary_wavelength',
      'excitation_purity',
@@ -370,16 +415,6 @@ for spectral related computations and many others:
      'RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
      'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
      'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
-     'SPECTRAL_TO_XYZ_METHODS',
-     'spectral_to_XYZ',
-     'ASTME30815_PRACTISE_SHAPE',
-     'lagrange_coefficients_ASTME202211',
-     'tristimulus_weighting_factors_ASTME202211',
-     'adjust_tristimulus_weighting_factors_ASTME30815',
-     'spectral_to_XYZ_integration',
-     'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-     'spectral_to_XYZ_ASTME30815',
-     'wavelength_to_XYZ',
      'WHITENESS_METHODS',
      'whiteness',
      'whiteness_Berger1959',
@@ -395,9 +430,8 @@ for spectral related computations and many others:
 
 
 `Colour <https://github.com/colour-science/Colour/>`__ computations
-leverage a comprehensive dataset available in pretty much each
-sub-packages, for example ``colour.colorimetry.dataset`` defines the
-following data:
+leverage a comprehensive dataset available in most sub-packages, for example
+the ``colour.colorimetry.dataset`` defines the following components:
 
 .. code:: python
 
@@ -413,28 +447,27 @@ following data:
      'RGB_CMFS',
      'STANDARD_OBSERVERS_CMFS',
      'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SPDS',
+     'D_ILLUMINANTS_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_RELATIVE_SPDS',
+     'ILLUMINANTS_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_RELATIVE_SPDS',
+     'LIGHT_SOURCES_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS']
 
 
-From Spectral Power Distribution
---------------------------------
+From Spectral Distribution
+--------------------------
 
-Whether it be a sample spectral power distribution, colour matching
-functions or illuminants, spectral data is manipulated using an object
-built with the ``colour.SpectralPowerDistribution`` class or based on
-it:
+Whether it be a sample spectral distribution, colour matching functions or
+illuminants, spectral data is manipulated using an object built with the
+``colour.SpectralDistribution`` class or based on it:
 
 .. code:: python
 
-    # Defining a sample spectral power distribution data.
-    sample_spd_data = {
+    # Defining a sample spectral distribution data.
+    sample_sd_data = {
         380: 0.048,
         385: 0.051,
         390: 0.055,
@@ -517,119 +550,118 @@ it:
         775: 0.432,
         780: 0.421}
 
-    spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
-    print(repr(spd))
+    sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
+    print(repr(sd))
 
 
 .. code-block:: text
 
-    SpectralPowerDistribution([[  3.80000000e+02,   4.80000000e-02],
-                               [  3.85000000e+02,   5.10000000e-02],
-                               [  3.90000000e+02,   5.50000000e-02],
-                               [  3.95000000e+02,   6.00000000e-02],
-                               [  4.00000000e+02,   6.50000000e-02],
-                               [  4.05000000e+02,   6.80000000e-02],
-                               [  4.10000000e+02,   6.80000000e-02],
-                               [  4.15000000e+02,   6.70000000e-02],
-                               [  4.20000000e+02,   6.40000000e-02],
-                               [  4.25000000e+02,   6.20000000e-02],
-                               [  4.30000000e+02,   5.90000000e-02],
-                               [  4.35000000e+02,   5.70000000e-02],
-                               [  4.40000000e+02,   5.50000000e-02],
-                               [  4.45000000e+02,   5.40000000e-02],
-                               [  4.50000000e+02,   5.30000000e-02],
-                               [  4.55000000e+02,   5.30000000e-02],
-                               [  4.60000000e+02,   5.20000000e-02],
-                               [  4.65000000e+02,   5.20000000e-02],
-                               [  4.70000000e+02,   5.20000000e-02],
-                               [  4.75000000e+02,   5.30000000e-02],
-                               [  4.80000000e+02,   5.40000000e-02],
-                               [  4.85000000e+02,   5.50000000e-02],
-                               [  4.90000000e+02,   5.70000000e-02],
-                               [  4.95000000e+02,   5.90000000e-02],
-                               [  5.00000000e+02,   6.10000000e-02],
-                               [  5.05000000e+02,   6.20000000e-02],
-                               [  5.10000000e+02,   6.50000000e-02],
-                               [  5.15000000e+02,   6.70000000e-02],
-                               [  5.20000000e+02,   7.00000000e-02],
-                               [  5.25000000e+02,   7.20000000e-02],
-                               [  5.30000000e+02,   7.40000000e-02],
-                               [  5.35000000e+02,   7.50000000e-02],
-                               [  5.40000000e+02,   7.60000000e-02],
-                               [  5.45000000e+02,   7.80000000e-02],
-                               [  5.50000000e+02,   7.90000000e-02],
-                               [  5.55000000e+02,   8.20000000e-02],
-                               [  5.60000000e+02,   8.70000000e-02],
-                               [  5.65000000e+02,   9.20000000e-02],
-                               [  5.70000000e+02,   1.00000000e-01],
-                               [  5.75000000e+02,   1.07000000e-01],
-                               [  5.80000000e+02,   1.15000000e-01],
-                               [  5.85000000e+02,   1.22000000e-01],
-                               [  5.90000000e+02,   1.29000000e-01],
-                               [  5.95000000e+02,   1.34000000e-01],
-                               [  6.00000000e+02,   1.38000000e-01],
-                               [  6.05000000e+02,   1.42000000e-01],
-                               [  6.10000000e+02,   1.46000000e-01],
-                               [  6.15000000e+02,   1.50000000e-01],
-                               [  6.20000000e+02,   1.54000000e-01],
-                               [  6.25000000e+02,   1.58000000e-01],
-                               [  6.30000000e+02,   1.63000000e-01],
-                               [  6.35000000e+02,   1.67000000e-01],
-                               [  6.40000000e+02,   1.73000000e-01],
-                               [  6.45000000e+02,   1.80000000e-01],
-                               [  6.50000000e+02,   1.88000000e-01],
-                               [  6.55000000e+02,   1.96000000e-01],
-                               [  6.60000000e+02,   2.04000000e-01],
-                               [  6.65000000e+02,   2.13000000e-01],
-                               [  6.70000000e+02,   2.22000000e-01],
-                               [  6.75000000e+02,   2.31000000e-01],
-                               [  6.80000000e+02,   2.42000000e-01],
-                               [  6.85000000e+02,   2.51000000e-01],
-                               [  6.90000000e+02,   2.61000000e-01],
-                               [  6.95000000e+02,   2.71000000e-01],
-                               [  7.00000000e+02,   2.82000000e-01],
-                               [  7.05000000e+02,   2.94000000e-01],
-                               [  7.10000000e+02,   3.05000000e-01],
-                               [  7.15000000e+02,   3.18000000e-01],
-                               [  7.20000000e+02,   3.34000000e-01],
-                               [  7.25000000e+02,   3.54000000e-01],
-                               [  7.30000000e+02,   3.72000000e-01],
-                               [  7.35000000e+02,   3.92000000e-01],
-                               [  7.40000000e+02,   4.09000000e-01],
-                               [  7.45000000e+02,   4.20000000e-01],
-                               [  7.50000000e+02,   4.36000000e-01],
-                               [  7.55000000e+02,   4.50000000e-01],
-                               [  7.60000000e+02,   4.62000000e-01],
-                               [  7.65000000e+02,   4.65000000e-01],
-                               [  7.70000000e+02,   4.48000000e-01],
-                               [  7.75000000e+02,   4.32000000e-01],
-                               [  7.80000000e+02,   4.21000000e-01]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
+    SpectralDistribution([[  3.80000000e+02,   4.80000000e-02],
+                          [  3.85000000e+02,   5.10000000e-02],
+                          [  3.90000000e+02,   5.50000000e-02],
+                          [  3.95000000e+02,   6.00000000e-02],
+                          [  4.00000000e+02,   6.50000000e-02],
+                          [  4.05000000e+02,   6.80000000e-02],
+                          [  4.10000000e+02,   6.80000000e-02],
+                          [  4.15000000e+02,   6.70000000e-02],
+                          [  4.20000000e+02,   6.40000000e-02],
+                          [  4.25000000e+02,   6.20000000e-02],
+                          [  4.30000000e+02,   5.90000000e-02],
+                          [  4.35000000e+02,   5.70000000e-02],
+                          [  4.40000000e+02,   5.50000000e-02],
+                          [  4.45000000e+02,   5.40000000e-02],
+                          [  4.50000000e+02,   5.30000000e-02],
+                          [  4.55000000e+02,   5.30000000e-02],
+                          [  4.60000000e+02,   5.20000000e-02],
+                          [  4.65000000e+02,   5.20000000e-02],
+                          [  4.70000000e+02,   5.20000000e-02],
+                          [  4.75000000e+02,   5.30000000e-02],
+                          [  4.80000000e+02,   5.40000000e-02],
+                          [  4.85000000e+02,   5.50000000e-02],
+                          [  4.90000000e+02,   5.70000000e-02],
+                          [  4.95000000e+02,   5.90000000e-02],
+                          [  5.00000000e+02,   6.10000000e-02],
+                          [  5.05000000e+02,   6.20000000e-02],
+                          [  5.10000000e+02,   6.50000000e-02],
+                          [  5.15000000e+02,   6.70000000e-02],
+                          [  5.20000000e+02,   7.00000000e-02],
+                          [  5.25000000e+02,   7.20000000e-02],
+                          [  5.30000000e+02,   7.40000000e-02],
+                          [  5.35000000e+02,   7.50000000e-02],
+                          [  5.40000000e+02,   7.60000000e-02],
+                          [  5.45000000e+02,   7.80000000e-02],
+                          [  5.50000000e+02,   7.90000000e-02],
+                          [  5.55000000e+02,   8.20000000e-02],
+                          [  5.60000000e+02,   8.70000000e-02],
+                          [  5.65000000e+02,   9.20000000e-02],
+                          [  5.70000000e+02,   1.00000000e-01],
+                          [  5.75000000e+02,   1.07000000e-01],
+                          [  5.80000000e+02,   1.15000000e-01],
+                          [  5.85000000e+02,   1.22000000e-01],
+                          [  5.90000000e+02,   1.29000000e-01],
+                          [  5.95000000e+02,   1.34000000e-01],
+                          [  6.00000000e+02,   1.38000000e-01],
+                          [  6.05000000e+02,   1.42000000e-01],
+                          [  6.10000000e+02,   1.46000000e-01],
+                          [  6.15000000e+02,   1.50000000e-01],
+                          [  6.20000000e+02,   1.54000000e-01],
+                          [  6.25000000e+02,   1.58000000e-01],
+                          [  6.30000000e+02,   1.63000000e-01],
+                          [  6.35000000e+02,   1.67000000e-01],
+                          [  6.40000000e+02,   1.73000000e-01],
+                          [  6.45000000e+02,   1.80000000e-01],
+                          [  6.50000000e+02,   1.88000000e-01],
+                          [  6.55000000e+02,   1.96000000e-01],
+                          [  6.60000000e+02,   2.04000000e-01],
+                          [  6.65000000e+02,   2.13000000e-01],
+                          [  6.70000000e+02,   2.22000000e-01],
+                          [  6.75000000e+02,   2.31000000e-01],
+                          [  6.80000000e+02,   2.42000000e-01],
+                          [  6.85000000e+02,   2.51000000e-01],
+                          [  6.90000000e+02,   2.61000000e-01],
+                          [  6.95000000e+02,   2.71000000e-01],
+                          [  7.00000000e+02,   2.82000000e-01],
+                          [  7.05000000e+02,   2.94000000e-01],
+                          [  7.10000000e+02,   3.05000000e-01],
+                          [  7.15000000e+02,   3.18000000e-01],
+                          [  7.20000000e+02,   3.34000000e-01],
+                          [  7.25000000e+02,   3.54000000e-01],
+                          [  7.30000000e+02,   3.72000000e-01],
+                          [  7.35000000e+02,   3.92000000e-01],
+                          [  7.40000000e+02,   4.09000000e-01],
+                          [  7.45000000e+02,   4.20000000e-01],
+                          [  7.50000000e+02,   4.36000000e-01],
+                          [  7.55000000e+02,   4.50000000e-01],
+                          [  7.60000000e+02,   4.62000000e-01],
+                          [  7.65000000e+02,   4.65000000e-01],
+                          [  7.70000000e+02,   4.48000000e-01],
+                          [  7.75000000e+02,   4.32000000e-01],
+                          [  7.80000000e+02,   4.21000000e-01]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
 
-The sample spectral power distribution can be easily plotted against the
-visible spectrum:
-
-.. code:: python
-
-    # Plotting the sample spectral power distribution.
-    single_spd_plot(spd)
-
-
-
-.. image:: _static/Tutorial_Sample_SPD.png
-
-
-With the sample spectral power distribution defined, we can retrieve its
-shape:
+The sample spectral distribution can be easily plotted against the visible
+spectrum:
 
 .. code:: python
 
-    # Displaying the sample spectral power distribution shape.
-    print(spd.shape)
+    # Plotting the sample spectral distribution.
+    plot_single_sd(sd)
+
+
+.. image:: _static/Tutorial_Sample_SD.png
+
+
+With the sample spectral distribution defined, its shape is retrieved as
+follows:
+
+.. code:: python
+
+    # Displaying the sample spectral distribution shape.
+    print(sd.shape)
 
 
 .. code-block:: text
@@ -637,19 +669,16 @@ shape:
     (380.0, 780.0, 5.0)
 
 
-The shape returned is an instance of ``colour.SpectralShape`` class:
+The returned shape is an instance of the ``colour.SpectralShape`` class:
 
 .. code:: python
 
-    repr(spd.shape)
-
-
+    repr(sd.shape)
 
 
 .. code-block:: text
 
     'SpectralShape(380.0, 780.0, 5.0)'
-
 
 
 ``colour.SpectralShape`` is used throughout
@@ -683,8 +712,6 @@ spectral dimensions and is instantiated as follows:
     10.0
 
 
-
-
 .. code-block:: text
 
     array([  0. ,   0.5,   1. ,   1.5,   2. ,   2.5,   3. ,   3.5,   4. ,
@@ -692,54 +719,53 @@ spectral dimensions and is instantiated as follows:
              9. ,   9.5,  10. ])
 
 
-
 `Colour <https://github.com/colour-science/Colour/>`__ defines three
-convenient objects to create constant spectral power distributions:
+convenient objects to create constant spectral distributions:
 
--  ``colour.constant_spd``
--  ``colour.zeros_spd``
--  ``colour.ones_spd``
+-  ``colour.sd_constant``
+-  ``colour.sd_zeros``
+-  ``colour.sd_ones``
 
 .. code:: python
 
-    # Defining a constant spectral power distribution.
-    constant_spd = colour.constant_spd(100)
-    print('"Constant Spectral Power Distribution"')
-    print(constant_spd.shape)
-    print(constant_spd[400])
+    # Defining a constant spectral distribution.
+    sd_constant = colour.sd_constant(100)
+    print('"Constant Spectral Distribution"')
+    print(sd_constant.shape)
+    print(sd_constant[400])
 
-    # Defining a zeros filled spectral power distribution.
-    print('\n"Zeros Filled Spectral Power Distribution"')
-    zeros_spd = colour.zeros_spd()
-    print(zeros_spd.shape)
-    print(zeros_spd[400])
+    # Defining a zeros filled spectral distribution.
+    print('\n"Zeros Filled Spectral Distribution"')
+    sd_zeros = colour.sd_zeros()
+    print(sd_zeros.shape)
+    print(sd_zeros[400])
 
-    # Defining a ones filled spectral power distribution.
-    print('\n"Ones Filled Spectral Power Distribution"')
-    ones_spd = colour.ones_spd()
-    print(ones_spd.shape)
-    print(ones_spd[400])
+    # Defining a ones filled spectral distribution.
+    print('\n"Ones Filled Spectral Distribution"')
+    sd_ones = colour.sd_ones()
+    print(sd_ones.shape)
+    print(sd_ones[400])
 
 
 .. code-block:: text
 
-    "Constant Spectral Power Distribution"
+    "Constant Spectral Distribution"
     (360.0, 780.0, 1.0)
     100.0
 
-    "Zeros Filled Spectral Power Distribution"
+    "Zeros Filled Spectral Distribution"
     (360.0, 780.0, 1.0)
     0.0
 
-    "Ones Filled Spectral Power Distribution"
+    "Ones Filled Spectral Distribution"
     (360.0, 780.0, 1.0)
     1.0
 
 
-By default the shape used by ``colour.constant_spd``,
-``colour.zeros_spd`` and ``colour.ones_spd`` is the one defined by
-``colour.DEFAULT_SPECTRAL_SHAPE`` attribute using the *CIE 1931 2°
-Standard Observer* shape.
+By default the shape used by ``colour.sd_constant``,
+``colour.sd_zeros`` and ``colour.sd_ones`` is the one defined by the
+``colour.DEFAULT_SPECTRAL_SHAPE`` attribute and based on *ASTM E308-15*
+practise shape.
 
 .. code:: python
 
@@ -751,14 +777,12 @@ Standard Observer* shape.
     SpectralShape(360, 780, 1)
 
 
-A custom shape can be passed to construct a constant spectral power
-distribution with user defined dimensions:
+A custom shape can be passed to construct a constant spectral distribution
+with user defined dimensions:
 
 .. code:: python
 
-    colour.ones_spd(colour.SpectralShape(400, 700, 5))[450]
-
-
+    colour.sd_ones(colour.SpectralShape(400, 700, 5))[450]
 
 
 .. code-block:: text
@@ -766,55 +790,54 @@ distribution with user defined dimensions:
     1.0
 
 
-
-The ``colour.SpectralPowerDistribution`` class supports the following
+The ``colour.SpectralDistribution`` class supports the following
 arithmetical operations:
 
 -  *addition*
 -  *subtraction*
 -  *multiplication*
 -  *division*
+-  *exponentiation*
 
 .. code:: python
 
-    spd1 = colour.ones_spd()
-    print('"Ones Filled Spectral Power Distribution"')
+    spd1 = colour.sd_ones()
+    print('"Ones Filled Spectral Distribution"')
     print(spd1[400])
 
     print('\n"x2 Constant Multiplied"')
     print((spd1 * 2)[400])
 
-    print('\n"+ Spectral Power Distribution"')
-    print((spd1 + colour.ones_spd())[400])
+    print('\n"+ Spectral Distribution"')
+    print((spd1 + colour.sd_ones())[400])
 
 
 .. code-block:: text
 
-    "Ones Filled Spectral Power Distribution"
+    "Ones Filled Spectral Distribution"
     1.0
 
     "x2 Constant Multiplied"
     2.0
 
-    "+ Spectral Power Distribution"
+    "+ Spectral Distribution"
     2.0
 
 
-Often interpolation of the spectral power distribution is needed, this
-is achieved with the ``colour.SpectralPowerDistribution.interpolate``
-method. Depending on the wavelengths uniformity, the default
-interpolation method will differ. Following *CIE 167:2005*
-recommendation: The method developed by *Sprague* (1880) should be used
-for interpolating functions having a uniformly spaced independent
-variable and a *Cubic Spline* method for non-uniformly spaced
+Often interpolation of the spectral distribution is required, this is achieved
+with the ``colour.SpectralDistribution.interpolate`` method. Depending on the
+wavelengths uniformity, the default interpolation method will differ.
+Following *CIE 167:2005* recommendation: The method developed by
+*Sprague (1880)* should be used for interpolating functions having a uniformly
+spaced independent variable and a *Cubic Spline* method for non-uniformly spaced
 independent variable  :cite:`CIETC1-382005e`.
 
-We can check the uniformity of the sample spectral power distribution:
+The uniformity of the sample spectral distribution is assessed as follows:
 
 .. code:: python
 
-    # Checking the sample spectral power distribution uniformity.
-    print(spd.is_uniform())
+    # Checking the sample spectral distribution uniformity.
+    print(sd.is_uniform())
 
 
 .. code-block:: text
@@ -822,31 +845,24 @@ We can check the uniformity of the sample spectral power distribution:
     True
 
 
-Since the sample spectral power distribution is uniform the
-interpolation will default to the ``colour.SpragueInterpolator``
-interpolator.
+In this case, since the sample spectral distribution is uniform the
+interpolation defaults to the ``colour.SpragueInterpolator`` interpolator.
 
 .. note::
 
-    Interpolation happens in place and may alter your original
-    data, use the ``colour.SpectralPowerDistribution.copy`` method to
-    produce a copy of your spectral power distribution before
-    interpolation.
+    Interpolation happens in place and may alter the original data, use the
+    ``colour.SpectralDistribution.copy`` method to generate a copy of the
+    spectral distribution before interpolation.
 
 
 .. code:: python
 
-    # *Colour* can emit a substantial amount of warnings, we filter them.
-    colour.filter_warnings()
+    # Copying the sample spectral distribution.
+    sd_copy = sd.copy()
 
-    # Copying the sample spectral power distribution.
-    spd_copy = spd.copy()
-
-    # Interpolating the copied sample spectral power distribution.
-    spd_copy.interpolate(colour.SpectralShape(400, 770, 1))
-    spd_copy[401]
-
-
+    # Interpolating the copied sample spectral distribution.
+    sd_copy.interpolate(colour.SpectralShape(400, 770, 1))
+    sd_copy[401]
 
 
 .. code-block:: text
@@ -854,35 +870,30 @@ interpolator.
     0.065809599999999996
 
 
+.. code:: python
+
+    # Comparing the interpolated spectral distribution with the original one.
+    plot_multi_sds([sd, sd_copy], bounding_box=[730,780, 0.25, 0.5])
+
+
+.. image:: _static/Tutorial_SD_Interpolation.png
+
+
+Extrapolation although dangerous can be used to help aligning two spectral
+distributions together. *CIE publication CIE 15:2004 “Colorimetry”* recommends
+that unmeasured values may be set equal to the nearest measured value of the
+appropriate quantity in truncation :cite:`CIETC1-482004h`:
 
 .. code:: python
 
-    # Comparing the interpolated spectral power distribution with the original one.
-    multi_spd_plot([spd, spd_copy], bounding_box=[730,780, 0.25, 0.5])
-
-
-
-.. image:: _static/Tutorial_SPD_Interpolation.png
-
-
-Extrapolation although dangerous can be used to help aligning two
-spectral power distributions together. *CIE publication CIE 15:2004
-“Colorimetry”* recommends that unmeasured values may be set equal to the
-nearest measured value of the appropriate quantity in truncation :cite:`CIETC1-482004h`:
-
-.. code:: python
-
-    # Extrapolating the copied sample spectral power distribution.
-    spd_copy.extrapolate(colour.SpectralShape(340, 830))
-    spd_copy[340], spd_copy[830]
-
-
+    # Extrapolating the copied sample spectral distribution.
+    sd_copy.extrapolate(colour.SpectralShape(340, 830))
+    sd_copy[340], sd_copy[830]
 
 
 .. code-block:: text
 
     (0.065000000000000002, 0.44800000000000018)
-
 
 
 The underlying interpolator can be swapped for any of the
@@ -908,67 +919,62 @@ The underlying interpolator can be swapped for any of the
 
 .. code:: python
 
-    # Changing interpolator while trimming the copied spectral power distribution.
-    spd_copy.interpolate(
+    # Changing interpolator while trimming the copied spectral distribution.
+    sd_copy.interpolate(
         colour.SpectralShape(400, 700, 10), interpolator=colour.LinearInterpolator)
-
-
 
 
 .. code-block:: text
 
-    SpectralPowerDistribution([[  4.00000000e+02,   6.50000000e-02],
-                               [  4.10000000e+02,   6.80000000e-02],
-                               [  4.20000000e+02,   6.40000000e-02],
-                               [  4.30000000e+02,   5.90000000e-02],
-                               [  4.40000000e+02,   5.50000000e-02],
-                               [  4.50000000e+02,   5.30000000e-02],
-                               [  4.60000000e+02,   5.20000000e-02],
-                               [  4.70000000e+02,   5.20000000e-02],
-                               [  4.80000000e+02,   5.40000000e-02],
-                               [  4.90000000e+02,   5.70000000e-02],
-                               [  5.00000000e+02,   6.10000000e-02],
-                               [  5.10000000e+02,   6.50000000e-02],
-                               [  5.20000000e+02,   7.00000000e-02],
-                               [  5.30000000e+02,   7.40000000e-02],
-                               [  5.40000000e+02,   7.60000000e-02],
-                               [  5.50000000e+02,   7.90000000e-02],
-                               [  5.60000000e+02,   8.70000000e-02],
-                               [  5.70000000e+02,   1.00000000e-01],
-                               [  5.80000000e+02,   1.15000000e-01],
-                               [  5.90000000e+02,   1.29000000e-01],
-                               [  6.00000000e+02,   1.38000000e-01],
-                               [  6.10000000e+02,   1.46000000e-01],
-                               [  6.20000000e+02,   1.54000000e-01],
-                               [  6.30000000e+02,   1.63000000e-01],
-                               [  6.40000000e+02,   1.73000000e-01],
-                               [  6.50000000e+02,   1.88000000e-01],
-                               [  6.60000000e+02,   2.04000000e-01],
-                               [  6.70000000e+02,   2.22000000e-01],
-                               [  6.80000000e+02,   2.42000000e-01],
-                               [  6.90000000e+02,   2.61000000e-01],
-                               [  7.00000000e+02,   2.82000000e-01]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
+    SpectralDistribution([[  4.00000000e+02,   6.50000000e-02],
+                          [  4.10000000e+02,   6.80000000e-02],
+                          [  4.20000000e+02,   6.40000000e-02],
+                          [  4.30000000e+02,   5.90000000e-02],
+                          [  4.40000000e+02,   5.50000000e-02],
+                          [  4.50000000e+02,   5.30000000e-02],
+                          [  4.60000000e+02,   5.20000000e-02],
+                          [  4.70000000e+02,   5.20000000e-02],
+                          [  4.80000000e+02,   5.40000000e-02],
+                          [  4.90000000e+02,   5.70000000e-02],
+                          [  5.00000000e+02,   6.10000000e-02],
+                          [  5.10000000e+02,   6.50000000e-02],
+                          [  5.20000000e+02,   7.00000000e-02],
+                          [  5.30000000e+02,   7.40000000e-02],
+                          [  5.40000000e+02,   7.60000000e-02],
+                          [  5.50000000e+02,   7.90000000e-02],
+                          [  5.60000000e+02,   8.70000000e-02],
+                          [  5.70000000e+02,   1.00000000e-01],
+                          [  5.80000000e+02,   1.15000000e-01],
+                          [  5.90000000e+02,   1.29000000e-01],
+                          [  6.00000000e+02,   1.38000000e-01],
+                          [  6.10000000e+02,   1.46000000e-01],
+                          [  6.20000000e+02,   1.54000000e-01],
+                          [  6.30000000e+02,   1.63000000e-01],
+                          [  6.40000000e+02,   1.73000000e-01],
+                          [  6.50000000e+02,   1.88000000e-01],
+                          [  6.60000000e+02,   2.04000000e-01],
+                          [  6.70000000e+02,   2.22000000e-01],
+                          [  6.80000000e+02,   2.42000000e-01],
+                          [  6.90000000e+02,   2.61000000e-01],
+                          [  7.00000000e+02,   2.82000000e-01]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
 
-
-The extrapolation behaviour can be changed for *Linear* method instead
-of the *Constant* default method or even use arbitrary constant *left*
-and *right* values:
+The extrapolation behaviour can be changed for ``Linear`` method instead
+of the ``Constant`` default method or even use arbitrary constant ``left``
+and ``right`` values:
 
 .. code:: python
 
-    # Extrapolating the copied sample spectral power distribution with *Linear* method.
-    spd_copy.extrapolate(
+    # Extrapolating the copied sample spectral distribution with *Linear* method.
+    sd_copy.extrapolate(
         colour.SpectralShape(340, 830),
         extrapolator_args={'method': 'Linear',
                            'right': 0})
-    spd_copy[340], spd_copy[830]
-
-
+    sd_copy[340], sd_copy[830]
 
 
 .. code-block:: text
@@ -976,20 +982,17 @@ and *right* values:
     (0.046999999999999348, 0.0)
 
 
-
-Aligning a spectral power distribution is a convenient way to first
-interpolates the current data within its original bounds, then, if
-required, extrapolate any missing values to match the requested shape:
+Aligning a spectral distribution is a convenient way to first interpolates the
+current data within its original bounds, then, if required, extrapolate any
+missing values to match the requested shape:
 
 .. code:: python
 
-    # Aligning the cloned sample spectral power distribution.
-    # We first trim the spectral power distribution as above.
-    spd_copy.interpolate(colour.SpectralShape(400, 700))
-    spd_copy.align(colour.SpectralShape(340, 830, 5))
-    spd_copy[340], spd_copy[830]
-
-
+    # Aligning the cloned sample spectral distribution.
+    # The spectral distribution is first trimmed as above.
+    sd_copy.interpolate(colour.SpectralShape(400, 700))
+    sd_copy.align(colour.SpectralShape(340, 830, 5))
+    sd_copy[340], sd_copy[830]
 
 
 .. code-block:: text
@@ -997,15 +1000,14 @@ required, extrapolate any missing values to match the requested shape:
     (0.065000000000000002, 0.28199999999999975)
 
 
-
-The ``colour.SpectralPowerDistribution`` class also supports various
-arithmetic operations like *addition*, *subtraction*, *multiplication*
-or *division* with *numeric* and *array_like* variables or other
-``colour.SpectralPowerDistribution`` class instances:
+The ``colour.SpectralDistribution`` class also supports various arithmetic
+operations like *addition*, *subtraction*, *multiplication*, *division* or
+*exponentiation* with *numeric* and *array_like* variables or other
+``colour.SpectralDistribution`` class instances:
 
 .. code:: python
 
-    spd = colour.SpectralPowerDistribution({
+    sd = colour.SpectralDistribution({
         410: 0.25,
         420: 0.50,
         430: 0.75,
@@ -1015,10 +1017,10 @@ or *division* with *numeric* and *array_like* variables or other
         480: 0.25
     })
 
-    print((spd.copy() + 1).values)
-    print((spd.copy() * 2).values)
-    print((spd * [0.35, 1.55, 0.75, 2.55, 0.95, 0.65, 0.15]).values)
-    print((spd * colour.constant_spd(2, spd.shape) * colour.constant_spd(3, spd.shape)).values)
+    print((sd.copy() + 1).values)
+    print((sd.copy() * 2).values)
+    print((sd * [0.35, 1.55, 0.75, 2.55, 0.95, 0.65, 0.15]).values)
+    print((sd * colour.sd_constant(2, sd.shape) * colour.sd_constant(3, sd.shape)).values)
 
 
 .. code-block:: text
@@ -1029,13 +1031,12 @@ or *division* with *numeric* and *array_like* variables or other
     [ 1.5  3.   4.5  6.   4.5  3.   nan  1.5]
 
 
-The spectral power distribution can be normalised with an arbitrary
-factor:
+The spectral distribution can be normalised with an arbitrary factor:
 
 .. code:: python
 
-    print(spd.normalise().values)
-    print(spd.normalise(100).values)
+    print(sd.normalise().values)
+    print(sd.normalise(100).values)
 
 
 .. code-block:: text
@@ -1044,7 +1045,7 @@ factor:
     [  25.   50.   75.  100.   75.   50.   25.]
 
 
-A the heart of the ``colour.SpectralPowerDistribution`` class is the
+A the heart of the ``colour.SpectralDistribution`` class is the
 ``colour.continuous.Signal`` class which implements the
 ``colour.continuous.Signal.function`` method.
 
@@ -1059,7 +1060,7 @@ with the function dependent and already known range stored in the
 ``colour.continuous.Signal.range`` attribute.
 
 Describing the ``colour.continuous.Signal`` class is beyond the scope of
-this tutorial but we can illustrate its core capability.
+this tutorial but the core capability can be described.
 
 .. code:: python
 
@@ -1094,8 +1095,6 @@ this tutorial but we can illustrate its core capability.
     signal[np.random.uniform(0, 9, 10)]
 
 
-
-
 .. code-block:: text
 
     array([ 55.91309735,  65.4172615 ,  65.54495059,  88.17819416,
@@ -1103,21 +1102,20 @@ this tutorial but we can illustrate its core capability.
             86.41406136,  84.59897703])
 
 
-
 Convert to Tristimulus Values
 -----------------------------
 
-From a given spectral power distribution, *CIE XYZ* tristimulus values
-can be calculated:
+From a given spectral distribution, *CIE XYZ* tristimulus values can be
+calculated:
 
 .. code:: python
 
-    spd = colour.SpectralPowerDistribution(sample_spd_data)
+    sd = colour.SpectralDistribution(sample_sd_data)
     cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['D65']
+    illuminant = colour.ILLUMINANTS_SDS['D65']
 
-    # Calculating the sample spectral power distribution *CIE XYZ* tristimulus values.
-    XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
+    # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.
+    XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
     print(XYZ)
 
 
@@ -1126,12 +1124,11 @@ can be calculated:
     [ 10.97085572   9.70278591   6.05562778]
 
 
-
 From *CIE XYZ* Colourspace
 --------------------------
 
 *CIE XYZ* is the central colourspace for Colour Science from which many
-computations are available, cascading to even more computations:
+computations are available, expanding to even more computations:
 
 .. code:: python
 
@@ -1141,43 +1138,43 @@ computations are available, cascading to even more computations:
 
 .. code-block:: text
 
-    ['XYZ_to_Hunt',
-     'XYZ_to_ATD95',
+    ['XYZ_to_ATD95',
+     'XYZ_to_CAM16',
      'XYZ_to_CIECAM02',
+     'XYZ_to_Hunt',
      'XYZ_to_LLAB',
      'XYZ_to_Nayatani95',
      'XYZ_to_RLAB',
-     'XYZ_to_xyY',
-     'XYZ_to_xy',
+     'XYZ_to_Hunter_Lab',
+     'XYZ_to_Hunter_Rdab',
+     'XYZ_to_IPT',
+     'XYZ_to_JzAzBz',
+     'XYZ_to_K_ab_HunterLab1966',
      'XYZ_to_Lab',
      'XYZ_to_Luv',
+     'XYZ_to_OSA_UCS',
+     'XYZ_to_RGB',
      'XYZ_to_UCS',
      'XYZ_to_UVW',
      'XYZ_to_hdr_CIELab',
-     'XYZ_to_K_ab_HunterLab1966',
-     'XYZ_to_Hunter_Lab',
-     'XYZ_to_Hunter_Rdab',
-     'XYZ_to_Hunter_Rdab',
-     'XYZ_to_IPT',
      'XYZ_to_hdr_IPT',
-     'XYZ_to_colourspace_model',
-     'XYZ_to_RGB',
      'XYZ_to_sRGB',
-     'XYZ_to_spectral_Meng2015',
-     'XYZ_to_spectral']
+     'XYZ_to_xy',
+     'XYZ_to_xyY',
+     'XYZ_to_sd']
 
 
 Convert to Screen Colours
 -------------------------
 
-We can for instance converts the *CIE XYZ* tristimulus values into
-*sRGB* colourspace *RGB* values in order to display them on screen:
+*CIE XYZ* tristimulus values can be converted into *sRGB* colourspace *RGB*
+values in order to display them on screen:
 
 .. code:: python
 
-    # The output domain of *colour.spectral_to_XYZ* is [0, 100] and the input
-    # domain of *colour.XYZ_to_sRGB* is [0, 1]. We need to take it in account and
-    # rescale the input *CIE XYZ* colourspace matrix.
+    # The output domain of *colour.sd_to_XYZ* is [0, 100] and the input
+    # domain of *colour.XYZ_to_sRGB* is [0, 1]. It needs to be accounted for,
+    # thus the input *CIE XYZ* tristimulus values are scaled.
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
     print(RGB)
 
@@ -1189,9 +1186,10 @@ We can for instance converts the *CIE XYZ* tristimulus values into
 
 .. code:: python
 
-    # Plotting the *sRGB* colourspace colour of the *Sample* spectral power distribution.
-    single_colour_swatch_plot(ColourSwatch('Sample', RGB), text_size=32)
-
+    # Plotting the *sRGB* colourspace colour of the *Sample* spectral distribution.
+    plot_single_colour_swatch(
+        ColourSwatch('Sample', RGB),
+        text_parameters={'size': 'x-large'})
 
 
 .. image:: _static/Tutorial_Sample_Swatch.png
@@ -1200,13 +1198,12 @@ We can for instance converts the *CIE XYZ* tristimulus values into
 Generate Colour Rendition Charts
 --------------------------------
 
-In the same way, we can compute values from a colour rendition chart
-sample.
+Likewise, colour values from a colour rendition chart sample can be computed.
 
 .. note::
 
     This is useful for render time checks in the VFX industry,
-    where you can use a synthetic colour chart into your render and
+    where a synthetic colour chart can be inserted into a render to
     ensure the colour management is acting as expected.
 
 
@@ -1218,46 +1215,45 @@ various colour rendition charts:
     # Colour rendition charts chromaticity coordinates.
     print(sorted(colour.characterisation.COLOURCHECKERS.keys()))
 
-    # Colour rendition charts spectral power distributions.
-    print(sorted(colour.characterisation.COLOURCHECKERS_SPDS.keys()))
+    # Colour rendition charts spectral distributions.
+    print(sorted(colour.characterisation.COLOURCHECKERS_SDS.keys()))
 
 
 .. code-block:: text
 
-    [u'BabelColor Average', u'ColorChecker 1976', u'ColorChecker 2005', u'babel_average', u'cc2005']
-    [u'BabelColor Average', u'ColorChecker N Ohta', u'babel_average', u'cc_ohta']
+    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
+    ['BabelColor Average', 'ColorChecker N Ohta', 'babel_average', 'cc_ohta']
 
 
 .. note::
 
-    The above `cc2005`, `babel_average` and `cc_ohta` keys are
-    convenient aliases for respectively `ColorChecker 2005`, `BabelColor
-    Average` and `ColorChecker N Ohta` keys.
+    The above ``cc2005``, ``babel_average`` and ``cc_ohta`` keys are
+    convenient aliases for respectively ``ColorChecker 2005``, ``BabelColor Average``
+    and ``ColorChecker N Ohta`` keys.
 
 
 .. code:: python
 
     # Plotting the *sRGB* colourspace colour of *neutral 5 (.70 D)* patch.
     patch_name = 'neutral 5 (.70 D)'
-    patch_spd = colour.COLOURCHECKERS_SPDS['ColorChecker N Ohta'][patch_name]
-    XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
+    patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
+    XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 
-    single_colour_swatch_plot(ColourSwatch(patch_name.title(), RGB), text_size=32)
-
+    plot_single_colour_swatch(
+        ColourSwatch(patch_name.title(), RGB),
+        text_parameters={'size': 'x-large'})
 
 
 .. image:: _static/Tutorial_Neutral5.png
 
 
 `Colour <https://github.com/colour-science/Colour/>`__ defines a
-convenient plotting object to draw synthetic colour rendition charts
-figures:
+convenient plotting object to draw synthetic colour rendition charts figures:
 
 .. code:: python
 
-    colour_checker_plot(colour_checker='ColorChecker 2005', text_display=False)
-
+    plot_single_colour_checker(colour_checker='ColorChecker 2005', text_parameters={'visible': False})
 
 
 .. image:: _static/Tutorial_Colour_Checker.png
@@ -1266,8 +1262,8 @@ figures:
 Convert to Chromaticity Coordinates
 -----------------------------------
 
-Given a spectral power distribution, chromaticity coordinates *xy* can
-be computed using the ``colour.XYZ_to_xy`` definition:
+Given a spectral distribution, chromaticity coordinates *xy* can be computed
+using the ``colour.XYZ_to_xy`` definition:
 
 .. code:: python
 
@@ -1281,28 +1277,27 @@ be computed using the ``colour.XYZ_to_xy`` definition:
     [ 0.31259787  0.32870029]
 
 
-Chromaticity coordinates *xy* can be plotted into the *CIE 1931
-Chromaticity Diagram*:
+Chromaticity coordinates *xy* can be plotted into the *CIE 1931 Chromaticity Diagram*:
 
 .. code:: python
 
-    import pylab
+    import matplotlib.pyplot as plt
 
     # Plotting the *CIE 1931 Chromaticity Diagram*.
-    # The argument *standalone=False* is passed so that the plot doesn't get displayed
-    # and can be used as a basis for other plots.
-    chromaticity_diagram_plot_CIE1931(standalone=False)
+    # The argument *standalone=False* is passed so that the plot doesn't get
+    # displayed and can be used as a basis for other plots.
+    plot_chromaticity_diagram_CIE1931(standalone=False)
 
     # Plotting the *xy* chromaticity coordinates.
     x, y = xy
-    pylab.plot(x, y, 'o-', color='white')
+    plt.plot(x, y, 'o-', color='white')
 
     # Annotating the plot.
-    pylab.annotate(patch_spd.name.title(),
-                   xy=xy,
-                   xytext=(-50, 30),
-                   textcoords='offset points',
-                   arrowprops=dict(arrowstyle='->', connectionstyle='arc3, rad=-0.2'))
+    plt.annotate(patch_sd.name.title(),
+                 xy=xy,
+                 xytext=(-50, 30),
+                 textcoords='offset points',
+                 arrowprops=dict(arrowstyle='->', connectionstyle='arc3, rad=-0.2'))
 
     # Displaying the plot.
     render(
@@ -1312,15 +1307,13 @@ Chromaticity Diagram*:
         y_tighten=True)
 
 
-
 .. image:: _static/Tutorial_CIE_1931_Chromaticity_Diagram.png
 
 
 And More...
 -----------
 
-We hope that this small introduction has been useful and gave you the
-envy to see more, if you want to explore the API a good place to start
-is the `Jupyter
-Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
+With the hope that this small introduction was useful and gave envy to see more,
+a good place to explore the API further more is the
+`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
 page.

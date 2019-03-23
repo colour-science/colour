@@ -1,5 +1,5 @@
-colour\.utilities\.Structure
-============================
+colour.utilities.Structure
+==========================
 
 .. currentmodule:: colour.utilities
 
@@ -18,20 +18,13 @@ colour\.utilities\.Structure
       ~Structure.copy
       ~Structure.fromkeys
       ~Structure.get
-      ~Structure.has_key
       ~Structure.items
-      ~Structure.iteritems
-      ~Structure.iterkeys
-      ~Structure.itervalues
       ~Structure.keys
       ~Structure.pop
       ~Structure.popitem
       ~Structure.setdefault
       ~Structure.update
       ~Structure.values
-      ~Structure.viewitems
-      ~Structure.viewkeys
-      ~Structure.viewvalues
    
    
 

@@ -51,9 +51,10 @@ CIE L*u*v* Colourspace
     LCHuv_to_Luv
     Luv_to_uv
     Luv_uv_to_xy
+    xy_to_Luv_uv
 
-CIE UCS Colourspace
--------------------
+CIE 1960 UCS Colourspace
+------------------------
 
 ``colour``
 
@@ -66,6 +67,7 @@ CIE UCS Colourspace
     UCS_to_XYZ
     UCS_to_uv
     UCS_uv_to_xy
+    xy_to_UCS_uv
 
 CIE 1964 U*V*W* Colourspace
 ---------------------------
@@ -78,6 +80,7 @@ CIE 1964 U*V*W* Colourspace
     :toctree: generated/
 
     XYZ_to_UVW
+    UVW_to_XYZ
 
 Hunter L,a,b Colour Scale
 -------------------------
@@ -104,10 +107,23 @@ Hunter Rd,a,b Colour Scale
     :toctree: generated/
 
     XYZ_to_Hunter_Rdab
+    Hunter_Rdab_to_XYZ
 
+DIN99 Colourspace
+-----------------
 
-Luo, Cui and Li (2006)
-----------------------
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    Lab_to_DIN99
+    DIN99_to_Lab
+
+CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
+-------------------------------------------------------------------------
 
 ``colour``
 
@@ -123,8 +139,8 @@ Luo, Cui and Li (2006)
     JMh_CIECAM02_to_CAM02UCS
     CAM02UCS_to_JMh_CIECAM02
 
-Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)
--------------------------------------------------------------
+CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
+-------------------------------------------------------------------
 
 ``colour``
 
@@ -154,6 +170,20 @@ IPT Colourspace
     IPT_to_XYZ
     IPT_hue_angle
 
+hdr-CIELAB Colourspace
+----------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_hdr_CIELab
+    hdr_CIELab_to_XYZ
+    HDR_CIELAB_METHODS
+
 hdr-IPT Colourspace
 -------------------
 
@@ -168,8 +198,8 @@ hdr-IPT Colourspace
     hdr_IPT_to_XYZ
     HDR_IPT_METHODS
 
-hdr-CIELAB Colourspace
-----------------------
+OSA UCS Colourspace
+-------------------
 
 ``colour``
 
@@ -178,9 +208,21 @@ hdr-CIELAB Colourspace
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_hdr_CIELab
-    hdr_CIELab_to_XYZ
-    HDR_CIELAB_METHODS
+    XYZ_to_OSA_UCS
+    OSA_UCS_to_XYZ
+
+:math:`JzAzBz` Colourspace
+--------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_JzAzBz
+    JzAzBz_to_XYZ
 
 RGB Colourspace and Transformations
 -----------------------------------
@@ -262,6 +304,7 @@ RGB Colourspaces
     CIE_RGB_COLOURSPACE
     CINEMA_GAMUT_COLOURSPACE
     COLOR_MATCH_RGB_COLOURSPACE
+    DCDM_XYZ_COLOURSPACE
     DCI_P3_COLOURSPACE
     DCI_P3_P_COLOURSPACE
     DON_RGB_4_COLOURSPACE
@@ -270,6 +313,7 @@ RGB Colourspaces
     PROTUNE_NATIVE_COLOURSPACE
     MAX_RGB_COLOURSPACE
     NTSC_COLOURSPACE
+    P3_D65_COLOURSPACE
     PAL_SECAM_COLOURSPACE
     RED_COLOR_COLOURSPACE
     RED_COLOR_2_COLOURSPACE
@@ -291,17 +335,20 @@ RGB Colourspaces
     V_GAMUT_COLOURSPACE
     XTREME_RGB_COLOURSPACE
 
-**Ancillary Objects**
+Colour Component Transfer Functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``colour.models``
+``colour``
 
-.. currentmodule:: colour.models
+.. currentmodule:: colour
 
 .. autosummary::
     :toctree: generated/
 
-    spectral_to_aces_relative_exposure_values
-    ACES_RICD
+    encoding_cctf
+    ENCODING_CCTFS
+    decoding_cctf
+    DECODING_CCTFS
 
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -327,7 +374,6 @@ Opto-Electronic Transfer Functions
 
     oetf_ARIBSTDB67
     oetf_reverse_ARIBSTDB67
-    oetf_DCIP3
     oetf_DICOMGSDF
     oetf_BT2020
     oetf_BT2100_HLG
@@ -355,8 +401,8 @@ Opto-Electronic Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    function_gamma
-    function_linear
+    gamma_function
+    linear_function
 
 Electro-Optical Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -380,7 +426,8 @@ Electro-Optical Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    eotf_DCIP3
+    eotf_DCDM
+    eotf_reverse_DCDM
     eotf_DICOMGSDF
     eotf_BT1886
     eotf_reverse_BT1886
@@ -488,6 +535,29 @@ Log Encoding and Decoding Curves
     log_encoding_ViperLog
     log_decoding_ViperLog
 
+ACES Spectral Conversion
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    sd_to_aces_relative_exposure_values
+
+**Ancillary Objects**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    ACES_RICD
+
 Colour Encodings
 ~~~~~~~~~~~~~~~~
 
@@ -519,6 +589,19 @@ Y'CbCr Colour Encoding
     full_to_legal
     legal_to_full
     CV_range
+
+YCoCg Colour Encoding
+^^^^^^^^^^^^^^^^^^^^^
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_to_YCoCg
+    YCoCg_to_RGB
 
 :math:`IC_TC_P` Colour Encoding
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

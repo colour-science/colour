@@ -1,5 +1,5 @@
-colour\.models\.BETA\_RGB\_COLOURSPACE
-======================================
+colour.models.BETA\_RGB\_COLOURSPACE
+====================================
 
 .. currentmodule:: colour.models
 

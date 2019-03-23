@@ -8,13 +8,13 @@ from colour.utilities import message_box
 
 message_box('Blackbody / Planckian Radiator Computations')
 
-message_box(('Computing the spectral power distribution of a blackbody at '
+message_box(('Computing the spectral distribution of a blackbody at '
              'temperature 5500 kelvin degrees and converting to "CIE XYZ" '
              'tristimulus values.'))
 cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-blackbody_spd = colour.blackbody_spd(5500, cmfs.shape)
-print(blackbody_spd)
-XYZ = colour.spectral_to_XYZ(blackbody_spd, cmfs)
+blackbody_sd = colour.sd_blackbody(5500, cmfs.shape)
+print(blackbody_sd)
+XYZ = colour.sd_to_XYZ(blackbody_sd, cmfs)
 print(XYZ)
 
 print('\n')

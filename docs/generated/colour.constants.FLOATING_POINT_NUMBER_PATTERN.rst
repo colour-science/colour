@@ -1,5 +1,5 @@
-colour\.constants\.FLOATING\_POINT\_NUMBER\_PATTERN
-===================================================
+colour.constants.FLOATING\_POINT\_NUMBER\_PATTERN
+=================================================
 
 .. currentmodule:: colour.constants
 

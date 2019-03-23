@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-LLAB(l:c) Colour Appearance Model
-=================================
+:math:`LLAB(l:c)` Colour Appearance Model
+=========================================
 
-Defines *LLAB(l:c)* colour appearance model objects:
+Defines *:math:`LLAB(l:c)`* colour appearance model objects:
 
 -   :class:`colour.appearance.LLAB_InductionFactors`
 -   :attr:`colour.LLAB_VIEWING_CONDITIONS`
@@ -36,11 +36,13 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.algebra import polar_to_cartesian
-from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
+from colour.algebra import polar_to_cartesian, spow
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              dot_vector, from_range_degrees, to_domain_100,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -59,12 +61,12 @@ __all__ = [
 class LLAB_InductionFactors(
         namedtuple('LLAB_InductionFactors', ('D', 'F_S', 'F_L', 'F_C'))):
     """
-    *LLAB(l:c)* colour appearance model induction factors.
+    *:math:`LLAB(l:c)`* colour appearance model induction factors.
 
     Parameters
     ----------
     D : numeric or array_like
-         *Discounting-the-Illuminant* factor :math:`D` in domain [0, 1].
+         *Discounting-the-Illuminant* factor :math:`D`.
     F_S : numeric or array_like
         Surround induction factor :math:`F_S`.
     F_L : numeric or array_like
@@ -74,9 +76,7 @@ class LLAB_InductionFactors(
 
     References
     ----------
-    -   :cite:`Fairchild2013x`
-    -   :cite:`Luo1996b`
-    -   :cite:`Luo1996c`
+    :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
 
@@ -93,13 +93,11 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
         0.7, 4, 1, 1))
 })
 LLAB_VIEWING_CONDITIONS.__doc__ = """
-Reference *LLAB(l:c)* colour appearance model viewing conditions.
+Reference :math:`LLAB(l:c)` colour appearance model viewing conditions.
 
 References
 ----------
--   :cite:`Fairchild2013x`
--   :cite:`Luo1996b`
--   :cite:`Luo1996c`
+:cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
 
 LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Reference Samples & Images, Average Surround, Subtending > 4',
@@ -156,7 +154,8 @@ class LLAB_ReferenceSpecification(
         namedtuple('LLAB_ReferenceSpecification',
                    ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
     """
-    Defines the *LLAB(l:c)* colour appearance model reference specification.
+    Defines the *:math:`LLAB(l:c)`* colour appearance model reference
+    specification.
 
     This specification has field names consistent with *Fairchild (2013)*
     reference.
@@ -182,17 +181,15 @@ class LLAB_ReferenceSpecification(
 
     References
     ----------
-    -   :cite:`Fairchild2013x`
-    -   :cite:`Luo1996b`
-    -   :cite:`Luo1996c`
+    :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
 
 class LLAB_Specification(
-        namedtuple('LLAB_Specification', ('J', 'C', 'h', 's', 'M', 'HC', 'a',
-                                          'b'))):
+        namedtuple('LLAB_Specification',
+                   ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
     """
-    Defines the *LLAB(l:c)* colour appearance model specification.
+    Defines the *:math:`LLAB(l:c)`* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
     appearance models in :mod:`colour.appearance` but diverge from
@@ -223,9 +220,7 @@ class LLAB_Specification(
 
     References
     ----------
-    -   :cite:`Fairchild2013x`
-    -   :cite:`Luo1996b`
-    -   :cite:`Luo1996c`
+    :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
 
@@ -237,15 +232,14 @@ def XYZ_to_LLAB(
         surround=LLAB_VIEWING_CONDITIONS[
             'Reference Samples & Images, Average Surround, Subtending < 4']):
     """
-    Computes the *LLAB(l:c)* colour appearance model correlates.
+    Computes the *:math:`LLAB(l:c)`* colour appearance model correlates.
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus.
     XYZ_0 : array_like
-        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+        *CIE XYZ* tristimulus values of reference white.
     Y_b : numeric or array_like
         Luminance factor of the background in :math:`cd/m^2`.
     L : numeric or array_like
@@ -256,22 +250,28 @@ def XYZ_to_LLAB(
     Returns
     -------
     LLAB_Specification
-        *LLAB(l:c)* colour appearance model specification.
-
-    Warning
-    -------
-    The output range of that definition is non standard!
+        *:math:`LLAB(l:c)`* colour appearance model specification.
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_0* tristimulus values are in domain [0, 100].
+
+    +--------------------------+-----------------------+---------------+
+    | **Domain**               | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``XYZ``                  | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+    | ``XYZ_0``                | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+
+    +--------------------------+-----------------------+---------------+
+    | **Range**                | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``LLAB_Specification.h`` | [0, 360]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Fairchild2013x`
-    -   :cite:`Luo1996b`
-    -   :cite:`Luo1996c`
+    :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
 
     Examples
     --------
@@ -285,9 +285,9 @@ def XYZ_to_LLAB(
 s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     """
 
-    _X, Y, _Z = tsplit(XYZ)
-    RGB = XYZ_to_RGB_LLAB(XYZ)
-    RGB_0 = XYZ_to_RGB_LLAB(XYZ_0)
+    _X, Y, _Z = tsplit(to_domain_100(XYZ))
+    RGB = XYZ_to_RGB_LLAB(to_domain_100(XYZ))
+    RGB_0 = XYZ_to_RGB_LLAB(to_domain_100(XYZ_0))
 
     # Reference illuminant *CIE Standard Illuminant D Series* *D65*.
     XYZ_0r = np.array([95.05, 100.00, 108.88])
@@ -330,7 +330,8 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # -------------------------------------------------------------------------
     A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
-    return LLAB_Specification(L_L, Ch_L, h_L, s_L, C_L, None, A_L, B_L)
+    return LLAB_Specification(L_L, Ch_L, from_range_degrees(h_L), s_L, C_L,
+                              None, A_L, B_L)
 
 
 def XYZ_to_RGB_LLAB(XYZ):
@@ -356,7 +357,7 @@ def XYZ_to_RGB_LLAB(XYZ):
 
     _X, Y, _Z = tsplit(XYZ)
 
-    Y = tstack((Y, Y, Y))
+    Y = tstack([Y, Y, Y])
     XYZ_n = XYZ / Y
 
     return dot_vector(LLAB_XYZ_TO_RGB_MATRIX, XYZ_n)
@@ -379,7 +380,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     Y : numeric or array_like
         Tristimulus values :math:`Y` of the stimulus.
     D : numeric or array_like, optional
-         *Discounting-the-Illuminant* factor in domain [0, 1].
+         *Discounting-the-Illuminant* factor normalised to domain [0, 1].
 
     Returns
     -------
@@ -399,17 +400,17 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     R, G, B = tsplit(RGB)
     R_0, G_0, B_0 = tsplit(RGB_0)
     R_0r, G_0r, B_0r = tsplit(RGB_0r)
-    Y = np.asarray(Y)
+    Y = as_float_array(Y)
 
-    beta = (B_0 / B_0r) ** 0.0834
+    beta = spow(B_0 / B_0r, 0.0834)
 
     R_r = (D * (R_0r / R_0) + 1 - D) * R
     G_r = (D * (G_0r / G_0) + 1 - D) * G
-    B_r = (D * (B_0r / (B_0 ** beta)) + 1 - D) * (abs(B) ** beta)
+    B_r = (D * (B_0r / spow(B_0, beta)) + 1 - D) * spow(B, beta)
 
-    RGB_r = tstack((R_r, G_r, B_r))
+    RGB_r = tstack([R_r, G_r, B_r])
 
-    Y = tstack((Y, Y, Y))
+    Y = tstack([Y, Y, Y])
 
     XYZ_r = dot_vector(LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
 
@@ -418,7 +419,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
 def f(x, F_S):
     """
-    Defines the nonlinear response function of the *LLAB(l:c)* colour
+    Defines the nonlinear response function of the *:math:`LLAB(l:c)`* colour
     appearance model used to model the nonlinear behaviour of various visual
     responses.
 
@@ -441,13 +442,14 @@ def f(x, F_S):
     array(0.5848125...)
     """
 
-    x = np.asarray(x)
-    F_S = np.asarray(F_S)
+    x = as_float_array(x)
+    F_S = as_float_array(F_S)
 
-    x_m = np.where(x > 0.008856,
-                   x ** (1 / F_S),
-                   ((((0.008856 ** (1 / F_S)) - (16 / 116)) / 0.008856) * x +
-                    (16 / 116)))
+    x_m = np.where(
+        x > 0.008856,
+        spow(x, 1 / F_S),
+        ((spow(0.008856, 1 / F_S) - (16 / 116)) / 0.008856) * x + (16 / 116),
+    )
 
     return x_m
 
@@ -457,7 +459,7 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     Returns opponent colour dimensions from given adapted *CIE XYZ* tristimulus
     values.
 
-    The opponent colour dimensions are based on a modified *CIE L\*a\*b\**
+    The opponent colour dimensions are based on a modified *CIE L\\*a\\*b\\**
     colourspace formulae.
 
     Parameters
@@ -487,19 +489,19 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     """
 
     X, Y, Z = tsplit(XYZ)
-    Y_b = np.asarray(Y_b)
-    F_S = np.asarray(F_S)
-    F_L = np.asarray(F_L)
+    Y_b = as_float_array(Y_b)
+    F_S = as_float_array(F_S)
+    F_L = as_float_array(F_L)
 
     # Account for background lightness contrast.
-    z = 1 + F_L * ((Y_b / 100) ** 0.5)
+    z = 1 + F_L * spow(Y_b / 100, 0.5)
 
-    # Computing modified *CIE L\*a\*b\** colourspace array.
-    L = 116 * (f(Y / 100, F_S) ** z) - 16
+    # Computing modified *CIE L\\*a\\*b\\** colourspace array.
+    L = 116 * spow(f(Y / 100, F_S), z) - 16
     a = 500 * (f(X / 95.05, F_S) - f(Y / 100, F_S))
     b = 200 * (f(Y / 100, F_S) - f(Z / 108.88, F_S))
 
-    Lab = tstack((L, a, b))
+    Lab = tstack([L, a, b])
 
     return Lab
 
@@ -526,8 +528,8 @@ def hue_angle(a, b):
     229.4635727...
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     h_L = np.degrees(np.arctan2(b, a)) % 360
 
@@ -558,10 +560,10 @@ def chroma_correlate(a, b):
     0.0086506...
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
-    c = (a ** 2 + b ** 2) ** 0.5
+    c = spow(a ** 2 + b ** 2, 0.5)
     Ch_L = 25 * np.log(1 + 0.05 * c)
 
     return Ch_L
@@ -597,10 +599,10 @@ def colourfulness_correlate(L, L_L, Ch_L, F_C):
     0.0183832...
     """
 
-    L = np.asarray(L)
-    L_L = np.asarray(L_L)
-    Ch_L = np.asarray(Ch_L)
-    F_C = np.asarray(F_C)
+    L = as_float_array(L)
+    L_L = as_float_array(L_L)
+    Ch_L = as_float_array(Ch_L)
+    F_C = as_float_array(F_C)
 
     S_C = 1 + 0.47 * np.log10(L) - 0.057 * np.log10(L) ** 2
     S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L ** 2
@@ -633,8 +635,8 @@ def saturation_correlate(Ch_L, L_L):
     0.0002314...
     """
 
-    Ch_L = np.asarray(Ch_L)
-    L_L = np.asarray(L_L)
+    Ch_L = as_float_array(Ch_L)
+    L_L = as_float_array(L_L)
 
     S_L = Ch_L / L_L
 
@@ -665,6 +667,6 @@ def final_opponent_signals(C_L, h_L):
     array([-0.0119478..., -0.0139711...])
     """
 
-    AB_L = polar_to_cartesian(tstack((C_L, np.radians(h_L))))
+    AB_L = polar_to_cartesian(tstack([C_L, np.radians(h_L)]))
 
     return AB_L

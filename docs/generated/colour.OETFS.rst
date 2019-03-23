@@ -1,5 +1,5 @@
-colour\.OETFS
-=============
+colour.OETFS
+============
 
 .. currentmodule:: colour
 

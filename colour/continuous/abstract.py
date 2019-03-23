@@ -25,10 +25,10 @@ except ImportError:
     idiv = itruediv
 from six import add_metaclass
 
-from colour.utilities import as_numeric, closest, is_uniform, is_string
+from colour.utilities import as_float, closest, is_uniform, is_string
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -48,8 +48,8 @@ class AbstractContinuousFunction:
     The sub-classes are expected to implement the
     :meth:`colour.continuous.AbstractContinuousFunction.function` method so
     that evaluating the function for any independent domain
-    :math:`x \in \mathbb{R}` variable returns a corresponding range
-    :math:`y \in \mathbb{R}` variable. A conventional implementation adopts an
+    :math:`x \\in\\mathbb{R}` variable returns a corresponding range
+    :math:`y \\in\\mathbb{R}` variable. A conventional implementation adopts an
     interpolating function encapsulated inside an extrapolating function.
     The resulting function independent domain, stored as discrete values in the
     :attr:`colour.continuous.AbstractContinuousFunction.domain` attribute
@@ -529,7 +529,7 @@ class AbstractContinuousFunction:
 
     def __add__(self, a):
         """
-        Implements support for addition, must be reimplemented by sub-classes.
+        Implements support for addition.
 
         Parameters
         ----------
@@ -546,8 +546,7 @@ class AbstractContinuousFunction:
 
     def __iadd__(self, a):
         """
-        Implements support for in-place addition, must be reimplemented by
-        sub-classes.
+        Implements support for in-place addition.
 
         Parameters
         ----------
@@ -564,8 +563,7 @@ class AbstractContinuousFunction:
 
     def __sub__(self, a):
         """
-        Implements support for subtraction, must be reimplemented by
-        sub-classes.
+        Implements support for subtraction.
 
         Parameters
         ----------
@@ -582,8 +580,7 @@ class AbstractContinuousFunction:
 
     def __isub__(self, a):
         """
-        Implements support for in-place subtraction, must be reimplemented by
-        sub-classes.
+        Implements support for in-place subtraction.
 
         Parameters
         ----------
@@ -600,8 +597,7 @@ class AbstractContinuousFunction:
 
     def __mul__(self, a):
         """
-        Implements support for multiplication, must be reimplemented by
-        sub-classes.
+        Implements support for multiplication.
 
         Parameters
         ----------
@@ -618,8 +614,7 @@ class AbstractContinuousFunction:
 
     def __imul__(self, a):
         """
-        Implements support for in-place multiplication, must be reimplemented
-        by sub-classes.
+        Implements support for in-place multiplication.
 
         Parameters
         ----------
@@ -636,8 +631,7 @@ class AbstractContinuousFunction:
 
     def __div__(self, a):
         """
-        Implements support for division, must be reimplemented by
-        sub-classes.
+        Implements support for division.
 
         Parameters
         ----------
@@ -654,8 +648,7 @@ class AbstractContinuousFunction:
 
     def __idiv__(self, a):
         """
-        Implements support for in-place division, must be reimplemented by
-        sub-classes.
+        Implements support for in-place division.
 
         Parameters
         ----------
@@ -675,8 +668,7 @@ class AbstractContinuousFunction:
 
     def __pow__(self, a):
         """
-        Implements support for exponentiation, must be reimplemented by
-        sub-classes.
+        Implements support for exponentiation.
 
         Parameters
         ----------
@@ -693,8 +685,7 @@ class AbstractContinuousFunction:
 
     def __ipow__(self, a):
         """
-        Implements support for in-place exponentiation, must be reimplemented
-        by sub-classes.
+        Implements support for in-place exponentiation.
 
         Parameters
         ----------
@@ -777,7 +768,7 @@ class AbstractContinuousFunction:
 
         n = closest(self.domain, a)
 
-        return as_numeric(np.abs(a - n))
+        return as_float(np.abs(a - n))
 
     def is_uniform(self):
         """
@@ -793,8 +784,7 @@ class AbstractContinuousFunction:
 
     def copy(self):
         """
-        Returns a copy of the sub-class instance, must be reimplemented
-        by sub-classes.
+        Returns a copy of the sub-class instance.
 
         Returns
         -------

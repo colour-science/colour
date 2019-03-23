@@ -1,5 +1,5 @@
-colour\.utilities\.tstack
-=========================
+colour.utilities.tstack
+=======================
 
 .. currentmodule:: colour.utilities
 

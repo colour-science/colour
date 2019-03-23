@@ -6,7 +6,7 @@ Gamma Colour Component Transfer Function
 Defines gamma encoding / decoding colour component transfer function related
 objects:
 
-- :func:`colour.function_gamma`
+- :func:`colour.gamma_function`
 
 See Also
 --------
@@ -19,19 +19,20 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric
+from colour.algebra import spow
+from colour.utilities import as_float_array, as_float
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['function_gamma']
+__all__ = ['gamma_function']
 
 
-def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
+def gamma_function(a, exponent=1, negative_number_handling='Indeterminate'):
     """
     Defines a typical gamma encoding / decoding function.
 
@@ -68,35 +69,33 @@ def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
 
     Examples
     --------
-    >>> function_gamma(0.18, 2.2)  # doctest: +ELLIPSIS
+    >>> gamma_function(0.18, 2.2)  # doctest: +ELLIPSIS
     0.0229932...
-    >>> function_gamma(-0.18, 2.0)  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.0)  # doctest: +ELLIPSIS
     0.0323999...
-    >>> function_gamma(-0.18, 2.2)
+    >>> gamma_function(-0.18, 2.2)
     nan
-    >>> function_gamma(-0.18, 2.2, 'Mirror')  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.2, 'Mirror')  # doctest: +ELLIPSIS
     -0.0229932...
-    >>> function_gamma(-0.18, 2.2, 'Preserve')  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.2, 'Preserve')  # doctest: +ELLIPSIS
     -0.1...
-    >>> function_gamma(-0.18, 2.2, 'Clamp')  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.2, 'Clamp')  # doctest: +ELLIPSIS
     0.0
     """
 
-    a = np.asarray(a)
-    exponent = np.asarray(exponent)
+    a = as_float_array(a)
+    exponent = as_float_array(exponent)
 
     negative_number_handling = negative_number_handling.lower()
     if negative_number_handling == 'indeterminate':
-        return as_numeric(a ** exponent)
+        return as_float(a ** exponent)
     elif negative_number_handling == 'mirror':
-        a = np.atleast_1d(a)
-        a_g = np.sign(a) * np.abs(a) ** exponent
-        a_g[a == 0] = 0
-        return as_numeric(a_g)
+        return spow(a, exponent)
     elif negative_number_handling == 'preserve':
-        return as_numeric(np.where(a <= 0, a, a ** exponent))
+        return as_float(np.where(a <= 0, a, a ** exponent))
     elif negative_number_handling == 'clamp':
-        return as_numeric(np.where(a <= 0, 0, a ** exponent))
+        return as_float(np.where(a <= 0, 0, a ** exponent))
     else:
-        raise ValueError('Undefined negative number handling method: "{0}".'.
-                         format(negative_number_handling))
+        raise ValueError(
+            'Undefined negative number handling method: "{0}".'.format(
+                negative_number_handling))

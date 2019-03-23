@@ -1,5 +1,5 @@
-colour\.oetf\_reverse
-=====================
+colour.oetf\_reverse
+====================
 
 .. currentmodule:: colour
 

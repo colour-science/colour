@@ -6,24 +6,33 @@ Invoke - Tasks
 
 from __future__ import unicode_literals
 
+import sys
+if sys.version_info[:2] >= (3, 2):
+    import biblib.bib
+import fnmatch
+import glob
 import os
 import re
+import shutil
+import tempfile
 from invoke import task
 
 import colour
-from colour.utilities import message_box
+from colour import read_image
+from colour.utilities import message_box, metric_psnr
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APPLICATION_NAME', 'PYTHON_PACKAGE_NAME', 'PYPI_PACKAGE_NAME', 'clean',
-    'formatting', 'tests', 'quality', 'examples', 'docs', 'todo', 'preflight',
-    'build', 'virtualise', 'tag', 'release', 'sha256'
+    'APPLICATION_NAME', 'PYTHON_PACKAGE_NAME', 'PYPI_PACKAGE_NAME',
+    'BIBLIOGRAPHY_NAME', 'clean', 'formatting', 'tests', 'quality', 'examples',
+    'docs', 'todo', 'preflight', 'build', 'virtualise', 'tag', 'release',
+    'sha256'
 ]
 
 APPLICATION_NAME = colour.__application_name__
@@ -31,6 +40,8 @@ APPLICATION_NAME = colour.__application_name__
 PYTHON_PACKAGE_NAME = colour.__name__
 
 PYPI_PACKAGE_NAME = 'colour-science'
+
+BIBLIOGRAPHY_NAME = 'BIBLIOGRAPHY.bib'
 
 
 @task
@@ -68,7 +79,7 @@ def clean(ctx, docs=True, bytecode=False):
 
 
 @task
-def formatting(ctx, yapf=False, asciify=True):
+def formatting(ctx, yapf=False, asciify=True, bibtex=True):
     """
     Formats the codebase with *Yapf* and converts unicode characters to ASCII.
 
@@ -80,6 +91,8 @@ def formatting(ctx, yapf=False, asciify=True):
         Whether to format the codebase with *Yapf*.
     asciify : bool, optional
         Whether to convert unicode characters to ASCII.
+    bibtex : bool, optional
+        Whether to cleanup the *BibTeX* file.
 
     Returns
     -------
@@ -89,12 +102,32 @@ def formatting(ctx, yapf=False, asciify=True):
 
     if yapf:
         message_box('Formatting codebase with "Yapf"...')
-        ctx.run('yapf -p -i -r .')
+        ctx.run('yapf -p -i -r --exclude \'.git\' .')
 
     if asciify:
         message_box('Converting unicode characters to ASCII...')
         with ctx.cd('utilities'):
             ctx.run('./unicode_to_ascii.py')
+
+    if bibtex and sys.version_info[:2] >= (3, 2):
+        message_box('Cleaning up "BibTeX" file...')
+        bibtex_path = BIBLIOGRAPHY_NAME
+        with open(bibtex_path) as bibtex_file:
+            bibtex = biblib.bib.Parser().parse(
+                bibtex_file.read()).get_entries()
+
+        for entry in sorted(bibtex.values(), key=lambda x: x.key):
+            try:
+                del entry['file']
+            except KeyError:
+                pass
+            for key, value in entry.items():
+                entry[key] = re.sub('(?<!\\\\)\\&', '\\&', value)
+
+        with open(bibtex_path, 'w') as bibtex_file:
+            for entry in bibtex.values():
+                bibtex_file.write(entry.to_bib())
+                bibtex_file.write('\n')
 
 
 @task
@@ -176,25 +209,24 @@ def examples(ctx, plots=False):
 
     message_box('Running examples...')
 
-    import fnmatch
-    import os
-
-    for root, dirnames, filenames in os.walk(
+    for root, _dirnames, filenames in os.walk(
             os.path.join(PYTHON_PACKAGE_NAME, 'examples')):
         for filename in fnmatch.filter(filenames, '*.py'):
             if not plots and ('plotting' in root or
-                              'examples_interpolation' in filename):
+                              'examples_interpolation' in filename or
+                              'examples_contrast' in filename):
                 continue
 
             if plots and ('plotting' not in root and
-                          'examples_interpolation' not in filename):
+                          'examples_interpolation' not in filename and
+                          'examples_contrast' not in filename):
                 continue
 
             ctx.run('python {0}'.format(os.path.join(root, filename)))
 
 
 @task
-def docs(ctx, html=True, pdf=True):
+def docs(ctx, plots=True, html=True, pdf=True):
     """
     Builds the documentation.
 
@@ -202,6 +234,8 @@ def docs(ctx, html=True, pdf=True):
     ----------
     ctx : invoke.context.Context
         Context.
+    plots : bool, optional
+        Whether to generate the documentation plots.
     html : bool, optional
         Whether to build the *HTML* documentation.
     pdf : bool, optional
@@ -212,6 +246,33 @@ def docs(ctx, html=True, pdf=True):
     bool
         Task success.
     """
+
+    if plots:
+        temporary_directory = tempfile.mkdtemp()
+        test_directory = os.path.join('docs', '_static')
+        reference_directory = os.path.join(temporary_directory, '_static')
+        try:
+            shutil.copytree(test_directory, reference_directory)
+            similar_plots = []
+            with ctx.cd('utilities'):
+                message_box('Generating plots...')
+                ctx.run('./generate_plots.py')
+
+                png_files = glob.glob('{0}/*.png'.format(reference_directory))
+                for reference_png_file in png_files:
+                    test_png_file = os.path.join(
+                        test_directory, os.path.basename(reference_png_file))
+                    psnr = metric_psnr(
+                        read_image(str(reference_png_file))[::3, ::3],
+                        read_image(str(test_png_file))[::3, ::3])
+                    if psnr > 70:
+                        similar_plots.append(test_png_file)
+            with ctx.cd('docs/_static'):
+                for similar_plot in similar_plots:
+                    ctx.run('git checkout -- {0}'.format(
+                        os.path.basename(similar_plot)))
+        finally:
+            shutil.rmtree(temporary_directory)
 
     with ctx.prefix('export COLOUR_SCIENCE_DOCUMENTATION_BUILD=True'):
         with ctx.cd('docs'):
@@ -314,7 +375,7 @@ def virtualise(ctx, tests=True):
         ctx.run('virtualenv staging')
         with ctx.cd('{0}-*'.format(PYPI_PACKAGE_NAME)):
             ctx.run('pwd')
-            ctx.run('{0} install numpy==1.13.3'.format(pip_binary))
+            ctx.run('{0} install numpy'.format(pip_binary))
             ctx.run('{0} install -e .'.format(pip_binary))
             ctx.run('{0} install matplotlib'.format(pip_binary))
             ctx.run('{0} install nose'.format(pip_binary))
@@ -326,7 +387,7 @@ def virtualise(ctx, tests=True):
 @task
 def tag(ctx):
     """
-    Tags the repository accordingly to defined version using *git-flow*.
+    Tags the repository according to defined version using *git-flow*.
 
     Parameters
     ----------
@@ -388,8 +449,8 @@ def release(ctx):
 
     message_box('Releasing...')
     with ctx.cd('dist'):
-        ctx.run('twine upload dist/*.tar.gz')
-        ctx.run('twine upload dist/*.whl')
+        ctx.run('twine upload *.tar.gz')
+        ctx.run('twine upload *.whl')
 
 
 @task

@@ -57,7 +57,7 @@ References
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     CMCCAT2000. In Computational Colour Science Using MATLAB
     (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
--   :cite:`Wikipediabt` : Wikipedia. (n.d.). CAT02. Retrieved February 24,
+-   :cite:`Wikipedia2007` : Wikipedia. (2007). CAT02. Retrieved February 24,
     2014, from http://en.wikipedia.org/wiki/CIECAM02#CAT02
 """
 
@@ -68,7 +68,7 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -80,13 +80,13 @@ __all__ = [
     'CAT02_BRILL_CAT', 'BS_CAT', 'BS_PC_CAT', 'CHROMATIC_ADAPTATION_TRANSFORMS'
 ]
 
-XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
+XYZ_SCALING_CAT = np.array(np.identity(3)).reshape([3, 3])
 """
 *XYZ Scaling* chromatic adaptation transform.
 
 References
 ----------
--   :cite:`Lindbloom2009g`
+:cite:`Lindbloom2009g`
 
 XYZ_SCALING_CAT : array_like, (3, 3)
 """
@@ -101,7 +101,7 @@ VON_KRIES_CAT = np.array([
 
 References
 ----------
--   :cite:`Lindbloom2009g`
+:cite:`Lindbloom2009g`
 
 VON_KRIES_CAT : array_like, (3, 3)
 """
@@ -116,7 +116,7 @@ BRADFORD_CAT = np.array([
 
 References
 ----------
--   :cite:`Lindbloom2009g`
+:cite:`Lindbloom2009g`
 
 BRADFORD_CAT : array_like, (3, 3)
 """
@@ -131,7 +131,7 @@ SHARP_CAT = np.array([
 
 References
 ----------
--   :cite:`Bianco2010a`
+:cite:`Bianco2010a`
 
 SHARP_CAT : array_like, (3, 3)
 """
@@ -146,7 +146,7 @@ FAIRCHILD_CAT = np.array([
 
 References
 ----------
--   :cite:`Fairchildb`
+:cite:`Fairchildb`
 
 FAIRCHILD_CAT : array_like, (3, 3)
 """
@@ -161,7 +161,7 @@ CMCCAT97_CAT = np.array([
 
 References
 ----------
--   :cite:`Westland2012g`
+:cite:`Westland2012g`
 
 CMCCAT97_CAT : array_like, (3, 3)
 """
@@ -176,7 +176,7 @@ CMCCAT2000_CAT = np.array([
 
 References
 ----------
--   :cite:`Westland2012k`
+:cite:`Westland2012k`
 
 CMCCAT2000_CAT : array_like, (3, 3)
 """
@@ -191,7 +191,7 @@ CAT02_CAT = np.array([
 
 References
 ----------
--   :cite:`Wikipediabt`
+:cite:`Wikipedia2007`
 
 CAT02_CAT : array_like, (3, 3)
 """
@@ -207,8 +207,7 @@ transform.
 
 References
 ----------
--   :cite:`Brill2008a`
--   :cite:`Li2007e`
+:cite:`Brill2008a`, :cite:`Li2007e`
 
 CAT02_BRILL_CAT : array_like, (3, 3)
 """
@@ -223,7 +222,7 @@ BS_CAT = np.array([
 
 References
 ----------
--   :cite:`Bianco2010a`
+:cite:`Bianco2010a`
 
 BS_CAT : array_like, (3, 3)
 """
@@ -238,7 +237,7 @@ BS_PC_CAT = np.array([
 
 References
 ----------
--   :cite:`Bianco2010a`
+:cite:`Bianco2010a`
 
 BS_PC_CAT : array_like, (3, 3)
 
@@ -265,14 +264,9 @@ Supported chromatic adaptation transforms.
 
 References
 ----------
--   :cite:`Bianco2010a`
--   :cite:`Brill2008a`
--   :cite:`Fairchildb`
--   :cite:`Li2007e`
--   :cite:`Lindbloom2009g`
--   :cite:`Westland2012g`
--   :cite:`Westland2012k`
--   :cite:`Wikipediabt`
+:cite:`Bianco2010a`, :cite:`Brill2008a`, :cite:`Fairchildb`, :cite:`Li2007e`,
+:cite:`Lindbloom2009g`, :cite:`Westland2012g`, :cite:`Westland2012k`,
+:cite:`Wikipedia2007`
 
 CHROMATIC_ADAPTATION_TRANSFORMS : CaseInsensitiveMapping
     **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,

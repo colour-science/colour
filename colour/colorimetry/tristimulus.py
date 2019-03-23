@@ -6,11 +6,15 @@ Tristimulus Values
 Defines objects for tristimulus values computation from spectral data:
 
 -   :func:`colour.colorimetry.tristimulus_weighting_factors_ASTME202211`
--   :func:`colour.colorimetry.spectral_to_XYZ_integration`
+-   :func:`colour.colorimetry.sd_to_XYZ_integration`
 -   :func:`colour.colorimetry.\
-spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
--   :func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`
--   :func:`colour.spectral_to_XYZ`
+sd_to_XYZ_tristimulus_weighting_factors_ASTME30815`
+-   :func:`colour.colorimetry.sd_to_XYZ_ASTME30815`
+-   :attr:`colour.SD_TO_XYZ_METHODS`
+-   :func:`colour.sd_to_XYZ`
+-   :func:`colour.colorimetry.multi_sds_to_XYZ_integration`
+-   :attr:`colour.MULTI_SD_TO_XYZ_METHODS`
+-   :func:`colour.multi_sds_to_XYZ`
 -   :func:`colour.wavelength_to_XYZ`
 
 The default implementation is based on practise *ASTM E308-15* method.
@@ -34,12 +38,14 @@ import numpy as np
 
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
-                                STANDARD_OBSERVERS_CMFS, ones_spd)
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs, tsplit,
-                              warning)
+                                STANDARD_OBSERVERS_CMFS, sd_ones)
+from colour.constants import DEFAULT_INT_DTYPE
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              filter_kwargs, from_range_100, runtime_warning,
+                              tsplit)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -48,11 +54,11 @@ __status__ = 'Production'
 __all__ = [
     'ASTME30815_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
     'tristimulus_weighting_factors_ASTME202211',
-    'adjust_tristimulus_weighting_factors_ASTME30815',
-    'spectral_to_XYZ_integration',
-    'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-    'spectral_to_XYZ_ASTME30815', 'SPECTRAL_TO_XYZ_METHODS', 'spectral_to_XYZ',
-    'wavelength_to_XYZ'
+    'adjust_tristimulus_weighting_factors_ASTME30815', 'sd_to_XYZ_integration',
+    'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+    'sd_to_XYZ_ASTME30815', 'SD_TO_XYZ_METHODS', 'sd_to_XYZ',
+    'multi_sds_to_XYZ_integration', 'MULTI_SD_TO_XYZ_METHODS',
+    'multi_sds_to_XYZ', 'wavelength_to_XYZ'
 ]
 
 ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
@@ -61,7 +67,7 @@ Shape for *ASTM E308-15* practise: (360, 780, 1).
 
 References
 ----------
--   :cite:`ASTMInternational2015b`
+:cite:`ASTMInternational2015b`
 
 ASTME30815_PRACTISE_SHAPE : SpectralShape
 """
@@ -92,7 +98,7 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
 
     References
     ----------
-    -   :cite:`ASTMInternational2011a`
+    :cite:`ASTMInternational2011a`
 
     Examples
     --------
@@ -134,13 +140,13 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
         r_n += 1
         d = 4
 
-    lica = _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica] = (np.asarray(
-        [lagrange_coefficients(r, d) for r in r_n]))
+    lica = _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica] = (
+        as_float_array([lagrange_coefficients(r, d) for r in r_n]))
 
     return lica
 
 
-def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
+def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape, k=None):
     """
     Returns a table of tristimulus weighting factors for given colour matching
     functions and illuminant using practise *ASTM E2022-11* method.
@@ -152,10 +158,25 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     ----------
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution
+        Illuminant spectral distribution.
     shape : SpectralShape
         Shape used to build the table, only the interval is needed.
+    k : numeric, optional
+        Normalisation constant :math:`k`. For reflecting or transmitting object
+        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
+        which the spectral reflectance factor :math:`R(\\lambda)` of the object
+        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
+        the object is equal to unity for all wavelengths. For self-luminous
+        objects and illuminants, the constants :math:`k` is usually chosen on
+        the grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be numerically
+        equal to the absolute value of a photometric quantity, the constant,
+        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
+        maximum spectral luminous efficacy (which is equal to
+        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
+        be the spectral concentration of the radiometric quantity corresponding
+        to the photometric quantity required.
 
     Returns
     -------
@@ -192,17 +213,15 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
     References
     ----------
-    -   :cite:`ASTMInternational2011a`
+    :cite:`ASTMInternational2011a`
 
     Examples
     --------
-    >>> from colour import (CMFS, CIE_standard_illuminant_A_function,
-    ...     SpectralPowerDistribution, SpectralShape, numpy_print_options)
+    >>> from colour import (CMFS, sd_CIE_standard_illuminant_A,
+    ...     SpectralDistribution, SpectralShape)
+    >>> from colour.utilities import numpy_print_options
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-    >>> wl = cmfs.shape.range()
-    >>> A = SpectralPowerDistribution(
-    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
-    ...     name='A (360, 830, 1)')
+    >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
     >>> with numpy_print_options(suppress=True):
     ...     tristimulus_weighting_factors_ASTME202211(
     ...         cmfs, A, SpectralShape(360, 830, 20))
@@ -244,14 +263,14 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     if _TRISTIMULUS_WEIGHTING_FACTORS_CACHE is None:
         _TRISTIMULUS_WEIGHTING_FACTORS_CACHE = CaseInsensitiveMapping()
 
-    name_twf = ', '.join((cmfs.name, illuminant.name, str(shape)))
+    name_twf = ', '.join((cmfs.name, illuminant.name, str(shape), str(k)))
     if name_twf in _TRISTIMULUS_WEIGHTING_FACTORS_CACHE:
         return _TRISTIMULUS_WEIGHTING_FACTORS_CACHE[name_twf]
 
     Y = cmfs.values
     S = illuminant.values
 
-    interval_i = np.int_(shape.interval)
+    interval_i = DEFAULT_INT_DTYPE(shape.interval)
     W = S[::interval_i, np.newaxis] * Y[::interval_i, :]
 
     # First and last measurement intervals *Lagrange Coefficients*.
@@ -269,6 +288,9 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     # Intervals count.
     i_c = W.shape[0]
     i_cm = i_c - 1
+
+    # "k" is used as index in the nested loop.
+    k_n = k
 
     for i in range(3):
         # First interval.
@@ -292,10 +314,11 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
                 W[j + 3, i] = W[j + 3, i] + c_b[k, 3] * S[w_i] * Y[w_i, i]
 
         # Extrapolation of potential incomplete interval.
-        for j in range(int(w_c - ((w_c - 1) % interval_i)), w_c, 1):
+        for j in range(
+                DEFAULT_INT_DTYPE(w_c - ((w_c - 1) % interval_i)), w_c, 1):
             W[i_cm, i] = W[i_cm, i] + S[j] * Y[j, i]
 
-    W *= 100 / np.sum(W, axis=0)[1]
+    W *= 100 / np.sum(W, axis=0)[1] if k_n is None else k_n
 
     _TRISTIMULUS_WEIGHTING_FACTORS_CACHE[name_twf] = W
 
@@ -327,18 +350,15 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
     References
     ----------
-    -   :cite:`ASTMInternational2015b`
+    :cite:`ASTMInternational2015b`
 
     Examples
     --------
-    >>> from colour import (CMFS, CIE_standard_illuminant_A_function,
-    ...     SpectralPowerDistribution, SpectralShape)
+    >>> from colour import (CMFS, sd_CIE_standard_illuminant_A,
+    ...     SpectralDistribution, SpectralShape)
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-    >>> wl = cmfs.shape.range()
-    >>> A = SpectralPowerDistribution(
-    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
-    ...     name='A (360, 830, 1)')
+    >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
     >>> W = tristimulus_weighting_factors_ASTME202211(
     ...     cmfs, A, SpectralShape(360, 830, 20))
     >>> with numpy_print_options(suppress=True):
@@ -365,57 +385,76 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
     W = np.copy(W)
 
-    start_index = int((shape_t.start - shape_r.start) / shape_r.interval)
+    start_index = DEFAULT_INT_DTYPE(
+        (shape_t.start - shape_r.start) / shape_r.interval)
     for i in range(start_index):
         W[start_index] += W[i]
 
-    end_index = int((shape_r.end - shape_t.end) / shape_r.interval)
+    end_index = DEFAULT_INT_DTYPE(
+        (shape_r.end - shape_t.end) / shape_r.interval)
     for i in range(end_index):
         W[-end_index - 1] += W[-i - 1]
 
     return W[start_index:-end_index or None, ...]
 
 
-def spectral_to_XYZ_integration(
-        spd,
+def sd_to_XYZ_integration(
+        sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(STANDARD_OBSERVERS_CMFS[
-            'CIE 1931 2 Degree Standard Observer'].shape)):
+        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
+            'CIE 1931 2 Degree Standard Observer'].shape),
+        k=None):
     """
-    Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant according to
-    classical integration method.
+    Converts given spectral distribution to *CIE XYZ* tristimulus values
+    using given colour matching functions and illuminant according to classical
+    integration method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
+    k : numeric, optional
+        Normalisation constant :math:`k`. For reflecting or transmitting object
+        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
+        which the spectral reflectance factor :math:`R(\\lambda)` of the object
+        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
+        the object is equal to unity for all wavelengths. For self-luminous
+        objects and illuminants, the constants :math:`k` is usually chosen on
+        the grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be numerically
+        equal to the absolute value of a photometric quantity, the constant,
+        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
+        maximum spectral luminous efficacy (which is equal to
+        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
+        be the spectral concentration of the radiometric quantity corresponding
+        to the photometric quantity required.
 
     Returns
     -------
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Wyszecki2000bf`
+    :cite:`Wyszecki2000bf`
 
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -435,29 +474,31 @@ def spectral_to_XYZ_integration(
     ...     680: 0.2397,
     ...     700: 0.2852
     ... }
-    >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
-    >>> spectral_to_XYZ_integration(spd, cmfs, illuminant)
+    >>> sd = SpectralDistribution(data)
+    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> sd_to_XYZ_integration(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
-    array([ 11.5296285...,   9.9499467...,   4.7066079...])
+    array([ 10.8401846...,   9.6837311...,   6.2120912...])
     """
 
     if illuminant.shape != cmfs.shape:
-        warning('Aligning "{0}" illuminant shape to "{1}" colour matching '
-                'functions shape.'.format(illuminant.name, cmfs.name))
+        runtime_warning(
+            'Aligning "{0}" illuminant shape to "{1}" colour matching '
+            'functions shape.'.format(illuminant.name, cmfs.name))
         illuminant = illuminant.copy().align(cmfs.shape)
 
-    if spd.shape != cmfs.shape:
-        warning('Aligning "{0}" spectral power distribution shape to "{1}" '
-                'colour matching functions shape.'.format(spd.name, cmfs.name))
-        spd = spd.copy().align(cmfs.shape)
+    if sd.shape != cmfs.shape:
+        runtime_warning('Aligning "{0}" spectral distribution shape to "{1}" '
+                        'colour matching functions shape.'.format(
+                            sd.name, cmfs.name))
+        sd = sd.copy().align(cmfs.shape)
 
     S = illuminant.values
     x_bar, y_bar, z_bar = tsplit(cmfs.values)
-    R = spd.values
+    R = sd.values
     dw = cmfs.shape.interval
 
-    k = 100 / (np.sum(y_bar * S) * dw)
+    k = 100 / (np.sum(y_bar * S) * dw) if k is None else k
 
     X_p = R * x_bar * S * dw
     Y_p = R * y_bar * S * dw
@@ -465,49 +506,65 @@ def spectral_to_XYZ_integration(
 
     XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
 
-    return XYZ
+    return from_range_100(XYZ)
 
 
-def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-        spd,
+def sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+        sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE)):
+        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
+        k=None):
     """
-    Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant using a table
-    of tristimulus weighting factors according to practise
-    *ASTM E308-15* method.
+    Converts given spectral distribution to *CIE XYZ* tristimulus values
+    using given colour matching functions and illuminant using a table of
+    tristimulus weighting factors according to practise *ASTM E308-15* method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
+    k : numeric, optional
+        Normalisation constant :math:`k`. For reflecting or transmitting object
+        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
+        which the spectral reflectance factor :math:`R(\\lambda)` of the object
+        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
+        the object is equal to unity for all wavelengths. For self-luminous
+        objects and illuminants, the constants :math:`k` is usually chosen on
+        the grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be numerically
+        equal to the absolute value of a photometric quantity, the constant,
+        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
+        maximum spectral luminous efficacy (which is equal to
+        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
+        be the spectral concentration of the radiometric quantity corresponding
+        to the photometric quantity required.
 
     Returns
     -------
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`ASTMInternational2015b`
+    :cite:`ASTMInternational2015b`
 
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -527,70 +584,87 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ...     680: 0.2397,
     ...     700: 0.2852
     ... }
-    >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
-    >>> spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-    ...     spd, cmfs, illuminant)  # doctest: +ELLIPSIS
-    array([ 11.5296311...,   9.9505845...,   4.7098037...])
+    >>> sd = SpectralDistribution(data)
+    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+    ...     sd, cmfs, illuminant)  # doctest: +ELLIPSIS
+    array([ 10.8402899...,   9.6843539...,   6.2160858...])
     """
 
     if illuminant.shape != cmfs.shape:
-        warning('Aligning "{0}" illuminant shape to "{1}" colour matching '
-                'functions shape.'.format(illuminant.name, cmfs.name))
+        runtime_warning(
+            'Aligning "{0}" illuminant shape to "{1}" colour matching '
+            'functions shape.'.format(illuminant.name, cmfs.name))
         illuminant = illuminant.copy().align(cmfs.shape)
 
-    if spd.shape.boundaries != cmfs.shape.boundaries:
-        warning('Trimming "{0}" spectral power distribution shape to "{1}" '
-                'colour matching functions shape.'.format(
-                    illuminant.name, cmfs.name))
-        spd = spd.copy().trim(cmfs.shape)
+    if sd.shape.boundaries != cmfs.shape.boundaries:
+        runtime_warning('Trimming "{0}" spectral distribution shape to "{1}" '
+                        'colour matching functions shape.'.format(
+                            illuminant.name, cmfs.name))
+        sd = sd.copy().trim(cmfs.shape)
 
     W = tristimulus_weighting_factors_ASTME202211(
         cmfs, illuminant,
-        SpectralShape(cmfs.shape.start, cmfs.shape.end, spd.shape.interval))
+        SpectralShape(cmfs.shape.start, cmfs.shape.end, sd.shape.interval), k)
     start_w = cmfs.shape.start
-    end_w = cmfs.shape.start + spd.shape.interval * (W.shape[0] - 1)
+    end_w = cmfs.shape.start + sd.shape.interval * (W.shape[0] - 1)
     W = adjust_tristimulus_weighting_factors_ASTME30815(
-        W, SpectralShape(start_w, end_w, spd.shape.interval), spd.shape)
-    R = spd.values
+        W, SpectralShape(start_w, end_w, sd.shape.interval), sd.shape)
+    R = sd.values
 
     XYZ = np.sum(W * R[..., np.newaxis], axis=0)
 
-    return XYZ
+    return from_range_100(XYZ)
 
 
-def spectral_to_XYZ_ASTME30815(
-        spd,
+def sd_to_XYZ_ASTME30815(
+        sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
+        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
         use_practice_range=True,
         mi_5nm_omission_method=True,
-        mi_20nm_interpolation_method=True):
+        mi_20nm_interpolation_method=True,
+        k=None):
     """
-    Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant according to
-    practise *ASTM E308-15* method.
+    Converts given spectral distribution to *CIE XYZ* tristimulus values using
+    given colour matching functions and illuminant according to practise
+    *ASTM E308-15* method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
     use_practice_range : bool, optional
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional
-        5 nm measurement intervals spectral power distribution conversion to
+        5 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a 5 nm version of the colour matching
         functions instead of a table of tristimulus weighting factors.
     mi_20nm_interpolation_method : bool, optional
-        20 nm measurement intervals spectral power distribution conversion to
+        20 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.
+    k : numeric, optional
+        Normalisation constant :math:`k`. For reflecting or transmitting object
+        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
+        which the spectral reflectance factor :math:`R(\\lambda)` of the object
+        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
+        the object is equal to unity for all wavelengths. For self-luminous
+        objects and illuminants, the constants :math:`k` is usually chosen on
+        the grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be numerically
+        equal to the absolute value of a photometric quantity, the constant,
+        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
+        maximum spectral luminous efficacy (which is equal to
+        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
+        be the spectral concentration of the radiometric quantity corresponding
+        to the photometric quantity required.
 
     Returns
     -------
@@ -608,20 +682,24 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
         Considering the above, one should be mindful that using similar colour
         matching functions and illuminant names but with different spectral
         data will lead to unexpected behaviour.
-    -   The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`ASTMInternational2015b`
+    :cite:`ASTMInternational2015b`
 
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -641,14 +719,14 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     ...     680: 0.2397,
     ...     700: 0.2852
     ... }
-    >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
-    >>> spectral_to_XYZ_ASTME30815(spd, cmfs, illuminant)
+    >>> sd = SpectralDistribution(data)
+    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> sd_to_XYZ_ASTME30815(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
-    array([ 11.5290265...,   9.9502091...,   4.7098882...])
+    array([ 10.8399031...,   9.6840375...,   6.2164159...])
     """
 
-    if spd.shape.interval not in (1, 5, 10, 20):
+    if sd.shape.interval not in (1, 5, 10, 20):
         raise ValueError(
             'Tristimulus values conversion from spectral data according to '
             'practise "ASTM E308-15" should be performed on spectral data '
@@ -657,135 +735,150 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     if use_practice_range:
         cmfs = cmfs.copy().trim(ASTME30815_PRACTISE_SHAPE)
 
-    method = spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815
-    if spd.shape.interval == 1:
-        method = spectral_to_XYZ_integration
-    elif spd.shape.interval == 5 and mi_5nm_omission_method:
+    method = sd_to_XYZ_tristimulus_weighting_factors_ASTME30815
+    if sd.shape.interval == 1:
+        method = sd_to_XYZ_integration
+    elif sd.shape.interval == 5 and mi_5nm_omission_method:
         if cmfs.shape.interval != 5:
             cmfs = cmfs.copy().interpolate(SpectralShape(interval=5))
-        method = spectral_to_XYZ_integration
-    elif spd.shape.interval == 20 and mi_20nm_interpolation_method:
-        spd = spd.copy()
-        if spd.shape.boundaries != cmfs.shape.boundaries:
-            warning(
-                'Trimming "{0}" spectral power distribution shape to "{1}" '
+        method = sd_to_XYZ_integration
+    elif sd.shape.interval == 20 and mi_20nm_interpolation_method:
+        sd = sd.copy()
+        if sd.shape.boundaries != cmfs.shape.boundaries:
+            runtime_warning(
+                'Trimming "{0}" spectral distribution shape to "{1}" '
                 'colour matching functions shape.'.format(
                     illuminant.name, cmfs.name))
-            spd.trim(cmfs.shape)
+            sd.trim(cmfs.shape)
 
         # Extrapolation of additional 20nm padding intervals.
-        spd.align(SpectralShape(spd.shape.start - 20, spd.shape.end + 20, 10))
+        sd.align(SpectralShape(sd.shape.start - 20, sd.shape.end + 20, 10))
         for i in range(2):
-            spd[spd.wavelengths[i]] = (
-                3 * spd.values[i + 2] -
-                3 * spd.values[i + 4] + spd.values[i + 6])  # yapf: disable
-            i_e = len(spd.domain) - 1 - i
-            spd[spd.wavelengths[i_e]] = (
-                spd.values[i_e - 6] - 3 * spd.values[i_e - 4] +
-                3 * spd.values[i_e - 2])
+            sd[sd.wavelengths[i]] = (
+                3 * sd.values[i + 2] -
+                3 * sd.values[i + 4] + sd.values[i + 6])  # yapf: disable
+            i_e = len(sd.domain) - 1 - i
+            sd[sd.wavelengths[i_e]] = (
+                sd.values[i_e - 6] - 3 * sd.values[i_e - 4] +
+                3 * sd.values[i_e - 2])
 
         # Interpolating every odd numbered values.
         # TODO: Investigate code vectorisation.
-        for i in range(3, len(spd.domain) - 3, 2):
-            spd[spd.wavelengths[i]] = (
-                -0.0625 * spd.values[i - 3] + 0.5625 * spd.values[i - 1] +
-                0.5625 * spd.values[i + 1] - 0.0625 * spd.values[i + 3])
+        for i in range(3, len(sd.domain) - 3, 2):
+            sd[sd.wavelengths[i]] = (
+                -0.0625 * sd.values[i - 3] + 0.5625 * sd.values[i - 1] +
+                0.5625 * sd.values[i + 1] - 0.0625 * sd.values[i + 3])
 
         # Discarding the additional 20nm padding intervals.
-        spd.trim(SpectralShape(spd.shape.start + 20, spd.shape.end - 20, 10))
+        sd.trim(SpectralShape(sd.shape.start + 20, sd.shape.end - 20, 10))
 
-    XYZ = method(spd, cmfs, illuminant)
+    XYZ = method(sd, cmfs, illuminant, k=k)
 
     return XYZ
 
 
-SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping({
-    'ASTM E308-15': spectral_to_XYZ_ASTME30815,
-    'Integration': spectral_to_XYZ_integration
+SD_TO_XYZ_METHODS = CaseInsensitiveMapping({
+    'ASTM E308-15': sd_to_XYZ_ASTME30815,
+    'Integration': sd_to_XYZ_integration
 })
-SPECTRAL_TO_XYZ_METHODS.__doc__ = """
-Supported spectral power distribution to *CIE XYZ* tristimulus values
-conversion methods
+SD_TO_XYZ_METHODS.__doc__ = """
+Supported spectral distribution to *CIE XYZ* tristimulus values conversion
+methods.
 
 References
 ----------
--   :cite:`ASTMInternational2011a`
--   :cite:`ASTMInternational2015b`
--   :cite:`Wyszecki2000bf`
+:cite:`ASTMInternational2011a`, :cite:`ASTMInternational2015b`,
+:cite:`Wyszecki2000bf`
 
-SPECTRAL_TO_XYZ_METHODS : CaseInsensitiveMapping
+SD_TO_XYZ_METHODS : CaseInsensitiveMapping
     **{'ASTM E308-15', 'Integration'}**
 
 Aliases:
 
 -   'astm2015': 'ASTM E308-15'
 """
-SPECTRAL_TO_XYZ_METHODS['astm2015'] = (SPECTRAL_TO_XYZ_METHODS['ASTM E308-15'])
+SD_TO_XYZ_METHODS['astm2015'] = (SD_TO_XYZ_METHODS['ASTM E308-15'])
 
 
-def spectral_to_XYZ(
-        spd,
+def sd_to_XYZ(
+        sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
+        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
+        k=None,
         method='ASTM E308-15',
         **kwargs):
     """
-    Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions, illuminant and method.
+    Converts given spectral distribution to *CIE XYZ* tristimulus values using
+    given colour matching functions, illuminant and method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
+    k : numeric, optional
+        Normalisation constant :math:`k`. For reflecting or transmitting object
+        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
+        which the spectral reflectance factor :math:`R(\\lambda)` of the object
+        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
+        the object is equal to unity for all wavelengths. For self-luminous
+        objects and illuminants, the constants :math:`k` is usually chosen on
+        the grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be numerically
+        equal to the absolute value of a photometric quantity, the constant,
+        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
+        maximum spectral luminous efficacy (which is equal to
+        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
+        be the spectral concentration of the radiometric quantity corresponding
+        to the photometric quantity required.
     method : unicode, optional
         **{'ASTM E308-15', 'Integration'}**,
         Computation method.
 
     Other Parameters
     ----------------
-    use_practice_range : bool, optional
-        {:func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`},
-        Practise *ASTM E308-15* working wavelengths range is [360, 780],
-        if *True* this argument will trim the colour matching functions
-        appropriately.
     mi_5nm_omission_method : bool, optional
-        {:func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`},
-        5 nm measurement intervals spectral power distribution conversion to
+        {:func:`colour.colorimetry.sd_to_XYZ_ASTME30815`},
+        5 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a 5 nm version of the colour matching
         functions instead of a table of tristimulus weighting factors.
     mi_20nm_interpolation_method : bool, optional
-        {:func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`},
-        20 nm measurement intervals spectral power distribution conversion to
+        {:func:`colour.colorimetry.sd_to_XYZ_ASTME30815`},
+        20 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.
+    use_practice_range : bool, optional
+        {:func:`colour.colorimetry.sd_to_XYZ_ASTME30815`},
+        Practise *ASTM E308-15* working wavelengths range is [360, 780],
+        if *True* this argument will trim the colour matching functions
+        appropriately.
 
     Returns
     -------
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`ASTMInternational2011a`
-    -   :cite:`ASTMInternational2015b`
-    -   :cite:`Wyszecki2000bf`
+    :cite:`ASTMInternational2011a`, :cite:`ASTMInternational2015b`,
+    :cite:`Wyszecki2000bf`
 
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -805,32 +898,286 @@ def spectral_to_XYZ(
     ...     680: 0.2397,
     ...     700: 0.2852
     ... }
-    >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
-    >>> spectral_to_XYZ(spd, cmfs, illuminant)
+    >>> sd = SpectralDistribution(data)
+    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> sd_to_XYZ(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
-    array([ 11.5290265...,   9.9502091...,   4.7098882...])
-    >>> spectral_to_XYZ(spd, cmfs, illuminant, use_practice_range=False)
+    array([ 10.8399031...,   9.6840375...,   6.2164159...])
+    >>> sd_to_XYZ(sd, cmfs, illuminant, use_practice_range=False)
     ... # doctest: +ELLIPSIS
-    array([ 11.5291275...,   9.9502369...,   4.7098811...])
-    >>> spectral_to_XYZ(spd, cmfs, illuminant, method='Integration')
+    array([ 10.8399852...,   9.6840602...,   6.2164085...])
+    >>> sd_to_XYZ(sd, cmfs, illuminant, method='Integration')
     ... # doctest: +ELLIPSIS
-    array([ 11.5296285...,   9.9499467...,   4.7066079...])
+    array([ 10.8401846...,   9.6837311...,   6.2120912...])
     """
 
-    function = SPECTRAL_TO_XYZ_METHODS[method]
+    function = SD_TO_XYZ_METHODS[method]
 
-    return function(spd, cmfs, illuminant, **filter_kwargs(function, **kwargs))
+    return function(
+        sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
+
+
+def multi_sds_to_XYZ_integration(
+        msd,
+        shape,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
+            'CIE 1931 2 Degree Standard Observer'].shape),
+        k=None):
+    """
+    Converts given multi-spectral distribution array :math:`msd` with given
+    spectral shape to *CIE XYZ* tristimulus values using given colour matching
+    functions and illuminant.
+
+    Parameters
+    ----------
+    msa : array_like
+        Multi-spectral distribution array :math:`msd`, the wavelengths are
+        expected to be in the last axis, e.g. for a 512x384 multi-spectral
+        image with 77 bins, ``msd`` shape should be (384, 512, 77).
+    shape : SpectralShape, optional
+        Spectral shape of the multi-spectral distribution array :math:`msd`,
+        ``cmfs`` and ``illuminant`` will be aligned with it.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
+    k : numeric, optional
+        Normalisation constant :math:`k`. For reflecting or transmitting object
+        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
+        which the spectral reflectance factor :math:`R(\\lambda)` of the object
+        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
+        the object is equal to unity for all wavelengths. For self-luminous
+        objects and illuminants, the constants :math:`k` is usually chosen on
+        the grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be numerically
+        equal to the absolute value of a photometric quantity, the constant,
+        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
+        maximum spectral luminous efficacy (which is equal to
+        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
+        be the spectral concentration of the radiometric quantity corresponding
+        to the photometric quantity required.
+
+    Returns
+    -------
+    array_like
+        *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image with
+        77 bins, the output shape will be (384, 512, 3).
+
+    Notes
+    -----
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Wyszecki2000bf`
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_SDS
+    >>> msd = np.array([
+    ...     [
+    ...         [0.0137, 0.0913, 0.0152, 0.0281, 0.1918, 0.0430],
+    ...         [0.0159, 0.3145, 0.0842, 0.0907, 0.7103, 0.0437],
+    ...         [0.0096, 0.2582, 0.4139, 0.2228, 0.0041, 0.3744],
+    ...         [0.0111, 0.0709, 0.0220, 0.1249, 0.1817, 0.0020],
+    ...         [0.0179, 0.2971, 0.5630, 0.2375, 0.0024, 0.5819],
+    ...         [0.1057, 0.4620, 0.1918, 0.5625, 0.4209, 0.0027],
+    ...     ],
+    ...     [
+    ...         [0.0433, 0.2683, 0.2373, 0.0518, 0.0118, 0.0823],
+    ...         [0.0258, 0.0831, 0.0430, 0.3230, 0.2302, 0.0081],
+    ...         [0.0248, 0.1203, 0.0054, 0.0065, 0.1860, 0.3625],
+    ...         [0.0186, 0.1292, 0.0079, 0.4006, 0.9404, 0.3213],
+    ...         [0.0310, 0.1682, 0.3719, 0.0861, 0.0041, 0.7849],
+    ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
+    ...     ],
+    ... ])
+    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> multi_sds_to_XYZ(
+    ... msd, SpectralShape(400, 700, 60), illuminant=D65)
+    ... # doctest: +ELLIPSIS
+    array([[[  7.1958378...,   3.8605390...,  10.1016398...],
+            [ 25.5738615...,  14.7200581...,  34.8440007...],
+            [ 17.5854414...,  28.5668344...,  30.1806687...],
+            [ 11.3271912...,   8.4598177...,   7.9015758...],
+            [ 19.6581831...,  35.5918480...,  35.1430220...],
+            [ 45.8212491...,  39.2600939...,  51.7907710...]],
+    <BLANKLINE>
+           [[  8.8287837...,  13.3870357...,  30.5702050...],
+            [ 22.3324362...,  18.9560919...,   9.3952305...],
+            [  6.6887212...,   2.5728891...,  13.2618778...],
+            [ 41.8166227...,  27.1191979...,  14.2627944...],
+            [  9.2414098...,  20.2056200...,  20.1992502...],
+            [ 24.7830551...,  26.2221584...,  36.4430633...]]])
+    """
+
+    msd = as_float_array(msd)
+
+    if cmfs.shape != shape:
+        runtime_warning('Aligning "{0}" cmfs shape to "{1}".'.format(
+            cmfs.name, shape))
+        cmfs = cmfs.copy().align(shape)
+
+    if illuminant.shape != shape:
+        runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
+            illuminant.name, shape))
+        illuminant = illuminant.copy().align(shape)
+
+    S = illuminant.values
+    x_bar, y_bar, z_bar = tsplit(cmfs.values)
+    dw = cmfs.shape.interval
+
+    k = 100 / (np.sum(y_bar * S) * dw) if k is None else k
+
+    X_p = msd * x_bar * S * dw
+    Y_p = msd * y_bar * S * dw
+    Z_p = msd * z_bar * S * dw
+
+    XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
+
+    return from_range_100(np.rollaxis(XYZ, 0, msd.ndim))
+
+
+MULTI_SD_TO_XYZ_METHODS = CaseInsensitiveMapping({
+    'Integration': multi_sds_to_XYZ_integration
+})
+MULTI_SD_TO_XYZ_METHODS.__doc__ = """
+Supported multi-spectral array to *CIE XYZ* tristimulus values conversion
+methods.
+
+References
+----------
+:cite:`Wyszecki2000bf`
+
+MULTI_SD_TO_XYZ_METHODS : CaseInsensitiveMapping
+    **{'Integration'}**
+"""
+
+
+def multi_sds_to_XYZ(
+        msd,
+        shape=DEFAULT_SPECTRAL_SHAPE,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
+        method='Integration',
+        **kwargs):
+    """
+    Converts given multi-spectral distribution array :math:`msd` with given
+    spectral shape to *CIE XYZ* tristimulus values using given colour matching
+    functions and illuminant.
+
+    Parameters
+    ----------
+    msa : array_like
+        Multi-spectral distribution array :math:`msd`, the wavelengths are
+        expected to be in the last axis, e.g. for a 512x384 multi-spectral
+        image with 77 bins, ``msd`` shape should be (384, 512, 77).
+    shape : SpectralShape, optional
+        Spectral shape of the multi-spectral distribution array :math:`msd`,
+        ``cmfs`` and ``illuminant`` will be aligned with it.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
+    method : unicode, optional
+        **{'Integration'}**,
+        Computation method.
+
+    Other Parameters
+    ----------------
+    k : numeric, optional
+        {:func:`colour.colorimetry.multi_sds_to_XYZ_integration`},
+        Normalisation constant :math:`k`. For reflecting or transmitting object
+        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
+        which the spectral reflectance factor :math:`R(\\lambda)` of the object
+        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
+        the object is equal to unity for all wavelengths. For self-luminous
+        objects and illuminants, the constants :math:`k` is usually chosen on
+        the grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be numerically
+        equal to the absolute value of a photometric quantity, the constant,
+        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
+        maximum spectral luminous efficacy (which is equal to
+        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
+        be the spectral concentration of the radiometric quantity corresponding
+        to the photometric quantity required.
+
+    Returns
+    -------
+    array_like
+        *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image with
+        77 bins, the output shape will be (384, 512, 3).
+
+    Notes
+    -----
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Wyszecki2000bf`
+
+    Examples
+    --------
+    >>> msd = np.array([
+    ...     [
+    ...         [0.0137, 0.0913, 0.0152, 0.0281, 0.1918, 0.0430],
+    ...         [0.0159, 0.3145, 0.0842, 0.0907, 0.7103, 0.0437],
+    ...         [0.0096, 0.2582, 0.4139, 0.2228, 0.0041, 0.3744],
+    ...         [0.0111, 0.0709, 0.0220, 0.1249, 0.1817, 0.0020],
+    ...         [0.0179, 0.2971, 0.5630, 0.2375, 0.0024, 0.5819],
+    ...         [0.1057, 0.4620, 0.1918, 0.5625, 0.4209, 0.0027],
+    ...     ],
+    ...     [
+    ...         [0.0433, 0.2683, 0.2373, 0.0518, 0.0118, 0.0823],
+    ...         [0.0258, 0.0831, 0.0430, 0.3230, 0.2302, 0.0081],
+    ...         [0.0248, 0.1203, 0.0054, 0.0065, 0.1860, 0.3625],
+    ...         [0.0186, 0.1292, 0.0079, 0.4006, 0.9404, 0.3213],
+    ...         [0.0310, 0.1682, 0.3719, 0.0861, 0.0041, 0.7849],
+    ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
+    ...     ],
+    ... ])
+    >>> multi_sds_to_XYZ(msd, SpectralShape(400, 700, 60))
+    ... # doctest: +ELLIPSIS
+    array([[[  7.6862675...,   4.0925470...,   8.4950412...],
+            [ 27.4119366...,  15.5014764...,  29.2825122...],
+            [ 17.1283666...,  27.7798651...,  25.5232032...],
+            [ 11.9824544...,   8.8127109...,   6.6518695...],
+            [ 19.1030682...,  34.4597818...,  29.7653804...],
+            [ 46.8243374...,  39.9551652...,  43.6541858...]],
+    <BLANKLINE>
+           [[  8.0978189...,  12.7544378...,  25.8004512...],
+            [ 23.4360673...,  19.6127966...,   7.9342408...],
+            [  7.0933208...,   2.7894394...,  11.1527704...],
+            [ 45.6313772...,  29.0068105...,  11.9934522...],
+            [  8.9327884...,  19.4008147...,  17.1534186...],
+            [ 24.6610235...,  26.1093760...,  30.7298791...]]])
+    """
+
+    function = MULTI_SD_TO_XYZ_METHODS[method]
+
+    return function(msd, shape, cmfs, illuminant,
+                    **filter_kwargs(function, **kwargs))
 
 
 def wavelength_to_XYZ(
         wavelength,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
-    Converts given wavelength :math:`\lambda` to *CIE XYZ* tristimulus values
+    Converts given wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
     using given colour matching functions.
 
-    If the wavelength :math:`\lambda` is not available in the colour matching
+    If the wavelength :math:`\\lambda` is not available in the colour matching
     function, its value will be calculated according to *CIE 15:2004*
     recommendation: the method developed by *Sprague (1880)* will be used for
     interpolating functions having a uniformly spaced independent variable and
@@ -839,7 +1186,7 @@ def wavelength_to_XYZ(
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
@@ -851,19 +1198,24 @@ def wavelength_to_XYZ(
     Raises
     ------
     ValueError
-        If wavelength :math:`\lambda` is not contained in the colour matching
+        If wavelength :math:`\\lambda` is not contained in the colour matching
         functions domain.
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 1]                | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     Examples
     --------
     >>> from colour import CMFS
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> wavelength_to_XYZ(480, cmfs)  # doctest: +ELLIPSIS
-    array([ 0.09564  ,  0.13902  ,  0.812950...])
+    array([ 0.09564  ,  0.13902  ,  0.8129501...])
     >>> wavelength_to_XYZ(480.5, cmfs)  # doctest: +ELLIPSIS
     array([ 0.0914287...,  0.1418350...,  0.7915726...])
     """
@@ -871,10 +1223,11 @@ def wavelength_to_XYZ(
     cmfs_shape = cmfs.shape
     if (np.min(wavelength) < cmfs_shape.start or
             np.max(wavelength) > cmfs_shape.end):
-        raise ValueError('"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.
-                         format(wavelength, cmfs_shape.start, cmfs_shape.end))
+        raise ValueError(
+            '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
+                wavelength, cmfs_shape.start, cmfs_shape.end))
 
     XYZ = np.reshape(cmfs[np.ravel(wavelength)],
-                     np.asarray(wavelength).shape + (3, ))
+                     as_float_array(wavelength).shape + (3, ))
 
     return XYZ

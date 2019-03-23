@@ -5,36 +5,37 @@ Optical Phenomenon Plotting
 
 Defines the optical phenomena plotting objects:
 
--   :func:`colour.plotting.single_rayleigh_scattering_spd_plot`
--   :func:`colour.plotting.the_blue_sky_plot`
+-   :func:`colour.plotting.plot_single_sd_rayleigh_scattering`
+-   :func:`colour.plotting.plot_the_blue_sky`
 """
 
 from __future__ import division
 
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
-from colour.colorimetry import spectral_to_XYZ
-from colour.models import XYZ_to_sRGB
-from colour.phenomena import rayleigh_scattering_spd
+from colour.colorimetry import sd_to_XYZ
+from colour.phenomena import sd_rayleigh_scattering
 from colour.phenomena.rayleigh import (
     AVERAGE_PRESSURE_MEAN_SEA_LEVEL, DEFAULT_ALTITUDE, DEFAULT_LATITUDE,
     STANDARD_AIR_TEMPERATURE, STANDARD_CO2_CONCENTRATION)
-from colour.plotting import (ASTM_G_173_ETR, ColourSwatch, canvas, get_cmfs,
-                             render, single_colour_swatch_plot,
-                             single_spd_plot)
-from colour.utilities import normalise_maximum
+from colour.plotting import (ASTM_G_173_ETR, COLOUR_STYLE_CONSTANTS,
+                             ColourSwatch, XYZ_to_plotting_colourspace,
+                             filter_cmfs, override_style, render,
+                             plot_single_colour_swatch, plot_single_sd)
+from colour.utilities import first_item, normalise_maximum
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['single_rayleigh_scattering_spd_plot', 'the_blue_sky_plot']
+__all__ = ['plot_single_sd_rayleigh_scattering', 'plot_the_blue_sky']
 
 
-def single_rayleigh_scattering_spd_plot(
+@override_style()
+def plot_single_sd_rayleigh_scattering(
         CO2_concentration=STANDARD_CO2_CONCENTRATION,
         temperature=STANDARD_AIR_TEMPERATURE,
         pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
@@ -43,7 +44,7 @@ def single_rayleigh_scattering_spd_plot(
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
-    Plots a single *Rayleigh* scattering spectral power distribution.
+    Plots a single *Rayleigh* scattering spectral distribution.
 
     Parameters
     ----------
@@ -62,39 +63,46 @@ def single_rayleigh_scattering_spd_plot(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_single_sd`,
+        :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
     out_of_gamut_clipping : bool, optional
-        {:func:`colour.plotting.single_spd_plot`},
+        {:func:`colour.plotting.plot_single_sd`},
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
-    >>> single_rayleigh_scattering_spd_plot()  # doctest: +SKIP
+    >>> plot_single_sd_rayleigh_scattering()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Plot_Single_SD_Rayleigh_Scattering.png
+        :align: center
+        :alt: plot_single_sd_rayleigh_scattering
     """
 
     title = 'Rayleigh Scattering'
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     settings = {'title': title, 'y_label': 'Optical Depth'}
     settings.update(kwargs)
 
-    spd = rayleigh_scattering_spd(cmfs.shape, CO2_concentration, temperature,
-                                  pressure, latitude, altitude)
+    sd = sd_rayleigh_scattering(cmfs.shape, CO2_concentration, temperature,
+                                pressure, latitude, altitude)
 
-    return single_spd_plot(spd, **settings)
+    return plot_single_sd(sd, **settings)
 
 
-def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+@override_style()
+def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the blue sky.
 
@@ -105,67 +113,77 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_single_sd`,
+        :func:`colour.plotting.plot_multi_colour_swatches`,
+        :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
-    >>> the_blue_sky_plot()  # doctest: +SKIP
+    >>> plot_the_blue_sky()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Plot_The_Blue_Sky.png
+        :align: center
+        :alt: plot_the_blue_sky
     """
 
-    canvas(**kwargs)
+    figure = plt.figure()
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
 
-    ASTM_G_173_spd = ASTM_G_173_ETR.copy()
-    rayleigh_spd = rayleigh_scattering_spd()
-    ASTM_G_173_spd.align(rayleigh_spd.shape)
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
-    spd = rayleigh_spd * ASTM_G_173_spd
+    ASTM_G_173_sd = ASTM_G_173_ETR.copy()
+    rayleigh_sd = sd_rayleigh_scattering()
+    ASTM_G_173_sd.align(rayleigh_sd.shape)
 
-    matplotlib.pyplot.subplots_adjust(hspace=0.4)
+    sd = rayleigh_sd * ASTM_G_173_sd
 
-    matplotlib.pyplot.figure(1)
-    matplotlib.pyplot.subplot(211)
+    axes = figure.add_subplot(211)
 
     settings = {
-        'title': 'The Blue Sky - Synthetic Spectral Power Distribution',
+        'axes': axes,
+        'title': 'The Blue Sky - Synthetic Spectral Distribution',
         'y_label': u'W / m-2 / nm-1',
-        'standalone': False
     }
     settings.update(kwargs)
+    settings['standalone'] = False
 
-    single_spd_plot(spd, name, **settings)
+    plot_single_sd(sd, cmfs, **settings)
 
-    matplotlib.pyplot.subplot(212)
+    axes = figure.add_subplot(212)
+
+    x_label = ('The sky is blue because molecules in the atmosphere '
+               'scatter shorter wavelengths more than longer ones.\n'
+               'The synthetic spectral distribution is computed as '
+               'follows: '
+               '(ASTM G-173 ETR * Standard Air Rayleigh Scattering).')
 
     settings = {
-        'title':
-            'The Blue Sky - Colour',
-        'x_label': ('The sky is blue because molecules in the atmosphere '
-                    'scatter shorter wavelengths more than longer ones.\n'
-                    'The synthetic spectral power distribution is computed as '
-                    'follows: '
-                    '(ASTM G-173 ETR * Standard Air Rayleigh Scattering).'),
-        'y_label':
-            '',
-        'aspect':
-            None,
-        'standalone':
-            False
+        'axes': axes,
+        'aspect': None,
+        'title': 'The Blue Sky - Colour',
+        'x_label': x_label,
+        'y_label': '',
+        'x_ticker': False,
+        'y_ticker': False,
     }
+    settings.update(kwargs)
+    settings['standalone'] = False
 
-    blue_sky_color = XYZ_to_sRGB(spectral_to_XYZ(spd))
-    single_colour_swatch_plot(
+    blue_sky_color = XYZ_to_plotting_colourspace(sd_to_XYZ(sd))
+
+    figure, axes = plot_single_colour_swatch(
         ColourSwatch('', normalise_maximum(blue_sky_color)), **settings)
 
-    settings = {'standalone': True}
+    settings = {'axes': axes, 'standalone': True}
     settings.update(kwargs)
 
     return render(**settings)

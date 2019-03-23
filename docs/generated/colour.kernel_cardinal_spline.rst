@@ -1,5 +1,5 @@
-colour\.kernel\_cardinal\_spline
-================================
+colour.kernel\_cardinal\_spline
+===============================
 
 .. currentmodule:: colour
 

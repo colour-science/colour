@@ -1,5 +1,5 @@
-colour\.CHROMATIC\_ADAPTATION\_METHODS
-======================================
+colour.CHROMATIC\_ADAPTATION\_METHODS
+=====================================
 
 .. currentmodule:: colour
 

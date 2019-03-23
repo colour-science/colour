@@ -1,5 +1,5 @@
-colour\.difference\.delta\_E\_CMC
-=================================
+colour.difference.delta\_E\_CMC
+===============================
 
 .. currentmodule:: colour.difference
 

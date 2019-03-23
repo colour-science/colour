@@ -1,4 +1,3 @@
-include COPYING
 include LICENSE
 include *.bib
 include *.rst
@@ -6,8 +5,7 @@ graft colour/appearance/tests/fixtures
 graft colour/examples
 graft colour/io
 graft colour/plotting
-graft docs/_build
-graft utilities
+global-exclude __pycache__
 global-exclude *.pyc
 global-exclude *.pyo
 global-exclude ._*

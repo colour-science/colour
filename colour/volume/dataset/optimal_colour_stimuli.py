@@ -27,8 +27,8 @@ References
 -   :cite:`MacAdam1935a` : MacAdam, D. L. (1935). Maximum Visual Efficiency of
     Colored Materials. Journal of the Optical Society of America, 25(11),
     361-367. doi:10.1364/JOSA.25.000361
--   :cite:`Wikipediabv` : Wikipedia. (n.d.). Surfaces. Retrieved September 10,
-    2014, from http://en.wikipedia.org/wiki/Gamut#Surfaces
+-   :cite:`Wikipedia2004a` : Wikipedia. (2004). Surfaces. Retrieved September
+    10, 2014, from http://en.wikipedia.org/wiki/Gamut#Surfaces
 -   :cite:`Wyszecki2000bb` : Wyszecki, G., & Stiles, W. S. (2000).
     Table I(3.7). In Color Science: Concepts and Methods, Quantitative Data and
     Formulae (pp. 776-777). Wiley. ISBN:978-0471399186
@@ -44,7 +44,7 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -284,7 +284,7 @@ A_OPTIMAL_COLOUR_STIMULI : ndarray
 
 References
 ----------
--   :cite:`Wyszecki2000bb`
+:cite:`Wyszecki2000bb`
 """
 
 C_OPTIMAL_COLOUR_STIMULI = np.array([
@@ -493,7 +493,7 @@ C_OPTIMAL_COLOUR_STIMULI : ndarray
 
 References
 ----------
--   :cite:`MacAdam1935a`
+:cite:`MacAdam1935a`
 """
 
 D65_OPTIMAL_COLOUR_STIMULI = np.array([
@@ -745,7 +745,7 @@ D65_OPTIMAL_COLOUR_STIMULI : ndarray
 
 References
 ----------
--   :cite:`Wyszecki2000bh`
+:cite:`Wyszecki2000bh`
 """
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping({
@@ -758,7 +758,7 @@ Illuminants *Optimal Colour Stimuli*.
 
 References
 ----------
--   :cite:`Wikipediabv`
+:cite:`Wikipedia2004a`
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
     **{'A', 'C', 'D65'}**

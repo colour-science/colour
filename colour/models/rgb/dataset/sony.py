@@ -45,25 +45,25 @@ from colour.models.rgb import (RGB_Colourspace, log_encoding_SLog2,
                                log_decoding_SLog3)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'S_GAMUT_PRIMARIES', 'S_GAMUT_ILLUMINANT', 'S_GAMUT_WHITEPOINT',
+    'S_GAMUT_PRIMARIES', 'S_GAMUT_WHITEPOINT_NAME', 'S_GAMUT_WHITEPOINT',
     'S_GAMUT_TO_XYZ_MATRIX', 'XYZ_TO_S_GAMUT_MATRIX', 'S_GAMUT_COLOURSPACE',
     'S_GAMUT3_COLOURSPACE', 'S_GAMUT3_CINE_PRIMARIES',
-    'S_GAMUT3_CINE_ILLUMINANT', 'S_GAMUT3_CINE_WHITEPOINT',
+    'S_GAMUT3_CINE_WHITEPOINT_NAME', 'S_GAMUT3_CINE_WHITEPOINT',
     'S_GAMUT3_CINE_TO_XYZ_MATRIX', 'XYZ_TO_S_GAMUT3_CINE_MATRIX',
     'S_GAMUT3_CINE_COLOURSPACE'
 ]
 
 S_GAMUT_PRIMARIES = np.array([
-    [0.730, 0.280],
-    [0.140, 0.855],
-    [0.100, -0.050],
+    [0.7300, 0.2800],
+    [0.1400, 0.8550],
+    [0.1000, -0.0500],
 ])
 """
 *S-Gamut* colourspace primaries.
@@ -71,15 +71,15 @@ S_GAMUT_PRIMARIES = np.array([
 S_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
-S_GAMUT_ILLUMINANT = 'D65'
+S_GAMUT_WHITEPOINT_NAME = 'D65'
 """
-*S-Gamut* colourspace whitepoint name as illuminant.
+*S-Gamut* colourspace whitepoint name.
 
-S_GAMUT_ILLUMINANT : unicode
+S_GAMUT_WHITEPOINT_NAME : unicode
 """
 
-S_GAMUT_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][S_GAMUT_ILLUMINANT])
+S_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    S_GAMUT_WHITEPOINT_NAME])
 """
 *S-Gamut* colourspace whitepoint.
 
@@ -112,18 +112,18 @@ S_GAMUT_COLOURSPACE = RGB_Colourspace(
     'S-Gamut',
     S_GAMUT_PRIMARIES,
     S_GAMUT_WHITEPOINT,
-    S_GAMUT_ILLUMINANT,
+    S_GAMUT_WHITEPOINT_NAME,
     S_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT_MATRIX,
     log_encoding_SLog2,
-    log_decoding_SLog2, )
+    log_decoding_SLog2,
+)
 S_GAMUT_COLOURSPACE.__doc__ = """
 *S-Gamut* colourspace.
 
 References
 ----------
--   :cite:`Gaggioni`
--   :cite:`SonyCorporation`
+:cite:`Gaggioni`, :cite:`SonyCorporation`
 
 S_GAMUT_COLOURSPACE : RGB_Colourspace
 """
@@ -132,17 +132,18 @@ S_GAMUT3_COLOURSPACE = RGB_Colourspace(
     'S-Gamut3',
     S_GAMUT_PRIMARIES,
     S_GAMUT_WHITEPOINT,
-    S_GAMUT_ILLUMINANT,
+    S_GAMUT_WHITEPOINT_NAME,
     S_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT_MATRIX,
     log_encoding_SLog3,
-    log_decoding_SLog3, )
+    log_decoding_SLog3,
+)
 S_GAMUT3_COLOURSPACE.__doc__ = """
 *S-Gamut3* colourspace.
 
 References
 ----------
--   :cite:`SonyCorporationd`
+:cite:`SonyCorporationd`
 
 S_GAMUT3_COLOURSPACE : RGB_Colourspace
 """
@@ -158,11 +159,11 @@ S_GAMUT3_CINE_PRIMARIES = np.array([
 S_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
-S_GAMUT3_CINE_ILLUMINANT = S_GAMUT_ILLUMINANT
+S_GAMUT3_CINE_WHITEPOINT_NAME = S_GAMUT_WHITEPOINT_NAME
 """
-*S-Gamut3.Cine* colourspace whitepoint name as illuminant.
+*S-Gamut3.Cine* colourspace whitepoint name.
 
-S_GAMUT3_CINE_ILLUMINANT : unicode
+S_GAMUT3_CINE_WHITEPOINT_NAME : unicode
 """
 
 S_GAMUT3_CINE_WHITEPOINT = S_GAMUT_WHITEPOINT
@@ -198,17 +199,18 @@ S_GAMUT3_CINE_COLOURSPACE = RGB_Colourspace(
     'S-Gamut3.Cine',
     S_GAMUT3_CINE_PRIMARIES,
     S_GAMUT3_CINE_WHITEPOINT,
-    S_GAMUT3_CINE_ILLUMINANT,
+    S_GAMUT3_CINE_WHITEPOINT_NAME,
     S_GAMUT3_CINE_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT3_CINE_MATRIX,
     log_encoding_SLog3,
-    log_decoding_SLog3, )
+    log_decoding_SLog3,
+)
 S_GAMUT3_CINE_COLOURSPACE.__doc__ = """
 *S-Gamut3.Cine* colourspace.
 
 References
 ----------
--   :cite:`SonyCorporatione`
+:cite:`SonyCorporatione`
 
 S_GAMUT3_CINE_COLOURSPACE : RGB_Colourspace
 """

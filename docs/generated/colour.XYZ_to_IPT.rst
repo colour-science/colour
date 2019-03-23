@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_IPT
-====================
+colour.XYZ\_to\_IPT
+===================
 
 .. currentmodule:: colour
 

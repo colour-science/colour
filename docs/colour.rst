@@ -8,9 +8,11 @@ Colour
     colour.algebra
     colour.appearance
     colour.biochemistry
+    colour.blindness
     colour.characterisation
     colour.colorimetry
     colour.constants
+    colour.contrast
     colour.continuous
     colour.corresponding
     colour.difference

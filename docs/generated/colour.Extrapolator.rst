@@ -1,5 +1,5 @@
-colour\.Extrapolator
-====================
+colour.Extrapolator
+===================
 
 .. currentmodule:: colour
 
@@ -18,5 +18,14 @@ colour\.Extrapolator
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Extrapolator.interpolator
+      ~Extrapolator.left
+      ~Extrapolator.method
+      ~Extrapolator.right
    
    

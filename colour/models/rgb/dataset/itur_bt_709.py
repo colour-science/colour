@@ -32,14 +32,14 @@ from colour.models.rgb import (RGB_Colourspace, oetf_BT709, oetf_reverse_BT709,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'BT709_PRIMARIES', 'BT709_WHITEPOINT', 'BT709_ILLUMINANT',
+    'BT709_PRIMARIES', 'BT709_WHITEPOINT', 'BT709_WHITEPOINT_NAME',
     'BT709_TO_XYZ_MATRIX', 'XYZ_TO_BT709_MATRIX', 'BT709_COLOURSPACE'
 ]
 
@@ -54,15 +54,15 @@ BT709_PRIMARIES = np.array([
 BT709_PRIMARIES : ndarray, (3, 2)
 """
 
-BT709_ILLUMINANT = 'D65'
+BT709_WHITEPOINT_NAME = 'D65'
 """
-*ITU-R BT.709* colourspace whitepoint name as illuminant.
+*ITU-R BT.709* colourspace whitepoint name.
 
-BT709_ILLUMINANT : unicode
+BT709_WHITEPOINT_NAME : unicode
 """
 
 BT709_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT709_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT709_WHITEPOINT_NAME])
 """
 *ITU-R BT.709* colourspace whitepoint.
 
@@ -88,17 +88,18 @@ BT709_COLOURSPACE = RGB_Colourspace(
     'ITU-R BT.709',
     BT709_PRIMARIES,
     BT709_WHITEPOINT,
-    BT709_ILLUMINANT,
+    BT709_WHITEPOINT_NAME,
     BT709_TO_XYZ_MATRIX,
     XYZ_TO_BT709_MATRIX,
     oetf_BT709,
-    oetf_reverse_BT709, )
+    oetf_reverse_BT709,
+)
 BT709_COLOURSPACE.__doc__ = """
 *ITU-R BT.709* colourspace.
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion2015i`
+:cite:`InternationalTelecommunicationUnion2015i`
 
 BT709_COLOURSPACE : RGB_Colourspace
 """

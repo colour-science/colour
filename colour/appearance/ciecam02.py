@@ -19,8 +19,8 @@ blob/master/notebooks/appearance/ciecam02.ipynb>`_
 
 References
 ----------
--   :cite:`Fairchild2004c` : Wikipedia. (n.d.). CIECAM02. Retrieved August 14,
-    2014, from http://en.wikipedia.org/wiki/CIECAM02
+-   :cite:`Fairchild2004c` : Fairchild, M. D. (2004). CIECAM02. In Color
+    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0470012161
 -   :cite:`Luo2013` : Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent
     Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
     Processing and Analysis (pp. 19-58). New York, NY: Springer New York.
@@ -30,7 +30,7 @@ References
     Color and Imaging Conference, (1), 23-27. Retrieved from
     http://www.ingentaconnect.com/\
 content/ist/cic/2002/00002002/00000001/art00006
--   :cite:`Wikipediach` : Wikipedia. (n.d.). CIECAM02. Retrieved August 14,
+-   :cite:`Wikipedia2007a` : Wikipedia. (2007). CIECAM02. Retrieved August 14,
     2014, from http://en.wikipedia.org/wiki/CIECAM02
 """
 
@@ -39,16 +39,18 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import spow
 from colour.adaptation import CAT02_CAT
 from colour.appearance.hunt import (HPE_TO_XYZ_MATRIX, XYZ_TO_HPE_MATRIX,
                                     luminance_level_adaptation_factor)
 from colour.constants import EPSILON
-from colour.utilities import (CaseInsensitiveMapping, as_namedtuple,
-                              as_numeric, dot_matrix, dot_vector, tsplit,
-                              tstack)
+from colour.utilities import (
+    CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
+    as_float, from_range_degrees, dot_matrix, dot_vector, from_range_100,
+    to_domain_100, to_domain_degrees, tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -98,16 +100,14 @@ class CIECAM02_InductionFactors(
 
     References
     ----------
-    -   :cite:`Fairchild2004c`
-    -   :cite:`Luo2013`
-    -   :cite:`Moroneya`
-    -   :cite:`Wikipediach`
+    :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+    :cite:`Wikipedia2007a`
     """
 
 
 CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Average': CIECAM02_InductionFactors(1, 0.69, 1),
-    'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
+    'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.9),
     'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)
 })
 CIECAM02_VIEWING_CONDITIONS.__doc__ = """
@@ -115,10 +115,8 @@ Reference *CIECAM02* colour appearance model viewing conditions.
 
 References
 ----------
--   :cite:`Fairchild2004c`
--   :cite:`Luo2013`
--   :cite:`Moroneya`
--   :cite:`Wikipediach`
+:cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+:cite:`Wikipedia2007a`
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -132,8 +130,8 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
 
 
 class CIECAM02_Specification(
-        namedtuple('CIECAM02_Specification', ('J', 'C', 'h', 's', 'Q', 'M',
-                                              'H', 'HC'))):
+        namedtuple('CIECAM02_Specification',
+                   ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
     Defines the *CIECAM02* colour appearance model specification.
 
@@ -158,10 +156,8 @@ class CIECAM02_Specification(
 
     References
     ----------
-    -   :cite:`Fairchild2004c`
-    -   :cite:`Luo2013`
-    -   :cite:`Moroneya`
-    -   :cite:`Wikipediach`
+    :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+    :cite:`Wikipedia2007a`
     """
 
     def __new__(cls,
@@ -197,10 +193,9 @@ def XYZ_to_CIECAM02(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus.
     XYZ_w : array_like
-        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+        *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
@@ -216,21 +211,29 @@ def XYZ_to_CIECAM02(XYZ,
     CIECAM02_Specification
         *CIECAM02* colour appearance model specification.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
+
+    +------------------------------+-----------------------+---------------+
+    | **Domain**                   | **Scale - Reference** | **Scale - 1** |
+    +==============================+=======================+===============+
+    | ``XYZ``                      | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``XYZ_w``                    | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+
+    +------------------------------+-----------------------+---------------+
+    | **Range**                    | **Scale - Reference** | **Scale - 1** |
+    +==============================+=======================+===============+
+    | ``CIECAM02_specification.h`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.H`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Fairchild2004c`
-    -   :cite:`Luo2013`
-    -   :cite:`Moroneya`
-    -   :cite:`Wikipediach`
+    :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+    :cite:`Wikipedia2007a`
 
     Examples
     --------
@@ -244,9 +247,11 @@ def XYZ_to_CIECAM02(XYZ,
 s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     """
 
+    XYZ = to_domain_100(XYZ)
+    XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    L_A = np.asarray(L_A)
-    Y_b = np.asarray(Y_b)
+    L_A = as_float_array(L_A)
+    Y_b = as_float_array(Y_b)
 
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
@@ -257,7 +262,8 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     RGB_w = dot_vector(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
+    D = (degree_of_adaptation(surround.F, L_A)
+         if not discount_illuminant else np.ones(L_A.shape))
 
     # Computing full chromatic adaptation.
     RGB_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
@@ -304,7 +310,8 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
-    return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
+    return CIECAM02_Specification(J, C, from_range_degrees(h), s, Q, M,
+                                  from_range_degrees(H), None)
 
 
 def CIECAM02_to_XYZ(CIECAM02_specification,
@@ -354,17 +361,30 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     Notes
     -----
+
+    +------------------------------+-----------------------+---------------+
+    | **Domain**                   | **Scale - Reference** | **Scale - 1** |
+    +==============================+=======================+===============+
+    | ``CIECAM02_specification.h`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.H`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``XYZ_w``                    | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+
+    +------------------------------+-----------------------+---------------+
+    | **Range**                    | **Scale - Reference** | **Scale - 1** |
+    +==============================+=======================+===============+
+    | ``XYZ``                      | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+
     -   ``CIECAM02_specification`` can also be passed as a compatible argument
-        :func:`colour.utilities.as_namedtuple` definition.
-    -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+        to :func:`colour.utilities.as_namedtuple` definition.
 
     References
     ----------
-    -   :cite:`Fairchild2004c`
-    -   :cite:`Luo2013`
-    -   :cite:`Moroneya`
-    -   :cite:`Wikipediach`
+    :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+    :cite:`Wikipedia2007a`
 
     Examples
     --------
@@ -380,14 +400,17 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CIECAM02_specification,
                                                 CIECAM02_Specification)
+    L_A = as_float_array(L_A)
 
-    _X_w, Y_w, _Zw = tsplit(XYZ_w)
+    h = to_domain_degrees(h)
+    XYZ_w = to_domain_100(XYZ_w)
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
 
     if C is None and M is not None:
-        C = M / F_L ** 0.25
+        C = M / spow(F_L, 0.25)
     elif C is None:
         raise ValueError('Either "C" or "M" correlate must be defined in '
                          'the "CIECAM02_specification" argument!')
@@ -397,7 +420,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     RGB_w = dot_vector(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
+    D = (degree_of_adaptation(surround.F, L_A)
+         if not discount_illuminant else np.ones(L_A.shape))
 
     # Computing full chromatic adaptation.
     RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
@@ -444,7 +468,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     # tristimulus values.
     XYZ = dot_vector(CAT02_INVERSE_CAT, RGB)
 
-    return XYZ
+    return from_range_100(XYZ)
 
 
 def chromatic_induction_factors(n):
@@ -464,13 +488,13 @@ def chromatic_induction_factors(n):
     Examples
     --------
     >>> chromatic_induction_factors(0.2)  # doctest: +ELLIPSIS
-    array([ 1.000304...,  1.000304...])
+    array([ 1.000304,  1.000304])
     """
 
-    n = np.asarray(n)
+    n = as_float_array(n)
 
-    N_bb = N_cb = 0.725 * (1 / n) ** 0.2
-    N_bbcb = tstack((N_bb, N_cb))
+    N_bb = N_cb = 0.725 * spow(1 / n, 0.2)
+    N_bbcb = tstack([N_bb, N_cb])
 
     return N_bbcb
 
@@ -495,7 +519,7 @@ def base_exponential_non_linearity(n):
     1.9272135...
     """
 
-    n = np.asarray(n)
+    n = as_float_array(n)
 
     z = 1.48 + np.sqrt(n)
 
@@ -524,11 +548,11 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
     --------
     >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
     ... # doctest: +ELLIPSIS
-    array([ 0.2...,  1.1675444...,  1.000304...,  1.000304...,  1.9272136...])
+    array([ 0.2...,  1.1675444...,  1.000304  ,  1.000304  ,  1.9272136...])
     """
 
-    Y_b = np.asarray(Y_b)
-    Y_w = np.asarray(Y_w)
+    Y_b = as_float_array(Y_b)
+    Y_w = as_float_array(Y_w)
 
     n = Y_b / Y_w
 
@@ -536,7 +560,7 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
     N_bb, N_cb = tsplit(chromatic_induction_factors(n))
     z = base_exponential_non_linearity(n)
 
-    return tstack((n, F_L, N_bb, N_cb, z))
+    return tstack([n, F_L, N_bb, N_cb, z])
 
 
 def degree_of_adaptation(F, L_A):
@@ -563,8 +587,8 @@ def degree_of_adaptation(F, L_A):
     0.9944687...
     """
 
-    F = np.asarray(F)
-    L_A = np.asarray(L_A)
+    F = as_float_array(F)
+    L_A = as_float_array(L_A)
 
     D = F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
 
@@ -604,10 +628,10 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = np.asarray(RGB)
-    RGB_w = np.asarray(RGB_w)
-    Y_w = np.asarray(Y_w)
-    D = np.asarray(D)
+    RGB = as_float_array(RGB)
+    RGB_w = as_float_array(RGB_w)
+    Y_w = as_float_array(Y_w)
+    D = as_float_array(D)
 
     RGB_c = (((Y_w[..., np.newaxis] * D[..., np.newaxis] / RGB_w) + 1 -
               D[..., np.newaxis]) * RGB)
@@ -647,10 +671,10 @@ def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     array([ 18.985456,  20.707422,  21.747482])
     """
 
-    RGB = np.asarray(RGB)
-    RGB_w = np.asarray(RGB_w)
-    Y_w = np.asarray(Y_w)
-    D = np.asarray(D)
+    RGB = as_float_array(RGB)
+    RGB_w = as_float_array(RGB_w)
+    Y_w = as_float_array(Y_w)
+    D = as_float_array(D)
 
     RGB_c = (RGB / (Y_w[..., np.newaxis] *
                     (D[..., np.newaxis] / RGB_w) + 1 - D[..., np.newaxis]))
@@ -661,7 +685,7 @@ def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
 def RGB_to_rgb(RGB):
     """
     Converts given *RGB* array to *Hunt-Pointer-Estevez*
-    :math:`\\rho\gamma\\beta` colourspace.
+    :math:`\\rho\\gamma\\beta` colourspace.
 
     Parameters
     ----------
@@ -671,7 +695,7 @@ def RGB_to_rgb(RGB):
     Returns
     -------
     ndarray
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
+        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
 
     Examples
     --------
@@ -687,13 +711,13 @@ def RGB_to_rgb(RGB):
 
 def rgb_to_RGB(rgb):
     """
-    Converts given *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace
-    array to *RGB* array.
+    Converts given *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    colourspace array to *RGB* array.
 
     Parameters
     ----------
     rgb : array_like
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
+        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
 
     Returns
     -------
@@ -743,11 +767,11 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
-    RGB = np.asarray(RGB)
-    F_L = np.asarray(F_L)
+    RGB = as_float_array(RGB)
+    F_L = as_float_array(F_L)
 
-    F_L_RGB = (F_L[..., np.newaxis] * np.absolute(RGB) / 100) ** 0.42
-    RGB_c = ((400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB)) + 0.1
+    F_L_RGB = spow(F_L[..., np.newaxis] * RGB / 100, 0.42)
+    RGB_c = (400 * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
 
     return RGB_c
 
@@ -778,12 +802,11 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     array([ 19.9969397...,  20.0018612...,  20.0135052...])
     """
 
-    RGB = np.asarray(RGB)
-    F_L = np.asarray(F_L)
+    RGB = as_float_array(RGB)
+    F_L = as_float_array(F_L)
 
-    RGB_p = ((np.sign(RGB - 0.1) * (100 / F_L[..., np.newaxis]) *
-              ((27.13 * np.abs(RGB - 0.1)) /
-               (400 - np.abs(RGB - 0.1))) ** (1 / 0.42)))
+    RGB_p = (((100 / F_L[..., np.newaxis]) * spow(
+        (27.13 * (RGB - 0.1)) / (400 - (RGB - 0.1)), 1 / 0.42)))
 
     return RGB_p
 
@@ -815,7 +838,7 @@ def opponent_colour_dimensions_forward(RGB):
     a = R - 12 * G / 11 + B / 11
     b = (R + G - 2 * B) / 9
 
-    ab = tstack((a, b))
+    ab = tstack([a, b])
 
     return ab
 
@@ -866,22 +889,30 @@ def opponent_colour_dimensions_reverse(P_n, h):
     b = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
         (n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) -
-              (27 / 1403) + P_3 * (6300 / 1403))), b)
+              (27 / 1403) + P_3 * (6300 / 1403))),
+        b,
+    )
 
     a = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
-        b * (cos_hr / sin_hr), a)
+        b * (cos_hr / sin_hr),
+        a,
+    )
 
     a = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
-        (n / (P_5 + (2 + P_3) * (220 / 1403) -
-              ((27 / 1403) - P_3 * (6300 / 1403)) * (sin_hr / cos_hr))), a)
+        (n / (P_5 + (2 + P_3) * (220 / 1403) - (
+            (27 / 1403) - P_3 * (6300 / 1403)) * (sin_hr / cos_hr))),
+        a,
+    )
 
     b = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
-        a * (sin_hr / cos_hr), b)
+        a * (sin_hr / cos_hr),
+        b,
+    )
 
-    ab = tstack((a, b))
+    ab = tstack([a, b])
 
     return ab
 
@@ -910,8 +941,8 @@ def hue_angle(a, b):
     219.0484326...
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     h = np.degrees(np.arctan2(b, a)) % 360
 
@@ -938,7 +969,7 @@ def hue_quadrature(h):
     278.0607358...
     """
 
-    h = np.asarray(h)
+    h = as_float_array(h)
 
     h_i = HUE_DATA_FOR_HUE_QUADRATURE['h_i']
     e_i = HUE_DATA_FOR_HUE_QUADRATURE['e_i']
@@ -946,7 +977,7 @@ def hue_quadrature(h):
 
     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
     h[np.asarray(np.isnan(h))] = 0
-    i = np.asarray(np.searchsorted(h_i, h, side='left') - 1)
+    i = as_int_array(np.searchsorted(h_i, h, side='left') - 1)
 
     h_ii = h_i[i]
     e_ii = e_i[i]
@@ -954,14 +985,20 @@ def hue_quadrature(h):
     h_ii1 = h_i[i + 1]
     e_ii1 = e_i[i + 1]
 
-    H = H_ii + ((100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii +
-                                             (h_ii1 - h) / e_ii1))
-    H = np.where(h < 20.14, 385.9 + (14.1 * h / 0.856) /
-                 (h / 0.856 + (20.14 - h) / 0.8), H)
-    H = np.where(h >= 237.53, H_ii + ((85.9 * (h - h_ii) / e_ii) /
-                                      ((h - h_ii) / e_ii + (360 - h) / 0.856)),
-                 H)
-    return as_numeric(H)
+    H = H_ii + ((100 * (h - h_ii) / e_ii) / (
+        (h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
+    H = np.where(
+        h < 20.14,
+        385.9 + (14.1 * h / 0.856) / (h / 0.856 + (20.14 - h) / 0.8),
+        H,
+    )
+    H = np.where(
+        h >= 237.53,
+        H_ii + ((85.9 * (h - h_ii) / e_ii) / (
+            (h - h_ii) / e_ii + (360 - h) / 0.856)),
+        H,
+    )
+    return as_float(H)
 
 
 def eccentricity_factor(h):
@@ -985,7 +1022,7 @@ def eccentricity_factor(h):
     1.1740054...
     """
 
-    h = np.asarray(h)
+    h = as_float_array(h)
 
     e_t = 1 / 4 * (np.cos(2 + h * np.pi / 180) + 3.8)
 
@@ -1058,12 +1095,12 @@ def achromatic_response_reverse(A_w, J, c, z):
     23.9394809...
     """
 
-    A_w = np.asarray(A_w)
-    J = np.asarray(J)
-    c = np.asarray(c)
-    z = np.asarray(z)
+    A_w = as_float_array(A_w)
+    J = as_float_array(J)
+    c = as_float_array(c)
+    z = as_float_array(z)
 
-    A = A_w * (J / 100) ** (1 / (c * z))
+    A = A_w * spow(J / 100, 1 / (c * z))
 
     return A
 
@@ -1098,12 +1135,12 @@ def lightness_correlate(A, A_w, c, z):
     41.7310911...
     """
 
-    A = np.asarray(A)
-    A_w = np.asarray(A_w)
-    c = np.asarray(c)
-    z = np.asarray(z)
+    A = as_float_array(A)
+    A_w = as_float_array(A_w)
+    c = as_float_array(c)
+    z = as_float_array(z)
 
-    J = 100 * (A / A_w) ** (c * z)
+    J = 100 * spow(A / A_w, c * z)
 
     return J
 
@@ -1138,12 +1175,12 @@ def brightness_correlate(c, J, A_w, F_L):
     195.3713259...
     """
 
-    c = np.asarray(c)
-    J = np.asarray(J)
-    A_w = np.asarray(A_w)
-    F_L = np.asarray(F_L)
+    c = as_float_array(c)
+    J = as_float_array(J)
+    A_w = as_float_array(A_w)
+    F_L = as_float_array(F_L)
 
-    Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * F_L ** 0.25
+    Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
 
     return Q
 
@@ -1186,14 +1223,14 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     0.1497462...
     """
 
-    N_c = np.asarray(N_c)
-    N_cb = np.asarray(N_cb)
-    e_t = np.asarray(e_t)
-    a = np.asarray(a)
-    b = np.asarray(b)
+    N_c = as_float_array(N_c)
+    N_cb = as_float_array(N_cb)
+    e_t = as_float_array(e_t)
+    a = as_float_array(a)
+    b = as_float_array(b)
     Ra, Ga, Ba = tsplit(RGB_a)
 
-    t = (((50000 / 13) * N_c * N_cb) * (e_t * (a ** 2 + b ** 2) ** 0.5) /
+    t = (((50000 / 13) * N_c * N_cb) * (e_t * spow(a ** 2 + b ** 2, 0.5)) /
          (Ra + Ga + 21 * Ba / 20))
 
     return t
@@ -1232,11 +1269,11 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     202.3873619...
    """
 
-    C = np.asarray(C)
+    C = as_float_array(C)
     J = np.maximum(J, EPSILON)
-    n = np.asarray(n)
+    n = as_float_array(n)
 
-    t = (C / (np.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
+    t = spow(C / (np.sqrt(J / 100) * spow(1.64 - 0.29 ** n, 0.73)), 1 / 0.9)
 
     return t
 
@@ -1284,11 +1321,11 @@ def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     0.1047077...
     """
 
-    J = np.asarray(J)
-    n = np.asarray(n)
+    J = as_float_array(J)
+    n = as_float_array(n)
 
     t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
-    C = t ** 0.9 * (J / 100) ** 0.5 * (1.64 - 0.29 ** n) ** 0.73
+    C = spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29 ** n, 0.73)
 
     return C
 
@@ -1317,10 +1354,10 @@ def colourfulness_correlate(C, F_L):
     0.1088421...
     """
 
-    C = np.asarray(C)
-    F_L = np.asarray(F_L)
+    C = as_float_array(C)
+    F_L = as_float_array(F_L)
 
-    M = C * F_L ** 0.25
+    M = C * spow(F_L, 0.25)
 
     return M
 
@@ -1349,10 +1386,10 @@ def saturation_correlate(M, Q):
     2.3603053...
     """
 
-    M = np.asarray(M)
-    Q = np.asarray(Q)
+    M = as_float_array(M)
+    Q = as_float_array(Q)
 
-    s = 100 * (M / Q) ** 0.5
+    s = 100 * spow(M / Q, 0.5)
 
     return s
 
@@ -1393,18 +1430,18 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     array([  3.0162890...e+04,   2.4237205...e+01,   1.0500000...e+00])
     """
 
-    N_c = np.asarray(N_c)
-    N_cb = np.asarray(N_cb)
-    e_t = np.asarray(e_t)
-    t = np.asarray(t)
-    A = np.asarray(A)
-    N_bb = np.asarray(N_bb)
+    N_c = as_float_array(N_c)
+    N_cb = as_float_array(N_cb)
+    e_t = as_float_array(e_t)
+    t = as_float_array(t)
+    A = as_float_array(A)
+    N_bb = as_float_array(N_bb)
 
     P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
     P_2 = A / N_bb + 0.305
     P_3 = np.ones(P_1.shape) * (21 / 20)
 
-    P_n = tstack((P_1, P_2, P_3))
+    P_n = tstack([P_1, P_2, P_3])
 
     return P_n
 
@@ -1437,14 +1474,14 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
-    P_2 = np.asarray(P_2)
-    a = np.asarray(a)
-    b = np.asarray(b)
+    P_2 = as_float_array(P_2)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     R_a = (460 * P_2 + 451 * a + 288 * b) / 1403
     G_a = (460 * P_2 - 891 * a - 261 * b) / 1403
     B_a = (460 * P_2 - 220 * a - 6300 * b) / 1403
 
-    RGB_a = tstack((R_a, G_a, B_a))
+    RGB_a = tstack([R_a, G_a, B_a])
 
     return RGB_a

@@ -12,46 +12,44 @@ References
 
 from __future__ import absolute_import
 
-import numpy as np
-
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              filter_kwargs)
 
 from .dataset import *  # noqa
 from . import dataset
-from .meng2015 import XYZ_to_spectral_Meng2015
-from .smits1999 import RGB_to_spectral_Smits1999
+from .meng2015 import XYZ_to_sd_Meng2015
+from .smits1999 import RGB_to_sd_Smits1999
 
 __all__ = []
 __all__ += dataset.__all__
-__all__ += ['XYZ_to_spectral_Meng2015']
-__all__ += ['RGB_to_spectral_Smits1999']
+__all__ += ['XYZ_to_sd_Meng2015']
+__all__ += ['RGB_to_sd_Smits1999']
 
-REFLECTANCE_RECOVERY_METHODS = CaseInsensitiveMapping({
-    'Meng 2015': XYZ_to_spectral_Meng2015,
-    'Smits 1999': RGB_to_spectral_Smits1999,
+XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
+    'Meng 2015': XYZ_to_sd_Meng2015,
+    'Smits 1999': RGB_to_sd_Smits1999,
 })
-REFLECTANCE_RECOVERY_METHODS.__doc__ = """
-Supported reflectance recovery methods.
+XYZ_TO_SD_METHODS.__doc__ = """
+Supported spectral distribution recovery methods.
 
 References
 ----------
--   :cite:`Meng2015c`
--   :cite:`Smits1999a`
+:cite:`Meng2015c`, :cite:`Smits1999a`
 
-REFLECTANCE_RECOVERY_METHODS : CaseInsensitiveMapping
+XYZ_TO_SD_METHODS : CaseInsensitiveMapping
     **{'Meng 2015', 'Smits 1999'}**
 """
 
 
-def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
+def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     """
-    Recovers the spectral power distribution of given *CIE XYZ* tristimulus
+    Recovers the spectral distribution of given *CIE XYZ* tristimulus
     values using given method.
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values to recover the spectral power distribution
+        *CIE XYZ* tristimulus values to recover the spectral distribution
         from.
     method : unicode, optional
         **{'Meng 2015', 'Smits 1999'}**,
@@ -60,130 +58,134 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
     Other Parameters
     ----------------
     cmfs : XYZ_ColourMatchingFunctions
-        {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},
+        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Standard observer colour matching functions.
     interval : numeric, optional
-        {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},
-        Wavelength :math:`\lambda_{i}` range interval in nm. The smaller
+        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
+        Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
         ``interval`` is, the longer the computations will be.
-    tolerance : numeric, optional
-        {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},
-        Tolerance for termination. The lower ``tolerance`` is, the smoother
-        the recovered spectral power distribution will be.
-    maximum_iterations : int, optional
-        {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},
-        Maximum number of iterations to perform.
+    optimisation_parameters : dict_like, optional
+        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
+        Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Recovered spectral power distribution.
+    SpectralDistribution
+        Recovered spectral distribution.
 
     Notes
     -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   *Smits (1999)* method will internally convert given *CIE XYZ*
         tristimulus values to *RGB* colourspace array assuming equal energy
         illuminant *E*.
 
     References
     ----------
-    -   :cite:`Meng2015c`
-    -   :cite:`Smits1999a`
+    :cite:`Meng2015c`, :cite:`Smits1999a`
 
     Examples
     --------
 
     *Meng (2015)* reflectance recovery:
 
+    >>> import numpy as np
     >>> from colour.utilities import numpy_print_options
-    >>> from colour.colorimetry import spectral_to_XYZ_integration
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-    >>> spd = XYZ_to_spectral(XYZ, interval=10)
+    >>> from colour.colorimetry import sd_to_XYZ_integration
+    >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
+    >>> sd = XYZ_to_sd(XYZ, interval=10)
     >>> with numpy_print_options(suppress=True):
-    ...     spd  # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 360.        ,    0.0788075...],
-                               [ 370.        ,    0.0788543...],
-                               [ 380.        ,    0.0788825...],
-                               [ 390.        ,    0.0788714...],
-                               [ 400.        ,    0.0788911...],
-                               [ 410.        ,    0.07893  ...],
-                               [ 420.        ,    0.0797471...],
-                               [ 430.        ,    0.0813339...],
-                               [ 440.        ,    0.0840145...],
-                               [ 450.        ,    0.0892826...],
-                               [ 460.        ,    0.0965359...],
-                               [ 470.        ,    0.1053176...],
-                               [ 480.        ,    0.1150921...],
-                               [ 490.        ,    0.1244252...],
-                               [ 500.        ,    0.1326083...],
-                               [ 510.        ,    0.1390282...],
-                               [ 520.        ,    0.1423548...],
-                               [ 530.        ,    0.1414636...],
-                               [ 540.        ,    0.1365195...],
-                               [ 550.        ,    0.1277319...],
-                               [ 560.        ,    0.1152622...],
-                               [ 570.        ,    0.1004513...],
-                               [ 580.        ,    0.0844187...],
-                               [ 590.        ,    0.0686863...],
-                               [ 600.        ,    0.0543013...],
-                               [ 610.        ,    0.0423486...],
-                               [ 620.        ,    0.0333861...],
-                               [ 630.        ,    0.0273558...],
-                               [ 640.        ,    0.0233407...],
-                               [ 650.        ,    0.0211208...],
-                               [ 660.        ,    0.0197248...],
-                               [ 670.        ,    0.0187157...],
-                               [ 680.        ,    0.0181510...],
-                               [ 690.        ,    0.0179691...],
-                               [ 700.        ,    0.0179247...],
-                               [ 710.        ,    0.0178665...],
-                               [ 720.        ,    0.0178005...],
-                               [ 730.        ,    0.0177570...],
-                               [ 740.        ,    0.0177090...],
-                               [ 750.        ,    0.0175743...],
-                               [ 760.        ,    0.0175058...],
-                               [ 770.        ,    0.0174492...],
-                               [ 780.        ,    0.0174984...],
-                               [ 790.        ,    0.0175667...],
-                               [ 800.        ,    0.0175657...],
-                               [ 810.        ,    0.0175319...],
-                               [ 820.        ,    0.0175184...],
-                               [ 830.        ,    0.0175390...]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={...})
-    >>> spectral_to_XYZ_integration(spd) / 100  # doctest: +ELLIPSIS
-    array([ 0.0705100...,  0.1007987...,  0.0956738...])
+    ...     # Doctests skip for Python 2.x compatibility.
+    ...     sd  # doctest: +SKIP
+    SpectralDistribution([[ 360.        ,    0.0741540...],
+                          [ 370.        ,    0.0741409...],
+                          [ 380.        ,    0.0741287...],
+                          [ 390.        ,    0.0740876...],
+                          [ 400.        ,    0.0740215...],
+                          [ 410.        ,    0.0738692...],
+                          [ 420.        ,    0.0731412...],
+                          [ 430.        ,    0.0705798...],
+                          [ 440.        ,    0.0647359...],
+                          [ 450.        ,    0.0551962...],
+                          [ 460.        ,    0.0425597...],
+                          [ 470.        ,    0.0283678...],
+                          [ 480.        ,    0.0147370...],
+                          [ 490.        ,    0.0044271...],
+                          [ 500.        ,    0.0000302...],
+                          [ 510.        ,    0.       ...],
+                          [ 520.        ,    0.       ...],
+                          [ 530.        ,    0.       ...],
+                          [ 540.        ,    0.0051962...],
+                          [ 550.        ,    0.0289516...],
+                          [ 560.        ,    0.0687006...],
+                          [ 570.        ,    0.1204130...],
+                          [ 580.        ,    0.1789378...],
+                          [ 590.        ,    0.2383451...],
+                          [ 600.        ,    0.2930157...],
+                          [ 610.        ,    0.3387433...],
+                          [ 620.        ,    0.3734033...],
+                          [ 630.        ,    0.3972820...],
+                          [ 640.        ,    0.4125508...],
+                          [ 650.        ,    0.4215782...],
+                          [ 660.        ,    0.4265503...],
+                          [ 670.        ,    0.4292647...],
+                          [ 680.        ,    0.4307000...],
+                          [ 690.        ,    0.4313993...],
+                          [ 700.        ,    0.4316316...],
+                          [ 710.        ,    0.4317109...],
+                          [ 720.        ,    0.4317684...],
+                          [ 730.        ,    0.4317864...],
+                          [ 740.        ,    0.4317972...],
+                          [ 750.        ,    0.4318385...],
+                          [ 760.        ,    0.4318576...],
+                          [ 770.        ,    0.4318455...],
+                          [ 780.        ,    0.4317877...],
+                          [ 790.        ,    0.4318119...],
+                          [ 800.        ,    0.4318070...],
+                          [ 810.        ,    0.4318089...],
+                          [ 820.        ,    0.4317781...],
+                          [ 830.        ,    0.4317733...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
+    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
+    array([ 0.2178552...,  0.1254142...,  0.0470105...])
 
     *Smits (1999)* reflectance recovery:
 
-    >>> spd = XYZ_to_spectral(XYZ, method='Smits 1999')
+    >>> sd = XYZ_to_sd(XYZ, method='Smits 1999')
     >>> with numpy_print_options(suppress=True):
-    ...     spd  # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 380.        ,    0.0908046...],
-                               [ 417.7778    ,    0.0887761...],
-                               [ 455.5556    ,    0.0939795...],
-                               [ 493.3333    ,    0.1236033...],
-                               [ 531.1111    ,    0.1315788...],
-                               [ 568.8889    ,    0.1293411...],
-                               [ 606.6667    ,    0.0392680...],
-                               [ 644.4444    ,    0.0214496...],
-                               [ 682.2222    ,    0.0214496...],
-                               [ 720.        ,    0.0215462...]],
-                              interpolator=CubicSplineInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={...})
-    >>> spectral_to_XYZ_integration(spd) / 100  # doctest: +ELLIPSIS
-    array([ 0.0753341...,  0.1054586...,  0.0977855...])
+    ...     sd  # doctest: +ELLIPSIS
+    SpectralDistribution([[ 380.        ,    0.07691923],
+                          [ 417.7778    ,    0.0587005 ],
+                          [ 455.5556    ,    0.03943195],
+                          [ 493.3333    ,    0.03024978],
+                          [ 531.1111    ,    0.02750692],
+                          [ 568.8889    ,    0.02808645],
+                          [ 606.6667    ,    0.34298985],
+                          [ 644.4444    ,    0.41185795],
+                          [ 682.2222    ,    0.41185795],
+                          [ 720.        ,    0.41180754]],
+                         interpolator=LinearInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
+    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
+    array([ 0.2004540...,  0.1105632...,  0.0420963...])
     """
 
-    a = np.asarray(XYZ)
+    a = as_float_array(XYZ)
 
-    function = REFLECTANCE_RECOVERY_METHODS[method]
+    function = XYZ_TO_SD_METHODS[method]
 
-    if function is RGB_to_spectral_Smits1999:
+    if function is RGB_to_sd_Smits1999:
         from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
 
         a = XYZ_to_RGB_Smits1999(XYZ)
@@ -191,4 +193,4 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
     return function(a, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['REFLECTANCE_RECOVERY_METHODS', 'XYZ_to_spectral']
+__all__ += ['XYZ_TO_SD_METHODS', 'XYZ_to_sd']

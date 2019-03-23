@@ -22,10 +22,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import as_numeric, is_numeric, is_string
+from colour.utilities import as_float, is_numeric, is_string
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -72,12 +72,11 @@ class Extrapolator(object):
 
     Notes
     -----
-    The interpolator must define *x* and *y* attributes.
+    -   The interpolator must define *x* and *y* attributes.
 
     References
     ----------
-    -   :cite:`Sastanina`
-    -   :cite:`Westland2012i`
+    :cite:`Sastanina`, :cite:`Westland2012i`
 
     Examples
     --------
@@ -276,7 +275,7 @@ class Extrapolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xe = as_numeric(self._evaluate(x))
+        xe = as_float(self._evaluate(x))
 
         return xe
 

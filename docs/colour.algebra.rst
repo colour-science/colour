@@ -26,11 +26,14 @@ Interpolation
     :toctree: generated/
 
     KernelInterpolator
+    NearestNeighbourInterpolator
     LinearInterpolator
     NullInterpolator
     PchipInterpolator
     SpragueInterpolator
     lagrange_coefficients
+    TABLE_INTERPOLATION_METHODS
+    table_interpolation
 
 **Interpolation Kernels**
 
@@ -44,6 +47,18 @@ Interpolation
     kernel_sinc
     kernel_lanczos
     kernel_cardinal_spline
+
+**Ancillary Objects**
+
+``colour.algebra``
+
+.. currentmodule:: colour.algebra
+
+.. autosummary::
+    :toctree: generated/
+
+    table_interpolation_trilinear
+    table_interpolation_tetrahedral
 
 Coordinates
 -----------
@@ -76,6 +91,11 @@ Geometry
     euclidean_distance
     extend_line_segment
     intersect_line_segments
+    ellipse_coefficients_general_form
+    ellipse_coefficients_canonical_form
+    point_at_angle_on_ellipse
+    ELLIPSE_FITTING_METHODS
+    ellipse_fitting
 
 **Ancillary Objects**
 
@@ -85,6 +105,7 @@ Geometry
     :toctree: generated/
 
     LineSegmentsIntersections_Specification
+    ellipse_fitting_Halir1998
 
 Matrix
 ------
@@ -109,3 +130,30 @@ Random
     :toctree: generated/
 
     random_triplet_generator
+
+Regression
+----------
+
+``colour.algebra``
+
+.. currentmodule:: colour.algebra
+
+.. autosummary::
+    :toctree: generated/
+
+    least_square_mapping_MoorePenrose
+
+Common
+------
+
+``colour.algebra``
+
+.. currentmodule:: colour.algebra
+
+.. autosummary::
+    :toctree: generated/
+
+    is_spow_enabled
+    set_spow_enable
+    spow_enable
+    spow

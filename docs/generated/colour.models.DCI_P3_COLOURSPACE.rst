@@ -1,5 +1,5 @@
-colour\.models\.DCI\_P3\_COLOURSPACE
-====================================
+colour.models.DCI\_P3\_COLOURSPACE
+==================================
 
 .. currentmodule:: colour.models
 

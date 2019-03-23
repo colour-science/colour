@@ -3,7 +3,7 @@
 CIE L*a*b* Colourspace
 ======================
 
-Defines the *CIE L\*a\*b\** colourspace transformations:
+Defines the *CIE L\\*a\\*b\\** colourspace transformations:
 
 -   :func:`colour.XYZ_to_Lab`
 -   :func:`colour.Lab_to_XYZ`
@@ -28,13 +28,16 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.colorimetry import ILLUMINANTS
-from colour.constants import CIE_E, CIE_K
+from colour.colorimetry import (ILLUMINANTS,
+                                intermediate_lightness_function_CIE1976,
+                                intermediate_luminance_function_CIE1976)
 from colour.models import xy_to_xyY, xyY_to_XYZ
-from colour.utilities import tsplit, tstack
+from colour.utilities import (from_range_1, from_range_100, from_range_degrees,
+                              to_domain_1, to_domain_100, to_domain_degrees,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -45,9 +48,10 @@ __all__ = ['XYZ_to_Lab', 'Lab_to_XYZ', 'Lab_to_LCHab', 'LCHab_to_Lab']
 
 def XYZ_to_Lab(
         XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE L\*a\*b\** colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
+    colourspace.
 
     Parameters
     ----------
@@ -60,55 +64,68 @@ def XYZ_to_Lab(
     Returns
     -------
     ndarray
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output *Lightness* :math:`L^*` is in range [0, 100].
+
+    +----------------+-----------------------+-----------------+
+    | **Domain**     | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+
+    +----------------+-----------------------+-----------------+
+    | **Range**      | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``Lab``        | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |                |                       |                 |
+    |                | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |                |                       |                 |
+    |                | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +----------------+-----------------------+-----------------+
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
+    array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
 
-    XYZ = np.asarray(XYZ)
-    XYZ_r = xyY_to_XYZ(xy_to_xyY(illuminant))
+    X, Y, Z = tsplit(to_domain_1(XYZ))
 
-    XYZ_f = XYZ / XYZ_r
+    X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    XYZ_f = np.where(XYZ_f > CIE_E,
-                     np.power(XYZ_f, 1 / 3), (CIE_K * XYZ_f + 16) / 116)
+    f_X_X_n = intermediate_lightness_function_CIE1976(X, X_n)
+    f_Y_Y_n = intermediate_lightness_function_CIE1976(Y, Y_n)
+    f_Z_Z_n = intermediate_lightness_function_CIE1976(Z, Z_n)
 
-    X_f, Y_f, Z_f = tsplit(XYZ_f)
+    L = 116 * f_Y_Y_n - 16
+    a = 500 * (f_X_X_n - f_Y_Y_n)
+    b = 200 * (f_Y_Y_n - f_Z_Z_n)
 
-    L = 116 * Y_f - 16
-    a = 500 * (X_f - Y_f)
-    b = 200 * (Y_f - Z_f)
+    Lab = tstack([L, a, b])
 
-    Lab = tstack((L, a, b))
-
-    return Lab
+    return from_range_100(Lab)
 
 
 def Lab_to_XYZ(
         Lab,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
-    Converts from *CIE L\*a\*b\** colourspace to *CIE XYZ* tristimulus values.
+    Converts from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
+    values.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -120,109 +137,165 @@ def Lab_to_XYZ(
 
     Notes
     -----
-    -   Input *Lightness* :math:`L^*` is in domain [0, 100].
-    -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+
+    +----------------+-----------------------+-----------------+
+    | **Domain**     | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``Lab``        | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |                |                       |                 |
+    |                | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |                |                       |                 |
+    |                | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +----------------+-----------------------+-----------------+
+    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+
+    +----------------+-----------------------+-----------------+
+    | **Range**      | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------
-    >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+    >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    L, a, b = tsplit(Lab)
-    XYZ_r = xyY_to_XYZ(xy_to_xyY(illuminant))
+    L, a, b = tsplit(to_domain_100(Lab))
 
-    f_y = (L + 16) / 116
-    f_x = a / 500 + f_y
-    f_z = f_y - b / 200
+    X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    x_r = np.where(f_x ** 3 > CIE_E, f_x ** 3, (116 * f_x - 16) / CIE_K)
-    y_r = np.where(L > CIE_K * CIE_E, ((L + 16) / 116) ** 3, L / CIE_K)
-    z_r = np.where(f_z ** 3 > CIE_E, f_z ** 3, (116 * f_z - 16) / CIE_K)
+    f_Y_Y_n = (L + 16) / 116
+    f_X_X_n = a / 500 + f_Y_Y_n
+    f_Z_Z_n = f_Y_Y_n - b / 200
 
-    XYZ = tstack((x_r, y_r, z_r)) * XYZ_r
+    X = intermediate_luminance_function_CIE1976(f_X_X_n, X_n)
+    Y = intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n)
+    Z = intermediate_luminance_function_CIE1976(f_Z_Z_n, Z_n)
 
-    return XYZ
+    XYZ = tstack([X, Y, Z])
+
+    return from_range_1(XYZ)
 
 
 def Lab_to_LCHab(Lab):
     """
-    Converts from *CIE L\*a\*b\** colourspace to *CIE L\*C\*Hab* colourspace.
+    Converts from *CIE L\\*a\\*b\\** colourspace to *CIE L\\*C\\*Hab*
+    colourspace.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE L\*C\*Hab* colourspace array.
+        *CIE L\\*C\\*Hab* colourspace array.
 
     Notes
     -----
-    -   *Lightness* :math:`L^*` is in domain [0, 100].
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``LCHab``  | ``L``  : [0, 100]     | ``L``  : [0, 1] |
+    |            |                       |                 |
+    |            | ``C``  : [0, 100]     | ``C``  : [0, 1] |
+    |            |                       |                 |
+    |            | ``ab`` : [0, 360]     | ``ab`` : [0, 1] |
+    +------------+-----------------------+-----------------+
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------
-    >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+    >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_LCHab(Lab)  # doctest: +ELLIPSIS
-    array([  37.9856291...,   24.0384542...,  190.5892337...])
+    array([ 41.5278752...,  59.1242590...,  27.0884878...])
     """
 
     L, a, b = tsplit(Lab)
 
-    C, H = tsplit(cartesian_to_polar(tstack((a, b))))
+    C, H = tsplit(cartesian_to_polar(tstack([a, b])))
 
-    LCHab = tstack((L, C, np.degrees(H) % 360))
+    LCHab = tstack([L, C, from_range_degrees(np.degrees(H) % 360)])
 
     return LCHab
 
 
 def LCHab_to_Lab(LCHab):
     """
-    Converts from *CIE L\*C\*Hab* colourspace to *CIE L\*a\*b\** colourspace.
+    Converts from *CIE L\\*C\\*Hab* colourspace to *CIE L\\*a\\*b\\**
+    colourspace.
 
     Parameters
     ----------
     LCHab : array_like
-        *CIE L\*C\*Hab* colourspace array.
+        *CIE L\\*C\\*Hab* colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
 
     Notes
     -----
-    -   *Lightness* :math:`L^*` is in domain [0, 100].
+
+    +-------------+-----------------------+-----------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1**   |
+    +=============+=======================+=================+
+    | ``LCHab``   | ``L``  : [0, 100]     | ``L``  : [0, 1] |
+    |             |                       |                 |
+    |             | ``C``  : [0, 100]     | ``C``  : [0, 1] |
+    |             |                       |                 |
+    |             | ``ab`` : [0, 360]     | ``ab`` : [0, 1] |
+    +-------------+-----------------------+-----------------+
+
+    +-------------+-----------------------+-----------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1**   |
+    +=============+=======================+=================+
+    | ``Lab``     | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |             |                       |                 |
+    |             | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |             |                       |                 |
+    |             | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +-------------+-----------------------+-----------------+
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------
-    >>> LCHab = np.array([37.98562910, 24.03845422, 190.58923377])
+    >>> LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
     >>> LCHab_to_Lab(LCHab)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
+    array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
 
     L, C, H = tsplit(LCHab)
 
-    a, b = tsplit(polar_to_cartesian(tstack((C, np.radians(H)))))
+    a, b = tsplit(
+        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
 
-    Lab = tstack((L, a, b))
+    Lab = tstack([L, a, b])
 
     return Lab

@@ -1,5 +1,5 @@
-colour\.is\_within\_macadam\_limits
-===================================
+colour.is\_within\_macadam\_limits
+==================================
 
 .. currentmodule:: colour
 

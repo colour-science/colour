@@ -31,10 +31,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import oetf_ST2084, eotf_ST2084
-from colour.utilities import dot_vector
+from colour.utilities import (domain_range_scale, dot_vector, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -104,23 +105,46 @@ def RGB_to_ICTCP(RGB, L_p=10000):
     ndarray
         :math:`IC_TC_P` colour encoding array.
 
+    Notes
+    -----
+
+    +------------+-----------------------+------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``RGB``    | [0, 1]                | [0, 1]           |
+    +------------+-----------------------+------------------+
+
+    +------------+-----------------------+------------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``ICTCP``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
+    |            |                       |                  |
+    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
+    |            |                       |                  |
+    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    +------------+-----------------------+------------------+
+
     References
     ----------
-    -   :cite:`Dolby2016a`
-    -   :cite:`Lu2016c`
+    :cite:`Dolby2016a`, :cite:`Lu2016c`
 
     Examples
     --------
-    >>> RGB = np.array([0.35181454, 0.26934757, 0.21288023])
+    >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_ICTCP(RGB)  # doctest: +ELLIPSIS
-    array([ 0.0955407..., -0.0089063...,  0.0138928...])
+    array([ 0.0735136...,  0.0047525...,  0.0935159...])
     """
 
+    RGB = to_domain_1(RGB)
+
     LMS = dot_vector(ICTCP_RGB_TO_LMS_MATRIX, RGB)
-    LMS_p = oetf_ST2084(LMS, L_p)
+
+    with domain_range_scale('ignore'):
+        LMS_p = oetf_ST2084(LMS, L_p)
+
     ICTCP = dot_vector(ICTCP_LMS_P_TO_ICTCP_MATRIX, LMS_p)
 
-    return ICTCP
+    return from_range_1(ICTCP)
 
 
 def ICTCP_to_RGB(ICTCP, L_p=10000):
@@ -141,20 +165,43 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
     ndarray
         *ITU-R BT.2020* colourspace array.
 
+    Notes
+    -----
+
+    +------------+-----------------------+------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``ICTCP``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
+    |            |                       |                  |
+    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
+    |            |                       |                  |
+    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    +------------+-----------------------+------------------+
+
+    +------------+-----------------------+------------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``RGB``    | [0, 1]                | [0, 1]           |
+    +------------+-----------------------+------------------+
+
     References
     ----------
-    -   :cite:`Dolby2016a`
-    -   :cite:`Lu2016c`
+    :cite:`Dolby2016a`, :cite:`Lu2016c`
 
     Examples
     --------
-    >>> ICTCP = np.array([0.09554079, -0.00890639, 0.01389286])
+    >>> ICTCP = np.array([0.07351364, 0.00475253, 0.09351596])
     >>> ICTCP_to_RGB(ICTCP)  # doctest: +ELLIPSIS
-    array([ 0.3518145...,  0.2693475...,  0.2128802...])
+    array([ 0.4562052...,  0.0308107...,  0.0409195...])
     """
 
+    ICTCP = to_domain_1(ICTCP)
+
     LMS_p = dot_vector(ICTCP_ICTCP_TO_LMS_P_MATRIX, ICTCP)
-    LMS = eotf_ST2084(LMS_p, L_p)
+
+    with domain_range_scale('ignore'):
+        LMS = eotf_ST2084(LMS_p, L_p)
+
     RGB = dot_vector(ICTCP_LMS_TO_RGB_MATRIX, LMS)
 
-    return RGB
+    return from_range_1(RGB)

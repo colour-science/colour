@@ -24,10 +24,11 @@ except ImportError:
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
-from colour.utilities import first_item, is_pandas_installed, tsplit, tstack
+from colour.utilities import (as_float_array, first_item, is_pandas_installed,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -91,11 +92,13 @@ dict_like, optional
     function
     signals
     labels
+    signal_type
 
     Methods
     -------
     __str__
     __repr__
+    __hash__
     __getitem__
     __setitem__
     __contains__
@@ -258,6 +261,8 @@ dict_like, optional
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
         super(MultiSignal, self).__init__(kwargs.get('name'))
 
+        self._signal_type = kwargs.get('signal_type', Signal)
+
         self._signals = self.multi_signal_unpack_data(data, domain, labels,
                                                       **kwargs)
 
@@ -351,7 +356,7 @@ dict_like, optional
         """
 
         if value is not None:
-            value = np.asarray(value)
+            value = as_float_array(value)
 
             if value.ndim in (0, 1):
                 for signal in self._signals.values():
@@ -543,7 +548,8 @@ dict_like
         """
 
         if value is not None:
-            self._signals = self.multi_signal_unpack_data(value)
+            self._signals = self.multi_signal_unpack_data(
+                value, signal_type=self._signal_type)
 
     @property
     def labels(self):
@@ -579,6 +585,24 @@ dict_like
                 [(value[i], signal)
                  for i, (_key, signal) in enumerate(self._signals.items())])
 
+    @property
+    def signal_type(self):
+        """
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances type.
+
+        Returns
+        -------
+        type
+            :class:`colour.continuous.Signal` sub-class instances type.
+
+        Notes
+        -----
+        -   This property is read only.
+        """
+
+        return self._signal_type
+
     def __str__(self):
         """
         Returns a formatted string representation of the multi-continuous
@@ -608,7 +632,7 @@ dict_like
         """
 
         try:
-            return str(np.hstack((self.domain[:, np.newaxis], self.range)))
+            return str(np.hstack([self.domain[:, np.newaxis], self.range]))
         except TypeError:
             return super(MultiSignal, self).__str__()
 
@@ -647,11 +671,12 @@ dict_like
 
         try:
             representation = repr(
-                np.hstack((self.domain[:, np.newaxis], self.range)))
+                np.hstack([self.domain[:, np.newaxis], self.range]))
             representation = representation.replace('array',
                                                     self.__class__.__name__)
-            representation = representation.replace('       [', '{0}['.format(
-                ' ' * (len(self.__class__.__name__) + 2)))
+            representation = representation.replace(
+                '       [',
+                '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
             representation = ('{0},\n'
                               '{1}labels={2},\n'
                               '{1}interpolator={3},\n'
@@ -674,6 +699,18 @@ dict_like
             # TODO: Discuss what is the most suitable behaviour, either the
             # following or __str__ one.
             return '{0}()'.format(self.__class__.__name__)
+
+    def __hash__(self):
+        """
+        Returns the abstract continuous function hash.
+
+        Returns
+        -------
+        int
+            Object hash.
+        """
+
+        return hash(repr(self))
 
     def __getitem__(self, x):
         """
@@ -819,7 +856,7 @@ dict_like
          [   9.    100.    110.    120.  ]]
         """
 
-        y = np.asarray(y)
+        y = as_float_array(y)
 
         assert y.ndim in range(3), (
             'Corresponding "y" variable must be a numeric or a 1-dimensional '
@@ -877,7 +914,7 @@ dict_like
         Parameters
         ----------
         other : object
-            Object to test whether it is equal to multi-continuous signal.
+            Object to test whether it is equal to the multi-continuous signal.
 
         Returns
         -------
@@ -1033,7 +1070,7 @@ dict_like
          [   8.  200.  220.  240.]
          [   9.  220.  240.  260.]]
 
-        >>> a = np.arange(0, 30, 1).reshape((10, 3))
+        >>> a = np.arange(0, 30, 1).reshape([10, 3])
         >>> print(multi_signal_1.arithmetical_operation(a, '+', True))
         [[   0.   40.   61.   82.]
          [   1.   63.   84.  105.]
@@ -1073,7 +1110,7 @@ dict_like
                                           a.signals.values()):
                 signal_a.arithmetical_operation(signal_b, operation, True)
         else:
-            a = np.asarray(a)
+            a = as_float_array(a)
 
             assert a.ndim in range(3), (
                 'Operand "a" variable must be a numeric or a 1-dimensional or '
@@ -1318,9 +1355,12 @@ dict_like, optional
                 signals[0] = signal_type(data, **kwargs)
             elif isinstance(data, DataFrame):
                 domain_u = data.index.values
-                signals = OrderedDict(((label, signal_type(
-                    data[label], domain_u, name=label, **kwargs))
-                                       for label in data))
+                signals = OrderedDict(((label,
+                                        signal_type(
+                                            data[label],
+                                            domain_u,
+                                            name=label,
+                                            **kwargs)) for label in data))
 
         if domain is not None and signals is not None:
             for signal in signals.values():

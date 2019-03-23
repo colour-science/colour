@@ -1,5 +1,5 @@
-colour\.RGB\_to\_CMY
-====================
+colour.RGB\_to\_CMY
+===================
 
 .. currentmodule:: colour
 

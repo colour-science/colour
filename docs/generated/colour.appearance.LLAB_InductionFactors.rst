@@ -1,5 +1,5 @@
-colour\.appearance\.LLAB\_InductionFactors
-==========================================
+colour.appearance.LLAB\_InductionFactors
+========================================
 
 .. currentmodule:: colour.appearance
 
@@ -19,5 +19,14 @@ colour\.appearance\.LLAB\_InductionFactors
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LLAB_InductionFactors.D
+      ~LLAB_InductionFactors.F_C
+      ~LLAB_InductionFactors.F_L
+      ~LLAB_InductionFactors.F_S
    
    

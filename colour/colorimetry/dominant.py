@@ -37,9 +37,10 @@ from colour.algebra import (euclidean_distance, extend_line_segment,
                             intersect_line_segments)
 from colour.colorimetry import CMFS
 from colour.models import XYZ_to_xy
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -83,26 +84,29 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
 
     Examples
     --------
-    >>> xy = np.array([0.26415, 0.37770])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> xy_s = XYZ_to_xy(CMFS['CIE 1931 2 Degree Standard Observer'].values)
-    >>> closest_spectral_locus_wavelength(xy, xy_n, xy_s)  # doctest: +ELLIPSIS
-    (array(144), array([ 0.0036969...,  0.6389577...]))
+    >>> ix, intersect = closest_spectral_locus_wavelength(xy, xy_n, xy_s)
+    >>> print(ix) #
+    256
+    >>> print(intersect) # doctest: +ELLIPSIS
+    [ 0.6835474...  0.3162840...]
     """
 
-    xy = np.asarray(xy)
+    xy = as_float_array(xy)
     xy_n = np.resize(xy_n, xy.shape)
-    xy_s = np.asarray(xy_s)
+    xy_s = as_float_array(xy_s)
 
     xy_e = (extend_line_segment(xy, xy_n)
             if reverse else extend_line_segment(xy_n, xy))
 
     # Closing horse-shoe shape to handle line of purples intersections.
-    xy_s = np.vstack((xy_s, xy_s[0, :]))
+    xy_s = np.vstack([xy_s, xy_s[0, :]])
 
     xy_wl = intersect_line_segments(
         np.concatenate((xy_n, xy_e), -1),
-        np.hstack((xy_s, np.roll(xy_s, 1, axis=0)))).xy
+        np.hstack([xy_s, np.roll(xy_s, 1, axis=0)])).xy
     xy_wl = xy_wl[~np.isnan(xy_wl).any(axis=-1)]
     if not len(xy_wl):
         raise ValueError(
@@ -123,7 +127,7 @@ def dominant_wavelength(xy,
                         cmfs=CMFS['CIE 1931 2 Degree Standard Observer'],
                         reverse=False):
     """
-    Returns the *dominant wavelength* :math:`\lambda_d` for given colour
+    Returns the *dominant wavelength* :math:`\\lambda_d` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
     second intersection coordinates with the spectral locus.
 
@@ -157,33 +161,32 @@ def dominant_wavelength(xy,
 
     References
     ----------
-    -   :cite:`CIETC1-482004o`
-    -   :cite:`Erdogana`
+    :cite:`CIETC1-482004o`, :cite:`Erdogana`
 
     Examples
     --------
     *Dominant wavelength* computation:
 
     >>> from pprint import pprint
-    >>> xy = np.array([0.26415, 0.37770])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(504...),
-     array([ 0.0036969...,  0.6389577...]),
-     array([ 0.0036969...,  0.6389577...]))
+    (array(616...),
+     array([ 0.6835474...,  0.3162840...]),
+     array([ 0.6835474...,  0.3162840...]))
 
     *Complementary dominant wavelength* is returned if the first intersection
     is located on the line of purples:
 
-    >>> xy = np.array([0.35000, 0.25000])
+    >>> xy = np.array([0.37605506, 0.24452225])
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(-520...),
-     array([ 0.4133314...,  0.1158663...]),
-     array([ 0.0743553...,  0.8338050...]))
+    (array(-509.0),
+     array([ 0.4572314...,  0.1362814...]),
+     array([ 0.0104096...,  0.7320745...]))
     """
 
-    xy = np.asarray(xy)
+    xy = as_float_array(xy)
     xy_n = np.resize(xy_n, xy.shape)
 
     xy_s = XYZ_to_xy(cmfs.values)
@@ -195,8 +198,8 @@ def dominant_wavelength(xy,
     xy_e = (extend_line_segment(xy, xy_n)
             if reverse else extend_line_segment(xy_n, xy))
     intersect = intersect_line_segments(
-        np.concatenate((xy_n, xy_e), -1), np.hstack((xy_s[0],
-                                                     xy_s[-1]))).intersect
+        np.concatenate((xy_n, xy_e), -1), np.hstack([xy_s[0],
+                                                     xy_s[-1]])).intersect
     intersect = np.reshape(intersect, wl.shape)
 
     i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(
@@ -213,7 +216,7 @@ def complementary_wavelength(xy,
                              xy_n,
                              cmfs=CMFS['CIE 1931 2 Degree Standard Observer']):
     """
-    Returns the *complementary wavelength* :math:`\lambda_c` for given colour
+    Returns the *complementary wavelength* :math:`\\lambda_c` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
     second intersection coordinates with the spectral locus.
 
@@ -244,30 +247,29 @@ def complementary_wavelength(xy,
 
     References
     ----------
-    -   :cite:`CIETC1-482004o`
-    -   :cite:`Erdogana`
+    :cite:`CIETC1-482004o`, :cite:`Erdogana`
 
     Examples
     --------
     *Complementary wavelength* computation:
 
     >>> from pprint import pprint
-    >>> xy = np.array([0.35000, 0.25000])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.37605506, 0.24452225])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(520...),
-     array([ 0.0743553...,  0.8338050...]),
-     array([ 0.0743553...,  0.8338050...]))
+    (array(509.0),
+     array([ 0.0104096...,  0.7320745...]),
+     array([ 0.0104096...,  0.7320745...]))
 
     *Dominant wavelength* is returned if the first intersection is located on
     the line of purples:
 
-    >>> xy = np.array([0.26415, 0.37770])
+    >>> xy = np.array([0.54369557, 0.32107944])
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(-504...),
-     array([ 0.4897494...,  0.1514035...]),
-     array([ 0.0036969...,  0.6389577...]))
+    (array(492.0),
+     array([ 0.0364795 ,  0.3384712...]),
+     array([ 0.0364795 ,  0.3384712...]))
     """
 
     return dominant_wavelength(xy, xy_n, cmfs, True)
@@ -296,16 +298,15 @@ def excitation_purity(xy,
 
     References
     ----------
-    -   :cite:`CIETC1-482004o`
-    -   :cite:`Erdogana`
+    :cite:`CIETC1-482004o`, :cite:`Erdogana`
 
     Examples
     --------
-    >>> xy = np.array([0.28350, 0.68700])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> excitation_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
-    0.9386035...
+    0.6228856...
     """
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
@@ -338,19 +339,18 @@ def colorimetric_purity(xy,
 
     References
     ----------
-    -   :cite:`CIETC1-482004o`
-    -   :cite:`Erdogana`
+    :cite:`CIETC1-482004o`, :cite:`Erdogana`
 
     Examples
     --------
-    >>> xy = np.array([0.28350, 0.68700])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> colorimetric_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
-    0.9705976...
+    0.6135828...
     """
 
-    xy = np.asarray(xy)
+    xy = as_float_array(xy)
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
     P_e = excitation_purity(xy, xy_n, cmfs)

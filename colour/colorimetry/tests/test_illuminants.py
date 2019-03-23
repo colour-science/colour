@@ -8,212 +8,223 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (D_illuminant_relative_spd,
-                                CIE_standard_illuminant_A_function,
-                                SpectralPowerDistribution)
+from colour.colorimetry import (
+    ILLUMINANTS_SDS, SpectralShape, sd_CIE_standard_illuminant_A,
+    sd_CIE_illuminant_D_series, daylight_locus_function)
+from colour.temperature import CCT_to_xy_CIE_D
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'D60_SPD_DATA', 'A_DATA', 'TestD_illuminantRelativeSpd',
-    'TestCIEStandardIlluminantAFunction'
+    'A_DATA', 'TestSdCIEStandardIlluminantA', 'TestSdCIEIlluminantDSeries',
+    'TestDaylightLocusFunction'
 ]
 
-D60_SPD_DATA = {
-    300: 0.029370758174923,
-    310: 2.619241317964963,
-    320: 15.716890613128260,
-    330: 28.774580263919134,
-    340: 31.864839936661980,
-    350: 36.377426444674100,
-    360: 38.683115463162864,
-    370: 42.717548461834966,
-    380: 41.454940579637523,
-    390: 46.605319243279432,
-    400: 72.278593838848636,
-    410: 80.440599992794645,
-    420: 82.915026938943186,
-    430: 77.676263977317561,
-    440: 95.681274303793984,
-    450: 107.954820867505958,
-    460: 109.559186805074063,
-    470: 107.758140706827916,
-    480: 109.671404235341797,
-    490: 103.707873310050914,
-    500: 105.232198575232047,
-    510: 104.427666921854353,
-    520: 102.522933578052459,
-    530: 106.052670879047824,
-    540: 103.315154034581980,
-    550: 103.538598917326581,
-    560: 100.000000000000000,
-    570: 96.751421418866897,
-    580: 96.712822501540316,
-    590: 89.921479084426167,
-    600: 91.999793295044071,
-    610: 92.098709550672751,
-    620: 90.646002697010346,
-    630: 86.526482724860287,
-    640: 87.579186235501524,
-    650: 83.976140035832955,
-    660: 84.724074228057717,
-    670: 87.493490847729831,
-    680: 83.483070156949736,
-    690: 74.172451118766631,
-    700: 76.620385310991381,
-    710: 79.051849073755832,
-    720: 65.471370717416463,
-    730: 74.106079027252520,
-    740: 79.527120427726302,
-    750: 67.307162771623837,
-    760: 49.273538206159095,
-    770: 70.892412117890245,
-    780: 67.163996226304974,
-    790: 68.171370717416465,
-    800: 62.989808616705801,
-    810: 54.990892361077115,
-    820: 60.825600670913168,
-    830: 63.893495862261560
-}
-
 A_DATA = np.array([
-    6.144617784123856,
-    6.947198985402079,
-    7.821349414981689,
-    8.769802283876084,
-    9.795099608867382,
-    10.899576157801631,
-    12.085345363411140,
-    13.354287257777719,
-    14.708038449875502,
-    16.147984141480254,
-    17.675252152303049,
-    19.290708903610355,
-    20.994957290865997,
-    22.788336360042955,
-    24.670922689127945,
-    26.642533365850888,
-    28.702730444663004,
-    30.850826760279453,
-    33.085892971502503,
-    35.406765707340028,
-    37.812056687427500,
-    40.300162690239553,
-    42.869276245337296,
-    45.517396929746482,
-    48.242343153313406,
-    51.041764323370195,
-    53.913153285099291,
-    56.853858940467404,
-    59.861098955389089,
-    62.931972471732792,
-    66.063472747830630,
-    69.252499658171686,
-    72.495871989904842,
-    75.790339480551324,
-    79.132594547909648,
-    82.519283669449450,
-    85.947018374529335,
-    89.412385818490364,
-    92.911958913061213,
-    96.442305992552875,
-    100.000000000000000,
-    103.581627181740913,
-    107.183795282900803,
-    110.803141239869944,
-    114.436338369157482,
-    118.080103054962819,
-    121.731200940444666,
-    125.386452630022220,
-    129.042738912085099,
-    132.697005513293647,
-    136.346267397171545,
-    139.987612621004047,
-    143.618205766130785,
-    147.235290957601734,
-    150.836194489858400,
-    154.418327075631083,
-    157.979185735603039,
-    161.516355346632452,
-    165.027509866420871,
-    168.510413252511256,
-    171.962920093394303,
-    175.382975969299480,
-    178.768617559985131,
-    182.117972516492841,
-    185.429259113445994,
-    188.700785698018507,
-    191.930949951225926,
-    195.118237976664375,
-    198.261223231287033,
-    201.358565312239051,
-    204.409008613197130,
-    207.411380863071741,
-    210.364591559332979,
-    213.267630307635471,
-    216.119565078810581,
-    218.919540393725441,
-    221.666775445909082,
-    224.360562171292912,
-    227.000263273843757,
-    229.585310215328150,
-    232.115201176917310,
-    234.589498999828919,
-    237.007829111703302,
-    239.369877444937316,
-    241.675388352737258,
-    243.924162528208456,
-    246.116054931382024,
-    248.250972728666568,
-    250.328873248841006,
-    252.349761959321199,
-    254.313690466103111,
-    256.220754540440964,
-    258.071092175015735,
-    259.864881672054366,
+    6.14461778,
+    6.94719899,
+    7.82134941,
+    8.76980228,
+    9.79509961,
+    10.89957616,
+    12.08534536,
+    13.35428726,
+    14.70803845,
+    16.14798414,
+    17.67525215,
+    19.29070890,
+    20.99495729,
+    22.78833636,
+    24.67092269,
+    26.64253337,
+    28.70273044,
+    30.85082676,
+    33.08589297,
+    35.40676571,
+    37.81205669,
+    40.30016269,
+    42.86927625,
+    45.51739693,
+    48.24234315,
+    51.04176432,
+    53.91315329,
+    56.85385894,
+    59.86109896,
+    62.93197247,
+    66.06347275,
+    69.25249966,
+    72.49587199,
+    75.79033948,
+    79.13259455,
+    82.51928367,
+    85.94701837,
+    89.41238582,
+    92.91195891,
+    96.44230599,
+    100.00000000,
+    103.58162718,
+    107.18379528,
+    110.80314124,
+    114.43633837,
+    118.08010305,
+    121.73120094,
+    125.38645263,
+    129.04273891,
+    132.69700551,
+    136.34626740,
+    139.98761262,
+    143.61820577,
+    147.23529096,
+    150.83619449,
+    154.41832708,
+    157.97918574,
+    161.51635535,
+    165.02750987,
+    168.51041325,
+    171.96292009,
+    175.38297597,
+    178.76861756,
+    182.11797252,
+    185.42925911,
+    188.70078570,
+    191.93094995,
+    195.11823798,
+    198.26122323,
+    201.35856531,
+    204.40900861,
+    207.41138086,
+    210.36459156,
+    213.26763031,
+    216.11956508,
+    218.91954039,
+    221.66677545,
+    224.36056217,
+    227.00026327,
+    229.58531022,
+    232.11520118,
+    234.58949900,
+    237.00782911,
+    239.36987744,
+    241.67538835,
+    243.92416253,
+    246.11605493,
+    248.25097273,
+    250.32887325,
+    252.34976196,
+    254.31369047,
+    256.22075454,
+    258.07109218,
+    259.86488167,
+    261.60233977,
 ])
 
 
-class TestD_illuminantRelativeSpd(unittest.TestCase):
-    """
-    Defines :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
-    definition unit tests methods.
-    """
-
-    def test_D_illuminant_relative_spd(self):
-        """
-        Tests :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
-        definition.
-        """
-
-        spd_r = SpectralPowerDistribution(D60_SPD_DATA)
-        spd_t = D_illuminant_relative_spd(np.array([0.32168, 0.33767]))
-
-        np.testing.assert_array_equal(spd_r.domain, spd_t.domain)
-        np.testing.assert_almost_equal(spd_r.values, spd_t.values, decimal=7)
-
-
-class TestCIEStandardIlluminantAFunction(unittest.TestCase):
+class TestSdCIEStandardIlluminantA(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.illuminants.\
-CIE_standard_illuminant_A_function` definition unit tests methods.
+sd_CIE_standard_illuminant_A` definition unit tests methods.
     """
 
-    def test_CIE_standard_illuminant_A_function(self):
+    def test_sd_CIE_standard_illuminant_A(self):
         """
         Tests :func:`colour.colorimetry.illuminants.\
-CIE_standard_illuminant_A_function` definition.
+sd_CIE_standard_illuminant_A` definition.
         """
 
         np.testing.assert_almost_equal(
-            CIE_standard_illuminant_A_function(np.arange(360, 830, 5)),
+            sd_CIE_standard_illuminant_A(SpectralShape(360, 830, 5)).values,
             A_DATA,
             decimal=7)
+
+
+class TestSdCIEIlluminantDSeries(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.illuminants.sd_CIE_illuminant_D_series`
+    definition unit tests methods.
+    """
+
+    def test_sd_CIE_illuminant_D_series(self):
+        """
+        Tests :func:`colour.colorimetry.illuminants.\
+sd_CIE_illuminant_D_series` definition.
+        """
+
+        for name, CCT, tolerance in (
+            ('D50', 5000, 0.001),
+            ('D55', 5500, 0.001),
+            ('D65', 6500, 0.00001),
+            ('D75', 7500, 0.0001),
+        ):
+            CCT = CCT * 1.4388 / 1.4380
+            xy = CCT_to_xy_CIE_D(CCT)
+            sd_r = ILLUMINANTS_SDS[name]
+            sd_t = sd_CIE_illuminant_D_series(xy)
+
+            np.testing.assert_allclose(
+                sd_r.values,
+                sd_t[sd_r.wavelengths],
+                rtol=tolerance,
+                atol=tolerance)
+
+
+class TestDaylightLocusFunction(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.illuminants.daylight_locus_function`
+    definition unit tests methods.
+    """
+
+    def test_daylight_locus_function(self):
+        """
+        Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
+        definition.
+        """
+
+        self.assertAlmostEqual(
+            daylight_locus_function(0.31270), 0.329105129999999, places=7)
+
+        self.assertAlmostEqual(
+            daylight_locus_function(0.34570), 0.358633529999999, places=7)
+
+        self.assertAlmostEqual(
+            daylight_locus_function(0.44758), 0.408571030799999, places=7)
+
+    def test_n_dimensional_daylight_locus_function(self):
+        """
+        Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
+        definition n-dimensions support.
+        """
+
+        x_D = np.array([0.31270])
+        y_D = np.array([0.329105129999999])
+        np.testing.assert_almost_equal(
+            daylight_locus_function(x_D), y_D, decimal=7)
+
+        x_D = np.tile(x_D, (6, 1))
+        y_D = np.tile(y_D, (6, 1))
+        np.testing.assert_almost_equal(
+            daylight_locus_function(x_D), y_D, decimal=7)
+
+        x_D = np.reshape(x_D, (2, 3, 1))
+        y_D = np.reshape(y_D, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            daylight_locus_function(x_D), y_D, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_daylight_locus_function(self):
+        """
+        Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        for case in cases:
+            daylight_locus_function(case)
 
 
 if __name__ == '__main__':

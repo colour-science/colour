@@ -1,5 +1,5 @@
-colour\.yellowness
-==================
+colour.yellowness
+=================
 
 .. currentmodule:: colour
 

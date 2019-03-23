@@ -1,5 +1,5 @@
-colour\.models\.oetf\_reverse\_BT2100\_HLG
-==========================================
+colour.models.oetf\_reverse\_BT2100\_HLG
+========================================
 
 .. currentmodule:: colour.models
 

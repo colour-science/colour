@@ -18,7 +18,7 @@ print(np.ravel(colour.XYZ_to_Lab(colour.xyY_to_XYZ(xyY)))[0])
 
 print('\n')
 
-Y = 10.08
+Y = 12.19722535
 message_box(('Computing "Lightness" using '
              '"Glasser, Mckinney, Reilly and Schnelle (1958)" method for '
              'given "luminance" value:\n'
@@ -39,7 +39,7 @@ print('\n')
 message_box(('Computing "Lightness" using "Fairchild and Wyble (2010)" method '
              'for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.lightness(Y / 100.0, method='Fairchild 2010'))
+print(colour.lightness(Y, method='Fairchild 2010'))
 print(colour.colorimetry.lightness_Fairchild2010(Y / 100.0))
 
 print('\n')
@@ -47,7 +47,7 @@ print('\n')
 message_box(('Computing "Lightness" using "Fairchild and Chen (2011)" method '
              'for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.lightness(Y / 100.0, method='Fairchild 2011'))
+print(colour.lightness(Y, method='Fairchild 2011'))
 print(colour.colorimetry.lightness_Fairchild2011(Y / 100.0))
 
 print('\n')

@@ -1,5 +1,5 @@
-colour\.kernel\_nearest\_neighbour
-==================================
+colour.kernel\_nearest\_neighbour
+=================================
 
 .. currentmodule:: colour
 

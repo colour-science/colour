@@ -11,10 +11,10 @@ from colour.utilities import message_box
 message_box('Spectral Bandpass Dependence Correction')
 
 message_box(('Applying spectral bandpass dependence correction on a sample '
-             'spectral power distribution using "Stearns and Stearns (1988)" '
+             'spectral distribution using "Stearns and Stearns (1988)" '
              'method:\n'
              '\n\t("Measured Values", "Corrected Values")'))
-sample_spd_data = {
+sample_sd_data = {
     380: 0.048,
     385: 0.051,
     390: 0.055,
@@ -98,6 +98,6 @@ sample_spd_data = {
     780: 0.421
 }
 
-spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
-uncorrected_values = spd.values
-print(np.dstack((uncorrected_values, colour.bandpass_correction(spd).values)))
+sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
+uncorrected_values = sd.values
+print(np.dstack([uncorrected_values, colour.bandpass_correction(sd).values]))

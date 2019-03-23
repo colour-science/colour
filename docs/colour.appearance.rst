@@ -83,8 +83,8 @@ Hunt
     Hunt_Specification
     HUNT_VIEWING_CONDITIONS
 
-LLAB(l:c)
----------
+:math:`LLAB(l:c)`
+-----------------
 
 ``colour``
 

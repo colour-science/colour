@@ -1,5 +1,5 @@
-colour\.ILLUMINANTS\_OPTIMAL\_COLOUR\_STIMULI
-=============================================
+colour.ILLUMINANTS\_OPTIMAL\_COLOUR\_STIMULI
+============================================
 
 .. currentmodule:: colour
 

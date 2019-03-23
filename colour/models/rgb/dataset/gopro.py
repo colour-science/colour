@@ -28,7 +28,7 @@ References
 aces_ocio/colorspaces/gopro.py
 -   :cite:`Mansencal2015d` : Mansencal, T. (2015). RED Colourspaces Derivation.
     Retrieved May 20, 2015, from
-    http://colour-science.org/posts/red-colourspaces-derivation
+    https://www.colour-science.org/posts/red-colourspaces-derivation
 """
 
 from __future__ import division, unicode_literals
@@ -40,14 +40,14 @@ from colour.models.rgb import (RGB_Colourspace, log_decoding_Protune,
                                log_encoding_Protune, normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PROTUNE_NATIVE_PRIMARIES', 'PROTUNE_NATIVE_ILLUMINANT',
+    'PROTUNE_NATIVE_PRIMARIES', 'PROTUNE_NATIVE_WHITEPOINT_NAME',
     'PROTUNE_NATIVE_WHITEPOINT', 'PROTUNE_NATIVE_TO_XYZ_MATRIX',
     'XYZ_TO_PROTUNE_NATIVE_MATRIX', 'PROTUNE_NATIVE_COLOURSPACE'
 ]
@@ -63,15 +63,15 @@ PROTUNE_NATIVE_PRIMARIES = np.array([
 PROTUNE_NATIVE_PRIMARIES : ndarray, (3, 2)
 """
 
-PROTUNE_NATIVE_ILLUMINANT = 'D65'
+PROTUNE_NATIVE_WHITEPOINT_NAME = 'D65'
 """
-*Protune Native* colourspace whitepoint name as illuminant.
+*Protune Native* colourspace whitepoint name.
 
-PROTUNE_NATIVE_ILLUMINANT : unicode
+PROTUNE_NATIVE_WHITEPOINT_NAME : unicode
 """
 
 PROTUNE_NATIVE_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                             [PROTUNE_NATIVE_ILLUMINANT])
+                             [PROTUNE_NATIVE_WHITEPOINT_NAME])
 """
 *Protune Native* colourspace whitepoint.
 
@@ -97,18 +97,18 @@ PROTUNE_NATIVE_COLOURSPACE = RGB_Colourspace(
     'Protune Native',
     PROTUNE_NATIVE_PRIMARIES,
     PROTUNE_NATIVE_WHITEPOINT,
-    PROTUNE_NATIVE_ILLUMINANT,
+    PROTUNE_NATIVE_WHITEPOINT_NAME,
     PROTUNE_NATIVE_TO_XYZ_MATRIX,
     XYZ_TO_PROTUNE_NATIVE_MATRIX,
     log_encoding_Protune,
-    log_decoding_Protune, )
+    log_decoding_Protune,
+)
 PROTUNE_NATIVE_COLOURSPACE.__doc__ = """
 *Protune Native* colourspace.
 
 References
 ----------
--   :cite:`GoPro2016a`
--   :cite:`Mansencal2015d`
+:cite:`GoPro2016a`, :cite:`Mansencal2015d`
 
 PROTUNE_NATIVE_COLOURSPACE : RGB_Colourspace
 """

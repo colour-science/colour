@@ -26,18 +26,18 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'COLOR_MATCH_RGB_PRIMARIES', 'COLOR_MATCH_RGB_ILLUMINANT',
+    'COLOR_MATCH_RGB_PRIMARIES', 'COLOR_MATCH_RGB_WHITEPOINT_NAME',
     'COLOR_MATCH_RGB_WHITEPOINT', 'COLOR_MATCH_RGB_TO_XYZ_MATRIX',
     'XYZ_TO_COLOR_MATCH_RGB_MATRIX', 'COLOR_MATCH_RGB_COLOURSPACE'
 ]
@@ -53,15 +53,15 @@ COLOR_MATCH_RGB_PRIMARIES = np.array([
 COLOR_MATCH_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-COLOR_MATCH_RGB_ILLUMINANT = 'D50'
+COLOR_MATCH_RGB_WHITEPOINT_NAME = 'D50'
 """
-*ColorMatch RGB* colourspace whitepoint name as illuminant.
+*ColorMatch RGB* colourspace whitepoint name.
 
-COLOR_MATCH_RGB_ILLUMINANT : unicode
+COLOR_MATCH_RGB_WHITEPOINT_NAME : unicode
 """
 
 COLOR_MATCH_RGB_WHITEPOINT = (ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][COLOR_MATCH_RGB_ILLUMINANT])
+    'CIE 1931 2 Degree Standard Observer'][COLOR_MATCH_RGB_WHITEPOINT_NAME])
 """
 *ColorMatch RGB* colourspace whitepoint.
 
@@ -87,17 +87,18 @@ COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace(
     'ColorMatch RGB',
     COLOR_MATCH_RGB_PRIMARIES,
     COLOR_MATCH_RGB_WHITEPOINT,
-    COLOR_MATCH_RGB_ILLUMINANT,
+    COLOR_MATCH_RGB_WHITEPOINT_NAME,
     COLOR_MATCH_RGB_TO_XYZ_MATRIX,
     XYZ_TO_COLOR_MATCH_RGB_MATRIX,
-    partial(function_gamma, exponent=1 / 1.8),
-    partial(function_gamma, exponent=1.8), )
+    partial(gamma_function, exponent=1 / 1.8),
+    partial(gamma_function, exponent=1.8),
+)
 COLOR_MATCH_RGB_COLOURSPACE.__doc__ = """
 *ColorMatch RGB* colourspace.
 
 References
 ----------
--   :cite:`Lindbloom2014a`
+:cite:`Lindbloom2014a`
 
 COLOR_MATCH_RGB_COLOURSPACE : RGB_Colourspace
 """

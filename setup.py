@@ -10,12 +10,11 @@ from __future__ import unicode_literals
 import os
 import re
 import sys
-
 from setuptools import setup
 from setuptools import find_packages
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -40,7 +39,7 @@ if os.environ.get('READTHEDOCS') == 'True':
 
 OPTIONAL_REQUIREMENTS = ['pandas']
 
-PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
+PLOTTING_REQUIREMENTS = ['matplotlib>=2.2.0']
 
 DOCS_REQUIREMENTS = [
     'sphinx>=1.6.6', 'sphinxcontrib-bibtex', 'sphinx_rtd_theme'
@@ -51,9 +50,11 @@ TESTS_REQUIREMENTS = ['coverage>=3.7.1', 'flake8>=2.1.0', 'nose>=1.3.4']
 if sys.version_info[:2] <= (3, 2):
     TESTS_REQUIREMENTS += ['mock']
 
-DEVELOPMENT_REQUIREMENTS = TESTS_REQUIREMENTS + [
-    'invoke', 'restructuredtext_lint', 'twine', 'yapf'
+DEVELOPMENT_REQUIREMENTS = DOCS_REQUIREMENTS + TESTS_REQUIREMENTS + [
+    'invoke', 'restructuredtext_lint', 'twine', 'yapf==0.23.0'
 ]
+if sys.version_info[:2] >= (3, 2):
+    DEVELOPMENT_REQUIREMENTS += ['biblib-simple']
 
 
 def get_version():

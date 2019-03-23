@@ -1,5 +1,5 @@
-colour\.utilities\.dot\_matrix
-==============================
+colour.utilities.dot\_matrix
+============================
 
 .. currentmodule:: colour.utilities
 

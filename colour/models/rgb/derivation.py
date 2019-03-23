@@ -39,7 +39,7 @@ from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -97,7 +97,7 @@ def normalised_primary_matrix(primaries, whitepoint):
 
     References
     ----------
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1993a`
+    :cite:`SocietyofMotionPictureandTelevisionEngineers1993a`
 
     Examples
     --------
@@ -112,7 +112,7 @@ def normalised_primary_matrix(primaries, whitepoint):
     primaries = np.reshape(primaries, (3, 2))
 
     z = xy_to_z(primaries)[..., np.newaxis]
-    primaries = np.transpose(np.hstack((primaries, z)))
+    primaries = np.transpose(np.hstack([primaries, z]))
 
     whitepoint = xy_to_XYZ(whitepoint)
 
@@ -131,7 +131,6 @@ def chromatically_adapted_primaries(primaries,
     """
     Chromatically adapts given *primaries* :math:`xy` chromaticity coordinates
     from test ``whitepoint_t`` to reference ``whitepoint_r``.
-
 
     Parameters
     ----------
@@ -169,9 +168,8 @@ def chromatically_adapted_primaries(primaries,
     primaries = np.reshape(primaries, (3, 2))
 
     XYZ_a = chromatic_adaptation_VonKries(
-        xy_to_XYZ(primaries),
-        xy_to_XYZ(whitepoint_t),
-        xy_to_XYZ(whitepoint_r), chromatic_adaptation_transform)
+        xy_to_XYZ(primaries), xy_to_XYZ(whitepoint_t), xy_to_XYZ(whitepoint_r),
+        chromatic_adaptation_transform)
 
     P_a = XYZ_to_xyY(XYZ_a)[..., 0:2]
 
@@ -195,7 +193,7 @@ def primaries_whitepoint(npm):
 
     References
     ----------
-    -   :cite:`Trieu2015a`
+    :cite:`Trieu2015a`
 
     Examples
     --------
@@ -211,7 +209,7 @@ def primaries_whitepoint(npm):
     array([ 0.32168,  0.33767])
     """
 
-    npm = npm.reshape((3, 3))
+    npm = npm.reshape([3, 3])
 
     primaries = XYZ_to_xy(np.transpose(np.dot(npm, np.identity(3))))
     whitepoint = np.squeeze(
@@ -272,11 +270,11 @@ def RGB_luminance(RGB, primaries, whitepoint):
 
     Examples
     --------
-    >>> RGB = np.array([40.6, 4.2, 67.4])
+    >>> RGB = np.array([0.21959402, 0.06986677, 0.04703877])
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
     >>> RGB_luminance(RGB, p, whitepoint)  # doctest: +ELLIPSIS
-    12.1616018...
+    0.1230145...
     """
 
     Y = np.sum(

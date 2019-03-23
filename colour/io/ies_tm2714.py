@@ -3,8 +3,8 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Defines the :class:`colour.IES_TM2714_Spd` class handling *IES TM-27-14*
-spectral data XML files.
+Defines the :class:`colour.SpectralDistribution_IESTM2714` class handling
+*IES TM-27-14* spectral data XML files.
 
 References
 ----------
@@ -18,15 +18,15 @@ from __future__ import division, unicode_literals
 import os
 import re
 from collections import namedtuple
-from xml.etree import ElementTree
-from xml.dom import minidom
+from xml.etree import ElementTree  # nosec
+from xml.dom import minidom  # nosec
 
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import Structure, is_numeric, is_string, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -34,7 +34,8 @@ __status__ = 'Production'
 
 __all__ = [
     'IES_TM2714_VERSION', 'IES_TM2714_NAMESPACE',
-    'IES_TM2714_ElementSpecification', 'IES_TM2714_Header', 'IES_TM2714_Spd'
+    'IES_TM2714_ElementSpecification', 'IES_TM2714_Header',
+    'SpectralDistribution_IESTM2714'
 ]
 
 IES_TM2714_VERSION = '1.0'
@@ -86,7 +87,7 @@ class IES_TM2714_ElementSpecification(
 
 class IES_TM2714_Header(object):
     """
-    Defines the header object for a *IES TM-27-14* spectral power distribution.
+    Defines the header object for a *IES TM-27-14* spectral distribution.
 
     Parameters
     ----------
@@ -153,34 +154,36 @@ class IES_TM2714_Header(object):
                  document_creation_date=None,
                  comments=None):
 
-        self._mapping = Structure(**{
-            'element':
-                'Header',
-            'elements': (IES_TM2714_ElementSpecification(
-                'Manufacturer',
-                'manufacturer'), IES_TM2714_ElementSpecification(
-                    'CatalogNumber',
-                    'catalog_number'), IES_TM2714_ElementSpecification(
-                        'Description', 'description',
-                        required=True), IES_TM2714_ElementSpecification(
-                            'DocumentCreator',
-                            'document_creator',
-                            required=True), IES_TM2714_ElementSpecification(
-                                'UniqueIdentifier', 'unique_identifier'),
-                         IES_TM2714_ElementSpecification(
-                             'MeasurementEquipment', 'measurement_equipment'),
-                         IES_TM2714_ElementSpecification(
-                             'Laboratory',
-                             'laboratory'), IES_TM2714_ElementSpecification(
-                                 'ReportNumber', 'report_number'),
-                         IES_TM2714_ElementSpecification(
-                             'ReportDate', 'report_date'),
-                         IES_TM2714_ElementSpecification(
-                             'DocumentCreationDate',
-                             'document_creation_date',
-                             required=True), IES_TM2714_ElementSpecification(
-                                 'Comments', 'comments', False))
-        })
+        self._mapping = Structure(
+            **{
+                'element':
+                    'Header',
+                'elements':
+                    (IES_TM2714_ElementSpecification('Manufacturer',
+                                                     'manufacturer'),
+                     IES_TM2714_ElementSpecification('CatalogNumber',
+                                                     'catalog_number'),
+                     IES_TM2714_ElementSpecification(
+                         'Description', 'description', required=True),
+                     IES_TM2714_ElementSpecification(
+                         'DocumentCreator', 'document_creator', required=True),
+                     IES_TM2714_ElementSpecification('UniqueIdentifier',
+                                                     'unique_identifier'),
+                     IES_TM2714_ElementSpecification('MeasurementEquipment',
+                                                     'measurement_equipment'),
+                     IES_TM2714_ElementSpecification('Laboratory',
+                                                     'laboratory'),
+                     IES_TM2714_ElementSpecification('ReportNumber',
+                                                     'report_number'),
+                     IES_TM2714_ElementSpecification('ReportDate',
+                                                     'report_date'),
+                     IES_TM2714_ElementSpecification(
+                         'DocumentCreationDate',
+                         'document_creation_date',
+                         required=True),
+                     IES_TM2714_ElementSpecification('Comments', 'comments',
+                                                     False))
+            })
 
         self._manufacturer = None
         self.manufacturer = manufacturer
@@ -554,9 +557,9 @@ class IES_TM2714_Header(object):
         self._comments = value
 
 
-class IES_TM2714_Spd(SpectralPowerDistribution):
+class SpectralDistribution_IESTM2714(SpectralDistribution):
     """
-    Defines a *IES TM-27-14* spectral power distribution.
+    Defines a *IES TM-27-14* spectral distribution.
 
     This class can read and write *IES TM-27-14* spectral data XML files.
 
@@ -565,7 +568,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     path : unicode, optional
         Spectral data XML file path.
     header : IES_TM2714_Header, optional
-        *IES TM-27-14* spectral power distribution header.
+        *IES TM-27-14* spectral distribution header.
     spectral_quantity : unicode, optional
         **{'flux', 'absorptance', 'transmittance', 'reflectance', 'intensity',
         'irradiance', 'radiance', 'exitance', 'R-Factor', 'T-Factor',
@@ -629,19 +632,20 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
     References
     ----------
-    -   :cite:`IESComputerCommittee2014a`
+    :cite:`IESComputerCommittee2014a`
 
     Examples
     --------
     >>> from os.path import dirname, join
     >>> directory = join(dirname(__file__), 'tests', 'resources')
-    >>> spd = IES_TM2714_Spd(join(directory, 'Fluorescent.spdx'))
-    >>> spd.read()
+    >>> sd = SpectralDistribution_IESTM2714(
+    ...     join(directory, 'Fluorescent.spdx'))
+    >>> sd.read()
     True
-    >>> spd.header.manufacturer
+    >>> sd.header.manufacturer
     'Unknown'
     >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> spd[501.7]  # doctest: +ELLIPSIS
+    >>> sd[501.7]  # doctest: +ELLIPSIS
     0.0950000...
     """
 
@@ -654,32 +658,36 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                  bandwidth_FWHM=None,
                  bandwidth_corrected=None):
 
-        super(IES_TM2714_Spd, self).__init__(data=None, domain=None)
+        super(SpectralDistribution_IESTM2714, self).__init__(
+            data=None, domain=None)
 
-        self._mapping = Structure(**{
-            'element':
-                'SpectralDistribution',
-            'elements': (
-                IES_TM2714_ElementSpecification(
-                    'SpectralQuantity', 'spectral_quantity',
-                    required=True), IES_TM2714_ElementSpecification(
-                        'ReflectionGeometry', 'reflection_geometry'),
-                IES_TM2714_ElementSpecification(
-                    'TransmissionGeometry',
-                    'transmission_geometry'), IES_TM2714_ElementSpecification(
-                        'BandwidthFWHM',
-                        'bandwidth_FWHM',
-                        read_conversion=DEFAULT_FLOAT_DTYPE),
-                IES_TM2714_ElementSpecification(
-                    'BandwidthCorrected',
-                    'bandwidth_corrected',
-                    read_conversion=(lambda x: True if x == 'true' else False),
-                    write_conversion=(
-                        lambda x: 'true' if x is True else 'False'))),
-            'data':
-                IES_TM2714_ElementSpecification(
-                    'SpectralData', 'wavelength', required=True)
-        })
+        self._mapping = Structure(
+            **{
+                'element':
+                    'SpectralDistribution',
+                'elements':
+                    (IES_TM2714_ElementSpecification(
+                        'SpectralQuantity', 'spectral_quantity',
+                        required=True),
+                     IES_TM2714_ElementSpecification('ReflectionGeometry',
+                                                     'reflection_geometry'),
+                     IES_TM2714_ElementSpecification('TransmissionGeometry',
+                                                     'transmission_geometry'),
+                     IES_TM2714_ElementSpecification(
+                         'BandwidthFWHM',
+                         'bandwidth_FWHM',
+                         read_conversion=DEFAULT_FLOAT_DTYPE),
+                     IES_TM2714_ElementSpecification(
+                         'BandwidthCorrected',
+                         'bandwidth_corrected',
+                         read_conversion=(
+                             lambda x: True if x == 'true' else False),
+                         write_conversion=(
+                             lambda x: 'true' if x is True else 'False'))),
+                'data':
+                    IES_TM2714_ElementSpecification(
+                        'SpectralData', 'wavelength', required=True)
+            })
 
         self._path = None
         self.path = path
@@ -940,19 +948,20 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         --------
         >>> from os.path import dirname, join
         >>> directory = join(dirname(__file__), 'tests', 'resources')
-        >>> spd = IES_TM2714_Spd(join(directory, 'Fluorescent.spdx'))
-        >>> spd.read()
+        >>> sd = SpectralDistribution_IESTM2714(
+        ...     join(directory, 'Fluorescent.spdx'))
+        >>> sd.read()
         True
-        >>> spd.header.description
+        >>> sd.header.description
         'Rare earth fluorescent lamp'
         >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> spd[400]  # doctest: +ELLIPSIS
+        >>> sd[400]  # doctest: +ELLIPSIS
         0.0339999...
         """
 
         formatter = './{{{0}}}{1}/{{{0}}}{2}'
 
-        tree = ElementTree.parse(self._path)
+        tree = ElementTree.parse(self._path)  # nosec
         root = tree.getroot()
 
         namespace = re.match('{(.*)}', root.tag).group(1)
@@ -974,11 +983,11 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         # Reading spectral data.
         wavelengths = []
         values = []
-        for spectral_data in iterator(
-                '{{{0}}}{1}'.format(namespace, self.mapping.data.element)):
+        for spectral_data in iterator('{{{0}}}{1}'.format(
+                namespace, self.mapping.data.element)):
             wavelengths.append(
-                DEFAULT_FLOAT_DTYPE(spectral_data.attrib[
-                    self.mapping.data.attribute]))
+                DEFAULT_FLOAT_DTYPE(
+                    spectral_data.attrib[self.mapping.data.attribute]))
             values.append(DEFAULT_FLOAT_DTYPE(spectral_data.text))
 
         self.wavelengths = wavelengths
@@ -988,7 +997,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
     def write(self):
         """
-        Write the spd spectral data to XML file path.
+        Write the spectral distribution spectral data to XML file path.
 
         Returns
         -------
@@ -1001,12 +1010,13 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         >>> from shutil import rmtree
         >>> from tempfile import mkdtemp
         >>> directory = join(dirname(__file__), 'tests', 'resources')
-        >>> spd = IES_TM2714_Spd(join(directory, 'Fluorescent.spdx'))
-        >>> spd.read()
+        >>> sd = SpectralDistribution_IESTM2714(
+        ...     join(directory, 'Fluorescent.spdx'))
+        >>> sd.read()
         True
         >>> temporary_directory = mkdtemp()
-        >>> spd.path = join(temporary_directory, 'Fluorescent.spdx')
-        >>> spd.write()
+        >>> sd.path = join(temporary_directory, 'Fluorescent.spdx')
+        >>> sd.write()
         True
         >>> rmtree(temporary_directory)
         """
@@ -1040,7 +1050,8 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                     mapping.data.write_conversion(wavelength)
             }
 
-        xml = minidom.parseString(ElementTree.tostring(root)).toprettyxml()
+        xml = minidom.parseString(
+            ElementTree.tostring(root)).toprettyxml()  # nosec
 
         with open(self._path, 'w') as file:
             file.write(xml)

@@ -1,5 +1,5 @@
-colour\.models\.eotf\_SMPTE240M
-===============================
+colour.models.eotf\_SMPTE240M
+=============================
 
 .. currentmodule:: colour.models
 

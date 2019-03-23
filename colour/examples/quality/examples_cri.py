@@ -11,7 +11,7 @@ from colour.utilities import message_box
 message_box('Colour Rendering Index Computations')
 
 message_box('Computing "F2" illuminant "Colour Rendering Index (CRI)".')
-print(colour.colour_rendering_index(colour.ILLUMINANTS_RELATIVE_SPDS['F2']))
+print(colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2']))
 
 print('\n')
 
@@ -19,18 +19,18 @@ message_box(('Computing "F2" illuminant "Colour Rendering Index" (CRI) with '
              'detailed output data.'))
 pprint(
     colour.colour_rendering_index(
-        colour.ILLUMINANTS_RELATIVE_SPDS['F2'], additional_data=True))
+        colour.ILLUMINANTS_SDS['FL2'], additional_data=True))
 
 print('\n')
 
 message_box('Computing "CIE Standard Illuminant A" '
             '"Colour Rendering Index (CRI)".')
-print(colour.colour_rendering_index(colour.ILLUMINANTS_RELATIVE_SPDS['A']))
+print(colour.colour_rendering_index(colour.ILLUMINANTS_SDS['A']))
 
 print('\n')
 
 message_box('Computing sample light "Colour Rendering Index (CRI)".')
-SAMPLE_SPD_DATA = {
+SAMPLE_SD_DATA = {
     380: 0.00588346,
     385: 0.00315377,
     390: 0.00242868,
@@ -114,5 +114,6 @@ SAMPLE_SPD_DATA = {
     780: 0.00293663
 }
 
-print(colour.colour_rendering_index(
-    colour.SpectralPowerDistribution(SAMPLE_SPD_DATA, name='Sample')))
+print(
+    colour.colour_rendering_index(
+        colour.SpectralDistribution(SAMPLE_SD_DATA, name='Sample')))

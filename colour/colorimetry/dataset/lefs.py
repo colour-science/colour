@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Luminous Efficiency Functions Spectral Power Distributions
-==========================================================
+Luminous Efficiency Functions Spectral Distributions
+====================================================
 
 Defines various luminous efficiency functions involved in spectral
 computations.
 
 The luminous efficiency data is in the form of a *dict* of
-:class:`colour.SpectralPowerDistribution` classes as follows::
+:class:`colour.SpectralDistribution` classes as follows::
 
-    {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
+    {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
 The following luminous efficiency functions are available:
 
@@ -33,8 +33,8 @@ Notes
 -   The mesopic luminous efficiency function is calculated using the
     *CIE 1924 Photopic Standard Observer* and
     *CIE 1951 Scotopic Standard Observer* luminous efficiency functions with
-    the :func:`colour.mesopic_luminous_efficiency_function` definition and the
-    data from :attr:`colour.colorimetry.dataset.lefs.MESOPIC_X_DATA`
+    the :func:`colour.sd_mesopic_luminous_efficiency_function` definition and
+    the data from :attr:`colour.colorimetry.dataset.lefs.MESOPIC_X_DATA`
     attribute that defines weighting factors dependent on the photopic
     luminance :math:`L_p`.
 
@@ -44,18 +44,18 @@ References
     2014, from http://www.cvrl.org/lumindex.htm
 -   :cite:`CVRLs` : CVRL. (n.d.). Older CIE Standards. Retrieved February 24,
     2014, from http://cvrl.ioo.ucl.ac.uk/cie.htm
--   :cite:`Wikipediacc` : Wikipedia. (n.d.). Mesopic weighting function.
+-   :cite:`Wikipedia2005d` : Wikipedia. (2005). Mesopic weighting function.
     Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/\
 Mesopic_vision#Mesopic_weighting_function
 """
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import SpectralDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -2349,33 +2349,33 @@ PHOTOPIC_LEFS_DATA = {
 
 PHOTOPIC_LEFS = CaseInsensitiveMapping({
     'CIE 1924 Photopic Standard Observer':
-        SpectralPowerDistribution(
+        SpectralDistribution(
             PHOTOPIC_LEFS_DATA['CIE 1924 Photopic Standard Observer'],
             name='CIE 1924 Photopic Standard Observer'),
     'Judd Modified CIE 1951 Photopic Standard Observer':
-        SpectralPowerDistribution(
+        SpectralDistribution(
             PHOTOPIC_LEFS_DATA[
                 'Judd Modified CIE 1951 Photopic Standard Observer'],
             name='Judd Modified CIE 1951 Photopic Standard Observer'),
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer':
-        SpectralPowerDistribution(
+        SpectralDistribution(
             PHOTOPIC_LEFS_DATA[
                 'Judd-Vos Modified CIE 1978 Photopic Standard Observer'],
             name='Judd-Vos Modified CIE 1978 Photopic Standard Observer'),
     'CIE 1964 Photopic 10 Degree Standard Observer':
-        SpectralPowerDistribution(
+        SpectralDistribution(
             PHOTOPIC_LEFS_DATA[
                 'CIE 1964 Photopic 10 Degree Standard Observer'],
             name='CIE 1964 Photopic 10 Degree Standard Observer',
             strict_name='CIE 1964 Photopic 10$^\\circ$ Standard Observer'),
     'CIE 2008 2 Degree Physiologically Relevant LEF':
-        SpectralPowerDistribution(
+        SpectralDistribution(
             PHOTOPIC_LEFS_DATA[
                 'CIE 2008 2 Degree Physiologically Relevant LEF'],
             name='CIE 2008 2 Degree Physiologically Relevant LEF',
             strict_name='CIE 2008 2$^\\circ$ Physiologically Relevant LEF'),
     'CIE 2008 10 Degree Physiologically Relevant LEF':
-        SpectralPowerDistribution(
+        SpectralDistribution(
             PHOTOPIC_LEFS_DATA[
                 'CIE 2008 10 Degree Physiologically Relevant LEF'],
             name='CIE 2008 10 Degree Physiologically Relevant LEF',
@@ -2386,8 +2386,7 @@ Photopic luminous efficiency functions.
 
 References
 ----------
--   :cite:`CVRLq`
--   :cite:`CVRLs`
+:cite:`CVRLq`, :cite:`CVRLs`
 
 PHOTOPIC_LEFS : CaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',
@@ -2815,7 +2814,7 @@ SCOTOPIC_LEFS_DATA = {
 
 SCOTOPIC_LEFS = CaseInsensitiveMapping({
     'CIE 1951 Scotopic Standard Observer':
-        SpectralPowerDistribution(
+        SpectralDistribution(
             SCOTOPIC_LEFS_DATA['CIE 1951 Scotopic Standard Observer'],
             name='CIE 1951 Scotopic Standard Observer')
 })
@@ -2824,7 +2823,7 @@ Scotopic luminous efficiency functions.
 
 References
 ----------
--   :cite:`CVRLs`
+:cite:`CVRLs`
 
 SCOTOPIC_LEFS : CaseInsensitiveMapping
     **{'CIE 1951 Scotopic Standard Observer', }**
@@ -2842,9 +2841,7 @@ Aggregated luminous efficiency functions.
 
 References
 ----------
--   :cite:`CVRLq`
--   :cite:`CVRLs`
--   :cite:`Wikipediacc`
+:cite:`CVRLq`, :cite:`CVRLs`, :cite:`Wikipedia2005d`
 
 LEFS : CaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',

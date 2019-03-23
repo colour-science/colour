@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_Hunter\_Rdab
-=============================
+colour.XYZ\_to\_Hunter\_Rdab
+============================
 
 .. currentmodule:: colour
 

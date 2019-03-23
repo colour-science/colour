@@ -16,7 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 References
 ----------
 -   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
-    Retrieved from http://www.arri.com/?eID=registration&file_uid=8026
+    Retrieved from https://drive.google.com/\
+open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
 """
 
 from __future__ import division, unicode_literals
@@ -28,14 +29,14 @@ from colour.models.rgb import (RGB_Colourspace, log_encoding_ALEXALogC,
                                log_decoding_ALEXALogC)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ALEXA_WIDE_GAMUT_PRIMARIES', 'ALEXA_WIDE_GAMUT_ILLUMINANT',
+    'ALEXA_WIDE_GAMUT_PRIMARIES', 'ALEXA_WIDE_GAMUT_WHITEPOINT_NAME',
     'ALEXA_WIDE_GAMUT_WHITEPOINT', 'ALEXA_WIDE_GAMUT_TO_XYZ_MATRIX',
     'XYZ_TO_ALEXA_WIDE_GAMUT_MATRIX', 'ALEXA_WIDE_GAMUT_COLOURSPACE'
 ]
@@ -51,15 +52,15 @@ ALEXA_WIDE_GAMUT_PRIMARIES = np.array([
 ALEXA_WIDE_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
-ALEXA_WIDE_GAMUT_ILLUMINANT = 'D65'
+ALEXA_WIDE_GAMUT_WHITEPOINT_NAME = 'D65'
 """
-*ALEXA Wide Gamut* colourspace whitepoint name as illuminant.
+*ALEXA Wide Gamut* colourspace whitepoint name.
 
 ALEXA_WIDE_GAMUT_WHITEPOINT : unicode
 """
 
 ALEXA_WIDE_GAMUT_WHITEPOINT = (ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][ALEXA_WIDE_GAMUT_ILLUMINANT])
+    'CIE 1931 2 Degree Standard Observer'][ALEXA_WIDE_GAMUT_WHITEPOINT_NAME])
 """
 *ALEXA Wide Gamut* colourspace whitepoint.
 
@@ -92,17 +93,18 @@ ALEXA_WIDE_GAMUT_COLOURSPACE = RGB_Colourspace(
     'ALEXA Wide Gamut',
     ALEXA_WIDE_GAMUT_PRIMARIES,
     ALEXA_WIDE_GAMUT_WHITEPOINT,
-    ALEXA_WIDE_GAMUT_ILLUMINANT,
+    ALEXA_WIDE_GAMUT_WHITEPOINT_NAME,
     ALEXA_WIDE_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_ALEXA_WIDE_GAMUT_MATRIX,
     log_encoding_ALEXALogC,
-    log_decoding_ALEXALogC, )
+    log_decoding_ALEXALogC,
+)
 ALEXA_WIDE_GAMUT_COLOURSPACE.__doc__ = """
 *ALEXA Wide Gamut* colourspace.
 
 References
 ----------
--   :cite:`ARRI2012a`
+:cite:`ARRI2012a`
 
 ALEXA_WIDE_GAMUT_COLOURSPACE : RGB_Colourspace
 """

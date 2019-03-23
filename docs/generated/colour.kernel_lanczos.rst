@@ -1,5 +1,5 @@
-colour\.kernel\_lanczos
-=======================
+colour.kernel\_lanczos
+======================
 
 .. currentmodule:: colour
 

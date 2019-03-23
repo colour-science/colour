@@ -3,7 +3,7 @@
 LCD Displays RGB Primaries
 ==========================
 
-Defines *LCD* displays *RGB* primaries multi-spectral power distributions.
+Defines *LCD* displays *RGB* primaries multi-spectral distributions.
 
 Each *LCD* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
@@ -39,7 +39,7 @@ from colour.characterisation import RGB_DisplayPrimaries
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -140,12 +140,11 @@ LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
             name='Apple Studio Display')
 })
 """
-*LCD* displays *RGB* primaries multi-spectral power distributions.
+*LCD* displays *RGB* primaries multi-spectral distributions.
 
 References
 ----------
--   :cite:`Fairchild1998b`
--   :cite:`Machado2010a`
+:cite:`Fairchild1998b`, :cite:`Machado2010a`
 
 LCD_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Apple Studio Display'}**

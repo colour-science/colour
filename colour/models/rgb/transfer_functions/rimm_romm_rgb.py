@@ -35,10 +35,12 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric
+from colour.algebra import spow
+from colour.utilities import (as_float, as_int, domain_range_scale,
+                              from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -51,7 +53,7 @@ __all__ = [
 ]
 
 
-def oetf_ROMMRGB(X, I_max=255):
+def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
     """
     Defines the *ROMM RGB* encoding opto-electronic transfer function
     (OETF / OECF).
@@ -60,35 +62,62 @@ def oetf_ROMMRGB(X, I_max=255):
     ----------
     X : numeric or array_like
         Linear data :math:`X_{ROMM}`.
-    I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
 
     Returns
     -------
     numeric or ndarray
         Non-linear data :math:`X'_{ROMM}`.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X``          | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X_p``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
-    -   :cite:`ANSI2003a`
-    -   :cite:`Spaulding2000b`
+    :cite:`ANSI2003a`, :cite:`Spaulding2000b`
 
     Examples
     --------
     >>> oetf_ROMMRGB(0.18)  # doctest: +ELLIPSIS
-    98.3564133...
+    0.3857114...
+    >>> oetf_ROMMRGB(0.18, out_int=True)
+    98
     """
 
-    X = np.asarray(X)
+    X = to_domain_1(X)
+
+    I_max = 2 ** bit_depth - 1
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    return as_numeric(
-        np.where(X < E_t, X * 16 * I_max, X ** (1 / 1.8) * I_max))
+    X_p = np.where(X < E_t, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
+
+    if out_int:
+        return as_int(np.round(X_p))
+    else:
+        return as_float(from_range_1(X_p / I_max))
 
 
-def eotf_ROMMRGB(X_p, I_max=255):
+def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
     """
     Defines the *ROMM RGB* encoding electro-optical transfer function
     (EOTF / EOCF).
@@ -97,40 +126,70 @@ def eotf_ROMMRGB(X_p, I_max=255):
     ----------
     X_p : numeric or array_like
         Non-linear data :math:`X'_{ROMM}`.
-    I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
 
     Returns
     -------
     numeric or ndarray
         Linear data :math:`X_{ROMM}`.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X_p``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X``          | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
-    -   :cite:`ANSI2003a`
-    -   :cite:`Spaulding2000b`
+    :cite:`ANSI2003a`, :cite:`Spaulding2000b`
 
     Examples
     --------
-    >>> eotf_ROMMRGB(98.356413311540095) # doctest: +ELLIPSIS
+    >>> eotf_ROMMRGB(0.385711424751138) # doctest: +ELLIPSIS
+    0.1...
+    >>> eotf_ROMMRGB(98, in_int=True) # doctest: +ELLIPSIS
     0.1...
     """
 
-    X_p = np.asarray(X_p)
+    X_p = to_domain_1(X_p)
+
+    I_max = 2 ** bit_depth - 1
+
+    if not in_int:
+        X_p = X_p * I_max
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    return as_numeric(
-        np.where(X_p < 16 * E_t * I_max, X_p / (16 * I_max), (X_p / I_max) **
-                 1.8))
+    X = np.where(
+        X_p < 16 * E_t * I_max,
+        X_p / (16 * I_max),
+        spow(X_p / I_max, 1.8),
+    )
+
+    return as_float(from_range_1(X))
 
 
 oetf_ProPhotoRGB = oetf_ROMMRGB
 eotf_ProPhotoRGB = eotf_ROMMRGB
 
 
-def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
+def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
     """
     Defines the *RIMM RGB* encoding opto-electronic transfer function
     (OETF / OECF).
@@ -142,9 +201,11 @@ def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
     ----------
     X : numeric or array_like
         Linear data :math:`X_{RIMM}`.
-    I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
     E_clip : numeric, optional
         Maximum exposure level.
 
@@ -153,28 +214,53 @@ def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
     numeric or ndarray
         Non-linear data :math:`X'_{RIMM}`.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X``          | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X_p``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
-    -   :cite:`Spaulding2000b`
+    :cite:`Spaulding2000b`
 
     Examples
     --------
     >>> oetf_RIMMRGB(0.18)  # doctest: +ELLIPSIS
-    74.3768017...
+    0.2916737...
+    >>> oetf_RIMMRGB(0.18, out_int=True)
+    74
     """
 
-    X = np.asarray(X)
+    X = to_domain_1(X)
 
-    V_clip = 1.099 * E_clip ** 0.45 - 0.099
+    I_max = 2 ** bit_depth - 1
+
+    V_clip = 1.099 * spow(E_clip, 0.45) - 0.099
     q = I_max / V_clip
 
-    X_p_RIMM = np.select([X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
-                         [0, 4.5 * X, 1.099 * (X ** 0.45) - 0.099, I_max])
+    X_p = q * np.select([X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
+                        [0, 4.5 * X, 1.099 * spow(X, 0.45) - 0.099, I_max])
 
-    return as_numeric(q * X_p_RIMM)
+    if out_int:
+        return as_int(np.round(X_p))
+    else:
+        return as_float(from_range_1(X_p / I_max))
 
 
-def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
+def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
     """
     Defines the *RIMM RGB* encoding electro-optical transfer function
     (EOTF / EOCF).
@@ -183,9 +269,11 @@ def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
     ----------
     X_p : numeric or array_like
         Non-linear data :math:`X'_{RIMM}`.
-    I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
     E_clip : numeric, optional
         Maximum exposure level.
 
@@ -194,29 +282,62 @@ def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
     numeric or ndarray
         Linear data :math:`X_{RIMM}`.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X_p``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X``          | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
-    -   :cite:`Spaulding2000b`
+    :cite:`Spaulding2000b`
 
     Examples
     --------
-    >>> eotf_RIMMRGB(74.37680178131521)  # doctest: +ELLIPSIS
+    >>> eotf_RIMMRGB(0.291673732475746)  # doctest: +ELLIPSIS
+    0.1...
+    >>> eotf_RIMMRGB(74, in_int=True)  # doctest: +ELLIPSIS
     0.1...
     """
 
-    X_p = np.asarray(X_p)
+    X_p = to_domain_1(X_p)
 
-    V_clip = 1.099 * E_clip ** 0.45 - 0.099
+    I_max = 2 ** bit_depth - 1
+
+    if not in_int:
+        X_p = X_p * I_max
+
+    V_clip = 1.099 * spow(E_clip, 0.45) - 0.099
 
     m = V_clip * X_p / I_max
 
-    X_RIMM = np.where(X_p < oetf_RIMMRGB(0.018), m / 4.5, ((m + 0.099) / 1.099)
-                      ** (1 / 0.45))
+    with domain_range_scale('ignore'):
+        X = np.where(
+            X_p / I_max < oetf_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
+            m / 4.5,
+            spow((m + 0.099) / 1.099, 1 / 0.45),
+        )
 
-    return as_numeric(X_RIMM)
+    return as_float(from_range_1(X))
 
 
-def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
+def log_encoding_ERIMMRGB(X,
+                          bit_depth=8,
+                          out_int=False,
+                          E_min=0.001,
+                          E_clip=316.2):
     """
     Defines the *ERIMM RGB* log encoding curve / opto-electronic transfer
     function (OETF / OECF).
@@ -225,9 +346,11 @@ def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
     ----------
     X : numeric or array_like
         Linear data :math:`X_{ERIMM}`.
-    I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
     E_min : numeric, optional
         Minimum exposure limit.
     E_clip : numeric, optional
@@ -238,30 +361,67 @@ def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
     numeric or ndarray
         Non-linear data :math:`X'_{ERIMM}`.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X``          | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X_p``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
-    -   :cite:`Spaulding2000b`
+    :cite:`Spaulding2000b`
 
     Examples
     --------
     >>> log_encoding_ERIMMRGB(0.18)  # doctest: +ELLIPSIS
-    104.5633593...
+    0.4100523...
+    >>> log_encoding_ERIMMRGB(0.18, out_int=True)
+    105
     """
 
-    X = np.asarray(X)
+    X = to_domain_1(X)
+
+    I_max = 2 ** bit_depth - 1
 
     E_t = np.exp(1) * E_min
 
-    X_p = np.select([X < 0.0, X <= E_t, X > E_t, X > E_clip], [
-        0, I_max * ((np.log(E_t) - np.log(E_min)) /
-                    (np.log(E_clip) - np.log(E_min))) * (X / E_t), I_max *
-        ((np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))), I_max
+    X_p = np.select([
+        X < 0.0,
+        X <= E_t,
+        X > E_t,
+        X > E_clip,
+    ], [
+        0,
+        I_max * ((np.log(E_t) - np.log(E_min)) /
+                 (np.log(E_clip) - np.log(E_min))) * (X / E_t),
+        I_max * (
+            (np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
+        I_max,
     ])
 
-    return as_numeric(X_p)
+    if out_int:
+        return as_int(np.round(X_p))
+    else:
+        return as_float(from_range_1(X_p / I_max))
 
 
-def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
+def log_decoding_ERIMMRGB(X_p,
+                          bit_depth=8,
+                          in_int=False,
+                          E_min=0.001,
+                          E_clip=316.2):
     """
     Defines the *ERIMM RGB* log decoding curve / electro-optical transfer
     function (EOTF / EOCF).
@@ -270,9 +430,11 @@ def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
     ----------
     X_p : numeric or array_like
         Non-linear data :math:`X'_{ERIMM}`.
-    I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
     E_min : numeric, optional
         Minimum exposure limit.
     E_clip : numeric, optional
@@ -283,25 +445,52 @@ def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
     numeric or ndarray
         Linear data :math:`X_{ERIMM}`.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X_p``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``X``          | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
-    -   :cite:`Spaulding2000b`
+    :cite:`Spaulding2000b`
 
     Examples
     --------
-    >>> log_decoding_ERIMMRGB(104.56335932049294) # doctest: +ELLIPSIS
+    >>> log_decoding_ERIMMRGB(0.410052389492129) # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_ERIMMRGB(105, in_int=True) # doctest: +ELLIPSIS
     0.1...
     """
 
-    X_p = np.asarray(X_p)
+    X_p = to_domain_1(X_p)
+
+    I_max = 2 ** bit_depth - 1
+
+    if not in_int:
+        X_p = X_p * I_max
 
     E_t = np.exp(1) * E_min
 
-    X = np.where(X_p <= I_max * ((np.log(E_t) - np.log(E_min)) /
-                                 (np.log(E_clip) - np.log(E_min))),
-                 (((np.log(E_clip) - np.log(E_min)) /
-                   (np.log(E_t) - np.log(E_min))) * ((X_p * E_t) / I_max)),
-                 np.exp((X_p / I_max) * (np.log(E_clip) - np.log(E_min)) +
-                        np.log(E_min)))
+    X = np.where(
+        X_p <= I_max * (
+            (np.log(E_t) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
+        ((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min))) * (
+            (X_p * E_t) / I_max),
+        np.exp((X_p / I_max) * (np.log(E_clip) - np.log(E_min)) +
+               np.log(E_min)),
+    )
 
-    return as_numeric(X)
+    return as_float(from_range_1(X))

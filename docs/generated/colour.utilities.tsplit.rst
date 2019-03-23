@@ -1,5 +1,5 @@
-colour\.utilities\.tsplit
-=========================
+colour.utilities.tsplit
+=======================
 
 .. currentmodule:: colour.utilities
 

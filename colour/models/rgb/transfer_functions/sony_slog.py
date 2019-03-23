@@ -33,11 +33,13 @@ TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
 from __future__ import division, unicode_literals
 
 import numpy as np
-from colour.utilities import as_numeric
+
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
+from colour.utilities import (as_float, domain_range_scale, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -72,9 +74,24 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     numeric or ndarray
         Non-linear *Sony S-Log* data :math:`y`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`SonyCorporation2012a`
+    :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -86,18 +103,20 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     0.3708204...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
     if in_reflection:
         x = x / 0.9
 
-    y = np.where(x >= 0,
-                 ((0.432699 * np.log10(x + 0.037584) + 0.616596) + 0.03),
-                 x * 5 + 0.030001222851889303)
+    y = np.where(
+        x >= 0,
+        ((0.432699 * np.log10(x + 0.037584) + 0.616596) + 0.03),
+        x * 5 + 0.030001222851889303,
+    )
 
     y = full_to_legal(y, bit_depth) if out_legal else y
 
-    return as_numeric(y)
+    return as_float(from_range_1(y))
 
 
 def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
@@ -123,9 +142,24 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
         Reflection or :math:`IRE / 100` input light level :math:`x` to a
         camera.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`SonyCorporation2012a`
+    :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -139,18 +173,21 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
     0.1...
     """
 
-    y = np.asarray(y)
+    y = to_domain_1(y)
 
     x = legal_to_full(y, bit_depth) if in_legal else y
 
-    x = np.where(y >= log_encoding_SLog(0.0, bit_depth, in_legal),
-                 10 ** ((x - 0.616596 - 0.03) / 0.432699) - 0.037584,
-                 (x - 0.030001222851889303) / 5.0)
+    with domain_range_scale('ignore'):
+        x = np.where(
+            y >= log_encoding_SLog(0.0, bit_depth, in_legal),
+            10 ** ((x - 0.616596 - 0.03) / 0.432699) - 0.037584,
+            (x - 0.030001222851889303) / 5.0,
+        )
 
     if out_reflection:
         x = x * 0.9
 
-    return as_numeric(x)
+    return as_float(from_range_1(x))
 
 
 def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
@@ -176,9 +213,24 @@ def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
     numeric or ndarray
         Non-linear *Sony S-Log2* data :math:`y`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`SonyCorporation2012a`
+    :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -217,9 +269,24 @@ def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
         Reflection or :math:`IRE / 100` input light level :math:`x` to a
         camera.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`SonyCorporation2012a`
+    :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -260,9 +327,24 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
     numeric or ndarray
         Non-linear *Sony S-Log3* data :math:`y`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`SonyCorporationd`
+    :cite:`SonyCorporationd`
 
     Examples
     --------
@@ -274,18 +356,20 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
     0.3995079...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
     if not in_reflection:
         x = x * 0.9
 
-    y = np.where(x >= 0.01125000, (420 + np.log10(
-        (x + 0.01) / (0.18 + 0.01)) * 261.5) / 1023,
-                 (x * (171.2102946929 - 95) / 0.01125000 + 95) / 1023)
+    y = np.where(
+        x >= 0.01125000,
+        (420 + np.log10((x + 0.01) / (0.18 + 0.01)) * 261.5) / 1023,
+        (x * (171.2102946929 - 95) / 0.01125000 + 95) / 1023,
+    )
 
     y = y if out_legal else legal_to_full(y, bit_depth)
 
-    return as_numeric(y)
+    return as_float(from_range_1(y))
 
 
 def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
@@ -311,9 +395,24 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
         Reflection or :math:`IRE / 100` input light level :math:`x` to a
         camera.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`SonyCorporationd`
+    :cite:`SonyCorporationd`
 
     Examples
     --------
@@ -327,15 +426,17 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
     0.1...
     """
 
-    y = np.asarray(y)
+    y = to_domain_1(y)
 
     y = y if in_legal else full_to_legal(y, bit_depth)
 
-    x = np.where(y >= 171.2102946929 / 1023,
-                 ((10 ** ((y * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01),
-                 (y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95))
+    x = np.where(
+        y >= 171.2102946929 / 1023,
+        ((10 ** ((y * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01),
+        (y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95),
+    )
 
     if not out_reflection:
         x = x / 0.9
 
-    return as_numeric(x)
+    return as_float(from_range_1(x))

@@ -1,5 +1,5 @@
-colour\.complementary\_wavelength
-=================================
+colour.complementary\_wavelength
+================================
 
 .. currentmodule:: colour
 

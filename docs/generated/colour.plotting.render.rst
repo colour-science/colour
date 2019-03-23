@@ -1,5 +1,5 @@
-colour\.plotting\.render
-========================
+colour.plotting.render
+======================
 
 .. currentmodule:: colour.plotting
 

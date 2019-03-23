@@ -1,5 +1,5 @@
-colour\.adaptation\.chromatic\_adaptation\_matrix\_VonKries
-===========================================================
+colour.adaptation.chromatic\_adaptation\_matrix\_VonKries
+=========================================================
 
 .. currentmodule:: colour.adaptation
 

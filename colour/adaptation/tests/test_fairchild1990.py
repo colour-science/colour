@@ -11,10 +11,10 @@ import unittest
 from itertools import permutations
 
 from colour.adaptation import chromatic_adaptation_Fairchild1990
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -37,26 +37,26 @@ chromatic_adaptation_Fairchild1990` definition.
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_Fairchild1990(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                np.array([1.09846607, 1.00000000, 0.35582280]) * 100,
-                np.array([0.95042855, 1.00000000, 1.08890037]) * 100, 200),
-            np.array([8.35782287, 10.21428897, 29.25065668]),
+                np.array([19.53, 23.07, 24.97]),
+                np.array([111.15, 100.00, 35.20]),
+                np.array([94.81, 100.00, 107.30]), 200),
+            np.array([23.32526349, 23.32455819, 76.11593750]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_Fairchild1990(
-                np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
-                np.array([0.99092745, 1.00000000, 0.85313273]) * 100,
-                np.array([1.01679082, 1.00000000, 0.67610122]) * 100, 200),
-            np.array([49.00577034, 35.03909328, 8.95647114]),
+                np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
+                np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
+                np.array([1.09846607, 1.00000000, 0.35582280]) * 100, 200),
+            np.array([19.28089326, 22.91583715, 3.42923503]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_Fairchild1990(
-                np.array([0.25506814, 0.19150000, 0.08849752]) * 100,
-                np.array([0.98070597, 1.00000000, 1.18224949]) * 100,
-                np.array([0.92833635, 1.00000000, 1.03664720]) * 100, 200),
-            np.array([24.79473034, 19.13024207, 7.75984317]),
+                np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
+                np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
+                np.array([0.99144661, 1.00000000, 0.67315942]) * 100, 200),
+            np.array([6.35093475, 6.13061347, 17.36852430]),
             decimal=7)
 
     def test_n_dimensional_chromatic_adaptation_Fairchild1990(self):
@@ -99,6 +99,27 @@ chromatic_adaptation_Fairchild1990` definition n-dimensional arrays support.
             chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),
             XYZ_c,
             decimal=7)
+
+    def test_domain_range_scale_chromatic_adaptation_Fairchild1990(self):
+        """
+        Tests :func:`colour.adaptation.fairchild1990.\
+chromatic_adaptation_Fairchild1990` definition domain and range scale support.
+        """
+
+        XYZ_1 = np.array([19.53, 23.07, 24.97])
+        XYZ_n = np.array([111.15, 100.00, 35.20])
+        XYZ_r = np.array([94.81, 100.00, 107.30])
+        Y_n = 200
+        XYZ_c = chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    chromatic_adaptation_Fairchild1990(
+                        XYZ_1 * factor, XYZ_n * factor, XYZ_r * factor, Y_n),
+                    XYZ_c * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_Fairchild1990(self):

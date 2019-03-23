@@ -1,5 +1,5 @@
-colour\.RGB\_colourspace\_pointer\_gamut\_coverage\_MonteCarlo
-==============================================================
+colour.RGB\_colourspace\_pointer\_gamut\_coverage\_MonteCarlo
+=============================================================
 
 .. currentmodule:: colour
 

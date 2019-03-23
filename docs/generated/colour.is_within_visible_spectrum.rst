@@ -1,5 +1,5 @@
-colour\.is\_within\_visible\_spectrum
-=====================================
+colour.is\_within\_visible\_spectrum
+====================================
 
 .. currentmodule:: colour
 

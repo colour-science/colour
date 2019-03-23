@@ -1,5 +1,5 @@
-colour\.algebra\.is\_identity
-=============================
+colour.algebra.is\_identity
+===========================
 
 .. currentmodule:: colour.algebra
 

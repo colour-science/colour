@@ -1,5 +1,5 @@
-colour\.colorimetry\.tristimulus\_weighting\_factors\_ASTME202211
-=================================================================
+colour.colorimetry.tristimulus\_weighting\_factors\_ASTME202211
+===============================================================
 
 .. currentmodule:: colour.colorimetry
 

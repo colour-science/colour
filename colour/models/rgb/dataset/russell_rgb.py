@@ -26,18 +26,18 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry.dataset import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'RUSSELL_RGB_PRIMARIES', 'RUSSELL_RGB_ILLUMINANT',
+    'RUSSELL_RGB_PRIMARIES', 'RUSSELL_RGB_WHITEPOINT_NAME',
     'RUSSELL_RGB_WHITEPOINT', 'RUSSELL_RGB_TO_XYZ_MATRIX',
     'XYZ_TO_RUSSELL_RGB_MATRIX', 'RUSSELL_RGB_COLOURSPACE'
 ]
@@ -53,15 +53,15 @@ RUSSELL_RGB_PRIMARIES = np.array([
 RUSSELL_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-RUSSELL_RGB_ILLUMINANT = 'D55'
+RUSSELL_RGB_WHITEPOINT_NAME = 'D55'
 """
-*Russell RGB* colourspace whitepoint name as illuminant.
+*Russell RGB* colourspace whitepoint name.
 
-RUSSELL_RGB_ILLUMINANT : unicode
+RUSSELL_RGB_WHITEPOINT_NAME : unicode
 """
 
-RUSSELL_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][RUSSELL_RGB_ILLUMINANT])
+RUSSELL_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    RUSSELL_RGB_WHITEPOINT_NAME])
 """
 *Russell RGB* colourspace whitepoint.
 
@@ -87,17 +87,18 @@ RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
     'Russell RGB',
     RUSSELL_RGB_PRIMARIES,
     RUSSELL_RGB_WHITEPOINT,
-    RUSSELL_RGB_ILLUMINANT,
+    RUSSELL_RGB_WHITEPOINT_NAME,
     RUSSELL_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RUSSELL_RGB_MATRIX,
-    partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2), )
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2),
+)
 RUSSELL_RGB_COLOURSPACE.__doc__ = """
 *Russell RGB* colourspace.
 
 References
 ----------
--   :cite:`Cottrella`
+:cite:`Cottrella`
 
 RUSSELL_RGB_COLOURSPACE : RGB_Colourspace
 """

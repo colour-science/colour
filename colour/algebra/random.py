@@ -12,10 +12,11 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import warning
+from colour.constants import DEFAULT_INT_DTYPE
+from colour.utilities import runtime_warning, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -34,7 +35,7 @@ def random_triplet_generator(size,
 
     Parameters
     ----------
-    size : integer
+    size : int
         Generator size.
     limits : array_like, (3, 2)
         Random values limits on each triplet axis.
@@ -48,40 +49,37 @@ def random_triplet_generator(size,
 
     Notes
     -----
-    -   The doctest is assuming that :func:`np.random.RandomState` definition
-        will return the same sequence no matter which *OS* or *Python*
-        version is used. There is however no formal promise about the *prng*
-        sequence reproducibility of either *Python* or *Numpy*
-        implementations: Laurent. (2012). Reproducibility of python
-        pseudo-random numbers across systems and versions? Retrieved January
-        20, 2015, from http://stackoverflow.com/questions/8786084/\
-reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
+    -   The test is assuming that :func:`np.random.RandomState` definition
+        will return the same sequence no matter which *OS* or *Python* version
+        is used. There is however no formal promise about the *prng* sequence
+        reproducibility of either *Python* or *Numpy* implementations, see
+        :cite:`Laurent2012a`.
 
     Examples
     --------
     >>> from pprint import pprint
     >>> prng = np.random.RandomState(4)
-    >>> pprint(tuple(random_triplet_generator(10, random_state=prng)))
+    >>> random_triplet_generator(10, random_state=prng)
     ... # doctest: +ELLIPSIS
-    (array([ 0.9670298...,  0.5472322...,  0.9726843...]),
-     array([ 0.7148159...,  0.6977288...,  0.2160895...]),
-     array([ 0.9762744...,  0.0062302...,  0.2529823...]),
-     array([ 0.4347915...,  0.7793829...,  0.1976850...]),
-     array([ 0.8629932...,  0.9834006...,  0.1638422...]),
-     array([ 0.5973339...,  0.0089861...,  0.3865712...]),
-     array([ 0.0441600...,  0.9566529...,  0.4361466...]),
-     array([ 0.9489773...,  0.7863059...,  0.8662893...]),
-     array([ 0.1731654...,  0.0749485...,  0.6007427...]),
-     array([ 0.1679721...,  0.7333801...,  0.4084438...]))
+    array([[ 0.9670298...,  0.7793829...,  0.4361466...],
+           [ 0.5472322...,  0.1976850...,  0.9489773...],
+           [ 0.9726843...,  0.8629932...,  0.7863059...],
+           [ 0.7148159...,  0.9834006...,  0.8662893...],
+           [ 0.6977288...,  0.1638422...,  0.1731654...],
+           [ 0.2160895...,  0.5973339...,  0.0749485...],
+           [ 0.9762744...,  0.0089861...,  0.6007427...],
+           [ 0.0062302...,  0.3865712...,  0.1679721...],
+           [ 0.2529823...,  0.0441600...,  0.7333801...],
+           [ 0.4347915...,  0.9566529...,  0.4084438...]])
     """
 
-    integer_size = int(size)
+    integer_size = DEFAULT_INT_DTYPE(size)
     if integer_size != size:
-        warning(('"size" has been cast to integer: {0}'.format(integer_size)))
+        runtime_warning(
+            '"size" has been cast to integer: {0}'.format(integer_size))
 
-    for _ in range(integer_size):
-        yield np.array([
-            random_state.uniform(*limits[0]),
-            random_state.uniform(*limits[1]),
-            random_state.uniform(*limits[2])
-        ])
+    return tstack([
+        random_state.uniform(*limits[0], size=integer_size),
+        random_state.uniform(*limits[1], size=integer_size),
+        random_state.uniform(*limits[2], size=integer_size),
+    ])

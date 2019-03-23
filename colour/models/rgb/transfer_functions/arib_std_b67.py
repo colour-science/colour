@@ -28,10 +28,11 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.utilities import (Structure, as_float, domain_range_scale,
+                              from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -49,7 +50,7 @@ ARIBSTDB67_CONSTANTS : Structure
 """
 
 
-def oetf_ARIBSTDB67(E, r=0.5):
+def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
     function (OETF / OECF).
@@ -57,20 +58,37 @@ def oetf_ARIBSTDB67(E, r=0.5):
     Parameters
     ----------
     E : numeric or array_like
-        Voltage normalized by the reference white level and proportional to
+        Voltage normalised by the reference white level and proportional to
         the implicit light intensity that would be detected with a reference
         camera color channel R, G, B.
     r : numeric, optional
         Video level corresponding to reference white level.
+    constants : Structure, optional
+        *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
 
     Returns
     -------
     numeric or ndarray
         Resulting non-linear signal :math:`E'`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`AssociationofRadioIndustriesandBusinesses2015a`
+    :cite:`AssociationofRadioIndustriesandBusinesses2015a`
 
     Examples
     --------
@@ -78,18 +96,18 @@ def oetf_ARIBSTDB67(E, r=0.5):
     0.2121320...
     """
 
-    E = np.asarray(E)
+    E = to_domain_1(E)
 
-    a = ARIBSTDB67_CONSTANTS.a
-    b = ARIBSTDB67_CONSTANTS.b
-    c = ARIBSTDB67_CONSTANTS.c
+    a = constants.a
+    b = constants.b
+    c = constants.c
 
     E_p = np.where(E <= 1, r * np.sqrt(E), a * np.log(E - b) + c)
 
-    return as_numeric(E_p)
+    return as_float(from_range_1(E_p))
 
 
-def oetf_reverse_ARIBSTDB67(E_p, r=0.5):
+def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* reverse opto-electrical transfer
     function (OETF / OECF).
@@ -100,17 +118,34 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5):
         Non-linear signal :math:`E'`.
     r : numeric, optional
         Video level corresponding to reference white level.
+    constants : Structure, optional
+        *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
 
     Returns
     -------
     numeric or ndarray
-        Voltage :math:`E` normalized by the reference white level and
+        Voltage :math:`E` normalised by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera color channel R, G, B.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`AssociationofRadioIndustriesandBusinesses2015a`
+    :cite:`AssociationofRadioIndustriesandBusinesses2015a`
 
     Examples
     --------
@@ -118,13 +153,17 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5):
     0.1799999...
     """
 
-    E_p = np.asarray(E_p)
+    E_p = to_domain_1(E_p)
 
-    a = ARIBSTDB67_CONSTANTS.a
-    b = ARIBSTDB67_CONSTANTS.b
-    c = ARIBSTDB67_CONSTANTS.c
+    a = constants.a
+    b = constants.b
+    c = constants.c
 
-    E = np.where(E_p <= oetf_ARIBSTDB67(1), (E_p / r) ** 2,
-                 np.exp((E_p - c) / a) + b)
+    with domain_range_scale('ignore'):
+        E = np.where(
+            E_p <= oetf_ARIBSTDB67(1),
+            (E_p / r) ** 2,
+            np.exp((E_p - c) / a) + b,
+        )
 
-    return as_numeric(E)
+    return as_float(from_range_1(E))

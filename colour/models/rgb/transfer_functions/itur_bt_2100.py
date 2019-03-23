@@ -45,29 +45,26 @@ import numpy as np
 from colour.models.rgb.transfer_functions import (
     eotf_BT1886, eotf_ST2084, eotf_reverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
     oetf_ST2084, oetf_reverse_ARIBSTDB67, oetf_reverse_BT709)
-from colour.utilities import as_numeric, tsplit, tstack, warning
+from colour.models.rgb.transfer_functions.arib_std_b67 import (
+    ARIBSTDB67_CONSTANTS)
+from colour.utilities import (Structure, as_float_array, as_float,
+                              from_range_1, to_domain_1, tsplit, tstack,
+                              usage_warning)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'BT2100_HLG_WEIGHTS', 'oetf_BT2100_PQ', 'oetf_reverse_BT2100_PQ',
-    'eotf_BT2100_PQ', 'eotf_reverse_BT2100_PQ', 'ootf_BT2100_PQ',
-    'ootf_reverse_BT2100_PQ', 'function_gamma_BT2100_HLG', 'oetf_BT2100_HLG',
-    'oetf_reverse_BT2100_HLG', 'eotf_BT2100_HLG', 'eotf_reverse_BT2100_HLG',
-    'ootf_BT2100_HLG', 'ootf_reverse_BT2100_HLG'
+    'oetf_BT2100_PQ', 'oetf_reverse_BT2100_PQ', 'eotf_BT2100_PQ',
+    'eotf_reverse_BT2100_PQ', 'ootf_BT2100_PQ', 'ootf_reverse_BT2100_PQ',
+    'BT2100_HLG_WEIGHTS', 'BT2100_HLG_CONSTANTS', 'gamma_function_BT2100_HLG',
+    'oetf_BT2100_HLG', 'oetf_reverse_BT2100_HLG', 'eotf_BT2100_HLG',
+    'eotf_reverse_BT2100_HLG', 'ootf_BT2100_HLG', 'ootf_reverse_BT2100_HLG'
 ]
-
-BT2100_HLG_WEIGHTS = np.array([0.2627, 0.6780, 0.0593])
-"""
-Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*.
-
-BT2100_HLG_WEIGHTS : ndarray
-"""
 
 
 def oetf_BT2100_PQ(E):
@@ -82,20 +79,32 @@ def oetf_BT2100_PQ(E):
     ----------
     E : numeric or array_like
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
-        scene light and scaled by camera exposure. The values :math:`E`,
-        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
-        the range [0, 1].
+        scene light and scaled by camera exposure.
 
     Returns
     -------
     numeric or ndarray
-        :math:`E` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
-        :math:`B'`) in the range [0, 1].
+        :math:`E'` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
+        :math:`B'`).
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -114,21 +123,33 @@ def oetf_reverse_BT2100_PQ(E_p):
     Parameters
     ----------
     E_p : numeric or array_like
-        :math:`E` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
-        :math:`B'`) in the range [0, 1].
+        :math:`E'` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
+        :math:`B'`).
 
     Returns
     -------
     numeric or ndarray
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
-        scene light and scaled by camera exposure. The values :math:`E`,
-        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
-        the range [0, 1].
+        scene light and scaled by camera exposure.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -159,10 +180,24 @@ def eotf_BT2100_PQ(E_p):
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -191,10 +226,24 @@ def eotf_reverse_BT2100_PQ(F_D):
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
         :math:`{L', M', S'}` in *PQ* space [0, 1].
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -216,9 +265,7 @@ def ootf_BT2100_PQ(E):
     ----------
     E : numeric or array_like
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
-        scene light and scaled by camera exposure. The values :math:`E`,
-        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
-        the range [0, 1].
+        scene light and scaled by camera exposure.
 
     Returns
     -------
@@ -226,10 +273,24 @@ def ootf_BT2100_PQ(E):
         :math:`F_D` is the luminance of a displayed linear component
         (:math:`R_D`, :math:`G_D`, :math:`B_D`; :math:`Y_D`; or :math:`I_D`).
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -237,7 +298,7 @@ def ootf_BT2100_PQ(E):
     779.9883608...
     """
 
-    E = np.asarray(E)
+    E = as_float_array(E)
 
     return 100 * eotf_BT1886(oetf_BT709(59.5208 * E))
 
@@ -257,14 +318,26 @@ def ootf_reverse_BT2100_PQ(F_D):
     -------
     numeric or ndarray
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
-        scene light and scaled by camera exposure. The values :math:`E`,
-        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
-        the range [0, 1].
+        scene light and scaled by camera exposure.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -272,12 +345,38 @@ def ootf_reverse_BT2100_PQ(F_D):
     0.1000000...
     """
 
-    F_D = np.asarray(F_D)
+    F_D = as_float_array(F_D)
 
     return oetf_reverse_BT709(eotf_reverse_BT1886(F_D / 100)) / 59.5208
 
 
-def function_gamma_BT2100_HLG(L_W=1000):
+BT2100_HLG_WEIGHTS = np.array([0.2627, 0.6780, 0.0593])
+"""
+Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*.
+
+BT2100_HLG_WEIGHTS : ndarray
+"""
+
+BT2100_HLG_CONSTANTS = Structure(
+    a=ARIBSTDB67_CONSTANTS.a,
+    b=1 - 4 * ARIBSTDB67_CONSTANTS.a,
+    c=0.5 - ARIBSTDB67_CONSTANTS.a * np.log(4 * ARIBSTDB67_CONSTANTS.a))
+"""
+*Recommendation ITU-R BT.2100* *Reference HLG* constants expressed in their
+analytical form in contrast to the *ARIB STD-B67 (Hybrid Log-Gamma)* numerical
+reference.
+
+Those constants are not currently in use and are provided as a reference only.
+
+References
+----------
+:cite:`InternationalTelecommunicationUnion2016a`
+
+BT2100_HLG_CONSTANTS : Structure
+"""
+
+
+def gamma_function_BT2100_HLG(L_W=1000):
     """
     Returns the *Reference HLG* system gamma value for given display nominal
     peak luminance.
@@ -295,11 +394,11 @@ def function_gamma_BT2100_HLG(L_W=1000):
 
     Examples
     --------
-    >>> function_gamma_BT2100_HLG()
+    >>> gamma_function_BT2100_HLG()
     1.2
-    >>> function_gamma_BT2100_HLG(2000)  # doctest: +ELLIPSIS
+    >>> gamma_function_BT2100_HLG(2000)  # doctest: +ELLIPSIS
     1.3264325...
-    >>> function_gamma_BT2100_HLG(4000)  # doctest: +ELLIPSIS
+    >>> gamma_function_BT2100_HLG(4000)  # doctest: +ELLIPSIS
     1.4528651...
     """
 
@@ -321,18 +420,31 @@ def oetf_BT2100_HLG(E):
     E : numeric or array_like
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
-        by camera exposure, normalized to the range [0, 1].
+        by camera exposure.
 
     Returns
     -------
     numeric or ndarray
-        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}` in
-        the range [0, 1].
+        :math:`E'` is the resulting non-linear signal :math:`{R', G', B'}`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -351,20 +463,33 @@ def oetf_reverse_BT2100_HLG(E):
     Parameters
     ----------
     E_p : numeric or array_like
-        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}` in
-        the range [0, 1].
+        :math:`E'` is the resulting non-linear signal :math:`{R', G', B'}`.
 
     Returns
     -------
     numeric or ndarray
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
-        by camera exposure, normalized to the range [0, 1].
+        by camera exposure.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -386,7 +511,7 @@ def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
     ----------
     E_p : numeric or array_like
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
-        :math:`{L', M', S'}` in *HLG* space in range [0, 1].
+        :math:`{L', M', S'}` in *HLG* space.
     L_B : numeric, optional
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
     L_W : numeric, optional
@@ -403,10 +528,24 @@ def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -441,12 +580,26 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     -------
     numeric or ndarray
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
-        :math:`{L', M', S'}` in *HLG* space in range [0, 1].
+        :math:`{L', M', S'}` in *HLG* space.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -469,7 +622,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     E : numeric or array_like
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
-        by camera exposure, normalized to the range [0, 1].
+        by camera exposure.
     L_B : numeric, optional
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
     L_W : numeric, optional
@@ -485,10 +638,24 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -496,10 +663,10 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     63.0957344...
     """
 
-    E = np.atleast_1d(E)
+    E = np.atleast_1d(to_domain_1(E))
 
     if E.shape[-1] != 3:
-        warning(
+        usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             'RGB Luminance in computations and expects a vector input, thus '
             'the given input array will be stacked to compose a vector for '
@@ -511,19 +678,21 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     alpha = L_W - L_B
     beta = L_B
 
-    Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack((R_S, G_S, B_S)), axis=-1)
+    Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack([R_S, G_S, B_S]), axis=-1)
 
     if gamma is None:
-        gamma = function_gamma_BT2100_HLG(L_W)
+        gamma = gamma_function_BT2100_HLG(L_W)
 
     R_D = alpha * R_S * np.abs(Y_S) ** (gamma - 1) + beta
     G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1) + beta
     B_D = alpha * B_S * np.abs(Y_S) ** (gamma - 1) + beta
 
     if E.shape[-1] != 3:
-        return as_numeric(R_D)
+        return as_float(from_range_1(R_D))
     else:
-        return tstack((R_D, G_D, B_D))
+        RGB_D = tstack([R_D, G_D, B_D])
+
+        return from_range_1(RGB_D)
 
 
 def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
@@ -550,12 +719,26 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     numeric or ndarray
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
-        by camera exposure, normalized to the range [0, 1].
+        by camera exposure.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -563,10 +746,10 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     0.1000000...
     """
 
-    F_D = np.atleast_1d(F_D)
+    F_D = np.atleast_1d(to_domain_1(F_D))
 
     if F_D.shape[-1] != 3:
-        warning(
+        usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             'RGB Luminance in computations and expects a vector input, thus '
             'the given input array will be stacked to compose a vector for '
@@ -575,22 +758,36 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     else:
         R_D, G_D, B_D = tsplit(F_D)
 
-    Y_D = np.sum(BT2100_HLG_WEIGHTS * tstack((R_D, G_D, B_D)), axis=-1)
+    Y_D = np.sum(BT2100_HLG_WEIGHTS * tstack([R_D, G_D, B_D]), axis=-1)
 
     alpha = L_W - L_B
     beta = L_B
 
     if gamma is None:
-        gamma = function_gamma_BT2100_HLG(L_W)
+        gamma = gamma_function_BT2100_HLG(L_W)
 
-    R_S = np.where(Y_D == beta, 0.0, (np.abs(
-        (Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) * (R_D - beta) / alpha)
-    G_S = np.where(Y_D == beta, 0.0, (np.abs(
-        (Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) * (G_D - beta) / alpha)
-    B_S = np.where(Y_D == beta, 0.0, (np.abs(
-        (Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) * (B_D - beta) / alpha)
+    R_S = np.where(
+        Y_D == beta,
+        0.0,
+        (np.abs((Y_D - beta) / alpha) **
+         ((1 - gamma) / gamma)) * (R_D - beta) / alpha,
+    )
+    G_S = np.where(
+        Y_D == beta,
+        0.0,
+        (np.abs((Y_D - beta) / alpha) **
+         ((1 - gamma) / gamma)) * (G_D - beta) / alpha,
+    )
+    B_S = np.where(
+        Y_D == beta,
+        0.0,
+        (np.abs((Y_D - beta) / alpha) **
+         ((1 - gamma) / gamma)) * (B_D - beta) / alpha,
+    )
 
     if F_D.shape[-1] != 3:
-        return as_numeric(R_S)
+        return as_float(from_range_1(R_S))
     else:
-        return tstack((R_S, G_S, B_S))
+        RGB_S = tstack([R_S, G_S, B_S])
+
+        return from_range_1(RGB_S)

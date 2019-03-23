@@ -26,18 +26,18 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'BETA_RGB_PRIMARIES', 'BETA_RGB_ILLUMINANT', 'BETA_RGB_WHITEPOINT',
+    'BETA_RGB_PRIMARIES', 'BETA_RGB_WHITEPOINT_NAME', 'BETA_RGB_WHITEPOINT',
     'BETA_RGB_TO_XYZ_MATRIX', 'XYZ_TO_BETA_RGB_MATRIX', 'BETA_RGB_COLOURSPACE'
 ]
 
@@ -52,15 +52,15 @@ BETA_RGB_PRIMARIES = np.array([
 BETA_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-BETA_RGB_ILLUMINANT = 'D50'
+BETA_RGB_WHITEPOINT_NAME = 'D50'
 """
-*Beta RGB* colourspace whitepoint name as illuminant.
+*Beta RGB* colourspace whitepoint name.
 
-BETA_RGB_ILLUMINANT : unicode
+BETA_RGB_WHITEPOINT_NAME : unicode
 """
 
-BETA_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BETA_RGB_ILLUMINANT])
+BETA_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    BETA_RGB_WHITEPOINT_NAME])
 """
 *Beta RGB* colourspace whitepoint.
 
@@ -86,17 +86,18 @@ BETA_RGB_COLOURSPACE = RGB_Colourspace(
     'Beta RGB',
     BETA_RGB_PRIMARIES,
     BETA_RGB_WHITEPOINT,
-    BETA_RGB_ILLUMINANT,
+    BETA_RGB_WHITEPOINT_NAME,
     BETA_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BETA_RGB_MATRIX,
-    partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2), )
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2),
+)
 BETA_RGB_COLOURSPACE.__doc__ = """
 *Beta RGB* colourspace.
 
 References
 ----------
--   :cite:`Lindbloom2014a`
+:cite:`Lindbloom2014a`
 
 BETA_RGB_COLOURSPACE : RGB_Colourspace
 """

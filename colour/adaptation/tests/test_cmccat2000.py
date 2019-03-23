@@ -14,10 +14,10 @@ from colour.adaptation.cmccat2000 import (
     chromatic_adaptation_forward_CMCCAT2000,
     chromatic_adaptation_reverse_CMCCAT2000)
 
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -43,29 +43,28 @@ chromatic_adaptation_forward_CMCCAT2000` definition.
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_forward_CMCCAT2000(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                np.array([1.09846607, 1.00000000, 0.35582280]) * 100,
-                np.array([0.95042855, 1.00000000, 1.08890037]) * 100, 100,
-                100),
-            np.array([8.01087299, 10.89423054, 26.89150177]),
+                np.array([22.48, 22.74, 8.54]),
+                np.array([111.15, 100.00, 35.20]),
+                np.array([94.81, 100.00, 107.30]), 200, 200),
+            np.array([19.52698326, 23.06833960, 24.97175229]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_forward_CMCCAT2000(
-                np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
-                np.array([0.99092745, 1.00000000, 0.85313273]) * 100,
-                np.array([1.01679082, 1.00000000, 0.67610122]) * 100, 100,
+                np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
+                np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
+                np.array([1.09846607, 1.00000000, 0.35582280]) * 100, 100,
                 100),
-            np.array([48.97710455, 35.36874611, 9.02878274]),
+            np.array([17.90511171, 22.75299363, 3.79837384]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_forward_CMCCAT2000(
-                np.array([0.25506814, 0.19150000, 0.08849752]) * 100,
-                np.array([0.98070597, 1.00000000, 1.18224949]) * 100,
-                np.array([0.92833635, 1.00000000, 1.03664720]) * 100, 100,
+                np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
+                np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
+                np.array([0.99144661, 1.00000000, 0.67315942]) * 100, 100,
                 100),
-            np.array([24.68548451, 19.08228483, 7.81570209]),
+            np.array([6.76564344, 5.86585763, 18.40577315]),
             decimal=7)
 
     def test_n_dimensional_chromatic_adaptation_forward_CMCCAT2000(self):
@@ -117,6 +116,31 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
             XYZ_c,
             decimal=7)
 
+    def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
+        """
+        Tests :func:`colour.adaptation.cmccat2000.\
+chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
+        support.
+        """
+
+        XYZ = np.array([22.48, 22.74, 8.54])
+        XYZ_w = np.array([111.15, 100.00, 35.20])
+        XYZ_wr = np.array([94.81, 100.00, 107.30])
+        L_A1 = 200
+        L_A2 = 200
+        XYZ_c = chromatic_adaptation_forward_CMCCAT2000(
+            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    chromatic_adaptation_forward_CMCCAT2000(
+                        XYZ * factor, XYZ_w * factor, XYZ_wr * factor, L_A1,
+                        L_A2),
+                    XYZ_c * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_forward_CMCCAT2000(self):
         """
@@ -150,29 +174,28 @@ chromatic_adaptation_reverse_CMCCAT2000` definition.
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_reverse_CMCCAT2000(
-                np.array([8.01087299, 10.89423054, 26.89150177]),
-                np.array([1.09846607, 1.00000000, 0.35582280]) * 100,
-                np.array([0.95042855, 1.00000000, 1.08890037]) * 100, 100,
-                100),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([19.52698326, 23.06833960, 24.97175229]),
+                np.array([111.15, 100.00, 35.20]),
+                np.array([94.81, 100.00, 107.30]), 200, 200),
+            np.array([22.48, 22.74, 8.54]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_reverse_CMCCAT2000(
-                np.array([48.97710455, 35.36874611, 9.02878274]),
-                np.array([0.99092745, 1.00000000, 0.85313273]) * 100,
-                np.array([1.01679082, 1.00000000, 0.67610122]) * 100, 100,
+                np.array([17.90511171, 22.75299363, 3.79837384]),
+                np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
+                np.array([1.09846607, 1.00000000, 0.35582280]) * 100, 100,
                 100),
-            np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
+            np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_reverse_CMCCAT2000(
-                np.array([24.68548451, 19.08228483, 7.81570209]),
-                np.array([0.98070597, 1.00000000, 1.18224949]) * 100,
-                np.array([0.92833635, 1.00000000, 1.03664720]) * 100, 100,
+                np.array([6.76564344, 5.86585763, 18.40577315]),
+                np.array([0.95045593, 1.00000000, 1.08905775]) * 100,
+                np.array([0.99144661, 1.00000000, 0.67315942]) * 100, 100,
                 100),
-            np.array([0.25506814, 0.19150000, 0.08849752]) * 100,
+            np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
             decimal=7)
 
     def test_n_dimensional_chromatic_adaptation_reverse_CMCCAT2000(self):
@@ -223,6 +246,31 @@ chromatic_adaptation_reverse_CMCCAT2000` definition n-dimensional arrays
                                                     L_A2),
             XYZ,
             decimal=7)
+
+    def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
+        """
+        Tests :func:`colour.adaptation.cmccat2000.\
+chromatic_adaptation_reverse_CMCCAT2000` definition domain and range scale
+        support.
+        """
+
+        XYZ_c = np.array([19.52698326, 23.06833960, 24.97175229])
+        XYZ_w = np.array([111.15, 100.00, 35.20])
+        XYZ_wr = np.array([94.81, 100.00, 107.30])
+        L_A1 = 200
+        L_A2 = 200
+        XYZ = chromatic_adaptation_reverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr,
+                                                      L_A1, L_A2)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    chromatic_adaptation_reverse_CMCCAT2000(
+                        XYZ_c * factor, XYZ_w * factor, XYZ_wr * factor, L_A1,
+                        L_A2),
+                    XYZ * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_reverse_CMCCAT2000(self):

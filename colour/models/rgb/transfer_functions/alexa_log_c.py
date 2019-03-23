@@ -17,17 +17,19 @@ blob/master/notebooks/models/rgb.ipynb>`_
 References
 ----------
 -   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
-    Retrieved from http://www.arri.com/?eID=registration&file_uid=8026
+    Retrieved from https://drive.google.com/\
+open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, as_numeric
+from colour.utilities import (CaseInsensitiveMapping, as_float, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -179,7 +181,7 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping({
 })  # yapf: disable
 """
 *ALEXA Log C* curve conversion data between signal and linear scene exposure
-factor for *SUP 3.x* and signal and normalized sensor signal for *SUP 2.x*.
+factor for *SUP 3.x* and signal and normalised sensor signal for *SUP 2.x*.
 
 ALEXA_LOG_C_CURVE_CONVERSION_DATA : CaseInsensitiveMapping
     **{'SUP 3.x', 'SUP 2.x'}**
@@ -214,7 +216,22 @@ def log_encoding_ALEXALogC(x,
 
     References
     ----------
-    -   :cite:`ARRI2012a`
+    :cite:`ARRI2012a`
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``t``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     Examples
     --------
@@ -222,13 +239,14 @@ def log_encoding_ALEXALogC(x,
     0.3910068...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
     cut, a, b, c, d, e, f, _e_cut_f = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
 
-    return as_numeric(
-        np.where(x > cut, c * np.log10(a * x + b) + d, e * x + f))
+    t = np.where(x > cut, c * np.log10(a * x + b) + d, e * x + f)
+
+    return as_float(from_range_1(t))
 
 
 def log_decoding_ALEXALogC(t,
@@ -257,9 +275,24 @@ def log_decoding_ALEXALogC(t,
     numeric or ndarray
         Linear data :math:`x`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``t``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`ARRI2012a`
+    :cite:`ARRI2012a`
 
     Examples
     --------
@@ -267,11 +300,11 @@ def log_decoding_ALEXALogC(t,
     0.18...
     """
 
-    t = np.asarray(t)
+    t = to_domain_1(t)
 
     cut, a, b, c, d, e, f, _e_cut_f = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
 
-    return as_numeric(
-        np.where(t > e * cut + f, (np.power(10, (t - d) / c) - b) / a, (t - f)
-                 / e))
+    x = np.where(t > e * cut + f, (10 ** ((t - d) / c) - b) / a, (t - f) / e)
+
+    return as_float(from_range_1(x))

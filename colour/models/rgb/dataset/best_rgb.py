@@ -25,18 +25,18 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'BEST_RGB_PRIMARIES', 'BEST_RGB_ILLUMINANT', 'BEST_RGB_WHITEPOINT',
+    'BEST_RGB_PRIMARIES', 'BEST_RGB_WHITEPOINT_NAME', 'BEST_RGB_WHITEPOINT',
     'BEST_RGB_TO_XYZ_MATRIX', 'XYZ_TO_BEST_RGB_MATRIX', 'BEST_RGB_COLOURSPACE'
 ]
 
@@ -51,15 +51,15 @@ BEST_RGB_PRIMARIES = np.array([
 BEST_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-BEST_RGB_ILLUMINANT = 'D50'
+BEST_RGB_WHITEPOINT_NAME = 'D50'
 """
-*Best RGB* colourspace whitepoint name as illuminant.
+*Best RGB* colourspace whitepoint name.
 
-BEST_RGB_ILLUMINANT : unicode
+BEST_RGB_WHITEPOINT_NAME : unicode
 """
 
-BEST_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BEST_RGB_ILLUMINANT])
+BEST_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    BEST_RGB_WHITEPOINT_NAME])
 """
 *Best RGB* colourspace whitepoint.
 
@@ -85,17 +85,18 @@ BEST_RGB_COLOURSPACE = RGB_Colourspace(
     'Best RGB',
     BEST_RGB_PRIMARIES,
     BEST_RGB_WHITEPOINT,
-    BEST_RGB_ILLUMINANT,
+    BEST_RGB_WHITEPOINT_NAME,
     BEST_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BEST_RGB_MATRIX,
-    partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2), )
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2),
+)
 BEST_RGB_COLOURSPACE.__doc__ = """
 *Best RGB* colourspace.
 
 References
 ----------
--   :cite:`HutchColord`
+:cite:`HutchColord`
 
 BEST_RGB_COLOURSPACE : RGB_Colourspace
 """

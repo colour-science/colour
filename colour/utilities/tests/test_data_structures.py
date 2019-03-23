@@ -5,13 +5,14 @@ Defines unit tests for :mod:`colour.utilities.data_structures` module.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
 import pickle
 import unittest
 
 from colour.utilities import Structure, Lookup, CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -25,17 +26,6 @@ class TestStructure(unittest.TestCase):
     Defines :class:`colour.utilities.data_structures.Structure` class units
     tests methods.
     """
-
-    def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
-
-        required_methods = ('__getattr__', '__setattr__', '__delattr__',
-                            'update')
-
-        for method in required_methods:
-            self.assertIn(method, dir(Structure))
 
     def test_Structure(self):
         """
@@ -100,19 +90,10 @@ class TestLookup(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('first_key_from_value', 'keys_from_value')
+        required_methods = ('keys_from_value', 'first_key_from_value')
 
         for method in required_methods:
             self.assertIn(method, dir(Lookup))
-
-    def test_first_key_from_value(self):
-        """
-        Tests :meth:`colour.utilities.data_structures.\
-Lookup.first_key_from_value` method.
-        """
-
-        lookup = Lookup(first_name='Doe', last_name='John', gender='male')
-        self.assertEqual('first_name', lookup.first_key_from_value('Doe'))
 
     def test_keys_from_value(self):
         """
@@ -123,6 +104,28 @@ Lookup.first_key_from_value` method.
         lookup = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
         self.assertListEqual(
             sorted(['Jane', 'John']), sorted(lookup.keys_from_value('Doe')))
+
+        lookup = Lookup(
+            A=np.array([0, 1, 2]),
+            B=np.array([0, 1, 2]),
+            C=np.array([1, 2, 3]))
+        self.assertListEqual(
+            sorted(['A', 'B']), lookup.keys_from_value(np.array([0, 1, 2])))
+
+    def test_first_key_from_value(self):
+        """
+        Tests :meth:`colour.utilities.data_structures.\
+Lookup.first_key_from_value` method.
+        """
+
+        lookup = Lookup(first_name='Doe', last_name='John', gender='male')
+        self.assertEqual('first_name', lookup.first_key_from_value('Doe'))
+
+        lookup = Lookup(
+            A=np.array([0, 1, 2]),
+            B=np.array([1, 2, 3]),
+            C=np.array([2, 3, 4]))
+        self.assertEqual('A', lookup.first_key_from_value(np.array([0, 1, 2])))
 
 
 class TestCaseInsensitiveMapping(unittest.TestCase):

@@ -21,7 +21,7 @@ from colour.models import xyY_to_XYZ
 from colour.volume import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -56,11 +56,11 @@ def _XYZ_optimal_colour_stimuli(illuminant):
                            illuminant,
                            sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
-    cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
-    if cached_ocs is None:
-        _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[illuminant] = cached_ocs = (
+    vertices = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
+    if vertices is None:
+        _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[illuminant] = vertices = (
             xyY_to_XYZ(optimal_colour_stimuli) / 100)
-    return cached_ocs
+    return vertices
 
 
 def is_within_macadam_limits(xyY, illuminant, tolerance=None):
@@ -84,7 +84,12 @@ def is_within_macadam_limits(xyY, illuminant, tolerance=None):
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace array is in domain [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``xyY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     Examples
     --------

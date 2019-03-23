@@ -1,5 +1,5 @@
-colour\.adaptation\.CMCCAT2000\_CAT
-===================================
+colour.adaptation.CMCCAT2000\_CAT
+=================================
 
 .. currentmodule:: colour.adaptation
 

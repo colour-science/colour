@@ -1,5 +1,5 @@
-colour\.biochemistry\.reaction\_rate\_MichealisMenten
-=====================================================
+colour.biochemistry.reaction\_rate\_MichealisMenten
+===================================================
 
 .. currentmodule:: colour.biochemistry
 

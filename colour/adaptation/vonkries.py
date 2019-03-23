@@ -26,10 +26,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.utilities import dot_matrix, dot_vector, row_as_diagonal
+from colour.utilities import (dot_matrix, dot_vector, from_range_1,
+                              row_as_diagonal, to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -60,38 +61,52 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     Returns
     -------
     ndarray
-        Chromatic adaptation matrix.
+        Chromatic adaptation matrix :math:`M_{cat}`.
 
     Raises
     ------
     KeyError
         If chromatic adaptation method is not defined.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_w``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wr`` | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`Fairchild2013t`
+    :cite:`Fairchild2013t`
 
     Examples
     --------
-    >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-    >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+    >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+    >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)
     ... # doctest: +ELLIPSIS
-    array([[ 0.8687653..., -0.1416539...,  0.3871961...],
-           [-0.1030072...,  1.0584014...,  0.1538646...],
-           [ 0.0078167...,  0.0267875...,  2.9608177...]])
+    array([[ 1.0425738...,  0.0308910..., -0.0528125...],
+           [ 0.0221934...,  1.0018566..., -0.0210737...],
+           [-0.0011648..., -0.0034205...,  0.7617890...]])
 
     Using Bradford method:
 
-    >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-    >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+    >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+    >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> method = 'Bradford'
     >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, method)
     ... # doctest: +ELLIPSIS
-    array([[ 0.8446794..., -0.1179355...,  0.3948940...],
-           [-0.1366408...,  1.1041236...,  0.1291981...],
-           [ 0.0798671..., -0.1349315...,  3.1928829...]])
+    array([[ 1.0479297...,  0.0229468..., -0.0501922...],
+           [ 0.0296278...,  0.9904344..., -0.0170738...],
+           [-0.0092430...,  0.0150551...,  0.7518742...]])
     """
+
+    XYZ_w = to_domain_1(XYZ_w)
+    XYZ_wr = to_domain_1(XYZ_wr)
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
 
@@ -108,10 +123,10 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     D = row_as_diagonal(D)
 
-    cat = dot_matrix(np.linalg.inv(M), D)
-    cat = dot_matrix(cat, M)
+    M_CAT = dot_matrix(np.linalg.inv(M), D)
+    M_CAT = dot_matrix(M_CAT, M)
 
-    return cat
+    return M_CAT
 
 
 def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
@@ -138,30 +153,51 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     ndarray
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_n``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_r``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_c``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`Fairchild2013t`
+    :cite:`Fairchild2013t`
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-    >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-    >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+    >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)  # doctest: +ELLIPSIS
-    array([ 0.0839746...,  0.1141321...,  0.2862554...])
+    array([ 0.2163881...,  0.1257    ,  0.0384749...])
 
     Using Bradford method:
 
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-    >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-    >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+    >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> transform = 'Bradford'
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform)
     ... # doctest: +ELLIPSIS
-    array([ 0.0854032...,  0.1140122...,  0.2972149...])
+    array([ 0.2166600...,  0.1260477...,  0.0385506...])
     """
 
-    cat = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
-    XYZ_a = dot_vector(cat, XYZ)
+    XYZ = to_domain_1(XYZ)
 
-    return XYZ_a
+    M_CAT = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
+    XYZ_a = dot_vector(M_CAT, XYZ)
+
+    return from_range_1(XYZ_a)

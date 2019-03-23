@@ -1,5 +1,5 @@
-colour\.utilities\.is\_pandas\_installed
-========================================
+colour.utilities.is\_pandas\_installed
+======================================
 
 .. currentmodule:: colour.utilities
 

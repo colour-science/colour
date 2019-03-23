@@ -1,5 +1,5 @@
-colour\.colorimetry\.RGB\_ColourMatchingFunctions
-=================================================
+colour.colorimetry.RGB\_ColourMatchingFunctions
+===============================================
 
 .. currentmodule:: colour.colorimetry
 
@@ -27,6 +27,7 @@ colour\.colorimetry\.RGB\_ColourMatchingFunctions
       ~RGB_ColourMatchingFunctions.multi_signal_unpack_data
       ~RGB_ColourMatchingFunctions.normalise
       ~RGB_ColourMatchingFunctions.to_dataframe
+      ~RGB_ColourMatchingFunctions.to_sds
       ~RGB_ColourMatchingFunctions.trim
       ~RGB_ColourMatchingFunctions.trim_wavelengths
       ~RGB_ColourMatchingFunctions.zeros
@@ -34,5 +35,34 @@ colour\.colorimetry\.RGB\_ColourMatchingFunctions
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RGB_ColourMatchingFunctions.data
+      ~RGB_ColourMatchingFunctions.domain
+      ~RGB_ColourMatchingFunctions.dtype
+      ~RGB_ColourMatchingFunctions.extrapolator
+      ~RGB_ColourMatchingFunctions.extrapolator_args
+      ~RGB_ColourMatchingFunctions.function
+      ~RGB_ColourMatchingFunctions.interpolator
+      ~RGB_ColourMatchingFunctions.interpolator_args
+      ~RGB_ColourMatchingFunctions.items
+      ~RGB_ColourMatchingFunctions.labels
+      ~RGB_ColourMatchingFunctions.mapping
+      ~RGB_ColourMatchingFunctions.name
+      ~RGB_ColourMatchingFunctions.range
+      ~RGB_ColourMatchingFunctions.shape
+      ~RGB_ColourMatchingFunctions.signal_type
+      ~RGB_ColourMatchingFunctions.signals
+      ~RGB_ColourMatchingFunctions.strict_labels
+      ~RGB_ColourMatchingFunctions.strict_name
+      ~RGB_ColourMatchingFunctions.title
+      ~RGB_ColourMatchingFunctions.values
+      ~RGB_ColourMatchingFunctions.wavelengths
+      ~RGB_ColourMatchingFunctions.x
+      ~RGB_ColourMatchingFunctions.y
+      ~RGB_ColourMatchingFunctions.z
    
    

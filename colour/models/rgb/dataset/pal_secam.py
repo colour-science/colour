@@ -25,18 +25,18 @@ from __future__ import division, unicode_literals
 
 from colour.models.rgb import RGB_Colourspace
 from colour.models.rgb.dataset.itur_bt_470 import (
-    BT470_625_PRIMARIES, BT470_625_WHITEPOINT, BT470_625_ILLUMINANT,
+    BT470_625_PRIMARIES, BT470_625_WHITEPOINT, BT470_625_WHITEPOINT_NAME,
     BT470_625_TO_XYZ_MATRIX, XYZ_TO_BT470_625_MATRIX, BT470_625_COLOURSPACE)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PAL_SECAM_PRIMARIES', 'PAL_SECAM_ILLUMINANT', 'PAL_SECAM_WHITEPOINT',
+    'PAL_SECAM_PRIMARIES', 'PAL_SECAM_WHITEPOINT_NAME', 'PAL_SECAM_WHITEPOINT',
     'PAL_SECAM_TO_XYZ_MATRIX', 'XYZ_TO_PAL_SECAM_MATRIX',
     'PAL_SECAM_COLOURSPACE'
 ]
@@ -48,11 +48,11 @@ PAL_SECAM_PRIMARIES = BT470_625_PRIMARIES
 PAL_SECAM_PRIMARIES : ndarray, (3, 2)
 """
 
-PAL_SECAM_ILLUMINANT = BT470_625_ILLUMINANT
+PAL_SECAM_WHITEPOINT_NAME = BT470_625_WHITEPOINT_NAME
 """
-*Pal/Secam* colourspace whitepoint name as illuminant.
+*Pal/Secam* colourspace whitepoint name.
 
-PAL_SECAM_ILLUMINANT : unicode
+PAL_SECAM_WHITEPOINT_NAME : unicode
 """
 
 PAL_SECAM_WHITEPOINT = BT470_625_WHITEPOINT
@@ -80,17 +80,18 @@ PAL_SECAM_COLOURSPACE = RGB_Colourspace(
     'Pal/Secam',
     PAL_SECAM_PRIMARIES,
     PAL_SECAM_WHITEPOINT,
-    PAL_SECAM_ILLUMINANT,
+    PAL_SECAM_WHITEPOINT_NAME,
     PAL_SECAM_TO_XYZ_MATRIX,
     XYZ_TO_PAL_SECAM_MATRIX,
     BT470_625_COLOURSPACE.encoding_cctf,
-    BT470_625_COLOURSPACE.decoding_cctf, )
+    BT470_625_COLOURSPACE.decoding_cctf,
+)
 PAL_SECAM_COLOURSPACE.__doc__ = """
 *Pal/Secam* colourspace.
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion1998a`
+:cite:`InternationalTelecommunicationUnion1998a`
 
 PAL_SECAM_COLOURSPACE : RGB_Colourspace
 """

@@ -1,5 +1,5 @@
-colour\.quality\.CRI\_Specification
-===================================
+colour.quality.CRI\_Specification
+=================================
 
 .. currentmodule:: colour.quality
 
@@ -19,5 +19,14 @@ colour\.quality\.CRI\_Specification
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CRI_Specification.Q_a
+      ~CRI_Specification.Q_as
+      ~CRI_Specification.colorimetry_data
+      ~CRI_Specification.name
    
    

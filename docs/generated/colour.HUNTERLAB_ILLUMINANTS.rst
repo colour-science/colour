@@ -1,5 +1,5 @@
-colour\.HUNTERLAB\_ILLUMINANTS
-==============================
+colour.HUNTERLAB\_ILLUMINANTS
+=============================
 
 .. currentmodule:: colour
 

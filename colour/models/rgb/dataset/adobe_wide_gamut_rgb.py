@@ -15,7 +15,7 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
--   :cite:`Wikipediacd` : Wikipedia. (n.d.). Wide-gamut RGB color space.
+-   :cite:`Wikipedia2004c` : Wikipedia. (2004). Wide-gamut RGB color space.
     Retrieved April 13, 2014, from
     http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
 """
@@ -26,18 +26,18 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ADOBE_WIDE_GAMUT_RGB_PRIMARIES', 'ADOBE_WIDE_GAMUT_RGB_ILLUMINANT',
+    'ADOBE_WIDE_GAMUT_RGB_PRIMARIES', 'ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME',
     'ADOBE_WIDE_GAMUT_RGB_WHITEPOINT', 'ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
     'XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX', 'ADOBE_WIDE_GAMUT_RGB_COLOURSPACE'
 ]
@@ -53,15 +53,16 @@ ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array([
 ADOBE_WIDE_GAMUT_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-ADOBE_WIDE_GAMUT_RGB_ILLUMINANT = 'D50'
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME = 'D50'
 """
-*Adobe Wide Gamut RGB* colourspace whitepoint name as illuminant.
+*Adobe Wide Gamut RGB* colourspace whitepoint name.
 
-ADOBE_WIDE_GAMUT_RGB_ILLUMINANT : unicode
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME : unicode
 """
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = (ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][ADOBE_WIDE_GAMUT_RGB_ILLUMINANT])
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME])
 """
 *Adobe Wide Gamut RGB* colourspace whitepoint.
 
@@ -88,17 +89,18 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     'Adobe Wide Gamut RGB',
     ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
     ADOBE_WIDE_GAMUT_RGB_WHITEPOINT,
-    ADOBE_WIDE_GAMUT_RGB_ILLUMINANT,
+    ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME,
     ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
-    partial(function_gamma, exponent=1 / (563 / 256)),
-    partial(function_gamma, exponent=563 / 256), )
+    partial(gamma_function, exponent=1 / (563 / 256)),
+    partial(gamma_function, exponent=563 / 256),
+)
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE.__doc__ = """
 *Adobe Wide Gamut RGB* colourspace.
 
 References
 ----------
--   :cite:`Wikipediacd`
+:cite:`Wikipedia2004c`
 
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
 """

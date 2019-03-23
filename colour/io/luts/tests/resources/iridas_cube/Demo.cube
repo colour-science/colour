@@ -1,0 +1,8 @@
+TITLE "Demo"
+LUT_1D_SIZE 3
+DOMAIN_MIN 0 0 0
+DOMAIN_MAX 1 2 3
+0 0 0
+# Comments can go anywhere
+0.5 1 1.5
+1 1 1

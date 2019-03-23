@@ -5,7 +5,7 @@ Academy Color Encoding System - Input Transform
 
 Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 
--   :func:`colour.spectral_to_aces_relative_exposure_values`
+-   :func:`colour.sd_to_aces_relative_exposure_values`
 
 See Also
 --------
@@ -15,6 +15,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
+-   :cite:`Forsythe2018` : Forsythe, A. (2018). Private Discussion with
+    Mansencal, T.
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
@@ -38,38 +40,49 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS_RELATIVE_SPDS
-from colour.models.rgb import ACES_RICD
-from colour.utilities import tsplit
+from colour.colorimetry import ILLUMINANTS_SDS, sd_to_XYZ
+from colour.models import XYZ_to_xy
+from colour.models.rgb import (ACES_2065_1_COLOURSPACE, ACES_RICD, RGB_to_XYZ,
+                               XYZ_to_RGB, normalised_primary_matrix)
+from colour.utilities import from_range_1, tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'FLARE_PERCENTAGE', 'S_FLARE_FACTOR',
-    'spectral_to_aces_relative_exposure_values'
+    'FLARE_PERCENTAGE', 'S_FLARE_FACTOR', 'sd_to_aces_relative_exposure_values'
 ]
 
 FLARE_PERCENTAGE = 0.00500
 S_FLARE_FACTOR = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 
 
-def spectral_to_aces_relative_exposure_values(
-        spd, illuminant=ILLUMINANTS_RELATIVE_SPDS['D60']):
+def sd_to_aces_relative_exposure_values(
+        sd,
+        illuminant=ILLUMINANTS_SDS['D65'],
+        apply_chromatic_adaptation=False,
+        chromatic_adaptation_transform='CAT02'):
     """
-    Converts given spectral power distribution to *ACES2065-1* colourspace
-    relative exposure values.
+    Converts given spectral distribution to *ACES2065-1* colourspace relative
+    exposure values.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
-    illuminant : SpectralPowerDistribution, optional
-        *Illuminant* spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
+    illuminant : SpectralDistribution, optional
+        *Illuminant* spectral distribution.
+    apply_chromatic_adaptation : bool, optional
+        Whether to apply chromatic adaptation using given transform.
+    chromatic_adaptation_transform : unicode, optional
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
+        *Chromatic adaptation* transform.
 
     Returns
     -------
@@ -78,32 +91,45 @@ def spectral_to_aces_relative_exposure_values(
 
     Notes
     -----
-    -   Output *ACES2065-1* colourspace relative exposure values array is in
-        range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    -   The chromatic adaptation method implemented here is a bit unusual
+        as it involves building a new colourspace based on *ACES2065-1*
+        colourspace primaries but using the whitepoint of the illuminant that
+        the spectral distribution was measured under.
 
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`Forsythe2018`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
-    >>> from colour import COLOURCHECKERS_SPDS
-    >>> spd = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
-    >>> spectral_to_aces_relative_exposure_values(spd)  # doctest: +ELLIPSIS
-    array([ 0.1187697...,  0.0870866...,  0.0589442...])
+    >>> from colour import COLOURCHECKERS_SDS
+    >>> sd = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> sd_to_aces_relative_exposure_values(sd)  # doctest: +ELLIPSIS
+    array([ 0.1171785...,  0.0866347...,  0.0589707...])
+    >>> sd_to_aces_relative_exposure_values(sd,
+    ...     apply_chromatic_adaptation=True)  # doctest: +ELLIPSIS
+    array([ 0.1180766...,  0.0869023...,  0.0589104...])
     """
 
     shape = ACES_RICD.shape
-    if spd.shape != ACES_RICD.shape:
-        spd = spd.copy().align(shape)
+    if sd.shape != ACES_RICD.shape:
+        sd = sd.copy().align(shape)
 
     if illuminant.shape != ACES_RICD.shape:
         illuminant = illuminant.copy().align(shape)
 
-    spd = spd.values
-    illuminant = illuminant.values
+    s_v = sd.values
+    i_v = illuminant.values
 
     r_bar, g_bar, b_bar = tsplit(ACES_RICD.values)
 
@@ -114,13 +140,13 @@ def spectral_to_aces_relative_exposure_values(
 
         return 1 / np.sum(x * y)
 
-    k_r = k(illuminant, r_bar)
-    k_g = k(illuminant, g_bar)
-    k_b = k(illuminant, b_bar)
+    k_r = k(i_v, r_bar)
+    k_g = k(i_v, g_bar)
+    k_b = k(i_v, b_bar)
 
-    E_r = k_r * np.sum(illuminant * spd * r_bar)
-    E_g = k_g * np.sum(illuminant * spd * g_bar)
-    E_b = k_b * np.sum(illuminant * spd * b_bar)
+    E_r = k_r * np.sum(i_v * s_v * r_bar)
+    E_g = k_g * np.sum(i_v * s_v * g_bar)
+    E_b = k_b * np.sum(i_v * s_v * b_bar)
 
     E_rgb = np.array([E_r, E_g, E_b])
 
@@ -128,4 +154,13 @@ def spectral_to_aces_relative_exposure_values(
     E_rgb += FLARE_PERCENTAGE
     E_rgb *= S_FLARE_FACTOR
 
-    return E_rgb
+    if apply_chromatic_adaptation:
+        xy = XYZ_to_xy(sd_to_XYZ(illuminant) / 100)
+        NPM = normalised_primary_matrix(ACES_2065_1_COLOURSPACE.primaries, xy)
+        XYZ = RGB_to_XYZ(E_rgb, xy, ACES_2065_1_COLOURSPACE.whitepoint, NPM,
+                         chromatic_adaptation_transform)
+        E_rgb = XYZ_to_RGB(XYZ, ACES_2065_1_COLOURSPACE.whitepoint,
+                           ACES_2065_1_COLOURSPACE.whitepoint,
+                           ACES_2065_1_COLOURSPACE.XYZ_to_RGB_matrix)
+
+    return from_range_1(E_rgb)

@@ -1,5 +1,5 @@
-colour\.corresponding\.corresponding\_chromaticities\_prediction\_CMCCAT2000
-============================================================================
+colour.corresponding.corresponding\_chromaticities\_prediction\_CMCCAT2000
+==========================================================================
 
 .. currentmodule:: colour.corresponding
 

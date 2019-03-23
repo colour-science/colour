@@ -1,5 +1,5 @@
-colour\.constants\.AVOGADRO\_CONSTANT
-=====================================
+colour.constants.AVOGADRO\_CONSTANT
+===================================
 
 .. currentmodule:: colour.constants
 

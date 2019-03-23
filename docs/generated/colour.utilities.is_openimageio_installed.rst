@@ -1,5 +1,5 @@
-colour\.utilities\.is\_openimageio\_installed
-=============================================
+colour.utilities.is\_openimageio\_installed
+===========================================
 
 .. currentmodule:: colour.utilities
 

@@ -9,18 +9,23 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import CV_range, legal_to_full, \
-    full_to_legal
+from colour.models.rgb.transfer_functions import (
+    CV_range, DECODING_CCTFS, ENCODING_CCTFS, EOTFS, EOTFS_REVERSE,
+    LOG_DECODING_CURVES, LOG_ENCODING_CURVES, OETFS, OETFS_REVERSE, OOTFS,
+    OOTFS_REVERSE, legal_to_full, full_to_legal)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
 
-__all__ = ['TestCV_range', 'TestLegalToFull', 'TestFullToLegal']
+__all__ = [
+    'TestCV_range', 'TestLegalToFull', 'TestFullToLegal',
+    'TestTransferFunctions'
+]
 
 
 class TestCV_range(unittest.TestCase):
@@ -41,7 +46,7 @@ class TestCV_range(unittest.TestCase):
         np.testing.assert_array_equal(
             CV_range(8, False, True), np.array([0, 255]))
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             CV_range(8, True, False),
             np.array([0.06274510, 0.92156863]),
             decimal=7)
@@ -55,7 +60,7 @@ class TestCV_range(unittest.TestCase):
         np.testing.assert_array_equal(
             CV_range(10, False, True), np.array([0, 1023]))
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             CV_range(10, True, False),
             np.array([0.06256109, 0.91886608]),
             decimal=7)
@@ -194,6 +199,46 @@ class TestFullToLegal(unittest.TestCase):
         """
 
         full_to_legal(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 10)
+
+
+class TestTransferFunctions(unittest.TestCase):
+    """
+    Defines transfer functions unit tests methods.
+    """
+
+    def test_transfer_functions(self):
+        """
+        Tests transfer functions reciprocity.
+        """
+
+        ignored_transfer_functions = (
+            'ACESproxy',
+            'DICOM GSDF',
+            'D-Log',
+            'Filmic Pro 6',
+        )
+
+        reciprocal_mappings = [
+            (LOG_ENCODING_CURVES, LOG_DECODING_CURVES),
+            (OETFS, OETFS_REVERSE),
+            (EOTFS, EOTFS_REVERSE),
+            (ENCODING_CCTFS, DECODING_CCTFS),
+            (OOTFS, OOTFS_REVERSE),
+        ]
+
+        samples = np.hstack(
+            [np.linspace(0, 1, 1e5),
+             np.linspace(0, 65504, 65504 * 10)])
+
+        for encoding_mapping, _decoding_mapping in reciprocal_mappings:
+            for name in encoding_mapping:
+                if name in ignored_transfer_functions:
+                    continue
+
+                encoded_s = ENCODING_CCTFS[name](samples)
+                decoded_s = DECODING_CCTFS[name](encoded_s)
+
+                np.testing.assert_almost_equal(samples, decoded_s, decimal=7)
 
 
 if __name__ == '__main__':

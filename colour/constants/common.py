@@ -13,7 +13,7 @@ import numpy as np
 from colour.utilities.documentation import DocstringFloat
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -21,10 +21,10 @@ __status__ = 'Production'
 
 __all__ = [
     'FLOATING_POINT_NUMBER_PATTERN', 'INTEGER_THRESHOLD', 'EPSILON',
-    'DEFAULT_FLOAT_DTYPE'
+    'DEFAULT_FLOAT_DTYPE', 'DEFAULT_INT_DTYPE'
 ]
 
-FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
+FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?'
 """
 Floating point number regex matching pattern.
 
@@ -51,4 +51,11 @@ DEFAULT_FLOAT_DTYPE = np.float_
 Default floating point number dtype.
 
 DEFAULT_FLOAT_DTYPE : type
+"""
+
+DEFAULT_INT_DTYPE = np.int_
+"""
+Default integer number dtype.
+
+DEFAULT_INT_DTYPE : type
 """

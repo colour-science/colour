@@ -1,5 +1,5 @@
-colour\.colorimetry\.luminance\_CIE1976
-=======================================
+colour.colorimetry.luminance\_CIE1976
+=====================================
 
 .. currentmodule:: colour.colorimetry
 

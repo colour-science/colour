@@ -5,24 +5,24 @@ Showcases colour models volume and gamut plotting examples.
 
 import numpy as np
 
-from colour.plotting import (RGB_colourspaces_gamuts_plot, RGB_scatter_plot,
-                             colour_plotting_defaults)
+from colour.plotting import (plot_RGB_colourspaces_gamuts, plot_RGB_scatter,
+                             colour_style)
 from colour.utilities import message_box
 
 message_box('Colour Models Volume and Gamut Plots')
 
-colour_plotting_defaults()
+colour_style()
 
 message_box(('Plotting "ITU-R BT.709" RGB colourspace volume in "CIE xyY" '
              'colourspace.'))
-RGB_colourspaces_gamuts_plot(
+plot_RGB_colourspaces_gamuts(
     ('ITU-R BT.709', ), reference_colourspace='CIE xyY')
 
 print('\n')
 
 message_box(('Comparing "ITU-R BT.709" and "ACEScg" RGB colourspaces volume '
              'in "CIE L*a*b*" colourspace.'))
-RGB_colourspaces_gamuts_plot(
+plot_RGB_colourspaces_gamuts(
     ('ITU-R BT.709', 'ACEScg'),
     reference_colourspace='CIE Lab',
     style={
@@ -39,7 +39,7 @@ message_box(('Plotting "ACEScg" colourspaces values in "CIE L*a*b*" '
 
 RGB = np.random.random((32, 32, 3))
 
-RGB_scatter_plot(
+plot_RGB_scatter(
     RGB,
     'ACEScg',
     reference_colourspace='CIE Lab',

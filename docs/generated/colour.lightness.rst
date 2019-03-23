@@ -1,5 +1,5 @@
-colour\.lightness
-=================
+colour.lightness
+================
 
 .. currentmodule:: colour
 

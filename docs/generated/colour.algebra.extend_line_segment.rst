@@ -1,5 +1,5 @@
-colour\.algebra\.extend\_line\_segment
-======================================
+colour.algebra.extend\_line\_segment
+====================================
 
 .. currentmodule:: colour.algebra
 

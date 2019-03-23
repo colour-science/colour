@@ -1,5 +1,5 @@
-colour\.JMh\_CIECAM02\_to\_CAM02LCD
-===================================
+colour.JMh\_CIECAM02\_to\_CAM02LCD
+==================================
 
 .. currentmodule:: colour
 

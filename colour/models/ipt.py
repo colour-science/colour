@@ -28,10 +28,12 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import dot_vector, tsplit
+from colour.algebra import spow
+from colour.utilities import (from_range_1, from_range_degrees, to_domain_1,
+                              dot_vector, tsplit)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -95,25 +97,44 @@ def XYZ_to_IPT(XYZ):
 
     Notes
     -----
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+
     -   Input *CIE XYZ* tristimulus values needs to be adapted for
         *CIE Standard Illuminant D Series* *D65*.
 
     References
     ----------
-    -   :cite:`Fairchild2013y`
+    :cite:`Fairchild2013y`
 
     Examples
     --------
-    >>> XYZ = np.array([0.96907232, 1.00000000, 1.12179215])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_IPT(XYZ)  # doctest: +ELLIPSIS
-    array([ 1.0030082...,  0.0190691..., -0.0136929...])
+    array([ 0.3842619...,  0.3848730...,  0.1888683...])
     """
 
+    XYZ = to_domain_1(XYZ)
+
     LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
-    LMS_prime = np.sign(LMS) * np.abs(LMS) ** 0.43
+    LMS_prime = spow(LMS, 0.43)
     IPT = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
 
-    return IPT
+    return from_range_1(IPT)
 
 
 def IPT_to_XYZ(IPT):
@@ -130,22 +151,43 @@ def IPT_to_XYZ(IPT):
     ndarray
         *CIE XYZ* tristimulus values.
 
+    Notes
+    -----
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
     References
     ----------
-    -   :cite:`Fairchild2013y`
+    :cite:`Fairchild2013y`
 
     Examples
     --------
-    >>> IPT = np.array([1.00300825, 0.01906918, -0.01369292])
+    >>> IPT = np.array([0.38426191, 0.38487306, 0.18886838])
     >>> IPT_to_XYZ(IPT)  # doctest: +ELLIPSIS
-    array([ 0.9690723...,  1.        ,  1.1217921...])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
+    IPT = to_domain_1(IPT)
+
     LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT)
-    LMS_prime = np.sign(LMS) * np.abs(LMS) ** (1 / 0.43)
+    LMS_prime = spow(LMS, 1 / 0.43)
     XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
 
-    return XYZ
+    return from_range_1(XYZ)
 
 
 def IPT_hue_angle(IPT):
@@ -162,9 +204,28 @@ def IPT_hue_angle(IPT):
     numeric or ndarray
         Hue angle in degrees.
 
+    Notes
+    -----
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``hue``    | [0, 360]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
     References
     ----------
-    -   :cite:`Fairchild2013y`
+    :cite:`Fairchild2013y`
 
     Examples
     --------
@@ -173,8 +234,8 @@ def IPT_hue_angle(IPT):
     48.2852074...
     """
 
-    _I, P, T = tsplit(IPT)
+    _I, P, T = tsplit(to_domain_1(IPT))
 
     hue = np.degrees(np.arctan2(T, P)) % 360
 
-    return hue
+    return from_range_degrees(hue)

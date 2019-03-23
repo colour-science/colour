@@ -1,5 +1,5 @@
-colour\.models\.RED\_COLOR\_2\_COLOURSPACE
-==========================================
+colour.models.RED\_COLOR\_2\_COLOURSPACE
+========================================
 
 .. currentmodule:: colour.models
 

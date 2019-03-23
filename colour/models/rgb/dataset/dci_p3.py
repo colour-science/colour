@@ -32,20 +32,21 @@ united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
-                               oetf_DCIP3, eotf_DCIP3)
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'DCI_P3_PRIMARIES', 'DCI_P3_P_PRIMARIES', 'DCI_P3_ILLUMINANT',
+    'DCI_P3_PRIMARIES', 'DCI_P3_P_PRIMARIES', 'DCI_P3_WHITEPOINT_NAME',
     'DCI_P3_WHITEPOINT', 'DCI_P3_TO_XYZ_MATRIX', 'XYZ_TO_DCI_P3_MATRIX',
     'DCI_P3_P_TO_XYZ_MATRIX', 'XYZ_TO_DCI_P3_P_MATRIX', 'DCI_P3_COLOURSPACE',
     'DCI_P3_P_COLOURSPACE'
@@ -73,21 +74,21 @@ DCI_P3_P_PRIMARIES = np.array([
 DCI_P3_P_PRIMARIES : ndarray, (3, 2)
 """
 
-DCI_P3_ILLUMINANT = 'DCI-P3'
+DCI_P3_WHITEPOINT_NAME = 'DCI-P3'
 """
-*DCI-P3* colourspace whitepoint name as illuminant.
+*DCI-P3* colourspace whitepoint name.
 
-DCI_P3_ILLUMINANT : unicode
+DCI_P3_WHITEPOINT_NAME : unicode
 
 Warning
 -------
-DCI-P3 illuminant has no associated spectral power distribution. DCI has no
+DCI-P3 illuminant has no associated spectral distribution. DCI has no
 official reference spectral measurement for this whitepoint. The closest
-matching spectral power distribution is Kinoton 75P projector.
+matching spectral distribution is Kinoton 75P projector.
 """
 
 DCI_P3_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DCI_P3_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DCI_P3_WHITEPOINT_NAME])
 """
 *DCI-P3* colourspace whitepoint.
 
@@ -128,18 +129,19 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     'DCI-P3',
     DCI_P3_PRIMARIES,
     DCI_P3_WHITEPOINT,
-    DCI_P3_ILLUMINANT,
+    DCI_P3_WHITEPOINT_NAME,
     DCI_P3_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_MATRIX,
-    oetf_DCIP3,
-    eotf_DCIP3, )
+    partial(gamma_function, exponent=1 / 2.6),
+    partial(gamma_function, exponent=2.6),
+)
 DCI_P3_COLOURSPACE.__doc__ = """
 *DCI-P3* colourspace.
 
 References
 ----------
--   :cite:`DigitalCinemaInitiatives2007b`
--   :cite:`Hewlett-PackardDevelopmentCompany2009a`
+:cite:`DigitalCinemaInitiatives2007b`,
+:cite:`Hewlett-PackardDevelopmentCompany2009a`
 
 DCI_P3_COLOURSPACE : RGB_Colourspace
 """
@@ -148,17 +150,18 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     'DCI-P3+',
     DCI_P3_P_PRIMARIES,
     DCI_P3_WHITEPOINT,
-    DCI_P3_ILLUMINANT,
+    DCI_P3_WHITEPOINT_NAME,
     DCI_P3_P_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_P_MATRIX,
-    oetf_DCIP3,
-    eotf_DCIP3, )
+    partial(gamma_function, exponent=1 / 2.6),
+    partial(gamma_function, exponent=2.6),
+)
 DCI_P3_P_COLOURSPACE.__doc__ = """
 *DCI-P3+* colourspace.
 
 References
 ----------
--   :cite:`Canon2014a`
+:cite:`Canon2014a`
 
 DCI_P3_P_COLOURSPACE : RGB_Colourspace
 """

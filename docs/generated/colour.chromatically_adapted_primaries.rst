@@ -1,5 +1,5 @@
-colour\.chromatically\_adapted\_primaries
-=========================================
+colour.chromatically\_adapted\_primaries
+========================================
 
 .. currentmodule:: colour
 

@@ -11,6 +11,10 @@ Defines *yellowness* index :math:`Y` computation objects:
 -   :func:`colour.colorimetry.yellowness_ASTME313`: *Yellowness* index
     :math:`YI` computation of given sample *CIE XYZ* tristimulus values using
     *ASTM E313* method.
+-   :attr:`colour.YELLOWNESS_METHODS`: Supported *yellowness* computations
+    methods.
+-   :func:`colour.whiteness`: *Yellowness* :math:`YI` computation using given
+    method.
 
 See Also
 --------
@@ -28,10 +32,11 @@ apps_engineering_techdocuments/c/09_color_calculations_en.pdf
 
 from __future__ import division, unicode_literals
 
-from colour.utilities import CaseInsensitiveMapping, tsplit
+from colour.utilities import (CaseInsensitiveMapping, from_range_100,
+                              to_domain_100, tsplit)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -64,17 +69,24 @@ def yellowness_ASTMD1925(XYZ):
     numeric or ndarray
         *Whiteness* :math:`YI`.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``YI``     | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -84,11 +96,11 @@ def yellowness_ASTMD1925(XYZ):
     10.2999999...
     """
 
-    X, Y, Z = tsplit(XYZ)
+    X, Y, Z = tsplit(to_domain_100(XYZ))
 
     YI = (100 * (1.28 * X - 1.06 * Z)) / Y
 
-    return YI
+    return from_range_100(YI)
 
 
 def yellowness_ASTME313(XYZ):
@@ -109,17 +121,24 @@ def yellowness_ASTME313(XYZ):
     numeric or ndarray
         *Whiteness* :math:`YI`.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``YI``     | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -129,11 +148,11 @@ def yellowness_ASTME313(XYZ):
     11.0650000...
     """
 
-    _X, Y, Z = tsplit(XYZ)
+    _X, Y, Z = tsplit(to_domain_100(XYZ))
 
     WI = 100 * (1 - (0.847 * Z) / Y)
 
-    return WI
+    return from_range_100(WI)
 
 
 YELLOWNESS_METHODS = CaseInsensitiveMapping({
@@ -145,7 +164,7 @@ Supported *yellowness* computations methods.
 
 References
 ----------
--   :cite:`X-Rite2012a`
+:cite:`X-Rite2012a`
 
 YELLOWNESS_METHODS : CaseInsensitiveMapping
     **{'ASTM E313', 'ASTM D1925'}**
@@ -169,9 +188,24 @@ def yellowness(XYZ, method='ASTM E313'):
     numeric or ndarray
         *yellowness* :math:`Y`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``YI``     | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------

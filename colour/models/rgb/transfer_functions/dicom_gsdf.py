@@ -35,10 +35,11 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.utilities import (Structure, as_float, as_int, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -73,7 +74,7 @@ DICOMGSDF_CONSTANTS : Structure
 """
 
 
-def oetf_DICOMGSDF(L):
+def oetf_DICOMGSDF(L, out_int=False):
     """
     Defines the *DICOM - Grayscale Standard Display Function* opto-electronic
     transfer function (OETF / OECF).
@@ -82,23 +83,43 @@ def oetf_DICOMGSDF(L):
     ----------
     L : numeric or array_like
         *Luminance* :math:`L`.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
 
     Returns
     -------
     numeric or ndarray
-        Just-Noticeable Difference (JND) Index, :math:`j` in domain 1 to 1023.
+        Just-Noticeable Difference (JND) Index, :math:`j`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``J``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`NationalElectricalManufacturersAssociation2004b`
+    :cite:`NationalElectricalManufacturersAssociation2004b`
 
     Examples
     --------
-    >>> oetf_DICOMGSDF(130.065284012159790)  # doctest: +ELLIPSIS
-    511.9964806...
+    >>> oetf_DICOMGSDF(130.0662)  # doctest: +ELLIPSIS
+    0.5004862...
+    >>> oetf_DICOMGSDF(130.0662, out_int=True)
+    512
     """
 
-    L = np.asarray(L)
+    L = to_domain_1(L)
 
     L_lg = np.log10(L)
 
@@ -112,13 +133,16 @@ def oetf_DICOMGSDF(L):
     H = DICOMGSDF_CONSTANTS.H
     I = DICOMGSDF_CONSTANTS.I  # noqa
 
-    L = (A + B * L_lg + C * L_lg ** 2 + D * L_lg ** 3 + E * L_lg ** 4 +
+    J = (A + B * L_lg + C * L_lg ** 2 + D * L_lg ** 3 + E * L_lg ** 4 +
          F * L_lg ** 5 + G * L_lg ** 6 + H * L_lg ** 7 + I * L_lg ** 8)
 
-    return as_numeric(L)
+    if out_int:
+        return as_int(np.round(J))
+    else:
+        return as_float(from_range_1(J / 1023))
 
 
-def eotf_DICOMGSDF(J):
+def eotf_DICOMGSDF(J, in_int=False):
     """
     Defines the *DICOM - Grayscale Standard Display Function* electro-optical
     transfer function (EOTF / EOCF).
@@ -126,24 +150,47 @@ def eotf_DICOMGSDF(J):
     Parameters
     ----------
     J : numeric or array_like
-        Just-Noticeable Difference (JND) Index, :math:`j` in range 1 to 1023.
+        Just-Noticeable Difference (JND) Index, :math:`j`.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
 
     Returns
     -------
     numeric or ndarray
         Corresponding *luminance* :math:`L`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``J``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`NationalElectricalManufacturersAssociation2004b`
+    :cite:`NationalElectricalManufacturersAssociation2004b`
 
     Examples
     --------
-    >>> eotf_DICOMGSDF(512)  # doctest: +ELLIPSIS
+    >>> eotf_DICOMGSDF(0.500486263438448)  # doctest: +ELLIPSIS
+    130.0628647...
+    >>> eotf_DICOMGSDF(512, in_int=True)  # doctest: +ELLIPSIS
     130.0652840...
     """
 
-    J = np.asarray(J)
+    J = to_domain_1(J)
+
+    if not in_int:
+        J = J * 1023
 
     a = DICOMGSDF_CONSTANTS.a
     b = DICOMGSDF_CONSTANTS.b
@@ -166,4 +213,4 @@ def eotf_DICOMGSDF(J):
          (1 + b * J_ln + d * J_ln2 + f * J_ln3 + h * J_ln4 + k * J_ln5))
     L = 10 ** L
 
-    return as_numeric(L)
+    return as_float(from_range_1(L))

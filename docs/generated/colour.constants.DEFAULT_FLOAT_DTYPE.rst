@@ -1,5 +1,5 @@
-colour\.constants\.DEFAULT\_FLOAT\_DTYPE
-========================================
+colour.constants.DEFAULT\_FLOAT\_DTYPE
+======================================
 
 .. currentmodule:: colour.constants
 
@@ -74,5 +74,24 @@ colour\.constants\.DEFAULT\_FLOAT\_DTYPE
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DEFAULT_FLOAT_DTYPE.T
+      ~DEFAULT_FLOAT_DTYPE.base
+      ~DEFAULT_FLOAT_DTYPE.data
+      ~DEFAULT_FLOAT_DTYPE.dtype
+      ~DEFAULT_FLOAT_DTYPE.flags
+      ~DEFAULT_FLOAT_DTYPE.flat
+      ~DEFAULT_FLOAT_DTYPE.imag
+      ~DEFAULT_FLOAT_DTYPE.itemsize
+      ~DEFAULT_FLOAT_DTYPE.nbytes
+      ~DEFAULT_FLOAT_DTYPE.ndim
+      ~DEFAULT_FLOAT_DTYPE.real
+      ~DEFAULT_FLOAT_DTYPE.shape
+      ~DEFAULT_FLOAT_DTYPE.size
+      ~DEFAULT_FLOAT_DTYPE.strides
    
    

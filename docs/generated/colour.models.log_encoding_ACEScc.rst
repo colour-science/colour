@@ -1,5 +1,5 @@
-colour\.models\.log\_encoding\_ACEScc
-=====================================
+colour.models.log\_encoding\_ACEScc
+===================================
 
 .. currentmodule:: colour.models
 

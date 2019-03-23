@@ -31,10 +31,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import HUNTERLAB_ILLUMINANTS
-from colour.utilities import tsplit, tstack
+from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -62,13 +62,9 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
         *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
         coefficients.
 
-    Notes
-    -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-
     References
     ----------
-    -   :cite:`HunterLab2008c`
+    :cite:`HunterLab2008c`
 
     Examples
     --------
@@ -82,16 +78,16 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
     K_a = 175 * np.sqrt(X / 98.043)
     K_b = 70 * np.sqrt(Z / 118.115)
 
-    K_ab = tstack((K_a, K_b))
+    K_ab = tstack([K_a, K_b])
 
     return K_ab
 
 
 def XYZ_to_Hunter_Lab(XYZ,
                       XYZ_n=HUNTERLAB_ILLUMINANTS[
-                          'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+                          'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
                       K_ab=HUNTERLAB_ILLUMINANTS[
-                          'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
+                          'CIE 1931 2 Degree Standard Observer']['D65'].K_ab):
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
 
@@ -113,25 +109,40 @@ def XYZ_to_Hunter_Lab(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
-        domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is in range [0, 100].
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
 
     References
     ----------
-    -   :cite:`HunterLab2008b`
+    :cite:`HunterLab2008b`
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-    >>> D50 = HUNTERLAB_ILLUMINANTS[
-    ...     'CIE 1931 2 Degree Standard Observer']['D50']
-    >>> XYZ_to_Hunter_Lab(XYZ, D50.XYZ_n, D50.K_ab)   # doctest: +ELLIPSIS
-    array([ 31.7490157..., -15.1146262...,  -2.7866075...])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
+    >>> D65 = HUNTERLAB_ILLUMINANTS[
+    ...     'CIE 1931 2 Degree Standard Observer']['D65']
+    >>> XYZ_to_Hunter_Lab(XYZ, D65.XYZ_n, D65.K_ab)   # doctest: +ELLIPSIS
+    array([ 34.9245257...,  47.0618985...,  14.3861510...])
     """
 
-    X, Y, Z = tsplit(XYZ)
-    X_n, Y_n, Z_n = tsplit(XYZ_n)
+    X, Y, Z = tsplit(to_domain_100(XYZ))
+    X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
     K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
                 if K_ab is None else tsplit(K_ab))
 
@@ -142,16 +153,16 @@ def XYZ_to_Hunter_Lab(XYZ,
     a = K_a * ((X / X_n - Y_Y_n) / sqrt_Y_Y_n)
     b = K_b * ((Y_Y_n - Z / Z_n) / sqrt_Y_Y_n)
 
-    Lab = tstack((L, a, b))
+    Lab = tstack([L, a, b])
 
-    return Lab
+    return from_range_100(Lab)
 
 
 def Hunter_Lab_to_XYZ(Lab,
                       XYZ_n=HUNTERLAB_ILLUMINANTS[
-                          'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+                          'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
                       K_ab=HUNTERLAB_ILLUMINANTS[
-                          'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
+                          'CIE 1931 2 Degree Standard Observer']['D65'].K_ab):
     """
     Converts from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
 
@@ -173,26 +184,40 @@ def Hunter_Lab_to_XYZ(Lab,
 
     Notes
     -----
-    -   Input *Lightness* :math:`L^*` is in domain [0, 100].
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
-        domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
 
     References
     ----------
-    -   :cite:`HunterLab2008b`
+    :cite:`HunterLab2008b`
 
     Examples
     --------
-    >>> Lab = np.array([31.74901573, -15.11462629, -2.78660758])
-    >>> D50 = HUNTERLAB_ILLUMINANTS[
-    ...     'CIE 1931 2 Degree Standard Observer']['D50']
-    >>> Hunter_Lab_to_XYZ(Lab, D50.XYZ_n, D50.K_ab)   # doctest: +ELLIPSIS
-    array([  7.049534,  10.08    ,   9.558313])
+    >>> Lab = np.array([34.92452577, 47.06189858, 14.38615107])
+    >>> D65 = HUNTERLAB_ILLUMINANTS[
+    ...     'CIE 1931 2 Degree Standard Observer']['D65']
+    >>> Hunter_Lab_to_XYZ(Lab, D65.XYZ_n, D65.K_ab)
+    array([ 20.654008,  12.197225,   5.136952])
     """
 
-    L, a, b = tsplit(Lab)
-    X_n, Y_n, Z_n = tsplit(XYZ_n)
+    L, a, b = tsplit(to_domain_100(Lab))
+    X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
     K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
                 if K_ab is None else tsplit(K_ab))
 
@@ -203,6 +228,6 @@ def Hunter_Lab_to_XYZ(Lab,
     X = ((a / K_a) * L_100 + L_100_2) * X_n
     Z = -((b / K_b) * L_100 - L_100_2) * Z_n
 
-    XYZ = tstack((X, Y, Z))
+    XYZ = tstack([X, Y, Z])
 
-    return XYZ
+    return from_range_100(XYZ)

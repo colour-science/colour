@@ -14,19 +14,20 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry.spectrum import SpectralPowerDistribution
-from colour.utilities import CaseInsensitiveMapping, filter_warnings
+from colour.algebra import LinearInterpolator
+from colour.colorimetry.spectrum import SpectralDistribution
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['SMITS_1999_SPDS_DATA', 'SMITS_1999_SPDS']
+__all__ = ['SMITS_1999_SDS_DATA', 'SMITS_1999_SDS']
 
-SMITS_1999_SPDS_DATA = {
+SMITS_1999_SDS_DATA = {
     'white': {
         380.0000: 1.0000,
         417.7778: 1.0000,
@@ -113,54 +114,47 @@ SMITS_1999_SPDS_DATA = {
     }
 }
 
-filter_warnings(True)
-"""
-Filtering warnings issued by Smits (1999) non-uniform wavelengths distribution.
-Using `np.linspace(380, 720, 10)` does not solve the issue:
-
->>> colour.utilities.interval(np.linspace(380, 720, 10))
-array([ 37.77777778,  37.77777778,  37.77777778])
-"""
-
-SMITS_1999_SPDS = CaseInsensitiveMapping({
+SMITS_1999_SDS = CaseInsensitiveMapping({
     'white':
-        SpectralPowerDistribution(
-            SMITS_1999_SPDS_DATA['white'],
+        SpectralDistribution(
+            SMITS_1999_SDS_DATA['white'],
             name='white'),
     'cyan':
-        SpectralPowerDistribution(
-            SMITS_1999_SPDS_DATA['cyan'],
+        SpectralDistribution(
+            SMITS_1999_SDS_DATA['cyan'],
             name='cyan'),
     'magenta':
-        SpectralPowerDistribution(
-            SMITS_1999_SPDS_DATA['magenta'],
+        SpectralDistribution(
+            SMITS_1999_SDS_DATA['magenta'],
             name='magenta'),
     'yellow':
-        SpectralPowerDistribution(
-            SMITS_1999_SPDS_DATA['yellow'],
+        SpectralDistribution(
+            SMITS_1999_SDS_DATA['yellow'],
             name='yellow'),
     'red':
-        SpectralPowerDistribution(
-            SMITS_1999_SPDS_DATA['red'],
+        SpectralDistribution(
+            SMITS_1999_SDS_DATA['red'],
             name='red'),
     'green':
-        SpectralPowerDistribution(
-            SMITS_1999_SPDS_DATA['green'],
+        SpectralDistribution(
+            SMITS_1999_SDS_DATA['green'],
             name='green'),
     'blue':
-        SpectralPowerDistribution(
-            SMITS_1999_SPDS_DATA['blue'],
+        SpectralDistribution(
+            SMITS_1999_SDS_DATA['blue'],
             name='blue')
 })  # yapf: disable
-SMITS_1999_SPDS.__doc__ = """
-*Smits (1999)* spectral power distributions.
+SMITS_1999_SDS.__doc__ = """
+*Smits (1999)* spectral distributions.
 
 References
 ----------
--   :cite:`Smits1999a`
+:cite:`Smits1999a`
 
-SMITS_1999_SPDS : CaseInsensitiveMapping
+SMITS_1999_SDS : CaseInsensitiveMapping
 """
 
-# Restoring warnings original state.
-filter_warnings(False)
+# Using linear interpolation to preserve the shape of the basis spectral
+# distributions once combined and interpolated.
+for _sd in SMITS_1999_SDS.values():
+    _sd.interpolator = LinearInterpolator

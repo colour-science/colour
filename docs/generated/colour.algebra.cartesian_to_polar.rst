@@ -1,5 +1,5 @@
-colour\.algebra\.cartesian\_to\_polar
-=====================================
+colour.algebra.cartesian\_to\_polar
+===================================
 
 .. currentmodule:: colour.algebra
 

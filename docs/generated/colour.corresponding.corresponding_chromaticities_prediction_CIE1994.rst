@@ -1,5 +1,5 @@
-colour\.corresponding\.corresponding\_chromaticities\_prediction\_CIE1994
-=========================================================================
+colour.corresponding.corresponding\_chromaticities\_prediction\_CIE1994
+=======================================================================
 
 .. currentmodule:: colour.corresponding
 

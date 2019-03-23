@@ -24,10 +24,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import tsplit, tstack
+from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -38,7 +38,7 @@ __all__ = ['RGB_to_Prismatic', 'Prismatic_to_RGB']
 
 def RGB_to_Prismatic(RGB):
     """
-    Converts from *RGB* colourspace to *Prismatic* :math:`L\\rho\gamma\\beta`
+    Converts from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
     colourspace array.
 
     Parameters
@@ -49,11 +49,26 @@ def RGB_to_Prismatic(RGB):
     Returns
     -------
     ndarray
-        *Prismatic* :math:`L\\rho\gamma\\beta` colourspace array.
+        *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Lrgb``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
-    -   :cite:`Shirley2015a`
+    :cite:`Shirley2015a`
 
     Examples
     --------
@@ -69,7 +84,7 @@ def RGB_to_Prismatic(RGB):
     array([ 0.45...,  0.6...,  0.75...])
     """
 
-    RGB = np.asarray(RGB)
+    RGB = to_domain_1(RGB)
 
     L = np.max(RGB, axis=-1)
     s = np.sum(RGB, axis=-1)[..., np.newaxis]
@@ -78,27 +93,44 @@ def RGB_to_Prismatic(RGB):
     one_s[s == 0] = 0
     r, g, b = tsplit(one_s * RGB)
 
-    return tstack((L, r, g, b))
+    Lrgb = tstack([L, r, g, b])
+
+    return from_range_1(Lrgb)
 
 
 def Prismatic_to_RGB(Lrgb):
     """
-    Converts from *Prismatic* :math:`L\\rho\gamma\\beta` colourspace array to
+    Converts from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
     *RGB* colourspace.
 
     Parameters
     ----------
     Lrgb : array_like
-        *Prismatic* :math:`L\\rho\gamma\\beta` colourspace array.
+        *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array.
 
     Returns
     -------
     ndarray
         *RGB* colourspace array.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Lrgb``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`Shirley2015a`
+    :cite:`Shirley2015a`
 
     Examples
     --------
@@ -107,7 +139,7 @@ def Prismatic_to_RGB(Lrgb):
     array([ 0.25...   ,  0.4999999...,  0.75...  ])
     """
 
-    Lrgb = np.asarray(Lrgb)
+    Lrgb = to_domain_1(Lrgb)
 
     rgb = Lrgb[..., 1:]
     m = np.max(rgb, axis=-1)[..., np.newaxis]
@@ -116,4 +148,4 @@ def Prismatic_to_RGB(Lrgb):
     RGB[m == 0] = 0
     RGB = RGB * rgb
 
-    return RGB
+    return from_range_1(RGB)

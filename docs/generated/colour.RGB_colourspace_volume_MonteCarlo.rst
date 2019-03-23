@@ -1,5 +1,5 @@
-colour\.RGB\_colourspace\_volume\_MonteCarlo
-============================================
+colour.RGB\_colourspace\_volume\_MonteCarlo
+===========================================
 
 .. currentmodule:: colour
 

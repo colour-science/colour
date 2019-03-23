@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_Hunt
-=====================
+colour.XYZ\_to\_Hunt
+====================
 
 .. currentmodule:: colour
 

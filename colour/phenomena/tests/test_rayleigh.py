@@ -16,28 +16,28 @@ from colour.phenomena.rayleigh import (
     F_air_Bates1984, F_air_Bodhaine1999, molecular_density,
     mean_molecular_weights, gravity_List1968)
 from colour.phenomena import (scattering_cross_section, rayleigh_optical_depth,
-                              rayleigh_scattering_spd)
+                              sd_rayleigh_scattering)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'RAYLEIGH_SCATTERING_SPD_DATA', 'TestAirRefractionIndexPenndorf1957',
+    'RAYLEIGH_SCATTERING_SD_DATA', 'TestAirRefractionIndexPenndorf1957',
     'TestAirRefractionIndexEdlen1966', 'TestAirRefractionIndexPeck1972',
     'TestAirRefractionIndexBodhaine1999', 'TestN2Depolarisation',
     'TestO2Depolarisation', 'TestF_airPenndorf1957', 'TestF_airYoung1981',
     'TestF_airBates1984', 'TestF_airBodhaine1999', 'TestMolecularDensity',
     'TestMeanMolecularWeights', 'TestGravityList1968',
     'TestScatteringCrossSection', 'TestRayleighOpticalDepth',
-    'TestRayleighScatteringSpd'
+    'TestSdRayleighScattering'
 ]
 
-RAYLEIGH_SCATTERING_SPD_DATA = (
+RAYLEIGH_SCATTERING_SD_DATA = (
     0.59910134,
     0.59217069,
     0.58534101,
@@ -1168,13 +1168,14 @@ class TestGravityList1968(unittest.TestCase):
         Tests :func:`colour.phenomena.rayleigh.gravity_List1968` definition.
         """
 
-        self.assertAlmostEqual(gravity_List1968(0, 0), 978.03560706, places=7)
+        self.assertAlmostEqual(
+            gravity_List1968(0.0, 0.0), 978.03560706, places=7)
 
         self.assertAlmostEqual(
-            gravity_List1968(45, 1500), 980.15334386, places=7)
+            gravity_List1968(45.0, 1500.0), 980.15334386, places=7)
 
         self.assertAlmostEqual(
-            gravity_List1968(48.8567, 35), 980.95241784, places=7)
+            gravity_List1968(48.8567, 35.0), 980.95241784, places=7)
 
     def test_n_dimensional_gravity_List1968(self):
         """
@@ -1429,21 +1430,21 @@ class TestRayleighOpticalDepth(unittest.TestCase):
                                    latitude, altitude)
 
 
-class TestRayleighScatteringSpd(unittest.TestCase):
+class TestSdRayleighScattering(unittest.TestCase):
     """
-    Defines :func:`colour.phenomena.rayleigh.rayleigh_scattering_spd`
+    Defines :func:`colour.phenomena.rayleigh.sd_rayleigh_scattering`
     definition unit tests methods.
     """
 
-    def test_rayleigh_scattering_spd(self):
+    def test_sd_rayleigh_scattering(self):
         """
-        Tests :func:`colour.phenomena.rayleigh.rayleigh_scattering_spd`
+        Tests :func:`colour.phenomena.rayleigh.sd_rayleigh_scattering`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            rayleigh_scattering_spd().values,
-            RAYLEIGH_SCATTERING_SPD_DATA,
+            sd_rayleigh_scattering().values,
+            RAYLEIGH_SCATTERING_SD_DATA,
             decimal=7)
 
 

@@ -1,5 +1,5 @@
-colour\.RGB\_to\_RGB
-====================
+colour.RGB\_to\_RGB
+===================
 
 .. currentmodule:: colour
 

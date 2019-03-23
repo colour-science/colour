@@ -1,5 +1,5 @@
-colour\.colorimetry\.lagrange\_coefficients\_ASTME202211
-========================================================
+colour.colorimetry.lagrange\_coefficients\_ASTME202211
+======================================================
 
 .. currentmodule:: colour.colorimetry
 

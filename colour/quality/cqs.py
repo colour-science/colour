@@ -30,17 +30,17 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
-    ASTME30815_PRACTISE_SHAPE, D_illuminant_relative_spd, ILLUMINANTS,
-    STANDARD_OBSERVERS_CMFS, blackbody_spd, spectral_to_XYZ)
-from colour.quality.dataset.vs import VS_INDEXES_TO_NAMES, VS_SPDS
+    ASTME30815_PRACTISE_SHAPE, sd_CIE_illuminant_D_series, ILLUMINANTS,
+    STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
+from colour.quality.dataset.vs import VS_INDEXES_TO_NAMES, VS_SDS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.utilities import tsplit
+from colour.utilities import as_float_array, domain_range_scale, tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -64,8 +64,8 @@ class VS_ColorimetryData(
 
 
 class VS_ColourQualityScaleData(
-        namedtuple('VS_ColourQualityScaleData', ('name', 'Q_a', 'D_C_ab',
-                                                 'D_E_ab', 'D_Ep_ab'))):
+        namedtuple('VS_ColourQualityScaleData',
+                   ('name', 'Q_a', 'D_C_ab', 'D_E_ab', 'D_Ep_ab'))):
     """
     Defines the the class storing *VS test colour samples* colour quality
     scale data.
@@ -81,7 +81,7 @@ class CQS_Specification(
     Parameters
     ----------
     name : unicode
-        Name of the test spectral power distribution.
+        Name of the test spectral distribution.
     Q_a : numeric
         Colour quality scale :math:`Q_a`.
     Q_f : numeric
@@ -96,7 +96,7 @@ class CQS_Specification(
     Q_g : numeric
          Gamut area scale :math:`Q_g` representing the relative gamut formed
          by the (:math:`a^*`, :math:`b^*`) coordinates of the 15 samples
-         illuminated by the test light source in the *CIE L\*a\*b\** object
+         illuminated by the test light source in the *CIE L\\*a\\*b\\** object
          colourspace.
     Q_d : numeric
         Relative gamut area scale :math:`Q_d`.
@@ -107,22 +107,21 @@ class CQS_Specification(
 
     References
     ----------
-    -   :cite:`Davis2010a`
-    -   :cite:`Ohno2008a`
+    :cite:`Davis2010a`, :cite:`Ohno2008a`
     """
 
 
-def colour_quality_scale(spd_test, additional_data=False):
+def colour_quality_scale(sd_test, additional_data=False):
     """
-    Returns the *Colour Quality Scale* (CQS) of given spectral power
+    Returns the *Colour Quality Scale* (CQS) of given spectral
     distribution.
 
     Parameters
     ----------
-    spd_test : SpectralPowerDistribution
-        Test spectral power distribution.
+    sd_test : SpectralDistribution
+        Test spectral distribution.
     additional_data : bool, optional
-        Output additional data.
+        Whether to output additional data.
 
     Returns
     -------
@@ -131,14 +130,13 @@ def colour_quality_scale(spd_test, additional_data=False):
 
     References
     ----------
-    -   :cite:`Davis2010a`
-    -   :cite:`Ohno2008a`
+    :cite:`Davis2010a`, :cite:`Ohno2008a`
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> spd = ILLUMINANTS_RELATIVE_SPDS['F2']
-    >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
+    >>> from colour import ILLUMINANTS_SDS
+    >>> sd = ILLUMINANTS_SDS['FL2']
+    >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
     64.6863391...
     """
 
@@ -146,27 +144,29 @@ def colour_quality_scale(spd_test, additional_data=False):
     ).trim(ASTME30815_PRACTISE_SHAPE)
 
     shape = cmfs.shape
-    spd_test = spd_test.copy().align(shape)
-    vs_spds = {spd.name: spd.copy().align(shape) for spd in VS_SPDS.values()}
+    sd_test = sd_test.copy().align(shape)
+    vs_sds = {sd.name: sd.copy().align(shape) for sd in VS_SDS.values()}
 
-    XYZ = spectral_to_XYZ(spd_test, cmfs)
+    with domain_range_scale('1'):
+        XYZ = sd_to_XYZ(sd_test, cmfs)
+
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, _D_uv = uv_to_CCT_Ohno2013(uv)
 
     if CCT < 5000:
-        spd_reference = blackbody_spd(CCT, shape)
+        sd_reference = sd_blackbody(CCT, shape)
     else:
         xy = CCT_to_xy_CIE_D(CCT)
-        spd_reference = D_illuminant_relative_spd(xy)
-        spd_reference.align(shape)
+        sd_reference = sd_CIE_illuminant_D_series(xy)
+        sd_reference.align(shape)
 
     test_vs_colorimetry_data = vs_colorimetry_data(
-        spd_test, spd_reference, vs_spds, cmfs, chromatic_adaptation=True)
+        sd_test, sd_reference, vs_sds, cmfs, chromatic_adaptation=True)
 
     reference_vs_colorimetry_data = vs_colorimetry_data(
-        spd_reference, spd_reference, vs_spds, cmfs)
+        sd_reference, sd_reference, vs_sds, cmfs)
 
-    XYZ_r = spectral_to_XYZ(spd_reference, cmfs)
+    XYZ_r = sd_to_XYZ(sd_reference, cmfs)
     XYZ_r /= XYZ_r[1]
     CCT_f = CCT_factor(reference_vs_colorimetry_data, XYZ_r)
 
@@ -193,21 +193,22 @@ def colour_quality_scale(spd_test, additional_data=False):
     Q_d = G_t / G_r * CCT_f * 100
 
     if additional_data:
-        return CQS_Specification(spd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
-                                 (test_vs_colorimetry_data,
-                                  reference_vs_colorimetry_data))
+        return CQS_Specification(
+            sd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
+            (test_vs_colorimetry_data, reference_vs_colorimetry_data))
     else:
         return Q_a
 
 
 def gamut_area(Lab):
     """
-    Returns the gamut area :math:`G` covered by given *CIE L\*a\*b\** matrices.
+    Returns the gamut area :math:`G` covered by given *CIE L\\*a\\*b\\**
+    matrices.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE L\*a\*b\** colourspace matrices.
+        *CIE L\\*a\\*b\\** colourspace matrices.
 
     Returns
     -------
@@ -237,7 +238,7 @@ def gamut_area(Lab):
     8335.9482018...
     """
 
-    Lab = np.asarray(Lab)
+    Lab = as_float_array(Lab)
     Lab_s = np.roll(np.copy(Lab), -3)
 
     _L, a, b = tsplit(Lab)
@@ -245,16 +246,16 @@ def gamut_area(Lab):
 
     A = np.linalg.norm(Lab[..., 1:3], axis=-1)
     B = np.linalg.norm(Lab_s[..., 1:3], axis=-1)
-    C = np.linalg.norm(np.dstack((a_s - a, b_s - b)), axis=-1)
+    C = np.linalg.norm(np.dstack([a_s - a, b_s - b]), axis=-1)
     t = (A + B + C) / 2
     S = np.sqrt(t * (t - A) * (t - B) * (t - C))
 
     return np.sum(S)
 
 
-def vs_colorimetry_data(spd_test,
-                        spd_reference,
-                        spds_vs,
+def vs_colorimetry_data(sd_test,
+                        sd_reference,
+                        sds_vs,
                         cmfs,
                         chromatic_adaptation=False):
     """
@@ -262,12 +263,12 @@ def vs_colorimetry_data(spd_test,
 
     Parameters
     ----------
-    spd_test : SpectralPowerDistribution
-        Test spectral power distribution.
-    spd_reference : SpectralPowerDistribution
-        Reference spectral power distribution.
-    spds_vs : dict
-        *VS test colour samples* spectral power distributions.
+    sd_test : SpectralDistribution
+        Test spectral distribution.
+    sd_reference : SpectralDistribution
+        Reference spectral distribution.
+    sds_vs : dict
+        *VS test colour samples* spectral distributions.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     chromatic_adaptation : bool, optional
@@ -279,18 +280,19 @@ def vs_colorimetry_data(spd_test,
         *VS test colour samples* colorimetry data.
     """
 
-    XYZ_t = spectral_to_XYZ(spd_test, cmfs)
+    XYZ_t = sd_to_XYZ(sd_test, cmfs)
     XYZ_t /= XYZ_t[1]
 
-    XYZ_r = spectral_to_XYZ(spd_reference, cmfs)
+    XYZ_r = sd_to_XYZ(sd_reference, cmfs)
     XYZ_r /= XYZ_r[1]
     xy_r = XYZ_to_xy(XYZ_r)
 
     vs_data = []
     for _key, value in sorted(VS_INDEXES_TO_NAMES.items()):
-        spd_vs = spds_vs[value]
-        XYZ_vs = spectral_to_XYZ(spd_vs, cmfs, spd_test)
-        XYZ_vs /= 100
+        sd_vs = sds_vs[value]
+
+        with domain_range_scale('1'):
+            XYZ_vs = sd_to_XYZ(sd_vs, cmfs, sd_test)
 
         if chromatic_adaptation:
             XYZ_vs = chromatic_adaptation_VonKries(
@@ -299,7 +301,7 @@ def vs_colorimetry_data(spd_test,
         Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r)
         _L_vs, C_vs, _Hab = Lab_to_LCHab(Lab_vs)
 
-        vs_data.append(VS_ColorimetryData(spd_vs.name, XYZ_vs, Lab_vs, C_vs))
+        vs_data.append(VS_ColorimetryData(sd_vs.name, XYZ_vs, Lab_vs, C_vs))
     return vs_data
 
 
@@ -341,13 +343,13 @@ def CCT_factor(reference_data, XYZ_r):
 
 def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
     """
-    Returns the *Colour Quality Scale* (CQS) for given :math:`\Delta E_{ab}`
+    Returns the *Colour Quality Scale* (CQS) for given :math:`\\Delta E_{ab}`
     value and given correlated colour temperature penalizing factor.
 
     Parameters
     ----------
     D_E_ab : numeric
-        :math:`\Delta E_{ab}` value.
+        :math:`\\Delta E_{ab}` value.
     CCT_f : numeric
         Correlated colour temperature penalizing factor.
     scaling_f : numeric, optional

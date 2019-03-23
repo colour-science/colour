@@ -1,5 +1,5 @@
-colour\.models\.eotf\_ROMMRGB
-=============================
+colour.models.eotf\_ROMMRGB
+===========================
 
 .. currentmodule:: colour.models
 

@@ -1,5 +1,5 @@
-colour\.models\.oetf\_DICOMGSDF
-===============================
+colour.models.oetf\_DICOMGSDF
+=============================
 
 .. currentmodule:: colour.models
 

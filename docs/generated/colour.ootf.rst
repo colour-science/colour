@@ -1,5 +1,5 @@
-colour\.ootf
-============
+colour.ootf
+===========
 
 .. currentmodule:: colour
 

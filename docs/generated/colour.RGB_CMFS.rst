@@ -1,5 +1,5 @@
-colour\.RGB\_CMFS
-=================
+colour.RGB\_CMFS
+================
 
 .. currentmodule:: colour
 

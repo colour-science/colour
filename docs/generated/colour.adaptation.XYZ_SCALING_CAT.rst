@@ -1,5 +1,5 @@
-colour\.adaptation\.XYZ\_SCALING\_CAT
-=====================================
+colour.adaptation.XYZ\_SCALING\_CAT
+===================================
 
 .. currentmodule:: colour.adaptation
 

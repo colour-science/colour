@@ -21,9 +21,10 @@ blob/master/notebooks/models/cam16_ucs.ipynb>`_
 
 References
 ----------
--   Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,  Pointer,
-    M. (2017). Comprehensive color solutions: CAM16, CAT16, and CAM16-UCS.
-    Color Research & Application, 42(6), 703-718. doi:10.1002/col.22131
+-   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
+    Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
+    CAM16-UCS. Color Research & Application, 42(6), 703-718.
+    doi:10.1002/col.22131
 """
 
 from __future__ import division, unicode_literals
@@ -39,7 +40,7 @@ from colour.models.cam02_ucs import (
     CAM02UCS_to_JMh_CIECAM02)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2015-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -54,8 +55,8 @@ __all__ = [
 
 def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_):
     """
-    Converts given *Luo et alii (2006)* callable docstring to
-    *Li et alii (2017)* docstring.
+    Converts given *Luo et al. (2006)* callable docstring to
+    *Li et al. (2017)* docstring.
 
     Parameters
     ----------
@@ -69,7 +70,7 @@ def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_):
     """
 
     docstring = callable_.__doc__
-    docstring = docstring.replace('Luo et alii (2006)', 'Li et alii (2017)')
+    docstring = docstring.replace('Luo et al. (2006)', 'Li et al. (2017)')
     docstring = docstring.replace('CIECAM02', 'CAM16')
     docstring = docstring.replace('CAM02', 'CAM16')
     docstring = docstring.replace('Luo2006b', 'Li2017')

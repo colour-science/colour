@@ -1,5 +1,5 @@
-colour\.RGB\_to\_Prismatic
-==========================
+colour.RGB\_to\_Prismatic
+=========================
 
 .. currentmodule:: colour
 

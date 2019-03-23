@@ -11,7 +11,7 @@ import codecs
 import os
 from collections import OrderedDict
 
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -32,7 +32,7 @@ About
 -----
 
 | **Colour** by Colour Developers
-| Copyright © 2013-2018 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_
 """ [1:]
@@ -105,8 +105,8 @@ def export_todo_items(todo_items, file_path):
     for module, todo_items in todo_items.items():
         todo_rst.append('-   {0}\n'.format(module))
         for line_numer, todo_item in todo_items:
-            todo_rst.append(
-                '    -   Line {0} : {1}'.format(line_numer, todo_item))
+            todo_rst.append('    -   Line {0} : {1}'.format(
+                line_numer, todo_item))
 
         todo_rst.append('\n')
 

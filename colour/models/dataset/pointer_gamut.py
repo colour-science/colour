@@ -24,7 +24,7 @@ import numpy as np
 from colour.colorimetry import LIGHT_SOURCES
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -42,7 +42,7 @@ POINTER_GAMUT_ILLUMINANT = (
 
 References
 ----------
--   :cite:`Pointer1980a`
+:cite:`Pointer1980a`
 
 POINTER_GAMUT_ILLUMINANT : ndarray
 """
@@ -626,11 +626,11 @@ POINTER_GAMUT_DATA = np.array([
     [90, 6, 350],
 ])
 """
-*Pointer's Gamut* data as a tuple of *CIE L\*C\*Hab* colourspace matrices.
+*Pointer's Gamut* data as a tuple of *CIE L\\*C\\*Hab* colourspace matrices.
 
 References
 ----------
--   :cite:`Pointer1980a`
+:cite:`Pointer1980a`
 
 POINTER_GAMUT_DATA : ndarray
 """
@@ -674,7 +674,7 @@ POINTER_GAMUT_BOUNDARIES = np.array([
 
 References
 ----------
--   :cite:`Pointer1980a`
+:cite:`Pointer1980a`
 
 POINTER_GAMUT_BOUNDARIES : ndarray
 """

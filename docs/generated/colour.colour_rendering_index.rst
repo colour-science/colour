@@ -1,5 +1,5 @@
-colour\.colour\_rendering\_index
-================================
+colour.colour\_rendering\_index
+===============================
 
 .. currentmodule:: colour
 

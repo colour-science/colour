@@ -1,5 +1,5 @@
-colour\.algebra\.random\_triplet\_generator
-===========================================
+colour.algebra.random\_triplet\_generator
+=========================================
 
 .. currentmodule:: colour.algebra
 

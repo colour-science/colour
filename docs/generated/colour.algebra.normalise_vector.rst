@@ -1,5 +1,5 @@
-colour\.algebra\.normalise\_vector
-==================================
+colour.algebra.normalise\_vector
+================================
 
 .. currentmodule:: colour.algebra
 

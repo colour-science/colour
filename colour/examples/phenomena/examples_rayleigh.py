@@ -8,11 +8,11 @@ from colour.utilities import message_box
 
 message_box('"Rayleigh" Optical Depth Computations')
 
-message_box(('Creating a "Rayleigh" spectral power distribution with default '
+message_box(('Creating a "Rayleigh" spectral distribution with default '
              'spectral shape:\n'
              '\n\t{0}'.format(colour.DEFAULT_SPECTRAL_SHAPE)))
-spd = colour.rayleigh_scattering_spd()
-print(spd[555])
+sd = colour.sd_rayleigh_scattering()
+print(sd[555])
 
 print('\n')
 

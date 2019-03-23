@@ -1,5 +1,5 @@
-colour\.quality\.CQS\_Specification
-===================================
+colour.quality.CQS\_Specification
+=================================
 
 .. currentmodule:: colour.quality
 
@@ -19,5 +19,18 @@ colour\.quality\.CQS\_Specification
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CQS_Specification.Q_a
+      ~CQS_Specification.Q_as
+      ~CQS_Specification.Q_d
+      ~CQS_Specification.Q_f
+      ~CQS_Specification.Q_g
+      ~CQS_Specification.Q_p
+      ~CQS_Specification.colorimetry_data
+      ~CQS_Specification.name
    
    

@@ -28,7 +28,7 @@ from collections import namedtuple
 from colour.utilities.documentation import DocstringDict
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -61,13 +61,13 @@ class BrenemanExperimentResult(
     uvp_m : array_like, (2,)
         Chromaticity coordinates :math:`uv_m^p` of matching colour.
     s_uvp : array_like, (2,), optional
-        Interobserver variation (:math:`x10^3`) :math:`\sigma_uv^p`.
+        Interobserver variation (:math:`x10^3`) :math:`\\sigma_uv^p`.
     d_uvp_i : array_like, (2,), optional
         Deviation of individual linear transformation (:math:`x10^3`)
-        :math:`\delta_uv_i^p`.
+        :math:`\\delta_uv_i^p`.
     d_uvp_g : array_like, (2,), optional
         Deviation of individual linear transformation (:math:`x10^3`)
-        :math:`\delta_uv_g^p`.
+        :math:`\\delta_uv_g^p`.
     """
 
     def __new__(cls,
@@ -84,16 +84,14 @@ BrenemanExperimentResult` class.
         """
 
         return super(BrenemanExperimentResult, cls).__new__(
-            cls, name,
-            np.array(uvp_t),
-            np.array(uvp_m),
-            np.array(s_uvp), np.array(d_uvp_i), np.array(d_uvp_g))
+            cls, name, np.array(uvp_t), np.array(uvp_m), np.array(s_uvp),
+            np.array(d_uvp_i), np.array(d_uvp_g))
 
 
 class PrimariesChromaticityCoordinates(
-        namedtuple('PrimariesChromaticityCoordinates',
-                   ('experiment', 'illuminants', 'Y', 'P_uvp', 'D_uvp',
-                    'T_uvp'))):
+        namedtuple(
+            'PrimariesChromaticityCoordinates',
+            ('experiment', 'illuminants', 'Y', 'P_uvp', 'D_uvp', 'T_uvp'))):
     """
     Chromaticity coordinates of primaries.
 
@@ -127,10 +125,8 @@ PrimariesChromaticityCoordinates` class.
         """
 
         return super(PrimariesChromaticityCoordinates, cls).__new__(
-            cls, name,
-            np.array(uvp_t),
-            np.array(uvp_m),
-            np.array(s_uvp), np.array(d_uvp_i), np.array(d_uvp_g))
+            cls, name, np.array(uvp_t), np.array(uvp_m), np.array(s_uvp),
+            np.array(d_uvp_i), np.array(d_uvp_g))
 
 
 # yapf: disable
@@ -827,7 +823,7 @@ BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.__doc__ = """
 
 References
 ----------
--   :cite:`Breneman1987b`
+:cite:`Breneman1987b`
 
 BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES : dict
 """
@@ -851,7 +847,7 @@ BRENEMAN_EXPERIMENTS.__doc__ = """
 
 References
 ----------
--   :cite:`Breneman1987b`
+:cite:`Breneman1987b`
 
 BRENEMAN_EXPERIMENTS : dict
 """

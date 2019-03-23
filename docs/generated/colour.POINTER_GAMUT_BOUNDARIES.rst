@@ -1,5 +1,5 @@
-colour\.POINTER\_GAMUT\_BOUNDARIES
-==================================
+colour.POINTER\_GAMUT\_BOUNDARIES
+=================================
 
 .. currentmodule:: colour
 

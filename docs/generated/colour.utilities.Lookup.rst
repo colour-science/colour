@@ -1,5 +1,5 @@
-colour\.utilities\.Lookup
-=========================
+colour.utilities.Lookup
+=======================
 
 .. currentmodule:: colour.utilities
 
@@ -18,11 +18,7 @@ colour\.utilities\.Lookup
       ~Lookup.first_key_from_value
       ~Lookup.fromkeys
       ~Lookup.get
-      ~Lookup.has_key
       ~Lookup.items
-      ~Lookup.iteritems
-      ~Lookup.iterkeys
-      ~Lookup.itervalues
       ~Lookup.keys
       ~Lookup.keys_from_value
       ~Lookup.pop
@@ -30,9 +26,6 @@ colour\.utilities\.Lookup
       ~Lookup.setdefault
       ~Lookup.update
       ~Lookup.values
-      ~Lookup.viewitems
-      ~Lookup.viewkeys
-      ~Lookup.viewvalues
    
    
 

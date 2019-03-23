@@ -13,9 +13,9 @@ Spectral Data Structure
 .. autosummary::
     :toctree: generated/
 
-    SpectralPowerDistribution
-    MultiSpectralPowerDistribution
     SpectralShape
+    SpectralDistribution
+    MultiSpectralDistribution
     DEFAULT_SPECTRAL_SHAPE
     ASTME30815_PRACTISE_SHAPE
 
@@ -29,12 +29,18 @@ Spectral Data Generation
 .. autosummary::
     :toctree: generated/
 
-    blackbody_spd
-    CIE_standard_illuminant_A_function
-    D_illuminant_relative_spd
-    constant_spd
-    ones_spd
-    zeros_spd
+    sd_CIE_standard_illuminant_A
+    sd_CIE_illuminant_D_series
+    sd_blackbody
+    sd_constant
+    sd_ones
+    sd_zeros
+    SD_GAUSSIAN_METHODS
+    sd_gaussian
+    SD_SINGLE_LED_METHODS
+    sd_single_led
+    SD_MULTI_LEDS_METHODS
+    sd_multi_leds
 
 ``colour.colorimetry``
 
@@ -44,7 +50,12 @@ Spectral Data Generation
     :toctree: generated/
 
     blackbody_spectral_radiance
+    daylight_locus_function
     planck_law
+    sd_gaussian_normal
+    sd_gaussian_fwhm
+    sd_single_led_Ohno2005
+    sd_multi_leds_Ohno2005
 
 Conversion to Tristimulus Values
 --------------------------------
@@ -56,8 +67,10 @@ Conversion to Tristimulus Values
 .. autosummary::
     :toctree: generated/
 
-    spectral_to_XYZ
-    SPECTRAL_TO_XYZ_METHODS
+    sd_to_XYZ
+    SD_TO_XYZ_METHODS
+    multi_sds_to_XYZ
+    MULTI_SD_TO_XYZ_METHODS
     wavelength_to_XYZ
 
 ASTM E308-15
@@ -70,7 +83,7 @@ ASTM E308-15
 .. autosummary::
     :toctree: generated/
 
-    spectral_to_XYZ_ASTME30815
+    sd_to_XYZ_ASTME30815
 
 **Ancillary Objects**
 
@@ -81,7 +94,7 @@ ASTM E308-15
 .. autosummary::
     :toctree: generated/
 
-    spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815
     adjust_tristimulus_weighting_factors_ASTME30815
     lagrange_coefficients_ASTME202211
     tristimulus_weighting_factors_ASTME202211
@@ -96,7 +109,8 @@ Integration
 .. autosummary::
     :toctree: generated/
 
-    spectral_to_XYZ_integration
+    sd_to_XYZ_integration
+    multi_sds_to_XYZ_integration
 
 Spectral Bandpass Dependence Correction
 ---------------------------------------
@@ -181,10 +195,10 @@ Illuminants and Light Sources
     :toctree: generated/
 
     ILLUMINANTS
-    ILLUMINANTS_RELATIVE_SPDS
+    ILLUMINANTS_SDS
     HUNTERLAB_ILLUMINANTS
     LIGHT_SOURCES
-    LIGHT_SOURCES_RELATIVE_SPDS
+    LIGHT_SOURCES_SDS
 
 Dominant Wavelength and Purity
 ------------------------------
@@ -214,7 +228,7 @@ Luminous Efficiency Functions
     luminous_efficacy
     luminous_efficiency
     luminous_flux
-    mesopic_luminous_efficiency_function
+    sd_mesopic_luminous_efficiency_function
 
 **Dataset**
 
@@ -275,6 +289,7 @@ CIE 1976
     :toctree: generated/
 
     lightness_CIE1976
+    intermediate_lightness_function_CIE1976
 
 Fairchild and Wyble (2010)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -336,6 +351,7 @@ CIE 1976
     :toctree: generated/
 
     luminance_CIE1976
+    intermediate_luminance_function_CIE1976
 
 ASTM D1535-08e1
 ~~~~~~~~~~~~~~~

@@ -1,5 +1,5 @@
-colour\.hdr\_CIELab\_to\_XYZ
-============================
+colour.hdr\_CIELab\_to\_XYZ
+===========================
 
 .. currentmodule:: colour
 

@@ -37,21 +37,21 @@ from colour.models.rgb import (RGB_Colourspace, oetf_ROMMRGB, eotf_ROMMRGB,
                                oetf_ProPhotoRGB, eotf_ProPhotoRGB)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ROMM_RGB_PRIMARIES', 'ROMM_RGB_ILLUMINANT', 'ROMM_RGB_WHITEPOINT',
+    'ROMM_RGB_PRIMARIES', 'ROMM_RGB_WHITEPOINT_NAME', 'ROMM_RGB_WHITEPOINT',
     'ROMM_RGB_TO_XYZ_MATRIX', 'XYZ_TO_ROMM_RGB_MATRIX', 'ROMM_RGB_COLOURSPACE',
-    'RIMM_RGB_PRIMARIES', 'RIMM_RGB_ILLUMINANT', 'RIMM_RGB_WHITEPOINT',
+    'RIMM_RGB_PRIMARIES', 'RIMM_RGB_WHITEPOINT_NAME', 'RIMM_RGB_WHITEPOINT',
     'RIMM_RGB_TO_XYZ_MATRIX', 'XYZ_TO_RIMM_RGB_MATRIX', 'RIMM_RGB_COLOURSPACE',
-    'ERIMM_RGB_PRIMARIES', 'ERIMM_RGB_ILLUMINANT', 'ERIMM_RGB_WHITEPOINT',
+    'ERIMM_RGB_PRIMARIES', 'ERIMM_RGB_WHITEPOINT_NAME', 'ERIMM_RGB_WHITEPOINT',
     'ERIMM_RGB_TO_XYZ_MATRIX', 'XYZ_TO_ERIMM_RGB_MATRIX',
     'ERIMM_RGB_COLOURSPACE', 'PROPHOTO_RGB_PRIMARIES',
-    'PROPHOTO_RGB_ILLUMINANT', 'PROPHOTO_RGB_WHITEPOINT',
+    'PROPHOTO_RGB_WHITEPOINT_NAME', 'PROPHOTO_RGB_WHITEPOINT',
     'PROPHOTO_RGB_TO_XYZ_MATRIX', 'XYZ_TO_PROPHOTO_RGB_MATRIX',
     'PROPHOTO_RGB_COLOURSPACE'
 ]
@@ -67,15 +67,15 @@ ROMM_RGB_PRIMARIES = np.array([
 ROMM_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-ROMM_RGB_ILLUMINANT = 'D50'
+ROMM_RGB_WHITEPOINT_NAME = 'D50'
 """
-*ROMM RGB* colourspace whitepoint name as illuminant.
+*ROMM RGB* colourspace whitepoint name.
 
-ROMM_RGB_ILLUMINANT : unicode
+ROMM_RGB_WHITEPOINT_NAME : unicode
 """
 
-ROMM_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ROMM_RGB_ILLUMINANT])
+ROMM_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    ROMM_RGB_WHITEPOINT_NAME])
 """
 *ROMM RGB* colourspace whitepoint.
 
@@ -108,18 +108,18 @@ ROMM_RGB_COLOURSPACE = RGB_Colourspace(
     'ROMM RGB',
     ROMM_RGB_PRIMARIES,
     ROMM_RGB_WHITEPOINT,
-    ROMM_RGB_ILLUMINANT,
+    ROMM_RGB_WHITEPOINT_NAME,
     ROMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ROMM_RGB_MATRIX,
     oetf_ROMMRGB,
-    eotf_ROMMRGB, )
+    eotf_ROMMRGB,
+)
 ROMM_RGB_COLOURSPACE.__doc__ = """
 *ROMM RGB* colourspace.
 
 References
 ----------
--   :cite:`ANSI2003a`
--   :cite:`Spaulding2000b`
+:cite:`ANSI2003a`, :cite:`Spaulding2000b`
 
 ROMM_RGB_COLOURSPACE : RGB_Colourspace
 """
@@ -131,11 +131,11 @@ RIMM_RGB_PRIMARIES = ROMM_RGB_PRIMARIES
 RIMM_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-RIMM_RGB_ILLUMINANT = ROMM_RGB_ILLUMINANT
+RIMM_RGB_WHITEPOINT_NAME = ROMM_RGB_WHITEPOINT_NAME
 """
-*RIMM RGB* colourspace whitepoint name as illuminant.
+*RIMM RGB* colourspace whitepoint name.
 
-RIMM_RGB_ILLUMINANT : unicode
+RIMM_RGB_WHITEPOINT_NAME : unicode
 """
 
 RIMM_RGB_WHITEPOINT = ROMM_RGB_WHITEPOINT
@@ -163,11 +163,12 @@ RIMM_RGB_COLOURSPACE = RGB_Colourspace(
     'RIMM RGB',
     RIMM_RGB_PRIMARIES,
     RIMM_RGB_WHITEPOINT,
-    RIMM_RGB_ILLUMINANT,
+    RIMM_RGB_WHITEPOINT_NAME,
     RIMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RIMM_RGB_MATRIX,
     oetf_RIMMRGB,
-    eotf_RIMMRGB, )
+    eotf_RIMMRGB,
+)
 RIMM_RGB_COLOURSPACE.__doc__ = """
 *RIMM RGB* colourspace. In cases in which it is necessary to identify a
 specific precision level, the notation *RIMM8 RGB*, *RIMM12 RGB* and
@@ -175,7 +176,7 @@ specific precision level, the notation *RIMM8 RGB*, *RIMM12 RGB* and
 
 References
 ----------
--   :cite:`Spaulding2000b`
+:cite:`Spaulding2000b`
 
 RIMM_RGB_COLOURSPACE : RGB_Colourspace
 """
@@ -187,11 +188,11 @@ ERIMM_RGB_PRIMARIES = ROMM_RGB_PRIMARIES
 ERIMM_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-ERIMM_RGB_ILLUMINANT = ROMM_RGB_ILLUMINANT
+ERIMM_RGB_WHITEPOINT_NAME = ROMM_RGB_WHITEPOINT_NAME
 """
-*ERIMM RGB* colourspace whitepoint name as illuminant.
+*ERIMM RGB* colourspace whitepoint name.
 
-ERIMM_RGB_ILLUMINANT : unicode
+ERIMM_RGB_WHITEPOINT_NAME : unicode
 """
 
 ERIMM_RGB_WHITEPOINT = ROMM_RGB_WHITEPOINT
@@ -219,17 +220,18 @@ ERIMM_RGB_COLOURSPACE = RGB_Colourspace(
     'ERIMM RGB',
     ERIMM_RGB_PRIMARIES,
     ERIMM_RGB_WHITEPOINT,
-    ERIMM_RGB_ILLUMINANT,
+    ERIMM_RGB_WHITEPOINT_NAME,
     ERIMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ERIMM_RGB_MATRIX,
     log_encoding_ERIMMRGB,
-    log_decoding_ERIMMRGB, )
+    log_decoding_ERIMMRGB,
+)
 ERIMM_RGB_COLOURSPACE.__doc__ = """
 *ERIMM RGB* colourspace.
 
 References
 ----------
--   :cite:`Spaulding2000b`
+:cite:`Spaulding2000b`
 
 ERIMM_RGB_COLOURSPACE : RGB_Colourspace
 """
@@ -241,11 +243,11 @@ PROPHOTO_RGB_PRIMARIES = ROMM_RGB_PRIMARIES
 PROPHOTO_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-PROPHOTO_RGB_ILLUMINANT = ROMM_RGB_ILLUMINANT
+PROPHOTO_RGB_WHITEPOINT_NAME = ROMM_RGB_WHITEPOINT_NAME
 """
-*ProPhoto RGB* colourspace whitepoint name as illuminant.
+*ProPhoto RGB* colourspace whitepoint name.
 
-PROPHOTO_RGB_ILLUMINANT : unicode
+PROPHOTO_RGB_WHITEPOINT_NAME : unicode
 """
 
 PROPHOTO_RGB_WHITEPOINT = ROMM_RGB_WHITEPOINT
@@ -273,18 +275,18 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     'ProPhoto RGB',
     PROPHOTO_RGB_PRIMARIES,
     PROPHOTO_RGB_WHITEPOINT,
-    PROPHOTO_RGB_ILLUMINANT,
+    PROPHOTO_RGB_WHITEPOINT_NAME,
     PROPHOTO_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PROPHOTO_RGB_MATRIX,
     oetf_ProPhotoRGB,
-    eotf_ProPhotoRGB, )
+    eotf_ProPhotoRGB,
+)
 PROPHOTO_RGB_COLOURSPACE.__doc__ = """
 *ProPhoto RGB* colourspace, an alias colourspace for *ROMM RGB*.
 
 References
 ----------
--   :cite:`ANSI2003a`
--   :cite:`Spaulding2000b`
+:cite:`ANSI2003a`, :cite:`Spaulding2000b`
 
 PROPHOTO_RGB_COLOURSPACE : RGB_Colourspace
 """

@@ -29,21 +29,21 @@ from colour.models.rgb import (RGB_Colourspace, log_encoding_VLog,
                                log_decoding_VLog)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'V_GAMUT_PRIMARIES', 'V_GAMUT_ILLUMINANT', 'V_GAMUT_WHITEPOINT',
+    'V_GAMUT_PRIMARIES', 'V_GAMUT_WHITEPOINT_NAME', 'V_GAMUT_WHITEPOINT',
     'V_GAMUT_TO_XYZ_MATRIX', 'XYZ_TO_V_GAMUT_MATRIX', 'V_GAMUT_COLOURSPACE'
 ]
 
 V_GAMUT_PRIMARIES = np.array([
-    [0.730, 0.280],
-    [0.165, 0.840],
-    [0.100, -0.030],
+    [0.7300, 0.2800],
+    [0.1650, 0.8400],
+    [0.1000, -0.0300],
 ])
 """
 *V-Gamut* colourspace primaries.
@@ -51,15 +51,15 @@ V_GAMUT_PRIMARIES = np.array([
 V_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
-V_GAMUT_ILLUMINANT = 'D65'
+V_GAMUT_WHITEPOINT_NAME = 'D65'
 """
-*V-Gamut* colourspace whitepoint name as illuminant.
+*V-Gamut* colourspace whitepoint name.
 
 V_GAMUT_WHITEPOINT : unicode
 """
 
-V_GAMUT_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][V_GAMUT_ILLUMINANT])
+V_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    V_GAMUT_WHITEPOINT_NAME])
 """
 *V-Gamut* colourspace whitepoint.
 
@@ -92,17 +92,18 @@ V_GAMUT_COLOURSPACE = RGB_Colourspace(
     'V-Gamut',
     V_GAMUT_PRIMARIES,
     V_GAMUT_WHITEPOINT,
-    V_GAMUT_ILLUMINANT,
+    V_GAMUT_WHITEPOINT_NAME,
     V_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_V_GAMUT_MATRIX,
     log_encoding_VLog,
-    log_decoding_VLog, )
+    log_decoding_VLog,
+)
 V_GAMUT_COLOURSPACE.__doc__ = """
 *V-Gamut* colourspace.
 
 References
 ----------
--   :cite:`Panasonic2014a`
+:cite:`Panasonic2014a`
 
 V_GAMUT_COLOURSPACE : RGB_Colourspace
 """

@@ -34,10 +34,12 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric
+from colour.algebra import spow
+from colour.utilities import (as_float, domain_range_scale, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -61,10 +63,25 @@ def oetf_sRGB(L):
     numeric or ndarray
         Corresponding electrical signal :math:`V`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`InternationalElectrotechnicalCommission1999a`
-    -   :cite:`InternationalTelecommunicationUnion2015i`
+    :cite:`InternationalElectrotechnicalCommission1999a`,
+    :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------
@@ -72,10 +89,11 @@ def oetf_sRGB(L):
     0.4613561...
     """
 
-    L = np.asarray(L)
+    L = to_domain_1(L)
 
-    return as_numeric(
-        np.where(L <= 0.0031308, L * 12.92, 1.055 * (L ** (1 / 2.4)) - 0.055))
+    V = np.where(L <= 0.0031308, L * 12.92, 1.055 * spow(L, 1 / 2.4) - 0.055)
+
+    return as_float(from_range_1(V))
 
 
 def oetf_reverse_sRGB(V):
@@ -93,10 +111,25 @@ def oetf_reverse_sRGB(V):
     numeric or ndarray
         Corresponding *luminance* :math:`L` of the image.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`InternationalElectrotechnicalCommission1999a`
-    -   :cite:`InternationalTelecommunicationUnion2015i`
+    :cite:`InternationalElectrotechnicalCommission1999a`,
+    :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------
@@ -104,8 +137,13 @@ def oetf_reverse_sRGB(V):
     0.1...
     """
 
-    V = np.asarray(V)
+    V = to_domain_1(V)
 
-    return as_numeric(
-        np.where(V <= oetf_sRGB(0.0031308), V / 12.92, ((V + 0.055) / 1.055) **
-                 2.4))
+    with domain_range_scale('ignore'):
+        L = np.where(
+            V <= oetf_sRGB(0.0031308),
+            V / 12.92,
+            spow((V + 0.055) / 1.055, 2.4),
+        )
+
+    return as_float(from_range_1(L))

@@ -1,5 +1,5 @@
-colour\.colorimetry\.whiteness\_Ganz1979
-========================================
+colour.colorimetry.whiteness\_Ganz1979
+======================================
 
 .. currentmodule:: colour.colorimetry
 

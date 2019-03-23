@@ -1,5 +1,5 @@
-colour\.utilities\.CaseInsensitiveMapping
-=========================================
+colour.utilities.CaseInsensitiveMapping
+=======================================
 
 .. currentmodule:: colour.utilities
 
@@ -18,9 +18,6 @@ colour\.utilities\.CaseInsensitiveMapping
       ~CaseInsensitiveMapping.copy
       ~CaseInsensitiveMapping.get
       ~CaseInsensitiveMapping.items
-      ~CaseInsensitiveMapping.iteritems
-      ~CaseInsensitiveMapping.iterkeys
-      ~CaseInsensitiveMapping.itervalues
       ~CaseInsensitiveMapping.keys
       ~CaseInsensitiveMapping.lower_items
       ~CaseInsensitiveMapping.pop
@@ -32,5 +29,11 @@ colour\.utilities\.CaseInsensitiveMapping
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CaseInsensitiveMapping.data
    
    

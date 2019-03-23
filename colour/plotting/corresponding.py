@@ -5,27 +5,28 @@ Corresponding Chromaticities Prediction Plotting
 
 Defines corresponding chromaticities prediction plotting objects:
 
--   :func:`colour.plotting.corresponding_chromaticities_prediction_plot`
+-   :func:`colour.plotting.plot_corresponding_chromaticities_prediction`
 """
 
 from __future__ import division
-import pylab
 
 from colour.corresponding import corresponding_chromaticities_prediction
-from colour.plotting import (chromaticity_diagram_plot_CIE1976UCS,
-                             DEFAULT_FIGURE_WIDTH, canvas, render)
+from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
+                             plot_chromaticity_diagram_CIE1976UCS,
+                             override_style, render)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['corresponding_chromaticities_prediction_plot']
+__all__ = ['plot_corresponding_chromaticities_prediction']
 
 
-def corresponding_chromaticities_prediction_plot(experiment=1,
+@override_style()
+def plot_corresponding_chromaticities_prediction(experiment=1,
                                                  model='Von Kries',
                                                  transform='CAT02',
                                                  **kwargs):
@@ -44,65 +45,84 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
-    show_diagram_colours : bool, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`}
-        Whether to display the chromaticity diagram background colours.
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
-    >>> corresponding_chromaticities_prediction_plot()  # doctest: +SKIP
+    >>> plot_corresponding_chromaticities_prediction(1, 'Von Kries', 'CAT02')
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+Plot_Corresponding_Chromaticities_Prediction.png
+        :align: center
+        :alt: plot_corresponding_chromaticities_prediction
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {'uniform': True}
     settings.update(kwargs)
 
-    canvas(**settings)
+    _figure, axes = artist(**settings)
 
-    settings.update({
-        'title': (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
-                   'Experiment {2}\nCIE 1976 UCS Chromaticity Diagram').format(
-                       model, transform, experiment)
-                  if model.lower() in ('von kries', 'vonkries') else
-                  ('Corresponding Chromaticities Prediction\n{0} - '
-                   'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
-                       model, experiment)),
-        'standalone':
-            False
-    })
+    title = (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
+              'Experiment {2}\nCIE 1976 UCS Chromaticity Diagram').format(
+                  model, transform, experiment)
+             if model.lower() in ('von kries', 'vonkries') else
+             ('Corresponding Chromaticities Prediction\n{0} - '
+              'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
+                  model, experiment))
+
+    settings = {'axes': axes, 'title': title}
     settings.update(kwargs)
+    settings['standalone'] = False
 
-    chromaticity_diagram_plot_CIE1976UCS(**settings)
+    plot_chromaticity_diagram_CIE1976UCS(**settings)
 
     results = corresponding_chromaticities_prediction(
         experiment, transform=transform)
 
     for result in results:
         _name, uvp_t, uvp_m, uvp_p = result
-        pylab.arrow(
+        axes.arrow(
             uvp_t[0],
             uvp_t[1],
             uvp_p[0] - uvp_t[0] - 0.1 * (uvp_p[0] - uvp_t[0]),
             uvp_p[1] - uvp_t[1] - 0.1 * (uvp_p[1] - uvp_t[1]),
+            color=COLOUR_STYLE_CONSTANTS.colour.dark,
             head_width=0.005,
-            head_length=0.005,
-            linewidth=0.5,
-            color='black')
-        pylab.plot(uvp_t[0], uvp_t[1], 'o', color='white')
-        pylab.plot(uvp_m[0], uvp_m[1], '^', color='white')
-        pylab.plot(uvp_p[0], uvp_p[1], '^', color='black')
+            head_length=0.005)
+        axes.plot(
+            uvp_t[0],
+            uvp_t[1],
+            'o',
+            color=COLOUR_STYLE_CONSTANTS.colour.brightest,
+            markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
+            markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
+                        COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
+            markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75)
+        axes.plot(
+            uvp_m[0],
+            uvp_m[1],
+            '^',
+            color=COLOUR_STYLE_CONSTANTS.colour.brightest,
+            markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
+            markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
+                        COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
+            markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75)
+        axes.plot(
+            uvp_p[0], uvp_p[1], '^', color=COLOUR_STYLE_CONSTANTS.colour.dark)
+
     settings.update({
-        'x_tighten': True,
-        'y_tighten': True,
-        'limits': (-0.1, 0.7, -0.1, 0.7),
-        'standalone': True
+        'standalone': True,
+        'bounding_box': (-0.1, 0.7, -0.1, 0.7),
     })
     settings.update(kwargs)
 

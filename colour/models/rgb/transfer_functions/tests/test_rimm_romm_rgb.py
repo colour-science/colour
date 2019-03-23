@@ -12,10 +12,10 @@ import unittest
 from colour.models.rgb.transfer_functions import (
     oetf_ROMMRGB, eotf_ROMMRGB, oetf_RIMMRGB, eotf_RIMMRGB,
     log_encoding_ERIMMRGB, log_decoding_ERIMMRGB)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -42,10 +42,13 @@ oetf_ROMMRGB` definition.
 
         self.assertAlmostEqual(oetf_ROMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            oetf_ROMMRGB(0.18), 98.356413311540095, places=7)
+        self.assertAlmostEqual(oetf_ROMMRGB(0.18), 0.385711424751138, places=7)
 
-        self.assertAlmostEqual(oetf_ROMMRGB(1.0), 255.0, places=7)
+        self.assertAlmostEqual(oetf_ROMMRGB(1.0), 1.0, places=7)
+
+        self.assertEqual(oetf_ROMMRGB(0.18, out_int=True), 98)
+
+        self.assertEqual(oetf_ROMMRGB(0.18, bit_depth=12, out_int=True), 1579)
 
     def test_n_dimensional_oetf_ROMMRGB(self):
         """
@@ -54,7 +57,7 @@ oetf_ROMMRGB` definition n-dimensional arrays support.
         """
 
         X = 0.18
-        X_ROMM = 98.356413311540095
+        X_ROMM = 0.385711424751138
         np.testing.assert_almost_equal(oetf_ROMMRGB(X), X_ROMM, decimal=7)
 
         X = np.tile(X, 6)
@@ -68,6 +71,21 @@ oetf_ROMMRGB` definition n-dimensional arrays support.
         X = np.reshape(X, (2, 3, 1))
         X_ROMM = np.reshape(X_ROMM, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_ROMMRGB(X), X_ROMM, decimal=7)
+
+    def test_domain_range_scale_oetf_ROMMRGB(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+oetf_ROMMRGB` definition domain and range scale support.
+        """
+
+        X = 0.18
+        X_p = oetf_ROMMRGB(X)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_ROMMRGB(X * factor), X_p * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_ROMMRGB(self):
@@ -93,10 +111,18 @@ eotf_ROMMRGB` definition.
 
         self.assertAlmostEqual(eotf_ROMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            eotf_ROMMRGB(98.356413311540095), 0.18, places=7)
+        self.assertAlmostEqual(eotf_ROMMRGB(0.385711424751138), 0.18, places=7)
 
-        self.assertAlmostEqual(eotf_ROMMRGB(255.0), 1.0, places=7)
+        self.assertAlmostEqual(eotf_ROMMRGB(1.0), 1.0, places=7)
+
+        np.testing.assert_allclose(
+            eotf_ROMMRGB(98, in_int=True), 0.18, atol=0.001, rtol=0.001)
+
+        np.testing.assert_allclose(
+            eotf_ROMMRGB(1579, bit_depth=12, in_int=True),
+            0.18,
+            atol=0.001,
+            rtol=0.001)
 
     def test_n_dimensional_eotf_ROMMRGB(self):
         """
@@ -104,21 +130,36 @@ eotf_ROMMRGB` definition.
 eotf_ROMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 98.356413311540095
-        V = 0.18
-        np.testing.assert_almost_equal(eotf_ROMMRGB(L), V, decimal=7)
+        X_p = 0.385711424751138
+        X = 0.18
+        np.testing.assert_almost_equal(eotf_ROMMRGB(X_p), X, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(eotf_ROMMRGB(L), V, decimal=7)
+        X_p = np.tile(X_p, 6)
+        X = np.tile(X, 6)
+        np.testing.assert_almost_equal(eotf_ROMMRGB(X_p), X, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(eotf_ROMMRGB(L), V, decimal=7)
+        X_p = np.reshape(X_p, (2, 3))
+        X = np.reshape(X, (2, 3))
+        np.testing.assert_almost_equal(eotf_ROMMRGB(X_p), X, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_ROMMRGB(L), V, decimal=7)
+        X_p = np.reshape(X_p, (2, 3, 1))
+        X = np.reshape(X, (2, 3, 1))
+        np.testing.assert_almost_equal(eotf_ROMMRGB(X_p), X, decimal=7)
+
+    def test_domain_range_scale_eotf_ROMMRGB(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+eotf_ROMMRGB` definition domain and range scale support.
+        """
+
+        X_p = 0.385711424751138
+        X = eotf_ROMMRGB(X_p)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_ROMMRGB(X_p * factor), X * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_ROMMRGB(self):
@@ -144,11 +185,13 @@ oetf_RIMMRGB` definition.
 
         self.assertAlmostEqual(oetf_RIMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            oetf_RIMMRGB(0.18), 74.376801781315210, places=7)
+        self.assertAlmostEqual(oetf_RIMMRGB(0.18), 0.291673732475746, places=7)
 
-        self.assertAlmostEqual(
-            oetf_RIMMRGB(1.0), 181.846934745868940, places=7)
+        self.assertAlmostEqual(oetf_RIMMRGB(1.0), 0.713125234297525, places=7)
+
+        self.assertEqual(oetf_RIMMRGB(0.18, out_int=True), 74)
+
+        self.assertEqual(oetf_RIMMRGB(0.18, bit_depth=12, out_int=True), 1194)
 
     def test_n_dimensional_oetf_RIMMRGB(self):
         """
@@ -156,21 +199,36 @@ oetf_RIMMRGB` definition.
 oetf_RIMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 74.376801781315210
-        np.testing.assert_almost_equal(oetf_RIMMRGB(L), V, decimal=7)
+        X = 0.18
+        X_p = 0.291673732475746
+        np.testing.assert_almost_equal(oetf_RIMMRGB(X), X_p, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(oetf_RIMMRGB(L), V, decimal=7)
+        X = np.tile(X, 6)
+        X_p = np.tile(X_p, 6)
+        np.testing.assert_almost_equal(oetf_RIMMRGB(X), X_p, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(oetf_RIMMRGB(L), V, decimal=7)
+        X = np.reshape(X, (2, 3))
+        X_p = np.reshape(X_p, (2, 3))
+        np.testing.assert_almost_equal(oetf_RIMMRGB(X), X_p, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_RIMMRGB(L), V, decimal=7)
+        X = np.reshape(X, (2, 3, 1))
+        X_p = np.reshape(X_p, (2, 3, 1))
+        np.testing.assert_almost_equal(oetf_RIMMRGB(X), X_p, decimal=7)
+
+    def test_domain_range_scale_oetf_RIMMRGB(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+oetf_RIMMRGB` definition domain and range scale support.
+        """
+
+        X = 0.18
+        X_p = oetf_RIMMRGB(X)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_RIMMRGB(X * factor), X_p * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_RIMMRGB(self):
@@ -196,11 +254,18 @@ eotf_RIMMRGB` definition.
 
         self.assertAlmostEqual(eotf_RIMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            eotf_RIMMRGB(74.376801781315210), 0.18, places=7)
+        self.assertAlmostEqual(eotf_RIMMRGB(0.291673732475746), 0.18, places=7)
 
-        self.assertAlmostEqual(
-            eotf_RIMMRGB(181.846934745868940), 1.0, places=7)
+        self.assertAlmostEqual(eotf_RIMMRGB(0.713125234297525), 1.0, places=7)
+
+        np.testing.assert_allclose(
+            eotf_RIMMRGB(74, in_int=True), 0.18, atol=0.005, rtol=0.005)
+
+        np.testing.assert_allclose(
+            eotf_RIMMRGB(1194, bit_depth=12, in_int=True),
+            0.18,
+            atol=0.005,
+            rtol=0.005)
 
     def test_n_dimensional_eotf_RIMMRGB(self):
         """
@@ -208,21 +273,36 @@ eotf_RIMMRGB` definition.
 eotf_RIMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 74.376801781315210
-        V = 0.18
-        np.testing.assert_almost_equal(eotf_RIMMRGB(L), V, decimal=7)
+        X_p = 0.291673732475746
+        X = 0.18
+        np.testing.assert_almost_equal(eotf_RIMMRGB(X_p), X, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(eotf_RIMMRGB(L), V, decimal=7)
+        X_p = np.tile(X_p, 6)
+        X = np.tile(X, 6)
+        np.testing.assert_almost_equal(eotf_RIMMRGB(X_p), X, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(eotf_RIMMRGB(L), V, decimal=7)
+        X_p = np.reshape(X_p, (2, 3))
+        X = np.reshape(X, (2, 3))
+        np.testing.assert_almost_equal(eotf_RIMMRGB(X_p), X, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_RIMMRGB(L), V, decimal=7)
+        X_p = np.reshape(X_p, (2, 3, 1))
+        X = np.reshape(X, (2, 3, 1))
+        np.testing.assert_almost_equal(eotf_RIMMRGB(X_p), X, decimal=7)
+
+    def test_domain_range_scale_eotf_RIMMRGB(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+eotf_RIMMRGB` definition domain and range scale support.
+        """
+
+        X_p = 0.291673732475746
+        X = eotf_RIMMRGB(X_p)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_RIMMRGB(X_p * factor), X * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_RIMMRGB(self):
@@ -249,10 +329,15 @@ log_encoding_ERIMMRGB` definition.
         self.assertAlmostEqual(log_encoding_ERIMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_ERIMMRGB(0.18), 104.563359320492940, places=7)
+            log_encoding_ERIMMRGB(0.18), 0.410052389492129, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_ERIMMRGB(1.0), 139.09187348830370, places=7)
+            log_encoding_ERIMMRGB(1.0), 0.545458327405113, places=7)
+
+        self.assertEqual(log_encoding_ERIMMRGB(0.18, out_int=True), 105)
+
+        self.assertEqual(
+            log_encoding_ERIMMRGB(0.18, bit_depth=12, out_int=True), 1679)
 
     def test_n_dimensional_log_encoding_ERIMMRGB(self):
         """
@@ -261,24 +346,39 @@ log_encoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
         X = 0.18
-        X_ERIMM = 104.563359320492940
+        X_p = 0.410052389492129
         np.testing.assert_almost_equal(
-            log_encoding_ERIMMRGB(X), X_ERIMM, decimal=7)
+            log_encoding_ERIMMRGB(X), X_p, decimal=7)
 
         X = np.tile(X, 6)
-        X_ERIMM = np.tile(X_ERIMM, 6)
+        X_p = np.tile(X_p, 6)
         np.testing.assert_almost_equal(
-            log_encoding_ERIMMRGB(X), X_ERIMM, decimal=7)
+            log_encoding_ERIMMRGB(X), X_p, decimal=7)
 
         X = np.reshape(X, (2, 3))
-        X_ERIMM = np.reshape(X_ERIMM, (2, 3))
+        X_p = np.reshape(X_p, (2, 3))
         np.testing.assert_almost_equal(
-            log_encoding_ERIMMRGB(X), X_ERIMM, decimal=7)
+            log_encoding_ERIMMRGB(X), X_p, decimal=7)
 
         X = np.reshape(X, (2, 3, 1))
-        X_ERIMM = np.reshape(X_ERIMM, (2, 3, 1))
+        X_p = np.reshape(X_p, (2, 3, 1))
         np.testing.assert_almost_equal(
-            log_encoding_ERIMMRGB(X), X_ERIMM, decimal=7)
+            log_encoding_ERIMMRGB(X), X_p, decimal=7)
+
+    def test_domain_range_scale_log_encoding_ERIMMRGB(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+log_encoding_ERIMMRGB` definition domain and range scale support.
+        """
+
+        X = 0.18
+        X_p = log_encoding_ERIMMRGB(X)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_encoding_ERIMMRGB(X * factor), X_p * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_ERIMMRGB(self):
@@ -306,10 +406,22 @@ log_decoding_ERIMMRGB` definition.
         self.assertAlmostEqual(log_decoding_ERIMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(104.563359320492940), 0.18, places=7)
+            log_decoding_ERIMMRGB(0.410052389492129), 0.18, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(139.09187348830370), 1.0, places=7)
+            log_decoding_ERIMMRGB(0.545458327405113), 1.0, places=7)
+
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(105, in_int=True),
+            0.18,
+            atol=0.005,
+            rtol=0.005)
+
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(1679, bit_depth=12, in_int=True),
+            0.18,
+            atol=0.005,
+            rtol=0.005)
 
     def test_n_dimensional_log_decoding_ERIMMRGB(self):
         """
@@ -317,25 +429,40 @@ log_decoding_ERIMMRGB` definition.
 log_decoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
-        X_ERIMM = 104.563359320492940
+        X_p = 0.410052389492129
         X = 0.18
         np.testing.assert_almost_equal(
-            log_decoding_ERIMMRGB(X_ERIMM), X, decimal=7)
+            log_decoding_ERIMMRGB(X_p), X, decimal=7)
 
-        X_ERIMM = np.tile(X_ERIMM, 6)
+        X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)
         np.testing.assert_almost_equal(
-            log_decoding_ERIMMRGB(X_ERIMM), X, decimal=7)
+            log_decoding_ERIMMRGB(X_p), X, decimal=7)
 
-        X_ERIMM = np.reshape(X_ERIMM, (2, 3))
+        X_p = np.reshape(X_p, (2, 3))
         X = np.reshape(X, (2, 3))
         np.testing.assert_almost_equal(
-            log_decoding_ERIMMRGB(X_ERIMM), X, decimal=7)
+            log_decoding_ERIMMRGB(X_p), X, decimal=7)
 
-        X_ERIMM = np.reshape(X_ERIMM, (2, 3, 1))
+        X_p = np.reshape(X_p, (2, 3, 1))
         X = np.reshape(X, (2, 3, 1))
         np.testing.assert_almost_equal(
-            log_decoding_ERIMMRGB(X_ERIMM), X, decimal=7)
+            log_decoding_ERIMMRGB(X_p), X, decimal=7)
+
+    def test_domain_range_scale_log_decoding_ERIMMRGB(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+log_decoding_ERIMMRGB` definition domain and range scale support.
+        """
+
+        X_p = 0.410052389492129
+        X = log_decoding_ERIMMRGB(X_p)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_decoding_ERIMMRGB(X_p * factor), X * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_ERIMMRGB(self):

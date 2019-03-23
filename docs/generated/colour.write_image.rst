@@ -1,5 +1,5 @@
-colour\.write\_image
-====================
+colour.write\_image
+===================
 
 .. currentmodule:: colour
 

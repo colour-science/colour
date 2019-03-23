@@ -30,7 +30,7 @@ from __future__ import division, unicode_literals
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_reverse_BT601
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -54,9 +54,24 @@ def oetf_BT709(L):
     numeric or ndarray
         Corresponding electrical signal :math:`V`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015i`
+    :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------
@@ -82,9 +97,24 @@ def oetf_reverse_BT709(V):
     numeric or ndarray
         Corresponding *luminance* :math:`L` of the image.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015i`
+    :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------

@@ -45,7 +45,7 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
     Signal Parameters - 1125-Line High-Definition Production Systems. Retrieved
     from http://car.france3.mars.free.fr/HD/INA- 26 jan 06/\
 SMPTE normes et confs/s240m.pdf
--   :cite:`Wikipediaca` : Wikipedia. (n.d.). YCbCr. Retrieved February 29,
+-   :cite:`Wikipedia2004d` : Wikipedia. (2004). YCbCr. Retrieved February 29,
     2016, from https://en.wikipedia.org/wiki/YCbCr
 """
 
@@ -53,13 +53,15 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models.rgb.transfer_functions import (CV_range, oetf_BT2020,
                                                   eotf_BT2020)
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              domain_range_scale, from_range_1, to_domain_1,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -81,11 +83,11 @@ Luma weightings presets.
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion2011e`
--   :cite:`InternationalTelecommunicationUnion2015i`
--   :cite:`InternationalTelecommunicationUnion2015h`
--   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
--   :cite:`Wikipediaca`
+:cite:`InternationalTelecommunicationUnion2011e`,
+:cite:`InternationalTelecommunicationUnion2015i`,
+:cite:`InternationalTelecommunicationUnion2015h`,
+:cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
+:cite:`Wikipedia2004d`
 
 YCBCR_WEIGHTS : dict
     **{'ITU-R BT.601', 'ITU-R BT.709', 'ITU-R BT.2020', 'SMPTE-240M}**
@@ -209,21 +211,37 @@ def RGB_to_YCbCr(RGB,
 
     Notes
     -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``RGB``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``YCbCr``      | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has input and output integer switches, thus the
+        domain-range scale information is only given for the floating point
+        mode.
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
         'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int': False}``
-        transform a float *R'G'B'* input array in range [0, 1] (``in_bits`` is
-        ignored) to a float *Y'CbCr* output array where *Y'* is in range
-        [16 / 255, 235 / 255] and *Cb* and *Cr* are in range
-        [16 / 255, 240./255]. The float values are calculated based on an
-        [0, 255] integer range, but no 8-bit quantisation or clamping are
-        performed.
+        transform a float *R'G'B'* input array normalised to domain [0, 1]
+        (``in_bits`` is ignored) to a float *Y'CbCr* output array where *Y'* is
+        normalised to range [16 / 255, 235 / 255] and *Cb* and *Cr* are
+        normalised to range [16 / 255, 240./255]. The float values are
+        calculated based on an [0, 255] integer range, but no 8-bit
+        quantisation or clamping are performed.
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2011e`
-    -   :cite:`InternationalTelecommunicationUnion2015i`
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
-    -   :cite:`Wikipediaca`
+    :cite:`InternationalTelecommunicationUnion2011e`,
+    :cite:`InternationalTelecommunicationUnion2015i`,
+    :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
+    :cite:`Wikipedia2004d`
 
     Examples
     --------
@@ -272,13 +290,16 @@ def RGB_to_YCbCr(RGB,
     array([ 36, 136, 175])
     """
 
-    RGB = np.asarray(RGB)
+    if in_int:
+        RGB = as_float_array(RGB)
+    else:
+        RGB = to_domain_1(RGB)
+
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get('in_range',
                                   CV_range(in_bits, in_legal, in_int))
-    Y_min, Y_max, C_min, C_max = kwargs.get('out_range',
-                                            YCbCr_ranges(
-                                                out_bits, out_legal, out_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get(
+        'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
 
     RGB_float = RGB.astype(DEFAULT_FLOAT_DTYPE) - RGB_min
     RGB_float *= 1 / (RGB_max - RGB_min)
@@ -294,8 +315,9 @@ def RGB_to_YCbCr(RGB,
     Cb += (C_max + C_min) / 2
     Cr += (C_max + C_min) / 2
 
-    YCbCr = tstack((Y, Cb, Cr))
-    YCbCr = np.round(YCbCr).astype(np.int_) if out_int else YCbCr
+    YCbCr = tstack([Y, Cb, Cr])
+    YCbCr = np.round(YCbCr).astype(
+        DEFAULT_INT_DTYPE) if out_int else from_range_1(YCbCr)
 
     return YCbCr
 
@@ -359,6 +381,25 @@ def YCbCr_to_RGB(YCbCr,
     ndarray
         *R'G'B'* array of integer or float values.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``YCbCr``      | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``RGB``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has input and output integer switches, thus the
+        domain-range scale information is only given for the floating point
+        mode.
+
     Warning
     -------
     For *Recommendation ITU-R BT.2020*, :func:`colour.YCbCr_to_RGB`
@@ -368,10 +409,10 @@ def YCbCr_to_RGB(YCbCr,
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2011e`
-    -   :cite:`InternationalTelecommunicationUnion2015i`
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
-    -   :cite:`Wikipediaca`
+    :cite:`InternationalTelecommunicationUnion2011e`,
+    :cite:`InternationalTelecommunicationUnion2015i`,
+    :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
+    :cite:`Wikipedia2004d`
 
     Examples
     --------
@@ -380,12 +421,15 @@ def YCbCr_to_RGB(YCbCr,
     array([ 0.5,  0.5,  0.5])
     """
 
-    YCbCr = np.asarray(YCbCr)
+    if in_int:
+        YCbCr = as_float_array(YCbCr)
+    else:
+        YCbCr = to_domain_1(YCbCr)
+
     Y, Cb, Cr = tsplit(YCbCr.astype(DEFAULT_FLOAT_DTYPE))
     Kr, Kb = K
-    Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
-                                            YCbCr_ranges(
-                                                in_bits, in_legal, in_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get(
+        'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
     RGB_min, RGB_max = kwargs.get('out_range',
                                   CV_range(out_bits, out_legal, out_int))
 
@@ -399,10 +443,11 @@ def YCbCr_to_RGB(YCbCr,
     B = Y + (2 - 2 * Kb) * Cb
     G = (Y - Kr * R - Kb * B) / (1 - Kr - Kb)
 
-    RGB = tstack((R, G, B))
+    RGB = tstack([R, G, B])
     RGB *= RGB_max - RGB_min
     RGB += RGB_min
-    RGB = np.round(RGB).astype(np.int_) if out_int else RGB
+    RGB = np.round(RGB).astype(DEFAULT_INT_DTYPE) if out_int else from_range_1(
+        RGB)
 
     return RGB
 
@@ -448,6 +493,25 @@ def RGB_to_YcCbcCrc(RGB,
     ndarray
         *Yc'Cbc'Crc'* colour encoding array of integer or float values.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``RGB``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``YcCbcCrc``   | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has input and output integer switches, thus the
+        domain-range scale information is only given for the floating point
+        mode.
+
     Warning
     -------
     This definition is specifically for usage with
@@ -456,8 +520,7 @@ def RGB_to_YcCbcCrc(RGB,
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015h`
-    -   :cite:`Wikipediaca`
+    :cite:`InternationalTelecommunicationUnion2015h`, :cite:`Wikipedia2004d`
 
     Examples
     --------
@@ -467,16 +530,17 @@ def RGB_to_YcCbcCrc(RGB,
     array([422, 512, 512])
     """
 
-    RGB = np.asarray(RGB)
-    R, G, B = tsplit(RGB)
-    Y_min, Y_max, C_min, C_max = kwargs.get('out_range',
-                                            YCbCr_ranges(
-                                                out_bits, out_legal, out_int))
+    R, G, B = tsplit(to_domain_1(RGB))
+    Y_min, Y_max, C_min, C_max = kwargs.get(
+        'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
-    Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
-    R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
-    B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
+
+    with domain_range_scale('ignore'):
+        Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+        R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
+        B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
+
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
     Yc *= Y_max - Y_min
@@ -486,8 +550,9 @@ def RGB_to_YcCbcCrc(RGB,
     Cbc += (C_max + C_min) / 2
     Crc += (C_max + C_min) / 2
 
-    YcCbcCrc = tstack((Yc, Cbc, Crc))
-    YcCbcCrc = np.round(YcCbcCrc).astype(np.int_) if out_int else YcCbcCrc
+    YcCbcCrc = tstack([Yc, Cbc, Crc])
+    YcCbcCrc = (np.round(YcCbcCrc).astype(DEFAULT_INT_DTYPE)
+                if out_int else from_range_1(YcCbcCrc))
 
     return YcCbcCrc
 
@@ -532,6 +597,25 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     ndarray
         *RGB* array of linear float values.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``YcCbcCrc``   | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``RGB``        | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has input and output integer switches, thus the
+        domain-range scale information is only given for the floating point
+        mode.
+
     Warning
     -------
     This definition is specifically for usage with
@@ -540,8 +624,8 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015h`
-    -   :cite:`Wikipediaca`
+    :cite:`InternationalTelecommunicationUnion2015h`,
+    :cite:`Wikipedia2004d`
 
     Examples
     --------
@@ -552,11 +636,14 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
 
-    YcCbcCrc = np.asarray(YcCbcCrc)
+    if in_int:
+        YcCbcCrc = as_float_array(YcCbcCrc)
+    else:
+        YcCbcCrc = to_domain_1(YcCbcCrc)
+
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(DEFAULT_FLOAT_DTYPE))
-    Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
-                                            YCbCr_ranges(
-                                                in_bits, in_legal, in_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get(
+        'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
 
     Yc -= Y_min
     Cbc -= (C_max + C_min) / 2
@@ -566,11 +653,14 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     Crc *= 1 / (C_max - C_min)
     B = np.where(Cbc <= 0, Cbc * 1.9404 + Yc, Cbc * 1.5816 + Yc)
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
-    Yc = eotf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
-    B = eotf_BT2020(B, is_12_bits_system=is_12_bits_system)
-    R = eotf_BT2020(R, is_12_bits_system=is_12_bits_system)
+
+    with domain_range_scale('ignore'):
+        Yc = eotf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+        B = eotf_BT2020(B, is_12_bits_system=is_12_bits_system)
+        R = eotf_BT2020(R, is_12_bits_system=is_12_bits_system)
+
     G = (Yc - 0.0593 * B - 0.2627 * R) / 0.6780
 
-    RGB = tstack((R, G, B))
+    RGB = tstack([R, G, B])
 
-    return RGB
+    return from_range_1(RGB)

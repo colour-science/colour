@@ -13,8 +13,6 @@ CIE
 .. autosummary::
     :toctree: generated/
 
-    CIE_E
-    CIE_K
     K_M
     KP_M
 

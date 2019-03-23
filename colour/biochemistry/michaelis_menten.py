@@ -16,17 +16,17 @@ blob/master/notebooks/biochemistry/michaelis_menten.ipynb>`_
 
 References
 ----------
--   :cite:`Wikipediace` : Wikipedia. (n.d.). Michaelis-Menten kinetics.
+-   :cite:`Wikipedia2003d` : Wikipedia. (2003). Michaelis-Menten kinetics.
     Retrieved April 29, 2017, from https://en.wikipedia.org/wiki/\
 Michaelis-Menten_kinetics
 """
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -60,7 +60,7 @@ def reaction_rate_MichealisMenten(S, V_max, K_m):
 
     References
     ----------
-    -   :cite:`Wikipediace`
+    :cite:`Wikipedia2003d`
 
     Examples
     --------
@@ -68,9 +68,9 @@ def reaction_rate_MichealisMenten(S, V_max, K_m):
     0.9615384...
     """
 
-    S = np.asarray(S)
-    V_max = np.asarray(V_max)
-    K_m = np.asarray(K_m)
+    S = as_float_array(S)
+    V_max = as_float_array(V_max)
+    K_m = as_float_array(K_m)
 
     v = (V_max * S) / (K_m + S)
 
@@ -100,7 +100,7 @@ def substrate_concentration_MichealisMenten(v, V_max, K_m):
 
     References
     ----------
-    -   :cite:`Wikipediace`
+    :cite:`Wikipedia2003d`
 
     Examples
     --------
@@ -109,9 +109,9 @@ def substrate_concentration_MichealisMenten(v, V_max, K_m):
     0.4999999...
     """
 
-    v = np.asarray(v)
-    V_max = np.asarray(V_max)
-    K_m = np.asarray(K_m)
+    v = as_float_array(v)
+    V_max = as_float_array(V_max)
+    K_m = as_float_array(K_m)
 
     S = (v * K_m) / (V_max - v)
 

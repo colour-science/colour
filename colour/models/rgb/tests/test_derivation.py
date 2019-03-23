@@ -18,7 +18,7 @@ from colour.models.rgb.derivation import xy_to_z
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -64,7 +64,8 @@ class Testxy_to_z(unittest.TestCase):
         xy = np.tile(xy, (6, 1))
         z = np.tile(
             z,
-            6, )
+            6,
+        )
         np.testing.assert_almost_equal(xy_to_z(xy), z, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
@@ -129,7 +130,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=2))
         for case in cases:
-            P = np.array(np.vstack((case, case, case)))
+            P = np.array(np.vstack([case, case, case]))
             W = np.array(case)
             try:
                 normalised_primary_matrix(P, W)
@@ -175,8 +176,8 @@ chromatically_adapted_primaries` definition.
         np.testing.assert_almost_equal(
             chromatically_adapted_primaries(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
-                np.array([0.31270, 0.32900]),
-                np.array([0.34570, 0.35850]), 'Bradford'),
+                np.array([0.31270, 0.32900]), np.array([0.34570, 0.35850]),
+                'Bradford'),
             np.array([
                 [0.64844144, 0.33085331],
                 [0.32119518, 0.59784434],
@@ -194,7 +195,7 @@ chromatically_adapted_primaries` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=2))
         for case in cases:
-            P = np.array(np.vstack((case, case, case)))
+            P = np.array(np.vstack([case, case, case]))
             W = np.array(case)
             chromatically_adapted_primaries(P, W, W)
 
@@ -255,7 +256,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            M = np.array(np.vstack((case, case, case)))
+            M = np.array(np.vstack([case, case, case]))
             primaries_whitepoint(M)
 
 
@@ -278,10 +279,11 @@ class TestRGBLuminanceEquation(unittest.TestCase):
                 np.array([0.32168, 0.33767])), text_type)
 
         # TODO: Simplify that monster.
-        pattern = ('Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
-                   '\(R\)\s?[+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
-                   '\(G\)\s?[+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
-                   '\(B\)')
+        pattern = (
+            'Y\\s?=\\s?[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?.'
+            '\\(R\\)\\s?[+-]\\s?[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?.'
+            '\\(G\\)\\s?[+-]\\s?[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?.'
+            '\\(B\\)')
         P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         self.assertTrue(
             re.match(pattern,
@@ -302,29 +304,28 @@ class TestRGBLuminance(unittest.TestCase):
 
         self.assertAlmostEqual(
             RGB_luminance(
-                np.array([50.0, 50.0, 50.0]),
+                np.array([0.18, 0.18, 0.18]),
                 np.array(
                     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            50.00000000,
+            0.18000000,
             places=7)
 
         self.assertAlmostEqual(
             RGB_luminance(
-                np.array([74.6, 16.1, 100.0]),
+                np.array([0.21959402, 0.06986677, 0.04703877]),
                 np.array(
                     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            30.17011667,
+            0.123014562384318,
             places=7)
 
         self.assertAlmostEqual(
             RGB_luminance(
-                np.array([40.6, 4.2, 67.4]),
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-                np.array([0.32168, 0.33767])),
-            12.16160184,
+                np.array([0.45620519, 0.03081071, 0.04091952]),
+                np.array([0.6400, 0.3300, 0.3000, 0.6000, 0.1500, 0.0600]),
+                np.array([0.31270, 0.32900])),
+            0.121995947729870,
             places=7)
 
     def test_n_dimensional_RGB_luminance(self):
@@ -333,10 +334,10 @@ class TestRGBLuminance(unittest.TestCase):
         n_dimensional arrays support.
         """
 
-        RGB = np.array([50.0, 50.0, 50.0]),
+        RGB = np.array([0.18, 0.18, 0.18]),
         P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
         W = np.array([0.32168, 0.33767])
-        Y = 50
+        Y = 0.18000000
         np.testing.assert_almost_equal(RGB_luminance(RGB, P, W), Y)
 
         RGB = np.tile(RGB, (6, 1))
@@ -358,7 +359,7 @@ class TestRGBLuminance(unittest.TestCase):
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             RGB = np.array(case)
-            P = np.array(np.vstack((case[0:2], case[0:2], case[0:2])))
+            P = np.array(np.vstack([case[0:2], case[0:2], case[0:2]]))
             W = np.array(case[0:2])
             try:
                 RGB_luminance(RGB, P, W)

@@ -1,5 +1,5 @@
-colour\.colorimetry\.whiteness\_ASTME313
-========================================
+colour.colorimetry.whiteness\_ASTME313
+======================================
 
 .. currentmodule:: colour.colorimetry
 

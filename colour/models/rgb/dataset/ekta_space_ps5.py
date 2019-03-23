@@ -24,18 +24,18 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, function_gamma,
+from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'EKTA_SPACE_PS_5_PRIMARIES', 'EKTA_SPACE_PS_5_V_ILLUMINANT',
+    'EKTA_SPACE_PS_5_PRIMARIES', 'EKTA_SPACE_PS_5_V_WHITEPOINT_NAME',
     'EKTA_SPACE_PS_5_WHITEPOINT', 'EKTA_SPACE_PS_5_TO_XYZ_MATRIX',
     'XYZ_TO_EKTA_SPACE_PS_5_MATRIX', 'EKTA_SPACE_PS_5_COLOURSPACE'
 ]
@@ -51,15 +51,15 @@ EKTA_SPACE_PS_5_PRIMARIES = np.array([
 EKTA_SPACE_PS_5_PRIMARIES : ndarray, (3, 2)
 """
 
-EKTA_SPACE_PS_5_V_ILLUMINANT = 'D50'
+EKTA_SPACE_PS_5_V_WHITEPOINT_NAME = 'D50'
 """
-*Ekta Space PS 5* colourspace whitepoint name as illuminant.
+*Ekta Space PS 5* colourspace whitepoint name.
 
-EKTA_SPACE_PS_5_V_ILLUMINANT : unicode
+EKTA_SPACE_PS_5_V_WHITEPOINT_NAME : unicode
 """
 
 EKTA_SPACE_PS_5_WHITEPOINT = (ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][EKTA_SPACE_PS_5_V_ILLUMINANT])
+    'CIE 1931 2 Degree Standard Observer'][EKTA_SPACE_PS_5_V_WHITEPOINT_NAME])
 """
 *Ekta Space PS 5* colourspace whitepoint.
 
@@ -85,17 +85,18 @@ EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
     'Ekta Space PS 5',
     EKTA_SPACE_PS_5_PRIMARIES,
     EKTA_SPACE_PS_5_WHITEPOINT,
-    EKTA_SPACE_PS_5_V_ILLUMINANT,
+    EKTA_SPACE_PS_5_V_WHITEPOINT_NAME,
     EKTA_SPACE_PS_5_TO_XYZ_MATRIX,
     XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
-    partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2), )
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2),
+)
 EKTA_SPACE_PS_5_COLOURSPACE.__doc__ = """
 *Ekta Space PS 5* colourspace.
 
 References
 ----------
--   :cite:`Holmesa`
+:cite:`Holmesa`
 
 EKTA_SPACE_PS_5_COLOURSPACE : RGB_Colourspace
 """

@@ -1,5 +1,5 @@
-colour\.CCT\_TO\_XY\_METHODS
-============================
+colour.CCT\_TO\_XY\_METHODS
+===========================
 
 .. currentmodule:: colour
 

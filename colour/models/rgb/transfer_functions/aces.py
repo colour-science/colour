@@ -9,8 +9,8 @@ Defines the *Academy Color Encoding System* (ACES) log encodings:
 -   :func:`colour.models.log_decoding_ACESproxy`
 -   :func:`colour.models.log_encoding_ACEScc`
 -   :func:`colour.models.log_decoding_ACEScc`
--   :func:'log_encoding_ACEScct'
--   :func:'log_decoding_ACEScct'
+-   :func:`colour.models.log_encoding_ACEScct`
+-   :func:`colour.models.log_decoding_ACEScct`
 
 See Also
 --------
@@ -35,12 +35,12 @@ References
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Specification
-    S-2013-001 - ACESproxy , an Integer Log Encoding of ACES Image Data.
+    S-2013-001 - ACESproxy, an Integer Log Encoding of ACES Image Data.
     Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Specification
-    S-2014-003 - ACEScc , A Logarithmic Encoding of ACES Data for use within
+    S-2014-003 - ACEScc, A Logarithmic Encoding of ACES Data for use within
     Color Grading Systems. Retrieved from
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c` : The Academy of
@@ -60,10 +60,11 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.utilities import (Structure, as_float, as_int, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -123,7 +124,11 @@ ACES_CCT_CONSTANTS : Structure
 """
 
 
-def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
+# pylint: disable=W0102
+def log_encoding_ACESproxy(lin_AP1,
+                           bit_depth=10,
+                           out_int=False,
+                           constants=ACES_PROXY_CONSTANTS):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
@@ -135,28 +140,53 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
     bit_depth : int, optional
         **{10, 12}**,
         *ACESproxy* bit depth.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
+    constants : Structure, optional
+        *ACESproxy* constants.
 
     Returns
     -------
     numeric or ndarray
         *ACESproxy* non-linear value.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``lin_AP1``    | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``ACESproxy``  | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014s`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
-    >>> log_encoding_ACESproxy(0.18)
+    >>> log_encoding_ACESproxy(0.18)  # doctest: +ELLIPSIS
+    0.4164222...
+    >>> log_encoding_ACESproxy(0.18, out_int=True)
     426
     """
 
-    lin_AP1 = np.asarray(lin_AP1)
+    lin_AP1 = to_domain_1(lin_AP1)
 
-    constants = ACES_PROXY_CONSTANTS[bit_depth]
+    constants = constants[bit_depth]
 
     CV_min = np.resize(constants.CV_min, lin_AP1.shape)
     CV_max = np.resize(constants.CV_max, lin_AP1.shape)
@@ -168,16 +198,24 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 
-    output = np.where(
+    ACESproxy = np.where(
         lin_AP1 > 2 ** -9.72,
         float_2_cv((np.log2(lin_AP1) + constants.mid_log_offset) *
                    constants.steps_per_stop + constants.mid_CV_offset),
-        np.resize(CV_min, lin_AP1.shape))
+        np.resize(CV_min, lin_AP1.shape),
+    )
 
-    return as_numeric(output, int)
+    if out_int:
+        return as_int(np.round(ACESproxy))
+    else:
+        return as_float(from_range_1(ACESproxy / (2 ** bit_depth - 1)))
 
 
-def log_decoding_ACESproxy(ACESproxy, bit_depth=10):
+# pylint: disable=W0102
+def log_decoding_ACESproxy(ACESproxy,
+                           bit_depth=10,
+                           in_int=False,
+                           constants=ACES_PROXY_CONSTANTS):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
@@ -189,32 +227,62 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth=10):
     bit_depth : int, optional
         **{10, 12}**,
         *ACESproxy* bit depth.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
+    constants : Structure, optional
+        *ACESproxy* constants.
 
     Returns
     -------
     numeric or ndarray
         *lin_AP1* value.
 
+    Notes
+    -----
+
+    +----------------+-----------------------+---------------+
+    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``ACESproxy``  | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    +----------------+-----------------------+---------------+
+    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    +================+=======================+===============+
+    | ``lin_AP1``    | [0, 1]                | [0, 1]        |
+    +----------------+-----------------------+---------------+
+
+    -   \\* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014s`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
-    >>> log_decoding_ACESproxy(426)  # doctest: +ELLIPSIS
-    0.1792444...
+    >>> log_decoding_ACESproxy(0.416422287390029)  # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_ACESproxy(426, in_int=True)  # doctest: +ELLIPSIS
+    0.1...
     """
 
-    ACESproxy = np.asarray(ACESproxy).astype(np.int)
+    ACESproxy = to_domain_1(ACESproxy)
 
-    constants = ACES_PROXY_CONSTANTS[bit_depth]
+    constants = constants[bit_depth]
 
-    return (2 **
-            (((ACESproxy - constants.mid_CV_offset) / constants.steps_per_stop
-              - constants.mid_log_offset)))
+    if not in_int:
+        ACESproxy = ACESproxy * (2 ** bit_depth - 1)
+
+    lin_AP1 = (
+        2 ** (((ACESproxy - constants.mid_CV_offset) / constants.steps_per_stop
+               - constants.mid_log_offset)))
+
+    return from_range_1(lin_AP1)
 
 
 def log_encoding_ACEScc(lin_AP1):
@@ -232,12 +300,27 @@ def log_encoding_ACEScc(lin_AP1):
     numeric or ndarray
         *ACEScc* non-linear value.
 
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScc``  | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014t`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -245,14 +328,20 @@ def log_encoding_ACEScc(lin_AP1):
     0.4135884...
     """
 
-    lin_AP1 = np.asarray(lin_AP1)
+    lin_AP1 = to_domain_1(lin_AP1)
 
-    output = np.where(lin_AP1 < 0, (np.log2(2 ** -16) + 9.72) / 17.52,
-                      (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52)
-    output = np.where(lin_AP1 >= 2 ** -15, (np.log2(lin_AP1) + 9.72) / 17.52,
-                      output)
+    ACEScc = np.where(
+        lin_AP1 < 0,
+        (np.log2(2 ** -16) + 9.72) / 17.52,
+        (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52,
+    )
+    ACEScc = np.where(
+        lin_AP1 >= 2 ** -15,
+        (np.log2(lin_AP1) + 9.72) / 17.52,
+        ACEScc,
+    )
 
-    return as_numeric(output)
+    return as_float(from_range_1(ACEScc))
 
 
 def log_decoding_ACEScc(ACEScc):
@@ -270,12 +359,27 @@ def log_decoding_ACEScc(ACEScc):
     numeric or ndarray
         *lin_AP1* value.
 
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScc``  | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014t`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -283,17 +387,24 @@ def log_decoding_ACEScc(ACEScc):
     0.1799999...
     """
 
-    ACEScc = np.asarray(ACEScc)
+    ACEScc = to_domain_1(ACEScc)
 
-    output = np.where(ACEScc < (9.72 - 15) / 17.52,
-                      (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2, 2
-                      ** (ACEScc * 17.52 - 9.72))
-    output = np.where(ACEScc >= (np.log2(65504) + 9.72) / 17.52, 65504, output)
+    lin_AP1 = np.where(
+        ACEScc < (9.72 - 15) / 17.52,
+        (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2,
+        2 ** (ACEScc * 17.52 - 9.72),
+    )
+    lin_AP1 = np.where(
+        ACEScc >= (np.log2(65504) + 9.72) / 17.52,
+        65504,
+        lin_AP1,
+    )
 
-    return as_numeric(output)
+    return as_float(from_range_1(lin_AP1))
 
 
-def log_encoding_ACEScct(lin_AP1):
+# pylint: disable=W0102
+def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
     """
     Defines the *ACEScct* colourspace log encoding / opto-electronic transfer
     function.
@@ -302,18 +413,35 @@ def log_encoding_ACEScct(lin_AP1):
     ----------
     lin_AP1 : numeric or array_like
         *lin_AP1* value.
+    constants : Structure, optional
+        *ACEScct* constants.
 
     Returns
     -------
     numeric or ndarray
         *ACEScct* non-linear value.
 
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScct`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2016c`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -321,18 +449,19 @@ def log_encoding_ACEScct(lin_AP1):
     0.4135884...
     """
 
-    constants = ACES_CCT_CONSTANTS
+    lin_AP1 = to_domain_1(lin_AP1)
 
-    lin_AP1 = np.asarray(lin_AP1)
+    ACEScct = np.where(
+        lin_AP1 <= constants.X_BRK,
+        constants.A * lin_AP1 + constants.B,
+        (np.log2(lin_AP1) + 9.72) / 17.52,
+    )
 
-    output = np.where(lin_AP1 <= constants.X_BRK,
-                      constants.A * lin_AP1 + constants.B,
-                      (np.log2(lin_AP1) + 9.72) / 17.52)
-
-    return as_numeric(output)
+    return as_float(from_range_1(ACEScct))
 
 
-def log_decoding_ACEScct(ACEScct):
+# pylint: disable=W0102
+def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
     """
     Defines the *ACEScct* colourspace log decoding / electro-optical transfer
     function.
@@ -341,6 +470,8 @@ def log_decoding_ACEScct(ACEScct):
     ----------
     ACEScct : numeric or array_like
         *ACEScct* non-linear value.
+    constants : Structure, optional
+        *ACEScct* constants.
 
     Returns
     -------
@@ -349,10 +480,25 @@ def log_decoding_ACEScct(ACEScct):
 
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2016c`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
+
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScct`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
 
     Examples
     --------
@@ -360,11 +506,12 @@ def log_decoding_ACEScct(ACEScct):
     0.1799999...
     """
 
-    constants = ACES_CCT_CONSTANTS
+    ACEScct = to_domain_1(ACEScct)
 
-    ACEScct = np.asarray(ACEScct)
+    lin_AP1 = np.where(
+        ACEScct > constants.Y_BRK,
+        2 ** (ACEScct * 17.52 - 9.72),
+        (ACEScct - constants.B) / constants.A,
+    )
 
-    output = np.where(ACEScct > constants.Y_BRK, 2 ** (ACEScct * 17.52 - 9.72),
-                      (ACEScct - constants.B) / constants.A)
-
-    return as_numeric(output)
+    return as_float(from_range_1(lin_AP1))

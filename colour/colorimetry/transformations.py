@@ -45,7 +45,7 @@ from colour.colorimetry import LMS_CMFS, RGB_CMFS, PHOTOPIC_LEFS
 from colour.utilities import dot_vector, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -68,7 +68,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
@@ -82,7 +82,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`Wyszecki2000bg`
+    :cite:`Wyszecki2000bg`
 
     Examples
     --------
@@ -123,7 +123,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     y_bar = L
     z_bar = z / y * L
 
-    xyz_bar = tstack((x_bar, y_bar, z_bar))
+    xyz_bar = tstack([x_bar, y_bar, z_bar])
 
     return xyz_bar
 
@@ -137,7 +137,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
@@ -151,7 +151,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`Wyszecki2000be`
+    :cite:`Wyszecki2000be`
 
     Examples
     --------
@@ -185,7 +185,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
@@ -200,7 +200,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`CIETC1-362006a`
+    :cite:`CIETC1-362006a`
 
     Examples
     --------
@@ -235,7 +235,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
@@ -249,7 +249,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`CVRLv`
+    :cite:`CVRLv`
 
     Examples
     --------
@@ -283,7 +283,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
@@ -297,7 +297,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`CVRLp`
+    :cite:`CVRLp`
 
     Examples
     --------

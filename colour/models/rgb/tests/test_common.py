@@ -11,7 +11,7 @@ import unittest
 from colour.models import XYZ_to_sRGB, sRGB_to_XYZ
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -32,13 +32,20 @@ class TestXYZ_to_sRGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_sRGB(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([0.17498817, 0.38819472, 0.32160312]),
+            XYZ_to_sRGB(np.array([0.20654008, 0.12197225, 0.05136952])),
+            np.array([0.70573936, 0.19248266, 0.22354169]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_sRGB(np.array([0.47097710, 0.34950000, 0.11301649])),
-            np.array([0.96978949, 0.48894663, 0.30232185]),
+            XYZ_to_sRGB(np.array([0.14222010, 0.23042768, 0.10495772])),
+            np.array([0.25847003, 0.58276102, 0.29718877]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_sRGB(
+                np.array([0.07818780, 0.06157201, 0.28099326]),
+                np.array([0.34570, 0.35850])),
+            np.array([0.09838967, 0.25404426, 0.65130925]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -50,23 +57,16 @@ class TestXYZ_to_sRGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(
-                np.array([0.11805834, 0.10340000, 0.05150892]),
-                np.array([0.31270, 0.32900])),
-            np.array([0.48221920, 0.31656152, 0.22070695]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            XYZ_to_sRGB(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.20654008, 0.12197225, 0.05136952]),
                 chromatic_adaptation_transform='Bradford'),
-            np.array([0.17498817, 0.38819472, 0.32160312]),
+            np.array([0.70573936, 0.19248266, 0.22354169]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.20654008, 0.12197225, 0.05136952]),
                 apply_encoding_cctf=False),
-            np.array([0.02583969, 0.12474440, 0.08439476]),
+            np.array([0.45620520, 0.03081070, 0.04091953]),
             decimal=7)
 
 
@@ -82,13 +82,20 @@ class TestsRGB_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            sRGB_to_XYZ(np.array([0.17498172, 0.38818743, 0.32159978])),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+            sRGB_to_XYZ(np.array([0.70573936, 0.19248266, 0.22354169])),
+            np.array([0.20654290, 0.12197943, 0.05137140]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sRGB_to_XYZ(np.array([0.96979222, 0.48891569, 0.30231574])),
-            np.array([0.47097710, 0.34950000, 0.11301649]),
+            sRGB_to_XYZ(np.array([0.25847003, 0.58276102, 0.29718877])),
+            np.array([0.14222582, 0.23043727, 0.10496290]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            sRGB_to_XYZ(
+                np.array([0.09838967, 0.25404426, 0.65130925]),
+                np.array([0.34570, 0.35850])),
+            np.array([0.07819162, 0.06157356, 0.28099475]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -100,13 +107,6 @@ class TestsRGB_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(
-                np.array([0.48222001, 0.31654775, 0.22070353]),
-                np.array([0.31270, 0.32900])),
-            np.array([0.11805834, 0.10340000, 0.05150892]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            sRGB_to_XYZ(
                 np.array([0.17498172, 0.38818743, 0.32159978]),
                 chromatic_adaptation_method='Bradford'),
             np.array([0.07049534, 0.10080000, 0.09558313]),
@@ -114,9 +114,9 @@ class TestsRGB_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(
-                np.array([0.02583795, 0.12473949, 0.08439296]),
+                np.array([0.45620520, 0.03081070, 0.04091953]),
                 apply_decoding_cctf=False),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+            np.array([0.20654291, 0.12197943, 0.05137141]),
             decimal=7)
 
 

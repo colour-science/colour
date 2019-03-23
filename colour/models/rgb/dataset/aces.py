@@ -8,7 +8,7 @@ Defines the *Academy Color Encoding System* (ACES) related encodings:
 -   :attr:`colour.models.ACES_2065_1_COLOURSPACE`
 -   :attr:`colour.models.ACES_CG_COLOURSPACE`
 -   :attr:`colour.models.ACES_CC_COLOURSPACE`
--   :attr:'ACES_CCT_COLOURSPACE'
+-   :attr:`colour.models.ACES_CCT_COLOURSPACE`
 -   :attr:`colour.models.ACES_PROXY_COLOURSPACE`
 
 See Also
@@ -34,13 +34,13 @@ References
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, &
     Academy Color Encoding System (ACES) Project Subcommittee. (2014).
-    Specification S-2013-001 - ACESproxy , an Integer Log Encoding of ACES
+    Specification S-2013-001 - ACESproxy, an Integer Log Encoding of ACES
     Image Data. Retrieved from
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Specification
-    S-2014-003 - ACEScc , A Logarithmic Encoding of ACES Data for use within
+    S-2014-003 - ACEScc, A Logarithmic Encoding of ACES Data for use within
     Color Grading Systems. Retrieved from
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2015b` : The Academy of
@@ -68,22 +68,22 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
-    RGB_Colourspace, function_linear, normalised_primary_matrix,
+    RGB_Colourspace, linear_function, normalised_primary_matrix,
     log_encoding_ACEScc, log_decoding_ACEScc, log_encoding_ACEScct,
     log_decoding_ACEScct, log_encoding_ACESproxy, log_decoding_ACESproxy)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'AP0', 'AP1', 'ACES_ILLUMINANT', 'ACES_WHITEPOINT', 'AP0_TO_XYZ_MATRIX',
-    'XYZ_TO_AP0_MATRIX', 'AP1_TO_XYZ_MATRIX', 'XYZ_TO_AP1_MATRIX',
-    'ACES_2065_1_COLOURSPACE', 'ACES_CG_COLOURSPACE', 'ACES_CC_COLOURSPACE',
-    'ACES_CCT_COLOURSPACE', 'ACES_PROXY_COLOURSPACE'
+    'AP0', 'AP1', 'ACES_WHITEPOINT_NAME', 'ACES_WHITEPOINT',
+    'AP0_TO_XYZ_MATRIX', 'XYZ_TO_AP0_MATRIX', 'AP1_TO_XYZ_MATRIX',
+    'XYZ_TO_AP1_MATRIX', 'ACES_2065_1_COLOURSPACE', 'ACES_CG_COLOURSPACE',
+    'ACES_CC_COLOURSPACE', 'ACES_CCT_COLOURSPACE', 'ACES_PROXY_COLOURSPACE'
 ]
 
 AP0 = np.array([
@@ -109,15 +109,15 @@ prior to *ACES* 1.0 release).
 AP1 : ndarray, (3, 2)
 """
 
-ACES_ILLUMINANT = 'D60'
+ACES_WHITEPOINT_NAME = 'ACES'
 """
-*ACES2065-1* colourspace whitepoint name as illuminant.
+*ACES2065-1* colourspace whitepoint name.
 
-ACES_ILLUMINANT : unicode
+ACES_WHITEPOINT_NAME : unicode
 """
 
 ACES_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ACES_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ACES_WHITEPOINT_NAME])
 """
 *ACES2065-1* colourspace whitepoint.
 
@@ -163,20 +163,21 @@ ACES_2065_1_COLOURSPACE = RGB_Colourspace(
     'ACES2065-1',
     AP0,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP0_TO_XYZ_MATRIX,
     XYZ_TO_AP0_MATRIX,
-    function_linear,
-    function_linear, )
+    linear_function,
+    linear_function,
+)
 ACES_2065_1_COLOURSPACE.__doc__ = """
 *ACES2065-1* colourspace, base encoding, used for exchange of full fidelity
 images and archiving.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_2065_1_COLOURSPACE : RGB_Colourspace
 """
@@ -185,21 +186,22 @@ ACES_CG_COLOURSPACE = RGB_Colourspace(
     'ACEScg',
     AP1,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
-    function_linear,
-    function_linear, )
+    linear_function,
+    linear_function,
+)
 ACES_CG_COLOURSPACE.__doc__ = """
 *ACEScg* colourspace, a working space for paint/compositor applications that
 don't support ACES2065-1 or ACEScc.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2015b`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2015b`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_CG_COLOURSPACE : RGB_Colourspace
 """
@@ -208,21 +210,22 @@ ACES_CC_COLOURSPACE = RGB_Colourspace(
     'ACEScc',
     AP1,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScc,
-    log_decoding_ACEScc, )
+    log_decoding_ACEScc,
+)
 ACES_CC_COLOURSPACE.__doc__ = """
 *ACEScc* colourspace, a working space for color correctors, target for ASC-CDL
 values created on-set.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014t`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014t`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_CC_COLOURSPACE : RGB_Colourspace
 """
@@ -231,11 +234,12 @@ ACES_CCT_COLOURSPACE = RGB_Colourspace(
     'ACEScct',
     AP1,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScct,
-    log_decoding_ACEScct, )
+    log_decoding_ACEScct,
+)
 ACES_CCT_COLOURSPACE.__doc__ = """
 *ACEScct* colourspace, an alternative working space for colour correctors,
 intended to be transient and internal to software or hardware systems,
@@ -243,10 +247,10 @@ and is specifically not intended for interchange or archiving.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2016c`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_CCT_COLOURSPACE : RGB_Colourspace
 """
@@ -255,11 +259,12 @@ ACES_PROXY_COLOURSPACE = RGB_Colourspace(
     'ACESproxy',
     AP1,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACESproxy,
-    log_decoding_ACESproxy, )
+    log_decoding_ACESproxy,
+)
 ACES_PROXY_COLOURSPACE.__doc__ = """
 *ACESproxy* colourspace, a lightweight encoding for transmission over HD-SDI
 (or other production transmission schemes), onset look management. Not
@@ -268,10 +273,10 @@ grading / mastering.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014s`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014s`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_PROXY_COLOURSPACE : RGB_Colourspace
 """

@@ -1,5 +1,5 @@
-colour\.notation\.munsell\_value\_McCamy1987
-============================================
+colour.notation.munsell\_value\_McCamy1987
+==========================================
 
 .. currentmodule:: colour.notation
 

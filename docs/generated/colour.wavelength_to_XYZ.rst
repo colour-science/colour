@@ -1,5 +1,5 @@
-colour\.wavelength\_to\_XYZ
-===========================
+colour.wavelength\_to\_XYZ
+==========================
 
 .. currentmodule:: colour
 

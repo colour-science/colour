@@ -1,5 +1,5 @@
-colour\.models\.ADOBE\_RGB\_1998\_COLOURSPACE
-=============================================
+colour.models.ADOBE\_RGB\_1998\_COLOURSPACE
+===========================================
 
 .. currentmodule:: colour.models
 

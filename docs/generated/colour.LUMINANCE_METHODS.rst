@@ -1,5 +1,5 @@
-colour\.LUMINANCE\_METHODS
-==========================
+colour.LUMINANCE\_METHODS
+=========================
 
 .. currentmodule:: colour
 

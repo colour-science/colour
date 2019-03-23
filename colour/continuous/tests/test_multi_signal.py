@@ -16,7 +16,7 @@ from colour.continuous import MultiSignal, Signal
 from colour.utilities import is_pandas_installed, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -51,7 +51,7 @@ class TestMultiSignal(unittest.TestCase):
         required_attributes = ('dtype', 'domain', 'range', 'interpolator',
                                'interpolator_args', 'extrapolator',
                                'extrapolator_args', 'function', 'signals',
-                               'labels')
+                               'labels', 'signal_type')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(MultiSignal))
@@ -61,7 +61,7 @@ class TestMultiSignal(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', '__repr__', '__getitem__',
+        required_methods = ('__str__', '__repr__', '__hash__', '__getitem__',
                             '__setitem__', '__contains__', '__eq__', '__ne__',
                             'arithmetical_operation',
                             'multi_signal_unpack_data', 'fill_nan',
@@ -248,6 +248,16 @@ extrapolator_args` property.
 
         self.assertListEqual(multi_signal.labels, ['a', 'b', 'c'])
 
+    def test_signal_type(self):
+        """
+        Tests :func:`colour.continuous.multi_signal.MultiSignal.signal_type`
+        property.
+        """
+
+        multi_signal = MultiSignal(signal_type=Signal)
+
+        self.assertEqual(multi_signal.signal_type, Signal)
+
     def test__init__(self):
         """
         Tests :func:`colour.continuous.multi_signal.MultiSignal.__init__`
@@ -379,18 +389,19 @@ extrapolator_args` property.
         multi_signal.extrapolator_args = {
             'method': 'Linear',
         }
-        np.testing.assert_array_equal(multi_signal[np.array([-1000, 1000])],
-                                      np.array([[-9990.0, -9980.0, -9970.0],
-                                                [10010.0, 10020.0, 10030.0]]))
+        np.testing.assert_array_equal(
+            multi_signal[np.array([-1000, 1000])],
+            np.array([[-9990.0, -9980.0, -9970.0], [10010.0, 10020.0,
+                                                    10030.0]]))
 
         multi_signal.extrapolator_args = {
             'method': 'Constant',
             'left': 0,
             'right': 1
         }
-        np.testing.assert_array_equal(multi_signal[np.array([-1000, 1000])],
-                                      np.array([[0.0, 0.0, 0.0],
-                                                [1.0, 1.0, 1.0]]))
+        np.testing.assert_array_equal(
+            multi_signal[np.array([-1000, 1000])],
+            np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]))
 
     def test__setitem__(self):
         """
@@ -401,7 +412,7 @@ extrapolator_args` property.
         multi_signal = self._multi_signal.copy()
 
         multi_signal[0] = 20
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal[0], np.array([20.0, 20.0, 20.0]), decimal=7)
 
         multi_signal[np.array([0, 1, 2])] = 30
@@ -419,7 +430,7 @@ extrapolator_args` property.
             decimal=7)
 
         multi_signal[np.linspace(0, 5, 5)] = 50
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.domain,
             np.array([
                 0.00, 1.00, 1.25, 2.00, 2.50, 3.00, 3.75, 4.00, 5.00, 6.00,
@@ -568,66 +579,66 @@ extrapolator_args` property.
 arithmetical_operation` method.
         """
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             self._multi_signal.arithmetical_operation(10, '+', False).range,
             self._range_2 + 10,
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             self._multi_signal.arithmetical_operation(10, '-', False).range,
             self._range_2 - 10,
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             self._multi_signal.arithmetical_operation(10, '*', False).range,
             self._range_2 * 10,
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             self._multi_signal.arithmetical_operation(10, '/', False).range,
             self._range_2 / 10,
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             self._multi_signal.arithmetical_operation(10, '**', False).range,
             self._range_2 ** 10,
             decimal=7)
 
         multi_signal = self._multi_signal.copy()
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.arithmetical_operation(10, '+', True).range,
             self._range_2 + 10,
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.arithmetical_operation(10, '-', True).range,
             self._range_2,
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.arithmetical_operation(10, '*', True).range,
             self._range_2 * 10,
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.arithmetical_operation(10, '/', True).range,
             self._range_2,
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.arithmetical_operation(10, '**', True).range,
             self._range_2 ** 10,
             decimal=7)
 
         multi_signal = self._multi_signal.copy()
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.arithmetical_operation(self._range_2, '+',
                                                 False).range,
             self._range_2 + self._range_2,
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.arithmetical_operation(multi_signal, '+',
                                                 False).range,
             self._range_2 + self._range_2,
@@ -721,7 +732,7 @@ multi_signal_unpack_data` method.
 
         multi_signal[3:7] = np.nan
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.fill_nan().range,
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [
                 30.0, 40.0, 50.0
@@ -732,7 +743,7 @@ multi_signal_unpack_data` method.
 
         multi_signal[3:7] = np.nan
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             multi_signal.fill_nan(method='Constant').range,
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0],
                       [30.0, 40.0, 50.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0],
@@ -749,7 +760,7 @@ multi_signal_unpack_data` method.
         self.assertAlmostEqual(
             self._multi_signal.domain_distance(0.5), 0.5, places=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             self._multi_signal.domain_distance(np.linspace(0, 9, 10) + 0.5),
             np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
             decimal=7)
@@ -765,9 +776,9 @@ multi_signal_unpack_data` method.
 
             data = dict(zip(['a', 'b', 'c'], tsplit(self._range_2)))
             assert MultiSignal(
-                self._range_2, self._domain_2, labels=[
-                    'a', 'b', 'c'
-                ]).to_dataframe().equals(DataFrame(data, self._domain_2))
+                self._range_2, self._domain_2,
+                labels=['a', 'b', 'c']).to_dataframe().equals(
+                    DataFrame(data, self._domain_2))
 
 
 if __name__ == '__main__':

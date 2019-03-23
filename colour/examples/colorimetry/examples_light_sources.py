@@ -10,8 +10,8 @@ from colour.utilities import message_box
 
 message_box('Light Sources Dataset')
 
-message_box('Light sources relative spectral power distributions dataset.')
-pprint(sorted(colour.LIGHT_SOURCES_RELATIVE_SPDS.keys()))
+message_box('Light sources spectral distributions dataset.')
+pprint(sorted(colour.LIGHT_SOURCES_SDS.keys()))
 
 print('\n')
 
