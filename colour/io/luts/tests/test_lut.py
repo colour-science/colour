@@ -12,7 +12,7 @@ import unittest
 
 from colour.algebra import random_triplet_generator, spow
 from colour.io.luts.lut import AbstractLUT
-from colour.io.luts import (AbstractLUTSequenceOperator, LUT1D, LUT2D, LUT3D,
+from colour.io.luts import (AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D,
                             LUTSequence, LUT_to_LUT)
 from colour.models import gamma_function
 from colour.utilities import tsplit, tstack
@@ -26,7 +26,7 @@ __status__ = 'Production'
 
 __all__ = [
     'RESOURCES_DIRECTORY', 'TestAbstractLUT', 'TestLUT', 'TestLUT1D',
-    'TestLUT2D', 'TestLUT3D', 'TestAbstractLUTSequenceOperator',
+    'TestLUT3x1D', 'TestLUT3D', 'TestAbstractLUTSequenceOperator',
     'TestLUTSequence'
 ]
 
@@ -72,7 +72,7 @@ class TestAbstractLUT(unittest.TestCase):
 class TestLUT(unittest.TestCase):
     """
     Defines :class:`colour.io.luts.lut.LUT1D`,
-    :class:`colour.io.luts.lut.LUT2D` and
+    :class:`colour.io.luts.lut.LUT3x1D` and
     :class:`colour.io.luts.lut.LUT3D` classes common unit tests methods.
     """
 
@@ -120,7 +120,7 @@ class TestLUT(unittest.TestCase):
     def test__init__(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.__init__`,
-        :class:`colour.io.luts.lut.LUT2D.__init__` and
+        :class:`colour.io.luts.lut.LUT3x1D.__init__` and
         :class:`colour.io.luts.lut.LUT3D.__init__` methods.
         """
 
@@ -145,7 +145,7 @@ class TestLUT(unittest.TestCase):
     def test_table(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.table`,
-        :class:`colour.io.luts.lut.LUT2D.table` and
+        :class:`colour.io.luts.lut.LUT3x1D.table` and
         :class:`colour.io.luts.lut.LUT3D.table` properties.
         """
 
@@ -164,7 +164,7 @@ class TestLUT(unittest.TestCase):
     def test_name(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.name`,
-        :class:`colour.io.luts.lut.LUT2D.name` and
+        :class:`colour.io.luts.lut.LUT3x1D.name` and
         :class:`colour.io.luts.lut.LUT3D.name` properties.
         """
 
@@ -184,7 +184,7 @@ class TestLUT(unittest.TestCase):
     def test_domain(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.domain`,
-        :class:`colour.io.luts.lut.LUT2D.domain` and
+        :class:`colour.io.luts.lut.LUT3x1D.domain` and
         :class:`colour.io.luts.lut.LUT3D.domain` properties.
         """
 
@@ -203,7 +203,7 @@ class TestLUT(unittest.TestCase):
     def test_size(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.size`,
-        :class:`colour.io.luts.lut.LUT2D.size` and
+        :class:`colour.io.luts.lut.LUT3x1D.size` and
         :class:`colour.io.luts.lut.LUT3D.size` properties.
         """
 
@@ -218,7 +218,7 @@ class TestLUT(unittest.TestCase):
     def test_dimensions(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.dimensions`,
-        :class:`colour.io.luts.lut.LUT2D.dimensions` and
+        :class:`colour.io.luts.lut.LUT3x1D.dimensions` and
         :class:`colour.io.luts.lut.LUT3D.dimensions` properties.
         """
 
@@ -233,7 +233,7 @@ class TestLUT(unittest.TestCase):
     def test_comments(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.comments`,
-        :class:`colour.io.luts.lut.LUT2D.comments` and
+        :class:`colour.io.luts.lut.LUT3x1D.comments` and
         :class:`colour.io.luts.lut.LUT3D.comments` properties.
         """
 
@@ -253,7 +253,7 @@ class TestLUT(unittest.TestCase):
     def test__str__(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.__str__`,
-        :class:`colour.io.luts.lut.LUT2D.__str__` and
+        :class:`colour.io.luts.lut.LUT3x1D.__str__` and
         :class:`colour.io.luts.lut.LUT3D.__str__` methods.
         """
 
@@ -268,7 +268,7 @@ class TestLUT(unittest.TestCase):
     def test__repr__(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.__repr__`,
-        :class:`colour.io.luts.lut.LUT2D.__repr__` and
+        :class:`colour.io.luts.lut.LUT3x1D.__repr__` and
         :class:`colour.io.luts.lut.LUT3D.__repr__` methods.
         """
 
@@ -290,7 +290,7 @@ class TestLUT(unittest.TestCase):
     def test__eq__(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.__eq__`,
-        :class:`colour.io.luts.lut.LUT2D.__eq__` and
+        :class:`colour.io.luts.lut.LUT3x1D.__eq__` and
         :class:`colour.io.luts.lut.LUT3D.__eq__` methods.
         """
 
@@ -307,7 +307,7 @@ class TestLUT(unittest.TestCase):
     def test__ne__(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.__ne__`,
-        :class:`colour.io.luts.lut.LUT2D.__ne__` and
+        :class:`colour.io.luts.lut.LUT3x1D.__ne__` and
         :class:`colour.io.luts.lut.LUT3D.__ne__` methods.
         """
 
@@ -330,7 +330,7 @@ class TestLUT(unittest.TestCase):
     def test_is_domain_explicit(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.is_domain_explicit`,
-        :class:`colour.io.luts.lut.LUT2D.is_domain_explicit` and
+        :class:`colour.io.luts.lut.LUT3x1D.is_domain_explicit` and
         :class:`colour.io.luts.lut.LUT3D.is_domain_explicit` methods.
         """
 
@@ -348,7 +348,7 @@ class TestLUT(unittest.TestCase):
     def test_arithmetical_operation(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.arithmetical_operation`,
-        :class:`colour.io.luts.lut.LUT2D.arithmetical_operation` and
+        :class:`colour.io.luts.lut.LUT3x1D.arithmetical_operation` and
         :class:`colour.io.luts.lut.LUT3D.arithmetical_operation` methods.
         """
 
@@ -426,7 +426,7 @@ class TestLUT(unittest.TestCase):
     def test_linear_table(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.linear_table`,
-        :class:`colour.io.luts.lut.LUT2D.linear_table` and
+        :class:`colour.io.luts.lut.LUT3x1D.linear_table` and
         :class:`colour.io.luts.lut.LUT3D.linear_table` methods.
         """
 
@@ -449,7 +449,7 @@ class TestLUT(unittest.TestCase):
     def test_apply(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.apply`,
-        :class:`colour.io.luts.lut.LUT2D.apply` and
+        :class:`colour.io.luts.lut.LUT3x1D.apply` and
         :class:`colour.io.luts.lut.LUT3D.apply` methods.
         """
 
@@ -478,7 +478,7 @@ class TestLUT(unittest.TestCase):
     def test_copy(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.copy`,
-        :class:`colour.io.luts.lut.LUT2D.copy` and
+        :class:`colour.io.luts.lut.LUT3x1D.copy` and
         :class:`colour.io.luts.lut.LUT3D.copy` methods.
         """
 
@@ -566,9 +566,9 @@ class TestLUT1D(TestLUT):
         ])
 
 
-class TestLUT2D(TestLUT):
+class TestLUT3x1D(TestLUT):
     """
-    Defines :class:`colour.io.luts.lut.LUT2D` class unit tests methods.
+    Defines :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods.
     """
 
     def __init__(self, *args):
@@ -581,9 +581,9 @@ class TestLUT2D(TestLUT):
             Arguments.
         """
 
-        super(TestLUT2D, self).__init__(*args)
+        super(TestLUT3x1D, self).__init__(*args)
 
-        self._LUT_factory = LUT2D
+        self._LUT_factory = LUT3x1D
 
         samples_1 = np.linspace(0, 1, 10)
         samples_2 = np.linspace(-0.1, 1.5, 15)
@@ -611,27 +611,27 @@ class TestLUT2D(TestLUT):
         }
         self._dimensions = 2
         self._str = textwrap.dedent("""
-            LUT2D - Nemo
-            ------------
+            LUT3x1D - Nemo
+            --------------
 
             Dimensions : 2
             Domain     : [[ 0.  0.  0.]
                           [ 1.  1.  1.]]
             Size       : (10, 3)""")[1:]
         self._repr = textwrap.dedent("""
-            LUT2D([[ 0.        ,  0.        ,  0.        ],
-                   [ 0.11111111,  0.11111111,  0.11111111],
-                   [ 0.22222222,  0.22222222,  0.22222222],
-                   [ 0.33333333,  0.33333333,  0.33333333],
-                   [ 0.44444444,  0.44444444,  0.44444444],
-                   [ 0.55555556,  0.55555556,  0.55555556],
-                   [ 0.66666667,  0.66666667,  0.66666667],
-                   [ 0.77777778,  0.77777778,  0.77777778],
-                   [ 0.88888889,  0.88888889,  0.88888889],
-                   [ 1.        ,  1.        ,  1.        ]],
-                  name='Nemo',
-                  domain=[[ 0.,  0.,  0.],
-                          [ 1.,  1.,  1.]])""")[1:]
+            LUT3x1D([[ 0.        ,  0.        ,  0.        ],
+                     [ 0.11111111,  0.11111111,  0.11111111],
+                     [ 0.22222222,  0.22222222,  0.22222222],
+                     [ 0.33333333,  0.33333333,  0.33333333],
+                     [ 0.44444444,  0.44444444,  0.44444444],
+                     [ 0.55555556,  0.55555556,  0.55555556],
+                     [ 0.66666667,  0.66666667,  0.66666667],
+                     [ 0.77777778,  0.77777778,  0.77777778],
+                     [ 0.88888889,  0.88888889,  0.88888889],
+                     [ 1.        ,  1.        ,  1.        ]],
+                    name='Nemo',
+                    domain=[[ 0.,  0.,  0.],
+                            [ 1.,  1.,  1.]])""")[1:]
         self._applied_1 = np.array([
             [[0.98453144, 0.53304051, 0.02978976],
              [0.76000720, 0.68433298, 0.64753760]],
@@ -790,7 +790,7 @@ class TestLUTSequence(unittest.TestCase):
 
         self._LUT_1 = LUT1D(LUT1D.linear_table(16) + 0.125, 'Nemo 1D')
         self._LUT_2 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2), 'Nemo 3D')
-        self._LUT_3 = LUT2D(LUT2D.linear_table(16) * 0.750, 'Nemo 2D')
+        self._LUT_3 = LUT3x1D(LUT3x1D.linear_table(16) * 0.750, 'Nemo 3x1D')
         self._LUT_sequence = LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3)
 
         samples = np.linspace(0, 1, 5)
@@ -883,7 +883,7 @@ class TestLUTSequence(unittest.TestCase):
 
             Overview
 
-                LUT1D ---> LUT3D ---> LUT2D
+                LUT1D ---> LUT3D ---> LUT3x1D
 
             Operations
 
@@ -902,8 +902,8 @@ class TestLUTSequence(unittest.TestCase):
                               [ 1.  1.  1.]]
                 Size       : (16, 16, 16, 3)
 
-                LUT2D - Nemo 2D
-                ---------------
+                LUT3x1D - Nemo 3x1D
+                -------------------
 
                 Dimensions : 2
                 Domain     : [[ 0.  0.  0.]
@@ -1083,25 +1083,25 @@ class TestLUTSequence(unittest.TestCase):
                       name='Nemo 3D',
                       domain=[[ 0.,  0.,  0.],
                               [ 1.,  1.,  1.]]),
-                LUT2D([[ 0.  ,  0.  ,  0.  ],
-                       [ 0.05,  0.05,  0.05],
-                       [ 0.1 ,  0.1 ,  0.1 ],
-                       [ 0.15,  0.15,  0.15],
-                       [ 0.2 ,  0.2 ,  0.2 ],
-                       [ 0.25,  0.25,  0.25],
-                       [ 0.3 ,  0.3 ,  0.3 ],
-                       [ 0.35,  0.35,  0.35],
-                       [ 0.4 ,  0.4 ,  0.4 ],
-                       [ 0.45,  0.45,  0.45],
-                       [ 0.5 ,  0.5 ,  0.5 ],
-                       [ 0.55,  0.55,  0.55],
-                       [ 0.6 ,  0.6 ,  0.6 ],
-                       [ 0.65,  0.65,  0.65],
-                       [ 0.7 ,  0.7 ,  0.7 ],
-                       [ 0.75,  0.75,  0.75]],
-                      name='Nemo 2D',
-                      domain=[[ 0.,  0.,  0.],
-                              [ 1.,  1.,  1.]])
+                LUT3x1D([[ 0.  ,  0.  ,  0.  ],
+                         [ 0.05,  0.05,  0.05],
+                         [ 0.1 ,  0.1 ,  0.1 ],
+                         [ 0.15,  0.15,  0.15],
+                         [ 0.2 ,  0.2 ,  0.2 ],
+                         [ 0.25,  0.25,  0.25],
+                         [ 0.3 ,  0.3 ,  0.3 ],
+                         [ 0.35,  0.35,  0.35],
+                         [ 0.4 ,  0.4 ,  0.4 ],
+                         [ 0.45,  0.45,  0.45],
+                         [ 0.5 ,  0.5 ,  0.5 ],
+                         [ 0.55,  0.55,  0.55],
+                         [ 0.6 ,  0.6 ,  0.6 ],
+                         [ 0.65,  0.65,  0.65],
+                         [ 0.7 ,  0.7 ,  0.7 ],
+                         [ 0.75,  0.75,  0.75]],
+                        name='Nemo 3x1D',
+                        domain=[[ 0.,  0.,  0.],
+                                [ 1.,  1.,  1.]])
             )""" [1:]))
 
     def test__eq__(self):
@@ -1207,8 +1207,8 @@ class TestLUT_to_LUT(unittest.TestCase):
         self._domain = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
 
         self._LUT_1 = LUT1D(LUT1D.linear_table(16) ** (1 / 2.2))
-        self._LUT_2 = LUT2D(
-            LUT2D.linear_table(16) ** (1 / 2.2) * (1.0, 0.75, 0.5),
+        self._LUT_2 = LUT3x1D(
+            LUT3x1D.linear_table(16) ** (1 / 2.2) * (1.0, 0.75, 0.5),
             domain=self._domain)
         self._LUT_3 = LUT3D(
             LUT3D.linear_table(16) ** (1 / 2.2), domain=self._domain)
@@ -1223,11 +1223,11 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         self.assertEqual(LUT, self._LUT_1)
 
-        # "LUT" 1D to "LUT" 2D.
-        LUT = LUT_to_LUT(self._LUT_1, LUT2D)
+        # "LUT" 1D to "LUT" 3x1D.
+        LUT = LUT_to_LUT(self._LUT_1, LUT3x1D)
         table = LUT1D.linear_table(16) ** (1 / 2.2)
 
-        self.assertEqual(LUT, LUT2D(tstack([table, table, table])))
+        self.assertEqual(LUT, LUT3x1D(tstack([table, table, table])))
 
         # "LUT" 1D to "LUT" 3D.
         self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_1, LUT3D))
@@ -1389,7 +1389,7 @@ class TestLUT_to_LUT(unittest.TestCase):
             ]]]),
             decimal=7)
 
-        # "LUT" 2D to "LUT" 1D.
+        # "LUT" 3x1D to "LUT" 1D.
         self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_2, LUT1D))
 
         channel_weights = np.array([1.0, 0.0, 0.0])
@@ -1418,12 +1418,12 @@ class TestLUT_to_LUT(unittest.TestCase):
                 np.sum(self._LUT_2.table * channel_weights, axis=-1),
                 domain=domain))
 
-        # "LUT" 2D to "LUT" 2D.
-        LUT = LUT_to_LUT(self._LUT_2, LUT2D)
+        # "LUT" 3x1D to "LUT" 3x1D.
+        LUT = LUT_to_LUT(self._LUT_2, LUT3x1D)
 
         self.assertEqual(LUT, self._LUT_2)
 
-        # "LUT" 2D to "LUT" 3D.
+        # "LUT" 3x1D to "LUT" 3D.
         self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_2, LUT3D))
 
         LUT = LUT_to_LUT(self._LUT_2, LUT3D, force_conversion=True, size=5)
@@ -1626,10 +1626,10 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         np.testing.assert_array_equal(LUT.domain, domain)
 
-        # "LUT" 3D to "LUT" 2D.
-        self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_3, LUT2D))
+        # "LUT" 3D to "LUT" 3x1D.
+        self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_3, LUT3x1D))
 
-        LUT = LUT_to_LUT(self._LUT_3, LUT2D, force_conversion=True, size=16)
+        LUT = LUT_to_LUT(self._LUT_3, LUT3x1D, force_conversion=True, size=16)
 
         np.testing.assert_almost_equal(
             LUT.table,

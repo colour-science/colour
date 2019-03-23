@@ -88,7 +88,7 @@ from .characterisation import (
     DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
     COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
     COLOUR_CORRECTION_METHODS, colour_correction)
-from .io import (LUT1D, LUT2D, LUT3D, LUTSequence,
+from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence,
                  SpectralDistribution_IESTM2714, read_image, read_LUT,
                  read_sds_from_csv_file, read_sds_from_xrite_file,
                  read_spectral_data_from_csv_file, write_image, write_LUT,
@@ -211,10 +211,11 @@ __all__ += [
     'COLOUR_CORRECTION_METHODS', 'colour_correction'
 ]
 __all__ += [
-    'LUT1D', 'LUT2D', 'LUT3D', 'LUTSequence', 'SpectralDistribution_IESTM2714',
-    'read_image', 'read_LUT', 'read_sds_from_csv_file',
-    'read_sds_from_xrite_file', 'read_spectral_data_from_csv_file',
-    'write_image', 'write_LUT', 'write_sds_to_csv_file'
+    'LUT1D', 'LUT3x1D', 'LUT3D', 'LUTSequence',
+    'SpectralDistribution_IESTM2714', 'read_image', 'read_LUT',
+    'read_sds_from_csv_file', 'read_sds_from_xrite_file',
+    'read_spectral_data_from_csv_file', 'write_image', 'write_LUT',
+    'write_sds_to_csv_file'
 ]
 __all__ += [
     'CAM02LCD_to_JMh_CIECAM02', 'CAM02SCD_to_JMh_CIECAM02',

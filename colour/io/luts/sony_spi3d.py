@@ -39,8 +39,8 @@ def read_LUT_SonySPI3D(path):
 
     Returns
     -------
-    LUT3D or LUT2D
-        :class:`LUT3D` or :class:`LUT2D` class instance.
+    LUT3D or LUT3x1D
+        :class:`LUT3D` or :class:`LUT3x1D` class instance.
 
     Examples
     --------

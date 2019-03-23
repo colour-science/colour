@@ -6,7 +6,7 @@ LUT Processing
 Defines the classes and definitions handling *LUT* processing:
 
 -   :class:`colour.LUT1D`
--   :class:`colour.LUT2D`
+-   :class:`colour.LUT3x1D`
 -   :class:`colour.LUT3D`
 -   :class:`colour.LUTSequence`
 -   :class:`colour.io.LUT_to_LUT`
@@ -46,7 +46,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'AbstractLUT', 'LUT1D', 'LUT2D', 'LUT3D', 'LUT_to_LUT',
+    'AbstractLUT', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUT_to_LUT',
     'AbstractLUTSequenceOperator', 'LUTSequence'
 ]
 
@@ -66,7 +66,7 @@ class AbstractLUT:
     name : unicode, optional
         *LUT* name.
     dimensions : int, optional
-        *LUT* dimensions, typically, 1 for a 1D *LUT*, 2 for a 2D *LUT* and 3
+        *LUT* dimensions, typically, 1 for a 1D *LUT*, 2 for a 3x1D *LUT* and 3
         for a 3D *LUT*.
     domain : unicode, optional
         *LUT* domain, also used to define the instantiation time default table
@@ -306,8 +306,8 @@ class AbstractLUT:
                     self.__class__.__name__, self.name,
                     '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
                     self.dimensions, _indent_array(self.domain),
-                    str(self.table.shape).replace("L", ""), '\n{0}'.format(
-                        '\n'.join(comments)) if comments else '')
+                    str(self.table.shape).replace("L", ""),
+                    '\n{0}'.format('\n'.join(comments)) if comments else '')
 
     def __repr__(self):
         """
@@ -673,7 +673,7 @@ class AbstractLUT:
         ----------
         size : int or array_like, optional
             Expected table size, for a 1D *LUT*, the number of output samples
-            :math:`n` is equal to ``size``, for a 2D *LUT* :math:`n` is equal
+            :math:`n` is equal to ``size``, for a 3x1D *LUT* :math:`n` is equal
             to ``size * 3`` or ``size[0] + size[1] + size[2]``, for a 3D *LUT*
             :math:`n` is equal to ``size**3 * 3`` or
             ``size[0] * size[1] * size[2] * 3``.
@@ -730,7 +730,7 @@ class AbstractLUT:
 
         Parameters
         ----------
-        cls : LUT1D or LUT2D or LUT3D
+        cls : LUT1D or LUT3x1D or LUT3D
             *LUT* class instance.
         force_conversion : bool, optional
             Whether to force the conversion as it might be destructive.
@@ -747,7 +747,7 @@ class AbstractLUT:
 
         Returns
         -------
-        LUT1D or LUT2D or LUT3D
+        LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
         Warning
@@ -997,7 +997,7 @@ class LUT1D(AbstractLUT):
 
         Parameters
         ----------
-        cls : LUT1D or LUT2D or LUT3D
+        cls : LUT1D or LUT3x1D or LUT3D
             *LUT* class instance.
         force_conversion : bool, optional
             Whether to force the conversion as it might be destructive.
@@ -1014,7 +1014,7 @@ class LUT1D(AbstractLUT):
 
         Returns
         -------
-        LUT1D or LUT2D or LUT3D
+        LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
         Warning
@@ -1037,9 +1037,9 @@ class LUT1D(AbstractLUT):
         Dimensions : 1
         Domain     : [ 0.  1.]
         Size       : (10,)
-        >>> print(LUT.as_LUT(LUT2D))
-        LUT2D - Unity 10 - Converted 1D to 2D
-        -------------------------------------
+        >>> print(LUT.as_LUT(LUT3x1D))
+        LUT3x1D - Unity 10 - Converted 1D to 3x1D
+        -----------------------------------------
         <BLANKLINE>
         Dimensions : 2
         Domain     : [[ 0.  0.  0.]
@@ -1058,9 +1058,9 @@ class LUT1D(AbstractLUT):
         return LUT_to_LUT(self, cls, force_conversion, **kwargs)
 
 
-class LUT2D(AbstractLUT):
+class LUT3x1D(AbstractLUT):
     """
-    Defines the base class for a 2D *LUT*.
+    Defines the base class for a 3x1D *LUT*.
 
     Parameters
     ----------
@@ -1087,9 +1087,9 @@ class LUT2D(AbstractLUT):
     --------
     Instantiating a unity LUT with a table with 16x3 elements:
 
-    >>> print(LUT2D(size=16))
-    LUT2D - Unity 16
-    ----------------
+    >>> print(LUT3x1D(size=16))
+    LUT3x1D - Unity 16
+    ------------------
     <BLANKLINE>
     Dimensions : 2
     Domain     : [[ 0.  0.  0.]
@@ -1098,9 +1098,10 @@ class LUT2D(AbstractLUT):
 
     Instantiating a LUT using a custom table with 16x3 elements:
 
-    >>> print(LUT2D(LUT2D.linear_table(16) ** (1 / 2.2)))  # doctest: +ELLIPSIS
-    LUT2D - ...
-    --------...
+    >>> print(LUT3x1D(LUT3x1D.linear_table(16) ** (1 / 2.2)))
+    ... # doctest: +ELLIPSIS
+    LUT3x1D - ...
+    ----------...
     <BLANKLINE>
     Dimensions : 2
     Domain     : [[ 0.  0.  0.]
@@ -1112,13 +1113,13 @@ class LUT2D(AbstractLUT):
 
     >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
-    >>> print(LUT2D(
-    ...     spow(LUT2D.linear_table(16), 1 / 2.2),
+    >>> print(LUT3x1D(
+    ...     spow(LUT3x1D.linear_table(16), 1 / 2.2),
     ...     'My LUT',
     ...     domain,
     ...     comments=['A first comment.', 'A second comment.']))
-    LUT2D - My LUT
-    --------------
+    LUT3x1D - My LUT
+    ----------------
     <BLANKLINE>
     Dimensions : 2
     Domain     : [[-0.1 -0.2 -0.4]
@@ -1137,11 +1138,11 @@ class LUT2D(AbstractLUT):
         if domain is None:
             domain = np.array([[0, 0, 0], [1, 1, 1]])
 
-        super(LUT2D, self).__init__(table, name, 2, domain, size, comments)
+        super(LUT3x1D, self).__init__(table, name, 2, domain, size, comments)
 
     def _validate_table(self, table):
         """
-        Validates given table is a 2D array.
+        Validates given table is a 3x1D array.
 
         Parameters
         ----------
@@ -1214,11 +1215,11 @@ class LUT2D(AbstractLUT):
 
         Examples
         --------
-        >>> LUT2D().is_domain_explicit()
+        >>> LUT3x1D().is_domain_explicit()
         False
         >>> samples = np.linspace(0, 1, 10)
         >>> table = domain = tstack([samples, samples, samples])
-        >>> LUT2D(table, domain=domain).is_domain_explicit()
+        >>> LUT3x1D(table, domain=domain).is_domain_explicit()
         True
         """
 
@@ -1251,14 +1252,14 @@ class LUT2D(AbstractLUT):
 
         Examples
         --------
-        >>> LUT2D.linear_table(
+        >>> LUT3x1D.linear_table(
         ...     5, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
         array([[-0.1, -0.2, -0.4],
                [ 0.3,  0.6,  1.2],
                [ 0.7,  1.4,  2.8],
                [ 1.1,  2.2,  4.4],
                [ 1.5,  3. ,  6. ]])
-        >>> LUT2D.linear_table(
+        >>> LUT3x1D.linear_table(
         ...     np.array([5, 3, 2]),
         ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
         array([[-0.1, -0.2, -0.4],
@@ -1271,7 +1272,7 @@ class LUT2D(AbstractLUT):
         ...                    [0.7, 3.0, np.nan],
         ...                    [1.1, np.nan, np.nan],
         ...                    [1.5, np.nan, np.nan]])
-        >>> LUT2D.linear_table(domain=domain)
+        >>> LUT3x1D.linear_table(domain=domain)
         array([[-0.1, -0.2, -0.4],
                [ 0.3,  1.4,  6. ],
                [ 0.7,  3. ,  nan],
@@ -1330,14 +1331,14 @@ class LUT2D(AbstractLUT):
 
         Examples
         --------
-        >>> LUT = LUT2D(LUT2D.linear_table() ** (1 / 2.2))
+        >>> LUT = LUT3x1D(LUT3x1D.linear_table() ** (1 / 2.2))
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
         >>> from colour.algebra import spow
         >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
-        >>> table = spow(LUT2D.linear_table(domain=domain), 1 / 2.2)
-        >>> LUT = LUT2D(table, domain=domain)
+        >>> table = spow(LUT3x1D.linear_table(domain=domain), 1 / 2.2)
+        >>> LUT = LUT3x1D(table, domain=domain)
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4423903...,  0.4503801...,  0.3581625...])
@@ -1346,8 +1347,8 @@ class LUT2D(AbstractLUT):
         ...                    [0.7, 3.0, np.nan],
         ...                    [1.1, np.nan, np.nan],
         ...                    [1.5, np.nan, np.nan]])
-        >>> table = spow(LUT2D.linear_table(domain=domain), 1 / 2.2)
-        >>> LUT = LUT2D(table, domain=domain)
+        >>> table = spow(LUT3x1D.linear_table(domain=domain), 1 / 2.2)
+        >>> LUT = LUT3x1D(table, domain=domain)
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
@@ -1389,7 +1390,7 @@ class LUT2D(AbstractLUT):
 
         Parameters
         ----------
-        cls : LUT1D or LUT2D or LUT3D
+        cls : LUT1D or LUT3x1D or LUT3D
             *LUT* class instance.
         force_conversion : bool, optional
             Whether to force the conversion as it might be destructive.
@@ -1406,7 +1407,7 @@ class LUT2D(AbstractLUT):
 
         Returns
         -------
-        LUT1D or LUT2D or LUT3D
+        LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
         Warning
@@ -1421,25 +1422,25 @@ class LUT2D(AbstractLUT):
 
         Examples
         --------
-        >>> LUT = LUT2D()
+        >>> LUT = LUT3x1D()
         >>> print(LUT.as_LUT(LUT1D, force_conversion=True))
-        LUT1D - Unity 10 - Converted 2D to 1D
-        -------------------------------------
+        LUT1D - Unity 10 - Converted 3x1D to 1D
+        ---------------------------------------
         <BLANKLINE>
         Dimensions : 1
         Domain     : [ 0.  1.]
         Size       : (10,)
-        >>> print(LUT.as_LUT(LUT2D))
-        LUT2D - Unity 10 - Converted 2D to 2D
-        -------------------------------------
+        >>> print(LUT.as_LUT(LUT3x1D))
+        LUT3x1D - Unity 10 - Converted 3x1D to 3x1D
+        -------------------------------------------
         <BLANKLINE>
         Dimensions : 2
         Domain     : [[ 0.  0.  0.]
                       [ 1.  1.  1.]]
         Size       : (10, 3)
         >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
-        LUT3D - Unity 10 - Converted 2D to 3D
-        -------------------------------------
+        LUT3D - Unity 10 - Converted 3x1D to 3D
+        ---------------------------------------
         <BLANKLINE>
         Dimensions : 3
         Domain     : [[ 0.  0.  0.]
@@ -1841,7 +1842,7 @@ class LUT3D(AbstractLUT):
 
         Parameters
         ----------
-        cls : LUT1D or LUT2D or LUT3D
+        cls : LUT1D or LUT3x1D or LUT3D
             *LUT* class instance.
         force_conversion : bool, optional
             Whether to force the conversion as it might be destructive.
@@ -1858,7 +1859,7 @@ class LUT3D(AbstractLUT):
 
         Returns
         -------
-        LUT1D or LUT2D or LUT3D
+        LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
         Warning
@@ -1881,9 +1882,9 @@ class LUT3D(AbstractLUT):
         Dimensions : 1
         Domain     : [ 0.  1.]
         Size       : (10,)
-        >>> print(LUT.as_LUT(LUT2D, force_conversion=True))
-        LUT2D - Unity 33 - Converted 3D to 2D
-        -------------------------------------
+        >>> print(LUT.as_LUT(LUT3x1D, force_conversion=True))
+        LUT3x1D - Unity 33 - Converted 3D to 3x1D
+        -----------------------------------------
         <BLANKLINE>
         Dimensions : 2
         Domain     : [[ 0.  0.  0.]
@@ -1908,7 +1909,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
 
     Parameters
     ----------
-    cls : LUT1D or LUT2D or LUT3D
+    cls : LUT1D or LUT3x1D or LUT3D
         *LUT* class instance.
     force_conversion : bool, optional
         Whether to force the conversion as it might be destructive.
@@ -1923,12 +1924,12 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
         Expected table size in case of an upcast to or a downcast from a
         :class:`LUT3D` class instance.
     channel_weights : array_like, optional
-        Channel weights in case of a downcast from a :class:`LUT2D` or
+        Channel weights in case of a downcast from a :class:`LUT3x1D` or
         :class:`LUT3D` class instance.
 
     Returns
     -------
-    LUT1D or LUT2D or LUT3D
+    LUT1D or LUT3x1D or LUT3D
         Converted *LUT* class instance.
 
     Warning
@@ -1951,9 +1952,9 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     Domain     : [[ 0.  0.  0.]
                   [ 1.  1.  1.]]
     Size       : (33, 33, 33, 3)
-    >>> print(LUT_to_LUT(LUT2D(), LUT1D, force_conversion=True))
-    LUT1D - Unity 10 - Converted 2D to 1D
-    -------------------------------------
+    >>> print(LUT_to_LUT(LUT3x1D(), LUT1D, force_conversion=True))
+    LUT1D - Unity 10 - Converted 3x1D to 1D
+    ---------------------------------------
     <BLANKLINE>
     Dimensions : 1
     Domain     : [ 0.  1.]
@@ -1967,16 +1968,19 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     Size       : (10,)
     """
 
-    ranks = {LUT1D: 1, LUT2D: 2, LUT3D: 3}
+    ranks = {LUT1D: 1, LUT3x1D: 2, LUT3D: 3}
     path = (ranks[LUT.__class__], ranks[cls])
+    path_verbose = [
+        '{0}D'.format(element) if element != 2 else '3x1D' for element in path
+    ]
     if path in ((1, 3), (2, 1), (2, 3), (3, 1), (3, 2)):
         if not force_conversion:
             raise ValueError(
-                'Conversion of a "LUT" {0}D to a "LUT" {1}D is destructive, '
+                'Conversion of a "LUT" {0} to a "LUT" {1} is destructive, '
                 'please use the "force_conversion" argument to proceed.'.
-                format(*path))
+                format(*path_verbose))
 
-    suffix = ' - Converted {0}D to {1}D'.format(*path)
+    suffix = ' - Converted {0} to {1}'.format(*path_verbose)
     name = '{0}{1}'.format(LUT.name, suffix)
 
     # Same dimension conversion, returning a copy.
@@ -1994,14 +1998,14 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
             del kwargs['channel_weights']
 
         if isinstance(LUT, LUT1D):
-            if cls is LUT2D:
+            if cls is LUT3x1D:
                 domain = tstack([LUT.domain, LUT.domain, LUT.domain])
                 table = tstack([LUT.table, LUT.table, LUT.table])
             elif cls is LUT3D:
                 domain = tstack([LUT.domain, LUT.domain, LUT.domain])
                 table = LUT3D.linear_table(size, domain)
                 table = LUT.apply(table, **kwargs)
-        elif isinstance(LUT, LUT2D):
+        elif isinstance(LUT, LUT3x1D):
             if cls is LUT1D:
                 domain = np.array(
                     [np.max(LUT.domain[0, ...]),
@@ -2019,9 +2023,9 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
                 table = LUT1D.linear_table(size, domain)
                 table = LUT.apply(tstack([table, table, table]), **kwargs)
                 table = np.sum(table * channel_weights, axis=-1)
-            elif cls is LUT2D:
+            elif cls is LUT3x1D:
                 domain = LUT.domain
-                table = LUT2D.linear_table(size, domain)
+                table = LUT3x1D.linear_table(size, domain)
                 table = LUT.apply(table, **kwargs)
 
         LUT = cls(table, name, domain, table.shape[0], LUT.comments)
@@ -2071,7 +2075,7 @@ class LUTSequence(MutableSequence):
     Other Parameters
     ----------------
     \\*args : list, optional
-        Sequence of `colour.LUT1D`, `colour.LUT2D`, `colour.LUT3D` or
+        Sequence of `colour.LUT1D`, `colour.LUT3x1D`, `colour.LUT3D` or
         `colour.io.lut.l.AbstractLUTSequenceOperator` class instances.
 
     Attributes
@@ -2096,14 +2100,14 @@ class LUTSequence(MutableSequence):
     --------
     >>> LUT_1 = LUT1D()
     >>> LUT_2 = LUT3D(size=3)
-    >>> LUT_3 = LUT2D()
+    >>> LUT_3 = LUT3x1D()
     >>> print(LUTSequence(LUT_1, LUT_2, LUT_3))
     LUT Sequence
     ------------
     <BLANKLINE>
     Overview
     <BLANKLINE>
-        LUT1D ---> LUT3D ---> LUT2D
+        LUT1D ---> LUT3D ---> LUT3x1D
     <BLANKLINE>
     Operations
     <BLANKLINE>
@@ -2122,8 +2126,8 @@ class LUTSequence(MutableSequence):
                       [ 1.  1.  1.]]
         Size       : (3, 3, 3, 3)
     <BLANKLINE>
-        LUT2D - Unity 10
-        ----------------
+        LUT3x1D - Unity 10
+        ------------------
     <BLANKLINE>
         Dimensions : 2
         Domain     : [[ 0.  0.  0.]
@@ -2134,9 +2138,9 @@ class LUTSequence(MutableSequence):
     def __init__(self, *args):
         for arg in args:
             assert isinstance(
-                arg, (LUT1D, LUT2D, LUT3D, AbstractLUTSequenceOperator)
-            ), ('"args" elements must be instances of '
-                '"LUT1D", "LUT2D",  "LUT3D" or "AbstractLUTSequenceOperator"!')
+                arg, (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)), (
+                    '"args" elements must be instances of "LUT1D", '
+                    '"LUT3x1D", "LUT3D" or "AbstractLUTSequenceOperator"!')
 
         self._sequence = list(args)
 
@@ -2178,7 +2182,7 @@ class LUTSequence(MutableSequence):
 
         Returns
         -------
-        LUT1D or LUT2D or LUT3D or AbstractLUTSequenceOperator
+        LUT1D or LUT3x1D or LUT3D or AbstractLUTSequenceOperator
             *LUT* sequence item at given index.
         """
 
@@ -2192,7 +2196,7 @@ class LUTSequence(MutableSequence):
         ----------
         index : int
             *LUT* sequence item index.
-        value : LUT1D or LUT2D or LUT3D or AbstractLUTSequenceOperator
+        value : LUT1D or LUT3x1D or LUT3D or AbstractLUTSequenceOperator
             Value.
         """
 
@@ -2322,13 +2326,13 @@ class LUTSequence(MutableSequence):
         ----------
         index : index
             Index to insert the *LUT* at into the *LUT* sequence.
-        LUT : LUT1D or LUT2D or LUT3D or AbstractLUTSequenceOperator
+        LUT : LUT1D or LUT3x1D or LUT3D or AbstractLUTSequenceOperator
             *LUT* to insert into the *LUT* sequence.
         """
 
         assert isinstance(
-            LUT, (LUT1D, LUT2D, LUT3D, AbstractLUTSequenceOperator)), (
-                '"LUT" must be an instance of "LUT1D", "LUT2D", "LUT3D" or '
+            LUT, (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)), (
+                '"LUT" must be an instance of "LUT1D", "LUT3x1D", "LUT3D" or '
                 '"AbstractLUTSequenceOperator"!')
 
         self._sequence.insert(index, LUT)
@@ -2350,10 +2354,12 @@ class LUTSequence(MutableSequence):
             onto.
         interpolator_1D : object, optional
             Interpolator object to use as interpolating function for
-            :class:`colour.LUT1D` (and :class:`colour.LUT2D`) class instances.
+            :class:`colour.LUT1D` (and :class:`colour.LUT3x1D`) class
+            instances.
         interpolator_1D_args : dict_like, optional
             Arguments to use when calling the interpolating function for
-            :class:`colour.LUT1D` (and :class:`colour.LUT2D`) class instances.
+            :class:`colour.LUT1D` (and :class:`colour.LUT3x1D`) class
+            instances.
         interpolator_3D : object, optional
             Interpolator object to use as interpolating function for
             :class:`colour.LUT3D` class instances.
@@ -2370,7 +2376,7 @@ class LUTSequence(MutableSequence):
         --------
         >>> LUT_1 = LUT1D(LUT1D.linear_table(16) + 0.125)
         >>> LUT_2 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2))
-        >>> LUT_3 = LUT2D(LUT2D.linear_table(16) * 0.750)
+        >>> LUT_3 = LUT3x1D(LUT3x1D.linear_table(16) * 0.750)
         >>> LUT_sequence = LUTSequence(LUT_1, LUT_2, LUT_3)
         >>> samples = np.linspace(0, 1, 5)
         >>> RGB = tstack([samples, samples, samples])
@@ -2383,7 +2389,7 @@ class LUTSequence(MutableSequence):
         """
 
         for operation in self:
-            if isinstance(operation, (LUT1D, LUT2D)):
+            if isinstance(operation, (LUT1D, LUT3x1D)):
                 RGB = operation.apply(RGB, interpolator_1D,
                                       interpolator_1D_args)
             elif isinstance(operation, LUT3D):

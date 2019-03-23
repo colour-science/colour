@@ -38,7 +38,7 @@ Look Up Table (LUT) Data
     :toctree: generated/
 
     LUT1D
-    LUT2D
+    LUT3x1D
     LUT3D
     LUTSequence
     read_LUT

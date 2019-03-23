@@ -907,8 +907,8 @@ Look Up Table (LUT) Data
 
     >>> LUT = colour.read_LUT('ACES_Proxy_10_to_ACES.cube')
     >>> print(LUT)
-    LUT2D - ACES Proxy 10 to ACES
-    -----------------------------
+    LUT3x1D - ACES Proxy 10 to ACES
+    -------------------------------
     Dimensions : 2
     Domain     : [[0 0 0]
                   [1 1 1]]

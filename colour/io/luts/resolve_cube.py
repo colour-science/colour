@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
+from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import parse_array, path_to_title
 from colour.utilities import as_float_array, tstack
 
@@ -45,8 +45,8 @@ def read_LUT_ResolveCube(path):
 
     Returns
     -------
-    LUT2D or LUT3D or LUTSequence
-        :class:`LUT2D` or :class:`LUT3D` or :class:`LUTSequence` class
+    LUT3x1D or LUT3D or LUTSequence
+        :class:`LUT3x1D` or :class:`LUT3D` or :class:`LUTSequence` class
         instance.
 
     References
@@ -55,15 +55,15 @@ def read_LUT_ResolveCube(path):
 
     Examples
     --------
-    Reading a 2D *Resolve* *.cube* *LUT*:
+    Reading a 3x1D *Resolve* *.cube* *LUT*:
 
     >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'resolve_cube',
     ...     'ACES_Proxy_10_to_ACES.cube')
     >>> print(read_LUT_ResolveCube(path))
-    LUT2D - ACES Proxy 10 to ACES
-    -----------------------------
+    LUT3x1D - ACES Proxy 10 to ACES
+    -------------------------------
     <BLANKLINE>
     Dimensions : 2
     Domain     : [[ 0.  0.  0.]
@@ -90,8 +90,8 @@ def read_LUT_ResolveCube(path):
     ...     os.path.dirname(__file__), 'tests', 'resources', 'resolve_cube',
     ...     'Demo.cube')
     >>> print(read_LUT_ResolveCube(path))
-    LUT2D - Demo
-    ------------
+    LUT3x1D - Demo
+    --------------
     <BLANKLINE>
     Dimensions : 2
     Domain     : [[ 0.  0.  0.]
@@ -101,14 +101,14 @@ def read_LUT_ResolveCube(path):
     """
 
     title = path_to_title(path)
-    size_2D = size_3D = 2
+    size_3x1D = size_3D = 2
     table = []
     comments = []
-    has_2D, has_3D = False, False
+    has_3x1D, has_3D = False, False
 
     with open(path) as cube_file:
         lines = cube_file.readlines()
-        LUT = LUTSequence(LUT2D(), LUT3D())
+        LUT = LUTSequence(LUT3x1D(), LUT3D())
         for line in lines:
             line = line.strip()
 
@@ -129,8 +129,8 @@ def read_LUT_ResolveCube(path):
                 domain = parse_array(tokens[1:])
                 LUT[1].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_1D_SIZE':
-                has_2D = True
-                size_2D = np.int_(tokens[1])
+                has_3x1D = True
+                size_3x1D = np.int_(tokens[1])
             elif tokens[0] == 'LUT_3D_SIZE':
                 has_3D = True
                 size_3D = np.int_(tokens[1])
@@ -138,18 +138,18 @@ def read_LUT_ResolveCube(path):
                 table.append(parse_array(tokens))
 
     table = as_float_array(table)
-    if has_2D and has_3D:
+    if has_3x1D and has_3D:
         LUT[0].name = '{0} - Shaper'.format(title)
         LUT[1].name = '{0} - Cube'.format(title)
         LUT[1].comments = comments
-        LUT[0].table = table[:size_2D]
+        LUT[0].table = table[:size_3x1D]
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        LUT[1].table = table[size_2D:].reshape(
+        LUT[1].table = table[size_3x1D:].reshape(
             (size_3D, size_3D, size_3D, 3), order='F')
         return LUT
-    elif has_2D:
+    elif has_3x1D:
         LUT[0].name = title
         LUT[0].comments = comments
         LUT[0].table = table
@@ -171,8 +171,8 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
 
     Parameters
     ----------
-    LUT : LUT1D or LUT2D or LUT3D or LUTSequence
-        :class:`LUT1D`, :class:`LUT2D` or :class:`LUT3D` or
+    LUT : LUT1D or LUT3x1D or LUT3D or LUTSequence
+        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or
         :class:`LUTSequence` class instance to write at given path.
     path : unicode
         *LUT* path.
@@ -190,12 +190,12 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
 
     Examples
     --------
-    Writing a 2D *Resolve* *.cube* *LUT*:
+    Writing a 3x1D *Resolve* *.cube* *LUT*:
 
     >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.1, -0.1], [3.0, 3.0, 3.0]])
-    >>> LUT = LUT2D(
-    ...     spow(LUT2D.linear_table(16, domain), 1 / 2.2),
+    >>> LUT = LUT3x1D(
+    ...     spow(LUT3x1D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
     ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])
@@ -212,33 +212,33 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
     >>> write_LUT_ResolveCube(LUT, 'My_LUT.cube')  # doctest: +SKIP
     """
 
-    has_3D, has_2D = False, False
+    has_3D, has_3x1D = False, False
 
     if isinstance(LUT, LUTSequence):
-        assert (len(LUT) == 2 and
-                isinstance(LUT[0], (LUT1D, LUT2D)) and isinstance(
-                    LUT[1], LUT3D)), 'LUTSequence must be 1D + 3D or 2D + 3D!'
+        assert (len(LUT) == 2 and isinstance(LUT[0], (LUT1D, LUT3x1D)) and
+                isinstance(LUT[1], LUT3D)), (
+                    'LUTSequence must be 1D + 3D or 3x1D + 3D!')
 
         if isinstance(LUT[0], LUT1D):
-            LUT[0] = LUT[0].as_LUT(LUT2D)
+            LUT[0] = LUT[0].as_LUT(LUT3x1D)
 
-        has_2D = True
+        has_3x1D = True
         has_3D = True
         name = LUT[1].name
     elif isinstance(LUT, LUT1D):
         name = LUT.name
-        LUT = LUTSequence(LUT.as_LUT(LUT2D), LUT3D())
-        has_2D = True
-    elif isinstance(LUT, LUT2D):
+        LUT = LUTSequence(LUT.as_LUT(LUT3x1D), LUT3D())
+        has_3x1D = True
+    elif isinstance(LUT, LUT3x1D):
         name = LUT.name
         LUT = LUTSequence(LUT, LUT3D())
-        has_2D = True
+        has_3x1D = True
     elif isinstance(LUT, LUT3D):
         name = LUT.name
-        LUT = LUTSequence(LUT2D(), LUT)
+        LUT = LUTSequence(LUT3x1D(), LUT)
         has_3D = True
     else:
-        raise ValueError('LUT must be 1D, 2D, 3D, 1D + 3D or 2D + 3D!')
+        raise ValueError('LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!')
 
     for i in range(2):
         assert not LUT[i].is_domain_explicit(), (
@@ -247,7 +247,7 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
     assert (len(np.unique(LUT[0].domain)) == 2 and
             len(np.unique(LUT[1].domain)) == 2), 'LUT domain must be 1D!'
 
-    if has_2D:
+    if has_3x1D:
         assert 2 <= LUT[0].size <= 65536, (
             'Shaper size must be in domain [2, 65536]!')
     if has_3D:
@@ -281,7 +281,7 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
 
-        if has_2D:
+        if has_3x1D:
             cube_file.write('{0} {1}\n'.format('LUT_1D_SIZE',
                                                LUT[0].table.shape[0]))
             if not np.array_equal(LUT[0].domain, default_domain):
@@ -295,7 +295,7 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
                 cube_file.write('LUT_3D_INPUT_RANGE {0}\n'.format(
                     _format_tuple([LUT[1].domain[0][0], LUT[1].domain[1][0]])))
 
-        if has_2D:
+        if has_3x1D:
             table = LUT[0].table
             for row in table:
                 cube_file.write('{0}\n'.format(_format_array(row)))

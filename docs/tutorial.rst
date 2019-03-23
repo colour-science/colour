@@ -191,7 +191,7 @@ The various sub-packages also expose their public API:
     ['SpectralDistribution_IESTM2714',
      'AbstractLUTSequenceOperator',
      'LUT1D',
-     'LUT2D',
+     'LUT3x1D',
      'LUT3D',
      '...']
 
