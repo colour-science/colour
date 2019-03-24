@@ -10,8 +10,8 @@ API but is a good introduction to the main concepts.
 
     A directory with examples is available at this path in
     `Colour <https://github.com/colour-science/Colour/>`__ installation:
-    *colour/examples*. It can be explored directly on Github:
-    https://github.com/colour-science/colour/tree/master/colour/examples
+    *colour/examples*. It can also be explored directly on
+    `Github <https://github.com/colour-science/colour/tree/master/colour/examples>`__.
 
 
 .. code:: python
@@ -681,7 +681,7 @@ The returned shape is an instance of the ``colour.SpectralShape`` class:
     'SpectralShape(380.0, 780.0, 5.0)'
 
 
-``colour.SpectralShape`` is used throughout
+The ``colour.SpectralShape`` class is used throughout
 `Colour <https://github.com/colour-science/Colour/>`__ to define
 spectral dimensions and is instantiated as follows:
 
@@ -801,15 +801,15 @@ arithmetical operations:
 
 .. code:: python
 
-    spd1 = colour.sd_ones()
+    sd1 = colour.sd_ones()
     print('"Ones Filled Spectral Distribution"')
-    print(spd1[400])
+    print(sd1[400])
 
     print('\n"x2 Constant Multiplied"')
-    print((spd1 * 2)[400])
+    print((sd1 * 2)[400])
 
     print('\n"+ Spectral Distribution"')
-    print((spd1 + colour.sd_ones())[400])
+    print((sd1 + colour.sd_ones())[400])
 
 
 .. code-block:: text
@@ -897,7 +897,7 @@ appropriate quantity in truncation :cite:`CIETC1-482004h`:
 
 
 The underlying interpolator can be swapped for any of the
-`Colour <https://github.com/colour-science/Colour/>`__ interpolators.
+`Colour <https://github.com/colour-science/Colour/>`__ interpolators:
 
 .. code:: python
 
@@ -1164,8 +1164,8 @@ computations are available, expanding to even more computations:
      'XYZ_to_sd']
 
 
-Convert to Screen Colours
--------------------------
+Convert to Display Colours
+--------------------------
 
 *CIE XYZ* tristimulus values can be converted into *sRGB* colourspace *RGB*
 values in order to display them on screen:
@@ -1253,7 +1253,8 @@ convenient plotting object to draw synthetic colour rendition charts figures:
 
 .. code:: python
 
-    plot_single_colour_checker(colour_checker='ColorChecker 2005', text_parameters={'visible': False})
+    plot_single_colour_checker(
+        colour_checker='ColorChecker 2005', text_parameters={'visible': False})
 
 
 .. image:: _static/Tutorial_Colour_Checker.png
@@ -1314,6 +1315,6 @@ And More...
 -----------
 
 With the hope that this small introduction was useful and gave envy to see more,
-a good place to explore the API further more is the
+a good place to explore the API further is the
 `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
 page.

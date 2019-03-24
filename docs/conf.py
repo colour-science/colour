@@ -371,7 +371,7 @@ epub_exclude_files = ['search.html']
 
 autoclass_content = 'both'
 
-intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None)}
+intersphinx_mapping = {'python': ('https://docs.python.org/3.7', None)}
 
 
 def _autodoc_process_docstring(app, what, name, obj, options, lines):
