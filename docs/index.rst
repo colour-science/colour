@@ -21,8 +21,7 @@ branch are available at this
 Features
 --------
 
-`Colour <https://github.com/colour-science/colour>`_ features a rich dataset
-and collection of objects, please see the
+**Colour** features a rich dataset and collection of objects, please see the
 `features <https://www.colour-science.org/features/>`_ page for more
 information.
 
@@ -30,9 +29,8 @@ Installation
 ------------
 
 `Anaconda <https://www.continuum.io/downloads>`_ from *Continuum Analytics*
-is the Python distribution we use to develop **Colour**:
-it ships all the scientific dependencies we require and is easily deployed
-cross-platform:
+is the Python distribution we use to develop **Colour**: it ships all the
+scientific dependencies we require and is easily deployed cross-platform:
 
 .. code-block:: bash
 
@@ -40,7 +38,9 @@ cross-platform:
     $ source activate python-colour
     $ conda install -y -c conda-forge colour-science
 
-**Colour** can be easily installed from the `Python Package Index <https://pypi.python.org/pypi/colour-science/>`_ by issuing this command in a shell:
+**Colour** can be easily installed from the
+`Python Package Index <https://pypi.python.org/pypi/colour-science/>`_
+by issuing this command in a shell:
 
 .. code-block:: bash
 
@@ -52,13 +52,13 @@ The detailed installation procedure is described in the
 Try Online
 ----------
 
-`Colour <https://github.com/colour-science/colour>`_ can also be tried online
-with `Google Colab <https://drive.google.com/file/d/1Im9J7or9qyClQCv5sPHmKdyiQbG4898K/view?usp=sharing>`__.
+**Colour** can be used online with
+`Google Colab <https://drive.google.com/file/d/1Im9J7or9qyClQCv5sPHmKdyiQbG4898K/view?usp=sharing>`__.
 
 Usage
 -----
 
-The two main references for `Colour <https://github.com/colour-science/colour>`_
+The two main references for **Colour**
 usage are the `Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`_
 and the `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
 with detailed historical and theoretical context and images.
@@ -1021,8 +1021,8 @@ Colour Rendering Index
 Contributing
 ------------
 
-If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_,
-please refer to the following `Contributing <https://www.colour-science.org/contributing>`_ guide.
+If you would like to contribute to **Colour**, please refer to the following
+`Contributing <https://www.colour-science.org/contributing>`_ guide.
 
 Changes
 -------
