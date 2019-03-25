@@ -8,9 +8,8 @@ API but is a good introduction to the main concepts.
 
 .. note::
 
-    A directory with examples is available at this path in
-    `Colour <https://github.com/colour-science/Colour/>`__ installation:
-    *colour/examples*. It can also be explored directly on
+    A directory with examples is available at this path in **Colour**
+    installation: *colour/examples*. It can also be explored directly on
     `Github <https://github.com/colour-science/colour/tree/master/colour/examples>`__.
 
 
@@ -29,8 +28,7 @@ API but is a good introduction to the main concepts.
 Overview
 --------
 
-`Colour <https://github.com/colour-science/Colour/>`__ is organised
-around various sub-packages:
+**Colour** is organised around various sub-packages:
 
 -  :doc:`adaptation <colour.adaptation>`: Chromatic adaptation models and transformations.
 -  :doc:`algebra <colour.algebra>`: Algebra utilities.
@@ -317,9 +315,8 @@ The codebase is documented and most docstrings have usage examples:
     array([ 0.1977999...,  0.3122004...])
 
 
-At the core of `Colour <https://github.com/colour-science/Colour/>`__ is
-the ``colour.colorimetry`` sub-package, it defines the objects needed
-for spectral computations and many others:
+At the core of **Colour** is the ``colour.colorimetry`` sub-package, it defines
+the objects needed for spectral computations and many others:
 
 .. code:: python
 
@@ -429,9 +426,9 @@ for spectral computations and many others:
      'yellowness_ASTME313']
 
 
-`Colour <https://github.com/colour-science/Colour/>`__ computations
-leverage a comprehensive dataset available in most sub-packages, for example
-the ``colour.colorimetry.dataset`` defines the following components:
+**Colour** computations leverage a comprehensive dataset available in most
+sub-packages, for example the ``colour.colorimetry.dataset`` defines the
+following components:
 
 .. code:: python
 
@@ -681,8 +678,7 @@ The returned shape is an instance of the ``colour.SpectralShape`` class:
     'SpectralShape(380.0, 780.0, 5.0)'
 
 
-The ``colour.SpectralShape`` class is used throughout
-`Colour <https://github.com/colour-science/Colour/>`__ to define
+The ``colour.SpectralShape`` class is used throughout **Colour** to define
 spectral dimensions and is instantiated as follows:
 
 .. code:: python
@@ -719,8 +715,8 @@ spectral dimensions and is instantiated as follows:
              9. ,   9.5,  10. ])
 
 
-`Colour <https://github.com/colour-science/Colour/>`__ defines three
-convenient objects to create constant spectral distributions:
+**Colour** defines three convenient objects to create constant spectral
+distributions:
 
 -  ``colour.sd_constant``
 -  ``colour.sd_zeros``
@@ -896,8 +892,8 @@ appropriate quantity in truncation :cite:`CIETC1-482004h`:
     (0.065000000000000002, 0.44800000000000018)
 
 
-The underlying interpolator can be swapped for any of the
-`Colour <https://github.com/colour-science/Colour/>`__ interpolators:
+The underlying interpolator can be swapped for any of the **Colour**
+interpolators:
 
 .. code:: python
 
@@ -1248,8 +1244,8 @@ various colour rendition charts:
 .. image:: _static/Tutorial_Neutral5.png
 
 
-`Colour <https://github.com/colour-science/Colour/>`__ defines a
-convenient plotting object to draw synthetic colour rendition charts figures:
+**Colour** defines a convenient plotting object to draw synthetic colour
+rendition charts figures:
 
 .. code:: python
 
