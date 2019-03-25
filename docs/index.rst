@@ -1,14 +1,14 @@
 Colour Science for Python
 =========================
 
-..  image:: _static/Logo_Medium_001.png
-
 `Colour <https://github.com/colour-science/colour>`_ is a
 `Python <https://www.python.org/>`_ colour science package implementing a
 comprehensive number of colour theory transformations and algorithms.
 
 It is open source and freely available under the
 `New BSD License <http://opensource.org/licenses/BSD-3-Clause>`_ terms.
+
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_Tight_001.png
 
 Draft Release Notes
 -------------------
@@ -49,11 +49,11 @@ cross-platform:
 The detailed installation procedure is described in the
 `Installation Guide <https://www.colour-science.org/installation-guide/>`_.
 
-Online
-------
+Try Online
+----------
 
-`Colour <https://github.com/colour-science/colour>`_ is also available directly
-online with `Google Colab <https://drive.google.com/file/d/1Im9J7or9qyClQCv5sPHmKdyiQbG4898K/view?usp=sharing>`__.
+`Colour <https://github.com/colour-science/colour>`_ can also be tried online
+with `Google Colab <https://drive.google.com/file/d/1Im9J7or9qyClQCv5sPHmKdyiQbG4898K/view?usp=sharing>`__.
 
 Usage
 -----
