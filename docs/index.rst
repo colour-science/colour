@@ -10,6 +10,12 @@ It is open source and freely available under the
 
 ..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_Tight_001.png
 
+.. contents:: **Table of Contents**
+    :backlinks: none
+    :depth: 3
+
+.. sectnum::
+
 Draft Release Notes
 -------------------
 
