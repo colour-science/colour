@@ -88,7 +88,7 @@ Try Online
 ----------
 
 **Colour** can be used online with
-`Google Colab <https://drive.google.com/file/d/1Im9J7or9qyClQCv5sPHmKdyiQbG4898K/view?usp=sharing>`__.
+`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
 
 Usage
 -----
