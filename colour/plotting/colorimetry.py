@@ -65,6 +65,8 @@ __all__ = [
 def plot_single_sd(sd,
                    cmfs='CIE 1931 2 Degree Standard Observer',
                    out_of_gamut_clipping=True,
+                   modulate_colours_with_sd_amplitude=False,
+                   equalize_sd_amplitude=False,
                    **kwargs):
     """
     Plots given spectral distribution.
@@ -77,6 +79,15 @@ def plot_single_sd(sd,
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother.
+    modulate_colours_with_sd_amplitude : bool, optional
+        Whether to modulate the colours with the spectral distribution
+        amplitude.
+    equalize_sd_amplitude : bool, optional
+        Whether to equalize the spectral distribution amplitude.
+        Equalization occurs after the colours modulation thus setting both
+        arguments to *True* will generate a spectrum strip where each
+        wavelength colour is modulated by the spectral distribution amplitude.
+        The usual 5% margin above the spectral distribution is also omitted.
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
 
@@ -134,11 +145,20 @@ def plot_single_sd(sd,
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf(
-        normalise_maximum(colours))
+    colours = normalise_maximum(colours)
+
+    if modulate_colours_with_sd_amplitude:
+        colours *= (values / np.max(values))[..., np.newaxis]
+
+    colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf(colours)
+
+    if equalize_sd_amplitude:
+        values = np.ones(values.shape)
+
+    margin = 0 if equalize_sd_amplitude else 0.05
 
     x_min, x_max = min(wavelengths), max(wavelengths)
-    y_min, y_max = 0, max(values) + max(values) * 0.05
+    y_min, y_max = 0, max(values) + max(values) * margin
 
     polygon = Polygon(
         np.vstack([
