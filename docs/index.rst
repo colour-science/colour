@@ -822,7 +822,9 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> colour.colour_quality_scale(colour.ILLUMINANTS_SDS['FL2'])
-    64.686416902221609
+    64.017283509280588
+    >>> colour.COLOUR_QUALITY_SCALE_METHODS
+    ('NIST CQS 7.4', 'NIST CQS 9.0')
 
 Colour Quality Scale
 ********************

@@ -134,7 +134,8 @@ from .phenomena import (rayleigh_scattering, scattering_cross_section,
 from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
                        munsell_colour_to_xyY, munsell_value,
                        xyY_to_munsell_colour)
-from .quality import colour_quality_scale, colour_rendering_index
+from .quality import (COLOUR_QUALITY_SCALE_METHODS, colour_quality_scale,
+                      colour_rendering_index)
 from .recovery import XYZ_TO_SD_METHODS, XYZ_to_sd
 from .temperature import (CCT_TO_UV_METHODS, CCT_TO_XY_METHODS, CCT_to_uv,
                           CCT_to_xy, UV_TO_CCT_METHODS, XY_TO_CCT_METHODS,
@@ -264,7 +265,10 @@ __all__ += [
     'MUNSELL_COLOURS', 'MUNSELL_VALUE_METHODS', 'munsell_colour_to_xyY',
     'munsell_value', 'xyY_to_munsell_colour'
 ]
-__all__ += ['colour_quality_scale', 'colour_rendering_index']
+__all__ += [
+    'COLOUR_QUALITY_SCALE_METHODS', 'colour_quality_scale',
+    'colour_rendering_index'
+]
 __all__ += ['XYZ_TO_SD_METHODS', 'XYZ_to_sd']
 __all__ += [
     'CCT_TO_UV_METHODS', 'CCT_TO_XY_METHODS', 'CCT_to_uv', 'CCT_to_xy',
