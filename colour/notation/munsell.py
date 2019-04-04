@@ -26,7 +26,7 @@ Defines various objects for *Munsell Renotation System* computations:
     :math:`V` computation of given *luminance* :math:`Y` using
     *ASTM D1535-08e1* method.
 -   :attr:`colour.MUNSELL_VALUE_METHODS`: Supported *Munsell* value
-    computations methods.
+    computation methods.
 -   :func:`colour.munsell_value`: *Munsell* value :math:`V` computation of
     given *luminance* :math:`Y` using given method.
 -   :func:`colour.munsell_colour_to_xyY`
@@ -644,7 +644,7 @@ MUNSELL_VALUE_METHODS = CaseInsensitiveMapping({
     'ASTM D1535-08': munsell_value_ASTMD153508
 })
 MUNSELL_VALUE_METHODS.__doc__ = """
-Supported *Munsell* value computations methods.
+Supported *Munsell* value computation methods.
 
 References
 ----------

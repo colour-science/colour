@@ -160,7 +160,7 @@ YELLOWNESS_METHODS = CaseInsensitiveMapping({
     'ASTM E313': yellowness_ASTME313
 })
 YELLOWNESS_METHODS.__doc__ = """
-Supported *yellowness* computations methods.
+Supported *yellowness* computation methods.
 
 References
 ----------
