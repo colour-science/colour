@@ -37,7 +37,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['VS_APPROXIMATE_MUNSELL_NOTATIONS', 'VS_SDS_DATA', 'VS_SDS']
+__all__ = [
+    'VS_INDEXES_TO_NAMES', 'VS_APPROXIMATE_MUNSELL_NOTATIONS', 'VS_SDS_DATA',
+    'VS_SDS'
+]
 
 VS_INDEXES_TO_NAMES = {
     1: 'VS1',
