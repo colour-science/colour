@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 CQS Test Colour Samples Spectral Distributions
-====================================================
+==============================================
 
 Defines the *CQS (Color Quality Scale)* test colour samples spectral
 distributions.
