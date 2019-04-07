@@ -221,7 +221,7 @@ def xyY_to_xy(xyY):
 def xy_to_xyY(xy, Y=1):
     """
     Converts from *xy* chromaticity coordinates to *CIE xyY* colourspace by
-    extending the array last dimension with :math:`Y` Luminance.
+    extending the array last dimension with given :math:`Y` *luminance*.
 
     ``xy`` argument with last dimension being equal to 3 will be assumed to be
     a *CIE xyY* colourspace array argument and will be returned directly by the
@@ -232,8 +232,8 @@ def xy_to_xyY(xy, Y=1):
     xy : array_like
         *xy* chromaticity coordinates or *CIE xyY* colourspace array.
     Y : numeric, optional
-        Optional :math:`Y` Luminance value used to construct the *CIE xyY*
-        colourspace array, otherwise the :math:`Y` Luminance will be set to 1.
+        Optional :math:`Y` *luminance* value used to construct the *CIE xyY*
+        colourspace array, the default :math:`Y` *luminance* value is 1.
 
     Returns
     -------

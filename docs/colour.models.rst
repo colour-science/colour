@@ -50,6 +50,7 @@ CIE L*u*v* Colourspace
     Luv_to_LCHuv
     LCHuv_to_Luv
     Luv_to_uv
+    uv_to_Luv
     Luv_uv_to_xy
     xy_to_Luv_uv
 
@@ -66,6 +67,7 @@ CIE 1960 UCS Colourspace
     XYZ_to_UCS
     UCS_to_XYZ
     UCS_to_uv
+    uv_to_UCS
     UCS_uv_to_xy
     xy_to_UCS_uv
 

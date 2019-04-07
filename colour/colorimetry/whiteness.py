@@ -445,7 +445,7 @@ WHITENESS_METHODS = CaseInsensitiveMapping({
     'CIE 2004': whiteness_CIE2004
 })
 WHITENESS_METHODS.__doc__ = """
-Supported *whiteness* computations methods.
+Supported *whiteness* computation methods.
 
 References
 ----------
