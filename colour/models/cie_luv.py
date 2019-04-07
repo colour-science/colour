@@ -8,6 +8,7 @@ Defines the *CIE L\\*u\\*v\\** colourspace transformations:
 -   :func:`colour.XYZ_to_Luv`
 -   :func:`colour.Luv_to_XYZ`
 -   :func:`colour.Luv_to_uv`
+-   :func:`colour.uv_to_Luv`
 -   :func:`colour.Luv_uv_to_xy`
 -   :func:`colour.xy_to_Luv_uv`
 -   :func:`colour.Luv_to_LCHuv`
@@ -41,6 +42,7 @@ import numpy as np
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import (ILLUMINANTS, lightness_CIE1976,
                                 luminance_CIE1976)
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
                               from_range_degrees, to_domain_1, to_domain_100,
@@ -54,8 +56,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'XYZ_to_Luv', 'Luv_to_XYZ', 'Luv_to_uv', 'Luv_uv_to_xy', 'xy_to_Luv_uv',
-    'Luv_to_LCHuv', 'LCHuv_to_Luv'
+    'XYZ_to_Luv', 'Luv_to_XYZ', 'Luv_to_uv', 'uv_to_Luv', 'Luv_uv_to_xy',
+    'xy_to_Luv_uv', 'Luv_to_LCHuv', 'LCHuv_to_Luv'
 ]
 
 
@@ -255,6 +257,68 @@ def Luv_to_uv(
     uv = tstack([4 * X / (X + 15 * Y + 3 * Z), 9 * Y / (X + 15 * Y + 3 * Z)])
 
     return uv
+
+
+def uv_to_Luv(
+        uv,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+        Y=1):
+    """
+    Returns the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
+    chromaticity coordinates by extending the array last dimension with given
+    :math:`L` *Lightness*.
+
+    Parameters
+    ----------
+    uv : array_like
+        :math:`uv^p` chromaticity coordinates.
+    illuminant : array_like, optional
+        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
+    Y : numeric, optional
+        Optional :math:`Y` *luminance* value used to construct the intermediate
+        *CIE XYZ* colourspace array, the default :math:`Y` *luminance* value is
+        1.
+
+    Returns
+    -------
+    ndarray
+        *CIE L\\*u\\*v\\** colourspace array.
+
+    Notes
+    -----
+
+    +----------------+-----------------------+-----------------+
+    | **Range**      | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``Luv``        | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |                |                       |                 |
+    |                | ``u`` : [-100, 100]   | ``u`` : [-1, 1] |
+    |                |                       |                 |
+    |                | ``v`` : [-100, 100]   | ``v`` : [-1, 1] |
+    +----------------+-----------------------+-----------------+
+    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+
+    References
+    ----------
+    :cite:`CIETC1-482004j`
+
+    Examples
+    --------
+    >>> uv = np.array([0.37720213, 0.50120264])
+    >>> uv_to_Luv(uv)  # doctest: +ELLIPSIS
+    array([ 100.        ,  233.1837603...,   42.7474385...])
+    """
+
+    u, v = tsplit(uv)
+    Y = to_domain_1(Y)
+
+    X = 9 * u / (4 * v)
+    Z = (-5 * Y * v - 3 * u / 4 + 3) / v
+    Y = np.full(u.shape, Y, DEFAULT_FLOAT_DTYPE)
+
+    return XYZ_to_Luv(from_range_1(tstack([X, Y, Z])), illuminant)
 
 
 def Luv_uv_to_xy(uv):

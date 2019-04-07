@@ -121,8 +121,8 @@ from .models import (
     hdr_IPT_to_XYZ, legal_to_full, linear_function, log_decoding_curve,
     log_encoding_curve, normalised_primary_matrix, oetf, oetf_reverse, ootf,
     ootf_reverse, primaries_whitepoint, sd_to_aces_relative_exposure_values,
-    sRGB_to_XYZ, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ,
-    xy_to_xyY)
+    sRGB_to_XYZ, uv_to_Luv, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv,
+    xy_to_XYZ, xy_to_xyY)
 from .corresponding import (BRENEMAN_EXPERIMENTS,
                             BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
@@ -248,8 +248,9 @@ __all__ += [
     'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full', 'linear_function',
     'log_decoding_curve', 'log_encoding_curve', 'normalised_primary_matrix',
     'oetf', 'oetf_reverse', 'ootf', 'ootf_reverse', 'primaries_whitepoint',
-    'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'xyY_to_XYZ',
-    'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ', 'xy_to_xyY'
+    'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'uv_to_Luv',
+    'xyY_to_XYZ', 'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ',
+    'xy_to_xyY'
 ]
 __all__ += [
     'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
