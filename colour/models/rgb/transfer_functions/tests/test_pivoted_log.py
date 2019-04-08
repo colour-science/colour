@@ -50,9 +50,7 @@ log_encoding_PivotedLog` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = 0.434995112414467
-        np.testing.assert_almost_equal(
-            log_encoding_PivotedLog(x), y, decimal=7)
+        y = log_encoding_PivotedLog(x)
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
@@ -122,9 +120,7 @@ log_decoding_PivotedLog` definition n-dimensional arrays support.
         """
 
         y = 0.434995112414467
-        x = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_PivotedLog(y), x, decimal=7)
+        x = log_decoding_PivotedLog(y)
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)

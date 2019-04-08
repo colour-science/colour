@@ -77,15 +77,13 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.XYZ_to_Luv` definition n-dimensions
+        Tests :func:`colour.models.cie_luv.XYZ_to_Luv` definition n-dimensional
         support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         illuminant = np.array([0.31270, 0.32900])
-        Luv = np.array([41.52787529, 96.83626054, 17.75210149])
-        np.testing.assert_almost_equal(
-            XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7)
+        Luv = XYZ_to_Luv(XYZ, illuminant)
 
         XYZ = np.tile(XYZ, (6, 1))
         Luv = np.tile(Luv, (6, 1))
@@ -183,15 +181,13 @@ class TestLuv_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_Luv_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_XYZ` definition n-dimensions
+        Tests :func:`colour.models.cie_luv.Luv_to_XYZ` definition n-dimensional
         support.
         """
 
         Luv = np.array([41.52787529, 96.83626054, 17.75210149])
         illuminant = np.array([0.31270, 0.32900])
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        np.testing.assert_almost_equal(
-            Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7)
+        XYZ = Luv_to_XYZ(Luv, illuminant)
 
         Luv = np.tile(Luv, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
@@ -289,15 +285,13 @@ class TestLuv_to_uv(unittest.TestCase):
 
     def test_n_dimensional_Luv_to_uv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_uv` definition n-dimensions
+        Tests :func:`colour.models.cie_luv.Luv_to_uv` definition n-dimensional
         support.
         """
 
         Luv = np.array([41.52787529, 96.83626054, 17.75210149])
         illuminant = np.array([0.31270, 0.32900])
-        uv = np.array([0.37720213, 0.50120264])
-        np.testing.assert_almost_equal(
-            Luv_to_uv(Luv, illuminant), uv, decimal=7)
+        uv = Luv_to_uv(Luv, illuminant)
 
         Luv = np.tile(Luv, (6, 1))
         uv = np.tile(uv, (6, 1))
@@ -398,15 +392,13 @@ class Testuv_to_Luv(unittest.TestCase):
 
     def test_n_dimensional_uv_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.uv_to_Luv` definition n-dimensions
+        Tests :func:`colour.models.cie_luv.uv_to_Luv` definition n-dimensional
         support.
         """
 
         uv = np.array([0.37720213, 0.50120264])
         illuminant = np.array([0.31270, 0.32900])
-        Luv = np.array([100.00000000, 233.18376036, 42.74743858])
-        np.testing.assert_almost_equal(
-            uv_to_Luv(uv, illuminant), Luv, decimal=7)
+        Luv = uv_to_Luv(uv, illuminant)
 
         uv = np.tile(uv, (6, 1))
         Luv = np.tile(Luv, (6, 1))
@@ -489,8 +481,7 @@ class TestLuv_uv_to_xy(unittest.TestCase):
         """
 
         uv = np.array([0.37720213, 0.50120264])
-        xy = np.array([0.54369558, 0.32107944])
-        np.testing.assert_almost_equal(Luv_uv_to_xy(uv), xy, decimal=7)
+        xy = Luv_uv_to_xy(uv)
 
         uv = np.tile(uv, (6, 1))
         xy = np.tile(xy, (6, 1))
@@ -547,8 +538,7 @@ class TestXy_to_Luv_uv(unittest.TestCase):
         """
 
         xy = np.array([0.54369558, 0.32107944])
-        uv = np.array([0.37720213, 0.50120264])
-        np.testing.assert_almost_equal(xy_to_Luv_uv(xy), uv, decimal=7)
+        uv = xy_to_Luv_uv(xy)
 
         xy = np.tile(xy, (6, 1))
         uv = np.tile(uv, (6, 1))
@@ -605,8 +595,7 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         """
 
         Luv = np.array([41.52787529, 96.83626054, 17.75210149])
-        LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
-        np.testing.assert_almost_equal(Luv_to_LCHuv(Luv), LCHuv, decimal=7)
+        LCHuv = Luv_to_LCHuv(Luv)
 
         Luv = np.tile(Luv, (6, 1))
         LCHuv = np.tile(LCHuv, (6, 1))
@@ -679,8 +668,7 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         """
 
         LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
-        Luv = np.array([41.52787529, 96.83626054, 17.75210149])
-        np.testing.assert_almost_equal(LCHuv_to_Luv(LCHuv), Luv, decimal=7)
+        Luv = LCHuv_to_Luv(LCHuv)
 
         Luv = np.tile(Luv, (6, 1))
         LCHuv = np.tile(LCHuv, (6, 1))

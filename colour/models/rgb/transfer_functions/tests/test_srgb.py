@@ -47,8 +47,7 @@ oetf_sRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.461356129500442
-        np.testing.assert_almost_equal(oetf_sRGB(L), V, decimal=7)
+        V = oetf_sRGB(L)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
@@ -113,8 +112,7 @@ oetf_reverse_sRGB` definition n-dimensional arrays support.
         """
 
         V = 0.461356129500442
-        L = 0.18
-        np.testing.assert_almost_equal(oetf_reverse_sRGB(V), L, decimal=7)
+        L = oetf_reverse_sRGB(V)
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)

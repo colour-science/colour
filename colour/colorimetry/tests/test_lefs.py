@@ -155,15 +155,14 @@ class TestMesopicWeightingFunction(unittest.TestCase):
             0.00410200,
             places=7)
 
-    def test_n_dimensional_planck_law(self):
+    def test_n_dimensional_mesopic_weighting_function(self):
         """
         Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function`
         definition n-dimensional arrays support.
         """
 
         wl = 500
-        Vm = 0.70522000
-        np.testing.assert_almost_equal(mesopic_weighting_function(wl, 0.2), Vm)
+        Vm = mesopic_weighting_function(wl, 0.2)
 
         wl = np.tile(wl, 6)
         Vm = np.tile(Vm, 6)

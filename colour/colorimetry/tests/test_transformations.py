@@ -67,9 +67,7 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        XYZ = np.array([0.01135774, 0.00410200, 0.00000000])
-        np.testing.assert_almost_equal(
-            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        XYZ = RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
@@ -133,9 +131,7 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        XYZ = np.array([9.64321500e-03, 3.75263179e-03, -4.10788300e-06])
-        np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
+        XYZ = RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
@@ -199,9 +195,7 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        LMS = np.array([0.00528607, 0.00032528, 0.00000000])
-        np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS)
+        LMS = RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl)
 
         wl = np.tile(wl, 6)
         LMS = np.tile(LMS, (6, 1))
@@ -265,9 +259,7 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        XYZ = np.array([0.01096778, 0.00419594, 0.00000000])
-        np.testing.assert_almost_equal(
-            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        XYZ = LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
@@ -331,9 +323,7 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        XYZ = np.array([0.00981623, 0.00377614, 0.00000000])
-        np.testing.assert_almost_equal(
-            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
+        XYZ = LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))

@@ -62,9 +62,7 @@ class TestYellownessASTMD1925(unittest.TestCase):
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        YI = 10.299999999999997
-        np.testing.assert_almost_equal(
-            yellowness_ASTMD1925(XYZ), YI, decimal=7)
+        YI = yellowness_ASTMD1925(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         YI = np.tile(YI, 6)
@@ -142,8 +140,7 @@ class TestYellownessASTM313(unittest.TestCase):
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        YI = 11.065000000000003
-        np.testing.assert_almost_equal(yellowness_ASTME313(XYZ), YI, decimal=7)
+        YI = yellowness_ASTME313(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         YI = np.tile(YI, 6)

@@ -70,8 +70,7 @@ log_encoding_SLog` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = 0.384970815928670
-        np.testing.assert_almost_equal(log_encoding_SLog(x), y, decimal=7)
+        y = log_encoding_SLog(x)
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
@@ -149,8 +148,7 @@ log_decoding_SLog` definition n-dimensional arrays support.
         """
 
         y = 0.384970815928670
-        x = 0.18
-        np.testing.assert_almost_equal(log_decoding_SLog(y), x, decimal=7)
+        x = log_decoding_SLog(y)
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
@@ -228,8 +226,7 @@ log_encoding_SLog2` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = 0.339532524633774
-        np.testing.assert_almost_equal(log_encoding_SLog2(x), y, decimal=7)
+        y = log_encoding_SLog2(x)
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
@@ -307,8 +304,7 @@ log_decoding_SLog2` definition n-dimensional arrays support.
         """
 
         y = 0.339532524633774
-        x = 0.18
-        np.testing.assert_almost_equal(log_decoding_SLog2(y), x, decimal=7)
+        x = log_decoding_SLog2(y)
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
@@ -386,8 +382,7 @@ log_encoding_SLog3` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = 0.41055718475073
-        np.testing.assert_almost_equal(log_encoding_SLog3(x), y, decimal=7)
+        y = log_encoding_SLog3(x)
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
@@ -465,8 +460,7 @@ log_decoding_SLog3` definition n-dimensional arrays support.
         """
 
         y = 0.41055718475073
-        x = 0.18
-        np.testing.assert_almost_equal(log_decoding_SLog3(y), x, decimal=7)
+        x = log_decoding_SLog3(y)
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)

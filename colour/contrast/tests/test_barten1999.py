@@ -54,14 +54,12 @@ class TestOpticalMTFBarten1999(unittest.TestCase):
     def test_n_dimensional_optical_MTF_Barten1999(self):
         """
         Tests :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
-        definition n-dimensions support.
+        definition n-dimensional support.
         """
 
         u = np.array([4, 8, 12])
         sigma = np.array([0.01, 0.05, 0.1])
-        M_opt = np.array([9.6891079e-01, 4.2499056e-02, 4.5228645e-13])
-        np.testing.assert_almost_equal(
-            optical_MTF_Barten1999(u, sigma), M_opt, decimal=7)
+        M_opt = optical_MTF_Barten1999(u, sigma)
 
         u = np.tile(u, (6, 1))
         sigma = np.tile(sigma, (6, 1))
@@ -114,15 +112,13 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
     def test_n_dimensional_pupil_diameter_Barten1999(self):
         """
         Tests :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
-        definition n-dimensions support.
+        definition n-dimensional support.
         """
 
         L = np.array([0.2, 20, 100])
         X_0 = np.array([60, 120, 240])
         Y_0 = np.array([60, 30, 15])
-        d = np.array([5.92690125, 2.27251712, 2.07775713])
-        np.testing.assert_almost_equal(
-            pupil_diameter_Barten1999(L, X_0, Y_0), d, decimal=7)
+        d = pupil_diameter_Barten1999(L, X_0, Y_0)
 
         L = np.tile(L, (6, 1))
         X_0 = np.tile(X_0, (6, 1))
@@ -184,15 +180,13 @@ class TestSigmaBarten1999(unittest.TestCase):
     def test_n_dimensional_sigma_Barten1999(self):
         """
         Tests :func:`colour.contrast.barten1999.sigma_Barten1999` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         sigma_0 = np.array([0.25 / 60, 0.5 / 60, 0.75 / 60])
         C_ab = np.array([0.04 / 60, 0.08 / 60, 0.16 / 60])
         d = np.array([2.1, 2.5, 5.0])
-        sigma = np.array([0.00439558, 0.00897527, 0.01827643])
-        np.testing.assert_almost_equal(
-            sigma_Barten1999(sigma_0, C_ab, d), sigma, decimal=7)
+        sigma = sigma_Barten1999(sigma_0, C_ab, d)
 
         sigma_0 = np.tile(sigma_0, (6, 1))
         C_ab = np.tile(C_ab, (6, 1))
@@ -249,14 +243,12 @@ class TestRetinalIlluminanceBarten1999(unittest.TestCase):
     def test_n_dimensional_retinal_illuminance_Barten1999(self):
         """
         Tests :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
-        definition n-dimensions support.
+        definition n-dimensional support.
         """
 
         L = np.array([0.2, 20, 100])
         d = np.array([2.1, 2.5, 5.0])
-        E = np.array([0.66082316, 91.81564478, 1493.69535909])
-        np.testing.assert_almost_equal(
-            retinal_illuminance_Barten1999(L, d), E, decimal=7)
+        E = retinal_illuminance_Barten1999(L, d)
 
         L = np.tile(L, (6, 1))
         d = np.tile(d, (6, 1))
@@ -323,18 +315,14 @@ maximum_angular_size_Barten1999` definition.
     def test_n_dimensional_maximum_angular_size_Barten1999(self):
         """
         Tests :func:`colour.contrast.barten1999.\
-maximum_angular_size_Barten1999` definition n-dimensions support.
+maximum_angular_size_Barten1999` definition n-dimensional support.
         """
 
         u = np.array([4, 8, 12])
         X_0 = np.array([60, 120, 240])
         X_max = np.array([12, 14, 16])
         N_max = np.array([15, 20, 25])
-        X = np.array([3.57294801, 2.46055152, 2.06581761])
-        np.testing.assert_almost_equal(
-            maximum_angular_size_Barten1999(u, X_0, X_max, N_max),
-            X,
-            decimal=7)
+        X = maximum_angular_size_Barten1999(u, X_0, X_max, N_max)
 
         u = np.tile(u, (6, 1))
         X_0 = np.tile(X_0, (6, 1))
@@ -493,19 +481,15 @@ contrast_sensitivity_function_Barten1999` definition.
     def test_n_dimensional_contrast_sensitivity_function_Barten1999(self):
         """
         Tests :func:`colour.contrast.barten1999.\
-contrast_sensitivity_function_Barten1999` definition n-dimensions support.
+contrast_sensitivity_function_Barten1999` definition n-dimensional support.
         """
 
         u = np.array([4, 8, 12])
         sigma = np.array([0.01, 0.02, 0.04])
         E = np.array([0.65, 90, 1500])
         X_0 = np.array([60, 120, 240])
-        S = np.array([39.86810824, 142.24417024, 4.39800166])
-        np.testing.assert_almost_equal(
-            contrast_sensitivity_function_Barten1999(
-                u=u, sigma=sigma, E=E, X_0=X_0),
-            S,
-            decimal=7)
+        S = contrast_sensitivity_function_Barten1999(
+            u=u, sigma=sigma, E=E, X_0=X_0)
 
         u = np.tile(u, (6, 1))
         E = np.tile(E, (6, 1))

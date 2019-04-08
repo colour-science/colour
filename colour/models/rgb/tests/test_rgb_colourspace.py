@@ -430,7 +430,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
     def test_n_dimensional_XYZ_to_RGB(self):
         """
         Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         XYZ = np.array([0.21638819, 0.12570000, 0.03847493])
@@ -441,11 +441,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
             [-0.96893071, 1.87575606, 0.04151752],
             [0.05571012, -0.20402105, 1.05699594],
         ])
-        RGB = np.array([0.70556599, 0.19109268, 0.22340812])
-        np.testing.assert_almost_equal(
-            XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', oetf_sRGB),
-            RGB,
-            decimal=7)
+        RGB = XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', oetf_sRGB)
 
         XYZ = np.tile(XYZ, (6, 1))
         RGB = np.tile(RGB, (6, 1))
@@ -574,7 +570,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
     def test_n_dimensional_RGB_to_XYZ(self):
         """
         Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         RGB = np.array([0.70556599, 0.19109268, 0.22340812])
@@ -585,11 +581,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
             [0.21260000, 0.71520000, 0.07220000],
             [0.01930000, 0.11920000, 0.95050000],
         ])
-        XYZ = np.array([0.21638819, 0.12570000, 0.03847493])
-        np.testing.assert_almost_equal(
-            RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', oetf_reverse_sRGB),
-            XYZ,
-            decimal=7)
+        XYZ = RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', oetf_reverse_sRGB)
 
         RGB = np.tile(RGB, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
@@ -787,17 +779,13 @@ class TestRGB_to_RGB(unittest.TestCase):
     def test_n_dimensional_RGB_to_RGB(self):
         """
         Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         aces_2065_1_colourspace = RGB_COLOURSPACES['ACES2065-1']
         sRGB_colourspace = RGB_COLOURSPACES['sRGB']
         RGB_i = np.array([0.21931722, 0.06950287, 0.04694832])
-        RGB_o = np.array([0.45595289, 0.03040780, 0.04087313])
-        np.testing.assert_almost_equal(
-            RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
-            RGB_o,
-            decimal=7)
+        RGB_o = RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace)
 
         RGB_i = np.tile(RGB_i, (6, 1))
         RGB_o = np.tile(RGB_o, (6, 1))

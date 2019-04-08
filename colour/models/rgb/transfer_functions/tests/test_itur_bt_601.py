@@ -49,8 +49,7 @@ oetf_BT601` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        E = 0.409007728864150
-        np.testing.assert_almost_equal(oetf_BT601(L), E, decimal=7)
+        E = oetf_BT601(L)
 
         L = np.tile(L, 6)
         E = np.tile(E, 6)
@@ -118,8 +117,7 @@ oetf_reverse_BT601` definition n-dimensional arrays support.
         """
 
         E = 0.409007728864150
-        L = 0.18
-        np.testing.assert_almost_equal(oetf_reverse_BT601(E), L, decimal=7)
+        L = oetf_reverse_BT601(E)
 
         E = np.tile(E, 6)
         L = np.tile(L, 6)

@@ -49,8 +49,7 @@ log_encoding_ViperLog` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = 0.636008067010413
-        np.testing.assert_almost_equal(log_encoding_ViperLog(x), y, decimal=7)
+        y = log_encoding_ViperLog(x)
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
@@ -116,8 +115,7 @@ log_decoding_ViperLog` definition n-dimensional arrays support.
         """
 
         y = 0.636008067010413
-        x = 0.18
-        np.testing.assert_almost_equal(log_decoding_ViperLog(y), x, decimal=7)
+        x = log_decoding_ViperLog(y)
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)

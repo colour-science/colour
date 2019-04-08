@@ -58,8 +58,7 @@ class Testxy_to_z(unittest.TestCase):
         """
 
         xy = np.array([0.25, 0.25])
-        z = 0.5
-        np.testing.assert_almost_equal(xy_to_z(xy), z, decimal=7)
+        z = xy_to_z(xy)
 
         xy = np.tile(xy, (6, 1))
         z = np.tile(
@@ -337,8 +336,7 @@ class TestRGBLuminance(unittest.TestCase):
         RGB = np.array([0.18, 0.18, 0.18]),
         P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
         W = np.array([0.32168, 0.33767])
-        Y = 0.18000000
-        np.testing.assert_almost_equal(RGB_luminance(RGB, P, W), Y)
+        Y = RGB_luminance(RGB, P, W)
 
         RGB = np.tile(RGB, (6, 1))
         Y = np.tile(Y, 6)

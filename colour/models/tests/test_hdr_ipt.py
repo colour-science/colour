@@ -56,10 +56,7 @@ class TestExponent_hdr_IPT(unittest.TestCase):
 
         Y_s = 0.2
         Y_abs = 100
-        epsilon = 0.482020919845900
-
-        np.testing.assert_almost_equal(
-            exponent_hdr_IPT(Y_s, Y_abs), epsilon, decimal=7)
+        epsilon = exponent_hdr_IPT(Y_s, Y_abs)
 
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
@@ -144,15 +141,13 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
     def test_n_dimensional_XYZ_to_hdr_IPT(self):
         """
         Tests :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         Y_s = 0.2
         Y_abs = 100
-        IPT_hdr = np.array([48.39376346, 42.44990202, 22.01954033])
-        np.testing.assert_almost_equal(
-            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
+        IPT_hdr = XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs)
 
         XYZ = np.tile(XYZ, (6, 1))
         IPT_hdr = np.tile(IPT_hdr, (6, 1))
@@ -245,15 +240,13 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
     def test_n_dimensional_hdr_IPT_to_XYZ(self):
         """
         Tests :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         IPT_hdr = np.array([48.39376346, 42.44990202, 22.01954033])
         Y_s = 0.2
         Y_abs = 100
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        np.testing.assert_almost_equal(
-            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
+        XYZ = hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs)
 
         IPT_hdr = np.tile(IPT_hdr, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))

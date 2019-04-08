@@ -975,9 +975,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         wl = 480
-        XYZ = np.array([0.09564, 0.13902, 0.81295])
-        np.testing.assert_almost_equal(
-            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7)
+        XYZ = wavelength_to_XYZ(wl, cmfs)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))

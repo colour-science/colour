@@ -53,8 +53,7 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         """
 
         a = np.array([0.3205, 0.4131, 0.5100])
-        b = np.array([True])
-        np.testing.assert_almost_equal(is_within_macadam_limits(a, 'A'), b)
+        b = is_within_macadam_limits(a, 'A')
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, 6)

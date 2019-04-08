@@ -49,9 +49,7 @@ eotf_reverse_DCDM` definition n-dimensional arrays support.
         """
 
         XYZ = 0.18
-        XYZ_p = 0.11281861
-        np.testing.assert_almost_equal(
-            eotf_reverse_DCDM(XYZ), XYZ_p, decimal=7)
+        XYZ_p = eotf_reverse_DCDM(XYZ)
 
         XYZ = np.tile(XYZ, 6)
         XYZ_p = np.tile(XYZ_p, 6)
@@ -121,8 +119,7 @@ class TestEotf_DCDM(unittest.TestCase):
         """
 
         XYZ_p = 0.11281861
-        XYZ = 0.18
-        np.testing.assert_almost_equal(eotf_DCDM(XYZ_p), XYZ, decimal=7)
+        XYZ = eotf_DCDM(XYZ_p)
 
         XYZ_p = np.tile(XYZ_p, 6)
         XYZ = np.tile(XYZ, 6)

@@ -53,8 +53,7 @@ oetf_DICOMGSDF` definition n-dimensional arrays support.
         """
 
         L = 130.0662
-        J = 0.500486263438448
-        np.testing.assert_almost_equal(oetf_DICOMGSDF(L), J, decimal=7)
+        J = oetf_DICOMGSDF(L)
 
         L = np.tile(L, 6)
         J = np.tile(J, 6)
@@ -124,8 +123,7 @@ eotf_DICOMGSDF` definition n-dimensional arrays support.
         """
 
         J = 0.500486263438448
-        L = 130.062864706476550
-        np.testing.assert_almost_equal(eotf_DICOMGSDF(J), L, decimal=7)
+        L = eotf_DICOMGSDF(J)
 
         J = np.tile(J, 6)
         L = np.tile(L, 6)

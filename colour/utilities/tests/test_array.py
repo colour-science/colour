@@ -396,7 +396,7 @@ class TestInArray(unittest.TestCase):
 
     def test_n_dimensional_in_array(self):
         """
-        Tests :func:`colour.utilities.array.in_array` definition n-dimensions
+        Tests :func:`colour.utilities.array.in_array` definition n-dimensional
         support.
         """
 

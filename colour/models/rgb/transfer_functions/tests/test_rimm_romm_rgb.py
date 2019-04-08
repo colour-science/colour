@@ -57,8 +57,7 @@ oetf_ROMMRGB` definition n-dimensional arrays support.
         """
 
         X = 0.18
-        X_ROMM = 0.385711424751138
-        np.testing.assert_almost_equal(oetf_ROMMRGB(X), X_ROMM, decimal=7)
+        X_ROMM = oetf_ROMMRGB(X)
 
         X = np.tile(X, 6)
         X_ROMM = np.tile(X_ROMM, 6)
@@ -131,8 +130,7 @@ eotf_ROMMRGB` definition n-dimensional arrays support.
         """
 
         X_p = 0.385711424751138
-        X = 0.18
-        np.testing.assert_almost_equal(eotf_ROMMRGB(X_p), X, decimal=7)
+        X = eotf_ROMMRGB(X_p)
 
         X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)
@@ -200,8 +198,7 @@ oetf_RIMMRGB` definition n-dimensional arrays support.
         """
 
         X = 0.18
-        X_p = 0.291673732475746
-        np.testing.assert_almost_equal(oetf_RIMMRGB(X), X_p, decimal=7)
+        X_p = oetf_RIMMRGB(X)
 
         X = np.tile(X, 6)
         X_p = np.tile(X_p, 6)
@@ -274,8 +271,7 @@ eotf_RIMMRGB` definition n-dimensional arrays support.
         """
 
         X_p = 0.291673732475746
-        X = 0.18
-        np.testing.assert_almost_equal(eotf_RIMMRGB(X_p), X, decimal=7)
+        X = eotf_RIMMRGB(X_p)
 
         X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)
@@ -346,9 +342,7 @@ log_encoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
         X = 0.18
-        X_p = 0.410052389492129
-        np.testing.assert_almost_equal(
-            log_encoding_ERIMMRGB(X), X_p, decimal=7)
+        X_p = log_encoding_ERIMMRGB(X)
 
         X = np.tile(X, 6)
         X_p = np.tile(X_p, 6)
@@ -430,9 +424,7 @@ log_decoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
         X_p = 0.410052389492129
-        X = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_ERIMMRGB(X_p), X, decimal=7)
+        X = log_decoding_ERIMMRGB(X_p)
 
         X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)

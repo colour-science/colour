@@ -47,8 +47,7 @@ linear_function` definition n-dimensional arrays support.
         """
 
         a = 0.18
-        a_p = 0.18
-        np.testing.assert_almost_equal(linear_function(a), a_p, decimal=7)
+        a_p = linear_function(a)
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)

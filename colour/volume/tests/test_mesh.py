@@ -69,8 +69,7 @@ class TestIsWithinMeshVolume(unittest.TestCase):
         """
 
         a = np.array([0.0005, 0.0031, 0.0010])
-        b = np.array([True])
-        np.testing.assert_almost_equal(is_within_mesh_volume(a, self._mesh), b)
+        b = is_within_mesh_volume(a, self._mesh)
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, 6)

@@ -50,13 +50,12 @@ class TestXYZ_to_IPT(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_IPT(self):
         """
-        Tests :func:`colour.models.ipt.XYZ_to_IPT` definition n-dimensions
+        Tests :func:`colour.models.ipt.XYZ_to_IPT` definition n-dimensional
         support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        IPT = np.array([0.38426191, 0.38487306, 0.18886838])
-        np.testing.assert_almost_equal(XYZ_to_IPT(XYZ), IPT, decimal=7)
+        IPT = XYZ_to_IPT(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         IPT = np.tile(IPT, (6, 1))
@@ -122,13 +121,12 @@ class TestIPT_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_IPT_to_XYZ(self):
         """
-        Tests :func:`colour.models.ipt.IPT_to_XYZ` definition n-dimensions
+        Tests :func:`colour.models.ipt.IPT_to_XYZ` definition n-dimensional
         support.
         """
 
         IPT = np.array([0.38426191, 0.38487306, 0.18886838])
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        np.testing.assert_almost_equal(IPT_to_XYZ(IPT), XYZ, decimal=7)
+        XYZ = IPT_to_XYZ(IPT)
 
         IPT = np.tile(IPT, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
@@ -194,13 +192,12 @@ class TestIPTHueAngle(unittest.TestCase):
 
     def test_n_dimensional_IPT_hue_angle(self):
         """
-        Tests :func:`colour.models.ipt.IPT_hue_angle` definition n-dimensions
+        Tests :func:`colour.models.ipt.IPT_hue_angle` definition n-dimensional
         support.
         """
 
         IPT = np.array([0.20654008, 0.12197225, 0.05136952])
-        hue = 22.838754548625527
-        np.testing.assert_almost_equal(IPT_hue_angle(IPT), hue, decimal=7)
+        hue = IPT_hue_angle(IPT)
 
         IPT = np.tile(IPT, (6, 1))
         hue = np.tile(hue, 6)

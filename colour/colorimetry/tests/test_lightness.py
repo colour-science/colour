@@ -57,8 +57,7 @@ class TestLightnessGlasser1958(unittest.TestCase):
         """
 
         Y = 12.19722535
-        L = 39.83512646492521
-        np.testing.assert_almost_equal(lightness_Glasser1958(Y), L, decimal=7)
+        L = lightness_Glasser1958(Y)
 
         Y = np.tile(Y, 6)
         L = np.tile(L, 6)
@@ -127,8 +126,7 @@ class TestLightnessWyszecki1963(unittest.TestCase):
         """
 
         Y = 12.19722535
-        W = 40.547574599570197
-        np.testing.assert_almost_equal(lightness_Wyszecki1963(Y), W, decimal=7)
+        W = lightness_Wyszecki1963(Y)
 
         Y = np.tile(Y, 6)
         W = np.tile(W, 6)
@@ -204,9 +202,7 @@ intermediate_lightness_function_CIE1976` definition n-dimensional arrays
         """
 
         Y = 12.19722535
-        f_Y_Y_n = 0.495929964178047
-        np.testing.assert_almost_equal(
-            intermediate_lightness_function_CIE1976(Y), f_Y_Y_n, decimal=7)
+        f_Y_Y_n = intermediate_lightness_function_CIE1976(Y)
 
         Y = np.tile(Y, 6)
         f_Y_Y_n = np.tile(f_Y_Y_n, 6)
@@ -287,8 +283,7 @@ class TestLightnessCIE1976(unittest.TestCase):
         """
 
         Y = 12.19722535
-        L_star = 41.527875844653451
-        np.testing.assert_almost_equal(lightness_CIE1976(Y), L_star, decimal=7)
+        L_star = lightness_CIE1976(Y)
 
         Y = np.tile(Y, 6)
         L_star = np.tile(L_star, 6)
@@ -373,9 +368,7 @@ class TestLightnessFairchild2010(unittest.TestCase):
         """
 
         Y = 12.19722535 / 100
-        L_hdr = 31.996390226262736
-        np.testing.assert_almost_equal(
-            lightness_Fairchild2010(Y), L_hdr, decimal=7)
+        L_hdr = lightness_Fairchild2010(Y)
 
         Y = np.tile(Y, 6)
         L_hdr = np.tile(L_hdr, 6)
@@ -464,9 +457,7 @@ class TestLightnessFairchild2011(unittest.TestCase):
         """
 
         Y = 12.19722535 / 100
-        L_hdr = 51.852958445912506
-        np.testing.assert_almost_equal(
-            lightness_Fairchild2011(Y), L_hdr, decimal=7)
+        L_hdr = lightness_Fairchild2011(Y)
 
         Y = np.tile(Y, 6)
         L_hdr = np.tile(L_hdr, 6)

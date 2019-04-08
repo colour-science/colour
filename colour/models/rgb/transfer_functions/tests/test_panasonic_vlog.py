@@ -61,9 +61,7 @@ log_encoding_VLog` definition n-dimensional arrays support.
         """
 
         L_in = 0.18
-        V_out = 0.423311448760136
-        np.testing.assert_almost_equal(
-            log_encoding_VLog(L_in), V_out, decimal=7)
+        V_out = log_encoding_VLog(L_in)
 
         L_in = np.tile(L_in, 6)
         V_out = np.tile(V_out, 6)
@@ -145,9 +143,7 @@ log_decoding_VLog` definition n-dimensional arrays support.
         """
 
         V_out = 0.423311448760136
-        L_in = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_VLog(V_out), L_in, decimal=7)
+        L_in = log_decoding_VLog(V_out)
 
         V_out = np.tile(V_out, 6)
         L_in = np.tile(L_in, 6)

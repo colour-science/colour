@@ -50,9 +50,7 @@ log_encoding_FilmicPro6` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = 0.606634519924703
-        np.testing.assert_almost_equal(
-            log_encoding_FilmicPro6(x), y, decimal=7)
+        y = log_encoding_FilmicPro6(x)
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
@@ -122,9 +120,7 @@ log_decoding_FilmicPro6` definition n-dimensional arrays support.
         """
 
         y = 0.606634519924703
-        x = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_FilmicPro6(y), x, decimal=7)
+        x = log_decoding_FilmicPro6(y)
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)

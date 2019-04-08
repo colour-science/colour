@@ -63,9 +63,7 @@ cartesian_to_spherical` definition n-dimensional arrays support.
         """
 
         a_i = np.array([3, 1, 6])
-        a_o = np.array([6.78232998, 1.08574654, 0.32175055])
-        np.testing.assert_almost_equal(
-            cartesian_to_spherical(a_i), a_o, decimal=7)
+        a_o = cartesian_to_spherical(a_i)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
@@ -128,9 +126,7 @@ spherical_to_cartesian` definition n-dimensional arrays support.
         """
 
         a_i = np.array([6.78232998, 1.08574654, 0.32175055])
-        a_o = np.array([3, 1, 6])
-        np.testing.assert_almost_equal(
-            spherical_to_cartesian(a_i), a_o, decimal=7)
+        a_o = spherical_to_cartesian(a_i)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
@@ -190,8 +186,7 @@ cartesian_to_polar` definition n-dimensional arrays support.
         """
 
         a_i = np.array([3, 1])
-        a_o = np.array([3.16227766, 0.32175055])
-        np.testing.assert_almost_equal(cartesian_to_polar(a_i), a_o, decimal=7)
+        a_o = cartesian_to_polar(a_i)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
@@ -249,8 +244,7 @@ polar_to_cartesian` definition n-dimensional arrays support.
         """
 
         a_i = np.array([3.16227766, 0.32175055])
-        a_o = np.array([3, 1])
-        np.testing.assert_almost_equal(polar_to_cartesian(a_i), a_o, decimal=7)
+        a_o = polar_to_cartesian(a_i)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
@@ -308,9 +302,7 @@ cartesian_to_cylindrical` definition n-dimensional arrays support.
         """
 
         a_i = np.array([3, 1, 6])
-        a_o = np.array([3.16227766, 0.32175055, 6.00000000])
-        np.testing.assert_almost_equal(
-            cartesian_to_cylindrical(a_i), a_o, decimal=7)
+        a_o = cartesian_to_cylindrical(a_i)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
@@ -373,9 +365,7 @@ cylindrical_to_cartesian` definition n-dimensional arrays support.
         """
 
         a_i = np.array([3.16227766, 0.32175055, 6.00000000])
-        a_o = np.array([3, 1, 6])
-        np.testing.assert_almost_equal(
-            cylindrical_to_cartesian(a_i), a_o, decimal=7)
+        a_o = cylindrical_to_cartesian(a_i)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))

@@ -70,9 +70,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-        W = 30.36380179
-        np.testing.assert_almost_equal(
-            whiteness_Berger1959(XYZ, XYZ_0), W, decimal=7)
+        W = whiteness_Berger1959(XYZ, XYZ_0)
 
         XYZ = np.tile(XYZ, (6, 1))
         XYZ_0 = np.tile(XYZ_0, (6, 1))
@@ -160,9 +158,7 @@ class TestWhitenessTaube1960(unittest.TestCase):
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-        WI = 91.407173833416152
-        np.testing.assert_almost_equal(
-            whiteness_Taube1960(XYZ, XYZ_0), WI, decimal=7)
+        WI = whiteness_Taube1960(XYZ, XYZ_0)
 
         XYZ = np.tile(XYZ, (6, 1))
         XYZ_0 = np.tile(XYZ_0, (6, 1))
@@ -243,9 +239,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
         """
 
         Lab = np.array([100.00000000, -2.46875131, -16.72486654])
-        WI = 142.76834569
-        np.testing.assert_almost_equal(
-            whiteness_Stensby1968(Lab), WI, decimal=7)
+        WI = whiteness_Stensby1968(Lab)
 
         Lab = np.tile(Lab, (6, 1))
         WI = np.tile(WI, 6)
@@ -325,8 +319,7 @@ class TestWhitenessASTM313(unittest.TestCase):
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        WI = 55.740000000000009
-        np.testing.assert_almost_equal(whiteness_ASTME313(XYZ), WI, decimal=7)
+        WI = whiteness_ASTME313(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         WI = np.tile(WI, 6)
@@ -400,9 +393,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
 
         xy = np.array([0.3167, 0.3334])
         Y = 100
-        WT = np.array([85.60037660, 0.67890030])
-        np.testing.assert_almost_equal(
-            whiteness_Ganz1979(xy, Y), WT, decimal=7)
+        WT = whiteness_Ganz1979(xy, Y)
 
         xy = np.tile(xy, (6, 1))
         WT = np.tile(WT, (6, 1))
@@ -489,9 +480,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
         xy = np.array([0.3167, 0.3334])
         Y = 100
         xy_n = np.array([0.3139, 0.3311])
-        WT = np.array([93.8500000, -1.30500000])
-        np.testing.assert_almost_equal(
-            whiteness_CIE2004(xy, Y, xy_n), WT, decimal=7)
+        WT = whiteness_CIE2004(xy, Y, xy_n)
 
         xy = np.tile(xy, (6, 1))
         WT = np.tile(WT, (6, 1))

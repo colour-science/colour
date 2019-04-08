@@ -81,7 +81,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
     def test_n_dimensional_XYZ_to_Hunter_Rdab(self):
         """
         Tests :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
@@ -90,9 +90,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
         XYZ_n = D65.XYZ_n
         K_ab = D65.K_ab
-        R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])
-        np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab), R_d_ab, decimal=7)
+        R_d_ab = XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab)
 
         XYZ = np.tile(XYZ, (6, 1))
         R_d_ab = np.tile(R_d_ab, (6, 1))
@@ -206,7 +204,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
     def test_n_dimensional_Hunter_Rdab_to_XYZ(self):
         """
         Tests :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
@@ -215,9 +213,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])
         XYZ_n = D65.XYZ_n
         K_ab = D65.K_ab
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-        np.testing.assert_almost_equal(
-            Hunter_Rdab_to_XYZ(R_d_ab, XYZ_n, K_ab), XYZ, decimal=7)
+        XYZ = Hunter_Rdab_to_XYZ(R_d_ab, XYZ_n, K_ab)
 
         R_d_ab = np.tile(R_d_ab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))

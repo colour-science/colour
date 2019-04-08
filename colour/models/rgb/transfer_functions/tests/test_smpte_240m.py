@@ -51,8 +51,7 @@ oetf_SMPTE240M` definition n-dimensional arrays support.
         """
 
         L_c = 0.18
-        V_c = 0.402285796753870
-        np.testing.assert_almost_equal(oetf_SMPTE240M(L_c), V_c, decimal=7)
+        V_c = oetf_SMPTE240M(L_c)
 
         L_c = np.tile(L_c, 6)
         V_c = np.tile(V_c, 6)
@@ -120,8 +119,7 @@ eotf_SMPTE240M` definition n-dimensional arrays support.
         """
 
         V_r = 0.402285796753870
-        L_r = 0.18
-        np.testing.assert_almost_equal(eotf_SMPTE240M(V_r), L_r, decimal=7)
+        L_r = eotf_SMPTE240M(V_r)
 
         V_r = np.tile(V_r, 6)
         L_r = np.tile(L_r, 6)

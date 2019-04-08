@@ -59,10 +59,7 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
 
         Y_s = 0.2
         Y_abs = 100
-        epsilon = 0.473851073746817
-
-        np.testing.assert_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
+        epsilon = exponent_hdr_CIELab(Y_s, Y_abs)
 
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
@@ -157,16 +154,14 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
     def test_n_dimensional_XYZ_to_hdr_CIELab(self):
         """
         Tests :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         illuminant = np.array([0.31270, 0.32900])
         Y_s = 0.2
         Y_abs = 100
-        Lab_hdr = np.array([51.87002062, 60.47633850, 32.14551912])
-        np.testing.assert_almost_equal(
-            XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7)
+        Lab_hdr = XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs)
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab_hdr = np.tile(Lab_hdr, (6, 1))
@@ -272,16 +267,14 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
     def test_n_dimensional_hdr_CIELab_to_XYZ(self):
         """
         Tests :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         Lab_hdr = np.array([51.87002062, 60.47633850, 32.14551912])
         illuminant = np.array([0.31270, 0.32900])
         Y_s = 0.2
         Y_abs = 100
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        np.testing.assert_almost_equal(
-            hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs), XYZ, decimal=7)
+        XYZ = hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs)
 
         Lab_hdr = np.tile(Lab_hdr, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))

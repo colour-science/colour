@@ -46,12 +46,11 @@ class TestRGB_to_Prismatic(unittest.TestCase):
     def test_n_dimensional_RGB_to_Prismatic(self):
         """
         Tests :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         RGB = np.array([0.25, 0.50, 0.75])
-        Lrgb = np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
-        np.testing.assert_almost_equal(RGB_to_Prismatic(RGB), Lrgb, decimal=7)
+        Lrgb = RGB_to_Prismatic(RGB)
 
         RGB = np.tile(RGB, (6, 1))
         Lrgb = np.tile(Lrgb, (6, 1))
@@ -115,12 +114,11 @@ class TestPrismatic_to_RGB(unittest.TestCase):
     def test_n_dimensional_Prismatic_to_RGB(self):
         """
         Tests :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         Lrgb = np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
-        RGB = np.array([0.25, 0.50, 0.75])
-        np.testing.assert_almost_equal(Prismatic_to_RGB(Lrgb), RGB, decimal=7)
+        RGB = Prismatic_to_RGB(Lrgb)
 
         Lrgb = np.tile(Lrgb, (6, 1))
         RGB = np.tile(RGB, (6, 1))

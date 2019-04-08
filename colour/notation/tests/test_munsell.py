@@ -792,9 +792,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         """
 
         Y = 12.23634268
-        V = 3.498048410185314
-        np.testing.assert_almost_equal(
-            munsell_value_Priest1920(Y), V, decimal=7)
+        V = munsell_value_Priest1920(Y)
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
@@ -873,9 +871,7 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         """
 
         Y = 12.23634268
-        V = 4.1627702416858083
-        np.testing.assert_almost_equal(
-            munsell_value_Munsell1933(Y), V, decimal=7)
+        V = munsell_value_Munsell1933(Y)
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
@@ -948,8 +944,7 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         """
 
         Y = 12.23634268
-        V = 4.0688120634976421
-        np.testing.assert_almost_equal(munsell_value_Moon1943(Y), V, decimal=7)
+        V = munsell_value_Moon1943(Y)
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
@@ -1025,9 +1020,7 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         """
 
         Y = 12.23634268
-        V = 4.0444736723175119
-        np.testing.assert_almost_equal(
-            munsell_value_Saunderson1944(Y), V, decimal=7)
+        V = munsell_value_Saunderson1944(Y)
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
@@ -1100,8 +1093,7 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         """
 
         Y = 12.23634268
-        V = 4.0511633044287088
-        np.testing.assert_almost_equal(munsell_value_Ladd1955(Y), V, decimal=7)
+        V = munsell_value_Ladd1955(Y)
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
@@ -1171,9 +1163,7 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         """
 
         Y = 12.23634268
-        V = 4.081434853194113
-        np.testing.assert_almost_equal(
-            munsell_value_McCamy1987(Y), V, decimal=7)
+        V = munsell_value_McCamy1987(Y)
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
@@ -1252,9 +1242,7 @@ class TestMunsellValueASTMD153508(unittest.TestCase):
         """
 
         Y = 12.23634268
-        V = 4.0824437076525664
-        np.testing.assert_almost_equal(
-            munsell_value_ASTMD153508(Y), V, decimal=7)
+        V = munsell_value_ASTMD153508(Y)
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)

@@ -63,8 +63,7 @@ oetf_BT2100_PQ` definition n-dimensional arrays support.
         """
 
         E = 0.1
-        E_p = 0.724769816665726
-        np.testing.assert_almost_equal(oetf_BT2100_PQ(E), E_p, decimal=7)
+        E_p = oetf_BT2100_PQ(E)
 
         E = np.tile(E, 6)
         E_p = np.tile(E_p, 6)
@@ -131,9 +130,7 @@ oetf_reverse_BT2100_PQ` definition n-dimensional arrays support.
         """
 
         E_p = 0.724769816665726
-        E = 0.1
-        np.testing.assert_almost_equal(
-            oetf_reverse_BT2100_PQ(E_p), E, decimal=7)
+        E = oetf_reverse_BT2100_PQ(E_p)
 
         E_p = np.tile(E_p, 6)
         E = np.tile(E, 6)
@@ -204,8 +201,7 @@ eotf_BT2100_PQ` definition n-dimensional arrays support.
         """
 
         E_p = 0.724769816665726
-        F_D = 779.98836083408537
-        np.testing.assert_almost_equal(eotf_BT2100_PQ(E_p), F_D, decimal=7)
+        F_D = eotf_BT2100_PQ(E_p)
 
         E_p = np.tile(E_p, 6)
         F_D = np.tile(F_D, 6)
@@ -273,9 +269,7 @@ eotf_reverse_BT2100_PQ` definition n-dimensional arrays support.
         """
 
         F_D = 779.98836083408537
-        E_p = 0.724769816665726
-        np.testing.assert_almost_equal(
-            eotf_reverse_BT2100_PQ(F_D), E_p, decimal=7)
+        E_p = eotf_reverse_BT2100_PQ(F_D)
 
         F_D = np.tile(F_D, 6)
         E_p = np.tile(E_p, 6)
@@ -347,8 +341,7 @@ ootf_BT2100_PQ` definition n-dimensional arrays support.
         """
 
         E = 0.1
-        F_D = 779.98836083411584
-        np.testing.assert_almost_equal(ootf_BT2100_PQ(E), F_D, decimal=7)
+        F_D = ootf_BT2100_PQ(E)
 
         E = np.tile(E, 6)
         F_D = np.tile(F_D, 6)
@@ -414,9 +407,7 @@ ootf_reverse_BT2100_PQ` definition n-dimensional arrays support.
         """
 
         F_D = 779.98836083411584
-        E = 0.1
-        np.testing.assert_almost_equal(
-            ootf_reverse_BT2100_PQ(F_D), E, decimal=7)
+        E = ootf_reverse_BT2100_PQ(F_D)
 
         F_D = np.tile(F_D, 6)
         E = np.tile(E, 6)
@@ -513,8 +504,7 @@ oetf_BT2100_HLG` definition n-dimensional arrays support.
         """
 
         E = 0.18 / 12
-        E_p = 0.212132034355964
-        np.testing.assert_almost_equal(oetf_BT2100_HLG(E), E_p, decimal=7)
+        E_p = oetf_BT2100_HLG(E)
 
         E = np.tile(E, 6)
         E_p = np.tile(E_p, 6)
@@ -580,9 +570,7 @@ oetf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         """
 
         E_p = 0.212132034355964
-        E = 0.18 / 12
-        np.testing.assert_almost_equal(
-            oetf_reverse_BT2100_HLG(E_p), E, decimal=7)
+        E = oetf_reverse_BT2100_HLG(E_p)
 
         E_p = np.tile(E_p, 6)
         E = np.tile(E, 6)
@@ -659,8 +647,7 @@ eotf_BT2100_HLG` definition n-dimensional arrays support.
         """
 
         E_p = 0.212132034355964
-        F_D = 6.476039825649814
-        np.testing.assert_almost_equal(eotf_BT2100_HLG(E_p), F_D, decimal=7)
+        F_D = eotf_BT2100_HLG(E_p)
 
         E_p = np.tile(E_p, 6)
         F_D = np.tile(F_D, 6)
@@ -749,9 +736,7 @@ eotf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         """
 
         F_D = 6.476039825649814
-        E_p = 0.212132034355964
-        np.testing.assert_almost_equal(
-            eotf_reverse_BT2100_HLG(F_D), E_p, decimal=7)
+        E_p = eotf_reverse_BT2100_HLG(F_D)
 
         F_D = np.tile(F_D, 6)
         E_p = np.tile(E_p, 6)
@@ -860,8 +845,7 @@ ootf_BT2100_HLG` definition n-dimensional arrays support.
         """
 
         E = 0.1
-        F_D = 63.095734448019336
-        np.testing.assert_almost_equal(ootf_BT2100_HLG(E), F_D, decimal=7)
+        F_D = ootf_BT2100_HLG(E)
 
         E = np.tile(E, 6)
         F_D = np.tile(F_D, 6)
@@ -959,9 +943,7 @@ ootf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         """
 
         F_D = 63.095734448019336
-        E = 0.1
-        np.testing.assert_almost_equal(
-            ootf_reverse_BT2100_HLG(F_D), E, decimal=7)
+        E = ootf_reverse_BT2100_HLG(F_D)
 
         F_D = np.tile(F_D, 6)
         E = np.tile(E, 6)

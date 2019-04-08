@@ -161,9 +161,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-        delta_E = 83.779225500887094
-        np.testing.assert_almost_equal(
-            delta_E_CIE1994(Lab_1, Lab_2), delta_E, decimal=7)
+        delta_E = delta_E_CIE1994(Lab_1, Lab_2)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
@@ -274,9 +272,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-        delta_E = 94.03564903
-        np.testing.assert_almost_equal(
-            delta_E_CIE2000(Lab_1, Lab_2), delta_E, decimal=7)
+        delta_E = delta_E_CIE2000(Lab_1, Lab_2)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
@@ -482,9 +478,7 @@ class TestDelta_E_CMC(unittest.TestCase):
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-        delta_E = 172.70477129
-        np.testing.assert_almost_equal(
-            delta_E_CMC(Lab_1, Lab_2), delta_E, decimal=7)
+        delta_E = delta_E_CMC(Lab_1, Lab_2)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))

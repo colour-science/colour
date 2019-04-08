@@ -54,12 +54,11 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
     def test_n_dimensional_XYZ_to_OSA_UCS(self):
         """
         Tests :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-        Ljg = np.array([-3.00499790, 2.99713697, -9.66784231])
-        np.testing.assert_almost_equal(XYZ_to_OSA_UCS(XYZ), Ljg, decimal=7)
+        Ljg = XYZ_to_OSA_UCS(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         Ljg = np.tile(Ljg, (6, 1))
@@ -129,13 +128,11 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
     def test_n_dimensional_OSA_UCS_to_XYZ(self):
         """
         Tests :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         Ljg = np.array([-3.00499790, 2.99713697, -9.66784231])
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-        np.testing.assert_allclose(
-            OSA_UCS_to_XYZ(Ljg), XYZ, rtol=0.00001, atol=0.00001)
+        XYZ = OSA_UCS_to_XYZ(Ljg)
 
         Ljg = np.tile(Ljg, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))

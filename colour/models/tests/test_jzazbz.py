@@ -51,12 +51,11 @@ class TestXYZ_to_JzAzBz(unittest.TestCase):
     def test_n_dimensional_XYZ_to_JzAzBz(self):
         """
         Tests :func:`colour.models.jzazbz.XYZ_to_JzAzBz` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        JzAzBz = np.array([0.00535048, 0.00924302, 0.00526007])
-        np.testing.assert_almost_equal(XYZ_to_JzAzBz(XYZ), JzAzBz, decimal=7)
+        JzAzBz = XYZ_to_JzAzBz(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         JzAzBz = np.tile(JzAzBz, (6, 1))
@@ -127,13 +126,11 @@ class TestJzAzBz_to_XYZ(unittest.TestCase):
     def test_n_dimensional_JzAzBz_to_XYZ(self):
         """
         Tests :func:`colour.models.jzazbz.JzAzBz_to_XYZ` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         JzAzBz = np.array([0.00535048, 0.00924302, 0.00526007])
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        np.testing.assert_allclose(
-            JzAzBz_to_XYZ(JzAzBz), XYZ, rtol=0.000001, atol=0.000001)
+        XYZ = JzAzBz_to_XYZ(JzAzBz)
 
         JzAzBz = np.tile(JzAzBz, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))

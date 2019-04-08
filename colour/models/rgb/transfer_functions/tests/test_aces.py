@@ -62,9 +62,7 @@ log_encoding_ACESproxy` definition n-dimensional arrays support.
         """
 
         lin_AP1 = 0.18
-        ACESproxy = 0.416422287390029
-        np.testing.assert_almost_equal(
-            log_encoding_ACESproxy(lin_AP1), ACESproxy, decimal=7)
+        ACESproxy = log_encoding_ACESproxy(lin_AP1)
 
         lin_AP1 = np.tile(lin_AP1, 6)
         ACESproxy = np.tile(ACESproxy, 6)
@@ -159,9 +157,7 @@ log_decoding_ACESproxy` definition n-dimensional arrays support.
         """
 
         ACESproxy = 0.416422287390029
-        lin_AP1 = 0.179244406001978
-        np.testing.assert_almost_equal(
-            log_decoding_ACESproxy(ACESproxy), lin_AP1, decimal=7)
+        lin_AP1 = log_decoding_ACESproxy(ACESproxy)
 
         ACESproxy = np.tile(ACESproxy, 6)
         lin_AP1 = np.tile(lin_AP1, 6)
@@ -234,9 +230,7 @@ log_encoding_ACEScc` definition n-dimensional arrays support.
         """
 
         lin_AP1 = 0.18
-        ACEScc = 0.413588402492442
-        np.testing.assert_almost_equal(
-            log_encoding_ACEScc(lin_AP1), ACEScc, decimal=7)
+        ACEScc = log_encoding_ACEScc(lin_AP1)
 
         lin_AP1 = np.tile(lin_AP1, 6)
         ACEScc = np.tile(ACEScc, 6)
@@ -309,9 +303,7 @@ log_decoding_ACEScc` definition n-dimensional arrays support.
         """
 
         ACEScc = 0.413588402492442
-        lin_AP1 = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_ACEScc(ACEScc), lin_AP1, decimal=7)
+        lin_AP1 = log_decoding_ACEScc(ACEScc)
 
         ACEScc = np.tile(ACEScc, 6)
         lin_AP1 = np.tile(lin_AP1, 6)
@@ -384,9 +376,7 @@ log_encoding_ACEScct` definition n-dimensional arrays support.
         """
 
         lin_AP1 = 0.18
-        ACEScct = 0.413588402492442
-        np.testing.assert_almost_equal(
-            log_encoding_ACEScct(lin_AP1), ACEScct, decimal=7)
+        ACEScct = log_encoding_ACEScct(lin_AP1)
 
         lin_AP1 = np.tile(lin_AP1, 6)
         ACEScct = np.tile(ACEScct, 6)
@@ -471,9 +461,7 @@ log_decoding_ACEScct` definition n-dimensional arrays support.
         """
 
         ACEScct = 0.413588402492442
-        lin_AP1 = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_ACEScct(ACEScct), lin_AP1, decimal=7)
+        lin_AP1 = log_decoding_ACEScct(ACEScct)
 
         ACEScct = np.tile(ACEScct, 6)
         lin_AP1 = np.tile(lin_AP1, 6)

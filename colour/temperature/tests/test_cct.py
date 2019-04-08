@@ -312,9 +312,7 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
         """
 
         CCT = 7000
-        xy = np.array([0.183513095046506, 0.305827773965731])
-        np.testing.assert_almost_equal(
-            CCT_to_uv_Krystek1985(CCT), xy, decimal=7)
+        xy = CCT_to_uv_Krystek1985(CCT)
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
@@ -373,9 +371,7 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
         """
 
         xy = np.array([0.31270, 0.32900])
-        CCT = 6505.08059131
-        np.testing.assert_almost_equal(
-            xy_to_CCT_McCamy1992(xy), CCT, decimal=7)
+        CCT = xy_to_CCT_McCamy1992(xy)
 
         xy = np.tile(xy, (6, 1))
         CCT = np.tile(CCT, 6)
@@ -434,9 +430,7 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
         """
 
         xy = np.array([0.31270, 0.32900])
-        CCT = 6500.74204318
-        np.testing.assert_almost_equal(
-            xy_to_CCT_Hernandez1999(xy), CCT, decimal=7)
+        CCT = xy_to_CCT_Hernandez1999(xy)
 
         xy = np.tile(xy, (6, 1))
         CCT = np.tile(CCT, 6)
@@ -494,8 +488,7 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
         """
 
         CCT = 4000
-        xy = np.array([0.380528282812500, 0.376733530961114])
-        np.testing.assert_almost_equal(CCT_to_xy_Kang2002(CCT), xy, decimal=7)
+        xy = CCT_to_xy_Kang2002(CCT)
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
@@ -556,8 +549,7 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
         """
 
         CCT = 4000
-        xy = np.array([0.382343625000000, 0.383766261015578])
-        np.testing.assert_almost_equal(CCT_to_xy_CIE_D(CCT), xy, decimal=7)
+        xy = CCT_to_xy_CIE_D(CCT)
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))

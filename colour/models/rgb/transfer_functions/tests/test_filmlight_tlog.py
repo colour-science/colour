@@ -51,9 +51,7 @@ log_encoding_FilmLightTLog` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        t = 0.396567801298332
-        np.testing.assert_almost_equal(
-            log_encoding_FilmLightTLog(x), t, decimal=7)
+        t = log_encoding_FilmLightTLog(x)
 
         x = np.tile(x, 6)
         t = np.tile(t, 6)
@@ -126,9 +124,7 @@ log_decoding_FilmLightTLog` definition n-dimensional arrays support.
         """
 
         t = 0.396567801298332
-        x = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_FilmLightTLog(t), x, decimal=7)
+        x = log_decoding_FilmLightTLog(t)
 
         t = np.tile(t, 6)
         x = np.tile(x, 6)

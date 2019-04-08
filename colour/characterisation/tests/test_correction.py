@@ -549,13 +549,11 @@ colour_correction_Cheung2004` definition.
     def test_n_dimensional_colour_correction_Cheung2004(self):
         """
         Tests :func:`colour.characterisation.correction.\
-colour_correction_Cheung2004` definition n-dimensions support.
+colour_correction_Cheung2004` definition n-dimensional support.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-        RGB_c = np.array([0.13348722, 0.08439216, 0.05990144])
-        np.testing.assert_almost_equal(
-            colour_correction_Cheung2004(RGB, M_T, M_R), RGB_c, decimal=7)
+        RGB_c = colour_correction_Cheung2004(RGB, M_T, M_R)
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
@@ -616,13 +614,11 @@ colour_correction_Finlayson2015` definition.
     def test_n_dimensional_colour_correction_Finlayson2015(self):
         """
         Tests :func:`colour.characterisation.correction.\
-colour_correction_Finlayson2015` definition n-dimensions support.
+colour_correction_Finlayson2015` definition n-dimensional support.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-        RGB_c = np.array([0.13348722, 0.08439216, 0.05990144])
-        np.testing.assert_almost_equal(
-            colour_correction_Finlayson2015(RGB, M_T, M_R), RGB_c, decimal=7)
+        RGB_c = colour_correction_Finlayson2015(RGB, M_T, M_R)
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
@@ -683,13 +679,11 @@ colour_correction_Vandermonde` definition.
     def test_n_dimensional_colour_correction_Vandermonde(self):
         """
         Tests :func:`colour.characterisation.correction.\
-colour_correction_Vandermonde` definition n-dimensions support.
+colour_correction_Vandermonde` definition n-dimensional support.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-        RGB_c = np.array([0.15034881, 0.10503956, 0.10512517])
-        np.testing.assert_almost_equal(
-            colour_correction_Vandermonde(RGB, M_T, M_R), RGB_c, decimal=7)
+        RGB_c = colour_correction_Vandermonde(RGB, M_T, M_R)
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
