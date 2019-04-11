@@ -44,6 +44,10 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **Shriramana Sharma**
+
+    Documentation improvements.
+
 -   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
 
     Technical support.
