@@ -87,7 +87,7 @@ setup(
     include_package_data=True,
     packages=find_packages(),
     scripts=[],
-    url='http://github.com/colour-science/colour',
+    url='https://github.com/colour-science/colour',
     license=__license__,
     description=SHORT_DESCRIPTION,
     long_description=LONG_DESCRIPTION,
