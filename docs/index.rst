@@ -31,6 +31,12 @@ Features
 `features <https://www.colour-science.org/features/>`_ page for more
 information.
 
+Online
+------
+
+**Colour** can be used online with
+`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
+
 Installation
 ------------
 
@@ -54,12 +60,6 @@ by issuing this command in a shell:
 
 The detailed installation procedure is described in the
 `Installation Guide <https://www.colour-science.org/installation-guide/>`_.
-
-Try Online
-----------
-
-**Colour** can be used online with
-`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
 
 Usage
 -----
