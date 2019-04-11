@@ -44,6 +44,10 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **Shriramana Sharma**
+
+    Documentation improvements.
+
 -   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
 
     Technical support.
@@ -149,5 +153,5 @@ About
 
 | **Colour** by Colour Developers - 2013-2019
 | Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
-| This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
-| `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_
+| This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
+| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`_

@@ -15,7 +15,7 @@ from setuptools import find_packages
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -87,7 +87,7 @@ setup(
     include_package_data=True,
     packages=find_packages(),
     scripts=[],
-    url='http://github.com/colour-science/colour',
+    url='https://github.com/colour-science/colour',
     license=__license__,
     description=SHORT_DESCRIPTION,
     long_description=LONG_DESCRIPTION,

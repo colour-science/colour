@@ -35,7 +35,7 @@
 comprehensive number of colour theory transformations and algorithms.
 
 It is open source and freely available under the
-`New BSD License <http://opensource.org/licenses/BSD-3-Clause>`_ terms.
+`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
 
 ..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_Tight_001.png
 
@@ -60,6 +60,12 @@ Features
 `features <https://www.colour-science.org/features/>`_ page for more
 information.
 
+Online
+------
+
+**Colour** can be used online with
+`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
+
 Installation
 ------------
 
@@ -83,12 +89,6 @@ by issuing this command in a shell:
 
 The detailed installation procedure is described in the
 `Installation Guide <https://www.colour-science.org/installation-guide/>`_.
-
-Try Online
-----------
-
-**Colour** can be used online with
-`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
 
 Usage
 -----
@@ -1078,10 +1078,10 @@ Here is a list of notable colour science packages sorted by languages:
 
 **Python**
 
-- `ColorPy <http://markkness.net/colorpy/ColorPy.html>`_ by Kness, M.
-- `python-colormath <http://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
 - `Colorio <https://github.com/nschloe/colorio/>`_  by Schlömer, N.
-- `Colorspacious <http://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
+- `ColorPy <http://markkness.net/colorpy/ColorPy.html>`_ by Kness, M.
+- `Colorspacious <https://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
+- `python-colormath <https://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
 
 **.NET**
 
@@ -1102,5 +1102,5 @@ About
 
 | **Colour** by Colour Developers - 2013-2019
 | Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
-| This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
-| `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_
+| This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
+| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`_
