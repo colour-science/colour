@@ -1051,9 +1051,10 @@ Here is a list of notable colour science packages sorted by languages:
 
 **Python**
 
+- `Colorio <https://github.com/nschloe/colorio/>`_  by Schlömer, N.
 - `ColorPy <http://markkness.net/colorpy/ColorPy.html>`_ by Kness, M.
-- `Colorspacious <http://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
-- `python-colormath <http://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
+- `Colorspacious <https://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
+- `python-colormath <https://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
 
 **.NET**
 
