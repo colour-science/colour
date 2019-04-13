@@ -163,7 +163,7 @@ def RGB_colourspace_limits(
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> RGB_colourspace_limits(sRGB)  # doctest: +ELLIPSIS
     array([[   0.       ...,  100.       ...],
            [ -86.182855 ...,   98.2563272...],
@@ -242,7 +242,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> processes = 1
     >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng,
@@ -297,7 +297,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_volume_coverage_MonteCarlo(
     ...     sRGB, is_within_pointer_gamut, 10e3, random_state=prng)
@@ -351,7 +351,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
@@ -391,7 +391,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
