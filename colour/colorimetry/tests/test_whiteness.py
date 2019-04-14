@@ -548,32 +548,17 @@ class TestWhiteness(unittest.TestCase):
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-        Lab = np.array([100.00000000, -2.46875131, -16.72486654])
-        xy = np.array([0.3167, 0.3334])
-        Y = 100
-        xy_n = np.array([0.3139, 0.3311])
 
         m = ('Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM E313',
              'Ganz 1979', 'CIE 2004')
-        v = [
-            whiteness(
-                method, XYZ=XYZ, XYZ_0=XYZ_0, Lab=Lab, xy=xy, Y=Y, xy_n=xy_n)
-            for method in m
-        ]
+        v = [whiteness(XYZ, XYZ_0, method) for method in m]
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_almost_equal(
-                        whiteness(
-                            method,
-                            XYZ=XYZ * factor,
-                            XYZ_0=XYZ_0 * factor,
-                            Lab=Lab * factor,
-                            xy=xy,
-                            Y=Y * factor,
-                            xy_n=xy_n),
+                        whiteness(XYZ * factor, XYZ_0 * factor, method),
                         value * factor,
                         decimal=7)
 
