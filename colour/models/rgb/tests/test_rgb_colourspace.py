@@ -643,7 +643,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
             RGB = np.array(case)
             W_R = np.array(case[0:2])
             W_T = np.array(case[0:2])
-            M = np.vstack([case, case, case]).reshape((3, 3))
+            M = np.vstack([case, case, case]).reshape([3, 3])
             RGB_to_XYZ(RGB, W_R, W_T, M)
 
 
