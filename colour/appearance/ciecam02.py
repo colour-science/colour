@@ -770,8 +770,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     RGB = as_float_array(RGB)
     F_L = as_float_array(F_L)
 
-    F_L_RGB = spow(F_L[..., np.newaxis] * RGB / 100, 0.42)
-    RGB_c = (400 * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
+    F_L_RGB = spow(F_L[..., np.newaxis] * np.absolute(RGB) / 100, 0.42)
+    RGB_c = (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
 
     return RGB_c
 
@@ -805,8 +805,9 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     RGB = as_float_array(RGB)
     F_L = as_float_array(F_L)
 
-    RGB_p = (((100 / F_L[..., np.newaxis]) * spow(
-        (27.13 * (RGB - 0.1)) / (400 - (RGB - 0.1)), 1 / 0.42)))
+    RGB_p = ((np.sign(RGB - 0.1) * (100 / F_L[..., np.newaxis]) * spow(
+        (27.13 * np.absolute(RGB - 0.1)) / (400 - np.absolute(RGB - 0.1)),
+        1 / 0.42)))
 
     return RGB_p
 
