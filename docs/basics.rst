@@ -77,7 +77,7 @@ arrays:
 
 .. code:: python
 
-    colour.xyY_to_XYZ(xyY.reshape((2, 3, 3)))
+    colour.xyY_to_XYZ(xyY.reshape([2, 3, 3]))
 
 
 .. code-block:: text

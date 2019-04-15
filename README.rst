@@ -305,8 +305,10 @@ Whiteness Computation
 
 .. code-block:: python
 
-    >>> colour.whiteness(xy=[0.3167, 0.3334], Y=100, xy_n=[0.3139, 0.3311])
-    array([ 93.85 ,  -1.305])
+    >>> XYZ = [95.00000000, 100.00000000, 105.00000000]
+    >>> XYZ_0 = [94.80966767, 100.00000000, 107.30513595]
+    >>> colour.whiteness(XYZ, XYZ_0)
+    array([ 93.756     ,  -1.33000001])
     >>> sorted(colour.WHITENESS_METHODS.keys())
     ['ASTM E313',
      'Berger 1959',
