@@ -193,8 +193,7 @@ def RGB_colourspace_volume_MonteCarlo(
         ['D65'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
-        random_state=None,
-        processes=None):
+        random_state=None):
     """
     Performs given *RGB* colourspace volume computation using *Monte Carlo*
     method and multiprocessing.
@@ -220,9 +219,6 @@ def RGB_colourspace_volume_MonteCarlo(
     random_state : RandomState, optional
         Mersenne Twister pseudo-random number generator to use in the random
         number generator.
-    processes : integer, optional
-        Processes count, default to :func:`multiprocessing.cpu_count`
-        definition.
 
     Returns
     -------
@@ -243,21 +239,21 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     Examples
     --------
     >>> from colour.models import sRGB_COLOURSPACE as sRGB
+    >>> from colour.utilities import disable_multiprocessing
     >>> prng = np.random.RandomState(2)
-    >>> processes = 1
-    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng,
-    ...                                   processes=processes)
+    >>> with disable_multiprocessing():
+    ...     RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)
     ... # doctest: +ELLIPSIS
-    816...
+    8...
     """
 
-    processes = processes if processes else multiprocessing.cpu_count()
+    processes = multiprocessing.cpu_count()
     process_samples = DEFAULT_INT_DTYPE(np.round(samples / processes))
 
     arguments = (colourspace, process_samples, limits, illuminant_Lab,
                  chromatic_adaptation_method, random_generator, random_state)
 
-    with multiprocessing_pool(processes=processes) as pool:
+    with multiprocessing_pool() as pool:
         results = pool.map(_wrapper_RGB_colourspace_volume_MonteCarlo,
                            [arguments for _ in range(processes)])
 

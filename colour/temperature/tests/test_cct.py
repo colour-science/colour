@@ -16,7 +16,7 @@ from colour.temperature import (
     CCT_to_xy_CIE_D, xy_to_CCT_McCamy1992, xy_to_CCT_Hernandez1999)
 from colour.temperature.cct import (planckian_table,
                                     planckian_table_minimal_distance_index)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import disable_multiprocessing, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -236,6 +236,7 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
             uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7)
 
     @ignore_numpy_errors
+    @disable_multiprocessing()
     def test_nan_uv_to_CCT_Ohno2013(self):
         """
         Tests :func:`colour.temperature.cct.uv_to_CCT_Ohno2013` definition nan
@@ -297,6 +298,7 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
             CCT_to_uv_Ohno2013(CCT_D_uv, cmfs), uv, decimal=7)
 
     @ignore_numpy_errors
+    @disable_multiprocessing()
     def test_nan_CCT_to_uv_Ohno2013(self):
         """
         Tests :func:`colour.temperature.cct.CCT_to_uv_Ohno2013` definition nan
@@ -346,6 +348,7 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
             uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7)
 
     @ignore_numpy_errors
+    @disable_multiprocessing()
     def test_nan_uv_to_CCT_Robertson1968(self):
         """
         Tests :func:`colour.temperature.cct.uv_to_CCT_Robertson1968` definition
@@ -395,6 +398,7 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
             CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7)
 
     @ignore_numpy_errors
+    @disable_multiprocessing()
     def test_nan_CCT_to_uv_Robertson1968(self):
         """
         Tests :func:`colour.temperature.cct.CCT_to_uv_Robertson1968` definition

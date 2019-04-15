@@ -17,6 +17,7 @@ from __future__ import division, unicode_literals
 
 import inspect
 import multiprocessing
+import multiprocessing.pool
 import functools
 import numpy as np
 import re
@@ -39,8 +40,8 @@ __status__ = 'Production'
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
-    'batch', 'multiprocessing_pool', 'is_openimageio_installed',
-    'is_pandas_installed', 'is_iterable',
+    'batch', 'disable_multiprocessing', 'multiprocessing_pool',
+    'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
     'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
     'filter_mapping', 'first_item', 'get_domain_range_scale',
     'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
@@ -164,6 +165,53 @@ def batch(iterable, k=3):
         yield iterable[i:i + k]
 
 
+_MULTIPROCESSING_ENABLED = True
+"""
+Whether *Colour* multiprocessing is enabled.
+
+_MULTIPROCESSING_ENABLED : bool
+"""
+
+
+class disable_multiprocessing(object):
+    """
+    A context manager and decorator temporarily disabling *Colour*
+    multiprocessing.
+    """
+
+    def __enter__(self):
+        """
+        Called upon entering the context manager and decorator.
+        """
+
+        global _MULTIPROCESSING_ENABLED
+
+        _MULTIPROCESSING_ENABLED = False
+
+        return self
+
+    def __exit__(self, *args):
+        """
+        Called upon exiting the context manager and decorator.
+        """
+
+        global _MULTIPROCESSING_ENABLED
+
+        _MULTIPROCESSING_ENABLED = True
+
+    def __call__(self, function):
+        """
+        Calls the wrapped definition.
+        """
+
+        @functools.wraps(function)
+        def wrapper(*args, **kwargs):
+            with self:
+                return function(*args, **kwargs)
+
+        return wrapper
+
+
 @contextmanager
 def multiprocessing_pool(*args, **kwargs):
     """
@@ -187,8 +235,31 @@ def multiprocessing_pool(*args, **kwargs):
     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     """
 
-    # TODO: Replace with "multiprocessing.Pool.starmap".
-    pool = multiprocessing.Pool(*args, **kwargs)
+    class _DummyPool(object):
+        """
+        A dummy multiprocessing pool that does not perform multiprocessing.
+        """
+
+        def map(self, func, iterable, chunksize=None):
+            """
+            Applies given function to each element of given iterable.
+            """
+
+            return [func(a) for a in iterable]
+
+        def terminate(self):
+            """
+            Terminate the process.
+            """
+
+            pass
+
+    if _MULTIPROCESSING_ENABLED:
+        pool_factory = multiprocessing.Pool
+    else:
+        pool_factory = _DummyPool
+
+    pool = pool_factory(*args, **kwargs)
 
     yield pool
 

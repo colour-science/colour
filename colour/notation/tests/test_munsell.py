@@ -35,7 +35,8 @@ from colour.notation import (munsell_value_Priest1920,
                              munsell_value_Saunderson1944,
                              munsell_value_Ladd1955, munsell_value_McCamy1987,
                              munsell_value_ASTMD153508)
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (as_float_array, disable_multiprocessing,
+                              domain_range_scale, ignore_numpy_errors, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -1304,16 +1305,24 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         definition.
         """
 
-        for specification, xyY in MUNSELL_SPECIFICATIONS:
-            np.testing.assert_almost_equal(
-                munsell_specification_to_xyY(specification), xyY, decimal=7)
+        specification, xyY = (
+            as_float_array(list(MUNSELL_SPECIFICATIONS[..., 0])),
+            as_float_array(list(MUNSELL_SPECIFICATIONS[..., 1])),
+        )
+        np.testing.assert_almost_equal(
+            munsell_specification_to_xyY(specification), xyY, decimal=7)
 
-        for specification, xyY in MUNSELL_GREYS_SPECIFICATIONS:
-            np.testing.assert_almost_equal(
-                munsell_specification_to_xyY(
-                    np.array([np.nan, specification[0], np.nan, np.nan])),
-                xyY,
-                decimal=7)
+        specification, xyY = (
+            as_float_array(list(MUNSELL_GREYS_SPECIFICATIONS[..., 0])),
+            as_float_array(list(MUNSELL_GREYS_SPECIFICATIONS[..., 1])),
+        )
+        specification = np.squeeze(specification)
+        nan_array = np.full(specification.shape, np.nan)
+        specification = tstack(
+            [nan_array, specification, nan_array, nan_array])
+
+        np.testing.assert_almost_equal(
+            munsell_specification_to_xyY(specification), xyY, decimal=7)
 
     def test_n_dimensional_munsell_specification_to_xyY(self):
         """
@@ -1348,6 +1357,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         np.testing.assert_almost_equal(
             munsell_specification_to_xyY(specification), xyY, decimal=7)
 
+    @disable_multiprocessing()
     def test_domain_range_scale_munsell_specification_to_xyY(self):
         """
         Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
@@ -1371,6 +1381,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
                     decimal=7)
 
     @ignore_numpy_errors
+    @disable_multiprocessing()
     def test_nan_munsell_specification_to_xyY(self):
         """
         Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
@@ -1392,16 +1403,6 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
     Defines :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
     unit tests methods.
     """
-
-    def test_munsell_colour_to_xyY(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_colour_to_xyY` definition.
-        """
-
-        # TODO: This test is covered by the previous class,
-        # do we need a dedicated one?
-
-        pass
 
     def test_n_dimensional_munsell_colour_to_xyY(self):
         """
@@ -1448,20 +1449,33 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         definition.
         """
 
-        for specification, xyY in MUNSELL_SPECIFICATIONS:
-            np.testing.assert_allclose(
-                xyY_to_munsell_specification(xyY),
-                specification,
-                rtol=0.00001,
-                atol=0.00001)
+        specification, xyY = (
+            as_float_array(list(MUNSELL_SPECIFICATIONS[..., 0])),
+            as_float_array(list(MUNSELL_SPECIFICATIONS[..., 1])),
+        )
 
-        for specification, xyY in MUNSELL_GREYS_SPECIFICATIONS:
-            np.testing.assert_allclose(
-                xyY_to_munsell_specification(xyY),
-                np.array([np.nan, specification[0], np.nan, np.nan]),
-                rtol=0.00001,
-                atol=0.00001)
+        np.testing.assert_allclose(
+            xyY_to_munsell_specification(xyY),
+            specification,
+            rtol=0.00001,
+            atol=0.00001)
 
+        specification, xyY = (
+            as_float_array(list(MUNSELL_GREYS_SPECIFICATIONS[..., 0])),
+            as_float_array(list(MUNSELL_GREYS_SPECIFICATIONS[..., 1])),
+        )
+        specification = np.squeeze(specification)
+        nan_array = np.full(specification.shape, np.nan)
+        specification = tstack(
+            [nan_array, specification, nan_array, nan_array])
+
+        np.testing.assert_allclose(
+            xyY_to_munsell_specification(xyY),
+            specification,
+            rtol=0.00001,
+            atol=0.00001)
+
+    @disable_multiprocessing()
     def test_n_dimensional_xyY_to_munsell_specification(self):
         """
         Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
@@ -1504,6 +1518,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
                     atol=0.00001)
 
     @ignore_numpy_errors
+    @disable_multiprocessing()
     def test_nan_xyY_to_munsell_specification(self):
         """
         Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
@@ -1525,16 +1540,6 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
     Defines :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
     unit tests methods.
     """
-
-    def test_xyY_to_munsell_colour(self):
-        """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_colour` definition.
-        """
-
-        # TODO: This test is covered by the previous class,
-        # do we need a dedicated one?
-
-        pass
 
     def test_n_dimensional_xyY_to_munsell_colour(self):
         """

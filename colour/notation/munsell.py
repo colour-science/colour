@@ -123,6 +123,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import re
 from collections import OrderedDict
+from functools import partial
 
 from colour.algebra import (Extrapolator, LinearInterpolator,
                             cartesian_to_cylindrical, euclidean_distance,
@@ -136,8 +137,8 @@ from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (
     CaseInsensitiveMapping, Lookup, as_float_array, as_float, as_int,
     as_numeric, domain_range_scale, from_range_1, from_range_10,
-    get_domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
-    is_integer, is_numeric, tsplit, usage_warning)
+    get_domain_range_scale, multiprocessing_pool, to_domain_1, to_domain_10,
+    to_domain_100, is_integer, is_numeric, tsplit, usage_warning)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -842,10 +843,9 @@ def munsell_specification_to_xyY(specification):
     specification = as_float_array(specification)
     shape = list(specification.shape)
 
-    xyY = [
-        _munsell_specification_to_xyY(a)
-        for a in specification.reshape([-1, 4])
-    ]
+    with multiprocessing_pool() as pool:
+        xyY = pool.map(_munsell_specification_to_xyY,
+                       specification.reshape([-1, 4]))
 
     shape[-1] = 3
 
@@ -890,10 +890,11 @@ def munsell_colour_to_xyY(munsell_colour):
     munsell_colour = np.array(munsell_colour)
     shape = list(munsell_colour.shape)
 
-    specification = np.array([
-        munsell_colour_to_munsell_specification(a)
-        for a in np.ravel(munsell_colour)
-    ])
+    with multiprocessing_pool() as pool:
+        specification = np.array([
+            pool.map(munsell_colour_to_munsell_specification,
+                     np.ravel(munsell_colour))
+        ])
 
     return munsell_specification_to_xyY(specification.reshape(shape + [4]))
 
@@ -1189,9 +1190,9 @@ def xyY_to_munsell_specification(xyY):
     xyY = as_float_array(xyY)
     shape = list(xyY.shape)
 
-    specification = [
-        _xyY_to_munsell_specification(a) for a in xyY.reshape([-1, 3])
-    ]
+    with multiprocessing_pool() as pool:
+        specification = pool.map(_xyY_to_munsell_specification,
+                                 xyY.reshape([-1, 3]))
 
     shape[-1] = 4
 
@@ -1245,13 +1246,19 @@ def xyY_to_munsell_colour(xyY,
     specification = xyY_to_munsell_specification(xyY)
     shape = list(specification.shape)
 
-    munsell_colour = [
-        munsell_specification_to_munsell_colour(
-            a, hue_decimals, value_decimals, chroma_decimals)
-        for a in specification.reshape([-1, 4])
-    ]
+    with multiprocessing_pool() as pool:
+        munsell_colour = pool.map(
+            partial(
+                munsell_specification_to_munsell_colour,
+                hue_decimals=hue_decimals,
+                value_decimals=value_decimals,
+                chroma_decimals=chroma_decimals),
+            specification.reshape([-1, 4]))
 
-    return np.array(munsell_colour).reshape(shape[:-1])
+    munsell_colour = np.array(munsell_colour).reshape(shape[:-1])
+    munsell_colour = str(munsell_colour) if shape == [4] else munsell_colour
+
+    return munsell_colour
 
 
 def parse_munsell_colour(munsell_colour):
