@@ -16,10 +16,12 @@ refl1d/numpyerrors.html
 from __future__ import division, unicode_literals
 
 import inspect
+import multiprocessing
 import functools
 import numpy as np
 import re
 import warnings
+from contextlib import contextmanager
 from collections import OrderedDict
 from copy import deepcopy
 from six import integer_types, string_types
@@ -37,7 +39,8 @@ __status__ = 'Production'
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
-    'batch', 'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
+    'batch', 'multiprocessing_pool', 'is_openimageio_installed',
+    'is_pandas_installed', 'is_iterable',
     'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
     'filter_mapping', 'first_item', 'get_domain_range_scale',
     'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
@@ -159,6 +162,37 @@ def batch(iterable, k=3):
 
     for i in range(0, len(iterable), k):
         yield iterable[i:i + k]
+
+
+@contextmanager
+def multiprocessing_pool(*args, **kwargs):
+    """
+    A context manager providing a multiprocessing pool.
+
+    Other Parameters
+    ----------------
+    \\*args : list, optional
+        Arguments.
+    \\**kwargs : dict, optional
+        Keywords arguments.
+
+    Examples
+    --------
+    >>> from functools import partial
+    >>> def _add(a, b):
+    ...     return a + b
+    >>> with multiprocessing_pool() as pool:
+    ...     pool.map(partial(_add, b=2), range(10))
+    ... # doctest: +SKIP
+    [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    """
+
+    # TODO: Replace with "multiprocessing.Pool.starmap".
+    pool = multiprocessing.Pool(*args, **kwargs)
+
+    yield pool
+
+    pool.terminate()
 
 
 def is_openimageio_installed(raise_exception=False):

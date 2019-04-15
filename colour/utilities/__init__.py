@@ -6,6 +6,7 @@ from .data_structures import Lookup, Structure, CaseInsensitiveMapping
 from .common import (
     handle_numpy_errors, ignore_numpy_errors, raise_numpy_errors,
     print_numpy_errors, warn_numpy_errors, ignore_python_warnings, batch,
+    multiprocessing_pool,
     is_openimageio_installed, is_pandas_installed, is_iterable, is_string,
     is_numeric, is_integer, is_sibling, filter_kwargs, filter_mapping,
     first_item, get_domain_range_scale, set_domain_range_scale,
@@ -29,7 +30,8 @@ __all__ = ['Lookup', 'Structure', 'CaseInsensitiveMapping']
 __all__ += [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
-    'batch', 'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
+    'batch', 'multiprocessing_pool', 'is_openimageio_installed',
+    'is_pandas_installed', 'is_iterable',
     'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
     'filter_mapping', 'first_item', 'get_domain_range_scale',
     'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
