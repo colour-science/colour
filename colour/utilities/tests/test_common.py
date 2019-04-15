@@ -26,7 +26,11 @@ __status__ = 'Production'
 __all__ = [
     'TestBatch', 'TestIsIterable', 'TestIsString', 'TestIsNumeric',
     'TestIsInteger', 'TestIsSibling', 'TestFilterKwargs', 'TestFilterMapping',
-    'TestFirstItem'
+    'TestFirstItem', 'TestGetDomainRangeScale', 'TestSetDomainRangeScale',
+    'TestDomainRangeScale', 'TestToDomain1', 'TestToDomain10',
+    'TestToDomain100', 'TestToDomainDegrees', 'TestToDomainInt',
+    'TestFromRange1', 'TestFromRange10', 'TestFromRange100',
+    'TestFromRangeDegrees', 'TestFromRangeInt'
 ]
 
 
