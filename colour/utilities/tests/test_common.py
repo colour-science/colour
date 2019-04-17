@@ -396,6 +396,35 @@ class TestDomainRangeScale(unittest.TestCase):
 
         self.assertEqual(get_domain_range_scale(), 'reference')
 
+        def _domain_range_change(a):
+            """
+            Helper definition performing domain-range scale.
+            """
+
+            b = to_domain_10(a)
+
+            b *= 2
+
+            return from_range_100(b)
+
+        with domain_range_scale('Reference'):
+            with domain_range_scale('1'):
+                with domain_range_scale('100'):
+                    with domain_range_scale('Ignore'):
+                        self.assertEqual(get_domain_range_scale(), 'ignore')
+                        self.assertEqual(_domain_range_change(4), 8)
+
+                    self.assertEqual(get_domain_range_scale(), '100')
+                    self.assertEqual(_domain_range_change(40), 8)
+
+                self.assertEqual(get_domain_range_scale(), '1')
+                self.assertEqual(_domain_range_change(0.4), 0.08)
+
+            self.assertEqual(get_domain_range_scale(), 'reference')
+            self.assertEqual(_domain_range_change(4), 8)
+
+        self.assertEqual(get_domain_range_scale(), 'reference')
+
 
 class TestToDomain1(unittest.TestCase):
     """
