@@ -207,8 +207,7 @@ chromatic_adaptation_reverse_CMCCAT2000` definition n-dimensional arrays
         L_A1 = 200
         L_A2 = 200
         XYZ = chromatic_adaptation_reverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr,
-                                                      L_A1,
-                                                      L_A2)
+                                                      L_A1, L_A2)
 
         XYZ_c = np.tile(XYZ_c, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))

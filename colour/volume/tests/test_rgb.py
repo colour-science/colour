@@ -106,9 +106,9 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
 
         self.assertAlmostEqual(
             RGB_colourspace_volume_MonteCarlo(
-                BT709_COLOURSPACE,
-                10e3,
-                random_state=np.random.RandomState(2)) * 1e-6, 821700.0 * 1e-6,
+                BT709_COLOURSPACE, 10e3, random_state=np.random.RandomState(2))
+            * 1e-6,
+            821700.0 * 1e-6,
             places=1)
 
 
