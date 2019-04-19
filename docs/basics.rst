@@ -114,8 +114,7 @@ Domain-Range Scales
     This section has important information.
 
 
-`Colour <https://github.com/colour-science/Colour/>`__ adopts 4 main
-input domains and output ranges:
+**Colour** adopts 4 main input domains and output ranges:
 
 -   *Scalars* usually in domain-range `[0, 1]` (or `[0, 10]` for
     *Munsell Value*).
@@ -144,9 +143,8 @@ available domain-range scales.
 Scale - Reference
 ~~~~~~~~~~~~~~~~~
 
-**'Reference'** is the default domain-range scale of
-`Colour <https://github.com/colour-science/Colour/>`__, objects adopt the
-implemented reference, i.e. paper, publication, etc.., domain-range scale.
+**'Reference'** is the default domain-range scale of **Colour**, objects adopt
+the implemented reference, i.e. paper, publication, etc.., domain-range scale.
 
 The **'Reference'** domain-range scale is inconsistent, e.g. colour appearance
 models, spectral conversions are typically in domain-range `[0, 100]` while RGB
@@ -158,8 +156,7 @@ Scale - 1
 ~~~~~~~~~
 
 **'1'** is a domain-range scale converting all the relevant objects from
-`Colour <https://github.com/colour-science/Colour/>`__ public API to
-domain-range `[0, 1]`:
+**Colour** public API to domain-range `[0, 1]`:
 
 -   *Scalars* in domain-range `[0, 10]`, e.g *Munsell Value* are
     scaled by *10*.
@@ -289,8 +286,8 @@ return value ``XYZ_2`` is converted from range `[0, 100]` to range `[0, 1]` by
 
 A convenient alternative to the :func:`colour.set_domain_range_scale`
 definition is the :class:`colour.domain_range_scale` context manager and
-decorator. It temporarily overrides `Colour <https://github.com/colour-science/Colour/>`__
-domain-range scale with given scale value:
+decorator. It temporarily overrides **Colour** domain-range scale with given
+scale value:
 
 .. code:: python
 
@@ -301,3 +298,20 @@ domain-range scale with given scale value:
 .. code-block:: text
 
     [ 0.24033795  0.21156212  0.17643012]
+
+Multiprocessing on Windows with Domain-Range Scales
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Windows does not have a `fork <https://linux.die.net/man/2/fork>`_ system call,
+a consequence is that child processes do not necessarily
+`inherit from changes made to global variables <https://docs.python.org/2/library/multiprocessing.html#windows>`_.
+
+It has crucial `consequences <https://stackoverflow.com/q/55742917/931625>`_
+as **Colour** stores the current domain-range scale into a global variable.
+
+The solution is to define an initialisation definition that defines the
+scale upon child processes spawning.
+
+The :class:`colour.utilities.multiprocessing_pool` context manager conveniently
+performs the required initialisation so that the domain-range scale is
+propagated appropriately to child processes.
