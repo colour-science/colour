@@ -35,8 +35,8 @@ from colour.notation import (munsell_value_Priest1920,
                              munsell_value_Saunderson1944,
                              munsell_value_Ladd1955, munsell_value_McCamy1987,
                              munsell_value_ASTMD153508)
-from colour.utilities import (as_float_array, disable_multiprocessing,
-                              domain_range_scale, ignore_numpy_errors, tstack)
+from colour.utilities import (as_float_array, domain_range_scale,
+                              ignore_numpy_errors, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -1357,7 +1357,6 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         np.testing.assert_almost_equal(
             munsell_specification_to_xyY(specification), xyY, decimal=7)
 
-    @disable_multiprocessing()
     def test_domain_range_scale_munsell_specification_to_xyY(self):
         """
         Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
@@ -1381,7 +1380,6 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
                     decimal=7)
 
     @ignore_numpy_errors
-    @disable_multiprocessing()
     def test_nan_munsell_specification_to_xyY(self):
         """
         Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
@@ -1475,7 +1473,6 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
             rtol=0.00001,
             atol=0.00001)
 
-    @disable_multiprocessing()
     def test_n_dimensional_xyY_to_munsell_specification(self):
         """
         Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
@@ -1518,7 +1515,6 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
                     atol=0.00001)
 
     @ignore_numpy_errors
-    @disable_multiprocessing()
     def test_nan_xyY_to_munsell_specification(self):
         """
         Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`

@@ -112,15 +112,13 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 from collections import namedtuple
-from functools import partial
 
 from colour.colorimetry import (
     ASTME30815_PRACTISE_SHAPE, STANDARD_OBSERVERS_CMFS,
     daylight_locus_function, sd_blackbody, sd_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
-                              filter_kwargs, multiprocessing_pool,
-                              runtime_warning, tsplit, tstack,
+                              filter_kwargs, runtime_warning, tsplit, tstack,
                               usage_warning)
 
 __author__ = 'Colour Developers'
@@ -457,11 +455,10 @@ def uv_to_CCT_Ohno2013(
 
     uv = as_float_array(uv)
 
-    with multiprocessing_pool() as pool:
-        CCT_D_uv = pool.map(
-            partial(_uv_to_CCT_Ohno2013, cmfs=cmfs, start=start, end=end,
-                    count=count, iterations=iterations),
-            np.reshape(uv, (-1, 2)))
+    CCT_D_uv = [
+        _uv_to_CCT_Ohno2013(a, cmfs, start, end, count, iterations)
+        for a in np.reshape(uv, (-1, 2))
+    ]
 
     return as_float_array(CCT_D_uv).reshape(uv.shape)
 
@@ -554,10 +551,7 @@ def CCT_to_uv_Ohno2013(
 
     CCT_D_uv = as_float_array(CCT_D_uv)
 
-    with multiprocessing_pool() as pool:
-        uv = pool.map(
-            partial(_CCT_to_uv_Ohno2013, cmfs=cmfs),
-            np.reshape(CCT_D_uv, (-1, 2)))
+    uv = [_CCT_to_uv_Ohno2013(a, cmfs) for a in np.reshape(CCT_D_uv, (-1, 2))]
 
     return as_float_array(uv).reshape(CCT_D_uv.shape)
 
@@ -661,9 +655,7 @@ def uv_to_CCT_Robertson1968(uv):
 
     uv = as_float_array(uv)
 
-    with multiprocessing_pool() as pool:
-        CCT_D_uv = pool.map(_uv_to_CCT_Robertson1968,
-                            np.reshape(uv, (-1, 2)))
+    CCT_D_uv = [_uv_to_CCT_Robertson1968(a) for a in np.reshape(uv, (-1, 2))]
 
     return as_float_array(CCT_D_uv).reshape(uv.shape)
 
@@ -754,9 +746,7 @@ def CCT_to_uv_Robertson1968(CCT_D_uv):
 
     CCT_D_uv = as_float_array(CCT_D_uv)
 
-    with multiprocessing_pool() as pool:
-        uv = pool.map(_CCT_to_uv_Robertson1968,
-                      np.reshape(CCT_D_uv, (-1, 2)))
+    uv = [_CCT_to_uv_Robertson1968(a) for a in np.reshape(CCT_D_uv, (-1, 2))]
 
     return as_float_array(uv).reshape(CCT_D_uv.shape)
 
