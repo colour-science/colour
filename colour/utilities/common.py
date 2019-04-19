@@ -16,10 +16,13 @@ refl1d/numpyerrors.html
 from __future__ import division, unicode_literals
 
 import inspect
+import multiprocessing
+import multiprocessing.pool
 import functools
 import numpy as np
 import re
 import warnings
+from contextlib import contextmanager
 from collections import OrderedDict
 from copy import deepcopy
 from six import integer_types, string_types
@@ -37,7 +40,8 @@ __status__ = 'Production'
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
-    'batch', 'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
+    'batch', 'disable_multiprocessing', 'multiprocessing_pool',
+    'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
     'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
     'filter_mapping', 'first_item', 'get_domain_range_scale',
     'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
@@ -159,6 +163,137 @@ def batch(iterable, k=3):
 
     for i in range(0, len(iterable), k):
         yield iterable[i:i + k]
+
+
+_MULTIPROCESSING_ENABLED = True
+"""
+Whether *Colour* multiprocessing is enabled.
+
+_MULTIPROCESSING_ENABLED : bool
+"""
+
+
+class disable_multiprocessing(object):
+    """
+    A context manager and decorator temporarily disabling *Colour*
+    multiprocessing.
+    """
+
+    def __enter__(self):
+        """
+        Called upon entering the context manager and decorator.
+        """
+
+        global _MULTIPROCESSING_ENABLED
+
+        _MULTIPROCESSING_ENABLED = False
+
+        return self
+
+    def __exit__(self, *args):
+        """
+        Called upon exiting the context manager and decorator.
+        """
+
+        global _MULTIPROCESSING_ENABLED
+
+        _MULTIPROCESSING_ENABLED = True
+
+    def __call__(self, function):
+        """
+        Calls the wrapped definition.
+        """
+
+        @functools.wraps(function)
+        def wrapper(*args, **kwargs):
+            with self:
+                return function(*args, **kwargs)
+
+        return wrapper
+
+
+def _initializer(kwargs):
+    """
+    Initializer for the multiprocessing pool. It is mainly use to ensure that
+    processes on *Windows* correctly inherit from the current domain-range
+    scale.
+
+    Parameters
+    ----------
+    kwargs : dict
+        Initialisation arguments.
+    """
+
+    global _DOMAIN_RANGE_SCALE
+
+    _DOMAIN_RANGE_SCALE = kwargs.get('scale', 'reference')
+
+
+@contextmanager
+def multiprocessing_pool(*args, **kwargs):
+    """
+    A context manager providing a multiprocessing pool.
+
+    Other Parameters
+    ----------------
+    \\*args : list, optional
+        Arguments.
+    \\**kwargs : dict, optional
+        Keywords arguments.
+
+    Examples
+    --------
+    >>> from functools import partial
+    >>> def _add(a, b):
+    ...     return a + b
+    >>> with multiprocessing_pool() as pool:
+    ...     pool.map(partial(_add, b=2), range(10))
+    ... # doctest: +SKIP
+    [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    """
+
+    class _DummyPool(object):
+        """
+        A dummy multiprocessing pool that does not perform multiprocessing.
+
+        Other Parameters
+        ----------------
+        \\*args : list, optional
+            Arguments.
+        \\**kwargs : dict, optional
+            Keywords arguments.
+        """
+
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def map(self, func, iterable, chunksize=None):
+            """
+            Applies given function to each element of given iterable.
+            """
+
+            return [func(a) for a in iterable]
+
+        def terminate(self):
+            """
+            Terminate the process.
+            """
+
+            pass
+
+    kwargs['initializer'] = _initializer
+    kwargs['initargs'] = ({'scale': get_domain_range_scale()},)
+
+    if _MULTIPROCESSING_ENABLED:
+        pool_factory = multiprocessing.Pool
+    else:
+        pool_factory = _DummyPool
+
+    pool = pool_factory(*args, **kwargs)
+
+    yield pool
+
+    pool.terminate()
 
 
 def is_openimageio_installed(raise_exception=False):

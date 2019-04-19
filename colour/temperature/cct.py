@@ -310,6 +310,99 @@ def planckian_table_minimal_distance_index(planckian_table_):
     return distances.index(min(distances))
 
 
+def _uv_to_CCT_Ohno2013(
+        uv,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        start=CCT_MINIMAL,
+        end=CCT_MAXIMAL,
+        count=CCT_SAMPLES,
+        iterations=CCT_CALCULATION_ITERATIONS):
+    """
+    Returns the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
+    coordinates, colour matching functions and temperature range using
+    *Ohno (2013)* method.
+
+    The iterations parameter defines the calculations precision: The higher its
+    value, the more planckian tables will be generated through cascade
+    expansion in order to converge to the exact solution.
+
+    Parameters
+    ----------
+    uv : array_like
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions.
+    start : numeric, optional
+        Temperature range start in kelvins.
+    end : numeric, optional
+        Temperature range end in kelvins.
+    count : int, optional
+        Temperatures count in the planckian tables.
+    iterations : int, optional
+        Number of planckian tables to generate.
+
+    Returns
+    -------
+    ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+    """
+
+    # Ensuring we do at least one iteration to initialise variables.
+    iterations = max(iterations, 1)
+
+    # Planckian table creation through cascade expansion.
+    for _i in range(iterations):
+        table = planckian_table(uv, cmfs, start, end, count)
+        index = planckian_table_minimal_distance_index(table)
+        if index == 0:
+            runtime_warning(
+                ('Minimal distance index is on lowest planckian table bound, '
+                 'unpredictable results may occur!'))
+            index += 1
+        elif index == len(table) - 1:
+            runtime_warning(
+                ('Minimal distance index is on highest planckian table bound, '
+                 'unpredictable results may occur!'))
+            index -= 1
+
+        start = table[index - 1].Ti
+        end = table[index + 1].Ti
+
+    _ux, vx = uv
+
+    Tuvdip, Tuvdi, Tuvdin = (table[index - 1], table[index], table[index + 1])
+    Tip, uip, vip, dip = Tuvdip.Ti, Tuvdip.ui, Tuvdip.vi, Tuvdip.di
+    Ti, di = Tuvdi.Ti, Tuvdi.di
+    Tin, uin, vin, din = Tuvdin.Ti, Tuvdin.ui, Tuvdin.vi, Tuvdin.di
+
+    # Triangular solution.
+    l = np.hypot(uin - uip, vin - vip)  # noqa
+    x = (dip ** 2 - din ** 2 + l ** 2) / (2 * l)
+    T = Tip + (Tin - Tip) * (x / l)
+
+    vtx = vip + (vin - vip) * (x / l)
+    sign = 1 if vx - vtx >= 0 else -1
+    D_uv = (dip ** 2 - x ** 2) ** (1 / 2) * sign
+
+    # Parabolic solution.
+    if np.abs(D_uv) >= 0.002:
+        X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
+        a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
+        b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
+               (di - dip)) * X ** -1)
+        c = (
+                -(dip * (Tin - Ti) * Ti * Tin + di *
+                  (Tip - Tin) * Tip * Tin + din * (
+                          Ti - Tip) * Tip * Ti) * X ** -1)
+
+        T = -b / (2 * a)
+
+        D_uv = sign * (a * T ** 2 + b * T + c)
+
+    return np.array([T, D_uv])
+
+
 def uv_to_CCT_Ohno2013(
         uv,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
@@ -360,63 +453,18 @@ def uv_to_CCT_Ohno2013(
     array([  6.5074738...e+03,   3.2233461...e-03])
     """
 
-    # Ensuring we do at least one iteration to initialise variables.
-    iterations = max(iterations, 1)
+    uv = as_float_array(uv)
 
-    # Planckian table creation through cascade expansion.
-    for _i in range(iterations):
-        table = planckian_table(uv, cmfs, start, end, count)
-        index = planckian_table_minimal_distance_index(table)
-        if index == 0:
-            runtime_warning(
-                ('Minimal distance index is on lowest planckian table bound, '
-                 'unpredictable results may occur!'))
-            index += 1
-        elif index == len(table) - 1:
-            runtime_warning(
-                ('Minimal distance index is on highest planckian table bound, '
-                 'unpredictable results may occur!'))
-            index -= 1
+    CCT_D_uv = [
+        _uv_to_CCT_Ohno2013(a, cmfs, start, end, count, iterations)
+        for a in np.reshape(uv, (-1, 2))
+    ]
 
-        start = table[index - 1].Ti
-        end = table[index + 1].Ti
-
-    _ux, vx = uv
-
-    Tuvdip, Tuvdi, Tuvdin = (table[index - 1], table[index], table[index + 1])
-    Tip, uip, vip, dip = Tuvdip.Ti, Tuvdip.ui, Tuvdip.vi, Tuvdip.di
-    Ti, di = Tuvdi.Ti, Tuvdi.di
-    Tin, uin, vin, din = Tuvdin.Ti, Tuvdin.ui, Tuvdin.vi, Tuvdin.di
-
-    # Triangular solution.
-    l = np.hypot(uin - uip, vin - vip)  # noqa
-    x = (dip ** 2 - din ** 2 + l ** 2) / (2 * l)
-    T = Tip + (Tin - Tip) * (x / l)
-
-    vtx = vip + (vin - vip) * (x / l)
-    sign = 1 if vx - vtx >= 0 else -1
-    D_uv = (dip ** 2 - x ** 2) ** (1 / 2) * sign
-
-    # Parabolic solution.
-    if np.abs(D_uv) >= 0.002:
-        X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
-        a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
-        b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
-               (di - dip)) * X ** -1)
-        c = (
-            -(dip * (Tin - Ti) * Ti * Tin + di *
-              (Tip - Tin) * Tip * Tin + din * (Ti - Tip) * Tip * Ti) * X ** -1)
-
-        T = -b / (2 * a)
-
-        D_uv = sign * (a * T ** 2 + b * T + c)
-
-    return np.array([T, D_uv])
+    return as_float_array(CCT_D_uv).reshape(uv.shape)
 
 
-def CCT_to_uv_Ohno2013(
-        CCT,
-        D_uv=0,
+def _CCT_to_uv_Ohno2013(
+        CCT_D_uv,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
@@ -425,10 +473,8 @@ def CCT_to_uv_Ohno2013(
 
     Parameters
     ----------
-    CCT : numeric
-        Correlated colour temperature :math:`T_{cp}`.
-    D_uv : numeric, optional
-        :math:`\\Delta_{uv}`.
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
@@ -436,20 +482,9 @@ def CCT_to_uv_Ohno2013(
     -------
     ndarray
         *CIE UCS* colourspace *uv* chromaticity coordinates.
-
-    References
-    ----------
-    :cite:`Ohno2014a`
-
-    Examples
-    --------
-    >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> CCT = 6507.4342201047066
-    >>> D_uv = 0.003223690901513
-    >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
-    array([ 0.1977999...,  0.3122004...])
     """
+
+    CCT, D_uv = tsplit(CCT_D_uv)
 
     cmfs = cmfs.copy().trim(ASTME30815_PRACTISE_SHAPE)
 
@@ -481,7 +516,47 @@ def CCT_to_uv_Ohno2013(
         return np.array([u, v])
 
 
-def uv_to_CCT_Robertson1968(uv):
+def CCT_to_uv_Ohno2013(
+        CCT_D_uv,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
+    """
+    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
+    colour matching functions using *Ohno (2013)* method.
+
+    Parameters
+    ----------
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions.
+
+    Returns
+    -------
+    ndarray
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    References
+    ----------
+    :cite:`Ohno2014a`
+
+    Examples
+    --------
+    >>> from colour import STANDARD_OBSERVERS_CMFS
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
+    >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
+    array([ 0.1977999...,  0.3122004...])
+    """
+
+    CCT_D_uv = as_float_array(CCT_D_uv)
+
+    uv = [_CCT_to_uv_Ohno2013(a, cmfs) for a in np.reshape(CCT_D_uv, (-1, 2))]
+
+    return as_float_array(uv).reshape(CCT_D_uv.shape)
+
+
+def _uv_to_CCT_Robertson1968(uv):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -496,16 +571,6 @@ def uv_to_CCT_Robertson1968(uv):
     -------
     ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-
-    References
-    ----------
-    :cite:`AdobeSystems2013`, :cite:`Wyszecki2000y`
-
-    Examples
-    --------
-    >>> uv = np.array([0.193741375998230, 0.315221043940594])
-    >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
-    array([  6.5000162...e+03,   8.3333289...e-03])
     """
 
     u, v = uv
@@ -561,7 +626,41 @@ def uv_to_CCT_Robertson1968(uv):
     return np.array([T, -D_uv])
 
 
-def CCT_to_uv_Robertson1968(CCT, D_uv=0):
+def uv_to_CCT_Robertson1968(uv):
+    """
+    Returns the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
+    coordinates using *Roberston (1968)* method.
+
+    Parameters
+    ----------
+    uv : array_like
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    Returns
+    -------
+    ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    References
+    ----------
+    :cite:`AdobeSystems2013`, :cite:`Wyszecki2000y`
+
+    Examples
+    --------
+    >>> uv = np.array([0.193741375998230, 0.315221043940594])
+    >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
+    array([  6.5000162...e+03,   8.3333289...e-03])
+    """
+
+    uv = as_float_array(uv)
+
+    CCT_D_uv = [_uv_to_CCT_Robertson1968(a) for a in np.reshape(uv, (-1, 2))]
+
+    return as_float_array(CCT_D_uv).reshape(uv.shape)
+
+
+def _CCT_to_uv_Robertson1968(CCT_D_uv):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
@@ -569,27 +668,16 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
 
     Parameters
     ----------
-    CCT : numeric
-        Correlated colour temperature :math:`T_{cp}`.
-    D_uv : numeric
-        :math:`\\Delta_{uv}`.
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     Returns
     -------
     ndarray
         *CIE UCS* colourspace *uv* chromaticity coordinates.
-
-    References
-    ----------
-    :cite:`AdobeSystems2013a`, :cite:`Wyszecki2000y`
-
-    Examples
-    --------
-    >>> CCT = 6500.0081378199056
-    >>> D_uv = 0.008333331244225
-    >>> CCT_to_uv_Robertson1968(CCT, D_uv)  # doctest: +ELLIPSIS
-    array([ 0.1937413...,  0.3152210...])
     """
+
+    CCT, D_uv = tsplit(CCT_D_uv)
 
     r = 1.0e6 / CCT
 
@@ -627,6 +715,40 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
             v += vv3 * -D_uv
 
             return np.array([u, v])
+
+
+def CCT_to_uv_Robertson1968(CCT_D_uv):
+    """
+    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
+    *Roberston (1968)* method.
+
+    Parameters
+    ----------
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    Returns
+    -------
+    ndarray
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    References
+    ----------
+    :cite:`AdobeSystems2013a`, :cite:`Wyszecki2000y`
+
+    Examples
+    --------
+    >>> CCT_D_uv = np.array([6500.0081378199056, 0.008333331244225])
+    >>> CCT_to_uv_Robertson1968(CCT_D_uv)  # doctest: +ELLIPSIS
+    array([ 0.1937413...,  0.3152210...])
+    """
+
+    CCT_D_uv = as_float_array(CCT_D_uv)
+
+    uv = [_CCT_to_uv_Robertson1968(a) for a in np.reshape(CCT_D_uv, (-1, 2))]
+
+    return as_float_array(uv).reshape(CCT_D_uv.shape)
 
 
 def CCT_to_uv_Krystek1985(CCT):
@@ -776,24 +898,21 @@ CCT_TO_UV_METHODS['ohno2013'] = CCT_TO_UV_METHODS['Ohno 2013']
 CCT_TO_UV_METHODS['robertson1968'] = CCT_TO_UV_METHODS['Robertson 1968']
 
 
-def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
+def CCT_to_uv(CCT_D_uv, method='Ohno 2013', **kwargs):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` using given method.
 
     Parameters
     ----------
-    CCT : numeric
-        Correlated colour temperature :math:`T_{cp}`.
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
     method : unicode, optional
         **{'Ohno 2013', 'Robertson 1968', 'Krystek 1985}**,
         Computation method.
 
     Other Parameters
     ----------------
-    D_uv : numeric
-       {:func:`CCT_to_uv_Ohno2013, CCT_to_uv_Robertson1968`},
-       :math:`\\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         {:func:`colour.temperature.CCT_to_uv_Ohno2013`},
         Standard observer colour matching functions.
@@ -812,15 +931,14 @@ def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
     >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> CCT = 6507.47380460
-    >>> D_uv = 0.00322335
-    >>> CCT_to_uv(CCT, D_uv=D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
+    >>> CCT_D_uv = np.array([6507.47380460, 0.00322335])
+    >>> CCT_to_uv(CCT_D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3121999...])
     """
 
     function = CCT_TO_UV_METHODS[method]
 
-    return function(CCT, **filter_kwargs(function, **kwargs))
+    return function(CCT_D_uv, **filter_kwargs(function, **kwargs))
 
 
 def xy_to_CCT_McCamy1992(xy):
