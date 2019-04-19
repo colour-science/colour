@@ -296,7 +296,9 @@ Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png
 
 
 @override_style()
-def plot_single_sd_colour_quality_scale_bars(sd, **kwargs):
+def plot_single_sd_colour_quality_scale_bars(sd,
+                                             method='NIST CQS 7.4',
+                                             **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
     spectral distribution.
@@ -306,6 +308,9 @@ def plot_single_sd_colour_quality_scale_bars(sd, **kwargs):
     sd : SpectralDistribution
         Illuminant or light source spectral distribution to plot the
         *Colour Quality Scale* (CQS).
+    method : unicode, optional
+        **{NIST CQS 7.4'}**,
+        *Colour Quality Scale* (CQS) computation method.
 
     Other Parameters
     ----------------
@@ -342,11 +347,13 @@ Plot_Single_SD_Colour_Quality_Scale_Bars.png
         :alt: plot_single_sd_colour_quality_scale_bars
     """
 
-    return plot_multi_sds_colour_quality_scales_bars([sd], **kwargs)
+    return plot_multi_sds_colour_quality_scales_bars([sd], method, **kwargs)
 
 
 @override_style()
-def plot_multi_sds_colour_quality_scales_bars(sds, **kwargs):
+def plot_multi_sds_colour_quality_scales_bars(sds,
+                                              method='NIST CQS 7.4',
+                                              **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminants or light
     sources spectral distributions.
@@ -356,6 +363,9 @@ def plot_multi_sds_colour_quality_scales_bars(sds, **kwargs):
     sds : array_like
         Array of illuminants or light sources spectral distributions to
         plot the *Colour Quality Scale* (CQS).
+    method : unicode, optional
+        **{NIST CQS 7.4'}**,
+        *Colour Quality Scale* (CQS) computation method.
 
     Other Parameters
     ----------------
@@ -397,9 +407,7 @@ Plot_Multi_SDs_Colour_Quality_Scales_Bars.png
     settings = dict(kwargs)
     settings.update({'standalone': False})
 
-    specifications = [
-        colour_quality_scale(sd, additional_data=True) for sd in sds
-    ]
+    specifications = [colour_quality_scale(sd, True, method) for sd in sds]
 
     _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
