@@ -212,6 +212,23 @@ class disable_multiprocessing(object):
         return wrapper
 
 
+def _initializer(kwargs):
+    """
+    Initializer for the multiprocessing pool. It is mainly use to ensure that
+    processes on *Windows* correctly inherit from the current domain-range
+    scale.
+
+    Parameters
+    ----------
+    kwargs : dict
+        Initialisation arguments.
+    """
+
+    global _DOMAIN_RANGE_SCALE
+
+    _DOMAIN_RANGE_SCALE = kwargs.get('scale', 'reference')
+
+
 @contextmanager
 def multiprocessing_pool(*args, **kwargs):
     """
@@ -238,7 +255,17 @@ def multiprocessing_pool(*args, **kwargs):
     class _DummyPool(object):
         """
         A dummy multiprocessing pool that does not perform multiprocessing.
+
+        Other Parameters
+        ----------------
+        \\*args : list, optional
+            Arguments.
+        \\**kwargs : dict, optional
+            Keywords arguments.
         """
+
+        def __init__(self, *args, **kwargs):
+            pass
 
         def map(self, func, iterable, chunksize=None):
             """
@@ -253,6 +280,9 @@ def multiprocessing_pool(*args, **kwargs):
             """
 
             pass
+
+    kwargs['initializer'] = _initializer
+    kwargs['initargs'] = ({'scale': get_domain_range_scale()},)
 
     if _MULTIPROCESSING_ENABLED:
         pool_factory = multiprocessing.Pool
