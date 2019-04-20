@@ -6,7 +6,7 @@ TODO
 
 -   colour/__init__.py
 
-    -   Line 291 : # TODO: Remove legacy printing support when deemed appropriate.
+    -   Line 296 : # TODO: Remove legacy printing support when deemed appropriate.
 
 
 -   colour/colorimetry/spectrum.py
@@ -80,7 +80,7 @@ TODO
 
 -   colour/models/rgb/tests/test_derivation.py
 
-    -   Line 280 : # TODO: Simplify that monster.
+    -   Line 279 : # TODO: Simplify that monster.
 
 
 -   colour/utilities/array.py
@@ -95,14 +95,7 @@ TODO
 
 -   colour/notation/munsell.py
 
-    -   Line 1056 : # TODO: Consider refactoring implementation.
-    -   Line 1407 : # TODO: Should raise KeyError, need to check the tests.
-
-
--   colour/notation/tests/test_munsell.py
-
-    -   Line 1355 : # TODO: This test is covered by the previous class, do we need a dedicated one?
-    -   Line 1421 : # TODO: This test is covered by the previous class, do we need a dedicated one?
+    -   Line 1062 : # TODO: Consider refactoring implementation.
 
 
 -   colour/continuous/signal.py
@@ -120,7 +113,7 @@ TODO
 
 -   colour/volume/rgb.py
 
-    -   Line 310 : # TODO: Investigate for generator yielding directly a ndarray.
+    -   Line 305 : # TODO: Investigate for generator yielding directly a ndarray.
 
 
 -   colour/algebra/tests/test_interpolation.py
