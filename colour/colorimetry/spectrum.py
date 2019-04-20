@@ -1398,7 +1398,7 @@ dict_like, optional
     # ---              API Changes and Deprecation Management              ---#
     # ------------------------------------------------------------------------#
     @property
-    def title(self):
+    def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
@@ -1408,7 +1408,7 @@ dict_like, optional
         return self.strict_name
 
     @title.setter
-    def title(self, value):
+    def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
@@ -1418,28 +1418,28 @@ dict_like, optional
         self.strict_name = value
 
     @property
-    def data(self):
+    def data(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('SpectralDistribution.data')))
 
     @property
-    def items(self):
+    def items(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('SpectralDistribution.items')))
 
-    def __iter__(self):
+    def __iter__(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('SpectralDistribution.__iter__')))
 
-    def get(self):
+    def get(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('SpectralDistribution.get')))
 
-    def zeros(self):
+    def zeros(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('SpectralDistribution.zeros')))
 
-    def trim_wavelengths(self, shape):
+    def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
@@ -1448,7 +1448,7 @@ dict_like, optional
 
         return self.trim(shape)
 
-    def clone(self):
+    def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
@@ -2361,7 +2361,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
     # ---              API Changes and Deprecation Management              ---#
     # ------------------------------------------------------------------------#
     @property
-    def title(self):
+    def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
@@ -2371,7 +2371,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
         return self.strict_name
 
     @title.setter
-    def title(self, value):
+    def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
@@ -2381,49 +2381,49 @@ MultiSpectralDistribution or array_like or dict_like, optional
         self.strict_name = value
 
     @property
-    def data(self):
+    def data(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('MultiSpectralDistribution.data')))
 
     @property
-    def items(self):
+    def items(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('MultiSpectralDistribution.items')))
 
     @property
-    def mapping(self):
+    def mapping(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('MultiSpectralDistribution.mapping')))
 
     @property
-    def x(self):
+    def x(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('MultiSpectralDistribution.x')))
 
     @property
-    def y(self):
+    def y(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('MultiSpectralDistribution.y')))
 
     @property
-    def z(self):
+    def z(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('MultiSpectralDistribution.z')))
 
-    def __iter__(self):
+    def __iter__(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(
             str(Removed('MultiSpectralDistribution.__iter__')))
 
-    def get(self):
+    def get(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('MultiSpectralDistribution.get')))
 
-    def zeros(self):
+    def zeros(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(str(Removed('MultiSpectralDistribution.zeros')))
 
-    def trim_wavelengths(self, shape):
+    def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
@@ -2432,7 +2432,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
         return self.trim(shape)
 
-    def clone(self):
+    def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(

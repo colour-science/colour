@@ -84,8 +84,7 @@ def bandpass_correction_Stearns1988(sd):
     ...     600: 0.1360
     ... }
     >>> with numpy_print_options(suppress=True):
-    ...     bandpass_correction_Stearns1988(
-    ...         SpectralDistribution(data))
+    ...     bandpass_correction_Stearns1988(SpectralDistribution(data))
     ... # doctest: +ELLIPSIS
     SpectralDistribution([[ 500.        ,    0.0646518...],
                           [ 520.        ,    0.0704293...],
@@ -133,13 +132,43 @@ def bandpass_correction(sd, method='Stearns 1988'):
     sd : SpectralDistribution
         Spectral distribution.
     method : unicode, optional
-        ('Stearns 1988', )
+        {'Stearns 1988', }
         Correction method.
 
     Returns
     -------
     SpectralDistribution
         Spectral bandpass dependence corrected spectral distribution.
+
+    References
+    ----------
+    :cite:`Stearns1988a`, :cite:`Westland2012f`
+
+    Examples
+    --------
+    >>> from colour import SpectralDistribution
+    >>> from colour.utilities import numpy_print_options
+    >>> data = {
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360
+    ... }
+    >>> with numpy_print_options(suppress=True):
+    ...     bandpass_correction(SpectralDistribution(data))
+    ... # doctest: +ELLIPSIS
+    SpectralDistribution([[ 500.        ,    0.0646518...],
+                          [ 520.        ,    0.0704293...],
+                          [ 540.        ,    0.0769485...],
+                          [ 560.        ,    0.0856928...],
+                          [ 580.        ,    0.1129644...],
+                          [ 600.        ,    0.1379256...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
     """
 
     return BANDPASS_CORRECTION_METHODS.get(method)(sd)
