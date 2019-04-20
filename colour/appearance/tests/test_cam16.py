@@ -253,6 +253,28 @@ class TestCAM16ColourAppearanceModelReverse(ColourAppearanceModelTest):
                     decimal=7)
 
     @ignore_numpy_errors
+    def test_raise_exception_CAM16_to_XYZ(self):
+        """
+        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition raised
+        exception.
+        """
+
+        try:
+            CAM16_to_XYZ(
+                CAM16_Specification(
+                    41.731207905126638,
+                    None,
+                    217.06795976739301,
+                ),
+                np.array([95.05, 100.00, 108.88]),
+                318.31,
+                20.0,
+                CAM16_VIEWING_CONDITIONS['Average'],
+            )
+        except ValueError:
+            pass
+
+    @ignore_numpy_errors
     def test_nan_CAM16_to_XYZ(self):
         """
         Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition nan

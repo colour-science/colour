@@ -49,11 +49,6 @@ class ColourAppearanceModelTest(object):
     must be reimplemented by each colour appearance model test sub-class.
     """
 
-    LIMITED_FIXTURES = None
-    """
-    Limited list of fixtures to test the colour appearance model against.
-    """
-
     OUTPUT_ATTRIBUTES = None
     """
     Binding the fixture attributes to the colour appearance model
@@ -175,9 +170,7 @@ class ColourAppearanceModelTest(object):
 
     def fixtures(self):
         """
-        Returns the fixtures case for tested colour appearance model and
-        filter them accordingly with :attr:`colour.appearance.tests.common.\
-ColourAppearanceModelTest.LIMITED_FIXTURES` value.
+        Returns the fixtures case for tested colour appearance model..
 
         Returns
         -------
@@ -185,10 +178,7 @@ ColourAppearanceModelTest.LIMITED_FIXTURES` value.
             Filtered fixtures case data.
         """
 
-        fixtures = self.load_fixtures(self.FIXTURE_BASENAME)
-        if self.LIMITED_FIXTURES is not None:
-            fixtures = [fixtures[index] for index in self.LIMITED_FIXTURES]
-        return fixtures
+        return self.load_fixtures(self.FIXTURE_BASENAME)
 
     def test_examples(self):
         """
