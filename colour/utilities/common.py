@@ -282,7 +282,7 @@ def multiprocessing_pool(*args, **kwargs):
             pass
 
     kwargs['initializer'] = _initializer
-    kwargs['initargs'] = ({'scale': get_domain_range_scale()},)
+    kwargs['initargs'] = ({'scale': get_domain_range_scale()}, )
 
     if _MULTIPROCESSING_ENABLED:
         pool_factory = multiprocessing.Pool

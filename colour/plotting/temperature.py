@@ -25,6 +25,7 @@ from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
                              plot_chromaticity_diagram_CIE1960UCS,
                              filter_passthrough, override_style, render)
 from colour.plotting.diagrams import plot_chromaticity_diagram
+from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -110,16 +111,15 @@ def plot_planckian_locus(planckian_locus_colours=None,
                          '{{\'CIE 1931\', \'CIE 1960 UCS\'}}'.format(method))
 
     start, end = 1667, 100000
-    ij = np.array([
-        uv_to_ij(CCT_to_uv(x, 'Robertson 1968', D_uv=0))
-        for x in np.arange(start, end + 250, 250)
-    ])
+    CCT = np.arange(start, end + 250, 250)
+    CCT_D_uv = tstack([CCT, np.zeros(CCT.shape)])
+    ij = uv_to_ij(CCT_to_uv(CCT_D_uv, 'Robertson 1968'))
 
     axes.plot(ij[..., 0], ij[..., 1], color=planckian_locus_colours)
 
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
-        i0, j0 = uv_to_ij(CCT_to_uv(i, 'Robertson 1968', D_uv=-D_uv))
-        i1, j1 = uv_to_ij(CCT_to_uv(i, 'Robertson 1968', D_uv=D_uv))
+        i0, j0 = uv_to_ij(CCT_to_uv(np.array([i, -D_uv]), 'Robertson 1968'))
+        i1, j1 = uv_to_ij(CCT_to_uv(np.array([i, D_uv]), 'Robertson 1968'))
         axes.plot((i0, i1), (j0, j1), color=planckian_locus_colours)
         axes.annotate(
             '{0}K'.format(i),

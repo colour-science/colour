@@ -171,7 +171,7 @@ class TestIsNumeric(unittest.TestCase):
 
         self.assertTrue(is_numeric(complex(1)))
 
-        self.assertFalse(is_numeric((1,)))
+        self.assertFalse(is_numeric((1, )))
 
         self.assertFalse(is_numeric([1]))
 
@@ -402,8 +402,8 @@ class TestSetDomainRangeScale(unittest.TestCase):
             set_domain_range_scale('Reference')
             self.assertEqual(get_domain_range_scale(), 'reference')
 
-        self.assertRaises(
-            AssertionError, lambda: set_domain_range_scale('Invalid'))
+        self.assertRaises(AssertionError,
+                          lambda: set_domain_range_scale('Invalid'))
 
 
 class TestDomainRangeScale(unittest.TestCase):

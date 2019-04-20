@@ -198,9 +198,8 @@ MUNSELL_HUE_LETTER_CODES = Lookup({
 })
 
 MUNSELL_DEFAULT_ILLUMINANT = 'C'
-MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-    [MUNSELL_DEFAULT_ILLUMINANT])
+MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = (ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][MUNSELL_DEFAULT_ILLUMINANT])
 
 _MUNSELL_SPECIFICATIONS_CACHE = None
 _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = None
@@ -770,10 +769,10 @@ def _munsell_specification_to_xyY(specification):
                            else (hue, value_minus, chroma, code))
     x_minus, y_minus = munsell_specification_to_xy(specification_minus)
 
-    plus_specification = (value_plus if
-                          (is_grey_munsell_colour(specification) or
-                           value_plus == 10) else (hue, value_plus, chroma,
-                                                   code))
+    plus_specification = (value_plus
+                          if (is_grey_munsell_colour(specification) or
+                              value_plus == 10) else (hue, value_plus, chroma,
+                                                      code))
     x_plus, y_plus = munsell_specification_to_xy(plus_specification)
 
     if value_minus == value_plus:

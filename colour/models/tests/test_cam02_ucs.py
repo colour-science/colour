@@ -100,9 +100,8 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         """
 
         JMh = self._JMh
-        Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(JMh,
-                                             COEFFICIENTS_UCS_LUO2006[
-                                                 'CAM02-LCD'])
+        Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(
+            JMh, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
         JMh = np.tile(JMh, (6, 1))
         Jpapbp = np.tile(Jpapbp, (6, 1))
@@ -219,9 +218,8 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
         """
 
         Jpapbp = np.array([54.90433134, -0.08442362, -0.06848314])
-        JMh = UCS_Luo2006_to_JMh_CIECAM02(Jpapbp,
-                                          COEFFICIENTS_UCS_LUO2006[
-                                              'CAM02-LCD'])
+        JMh = UCS_Luo2006_to_JMh_CIECAM02(
+            Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
         Jpapbp = np.tile(Jpapbp, (6, 1))
         JMh = np.tile(JMh, (6, 1))

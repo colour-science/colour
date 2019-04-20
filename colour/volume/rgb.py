@@ -71,8 +71,8 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
-        illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        ['D65'],
+        illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D65'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
         random_state=None):
@@ -189,8 +189,8 @@ def RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]], dtype=np.float),
-        illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        ['D65'],
+        illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D65'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
         random_state=None):

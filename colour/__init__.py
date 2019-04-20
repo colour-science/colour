@@ -288,7 +288,7 @@ __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '12'
+__change_version__ = '13'
 __version__ = '.'.join(
     (__major_version__,
      __minor_version__,
