@@ -75,6 +75,26 @@ class TestSpowEnable(unittest.TestCase):
         with spow_enable(False):
             self.assertFalse(is_spow_enabled())
 
+        @spow_enable(True)
+        def fn_a():
+            """
+            :func:`spow_enable` unit tests :func:`fn_a` definition.
+            """
+
+            self.assertTrue(is_spow_enabled())
+
+        fn_a()
+
+        @spow_enable(False)
+        def fn_b():
+            """
+            :func:`spow_enable` unit tests :func:`fn_b` definition.
+            """
+
+            self.assertFalse(is_spow_enabled())
+
+        fn_b()
+
 
 class TestSpow(unittest.TestCase):
     """

@@ -59,6 +59,9 @@ class TestRandomTripletGenerator(unittest.TestCase):
             random_triplet_generator(10, random_state=prng),
             decimal=7)
 
+        # TODO: Use "assertWarns" when dropping Python 2.7.
+        random_triplet_generator(5.5, random_state=prng)
+
 
 if __name__ == '__main__':
     unittest.main()
