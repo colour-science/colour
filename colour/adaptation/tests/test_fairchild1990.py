@@ -15,7 +15,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -69,11 +69,7 @@ chromatic_adaptation_Fairchild1990` definition n-dimensional arrays support.
         XYZ_n = np.array([111.15, 100.00, 35.20])
         XYZ_r = np.array([94.81, 100.00, 107.30])
         Y_n = 200
-        XYZ_c = np.array([23.32526349, 23.32455819, 76.11593750])
-        np.testing.assert_almost_equal(
-            chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),
-            XYZ_c,
-            decimal=7)
+        XYZ_c = chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
 
         XYZ_1 = np.tile(XYZ_1, (6, 1))
         XYZ_c = np.tile(XYZ_c, (6, 1))

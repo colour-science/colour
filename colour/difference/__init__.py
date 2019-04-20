@@ -62,7 +62,7 @@ DELTA_E_METHODS = CaseInsensitiveMapping({
     'DIN99': delta_E_DIN99,
 })
 DELTA_E_METHODS.__doc__ = """
-Supported :math:`\\Delta E_{ab}` computations methods.
+Supported :math:`\\Delta E_{ab}` computation methods.
 
 References
 ----------

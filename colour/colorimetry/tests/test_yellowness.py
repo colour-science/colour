@@ -15,7 +15,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -62,9 +62,7 @@ class TestYellownessASTMD1925(unittest.TestCase):
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        YI = 10.299999999999997
-        np.testing.assert_almost_equal(
-            yellowness_ASTMD1925(XYZ), YI, decimal=7)
+        YI = yellowness_ASTMD1925(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         YI = np.tile(YI, 6)
@@ -142,8 +140,7 @@ class TestYellownessASTM313(unittest.TestCase):
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        YI = 11.065000000000003
-        np.testing.assert_almost_equal(yellowness_ASTME313(XYZ), YI, decimal=7)
+        YI = yellowness_ASTME313(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         YI = np.tile(YI, 6)

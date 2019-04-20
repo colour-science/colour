@@ -51,12 +51,13 @@ apps_engineering_techdocuments/c/09_color_calculations_en.pdf
 
 from __future__ import division, unicode_literals
 
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              from_range_100, to_domain_100, tsplit, tstack)
+from colour.utilities import (CaseInsensitiveMapping, get_domain_range_scale,
+                              filter_kwargs, from_range_100, to_domain_100,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -445,7 +446,7 @@ WHITENESS_METHODS = CaseInsensitiveMapping({
     'CIE 2004': whiteness_CIE2004
 })
 WHITENESS_METHODS.__doc__ = """
-Supported *whiteness* computations methods.
+Supported *whiteness* computation methods.
 
 References
 ----------
@@ -462,12 +463,16 @@ Aliases:
 WHITENESS_METHODS['cie2004'] = WHITENESS_METHODS['CIE 2004']
 
 
-def whiteness(method='CIE 2004', **kwargs):
+def whiteness(XYZ, XYZ_0, method='CIE 2004', **kwargs):
     """
     Returns the *whiteness* :math:`W` using given method.
 
     Parameters
     ----------
+    XYZ : array_like
+        *CIE XYZ* tristimulus values of sample.
+    XYZ_0 : array_like
+        *CIE XYZ* tristimulus values of reference white.
     method : unicode, optional
         **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968',
         'ASTM E313', 'Ganz 1979'}**,
@@ -475,29 +480,6 @@ def whiteness(method='CIE 2004', **kwargs):
 
     Other Parameters
     ----------------
-    XYZ : array_like
-        {:func:`colour.colorimetry.whiteness_Berger1959`,
-        :func:`colour.colorimetry.whiteness_Taube1960`,
-        :func:`colour.colorimetry.whiteness_ASTME313`},
-        *CIE XYZ* tristimulus values of sample.
-    XYZ_0 : array_like
-        {:func:`colour.colorimetry.whiteness_Berger1959`,
-        :func:`colour.colorimetry.whiteness_Taube1960`},
-        *CIE XYZ* tristimulus values of reference white.
-    Lab : array_like
-        {:func:`colour.colorimetry.whiteness_Stensby1968`},
-        *CIE L\\*a\\*b\\** colourspace array of sample.
-    xy : array_like
-        {:func:`colour.colorimetry.whiteness_Ganz1979`,
-        :func:`colour.colorimetry.whiteness_CIE2004`},
-        Chromaticity coordinates *xy* of sample.
-    Y : numeric or array_like
-        {:func:`colour.colorimetry.whiteness_Ganz1979`,
-        :func:`colour.colorimetry.whiteness_CIE2004`},
-        Tristimulus :math:`Y` value of sample.
-    xy_n : array_like
-        {:func:`colour.colorimetry.whiteness_CIE2004`},
-        Chromaticity coordinates *xy_n* of perfect diffuser.
     observer : unicode, optional
         {:func:`colour.colorimetry.whiteness_CIE2004`},
         **{'CIE 1931 2 Degree Standard Observer',
@@ -516,17 +498,10 @@ def whiteness(method='CIE 2004', **kwargs):
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** |   **Scale - 1** |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
     +------------+-----------------------+-----------------+
     | ``XYZ``    | [0, 100]              |   [0, 1]        |
     +------------+-----------------------+-----------------+
     | ``XYZ_0``  | [0, 100]              |   [0, 1]        |
-    +------------+-----------------------+-----------------+
-    | ``Y``      | [0, 100]              |   [0, 1]        |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
@@ -543,18 +518,37 @@ def whiteness(method='CIE 2004', **kwargs):
     Examples
     --------
     >>> import numpy as np
-    >>> xy = np.array([0.3167, 0.3334])
-    >>> Y = 100
-    >>> xy_n = np.array([0.3139, 0.3311])
-    >>> whiteness(xy=xy, Y=Y, xy_n=xy_n)  # doctest: +ELLIPSIS
+    >>> from colour.models import xyY_to_XYZ
+    >>> XYZ = xyY_to_XYZ(np.array([0.3167, 0.3334, 100]))
+    >>> XYZ_0 = xyY_to_XYZ(np.array([0.3139, 0.3311, 100]))
+    >>> whiteness(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     array([ 93.85...,  -1.305...])
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-    >>> method = 'Taube 1960'
-    >>> whiteness(XYZ=XYZ, XYZ_0=XYZ_0, method=method)  # doctest: +ELLIPSIS
+    >>> whiteness(XYZ, XYZ_0, method='Taube 1960')  # doctest: +ELLIPSIS
     91.4071738...
     """
 
+    kwargs.update({'XYZ': XYZ, 'XYZ_0': XYZ_0})
+
     function = WHITENESS_METHODS.get(method)
+
+    if function is whiteness_Stensby1968:
+        from colour.models import XYZ_to_Lab, XYZ_to_xy
+
+        if get_domain_range_scale() == 'reference':
+            XYZ = XYZ / 100
+            XYZ_0 = XYZ_0 / 100
+
+        kwargs.update({'Lab': XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_0))})
+    elif function in (whiteness_Ganz1979, whiteness_CIE2004):
+        from colour.models import XYZ_to_xy
+
+        _X_0, Y_0, _Z_0 = tsplit(XYZ_0)
+        kwargs.update({
+            'xy': XYZ_to_xy(XYZ),
+            'Y': Y_0,
+            'xy_n': XYZ_to_xy(XYZ_0)
+        })
 
     return function(**filter_kwargs(function, **kwargs))

@@ -15,7 +15,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -87,9 +87,7 @@ class TestDelta_E_DIN99(unittest.TestCase):
 
         Lab_1 = np.array([60.25740000, -34.00990000, 36.26770000])
         Lab_2 = np.array([60.46260000, -34.17510000, 39.43870000])
-        delta_E = 1.177216620111552
-        np.testing.assert_almost_equal(
-            delta_E_DIN99(Lab_1, Lab_2), delta_E, decimal=7)
+        delta_E = delta_E_DIN99(Lab_1, Lab_2)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))

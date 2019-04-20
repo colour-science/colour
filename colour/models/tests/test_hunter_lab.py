@@ -17,7 +17,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -61,13 +61,11 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
     def test_n_dimensional_XYZ_to_K_ab_HunterLab1966(self):
         """
         Tests :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
-        definition n-dimensions support.
+        definition n-dimensional support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-        K_ab = np.array([80.32152090, 14.59816495])
-        np.testing.assert_almost_equal(
-            XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7)
+        K_ab = XYZ_to_K_ab_HunterLab1966(XYZ)
 
         XYZ = np.tile(XYZ, (6, 1))
         K_ab = np.tile(K_ab, (6, 1))
@@ -149,7 +147,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
     def test_n_dimensional_XYZ_to_Hunter_Lab(self):
         """
         Tests :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
@@ -158,9 +156,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
         XYZ_n = D65.XYZ_n
         K_ab = D65.K_ab
-        Lab = np.array([34.92452577, 47.06189858, 14.38615107])
-        np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7)
+        Lab = XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab)
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab = np.tile(Lab, (6, 1))
@@ -274,7 +270,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
     def test_n_dimensional_Hunter_Lab_to_XYZ(self):
         """
         Tests :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
@@ -283,9 +279,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         Lab = np.array([34.92452577, 47.06189858, 14.38615107])
         XYZ_n = D65.XYZ_n
         K_ab = D65.K_ab
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-        np.testing.assert_almost_equal(
-            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7)
+        XYZ = Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab)
 
         Lab = np.tile(Lab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))

@@ -32,6 +32,8 @@ Common
     warn_numpy_errors
     ignore_python_warnings
     batch
+    disable_multiprocessing
+    multiprocessing_pool
     is_openimageio_installed
     is_pandas_installed
     is_iterable

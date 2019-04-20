@@ -123,7 +123,7 @@ from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -310,7 +310,7 @@ def planckian_table_minimal_distance_index(planckian_table_):
     return distances.index(min(distances))
 
 
-def uv_to_CCT_Ohno2013(
+def _uv_to_CCT_Ohno2013(
         uv,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
         start=CCT_MINIMAL,
@@ -346,18 +346,6 @@ def uv_to_CCT_Ohno2013(
     -------
     ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-
-    References
-    ----------
-    :cite:`Ohno2014a`
-
-    Examples
-    --------
-    >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> uv = np.array([0.1978, 0.3122])
-    >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
-    array([  6.5074738...e+03,   3.2233461...e-03])
     """
 
     # Ensuring we do at least one iteration to initialise variables.
@@ -414,28 +402,42 @@ def uv_to_CCT_Ohno2013(
     return np.array([T, D_uv])
 
 
-def CCT_to_uv_Ohno2013(
-        CCT,
-        D_uv=0,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
+def uv_to_CCT_Ohno2013(
+        uv,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        start=CCT_MINIMAL,
+        end=CCT_MAXIMAL,
+        count=CCT_SAMPLES,
+        iterations=CCT_CALCULATION_ITERATIONS):
     """
-    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
-    colour matching functions using *Ohno (2013)* method.
+    Returns the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
+    coordinates, colour matching functions and temperature range using
+    *Ohno (2013)* method.
+
+    The iterations parameter defines the calculations precision: The higher its
+    value, the more planckian tables will be generated through cascade
+    expansion in order to converge to the exact solution.
 
     Parameters
     ----------
-    CCT : numeric
-        Correlated colour temperature :math:`T_{cp}`.
-    D_uv : numeric, optional
-        :math:`\\Delta_{uv}`.
+    uv : array_like
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
+    start : numeric, optional
+        Temperature range start in kelvins.
+    end : numeric, optional
+        Temperature range end in kelvins.
+    count : int, optional
+        Temperatures count in the planckian tables.
+    iterations : int, optional
+        Number of planckian tables to generate.
 
     Returns
     -------
     ndarray
-        *CIE UCS* colourspace *uv* chromaticity coordinates.
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     References
     ----------
@@ -445,11 +447,43 @@ def CCT_to_uv_Ohno2013(
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
     >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> CCT = 6507.4342201047066
-    >>> D_uv = 0.003223690901513
-    >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
-    array([ 0.1977999...,  0.3122004...])
+    >>> uv = np.array([0.1978, 0.3122])
+    >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
+    array([  6.5074738...e+03,   3.2233461...e-03])
     """
+
+    uv = as_float_array(uv)
+
+    CCT_D_uv = [
+        _uv_to_CCT_Ohno2013(a, cmfs, start, end, count, iterations)
+        for a in np.reshape(uv, (-1, 2))
+    ]
+
+    return as_float_array(CCT_D_uv).reshape(uv.shape)
+
+
+def _CCT_to_uv_Ohno2013(
+        CCT_D_uv,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
+    """
+    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
+    colour matching functions using *Ohno (2013)* method.
+
+    Parameters
+    ----------
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions.
+
+    Returns
+    -------
+    ndarray
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+    """
+
+    CCT, D_uv = tsplit(CCT_D_uv)
 
     cmfs = cmfs.copy().trim(ASTME30815_PRACTISE_SHAPE)
 
@@ -481,7 +515,47 @@ def CCT_to_uv_Ohno2013(
         return np.array([u, v])
 
 
-def uv_to_CCT_Robertson1968(uv):
+def CCT_to_uv_Ohno2013(
+        CCT_D_uv,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
+    """
+    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
+    colour matching functions using *Ohno (2013)* method.
+
+    Parameters
+    ----------
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions.
+
+    Returns
+    -------
+    ndarray
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    References
+    ----------
+    :cite:`Ohno2014a`
+
+    Examples
+    --------
+    >>> from colour import STANDARD_OBSERVERS_CMFS
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
+    >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
+    array([ 0.1977999...,  0.3122004...])
+    """
+
+    CCT_D_uv = as_float_array(CCT_D_uv)
+
+    uv = [_CCT_to_uv_Ohno2013(a, cmfs) for a in np.reshape(CCT_D_uv, (-1, 2))]
+
+    return as_float_array(uv).reshape(CCT_D_uv.shape)
+
+
+def _uv_to_CCT_Robertson1968(uv):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -496,16 +570,6 @@ def uv_to_CCT_Robertson1968(uv):
     -------
     ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-
-    References
-    ----------
-    :cite:`AdobeSystems2013`, :cite:`Wyszecki2000y`
-
-    Examples
-    --------
-    >>> uv = np.array([0.193741375998230, 0.315221043940594])
-    >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
-    array([  6.5000162...e+03,   8.3333289...e-03])
     """
 
     u, v = uv
@@ -561,7 +625,41 @@ def uv_to_CCT_Robertson1968(uv):
     return np.array([T, -D_uv])
 
 
-def CCT_to_uv_Robertson1968(CCT, D_uv=0):
+def uv_to_CCT_Robertson1968(uv):
+    """
+    Returns the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
+    coordinates using *Roberston (1968)* method.
+
+    Parameters
+    ----------
+    uv : array_like
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    Returns
+    -------
+    ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    References
+    ----------
+    :cite:`AdobeSystems2013`, :cite:`Wyszecki2000y`
+
+    Examples
+    --------
+    >>> uv = np.array([0.193741375998230, 0.315221043940594])
+    >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
+    array([  6.5000162...e+03,   8.3333289...e-03])
+    """
+
+    uv = as_float_array(uv)
+
+    CCT_D_uv = [_uv_to_CCT_Robertson1968(a) for a in np.reshape(uv, (-1, 2))]
+
+    return as_float_array(CCT_D_uv).reshape(uv.shape)
+
+
+def _CCT_to_uv_Robertson1968(CCT_D_uv):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
@@ -569,27 +667,16 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
 
     Parameters
     ----------
-    CCT : numeric
-        Correlated colour temperature :math:`T_{cp}`.
-    D_uv : numeric
-        :math:`\\Delta_{uv}`.
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     Returns
     -------
     ndarray
         *CIE UCS* colourspace *uv* chromaticity coordinates.
-
-    References
-    ----------
-    :cite:`AdobeSystems2013a`, :cite:`Wyszecki2000y`
-
-    Examples
-    --------
-    >>> CCT = 6500.0081378199056
-    >>> D_uv = 0.008333331244225
-    >>> CCT_to_uv_Robertson1968(CCT, D_uv)  # doctest: +ELLIPSIS
-    array([ 0.1937413...,  0.3152210...])
     """
+
+    CCT, D_uv = tsplit(CCT_D_uv)
 
     r = 1.0e6 / CCT
 
@@ -627,6 +714,40 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
             v += vv3 * -D_uv
 
             return np.array([u, v])
+
+
+def CCT_to_uv_Robertson1968(CCT_D_uv):
+    """
+    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
+    *Roberston (1968)* method.
+
+    Parameters
+    ----------
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    Returns
+    -------
+    ndarray
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    References
+    ----------
+    :cite:`AdobeSystems2013a`, :cite:`Wyszecki2000y`
+
+    Examples
+    --------
+    >>> CCT_D_uv = np.array([6500.0081378199056, 0.008333331244225])
+    >>> CCT_to_uv_Robertson1968(CCT_D_uv)  # doctest: +ELLIPSIS
+    array([ 0.1937413...,  0.3152210...])
+    """
+
+    CCT_D_uv = as_float_array(CCT_D_uv)
+
+    uv = [_CCT_to_uv_Robertson1968(a) for a in np.reshape(CCT_D_uv, (-1, 2))]
+
+    return as_float_array(uv).reshape(CCT_D_uv.shape)
 
 
 def CCT_to_uv_Krystek1985(CCT):
@@ -776,24 +897,21 @@ CCT_TO_UV_METHODS['ohno2013'] = CCT_TO_UV_METHODS['Ohno 2013']
 CCT_TO_UV_METHODS['robertson1968'] = CCT_TO_UV_METHODS['Robertson 1968']
 
 
-def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
+def CCT_to_uv(CCT_D_uv, method='Ohno 2013', **kwargs):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` using given method.
 
     Parameters
     ----------
-    CCT : numeric
-        Correlated colour temperature :math:`T_{cp}`.
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
     method : unicode, optional
         **{'Ohno 2013', 'Robertson 1968', 'Krystek 1985}**,
         Computation method.
 
     Other Parameters
     ----------------
-    D_uv : numeric
-       {:func:`CCT_to_uv_Ohno2013, CCT_to_uv_Robertson1968`},
-       :math:`\\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         {:func:`colour.temperature.CCT_to_uv_Ohno2013`},
         Standard observer colour matching functions.
@@ -812,15 +930,14 @@ def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
     >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> CCT = 6507.47380460
-    >>> D_uv = 0.00322335
-    >>> CCT_to_uv(CCT, D_uv=D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
+    >>> CCT_D_uv = np.array([6507.47380460, 0.00322335])
+    >>> CCT_to_uv(CCT_D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3121999...])
     """
 
     function = CCT_TO_UV_METHODS[method]
 
-    return function(CCT, **filter_kwargs(function, **kwargs))
+    return function(CCT_D_uv, **filter_kwargs(function, **kwargs))
 
 
 def xy_to_CCT_McCamy1992(xy):

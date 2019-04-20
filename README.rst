@@ -1,7 +1,6 @@
-Colour Science for Python
-=========================
 
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
+`Colour Science for Python <https://www.colour-science.org/>`_
+==============================================================
 
 .. start-badges
 
@@ -25,8 +24,8 @@ Colour Science for Python
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.python.org/pypi/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.2604314-blue.svg?style=flat-square
-    :target: https://dx.doi.org/10.5281/zenodo.2604314
+.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.2647615-blue.svg?style=flat-square
+    :target: https://dx.doi.org/10.5281/zenodo.2647615
     :alt: DOI
 
 .. end-badges
@@ -36,12 +35,20 @@ Colour Science for Python
 comprehensive number of colour theory transformations and algorithms.
 
 It is open source and freely available under the
-`New BSD License <http://opensource.org/licenses/BSD-3-Clause>`_ terms.
+`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
+
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_Tight_001.png
+
+.. contents:: **Table of Contents**
+    :backlinks: none
+    :depth: 3
+
+.. sectnum::
 
 Draft Release Notes
 -------------------
 
-The draft release notes from the
+The draft release notes of the
 `develop <https://github.com/colour-science/colour/tree/develop>`_
 branch are available at this
 `url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`_.
@@ -49,18 +56,22 @@ branch are available at this
 Features
 --------
 
-`Colour <https://github.com/colour-science/colour>`_ features a rich dataset
-and collection of objects, please see the
+**Colour** features a rich dataset and collection of objects, please see the
 `features <https://www.colour-science.org/features/>`_ page for more
 information.
+
+Online
+------
+
+**Colour** can be used online with
+`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
 
 Installation
 ------------
 
 `Anaconda <https://www.continuum.io/downloads>`_ from *Continuum Analytics*
-is the Python distribution we use to develop **Colour**:
-it ships all the scientific dependencies we require and is easily deployed
-cross-platform:
+is the Python distribution we use to develop **Colour**: it ships all the
+scientific dependencies we require and is easily deployed cross-platform:
 
 .. code-block:: bash
 
@@ -68,7 +79,9 @@ cross-platform:
     $ source activate python-colour
     $ conda install -y -c conda-forge colour-science
 
-**Colour** can be easily installed from the `Python Package Index <https://pypi.python.org/pypi/colour-science/>`_ by issuing this command in a shell:
+**Colour** can be easily installed from the
+`Python Package Index <https://pypi.python.org/pypi/colour-science/>`_
+by issuing this command in a shell:
 
 .. code-block:: bash
 
@@ -80,7 +93,7 @@ The detailed installation procedure is described in the
 Usage
 -----
 
-The two main references for `Colour <https://github.com/colour-science/colour>`_
+The two main references for **Colour**
 usage are the `Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`_
 and the `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
 with detailed historical and theoretical context and images:
@@ -91,14 +104,14 @@ with detailed historical and theoretical context and images:
 Examples
 ~~~~~~~~
 
-Most of the objects are available from the **colour** namespace:
+Most of the objects are available from the ``colour`` namespace:
 
 .. code-block:: python
 
     >>> import colour
 
-Chromatic Adaptation
-^^^^^^^^^^^^^^^^^^^^
+Chromatic Adaptation - ``colour.adaptation``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
@@ -111,8 +124,8 @@ Chromatic Adaptation
     >>> sorted(colour.CHROMATIC_ADAPTATION_METHODS.keys())
     ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries']
 
-Algebra
-^^^^^^^
+Algebra - ``colour.algebra``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Kernel Interpolation
 ********************
@@ -134,8 +147,53 @@ Sprague (1880) Interpolation
     >>> colour.SpragueInterpolator(x, y)([0.25, 0.75, 5.50])
     array([  6.72951612,   7.81406251,  43.77379185])
 
+Colour Appearance Models - ``colour.appearance``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
+    >>> XYZ_w = [95.05, 100.00, 108.88]
+    >>> L_A = 318.31
+    >>> Y_b = 20.0
+    >>> colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)
+    CIECAM02_Specification(J=34.434525727858997, C=67.365010921125915, h=22.279164147957076, s=62.814855853327131, Q=177.47124941102123, M=70.024939419291385, H=2.689608534423904, HC=None)
+
+Colour Blindness - ``colour.blindness``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> import colour
+    >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
+    array([ 0.08912884,  0.0870524 ,  0.955393  ])
+    >>> primaries = colour.DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> d_LMS = (15, 0, 0)
+    >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
+    array([[-0.27774652,  2.65150084, -1.37375432],
+           [ 0.27189369,  0.20047862,  0.52762768],
+           [ 0.00644047,  0.25921579,  0.73434374]])
+
+Colour Correction - ``colour characterisation``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> import numpy as np
+    >>> RGB = [0.17224810, 0.09170660, 0.06416938]
+    >>> M_T = np.random.random((24, 3))
+    >>> M_R = M_T + (np.random.random((24, 3)) - 0.5) * 0.5
+    >>> colour.colour_correction(RGB, M_T, M_R)
+    array([ 0.15205429,  0.08974029,  0.04141435])
+    >>> sorted(colour.COLOUR_CORRECTION_METHODS.keys())
+    ['Cheung 2004', 'Finlayson 2015', 'Vandermonde']
+
+Colorimetry - ``colour.colorimetry``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Spectral Computations
-^^^^^^^^^^^^^^^^^^^^^
+*********************
 
 .. code-block:: python
 
@@ -144,8 +202,9 @@ Spectral Computations
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     ['ASTM E308-15', 'Integration', 'astm2015']
 
+
 Multi-Spectral Computations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+***************************
 
 .. code-block:: python
 
@@ -181,7 +240,7 @@ Multi-Spectral Computations
     ['Integration']
 
 Blackbody Spectral Radiance Computation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+***************************************
 
 .. code-block:: python
 
@@ -199,7 +258,7 @@ Blackbody Spectral Radiance Computation
                          extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
 
 Dominant, Complementary Wavelength & Colour Purity Computation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**************************************************************
 
 .. code-block:: python
 
@@ -211,7 +270,7 @@ Dominant, Complementary Wavelength & Colour Purity Computation
      array([ 0.68354746,  0.31628409]))
 
 Lightness Computation
-^^^^^^^^^^^^^^^^^^^^^
+*********************
 
 .. code-block:: python
 
@@ -226,7 +285,7 @@ Lightness Computation
      'Wyszecki 1963']
 
 Luminance Computation
-^^^^^^^^^^^^^^^^^^^^^
+*********************
 
 .. code-block:: python
 
@@ -242,12 +301,14 @@ Luminance Computation
      'cie1976']
 
 Whiteness Computation
-^^^^^^^^^^^^^^^^^^^^^
+*********************
 
 .. code-block:: python
 
-    >>> colour.whiteness(xy=[0.3167, 0.3334], Y=100, xy_n=[0.3139, 0.3311])
-    array([ 93.85 ,  -1.305])
+    >>> XYZ = [95.00000000, 100.00000000, 105.00000000]
+    >>> XYZ_0 = [94.80966767, 100.00000000, 107.30513595]
+    >>> colour.whiteness(XYZ, XYZ_0)
+    array([ 93.756     ,  -1.33000001])
     >>> sorted(colour.WHITENESS_METHODS.keys())
     ['ASTM E313',
      'Berger 1959',
@@ -258,7 +319,7 @@ Whiteness Computation
      'cie2004']
 
 Yellowness Computation
-^^^^^^^^^^^^^^^^^^^^^^
+**********************
 
 .. code-block:: python
 
@@ -269,37 +330,88 @@ Yellowness Computation
     ['ASTM D1925', 'ASTM E313']
 
 Luminous Flux, Efficiency & Efficacy Computation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Luminous Flux
-*************
+************************************************
 
 .. code-block:: python
 
     >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
     >>> colour.luminous_flux(sd)
     23807.655527367202
-
-Luminous Efficiency
-*******************
-
-.. code-block:: python
-
     >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficiency(sd)
     0.19943935624521045
-
-Luminous Efficacy
-*****************
-
-.. code-block:: python
-
     >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficacy(sd)
     136.21708031547874
 
-Colour Models
-^^^^^^^^^^^^^
+Contrast Sensitivity Function - ``colour.contrast``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> colour.contrast_sensitivity_function(u=4, X_0=60, E=65)
+    358.51180789884984
+    >>> sorted(colour.CONTRAST_SENSITIVITY_METHODS.keys())
+    ['Barten 1999']
+
+
+Colour Difference - ``colour.difference``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> Lab_1 = [100.00000000, 21.57210357, 272.22819350]
+    >>> Lab_2 = [100.00000000, 426.67945353, 72.39590835]
+    >>> colour.delta_E(Lab_1, Lab_2)
+    94.035649026659485
+    >>> sorted(colour.DELTA_E_METHODS.keys())
+    ['CAM02-LCD',
+     'CAM02-SCD',
+     'CAM02-UCS',
+     'CAM16-LCD',
+     'CAM16-SCD',
+     'CAM16-UCS',
+     'CIE 1976',
+     'CIE 1994',
+     'CIE 2000',
+     'CMC',
+     'DIN99',
+     'cie1976',
+     'cie1994',
+     'cie2000']
+
+IO - ``colour.io``
+^^^^^^^^^^^^^^^^^^
+
+Images
+******
+
+.. code-block:: python
+
+    >>> RGB = colour.read_image('Ishihara_Colour_Blindness_Test_Plate_3.png')
+    >>> RGB.shape
+    (276, 281, 3)
+
+Look Up Table (LUT) Data
+************************
+
+.. code-block:: python
+
+    >>> LUT = colour.read_LUT('ACES_Proxy_10_to_ACES.cube')
+    >>> print(LUT)
+    LUT3x1D - ACES Proxy 10 to ACES
+    -------------------------------
+    Dimensions : 2
+    Domain     : [[0 0 0]
+                  [1 1 1]]
+    Size       : (32, 3)
+
+    >>> RGB = [0.17224810, 0.09170660, 0.06416938]
+    >>> LUT.apply(RGB)
+    array([ 0.00575674,  0.00181493,  0.00121419])
+
+Colour Models - ``colour.models``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 CIE xyY Colourspace
 *******************
@@ -442,39 +554,6 @@ JzAzBz Colourspace
     >>> colour.XYZ_to_JzAzBz([0.20654008, 0.12197225, 0.05136952])
     array([ 0.00535048,  0.00924302,  0.00526007])
 
-RGB Colourspace and Transformations
-***********************************
-
-.. code-block:: python
-
-    >>> XYZ = [0.21638819, 0.12570000, 0.03847493]
-    >>> illuminant_XYZ = [0.34570, 0.35850]
-    >>> illuminant_RGB = [0.31270, 0.32900]
-    >>> chromatic_adaptation_transform = 'Bradford'
-    >>> XYZ_to_RGB_matrix = [
-             [3.24062548, -1.53720797, -0.49862860],
-             [-0.96893071, 1.87575606, 0.04151752],
-             [0.05571012, -0.20402105, 1.05699594]]
-    >>> colour.XYZ_to_RGB(
-             XYZ,
-             illuminant_XYZ,
-             illuminant_RGB,
-             XYZ_to_RGB_matrix,
-             chromatic_adaptation_transform)
-    array([ 0.45595571,  0.03039702,  0.04087245])
-
-RGB Colourspace Derivation
-**************************
-
-.. code-block:: python
-
-    >>> p = [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-    >>> w = [0.32168, 0.33767]
-    >>> colour.normalised_primary_matrix(p, w)
-    array([[  9.52552396e-01,   0.00000000e+00,   9.36786317e-05],
-           [  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
-           [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
-
 Y'CbCr Colour Encoding
 **********************
 
@@ -515,8 +594,41 @@ Prismatic Colourspace
     >>> colour.RGB_to_Prismatic([0.25, 0.50, 0.75])
     array([ 0.75      ,  0.16666667,  0.33333333,  0.5       ])
 
+RGB Colourspace and Transformations
+***********************************
+
+.. code-block:: python
+
+    >>> XYZ = [0.21638819, 0.12570000, 0.03847493]
+    >>> illuminant_XYZ = [0.34570, 0.35850]
+    >>> illuminant_RGB = [0.31270, 0.32900]
+    >>> chromatic_adaptation_transform = 'Bradford'
+    >>> XYZ_to_RGB_matrix = [
+             [3.24062548, -1.53720797, -0.49862860],
+             [-0.96893071, 1.87575606, 0.04151752],
+             [0.05571012, -0.20402105, 1.05699594]]
+    >>> colour.XYZ_to_RGB(
+             XYZ,
+             illuminant_XYZ,
+             illuminant_RGB,
+             XYZ_to_RGB_matrix,
+             chromatic_adaptation_transform)
+    array([ 0.45595571,  0.03039702,  0.04087245])
+
+RGB Colourspace Derivation
+**************************
+
+.. code-block:: python
+
+    >>> p = [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
+    >>> w = [0.32168, 0.33767]
+    >>> colour.normalised_primary_matrix(p, w)
+    array([[  9.52552396e-01,   0.00000000e+00,   9.36786317e-05],
+           [  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
+           [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
+
 RGB Colourspaces
-^^^^^^^^^^^^^^^^
+****************
 
 .. code-block:: python
 
@@ -577,7 +689,7 @@ RGB Colourspaces
      'sRGB']
 
 OETFs
-^^^^^
+*****
 
 .. code-block:: python
 
@@ -597,7 +709,7 @@ OETFs
      'sRGB']
 
 OETFs Reverse
-^^^^^^^^^^^^^
+*************
 
 .. code-block:: python
 
@@ -610,7 +722,7 @@ OETFs Reverse
      'sRGB']
 
 EOTFs
-^^^^^
+*****
 
 .. code-block:: python
 
@@ -628,7 +740,7 @@ EOTFs
      'ST 2084']
 
 EOTFs Reverse
-^^^^^^^^^^^^^
+*************
 
 .. code-block:: python
 
@@ -636,7 +748,7 @@ EOTFs Reverse
     ['DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
 OOTFs
-^^^^^
+*****
 
 .. code-block:: python
 
@@ -644,7 +756,7 @@ OOTFs
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
 OOTFs Reverse
-^^^^^^^^^^^^^
+*************
 
 .. code-block:: python
 
@@ -652,7 +764,7 @@ OOTFs Reverse
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
 Log Encoding / Decoding Curves
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+******************************
 
 .. code-block:: python
 
@@ -682,72 +794,8 @@ Log Encoding / Decoding Curves
      'V-Log',
      'ViperLog']
 
-Chromatic Adaptation Models
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: python
-
-    >>> XYZ = [0.20654008, 0.12197225, 0.05136952]
-    >>> XYZ_w = [0.95045593, 1.00000000, 1.08905775]
-    >>> XYZ_wr = [1.09846607, 1.00000000, 0.35582280]
-    >>> colour.chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
-    array([ 0.2533053 ,  0.13765138,  0.01543307])
-    >>> sorted(colour.CHROMATIC_ADAPTATION_METHODS.keys())
-    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries']
-
-Colour Appearance Models
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: python
-
-    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
-    >>> XYZ_w = [95.05, 100.00, 108.88]
-    >>> L_A = 318.31
-    >>> Y_b = 20.0
-    >>> colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)
-    CIECAM02_Specification(J=34.434525727858997, C=67.365010921125915, h=22.279164147957076, s=62.814855853327131, Q=177.47124941102123, M=70.024939419291385, H=2.689608534423904, HC=None)
-
-Colour Difference
-^^^^^^^^^^^^^^^^^
-
-.. code-block:: python
-
-    >>> Lab_1 = [100.00000000, 21.57210357, 272.22819350]
-    >>> Lab_2 = [100.00000000, 426.67945353, 72.39590835]
-    >>> colour.delta_E(Lab_1, Lab_2)
-    94.035649026659485
-    >>> sorted(colour.DELTA_E_METHODS.keys())
-    ['CAM02-LCD',
-     'CAM02-SCD',
-     'CAM02-UCS',
-     'CAM16-LCD',
-     'CAM16-SCD',
-     'CAM16-UCS',
-     'CIE 1976',
-     'CIE 1994',
-     'CIE 2000',
-     'CMC',
-     'DIN99',
-     'cie1976',
-     'cie1994',
-     'cie2000']
-
-Colour Correction
-^^^^^^^^^^^^^^^^^
-
-.. code-block:: python
-
-    >>> import numpy as np
-    >>> RGB = [0.17224810, 0.09170660, 0.06416938]
-    >>> M_T = np.random.random((24, 3))
-    >>> M_R = M_T + (np.random.random((24, 3)) - 0.5) * 0.5
-    >>> colour.colour_correction(RGB, M_T, M_R)
-    array([ 0.15205429,  0.08974029,  0.04141435])
-    >>> sorted(colour.COLOUR_CORRECTION_METHODS.keys())
-    ['Cheung 2004', 'Finlayson 2015', 'Vandermonde']
-
-Colour Notation Systems
-^^^^^^^^^^^^^^^^^^^^^^^
+Colour Notation Systems - ``colour.notation``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Munsell Value
 *************
@@ -776,24 +824,8 @@ Munsell Colour
     >>> colour.munsell_colour_to_xyY('4.2YR 8.1/5.3')
     array([ 0.38736945,  0.35751656,  0.59362   ])
 
-Colour Blindness
-^^^^^^^^^^^^^^^^
-
-.. code-block:: python
-
-    >>> import colour
-    >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
-    >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
-    array([ 0.08912884,  0.0870524 ,  0.955393  ])
-    >>> primaries = colour.DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
-    >>> d_LMS = (15, 0, 0)
-    >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
-    array([[-0.27774652,  2.65150084, -1.37375432],
-           [ 0.27189369,  0.20047862,  0.52762768],
-           [ 0.00644047,  0.25921579,  0.73434374]])
-
-Optical Phenomena
-^^^^^^^^^^^^^^^^^
+Optical Phenomena - ``colour.phenomena``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
@@ -810,8 +842,8 @@ Optical Phenomena
                          extrapolator=Extrapolator,
                          extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
 
-Light Quality
-^^^^^^^^^^^^^
+Light Quality - ``colour.quality``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Colour Rendering Index
 **********************
@@ -819,7 +851,9 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> colour.colour_quality_scale(colour.ILLUMINANTS_SDS['FL2'])
-    64.686416902221609
+    64.017283509280588
+    >>> colour.COLOUR_QUALITY_SCALE_METHODS
+    ('NIST CQS 7.4', 'NIST CQS 9.0')
 
 Colour Quality Scale
 ********************
@@ -829,8 +863,8 @@ Colour Quality Scale
     >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2'])
     64.151520202968015
 
-Reflectance Recovery
-^^^^^^^^^^^^^^^^^^^^
+Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
@@ -850,8 +884,8 @@ Reflectance Recovery
     >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS.keys())
     ['Meng 2015', 'Smits 1999']
 
-Correlated Colour Temperature Computation Methods
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Correlated Colour Temperature Computation Methods - ``colour.temperature``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
@@ -870,58 +904,18 @@ Correlated Colour Temperature Computation Methods
      >>> sorted(colour.CCT_TO_XY_METHODS.keys())
      ['CIE Illuminant D Series', 'Kang 2002', 'cie_d', 'kang2002']
 
-Volume
-^^^^^^
+Colour Volume - ``colour.volume``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
     >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE['sRGB'])
     821958.30000000005
 
-Contrast Sensitivity Function
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Plotting - ``colour.plotting``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: python
-
-    >>> colour.contrast_sensitivity_function(u=4, X_0=60, E=65)
-    358.51180789884984
-    >>> sorted(colour.CONTRAST_SENSITIVITY_METHODS.keys())
-    ['Barten 1999']
-
-IO
-^^
-
-Images
-******
-
-.. code-block:: python
-
-    >>> RGB = colour.read_image('Ishihara_Colour_Blindness_Test_Plate_3.png')
-    >>> RGB.shape
-    (276, 281, 3)
-
-Look Up Table (LUT) Data
-************************
-
-.. code-block:: python
-
-    >>> LUT = colour.read_LUT('ACES_Proxy_10_to_ACES.cube')
-    >>> print(LUT)
-    LUT3x1D - ACES Proxy 10 to ACES
-    -------------------------------
-    Dimensions : 2
-    Domain     : [[0 0 0]
-                  [1 1 1]]
-    Size       : (32, 3)
-
-    >>> RGB = [0.17224810, 0.09170660, 0.06416938]
-    >>> LUT.apply(RGB)
-    array([ 0.00575674,  0.00181493,  0.00121419])
-
-Plotting
-^^^^^^^^
-
-Most of the objects are available from the **colour.plotting** namespace:
+Most of the objects are available from the ``colour.plotting`` namespace:
 
 .. code-block:: python
 
@@ -938,7 +932,7 @@ Visible Spectrum
 ..  image:: docs/_static/Examples_Plotting_Visible_Spectrum.png
 
 Spectral Distribution
-***************************
+*********************
 
 .. code-block:: python
 
@@ -1064,8 +1058,8 @@ Colour Rendering Index
 Contributing
 ------------
 
-If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_,
-please refer to the following `Contributing <https://www.colour-science.org/contributing/>`_ guide.
+If you would like to contribute to **Colour**, please refer to the following
+`Contributing <https://www.colour-science.org/contributing/>`_ guide.
 
 Changes
 -------
@@ -1088,9 +1082,10 @@ Here is a list of notable colour science packages sorted by languages:
 
 **Python**
 
+- `Colorio <https://github.com/nschloe/colorio/>`_  by Schlömer, N.
 - `ColorPy <http://markkness.net/colorpy/ColorPy.html>`_ by Kness, M.
-- `Colorspacious <http://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
-- `python-colormath <http://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
+- `Colorspacious <https://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
+- `python-colormath <https://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
 
 **.NET**
 
@@ -1111,5 +1106,5 @@ About
 
 | **Colour** by Colour Developers - 2013-2019
 | Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
-| This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
-| `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_
+| This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
+| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`_

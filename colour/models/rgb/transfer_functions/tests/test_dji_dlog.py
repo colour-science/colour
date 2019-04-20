@@ -15,7 +15,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -49,8 +49,7 @@ log_encoding_DJIDLog` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = 0.398764556189331
-        np.testing.assert_almost_equal(log_encoding_DJIDLog(x), y, decimal=7)
+        y = log_encoding_DJIDLog(x)
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
@@ -116,8 +115,7 @@ log_decoding_DJIDLog` definition n-dimensional arrays support.
         """
 
         y = 0.398764556189331
-        x = 0.18
-        np.testing.assert_almost_equal(log_decoding_DJIDLog(y), x, decimal=7)
+        x = log_decoding_DJIDLog(y)
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)

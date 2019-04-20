@@ -16,7 +16,7 @@ from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -197,13 +197,11 @@ class TestDaylightLocusFunction(unittest.TestCase):
     def test_n_dimensional_daylight_locus_function(self):
         """
         Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
-        definition n-dimensions support.
+        definition n-dimensional support.
         """
 
         x_D = np.array([0.31270])
-        y_D = np.array([0.329105129999999])
-        np.testing.assert_almost_equal(
-            daylight_locus_function(x_D), y_D, decimal=7)
+        y_D = daylight_locus_function(x_D)
 
         x_D = np.tile(x_D, (6, 1))
         y_D = np.tile(y_D, (6, 1))

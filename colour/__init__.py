@@ -121,8 +121,8 @@ from .models import (
     hdr_IPT_to_XYZ, legal_to_full, linear_function, log_decoding_curve,
     log_encoding_curve, normalised_primary_matrix, oetf, oetf_reverse, ootf,
     ootf_reverse, primaries_whitepoint, sd_to_aces_relative_exposure_values,
-    sRGB_to_XYZ, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ,
-    xy_to_xyY)
+    sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv,
+    xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
 from .corresponding import (BRENEMAN_EXPERIMENTS,
                             BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
@@ -134,7 +134,8 @@ from .phenomena import (rayleigh_scattering, scattering_cross_section,
 from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
                        munsell_colour_to_xyY, munsell_value,
                        xyY_to_munsell_colour)
-from .quality import colour_quality_scale, colour_rendering_index
+from .quality import (COLOUR_QUALITY_SCALE_METHODS, colour_quality_scale,
+                      colour_rendering_index)
 from .recovery import XYZ_TO_SD_METHODS, XYZ_to_sd
 from .temperature import (CCT_TO_UV_METHODS, CCT_TO_XY_METHODS, CCT_to_uv,
                           CCT_to_xy, UV_TO_CCT_METHODS, XY_TO_CCT_METHODS,
@@ -149,7 +150,7 @@ from .volume import (
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -248,8 +249,9 @@ __all__ += [
     'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full', 'linear_function',
     'log_decoding_curve', 'log_encoding_curve', 'normalised_primary_matrix',
     'oetf', 'oetf_reverse', 'ootf', 'ootf_reverse', 'primaries_whitepoint',
-    'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'xyY_to_XYZ',
-    'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ', 'xy_to_xyY'
+    'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'uv_to_Luv',
+    'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv',
+    'xy_to_XYZ', 'xy_to_xyY'
 ]
 __all__ += [
     'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
@@ -264,7 +266,10 @@ __all__ += [
     'MUNSELL_COLOURS', 'MUNSELL_VALUE_METHODS', 'munsell_colour_to_xyY',
     'munsell_value', 'xyY_to_munsell_colour'
 ]
-__all__ += ['colour_quality_scale', 'colour_rendering_index']
+__all__ += [
+    'COLOUR_QUALITY_SCALE_METHODS', 'colour_quality_scale',
+    'colour_rendering_index'
+]
 __all__ += ['XYZ_TO_SD_METHODS', 'XYZ_to_sd']
 __all__ += [
     'CCT_TO_UV_METHODS', 'CCT_TO_XY_METHODS', 'CCT_to_uv', 'CCT_to_xy',
@@ -283,7 +288,7 @@ __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '12'
+__change_version__ = '13'
 __version__ = '.'.join(
     (__major_version__,
      __minor_version__,

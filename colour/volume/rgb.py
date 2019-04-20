@@ -29,11 +29,11 @@ from colour.colorimetry import ILLUMINANTS
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.models import (Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB)
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
-from colour.utilities import as_float_array
+from colour.utilities import as_float_array, multiprocessing_pool
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -47,7 +47,7 @@ __all__ = [
 ]
 
 
-def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
+def _wrapper_RGB_colourspace_volume_MonteCarlo(arguments):
     """
     Convenient wrapper to be able to call
     :func:`colour.volume.rgb.sample_RGB_colourspace_volume_MonteCarlo`:
@@ -55,7 +55,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
 
     Parameters
     ----------
-    args : array_like, optional
+    arguments : array_like, optional
         Arguments.
 
     Returns
@@ -64,7 +64,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
         Inside *RGB* colourspace volume samples count.
     """
 
-    return sample_RGB_colourspace_volume_MonteCarlo(*args)
+    return sample_RGB_colourspace_volume_MonteCarlo(*arguments)
 
 
 def sample_RGB_colourspace_volume_MonteCarlo(
@@ -163,7 +163,7 @@ def RGB_colourspace_limits(
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> RGB_colourspace_limits(sRGB)  # doctest: +ELLIPSIS
     array([[   0.       ...,  100.       ...],
            [ -86.182855 ...,   98.2563272...],
@@ -193,8 +193,7 @@ def RGB_colourspace_volume_MonteCarlo(
             'D65'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
-        random_state=None,
-        processes=None):
+        random_state=None):
     """
     Performs given *RGB* colourspace volume computation using *Monte Carlo*
     method and multiprocessing.
@@ -220,9 +219,6 @@ def RGB_colourspace_volume_MonteCarlo(
     random_state : RandomState, optional
         Mersenne Twister pseudo-random number generator to use in the random
         number generator.
-    processes : integer, optional
-        Processes count, default to :func:`multiprocessing.cpu_count`
-        definition.
 
     Returns
     -------
@@ -242,29 +238,28 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
+    >>> from colour.utilities import disable_multiprocessing
     >>> prng = np.random.RandomState(2)
-    >>> processes = 1
-    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng,
-    ...                                   processes=processes)
+    >>> with disable_multiprocessing():
+    ...     RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)
     ... # doctest: +ELLIPSIS
-    816...
+    8...
     """
 
-    cpu_count = processes if processes else multiprocessing.cpu_count()
-    pool = multiprocessing.Pool(processes=cpu_count)
-
-    process_samples = DEFAULT_INT_DTYPE(np.round(samples / cpu_count))
+    processes = multiprocessing.cpu_count()
+    process_samples = DEFAULT_INT_DTYPE(np.round(samples / processes))
 
     arguments = (colourspace, process_samples, limits, illuminant_Lab,
                  chromatic_adaptation_method, random_generator, random_state)
 
-    results = pool.map(_wrapper_RGB_colourspace_volume_MonteCarlo,
-                       [arguments for _ in range(cpu_count)])
+    with multiprocessing_pool() as pool:
+        results = pool.map(_wrapper_RGB_colourspace_volume_MonteCarlo,
+                           [arguments for _ in range(processes)])
 
     Lab_volume = np.product([np.sum(np.abs(x)) for x in limits])
 
-    return Lab_volume * np.sum(results) / (process_samples * cpu_count)
+    return Lab_volume * np.sum(results) / (process_samples * processes)
 
 
 def RGB_colourspace_volume_coverage_MonteCarlo(
@@ -297,7 +292,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_volume_coverage_MonteCarlo(
     ...     sRGB, is_within_pointer_gamut, 10e3, random_state=prng)
@@ -351,7 +346,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
@@ -391,7 +386,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS

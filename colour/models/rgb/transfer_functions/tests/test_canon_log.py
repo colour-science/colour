@@ -17,7 +17,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -73,9 +73,7 @@ log_encoding_CanonLog` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        clog = 0.343389651726069
-        np.testing.assert_almost_equal(
-            log_encoding_CanonLog(x), clog, decimal=7)
+        clog = log_encoding_CanonLog(x)
 
         x = np.tile(x, 6)
         clog = np.tile(clog, 6)
@@ -164,9 +162,7 @@ log_decoding_CanonLog` definition n-dimensional arrays support.
         """
 
         clog = 0.343389651726069
-        x = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_CanonLog(clog), x, decimal=7)
+        x = log_decoding_CanonLog(clog)
 
         clog = np.tile(clog, 6)
         x = np.tile(x, 6)
@@ -255,9 +251,7 @@ log_encoding_CanonLog2` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        clog2 = 0.398254694983167
-        np.testing.assert_almost_equal(
-            log_encoding_CanonLog2(x), clog2, decimal=7)
+        clog2 = log_encoding_CanonLog2(x)
 
         x = np.tile(x, 6)
         clog2 = np.tile(clog2, 6)
@@ -346,9 +340,7 @@ log_decoding_CanonLog2` definition n-dimensional arrays support.
         """
 
         clog2 = 0.398254694983167
-        x = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_CanonLog2(clog2), x, decimal=7)
+        x = log_decoding_CanonLog2(clog2)
 
         clog2 = np.tile(clog2, 6)
         x = np.tile(x, 6)
@@ -437,9 +429,7 @@ log_encoding_CanonLog3` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        clog3 = 0.343389369388687
-        np.testing.assert_almost_equal(
-            log_encoding_CanonLog3(x), clog3, decimal=7)
+        clog3 = log_encoding_CanonLog3(x)
 
         x = np.tile(x, 6)
         clog3 = np.tile(clog3, 6)
@@ -528,9 +518,7 @@ log_decoding_CanonLog3` definition n-dimensional arrays support.
         """
 
         clog3 = 0.343389369388687
-        x = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_CanonLog3(clog3), x, decimal=7)
+        x = log_decoding_CanonLog3(clog3)
 
         clog3 = np.tile(clog3, 6)
         x = np.tile(x, 6)

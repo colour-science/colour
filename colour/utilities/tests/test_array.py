@@ -19,7 +19,7 @@ from colour.utilities import (
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -396,7 +396,7 @@ class TestInArray(unittest.TestCase):
 
     def test_n_dimensional_in_array(self):
         """
-        Tests :func:`colour.utilities.array.in_array` definition n-dimensions
+        Tests :func:`colour.utilities.array.in_array` definition n-dimensional
         support.
         """
 

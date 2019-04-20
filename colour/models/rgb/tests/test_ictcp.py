@@ -14,7 +14,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -51,12 +51,11 @@ class TestRGB_to_ICTCP(unittest.TestCase):
     def test_n_dimensional_RGB_to_ICTCP(self):
         """
         Tests :func:`colour.models.rgb.ictpt.RGB_to_ICTCP` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        ICTCP = np.array([0.07351364, 0.00475253, 0.09351596])
-        np.testing.assert_almost_equal(RGB_to_ICTCP(RGB), ICTCP, decimal=7)
+        ICTCP = RGB_to_ICTCP(RGB)
 
         RGB = np.tile(RGB, (6, 1))
         ICTCP = np.tile(ICTCP, (6, 1))
@@ -124,12 +123,11 @@ class TestICTCP_to_RGB(unittest.TestCase):
     def test_n_dimensional_ICTCP_to_RGB(self):
         """
         Tests :func:`colour.models.rgb.ictpt.ICTCP_to_RGB` definition
-        n-dimensions support.
+        n-dimensional support.
         """
 
         ICTCP = np.array([0.07351364, 0.00475253, 0.09351596])
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        np.testing.assert_almost_equal(ICTCP_to_RGB(ICTCP), RGB, decimal=7)
+        RGB = ICTCP_to_RGB(ICTCP)
 
         ICTCP = np.tile(ICTCP, (6, 1))
         RGB = np.tile(RGB, (6, 1))

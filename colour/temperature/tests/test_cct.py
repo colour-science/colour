@@ -16,11 +16,11 @@ from colour.temperature import (
     CCT_to_xy_CIE_D, xy_to_CCT_McCamy1992, xy_to_CCT_Hernandez1999)
 from colour.temperature.cct import (planckian_table,
                                     planckian_table_minimal_distance_index)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import disable_multiprocessing, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -216,6 +216,39 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
             np.array([2452.15316417, -0.08437064]),
             decimal=7)
 
+    def test_n_dimensional_uv_to_CCT_Ohno2013(self):
+        """
+        Tests :func:`colour.temperature.cct.uv_to_CCT_Ohno2013` definition
+        n-dimensional arrays support.
+        """
+
+        uv = np.array([0.1978, 0.3122])
+        CCT_D_uv = uv_to_CCT_Ohno2013(uv)
+
+        uv = np.tile(uv, (6, 1))
+        CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7)
+
+        uv = np.reshape(uv, (2, 3, 2))
+        CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7)
+
+    @ignore_numpy_errors
+    @disable_multiprocessing()
+    def test_nan_uv_to_CCT_Ohno2013(self):
+        """
+        Tests :func:`colour.temperature.cct.uv_to_CCT_Ohno2013` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            uv = np.array(case)
+            uv_to_CCT_Ohno2013(uv)
+
 
 class TestCCT_to_uv_Ohno2013(unittest.TestCase):
     """
@@ -230,19 +263,53 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
 
         cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(6507.47380460, 0.00322335, cmfs),
+            CCT_to_uv_Ohno2013(np.array([6507.47380460, 0.00322335]), cmfs),
             np.array([0.19779997, 0.31219997]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(1041.68315360, -0.06737802, cmfs),
+            CCT_to_uv_Ohno2013(np.array([1041.68315360, -0.06737802]), cmfs),
             np.array([0.43279885, 0.28830013]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(2452.15316417, -0.08437064, cmfs),
+            CCT_to_uv_Ohno2013(np.array([2452.15316417, -0.08437064]), cmfs),
             np.array([0.29247364, 0.27215157]),
             decimal=7)
+
+    def test_n_dimensional_CCT_to_uv_Ohno2013(self):
+        """
+        Tests :func:`colour.temperature.cct.CCT_to_uv_Ohno2013` definition
+        n-dimensional arrays support.
+        """
+
+        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        CCT_D_uv = np.array([6507.47380460, 0.00322335])
+        uv = CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)
+
+        CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
+        uv = np.tile(uv, (6, 1))
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Ohno2013(CCT_D_uv, cmfs), uv, decimal=7)
+
+        CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
+        uv = np.reshape(uv, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Ohno2013(CCT_D_uv, cmfs), uv, decimal=7)
+
+    @ignore_numpy_errors
+    @disable_multiprocessing()
+    def test_nan_CCT_to_uv_Ohno2013(self):
+        """
+        Tests :func:`colour.temperature.cct.CCT_to_uv_Ohno2013` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            CCT_D_uv = np.array(case)
+            CCT_to_uv_Ohno2013(CCT_D_uv)
 
 
 class Testuv_to_CCT_Robertson1968(unittest.TestCase):
@@ -261,6 +328,39 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
             np.testing.assert_allclose(
                 uv_to_CCT_Robertson1968(value), key, atol=0.25)
 
+    def test_n_dimensional_uv_to_CCT_Robertson1968(self):
+        """
+        Tests :func:`colour.temperature.cct.uv_to_CCT_Robertson1968` definition
+        n-dimensional arrays support.
+        """
+
+        uv = np.array([0.1978, 0.3122])
+        CCT_D_uv = uv_to_CCT_Robertson1968(uv)
+
+        uv = np.tile(uv, (6, 1))
+        CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7)
+
+        uv = np.reshape(uv, (2, 3, 2))
+        CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7)
+
+    @ignore_numpy_errors
+    @disable_multiprocessing()
+    def test_nan_uv_to_CCT_Robertson1968(self):
+        """
+        Tests :func:`colour.temperature.cct.uv_to_CCT_Robertson1968` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            uv = np.array(case)
+            uv_to_CCT_Robertson1968(uv)
+
 
 class TestCCT_to_uv_Robertson1968(unittest.TestCase):
     """
@@ -276,7 +376,40 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
 
         for key, value in TEMPERATURE_DUV_TO_UV.items():
             np.testing.assert_almost_equal(
-                CCT_to_uv_Robertson1968(*key), value, decimal=7)
+                CCT_to_uv_Robertson1968(key), value, decimal=7)
+
+    def test_n_dimensional_CCT_to_uv_Robertson1968(self):
+        """
+        Tests :func:`colour.temperature.cct.CCT_to_uv_Robertson1968` definition
+        n-dimensional arrays support.
+        """
+
+        CCT_D_uv = np.array([4500, 0.0250])
+        uv = CCT_to_uv_Robertson1968(CCT_D_uv)
+
+        CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
+        uv = np.tile(uv, (6, 1))
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7)
+
+        CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
+        uv = np.reshape(uv, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7)
+
+    @ignore_numpy_errors
+    @disable_multiprocessing()
+    def test_nan_CCT_to_uv_Robertson1968(self):
+        """
+        Tests :func:`colour.temperature.cct.CCT_to_uv_Robertson1968` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            CCT_D_uv = np.array(case)
+            CCT_to_uv_Robertson1968(CCT_D_uv)
 
 
 class TestCCT_to_uv_Krystek1985(unittest.TestCase):
@@ -312,9 +445,7 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
         """
 
         CCT = 7000
-        xy = np.array([0.183513095046506, 0.305827773965731])
-        np.testing.assert_almost_equal(
-            CCT_to_uv_Krystek1985(CCT), xy, decimal=7)
+        xy = CCT_to_uv_Krystek1985(CCT)
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
@@ -373,9 +504,7 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
         """
 
         xy = np.array([0.31270, 0.32900])
-        CCT = 6505.08059131
-        np.testing.assert_almost_equal(
-            xy_to_CCT_McCamy1992(xy), CCT, decimal=7)
+        CCT = xy_to_CCT_McCamy1992(xy)
 
         xy = np.tile(xy, (6, 1))
         CCT = np.tile(CCT, 6)
@@ -434,9 +563,7 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
         """
 
         xy = np.array([0.31270, 0.32900])
-        CCT = 6500.74204318
-        np.testing.assert_almost_equal(
-            xy_to_CCT_Hernandez1999(xy), CCT, decimal=7)
+        CCT = xy_to_CCT_Hernandez1999(xy)
 
         xy = np.tile(xy, (6, 1))
         CCT = np.tile(CCT, 6)
@@ -494,8 +621,7 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
         """
 
         CCT = 4000
-        xy = np.array([0.380528282812500, 0.376733530961114])
-        np.testing.assert_almost_equal(CCT_to_xy_Kang2002(CCT), xy, decimal=7)
+        xy = CCT_to_xy_Kang2002(CCT)
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
@@ -556,8 +682,7 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
         """
 
         CCT = 4000
-        xy = np.array([0.382343625000000, 0.383766261015578])
-        np.testing.assert_almost_equal(CCT_to_xy_CIE_D(CCT), xy, decimal=7)
+        xy = CCT_to_xy_CIE_D(CCT)
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))

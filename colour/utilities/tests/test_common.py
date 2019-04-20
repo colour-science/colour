@@ -8,25 +8,31 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 from collections import OrderedDict
+from functools import partial
 
 from colour.utilities import (
-    batch, is_iterable, is_string, is_numeric, is_integer, is_sibling,
-    filter_kwargs, filter_mapping, first_item, get_domain_range_scale,
-    set_domain_range_scale, domain_range_scale, to_domain_1, to_domain_10,
-    to_domain_100, to_domain_int, to_domain_degrees, from_range_1,
-    from_range_10, from_range_100, from_range_int, from_range_degrees)
+    batch, multiprocessing_pool, is_iterable, is_string, is_numeric,
+    is_integer, is_sibling, filter_kwargs, filter_mapping, first_item,
+    get_domain_range_scale, set_domain_range_scale, domain_range_scale,
+    to_domain_1, to_domain_10, to_domain_100, to_domain_int, to_domain_degrees,
+    from_range_1, from_range_10, from_range_100, from_range_int,
+    from_range_degrees)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestBatch', 'TestIsIterable', 'TestIsString', 'TestIsNumeric',
-    'TestIsInteger', 'TestIsSibling', 'TestFilterKwargs', 'TestFilterMapping',
-    'TestFirstItem'
+    'TestBatch', 'TestMultiprocessingPool', 'TestIsIterable', 'TestIsString',
+    'TestIsNumeric', 'TestIsInteger', 'TestIsSibling', 'TestFilterKwargs',
+    'TestFilterMapping', 'TestFirstItem', 'TestGetDomainRangeScale',
+    'TestSetDomainRangeScale', 'TestDomainRangeScale', 'TestToDomain1',
+    'TestToDomain10', 'TestToDomain100', 'TestToDomainDegrees',
+    'TestToDomainInt', 'TestFromRange1', 'TestFromRange10', 'TestFromRange100',
+    'TestFromRangeDegrees', 'TestFromRangeInt'
 ]
 
 
@@ -53,6 +59,43 @@ class TestBatch(unittest.TestCase):
             list(batch(tuple(range(10)), 1)),
             [(0,), (1,), (2,), (3,), (4,),
              (5,), (6,), (7,), (8,), (9,)])  # yapf: disable
+
+
+def _add(a, b):
+    """
+    Function to map with a multiprocessing pool.
+
+    Parameters
+    ----------
+    a : numeric
+        Variable :math:`a`.
+    b : numeric
+        Variable :math:`b`.
+
+    Returns
+    -------
+    numeric
+        Addition result.
+    """
+
+    return a + b
+
+
+class TestMultiprocessingPool(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.multiprocessing_pool` definition
+    units tests methods.
+    """
+
+    def test_multiprocessing_pool(self):
+        """
+        Tests :func:`colour.utilities.common.multiprocessing_pool` definition.
+        """
+
+        with multiprocessing_pool() as pool:
+            self.assertListEqual(
+                pool.map(partial(_add, b=2), range(10)),
+                [2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
 
 
 class TestIsIterable(unittest.TestCase):
@@ -389,6 +432,35 @@ class TestDomainRangeScale(unittest.TestCase):
 
         with domain_range_scale('100'):
             self.assertEqual(get_domain_range_scale(), '100')
+
+        self.assertEqual(get_domain_range_scale(), 'reference')
+
+        def _domain_range_change(a):
+            """
+            Helper definition performing domain-range scale.
+            """
+
+            b = to_domain_10(a)
+
+            b *= 2
+
+            return from_range_100(b)
+
+        with domain_range_scale('Reference'):
+            with domain_range_scale('1'):
+                with domain_range_scale('100'):
+                    with domain_range_scale('Ignore'):
+                        self.assertEqual(get_domain_range_scale(), 'ignore')
+                        self.assertEqual(_domain_range_change(4), 8)
+
+                    self.assertEqual(get_domain_range_scale(), '100')
+                    self.assertEqual(_domain_range_change(40), 8)
+
+                self.assertEqual(get_domain_range_scale(), '1')
+                self.assertEqual(_domain_range_change(0.4), 0.08)
+
+            self.assertEqual(get_domain_range_scale(), 'reference')
+            self.assertEqual(_domain_range_change(4), 8)
 
         self.assertEqual(get_domain_range_scale(), 'reference')
 

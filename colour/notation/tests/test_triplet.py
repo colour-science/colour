@@ -14,7 +14,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -52,8 +52,7 @@ class TestRGB_to_HEX(unittest.TestCase):
         """
 
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HEX = '#74070a'
-        self.assertEqual(RGB_to_HEX(RGB), HEX)
+        HEX = RGB_to_HEX(RGB)
 
         RGB = np.tile(RGB, (6, 1))
         HEX = np.tile(HEX, 6)
@@ -124,8 +123,7 @@ class TestHEX_to_RGB(unittest.TestCase):
         """
 
         HEX = '#74070a'
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
+        RGB = HEX_to_RGB(HEX)
 
         HEX = np.tile(HEX, 6)
         RGB = np.tile(RGB, (6, 1))

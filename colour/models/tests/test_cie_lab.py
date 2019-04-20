@@ -14,7 +14,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -73,15 +73,13 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition n-dimensions
+        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition n-dimensional
         support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         illuminant = np.array([0.31270, 0.32900])
-        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
-        np.testing.assert_almost_equal(
-            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
+        Lab = XYZ_to_Lab(XYZ, illuminant)
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab = np.tile(Lab, (6, 1))
@@ -179,15 +177,13 @@ class TestLab_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_Lab_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition n-dimensions
+        Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition n-dimensional
         support.
         """
 
         Lab = np.array([41.52787529, 52.63858304, 26.92317922])
         illuminant = np.array([0.31270, 0.32900])
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        np.testing.assert_almost_equal(
-            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
+        XYZ = Lab_to_XYZ(Lab, illuminant)
 
         Lab = np.tile(Lab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
@@ -269,8 +265,7 @@ class TestLab_to_LCHab(unittest.TestCase):
         """
 
         Lab = np.array([41.52787529, 52.63858304, 26.92317922])
-        LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
-        np.testing.assert_almost_equal(Lab_to_LCHab(Lab), LCHab, decimal=7)
+        LCHab = Lab_to_LCHab(Lab)
 
         Lab = np.tile(Lab, (6, 1))
         LCHab = np.tile(LCHab, (6, 1))
@@ -343,8 +338,7 @@ class TestLCHab_to_Lab(unittest.TestCase):
         """
 
         LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
-        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
-        np.testing.assert_almost_equal(LCHab_to_Lab(LCHab), Lab, decimal=7)
+        Lab = LCHab_to_Lab(LCHab)
 
         LCHab = np.tile(LCHab, (6, 1))
         Lab = np.tile(Lab, (6, 1))

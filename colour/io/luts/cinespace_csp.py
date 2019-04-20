@@ -26,7 +26,7 @@ from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -173,7 +173,7 @@ def read_LUT_Cinespace(path):
 
         if (is_3D and pre_LUT.shape == (6, 2) and np.array_equal(
                 pre_LUT.reshape(3, 4).transpose()[2:4], unity_range)):
-            table = table.reshape((size[0], size[1], size[2], 3), order='F')
+            table = table.reshape([size[0], size[1], size[2], 3], order='F')
             LUT = LUT3D(
                 domain=pre_LUT.reshape(3, 4).transpose()[0:2],
                 name=title,
@@ -196,7 +196,7 @@ def read_LUT_Cinespace(path):
             pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
             shaper_name = '{0} - Shaper'.format(title)
             cube_name = '{0} - Cube'.format(title)
-            table = table.reshape((size[0], size[1], size[2], 3), order='F')
+            table = table.reshape([size[0], size[1], size[2], 3], order='F')
             LUT_A = LUT3x1D(pre_table, shaper_name, pre_domain)
             LUT_B = LUT3D(table, cube_name, comments=comments)
 
@@ -410,7 +410,7 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                 csp_file.write('\n{0} {1} {2}\n'.format(
                     LUT[1].table.shape[0], LUT[1].table.shape[1],
                     LUT[1].table.shape[2]))
-                table = LUT[1].table.reshape((-1, 3), order='F')
+                table = LUT[1].table.reshape([-1, 3], order='F')
 
                 for row in table:
                     csp_file.write('{0}\n'.format(_format_array(row)))

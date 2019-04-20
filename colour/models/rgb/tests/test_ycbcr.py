@@ -16,7 +16,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
@@ -77,8 +77,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         """
 
         RGB = np.array([0.75, 0.5, 0.25])
-        YCbCr = np.array([0.52230157, 0.36699593, 0.62183309])
-        np.testing.assert_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
+        YCbCr = RGB_to_YCbCr(RGB)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))
@@ -171,8 +170,7 @@ class TestYCbCr_to_RGB(unittest.TestCase):
         """
 
         YCbCr = np.array([0.52230157, 0.36699593, 0.62183309])
-        RGB = np.array([0.75, 0.5, 0.25])
-        np.testing.assert_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
+        RGB = YCbCr_to_RGB(YCbCr)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))
@@ -254,9 +252,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         """
 
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        YcCbcCrc = np.array([0.37020379, 0.41137200, 0.77704674])
-        np.testing.assert_almost_equal(
-            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
+        YcCbcCrc = RGB_to_YcCbcCrc(RGB)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))
@@ -343,9 +339,7 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         """
 
         YcCbcCrc = np.array([0.37020379, 0.41137200, 0.77704674])
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        np.testing.assert_almost_equal(
-            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
+        RGB = YcCbcCrc_to_RGB(YcCbcCrc)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))

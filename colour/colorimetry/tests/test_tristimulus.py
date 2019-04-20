@@ -28,7 +28,7 @@ from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -975,9 +975,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         wl = 480
-        XYZ = np.array([0.09564, 0.13902, 0.81295])
-        np.testing.assert_almost_equal(
-            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7)
+        XYZ = wavelength_to_XYZ(wl, cmfs)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))

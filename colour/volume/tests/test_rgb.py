@@ -31,10 +31,11 @@ from colour.volume import (
     RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
     RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
     is_within_pointer_gamut)
+from colour.utilities import disable_multiprocessing
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -96,18 +97,19 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
     :cite:`Laurent2012a`
     """
 
+    @disable_multiprocessing()
     def test_RGB_colourspace_volume_MonteCarlo(self):
         """
         Tests :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
         definition.
         """
 
-        self.assertEquals(
+        self.assertAlmostEqual(
             RGB_colourspace_volume_MonteCarlo(
-                BT709_COLOURSPACE,
-                10e3,
-                random_state=np.random.RandomState(2),
-                processes=1), 816300.0)
+                BT709_COLOURSPACE, 10e3, random_state=np.random.RandomState(2))
+            * 1e-6,
+            821700.0 * 1e-6,
+            places=1)
 
 
 class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):

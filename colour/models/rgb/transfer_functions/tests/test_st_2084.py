@@ -14,7 +14,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -49,8 +49,7 @@ oetf_ST2084` definition n-dimensional arrays support.
         """
 
         C = 100
-        N = 0.508078421517399
-        np.testing.assert_almost_equal(oetf_ST2084(C), N, decimal=7)
+        N = oetf_ST2084(C)
 
         C = np.tile(C, 6)
         N = np.tile(N, 6)
@@ -116,8 +115,7 @@ eotf_ST2084` definition n-dimensional arrays support.
         """
 
         N = 0.508078421517399
-        C = 100
-        np.testing.assert_almost_equal(eotf_ST2084(N), C, decimal=7)
+        C = eotf_ST2084(N)
 
         N = np.tile(N, 6)
         C = np.tile(C, 6)

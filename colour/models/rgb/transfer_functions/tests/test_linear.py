@@ -14,7 +14,7 @@ from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -47,8 +47,7 @@ linear_function` definition n-dimensional arrays support.
         """
 
         a = 0.18
-        a_p = 0.18
-        np.testing.assert_almost_equal(linear_function(a), a_p, decimal=7)
+        a_p = linear_function(a)
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)

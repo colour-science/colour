@@ -17,7 +17,7 @@ from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -82,12 +82,8 @@ class TestDelta_E_Luo2006(unittest.TestCase):
 
         Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
         Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
-        delta_E_p = 14.055546437777583
-        np.testing.assert_almost_equal(
-            delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
-                            COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
-            delta_E_p,
-            decimal=7)
+        delta_E_p = delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
+                                    COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
         Jpapbp_1 = np.tile(Jpapbp_1, (6, 1))
         Jpapbp_2 = np.tile(Jpapbp_2, (6, 1))

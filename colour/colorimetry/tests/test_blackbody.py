@@ -14,7 +14,7 @@ from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -4531,8 +4531,7 @@ class TestPlanckLaw(unittest.TestCase):
         """
 
         wl = 500 * 1e-9
-        p = 20472701909806.578
-        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
+        p = planck_law(wl, 5500)
 
         wl = np.tile(wl, 6)
         p = np.tile(p, 6)

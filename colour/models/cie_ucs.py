@@ -8,6 +8,7 @@ Defines the *CIE 1960 UCS* colourspace transformations:
 -   :func:`colour.XYZ_to_UCS`
 -   :func:`colour.UCS_to_XYZ`
 -   :func:`colour.UCS_to_uv`
+-   :func:`colour.uv_to_UCS`
 -   :func:`colour.UCS_uv_to_xy`
 -   :func:`colour.xy_to_UCS_uv`
 
@@ -28,17 +29,21 @@ CIE_1960_color_space#Relation_to_CIE_XYZ
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy', 'xy_to_UCS_uv'
+    'XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'uv_to_UCS', 'UCS_uv_to_xy',
+    'xy_to_UCS_uv'
 ]
 
 
@@ -77,7 +82,6 @@ def XYZ_to_UCS(XYZ):
 
     Examples
     --------
-    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
     array([ 0.1376933...,  0.1219722...,  0.1053731...])
@@ -125,7 +129,6 @@ def UCS_to_XYZ(UVW):
 
     Examples
     --------
-    >>> import numpy as np
     >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
@@ -168,7 +171,6 @@ def UCS_to_uv(UVW):
 
     Examples
     --------
-    >>> import numpy as np
     >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_uv(UVW)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.3341350...])
@@ -179,6 +181,47 @@ def UCS_to_uv(UVW):
     uv = tstack([U / (U + V + W), V / (U + V + W)])
 
     return uv
+
+
+def uv_to_UCS(uv, V=1):
+    """
+    Returns the *CIE 1960 UCS* colourspace array from given *uv* chromaticity
+    coordinates.
+
+    Parameters
+    ----------
+    uv : array_like
+        *uv* chromaticity coordinates.
+    V : numeric, optional
+        Optional :math:`V` *luminance* value used to construct the
+        *CIE 1960 UCS* colourspace array, the default :math:`V` *luminance* is
+        set to 1.
+
+    Returns
+    -------
+    ndarray
+        *CIE 1960 UCS* colourspace array.
+
+    References
+    ----------
+    :cite:`Wikipedia2008c`
+
+    Examples
+    --------
+    >>> uv = np.array([0.37720213, 0.33413508])
+    >>> uv_to_UCS(uv)  # doctest: +ELLIPSIS
+    array([ 1.1288911...,  1.        ,  0.8639104...])
+    """
+
+    u, v = tsplit(uv)
+    V = np.full(u.shape, V, DEFAULT_FLOAT_DTYPE)
+
+    U = V * u / v
+    W = -V * (u + v - 1) / v
+
+    UVW = tstack([U, V, W])
+
+    return from_range_1(UVW)
 
 
 def UCS_uv_to_xy(uv):
@@ -202,7 +245,6 @@ def UCS_uv_to_xy(uv):
 
     Examples
     --------
-    >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.33413508])
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...])
@@ -237,7 +279,6 @@ def xy_to_UCS_uv(xy):
 
     Examples
     --------
-    >>> import numpy as np
     >>> xy = np.array([0.54369555, 0.32107941])
     >>> xy_to_UCS_uv(xy)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.3341350...])

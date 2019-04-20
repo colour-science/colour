@@ -21,6 +21,9 @@ References
 -   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
     Retrieved from https://drive.google.com/file/d/\
 1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
+-   :cite:`Ohno2013` : Ohno, Y., & Davis, W. (2013). NIST CQS simulation 9.0.
+    Retrieved from https://www.researchgate.net/file.PostFileLoader.html?\
+id=5541c498f15bc7cc2c8b4578&assetKey=AS%3A273582771376136%401442238623549
 """
 
 from __future__ import division, unicode_literals
@@ -38,19 +41,20 @@ from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import as_float_array, domain_range_scale, tsplit
+from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
     'D65_GAMUT_AREA', 'VS_ColorimetryData', 'VS_ColourQualityScaleData',
-    'CQS_Specification', 'colour_quality_scale', 'gamut_area',
-    'vs_colorimetry_data', 'CCT_factor', 'scale_conversion', 'delta_E_RMS',
-    'colour_quality_scales'
+    'CQS_Specification', 'COLOUR_QUALITY_SCALE_METHODS',
+    'colour_quality_scale', 'gamut_area', 'vs_colorimetry_data', 'CCT_factor',
+    'scale_conversion', 'delta_E_RMS', 'colour_quality_scales'
 ]
 
 D65_GAMUT_AREA = 8210
@@ -91,15 +95,17 @@ class CQS_Specification(
     Q_p : numeric
         Colour preference scale :math:`Q_p` similar to colour quality scale
         :math:`Q_a` but placing additional weight on preference of object
-        colour appearance. This metric is based on the notion that increases
-        in chroma are generally preferred and should be rewarded.
+        colour appearance, set to *None* in *NIST CQS 9.0* method. This metric
+        is based on the notion that increases in chroma are generally preferred
+        and should be rewarded.
     Q_g : numeric
          Gamut area scale :math:`Q_g` representing the relative gamut formed
          by the (:math:`a^*`, :math:`b^*`) coordinates of the 15 samples
          illuminated by the test light source in the *CIE L\\*a\\*b\\** object
          colourspace.
     Q_d : numeric
-        Relative gamut area scale :math:`Q_d`.
+        Relative gamut area scale :math:`Q_d`, set to *None* in *NIST CQS 9.0*
+        method.
     Q_as : dict
         Individual *Colour Quality Scale* (CQS) data for each sample.
     colorimetry_data : tuple
@@ -107,14 +113,28 @@ class CQS_Specification(
 
     References
     ----------
-    :cite:`Davis2010a`, :cite:`Ohno2008a`
+    :cite:`Davis2010a`, :cite:`Ohno2008a`,  :cite:`Ohno2013`
     """
 
 
-def colour_quality_scale(sd_test, additional_data=False):
+COLOUR_QUALITY_SCALE_METHODS = DocstringTuple(['NIST CQS 7.4', 'NIST CQS 9.0'])
+COLOUR_QUALITY_SCALE_METHODS.__doc__ = """
+Supported  *Colour Quality Scale* (CQS) computation methods.
+
+References
+----------
+:cite:`Davis2010a`, :cite:`Ohno2008a`, :cite:`Ohno2013`
+
+COLOUR_QUALITY_SCALE_METHODS : tuple
+    **{ 'NIST CQS 9.0', 'NIST CQS 7.4'}**
+"""
+
+
+def colour_quality_scale(sd_test, additional_data=False,
+                         method='NIST CQS 9.0'):
     """
-    Returns the *Colour Quality Scale* (CQS) of given spectral
-    distribution.
+    Returns the *Colour Quality Scale* (CQS) of given spectral distribution
+    using given method.
 
     Parameters
     ----------
@@ -122,6 +142,9 @@ def colour_quality_scale(sd_test, additional_data=False):
         Test spectral distribution.
     additional_data : bool, optional
         Whether to output additional data.
+    method : unicode, optional
+        **{'NIST CQS 9.0', 'NIST CQS 7.4'}**,
+        Computation method.
 
     Returns
     -------
@@ -130,22 +153,31 @@ def colour_quality_scale(sd_test, additional_data=False):
 
     References
     ----------
-    :cite:`Davis2010a`, :cite:`Ohno2008a`
+    :cite:`Davis2010a`, :cite:`Ohno2008a`, :cite:`Ohno2013`
 
     Examples
     --------
     >>> from colour import ILLUMINANTS_SDS
     >>> sd = ILLUMINANTS_SDS['FL2']
     >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
-    64.6863391...
+    64.0172835...
     """
+
+    method = method.lower()
+    assert method.lower() in [
+        m.lower() for m in COLOUR_QUALITY_SCALE_METHODS
+    ], ('"{0}" method is invalid, must be one of {1}!'.format(
+        method, COLOUR_QUALITY_SCALE_METHODS))
 
     cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
     ).trim(ASTME30815_PRACTISE_SHAPE)
 
     shape = cmfs.shape
     sd_test = sd_test.copy().align(shape)
-    vs_sds = {sd.name: sd.copy().align(shape) for sd in VS_SDS.values()}
+    vs_sds = {
+        sd.name: sd.copy().align(shape)
+        for sd in VS_SDS[method].values()
+    }
 
     with domain_range_scale('1'):
         XYZ = sd_to_XYZ(sd_test, cmfs)
@@ -166,23 +198,30 @@ def colour_quality_scale(sd_test, additional_data=False):
     reference_vs_colorimetry_data = vs_colorimetry_data(
         sd_reference, sd_reference, vs_sds, cmfs)
 
-    XYZ_r = sd_to_XYZ(sd_reference, cmfs)
-    XYZ_r /= XYZ_r[1]
-    CCT_f = CCT_factor(reference_vs_colorimetry_data, XYZ_r)
+    if method == 'nist cqs 9.0':
+        CCT_f = 1
+        scaling_f = 3.2
+    else:
+        XYZ_r = sd_to_XYZ(sd_reference, cmfs)
+        XYZ_r /= XYZ_r[1]
+        CCT_f = CCT_factor(reference_vs_colorimetry_data, XYZ_r)
+        scaling_f = 3.104
 
     Q_as = colour_quality_scales(test_vs_colorimetry_data,
-                                 reference_vs_colorimetry_data, CCT_f)
+                                 reference_vs_colorimetry_data, scaling_f,
+                                 CCT_f)
 
     D_E_RMS = delta_E_RMS(Q_as, 'D_E_ab')
     D_Ep_RMS = delta_E_RMS(Q_as, 'D_Ep_ab')
 
-    Q_a = scale_conversion(D_Ep_RMS, CCT_f)
-    Q_f = scale_conversion(D_E_RMS, CCT_f, 2.928)
+    Q_a = scale_conversion(D_Ep_RMS, CCT_f, scaling_f)
 
-    p_delta_C = np.average(
-        [sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
-         for sample_data in Q_as.values()])  # yapf: disable
-    Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
+    if method == 'nist cqs 9.0':
+        scaling_f = 2.93 * 1.0343
+    else:
+        scaling_f = 2.928
+
+    Q_f = scale_conversion(D_E_RMS, CCT_f, scaling_f)
 
     G_t = gamut_area(
         [vs_CQS_data.Lab for vs_CQS_data in test_vs_colorimetry_data])
@@ -190,7 +229,16 @@ def colour_quality_scale(sd_test, additional_data=False):
         [vs_CQS_data.Lab for vs_CQS_data in reference_vs_colorimetry_data])
 
     Q_g = G_t / D65_GAMUT_AREA * 100
-    Q_d = G_t / G_r * CCT_f * 100
+
+    if method == 'nist cqs 9.0':
+        Q_d = Q_p = None
+    else:
+        p_delta_C = np.average([
+            sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
+            for sample_data in Q_as.values()
+        ])
+        Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
+        Q_d = G_t / G_r * CCT_f * 100
 
     if additional_data:
         return CQS_Specification(
@@ -341,7 +389,7 @@ def CCT_factor(reference_data, XYZ_r):
     return CCT_f
 
 
-def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
+def scale_conversion(D_E_ab, CCT_f, scaling_f):
     """
     Returns the *Colour Quality Scale* (CQS) for given :math:`\\Delta E_{ab}`
     value and given correlated colour temperature penalizing factor.
@@ -385,12 +433,13 @@ def delta_E_RMS(cqs_data, attribute):
         Root-mean-square average.
     """
 
-    return np.sqrt(1 / len(cqs_data) * np.sum(
-        [getattr(sample_data, attribute) ** 2
-         for sample_data in cqs_data.values()]))  # yapf: disable
+    return np.sqrt(1 / len(cqs_data) * np.sum([
+        getattr(sample_data, attribute) ** 2
+        for sample_data in cqs_data.values()
+    ]))
 
 
-def colour_quality_scales(test_data, reference_data, CCT_f):
+def colour_quality_scales(test_data, reference_data, scaling_f, CCT_f):
     """
     Returns the *VS test colour samples* rendering scales.
 
@@ -400,6 +449,8 @@ def colour_quality_scales(test_data, reference_data, CCT_f):
         Test data.
     reference_data : list
         Reference data.
+    scaling_f : numeric, optional
+        Scaling factor constant.
     CCT_f : numeric
         Factor penalizing lamps with extremely low correlated colour
         temperatures.
@@ -420,7 +471,7 @@ def colour_quality_scales(test_data, reference_data, CCT_f):
         else:
             D_Ep_ab = D_E_ab
 
-        Q_a = scale_conversion(D_Ep_ab, CCT_f)
+        Q_a = scale_conversion(D_Ep_ab, scaling_f, CCT_f)
 
         Q_as[i + 1] = VS_ColourQualityScaleData(test_data[i].name, Q_a, D_C_ab,
                                                 D_E_ab, D_Ep_ab)

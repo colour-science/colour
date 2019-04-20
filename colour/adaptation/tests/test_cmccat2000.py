@@ -18,7 +18,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -79,12 +79,8 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
         XYZ_wr = np.array([94.81, 100.00, 107.30])
         L_A1 = 200
         L_A2 = 200
-        XYZ_c = np.array([19.52698326, 23.06833960, 24.97175229])
-        np.testing.assert_almost_equal(
-            chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1,
-                                                    L_A2),
-            XYZ_c,
-            decimal=7)
+        XYZ_c = chromatic_adaptation_forward_CMCCAT2000(
+            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
 
         XYZ = np.tile(XYZ, (6, 1))
         XYZ_c = np.tile(XYZ_c, (6, 1))
@@ -210,12 +206,8 @@ chromatic_adaptation_reverse_CMCCAT2000` definition n-dimensional arrays
         XYZ_wr = np.array([94.81, 100.00, 107.30])
         L_A1 = 200
         L_A2 = 200
-        XYZ = np.array([22.48, 22.74, 8.54])
-        np.testing.assert_almost_equal(
-            chromatic_adaptation_reverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1,
-                                                    L_A2),
-            XYZ,
-            decimal=7)
+        XYZ = chromatic_adaptation_reverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr,
+                                                      L_A1, L_A2)
 
         XYZ_c = np.tile(XYZ_c, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))

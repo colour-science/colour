@@ -14,7 +14,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -50,13 +50,12 @@ class TestLab_to_DIN99(unittest.TestCase):
 
     def test_n_dimensional_Lab_to_DIN99(self):
         """
-        Tests :func:`colour.models.din99.Lab_to_DIN99` definition n-dimensions
+        Tests :func:`colour.models.din99.Lab_to_DIN99` definition n-dimensional
         support.
         """
 
         Lab = np.array([41.52787529, 52.63858304, 26.92317922])
-        Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
-        np.testing.assert_almost_equal(Lab_to_DIN99(Lab), Lab_99, decimal=7)
+        Lab_99 = Lab_to_DIN99(Lab)
 
         Lab = np.tile(Lab, (6, 1))
         Lab_99 = np.tile(Lab_99, (6, 1))
@@ -121,13 +120,12 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
     def test_n_dimensional_DIN99_to_Lab(self):
         """
-        Tests :func:`colour.models.din99.DIN99_to_Lab` definition n-dimensions
+        Tests :func:`colour.models.din99.DIN99_to_Lab` definition n-dimensional
         support.
         """
 
         Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
-        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
-        np.testing.assert_almost_equal(DIN99_to_Lab(Lab_99), Lab, decimal=7)
+        Lab = DIN99_to_Lab(Lab_99)
 
         Lab_99 = np.tile(Lab_99, (6, 1))
         Lab = np.tile(Lab, (6, 1))

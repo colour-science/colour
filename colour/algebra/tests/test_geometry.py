@@ -18,7 +18,7 @@ from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -98,9 +98,7 @@ class TestEuclideanDistance(unittest.TestCase):
 
         a = np.array([100.00000000, 21.57210357, 272.22819350])
         b = np.array([100.00000000, 426.67945353, 72.39590835])
-        distance = 451.71330197
-        np.testing.assert_almost_equal(
-            euclidean_distance(a, b), distance, decimal=7)
+        distance = euclidean_distance(a, b)
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, (6, 1))

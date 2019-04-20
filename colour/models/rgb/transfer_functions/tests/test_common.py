@@ -17,7 +17,7 @@ from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
@@ -105,9 +105,7 @@ class TestLegalToFull(unittest.TestCase):
         """
 
         CV_l = 0.918866080156403
-        CV_f = 1.0
-        np.testing.assert_almost_equal(
-            legal_to_full(CV_l, 10), CV_f, decimal=7)
+        CV_f = legal_to_full(CV_l, 10)
 
         CV_l = np.tile(CV_l, 6)
         CV_f = np.tile(CV_f, 6)
@@ -172,9 +170,7 @@ class TestFullToLegal(unittest.TestCase):
         """
 
         CF_f = 1.0
-        CV_l = 0.918866080156403
-        np.testing.assert_almost_equal(
-            full_to_legal(CF_f, 10), CV_l, decimal=7)
+        CV_l = full_to_legal(CF_f, 10)
 
         CF_f = np.tile(CF_f, 6)
         CV_l = np.tile(CV_l, 6)

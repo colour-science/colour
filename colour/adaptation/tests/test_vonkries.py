@@ -16,7 +16,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -114,13 +114,7 @@ chromatic_adaptation_matrix_VonKries` definition n-dimensional arrays support.
 
         XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
         XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-        M = np.array([
-            [1.04257389, 0.03089108, -0.05281257],
-            [0.02219345, 1.00185663, -0.02107375],
-            [-0.00116488, -0.00342053, 0.76178907],
-        ])
-        np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr), M, decimal=7)
+        M = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
         XYZ_wr = np.tile(XYZ_wr, (6, 1))
@@ -241,11 +235,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
         XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-        XYZ_a = np.array([0.21638819, 0.12570000, 0.03847494])
-        np.testing.assert_almost_equal(
-            chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr),
-            XYZ_a,
-            decimal=7)
+        XYZ_a = chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
 
         XYZ = np.tile(XYZ, (6, 1))
         XYZ_w = np.tile(XYZ_w, (6, 1))

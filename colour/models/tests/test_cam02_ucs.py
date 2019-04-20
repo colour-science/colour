@@ -20,7 +20,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -96,16 +96,12 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
     def test_n_dimensional_JMh_CIECAM02_to_UCS_Luo2006(self):
         """
         Tests :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
-        definition n-dimensions support.
+        definition n-dimensional support.
         """
 
         JMh = self._JMh
-        Jpapbp = np.array([54.90433134, -0.08450395, -0.06854831])
-        np.testing.assert_almost_equal(
-            JMh_CIECAM02_to_UCS_Luo2006(JMh,
-                                        COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
-            Jpapbp,
-            decimal=7)
+        Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(
+            JMh, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
         JMh = np.tile(JMh, (6, 1))
         Jpapbp = np.tile(Jpapbp, (6, 1))
@@ -218,16 +214,12 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
     def test_n_dimensional_UCS_Luo2006_to_JMh_CIECAM02(self):
         """
         Tests :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
-        definition n-dimensions support.
+        definition n-dimensional support.
         """
 
         Jpapbp = np.array([54.90433134, -0.08442362, -0.06848314])
-        JMh = np.array([41.73109113, 0.10873867, 219.04843202])
-        np.testing.assert_almost_equal(
-            UCS_Luo2006_to_JMh_CIECAM02(Jpapbp,
-                                        COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
-            JMh,
-            decimal=7)
+        JMh = UCS_Luo2006_to_JMh_CIECAM02(
+            Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
         Jpapbp = np.tile(Jpapbp, (6, 1))
         JMh = np.tile(JMh, (6, 1))

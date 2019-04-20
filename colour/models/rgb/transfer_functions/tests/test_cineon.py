@@ -15,7 +15,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -51,8 +51,7 @@ log_encoding_Cineon` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = 0.457319613085418
-        np.testing.assert_almost_equal(log_encoding_Cineon(x), y, decimal=7)
+        y = log_encoding_Cineon(x)
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
@@ -120,8 +119,7 @@ log_decoding_Cineon` definition n-dimensional arrays support.
         """
 
         y = 0.457319613085418
-        x = 0.18
-        np.testing.assert_almost_equal(log_decoding_Cineon(y), x, decimal=7)
+        x = log_decoding_Cineon(y)
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)

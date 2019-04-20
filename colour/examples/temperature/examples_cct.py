@@ -34,25 +34,26 @@ print(colour.temperature.uv_to_CCT_Robertson1968(uv))
 
 print('\n')
 
-CCT, D_uv = 6503.49254150, 0.00320598
+CCT_D_uv = [6503.49254150, 0.00320598]
 message_box(('Converting to "CIE UCS" colourspace "uv" chromaticity '
              'coordinates from given "CCT" and "D_uv" using '
              '"Ohno (2013)" method:\n'
-             '\n\t({0}, {1})'.format(CCT, D_uv)))
-print(colour.CCT_to_uv(CCT, D_uv=D_uv, cmfs=cmfs))
-print(colour.temperature.CCT_to_uv_Ohno2013(CCT, D_uv, cmfs=cmfs))
+             '\n\t{0}'.format(CCT_D_uv)))
+print(colour.CCT_to_uv(CCT_D_uv, cmfs=cmfs))
+print(colour.temperature.CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=cmfs))
 
 print('\n')
 
 message_box(('Converting to "CIE UCS" colourspace "uv" chromaticity '
              'coordinates from given "CCT" and "D_uv" using '
              '"Robertson (1968)" method:\n'
-             '\n\t({0}, {1})'.format(CCT, D_uv)))
-print(colour.CCT_to_uv(CCT, D_uv=D_uv, method='Robertson 1968'))
-print(colour.temperature.CCT_to_uv_Robertson1968(CCT, D_uv))
+             '\n\t{0}'.format(CCT_D_uv)))
+print(colour.CCT_to_uv(CCT_D_uv, method='Robertson 1968'))
+print(colour.temperature.CCT_to_uv_Robertson1968(CCT_D_uv))
 
 print('\n')
 
+CCT = 6503.49254150
 message_box(('Converting to "CIE UCS" colourspace "uv" chromaticity '
              'coordinates from given "CCT" using "Krystek (1985)" method:\n'
              '\n\t({0})'.format(CCT)))

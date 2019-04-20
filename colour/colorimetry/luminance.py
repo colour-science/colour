@@ -23,7 +23,7 @@ The following methods are available:
     computation of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Chen (2011)* method.
 -   :attr:`colour.LUMINANCE_METHODS`: Supported *luminance* :math:`Y`
-    computations methods.
+    computation methods.
 -   :func:`colour.luminance`: *Luminance* :math:`Y` computation of given
     *Lightness* :math:`L^*` or given *Munsell* value :math:`V` using given
     method.
@@ -74,7 +74,7 @@ from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -427,7 +427,7 @@ LUMINANCE_METHODS = CaseInsensitiveMapping({
     'Fairchild 2011': luminance_Fairchild2011
 })
 LUMINANCE_METHODS.__doc__ = """
-Supported *luminance* computations methods.
+Supported *luminance* computation methods.
 
 References
 ----------

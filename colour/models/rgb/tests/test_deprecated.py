@@ -16,7 +16,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -60,8 +60,7 @@ class TestRGB_to_HSV(unittest.TestCase):
         """
 
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HSV = np.array([0.99603944, 0.93246304, 0.45620519])
-        np.testing.assert_almost_equal(RGB_to_HSV(RGB), HSV, decimal=7)
+        HSV = RGB_to_HSV(RGB)
 
         RGB = np.tile(RGB, (6, 1))
         HSV = np.tile(HSV, (6, 1))
@@ -133,8 +132,7 @@ class TestHSV_to_RGB(unittest.TestCase):
         """
 
         HSV = np.array([0.99603944, 0.93246304, 0.45620519])
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        np.testing.assert_almost_equal(HSV_to_RGB(HSV), RGB, decimal=7)
+        RGB = HSV_to_RGB(HSV)
 
         HSV = np.tile(HSV, (6, 1))
         RGB = np.tile(RGB, (6, 1))
@@ -206,8 +204,7 @@ class TestRGB_to_HSL(unittest.TestCase):
         """
 
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HSL = np.array([0.99603944, 0.87347144, 0.24350795])
-        np.testing.assert_almost_equal(RGB_to_HSL(RGB), HSL, decimal=7)
+        HSL = RGB_to_HSL(RGB)
 
         RGB = np.tile(RGB, (6, 1))
         HSL = np.tile(HSL, (6, 1))
@@ -279,8 +276,7 @@ class TestHSL_to_RGB(unittest.TestCase):
         """
 
         HSL = np.array([0.99603944, 0.87347144, 0.24350795])
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        np.testing.assert_almost_equal(HSL_to_RGB(HSL), RGB, decimal=7)
+        RGB = HSL_to_RGB(HSL)
 
         HSL = np.tile(HSL, (6, 1))
         RGB = np.tile(RGB, (6, 1))
@@ -352,8 +348,7 @@ class TestRGB_to_CMY(unittest.TestCase):
         """
 
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        CMY = np.array([0.54379481, 0.96918929, 0.95908048])
-        np.testing.assert_almost_equal(RGB_to_CMY(RGB), CMY, decimal=7)
+        CMY = RGB_to_CMY(RGB)
 
         RGB = np.tile(RGB, (6, 1))
         CMY = np.tile(CMY, (6, 1))
@@ -425,8 +420,7 @@ class TestCMY_to_RGB(unittest.TestCase):
         """
 
         CMY = np.array([0.54379481, 0.96918929, 0.95908048])
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        np.testing.assert_almost_equal(CMY_to_RGB(CMY), RGB, decimal=7)
+        RGB = CMY_to_RGB(CMY)
 
         CMY = np.tile(CMY, (6, 1))
         RGB = np.tile(RGB, (6, 1))
@@ -498,8 +492,7 @@ class TestCMY_to_CMYK(unittest.TestCase):
         """
 
         CMY = np.array([0.54379481, 0.96918929, 0.95908048])
-        CMYK = np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
-        np.testing.assert_almost_equal(CMY_to_CMYK(CMY), CMYK, decimal=7)
+        CMYK = CMY_to_CMYK(CMY)
 
         CMY = np.tile(CMY, (6, 1))
         CMYK = np.tile(CMYK, (6, 1))
@@ -574,8 +567,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
         """
 
         CMYK = np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
-        CMY = np.array([0.54379481, 0.96918929, 0.95908048])
-        np.testing.assert_almost_equal(CMYK_to_CMY(CMYK), CMY, decimal=7)
+        CMY = CMYK_to_CMY(CMYK)
 
         CMYK = np.tile(CMYK, (6, 1))
         CMY = np.tile(CMY, (6, 1))

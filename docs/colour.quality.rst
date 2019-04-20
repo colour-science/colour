@@ -35,6 +35,7 @@ Colour Quality Scale
 .. autosummary::
     :toctree: generated/
 
+    COLOUR_QUALITY_SCALE_METHODS
     colour_quality_scale
 
 ``colour.quality``

@@ -14,7 +14,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -71,15 +71,13 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_UVW(self):
         """
-        Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition n-dimensions
+        Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition n-dimensional
         support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
         illuminant = np.array([0.31270, 0.32900])
-        UVW = np.array([94.55035725, 11.55536523, 40.54757405])
-        np.testing.assert_almost_equal(
-            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
+        UVW = XYZ_to_UVW(XYZ, illuminant)
 
         XYZ = np.tile(XYZ, (6, 1))
         UVW = np.tile(UVW, (6, 1))
@@ -177,15 +175,13 @@ class TestUVW_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_UVW_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_uvw.UVW_to_XYZ` definition n-dimensions
+        Tests :func:`colour.models.cie_uvw.UVW_to_XYZ` definition n-dimensional
         support.
         """
 
         UVW = np.array([94.55035725, 11.55536523, 40.54757405])
         illuminant = np.array([0.31270, 0.32900])
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-        np.testing.assert_almost_equal(
-            UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
+        XYZ = UVW_to_XYZ(UVW, illuminant)
 
         XYZ = np.tile(XYZ, (6, 1))
         UVW = np.tile(UVW, (6, 1))

@@ -15,7 +15,7 @@ from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -52,8 +52,7 @@ oetf_ARIBSTDB67` definition n-dimensional arrays support.
         """
 
         E = 0.18
-        E_p = 0.212132034355964
-        np.testing.assert_almost_equal(oetf_ARIBSTDB67(E), E_p, decimal=7)
+        E_p = oetf_ARIBSTDB67(E)
 
         E = np.tile(E, 6)
         E_p = np.tile(E_p, 6)
@@ -121,9 +120,7 @@ oetf_reverse_ARIBSTDB67` definition n-dimensional arrays support.
         """
 
         E_p = 0.212132034355964
-        E = 0.18
-        np.testing.assert_almost_equal(
-            oetf_reverse_ARIBSTDB67(E_p), E, decimal=7)
+        E = oetf_reverse_ARIBSTDB67(E_p)
 
         E_p = np.tile(E_p, 6)
         E = np.tile(E, 6)
