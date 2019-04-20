@@ -25,6 +25,7 @@ before_install:
   - PACKAGES="python=${PYTHON_VERSION}"
   - PACKAGES="${PACKAGES} matplotlib"; if [ ${MATPLOTLIB_VERSION} ]; then PACKAGES="${PACKAGES}=${MATPLOTLIB_VERSION}"; fi
   - PACKAGES="${PACKAGES} numpy"; if [ ${NUMPY_VERSION} ]; then PACKAGES="${PACKAGES}=${NUMPY_VERSION}"; fi
+  - PACKAGES="${PACKAGES} pandas"; if [ ${PANDAS_VERSION} ]; then PACKAGES="${PACKAGES}=${PANDAS_VERSION}"; fi
   - PACKAGES="${PACKAGES} pyqt"; if [ ${PYQT_VERSION} ]; then PACKAGES="${PACKAGES}=${PYQT_VERSION}"; fi
   - PACKAGES="${PACKAGES} scipy"; if [ ${SCIPY_VERSION} ]; then PACKAGES="${PACKAGES}=${SCIPY_VERSION}"; fi
 

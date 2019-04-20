@@ -6,12 +6,15 @@ Defines unit tests for :mod:`colour.continuous.multi_signal` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import operator
 import unittest
 import re
 import textwrap
+from six import string_types
 
 from colour.algebra import (CubicSplineInterpolator, Extrapolator,
                             KernelInterpolator)
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import MultiSignal, Signal
 from colour.utilities import is_pandas_installed, tsplit, tstack
 
@@ -70,6 +73,18 @@ class TestMultiSignal(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(MultiSignal))
 
+    def test_dtype(self):
+        """
+        Tests :func:`colour.continuous.multi_signal.MultiSignal.dtype`
+        property.
+        """
+
+        self.assertEqual(self._multi_signal.dtype, None)
+
+        multi_signal = self._multi_signal.copy()
+        multi_signal.dtype = DEFAULT_FLOAT_DTYPE
+        self.assertEqual(multi_signal.dtype, DEFAULT_FLOAT_DTYPE)
+
     def test_domain(self):
         """
         Tests :func:`colour.continuous.multi_signal.MultiSignal.domain`
@@ -93,6 +108,11 @@ class TestMultiSignal(unittest.TestCase):
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0],
                       [30.0, 40.0, 50.0]]),
             decimal=7)
+
+        # TODO: Use "assertWarns" when dropping Python 2.7.
+        domain = np.linspace(0, 1, 10)
+        domain[0] = -np.inf
+        multi_signal.domain = domain
 
     def test_range(self):
         """
@@ -139,10 +159,10 @@ class TestMultiSignal(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             multi_signal[np.linspace(0, 5, 5)],
-            np.array([[10.00000000, 20.00000000,
-                       30.00000000], [22.83489024, 32.80460562, 42.77432100],
-                      [34.80044921, 44.74343470,
-                       54.68642018], [47.55353925, 57.52325463, 67.49297001],
+            np.array([[10.00000000, 20.00000000, 30.00000000],
+                      [22.83489024, 32.80460562, 42.77432100],
+                      [34.80044921, 44.74343470, 54.68642018],
+                      [47.55353925, 57.52325463, 67.49297001],
                       [60.00000000, 70.00000000, 80.00000000]]),
             decimal=7)
 
@@ -150,10 +170,10 @@ class TestMultiSignal(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             multi_signal[np.linspace(0, 5, 5)],
-            np.array([[10.00000000, 20.00000000,
-                       30.00000000], [22.50000000, 32.50000000, 42.50000000],
-                      [35.00000000, 45.00000000,
-                       55.00000000], [47.50000000, 57.50000000, 67.50000000],
+            np.array([[10.00000000, 20.00000000, 30.00000000],
+                      [22.50000000, 32.50000000, 42.50000000],
+                      [35.00000000, 45.00000000, 55.00000000],
+                      [47.50000000, 57.50000000, 67.50000000],
                       [60.00000000, 70.00000000, 80.00000000]]),
             decimal=7)
 
@@ -167,10 +187,10 @@ interpolator_args` property.
 
         np.testing.assert_almost_equal(
             multi_signal[np.linspace(0, 5, 5)],
-            np.array([[10.00000000, 20.00000000,
-                       30.00000000], [22.83489024, 32.80460562, 42.77432100],
-                      [34.80044921, 44.74343470,
-                       54.68642018], [47.55353925, 57.52325463, 67.49297001],
+            np.array([[10.00000000, 20.00000000, 30.00000000],
+                      [22.83489024, 32.80460562, 42.77432100],
+                      [34.80044921, 44.74343470, 54.68642018],
+                      [47.55353925, 57.52325463, 67.49297001],
                       [60.00000000, 70.00000000, 80.00000000]]),
             decimal=7)
 
@@ -178,10 +198,10 @@ interpolator_args` property.
 
         np.testing.assert_almost_equal(
             multi_signal[np.linspace(0, 5, 5)],
-            np.array([[10.00000000, 20.00000000,
-                       30.00000000], [18.91328761, 27.91961505, 36.92594248],
-                      [28.36993142, 36.47562611,
-                       44.58132080], [44.13100443, 53.13733187, 62.14365930],
+            np.array([[10.00000000, 20.00000000, 30.00000000],
+                      [18.91328761, 27.91961505, 36.92594248],
+                      [28.36993142, 36.47562611, 44.58132080],
+                      [44.13100443, 53.13733187, 62.14365930],
                       [60.00000000, 70.00000000, 80.00000000]]),
             decimal=7)
 
@@ -220,6 +240,14 @@ extrapolator_args` property.
         """
 
         assert hasattr(self._multi_signal.function, '__call__')
+
+    def test_raise_exception_function(self):
+        """
+        Tests :func:`colour.continuous.signal.multi_signal.MultiSignal`
+        property raised exception.
+        """
+
+        self.assertRaises(RuntimeError, MultiSignal().function, 0)
 
     def test_signals(self):
         """
@@ -313,6 +341,14 @@ extrapolator_args` property.
             np.testing.assert_array_equal(multi_signal.domain, self._domain_2)
             np.testing.assert_array_equal(multi_signal.range, self._range_2)
 
+    def test__hash__(self):
+        """
+        Tests :func:`colour.continuous.multi_signal.MultiSignal.__hash__`
+        method.
+        """
+
+        self.assertIsInstance(hash(self._multi_signal), int)
+
     def test__str__(self):
         """
         Tests :func:`colour.continuous.multi_signal.MultiSignal.__str__`
@@ -332,6 +368,8 @@ extrapolator_args` property.
                  [   7.   80.   90.  100.]
                  [   8.   90.  100.  110.]
                  [   9.  100.  110.  120.]]""")[1:])
+
+        self.assertIsInstance(str(MultiSignal()), string_types)
 
     def test__repr__(self):
         """
@@ -359,6 +397,8 @@ extrapolator_args` property.
                             extrapolator=Extrapolator,
                             extrapolator_args={...})""")[1:])
 
+        self.assertIsInstance(repr(MultiSignal()), string_types)
+
     def test__getitem__(self):
         """
         Tests :func:`colour.continuous.multi_signal.MultiSignal.__getitem__`
@@ -376,10 +416,10 @@ extrapolator_args` property.
 
         np.testing.assert_almost_equal(
             self._multi_signal[np.linspace(0, 5, 5)],
-            np.array([[10.00000000, 20.00000000,
-                       30.00000000], [22.83489024, 32.80460562, 42.77432100],
-                      [34.80044921, 44.74343470,
-                       54.68642018], [47.55353925, 57.52325463, 67.49297001],
+            np.array([[10.00000000, 20.00000000, 30.00000000],
+                      [22.83489024, 32.80460562, 42.77432100],
+                      [34.80044921, 44.74343470, 54.68642018],
+                      [47.55353925, 57.52325463, 67.49297001],
                       [60.00000000, 70.00000000, 80.00000000]]),
             decimal=7)
 
@@ -402,6 +442,14 @@ extrapolator_args` property.
         np.testing.assert_array_equal(
             multi_signal[np.array([-1000, 1000])],
             np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]))
+
+    def test_raise_exception__getitem__(self):
+        """
+        Tests :func:`colour.continuous.multi_signal.MultiSignal.__getitem__`
+        method raised exception.
+        """
+
+        self.assertRaises(RuntimeError, operator.getitem, MultiSignal(), 0)
 
     def test__setitem__(self):
         """
@@ -506,6 +554,14 @@ extrapolator_args` property.
         self.assertIn(0.5, self._multi_signal)
         self.assertNotIn(1000, self._multi_signal)
 
+    def test_raise_exception__contains__(self):
+        """
+        Tests :func:`colour.continuous.multi_signal.MultiSignal.__contains__`
+        method raised exception.
+        """
+
+        self.assertRaises(RuntimeError, operator.contains, MultiSignal(), 0)
+
     def test__len__(self):
         """
         Tests :func:`colour.continuous.multi_signal.MultiSignal.__len__`
@@ -603,6 +659,21 @@ arithmetical_operation` method.
             self._multi_signal.arithmetical_operation(10, '**', False).range,
             self._range_2 ** 10,
             decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._multi_signal + 10).range, self._range_2 + 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._multi_signal - 10).range, self._range_2 - 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._multi_signal * 10).range, self._range_2 * 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._multi_signal / 10).range, self._range_2 / 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._multi_signal ** 10).range, self._range_2 ** 10, decimal=7)
 
         multi_signal = self._multi_signal.copy()
 
@@ -734,11 +805,11 @@ multi_signal_unpack_data` method.
 
         np.testing.assert_almost_equal(
             multi_signal.fill_nan().range,
-            np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [
-                30.0, 40.0, 50.0
-            ], [40.0, 50.0, 60.0], [50.0, 60.0, 70.0], [60.0, 70.0, 80.0],
-                      [70.0, 80.0, 90.0], [80.0, 90.0, 100.0],
-                      [90.0, 100.0, 110.0], [100.0, 110.0, 120.0]]),
+            np.array(
+                [[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0],
+                 [40.0, 50.0, 60.0], [50.0, 60.0, 70.0], [60.0, 70.0, 80.0],
+                 [70.0, 80.0, 90.0], [80.0, 90.0, 100.0], [90.0, 100.0, 110.0],
+                 [100.0, 110.0, 120.0]]),
             decimal=7)
 
         multi_signal[3:7] = np.nan
