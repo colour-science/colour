@@ -17,11 +17,11 @@ Defines *whiteness* index :math:`W` computation objects:
 -   :func:`colour.colorimetry.whiteness_ASTME313`: *Whiteness* index :math:`WI`
     of given sample *CIE XYZ* tristimulus values using *ASTM E313* method.
 -   :func:`colour.colorimetry.whiteness_Ganz1979`: *Whiteness* index :math:`W`
-    and *tint* :math:`T` computation of given sample *xy* chromaticity
+    and *tint* :math:`T` computation of given sample *CIE xy* chromaticity
     coordinates using *Ganz and Griesser (1979)* method.
 -   :func:`colour.colorimetry.whiteness_CIE2004`: *Whiteness* :math:`W` or
     :math:`W_{10}` and *tint* :math:`T` or :math:`T_{10}` computation of given
-    sample *xy* chromaticity coordinates using *CIE 2004* method.
+    sample *CIE xy* chromaticity coordinates using *CIE 2004* method.
 -   :attr:`colour.WHITENESS_METHODS`: Supported *whiteness* computations
     methods.
 -   :func:`colour.whiteness`: *Whiteness* :math:`W` computation using given
@@ -293,13 +293,13 @@ def whiteness_ASTME313(XYZ):
 def whiteness_Ganz1979(xy, Y):
     """
     Returns the *whiteness* index :math:`W` and *tint* :math:`T` of given
-    sample *xy* chromaticity coordinates using *Ganz and Griesser (1979)*
+    sample *CIE xy* chromaticity coordinates using *Ganz and Griesser (1979)*
     method.
 
     Parameters
     ----------
     xy : array_like
-        Chromaticity coordinates *xy* of sample.
+        Chromaticity coordinates *CIE xy* of sample.
     Y : numeric or array_like
         Tristimulus :math:`Y` value of sample.
 
@@ -362,13 +362,13 @@ def whiteness_CIE2004(xy,
                       observer='CIE 1931 2 Degree Standard Observer'):
     """
     Returns the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
-    or :math:`T_{10}` of given sample *xy* chromaticity coordinates using
+    or :math:`T_{10}` of given sample *CIE xy* chromaticity coordinates using
     *CIE 2004* method.
 
     Parameters
     ----------
     xy : array_like
-        Chromaticity coordinates *xy* of sample.
+        Chromaticity coordinates *CIE xy* of sample.
     Y : numeric or array_like
         Tristimulus :math:`Y` value of sample.
     xy_n : array_like

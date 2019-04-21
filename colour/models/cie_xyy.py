@@ -167,21 +167,21 @@ def xyY_to_XYZ(xyY):
 
 def xyY_to_xy(xyY):
     """
-    Converts from *CIE xyY* colourspace to *xy* chromaticity coordinates.
+    Converts from *CIE xyY* colourspace to *CIE xy* chromaticity coordinates.
 
     ``xyY`` argument with last dimension being equal to 2 will be assumed to be
-    a *xy* chromaticity coordinates argument and will be returned directly by
-    the definition.
+    a *CIE xy* chromaticity coordinates argument and will be returned directly
+    by the definition.
 
     Parameters
     ----------
     xyY : array_like
-        *CIE xyY* colourspace array or *xy* chromaticity coordinates.
+        *CIE xyY* colourspace array or *CIE xy* chromaticity coordinates.
 
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Notes
     -----
@@ -208,8 +208,8 @@ def xyY_to_xy(xyY):
 
     xyY = as_float_array(xyY)
 
-    # Assuming ``xyY`` is actually a *xy* chromaticity coordinates argument and
-    # returning it directly.
+    # Assuming ``xyY`` is actually a *CIE xy* chromaticity coordinates argument
+    # and returning it directly.
     if xyY.shape[-1] == 2:
         return xyY
 
@@ -220,7 +220,7 @@ def xyY_to_xy(xyY):
 
 def xy_to_xyY(xy, Y=1):
     """
-    Converts from *xy* chromaticity coordinates to *CIE xyY* colourspace by
+    Converts from *CIE xy* chromaticity coordinates to *CIE xyY* colourspace by
     extending the array last dimension with given :math:`Y` *luminance*.
 
     ``xy`` argument with last dimension being equal to 3 will be assumed to be
@@ -230,7 +230,7 @@ def xy_to_xyY(xy, Y=1):
     Parameters
     ----------
     xy : array_like
-        *xy* chromaticity coordinates or *CIE xyY* colourspace array.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array.
     Y : numeric, optional
         Optional :math:`Y` *luminance* value used to construct the *CIE xyY*
         colourspace array, the default :math:`Y` *luminance* value is 1.
@@ -298,8 +298,8 @@ def XYZ_to_xy(
         XYZ,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
-    Returns the *xy* chromaticity coordinates from given *CIE XYZ* tristimulus
-    values.
+    Returns the *CIE xy* chromaticity coordinates from given *CIE XYZ*
+    tristimulus values.
 
     Parameters
     ----------
@@ -311,7 +311,7 @@ def XYZ_to_xy(
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Notes
     -----
@@ -338,13 +338,13 @@ def XYZ_to_xy(
 
 def xy_to_XYZ(xy):
     """
-    Returns the *CIE XYZ* tristimulus values from given *xy* chromaticity
+    Returns the *CIE XYZ* tristimulus values from given *CIE xy* chromaticity
     coordinates.
 
     Parameters
     ----------
     xy : array_like
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Returns
     -------

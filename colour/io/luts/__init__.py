@@ -144,7 +144,16 @@ def read_LUT(path, method=None, **kwargs):
 
     function = LUT_READ_METHODS[method]
 
-    return function(path, **filter_kwargs(function, **kwargs))
+    try:
+        return function(path, **filter_kwargs(function, **kwargs))
+    except ValueError as error:
+        # Case where a "Resolve Cube" with "LUT3x1D" shaper was read as an
+        # "Iridas Cube" "LUT".
+        if method == 'Iridas Cube':
+            function = LUT_READ_METHODS['Resolve Cube']
+            return function(path, **filter_kwargs(function, **kwargs))
+        else:
+            raise error
 
 
 LUT_WRITE_METHODS = CaseInsensitiveMapping({

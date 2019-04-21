@@ -335,7 +335,7 @@ class TestKernelInterpolator(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(KernelInterpolator))
 
-    def test___call__(self):
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.KernelInterpolator.__call__`
         method.
@@ -467,7 +467,7 @@ class TestLinearInterpolator(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(LinearInterpolator))
 
-    def test___call__(self):
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method.
@@ -535,7 +535,7 @@ class TestSpragueInterpolator(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(SpragueInterpolator))
 
-    def test___call__(self):
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method.
@@ -583,7 +583,7 @@ class TestCubicSplineInterpolator(unittest.TestCase):
     unit tests methods.
     """
 
-    def test___call__(self):
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.\
 CubicSplineInterpolator.__call__` method.
@@ -655,7 +655,7 @@ class TestNullInterpolator(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(NullInterpolator))
 
-    def test___call__(self):
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.__call__`
         method.

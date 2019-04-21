@@ -49,7 +49,7 @@ class TestExtrapolator(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(Extrapolator))
 
-    def test___call__(self):
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.extrapolation.Extrapolator.__call__`
         method.

@@ -255,8 +255,8 @@ class TestCAM16ColourAppearanceModelReverse(ColourAppearanceModelTest):
     @ignore_numpy_errors
     def test_nan_CAM16_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition
-        nan support.
+        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition nan
+        support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

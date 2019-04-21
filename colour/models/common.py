@@ -71,7 +71,7 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like
-        *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity
+        *CIE XYZ* tristimulus values *illuminant* *CIE xy* chromaticity
         coordinates.
     model : unicode
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',

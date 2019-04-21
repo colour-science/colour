@@ -58,7 +58,7 @@ def XYZ_to_Lab(
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
@@ -127,7 +127,7 @@ def Lab_to_XYZ(
     Lab : array_like
         *CIE L\\*a\\*b\\** colourspace array.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns

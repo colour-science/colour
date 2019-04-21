@@ -195,8 +195,8 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape, k=None):
         :attr:`colour.colorimetry.tristimulus.\
 _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
         defined by the colour matching functions and illuminant names along
-        the current shape such as:
-        `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0)`
+        with the current shape and normalisation constant :math:`k` such as:
+        `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0), None`
         Considering the above, one should be mindful that using similar colour
         matching functions and illuminant names but with different spectral
         data will lead to unexpected behaviour.
@@ -677,8 +677,8 @@ def sd_to_XYZ_ASTME30815(
         :attr:`colour.colorimetry.tristimulus.\
 _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
         defined by the colour matching functions and illuminant names along
-        the current shape such as:
-        `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0)`
+        with the current shape and normalisation constant :math:`k` such as:
+        `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0), None`
         Considering the above, one should be mindful that using similar colour
         matching functions and illuminant names but with different spectral
         data will lead to unexpected behaviour.

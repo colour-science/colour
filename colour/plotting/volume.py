@@ -101,7 +101,7 @@ def common_colourspace_model_axis_reorder(a, model=None):
 
 def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     """
-    Returns a grid on *xy* plane made of quad geometric elements and its
+    Returns a grid on *CIE xy* plane made of quad geometric elements and its
     associated faces and edges colours. Ticks and labels are added to the
     given axes according to the extended grid settings.
 

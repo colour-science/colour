@@ -143,7 +143,7 @@ def XYZ_to_hdr_CIELab(
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     Y_s : numeric or array_like
         Relative luminance :math:`Y_s` of the surround.
@@ -245,7 +245,7 @@ def hdr_CIELab_to_XYZ(
     Lab_hdr : array_like
         *hdr-CIELAB* colourspace array.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     Y_s : numeric or array_like
         Relative luminance :math:`Y_s` of the surround.

@@ -73,7 +73,7 @@ def XYZ_to_Luv(
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
@@ -142,7 +142,7 @@ def Luv_to_XYZ(
     Luv : array_like
         *CIE L\\*u\\*v\\** colourspace array.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
@@ -216,7 +216,7 @@ def Luv_to_uv(
     Luv : array_like
         *CIE L\\*u\\*v\\** colourspace array.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
@@ -273,7 +273,7 @@ def uv_to_Luv(
     uv : array_like
         :math:`uv^p` chromaticity coordinates.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     Y : numeric, optional
         Optional :math:`Y` *luminance* value used to construct the intermediate
@@ -323,7 +323,7 @@ def uv_to_Luv(
 
 def Luv_uv_to_xy(uv):
     """
-    Returns the *xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
+    Returns the *CIE xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
     colourspace :math:`uv^p` chromaticity coordinates.
 
     Parameters
@@ -334,7 +334,7 @@ def Luv_uv_to_xy(uv):
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     References
     ----------
@@ -358,12 +358,12 @@ def Luv_uv_to_xy(uv):
 def xy_to_Luv_uv(xy):
     """
     Returns the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
-    coordinates from given *xy* chromaticity coordinates.
+    coordinates from given *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
     xy : array_like
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Returns
     -------

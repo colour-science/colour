@@ -37,31 +37,31 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
     temperature :math:`T_{cp}` using *Krystek (1985)* method.
 -   :func:`colour.temperature.xy_to_CCT_McCamy1992`: Correlated colour
     temperature :math:`T_{cp}` computation of given *CIE XYZ* tristimulus
-    values *xy* chromaticity coordinates using *McCamy (1992)* method.
+    values *CIE xy* chromaticity coordinates using *McCamy (1992)* method.
 -   :func:`colour.temperature.xy_to_CCT_Hernandez1999`: Correlated colour
     temperature :math:`T_{cp}` computation of given *CIE XYZ* tristimulus
-    values *xy* chromaticity coordinates using
+    values *CIE xy* chromaticity coordinates using
     *Hernandez-Andres, Lee and Romero (1999)* method.
 -   :func:`colour.temperature.CCT_to_xy_Kang2002`: *CIE XYZ* tristimulus
-    values *xy* chromaticity coordinates computation of given correlated colour
-    temperature :math:`T_{cp}` using
+    values *CIE xy* chromaticity coordinates computation of given correlated
+    colour temperature :math:`T_{cp}` using
     *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
 -   :func:`colour.temperature.CCT_to_xy_CIE_D`: *CIE XYZ* tristimulus values
-    *xy* chromaticity coordinates computation of *CIE Illuminant D Series* from
-    given correlated colour temperature :math:`T_{cp}` of that
+    *CIE xy* chromaticity coordinates computation of *CIE Illuminant D Series*
+    from given correlated colour temperature :math:`T_{cp}` of that
     *CIE Illuminant D Series*.
 -   :attr:`colour.XY_TO_CCT_METHODS`: Supported *CIE XYZ* tristimulus values
-    *xy* chromaticity coordinates to correlated colour temperature
+    *CIE xy* chromaticity coordinates to correlated colour temperature
     :math:`T_{cp}` computation methods.
 -   :func:`colour.xy_to_CCT`: Correlated colour temperature :math:`T_{cp}`
-    computation from given *CIE XYZ* tristimulus values *xy* chromaticity
+    computation from given *CIE XYZ* tristimulus values *CIE xy* chromaticity
     coordinates using given method.
 -   :attr:`colour.CCT_TO_XY_METHODS`: Supported correlated colour temperature
-    :math:`T_{cp}` to *CIE XYZ* tristimulus values *xy* chromaticity
+    :math:`T_{cp}` to *CIE XYZ* tristimulus values *CIE xy* chromaticity
     coordinates computation methods.
--   :func:`colour.CCT_to_xy`: *CIE XYZ* tristimulus values *xy* chromaticity
-    coordinates computation from given correlated colour temperature
-    :math:`T_{cp}` using given method.
+-   :func:`colour.CCT_to_xy`: *CIE XYZ* tristimulus values *CIE xy*
+    chromaticity coordinates computation from given correlated colour
+    temperature :math:`T_{cp}` using given method.
 
 See Also
 --------
@@ -943,13 +943,13 @@ def CCT_to_uv(CCT_D_uv, method='Ohno 2013', **kwargs):
 def xy_to_CCT_McCamy1992(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
-    *CIE XYZ* tristimulus values *xy* chromaticity coordinates using
+    *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates using
     *McCamy (1992)* method.
 
     Parameters
     ----------
     xy : array_like
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Returns
     -------
@@ -978,13 +978,13 @@ def xy_to_CCT_McCamy1992(xy):
 def xy_to_CCT_Hernandez1999(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
-    *CIE XYZ* tristimulus values *xy* chromaticity coordinates using
+    *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates using
     *Hernandez-Andres et al. (1999)* method.
 
     Parameters
     ----------
     xy : array_like
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Returns
     -------
@@ -1022,8 +1022,8 @@ def xy_to_CCT_Hernandez1999(xy):
 
 def CCT_to_xy_Kang2002(CCT):
     """
-    Returns the *CIE XYZ* tristimulus values *xy* chromaticity coordinates from
-    given correlated colour temperature :math:`T_{cp}` using
+    Returns the *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates
+    from given correlated colour temperature :math:`T_{cp}` using
     *Kang et al. (2002)* method.
 
     Parameters
@@ -1034,7 +1034,7 @@ def CCT_to_xy_Kang2002(CCT):
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Raises
     ------
@@ -1090,7 +1090,7 @@ def CCT_to_xy_CIE_D(CCT):
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Raises
     ------
@@ -1133,7 +1133,7 @@ XY_TO_CCT_METHODS = CaseInsensitiveMapping({
     'Hernandez 1999': xy_to_CCT_Hernandez1999
 })
 XY_TO_CCT_METHODS.__doc__ = """
-Supported *CIE XYZ* tristimulus values *xy* chromaticity coordinates to
+Supported *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates to
 correlated colour temperature :math:`T_{cp}` computation methods.
 
 References
@@ -1155,13 +1155,13 @@ XY_TO_CCT_METHODS['hernandez1999'] = XY_TO_CCT_METHODS['Hernandez 1999']
 def xy_to_CCT(xy, method='McCamy 1992'):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
-    *CIE XYZ* tristimulus values *xy* chromaticity coordinates using given
+    *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates using given
     method.
 
     Parameters
     ----------
     xy : array_like
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
     method : unicode, optional
         **{'McCamy 1992', 'Hernandez 1999'}**,
         Computation method.
@@ -1186,7 +1186,7 @@ CCT_TO_XY_METHODS = CaseInsensitiveMapping({
 })
 CCT_TO_XY_METHODS.__doc__ = """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* tristimulus
-values *xy* chromaticity coordinates computation methods.
+values *CIE xy* chromaticity coordinates computation methods.
 
 References
 ----------
@@ -1206,8 +1206,8 @@ CCT_TO_XY_METHODS['cie_d'] = CCT_TO_XY_METHODS['CIE Illuminant D Series']
 
 def CCT_to_xy(CCT, method='Kang 2002'):
     """
-    Returns the *CIE XYZ* tristimulus values *xy* chromaticity coordinates from
-    given correlated colour temperature :math:`T_{cp}` using given method.
+    Returns the *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates
+    from given correlated colour temperature :math:`T_{cp}` using given method.
 
     Parameters
     ----------
@@ -1220,7 +1220,7 @@ def CCT_to_xy(CCT, method='Kang 2002'):
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     References
     ----------

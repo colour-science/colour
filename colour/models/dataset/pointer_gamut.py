@@ -670,7 +670,7 @@ POINTER_GAMUT_BOUNDARIES = np.array([
     [0.508, 0.226],
 ])
 """
-*Pointer's Gamut* *xy* chromaticity coordinates boundaries.
+*Pointer's Gamut* *CIE xy* chromaticity coordinates boundaries.
 
 References
 ----------

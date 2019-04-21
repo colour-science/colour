@@ -51,7 +51,7 @@ def XYZ_to_UVW(
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
@@ -126,7 +126,7 @@ def UVW_to_XYZ(
     UVW : array_like
         *CIE 1964 U\\*V\\*W\\** colourspace array.
     illuminant : array_like, optional
-        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns

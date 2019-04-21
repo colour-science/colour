@@ -2012,9 +2012,9 @@ def interpolation_method_from_renotation_ovoid(specification):
 
 def xy_from_renotation_ovoid(specification):
     """
-    Converts given *Munsell* *Colorlab* specification to *xy* chromaticity
+    Converts given *Munsell* *Colorlab* specification to *CIE xy* chromaticity
     coordinates on *Munsell Renotation System* ovoid.
-    The *xy* point will be on the ovoid about the achromatic point,
+    The *CIE xy* point will be on the ovoid about the achromatic point,
     corresponding to the *Munsell* *Colorlab* specification
     value and chroma.
 
@@ -2026,7 +2026,7 @@ def xy_from_renotation_ovoid(specification):
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Raises
     ------
@@ -2280,7 +2280,7 @@ def maximum_chroma_from_renotation(hue, value, code):
 
 def munsell_specification_to_xy(specification):
     """
-    Converts given *Munsell* *Colorlab* specification to *xy* chromaticity
+    Converts given *Munsell* *Colorlab* specification to *CIE xy* chromaticity
     coordinates by interpolating over *Munsell Renotation System* data.
 
     Parameters
@@ -2291,7 +2291,7 @@ def munsell_specification_to_xy(specification):
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     References
     ----------

@@ -126,8 +126,8 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy
@@ -144,8 +144,8 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy_to_UCS_uv(xy)
@@ -162,8 +162,8 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy_to_Luv_uv(xy)
@@ -291,8 +291,8 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy
@@ -303,8 +303,8 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy_to_UCS_uv(xy)
@@ -316,8 +316,8 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy_to_Luv_uv(xy)
@@ -878,8 +878,8 @@ def ellipses_MacAdam1942(method='CIE 1931'):
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy
@@ -888,8 +888,8 @@ def ellipses_MacAdam1942(method='CIE 1931'):
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy_to_UCS_uv(xy)
@@ -898,8 +898,8 @@ def ellipses_MacAdam1942(method='CIE 1931'):
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy_to_Luv_uv(xy)
