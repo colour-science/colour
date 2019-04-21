@@ -1997,6 +1997,8 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
         if 'channel_weights' in kwargs:
             del kwargs['channel_weights']
 
+        # TODO: Implement support for non-uniform domain, e.g. "cinespace"
+        #  LUTs.
         if isinstance(LUT, LUT1D):
             if cls is LUT3x1D:
                 domain = tstack([LUT.domain, LUT.domain, LUT.domain])
@@ -2009,7 +2011,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
             if cls is LUT1D:
                 domain = np.array(
                     [np.max(LUT.domain[0, ...]),
-                     np.min(LUT.domain[1, ...])])
+                     np.min(LUT.domain[-1, ...])])
                 table = np.sum(LUT.table * channel_weights, axis=-1)
             elif cls is LUT3D:
                 domain = LUT.domain
@@ -2019,7 +2021,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
             if cls is LUT1D:
                 domain = np.array(
                     [np.max(LUT.domain[0, ...]),
-                     np.min(LUT.domain[1, ...])])
+                     np.min(LUT.domain[-1, ...])])
                 table = LUT1D.linear_table(size, domain)
                 table = LUT.apply(tstack([table, table, table]), **kwargs)
                 table = np.sum(table * channel_weights, axis=-1)

@@ -83,6 +83,17 @@ class TestReadLUT(unittest.TestCase):
         )
         self.assertEqual(LUT_2[1].size, 4)
 
+    def test_raise_exception_read_LUT(self):
+        """
+        Tests :func:`colour.io.luts.__init__.read_LUT` definition raised
+        exception.
+        """
+
+        self.assertRaises(
+            ValueError, read_LUT,
+            os.path.join(LUTS_DIRECTORY, 'sony_spi1d',
+                         'ExceptionRaising.spi1d'))
+
 
 class TestWriteLUT(unittest.TestCase):
     """

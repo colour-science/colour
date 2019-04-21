@@ -69,13 +69,8 @@ def read_LUT_SonySPI3D(path):
     comments = []
 
     with open(path) as spi3d_file:
-        lines = spi3d_file.readlines()
+        lines = filter(None, (line.strip() for line in spi3d_file.readlines()))
         for line in lines:
-            line = line.strip()
-
-            if len(line) == 0:
-                continue
-
             if line.startswith('#'):
                 comments.append(line[1:].strip())
                 continue

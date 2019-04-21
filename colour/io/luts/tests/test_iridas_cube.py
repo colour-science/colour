@@ -11,7 +11,8 @@ import unittest
 import shutil
 import tempfile
 
-from colour.io import LUTSequence, read_LUT_IridasCube, write_LUT_IridasCube
+from colour.io import (LUT1D, LUTSequence, read_LUT_IridasCube,
+                       write_LUT_IridasCube)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -123,50 +124,51 @@ class TestWriteLUTIridasCube(unittest.TestCase):
 
         LUT_1_r = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.cube'))
-
         write_LUT_IridasCube(
             LUT_1_r,
             os.path.join(self._temporary_directory,
                          'ACES_Proxy_10_to_ACES.cube'))
-
         LUT_1_t = read_LUT_IridasCube(
             os.path.join(self._temporary_directory,
                          'ACES_Proxy_10_to_ACES.cube'))
-
         self.assertEqual(LUT_1_r, LUT_1_t)
 
         write_LUT_IridasCube(
             LUTSequence(LUT_1_r),
             os.path.join(self._temporary_directory,
                          'ACES_Proxy_10_to_ACES.cube'))
-
         self.assertEqual(LUT_1_r, LUT_1_t)
 
         LUT_2_r = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, 'Demo.cube'))
-
         write_LUT_IridasCube(
             LUT_2_r, os.path.join(self._temporary_directory, 'Demo.cube'))
-
         LUT_2_t = read_LUT_IridasCube(
             os.path.join(self._temporary_directory, 'Demo.cube'))
-
         self.assertEqual(LUT_2_r, LUT_2_t)
         self.assertListEqual(LUT_2_r.comments, LUT_2_t.comments)
 
         LUT_3_r = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, 'ThreeDimensionalTable.cube'))
-
         write_LUT_IridasCube(
             LUT_3_r,
             os.path.join(self._temporary_directory,
                          'ThreeDimensionalTable.cube'))
-
         LUT_3_t = read_LUT_IridasCube(
             os.path.join(self._temporary_directory,
                          'ThreeDimensionalTable.cube'))
-
         self.assertEqual(LUT_3_r, LUT_3_t)
+
+        LUT_4_r = read_LUT_IridasCube(
+            os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.cube'))
+        write_LUT_IridasCube(
+            LUT_4_r.as_LUT(LUT1D, force_conversion=True),
+            os.path.join(self._temporary_directory,
+                         'ACES_Proxy_10_to_ACES.cube'))
+        LUT_4_t = read_LUT_IridasCube(
+            os.path.join(self._temporary_directory,
+                         'ACES_Proxy_10_to_ACES.cube'))
+        self.assertEqual(LUT_4_r, LUT_4_t)
 
 
 if __name__ == '__main__':

@@ -85,13 +85,8 @@ def read_LUT_SonySPI1D(path):
     comments = []
 
     with open(path) as spi1d_file:
-        lines = spi1d_file.readlines()
+        lines = filter(None, (line.strip() for line in spi1d_file.readlines()))
         for line in lines:
-            line = line.strip()
-
-            if len(line) == 0:
-                continue
-
             if line.startswith('#'):
                 comments.append(line[1:].strip())
                 continue
@@ -211,8 +206,8 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
         spi1d_file.write('From {1:0.{0}f} {2:0.{0}f}\n'.format(
             decimals, *domain))
 
-        spi1d_file.write('Length {0}\n'.format(LUT.table.size if is_1D else
-                                               LUT.table.shape[0]))
+        spi1d_file.write('Length {0}\n'.format(
+            LUT.table.size if is_1D else LUT.table.shape[0]))
 
         spi1d_file.write('Components {0}\n'.format(1 if is_1D else 3))
 
