@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (SpectralShape, planck_law, sd_blackbody)
+from colour.colorimetry import SpectralShape, planck_law, sd_blackbody
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
