@@ -56,17 +56,17 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
     """
     Returns the coordinates and closest spectral locus wavelength index to the
     point where the line defined by the given achromatic stimulus :math:`xy_n`
-    to colour stimulus :math:`xy_n` *xy* chromaticity coordinates intersects
-    the spectral locus.
+    to colour stimulus :math:`xy_n` *CIE xy* chromaticity coordinates
+    intersects the spectral locus.
 
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     xy_s : array_like
-        Spectral locus *xy* chromaticity coordinates.
+        Spectral locus *CIE xy* chromaticity coordinates.
     reverse : bool, optional
         The intersection will be computed using the colour stimulus :math:`xy`
         to achromatic stimulus :math:`xy_n` reverse direction.
@@ -74,7 +74,7 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
     Returns
     -------
     tuple
-        Closest wavelength index, intersection point *xy* chromaticity
+        Closest wavelength index, intersection point *CIE xy* chromaticity
         coordinates.
 
     Raises
@@ -144,9 +144,9 @@ def dominant_wavelength(xy,
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
     reverse : bool, optional
@@ -156,8 +156,9 @@ def dominant_wavelength(xy,
     Returns
     -------
     tuple
-        *Dominant wavelength*, first intersection point *xy* chromaticity
-        coordinates, second intersection point *xy* chromaticity coordinates.
+        *Dominant wavelength*, first intersection point *CIE xy* chromaticity
+        coordinates, second intersection point *CIE xy* chromaticity
+        coordinates.
 
     References
     ----------
@@ -233,17 +234,18 @@ def complementary_wavelength(xy,
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
     Returns
     -------
     tuple
-        *Complementary wavelength*, first intersection point *xy* chromaticity
-        coordinates, second intersection point *xy* chromaticity coordinates.
+        *Complementary wavelength*, first intersection point *CIE xy*
+        chromaticity coordinates, second intersection point *CIE xy*
+        chromaticity coordinates.
 
     References
     ----------
@@ -285,9 +287,9 @@ def excitation_purity(xy,
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
@@ -326,9 +328,9 @@ def colorimetric_purity(xy,
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 

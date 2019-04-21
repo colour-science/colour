@@ -130,12 +130,12 @@ def sd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
 def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
     """
     Returns the spectral distribution of given
-    *CIE Illuminant D Series* using given *xy* chromaticity coordinates.
+    *CIE Illuminant D Series* using given *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
     xy : array_like
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
     M1_M2_rounding : bool, optional
         Whether to round :math:`M1` and :math:`M2` variables to 3 decimal
         places in order to yield the internationally agreed values.
@@ -148,9 +148,10 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
 
     Notes
     -----
-    -   The nominal *xy* chromaticity coordinates which have been computed with
-        :func:`colour.temperature.CCT_to_xy_CIE_D` must be given according to
-        *CIE 015:2004* recommendation and thus multiplied by 1.4388 / 1.4380.
+    -   The nominal *CIE xy* chromaticity coordinates which have been computed
+        with :func:`colour.temperature.CCT_to_xy_CIE_D` must be given according
+        to *CIE 015:2004* recommendation and thus multiplied by
+        1.4388 / 1.4380.
     -   :math:`M1` and :math:`M2` variables are rounded to 3 decimal places
          according to *CIE 015:2004* recommendation.
 
@@ -301,7 +302,7 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
 
 def daylight_locus_function(x_D):
     """
-    Returns the daylight locus as *xy* chromaticity coordinates.
+    Returns the daylight locus as *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
@@ -311,7 +312,7 @@ def daylight_locus_function(x_D):
     Returns
     -------
     numeric or array_like
-        Daylight locus as *xy* chromaticity coordinates.
+        Daylight locus as *CIE xy* chromaticity coordinates.
 
     References
     ----------

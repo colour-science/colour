@@ -213,8 +213,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy
@@ -224,8 +224,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy):
             """
-            Converts given *xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))

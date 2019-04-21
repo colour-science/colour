@@ -897,10 +897,10 @@ def XYZ_to_RGB(XYZ,
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant_XYZ : array_like
-        *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity coordinates
-        or *CIE xyY* colourspace array.
+        *CIE XYZ* tristimulus values *illuminant* *CIE xy* chromaticity
+        coordinates or *CIE xyY* colourspace array.
     illuminant_RGB : array_like
-        *RGB* colourspace *illuminant* *xy* chromaticity coordinates or
+        *RGB* colourspace *illuminant* *CIE xy* chromaticity coordinates or
         *CIE xyY* colourspace array.
     XYZ_to_RGB_matrix : array_like
         *Normalised primary matrix*.

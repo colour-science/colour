@@ -1259,12 +1259,12 @@ rendition charts figures:
 Convert to Chromaticity Coordinates
 -----------------------------------
 
-Given a spectral distribution, chromaticity coordinates *xy* can be computed
+Given a spectral distribution, chromaticity coordinates *CIE xy* can be computed
 using the ``colour.XYZ_to_xy`` definition:
 
 .. code:: python
 
-    # Computing *xy* chromaticity coordinates for the *neutral 5 (.70 D)* patch.
+    # Computing *CIE xy* chromaticity coordinates for the *neutral 5 (.70 D)* patch.
     xy =  colour.XYZ_to_xy(XYZ)
     print(xy)
 
@@ -1274,7 +1274,7 @@ using the ``colour.XYZ_to_xy`` definition:
     [ 0.31259787  0.32870029]
 
 
-Chromaticity coordinates *xy* can be plotted into the *CIE 1931 Chromaticity Diagram*:
+Chromaticity coordinates *CIE xy* can be plotted into the *CIE 1931 Chromaticity Diagram*:
 
 .. code:: python
 
@@ -1285,7 +1285,7 @@ Chromaticity coordinates *xy* can be plotted into the *CIE 1931 Chromaticity Dia
     # displayed and can be used as a basis for other plots.
     plot_chromaticity_diagram_CIE1931(standalone=False)
 
-    # Plotting the *xy* chromaticity coordinates.
+    # Plotting the *CIE xy* chromaticity coordinates.
     x, y = xy
     plt.plot(x, y, 'o-', color='white')
 

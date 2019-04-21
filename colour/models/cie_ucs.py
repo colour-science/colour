@@ -226,7 +226,7 @@ def uv_to_UCS(uv, V=1):
 
 def UCS_uv_to_xy(uv):
     """
-    Returns the *xy* chromaticity coordinates from given *CIE 1960 UCS*
+    Returns the *CIE xy* chromaticity coordinates from given *CIE 1960 UCS*
     colourspace *uv* chromaticity coordinates.
 
     Parameters
@@ -237,7 +237,7 @@ def UCS_uv_to_xy(uv):
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     References
     ----------
@@ -261,12 +261,12 @@ def UCS_uv_to_xy(uv):
 def xy_to_UCS_uv(xy):
     """
     Returns the *CIE 1960 UCS* colourspace *uv* chromaticity coordinates from
-    given *xy* chromaticity coordinates.
+    given *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
     xy : array_like
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Returns
     -------
