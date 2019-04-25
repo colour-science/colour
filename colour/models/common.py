@@ -120,6 +120,9 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     ... XYZ, W, 'CIE LCHuv')
     array([ 0.4152787...,  0.9844997...,  0.0288560...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE UCS')
+    array([ 0.1376933...,  0.1219722...,  0.1053731...])
+    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE UCS uv')
     array([ 0.3772021...,  0.3341350...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
@@ -149,6 +152,13 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'hdr-IPT')
     array([ 0.4839376...,  0.4244990...,  0.2201954...])
+    >>> try:
+    ...     XYZ_to_colourspace_model(XYZ, W, 'Undefined')
+    ... except ValueError as error:
+    ...     print(error)
+    "Undefined" not found in colourspace models: "CIE XYZ, CIE xyY, CIE Lab, \
+CIE LCHab, CIE Luv, CIE Luv uv, CIE LCHuv, CIE UCS, CIE UCS uv, CIE UVW, \
+DIN 99, Hunter Lab, Hunter Rdab, IPT, JzAzBz, OSA UCS, hdr-CIELAB, hdr-IPT".
     """
 
     with domain_range_scale(1):

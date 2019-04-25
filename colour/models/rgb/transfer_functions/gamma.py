@@ -97,5 +97,7 @@ def gamma_function(a, exponent=1, negative_number_handling='Indeterminate'):
         return as_float(np.where(a <= 0, 0, a ** exponent))
     else:
         raise ValueError(
-            'Undefined negative number handling method: "{0}".'.format(
-                negative_number_handling))
+            'Undefined negative number handling method: "{0}", must be one of '
+            '"{1}".'.format(
+                negative_number_handling,
+                ', '.join(['Indeterminate', 'Mirror', 'Preserve', 'Clamp'])))
