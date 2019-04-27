@@ -7,7 +7,7 @@ from __future__ import division, unicode_literals
 
 import unittest
 
-from colour.quality import colour_quality_scale
+from colour.quality import CQS_Specification, colour_quality_scale
 from colour.colorimetry import ILLUMINANTS_SDS, LIGHT_SOURCES_SDS
 
 __author__ = 'Colour Developers'
@@ -100,6 +100,10 @@ class TestColourQualityScale(unittest.TestCase):
                 LIGHT_SOURCES_SDS['Luxeon WW 2880'], method='NIST CQS 7.4'),
             84.879524259605077,
             places=7)
+
+        self.assertIsInstance(
+            colour_quality_scale(ILLUMINANTS_SDS['FL1'], additional_data=True),
+            CQS_Specification)
 
 
 if __name__ == '__main__':

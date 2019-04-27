@@ -7,8 +7,8 @@ from __future__ import division, unicode_literals
 
 import unittest
 
-from colour.quality import colour_rendering_index
-from colour.colorimetry import (ILLUMINANTS_SDS, SpectralDistribution)
+from colour.quality import CRI_Specification, colour_rendering_index
+from colour.colorimetry import ILLUMINANTS_SDS, SpectralDistribution
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -129,6 +129,11 @@ class TestColourRenderingIndex(unittest.TestCase):
             colour_rendering_index(SpectralDistribution(SAMPLE_SD_DATA)),
             70.813839034481575,
             places=7)
+
+        self.assertIsInstance(
+            colour_rendering_index(
+                ILLUMINANTS_SDS['FL1'], additional_data=True),
+            CRI_Specification)
 
 
 if __name__ == '__main__':
