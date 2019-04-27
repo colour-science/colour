@@ -143,7 +143,7 @@ def as_numeric(a, dtype=DEFAULT_FLOAT_DTYPE):
 
     try:
         return dtype(a)
-    except TypeError:
+    except (TypeError, ValueError):
         return a
 
 
@@ -221,10 +221,7 @@ def as_float(a):
     array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
     """
 
-    try:
-        return DEFAULT_FLOAT_DTYPE(a)
-    except TypeError:
-        return as_float_array(a)
+    return DEFAULT_FLOAT_DTYPE(a)
 
 
 def as_namedtuple(a, named_tuple):

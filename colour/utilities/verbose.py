@@ -536,11 +536,13 @@ def describe_environment(runtime_packages=True,
 
     import colour
 
+    # NOTE: A few clauses are not reached and a few packages are not available
+    # during continuous integration and are thus ignored for coverage.
     try:
         version = subprocess.check_output(  # nosec
             ['git', 'describe'], cwd=colour.__path__[0]).strip()
         version = version.decode('utf-8')
-    except Exception:
+    except Exception:  # pragma: no cover
         version = colour.__version__
 
     environment['colour-science.org']['colour'] = version
@@ -556,7 +558,7 @@ def describe_environment(runtime_packages=True,
                 continue
 
         # OpenImageIO
-        try:
+        try:  # pragma: no cover
             namespace = __import__('OpenImageIO')
             environment['Runtime']['OpenImageIO'] = namespace.VERSION_STRING
         except ImportError:
@@ -571,13 +573,13 @@ def describe_environment(runtime_packages=True,
                         'yapf'):
             try:
                 namespace = __import__(package)
-                if package == 'restructuredtext_lint':
+                if package == 'restructuredtext_lint':  # pragma: no cover
                     with open(
                             os.path.join(
                                 os.path.dirname(namespace.__file__),
                                 'VERSION'), 'r') as version_file:
                         version = version_file.read().strip()
-                elif package == 'sphinxcontrib.bibtex':
+                elif package == 'sphinxcontrib.bibtex':  # pragma: no cover
                     import pip
 
                     for distribution in pip.get_installed_distributions():

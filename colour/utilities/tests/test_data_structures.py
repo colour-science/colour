@@ -6,6 +6,7 @@ Defines unit tests for :mod:`colour.utilities.data_structures` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import operator
 import pickle
 import unittest
 
@@ -127,12 +128,30 @@ Lookup.first_key_from_value` method.
             C=np.array([2, 3, 4]))
         self.assertEqual('A', lookup.first_key_from_value(np.array([0, 1, 2])))
 
+    def test_raise_exception_first_key_from_value(self):
+        """
+        Tests :meth:`colour.utilities.data_structures.\
+Lookup.first_key_from_value` method raised exception.
+        """
+
+        self.assertRaises(IndexError, Lookup().first_key_from_value, 'John')
+
 
 class TestCaseInsensitiveMapping(unittest.TestCase):
     """
     Defines :class:`colour.utilities.data_structures.CaseInsensitiveMapping`
     class unit tests methods.
     """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('data', )
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(CaseInsensitiveMapping))
 
     def test_required_methods(self):
         """
@@ -145,6 +164,21 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
         for method in required_methods:
             self.assertIn(method, dir(CaseInsensitiveMapping))
+
+    def test_data(self):
+        """
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.data` property.
+        """
+
+        self.assertDictEqual(
+            CaseInsensitiveMapping({
+                'John': 'Doe',
+                'Jane': 'Doe'
+            }).data, {
+                'jane': ('Jane', 'Doe'),
+                'john': ('John', 'Doe')
+            })
 
     def test__setitem__(self):
         """
@@ -240,6 +274,16 @@ CaseInsensitiveMapping.__eq__` method.
 
         self.assertEqual(mapping2, mapping3)
 
+    def test_raise_exception__eq__(self):
+        """
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__eq__` method raised exception.
+        """
+
+        self.assertRaises(ValueError, operator.eq,
+                          CaseInsensitiveMapping(John='Doe', Jane='Doe'),
+                          ['John', 'Doe', 'Jane', 'Doe'])
+
     def test__ne__(self):
         """
         Tests :meth:`colour.utilities.data_structures.\
@@ -250,6 +294,16 @@ CaseInsensitiveMapping.__ne__` method.
         mapping2 = CaseInsensitiveMapping(Gi='Doe', Jane='Doe')
 
         self.assertNotEqual(mapping1, mapping2)
+
+    def test_raise_exception__ne__(self):
+        """
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__ne__` method raised exception.
+        """
+
+        self.assertRaises(ValueError, operator.ne,
+                          CaseInsensitiveMapping(John='Doe', Jane='Doe'),
+                          ['John', 'Doe', 'Jane', 'Doe'])
 
     def test_copy(self):
         """
