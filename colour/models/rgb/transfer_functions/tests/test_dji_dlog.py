@@ -97,8 +97,8 @@ log_decoding_DJIDLog` definition unit tests methods.
 
     def test_log_decoding_DJIDLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
-log_decoding_FilmLight_T_Log` definition.
+        Tests :func:`colour.models.rgb.transfer_functions.dji_dlog.\
+log_decoding_DJIDLog` definition.
         """
 
         self.assertAlmostEqual(log_decoding_DJIDLog(0.0929), 0.0, places=7)
@@ -147,8 +147,8 @@ log_decoding_DJIDLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_DLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
-log_decoding_FilmLight_T_Log` definition nan support.
+        Tests :func:`colour.models.rgb.transfer_functions.dji_dlog.\
+log_decoding_DJIDLog` definition nan support.
         """
 
         log_decoding_DJIDLog(
