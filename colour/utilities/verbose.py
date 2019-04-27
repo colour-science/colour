@@ -538,7 +538,9 @@ def describe_environment(runtime_packages=True,
 
     try:
         version = subprocess.check_output(  # nosec
-            ['git', 'describe'], cwd=colour.__path__[0]).strip()
+            ['git', 'describe'],
+            cwd=colour.__path__[0],
+            stderr=subprocess.STDOUT).strip()
         version = version.decode('utf-8')
     except Exception:
         version = colour.__version__
