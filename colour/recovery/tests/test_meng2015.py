@@ -77,6 +77,22 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             XYZ,
             decimal=7)
 
+    def test_raise_exception_XYZ_to_sd_Meng2015(self):
+        """
+        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
+        definition raised exception.
+        """
+
+        self.assertRaises(
+            RuntimeError,
+            XYZ_to_sd_Meng2015,
+            np.array([0.0, 0.0, 1.0]),
+            optimisation_parameters={
+                'options': {
+                    'maxiter': 10
+                },
+            })
+
     def test_domain_range_scale_XYZ_to_sd_Meng2015(self):
         """
         Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
