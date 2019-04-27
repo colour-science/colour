@@ -1175,6 +1175,13 @@ def xy_to_CCT(xy, method='McCamy 1992'):
     ----------
     :cite:`Hernandez-Andres1999a`, :cite:`Wikipedia2001`,
     :cite:`Wikipedia2001a`
+
+    Examples
+    --------
+    >>> xy_to_CCT([0.31270, 0.32900])  # doctest: +ELLIPSIS
+    6505.0805913...
+    >>> xy_to_CCT([0.31270, 0.32900], 'Hernandez 1999')  # doctest: +ELLIPSIS
+    6500.7420431...
     """
 
     return XY_TO_CCT_METHODS.get(method)(xy)
@@ -1225,6 +1232,14 @@ def CCT_to_xy(CCT, method='Kang 2002'):
     References
     ----------
     :cite:`Kang2002a`, :cite:`Wikipedia2001a`, :cite:`Wyszecki2000z`
+
+    Examples
+    --------
+    >>> CCT_to_xy(6504.38938305)  # doctest: +ELLIPSIS
+    array([ 0.313426 ...,  0.3235959...])
+    >>> CCT_to_xy(6504.38938305, 'CIE Illuminant D Series')
+    ... # doctest: +ELLIPSIS
+    array([ 0.3127077...,  0.3291128...])
     """
 
     return CCT_TO_XY_METHODS.get(method)(CCT)
