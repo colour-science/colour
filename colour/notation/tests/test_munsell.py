@@ -67,7 +67,7 @@ __all__ = [
 ]
 
 
-def _generate_unit_tests_specifications():
+def _generate_unit_tests_specifications():  # pragma: no cover
     """
     Generates the unit tests specifications.
 
@@ -451,6 +451,7 @@ MUNSELL_EVEN_SPECIFICATIONS = np.array([
     [(7.5, 5.0, 4.0, 8), [0.35150000, 0.30240000, 0.19271844]],
     [(7.5, 5.0, 4.0, 5), [0.38500000, 0.41200000, 0.19271844]],
     [(2.5, 6.0, 10.0, 7), [0.43200000, 0.31180000, 0.29301153]],
+    [(8.0, 2, 14.0, 1), [0.07257382, 0.10413956, 0.03048116]],
 ])
 
 MUNSELL_BOUNDING_HUES = np.array([
@@ -661,7 +662,7 @@ MUNSELL_INTERPOLATION_METHODS = [
     'Linear', 'Radial', 'Linear', 'Radial', 'Radial', 'Radial', 'Linear',
     'Linear', 'Linear', 'Linear', 'Linear', 'Linear', 'Linear', 'Linear',
     'Linear', 'Linear', 'Radial', 'Linear', 'Linear', 'Radial', 'Linear',
-    'Radial', 'Linear'
+    'Radial', 'Linear', 'Radial'
 ]
 
 MUNSELL_XY_FROM_RENOTATION_OVOID = [
@@ -1492,6 +1493,15 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         np.testing.assert_almost_equal(
             xyY_to_munsell_specification(xyY), specification, decimal=7)
 
+    def test_raise_exception_xyY_to_munsell_specification(self):
+        """
+        Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        definition raised exception.
+        """
+
+        self.assertRaises(RuntimeError, xyY_to_munsell_specification,
+                          np.array([0.90615118, 0.57945103, 0.91984064]))
+
     def test_domain_range_scale_xyY_to_munsell_specification(self):
         """
         Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
@@ -1592,6 +1602,14 @@ class TestParseMunsellColour(unittest.TestCase):
             parse_munsell_colour('4.2YR 8.1/5.3'),
             np.array([4.2, 8.1, 5.3, 6]),
             decimal=7)
+
+    def test_raise_exception_parse_munsell_colour(self):
+        """
+        Tests :func:`colour.notation.munsell.is_grey_munsell_colour`
+        definition raised exception.
+        """
+
+        self.assertRaises(ValueError, parse_munsell_colour, '4.2YQ 8.1/5.3')
 
 
 class TestIsGreyMunsellColour(unittest.TestCase):
@@ -1701,7 +1719,7 @@ munsell_specification_to_munsell_colour` definition.
 
         self.assertEqual(
             munsell_specification_to_munsell_colour(
-                np.array([10, 2.0, 4.0, 7])), '10.0R 2.0/4.0')
+                np.array([10.0, 2.0, 4.0, 7])), '10.0R 2.0/4.0')
 
         self.assertEqual(
             munsell_specification_to_munsell_colour(
@@ -1714,6 +1732,14 @@ munsell_specification_to_munsell_colour` definition.
         self.assertEqual(
             munsell_specification_to_munsell_colour(
                 np.array([np.nan, 5.2, np.nan, np.nan])), 'N5.2')
+
+        self.assertEqual(
+            munsell_specification_to_munsell_colour(
+                np.array([0.0, 2.0, 4.0, 7])), '10.0RP 2.0/4.0')
+
+        self.assertEqual(
+            munsell_specification_to_munsell_colour(
+                np.array([10.0, 0.0, 4.0, 7])), 'N0.0')
 
 
 class Test_xyY_fromRenotation(unittest.TestCase):
@@ -1844,6 +1870,14 @@ interpolation_method_from_renotation_ovoid` definition.
                 interpolation_method_from_renotation_ovoid(specification),
                 MUNSELL_INTERPOLATION_METHODS[i])
 
+        self.assertIsNone(
+            interpolation_method_from_renotation_ovoid(
+                np.array([np.nan, 5.2, np.nan, np.nan])))
+
+        self.assertIsNone(
+            interpolation_method_from_renotation_ovoid(
+                np.array([2.5, 10.0, 2.0, 4])))
+
 
 class Test_xy_fromRenotationOvoid(unittest.TestCase):
     """
@@ -1893,6 +1927,18 @@ class TestLCHabToMunsellSpecification(unittest.TestCase):
             LCHab_to_munsell_specification(
                 np.array([100.00000000, 74.05216981, 276.45318193])),
             np.array([6.792550536111119, 10.0, 14.810433961999999, 10]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            LCHab_to_munsell_specification(
+                np.array([100.00000000, 21.57210357, 0.00000000])),
+            np.array([10.000000000000000, 10.0, 4.314420714000000, 8]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            LCHab_to_munsell_specification(
+                np.array([100.00000000, 21.57210357, 36.00000000])),
+            np.array([10.000000000000000, 10.0, 4.314420714000000, 7]),
             decimal=7)
 
 

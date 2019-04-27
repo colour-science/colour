@@ -1000,8 +1000,13 @@ def _xyY_to_munsell_specification(xyY):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise RuntimeError(('Maximum inner iterations count reached '
-                                    'without convergence!'))
+                # NOTE: This exception is likely never raised in practice:
+                # 300K iterations with random numbers never reached this code
+                # path, it is kept for consistency with the reference
+                # implementation.
+                raise RuntimeError(  # pragma: no cover
+                    ('Maximum inner iterations count reached without '
+                     'convergence!'))
 
             hue_angle_inner = ((hue_angle_current + iterations_inner *
                                 (phi_input - phi_current)) % 360)
@@ -1065,6 +1070,11 @@ def _xyY_to_munsell_specification(xyY):
             specification_current)
         chroma_maximum = maximum_chroma_from_renotation(
             hue_current, value, code_current)
+
+        # NOTE: This condition is likely never "True" while producing a valid
+        # "Munsell Specification" in practice: 100K iterations with random
+        # numbers never reached this code path while producing a valid
+        # "Munsell Specification".
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
@@ -1126,7 +1136,10 @@ def _xyY_to_munsell_specification(xyY):
                 np.array(specification_current),
                 np.array([10, 10, chroma_scale, 10]))
 
-    raise RuntimeError(
+    # NOTE: This exception is likely never raised in practice: 300K iterations
+    # with random numbers never reached this code path, it is kept for
+    # consistency with the reference # implementation
+    raise RuntimeError(  # pragma: no cover
         'Maximum outside iterations count reached without convergence!')
 
 
@@ -1472,8 +1485,7 @@ def munsell_specification_to_munsell_colour(specification,
             hue, code = 10, (code + 1) % 10
 
         if value == 0:
-            return MUNSELL_GRAY_EXTENDED_FORMAT.format(specification,
-                                                       value_decimals)
+            return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
         else:
             hue_letter = MUNSELL_HUE_LETTER_CODES.first_key_from_value(code)
 
@@ -1579,6 +1591,12 @@ def bounding_hues_from_renotation(hue, code):
     >>> bounding_hues_from_renotation(3.2, 4)
     array([[ 2.5,  4. ],
            [ 5. ,  4. ]])
+
+    # Coverage Doctests
+
+    >>> bounding_hues_from_renotation(0.0, 1)
+    array([[ 10.,   2.],
+           [ 10.,   2.]])
     """
 
     if hue % 2.5 == 0:
@@ -1800,6 +1818,9 @@ def interpolation_method_from_renotation_ovoid(specification):
 
         ASTM_hue = hue_to_ASTM_hue(hue, code)
 
+        # NOTE: The first level "else" clauses are likely never reached in
+        # practice, they are kept for consistency with the reference
+        # implementation.
         if value == 1:
             if chroma == 2:
                 if 15 < ASTM_hue < 30 or 60 < ASTM_hue < 85:
@@ -1822,11 +1843,15 @@ def interpolation_method_from_renotation_ovoid(specification):
                 else:
                     interpolation_method = 1
             elif chroma >= 10:
-                if 72.5 < ASTM_hue < 77.5:
+                # NOTE: This condition is likely never "True" while producing a
+                # valid "Munsell Specification" in practice: 1M iterations with
+                # random numbers never reached this code path while producing a
+                # valid "Munsell Specification".
+                if 72.5 < ASTM_hue < 77.5:  # pragma: no cover
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 2:
             if chroma == 2:
@@ -1854,7 +1879,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 3:
             if chroma == 2:
@@ -1877,7 +1902,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 4:
             if chroma in (2, 4):
@@ -1895,7 +1920,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 5:
             if chroma == 2:
@@ -1913,7 +1938,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 6:
             if chroma in (2, 4):
@@ -1941,7 +1966,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 7:
             if chroma in (2, 4, 6):
@@ -1972,7 +1997,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 8:
             if chroma in (2, 4, 6, 8, 10, 12):
@@ -1986,7 +2011,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 9:
             if chroma in (2, 4):
@@ -2004,7 +2029,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
 
     return interpolation_methods.get(interpolation_method)
@@ -2081,7 +2106,9 @@ def xy_from_renotation_ovoid(specification):
                 abs(hue - 5) < threshold or abs(hue - 7.5) < threshold or
                 abs(hue - 10) < threshold):
             hue = 2.5 * round(hue / 2.5)
+
             x, y, _Y = xyY_from_renotation((hue, value, chroma, code))
+
             return as_float_array([x, y])
 
         hue_cw, hue_ccw = bounding_hues_from_renotation(hue, code)
@@ -2122,6 +2149,10 @@ def xy_from_renotation_ovoid(specification):
         interpolation_method = interpolation_method_from_renotation_ovoid(
             specification).lower()
 
+        assert interpolation_method is not None, (
+            'Interpolation method must be one of : "{0}"'.format(', '.join(
+                ['Linear', 'radial'])))
+
         if interpolation_method == 'linear':
             x = LinearInterpolator((lower_hue_angle, upper_hue_angle),
                                    (x_minus, x_plus))(hue_angle)
@@ -2136,9 +2167,6 @@ def xy_from_renotation_ovoid(specification):
             x, y = tsplit(
                 polar_to_cartesian((rho, np.radians(theta))) +
                 as_float_array((x_grey, y_grey)))
-        else:
-            raise ValueError('Invalid interpolation method: "{0}"'.format(
-                interpolation_method))
 
         return as_float_array([x, y])
 
