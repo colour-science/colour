@@ -53,7 +53,7 @@ class TestIsDocumentationBuilding(unittest.TestCase):
             del os.environ['COLOUR_SCIENCE_DOCUMENTATION_BUILD']
             self.assertFalse(is_documentation_building())
 
-        finally:
+        finally:  # pragma: no cover
             if os.environ.get('READTHEDOCS'):
                 del os.environ['READTHEDOCS']
 

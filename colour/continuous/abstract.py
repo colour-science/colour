@@ -390,7 +390,7 @@ class AbstractContinuousFunction:
             Formatted string representation.
         """
 
-        pass
+        return '<{0} object at {1}>'.format(self.__class__.__name__, id(self))
 
     @abstractmethod
     def __repr__(self):
@@ -404,8 +404,9 @@ class AbstractContinuousFunction:
             Evaluable string representation.
         """
 
-        pass
+        return '{0}()'.format(self.__class__.__name__)
 
+    @abstractmethod
     def __hash__(self):
         """
         Returns the abstract continuous function hash.
@@ -416,7 +417,7 @@ class AbstractContinuousFunction:
             Object hash.
         """
 
-        return hash(repr(self))
+        pass
 
     @abstractmethod
     def __getitem__(self, x):

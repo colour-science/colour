@@ -1325,6 +1325,14 @@ class TestSpectralShape(unittest.TestCase):
             [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
             np.arange(0, 10 + 0.1, 0.1))
 
+    def test_raise_exception_range(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.SpectralShape.range` method
+        raised exception.
+        """
+
+        self.assertRaises(RuntimeError, SpectralShape().range)
+
 
 class TestSpectralDistribution(unittest.TestCase):
     """
@@ -1385,6 +1393,10 @@ SpectralDistribution.wavelengths` attribute.
 
         np.testing.assert_array_equal(self._sd.wavelengths, self._sd.domain)
 
+        sd = self._sd.copy()
+        sd.wavelengths = sd.wavelengths + 10
+        np.testing.assert_array_equal(sd.wavelengths, sd.domain)
+
     def test_values(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
@@ -1392,6 +1404,10 @@ SpectralDistribution.values` attribute.
         """
 
         np.testing.assert_array_equal(self._sd.values, self._sd.range)
+
+        sd = self._sd.copy()
+        sd.values = sd.values + 10
+        np.testing.assert_array_equal(sd.values, sd.range)
 
     def test_shape(self):
         """
@@ -1442,7 +1458,7 @@ SpectralDistribution.interpolate` method.
         # version.
         # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
         if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
-            return
+            return  # pragma: no cover
 
         np.testing.assert_allclose(
             self._non_uniform_sd.copy().interpolate(
@@ -1497,6 +1513,8 @@ class TestMultiSpectralDistribution(unittest.TestCase):
         """
 
         self._labels = ('x_bar', 'y_bar', 'z_bar')
+        self._strict_labels = ('Strict x_bar', 'Strict  y_bar',
+                               'Strict  z_bar')
 
         self._multi_sd = MultiSpectralDistribution(
             CIE_1931_2_DEGREE_STANDARD_OBSERVER,
@@ -1567,6 +1585,10 @@ MultiSpectralDistribution.wavelengths` attribute.
         np.testing.assert_array_equal(self._multi_sd.wavelengths,
                                       self._multi_sd.domain)
 
+        multi_sd = self._multi_sd.copy()
+        multi_sd.wavelengths = multi_sd.wavelengths + 10
+        np.testing.assert_array_equal(multi_sd.wavelengths, multi_sd.domain)
+
     def test_values(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
@@ -1575,6 +1597,10 @@ MultiSpectralDistribution.values` attribute.
 
         np.testing.assert_array_equal(self._multi_sd.values,
                                       self._multi_sd.range)
+
+        multi_sd = self._multi_sd.copy()
+        multi_sd.values = multi_sd.values + 10
+        np.testing.assert_array_equal(multi_sd.values, multi_sd.range)
 
     def test_strict_labels(self):
         """
@@ -1642,7 +1668,7 @@ MultiSpectralDistribution.interpolate` method.
         # version.
         # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
         if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
-            return
+            return  # pragma: no cover
 
         multi_sd = self._non_uniform_sample_multi_sd.copy()
         multi_sd.interpolate(SpectralShape(interval=1))
@@ -1690,7 +1716,7 @@ MultiSpectralDistribution.normalise` method.
             self._sample_multi_sd.copy().normalise(100).values,
             tstack([NORMALISED_SAMPLE_SD_DATA] * 3))
 
-    def to_sds(self):
+    def test_to_sds(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistribution.to_sds` method.
@@ -1699,14 +1725,14 @@ MultiSpectralDistribution.to_sds` method.
         sds = self._non_uniform_sample_multi_sd.to_sds()
         self.assertEqual(len(sds), 3)
 
-        for i, sd in sds:
+        for i, sd in enumerate(sds):
             self.assertEqual(
                 sd.name, '{0} - {1}'.format(
                     self._labels[i], self._non_uniform_sample_multi_sd.name))
             self.assertEqual(
                 sd.strict_name, '{0} - {1}'.format(
                     self._strict_labels[i],
-                    self._non_uniform_sample_multi_sd.name))
+                    self._non_uniform_sample_multi_sd.strict_name))
 
 
 if __name__ == '__main__':

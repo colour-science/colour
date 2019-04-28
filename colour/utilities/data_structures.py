@@ -138,10 +138,7 @@ class Lookup(dict):
             Key.
         """
 
-        try:
-            return self.keys_from_value(value)[0]
-        except IndexError:
-            pass
+        return self.keys_from_value(value)[0]
 
 
 class CaseInsensitiveMapping(MutableMapping):
@@ -325,11 +322,13 @@ class CaseInsensitiveMapping(MutableMapping):
         """
 
         if isinstance(item, Mapping):
-            item = CaseInsensitiveMapping(item)
+            item_mapping = CaseInsensitiveMapping(item)
         else:
-            return NotImplemented
+            raise ValueError(
+                'Impossible to test equality with "{0}" class type!'.format(
+                    item.__class__.__name__))
 
-        return dict(self.lower_items()) == dict(item.lower_items())
+        return dict(self.lower_items()) == dict(item_mapping.lower_items())
 
     def __ne__(self, item):
         """

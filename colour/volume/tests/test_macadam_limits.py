@@ -63,6 +63,15 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         b = np.reshape(b, (2, 3))
         np.testing.assert_almost_equal(is_within_macadam_limits(a, 'A'), b)
 
+    def test_raise_exception_is_within_macadam_limits(self):
+        """
+        Tests :func:`colour.volume.macadam_limits.is_within_macadam_limits`
+        definition raised exception.
+        """
+
+        self.assertRaises(KeyError, is_within_macadam_limits,
+                          np.array([0.3205, 0.4131, 0.5100]), 'B')
+
     @ignore_numpy_errors
     def test_nan_is_within_macadam_limits(self):
         """

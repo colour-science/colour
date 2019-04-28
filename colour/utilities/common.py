@@ -226,7 +226,9 @@ def _initializer(kwargs):
 
     global _DOMAIN_RANGE_SCALE
 
-    _DOMAIN_RANGE_SCALE = kwargs.get('scale', 'reference')
+    # NOTE: No coverage information is available as this code is executed in
+    # sub-processes.
+    _DOMAIN_RANGE_SCALE = kwargs.get('scale', 'reference')  # pragma: no cover
 
 
 @contextmanager
@@ -316,11 +318,11 @@ def is_openimageio_installed(raise_exception=False):
         If *OpenImageIO* is not installed.
     """
 
-    try:
+    try:  # pragma: no cover
         import OpenImageIO  # noqa
 
         return True
-    except ImportError as error:
+    except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(('"OpenImageIO" related Api features '
                                'are not available: "{0}".').format(error))
@@ -347,11 +349,11 @@ def is_pandas_installed(raise_exception=False):
         If *Pandas* is not installed.
     """
 
-    try:
+    try:  # pragma: no cover
         import pandas  # noqa
 
         return True
-    except ImportError as error:
+    except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(('"Pandas" related Api features '
                                'are not available: "{0}".').format(error))

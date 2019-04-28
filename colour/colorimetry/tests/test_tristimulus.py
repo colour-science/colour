@@ -446,6 +446,26 @@ tristimulus_weighting_factors_ASTME202211` definition.
         np.testing.assert_almost_equal(
             twf, D65_CIE_1931_2_20_TWF_K1, decimal=7)
 
+    def test_raise_exception_tristimulus_weighting_factors_ASTME202211(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.\
+tristimulus_weighting_factors_ASTME202211` definition raised exception.
+        """
+
+        shape = SpectralShape(360, 830, 10)
+        cmfs_1 = CMFS['CIE 1964 10 Degree Standard Observer']
+        cmfs_2 = cmfs_1.copy().align(shape)
+        A_1 = sd_CIE_standard_illuminant_A(cmfs_1.shape)
+        A_2 = sd_CIE_standard_illuminant_A(cmfs_2.shape)
+
+        self.assertRaises(ValueError,
+                          tristimulus_weighting_factors_ASTME202211, cmfs_1,
+                          A_2, shape)
+
+        self.assertRaises(ValueError,
+                          tristimulus_weighting_factors_ASTME202211, cmfs_2,
+                          A_1, shape)
+
 
 class TestAdjustTristimulusWeightingFactorsASTME30815(unittest.TestCase):
     """
@@ -886,6 +906,15 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             np.array([1568.91747040, 1174.58332427, 221.09475945]),
             decimal=7)
 
+    def test_raise_exception_sd_to_XYZ_ASTME30815(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
+        definition raised exception.
+        """
+
+        self.assertRaises(ValueError, sd_to_XYZ_ASTME30815,
+                          self._sd.copy().align(SpectralShape(360, 820, 2)))
+
 
 class TestMultiSds_to_XYZ_integration(unittest.TestCase):
     """
@@ -966,6 +995,16 @@ class TestWavelength_to_XYZ(unittest.TestCase):
                               CMFS['CIE 2012 2 Degree Standard Observer']),
             np.array([0.44575583, 0.18184213, 0.00000000]),
             decimal=7)
+
+    def test_raise_exception_wavelength_to_XYZ(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ`
+        definition raised exception.
+        """
+
+        self.assertRaises(ValueError, wavelength_to_XYZ, 1)
+
+        self.assertRaises(ValueError, wavelength_to_XYZ, 1000)
 
     def test_n_dimensional_wavelength_to_XYZ(self):
         """

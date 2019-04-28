@@ -268,8 +268,8 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
     ...     'LUT3D with My Shaper',
     ...     domain,
     ...     comments=['A first "LUT3D" comment.', 'A second "LUT3D" comment.'])
-    >>> sequence = LUTSequence(shaper, LUT)
-    >>> write_LUT_ResolveCube(sequence, 'My_LUT.cube')  # doctest: +SKIP
+    >>> LUT_sequence = LUTSequence(shaper, LUT)
+    >>> write_LUT_ResolveCube(LUT_sequence, 'My_LUT.cube')  # doctest: +SKIP
     """
 
     has_3D, has_3x1D = False, False

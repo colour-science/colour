@@ -104,7 +104,7 @@ class FutureRename(namedtuple('FutureRename', ('name', 'new_name'))):
                 'in a future release.'.format(self.name, self.new_name))
 
 
-class FutureRemove(namedtuple('FutureRemove', ('name', 'access'))):
+class FutureRemove(namedtuple('FutureRemove', ('name', ))):
     """
     A class used for future object removal.
 
@@ -112,8 +112,6 @@ class FutureRemove(namedtuple('FutureRemove', ('name', 'access'))):
     ----------
     name : unicode
         Object name that will be removed in a future release.
-    access : unicode
-        Object current access.
     """
 
     def __str__(self):
@@ -286,13 +284,14 @@ def get_attribute(attribute):
 
     assert '.' in attribute, '"{0}" attribute has no namespace!'
 
-    module, attribute = attribute.split('.', 1)
+    module_name, attribute = attribute.rsplit('.', 1)
 
-    module = sys.modules.get(module)
+    module = sys.modules.get(module_name)
     if module is None:
-        module = import_module(module)
+        module = import_module(module_name)
 
     assert module is not None, (
-        '"{0}" module does not exists or is not imported!')
+        '"{0}" module does not exists or cannot be imported!'.format(
+            module_name))
 
     return attrgetter(attribute)(module)

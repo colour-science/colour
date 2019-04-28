@@ -105,6 +105,70 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
                     decimal=7)
 
     @ignore_numpy_errors
+    def test_raise_exception_CIECAM02_to_XYZ(self):
+        """
+        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition raised
+        exception.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        XYZ_b = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
+        CCT_w = 6504.0
+        S = S_w = 0.5
+
+        try:
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround)
+        except ValueError:
+            pass
+
+        try:
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w, S=S)
+        except ValueError:
+            pass
+
+        try:
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w, S_w=S_w)
+        except ValueError:
+            pass
+
+    @ignore_numpy_errors
+    def test_XYZ_p_CIECAM02_to_XYZ(self):
+        """
+        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition *XYZ_p*
+        argument handling.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        XYZ_b = XYZ_p = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
+        CCT_w = 6504.0
+
+        np.testing.assert_almost_equal(
+            XYZ_to_Hunt(
+                XYZ,
+                XYZ_w,
+                XYZ_b,
+                L_A,
+                surround,
+                XYZ_p=XYZ_p,
+                CCT_w=CCT_w,
+            )[:-2],
+            np.array([
+                30.046267861960700,
+                0.121050839936350,
+                269.273759446144600,
+                0.019909320692942,
+                22.209765491265024,
+                0.123896438259997,
+            ]),
+            decimal=7)
+
+    @ignore_numpy_errors
     def test_nan_XYZ_to_Hunt(self):
         """
         Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition

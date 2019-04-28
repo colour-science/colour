@@ -11,7 +11,7 @@ import unittest
 import shutil
 import tempfile
 
-from colour.io import read_LUT_ResolveCube, write_LUT_ResolveCube
+from colour.io import LUT1D, read_LUT_ResolveCube, write_LUT_ResolveCube
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -187,6 +187,50 @@ class TestWriteLUTResolveCube(unittest.TestCase):
                          'ThreeDimensionalTable.cube'))
 
         self.assertEqual(LUT_3_r, LUT_3_t)
+
+        LUT_4_r = read_LUT_ResolveCube(
+            os.path.join(LUTS_DIRECTORY,
+                         'ThreeDimensionalTableWithShaper.cube'))
+
+        LUT_4_r.sequence[0] = LUT_4_r.sequence[0].as_LUT(
+            LUT1D, force_conversion=True)
+
+        write_LUT_ResolveCube(
+            LUT_4_r,
+            os.path.join(self._temporary_directory,
+                         'ThreeDimensionalTableWithShaper.cube'))
+
+        LUT_4_t = read_LUT_ResolveCube(
+            os.path.join(self._temporary_directory,
+                         'ThreeDimensionalTableWithShaper.cube'))
+
+        LUT_4_r = read_LUT_ResolveCube(
+            os.path.join(LUTS_DIRECTORY,
+                         'ThreeDimensionalTableWithShaper.cube'))
+
+        self.assertEqual(LUT_4_r, LUT_4_t)
+
+        LUT_5_r = read_LUT_ResolveCube(
+            os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.cube'))
+
+        write_LUT_ResolveCube(
+            LUT_5_r.as_LUT(LUT1D, force_conversion=True),
+            os.path.join(self._temporary_directory,
+                         'ACES_Proxy_10_to_ACES.cube'))
+
+        LUT_5_t = read_LUT_ResolveCube(
+            os.path.join(self._temporary_directory,
+                         'ACES_Proxy_10_to_ACES.cube'))
+
+        self.assertEqual(LUT_5_r, LUT_5_t)
+
+    def test_raise_exception_write_LUT_ResolveCube(self):
+        """
+        Tests :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
+        definition raised exception.
+        """
+
+        self.assertRaises(ValueError, write_LUT_ResolveCube, object(), '')
 
 
 if __name__ == '__main__':

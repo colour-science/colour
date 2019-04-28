@@ -58,7 +58,7 @@ class ImageAttribute_Specification(
             cls, name, value, type_)
 
 
-if is_openimageio_installed():
+if is_openimageio_installed():  # pragma: no cover
     from OpenImageIO import UINT8, UINT16, HALF, FLOAT
 
     BIT_DEPTH_MAPPING = CaseInsensitiveMapping({
@@ -114,7 +114,7 @@ def read_image(path, bit_depth='float32', attributes=False):
     >>> image = read_image(path)  # doctest: +SKIP
     """
 
-    if is_openimageio_installed(raise_exception=True):
+    if is_openimageio_installed(raise_exception=True):  # pragma: no cover
         from OpenImageIO import ImageInput
 
         path = str(path)
@@ -184,7 +184,7 @@ def write_image(image, path, bit_depth='float32', attributes=None):
     True
     """
 
-    if is_openimageio_installed(raise_exception=True):
+    if is_openimageio_installed(raise_exception=True):  # pragma: no cover
         from OpenImageIO import ImageOutput, ImageOutputOpenMode, ImageSpec
 
         path = str(path)

@@ -12,7 +12,7 @@ import numpy as np
 try:
     from unittest import mock
 except ImportError:
-    import mock
+    import mock  # pragma: no cover
 from itertools import permutations
 
 from colour.appearance import (LLAB_VIEWING_CONDITIONS, LLAB_InductionFactors,

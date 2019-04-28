@@ -637,6 +637,18 @@ def chromatic_adaptation(XYZ,
     >>> F_L = 1.16754446415
     >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L)  # doctest: +ELLIPSIS
     array([ 6.8959454...,  6.8959991...,  6.8965708...])
+
+    # Coverage Doctests
+
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L,
+    ...                      discount_illuminant=False)  # doctest: +ELLIPSIS
+    array([ 6.8525880...,  6.8874417...,  6.9461478...])
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L,
+    ...                      helson_judd_effect=True)  # doctest: +ELLIPSIS
+    array([ 6.8959454...,  6.8959991...,  6.8965708...])
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L,
+    ...                      XYZ_p=XYZ_b, p=0.5)  # doctest: +ELLIPSIS
+    array([ 9.2069020...,  9.2070219...,  9.2078373...])
     """
 
     XYZ_w = as_float_array(XYZ_w)

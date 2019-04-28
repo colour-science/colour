@@ -696,9 +696,7 @@ dict_like
 
             return representation
         except TypeError:
-            # TODO: Discuss what is the most suitable behaviour, either the
-            # following or __str__ one.
-            return '{0}()'.format(self.__class__.__name__)
+            return super(MultiSignal, self).__repr__()
 
     def __hash__(self):
         """

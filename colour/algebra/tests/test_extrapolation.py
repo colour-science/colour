@@ -34,7 +34,7 @@ class TestExtrapolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('interpolator', )
+        required_attributes = ('interpolator',)
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Extrapolator))
@@ -46,8 +46,55 @@ class TestExtrapolator(unittest.TestCase):
 
         required_methods = ()
 
-        for method in required_methods:
+        for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(Extrapolator))
+
+    def test_interpolator(self):
+        """
+        Tests :func:`colour.algebra.extrapolation.Extrapolator.interpolator`
+        property.
+        """
+
+        extrapolator = Extrapolator(
+            LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])))
+        self.assertIsInstance(extrapolator.interpolator, LinearInterpolator)
+
+    def test_method(self):
+        """
+        Tests :func:`colour.algebra.extrapolation.Extrapolator.method`
+        property.
+        """
+
+        extrapolator = Extrapolator(
+            LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])))
+        self.assertEqual(extrapolator.method, 'linear')
+
+        extrapolator = Extrapolator(
+            LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])),
+            method='Constant')
+        self.assertEqual(extrapolator.method, 'constant')
+
+    def test_left(self):
+        """
+        Tests :func:`colour.algebra.extrapolation.Extrapolator.left`
+        property.
+        """
+
+        extrapolator = Extrapolator(
+            LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])),
+            left=0)
+        self.assertEqual(extrapolator.left, 0)
+
+    def test_right(self):
+        """
+        Tests :func:`colour.algebra.extrapolation.Extrapolator.right`
+        property.
+        """
+
+        extrapolator = Extrapolator(
+            LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])),
+            right=0)
+        self.assertEqual(extrapolator.right, 0)
 
     def test__call__(self):
         """

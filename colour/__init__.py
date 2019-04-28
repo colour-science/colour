@@ -297,7 +297,7 @@ __version__ = '.'.join(
 # TODO: Remove legacy printing support when deemed appropriate.
 try:
     np.set_printoptions(legacy='1.13')
-except TypeError:
+except TypeError:  # pragma: no cover
     pass
 
 

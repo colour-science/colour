@@ -249,6 +249,28 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
                     decimal=7)
 
     @ignore_numpy_errors
+    def test_raise_exception_CIECAM02_to_XYZ(self):
+        """
+        Tests :func:`colour.appearance.cam16.CIECAM02_to_XYZ` definition raised
+        exception.
+        """
+
+        try:
+            CIECAM02_to_XYZ(
+                CIECAM02_Specification(
+                    41.731091132513917,
+                    None,
+                    219.04843265831178,
+                ),
+                np.array([95.05, 100.00, 108.88]),
+                318.31,
+                20.0,
+                CIECAM02_VIEWING_CONDITIONS['Average'],
+            )
+        except ValueError:
+            pass
+
+    @ignore_numpy_errors
     def test_nan_CIECAM02_to_XYZ(self):
         """
         Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition

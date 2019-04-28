@@ -863,7 +863,7 @@ class RGB_Colourspace(object):
     # ---              API Changes and Deprecation Management              ---#
     # ------------------------------------------------------------------------#
     @property
-    def illuminant(self):
+    def illuminant(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
@@ -873,7 +873,7 @@ class RGB_Colourspace(object):
         return self.whitepoint_name
 
     @illuminant.setter
-    def illuminant(self, value):
+    def illuminant(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
