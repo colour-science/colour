@@ -540,7 +540,9 @@ def describe_environment(runtime_packages=True,
     # during continuous integration and are thus ignored for coverage.
     try:
         version = subprocess.check_output(  # nosec
-            ['git', 'describe'], cwd=colour.__path__[0]).strip()
+            ['git', 'describe'],
+            cwd=colour.__path__[0],
+            stderr=subprocess.STDOUT).strip()
         version = version.decode('utf-8')
     except Exception:  # pragma: no cover
         version = colour.__version__
