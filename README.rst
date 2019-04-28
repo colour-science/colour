@@ -1087,6 +1087,10 @@ Here is a list of notable colour science packages sorted by languages:
 - `Colorspacious <https://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
 - `python-colormath <https://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
 
+**Go**
+
+- `go-colorful <https://github.com/lucasb-eyer/go-colorful/>`_  by Beyer, L., et al.
+
 **.NET**
 
 - `Colourful <https://github.com/tompazourek/Colourful>`_ by Pažourek, T., et al.
