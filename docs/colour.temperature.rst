@@ -45,6 +45,7 @@ Krystek (1985)
 .. autosummary::
     :toctree: generated/
 
+    uv_to_CCT_Krystek1985
     CCT_to_uv_Krystek1985
 
 Ohno (2013)

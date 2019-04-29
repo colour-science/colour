@@ -7,7 +7,7 @@ from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 from .cie_d import CCT_to_xy_CIE_D
 from .hernandez1999 import xy_to_CCT_Hernandez1999
 from .kang2002 import CCT_to_xy_Kang2002
-from .krystek1985 import CCT_to_uv_Krystek1985
+from .krystek1985 import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
 from .mccamy1992 import xy_to_CCT_McCamy1992
 from .ohno2013 import uv_to_CCT_Ohno2013, CCT_to_uv_Ohno2013
 from .robertson1968 import uv_to_CCT_Robertson1968, CCT_to_uv_Robertson1968
@@ -15,12 +15,13 @@ from .robertson1968 import uv_to_CCT_Robertson1968, CCT_to_uv_Robertson1968
 __all__ = ['CCT_to_xy_CIE_D']
 __all__ += ['xy_to_CCT_Hernandez1999']
 __all__ += ['CCT_to_xy_Kang2002']
-__all__ += ['CCT_to_uv_Krystek1985']
+__all__ += ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
 __all__ += ['xy_to_CCT_McCamy1992']
 __all__ += ['uv_to_CCT_Ohno2013', 'CCT_to_uv_Ohno2013']
 __all__ += ['uv_to_CCT_Robertson1968', 'CCT_to_uv_Robertson1968']
 
 UV_TO_CCT_METHODS = CaseInsensitiveMapping({
+    'Krystek 1985': uv_to_CCT_Krystek1985,
     'Ohno 2013': uv_to_CCT_Ohno2013,
     'Robertson 1968': uv_to_CCT_Robertson1968
 })
@@ -34,7 +35,7 @@ References
 :cite:`Wyszecki2000y`
 
 UV_TO_CCT_METHODS : CaseInsensitiveMapping
-    **{'Ohno 2013', 'Robertson 1968'}**
+    **{'Ohno 2013', 'Krystek 1985, 'Robertson 1968'}**
 
 Aliases:
 
@@ -56,7 +57,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     uv : array_like
         *CIE UCS* colourspace *uv* chromaticity coordinates.
     method : unicode, optional
-        **{'Ohno 2013', 'Robertson 1968'}**,
+        **{'Ohno 2013', 'Krystek 1985, 'Robertson 1968'}**,
         Computation method.
 
     Other Parameters
@@ -76,6 +77,9 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     iterations : int, optional
         {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Number of planckian tables to generate.
+    optimisation_parameters : dict_like, optional
+        {:func:`colour.temperature.uv_to_CCT_Krystek1985`},
+        Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
@@ -84,8 +88,8 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
 
     References
     ----------
-    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Ohno2014a`,
-    :cite:`Wyszecki2000y`
+    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
+    :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
 
     Examples
     --------
@@ -103,9 +107,9 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
 
 
 CCT_TO_UV_METHODS = CaseInsensitiveMapping({
+    'Krystek 1985': CCT_to_uv_Krystek1985,
     'Ohno 2013': CCT_to_uv_Ohno2013,
-    'Robertson 1968': CCT_to_uv_Robertson1968,
-    'Krystek 1985': CCT_to_uv_Krystek1985
+    'Robertson 1968': CCT_to_uv_Robertson1968
 })
 CCT_TO_UV_METHODS.__doc__ = """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
@@ -117,7 +121,7 @@ References
 :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
 
 CCT_TO_UV_METHODS : CaseInsensitiveMapping
-    **{'Ohno 2013', 'Robertson 1968', 'Krystek 1985}**
+    **{'Ohno 2013', 'Krystek 1985, 'Robertson 1968'}**
 
 Aliases:
 
