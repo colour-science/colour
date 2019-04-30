@@ -95,4 +95,5 @@ CIE Illuminant D Series
 .. autosummary::
     :toctree: generated/
 
+    xy_to_CCT_CIE_D
     CCT_to_xy_CIE_D
