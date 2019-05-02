@@ -39,7 +39,7 @@ Assuming it is available for import, a typical usage would be as follows:
 
     array([ 0.11518475,  0.1008    ,  0.05089373])
 
-Or directly using the `mock_scipy_for_colour` definition:
+Or directly using the ``mock_scipy_for_colour`` definition:
 
 .. code-block:: python
 
