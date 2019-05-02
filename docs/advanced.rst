@@ -28,7 +28,24 @@ Assuming it is available for import, a typical usage would be as follows:
 
     for module in ('scipy', 'scipy.interpolate', 'scipy.spatial',
                    'scipy.spatial.distance', 'scipy.optimize'):
-        sys.modules[module] = MockModule(module)
+        sys.modules[str(module)] = MockModule(str(module))
+
+    import colour
+
+    xyY = (0.4316, 0.3777, 0.1008)
+    colour.xyY_to_XYZ(xyY)
+
+.. code-block:: text
+
+    array([ 0.11518475,  0.1008    ,  0.05089373])
+
+Or directly using the `mock_scipy_for_colour` definition:
+
+.. code-block:: python
+
+    from mock_for_colour import mock_scipy_for_colour
+
+    mock_scipy_for_colour()
 
     import colour
 

@@ -28,10 +28,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['MockObject', 'MockModule']
+__all__ = ['MockObject', 'MockModule', 'mock_scipy_for_colour']
 
 
-class MockObject:
+class MockObject(object):
     """
     A generic mock object used for helping to mock tricky *Colour* requirements
     such as *Scipy*.
@@ -71,7 +71,7 @@ class MockObject:
                     superclass=superclass,
                     attributes=args[2])
 
-        return super().__new__(cls)
+        return super(MockObject, cls).__new__(cls)
 
     def __init__(self, *args, **kwargs):
         pass
@@ -203,7 +203,7 @@ class MockModule(ModuleType):
     __file__ = os.devnull
 
     def __init__(self, name):
-        super().__init__(name)
+        super(MockModule, self).__init__(name)
         self.__all__ = []
         self.__path__ = []
 
@@ -229,12 +229,24 @@ class MockModule(ModuleType):
         return self.__name__
 
 
+def mock_scipy_for_colour():
+    """
+    Mocks *Scipy* for *Colour*.
+    """
+
+    import sys
+
+    for module in ('scipy', 'scipy.interpolate', 'scipy.spatial',
+                   'scipy.spatial.distance', 'scipy.optimize'):
+        sys.modules[str(module)] = MockModule(str(module))
+
+
 if __name__ == '__main__':
     import sys
 
     for module in ('scipy', 'scipy.interpolate', 'scipy.spatial',
                    'scipy.spatial.distance', 'scipy.optimize'):
-        sys.modules[module] = MockModule(module)
+        sys.modules[str(module)] = MockModule(str(module))
 
     import colour
 
