@@ -71,6 +71,7 @@ Hernandez-Andres, Lee and Romero (1999)
 .. autosummary::
     :toctree: generated/
 
+    CCT_to_xy_Hernandez1999
     xy_to_CCT_Hernandez1999
 
 Kang, Moon, Hong, Lee, Cho and Kim (2002)
