@@ -61,6 +61,19 @@ Ohno (2013)
     CCT_to_uv_Ohno2013
     uv_to_CCT_Ohno2013
 
+McCamy (1992)
+~~~~~~~~~~~~~
+
+``colour.temperature``
+
+.. currentmodule:: colour.temperature
+
+.. autosummary::
+    :toctree: generated/
+
+    CCT_to_xy_McCamy1992
+    xy_to_CCT_McCamy1992
+
 Hernandez-Andres, Lee and Romero (1999)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
