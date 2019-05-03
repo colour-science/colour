@@ -6,10 +6,12 @@ Kang, Moon, Hong, Lee, Cho and Kim (2002) Correlated Colour Temperature
 Defines *Kang et al. (2002)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
--   :func:`colour.temperature.CCT_to_xy_Kang2002`: *CIE XYZ* tristimulus
-    values *CIE xy* chromaticity coordinates computation of given correlated
-    colour temperature :math:`T_{cp}` using
-    *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
+-   :func:`colour.temperature.xy_to_CCT_Kang2002`: Correlated colour
+    temperature :math:`T_{cp}` of given *CIE xy* chromaticity coordinates
+    computation  using *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
+-   :func:`colour.temperature.CCT_to_xy_Kang2002`: *CIE xy* chromaticity
+    coordinates computation of given correlated colour temperature
+    :math:`T_{cp}` using *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
 
 See Also
 --------
@@ -28,8 +30,9 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+from scipy.optimize import minimize
 
-from colour.utilities import as_float_array, tstack, usage_warning
+from colour.utilities import as_float_array, as_numeric, tstack, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -38,7 +41,76 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CCT_to_xy_Kang2002']
+__all__ = ['xy_to_CCT_Kang2002', 'CCT_to_xy_Kang2002']
+
+
+def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
+    """
+    Returns the correlated colour temperature :math:`T_{cp}` from given
+    *CIE xy* chromaticity coordinates using *Kang et al. (2002)* method.
+
+    Parameters
+    ----------
+    xy : array_like
+        *CIE xy* chromaticity coordinates.
+    optimisation_parameters : dict_like, optional
+        Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Returns
+    -------
+    ndarray
+        Correlated colour temperature :math:`T_{cp}`.
+
+    Warnings
+    --------
+    *Kang et al. (2002)* does not give an analytical reverse transformation to
+    compute the correlated colour temperature :math:`T_{cp}` from given
+    *CIE xy* chromaticity coordinates, the current implementation relies on
+    optimization using :func:`scipy.optimize.minimize` definition and thus has
+    reduced precision and poor performance.
+
+    References
+    ----------
+    :cite:`Kang2002a`
+
+    Examples
+    --------
+    >>> xy_to_CCT_Kang2002(np.array([0.31342600, 0.32359597]))
+    ... # doctest: +ELLIPSIS
+    6504.3893128...
+    """
+
+    xy = as_float_array(xy)
+    shape = xy.shape
+    xy = np.atleast_1d(xy.reshape([-1, 2]))
+
+    def objective_function(CCT, xy):
+        """
+        Objective function.
+        """
+
+        objective = np.linalg.norm(CCT_to_xy_Kang2002(CCT) - xy)
+
+        return objective
+
+    optimisation_settings = {
+        'method': 'Nelder-Mead',
+        'options': {
+            'fatol': 1e-10,
+        },
+    }
+    if optimisation_parameters is not None:
+        optimisation_settings.update(optimisation_parameters)
+
+    CCT = as_float_array([
+        minimize(
+            objective_function,
+            x0=6500,
+            args=(xy_i, ),
+            **optimisation_settings).x for xy_i in xy
+    ])
+
+    return as_numeric(CCT.reshape(shape[:-1]))
 
 
 def CCT_to_xy_Kang2002(CCT):

@@ -6,7 +6,7 @@ from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 from .cie_d import xy_to_CCT_CIE_D, CCT_to_xy_CIE_D
 from .hernandez1999 import xy_to_CCT_Hernandez1999, CCT_to_xy_Hernandez1999
-from .kang2002 import CCT_to_xy_Kang2002
+from .kang2002 import xy_to_CCT_Kang2002, CCT_to_xy_Kang2002
 from .krystek1985 import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
 from .mccamy1992 import xy_to_CCT_McCamy1992
 from .ohno2013 import uv_to_CCT_Ohno2013, CCT_to_uv_Ohno2013
@@ -14,7 +14,7 @@ from .robertson1968 import uv_to_CCT_Robertson1968, CCT_to_uv_Robertson1968
 
 __all__ = ['xy_to_CCT_CIE_D', 'CCT_to_xy_CIE_D']
 __all__ += ['xy_to_CCT_Hernandez1999', 'CCT_to_xy_Hernandez1999']
-__all__ += ['CCT_to_xy_Kang2002']
+__all__ += ['xy_to_CCT_Kang2002', 'CCT_to_xy_Kang2002']
 __all__ += ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
 __all__ += ['xy_to_CCT_McCamy1992']
 __all__ += ['uv_to_CCT_Ohno2013', 'CCT_to_uv_Ohno2013']
@@ -182,6 +182,7 @@ __all__ += ['CCT_TO_UV_METHODS', 'CCT_to_uv']
 XY_TO_CCT_METHODS = CaseInsensitiveMapping({
     'CIE Illuminant D Series': xy_to_CCT_CIE_D,
     'Hernandez 1999': xy_to_CCT_Hernandez1999,
+    'Kang 2002': xy_to_CCT_Kang2002,
     'McCamy 1992': xy_to_CCT_McCamy1992,
 })
 XY_TO_CCT_METHODS.__doc__ = """
@@ -190,11 +191,13 @@ correlated colour temperature :math:`T_{cp}` computation methods.
 
 References
 ----------
-:cite:`Hernandez-Andres1999a`, :cite:`Wikipedia2001`, :cite:`Wikipedia2001a`,
+:cite:`Hernandez-Andres1999a`, :cite:`Kang2002a`, :cite:`Wikipedia2001`,
+:cite:`Wikipedia2001a`,
 :cite:`Wyszecki2000z`
 
 XY_TO_CCT_METHODS : CaseInsensitiveMapping
-    **{'McCamy 1992', 'CIE Illuminant D Series, 'Hernandez 1999'}**
+    **{'McCamy 1992', 'CIE Illuminant D Series, 'Kang 2002',
+    'Hernandez 1999'}**
 
 Aliases:
 
@@ -216,13 +219,15 @@ def xy_to_CCT(xy, method='McCamy 1992'):
     xy : array_like
         *CIE xy* chromaticity coordinates.
     method : unicode, optional
-        **{'McCamy 1992', 'CIE Illuminant D Series, 'Hernandez 1999'}**,
+        **{'McCamy 1992', 'CIE Illuminant D Series, 'Kang 2002',
+        'Hernandez 1999'}**,
         Computation method.
 
     Other Parameters
     ----------------
     optimisation_parameters : dict_like, optional
-        {:func:`colour.temperature.xy_to_CCT_CIE_D`},
+        {:func:`colour.temperature.xy_to_CCT_CIE_D`,
+        :func:`colour.temperature.xy_to_CCT_Kang2002`},
         Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
@@ -232,7 +237,7 @@ def xy_to_CCT(xy, method='McCamy 1992'):
 
     References
     ----------
-    :cite:`Hernandez-Andres1999a`, :cite:`Wikipedia2001`,
+    :cite:`Hernandez-Andres1999a`, :cite:`Kang2002a`, :cite:`Wikipedia2001`,
     :cite:`Wikipedia2001a`, :cite:`Wyszecki2000z`
 
     Examples

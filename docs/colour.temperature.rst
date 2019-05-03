@@ -85,6 +85,7 @@ Kang, Moon, Hong, Lee, Cho and Kim (2002)
     :toctree: generated/
 
     CCT_to_xy_Kang2002
+    xy_to_CCT_Kang2002
 
 CIE Illuminant D Series
 ~~~~~~~~~~~~~~~~~~~~~~~
