@@ -39,12 +39,12 @@ class TestReadImageOpenImageIO(unittest.TestCase):
     tests methods.
     """
 
-    def test_read_image_OpenImageIO(self):
+    def test_read_image_OpenImageIO(self):  # pragma: no cover
         """
         Tests :func:`colour.io.image.read_image_OpenImageIO` definition.
         """
 
-        if not is_openimageio_installed():  # pragma: no cover
+        if not is_openimageio_installed():
             return
 
         image = read_image_OpenImageIO(
@@ -89,12 +89,12 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_image_OpenImageIO(self):
+    def test_write_image_OpenImageIO(self):  # pragma: no cover
         """
         Tests :func:`colour.io.image.write_image_OpenImageIO` definition.
         """
 
-        if not is_openimageio_installed():  # pragma: no cover
+        if not is_openimageio_installed():
             return
 
         source_image_path = os.path.join(RESOURCES_DIRECTORY,

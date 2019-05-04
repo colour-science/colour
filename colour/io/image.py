@@ -180,7 +180,7 @@ def read_image_Imageio(path, **kwargs):
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
     ...                     'CMSTestPattern.exr')
     >>> image = read_image_Imageio(path)
-    >>> image.shape
+    >>> image.shape  # doctest: +SKIP
     (1267, 1274, 3)
     >>> image.dtype
     dtype('float32')
@@ -245,7 +245,7 @@ def read_image(path, method='OpenImageIO', **kwargs):
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
     ...                     'CMSTestPattern.exr')
     >>> image = read_image(path)
-    >>> image.shape
+    >>> image.shape  # doctest: +SKIP
     (1267, 1274, 3)
     >>> image.dtype
     dtype('float32')
@@ -260,7 +260,7 @@ def read_image(path, method='OpenImageIO', **kwargs):
 
     function = READ_IMAGE_METHODS[method]
 
-    if method.lower() == 'openimageio':
+    if method.lower() == 'openimageio':  # pragma: no cover
         kwargs = filter_kwargs(function, **kwargs)
 
     return function(path, **kwargs)
@@ -467,7 +467,7 @@ def write_image(image, path, method='OpenImageIO', **kwargs):
 
     function = WRITE_IMAGE_METHODS[method]
 
-    if method.lower() == 'openimageio':
+    if method.lower() == 'openimageio':  # pragma: no cover
         kwargs = filter_kwargs(function, **kwargs)
 
     return function(image, path, **kwargs)
