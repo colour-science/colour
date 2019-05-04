@@ -83,7 +83,7 @@ CCT = 6503.49254150
 message_box(('Converting to "xy" chromaticity coordinates from given "CCT" '
              'using "Kang, Moon, Hong, Lee, Cho and Kim (2002)" method:\n'
              '\n\t{0}'.format(CCT)))
-print(colour.CCT_to_xy(CCT, method="Kang 2002"))
+print(colour.CCT_to_xy(CCT, method='Kang 2002'))
 print(colour.temperature.CCT_to_xy_Kang2002(CCT))
 
 print('\n')
@@ -91,5 +91,5 @@ print('\n')
 message_box(('Converting to "xy" chromaticity coordinates from given "CCT" '
              'using "CIE Illuminant D Series" method:\n'
              '\n\t{0}'.format(CCT)))
-print(colour.CCT_to_xy(CCT, method="CIE Illuminant D Series"))
+print(colour.CCT_to_xy(CCT, method='CIE Illuminant D Series'))
 print(colour.temperature.CCT_to_xy_CIE_D(CCT))
