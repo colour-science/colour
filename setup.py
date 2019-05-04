@@ -30,7 +30,7 @@ SHORT_DESCRIPTION = 'Colour Science for Python'
 
 LONG_DESCRIPTION = open('README.rst').read()
 
-INSTALLATION_REQUIREMENTS = ['six>=1.10.0', 'scipy>=0.16.0']
+INSTALLATION_REQUIREMENTS = ['imageio>=2.0.0', 'six>=1.10.0', 'scipy>=0.16.0']
 
 if os.environ.get('READTHEDOCS') == 'True':
     INSTALLATION_REQUIREMENTS = [
