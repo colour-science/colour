@@ -892,17 +892,9 @@ Correlated Colour Temperature Computation Methods - ``colour.temperature``
     >>> colour.uv_to_CCT([0.1978, 0.3122])
     array([  6.50751282e+03,   3.22335875e-03])
     >>> sorted(colour.UV_TO_CCT_METHODS.keys())
-    ['Ohno 2013', 'Robertson 1968', 'ohno2013', 'robertson1968']
-    >>> sorted(colour.UV_TO_CCT_METHODS.keys())
-    ['Krystek 1985',
-     'Ohno 2013',
-     'Robertson 1968',
-     'ohno2013',
-     'robertson1968']
-     >>> sorted(colour.XY_TO_CCT_METHODS.keys())
-     ['Hernandez 1999', 'McCamy 1992', 'hernandez1999', 'mccamy1992']
-     >>> sorted(colour.CCT_TO_XY_METHODS.keys())
-     ['CIE Illuminant D Series', 'Kang 2002', 'cie_d', 'kang2002']
+    ['Krystek 1985', 'Ohno 2013', 'Robertson 1968', 'ohno2013', 'robertson1968']
+    >>> sorted(colour.XY_TO_CCT_METHODS.keys())
+    ['CIE Illuminant D Series', 'Hernandez 1999', 'Kang 2002', 'McCamy 1992', 'daylight', 'hernandez1999', 'kang2002', 'mccamy1992']
 
 Colour Volume - ``colour.volume``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
