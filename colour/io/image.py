@@ -412,6 +412,9 @@ def write_image(image, path, method='OpenImageIO', **kwargs):
         Image data.
     path : unicode
         Image path.
+    method : unicode, optional
+        **{'OpenImageIO', 'Imageio'}**,
+        Write method, i.e. the image library used for writing images.
 
     Other Parameters
     ----------------
