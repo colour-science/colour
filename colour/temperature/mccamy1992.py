@@ -46,8 +46,7 @@ __all__ = ['xy_to_CCT_McCamy1992', 'CCT_to_xy_McCamy1992']
 def xy_to_CCT_McCamy1992(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
-    *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates using
-    *McCamy (1992)* method.
+    *CIE xy* chromaticity coordinates using *McCamy (1992)* method.
 
     Parameters
     ----------
