@@ -13,7 +13,9 @@ Image Data
 .. autosummary::
     :toctree: generated/
 
+    READ_IMAGE_METHODS
     read_image
+    WRITE_IMAGE_METHODS
     write_image
 
 **Ancillary Objects**
@@ -26,6 +28,10 @@ Image Data
     :toctree: generated/
 
     ImageAttribute_Specification
+    read_image_OpenImageIO
+    write_image_OpenImageIO
+    read_image_Imageio
+    write_image_Imageio
 
 Look Up Table (LUT) Data
 ------------------------

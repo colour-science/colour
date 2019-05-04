@@ -324,7 +324,7 @@ def is_openimageio_installed(raise_exception=False):
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"OpenImageIO" related Api features '
+            raise ImportError(('"OpenImageIO" related API features '
                                'are not available: "{0}".').format(error))
         return False
 
@@ -355,7 +355,7 @@ def is_pandas_installed(raise_exception=False):
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"Pandas" related Api features '
+            raise ImportError(('"Pandas" related API features '
                                'are not available: "{0}".').format(error))
         return False
 
