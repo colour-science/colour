@@ -186,8 +186,8 @@ XY_TO_CCT_METHODS = CaseInsensitiveMapping({
     'McCamy 1992': xy_to_CCT_McCamy1992,
 })
 XY_TO_CCT_METHODS.__doc__ = """
-Supported *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates to
-correlated colour temperature :math:`T_{cp}` computation methods.
+Supported *CIE xy* chromaticity coordinates to correlated colour temperature
+:math:`T_{cp}` computation methods.
 
 References
 ----------
@@ -201,9 +201,13 @@ XY_TO_CCT_METHODS : CaseInsensitiveMapping
 
 Aliases:
 
+-   'daylight': 'CIE Illuminant D Series'
+-   'kang2002': 'Kang 2002'
 -   'mccamy1992': 'McCamy 1992'
 -   'hernandez1999': 'Hernandez 1999'
 """
+XY_TO_CCT_METHODS['daylight'] = XY_TO_CCT_METHODS['CIE Illuminant D Series']
+XY_TO_CCT_METHODS['kang2002'] = XY_TO_CCT_METHODS['Kang 2002']
 XY_TO_CCT_METHODS['mccamy1992'] = XY_TO_CCT_METHODS['McCamy 1992']
 XY_TO_CCT_METHODS['hernandez1999'] = XY_TO_CCT_METHODS['Hernandez 1999']
 
@@ -211,8 +215,7 @@ XY_TO_CCT_METHODS['hernandez1999'] = XY_TO_CCT_METHODS['Hernandez 1999']
 def xy_to_CCT(xy, method='CIE Illuminant D Series'):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
-    *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates using given
-    method.
+    *CIE xy* chromaticity coordinates using given method.
 
     Parameters
     ----------
@@ -260,8 +263,8 @@ CCT_TO_XY_METHODS = CaseInsensitiveMapping({
     'McCamy 1992': CCT_to_xy_McCamy1992,
 })
 CCT_TO_XY_METHODS.__doc__ = """
-Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* tristimulus
-values *CIE xy* chromaticity coordinates computation methods.
+Supported correlated colour temperature :math:`T_{cp}` to *CIE xy* chromaticity
+coordinates computation methods.
 
 References
 ----------
@@ -274,17 +277,21 @@ CCT_TO_XY_METHODS : CaseInsensitiveMapping
 
 Aliases:
 
+-   'daylight': 'CIE Illuminant D Series'
 -   'kang2002': 'Kang 2002'
--   'cie_d': 'Hernandez 1999'
+-   'mccamy1992': 'McCamy 1992'
+-   'hernandez1999': 'Hernandez 1999'
 """
+CCT_TO_XY_METHODS['daylight'] = CCT_TO_XY_METHODS['CIE Illuminant D Series']
 CCT_TO_XY_METHODS['kang2002'] = CCT_TO_XY_METHODS['Kang 2002']
-CCT_TO_XY_METHODS['cie_d'] = CCT_TO_XY_METHODS['CIE Illuminant D Series']
+CCT_TO_XY_METHODS['mccamy1992'] = CCT_TO_XY_METHODS['McCamy 1992']
+CCT_TO_XY_METHODS['hernandez1999'] = CCT_TO_XY_METHODS['Hernandez 1999']
 
 
 def CCT_to_xy(CCT, method='CIE Illuminant D Series'):
     """
-    Returns the *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates
-    from given correlated colour temperature :math:`T_{cp}` using given method.
+    Returns the *CIE xy* chromaticity coordinates from given correlated colour
+    temperature :math:`T_{cp}` using given method.
 
     Parameters
     ----------

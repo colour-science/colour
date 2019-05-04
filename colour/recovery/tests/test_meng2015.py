@@ -62,7 +62,6 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
                     optimisation_parameters={
                         'options': {
                             'ftol': 1e-10,
-                            'maxiter': 2000
                         }
                     }),
                 cmfs=cmfs_c) / 100,

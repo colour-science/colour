@@ -755,10 +755,10 @@ def encoding_cctf(value, function='sRGB', **kwargs):
 
     if 'itu-r bt.2100' in function.lower():
         usage_warning(
-            'For "ITU-R BT.2100", only the reverse electro-optical transfer '
-            'functions (EOTFs / EOCFs) are exposed by this definition, please '
-            'refer to the "colour.oetf" definition for the opto-electronic '
-            'transfer functions (OETF / OECF).')
+            'With the "ITU-R BT.2100" method, only the reverse electro-optical'
+            'transfer functions (EOTFs / EOCFs) are exposed by this '
+            'definition, please refer to the "colour.oetf" definition for the'
+            'opto-electronic transfer functions (OETF / OECF).')
 
     function = ENCODING_CCTFS[function]
 
@@ -843,10 +843,11 @@ def decoding_cctf(value, function='Cineon', **kwargs):
 
     if 'itu-r bt.2100' in function.lower():
         usage_warning(
-            'For "ITU-R BT.2100", only the electro-optical transfer functions '
-            '(EOTFs / EOCFs) are exposed by this definition, please refer to '
-            'the "colour.oetf_reverse" definition for the reverse '
-            'opto-electronic transfer functions (OETF / OECF).')
+            'With the "ITU-R BT.2100" method, only the electro-optical'
+            'transfer functions (EOTFs / EOCFs) are exposed by this '
+            'definition, please refer to the "colour.oetf_reverse" definition '
+            'for the reverse opto-electronic transfer functions (OETF / OECF).'
+        )
 
     function = DECODING_CCTFS[function]
 
