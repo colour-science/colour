@@ -45,6 +45,7 @@ Krystek (1985)
 .. autosummary::
     :toctree: generated/
 
+    uv_to_CCT_Krystek1985
     CCT_to_uv_Krystek1985
 
 Ohno (2013)
@@ -60,6 +61,19 @@ Ohno (2013)
     CCT_to_uv_Ohno2013
     uv_to_CCT_Ohno2013
 
+McCamy (1992)
+~~~~~~~~~~~~~
+
+``colour.temperature``
+
+.. currentmodule:: colour.temperature
+
+.. autosummary::
+    :toctree: generated/
+
+    CCT_to_xy_McCamy1992
+    xy_to_CCT_McCamy1992
+
 Hernandez-Andres, Lee and Romero (1999)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -70,6 +84,7 @@ Hernandez-Andres, Lee and Romero (1999)
 .. autosummary::
     :toctree: generated/
 
+    CCT_to_xy_Hernandez1999
     xy_to_CCT_Hernandez1999
 
 Kang, Moon, Hong, Lee, Cho and Kim (2002)
@@ -83,6 +98,7 @@ Kang, Moon, Hong, Lee, Cho and Kim (2002)
     :toctree: generated/
 
     CCT_to_xy_Kang2002
+    xy_to_CCT_Kang2002
 
 CIE Illuminant D Series
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,4 +110,5 @@ CIE Illuminant D Series
 .. autosummary::
     :toctree: generated/
 
+    xy_to_CCT_CIE_D
     CCT_to_xy_CIE_D
