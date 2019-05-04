@@ -201,9 +201,13 @@ XY_TO_CCT_METHODS : CaseInsensitiveMapping
 
 Aliases:
 
+-   'daylight': 'CIE Illuminant D Series'
+-   'kang2002': 'Kang 2002'
 -   'mccamy1992': 'McCamy 1992'
 -   'hernandez1999': 'Hernandez 1999'
 """
+XY_TO_CCT_METHODS['daylight'] = XY_TO_CCT_METHODS['CIE Illuminant D Series']
+XY_TO_CCT_METHODS['kang2002'] = XY_TO_CCT_METHODS['Kang 2002']
 XY_TO_CCT_METHODS['mccamy1992'] = XY_TO_CCT_METHODS['McCamy 1992']
 XY_TO_CCT_METHODS['hernandez1999'] = XY_TO_CCT_METHODS['Hernandez 1999']
 
@@ -274,11 +278,15 @@ CCT_TO_XY_METHODS : CaseInsensitiveMapping
 
 Aliases:
 
+-   'daylight': 'CIE Illuminant D Series'
 -   'kang2002': 'Kang 2002'
--   'cie_d': 'Hernandez 1999'
+-   'mccamy1992': 'McCamy 1992'
+-   'hernandez1999': 'Hernandez 1999'
 """
+CCT_TO_XY_METHODS['daylight'] = CCT_TO_XY_METHODS['CIE Illuminant D Series']
 CCT_TO_XY_METHODS['kang2002'] = CCT_TO_XY_METHODS['Kang 2002']
-CCT_TO_XY_METHODS['cie_d'] = CCT_TO_XY_METHODS['CIE Illuminant D Series']
+CCT_TO_XY_METHODS['mccamy1992'] = CCT_TO_XY_METHODS['McCamy 1992']
+CCT_TO_XY_METHODS['hernandez1999'] = CCT_TO_XY_METHODS['Hernandez 1999']
 
 
 def CCT_to_xy(CCT, method='CIE Illuminant D Series'):
