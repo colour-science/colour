@@ -36,21 +36,24 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
 
         np.testing.assert_allclose(
             uv_to_CCT_Krystek1985(
-                np.array([0.223421163527869, 0.499258998136231])),
+                np.array([0.223421163527869, 0.499258998136231]),
+                {'method': 'Nelder-Mead'}),
             1000,
             rtol=0.0000001,
             atol=0.0000001)
 
         np.testing.assert_allclose(
             uv_to_CCT_Krystek1985(
-                np.array([0.183513095046506, 0.305827773965731])),
+                np.array([0.183513095046506, 0.305827773965731]),
+                {'method': 'Nelder-Mead'}),
             7000,
             rtol=0.0000001,
             atol=0.0000001)
 
         np.testing.assert_allclose(
             uv_to_CCT_Krystek1985(
-                np.array([0.182148234861937, 0.281354360914682])),
+                np.array([0.182148234861937, 0.281354360914682]),
+                {'method': 'Nelder-Mead'}),
             15000,
             rtol=0.0000001,
             atol=0.0000001)

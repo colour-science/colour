@@ -95,17 +95,17 @@ class TestCCT_to_xy_Hernandez1999(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            CCT_to_xy_Hernandez1999(6500.74204318),
+            CCT_to_xy_Hernandez1999(6500.74204318, {'method': 'Nelder-Mead'}),
             np.array([0.31269943, 0.32900373]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_xy_Hernandez1999(2790.64222533),
+            CCT_to_xy_Hernandez1999(2790.64222533, {'method': 'Nelder-Mead'}),
             np.array([0.42864308, 0.36754776]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_xy_Hernandez1999(64448.11092565),
+            CCT_to_xy_Hernandez1999(64448.11092565, {'method': 'Nelder-Mead'}),
             np.array([0.08269106, 0.36612620]),
             decimal=7)
 

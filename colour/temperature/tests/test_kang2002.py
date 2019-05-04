@@ -36,21 +36,24 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
 
         np.testing.assert_allclose(
             xy_to_CCT_Kang2002(
-                np.array([0.380528282812500, 0.376733530961114])),
+                np.array([0.380528282812500, 0.376733530961114]),
+                {'method': 'Nelder-Mead'}),
             4000,
             rtol=0.0000001,
             atol=0.0000001)
 
         np.testing.assert_allclose(
             xy_to_CCT_Kang2002(
-                np.array([0.306374019533528, 0.316552869726577])),
+                np.array([0.306374019533528, 0.316552869726577]),
+                {'method': 'Nelder-Mead'}),
             7000,
             rtol=0.0000001,
             atol=0.0000001)
 
         np.testing.assert_allclose(
             xy_to_CCT_Kang2002(
-                np.array([0.252472994438400, 0.252254791243654])),
+                np.array([0.252472994438400, 0.252254791243654]),
+                {'method': 'Nelder-Mead'}),
             25000,
             rtol=0.0000001,
             atol=0.0000001)

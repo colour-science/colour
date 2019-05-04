@@ -34,19 +34,25 @@ class TestXy_to_CCT_CIE_D(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            xy_to_CCT_CIE_D(np.array([0.382343625000000, 0.383766261015578])),
+            xy_to_CCT_CIE_D(
+                np.array([0.382343625000000, 0.383766261015578]),
+                {'method': 'Nelder-Mead'}),
             4000,
             rtol=0.0000001,
             atol=0.0000001)
 
         np.testing.assert_allclose(
-            xy_to_CCT_CIE_D(np.array([0.305357431486880, 0.321646345474552])),
+            xy_to_CCT_CIE_D(
+                np.array([0.305357431486880, 0.321646345474552]),
+                {'method': 'Nelder-Mead'}),
             7000,
             rtol=0.0000001,
             atol=0.0000001)
 
         np.testing.assert_allclose(
-            xy_to_CCT_CIE_D(np.array([0.24985367, 0.254799464210944])),
+            xy_to_CCT_CIE_D(
+                np.array([0.24985367, 0.254799464210944]),
+                {'method': 'Nelder-Mead'}),
             25000,
             rtol=0.0000001,
             atol=0.0000001)
