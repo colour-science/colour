@@ -208,7 +208,7 @@ XY_TO_CCT_METHODS['mccamy1992'] = XY_TO_CCT_METHODS['McCamy 1992']
 XY_TO_CCT_METHODS['hernandez1999'] = XY_TO_CCT_METHODS['Hernandez 1999']
 
 
-def xy_to_CCT(xy, method='McCamy 1992'):
+def xy_to_CCT(xy, method='CIE Illuminant D Series'):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates using given
@@ -219,8 +219,8 @@ def xy_to_CCT(xy, method='McCamy 1992'):
     xy : array_like
         *CIE xy* chromaticity coordinates.
     method : unicode, optional
-        **{'McCamy 1992', 'CIE Illuminant D Series, 'Kang 2002',
-        'Hernandez 1999'}**,
+        **{'CIE Illuminant D Series', 'Kang 2002', 'Hernandez 1999',
+        'McCamy 1992'}**,
         Computation method.
 
     Other Parameters
@@ -244,7 +244,7 @@ def xy_to_CCT(xy, method='McCamy 1992'):
     --------
     >>> import numpy as np
     >>> xy_to_CCT(np.array([0.31270, 0.32900]))  # doctest: +ELLIPSIS
-    6505.0805913...
+    6508.1175148...
     >>> xy_to_CCT(np.array([0.31270, 0.32900]), 'Hernandez 1999')
     ... # doctest: +ELLIPSIS
     6500.7420431...
@@ -281,7 +281,7 @@ CCT_TO_XY_METHODS['kang2002'] = CCT_TO_XY_METHODS['Kang 2002']
 CCT_TO_XY_METHODS['cie_d'] = CCT_TO_XY_METHODS['CIE Illuminant D Series']
 
 
-def CCT_to_xy(CCT, method='Kang 2002'):
+def CCT_to_xy(CCT, method='CIE Illuminant D Series'):
     """
     Returns the *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates
     from given correlated colour temperature :math:`T_{cp}` using given method.
@@ -291,7 +291,7 @@ def CCT_to_xy(CCT, method='Kang 2002'):
     CCT : numeric or array_like
         Correlated colour temperature :math:`T_{cp}`.
     method : unicode, optional
-        **{'Kang 2002', 'CIE Illuminant D Series', 'Hernandez 1999',
+        **{'CIE Illuminant D Series', 'Hernandez 1999', 'Kang 2002',
         'McCamy 1992'}**,
         Computation method.
 
@@ -315,10 +315,10 @@ def CCT_to_xy(CCT, method='Kang 2002'):
     Examples
     --------
     >>> CCT_to_xy(6504.38938305)  # doctest: +ELLIPSIS
-    array([ 0.313426 ...,  0.3235959...])
-    >>> CCT_to_xy(6504.38938305, 'CIE Illuminant D Series')
-    ... # doctest: +ELLIPSIS
     array([ 0.3127077...,  0.3291128...])
+    >>> CCT_to_xy(6504.38938305, 'Kang 2002')
+    ... # doctest: +ELLIPSIS
+    array([ 0.313426 ...,  0.3235959...])
     """
 
     return CCT_TO_XY_METHODS.get(method)(CCT)
