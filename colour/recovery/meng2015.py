@@ -183,7 +183,6 @@ def XYZ_to_sd_Meng2015(
         'bounds': np.tile(np.array([0, 1000]), (bins, 1)),
         'options': {
             'ftol': 1e-10,
-            'maxiter': 2000
         },
     }
     if optimisation_parameters is not None:
