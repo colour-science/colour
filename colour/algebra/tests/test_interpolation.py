@@ -156,7 +156,7 @@ LAGRANGE_COEFFICIENTS_B = np.array([
 LUT_TABLE = read_LUT(
     os.path.join(
         os.path.dirname(__file__), '..', '..', 'io', 'luts', 'tests',
-        'resources', 'iridas_cube', 'ColourCorrect.cube')).table
+        'resources', 'iridas_cube', 'Colour_Correct.cube')).table
 
 
 class TestKernelNearestNeighbour(unittest.TestCase):

@@ -142,7 +142,7 @@ message_box(('Performing "trilinear" interpolation of given "xyz" values:\n'
              '\nusing given interpolation table.'.format(V_xyz)))
 path = os.path.join(
     os.path.dirname(__file__), '..', '..', 'io', 'luts', 'tests', 'resources',
-    'iridas_cube', 'ColourCorrect.cube')
+    'iridas_cube', 'Colour_Correct.cube')
 table = colour.read_LUT(path).table
 print(colour.table_interpolation(V_xyz, table, method='Trilinear'))
 print(colour.algebra.table_interpolation_trilinear(V_xyz, table))

@@ -76,7 +76,7 @@ class TestReadSdsFromXRiteFile(unittest.TestCase):
         """
 
         colour_checker_xrite = os.path.join(
-            RESOURCES_DIRECTORY, 'xrite_digital_colour_checker.txt')
+            RESOURCES_DIRECTORY, 'X-Rite_Digital_Colour_Checker.txt')
         sds = read_sds_from_xrite_file(colour_checker_xrite)
         for sd in sds.values():
             self.assertIsInstance(sd, SpectralDistribution)

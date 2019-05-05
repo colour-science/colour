@@ -198,7 +198,7 @@ def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
     >>> import os
     >>> import colour
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.exr')
+    ...                     'CMS_Test_Pattern.exr')
     >>> image = read_image(path)  # doctest: +SKIP
     """
 
@@ -266,7 +266,7 @@ def read_image_Imageio(path, bit_depth='float32', **kwargs):
     >>> import os
     >>> import colour
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.exr')
+    ...                     'CMS_Test_Pattern.exr')
     >>> image = read_image_Imageio(path)
     >>> image.shape  # doctest: +SKIP
     (1267, 1274, 3)
@@ -336,7 +336,7 @@ def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
     >>> import os
     >>> import colour
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.exr')
+    ...                     'CMS_Test_Pattern.exr')
     >>> image = read_image(path)
     >>> image.shape  # doctest: +SKIP
     (1267, 1274, 3)
@@ -389,7 +389,7 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     >>> import os
     >>> import colour
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.exr')
+    ...                     'CMS_Test_Pattern.exr')
     >>> image = read_image(path)  # doctest: +SKIP
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
     ...                     'CMSTestPattern.tif')
@@ -476,7 +476,7 @@ def write_image_Imageio(image, path, bit_depth='float32', **kwargs):
     >>> import os
     >>> import colour
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.exr')
+    ...                     'CMS_Test_Pattern.exr')
     >>> image = read_image(path)  # doctest: +SKIP
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
     ...                     'CMSTestPattern.tif')
@@ -552,7 +552,7 @@ def write_image(image,
     >>> import os
     >>> import colour
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.exr')
+    ...                     'CMS_Test_Pattern.exr')
     >>> image = read_image(path)  # doctest: +SKIP
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
     ...                     'CMSTestPattern.tif')

@@ -174,23 +174,24 @@ class TestReadImageOpenImageIO(unittest.TestCase):
             return
 
         image = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, 'CMSTestPattern.exr'))
+            os.path.join(RESOURCES_DIRECTORY, 'CMS_Test_Pattern.exr'))
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype('float32'))
 
         image = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, 'CMSTestPattern.exr'), 'float16')
+            os.path.join(RESOURCES_DIRECTORY, 'CMS_Test_Pattern.exr'),
+            'float16')
         self.assertIs(image.dtype, np.dtype('float16'))
 
         image, attributes = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, 'CMSTestPattern.exr'),
+            os.path.join(RESOURCES_DIRECTORY, 'CMS_Test_Pattern.exr'),
             attributes=True)
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertEqual(attributes[0].name, 'oiio:ColorSpace')
         self.assertEqual(attributes[0].value, 'Linear')
 
         image = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, 'SingleChannel.exr'))
+            os.path.join(RESOURCES_DIRECTORY, 'Single_Channel.exr'))
         self.assertTupleEqual(image.shape, (256, 256))
 
         image = read_image_OpenImageIO(
@@ -250,9 +251,9 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
             return
 
         source_image_path = os.path.join(RESOURCES_DIRECTORY,
-                                         'CMSTestPattern.exr')
+                                         'CMS_Test_Pattern.exr')
         target_image_path = os.path.join(self._temporary_directory,
-                                         'CMSTestPattern.exr')
+                                         'CMS_Test_Pattern.exr')
         image = read_image_OpenImageIO(source_image_path)
         write_image_OpenImageIO(image, target_image_path)
         image = read_image_OpenImageIO(target_image_path)
@@ -282,17 +283,18 @@ class TestReadImageImageio(unittest.TestCase):
         """
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, 'CMSTestPattern.exr'))
+            os.path.join(RESOURCES_DIRECTORY, 'CMS_Test_Pattern.exr'))
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype('float32'))
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, 'CMSTestPattern.exr'), 'float16')
+            os.path.join(RESOURCES_DIRECTORY, 'CMS_Test_Pattern.exr'),
+            'float16')
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype('float16'))
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, 'SingleChannel.exr'))
+            os.path.join(RESOURCES_DIRECTORY, 'Single_Channel.exr'))
         self.assertTupleEqual(image.shape, (256, 256))
 
         image = read_image_Imageio(
@@ -348,9 +350,9 @@ class TestWriteImageImageio(unittest.TestCase):
         """
 
         source_image_path = os.path.join(RESOURCES_DIRECTORY,
-                                         'CMSTestPattern.exr')
+                                         'CMS_Test_Pattern.exr')
         target_image_path = os.path.join(self._temporary_directory,
-                                         'CMSTestPattern.exr')
+                                         'CMS_Test_Pattern.exr')
         image = read_image_Imageio(source_image_path)
         write_image_Imageio(image, target_image_path)
         image = read_image_Imageio(target_image_path)
@@ -370,12 +372,12 @@ class TestReadImage(unittest.TestCase):
         """
 
         image = read_image(
-            os.path.join(RESOURCES_DIRECTORY, 'CMSTestPattern.exr'))
+            os.path.join(RESOURCES_DIRECTORY, 'CMS_Test_Pattern.exr'))
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype('float32'))
 
         image = read_image(
-            os.path.join(RESOURCES_DIRECTORY, 'SingleChannel.exr'))
+            os.path.join(RESOURCES_DIRECTORY, 'Single_Channel.exr'))
         self.assertTupleEqual(image.shape, (256, 256))
 
 
@@ -404,9 +406,9 @@ class TestWriteImage(unittest.TestCase):
         """
 
         source_image_path = os.path.join(RESOURCES_DIRECTORY,
-                                         'CMSTestPattern.exr')
+                                         'CMS_Test_Pattern.exr')
         target_image_path = os.path.join(self._temporary_directory,
-                                         'CMSTestPattern.exr')
+                                         'CMS_Test_Pattern.exr')
         image = read_image(source_image_path)
         write_image(image, target_image_path)
         image = read_image(target_image_path)
