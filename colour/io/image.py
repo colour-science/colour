@@ -25,9 +25,9 @@ __status__ = 'Production'
 
 __all__ = [
     'BitDepth_Specification', 'ImageAttribute_Specification',
-    'read_image_OpenImageIO', 'read_image_Imageio', 'READ_IMAGE_METHODS',
-    'read_image', 'write_image_OpenImageIO', 'write_image_Imageio',
-    'WRITE_IMAGE_METHODS', 'write_image'
+    'convert_bit_depth', 'read_image_OpenImageIO', 'read_image_Imageio',
+    'READ_IMAGE_METHODS', 'read_image', 'write_image_OpenImageIO',
+    'write_image_Imageio', 'WRITE_IMAGE_METHODS', 'write_image'
 ]
 
 BitDepth_Specification = namedtuple(
@@ -72,7 +72,11 @@ if is_openimageio_installed():  # pragma: no cover
         'float16':
             BitDepth_Specification('float16', np.float16, HALF, 1, False),
         'float32':
-            BitDepth_Specification('float32', np.float32, FLOAT, 1, False)
+            BitDepth_Specification('float32', np.float32, FLOAT, 1, False),
+        'float64':
+            BitDepth_Specification('float64', np.float64, FLOAT, 1, False),
+        'float128':
+            BitDepth_Specification('float128', np.float128, FLOAT, 1, False),
     })
 else:
     BIT_DEPTH_MAPPING = CaseInsensitiveMapping({
@@ -83,8 +87,82 @@ else:
         'float16':
             BitDepth_Specification('float16', np.float16, None, 1, False),
         'float32':
-            BitDepth_Specification('float32', np.float32, None, 1, False)
+            BitDepth_Specification('float32', np.float32, None, 1, False),
+        'float64':
+            BitDepth_Specification('float64', np.float64, None, 1, False),
+        'float128':
+            BitDepth_Specification('float128', np.float128, None, 1, False),
     })
+
+
+def convert_bit_depth(a, bit_depth='float32'):
+    """
+    Converts given array to given bit depth, the current bit depth of the array
+    is used to determine the appropriate conversion path.
+
+    Parameters
+    ----------
+    a : array_like
+        Array to convert to given bit depth.
+    bit_depth : unicode
+        Bit depth.
+
+    Returns
+    -------
+    ndarray
+        Converted array.
+
+    Examples
+    --------
+    >>> a = np.array([0.0, 0.5, 1.0])
+    >>> convert_bit_depth(a, 'uint8')
+    array([  0, 128, 255], dtype=uint8)
+    >>> convert_bit_depth(a, 'uint16')
+    array([    0, 32768, 65535], dtype=uint16)
+    >>> convert_bit_depth(a, 'float16')
+    array([ 0. ,  0.5,  1. ], dtype=float16)
+    >>> a = np.array([0, 128, 255], dtype=np.uint8)
+    >>> convert_bit_depth(a, 'uint16')
+    array([    0, 32896, 65535], dtype=uint16)
+    >>> convert_bit_depth(a, 'float32')  # doctest: +ELLIPSIS
+    array([ 0.       ,  0.501960...,  1.       ], dtype=float32)
+    """
+
+    a = np.asarray(a)
+
+    bit_depths = ', '.join(sorted(BIT_DEPTH_MAPPING.keys()))
+
+    assert bit_depth in bit_depths, (
+        'Incorrect bit depth was specified, it must be one of: "{0}"!'.format(
+            bit_depths))
+
+    assert str(a.dtype) in bit_depths, (
+        'Image bit depth must be one of: "{0}"!'.format(bit_depths))
+
+    source_dtype = str(a.dtype)
+    target_dtype = BIT_DEPTH_MAPPING[bit_depth].numpy
+
+    if source_dtype == 'uint8':
+        if bit_depth == 'uint8':
+            return a
+        elif bit_depth == 'uint16':
+            return (a * 257).astype(target_dtype)
+        elif bit_depth in ('float16', 'float32', 'float64', 'float128'):
+            return (a / 255).astype(target_dtype)
+    elif source_dtype == 'uint16':
+        if bit_depth == 'uint8':
+            return (a / 257).astype(target_dtype)
+        elif bit_depth == 'uint16':
+            return a
+        elif bit_depth in ('float16', 'float32', 'float64', 'float128'):
+            return (a / 65535).astype(target_dtype)
+    elif source_dtype in ('float16', 'float32', 'float64', 'float128'):
+        if bit_depth == 'uint8':
+            return np.around(a * 255).astype(target_dtype)
+        elif bit_depth == 'uint16':
+            return np.around(a * 65535).astype(target_dtype)
+        elif bit_depth in ('float16', 'float32', 'float64', 'float128'):
+            return a.astype(target_dtype)
 
 
 def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
@@ -97,7 +175,9 @@ def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
         Image path.
     bit_depth : unicode, optional
         **{'float32', 'uint8', 'uint16', 'float16'}**,
-        Image bit_depth.
+        Returned image bit depth, the bit depth conversion behaviour is driven
+        directly by *OpenImageIO*, this definition only converts to the
+        relevant data type after reading.
     attributes : bool, optional
         Whether to return the image attributes.
 
@@ -150,7 +230,7 @@ def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
             return image
 
 
-def read_image_Imageio(path, **kwargs):
+def read_image_Imageio(path, bit_depth='float32', **kwargs):
     """
     Reads the image at given path using *Imageio*.
 
@@ -158,6 +238,11 @@ def read_image_Imageio(path, **kwargs):
     ----------
     path : unicode
         Image path.
+    bit_depth : unicode, optional
+        **{'float32', 'uint8', 'uint16', 'float16'}**,
+        Returned image bit depth, the image data is converted with
+        :func:`colour.io.convert_bit_depth` definition after reading the
+        image.
 
     Other Parameters
     ----------------
@@ -188,7 +273,9 @@ def read_image_Imageio(path, **kwargs):
 
     from imageio import imread
 
-    return imread(path, **kwargs)
+    image = imread(path, **kwargs)
+
+    return convert_bit_depth(image, bit_depth)
 
 
 READ_IMAGE_METHODS = CaseInsensitiveMapping({
@@ -203,7 +290,7 @@ READ_IMAGE_METHODS : CaseInsensitiveMapping
 """
 
 
-def read_image(path, method='OpenImageIO', **kwargs):
+def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
     """
     Reads the image at given path using given method.
 
@@ -211,16 +298,19 @@ def read_image(path, method='OpenImageIO', **kwargs):
     ----------
     path : unicode
         Image path.
+    bit_depth : unicode, optional
+        **{'float32', 'uint8', 'uint16', 'float16'}**,
+        Returned image bit depth, for the *Imageio* method, the image data is
+        converted with :func:`colour.io.convert_bit_depth` definition after
+        reading the image, for the *OpenImageIO* method, the bit depth
+        conversion behaviour is driven directly by the library, this definition
+        only converts to the relevant data type after reading.
     method : unicode, optional
         **{'OpenImageIO', 'Imageio'}**,
         Read method, i.e. the image library used for reading images.
 
     Other Parameters
     ----------------
-    bit_depth : unicode, optional
-        **{'float32', 'uint8', 'uint16', 'float16'}**,
-        {:func:`colour.io.read_image_OpenImageIO`},
-        Image bit_depth.
     attributes : bool, optional
         {:func:`colour.io.read_image_OpenImageIO`},
         Whether to return the image attributes.
@@ -263,7 +353,7 @@ def read_image(path, method='OpenImageIO', **kwargs):
     if method.lower() == 'openimageio':  # pragma: no cover
         kwargs = filter_kwargs(function, **kwargs)
 
-    return function(path, **kwargs)
+    return function(path, bit_depth, **kwargs)
 
 
 def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
@@ -278,7 +368,8 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
         Image path.
     bit_depth : unicode, optional
         **{'float32', 'uint8', 'uint16', 'float16'}**,
-        Image bit_depth.
+        Bit depth to write the image at, the bit depth conversion behaviour is
+        ruled directly by *OpenImageIO*.
     attributes : array_like, optional
         An array of :class:`colour.io.ImageAttribute_Specification` class
         instances used to set attributes of the image.
@@ -351,7 +442,7 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
         return True
 
 
-def write_image_Imageio(image, path, **kwargs):
+def write_image_Imageio(image, path, bit_depth='float32', **kwargs):
     """
     Writes given image at given path using *Imageio*.
 
@@ -361,6 +452,11 @@ def write_image_Imageio(image, path, **kwargs):
         Image data.
     path : unicode
         Image path.
+    bit_depth : unicode, optional
+        **{'float32', 'uint8', 'uint16', 'float16'}**,
+        Bit depth to write the image at, the image data is converted with
+        :func:`colour.io.convert_bit_depth` definition prior to writing the
+        image.
 
     Other Parameters
     ----------------
@@ -387,6 +483,8 @@ def write_image_Imageio(image, path, **kwargs):
 
     from imageio import imwrite
 
+    image = convert_bit_depth(image, bit_depth)
+
     return imwrite(path, image, **kwargs)
 
 
@@ -402,7 +500,11 @@ WRITE_IMAGE_METHODS : CaseInsensitiveMapping
 """
 
 
-def write_image(image, path, method='OpenImageIO', **kwargs):
+def write_image(image,
+                path,
+                bit_depth='float32',
+                method='OpenImageIO',
+                **kwargs):
     """
     Writes given image at given path using given method.
 
@@ -412,13 +514,17 @@ def write_image(image, path, method='OpenImageIO', **kwargs):
         Image data.
     path : unicode
         Image path.
+    bit_depth : unicode, optional
+        **{'float32', 'uint8', 'uint16', 'float16'}**,
+        Bit depth to write the image at, for the *Imageio* method, the image
+        data is converted with :func:`colour.io.convert_bit_depth` definition
+        prior to writing the image.
+    method : unicode, optional
+        **{'OpenImageIO', 'Imageio'}**,
+        Write method, i.e. the image library used for writing images.
 
     Other Parameters
     ----------------
-    bit_depth : unicode, optional
-        {:func:`colour.io.write_image_OpenImageIO`},
-        **{'float32', 'uint8', 'uint16', 'float16'}**,
-        Image bit_depth.
     attributes : array_like, optional
         {:func:`colour.io.write_image_OpenImageIO`},
         An array of :class:`colour.io.ImageAttribute_Specification` class
@@ -470,4 +576,4 @@ def write_image(image, path, method='OpenImageIO', **kwargs):
     if method.lower() == 'openimageio':  # pragma: no cover
         kwargs = filter_kwargs(function, **kwargs)
 
-    return function(image, path, **kwargs)
+    return function(image, path, bit_depth, **kwargs)
