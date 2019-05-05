@@ -92,7 +92,7 @@ class TestReadLUT(unittest.TestCase):
         self.assertRaises(
             ValueError, read_LUT,
             os.path.join(LUTS_DIRECTORY, 'sony_spi1d',
-                         'ExceptionRaising.spi1d'))
+                         'Exception_Raising.spi1d'))
 
 
 class TestWriteLUT(unittest.TestCase):
@@ -144,16 +144,16 @@ class TestWriteLUT(unittest.TestCase):
 
         LUT_2_r = read_LUT(
             os.path.join(LUTS_DIRECTORY, 'resolve_cube',
-                         'ThreeDimensionalTableWithShaper.cube'))
+                         'Three_Dimensional_Table_With_Shaper.cube'))
 
         write_LUT(
             LUT_2_r,
             os.path.join(self._temporary_directory,
-                         'ThreeDimensionalTableWithShaper.cube'))
+                         'Three_Dimensional_Table_With_Shaper.cube'))
 
         LUT_2_t = read_LUT(
             os.path.join(self._temporary_directory,
-                         'ThreeDimensionalTableWithShaper.cube'))
+                         'Three_Dimensional_Table_With_Shaper.cube'))
 
         self.assertEqual(LUT_2_r, LUT_2_t)
 

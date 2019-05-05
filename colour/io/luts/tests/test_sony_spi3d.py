@@ -38,7 +38,7 @@ class TestReadLUTSonySPI3D(unittest.TestCase):
         """
 
         LUT_1 = read_LUT_SonySPI3D(
-            os.path.join(LUTS_DIRECTORY, 'ColourCorrect.spi3d'))
+            os.path.join(LUTS_DIRECTORY, 'Colour_Correct.spi3d'))
 
         np.testing.assert_almost_equal(
             LUT_1.table,
@@ -148,7 +148,7 @@ class TestReadLUTSonySPI3D(unittest.TestCase):
                     ],
                 ],
             ]))
-        self.assertEqual(LUT_1.name, 'ColourCorrect')
+        self.assertEqual(LUT_1.name, 'Colour Correct')
         self.assertEqual(LUT_1.dimensions, 3)
         np.testing.assert_array_equal(LUT_1.domain,
                                       np.array([[0, 0, 0], [1, 1, 1]]))
@@ -183,18 +183,18 @@ class TestWriteLUTSonySPI3D(unittest.TestCase):
         """
 
         LUT_r = read_LUT_SonySPI3D(
-            os.path.join(LUTS_DIRECTORY, 'ColourCorrect.spi3d'))
+            os.path.join(LUTS_DIRECTORY, 'Colour_Correct.spi3d'))
 
         write_LUT_SonySPI3D(
             LUT_r,
-            os.path.join(self._temporary_directory, 'ColourCorrect.spi3d'))
+            os.path.join(self._temporary_directory, 'Colour_Correct.spi3d'))
         LUT_t = read_LUT_SonySPI3D(
-            os.path.join(self._temporary_directory, 'ColourCorrect.spi3d'))
+            os.path.join(self._temporary_directory, 'Colour_Correct.spi3d'))
         self.assertEqual(LUT_r, LUT_t)
 
         write_LUT_SonySPI3D(
             LUTSequence(LUT_r),
-            os.path.join(self._temporary_directory, 'ColourCorrect.spi3d'))
+            os.path.join(self._temporary_directory, 'Colour_Correct.spi3d'))
         self.assertEqual(LUT_r, LUT_t)
 
 

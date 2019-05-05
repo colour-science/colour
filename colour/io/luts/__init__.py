@@ -127,10 +127,10 @@ def read_LUT(path, method=None, **kwargs):
 
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spi3d',
-    ...     'ColourCorrect.spi3d')
+    ...     'Colour_Correct.spi3d')
     >>> print(read_LUT(path))
-    LUT3D - ColourCorrect
-    ---------------------
+    LUT3D - Colour Correct
+    ----------------------
     <BLANKLINE>
     Dimensions : 3
     Domain     : [[ 0.  0.  0.]

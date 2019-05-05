@@ -91,7 +91,7 @@ class TestReadLUTIridasCube(unittest.TestCase):
                                       np.array([[0, 0, 0], [1, 2, 3]]))
 
         LUT_3 = read_LUT_IridasCube(
-            os.path.join(LUTS_DIRECTORY, 'ThreeDimensionalTable.cube'))
+            os.path.join(LUTS_DIRECTORY, 'Three_Dimensional_Table.cube'))
         self.assertEqual(LUT_3.dimensions, 3)
         self.assertEqual(LUT_3.size, 2)
 
@@ -149,14 +149,14 @@ class TestWriteLUTIridasCube(unittest.TestCase):
         self.assertListEqual(LUT_2_r.comments, LUT_2_t.comments)
 
         LUT_3_r = read_LUT_IridasCube(
-            os.path.join(LUTS_DIRECTORY, 'ThreeDimensionalTable.cube'))
+            os.path.join(LUTS_DIRECTORY, 'Three_Dimensional_Table.cube'))
         write_LUT_IridasCube(
             LUT_3_r,
             os.path.join(self._temporary_directory,
-                         'ThreeDimensionalTable.cube'))
+                         'Three_Dimensional_Table.cube'))
         LUT_3_t = read_LUT_IridasCube(
             os.path.join(self._temporary_directory,
-                         'ThreeDimensionalTable.cube'))
+                         'Three_Dimensional_Table.cube'))
         self.assertEqual(LUT_3_r, LUT_3_t)
 
         LUT_4_r = read_LUT_IridasCube(

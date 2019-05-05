@@ -1581,7 +1581,7 @@ def vertices_and_relative_coordinates(V_xyz, table):
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'ColourCorrect.cube')
+    ...     'iridas_cube', 'Colour_Correct.cube')
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1684,7 +1684,7 @@ def table_interpolation_trilinear(V_xyz, table):
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'ColourCorrect.cube')
+    ...     'iridas_cube', 'Colour_Correct.cube')
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1744,7 +1744,7 @@ def table_interpolation_tetrahedral(V_xyz, table):
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'ColourCorrect.cube')
+    ...     'iridas_cube', 'Colour_Correct.cube')
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1834,7 +1834,7 @@ def table_interpolation(V_xyz, table, method='Trilinear'):
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'ColourCorrect.cube')
+    ...     'iridas_cube', 'Colour_Correct.cube')
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
