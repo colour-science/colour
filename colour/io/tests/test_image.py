@@ -7,6 +7,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import os
+import platform
 import shutil
 import unittest
 import tempfile
@@ -79,8 +80,10 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, 'float64').dtype, np.dtype('float64'))
 
-        self.assertIs(
-            convert_bit_depth(a, 'float128').dtype, np.dtype('float128'))
+        if platform.system() not in ('Windows',
+                                     'Microsoft'):  # pragma: no cover
+            self.assertIs(
+                convert_bit_depth(a, 'float128').dtype, np.dtype('float128'))
 
         a = np.around(np.linspace(0, 1, 10) * 65535).astype('uint16')
         self.assertIs(convert_bit_depth(a, 'uint8').dtype, np.dtype('uint8'))
@@ -114,8 +117,10 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, 'float64').dtype, np.dtype('float64'))
 
-        self.assertIs(
-            convert_bit_depth(a, 'float128').dtype, np.dtype('float128'))
+        if platform.system() not in ('Windows',
+                                     'Microsoft'):  # pragma: no cover
+            self.assertIs(
+                convert_bit_depth(a, 'float128').dtype, np.dtype('float128'))
 
         a = np.linspace(0, 1, 10, dtype=np.float64)
         self.assertIs(convert_bit_depth(a, 'uint8').dtype, np.dtype('uint8'))
@@ -148,8 +153,10 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, 'float64').dtype, np.dtype('float64'))
 
-        self.assertIs(
-            convert_bit_depth(a, 'float128').dtype, np.dtype('float128'))
+        if platform.system() not in ('Windows',
+                                     'Microsoft'):  # pragma: no cover
+            self.assertIs(
+                convert_bit_depth(a, 'float128').dtype, np.dtype('float128'))
 
 
 class TestReadImageOpenImageIO(unittest.TestCase):

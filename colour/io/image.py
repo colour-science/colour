@@ -9,6 +9,7 @@ Defines image related input / output utilities objects.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import platform
 from collections import namedtuple
 from six import string_types
 
@@ -75,9 +76,10 @@ if is_openimageio_installed():  # pragma: no cover
             BitDepth_Specification('float32', np.float32, FLOAT, 1, False),
         'float64':
             BitDepth_Specification('float64', np.float64, FLOAT, 1, False),
-        'float128':
-            BitDepth_Specification('float128', np.float128, FLOAT, 1, False),
     })
+    if platform.system() not in ('Windows', 'Microsoft'):  # pragma: no cover
+        BIT_DEPTH_MAPPING['float128'] = BitDepth_Specification(
+            'float128', np.float128, FLOAT, 1, False)
 else:
     BIT_DEPTH_MAPPING = CaseInsensitiveMapping({
         'uint8':
@@ -90,9 +92,10 @@ else:
             BitDepth_Specification('float32', np.float32, None, 1, False),
         'float64':
             BitDepth_Specification('float64', np.float64, None, 1, False),
-        'float128':
-            BitDepth_Specification('float128', np.float128, None, 1, False),
     })
+    if platform.system() not in ('Windows', 'Microsoft'):  # pragma: no cover
+        BIT_DEPTH_MAPPING['float128'] = BitDepth_Specification(
+            'float128', np.float128, None, 1, False)
 
 
 def convert_bit_depth(a, bit_depth='float32'):
