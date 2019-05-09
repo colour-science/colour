@@ -174,8 +174,10 @@ def read_LUT_ResolveCube(path):
 
     table = as_float_array(table)
     if has_3x1D and has_3D:
-        LUT[0].name = '{0} - Shaper'.format(title)
-        LUT[1].name = '{0} - Cube'.format(title)
+        LUT[0].name = ('{0} - Shaper'.format(title)
+                       if not title.endswith('- Shaper') else title)
+        LUT[1].name = ('{0} - Cube'.format(title)
+                       if not title.endswith('- Cube') else title)
         LUT[1].comments = comments
         LUT[0].table = table[:size_3x1D]
         # The lines of table data shall be in ascending index order,
