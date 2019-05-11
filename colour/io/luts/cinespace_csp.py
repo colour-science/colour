@@ -267,7 +267,7 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
     >>> write_LUT_Cinespace(LUT, 'My_LUT.cube')  # doctest: +SKIP
     """
 
-    has_3D, has_3x1D, non_uniform = False, False, False
+    has_3D, has_3x1D, explicit_domain = False, False, False
 
     if isinstance(LUT, LUTSequence):
         assert (len(LUT) == 2 and
@@ -278,17 +278,17 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
         has_3D = True
         name = LUT[1].name
         if isinstance(LUT[0], LUT1D):
-            non_uniform = LUT[0].is_domain_explicit()
+            explicit_domain = LUT[0].is_domain_explicit()
             LUT[0] = LUT[0].as_LUT(LUT3x1D)
 
     elif isinstance(LUT, LUT1D):
-        non_uniform = LUT.is_domain_explicit()
+        explicit_domain = LUT.is_domain_explicit()
         name = LUT.name
         LUT = LUTSequence(LUT.as_LUT(LUT3x1D), LUT3D())
         has_3x1D = True
 
     elif isinstance(LUT, LUT3x1D):
-        non_uniform = LUT.is_domain_explicit()
+        explicit_domain = LUT.is_domain_explicit()
         name = LUT.name
         LUT = LUTSequence(LUT, LUT3D())
         has_3x1D = True
@@ -356,10 +356,10 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
 
         csp_file.write('END METADATA\n\n')
 
-        if has_3D or non_uniform:
+        if has_3D or explicit_domain:
             if has_3x1D:
                 for i in range(3):
-                    if LUT[0].is_domain_explicit():
+                    if explicit_domain:
                         size = _ragged_size(LUT[0].domain)[i]
                         table_min = np.nanmin(LUT[0].table)
                         table_max = np.nanmax(LUT[0].table)
@@ -382,7 +382,7 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
 
                     for j in range(size):
                         entry = LUT[0].table[j][i]
-                        if non_uniform:
+                        if explicit_domain:
                             entry -= table_min
                             entry /= (table_max - table_min)
                         csp_file.write('{0:.{1}f} '.format(entry, decimals))
@@ -396,7 +396,7 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                             [LUT[1].domain[0][i], LUT[1].domain[1][i]])))
                     csp_file.write('{0:.{2}f} {1:.{2}f}\n'.format(
                         0, 1, decimals))
-            if non_uniform:
+            if explicit_domain:
                 csp_file.write('\n{0}\n'.format(2))
                 row = [table_min, table_min, table_min]
                 csp_file.write('{0}\n'.format(_format_array(row)))
