@@ -21,7 +21,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
-from colour.utilities import tsplit, tstack, as_float_array, as_int_array
+from colour.utilities import (linear_conversion, tsplit, tstack,
+                              as_float_array, as_int_array)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -203,10 +204,8 @@ def read_LUT_Cinespace(path):
             pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
 
             if table.shape == (2, 3):
-                table_max = table[1]
-                table_min = table[0]
-                pre_table *= (table_max - table_min)
-                pre_table += table_min
+                pre_table = linear_conversion(
+                    pre_table, (0, 1), (np.min(table[0]), np.max(table[1])))
 
                 return LUT3x1D(pre_table, title, pre_domain, comments=comments)
             else:
@@ -320,6 +319,14 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
 
         return [R_len, G_len, B_len]
 
+    def _format_entries(entries):
+        """
+        Formats given array as a *Cinespace* *.cube* data entries.
+        """
+
+        return ' '.join(
+            ['{0:.{1}f}'.format(entry, decimals) for entry in entries])
+
     def _format_array(array):
         """
         Formats given array as a *Cinespace* *.cube* data row.
@@ -357,37 +364,24 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
         csp_file.write('END METADATA\n\n')
 
         if has_3D or explicit_domain:
+            table_min = np.nanmin(LUT[0].table)
+            table_max = np.nanmax(LUT[0].table)
             if has_3x1D:
                 for i in range(3):
-                    if explicit_domain:
-                        size = _ragged_size(LUT[0].domain)[i]
-                        table_min = np.nanmin(LUT[0].table)
-                        table_max = np.nanmax(LUT[0].table)
-                    else:
-                        size = LUT[0].size
-
+                    size = (_ragged_size(LUT[0].domain)[i]
+                            if explicit_domain else LUT[0].size)
                     csp_file.write('{0}\n'.format(size))
 
-                    for j in range(size):
-                        if LUT[0].is_domain_explicit():
-                            entry = LUT[0].domain[j][i]
-                        else:
-                            entry = (
-                                LUT[0].domain[0][i] + j *
-                                (LUT[0].domain[1][i] - LUT[0].domain[0][i]) /
-                                (LUT[0].size - 1))
-                        csp_file.write('{0:.{1}f} '.format(entry, decimals))
+                    entries = (LUT[0].domain[..., i]
+                               if explicit_domain else np.linspace(
+                                   LUT[0].domain[0][i], LUT[0].domain[1][i],
+                                   size))
+                    csp_file.write('{0}\n'.format(_format_entries(entries)))
 
-                    csp_file.write('\n')
-
-                    for j in range(size):
-                        entry = LUT[0].table[j][i]
-                        if explicit_domain:
-                            entry -= table_min
-                            entry /= (table_max - table_min)
-                        csp_file.write('{0:.{1}f} '.format(entry, decimals))
-
-                    csp_file.write('\n')
+                    entries = (linear_conversion(
+                        LUT[0].table[..., i], (table_min, table_max), (0, 1))
+                               if explicit_domain else LUT[0].table[..., i])
+                    csp_file.write('{0}\n'.format(_format_entries(entries)))
             else:
                 for i in range(3):
                     csp_file.write('2\n')
