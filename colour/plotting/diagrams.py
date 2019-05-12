@@ -22,14 +22,13 @@ from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
 from colour.colorimetry import sd_to_XYZ
-from colour.constants import EPSILON
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
                              XYZ_to_plotting_colourspace, artist, filter_cmfs,
                              override_style, render)
 from colour.utilities import (domain_range_scale, first_item, is_string,
-                              normalise_maximum, tstack)
+                              normalise_maximum, tstack, suppress_warnings)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -265,24 +264,26 @@ def plot_chromaticity_diagram_colours(
     ii, jj = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
     ij = tstack([ii, jj])
-    # Avoiding zero division in later colour transformations.
-    ij = np.where(ij == 0, EPSILON, ij)
 
-    if method == 'CIE 1931':
-        XYZ = xy_to_XYZ(ij)
-        spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
-    elif method == 'CIE 1960 UCS':
-        XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
-        spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-    elif method == 'CIE 1976 UCS':
-        XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
-        spectral_locus = Luv_to_uv(
-            XYZ_to_Luv(cmfs.values, illuminant), illuminant)
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
-                method))
+    # NOTE: Various values in the grid have potential to generate
+    # zero-divisions, they could be avoided by perturbing the grid, e.g. adding
+    # a small epsilon. It was decided instead to disable warnings.
+    with suppress_warnings(python_warnings=True):
+        if method == 'CIE 1931':
+            XYZ = xy_to_XYZ(ij)
+            spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
+        elif method == 'CIE 1960 UCS':
+            XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
+            spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
+        elif method == 'CIE 1976 UCS':
+            XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
+            spectral_locus = Luv_to_uv(
+                XYZ_to_Luv(cmfs.values, illuminant), illuminant)
+        else:
+            raise ValueError(
+                'Invalid method: "{0}", must be one of '
+                '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+                    method))
 
     RGB = normalise_maximum(
         XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1)
