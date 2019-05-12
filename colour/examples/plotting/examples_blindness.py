@@ -25,7 +25,7 @@ ISHIHARA_CBT_3_IMAGE = colour.oetf_reverse(
 message_box('Colour Blindness Plots')
 
 message_box('Displaying "Ishihara Colour Blindness Test - Plate 3".')
-plot_image(colour.oetf(ISHIHARA_CBT_3_IMAGE),
+plot_image(colour.encoding_cctf(ISHIHARA_CBT_3_IMAGE),
            text_parameters={'text': 'Normal Trichromat', 'color': 'black'})
 
 print('\n')

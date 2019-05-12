@@ -1148,8 +1148,8 @@ API_CHANGES = {
             'colour.models.oetf_reverse_BT709',
         ],
         [
-            'colour.oetf_reverse_sRGB',
-            'colour.models.oetf_reverse_sRGB',
+            'colour.eotf_sRGB',
+            'colour.models.eotf_sRGB',
         ],
         [
             'colour.oetf_RIMMRGB',
@@ -1164,8 +1164,8 @@ API_CHANGES = {
             'colour.models.oetf_SMPTE240M',
         ],
         [
-            'colour.oetf_sRGB',
-            'colour.models.oetf_sRGB',
+            'colour.eotf_reverse_sRGB',
+            'colour.models.eotf_reverse_sRGB',
         ],
         [
             'colour.oetf_ST2084',
@@ -1564,7 +1564,7 @@ API_CHANGES.update({
         ],
         [
             'colour.eotf_sRGB',
-            'colour.models.oetf_reverse_sRGB',
+            'colour.models.eotf_sRGB',
         ],
         [
             'colour.ALEXA_WIDE_GAMUT_RGB_COLOURSPACE',

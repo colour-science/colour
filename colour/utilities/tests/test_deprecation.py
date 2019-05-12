@@ -236,8 +236,10 @@ class TestGetAttribute(unittest.TestCase):
         from colour import adaptation
         self.assertIs(get_attribute('colour.adaptation'), adaptation)
 
-        from colour.models import oetf_sRGB
-        self.assertIs(get_attribute('colour.models.oetf_sRGB'), oetf_sRGB)
+        from colour.models import eotf_reverse_sRGB
+        self.assertIs(
+            get_attribute('colour.models.eotf_reverse_sRGB'),
+            eotf_reverse_sRGB)
 
         from colour.utilities.array import as_numeric
         self.assertIs(

@@ -33,7 +33,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, oetf_sRGB, oetf_reverse_sRGB)
+from colour.models.rgb import (RGB_Colourspace, eotf_reverse_sRGB, eotf_sRGB)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -102,8 +102,8 @@ sRGB_COLOURSPACE = RGB_Colourspace(
     sRGB_WHITEPOINT_NAME,
     sRGB_TO_XYZ_MATRIX,
     XYZ_TO_sRGB_MATRIX,
-    oetf_sRGB,
-    oetf_reverse_sRGB,
+    eotf_reverse_sRGB,
+    eotf_sRGB,
 )
 sRGB_COLOURSPACE.__doc__ = """
 *sRGB* colourspace.

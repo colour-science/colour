@@ -17,7 +17,7 @@ from itertools import permutations
 from colour.models import (
     RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB, RGB_to_XYZ,
     RGB_to_RGB_matrix, RGB_to_RGB, chromatically_adapted_primaries,
-    normalised_primary_matrix, oetf_sRGB, oetf_reverse_sRGB)
+    normalised_primary_matrix, eotf_reverse_sRGB, eotf_sRGB)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -386,7 +386,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
                     [3.24062548, -1.53720797, -0.49862860],
                     [-0.96893071, 1.87575606, 0.04151752],
                     [0.05571012, -0.20402105, 1.05699594],
-                ]), 'Bradford', oetf_sRGB),
+                ]), 'Bradford', eotf_reverse_sRGB),
             np.array([0.70556599, 0.19109268, 0.22340812]),
             decimal=7)
 
@@ -398,7 +398,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
                     [3.24062548, -1.53720797, -0.49862860],
                     [-0.96893071, 1.87575606, 0.04151752],
                     [0.05571012, -0.20402105, 1.05699594],
-                ]), None, oetf_sRGB),
+                ]), None, eotf_reverse_sRGB),
             np.array([0.72794579, 0.18180021, 0.17951580]),
             decimal=7)
 
@@ -441,19 +441,19 @@ class TestXYZ_to_RGB(unittest.TestCase):
             [-0.96893071, 1.87575606, 0.04151752],
             [0.05571012, -0.20402105, 1.05699594],
         ])
-        RGB = XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', oetf_sRGB)
+        RGB = XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', eotf_reverse_sRGB)
 
         XYZ = np.tile(XYZ, (6, 1))
         RGB = np.tile(RGB, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', oetf_sRGB),
+            XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', eotf_reverse_sRGB),
             RGB,
             decimal=7)
 
         W_R = np.tile(W_R, (6, 1))
         W_T = np.tile(W_T, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', oetf_sRGB),
+            XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', eotf_reverse_sRGB),
             RGB,
             decimal=7)
 
@@ -462,7 +462,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         W_T = np.reshape(W_T, (2, 3, 2))
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', oetf_sRGB),
+            XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', eotf_reverse_sRGB),
             RGB,
             decimal=7)
 
@@ -526,7 +526,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
                     [0.41240000, 0.35760000, 0.18050000],
                     [0.21260000, 0.71520000, 0.07220000],
                     [0.01930000, 0.11920000, 0.95050000],
-                ]), 'Bradford', oetf_reverse_sRGB),
+                ]), 'Bradford', eotf_sRGB),
             np.array([0.21638819, 0.12570000, 0.03847493]),
             decimal=7)
 
@@ -538,7 +538,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
                     [0.41240000, 0.35760000, 0.18050000],
                     [0.21260000, 0.71520000, 0.07220000],
                     [0.01930000, 0.11920000, 0.95050000],
-                ]), None, oetf_reverse_sRGB),
+                ]), None, eotf_sRGB),
             np.array([0.21638819, 0.12570000, 0.03847493]),
             decimal=7)
 
@@ -581,19 +581,19 @@ class TestRGB_to_XYZ(unittest.TestCase):
             [0.21260000, 0.71520000, 0.07220000],
             [0.01930000, 0.11920000, 0.95050000],
         ])
-        XYZ = RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', oetf_reverse_sRGB)
+        XYZ = RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', eotf_sRGB)
 
         RGB = np.tile(RGB, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', oetf_reverse_sRGB),
+            RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', eotf_sRGB),
             XYZ,
             decimal=7)
 
         W_R = np.tile(W_R, (6, 1))
         W_T = np.tile(W_T, (6, 1))
         np.testing.assert_almost_equal(
-            RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', oetf_reverse_sRGB),
+            RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', eotf_sRGB),
             XYZ,
             decimal=7)
 
@@ -602,7 +602,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
         W_T = np.reshape(W_T, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', oetf_reverse_sRGB),
+            RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', eotf_sRGB),
             XYZ,
             decimal=7)
 
