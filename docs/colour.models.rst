@@ -390,7 +390,6 @@ Opto-Electronic Transfer Functions
     oetf_RIMMRGB
     oetf_ROMMRGB
     oetf_SMPTE240M
-    oetf_ST2084
 
 **Ancillary Objects**
 
@@ -441,6 +440,7 @@ Electro-Optical Transfer Functions
     eotf_ROMMRGB
     eotf_SMPTE240M
     eotf_ST2084
+    eotf_reverse_ST2084
     eotf_sRGB
     eotf_reverse_sRGB
 

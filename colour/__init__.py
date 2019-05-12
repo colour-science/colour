@@ -1168,8 +1168,8 @@ API_CHANGES = {
             'colour.models.eotf_reverse_sRGB',
         ],
         [
-            'colour.oetf_ST2084',
-            'colour.models.oetf_ST2084',
+            'colour.eotf_reverse_ST2084',
+            'colour.models.eotf_reverse_ST2084',
         ],
         [
             'colour.ootf_BT2100_HLG',

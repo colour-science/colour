@@ -717,7 +717,7 @@ EOTFs Reverse
 .. code-block:: python
 
     >>> sorted(colour.EOTFS_REVERSE.keys())
-    ['DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'sRGB']
+    ['DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB']
 
 OOTFs
 *****

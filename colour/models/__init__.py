@@ -92,6 +92,10 @@ class models(ModuleAPI):
 API_CHANGES = {
     'Renamed': [
         [
+            'colour.models.oetf_ST2084',
+            'colour.models.eotf_reverse_ST2084',
+        ],
+        [
             'colour.models.oetf_sRGB',
             'colour.models.eotf_reverse_sRGB',
         ],

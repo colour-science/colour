@@ -44,7 +44,7 @@ import numpy as np
 
 from colour.models.rgb.transfer_functions import (
     eotf_BT1886, eotf_ST2084, eotf_reverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
-    oetf_ST2084, oetf_reverse_ARIBSTDB67, oetf_reverse_BT709)
+    eotf_reverse_ST2084, oetf_reverse_ARIBSTDB67, oetf_reverse_BT709)
 from colour.models.rgb.transfer_functions.arib_std_b67 import (
     ARIBSTDB67_CONSTANTS)
 from colour.utilities import (Structure, as_float_array, as_float,
@@ -112,7 +112,7 @@ def oetf_BT2100_PQ(E):
     0.7247698...
     """
 
-    return oetf_ST2084(ootf_BT2100_PQ(E), 10000)
+    return eotf_reverse_ST2084(ootf_BT2100_PQ(E), 10000)
 
 
 def oetf_reverse_BT2100_PQ(E_p):
@@ -251,7 +251,7 @@ def eotf_reverse_BT2100_PQ(F_D):
     0.7247698...
     """
 
-    return oetf_ST2084(F_D, 10000)
+    return eotf_reverse_ST2084(F_D, 10000)
 
 
 def ootf_BT2100_PQ(E):

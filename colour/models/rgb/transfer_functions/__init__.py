@@ -34,7 +34,7 @@ from .itur_bt_601 import oetf_BT601, oetf_reverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_reverse_BT709
 from .itur_bt_1886 import eotf_reverse_BT1886, eotf_BT1886
 from .itur_bt_2020 import oetf_BT2020, eotf_BT2020
-from .st_2084 import oetf_ST2084, eotf_ST2084
+from .st_2084 import eotf_reverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
     oetf_BT2100_PQ, oetf_reverse_BT2100_PQ, eotf_BT2100_PQ,
     eotf_reverse_BT2100_PQ, ootf_BT2100_PQ, ootf_reverse_BT2100_PQ,
@@ -82,7 +82,7 @@ __all__ += ['oetf_BT601', 'oetf_reverse_BT601']
 __all__ += ['oetf_BT709', 'oetf_reverse_BT709']
 __all__ += ['eotf_reverse_BT1886', 'eotf_BT1886']
 __all__ += ['oetf_BT2020', 'eotf_BT2020']
-__all__ += ['oetf_ST2084', 'eotf_ST2084']
+__all__ += ['eotf_reverse_ST2084', 'eotf_ST2084']
 __all__ += [
     'oetf_BT2100_PQ', 'oetf_reverse_BT2100_PQ', 'eotf_BT2100_PQ',
     'eotf_reverse_BT2100_PQ', 'ootf_BT2100_PQ', 'ootf_reverse_BT2100_PQ',
@@ -398,7 +398,6 @@ OETFS = CaseInsensitiveMapping({
     'RIMM RGB': oetf_RIMMRGB,
     'ROMM RGB': oetf_ROMMRGB,
     'SMPTE 240M': oetf_SMPTE240M,
-    'ST 2084': oetf_ST2084,
 })
 OETFS.__doc__ = """
 Supported opto-electrical transfer functions (OETFs / OECFs).
@@ -437,7 +436,7 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     L_p : numeric, optional
-        {:func:`colour.models.oetf_ST2084`},
+        {:func:`colour.models.eotf_reverse_ST2084`},
         Display peak luminance :math:`cd/m^2`.
     is_12_bits_system : bool
         {:func:`colour.models.oetf_BT2020`},
@@ -621,6 +620,7 @@ EOTFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.1886': eotf_reverse_BT1886,
     'ITU-R BT.2100 HLG': eotf_reverse_BT2100_HLG,
     'ITU-R BT.2100 PQ': eotf_reverse_BT2100_PQ,
+    'ST 2084': eotf_reverse_ST2084,
     'sRGB': eotf_reverse_sRGB,
 })
 EOTFS_REVERSE.__doc__ = """
@@ -628,7 +628,7 @@ Supported reverse electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTFS_REVERSE : CaseInsensitiveMapping
     **{'DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-    'sRGB'}**
+    'ST 2084', 'sRGB'}**
 """
 
 
@@ -644,7 +644,7 @@ def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
         Value.
     function : unicode, optional
         **{'ITU-R BT.1886', 'DCDM', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-        'sRGB'}**,
+        'ST 2084', 'sRGB'}**,
         Reverse electro-optical transfer function (EOTF / EOCF).
 
     Other Parameters
@@ -979,6 +979,10 @@ class transfer_functions(ModuleAPI):
 # v0.3.14
 API_CHANGES = {
     'Renamed': [
+        [
+            'colour.models.rgb.transfer_functions.oetf_ST2084',
+            'colour.models.rgb.transfer_functions.eotf_reverse_ST2084',
+        ],
         [
             'colour.models.rgb.transfer_functions.oetf_sRGB',
             'colour.models.rgb.transfer_functions.eotf_reverse_sRGB',
