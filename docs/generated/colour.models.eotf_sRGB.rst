@@ -1,6 +1,6 @@
-colour.models.oetf\_sRGB
+colour.models.eotf\_sRGB
 ========================
 
 .. currentmodule:: colour.models
 
-.. autofunction:: oetf_sRGB
+.. autofunction:: eotf_sRGB

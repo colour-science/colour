@@ -2,6 +2,11 @@
 
 from __future__ import absolute_import
 
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.documentation import is_documentation_building
+
 from functools import partial
 
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
@@ -29,7 +34,7 @@ from .itur_bt_601 import oetf_BT601, oetf_reverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_reverse_BT709
 from .itur_bt_1886 import eotf_reverse_BT1886, eotf_BT1886
 from .itur_bt_2020 import oetf_BT2020, eotf_BT2020
-from .st_2084 import oetf_ST2084, eotf_ST2084
+from .st_2084 import eotf_reverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
     oetf_BT2100_PQ, oetf_reverse_BT2100_PQ, eotf_BT2100_PQ,
     eotf_reverse_BT2100_PQ, ootf_BT2100_PQ, ootf_reverse_BT2100_PQ,
@@ -50,7 +55,7 @@ from .smpte_240m import oetf_SMPTE240M, eotf_SMPTE240M
 from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
                         log_encoding_SLog2, log_decoding_SLog2,
                         log_encoding_SLog3, log_decoding_SLog3)
-from .srgb import oetf_sRGB, oetf_reverse_sRGB
+from .srgb import eotf_reverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 
 __all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
@@ -77,7 +82,7 @@ __all__ += ['oetf_BT601', 'oetf_reverse_BT601']
 __all__ += ['oetf_BT709', 'oetf_reverse_BT709']
 __all__ += ['eotf_reverse_BT1886', 'eotf_BT1886']
 __all__ += ['oetf_BT2020', 'eotf_BT2020']
-__all__ += ['oetf_ST2084', 'eotf_ST2084']
+__all__ += ['eotf_reverse_ST2084', 'eotf_ST2084']
 __all__ += [
     'oetf_BT2100_PQ', 'oetf_reverse_BT2100_PQ', 'eotf_BT2100_PQ',
     'eotf_reverse_BT2100_PQ', 'ootf_BT2100_PQ', 'ootf_reverse_BT2100_PQ',
@@ -103,7 +108,7 @@ __all__ += [
     'log_encoding_SLog', 'log_decoding_SLog', 'log_encoding_SLog2',
     'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
 ]
-__all__ += ['oetf_sRGB', 'oetf_reverse_sRGB']
+__all__ += ['eotf_reverse_sRGB', 'eotf_sRGB']
 __all__ += ['log_encoding_ViperLog', 'log_decoding_ViperLog']
 
 LOG_ENCODING_CURVES = CaseInsensitiveMapping({
@@ -393,8 +398,6 @@ OETFS = CaseInsensitiveMapping({
     'RIMM RGB': oetf_RIMMRGB,
     'ROMM RGB': oetf_ROMMRGB,
     'SMPTE 240M': oetf_SMPTE240M,
-    'ST 2084': oetf_ST2084,
-    'sRGB': oetf_sRGB
 })
 OETFS.__doc__ = """
 Supported opto-electrical transfer functions (OETFs / OECFs).
@@ -406,7 +409,7 @@ OETFS : CaseInsensitiveMapping
 """
 
 
-def oetf(value, function='sRGB', **kwargs):
+def oetf(value, function='ITU-R BT.709', **kwargs):
     """
     Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given opto-electronic transfer function
@@ -417,10 +420,9 @@ def oetf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'ARIB STD-B67', 'DICOM GSDF', 'ITU-R BT.2020',
+        **{ 'ITU-R BT.709', 'ARIB STD-B67', 'DICOM GSDF', 'ITU-R BT.2020',
         'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601',
-        'ITU-R BT.709', 'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M',
-        'ST 2084'}**,
+        'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**,
         Opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
@@ -434,7 +436,7 @@ def oetf(value, function='sRGB', **kwargs):
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     L_p : numeric, optional
-        {:func:`colour.models.oetf_ST2084`},
+        {:func:`colour.models.eotf_reverse_ST2084`},
         Display peak luminance :math:`cd/m^2`.
     is_12_bits_system : bool
         {:func:`colour.models.oetf_BT2020`},
@@ -472,18 +474,17 @@ OETFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.2100 PQ': oetf_reverse_BT2100_PQ,
     'ITU-R BT.601': oetf_reverse_BT601,
     'ITU-R BT.709': oetf_reverse_BT709,
-    'sRGB': oetf_reverse_sRGB
 })
 OETFS_REVERSE.__doc__ = """
 Supported reverse opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS_REVERSE : CaseInsensitiveMapping
-    **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2100 HLD', 'ITU-R BT.2100 PQ',
+    **{'ARIB STD-B67', 'ITU-R BT.2100 HLD', 'ITU-R BT.2100 PQ',
     'ITU-R BT.601', 'ITU-R BT.709'}**
 """
 
 
-def oetf_reverse(value, function='sRGB', **kwargs):
+def oetf_reverse(value, function='ITU-R BT.709', **kwargs):
     """
     Decodes :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given reverse opto-electronic transfer function
@@ -494,8 +495,8 @@ def oetf_reverse(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2100 HLD', 'ITU-R BT.2100 PQ',
-        'ITU-R BT.601', 'ITU-R BT.709'}**,
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2100 HLD',
+        'ITU-R BT.2100 PQ', 'ITU-R BT.601', }**,
         Reverse opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
@@ -535,6 +536,7 @@ EOTFS = CaseInsensitiveMapping({
     'ROMM RGB': eotf_ROMMRGB,
     'SMPTE 240M': eotf_SMPTE240M,
     'ST 2084': eotf_ST2084,
+    'sRGB': eotf_sRGB,
 })
 EOTFS.__doc__ = """
 Supported electro-optical transfer functions (EOTFs / EOCFs).
@@ -542,7 +544,7 @@ Supported electro-optical transfer functions (EOTFs / EOCFs).
 EOTFS : CaseInsensitiveMapping
     **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
     'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ProPhoto RGB', 'RIMM RGB',
-    'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
+    'ROMM RGB', 'SMPTE 240M', 'ST 2084', 'sRGB'}**
 """
 
 
@@ -558,7 +560,7 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
     function : unicode, optional
         **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
         'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ProPhoto RGB', 'RIMM RGB',
-        'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**,
+        'ROMM RGB', 'SMPTE 240M', 'ST 2084', 'sRGB'}**,
         Electro-optical transfer function (EOTF / EOCF).
 
     Other Parameters
@@ -618,12 +620,15 @@ EOTFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.1886': eotf_reverse_BT1886,
     'ITU-R BT.2100 HLG': eotf_reverse_BT2100_HLG,
     'ITU-R BT.2100 PQ': eotf_reverse_BT2100_PQ,
+    'ST 2084': eotf_reverse_ST2084,
+    'sRGB': eotf_reverse_sRGB,
 })
 EOTFS_REVERSE.__doc__ = """
 Supported reverse electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTFS_REVERSE : CaseInsensitiveMapping
-    **{'DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
+    **{'DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+    'ST 2084', 'sRGB'}**
 """
 
 
@@ -638,7 +643,8 @@ def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.1886', 'DCDM', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**,
+        **{'ITU-R BT.1886', 'DCDM', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+        'ST 2084', 'sRGB'}**,
         Reverse electro-optical transfer function (EOTF / EOCF).
 
     Other Parameters
@@ -797,7 +803,7 @@ DECODING_CCTFS : CaseInsensitiveMapping
 """
 
 
-def decoding_cctf(value, function='Cineon', **kwargs):
+def decoding_cctf(value, function='sRGB', **kwargs):
     """
     Decodes non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
     given decoding colour component transfer function (Decoding CCTF).
@@ -960,3 +966,62 @@ def ootf_reverse(value, function='ITU-R BT.2100 PQ', **kwargs):
 
 __all__ += ['OOTFS', 'OOTFS_REVERSE']
 __all__ += ['ootf', 'ootf_reverse']
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class transfer_functions(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(transfer_functions, self).__getattr__(attribute)
+
+
+# v0.3.14
+API_CHANGES = {
+    'Renamed': [
+        [
+            'colour.models.rgb.transfer_functions.oetf_ST2084',
+            'colour.models.rgb.transfer_functions.eotf_reverse_ST2084',
+        ],
+        [
+            'colour.models.rgb.transfer_functions.oetf_sRGB',
+            'colour.models.rgb.transfer_functions.eotf_reverse_sRGB',
+        ],
+        [
+            'colour.models.rgb.transfer_functions.oetf_reverse_sRGB',
+            'colour.models.rgb.transfer_functions.eotf_sRGB',
+        ],
+    ]
+}
+"""
+Defines *colour.models.rgb.transfer_functions* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+
+def _setup_api_changes():
+    """
+    Setups *Colour* API changes.
+    """
+
+    global API_CHANGES
+
+    for renamed in API_CHANGES['Renamed']:
+        name, access = renamed
+        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
+    API_CHANGES.pop('Renamed')
+
+
+if not is_documentation_building():
+    _setup_api_changes()
+
+    del ModuleAPI
+    del Renamed
+    del is_documentation_building
+    del _setup_api_changes
+
+    sys.modules['colour.models.rgb.transfer_functions'] = transfer_functions(
+        sys.modules['colour.models.rgb.transfer_functions'], API_CHANGES)
+
+    del sys

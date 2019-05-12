@@ -2,6 +2,11 @@
 
 from __future__ import absolute_import
 
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.documentation import is_documentation_building
+
 from .cam02_ucs import (JMh_CIECAM02_to_CAM02LCD, CAM02LCD_to_JMh_CIECAM02,
                         JMh_CIECAM02_to_CAM02SCD, CAM02SCD_to_JMh_CIECAM02,
                         JMh_CIECAM02_to_CAM02UCS, CAM02UCS_to_JMh_CIECAM02)
@@ -73,3 +78,62 @@ __all__ += [
 ]
 __all__ += dataset.__all__
 __all__ += rgb.__all__
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class models(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(models, self).__getattr__(attribute)
+
+
+# v0.3.14
+API_CHANGES = {
+    'Renamed': [
+        [
+            'colour.models.oetf_ST2084',
+            'colour.models.eotf_reverse_ST2084',
+        ],
+        [
+            'colour.models.oetf_sRGB',
+            'colour.models.eotf_reverse_sRGB',
+        ],
+        [
+            'colour.models.oetf_reverse_sRGB',
+            'colour.models.eotf_sRGB',
+        ],
+    ]
+}
+"""
+Defines *colour.models* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+
+def _setup_api_changes():
+    """
+    Setups *Colour* API changes.
+    """
+
+    global API_CHANGES
+
+    for renamed in API_CHANGES['Renamed']:
+        name, access = renamed
+        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
+    API_CHANGES.pop('Renamed')
+
+
+if not is_documentation_building():
+    _setup_api_changes()
+
+    del ModuleAPI
+    del Renamed
+    del is_documentation_building
+    del _setup_api_changes
+
+    sys.modules['colour.models'] = models(sys.modules['colour.models'],
+                                          API_CHANGES)
+
+    del sys

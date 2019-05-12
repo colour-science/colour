@@ -704,9 +704,7 @@ OETFs
      'ProPhoto RGB',
      'RIMM RGB',
      'ROMM RGB',
-     'SMPTE 240M',
-     'ST 2084',
-     'sRGB']
+     'SMPTE 240M']
 
 OETFs Reverse
 *************
@@ -718,8 +716,7 @@ OETFs Reverse
      'ITU-R BT.2100 HLD',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
-     'ITU-R BT.709',
-     'sRGB']
+     'ITU-R BT.709']
 
 EOTFs
 *****
@@ -737,7 +734,8 @@ EOTFs
      'RIMM RGB',
      'ROMM RGB',
      'SMPTE 240M',
-     'ST 2084']
+     'ST 2084',
+     'sRGB']
 
 EOTFs Reverse
 *************
@@ -745,7 +743,7 @@ EOTFs Reverse
 .. code-block:: python
 
     >>> sorted(colour.EOTFS_REVERSE.keys())
-    ['DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
+    ['DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB']
 
 OOTFs
 *****
