@@ -297,7 +297,7 @@ Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png
 
 @override_style()
 def plot_single_sd_colour_quality_scale_bars(sd,
-                                             method='NIST CQS 7.4',
+                                             method='NIST CQS 9.0',
                                              **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
@@ -352,7 +352,7 @@ Plot_Single_SD_Colour_Quality_Scale_Bars.png
 
 @override_style()
 def plot_multi_sds_colour_quality_scales_bars(sds,
-                                              method='NIST CQS 7.4',
+                                              method='NIST CQS 9.0',
                                               **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminants or light
