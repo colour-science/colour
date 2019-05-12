@@ -2,11 +2,6 @@
 
 from __future__ import absolute_import
 
-import sys
-
-from colour.utilities.deprecation import ModuleAPI, Renamed
-from colour.utilities.documentation import is_documentation_building
-
 from functools import partial
 
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
@@ -420,7 +415,7 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{ 'ITU-R BT.709', 'ARIB STD-B67', 'DICOM GSDF', 'ITU-R BT.2020',
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'DICOM GSDF', 'ITU-R BT.2020',
         'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601',
         'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**,
         Opto-electronic transfer function (OETF / OECF).
@@ -435,9 +430,6 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
         :func:`colour.models.oetf_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
-    L_p : numeric, optional
-        {:func:`colour.models.eotf_reverse_ST2084`},
-        Display peak luminance :math:`cd/m^2`.
     is_12_bits_system : bool
         {:func:`colour.models.oetf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used
@@ -455,12 +447,9 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     Examples
     --------
     >>> oetf(0.18)  # doctest: +ELLIPSIS
-    0.4613561...
-    >>> oetf(0.18, function='ITU-R BT.2020')  # doctest: +ELLIPSIS
     0.4090077...
-    >>> oetf(0.18, function='ST 2084', L_p=1000)
-    ... # doctest: +ELLIPSIS
-    0.1820115...
+    >>> oetf(0.18, function='ITU-R BT.601')  # doctest: +ELLIPSIS
+    0.4090077...
     """
 
     function = OETFS[function]
@@ -512,7 +501,7 @@ def oetf_reverse(value, function='ITU-R BT.709', **kwargs):
 
     Examples
     --------
-    >>> oetf_reverse(0.461356129500442)  # doctest: +ELLIPSIS
+    >>> oetf_reverse(0.409007728864150)  # doctest: +ELLIPSIS
     0.1...
     >>> oetf_reverse(  # doctest: +ELLIPSIS
     ...     0.409007728864150, function='ITU-R BT.601')
@@ -661,6 +650,9 @@ def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
         {:func:`colour.models.eotf_BT2100_HLG`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    L_p : numeric, optional
+        {:func:`colour.models.eotf_reverse_ST2084`},
+        Display peak luminance :math:`cd/m^2`.
     out_int : bool, optional
         {:func:`colour.models.eotf_reverse_DCDM`},
         Whether to return value as integer code value or float equivalent of a
@@ -966,62 +958,3 @@ def ootf_reverse(value, function='ITU-R BT.2100 PQ', **kwargs):
 
 __all__ += ['OOTFS', 'OOTFS_REVERSE']
 __all__ += ['ootf', 'ootf_reverse']
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-class transfer_functions(ModuleAPI):
-    def __getattr__(self, attribute):
-        return super(transfer_functions, self).__getattr__(attribute)
-
-
-# v0.3.14
-API_CHANGES = {
-    'Renamed': [
-        [
-            'colour.models.rgb.transfer_functions.oetf_ST2084',
-            'colour.models.rgb.transfer_functions.eotf_reverse_ST2084',
-        ],
-        [
-            'colour.models.rgb.transfer_functions.oetf_sRGB',
-            'colour.models.rgb.transfer_functions.eotf_reverse_sRGB',
-        ],
-        [
-            'colour.models.rgb.transfer_functions.oetf_reverse_sRGB',
-            'colour.models.rgb.transfer_functions.eotf_sRGB',
-        ],
-    ]
-}
-"""
-Defines *colour.models.rgb.transfer_functions* sub-package API changes.
-
-API_CHANGES : dict
-"""
-
-
-def _setup_api_changes():
-    """
-    Setups *Colour* API changes.
-    """
-
-    global API_CHANGES
-
-    for renamed in API_CHANGES['Renamed']:
-        name, access = renamed
-        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
-    API_CHANGES.pop('Renamed')
-
-
-if not is_documentation_building():
-    _setup_api_changes()
-
-    del ModuleAPI
-    del Renamed
-    del is_documentation_building
-    del _setup_api_changes
-
-    sys.modules['colour.models.rgb.transfer_functions'] = transfer_functions(
-        sys.modules['colour.models.rgb.transfer_functions'], API_CHANGES)
-
-    del sys
