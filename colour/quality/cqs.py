@@ -471,7 +471,7 @@ def colour_quality_scales(test_data, reference_data, scaling_f, CCT_f):
         else:
             D_Ep_ab = D_E_ab
 
-        Q_a = scale_conversion(D_Ep_ab, scaling_f, CCT_f)
+        Q_a = scale_conversion(D_Ep_ab, CCT_f, scaling_f)
 
         Q_as[i + 1] = VS_ColourQualityScaleData(test_data[i].name, Q_a, D_C_ab,
                                                 D_E_ab, D_Ep_ab)
