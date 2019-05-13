@@ -526,7 +526,13 @@ def filter_kwargs(function, **kwargs):
     """
 
     kwargs = deepcopy(kwargs)
-    args, _varargs, _keywords, _defaults = inspect.getargspec(function)
+    # TODO: Remove "try/except" clause when dropping Python 2.7 and replac
+    # with "inspect.signature". "partial" functions cannot be inspected with
+    # "inspect.getargspec" in Python 2.7 and raise a ValueError.
+    try:
+        args, _varargs, _keywords, _defaults = inspect.getargspec(function)
+    except (TypeError, ValueError):
+        return {}
 
     args = set(kwargs.keys()) - set(args)
     for key in args:
