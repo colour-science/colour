@@ -58,8 +58,16 @@ def eotf_reverse_DCDM(XYZ, out_int=False):
     numeric or ndarray
         Non-linear *CIE XYZ'* tristimulus values.
 
+    Warnings
+    --------
+    *DCDM* is an absolute transfer function.
+
     Notes
     -----
+
+    -   *DCDM* is an absolute transfer function, thus the domain and range
+        values for the *Reference* and *1* scales are only indicative that the
+        data is not affected by scale transformations.
 
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
@@ -115,8 +123,16 @@ def eotf_DCDM(XYZ_p, in_int=False):
     numeric or ndarray
         *CIE XYZ* tristimulus values.
 
+    Warnings
+    --------
+    *DCDM* is an absolute transfer function.
+
     Notes
     -----
+
+    -   *DCDM* is an absolute transfer function, thus the domain and range
+        values for the *Reference* and *1* scales are only indicative that the
+        data is not affected by scale transformations.
 
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
