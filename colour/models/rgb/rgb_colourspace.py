@@ -39,8 +39,8 @@ from colour.models.rgb import (chromatically_adapted_primaries,
                                normalised_primary_matrix)
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import (as_float_array, domain_range_scale, dot_matrix,
-                              dot_vector, from_range_1, to_domain_1, is_string,
-                              runtime_warning)
+                              dot_vector, filter_kwargs, from_range_1,
+                              to_domain_1, is_string, runtime_warning)
 from colour.utilities.deprecation import Renamed
 
 __author__ = 'Colour Developers'
@@ -1119,7 +1119,8 @@ def RGB_to_RGB(RGB,
                output_colourspace,
                chromatic_adaptation_transform='CAT02',
                apply_decoding_cctf=False,
-               apply_encoding_cctf=False):
+               apply_encoding_cctf=False,
+               **kwargs):
     """
     Converts given *RGB* colourspace array from given input *RGB* colourspace
     to output *RGB* colourspace using given *chromatic adaptation* method.
@@ -1144,6 +1145,11 @@ def RGB_to_RGB(RGB,
     apply_encoding_cctf : bool, optional
         Apply output colourspace encoding colour component transfer function /
         opto-electronic transfer function.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for the colour component transfer functions.
 
     Returns
     -------
@@ -1178,7 +1184,9 @@ def RGB_to_RGB(RGB,
 
     if apply_decoding_cctf:
         with domain_range_scale('ignore'):
-            RGB = input_colourspace.decoding_cctf(RGB)
+            RGB = input_colourspace.decoding_cctf(
+                RGB, **filter_kwargs(input_colourspace.decoding_cctf,
+                                     **kwargs))
 
     M = RGB_to_RGB_matrix(input_colourspace, output_colourspace,
                           chromatic_adaptation_transform)
@@ -1187,6 +1195,8 @@ def RGB_to_RGB(RGB,
 
     if apply_encoding_cctf:
         with domain_range_scale('ignore'):
-            RGB = output_colourspace.encoding_cctf(RGB)
+            RGB = output_colourspace.encoding_cctf(
+                RGB, **filter_kwargs(output_colourspace.encoding_cctf,
+                                     **kwargs))
 
     return from_range_1(RGB)
