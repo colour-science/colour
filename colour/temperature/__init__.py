@@ -94,10 +94,8 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     Examples
     --------
     >>> import numpy as np
-    >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> uv = np.array([0.1978, 0.3122])
-    >>> uv_to_CCT(uv, cmfs=cmfs)  # doctest: +ELLIPSIS
+    >>> uv_to_CCT(uv)  # doctest: +ELLIPSIS
     array([  6.5074738...e+03,   3.2233461...e-03])
     """
 
@@ -164,10 +162,8 @@ def CCT_to_uv(CCT_D_uv, method='Ohno 2013', **kwargs):
     Examples
     --------
     >>> import numpy as np
-    >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> CCT_D_uv = np.array([6507.47380460, 0.00322335])
-    >>> CCT_to_uv(CCT_D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
+    >>> CCT_to_uv(CCT_D_uv)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3121999...])
     """
 
