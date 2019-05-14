@@ -10,7 +10,7 @@ import unittest
 
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
                                 STANDARD_OBSERVERS_CMFS, SpectralShape,
-                                sd_to_XYZ_integration)
+                                ILLUMINANTS_SDS, sd_to_XYZ_integration)
 from colour.recovery import XYZ_to_sd_Meng2015
 from colour.utilities import domain_range_scale
 
@@ -43,8 +43,8 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
         XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(
-                XYZ_to_sd_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c) / 100,
+            sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ, cmfs_c), cmfs_c) /
+            100,
             XYZ,
             decimal=7)
 
@@ -52,8 +52,15 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         cmfs_c = cmfs.copy().align(shape)
 
         np.testing.assert_almost_equal(
+            sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ, cmfs_c), cmfs_c) /
+            100,
+            XYZ,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
             sd_to_XYZ_integration(
-                XYZ_to_sd_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c) / 100,
+                XYZ_to_sd_Meng2015(XYZ, cmfs_c, ILLUMINANTS_SDS['D65']),
+                cmfs_c, ILLUMINANTS_SDS['D65']) / 100,
             XYZ,
             decimal=7)
 
@@ -61,19 +68,18 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(
                     XYZ,
-                    cmfs=cmfs_c,
+                    cmfs_c,
                     optimisation_parameters={'options': {
                         'ftol': 1e-10,
-                    }}),
-                cmfs=cmfs_c) / 100,
+                    }}), cmfs_c) / 100,
             XYZ,
             decimal=7)
 
         shape = SpectralShape(400, 700, 5)
         cmfs_c = cmfs.copy().align(shape)
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(
-                XYZ_to_sd_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c) / 100,
+            sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ, cmfs_c), cmfs_c) /
+            100,
             XYZ,
             decimal=7)
 
