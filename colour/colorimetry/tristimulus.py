@@ -400,9 +400,9 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
 def sd_to_XYZ_integration(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
-            'CIE 1931 2 Degree Standard Observer'].shape),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        copy().trim(DEFAULT_SPECTRAL_SHAPE),
+        illuminant=sd_ones(),
         k=None):
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values
@@ -511,7 +511,8 @@ def sd_to_XYZ_integration(
 
 def sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        copy().trim(ASTME30815_PRACTISE_SHAPE),
         illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
         k=None):
     """
@@ -619,7 +620,8 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 
 def sd_to_XYZ_ASTME30815(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        copy().trim(ASTME30815_PRACTISE_SHAPE),
         illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
         use_practice_range=True,
         mi_5nm_omission_method=True,
@@ -755,8 +757,8 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
         sd.align(SpectralShape(sd.shape.start - 20, sd.shape.end + 20, 10))
         for i in range(2):
             sd[sd.wavelengths[i]] = (
-                3 * sd.values[i + 2] -
-                3 * sd.values[i + 4] + sd.values[i + 6])  # yapf: disable
+                    3 * sd.values[i + 2] -
+                    3 * sd.values[i + 4] + sd.values[i + 6])  # yapf: disable
             i_e = len(sd.domain) - 1 - i
             sd[sd.wavelengths[i_e]] = (
                 sd.values[i_e - 6] - 3 * sd.values[i_e - 4] +
@@ -802,8 +804,9 @@ SD_TO_XYZ_METHODS['astm2015'] = (SD_TO_XYZ_METHODS['ASTM E308-15'])
 
 def sd_to_XYZ(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        copy().trim(DEFAULT_SPECTRAL_SHAPE),
+        illuminant=sd_ones(),
         k=None,
         method='ASTM E308-15',
         **kwargs):
@@ -920,9 +923,9 @@ def sd_to_XYZ(
 def multi_sds_to_XYZ_integration(
         msd,
         shape,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
-            'CIE 1931 2 Degree Standard Observer'].shape),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        copy().trim(DEFAULT_SPECTRAL_SHAPE),
+        illuminant=sd_ones(),
         k=None):
     """
     Converts given multi-spectral distribution array :math:`msd` with given
@@ -1044,9 +1047,8 @@ def multi_sds_to_XYZ_integration(
     return from_range_100(np.rollaxis(XYZ, 0, msd.ndim))
 
 
-MULTI_SD_TO_XYZ_METHODS = CaseInsensitiveMapping({
-    'Integration': multi_sds_to_XYZ_integration
-})
+MULTI_SD_TO_XYZ_METHODS = CaseInsensitiveMapping(
+    {'Integration': multi_sds_to_XYZ_integration})
 MULTI_SD_TO_XYZ_METHODS.__doc__ = """
 Supported multi-spectral array to *CIE XYZ* tristimulus values conversion
 methods.
@@ -1063,8 +1065,9 @@ MULTI_SD_TO_XYZ_METHODS : CaseInsensitiveMapping
 def multi_sds_to_XYZ(
         msd,
         shape=DEFAULT_SPECTRAL_SHAPE,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        copy().trim(DEFAULT_SPECTRAL_SHAPE),
+        illuminant=sd_ones(),
         method='Integration',
         **kwargs):
     """

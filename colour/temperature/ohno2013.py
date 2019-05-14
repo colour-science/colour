@@ -31,7 +31,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (ASTME30815_PRACTISE_SHAPE,
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
                                 STANDARD_OBSERVERS_CMFS, sd_blackbody,
                                 sd_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
@@ -86,9 +86,12 @@ def planckian_table(uv, cmfs, start, end, count):
 
     Examples
     --------
-    >>> from colour import STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
     >>> from pprint import pprint
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = (
+    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
+    ... )
     >>> uv = np.array([0.1978, 0.3122])
     >>> pprint(planckian_table(uv, cmfs, 1000, 1010, 10))
     ... # doctest: +ELLIPSIS
@@ -116,7 +119,7 @@ ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
 
     ux, vx = uv
 
-    cmfs = cmfs.copy().trim(ASTME30815_PRACTISE_SHAPE)
+    cmfs = cmfs.copy().trim(DEFAULT_SPECTRAL_SHAPE)
 
     shape = cmfs.shape
 
@@ -150,8 +153,11 @@ def planckian_table_minimal_distance_index(planckian_table_):
 
     Examples
     --------
-    >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> cmfs = (
+    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
+    ... )
     >>> uv = np.array([0.1978, 0.3122])
     >>> table = planckian_table(uv, cmfs, 1000, 1010, 10)
     >>> planckian_table_minimal_distance_index(table)
@@ -164,7 +170,8 @@ def planckian_table_minimal_distance_index(planckian_table_):
 
 def _uv_to_CCT_Ohno2013(
         uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        copy().trim(DEFAULT_SPECTRAL_SHAPE),
         start=CCT_MINIMAL,
         end=CCT_MAXIMAL,
         count=CCT_SAMPLES,
@@ -297,8 +304,11 @@ def uv_to_CCT_Ohno2013(
 
     Examples
     --------
-    >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> cmfs = (
+    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
+    ... )
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
     array([  6.5074738...e+03,   3.2233461...e-03])
@@ -337,7 +347,7 @@ def _CCT_to_uv_Ohno2013(
 
     CCT, D_uv = tsplit(CCT_D_uv)
 
-    cmfs = cmfs.copy().trim(ASTME30815_PRACTISE_SHAPE)
+    cmfs = cmfs.copy().trim(DEFAULT_SPECTRAL_SHAPE)
 
     shape = cmfs.shape
 
@@ -393,8 +403,11 @@ def CCT_to_uv_Ohno2013(
 
     Examples
     --------
-    >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> cmfs = (
+    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
+    ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
     >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3122004...])

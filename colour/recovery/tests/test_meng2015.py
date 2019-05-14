@@ -8,7 +8,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (STANDARD_OBSERVERS_CMFS, SpectralShape,
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
+                                STANDARD_OBSERVERS_CMFS, SpectralShape,
                                 sd_to_XYZ_integration)
 from colour.recovery import XYZ_to_sd_Meng2015
 from colour.utilities import domain_range_scale
@@ -35,13 +36,15 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         definition.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs = (STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+                copy().trim(DEFAULT_SPECTRAL_SHAPE))
         shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, 5)
         cmfs_c = cmfs.copy().align(shape)
 
         XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ), cmfs=cmfs_c) / 100,
+            sd_to_XYZ_integration(
+                XYZ_to_sd_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
 
@@ -50,7 +53,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_integration(
-                XYZ_to_sd_Meng2015(XYZ, interval=10), cmfs=cmfs_c) / 100,
+                XYZ_to_sd_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
 
@@ -58,12 +61,10 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(
                     XYZ,
-                    interval=10,
-                    optimisation_parameters={
-                        'options': {
-                            'ftol': 1e-10,
-                        }
-                    }),
+                    cmfs=cmfs_c,
+                    optimisation_parameters={'options': {
+                        'ftol': 1e-10,
+                    }}),
                 cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
