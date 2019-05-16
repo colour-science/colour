@@ -30,8 +30,8 @@ References
 ----------
 -   :cite:`Borer2017a` : Borer, T. (2017). Private Discussion with
     Mansencal, T. and Shaw, N.
--   :cite:`InternationalTelecommunicationUnion2016a` : International
-    Telecommunication Union. (2016). Recommendation ITU-R BT.2100-1 - Image
+-   :cite:`InternationalTelecommunicationUnion2017` : International
+    Telecommunication Union. (2017). Recommendation ITU-R BT.2100-1 - Image
     parameter values for high dynamic range television for use in production
     and international programme exchange. Retrieved from
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
@@ -104,7 +104,7 @@ def oetf_BT2100_PQ(E):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -149,7 +149,7 @@ def oetf_reverse_BT2100_PQ(E_p):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -197,7 +197,7 @@ def eotf_BT2100_PQ(E_p):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -243,7 +243,7 @@ def eotf_reverse_BT2100_PQ(F_D):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -290,7 +290,7 @@ def ootf_BT2100_PQ(E):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -337,7 +337,7 @@ def ootf_reverse_BT2100_PQ(F_D):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -370,7 +370,7 @@ Those constants are not currently in use and are provided as a reference only.
 
 References
 ----------
-:cite:`InternationalTelecommunicationUnion2016a`
+:cite:`InternationalTelecommunicationUnion2017`
 
 BT2100_HLG_CONSTANTS : Structure
 """
@@ -444,7 +444,7 @@ def oetf_BT2100_HLG(E):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -489,7 +489,7 @@ def oetf_reverse_BT2100_HLG(E):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -545,7 +545,7 @@ def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -599,7 +599,7 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -655,7 +655,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
@@ -738,7 +738,7 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
 
     References
     ----------
-    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
 
     Examples
     --------
