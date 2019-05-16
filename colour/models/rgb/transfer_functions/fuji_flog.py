@@ -191,8 +191,8 @@ def log_decoding_FLog(F_out,
 
     L_in = np.where(
         F_out < cut2,
-        (L_in - f) / e,
-        (10 ** ((L_in - d) / c)) / a - b / a
+        (F_out - f) / e,
+        (10 ** ((F_out - d) / c)) / a - b / a
     )
 
     if not out_reflection:
