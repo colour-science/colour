@@ -97,7 +97,7 @@ def log_encoding_FLog(L_in,
     Examples
     --------
     >>> log_encoding_FLog(0.18)  # doctest: +ELLIPSIS
-    0.4233114... TODO CHANGE TO PROPER FUJI VALUE
+    0.46333651051465585...
     """
 
     L_in = to_domain_1(L_in)
@@ -173,8 +173,8 @@ def log_decoding_FLog(F_out,
 
     Examples
     --------
-    >>> log_decoding_FLog(0.423311448760136)  # doctest: +ELLIPSIS
-    0.1799999... TODO ADD FUJI VALUE
+    >>> log_decoding_FLog(0.46333651051465585)  # doctest: +ELLIPSIS
+    0.18000000000000002...
     """
 
     F_out = to_domain_1(F_out)
