@@ -512,7 +512,9 @@ Log Encoding and Decoding Curves
     log_decoding_Cineon
     log_encoding_ERIMMRGB
     log_decoding_ERIMMRGB
+    LOG3G10_ENCODING_METHODS
     log_encoding_Log3G10
+    LOG3G10_DECODING_METHODS
     log_decoding_Log3G10
     log_encoding_Log3G12
     log_decoding_Log3G12

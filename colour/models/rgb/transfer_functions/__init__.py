@@ -41,6 +41,7 @@ from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
 from .red_log import (log_encoding_REDLog, log_decoding_REDLog,
                       log_encoding_REDLogFilm, log_decoding_REDLogFilm,
+                      LOG3G10_ENCODING_METHODS, LOG3G10_DECODING_METHODS,
                       log_encoding_Log3G10, log_decoding_Log3G10,
                       log_encoding_Log3G12, log_decoding_Log3G12)
 from .rimm_romm_rgb import (oetf_ROMMRGB, eotf_ROMMRGB, oetf_ProPhotoRGB,
@@ -90,7 +91,8 @@ __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
 __all__ += [
     'log_encoding_REDLog', 'log_decoding_REDLog', 'log_encoding_REDLogFilm',
-    'log_decoding_REDLogFilm', 'log_encoding_Log3G10', 'log_decoding_Log3G10',
+    'log_decoding_REDLogFilm', 'LOG3G10_ENCODING_METHODS',
+    'LOG3G10_DECODING_METHODS', 'log_encoding_Log3G10', 'log_decoding_Log3G10',
     'log_encoding_Log3G12', 'log_decoding_Log3G12'
 ]
 __all__ += [
@@ -204,6 +206,9 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
     log_reference : numeric or array_like
         {:func:`colour.models.log_encoding_PivotedLog`},
         Log reference.
+    method : unicode, optional
+        {:func:`colour.models.log_encoding_Log3G10`},
+        Whether to use the *Log3G10* *v1* or *v2* log encoding curve.
     out_legal : bool, optional
         {:func:`colour.models.log_encoding_SLog`,
         :func:`colour.models.log_encoding_SLog2`,
@@ -341,6 +346,9 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
     log_reference : numeric or array_like
         {:func:`colour.models.log_decoding_PivotedLog`},
         Log reference.
+    method : unicode, optional
+        {:func:`colour.models.log_decoding_Log3G10`},
+        Whether to use the *Log3G10* *v1* or *v2* log encoding curve.
     negative_gamma : numeric or array_like
         {:func:`colour.models.log_decoding_PivotedLog`},
         Negative gamma.
