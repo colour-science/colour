@@ -448,7 +448,7 @@ methods.
 
 References
 ----------
- :cite:`Nattress2016a`
+:cite:`Nattress2016a`
 
 LOG3G10_ENCODING_METHODS : CaseInsensitiveMapping
     **{'v1', 'v2'}**
@@ -542,7 +542,7 @@ methods.
 
 References
 ----------
- :cite:`Nattress2016a`
+:cite:`Nattress2016a`
 
 LOG3G10_DECODING_METHODS : CaseInsensitiveMapping
     **{'v1', 'v2'}**
