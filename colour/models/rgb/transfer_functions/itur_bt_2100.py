@@ -7,12 +7,12 @@ Defines *ITU-R BT.2100* opto-electrical transfer functions (OETF / OECF),
 opto-optical transfer functions (OOTF / OOCF) and electro-optical transfer
 functions (EOTF / EOCF) and their reverse:
 
--   :func:`colour.models.oetf_BT2100_PQ`
--   :func:`colour.models.oetf_reverse_BT2100_PQ`
--   :func:`colour.models.eotf_BT2100_PQ`
--   :func:`colour.models.eotf_reverse_BT2100_PQ`
--   :func:`colour.models.ootf_BT2100_PQ`
--   :func:`colour.models.ootf_reverse_BT2100_PQ`
+-   :func:`colour.models.oetf_PQ_BT2100`
+-   :func:`colour.models.oetf_reverse_PQ_BT2100`
+-   :func:`colour.models.eotf_PQ_BT2100`
+-   :func:`colour.models.eotf_reverse_PQ_BT2100`
+-   :func:`colour.models.ootf_PQ_BT2100`
+-   :func:`colour.models.ootf_reverse_PQ_BT2100`
 -   :func:`colour.models.oetf_BT2100_HLG`
 -   :func:`colour.models.oetf_reverse_BT2100_HLG`
 -   :func:`colour.models.eotf_BT2100_HLG`
@@ -59,15 +59,15 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'oetf_BT2100_PQ', 'oetf_reverse_BT2100_PQ', 'eotf_BT2100_PQ',
-    'eotf_reverse_BT2100_PQ', 'ootf_BT2100_PQ', 'ootf_reverse_BT2100_PQ',
+    'oetf_PQ_BT2100', 'oetf_reverse_PQ_BT2100', 'eotf_PQ_BT2100',
+    'eotf_reverse_PQ_BT2100', 'ootf_PQ_BT2100', 'ootf_reverse_PQ_BT2100',
     'BT2100_HLG_WEIGHTS', 'BT2100_HLG_CONSTANTS', 'gamma_function_BT2100_HLG',
     'oetf_BT2100_HLG', 'oetf_reverse_BT2100_HLG', 'eotf_BT2100_HLG',
     'eotf_reverse_BT2100_HLG', 'ootf_BT2100_HLG', 'ootf_reverse_BT2100_HLG'
 ]
 
 
-def oetf_BT2100_PQ(E):
+def oetf_PQ_BT2100(E):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference PQ* opto-electrical
     transfer function (OETF / OECF).
@@ -108,14 +108,14 @@ def oetf_BT2100_PQ(E):
 
     Examples
     --------
-    >>> oetf_BT2100_PQ(0.1)  # doctest: +ELLIPSIS
+    >>> oetf_PQ_BT2100(0.1)  # doctest: +ELLIPSIS
     0.7247698...
     """
 
-    return eotf_reverse_ST2084(ootf_BT2100_PQ(E), 10000)
+    return eotf_reverse_ST2084(ootf_PQ_BT2100(E), 10000)
 
 
-def oetf_reverse_BT2100_PQ(E_p):
+def oetf_reverse_PQ_BT2100(E_p):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference PQ* reverse
     opto-electrical transfer function (OETF / OECF).
@@ -153,14 +153,14 @@ def oetf_reverse_BT2100_PQ(E_p):
 
     Examples
     --------
-    >>> oetf_reverse_BT2100_PQ(0.724769816665726)  # doctest: +ELLIPSIS
+    >>> oetf_reverse_PQ_BT2100(0.724769816665726)  # doctest: +ELLIPSIS
     0.0999999...
     """
 
-    return ootf_reverse_BT2100_PQ(eotf_ST2084(E_p, 10000))
+    return ootf_reverse_PQ_BT2100(eotf_ST2084(E_p, 10000))
 
 
-def eotf_BT2100_PQ(E_p):
+def eotf_PQ_BT2100(E_p):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference PQ* electro-optical
     transfer function (EOTF / EOCF).
@@ -201,14 +201,14 @@ def eotf_BT2100_PQ(E_p):
 
     Examples
     --------
-    >>> eotf_BT2100_PQ(0.724769816665726)  # doctest: +ELLIPSIS
+    >>> eotf_PQ_BT2100(0.724769816665726)  # doctest: +ELLIPSIS
     779.9883608...
     """
 
     return eotf_ST2084(E_p, 10000)
 
 
-def eotf_reverse_BT2100_PQ(F_D):
+def eotf_reverse_PQ_BT2100(F_D):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference PQ* reverse
     electro-optical transfer function (EOTF / EOCF).
@@ -247,14 +247,14 @@ def eotf_reverse_BT2100_PQ(F_D):
 
     Examples
     --------
-    >>> eotf_reverse_BT2100_PQ(779.988360834085370)  # doctest: +ELLIPSIS
+    >>> eotf_reverse_PQ_BT2100(779.988360834085370)  # doctest: +ELLIPSIS
     0.7247698...
     """
 
     return eotf_reverse_ST2084(F_D, 10000)
 
 
-def ootf_BT2100_PQ(E):
+def ootf_PQ_BT2100(E):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference PQ* opto-optical transfer
     function (OOTF / OOCF).
@@ -294,7 +294,7 @@ def ootf_BT2100_PQ(E):
 
     Examples
     --------
-    >>> ootf_BT2100_PQ(0.1)  # doctest: +ELLIPSIS
+    >>> ootf_PQ_BT2100(0.1)  # doctest: +ELLIPSIS
     779.9883608...
     """
 
@@ -303,7 +303,7 @@ def ootf_BT2100_PQ(E):
     return 100 * eotf_BT1886(oetf_BT709(59.5208 * E))
 
 
-def ootf_reverse_BT2100_PQ(F_D):
+def ootf_reverse_PQ_BT2100(F_D):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference PQ* reverse opto-optical
     transfer function (OOTF / OOCF).
@@ -341,7 +341,7 @@ def ootf_reverse_BT2100_PQ(F_D):
 
     Examples
     --------
-    >>> ootf_reverse_BT2100_PQ(779.988360834115840)  # doctest: +ELLIPSIS
+    >>> ootf_reverse_PQ_BT2100(779.988360834115840)  # doctest: +ELLIPSIS
     0.1000000...
     """
 

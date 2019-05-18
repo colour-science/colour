@@ -380,8 +380,8 @@ Opto-Electronic Transfer Functions
     oetf_BT2020
     oetf_BT2100_HLG
     oetf_reverse_BT2100_HLG
-    oetf_BT2100_PQ
-    oetf_reverse_BT2100_PQ
+    oetf_PQ_BT2100
+    oetf_reverse_PQ_BT2100
     oetf_BT601
     oetf_reverse_BT601
     oetf_BT709
@@ -433,8 +433,8 @@ Electro-Optical Transfer Functions
     eotf_BT2020
     eotf_BT2100_HLG
     eotf_reverse_BT2100_HLG
-    eotf_BT2100_PQ
-    eotf_reverse_BT2100_PQ
+    eotf_PQ_BT2100
+    eotf_reverse_PQ_BT2100
     eotf_ProPhotoRGB
     eotf_RIMMRGB
     eotf_ROMMRGB
@@ -469,8 +469,8 @@ Opto-Optical Transfer Functions
 
     ootf_BT2100_HLG
     ootf_reverse_BT2100_HLG
-    ootf_BT2100_PQ
-    ootf_reverse_BT2100_PQ
+    ootf_PQ_BT2100
+    ootf_reverse_PQ_BT2100
 
 Log Encoding and Decoding Curves
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

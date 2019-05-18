@@ -10,8 +10,8 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    oetf_BT2100_PQ, oetf_reverse_BT2100_PQ, eotf_BT2100_PQ,
-    eotf_reverse_BT2100_PQ, ootf_BT2100_PQ, ootf_reverse_BT2100_PQ,
+    oetf_PQ_BT2100, oetf_reverse_PQ_BT2100, eotf_PQ_BT2100,
+    eotf_reverse_PQ_BT2100, ootf_PQ_BT2100, ootf_reverse_PQ_BT2100,
     oetf_BT2100_HLG, oetf_reverse_BT2100_HLG, eotf_BT2100_HLG,
     eotf_reverse_BT2100_HLG, ootf_BT2100_HLG, ootf_reverse_BT2100_HLG)
 from colour.models.rgb.transfer_functions.itur_bt_2100 import (
@@ -26,429 +26,429 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestOetf_BT2100_PQ', 'TestOetf_reverse_BT2100_PQ', 'TestEotf_BT2100_PQ',
-    'TestEotf_reverse_BT2100_PQ', 'TestOotf_BT2100_PQ',
-    'TestOotf_reverse_BT2100_PQ', 'TestGamma_function_BT2100_HLG',
+    'TestOetf_PQ_BT2100', 'TestOetf_reverse_PQ_BT2100', 'TestEotf_PQ_BT2100',
+    'TestEotf_reverse_PQ_BT2100', 'TestOotf_PQ_BT2100',
+    'TestOotf_reverse_PQ_BT2100', 'TestGamma_function_BT2100_HLG',
     'TestOetf_BT2100_HLG', 'TestOetf_reverse_BT2100_HLG',
     'TestEotf_BT2100_HLG', 'TestEotf_reverse_BT2100_HLG',
     'TestOotf_BT2100_HLG', 'TestOotf_reverse_BT2100_HLG'
 ]
 
 
-class TestOetf_BT2100_PQ(unittest.TestCase):
+class TestOetf_PQ_BT2100(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_BT2100_PQ` definition unit tests methods.
+oetf_PQ_BT2100` definition unit tests methods.
     """
 
-    def test_oetf_BT2100_PQ(self):
+    def test_oetf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_BT2100_PQ` definition.
+oetf_PQ_BT2100` definition.
         """
 
         self.assertAlmostEqual(
-            oetf_BT2100_PQ(0.0), 0.000000730955903, places=7)
+            oetf_PQ_BT2100(0.0), 0.000000730955903, places=7)
 
         self.assertAlmostEqual(
-            oetf_BT2100_PQ(0.1), 0.724769816665726, places=7)
+            oetf_PQ_BT2100(0.1), 0.724769816665726, places=7)
 
         self.assertAlmostEqual(
-            oetf_BT2100_PQ(1.0), 0.999999934308041, places=7)
+            oetf_PQ_BT2100(1.0), 0.999999934308041, places=7)
 
-    def test_n_dimensional_oetf_BT2100_PQ(self):
+    def test_n_dimensional_oetf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_BT2100_PQ` definition n-dimensional arrays support.
+oetf_PQ_BT2100` definition n-dimensional arrays support.
         """
 
         E = 0.1
-        E_p = oetf_BT2100_PQ(E)
+        E_p = oetf_PQ_BT2100(E)
 
         E = np.tile(E, 6)
         E_p = np.tile(E_p, 6)
-        np.testing.assert_almost_equal(oetf_BT2100_PQ(E), E_p, decimal=7)
+        np.testing.assert_almost_equal(oetf_PQ_BT2100(E), E_p, decimal=7)
 
         E = np.reshape(E, (2, 3))
         E_p = np.reshape(E_p, (2, 3))
-        np.testing.assert_almost_equal(oetf_BT2100_PQ(E), E_p, decimal=7)
+        np.testing.assert_almost_equal(oetf_PQ_BT2100(E), E_p, decimal=7)
 
         E = np.reshape(E, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_BT2100_PQ(E), E_p, decimal=7)
+        np.testing.assert_almost_equal(oetf_PQ_BT2100(E), E_p, decimal=7)
 
-    def test_domain_range_scale_oetf_BT2100_PQ(self):
+    def test_domain_range_scale_oetf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_BT2100_PQ` definition domain and range scale support.
+oetf_PQ_BT2100` definition domain and range scale support.
         """
 
         E = 0.1
-        E_p = oetf_BT2100_PQ(E)
+        E_p = oetf_PQ_BT2100(E)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    oetf_BT2100_PQ(E * factor), E_p * factor, decimal=7)
+                    oetf_PQ_BT2100(E * factor), E_p * factor, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_oetf_BT2100_PQ(self):
+    def test_nan_oetf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_BT2100_PQ` definition nan support.
+oetf_PQ_BT2100` definition nan support.
         """
 
-        oetf_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        oetf_PQ_BT2100(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOetf_reverse_BT2100_PQ(unittest.TestCase):
+class TestOetf_reverse_PQ_BT2100(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_reverse_BT2100_PQ` definition unit tests methods.
+oetf_reverse_PQ_BT2100` definition unit tests methods.
     """
 
-    def test_oetf_reverse_BT2100_PQ(self):
+    def test_oetf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_reverse_BT2100_PQ` definition.
+oetf_reverse_PQ_BT2100` definition.
         """
 
         self.assertAlmostEqual(
-            oetf_reverse_BT2100_PQ(0.000000730955903), 0.0, places=7)
+            oetf_reverse_PQ_BT2100(0.000000730955903), 0.0, places=7)
 
         self.assertAlmostEqual(
-            oetf_reverse_BT2100_PQ(0.724769816665726), 0.1, places=7)
+            oetf_reverse_PQ_BT2100(0.724769816665726), 0.1, places=7)
 
         self.assertAlmostEqual(
-            oetf_reverse_BT2100_PQ(0.999999934308041), 1.0, places=7)
+            oetf_reverse_PQ_BT2100(0.999999934308041), 1.0, places=7)
 
-    def test_n_dimensional_oetf_reverse_BT2100_PQ(self):
+    def test_n_dimensional_oetf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_reverse_BT2100_PQ` definition n-dimensional arrays support.
+oetf_reverse_PQ_BT2100` definition n-dimensional arrays support.
         """
 
         E_p = 0.724769816665726
-        E = oetf_reverse_BT2100_PQ(E_p)
+        E = oetf_reverse_PQ_BT2100(E_p)
 
         E_p = np.tile(E_p, 6)
         E = np.tile(E, 6)
         np.testing.assert_almost_equal(
-            oetf_reverse_BT2100_PQ(E_p), E, decimal=7)
+            oetf_reverse_PQ_BT2100(E_p), E, decimal=7)
 
         E_p = np.reshape(E_p, (2, 3))
         E = np.reshape(E, (2, 3))
         np.testing.assert_almost_equal(
-            oetf_reverse_BT2100_PQ(E_p), E, decimal=7)
+            oetf_reverse_PQ_BT2100(E_p), E, decimal=7)
 
         E_p = np.reshape(E_p, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
         np.testing.assert_almost_equal(
-            oetf_reverse_BT2100_PQ(E_p), E, decimal=7)
+            oetf_reverse_PQ_BT2100(E_p), E, decimal=7)
 
-    def test_domain_range_scale_oetf_reverse_BT2100_PQ(self):
+    def test_domain_range_scale_oetf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_reverse_BT2100_PQ` definition domain and range scale support.
+oetf_reverse_PQ_BT2100` definition domain and range scale support.
         """
 
         E_p = 0.724769816665726
-        E = oetf_reverse_BT2100_PQ(E_p)
+        E = oetf_reverse_PQ_BT2100(E_p)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    oetf_reverse_BT2100_PQ(E_p * factor),
+                    oetf_reverse_PQ_BT2100(E_p * factor),
                     E * factor,
                     decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_oetf_reverse_BT2100_PQ(self):
+    def test_nan_oetf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-oetf_reverse_BT2100_PQ` definition nan support.
+oetf_reverse_PQ_BT2100` definition nan support.
         """
 
-        oetf_reverse_BT2100_PQ(
+        oetf_reverse_PQ_BT2100(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_BT2100_PQ(unittest.TestCase):
+class TestEotf_PQ_BT2100(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_BT2100_PQ` definition unit tests methods.
+eotf_PQ_BT2100` definition unit tests methods.
     """
 
-    def test_eotf_BT2100_PQ(self):
+    def test_eotf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_BT2100_PQ` definition.
+eotf_PQ_BT2100` definition.
         """
 
-        self.assertAlmostEqual(eotf_BT2100_PQ(0.0), 0.0, places=7)
+        self.assertAlmostEqual(eotf_PQ_BT2100(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            eotf_BT2100_PQ(0.724769816665726), 779.98836083408537, places=7)
+            eotf_PQ_BT2100(0.724769816665726), 779.98836083408537, places=7)
 
-        self.assertAlmostEqual(eotf_BT2100_PQ(1.0), 10000.0, places=7)
+        self.assertAlmostEqual(eotf_PQ_BT2100(1.0), 10000.0, places=7)
 
-    def test_n_dimensional_eotf_BT2100_PQ(self):
+    def test_n_dimensional_eotf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_BT2100_PQ` definition n-dimensional arrays support.
+eotf_PQ_BT2100` definition n-dimensional arrays support.
         """
 
         E_p = 0.724769816665726
-        F_D = eotf_BT2100_PQ(E_p)
+        F_D = eotf_PQ_BT2100(E_p)
 
         E_p = np.tile(E_p, 6)
         F_D = np.tile(F_D, 6)
-        np.testing.assert_almost_equal(eotf_BT2100_PQ(E_p), F_D, decimal=7)
+        np.testing.assert_almost_equal(eotf_PQ_BT2100(E_p), F_D, decimal=7)
 
         E_p = np.reshape(E_p, (2, 3))
         F_D = np.reshape(F_D, (2, 3))
-        np.testing.assert_almost_equal(eotf_BT2100_PQ(E_p), F_D, decimal=7)
+        np.testing.assert_almost_equal(eotf_PQ_BT2100(E_p), F_D, decimal=7)
 
         E_p = np.reshape(E_p, (2, 3, 1))
         F_D = np.reshape(F_D, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_BT2100_PQ(E_p), F_D, decimal=7)
+        np.testing.assert_almost_equal(eotf_PQ_BT2100(E_p), F_D, decimal=7)
 
-    def test_domain_range_scale_eotf_BT2100_PQ(self):
+    def test_domain_range_scale_eotf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_BT2100_PQ` definition domain and range scale support.
+eotf_PQ_BT2100` definition domain and range scale support.
         """
 
         E_p = 0.724769816665726
-        F_D = eotf_BT2100_PQ(E_p)
+        F_D = eotf_PQ_BT2100(E_p)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    eotf_BT2100_PQ(E_p * factor), F_D * factor, decimal=7)
+                    eotf_PQ_BT2100(E_p * factor), F_D * factor, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_eotf_BT2100_PQ(self):
+    def test_nan_eotf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_BT2100_PQ` definition nan support.
+eotf_PQ_BT2100` definition nan support.
         """
 
-        eotf_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_PQ_BT2100(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_reverse_BT2100_PQ(unittest.TestCase):
+class TestEotf_reverse_PQ_BT2100(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_reverse_BT2100_PQ` definition unit tests methods.
+eotf_reverse_PQ_BT2100` definition unit tests methods.
     """
 
-    def test_eotf_reverse_BT2100_PQ(self):
+    def test_eotf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_reverse_BT2100_PQ` definition.
+eotf_reverse_PQ_BT2100` definition.
         """
 
         self.assertAlmostEqual(
-            eotf_reverse_BT2100_PQ(0.0), 0.000000730955903, places=7)
+            eotf_reverse_PQ_BT2100(0.0), 0.000000730955903, places=7)
 
         self.assertAlmostEqual(
-            eotf_reverse_BT2100_PQ(779.98836083408537),
+            eotf_reverse_PQ_BT2100(779.98836083408537),
             0.724769816665726,
             places=7)
 
-        self.assertAlmostEqual(eotf_reverse_BT2100_PQ(10000.0), 1.0, places=7)
+        self.assertAlmostEqual(eotf_reverse_PQ_BT2100(10000.0), 1.0, places=7)
 
-    def test_n_dimensional_eotf_reverse_BT2100_PQ(self):
+    def test_n_dimensional_eotf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_reverse_BT2100_PQ` definition n-dimensional arrays support.
+eotf_reverse_PQ_BT2100` definition n-dimensional arrays support.
         """
 
         F_D = 779.98836083408537
-        E_p = eotf_reverse_BT2100_PQ(F_D)
+        E_p = eotf_reverse_PQ_BT2100(F_D)
 
         F_D = np.tile(F_D, 6)
         E_p = np.tile(E_p, 6)
         np.testing.assert_almost_equal(
-            eotf_reverse_BT2100_PQ(F_D), E_p, decimal=7)
+            eotf_reverse_PQ_BT2100(F_D), E_p, decimal=7)
 
         F_D = np.reshape(F_D, (2, 3))
         E_p = np.reshape(E_p, (2, 3))
         np.testing.assert_almost_equal(
-            eotf_reverse_BT2100_PQ(F_D), E_p, decimal=7)
+            eotf_reverse_PQ_BT2100(F_D), E_p, decimal=7)
 
         F_D = np.reshape(F_D, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
         np.testing.assert_almost_equal(
-            eotf_reverse_BT2100_PQ(F_D), E_p, decimal=7)
+            eotf_reverse_PQ_BT2100(F_D), E_p, decimal=7)
 
-    def test_domain_range_scale_eotf_reverse_BT2100_PQ(self):
+    def test_domain_range_scale_eotf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_reverse_BT2100_PQ` definition domain and range scale support.
+eotf_reverse_PQ_BT2100` definition domain and range scale support.
         """
 
         F_D = 779.98836083408537
-        E_p = eotf_reverse_BT2100_PQ(F_D)
+        E_p = eotf_reverse_PQ_BT2100(F_D)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    eotf_reverse_BT2100_PQ(F_D * factor),
+                    eotf_reverse_PQ_BT2100(F_D * factor),
                     E_p * factor,
                     decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_eotf_reverse_BT2100_PQ(self):
+    def test_nan_eotf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-eotf_reverse_BT2100_PQ` definition nan support.
+eotf_reverse_PQ_BT2100` definition nan support.
         """
 
-        eotf_reverse_BT2100_PQ(
+        eotf_reverse_PQ_BT2100(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_BT2100_PQ(unittest.TestCase):
+class TestOotf_PQ_BT2100(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_BT2100_PQ` definition unit tests methods.
+ootf_PQ_BT2100` definition unit tests methods.
     """
 
-    def test_ootf_BT2100_PQ(self):
+    def test_ootf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_BT2100_PQ` definition.
+ootf_PQ_BT2100` definition.
         """
 
-        self.assertAlmostEqual(ootf_BT2100_PQ(0.0), 0.0, places=7)
+        self.assertAlmostEqual(ootf_PQ_BT2100(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            ootf_BT2100_PQ(0.1), 779.98836083411584, places=7)
+            ootf_PQ_BT2100(0.1), 779.98836083411584, places=7)
 
         self.assertAlmostEqual(
-            ootf_BT2100_PQ(1.0), 9999.993723673924300, places=7)
+            ootf_PQ_BT2100(1.0), 9999.993723673924300, places=7)
 
-    def test_n_dimensional_ootf_BT2100_PQ(self):
+    def test_n_dimensional_ootf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_BT2100_PQ` definition n-dimensional arrays support.
+ootf_PQ_BT2100` definition n-dimensional arrays support.
         """
 
         E = 0.1
-        F_D = ootf_BT2100_PQ(E)
+        F_D = ootf_PQ_BT2100(E)
 
         E = np.tile(E, 6)
         F_D = np.tile(F_D, 6)
-        np.testing.assert_almost_equal(ootf_BT2100_PQ(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_PQ_BT2100(E), F_D, decimal=7)
 
         E = np.reshape(E, (2, 3))
         F_D = np.reshape(F_D, (2, 3))
-        np.testing.assert_almost_equal(ootf_BT2100_PQ(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_PQ_BT2100(E), F_D, decimal=7)
 
         E = np.reshape(E, (2, 3, 1))
         F_D = np.reshape(F_D, (2, 3, 1))
-        np.testing.assert_almost_equal(ootf_BT2100_PQ(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_PQ_BT2100(E), F_D, decimal=7)
 
-    def test_domain_range_scale_ootf_BT2100_PQ(self):
+    def test_domain_range_scale_ootf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_BT2100_PQ` definition domain and range scale support.
+ootf_PQ_BT2100` definition domain and range scale support.
         """
 
         E = 0.1
-        F_D = ootf_BT2100_PQ(E)
+        F_D = ootf_PQ_BT2100(E)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    ootf_BT2100_PQ(E * factor), F_D * factor, decimal=7)
+                    ootf_PQ_BT2100(E * factor), F_D * factor, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_ootf_BT2100_PQ(self):
+    def test_nan_ootf_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_BT2100_PQ` definition nan support.
+ootf_PQ_BT2100` definition nan support.
         """
 
-        ootf_BT2100_PQ(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        ootf_PQ_BT2100(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_reverse_BT2100_PQ(unittest.TestCase):
+class TestOotf_reverse_PQ_BT2100(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_BT2100_PQ` definition unit tests methods.
+ootf_reverse_PQ_BT2100` definition unit tests methods.
     """
 
-    def test_ootf_reverse_BT2100_PQ(self):
+    def test_ootf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_BT2100_PQ` definition.
+ootf_reverse_PQ_BT2100` definition.
         """
 
-        self.assertAlmostEqual(ootf_reverse_BT2100_PQ(0.0), 0.0, places=7)
+        self.assertAlmostEqual(ootf_reverse_PQ_BT2100(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            ootf_reverse_BT2100_PQ(779.98836083411584), 0.1, places=7)
+            ootf_reverse_PQ_BT2100(779.98836083411584), 0.1, places=7)
 
         self.assertAlmostEqual(
-            ootf_reverse_BT2100_PQ(9999.993723673924300), 1.0, places=7)
+            ootf_reverse_PQ_BT2100(9999.993723673924300), 1.0, places=7)
 
-    def test_n_dimensional_ootf_reverse_BT2100_PQ(self):
+    def test_n_dimensional_ootf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_BT2100_PQ` definition n-dimensional arrays support.
+ootf_reverse_PQ_BT2100` definition n-dimensional arrays support.
         """
 
         F_D = 779.98836083411584
-        E = ootf_reverse_BT2100_PQ(F_D)
+        E = ootf_reverse_PQ_BT2100(F_D)
 
         F_D = np.tile(F_D, 6)
         E = np.tile(E, 6)
         np.testing.assert_almost_equal(
-            ootf_reverse_BT2100_PQ(F_D), E, decimal=7)
+            ootf_reverse_PQ_BT2100(F_D), E, decimal=7)
 
         F_D = np.reshape(F_D, (2, 3))
         E = np.reshape(E, (2, 3))
         np.testing.assert_almost_equal(
-            ootf_reverse_BT2100_PQ(F_D), E, decimal=7)
+            ootf_reverse_PQ_BT2100(F_D), E, decimal=7)
 
         F_D = np.reshape(F_D, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
         np.testing.assert_almost_equal(
-            ootf_reverse_BT2100_PQ(F_D), E, decimal=7)
+            ootf_reverse_PQ_BT2100(F_D), E, decimal=7)
 
-    def test_domain_range_scale_ootf_reverse_BT2100_PQ(self):
+    def test_domain_range_scale_ootf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_BT2100_PQ` definition domain and range scale support.
+ootf_reverse_PQ_BT2100` definition domain and range scale support.
         """
 
         F_D = 779.98836083411584
-        E = ootf_reverse_BT2100_PQ(F_D)
+        E = ootf_reverse_PQ_BT2100(F_D)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    ootf_reverse_BT2100_PQ(F_D * factor),
+                    ootf_reverse_PQ_BT2100(F_D * factor),
                     E * factor,
                     decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_ootf_reverse_BT2100_PQ(self):
+    def test_nan_ootf_reverse_PQ_BT2100(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_BT2100_PQ` definition nan support.
+ootf_reverse_PQ_BT2100` definition nan support.
         """
 
-        ootf_reverse_BT2100_PQ(
+        ootf_reverse_PQ_BT2100(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

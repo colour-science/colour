@@ -103,6 +103,30 @@ API_CHANGES = {
             'colour.models.oetf_reverse_sRGB',
             'colour.models.eotf_sRGB',
         ],
+        [
+            'colour.models.oetf_BT2100_PQ',
+            'colour.models.oetf_PQ_BT2100',
+        ],
+        [
+            'colour.models.oetf_reverse_BT2100_PQ',
+            'colour.models.oetf_reverse_PQ_BT2100',
+        ],
+        [
+            'colour.models.eotf_BT2100_PQ',
+            'colour.models.eotf_PQ_BT2100',
+        ],
+        [
+            'colour.models.eotf_reverse_BT2100_PQ',
+            'colour.models.eotf_reverse_PQ_BT2100',
+        ],
+        [
+            'colour.models.ootf_BT2100_PQ',
+            'colour.models.ootf_PQ_BT2100',
+        ],
+        [
+            'colour.models.ootf_reverse_BT2100_PQ',
+            'colour.models.ootf_reverse_PQ_BT2100',
+        ],
     ]
 }
 """

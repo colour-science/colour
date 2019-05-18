@@ -31,8 +31,8 @@ from .itur_bt_1886 import eotf_reverse_BT1886, eotf_BT1886
 from .itur_bt_2020 import oetf_BT2020, eotf_BT2020
 from .st_2084 import eotf_reverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
-    oetf_BT2100_PQ, oetf_reverse_BT2100_PQ, eotf_BT2100_PQ,
-    eotf_reverse_BT2100_PQ, ootf_BT2100_PQ, ootf_reverse_BT2100_PQ,
+    oetf_PQ_BT2100, oetf_reverse_PQ_BT2100, eotf_PQ_BT2100,
+    eotf_reverse_PQ_BT2100, ootf_PQ_BT2100, ootf_reverse_PQ_BT2100,
     oetf_BT2100_HLG, oetf_reverse_BT2100_HLG, eotf_BT2100_HLG,
     eotf_reverse_BT2100_HLG, ootf_BT2100_HLG, ootf_reverse_BT2100_HLG)
 from .linear import linear_function
@@ -80,8 +80,8 @@ __all__ += ['eotf_reverse_BT1886', 'eotf_BT1886']
 __all__ += ['oetf_BT2020', 'eotf_BT2020']
 __all__ += ['eotf_reverse_ST2084', 'eotf_ST2084']
 __all__ += [
-    'oetf_BT2100_PQ', 'oetf_reverse_BT2100_PQ', 'eotf_BT2100_PQ',
-    'eotf_reverse_BT2100_PQ', 'ootf_BT2100_PQ', 'ootf_reverse_BT2100_PQ',
+    'oetf_PQ_BT2100', 'oetf_reverse_PQ_BT2100', 'eotf_PQ_BT2100',
+    'eotf_reverse_PQ_BT2100', 'ootf_PQ_BT2100', 'ootf_reverse_PQ_BT2100',
     'oetf_BT2100_HLG', 'oetf_reverse_BT2100_HLG', 'eotf_BT2100_HLG',
     'eotf_reverse_BT2100_HLG', 'ootf_BT2100_HLG', 'ootf_reverse_BT2100_HLG'
 ]
@@ -394,7 +394,7 @@ OETFS = CaseInsensitiveMapping({
     'DICOM GSDF': oetf_DICOMGSDF,
     'ITU-R BT.2020': oetf_BT2020,
     'ITU-R BT.2100 HLG': oetf_BT2100_HLG,
-    'ITU-R BT.2100 PQ': oetf_BT2100_PQ,
+    'ITU-R BT.2100 PQ': oetf_PQ_BT2100,
     'ITU-R BT.601': oetf_BT601,
     'ITU-R BT.709': oetf_BT709,
     'ProPhoto RGB': oetf_ProPhotoRGB,
@@ -468,7 +468,7 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
 OETFS_REVERSE = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_reverse_ARIBSTDB67,
     'ITU-R BT.2100 HLD': oetf_reverse_BT2100_HLG,
-    'ITU-R BT.2100 PQ': oetf_reverse_BT2100_PQ,
+    'ITU-R BT.2100 PQ': oetf_reverse_PQ_BT2100,
     'ITU-R BT.601': oetf_reverse_BT601,
     'ITU-R BT.709': oetf_reverse_BT709,
 })
@@ -527,7 +527,7 @@ EOTFS = CaseInsensitiveMapping({
     'ITU-R BT.1886': eotf_BT1886,
     'ITU-R BT.2020': eotf_BT2020,
     'ITU-R BT.2100 HLG': eotf_BT2100_HLG,
-    'ITU-R BT.2100 PQ': eotf_BT2100_PQ,
+    'ITU-R BT.2100 PQ': eotf_PQ_BT2100,
     'ProPhoto RGB': eotf_ProPhotoRGB,
     'RIMM RGB': eotf_RIMMRGB,
     'ROMM RGB': eotf_ROMMRGB,
@@ -616,7 +616,7 @@ EOTFS_REVERSE = CaseInsensitiveMapping({
     'DCDM': eotf_reverse_DCDM,
     'ITU-R BT.1886': eotf_reverse_BT1886,
     'ITU-R BT.2100 HLG': eotf_reverse_BT2100_HLG,
-    'ITU-R BT.2100 PQ': eotf_reverse_BT2100_PQ,
+    'ITU-R BT.2100 PQ': eotf_reverse_PQ_BT2100,
     'ST 2084': eotf_reverse_ST2084,
     'sRGB': eotf_reverse_sRGB,
 })
@@ -865,7 +865,7 @@ __all__ += ['encoding_cctf', 'decoding_cctf']
 
 OOTFS = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_BT2100_HLG,
-    'ITU-R BT.2100 PQ': ootf_BT2100_PQ,
+    'ITU-R BT.2100 PQ': ootf_PQ_BT2100,
 })
 OOTFS.__doc__ = """
 Supported opto-optical transfer functions (OOTFs / OOCFs).
@@ -908,7 +908,7 @@ def ootf(value, function='ITU-R BT.2100 PQ', **kwargs):
 
 OOTFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_reverse_BT2100_HLG,
-    'ITU-R BT.2100 PQ': ootf_reverse_BT2100_PQ,
+    'ITU-R BT.2100 PQ': ootf_reverse_PQ_BT2100,
 })
 OOTFS_REVERSE.__doc__ = """
 Supported reverse opto-optical transfer functions (OOTFs / OOCFs).
