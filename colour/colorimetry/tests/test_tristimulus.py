@@ -21,8 +21,8 @@ from colour.colorimetry import (CMFS, sd_CIE_standard_illuminant_A,
 from colour.colorimetry import (
     lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
-    adjust_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_integration,
-    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_ASTME30815,
+    adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
     multi_sds_to_XYZ_integration, wavelength_to_XYZ)
 from colour.utilities import domain_range_scale
 
@@ -39,8 +39,8 @@ __all__ = [
     'D65_CIE_1931_2_20_TWF_K1', 'D65_CIE_1931_2_20_ATWF', 'MSD', 'XYZ_D65',
     'XYZ_D65_K1', 'TestLagrangeCoefficientsASTME202211',
     'TestTristimulusWeightingFactorsASTME202211',
-    'TestAdjustTristimulusWeightingFactorsASTME30815',
-    'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME30815',
+    'TestAdjustTristimulusWeightingFactorsASTME308',
+    'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME308',
     'TestMultiSds_to_XYZ_integration', 'TestWavelength_to_XYZ'
 ]
 
@@ -467,20 +467,20 @@ tristimulus_weighting_factors_ASTME202211` definition raised exception.
                           A_1, shape)
 
 
-class TestAdjustTristimulusWeightingFactorsASTME30815(unittest.TestCase):
+class TestAdjustTristimulusWeightingFactorsASTME308(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.tristimulus.\
-adjust_tristimulus_weighting_factors_ASTME30815` definition unit tests methods.
+adjust_tristimulus_weighting_factors_ASTME308` definition unit tests methods.
     """
 
-    def test_adjust_tristimulus_weighting_factors_ASTME30815(self):
+    def test_adjust_tristimulus_weighting_factors_ASTME308(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-adjust_tristimulus_weighting_factors_ASTME30815` definition.
+adjust_tristimulus_weighting_factors_ASTME308` definition.
         """
 
         np.testing.assert_almost_equal(
-            adjust_tristimulus_weighting_factors_ASTME30815(
+            adjust_tristimulus_weighting_factors_ASTME308(
                 D65_CIE_1931_2_20_TWF, SpectralShape(360, 830, 20),
                 SpectralShape(400, 700, 20)),
             D65_CIE_1931_2_20_ATWF,
@@ -542,64 +542,63 @@ sd_to_XYZ_integration` definition domain and range scale support.
                     decimal=7)
 
 
-class TestSd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-        unittest.TestCase):
+class TestSd_to_XYZ_tristimulus_weighting_factors_ASTME308(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.tristimulus.\
-sd_to_XYZ_tristimulus_weighting_factors_ASTME30815`
+sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
     definition unit tests methods.
     """
 
-    def test_sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(self):
+    def test_sd_to_XYZ_tristimulus_weighting_factors_ASTME308(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-sd_to_XYZ_tristimulus_weighting_factors_ASTME30815`
+sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
         definition.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+            sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A']),
             np.array([14.46366344, 10.85828513, 2.04663792]),
             decimal=7)
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+            sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD, cmfs, ILLUMINANTS_SDS['C']),
             np.array([10.77033881, 9.44864632, 6.62758924]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+            sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD, cmfs, ILLUMINANTS_SDS['FL2']),
             np.array([11.57837130, 9.98734511, 3.95499522]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+            sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD.copy().trim(SpectralShape(400, 700, 5)), cmfs,
                 ILLUMINANTS_SDS['A']),
             np.array([14.38180830, 10.74512906, 2.01579131]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+            sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD.copy().interpolate(SpectralShape(400, 700, 10)),
                 cmfs, ILLUMINANTS_SDS['A']),
             np.array([14.38284399, 10.74577954, 2.01553721]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+            sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD.copy().interpolate(SpectralShape(400, 700, 20)),
                 cmfs, ILLUMINANTS_SDS['A']),
             np.array([14.38356848, 10.74613294, 2.01526418]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+            sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD.copy().interpolate(SpectralShape(400, 700, 20)),
                 cmfs,
                 ILLUMINANTS_SDS['A'],
@@ -607,30 +606,30 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME30815`
             np.array([1636.74286798, 1222.82981953, 229.32204062]),
             decimal=7)
 
-    def test_domain_range_scale_sd_to_XYZ_twf_ASTME30815(self):
+    def test_domain_range_scale_sd_to_XYZ_twf_ASTME308(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-sd_to_XYZ_tristimulus_weighting_factors_ASTME30815` definition domain and
+sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
 range scale support.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        XYZ = sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+        XYZ = sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
             SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A'])
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+                    sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                         SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A']),
                     XYZ * factor,
                     decimal=7)
 
 
-class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
+class TestSd_to_XYZ_ASTME308(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
+    Defines :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME308`
     definition unit tests methods.
     """
 
@@ -643,20 +642,20 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
         self._cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         self._A = sd_CIE_standard_illuminant_A(self._cmfs.shape)
 
-    def test_sd_to_XYZ_ASTME30815_mi_1nm(self):
+    def test_sd_to_XYZ_ASTME308_mi_1nm(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
+        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME308`
         definition for 1 nm measurement intervals.
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(self._sd.copy().align(self._cmfs.shape),
-                                 self._cmfs, self._A),
+            sd_to_XYZ_ASTME308(self._sd.copy().align(self._cmfs.shape),
+                               self._cmfs, self._A),
             np.array([14.46372680, 10.85832950, 2.04663200]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(self._cmfs.shape),
                 self._cmfs,
                 self._A,
@@ -665,14 +664,14 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 1)), self._cmfs,
                 self._A),
             np.array([14.54173397, 10.88628632, 2.04965822]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 1)),
                 self._cmfs,
                 self._A,
@@ -681,7 +680,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 1)),
                 self._cmfs,
                 self._A,
@@ -689,21 +688,21 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             np.array([1568.98152997, 1174.57671769, 221.14803420]),
             decimal=7)
 
-    def test_sd_to_XYZ_ASTME30815_mi_5nm(self):
+    def test_sd_to_XYZ_ASTME308_mi_5nm(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
+        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME308`
         definition for 5 nm measurement intervals.
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 830, 5)), self._cmfs,
                 self._A),
             np.array([14.46372173, 10.85832502, 2.04664734]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
@@ -712,7 +711,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
@@ -721,14 +720,14 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 5)), self._cmfs,
                 self._A),
             np.array([14.54025742, 10.88576251, 2.04950226]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
@@ -737,7 +736,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
@@ -746,7 +745,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
@@ -756,7 +755,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
@@ -766,7 +765,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
@@ -774,21 +773,21 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             np.array([1568.82479013, 1174.52212708, 221.13156963]),
             decimal=7)
 
-    def test_sd_to_XYZ_ASTME30815_mi_10nm(self):
+    def test_sd_to_XYZ_ASTME308_mi_10nm(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
+        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME308`
         definition for 10 nm measurement intervals.
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 830, 10)), self._cmfs,
                 self._A),
             np.array([14.47779980, 10.86358645, 2.04751388]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 830, 10)),
                 self._cmfs,
                 self._A,
@@ -797,14 +796,14 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 10)), self._cmfs,
                 self._A),
             np.array([14.54137532, 10.88641727, 2.04931318]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 10)),
                 self._cmfs,
                 self._A,
@@ -813,7 +812,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 10)),
                 self._cmfs,
                 self._A,
@@ -821,21 +820,21 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             np.array([1568.94283333, 1174.59084705, 221.11080639]),
             decimal=7)
 
-    def test_sd_to_XYZ_ASTME30815_mi_20nm(self):
+    def test_sd_to_XYZ_ASTME308_mi_20nm(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
+        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME308`
         definition for 20 nm measurement intervals.
         """
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 820, 20)), self._cmfs,
                 self._A),
             np.array([14.50187464, 10.87217124, 2.04918305]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
@@ -844,7 +843,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
@@ -853,14 +852,14 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 20)), self._cmfs,
                 self._A),
             np.array([14.54114025, 10.88634755, 2.04916445]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
@@ -869,7 +868,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
@@ -878,7 +877,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
@@ -888,7 +887,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
@@ -898,7 +897,7 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_ASTME30815(
+            sd_to_XYZ_ASTME308(
                 self._sd.copy().align(SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
@@ -906,13 +905,13 @@ class TestSd_to_XYZ_ASTME30815(unittest.TestCase):
             np.array([1568.91747040, 1174.58332427, 221.09475945]),
             decimal=7)
 
-    def test_raise_exception_sd_to_XYZ_ASTME30815(self):
+    def test_raise_exception_sd_to_XYZ_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME30815`
+        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_ASTME308`
         definition raised exception.
         """
 
-        self.assertRaises(ValueError, sd_to_XYZ_ASTME30815,
+        self.assertRaises(ValueError, sd_to_XYZ_ASTME308,
                           self._sd.copy().align(SpectralShape(360, 820, 2)))
 
 

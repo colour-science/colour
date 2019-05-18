@@ -89,7 +89,7 @@ def XYZ_to_sd_Meng2015(
     -   The definition used to convert spectrum to *CIE XYZ* tristimulus
         values is :func:`colour.colorimetry.spectral_to_XYZ_integration`
         definition because it processes any measurement interval opposed to
-        :func:`colour.colorimetry.sd_to_XYZ_ASTME30815` definition that
+        :func:`colour.colorimetry.sd_to_XYZ_ASTME308` definition that
         handles only measurement interval of 1, 5, 10 or 20nm.
 
     References

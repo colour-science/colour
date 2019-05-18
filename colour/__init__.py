@@ -56,7 +56,7 @@ from .algebra import (CubicSplineInterpolator, Extrapolator,
                       kernel_nearest_neighbour, kernel_sinc,
                       table_interpolation, lagrange_coefficients)
 from .colorimetry import (
-    ASTME30815_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS, CMFS,
+    ASTME308_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS, CMFS,
     DEFAULT_SPECTRAL_SHAPE, HUNTERLAB_ILLUMINANTS, ILLUMINANTS,
     ILLUMINANTS_SDS, LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCES_SDS,
     LMS_CMFS, LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS,
@@ -171,7 +171,7 @@ __all__ += [
     'lagrange_coefficients'
 ]
 __all__ += [
-    'ASTME30815_PRACTISE_SHAPE', 'BANDPASS_CORRECTION_METHODS', 'CMFS',
+    'ASTME308_PRACTISE_SHAPE', 'BANDPASS_CORRECTION_METHODS', 'CMFS',
     'DEFAULT_SPECTRAL_SHAPE', 'HUNTERLAB_ILLUMINANTS', 'ILLUMINANTS',
     'ILLUMINANTS_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
     'LIGHT_SOURCES_SDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
@@ -1329,7 +1329,7 @@ API_CHANGES = {
         ],
         [
             'colour.sd_to_XYZ_ASTME30815',
-            'colour.colorimetry.sd_to_XYZ_ASTME30815',
+            'colour.colorimetry.sd_to_XYZ_ASTME308',
         ],
         [
             'colour.sd_to_XYZ_integration',
@@ -1504,7 +1504,7 @@ API_CHANGES = {
         [
             'colour.adjust_tristimulus_weighting_factors_ASTME30815',
             'colour.colorimetry.'
-            'adjust_tristimulus_weighting_factors_ASTME30815',
+            'adjust_tristimulus_weighting_factors_ASTME308',
         ],
         [
             'colour.chromatic_adaptation_forward_CMCCAT2000',
@@ -1529,7 +1529,7 @@ API_CHANGES = {
         [
             'colour.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
             'colour.colorimetry.'
-            'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+            'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
         ],
         [
             'colour.tristimulus_weighting_factors_ASTME202211',
@@ -1698,6 +1698,14 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.zeros_spd',
         'colour.sd_zeros',
+    ],
+]
+
+# v0.3.14
+API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+    [
+        'colour.ASTME30815_PRACTISE_SHAPE',
+        'colour.ASTME308_PRACTISE_SHAPE',
     ],
 ]
 

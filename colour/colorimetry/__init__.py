@@ -24,10 +24,10 @@ from .generation import sd_multi_leds, sd_multi_leds_Ohno2005
 from .tristimulus import SD_TO_XYZ_METHODS, MULTI_SD_TO_XYZ_METHODS
 from .tristimulus import sd_to_XYZ, multi_sds_to_XYZ
 from .tristimulus import (
-    ASTME30815_PRACTISE_SHAPE, lagrange_coefficients_ASTME202211,
+    ASTME308_PRACTISE_SHAPE, lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
-    adjust_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_integration,
-    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_ASTME30815,
+    adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
     multi_sds_to_XYZ_integration, wavelength_to_XYZ)
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
@@ -85,11 +85,11 @@ __all__ += ['sd_multi_leds', 'sd_multi_leds_Ohno2005']
 __all__ += ['SD_TO_XYZ_METHODS', 'MULTI_SD_TO_XYZ_METHODS']
 __all__ += ['sd_to_XYZ', 'multi_sds_to_XYZ']
 __all__ += [
-    'ASTME30815_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
+    'ASTME308_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
     'tristimulus_weighting_factors_ASTME202211',
-    'adjust_tristimulus_weighting_factors_ASTME30815', 'sd_to_XYZ_integration',
-    'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-    'sd_to_XYZ_ASTME30815', 'multi_sds_to_XYZ_integration', 'wavelength_to_XYZ'
+    'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
+    'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
+    'sd_to_XYZ_ASTME308', 'multi_sds_to_XYZ_integration', 'wavelength_to_XYZ'
 ]
 __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']
@@ -149,7 +149,7 @@ API_CHANGES = {
     'Renamed': [
         [
             'colour.colorimetry.spectral_to_XYZ_ASTME30815',
-            'colour.colorimetry.sd_to_XYZ_ASTME30815',
+            'colour.colorimetry.sd_to_XYZ_ASTME308',
         ],
         [
             'colour.colorimetry.spectral_to_XYZ_integration',
@@ -157,15 +157,31 @@ API_CHANGES = {
         ],
         [
             'colour.colorimetry.spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',  # noqa
-            'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',  # noqa
+            'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME308',  # noqa
         ],
     ]
 }
 """
-Defines *colour.plotting* sub-package API changes.
+Defines *colour.colorimetry* sub-package API changes.
 
 API_CHANGES : dict
 """
+
+# v0.3.14
+API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+    [
+        'colour.colorimetry.adjust_tristimulus_weighting_factors_ASTME30815',  # noqa
+        'colour.colorimetry.adjust_tristimulus_weighting_factors_ASTME308',  # noqa
+    ],
+    [
+        'colour.colorimetry.sd_to_XYZ_ASTME30815',
+        'colour.colorimetry.sd_to_XYZ_ASTME308',
+    ],
+    [
+        'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',  # noqa
+        'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME308',  # noqa
+    ],
+]
 
 
 def _setup_api_changes():
