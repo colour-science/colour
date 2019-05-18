@@ -997,7 +997,7 @@ API_CHANGES = {
         ],
         [
             'colour.luminance_ASTMD153508',
-            'colour.colorimetry.luminance_ASTMD153508',
+            'colour.colorimetry.luminance_ASTMD1535',
         ],
         [
             'colour.luminance_CIE1976',
@@ -1045,7 +1045,7 @@ API_CHANGES = {
         ],
         [
             'colour.munsell_value_ASTMD153508',
-            'colour.notation.munsell_value_ASTMD153508',
+            'colour.notation.munsell_value_ASTMD1535',
         ],
         [
             'colour.munsell_value_Ladd1955',

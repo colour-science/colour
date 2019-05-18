@@ -44,7 +44,7 @@ from .lightness import (lightness_Glasser1958, lightness_Wyszecki1963,
 from .lightness import intermediate_lightness_function_CIE1976
 from .luminance import LUMINANCE_METHODS
 from .luminance import luminance
-from .luminance import (luminance_Newhall1943, luminance_ASTMD153508,
+from .luminance import (luminance_Newhall1943, luminance_ASTMD1535,
                         luminance_CIE1976, luminance_Fairchild2010,
                         luminance_Fairchild2011)
 from .luminance import intermediate_luminance_function_CIE1976
@@ -111,7 +111,7 @@ __all__ += ['intermediate_lightness_function_CIE1976']
 __all__ += ['LUMINANCE_METHODS']
 __all__ += ['luminance']
 __all__ += [
-    'luminance_Newhall1943', 'luminance_ASTMD153508', 'luminance_CIE1976',
+    'luminance_Newhall1943', 'luminance_ASTMD1535', 'luminance_CIE1976',
     'luminance_Fairchild2010', 'luminance_Fairchild2011'
 ]
 __all__ += ['intermediate_luminance_function_CIE1976']
@@ -176,6 +176,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.colorimetry.lagrange_coefficients_ASTME202211',
         'colour.colorimetry.lagrange_coefficients_ASTME2022',
+    ],
+    [
+        'colour.colorimetry.luminance_ASTMD153508',
+        'colour.colorimetry.luminance_ASTMD1535',
     ],
     [
         'colour.colorimetry.sd_to_XYZ_ASTME30815',

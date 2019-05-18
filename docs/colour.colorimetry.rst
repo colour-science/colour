@@ -363,7 +363,7 @@ ASTM D1535-08e1
 .. autosummary::
     :toctree: generated/
 
-    luminance_ASTMD153508
+    luminance_ASTMD1535
 
 Fairchild and Wyble (2010)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

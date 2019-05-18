@@ -395,7 +395,7 @@ the objects needed for spectral computations and many others:
      'LUMINANCE_METHODS',
      'luminance',
      'luminance_Newhall1943',
-     'luminance_ASTMD153508',
+     'luminance_ASTMD1535',
      'luminance_CIE1976',
      'luminance_Fairchild2010',
      'luminance_Fairchild2011',

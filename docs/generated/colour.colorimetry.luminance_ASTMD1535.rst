@@ -1,6 +1,6 @@
-colour.colorimetry.luminance\_ASTMD153508
+colour.colorimetry.luminance\_ASTMD1535
 =========================================
 
 .. currentmodule:: colour.colorimetry
 
-.. autofunction:: luminance_ASTMD153508
+.. autofunction:: luminance_ASTMD1535
