@@ -221,9 +221,9 @@ The various sub-packages also expose their public API:
 
 
     Plotting
-    ['ASTM_G_173_ETR',
-     'ASTM_G_173_GLOBAL_TILT',
-     'ASTM_G_173_DIRECT_CIRCUMSOLAR',
+    ['ASTMG173_ETR',
+     'ASTMG173_GLOBAL_TILT',
+     'ASTMG173_DIRECT_CIRCUMSOLAR',
      'COLOUR_STYLE_CONSTANTS',
      'COLOUR_ARROW_STYLE',
      '...']
