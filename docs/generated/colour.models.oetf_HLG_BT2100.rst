@@ -1,6 +1,6 @@
-colour.models.eotf\_BT2100\_HLG
+colour.models.oetf\_BT2100\_HLG
 ===============================
 
 .. currentmodule:: colour.models
 
-.. autofunction:: eotf_BT2100_HLG
+.. autofunction:: oetf_HLG_BT2100

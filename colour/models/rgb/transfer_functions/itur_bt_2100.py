@@ -13,12 +13,12 @@ functions (EOTF / EOCF) and their reverse:
 -   :func:`colour.models.eotf_reverse_PQ_BT2100`
 -   :func:`colour.models.ootf_PQ_BT2100`
 -   :func:`colour.models.ootf_reverse_PQ_BT2100`
--   :func:`colour.models.oetf_BT2100_HLG`
--   :func:`colour.models.oetf_reverse_BT2100_HLG`
--   :func:`colour.models.eotf_BT2100_HLG`
--   :func:`colour.models.eotf_reverse_BT2100_HLG`
--   :func:`colour.models.ootf_BT2100_HLG`
--   :func:`colour.models.ootf_reverse_BT2100_HLG`
+-   :func:`colour.models.oetf_HLG_BT2100`
+-   :func:`colour.models.oetf_reverse_HLG_BT2100`
+-   :func:`colour.models.eotf_HLG_BT2100`
+-   :func:`colour.models.eotf_reverse_HLG_BT2100`
+-   :func:`colour.models.ootf_HLG_BT2100`
+-   :func:`colour.models.ootf_reverse_HLG_BT2100`
 
 See Also
 --------
@@ -61,9 +61,9 @@ __status__ = 'Production'
 __all__ = [
     'oetf_PQ_BT2100', 'oetf_reverse_PQ_BT2100', 'eotf_PQ_BT2100',
     'eotf_reverse_PQ_BT2100', 'ootf_PQ_BT2100', 'ootf_reverse_PQ_BT2100',
-    'BT2100_HLG_WEIGHTS', 'BT2100_HLG_CONSTANTS', 'gamma_function_BT2100_HLG',
-    'oetf_BT2100_HLG', 'oetf_reverse_BT2100_HLG', 'eotf_BT2100_HLG',
-    'eotf_reverse_BT2100_HLG', 'ootf_BT2100_HLG', 'ootf_reverse_BT2100_HLG'
+    'BT2100_HLG_WEIGHTS', 'BT2100_HLG_CONSTANTS', 'gamma_function_HLG_BT2100',
+    'oetf_HLG_BT2100', 'oetf_reverse_HLG_BT2100', 'eotf_HLG_BT2100',
+    'eotf_reverse_HLG_BT2100', 'ootf_HLG_BT2100', 'ootf_reverse_HLG_BT2100'
 ]
 
 
@@ -376,7 +376,7 @@ BT2100_HLG_CONSTANTS : Structure
 """
 
 
-def gamma_function_BT2100_HLG(L_W=1000):
+def gamma_function_HLG_BT2100(L_W=1000):
     """
     Returns the *Reference HLG* system gamma value for given display nominal
     peak luminance.
@@ -394,11 +394,11 @@ def gamma_function_BT2100_HLG(L_W=1000):
 
     Examples
     --------
-    >>> gamma_function_BT2100_HLG()
+    >>> gamma_function_HLG_BT2100()
     1.2
-    >>> gamma_function_BT2100_HLG(2000)  # doctest: +ELLIPSIS
+    >>> gamma_function_HLG_BT2100(2000)  # doctest: +ELLIPSIS
     1.3264325...
-    >>> gamma_function_BT2100_HLG(4000)  # doctest: +ELLIPSIS
+    >>> gamma_function_HLG_BT2100(4000)  # doctest: +ELLIPSIS
     1.4528651...
     """
 
@@ -407,7 +407,7 @@ def gamma_function_BT2100_HLG(L_W=1000):
     return gamma
 
 
-def oetf_BT2100_HLG(E):
+def oetf_HLG_BT2100(E):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
     transfer function (OETF / OECF).
@@ -448,14 +448,14 @@ def oetf_BT2100_HLG(E):
 
     Examples
     --------
-    >>> oetf_BT2100_HLG(0.18 / 12)  # doctest: +ELLIPSIS
+    >>> oetf_HLG_BT2100(0.18 / 12)  # doctest: +ELLIPSIS
     0.2121320...
     """
 
     return oetf_ARIBSTDB67(12 * E)
 
 
-def oetf_reverse_BT2100_HLG(E):
+def oetf_reverse_HLG_BT2100(E):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse
     opto-electrical transfer function (OETF / OECF).
@@ -493,14 +493,14 @@ def oetf_reverse_BT2100_HLG(E):
 
     Examples
     --------
-    >>> oetf_reverse_BT2100_HLG(0.212132034355964)  # doctest: +ELLIPSIS
+    >>> oetf_reverse_HLG_BT2100(0.212132034355964)  # doctest: +ELLIPSIS
     0.0149999...
     """
 
     return oetf_reverse_ARIBSTDB67(E) / 12
 
 
-def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
+def eotf_HLG_BT2100(E_p, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF / EOCF).
@@ -549,14 +549,14 @@ def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
 
     Examples
     --------
-    >>> eotf_BT2100_HLG(0.212132034355964)  # doctest: +ELLIPSIS
+    >>> eotf_HLG_BT2100(0.212132034355964)  # doctest: +ELLIPSIS
     6.4760398...
     """
 
-    return ootf_BT2100_HLG(oetf_reverse_ARIBSTDB67(E_p) / 12, L_B, L_W, gamma)
+    return ootf_HLG_BT2100(oetf_reverse_ARIBSTDB67(E_p) / 12, L_B, L_W, gamma)
 
 
-def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
+def eotf_reverse_HLG_BT2100(F_D, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse
     electro-optical transfer function (EOTF / EOCF).
@@ -603,14 +603,14 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
 
     Examples
     --------
-    >>> eotf_reverse_BT2100_HLG(6.476039825649814)  # doctest: +ELLIPSIS
+    >>> eotf_reverse_HLG_BT2100(6.476039825649814)  # doctest: +ELLIPSIS
     0.2121320...
     """
 
-    return oetf_ARIBSTDB67(ootf_reverse_BT2100_HLG(F_D, L_B, L_W, gamma) * 12)
+    return oetf_ARIBSTDB67(ootf_reverse_HLG_BT2100(F_D, L_B, L_W, gamma) * 12)
 
 
-def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
+def ootf_HLG_BT2100(E, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF).
@@ -659,7 +659,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
 
     Examples
     --------
-    >>> ootf_BT2100_HLG(0.1)  # doctest: +ELLIPSIS
+    >>> ootf_HLG_BT2100(0.1)  # doctest: +ELLIPSIS
     63.0957344...
     """
 
@@ -681,7 +681,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack([R_S, G_S, B_S]), axis=-1)
 
     if gamma is None:
-        gamma = gamma_function_BT2100_HLG(L_W)
+        gamma = gamma_function_HLG_BT2100(L_W)
 
     R_D = alpha * R_S * np.abs(Y_S) ** (gamma - 1) + beta
     G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1) + beta
@@ -695,7 +695,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
         return from_range_1(RGB_D)
 
 
-def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
+def ootf_reverse_HLG_BT2100(F_D, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse opto-optical
     transfer function (OOTF / OOCF).
@@ -742,7 +742,7 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
 
     Examples
     --------
-    >>> ootf_reverse_BT2100_HLG(63.095734448019336)  # doctest: +ELLIPSIS
+    >>> ootf_reverse_HLG_BT2100(63.095734448019336)  # doctest: +ELLIPSIS
     0.1000000...
     """
 
@@ -764,7 +764,7 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     beta = L_B
 
     if gamma is None:
-        gamma = gamma_function_BT2100_HLG(L_W)
+        gamma = gamma_function_HLG_BT2100(L_W)
 
     R_S = np.where(
         Y_D == beta,

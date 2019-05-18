@@ -378,8 +378,8 @@ Opto-Electronic Transfer Functions
     oetf_reverse_ARIBSTDB67
     oetf_DICOMGSDF
     oetf_BT2020
-    oetf_BT2100_HLG
-    oetf_reverse_BT2100_HLG
+    oetf_HLG_BT2100
+    oetf_reverse_HLG_BT2100
     oetf_PQ_BT2100
     oetf_reverse_PQ_BT2100
     oetf_BT601
@@ -431,8 +431,8 @@ Electro-Optical Transfer Functions
     eotf_BT1886
     eotf_reverse_BT1886
     eotf_BT2020
-    eotf_BT2100_HLG
-    eotf_reverse_BT2100_HLG
+    eotf_HLG_BT2100
+    eotf_reverse_HLG_BT2100
     eotf_PQ_BT2100
     eotf_reverse_PQ_BT2100
     eotf_ProPhotoRGB
@@ -467,8 +467,8 @@ Opto-Optical Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    ootf_BT2100_HLG
-    ootf_reverse_BT2100_HLG
+    ootf_HLG_BT2100
+    ootf_reverse_HLG_BT2100
     ootf_PQ_BT2100
     ootf_reverse_PQ_BT2100
 
