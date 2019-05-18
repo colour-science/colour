@@ -431,6 +431,22 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
 ]
 
+# v0.3.14
+API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+    [
+        'colour.plotting.ASTM_G_173_DIRECT_CIRCUMSOLAR',
+        'colour.plotting.ASTMG173_DIRECT_CIRCUMSOLAR',
+    ],
+    [
+        'colour.plotting.ASTM_G_173_ETR',
+        'colour.plotting.ASTMG173_ETR',
+    ],
+    [
+        'colour.plotting.ASTM_G_173_GLOBAL_TILT',
+        'colour.plotting.ASTMG173_GLOBAL_TILT',
+    ],
+]
+
 
 def _setup_api_changes():
     """

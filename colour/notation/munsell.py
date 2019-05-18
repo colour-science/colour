@@ -22,7 +22,7 @@ Defines various objects for *Munsell Renotation System* computations:
     method.
 -   :func:`colour.notation.munsell_value_McCamy1987`: *Munsell* value :math:`V`
     computation of given *luminance* :math:`Y` using *McCamy (1987)* method.
--   :func:`colour.notation.munsell_value_ASTMD153508`: *Munsell* value
+-   :func:`colour.notation.munsell_value_ASTMD1535`: *Munsell* value
     :math:`V` computation of given *luminance* :math:`Y` using
     *ASTM D1535-08e1* method.
 -   :attr:`colour.MUNSELL_VALUE_METHODS`: Supported *Munsell* value
@@ -127,7 +127,7 @@ from collections import OrderedDict
 from colour.algebra import (Extrapolator, LinearInterpolator,
                             cartesian_to_cylindrical, euclidean_distance,
                             polar_to_cartesian, spow)
-from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
+from colour.colorimetry import ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE,
                               INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
@@ -159,7 +159,7 @@ __all__ = [
     'munsell_value_Priest1920', 'munsell_value_Munsell1933',
     'munsell_value_Moon1943', 'munsell_value_Saunderson1944',
     'munsell_value_Ladd1955', 'munsell_value_McCamy1987',
-    'munsell_value_ASTMD153508', 'MUNSELL_VALUE_METHODS', 'munsell_value',
+    'munsell_value_ASTMD1535', 'MUNSELL_VALUE_METHODS', 'munsell_value',
     'munsell_specification_to_xyY', 'munsell_colour_to_xyY',
     'xyY_to_munsell_specification', 'xyY_to_munsell_colour',
     'parse_munsell_colour', 'is_grey_munsell_colour',
@@ -242,7 +242,7 @@ def _munsell_specifications():
     return _MUNSELL_SPECIFICATIONS_CACHE
 
 
-def _munsell_value_ASTMD153508_interpolator():
+def _munsell_value_ASTMD1535_interpolator():
     """
     Returns the *Munsell* value interpolator for *ASTM D1535-08e1* method and
     caches it if not existing.
@@ -259,7 +259,7 @@ def _munsell_value_ASTMD153508_interpolator():
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator(
             LinearInterpolator(
-                luminance_ASTMD153508(munsell_values), munsell_values))
+                luminance_ASTMD1535(munsell_values), munsell_values))
 
     return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
 
@@ -584,7 +584,7 @@ def munsell_value_McCamy1987(Y):
     return from_range_10(V)
 
 
-def munsell_value_ASTMD153508(Y):
+def munsell_value_ASTMD1535(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     a reverse lookup table from *ASTM D1535-08e1* method.
@@ -623,13 +623,13 @@ def munsell_value_ASTMD153508(Y):
 
     Examples
     --------
-    >>> munsell_value_ASTMD153508(12.23634268)  # doctest: +ELLIPSIS
+    >>> munsell_value_ASTMD1535(12.23634268)  # doctest: +ELLIPSIS
     4.0824437...
     """
 
     Y = to_domain_100(Y)
 
-    V = _munsell_value_ASTMD153508_interpolator()(Y)
+    V = _munsell_value_ASTMD1535_interpolator()(Y)
 
     return from_range_10(V)
 
@@ -641,7 +641,7 @@ MUNSELL_VALUE_METHODS = CaseInsensitiveMapping({
     'Saunderson 1944': munsell_value_Saunderson1944,
     'Ladd 1955': munsell_value_Ladd1955,
     'McCamy 1987': munsell_value_McCamy1987,
-    'ASTM D1535-08': munsell_value_ASTMD153508
+    'ASTM D1535-08': munsell_value_ASTMD1535
 })
 MUNSELL_VALUE_METHODS.__doc__ = """
 Supported *Munsell* value computation methods.
@@ -757,7 +757,7 @@ def _munsell_specification_to_xyY(specification):
             '[0, 10]!'.format(specification))
 
     with domain_range_scale('ignore'):
-        Y = luminance_ASTMD153508(value)
+        Y = luminance_ASTMD1535(value)
 
     if is_integer(value):
         value_minus = value_plus = round(value)
@@ -780,8 +780,8 @@ def _munsell_specification_to_xyY(specification):
         y = y_minus
     else:
         with domain_range_scale('ignore'):
-            Y_minus = luminance_ASTMD153508(value_minus)
-            Y_plus = luminance_ASTMD153508(value_plus)
+            Y_minus = luminance_ASTMD1535(value_minus)
+            Y_plus = luminance_ASTMD1535(value_plus)
 
         x = LinearInterpolator((Y_minus, Y_plus), (x_minus, x_plus))(Y)
         y = LinearInterpolator((Y_minus, Y_plus), (y_minus, y_plus))(Y)
@@ -929,7 +929,7 @@ def _xyY_to_munsell_specification(xyY):
                       '"{1}"!'.format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
     with domain_range_scale('ignore'):
-        value = munsell_value_ASTMD153508(Y * 100)
+        value = munsell_value_ASTMD1535(Y * 100)
 
     if is_integer(value):
         value = round(value)
@@ -2296,9 +2296,9 @@ def maximum_chroma_from_renotation(hue, value, code):
         max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw,
                          ma_limit_pccw)
     else:
-        L = luminance_ASTMD153508(value)
-        L9 = luminance_ASTMD153508(9)
-        L10 = luminance_ASTMD153508(10)
+        L = luminance_ASTMD1535(value)
+        L9 = luminance_ASTMD1535(9)
+        L10 = luminance_ASTMD1535(10)
 
         max_chroma = min(
             LinearInterpolator((L9, L10), (ma_limit_mcw, 0))(L),

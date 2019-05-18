@@ -34,7 +34,7 @@ from colour.notation import (munsell_value_Priest1920,
                              munsell_value_Munsell1933, munsell_value_Moon1943,
                              munsell_value_Saunderson1944,
                              munsell_value_Ladd1955, munsell_value_McCamy1987,
-                             munsell_value_ASTMD153508)
+                             munsell_value_ASTMD1535)
 from colour.utilities import (as_float_array, domain_range_scale,
                               ignore_numpy_errors, tstack)
 
@@ -53,7 +53,7 @@ __all__ = [
     'TestMunsellValuePriest1920', 'TestMunsellValueMunsell1933',
     'TestMunsellValueMoon1943', 'TestMunsellValueSaunderson1944',
     'TestMunsellValueLadd1955', 'TestMunsellValueMcCamy1992',
-    'TestMunsellValueASTMD153508', 'TestMunsellSpecification_to_xyY',
+    'TestMunsellValueASTMD1535', 'TestMunsellSpecification_to_xyY',
     'TestMunsellColour_to_xyY', 'TestxyY_to_munsell_specification',
     'TestxyY_to_munsell_colour', 'TestParseMunsellColour',
     'TestIsGreyMunsellColour', 'TestNormalizeMunsellSpecification',
@@ -1215,82 +1215,82 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestMunsellValueASTMD153508(unittest.TestCase):
+class TestMunsellValueASTMD1535(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_value_ASTMD153508`
+    Defines :func:`colour.notation.munsell.munsell_value_ASTMD1535`
     definition unit tests methods.
     """
 
-    def test_munsell_value_ASTMD153508(self):
+    def test_munsell_value_ASTMD1535(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_ASTMD153508`
+        Tests :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition.
         """
 
         self.assertAlmostEqual(
-            munsell_value_ASTMD153508(12.23634268),
+            munsell_value_ASTMD1535(12.23634268),
             4.0824437076525664,
             places=7)
 
         self.assertAlmostEqual(
-            munsell_value_ASTMD153508(22.89399987),
+            munsell_value_ASTMD1535(22.89399987),
             5.3913268228155395,
             places=7)
 
         self.assertAlmostEqual(
-            munsell_value_ASTMD153508(6.29022535),
+            munsell_value_ASTMD1535(6.29022535),
             2.9761930839606454,
             places=7)
 
-    def test_n_dimensional_munsell_value_ASTMD153508(self):
+    def test_n_dimensional_munsell_value_ASTMD1535(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_ASTMD153508`
+        Tests :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition n-dimensional arrays support.
         """
 
         Y = 12.23634268
-        V = munsell_value_ASTMD153508(Y)
+        V = munsell_value_ASTMD1535(Y)
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
         np.testing.assert_almost_equal(
-            munsell_value_ASTMD153508(Y), V, decimal=7)
+            munsell_value_ASTMD1535(Y), V, decimal=7)
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
         np.testing.assert_almost_equal(
-            munsell_value_ASTMD153508(Y), V, decimal=7)
+            munsell_value_ASTMD1535(Y), V, decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
         np.testing.assert_almost_equal(
-            munsell_value_ASTMD153508(Y), V, decimal=7)
+            munsell_value_ASTMD1535(Y), V, decimal=7)
 
-    def test_domain_range_scale_munsell_value_ASTMD153508(self):
+    def test_domain_range_scale_munsell_value_ASTMD1535(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_ASTMD153508`
+        Tests :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition domain and range scale support.
         """
 
         Y = 12.23634268
-        V = munsell_value_ASTMD153508(Y)
+        V = munsell_value_ASTMD1535(Y)
 
         d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    munsell_value_ASTMD153508(Y * factor_a),
+                    munsell_value_ASTMD1535(Y * factor_a),
                     V * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_munsell_value_ASTMD153508(self):
+    def test_nan_munsell_value_ASTMD1535(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_ASTMD153508`
+        Tests :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition nan support.
         """
 
-        munsell_value_ASTMD153508(
+        munsell_value_ASTMD1535(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

@@ -7,7 +7,7 @@ from pprint import pprint
 
 import colour
 from colour.plotting import (
-    ASTM_G_173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
+    ASTMG173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
     colour_style, plot_multi_cmfs, plot_multi_illuminant_sds,
     plot_multi_lightness_functions, plot_multi_sds, plot_single_cmfs,
     plot_single_illuminant_sd, plot_single_lightness_function, plot_single_sd,
@@ -925,17 +925,17 @@ plot_blackbody_spectral_radiance(temperature=12130, blackbody='Rigel')
 print('\n')
 
 message_box('Comparing theoretical and measured "Sun" spectral distributions.')
-# Arbitrary ASTM_G_173_ETR scaling factor calculated with
+# Arbitrary ASTMG173_ETR scaling factor calculated with
 # :func:`colour.sd_to_XYZ` definition.
-ASTM_G_173_sd = ASTM_G_173_ETR.copy() * 1.37905559e+13
+ASTMG173_sd = ASTMG173_ETR.copy() * 1.37905559e+13
 
-ASTM_G_173_sd.interpolate(
+ASTMG173_sd.interpolate(
     colour.SpectralShape(interval=5), interpolator=colour.LinearInterpolator)
 
-blackbody_sd = colour.sd_blackbody(5778, ASTM_G_173_sd.shape)
+blackbody_sd = colour.sd_blackbody(5778, ASTMG173_sd.shape)
 blackbody_sd.name = 'The Sun - 5778K'
 
-plot_multi_sds((ASTM_G_173_sd, blackbody_sd), y_label='W / (sr m$^2$) / m')
+plot_multi_sds((ASTMG173_sd, blackbody_sd), y_label='W / (sr m$^2$) / m')
 
 print('\n')
 

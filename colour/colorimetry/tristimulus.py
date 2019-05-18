@@ -5,11 +5,11 @@ Tristimulus Values
 
 Defines objects for tristimulus values computation from spectral data:
 
--   :func:`colour.colorimetry.tristimulus_weighting_factors_ASTME202211`
+-   :func:`colour.colorimetry.tristimulus_weighting_factors_ASTME2022`
 -   :func:`colour.colorimetry.sd_to_XYZ_integration`
 -   :func:`colour.colorimetry.\
-sd_to_XYZ_tristimulus_weighting_factors_ASTME30815`
--   :func:`colour.colorimetry.sd_to_XYZ_ASTME30815`
+sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
+-   :func:`colour.colorimetry.sd_to_XYZ_ASTME308`
 -   :attr:`colour.SD_TO_XYZ_METHODS`
 -   :func:`colour.sd_to_XYZ`
 -   :func:`colour.colorimetry.multi_sds_to_XYZ_integration`
@@ -52,24 +52,24 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ASTME30815_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
-    'tristimulus_weighting_factors_ASTME202211',
-    'adjust_tristimulus_weighting_factors_ASTME30815', 'sd_to_XYZ_integration',
-    'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-    'sd_to_XYZ_ASTME30815', 'SD_TO_XYZ_METHODS', 'sd_to_XYZ',
+    'ASTME308_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME2022',
+    'tristimulus_weighting_factors_ASTME2022',
+    'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
+    'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
+    'sd_to_XYZ_ASTME308', 'SD_TO_XYZ_METHODS', 'sd_to_XYZ',
     'multi_sds_to_XYZ_integration', 'MULTI_SD_TO_XYZ_METHODS',
     'multi_sds_to_XYZ', 'wavelength_to_XYZ'
 ]
 
-ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
-ASTME30815_PRACTISE_SHAPE.__doc__ = """
+ASTME308_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
+ASTME308_PRACTISE_SHAPE.__doc__ = """
 Shape for *ASTM E308-15* practise: (360, 780, 1).
 
 References
 ----------
 :cite:`ASTMInternational2015b`
 
-ASTME30815_PRACTISE_SHAPE : SpectralShape
+ASTME308_PRACTISE_SHAPE : SpectralShape
 """
 
 _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
@@ -77,7 +77,7 @@ _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
 _TRISTIMULUS_WEIGHTING_FACTORS_CACHE = None
 
 
-def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
+def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
     """
     Computes the *Lagrange Coefficients* for given interval size using practise
     *ASTM E2022-11* method.
@@ -102,7 +102,7 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
 
     Examples
     --------
-    >>> lagrange_coefficients_ASTME202211(10, 'inner')
+    >>> lagrange_coefficients_ASTME2022(10, 'inner')
     ... # doctest: +ELLIPSIS
     array([[-0.028...,  0.940...,  0.104..., -0.016...],
            [-0.048...,  0.864...,  0.216..., -0.032...],
@@ -113,7 +113,7 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
            [-0.045...,  0.331...,  0.773..., -0.059...],
            [-0.032...,  0.216...,  0.864..., -0.048...],
            [-0.016...,  0.104...,  0.940..., -0.028...]])
-    >>> lagrange_coefficients_ASTME202211(10, 'boundary')
+    >>> lagrange_coefficients_ASTME2022(10, 'boundary')
     ... # doctest: +ELLIPSIS
     array([[ 0.85...,  0.19..., -0.04...],
            [ 0.72...,  0.36..., -0.08...],
@@ -146,7 +146,7 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
     return lica
 
 
-def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape, k=None):
+def tristimulus_weighting_factors_ASTME2022(cmfs, illuminant, shape, k=None):
     """
     Returns a table of tristimulus weighting factors for given colour matching
     functions and illuminant using practise *ASTM E2022-11* method.
@@ -223,7 +223,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
     >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
     >>> with numpy_print_options(suppress=True):
-    ...     tristimulus_weighting_factors_ASTME202211(
+    ...     tristimulus_weighting_factors_ASTME2022(
     ...         cmfs, A, SpectralShape(360, 830, 20))
     ... # doctest: +ELLIPSIS
     array([[ -0.0002981...,  -0.0000317...,  -0.0013301...],
@@ -274,9 +274,9 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     W = S[::interval_i, np.newaxis] * Y[::interval_i, :]
 
     # First and last measurement intervals *Lagrange Coefficients*.
-    c_c = lagrange_coefficients_ASTME202211(interval_i, 'boundary')
+    c_c = lagrange_coefficients_ASTME2022(interval_i, 'boundary')
     # Intermediate measurement intervals *Lagrange Coefficients*.
-    c_b = lagrange_coefficients_ASTME202211(interval_i, 'inner')
+    c_b = lagrange_coefficients_ASTME2022(interval_i, 'inner')
 
     # Total wavelengths count.
     w_c = len(Y)
@@ -325,7 +325,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     return W
 
 
-def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
+def adjust_tristimulus_weighting_factors_ASTME308(W, shape_r, shape_t):
     """
     Adjusts given table of tristimulus weighting factors to account for a
     shorter wavelengths range of the test spectral shape compared to the
@@ -359,10 +359,10 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
     >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
-    >>> W = tristimulus_weighting_factors_ASTME202211(
+    >>> W = tristimulus_weighting_factors_ASTME2022(
     ...     cmfs, A, SpectralShape(360, 830, 20))
     >>> with numpy_print_options(suppress=True):
-    ...     adjust_tristimulus_weighting_factors_ASTME30815(
+    ...     adjust_tristimulus_weighting_factors_ASTME308(
     ...         W,  SpectralShape(360, 830, 20), SpectralShape(400, 700, 20))
     ... # doctest: +ELLIPSIS
     array([[  0.0509543...,   0.0040971...,   0.2144280...],
@@ -509,11 +509,11 @@ def sd_to_XYZ_integration(
     return from_range_100(XYZ)
 
 
-def sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
         sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(ASTME30815_PRACTISE_SHAPE),
-        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
+        copy().trim(ASTME308_PRACTISE_SHAPE),
+        illuminant=sd_ones(ASTME308_PRACTISE_SHAPE),
         k=None):
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values
@@ -587,7 +587,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ... }
     >>> sd = SpectralDistribution(data)
     >>> illuminant = ILLUMINANTS_SDS['D65']
-    >>> sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+    >>> sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     ...     sd, cmfs, illuminant)  # doctest: +ELLIPSIS
     array([ 10.8402899...,   9.6843539...,   6.2160858...])
     """
@@ -604,12 +604,12 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
                             illuminant.name, cmfs.name))
         sd = sd.copy().trim(cmfs.shape)
 
-    W = tristimulus_weighting_factors_ASTME202211(
+    W = tristimulus_weighting_factors_ASTME2022(
         cmfs, illuminant,
         SpectralShape(cmfs.shape.start, cmfs.shape.end, sd.shape.interval), k)
     start_w = cmfs.shape.start
     end_w = cmfs.shape.start + sd.shape.interval * (W.shape[0] - 1)
-    W = adjust_tristimulus_weighting_factors_ASTME30815(
+    W = adjust_tristimulus_weighting_factors_ASTME308(
         W, SpectralShape(start_w, end_w, sd.shape.interval), sd.shape)
     R = sd.values
 
@@ -618,11 +618,11 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     return from_range_100(XYZ)
 
 
-def sd_to_XYZ_ASTME30815(
+def sd_to_XYZ_ASTME308(
         sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(ASTME30815_PRACTISE_SHAPE),
-        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
+        copy().trim(ASTME308_PRACTISE_SHAPE),
+        illuminant=sd_ones(ASTME308_PRACTISE_SHAPE),
         use_practice_range=True,
         mi_5nm_omission_method=True,
         mi_20nm_interpolation_method=True,
@@ -723,7 +723,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     ... }
     >>> sd = SpectralDistribution(data)
     >>> illuminant = ILLUMINANTS_SDS['D65']
-    >>> sd_to_XYZ_ASTME30815(sd, cmfs, illuminant)
+    >>> sd_to_XYZ_ASTME308(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8399031...,   9.6840375...,   6.2164159...])
     """
@@ -735,9 +735,9 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
             'with measurement interval of 1, 5, 10 or 20nm!')
 
     if use_practice_range:
-        cmfs = cmfs.copy().trim(ASTME30815_PRACTISE_SHAPE)
+        cmfs = cmfs.copy().trim(ASTME308_PRACTISE_SHAPE)
 
-    method = sd_to_XYZ_tristimulus_weighting_factors_ASTME30815
+    method = sd_to_XYZ_tristimulus_weighting_factors_ASTME308
     if sd.shape.interval == 1:
         method = sd_to_XYZ_integration
     elif sd.shape.interval == 5 and mi_5nm_omission_method:
@@ -780,7 +780,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
 
 SD_TO_XYZ_METHODS = CaseInsensitiveMapping({
-    'ASTM E308-15': sd_to_XYZ_ASTME30815,
+    'ASTM E308-15': sd_to_XYZ_ASTME308,
     'Integration': sd_to_XYZ_integration
 })
 SD_TO_XYZ_METHODS.__doc__ = """
@@ -844,17 +844,17 @@ def sd_to_XYZ(
     Other Parameters
     ----------------
     mi_5nm_omission_method : bool, optional
-        {:func:`colour.colorimetry.sd_to_XYZ_ASTME30815`},
+        {:func:`colour.colorimetry.sd_to_XYZ_ASTME308`},
         5 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a 5 nm version of the colour matching
         functions instead of a table of tristimulus weighting factors.
     mi_20nm_interpolation_method : bool, optional
-        {:func:`colour.colorimetry.sd_to_XYZ_ASTME30815`},
+        {:func:`colour.colorimetry.sd_to_XYZ_ASTME308`},
         20 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.
     use_practice_range : bool, optional
-        {:func:`colour.colorimetry.sd_to_XYZ_ASTME30815`},
+        {:func:`colour.colorimetry.sd_to_XYZ_ASTME308`},
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
         appropriately.

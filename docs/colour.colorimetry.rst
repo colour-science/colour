@@ -17,7 +17,7 @@ Spectral Data Structure
     SpectralDistribution
     MultiSpectralDistribution
     DEFAULT_SPECTRAL_SHAPE
-    ASTME30815_PRACTISE_SHAPE
+    ASTME308_PRACTISE_SHAPE
 
 Spectral Data Generation
 ------------------------
@@ -83,7 +83,7 @@ ASTM E308-15
 .. autosummary::
     :toctree: generated/
 
-    sd_to_XYZ_ASTME30815
+    sd_to_XYZ_ASTME308
 
 **Ancillary Objects**
 
@@ -94,10 +94,10 @@ ASTM E308-15
 .. autosummary::
     :toctree: generated/
 
-    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815
-    adjust_tristimulus_weighting_factors_ASTME30815
-    lagrange_coefficients_ASTME202211
-    tristimulus_weighting_factors_ASTME202211
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME308
+    adjust_tristimulus_weighting_factors_ASTME308
+    lagrange_coefficients_ASTME2022
+    tristimulus_weighting_factors_ASTME2022
 
 Integration
 ~~~~~~~~~~~
@@ -363,7 +363,7 @@ ASTM D1535-08e1
 .. autosummary::
     :toctree: generated/
 
-    luminance_ASTMD153508
+    luminance_ASTMD1535
 
 Fairchild and Wyble (2010)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
