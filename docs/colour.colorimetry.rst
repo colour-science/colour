@@ -96,8 +96,8 @@ ASTM E308-15
 
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308
     adjust_tristimulus_weighting_factors_ASTME308
-    lagrange_coefficients_ASTME202211
-    tristimulus_weighting_factors_ASTME202211
+    lagrange_coefficients_ASTME2022
+    tristimulus_weighting_factors_ASTME2022
 
 Integration
 ~~~~~~~~~~~

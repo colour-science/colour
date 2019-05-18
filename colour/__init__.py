@@ -1523,8 +1523,8 @@ API_CHANGES = {
             'colour.algebra.intersect_line_segments',
         ],
         [
-            'colour.lagrange_coefficients_ASTME202211',
-            'colour.colorimetry.lagrange_coefficients_ASTME202211',
+            'colour.lagrange_coefficients_ASTME2022',
+            'colour.colorimetry.lagrange_coefficients_ASTME2022',
         ],
         [
             'colour.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
@@ -1532,8 +1532,8 @@ API_CHANGES = {
             'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
         ],
         [
-            'colour.tristimulus_weighting_factors_ASTME202211',
-            'colour.colorimetry.tristimulus_weighting_factors_ASTME202211'
+            'colour.tristimulus_weighting_factors_ASTME2022',
+            'colour.colorimetry.tristimulus_weighting_factors_ASTME2022'
         ],
     ]
 }

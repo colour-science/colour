@@ -24,8 +24,8 @@ from .generation import sd_multi_leds, sd_multi_leds_Ohno2005
 from .tristimulus import SD_TO_XYZ_METHODS, MULTI_SD_TO_XYZ_METHODS
 from .tristimulus import sd_to_XYZ, multi_sds_to_XYZ
 from .tristimulus import (
-    ASTME308_PRACTISE_SHAPE, lagrange_coefficients_ASTME202211,
-    tristimulus_weighting_factors_ASTME202211,
+    ASTME308_PRACTISE_SHAPE, lagrange_coefficients_ASTME2022,
+    tristimulus_weighting_factors_ASTME2022,
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
     multi_sds_to_XYZ_integration, wavelength_to_XYZ)
@@ -85,8 +85,8 @@ __all__ += ['sd_multi_leds', 'sd_multi_leds_Ohno2005']
 __all__ += ['SD_TO_XYZ_METHODS', 'MULTI_SD_TO_XYZ_METHODS']
 __all__ += ['sd_to_XYZ', 'multi_sds_to_XYZ']
 __all__ += [
-    'ASTME308_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
-    'tristimulus_weighting_factors_ASTME202211',
+    'ASTME308_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME2022',
+    'tristimulus_weighting_factors_ASTME2022',
     'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
     'sd_to_XYZ_ASTME308', 'multi_sds_to_XYZ_integration', 'wavelength_to_XYZ'
@@ -174,12 +174,20 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
         'colour.colorimetry.adjust_tristimulus_weighting_factors_ASTME308',  # noqa
     ],
     [
+        'colour.colorimetry.lagrange_coefficients_ASTME202211',
+        'colour.colorimetry.lagrange_coefficients_ASTME2022',
+    ],
+    [
         'colour.colorimetry.sd_to_XYZ_ASTME30815',
         'colour.colorimetry.sd_to_XYZ_ASTME308',
     ],
     [
         'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',  # noqa
         'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME308',  # noqa
+    ],
+    [
+        'colour.colorimetry.tristimulus_weighting_factors_ASTME202211',
+        'colour.colorimetry.tristimulus_weighting_factors_ASTME2022',
     ],
 ]
 

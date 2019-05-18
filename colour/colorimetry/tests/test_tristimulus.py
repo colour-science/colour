@@ -19,8 +19,8 @@ from colour.colorimetry import (CMFS, sd_CIE_standard_illuminant_A,
                                 ILLUMINANTS_SDS, SpectralDistribution,
                                 SpectralShape)
 from colour.colorimetry import (
-    lagrange_coefficients_ASTME202211,
-    tristimulus_weighting_factors_ASTME202211,
+    lagrange_coefficients_ASTME2022,
+    tristimulus_weighting_factors_ASTME2022,
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
     multi_sds_to_XYZ_integration, wavelength_to_XYZ)
@@ -37,8 +37,8 @@ __all__ = [
     'SAMPLE_SD', 'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B',
     'A_CIE_1964_10_10_TWF', 'A_CIE_1964_10_20_TWF', 'D65_CIE_1931_2_20_TWF',
     'D65_CIE_1931_2_20_TWF_K1', 'D65_CIE_1931_2_20_ATWF', 'MSD', 'XYZ_D65',
-    'XYZ_D65_K1', 'TestLagrangeCoefficientsASTME202211',
-    'TestTristimulusWeightingFactorsASTME202211',
+    'XYZ_D65_K1', 'TestLagrangeCoefficientsASTME2022',
+    'TestTristimulusWeightingFactorsASTME2022',
     'TestAdjustTristimulusWeightingFactorsASTME308',
     'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME308',
     'TestMultiSds_to_XYZ_integration', 'TestWavelength_to_XYZ'
@@ -375,39 +375,39 @@ XYZ_D65_K1 = np.array([
 ])
 
 
-class TestLagrangeCoefficientsASTME202211(unittest.TestCase):
+class TestLagrangeCoefficientsASTME2022(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.tristimulus.\
-lagrange_coefficients_ASTME202211` definition unit tests methods.
+lagrange_coefficients_ASTME2022` definition unit tests methods.
     """
 
-    def test_lagrange_coefficients_ASTME202211(self):
+    def test_lagrange_coefficients_ASTME2022(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-    lagrange_coefficients_ASTME202211` definition.
+    lagrange_coefficients_ASTME2022` definition.
         """
 
         np.testing.assert_almost_equal(
-            lagrange_coefficients_ASTME202211(10, 'inner'),
+            lagrange_coefficients_ASTME2022(10, 'inner'),
             LAGRANGE_COEFFICIENTS_A,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            lagrange_coefficients_ASTME202211(10, 'boundary'),
+            lagrange_coefficients_ASTME2022(10, 'boundary'),
             LAGRANGE_COEFFICIENTS_B,
             decimal=7)
 
 
-class TestTristimulusWeightingFactorsASTME202211(unittest.TestCase):
+class TestTristimulusWeightingFactorsASTME2022(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.tristimulus.\
-tristimulus_weighting_factors_ASTME202211` definition unit tests methods.
+tristimulus_weighting_factors_ASTME2022` definition unit tests methods.
     """
 
-    def test_tristimulus_weighting_factors_ASTME202211(self):
+    def test_tristimulus_weighting_factors_ASTME2022(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-tristimulus_weighting_factors_ASTME202211` definition.
+tristimulus_weighting_factors_ASTME2022` definition.
 
         Notes
         -----
@@ -423,12 +423,12 @@ tristimulus_weighting_factors_ASTME202211` definition.
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         A = sd_CIE_standard_illuminant_A(cmfs.shape)
 
-        twf = tristimulus_weighting_factors_ASTME202211(
+        twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 10))
         np.testing.assert_almost_equal(
             np.round(twf, 3), A_CIE_1964_10_10_TWF, decimal=3)
 
-        twf = tristimulus_weighting_factors_ASTME202211(
+        twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 20))
         np.testing.assert_almost_equal(
             np.round(twf, 3), A_CIE_1964_10_20_TWF, decimal=3)
@@ -436,20 +436,20 @@ tristimulus_weighting_factors_ASTME202211` definition.
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         D65 = ILLUMINANTS_SDS['D65'].copy().align(
             cmfs.shape, interpolator=LinearInterpolator)
-        twf = tristimulus_weighting_factors_ASTME202211(
+        twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, D65, SpectralShape(360, 830, 20))
         np.testing.assert_almost_equal(
             np.round(twf, 3), D65_CIE_1931_2_20_TWF, decimal=3)
 
-        twf = tristimulus_weighting_factors_ASTME202211(
+        twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, D65, SpectralShape(360, 830, 20), k=1)
         np.testing.assert_almost_equal(
             twf, D65_CIE_1931_2_20_TWF_K1, decimal=7)
 
-    def test_raise_exception_tristimulus_weighting_factors_ASTME202211(self):
+    def test_raise_exception_tristimulus_weighting_factors_ASTME2022(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-tristimulus_weighting_factors_ASTME202211` definition raised exception.
+tristimulus_weighting_factors_ASTME2022` definition raised exception.
         """
 
         shape = SpectralShape(360, 830, 10)
@@ -459,11 +459,11 @@ tristimulus_weighting_factors_ASTME202211` definition raised exception.
         A_2 = sd_CIE_standard_illuminant_A(cmfs_2.shape)
 
         self.assertRaises(ValueError,
-                          tristimulus_weighting_factors_ASTME202211, cmfs_1,
+                          tristimulus_weighting_factors_ASTME2022, cmfs_1,
                           A_2, shape)
 
         self.assertRaises(ValueError,
-                          tristimulus_weighting_factors_ASTME202211, cmfs_2,
+                          tristimulus_weighting_factors_ASTME2022, cmfs_2,
                           A_1, shape)
 
 

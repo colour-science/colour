@@ -5,7 +5,7 @@ Tristimulus Values
 
 Defines objects for tristimulus values computation from spectral data:
 
--   :func:`colour.colorimetry.tristimulus_weighting_factors_ASTME202211`
+-   :func:`colour.colorimetry.tristimulus_weighting_factors_ASTME2022`
 -   :func:`colour.colorimetry.sd_to_XYZ_integration`
 -   :func:`colour.colorimetry.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
@@ -52,8 +52,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ASTME308_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
-    'tristimulus_weighting_factors_ASTME202211',
+    'ASTME308_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME2022',
+    'tristimulus_weighting_factors_ASTME2022',
     'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
     'sd_to_XYZ_ASTME308', 'SD_TO_XYZ_METHODS', 'sd_to_XYZ',
@@ -77,7 +77,7 @@ _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
 _TRISTIMULUS_WEIGHTING_FACTORS_CACHE = None
 
 
-def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
+def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
     """
     Computes the *Lagrange Coefficients* for given interval size using practise
     *ASTM E2022-11* method.
@@ -102,7 +102,7 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
 
     Examples
     --------
-    >>> lagrange_coefficients_ASTME202211(10, 'inner')
+    >>> lagrange_coefficients_ASTME2022(10, 'inner')
     ... # doctest: +ELLIPSIS
     array([[-0.028...,  0.940...,  0.104..., -0.016...],
            [-0.048...,  0.864...,  0.216..., -0.032...],
@@ -113,7 +113,7 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
            [-0.045...,  0.331...,  0.773..., -0.059...],
            [-0.032...,  0.216...,  0.864..., -0.048...],
            [-0.016...,  0.104...,  0.940..., -0.028...]])
-    >>> lagrange_coefficients_ASTME202211(10, 'boundary')
+    >>> lagrange_coefficients_ASTME2022(10, 'boundary')
     ... # doctest: +ELLIPSIS
     array([[ 0.85...,  0.19..., -0.04...],
            [ 0.72...,  0.36..., -0.08...],
@@ -146,7 +146,7 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
     return lica
 
 
-def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape, k=None):
+def tristimulus_weighting_factors_ASTME2022(cmfs, illuminant, shape, k=None):
     """
     Returns a table of tristimulus weighting factors for given colour matching
     functions and illuminant using practise *ASTM E2022-11* method.
@@ -223,7 +223,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
     >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
     >>> with numpy_print_options(suppress=True):
-    ...     tristimulus_weighting_factors_ASTME202211(
+    ...     tristimulus_weighting_factors_ASTME2022(
     ...         cmfs, A, SpectralShape(360, 830, 20))
     ... # doctest: +ELLIPSIS
     array([[ -0.0002981...,  -0.0000317...,  -0.0013301...],
@@ -274,9 +274,9 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     W = S[::interval_i, np.newaxis] * Y[::interval_i, :]
 
     # First and last measurement intervals *Lagrange Coefficients*.
-    c_c = lagrange_coefficients_ASTME202211(interval_i, 'boundary')
+    c_c = lagrange_coefficients_ASTME2022(interval_i, 'boundary')
     # Intermediate measurement intervals *Lagrange Coefficients*.
-    c_b = lagrange_coefficients_ASTME202211(interval_i, 'inner')
+    c_b = lagrange_coefficients_ASTME2022(interval_i, 'inner')
 
     # Total wavelengths count.
     w_c = len(Y)
@@ -359,7 +359,7 @@ def adjust_tristimulus_weighting_factors_ASTME308(W, shape_r, shape_t):
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
     >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
-    >>> W = tristimulus_weighting_factors_ASTME202211(
+    >>> W = tristimulus_weighting_factors_ASTME2022(
     ...     cmfs, A, SpectralShape(360, 830, 20))
     >>> with numpy_print_options(suppress=True):
     ...     adjust_tristimulus_weighting_factors_ASTME308(
@@ -604,7 +604,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                             illuminant.name, cmfs.name))
         sd = sd.copy().trim(cmfs.shape)
 
-    W = tristimulus_weighting_factors_ASTME202211(
+    W = tristimulus_weighting_factors_ASTME2022(
         cmfs, illuminant,
         SpectralShape(cmfs.shape.start, cmfs.shape.end, sd.shape.interval), k)
     start_w = cmfs.shape.start
