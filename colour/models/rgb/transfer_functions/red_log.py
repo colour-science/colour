@@ -465,7 +465,8 @@ def log_encoding_Log3G10(x, method='v2'):
     x : numeric or array_like
         Linear data :math:`x`.
     method : unicode, optional
-        Whether to use the *Log3G10* *v1* or *v2* log encoding curve.
+        **{'v1', 'v2'}**,
+        Computation method.
 
     Returns
     -------
@@ -559,7 +560,8 @@ def log_decoding_Log3G10(y, method='v2'):
     y : numeric or array_like
         Non-linear data :math:`y`.
     method : unicode, optional
-        Whether to use the *Log3G10*  *v1* or *v2* log decoding curve.
+        **{'v1', 'v2'}**,
+        Computation method.
 
     Returns
     -------
