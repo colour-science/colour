@@ -431,7 +431,9 @@ Electro-Optical Transfer Functions
     eotf_BT1886
     eotf_reverse_BT1886
     eotf_BT2020
+    BT2100_HLG_EOTF_METHODS
     eotf_HLG_BT2100
+    BT2100_HLG_EOTF_REVERSE_METHODS
     eotf_reverse_HLG_BT2100
     eotf_PQ_BT2100
     eotf_reverse_PQ_BT2100

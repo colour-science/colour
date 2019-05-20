@@ -33,8 +33,9 @@ from .st_2084 import eotf_reverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
     oetf_PQ_BT2100, oetf_reverse_PQ_BT2100, eotf_PQ_BT2100,
     eotf_reverse_PQ_BT2100, ootf_PQ_BT2100, ootf_reverse_PQ_BT2100,
-    oetf_HLG_BT2100, oetf_reverse_HLG_BT2100, eotf_HLG_BT2100,
-    eotf_reverse_HLG_BT2100, ootf_HLG_BT2100, ootf_reverse_HLG_BT2100)
+    oetf_HLG_BT2100, oetf_reverse_HLG_BT2100, BT2100_HLG_EOTF_METHODS,
+    eotf_HLG_BT2100, BT2100_HLG_EOTF_REVERSE_METHODS, eotf_reverse_HLG_BT2100,
+    ootf_HLG_BT2100, ootf_reverse_HLG_BT2100)
 from .linear import linear_function
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
@@ -82,7 +83,8 @@ __all__ += ['eotf_reverse_ST2084', 'eotf_ST2084']
 __all__ += [
     'oetf_PQ_BT2100', 'oetf_reverse_PQ_BT2100', 'eotf_PQ_BT2100',
     'eotf_reverse_PQ_BT2100', 'ootf_PQ_BT2100', 'ootf_reverse_PQ_BT2100',
-    'oetf_HLG_BT2100', 'oetf_reverse_HLG_BT2100', 'eotf_HLG_BT2100',
+    'oetf_HLG_BT2100', 'oetf_reverse_HLG_BT2100', 'BT2100_HLG_EOTF_METHODS',
+    'eotf_HLG_BT2100', 'BT2100_HLG_EOTF_REVERSE_METHODS',
     'eotf_reverse_HLG_BT2100', 'ootf_HLG_BT2100', 'ootf_reverse_HLG_BT2100'
 ]
 __all__ += ['linear_function']
@@ -589,6 +591,9 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
         {:func:`colour.models.eotf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used if system is not
         12-bit.
+    method : unicode, optional
+        {:func:`colour.models.eotf_HLG_BT2100`},
+        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
 
     Returns
     -------
@@ -661,6 +666,9 @@ def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
     L_p : numeric, optional
         {:func:`colour.models.eotf_reverse_ST2084`},
         Display peak luminance :math:`cd/m^2`.
+    method : unicode, optional
+        {:func:`colour.models.eotf_reverse_HLG_BT2100`},
+        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
     out_int : bool, optional
         {:func:`colour.models.eotf_reverse_DCDM`},
         Whether to return value as integer code value or float equivalent of a
