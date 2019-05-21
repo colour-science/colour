@@ -261,7 +261,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
     ...     [illuminant, light_source])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png
+Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
         :align: center
         :alt: plot_multi_sds_colour_rendering_indexes_bars
     """
@@ -399,7 +399,7 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_Multi_SDs_Colour_Quality_Scales_Bars.png
+Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
         :align: center
         :alt: plot_multi_sds_colour_quality_scales_bars
     """

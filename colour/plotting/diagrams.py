@@ -601,7 +601,7 @@ def plot_sds_in_chromaticity_diagram(
     >>> D65 = ILLUMINANTS_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram([A, D65])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_SDs_In_Chromaticity_Diagram.png
+    .. image:: ../_static/Plotting_Plot_SDS_In_Chromaticity_Diagram.png
         :align: center
         :alt: plot_sds_in_chromaticity_diagram
     """
@@ -761,7 +761,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_SDs_In_Chromaticity_Diagram_CIE1931.png
+Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
         :align: center
         :alt: plot_sds_in_chromaticity_diagram_CIE1931
     """
@@ -826,7 +826,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_SDs_In_Chromaticity_Diagram_CIE1960UCS.png
+Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
         :alt: plot_sds_in_chromaticity_diagram_CIE1960UCS
     """
@@ -891,7 +891,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_SDs_In_Chromaticity_Diagram_CIE1976UCS.png
+Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
         :alt: plot_sds_in_chromaticity_diagram_CIE1976UCS
     """

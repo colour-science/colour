@@ -253,7 +253,7 @@ def plot_multi_sds(sds,
     >>> spd2 = SpectralDistribution(data_2, name='Custom 2')
     >>> plot_multi_sds([spd1, spd2])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_Multi_SDs.png
+    .. image:: ../_static/Plotting_Plot_Multi_SDS.png
         :align: center
         :alt: plot_multi_sds
     """
@@ -522,7 +522,7 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
     --------
     >>> plot_multi_illuminant_sds(['A', 'B', 'C'])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDs.png
+    .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDS.png
         :align: center
         :alt: plot_multi_illuminant_sds
     """
