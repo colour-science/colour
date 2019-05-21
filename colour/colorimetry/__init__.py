@@ -8,7 +8,8 @@ from colour.utilities.deprecation import ModuleAPI, Renamed
 from colour.utilities.documentation import is_documentation_building
 
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
-                       SpectralDistribution, MultiSpectralDistribution)
+                       SpectralDistribution, MultiSpectralDistribution,
+                       sds_and_multi_sds_to_sds)
 from .blackbody import sd_blackbody, blackbody_spectral_radiance, planck_law
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
@@ -67,7 +68,7 @@ from .yellowness import yellowness_ASTMD1925, yellowness_ASTME313
 
 __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
-    'MultiSpectralDistribution'
+    'MultiSpectralDistribution', 'sds_and_multi_sds_to_sds'
 ]
 __all__ += ['sd_blackbody', 'blackbody_spectral_radiance', 'planck_law']
 __all__ += [
@@ -88,8 +89,8 @@ __all__ += [
     'ASTME308_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME2022',
     'tristimulus_weighting_factors_ASTME2022',
     'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
-    'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
-    'sd_to_XYZ_ASTME308', 'multi_sds_to_XYZ_integration', 'wavelength_to_XYZ'
+    'sd_to_XYZ_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_ASTME308',
+    'multi_sds_to_XYZ_integration', 'wavelength_to_XYZ'
 ]
 __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']

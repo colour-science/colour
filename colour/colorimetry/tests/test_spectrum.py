@@ -11,7 +11,8 @@ import scipy
 from distutils.version import LooseVersion
 
 from colour.colorimetry.spectrum import (SpectralShape, SpectralDistribution,
-                                         MultiSpectralDistribution)
+                                         MultiSpectralDistribution,
+                                         sds_and_multi_sds_to_sds)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -26,7 +27,7 @@ __all__ = [
     'INTERPOLATED_SAMPLE_SD_DATA', 'INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA',
     'NORMALISED_SAMPLE_SD_DATA', 'CIE_1931_2_DEGREE_STANDARD_OBSERVER',
     'CMFS_DATA', 'TestSpectralShape', 'TestSpectralDistribution',
-    'TestMultiSpectralDistribution'
+    'TestMultiSpectralDistribution', 'TestSdsAndMultiSdsToSds'
 ]
 
 SAMPLE_SD_DATA = {
@@ -1733,6 +1734,51 @@ MultiSpectralDistribution.to_sds` method.
                 sd.strict_name, '{0} - {1}'.format(
                     self._strict_labels[i],
                     self._non_uniform_sample_multi_sd.strict_name))
+
+
+class TestSdsAndMultiSdsToSds(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.spectrum.sds_and_multi_sds_to_sds`
+    definition unit tests methods.
+    """
+
+    def test_sds_and_multi_sds_to_sds(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.sds_and_multi_sds_to_sds`
+        definition.
+        """
+
+        data = {
+            500: 0.0651,
+            520: 0.0705,
+            540: 0.0772,
+            560: 0.0870,
+            580: 0.1128,
+            600: 0.1360
+        }
+        sd_1 = SpectralDistribution(data)
+        sd_2 = SpectralDistribution(data)
+        data = {
+            500: (0.004900, 0.323000, 0.272000),
+            510: (0.009300, 0.503000, 0.158200),
+            520: (0.063270, 0.710000, 0.078250),
+            530: (0.165500, 0.862000, 0.042160),
+            540: (0.290400, 0.954000, 0.020300),
+            550: (0.433450, 0.994950, 0.008750),
+            560: (0.594500, 0.995000, 0.003900)
+        }
+
+        multi_sds_1 = MultiSpectralDistribution(data)
+        multi_sds_2 = MultiSpectralDistribution(data)
+
+        self.assertEqual(
+            len(
+                sds_and_multi_sds_to_sds([
+                    sd_1,
+                    sd_2,
+                    multi_sds_1,
+                    multi_sds_2,
+                ])), 8)
 
 
 if __name__ == '__main__':

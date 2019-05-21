@@ -56,6 +56,7 @@ Spectral Data Generation
     sd_gaussian_fwhm
     sd_single_led_Ohno2005
     sd_multi_leds_Ohno2005
+    sds_and_multi_sds_to_sds
 
 Conversion to Tristimulus Values
 --------------------------------

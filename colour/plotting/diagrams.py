@@ -21,7 +21,7 @@ from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
-from colour.colorimetry import sd_to_XYZ
+from colour.colorimetry import sd_to_XYZ, sds_and_multi_sds_to_sds
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
@@ -563,8 +563,12 @@ def plot_sds_in_chromaticity_diagram(
 
     Parameters
     ----------
-    sds : array_like, optional
-        Spectral distributions to plot.
+    sds : array_like or MultiSpectralDistribution
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistribution` class instance, a list
+        of :class:`colour.MultiSpectralDistribution` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
@@ -605,6 +609,8 @@ def plot_sds_in_chromaticity_diagram(
         :align: center
         :alt: plot_sds_in_chromaticity_diagram
     """
+
+    sds = sds_and_multi_sds_to_sds(sds)
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -725,8 +731,12 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
 
     Parameters
     ----------
-    sds : array_like, optional
-        Spectral distributions to plot.
+    sds : array_like or MultiSpectralDistribution
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistribution` class instance, a list
+        of :class:`colour.MultiSpectralDistribution` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
@@ -788,8 +798,12 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
 
     Parameters
     ----------
-    sds : array_like, optional
-        Spectral distributions to plot.
+    sds : array_like or MultiSpectralDistribution
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistribution` class instance, a list
+        of :class:`colour.MultiSpectralDistribution` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
@@ -853,8 +867,12 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
 
     Parameters
     ----------
-    sds : array_like, optional
-        Spectral distributions to plot.
+    sds : array_like or MultiSpectralDistribution
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistribution` class instance, a list
+        of :class:`colour.MultiSpectralDistribution` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
