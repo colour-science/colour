@@ -35,7 +35,7 @@ from six.moves import reduce
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    MultiSpectralDistribution, SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ,
+    SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ, sds_and_multi_sds_to_sds,
     wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
@@ -253,22 +253,14 @@ def plot_multi_sds(sds,
     >>> spd2 = SpectralDistribution(data_2, name='Custom 2')
     >>> plot_multi_sds([spd1, spd2])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_Multi_SDs.png
+    .. image:: ../_static/Plotting_Plot_Multi_SDS.png
         :align: center
         :alt: plot_multi_sds
     """
 
     _figure, axes = artist(**kwargs)
 
-    if isinstance(sds, MultiSpectralDistribution):
-        sds = sds.to_sds()
-    else:
-        sds = list(sds)
-        for i, sd in enumerate(sds[:]):
-            if isinstance(sd, MultiSpectralDistribution):
-                sds.remove(sd)
-                sds[i:i] = sd.to_sds()
-
+    sds = sds_and_multi_sds_to_sds(sds)
     cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = ILLUMINANTS_SDS[
@@ -522,7 +514,7 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
     --------
     >>> plot_multi_illuminant_sds(['A', 'B', 'C'])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDs.png
+    .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDS.png
         :align: center
         :alt: plot_multi_illuminant_sds
     """

@@ -18,6 +18,7 @@ import numpy as np
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.colorimetry import sds_and_multi_sds_to_sds
 from colour.plotting import (COLOUR_STYLE_CONSTANTS,
                              XYZ_to_plotting_colourspace, artist,
                              label_rectangles, override_style, render)
@@ -225,9 +226,12 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
 
     Parameters
     ----------
-    sds : array_like
-        Array of illuminants or light sources spectral distributions to
-        plot the *Colour Rendering Index* (CRI).
+    sds : array_like or MultiSpectralDistribution
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistribution` class instance, a list
+        of :class:`colour.MultiSpectralDistribution` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
 
     Other Parameters
     ----------------
@@ -261,10 +265,12 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
     ...     [illuminant, light_source])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png
+Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
         :align: center
         :alt: plot_multi_sds_colour_rendering_indexes_bars
     """
+
+    sds = sds_and_multi_sds_to_sds(sds)
 
     settings = dict(kwargs)
     settings.update({'standalone': False})
@@ -360,9 +366,12 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
 
     Parameters
     ----------
-    sds : array_like
-        Array of illuminants or light sources spectral distributions to
-        plot the *Colour Quality Scale* (CQS).
+    sds : array_like or MultiSpectralDistribution
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistribution` class instance, a list
+        of :class:`colour.MultiSpectralDistribution` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     method : unicode, optional
         **{NIST CQS 7.4'}**,
         *Colour Quality Scale* (CQS) computation method.
@@ -399,10 +408,12 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_Multi_SDs_Colour_Quality_Scales_Bars.png
+Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
         :align: center
         :alt: plot_multi_sds_colour_quality_scales_bars
     """
+
+    sds = sds_and_multi_sds_to_sds(sds)
 
     settings = dict(kwargs)
     settings.update({'standalone': False})

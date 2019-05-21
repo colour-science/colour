@@ -49,7 +49,7 @@ __status__ = 'Production'
 
 __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
-    'MultiSpectralDistribution'
+    'MultiSpectralDistribution', 'sds_and_multi_sds_to_sds'
 ]
 
 
@@ -588,8 +588,8 @@ dict_like, optional
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
         kwargs['interpolator'] = kwargs.get(
-            'interpolator', SpragueInterpolator
-            if uniform else CubicSplineInterpolator)
+            'interpolator',
+            SpragueInterpolator if uniform else CubicSplineInterpolator)
         kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)
@@ -1590,8 +1590,8 @@ MultiSpectralDistribution or array_like or dict_like, optional
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
         kwargs['interpolator'] = kwargs.get(
-            'interpolator', SpragueInterpolator
-            if uniform else CubicSplineInterpolator)
+            'interpolator',
+            SpragueInterpolator if uniform else CubicSplineInterpolator)
         kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)
@@ -2440,3 +2440,58 @@ MultiSpectralDistribution or array_like or dict_like, optional
                         'MultiSpectralDistribution.copy')))
 
         return self.copy()
+
+
+def sds_and_multi_sds_to_sds(sds):
+    """
+    Converts given spectral and multi-spectral distributions to a flat list of
+    spectral distributions.
+
+    Parameters
+    ----------
+    sds : array_like
+        Spectral and multi-spectral distributions to convert to a flat list of
+        spectral distributions.
+
+    Returns
+    -------
+    list
+        Flat list of spectral distributions.
+
+    Examples
+    --------
+    >>> data = {
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360
+    ... }
+    >>> sd_1 = SpectralDistribution(data)
+    >>> sd_2 = SpectralDistribution(data)
+    >>> data = {
+    ...     500: (0.004900, 0.323000, 0.272000),
+    ...     510: (0.009300, 0.503000, 0.158200),
+    ...     520: (0.063270, 0.710000, 0.078250),
+    ...     530: (0.165500, 0.862000, 0.042160),
+    ...     540: (0.290400, 0.954000, 0.020300),
+    ...     550: (0.433450, 0.994950, 0.008750),
+    ...     560: (0.594500, 0.995000, 0.003900)
+    ... }
+    >>> multi_sds_1 = MultiSpectralDistribution(data)
+    >>> multi_sds_2 = MultiSpectralDistribution(data)
+    >>> len(sds_and_multi_sds_to_sds([sd_1, sd_2, multi_sds_1, multi_sds_2]))
+    8
+    """
+
+    if isinstance(sds, MultiSpectralDistribution):
+        sds = sds.to_sds()
+    else:
+        sds = list(sds)
+        for i, sd in enumerate(sds[:]):
+            if isinstance(sd, MultiSpectralDistribution):
+                sds.remove(sd)
+                sds[i:i] = sd.to_sds()
+
+    return sds
