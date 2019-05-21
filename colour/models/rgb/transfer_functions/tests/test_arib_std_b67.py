@@ -35,6 +35,8 @@ oetf_ARIBSTDB67` definition unit tests methods.
 oetf_ARIBSTDB67` definition.
         """
 
+        self.assertAlmostEqual(oetf_ARIBSTDB67(-0.25), -0.25, places=7)
+
         self.assertAlmostEqual(oetf_ARIBSTDB67(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
@@ -102,6 +104,8 @@ oetf_reverse_ARIBSTDB67` definition unit tests methods.
         Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_reverse_ARIBSTDB67` definition.
         """
+
+        self.assertAlmostEqual(oetf_reverse_ARIBSTDB67(-0.25), -0.25, places=7)
 
         self.assertAlmostEqual(oetf_reverse_ARIBSTDB67(0.0), 0.0, places=7)
 

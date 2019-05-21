@@ -8,6 +8,7 @@ from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               usage_warning)
 
 from .common import CV_range, legal_to_full, full_to_legal
+from .gamma import gamma_function
 from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScc, log_decoding_ACEScc,
                    log_encoding_ACEScct, log_decoding_ACEScct)
@@ -23,7 +24,6 @@ from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
 from .filmlight_tlog import (log_encoding_FilmLightTLog,
                              log_decoding_FilmLightTLog)
-from .gamma import gamma_function
 from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_reverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_reverse_BT709
@@ -56,6 +56,7 @@ from .srgb import eotf_reverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 
 __all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
+__all__ += ['gamma_function']
 __all__ += [
     'log_encoding_ACESproxy', 'log_decoding_ACESproxy', 'log_encoding_ACEScc',
     'log_decoding_ACEScc', 'log_encoding_ACEScct', 'log_decoding_ACEScct'
@@ -73,7 +74,6 @@ __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
 __all__ += ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']
 __all__ += ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']
-__all__ += ['gamma_function']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
 __all__ += ['oetf_BT601', 'oetf_reverse_BT601']
 __all__ += ['oetf_BT709', 'oetf_reverse_BT709']
