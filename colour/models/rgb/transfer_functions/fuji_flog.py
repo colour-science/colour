@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Fuji F-Log Log Encoding
-============================
+=======================
 
 Defines the *Fuji F-Log* log encoding:
 
@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
--   :cite:`FujiVer1` : F-Log Data Sheet Ver.1.0.
-    Retrieved from https://www.fujifilm.com/support/digital_cameras/\
+-   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0. \
+Retrieved from https://www.fujifilm.com/support/digital_cameras/\
 software/lut/pdf/F-Log_DataSheet_E_Ver.1.0.pdf
 """
 
@@ -50,7 +50,6 @@ FLOG_CONSTANTS : Structure
 def log_encoding_FLog(L_in,
                       bit_depth=10,
                       out_legal=False,
-                      in_reflection=True,
                       constants=FLOG_CONSTANTS):
     """
     Defines the *Fuji F-Log* log encoding curve / opto-electronic transfer
@@ -65,8 +64,6 @@ def log_encoding_FLog(L_in,
     out_legal : bool, optional
         Whether the non-linear *Fuji F-Log* data :math:`F_{out}` is
         encoded in legal range.
-    in_reflection : bool, optional
-        Whether the light level :math`L_{in}` to a camera is reflection.
     constants : Structure, optional
         *Fuji F-Log* constants.
 
@@ -97,13 +94,10 @@ def log_encoding_FLog(L_in,
     Examples
     --------
     >>> log_encoding_FLog(0.18)  # doctest: +ELLIPSIS
-    0.46333651051465585...
+    0.4633365...
     """
 
     L_in = to_domain_1(L_in)
-
-    if not in_reflection:
-        L_in = L_in * 0.9
 
     cut1 = constants.cut1
     a = constants.a
@@ -127,7 +121,6 @@ def log_encoding_FLog(L_in,
 def log_decoding_FLog(F_out,
                       bit_depth=10,
                       in_legal=False,
-                      out_reflection=True,
                       constants=FLOG_CONSTANTS):
     """
     Defines the *Fuji F-Log* log decoding curve / electro-optical transfer
@@ -142,8 +135,6 @@ def log_decoding_FLog(F_out,
     in_legal : bool, optional
         Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
         encoded in legal range.
-    out_reflection : bool, optional
-        Whether the light level :math`L_{in}` to a camera is reflection.
     constants : Structure, optional
         *Fuji F-Log* constants.
 
@@ -173,8 +164,8 @@ def log_decoding_FLog(F_out,
 
     Examples
     --------
-    >>> log_decoding_FLog(0.46333651051465585)  # doctest: +ELLIPSIS
-    0.18000000000000002...
+    >>> log_decoding_FLog(0.4633365)  # doctest: +ELLIPSIS
+    0.1800000...
     """
 
     F_out = to_domain_1(F_out)
@@ -194,8 +185,5 @@ def log_decoding_FLog(F_out,
         (F_out - f) / e,
         (10 ** ((F_out - d) / c)) / a - b / a
     )
-
-    if not out_reflection:
-        L_in = L_in / 0.9
 
     return as_float(from_range_1(L_in))

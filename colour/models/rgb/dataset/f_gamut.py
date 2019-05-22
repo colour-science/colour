@@ -15,8 +15,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
--   :cite:`FujiVer1` : F-Log Data Sheet Ver.1.0.
-    Retrieved from https://www.fujifilm.com/support/digital_cameras/\
+-   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0. \
+Retrieved from https://www.fujifilm.com/support/digital_cameras/\
 software/lut/pdf/F-Log_DataSheet_E_Ver.1.0.pdf
 """
 

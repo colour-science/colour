@@ -909,10 +909,6 @@ API_CHANGES = {
             'colour.models.log_decoding_VLog',
         ],
         [
-            'colour.log_decoding_FLog',
-            'colour.models.log_decoding_FLog',
-        ],
-        [
             'colour.log_encoding_ACEScc',
             'colour.models.log_encoding_ACEScc',
         ],
@@ -991,10 +987,6 @@ API_CHANGES = {
         [
             'colour.log_encoding_VLog',
             'colour.models.log_encoding_VLog',
-        ],
-        [
-            'colour.log_encoding_FLog',
-            'colour.models.log_encoding_FLog',
         ],
         [
             'colour.Lookup',
