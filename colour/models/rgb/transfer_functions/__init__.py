@@ -38,6 +38,7 @@ from .itur_bt_2100 import (
 from .linear import linear_function
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
+from .fuji_flog import log_encoding_FLog, log_decoding_FLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
 from .red_log import (log_encoding_REDLog, log_decoding_REDLog,
                       log_encoding_REDLogFilm, log_decoding_REDLogFilm,
@@ -88,6 +89,7 @@ __all__ += [
 __all__ += ['linear_function']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
+__all__ += ['log_encoding_FLog', 'log_decoding_FLog']
 __all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
 __all__ += [
     'log_encoding_REDLog', 'log_decoding_REDLog', 'log_encoding_REDLogFilm',
@@ -119,6 +121,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'Cineon': log_encoding_Cineon,
     'D-Log': log_encoding_DJIDLog,
     'ERIMM RGB': log_encoding_ERIMMRGB,
+    'F-Log': log_encoding_FLog,
     'Filmic Pro 6': log_encoding_FilmicPro6,
     'Log3G10': log_encoding_Log3G10,
     'Log3G12': log_encoding_Log3G12,
@@ -139,9 +142,10 @@ Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'Filmic Pro 6',
-    'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
-    'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'}**
+    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
+    'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
+    'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log',
+    'ViperLog'}**
 """
 
 
@@ -257,6 +261,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping({
     'Cineon': log_decoding_Cineon,
     'D-Log': log_decoding_DJIDLog,
     'ERIMM RGB': log_decoding_ERIMMRGB,
+    'F-Log': log_decoding_FLog,
     'Filmic Pro 6': log_decoding_FilmicPro6,
     'Log3G10': log_decoding_Log3G10,
     'Log3G12': log_decoding_Log3G12,
@@ -277,9 +282,10 @@ Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'Filmic Pro 6',
-    'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
-    'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'}**
+    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
+    'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
+    'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log',
+    'ViperLog'}**
 """
 
 
