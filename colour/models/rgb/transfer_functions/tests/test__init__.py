@@ -68,12 +68,10 @@ class TestTransferFunctions(unittest.TestCase):
         Tests transfer functions reciprocity.
         """
 
-        ignored_transfer_functions = (
-            'ACESproxy',
-            'DICOM GSDF',
-            'D-Log',
-            'Filmic Pro 6',
-        )
+        ignored_transfer_functions = ('ACESproxy', 'DICOM GSDF',
+                                      'Filmic Pro 6')
+
+        decimals = {'D-Log': 1, 'F-Log': 4}
 
         reciprocal_mappings = [
             (LOG_ENCODING_CURVES, LOG_DECODING_CURVES),
@@ -95,7 +93,8 @@ class TestTransferFunctions(unittest.TestCase):
                 encoded_s = ENCODING_CCTFS[name](samples)
                 decoded_s = DECODING_CCTFS[name](encoded_s)
 
-                np.testing.assert_almost_equal(samples, decoded_s, decimal=7)
+                np.testing.assert_almost_equal(
+                    samples, decoded_s, decimal=decimals.get(name, 7))
 
 
 if __name__ == '__main__':
