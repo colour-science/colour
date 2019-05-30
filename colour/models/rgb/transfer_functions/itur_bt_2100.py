@@ -393,8 +393,6 @@ BT2100_HLG_CONSTANTS = Structure(
 analytical form in contrast to the *ARIB STD-B67 (Hybrid Log-Gamma)* numerical
 reference.
 
-Those constants are not currently in use and are provided as a reference only.
-
 References
 ----------
 :cite:`InternationalTelecommunicationUnion2017`
@@ -434,7 +432,7 @@ def gamma_function_HLG_BT2100(L_W=1000):
     return gamma
 
 
-def oetf_HLG_BT2100(E):
+def oetf_HLG_BT2100(E, constants=BT2100_HLG_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
     transfer function (OETF / OECF).
@@ -448,6 +446,8 @@ def oetf_HLG_BT2100(E):
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
@@ -479,10 +479,10 @@ def oetf_HLG_BT2100(E):
     0.2121320...
     """
 
-    return oetf_ARIBSTDB67(12 * E)
+    return oetf_ARIBSTDB67(12 * E, constants=constants)
 
 
-def oetf_reverse_HLG_BT2100(E):
+def oetf_reverse_HLG_BT2100(E_p, constants=BT2100_HLG_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse
     opto-electrical transfer function (OETF / OECF).
@@ -491,6 +491,8 @@ def oetf_reverse_HLG_BT2100(E):
     ----------
     E_p : numeric or array_like
         :math:`E'` is the resulting non-linear signal :math:`{R', G', B'}`.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
@@ -524,7 +526,7 @@ def oetf_reverse_HLG_BT2100(E):
     0.0149999...
     """
 
-    return oetf_reverse_ARIBSTDB67(E) / 12
+    return oetf_reverse_ARIBSTDB67(E_p, constants=constants) / 12
 
 
 def black_level_lift_HLG_BT2100(L_B=0, L_W=1000, gamma=None):
@@ -568,7 +570,11 @@ def black_level_lift_HLG_BT2100(L_B=0, L_W=1000, gamma=None):
     return beta
 
 
-def eotf_HLG_BT2100_1(E_p, L_B=0, L_W=1000, gamma=None):
+def eotf_HLG_BT2100_1(E_p,
+                      L_B=0,
+                      L_W=1000,
+                      gamma=None,
+                      constants=BT2100_HLG_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF / EOCF) as given in *ITU-R BT.2100-1*.
@@ -588,6 +594,8 @@ def eotf_HLG_BT2100_1(E_p, L_B=0, L_W=1000, gamma=None):
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
@@ -624,10 +632,15 @@ def eotf_HLG_BT2100_1(E_p, L_B=0, L_W=1000, gamma=None):
     """
 
     return ootf_HLG_BT2100_1(
-        oetf_reverse_ARIBSTDB67(E_p) / 12, L_B, L_W, gamma)
+        oetf_reverse_ARIBSTDB67(E_p, constants=constants) / 12, L_B, L_W,
+        gamma)
 
 
-def eotf_HLG_BT2100_2(E_p, L_B=0, L_W=1000, gamma=None):
+def eotf_HLG_BT2100_2(E_p,
+                      L_B=0,
+                      L_W=1000,
+                      gamma=None,
+                      constants=BT2100_HLG_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF / EOCF) as given in *ITU-R BT.2100-2* with the
@@ -648,6 +661,8 @@ def eotf_HLG_BT2100_2(E_p, L_B=0, L_W=1000, gamma=None):
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
@@ -686,7 +701,8 @@ def eotf_HLG_BT2100_2(E_p, L_B=0, L_W=1000, gamma=None):
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
     return ootf_HLG_BT2100_2(
-        oetf_reverse_ARIBSTDB67((1 - beta) * E_p + beta) / 12, L_W, gamma)
+        oetf_reverse_ARIBSTDB67(
+            (1 - beta) * E_p + beta, constants=constants) / 12, L_W, gamma)
 
 
 BT2100_HLG_EOTF_METHODS = CaseInsensitiveMapping({
@@ -707,7 +723,11 @@ BT2100_HLG_EOTF_METHODS : CaseInsensitiveMapping
 """
 
 
-def eotf_HLG_BT2100(E_p, L_B=0, L_W=1000, gamma=None,
+def eotf_HLG_BT2100(E_p,
+                    L_B=0,
+                    L_W=1000,
+                    gamma=None,
+                    constants=BT2100_HLG_CONSTANTS,
                     method='ITU-R BT.2100-2'):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
@@ -728,6 +748,8 @@ def eotf_HLG_BT2100(E_p, L_B=0, L_W=1000, gamma=None,
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2100* *Reference HLG* constants.
     method : unicode, optional
         **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
         Computation method.
@@ -771,10 +793,14 @@ def eotf_HLG_BT2100(E_p, L_B=0, L_W=1000, gamma=None,
     7.3321975...
     """
 
-    return BT2100_HLG_EOTF_METHODS[method](E_p, L_B, L_W, gamma)
+    return BT2100_HLG_EOTF_METHODS[method](E_p, L_B, L_W, gamma, constants)
 
 
-def eotf_reverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
+def eotf_reverse_HLG_BT2100_1(F_D,
+                              L_B=0,
+                              L_W=1000,
+                              gamma=None,
+                              constants=BT2100_HLG_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse
     electro-optical transfer function (EOTF / EOCF) as given in
@@ -794,6 +820,8 @@ def eotf_reverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
@@ -830,10 +858,15 @@ def eotf_reverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     """
 
     return oetf_ARIBSTDB67(
-        ootf_reverse_HLG_BT2100_1(F_D, L_B, L_W, gamma) * 12)
+        ootf_reverse_HLG_BT2100_1(F_D, L_B, L_W, gamma) * 12,
+        constants=constants)
 
 
-def eotf_reverse_HLG_BT2100_2(F_D, L_B=0, L_W=1000, gamma=None):
+def eotf_reverse_HLG_BT2100_2(F_D,
+                              L_B=0,
+                              L_W=1000,
+                              gamma=None,
+                              constants=BT2100_HLG_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse
     electro-optical transfer function (EOTF / EOCF) as given in
@@ -853,6 +886,8 @@ def eotf_reverse_HLG_BT2100_2(F_D, L_B=0, L_W=1000, gamma=None):
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
@@ -890,7 +925,8 @@ def eotf_reverse_HLG_BT2100_2(F_D, L_B=0, L_W=1000, gamma=None):
 
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
-    return (oetf_ARIBSTDB67(ootf_reverse_HLG_BT2100_2(F_D, L_W, gamma) * 12) -
+    return (oetf_ARIBSTDB67(
+        ootf_reverse_HLG_BT2100_2(F_D, L_W, gamma) * 12, constants=constants) -
             beta) / (1 - beta)
 
 
@@ -916,6 +952,7 @@ def eotf_reverse_HLG_BT2100(F_D,
                             L_B=0,
                             L_W=1000,
                             gamma=None,
+                            constants=BT2100_HLG_CONSTANTS,
                             method='ITU-R BT.2100-2'):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse
@@ -935,6 +972,8 @@ def eotf_reverse_HLG_BT2100(F_D,
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2100* *Reference HLG* constants.
     method : unicode, optional
         **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
         Computation method.
@@ -976,7 +1015,8 @@ def eotf_reverse_HLG_BT2100(F_D,
     0.2121320...
     """
 
-    return BT2100_HLG_EOTF_REVERSE_METHODS[method](F_D, L_B, L_W, gamma)
+    return BT2100_HLG_EOTF_REVERSE_METHODS[method](F_D, L_B, L_W, gamma,
+                                                   constants)
 
 
 def ootf_HLG_BT2100_1(E, L_B=0, L_W=1000, gamma=None):
