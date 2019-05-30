@@ -35,7 +35,8 @@ from .itur_bt_2100 import (
     eotf_reverse_PQ_BT2100, ootf_PQ_BT2100, ootf_reverse_PQ_BT2100,
     oetf_HLG_BT2100, oetf_reverse_HLG_BT2100, BT2100_HLG_EOTF_METHODS,
     eotf_HLG_BT2100, BT2100_HLG_EOTF_REVERSE_METHODS, eotf_reverse_HLG_BT2100,
-    ootf_HLG_BT2100, ootf_reverse_HLG_BT2100)
+    BT2100_HLG_OOTF_METHODS, ootf_HLG_BT2100, BT2100_HLG_OOTF_REVERSE_METHODS,
+    ootf_reverse_HLG_BT2100)
 from .linear import linear_function
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
@@ -85,7 +86,8 @@ __all__ += [
     'eotf_reverse_PQ_BT2100', 'ootf_PQ_BT2100', 'ootf_reverse_PQ_BT2100',
     'oetf_HLG_BT2100', 'oetf_reverse_HLG_BT2100', 'BT2100_HLG_EOTF_METHODS',
     'eotf_HLG_BT2100', 'BT2100_HLG_EOTF_REVERSE_METHODS',
-    'eotf_reverse_HLG_BT2100', 'ootf_HLG_BT2100', 'ootf_reverse_HLG_BT2100'
+    'eotf_reverse_HLG_BT2100', 'BT2100_HLG_OOTF_METHODS', 'ootf_HLG_BT2100',
+    'BT2100_HLG_OOTF_REVERSE_METHODS', 'ootf_reverse_HLG_BT2100'
 ]
 __all__ += ['linear_function']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']

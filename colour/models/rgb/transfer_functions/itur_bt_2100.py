@@ -25,6 +25,14 @@ functions (EOTF / EOCF) and their reverse:
 -   :func:`colour.models.eotf_reverse_HLG_BT2100`
 -   :func:`colour.models.ootf_HLG_BT2100`
 -   :func:`colour.models.ootf_reverse_HLG_BT2100`
+-   :func:`colour.models.ootf_HLG_BT2100_1`
+-   :func:`colour.models.ootf_HLG_BT2100_2`
+-   :attr:`colour.models.BT2100_HLG_OOTF_METHODS`
+-   :func:`colour.models.ootf_HLG_BT2100`
+-   :func:`colour.models.ootf_reverse_HLG_BT2100_1`
+-   :func:`colour.models.ootf_reverse_HLG_BT2100_2`
+-   :attr:`colour.models.BT2100_HLG_OOTF_REVERSE_METHODS`
+-   :func:`colour.models.ootf_reverse_HLG_BT2100`
 
 See Also
 --------
@@ -60,9 +68,9 @@ from colour.models.rgb.transfer_functions import (
     eotf_reverse_ST2084, oetf_reverse_ARIBSTDB67, oetf_reverse_BT709)
 from colour.models.rgb.transfer_functions.arib_std_b67 import (
     ARIBSTDB67_CONSTANTS)
-from colour.utilities import (CaseInsensitiveMapping, Structure,
-                              as_float_array, as_float, from_range_1,
-                              to_domain_1, tsplit, tstack, usage_warning)
+from colour.utilities import (
+    CaseInsensitiveMapping, Structure, as_float_array, as_float, filter_kwargs,
+    from_range_1, to_domain_1, tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -79,7 +87,10 @@ __all__ = [
     'black_level_lift_HLG_BT2100', 'eotf_HLG_BT2100_1', 'eotf_HLG_BT2100_2',
     'BT2100_HLG_EOTF_METHODS', 'eotf_HLG_BT2100', 'eotf_reverse_HLG_BT2100_1',
     'eotf_reverse_HLG_BT2100_2', 'BT2100_HLG_EOTF_REVERSE_METHODS',
-    'eotf_reverse_HLG_BT2100', 'ootf_HLG_BT2100', 'ootf_reverse_HLG_BT2100'
+    'eotf_reverse_HLG_BT2100', 'ootf_HLG_BT2100_1', 'ootf_HLG_BT2100_2',
+    'BT2100_HLG_OOTF_METHODS', 'ootf_HLG_BT2100', 'ootf_reverse_HLG_BT2100_1',
+    'ootf_reverse_HLG_BT2100_2', 'BT2100_HLG_OOTF_REVERSE_METHODS',
+    'ootf_reverse_HLG_BT2100'
 ]
 
 
@@ -612,7 +623,8 @@ def eotf_HLG_BT2100_1(E_p, L_B=0, L_W=1000, gamma=None):
     6.4859750...
     """
 
-    return ootf_HLG_BT2100(oetf_reverse_ARIBSTDB67(E_p) / 12, L_B, L_W, gamma)
+    return ootf_HLG_BT2100_1(
+        oetf_reverse_ARIBSTDB67(E_p) / 12, L_B, L_W, gamma)
 
 
 def eotf_HLG_BT2100_2(E_p, L_B=0, L_W=1000, gamma=None):
@@ -668,13 +680,13 @@ def eotf_HLG_BT2100_2(E_p, L_B=0, L_W=1000, gamma=None):
     >>> eotf_HLG_BT2100_2(0.212132034355964)  # doctest: +ELLIPSIS
     6.4760398...
     >>> eotf_HLG_BT2100_2(0.212132034355964, 0.01)  # doctest: +ELLIPSIS
-    7.3421242...
+    7.3321975...
     """
 
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
-    return ootf_HLG_BT2100(
-        oetf_reverse_ARIBSTDB67((1 - beta) * E_p + beta) / 12, L_B, L_W, gamma)
+    return ootf_HLG_BT2100_2(
+        oetf_reverse_ARIBSTDB67((1 - beta) * E_p + beta) / 12, L_W, gamma)
 
 
 BT2100_HLG_EOTF_METHODS = CaseInsensitiveMapping({
@@ -756,7 +768,7 @@ def eotf_HLG_BT2100(E_p, L_B=0, L_W=1000, gamma=None,
     6.4760398...
     >>> eotf_HLG_BT2100(0.212132034355964, 0.01)
     ... # doctest: +ELLIPSIS
-    7.3421242...
+    7.3321975...
     """
 
     return BT2100_HLG_EOTF_METHODS[method](E_p, L_B, L_W, gamma)
@@ -817,7 +829,8 @@ def eotf_reverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     0.2121320...
     """
 
-    return oetf_ARIBSTDB67(ootf_reverse_HLG_BT2100(F_D, L_B, L_W, gamma) * 12)
+    return oetf_ARIBSTDB67(
+        ootf_reverse_HLG_BT2100_1(F_D, L_B, L_W, gamma) * 12)
 
 
 def eotf_reverse_HLG_BT2100_2(F_D, L_B=0, L_W=1000, gamma=None):
@@ -870,16 +883,15 @@ def eotf_reverse_HLG_BT2100_2(F_D, L_B=0, L_W=1000, gamma=None):
     --------
     >>> eotf_reverse_HLG_BT2100_2(6.476039825649814)  # doctest: +ELLIPSIS
     0.2121320...
-    >>> eotf_reverse_HLG_BT2100_2(7.342124206378591, 0.01)
+    >>> eotf_reverse_HLG_BT2100_2(7.332197528353875, 0.01)
     ... # doctest: +ELLIPSIS
     0.2121320...
     """
 
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
-    return (oetf_ARIBSTDB67(
-        ootf_reverse_HLG_BT2100(F_D, L_B, L_W, gamma) * 12) - beta) / (
-            1 - beta)
+    return (oetf_ARIBSTDB67(ootf_reverse_HLG_BT2100_2(F_D, L_W, gamma) * 12) -
+            beta) / (1 - beta)
 
 
 BT2100_HLG_EOTF_REVERSE_METHODS = CaseInsensitiveMapping({
@@ -960,17 +972,17 @@ def eotf_reverse_HLG_BT2100(F_D,
     >>> eotf_reverse_HLG_BT2100(6.476039825649814, method='ITU-R BT.2100-1')
     ... # doctest: +ELLIPSIS
     0.2121320...
-    >>> eotf_reverse_HLG_BT2100(7.342124206378591, 0.01)  # doctest: +ELLIPSIS
+    >>> eotf_reverse_HLG_BT2100(7.332197528353875, 0.01)  # doctest: +ELLIPSIS
     0.2121320...
     """
 
     return BT2100_HLG_EOTF_REVERSE_METHODS[method](F_D, L_B, L_W, gamma)
 
 
-def ootf_HLG_BT2100(E, L_B=0, L_W=1000, gamma=None):
+def ootf_HLG_BT2100_1(E, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
-    transfer function (OOTF / OOCF).
+    transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
 
     The OOTF maps relative scene linear light to display linear light.
 
@@ -1016,8 +1028,11 @@ def ootf_HLG_BT2100(E, L_B=0, L_W=1000, gamma=None):
 
     Examples
     --------
-    >>> ootf_HLG_BT2100(0.1)  # doctest: +ELLIPSIS
+    >>> ootf_HLG_BT2100_1(0.1)  # doctest: +ELLIPSIS
     63.0957344...
+    >>> ootf_HLG_BT2100_1(0.1, 0.01)
+    ... # doctest: +ELLIPSIS
+    63.1051034...
     """
 
     E = np.atleast_1d(to_domain_1(E))
@@ -1052,10 +1067,179 @@ def ootf_HLG_BT2100(E, L_B=0, L_W=1000, gamma=None):
         return from_range_1(RGB_D)
 
 
-def ootf_reverse_HLG_BT2100(F_D, L_B=0, L_W=1000, gamma=None):
+def ootf_HLG_BT2100_2(E, L_W=1000, gamma=None):
+    """
+    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
+    transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
+
+    The OOTF maps relative scene linear light to display linear light.
+
+    Parameters
+    ----------
+    E : numeric or array_like
+        :math:`E` is the signal for each colour component
+        :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
+        by camera exposure.
+    L_W : numeric, optional
+        :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
+        for achromatic pixels.
+    gamma : numeric, optional
+        System gamma value, 1.2 at the nominal display peak luminance of
+        :math:`1000 cd/m^2`.
+
+    Returns
+    -------
+    numeric or ndarray
+        :math:`F_D` is the luminance of a displayed linear component
+        :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`InternationalTelecommunicationUnion2018`
+
+    Examples
+    --------
+    >>> ootf_HLG_BT2100_2(0.1)  # doctest: +ELLIPSIS
+    63.0957344...
+    """
+
+    E = np.atleast_1d(to_domain_1(E))
+
+    if E.shape[-1] != 3:
+        usage_warning(
+            '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
+            'RGB Luminance in computations and expects a vector input, thus '
+            'the given input array will be stacked to compose a vector for '
+            'internal computations but a single component will be output.')
+        R_S = G_S = B_S = E
+    else:
+        R_S, G_S, B_S = tsplit(E)
+
+    alpha = L_W
+
+    Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack([R_S, G_S, B_S]), axis=-1)
+
+    if gamma is None:
+        gamma = gamma_function_HLG_BT2100(L_W)
+
+    R_D = alpha * R_S * np.abs(Y_S) ** (gamma - 1)
+    G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1)
+    B_D = alpha * B_S * np.abs(Y_S) ** (gamma - 1)
+
+    if E.shape[-1] != 3:
+        return as_float(from_range_1(R_D))
+    else:
+        RGB_D = tstack([R_D, G_D, B_D])
+
+        return from_range_1(RGB_D)
+
+
+BT2100_HLG_OOTF_METHODS = CaseInsensitiveMapping({
+    'ITU-R BT.2100-1': ootf_HLG_BT2100_1,
+    'ITU-R BT.2100-2': ootf_HLG_BT2100_2,
+})
+BT2100_HLG_OOTF_METHODS.__doc__ = """
+Supported *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical transfer
+function (OOTF / OOCF).
+
+References
+----------
+:cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`,
+:cite:`InternationalTelecommunicationUnion2018`
+
+BT2100_HLG_OOTF_METHODS : CaseInsensitiveMapping
+    **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
+"""
+
+
+def ootf_HLG_BT2100(E, L_B=0, L_W=1000, gamma=None, method='ITU-R BT.2100-2'):
+    """
+    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
+    transfer function (OOTF / OOCF).
+
+    The OOTF maps relative scene linear light to display linear light.
+
+    Parameters
+    ----------
+    E : numeric or array_like
+        :math:`E` is the signal for each colour component
+        :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
+        by camera exposure.
+    L_B : numeric, optional
+        :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
+    L_W : numeric, optional
+        :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
+        for achromatic pixels.
+    gamma : numeric, optional
+        System gamma value, 1.2 at the nominal display peak luminance of
+        :math:`1000 cd/m^2`.
+    method : unicode, optional
+        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
+        Computation method.
+
+    Returns
+    -------
+    numeric or ndarray
+        :math:`F_D` is the luminance of a displayed linear component
+        :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`
+
+    Examples
+    --------
+    >>> ootf_HLG_BT2100(0.1)  # doctest: +ELLIPSIS
+    63.0957344...
+    >>> ootf_HLG_BT2100(0.1, 0.01, method='ITU-R BT.2100-1')
+    ... # doctest: +ELLIPSIS
+    63.1051034...
+    """
+
+    function = BT2100_HLG_OOTF_METHODS[method]
+
+    return function(
+        E, **filter_kwargs(function, **{
+            'L_B': L_B,
+            'L_W': L_W,
+            'gamma': gamma
+        }))
+
+
+def ootf_reverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse opto-optical
-    transfer function (OOTF / OOCF).
+    transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
 
     Parameters
     ----------
@@ -1099,8 +1283,11 @@ def ootf_reverse_HLG_BT2100(F_D, L_B=0, L_W=1000, gamma=None):
 
     Examples
     --------
-    >>> ootf_reverse_HLG_BT2100(63.095734448019336)  # doctest: +ELLIPSIS
+    >>> ootf_reverse_HLG_BT2100_1(63.095734448019336)  # doctest: +ELLIPSIS
     0.1000000...
+    >>> ootf_reverse_HLG_BT2100_1(63.105103490674857, 0.01)
+    ... # doctest: +ELLIPSIS
+    0.0999999...
     """
 
     F_D = np.atleast_1d(to_domain_1(F_D))
@@ -1148,3 +1335,187 @@ def ootf_reverse_HLG_BT2100(F_D, L_B=0, L_W=1000, gamma=None):
         RGB_S = tstack([R_S, G_S, B_S])
 
         return from_range_1(RGB_S)
+
+
+def ootf_reverse_HLG_BT2100_2(F_D, L_W=1000, gamma=None):
+    """
+    Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse opto-optical
+    transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
+
+    Parameters
+    ----------
+    F_D : numeric or array_like
+        :math:`F_D` is the luminance of a displayed linear component
+        :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
+    L_W : numeric, optional
+        :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
+        for achromatic pixels.
+    gamma : numeric, optional
+        System gamma value, 1.2 at the nominal display peak luminance of
+        :math:`1000 cd/m^2`.
+
+    Returns
+    -------
+    numeric or ndarray
+        :math:`E` is the signal for each colour component
+        :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
+        by camera exposure.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`InternationalTelecommunicationUnion2018`
+
+    Examples
+    --------
+    >>> ootf_reverse_HLG_BT2100_2(63.095734448019336)  # doctest: +ELLIPSIS
+    0.1000000...
+    """
+
+    F_D = np.atleast_1d(to_domain_1(F_D))
+
+    if F_D.shape[-1] != 3:
+        usage_warning(
+            '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
+            'RGB Luminance in computations and expects a vector input, thus '
+            'the given input array will be stacked to compose a vector for '
+            'internal computations but a single component will be output.')
+        R_D = G_D = B_D = F_D
+    else:
+        R_D, G_D, B_D = tsplit(F_D)
+
+    Y_D = np.sum(BT2100_HLG_WEIGHTS * tstack([R_D, G_D, B_D]), axis=-1)
+
+    alpha = L_W
+
+    if gamma is None:
+        gamma = gamma_function_HLG_BT2100(L_W)
+
+    R_S = np.where(
+        Y_D == 0,
+        0.0,
+        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * R_D / alpha,
+    )
+    G_S = np.where(
+        Y_D == 0,
+        0.0,
+        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * G_D / alpha,
+    )
+    B_S = np.where(
+        Y_D == 0,
+        0.0,
+        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * B_D / alpha,
+    )
+
+    if F_D.shape[-1] != 3:
+        return as_float(from_range_1(R_S))
+    else:
+        RGB_S = tstack([R_S, G_S, B_S])
+
+        return from_range_1(RGB_S)
+
+
+BT2100_HLG_OOTF_REVERSE_METHODS = CaseInsensitiveMapping({
+    'ITU-R BT.2100-1': ootf_reverse_HLG_BT2100_1,
+    'ITU-R BT.2100-2': ootf_reverse_HLG_BT2100_2,
+})
+BT2100_HLG_OOTF_REVERSE_METHODS.__doc__ = """
+Supported *Recommendation ITU-R BT.2100* *Reference HLG* reverse opto-optical
+transfer function (OOTF / OOCF).
+
+References
+----------
+:cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`,
+:cite:`InternationalTelecommunicationUnion2018`
+
+BT2100_HLG_OOTF_REVERSE_METHODS : CaseInsensitiveMapping
+    **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
+"""
+
+
+def ootf_reverse_HLG_BT2100(F_D,
+                            L_B=0,
+                            L_W=1000,
+                            gamma=None,
+                            method='ITU-R BT.2100-2'):
+    """
+    Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse opto-optical
+    transfer function (OOTF / OOCF).
+
+    Parameters
+    ----------
+    F_D : numeric or array_like
+        :math:`F_D` is the luminance of a displayed linear component
+        :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
+    L_B : numeric, optional
+        :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
+    L_W : numeric, optional
+        :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
+        for achromatic pixels.
+    gamma : numeric, optional
+        System gamma value, 1.2 at the nominal display peak luminance of
+        :math:`1000 cd/m^2`.
+    method : unicode, optional
+        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
+        Computation method.
+
+    Returns
+    -------
+    numeric or ndarray
+        :math:`E` is the signal for each colour component
+        :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
+        by camera exposure.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``F_D``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`,
+    :cite:`InternationalTelecommunicationUnion2018`
+
+    Examples
+    --------
+    >>> ootf_reverse_HLG_BT2100(63.095734448019336)  # doctest: +ELLIPSIS
+    0.1000000...
+    >>> ootf_reverse_HLG_BT2100(
+    ...     63.105103490674857, 0.01, method='ITU-R BT.2100-1')
+    ... # doctest: +ELLIPSIS
+    0.0999999...
+    """
+
+    function = BT2100_HLG_OOTF_REVERSE_METHODS[method]
+
+    return function(
+        F_D,
+        **filter_kwargs(function, **{
+            'L_B': L_B,
+            'L_W': L_W,
+            'gamma': gamma
+        }))

@@ -469,7 +469,9 @@ Opto-Optical Transfer Functions
 .. autosummary::
     :toctree: generated/
 
+    BT2100_HLG_OOTF_METHODS
     ootf_HLG_BT2100
+    BT2100_HLG_OOTF_REVERSE_METHODS
     ootf_reverse_HLG_BT2100
     ootf_PQ_BT2100
     ootf_reverse_PQ_BT2100

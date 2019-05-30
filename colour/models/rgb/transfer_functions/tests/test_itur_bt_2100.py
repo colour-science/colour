@@ -12,11 +12,11 @@ import unittest
 from colour.models.rgb.transfer_functions import (
     oetf_PQ_BT2100, oetf_reverse_PQ_BT2100, eotf_PQ_BT2100,
     eotf_reverse_PQ_BT2100, ootf_PQ_BT2100, ootf_reverse_PQ_BT2100,
-    oetf_HLG_BT2100, oetf_reverse_HLG_BT2100, ootf_HLG_BT2100,
-    ootf_reverse_HLG_BT2100)
+    oetf_HLG_BT2100, oetf_reverse_HLG_BT2100)
 from colour.models.rgb.transfer_functions.itur_bt_2100 import (
     eotf_HLG_BT2100_1, eotf_HLG_BT2100_2, eotf_reverse_HLG_BT2100_1,
-    eotf_reverse_HLG_BT2100_2)
+    eotf_reverse_HLG_BT2100_2, ootf_HLG_BT2100_1, ootf_HLG_BT2100_2,
+    ootf_reverse_HLG_BT2100_1, ootf_reverse_HLG_BT2100_2)
 from colour.models.rgb.transfer_functions.itur_bt_2100 import (
     gamma_function_HLG_BT2100)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -35,7 +35,8 @@ __all__ = [
     'TestOetf_HLG_BT2100', 'TestOetf_reverse_HLG_BT2100',
     'TestEotf_HLG_BT2100_1', 'TestEotf_HLG_BT2100_2',
     'TestEotf_reverse_HLG_BT2100_1', 'TestEotf_reverse_HLG_BT2100_2',
-    'TestOotf_HLG_BT2100', 'TestOotf_reverse_HLG_BT2100'
+    'TestOotf_HLG_BT2100_1', 'TestOotf_HLG_BT2100_2',
+    'TestOotf_reverse_HLG_BT2100_1', 'TestOotf_reverse_HLG_BT2100_2'
 ]
 
 
@@ -728,7 +729,7 @@ eotf_HLG_BT2100_2` definition.
 
         self.assertAlmostEqual(
             eotf_HLG_BT2100_2(0.212132034355964, 0.001, 10000, 1.4),
-            29.582258618819925,
+            29.581261576946076,
             places=7)
 
     def test_n_dimensional_eotf_HLG_BT2100_2(self):
@@ -915,7 +916,7 @@ eotf_reverse_HLG_BT2100_2` definition.
             eotf_reverse_HLG_BT2100_2(1000.000029239784300), 1.0, places=7)
 
         self.assertAlmostEqual(
-            eotf_reverse_HLG_BT2100_2(29.582258618819925, 0.001, 10000, 1.4),
+            eotf_reverse_HLG_BT2100_2(29.581261576946076, 0.001, 10000, 1.4),
             0.212132034355964,
             places=7)
 
@@ -991,27 +992,27 @@ eotf_reverse_HLG_BT2100_2` definition nan support.
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_HLG_BT2100(unittest.TestCase):
+class TestOotf_HLG_BT2100_1(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_HLG_BT2100` definition unit tests methods.
+ootf_HLG_BT2100_1` definition unit tests methods.
     """
 
-    def test_ootf_HLG_BT2100(self):
+    def test_ootf_HLG_BT2100_1(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_HLG_BT2100` definition.
+ootf_HLG_BT2100_1` definition.
         """
 
-        self.assertAlmostEqual(ootf_HLG_BT2100(0.0), 0.0, places=7)
+        self.assertAlmostEqual(ootf_HLG_BT2100_1(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            ootf_HLG_BT2100(0.1), 63.095734448019336, places=7)
+            ootf_HLG_BT2100_1(0.1), 63.095734448019336, places=7)
 
-        self.assertAlmostEqual(ootf_HLG_BT2100(1.0), 1000.0, places=7)
+        self.assertAlmostEqual(ootf_HLG_BT2100_1(1.0), 1000.0, places=7)
 
         self.assertAlmostEqual(
-            ootf_HLG_BT2100(0.1, 0.001, 10000, 1.4),
+            ootf_HLG_BT2100_1(0.1, 0.001, 10000, 1.4),
             398.108130742780300,
             places=7)
 
@@ -1019,98 +1020,194 @@ ootf_HLG_BT2100` definition.
             [[45.884942278760597, 0.000000000000000, -45.884942278760597],
              [-63.095734448019336, -63.095734448019336, -63.095734448019336],
              [63.095734448019336, 63.095734448019336, 63.095734448019336],
-             [51.320396090100672, -51.320396090100672, 51.320396090100672]],
-        )  # yapf: disable
+             [51.320396090100672, -51.320396090100672, 51.320396090100672]], )
         np.testing.assert_almost_equal(
-            ootf_HLG_BT2100(
+            ootf_HLG_BT2100_1(
                 np.array([[0.1, 0.0, -0.1], [-0.1, -0.1, -0.1],
                           [0.1, 0.1, 0.1], [0.1, -0.1, 0.1]])),
             a,
             decimal=7)
 
-    def test_n_dimensional_ootf_HLG_BT2100(self):
+    def test_n_dimensional_ootf_HLG_BT2100_1(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_HLG_BT2100` definition n-dimensional arrays support.
+ootf_HLG_BT2100_1` definition n-dimensional arrays support.
         """
 
         E = 0.1
-        F_D = ootf_HLG_BT2100(E)
+        F_D = ootf_HLG_BT2100_1(E)
 
         E = np.tile(E, 6)
         F_D = np.tile(F_D, 6)
-        np.testing.assert_almost_equal(ootf_HLG_BT2100(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_1(E), F_D, decimal=7)
 
         E = np.reshape(E, (2, 3))
         F_D = np.reshape(F_D, (2, 3))
-        np.testing.assert_almost_equal(ootf_HLG_BT2100(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_1(E), F_D, decimal=7)
 
         E = np.reshape(E, (2, 3, 1))
         F_D = np.reshape(F_D, (2, 3, 1))
-        np.testing.assert_almost_equal(ootf_HLG_BT2100(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_1(E), F_D, decimal=7)
 
         E = np.reshape(E, (6, 1))
         F_D = np.reshape(F_D, (6, 1))
-        np.testing.assert_almost_equal(ootf_HLG_BT2100(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_1(E), F_D, decimal=7)
 
         E = np.array([0.25, 0.50, 0.75])
         F_D = np.array([213.01897444, 426.03794887, 639.05692331])
-        np.testing.assert_almost_equal(ootf_HLG_BT2100(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_1(E), F_D, decimal=7)
 
         E = np.tile(E, (6, 1))
         F_D = np.tile(F_D, (6, 1))
-        np.testing.assert_almost_equal(ootf_HLG_BT2100(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_1(E), F_D, decimal=7)
 
         E = np.reshape(E, (2, 3, 3))
         F_D = np.reshape(F_D, (2, 3, 3))
-        np.testing.assert_almost_equal(ootf_HLG_BT2100(E), F_D, decimal=7)
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_1(E), F_D, decimal=7)
 
-    def test_domain_range_scale_ootf_HLG_BT2100(self):
+    def test_domain_range_scale_ootf_HLG_BT2100_1(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_HLG_BT2100` definition domain and range scale support.
+ootf_HLG_BT2100_1` definition domain and range scale support.
         """
 
         E = 0.1
-        F_D = ootf_HLG_BT2100(E)
+        F_D = ootf_HLG_BT2100_1(E)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    ootf_HLG_BT2100(E * factor), F_D * factor, decimal=7)
+                    ootf_HLG_BT2100_1(E * factor), F_D * factor, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_ootf_HLG_BT2100(self):
+    def test_nan_ootf_HLG_BT2100_1(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_HLG_BT2100` definition nan support.
+ootf_HLG_BT2100_1` definition nan support.
         """
 
-        ootf_HLG_BT2100(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        ootf_HLG_BT2100_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestOotf_reverse_HLG_BT2100(unittest.TestCase):
+class TestOotf_HLG_BT2100_2(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_HLG_BT2100` definition unit tests methods.
+ootf_HLG_BT2100_2` definition unit tests methods.
     """
 
-    def test_ootf_reverse_HLG_BT2100(self):
+    def test_ootf_HLG_BT2100_2(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_HLG_BT2100` definition.
+ootf_HLG_BT2100_2` definition.
         """
 
-        self.assertAlmostEqual(ootf_reverse_HLG_BT2100(0.0), 0.0, places=7)
+        self.assertAlmostEqual(ootf_HLG_BT2100_2(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            ootf_reverse_HLG_BT2100(63.095734448019336), 0.1, places=7)
+            ootf_HLG_BT2100_2(0.1), 63.095734448019336, places=7)
 
-        self.assertAlmostEqual(ootf_reverse_HLG_BT2100(1000.0), 1.0, places=7)
+        self.assertAlmostEqual(ootf_HLG_BT2100_2(1.0), 1000.0, places=7)
 
         self.assertAlmostEqual(
-            ootf_reverse_HLG_BT2100(398.108130742780300, 0.001, 10000, 1.4),
+            ootf_HLG_BT2100_2(0.1, 10000, 1.4), 398.107170553497380, places=7)
+
+        a = np.array(
+            [[45.884942278760597, 0.000000000000000, -45.884942278760597],
+             [-63.095734448019336, -63.095734448019336, -63.095734448019336],
+             [63.095734448019336, 63.095734448019336, 63.095734448019336],
+             [51.320396090100672, -51.320396090100672, 51.320396090100672]], )
+        np.testing.assert_almost_equal(
+            ootf_HLG_BT2100_2(
+                np.array([[0.1, 0.0, -0.1], [-0.1, -0.1, -0.1],
+                          [0.1, 0.1, 0.1], [0.1, -0.1, 0.1]])),
+            a,
+            decimal=7)
+
+    def test_n_dimensional_ootf_HLG_BT2100_2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_HLG_BT2100_2` definition n-dimensional arrays support.
+        """
+
+        E = 0.1
+        F_D = ootf_HLG_BT2100_2(E)
+
+        E = np.tile(E, 6)
+        F_D = np.tile(F_D, 6)
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_2(E), F_D, decimal=7)
+
+        E = np.reshape(E, (2, 3))
+        F_D = np.reshape(F_D, (2, 3))
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_2(E), F_D, decimal=7)
+
+        E = np.reshape(E, (2, 3, 1))
+        F_D = np.reshape(F_D, (2, 3, 1))
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_2(E), F_D, decimal=7)
+
+        E = np.reshape(E, (6, 1))
+        F_D = np.reshape(F_D, (6, 1))
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_2(E), F_D, decimal=7)
+
+        E = np.array([0.25, 0.50, 0.75])
+        F_D = np.array([213.01897444, 426.03794887, 639.05692331])
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_2(E), F_D, decimal=7)
+
+        E = np.tile(E, (6, 1))
+        F_D = np.tile(F_D, (6, 1))
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_2(E), F_D, decimal=7)
+
+        E = np.reshape(E, (2, 3, 3))
+        F_D = np.reshape(F_D, (2, 3, 3))
+        np.testing.assert_almost_equal(ootf_HLG_BT2100_2(E), F_D, decimal=7)
+
+    def test_domain_range_scale_ootf_HLG_BT2100_2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_HLG_BT2100_2` definition domain and range scale support.
+        """
+
+        E = 0.1
+        F_D = ootf_HLG_BT2100_1(E)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    ootf_HLG_BT2100_1(E * factor), F_D * factor, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_ootf_HLG_BT2100_1(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_HLG_BT2100_1` definition nan support.
+        """
+
+        ootf_HLG_BT2100_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestOotf_reverse_HLG_BT2100_1(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_reverse_HLG_BT2100_1` definition unit tests methods.
+    """
+
+    def test_ootf_reverse_HLG_BT2100_1(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_reverse_HLG_BT2100_1` definition.
+        """
+
+        self.assertAlmostEqual(ootf_reverse_HLG_BT2100_1(0.0), 0.0, places=7)
+
+        self.assertAlmostEqual(
+            ootf_reverse_HLG_BT2100_1(63.095734448019336), 0.1, places=7)
+
+        self.assertAlmostEqual(
+            ootf_reverse_HLG_BT2100_1(1000.0), 1.0, places=7)
+
+        self.assertAlmostEqual(
+            ootf_reverse_HLG_BT2100_1(398.108130742780300, 0.001, 10000, 1.4),
             0.1,
             places=7)
 
@@ -1118,83 +1215,190 @@ ootf_reverse_HLG_BT2100` definition.
             [[45.884942278760597, 0.000000000000000, -45.884942278760597],
              [-63.095734448019336, -63.095734448019336, -63.095734448019336],
              [63.095734448019336, 63.095734448019336, 63.095734448019336],
-             [51.320396090100672, -51.320396090100672, 51.320396090100672]]
-        )  # yapf: disable
+             [51.320396090100672, -51.320396090100672, 51.320396090100672]])
         np.testing.assert_almost_equal(
-            ootf_reverse_HLG_BT2100(a),
+            ootf_reverse_HLG_BT2100_1(a),
             np.array([[0.1, 0.0, -0.1], [-0.1, -0.1, -0.1], [0.1, 0.1, 0.1],
                       [0.1, -0.1, 0.1]]),
             decimal=7)
 
-    def test_n_dimensional_ootf_reverse_HLG_BT2100(self):
+    def test_n_dimensional_ootf_reverse_HLG_BT2100_1(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_HLG_BT2100` definition n-dimensional arrays support.
+ootf_reverse_HLG_BT2100_1` definition n-dimensional arrays support.
         """
 
         F_D = 63.095734448019336
-        E = ootf_reverse_HLG_BT2100(F_D)
+        E = ootf_reverse_HLG_BT2100_1(F_D)
 
         F_D = np.tile(F_D, 6)
         E = np.tile(E, 6)
         np.testing.assert_almost_equal(
-            ootf_reverse_HLG_BT2100(F_D), E, decimal=7)
+            ootf_reverse_HLG_BT2100_1(F_D), E, decimal=7)
 
         F_D = np.reshape(F_D, (2, 3))
         E = np.reshape(E, (2, 3))
         np.testing.assert_almost_equal(
-            ootf_reverse_HLG_BT2100(F_D), E, decimal=7)
+            ootf_reverse_HLG_BT2100_1(F_D), E, decimal=7)
 
         F_D = np.reshape(F_D, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
         np.testing.assert_almost_equal(
-            ootf_reverse_HLG_BT2100(F_D), E, decimal=7)
+            ootf_reverse_HLG_BT2100_1(F_D), E, decimal=7)
 
         F_D = np.reshape(F_D, (6, 1))
         E = np.reshape(E, (6, 1))
         np.testing.assert_almost_equal(
-            ootf_reverse_HLG_BT2100(F_D), E, decimal=7)
+            ootf_reverse_HLG_BT2100_1(F_D), E, decimal=7)
 
         F_D = np.array([213.01897444, 426.03794887, 639.05692331])
         E = np.array([0.25, 0.50, 0.75])
         np.testing.assert_almost_equal(
-            ootf_reverse_HLG_BT2100(F_D), E, decimal=7)
+            ootf_reverse_HLG_BT2100_1(F_D), E, decimal=7)
 
         F_D = np.tile(F_D, (6, 1))
         E = np.tile(E, (6, 1))
         np.testing.assert_almost_equal(
-            ootf_reverse_HLG_BT2100(F_D), E, decimal=7)
+            ootf_reverse_HLG_BT2100_1(F_D), E, decimal=7)
 
         F_D = np.reshape(F_D, (2, 3, 3))
         E = np.reshape(E, (2, 3, 3))
         np.testing.assert_almost_equal(
-            ootf_reverse_HLG_BT2100(F_D), E, decimal=7)
+            ootf_reverse_HLG_BT2100_1(F_D), E, decimal=7)
 
-    def test_domain_range_scale_ootf_reverse_HLG_BT2100(self):
+    def test_domain_range_scale_ootf_reverse_HLG_BT2100_1(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_HLG_BT2100` definition domain and range scale support.
+ootf_reverse_HLG_BT2100_1` definition domain and range scale support.
         """
 
         F_D = 63.095734448019336
-        E = ootf_reverse_HLG_BT2100(F_D)
+        E = ootf_reverse_HLG_BT2100_1(F_D)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    ootf_reverse_HLG_BT2100(F_D * factor),
+                    ootf_reverse_HLG_BT2100_1(F_D * factor),
                     E * factor,
                     decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_ootf_reverse_HLG_BT2100(self):
+    def test_nan_ootf_reverse_HLG_BT2100_1(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
-ootf_reverse_HLG_BT2100` definition nan support.
+ootf_reverse_HLG_BT2100_1` definition nan support.
         """
 
-        ootf_reverse_HLG_BT2100(
+        ootf_reverse_HLG_BT2100_1(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestOotf_reverse_HLG_BT2100_2(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_reverse_HLG_BT2100_2` definition unit tests methods.
+    """
+
+    def test_ootf_reverse_HLG_BT2100_2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_reverse_HLG_BT2100_2` definition.
+        """
+
+        self.assertAlmostEqual(ootf_reverse_HLG_BT2100_2(0.0), 0.0, places=7)
+
+        self.assertAlmostEqual(
+            ootf_reverse_HLG_BT2100_2(63.095734448019336), 0.1, places=7)
+
+        self.assertAlmostEqual(
+            ootf_reverse_HLG_BT2100_2(1000.0), 1.0, places=7)
+
+        self.assertAlmostEqual(
+            ootf_reverse_HLG_BT2100_2(398.107170553497380, 10000, 1.4),
+            0.1,
+            places=7)
+
+        a = np.array(
+            [[45.884942278760597, 0.000000000000000, -45.884942278760597],
+             [-63.095734448019336, -63.095734448019336, -63.095734448019336],
+             [63.095734448019336, 63.095734448019336, 63.095734448019336],
+             [51.320396090100672, -51.320396090100672, 51.320396090100672]])
+        np.testing.assert_almost_equal(
+            ootf_reverse_HLG_BT2100_2(a),
+            np.array([[0.1, 0.0, -0.1], [-0.1, -0.1, -0.1], [0.1, 0.1, 0.1],
+                      [0.1, -0.1, 0.1]]),
+            decimal=7)
+
+    def test_n_dimensional_ootf_reverse_HLG_BT2100_2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_reverse_HLG_BT2100_2` definition n-dimensional arrays support.
+        """
+
+        F_D = 63.095734448019336
+        E = ootf_reverse_HLG_BT2100_2(F_D)
+
+        F_D = np.tile(F_D, 6)
+        E = np.tile(E, 6)
+        np.testing.assert_almost_equal(
+            ootf_reverse_HLG_BT2100_2(F_D), E, decimal=7)
+
+        F_D = np.reshape(F_D, (2, 3))
+        E = np.reshape(E, (2, 3))
+        np.testing.assert_almost_equal(
+            ootf_reverse_HLG_BT2100_2(F_D), E, decimal=7)
+
+        F_D = np.reshape(F_D, (2, 3, 1))
+        E = np.reshape(E, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            ootf_reverse_HLG_BT2100_2(F_D), E, decimal=7)
+
+        F_D = np.reshape(F_D, (6, 1))
+        E = np.reshape(E, (6, 1))
+        np.testing.assert_almost_equal(
+            ootf_reverse_HLG_BT2100_2(F_D), E, decimal=7)
+
+        F_D = np.array([213.01897444, 426.03794887, 639.05692331])
+        E = np.array([0.25, 0.50, 0.75])
+        np.testing.assert_almost_equal(
+            ootf_reverse_HLG_BT2100_2(F_D), E, decimal=7)
+
+        F_D = np.tile(F_D, (6, 1))
+        E = np.tile(E, (6, 1))
+        np.testing.assert_almost_equal(
+            ootf_reverse_HLG_BT2100_2(F_D), E, decimal=7)
+
+        F_D = np.reshape(F_D, (2, 3, 3))
+        E = np.reshape(E, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            ootf_reverse_HLG_BT2100_2(F_D), E, decimal=7)
+
+    def test_domain_range_scale_ootf_reverse_HLG_BT2100_2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_reverse_HLG_BT2100_2` definition domain and range scale support.
+        """
+
+        F_D = 63.095734448019336
+        E = ootf_reverse_HLG_BT2100_2(F_D)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    ootf_reverse_HLG_BT2100_2(F_D * factor),
+                    E * factor,
+                    decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_ootf_reverse_HLG_BT2100_2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_reverse_HLG_BT2100_2` definition nan support.
+        """
+
+        ootf_reverse_HLG_BT2100_2(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
