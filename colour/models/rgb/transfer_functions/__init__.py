@@ -438,7 +438,7 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
         :func:`colour.models.oetf_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
-    is_12_bits_system : bool
+    is_12_bits_system : bool, optional
         {:func:`colour.models.oetf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used
         if system is not
@@ -585,7 +585,7 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
         {:func:`colour.models.eotf_BT2100_HLG`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    is_12_bits_system : bool
+    is_12_bits_system : bool, optional
         {:func:`colour.models.eotf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used if system is not
         12-bit.

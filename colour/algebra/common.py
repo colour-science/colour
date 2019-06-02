@@ -130,8 +130,10 @@ def spow(a, p):
     Raises given array :math:`a` to the power :math:`p` as follows:
     :math:`sign(a) * |a|^p`.
 
-    This avoids NaNs generation when array :math:`a` is negative and the power
-    :math:`p` is fractional.
+    This definition avoids NaNs generation when array :math:`a` is negative and
+    the power :math:`p` is fractional. This behaviour can be enabled or
+    disabled with the :func:`color.algebra.set_spow_enable` definition or with
+    the :func:`spow_enable` context manager.
 
     Parameters
     ----------------

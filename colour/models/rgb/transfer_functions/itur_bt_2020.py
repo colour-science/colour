@@ -79,7 +79,7 @@ def oetf_BT2020(E, is_12_bits_system=False, constants=BT2020_CONSTANTS):
         Voltage :math:`E` normalised by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera colour channel R, G, B.
-    is_12_bits_system : bool
+    is_12_bits_system : bool, optional
         *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
     constants : Structure, optional
         *Recommendation ITU-R BT.2020* constants.
@@ -133,7 +133,7 @@ def eotf_BT2020(E_p, is_12_bits_system=False, constants=BT2020_CONSTANTS):
     ----------
     E_p : numeric or array_like
         Non-linear signal :math:`E'`.
-    is_12_bits_system : bool
+    is_12_bits_system : bool, optional
         *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
     constants : Structure, optional
         *Recommendation ITU-R BT.2020* constants.
