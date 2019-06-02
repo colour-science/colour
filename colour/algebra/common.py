@@ -132,7 +132,7 @@ def spow(a, p):
 
     This definition avoids NaNs generation when array :math:`a` is negative and
     the power :math:`p` is fractional. This behaviour can be enabled or
-    disabled with the :func:`color.algebra.set_spow_enable` definition or with
+    disabled with the :func:`colour.algebra.set_spow_enable` definition or with
     the :func:`spow_enable` context manager.
 
     Parameters
