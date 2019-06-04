@@ -7,8 +7,8 @@ import sys
 from colour.utilities.deprecation import ModuleAPI, Renamed
 from colour.utilities.documentation import is_documentation_building
 
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .munsell import MUNSELL_VALUE_METHODS
 from .munsell import munsell_value
 from .munsell import (munsell_value_Priest1920, munsell_value_Munsell1933,
@@ -19,7 +19,7 @@ from .munsell import munsell_colour_to_xyY, xyY_to_munsell_colour
 from .triplet import RGB_to_HEX, HEX_to_RGB
 
 __all__ = []
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += ['munsell_value']
 __all__ += ['MUNSELL_VALUE_METHODS']
 __all__ += [

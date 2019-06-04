@@ -34,7 +34,7 @@ Notes
     *CIE 1924 Photopic Standard Observer* and
     *CIE 1951 Scotopic Standard Observer* luminous efficiency functions with
     the :func:`colour.sd_mesopic_luminous_efficiency_function` definition and
-    the data from :attr:`colour.colorimetry.dataset.lefs.MESOPIC_X_DATA`
+    the data from :attr:`colour.colorimetry.datasets.lefs.MESOPIC_X_DATA`
     attribute that defines weighting factors dependent on the photopic
     luminance :math:`L_p`.
 

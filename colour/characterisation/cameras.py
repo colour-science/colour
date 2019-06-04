@@ -3,8 +3,8 @@
 Cameras Spectral Sensitivities
 ==============================
 
-Defines spectral distributions classes for the dataset from
-:mod:`colour.characterisation.dataset.cameras` module:
+Defines spectral distributions classes for the datasets from
+:mod:`colour.characterisation.datasets.cameras` module:
 
 -   :class:`colour.characterisation.RGB_SpectralSensitivities`: Implements
     support for a camera *RGB* spectral sensitivities.

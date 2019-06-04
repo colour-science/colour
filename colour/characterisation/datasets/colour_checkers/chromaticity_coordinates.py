@@ -12,20 +12,20 @@ class instance of 24 samples as follows::
 
 The following *ColourCheckers* data is available:
 
--   :attr:`colour.characterisation.dataset.colour_checkers.\
+-   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER_1976`: *ColourChecker* developed by
     *McCamy et al.* at Macbeth, a Division of Kollmorgen.
--   :attr:`colour.characterisation.dataset.colour_checkers.\
+-   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER_2005`: Reference data from
     *GretagMacbeth* published in 2005.
--   :attr:`colour.characterisation.dataset.colour_checkers.\
+-   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.BABELCOLOR_AVERAGE`: Average data derived from
     measurements of 30 *ColourChecker* charts.
--   :attr:`colour.characterisation.dataset.colour_checkers.\
+-   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER24_BEFORE_NOV2014`: Reference data from
     *X-Rite* published in 2015 and matching the data from *GretagMacbeth*
     published in 2005.
--   :attr:`colour.characterisation.dataset.colour_checkers.\
+-   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER24_AFTER_NOV2014`: Reference data from
     *X-Rite* published in 2015 and matching the *ColourChecker* edition after
     November 2014.

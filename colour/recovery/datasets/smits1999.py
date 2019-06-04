@@ -3,7 +3,7 @@
 Smits (1999) - Reflectance Recovery Dataset
 ===========================================
 
-Defines the dataset for reflectance recovery using *Smits (1999)* method.
+Defines the datasets for reflectance recovery using *Smits (1999)* method.
 
 References
 ----------

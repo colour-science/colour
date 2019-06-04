@@ -54,7 +54,7 @@ CIE_RGB_PRIMARIES : ndarray, (3, 2)
 Notes
 -----
 -   *CIE RGB* colourspace primaries were computed using
-    :attr:`colour.models.rgb.dataset.cie_rgb.CIE_RGB_TO_XYZ_MATRIX` attribute
+    :attr:`colour.models.rgb.datasets.cie_rgb.CIE_RGB_TO_XYZ_MATRIX` attribute
     and :func:`colour.primaries_whitepoint` definition.
 """
 

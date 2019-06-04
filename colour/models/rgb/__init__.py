@@ -10,8 +10,8 @@ from .rgb_colourspace import XYZ_to_RGB, RGB_to_XYZ
 from .rgb_colourspace import RGB_to_RGB_matrix, RGB_to_RGB
 from .transfer_functions import *  # noqa
 from . import transfer_functions
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .common import XYZ_to_sRGB, sRGB_to_XYZ
 from .aces_it import sd_to_aces_relative_exposure_values
 from .deprecated import (RGB_to_HSV, HSV_to_RGB, RGB_to_HSL, HSL_to_RGB,
@@ -30,7 +30,7 @@ __all__ += ['RGB_Colourspace']
 __all__ += ['XYZ_to_RGB', 'RGB_to_XYZ']
 __all__ += ['RGB_to_RGB_matrix', 'RGB_to_RGB']
 __all__ += transfer_functions.__all__
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += ['XYZ_to_sRGB', 'sRGB_to_XYZ']
 __all__ += ['sd_to_aces_relative_exposure_values']
 __all__ += [

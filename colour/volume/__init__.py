@@ -2,8 +2,8 @@
 
 from __future__ import absolute_import
 
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .macadam_limits import is_within_macadam_limits
 from .mesh import is_within_mesh_volume
 from .pointer_gamut import is_within_pointer_gamut
@@ -15,7 +15,7 @@ from .rgb import (RGB_colourspace_limits, RGB_colourspace_volume_MonteCarlo,
                   RGB_colourspace_visible_spectrum_coverage_MonteCarlo)
 
 __all__ = []
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += ['is_within_macadam_limits']
 __all__ += ['is_within_mesh_volume']
 __all__ += ['is_within_pointer_gamut']

@@ -26,8 +26,8 @@ from __future__ import absolute_import
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               get_domain_range_scale, as_float_array)
 
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .vonkries import (chromatic_adaptation_matrix_VonKries,
                        chromatic_adaptation_VonKries)
 from .fairchild1990 import chromatic_adaptation_Fairchild1990
@@ -38,7 +38,7 @@ from .cmccat2000 import (
 from .cie1994 import chromatic_adaptation_CIE1994
 
 __all__ = []
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += [
     'chromatic_adaptation_matrix_VonKries', 'chromatic_adaptation_VonKries'
 ]

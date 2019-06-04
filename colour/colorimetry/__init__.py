@@ -13,8 +13,8 @@ from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
 from .blackbody import sd_blackbody, blackbody_spectral_radiance, planck_law
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .generation import sd_constant, sd_zeros, sd_ones
 from .generation import SD_GAUSSIAN_METHODS
 from .generation import sd_gaussian, sd_gaussian_normal, sd_gaussian_fwhm
@@ -75,7 +75,7 @@ __all__ += [
     'LMS_ConeFundamentals', 'RGB_ColourMatchingFunctions',
     'XYZ_ColourMatchingFunctions'
 ]
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += ['sd_constant', 'sd_zeros', 'sd_ones']
 __all__ += ['SD_GAUSSIAN_METHODS']
 __all__ += ['sd_gaussian', 'sd_gaussian_normal', 'sd_gaussian_fwhm']

@@ -4,7 +4,7 @@ RGB Colourspace and Transformations
 ===================================
 
 Defines the :class:`colour.RGB_Colourspace` class for the *RGB* colourspaces
-dataset from :mod:`colour.models.dataset.aces_rgb`, etc... and the following
+datasets from :mod:`colour.models.datasets.aces_rgb`, etc... and the following
 *RGB* colourspace transformations or helper definitions:
 
 -   :func:`colour.XYZ_to_RGB`
@@ -58,8 +58,8 @@ __all__ = [
 
 class RGB_Colourspace(object):
     """
-    Implements support for the *RGB* colourspaces dataset from
-    :mod:`colour.models.dataset.aces_rgb`, etc....
+    Implements support for the *RGB* colourspaces datasets from
+    :mod:`colour.models.datasets.aces_rgb`, etc....
 
     Colour science literature related to *RGB* colourspaces and encodings
     defines their dataset using different degree of precision or rounding.

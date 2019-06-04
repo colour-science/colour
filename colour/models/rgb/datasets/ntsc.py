@@ -24,7 +24,7 @@ dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 from __future__ import division, unicode_literals
 
 from colour.models.rgb import RGB_Colourspace
-from colour.models.rgb.dataset.itur_bt_470 import (
+from colour.models.rgb.datasets.itur_bt_470 import (
     BT470_525_PRIMARIES, BT470_525_WHITEPOINT, BT470_525_WHITEPOINT_NAME,
     BT470_525_TO_XYZ_MATRIX, XYZ_TO_BT470_525_MATRIX, BT470_525_COLOURSPACE)
 

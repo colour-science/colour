@@ -7,8 +7,8 @@ import sys
 from colour.utilities.deprecation import ModuleAPI, Renamed
 from colour.utilities.documentation import is_documentation_building
 
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .common import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE, colour_style,
                      override_style, XYZ_to_plotting_colourspace, ColourSwatch,
                      colour_cycle, artist, camera, render, wrap_label,
@@ -59,7 +59,7 @@ from .temperature import (
 from .volume import plot_RGB_colourspaces_gamuts, plot_RGB_scatter
 
 __all__ = []
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += [
     'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',

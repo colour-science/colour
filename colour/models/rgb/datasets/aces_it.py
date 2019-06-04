@@ -3,7 +3,7 @@
 Academy Color Encoding System - Input Transform Dataset
 =======================================================
 
-Defines the *Academy Color Encoding System* (ACES) *Input Transform* dataset.
+Defines the *Academy Color Encoding System* (ACES) *Input Transform* datasets.
 
 See Also
 --------

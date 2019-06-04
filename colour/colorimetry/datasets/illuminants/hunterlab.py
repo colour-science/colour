@@ -3,7 +3,7 @@
 HunterLab Dataset
 =================
 
-Defines the *HunterLab* illuminants dataset for the
+Defines the *HunterLab* illuminants datasets for the
 *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 
@@ -73,7 +73,7 @@ HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
         for x in HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA
     }))
 """
-*Hunter L,a,b* illuminant dataset for *CIE 1931 2 Degree Standard Observer*.
+*Hunter L,a,b* illuminant datasets for *CIE 1931 2 Degree Standard Observer*.
 
 References
 ----------
@@ -103,7 +103,7 @@ HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
         HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA
     }))
 """
-*Hunter L,a,b* illuminant dataset for *CIE 1964 10 Degree Standard Observer*.
+*Hunter L,a,b* illuminant datasets for *CIE 1964 10 Degree Standard Observer*.
 
 References
 ----------
@@ -120,7 +120,7 @@ HUNTERLAB_ILLUMINANTS = CaseInsensitiveMapping({
         HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
 })
 HUNTERLAB_ILLUMINANTS.__doc__ = """
-Aggregated *Hunter L,a,b* illuminant dataset.
+Aggregated *Hunter L,a,b* illuminant datasets.
 
 References
 ----------

@@ -13,9 +13,9 @@ follows::
 
 The following *ColourCheckers* data is available:
 
--   :attr:`colour.characterisation.dataset.colour_checkers.sds.\
+-   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
 COLORCHECKER_N_OHTA_SDS`: Measured by Ohta (1997).
--   :attr:`colour.characterisation.dataset.colour_checkers.sds.\
+-   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
 BABELCOLOR_AVERAGE_SDS`: Average data derived from measurements of
     30 *ColourChecker* charts.
 

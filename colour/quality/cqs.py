@@ -35,7 +35,7 @@ from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series, ILLUMINANTS,
     STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
-from colour.quality.dataset.vs import VS_INDEXES_TO_NAMES, VS_SDS
+from colour.quality.datasets.vs import VS_INDEXES_TO_NAMES, VS_SDS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
