@@ -1,33 +1,33 @@
 # -*- coding: utf-8 -*-
 """
-ColourCheckers Chromaticity Coordinates
-=======================================
+Colour Checkers Chromaticity Coordinates
+========================================
 
-Defines *ColourCheckers* chromaticity coordinates in *CIE xyY* colourspace.
+Defines *Colour Checkers* chromaticity coordinates in *CIE xyY* colourspace.
 
-Each *ColourChecker* data is in the form of a list of an :class:`OrderedDict`
+Each *Colour Checker* data is in the form of a list of an :class:`OrderedDict`
 class instance of 24 samples as follows::
 
     {'name': 'xyY', ..., 'name': 'xyY'}
 
-The following *ColourCheckers* data is available:
+The following *Colour Checkers* data is available:
 
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
-chromaticity_coordinates.COLORCHECKER_1976`: *ColourChecker* developed by
+chromaticity_coordinates.COLORCHECKER_1976`: *Colour Checker* developed by
     *McCamy et al.* at Macbeth, a Division of Kollmorgen.
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER_2005`: Reference data from
     *GretagMacbeth* published in 2005.
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.BABELCOLOR_AVERAGE`: Average data derived from
-    measurements of 30 *ColourChecker* charts.
+    measurements of 30 *Colour Checker* charts.
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER24_BEFORE_NOV2014`: Reference data from
     *X-Rite* published in 2015 and matching the data from *GretagMacbeth*
     published in 2005.
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER24_AFTER_NOV2014`: Reference data from
-    *X-Rite* published in 2015 and matching the *ColourChecker* edition after
+    *X-Rite* published in 2015 and matching the *Colour Checker* edition after
     November 2014.
 
 See Also
@@ -88,16 +88,16 @@ __all__ = [
 class ColourChecker(
         namedtuple('ColourChecker', ('name', 'data', 'illuminant'))):
     """
-    *ColourChecker* data.
+    *Colour Checker* data.
 
     Parameters
     ----------
     name : unicode
-        *ColourChecker* name.
+        *Colour Checker* name.
     data : OrderedDict
         chromaticity coordinates in *CIE xyY* colourspace.
     illuminant : array_like
-        *ColourChecker* illuminant chromaticity coordinates.
+        *Colour Checker* illuminant chromaticity coordinates.
     """
 
 
@@ -139,7 +139,7 @@ COLORCHECKER_1976_ILLUMINANT : ndarray
 COLORCHECKER_1976 = ColourChecker('ColorChecker 1976', COLORCHECKER_1976_DATA,
                                   COLORCHECKER_1976_ILLUMINANT)
 """
-*ColourChecker* developed by *McCamy et al.* at Macbeth, a Division of
+*Colour Checker* developed by *McCamy et al.* at Macbeth, a Division of
 Kollmorgen.
 
 COLORCHECKER_1976 : ColourChecker
@@ -226,7 +226,7 @@ BABELCOLOR_AVERAGE = ColourChecker('BabelColor Average',
                                    BABELCOLOR_AVERAGE_DATA,
                                    BABELCOLOR_AVERAGE_ILLUMINANT)
 """
-Average data derived from measurements of 30 *ColourChecker* charts.
+Average data derived from measurements of 30 *Colour Checker* charts.
 
 BABELCOLOR_AVERAGE : ColourChecker
 """
@@ -290,7 +290,7 @@ COLORCHECKER24_BEFORE_NOV2014 = ColourChecker(
     COLORCHECKER24_BEFORE_NOV2014_DATA,
     COLORCHECKER24_BEFORE_NOV2014_ILLUMINANT)
 """
-Reference *ColourChecker* data from *X-Rite (2015)*.
+Reference *Colour Checker* data from *X-Rite (2015)*.
 
 Notes
 -----
@@ -359,8 +359,8 @@ COLORCHECKER24_AFTER_NOV2014 = ColourChecker(
     'ColorChecker24 - After November 2014', COLORCHECKER24_AFTER_NOV2014_DATA,
     COLORCHECKER24_AFTER_NOV2014_ILLUMINANT)
 """
-Reference *ColourChecker* data from *X-Rite (2015)* and matching the
-*ColourChecker* edition after November 2014.
+Reference *Colour Checker* data from *X-Rite (2015)* and matching the
+*Colour Checker* edition after November 2014.
 
 COLORCHECKER24_AFTER_NOV2014 : ColourChecker
 """
@@ -373,7 +373,7 @@ COLOURCHECKERS = CaseInsensitiveMapping({
     'ColorChecker24 - After November 2014': COLORCHECKER24_AFTER_NOV2014,
 })
 COLOURCHECKERS.__doc__ = """
-Aggregated *ColourCheckers* chromaticity coordinates.
+Aggregated *Colour Checkers* chromaticity coordinates.
 
 References
 ----------
