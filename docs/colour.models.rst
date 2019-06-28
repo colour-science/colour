@@ -378,10 +378,10 @@ Opto-Electronic Transfer Functions
     oetf_reverse_ARIBSTDB67
     oetf_DICOMGSDF
     oetf_BT2020
-    oetf_BT2100_HLG
-    oetf_reverse_BT2100_HLG
-    oetf_BT2100_PQ
-    oetf_reverse_BT2100_PQ
+    oetf_HLG_BT2100
+    oetf_reverse_HLG_BT2100
+    oetf_PQ_BT2100
+    oetf_reverse_PQ_BT2100
     oetf_BT601
     oetf_reverse_BT601
     oetf_BT709
@@ -431,10 +431,12 @@ Electro-Optical Transfer Functions
     eotf_BT1886
     eotf_reverse_BT1886
     eotf_BT2020
-    eotf_BT2100_HLG
-    eotf_reverse_BT2100_HLG
-    eotf_BT2100_PQ
-    eotf_reverse_BT2100_PQ
+    BT2100_HLG_EOTF_METHODS
+    eotf_HLG_BT2100
+    BT2100_HLG_EOTF_REVERSE_METHODS
+    eotf_reverse_HLG_BT2100
+    eotf_PQ_BT2100
+    eotf_reverse_PQ_BT2100
     eotf_ProPhotoRGB
     eotf_RIMMRGB
     eotf_ROMMRGB
@@ -467,10 +469,12 @@ Opto-Optical Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    ootf_BT2100_HLG
-    ootf_reverse_BT2100_HLG
-    ootf_BT2100_PQ
-    ootf_reverse_BT2100_PQ
+    BT2100_HLG_OOTF_METHODS
+    ootf_HLG_BT2100
+    BT2100_HLG_OOTF_REVERSE_METHODS
+    ootf_reverse_HLG_BT2100
+    ootf_PQ_BT2100
+    ootf_reverse_PQ_BT2100
 
 Log Encoding and Decoding Curves
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
