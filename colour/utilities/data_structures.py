@@ -41,7 +41,7 @@ __all__ = ['Structure', 'Lookup', 'CaseInsensitiveMapping']
 
 class Structure(dict):
     """
-    Defines an object similar to C/C++ structured type.
+    Defines a dict-like object allowing to access key values using dot syntax.
 
     Other Parameters
     ----------------

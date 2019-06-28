@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-ColourCheckers Spectral Distributions
-=====================================
+Colour Checkers Spectral Distributions
+======================================
 
-Defines *ColourCheckers* spectral distributions.
+Defines *Colour Checkers* spectral distributions.
 
-Each *ColourChecker* data is in the form of :class:`OrderedDict`
+Each *Colour Checker* data is in the form of :class:`OrderedDict`
 class instance of :class:`colour.SpectralDistribution` classes as
 follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
-The following *ColourCheckers* data is available:
+The following *Colour Checkers* data is available:
 
 -   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
 COLORCHECKER_N_OHTA_SDS`: Measured by Ohta (1997).
 -   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
 BABELCOLOR_AVERAGE_SDS`: Average data derived from measurements of
-    30 *ColourChecker* charts.
+    30 *Colour Checker* charts.
 
 See Also
 --------
@@ -2987,7 +2987,7 @@ BABELCOLOR_AVERAGE_SDS = OrderedDict(
     (key, SpectralDistribution(value, name=key))
     for key, value in BABELCOLOR_AVERAGE_SDS_DATA.items())
 """
-Average data derived from measurements of 30 *ColourChecker* charts.
+Average data derived from measurements of 30 *Colour Checker* charts.
 
 BABELCOLOR_AVERAGE_SDS : dict
 """
@@ -2997,7 +2997,7 @@ COLOURCHECKERS_SDS = CaseInsensitiveMapping({
     'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SDS
 })
 COLOURCHECKERS_SDS.__doc__ = """
-Aggregated *ColourCheckers* spectral distributions.
+Aggregated *Colour Checkers* spectral distributions.
 
 References
 ----------

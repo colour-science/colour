@@ -6,7 +6,7 @@ Abstract Continuous Function
 Defines the abstract class implementing support for abstract continuous
 function:
 
--   :class:`colour.continuous.AbstractContinuousFunction.
+-   :class:`colour.continuous.AbstractContinuousFunction`.
 """
 
 from __future__ import division, unicode_literals
