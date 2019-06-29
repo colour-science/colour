@@ -100,11 +100,15 @@ def log_encoding_SLog(x,
     --------
     >>> log_encoding_SLog(0.18)  # doctest: +ELLIPSIS
     0.3849708...
-    >>> log_encoding_SLog(0.18, out_normalised_code_values=False)
-    ... # doctest: +ELLIPSIS
-    0.3765127...
-    >>> log_encoding_SLog(0.18, in_reflection=False)  # doctest: +ELLIPSIS
-    0.3708204...
+
+    The values of *IRE and CV of S-Log2 @ISO800* table in
+    :cite:`SonyCorporation2012a` are obtained as follows:
+
+    >>> x = np.array([0, 18, 90]) / 100
+    >>> np.around(log_encoding_SLog(x, 10, False) * 100).astype(np.int)
+    array([ 3, 38, 65])
+    >>> np.around(log_encoding_SLog(x) * (2 ** 10 - 1)).astype(np.int)
+    array([ 90, 394, 636])
     """
 
     x = to_domain_1(x)
@@ -171,12 +175,6 @@ def log_decoding_SLog(y,
     Examples
     --------
     >>> log_decoding_SLog(0.384970815928670)  # doctest: +ELLIPSIS
-    0.1...
-    >>> log_decoding_SLog(0.376512722254600, in_normalised_code_values=False)
-    ... # doctest: +ELLIPSIS
-    0.1...
-    >>> log_decoding_SLog(0.370820482371268, out_reflection=False)
-    ... # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -246,11 +244,15 @@ def log_encoding_SLog2(x,
     --------
     >>> log_encoding_SLog2(0.18)  # doctest: +ELLIPSIS
     0.3395325...
-    >>> log_encoding_SLog2(0.18, out_normalised_code_values=False)
-    ... # doctest: +ELLIPSIS
-    0.3234495...
-    >>> log_encoding_SLog2(0.18, in_reflection=False)  # doctest: +ELLIPSIS
-    0.3262865...
+
+    The values of *IRE and CV of S-Log2 @ISO800* table in
+    :cite:`SonyCorporation2012a` are obtained as follows:
+
+    >>> x = np.array([0, 18, 90]) / 100
+    >>> np.around(log_encoding_SLog2(x, 10, False) * 100).astype(np.int)
+    array([ 3, 32, 59])
+    >>> np.around(log_encoding_SLog2(x) * (2 ** 10 - 1)).astype(np.int)
+    array([ 90, 347, 582])
     """
 
     return log_encoding_SLog(x * 155 / 219, bit_depth,
@@ -305,12 +307,6 @@ def log_decoding_SLog2(y,
     Examples
     --------
     >>> log_decoding_SLog2(0.339532524633774)  # doctest: +ELLIPSIS
-    0.1...
-    >>> log_decoding_SLog2(0.323449512215013, in_normalised_code_values=False)
-    ... # doctest: +ELLIPSIS
-    0.1...
-    >>> log_decoding_SLog2(0.326286538946799, out_reflection=False)
-    ... # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -367,11 +363,15 @@ def log_encoding_SLog3(x,
     --------
     >>> log_encoding_SLog3(0.18)  # doctest: +ELLIPSIS
     0.4105571...
-    >>> log_encoding_SLog3(0.18, out_normalised_code_values=False)
-    ... # doctest: +ELLIPSIS
-    0.4063926...
-    >>> log_encoding_SLog3(0.18, in_reflection=False)  # doctest: +ELLIPSIS
-    0.3995079...
+
+    The values of *S-Log3 10bit code values (18%, 90%)* table in
+    :cite:`SonyCorporationd` are obtained as follows:
+
+    >>> x = np.array([0, 18, 90]) / 100
+    >>> np.around(log_encoding_SLog3(x, 10, False) * 100).astype(np.int)
+    array([ 4, 41, 61])
+    >>> np.around(log_encoding_SLog3(x) * (2 ** 10 - 1)).astype(np.int)
+    array([ 95, 420, 598])
     """
 
     x = to_domain_1(x)
@@ -438,12 +438,6 @@ def log_decoding_SLog3(y,
     Examples
     --------
     >>> log_decoding_SLog3(0.410557184750733)  # doctest: +ELLIPSIS
-    0.1...
-    >>> log_decoding_SLog3(0.406392694063927, in_normalised_code_values=False)
-    ... # doctest: +ELLIPSIS
-    0.1...
-    >>> log_decoding_SLog3(0.399507939606216, out_reflection=False)
-    ... # doctest: +ELLIPSIS
     0.1...
     """
 

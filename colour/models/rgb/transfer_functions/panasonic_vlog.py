@@ -97,6 +97,21 @@ def log_encoding_VLog(L_in,
     --------
     >>> log_encoding_VLog(0.18)  # doctest: +ELLIPSIS
     0.4233114...
+
+    The values of *Fig.2.2 V-Log Code Value* table in :cite:`Panasonic2014a`
+    are obtained as follows:
+
+    >>> L_in = np.array([0, 18, 90]) / 100
+    >>> np.around(log_encoding_VLog(L_in, 10, False) * 100).astype(np.int)
+    array([ 7, 42, 61])
+    >>> np.around(log_encoding_VLog(L_in) * (2 ** 10 - 1)).astype(np.int)
+    array([128, 433, 602])
+    >>> np.around(log_encoding_VLog(L_in) * (2 ** 12 - 1)).astype(np.int)
+    array([ 512, 1733, 2409])
+
+    Note that some values in the last column values of
+    *Fig.2.2 V-Log Code Value* table in :cite:`Panasonic2014a` are different
+    by a code: [512, 1732, 2408].
     """
 
     L_in = to_domain_1(L_in)

@@ -105,6 +105,15 @@ def log_encoding_CanonLog(x,
     --------
     >>> log_encoding_CanonLog(0.18) * 100  # doctest: +ELLIPSIS
     34.3389651...
+
+    The values of *Table 2 Canon-Log Code Values* table in :cite:`Thorpe2012a`
+    are obtained as follows:
+
+    >>> x = np.array([0, 2, 18, 90, 720]) / 100
+    >>> np.around(log_encoding_CanonLog(x) * (2 ** 10 - 1)).astype(np.int)
+    array([ 128,  169,  351,  614, 1016])
+    >>> np.around(log_encoding_CanonLog(x, 10, False) * 100, 1)
+    array([   7.3,   12. ,   32.8,   62.7,  108.7])
     """
 
     x = to_domain_1(x)
