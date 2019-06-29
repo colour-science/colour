@@ -51,7 +51,10 @@ __all__ = [
 ]
 
 
-def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
+def log_encoding_SLog(x,
+                      bit_depth=10,
+                      out_normalised_code_values=True,
+                      in_reflection=True):
     """
     Defines the *Sony S-Log* log encoding curve / opto-electronic transfer
     function.
@@ -63,9 +66,9 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
         camera.
     bit_depth : int, optional
         Bit depth used for conversion.
-    out_legal : bool, optional
-        Whether the non-linear *Sony S-Log* data :math:`y` is encoded in legal
-        range.
+    out_normalised_code_values : bool, optional
+        Whether the non-linear *Sony S-Log* data :math:`y` is encoded with
+        normalised code values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -97,10 +100,15 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     --------
     >>> log_encoding_SLog(0.18)  # doctest: +ELLIPSIS
     0.3849708...
-    >>> log_encoding_SLog(0.18, out_legal=False)  # doctest: +ELLIPSIS
-    0.3765127...
-    >>> log_encoding_SLog(0.18, in_reflection=False)  # doctest: +ELLIPSIS
-    0.3708204...
+
+    The values of *IRE and CV of S-Log2 @ISO800* table in
+    :cite:`SonyCorporation2012a` are obtained as follows:
+
+    >>> x = np.array([0, 18, 90]) / 100
+    >>> np.around(log_encoding_SLog(x, 10, False) * 100).astype(np.int)
+    array([ 3, 38, 65])
+    >>> np.around(log_encoding_SLog(x) * (2 ** 10 - 1)).astype(np.int)
+    array([ 90, 394, 636])
     """
 
     x = to_domain_1(x)
@@ -114,12 +122,15 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
         x * 5 + 0.030001222851889303,
     )
 
-    y = full_to_legal(y, bit_depth) if out_legal else y
+    y = full_to_legal(y, bit_depth) if out_normalised_code_values else y
 
     return as_float(from_range_1(y))
 
 
-def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
+def log_decoding_SLog(y,
+                      bit_depth=10,
+                      in_normalised_code_values=True,
+                      out_reflection=True):
     """
     Defines the *Sony S-Log* log decoding curve / electro-optical transfer
     function.
@@ -130,9 +141,9 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
         Non-linear *Sony S-Log* data :math:`y`.
     bit_depth : int, optional
         Bit depth used for conversion.
-    in_legal : bool, optional
-        Whether the non-linear *Sony S-Log* data :math:`y` is encoded in legal
-        range.
+    in_normalised_code_values : bool, optional
+        Whether the non-linear *Sony S-Log* data :math:`y` is encoded with
+        normalised code values.
     out_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -165,21 +176,15 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
     --------
     >>> log_decoding_SLog(0.384970815928670)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_SLog(0.376512722254600, in_legal=False)
-    ... # doctest: +ELLIPSIS
-    0.1...
-    >>> log_decoding_SLog(0.370820482371268, out_reflection=False)
-    ... # doctest: +ELLIPSIS
-    0.1...
     """
 
     y = to_domain_1(y)
 
-    x = legal_to_full(y, bit_depth) if in_legal else y
+    x = legal_to_full(y, bit_depth) if in_normalised_code_values else y
 
     with domain_range_scale('ignore'):
         x = np.where(
-            y >= log_encoding_SLog(0.0, bit_depth, in_legal),
+            y >= log_encoding_SLog(0.0, bit_depth, in_normalised_code_values),
             10 ** ((x - 0.616596 - 0.03) / 0.432699) - 0.037584,
             (x - 0.030001222851889303) / 5.0,
         )
@@ -190,7 +195,10 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
     return as_float(from_range_1(x))
 
 
-def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
+def log_encoding_SLog2(x,
+                       bit_depth=10,
+                       out_normalised_code_values=True,
+                       in_reflection=True):
     """
     Defines the *Sony S-Log2* log encoding curve / opto-electronic transfer
     function.
@@ -202,9 +210,9 @@ def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
         camera.
     bit_depth : int, optional
         Bit depth used for conversion.
-    out_legal : bool, optional
-        Whether the non-linear *Sony S-Log2* data :math:`y` is encoded in legal
-        range.
+    out_normalised_code_values : bool, optional
+        Whether the non-linear *Sony S-Log2* data :math:`y` is encoded with
+        normalised code values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -236,17 +244,25 @@ def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
     --------
     >>> log_encoding_SLog2(0.18)  # doctest: +ELLIPSIS
     0.3395325...
-    >>> log_encoding_SLog2(0.18, out_legal=False)  # doctest: +ELLIPSIS
-    0.3234495...
-    >>> log_encoding_SLog2(0.18, in_reflection=False)  # doctest: +ELLIPSIS
-    0.3262865...
+
+    The values of *IRE and CV of S-Log2 @ISO800* table in
+    :cite:`SonyCorporation2012a` are obtained as follows:
+
+    >>> x = np.array([0, 18, 90]) / 100
+    >>> np.around(log_encoding_SLog2(x, 10, False) * 100).astype(np.int)
+    array([ 3, 32, 59])
+    >>> np.around(log_encoding_SLog2(x) * (2 ** 10 - 1)).astype(np.int)
+    array([ 90, 347, 582])
     """
 
-    return log_encoding_SLog(x * 155 / 219, bit_depth, out_legal,
-                             in_reflection)
+    return log_encoding_SLog(x * 155 / 219, bit_depth,
+                             out_normalised_code_values, in_reflection)
 
 
-def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
+def log_decoding_SLog2(y,
+                       bit_depth=10,
+                       in_normalised_code_values=True,
+                       out_reflection=True):
     """
     Defines the *Sony S-Log2* log decoding curve / electro-optical transfer
     function.
@@ -257,9 +273,9 @@ def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
         Non-linear *Sony S-Log2* data :math:`y`.
     bit_depth : int, optional
         Bit depth used for conversion.
-    in_legal : bool, optional
-        Whether the non-linear *Sony S-Log2* data :math:`y` is encoded in legal
-        range.
+    in_normalised_code_values : bool, optional
+        Whether the non-linear *Sony S-Log2* data :math:`y` is encoded with
+        normalised code values.
     out_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -292,19 +308,16 @@ def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
     --------
     >>> log_decoding_SLog2(0.339532524633774)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_SLog2(0.323449512215013, in_legal=False)
-    ... # doctest: +ELLIPSIS
-    0.1...
-    >>> log_decoding_SLog2(0.326286538946799, out_reflection=False)
-    ... # doctest: +ELLIPSIS
-    0.1...
     """
 
-    return 219 * log_decoding_SLog(y, bit_depth, in_legal,
+    return 219 * log_decoding_SLog(y, bit_depth, in_normalised_code_values,
                                    out_reflection) / 155
 
 
-def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
+def log_encoding_SLog3(x,
+                       bit_depth=10,
+                       out_normalised_code_values=True,
+                       in_reflection=True):
     """
     Defines the *Sony S-Log3* log encoding curve / opto-electronic transfer
     function.
@@ -316,9 +329,9 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
         camera.
     bit_depth : int, optional
         Bit depth used for conversion.
-    out_legal : bool, optional
-        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded in legal
-        range.
+    out_normalised_code_values : bool, optional
+        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded with
+        normalised code values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -350,10 +363,15 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
     --------
     >>> log_encoding_SLog3(0.18)  # doctest: +ELLIPSIS
     0.4105571...
-    >>> log_encoding_SLog3(0.18, out_legal=False)  # doctest: +ELLIPSIS
-    0.4063926...
-    >>> log_encoding_SLog3(0.18, in_reflection=False)  # doctest: +ELLIPSIS
-    0.3995079...
+
+    The values of *S-Log3 10bit code values (18%, 90%)* table in
+    :cite:`SonyCorporationd` are obtained as follows:
+
+    >>> x = np.array([0, 18, 90]) / 100
+    >>> np.around(log_encoding_SLog3(x, 10, False) * 100).astype(np.int)
+    array([ 4, 41, 61])
+    >>> np.around(log_encoding_SLog3(x) * (2 ** 10 - 1)).astype(np.int)
+    array([ 95, 420, 598])
     """
 
     x = to_domain_1(x)
@@ -367,12 +385,15 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
         (x * (171.2102946929 - 95) / 0.01125000 + 95) / 1023,
     )
 
-    y = y if out_legal else legal_to_full(y, bit_depth)
+    y = y if out_normalised_code_values else legal_to_full(y, bit_depth)
 
     return as_float(from_range_1(y))
 
 
-def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
+def log_decoding_SLog3(y,
+                       bit_depth=10,
+                       in_normalised_code_values=True,
+                       out_reflection=True):
     """
     Defines the *Sony S-Log3* log decoding curve / electro-optical transfer
     function.
@@ -383,9 +404,9 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
         Non-linear *Sony S-Log3* data :math:`y`.
     bit_depth : int, optional
         Bit depth used for conversion.
-    in_legal : bool, optional
-        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded in legal
-        range.
+    in_normalised_code_values : bool, optional
+        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded with
+        normalised code values.
     out_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -418,17 +439,11 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
     --------
     >>> log_decoding_SLog3(0.410557184750733)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_SLog3(0.406392694063927, in_legal=False)
-    ... # doctest: +ELLIPSIS
-    0.1...
-    >>> log_decoding_SLog3(0.399507939606216, out_reflection=False)
-    ... # doctest: +ELLIPSIS
-    0.1...
     """
 
     y = to_domain_1(y)
 
-    y = y if in_legal else full_to_legal(y, bit_depth)
+    y = y if in_normalised_code_values else full_to_legal(y, bit_depth)
 
     x = np.where(
         y >= 171.2102946929 / 1023,
