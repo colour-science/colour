@@ -213,12 +213,12 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
     method : unicode, optional
         {:func:`colour.models.log_encoding_Log3G10`},
         Whether to use the *Log3G10* *v1* or *v2* log encoding curve.
-    out_normalised_code_values : bool, optional
+    out_normalised_code_value : bool, optional
         {:func:`colour.models.log_encoding_SLog`,
         :func:`colour.models.log_encoding_SLog2`,
         :func:`colour.models.log_encoding_SLog3`},
         Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
-        data :math:`y` is encoded with normalised code values.
+        data :math:`y` is encoded as normalised code values.
     negative_gamma : numeric or array_like
         {:func:`colour.models.log_encoding_PivotedLog`},
         Negative gamma.
@@ -338,12 +338,12 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         {:func:`colour.models.log_decoding_ALEXALogC`},
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
-    in_normalised_code_values : bool, optional
+    in_normalised_code_value : bool, optional
         {:func:`colour.models.log_decoding_SLog`,
         :func:`colour.models.log_decoding_SLog2`,
         :func:`colour.models.log_decoding_SLog3`},
         Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
-        data :math:`y` is encoded with normalised code values.
+        data :math:`y` is encoded as normalised code values.
     linear_reference : numeric or array_like
         {:func:`colour.models.log_decoding_PivotedLog`},
         Linear reference.

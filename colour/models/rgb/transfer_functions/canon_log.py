@@ -59,7 +59,7 @@ __all__ = [
 
 def log_encoding_CanonLog(x,
                           bit_depth=10,
-                          out_normalised_code_values=True,
+                          out_normalised_code_value=True,
                           in_reflection=True):
     """
     Defines the *Canon Log* log encoding curve / opto-electronic transfer
@@ -71,9 +71,9 @@ def log_encoding_CanonLog(x,
         Linear data :math:`x`.
     bit_depth : int, optional
         Bit depth used for conversion.
-    out_normalised_code_values : bool, optional
-        Whether the *Canon Log* non-linear data is encoded with
-        normalised code values.
+    out_normalised_code_value : bool, optional
+        Whether the *Canon Log* non-linear data is encoded as normalised code
+        values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -129,14 +129,14 @@ def log_encoding_CanonLog(x,
         )
 
     clog = (full_to_legal(clog, bit_depth)
-            if out_normalised_code_values else clog)
+            if out_normalised_code_value else clog)
 
     return as_float(from_range_1(clog))
 
 
 def log_decoding_CanonLog(clog,
                           bit_depth=10,
-                          in_normalised_code_values=True,
+                          in_normalised_code_value=True,
                           out_reflection=True):
     """
     Defines the *Canon Log* log decoding curve / electro-optical transfer
@@ -148,7 +148,7 @@ def log_decoding_CanonLog(clog,
         *Canon Log* non-linear data.
     bit_depth : int, optional
         Bit depth used for conversion.
-    in_normalised_code_values : bool, optional
+    in_normalised_code_value : bool, optional
         Whether the *Canon Log* non-linear data is encoded with normalised
         code values.
     out_reflection : bool, optional
@@ -187,7 +187,7 @@ def log_decoding_CanonLog(clog,
     clog = to_domain_1(clog)
 
     clog = (legal_to_full(clog, bit_depth)
-            if in_normalised_code_values else clog)
+            if in_normalised_code_value else clog)
 
     x = np.where(
         clog < 0.0730597,
@@ -203,7 +203,7 @@ def log_decoding_CanonLog(clog,
 
 def log_encoding_CanonLog2(x,
                            bit_depth=10,
-                           out_normalised_code_values=True,
+                           out_normalised_code_value=True,
                            in_reflection=True):
     """
     Defines the *Canon Log 2* log encoding curve / opto-electronic transfer
@@ -215,9 +215,9 @@ def log_encoding_CanonLog2(x,
         Linear data :math:`x`.
     bit_depth : int, optional
         Bit depth used for conversion.
-    out_normalised_code_values : bool, optional
-        Whether the *Canon Log 2* non-linear data is encoded with
-        normalised code values.
+    out_normalised_code_value : bool, optional
+        Whether the *Canon Log 2* non-linear data is encoded as normalised
+        code values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -264,14 +264,14 @@ def log_encoding_CanonLog2(x,
         )
 
     clog2 = (full_to_legal(clog2, bit_depth)
-             if out_normalised_code_values else clog2)
+             if out_normalised_code_value else clog2)
 
     return as_float(from_range_1(clog2))
 
 
 def log_decoding_CanonLog2(clog2,
                            bit_depth=10,
-                           in_normalised_code_values=True,
+                           in_normalised_code_value=True,
                            out_reflection=True):
     """
     Defines the *Canon Log 2* log decoding curve / electro-optical transfer
@@ -283,7 +283,7 @@ def log_decoding_CanonLog2(clog2,
         *Canon Log 2* non-linear data.
     bit_depth : int, optional
         Bit depth used for conversion.
-    in_normalised_code_values : bool, optional
+    in_normalised_code_value : bool, optional
         Whether the *Canon Log 2* non-linear data is encoded with normalised
         code values.
     out_reflection : bool, optional
@@ -322,7 +322,7 @@ def log_decoding_CanonLog2(clog2,
     clog2 = to_domain_1(clog2)
 
     clog2 = (legal_to_full(clog2, bit_depth)
-             if in_normalised_code_values else clog2)
+             if in_normalised_code_value else clog2)
 
     x = np.where(
         clog2 < 0.035388128,
@@ -338,7 +338,7 @@ def log_decoding_CanonLog2(clog2,
 
 def log_encoding_CanonLog3(x,
                            bit_depth=10,
-                           out_normalised_code_values=True,
+                           out_normalised_code_value=True,
                            in_reflection=True):
     """
     Defines the *Canon Log 3* log encoding curve / opto-electronic transfer
@@ -350,9 +350,9 @@ def log_encoding_CanonLog3(x,
         Linear data :math:`x`.
     bit_depth : int, optional
         Bit depth used for conversion.
-    out_normalised_code_values : bool, optional
-        Whether the *Canon Log 3* non-linear data is encoded with
-        normalised code values.
+    out_normalised_code_value : bool, optional
+        Whether the *Canon Log 3* non-linear data is encoded as normalised code
+        values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -414,14 +414,14 @@ def log_encoding_CanonLog3(x,
              0.42889912 * np.log10(x * 14.98325 + 1) + 0.069886632))
 
     clog3 = (full_to_legal(clog3, bit_depth)
-             if out_normalised_code_values else clog3)
+             if out_normalised_code_value else clog3)
 
     return as_float(from_range_1(clog3))
 
 
 def log_decoding_CanonLog3(clog3,
                            bit_depth=10,
-                           in_normalised_code_values=True,
+                           in_normalised_code_value=True,
                            out_reflection=True):
     """
     Defines the *Canon Log 3* log decoding curve / electro-optical transfer
@@ -433,7 +433,7 @@ def log_decoding_CanonLog3(clog3,
         *Canon Log 3* non-linear data.
     bit_depth : int, optional
         Bit depth used for conversion.
-    in_normalised_code_values : bool, optional
+    in_normalised_code_value : bool, optional
         Whether the *Canon Log 3* non-linear data is encoded with normalised
         code values.
     out_reflection : bool, optional
@@ -472,7 +472,7 @@ def log_decoding_CanonLog3(clog3,
     clog3 = to_domain_1(clog3)
 
     clog3 = (legal_to_full(clog3, bit_depth)
-             if in_normalised_code_values else clog3)
+             if in_normalised_code_value else clog3)
 
     x = np.select(
         (clog3 < 0.04076162, clog3 <= 0.105357102, clog3 > 0.105357102),

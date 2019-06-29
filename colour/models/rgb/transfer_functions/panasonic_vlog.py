@@ -48,7 +48,7 @@ VLOG_CONSTANTS : Structure
 
 def log_encoding_VLog(L_in,
                       bit_depth=10,
-                      out_normalised_code_values=True,
+                      out_normalised_code_value=True,
                       in_reflection=True,
                       constants=VLOG_CONSTANTS):
     """
@@ -61,9 +61,9 @@ def log_encoding_VLog(L_in,
         Linear reflection data :math`L_{in}`.
     bit_depth : int, optional
         Bit depth used for conversion.
-    out_normalised_code_values : bool, optional
+    out_normalised_code_value : bool, optional
         Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
-        encoded with normalised code values.
+        encoded as normalised code values.
     in_reflection : bool, optional
         Whether the light level :math`L_{in}` to a camera is reflection.
     constants : Structure, optional
@@ -130,7 +130,7 @@ def log_encoding_VLog(L_in,
         c * np.log10(L_in + b) + d,
     )
 
-    V_out = (V_out if out_normalised_code_values else legal_to_full(
+    V_out = (V_out if out_normalised_code_value else legal_to_full(
         V_out, bit_depth))
 
     return as_float(from_range_1(V_out))
@@ -138,7 +138,7 @@ def log_encoding_VLog(L_in,
 
 def log_decoding_VLog(V_out,
                       bit_depth=10,
-                      in_normalised_code_values=True,
+                      in_normalised_code_value=True,
                       out_reflection=True,
                       constants=VLOG_CONSTANTS):
     """
@@ -151,9 +151,9 @@ def log_decoding_VLog(V_out,
         Non-linear data :math:`V_{out}`.
     bit_depth : int, optional
         Bit depth used for conversion.
-    in_normalised_code_values : bool, optional
+    in_normalised_code_value : bool, optional
         Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
-        encoded with normalised code values.
+        encoded as normalised code values.
     out_reflection : bool, optional
         Whether the light level :math`L_{in}` to a camera is reflection.
     constants : Structure, optional
@@ -191,7 +191,7 @@ def log_decoding_VLog(V_out,
 
     V_out = to_domain_1(V_out)
 
-    V_out = (V_out if in_normalised_code_values else full_to_legal(
+    V_out = (V_out if in_normalised_code_value else full_to_legal(
         V_out, bit_depth))
 
     cut2 = constants.cut2
