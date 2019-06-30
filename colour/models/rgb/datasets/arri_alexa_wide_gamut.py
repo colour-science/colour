@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-ALEXA Wide Gamut Colourspace
-============================
+ARRI ALEXA Wide Gamut Colourspace
+=================================
 
-Defines the *ALEXA Wide Gamut* colourspace:
+Defines the *ARRI ALEXA Wide Gamut* colourspace:
 
 -   :attr:`colour.models.ALEXA_WIDE_GAMUT_COLOURSPACE`.
 
@@ -47,14 +47,14 @@ ALEXA_WIDE_GAMUT_PRIMARIES = np.array([
     [0.0861, -0.1020],
 ])
 """
-*ALEXA Wide Gamut* colourspace primaries.
+*ARRI ALEXA Wide Gamut* colourspace primaries.
 
 ALEXA_WIDE_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
 ALEXA_WIDE_GAMUT_WHITEPOINT_NAME = 'D65'
 """
-*ALEXA Wide Gamut* colourspace whitepoint name.
+*ARRI ALEXA Wide Gamut* colourspace whitepoint name.
 
 ALEXA_WIDE_GAMUT_WHITEPOINT : unicode
 """
@@ -62,7 +62,7 @@ ALEXA_WIDE_GAMUT_WHITEPOINT : unicode
 ALEXA_WIDE_GAMUT_WHITEPOINT = (ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][ALEXA_WIDE_GAMUT_WHITEPOINT_NAME])
 """
-*ALEXA Wide Gamut* colourspace whitepoint.
+*ARRI ALEXA Wide Gamut* colourspace whitepoint.
 
 ALEXA_WIDE_GAMUT_WHITEPOINT : ndarray
 """
@@ -73,7 +73,7 @@ ALEXA_WIDE_GAMUT_TO_XYZ_MATRIX = np.array([
     [0.002798, -0.067034, 1.153294],
 ])
 """
-*ALEXA Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
+*ARRI ALEXA Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 ALEXA_WIDE_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -84,7 +84,7 @@ XYZ_TO_ALEXA_WIDE_GAMUT_MATRIX = np.array([
     [-0.041532, 0.082335, 0.878868],
 ])
 """
-*CIE XYZ* tristimulus values to *ALEXA Wide Gamut* colourspace matrix.
+*CIE XYZ* tristimulus values to *ARRI ALEXA Wide Gamut* colourspace matrix.
 
 XYZ_TO_ALEXA_WIDE_GAMUT_MATRIX : array_like, (3, 3)
 """
@@ -100,7 +100,7 @@ ALEXA_WIDE_GAMUT_COLOURSPACE = RGB_Colourspace(
     log_decoding_ALEXALogC,
 )
 ALEXA_WIDE_GAMUT_COLOURSPACE.__doc__ = """
-*ALEXA Wide Gamut* colourspace.
+*ARRI ALEXA Wide Gamut* colourspace.
 
 References
 ----------

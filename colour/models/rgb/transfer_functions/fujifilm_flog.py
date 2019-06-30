@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Fuji F-Log Log Encoding
-=======================
+Fujifilm F-Log Log Encoding
+===========================
 
-Defines the *Fuji F-Log* log encoding:
+Defines the *Fujifilm F-Log* log encoding:
 
 -   :func:`colour.models.log_encoding_FLog`
 -   :func:`colour.models.log_decoding_FLog`
@@ -47,7 +47,7 @@ FLOG_CONSTANTS = Structure(
     e=8.735631,
     f=0.092864)
 """
-*Fuji F-Log* colourspace constants.
+*Fujifilm F-Log* colourspace constants.
 
 FLOG_CONSTANTS : Structure
 """
@@ -59,7 +59,7 @@ def log_encoding_FLog(in_r,
                       in_reflection=True,
                       constants=FLOG_CONSTANTS):
     """
-    Defines the *Fuji F-Log* log encoding curve / opto-electronic transfer
+    Defines the *Fujifilm F-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -69,12 +69,12 @@ def log_encoding_FLog(in_r,
     bit_depth : int, optional
         Bit depth used for conversion.
     out_normalised_code_value : bool, optional
-        Whether the non-linear *Fuji F-Log* data :math:`out` is encoded as
+        Whether the non-linear *Fujifilm F-Log* data :math:`out` is encoded as
         normalised code values.
     in_reflection : bool, optional
         Whether the light level :math`in` to a camera is reflection.
     constants : Structure, optional
-        *Fuji F-Log* constants.
+        *Fujifilm F-Log* constants.
 
     Returns
     -------
@@ -146,7 +146,7 @@ def log_decoding_FLog(out_r,
                       out_reflection=True,
                       constants=FLOG_CONSTANTS):
     """
-    Defines the *Fuji F-Log* log decoding curve / electro-optical transfer
+    Defines the *Fujifilm F-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -161,7 +161,7 @@ def log_decoding_FLog(out_r,
     out_reflection : bool, optional
         Whether the light level :math`in` to a camera is reflection.
     constants : Structure, optional
-        *Fuji F-Log* constants.
+        *Fujifilm F-Log* constants.
 
     Returns
     -------

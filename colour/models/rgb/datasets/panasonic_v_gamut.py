@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-V-Gamut Colourspace
-===================
+Panasonic V-Gamut Colourspace
+=============================
 
-Defines the *V-Gamut* colourspace:
+Defines the *Panasonic V-Gamut* colourspace:
 
 -   :attr:`colour.models.V_GAMUT_COLOURSPACE`.
 
@@ -46,14 +46,14 @@ V_GAMUT_PRIMARIES = np.array([
     [0.1000, -0.0300],
 ])
 """
-*V-Gamut* colourspace primaries.
+*Panasonic V-Gamut* colourspace primaries.
 
 V_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
 V_GAMUT_WHITEPOINT_NAME = 'D65'
 """
-*V-Gamut* colourspace whitepoint name.
+*Panasonic V-Gamut* colourspace whitepoint name.
 
 V_GAMUT_WHITEPOINT : unicode
 """
@@ -61,7 +61,7 @@ V_GAMUT_WHITEPOINT : unicode
 V_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     V_GAMUT_WHITEPOINT_NAME])
 """
-*V-Gamut* colourspace whitepoint.
+*Panasonic V-Gamut* colourspace whitepoint.
 
 V_GAMUT_WHITEPOINT : ndarray
 """
@@ -72,7 +72,7 @@ V_GAMUT_TO_XYZ_MATRIX = np.array([
     [-0.009310, -0.004612, 1.102980],
 ])
 """
-*V-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
+*Panasonic V-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 V_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -83,7 +83,7 @@ XYZ_TO_V_GAMUT_MATRIX = np.array([
     [0.011179, 0.003194, 0.905535],
 ])
 """
-*CIE XYZ* tristimulus values to *V-Gamut* colourspace matrix.
+*CIE XYZ* tristimulus values to *Panasonic V-Gamut* colourspace matrix.
 
 XYZ_TO_V_GAMUT_MATRIX : array_like, (3, 3)
 """
@@ -99,7 +99,7 @@ V_GAMUT_COLOURSPACE = RGB_Colourspace(
     log_decoding_VLog,
 )
 V_GAMUT_COLOURSPACE.__doc__ = """
-*V-Gamut* colourspace.
+*Panasonic V-Gamut* colourspace.
 
 References
 ----------

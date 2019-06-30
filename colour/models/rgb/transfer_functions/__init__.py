@@ -12,8 +12,8 @@ from .gamma import gamma_function
 from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScc, log_decoding_ACEScc,
                    log_encoding_ACEScct, log_decoding_ACEScct)
-from .alexa_log_c import log_encoding_ALEXALogC, log_decoding_ALEXALogC
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_reverse_ARIBSTDB67
+from .arri_alexa_log_c import log_encoding_ALEXALogC, log_decoding_ALEXALogC
 from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
                         log_encoding_CanonLog3, log_decoding_CanonLog3)
@@ -40,7 +40,7 @@ from .itur_bt_2100 import (
 from .linear import linear_function
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
-from .fuji_flog import log_encoding_FLog, log_decoding_FLog
+from .fujifilm_flog import log_encoding_FLog, log_decoding_FLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
 from .red_log import (log_encoding_REDLog, log_decoding_REDLog,
                       log_encoding_REDLogFilm, log_decoding_REDLogFilm,
@@ -63,8 +63,8 @@ __all__ += [
     'log_encoding_ACESproxy', 'log_decoding_ACESproxy', 'log_encoding_ACEScc',
     'log_decoding_ACEScc', 'log_encoding_ACEScct', 'log_decoding_ACEScct'
 ]
-__all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
 __all__ += ['oetf_ARIBSTDB67', 'oetf_reverse_ARIBSTDB67']
+__all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
 __all__ += [
     'log_encoding_CanonLog', 'log_decoding_CanonLog', 'log_encoding_CanonLog2',
     'log_decoding_CanonLog2', 'log_encoding_CanonLog3',

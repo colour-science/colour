@@ -9,12 +9,12 @@ from .aces import (ACES_2065_1_COLOURSPACE, ACES_CC_COLOURSPACE,
 from .aces_it import ACES_RICD
 from .adobe_rgb_1998 import ADOBE_RGB_1998_COLOURSPACE
 from .adobe_wide_gamut_rgb import ADOBE_WIDE_GAMUT_RGB_COLOURSPACE
-from .alexa_wide_gamut import ALEXA_WIDE_GAMUT_COLOURSPACE
 from .apple_rgb import APPLE_RGB_COLOURSPACE
+from .arri_alexa_wide_gamut import ALEXA_WIDE_GAMUT_COLOURSPACE
 from .best_rgb import BEST_RGB_COLOURSPACE
 from .beta_rgb import BETA_RGB_COLOURSPACE
 from .cie_rgb import CIE_RGB_COLOURSPACE
-from .cinema_gamut import CINEMA_GAMUT_COLOURSPACE
+from .canon_cinema_gamut import CINEMA_GAMUT_COLOURSPACE
 from .color_match_rgb import COLOR_MATCH_RGB_COLOURSPACE
 from .dcdm_xyz import DCDM_XYZ_COLOURSPACE
 from .dci_p3 import DCI_P3_COLOURSPACE, DCI_P3_P_COLOURSPACE
@@ -23,7 +23,7 @@ from .don_rgb_4 import DON_RGB_4_COLOURSPACE
 from .dji_dgamut import DJI_D_GAMUT_COLOURSPACE
 from .eci_rgb_v2 import ECI_RGB_V2_COLOURSPACE
 from .ekta_space_ps5 import EKTA_SPACE_PS_5_COLOURSPACE
-from .f_gamut import F_GAMUT_COLOURSPACE
+from .fujifilm_f_gamut import F_GAMUT_COLOURSPACE
 from .filmlight_egamut import FILMLIGHT_E_GAMUT_COLOURSPACE
 from .gopro import PROTUNE_NATIVE_COLOURSPACE
 from .itur_bt_470 import BT470_525_COLOURSPACE, BT470_625_COLOURSPACE
@@ -44,7 +44,7 @@ from .smpte_240m import SMPTE_240M_COLOURSPACE
 from .sony import (S_GAMUT_COLOURSPACE, S_GAMUT3_COLOURSPACE,
                    S_GAMUT3_CINE_COLOURSPACE)
 from .srgb import sRGB_COLOURSPACE
-from .v_gamut import V_GAMUT_COLOURSPACE
+from .panasonic_v_gamut import V_GAMUT_COLOURSPACE
 from .xtreme_rgb import XTREME_RGB_COLOURSPACE
 
 RGB_COLOURSPACES = CaseInsensitiveMapping({
@@ -55,8 +55,8 @@ RGB_COLOURSPACES = CaseInsensitiveMapping({
     ACES_CG_COLOURSPACE.name: ACES_CG_COLOURSPACE,
     ADOBE_RGB_1998_COLOURSPACE.name: ADOBE_RGB_1998_COLOURSPACE,
     ADOBE_WIDE_GAMUT_RGB_COLOURSPACE.name: ADOBE_WIDE_GAMUT_RGB_COLOURSPACE,
-    ALEXA_WIDE_GAMUT_COLOURSPACE.name: ALEXA_WIDE_GAMUT_COLOURSPACE,
     APPLE_RGB_COLOURSPACE.name: APPLE_RGB_COLOURSPACE,
+    ALEXA_WIDE_GAMUT_COLOURSPACE.name: ALEXA_WIDE_GAMUT_COLOURSPACE,
     BEST_RGB_COLOURSPACE.name: BEST_RGB_COLOURSPACE,
     BETA_RGB_COLOURSPACE.name: BETA_RGB_COLOURSPACE,
     BT470_525_COLOURSPACE.name: BT470_525_COLOURSPACE,

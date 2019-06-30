@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Cinema Gamut Colourspace
-========================
+Canon Cinema Gamut Colourspace
+==============================
 
-Defines the *Canon* *Cinema Gamut* colourspace:
+Defines the *Canon Cinema Gamut* colourspace:
 
 -   :attr:`colour.models.CINEMA_GAMUT_COLOURSPACE`.
 
@@ -47,14 +47,14 @@ CINEMA_GAMUT_PRIMARIES = np.array([
     [0.0800, -0.1000],
 ])
 """
-*Cinema Gamut* colourspace primaries.
+*Canon Cinema Gamut* colourspace primaries.
 
 CINEMA_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
 CINEMA_GAMUT_WHITEPOINT_NAME = 'D65'
 """
-*Cinema Gamut* colourspace whitepoint name.
+*Canon Cinema Gamut* colourspace whitepoint name.
 
 CINEMA_GAMUT_WHITEPOINT_NAME : unicode
 """
@@ -62,7 +62,7 @@ CINEMA_GAMUT_WHITEPOINT_NAME : unicode
 CINEMA_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     CINEMA_GAMUT_WHITEPOINT_NAME])
 """
-*Cinema Gamut* colourspace whitepoint.
+*Canon Cinema Gamut* colourspace whitepoint.
 
 CINEMA_GAMUT_WHITEPOINT : ndarray
 """
@@ -70,14 +70,14 @@ CINEMA_GAMUT_WHITEPOINT : ndarray
 CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(
     CINEMA_GAMUT_PRIMARIES, CINEMA_GAMUT_WHITEPOINT)
 """
-*Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
+*Canon Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 CINEMA_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_CINEMA_GAMUT_MATRIX = np.linalg.inv(CINEMA_GAMUT_TO_XYZ_MATRIX)
 """
-*CIE XYZ* tristimulus values to *Cinema Gamut* colourspace matrix.
+*CIE XYZ* tristimulus values to *Canon Cinema Gamut* colourspace matrix.
 
 XYZ_TO_CINEMA_GAMUT_MATRIX : array_like, (3, 3)
 """
@@ -93,7 +93,7 @@ CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     linear_function,
 )
 CINEMA_GAMUT_COLOURSPACE.__doc__ = """
-*Cinema Gamut* colourspace.
+*Canon Cinema Gamut* colourspace.
 
 References
 ----------

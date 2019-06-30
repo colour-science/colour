@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-F-Gamut Colourspace
-===================
+Fujifilm F-Gamut Colourspace
+============================
 
-Defines the *F-Gamut* colourspace:
+Defines the *Fujifilm F-Gamut* colourspace:
 
 -   :attr:`colour.models.F_GAMUT_COLOURSPACE`.
 
@@ -46,14 +46,14 @@ F_GAMUT_PRIMARIES = np.array([
     [0.13100, 0.04600],
 ])
 """
-*F-Gamut* colourspace primaries.
+*Fujifilm F-Gamut* colourspace primaries.
 
 F_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
 F_GAMUT_WHITEPOINT_NAME = 'D65'
 """
-*F-Gamut* colourspace whitepoint name.
+*Fujifilm F-Gamut* colourspace whitepoint name.
 
 F_GAMUT_WHITEPOINT : unicode
 """
@@ -61,7 +61,7 @@ F_GAMUT_WHITEPOINT : unicode
 F_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     F_GAMUT_WHITEPOINT_NAME])
 """
-*F-Gamut* colourspace whitepoint.
+*Fujifilm F-Gamut* colourspace whitepoint.
 
 F_GAMUT_WHITEPOINT : ndarray
 """
@@ -69,14 +69,14 @@ F_GAMUT_WHITEPOINT : ndarray
 F_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(F_GAMUT_PRIMARIES,
                                                   F_GAMUT_WHITEPOINT)
 """
-*F-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
+*Fujifilm F-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 F_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_F_GAMUT_MATRIX = np.linalg.inv(F_GAMUT_TO_XYZ_MATRIX)
 """
-*CIE XYZ* tristimulus values to *F-Gamut* colourspace matrix.
+*CIE XYZ* tristimulus values to *Fujifilm F-Gamut* colourspace matrix.
 
 XYZ_TO_F_GAMUT_MATRIX : array_like, (3, 3)
 """
@@ -92,7 +92,7 @@ F_GAMUT_COLOURSPACE = RGB_Colourspace(
     log_decoding_FLog,
 )
 F_GAMUT_COLOURSPACE.__doc__ = """
-*F-Gamut* colourspace.
+*Fujifilm F-Gamut* colourspace.
 
 References
 ----------

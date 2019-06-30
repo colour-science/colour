@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-ALEXA Log C Log Encoding
-========================
+ARRI ALEXA Log C Log Encoding
+=============================
 
-Defines the *ALEXA Log C* log encoding:
+Defines the *ARRI ALEXA Log C* log encoding:
 
 -   :func:`colour.models.log_encoding_ALEXALogC`
 -   :func:`colour.models.log_decoding_ALEXALogC`
@@ -72,7 +72,7 @@ ALEXA_LOG_C_CURVE_BCL_DATA = CaseInsensitiveMapping({
     }
 })
 """
-*ALEXA Log C* curve *Ei, Black, Clipping Level* data.
+*ARRI ALEXA Log C* curve *Ei, Black, Clipping Level* data.
 
 ALEXA_LOG_C_CURVE_BCL_DATA : CaseInsensitiveMapping
     **{'SUP 3.x', 'SUP 2.x'}**
@@ -180,8 +180,9 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping({
     })
 })  # yapf: disable
 """
-*ALEXA Log C* curve conversion data between signal and linear scene exposure
-factor for *SUP 3.x* and signal and normalised sensor signal for *SUP 2.x*.
+*ARRI ALEXA Log C* curve conversion data between signal and linear scene
+exposure factor for *SUP 3.x* and signal and normalised sensor signal for
+*SUP 2.x*.
 
 ALEXA_LOG_C_CURVE_CONVERSION_DATA : CaseInsensitiveMapping
     **{'SUP 3.x', 'SUP 2.x'}**
@@ -193,8 +194,8 @@ def log_encoding_ALEXALogC(x,
                            method='Linear Scene Exposure Factor',
                            EI=800):
     """
-    Defines the *ALEXA Log C* log encoding curve / opto-electronic transfer
-    function.
+    Defines the *ARRI ALEXA Log C* log encoding curve / opto-electronic
+    transfer function.
 
     Parameters
     ----------
@@ -212,7 +213,7 @@ def log_encoding_ALEXALogC(x,
     Returns
     -------
     numeric or ndarray
-        *ALEXA Log C* encoded data :math:`t`.
+        *ARRI ALEXA Log C* encoded data :math:`t`.
 
     References
     ----------
@@ -254,13 +255,13 @@ def log_decoding_ALEXALogC(t,
                            method='Linear Scene Exposure Factor',
                            EI=800):
     """
-    Defines the *ALEXA Log C* log decoding curve / electro-optical transfer
-    function.
+    Defines the *ARRI ALEXA Log C* log decoding curve / electro-optical
+    transfer function.
 
     Parameters
     ----------
     t : numeric or array_like
-        *ALEXA Log C* encoded data :math:`t`.
+        *ARRI ALEXA Log C* encoded data :math:`t`.
     firmware : unicode, optional
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
