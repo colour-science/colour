@@ -657,6 +657,7 @@ RGB Colourspaces
      'ECI RGB v2',
      'ERIMM RGB',
      'Ekta Space PS 5',
+     'F-Gamut',
      'FilmLight E-Gamut',
      'ITU-R BT.2020',
      'ITU-R BT.470 - 525',
@@ -743,7 +744,12 @@ EOTFs Reverse
 .. code-block:: python
 
     >>> sorted(colour.EOTFS_REVERSE.keys())
-    ['DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB']
+    ['DCDM',
+     'ITU-R BT.1886',
+     'ITU-R BT.2100 HLG',
+     'ITU-R BT.2100 PQ',
+     'ST 2084',
+     'sRGB']
 
 OOTFs
 *****
@@ -777,6 +783,7 @@ Log Encoding / Decoding Curves
      'Cineon',
      'D-Log',
      'ERIMM RGB',
+     'F-Log',
      'Filmic Pro 6',
      'Log3G10',
      'Log3G12',

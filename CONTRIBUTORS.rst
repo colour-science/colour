@@ -52,6 +52,10 @@ Development & Technical Support
 
     Technical support.
 
+-   **Troy James Sobotka**, *Motion Picture Technician*
+
+    F-Gamut and Fuji F-Log support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -134,14 +138,15 @@ Issues & Discussions
 -   @lensz
 -   @Myndex
 -   @naavis
+-   @NoRoKr
 -   @nschloe
 -   @peteroupc
 -   @Queuecumber
 -   @Rob-Welch
 -   @robbuckley
 -   @Ron024
+-   @senyai
 -   @shanest
--   @sobotka
 -   @stakemura
 -   @tashdor
 -   @TFiFiE

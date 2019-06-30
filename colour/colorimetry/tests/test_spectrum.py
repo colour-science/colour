@@ -1780,6 +1780,8 @@ class TestSdsAndMultiSdsToSds(unittest.TestCase):
                     multi_sds_2,
                 ])), 8)
 
+        self.assertEqual(len(sds_and_multi_sds_to_sds(multi_sds_1)), 3)
+
 
 if __name__ == '__main__':
     unittest.main()
