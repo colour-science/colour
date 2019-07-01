@@ -156,8 +156,8 @@ def log_decoding_FLog(out_r,
     bit_depth : int, optional
         Bit depth used for conversion.
     in_normalised_code_value : bool, optional
-        Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
-        encoded as normalised code values.
+        Whether the non-linear *Fujifilm F-Log* data :math:`out` is encoded as
+        normalised code values.
     out_reflection : bool, optional
         Whether the light level :math`in` to a camera is reflection.
     constants : Structure, optional
