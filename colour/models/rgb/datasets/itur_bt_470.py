@@ -64,8 +64,8 @@ BT470_525_WHITEPOINT_NAME = 'C'
 BT470_525_WHITEPOINT_NAME : unicode
 """
 
-BT470_525_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    BT470_525_WHITEPOINT_NAME])
+BT470_525_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                        [BT470_525_WHITEPOINT_NAME])
 """
 *ITU-R BT.470 - 525* colourspace whitepoint.
 
@@ -107,7 +107,11 @@ References
 BT470_525_COLOURSPACE : RGB_Colourspace
 """
 
-BT470_625_PRIMARIES = np.array([[0.64, 0.33], [0.29, 0.60], [0.15, 0.06]], )
+BT470_625_PRIMARIES = np.array([
+    [0.6400, 0.3300],
+    [0.2900, 0.6000],
+    [0.1500, 0.0600],
+])
 """
 *ITU-R BT.470 - 625* colourspace primaries.
 
@@ -121,8 +125,8 @@ BT470_625_WHITEPOINT_NAME = 'D65'
 BT470_625_WHITEPOINT_NAME : unicode
 """
 
-BT470_625_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    BT470_625_WHITEPOINT_NAME])
+BT470_625_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                        [BT470_625_WHITEPOINT_NAME])
 """
 *ITU-R BT.470 - 625* colourspace whitepoint.
 
