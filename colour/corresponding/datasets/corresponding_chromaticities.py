@@ -112,12 +112,12 @@ class PrimariesChromaticityCoordinates(
     """
 
     def __new__(cls,
-                name,
-                uvp_t,
-                uvp_m,
-                s_uvp=None,
-                d_uvp_i=None,
-                d_uvp_g=None):
+                experiment,
+                illuminants,
+                Y,
+                P_uvp=None,
+                D_uvp=None,
+                T_uvp=None):
         """
         Returns a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\
@@ -125,8 +125,8 @@ PrimariesChromaticityCoordinates` class.
         """
 
         return super(PrimariesChromaticityCoordinates, cls).__new__(
-            cls, name, np.array(uvp_t), np.array(uvp_m), np.array(s_uvp),
-            np.array(d_uvp_i), np.array(d_uvp_g))
+            cls, experiment, np.array(illuminants), np.array(Y),
+            np.array(P_uvp), np.array(D_uvp), np.array(T_uvp))
 
 
 # yapf: disable
