@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-NTSC Colourspace
-================
+NTSC Colourspaces
+=================
 
-Defines the *NTSC* colourspace:
+Defines the *NTSC* colourspaces:
 
--   :attr:`colour.models.NTSC_COLOURSPACE`.
+-   :attr:`colour.models.NTSC_1953_COLOURSPACE`.
+-   :attr:`colour.models.NTSC_1987_COLOURSPACE`.
 
 See Also
 --------
@@ -19,6 +20,10 @@ References
     Telecommunication Union. (1998). Recommendation ITU-R BT.470-6 -
     CONVENTIONAL TELEVISION SYSTEMS. Retrieved from http://www.itu.int/\
 dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers2004a` : Society of
+Motion Picture and Television Engineers. (2004). RP 145:2004: SMPTE C Color
+Monitor Colorimetry. RP 145:2004 (Vol. RP 145:200). The Society of Motion
+Picture and Television Engineers. doi:10.5594/S9781614821649
 """
 
 from __future__ import division, unicode_literals
@@ -27,6 +32,9 @@ from colour.models.rgb import RGB_Colourspace
 from colour.models.rgb.datasets.itur_bt_470 import (
     BT470_525_PRIMARIES, BT470_525_WHITEPOINT, BT470_525_WHITEPOINT_NAME,
     BT470_525_TO_XYZ_MATRIX, XYZ_TO_BT470_525_MATRIX, BT470_525_COLOURSPACE)
+from colour.models.rgb.datasets.smpte_c import (
+    SMPTE_C_PRIMARIES, SMPTE_C_WHITEPOINT_NAME, SMPTE_C_WHITEPOINT,
+    SMPTE_C_TO_XYZ_MATRIX, XYZ_TO_SMPTE_C_MATRIX, SMPTE_C_COLOURSPACE)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -36,61 +44,120 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'NTSC_PRIMARIES', 'NTSC_WHITEPOINT_NAME', 'NTSC_WHITEPOINT',
-    'NTSC_TO_XYZ_MATRIX', 'XYZ_TO_NTSC_MATRIX', 'NTSC_COLOURSPACE'
+    'NTSC_1953_PRIMARIES', 'NTSC_1953_WHITEPOINT_NAME', 'NTSC_1953_WHITEPOINT',
+    'NTSC_1953_TO_XYZ_MATRIX', 'XYZ_TO_NTSC_1953_MATRIX',
+    'NTSC_1953_COLOURSPACE', 'NTSC_1987_PRIMARIES',
+    'NTSC_1987_WHITEPOINT_NAME', 'NTSC_1987_WHITEPOINT',
+    'NTSC_1987_TO_XYZ_MATRIX', 'XYZ_TO_NTSC_1987_MATRIX',
+    'NTSC_1987_COLOURSPACE'
 ]
 
-NTSC_PRIMARIES = BT470_525_PRIMARIES
+NTSC_1953_PRIMARIES = BT470_525_PRIMARIES
 """
-*NTSC* colourspace primaries.
+*NTSC (1953)* colourspace primaries.
 
-NTSC_PRIMARIES : ndarray, (3, 2)
-"""
-
-NTSC_WHITEPOINT_NAME = BT470_525_WHITEPOINT_NAME
-"""
-*NTSC* colourspace whitepoint name.
-
-NTSC_WHITEPOINT_NAME : unicode
+NTSC_1953_PRIMARIES : ndarray, (3, 2)
 """
 
-NTSC_WHITEPOINT = BT470_525_WHITEPOINT
+NTSC_1953_WHITEPOINT_NAME = BT470_525_WHITEPOINT_NAME
 """
-*NTSC* colourspace whitepoint.
+*NTSC (1953)* colourspace whitepoint name.
 
-NTSC_WHITEPOINT : ndarray
-"""
-
-NTSC_TO_XYZ_MATRIX = BT470_525_TO_XYZ_MATRIX
-"""
-*NTSC* colourspace to *CIE XYZ* tristimulus values matrix.
-
-NTSC_TO_XYZ_MATRIX : array_like, (3, 3)
+NTSC_1953_WHITEPOINT_NAME : unicode
 """
 
-XYZ_TO_NTSC_MATRIX = XYZ_TO_BT470_525_MATRIX
+NTSC_1953_WHITEPOINT = BT470_525_WHITEPOINT
 """
-*CIE XYZ* tristimulus values to *NTSC* colourspace matrix.
+*NTSC (1953)* colourspace whitepoint.
 
-XYZ_TO_NTSC_MATRIX : array_like, (3, 3)
+NTSC_1953_WHITEPOINT : ndarray
 """
 
-NTSC_COLOURSPACE = RGB_Colourspace(
-    'NTSC',
-    NTSC_PRIMARIES,
-    NTSC_WHITEPOINT,
-    NTSC_WHITEPOINT_NAME,
-    NTSC_TO_XYZ_MATRIX,
-    XYZ_TO_NTSC_MATRIX,
+NTSC_1953_TO_XYZ_MATRIX = BT470_525_TO_XYZ_MATRIX
+"""
+*NTSC (1953)* colourspace to *CIE XYZ* tristimulus values matrix.
+
+NTSC_1953_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+XYZ_TO_NTSC_1953_MATRIX = XYZ_TO_BT470_525_MATRIX
+"""
+*CIE XYZ* tristimulus values to *NTSC (1953)* colourspace matrix.
+
+XYZ_TO_NTSC_1953_MATRIX : array_like, (3, 3)
+"""
+
+NTSC_1953_COLOURSPACE = RGB_Colourspace(
+    'NTSC (1953)',
+    NTSC_1953_PRIMARIES,
+    NTSC_1953_WHITEPOINT,
+    NTSC_1953_WHITEPOINT_NAME,
+    NTSC_1953_TO_XYZ_MATRIX,
+    XYZ_TO_NTSC_1953_MATRIX,
     BT470_525_COLOURSPACE.encoding_cctf,
     BT470_525_COLOURSPACE.decoding_cctf,
 )
-NTSC_COLOURSPACE.__doc__ = """
-*NTSC* colourspace.
+NTSC_1953_COLOURSPACE.__doc__ = """
+*NTSC (1953)* colourspace.
 
 References
 ----------
 :cite:`InternationalTelecommunicationUnion1998a`
 
-NTSC_COLOURSPACE : RGB_Colourspace
+NTSC_1953_COLOURSPACE : RGB_Colourspace
+"""
+
+NTSC_1987_PRIMARIES = SMPTE_C_PRIMARIES
+"""
+*NTSC (1987)* colourspace primaries.
+
+NTSC_1987_PRIMARIES : ndarray, (3, 2)
+"""
+
+NTSC_1987_WHITEPOINT_NAME = SMPTE_C_WHITEPOINT_NAME
+"""
+*NTSC (1987)* colourspace whitepoint name.
+
+NTSC_1987_WHITEPOINT_NAME : unicode
+"""
+
+NTSC_1987_WHITEPOINT = SMPTE_C_WHITEPOINT
+"""
+*NTSC (1987)* colourspace whitepoint.
+
+NTSC_1987_WHITEPOINT : ndarray
+"""
+
+NTSC_1987_TO_XYZ_MATRIX = SMPTE_C_TO_XYZ_MATRIX
+"""
+*NTSC (1987)* colourspace to *CIE XYZ* tristimulus values matrix.
+
+NTSC_1987_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+XYZ_TO_NTSC_1987_MATRIX = XYZ_TO_SMPTE_C_MATRIX
+"""
+*CIE XYZ* tristimulus values to *NTSC (1987)* colourspace matrix.
+
+XYZ_TO_NTSC_1987_MATRIX : array_like, (3, 3)
+"""
+
+NTSC_1987_COLOURSPACE = RGB_Colourspace(
+    'NTSC (1987)',
+    NTSC_1987_PRIMARIES,
+    NTSC_1987_WHITEPOINT,
+    NTSC_1987_WHITEPOINT_NAME,
+    NTSC_1987_TO_XYZ_MATRIX,
+    XYZ_TO_NTSC_1987_MATRIX,
+    SMPTE_C_COLOURSPACE.encoding_cctf,
+    SMPTE_C_COLOURSPACE.decoding_cctf,
+)
+NTSC_1987_COLOURSPACE.__doc__ = """
+*NTSC (1987)* colourspace.
+
+References
+----------
+:cite:`SocietyofMotionPictureandTelevisionEngineers2004a`
+
+NTSC_1987_COLOURSPACE : RGB_Colourspace
 """
