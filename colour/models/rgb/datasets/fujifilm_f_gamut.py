@@ -96,7 +96,7 @@ F_GAMUT_COLOURSPACE.__doc__ = """
 
 References
 ----------
-:cite:`FujiVer1`
+:cite:`Fujifilm2016`
 
 F_GAMUT_COLOURSPACE : RGB_Colourspace
 """

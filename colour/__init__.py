@@ -1084,8 +1084,8 @@ API_CHANGES = {
             'colour.algebra.normalise_vector',
         ],
         [
-            'colour.NTSC_COLOURSPACE',
-            'colour.models.NTSC_COLOURSPACE',
+            'colour.NTSC_1953_COLOURSPACE',
+            'colour.models.NTSC_1953_COLOURSPACE',
         ],
         [
             'colour.numpy_print_options',
@@ -1571,8 +1571,8 @@ API_CHANGES.update({
             'colour.models.ALEXA_WIDE_GAMUT_COLOURSPACE',
         ],
         [
-            'colour.NTSC_RGB_COLOURSPACE',
-            'colour.models.NTSC_COLOURSPACE',
+            'colour.NTSC_1953_RGB_COLOURSPACE',
+            'colour.models.NTSC_1953_COLOURSPACE',
         ],
         [
             'colour.PAL_SECAM_RGB_COLOURSPACE',
