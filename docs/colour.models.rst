@@ -312,6 +312,7 @@ RGB Colourspaces
     DON_RGB_4_COLOURSPACE
     ECI_RGB_V2_COLOURSPACE
     EKTA_SPACE_PS_5_COLOURSPACE
+    F_GAMUT_COLOURSPACE
     PROTUNE_NATIVE_COLOURSPACE
     MAX_RGB_COLOURSPACE
     NTSC_COLOURSPACE
@@ -516,6 +517,8 @@ Log Encoding and Decoding Curves
     log_decoding_Cineon
     log_encoding_ERIMMRGB
     log_decoding_ERIMMRGB
+    log_encoding_FLog
+    log_decoding_FLog
     LOG3G10_ENCODING_METHODS
     log_encoding_Log3G10
     LOG3G10_DECODING_METHODS
