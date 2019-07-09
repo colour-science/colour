@@ -28,7 +28,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, oetf_BT709, oetf_reverse_BT709,
+from colour.models.rgb import (RGB_Colourspace, oetf_BT709, oetf_inverse_BT709,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -92,7 +92,7 @@ BT709_COLOURSPACE = RGB_Colourspace(
     BT709_TO_XYZ_MATRIX,
     XYZ_TO_BT709_MATRIX,
     oetf_BT709,
-    oetf_reverse_BT709,
+    oetf_inverse_BT709,
 )
 BT709_COLOURSPACE.__doc__ = """
 *ITU-R BT.709* colourspace.

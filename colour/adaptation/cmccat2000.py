@@ -8,7 +8,7 @@ Defines *CMCCAT2000* chromatic adaptation model objects:
 -   :class:`colour.adaptation.CMCCAT2000_InductionFactors`
 -   :class:`colour.CMCCAT2000_VIEWING_CONDITIONS`
 -   :func:`colour.adaptation.chromatic_adaptation_forward_CMCCAT2000`
--   :func:`colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000`
+-   :func:`colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000`
 -   :func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`
 
 See Also
@@ -46,7 +46,7 @@ __status__ = 'Production'
 __all__ = [
     'CMCCAT2000_INVERSE_CAT', 'CMCCAT2000_InductionFactors',
     'CMCCAT2000_VIEWING_CONDITIONS', 'chromatic_adaptation_forward_CMCCAT2000',
-    'chromatic_adaptation_reverse_CMCCAT2000',
+    'chromatic_adaptation_inverse_CMCCAT2000',
     'chromatic_adaptation_CMCCAT2000'
 ]
 
@@ -182,7 +182,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
     return from_range_100(XYZ_c)
 
 
-def chromatic_adaptation_reverse_CMCCAT2000(
+def chromatic_adaptation_inverse_CMCCAT2000(
         XYZ_c,
         XYZ_w,
         XYZ_wr,
@@ -192,7 +192,7 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     """
     Adapts given stimulus corresponding colour *CIE XYZ* tristimulus values
     from reference viewing conditions to test viewing conditions using
-    *CMCCAT2000* reverse chromatic adaptation model.
+    *CMCCAT2000* inverse chromatic adaptation model.
 
     Parameters
     ----------
@@ -245,7 +245,7 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_reverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1,
+    >>> chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1,
     ...                                         L_A2)
     ... # doctest: +ELLIPSIS
     array([ 22.4839876...,  22.7419485...,   8.5393392...])
@@ -288,7 +288,7 @@ def chromatic_adaptation_CMCCAT2000(
 
     This definition is a convenient wrapper around
     :func:`colour.adaptation.chromatic_adaptation_forward_CMCCAT2000` and
-    :func:`colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000`.
+    :func:`colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000`.
 
     Parameters
     ----------
@@ -307,7 +307,7 @@ def chromatic_adaptation_CMCCAT2000(
     surround : CMCCAT2000_InductionFactors, optional
         Surround viewing conditions induction factors.
     direction : unicode, optional
-        **{'Forward', 'Reverse'}**,
+        **{'Forward', 'Inverse'}**,
         Chromatic adaptation direction.
 
     Returns
@@ -350,7 +350,7 @@ def chromatic_adaptation_CMCCAT2000(
     ... # doctest: +ELLIPSIS
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
 
-    Using the *CMCCAT2000* reverse model:
+    Using the *CMCCAT2000* inverse model:
 
     >>> XYZ = np.array([19.52698326, 23.06833960, 24.97175229])
     >>> XYZ_w = np.array([111.15, 100.00, 35.20])
@@ -358,7 +358,7 @@ def chromatic_adaptation_CMCCAT2000(
     >>> L_A1 = 200
     >>> L_A2 = 200
     >>> chromatic_adaptation_CMCCAT2000(
-    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Reverse')
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Inverse')
     ... # doctest: +ELLIPSIS
     array([ 22.48,  22.74,   8.54])
     """
@@ -367,5 +367,5 @@ def chromatic_adaptation_CMCCAT2000(
         return chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
                                                        L_A1, L_A2, surround)
     else:
-        return chromatic_adaptation_reverse_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
+        return chromatic_adaptation_inverse_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
                                                        L_A1, L_A2, surround)

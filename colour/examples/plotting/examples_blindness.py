@@ -16,7 +16,7 @@ RESOURCES_DIRECTORY = os.path.join(
 
 colour_style()
 
-ISHIHARA_CBT_3_IMAGE = colour.oetf_reverse(
+ISHIHARA_CBT_3_IMAGE = colour.oetf_inverse(
     colour.read_image(
         os.path.join(RESOURCES_DIRECTORY,
                      'Ishihara_Colour_Blindness_Test_Plate_3.png')),

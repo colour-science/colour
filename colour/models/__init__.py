@@ -93,14 +93,14 @@ API_CHANGES = {
     'Renamed': [
         [
             'colour.models.oetf_ST2084',
-            'colour.models.eotf_reverse_ST2084',
+            'colour.models.eotf_inverse_ST2084',
         ],
         [
             'colour.models.oetf_sRGB',
-            'colour.models.eotf_reverse_sRGB',
+            'colour.models.eotf_inverse_sRGB',
         ],
         [
-            'colour.models.oetf_reverse_sRGB',
+            'colour.models.oetf_inverse_sRGB',
             'colour.models.eotf_sRGB',
         ],
         [
@@ -108,8 +108,24 @@ API_CHANGES = {
             'colour.models.oetf_HLG_BT2100',
         ],
         [
+            'colour.models.oetf_reverse_ARIBSTDB67',
+            'colour.models.oetf_inverse_ARIBSTDB67'
+        ],
+        [
             'colour.models.oetf_reverse_BT2100_HLG',
-            'colour.models.oetf_reverse_HLG_BT2100',
+            'colour.models.oetf_inverse_HLG_BT2100',
+        ],
+        [
+            'colour.models.oetf_reverse_BT601',
+            'colour.models.oetf_inverse_BT601',
+        ],
+        [
+            'colour.models.oetf_reverse_BT709',
+            'colour.models.oetf_inverse_BT709',
+        ],
+        [
+            'colour.models.eotf_reverse_BT1886',
+            'colour.models.eotf_inverse_BT1886',
         ],
         [
             'colour.models.eotf_BT2100_HLG',
@@ -117,7 +133,19 @@ API_CHANGES = {
         ],
         [
             'colour.models.eotf_reverse_BT2100_HLG',
-            'colour.models.eotf_reverse_HLG_BT2100',
+            'colour.models.eotf_inverse_HLG_BT2100',
+        ],
+        [
+            'colour.models.eotf_reverse_DCDM',
+            'colour.models.eotf_inverse_DCDM',
+        ],
+        [
+            'colour.models.eotf_reverse_sRGB',
+            'colour.models.eotf_inverse_sRGB',
+        ],
+        [
+            'colour.models.eotf_reverse_ST2084',
+            'colour.models.eotf_inverse_ST2084',
         ],
         [
             'colour.models.ootf_BT2100_HLG',
@@ -125,7 +153,7 @@ API_CHANGES = {
         ],
         [
             'colour.models.ootf_reverse_BT2100_HLG',
-            'colour.models.ootf_reverse_HLG_BT2100',
+            'colour.models.ootf_inverse_HLG_BT2100',
         ],
         [
             'colour.models.oetf_BT2100_PQ',
@@ -133,7 +161,7 @@ API_CHANGES = {
         ],
         [
             'colour.models.oetf_reverse_BT2100_PQ',
-            'colour.models.oetf_reverse_PQ_BT2100',
+            'colour.models.oetf_inverse_PQ_BT2100',
         ],
         [
             'colour.models.eotf_BT2100_PQ',
@@ -141,7 +169,7 @@ API_CHANGES = {
         ],
         [
             'colour.models.eotf_reverse_BT2100_PQ',
-            'colour.models.eotf_reverse_PQ_BT2100',
+            'colour.models.eotf_inverse_PQ_BT2100',
         ],
         [
             'colour.models.ootf_BT2100_PQ',
@@ -149,7 +177,7 @@ API_CHANGES = {
         ],
         [
             'colour.models.ootf_reverse_BT2100_PQ',
-            'colour.models.ootf_reverse_PQ_BT2100',
+            'colour.models.ootf_inverse_PQ_BT2100',
         ],
     ]
 }

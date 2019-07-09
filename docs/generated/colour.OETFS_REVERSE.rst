@@ -1,6 +1,6 @@
-colour.OETFS\_REVERSE
+colour.OETFS\_INVERSE
 =====================
 
 .. currentmodule:: colour
 
-.. autodata:: OETFS_REVERSE
+.. autodata:: OETFS_INVERSE

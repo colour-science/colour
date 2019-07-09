@@ -25,7 +25,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestCIECAM02ColourAppearanceModelForward',
-    'TestCIECAM02ColourAppearanceModelReverse'
+    'TestCIECAM02ColourAppearanceModelInverse'
 ]
 
 
@@ -117,10 +117,10 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
-class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
+class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.ciecam02` module units tests methods for
-    *CIECAM02* colour appearance model reverse implementation.
+    *CIECAM02* colour appearance model inverse implementation.
     """
 
     FIXTURE_BASENAME = 'ciecam02.csv'

@@ -11,8 +11,8 @@ import unittest
 
 from colour.models.rgb.transfer_functions import (
     encoding_cctf, decoding_cctf, DECODING_CCTFS, ENCODING_CCTFS, EOTFS,
-    EOTFS_REVERSE, LOG_DECODING_CURVES, LOG_ENCODING_CURVES, OETFS,
-    OETFS_REVERSE, OOTFS, OOTFS_REVERSE)
+    EOTFS_INVERSE, LOG_DECODING_CURVES, LOG_ENCODING_CURVES, OETFS,
+    OETFS_INVERSE, OOTFS, OOTFS_INVERSE)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -75,10 +75,10 @@ class TestTransferFunctions(unittest.TestCase):
 
         reciprocal_mappings = [
             (LOG_ENCODING_CURVES, LOG_DECODING_CURVES),
-            (OETFS, OETFS_REVERSE),
-            (EOTFS, EOTFS_REVERSE),
+            (OETFS, OETFS_INVERSE),
+            (EOTFS, EOTFS_INVERSE),
             (ENCODING_CCTFS, DECODING_CCTFS),
-            (OOTFS, OOTFS_REVERSE),
+            (OOTFS, OOTFS_INVERSE),
         ]
 
         samples = np.hstack(

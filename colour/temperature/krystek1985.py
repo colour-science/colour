@@ -63,7 +63,7 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
 
     Warnings
     --------
-    *Krystek (1985)* does not give an analytical reverse transformation to
+    *Krystek (1985)* does not give an analytical inverse transformation to
     compute the correlated colour temperature :math:`T_{cp}` from given
     *CIE UCS* colourspace *uv* chromaticity coordinates, the current
     implementation relies on optimization using :func:`scipy.optimize.minimize`

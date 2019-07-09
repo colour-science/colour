@@ -63,7 +63,7 @@ def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
 
     Warnings
     --------
-    *Kang et al. (2002)* does not give an analytical reverse transformation to
+    *Kang et al. (2002)* does not give an analytical inverse transformation to
     compute the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates, the current implementation relies on
     optimization using :func:`scipy.optimize.minimize` definition and thus has

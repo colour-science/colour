@@ -4,10 +4,10 @@ ITU-R BT.709-6
 ==============
 
 Defines *ITU-R BT.709-6* opto-electrical transfer function (OETF / OECF) and
-its reverse:
+its inverse:
 
 -   :func:`colour.models.oetf_BT709`
--   :func:`colour.models.oetf_reverse_BT709`
+-   :func:`colour.models.oetf_inverse_BT709`
 
 See Also
 --------
@@ -27,7 +27,7 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
 
 from __future__ import division, unicode_literals
 
-from colour.models.rgb.transfer_functions import oetf_BT601, oetf_reverse_BT601
+from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -36,7 +36,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_BT709', 'oetf_reverse_BT709']
+__all__ = ['oetf_BT709', 'oetf_inverse_BT709']
 
 
 def oetf_BT709(L):
@@ -82,9 +82,9 @@ def oetf_BT709(L):
     return oetf_BT601(L)
 
 
-def oetf_reverse_BT709(V):
+def oetf_inverse_BT709(V):
     """
-    Defines *Recommendation ITU-R BT.709-6* reverse opto-electronic transfer
+    Defines *Recommendation ITU-R BT.709-6* inverse opto-electronic transfer
     function (OETF / OECF).
 
     Parameters
@@ -118,8 +118,8 @@ def oetf_reverse_BT709(V):
 
     Examples
     --------
-    >>> oetf_reverse_BT709(0.409007728864150)  # doctest: +ELLIPSIS
+    >>> oetf_inverse_BT709(0.409007728864150)  # doctest: +ELLIPSIS
     0.1...
     """
 
-    return oetf_reverse_BT601(V)
+    return oetf_inverse_BT601(V)

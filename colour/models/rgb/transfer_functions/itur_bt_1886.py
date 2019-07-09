@@ -4,9 +4,9 @@ ITU-R BT.1886
 =============
 
 Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
-(EOTF / EOCF) and its reverse:
+(EOTF / EOCF) and its inverse:
 
--   :func:`colour.models.eotf_reverse_BT1886`
+-   :func:`colour.models.eotf_inverse_BT1886`
 -   :func:`colour.models.eotf_BT1886`
 
 See Also
@@ -38,12 +38,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['eotf_reverse_BT1886', 'eotf_BT1886']
+__all__ = ['eotf_inverse_BT1886', 'eotf_BT1886']
 
 
-def eotf_reverse_BT1886(L, L_B=0, L_W=1):
+def eotf_inverse_BT1886(L, L_B=0, L_W=1):
     """
-    Defines *Recommendation ITU-R BT.1886* reverse electro-optical transfer
+    Defines *Recommendation ITU-R BT.1886* inverse electro-optical transfer
     function (EOTF / EOCF).
 
     Parameters
@@ -82,7 +82,7 @@ def eotf_reverse_BT1886(L, L_B=0, L_W=1):
 
     Examples
     --------
-    >>> eotf_reverse_BT1886(0.11699185725296059)  # doctest: +ELLIPSIS
+    >>> eotf_inverse_BT1886(0.11699185725296059)  # doctest: +ELLIPSIS
     0.4090077...
     """
 

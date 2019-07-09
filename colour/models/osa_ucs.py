@@ -156,7 +156,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
 
     Warnings
     --------
-    There is no analytical reverse transformation from *OSA UCS* to :math:`Ljg`
+    There is no analytical inverse transformation from *OSA UCS* to :math:`Ljg`
     lightness, jaune (yellowness), and greenness to *CIE XYZ* tristimulus
     values, the current implementation relies on optimization using
     :func:`scipy.optimize.fmin` definition and thus has reduced precision and

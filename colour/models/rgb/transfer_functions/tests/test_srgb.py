@@ -9,7 +9,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import eotf_reverse_sRGB, eotf_sRGB
+from colour.models.rgb.transfer_functions import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -19,72 +19,72 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestEotf_reverse_sRGB', 'TestEotf_sRGB']
+__all__ = ['TestEotf_inverse_sRGB', 'TestEotf_sRGB']
 
 
-class TestEotf_reverse_sRGB(unittest.TestCase):
+class TestEotf_inverse_sRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sRGB.eotf_reverse_sRGB`
+    Defines :func:`colour.models.rgb.transfer_functions.sRGB.eotf_inverse_sRGB`
     definition unit tests methods.
     """
 
-    def test_eotf_reverse_sRGB(self):
+    def test_eotf_inverse_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-eotf_reverse_sRGB` definition.
+eotf_inverse_sRGB` definition.
         """
 
-        self.assertAlmostEqual(eotf_reverse_sRGB(0.0), 0.0, places=7)
+        self.assertAlmostEqual(eotf_inverse_sRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            eotf_reverse_sRGB(0.18), 0.461356129500442, places=7)
+            eotf_inverse_sRGB(0.18), 0.461356129500442, places=7)
 
-        self.assertAlmostEqual(eotf_reverse_sRGB(1.0), 1.0, places=7)
+        self.assertAlmostEqual(eotf_inverse_sRGB(1.0), 1.0, places=7)
 
-    def test_n_dimensional_eotf_reverse_sRGB(self):
+    def test_n_dimensional_eotf_inverse_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-eotf_reverse_sRGB` definition n-dimensional arrays support.
+eotf_inverse_sRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = eotf_reverse_sRGB(L)
+        V = eotf_inverse_sRGB(L)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(eotf_reverse_sRGB(L), V, decimal=7)
+        np.testing.assert_almost_equal(eotf_inverse_sRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(eotf_reverse_sRGB(L), V, decimal=7)
+        np.testing.assert_almost_equal(eotf_inverse_sRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_reverse_sRGB(L), V, decimal=7)
+        np.testing.assert_almost_equal(eotf_inverse_sRGB(L), V, decimal=7)
 
-    def test_domain_range_scale_eotf_reverse_sRGB(self):
+    def test_domain_range_scale_eotf_inverse_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-eotf_reverse_sRGB` definition domain and range scale support.
+eotf_inverse_sRGB` definition domain and range scale support.
         """
 
         L = 0.18
-        V = eotf_reverse_sRGB(L)
+        V = eotf_inverse_sRGB(L)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    eotf_reverse_sRGB(L * factor), V * factor, decimal=7)
+                    eotf_inverse_sRGB(L * factor), V * factor, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_eotf_reverse_sRGB(self):
+    def test_nan_eotf_inverse_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-eotf_reverse_sRGB` definition nan support.
+eotf_inverse_sRGB` definition nan support.
         """
 
-        eotf_reverse_sRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_sRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_sRGB(unittest.TestCase):

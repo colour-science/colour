@@ -9,7 +9,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import (eotf_reverse_BT1886,
+from colour.models.rgb.transfer_functions import (eotf_inverse_BT1886,
                                                   eotf_BT1886)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -20,72 +20,72 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestEotf_reverse_BT1886', 'TestEotf_BT1886']
+__all__ = ['TestEotf_inverse_BT1886', 'TestEotf_BT1886']
 
 
-class TestEotf_reverse_BT1886(unittest.TestCase):
+class TestEotf_inverse_BT1886(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
-eotf_reverse_BT1886` definition unit tests methods.
+eotf_inverse_BT1886` definition unit tests methods.
     """
 
-    def test_eotf_reverse_BT1886(self):
+    def test_eotf_inverse_BT1886(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
-eotf_reverse_BT1886` definition.
+eotf_inverse_BT1886` definition.
         """
 
-        self.assertAlmostEqual(eotf_reverse_BT1886(0.0), 0.0, places=7)
+        self.assertAlmostEqual(eotf_inverse_BT1886(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            eotf_reverse_BT1886(0.016317514686316), 0.18, places=7)
+            eotf_inverse_BT1886(0.016317514686316), 0.18, places=7)
 
-        self.assertAlmostEqual(eotf_reverse_BT1886(1.0), 1.0, places=7)
+        self.assertAlmostEqual(eotf_inverse_BT1886(1.0), 1.0, places=7)
 
-    def test_n_dimensional_eotf_reverse_BT1886(self):
+    def test_n_dimensional_eotf_inverse_BT1886(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
-eotf_reverse_BT1886` definition n-dimensional arrays support.
+eotf_inverse_BT1886` definition n-dimensional arrays support.
         """
 
         L = 0.016317514686316
-        V = eotf_reverse_BT1886(L)
+        V = eotf_inverse_BT1886(L)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(eotf_reverse_BT1886(L), V, decimal=7)
+        np.testing.assert_almost_equal(eotf_inverse_BT1886(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(eotf_reverse_BT1886(L), V, decimal=7)
+        np.testing.assert_almost_equal(eotf_inverse_BT1886(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_reverse_BT1886(L), V, decimal=7)
+        np.testing.assert_almost_equal(eotf_inverse_BT1886(L), V, decimal=7)
 
-    def test_domain_range_scale_eotf_reverse_BT1886(self):
+    def test_domain_range_scale_eotf_inverse_BT1886(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
-eotf_reverse_BT1886` definition domain and range scale support.
+eotf_inverse_BT1886` definition domain and range scale support.
         """
 
         L = 0.18
-        V = eotf_reverse_BT1886(L)
+        V = eotf_inverse_BT1886(L)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    eotf_reverse_BT1886(L * factor), V * factor, decimal=7)
+                    eotf_inverse_BT1886(L * factor), V * factor, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_eotf_reverse_BT1886(self):
+    def test_nan_eotf_inverse_BT1886(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
-eotf_reverse_BT1886` definition nan support.
+eotf_inverse_BT1886` definition nan support.
         """
 
-        eotf_reverse_BT1886(
+        eotf_inverse_BT1886(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
