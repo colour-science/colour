@@ -1,4 +1,4 @@
-colour.models.oetf\_inverse\_BT2100\_PQ
+colour.models.oetf\_inverse\_PQ\_BT2100
 =======================================
 
 .. currentmodule:: colour.models

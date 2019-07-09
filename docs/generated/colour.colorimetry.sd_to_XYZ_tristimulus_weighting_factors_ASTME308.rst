@@ -1,5 +1,5 @@
 colour.colorimetry.sd\_to\_XYZ\_tristimulus\_weighting\_factors\_ASTME308
-===========================================================================
+=========================================================================
 
 .. currentmodule:: colour.colorimetry
 

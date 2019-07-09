@@ -24,7 +24,7 @@ colour.LUTSequence
       ~LUTSequence.insert
       ~LUTSequence.pop
       ~LUTSequence.remove
-      ~LUTSequence.inverse
+      ~LUTSequence.reverse
    
    
 

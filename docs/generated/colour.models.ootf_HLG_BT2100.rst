@@ -1,4 +1,4 @@
-colour.models.ootf\_BT2100\_HLG
+colour.models.ootf\_HLG\_BT2100
 ===============================
 
 .. currentmodule:: colour.models

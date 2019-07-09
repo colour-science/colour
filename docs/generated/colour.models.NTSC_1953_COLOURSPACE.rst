@@ -1,5 +1,5 @@
-colour.models.NTSC\_COLOURSPACE
-===============================
+colour.models.NTSC\_1953\_COLOURSPACE
+=====================================
 
 .. currentmodule:: colour.models
 
