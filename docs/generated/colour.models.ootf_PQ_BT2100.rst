@@ -1,4 +1,4 @@
-colour.models.ootf\_BT2100\_PQ
+colour.models.ootf\_PQ\_BT2100
 ==============================
 
 .. currentmodule:: colour.models

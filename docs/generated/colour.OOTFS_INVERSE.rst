@@ -1,6 +1,6 @@
-colour.OOTFS\_REVERSE
+colour.OOTFS\_INVERSE
 =====================
 
 .. currentmodule:: colour
 
-.. autodata:: OOTFS_REVERSE
+.. autodata:: OOTFS_INVERSE

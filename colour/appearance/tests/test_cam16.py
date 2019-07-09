@@ -25,7 +25,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestCAM16ColourAppearanceModelForward',
-    'TestCAM16ColourAppearanceModelReverse'
+    'TestCAM16ColourAppearanceModelInverse'
 ]
 
 
@@ -121,10 +121,10 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
-class TestCAM16ColourAppearanceModelReverse(ColourAppearanceModelTest):
+class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.cam16` module units tests methods for
-    *CAM16* colour appearance model reverse implementation.
+    *CAM16* colour appearance model inverse implementation.
     """
 
     FIXTURE_BASENAME = 'cam16.csv'

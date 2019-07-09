@@ -1,6 +1,6 @@
-colour.models.eotf\_reverse\_sRGB
+colour.models.eotf\_inverse\_DCDM
 =================================
 
 .. currentmodule:: colour.models
 
-.. autofunction:: eotf_reverse_sRGB
+.. autofunction:: eotf_inverse_DCDM

@@ -1,5 +1,5 @@
 colour.colorimetry.luminance\_ASTMD1535
-=========================================
+=======================================
 
 .. currentmodule:: colour.colorimetry
 

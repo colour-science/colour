@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models.rgb.transfer_functions import (eotf_reverse_ST2084,
+from colour.models.rgb.transfer_functions import (eotf_inverse_ST2084,
                                                   eotf_ST2084)
 from colour.models.rgb.transfer_functions.st_2084 import ST2084_CONSTANTS
 from colour.utilities import (Structure, domain_range_scale, dot_vector,
@@ -162,7 +162,7 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=JZAZBZ_CONSTANTS):
     LMS = dot_vector(JZAZBZ_XYZ_TO_LMS_MATRIX, XYZ_p_D65)
 
     with domain_range_scale('ignore'):
-        LMS_p = eotf_reverse_ST2084(LMS, 10000, constants)
+        LMS_p = eotf_inverse_ST2084(LMS, 10000, constants)
 
     I_z, A_z, B_z = tsplit(dot_vector(JZAZBZ_LMS_P_TO_IZAZBZ_MATRIX, LMS_p))
 

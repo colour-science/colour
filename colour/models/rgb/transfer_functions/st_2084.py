@@ -7,7 +7,7 @@ Defines *SMPTE ST 2084:2014* opto-electrical transfer function (OETF / OECF)
 and electro-optical transfer function (EOTF / EOCF):
 
 -   :func:`colour.models.eotf_ST2084`
--   :func:`colour.models.eotf_reverse_ST2084`
+-   :func:`colour.models.eotf_inverse_ST2084`
 
 See Also
 --------
@@ -40,7 +40,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ST2084_CONSTANTS', 'eotf_reverse_ST2084', 'eotf_ST2084']
+__all__ = ['ST2084_CONSTANTS', 'eotf_inverse_ST2084', 'eotf_ST2084']
 
 ST2084_CONSTANTS = Structure(
     m_1=2610 / 4096 * (1 / 4),
@@ -49,16 +49,16 @@ ST2084_CONSTANTS = Structure(
     c_2=2413 / 4096 * 32,
     c_3=2392 / 4096 * 32)
 """
-Constants for *SMPTE ST 2084:2014* reverse electro-optical transfer function
+Constants for *SMPTE ST 2084:2014* inverse electro-optical transfer function
 (EOTF / EOCF) and electro-optical transfer function (EOTF / EOCF).
 
 ST2084_CONSTANTS : Structure
 """
 
 
-def eotf_reverse_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
+def eotf_inverse_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     """
-    Defines *SMPTE ST 2084:2014* optimised perceptual reverse electro-optical
+    Defines *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
     transfer function (EOTF / EOCF).
 
     Parameters
@@ -110,7 +110,7 @@ def eotf_reverse_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
 
     Examples
     --------
-    >>> eotf_reverse_ST2084(100)  # doctest: +ELLIPSIS
+    >>> eotf_inverse_ST2084(100)  # doctest: +ELLIPSIS
     0.5080784...
     """
 

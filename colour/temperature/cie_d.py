@@ -63,7 +63,7 @@ def xy_to_CCT_CIE_D(xy, optimisation_parameters=None):
 
     Warnings
     --------
-    The *CIE Illuminant D Series* method does not give an analytical reverse
+    The *CIE Illuminant D Series* method does not give an analytical inverse
     transformation to compute the correlated colour temperature :math:`T_{cp}`
     from given *CIE xy* chromaticity coordinates, the current implementation
     relies on optimization using :func:`scipy.optimize.minimize` definition and

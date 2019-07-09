@@ -97,7 +97,7 @@ from .models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM16LCD_to_JMh_CAM16, CAM16SCD_to_JMh_CAM16,
     CAM16UCS_to_JMh_CAM16, CMYK_to_CMY, CMY_to_CMYK, CMY_to_RGB, CV_range,
-    DECODING_CCTFS, DIN99_to_Lab, ENCODING_CCTFS, EOTFS, EOTFS_REVERSE,
+    DECODING_CCTFS, DIN99_to_Lab, ENCODING_CCTFS, EOTFS, EOTFS_INVERSE,
     HDR_CIELAB_METHODS, HDR_IPT_METHODS, HSL_to_RGB, HSV_to_RGB,
     Hunter_Lab_to_XYZ, Hunter_Rdab_to_XYZ, ICTCP_to_RGB, IPT_hue_angle,
     IPT_to_XYZ, JMh_CAM16_to_CAM16LCD, JMh_CAM16_to_CAM16SCD,
@@ -105,7 +105,7 @@ from .models import (
     JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ, LCHab_to_Lab, LCHuv_to_Luv,
     LOG_DECODING_CURVES, LOG_ENCODING_CURVES, Lab_to_DIN99, Lab_to_LCHab,
     Lab_to_XYZ, Luv_to_LCHuv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy,
-    MACADAM_1942_ELLIPSES_DATA, OETFS, OETFS_REVERSE, OOTFS, OOTFS_REVERSE,
+    MACADAM_1942_ELLIPSES_DATA, OETFS, OETFS_INVERSE, OOTFS, OOTFS_INVERSE,
     OSA_UCS_to_XYZ, POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA,
     POINTER_GAMUT_ILLUMINANT, Prismatic_to_RGB, RGB_COLOURSPACES,
     RGB_Colourspace, RGB_luminance, RGB_luminance_equation, RGB_to_CMY,
@@ -117,10 +117,10 @@ from .models import (
     XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY,
     YCBCR_WEIGHTS, YCbCr_to_RGB, YcCbcCrc_to_RGB, YCoCg_to_RGB,
     chromatically_adapted_primaries, decoding_cctf, encoding_cctf, eotf,
-    eotf_reverse, full_to_legal, gamma_function, hdr_CIELab_to_XYZ,
+    eotf_inverse, full_to_legal, gamma_function, hdr_CIELab_to_XYZ,
     hdr_IPT_to_XYZ, legal_to_full, linear_function, log_decoding_curve,
-    log_encoding_curve, normalised_primary_matrix, oetf, oetf_reverse, ootf,
-    ootf_reverse, primaries_whitepoint, sd_to_aces_relative_exposure_values,
+    log_encoding_curve, normalised_primary_matrix, oetf, oetf_inverse, ootf,
+    ootf_inverse, primaries_whitepoint, sd_to_aces_relative_exposure_values,
     sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv,
     xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
 from .corresponding import (BRENEMAN_EXPERIMENTS,
@@ -223,7 +223,7 @@ __all__ += [
     'CAM02UCS_to_JMh_CIECAM02', 'CAM16LCD_to_JMh_CAM16',
     'CAM16SCD_to_JMh_CAM16', 'CAM16UCS_to_JMh_CAM16', 'CMYK_to_CMY',
     'CMY_to_CMYK', 'CMY_to_RGB', 'CV_range', 'DECODING_CCTFS', 'DIN99_to_Lab',
-    'ENCODING_CCTFS', 'EOTFS', 'EOTFS_REVERSE', 'HDR_CIELAB_METHODS',
+    'ENCODING_CCTFS', 'EOTFS', 'EOTFS_INVERSE', 'HDR_CIELAB_METHODS',
     'HDR_IPT_METHODS', 'HSL_to_RGB', 'HSV_to_RGB', 'Hunter_Lab_to_XYZ',
     'Hunter_Rdab_to_XYZ', 'ICTCP_to_RGB', 'IPT_hue_angle', 'IPT_to_XYZ',
     'JMh_CAM16_to_CAM16LCD', 'JMh_CAM16_to_CAM16SCD', 'JMh_CAM16_to_CAM16UCS',
@@ -231,8 +231,8 @@ __all__ += [
     'JMh_CIECAM02_to_CAM02UCS', 'JzAzBz_to_XYZ', 'LCHab_to_Lab',
     'LCHuv_to_Luv', 'LOG_DECODING_CURVES', 'LOG_ENCODING_CURVES',
     'Lab_to_DIN99', 'Lab_to_LCHab', 'Lab_to_XYZ', 'Luv_to_LCHuv', 'Luv_to_XYZ',
-    'Luv_to_uv', 'Luv_uv_to_xy', 'OETFS', 'OETFS_REVERSE', 'OOTFS',
-    'MACADAM_1942_ELLIPSES_DATA', 'OOTFS_REVERSE', 'OSA_UCS_to_XYZ',
+    'Luv_to_uv', 'Luv_uv_to_xy', 'OETFS', 'OETFS_INVERSE', 'OOTFS',
+    'MACADAM_1942_ELLIPSES_DATA', 'OOTFS_INVERSE', 'OSA_UCS_to_XYZ',
     'POINTER_GAMUT_BOUNDARIES', 'POINTER_GAMUT_DATA',
     'POINTER_GAMUT_ILLUMINANT', 'Prismatic_to_RGB', 'RGB_COLOURSPACES',
     'RGB_Colourspace', 'RGB_luminance', 'RGB_luminance_equation', 'RGB_to_CMY',
@@ -245,10 +245,10 @@ __all__ += [
     'XYZ_to_hdr_CIELab', 'XYZ_to_hdr_IPT', 'XYZ_to_sRGB', 'XYZ_to_xy',
     'XYZ_to_xyY', 'YCBCR_WEIGHTS', 'YCbCr_to_RGB', 'YcCbcCrc_to_RGB',
     'YCoCg_to_RGB', 'chromatically_adapted_primaries', 'decoding_cctf',
-    'encoding_cctf', 'eotf', 'eotf_reverse', 'full_to_legal', 'gamma_function',
+    'encoding_cctf', 'eotf', 'eotf_inverse', 'full_to_legal', 'gamma_function',
     'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full', 'linear_function',
     'log_decoding_curve', 'log_encoding_curve', 'normalised_primary_matrix',
-    'oetf', 'oetf_reverse', 'ootf', 'ootf_reverse', 'primaries_whitepoint',
+    'oetf', 'oetf_inverse', 'ootf', 'ootf_inverse', 'primaries_whitepoint',
     'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'uv_to_Luv',
     'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv',
     'xy_to_XYZ', 'xy_to_xyY'
@@ -669,15 +669,15 @@ API_CHANGES = {
         ],
         [
             'colour.eotf_reverse_BT1886',
-            'colour.models.eotf_reverse_BT1886',
+            'colour.models.eotf_inverse_BT1886',
         ],
         [
             'colour.eotf_reverse_BT2100_HLG',
-            'colour.models.eotf_reverse_HLG_BT2100',
+            'colour.models.eotf_inverse_HLG_BT2100',
         ],
         [
             'colour.eotf_reverse_BT2100_PQ',
-            'colour.models.eotf_reverse_PQ_BT2100',
+            'colour.models.eotf_inverse_PQ_BT2100',
         ],
         [
             'colour.eotf_RIMMRGB',
@@ -1117,7 +1117,7 @@ API_CHANGES = {
         ],
         [
             'colour.oetf_DCIP3',
-            'colour.models.eotf_reverse_DCIP3',
+            'colour.models.eotf_inverse_DCIP3',
         ],
         [
             'colour.oetf_DICOMGSDF',
@@ -1129,23 +1129,23 @@ API_CHANGES = {
         ],
         [
             'colour.oetf_reverse_ARIBSTDB67',
-            'colour.models.oetf_reverse_ARIBSTDB67',
+            'colour.models.oetf_inverse_ARIBSTDB67',
         ],
         [
             'colour.oetf_reverse_BT2100_HLG',
-            'colour.models.oetf_reverse_HLG_BT2100',
+            'colour.models.oetf_inverse_HLG_BT2100',
         ],
         [
             'colour.oetf_reverse_BT2100_PQ',
-            'colour.models.oetf_reverse_PQ_BT2100',
+            'colour.models.oetf_inverse_PQ_BT2100',
         ],
         [
             'colour.oetf_reverse_BT601',
-            'colour.models.oetf_reverse_BT601',
+            'colour.models.oetf_inverse_BT601',
         ],
         [
             'colour.oetf_reverse_BT709',
-            'colour.models.oetf_reverse_BT709',
+            'colour.models.oetf_inverse_BT709',
         ],
         [
             'colour.eotf_sRGB',
@@ -1165,11 +1165,11 @@ API_CHANGES = {
         ],
         [
             'colour.eotf_reverse_sRGB',
-            'colour.models.eotf_reverse_sRGB',
+            'colour.models.eotf_inverse_sRGB',
         ],
         [
             'colour.eotf_reverse_ST2084',
-            'colour.models.eotf_reverse_ST2084',
+            'colour.models.eotf_inverse_ST2084',
         ],
         [
             'colour.ootf_BT2100_HLG',
@@ -1181,11 +1181,11 @@ API_CHANGES = {
         ],
         [
             'colour.ootf_reverse_BT2100_HLG',
-            'colour.models.ootf_reverse_HLG_BT2100',
+            'colour.models.ootf_inverse_HLG_BT2100',
         ],
         [
             'colour.ootf_reverse_BT2100_PQ',
-            'colour.models.ootf_reverse_PQ_BT2100',
+            'colour.models.ootf_inverse_PQ_BT2100',
         ],
         [
             'colour.orient',
@@ -1512,7 +1512,7 @@ API_CHANGES = {
         ],
         [
             'colour.chromatic_adaptation_reverse_CMCCAT2000',
-            'colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000',
+            'colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000',
         ],
         [
             'colour.extend_line_segment',
@@ -1552,15 +1552,15 @@ API_CHANGES.update({
     'Renamed': [
         [
             'colour.eotf_ARIBSTDB67',
-            'colour.models.oetf_reverse_ARIBSTDB67',
+            'colour.models.oetf_inverse_ARIBSTDB67',
         ],
         [
             'colour.eotf_BT709',
-            'colour.models.oetf_reverse_BT709',
+            'colour.models.oetf_inverse_BT709',
         ],
         [
             'colour.oetf_BT1886',
-            'colour.models.eotf_reverse_BT1886',
+            'colour.models.eotf_inverse_BT1886',
         ],
         [
             'colour.eotf_sRGB',
@@ -1706,6 +1706,26 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.ASTME30815_PRACTISE_SHAPE',
         'colour.ASTME308_PRACTISE_SHAPE',
+    ],
+    [
+        'OETFS_REVERSE',
+        'OETFS_INVERSE',
+    ],
+    [
+        'OOTFS_REVERSE',
+        'OOTFS_INVERSE',
+    ],
+    [
+        'eotf_reverse',
+        'eotf_inverse',
+    ],
+    [
+        'oetf_reverse',
+        'oetf_inverse',
+    ],
+    [
+        'ootf_reverse',
+        'ootf_inverse',
     ],
 ]
 

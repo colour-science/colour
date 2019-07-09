@@ -4,9 +4,9 @@ sRGB Colourspace
 ================
 
 Defines *sRGB* colourspace opto-electrical transfer function (OETF / OECF) and
-its reverse:
+its inverse:
 
--   :func:`colour.models.eotf_reverse_sRGB`
+-   :func:`colour.models.eotf_inverse_sRGB`
 -   :func:`colour.models.eotf_sRGB`
 
 See Also
@@ -45,12 +45,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['eotf_reverse_sRGB', 'eotf_sRGB']
+__all__ = ['eotf_inverse_sRGB', 'eotf_sRGB']
 
 
-def eotf_reverse_sRGB(L):
+def eotf_inverse_sRGB(L):
     """
-    Defines the *IEC 61966-2-1:1999* *sRGB* colourspace reverse electro-optical
+    Defines the *IEC 61966-2-1:1999* *sRGB* colourspace inverse electro-optical
     transfer function (EOTF / EOCF).
 
     Parameters
@@ -85,7 +85,7 @@ def eotf_reverse_sRGB(L):
 
     Examples
     --------
-    >>> eotf_reverse_sRGB(0.18)  # doctest: +ELLIPSIS
+    >>> eotf_inverse_sRGB(0.18)  # doctest: +ELLIPSIS
     0.4613561...
     """
 
@@ -141,7 +141,7 @@ def eotf_sRGB(V):
 
     with domain_range_scale('ignore'):
         L = np.where(
-            V <= eotf_reverse_sRGB(0.0031308),
+            V <= eotf_inverse_sRGB(0.0031308),
             V / 12.92,
             spow((V + 0.055) / 1.055, 2.4),
         )

@@ -1,6 +1,6 @@
-colour.EOTFS\_REVERSE
+colour.EOTFS\_INVERSE
 =====================
 
 .. currentmodule:: colour
 
-.. autodata:: EOTFS_REVERSE
+.. autodata:: EOTFS_INVERSE

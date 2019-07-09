@@ -23,6 +23,11 @@ References
 
 from __future__ import absolute_import
 
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.documentation import is_documentation_building
+
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               get_domain_range_scale, as_float_array)
 
@@ -34,7 +39,7 @@ from .fairchild1990 import chromatic_adaptation_Fairchild1990
 from .cmccat2000 import (
     CMCCAT2000_InductionFactors, CMCCAT2000_VIEWING_CONDITIONS,
     chromatic_adaptation_forward_CMCCAT2000,
-    chromatic_adaptation_reverse_CMCCAT2000, chromatic_adaptation_CMCCAT2000)
+    chromatic_adaptation_inverse_CMCCAT2000, chromatic_adaptation_CMCCAT2000)
 from .cie1994 import chromatic_adaptation_CIE1994
 
 __all__ = []
@@ -46,7 +51,7 @@ __all__ += ['chromatic_adaptation_Fairchild1990']
 __all__ += [
     'CMCCAT2000_InductionFactors', 'CMCCAT2000_VIEWING_CONDITIONS',
     'chromatic_adaptation_forward_CMCCAT2000',
-    'chromatic_adaptation_reverse_CMCCAT2000',
+    'chromatic_adaptation_inverse_CMCCAT2000',
     'chromatic_adaptation_CMCCAT2000'
 ]
 __all__ += ['chromatic_adaptation_CIE1994']
@@ -111,7 +116,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
         domain [0.18, 1] in **'Reference'** domain-range scale.
     direction : unicode, optional
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
-        **{'Forward', 'Reverse'}**,
+        **{'Forward', 'Inverse'}**,
         Chromatic adaptation direction.
     discount_illuminant : bool, optional
         {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
@@ -239,3 +244,52 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
 
 
 __all__ += ['CHROMATIC_ADAPTATION_METHODS', 'chromatic_adaptation']
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class adaptation(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(adaptation, self).__getattr__(attribute)
+
+
+# v0.3.14
+API_CHANGES = {
+    'Renamed': [[
+        'colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000',
+        'colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000',
+    ], ]
+}
+"""
+Defines *colour.adaptation* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+
+def _setup_api_changes():
+    """
+    Setups *Colour* API changes.
+    """
+
+    global API_CHANGES
+
+    for renamed in API_CHANGES['Renamed']:
+        name, access = renamed
+        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
+    API_CHANGES.pop('Renamed')
+
+
+if not is_documentation_building():
+    _setup_api_changes()
+
+    del ModuleAPI
+    del Renamed
+    del is_documentation_building
+    del _setup_api_changes
+
+    sys.modules['colour.adaptation'] = adaptation(
+        sys.modules['colour.adaptation'], API_CHANGES)
+
+    del sys

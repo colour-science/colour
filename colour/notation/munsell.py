@@ -587,7 +587,7 @@ def munsell_value_McCamy1987(Y):
 def munsell_value_ASTMD1535(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    a reverse lookup table from *ASTM D1535-08e1* method.
+    an inverse lookup table from *ASTM D1535-08e1* method.
 
     Parameters
     ----------

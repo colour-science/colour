@@ -367,8 +367,8 @@ Opto-Electronic Transfer Functions
 
     oetf
     OETFS
-    oetf_reverse
-    OETFS_REVERSE
+    oetf_inverse
+    OETFS_INVERSE
 
 ``colour.models``
 
@@ -378,17 +378,17 @@ Opto-Electronic Transfer Functions
     :toctree: generated/
 
     oetf_ARIBSTDB67
-    oetf_reverse_ARIBSTDB67
+    oetf_inverse_ARIBSTDB67
     oetf_DICOMGSDF
     oetf_BT2020
     oetf_HLG_BT2100
-    oetf_reverse_HLG_BT2100
+    oetf_inverse_HLG_BT2100
     oetf_PQ_BT2100
-    oetf_reverse_PQ_BT2100
+    oetf_inverse_PQ_BT2100
     oetf_BT601
-    oetf_reverse_BT601
+    oetf_inverse_BT601
     oetf_BT709
-    oetf_reverse_BT709
+    oetf_inverse_BT709
     oetf_ProPhotoRGB
     oetf_RIMMRGB
     oetf_ROMMRGB
@@ -418,8 +418,8 @@ Electro-Optical Transfer Functions
 
     eotf
     EOTFS
-    eotf_reverse
-    EOTFS_REVERSE
+    eotf_inverse
+    EOTFS_INVERSE
 
 ``colour.models``
 
@@ -429,25 +429,25 @@ Electro-Optical Transfer Functions
     :toctree: generated/
 
     eotf_DCDM
-    eotf_reverse_DCDM
+    eotf_inverse_DCDM
     eotf_DICOMGSDF
     eotf_BT1886
-    eotf_reverse_BT1886
+    eotf_inverse_BT1886
     eotf_BT2020
     BT2100_HLG_EOTF_METHODS
     eotf_HLG_BT2100
-    BT2100_HLG_EOTF_REVERSE_METHODS
-    eotf_reverse_HLG_BT2100
+    BT2100_HLG_EOTF_INVERSE_METHODS
+    eotf_inverse_HLG_BT2100
     eotf_PQ_BT2100
-    eotf_reverse_PQ_BT2100
+    eotf_inverse_PQ_BT2100
     eotf_ProPhotoRGB
     eotf_RIMMRGB
     eotf_ROMMRGB
     eotf_SMPTE240M
     eotf_ST2084
-    eotf_reverse_ST2084
+    eotf_inverse_ST2084
     eotf_sRGB
-    eotf_reverse_sRGB
+    eotf_inverse_sRGB
 
 Opto-Optical Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -461,8 +461,8 @@ Opto-Optical Transfer Functions
 
     ootf
     OOTFS
-    ootf_reverse
-    OOTFS_REVERSE
+    ootf_inverse
+    OOTFS_INVERSE
 
 
 ``colour.models``
@@ -474,10 +474,10 @@ Opto-Optical Transfer Functions
 
     BT2100_HLG_OOTF_METHODS
     ootf_HLG_BT2100
-    BT2100_HLG_OOTF_REVERSE_METHODS
-    ootf_reverse_HLG_BT2100
+    BT2100_HLG_OOTF_INVERSE_METHODS
+    ootf_inverse_HLG_BT2100
     ootf_PQ_BT2100
-    ootf_reverse_PQ_BT2100
+    ootf_inverse_PQ_BT2100
 
 Log Encoding and Decoding Curves
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
