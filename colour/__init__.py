@@ -1708,6 +1708,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
         'colour.ASTME308_PRACTISE_SHAPE',
     ],
     [
+        'EOTFS_REVERSE',
+        'EOTFS_INVERSE',
+    ],
+    [
         'OETFS_REVERSE',
         'OETFS_INVERSE',
     ],
