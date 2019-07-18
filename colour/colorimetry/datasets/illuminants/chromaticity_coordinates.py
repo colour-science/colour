@@ -19,31 +19,18 @@ The following *CIE* illuminants are available:
     FL3.3, FL3.4, FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
 -   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
 
-The following other illuminants are available:
+The following other illuminants are available for the
+*CIE 1931 2 Degree Standard Observer* only:
 
-- DCI-P3 (*CIE 1931 2 Degree Standard Observer* only)
-- ACES (*CIE 1931 2 Degree Standard Observer* only)
+- ACES
+- DCI-P3
+- ICC D50
 
 See Also
 --------
 `Illuminants Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-
-Warning
--------
-DCI-P3 illuminant has no associated spectral distribution. DCI has no
-official reference spectral measurement for this whitepoint. The closest
-matching spectral distribution is Kinoton 75P projector.
-
-Notes
------
--   *CIE* illuminants with chromaticity coordinates not defined in the
-    reference :cite:`Wikipedia2006a` have been calculated using their
-    correlated colour temperature and
-    :func:`colour.temperature.CCT_to_xy_CIE_D`
-    :func:`colour.sd_CIE_illuminant_D_series` and / or
-    :func:`colour.sd_to_XYZ` definitions.
 
 References
 ----------
@@ -114,8 +101,9 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
 """
 
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
+    'ACES': np.array([0.32168, 0.33767]),
     'DCI-P3': np.array([0.31400, 0.35100]),
-    'ACES': np.array([0.32168, 0.33767])
+    'ICC D50': np.array([0.345702914918791, 0.358538596679933])
 })
 
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
@@ -203,6 +191,12 @@ ILLUMINANTS = CaseInsensitiveMapping({
 ILLUMINANTS.__doc__ = """
 Aggregated *CIE* illuminants chromaticity coordinates.
 
+Warning
+-------
+*DCI-P3* illuminant has no associated spectral distribution. *DCI* has no
+official reference spectral measurement for this whitepoint. The closest
+matching spectral distribution is *Kinoton 75P* projector.
+
 Notes
 -----
 
@@ -218,11 +212,20 @@ computed as follows::
         colour.sd_to_XYZ(
             sd, colour.CMFS['CIE 1964 10 Degree Standard Observer']) / 100.0)
 
-*CIE Illuminant D Series D50* illuminant and
-*CIE Standard Illuminant D Series D65* chromaticity coordinates are rounded to
-4 decimals as given in the typical RGB colourspaces litterature. Their
-chromaticity coordinates as given in :cite:`CIETC1-482004h` are
-(0.34567, 0.35851) and (0.31272, 0.32903) respectively.
+-   *CIE Illuminant D Series D50* illuminant and
+    *CIE Standard Illuminant D Series D65* chromaticity coordinates are rounded
+    to 4 decimals as given in the typical RGB colourspaces litterature. Their
+    chromaticity coordinates as given in :cite:`CIETC1-482004h` are
+    (0.34567, 0.35851) and (0.31272, 0.32903) respectively.
+-   *CIE* illuminants with chromaticity coordinates not defined in the
+    reference :cite:`Wikipedia2006a` have been calculated using their
+    correlated colour temperature and
+    :func:`colour.temperature.CCT_to_xy_CIE_D`
+    :func:`colour.sd_CIE_illuminant_D_series` and / or
+    :func:`colour.sd_to_XYZ` definitions.
+-   *ICC D50* chromaticity coordinates were computed with
+    :func:`colour.XYZ_to_xy` definition from the *CIE XYZ* tristimulus values
+    as given by *ICC*: [96.42, 100.00, 82.49].
 
 References
 ----------

@@ -173,7 +173,7 @@ COLORCHECKER_2005_DATA = OrderedDict((
 ))
 
 COLORCHECKER_2005_ILLUMINANT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *ColorChecker 2005* illuminant.
 
@@ -215,7 +215,7 @@ BABELCOLOR_AVERAGE_DATA = OrderedDict((
 ))
 
 BABELCOLOR_AVERAGE_ILLUMINANT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *BabelColor Average* illuminant.
 
@@ -275,10 +275,11 @@ COLORCHECKER24_BEFORE_NOV2014_DATA = OrderedDict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(COLORCHECKER24_BEFORE_NOV2014_LAB_DATA.values()),
-                ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']))))
+                ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                ['ICC D50']))))
 
 COLORCHECKER24_BEFORE_NOV2014_ILLUMINANT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *ColorChecker24 - Before November 2014* illuminant.
 
@@ -345,10 +346,11 @@ COLORCHECKER24_AFTER_NOV2014_DATA = OrderedDict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(COLORCHECKER24_AFTER_NOV2014_LAB_DATA.values()),
-                ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']))))
+                ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                ['ICC D50']))))
 
 COLORCHECKER24_AFTER_NOV2014_ILLUMINANT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *ColorChecker24 - After November 2014* illuminant.
 
