@@ -27,7 +27,7 @@ structures.py#L37
 
 from __future__ import division, unicode_literals
 
-from collections import Mapping, MutableMapping
+from collections.abc import Mapping, MutableMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
