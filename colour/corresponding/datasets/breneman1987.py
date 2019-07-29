@@ -48,7 +48,7 @@ __all__ = [
 
 class BrenemanExperimentResult(
         namedtuple('BrenemanExperimentResult',
-                   ('name', 'uvp_t', 'uvp_m', 's_uvp', 'd_uvp_i', 'd_uvp_g'))):
+                   ('name', 'uv_t', 'uv_m', 's_uv', 'd_uv_i', 'd_uv_g'))):
     """
     Experiment result.
 
@@ -56,27 +56,27 @@ class BrenemanExperimentResult(
     ----------
     name : unicode
         Test colour name.
-    uvp_t : numeric
+    uv_t : numeric
         Chromaticity coordinates :math:`uv_t^p` of test colour.
-    uvp_m : array_like, (2,)
+    uv_m : array_like, (2,)
         Chromaticity coordinates :math:`uv_m^p` of matching colour.
-    s_uvp : array_like, (2,), optional
+    s_uv : array_like, (2,), optional
         Interobserver variation (:math:`x10^3`) :math:`\\sigma_uv^p`.
-    d_uvp_i : array_like, (2,), optional
+    d_uv_i : array_like, (2,), optional
         Deviation of individual linear transformation (:math:`x10^3`)
         :math:`\\delta_uv_i^p`.
-    d_uvp_g : array_like, (2,), optional
+    d_uv_g : array_like, (2,), optional
         Deviation of individual linear transformation (:math:`x10^3`)
         :math:`\\delta_uv_g^p`.
     """
 
     def __new__(cls,
                 name,
-                uvp_t,
-                uvp_m,
-                s_uvp=None,
-                d_uvp_i=None,
-                d_uvp_g=None):
+                uv_t,
+                uv_m,
+                s_uv=None,
+                d_uv_i=None,
+                d_uv_g=None):
         """
         Returns a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\
@@ -84,8 +84,8 @@ BrenemanExperimentResult` class.
         """
 
         return super(BrenemanExperimentResult, cls).__new__(
-            cls, name, np.array(uvp_t), np.array(uvp_m), np.array(s_uvp),
-            np.array(d_uvp_i), np.array(d_uvp_g))
+            cls, name, np.array(uv_t), np.array(uv_m), np.array(s_uv),
+            np.array(d_uv_i), np.array(d_uv_g))
 
 
 class PrimariesChromaticityCoordinates(

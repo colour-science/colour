@@ -26,6 +26,18 @@ Prediction
     BRENEMAN_EXPERIMENTS
     BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES
 
+**Ancillary Objects**
+
+``colour.prediction``
+
+.. currentmodule:: colour.corresponding
+
+.. autosummary::
+    :toctree: generated/
+
+    CorrespondingColourDataset
+    CorrespondingChromaticitiesPrediction
+
 Fairchild (1990)
 ~~~~~~~~~~~~~~~~
 

@@ -2,7 +2,7 @@
 
 from __future__ import absolute_import
 
-from .corresponding_chromaticities import (
+from .breneman1987 import (
     BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES)
 
 __all__ = [
