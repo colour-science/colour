@@ -437,9 +437,9 @@ def colour_correction_matrix_Finlayson2015(M_T,
 
     Parameters
     ----------
-    M_T : array_like, (3, n)
+    M_T : array_like, (n, 3)
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (3, n)
+    M_R : array_like, (n, 3)
         Reference array the array :math:`M_T` will be colour fitted against.
     degree : int, optional
         Expanded polynomial degree.
@@ -448,7 +448,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
 
     Returns
     -------
-    ndarray, (3, n)
+    ndarray, (n, 3)
         Colour correction matrix.
 
     References
@@ -478,16 +478,16 @@ def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
 
     Parameters
     ----------
-    M_T : array_like, (3, n)
+    M_T : array_like, (n, 3)
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (3, n)
+    M_R : array_like, (n, 3)
         Reference array the array :math:`M_T` will be colour fitted against.
     degree : int, optional
         Expanded polynomial degree.
 
     Returns
     -------
-    ndarray, (3, n)
+    ndarray, (n, 3)
         Colour correction matrix.
 
     References
@@ -539,9 +539,9 @@ def colour_correction_matrix(M_T, M_R, method='Cheung 2004', **kwargs):
 
     Parameters
     ----------
-    M_T : array_like, (3, n)
+    M_T : array_like, (n, 3)
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (3, n)
+    M_R : array_like, (n, 3)
         Reference array the array :math:`M_T` will be colour fitted against.
     method : unicode, optional
         **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**,
@@ -565,7 +565,7 @@ def colour_correction_matrix(M_T, M_R, method='Cheung 2004', **kwargs):
 
     Returns
     -------
-    ndarray, (3, n)
+    ndarray, (n, 3)
         Colour correction matrix.
 
     References
@@ -646,11 +646,11 @@ def colour_correction_Cheung2004(RGB, M_T, M_R, terms=3):
 
     Parameters
     ----------
-    RGB : array_like, (3, n)
+    RGB : array_like, (n, 3)
         *RGB* colourspace array to colour correct.
-    M_T : array_like, (3, n)
+    M_T : array_like, (n, 3)
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (3, n)
+    M_R : array_like, (n, 3)
         Reference array the array :math:`M_T` will be colour fitted against.
     terms : int, optional
         Number of terms of the expanded polynomial, must be one of
@@ -699,11 +699,11 @@ def colour_correction_Finlayson2015(RGB,
 
     Parameters
     ----------
-    RGB : array_like, (3, n)
+    RGB : array_like, (n, 3)
         *RGB* colourspace array to colour correct.
-    M_T : array_like, (3, n)
+    M_T : array_like, (n, 3)
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (3, n)
+    M_R : array_like, (n, 3)
         Reference array the array :math:`M_T` will be colour fitted against.
     degree : int, optional
         Expanded polynomial degree.
@@ -751,11 +751,11 @@ def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
 
     Parameters
     ----------
-    RGB : array_like, (3, n)
+    RGB : array_like, (n, 3)
         *RGB* colourspace array to colour correct.
-    M_T : array_like, (3, n)
+    M_T : array_like, (n, 3)
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (3, n)
+    M_R : array_like, (n, 3)
         Reference array the array :math:`M_T` will be colour fitted against.
     degree : int, optional
         Expanded polynomial degree.
@@ -817,11 +817,11 @@ def colour_correction(RGB, M_T, M_R, method='Cheung 2004', **kwargs):
 
     Parameters
     ----------
-    RGB : array_like, (3, n)
+    RGB : array_like, (n, 3)
         *RGB* colourspace array to colour correct.
-    M_T : array_like, (3, n)
+    M_T : array_like, (n, 3)
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (3, n)
+    M_R : array_like, (n, 3)
         Reference array the array :math:`M_T` will be colour fitted against.
     method : unicode, optional
         **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**,
