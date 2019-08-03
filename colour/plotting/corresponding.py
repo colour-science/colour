@@ -14,6 +14,7 @@ from colour.corresponding import corresponding_chromaticities_prediction
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
                              plot_chromaticity_diagram_CIE1976UCS,
                              override_style, render)
+from colour.utilities import is_numeric
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -36,8 +37,11 @@ def plot_corresponding_chromaticities_prediction(experiment=1,
 
     Parameters
     ----------
-    experiment : int, optional
-        Corresponding chromaticities prediction experiment number.
+    experiment : integer or CorrespondingColourDataset, optional
+        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+        *Breneman (1987)* experiment number or
+        :class:`colour.corresponding.CorrespondingColourDataset` class
+        instance.
     model : unicode, optional
         Corresponding chromaticities prediction model name.
     transform : unicode, optional
@@ -72,13 +76,14 @@ Plot_Corresponding_Chromaticities_Prediction.png
 
     _figure, axes = artist(**settings)
 
-    title = (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
-              'Experiment {2}\nCIE 1976 UCS Chromaticity Diagram').format(
-                  model, transform, experiment)
-             if model.lower() in ('von kries', 'vonkries') else
-             ('Corresponding Chromaticities Prediction\n{0} - '
-              'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
-                  model, experiment))
+    name = ('Experiment {0}'.format(experiment)
+            if is_numeric(experiment) else experiment.name)
+    title = (('Corresponding Chromaticities Prediction - {0} ({1}) - {2} - '
+              'CIE 1976 UCS Chromaticity Diagram').format(
+                  model, transform, name) if model.lower() in ('von kries',
+                                                               'vonkries') else
+             ('Corresponding Chromaticities Prediction - {0} - {1} - '
+              'CIE 1976 UCS Chromaticity Diagram').format(model, name))
 
     settings = {'axes': axes, 'title': title}
     settings.update(kwargs)
@@ -90,18 +95,18 @@ Plot_Corresponding_Chromaticities_Prediction.png
         experiment, transform=transform)
 
     for result in results:
-        _name, uvp_t, uvp_m, uvp_p = result
+        _name, uv_t, uv_m, uv_p = result
         axes.arrow(
-            uvp_t[0],
-            uvp_t[1],
-            uvp_p[0] - uvp_t[0] - 0.1 * (uvp_p[0] - uvp_t[0]),
-            uvp_p[1] - uvp_t[1] - 0.1 * (uvp_p[1] - uvp_t[1]),
+            uv_t[0],
+            uv_t[1],
+            uv_p[0] - uv_t[0] - 0.1 * (uv_p[0] - uv_t[0]),
+            uv_p[1] - uv_t[1] - 0.1 * (uv_p[1] - uv_t[1]),
             color=COLOUR_STYLE_CONSTANTS.colour.dark,
             head_width=0.005,
             head_length=0.005)
         axes.plot(
-            uvp_t[0],
-            uvp_t[1],
+            uv_t[0],
+            uv_t[1],
             'o',
             color=COLOUR_STYLE_CONSTANTS.colour.brightest,
             markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
@@ -109,8 +114,8 @@ Plot_Corresponding_Chromaticities_Prediction.png
                         COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
             markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75)
         axes.plot(
-            uvp_m[0],
-            uvp_m[1],
+            uv_m[0],
+            uv_m[1],
             '^',
             color=COLOUR_STYLE_CONSTANTS.colour.brightest,
             markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
@@ -118,7 +123,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
                         COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
             markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75)
         axes.plot(
-            uvp_p[0], uvp_p[1], '^', color=COLOUR_STYLE_CONSTANTS.colour.dark)
+            uv_p[0], uv_p[1], '^', color=COLOUR_STYLE_CONSTANTS.colour.dark)
 
     settings.update({
         'standalone': True,
