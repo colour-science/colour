@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/vsts/pipelines/languages/python
 
 jobs:
-- job: 'Test_Windows'
+- job: 'Unit_Tests_Windows'
   strategy:
     matrix:
       Python27:
@@ -27,17 +27,17 @@ jobs:
       pip install pyqt
       pip install nose six coveralls flake8 mock==1.0.1
       python -c "import imageio;imageio.plugins.freeimage.download()"
-    displayName: 'Install dependencies'
+    displayName: 'Dependencies'
   - script: flake8 colour
     displayName: 'flake8'
   - script: nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=colour --with-xunit colour
-    displayName: 'nosetest'
+    displayName: 'nosetests'
   - task: PublishTestResults@2
     inputs:
       testResultsFiles: '**/nosetests.xml'
       testRunTitle: 'Python $(python.version)'
     condition: succeededOrFailed()
-- job: 'Test_macOS'
+- job: 'Unit_Tests_macOs'
   strategy:
     matrix:
       Python27:
@@ -50,26 +50,23 @@ jobs:
   pool:
     vmImage: 'xcode9-macos10.13'
   steps:
-  - script: |
-      sudo chmod -R 777 /usr/local/miniconda/envs
-    displayName: 'Fix for conda error on macOS'
-  - task: CondaEnvironment@1
+  - task: UsePythonVersion@0
     inputs:
-      createCustomEnvironment: true
-      environmentName: 'colour_env'
-      packageSpecs: 'python=$(python.version)'
-      installOptions: -y
+      versionSpec: '$(python.version)'
+      architecture: 'x64'
   - script: |
-      conda activate colour_env
-      conda install -y imageio matplotlib numpy scipy
-      conda install -y pyqt
-      conda install -y nose six coveralls flake8 mock==1.0.1
+      mkdir ~/.matplotlib/
+      echo "backend: TkAgg" >> ~/.matplotlib/matplotlibrc
+      python -m pip install --upgrade pip
+      pip install imageio matplotlib numpy scipy
+      pip install pyqt
+      pip install nose six coveralls flake8 mock==1.0.1
       python -c "import imageio;imageio.plugins.freeimage.download()"
-    displayName: 'Install dependencies'
+    displayName: 'Dependencies'
   - script: flake8 colour
     displayName: 'flake8'
   - script: nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=colour --with-xunit colour
-    displayName: 'nosetest'
+    displayName: 'nosetests'
   - task: PublishTestResults@2
     inputs:
       testResultsFiles: '**/nosetests.xml'
