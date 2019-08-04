@@ -123,10 +123,11 @@ from .models import (
     ootf_inverse, primaries_whitepoint, sd_to_aces_relative_exposure_values,
     sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv,
     xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
-from .corresponding import (BRENEMAN_EXPERIMENTS,
-                            BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
-                            CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
-                            corresponding_chromaticities_prediction)
+from .corresponding import (
+    BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
+    CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
+    CorrespondingChromaticitiesPrediction,
+    corresponding_chromaticities_prediction)
 from .contrast import (CONTRAST_SENSITIVITY_METHODS,
                        contrast_sensitivity_function)
 from .phenomena import (rayleigh_scattering, scattering_cross_section,
@@ -256,6 +257,7 @@ __all__ += [
 __all__ += [
     'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
     'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
+    'CorrespondingColourDataset', 'CorrespondingChromaticitiesPrediction',
     'corresponding_chromaticities_prediction'
 ]
 __all__ += ['CONTRAST_SENSITIVITY_METHODS', 'contrast_sensitivity_function']

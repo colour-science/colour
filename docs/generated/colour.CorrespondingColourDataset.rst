@@ -1,7 +1,7 @@
-colour.corresponding.CorrespondingColourDataset
-===============================================
+colour.CorrespondingColourDataset
+=================================
 
-.. currentmodule:: colour.corresponding
+.. currentmodule:: colour
 
 .. autoclass:: CorrespondingColourDataset
 

@@ -40,8 +40,7 @@ def plot_corresponding_chromaticities_prediction(experiment=1,
     experiment : integer or CorrespondingColourDataset, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Breneman (1987)* experiment number or
-        :class:`colour.corresponding.CorrespondingColourDataset` class
-        instance.
+        :class:`colour.CorrespondingColourDataset` class instance.
     model : unicode, optional
         Corresponding chromaticities prediction model name.
     transform : unicode, optional

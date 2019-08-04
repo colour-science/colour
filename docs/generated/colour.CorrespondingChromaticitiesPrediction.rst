@@ -1,7 +1,7 @@
-colour.corresponding.CorrespondingChromaticitiesPrediction
-==========================================================
+colour.CorrespondingChromaticitiesPrediction
+============================================
 
-.. currentmodule:: colour.corresponding
+.. currentmodule:: colour
 
 .. autoclass:: CorrespondingChromaticitiesPrediction
 

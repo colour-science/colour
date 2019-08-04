@@ -139,8 +139,7 @@ class CorrespondingChromaticitiesPrediction(
 def convert_experiment_results_Breneman1987(experiment):
     """
     Converts *Breneman (1987)* experiment results to a
-    :class:`colour.corresponding.CorrespondingColourDataset` class instanc
-    .
+    :class:`colour.CorrespondingColourDataset` class instance.
 
     Parameters
     ----------
@@ -151,8 +150,7 @@ def convert_experiment_results_Breneman1987(experiment):
     Returns
     -------
     CorrespondingColourDataset
-        :class:`colour.corresponding.CorrespondingColourDataset` class
-        instance.
+        :class:`colour.CorrespondingColourDataset` class instance.
 
     Examples
     --------
@@ -252,8 +250,7 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
     experiment : integer or CorrespondingColourDataset, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Breneman (1987)* experiment number or
-        :class:`colour.corresponding.CorrespondingColourDataset` class
-        instance.
+        :class:`colour.CorrespondingColourDataset` class instance.
 
     Returns
     -------
@@ -317,10 +314,7 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     experiment : integer or CorrespondingColourDataset, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Breneman (1987)* experiment number or
-        :class:`colour.corresponding.CorrespondingColourDataset` class
-        instance.
-
-    Returns
+        :class:`colour.CorrespondingColourDataset` class instance. Returns
     -------
     tuple
         Corresponding chromaticities prediction.
@@ -384,8 +378,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     experiment : integer or CorrespondingColourDataset, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Breneman (1987)* experiment number or
-        :class:`colour.corresponding.CorrespondingColourDataset` class
-        instance.
+        :class:`colour.CorrespondingColourDataset` class instance.
 
     Returns
     -------
@@ -452,8 +445,7 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
     experiment : integer or CorrespondingColourDataset, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Breneman (1987)* experiment number or
-        :class:`colour.corresponding.CorrespondingColourDataset` class
-        instance.
+        :class:`colour.CorrespondingColourDataset` class instance.
     transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
@@ -548,8 +540,7 @@ def corresponding_chromaticities_prediction(experiment=1,
     experiment : integer or CorrespondingColourDataset, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Breneman (1987)* experiment number or
-        :class:`colour.corresponding.CorrespondingColourDataset` class
-        instance.
+        :class:`colour.CorrespondingColourDataset` class instance.
     model : unicode, optional
         **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}**,
         Chromatic adaptation model.
