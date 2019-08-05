@@ -1301,17 +1301,17 @@ def plot_multi_functions(functions,
         assert log_x >= 2 and log_y >= 2, (
             'Log base must be equal or greater than 2.')
 
-        plotting_function = partial(plt.loglog, basex=log_x, basey=log_y)
+        plotting_function = partial(axes.loglog, basex=log_x, basey=log_y)
     elif log_x is not None:
         assert log_x >= 2, 'Log base must be equal or greater than 2.'
 
-        plotting_function = partial(plt.semilogx, basex=log_x)
+        plotting_function = partial(axes.semilogx, basex=log_x)
     elif log_y is not None:
         assert log_y >= 2, 'Log base must be equal or greater than 2.'
 
-        plotting_function = partial(plt.semilogy, basey=log_y)
+        plotting_function = partial(axes.semilogy, basey=log_y)
     else:
-        plotting_function = plt.plot
+        plotting_function = axes.plot
 
     if samples is None:
         samples = np.linspace(0, 1, 1000)

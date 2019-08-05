@@ -13,7 +13,6 @@ Defines the colour quality plotting objects:
 
 from __future__ import division
 
-import matplotlib.pyplot as plt
 import numpy as np
 from itertools import cycle
 
@@ -117,7 +116,7 @@ def plot_colour_quality_bars(specifications,
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
-        bars = plt.bar(
+        bars = axes.bar(
             x,
             np.abs(y),
             color=colours,

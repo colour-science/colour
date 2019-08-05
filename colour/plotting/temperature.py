@@ -14,7 +14,6 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS`
 
 from __future__ import division
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 from colour.colorimetry import CMFS, ILLUMINANTS
@@ -272,7 +271,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
             annotate_settings = annotate_settings_collection[i]
             annotate_settings.pop('annotate')
 
-            plt.annotate(illuminant, xy=ij, **annotate_settings)
+            axes.annotate(illuminant, xy=ij, **annotate_settings)
 
     title = (('{0} Illuminants - Planckian Locus\n'
               '{1} Chromaticity Diagram - '
