@@ -36,7 +36,8 @@ from .diagrams import (plot_chromaticity_diagram_CIE1931,
 from .corresponding import plot_corresponding_chromaticities_prediction
 from .geometry import quad, grid, cube
 from .models import (
-    plot_pointer_gamut, plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
+    common_colourspace_model_axis_reorder, plot_pointer_gamut,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
@@ -91,7 +92,7 @@ __all__ += [
 __all__ += ['plot_corresponding_chromaticities_prediction']
 __all__ += ['quad', 'grid', 'cube']
 __all__ += [
-    'plot_pointer_gamut',
+    'common_colourspace_model_axis_reorder', 'plot_pointer_gamut',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
