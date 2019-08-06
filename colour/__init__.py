@@ -531,7 +531,7 @@ API_CHANGES = {
         ],
         [
             'colour.COLOURSPACE_MODELS_LABELS',
-            'colour.models.COLOURSPACE_MODELS_LABELS',
+            'colour.models.COLOURSPACE_MODELS_AXIS_LABELS',
         ],
         [
             'colour.corresponding_chromaticities_prediction_CIE1994',

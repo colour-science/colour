@@ -17,12 +17,13 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models import RGB_to_XYZ
-from colour.models.common import (COLOURSPACE_MODELS_LABELS,
+from colour.models.common import (COLOURSPACE_MODELS_AXIS_LABELS,
                                   XYZ_to_colourspace_model)
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, common_colourspace_model_axis_reorder, cube,
     filter_RGB_colourspaces, filter_cmfs, grid, override_style, render)
-from colour.utilities import (Structure, as_float_array, first_item)
+from colour.utilities import (Structure, as_float_array, as_int_array,
+                              first_item)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -526,7 +527,10 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
             max_a = max(np.max(quads[..., i]), np.max(points[..., i]))
             getattr(axes, 'set_{}lim'.format(axis))((min_a, max_a))
 
-    labels = COLOURSPACE_MODELS_LABELS[reference_colourspace]
+    labels = np.array(
+        COLOURSPACE_MODELS_AXIS_LABELS[reference_colourspace])[as_int_array(
+            common_colourspace_model_axis_reorder([0, 1, 2],
+                                                  reference_colourspace))]
     for i, axis in enumerate('xyz'):
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
