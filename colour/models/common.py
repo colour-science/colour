@@ -23,7 +23,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'COLOURSPACE_MODELS', 'COLOURSPACE_MODELS_LABELS',
+    'COLOURSPACE_MODELS', 'COLOURSPACE_MODELS_AXIS_LABELS',
     'XYZ_to_colourspace_model'
 ]
 
@@ -32,30 +32,30 @@ COLOURSPACE_MODELS = ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
                       'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT',
                       'JzAzBz', 'OSA UCS', 'hdr-CIELAB', 'hdr-IPT')
 
-COLOURSPACE_MODELS_LABELS = {
+COLOURSPACE_MODELS_AXIS_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
     'CIE xyY': ('x', 'y', 'Y'),
-    'CIE Lab': ('$a^*$', '$b^*$', '$L^*$'),
-    'CIE LCHab': ('CH', 'ab', '$L^*$'),
-    'CIE Luv': ('$u^\\prime$', '$v^\\prime$', '$L^*$'),
+    'CIE Lab': ('$L^*$', '$a^*$', '$b^*$'),
+    'CIE LCHab': ('$L^*$', 'CH', 'ab'),
+    'CIE Luv': ('$L^*$', '$u^\\prime$', '$v^\\prime$'),
     'CIE Luv uv': ('$u^\\prime$', '$v^\\prime$'),
-    'CIE LCHuv': ('CH', 'uv', '$L^*$'),
+    'CIE LCHuv': ('$L^*$', 'CH', 'uv'),
     'CIE UCS': ('U', 'V', 'W'),
     'CIE UCS uv': ('u', 'v'),
     'CIE UVW': ('U', 'V', 'W'),
-    'DIN 99': ('a99', 'b99', 'L99'),
-    'Hunter Lab': ('$a^*$', '$b^*$', '$L^*$'),
-    'Hunter Rdab': ('a', 'b', 'Rd'),
-    'IPT': ('P', 'T', 'I'),
-    'JzAzBz': ('$A_z$', '$B_z$', '$J_z$'),
-    'OSA UCS': ('j', 'g', 'L'),
-    'hdr-CIELAB': ('a hdr', 'b hdr', 'L hdr'),
-    'hdr-IPT': ('P hdr', 'T hdr', 'I hdr'),
+    'DIN 99': ('L99', 'a99', 'b99'),
+    'Hunter Lab': ('$L^*$', '$a^*$', '$b^*$'),
+    'Hunter Rdab': ('Rd', 'a', 'b'),
+    'IPT': ('I', 'P', 'T'),
+    'JzAzBz': ('$J_z$', '$A_z$', '$B_z$'),
+    'OSA UCS': ('L', 'j', 'g'),
+    'hdr-CIELAB': ('L hdr', 'a hdr', 'b hdr'),
+    'hdr-IPT': ('I hdr', 'P hdr', 'T hdr'),
 }
 """
 Colourspace models labels mapping.
 
-COLOURSPACE_MODELS_LABELS : dict
+COLOURSPACE_MODELS_AXIS_LABELS : dict
     **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
     'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN 99', 'Hunter Lab',
     'Hunter Rdab','IPT', 'JzAzBz', 'OSA UCS', 'hdr-CIELAB', 'hdr-IPT'}**
@@ -71,8 +71,8 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like
-        *CIE XYZ* tristimulus values *illuminant* *CIE xy* chromaticity
-        coordinates.
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
     model : unicode
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',

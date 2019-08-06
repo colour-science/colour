@@ -17,13 +17,13 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models import RGB_to_XYZ
-from colour.models.common import (COLOURSPACE_MODELS_LABELS,
+from colour.models.common import (COLOURSPACE_MODELS_AXIS_LABELS,
                                   XYZ_to_colourspace_model)
-from colour.plotting import (COLOUR_STYLE_CONSTANTS, cube,
-                             filter_RGB_colourspaces, filter_cmfs, grid,
-                             override_style, render)
-from colour.utilities import (Structure, as_float_array, first_item, tsplit,
-                              tstack)
+from colour.plotting import (
+    COLOUR_STYLE_CONSTANTS, common_colourspace_model_axis_reorder, cube,
+    filter_RGB_colourspaces, filter_cmfs, grid, override_style, render)
+from colour.utilities import (Structure, as_float_array, as_int_array,
+                              first_item)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -33,70 +33,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'common_colourspace_model_axis_reorder', 'nadir_grid', 'RGB_identity_cube',
-    'plot_RGB_colourspaces_gamuts', 'plot_RGB_scatter'
+    'nadir_grid', 'RGB_identity_cube', 'plot_RGB_colourspaces_gamuts',
+    'plot_RGB_scatter'
 ]
-
-
-def common_colourspace_model_axis_reorder(a, model=None):
-    """
-    Reorder the axes of given colourspace model :math:`a` array according to
-    the most common volume plotting axes order.
-
-    Parameters
-    ----------
-    a : array_like
-        Colourspace model :math:`a` array.
-    model : unicode, optional
-        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
-        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
-        'hdr-CIELAB', 'hdr-IPT'}**,
-        Colourspace model.
-
-    Returns
-    -------
-    ndarray
-        Reordered colourspace model :math:`a` array.
-
-    Examples
-    --------
-    >>> a = np.array([0, 1, 2])
-    >>> common_colourspace_model_axis_reorder(a)
-    array([0, 1, 2])
-    >>> common_colourspace_model_axis_reorder(a, 'CIE Lab')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'CIE Luv')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'DIN 99')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'Hunter Lab')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'Hunter Rdab')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'IPT')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'JzAzBz')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'OSA UCS')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'hdr-CIELAB')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'hdr-IPT')
-    array([ 1.,  2.,  0.])
-    """
-
-    if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'DIN 99',
-                 'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
-                 'hdr-CIELAB', 'hdr-IPT'):
-        i, j, k = tsplit(a)
-        a = tstack([j, k, i])
-
-    return a
 
 
 def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
@@ -531,12 +470,11 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
              if spectral_locus_colour is None else spectral_locus_colour)
 
         axes.plot(
-            points[..., 0], points[..., 1], points[..., 2], color=c, zorder=1)
-        axes.plot(
-            (points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
-            (points[-1][2], points[0][2]),
-            color=c,
-            zorder=1)
+            points[..., 0], points[..., 1], points[..., 2], color=c, zorder=10)
+        axes.plot((points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
+                  (points[-1][2], points[0][2]),
+                  color=c,
+                  zorder=10)
 
     quads, RGB_f, RGB_e = [], [], []
     for i, colourspace in enumerate(colourspaces):
@@ -589,7 +527,10 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
             max_a = max(np.max(quads[..., i]), np.max(points[..., i]))
             getattr(axes, 'set_{}lim'.format(axis))((min_a, max_a))
 
-    labels = COLOURSPACE_MODELS_LABELS[reference_colourspace]
+    labels = np.array(
+        COLOURSPACE_MODELS_AXIS_LABELS[reference_colourspace])[as_int_array(
+            common_colourspace_model_axis_reorder([0, 1, 2],
+                                                  reference_colourspace))]
     for i, axis in enumerate('xyz'):
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
