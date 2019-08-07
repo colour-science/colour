@@ -140,6 +140,7 @@ Colour Models
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS
     plot_single_cctf
     plot_multi_cctfs
+    plot_constant_hue_loci
 
 **Ancillary Objects**
 

@@ -25,11 +25,27 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS`
 plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS`
 -   :func:`colour.plotting.plot_single_cctf`
 -   :func:`colour.plotting.plot_multi_cctfs`
+-   :func:`colour.plotting.plot_constant_hue_loci`
+
+References
+----------
+-   :cite:`Ebner1998` : Ebner, F., & Fairchild, M. D. (1998). Finding constant
+    hue surfaces in color space. In G. B. Beretta & R. Eschbach (Eds.), Proc.
+    SPIE 3300, Color Imaging: Device-Independent Color, Color Hardcopy, and
+    Graphic Arts III, (2 January 1998) (pp. 107-117). doi:10.1117/12.298269
+-   :cite:`Hung1995` : Hung, P.-C., & Berns, R. S. (1995). Determination of
+    constant Hue Loci for a CRT gamut and their predictions using color
+    appearance spaces. Color Research & Application, 20(5), 285-295.
+    doi:10.1002/col.5080200506
+-   :cite:`Mansencal2019` : Mansencal, T. (2019). Colour - Datasets.
+    doi:10.5281/zenodo.3362520
 """
 
 from __future__ import division
 
 import numpy as np
+import scipy.optimize
+from collections import Mapping
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
@@ -38,18 +54,19 @@ from colour.algebra import (point_at_angle_on_ellipse,
                             ellipse_coefficients_canonical_form,
                             ellipse_fitting)
 from colour.models import (
-    ENCODING_CCTFS, DECODING_CCTFS, LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
-    MACADAM_1942_ELLIPSES_DATA, POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA,
-    POINTER_GAMUT_ILLUMINANT, RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv,
-    XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
+    COLOURSPACE_MODELS_AXIS_LABELS, ENCODING_CCTFS, DECODING_CCTFS,
+    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, MACADAM_1942_ELLIPSES_DATA,
+    POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT,
+    RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS,
+    XYZ_to_colourspace_model, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, plot_chromaticity_diagram_CIE1931, artist,
     plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
     colour_cycle, colour_style, filter_passthrough, filter_RGB_colourspaces,
     filter_cmfs, plot_multi_functions, override_style, render)
 from colour.plotting.diagrams import plot_chromaticity_diagram
-from colour.utilities import (as_float_array, domain_range_scale, first_item,
-                              tsplit, tstack)
+from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
+                              first_item, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -73,7 +90,7 @@ __all__ = [
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS',
-    'plot_single_cctf', 'plot_multi_cctfs'
+    'plot_single_cctf', 'plot_multi_cctfs', 'plot_constant_hue_loci'
 ]
 
 
@@ -245,10 +262,9 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
         label='Pointer\'s Gamut',
         color=colour_p,
         alpha=alpha_p)
-    axes.plot(
-        (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
-        color=colour_p,
-        alpha=alpha_p)
+    axes.plot((ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
+              color=colour_p,
+              alpha=alpha_p)
 
     XYZ = Lab_to_XYZ(
         LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -411,20 +427,22 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         P = xy_to_ij(P)
         W = xy_to_ij(colourspace.whitepoint)
 
-        axes.plot(
-            (W[0], W[0]), (W[1], W[1]),
-            color=(R, G, B),
-            label=colourspace.name)
+        axes.plot((W[0], W[0]), (W[1], W[1]),
+                  color=(R, G, B),
+                  label=colourspace.name)
 
         if show_whitepoints:
             axes.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
 
-        axes.plot(
-            (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]), 'o-', color=(R, G, B))
-        axes.plot(
-            (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]), 'o-', color=(R, G, B))
-        axes.plot(
-            (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]), 'o-', color=(R, G, B))
+        axes.plot((P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
+                  'o-',
+                  color=(R, G, B))
+        axes.plot((P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
+                  'o-',
+                  color=(R, G, B))
+        axes.plot((P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
+                  'o-',
+                  color=(R, G, B))
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
         y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -1382,3 +1400,220 @@ def plot_multi_cctfs(cctfs=None, decoding_cctf=False, **kwargs):
 
     with domain_range_scale(1):
         return plot_multi_functions(cctfs, **settings)
+
+
+@override_style()
+def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
+    """
+    Plots given constant hue loci colour matches data such as that from
+    :cite:`Hung1995` or :cite:`Ebner1998` that are easily loaded with
+    `Colour - Datasets <https://github.com/colour-science/colour-datasets>`_.
+
+    Parameters
+    ----------
+    data : array_like
+        Constant hue loci colour matches data expected to be an *array_like* as
+        follows::
+
+            [
+                ('name', XYZ_r, XYZ_cr, (XYZ_ct, XYZ_ct, XYZ_ct, ...), \
+{metadata}),
+                ('name', XYZ_r, XYZ_cr, (XYZ_ct, XYZ_ct, XYZ_ct, ...), \
+{metadata}),
+                ('name', XYZ_r, XYZ_cr, (XYZ_ct, XYZ_ct, XYZ_ct, ...), \
+{metadata}),
+                ...
+            ]
+
+        where ``name`` is the hue angle or name, ``XYZ_r`` the *CIE XYZ*
+        tristimulus values of the reference illuminant, ``XYZ_cr`` the
+        *CIE XYZ* tristimulus values of the reference colour under the
+        reference illuminant, ``XYZ_ct`` the *CIE XYZ* tristimulus values of
+        the colour matches under the reference illuminant and ``metadata`` the
+        dataset metadata.
+    model : unicode, optional
+        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
+        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
+        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
+        'hdr-CIELAB', 'hdr-IPT'}**,
+        Colourspace model.
+    scatter_parameters : dict, optional
+        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
+        *RGB*, the scatter will use given ``RGB`` colours.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.plot_multi_functions`,
+        :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    References
+    ----------
+    :cite:`Ebner1998`, :cite:`Hung1995`, :cite:`Mansencal2019`
+
+    Examples
+    --------
+    >>> data = np.array([
+    ...     [
+    ...         None,
+    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...         np.array([0.40920000, 0.28120000, 0.30600000]),
+    ...         np.array([
+    ...             [0.02495100, 0.01908600, 0.02032900],
+    ...             [0.10944300, 0.06235900, 0.06788100],
+    ...             [0.27186500, 0.18418700, 0.19565300],
+    ...             [0.48898900, 0.40749400, 0.44854600],
+    ...         ]),
+    ...         None,
+    ...     ],
+    ...     [
+    ...         None,
+    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...         np.array([0.30760000, 0.48280000, 0.42770000]),
+    ...         np.array([
+    ...             [0.02108000, 0.02989100, 0.02790400],
+    ...             [0.06194700, 0.11251000, 0.09334400],
+    ...             [0.15255800, 0.28123300, 0.23234900],
+    ...             [0.34157700, 0.56681300, 0.47035300],
+    ...         ]),
+    ...         None,
+    ...     ],
+    ...     [
+    ...         None,
+    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...         np.array([0.39530000, 0.28120000, 0.18450000]),
+    ...         np.array([
+    ...             [0.02436400, 0.01908600, 0.01468800],
+    ...             [0.10331200, 0.06235900, 0.02854600],
+    ...             [0.26311900, 0.18418700, 0.12109700],
+    ...             [0.43158700, 0.40749400, 0.39008600],
+    ...         ]),
+    ...         None,
+    ...     ],
+    ...     [
+    ...         None,
+    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...         np.array([0.20510000, 0.18420000, 0.57130000]),
+    ...         np.array([
+    ...             [0.03039800, 0.02989100, 0.06123300],
+    ...             [0.08870000, 0.08498400, 0.21843500],
+    ...             [0.18405800, 0.18418700, 0.40111400],
+    ...             [0.32550100, 0.34047200, 0.50296900],
+    ...             [0.53826100, 0.56681300, 0.80010400],
+    ...         ]),
+    ...         None,
+    ...     ],
+    ...     [
+    ...         None,
+    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...         np.array([0.35770000, 0.28120000, 0.11250000]),
+    ...         np.array([
+    ...             [0.03678100, 0.02989100, 0.01481100],
+    ...             [0.17127700, 0.11251000, 0.01229900],
+    ...             [0.30080900, 0.28123300, 0.21229800],
+    ...             [0.52976000, 0.40749400, 0.11720000],
+    ...         ]),
+    ...         None,
+    ...     ],
+    ... ])
+    >>> plot_constant_hue_loci(data, 'IPT')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Plot_Constant_Hue_Loci.png
+        :align: center
+        :alt: plot_constant_hue_loci
+    """
+
+    data = data.values() if isinstance(data, Mapping) else data
+
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    _figure, axes = artist(**settings)
+
+    scatter_settings = {
+        's': 40,
+        'c': 'RGB',
+        'marker': 'o',
+        'alpha': 0.85,
+    }
+    if scatter_parameters is not None:
+        scatter_settings.update(scatter_parameters)
+
+    use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
+
+    colourspace = COLOUR_STYLE_CONSTANTS.colour.colourspace
+    for hue_data in data:
+        _name, XYZ_r, XYZ_cr, XYZ_ct, _metadata = hue_data
+
+        xy_r = XYZ_to_xy(XYZ_r)
+        ijk_ct = common_colourspace_model_axis_reorder(
+            XYZ_to_colourspace_model(XYZ_ct, xy_r, model), model)
+        ijk_cr = common_colourspace_model_axis_reorder(
+            XYZ_to_colourspace_model(XYZ_cr, xy_r, model), model)
+
+        def _linear_equation(x, a, b):
+            """
+            Defines the canonical linear equation for a line.
+            """
+
+            return a * x + b
+
+        popt, pcov = scipy.optimize.curve_fit(_linear_equation, ijk_ct[..., 0],
+                                              ijk_ct[..., 1])
+
+        axes.plot(
+            ijk_ct[..., 0],
+            _linear_equation(ijk_ct[..., 0], *popt),
+            c=COLOUR_STYLE_CONSTANTS.colour.average)
+
+        if use_RGB_colours:
+
+            def _XYZ_to_RGB(XYZ):
+                """
+                Converts given *CIE XYZ* tristimulus values to
+                ``colour.plotting`` *RGB* colourspace.
+                """
+
+                return XYZ_to_RGB(
+                    XYZ,
+                    xy_r,
+                    colourspace.whitepoint,
+                    colourspace.XYZ_to_RGB_matrix,
+                    encoding_cctf=colourspace.encoding_cctf)
+
+            RGB_ct = _XYZ_to_RGB(XYZ_ct)
+            RGB_cr = _XYZ_to_RGB(XYZ_cr)
+
+            scatter_settings['c'] = np.clip(RGB_ct, 0, 1)
+
+        axes.scatter(
+            ijk_ct[..., 0], ijk_ct[..., 1], zorder=10, **scatter_settings)
+
+        axes.plot(
+            ijk_cr[..., 0],
+            ijk_cr[..., 1],
+            's',
+            zorder=10,
+            c=np.clip(np.ravel(RGB_cr), 0, 1),
+            markersize=COLOUR_STYLE_CONSTANTS.geometry.short * 8)
+
+    labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[as_int_array(
+        common_colourspace_model_axis_reorder([0, 1, 2], model))]
+
+    settings = {
+        'axes': axes,
+        'title': 'Constant Hue Loci - '
+                 '{0} (Domain-Range Scale: 1)'.format(model),
+        'x_label': labels[0],
+        'y_label': labels[1],
+    }
+    settings.update(kwargs)
+
+    return render(**settings)

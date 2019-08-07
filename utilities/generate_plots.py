@@ -408,6 +408,73 @@ def generate_documentation_plots(output_directory):
                                          'Plotting_Plot_Multi_CCTFs.png')
     plot_multi_cctfs(['ITU-R BT.709', 'sRGB'], **arguments)
 
+    data = np.array([
+        [
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.40920000, 0.28120000, 0.30600000]),
+            np.array([
+                [0.02495100, 0.01908600, 0.02032900],
+                [0.10944300, 0.06235900, 0.06788100],
+                [0.27186500, 0.18418700, 0.19565300],
+                [0.48898900, 0.40749400, 0.44854600],
+            ]),
+            None,
+        ],
+        [
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.30760000, 0.48280000, 0.42770000]),
+            np.array([
+                [0.02108000, 0.02989100, 0.02790400],
+                [0.06194700, 0.11251000, 0.09334400],
+                [0.15255800, 0.28123300, 0.23234900],
+                [0.34157700, 0.56681300, 0.47035300],
+            ]),
+            None,
+        ],
+        [
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.39530000, 0.28120000, 0.18450000]),
+            np.array([
+                [0.02436400, 0.01908600, 0.01468800],
+                [0.10331200, 0.06235900, 0.02854600],
+                [0.26311900, 0.18418700, 0.12109700],
+                [0.43158700, 0.40749400, 0.39008600],
+            ]),
+            None,
+        ],
+        [
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.20510000, 0.18420000, 0.57130000]),
+            np.array([
+                [0.03039800, 0.02989100, 0.06123300],
+                [0.08870000, 0.08498400, 0.21843500],
+                [0.18405800, 0.18418700, 0.40111400],
+                [0.32550100, 0.34047200, 0.50296900],
+                [0.53826100, 0.56681300, 0.80010400],
+            ]),
+            None,
+        ],
+        [
+            None,
+            np.array([0.95010000, 1.00000000, 1.08810000]),
+            np.array([0.35770000, 0.28120000, 0.11250000]),
+            np.array([
+                [0.03678100, 0.02989100, 0.01481100],
+                [0.17127700, 0.11251000, 0.01229900],
+                [0.30080900, 0.28123300, 0.21229800],
+                [0.52976000, 0.40749400, 0.11720000],
+            ]),
+            None,
+        ],
+    ])
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_Constant_Hue_Loci.png')
+    plot_constant_hue_loci(data, 'IPT', **arguments)
+
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Munsell_Value_Function.png')
     plot_single_munsell_value_function('ASTM D1535-08', **arguments)
@@ -594,14 +661,14 @@ def generate_documentation_plots(output_directory):
                                          'Tutorial_SD_Interpolation.png')
     sd_copy = sd.copy()
     sd_copy.interpolate(colour.SpectralShape(400, 770, 1))
-    plot_multi_sds(
-        [sd, sd_copy], bounding_box=[730, 780, 0.25, 0.5], **arguments)
+    plot_multi_sds([sd, sd_copy],
+                   bounding_box=[730, 780, 0.25, 0.5],
+                   **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Sample_Swatch.png')
     sd = colour.SpectralDistribution(sample_sd_data)
-    cmfs = colour.STANDARD_OBSERVERS_CMFS[
-        'CIE 1931 2 Degree Standard Observer']
+    cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     illuminant = colour.ILLUMINANTS_SDS['D65']
     with domain_range_scale('1'):
         XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
