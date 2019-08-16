@@ -77,8 +77,8 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         random_generator=random_triplet_generator,
         random_state=None):
     """
-    Randomly samples the *Lab* colourspace volume and returns the ratio of
-    samples within the given *RGB* colourspace volume.
+    Randomly samples the *CIE L\\*a\\*b\\** colourspace volume and returns the
+    ratio of samples within the given *RGB* colourspace volume.
 
     Parameters
     ----------
@@ -87,17 +87,17 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     samples : numeric, optional
         Samples count.
     limits : array_like, optional
-        *Lab* colourspace volume.
+        *CIE L\\*a\\*b\\** colourspace volume.
     illuminant_Lab : array_like, optional
-        *Lab* colourspace *illuminant* chromaticity coordinates.
+        *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* method.
     random_generator : generator, optional
-        Random triplet generator providing the random samples within the *Lab*
-        colourspace volume.
+        Random triplet generator providing the random samples within the
+        *CIE L\\*a\\*b\\** colourspace volume.
     random_state : RandomState, optional
         Mersenne Twister pseudo-random number generator to use in the random
         number generator.
@@ -147,14 +147,15 @@ def RGB_colourspace_limits(
         colourspace,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
-    Computes given *RGB* colourspace volume limits in *Lab* colourspace.
+    Computes given *RGB* colourspace volume limits in *CIE L\\*a\\*b\\**
+    colourspace.
 
     Parameters
     ----------
     colourspace : RGB_Colourspace
         *RGB* colourspace to compute the volume of.
     illuminant : array_like, optional
-        *Lab* colourspace *illuminant* chromaticity coordinates.
+        *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity coordinates.
 
     Returns
     -------
@@ -205,17 +206,17 @@ def RGB_colourspace_volume_MonteCarlo(
     samples : numeric, optional
         Samples count.
     limits : array_like, optional
-        *Lab* colourspace volume.
+        *CIE L\\*a\\*b\\** colourspace volume.
     illuminant_Lab : array_like, optional
-        *Lab* colourspace *illuminant* chromaticity coordinates.
+        *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* method.
     random_generator : generator, optional
-        Random triplet generator providing the random samples within the *Lab*
-        colourspace volume.
+        Random triplet generator providing the random samples within the
+        *CIE L\\*a\\*b\\** colourspace volume.
     random_state : RandomState, optional
         Mersenne Twister pseudo-random number generator to use in the random
         number generator.
