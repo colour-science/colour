@@ -35,7 +35,7 @@ __all__ = ['metric_mse', 'metric_psnr']
 
 def metric_mse(a, b):
     """
-    Computes the mean squared error (MSE) or mean squared deviation (MSD)
+    Computes the mean squared error (MSE) or mean squared deviation (MSD_ARRAY)
     between given *array_like* :math:`a` and :math:`b` variables.
 
     Parameters
