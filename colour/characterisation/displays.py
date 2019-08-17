@@ -19,7 +19,7 @@ blob/master/notebooks/characterisation/displays.ipynb>`_
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import MultiSpectralDistribution
+from colour.colorimetry import MultiSpectralDistributions
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -31,7 +31,7 @@ __status__ = 'Production'
 __all__ = ['RGB_DisplayPrimaries']
 
 
-class RGB_DisplayPrimaries(MultiSpectralDistribution):
+class RGB_DisplayPrimaries(MultiSpectralDistributions):
     """
     Implements support for a *RGB* display (such as a *CRT* or *LCD*)
     primaries multi-spectral distributions.
@@ -39,8 +39,8 @@ class RGB_DisplayPrimaries(MultiSpectralDistribution):
     Parameters
     ----------
     data : Series or Dataframe or Signal or MultiSignal or \
-MultiSpectralDistribution or array_like or dict_like, optional
-        Data to be stored in the multi-spectral distribution.
+MultiSpectralDistributions or array_like or dict_like, optional
+        Data to be stored in the multi-spectral distributions.
     domain : array_like, optional
         Values to initialise the multiple :class:`colour.SpectralDistribution`
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
@@ -54,7 +54,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
     Other Parameters
     ----------------
     name : unicode, optional
-       Multi-spectral distribution name.
+       Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
@@ -68,7 +68,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
-        Multi-spectral distribution labels for figures, default to
+        Multi-spectral distributions labels for figures, default to
         :attr:`colour.characterisation.RGB_DisplayPrimaries.labels` attribute
         value.
     """

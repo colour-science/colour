@@ -145,7 +145,7 @@ The various sub-packages also expose their public API:
     ['SpectralShape',
      'DEFAULT_SPECTRAL_SHAPE',
      'SpectralDistribution',
-     'MultiSpectralDistribution',
+     'MultiSpectralDistributions',
      'sd_blackbody',
      '...']
 
@@ -330,7 +330,7 @@ the objects needed for spectral computations and many others:
     ['SpectralShape',
      'DEFAULT_SPECTRAL_SHAPE',
      'SpectralDistribution',
-     'MultiSpectralDistribution',
+     'MultiSpectralDistributions',
      'sd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',

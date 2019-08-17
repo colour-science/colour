@@ -119,7 +119,7 @@ print(
 
 message_box(('Computing *CIE XYZ* tristimulus values from given '
              'multi-spectral image with shape (4, 3, 6).'))
-msd = np.array([
+msds = np.array([
     [[0.01367208, 0.09127947, 0.01524376, 0.02810712, 0.19176012, 0.04299992],
      [0.00959792, 0.25822842, 0.41388571, 0.22275120, 0.00407416, 0.37439537],
      [0.01791409, 0.29707789, 0.56295109, 0.23752193, 0.00236515, 0.58190280]],
@@ -135,7 +135,7 @@ msd = np.array([
 ])
 print(
     colour.multi_sds_to_XYZ(
-        msd,
+        msds,
         cmfs,
         illuminant,
         method='Integration',

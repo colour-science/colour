@@ -60,7 +60,7 @@ from .colorimetry import (
     DEFAULT_SPECTRAL_SHAPE, HUNTERLAB_ILLUMINANTS, ILLUMINANTS,
     ILLUMINANTS_SDS, LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCES_SDS,
     LMS_CMFS, LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS,
-    MultiSpectralDistribution, PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS,
+    MultiSpectralDistributions, PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS,
     SD_GAUSSIAN_METHODS, SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS,
     SD_TO_XYZ_METHODS, STANDARD_OBSERVERS_CMFS, SpectralDistribution,
     SpectralShape, WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
@@ -176,7 +176,7 @@ __all__ += [
     'DEFAULT_SPECTRAL_SHAPE', 'HUNTERLAB_ILLUMINANTS', 'ILLUMINANTS',
     'ILLUMINANTS_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
     'LIGHT_SOURCES_SDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
-    'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistribution', 'PHOTOPIC_LEFS',
+    'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistributions', 'PHOTOPIC_LEFS',
     'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS',
     'SD_MULTI_LEDS_METHODS', 'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS',
     'STANDARD_OBSERVERS_CMFS', 'SpectralDistribution', 'SpectralShape',
@@ -1594,7 +1594,7 @@ API_CHANGES.update({
         ],
         [
             'colour.TriSpectralPowerDistribution',
-            'colour.MultiSpectralDistribution',
+            'colour.MultiSpectralDistributions',
         ],
     ]
 })
@@ -1623,7 +1623,7 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
     [
         'colour.MultiSpectralPowerDistribution',
-        'colour.MultiSpectralDistribution',
+        'colour.MultiSpectralDistributions',
     ],
     [
         'colour.REFLECTANCE_RECOVERY_METHODS',
@@ -1732,6 +1732,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'ootf_reverse',
         'ootf_inverse',
+    ],
+    [
+        'colour.MultiSpectralDistribution',
+        'colour.MultiSpectralDistributions',
     ],
 ]
 

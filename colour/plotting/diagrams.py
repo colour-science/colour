@@ -563,11 +563,11 @@ def plot_sds_in_chromaticity_diagram(
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistribution
+    sds : array_like or MultiSpectralDistributions
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistribution` class instance, a list
-        of :class:`colour.MultiSpectralDistribution` class instances or a
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
@@ -731,11 +731,11 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistribution
+    sds : array_like or MultiSpectralDistributions
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistribution` class instance, a list
-        of :class:`colour.MultiSpectralDistribution` class instances or a
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
@@ -798,11 +798,11 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistribution
+    sds : array_like or MultiSpectralDistributions
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistribution` class instance, a list
-        of :class:`colour.MultiSpectralDistribution` class instances or a
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
@@ -867,11 +867,11 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistribution
+    sds : array_like or MultiSpectralDistributions
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistribution` class instance, a list
-        of :class:`colour.MultiSpectralDistribution` class instances or a
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for

@@ -403,7 +403,7 @@ def _continuous_signal_repr(self):
 
 
 package.colorimetry.SpectralDistribution.__repr__ = (_continuous_signal_repr)
-package.colorimetry.MultiSpectralDistribution.__repr__ = (
+package.colorimetry.MultiSpectralDistributions.__repr__ = (
     _continuous_signal_repr)
 
 

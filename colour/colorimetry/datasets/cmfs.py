@@ -6,11 +6,11 @@ Colour Matching Functions Spectral Distributions
 Defines various colour matching functions involved in spectral computations.
 
 The colour matching functions data is in the form of a *dict* of
-:class:`colour.colorimetry.MultiSpectralDistribution` classes as follows::
+:class:`colour.colorimetry.MultiSpectralDistributions` classes as follows::
 
-    {'name': MultiSpectralDistribution,
+    {'name': MultiSpectralDistributions,
     ...,
-    'name': MultiSpectralDistribution}
+    'name': MultiSpectralDistributions}
 
 The following colour matching functions are available:
 

@@ -225,11 +225,11 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistribution
+    sds : array_like or MultiSpectralDistributions
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistribution` class instance, a list
-        of :class:`colour.MultiSpectralDistribution` class instances or a
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
 
     Other Parameters
@@ -365,11 +365,11 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistribution
+    sds : array_like or MultiSpectralDistributions
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistribution` class instance, a list
-        of :class:`colour.MultiSpectralDistribution` class instances or a
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
     method : unicode, optional
         **{NIST CQS 7.4'}**,

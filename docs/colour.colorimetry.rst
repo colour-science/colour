@@ -15,7 +15,7 @@ Spectral Data Structure
 
     SpectralShape
     SpectralDistribution
-    MultiSpectralDistribution
+    MultiSpectralDistributions
     DEFAULT_SPECTRAL_SHAPE
     ASTME308_PRACTISE_SHAPE
 
