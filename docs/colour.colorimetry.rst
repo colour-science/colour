@@ -85,6 +85,7 @@ ASTM E308-15
     :toctree: generated/
 
     sd_to_XYZ_ASTME308
+    multi_sds_to_XYZ_ASTME308
 
 **Ancillary Objects**
 

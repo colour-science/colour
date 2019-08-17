@@ -29,7 +29,7 @@ from .tristimulus import (
     tristimulus_weighting_factors_ASTME2022,
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
-    multi_sds_to_XYZ_integration, wavelength_to_XYZ)
+    multi_sds_to_XYZ_integration, multi_sds_to_XYZ_ASTME308, wavelength_to_XYZ)
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_Stearns1988
@@ -90,7 +90,8 @@ __all__ += [
     'tristimulus_weighting_factors_ASTME2022',
     'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_ASTME308',
-    'multi_sds_to_XYZ_integration', 'wavelength_to_XYZ'
+    'multi_sds_to_XYZ_integration', 'multi_sds_to_XYZ_ASTME308',
+    'wavelength_to_XYZ'
 ]
 __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']
