@@ -56,6 +56,10 @@ Development & Technical Support
 
     F-Gamut and Fuji F-Log support.
 
+-   **Dominik Moritz**, *PhD in Computer Science @ University of Washington*
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
