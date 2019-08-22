@@ -38,7 +38,7 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignal or \
+    data : Series or Dataframe or Signal or MultiSignals or \
 MultiSpectralDistributions or array_like or dict_like, optional
         Data to be stored in the multi-spectral distributions.
     domain : array_like, optional

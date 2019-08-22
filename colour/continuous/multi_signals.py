@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Multi Signal
-============
+Multi Signals
+=============
 
-Defines the class implementing support for multi-continuous signal:
+Defines the class implementing support for multi-continuous signals:
 
--   :class:`colour.continuous.MultiSignal`
+-   :class:`colour.continuous.MultiSignals`
 """
 
 from __future__ import division, unicode_literals
@@ -34,19 +34,19 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['MultiSignal']
+__all__ = ['MultiSignals']
 
 
-class MultiSignal(AbstractContinuousFunction):
+class MultiSignals(AbstractContinuousFunction):
     """
-    Defines the base class for multi-continuous signal, a container for
+    Defines the base class for multi-continuous signals, a container for
     multiple :class:`colour.continuous.Signal` sub-class instances.
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignal or array_like or \
+    data : Series or Dataframe or Signal or MultiSignals or array_like or \
 dict_like, optional
-        Data to be stored in the multi-continuous signal.
+        Data to be stored in the multi-continuous signals.
     domain : array_like, optional
         Values to initialise the multiple :class:`colour.continuous.Signal`
         sub-class instances :attr:`colour.continuous.Signal.domain` attribute
@@ -60,7 +60,7 @@ dict_like, optional
     Other Parameters
     ----------------
     name : unicode, optional
-        Multi-continuous signal name.
+        multi-continuous signals name.
     dtype : type, optional
         **{np.float16, np.float32, np.float64, np.float128}**,
         Floating point data type.
@@ -105,7 +105,7 @@ dict_like, optional
     __eq__
     __ne__
     arithmetical_operation
-    multi_signal_unpack_data
+    multi_signals_unpack_data
     fill_nan
     to_dataframe
 
@@ -114,7 +114,7 @@ dict_like, optional
     Instantiation with implicit *domain* and a single signal:
 
     >>> range_ = np.linspace(10, 100, 10)
-    >>> print(MultiSignal(range_))
+    >>> print(MultiSignals(range_))
     [[   0.   10.]
      [   1.   20.]
      [   2.   30.]
@@ -129,7 +129,7 @@ dict_like, optional
     Instantiation with explicit *domain* and a single signal:
 
     >>> domain = np.arange(100, 1100, 100)
-    >>> print(MultiSignal(range_, domain))
+    >>> print(MultiSignals(range_, domain))
     [[  100.    10.]
      [  200.    20.]
      [  300.    30.]
@@ -145,7 +145,7 @@ dict_like, optional
 
     >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
     >>> range_ += np.array([0, 10, 20])
-    >>> print(MultiSignal(range_, domain))
+    >>> print(MultiSignals(range_, domain))
     [[  100.    10.    20.    30.]
      [  200.    20.    30.    40.]
      [  300.    30.    40.    50.]
@@ -159,7 +159,7 @@ dict_like, optional
 
     Instantiation with a *dict*:
 
-    >>> print(MultiSignal(dict(zip(domain, range_))))
+    >>> print(MultiSignals(dict(zip(domain, range_))))
     [[  100.    10.    20.    30.]
      [  200.    20.    30.    40.]
      [  300.    30.    40.    50.]
@@ -176,8 +176,8 @@ dict_like, optional
     >>> class NotSignal(Signal):
     ...     pass
 
-    >>> multi_signal = MultiSignal(range_, domain, signal_type=NotSignal)
-    >>> print(multi_signal)
+    >>> multi_signals = MultiSignals(range_, domain, signal_type=NotSignal)
+    >>> print(multi_signals)
     [[  100.    10.    20.    30.]
      [  200.    20.    30.    40.]
      [  300.    30.    40.    50.]
@@ -188,14 +188,14 @@ dict_like, optional
      [  800.    80.    90.   100.]
      [  900.    90.   100.   110.]
      [ 1000.   100.   110.   120.]]
-     >>> type(multi_signal.signals[0])  # doctest: +SKIP
-     <class 'multi_signal.NotSignal'>
+     >>> type(multi_signals.signals[0])  # doctest: +SKIP
+     <class 'multi_signals.NotSignal'>
 
     Instantiation with a *Pandas* *Series*:
 
     >>> if is_pandas_installed():
     ...     from pandas import Series
-    ...     print(MultiSignal(  # doctest: +SKIP
+    ...     print(MultiSignals(  # doctest: +SKIP
     ...         Series(dict(zip(domain, np.linspace(10, 100, 10))))))
     [[  100.    10.]
      [  200.    20.]
@@ -213,7 +213,7 @@ dict_like, optional
     >>> if is_pandas_installed():
     ...     from pandas import DataFrame
     ...     data = dict(zip(['a', 'b', 'c'], tsplit(range_)))
-    ...     print(MultiSignal(  # doctest: +SKIP
+    ...     print(MultiSignals(  # doctest: +SKIP
     ...         DataFrame(data, domain)))
     [[  100.    10.    20.    30.]
      [  200.    20.    30.    40.]
@@ -231,10 +231,10 @@ dict_like, optional
     >>> x = 150
     >>> range_ = tstack([np.sin(np.linspace(0, 1, 10))] * 3)
     >>> range_ += np.array([0.0, 0.25, 0.5])
-    >>> MultiSignal(range_, domain)[x]  # doctest: +ELLIPSIS
+    >>> MultiSignals(range_, domain)[x]  # doctest: +ELLIPSIS
     array([ 0.0359701...,  0.2845447...,  0.5331193...])
     >>> x = np.linspace(100, 1000, 3)
-    >>> MultiSignal(range_, domain)[x]  # doctest: +ELLIPSIS
+    >>> MultiSignals(range_, domain)[x]  # doctest: +ELLIPSIS
     array([[  4.4085384...e-20,   2.5000000...e-01,   5.0000000...e-01],
            [  4.7669395...e-01,   7.2526859...e-01,   9.7384323...e-01],
            [  8.4147098...e-01,   1.0914709...e+00,   1.3414709...e+00]])
@@ -243,13 +243,13 @@ dict_like, optional
 
     >>> x = 150
     >>> from colour.algebra import CubicSplineInterpolator
-    >>> MultiSignal(
+    >>> MultiSignals(
     ...     range_,
     ...     domain,
     ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
     array([ 0.0555274...,  0.3055274...,  0.5555274...])
     >>> x = np.linspace(100, 1000, 3)
-    >>> MultiSignal(
+    >>> MultiSignals(
     ...     range_,
     ...     domain,
     ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
@@ -259,12 +259,12 @@ dict_like, optional
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
-        super(MultiSignal, self).__init__(kwargs.get('name'))
+        super(MultiSignals, self).__init__(kwargs.get('name'))
 
         self._signal_type = kwargs.get('signal_type', Signal)
 
-        self._signals = self.multi_signal_unpack_data(data, domain, labels,
-                                                      **kwargs)
+        self._signals = self.multi_signals_unpack_data(data, domain, labels,
+                                                       **kwargs)
 
     @property
     def dtype(self):
@@ -529,8 +529,8 @@ dict_like, optional
 
         Parameters
         ----------
-        value : Series or Dataframe or Signal or MultiSignal or array_like or \
-dict_like
+        value : Series or Dataframe or Signal or MultiSignals or array_like \
+or dict_like
             Attribute value.
 
         Returns
@@ -548,7 +548,7 @@ dict_like
         """
 
         if value is not None:
-            self._signals = self.multi_signal_unpack_data(
+            self._signals = self.multi_signals_unpack_data(
                 value, signal_type=self._signal_type)
 
     @property
@@ -606,7 +606,7 @@ dict_like
     def __str__(self):
         """
         Returns a formatted string representation of the multi-continuous
-        signal.
+        signals.
 
         Returns
         -------
@@ -618,7 +618,7 @@ dict_like
         >>> domain = np.arange(0, 10, 1)
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
-        >>> print(MultiSignal(range_))
+        >>> print(MultiSignals(range_))
         [[   0.   10.   20.   30.]
          [   1.   20.   30.   40.]
          [   2.   30.   40.   50.]
@@ -634,12 +634,12 @@ dict_like
         try:
             return str(np.hstack([self.domain[:, np.newaxis], self.range]))
         except TypeError:
-            return super(MultiSignal, self).__str__()
+            return super(MultiSignals, self).__str__()
 
     def __repr__(self):
         """
         Returns an evaluable string representation of the multi-continuous
-        signal.
+        signals.
 
         Returns
         -------
@@ -651,22 +651,22 @@ dict_like
         >>> domain = np.arange(0, 10, 1)
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
-        >>> MultiSignal(range_)  # doctest: +ELLIPSIS
-        MultiSignal([[   0.,   10.,   20.,   30.],
-                     [   1.,   20.,   30.,   40.],
-                     [   2.,   30.,   40.,   50.],
-                     [   3.,   40.,   50.,   60.],
-                     [   4.,   50.,   60.,   70.],
-                     [   5.,   60.,   70.,   80.],
-                     [   6.,   70.,   80.,   90.],
-                     [   7.,   80.,   90.,  100.],
-                     [   8.,   90.,  100.,  110.],
-                     [   9.,  100.,  110.,  120.]],
-                    labels=[0, 1, 2],
-                    interpolator=KernelInterpolator,
-                    interpolator_args={},
-                    extrapolator=Extrapolator,
-                    extrapolator_args={...)
+        >>> MultiSignals(range_)  # doctest: +ELLIPSIS
+        MultiSignals([[   0.,   10.,   20.,   30.],
+                      [   1.,   20.,   30.,   40.],
+                      [   2.,   30.,   40.,   50.],
+                      [   3.,   40.,   50.,   60.],
+                      [   4.,   50.,   60.,   70.],
+                      [   5.,   60.,   70.,   80.],
+                      [   6.,   70.,   80.,   90.],
+                      [   7.,   80.,   90.,  100.],
+                      [   8.,   90.,  100.,  110.],
+                      [   9.,  100.,  110.,  120.]],
+                     labels=[0, 1, 2],
+                     interpolator=KernelInterpolator,
+                     interpolator_args={},
+                     extrapolator=Extrapolator,
+                     extrapolator_args={...)
         """
 
         try:
@@ -677,26 +677,24 @@ dict_like
             representation = representation.replace(
                 '       [',
                 '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
-            representation = ('{0},\n'
-                              '{1}labels={2},\n'
-                              '{1}interpolator={3},\n'
-                              '{1}interpolator_args={4},\n'
-                              '{1}extrapolator={5},\n'
-                              '{1}extrapolator_args={6})').format(
-                                  representation[:-1],
-                                  ' ' * (len(self.__class__.__name__) + 1),
-                                  repr(self.labels), self.interpolator.__name__
-                                  if self.interpolator is not None else
-                                  self.interpolator,
-                                  repr(self.interpolator_args),
-                                  self.extrapolator.__name__
-                                  if self.extrapolator is not None else
-                                  self.extrapolator,
-                                  repr(self.extrapolator_args))
+            representation = (
+                '{0},\n'
+                '{1}labels={2},\n'
+                '{1}interpolator={3},\n'
+                '{1}interpolator_args={4},\n'
+                '{1}extrapolator={5},\n'
+                '{1}extrapolator_args={6})').format(
+                    representation[:-1],
+                    ' ' * (len(self.__class__.__name__) + 1), repr(
+                        self.labels), self.interpolator.__name__
+                    if self.interpolator is not None else self.interpolator,
+                    repr(self.interpolator_args), self.extrapolator.__name__
+                    if self.extrapolator is not None else self.extrapolator,
+                    repr(self.extrapolator_args))
 
             return representation
         except TypeError:
-            return super(MultiSignal, self).__repr__()
+            return super(MultiSignals, self).__repr__()
 
     def __hash__(self):
         """
@@ -729,8 +727,8 @@ dict_like
         --------
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
-        >>> multi_signal = MultiSignal(range_)
-        >>> print(multi_signal)
+        >>> multi_signals = MultiSignals(range_)
+        >>> print(multi_signals)
         [[   0.   10.   20.   30.]
          [   1.   20.   30.   40.]
          [   2.   30.   40.   50.]
@@ -741,17 +739,17 @@ dict_like
          [   7.   80.   90.  100.]
          [   8.   90.  100.  110.]
          [   9.  100.  110.  120.]]
-        >>> multi_signal[0]
+        >>> multi_signals[0]
         array([ 10.,  20.,  30.])
-        >>> multi_signal[np.array([0, 1, 2])]
+        >>> multi_signals[np.array([0, 1, 2])]
         array([[ 10.,  20.,  30.],
                [ 20.,  30.,  40.],
                [ 30.,  40.,  50.]])
-        >>> multi_signal[0:3]
+        >>> multi_signals[0:3]
         array([[ 10.,  20.,  30.],
                [ 20.,  30.,  40.],
                [ 30.,  40.,  50.]])
-        >>> multi_signal[np.linspace(0, 5, 5)]  # doctest: +ELLIPSIS
+        >>> multi_signals[np.linspace(0, 5, 5)]  # doctest: +ELLIPSIS
         array([[ 10.       ...,  20.       ...,  30.       ...],
                [ 22.8348902...,  32.8046056...,  42.774321 ...],
                [ 34.8004492...,  44.7434347...,  54.6864201...],
@@ -781,8 +779,8 @@ dict_like
         >>> domain = np.arange(0, 10, 1)
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
-        >>> multi_signal = MultiSignal(range_)
-        >>> print(multi_signal)
+        >>> multi_signals = MultiSignals(range_)
+        >>> print(multi_signals)
         [[   0.   10.   20.   30.]
          [   1.   20.   30.   40.]
          [   2.   30.   40.   50.]
@@ -793,21 +791,21 @@ dict_like
          [   7.   80.   90.  100.]
          [   8.   90.  100.  110.]
          [   9.  100.  110.  120.]]
-        >>> multi_signal[0] = 20
-        >>> multi_signal[0]
+        >>> multi_signals[0] = 20
+        >>> multi_signals[0]
         array([ 20.,  20.,  20.])
-        >>> multi_signal[np.array([0, 1, 2])] = 30
-        >>> multi_signal[np.array([0, 1, 2])]
+        >>> multi_signals[np.array([0, 1, 2])] = 30
+        >>> multi_signals[np.array([0, 1, 2])]
         array([[ 30.,  30.,  30.],
                [ 30.,  30.,  30.],
                [ 30.,  30.,  30.]])
-        >>> multi_signal[0:3] = 40
-        >>> multi_signal[0:3]
+        >>> multi_signals[0:3] = 40
+        >>> multi_signals[0:3]
         array([[ 40.,  40.,  40.],
                [ 40.,  40.,  40.],
                [ 40.,  40.,  40.]])
-        >>> multi_signal[np.linspace(0, 5, 5)] = 50
-        >>> print(multi_signal)
+        >>> multi_signals[np.linspace(0, 5, 5)] = 50
+        >>> print(multi_signals)
         [[   0.     50.     50.     50.  ]
          [   1.     40.     40.     40.  ]
          [   1.25   50.     50.     50.  ]
@@ -821,8 +819,8 @@ dict_like
          [   7.     80.     90.    100.  ]
          [   8.     90.    100.    110.  ]
          [   9.    100.    110.    120.  ]]
-        >>> multi_signal[np.array([0, 1, 2])] = np.array([10, 20, 30])
-        >>> print(multi_signal)
+        >>> multi_signals[np.array([0, 1, 2])] = np.array([10, 20, 30])
+        >>> print(multi_signals)
         [[   0.     10.     20.     30.  ]
          [   1.     10.     20.     30.  ]
          [   1.25   50.     50.     50.  ]
@@ -837,8 +835,8 @@ dict_like
          [   8.     90.    100.    110.  ]
          [   9.    100.    110.    120.  ]]
         >>> y = np.arange(1, 10, 1).reshape(3, 3)
-        >>> multi_signal[np.array([0, 1, 2])] = y
-        >>> print(multi_signal)
+        >>> multi_signals[np.array([0, 1, 2])] = y
+        >>> print(multi_signals)
         [[   0.      1.      2.      3.  ]
          [   1.      4.      5.      6.  ]
          [   1.25   50.     50.     50.  ]
@@ -874,7 +872,7 @@ dict_like
 
     def __contains__(self, x):
         """
-        Returns whether the multi-continuous signal contains given independent
+        Returns whether the multi-continuous signals contains given independent
         domain :math:`x` variable.
 
         Parameters
@@ -890,12 +888,12 @@ dict_like
         Examples
         --------
         >>> range_ = np.linspace(10, 100, 10)
-        >>> multi_signal = MultiSignal(range_)
-        >>> 0 in multi_signal
+        >>> multi_signals = MultiSignals(range_)
+        >>> 0 in multi_signals
         True
-        >>> 0.5 in multi_signal
+        >>> 0.5 in multi_signals
         True
-        >>> 1000 in multi_signal
+        >>> 1000 in multi_signals
         False
         """
 
@@ -906,39 +904,39 @@ dict_like
 
     def __eq__(self, other):
         """
-        Returns whether the multi-continuous signal is equal to given other
+        Returns whether the multi-continuous signals is equal to given other
         object.
 
         Parameters
         ----------
         other : object
-            Object to test whether it is equal to the multi-continuous signal.
+            Object to test whether it is equal to the multi-continuous signals.
 
         Returns
         -------
         bool
-            Is given object equal to the multi-continuous signal.
+            Is given object equal to the multi-continuous signals.
 
         Examples
         --------
         >>> range_ = np.linspace(10, 100, 10)
-        >>> multi_signal_1 = MultiSignal(range_)
-        >>> multi_signal_2 = MultiSignal(range_)
-        >>> multi_signal_1 == multi_signal_2
+        >>> multi_signals_1 = MultiSignals(range_)
+        >>> multi_signals_2 = MultiSignals(range_)
+        >>> multi_signals_1 == multi_signals_2
         True
-        >>> multi_signal_2[0] = 20
-        >>> multi_signal_1 == multi_signal_2
+        >>> multi_signals_2[0] = 20
+        >>> multi_signals_1 == multi_signals_2
         False
-        >>> multi_signal_2[0] = 10
-        >>> multi_signal_1 == multi_signal_2
+        >>> multi_signals_2[0] = 10
+        >>> multi_signals_1 == multi_signals_2
         True
         >>> from colour.algebra import CubicSplineInterpolator
-        >>> multi_signal_2.interpolator = CubicSplineInterpolator
-        >>> multi_signal_1 == multi_signal_2
+        >>> multi_signals_2.interpolator = CubicSplineInterpolator
+        >>> multi_signals_1 == multi_signals_2
         False
         """
 
-        if isinstance(other, MultiSignal):
+        if isinstance(other, MultiSignals):
             if all([
                     np.array_equal(self.domain, other.domain),
                     np.array_equal(
@@ -955,36 +953,36 @@ dict_like
 
     def __ne__(self, other):
         """
-        Returns whether the multi-continuous signal is not equal to given other
-        object.
+        Returns whether the multi-continuous signals is not equal to given
+        other object.
 
         Parameters
         ----------
         other : object
             Object to test whether it is not equal to the multi-continuous
-            signal.
+            signals.
 
         Returns
         -------
         bool
-            Is given object not equal to the multi-continuous signal.
+            Is given object not equal to the multi-continuous signals.
 
         Examples
         --------
         >>> range_ = np.linspace(10, 100, 10)
-        >>> multi_signal_1 = MultiSignal(range_)
-        >>> multi_signal_2 = MultiSignal(range_)
-        >>> multi_signal_1 != multi_signal_2
+        >>> multi_signals_1 = MultiSignals(range_)
+        >>> multi_signals_2 = MultiSignals(range_)
+        >>> multi_signals_1 != multi_signals_2
         False
-        >>> multi_signal_2[0] = 20
-        >>> multi_signal_1 != multi_signal_2
+        >>> multi_signals_2[0] = 20
+        >>> multi_signals_1 != multi_signals_2
         True
-        >>> multi_signal_2[0] = 10
-        >>> multi_signal_1 != multi_signal_2
+        >>> multi_signals_2[0] = 10
+        >>> multi_signals_1 != multi_signals_2
         False
         >>> from colour.algebra import CubicSplineInterpolator
-        >>> multi_signal_2.interpolator = CubicSplineInterpolator
-        >>> multi_signal_1 != multi_signal_2
+        >>> multi_signals_2.interpolator = CubicSplineInterpolator
+        >>> multi_signals_1 != multi_signals_2
         True
         """
 
@@ -1006,8 +1004,8 @@ dict_like
 
         Returns
         -------
-        MultiSignal
-            Multi-continuous signal.
+        MultiSignals
+            multi-continuous signals.
 
         Examples
         --------
@@ -1016,8 +1014,8 @@ dict_like
         >>> domain = np.arange(0, 10, 1)
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
-        >>> multi_signal_1 = MultiSignal(range_)
-        >>> print(multi_signal_1)
+        >>> multi_signals_1 = MultiSignals(range_)
+        >>> print(multi_signals_1)
         [[   0.   10.   20.   30.]
          [   1.   20.   30.   40.]
          [   2.   30.   40.   50.]
@@ -1028,7 +1026,7 @@ dict_like
          [   7.   80.   90.  100.]
          [   8.   90.  100.  110.]
          [   9.  100.  110.  120.]]
-        >>> print(multi_signal_1.arithmetical_operation(10, '+', True))
+        >>> print(multi_signals_1.arithmetical_operation(10, '+', True))
         [[   0.   20.   30.   40.]
          [   1.   30.   40.   50.]
          [   2.   40.   50.   60.]
@@ -1043,7 +1041,7 @@ dict_like
         Adding an *array_like* variable:
 
         >>> a = np.linspace(10, 100, 10)
-        >>> print(multi_signal_1.arithmetical_operation(a, '+', True))
+        >>> print(multi_signals_1.arithmetical_operation(a, '+', True))
         [[   0.   30.   40.   50.]
          [   1.   50.   60.   70.]
          [   2.   70.   80.   90.]
@@ -1056,7 +1054,7 @@ dict_like
          [   9.  210.  220.  230.]]
 
         >>> a = np.array([[10, 20, 30]])
-        >>> print(multi_signal_1.arithmetical_operation(a, '+', True))
+        >>> print(multi_signals_1.arithmetical_operation(a, '+', True))
         [[   0.   40.   60.   80.]
          [   1.   60.   80.  100.]
          [   2.   80.  100.  120.]
@@ -1069,7 +1067,7 @@ dict_like
          [   9.  220.  240.  260.]]
 
         >>> a = np.arange(0, 30, 1).reshape([10, 3])
-        >>> print(multi_signal_1.arithmetical_operation(a, '+', True))
+        >>> print(multi_signals_1.arithmetical_operation(a, '+', True))
         [[   0.   40.   61.   82.]
          [   1.   63.   84.  105.]
          [   2.   86.  107.  128.]
@@ -1083,9 +1081,9 @@ dict_like
 
         Adding a :class:`colour.continuous.Signal` sub-class:
 
-        >>> multi_signal_2 = MultiSignal(range_)
-        >>> print(multi_signal_1.arithmetical_operation(
-        ...     multi_signal_2, '+', True))
+        >>> multi_signals_2 = MultiSignals(range_)
+        >>> print(multi_signals_1.arithmetical_operation(
+        ...     multi_signals_2, '+', True))
         [[   0.   50.   81.  112.]
          [   1.   83.  114.  145.]
          [   2.  116.  147.  178.]
@@ -1098,13 +1096,13 @@ dict_like
          [   9.  347.  378.  409.]]
         """
 
-        multi_signal = self if in_place else self.copy()
+        multi_signals = self if in_place else self.copy()
 
-        if isinstance(a, MultiSignal):
+        if isinstance(a, MultiSignals):
             assert len(self.signals) == len(a.signals), (
-                '"MultiSignal" operands must have same count than '
+                '"MultiSignals" operands must have same count than '
                 'underlying "Signal" components!')
-            for signal_a, signal_b in zip(multi_signal.signals.values(),
+            for signal_a, signal_b in zip(multi_signals.signals.values(),
                                           a.signals.values()):
                 signal_a.arithmetical_operation(signal_b, operation, True)
         else:
@@ -1115,33 +1113,34 @@ dict_like
                 '2-dimensional array!')
 
             if a.ndim in (0, 1):
-                for signal in multi_signal.signals.values():
+                for signal in multi_signals.signals.values():
                     signal.arithmetical_operation(a, operation, True)
             else:
-                assert a.shape[-1] == len(multi_signal.signals), (
+                assert a.shape[-1] == len(multi_signals.signals), (
                     'Operand "a" variable columns must have same count than '
                     'underlying "Signal" components!')
 
-                for signal, y in zip(multi_signal.signals.values(), tsplit(a)):
+                for signal, y in zip(multi_signals.signals.values(),
+                                     tsplit(a)):
                     signal.arithmetical_operation(y, operation, True)
 
-        return multi_signal
+        return multi_signals
 
     @staticmethod
-    def multi_signal_unpack_data(data=None,
-                                 domain=None,
-                                 labels=None,
-                                 dtype=DEFAULT_FLOAT_DTYPE,
-                                 signal_type=Signal,
-                                 **kwargs):
+    def multi_signals_unpack_data(data=None,
+                                  domain=None,
+                                  labels=None,
+                                  dtype=DEFAULT_FLOAT_DTYPE,
+                                  signal_type=Signal,
+                                  **kwargs):
         """
-        Unpack given data for multi-continuous signal instantiation.
+        Unpack given data for multi-continuous signals instantiation.
 
         Parameters
         ----------
-        data : Series or Dataframe or Signal or MultiSignal or array_like or \
+        data : Series or Dataframe or Signal or MultiSignals or array_like or \
 dict_like, optional
-            Data to unpack for multi-continuous signal instantiation.
+            Data to unpack for multi-continuous signals instantiation.
         domain : array_like, optional
             Values to initialise the multiple :class:`colour.continuous.Signal`
             sub-class instances :attr:`colour.continuous.Signal.domain`
@@ -1157,7 +1156,7 @@ dict_like, optional
         Other Parameters
         ----------------
         name : unicode, optional
-            Multi-continuous signal name.
+            multi-continuous signals name.
         interpolator : object, optional
             Interpolator class type to use as interpolating function for the
             :class:`colour.continuous.Signal` sub-class instances.
@@ -1182,7 +1181,7 @@ dict_like, optional
         Unpacking using implicit *domain* and a single signal:
 
         >>> range_ = np.linspace(10, 100, 10)
-        >>> signals = MultiSignal.multi_signal_unpack_data(range_)
+        >>> signals = MultiSignals.multi_signals_unpack_data(range_)
         >>> list(signals.keys())
         [0]
         >>> print(signals[0])
@@ -1200,7 +1199,7 @@ dict_like, optional
         Unpacking using explicit *domain* and a single signal:
 
         >>> domain = np.arange(100, 1100, 100)
-        >>> signals = MultiSignal.multi_signal_unpack_data(range_, domain)
+        >>> signals = MultiSignals.multi_signals_unpack_data(range_, domain)
         >>> list(signals.keys())
         [0]
         >>> print(signals[0])
@@ -1219,7 +1218,7 @@ dict_like, optional
 
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
-        >>> signals = MultiSignal.multi_signal_unpack_data(range_, domain)
+        >>> signals = MultiSignals.multi_signals_unpack_data(range_, domain)
         >>> list(signals.keys())
         [0, 1, 2]
         >>> print(signals[2])
@@ -1236,7 +1235,7 @@ dict_like, optional
 
         Unpacking using a *dict*:
 
-        >>> signals = MultiSignal.multi_signal_unpack_data(
+        >>> signals = MultiSignals.multi_signals_unpack_data(
         ...     dict(zip(domain, range_)))
         >>> list(signals.keys())
         [0, 1, 2]
@@ -1252,11 +1251,11 @@ dict_like, optional
          [  900.   110.]
          [ 1000.   120.]]
 
-        Unpacking using *MultiSignal.multi_signal_unpack_data* method output:
+        Unpacking using *MultiSignals.multi_signals_unpack_data* method output:
 
-        >>> signals = MultiSignal.multi_signal_unpack_data(
+        >>> signals = MultiSignals.multi_signals_unpack_data(
         ...     dict(zip(domain, range_)))
-        >>> signals = MultiSignal.multi_signal_unpack_data(signals)
+        >>> signals = MultiSignals.multi_signals_unpack_data(signals)
         >>> list(signals.keys())
         [0, 1, 2]
         >>> print(signals[2])
@@ -1275,7 +1274,7 @@ dict_like, optional
 
         >>> if is_pandas_installed():
         ...     from pandas import Series
-        ...     signals = MultiSignal.multi_signal_unpack_data(
+        ...     signals = MultiSignals.multi_signals_unpack_data(
         ...         Series(dict(zip(domain, np.linspace(10, 100, 10)))))
         ...     print(signals[0])  # doctest: +SKIP
         [[  100.    10.]
@@ -1294,7 +1293,7 @@ dict_like, optional
         >>> if is_pandas_installed():
         ...     from pandas import DataFrame
         ...     data = dict(zip(['a', 'b', 'c'], tsplit(range_)))
-        ...     signals = MultiSignal.multi_signal_unpack_data(
+        ...     signals = MultiSignals.multi_signals_unpack_data(
         ...         DataFrame(data, domain))
         ...     print(signals['c'])  # doctest: +SKIP
         [[  100.    30.]
@@ -1316,7 +1315,7 @@ dict_like, optional
         domain_u, range_u, signals = None, None, None
         signals = OrderedDict()
         # TODO: Implement support for Signal class passing.
-        if isinstance(data, MultiSignal):
+        if isinstance(data, MultiSignals):
             signals = data.signals
         elif (issubclass(type(data), Sequence) or
               isinstance(data, (tuple, list, np.ndarray, Iterator))):
@@ -1330,8 +1329,8 @@ dict_like, optional
         elif (issubclass(type(data), Mapping) or
               isinstance(data, (dict, OrderedDict))):
 
-            # Handling `MultiSignal.multi_signal_unpack_data` method output
-            # used as argument to `MultiSignal.multi_signal_unpack_data`
+            # Handling `MultiSignals.multi_signals_unpack_data` method output
+            # used as argument to `MultiSignals.multi_signals_unpack_data`
             # method.
             is_signal = all([
                 True if isinstance(i, Signal) else False
@@ -1392,14 +1391,14 @@ dict_like, optional
         Returns
         -------
         Signal
-            NaNs filled multi-continuous signal.
+            NaNs filled multi-continuous signals.
 
         >>> domain = np.arange(0, 10, 1)
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
-        >>> multi_signal = MultiSignal(range_)
-        >>> multi_signal[3:7] = np.nan
-        >>> print(multi_signal)
+        >>> multi_signals = MultiSignals(range_)
+        >>> multi_signals[3:7] = np.nan
+        >>> print(multi_signals)
         [[   0.   10.   20.   30.]
          [   1.   20.   30.   40.]
          [   2.   30.   40.   50.]
@@ -1410,7 +1409,7 @@ dict_like, optional
          [   7.   80.   90.  100.]
          [   8.   90.  100.  110.]
          [   9.  100.  110.  120.]]
-        >>> print(multi_signal.fill_nan())
+        >>> print(multi_signals.fill_nan())
         [[   0.   10.   20.   30.]
          [   1.   20.   30.   40.]
          [   2.   30.   40.   50.]
@@ -1421,8 +1420,8 @@ dict_like, optional
          [   7.   80.   90.  100.]
          [   8.   90.  100.  110.]
          [   9.  100.  110.  120.]]
-        >>> multi_signal[3:7] = np.nan
-        >>> print(multi_signal.fill_nan(method='Constant'))
+        >>> multi_signals[3:7] = np.nan
+        >>> print(multi_signals.fill_nan(method='Constant'))
         [[   0.   10.   20.   30.]
          [   1.   20.   30.   40.]
          [   2.   30.   40.   50.]
@@ -1456,8 +1455,8 @@ dict_like, optional
         ...     domain = np.arange(0, 10, 1)
         ...     range_ = tstack([np.linspace(10, 100, 10)] * 3)
         ...     range_ += np.array([0, 10, 20])
-        ...     multi_signal = MultiSignal(range_)
-        ...     print(multi_signal.to_dataframe())  # doctest: +SKIP
+        ...     multi_signals = MultiSignals(range_)
+        ...     print(multi_signals.to_dataframe())  # doctest: +SKIP
                  0      1      2
         0.0   10.0   20.0   30.0
         1.0   20.0   30.0   40.0

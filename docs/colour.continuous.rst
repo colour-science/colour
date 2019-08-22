@@ -15,4 +15,4 @@ Continuous Signal
 
     AbstractContinuousFunction
     Signal
-    MultiSignal
+    MultiSignals

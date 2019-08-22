@@ -1031,7 +1031,7 @@ API_CHANGES = {
         ],
         [
             'colour.MultiSignal',
-            'colour.continuous.MultiSignal',
+            'colour.continuous.MultiSignals',
         ],
         [
             'colour.MUNSELL_COLOURS_1929',

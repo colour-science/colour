@@ -35,7 +35,7 @@ from six.moves import zip
 from colour.algebra import (Extrapolator, CubicSplineInterpolator,
                             SpragueInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.continuous import Signal, MultiSignal
+from colour.continuous import Signal, MultiSignals
 from colour.utilities import (as_float, first_item, is_iterable, is_numeric,
                               is_string, is_uniform, interval, runtime_warning)
 from colour.utilities.deprecation import Removed, Renamed
@@ -1458,7 +1458,7 @@ dict_like, optional
         return self.copy()
 
 
-class MultiSpectralDistributions(MultiSignal):
+class MultiSpectralDistributions(MultiSignals):
     """
     Defines the multi-spectral distributions: the base object for multi
     spectral computations. It is used to model colour matching functions,
@@ -1473,7 +1473,7 @@ class MultiSpectralDistributions(MultiSignal):
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignal or \
+    data : Series or Dataframe or Signal or MultiSignals or \
 MultiSpectralDistributions or array_like or dict_like, optional
         Data to be stored in the multi-spectral distributions.
     domain : array_like, optional
@@ -1582,7 +1582,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
-        signals = self.multi_signal_unpack_data(data, domain, labels)
+        signals = self.multi_signals_unpack_data(data, domain, labels)
 
         domain = signals[list(signals.keys())[0]].domain if signals else None
         uniform = is_uniform(domain) if domain is not None else True
