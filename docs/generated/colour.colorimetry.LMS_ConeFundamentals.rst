@@ -24,7 +24,7 @@ colour.colorimetry.LMS\_ConeFundamentals
       ~LMS_ConeFundamentals.get
       ~LMS_ConeFundamentals.interpolate
       ~LMS_ConeFundamentals.is_uniform
-      ~LMS_ConeFundamentals.multi_signal_unpack_data
+      ~LMS_ConeFundamentals.multi_signals_unpack_data
       ~LMS_ConeFundamentals.normalise
       ~LMS_ConeFundamentals.to_dataframe
       ~LMS_ConeFundamentals.to_sds

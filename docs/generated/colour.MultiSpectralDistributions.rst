@@ -1,5 +1,5 @@
 colour.MultiSpectralDistributions
-================================
+=================================
 
 .. currentmodule:: colour
 
@@ -24,7 +24,7 @@ colour.MultiSpectralDistributions
       ~MultiSpectralDistributions.get
       ~MultiSpectralDistributions.interpolate
       ~MultiSpectralDistributions.is_uniform
-      ~MultiSpectralDistributions.multi_signal_unpack_data
+      ~MultiSpectralDistributions.multi_signals_unpack_data
       ~MultiSpectralDistributions.normalise
       ~MultiSpectralDistributions.to_dataframe
       ~MultiSpectralDistributions.to_sds

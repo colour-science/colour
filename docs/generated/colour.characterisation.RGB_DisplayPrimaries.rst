@@ -24,7 +24,7 @@ colour.characterisation.RGB\_DisplayPrimaries
       ~RGB_DisplayPrimaries.get
       ~RGB_DisplayPrimaries.interpolate
       ~RGB_DisplayPrimaries.is_uniform
-      ~RGB_DisplayPrimaries.multi_signal_unpack_data
+      ~RGB_DisplayPrimaries.multi_signals_unpack_data
       ~RGB_DisplayPrimaries.normalise
       ~RGB_DisplayPrimaries.to_dataframe
       ~RGB_DisplayPrimaries.to_sds

@@ -24,7 +24,7 @@ colour.characterisation.RGB\_SpectralSensitivities
       ~RGB_SpectralSensitivities.get
       ~RGB_SpectralSensitivities.interpolate
       ~RGB_SpectralSensitivities.is_uniform
-      ~RGB_SpectralSensitivities.multi_signal_unpack_data
+      ~RGB_SpectralSensitivities.multi_signals_unpack_data
       ~RGB_SpectralSensitivities.normalise
       ~RGB_SpectralSensitivities.to_dataframe
       ~RGB_SpectralSensitivities.to_sds
