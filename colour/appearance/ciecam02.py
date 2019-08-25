@@ -321,7 +321,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
                     surround=CIECAM02_VIEWING_CONDITIONS['Average'],
                     discount_illuminant=False):
     """
-    Converts *CIECAM02* specification to *CIE XYZ* tristimulus values.
+    Converts from *CIECAM02* specification to *CIE XYZ* tristimulus values.
 
     This is the *inverse* implementation.
 

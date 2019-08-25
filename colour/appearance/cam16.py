@@ -315,7 +315,7 @@ def CAM16_to_XYZ(CAM16_specification,
                  surround=CAM16_VIEWING_CONDITIONS['Average'],
                  discount_illuminant=False):
     """
-    Converts *CAM16* specification to *CIE XYZ* tristimulus values.
+    Converts from *CAM16* specification to *CIE XYZ* tristimulus values.
 
     This is the *inverse* implementation.
 

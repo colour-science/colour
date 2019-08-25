@@ -115,9 +115,8 @@ def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
 
 def CCT_to_xy_Kang2002(CCT):
     """
-    Returns the *CIE XYZ* tristimulus values *CIE xy* chromaticity coordinates
-    from given correlated colour temperature :math:`T_{cp}` using
-    *Kang et al. (2002)* method.
+    Returns the *CIE xy* chromaticity coordinates from given correlated colour
+    temperature :math:`T_{cp}` using *Kang et al. (2002)* method.
 
     Parameters
     ----------

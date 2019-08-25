@@ -129,8 +129,8 @@ def sd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
 
 def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
     """
-    Returns the spectral distribution of given
-    *CIE Illuminant D Series* using given *CIE xy* chromaticity coordinates.
+    Returns the spectral distribution of given *CIE Illuminant D Series* using
+    given *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
