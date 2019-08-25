@@ -30,7 +30,7 @@ __all__ = [
 
 
 @override_style()
-def plot_single_munsell_value_function(function='ASTM D1535-08', **kwargs):
+def plot_single_munsell_value_function(function='ASTM D1535', **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -54,7 +54,7 @@ def plot_single_munsell_value_function(function='ASTM D1535-08', **kwargs):
 
     Examples
     --------
-    >>> plot_single_munsell_value_function('ASTM D1535-08')  # doctest: +SKIP
+    >>> plot_single_munsell_value_function('ASTM D1535')  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_Plot_Single_Munsell_Value_Function.png
         :align: center
@@ -92,7 +92,7 @@ def plot_multi_munsell_value_functions(functions=None, **kwargs):
 
     Examples
     --------
-    >>> plot_multi_munsell_value_functions(['ASTM D1535-08', 'McCamy 1987'])
+    >>> plot_multi_munsell_value_functions(['ASTM D1535', 'McCamy 1987'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_Plot_Multi_Munsell_Value_Functions.png
@@ -101,7 +101,7 @@ def plot_multi_munsell_value_functions(functions=None, **kwargs):
     """
 
     if functions is None:
-        functions = ('ASTM D1535-08', 'McCamy 1987')
+        functions = ('ASTM D1535', 'McCamy 1987')
 
     functions = filter_passthrough(MUNSELL_VALUE_METHODS, functions)
 

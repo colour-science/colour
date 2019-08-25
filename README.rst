@@ -200,7 +200,7 @@ Spectral Computations
     >>> colour.sd_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
-    ['ASTM E308-15', 'Integration', 'astm2015']
+    ['ASTM E308', 'Integration', 'astm2015']
 
 
 Multi-Spectral Computations
@@ -237,7 +237,7 @@ Multi-Spectral Computations
       [ 38.64801062  26.70860262  15.08396538]
       [  8.77151115  10.56330761   4.28940206]]]
     >>> sorted(colour.MULTI_SPECTRAL_TO_XYZ_METHODS.keys())
-    ['Integration']
+    ['ASTM E308', 'Integration', 'astm2015']
 
 Blackbody Spectral Radiance Computation
 ***************************************
@@ -292,7 +292,7 @@ Luminance Computation
     >>> colour.luminance(41.52787585)
     12.197225353400775
     >>> sorted(colour.LUMINANCE_METHODS.keys())
-    ['ASTM D1535-08',
+    ['ASTM D1535',
      'CIE 1976',
      'Fairchild 2010',
      'Fairchild 2011',
@@ -812,7 +812,7 @@ Munsell Value
     >>> colour.munsell_value(12.23634268)
     4.0824437076525664
     >>> sorted(colour.MUNSELL_VALUE_METHODS.keys())
-    ['ASTM D1535-08',
+    ['ASTM D1535',
      'Ladd 1955',
      'McCamy 1987',
      'Moon 1943',

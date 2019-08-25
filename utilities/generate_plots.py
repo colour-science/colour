@@ -477,11 +477,11 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Munsell_Value_Function.png')
-    plot_single_munsell_value_function('ASTM D1535-08', **arguments)
+    plot_single_munsell_value_function('ASTM D1535', **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Multi_Munsell_Value_Functions.png')
-    plot_multi_munsell_value_functions(['ASTM D1535-08', 'McCamy 1987'],
+    plot_multi_munsell_value_functions(['ASTM D1535', 'McCamy 1987'],
                                        **arguments)
 
     arguments['filename'] = os.path.join(

@@ -641,7 +641,7 @@ MUNSELL_VALUE_METHODS = CaseInsensitiveMapping({
     'Saunderson 1944': munsell_value_Saunderson1944,
     'Ladd 1955': munsell_value_Ladd1955,
     'McCamy 1987': munsell_value_McCamy1987,
-    'ASTM D1535-08': munsell_value_ASTMD1535
+    'ASTM D1535': munsell_value_ASTMD1535
 })
 MUNSELL_VALUE_METHODS.__doc__ = """
 Supported *Munsell* value computation methods.
@@ -652,16 +652,16 @@ References
 
 MUNSELL_VALUE_METHODS : CaseInsensitiveMapping
     **{'Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
-    'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08'}**
+    'Ladd 1955', 'McCamy 1987', 'ASTM D1535'}**
 
 Aliases:
 
--   'astm2008': 'ASTM D1535-08'
+-   'astm2008': 'ASTM D1535'
 """
-MUNSELL_VALUE_METHODS['astm2008'] = (MUNSELL_VALUE_METHODS['ASTM D1535-08'])
+MUNSELL_VALUE_METHODS['astm2008'] = (MUNSELL_VALUE_METHODS['ASTM D1535'])
 
 
-def munsell_value(Y, method='ASTM D1535-08'):
+def munsell_value(Y, method='ASTM D1535'):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     given method.
@@ -671,7 +671,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
     Y : numeric or array_like
         *luminance* :math:`Y`.
     method : unicode, optional
-        **{'ASTM D1535-08', 'Priest 1920', 'Munsell 1933', 'Moon 1943',
+        **{'ASTM D1535', 'Priest 1920', 'Munsell 1933', 'Moon 1943',
         'Saunderson 1944', 'Ladd 1955', 'McCamy 1987'}**,
         Computation method.
 

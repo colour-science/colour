@@ -532,7 +532,7 @@ class TestLuminance(unittest.TestCase):
         domain and range scale support.
         """
 
-        m = ('Newhall 1943', 'ASTM D1535-08', 'CIE 1976', 'Fairchild 2010',
+        m = ('Newhall 1943', 'ASTM D1535', 'CIE 1976', 'Fairchild 2010',
              'Fairchild 2011')
         v = [luminance(41.527875844653451, method, Y_n=100) for method in m]
 

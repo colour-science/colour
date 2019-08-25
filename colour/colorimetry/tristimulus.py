@@ -782,7 +782,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
 
 SD_TO_XYZ_METHODS = CaseInsensitiveMapping({
-    'ASTM E308-15': sd_to_XYZ_ASTME308,
+    'ASTM E308': sd_to_XYZ_ASTME308,
     'Integration': sd_to_XYZ_integration
 })
 SD_TO_XYZ_METHODS.__doc__ = """
@@ -795,13 +795,13 @@ References
 :cite:`Wyszecki2000bf`
 
 SD_TO_XYZ_METHODS : CaseInsensitiveMapping
-    **{'ASTM E308-15', 'Integration'}**
+    **{'ASTM E308', 'Integration'}**
 
 Aliases:
 
--   'astm2015': 'ASTM E308-15'
+-   'astm2015': 'ASTM E308'
 """
-SD_TO_XYZ_METHODS['astm2015'] = (SD_TO_XYZ_METHODS['ASTM E308-15'])
+SD_TO_XYZ_METHODS['astm2015'] = SD_TO_XYZ_METHODS['ASTM E308']
 
 
 def sd_to_XYZ(
@@ -810,7 +810,7 @@ def sd_to_XYZ(
         copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None,
-        method='ASTM E308-15',
+        method='ASTM E308',
         **kwargs):
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values using
@@ -840,7 +840,7 @@ def sd_to_XYZ(
         be the spectral concentration of the radiometric quantity corresponding
         to the photometric quantity required.
     method : unicode, optional
-        **{'ASTM E308-15', 'Integration'}**,
+        **{'ASTM E308', 'Integration'}**,
         Computation method.
 
     Other Parameters
@@ -1229,7 +1229,7 @@ def multi_sds_to_XYZ_ASTME308(
 
 
 MULTI_SD_TO_XYZ_METHODS = CaseInsensitiveMapping({
-    'ASTM E308-15': multi_sds_to_XYZ_ASTME308,
+    'ASTM E308': multi_sds_to_XYZ_ASTME308,
     'Integration': multi_sds_to_XYZ_integration
 })
 MULTI_SD_TO_XYZ_METHODS.__doc__ = """
@@ -1242,8 +1242,13 @@ References
 :cite:`Wyszecki2000bf`
 
 MULTI_SD_TO_XYZ_METHODS : CaseInsensitiveMapping
-    **{'ASTM E308-15', 'Integration'}**
+    **{'ASTM E308', 'Integration'}**
+
+Aliases:
+
+-   'astm2015': 'ASTM E308'
 """
+MULTI_SD_TO_XYZ_METHODS['astm2015'] = MULTI_SD_TO_XYZ_METHODS['ASTM E308']
 
 
 def multi_sds_to_XYZ(
@@ -1252,7 +1257,7 @@ def multi_sds_to_XYZ(
         copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None,
-        method='ASTM E308-15',
+        method='ASTM E308',
         **kwargs):
     """
     Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
@@ -1287,7 +1292,7 @@ def multi_sds_to_XYZ(
         be the spectral concentration of the radiometric quantity corresponding
         to the photometric quantity required.
     method : unicode, optional
-        **{'ASTM E308-15', 'Integration'}**,
+        **{'ASTM E308', 'Integration'}**,
         Computation method.
 
     Other Parameters
