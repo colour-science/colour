@@ -53,6 +53,10 @@ def generate_documentation_plots(output_directory):
     # *************************************************************************
     # "README.rst"
     # *************************************************************************
+    filename = os.path.join(output_directory,
+                            'Examples_Colour_Automatic_Conversion_Graph.png')
+    plot_automatic_colour_conversion_graph(filename)
+
     arguments = {
         'tight_layout':
             True,
@@ -560,6 +564,11 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_RGB_Scatter.png')
     plot_RGB_scatter(RGB, 'ITU-R BT.709', **arguments)
+
+    filename = os.path.join(
+        output_directory,
+        'Plotting_Plot_Colour_Automatic_Conversion_Graph.png')
+    plot_automatic_colour_conversion_graph(filename)
 
     # *************************************************************************
     # "tutorial.rst"

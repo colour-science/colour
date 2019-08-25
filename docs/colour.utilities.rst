@@ -34,6 +34,7 @@ Common
     batch
     disable_multiprocessing
     multiprocessing_pool
+    is_networkx_installed
     is_openimageio_installed
     is_pandas_installed
     is_iterable

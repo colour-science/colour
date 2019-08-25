@@ -103,6 +103,30 @@ Most of the objects are available from the ``colour`` namespace:
 
     >>> import colour
 
+Automatic Colour Conversion Graph - ``colour.graph``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Starting with version *0.3.14*, **Colour** implements an automatic colour
+conversion graph enabling easier colour conversions.
+
+..  image:: docs/_static/Examples_Colour_Automatic_Conversion_Graph.png
+
+.. code-block:: python
+
+    >>> sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose_parameters={'describe': 'short'})
+    ===============================================================================
+    *                                                                             *
+    *   [ Conversion Path ]                                                       *
+    *                                                                             *
+    *   "sd_to_XYZ" --> "XYZ_to_sRGB"                                             *
+    *                                                                             *
+    ===============================================================================
+    array([ 0.45675795,  0.30986982,  0.24861924])
+    >>> illuminant = colour.ILLUMINANTS_SDS['FL2']
+    >>> convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
+    array([ 0.47924575,  0.31676968,  0.17362725])
+
 Chromatic Adaptation - ``colour.adaptation``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

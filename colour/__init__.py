@@ -25,6 +25,7 @@ Sub-packages
 -   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
+-   graph: Graph for automatic colour conversions.
 -   io: Input / output objects for reading and writing data.
 -   models: Colour models.
 -   notation: Colour notation systems.
@@ -152,6 +153,7 @@ from .volume import (
     RGB_colourspace_volume_MonteCarlo,
     RGB_colourspace_volume_coverage_MonteCarlo, is_within_macadam_limits,
     is_within_mesh_volume, is_within_pointer_gamut, is_within_visible_spectrum)
+from .graph import convert
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -290,6 +292,8 @@ __all__ += [
     'is_within_mesh_volume', 'is_within_pointer_gamut',
     'is_within_visible_spectrum'
 ]
+__all__ += ['convert']
+
 __application_name__ = 'Colour'
 
 __major_version__ = '0'
