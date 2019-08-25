@@ -41,9 +41,9 @@ __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
     'batch', 'disable_multiprocessing', 'multiprocessing_pool',
-    'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
-    'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
-    'filter_mapping', 'first_item', 'get_domain_range_scale',
+    'is_networkx_installed', 'is_openimageio_installed', 'is_pandas_installed',
+    'is_iterable', 'is_string', 'is_numeric', 'is_integer', 'is_sibling',
+    'filter_kwargs', 'filter_mapping', 'first_item', 'get_domain_range_scale',
     'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
     'to_domain_10', 'to_domain_100', 'to_domain_degrees', 'to_domain_int',
     'from_range_1', 'from_range_10', 'from_range_100', 'from_range_degrees',
@@ -296,6 +296,38 @@ def multiprocessing_pool(*args, **kwargs):
     yield pool
 
     pool.terminate()
+
+
+def is_networkx_installed(raise_exception=False):
+    """
+    Returns if *NetworkX* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *NetworkX* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *NetworkX* installed.
+
+    Raises
+    ------
+    ImportError
+        If *NetworkX* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import networkx  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(('"NetworkX" related API features, e.g. '
+                               'the automatic colour conversion graph, '
+                               'are not available: "{0}".').format(error))
+        return False
 
 
 def is_openimageio_installed(raise_exception=False):

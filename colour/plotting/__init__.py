@@ -35,6 +35,7 @@ from .diagrams import (plot_chromaticity_diagram_CIE1931,
                        plot_sds_in_chromaticity_diagram_CIE1976UCS)
 from .corresponding import plot_corresponding_chromaticities_prediction
 from .geometry import quad, grid, cube
+from .graph import plot_automatic_colour_conversion_graph
 from .models import (
     common_colourspace_model_axis_reorder, plot_pointer_gamut,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
@@ -90,6 +91,7 @@ __all__ += [
     'plot_sds_in_chromaticity_diagram_CIE1976UCS'
 ]
 __all__ += ['plot_corresponding_chromaticities_prediction']
+__all__ += ['plot_automatic_colour_conversion_graph']
 __all__ += ['quad', 'grid', 'cube']
 __all__ += [
     'common_colourspace_model_axis_reorder', 'plot_pointer_gamut',
