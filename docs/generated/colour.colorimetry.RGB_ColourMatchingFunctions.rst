@@ -24,7 +24,7 @@ colour.colorimetry.RGB\_ColourMatchingFunctions
       ~RGB_ColourMatchingFunctions.get
       ~RGB_ColourMatchingFunctions.interpolate
       ~RGB_ColourMatchingFunctions.is_uniform
-      ~RGB_ColourMatchingFunctions.multi_signal_unpack_data
+      ~RGB_ColourMatchingFunctions.multi_signals_unpack_data
       ~RGB_ColourMatchingFunctions.normalise
       ~RGB_ColourMatchingFunctions.to_dataframe
       ~RGB_ColourMatchingFunctions.to_sds

@@ -19,7 +19,7 @@ colour.continuous.MultiSignals
       ~MultiSignals.domain_distance
       ~MultiSignals.fill_nan
       ~MultiSignals.is_uniform
-      ~MultiSignals.multi_signal_unpack_data
+      ~MultiSignals.multi_signals_unpack_data
       ~MultiSignals.to_dataframe
    
    
