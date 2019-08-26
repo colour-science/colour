@@ -161,16 +161,18 @@ Scale - 1
 -   *Scalars* in domain-range `[0, 10]`, e.g *Munsell Value* are
     scaled by *10*.
 -   *Percentages* in domain-range `[0, 100]` are scaled by *100*.
--   *Degrees* in domain-range `[0, 360]` are scaled by *100*.
+-   *Degrees* in domain-range `[0, 360]` are scaled by *360*.
 -   *Integers* in domain-range `[0, 2**n -1]` where `n` is the bit
     depth are scaled by *2**n -1*.
 
 .. warning::
 
     The conversion to **'1'** domain-range scale is a *soft* normalisation and
-    similarly to the **'Reference'** domain-range scale it is normal that you
+    similarly to the **'Reference'** domain-range scale it is normal to
     encounter values exceeding *1*, e.g. High Dynamic Range Imagery (HDRI) or
-    negative values, e.g. out-of-gamut RGB colourspace values.
+    negative values, e.g. out-of-gamut RGB colourspace values. Some definitions
+    such as :func:`colour.models.eotf_ST2084` which decodes absolute luminance
+    values are not affected by any domain-range scales.
 
 Understanding the Domain-Range Scale of an Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
