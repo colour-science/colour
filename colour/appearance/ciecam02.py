@@ -225,7 +225,17 @@ def XYZ_to_CIECAM02(XYZ,
     +------------------------------+-----------------------+---------------+
     | **Range**                    | **Scale - Reference** | **Scale - 1** |
     +==============================+=======================+===============+
+    | ``CIECAM02_specification.J`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.C`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
     | ``CIECAM02_specification.h`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.s`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.Q`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.M`` | [0, 100]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
     | ``CIECAM02_specification.H`` | [0, 360]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
@@ -310,8 +320,10 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
-    return CIECAM02_Specification(J, C, from_range_degrees(h), s, Q, M,
-                                  from_range_degrees(H), None)
+    return CIECAM02_Specification(
+        from_range_100(J), from_range_100(C), from_range_degrees(h),
+        from_range_100(s), from_range_100(Q), from_range_100(M),
+        from_range_degrees(H), None)
 
 
 def CIECAM02_to_XYZ(CIECAM02_specification,
@@ -365,7 +377,17 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     +------------------------------+-----------------------+---------------+
     | **Domain**                   | **Scale - Reference** | **Scale - 1** |
     +==============================+=======================+===============+
+    | ``CIECAM02_specification.J`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.C`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
     | ``CIECAM02_specification.h`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.s`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.Q`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.M`` | [0, 100]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
     | ``CIECAM02_specification.H`` | [0, 360]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
@@ -400,9 +422,11 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CIECAM02_specification,
                                                 CIECAM02_Specification)
-    L_A = as_float_array(L_A)
-
+    J = to_domain_100(J)
+    C = to_domain_100(C) if C is not None else C
     h = to_domain_degrees(h)
+    M = to_domain_100(M) if M is not None else M
+    L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
