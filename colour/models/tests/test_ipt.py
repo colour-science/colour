@@ -24,8 +24,7 @@ __all__ = ['TestXYZ_to_IPT', 'TestIPT_to_XYZ', 'TestIPTHueAngle']
 
 class TestXYZ_to_IPT(unittest.TestCase):
     """
-    Defines :func:`colour.models.ipt.TestXYZ_to_IPT` definition unit tests
-    methods.
+    Defines :func:`colour.models.ipt.XYZ_to_IPT` definition unit tests methods.
     """
 
     def test_XYZ_to_IPT(self):

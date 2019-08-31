@@ -105,8 +105,8 @@ class TestExponent_hdr_IPT(unittest.TestCase):
 
 class TestXYZ_to_hdr_IPT(unittest.TestCase):
     """
-    Defines :func:`colour.models.hdr_ipt.TestXYZ_to_hdr_IPT` definition unit
-    tests methods.
+    Defines :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition unit tests
+    methods.
     """
 
     def test_XYZ_to_hdr_IPT(self):
