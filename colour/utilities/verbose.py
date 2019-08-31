@@ -538,7 +538,7 @@ def describe_environment(runtime_packages=True,
 
     # NOTE: A few clauses are not reached and a few packages are not available
     # during continuous integration and are thus ignored for coverage.
-    try:
+    try:  # pragma: no cover
         version = subprocess.check_output(  # nosec
             ['git', 'describe'],
             cwd=colour.__path__[0],
