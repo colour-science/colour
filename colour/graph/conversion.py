@@ -644,7 +644,10 @@ def convert(a, source, target, verbose_parameters=None, **kwargs):
     Parameters
     ----------
     a : array_like or numeric or SpectralDistribution
-        Object :math:`a` to convert.
+        Object :math:`a` to convert. If :math:`a` represents a reflectance,
+        transmittance or absorptance value, the expectation is that it is
+        viewed under *CIE Standard Illuminant D Series* *D65*. The illuminant
+        can be changed on a per definition basis along the conversion path.
     source : unicode
         Source colour representation, i.e. the source node in the automatic
         colour conversion graph.
@@ -671,14 +674,21 @@ def convert(a, source, target, verbose_parameters=None, **kwargs):
     ndarray or numeric or SpectralDistribution
         Converted object :math:`a`.
 
+    Warnings
+    --------
+    The domain-range scale is **'1'** and cannot be changed.
+
     Notes
     -----
     -   Various defaults have been systematically adopted compared to the
         low-level *Colour* API:
 
-        -   The domain-range scale is **'1'**.
-        -   The default illuminant is *CIE Standard Illuminant D Series* *D65*.
-        -   The default *RGB* colourspace is the *sRGB* colourspace.
+        -   The default illuminant for the computation is
+            *CIE Standard Illuminant D Series* *D65*. It can be changed on a
+            per definition basis along the conversion path.
+        -   The default *RGB* colourspace is the *sRGB* colourspace. It can
+            also be changed on a per definition basis along the conversion
+            path.
         -   Most of the colour appearance models have defaults set according to
             *IEC 61966-2-1:1999* viewing conditions, i.e. *sRGB* 64 Lux ambiant
             illumination, 80 :math:`cd/m^2`, adapting field luminance about
