@@ -114,7 +114,7 @@ conversion graph enabling easier colour conversions.
 .. code-block:: python
 
     >>> sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
-    >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose_parameters={'describe': 'short'})
+    >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
     ===============================================================================
     *                                                                             *
     *   [ Conversion Path ]                                                       *

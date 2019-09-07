@@ -14,3 +14,4 @@ Conversion
     :toctree: generated/
 
     convert
+    describe_conversion_path
