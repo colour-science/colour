@@ -149,7 +149,7 @@ from .volume import (
     RGB_colourspace_volume_MonteCarlo,
     RGB_colourspace_volume_coverage_MonteCarlo, is_within_macadam_limits,
     is_within_mesh_volume, is_within_pointer_gamut, is_within_visible_spectrum)
-from .graph import convert
+from .graph import describe_conversion_path, convert
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -288,7 +288,7 @@ __all__ += [
     'is_within_mesh_volume', 'is_within_pointer_gamut',
     'is_within_visible_spectrum'
 ]
-__all__ += ['convert']
+__all__ += ['describe_conversion_path', 'convert']
 
 __application_name__ = 'Colour'
 

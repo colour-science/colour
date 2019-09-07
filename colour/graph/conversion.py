@@ -5,6 +5,7 @@ Automatic Colour Conversion Graph
 
 Defines the automatic colour conversion graph objects:
 
+-   :func:`colour.describe_conversion_path`
 -   :func:`colour.convert`
 
 See Also
@@ -18,7 +19,6 @@ from __future__ import division, print_function, unicode_literals
 
 import inspect
 import numpy as np
-import six
 import textwrap
 from collections import namedtuple
 from functools import partial
@@ -60,7 +60,7 @@ from colour.appearance import (
     XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB,
     XYZ_to_Nayatani95, XYZ_to_RLAB)
 from colour.temperature import CCT_to_uv, CCT_to_xy, uv_to_CCT, xy_to_CCT
-from colour.utilities import (Structure, domain_range_scale,
+from colour.utilities import (domain_range_scale,
                               is_networkx_installed, message_box, tsplit,
                               tstack)
 
@@ -79,7 +79,8 @@ __all__ = [
     'JMh_CIECAM02_to_CIECAM02', 'CAM16_to_JMh_CAM16', 'JMh_CAM16_to_CAM16',
     'XYZ_to_luminance', 'RGB_luminance_to_RGB',
     'CONVERSION_SPECIFICATIONS_DATA', 'CONVERSION_GRAPH_NODE_LABELS',
-    'CONVERSION_SPECIFICATIONS', 'CONVERSION_GRAPH', 'convert'
+    'CONVERSION_SPECIFICATIONS', 'CONVERSION_GRAPH',
+    'describe_conversion_path', 'convert'
 ]
 
 
@@ -615,8 +616,121 @@ def _conversion_path(source, target):
         ]
 
 
+def _lower_order_function(callable_):
+    """
+    Returns the lower order function associated with given callable, i.e.
+    the function wrapped by a partial object.
+
+    Parameters
+    ----------
+    callable_ : callable
+        Callable to return the lower order function.
+
+    Returns
+    -------
+    callable
+        Lower order function or given callable if no lower order function
+        exists.
+    """
+
+    return callable_.func if isinstance(callable_, partial) else callable_
+
+
+def describe_conversion_path(source,
+                             target,
+                             mode='Short',
+                             width=79,
+                             padding=3,
+                             print_callable=print,
+                             **kwargs):
+    """
+    Describes the conversion path from source colour representation to target
+    colour representation using the automatic colour conversion graph.
+
+    Parameters
+    ----------
+    source : unicode
+        Source colour representation, i.e. the source node in the automatic
+        colour conversion graph.
+    target : unicode
+        Target colour representation, i.e. the target node in the automatic
+        colour conversion graph.
+    mode : unicode, optional
+        **{'Short', 'Long', 'Extended'}**,
+        Verbose mode: *Short* describes the conversion path, *Long* provides
+        details about the arguments, definitions signatures and output values,
+        *Extended* appends the definitions documentation.
+    width : int, optional
+        Message box width.
+    padding : unicode, optional
+        Padding on each sides of the message.
+    print_callable : callable, optional
+        Callable used to print the message box.
+
+    Examples
+    --------
+    >>> describe_conversion_path('Spectral Distribution', 'sRGB', width=75)
+    ===========================================================================
+    *                                                                         *
+    *   [ Conversion Path ]                                                   *
+    *                                                                         *
+    *   "sd_to_XYZ" --> "XYZ_to_sRGB"                                         *
+    *                                                                         *
+    ===========================================================================
+    """
+
+    try:
+        signature_inspection = inspect.signature
+    except AttributeError:
+        signature_inspection = inspect.getargspec
+
+    source, target, mode = source.lower(), target.lower(), mode.lower()
+    width = (79 + 2 + 2 * 3 - 4) if mode == 'extended' else width
+
+    conversion_path = _conversion_path(source, target)
+
+    message_box(
+        '[ Conversion Path ]\n\n{0}'.format(' --> '.join([
+            '"{0}"'.format(
+                _lower_order_function(conversion_function).__name__)
+            for conversion_function in conversion_path
+        ])), width, padding, print_callable)
+
+    for conversion_function in conversion_path:
+        filtered_kwargs = kwargs.get(
+            _lower_order_function(conversion_function).__name__, {})
+
+        return_value = filtered_kwargs.pop('return', None)
+
+        if mode in ('long', 'extended'):
+            message = (
+                '[ "{0}" ]'
+                '\n\n[ Signature ]\n\n{1}').format(
+                    _lower_order_function(conversion_function).__name__,
+                    pformat(
+                        signature_inspection(
+                            _lower_order_function(conversion_function))))
+
+            if filtered_kwargs:
+                message += '\n\n[ Filtered Arguments ]\n\n{0}'.format(
+                    pformat(filtered_kwargs))
+
+            if mode in ('extended', ):
+                message += '\n\n[ Documentation ]\n\n{0}'.format(
+                    textwrap.dedent(
+                        str(
+                            _lower_order_function(
+                                conversion_function).__doc__)).strip())
+
+            if return_value is not None:
+                message += '\n\n[ Conversion Output ]\n\n{0}'.format(
+                    return_value)
+
+            message_box(message, width, padding, print_callable)
+
+
 @domain_range_scale('1')
-def convert(a, source, target, verbose_parameters=None, **kwargs):
+def convert(a, source, target, **kwargs):
     """
     Converts given object :math:`a` from source colour representation to target
     colour representation using the automatic colour conversion graph.
@@ -654,8 +768,6 @@ def convert(a, source, target, verbose_parameters=None, **kwargs):
     target : unicode
         Target colour representation, i.e. the target node in the automatic
         colour conversion graph.
-    verbose_parameters : dict, optional
-        Verbose parameters to describe the conversion.
 
     Other Parameters
     ----------------
@@ -664,10 +776,17 @@ def convert(a, source, target, verbose_parameters=None, **kwargs):
         Arguments for the definitions are passed as keyword arguments with
         values set as dictionaries. For example, in the conversion from
         spectral distribution to *sRGB* colourspace, passing arguments to the
-        `colour.sd_to_XYZ` definitions is done as follows::
+        :func:`colour.sd_to_XYZ` definition is done as follows::
 
             convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={\
 'illuminant': illuminant})
+
+        It is also possible to pass arguments directly to the
+        :func:`colour.describe_conversion_path` definition  by using the
+        ``verbose`` keyword argument as follows:
+
+            convert(sd, 'Spectral Distribution', 'sRGB', \
+verbose={'mode': 'Long'})
 
     Returns
     -------
@@ -706,7 +825,7 @@ def convert(a, source, target, verbose_parameters=None, **kwargs):
     >>> from colour import COLOURCHECKERS_SDS
     >>> sd = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
-    ...     verbose_parameters={'describe': 'short', 'width': 75})
+    ...     verbose={'mode': 'Short', 'width': 75})
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *
@@ -726,8 +845,7 @@ def convert(a, source, target, verbose_parameters=None, **kwargs):
     ... # doctest: +ELLIPSIS
     array([ 0.3999481...,  0.0920655...,  0.0812752...])
     >>> a = np.array([0.39994811, 0.09206558, 0.08127526])
-    >>> convert(a, 'CAM16UCS', 'sRGB',
-    ...     verbose_parameters={'describe': 'Short', 'width': 75})
+    >>> convert(a, 'CAM16UCS', 'sRGB', verbose={'mode': 'Short', 'width': 75})
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *
@@ -740,74 +858,25 @@ def convert(a, source, target, verbose_parameters=None, **kwargs):
     array([ 0.4567576...,  0.3098826...,  0.2486222...])
     """
 
-    verbose_parameters = ({} if verbose_parameters is None else
-                          verbose_parameters)
-    describe = six.text_type(
-        verbose_parameters.pop('describe') if 'describe' in
-        verbose_parameters else False).lower()
-
-    verbose_settings = Structure({
-        'padding': 3,
-        # 83 = 79 + 2 (*) + 2 * 3 ( ) - 4 (Dedent)
-        'width': (79 + 2 + 2 * 3 - 4) if describe == 'extended' else 79,
-        'print_callable': print,
-    })
-    verbose_settings.update(verbose_parameters)
-
     source, target = source.lower(), target.lower()
-
-    try:
-        signature_inspection = inspect.signature
-    except AttributeError:
-        signature_inspection = inspect.getargspec
 
     conversion_path = _conversion_path(source, target)
 
-    def _lower_order_function(callable_):
-        """
-        Returns the lower order function associated with given callable, i.e.
-        the function wrapped by a partial object.
-        """
-
-        return callable_.func if isinstance(callable_, partial) else callable_
-
-    if describe in ('short', 'long', 'extended', 'true'):
-        message_box(
-            '[ Conversion Path ]\n\n{0}'.format(' --> '.join([
-                '"{0}"'.format(
-                    _lower_order_function(conversion_function).__name__)
-                for conversion_function in conversion_path
-            ])), **verbose_settings)
-
     for conversion_function in conversion_path:
-        filtered_kwargs = kwargs.get(
-            _lower_order_function(conversion_function).__name__, {})
-        message = ('[ "{0}" ]'
-                   '\n\n[ Filtered Arguments ]\n\n{1}'
-                   '\n\n[ Signature ]\n\n{2}').format(
-                       _lower_order_function(conversion_function).__name__,
-                       pformat(filtered_kwargs),
-                       pformat(
-                           signature_inspection(
-                               _lower_order_function(conversion_function))))
+        conversion_function_name = _lower_order_function(
+            conversion_function).__name__
 
-        if describe in ('extended', 'true'):
-            message += '\n\n[ Documentation ]\n\n{0}'.format(
-                textwrap.dedent(
-                    str(_lower_order_function(
-                        conversion_function).__doc__)).strip())
+        filtered_kwargs = kwargs.get(conversion_function_name, {})
 
-        try:
-            a = conversion_function(a, **filtered_kwargs)
+        a = conversion_function(a, **filtered_kwargs)
 
-            if describe in ('long', 'extended', 'true'):
-                message += '\n\n[ Conversion Output ]\n\n{0}'.format(a)
-                message_box(message, **verbose_settings)
+        if not filtered_kwargs:
+            kwargs[conversion_function_name] = {'return': a}
+        else:
+            kwargs[conversion_function_name]['return'] = a
 
-        except Exception as error:
-            if describe not in ('false', 'none'):
-                message_box(message, **verbose_settings)
-
-            raise error
+    if 'verbose' in kwargs:
+        kwargs.update(kwargs.pop('verbose'))
+        describe_conversion_path(source, target, **kwargs)
 
     return a
