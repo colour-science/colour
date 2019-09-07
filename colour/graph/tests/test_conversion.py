@@ -68,11 +68,29 @@ class TestConvert(unittest.TestCase):
             Jpapbp, np.array([0.39994810, 0.09206557, 0.08127526]), decimal=7)
 
         RGB_b = convert(
-            Jpapbp, 'CAM16UCS', 'sRGB', verbose={'mode': 'extended'})
+            Jpapbp, 'CAM16UCS', 'sRGB', verbose={'mode': 'Extended'})
         # NOTE: The "CIE XYZ" tristimulus values to "sRGB" matrix is given
         # rounded at 4 decimals as per "IEC 61966-2-1:1999" and thus preventing
         # exact roundtrip.
         np.testing.assert_allclose(RGB_a, RGB_b, rtol=1e-5, atol=1e-5)
+
+        np.testing.assert_almost_equal(
+            convert('#808080', 'Hexadecimal', 'Scene-Referred RGB'),
+            np.array([0.21586050, 0.21586050, 0.21586050]),
+            decimal=7)
+
+        self.assertAlmostEqual(
+            convert('#808080', 'Hexadecimal', 'RGB Luminance'),
+            0.21586050,
+            places=7)
+
+        np.testing.assert_almost_equal(
+            convert(
+                convert(
+                    np.array([0.5, 0.5, 0.5]), 'Output-Referred RGB',
+                    'Scene-Referred RGB'), 'RGB', 'YCbCr'),
+            np.array([0.49215686, 0.50196078, 0.50196078]),
+            decimal=7)
 
 
 if __name__ == '__main__':
