@@ -28,11 +28,11 @@
 
 .. end-badges
 
-`Colour <https://github.com/colour-science/colour>`_ is a
-`Python <https://www.python.org/>`_ colour science package implementing a
-comprehensive number of colour theory transformations and algorithms.
+`Colour <https://github.com/colour-science/colour>`_ is an open-source
+`Python <https://www.python.org/>`_ package providing a comprehensive number of
+algorithms and datasets for colour science.
 
-It is open source and freely available under the
+It is freely available under the
 `New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
 
 .. contents:: **Table of Contents**
