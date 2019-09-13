@@ -1,6 +1,4 @@
-
-`Colour Science for Python <https://www.colour-science.org/>`_
-==============================================================
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
 
 .. start-badges
 
@@ -36,8 +34,6 @@ comprehensive number of colour theory transformations and algorithms.
 
 It is open source and freely available under the
 `New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
-
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_Tight_001.png
 
 .. contents:: **Table of Contents**
     :backlinks: none
