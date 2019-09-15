@@ -22,7 +22,7 @@ before_install:
   - conda update --yes --quiet conda
 
 install:
-  - conda create --yes --quiet -n colour-ci python=${PYTHON_VERSION} coverage coveralls flake8 imageio matplotlib mock nose pandas pip pyqt scipy six
+  - conda create --yes --quiet -n colour-ci python=${PYTHON_VERSION} coverage coveralls flake8 imageio matplotlib mock nose pandas pyqt scipy six
   - source activate colour-ci
   - python -c "import imageio;imageio.plugins.freeimage.download()"
 
