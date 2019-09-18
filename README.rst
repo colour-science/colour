@@ -2,17 +2,14 @@
 
 .. start-badges
 
-|gitter| |travis| |azure| |coveralls| |codacy| |version| |zenodo|
+|gitter| |actions| |coveralls| |codacy| |version| |zenodo|
 
 .. |gitter| image:: https://img.shields.io/gitter/room/colour-science/colour.svg?style=flat-square
     :target: https://gitter.im/colour-science/colour/
     :alt: Gitter
-.. |travis| image:: https://img.shields.io/travis/colour-science/colour/develop.svg?label=travis-ci+build&style=flat-square
-    :target: https://travis-ci.org/colour-science/colour
+.. |actions| image:: https://github.com/colour-science/colour/workflows/Continuous%20Integration/badge.svg
+    :target: https://github.com/colour-science/colour/actions
     :alt: Develop Build Status
-.. |azure| image:: https://img.shields.io/vso/build/colour-science/b0916647-91be-4025-951a-d791f64f3b96/1.svg?label=azure+build&style=flat-square
-    :target: https://dev.azure.com/colour-science/Colour/_build?definitionId=1 
-    :alt: Azure DevOps
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
     :target: https://coveralls.io/r/colour-science/colour
     :alt: Coverage Status
