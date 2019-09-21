@@ -1,14 +1,11 @@
-Colour Science for Python
-=========================
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
 
-`Colour <https://github.com/colour-science/colour>`_ is a
-`Python <https://www.python.org/>`_ colour science package implementing a
-comprehensive number of colour theory transformations and algorithms.
+`Colour <https://github.com/colour-science/colour>`_ is an open-source
+`Python <https://www.python.org/>`_ package providing a comprehensive number of
+algorithms and datasets for colour science.
 
-It is open source and freely available under the
+It is freely available under the
 `New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
-
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_Tight_001.png
 
 .. contents:: **Table of Contents**
     :backlinks: none
