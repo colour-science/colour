@@ -23,7 +23,7 @@ jobs:
       architecture: 'x64'
   - script: |
       python -m pip install --upgrade pip
-      pip install coveralls flake8 imageio matplotlib mock nose scipy six
+      pip install imageio matplotlib numpy networkx pandas scipy
       pip install pyqt
       python -c "import imageio;imageio.plugins.freeimage.download()"
     displayName: 'Dependencies'
@@ -57,7 +57,7 @@ jobs:
       mkdir ~/.matplotlib/
       echo "backend: TkAgg" >> ~/.matplotlib/matplotlibrc
       python -m pip install --upgrade pip
-      pip install coveralls flake8 imageio matplotlib mock nose scipy six
+      pip install imageio matplotlib numpy networkx pandas scipy
       pip install pyqt
       python -c "import imageio;imageio.plugins.freeimage.download()"
     displayName: 'Dependencies'

@@ -20,6 +20,14 @@ before_install:
   - ./miniconda.sh -b -p /home/travis/miniconda
   - export PATH=/home/travis/miniconda/bin:$PATH
   - conda update --yes --quiet conda
+  - PACKAGES="python=${PYTHON_VERSION}"
+  - PACKAGES="${PACKAGES} imageio"; if [ ${IMAGEIO_VERSION} ]; then PACKAGES="${PACKAGES}=${IMAGEIO_VERSION}"; fi
+  - PACKAGES="${PACKAGES} matplotlib"; if [ ${MATPLOTLIB_VERSION} ]; then PACKAGES="${PACKAGES}=${MATPLOTLIB_VERSION}"; fi
+  - PACKAGES="${PACKAGES} numpy"; if [ ${NUMPY_VERSION} ]; then PACKAGES="${PACKAGES}=${NUMPY_VERSION}"; fi
+  - PACKAGES="${PACKAGES} networkx"; if [ ${NETWORKX_VERSION} ]; then PACKAGES="${PACKAGES}=${NETWORKX_VERSION}"; fi
+  - PACKAGES="${PACKAGES} pandas"; if [ ${PANDAS_VERSION} ]; then PACKAGES="${PACKAGES}=${PANDAS_VERSION}"; fi
+  - PACKAGES="${PACKAGES} pyqt"; if [ ${PYQT_VERSION} ]; then PACKAGES="${PACKAGES}=${PYQT_VERSION}"; fi
+  - PACKAGES="${PACKAGES} scipy"; if [ ${SCIPY_VERSION} ]; then PACKAGES="${PACKAGES}=${SCIPY_VERSION}"; fi
 
 install:
   - conda create --yes --quiet -n colour-ci python=${PYTHON_VERSION} coverage coveralls flake8 imageio matplotlib mock nose pandas pyqt scipy six

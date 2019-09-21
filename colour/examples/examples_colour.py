@@ -8,8 +8,37 @@ import warnings
 
 import colour
 from colour.utilities import (filter_warnings, message_box, warning,
-                              runtime_warning,
-                              usage_warning)
+                              runtime_warning, usage_warning)
+
+message_box('Automatic Colour Conversion Graph')
+
+message_box('Starting with version "0.3.14", "Colour" implements an automatic '
+            'colour conversion graph enabling easier colour conversions.')
+
+message_box('Converting a "ColorChecker" "dark skin" sample spectral '
+            'distribution to "Output-Referred" "sRGB" colourspace.')
+
+sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+
+print(colour.convert(sd, 'Spectral Distribution', 'sRGB'))
+
+print('\n')
+
+RGB = np.array([0.45675795, 0.30986982, 0.24861924])
+message_box(('Converting to "CAM16-UCS" colourspace from given '
+             '"Output-Referred" "sRGB" colourspace values:\n'
+             '\n\t{0}'.format(RGB)))
+print(colour.convert(RGB, 'Output-Referred RGB', 'CAM16UCS'))
+
+print('\n')
+
+Jpapbp = np.array([0.39994811, 0.09206558, 0.0812752])
+message_box(('Converting to "Output-Referred" "sRGB" colourspace from given '
+             '"CAM16-UCS" colourspace colourspace values:\n'
+             '\n\t{0}'.format(RGB)))
+print(colour.convert(Jpapbp, 'CAM16UCS', 'sRGB'))
+
+print('\n')
 
 message_box('Filter "Colour" Warnings')
 
