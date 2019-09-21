@@ -404,7 +404,7 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     """
 
     if is_openimageio_installed(raise_exception=True):  # pragma: no cover
-        from OpenImageIO import ImageOutput, ImageOutputOpenMode, ImageSpec
+        from OpenImageIO import VERSION_MAJOR, ImageOutput, ImageSpec
 
         path = str(path)
 
@@ -415,7 +415,7 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
         bit_depth = bit_depth_specification.openimageio
 
         image = as_float_array(image)
-        image *= bit_depth_specification.domain
+        image = image * bit_depth_specification.domain
         if bit_depth_specification.clip:
             image = np.clip(image, 0, bit_depth_specification.domain)
         image = image.astype(bit_depth_specification.numpy)
@@ -438,8 +438,16 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
                 specification.attribute(name, type_, value)
 
         image_output = ImageOutput.create(path)
-        image_output.open(path, specification, ImageOutputOpenMode.Create)
-        image_output.write_image(bit_depth, image.tostring())
+
+        if VERSION_MAJOR == 1:
+            from OpenImageIO import ImageOutputOpenMode
+
+            image_output.open(path, specification, ImageOutputOpenMode.Create)
+            image_output.write_image(bit_depth, image.tostring())
+        else:
+            image_output.open(path, specification)
+            image_output.write_image(image)
+
         image_output.close()
 
         return True
