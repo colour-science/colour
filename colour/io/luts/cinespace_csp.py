@@ -187,8 +187,10 @@ def read_LUT_Cinespace(path):
         if is_3D:
             pre_domain = tstack((pre_LUT[0], pre_LUT[2], pre_LUT[4]))
             pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
-            shaper_name = '{0} - Shaper'.format(title)
-            cube_name = '{0} - Cube'.format(title)
+            shaper_name = ('{0} - Shaper'.format(title)
+                           if not title.endswith('- Shaper') else title)
+            cube_name = ('{0} - Cube'.format(title)
+                         if not title.endswith('- Cube') else title)
             table = table.reshape([size[0], size[1], size[2], 3], order='F')
             LUT_A = LUT3x1D(pre_table, shaper_name, pre_domain)
             LUT_B = LUT3D(table, cube_name, comments=comments)
@@ -207,8 +209,10 @@ def read_LUT_Cinespace(path):
 
                 return LUT3x1D(pre_table, title, pre_domain, comments=comments)
             else:
-                pre_name = '{0} - PreLUT'.format(title)
-                table_name = '{0} - Table'.format(title)
+                pre_name = ('{0} - PreLUT'.format(title)
+                            if not title.endswith('- PreLUT') else title)
+                table_name = ('{0} - Table'.format(title)
+                              if not title.endswith('- Table') else title)
                 LUT_A = LUT3x1D(pre_table, pre_name, pre_domain)
                 LUT_B = LUT3x1D(table, table_name, comments=comments)
 
