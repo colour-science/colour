@@ -1,0 +1,164 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  unix-build:
+    name: Unix Build
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macOS-10.14]
+        python-version: [2.7, 3.6, 3.7]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Environment Variables
+      run: |
+        CI_PYTHON_VERSION=${{ matrix.python-version }}
+        CI_VIRTUAL_ENVIRONMENT=continuous-integration
+        CI_PACKAGE=colour
+        CI_PACKAGE_DEPENDENCIES="coverage coveralls flake8 imageio matplotlib mock nose pandas pyqt scipy six"
+        CI_SHA=${{ github.sha }}
+        CI_SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}
+        CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *${CI_SHA:0:7}* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
+        CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_SUCCESS_NOTIFICATION/4CAF50/F44336}"
+        CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_FAILURE_NOTIFICATION/succeeded/failed}"
+        COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
+        echo ::set-env name=CI_PYTHON_VERSION::$CI_PYTHON_VERSION
+        echo ::set-env name=CI_VIRTUAL_ENVIRONMENT::$CI_VIRTUAL_ENVIRONMENT
+        echo ::set-env name=CI_PACKAGE::$CI_PACKAGE
+        echo ::set-env name=CI_PACKAGE_DEPENDENCIES::$CI_PACKAGE_DEPENDENCIES
+        echo ::set-env name=CI_SHA::$CI_SHA
+        echo ::set-env name=CI_SLACK_WEBHOOK::$CI_SLACK_WEBHOOK
+        echo ::set-env name=CI_SLACK_SUCCESS_NOTIFICATION::$CI_SLACK_SUCCESS_NOTIFICATION
+        echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::$CI_SLACK_FAILURE_NOTIFICATION
+        echo ::set-env name=COVERALLS_REPO_TOKEN::$COVERALLS_REPO_TOKEN
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Ubuntu - Update OS & Install APT Dependencies
+      if: matrix.os == 'ubuntu-18.04'
+      run: |
+        sudo apt-get update
+        sudo apt-get --yes install libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
+    - name: Ubuntu - Download Conda
+      if: matrix.os == 'ubuntu-18.04'
+      run: |
+        if [ ${CI_PYTHON_VERSION:O:1} == "2" ]; then curl -L https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -o Miniconda.sh; else curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o Miniconda.sh; fi
+    - name: macOS - Download Conda
+      if: matrix.os == 'macOS-10.14'
+      run: |
+        if [ ${CI_PYTHON_VERSION:O:1} == "2" ]; then curl -L https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh -o Miniconda.sh; else curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o Miniconda.sh; fi
+    - name: Install Conda
+      run: |
+        chmod +x Miniconda.sh
+        ./Miniconda.sh -b -p $HOME/miniconda
+        PATH=$HOME/miniconda/bin:$PATH
+        echo ::set-env name=PATH::$PATH
+        conda update --yes --quiet conda
+    - name: Install Package Dependencies
+      run: |
+        conda create --yes --quiet -n $CI_VIRTUAL_ENVIRONMENT python=$CI_PYTHON_VERSION $CI_PACKAGE_DEPENDENCIES
+        source activate $CI_VIRTUAL_ENVIRONMENT
+        python -c "import imageio;imageio.plugins.freeimage.download()"
+    - name: Ubuntu - Install OpenImageIO
+      if: matrix.os == 'ubuntu-18.04' && matrix.python-version == '3.6'
+      run: |
+        curl -L https://github.com/colour-science/artifacts/suites/233020849/artifacts/44967 -o OpenImageIO-Release-2.0.10.zip
+        unzip OpenImageIO-Release-2.0.10.zip
+        sudo cp OpenImageIO-Release-2.0.10/linux64/bin/* /usr/bin/
+        sudo cp -r OpenImageIO-Release-2.0.10/linux64/lib/* /usr/lib/
+        sudo rm -rf /usr/lib/python3.6
+        cp OpenImageIO-Release-2.0.10/linux64/lib/python3.6/site-packages/OpenImageIO.so /home/runner/miniconda/envs/$CI_VIRTUAL_ENVIRONMENT/lib/python3.6/site-packages/
+        source activate $CI_VIRTUAL_ENVIRONMENT
+        python -c "import OpenImageIO;print(OpenImageIO.VERSION)"
+    - name: Lint with flake8
+      run: |
+        source activate $CI_VIRTUAL_ENVIRONMENT
+        flake8 $CI_PACKAGE --count --show-source --statistics
+    - name: Test with nosetests
+      run: |
+        PYTHONWARNINGS=ignore
+        source activate $CI_VIRTUAL_ENVIRONMENT
+        nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=$CI_PACKAGE $CI_PACKAGE
+    - name: Upload Coverage to coveralls.io
+      run: |
+        cd $GITHUB_WORKSPACE
+        source activate $CI_VIRTUAL_ENVIRONMENT
+        coveralls
+    - name: Notify Slack
+      if: always()
+      run: |
+        if [ "${{ job.status }}" == "Success" ]; then CI_SLACK_NOTIFICATION="$CI_SLACK_SUCCESS_NOTIFICATION"; else CI_SLACK_NOTIFICATION="$CI_SLACK_FAILURE_NOTIFICATION"; fi
+        if [ -z "$CI_SLACK_WEBHOOK" ]; then echo \"SLACK_WEBHOOK\" secret is undefined!; else curl -k -d "$CI_SLACK_NOTIFICATION" -X POST $CI_SLACK_WEBHOOK; fi
+  windows-build:
+    name: Windows Build
+    strategy:
+      matrix:
+        os: [windows-2019]
+        python-version: [2.7, 3.6, 3.7]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Environment Variables
+      run: |
+        set CI_PYTHON_VERSION=${{ matrix.python-version }}
+        set CI_VIRTUAL_ENVIRONMENT=continuous-integration
+        set CI_PACKAGE=colour
+        set CI_PACKAGE_DEPENDENCIES=coverage coveralls flake8 imageio matplotlib mock nose pandas pyqt scipy six
+        set CI_SHA=${{ github.sha }}
+        set CI_SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}
+        set CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *"%CI_SHA:~0,7%"* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
+        set CI_SLACK_FAILURE_NOTIFICATION=%CI_SLACK_SUCCESS_NOTIFICATION:4CAF50=F44336%
+        set CI_SLACK_FAILURE_NOTIFICATION=%CI_SLACK_FAILURE_NOTIFICATION:succeeded=failed%
+        set COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
+        echo ::set-env name=CI_PYTHON_VERSION::%CI_PYTHON_VERSION%
+        echo ::set-env name=CI_VIRTUAL_ENVIRONMENT::%CI_VIRTUAL_ENVIRONMENT%
+        echo ::set-env name=CI_PACKAGE::%CI_PACKAGE%
+        echo ::set-env name=CI_PACKAGE_DEPENDENCIES::%CI_PACKAGE_DEPENDENCIES%
+        echo ::set-env name=CI_SHA::%CI_SHA%
+        echo ::set-env name=CI_SLACK_WEBHOOK::%CI_SLACK_WEBHOOK%
+        echo ::set-env name=CI_SLACK_SUCCESS_NOTIFICATION::%CI_SLACK_SUCCESS_NOTIFICATION%
+        echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::%CI_SLACK_FAILURE_NOTIFICATION%
+        echo ::set-env name=COVERALLS_REPO_TOKEN::%COVERALLS_REPO_TOKEN%
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Download Conda
+      run: |
+        IF "%CI_PYTHON_VERSION:~0,1%"=="2" (curl -L https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86_64.exe -o Miniconda.exe)
+        IF "%CI_PYTHON_VERSION:~0,1%"=="3" (curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe -o Miniconda.exe)
+    - name: Install Conda
+      run: |
+        Miniconda.exe /S /D=%USERPROFILE%\miniconda
+        set PATH=%USERPROFILE%\miniconda\condabin;%PATH%
+        echo ::set-env name=PATH::%PATH%
+        call conda update --yes --quiet conda
+    - name: Install Package Dependencies
+      run: |
+        call conda create --yes --quiet -n %CI_VIRTUAL_ENVIRONMENT% python=%CI_PYTHON_VERSION% %CI_PACKAGE_DEPENDENCIES%
+        call activate %CI_VIRTUAL_ENVIRONMENT%
+        python -c "import imageio;imageio.plugins.freeimage.download()"
+    - name: Lint with flake8
+      run: |
+        cd %GITHUB_WORKSPACE%
+        call activate %CI_VIRTUAL_ENVIRONMENT%
+        flake8 %CI_PACKAGE% --count --show-source --statistics
+    - name: Test with nosetests
+      run: |
+        cd %GITHUB_WORKSPACE%
+        call activate %CI_VIRTUAL_ENVIRONMENT%
+        set PYTHONWARNINGS=ignore
+        nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=%CI_PACKAGE% %CI_PACKAGE%
+    - name: Upload Coverage to coveralls.io
+      run: |
+        cd %GITHUB_WORKSPACE%
+        call activate %CI_VIRTUAL_ENVIRONMENT%
+        coveralls
+    - name: Notify Slack
+      if: always()
+      run: |
+        IF "${{ job.status }}"=="Success" (set CI_SLACK_NOTIFICATION=%CI_SLACK_SUCCESS_NOTIFICATION%) ELSE (set CI_SLACK_NOTIFICATION=%CI_SLACK_FAILURE_NOTIFICATION%)
+        IF "%CI_SLACK_WEBHOOK%"=="" (echo "SLACK_WEBHOOK" secret is undefined!) ELSE (curl -k -d %CI_SLACK_NOTIFICATION% -X POST %CI_SLACK_WEBHOOK%)
