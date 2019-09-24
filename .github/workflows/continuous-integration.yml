@@ -71,8 +71,6 @@ jobs:
         sudo cp -r OpenImageIO-Release-2.0.10/linux64/lib/* /usr/lib/
         sudo rm -rf /usr/lib/python3.6
         cp OpenImageIO-Release-2.0.10/linux64/lib/python3.6/site-packages/OpenImageIO.so /home/runner/miniconda/envs/$CI_VIRTUAL_ENVIRONMENT/lib/python3.6/site-packages/
-        source activate $CI_VIRTUAL_ENVIRONMENT
-        python -c "import OpenImageIO;print(OpenImageIO.VERSION)"
     - name: Lint with flake8
       run: |
         source activate $CI_VIRTUAL_ENVIRONMENT
