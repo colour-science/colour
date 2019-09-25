@@ -259,3 +259,15 @@ Geometry Plotting Utilities
     quad
     grid
     cube
+
+Automatic Colour Conversion Graph
+---------------------------------
+
+``colour.plotting``
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_automatic_colour_conversion_graph

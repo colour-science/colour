@@ -37,9 +37,9 @@ if os.environ.get('READTHEDOCS') == 'True':
         'numpy>=1.8.1', 'mock', 'sphinxcontrib-bibtex'
     ]
 
-OPTIONAL_REQUIREMENTS = ['pandas']
+OPTIONAL_REQUIREMENTS = ['networkx', 'pandas']
 
-PLOTTING_REQUIREMENTS = ['matplotlib>=2.2.0']
+PLOTTING_REQUIREMENTS = ['matplotlib>=2.2.0', 'pygraphviz']
 
 DOCS_REQUIREMENTS = [
     'sphinx>=1.6.6', 'sphinxcontrib-bibtex', 'sphinx_rtd_theme'

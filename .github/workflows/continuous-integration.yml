@@ -17,7 +17,7 @@ jobs:
         CI_PYTHON_VERSION=${{ matrix.python-version }}
         CI_VIRTUAL_ENVIRONMENT=continuous-integration
         CI_PACKAGE=colour
-        CI_PACKAGE_DEPENDENCIES="coverage coveralls flake8 imageio matplotlib mock nose pandas pyqt scipy six"
+        CI_PACKAGE_DEPENDENCIES="coverage coveralls flake8 imageio matplotlib mock networkx nose pandas pyqt scipy six"
         CI_SHA=${{ github.sha }}
         CI_SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}
         CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *${CI_SHA:0:7}* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
@@ -104,7 +104,7 @@ jobs:
         set CI_PYTHON_VERSION=${{ matrix.python-version }}
         set CI_VIRTUAL_ENVIRONMENT=continuous-integration
         set CI_PACKAGE=colour
-        set CI_PACKAGE_DEPENDENCIES=coverage coveralls flake8 imageio matplotlib mock nose pandas pyqt scipy six
+        set CI_PACKAGE_DEPENDENCIES=coverage coveralls flake8 imageio matplotlib mock networkx nose pandas pyqt scipy six
         set CI_SHA=${{ github.sha }}
         set CI_SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}
         set CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *"%CI_SHA:~0,7%"* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
