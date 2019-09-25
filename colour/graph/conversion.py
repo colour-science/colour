@@ -60,9 +60,8 @@ from colour.appearance import (
     XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB,
     XYZ_to_Nayatani95, XYZ_to_RLAB)
 from colour.temperature import CCT_to_uv, CCT_to_xy, uv_to_CCT, xy_to_CCT
-from colour.utilities import (domain_range_scale,
-                              is_networkx_installed, message_box, tsplit,
-                              tstack)
+from colour.utilities import (domain_range_scale, is_networkx_installed,
+                              message_box, tsplit, tstack, usage_warning)
 
 if is_networkx_installed():  # pragma: no cover
     import networkx as nx
@@ -857,6 +856,17 @@ verbose={'mode': 'Long'})
     ===========================================================================
     array([ 0.4567576...,  0.3098826...,  0.2486222...])
     """
+
+    # TODO: Remove the following warning whenever the automatic colour
+    # conversion graph implementation is considered stable.
+    usage_warning(
+        'The "Automatic Colour Conversion Graph" is a beta feature, be '
+        'mindful of this when using it. Please report any unexpected '
+        'behaviour and do not hesitate to ask any questions should they arise.'
+        '\nThis warning can be disabled with the '
+        '"colour.utilities.suppress_warnings" context manager as follows:\n'
+        'with colour.utilities.suppress_warnings(colour_usage_warnings=True): '
+        '\n    convert(*args, **kwargs)')
 
     source, target = source.lower(), target.lower()
 
