@@ -14,7 +14,9 @@ import glob
 import os
 import re
 import shutil
+import toml
 import tempfile
+import uuid
 from invoke import task
 
 import colour
@@ -29,13 +31,15 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APPLICATION_NAME', 'PYTHON_PACKAGE_NAME', 'PYPI_PACKAGE_NAME',
-    'BIBLIOGRAPHY_NAME', 'clean', 'formatting', 'tests', 'quality', 'examples',
-    'docs', 'todo', 'preflight', 'build', 'virtualise', 'tag', 'release',
-    'sha256'
+    'APPLICATION_NAME', 'APPLICATION_VERSION', 'PYTHON_PACKAGE_NAME',
+    'PYPI_PACKAGE_NAME', 'BIBLIOGRAPHY_NAME', 'clean', 'formatting', 'tests',
+    'quality', 'examples', 'docs', 'todo', 'preflight', 'build', 'virtualise',
+    'tag', 'release', 'sha256'
 ]
 
 APPLICATION_NAME = colour.__application_name__
+
+APPLICATION_VERSION = colour.__version__
 
 PYTHON_PACKAGE_NAME = colour.__name__
 
@@ -262,9 +266,16 @@ def docs(ctx, plots=True, html=True, pdf=True):
                 for reference_png_file in png_files:
                     test_png_file = os.path.join(
                         test_directory, os.path.basename(reference_png_file))
-                    psnr = metric_psnr(
-                        read_image(str(reference_png_file))[::3, ::3],
-                        read_image(str(test_png_file))[::3, ::3])
+
+                    RGB_reference = read_image(
+                        str(reference_png_file))[::3, ::3]
+                    RGB_test = read_image(str(test_png_file))[::3, ::3]
+
+                    if RGB_reference.shape != RGB_test.shape:
+                        continue
+
+                    psnr = metric_psnr(RGB_reference, RGB_test)
+
                     if psnr > 70:
                         similar_plots.append(test_png_file)
             with ctx.cd('docs/_static'):
@@ -327,7 +338,7 @@ def preflight(ctx):
     message_box('Finishing "Preflight"...')
 
 
-@task(docs, todo, preflight)
+@task(preflight, todo, docs)
 def build(ctx):
     """
     Builds the project and runs dependency tasks, i.e. *docs*, *todo*, and
@@ -345,8 +356,17 @@ def build(ctx):
     """
 
     message_box('Building...')
-    ctx.run('python setup.py sdist')
-    ctx.run('python setup.py bdist_wheel --universal')
+    pyproject_content = toml.load('pyproject.toml')
+    pyproject_content['tool']['poetry']['name'] = PYPI_PACKAGE_NAME
+    pyproject_content['tool']['poetry']['packages'] = [{
+        'include': PYTHON_PACKAGE_NAME,
+        'from': '.'
+    }]
+    with open('pyproject.toml', 'w') as pyproject_file:
+        toml.dump(pyproject_content, pyproject_file)
+
+    ctx.run('poetry build')
+    ctx.run('git checkout -- pyproject.toml')
 
 
 @task(clean, build)
@@ -367,21 +387,20 @@ def virtualise(ctx, tests=True):
         Task success.
     """
 
-    pip_binary = '../staging/bin/pip'
-    nosetests_binary = '../staging/bin/nosetests'
-
+    unique_name = '{0}-{1}'.format(PYPI_PACKAGE_NAME, uuid.uuid1())
     with ctx.cd('dist'):
-        ctx.run('tar -xvf {0}-*.tar.gz'.format(PYPI_PACKAGE_NAME))
-        ctx.run('virtualenv staging')
-        with ctx.cd('{0}-*'.format(PYPI_PACKAGE_NAME)):
-            ctx.run('pwd')
-            ctx.run('{0} install numpy'.format(pip_binary))
-            ctx.run('{0} install -e .'.format(pip_binary))
-            ctx.run('{0} install matplotlib'.format(pip_binary))
-            ctx.run('{0} install nose'.format(pip_binary))
-            ctx.run('{0} install mock'.format(pip_binary))
+        ctx.run('tar -xvf {0}-{1}.tar.gz'.format(PYPI_PACKAGE_NAME,
+                                                 APPLICATION_VERSION))
+        ctx.run('mv {0}-{1} {2}'.format(PYPI_PACKAGE_NAME, APPLICATION_VERSION,
+                                        unique_name))
+        with ctx.cd(unique_name):
+            ctx.run('poetry env use 3')
+            ctx.run('poetry install --extras "optional plotting"')
+            ctx.run('source $(poetry env info -p)/bin/activate')
+            ctx.run('python -c "import imageio;'
+                    'imageio.plugins.freeimage.download()"')
             if tests:
-                ctx.run(nosetests_binary)
+                ctx.run('poetry run nosetests')
 
 
 @task
@@ -402,6 +421,7 @@ def tag(ctx):
 
     message_box('Tagging...')
     result = ctx.run('git rev-parse --abbrev-ref HEAD', hide='both')
+
     assert result.stdout.strip() == 'develop', (
         'Are you still on a feature or master branch?')
 

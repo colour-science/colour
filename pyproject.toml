@@ -1,0 +1,112 @@
+[tool.poetry]
+name = "colour"
+version = "0.3.13"
+description = "Colour Science for Python"
+license = "BSD-3-Clause"
+authors = [ "Colour Developers" ]
+readme = 'README.rst'
+repository = "https://github.com/colour-science/colour"
+homepage = "https://www.colour-science.org/"
+keywords = [
+    "color",
+    "color-science",
+    "color-space",
+    "color-spaces",
+    "colorspace",
+    "colorspaces",
+    "colour",
+    "colour-science",
+    "colour-space",
+    "colour-spaces",
+    "colourspace",
+    "colourspaces",
+    "data",
+    "dataset",
+    "datasets",
+    "python",
+    "spectral-data",
+    "spectral-dataset",
+    "spectral-datasets"
+]
+classifiers=[
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development"
+]
+
+[tool.poetry.dependencies]
+python = "~2.7 || ^3.5"
+imageio = "*"
+six = "*"
+scipy = "*"
+
+"backports.functools_lru_cache" = { version = "*", optional = true }
+biblib-simple = { version = "*", optional = true }  # Development dependency.
+coverage = { version = "*", optional = true }  # Development dependency.
+coveralls = { version = "*", optional = true }  # Development dependency.
+flake8 = { version = "*", optional = true }  # Development dependency.
+invoke = { version = "*", optional = true }  # Development dependency.
+matplotlib = { version = "*", optional = true }
+mock = { version = "*", optional = true }  # Development dependency.
+networkx = { version = "*", optional = true }
+nose = { version = "*", optional = true }  # Development dependency.
+numpy = { version = "*", optional = true }
+pandas = { version = "*", optional = true }
+pygraphviz = { version = "*", optional = true }
+restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
+sphinx = { version = "*", optional = true }  # Development dependency.
+sphinx_rtd_theme = { version = "*", optional = true }  # Development dependency.
+sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
+toml = { version = "*", optional = true }  # Development dependency.
+twine = { version = "*", optional = true }  # Development dependency.
+yapf = { version = "0.23", optional = true }  # Development dependency.
+
+[tool.poetry.dev-dependencies]
+biblib-simple = "*"
+coverage = "*"
+coveralls = "*"
+flake8 = "*"
+invoke = "*"
+mock = "*"
+nose = "*"
+restructuredtext-lint = "*"
+sphinx = "*"
+sphinx_rtd_theme = "*"
+sphinxcontrib-bibtex = "*"
+toml = "*"
+twine = "*"
+yapf = "0.23"
+
+[tool.poetry.extras]
+development = [
+    "biblib-simple",
+    "coverage",
+    "coveralls",
+    "flake8",
+    "invoke",
+    "mock",
+    "nose",
+    "restructuredtext-lint",
+    "sphinx",
+    "sphinx_rtd_theme",
+    "sphinxcontrib-bibtex",
+    "toml",
+    "twine",
+    "yapf"
+]
+graphviz = [ "pygraphviz" ]
+optional = [ "networkx", "pandas" ]
+plotting = [ "backports.functools_lru_cache", "matplotlib" ]
+read-the-docs = [ "mock", "numpy", "sphinxcontrib-bibtex"]
+
+[build-system]
+requires = [ "poetry>=0.12" ]
+build-backend = "poetry.masonry.api"

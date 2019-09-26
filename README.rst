@@ -62,16 +62,6 @@ Online
 Installation
 ------------
 
-`Anaconda <https://www.continuum.io/downloads>`_ from *Continuum Analytics*
-is the Python distribution we use to develop **Colour**: it ships all the
-scientific dependencies we require and is easily deployed cross-platform:
-
-.. code-block:: bash
-
-    $ conda create -y -n python-colour
-    $ source activate python-colour
-    $ conda install -y -c conda-forge colour-science
-
 **Colour** can be easily installed from the
 `Python Package Index <https://pypi.python.org/pypi/colour-science/>`_
 by issuing this command in a shell:
@@ -79,6 +69,13 @@ by issuing this command in a shell:
 .. code-block:: bash
 
     $ pip install colour-science
+
+**Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`_
+from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`_:
+
+.. code-block:: bash
+
+    $ conda install -c conda-forge colour-science
 
 The detailed installation procedure is described in the
 `Installation Guide <https://www.colour-science.org/installation-guide/>`_.
