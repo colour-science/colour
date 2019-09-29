@@ -17,7 +17,7 @@
     :target: https://www.codacy.com/app/colour-science/colour
     :alt: Code Grade
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
-    :target: https://pypi.python.org/pypi/colour-science
+    :target: https://pypi.org/project/colour-science
     :alt: Package Version
 .. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.2647615-blue.svg?style=flat-square
     :target: https://dx.doi.org/10.5281/zenodo.2647615
@@ -63,7 +63,7 @@ Installation
 ------------
 
 **Colour** can be easily installed from the
-`Python Package Index <https://pypi.python.org/pypi/colour-science/>`_
+`Python Package Index <https://pypi.org/project/colour-science/>`_
 by issuing this command in a shell:
 
 .. code-block:: bash

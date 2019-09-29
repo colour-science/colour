@@ -38,7 +38,7 @@ Installation
 ------------
 
 **Colour** can be easily installed from the
-`Python Package Index <https://pypi.python.org/pypi/colour-science/>`_
+`Python Package Index <https://pypi.org/project/colour-science/>`_
 by issuing this command in a shell:
 
 .. code-block:: bash
