@@ -80,7 +80,7 @@ if is_openimageio_installed():  # pragma: no cover
     if platform.system() not in ('Windows', 'Microsoft'):  # pragma: no cover
         BIT_DEPTH_MAPPING['float128'] = BitDepth_Specification(
             'float128', np.float128, FLOAT, 1, False)
-else:
+else:  # pragma: no cover
     BIT_DEPTH_MAPPING = CaseInsensitiveMapping({
         'uint8':
             BitDepth_Specification('uint8', np.uint8, None, 255, True),
@@ -344,7 +344,7 @@ def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
     dtype('float32')
     """
 
-    if method.lower() == 'openimageio':
+    if method.lower() == 'openimageio':  # pragma: no cover
         if not is_openimageio_installed():
             usage_warning(
                 '"OpenImageIO" related API features are not available, '
@@ -575,7 +575,7 @@ def write_image(image,
     True
     """
 
-    if method.lower() == 'openimageio':
+    if method.lower() == 'openimageio':  # pragma: no cover
         if not is_openimageio_installed():
             usage_warning(
                 '"OpenImageIO" related API features are not available, '

@@ -225,7 +225,7 @@ class TestRGB_Colourspace(unittest.TestCase):
         """
 
         # Skipping unit test on Python 2.7.
-        if six.PY2:
+        if six.PY2:  # pragma: no cover
             return
 
         self.assertEqual(
@@ -263,7 +263,7 @@ __repr__` method.
         """
 
         # Skipping unit test on Python 2.7.
-        if six.PY2:
+        if six.PY2:  # pragma: no cover
             return
 
         self.assertEqual(

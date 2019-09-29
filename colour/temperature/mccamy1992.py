@@ -117,8 +117,8 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_parameters=None):
 
     usage_warning('"*McCamy (1992)" method for computing "CIE xy" '
                   'chromaticity coordinates from given correlated colour '
-                  'temperature is not a bijective function and might produce'
-                  'unexpected results. It is given for consistency with other'
+                  'temperature is not a bijective function and might produce '
+                  'unexpected results. It is given for consistency with other '
                   'correlated colour temperature computation methods but '
                   'should be avoided for practical applications.')
 

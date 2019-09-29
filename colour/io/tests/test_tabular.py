@@ -210,7 +210,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test)
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in sds.items():
-            if PY2:
+            if PY2:  # pragma: no cover
                 # Running into precision issues with Python 2.x, applying
                 # conservative rounding.
                 value.wavelengths = np.around(value.wavelengths, decimals=7)
