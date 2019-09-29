@@ -678,9 +678,9 @@ def describe_conversion_path(source,
     ===========================================================================
     """
 
-    try:
+    try:  # pragma: no cover
         signature_inspection = inspect.signature
-    except AttributeError:
+    except AttributeError:  # pragma: no cover
         signature_inspection = inspect.getargspec
 
     source, target, mode = source.lower(), target.lower(), mode.lower()
