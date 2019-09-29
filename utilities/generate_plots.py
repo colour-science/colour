@@ -180,7 +180,7 @@ def generate_documentation_plots(output_directory):
     plot_single_sd(sd, **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_Multi_SDs.png')
+                                         'Plotting_Plot_Multi_SDS.png')
     data_1 = {
         500: 0.004900,
         510: 0.009300,
@@ -218,7 +218,7 @@ def generate_documentation_plots(output_directory):
     plot_single_illuminant_sd('A', **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Plot_Multi_Illuminant_SDs.png')
+        output_directory, 'Plotting_Plot_Multi_Illuminant_SDS.png')
     plot_multi_illuminant_sds(['A', 'B', 'C'], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
@@ -311,24 +311,24 @@ def generate_documentation_plots(output_directory):
     plot_chromaticity_diagram_CIE1976UCS(**arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Plot_SDs_In_Chromaticity_Diagram.png')
+        output_directory, 'Plotting_Plot_SDS_In_Chromaticity_Diagram.png')
     A = colour.ILLUMINANTS_SDS['A']
     D65 = colour.ILLUMINANTS_SDS['D65']
     plot_sds_in_chromaticity_diagram([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_SDs_In_Chromaticity_Diagram_CIE1931.png')
+        'Plotting_Plot_SDS_In_Chromaticity_Diagram_CIE1931.png')
     plot_sds_in_chromaticity_diagram_CIE1931([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_SDs_In_Chromaticity_Diagram_CIE1960UCS.png')
+        'Plotting_Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png')
     plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_SDs_In_Chromaticity_Diagram_CIE1976UCS.png')
+        'Plotting_Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png')
     plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
@@ -361,7 +361,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
-        'Chromaticity_Diagram_Plot.png')
+        'Chromaticity_Diagram.png')
     RGB = np.random.random((128, 128, 3))
     plot_RGB_chromaticities_in_chromaticity_diagram(RGB, 'ITU-R BT.709',
                                                     **arguments)
@@ -513,7 +513,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png')
+        'Plotting_Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png')
     light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
     plot_multi_sds_colour_rendering_indexes_bars([illuminant, light_source],
                                                  **arguments)
@@ -526,7 +526,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_Multi_SDs_Colour_Quality_Scales_Bars.png')
+        'Plotting_Plot_Multi_SDS_Colour_Quality_Scales_Bars.png')
     light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
     plot_multi_sds_colour_quality_scales_bars([illuminant, light_source],
                                               **arguments)
