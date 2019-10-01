@@ -11,7 +11,7 @@ Defines the class implementing support for continuous signal:
 from __future__ import division, unicode_literals
 
 import numpy as np
-from collections import Iterator, Mapping, OrderedDict, Sequence
+import sys
 from operator import add, mul, pow, sub, iadd, imul, ipow, isub
 
 # Python 3 compatibility.
@@ -28,6 +28,10 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
 from colour.utilities import (as_array, fill_nan, is_pandas_installed,
                               runtime_warning, tsplit, tstack)
+if sys.version_info[:2] >= (3, 8):  # pragma: no cover
+    from collections.abc import Iterator, Mapping, OrderedDict, Sequence
+else:  # pragma: no cover
+    from collections import Iterator, Mapping, OrderedDict, Sequence
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'

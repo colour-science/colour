@@ -64,13 +64,16 @@ from __future__ import division, unicode_literals
 import itertools
 import numpy as np
 import scipy.interpolate
-from collections import OrderedDict, Mapping
+import sys
 from six.moves import reduce
-
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               closest_indexes, interval, is_integer,
                               is_numeric, runtime_warning, tsplit)
+if sys.version_info[:2] >= (3, 8):  # pragma: no cover
+    from collections.abc import OrderedDict, Mapping
+else:  # pragma: no cover
+    from collections import OrderedDict, Mapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
