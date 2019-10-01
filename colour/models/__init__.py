@@ -4,7 +4,7 @@ from __future__ import absolute_import
 
 import sys
 
-from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.deprecation import FutureRemove, ModuleAPI, Renamed
 from colour.utilities.documentation import is_documentation_building
 
 from .cam02_ucs import (JMh_CIECAM02_to_CAM02LCD, CAM02LCD_to_JMh_CIECAM02,
@@ -198,6 +198,11 @@ def _setup_api_changes():
 
     global API_CHANGES
 
+    for future_remove in API_CHANGES['FutureRemove']:
+        API_CHANGES[future_remove.split('.')[-1]] = FutureRemove(
+            future_remove)  # noqa
+    API_CHANGES.pop('FutureRemove')
+
     for renamed in API_CHANGES['Renamed']:
         name, access = renamed
         API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
@@ -207,6 +212,7 @@ def _setup_api_changes():
 if not is_documentation_building():
     _setup_api_changes()
 
+    del FutureRemove
     del ModuleAPI
     del Renamed
     del is_documentation_building
