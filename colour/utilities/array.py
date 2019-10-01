@@ -20,10 +20,13 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 from __future__ import division, unicode_literals
 
 import numpy as np
-from collections import Mapping
+import sys
 from contextlib import contextmanager
-
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
+if sys.version_info[:2] >= (3, 8):  # pragma: no cover
+    from collections.abc import Mapping
+else:  # pragma: no cover
+    from collections import Mapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'

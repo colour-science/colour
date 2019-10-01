@@ -60,6 +60,10 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **Matt Pppp**
+
+    *Hacktoberfest 2019* technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
