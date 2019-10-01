@@ -64,7 +64,12 @@ from __future__ import division, unicode_literals
 import itertools
 import numpy as np
 import scipy.interpolate
-from collections import OrderedDict, Mapping
+import sys
+
+if sys.version_info[:2] >= (3, 8):
+    from collections.abc import OrderedDict, Mapping
+else:
+    from collections import OrderedDict, Mapping
 from six.moves import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE

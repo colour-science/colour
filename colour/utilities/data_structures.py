@@ -26,8 +26,12 @@ structures.py#L37
 """
 
 from __future__ import division, unicode_literals
+import sys
 
-from collections import Mapping, MutableMapping
+if sys.version_info[:2] >= (3, 8):
+    from collections.abc import Mapping, MutableMapping
+else:
+    from collections import Mapping, MutableMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'

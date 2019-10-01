@@ -11,7 +11,12 @@ Defines the class implementing support for multi-continuous signals:
 from __future__ import division, unicode_literals
 
 import numpy as np
-from collections import Iterator, Mapping, OrderedDict, Sequence
+import sys
+
+if sys.version_info[:2] >= (3, 8):  
+    from collections.abc import Iterator, Mapping, OrderedDict, Sequence
+else:
+    from collections import Iterator, Mapping, OrderedDict, Sequence
 
 # Python 3 compatibility.
 try:

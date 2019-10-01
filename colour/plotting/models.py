@@ -45,7 +45,12 @@ from __future__ import division
 
 import numpy as np
 import scipy.optimize
-from collections import Mapping
+import sys
+
+if sys.version_info[:2] >= (3, 8):
+    from collections.abc import Mapping
+else:
+    from collections import Mapping
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
