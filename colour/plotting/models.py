@@ -46,7 +46,6 @@ from __future__ import division
 import numpy as np
 import scipy.optimize
 import sys
-
 if sys.version_info[:2] >= (3, 8):
     from collections.abc import Mapping
 else:

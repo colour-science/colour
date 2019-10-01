@@ -12,8 +12,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import sys
-
-if sys.version_info[:2] >= (3, 8):  
+if sys.version_info[:2] >= (3, 8):
     from collections.abc import Iterator, Mapping, OrderedDict, Sequence
 else:
     from collections import Iterator, Mapping, OrderedDict, Sequence
