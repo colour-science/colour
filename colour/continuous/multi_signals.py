@@ -26,7 +26,6 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.utilities import (as_float_array, first_item, is_pandas_installed,
                               tsplit, tstack)
-
 if sys.version_info[:2] >= (3, 8):  # pragma: no cover
     from collections.abc import Iterator, Mapping, OrderedDict, Sequence
 else:  # pragma: no cover

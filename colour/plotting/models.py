@@ -67,7 +67,6 @@ from colour.plotting import (
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
                               first_item, tsplit, tstack)
-
 if sys.version_info[:2] >= (3, 8):  # pragma: no cover
     from collections.abc import Mapping
 else:  # pragma: no cover

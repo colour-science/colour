@@ -70,7 +70,6 @@ from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               closest_indexes, interval, is_integer,
                               is_numeric, runtime_warning, tsplit)
-                              
 if sys.version_info[:2] >= (3, 8):  # pragma: no cover
     from collections.abc import OrderedDict, Mapping
 else:  # pragma: no cover

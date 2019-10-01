@@ -23,7 +23,6 @@ import numpy as np
 import sys
 from contextlib import contextmanager
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
-
 if sys.version_info[:2] >= (3, 8):  # pragma: no cover
     from collections.abc import Mapping
 else:  # pragma: no cover
