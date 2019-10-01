@@ -21,13 +21,13 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import sys
-if sys.version_info[:2] >= (3, 8):
-    from collections.abc import Mapping
-else:
-    from collections import Mapping
 from contextlib import contextmanager
-
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
+
+if sys.version_info[:2] >= (3, 8):  # pragma: no cover
+    from collections.abc import Mapping
+else:  # pragma: no cover
+    from collections import Mapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'

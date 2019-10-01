@@ -46,10 +46,6 @@ from __future__ import division
 import numpy as np
 import scipy.optimize
 import sys
-if sys.version_info[:2] >= (3, 8):
-    from collections.abc import Mapping
-else:
-    from collections import Mapping
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
@@ -71,6 +67,11 @@ from colour.plotting import (
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
                               first_item, tsplit, tstack)
+
+if sys.version_info[:2] >= (3, 8):  # pragma: no cover
+    from collections.abc import Mapping
+else:  # pragma: no cover
+    from collections import Mapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'

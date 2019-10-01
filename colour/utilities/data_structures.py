@@ -27,9 +27,10 @@ structures.py#L37
 
 from __future__ import division, unicode_literals
 import sys
-if sys.version_info[:2] >= (3, 8):
+
+if sys.version_info[:2] >= (3, 8):  # pragma: no cover
     from collections.abc import Mapping, MutableMapping
-else:
+else:  # pragma: no cover
     from collections import Mapping, MutableMapping
 
 __author__ = 'Colour Developers'
