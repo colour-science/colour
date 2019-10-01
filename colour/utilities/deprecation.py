@@ -235,8 +235,11 @@ class ModuleAPI(object):
         change = self._changes.get(attribute)
         if change is not None:
             if not isinstance(change, Removed):
+
                 usage_warning(str(change))
-                return get_attribute(change[1])
+
+                return (getattr(self._module, attribute) if isinstance(
+                    change, FutureRemove) else get_attribute(change[1]))
             else:
                 raise AttributeError(str(change))
 
