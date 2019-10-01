@@ -28,7 +28,7 @@ keywords = [
     "spectral-dataset",
     "spectral-datasets"
 ]
-classifiers=[
+classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
     "Intended Audience :: Developers",
@@ -105,7 +105,7 @@ development = [
 graphviz = [ "pygraphviz" ]
 optional = [ "networkx", "pandas" ]
 plotting = [ "backports.functools_lru_cache", "matplotlib" ]
-read-the-docs = [ "mock", "numpy", "sphinxcontrib-bibtex"]
+read-the-docs = [ "mock", "numpy", "sphinxcontrib-bibtex" ]
 
 [build-system]
 requires = [ "poetry>=0.12" ]
