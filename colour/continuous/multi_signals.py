@@ -11,7 +11,6 @@ Defines the class implementing support for multi-continuous signals:
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
 
 # Python 3 compatibility.
 try:
@@ -21,15 +20,16 @@ except ImportError:
 
     div = truediv
     idiv = itruediv
+from collections import OrderedDict
+try:  # pragma: no cover
+    from collections import Iterator, Mapping, Sequence
+except ImportError:  # pragma: no cover
+    from collections.abc import Iterator, Mapping, Sequence
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.utilities import (as_float_array, first_item, is_pandas_installed,
                               tsplit, tstack)
-if sys.version_info[:2] >= (3, 8):  # pragma: no cover
-    from collections.abc import Iterator, Mapping, OrderedDict, Sequence
-else:  # pragma: no cover
-    from collections import Iterator, Mapping, OrderedDict, Sequence
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'

@@ -64,16 +64,17 @@ from __future__ import division, unicode_literals
 import itertools
 import numpy as np
 import scipy.interpolate
-import sys
 from six.moves import reduce
+from collections import OrderedDict
+try:  # pragma: no cover
+    from collections import Mapping
+except ImportError:  # pragma: no cover
+    from collections.abc import Mapping
+
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               closest_indexes, interval, is_integer,
                               is_numeric, runtime_warning, tsplit)
-if sys.version_info[:2] >= (3, 8):  # pragma: no cover
-    from collections.abc import OrderedDict, Mapping
-else:  # pragma: no cover
-    from collections import OrderedDict, Mapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -1710,10 +1711,10 @@ def table_interpolation_trilinear(V_xyz, table):
     x, y, z = [f[:, np.newaxis] for f in tsplit(V_xyzr)]
 
     weights = np.moveaxis(
-        np.transpose(
-            [(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
-             (1 - x) * y * (1 - z), (1 - x) * y * z, x * (1 - y) * (1 - z),
-             x * (1 - y) * z, x * y * (1 - z), x * y * z]), 0, -1)
+        np.transpose([(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
+                      (1 - x) * y * (1 - z), (1 - x) * y * z,
+                      x * (1 - y) * (1 - z), x * (1 - y) * z, x * y * (1 - z),
+                      x * y * z]), 0, -1)
 
     xyz_o = np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
 

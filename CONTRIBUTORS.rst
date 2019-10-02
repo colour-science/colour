@@ -64,6 +64,10 @@ Development & Technical Support
 
     *Hacktoberfest 2019* technical support.
 
+-   **Chinmay Rane**
+
+    *Hacktoberfest 2019* technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
