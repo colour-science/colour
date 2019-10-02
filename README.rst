@@ -2,11 +2,11 @@
 
 .. start-badges
 
-|gitter| |actions| |coveralls| |codacy| |version| |zenodo|
+|NumFOCUS| |actions| |coveralls| |codacy| |version| |zenodo|
 
-.. |gitter| image:: https://img.shields.io/gitter/room/colour-science/colour.svg?style=flat-square
-    :target: https://gitter.im/colour-science/colour/
-    :alt: Gitter
+.. |NumFOCUS| image:: https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat-square&colorA=E1523D&colorB=007D8A
+    :target: http://numfocus.org
+    :alt: Powered by NumFOCUS
 .. |actions| image:: https://github.com/colour-science/colour/workflows/Continuous%20Integration/badge.svg
     :target: https://github.com/colour-science/colour/actions
     :alt: Develop Build Status
@@ -31,6 +31,9 @@ algorithms and datasets for colour science.
 
 It is freely available under the
 `New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
+
+**Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`_, a
+501(c)(3) nonprofit in the United States.
 
 .. contents:: **Table of Contents**
     :backlinks: none

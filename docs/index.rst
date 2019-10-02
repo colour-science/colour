@@ -7,6 +7,9 @@ algorithms and datasets for colour science.
 It is freely available under the
 `New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
 
+**Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`_, a
+501(c)(3) nonprofit in the United States.
+
 .. contents:: **Table of Contents**
     :backlinks: none
     :depth: 3
