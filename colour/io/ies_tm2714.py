@@ -993,7 +993,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self.wavelengths = wavelengths
         self.values = values
 
-        return True
+        return self
 
     def write(self):
         """
