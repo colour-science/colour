@@ -68,6 +68,10 @@ Development & Technical Support
 
     *Hacktoberfest 2019* technical support.
 
+-   **Pavithra Eswaramoorthy**
+
+    *Hacktoberfest 2019* technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -132,6 +136,7 @@ Issues & Discussions
 -   @briend
 -   @cclauss
 -   @Chandler
+-   @chesschi
 -   @codycuellar
 -   @Edwardlin-zlt
 -   @eyeforcolor
