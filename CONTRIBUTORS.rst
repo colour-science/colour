@@ -136,6 +136,7 @@ Issues & Discussions
 -   @briend
 -   @cclauss
 -   @Chandler
+-   @chesschi
 -   @codycuellar
 -   @Edwardlin-zlt
 -   @eyeforcolor
