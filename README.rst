@@ -115,6 +115,9 @@ conversion graph enabling easier colour conversions.
 
     >>> sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
+
+::
+
     ===============================================================================
     *                                                                             *
     *   [ Conversion Path ]                                                       *
@@ -123,6 +126,9 @@ conversion graph enabling easier colour conversions.
     *                                                                             *
     ===============================================================================
     array([ 0.45675795,  0.30986982,  0.24861924])
+
+.. code-block:: python
+
     >>> illuminant = colour.ILLUMINANTS_SDS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
     array([ 0.47924575,  0.31676968,  0.17362725])
@@ -416,12 +422,17 @@ Look Up Table (LUT) Data
 
     >>> LUT = colour.read_LUT('ACES_Proxy_10_to_ACES.cube')
     >>> print(LUT)
+
+::
+
     LUT3x1D - ACES Proxy 10 to ACES
     -------------------------------
     Dimensions : 2
     Domain     : [[0 0 0]
                   [1 1 1]]
     Size       : (32, 3)
+
+.. code-block:: python
 
     >>> RGB = [0.17224810, 0.09170660, 0.06416938]
     >>> LUT.apply(RGB)
