@@ -293,9 +293,10 @@ def multiprocessing_pool(*args, **kwargs):
 
     pool = pool_factory(*args, **kwargs)
 
-    yield pool
-
-    pool.terminate()
+    try:
+        yield pool
+    finally:
+        pool.terminate()
 
 
 def is_networkx_installed(raise_exception=False):

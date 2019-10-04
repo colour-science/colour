@@ -990,6 +990,7 @@ def ndarray_write(a):
 
     a.setflags(write=True)
 
-    yield a
-
-    a.setflags(write=False)
+    try:
+        yield a
+    finally:
+        a.setflags(write=False)
