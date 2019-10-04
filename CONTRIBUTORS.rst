@@ -177,6 +177,7 @@ Issues & Discussions
 -   @tashdor
 -   @TFiFiE
 -   @tingeman
+-   @thunders82
 -   @totyped
 -   @vidakDK
 -   @Willingo
