@@ -584,8 +584,8 @@ def eotf_HLG_BT2100_1(E_p,
     Parameters
     ----------
     E_p : numeric or array_like
-        :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
-        :math:`{L', M', S'}` in *HLG* space.
+        :math:`E'` is the non-linear signal :math:`{R', G', B'}` as defined for
+        the OETF.
     L_B : numeric, optional
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
     L_W : numeric, optional
@@ -651,8 +651,8 @@ def eotf_HLG_BT2100_2(E_p,
     Parameters
     ----------
     E_p : numeric or array_like
-        :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
-        :math:`{L', M', S'}` in *HLG* space.
+        :math:`E'` is the non-linear signal :math:`{R', G', B'}` as defined for
+        the *HLG Reference* OETF.
     L_B : numeric, optional
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
     L_W : numeric, optional

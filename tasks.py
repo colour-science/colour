@@ -159,7 +159,8 @@ def tests(ctx, nose=True):
             format(PYTHON_PACKAGE_NAME))
     else:
         message_box('Running "Pytest"...')
-        ctx.run('pytest -W ignore')
+        ctx.run('py.test --disable-warnings --doctest-modules '
+                '--ignore={0}/examples {0}'.format(PYTHON_PACKAGE_NAME))
 
 
 @task

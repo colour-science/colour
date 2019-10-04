@@ -72,6 +72,10 @@ Development & Technical Support
 
     *Hacktoberfest 2019* technical support.
 
+-   **John Mertic**
+
+    License discovery improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*

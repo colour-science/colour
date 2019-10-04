@@ -76,8 +76,7 @@ jobs:
     - name: Test with nosetests
       run: |
         source $(poetry env info -p)/bin/activate
-        PYTHONWARNINGS=ignore
-        nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=$CI_PACKAGE $CI_PACKAGE
+        python -W ignore -m nose -v --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=$CI_PACKAGE $CI_PACKAGE
     - name: Upload Coverage to coveralls.io
       if: matrix.python-version == '3.6' || matrix.python-version == '3.7'
       run: |
@@ -138,8 +137,7 @@ jobs:
     - name: Test with nosetests
       run: |
         call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
-        set PYTHONWARNINGS=ignore
-        nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=%CI_PACKAGE% %CI_PACKAGE%
+        python -W ignore -m nose -v --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=%CI_PACKAGE% %CI_PACKAGE%
     - name: Upload Coverage to coveralls.io
       if: matrix.python-version == '3.6' || matrix.python-version == '3.7'
       run: |
