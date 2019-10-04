@@ -61,6 +61,7 @@ nose = { version = "*", optional = true }  # Development dependency.
 numpy = { version = "*", optional = true }
 pandas = { version = "*", optional = true }
 pygraphviz = { version = "*", optional = true }
+pytest = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 sphinx = { version = "*", optional = true }  # Development dependency.
 sphinx_rtd_theme = { version = "*", optional = true }  # Development dependency.
@@ -77,6 +78,7 @@ flake8 = "*"
 invoke = "*"
 mock = "*"
 nose = "*"
+pytest = "*"
 restructuredtext-lint = "*"
 sphinx = "*"
 sphinx_rtd_theme = "*"
@@ -94,6 +96,7 @@ development = [
     "invoke",
     "mock",
     "nose",
+    "pytest",
     "restructuredtext-lint",
     "sphinx",
     "sphinx_rtd_theme",
