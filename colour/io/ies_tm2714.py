@@ -639,9 +639,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     >>> from os.path import dirname, join
     >>> directory = join(dirname(__file__), 'tests', 'resources')
     >>> sd = SpectralDistribution_IESTM2714(
-    ...     join(directory, 'Fluorescent.spdx'))
-    >>> sd.read()
-    True
+    ...     join(directory, 'Fluorescent.spdx')).read()
     >>> sd.header.manufacturer
     'Unknown'
     >>> # Doctests ellipsis for Python 2.x compatibility.
@@ -949,9 +947,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> from os.path import dirname, join
         >>> directory = join(dirname(__file__), 'tests', 'resources')
         >>> sd = SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx'))
-        >>> sd.read()
-        True
+        ...     join(directory, 'Fluorescent.spdx')).read()
         >>> sd.header.description
         'Rare earth fluorescent lamp'
         >>> # Doctests ellipsis for Python 2.x compatibility.
@@ -993,7 +989,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         self.wavelengths = wavelengths
         self.values = values
 
-        return True
+        return self
 
     def write(self):
         """
@@ -1011,9 +1007,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> from tempfile import mkdtemp
         >>> directory = join(dirname(__file__), 'tests', 'resources')
         >>> sd = SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx'))
-        >>> sd.read()
-        True
+        ...     join(directory, 'Fluorescent.spdx')).read()
         >>> temporary_directory = mkdtemp()
         >>> sd.path = join(temporary_directory, 'Fluorescent.spdx')
         >>> sd.write()
