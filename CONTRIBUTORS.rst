@@ -178,6 +178,7 @@ Issues & Discussions
 -   @TFiFiE
 -   @tingeman
 -   @totyped
+-   @vidakDK
 -   @Willingo
 -   @zachlewis
 
