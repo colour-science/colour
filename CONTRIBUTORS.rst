@@ -76,6 +76,10 @@ Development & Technical Support
 
     License discovery improvements.
 
+-   **Ben Pearlstine**
+
+    *Hacktoberfest 2019* technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -135,6 +139,7 @@ Issues & Discussions
 -   Vishal Vashistha
 -   Vlad Enache
 -   @Ampersandme
+-   @Apoorva-13
 -   @awehring
 -   @brandondube
 -   @briend
@@ -172,7 +177,9 @@ Issues & Discussions
 -   @tashdor
 -   @TFiFiE
 -   @tingeman
+-   @thunders82
 -   @totyped
+-   @vidakDK
 -   @Willingo
 -   @zachlewis
 
