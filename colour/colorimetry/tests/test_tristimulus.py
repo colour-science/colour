@@ -435,7 +435,7 @@ lagrange_coefficients_ASTME2022` definition unit tests methods.
     def test_lagrange_coefficients_ASTME2022(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
-    lagrange_coefficients_ASTME2022` definition.
+lagrange_coefficients_ASTME2022` definition.
         """
 
         np.testing.assert_almost_equal(

@@ -230,7 +230,7 @@ corresponding_chromaticities_prediction_CMCCAT2000` definition unit tests
     def test_corresponding_chromaticities_prediction_CMCCAT2000(self):
         """
         Tests :func:`colour.corresponding.prediction.\
-    corresponding_chromaticities_prediction_CMCCAT2000` definition.
+corresponding_chromaticities_prediction_CMCCAT2000` definition.
         """
 
         np.testing.assert_almost_equal(

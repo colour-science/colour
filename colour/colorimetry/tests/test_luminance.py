@@ -240,7 +240,7 @@ support.
     def test_nan_intermediate_luminance_function_CIE1976(self):
         """
         Tests :func:`colour.colorimetry.luminance.\
-    intermediate_luminance_function_CIE1976` definition nan support.
+intermediate_luminance_function_CIE1976` definition nan support.
         """
 
         intermediate_luminance_function_CIE1976(

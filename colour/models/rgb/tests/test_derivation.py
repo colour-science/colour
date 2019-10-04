@@ -297,7 +297,7 @@ class TestRGBLuminance(unittest.TestCase):
 
     def test_RGB_luminance(self):
         """
-        Tests:func:`colour.models.rgb.derivation.RGB_luminance`
+        Tests :func:`colour.models.rgb.derivation.RGB_luminance`
         definition.
         """
 
@@ -329,7 +329,7 @@ class TestRGBLuminance(unittest.TestCase):
 
     def test_n_dimensional_RGB_luminance(self):
         """
-        Tests:func:`colour.models.rgb.derivation.RGB_luminance` definition
+        Tests :func:`colour.models.rgb.derivation.RGB_luminance` definition
         n_dimensional arrays support.
         """
 
