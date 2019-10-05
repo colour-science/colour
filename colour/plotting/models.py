@@ -681,7 +681,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_RGB_Chromaticities_In_Chromaticity_Diagram_Plot.png
+Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         :align: center
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram
     """
