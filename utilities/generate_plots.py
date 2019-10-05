@@ -7,6 +7,10 @@ Generate Plots
 
 from __future__ import division, unicode_literals
 
+import matplotlib
+
+matplotlib.use('AGG')
+
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -66,11 +70,13 @@ def generate_documentation_plots(output_directory):
             os.path.join(output_directory,
                          'Examples_Plotting_Visible_Spectrum.png')
     }
-    plot_visible_spectrum('CIE 1931 2 Degree Standard Observer', **arguments)
+    plt.close(
+        plot_visible_spectrum('CIE 1931 2 Degree Standard Observer',
+                              **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Illuminant_F1_SD.png')
-    plot_single_illuminant_sd('FL1', **arguments)
+    plt.close(plot_single_illuminant_sd('FL1', **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_Blackbodies.png')
@@ -78,93 +84,105 @@ def generate_documentation_plots(output_directory):
         colour.sd_blackbody(i, colour.SpectralShape(0, 10000, 10))
         for i in range(1000, 15000, 1000)
     ]
-    plot_multi_sds(
-        blackbody_sds,
-        y_label='W / (sr m$^2$) / m',
-        use_sds_colours=True,
-        normalise_sds_colours=True,
-        legend_location='upper right',
-        bounding_box=(0, 1250, 0, 2.5e15),
-        **arguments)
+    plt.close(
+        plot_multi_sds(
+            blackbody_sds,
+            y_label='W / (sr m$^2$) / m',
+            use_sds_colours=True,
+            normalise_sds_colours=True,
+            legend_location='upper right',
+            bounding_box=(0, 1250, 0, 2.5e15),
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Cone_Fundamentals.png')
-    plot_single_cmfs(
-        'Stockman & Sharpe 2 Degree Cone Fundamentals',
-        y_label='Sensitivity',
-        bounding_box=(390, 870, 0, 1.1),
-        **arguments)
+    plt.close(
+        plot_single_cmfs(
+            'Stockman & Sharpe 2 Degree Cone Fundamentals',
+            y_label='Sensitivity',
+            bounding_box=(390, 870, 0, 1.1),
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Luminous_Efficiency.png')
     sd_mesopic_luminous_efficiency_function = (
         colour.sd_mesopic_luminous_efficiency_function(0.2))
-    plot_multi_sds(
-        (sd_mesopic_luminous_efficiency_function,
-         colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-         colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
-        y_label='Luminous Efficiency',
-        legend_location='upper right',
-        y_tighten=True,
-        margins=(0, 0, 0, .1),
-        **arguments)
+    plt.close(
+        plot_multi_sds(
+            (sd_mesopic_luminous_efficiency_function,
+             colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
+             colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
+            y_label='Luminous Efficiency',
+            legend_location='upper right',
+            y_tighten=True,
+            margins=(0, 0, 0, .1),
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_BabelColor_Average.png')
-    plot_multi_sds(
-        colour.COLOURCHECKERS_SDS['BabelColor Average'].values(),
-        use_sds_colours=True,
-        title=('BabelColor Average - '
-               'Spectral Distributions'),
-        **arguments)
+    plt.close(
+        plot_multi_sds(
+            colour.COLOURCHECKERS_SDS['BabelColor Average'].values(),
+            use_sds_colours=True,
+            title=('BabelColor Average - '
+                   'Spectral Distributions'),
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_ColorChecker_2005.png')
-    plot_single_colour_checker(
-        'ColorChecker 2005', text_parameters={'visible': False}, **arguments)
+    plt.close(
+        plot_single_colour_checker(
+            'ColorChecker 2005',
+            text_parameters={'visible': False},
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Chromaticities_Prediction.png')
-    plot_corresponding_chromaticities_prediction(2, 'Von Kries', 'Bianco',
-                                                 **arguments)
+    plt.close(
+        plot_corresponding_chromaticities_prediction(2, 'Von Kries', 'Bianco',
+                                                     **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png')
-    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'],
-                                                            **arguments)
+    plt.close(
+        plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
+            ['A', 'B', 'C'], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png')
     RGB = np.random.random((32, 32, 3))
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
-        RGB,
-        'ITU-R BT.709',
-        colourspaces=['ACEScg', 'S-Gamut'],
-        show_pointer_gamut=True,
-        **arguments)
+    plt.close(
+        plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
+            RGB,
+            'ITU-R BT.709',
+            colourspaces=['ACEScg', 'S-Gamut'],
+            show_pointer_gamut=True,
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_CRI.png')
-    plot_single_sd_colour_rendering_index_bars(colour.ILLUMINANTS_SDS['FL2'],
-                                               **arguments)
+    plt.close(
+        plot_single_sd_colour_rendering_index_bars(
+            colour.ILLUMINANTS_SDS['FL2'], **arguments)[0])
 
     # *************************************************************************
     # Documentation
     # *************************************************************************
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_CVD_Simulation_Machado2009.png')
-    plot_cvd_simulation_Machado2009(RGB, **arguments)
+    plt.close(plot_cvd_simulation_Machado2009(RGB, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Colour_Checker.png')
-    plot_single_colour_checker('ColorChecker 2005', **arguments)
+    plt.close(plot_single_colour_checker('ColorChecker 2005', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Multi_Colour_Checkers.png')
-    plot_multi_colour_checkers(['ColorChecker 1976', 'ColorChecker 2005'],
-                               **arguments)
+    plt.close(
+        plot_multi_colour_checkers(['ColorChecker 1976', 'ColorChecker 2005'],
+                                   **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Single_SD.png')
@@ -177,7 +195,7 @@ def generate_documentation_plots(output_directory):
         600: 0.1360
     }
     sd = colour.SpectralDistribution(data, name='Custom')
-    plot_single_sd(sd, **arguments)
+    plt.close(plot_single_sd(sd, **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Multi_SDS.png')
@@ -201,69 +219,78 @@ def generate_documentation_plots(output_directory):
     }
     spd1 = colour.SpectralDistribution(data_1, name='Custom 1')
     spd2 = colour.SpectralDistribution(data_2, name='Custom 2')
-    plot_multi_sds([spd1, spd2], **arguments)
+    plt.close(plot_multi_sds([spd1, spd2], **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Single_CMFS.png')
-    plot_single_cmfs('CIE 1931 2 Degree Standard Observer', **arguments)
+    plt.close(
+        plot_single_cmfs('CIE 1931 2 Degree Standard Observer',
+                         **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Multi_CMFS.png')
     cmfs = ('CIE 1931 2 Degree Standard Observer',
             'CIE 1964 10 Degree Standard Observer')
-    plot_multi_cmfs(cmfs, **arguments)
+    plt.close(plot_multi_cmfs(cmfs, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Illuminant_SD.png')
-    plot_single_illuminant_sd('A', **arguments)
+    plt.close(plot_single_illuminant_sd('A', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Multi_Illuminant_SDS.png')
-    plot_multi_illuminant_sds(['A', 'B', 'C'], **arguments)
+    plt.close(plot_multi_illuminant_sds(['A', 'B', 'C'], **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Visible_Spectrum.png')
-    plot_visible_spectrum(**arguments)
+    plt.close(plot_visible_spectrum(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Lightness_Function.png')
-    plot_single_lightness_function('CIE 1976', **arguments)
+    plt.close(plot_single_lightness_function('CIE 1976', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Multi_Lightness_Functions.png')
-    plot_multi_lightness_functions(['CIE 1976', 'Wyszecki 1963'], **arguments)
+    plt.close(
+        plot_multi_lightness_functions(['CIE 1976', 'Wyszecki 1963'],
+                                       **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Luminance_Function.png')
-    plot_single_luminance_function('CIE 1976', **arguments)
+    plt.close(plot_single_luminance_function('CIE 1976', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Multi_Luminance_Functions.png')
-    plot_multi_luminance_functions(['CIE 1976', 'Newhall 1943'], **arguments)
+    plt.close(
+        plot_multi_luminance_functions(['CIE 1976', 'Newhall 1943'],
+                                       **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Blackbody_Spectral_Radiance.png')
-    plot_blackbody_spectral_radiance(
-        3500, blackbody='VY Canis Major', **arguments)
+    plt.close(
+        plot_blackbody_spectral_radiance(
+            3500, blackbody='VY Canis Major', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Blackbody_Colours.png')
-    plot_blackbody_colours(colour.SpectralShape(150, 12500, 50), **arguments)
+    plt.close(
+        plot_blackbody_colours(
+            colour.SpectralShape(150, 12500, 50), **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Colour_Swatch.png')
     RGB = ColourSwatch(RGB=(0.32315746, 0.32983556, 0.33640183))
-    plot_single_colour_swatch(RGB, **arguments)
+    plt.close(plot_single_colour_swatch(RGB, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Multi_Colour_Swatches.png')
     RGB_1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
     RGB_2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
-    plot_multi_colour_swatches([RGB_1, RGB_2], **arguments)
+    plt.close(plot_multi_colour_swatches([RGB_1, RGB_2], **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Single_Function.png')
-    plot_single_function(lambda x: x ** (1 / 2.2), **arguments)
+    plt.close(plot_single_function(lambda x: x ** (1 / 2.2), **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Multi_Functions.png')
@@ -272,145 +299,164 @@ def generate_documentation_plots(output_directory):
         'Gamma 2.4': lambda x: x ** (1 / 2.4),
         'Gamma 2.6': lambda x: x ** (1 / 2.6),
     }
-    plot_multi_functions(functions, **arguments)
+    plt.close(plot_multi_functions(functions, **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Image.png')
-    path = os.path.join(colour.__path__[0], '..', 'docs', '_static',
-                        'Logo_Medium_001.png')
-    plot_image(colour.read_image(str(path)), **arguments)
+    path = os.path.join(output_directory, 'Logo_Medium_001.png')
+    plt.close(plot_image(colour.read_image(str(path)), **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Corresponding_Chromaticities_Prediction.png')
-    plot_corresponding_chromaticities_prediction(1, 'Von Kries', 'CAT02',
-                                                 **arguments)
+    plt.close(
+        plot_corresponding_chromaticities_prediction(1, 'Von Kries', 'CAT02',
+                                                     **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Spectral_Locus.png')
-    plot_spectral_locus(spectral_locus_colours='RGB', **arguments)
+    plt.close(
+        plot_spectral_locus(spectral_locus_colours='RGB', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Chromaticity_Diagram_Colours.png')
-    plot_chromaticity_diagram_colours(**arguments)
+    plt.close(plot_chromaticity_diagram_colours(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Chromaticity_Diagram.png')
-    plot_chromaticity_diagram(**arguments)
+    plt.close(plot_chromaticity_diagram(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Chromaticity_Diagram_CIE1931.png')
-    plot_chromaticity_diagram_CIE1931(**arguments)
+    plt.close(plot_chromaticity_diagram_CIE1931(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Chromaticity_Diagram_CIE1960UCS.png')
-    plot_chromaticity_diagram_CIE1960UCS(**arguments)
+    plt.close(plot_chromaticity_diagram_CIE1960UCS(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Chromaticity_Diagram_CIE1976UCS.png')
-    plot_chromaticity_diagram_CIE1976UCS(**arguments)
+    plt.close(plot_chromaticity_diagram_CIE1976UCS(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_SDS_In_Chromaticity_Diagram.png')
     A = colour.ILLUMINANTS_SDS['A']
     D65 = colour.ILLUMINANTS_SDS['D65']
-    plot_sds_in_chromaticity_diagram([A, D65], **arguments)
+    plt.close(plot_sds_in_chromaticity_diagram([A, D65], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_SDS_In_Chromaticity_Diagram_CIE1931.png')
-    plot_sds_in_chromaticity_diagram_CIE1931([A, D65], **arguments)
+    plt.close(
+        plot_sds_in_chromaticity_diagram_CIE1931([A, D65], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png')
-    plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65], **arguments)
+    plt.close(
+        plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png')
-    plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65], **arguments)
+    plt.close(
+        plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65], **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Pointer_Gamut.png')
-    plot_pointer_gamut(**arguments)
+    plt.close(plot_pointer_gamut(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png')
-    plot_RGB_colourspaces_in_chromaticity_diagram(
-        ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
+    plt.close(
+        plot_RGB_colourspaces_in_chromaticity_diagram(
+            ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png')
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
-        ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
+    plt.close(
+        plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
+            ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Colourspaces_In_'
         'Chromaticity_Diagram_CIE1960UCS.png')
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
-        ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
+    plt.close(
+        plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
+            ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Colourspaces_In_'
         'Chromaticity_Diagram_CIE1976UCS.png')
-    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
-        ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
+    plt.close(
+        plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
+            ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
         'Chromaticity_Diagram.png')
     RGB = np.random.random((128, 128, 3))
-    plot_RGB_chromaticities_in_chromaticity_diagram(RGB, 'ITU-R BT.709',
-                                                    **arguments)
+    plt.close(
+        plot_RGB_chromaticities_in_chromaticity_diagram(
+            RGB, 'ITU-R BT.709', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
         'Chromaticity_Diagram_CIE1931.png')
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
-        RGB, 'ITU-R BT.709', **arguments)
+    plt.close(
+        plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
+            RGB, 'ITU-R BT.709', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
         'Chromaticity_Diagram_CIE1960UCS.png')
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
-        RGB, 'ITU-R BT.709', **arguments)
+    plt.close(
+        plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
+            RGB, 'ITU-R BT.709', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
         'Chromaticity_Diagram_CIE1976UCS.png')
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
-        RGB, 'ITU-R BT.709', **arguments)
+    plt.close(
+        plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
+            RGB, 'ITU-R BT.709', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png')
-    plot_ellipses_MacAdam1942_in_chromaticity_diagram(**arguments)
+    plt.close(
+        plot_ellipses_MacAdam1942_in_chromaticity_diagram(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Ellipses_MacAdam1942_In_'
         'Chromaticity_Diagram_CIE1931.png')
-    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(**arguments)
+    plt.close(
+        plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Ellipses_MacAdam1942_In_'
         'Chromaticity_Diagram_CIE1960UCS.png')
-    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(**arguments)
+    plt.close(
+        plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Ellipses_MacAdam1942_In_'
         'Chromaticity_Diagram_CIE1976UCS.png')
-    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(**arguments)
+    plt.close(
+        plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Single_CCTF.png')
-    plot_single_cctf('ITU-R BT.709', **arguments)
+    plt.close(plot_single_cctf('ITU-R BT.709', **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Multi_CCTFs.png')
-    plot_multi_cctfs(['ITU-R BT.709', 'sRGB'], **arguments)
+    plt.close(plot_multi_cctfs(['ITU-R BT.709', 'sRGB'], **arguments)[0])
 
     data = np.array([
         [
@@ -477,24 +523,25 @@ def generate_documentation_plots(output_directory):
     ])
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Constant_Hue_Loci.png')
-    plot_constant_hue_loci(data, 'IPT', **arguments)
+    plt.close(plot_constant_hue_loci(data, 'IPT', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Munsell_Value_Function.png')
-    plot_single_munsell_value_function('ASTM D1535', **arguments)
+    plt.close(plot_single_munsell_value_function('ASTM D1535', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Multi_Munsell_Value_Functions.png')
-    plot_multi_munsell_value_functions(['ASTM D1535', 'McCamy 1987'],
-                                       **arguments)
+    plt.close(
+        plot_multi_munsell_value_functions(['ASTM D1535', 'McCamy 1987'],
+                                           **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_SD_Rayleigh_Scattering.png')
-    plot_single_sd_rayleigh_scattering(**arguments)
+    plt.close(plot_single_sd_rayleigh_scattering(**arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_The_Blue_Sky.png')
-    plot_the_blue_sky(**arguments)
+    plt.close(plot_the_blue_sky(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Colour_Quality_Bars.png')
@@ -503,67 +550,78 @@ def generate_documentation_plots(output_directory):
     light_source = light_source.copy().align(colour.SpectralShape(360, 830, 1))
     cqs_i = colour.colour_quality_scale(illuminant, additional_data=True)
     cqs_l = colour.colour_quality_scale(light_source, additional_data=True)
-    plot_colour_quality_bars([cqs_i, cqs_l], **arguments)
+    plt.close(plot_colour_quality_bars([cqs_i, cqs_l], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Single_SD_Colour_Rendering_Index_Bars.png')
     illuminant = colour.ILLUMINANTS_SDS['FL2']
-    plot_single_sd_colour_rendering_index_bars(illuminant, **arguments)
+    plt.close(
+        plot_single_sd_colour_rendering_index_bars(illuminant, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png')
     light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
-    plot_multi_sds_colour_rendering_indexes_bars([illuminant, light_source],
-                                                 **arguments)
+    plt.close(
+        plot_multi_sds_colour_rendering_indexes_bars(
+            [illuminant, light_source], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Single_SD_Colour_Quality_Scale_Bars.png')
     illuminant = colour.ILLUMINANTS_SDS['FL2']
-    plot_single_sd_colour_quality_scale_bars(illuminant, **arguments)
+    plt.close(
+        plot_single_sd_colour_quality_scale_bars(illuminant, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Multi_SDS_Colour_Quality_Scales_Bars.png')
     light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
-    plot_multi_sds_colour_quality_scales_bars([illuminant, light_source],
-                                              **arguments)
+    plt.close(
+        plot_multi_sds_colour_quality_scales_bars([illuminant, light_source],
+                                                  **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Planckian_Locus.png')
-    plot_planckian_locus(**arguments)
+    plt.close(plot_planckian_locus(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Planckian_Locus_In_Chromaticity_Diagram.png')
-    plot_planckian_locus_in_chromaticity_diagram(['A', 'B', 'C'], **arguments)
+    plt.close(
+        plot_planckian_locus_in_chromaticity_diagram(['A', 'B', 'C'],
+                                                     **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png')
-    plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'],
-                                                         **arguments)
+    plt.close(
+        plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'],
+                                                             **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png')
-    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'],
-                                                            **arguments)
-    arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Plot_RGB_Colourspaces_Gamuts.png')
-    plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
-                                 **arguments)
+    plt.close(
+        plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
+            ['A', 'B', 'C'], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Colourspaces_Gamuts.png')
-    plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
-                                 **arguments)
+    plt.close(
+        plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
+                                     **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_RGB_Colourspaces_Gamuts.png')
+    plt.close(
+        plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
+                                     **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_RGB_Scatter.png')
-    plot_RGB_scatter(RGB, 'ITU-R BT.709', **arguments)
+    plt.close(plot_RGB_scatter(RGB, 'ITU-R BT.709', **arguments)[0])
 
     filename = os.path.join(
         output_directory,
@@ -575,7 +633,7 @@ def generate_documentation_plots(output_directory):
     # *************************************************************************
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Visible_Spectrum.png')
-    plot_visible_spectrum(**arguments)
+    plt.close(plot_visible_spectrum(**arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Sample_SD.png')
@@ -664,28 +722,30 @@ def generate_documentation_plots(output_directory):
     }
 
     sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
-    plot_single_sd(sd, **arguments)
+    plt.close(plot_single_sd(sd, **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_SD_Interpolation.png')
     sd_copy = sd.copy()
     sd_copy.interpolate(colour.SpectralShape(400, 770, 1))
-    plot_multi_sds([sd, sd_copy],
-                   bounding_box=[730, 780, 0.25, 0.5],
-                   **arguments)
+    plt.close(
+        plot_multi_sds(
+            [sd, sd_copy], bounding_box=[730, 780, 0.25, 0.5], **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Sample_Swatch.png')
     sd = colour.SpectralDistribution(sample_sd_data)
-    cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    cmfs = colour.STANDARD_OBSERVERS_CMFS[
+        'CIE 1931 2 Degree Standard Observer']
     illuminant = colour.ILLUMINANTS_SDS['D65']
     with domain_range_scale('1'):
         XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
-    plot_single_colour_swatch(
-        ColourSwatch('Sample', RGB),
-        text_parameters={'size': 'x-large'},
-        **arguments)
+    plt.close(
+        plot_single_colour_swatch(
+            ColourSwatch('Sample', RGB),
+            text_parameters={'size': 'x-large'},
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Neutral5.png')
@@ -694,17 +754,19 @@ def generate_documentation_plots(output_directory):
     with domain_range_scale('1'):
         XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
-    plot_single_colour_swatch(
-        ColourSwatch(patch_name.title(), RGB),
-        text_parameters={'size': 'x-large'},
-        **arguments)
+    plt.close(
+        plot_single_colour_swatch(
+            ColourSwatch(patch_name.title(), RGB),
+            text_parameters={'size': 'x-large'},
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Colour_Checker.png')
-    plot_single_colour_checker(
-        colour_checker='ColorChecker 2005',
-        text_parameters={'visible': False},
-        **arguments)
+    plt.close(
+        plot_single_colour_checker(
+            colour_checker='ColorChecker 2005',
+            text_parameters={'visible': False},
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Tutorial_CIE_1931_Chromaticity_Diagram.png')
@@ -719,12 +781,13 @@ def generate_documentation_plots(output_directory):
         xytext=(-50, 30),
         textcoords='offset points',
         arrowprops=dict(arrowstyle='->', connectionstyle='arc3, rad=-0.2'))
-    render(
-        standalone=True,
-        limits=(-0.1, 0.9, -0.1, 0.9),
-        x_tighten=True,
-        y_tighten=True,
-        **arguments)
+    plt.close(
+        render(
+            standalone=True,
+            limits=(-0.1, 0.9, -0.1, 0.9),
+            x_tighten=True,
+            y_tighten=True,
+            **arguments)[0])
 
     # *************************************************************************
     # "basics.rst"
@@ -734,8 +797,9 @@ def generate_documentation_plots(output_directory):
     RGB = colour.read_image(
         os.path.join(output_directory, 'Logo_Small_001.png'))[..., 0:3]
     XYZ = colour.sRGB_to_XYZ(RGB)
-    colour.plotting.plot_image(
-        XYZ, text_parameters={'text': 'sRGB to XYZ'}, **arguments)
+    plt.close(
+        plot_image(XYZ, text_parameters={'text': 'sRGB to XYZ'},
+                   **arguments)[0])
 
 
 if __name__ == '__main__':

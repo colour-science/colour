@@ -10,18 +10,14 @@ import sys
 if sys.version_info[:2] >= (3, 2):
     import biblib.bib
 import fnmatch
-import glob
 import os
 import re
-import shutil
 import toml
-import tempfile
 import uuid
 from invoke import task
 
 import colour
-from colour import read_image
-from colour.utilities import message_box, metric_psnr
+from colour.utilities import message_box
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -273,38 +269,9 @@ def docs(ctx, plots=True, html=True, pdf=True):
     """
 
     if plots:
-        temporary_directory = tempfile.mkdtemp()
-        test_directory = os.path.join('docs', '_static')
-        reference_directory = os.path.join(temporary_directory, '_static')
-        try:
-            shutil.copytree(test_directory, reference_directory)
-            similar_plots = []
-            with ctx.cd('utilities'):
-                message_box('Generating plots...')
-                ctx.run('./generate_plots.py')
-
-                png_files = glob.glob('{0}/*.png'.format(reference_directory))
-                for reference_png_file in png_files:
-                    test_png_file = os.path.join(
-                        test_directory, os.path.basename(reference_png_file))
-
-                    RGB_reference = read_image(
-                        str(reference_png_file))[::3, ::3]
-                    RGB_test = read_image(str(test_png_file))[::3, ::3]
-
-                    if RGB_reference.shape != RGB_test.shape:
-                        continue
-
-                    psnr = metric_psnr(RGB_reference, RGB_test)
-
-                    if psnr > 70:
-                        similar_plots.append(test_png_file)
-            with ctx.cd('docs/_static'):
-                for similar_plot in similar_plots:
-                    ctx.run('git checkout -- {0}'.format(
-                        os.path.basename(similar_plot)))
-        finally:
-            shutil.rmtree(temporary_directory)
+        with ctx.cd('utilities'):
+            message_box('Generating plots...')
+            ctx.run('./generate_plots.py')
 
     with ctx.prefix('export COLOUR_SCIENCE_DOCUMENTATION_BUILD=True'):
         with ctx.cd('docs'):

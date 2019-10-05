@@ -108,7 +108,13 @@ development = [
 graphviz = [ "pygraphviz" ]
 optional = [ "networkx", "pandas" ]
 plotting = [ "backports.functools_lru_cache", "matplotlib" ]
-read-the-docs = [ "mock", "numpy", "sphinxcontrib-bibtex" ]
+read-the-docs = [
+    "mock",
+    "networkx",
+    "numpy",
+    "pygraphviz",
+    "sphinxcontrib-bibtex"
+]
 
 [build-system]
 requires = [ "poetry>=0.12" ]
