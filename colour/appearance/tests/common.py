@@ -165,8 +165,9 @@ class ColourAppearanceModelTest(object):
         """
 
         for data_attr, specification_attr in sorted(output_attributes.items()):
-            yield (self.check_specification_attribute, data.get('Case'), data,
-                   specification_attr, data[data_attr])
+            self.check_specification_attribute(
+                data.get('Case'), data, specification_attr, data[data_attr]
+            )
 
     def fixtures(self):
         """
@@ -190,9 +191,7 @@ class ColourAppearanceModelTest(object):
         """
 
         for data in self.fixtures():
-            for test in self.check_model_consistency(data,
-                                                     self.OUTPUT_ATTRIBUTES):
-                yield test
+            self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES)
 
     def test_n_dimensional_examples(self):
         """
@@ -212,5 +211,4 @@ class ColourAppearanceModelTest(object):
         for key in data:
             data[key] = np.array(data[key])
 
-        for test in self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES):
-            yield test
+        self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES)

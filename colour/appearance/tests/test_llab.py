@@ -92,9 +92,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
                 'colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
                 np.around(
                     np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX), decimals=4)):
-            for test in super(TestLLABColourAppearanceModel,
-                              self).test_examples():
-                yield test
+            super(TestLLABColourAppearanceModel, self).test_examples()
 
     def test_n_dimensional_examples(self):
         """
@@ -116,9 +114,8 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
                 'colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
                 np.around(
                     np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX), decimals=4)):
-            for test in super(TestLLABColourAppearanceModel,
-                              self).test_n_dimensional_examples():
-                yield test
+            super(TestLLABColourAppearanceModel, self)\
+                .test_n_dimensional_examples()
 
     def test_colourspace_conversion_matrices_precision(self):
         """
