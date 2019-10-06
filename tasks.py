@@ -356,8 +356,8 @@ def requirements(ctx):
     """
 
     message_box('Exporting "requirements.txt" file...')
-    ctx.run('poetry export -f requirements.txt --without-hashes --dev '
-            '--extras "graphviz optional plotting" -o requirements.txt')
+    ctx.run('poetry run pip freeze | grep -v "github.com/colour-science" '
+            '> requirements.txt')
 
 
 @task(preflight, docs, todo, requirements)
