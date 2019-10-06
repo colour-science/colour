@@ -13,7 +13,9 @@
 # serve to show the default.
 
 import functools
+import os
 import re
+import sys
 
 
 def no_op_wraps(function):
@@ -48,6 +50,15 @@ autodoc_mock_imports = [
     'scipy.interpolate', 'scipy.ndimage', 'scipy.ndimage.filters',
     'scipy.optimize', 'scipy.spatial', 'scipy.spatial.distance'
 ]
+
+if os.environ.get('READTHEDOCS') == 'True':
+    utilities_directory = os.path.abspath(
+        os.path.join(os.getcwd(), '..', 'utilities'))
+    static_directory = os.path.abspath(os.path.join(os.getcwd(), '_static'))
+    sys.path.append(utilities_directory)
+    from generate_plots import generate_documentation_plots
+
+    generate_documentation_plots(static_directory)
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
