@@ -12,5 +12,6 @@ docs/_static/Basics_*.png
 docs/_static/Examples_*.png
 docs/_static/Plotting_*.png
 docs/_static/Tutorial_*.png
+docs/generated
 poetry.lock
 references
