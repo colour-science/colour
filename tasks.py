@@ -33,8 +33,8 @@ __status__ = 'Production'
 __all__ = [
     'APPLICATION_NAME', 'APPLICATION_VERSION', 'PYTHON_PACKAGE_NAME',
     'PYPI_PACKAGE_NAME', 'BIBLIOGRAPHY_NAME', 'clean', 'formatting', 'tests',
-    'quality', 'examples', 'docs', 'todo', 'preflight', 'build', 'virtualise',
-    'tag', 'release', 'sha256'
+    'quality', 'examples', 'preflight', 'docs', 'todo', 'requirements',
+    'build', 'virtualise', 'tag', 'release', 'sha256'
 ]
 
 APPLICATION_NAME = colour.__application_name__
@@ -230,6 +230,26 @@ def examples(ctx, plots=False):
             ctx.run('python {0}'.format(os.path.join(root, filename)))
 
 
+@task(formatting, tests, quality, examples)
+def preflight(ctx):
+    """
+    Performs the preflight tasks, i.e. *formatting*, *tests*, *quality*, and
+    *examples*.
+
+    Parameters
+    ----------
+    ctx : invoke.context.Context
+        Context.
+
+    Returns
+    -------
+    bool
+        Task success.
+    """
+
+    message_box('Finishing "Preflight"...')
+
+
 @task
 def docs(ctx, plots=True, html=True, pdf=True):
     """
@@ -319,11 +339,10 @@ def todo(ctx):
         ctx.run('./export_todo.py')
 
 
-@task(formatting, tests, quality, examples)
-def preflight(ctx):
+@task
+def requirements(ctx):
     """
-    Performs the preflight tasks, i.e. *formatting*, *tests*, *quality*, and
-    *examples*.
+    Export the *requirements.txt* file.
 
     Parameters
     ----------
@@ -336,10 +355,12 @@ def preflight(ctx):
         Task success.
     """
 
-    message_box('Finishing "Preflight"...')
+    message_box('Exporting "requirements.txt" file...')
+    ctx.run('poetry export -f requirements.txt --without-hashes --dev '
+            '--extras "graphviz optional plotting" -o requirements.txt')
 
 
-@task(preflight, todo, docs)
+@task(preflight, docs, todo, requirements)
 def build(ctx):
     """
     Builds the project and runs dependency tasks, i.e. *docs*, *todo*, and

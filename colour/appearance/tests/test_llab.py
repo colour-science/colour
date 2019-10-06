@@ -114,8 +114,8 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
                 'colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
                 np.around(
                     np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX), decimals=4)):
-            super(TestLLABColourAppearanceModel, self)\
-                .test_n_dimensional_examples()
+            super(TestLLABColourAppearanceModel,
+                  self).test_n_dimensional_examples()
 
     def test_colourspace_conversion_matrices_precision(self):
         """
