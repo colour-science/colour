@@ -7,8 +7,10 @@ Invoke - Tasks
 from __future__ import unicode_literals
 
 import sys
-if sys.version_info[:2] >= (3, 2):
+try:
     import biblib.bib
+except ImportError:
+    pass
 import fnmatch
 import os
 import re
@@ -416,11 +418,11 @@ def tag(ctx):
 
     with open(os.path.join(PYTHON_PACKAGE_NAME, '__init__.py')) as file_handle:
         file_content = file_handle.read()
-        major_version = re.search("__major_version__\s+=\s+'(.*)'",
+        major_version = re.search("__major_version__\\s+=\\s+'(.*)'",
                                   file_content).group(1)
-        minor_version = re.search("__minor_version__\s+=\s+'(.*)'",
+        minor_version = re.search("__minor_version__\\s+=\\s+'(.*)'",
                                   file_content).group(1)
-        change_version = re.search("__change_version__\s+=\s+'(.*)'",
+        change_version = re.search("__change_version__\\s+=\\s+'(.*)'",
                                    file_content).group(1)
 
         version = '.'.join((major_version, minor_version, change_version))

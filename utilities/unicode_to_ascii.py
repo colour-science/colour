@@ -11,9 +11,9 @@ if sys.version_info[0] < 3:
     reload(sys)  # noqa
     sys.setdefaultencoding('utf-8')
 
-import codecs
-import os
-import unicodedata
+import codecs  # noqa
+import os  # noqa
+import unicodedata  # noqa
 
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'

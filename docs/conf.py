@@ -36,9 +36,9 @@ def no_op_wraps(function):
 functools._wraps = functools.wraps
 functools.wraps = no_op_wraps
 
-import colour as package
+import colour as package  # noqa
 
-basename = re.sub('_(\w)', lambda x: x.group(1).upper(),
+basename = re.sub('_(\\w)', lambda x: x.group(1).upper(),
                   package.__name__.title())
 
 autosummary_generate = True
@@ -322,10 +322,10 @@ epub_copyright = package.__copyright__.replace('Copyright (C)', '')
 # The basename for the epub file. It defaults to the project name.
 # epub_basename = basename
 
-# The HTML theme for the epub output. Since the default themes are not optimized
-# for small screen space, using the same theme for HTML and epub output is
-# usually not wise. This defaults to 'epub', a theme designed to save visual
-# space.
+# The HTML theme for the epub output. Since the default themes are not
+# optimized for small screen space, using the same theme for HTML and epub
+# output is usually not wise. This defaults to 'epub', a theme designed to save
+# visual space.
 # epub_theme = 'epub'
 
 # The language of the text. It defaults to the language option

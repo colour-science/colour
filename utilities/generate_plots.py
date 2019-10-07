@@ -11,23 +11,59 @@ import matplotlib
 
 matplotlib.use('AGG')
 
-import matplotlib.pyplot as plt
-import numpy as np
-import os
+import matplotlib.pyplot as plt  # noqa
+import numpy as np  # noqa
+import os  # noqa
 
-import colour
-from colour.plotting import *
-from colour.plotting.diagrams import (
+import colour  # noqa
+from colour.plotting import (  # noqa
+    colour_style, ColourSwatch, plot_automatic_colour_conversion_graph,
+    plot_blackbody_colours, plot_blackbody_spectral_radiance,
+    plot_chromaticity_diagram_CIE1931, plot_chromaticity_diagram_CIE1960UCS,
+    plot_chromaticity_diagram_CIE1976UCS, plot_constant_hue_loci,
+    plot_corresponding_chromaticities_prediction,
+    plot_cvd_simulation_Machado2009,
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931,
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS,
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS, plot_image,
+    plot_multi_cctfs, plot_multi_cmfs, plot_multi_colour_checkers,
+    plot_multi_colour_swatches, plot_multi_functions,
+    plot_multi_illuminant_sds, plot_multi_lightness_functions,
+    plot_multi_luminance_functions, plot_multi_munsell_value_functions,
+    plot_multi_sds_colour_quality_scales_bars,
+    plot_multi_sds_colour_rendering_indexes_bars, plot_multi_sds,
+    plot_planckian_locus_in_chromaticity_diagram_CIE1931,
+    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
+    plot_pointer_gamut,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS,
+    plot_RGB_colourspaces_gamuts,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS, plot_RGB_scatter,
+    plot_sds_in_chromaticity_diagram_CIE1931,
+    plot_sds_in_chromaticity_diagram_CIE1960UCS,
+    plot_sds_in_chromaticity_diagram_CIE1976UCS, plot_single_cctf,
+    plot_single_cmfs, plot_single_colour_checker, plot_single_colour_swatch,
+    plot_single_function, plot_single_illuminant_sd,
+    plot_single_lightness_function, plot_single_luminance_function,
+    plot_single_munsell_value_function,
+    plot_single_sd_colour_quality_scale_bars,
+    plot_single_sd_colour_rendering_index_bars,
+    plot_single_sd_rayleigh_scattering, plot_single_sd, plot_the_blue_sky,
+    plot_visible_spectrum, render)
+from colour.plotting.diagrams import (  # noqa
     plot_spectral_locus, plot_chromaticity_diagram_colours,
     plot_chromaticity_diagram, plot_sds_in_chromaticity_diagram)
-from colour.plotting.models import (
+from colour.plotting.models import (  # noqa
     plot_RGB_colourspaces_in_chromaticity_diagram,
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram)
-from colour.plotting.quality import plot_colour_quality_bars
-from colour.plotting.temperature import (
+from colour.plotting.quality import plot_colour_quality_bars  # noqa
+from colour.plotting.temperature import (  # noqa
     plot_planckian_locus, plot_planckian_locus_in_chromaticity_diagram)
-from colour.utilities import domain_range_scale
+from colour.utilities import domain_range_scale  # noqa
 
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'

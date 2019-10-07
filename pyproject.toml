@@ -60,6 +60,7 @@ networkx = { version = "*", optional = true }
 nose = { version = "*", optional = true }  # Development dependency.
 numpy = { version = "*", optional = true }
 pandas = { version = "*", optional = true }
+pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
 pytest = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
@@ -78,6 +79,7 @@ flake8 = "*"
 invoke = "*"
 mock = "*"
 nose = "*"
+pre-commit = "*"
 pytest = "*"
 restructuredtext-lint = "*"
 sphinx = "*"
@@ -96,6 +98,7 @@ development = [
     "invoke",
     "mock",
     "nose",
+    "pre-commit",
     "pytest",
     "restructuredtext-lint",
     "sphinx",
