@@ -7,6 +7,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import unittest
+import six
 from collections import OrderedDict
 from functools import partial
 
@@ -274,7 +275,11 @@ class TestFilterKwargs(unittest.TestCase):
         self.assertTupleEqual((1, 2, 3),
                               fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
 
-        self.assertDictEqual(filter_kwargs(partial(fn_c, b=1), b=1), {})
+        if six.PY2:  # pragma: no cover
+            self.assertDictEqual(filter_kwargs(partial(fn_c, b=1), b=1), {})
+        else:  # pragma: no cover
+            self.assertDictEqual(
+                filter_kwargs(partial(fn_c, b=1), b=1), {'b': 1})
 
 
 class TestFilterMapping(unittest.TestCase):

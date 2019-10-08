@@ -21,6 +21,7 @@ import multiprocessing.pool
 import functools
 import numpy as np
 import re
+import six
 import warnings
 from contextlib import contextmanager
 from collections import OrderedDict
@@ -542,6 +543,12 @@ def filter_kwargs(function, **kwargs):
     dict
         Filtered keyword arguments.
 
+    Warnings
+    --------
+    Python 2.7 does not support inspecting the signature of *partial*
+    functions, this could cause unexpected behaviour when using this
+    definition.
+
     Examples
     --------
     >>> def fn_a(a):
@@ -559,13 +566,18 @@ def filter_kwargs(function, **kwargs):
     """
 
     kwargs = deepcopy(kwargs)
-    # TODO: Remove "try/except" clause when dropping Python 2.7 and replace
-    # with "inspect.signature". "partial" functions cannot be inspected with
-    # "inspect.getargspec" in Python 2.7 and raise a ValueError.
-    try:
-        args, _varargs, _keywords, _defaults = inspect.getargspec(function)
-    except (TypeError, ValueError):
-        return {}
+
+    # TODO: Remove when dropping Python 2.7.
+    if six.PY2:  # pragma: no cover
+        try:
+            args, _varargs, _keywords, _defaults = inspect.getargspec(function)
+        except (TypeError, ValueError):
+            return {}
+    else:  # pragma: no cover
+        try:
+            args = list(inspect.signature(function).parameters.keys())
+        except ValueError:
+            return {}
 
     args = set(kwargs.keys()) - set(args)
     for key in args:
