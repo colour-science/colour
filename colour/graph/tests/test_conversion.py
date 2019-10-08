@@ -6,9 +6,10 @@ Defines unit tests for :mod:`colour.graph.conversion` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import six
 import unittest
 
-from colour import COLOURCHECKERS_SDS, ILLUMINANTS_SDS
+from colour import COLOURCHECKERS_SDS, ILLUMINANTS, ILLUMINANTS_SDS
 from colour.graph import describe_conversion_path, convert
 
 __author__ = 'Colour Developers'
@@ -91,6 +92,27 @@ class TestConvert(unittest.TestCase):
                     'Scene-Referred RGB'), 'RGB', 'YCbCr'),
             np.array([0.49215686, 0.50196078, 0.50196078]),
             decimal=7)
+
+    def test_convert_direct_keyword_argument_passing(self):
+        """
+        Tests :func:`colour.graph.conversion.convert` definition behaviour when
+        direct keyword arguments are passed.
+        """
+
+        a = np.array([0.20654008, 0.12197225, 0.05136952])
+        illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']
+        np.testing.assert_almost_equal(
+            convert(
+                a, 'CIE XYZ', 'CIE xyY',
+                XYZ_to_xyY={'illuminant': illuminant}),
+            convert(a, 'CIE XYZ', 'CIE xyY', illuminant=illuminant),
+            decimal=7)
+
+        if six.PY3:  # pragma: no cover
+            self.assertRaises(AttributeError, lambda: convert(
+                COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin'],
+                'Spectral Distribution', 'sRGB',
+                illuminant=illuminant))
 
 
 if __name__ == '__main__':

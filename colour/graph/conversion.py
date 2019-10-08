@@ -21,6 +21,7 @@ import inspect
 import numpy as np
 import textwrap
 from collections import namedtuple
+from copy import copy
 from functools import partial
 from pprint import pformat
 
@@ -60,8 +61,9 @@ from colour.appearance import (
     XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB,
     XYZ_to_Nayatani95, XYZ_to_RLAB)
 from colour.temperature import CCT_to_uv, CCT_to_xy, uv_to_CCT, xy_to_CCT
-from colour.utilities import (domain_range_scale, is_networkx_installed,
-                              message_box, tsplit, tstack, usage_warning)
+from colour.utilities import (domain_range_scale, filter_kwargs,
+                              is_networkx_installed, message_box, tsplit,
+                              tstack, usage_warning)
 
 if is_networkx_installed():  # pragma: no cover
     import networkx as nx
@@ -666,6 +668,12 @@ def describe_conversion_path(source,
     print_callable : callable, optional
         Callable used to print the message box.
 
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.convert`},
+        Please refer to the documentation of the previously listed definition.
+
     Examples
     --------
     >>> describe_conversion_path('Spectral Distribution', 'sRGB', width=75)
@@ -696,8 +704,16 @@ def describe_conversion_path(source,
         ])), width, padding, print_callable)
 
     for conversion_function in conversion_path:
-        filtered_kwargs = kwargs.get(
-            _lower_order_function(conversion_function).__name__, {})
+        conversion_function_name = _lower_order_function(
+            conversion_function).__name__
+
+        # Filtering compatible keyword arguments passed directly and
+        # irrespective of any conversion function name.
+        filtered_kwargs = filter_kwargs(conversion_function, **kwargs)
+
+        # Filtering keyword arguments passed as dictionary with the
+        # conversion function name.
+        filtered_kwargs.update(kwargs.get(conversion_function_name, {}))
 
         return_value = filtered_kwargs.pop('return', None)
 
@@ -771,18 +787,58 @@ def convert(a, source, target, **kwargs):
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        Please refer to the documentation of the supported definitions.
-        Arguments for the definitions are passed as keyword arguments with
-        values set as dictionaries. For example, in the conversion from
-        spectral distribution to *sRGB* colourspace, passing arguments to the
-        :func:`colour.sd_to_XYZ` definition is done as follows::
+        {'\\*'},
+        Please refer to the documentation of the supported conversion
+        definitions.
+
+        Arguments for the conversion definitions are passed as keyword
+        arguments with values set as dictionaries. For example, in the
+        conversion from spectral distribution to *sRGB* colourspace, passing
+        arguments to the :func:`colour.sd_to_XYZ` definition is done as
+        follows::
 
             convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={\
-'illuminant': illuminant})
+'illuminant': ILLUMINANTS_SDS['FL2']})
 
-        It is also possible to pass arguments directly to the
-        :func:`colour.describe_conversion_path` definition by using the
-        ``verbose`` keyword argument as follows:
+        It is also possible to pass keyword arguments directly to the various
+        conversion definitions irrespective of their name. This is
+        ``dangerous`` and could cause unexpected behaviour because of behaviour
+        discrepancies of the underlying :func:`colour.utilities.filter_kwargs`
+        definition between Python 2.7 and 3.x. Using this direct keyword
+        arguments passing mechanism might also ends up passing incompatible
+        arguments to a given conversion definition. Consider the following
+        conversion::
+
+             convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
+ILLUMINANTS_SDS['FL2']})
+
+        Because both the :func:`colour.sd_to_XYZ` and
+        :func:`colour.XYZ_to_sRGB` definitions have an *illuminant* argument,
+        `ILLUMINANTS_SDS['FL2']` will be passed to both of them and will raise
+        an exception in the :func:`colour.XYZ_to_sRGB` definition. This could
+        be addressed in the future by either catching the exception and trying
+        a new time without the keyword argument or more elegantly via type
+        checking. With that in mind, this mechanism offers some good benefits:
+        For example, it allows defining a conversion from *CIE XYZ* colourspace
+        to *n* different colour models while passing an illuminant argument but
+        without having to explicitly define all the keyword arguments with
+        values set as dictionaries::
+
+            a = np.array([0.20654008, 0.12197225, 0.05136952])
+            illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']\
+['D65']
+            for model in ('CIE xyY', 'CIE Lab'):
+                convert(a, 'CIE XYZ', model, illuminant=illuminant)
+
+        Instead of::
+
+            for model in ('CIE xyY', 'CIE Lab'):
+                convert(a, 'CIE XYZ', model, XYZ_to_xyY={'illuminant': \
+illuminant}, XYZ_to_Lab={'illuminant': illuminant})
+
+        Verbose is enabled by passing arguments to the
+        :func:`colour.describe_conversion_path` definition via the ``verbose``
+        keyword argument as follows::
 
             convert(sd, 'Spectral Distribution', 'sRGB', \
 verbose={'mode': 'Long'})
@@ -872,21 +928,28 @@ verbose={'mode': 'Long'})
 
     conversion_path = _conversion_path(source, target)
 
+    verbose_kwargs = copy(kwargs)
     for conversion_function in conversion_path:
         conversion_function_name = _lower_order_function(
             conversion_function).__name__
 
-        filtered_kwargs = kwargs.get(conversion_function_name, {})
+        # Filtering compatible keyword arguments passed directly and
+        # irrespective of any conversion function name.
+        filtered_kwargs = filter_kwargs(conversion_function, **kwargs)
+
+        # Filtering keyword arguments passed as dictionary with the
+        # conversion function name.
+        filtered_kwargs.update(kwargs.get(conversion_function_name, {}))
 
         a = conversion_function(a, **filtered_kwargs)
 
-        if not filtered_kwargs:
-            kwargs[conversion_function_name] = {'return': a}
+        if conversion_function_name in verbose_kwargs:
+            verbose_kwargs[conversion_function_name]['return'] = a
         else:
-            kwargs[conversion_function_name]['return'] = a
+            verbose_kwargs[conversion_function_name] = {'return': a}
 
-    if 'verbose' in kwargs:
-        kwargs.update(kwargs.pop('verbose'))
-        describe_conversion_path(source, target, **kwargs)
+    if 'verbose' in verbose_kwargs:
+        verbose_kwargs.update(verbose_kwargs.pop('verbose'))
+        describe_conversion_path(source, target, **verbose_kwargs)
 
     return a
