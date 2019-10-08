@@ -25,7 +25,7 @@ import six
 import warnings
 from contextlib import contextmanager
 from collections import OrderedDict
-from copy import deepcopy
+from copy import copy
 from six import integer_types, string_types
 
 from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
@@ -565,7 +565,7 @@ def filter_kwargs(function, **kwargs):
     (1, 2, 3)
     """
 
-    kwargs = deepcopy(kwargs)
+    kwargs = copy(kwargs)
 
     # TODO: Remove when dropping Python 2.7.
     if six.PY2:  # pragma: no cover

@@ -792,37 +792,39 @@ def convert(a, source, target, **kwargs):
         definitions.
 
         Arguments for the conversion definitions are passed as keyword
-        arguments with values set as dictionaries. For example, in the
-        conversion from spectral distribution to *sRGB* colourspace, passing
-        arguments to the :func:`colour.sd_to_XYZ` definition is done as
-        follows::
+        arguments whose names is those of the conversion definitions and values
+        set as dictionaries. For example, in the conversion from spectral
+        distribution to *sRGB* colourspace, passing arguments to the
+        :func:`colour.sd_to_XYZ` definition is done as follows::
 
             convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={\
 'illuminant': ILLUMINANTS_SDS['FL2']})
 
         It is also possible to pass keyword arguments directly to the various
         conversion definitions irrespective of their name. This is
-        ``dangerous`` and could cause unexpected behaviour because of behaviour
-        discrepancies of the underlying :func:`colour.utilities.filter_kwargs`
-        definition between Python 2.7 and 3.x. Using this direct keyword
-        arguments passing mechanism might also ends up passing incompatible
-        arguments to a given conversion definition. Consider the following
-        conversion::
+        ``dangerous`` and could cause unexpected behaviour because of
+        unavoidable discrepancies with the underlying
+        :func:`colour.utilities.filter_kwargs` definition between Python 2.7
+        and 3.x. Using this direct keyword arguments passing mechanism might
+        also ends up passing incompatible arguments to a given conversion
+        definition. Consider the following conversion::
 
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-ILLUMINANTS_SDS['FL2']})
+ILLUMINANTS_SDS['FL2'])
 
         Because both the :func:`colour.sd_to_XYZ` and
         :func:`colour.XYZ_to_sRGB` definitions have an *illuminant* argument,
         `ILLUMINANTS_SDS['FL2']` will be passed to both of them and will raise
-        an exception in the :func:`colour.XYZ_to_sRGB` definition. This could
+        an exception in the :func:`colour.XYZ_to_sRGB` definition. This will
         be addressed in the future by either catching the exception and trying
         a new time without the keyword argument or more elegantly via type
-        checking. With that in mind, this mechanism offers some good benefits:
-        For example, it allows defining a conversion from *CIE XYZ* colourspace
-        to *n* different colour models while passing an illuminant argument but
-        without having to explicitly define all the keyword arguments with
-        values set as dictionaries::
+        checking.
+
+        With that in mind, this mechanism offers some good benefits: For
+        example, it allows defining a conversion from *CIE XYZ* colourspace to
+        *n* different colour models while passing an illuminant argument but
+        without having to explicitly define all the explicit conversion
+        definition arguments::
 
             a = np.array([0.20654008, 0.12197225, 0.05136952])
             illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']\
@@ -836,7 +838,17 @@ ILLUMINANTS_SDS['FL2']})
                 convert(a, 'CIE XYZ', model, XYZ_to_xyY={'illuminant': \
 illuminant}, XYZ_to_Lab={'illuminant': illuminant})
 
-        Verbose is enabled by passing arguments to the
+        Mixing both approaches is possible for the brevity benefits. It is made
+        possible because the keyword arguments directly passed are filtered
+        first and then the resulting dict is updated with the explicit
+        conversion definition arguments::
+
+            illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']\
+['D65']
+             convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
+ILLUMINANTS_SDS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
+
+        For inspection purposes, verbose is enabled by passing arguments to the
         :func:`colour.describe_conversion_path` definition via the ``verbose``
         keyword argument as follows::
 
