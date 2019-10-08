@@ -718,8 +718,8 @@ def describe_conversion_path(source,
                 message += '\n\n[ Documentation ]\n\n{0}'.format(
                     textwrap.dedent(
                         str(
-                            _lower_order_function(
-                                conversion_function).__doc__)).strip())
+                            _lower_order_function(conversion_function)
+                            .__doc__)).strip())
 
             if return_value is not None:
                 message += '\n\n[ Conversion Output ]\n\n{0}'.format(
