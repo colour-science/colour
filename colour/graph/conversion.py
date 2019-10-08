@@ -781,7 +781,7 @@ def convert(a, source, target, **kwargs):
 'illuminant': illuminant})
 
         It is also possible to pass arguments directly to the
-        :func:`colour.describe_conversion_path` definition  by using the
+        :func:`colour.describe_conversion_path` definition by using the
         ``verbose`` keyword argument as follows:
 
             convert(sd, 'Spectral Distribution', 'sRGB', \

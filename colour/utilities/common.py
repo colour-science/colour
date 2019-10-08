@@ -559,7 +559,7 @@ def filter_kwargs(function, **kwargs):
     """
 
     kwargs = deepcopy(kwargs)
-    # TODO: Remove "try/except" clause when dropping Python 2.7 and replac
+    # TODO: Remove "try/except" clause when dropping Python 2.7 and replace
     # with "inspect.signature". "partial" functions cannot be inspected with
     # "inspect.getargspec" in Python 2.7 and raise a ValueError.
     try:
