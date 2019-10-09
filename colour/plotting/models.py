@@ -57,12 +57,13 @@ from colour.constants import EPSILON
 from colour.algebra import (point_at_angle_on_ellipse,
                             ellipse_coefficients_canonical_form,
                             ellipse_fitting)
+from colour.graph import convert
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS, ENCODING_CCTFS, DECODING_CCTFS,
     LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, MACADAM_1942_ELLIPSES_DATA,
     POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT,
     RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS,
-    XYZ_to_colourspace_model, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
+    XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, plot_chromaticity_diagram_CIE1931, artist,
     plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
@@ -1533,6 +1534,8 @@ def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
         :alt: plot_constant_hue_loci
     """
 
+    # TODO: Filter appropriate colour models.
+
     data = data.values() if isinstance(data, Mapping) else data
 
     settings = {'uniform': True}
@@ -1557,9 +1560,9 @@ def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
 
         xy_r = XYZ_to_xy(XYZ_r)
         ijk_ct = common_colourspace_model_axis_reorder(
-            XYZ_to_colourspace_model(XYZ_ct, xy_r, model), model)
+            convert(XYZ_ct, 'CIE XYZ', model, illuminant=xy_r), model)
         ijk_cr = common_colourspace_model_axis_reorder(
-            XYZ_to_colourspace_model(XYZ_cr, xy_r, model), model)
+            convert(XYZ_cr, 'CIE XYZ', model, illuminant=xy_r), model)
 
         def _linear_equation(x, a, b):
             """

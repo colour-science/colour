@@ -90,6 +90,11 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     ndarray
         Colourspace model values.
 
+    Warnings
+    --------
+    This definition is is deprecated and will be removed in a future release.
+    :func:`colour.convert` definition should be used instead.
+
     Examples
     --------
     >>> import numpy as np
