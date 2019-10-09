@@ -79,8 +79,8 @@ Plot_Corresponding_Chromaticities_Prediction.png
             if is_numeric(experiment) else experiment.name)
     title = (('Corresponding Chromaticities Prediction - {0} ({1}) - {2} - '
               'CIE 1976 UCS Chromaticity Diagram').format(
-                  model, transform, name) if model.lower() in ('von kries',
-                                                               'vonkries') else
+                  model, transform, name)
+             if model.lower() in ('von kries', 'vonkries') else
              ('Corresponding Chromaticities Prediction - {0} - {1} - '
               'CIE 1976 UCS Chromaticity Diagram').format(model, name))
 

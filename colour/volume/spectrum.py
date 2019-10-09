@@ -130,9 +130,8 @@ def generate_pulse_waves(bins):
 def XYZ_outer_surface(
         interval=10,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(
-            STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-            shape)):
+        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
+            'CIE 1931 2 Degree Standard Observer'].shape)):
     """
     Generates the *CIE XYZ* colourspace outer surface for given colour matching
     functions using multi-spectral conversion of pulse waves to *CIE XYZ*
@@ -221,9 +220,8 @@ def is_within_visible_spectrum(
         XYZ,
         interval=10,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(
-            STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-            shape),
+        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
+            'CIE 1931 2 Degree Standard Observer'].shape),
         tolerance=None):
     """
     Returns if given *CIE XYZ* tristimulus values are within visible spectrum

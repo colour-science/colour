@@ -113,13 +113,12 @@ chromatic_adaptation_matrix_VonKries` definition.
 chromatic_adaptation_matrix_VonKries` definition raised exception.
         """
 
-        self.assertRaises(KeyError,
-                          partial(chromatic_adaptation_matrix_VonKries,
-                                  np.array(
-                                      [0.95045593, 1.00000000, 1.08905775]),
-                                  np.array(
-                                      [0.96429568, 1.00000000, 0.82510460]),
-                                  'Undefined'))
+        self.assertRaises(
+            KeyError,
+            partial(chromatic_adaptation_matrix_VonKries,
+                    np.array([0.95045593, 1.00000000, 1.08905775]),
+                    np.array([0.96429568, 1.00000000, 0.82510460]),
+                    'Undefined'))
 
     def test_n_dimensional_chromatic_adaptation_matrix_VonKries(self):
         """

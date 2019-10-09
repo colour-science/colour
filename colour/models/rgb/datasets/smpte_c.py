@@ -60,8 +60,8 @@ SMPTE_C_WHITEPOINT_NAME = 'D65'
 SMPTE_C_WHITEPOINT_NAME : unicode
 """
 
-SMPTE_C_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                      [SMPTE_C_WHITEPOINT_NAME])
+SMPTE_C_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    SMPTE_C_WHITEPOINT_NAME])
 """
 *SMPTE C* colourspace whitepoint.
 

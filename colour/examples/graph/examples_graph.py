@@ -62,7 +62,8 @@ print(
     colour.XYZ_to_sRGB(
         colour.CAM16_to_XYZ(
             specification,
-            XYZ_w=colour.xy_to_XYZ(colour.ILLUMINANTS[
-                'CIE 1931 2 Degree Standard Observer']['D65']) * 100,
+            XYZ_w=colour.xy_to_XYZ(
+                colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                ['D65']) * 100,
             L_A=64 / np.pi * 0.2,
             Y_b=20) / 100))

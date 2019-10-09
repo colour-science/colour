@@ -402,8 +402,8 @@ def adjust_tristimulus_weighting_factors_ASTME308(W, shape_r, shape_t):
 
 def sd_to_XYZ_integration(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(DEFAULT_SPECTRAL_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None):
     """
@@ -513,8 +513,8 @@ def sd_to_XYZ_integration(
 
 def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(ASTME308_PRACTISE_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().trim(ASTME308_PRACTISE_SHAPE),
         illuminant=sd_ones(ASTME308_PRACTISE_SHAPE),
         k=None):
     """
@@ -622,8 +622,8 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
 def sd_to_XYZ_ASTME308(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(ASTME308_PRACTISE_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().trim(ASTME308_PRACTISE_SHAPE),
         illuminant=sd_ones(ASTME308_PRACTISE_SHAPE),
         use_practice_range=True,
         mi_5nm_omission_method=True,
@@ -806,8 +806,8 @@ SD_TO_XYZ_METHODS['astm2015'] = SD_TO_XYZ_METHODS['ASTM E308']
 
 def sd_to_XYZ(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(DEFAULT_SPECTRAL_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None,
         method='ASTM E308',
@@ -924,8 +924,8 @@ def sd_to_XYZ(
 
 def multi_sds_to_XYZ_integration(
         msds,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(DEFAULT_SPECTRAL_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None,
         shape=DEFAULT_SPECTRAL_SHAPE):
@@ -1102,8 +1102,8 @@ def multi_sds_to_XYZ_integration(
 
 def multi_sds_to_XYZ_ASTME308(
         msds,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(ASTME308_PRACTISE_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().trim(ASTME308_PRACTISE_SHAPE),
         illuminant=sd_ones(ASTME308_PRACTISE_SHAPE),
         use_practice_range=True,
         mi_5nm_omission_method=True,
@@ -1253,8 +1253,8 @@ MULTI_SD_TO_XYZ_METHODS['astm2015'] = MULTI_SD_TO_XYZ_METHODS['ASTM E308']
 
 def multi_sds_to_XYZ(
         msds,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(DEFAULT_SPECTRAL_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None,
         method='ASTM E308',

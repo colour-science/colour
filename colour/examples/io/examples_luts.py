@@ -32,8 +32,7 @@ print(colour.read_LUT(path))
 print('\n')
 
 message_box('Reading "Sony" ".spi1d" 1D LUT file.')
-path = os.path.join(RESOURCES_DIRECTORY, 'sony_spi1d',
-                    'eotf_sRGB_1D.spi1d')
+path = os.path.join(RESOURCES_DIRECTORY, 'sony_spi1d', 'eotf_sRGB_1D.spi1d')
 print(colour.io.read_LUT_SonySPI1D(path))
 print('\n')
 print(colour.read_LUT(path))
@@ -41,8 +40,7 @@ print(colour.read_LUT(path))
 print('\n')
 
 message_box('Reading "Sony" ".spi1d" 3x1D LUT file.')
-path = os.path.join(RESOURCES_DIRECTORY, 'sony_spi1d',
-                    'eotf_sRGB_3x1D.spi1d')
+path = os.path.join(RESOURCES_DIRECTORY, 'sony_spi1d', 'eotf_sRGB_3x1D.spi1d')
 print(colour.io.read_LUT_SonySPI1D(path))
 print('\n')
 print(colour.read_LUT(path))
@@ -51,8 +49,7 @@ print('\n')
 
 RGB = np.array([0.35521588, 0.41000000, 0.24177934])
 message_box(('Applying 1D LUT to given "RGB" values:\n' '\n\t{0}'.format(RGB)))
-path = os.path.join(RESOURCES_DIRECTORY, 'sony_spi1d',
-                    'eotf_sRGB_1D.spi1d')
+path = os.path.join(RESOURCES_DIRECTORY, 'sony_spi1d', 'eotf_sRGB_1D.spi1d')
 LUT = colour.io.read_LUT(path)
 print(LUT.apply(RGB))
 
