@@ -266,9 +266,10 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
         label='Pointer\'s Gamut',
         color=colour_p,
         alpha=alpha_p)
-    axes.plot((ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
-              color=colour_p,
-              alpha=alpha_p)
+    axes.plot(
+        (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
+        color=colour_p,
+        alpha=alpha_p)
 
     XYZ = Lab_to_XYZ(
         LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -431,22 +432,20 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         P = xy_to_ij(P)
         W = xy_to_ij(colourspace.whitepoint)
 
-        axes.plot((W[0], W[0]), (W[1], W[1]),
-                  color=(R, G, B),
-                  label=colourspace.name)
+        axes.plot(
+            (W[0], W[0]), (W[1], W[1]),
+            color=(R, G, B),
+            label=colourspace.name)
 
         if show_whitepoints:
             axes.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
 
-        axes.plot((P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
-                  'o-',
-                  color=(R, G, B))
-        axes.plot((P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
-                  'o-',
-                  color=(R, G, B))
-        axes.plot((P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
-                  'o-',
-                  color=(R, G, B))
+        axes.plot(
+            (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]), 'o-', color=(R, G, B))
+        axes.plot(
+            (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]), 'o-', color=(R, G, B))
+        axes.plot(
+            (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]), 'o-', color=(R, G, B))
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
         y_limit_min.append(np.amin(P[..., 1]) - 0.1)
