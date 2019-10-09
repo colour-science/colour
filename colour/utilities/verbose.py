@@ -144,10 +144,14 @@ def show_warning(message,
                  line,
                  file_=None,
                  code=None,
-                 frame_range=(1, 2)):
+                 frame_range=(1, None)):
     """
-    Replaces :func:`warnings.showwarning` definition to allow traceback
+    Alternative :func:`warnings.showwarning` definition that allows traceback
     printing.
+
+    This definition is expected to be used by setting the
+    *COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK* environment variable
+    prior to importing *colour*.
 
     Parameters
     ----------
@@ -166,6 +170,14 @@ def show_warning(message,
         Source code to be included in the warning message.
     frame_range : array_like, optional
         Traceback frame range, i.e first frame and numbers of frame above it.
+
+    Notes
+    -----
+    -   Setting the *COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK*
+        environment variable will result in the :func:`warnings.showwarning`
+        definition to be replaced with the
+        :func:`colour.utilities.show_warning` definition and thus providing
+        complete traceback from the point where the warning occurred.
     """
 
     if file_ is None:
@@ -192,7 +204,9 @@ def show_warning(message,
         pass
 
 
-warnings.showwarning = show_warning
+if os.environ.get(  # pragma: no cover
+        'COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK'):
+    warnings.showwarning = show_warning
 
 
 def warning(*args, **kwargs):

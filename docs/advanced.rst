@@ -1,6 +1,17 @@
 Advanced
 ========
 
+Environment
+-----------
+
+Various environment variables can be used to modify **Colour** behaviour at
+runtime:
+
+-   `COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK`: result in the
+    :func:`warnings.showwarning` definition to be replaced with the
+    :func:`colour.utilities.show_warning` definition and thus providing
+    complete traceback from the point where the warning occurred.
+
 Using Colour without Scipy
 --------------------------
 
