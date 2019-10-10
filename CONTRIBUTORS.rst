@@ -80,6 +80,10 @@ Development & Technical Support
 
     *Hacktoberfest 2019* technical support.
 
+-   **Manuel Leonhardt**, *Software Engineer and Image Scientist @ ARRI*
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
