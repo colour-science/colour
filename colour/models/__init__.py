@@ -90,9 +90,7 @@ class models(ModuleAPI):
 
 # v0.3.14
 API_CHANGES = {
-    'FutureRemove': [
-        'colour.models.XYZ_to_colourspace_model',
-    ],
+    'FutureRemove': ['colour.models.XYZ_to_colourspace_model', ],
     'Renamed': [
         [
             'colour.models.oetf_ST2084',

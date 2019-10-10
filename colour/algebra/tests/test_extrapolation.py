@@ -34,7 +34,7 @@ class TestExtrapolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('interpolator',)
+        required_attributes = ('interpolator', )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Extrapolator))

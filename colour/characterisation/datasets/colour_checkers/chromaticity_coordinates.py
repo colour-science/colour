@@ -312,8 +312,8 @@ COLORCHECKER24_BEFORE_NOV2014_DATA = OrderedDict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(COLORCHECKER24_BEFORE_NOV2014_LAB_DATA.values()),
-                ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                ['ICC D50']))))
+                ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+                    'ICC D50']))))
 
 COLORCHECKER24_BEFORE_NOV2014_ILLUMINANT = (
     ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
@@ -383,8 +383,8 @@ COLORCHECKER24_AFTER_NOV2014_DATA = OrderedDict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(COLORCHECKER24_AFTER_NOV2014_LAB_DATA.values()),
-                ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                ['ICC D50']))))
+                ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+                    'ICC D50']))))
 
 COLORCHECKER24_AFTER_NOV2014_ILLUMINANT = (
     ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])

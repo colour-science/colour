@@ -50,8 +50,8 @@ DEFAULT_SPECTRAL_SHAPE_MENG_2015 : SpectralShape
 
 def XYZ_to_sd_Meng2015(
         XYZ,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015),
         illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_MENG_2015),
         optimisation_parameters=None):
     """

@@ -2019,9 +2019,10 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
                 table = LUT.apply(table, **kwargs)
         elif isinstance(LUT, LUT3x1D):
             if cls is LUT1D:
-                domain = np.array(
-                    [np.sum(LUT.domain[0, ...] * channel_weights),
-                     np.sum(LUT.domain[-1, ...] * channel_weights)])
+                domain = np.array([
+                    np.sum(LUT.domain[0, ...] * channel_weights),
+                    np.sum(LUT.domain[-1, ...] * channel_weights)
+                ])
                 table = np.sum(LUT.table * channel_weights, axis=-1)
             elif cls is LUT3D:
                 domain = LUT.domain
@@ -2029,9 +2030,10 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
                 table = LUT.apply(table, **kwargs)
         elif isinstance(LUT, LUT3D):
             if cls is LUT1D:
-                domain = np.array(
-                    [np.sum(LUT.domain[0, ...] * channel_weights),
-                     np.sum(LUT.domain[-1, ...] * channel_weights)])
+                domain = np.array([
+                    np.sum(LUT.domain[0, ...] * channel_weights),
+                    np.sum(LUT.domain[-1, ...] * channel_weights)
+                ])
                 table = LUT1D.linear_table(size, domain)
                 table = LUT.apply(tstack([table, table, table]), **kwargs)
                 table = np.sum(table * channel_weights, axis=-1)

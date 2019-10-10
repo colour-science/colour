@@ -166,8 +166,7 @@ class ColourAppearanceModelTest(object):
 
         for data_attr, specification_attr in sorted(output_attributes.items()):
             self.check_specification_attribute(
-                data.get('Case'), data, specification_attr, data[data_attr]
-            )
+                data.get('Case'), data, specification_attr, data[data_attr])
 
     def fixtures(self):
         """

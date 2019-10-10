@@ -70,13 +70,7 @@ class BrenemanExperimentResult(
         :math:`\\delta_uv_g^p`.
     """
 
-    def __new__(cls,
-                name,
-                uv_t,
-                uv_m,
-                s_uv=None,
-                d_uv_i=None,
-                d_uv_g=None):
+    def __new__(cls, name, uv_t, uv_m, s_uv=None, d_uv_i=None, d_uv_g=None):
         """
         Returns a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\

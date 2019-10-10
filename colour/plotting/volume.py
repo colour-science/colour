@@ -471,10 +471,11 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
 
         axes.plot(
             points[..., 0], points[..., 1], points[..., 2], color=c, zorder=10)
-        axes.plot((points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
-                  (points[-1][2], points[0][2]),
-                  color=c,
-                  zorder=10)
+        axes.plot(
+            (points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
+            (points[-1][2], points[0][2]),
+            color=c,
+            zorder=10)
 
     quads, RGB_f, RGB_e = [], [], []
     for i, colourspace in enumerate(colourspaces):

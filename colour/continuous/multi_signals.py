@@ -681,20 +681,22 @@ or dict_like
             representation = representation.replace(
                 '       [',
                 '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
-            representation = (
-                '{0},\n'
-                '{1}labels={2},\n'
-                '{1}interpolator={3},\n'
-                '{1}interpolator_args={4},\n'
-                '{1}extrapolator={5},\n'
-                '{1}extrapolator_args={6})').format(
-                    representation[:-1],
-                    ' ' * (len(self.__class__.__name__) + 1), repr(
-                        self.labels), self.interpolator.__name__
-                    if self.interpolator is not None else self.interpolator,
-                    repr(self.interpolator_args), self.extrapolator.__name__
-                    if self.extrapolator is not None else self.extrapolator,
-                    repr(self.extrapolator_args))
+            representation = ('{0},\n'
+                              '{1}labels={2},\n'
+                              '{1}interpolator={3},\n'
+                              '{1}interpolator_args={4},\n'
+                              '{1}extrapolator={5},\n'
+                              '{1}extrapolator_args={6})').format(
+                                  representation[:-1],
+                                  ' ' * (len(self.__class__.__name__) + 1),
+                                  repr(self.labels), self.interpolator.__name__
+                                  if self.interpolator is not None else
+                                  self.interpolator,
+                                  repr(self.interpolator_args),
+                                  self.extrapolator.__name__
+                                  if self.extrapolator is not None else
+                                  self.extrapolator,
+                                  repr(self.extrapolator_args))
 
             return representation
         except TypeError:

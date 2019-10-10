@@ -30,11 +30,10 @@ from colour.notation.munsell import (munsell_colour_to_xyY,
                                      xyY_to_munsell_colour)
 from colour.notation.munsell import (munsell_specification_to_xyY,
                                      xyY_to_munsell_specification)
-from colour.notation import (munsell_value_Priest1920,
-                             munsell_value_Munsell1933, munsell_value_Moon1943,
-                             munsell_value_Saunderson1944,
-                             munsell_value_Ladd1955, munsell_value_McCamy1987,
-                             munsell_value_ASTMD1535)
+from colour.notation import (
+    munsell_value_Priest1920, munsell_value_Munsell1933,
+    munsell_value_Moon1943, munsell_value_Saunderson1944,
+    munsell_value_Ladd1955, munsell_value_McCamy1987, munsell_value_ASTMD1535)
 from colour.utilities import (as_float_array, domain_range_scale,
                               ignore_numpy_errors, tstack)
 
@@ -1228,19 +1227,13 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_ASTMD1535(12.23634268),
-            4.0824437076525664,
-            places=7)
+            munsell_value_ASTMD1535(12.23634268), 4.0824437076525664, places=7)
 
         self.assertAlmostEqual(
-            munsell_value_ASTMD1535(22.89399987),
-            5.3913268228155395,
-            places=7)
+            munsell_value_ASTMD1535(22.89399987), 5.3913268228155395, places=7)
 
         self.assertAlmostEqual(
-            munsell_value_ASTMD1535(6.29022535),
-            2.9761930839606454,
-            places=7)
+            munsell_value_ASTMD1535(6.29022535), 2.9761930839606454, places=7)
 
     def test_n_dimensional_munsell_value_ASTMD1535(self):
         """

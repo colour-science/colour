@@ -64,8 +64,8 @@ BT470_525_WHITEPOINT_NAME = 'C'
 BT470_525_WHITEPOINT_NAME : unicode
 """
 
-BT470_525_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                        [BT470_525_WHITEPOINT_NAME])
+BT470_525_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    BT470_525_WHITEPOINT_NAME])
 """
 *ITU-R BT.470 - 525* colourspace whitepoint.
 
@@ -125,8 +125,8 @@ BT470_625_WHITEPOINT_NAME = 'D65'
 BT470_625_WHITEPOINT_NAME : unicode
 """
 
-BT470_625_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                        [BT470_625_WHITEPOINT_NAME])
+BT470_625_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    BT470_625_WHITEPOINT_NAME])
 """
 *ITU-R BT.470 - 625* colourspace whitepoint.
 

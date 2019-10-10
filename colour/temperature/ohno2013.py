@@ -31,9 +31,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
-                                STANDARD_OBSERVERS_CMFS, sd_blackbody,
-                                sd_to_XYZ)
+from colour.colorimetry import (
+    DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float_array, runtime_warning, tsplit
 
@@ -170,8 +169,8 @@ def planckian_table_minimal_distance_index(planckian_table_):
 
 def _uv_to_CCT_Ohno2013(
         uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        copy().trim(DEFAULT_SPECTRAL_SHAPE),
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         start=CCT_MINIMAL,
         end=CCT_MAXIMAL,
         count=CCT_SAMPLES,

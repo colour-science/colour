@@ -28,8 +28,8 @@ __status__ = 'Production'
 
 __all__ = [
     'ASTMG173_ETR_DATA', 'ASTMG173_GLOBAL_TILT_DATA',
-    'ASTMG173_DIRECT_CIRCUMSOLAR_DATA', 'ASTMG173_ETR',
-    'ASTMG173_GLOBAL_TILT', 'ASTMG173_DIRECT_CIRCUMSOLAR'
+    'ASTMG173_DIRECT_CIRCUMSOLAR_DATA', 'ASTMG173_ETR', 'ASTMG173_GLOBAL_TILT',
+    'ASTMG173_DIRECT_CIRCUMSOLAR'
 ]
 
 # yapf: disable
@@ -6050,9 +6050,7 @@ ASTMG173_DIRECT_CIRCUMSOLAR_DATA = {
 # yapf: enable
 
 ASTMG173_ETR = SpectralDistribution(
-    ASTMG173_ETR_DATA,
-    name='ASTM G-173 ETR',
-    interpolator=LinearInterpolator)
+    ASTMG173_ETR_DATA, name='ASTM G-173 ETR', interpolator=LinearInterpolator)
 """
 Extraterrestrial Radiation (solar spectrum at top of atmosphere) at mean
 Earth-Sun distance.

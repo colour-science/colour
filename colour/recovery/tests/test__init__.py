@@ -37,8 +37,8 @@ class TestXYZ_to_sd(unittest.TestCase):
         and range scale support.
         """
 
-        cmfs = (STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-                copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015))
+        cmfs = (STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+                .copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015))
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         m = ('Smits 1999', 'Meng 2015')

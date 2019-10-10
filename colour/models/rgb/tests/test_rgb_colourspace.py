@@ -90,7 +90,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         colourspace models.
         """
 
-        ignored_colourspaces = ('ACESproxy',)
+        ignored_colourspaces = ('ACESproxy', )
 
         decimals = {'DJI D-Gamut': 1, 'F-Gamut': 4}
 
