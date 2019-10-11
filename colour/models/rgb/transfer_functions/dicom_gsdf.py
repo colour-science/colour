@@ -3,11 +3,10 @@
 DICOM - Grayscale Standard Display Function
 ===========================================
 
-Defines the *DICOM - Grayscale Standard Display Function* opto-electrical
-transfer function (OETF / OECF) and electro-optical transfer function
-(EOTF / EOCF):
+Defines the *DICOM - Grayscale Standard Display Function* electro-optical
+transfer function (EOTF / EOCF) and its inverse:
 
--   :func:`colour.models.oetf_DICOMGSDF`
+-   :func:`colour.models.eotf_inverse_DICOMGSDF`
 -   :func:`colour.models.eotf_DICOMGSDF`
 
 The Grayscale Standard Display Function is defined for the Luminance Range
@@ -45,7 +44,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['DICOMGSDF_CONSTANTS', 'oetf_DICOMGSDF', 'eotf_DICOMGSDF']
+__all__ = ['DICOMGSDF_CONSTANTS', 'eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
 
 DICOMGSDF_CONSTANTS = Structure(
     a=-1.3011877,
@@ -74,10 +73,10 @@ DICOMGSDF_CONSTANTS : Structure
 """
 
 
-def oetf_DICOMGSDF(L, out_int=False):
+def eotf_inverse_DICOMGSDF(L, out_int=False):
     """
-    Defines the *DICOM - Grayscale Standard Display Function* opto-electronic
-    transfer function (OETF / OECF).
+    Defines the *DICOM - Grayscale Standard Display Function* inverse
+    electro-optical transfer function (EOTF / EOCF).
 
     Parameters
     ----------
@@ -113,9 +112,9 @@ def oetf_DICOMGSDF(L, out_int=False):
 
     Examples
     --------
-    >>> oetf_DICOMGSDF(130.0662)  # doctest: +ELLIPSIS
+    >>> eotf_inverse_DICOMGSDF(130.0662)  # doctest: +ELLIPSIS
     0.5004862...
-    >>> oetf_DICOMGSDF(130.0662, out_int=True)
+    >>> eotf_inverse_DICOMGSDF(130.0662, out_int=True)
     512
     """
 

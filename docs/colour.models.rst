@@ -379,7 +379,6 @@ Opto-Electronic Transfer Functions
 
     oetf_ARIBSTDB67
     oetf_inverse_ARIBSTDB67
-    oetf_DICOMGSDF
     oetf_BT2020
     oetf_HLG_BT2100
     oetf_inverse_HLG_BT2100
@@ -431,6 +430,7 @@ Electro-Optical Transfer Functions
     eotf_DCDM
     eotf_inverse_DCDM
     eotf_DICOMGSDF
+    eotf_inverse_DICOMGSDF
     eotf_BT1886
     eotf_inverse_BT1886
     eotf_BT2020
