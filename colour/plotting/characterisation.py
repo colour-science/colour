@@ -28,7 +28,14 @@ __status__ = 'Production'
 __all__ = ['plot_single_colour_checker', 'plot_multi_colour_checkers']
 
 
-@override_style()
+@override_style(
+    **{
+        'axes.grid': False,
+        'xtick.bottom': False,
+        'ytick.left': False,
+        'xtick.labelbottom': False,
+        'ytick.labelleft': False,
+    })
 def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
     """
     Plots given colour checker.
