@@ -1131,7 +1131,7 @@ API_CHANGES = {
         ],
         [
             'colour.oetf_DICOMGSDF',
-            'colour.models.oetf_DICOMGSDF',
+            'colour.models.eotf_inverse_DICOMGSDF',
         ],
         [
             'colour.oetf_ProPhotoRGB',

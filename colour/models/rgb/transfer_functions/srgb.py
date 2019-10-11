@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-sRGB Colourspace
-================
+sRGB
+====
 
-Defines *sRGB* colourspace opto-electrical transfer function (OETF / OECF) and
-its inverse:
+Defines the *sRGB* electro-optical transfer function (EOTF / EOCF) and its
+inverse:
 
 -   :func:`colour.models.eotf_inverse_sRGB`
 -   :func:`colour.models.eotf_sRGB`
@@ -50,8 +50,8 @@ __all__ = ['eotf_inverse_sRGB', 'eotf_sRGB']
 
 def eotf_inverse_sRGB(L):
     """
-    Defines the *IEC 61966-2-1:1999* *sRGB* colourspace inverse electro-optical
-    transfer function (EOTF / EOCF).
+    Defines the *IEC 61966-2-1:1999* *sRGB* inverse electro-optical transfer
+    function (EOTF / EOCF).
 
     Parameters
     ----------
@@ -98,8 +98,8 @@ def eotf_inverse_sRGB(L):
 
 def eotf_sRGB(V):
     """
-    Defines the *IEC 61966-2-1:1999* *sRGB* colourspace electro-optical
-    transfer function (EOTF / EOCF).
+    Defines the *IEC 61966-2-1:1999* *sRGB* electro-optical transfer function
+    (EOTF / EOCF).
 
     Parameters
     ----------

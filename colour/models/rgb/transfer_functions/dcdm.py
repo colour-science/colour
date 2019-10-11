@@ -3,8 +3,8 @@
 Digital Cinema Distribution Master (DCDM)
 =========================================
 
-Defines the *DCDM* opto-electrical transfer function (OETF / OECF) and
-electro-optical transfer function (EOTF / EOCF):
+Defines the *DCDM* electro-optical transfer function (EOTF / EOCF) and its
+inverse:
 
 -   :func:`colour.models.eotf_inverse_DCDM`
 -   :func:`colour.models.eotf_DCDM`
