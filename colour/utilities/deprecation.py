@@ -23,12 +23,13 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'Renamed', 'Removed', 'FutureRename', 'FutureRemove', 'FutureAccessChange',
-    'FutureAccessRemove', 'ModuleAPI', 'get_attribute'
+    'ObjectRenamed', 'ObjectRemoved', 'ObjectFutureRename',
+    'ObjectFutureRemove', 'ObjectFutureAccessChange',
+    'ObjectFutureAccessRemove', 'ModuleAPI', 'get_attribute'
 ]
 
 
-class Renamed(namedtuple('Renamed', ('name', 'new_name'))):
+class ObjectRenamed(namedtuple('ObjectRenamed', ('name', 'new_name'))):
     """
     A class used for an object that has been renamed.
 
@@ -54,7 +55,7 @@ class Renamed(namedtuple('Renamed', ('name', 'new_name'))):
             self.name, self.new_name))
 
 
-class Removed(namedtuple('Removed', ('name', ))):
+class ObjectRemoved(namedtuple('ObjectRemoved', ('name', ))):
     """
     A class used for an object that has been removed.
 
@@ -77,7 +78,8 @@ class Removed(namedtuple('Removed', ('name', ))):
         return '"{0}" object has been removed from the API.'.format(self.name)
 
 
-class FutureRename(namedtuple('FutureRename', ('name', 'new_name'))):
+class ObjectFutureRename(
+        namedtuple('ObjectFutureRename', ('name', 'new_name'))):
     """
     A class used for future object name deprecation, i.e. object name will
     change in a future release.
@@ -104,7 +106,7 @@ class FutureRename(namedtuple('FutureRename', ('name', 'new_name'))):
                 'in a future release.'.format(self.name, self.new_name))
 
 
-class FutureRemove(namedtuple('FutureRemove', ('name', ))):
+class ObjectFutureRemove(namedtuple('ObjectFutureRemove', ('name', ))):
     """
     A class used for future object removal.
 
@@ -128,8 +130,8 @@ class FutureRemove(namedtuple('FutureRemove', ('name', ))):
                 'in a future release.'.format(self.name))
 
 
-class FutureAccessChange(
-        namedtuple('FutureAccessChange', ('access', 'new_access'))):
+class ObjectFutureAccessChange(
+        namedtuple('ObjectFutureAccessChange', ('access', 'new_access'))):
     """
     A class used for future object access deprecation, i.e. object access will
     change in a future release.
@@ -157,7 +159,8 @@ class FutureAccessChange(
                                                     self.new_access))
 
 
-class FutureAccessRemove(namedtuple('FutureAccessRemove', ('name', 'access'))):
+class ObjectFutureAccessRemove(
+        namedtuple('ObjectFutureAccessRemove', ('name', 'access'))):
     """
     A class used for future object access removal, i.e. object access will
     be removed in a future release.
@@ -234,12 +237,12 @@ class ModuleAPI(object):
 
         change = self._changes.get(attribute)
         if change is not None:
-            if not isinstance(change, Removed):
+            if not isinstance(change, ObjectRemoved):
 
                 usage_warning(str(change))
 
                 return (getattr(self._module, attribute) if isinstance(
-                    change, FutureRemove) else get_attribute(change[1]))
+                    change, ObjectFutureRemove) else get_attribute(change[1]))
             else:
                 raise AttributeError(str(change))
 

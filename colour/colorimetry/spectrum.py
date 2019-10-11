@@ -38,7 +38,7 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
 from colour.utilities import (as_float, first_item, is_iterable, is_numeric,
                               is_string, is_uniform, interval, runtime_warning)
-from colour.utilities.deprecation import Removed, Renamed
+from colour.utilities.deprecation import ObjectRemoved, ObjectRenamed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -1402,8 +1402,8 @@ dict_like, optional
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.title',
-                        'SpectralDistribution.strict_name')))
+                ObjectRenamed('SpectralPowerDistribution.title',
+                              'SpectralDistribution.strict_name')))
 
         return self.strict_name
 
@@ -1412,39 +1412,40 @@ dict_like, optional
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.title',
-                        'SpectralDistribution.strict_name')))
+                ObjectRenamed('SpectralPowerDistribution.title',
+                              'SpectralDistribution.strict_name')))
 
         self.strict_name = value
 
     @property
     def data(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.data')))
+        raise AttributeError(str(ObjectRemoved('SpectralDistribution.data')))
 
     @property
     def items(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.items')))
+        raise AttributeError(str(ObjectRemoved('SpectralDistribution.items')))
 
     def __iter__(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.__iter__')))
+        raise AttributeError(
+            str(ObjectRemoved('SpectralDistribution.__iter__')))
 
     def get(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.get')))
+        raise AttributeError(str(ObjectRemoved('SpectralDistribution.get')))
 
     def zeros(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.zeros')))
+        raise AttributeError(str(ObjectRemoved('SpectralDistribution.zeros')))
 
     def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.trim_wavelengths',
-                        'SpectralDistribution.trim')))
+                ObjectRenamed('SpectralPowerDistribution.trim_wavelengths',
+                              'SpectralDistribution.trim')))
 
         return self.trim(shape)
 
@@ -1452,8 +1453,8 @@ dict_like, optional
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.clone',
-                        'SpectralDistribution.copy')))
+                ObjectRenamed('SpectralPowerDistribution.clone',
+                              'SpectralDistribution.copy')))
 
         return self.copy()
 
@@ -2365,8 +2366,8 @@ MultiSpectralDistributions or array_like or dict_like, optional
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('TriSpectralPowerDistribution.title',
-                        'SpectralDistribution.strict_name')))
+                ObjectRenamed('TriSpectralPowerDistribution.title',
+                              'SpectralDistribution.strict_name')))
 
         return self.strict_name
 
@@ -2375,61 +2376,68 @@ MultiSpectralDistributions or array_like or dict_like, optional
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('TriSpectralPowerDistribution.title',
-                        'SpectralDistribution.strict_name')))
+                ObjectRenamed('TriSpectralPowerDistribution.title',
+                              'SpectralDistribution.strict_name')))
 
         self.strict_name = value
 
     @property
     def data(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistributions.data')))
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.data')))
 
     @property
     def items(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistributions.items')))
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.items')))
 
     @property
     def mapping(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(
-            str(Removed('MultiSpectralDistributions.mapping')))
+            str(ObjectRemoved('MultiSpectralDistributions.mapping')))
 
     @property
     def x(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistributions.x')))
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.x')))
 
     @property
     def y(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistributions.y')))
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.y')))
 
     @property
     def z(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistributions.z')))
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.z')))
 
     def __iter__(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(
-            str(Removed('MultiSpectralDistributions.__iter__')))
+            str(ObjectRemoved('MultiSpectralDistributions.__iter__')))
 
     def get(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistributions.get')))
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.get')))
 
     def zeros(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistributions.zeros')))
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.zeros')))
 
     def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('TriSpectralPowerDistribution.trim_wavelengths',
-                        'MultiSpectralDistributions.trim')))
+                ObjectRenamed('TriSpectralPowerDistribution.trim_wavelengths',
+                              'MultiSpectralDistributions.trim')))
 
         return self.trim(shape)
 
@@ -2437,8 +2445,8 @@ MultiSpectralDistributions or array_like or dict_like, optional
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('TriSpectralPowerDistribution.clone',
-                        'MultiSpectralDistributions.copy')))
+                ObjectRenamed('TriSpectralPowerDistribution.clone',
+                              'MultiSpectralDistributions.copy')))
 
         return self.copy()
 

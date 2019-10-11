@@ -44,8 +44,9 @@ from __future__ import absolute_import
 import numpy as np
 import sys
 
-from .utilities.deprecation import (FutureAccessChange, FutureAccessRemove,
-                                    ModuleAPI, Removed, Renamed)
+from .utilities.deprecation import (ObjectFutureAccessChange,
+                                    ObjectFutureAccessRemove, ModuleAPI,
+                                    ObjectRemoved, ObjectRenamed)
 from .utilities.documentation import is_documentation_building
 from .utilities.common import (domain_range_scale, get_domain_range_scale,
                                set_domain_range_scale)
@@ -1554,12 +1555,12 @@ API_CHANGES : dict
 """
 
 API_CHANGES.update({
-    'Removed': [
+    'ObjectRemoved': [
         'colour.DEFAULT_WAVELENGTH_DECIMALS',
         'colour.ArbitraryPrecisionMapping',
         'colour.SpectralMapping',
     ],
-    'Renamed': [
+    'ObjectRenamed': [
         [
             'colour.eotf_ARIBSTDB67',
             'colour.models.oetf_inverse_ARIBSTDB67',
@@ -1608,7 +1609,7 @@ API_CHANGES.update({
 })
 
 # v0.3.12
-API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.CIE_standard_illuminant_A_function',
         'colour.sd_CIE_standard_illuminant_A',
@@ -1712,7 +1713,7 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
 ]
 
 # v0.3.14
-API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.ASTME30815_PRACTISE_SHAPE',
         'colour.ASTME308_PRACTISE_SHAPE',
@@ -1755,38 +1756,39 @@ def _setup_api_changes():
 
     global API_CHANGES
 
-    for access_change in API_CHANGES['Future Access Change']:
-        old_access, new_access = access_change
+    for object_future_access_change in API_CHANGES['Future Access Change']:
+        old_access, new_access = object_future_access_change
         API_CHANGES[old_access.split('.')[-1]] = (
-            FutureAccessChange(  # noqa
+            ObjectFutureAccessChange(  # noqa
                 old_access, new_access))
     API_CHANGES.pop('Future Access Change')
 
-    for access_remove in API_CHANGES['Future Access Remove']:
-        name, access = access_remove
+    for object_future_access_remove in API_CHANGES['Future Access Remove']:
+        name, access = object_future_access_remove
         API_CHANGES[name.split('.')[-1]] = (
-            FutureAccessRemove(  # noqa
+            ObjectFutureAccessRemove(  # noqa
                 name, access))
     API_CHANGES.pop('Future Access Remove')
 
-    for removed in API_CHANGES['Removed']:
-        API_CHANGES[removed.split('.')[-1]] = Removed(removed)  # noqa
-    API_CHANGES.pop('Removed')
+    for object_removed in API_CHANGES['ObjectRemoved']:
+        API_CHANGES[object_removed.split('.')[-1]] = ObjectRemoved(  # noqa
+            object_removed)
+    API_CHANGES.pop('ObjectRemoved')
 
-    for renamed in API_CHANGES['Renamed']:
-        name, access = renamed
-        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
-    API_CHANGES.pop('Renamed')
+    for object_renamed in API_CHANGES['ObjectRenamed']:
+        name, access = object_renamed
+        API_CHANGES[name.split('.')[-1]] = ObjectRenamed(name, access)  # noqa
+    API_CHANGES.pop('ObjectRenamed')
 
 
 if not is_documentation_building():
     _setup_api_changes()
 
-    del FutureAccessChange
-    del FutureAccessRemove
+    del ObjectFutureAccessChange
+    del ObjectFutureAccessRemove
     del ModuleAPI
-    del Removed
-    del Renamed
+    del ObjectRemoved
+    del ObjectRenamed
     del is_documentation_building
     del _setup_api_changes
 

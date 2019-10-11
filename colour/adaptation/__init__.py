@@ -25,7 +25,7 @@ from __future__ import absolute_import
 
 import sys
 
-from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.deprecation import ModuleAPI, ObjectRenamed
 from colour.utilities.documentation import is_documentation_building
 
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
@@ -256,7 +256,7 @@ class adaptation(ModuleAPI):
 
 # v0.3.14
 API_CHANGES = {
-    'Renamed': [[
+    'ObjectRenamed': [[
         'colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000',
         'colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000',
     ], ]
@@ -275,17 +275,17 @@ def _setup_api_changes():
 
     global API_CHANGES
 
-    for renamed in API_CHANGES['Renamed']:
-        name, access = renamed
-        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
-    API_CHANGES.pop('Renamed')
+    for object_renamed in API_CHANGES['ObjectRenamed']:
+        name, access = object_renamed
+        API_CHANGES[name.split('.')[-1]] = ObjectRenamed(name, access)  # noqa
+    API_CHANGES.pop('ObjectRenamed')
 
 
 if not is_documentation_building():
     _setup_api_changes()
 
     del ModuleAPI
-    del Renamed
+    del ObjectRenamed
     del is_documentation_building
     del _setup_api_changes
 
