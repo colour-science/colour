@@ -25,7 +25,8 @@ __status__ = 'Production'
 __all__ = [
     'ObjectRenamed', 'ObjectRemoved', 'ObjectFutureRename',
     'ObjectFutureRemove', 'ObjectFutureAccessChange',
-    'ObjectFutureAccessRemove', 'ModuleAPI', 'get_attribute'
+    'ObjectFutureAccessRemove', 'ModuleAPI', 'get_attribute',
+    'build_API_changes'
 ]
 
 
@@ -160,7 +161,7 @@ class ObjectFutureAccessChange(
 
 
 class ObjectFutureAccessRemove(
-        namedtuple('ObjectFutureAccessRemove', ('name', 'access'))):
+        namedtuple('ObjectFutureAccessRemove', ('name', ))):
     """
     A class used for future object access removal, i.e. object access will
     be removed in a future release.
@@ -169,8 +170,6 @@ class ObjectFutureAccessRemove(
     ----------
     name : unicode
         Object name whose access will removed in a future release.
-    access : unicode
-        Object access that will be removed in a future release.
     """
 
     def __str__(self):
@@ -301,3 +300,64 @@ def get_attribute(attribute):
             module_name))
 
     return attrgetter(attribute)(module)
+
+
+def build_API_changes(changes):
+    """
+    Builds the effective API changes for a desired API changes mapping.
+
+    Parameters
+    ----------
+    changes : dict
+        Dictionary of desired API changes.
+
+    Returns
+    -------
+    dict
+        API changes
+
+    Examples
+    --------
+    >>> from pprint import pprint
+    >>> changes = {
+    ...     'ObjectRenamed': [[
+    ...         'module.object_1_name',
+    ...         'module.object_1_new_name',
+    ...     ]],
+    ...     'ObjectFutureRename': [[
+    ...         'module.object_2_name',
+    ...         'module.object__2new_name',
+    ...     ]],
+    ...     'ObjectFutureAccessChange': [[
+    ...         'module.object_3_access',
+    ...         'module.sub_module.object_3_new_access',
+    ...     ]],
+    ...     'ObjectRemoved': ['module.object_4_name'],
+    ...     'ObjectFutureRemove': ['module.object_5_name'],
+    ...     'ObjectFutureAccessRemove': ['module.object_6_access'],
+    ... }
+    >>> pprint(build_API_changes(changes))  # doctest: +SKIP
+    {'object_1_name': ObjectRenamed(name='module.object_1_name', \
+new_name='module.object_1_new_name'),
+     'object_2_name': ObjectFutureRename(name='module.object_2_name', \
+new_name='module.object_2_new_name'),
+     'object_3_access': ObjectFutureAccessChange(\
+access='module.object_3_access', \
+new_access='module.sub_module.object_3_new_access'),
+     'object_4_name': ObjectRemoved(name='module.object_4_name'),
+     'object_5_name': ObjectFutureRemove(name='module.object_5_name'),
+     'object_6_access': ObjectFutureAccessRemove(\
+name='module.object_6_access')}
+    """
+
+    for change_type in (ObjectRenamed, ObjectFutureRename,
+                        ObjectFutureAccessChange):
+        for change in changes.pop(change_type.__name__, []):
+            changes[change[0].split('.')[-1]] = change_type(*change)  # noqa
+
+    for change_type in (ObjectRemoved, ObjectFutureRemove,
+                        ObjectFutureAccessRemove):
+        for change in changes.pop(change_type.__name__, []):
+            changes[change.split('.')[-1]] = change_type(change)  # noqa
+
+    return changes

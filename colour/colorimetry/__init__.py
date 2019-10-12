@@ -4,7 +4,7 @@ from __future__ import absolute_import
 
 import sys
 
-from colour.utilities.deprecation import ModuleAPI, ObjectRenamed
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
@@ -197,29 +197,8 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
 ]
 
-
-def _setup_api_changes():
-    """
-    Setups *Colour* API changes.
-    """
-
-    global API_CHANGES
-
-    for object_renamed in API_CHANGES['ObjectRenamed']:
-        name, access = object_renamed
-        API_CHANGES[name.split('.')[-1]] = ObjectRenamed(name, access)  # noqa
-    API_CHANGES.pop('ObjectRenamed')
-
-
 if not is_documentation_building():
-    _setup_api_changes()
-
-    del ModuleAPI
-    del ObjectRenamed
-    del is_documentation_building
-    del _setup_api_changes
-
     sys.modules['colour.colorimetry'] = colorimetry(
-        sys.modules['colour.colorimetry'], API_CHANGES)
+        sys.modules['colour.colorimetry'], build_API_changes(API_CHANGES))
 
-    del sys
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

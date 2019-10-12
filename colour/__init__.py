@@ -44,9 +44,7 @@ from __future__ import absolute_import
 import numpy as np
 import sys
 
-from .utilities.deprecation import (ObjectFutureAccessChange,
-                                    ObjectFutureAccessRemove, ModuleAPI,
-                                    ObjectRemoved, ObjectRenamed)
+from .utilities.deprecation import ModuleAPI, build_API_changes
 from .utilities.documentation import is_documentation_building
 from .utilities.common import (domain_range_scale, get_domain_range_scale,
                                set_domain_range_scale)
@@ -329,18 +327,18 @@ colour.__version__ = __version__
 
 # v0.3.11
 API_CHANGES = {
-    'Future Access Change': [
+    'ObjectFutureAccessChange': [
         [
             'colour.ACES_2065_1_COLOURSPACE',
             'colour.models.ACES_2065_1_COLOURSPACE',
         ],
         [
-            'colour.ACES_CC_COLOURSPACE',
-            'colour.models.ACES_CC_COLOURSPACE',
-        ],
-        [
             'colour.ACES_CCT_COLOURSPACE',
             'colour.models.ACES_CCT_COLOURSPACE',
+        ],
+        [
+            'colour.ACES_CC_COLOURSPACE',
+            'colour.models.ACES_CC_COLOURSPACE',
         ],
         [
             'colour.ACES_CG_COLOURSPACE',
@@ -371,24 +369,12 @@ API_CHANGES = {
             'colour.models.APPLE_RGB_COLOURSPACE',
         ],
         [
-            'colour.as_namedtuple',
-            'colour.utilities.as_namedtuple',
-        ],
-        [
-            'colour.as_numeric',
-            'colour.utilities.as_numeric',
-        ],
-        [
             'colour.AVOGADRO_CONSTANT',
             'colour.constants.AVOGADRO_CONSTANT',
         ],
         [
-            'colour.bandpass_correction_Stearns1988',
-            'colour.colorimetry.bandpass_correction_Stearns1988',
-        ],
-        [
-            'colour.batch',
-            'colour.utilities.batch',
+            'colour.AbstractContinuousFunction',
+            'colour.continuous.AbstractContinuousFunction',
         ],
         [
             'colour.BEST_RGB_COLOURSPACE',
@@ -397,10 +383,6 @@ API_CHANGES = {
         [
             'colour.BETA_RGB_COLOURSPACE',
             'colour.models.BETA_RGB_COLOURSPACE',
-        ],
-        [
-            'colour.blackbody_spectral_radiance',
-            'colour.colorimetry.blackbody_spectral_radiance',
         ],
         [
             'colour.BOLTZMANN_CONSTANT',
@@ -435,20 +417,8 @@ API_CHANGES = {
             'colour.models.BT709_COLOURSPACE',
         ],
         [
-            'colour.cartesian_to_cylindrical',
-            'colour.algebra.cartesian_to_cylindrical',
-        ],
-        [
-            'colour.cartesian_to_polar',
-            'colour.algebra.cartesian_to_polar',
-        ],
-        [
-            'colour.cartesian_to_spherical',
-            'colour.algebra.cartesian_to_spherical',
-        ],
-        [
-            'colour.CaseInsensitiveMapping',
-            'colour.utilities.CaseInsensitiveMapping',
+            'colour.CAM16_InductionFactors',
+            'colour.appearance.CAM16_InductionFactors',
         ],
         [
             'colour.CAT02_BRILL_CAT',
@@ -479,28 +449,8 @@ API_CHANGES = {
             'colour.temperature.CCT_to_xy_Kang2002',
         ],
         [
-            'colour.centroid',
-            'colour.utilities.centroid',
-        ],
-        [
-            'colour.chromatic_adaptation_CIE1994',
-            'colour.adaptation.chromatic_adaptation_CIE1994',
-        ],
-        [
-            'colour.chromatic_adaptation_CMCCAT2000',
-            'colour.adaptation.chromatic_adaptation_CMCCAT2000',
-        ],
-        [
-            'colour.chromatic_adaptation_Fairchild1990',
-            'colour.adaptation.chromatic_adaptation_Fairchild1990',
-        ],
-        [
-            'colour.chromatic_adaptation_matrix_VonKries',
-            'colour.adaptation.chromatic_adaptation_matrix_VonKries',
-        ],
-        [
-            'colour.chromatic_adaptation_VonKries',
-            'colour.adaptation.chromatic_adaptation_VonKries',
+            'colour.CIECAM02_InductionFactors',
+            'colour.appearance.CIECAM02_InductionFactors',
         ],
         [
             'colour.CIE_RGB_COLOURSPACE',
@@ -511,16 +461,12 @@ API_CHANGES = {
             'colour.models.CINEMA_GAMUT_COLOURSPACE',
         ],
         [
-            'colour.closest',
-            'colour.utilities.closest',
-        ],
-        [
-            'colour.closest_indexes',
-            'colour.utilities.closest_indexes',
-        ],
-        [
             'colour.CMCCAT2000_CAT',
             'colour.adaptation.CMCCAT2000_CAT',
+        ],
+        [
+            'colour.CMCCAT2000_InductionFactors',
+            'colour.adaptation.CMCCAT2000_InductionFactors',
         ],
         [
             'colour.CMCCAT97_CAT',
@@ -543,32 +489,20 @@ API_CHANGES = {
             'colour.models.COLOURSPACE_MODELS_AXIS_LABELS',
         ],
         [
-            'colour.corresponding_chromaticities_prediction_CIE1994',
-            'colour.corresponding.'
-            'corresponding_chromaticities_prediction_CIE1994',
+            'colour.CQS_Specification',
+            'colour.quality.CQS_Specification',
         ],
         [
-            'colour.corresponding_chromaticities_prediction_CMCCAT2000',
-            'colour.corresponding.'
-            'corresponding_chromaticities_prediction_CMCCAT2000',
+            'colour.CRI_Specification',
+            'colour.quality.CRI_Specification',
         ],
         [
-            'colour.corresponding_chromaticities_prediction_Fairchild1990',
-            'colour.corresponding.'
-            'corresponding_chromaticities_prediction_Fairchild1990',
+            'colour.CaseInsensitiveMapping',
+            'colour.utilities.CaseInsensitiveMapping',
         ],
         [
-            'colour.corresponding_chromaticities_prediction_VonKries',
-            'colour.corresponding.'
-            'corresponding_chromaticities_prediction_VonKries',
-        ],
-        [
-            'colour.cylindrical_to_cartesian',
-            'colour.algebra.cylindrical_to_cartesian',
-        ],
-        [
-            'colour.D_ILLUMINANTS_S_SPDS',
-            'colour.colorimetry.D_ILLUMINANTS_S_SDS',
+            'colour.ColourWarning',
+            'colour.utilities.ColourWarning',
         ],
         [
             'colour.DCI_P3_COLOURSPACE',
@@ -581,6 +515,354 @@ API_CHANGES = {
         [
             'colour.DEFAULT_FLOAT_DTYPE',
             'colour.constants.DEFAULT_FLOAT_DTYPE',
+        ],
+        [
+            'colour.DON_RGB_4_COLOURSPACE',
+            'colour.models.DON_RGB_4_COLOURSPACE',
+        ],
+        [
+            'colour.DRAGON_COLOR_2_COLOURSPACE',
+            'colour.models.DRAGON_COLOR_2_COLOURSPACE',
+        ],
+        [
+            'colour.DRAGON_COLOR_COLOURSPACE',
+            'colour.models.DRAGON_COLOR_COLOURSPACE',
+        ],
+        [
+            'colour.D_ILLUMINANTS_S_SPDS',
+            'colour.colorimetry.D_ILLUMINANTS_S_SDS',
+        ],
+        [
+            'colour.ECI_RGB_V2_COLOURSPACE',
+            'colour.models.ECI_RGB_V2_COLOURSPACE',
+        ],
+        [
+            'colour.EKTA_SPACE_PS_5_COLOURSPACE',
+            'colour.models.EKTA_SPACE_PS_5_COLOURSPACE',
+        ],
+        [
+            'colour.EPSILON',
+            'colour.constants.EPSILON',
+        ],
+        [
+            'colour.ERIMM_RGB_COLOURSPACE',
+            'colour.models.ERIMM_RGB_COLOURSPACE',
+        ],
+        [
+            'colour.FAIRCHILD_CAT',
+            'colour.adaptation.FAIRCHILD_CAT',
+        ],
+        [
+            'colour.FLOATING_POINT_NUMBER_PATTERN',
+            'colour.constants.FLOATING_POINT_NUMBER_PATTERN',
+        ],
+        [
+            'colour.Hunt_InductionFactors',
+            'colour.appearance.Hunt_InductionFactors',
+        ],
+        [
+            'colour.INTEGER_THRESHOLD',
+            'colour.constants.INTEGER_THRESHOLD',
+        ],
+        [
+            'colour.KP_M',
+            'colour.constants.KP_M',
+        ],
+        [
+            'colour.K_M',
+            'colour.constants.K_M',
+        ],
+        [
+            'colour.LIGHT_SPEED',
+            'colour.constants.LIGHT_SPEED',
+        ],
+        [
+            'colour.LLAB_InductionFactors',
+            'colour.appearance.LLAB_InductionFactors',
+        ],
+        [
+            'colour.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
+            'colour.colorimetry.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
+        ],
+        [
+            'colour.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+            'colour.colorimetry.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+        ],
+        [
+            'colour.LMS_ConeFundamentals',
+            'colour.colorimetry.LMS_ConeFundamentals',
+        ],
+        [
+            'colour.LineSegmentsIntersections_Specification',
+            'colour.algebra.LineSegmentsIntersections_Specification',
+        ],
+        [
+            'colour.Lookup',
+            'colour.utilities.Lookup',
+        ],
+        [
+            'colour.MAX_RGB_COLOURSPACE',
+            'colour.models.MAX_RGB_COLOURSPACE',
+        ],
+        [
+            'colour.MUNSELL_COLOURS_1929',
+            'colour.notation.MUNSELL_COLOURS_1929',
+        ],
+        [
+            'colour.MUNSELL_COLOURS_ALL',
+            'colour.notation.MUNSELL_COLOURS_ALL',
+        ],
+        [
+            'colour.MUNSELL_COLOURS_REAL',
+            'colour.notation.MUNSELL_COLOURS_REAL',
+        ],
+        [
+            'colour.MultiSignal',
+            'colour.continuous.MultiSignals',
+        ],
+        [
+            'colour.NTSC_1953_COLOURSPACE',
+            'colour.models.NTSC_1953_COLOURSPACE',
+        ],
+        [
+            'colour.PAL_SECAM_COLOURSPACE',
+            'colour.models.PAL_SECAM_COLOURSPACE',
+        ],
+        [
+            'colour.PLANCK_CONSTANT',
+            'colour.constants.PLANCK_CONSTANT',
+        ],
+        [
+            'colour.PROPHOTO_RGB_COLOURSPACE',
+            'colour.models.PROPHOTO_RGB_COLOURSPACE',
+        ],
+        [
+            'colour.PROTUNE_NATIVE_COLOURSPACE',
+            'colour.models.PROTUNE_NATIVE_COLOURSPACE',
+        ],
+        [
+            'colour.RED_COLOR_2_COLOURSPACE',
+            'colour.models.RED_COLOR_2_COLOURSPACE',
+        ],
+        [
+            'colour.RED_COLOR_3_COLOURSPACE',
+            'colour.models.RED_COLOR_3_COLOURSPACE',
+        ],
+        [
+            'colour.RED_COLOR_4_COLOURSPACE',
+            'colour.models.RED_COLOR_4_COLOURSPACE',
+        ],
+        [
+            'colour.RED_COLOR_COLOURSPACE',
+            'colour.models.RED_COLOR_COLOURSPACE',
+        ],
+        [
+            'colour.RED_WIDE_GAMUT_RGB_COLOURSPACE',
+            'colour.models.RED_WIDE_GAMUT_RGB_COLOURSPACE',
+        ],
+        [
+            'colour.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
+            'colour.colorimetry.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
+        ],
+        [
+            'colour.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
+            'colour.colorimetry.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
+        ],
+        [
+            'colour.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+            'colour.colorimetry.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+        ],
+        [
+            'colour.RGB_ColourMatchingFunctions',
+            'colour.colorimetry.RGB_ColourMatchingFunctions',
+        ],
+        [
+            'colour.RGB_DisplayPrimaries',
+            'colour.characterisation.RGB_DisplayPrimaries',
+        ],
+        [
+            'colour.RGB_SpectralSensitivities',
+            'colour.characterisation.RGB_SpectralSensitivities',
+        ],
+        [
+            'colour.RGB_to_sd_Smits1999',
+            'colour.recovery.RGB_to_sd_Smits1999',
+        ],
+        [
+            'colour.RIMM_RGB_COLOURSPACE',
+            'colour.models.RIMM_RGB_COLOURSPACE',
+        ],
+        [
+            'colour.ROMM_RGB_COLOURSPACE',
+            'colour.models.ROMM_RGB_COLOURSPACE',
+        ],
+        [
+            'colour.RUSSELL_RGB_COLOURSPACE',
+            'colour.models.RUSSELL_RGB_COLOURSPACE',
+        ],
+        [
+            'colour.SHARP_CAT',
+            'colour.adaptation.SHARP_CAT',
+        ],
+        [
+            'colour.SMITS_1999_SPDS',
+            'colour.recovery.SMITS_1999_SDS',
+        ],
+        [
+            'colour.SMPTE_240M_COLOURSPACE',
+            'colour.models.SMPTE_240M_COLOURSPACE',
+        ],
+        [
+            'colour.S_GAMUT3_CINE_COLOURSPACE',
+            'colour.models.S_GAMUT3_CINE_COLOURSPACE',
+        ],
+        [
+            'colour.S_GAMUT3_COLOURSPACE',
+            'colour.models.S_GAMUT3_COLOURSPACE',
+        ],
+        [
+            'colour.S_GAMUT_COLOURSPACE',
+            'colour.models.S_GAMUT_COLOURSPACE',
+        ],
+        [
+            'colour.Signal',
+            'colour.continuous.Signal',
+        ],
+        [
+            'colour.Structure',
+            'colour.utilities.Structure',
+        ],
+        [
+            'colour.TCS_SPDS',
+            'colour.quality.TCS_SDS',
+        ],
+        [
+            'colour.VON_KRIES_CAT',
+            'colour.adaptation.VON_KRIES_CAT',
+        ],
+        [
+            'colour.VS_SPDS',
+            'colour.quality.VS_SDS',
+        ],
+        [
+            'colour.V_GAMUT_COLOURSPACE',
+            'colour.models.V_GAMUT_COLOURSPACE',
+        ],
+        [
+            'colour.XTREME_RGB_COLOURSPACE',
+            'colour.models.XTREME_RGB_COLOURSPACE',
+        ],
+        [
+            'colour.XYZ_ColourMatchingFunctions',
+            'colour.colorimetry.XYZ_ColourMatchingFunctions',
+        ],
+        [
+            'colour.XYZ_SCALING_CAT',
+            'colour.adaptation.XYZ_SCALING_CAT',
+        ],
+        [
+            'colour.XYZ_to_colourspace_model',
+            'colour.models.XYZ_to_colourspace_model',
+        ],
+        [
+            'colour.XYZ_to_sd_Meng2015',
+            'colour.recovery.XYZ_to_sd_Meng2015',
+        ],
+        [
+            'colour.adjust_tristimulus_weighting_factors_ASTME30815',
+            'colour.colorimetry.adjust_tristimulus_weighting_factors_ASTME308',
+        ],
+        [
+            'colour.as_namedtuple',
+            'colour.utilities.as_namedtuple',
+        ],
+        [
+            'colour.as_numeric',
+            'colour.utilities.as_numeric',
+        ],
+        [
+            'colour.bandpass_correction_Stearns1988',
+            'colour.colorimetry.bandpass_correction_Stearns1988',
+        ],
+        [
+            'colour.batch',
+            'colour.utilities.batch',
+        ],
+        [
+            'colour.blackbody_spectral_radiance',
+            'colour.colorimetry.blackbody_spectral_radiance',
+        ],
+        [
+            'colour.cartesian_to_cylindrical',
+            'colour.algebra.cartesian_to_cylindrical',
+        ],
+        [
+            'colour.cartesian_to_polar',
+            'colour.algebra.cartesian_to_polar',
+        ],
+        [
+            'colour.cartesian_to_spherical',
+            'colour.algebra.cartesian_to_spherical',
+        ],
+        [
+            'colour.centroid',
+            'colour.utilities.centroid',
+        ],
+        [
+            'colour.chromatic_adaptation_CIE1994',
+            'colour.adaptation.chromatic_adaptation_CIE1994',
+        ],
+        [
+            'colour.chromatic_adaptation_CMCCAT2000',
+            'colour.adaptation.chromatic_adaptation_CMCCAT2000',
+        ],
+        [
+            'colour.chromatic_adaptation_Fairchild1990',
+            'colour.adaptation.chromatic_adaptation_Fairchild1990',
+        ],
+        [
+            'colour.chromatic_adaptation_VonKries',
+            'colour.adaptation.chromatic_adaptation_VonKries',
+        ],
+        [
+            'colour.chromatic_adaptation_forward_CMCCAT2000',
+            'colour.adaptation.chromatic_adaptation_forward_CMCCAT2000',
+        ],
+        [
+            'colour.chromatic_adaptation_matrix_VonKries',
+            'colour.adaptation.chromatic_adaptation_matrix_VonKries',
+        ],
+        [
+            'colour.chromatic_adaptation_reverse_CMCCAT2000',
+            'colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000',
+        ],
+        [
+            'colour.closest',
+            'colour.utilities.closest',
+        ],
+        [
+            'colour.closest_indexes',
+            'colour.utilities.closest_indexes',
+        ],
+        [
+            'colour.corresponding_chromaticities_prediction_CIE1994',
+            'colour.corresponding.corresponding_chromaticities_prediction_CIE1994',  # noqa
+        ],
+        [
+            'colour.corresponding_chromaticities_prediction_CMCCAT2000',
+            'colour.corresponding.corresponding_chromaticities_prediction_CMCCAT2000',  # noqa
+        ],
+        [
+            'colour.corresponding_chromaticities_prediction_Fairchild1990',
+            'colour.corresponding.corresponding_chromaticities_prediction_Fairchild1990',  # noqa
+        ],
+        [
+            'colour.corresponding_chromaticities_prediction_VonKries',
+            'colour.corresponding.corresponding_chromaticities_prediction_VonKries',  # noqa
+        ],
+        [
+            'colour.cylindrical_to_cartesian',
+            'colour.algebra.cylindrical_to_cartesian',
         ],
         [
             'colour.delta_E_CAM02LCD',
@@ -623,32 +905,12 @@ API_CHANGES = {
             'colour.difference.delta_E_CMC',
         ],
         [
-            'colour.DON_RGB_4_COLOURSPACE',
-            'colour.models.DON_RGB_4_COLOURSPACE',
-        ],
-        [
             'colour.dot_matrix',
             'colour.utilities.dot_matrix',
         ],
         [
             'colour.dot_vector',
             'colour.utilities.dot_vector',
-        ],
-        [
-            'colour.DRAGON_COLOR_2_COLOURSPACE',
-            'colour.models.DRAGON_COLOR_2_COLOURSPACE',
-        ],
-        [
-            'colour.DRAGON_COLOR_COLOURSPACE',
-            'colour.models.DRAGON_COLOR_COLOURSPACE',
-        ],
-        [
-            'colour.ECI_RGB_V2_COLOURSPACE',
-            'colour.models.ECI_RGB_V2_COLOURSPACE',
-        ],
-        [
-            'colour.EKTA_SPACE_PS_5_COLOURSPACE',
-            'colour.models.EKTA_SPACE_PS_5_COLOURSPACE',
         ],
         [
             'colour.eotf_BT1886',
@@ -679,18 +941,6 @@ API_CHANGES = {
             'colour.models.eotf_ProPhotoRGB',
         ],
         [
-            'colour.eotf_reverse_BT1886',
-            'colour.models.eotf_inverse_BT1886',
-        ],
-        [
-            'colour.eotf_reverse_BT2100_HLG',
-            'colour.models.eotf_inverse_HLG_BT2100',
-        ],
-        [
-            'colour.eotf_reverse_BT2100_PQ',
-            'colour.models.eotf_inverse_PQ_BT2100',
-        ],
-        [
             'colour.eotf_RIMMRGB',
             'colour.models.eotf_RIMMRGB',
         ],
@@ -707,20 +957,36 @@ API_CHANGES = {
             'colour.models.eotf_ST2084',
         ],
         [
-            'colour.EPSILON',
-            'colour.constants.EPSILON',
+            'colour.eotf_reverse_BT1886',
+            'colour.models.eotf_inverse_BT1886',
         ],
         [
-            'colour.ERIMM_RGB_COLOURSPACE',
-            'colour.models.ERIMM_RGB_COLOURSPACE',
+            'colour.eotf_reverse_BT2100_HLG',
+            'colour.models.eotf_inverse_HLG_BT2100',
+        ],
+        [
+            'colour.eotf_reverse_BT2100_PQ',
+            'colour.models.eotf_inverse_PQ_BT2100',
+        ],
+        [
+            'colour.eotf_reverse_ST2084',
+            'colour.models.eotf_inverse_ST2084',
+        ],
+        [
+            'colour.eotf_reverse_sRGB',
+            'colour.models.eotf_inverse_sRGB',
+        ],
+        [
+            'colour.eotf_sRGB',
+            'colour.models.eotf_sRGB',
         ],
         [
             'colour.euclidean_distance',
             'colour.algebra.euclidean_distance',
         ],
         [
-            'colour.FAIRCHILD_CAT',
-            'colour.adaptation.FAIRCHILD_CAT',
+            'colour.extend_line_segment',
+            'colour.algebra.extend_line_segment',
         ],
         [
             'colour.fill_nan',
@@ -753,6 +1019,10 @@ API_CHANGES = {
         [
             'colour.in_array',
             'colour.utilities.in_array',
+        ],
+        [
+            'colour.intersect_line_segments',
+            'colour.algebra.intersect_line_segments',
         ],
         [
             'colour.interval',
@@ -791,16 +1061,8 @@ API_CHANGES = {
             'colour.utilities.is_uniform',
         ],
         [
-            'colour.K_M',
-            'colour.constants.K_M',
-        ],
-        [
-            'colour.KP_M',
-            'colour.constants.KP_M',
-        ],
-        [
-            'colour.LIGHT_SPEED',
-            'colour.constants.LIGHT_SPEED',
+            'colour.lagrange_coefficients_ASTME2022',
+            'colour.colorimetry.lagrange_coefficients_ASTME2022',
         ],
         [
             'colour.lightness_CIE1976',
@@ -825,18 +1087,6 @@ API_CHANGES = {
         [
             'colour.linear_conversion',
             'colour.utilities.linear_conversion',
-        ],
-        [
-            'colour.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
-            'colour.colorimetry.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
-        ],
-        [
-            'colour.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-            'colour.colorimetry.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-        ],
-        [
-            'colour.LMS_ConeFundamentals',
-            'colour.colorimetry.LMS_ConeFundamentals',
         ],
         [
             'colour.log_decoding_ACEScc',
@@ -915,12 +1165,12 @@ API_CHANGES = {
             'colour.models.log_decoding_SLog3',
         ],
         [
-            'colour.log_decoding_ViperLog',
-            'colour.models.log_decoding_ViperLog',
-        ],
-        [
             'colour.log_decoding_VLog',
             'colour.models.log_decoding_VLog',
+        ],
+        [
+            'colour.log_decoding_ViperLog',
+            'colour.models.log_decoding_ViperLog',
         ],
         [
             'colour.log_encoding_ACEScc',
@@ -1003,10 +1253,6 @@ API_CHANGES = {
             'colour.models.log_encoding_VLog',
         ],
         [
-            'colour.Lookup',
-            'colour.utilities.Lookup',
-        ],
-        [
             'colour.luminance_ASTMD153508',
             'colour.colorimetry.luminance_ASTMD1535',
         ],
@@ -1027,32 +1273,12 @@ API_CHANGES = {
             'colour.colorimetry.luminance_Newhall1943',
         ],
         [
-            'colour.MAX_RGB_COLOURSPACE',
-            'colour.models.MAX_RGB_COLOURSPACE',
-        ],
-        [
             'colour.mesopic_weighting_function',
             'colour.colorimetry.mesopic_weighting_function',
         ],
         [
             'colour.message_box',
             'colour.utilities.message_box',
-        ],
-        [
-            'colour.MultiSignal',
-            'colour.continuous.MultiSignals',
-        ],
-        [
-            'colour.MUNSELL_COLOURS_1929',
-            'colour.notation.MUNSELL_COLOURS_1929',
-        ],
-        [
-            'colour.MUNSELL_COLOURS_ALL',
-            'colour.notation.MUNSELL_COLOURS_ALL',
-        ],
-        [
-            'colour.MUNSELL_COLOURS_REAL',
-            'colour.notation.MUNSELL_COLOURS_REAL',
         ],
         [
             'colour.munsell_value_ASTMD153508',
@@ -1095,10 +1321,6 @@ API_CHANGES = {
             'colour.algebra.normalise_vector',
         ],
         [
-            'colour.NTSC_1953_COLOURSPACE',
-            'colour.models.NTSC_1953_COLOURSPACE',
-        ],
-        [
             'colour.numpy_print_options',
             'colour.utilities.numpy_print_options',
         ],
@@ -1139,6 +1361,18 @@ API_CHANGES = {
             'colour.models.oetf_ProPhotoRGB',
         ],
         [
+            'colour.oetf_RIMMRGB',
+            'colour.models.oetf_RIMMRGB',
+        ],
+        [
+            'colour.oetf_ROMMRGB',
+            'colour.models.oetf_ROMMRGB',
+        ],
+        [
+            'colour.oetf_SMPTE240M',
+            'colour.models.oetf_SMPTE240M',
+        ],
+        [
             'colour.oetf_reverse_ARIBSTDB67',
             'colour.models.oetf_inverse_ARIBSTDB67',
         ],
@@ -1157,30 +1391,6 @@ API_CHANGES = {
         [
             'colour.oetf_reverse_BT709',
             'colour.models.oetf_inverse_BT709',
-        ],
-        [
-            'colour.eotf_sRGB',
-            'colour.models.eotf_sRGB',
-        ],
-        [
-            'colour.oetf_RIMMRGB',
-            'colour.models.oetf_RIMMRGB',
-        ],
-        [
-            'colour.oetf_ROMMRGB',
-            'colour.models.oetf_ROMMRGB',
-        ],
-        [
-            'colour.oetf_SMPTE240M',
-            'colour.models.oetf_SMPTE240M',
-        ],
-        [
-            'colour.eotf_reverse_sRGB',
-            'colour.models.eotf_inverse_sRGB',
-        ],
-        [
-            'colour.eotf_reverse_ST2084',
-            'colour.models.eotf_inverse_ST2084',
         ],
         [
             'colour.ootf_BT2100_HLG',
@@ -1203,14 +1413,6 @@ API_CHANGES = {
             'colour.utilities.orient',
         ],
         [
-            'colour.PAL_SECAM_COLOURSPACE',
-            'colour.models.PAL_SECAM_COLOURSPACE',
-        ],
-        [
-            'colour.PLANCK_CONSTANT',
-            'colour.constants.PLANCK_CONSTANT',
-        ],
-        [
             'colour.planck_law',
             'colour.colorimetry.planck_law',
         ],
@@ -1221,14 +1423,6 @@ API_CHANGES = {
         [
             'colour.print_numpy_errors',
             'colour.utilities.print_numpy_errors',
-        ],
-        [
-            'colour.PROPHOTO_RGB_COLOURSPACE',
-            'colour.models.PROPHOTO_RGB_COLOURSPACE',
-        ],
-        [
-            'colour.PROTUNE_NATIVE_COLOURSPACE',
-            'colour.models.PROTUNE_NATIVE_COLOURSPACE',
         ],
         [
             'colour.raise_numpy_errors',
@@ -1247,96 +1441,12 @@ API_CHANGES = {
             'colour.biochemistry.reaction_rate_MichealisMenten',
         ],
         [
-            'colour.RED_COLOR_2_COLOURSPACE',
-            'colour.models.RED_COLOR_2_COLOURSPACE',
-        ],
-        [
-            'colour.RED_COLOR_3_COLOURSPACE',
-            'colour.models.RED_COLOR_3_COLOURSPACE',
-        ],
-        [
-            'colour.RED_COLOR_4_COLOURSPACE',
-            'colour.models.RED_COLOR_4_COLOURSPACE',
-        ],
-        [
-            'colour.RED_COLOR_COLOURSPACE',
-            'colour.models.RED_COLOR_COLOURSPACE',
-        ],
-        [
-            'colour.RED_WIDE_GAMUT_RGB_COLOURSPACE',
-            'colour.models.RED_WIDE_GAMUT_RGB_COLOURSPACE',
-        ],
-        [
-            'colour.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
-            'colour.colorimetry.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
-        ],
-        [
-            'colour.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
-            'colour.colorimetry.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
-        ],
-        [
-            'colour.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-            'colour.colorimetry.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-        ],
-        [
-            'colour.RGB_ColourMatchingFunctions',
-            'colour.colorimetry.RGB_ColourMatchingFunctions',
-        ],
-        [
-            'colour.RGB_DisplayPrimaries',
-            'colour.characterisation.RGB_DisplayPrimaries',
-        ],
-        [
-            'colour.RGB_SpectralSensitivities',
-            'colour.characterisation.RGB_SpectralSensitivities',
-        ],
-        [
-            'colour.RGB_to_sd_Smits1999',
-            'colour.recovery.RGB_to_sd_Smits1999',
-        ],
-        [
-            'colour.RIMM_RGB_COLOURSPACE',
-            'colour.models.RIMM_RGB_COLOURSPACE',
-        ],
-        [
-            'colour.ROMM_RGB_COLOURSPACE',
-            'colour.models.ROMM_RGB_COLOURSPACE',
-        ],
-        [
             'colour.row_as_diagonal',
             'colour.utilities.row_as_diagonal',
         ],
         [
-            'colour.RUSSELL_RGB_COLOURSPACE',
-            'colour.models.RUSSELL_RGB_COLOURSPACE',
-        ],
-        [
-            'colour.S_GAMUT_COLOURSPACE',
-            'colour.models.S_GAMUT_COLOURSPACE',
-        ],
-        [
-            'colour.S_GAMUT3_CINE_COLOURSPACE',
-            'colour.models.S_GAMUT3_CINE_COLOURSPACE',
-        ],
-        [
-            'colour.S_GAMUT3_COLOURSPACE',
-            'colour.models.S_GAMUT3_COLOURSPACE',
-        ],
-        [
-            'colour.SHARP_CAT',
-            'colour.adaptation.SHARP_CAT',
-        ],
-        [
-            'colour.Signal',
-            'colour.continuous.Signal',
-        ],
-        [
-            'colour.SMITS_1999_SPDS',
-            'colour.recovery.SMITS_1999_SDS',
-        ],
-        [
-            'colour.SMPTE_240M_COLOURSPACE',
-            'colour.models.SMPTE_240M_COLOURSPACE',
+            'colour.sRGB_COLOURSPACE',
+            'colour.models.sRGB_COLOURSPACE',
         ],
         [
             'colour.sd_to_XYZ_ASTME30815',
@@ -1347,24 +1457,20 @@ API_CHANGES = {
             'colour.colorimetry.sd_to_XYZ_integration',
         ],
         [
+            'colour.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+            'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME308',  # noqa
+        ],
+        [
             'colour.spherical_to_cartesian',
             'colour.algebra.spherical_to_cartesian',
-        ],
-        [
-            'colour.sRGB_COLOURSPACE',
-            'colour.models.sRGB_COLOURSPACE',
-        ],
-        [
-            'colour.Structure',
-            'colour.utilities.Structure',
         ],
         [
             'colour.substrate_concentration_MichealisMenten',
             'colour.biochemistry.substrate_concentration_MichealisMenten',
         ],
         [
-            'colour.TCS_SPDS',
-            'colour.quality.TCS_SDS',
+            'colour.tristimulus_weighting_factors_ASTME2022',
+            'colour.colorimetry.tristimulus_weighting_factors_ASTME2022',
         ],
         [
             'colour.tsplit',
@@ -1381,18 +1487,6 @@ API_CHANGES = {
         [
             'colour.uv_to_CCT_Robertson1968',
             'colour.temperature.uv_to_CCT_Robertson1968',
-        ],
-        [
-            'colour.V_GAMUT_COLOURSPACE',
-            'colour.models.V_GAMUT_COLOURSPACE',
-        ],
-        [
-            'colour.VON_KRIES_CAT',
-            'colour.adaptation.VON_KRIES_CAT',
-        ],
-        [
-            'colour.VS_SPDS',
-            'colour.quality.VS_SDS',
         ],
         [
             'colour.warn_numpy_errors',
@@ -1427,10 +1521,6 @@ API_CHANGES = {
             'colour.colorimetry.whiteness_Taube1960',
         ],
         [
-            'colour.XTREME_RGB_COLOURSPACE',
-            'colour.models.XTREME_RGB_COLOURSPACE',
-        ],
-        [
             'colour.xy_to_CCT_Hernandez1999',
             'colour.temperature.xy_to_CCT_Hernandez1999',
         ],
@@ -1439,112 +1529,12 @@ API_CHANGES = {
             'colour.temperature.xy_to_CCT_McCamy1992',
         ],
         [
-            'colour.XYZ_ColourMatchingFunctions',
-            'colour.colorimetry.XYZ_ColourMatchingFunctions',
-        ],
-        [
-            'colour.XYZ_SCALING_CAT',
-            'colour.adaptation.XYZ_SCALING_CAT',
-        ],
-        [
-            'colour.XYZ_to_sd_Meng2015',
-            'colour.recovery.XYZ_to_sd_Meng2015',
-        ],
-        [
             'colour.yellowness_ASTMD1925',
             'colour.colorimetry.yellowness_ASTMD1925',
         ],
         [
             'colour.yellowness_ASTME313',
-            'colour.colorimetry.yellowness_ASTME313'
-        ],
-    ],
-    'Future Access Remove': [
-        [
-            'colour.AbstractContinuousFunction',
-            'colour.continuous.AbstractContinuousFunction',
-        ],
-        [
-            'colour.CAM16_InductionFactors',
-            'colour.appearance.CAM16_InductionFactors',
-        ],
-        [
-            'colour.CIECAM02_InductionFactors',
-            'colour.appearance.CIECAM02_InductionFactors',
-        ],
-        [
-            'colour.CMCCAT2000_InductionFactors',
-            'colour.adaptation.CMCCAT2000_InductionFactors',
-        ],
-        [
-            'colour.CQS_Specification',
-            'colour.quality.CQS_Specification',
-        ],
-        [
-            'colour.CRI_Specification',
-            'colour.quality.CRI_Specification',
-        ],
-        [
-            'colour.ColourWarning',
-            'colour.utilities.ColourWarning',
-        ],
-        [
-            'colour.FLOATING_POINT_NUMBER_PATTERN',
-            'colour.constants.FLOATING_POINT_NUMBER_PATTERN',
-        ],
-        [
-            'colour.Hunt_InductionFactors',
-            'colour.appearance.Hunt_InductionFactors',
-        ],
-        [
-            'colour.INTEGER_THRESHOLD',
-            'colour.constants.INTEGER_THRESHOLD',
-        ],
-        [
-            'colour.LLAB_InductionFactors',
-            'colour.appearance.LLAB_InductionFactors',
-        ],
-        [
-            'colour.LineSegmentsIntersections_Specification',
-            'colour.algebra.LineSegmentsIntersections_Specification',
-        ],
-        [
-            'colour.XYZ_to_colourspace_model',
-            'colour.models.XYZ_to_colourspace_model',
-        ],
-        [
-            'colour.adjust_tristimulus_weighting_factors_ASTME30815',
-            'colour.colorimetry.'
-            'adjust_tristimulus_weighting_factors_ASTME308',
-        ],
-        [
-            'colour.chromatic_adaptation_forward_CMCCAT2000',
-            'colour.adaptation.chromatic_adaptation_forward_CMCCAT2000',
-        ],
-        [
-            'colour.chromatic_adaptation_reverse_CMCCAT2000',
-            'colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000',
-        ],
-        [
-            'colour.extend_line_segment',
-            'colour.algebra.extend_line_segment',
-        ],
-        [
-            'colour.intersect_line_segments',
-            'colour.algebra.intersect_line_segments',
-        ],
-        [
-            'colour.lagrange_coefficients_ASTME2022',
-            'colour.colorimetry.lagrange_coefficients_ASTME2022',
-        ],
-        [
-            'colour.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-            'colour.colorimetry.'
-            'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
-        ],
-        [
-            'colour.tristimulus_weighting_factors_ASTME2022',
-            'colour.colorimetry.tristimulus_weighting_factors_ASTME2022'
+            'colour.colorimetry.yellowness_ASTME313',
         ],
     ]
 }
@@ -1748,50 +1738,8 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
 ]
 
-
-def _setup_api_changes():
-    """
-    Setups *Colour* API changes.
-    """
-
-    global API_CHANGES
-
-    for object_future_access_change in API_CHANGES['Future Access Change']:
-        old_access, new_access = object_future_access_change
-        API_CHANGES[old_access.split('.')[-1]] = (
-            ObjectFutureAccessChange(  # noqa
-                old_access, new_access))
-    API_CHANGES.pop('Future Access Change')
-
-    for object_future_access_remove in API_CHANGES['Future Access Remove']:
-        name, access = object_future_access_remove
-        API_CHANGES[name.split('.')[-1]] = (
-            ObjectFutureAccessRemove(  # noqa
-                name, access))
-    API_CHANGES.pop('Future Access Remove')
-
-    for object_removed in API_CHANGES['ObjectRemoved']:
-        API_CHANGES[object_removed.split('.')[-1]] = ObjectRemoved(  # noqa
-            object_removed)
-    API_CHANGES.pop('ObjectRemoved')
-
-    for object_renamed in API_CHANGES['ObjectRenamed']:
-        name, access = object_renamed
-        API_CHANGES[name.split('.')[-1]] = ObjectRenamed(name, access)  # noqa
-    API_CHANGES.pop('ObjectRenamed')
-
-
 if not is_documentation_building():
-    _setup_api_changes()
+    sys.modules['colour'] = colour(sys.modules['colour'],
+                                   build_API_changes(API_CHANGES))
 
-    del ObjectFutureAccessChange
-    del ObjectFutureAccessRemove
-    del ModuleAPI
-    del ObjectRemoved
-    del ObjectRenamed
-    del is_documentation_building
-    del _setup_api_changes
-
-    sys.modules['colour'] = colour(sys.modules['colour'], API_CHANGES)
-
-    del sys
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

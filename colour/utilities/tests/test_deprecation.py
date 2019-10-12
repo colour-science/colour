@@ -11,7 +11,7 @@ import unittest
 from colour.utilities.deprecation import (
     ObjectRenamed, ObjectRemoved, ObjectFutureRename, ObjectFutureRemove,
     ObjectFutureAccessChange, ObjectFutureAccessRemove, ModuleAPI,
-    get_attribute)
+    get_attribute, build_API_changes)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -180,9 +180,7 @@ class TestObjectFutureAccessRemove(unittest.TestCase):
 ObjectFutureAccessRemove.__str__` method.
         """
 
-        self.assertIn('name', str(ObjectFutureAccessRemove('name', 'access')))
-        self.assertIn('access', str(
-            ObjectFutureAccessRemove('name', 'access')))
+        self.assertIn('name', str(ObjectFutureAccessRemove('name', )))
 
 
 class TestModuleAPI(unittest.TestCase):
@@ -261,6 +259,46 @@ class TestGetAttribute(unittest.TestCase):
         self.assertIs(attribute,
                       colour.utilities.tests.test_deprecated.NEW_NAME)
         del sys.modules['colour.utilities.tests.test_deprecated']
+
+
+class TestBuildAPIChanges(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.deprecation.build_API_changes` definition
+    unit tests methods.
+    """
+
+    def test_build_API_changes(self):
+        """
+        Tests :func:`colour.utilities.deprecation.build_API_changes`
+        definition.
+        """
+
+        changes = build_API_changes({
+            'ObjectRenamed': [[
+                'module.object_1_name',
+                'module.object_1_new_name',
+            ]],
+            'ObjectFutureRename': [[
+                'module.object_2_name',
+                'module.object_2_new_name',
+            ]],
+            'ObjectFutureAccessChange': [[
+                'module.object_3_access',
+                'module.sub_module.object_3_new_access',
+            ]],
+            'ObjectRemoved': ['module.object_4_name'],
+            'ObjectFutureRemove': ['module.object_5_name'],
+            'ObjectFutureAccessRemove': ['module.object_6_access'],
+        })
+        for name, change_type in (
+            ('object_1_name', ObjectRenamed),
+            ('object_2_name', ObjectFutureRename),
+            ('object_3_access', ObjectFutureAccessChange),
+            ('object_4_name', ObjectRemoved),
+            ('object_5_name', ObjectFutureRemove),
+            ('object_6_access', ObjectFutureAccessRemove),
+        ):
+            self.assertIsInstance(changes[name], change_type)
 
 
 if __name__ == '__main__':
