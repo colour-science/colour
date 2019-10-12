@@ -1709,28 +1709,28 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.ASTME308_PRACTISE_SHAPE',
     ],
     [
-        'EOTFS_REVERSE',
-        'EOTFS_INVERSE',
+        'colour.EOTFS_REVERSE',
+        'colour.EOTFS_INVERSE',
     ],
     [
-        'OETFS_REVERSE',
-        'OETFS_INVERSE',
+        'colour.OETFS_REVERSE',
+        'colour.OETFS_INVERSE',
     ],
     [
-        'OOTFS_REVERSE',
-        'OOTFS_INVERSE',
+        'colour.OOTFS_REVERSE',
+        'colour.OOTFS_INVERSE',
     ],
     [
-        'eotf_reverse',
-        'eotf_inverse',
+        'colour.eotf_reverse',
+        'colour.eotf_inverse',
     ],
     [
-        'oetf_reverse',
-        'oetf_inverse',
+        'colour.oetf_reverse',
+        'colour.oetf_inverse',
     ],
     [
-        'ootf_reverse',
-        'ootf_inverse',
+        'colour.ootf_reverse',
+        'colour.ootf_inverse',
     ],
     [
         'colour.MultiSpectralDistribution',
