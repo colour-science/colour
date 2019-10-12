@@ -42,6 +42,7 @@ import numpy as np
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -60,7 +61,8 @@ __all__ = [
 def log_encoding_CanonLog(x,
                           bit_depth=10,
                           out_normalised_code_value=True,
-                          in_reflection=True):
+                          in_reflection=True,
+                          **kwargs):
     """
     Defines the *Canon Log* log encoding curve / opto-electronic transfer
     function.
@@ -76,6 +78,11 @@ def log_encoding_CanonLog(x,
         values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -116,6 +123,10 @@ def log_encoding_CanonLog(x,
     array([   7.3,   12. ,   32.8,   62.7,  108.7])
     """
 
+    out_normalised_code_value = handle_arguments_deprecation({
+        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
+    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
+
     x = to_domain_1(x)
 
     if in_reflection:
@@ -137,7 +148,8 @@ def log_encoding_CanonLog(x,
 def log_decoding_CanonLog(clog,
                           bit_depth=10,
                           in_normalised_code_value=True,
-                          out_reflection=True):
+                          out_reflection=True,
+                          **kwargs):
     """
     Defines the *Canon Log* log decoding curve / electro-optical transfer
     function.
@@ -153,6 +165,11 @@ def log_decoding_CanonLog(clog,
         code values.
     out_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -184,6 +201,10 @@ def log_decoding_CanonLog(clog,
     0.17999999...
     """
 
+    in_normalised_code_value = handle_arguments_deprecation({
+        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
+    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
+
     clog = to_domain_1(clog)
 
     clog = (legal_to_full(clog, bit_depth)
@@ -204,7 +225,8 @@ def log_decoding_CanonLog(clog,
 def log_encoding_CanonLog2(x,
                            bit_depth=10,
                            out_normalised_code_value=True,
-                           in_reflection=True):
+                           in_reflection=True,
+                           **kwargs):
     """
     Defines the *Canon Log 2* log encoding curve / opto-electronic transfer
     function.
@@ -220,6 +242,11 @@ def log_encoding_CanonLog2(x,
         code values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -251,6 +278,10 @@ def log_encoding_CanonLog2(x,
     39.8254694...
     """
 
+    out_normalised_code_value = handle_arguments_deprecation({
+        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
+    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
+
     x = to_domain_1(x)
 
     if in_reflection:
@@ -272,7 +303,8 @@ def log_encoding_CanonLog2(x,
 def log_decoding_CanonLog2(clog2,
                            bit_depth=10,
                            in_normalised_code_value=True,
-                           out_reflection=True):
+                           out_reflection=True,
+                           **kwargs):
     """
     Defines the *Canon Log 2* log decoding curve / electro-optical transfer
     function.
@@ -288,6 +320,11 @@ def log_decoding_CanonLog2(clog2,
         code values.
     out_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -319,6 +356,10 @@ def log_decoding_CanonLog2(clog2,
     0.1799999...
     """
 
+    in_normalised_code_value = handle_arguments_deprecation({
+        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
+    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
+
     clog2 = to_domain_1(clog2)
 
     clog2 = (legal_to_full(clog2, bit_depth)
@@ -339,7 +380,8 @@ def log_decoding_CanonLog2(clog2,
 def log_encoding_CanonLog3(x,
                            bit_depth=10,
                            out_normalised_code_value=True,
-                           in_reflection=True):
+                           in_reflection=True,
+                           **kwargs):
     """
     Defines the *Canon Log 3* log encoding curve / opto-electronic transfer
     function.
@@ -355,6 +397,11 @@ def log_encoding_CanonLog3(x,
         values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -399,6 +446,10 @@ def log_encoding_CanonLog3(x,
     34.3389369...
     """
 
+    out_normalised_code_value = handle_arguments_deprecation({
+        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
+    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
+
     x = to_domain_1(x)
 
     if in_reflection:
@@ -422,7 +473,8 @@ def log_encoding_CanonLog3(x,
 def log_decoding_CanonLog3(clog3,
                            bit_depth=10,
                            in_normalised_code_value=True,
-                           out_reflection=True):
+                           out_reflection=True,
+                           **kwargs):
     """
     Defines the *Canon Log 3* log decoding curve / electro-optical transfer
     function.
@@ -438,6 +490,11 @@ def log_decoding_CanonLog3(clog3,
         code values.
     out_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -468,6 +525,10 @@ def log_decoding_CanonLog3(clog3,
     >>> log_decoding_CanonLog3(34.338936938868677 / 100)  # doctest: +ELLIPSIS
     0.1800000...
     """
+
+    in_normalised_code_value = handle_arguments_deprecation({
+        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
+    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
 
     clog3 = to_domain_1(clog3)
 
