@@ -25,8 +25,9 @@ __status__ = 'Production'
 __all__ = [
     'ObjectRenamed', 'ObjectRemoved', 'ObjectFutureRename',
     'ObjectFutureRemove', 'ObjectFutureAccessChange',
-    'ObjectFutureAccessRemove', 'ModuleAPI', 'get_attribute',
-    'build_API_changes'
+    'ObjectFutureAccessRemove', 'ModuleAPI', 'ArgumentRenamed',
+    'ArgumentRemoved', 'ArgumentFutureRename', 'ArgumentFutureRemove',
+    'get_attribute', 'build_API_changes', 'handle_arguments_deprecation'
 ]
 
 
@@ -187,6 +188,108 @@ class ObjectFutureAccessRemove(
                 self.name))
 
 
+class ArgumentRenamed(namedtuple('ArgumentRenamed', ('name', 'new_name'))):
+    """
+    A class used for an argument that has been renamed.
+
+    Parameters
+    ----------
+    name : unicode
+        Argument name that changed.
+    new_name : unicode
+        Argument new name.
+    """
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the class.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        return ('"{0}" argument has been renamed to "{1}".'.format(
+            self.name, self.new_name))
+
+
+class ArgumentRemoved(namedtuple('ArgumentRemoved', ('name', ))):
+    """
+    A class used for an argument that has been removed.
+
+    Parameters
+    ----------
+    name : unicode
+        Argument name that has been removed.
+    """
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the class.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        return '"{0}" argument has been removed from the API.'.format(
+            self.name)
+
+
+class ArgumentFutureRename(
+        namedtuple('ArgumentFutureRename', ('name', 'new_name'))):
+    """
+    A class used for future argument name deprecation, i.e. argument name will
+    change in a future release.
+
+    Parameters
+    ----------
+    name : unicode
+        Argument name that will change in a future release.
+    new_name : unicode
+        Argument future release name.
+    """
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the deprecation type.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        return ('"{0}" argument is deprecated and will be renamed to "{1}" '
+                'in a future release.'.format(self.name, self.new_name))
+
+
+class ArgumentFutureRemove(namedtuple('ArgumentFutureRemove', ('name', ))):
+    """
+    A class used for future argument removal.
+
+    Parameters
+    ----------
+    name : unicode
+        Argument name that will be removed in a future release.
+    """
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the deprecation type.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        return ('"{0}" argument is deprecated and will be removed '
+                'in a future release.'.format(self.name))
+
+
 class ModuleAPI(object):
     """
     Define a class that allows customisation of module attributes access with
@@ -326,7 +429,7 @@ def build_API_changes(changes):
     ...     ]],
     ...     'ObjectFutureRename': [[
     ...         'module.object_2_name',
-    ...         'module.object__2new_name',
+    ...         'module.object_2_new_name',
     ...     ]],
     ...     'ObjectFutureAccessChange': [[
     ...         'module.object_3_access',
@@ -351,13 +454,77 @@ name='module.object_6_access')}
     """
 
     for change_type in (ObjectRenamed, ObjectFutureRename,
-                        ObjectFutureAccessChange):
+                        ObjectFutureAccessChange, ArgumentRenamed,
+                        ArgumentFutureRename):
         for change in changes.pop(change_type.__name__, []):
             changes[change[0].split('.')[-1]] = change_type(*change)  # noqa
 
     for change_type in (ObjectRemoved, ObjectFutureRemove,
-                        ObjectFutureAccessRemove):
+                        ObjectFutureAccessRemove, ArgumentRemoved,
+                        ArgumentFutureRemove):
         for change in changes.pop(change_type.__name__, []):
             changes[change.split('.')[-1]] = change_type(change)  # noqa
 
     return changes
+
+
+def handle_arguments_deprecation(changes, **kwargs):
+    """
+    Handles arguments deprecation according to desired API changes mapping.
+
+    Parameters
+    ----------
+    changes : dict
+        Dictionary of desired API changes.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments to handle.
+
+    Returns
+    -------
+    dict
+        Handled keywords arguments.
+
+    Examples
+    --------
+    >>> changes = {
+    ...     'ArgumentRenamed': [[
+    ...         'argument_1_name',
+    ...         'argument_1_new_name',
+    ...     ]],
+    ...     'ArgumentFutureRename': [[
+    ...         'argument_2_name',
+    ...         'argument_2_new_name',
+    ...     ]],
+    ...     'ArgumentRemoved': ['argument_3_name'],
+    ...     'ArgumentFutureRemove': ['argument_4_name'],
+    ... }
+    >>> handle_arguments_deprecation(changes, argument_1_name=True,
+    ...                             argument_2_name=True, argument_4_name=True)
+    ... # doctest: +SKIP
+    {'argument_4_name': True, 'argument_1_new_name': True, \
+'argument_2_new_name': True}
+    """
+
+    changes = build_API_changes(changes)
+
+    for kwarg in kwargs:
+        change = changes.get(kwarg)
+
+        if change is None:
+            continue
+
+        if not isinstance(change, ArgumentRemoved):
+
+            usage_warning(str(change))
+
+            if isinstance(change, ArgumentFutureRemove):
+                continue
+            else:
+                kwargs[change[1]] = kwargs.pop(kwarg)
+        else:
+            raise ValueError(str(change))
+
+    return kwargs
