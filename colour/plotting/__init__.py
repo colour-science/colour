@@ -4,7 +4,7 @@ from __future__ import absolute_import
 
 import sys
 
-from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
 from .datasets import *  # noqa
@@ -133,7 +133,7 @@ class plotting(ModuleAPI):
 
 # v0.3.11
 API_CHANGES = {
-    'Renamed': [
+    'ObjectRenamed': [
         [
             'colour.plotting.CIE_1931_chromaticity_diagram_plot',
             'colour.plotting.plot_chromaticity_diagram_CIE1931',
@@ -199,7 +199,7 @@ API_CHANGES : dict
 """
 
 # v0.3.12
-API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.plotting.RGB_chromaticity_coordinates_chromaticity_diagram_plot',  # noqa
         'colour.plotting.plot_RGB_chromaticities_in_chromaticity_diagram',
@@ -435,7 +435,7 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
 ]
 
 # v0.3.14
-API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.plotting.ASTM_G_173_DIRECT_CIRCUMSOLAR',
         'colour.plotting.ASTMG173_DIRECT_CIRCUMSOLAR',
@@ -450,29 +450,8 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
 ]
 
-
-def _setup_api_changes():
-    """
-    Setups *Colour* API changes.
-    """
-
-    global API_CHANGES
-
-    for renamed in API_CHANGES['Renamed']:
-        name, access = renamed
-        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
-    API_CHANGES.pop('Renamed')
-
-
 if not is_documentation_building():
-    _setup_api_changes()
-
-    del ModuleAPI
-    del Renamed
-    del is_documentation_building
-    del _setup_api_changes
-
     sys.modules['colour.plotting'] = plotting(sys.modules['colour.plotting'],
-                                              API_CHANGES)
+                                              build_API_changes(API_CHANGES))
 
-    del sys
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

@@ -27,6 +27,7 @@ import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -50,7 +51,8 @@ def log_encoding_VLog(L_in,
                       bit_depth=10,
                       out_normalised_code_value=True,
                       in_reflection=True,
-                      constants=VLOG_CONSTANTS):
+                      constants=VLOG_CONSTANTS,
+                      **kwargs):
     """
     Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
     function.
@@ -68,6 +70,11 @@ def log_encoding_VLog(L_in,
         Whether the light level :math`L_{in}` to a camera is reflection.
     constants : Structure, optional
         *Panasonic V-Log* constants.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -114,6 +121,10 @@ def log_encoding_VLog(L_in,
     by a code: [512, 1732, 2408].
     """
 
+    out_normalised_code_value = handle_arguments_deprecation({
+        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
+    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
+
     L_in = to_domain_1(L_in)
 
     if not in_reflection:
@@ -140,7 +151,8 @@ def log_decoding_VLog(V_out,
                       bit_depth=10,
                       in_normalised_code_value=True,
                       out_reflection=True,
-                      constants=VLOG_CONSTANTS):
+                      constants=VLOG_CONSTANTS,
+                      **kwargs):
     """
     Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer
     function.
@@ -158,6 +170,11 @@ def log_decoding_VLog(V_out,
         Whether the light level :math`L_{in}` to a camera is reflection.
     constants : Structure, optional
         *Panasonic V-Log* constants.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -188,6 +205,10 @@ def log_decoding_VLog(V_out,
     >>> log_decoding_VLog(0.423311448760136)  # doctest: +ELLIPSIS
     0.1799999...
     """
+
+    in_normalised_code_value = handle_arguments_deprecation({
+        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
+    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
 
     V_out = to_domain_1(V_out)
 

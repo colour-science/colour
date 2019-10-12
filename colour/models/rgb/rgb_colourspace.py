@@ -41,7 +41,7 @@ from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import (as_float_array, domain_range_scale, dot_matrix,
                               dot_vector, filter_kwargs, from_range_1,
                               to_domain_1, is_string, runtime_warning)
-from colour.utilities.deprecation import Renamed
+from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -867,8 +867,8 @@ class RGB_Colourspace(object):
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('RGB_Colourspace.illuminant',
-                        'RGB_Colourspace.whitepoint_name')))
+                ObjectRenamed('RGB_Colourspace.illuminant',
+                              'RGB_Colourspace.whitepoint_name')))
 
         return self.whitepoint_name
 
@@ -877,8 +877,8 @@ class RGB_Colourspace(object):
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('RGB_Colourspace.illuminant',
-                        'RGB_Colourspace.whitepoint_name')))
+                ObjectRenamed('RGB_Colourspace.illuminant',
+                              'RGB_Colourspace.whitepoint_name')))
 
         self.whitepoint_name = value
 

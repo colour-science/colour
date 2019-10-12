@@ -4,7 +4,7 @@ from __future__ import absolute_import
 
 import sys
 
-from colour.utilities.deprecation import FutureRemove, ModuleAPI, Renamed
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
 from .cam02_ucs import (JMh_CIECAM02_to_CAM02LCD, CAM02LCD_to_JMh_CIECAM02,
@@ -90,8 +90,8 @@ class models(ModuleAPI):
 
 # v0.3.14
 API_CHANGES = {
-    'FutureRemove': ['colour.models.XYZ_to_colourspace_model', ],
-    'Renamed': [
+    'ObjectFutureRemove': ['colour.models.XYZ_to_colourspace_model', ],
+    'ObjectRenamed': [
         [
             'colour.models.oetf_ST2084',
             'colour.models.eotf_inverse_ST2084',
@@ -188,35 +188,8 @@ Defines *colour.models* sub-package API changes.
 API_CHANGES : dict
 """
 
-
-def _setup_api_changes():
-    """
-    Setups *Colour* API changes.
-    """
-
-    global API_CHANGES
-
-    for future_remove in API_CHANGES['FutureRemove']:
-        API_CHANGES[future_remove.split('.')[-1]] = FutureRemove(
-            future_remove)  # noqa
-    API_CHANGES.pop('FutureRemove')
-
-    for renamed in API_CHANGES['Renamed']:
-        name, access = renamed
-        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
-    API_CHANGES.pop('Renamed')
-
-
 if not is_documentation_building():
-    _setup_api_changes()
-
-    del FutureRemove
-    del ModuleAPI
-    del Renamed
-    del is_documentation_building
-    del _setup_api_changes
-
     sys.modules['colour.models'] = models(sys.modules['colour.models'],
-                                          API_CHANGES)
+                                          build_API_changes(API_CHANGES))
 
-    del sys
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

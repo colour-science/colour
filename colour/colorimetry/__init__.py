@@ -4,7 +4,7 @@ from __future__ import absolute_import
 
 import sys
 
-from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
@@ -148,7 +148,7 @@ class colorimetry(ModuleAPI):
 
 # v0.3.12
 API_CHANGES = {
-    'Renamed': [
+    'ObjectRenamed': [
         [
             'colour.colorimetry.spectral_to_XYZ_ASTME30815',
             'colour.colorimetry.sd_to_XYZ_ASTME308',
@@ -170,7 +170,7 @@ API_CHANGES : dict
 """
 
 # v0.3.14
-API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.colorimetry.adjust_tristimulus_weighting_factors_ASTME30815',  # noqa
         'colour.colorimetry.adjust_tristimulus_weighting_factors_ASTME308',  # noqa
@@ -197,29 +197,8 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
 ]
 
-
-def _setup_api_changes():
-    """
-    Setups *Colour* API changes.
-    """
-
-    global API_CHANGES
-
-    for renamed in API_CHANGES['Renamed']:
-        name, access = renamed
-        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
-    API_CHANGES.pop('Renamed')
-
-
 if not is_documentation_building():
-    _setup_api_changes()
-
-    del ModuleAPI
-    del Renamed
-    del is_documentation_building
-    del _setup_api_changes
-
     sys.modules['colour.colorimetry'] = colorimetry(
-        sys.modules['colour.colorimetry'], API_CHANGES)
+        sys.modules['colour.colorimetry'], build_API_changes(API_CHANGES))
 
-    del sys
+    del ModuleAPI, is_documentation_building, build_API_changes, sys
