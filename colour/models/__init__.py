@@ -109,6 +109,18 @@ API_CHANGES = {
             'colour.models.CCTFS_ENCODING',
         ],
         [
+            'colour.models.oetf_ROMMRGB',
+            'colour.models.cctf_encoding_ROMMRGB',
+        ],
+        [
+            'colour.models.oetf_RIMMRGB',
+            'colour.models.cctf_encoding_RIMMRGB',
+        ],
+        [
+            'colour.models.oetf_ProPhotoRGB',
+            'colour.models.cctf_encoding_ProPhotoRGB',
+        ],
+        [
             'colour.models.oetf_ST2084',
             'colour.models.eotf_inverse_ST2084',
         ],
@@ -139,6 +151,18 @@ API_CHANGES = {
         [
             'colour.models.oetf_reverse_BT709',
             'colour.models.oetf_inverse_BT709',
+        ],
+        [
+            'colour.models.eotf_ROMMRGB',
+            'colour.models.cctf_decoding_ROMMRGB',
+        ],
+        [
+            'colour.models.eotf_RIMMRGB',
+            'colour.models.cctf_decoding_RIMMRGB',
+        ],
+        [
+            'colour.models.eotf_ProPhotoRGB',
+            'colour.models.cctf_decoding_ProPhotoRGB',
         ],
         [
             'colour.models.eotf_reverse_BT1886',

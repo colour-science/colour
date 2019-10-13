@@ -938,16 +938,16 @@ API_CHANGES = {
             'colour.models.eotf_DICOMGSDF',
         ],
         [
-            'colour.eotf_ProPhotoRGB',
-            'colour.models.eotf_ProPhotoRGB',
+            'colour.cctf_decoding_ProPhotoRGB',
+            'colour.models.cctf_decoding_ProPhotoRGB',
         ],
         [
-            'colour.eotf_RIMMRGB',
-            'colour.models.eotf_RIMMRGB',
+            'colour.cctf_decoding_RIMMRGB',
+            'colour.models.cctf_decoding_RIMMRGB',
         ],
         [
-            'colour.eotf_ROMMRGB',
-            'colour.models.eotf_ROMMRGB',
+            'colour.cctf_decoding_ROMMRGB',
+            'colour.models.cctf_decoding_ROMMRGB',
         ],
         [
             'colour.eotf_SMPTE240M',
@@ -1358,16 +1358,16 @@ API_CHANGES = {
             'colour.models.eotf_inverse_DICOMGSDF',
         ],
         [
-            'colour.oetf_ProPhotoRGB',
-            'colour.models.oetf_ProPhotoRGB',
+            'colour.cctf_encoding_ProPhotoRGB',
+            'colour.models.cctf_encoding_ProPhotoRGB',
         ],
         [
-            'colour.oetf_RIMMRGB',
-            'colour.models.oetf_RIMMRGB',
+            'colour.cctf_encoding_RIMMRGB',
+            'colour.models.cctf_encoding_RIMMRGB',
         ],
         [
-            'colour.oetf_ROMMRGB',
-            'colour.models.oetf_ROMMRGB',
+            'colour.cctf_encoding_ROMMRGB',
+            'colour.models.cctf_encoding_ROMMRGB',
         ],
         [
             'colour.oetf_SMPTE240M',

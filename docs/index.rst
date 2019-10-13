@@ -708,11 +708,7 @@ OETFs
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
      'ITU-R BT.709',
-     'ProPhoto RGB',
-     'RIMM RGB',
-     'ROMM RGB',
-     'SMPTE 240M',
-     'ST 2084']
+     'SMPTE 240M']
 
 OETFs Inverse
 *************
@@ -738,9 +734,6 @@ EOTFs
      'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
-     'ProPhoto RGB',
-     'RIMM RGB',
-     'ROMM RGB',
      'SMPTE 240M',
      'ST 2084',
      'sRGB']
@@ -806,6 +799,56 @@ Log Encoding / Decoding Curves
      'T-Log',
      'V-Log',
      'ViperLog']
+
+CCTFs Encoding / Decoding
+*************************
+
+.. code-block:: python
+
+    >>> sorted(colour.CCTFS_ENCODING.keys())
+    ['ACEScc',
+     'ACEScct',
+     'ACESproxy',
+     'ALEXA Log C',
+     'ARIB STD-B67',
+     'Canon Log',
+     'Canon Log 2',
+     'Canon Log 3',
+     'Cineon',
+     'D-Log',
+     'DCDM',
+     'DICOM GSDF',
+     'ERIMM RGB',
+     'F-Log',
+     'Filmic Pro 6',
+     'Gamma 2.2',
+     'Gamma 2.4',
+     'Gamma 2.6',
+     'ITU-R BT.1886',
+     'ITU-R BT.2020',
+     'ITU-R BT.2100 HLG',
+     'ITU-R BT.2100 PQ',
+     'ITU-R BT.601',
+     'ITU-R BT.709',
+     'Log3G10',
+     'Log3G12',
+     'PLog',
+     'Panalog',
+     'ProPhoto RGB',
+     'Protune',
+     'REDLog',
+     'REDLogFilm',
+     'RIMM RGB',
+     'ROMM RGB',
+     'S-Log',
+     'S-Log2',
+     'S-Log3',
+     'SMPTE 240M',
+     'ST 2084',
+     'T-Log',
+     'V-Log',
+     'ViperLog',
+     'sRGB']
 
 Colour Notation Systems - ``colour.notation``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

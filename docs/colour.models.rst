@@ -355,6 +355,20 @@ Colour Component Transfer Functions
     cctf_decoding
     CCTFS_DECODING
 
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    cctf_encoding_ROMMRGB
+    cctf_decoding_ROMMRGB
+    cctf_encoding_ProPhotoRGB
+    cctf_decoding_ProPhotoRGB
+    cctf_encoding_RIMMRGB
+    cctf_decoding_RIMMRGB
+
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -388,9 +402,6 @@ Opto-Electronic Transfer Functions
     oetf_inverse_BT601
     oetf_BT709
     oetf_inverse_BT709
-    oetf_ProPhotoRGB
-    oetf_RIMMRGB
-    oetf_ROMMRGB
     oetf_SMPTE240M
 
 **Ancillary Objects**
@@ -440,9 +451,6 @@ Electro-Optical Transfer Functions
     eotf_inverse_HLG_BT2100
     eotf_PQ_BT2100
     eotf_inverse_PQ_BT2100
-    eotf_ProPhotoRGB
-    eotf_RIMMRGB
-    eotf_ROMMRGB
     eotf_SMPTE240M
     eotf_ST2084
     eotf_inverse_ST2084

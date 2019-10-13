@@ -31,10 +31,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, oetf_ROMMRGB, eotf_ROMMRGB,
-                               oetf_RIMMRGB, eotf_RIMMRGB,
-                               log_encoding_ERIMMRGB, log_decoding_ERIMMRGB,
-                               oetf_ProPhotoRGB, eotf_ProPhotoRGB)
+from colour.models.rgb import (
+    RGB_Colourspace, cctf_encoding_ROMMRGB, cctf_decoding_ROMMRGB,
+    cctf_encoding_RIMMRGB, cctf_decoding_RIMMRGB, log_encoding_ERIMMRGB,
+    log_decoding_ERIMMRGB, cctf_encoding_ProPhotoRGB,
+    cctf_decoding_ProPhotoRGB)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -111,8 +112,8 @@ ROMM_RGB_COLOURSPACE = RGB_Colourspace(
     ROMM_RGB_WHITEPOINT_NAME,
     ROMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ROMM_RGB_MATRIX,
-    oetf_ROMMRGB,
-    eotf_ROMMRGB,
+    cctf_encoding_ROMMRGB,
+    cctf_decoding_ROMMRGB,
 )
 ROMM_RGB_COLOURSPACE.__doc__ = """
 *ROMM RGB* colourspace.
@@ -166,8 +167,8 @@ RIMM_RGB_COLOURSPACE = RGB_Colourspace(
     RIMM_RGB_WHITEPOINT_NAME,
     RIMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RIMM_RGB_MATRIX,
-    oetf_RIMMRGB,
-    eotf_RIMMRGB,
+    cctf_encoding_RIMMRGB,
+    cctf_decoding_RIMMRGB,
 )
 RIMM_RGB_COLOURSPACE.__doc__ = """
 *RIMM RGB* colourspace. In cases in which it is necessary to identify a
@@ -278,8 +279,8 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     PROPHOTO_RGB_WHITEPOINT_NAME,
     PROPHOTO_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PROPHOTO_RGB_MATRIX,
-    oetf_ProPhotoRGB,
-    eotf_ProPhotoRGB,
+    cctf_encoding_ProPhotoRGB,
+    cctf_decoding_ProPhotoRGB,
 )
 PROPHOTO_RGB_COLOURSPACE.__doc__ = """
 *ProPhoto RGB* colourspace, an alias colourspace for *ROMM RGB*.
