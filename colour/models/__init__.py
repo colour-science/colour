@@ -109,6 +109,22 @@ API_CHANGES = {
             'colour.models.CCTFS_ENCODING',
         ],
         [
+            'colour.models.log_decoding_curve',
+            'colour.models.log_decoding',
+        ],
+        [
+            'colour.models.LOG_DECODING_CURVES',
+            'colour.models.LOGS_DECODING',
+        ],
+        [
+            'colour.models.log_encoding_curve',
+            'colour.models.log_encoding',
+        ],
+        [
+            'colour.models.LOG_ENCODING_CURVES',
+            'colour.models.LOGS_ENCODING',
+        ],
+        [
             'colour.models.oetf_ROMMRGB',
             'colour.models.cctf_encoding_ROMMRGB',
         ],

@@ -6,6 +6,7 @@ from functools import partial
 
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               usage_warning)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 from .common import CV_range, legal_to_full, full_to_legal
 from .gamma import gamma_function
@@ -116,7 +117,7 @@ __all__ += [
 __all__ += ['eotf_inverse_sRGB', 'eotf_sRGB']
 __all__ += ['log_encoding_ViperLog', 'log_decoding_ViperLog']
 
-LOG_ENCODING_CURVES = CaseInsensitiveMapping({
+LOGS_ENCODING = CaseInsensitiveMapping({
     'ACEScc': log_encoding_ACEScc,
     'ACEScct': log_encoding_ACEScct,
     'ACESproxy': log_encoding_ACESproxy,
@@ -143,10 +144,10 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'V-Log': log_encoding_VLog,
     'ViperLog': log_encoding_ViperLog
 })
-LOG_ENCODING_CURVES.__doc__ = """
-Supported *log* encoding curves.
+LOGS_ENCODING.__doc__ = """
+Supported *log* encoding functions.
 
-LOG_ENCODING_CURVES : CaseInsensitiveMapping
+LOGS_ENCODING : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
     'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
@@ -155,22 +156,22 @@ LOG_ENCODING_CURVES : CaseInsensitiveMapping
 """
 
 
-def log_encoding_curve(value, curve='Cineon', **kwargs):
+def log_encoding(value, function='Cineon', **kwargs):
     """
     Encodes linear-light values to :math:`R'G'B'` video component signal
-    value using given *log* curve.
+    value using given *log* function.
 
     Parameters
     ----------
     value : numeric or array_like
         Value.
-    curve : unicode, optional
+    function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
         'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
         'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
         'V-Log', 'ViperLog'}**,
-        Computation curve.
+        Computation function.
 
     Other Parameters
     ----------------
@@ -240,23 +241,27 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
 
     Examples
     --------
-    >>> log_encoding_curve(0.18)  # doctest: +ELLIPSIS
+    >>> log_encoding(0.18)  # doctest: +ELLIPSIS
     0.4573196...
-    >>> log_encoding_curve(0.18, curve='ACEScc')  # doctest: +ELLIPSIS
+    >>> log_encoding(0.18, function='ACEScc')  # doctest: +ELLIPSIS
     0.4135884...
-    >>> log_encoding_curve(0.18, curve='PLog', log_reference=400)
+    >>> log_encoding(0.18, function='PLog', log_reference=400)
     ... # doctest: +ELLIPSIS
     0.3910068...
-    >>> log_encoding_curve(0.18, curve='S-Log')  # doctest: +ELLIPSIS
+    >>> log_encoding(0.18, function='S-Log')  # doctest: +ELLIPSIS
     0.3849708...
     """
 
-    function = LOG_ENCODING_CURVES[curve]
+    function = handle_arguments_deprecation({
+        'ArgumentRenamed': [['curve', 'function']],
+    }, **kwargs).get('function', function)
+
+    function = LOGS_ENCODING[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-LOG_DECODING_CURVES = CaseInsensitiveMapping({
+LOGS_DECODING = CaseInsensitiveMapping({
     'ACEScc': log_decoding_ACEScc,
     'ACEScct': log_decoding_ACEScct,
     'ACESproxy': log_decoding_ACESproxy,
@@ -283,10 +288,10 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping({
     'V-Log': log_decoding_VLog,
     'ViperLog': log_decoding_ViperLog
 })
-LOG_DECODING_CURVES.__doc__ = """
-Supported *log* decoding curves.
+LOGS_DECODING.__doc__ = """
+Supported *log* decoding functions.
 
-LOG_DECODING_CURVES : CaseInsensitiveMapping
+LOGS_DECODING : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
     'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
@@ -295,22 +300,22 @@ LOG_DECODING_CURVES : CaseInsensitiveMapping
 """
 
 
-def log_decoding_curve(value, curve='Cineon', **kwargs):
+def log_decoding(value, function='Cineon', **kwargs):
     """
     Decodes :math:`R'G'B'` video component signal value to linear-light values
-    using given *log* curve.
+    using given *log* function.
 
     Parameters
     ----------
     value : numeric or array_like
         Value.
-    curve : unicode, optional
+    function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
         'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
         'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
         'V-Log', 'ViperLog'}**,
-        Computation curve.
+        Computation function.
 
     Other Parameters
     ----------------
@@ -380,26 +385,30 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
 
     Examples
     --------
-    >>> log_decoding_curve(0.457319613085418)  # doctest: +ELLIPSIS
+    >>> log_decoding(0.457319613085418)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(0.413588402492442, curve='ACEScc')
+    >>> log_decoding(0.413588402492442, function='ACEScc')
     ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(0.391006842619746, curve='PLog', log_reference=400)
+    >>> log_decoding(0.391006842619746, function='PLog', log_reference=400)
     ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(0.376512722254600, curve='S-Log')
+    >>> log_decoding(0.376512722254600, function='S-Log')
     ... # doctest: +ELLIPSIS
     0.1...
     """
 
-    function = LOG_DECODING_CURVES[curve]
+    function = handle_arguments_deprecation({
+        'ArgumentRenamed': [['curve', 'function']],
+    }, **kwargs).get('function', function)
+
+    function = LOGS_DECODING[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['LOG_ENCODING_CURVES', 'LOG_DECODING_CURVES']
-__all__ += ['log_encoding_curve', 'log_decoding_curve']
+__all__ += ['LOGS_ENCODING', 'LOGS_DECODING']
+__all__ += ['log_encoding', 'log_decoding']
 
 OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
@@ -713,12 +722,12 @@ CCTFS_ENCODING = CaseInsensitiveMapping({
     'RIMM RGB': cctf_encoding_RIMMRGB,
     'ROMM RGB': cctf_encoding_ROMMRGB,
 })
-CCTFS_ENCODING.update(LOG_ENCODING_CURVES)
+CCTFS_ENCODING.update(LOGS_ENCODING)
 CCTFS_ENCODING.update(OETFS)
 CCTFS_ENCODING.update(EOTFS_INVERSE)
 CCTFS_ENCODING.__doc__ = """
 Supported encoding colour component transfer functions (Encoding CCTFs), a
-collection of the functions defined by :attr:`colour.LOG_ENCODING_CURVES`,
+collection of the functions defined by :attr:`colour.LOGS_ENCODING`,
 :attr:`colour.OETFS`, :attr:`colour.EOTFS_INVERSE` attributes, the
 :func:`colour.models.cctf_encoding_ProPhotoRGB`,
 :func:`colour.models.cctf_encoding_RIMMRGB`,
@@ -733,7 +742,7 @@ For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 (OETF / OECF).
 
 CCTFS_ENCODING : CaseInsensitiveMapping
-    {:attr:`colour.LOG_ENCODING_CURVES`, :attr:`colour.OETFS`,
+    {:attr:`colour.LOGS_ENCODING`, :attr:`colour.OETFS`,
     :attr:`colour.EOTFS_INVERSE`}
 """
 
@@ -802,12 +811,12 @@ CCTFS_DECODING = CaseInsensitiveMapping({
     'RIMM RGB': cctf_decoding_RIMMRGB,
     'ROMM RGB': cctf_decoding_ROMMRGB,
 })
-CCTFS_DECODING.update(LOG_DECODING_CURVES)
+CCTFS_DECODING.update(LOGS_DECODING)
 CCTFS_DECODING.update(OETFS_INVERSE)
 CCTFS_DECODING.update(EOTFS)
 CCTFS_DECODING.__doc__ = """
 Supported decoding colour component transfer functions (Decoding CCTFs), a
-collection of the functions defined by :attr:`colour.LOG_DECODING_CURVES`,
+collection of the functions defined by :attr:`colour.LOGS_DECODING`,
 :attr:`colour.EOTFS`, :attr:`colour.OETFS_INVERSE` attributes, the
 :func:`colour.models.cctf_decoding_ProPhotoRGB`,
 :func:`colour.models.cctf_decoding_RIMMRGB`,
@@ -827,7 +836,7 @@ Notes
     important to ensure that *ITU-R BT.2100* definitions are reciprocal.
 
 CCTFS_DECODING : CaseInsensitiveMapping
-    {:attr:`colour.LOG_DECODING_CURVES`, :attr:`colour.EOTFS`,
+    {:attr:`colour.LOGS_DECODING`, :attr:`colour.EOTFS`,
     :attr:`colour.OETFS_INVERSE`}
 """
 

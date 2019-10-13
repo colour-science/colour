@@ -487,8 +487,8 @@ Opto-Optical Transfer Functions
     ootf_PQ_BT2100
     ootf_inverse_PQ_BT2100
 
-Log Encoding and Decoding Curves
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Log Encoding and Decoding
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -497,10 +497,10 @@ Log Encoding and Decoding Curves
 .. autosummary::
     :toctree: generated/
 
-    log_encoding_curve
-    LOG_ENCODING_CURVES
-    log_decoding_curve
-    LOG_DECODING_CURVES
+    log_encoding
+    LOGS_ENCODING
+    log_decoding
+    LOGS_DECODING
 
 ``colour.models``
 

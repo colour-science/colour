@@ -768,12 +768,12 @@ OOTFs Inverse
     >>> sorted(colour.OOTFS_INVERSE.keys())
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
-Log Encoding / Decoding Curves
-******************************
+Log Encoding / Decoding
+***********************
 
 .. code-block:: python
 
-    >>> sorted(colour.LOG_ENCODING_CURVES.keys())
+    >>> sorted(colour.LOGS_ENCODING.keys())
     ['ACEScc',
      'ACEScct',
      'ACESproxy',

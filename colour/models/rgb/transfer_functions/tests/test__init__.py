@@ -10,9 +10,9 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    CCTFS_DECODING, CCTFS_ENCODING, EOTFS, EOTFS_INVERSE, LOG_DECODING_CURVES,
-    LOG_ENCODING_CURVES, OETFS, OETFS_INVERSE, OOTFS, OOTFS_INVERSE,
-    cctf_encoding, cctf_decoding)
+    CCTFS_DECODING, CCTFS_ENCODING, EOTFS, EOTFS_INVERSE, LOGS_DECODING,
+    LOGS_ENCODING, OETFS, OETFS_INVERSE, OOTFS, OOTFS_INVERSE, cctf_encoding,
+    cctf_decoding)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -74,7 +74,7 @@ class TestTransferFunctions(unittest.TestCase):
         decimals = {'D-Log': 1, 'F-Log': 4}
 
         reciprocal_mappings = [
-            (LOG_ENCODING_CURVES, LOG_DECODING_CURVES),
+            (LOGS_ENCODING, LOGS_DECODING),
             (OETFS, OETFS_INVERSE),
             (EOTFS, EOTFS_INVERSE),
             (CCTFS_ENCODING, CCTFS_DECODING),
