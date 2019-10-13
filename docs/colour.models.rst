@@ -350,10 +350,24 @@ Colour Component Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    encoding_cctf
-    ENCODING_CCTFS
-    decoding_cctf
-    DECODING_CCTFS
+    cctf_encoding
+    CCTFS_ENCODING
+    cctf_decoding
+    CCTFS_DECODING
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    cctf_encoding_ROMMRGB
+    cctf_decoding_ROMMRGB
+    cctf_encoding_ProPhotoRGB
+    cctf_decoding_ProPhotoRGB
+    cctf_encoding_RIMMRGB
+    cctf_decoding_RIMMRGB
 
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -388,9 +402,6 @@ Opto-Electronic Transfer Functions
     oetf_inverse_BT601
     oetf_BT709
     oetf_inverse_BT709
-    oetf_ProPhotoRGB
-    oetf_RIMMRGB
-    oetf_ROMMRGB
     oetf_SMPTE240M
 
 **Ancillary Objects**
@@ -440,9 +451,6 @@ Electro-Optical Transfer Functions
     eotf_inverse_HLG_BT2100
     eotf_PQ_BT2100
     eotf_inverse_PQ_BT2100
-    eotf_ProPhotoRGB
-    eotf_RIMMRGB
-    eotf_ROMMRGB
     eotf_SMPTE240M
     eotf_ST2084
     eotf_inverse_ST2084
@@ -479,8 +487,8 @@ Opto-Optical Transfer Functions
     ootf_PQ_BT2100
     ootf_inverse_PQ_BT2100
 
-Log Encoding and Decoding Curves
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Log Encoding and Decoding
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -489,10 +497,10 @@ Log Encoding and Decoding Curves
 .. autosummary::
     :toctree: generated/
 
-    log_encoding_curve
-    LOG_ENCODING_CURVES
-    log_decoding_curve
-    LOG_DECODING_CURVES
+    log_encoding
+    LOGS_ENCODING
+    log_decoding
+    LOGS_DECODING
 
 ``colour.models``
 

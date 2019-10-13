@@ -6,6 +6,7 @@ from functools import partial
 
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               usage_warning)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 from .common import CV_range, legal_to_full, full_to_legal
 from .gamma import gamma_function
@@ -47,9 +48,10 @@ from .red_log import (log_encoding_REDLog, log_decoding_REDLog,
                       LOG3G10_ENCODING_METHODS, LOG3G10_DECODING_METHODS,
                       log_encoding_Log3G10, log_decoding_Log3G10,
                       log_encoding_Log3G12, log_decoding_Log3G12)
-from .rimm_romm_rgb import (oetf_ROMMRGB, eotf_ROMMRGB, oetf_ProPhotoRGB,
-                            eotf_ProPhotoRGB, oetf_RIMMRGB, eotf_RIMMRGB,
-                            log_encoding_ERIMMRGB, log_decoding_ERIMMRGB)
+from .rimm_romm_rgb import (
+    cctf_encoding_ROMMRGB, cctf_decoding_ROMMRGB, cctf_encoding_ProPhotoRGB,
+    cctf_decoding_ProPhotoRGB, cctf_encoding_RIMMRGB, cctf_decoding_RIMMRGB,
+    log_encoding_ERIMMRGB, log_decoding_ERIMMRGB)
 from .smpte_240m import oetf_SMPTE240M, eotf_SMPTE240M
 from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
                         log_encoding_SLog2, log_decoding_SLog2,
@@ -102,8 +104,9 @@ __all__ += [
     'log_encoding_Log3G12', 'log_decoding_Log3G12'
 ]
 __all__ += [
-    'oetf_ROMMRGB', 'eotf_ROMMRGB', 'oetf_ProPhotoRGB', 'eotf_ProPhotoRGB',
-    'oetf_RIMMRGB', 'eotf_RIMMRGB', 'log_encoding_ERIMMRGB',
+    'cctf_encoding_ROMMRGB', 'cctf_decoding_ROMMRGB',
+    'cctf_encoding_ProPhotoRGB', 'cctf_decoding_ProPhotoRGB',
+    'cctf_encoding_RIMMRGB', 'cctf_decoding_RIMMRGB', 'log_encoding_ERIMMRGB',
     'log_decoding_ERIMMRGB'
 ]
 __all__ += ['oetf_SMPTE240M', 'eotf_SMPTE240M']
@@ -114,7 +117,7 @@ __all__ += [
 __all__ += ['eotf_inverse_sRGB', 'eotf_sRGB']
 __all__ += ['log_encoding_ViperLog', 'log_decoding_ViperLog']
 
-LOG_ENCODING_CURVES = CaseInsensitiveMapping({
+LOGS_ENCODING = CaseInsensitiveMapping({
     'ACEScc': log_encoding_ACEScc,
     'ACEScct': log_encoding_ACEScct,
     'ACESproxy': log_encoding_ACESproxy,
@@ -141,10 +144,10 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'V-Log': log_encoding_VLog,
     'ViperLog': log_encoding_ViperLog
 })
-LOG_ENCODING_CURVES.__doc__ = """
-Supported *log* encoding curves.
+LOGS_ENCODING.__doc__ = """
+Supported *log* encoding functions.
 
-LOG_ENCODING_CURVES : CaseInsensitiveMapping
+LOGS_ENCODING : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
     'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
@@ -153,22 +156,22 @@ LOG_ENCODING_CURVES : CaseInsensitiveMapping
 """
 
 
-def log_encoding_curve(value, curve='Cineon', **kwargs):
+def log_encoding(value, function='Cineon', **kwargs):
     """
     Encodes linear-light values to :math:`R'G'B'` video component signal
-    value using given *log* curve.
+    value using given *log* function.
 
     Parameters
     ----------
     value : numeric or array_like
         Value.
-    curve : unicode, optional
+    function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
         'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
         'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
         'V-Log', 'ViperLog'}**,
-        Computation curve.
+        Computation function.
 
     Other Parameters
     ----------------
@@ -238,23 +241,27 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
 
     Examples
     --------
-    >>> log_encoding_curve(0.18)  # doctest: +ELLIPSIS
+    >>> log_encoding(0.18)  # doctest: +ELLIPSIS
     0.4573196...
-    >>> log_encoding_curve(0.18, curve='ACEScc')  # doctest: +ELLIPSIS
+    >>> log_encoding(0.18, function='ACEScc')  # doctest: +ELLIPSIS
     0.4135884...
-    >>> log_encoding_curve(0.18, curve='PLog', log_reference=400)
+    >>> log_encoding(0.18, function='PLog', log_reference=400)
     ... # doctest: +ELLIPSIS
     0.3910068...
-    >>> log_encoding_curve(0.18, curve='S-Log')  # doctest: +ELLIPSIS
+    >>> log_encoding(0.18, function='S-Log')  # doctest: +ELLIPSIS
     0.3849708...
     """
 
-    function = LOG_ENCODING_CURVES[curve]
+    function = handle_arguments_deprecation({
+        'ArgumentRenamed': [['curve', 'function']],
+    }, **kwargs).get('function', function)
+
+    function = LOGS_ENCODING[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-LOG_DECODING_CURVES = CaseInsensitiveMapping({
+LOGS_DECODING = CaseInsensitiveMapping({
     'ACEScc': log_decoding_ACEScc,
     'ACEScct': log_decoding_ACEScct,
     'ACESproxy': log_decoding_ACESproxy,
@@ -281,10 +288,10 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping({
     'V-Log': log_decoding_VLog,
     'ViperLog': log_decoding_ViperLog
 })
-LOG_DECODING_CURVES.__doc__ = """
-Supported *log* decoding curves.
+LOGS_DECODING.__doc__ = """
+Supported *log* decoding functions.
 
-LOG_DECODING_CURVES : CaseInsensitiveMapping
+LOGS_DECODING : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
     'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
@@ -293,22 +300,22 @@ LOG_DECODING_CURVES : CaseInsensitiveMapping
 """
 
 
-def log_decoding_curve(value, curve='Cineon', **kwargs):
+def log_decoding(value, function='Cineon', **kwargs):
     """
     Decodes :math:`R'G'B'` video component signal value to linear-light values
-    using given *log* curve.
+    using given *log* function.
 
     Parameters
     ----------
     value : numeric or array_like
         Value.
-    curve : unicode, optional
+    function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
         'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
         'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
         'V-Log', 'ViperLog'}**,
-        Computation curve.
+        Computation function.
 
     Other Parameters
     ----------------
@@ -378,26 +385,30 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
 
     Examples
     --------
-    >>> log_decoding_curve(0.457319613085418)  # doctest: +ELLIPSIS
+    >>> log_decoding(0.457319613085418)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(0.413588402492442, curve='ACEScc')
+    >>> log_decoding(0.413588402492442, function='ACEScc')
     ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(0.391006842619746, curve='PLog', log_reference=400)
+    >>> log_decoding(0.391006842619746, function='PLog', log_reference=400)
     ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(0.376512722254600, curve='S-Log')
+    >>> log_decoding(0.376512722254600, function='S-Log')
     ... # doctest: +ELLIPSIS
     0.1...
     """
 
-    function = LOG_DECODING_CURVES[curve]
+    function = handle_arguments_deprecation({
+        'ArgumentRenamed': [['curve', 'function']],
+    }, **kwargs).get('function', function)
+
+    function = LOGS_DECODING[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['LOG_ENCODING_CURVES', 'LOG_DECODING_CURVES']
-__all__ += ['log_encoding_curve', 'log_decoding_curve']
+__all__ += ['LOGS_ENCODING', 'LOGS_DECODING']
+__all__ += ['log_encoding', 'log_decoding']
 
 OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
@@ -406,9 +417,6 @@ OETFS = CaseInsensitiveMapping({
     'ITU-R BT.2100 PQ': oetf_PQ_BT2100,
     'ITU-R BT.601': oetf_BT601,
     'ITU-R BT.709': oetf_BT709,
-    'ProPhoto RGB': oetf_ProPhotoRGB,
-    'RIMM RGB': oetf_RIMMRGB,
-    'ROMM RGB': oetf_ROMMRGB,
     'SMPTE 240M': oetf_SMPTE240M,
 })
 OETFS.__doc__ = """
@@ -416,8 +424,8 @@ Supported opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS : CaseInsensitiveMapping
     **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2020', 'ITU-R BT.2100 HLG',
-    'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'ITU-R BT.709', 'ProPhoto RGB',
-    'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
+    'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'ITU-R BT.709', 'SMPTE 240M',
+    'ST 2084'}**
 """
 
 
@@ -433,18 +441,18 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
         Value.
     function : unicode, optional
         **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2020',
-        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601',
-        'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**,
+        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M',
+        'ST 2084'}**,
         Opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
     ----------------
     E_clip : numeric, optional
-        {:func:`colour.models.oetf_RIMMRGB`},
+        {:func:`colour.models.cctf_encoding_RIMMRGB`},
         Maximum exposure level.
     I_max : numeric, optional
-        {:func:`colour.models.oetf_ROMMRGB`,
-        :func:`colour.models.oetf_RIMMRGB`},
+        {:func:`colour.models.cctf_encoding_ROMMRGB`,
+        :func:`colour.models.cctf_encoding_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     is_12_bits_system : bool, optional
@@ -537,9 +545,6 @@ EOTFS = CaseInsensitiveMapping({
     'ITU-R BT.2020': eotf_BT2020,
     'ITU-R BT.2100 HLG': eotf_HLG_BT2100,
     'ITU-R BT.2100 PQ': eotf_PQ_BT2100,
-    'ProPhoto RGB': eotf_ProPhotoRGB,
-    'RIMM RGB': eotf_RIMMRGB,
-    'ROMM RGB': eotf_ROMMRGB,
     'SMPTE 240M': eotf_SMPTE240M,
     'ST 2084': eotf_ST2084,
     'sRGB': eotf_sRGB,
@@ -549,8 +554,7 @@ Supported electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTFS : CaseInsensitiveMapping
     **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
-    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ProPhoto RGB', 'RIMM RGB',
-    'ROMM RGB', 'SMPTE 240M', 'ST 2084', 'sRGB'}**
+    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'SMPTE 240M', 'ST 2084', 'sRGB'}**
 """
 
 
@@ -565,18 +569,18 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
         Value.
     function : unicode, optional
         **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
-        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ProPhoto RGB', 'RIMM RGB',
-        'ROMM RGB', 'SMPTE 240M', 'ST 2084', 'sRGB'}**,
+        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'SMPTE 240M', 'ST 2084',
+        'sRGB'}**,
         Electro-optical transfer function (EOTF / EOCF).
 
     Other Parameters
     ----------------
     E_clip : numeric, optional
-        {:func:`colour.models.eotf_RIMMRGB`},
+        {:func:`colour.models.cctf_decoding_RIMMRGB`},
         Maximum exposure level.
     I_max : numeric, optional
-        {:func:`colour.models.eotf_ROMMRGB`,
-        :func:`colour.models.eotf_RIMMRGB`},
+        {:func:`colour.models.cctf_decoding_ROMMRGB`,
+        :func:`colour.models.cctf_decoding_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     L_B : numeric, optional
@@ -710,19 +714,25 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
 __all__ += ['OETFS', 'OETFS_INVERSE', 'EOTFS', 'EOTFS_INVERSE']
 __all__ += ['oetf', 'oetf_inverse', 'eotf', 'eotf_inverse']
 
-ENCODING_CCTFS = CaseInsensitiveMapping(LOG_ENCODING_CURVES)
-ENCODING_CCTFS.update(OETFS)
-ENCODING_CCTFS.update(EOTFS_INVERSE)
-ENCODING_CCTFS.update({
+CCTFS_ENCODING = CaseInsensitiveMapping({
     'Gamma 2.2': partial(gamma_function, exponent=1 / 2.2),
     'Gamma 2.4': partial(gamma_function, exponent=1 / 2.4),
     'Gamma 2.6': partial(gamma_function, exponent=1 / 2.6),
+    'ProPhoto RGB': cctf_encoding_ProPhotoRGB,
+    'RIMM RGB': cctf_encoding_RIMMRGB,
+    'ROMM RGB': cctf_encoding_ROMMRGB,
 })
-ENCODING_CCTFS.__doc__ = """
+CCTFS_ENCODING.update(LOGS_ENCODING)
+CCTFS_ENCODING.update(OETFS)
+CCTFS_ENCODING.update(EOTFS_INVERSE)
+CCTFS_ENCODING.__doc__ = """
 Supported encoding colour component transfer functions (Encoding CCTFs), a
-collection of the functions defined by :attr:`colour.LOG_ENCODING_CURVES`,
-:attr:`colour.OETFS`, :attr:`colour.EOTFS_INVERSE` attributes and 3 gamma
-encoding functions (1 / 2.2, 1 / 2.4, 1 / 2.6).
+collection of the functions defined by :attr:`colour.LOGS_ENCODING`,
+:attr:`colour.OETFS`, :attr:`colour.EOTFS_INVERSE` attributes, the
+:func:`colour.models.cctf_encoding_ProPhotoRGB`,
+:func:`colour.models.cctf_encoding_RIMMRGB`,
+:func:`colour.models.cctf_encoding_ROMMRGB` definitions and 3 gamma encoding
+functions (1 / 2.2, 1 / 2.4, 1 / 2.6).
 
 Warning
 -------
@@ -731,13 +741,13 @@ For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 :attr:`colour.OETFS` attribute for the opto-electronic transfer functions
 (OETF / OECF).
 
-ENCODING_CCTFS : CaseInsensitiveMapping
-    {:attr:`colour.LOG_ENCODING_CURVES`, :attr:`colour.OETFS`,
+CCTFS_ENCODING : CaseInsensitiveMapping
+    {:attr:`colour.LOGS_ENCODING`, :attr:`colour.OETFS`,
     :attr:`colour.EOTFS_INVERSE`}
 """
 
 
-def encoding_cctf(value, function='sRGB', **kwargs):
+def cctf_encoding(value, function='sRGB', **kwargs):
     """
     Encodes linear :math:`RGB` values to non linear :math:`R'G'B'` values using
     given encoding colour component transfer function (Encoding CCTF).
@@ -747,14 +757,14 @@ def encoding_cctf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Linear :math:`RGB` values.
     function : unicode, optional
-        {:attr:`colour.ENCODING_CCTFS`},
+        {:attr:`colour.CCTFS_ENCODING`},
         Computation function.
 
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
         Keywords arguments for the relevant encoding CCTF of the
-        :attr:`colour.ENCODING_CCTFS` attribute collection.
+        :attr:`colour.CCTFS_ENCODING` attribute collection.
 
     Warning
     -------
@@ -770,13 +780,13 @@ def encoding_cctf(value, function='sRGB', **kwargs):
 
     Examples
     --------
-    >>> encoding_cctf(0.18, function='PLog', log_reference=400)
+    >>> cctf_encoding(0.18, function='PLog', log_reference=400)
     ... # doctest: +ELLIPSIS
     0.3910068...
-    >>> encoding_cctf(0.18, function='ST 2084', L_p=1000)
+    >>> cctf_encoding(0.18, function='ST 2084', L_p=1000)
     ... # doctest: +ELLIPSIS
     0.1820115...
-    >>> encoding_cctf(  # doctest: +ELLIPSIS
+    >>> cctf_encoding(  # doctest: +ELLIPSIS
     ...     0.11699185725296059, function='ITU-R BT.1886')
     0.4090077...
     """
@@ -788,24 +798,30 @@ def encoding_cctf(value, function='sRGB', **kwargs):
             'by this definition, please refer to the "colour.oetf" definition '
             'for the opto-electronic transfer functions (OETF / OECF).')
 
-    function = ENCODING_CCTFS[function]
+    function = CCTFS_ENCODING[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-DECODING_CCTFS = CaseInsensitiveMapping(LOG_DECODING_CURVES)
-DECODING_CCTFS.update(OETFS_INVERSE)
-DECODING_CCTFS.update(EOTFS)
-DECODING_CCTFS.update({
+CCTFS_DECODING = CaseInsensitiveMapping({
     'Gamma 2.2': partial(gamma_function, exponent=2.2),
     'Gamma 2.4': partial(gamma_function, exponent=2.4),
     'Gamma 2.6': partial(gamma_function, exponent=2.6),
+    'ProPhoto RGB': cctf_decoding_ProPhotoRGB,
+    'RIMM RGB': cctf_decoding_RIMMRGB,
+    'ROMM RGB': cctf_decoding_ROMMRGB,
 })
-DECODING_CCTFS.__doc__ = """
+CCTFS_DECODING.update(LOGS_DECODING)
+CCTFS_DECODING.update(OETFS_INVERSE)
+CCTFS_DECODING.update(EOTFS)
+CCTFS_DECODING.__doc__ = """
 Supported decoding colour component transfer functions (Decoding CCTFs), a
-collection of the functions defined by :attr:`colour.LOG_DECODING_CURVES`,
-:attr:`colour.EOTFS`, :attr:`colour.OETFS_INVERSE` attributes and 3 gamma
-decoding functions (2.2, 2.4, 2.6).
+collection of the functions defined by :attr:`colour.LOGS_DECODING`,
+:attr:`colour.EOTFS`, :attr:`colour.OETFS_INVERSE` attributes, the
+:func:`colour.models.cctf_decoding_ProPhotoRGB`,
+:func:`colour.models.cctf_decoding_RIMMRGB`,
+:func:`colour.models.cctf_decoding_ROMMRGB` definitions and 3 gamma decoding
+functions (2.2, 2.4, 2.6).
 
 Warning
 -------
@@ -819,13 +835,13 @@ Notes
 -   The order by which this attribute is defined and updated is critically
     important to ensure that *ITU-R BT.2100* definitions are reciprocal.
 
-DECODING_CCTFS : CaseInsensitiveMapping
-    {:attr:`colour.LOG_DECODING_CURVES`, :attr:`colour.EOTFS`,
+CCTFS_DECODING : CaseInsensitiveMapping
+    {:attr:`colour.LOGS_DECODING`, :attr:`colour.EOTFS`,
     :attr:`colour.OETFS_INVERSE`}
 """
 
 
-def decoding_cctf(value, function='sRGB', **kwargs):
+def cctf_decoding(value, function='sRGB', **kwargs):
     """
     Decodes non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
     given decoding colour component transfer function (Decoding CCTF).
@@ -835,14 +851,14 @@ def decoding_cctf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Non-linear :math:`R'G'B'` values.
     function : unicode, optional
-        {:attr:`colour.DECODING_CCTFS`},
+        {:attr:`colour.CCTFS_DECODING`},
         Computation function.
 
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
         Keywords arguments for the relevant decoding CCTF of the
-        :attr:`colour.DECODING_CCTFS` attribute collection.
+        :attr:`colour.CCTFS_DECODING` attribute collection.
 
     Warning
     -------
@@ -858,13 +874,13 @@ def decoding_cctf(value, function='sRGB', **kwargs):
 
     Examples
     --------
-    >>> decoding_cctf(0.391006842619746, function='PLog', log_reference=400)
+    >>> cctf_decoding(0.391006842619746, function='PLog', log_reference=400)
     ... # doctest: +ELLIPSIS
     0.1...
-    >>> decoding_cctf(0.182011532850008, function='ST 2084', L_p=1000)
+    >>> cctf_decoding(0.182011532850008, function='ST 2084', L_p=1000)
     ... # doctest: +ELLIPSIS
     0.1...
-    >>> decoding_cctf(  # doctest: +ELLIPSIS
+    >>> cctf_decoding(  # doctest: +ELLIPSIS
     ...     0.461356129500442, function='ITU-R BT.1886')
     0.1...
     """
@@ -877,13 +893,13 @@ def decoding_cctf(value, function='sRGB', **kwargs):
             'for the inverse opto-electronic transfer functions (OETF / OECF).'
         )
 
-    function = DECODING_CCTFS[function]
+    function = CCTFS_DECODING[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['ENCODING_CCTFS', 'DECODING_CCTFS']
-__all__ += ['encoding_cctf', 'decoding_cctf']
+__all__ += ['CCTFS_ENCODING', 'CCTFS_DECODING']
+__all__ += ['cctf_encoding', 'cctf_decoding']
 
 OOTFS = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_HLG_BT2100,

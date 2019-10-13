@@ -41,7 +41,8 @@ from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import (as_float_array, domain_range_scale, dot_matrix,
                               dot_vector, filter_kwargs, from_range_1,
                               to_domain_1, is_string, runtime_warning)
-from colour.utilities.deprecation import ObjectRenamed
+from colour.utilities.deprecation import (ObjectRenamed,
+                                          handle_arguments_deprecation)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -123,12 +124,12 @@ class RGB_Colourspace(object):
         Transformation matrix from colourspace to *CIE XYZ* tristimulus values.
     XYZ_to_RGB_matrix : array_like, optional
         Transformation matrix from *CIE XYZ* tristimulus values to colourspace.
-    encoding_cctf : object, optional
+    cctf_encoding : object, optional
         Encoding colour component transfer function (Encoding CCTF) /
         opto-electronic transfer function (OETF / OECF) that maps estimated
         tristimulus values in a scene to :math:`R'G'B'` video component signal
         value.
-    decoding_cctf : object, optional
+    cctf_decoding : object, optional
         Decoding colour component transfer function (Decoding CCTF) /
         electro-optical transfer function (EOTF / EOCF) that maps an
         :math:`R'G'B'` video component signal value to tristimulus values at
@@ -148,8 +149,8 @@ class RGB_Colourspace(object):
     whitepoint_name
     RGB_to_XYZ_matrix
     XYZ_to_RGB_matrix
-    encoding_cctf
-    decoding_cctf
+    cctf_encoding
+    cctf_decoding
     use_derived_RGB_to_XYZ_matrix
     use_derived_XYZ_to_RGB_matrix
 
@@ -221,8 +222,8 @@ class RGB_Colourspace(object):
                  whitepoint_name=None,
                  RGB_to_XYZ_matrix=None,
                  XYZ_to_RGB_matrix=None,
-                 encoding_cctf=None,
-                 decoding_cctf=None,
+                 cctf_encoding=None,
+                 cctf_decoding=None,
                  use_derived_RGB_to_XYZ_matrix=False,
                  use_derived_XYZ_to_RGB_matrix=False):
         self._derived_RGB_to_XYZ_matrix = None
@@ -240,10 +241,10 @@ class RGB_Colourspace(object):
         self.RGB_to_XYZ_matrix = RGB_to_XYZ_matrix
         self._XYZ_to_RGB_matrix = None
         self.XYZ_to_RGB_matrix = XYZ_to_RGB_matrix
-        self._encoding_cctf = None
-        self.encoding_cctf = encoding_cctf
-        self._decoding_cctf = None
-        self.decoding_cctf = decoding_cctf
+        self._cctf_encoding = None
+        self.cctf_encoding = cctf_encoding
+        self._cctf_decoding = None
+        self.cctf_decoding = cctf_decoding
         self._use_derived_RGB_to_XYZ_matrix = False
         self.use_derived_RGB_to_XYZ_matrix = use_derived_RGB_to_XYZ_matrix
         self._use_derived_XYZ_to_RGB_matrix = False
@@ -441,7 +442,7 @@ class RGB_Colourspace(object):
         self._XYZ_to_RGB_matrix = value
 
     @property
-    def encoding_cctf(self):
+    def cctf_encoding(self):
         """
         Getter and setter property for the encoding colour component transfer
         function (Encoding CCTF) / opto-electronic transfer function
@@ -460,23 +461,23 @@ class RGB_Colourspace(object):
             opto-electronic transfer function (OETF / OECF).
         """
 
-        return self._encoding_cctf
+        return self._cctf_encoding
 
-    @encoding_cctf.setter
-    def encoding_cctf(self, value):
+    @cctf_encoding.setter
+    def cctf_encoding(self, value):
         """
-        Setter for the **self.encoding_cctf** property.
+        Setter for the **self.cctf_encoding** property.
         """
 
         if value is not None:
             assert hasattr(
                 value,
                 '__call__'), ('"{0}" attribute: "{1}" is not callable!'.format(
-                    'encoding_cctf', value))
-        self._encoding_cctf = value
+                    'cctf_encoding', value))
+        self._cctf_encoding = value
 
     @property
-    def decoding_cctf(self):
+    def cctf_decoding(self):
         """
         Getter and setter property for the decoding colour component transfer
         function (Decoding CCTF) / electro-optical transfer function
@@ -495,20 +496,20 @@ class RGB_Colourspace(object):
             electro-optical transfer function (EOTF / EOCF).
         """
 
-        return self._decoding_cctf
+        return self._cctf_decoding
 
-    @decoding_cctf.setter
-    def decoding_cctf(self, value):
+    @cctf_decoding.setter
+    def cctf_decoding(self, value):
         """
-        Setter for the **self.decoding_cctf** property.
+        Setter for the **self.cctf_decoding** property.
         """
 
         if value is not None:
             assert hasattr(
                 value,
                 '__call__'), ('"{0}" attribute: "{1}" is not callable!'.format(
-                    'decoding_cctf', value))
-        self._decoding_cctf = value
+                    'cctf_decoding', value))
+        self._cctf_decoding = value
 
     @property
     def use_derived_RGB_to_XYZ_matrix(self):
@@ -590,11 +591,11 @@ class RGB_Colourspace(object):
         >>> whitepoint = np.array([0.32168, 0.33767])
         >>> RGB_to_XYZ_matrix = np.identity(3)
         >>> XYZ_to_RGB_matrix = np.identity(3)
-        >>> encoding_cctf = lambda x: x
-        >>> decoding_cctf = lambda x: x
+        >>> cctf_encoding = lambda x: x
+        >>> cctf_decoding = lambda x: x
         >>> print(RGB_Colourspace('RGB Colourspace', p, whitepoint, 'ACES',
         ...                       RGB_to_XYZ_matrix, XYZ_to_RGB_matrix,
-        ...                       encoding_cctf, decoding_cctf))
+        ...                       cctf_encoding, cctf_decoding))
         ... # doctest: +ELLIPSIS
         RGB Colourspace
         ---------------
@@ -653,8 +654,8 @@ class RGB_Colourspace(object):
                     _indent_array(self.primaries),
                     self.whitepoint,
                     self.whitepoint_name,
-                    self.encoding_cctf,
-                    self.decoding_cctf,
+                    self.cctf_encoding,
+                    self.cctf_decoding,
                     _indent_array(self._RGB_to_XYZ_matrix),
                     _indent_array(self._XYZ_to_RGB_matrix),
                     _indent_array(self._derived_RGB_to_XYZ_matrix),
@@ -680,11 +681,11 @@ class RGB_Colourspace(object):
         >>> whitepoint = np.array([0.32168, 0.33767])
         >>> RGB_to_XYZ_matrix = np.identity(3)
         >>> XYZ_to_RGB_matrix = np.identity(3)
-        >>> encoding_cctf = lambda x: x
-        >>> decoding_cctf = lambda x: x
+        >>> cctf_encoding = lambda x: x
+        >>> cctf_decoding = lambda x: x
         >>> RGB_Colourspace('RGB Colourspace', p, whitepoint, 'ACES',
         ...                 RGB_to_XYZ_matrix, XYZ_to_RGB_matrix,
-        ...                 encoding_cctf, decoding_cctf)
+        ...                 cctf_encoding, cctf_decoding)
         ... # doctest: +ELLIPSIS
         RGB_Colourspace(RGB Colourspace,
                         [[  7.34700000e-01,   2.65300000e-01],
@@ -730,8 +731,8 @@ class RGB_Colourspace(object):
                     self.whitepoint_name,
                     _indent_array(self.RGB_to_XYZ_matrix),
                     _indent_array(self.XYZ_to_RGB_matrix),
-                    self.encoding_cctf,
-                    self.decoding_cctf,
+                    self.cctf_encoding,
+                    self.cctf_decoding,
                     self.use_derived_RGB_to_XYZ_matrix,
                     self.use_derived_XYZ_to_RGB_matrix,
                 )
@@ -882,13 +883,34 @@ class RGB_Colourspace(object):
 
         self.whitepoint_name = value
 
+    @property
+    def decoding_cctf(self):  # pragma: no cover
+        # Docstrings are omitted for documentation purposes.
+        runtime_warning(
+            str(
+                ObjectRenamed('RGB_Colourspace.decoding_cctf',
+                              'RGB_Colourspace.cctf_decoding')))
+
+        return self.cctf_decoding
+
+    @property
+    def encoding_cctf(self):  # pragma: no cover
+        # Docstrings are omitted for documentation purposes.
+        runtime_warning(
+            str(
+                ObjectRenamed('RGB_Colourspace.encoding_cctf',
+                              'RGB_Colourspace.cctf_encoding')))
+
+        return self.cctf_encoding
+
 
 def XYZ_to_RGB(XYZ,
                illuminant_XYZ,
                illuminant_RGB,
                XYZ_to_RGB_matrix,
                chromatic_adaptation_transform='CAT02',
-               encoding_cctf=None):
+               cctf_encoding=None,
+               **kwargs):
     """
     Converts from *CIE XYZ* tristimulus values to *RGB* colourspace array.
 
@@ -910,9 +932,14 @@ def XYZ_to_RGB(XYZ,
         'Bianco PC', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
-    encoding_cctf : object, optional
+    cctf_encoding : object, optional
         Encoding colour component transfer function (Encoding CCTF) or
         opto-electronic transfer function (OETF / OECF).
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -954,6 +981,10 @@ def XYZ_to_RGB(XYZ,
     array([ 0.4559557...,  0.0303970...,  0.0408724...])
     """
 
+    cctf_encoding = handle_arguments_deprecation({
+        'ArgumentRenamed': [['encoding_cctf', 'cctf_encoding']],
+    }, **kwargs).get('cctf_encoding', cctf_encoding)
+
     XYZ = to_domain_1(XYZ)
 
     if chromatic_adaptation_transform is not None:
@@ -966,9 +997,9 @@ def XYZ_to_RGB(XYZ,
 
     RGB = dot_vector(XYZ_to_RGB_matrix, XYZ)
 
-    if encoding_cctf is not None:
+    if cctf_encoding is not None:
         with domain_range_scale('ignore'):
-            RGB = encoding_cctf(RGB)
+            RGB = cctf_encoding(RGB)
 
     return from_range_1(RGB)
 
@@ -978,7 +1009,8 @@ def RGB_to_XYZ(RGB,
                illuminant_XYZ,
                RGB_to_XYZ_matrix,
                chromatic_adaptation_transform='CAT02',
-               decoding_cctf=None):
+               cctf_decoding=None,
+               **kwargs):
     """
     Converts given *RGB* colourspace array to *CIE XYZ* tristimulus values.
 
@@ -1000,9 +1032,14 @@ def RGB_to_XYZ(RGB,
         'Bianco PC', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
-    decoding_cctf : object, optional
+    cctf_decoding : object, optional
         Decoding colour component transfer function (Decoding CCTF) or
         electro-optical transfer function (EOTF / EOCF).
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1044,11 +1081,15 @@ def RGB_to_XYZ(RGB,
     array([ 0.2163881...,  0.1257    ,  0.0384749...])
     """
 
+    cctf_decoding = handle_arguments_deprecation({
+        'ArgumentRenamed': [['decoding_cctf', 'cctf_decoding']],
+    }, **kwargs).get('cctf_decoding', cctf_decoding)
+
     RGB = to_domain_1(RGB)
 
-    if decoding_cctf is not None:
+    if cctf_decoding is not None:
         with domain_range_scale('ignore'):
-            RGB = decoding_cctf(RGB)
+            RGB = cctf_decoding(RGB)
 
     XYZ = dot_vector(RGB_to_XYZ_matrix, RGB)
 
@@ -1118,8 +1159,8 @@ def RGB_to_RGB(RGB,
                input_colourspace,
                output_colourspace,
                chromatic_adaptation_transform='CAT02',
-               apply_decoding_cctf=False,
-               apply_encoding_cctf=False,
+               apply_cctf_decoding=False,
+               apply_cctf_encoding=False,
                **kwargs):
     """
     Converts given *RGB* colourspace array from given input *RGB* colourspace
@@ -1139,10 +1180,10 @@ def RGB_to_RGB(RGB,
         'Bianco PC', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
-    apply_decoding_cctf : bool, optional
+    apply_cctf_decoding : bool, optional
         Apply input colourspace decoding colour component transfer function /
         electro-optical transfer function.
-    apply_encoding_cctf : bool, optional
+    apply_cctf_encoding : bool, optional
         Apply output colourspace encoding colour component transfer function /
         opto-electronic transfer function.
 
@@ -1180,12 +1221,20 @@ def RGB_to_RGB(RGB,
     array([ 0.2568891...,  0.0721446...,  0.0465553...])
     """
 
+    apply_cctf_decoding = handle_arguments_deprecation({
+        'ArgumentRenamed': [['apply_decoding_cctf', 'apply_cctf_decoding']],
+    }, **kwargs).get('apply_cctf_decoding', apply_cctf_decoding)
+
+    apply_cctf_encoding = handle_arguments_deprecation({
+        'ArgumentRenamed': [['apply_encoding_cctf', 'apply_cctf_encoding']],
+    }, **kwargs).get('apply_cctf_encoding', apply_cctf_encoding)
+
     RGB = to_domain_1(RGB)
 
-    if apply_decoding_cctf:
+    if apply_cctf_decoding:
         with domain_range_scale('ignore'):
-            RGB = input_colourspace.decoding_cctf(
-                RGB, **filter_kwargs(input_colourspace.decoding_cctf,
+            RGB = input_colourspace.cctf_decoding(
+                RGB, **filter_kwargs(input_colourspace.cctf_decoding,
                                      **kwargs))
 
     M = RGB_to_RGB_matrix(input_colourspace, output_colourspace,
@@ -1193,10 +1242,10 @@ def RGB_to_RGB(RGB,
 
     RGB = dot_vector(M, RGB)
 
-    if apply_encoding_cctf:
+    if apply_cctf_encoding:
         with domain_range_scale('ignore'):
-            RGB = output_colourspace.encoding_cctf(
-                RGB, **filter_kwargs(output_colourspace.encoding_cctf,
+            RGB = output_colourspace.cctf_encoding(
+                RGB, **filter_kwargs(output_colourspace.cctf_encoding,
                                      **kwargs))
 
     return from_range_1(RGB)

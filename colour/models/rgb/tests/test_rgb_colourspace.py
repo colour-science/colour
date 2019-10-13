@@ -102,12 +102,12 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             if colourspace.name in ignored_colourspaces:
                 continue
 
-            encoding_cctf_s = colourspace.encoding_cctf(samples)
-            decoding_cctf_s = colourspace.decoding_cctf(encoding_cctf_s)
+            cctf_encoding_s = colourspace.cctf_encoding(samples)
+            cctf_decoding_s = colourspace.cctf_decoding(cctf_encoding_s)
 
             np.testing.assert_almost_equal(
                 samples,
-                decoding_cctf_s,
+                cctf_decoding_s,
                 decimal=decimals.get(colourspace.name, 7))
 
     def test_n_dimensional_cctf(self):
@@ -120,33 +120,33 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         decimals = {'DJI D-Gamut': 6, 'F-Gamut': 4}
 
         for colourspace in RGB_COLOURSPACES.values():
-            value_encoding_cctf = 0.5
-            value_decoding_cctf = colourspace.decoding_cctf(
-                colourspace.encoding_cctf(value_encoding_cctf))
+            value_cctf_encoding = 0.5
+            value_cctf_decoding = colourspace.cctf_decoding(
+                colourspace.cctf_encoding(value_cctf_encoding))
             np.testing.assert_almost_equal(
-                value_encoding_cctf,
-                value_decoding_cctf,
+                value_cctf_encoding,
+                value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7))
 
-            value_encoding_cctf = np.tile(value_encoding_cctf, 6)
-            value_decoding_cctf = np.tile(value_decoding_cctf, 6)
+            value_cctf_encoding = np.tile(value_cctf_encoding, 6)
+            value_cctf_decoding = np.tile(value_cctf_decoding, 6)
             np.testing.assert_almost_equal(
-                value_encoding_cctf,
-                value_decoding_cctf,
+                value_cctf_encoding,
+                value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7))
 
-            value_encoding_cctf = np.reshape(value_encoding_cctf, (3, 2))
-            value_decoding_cctf = np.reshape(value_decoding_cctf, (3, 2))
+            value_cctf_encoding = np.reshape(value_cctf_encoding, (3, 2))
+            value_cctf_decoding = np.reshape(value_cctf_decoding, (3, 2))
             np.testing.assert_almost_equal(
-                value_encoding_cctf,
-                value_decoding_cctf,
+                value_cctf_encoding,
+                value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7))
 
-            value_encoding_cctf = np.reshape(value_encoding_cctf, (3, 2, 1))
-            value_decoding_cctf = np.reshape(value_decoding_cctf, (3, 2, 1))
+            value_cctf_encoding = np.reshape(value_cctf_encoding, (3, 2, 1))
+            value_cctf_decoding = np.reshape(value_cctf_decoding, (3, 2, 1))
             np.testing.assert_almost_equal(
-                value_encoding_cctf,
-                value_decoding_cctf,
+                value_cctf_encoding,
+                value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7))
 
     @ignore_numpy_errors
@@ -160,8 +160,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         for colourspace in RGB_COLOURSPACES.values():
             for case in cases:
-                colourspace.encoding_cctf(case)
-                colourspace.decoding_cctf(case)
+                colourspace.cctf_encoding(case)
+                colourspace.cctf_decoding(case)
 
     def test_pickle(self):
         """
@@ -198,8 +198,8 @@ class TestRGB_Colourspace(unittest.TestCase):
 
         required_attributes = ('name', 'primaries', 'whitepoint',
                                'whitepoint_name', 'RGB_to_XYZ_matrix',
-                               'XYZ_to_RGB_matrix', 'encoding_cctf',
-                               'decoding_cctf',
+                               'XYZ_to_RGB_matrix', 'cctf_encoding',
+                               'cctf_decoding',
                                'use_derived_RGB_to_XYZ_matrix',
                                'use_derived_XYZ_to_RGB_matrix')
 
@@ -770,8 +770,8 @@ class TestRGB_to_RGB(unittest.TestCase):
                 np.array([0.21931722, 0.06950287, 0.04694832]),
                 aces_cg_colourspace,
                 aces_cc_colourspace,
-                apply_decoding_cctf=True,
-                apply_encoding_cctf=True),
+                apply_cctf_decoding=True,
+                apply_cctf_encoding=True),
             np.array([0.42985679, 0.33522924, 0.30292336]),
             decimal=7)
 
@@ -780,8 +780,8 @@ class TestRGB_to_RGB(unittest.TestCase):
                 np.array([0.46956438, 0.48137533, 0.43788601]),
                 aces_cc_colourspace,
                 sRGB_colourspace,
-                apply_decoding_cctf=True,
-                apply_encoding_cctf=True),
+                apply_cctf_decoding=True,
+                apply_cctf_encoding=True),
             np.array([0.60983062, 0.67896356, 0.50435764]),
             decimal=7)
 
@@ -790,7 +790,7 @@ class TestRGB_to_RGB(unittest.TestCase):
                 np.array([0.21931722, 0.06950287, 0.04694832]),
                 aces_2065_1_colourspace,
                 RGB_COLOURSPACES['ProPhoto RGB'],
-                apply_encoding_cctf=True,
+                apply_cctf_encoding=True,
                 out_int=True), np.array([120, 59, 46]))
 
     def test_n_dimensional_RGB_to_RGB(self):

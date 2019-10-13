@@ -94,8 +94,8 @@ NTSC_1953_COLOURSPACE = RGB_Colourspace(
     NTSC_1953_WHITEPOINT_NAME,
     NTSC_1953_TO_XYZ_MATRIX,
     XYZ_TO_NTSC_1953_MATRIX,
-    BT470_525_COLOURSPACE.encoding_cctf,
-    BT470_525_COLOURSPACE.decoding_cctf,
+    BT470_525_COLOURSPACE.cctf_encoding,
+    BT470_525_COLOURSPACE.cctf_decoding,
 )
 NTSC_1953_COLOURSPACE.__doc__ = """
 *NTSC (1953)* colourspace.
@@ -149,8 +149,8 @@ NTSC_1987_COLOURSPACE = RGB_Colourspace(
     NTSC_1987_WHITEPOINT_NAME,
     NTSC_1987_TO_XYZ_MATRIX,
     XYZ_TO_NTSC_1987_MATRIX,
-    SMPTE_C_COLOURSPACE.encoding_cctf,
-    SMPTE_C_COLOURSPACE.decoding_cctf,
+    SMPTE_C_COLOURSPACE.cctf_encoding,
+    SMPTE_C_COLOURSPACE.cctf_decoding,
 )
 NTSC_1987_COLOURSPACE.__doc__ = """
 *NTSC (1987)* colourspace.

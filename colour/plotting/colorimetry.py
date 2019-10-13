@@ -140,7 +140,7 @@ def plot_single_sd(sd,
     colours = XYZ_to_plotting_colourspace(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        apply_encoding_cctf=False)
+        apply_cctf_encoding=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
@@ -150,7 +150,7 @@ def plot_single_sd(sd,
     if modulate_colours_with_sd_amplitude:
         colours *= (values / np.max(values))[..., np.newaxis]
 
-    colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf(colours)
+    colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding(colours)
 
     if equalize_sd_amplitude:
         values = np.ones(values.shape)

@@ -50,7 +50,7 @@ from colour.models import (
     XYZ_to_Hunter_Rdab, XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_Lab, XYZ_to_Luv,
     XYZ_to_OSA_UCS, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW, XYZ_to_hdr_CIELab,
     XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY, YCbCr_to_RGB,
-    YCoCg_to_RGB, YcCbcCrc_to_RGB, decoding_cctf, encoding_cctf,
+    YCoCg_to_RGB, YcCbcCrc_to_RGB, cctf_decoding, cctf_encoding,
     hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS,
     xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
 from colour.notation import (HEX_to_RGB, RGB_to_HEX, munsell_value,
@@ -434,10 +434,10 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('YcCbcCrc', 'RGB', YcCbcCrc_to_RGB),
     ('Output-Referred RGB', 'YCoCg', RGB_to_YCoCg),
     ('YCoCg', 'Output-Referred RGB', YCoCg_to_RGB),
-    ('RGB', 'Output-Referred RGB', encoding_cctf),
-    ('Output-Referred RGB', 'RGB', decoding_cctf),
-    ('Scene-Referred RGB', 'Output-Referred RGB', encoding_cctf),
-    ('Output-Referred RGB', 'Scene-Referred RGB', decoding_cctf),
+    ('RGB', 'Output-Referred RGB', cctf_encoding),
+    ('Output-Referred RGB', 'RGB', cctf_decoding),
+    ('Scene-Referred RGB', 'Output-Referred RGB', cctf_encoding),
+    ('Output-Referred RGB', 'Scene-Referred RGB', cctf_decoding),
     ('CIE XYZ', 'sRGB', XYZ_to_sRGB),
     ('sRGB', 'CIE XYZ', sRGB_to_XYZ),
     # Colour Notation Systems

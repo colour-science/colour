@@ -305,7 +305,7 @@ def override_style(**kwargs):
 def XYZ_to_plotting_colourspace(XYZ,
                                 illuminant=RGB_COLOURSPACES['sRGB'].whitepoint,
                                 chromatic_adaptation_transform='CAT02',
-                                apply_encoding_cctf=True):
+                                apply_cctf_encoding=True):
     """
     Converts from *CIE XYZ* tristimulus values to
     :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace.
@@ -321,7 +321,7 @@ def XYZ_to_plotting_colourspace(XYZ,
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
-    apply_encoding_cctf : bool, optional
+    apply_cctf_encoding : bool, optional
         Apply :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace
         encoding colour component transfer function / opto-electronic transfer
         function.
@@ -344,8 +344,8 @@ def XYZ_to_plotting_colourspace(XYZ,
         XYZ, illuminant, COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint,
         COLOUR_STYLE_CONSTANTS.colour.colourspace.XYZ_to_RGB_matrix,
         chromatic_adaptation_transform,
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf
-        if apply_encoding_cctf else None)
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding
+        if apply_cctf_encoding else None)
 
 
 class ColourSwatch(namedtuple('ColourSwatch', ('name', 'RGB'))):

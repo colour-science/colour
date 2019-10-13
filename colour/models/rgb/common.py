@@ -16,6 +16,7 @@ from __future__ import division, unicode_literals
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -31,7 +32,8 @@ def XYZ_to_sRGB(
         XYZ,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
         chromatic_adaptation_transform='CAT02',
-        apply_encoding_cctf=True):
+        apply_cctf_encoding=True,
+        **kwargs):
     """
     Converts from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -46,9 +48,14 @@ def XYZ_to_sRGB(
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
-    apply_encoding_cctf : bool, optional
+    apply_cctf_encoding : bool, optional
         Apply *sRGB* encoding colour component transfer function /
         opto-electronic transfer function.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -78,6 +85,10 @@ def XYZ_to_sRGB(
     array([ 0.7057393...,  0.1924826...,  0.2235416...])
     """
 
+    apply_cctf_encoding = handle_arguments_deprecation({
+        'ArgumentRenamed': [['apply_encoding_cctf', 'apply_cctf_encoding']],
+    }, **kwargs).get('apply_cctf_encoding', apply_cctf_encoding)
+
     sRGB = RGB_COLOURSPACES['sRGB']
 
     return XYZ_to_RGB(
@@ -86,7 +97,7 @@ def XYZ_to_sRGB(
         sRGB.whitepoint,
         sRGB.XYZ_to_RGB_matrix,
         chromatic_adaptation_transform,
-        sRGB.encoding_cctf if apply_encoding_cctf else None,
+        sRGB.cctf_encoding if apply_cctf_encoding else None,
     )
 
 
@@ -94,7 +105,8 @@ def sRGB_to_XYZ(
         RGB,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
         chromatic_adaptation_method='CAT02',
-        apply_decoding_cctf=True):
+        apply_cctf_decoding=True,
+        **kwargs):
     """
     Converts from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -109,9 +121,14 @@ def sRGB_to_XYZ(
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* method.
-    apply_decoding_cctf : bool, optional
+    apply_cctf_decoding : bool, optional
         Apply *sRGB* decoding colour component transfer function  /
         electro-optical transfer function.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -141,6 +158,10 @@ def sRGB_to_XYZ(
     array([ 0.2065429...,  0.1219794...,  0.0513714...])
     """
 
+    apply_cctf_decoding = handle_arguments_deprecation({
+        'ArgumentRenamed': [['apply_decoding_cctf', 'apply_cctf_decoding']],
+    }, **kwargs).get('apply_cctf_decoding', apply_cctf_decoding)
+
     sRGB = RGB_COLOURSPACES['sRGB']
 
     return RGB_to_XYZ(
@@ -149,5 +170,5 @@ def sRGB_to_XYZ(
         illuminant,
         sRGB.RGB_to_XYZ_matrix,
         chromatic_adaptation_method,
-        sRGB.decoding_cctf if apply_decoding_cctf else None,
+        sRGB.cctf_decoding if apply_cctf_decoding else None,
     )
