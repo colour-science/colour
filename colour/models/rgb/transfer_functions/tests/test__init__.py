@@ -21,10 +21,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
 
-__all__ = ['TestCCTFEncoding', 'TestCCTFDecoding', 'TestTransferFunctions']
+__all__ = ['TestCctfEncoding', 'TestCctfDecoding', 'TestTransferFunctions']
 
 
-class TestCCTFEncoding(unittest.TestCase):
+class TestCctfEncoding(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.cctf_encoding`
     definition unit tests methods.
@@ -41,7 +41,7 @@ log_encoding_ACESproxy` definition raised exception.
         cctf_encoding(0.18, 'ITU-R BT.2100 PQ')
 
 
-class TestCCTFDecoding(unittest.TestCase):
+class TestCctfDecoding(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.cctf_decoding`
     definition unit tests methods.
