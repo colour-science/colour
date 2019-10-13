@@ -59,7 +59,7 @@ from colour.algebra import (point_at_angle_on_ellipse,
                             ellipse_fitting)
 from colour.graph import convert
 from colour.models import (
-    COLOURSPACE_MODELS_AXIS_LABELS, ENCODING_CCTFS, DECODING_CCTFS,
+    COLOURSPACE_MODELS_AXIS_LABELS, CCTFS_ENCODING, CCTFS_DECODING,
     LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, MACADAM_1942_ELLIPSES_DATA,
     POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT,
     RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS,
@@ -721,7 +721,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
                 RGB,
                 colourspace,
                 COLOUR_STYLE_CONSTANTS.colour.colourspace,
-                apply_encoding_cctf=True).reshape(-1, 3), 0, 1)
+                apply_cctf_encoding=True).reshape(-1, 3), 0, 1)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.RGB_to_XYZ_matrix)
@@ -1307,7 +1307,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
 
 
 @override_style()
-def plot_single_cctf(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
+def plot_single_cctf(cctf='ITU-R BT.709', cctf_decoding=False, **kwargs):
     """
     Plots given colourspace colour component transfer function.
 
@@ -1315,7 +1315,7 @@ def plot_single_cctf(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
     ----------
     cctf : unicode, optional
         Colour component transfer function to plot.
-    decoding_cctf : bool
+    cctf_decoding : bool
         Plot the decoding colour component transfer function instead.
 
     Other Parameters
@@ -1343,15 +1343,15 @@ def plot_single_cctf(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
     settings = {
         'title':
             '{0} - {1} CCTF'.format(
-                cctf, 'Decoding' if decoding_cctf else 'Encoding')
+                cctf, 'Decoding' if cctf_decoding else 'Encoding')
     }
     settings.update(kwargs)
 
-    return plot_multi_cctfs([cctf], decoding_cctf, **settings)
+    return plot_multi_cctfs([cctf], cctf_decoding, **settings)
 
 
 @override_style()
-def plot_multi_cctfs(cctfs=None, decoding_cctf=False, **kwargs):
+def plot_multi_cctfs(cctfs=None, cctf_decoding=False, **kwargs):
     """
     Plots given colour component transfer functions.
 
@@ -1359,7 +1359,7 @@ def plot_multi_cctfs(cctfs=None, decoding_cctf=False, **kwargs):
     ----------
     cctfs : array_like, optional
         Colour component transfer function to plot.
-    decoding_cctf : bool
+    cctf_decoding : bool
         Plot the decoding colour component transfer function instead.
 
     Other Parameters
@@ -1388,17 +1388,17 @@ def plot_multi_cctfs(cctfs=None, decoding_cctf=False, **kwargs):
         cctfs = ('ITU-R BT.709', 'sRGB')
 
     cctfs = filter_passthrough(
-        DECODING_CCTFS if decoding_cctf else ENCODING_CCTFS, cctfs)
+        CCTFS_DECODING if cctf_decoding else CCTFS_ENCODING, cctfs)
 
-    mode = 'Decoding' if decoding_cctf else 'Encoding'
+    mode = 'Decoding' if cctf_decoding else 'Encoding'
     title = '{0} - {1} CCTFs'.format(', '.join([cctf for cctf in cctfs]), mode)
 
     settings = {
         'bounding_box': (0, 1, 0, 1),
         'legend': True,
         'title': title,
-        'x_label': 'Signal Value' if decoding_cctf else 'Tristimulus Value',
-        'y_label': 'Tristimulus Value' if decoding_cctf else 'Signal Value',
+        'x_label': 'Signal Value' if cctf_decoding else 'Tristimulus Value',
+        'y_label': 'Tristimulus Value' if cctf_decoding else 'Signal Value',
     }
     settings.update(kwargs)
 
@@ -1592,7 +1592,7 @@ def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
                     xy_r,
                     colourspace.whitepoint,
                     colourspace.XYZ_to_RGB_matrix,
-                    encoding_cctf=colourspace.encoding_cctf)
+                    cctf_encoding=colourspace.cctf_encoding)
 
             RGB_ct = _XYZ_to_RGB(XYZ_ct)
             RGB_cr = _XYZ_to_RGB(XYZ_cr)

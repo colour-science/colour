@@ -93,6 +93,22 @@ API_CHANGES = {
     'ObjectFutureRemove': ['colour.models.XYZ_to_colourspace_model', ],
     'ObjectRenamed': [
         [
+            'colour.models.decoding_cctf',
+            'colour.models.cctf_decoding',
+        ],
+        [
+            'colour.models.DECODING_CCTFS',
+            'colour.models.CCTFS_DECODING',
+        ],
+        [
+            'colour.models.encoding_cctf',
+            'colour.models.cctf_encoding',
+        ],
+        [
+            'colour.models.ENCODING_CCTFS',
+            'colour.models.CCTFS_ENCODING',
+        ],
+        [
             'colour.models.oetf_ST2084',
             'colour.models.eotf_inverse_ST2084',
         ],

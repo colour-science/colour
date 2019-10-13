@@ -38,7 +38,7 @@ for name, xyY in data.items():
         colour.xyY_to_XYZ(xyY), illuminant,
         colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
         colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix, 'Bradford',
-        colour.RGB_COLOURSPACES['sRGB'].encoding_cctf)
+        colour.RGB_COLOURSPACES['sRGB'].cctf_encoding)
 
     RGB = [int(round(x * 255)) if x >= 0 else 0 for x in np.ravel(RGB)]
     print('"{0}": {1}'.format(name, RGB))

@@ -100,8 +100,8 @@ from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence, READ_IMAGE_METHODS,
 from .models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM16LCD_to_JMh_CAM16, CAM16SCD_to_JMh_CAM16,
-    CAM16UCS_to_JMh_CAM16, CMYK_to_CMY, CMY_to_CMYK, CMY_to_RGB, CV_range,
-    DECODING_CCTFS, DIN99_to_Lab, ENCODING_CCTFS, EOTFS, EOTFS_INVERSE,
+    CAM16UCS_to_JMh_CAM16, CCTFS_DECODING, CCTFS_ENCODING, CMYK_to_CMY,
+    CMY_to_CMYK, CMY_to_RGB, CV_range, DIN99_to_Lab, EOTFS, EOTFS_INVERSE,
     HDR_CIELAB_METHODS, HDR_IPT_METHODS, HSL_to_RGB, HSV_to_RGB,
     Hunter_Lab_to_XYZ, Hunter_Rdab_to_XYZ, ICTCP_to_RGB, IPT_hue_angle,
     IPT_to_XYZ, JMh_CAM16_to_CAM16LCD, JMh_CAM16_to_CAM16SCD,
@@ -119,14 +119,14 @@ from .models import (
     XYZ_to_Hunter_Rdab, XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_K_ab_HunterLab1966,
     XYZ_to_Lab, XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW,
     XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY,
-    YCBCR_WEIGHTS, YCbCr_to_RGB, YcCbcCrc_to_RGB, YCoCg_to_RGB,
-    chromatically_adapted_primaries, decoding_cctf, encoding_cctf, eotf,
-    eotf_inverse, full_to_legal, gamma_function, hdr_CIELab_to_XYZ,
-    hdr_IPT_to_XYZ, legal_to_full, linear_function, log_decoding_curve,
-    log_encoding_curve, normalised_primary_matrix, oetf, oetf_inverse, ootf,
-    ootf_inverse, primaries_whitepoint, sd_to_aces_relative_exposure_values,
-    sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv,
-    xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
+    YCBCR_WEIGHTS, YCbCr_to_RGB, YcCbcCrc_to_RGB, YCoCg_to_RGB, cctf_decoding,
+    cctf_encoding, chromatically_adapted_primaries, eotf, eotf_inverse,
+    full_to_legal, gamma_function, hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ,
+    legal_to_full, linear_function, log_decoding_curve, log_encoding_curve,
+    normalised_primary_matrix, oetf, oetf_inverse, ootf, ootf_inverse,
+    primaries_whitepoint, sd_to_aces_relative_exposure_values, sRGB_to_XYZ,
+    uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv,
+    xy_to_XYZ, xy_to_xyY)
 from .corresponding import (
     BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
@@ -227,9 +227,9 @@ __all__ += [
 __all__ += [
     'CAM02LCD_to_JMh_CIECAM02', 'CAM02SCD_to_JMh_CIECAM02',
     'CAM02UCS_to_JMh_CIECAM02', 'CAM16LCD_to_JMh_CAM16',
-    'CAM16SCD_to_JMh_CAM16', 'CAM16UCS_to_JMh_CAM16', 'CMYK_to_CMY',
-    'CMY_to_CMYK', 'CMY_to_RGB', 'CV_range', 'DECODING_CCTFS', 'DIN99_to_Lab',
-    'ENCODING_CCTFS', 'EOTFS', 'EOTFS_INVERSE', 'HDR_CIELAB_METHODS',
+    'CAM16SCD_to_JMh_CAM16', 'CAM16UCS_to_JMh_CAM16', 'CCTFS_DECODING',
+    'CCTFS_ENCODING', 'CMYK_to_CMY', 'CMY_to_CMYK', 'CMY_to_RGB', 'CV_range',
+    'DIN99_to_Lab', 'EOTFS', 'EOTFS_INVERSE', 'HDR_CIELAB_METHODS',
     'HDR_IPT_METHODS', 'HSL_to_RGB', 'HSV_to_RGB', 'Hunter_Lab_to_XYZ',
     'Hunter_Rdab_to_XYZ', 'ICTCP_to_RGB', 'IPT_hue_angle', 'IPT_to_XYZ',
     'JMh_CAM16_to_CAM16LCD', 'JMh_CAM16_to_CAM16SCD', 'JMh_CAM16_to_CAM16UCS',
@@ -250,11 +250,12 @@ __all__ += [
     'XYZ_to_Luv', 'XYZ_to_OSA_UCS', 'XYZ_to_RGB', 'XYZ_to_UCS', 'XYZ_to_UVW',
     'XYZ_to_hdr_CIELab', 'XYZ_to_hdr_IPT', 'XYZ_to_sRGB', 'XYZ_to_xy',
     'XYZ_to_xyY', 'YCBCR_WEIGHTS', 'YCbCr_to_RGB', 'YcCbcCrc_to_RGB',
-    'YCoCg_to_RGB', 'chromatically_adapted_primaries', 'decoding_cctf',
-    'encoding_cctf', 'eotf', 'eotf_inverse', 'full_to_legal', 'gamma_function',
-    'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full', 'linear_function',
-    'log_decoding_curve', 'log_encoding_curve', 'normalised_primary_matrix',
-    'oetf', 'oetf_inverse', 'ootf', 'ootf_inverse', 'primaries_whitepoint',
+    'YCoCg_to_RGB', 'cctf_decoding', 'cctf_encoding',
+    'chromatically_adapted_primaries', 'eotf', 'eotf_inverse', 'full_to_legal',
+    'gamma_function', 'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full',
+    'linear_function', 'log_decoding_curve', 'log_encoding_curve',
+    'normalised_primary_matrix', 'oetf', 'oetf_inverse', 'ootf',
+    'ootf_inverse', 'primaries_whitepoint',
     'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'uv_to_Luv',
     'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv',
     'xy_to_XYZ', 'xy_to_xyY'
@@ -1709,24 +1710,40 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.ASTME308_PRACTISE_SHAPE',
     ],
     [
+        'colour.decoding_cctf',
+        'colour.cctf_decoding',
+    ],
+    [
+        'colour.DECODING_CCTFS',
+        'colour.CCTFS_DECODING',
+    ],
+    [
+        'colour.encoding_cctf',
+        'colour.cctf_encoding',
+    ],
+    [
+        'colour.ENCODING_CCTFS',
+        'colour.CCTFS_ENCODING',
+    ],
+    [
         'colour.EOTFS_REVERSE',
         'colour.EOTFS_INVERSE',
-    ],
-    [
-        'colour.OETFS_REVERSE',
-        'colour.OETFS_INVERSE',
-    ],
-    [
-        'colour.OOTFS_REVERSE',
-        'colour.OOTFS_INVERSE',
     ],
     [
         'colour.eotf_reverse',
         'colour.eotf_inverse',
     ],
     [
+        'colour.OETFS_REVERSE',
+        'colour.OETFS_INVERSE',
+    ],
+    [
         'colour.oetf_reverse',
         'colour.oetf_inverse',
+    ],
+    [
+        'colour.OOTFS_REVERSE',
+        'colour.OOTFS_INVERSE',
     ],
     [
         'colour.ootf_reverse',

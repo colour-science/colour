@@ -10,9 +10,9 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    encoding_cctf, decoding_cctf, DECODING_CCTFS, ENCODING_CCTFS, EOTFS,
-    EOTFS_INVERSE, LOG_DECODING_CURVES, LOG_ENCODING_CURVES, OETFS,
-    OETFS_INVERSE, OOTFS, OOTFS_INVERSE)
+    CCTFS_DECODING, CCTFS_ENCODING, EOTFS, EOTFS_INVERSE, LOG_DECODING_CURVES,
+    LOG_ENCODING_CURVES, OETFS, OETFS_INVERSE, OOTFS, OOTFS_INVERSE,
+    cctf_encoding, cctf_decoding)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -21,41 +21,41 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
 
-__all__ = ['TestEncodingCCTF', 'TestDecodingCCTF', 'TestTransferFunctions']
+__all__ = ['TestCCTFEncoding', 'TestCCTFDecoding', 'TestTransferFunctions']
 
 
-class TestEncodingCCTF(unittest.TestCase):
+class TestCCTFEncoding(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.encoding_cctf`
+    Defines :func:`colour.models.rgb.transfer_functions.cctf_encoding`
     definition unit tests methods.
     """
 
-    def test_raise_exception_encoding_cctf(self):
+    def test_raise_exception_cctf_encoding(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition raised exception.
         """
 
         # TODO: Use "assertWarns" when dropping Python 2.7.
-        encoding_cctf(0.18, 'ITU-R BT.2100 HLG')
-        encoding_cctf(0.18, 'ITU-R BT.2100 PQ')
+        cctf_encoding(0.18, 'ITU-R BT.2100 HLG')
+        cctf_encoding(0.18, 'ITU-R BT.2100 PQ')
 
 
-class TestDecodingCCTF(unittest.TestCase):
+class TestCCTFDecoding(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.decoding_cctf`
+    Defines :func:`colour.models.rgb.transfer_functions.cctf_decoding`
     definition unit tests methods.
     """
 
-    def test_raise_exception_decoding_cctf(self):
+    def test_raise_exception_cctf_decoding(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition raised exception.
         """
 
         # TODO: Use "assertWarns" when dropping Python 2.7.
-        decoding_cctf(0.18, 'ITU-R BT.2100 HLG')
-        decoding_cctf(0.18, 'ITU-R BT.2100 PQ')
+        cctf_decoding(0.18, 'ITU-R BT.2100 HLG')
+        cctf_decoding(0.18, 'ITU-R BT.2100 PQ')
 
 
 class TestTransferFunctions(unittest.TestCase):
@@ -77,7 +77,7 @@ class TestTransferFunctions(unittest.TestCase):
             (LOG_ENCODING_CURVES, LOG_DECODING_CURVES),
             (OETFS, OETFS_INVERSE),
             (EOTFS, EOTFS_INVERSE),
-            (ENCODING_CCTFS, DECODING_CCTFS),
+            (CCTFS_ENCODING, CCTFS_DECODING),
             (OOTFS, OOTFS_INVERSE),
         ]
 
@@ -90,8 +90,8 @@ class TestTransferFunctions(unittest.TestCase):
                 if name in ignored_transfer_functions:
                     continue
 
-                encoded_s = ENCODING_CCTFS[name](samples)
-                decoded_s = DECODING_CCTFS[name](encoded_s)
+                encoded_s = CCTFS_ENCODING[name](samples)
+                decoded_s = CCTFS_DECODING[name](encoded_s)
 
                 np.testing.assert_almost_equal(
                     samples, decoded_s, decimal=decimals.get(name, 7))

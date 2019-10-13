@@ -25,9 +25,9 @@ print(('\nNormalised primary matrix to "CIE XYZ" '
 print('\nNormalised primary matrix to "ACES2065-1":\n{0}'.format(
     colourspace.XYZ_to_RGB_matrix))
 print('\nOpto-electronic transfer function from '
-      'linear to colourspace:\n{0}'.format(colourspace.encoding_cctf))
+      'linear to colourspace:\n{0}'.format(colourspace.cctf_encoding))
 print('\nElectro-optical transfer function from '
-      'colourspace to linear:\n{0}'.format(colourspace.decoding_cctf))
+      'colourspace to linear:\n{0}'.format(colourspace.cctf_decoding))
 
 print('\n')
 

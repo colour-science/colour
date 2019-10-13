@@ -350,10 +350,10 @@ Colour Component Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    encoding_cctf
-    ENCODING_CCTFS
-    decoding_cctf
-    DECODING_CCTFS
+    cctf_encoding
+    CCTFS_ENCODING
+    cctf_decoding
+    CCTFS_DECODING
 
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

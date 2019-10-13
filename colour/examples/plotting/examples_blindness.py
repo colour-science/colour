@@ -16,7 +16,7 @@ RESOURCES_DIRECTORY = os.path.join(
 
 colour_style()
 
-ISHIHARA_CBT_3_IMAGE = colour.decoding_cctf(
+ISHIHARA_CBT_3_IMAGE = colour.cctf_decoding(
     colour.read_image(
         os.path.join(RESOURCES_DIRECTORY,
                      'Ishihara_Colour_Blindness_Test_Plate_3.png')),
@@ -26,7 +26,7 @@ message_box('Colour Blindness Plots')
 
 message_box('Displaying "Ishihara Colour Blindness Test - Plate 3".')
 plot_image(
-    colour.encoding_cctf(ISHIHARA_CBT_3_IMAGE),
+    colour.cctf_encoding(ISHIHARA_CBT_3_IMAGE),
     text_parameters={
         'text': 'Normal Trichromat',
         'color': 'black'
