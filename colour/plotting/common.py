@@ -1060,7 +1060,7 @@ def plot_multi_colour_swatches(colour_swatches,
         half of it if comparing.
     text_parameters : dict, optional
         Parameters for the :func:`plt.text` definition, ``visible`` can be
-        set to make the text visible,``offset`` can be set to define the text
+        set to make the text visible, ``offset`` can be set to define the text
         offset.
     background_colour : array_like or unicode, optional
         Background colour.
