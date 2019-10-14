@@ -1571,8 +1571,8 @@ def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
 
             return a * x + b
 
-        popt, pcov = scipy.optimize.curve_fit(_linear_equation, ijk_ct[..., 0],
-                                              ijk_ct[..., 1])
+        popt, _pcov = scipy.optimize.curve_fit(_linear_equation,
+                                               ijk_ct[..., 0], ijk_ct[..., 1])
 
         axes.plot(
             ijk_ct[..., 0],
