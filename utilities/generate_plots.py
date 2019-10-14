@@ -320,7 +320,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Colour_Swatch.png')
-    RGB = ColourSwatch(RGB=(0.32315746, 0.32983556, 0.33640183))
+    RGB = ColourSwatch(RGB=(0.45620519, 0.03081071, 0.04091952))
     plt.close(plot_single_colour_swatch(RGB, **arguments)[0])
 
     arguments['filename'] = os.path.join(
