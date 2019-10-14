@@ -69,7 +69,9 @@ from colour.plotting.models import (  # noqa
     plot_ellipses_MacAdam1942_in_chromaticity_diagram)
 from colour.plotting.quality import plot_colour_quality_bars  # noqa
 from colour.plotting.temperature import (  # noqa
-    plot_planckian_locus, plot_planckian_locus_in_chromaticity_diagram)
+    plot_planckian_locus, plot_planckian_locus_CIE1931,
+    plot_planckian_locus_CIE1960UCS,
+    plot_planckian_locus_in_chromaticity_diagram)
 from colour.quality import colour_quality_scale  # noqa
 from colour.utilities import domain_range_scale, filter_warnings  # noqa
 
@@ -626,6 +628,14 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Planckian_Locus.png')
     plt.close(plot_planckian_locus(**arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_Planckian_Locus_CIE1931.png')
+    plt.close(plot_planckian_locus_CIE1931(**arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_Planckian_Locus_CIE1960UCS.png')
+    plt.close(plot_planckian_locus_CIE1960UCS(**arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,

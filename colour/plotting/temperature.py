@@ -34,7 +34,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_planckian_locus', 'plot_planckian_locus_in_chromaticity_diagram',
+    'plot_planckian_locus', 'plot_planckian_locus_CIE1931',
+    'plot_planckian_locus_CIE1960UCS',
+    'plot_planckian_locus_in_chromaticity_diagram',
     'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
     'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS'
 ]
@@ -68,7 +70,9 @@ def plot_planckian_locus(planckian_locus_colours=None,
 
     Examples
     --------
-    >>> plot_planckian_locus()  # doctest: +SKIP
+    >>> plot_planckian_locus()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Planckian_Locus.png
         :align: center
@@ -134,10 +138,87 @@ def plot_planckian_locus(planckian_locus_colours=None,
 
 
 @override_style()
+def plot_planckian_locus_CIE1931(planckian_locus_colours=None, **kwargs):
+    """
+    Plots the *Planckian Locus* according to *CIE 1931* method.
+
+    Parameters
+    ----------
+    planckian_locus_colours : array_like or unicode, optional
+        *Planckian Locus* colours.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> plot_planckian_locus_CIE1931()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+
+    .. image:: ../_static/Plotting_Plot_Planckian_Locus_CIE1931.png
+        :align: center
+        :alt: plot_planckian_locus_CIE1931
+    """
+
+    settings = dict(kwargs)
+    settings.update({'method': 'CIE 1931'})
+
+    return plot_planckian_locus(planckian_locus_colours, **settings)
+
+
+@override_style()
+def plot_planckian_locus_CIE1960UCS(planckian_locus_colours=None, **kwargs):
+    """
+    Plots the *Planckian Locus* according to *CIE 1960 UCS* method.
+
+    Parameters
+    ----------
+    planckian_locus_colours : array_like or unicode, optional
+        *Planckian Locus* colours.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> plot_planckian_locus_CIE1960UCS()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+
+    .. image:: ../_static/Plotting_Plot_Planckian_Locus_CIE1960UCS.png
+        :align: center
+        :alt: plot_planckian_locus_CIE1960UCS
+    """
+
+    settings = dict(kwargs)
+    settings.update({'method': 'CIE 1960 UCS'})
+
+    return plot_planckian_locus(planckian_locus_colours, **settings)
+
+
+@override_style()
 def plot_planckian_locus_in_chromaticity_diagram(
         illuminants=None,
         annotate_parameters=None,
         chromaticity_diagram_callable=plot_chromaticity_diagram,
+        planckian_locus_callable=plot_planckian_locus,
         method='CIE 1931',
         **kwargs):
     """
@@ -157,6 +238,8 @@ def plot_planckian_locus_in_chromaticity_diagram(
         illuminant.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
+    planckian_locus_callable : callable, optional
+        Callable responsible for drawing the *Planckian Locus*.
     method : unicode, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
@@ -178,7 +261,9 @@ def plot_planckian_locus_in_chromaticity_diagram(
     Examples
     --------
     >>> plot_planckian_locus_in_chromaticity_diagram(['A', 'B', 'C'])
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Planckian_Locus_In_Chromaticity_Diagram.png
@@ -206,7 +291,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
     chromaticity_diagram_callable(**settings)
 
-    plot_planckian_locus(**settings)
+    planckian_locus_callable(**settings)
 
     if method == 'CIE 1931':
 
@@ -297,6 +382,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
+        planckian_locus_callable_CIE1931=plot_planckian_locus_CIE1931,
         **kwargs):
     """
     Plots the *Planckian Locus* and given illuminants in
@@ -315,6 +401,9 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
         illuminant.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
+    planckian_locus_callable_CIE1931 : callable, optional
+        Callable responsible for drawing the *Planckian Locus* according to
+        *CIE 1931* method.
 
     Other Parameters
     ----------------
@@ -335,7 +424,9 @@ plot_planckian_locus_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'])
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
@@ -348,7 +439,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
 
     return plot_planckian_locus_in_chromaticity_diagram(
         illuminants, annotate_parameters,
-        chromaticity_diagram_callable_CIE1931, **settings)
+        chromaticity_diagram_callable_CIE1931,
+        planckian_locus_callable_CIE1931, **settings)
 
 
 @override_style()
@@ -357,6 +449,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
+        planckian_locus_callable_CIE1960UCS=plot_planckian_locus_CIE1960UCS,
         **kwargs):
     """
     Plots the *Planckian Locus* and given illuminants in
@@ -376,6 +469,9 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
+    planckian_locus_callable_CIE1960UCS : callable, optional
+        Callable responsible for drawing the *Planckian Locus* according to
+        *CIE 1960 UCS* method.
 
     Other Parameters
     ----------------
@@ -396,7 +492,9 @@ plot_planckian_locus_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-    ...     ['A', 'C', 'E'])  # doctest: +SKIP
+    ...     ['A', 'C', 'E'])  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
@@ -409,4 +507,5 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
 
     return plot_planckian_locus_in_chromaticity_diagram(
         illuminants, annotate_parameters,
-        chromaticity_diagram_callable_CIE1960UCS, **settings)
+        chromaticity_diagram_callable_CIE1960UCS,
+        planckian_locus_callable_CIE1960UCS, **settings)

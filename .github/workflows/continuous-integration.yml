@@ -117,6 +117,10 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Windows - Set up Matplotlib Backend
+      run: |
+        mkdir %USERPROFILE%\.matplotlib
+        echo backend: Agg > %USERPROFILE%\.matplotlib\matplotlibrc
     - name: Install Poetry
       run: |
         curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py

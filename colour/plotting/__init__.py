@@ -11,7 +11,7 @@ from .datasets import *  # noqa
 from . import datasets
 from .common import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE, colour_style,
                      override_style, XYZ_to_plotting_colourspace, ColourSwatch,
-                     colour_cycle, artist, camera, render, wrap_label,
+                     colour_cycle, artist, camera, render, wrap_title,
                      label_rectangles, uniform_axes3d, filter_passthrough,
                      filter_RGB_colourspaces, filter_cmfs, filter_illuminants,
                      filter_colour_checkers, plot_single_colour_swatch,
@@ -65,7 +65,7 @@ __all__ += datasets.__all__
 __all__ += [
     'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
-    'colour_cycle', 'artist', 'camera', 'render', 'wrap_label',
+    'colour_cycle', 'artist', 'camera', 'render', 'wrap_title',
     'label_rectangles', 'uniform_axes3d', 'filter_passthrough',
     'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
     'filter_colour_checkers', 'plot_single_colour_swatch',
