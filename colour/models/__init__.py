@@ -98,7 +98,7 @@ API_CHANGES = {
         ],
         [
             'colour.models.DECODING_CCTFS',
-            'colour.models.CCTFS_DECODING',
+            'colour.models.CCTF_DECODINGS',
         ],
         [
             'colour.models.encoding_cctf',
@@ -106,7 +106,7 @@ API_CHANGES = {
         ],
         [
             'colour.models.ENCODING_CCTFS',
-            'colour.models.CCTFS_ENCODING',
+            'colour.models.CCTF_ENCODINGS',
         ],
         [
             'colour.models.log_decoding_curve',
@@ -114,7 +114,7 @@ API_CHANGES = {
         ],
         [
             'colour.models.LOG_DECODING_CURVES',
-            'colour.models.LOGS_DECODING',
+            'colour.models.LOG_DECODINGS',
         ],
         [
             'colour.models.log_encoding_curve',
@@ -122,7 +122,7 @@ API_CHANGES = {
         ],
         [
             'colour.models.LOG_ENCODING_CURVES',
-            'colour.models.LOGS_ENCODING',
+            'colour.models.LOG_ENCODINGS',
         ],
         [
             'colour.models.oetf_ROMMRGB',

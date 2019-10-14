@@ -117,7 +117,7 @@ __all__ += [
 __all__ += ['eotf_inverse_sRGB', 'eotf_sRGB']
 __all__ += ['log_encoding_ViperLog', 'log_decoding_ViperLog']
 
-LOGS_ENCODING = CaseInsensitiveMapping({
+LOG_ENCODINGS = CaseInsensitiveMapping({
     'ACEScc': log_encoding_ACEScc,
     'ACEScct': log_encoding_ACEScct,
     'ACESproxy': log_encoding_ACESproxy,
@@ -144,10 +144,10 @@ LOGS_ENCODING = CaseInsensitiveMapping({
     'V-Log': log_encoding_VLog,
     'ViperLog': log_encoding_ViperLog
 })
-LOGS_ENCODING.__doc__ = """
+LOG_ENCODINGS.__doc__ = """
 Supported *log* encoding functions.
 
-LOGS_ENCODING : CaseInsensitiveMapping
+LOG_ENCODINGS : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
     'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
@@ -256,12 +256,12 @@ def log_encoding(value, function='Cineon', **kwargs):
         'ArgumentRenamed': [['curve', 'function']],
     }, **kwargs).get('function', function)
 
-    function = LOGS_ENCODING[function]
+    function = LOG_ENCODINGS[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-LOGS_DECODING = CaseInsensitiveMapping({
+LOG_DECODINGS = CaseInsensitiveMapping({
     'ACEScc': log_decoding_ACEScc,
     'ACEScct': log_decoding_ACEScct,
     'ACESproxy': log_decoding_ACESproxy,
@@ -288,10 +288,10 @@ LOGS_DECODING = CaseInsensitiveMapping({
     'V-Log': log_decoding_VLog,
     'ViperLog': log_decoding_ViperLog
 })
-LOGS_DECODING.__doc__ = """
+LOG_DECODINGS.__doc__ = """
 Supported *log* decoding functions.
 
-LOGS_DECODING : CaseInsensitiveMapping
+LOG_DECODINGS : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
     'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
@@ -402,12 +402,12 @@ def log_decoding(value, function='Cineon', **kwargs):
         'ArgumentRenamed': [['curve', 'function']],
     }, **kwargs).get('function', function)
 
-    function = LOGS_DECODING[function]
+    function = LOG_DECODINGS[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['LOGS_ENCODING', 'LOGS_DECODING']
+__all__ += ['LOG_ENCODINGS', 'LOG_DECODINGS']
 __all__ += ['log_encoding', 'log_decoding']
 
 OETFS = CaseInsensitiveMapping({
@@ -482,17 +482,17 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-OETFS_INVERSE = CaseInsensitiveMapping({
+OETF_INVERSES = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_inverse_ARIBSTDB67,
     'ITU-R BT.2100 HLD': oetf_inverse_HLG_BT2100,
     'ITU-R BT.2100 PQ': oetf_inverse_PQ_BT2100,
     'ITU-R BT.601': oetf_inverse_BT601,
     'ITU-R BT.709': oetf_inverse_BT709,
 })
-OETFS_INVERSE.__doc__ = """
+OETF_INVERSES.__doc__ = """
 Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 
-OETFS_INVERSE : CaseInsensitiveMapping
+OETF_INVERSES : CaseInsensitiveMapping
     **{'ARIB STD-B67', 'ITU-R BT.2100 HLD', 'ITU-R BT.2100 PQ',
     'ITU-R BT.601', 'ITU-R BT.709'}**
 """
@@ -533,7 +533,7 @@ def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
     0.1...
     """
 
-    function = OETFS_INVERSE[function]
+    function = OETF_INVERSES[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
@@ -633,7 +633,7 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-EOTFS_INVERSE = CaseInsensitiveMapping({
+EOTF_INVERSES = CaseInsensitiveMapping({
     'DCDM': eotf_inverse_DCDM,
     'DICOM GSDF': eotf_inverse_DICOMGSDF,
     'ITU-R BT.1886': eotf_inverse_BT1886,
@@ -642,10 +642,10 @@ EOTFS_INVERSE = CaseInsensitiveMapping({
     'ST 2084': eotf_inverse_ST2084,
     'sRGB': eotf_inverse_sRGB,
 })
-EOTFS_INVERSE.__doc__ = """
+EOTF_INVERSES.__doc__ = """
 Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
 
-EOTFS_INVERSE : CaseInsensitiveMapping
+EOTF_INVERSES : CaseInsensitiveMapping
     **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG',
     'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**
 """
@@ -706,15 +706,15 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
     0.4090077...
     """
 
-    function = EOTFS_INVERSE[function]
+    function = EOTF_INVERSES[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['OETFS', 'OETFS_INVERSE', 'EOTFS', 'EOTFS_INVERSE']
+__all__ += ['OETFS', 'OETF_INVERSES', 'EOTFS', 'EOTF_INVERSES']
 __all__ += ['oetf', 'oetf_inverse', 'eotf', 'eotf_inverse']
 
-CCTFS_ENCODING = CaseInsensitiveMapping({
+CCTF_ENCODINGS = CaseInsensitiveMapping({
     'Gamma 2.2': partial(gamma_function, exponent=1 / 2.2),
     'Gamma 2.4': partial(gamma_function, exponent=1 / 2.4),
     'Gamma 2.6': partial(gamma_function, exponent=1 / 2.6),
@@ -722,13 +722,13 @@ CCTFS_ENCODING = CaseInsensitiveMapping({
     'RIMM RGB': cctf_encoding_RIMMRGB,
     'ROMM RGB': cctf_encoding_ROMMRGB,
 })
-CCTFS_ENCODING.update(LOGS_ENCODING)
-CCTFS_ENCODING.update(OETFS)
-CCTFS_ENCODING.update(EOTFS_INVERSE)
-CCTFS_ENCODING.__doc__ = """
+CCTF_ENCODINGS.update(LOG_ENCODINGS)
+CCTF_ENCODINGS.update(OETFS)
+CCTF_ENCODINGS.update(EOTF_INVERSES)
+CCTF_ENCODINGS.__doc__ = """
 Supported encoding colour component transfer functions (Encoding CCTFs), a
-collection of the functions defined by :attr:`colour.LOGS_ENCODING`,
-:attr:`colour.OETFS`, :attr:`colour.EOTFS_INVERSE` attributes, the
+collection of the functions defined by :attr:`colour.LOG_ENCODINGS`,
+:attr:`colour.OETFS`, :attr:`colour.EOTF_INVERSES` attributes, the
 :func:`colour.models.cctf_encoding_ProPhotoRGB`,
 :func:`colour.models.cctf_encoding_RIMMRGB`,
 :func:`colour.models.cctf_encoding_ROMMRGB` definitions and 3 gamma encoding
@@ -741,9 +741,9 @@ For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 :attr:`colour.OETFS` attribute for the opto-electronic transfer functions
 (OETF / OECF).
 
-CCTFS_ENCODING : CaseInsensitiveMapping
-    {:attr:`colour.LOGS_ENCODING`, :attr:`colour.OETFS`,
-    :attr:`colour.EOTFS_INVERSE`}
+CCTF_ENCODINGS : CaseInsensitiveMapping
+    {:attr:`colour.LOG_ENCODINGS`, :attr:`colour.OETFS`,
+    :attr:`colour.EOTF_INVERSES`}
 """
 
 
@@ -757,14 +757,14 @@ def cctf_encoding(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Linear :math:`RGB` values.
     function : unicode, optional
-        {:attr:`colour.CCTFS_ENCODING`},
+        {:attr:`colour.CCTF_ENCODINGS`},
         Computation function.
 
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
         Keywords arguments for the relevant encoding CCTF of the
-        :attr:`colour.CCTFS_ENCODING` attribute collection.
+        :attr:`colour.CCTF_ENCODINGS` attribute collection.
 
     Warning
     -------
@@ -798,12 +798,12 @@ def cctf_encoding(value, function='sRGB', **kwargs):
             'by this definition, please refer to the "colour.oetf" definition '
             'for the opto-electronic transfer functions (OETF / OECF).')
 
-    function = CCTFS_ENCODING[function]
+    function = CCTF_ENCODINGS[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-CCTFS_DECODING = CaseInsensitiveMapping({
+CCTF_DECODINGS = CaseInsensitiveMapping({
     'Gamma 2.2': partial(gamma_function, exponent=2.2),
     'Gamma 2.4': partial(gamma_function, exponent=2.4),
     'Gamma 2.6': partial(gamma_function, exponent=2.6),
@@ -811,13 +811,13 @@ CCTFS_DECODING = CaseInsensitiveMapping({
     'RIMM RGB': cctf_decoding_RIMMRGB,
     'ROMM RGB': cctf_decoding_ROMMRGB,
 })
-CCTFS_DECODING.update(LOGS_DECODING)
-CCTFS_DECODING.update(OETFS_INVERSE)
-CCTFS_DECODING.update(EOTFS)
-CCTFS_DECODING.__doc__ = """
+CCTF_DECODINGS.update(LOG_DECODINGS)
+CCTF_DECODINGS.update(OETF_INVERSES)
+CCTF_DECODINGS.update(EOTFS)
+CCTF_DECODINGS.__doc__ = """
 Supported decoding colour component transfer functions (Decoding CCTFs), a
-collection of the functions defined by :attr:`colour.LOGS_DECODING`,
-:attr:`colour.EOTFS`, :attr:`colour.OETFS_INVERSE` attributes, the
+collection of the functions defined by :attr:`colour.LOG_DECODINGS`,
+:attr:`colour.EOTFS`, :attr:`colour.OETF_INVERSES` attributes, the
 :func:`colour.models.cctf_decoding_ProPhotoRGB`,
 :func:`colour.models.cctf_decoding_RIMMRGB`,
 :func:`colour.models.cctf_decoding_ROMMRGB` definitions and 3 gamma decoding
@@ -827,7 +827,7 @@ Warning
 -------
 For *ITU-R BT.2100*, only the electro-optical transfer functions
 (EOTFs / EOCFs) are exposed by this attribute, please refer to the
-:attr:`colour.OETFS_INVERSE` attribute for the inverse opto-electronic
+:attr:`colour.OETF_INVERSES` attribute for the inverse opto-electronic
 transfer functions (OETF / OECF).
 
 Notes
@@ -835,9 +835,9 @@ Notes
 -   The order by which this attribute is defined and updated is critically
     important to ensure that *ITU-R BT.2100* definitions are reciprocal.
 
-CCTFS_DECODING : CaseInsensitiveMapping
-    {:attr:`colour.LOGS_DECODING`, :attr:`colour.EOTFS`,
-    :attr:`colour.OETFS_INVERSE`}
+CCTF_DECODINGS : CaseInsensitiveMapping
+    {:attr:`colour.LOG_DECODINGS`, :attr:`colour.EOTFS`,
+    :attr:`colour.OETF_INVERSES`}
 """
 
 
@@ -851,14 +851,14 @@ def cctf_decoding(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Non-linear :math:`R'G'B'` values.
     function : unicode, optional
-        {:attr:`colour.CCTFS_DECODING`},
+        {:attr:`colour.CCTF_DECODINGS`},
         Computation function.
 
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
         Keywords arguments for the relevant decoding CCTF of the
-        :attr:`colour.CCTFS_DECODING` attribute collection.
+        :attr:`colour.CCTF_DECODINGS` attribute collection.
 
     Warning
     -------
@@ -893,12 +893,12 @@ def cctf_decoding(value, function='sRGB', **kwargs):
             'for the inverse opto-electronic transfer functions (OETF / OECF).'
         )
 
-    function = CCTFS_DECODING[function]
+    function = CCTF_DECODINGS[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['CCTFS_ENCODING', 'CCTFS_DECODING']
+__all__ += ['CCTF_ENCODINGS', 'CCTF_DECODINGS']
 __all__ += ['cctf_encoding', 'cctf_decoding']
 
 OOTFS = CaseInsensitiveMapping({
@@ -944,14 +944,14 @@ def ootf(value, function='ITU-R BT.2100 PQ', **kwargs):
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-OOTFS_INVERSE = CaseInsensitiveMapping({
+OOTF_INVERSES = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_inverse_HLG_BT2100,
     'ITU-R BT.2100 PQ': ootf_inverse_PQ_BT2100,
 })
-OOTFS_INVERSE.__doc__ = """
+OOTF_INVERSES.__doc__ = """
 Supported inverse opto-optical transfer functions (OOTFs / OOCFs).
 
-OOTFS_INVERSE : CaseInsensitiveMapping
+OOTF_INVERSES : CaseInsensitiveMapping
     **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
 """
 
@@ -997,10 +997,10 @@ def ootf_inverse(value, function='ITU-R BT.2100 PQ', **kwargs):
     0.1000000...
     """
 
-    function = OOTFS_INVERSE[function]
+    function = OOTF_INVERSES[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['OOTFS', 'OOTFS_INVERSE']
+__all__ += ['OOTFS', 'OOTF_INVERSES']
 __all__ += ['ootf', 'ootf_inverse']

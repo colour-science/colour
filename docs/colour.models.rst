@@ -351,9 +351,9 @@ Colour Component Transfer Functions
     :toctree: generated/
 
     cctf_encoding
-    CCTFS_ENCODING
+    CCTF_ENCODINGS
     cctf_decoding
-    CCTFS_DECODING
+    CCTF_DECODINGS
 
 ``colour.models``
 
@@ -382,7 +382,7 @@ Opto-Electronic Transfer Functions
     oetf
     OETFS
     oetf_inverse
-    OETFS_INVERSE
+    OETF_INVERSES
 
 ``colour.models``
 
@@ -429,7 +429,7 @@ Electro-Optical Transfer Functions
     eotf
     EOTFS
     eotf_inverse
-    EOTFS_INVERSE
+    EOTF_INVERSES
 
 ``colour.models``
 
@@ -470,7 +470,7 @@ Opto-Optical Transfer Functions
     ootf
     OOTFS
     ootf_inverse
-    OOTFS_INVERSE
+    OOTF_INVERSES
 
 
 ``colour.models``
@@ -498,9 +498,9 @@ Log Encoding and Decoding
     :toctree: generated/
 
     log_encoding
-    LOGS_ENCODING
+    LOG_ENCODINGS
     log_decoding
-    LOGS_DECODING
+    LOG_DECODINGS
 
 ``colour.models``
 

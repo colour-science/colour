@@ -738,7 +738,7 @@ OETFs Inverse
 
 .. code-block:: python
 
-    >>> sorted(colour.OETFS_INVERSE.keys())
+    >>> sorted(colour.OETF_INVERSES.keys())
     ['ARIB STD-B67',
      'ITU-R BT.2100 HLD',
      'ITU-R BT.2100 PQ',
@@ -766,7 +766,7 @@ EOTFs Inverse
 
 .. code-block:: python
 
-    >>> sorted(colour.EOTFS_INVERSE.keys())
+    >>> sorted(colour.EOTF_INVERSES.keys())
     ['DCDM',
      'DICOM GSDF',
      'ITU-R BT.1886',
@@ -788,7 +788,7 @@ OOTFs Inverse
 
 .. code-block:: python
 
-    >>> sorted(colour.OOTFS_INVERSE.keys())
+    >>> sorted(colour.OOTF_INVERSES.keys())
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
 Log Encoding / Decoding
@@ -796,7 +796,7 @@ Log Encoding / Decoding
 
 .. code-block:: python
 
-    >>> sorted(colour.LOGS_ENCODING.keys())
+    >>> sorted(colour.LOG_ENCODINGS.keys())
     ['ACEScc',
      'ACEScct',
      'ACESproxy',
@@ -828,7 +828,7 @@ CCTFs Encoding / Decoding
 
 .. code-block:: python
 
-    >>> sorted(colour.CCTFS_ENCODING.keys())
+    >>> sorted(colour.CCTF_ENCODINGS.keys())
     ['ACEScc',
      'ACEScct',
      'ACESproxy',

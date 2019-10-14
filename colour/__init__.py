@@ -100,16 +100,16 @@ from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence, READ_IMAGE_METHODS,
 from .models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM16LCD_to_JMh_CAM16, CAM16SCD_to_JMh_CAM16,
-    CAM16UCS_to_JMh_CAM16, CCTFS_DECODING, CCTFS_ENCODING, CMYK_to_CMY,
-    CMY_to_CMYK, CMY_to_RGB, CV_range, DIN99_to_Lab, EOTFS, EOTFS_INVERSE,
+    CAM16UCS_to_JMh_CAM16, CCTF_DECODINGS, CCTF_ENCODINGS, CMYK_to_CMY,
+    CMY_to_CMYK, CMY_to_RGB, CV_range, DIN99_to_Lab, EOTFS, EOTF_INVERSES,
     HDR_CIELAB_METHODS, HDR_IPT_METHODS, HSL_to_RGB, HSV_to_RGB,
     Hunter_Lab_to_XYZ, Hunter_Rdab_to_XYZ, ICTCP_to_RGB, IPT_hue_angle,
     IPT_to_XYZ, JMh_CAM16_to_CAM16LCD, JMh_CAM16_to_CAM16SCD,
     JMh_CAM16_to_CAM16UCS, JMh_CIECAM02_to_CAM02LCD, JMh_CIECAM02_to_CAM02SCD,
     JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ, LCHab_to_Lab, LCHuv_to_Luv,
-    LOGS_DECODING, LOGS_ENCODING, Lab_to_DIN99, Lab_to_LCHab, Lab_to_XYZ,
+    LOG_DECODINGS, LOG_ENCODINGS, Lab_to_DIN99, Lab_to_LCHab, Lab_to_XYZ,
     Luv_to_LCHuv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy,
-    MACADAM_1942_ELLIPSES_DATA, OETFS, OETFS_INVERSE, OOTFS, OOTFS_INVERSE,
+    MACADAM_1942_ELLIPSES_DATA, OETFS, OETF_INVERSES, OOTFS, OOTF_INVERSES,
     OSA_UCS_to_XYZ, POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA,
     POINTER_GAMUT_ILLUMINANT, Prismatic_to_RGB, RGB_COLOURSPACES,
     RGB_Colourspace, RGB_luminance, RGB_luminance_equation, RGB_to_CMY,
@@ -227,18 +227,18 @@ __all__ += [
 __all__ += [
     'CAM02LCD_to_JMh_CIECAM02', 'CAM02SCD_to_JMh_CIECAM02',
     'CAM02UCS_to_JMh_CIECAM02', 'CAM16LCD_to_JMh_CAM16',
-    'CAM16SCD_to_JMh_CAM16', 'CAM16UCS_to_JMh_CAM16', 'CCTFS_DECODING',
-    'CCTFS_ENCODING', 'CMYK_to_CMY', 'CMY_to_CMYK', 'CMY_to_RGB', 'CV_range',
-    'DIN99_to_Lab', 'EOTFS', 'EOTFS_INVERSE', 'HDR_CIELAB_METHODS',
+    'CAM16SCD_to_JMh_CAM16', 'CAM16UCS_to_JMh_CAM16', 'CCTF_DECODINGS',
+    'CCTF_ENCODINGS', 'CMYK_to_CMY', 'CMY_to_CMYK', 'CMY_to_RGB', 'CV_range',
+    'DIN99_to_Lab', 'EOTFS', 'EOTF_INVERSES', 'HDR_CIELAB_METHODS',
     'HDR_IPT_METHODS', 'HSL_to_RGB', 'HSV_to_RGB', 'Hunter_Lab_to_XYZ',
     'Hunter_Rdab_to_XYZ', 'ICTCP_to_RGB', 'IPT_hue_angle', 'IPT_to_XYZ',
     'JMh_CAM16_to_CAM16LCD', 'JMh_CAM16_to_CAM16SCD', 'JMh_CAM16_to_CAM16UCS',
     'JMh_CIECAM02_to_CAM02LCD', 'JMh_CIECAM02_to_CAM02SCD',
     'JMh_CIECAM02_to_CAM02UCS', 'JzAzBz_to_XYZ', 'LCHab_to_Lab',
-    'LCHuv_to_Luv', 'LOGS_DECODING', 'LOGS_ENCODING', 'Lab_to_DIN99',
+    'LCHuv_to_Luv', 'LOG_DECODINGS', 'LOG_ENCODINGS', 'Lab_to_DIN99',
     'Lab_to_LCHab', 'Lab_to_XYZ', 'Luv_to_LCHuv', 'Luv_to_XYZ', 'Luv_to_uv',
-    'Luv_uv_to_xy', 'OETFS', 'OETFS_INVERSE', 'OOTFS',
-    'MACADAM_1942_ELLIPSES_DATA', 'OOTFS_INVERSE', 'OSA_UCS_to_XYZ',
+    'Luv_uv_to_xy', 'OETFS', 'OETF_INVERSES', 'OOTFS',
+    'MACADAM_1942_ELLIPSES_DATA', 'OOTF_INVERSES', 'OSA_UCS_to_XYZ',
     'POINTER_GAMUT_BOUNDARIES', 'POINTER_GAMUT_DATA',
     'POINTER_GAMUT_ILLUMINANT', 'Prismatic_to_RGB', 'RGB_COLOURSPACES',
     'RGB_Colourspace', 'RGB_luminance', 'RGB_luminance_equation', 'RGB_to_CMY',
@@ -1715,7 +1715,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.DECODING_CCTFS',
-        'colour.CCTFS_DECODING',
+        'colour.CCTF_DECODINGS',
     ],
     [
         'colour.encoding_cctf',
@@ -1723,11 +1723,11 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.ENCODING_CCTFS',
-        'colour.CCTFS_ENCODING',
+        'colour.CCTF_ENCODINGS',
     ],
     [
         'colour.EOTFS_REVERSE',
-        'colour.EOTFS_INVERSE',
+        'colour.EOTF_INVERSES',
     ],
     [
         'colour.eotf_reverse',
@@ -1739,7 +1739,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.LOG_DECODING_CURVES',
-        'colour.LOGS_DECODING',
+        'colour.LOG_DECODINGS',
     ],
     [
         'colour.log_encoding_curve',
@@ -1747,11 +1747,11 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.LOG_ENCODING_CURVES',
-        'colour.LOGS_ENCODING',
+        'colour.LOG_ENCODINGS',
     ],
     [
         'colour.OETFS_REVERSE',
-        'colour.OETFS_INVERSE',
+        'colour.OETF_INVERSES',
     ],
     [
         'colour.oetf_reverse',
@@ -1759,7 +1759,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.OOTFS_REVERSE',
-        'colour.OOTFS_INVERSE',
+        'colour.OOTF_INVERSES',
     ],
     [
         'colour.ootf_reverse',

@@ -10,8 +10,8 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    CCTFS_DECODING, CCTFS_ENCODING, EOTFS, EOTFS_INVERSE, LOGS_DECODING,
-    LOGS_ENCODING, OETFS, OETFS_INVERSE, OOTFS, OOTFS_INVERSE, cctf_encoding,
+    CCTF_DECODINGS, CCTF_ENCODINGS, EOTFS, EOTF_INVERSES, LOG_DECODINGS,
+    LOG_ENCODINGS, OETFS, OETF_INVERSES, OOTFS, OOTF_INVERSES, cctf_encoding,
     cctf_decoding)
 
 __author__ = 'Colour Developers'
@@ -74,11 +74,11 @@ class TestTransferFunctions(unittest.TestCase):
         decimals = {'D-Log': 1, 'F-Log': 4}
 
         reciprocal_mappings = [
-            (LOGS_ENCODING, LOGS_DECODING),
-            (OETFS, OETFS_INVERSE),
-            (EOTFS, EOTFS_INVERSE),
-            (CCTFS_ENCODING, CCTFS_DECODING),
-            (OOTFS, OOTFS_INVERSE),
+            (LOG_ENCODINGS, LOG_DECODINGS),
+            (OETFS, OETF_INVERSES),
+            (EOTFS, EOTF_INVERSES),
+            (CCTF_ENCODINGS, CCTF_DECODINGS),
+            (OOTFS, OOTF_INVERSES),
         ]
 
         samples = np.hstack(
@@ -90,8 +90,8 @@ class TestTransferFunctions(unittest.TestCase):
                 if name in ignored_transfer_functions:
                     continue
 
-                encoded_s = CCTFS_ENCODING[name](samples)
-                decoded_s = CCTFS_DECODING[name](encoded_s)
+                encoded_s = CCTF_ENCODINGS[name](samples)
+                decoded_s = CCTF_DECODINGS[name](encoded_s)
 
                 np.testing.assert_almost_equal(
                     samples, decoded_s, decimal=decimals.get(name, 7))

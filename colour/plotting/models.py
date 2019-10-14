@@ -59,7 +59,7 @@ from colour.algebra import (point_at_angle_on_ellipse,
                             ellipse_fitting)
 from colour.graph import convert
 from colour.models import (
-    COLOURSPACE_MODELS_AXIS_LABELS, CCTFS_ENCODING, CCTFS_DECODING,
+    COLOURSPACE_MODELS_AXIS_LABELS, CCTF_ENCODINGS, CCTF_DECODINGS,
     LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, MACADAM_1942_ELLIPSES_DATA,
     POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT,
     RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS,
@@ -1388,7 +1388,7 @@ def plot_multi_cctfs(cctfs=None, cctf_decoding=False, **kwargs):
         cctfs = ('ITU-R BT.709', 'sRGB')
 
     cctfs = filter_passthrough(
-        CCTFS_DECODING if cctf_decoding else CCTFS_ENCODING, cctfs)
+        CCTF_DECODINGS if cctf_decoding else CCTF_ENCODINGS, cctfs)
 
     mode = 'Decoding' if cctf_decoding else 'Encoding'
     title = '{0} - {1} CCTFs'.format(', '.join([cctf for cctf in cctfs]), mode)
