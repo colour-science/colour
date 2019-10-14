@@ -16,6 +16,13 @@ import numpy as np  # noqa
 import os  # noqa
 
 import colour  # noqa
+from colour.characterisation import COLOURCHECKERS_SDS  # noqa
+from colour.colorimetry import (  # noqa
+    ILLUMINANTS_SDS, LIGHT_SOURCES_SDS, PHOTOPIC_LEFS, SCOTOPIC_LEFS,
+    STANDARD_OBSERVERS_CMFS, SpectralDistribution, SpectralShape, sd_blackbody,
+    sd_mesopic_luminous_efficiency_function, sd_to_XYZ)
+from colour.io import read_image  # noqa
+from colour.models import sRGB_to_XYZ, XYZ_to_sRGB, XYZ_to_xy  # noqa
 from colour.plotting import (  # noqa
     colour_style, ColourSwatch, plot_automatic_colour_conversion_graph,
     plot_blackbody_colours, plot_blackbody_spectral_radiance,
@@ -63,7 +70,8 @@ from colour.plotting.models import (  # noqa
 from colour.plotting.quality import plot_colour_quality_bars  # noqa
 from colour.plotting.temperature import (  # noqa
     plot_planckian_locus, plot_planckian_locus_in_chromaticity_diagram)
-from colour.utilities import domain_range_scale  # noqa
+from colour.quality import colour_quality_scale  # noqa
+from colour.utilities import domain_range_scale, filter_warnings  # noqa
 
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -84,7 +92,7 @@ def generate_documentation_plots(output_directory):
         Output directory.
     """
 
-    colour.utilities.filter_warnings()
+    filter_warnings()
 
     colour_style()
 
@@ -117,7 +125,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_Blackbodies.png')
     blackbody_sds = [
-        colour.sd_blackbody(i, colour.SpectralShape(0, 10000, 10))
+        sd_blackbody(i, SpectralShape(0, 10000, 10))
         for i in range(1000, 15000, 1000)
     ]
     plt.close(
@@ -141,13 +149,11 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Luminous_Efficiency.png')
-    sd_mesopic_luminous_efficiency_function = (
-        colour.sd_mesopic_luminous_efficiency_function(0.2))
     plt.close(
         plot_multi_sds(
-            (sd_mesopic_luminous_efficiency_function,
-             colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-             colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
+            (sd_mesopic_luminous_efficiency_function(0.2),
+             PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
+             SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
             y_label='Luminous Efficiency',
             legend_location='upper right',
             y_tighten=True,
@@ -158,7 +164,7 @@ def generate_documentation_plots(output_directory):
         output_directory, 'Examples_Plotting_BabelColor_Average.png')
     plt.close(
         plot_multi_sds(
-            colour.COLOURCHECKERS_SDS['BabelColor Average'].values(),
+            COLOURCHECKERS_SDS['BabelColor Average'].values(),
             use_sds_colours=True,
             title=('BabelColor Average - '
                    'Spectral Distributions'),
@@ -200,8 +206,8 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_CRI.png')
     plt.close(
-        plot_single_sd_colour_rendering_index_bars(
-            colour.ILLUMINANTS_SDS['FL2'], **arguments)[0])
+        plot_single_sd_colour_rendering_index_bars(ILLUMINANTS_SDS['FL2'],
+                                                   **arguments)[0])
 
     # *************************************************************************
     # Documentation
@@ -230,7 +236,7 @@ def generate_documentation_plots(output_directory):
         580: 0.1128,
         600: 0.1360
     }
-    sd = colour.SpectralDistribution(data, name='Custom')
+    sd = SpectralDistribution(data, name='Custom')
     plt.close(plot_single_sd(sd, **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
@@ -253,8 +259,8 @@ def generate_documentation_plots(output_directory):
         550: 0.994950,
         560: 0.995000
     }
-    spd1 = colour.SpectralDistribution(data_1, name='Custom 1')
-    spd2 = colour.SpectralDistribution(data_2, name='Custom 2')
+    spd1 = SpectralDistribution(data_1, name='Custom 1')
+    spd2 = SpectralDistribution(data_2, name='Custom 2')
     plt.close(plot_multi_sds([spd1, spd2], **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
@@ -310,8 +316,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Blackbody_Colours.png')
     plt.close(
-        plot_blackbody_colours(
-            colour.SpectralShape(150, 12500, 50), **arguments)[0])
+        plot_blackbody_colours(SpectralShape(150, 12500, 50), **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Colour_Swatch.png')
@@ -340,7 +345,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Image.png')
     path = os.path.join(output_directory, 'Logo_Medium_001.png')
-    plt.close(plot_image(colour.read_image(str(path)), **arguments)[0])
+    plt.close(plot_image(read_image(str(path)), **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
@@ -376,8 +381,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_SDS_In_Chromaticity_Diagram.png')
-    A = colour.ILLUMINANTS_SDS['A']
-    D65 = colour.ILLUMINANTS_SDS['D65']
+    A = ILLUMINANTS_SDS['A']
+    D65 = ILLUMINANTS_SDS['D65']
     plt.close(plot_sds_in_chromaticity_diagram([A, D65], **arguments)[0])
 
     arguments['filename'] = os.path.join(
@@ -581,24 +586,24 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Colour_Quality_Bars.png')
-    illuminant = colour.ILLUMINANTS_SDS['FL2']
-    light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
-    light_source = light_source.copy().align(colour.SpectralShape(360, 830, 1))
-    cqs_i = colour.colour_quality_scale(illuminant, additional_data=True)
-    cqs_l = colour.colour_quality_scale(light_source, additional_data=True)
+    illuminant = ILLUMINANTS_SDS['FL2']
+    light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    light_source = light_source.copy().align(SpectralShape(360, 830, 1))
+    cqs_i = colour_quality_scale(illuminant, additional_data=True)
+    cqs_l = colour_quality_scale(light_source, additional_data=True)
     plt.close(plot_colour_quality_bars([cqs_i, cqs_l], **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Single_SD_Colour_Rendering_Index_Bars.png')
-    illuminant = colour.ILLUMINANTS_SDS['FL2']
+    illuminant = ILLUMINANTS_SDS['FL2']
     plt.close(
         plot_single_sd_colour_rendering_index_bars(illuminant, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png')
-    light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
+    light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
     plt.close(
         plot_multi_sds_colour_rendering_indexes_bars(
             [illuminant, light_source], **arguments)[0])
@@ -606,14 +611,14 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Single_SD_Colour_Quality_Scale_Bars.png')
-    illuminant = colour.ILLUMINANTS_SDS['FL2']
+    illuminant = ILLUMINANTS_SDS['FL2']
     plt.close(
         plot_single_sd_colour_quality_scale_bars(illuminant, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Multi_SDS_Colour_Quality_Scales_Bars.png')
-    light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
+    light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
     plt.close(
         plot_multi_sds_colour_quality_scales_bars([illuminant, light_source],
                                                   **arguments)[0])
@@ -757,26 +762,25 @@ def generate_documentation_plots(output_directory):
         780: 0.421
     }
 
-    sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
+    sd = SpectralDistribution(sample_sd_data, name='Sample')
     plt.close(plot_single_sd(sd, **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_SD_Interpolation.png')
     sd_copy = sd.copy()
-    sd_copy.interpolate(colour.SpectralShape(400, 770, 1))
+    sd_copy.interpolate(SpectralShape(400, 770, 1))
     plt.close(
         plot_multi_sds(
             [sd, sd_copy], bounding_box=[730, 780, 0.25, 0.5], **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Sample_Swatch.png')
-    sd = colour.SpectralDistribution(sample_sd_data)
-    cmfs = colour.STANDARD_OBSERVERS_CMFS[
-        'CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_SDS['D65']
+    sd = SpectralDistribution(sample_sd_data)
+    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    illuminant = ILLUMINANTS_SDS['D65']
     with domain_range_scale('1'):
-        XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
-        RGB = colour.XYZ_to_sRGB(XYZ)
+        XYZ = sd_to_XYZ(sd, cmfs, illuminant)
+        RGB = XYZ_to_sRGB(XYZ)
     plt.close(
         plot_single_colour_swatch(
             ColourSwatch('Sample', RGB),
@@ -786,10 +790,10 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Neutral5.png')
     patch_name = 'neutral 5 (.70 D)'
-    patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
+    patch_sd = COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
     with domain_range_scale('1'):
-        XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
-        RGB = colour.XYZ_to_sRGB(XYZ)
+        XYZ = sd_to_XYZ(patch_sd, cmfs, illuminant)
+        RGB = XYZ_to_sRGB(XYZ)
     plt.close(
         plot_single_colour_swatch(
             ColourSwatch(patch_name.title(), RGB),
@@ -806,7 +810,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Tutorial_CIE_1931_Chromaticity_Diagram.png')
-    xy = colour.XYZ_to_xy(XYZ)
+    xy = XYZ_to_xy(XYZ)
     plot_chromaticity_diagram_CIE1931(standalone=False)
     x, y = xy
     plt.plot(x, y, 'o-', color='white')
@@ -830,9 +834,9 @@ def generate_documentation_plots(output_directory):
     # *************************************************************************
     arguments['filename'] = os.path.join(output_directory,
                                          'Basics_Logo_Small_001_CIE_XYZ.png')
-    RGB = colour.read_image(
-        os.path.join(output_directory, 'Logo_Small_001.png'))[..., 0:3]
-    XYZ = colour.sRGB_to_XYZ(RGB)
+    RGB = read_image(os.path.join(output_directory,
+                                  'Logo_Small_001.png'))[..., 0:3]
+    XYZ = sRGB_to_XYZ(RGB)
     plt.close(
         plot_image(XYZ, text_parameters={'text': 'sRGB to XYZ'},
                    **arguments)[0])
