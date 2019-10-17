@@ -36,7 +36,7 @@ def uint16_to_half(y):
 def half_domain_lookup(x, LUT, raw_halfs=True):
     h0 = half_to_uint16(x) # nearest integer which codes for x
     f0 = uint16_to_half(h0) # convert back to float
-    f1 = uint16_to_half(h0 - 1) # float value for preceding integer
+    f1 = uint16_to_half(h0 + 1) # float value for next integer
     # find h1 such that h0 and h1 code floats either side of x
     h1 = np.where((x - f0) * (x - f1) > 0, h0 - 1, h0 + 1)
     # ratio of position of x in the interval
