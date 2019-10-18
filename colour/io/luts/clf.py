@@ -9,7 +9,7 @@ from xml.dom import minidom
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import (AbstractLUTSequenceOperator, ASC_CDL, LUT1D, LUT2D,
                             LUT3D, LUTSequence, Matrix, Range)
-from colour.utilities import as_float_array, as_numeric, tsplit, tstack
+from colour.utilities import as_float_array, as_numeric, tsplit, tstack, lerp
 
 __all__ = [
     'half_to_uint16', 'uint16_to_half', 'half_domain_lookup', 'HalfDomain1D',
@@ -40,7 +40,9 @@ def half_domain_lookup(x, LUT, raw_halfs=True):
     # find h1 such that h0 and h1 code floats either side of x
     h1 = np.where((x - f0) * (x - f1) > 0, h0 - 1, h0 + 1)
     # ratio of position of x in the interval
-    f = (x - uint16_to_half(h1)) / (f0 - uint16_to_half(h1))
+    f = np.where(f0 == x,
+                 1.0,
+                 (x - uint16_to_half(h1)) / (f0 - uint16_to_half(h1)))
     # get table entries either side of x
     out0 = LUT[h0]
     out1 = LUT[h1]
@@ -49,9 +51,8 @@ def half_domain_lookup(x, LUT, raw_halfs=True):
         out0 = uint16_to_half(out0)
         out1 = uint16_to_half(out1)
 
-    # calculate linear interpolated value between table entries,
-    # or just the nearest table entry if the input value was an inf
-    return np.where(np.isinf(f0), out0, f * out0 + (1 - f) * out1)
+    # calculate linear interpolated value between table entries
+    return lerp(out1, out0, f, interpolate_at_boundary=False)
 
 
 class HalfDomain1D(AbstractLUTSequenceOperator):
