@@ -22,6 +22,7 @@ jobs:
         CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_SUCCESS_NOTIFICATION/4CAF50/F44336}"
         CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_FAILURE_NOTIFICATION/succeeded/failed}"
         COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
+        MPLBACKEND=AGG
         echo ::set-env name=CI_PYTHON_VERSION::$CI_PYTHON_VERSION
         echo ::set-env name=CI_PACKAGE::$CI_PACKAGE
         echo ::set-env name=CI_SHA::$CI_SHA
@@ -29,6 +30,7 @@ jobs:
         echo ::set-env name=CI_SLACK_SUCCESS_NOTIFICATION::$CI_SLACK_SUCCESS_NOTIFICATION
         echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::$CI_SLACK_FAILURE_NOTIFICATION
         echo ::set-env name=COVERALLS_REPO_TOKEN::$COVERALLS_REPO_TOKEN
+        echo ::set-env name=MPLBACKEND::$MPLBACKEND
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
@@ -38,16 +40,6 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get --yes install libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
-    - name: Ubuntu - Set up Matplotlib Backend
-      if: matrix.os == 'ubuntu-18.04'
-      run: |
-        mkdir -p ~/.config/matplotlib
-        echo "backend: Agg" > ~/.config/matplotlib/matplotlibrc
-    - name: macOS - Set up Matplotlib Backend
-      if: matrix.os == 'macOS-10.14'
-      run: |
-        mkdir -p ~/.matplotlib
-        echo "backend: Agg" > ~/.matplotlib/matplotlibrc
     - name: Install Poetry
       run: |
         curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
@@ -106,6 +98,7 @@ jobs:
         set CI_SLACK_FAILURE_NOTIFICATION=%CI_SLACK_SUCCESS_NOTIFICATION:4CAF50=F44336%
         set CI_SLACK_FAILURE_NOTIFICATION=%CI_SLACK_FAILURE_NOTIFICATION:succeeded=failed%
         set COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
+        set MPLBACKEND=AGG
         echo ::set-env name=CI_PYTHON_VERSION::%CI_PYTHON_VERSION%
         echo ::set-env name=CI_PACKAGE::%CI_PACKAGE%
         echo ::set-env name=CI_SHA::%CI_SHA%
@@ -113,14 +106,11 @@ jobs:
         echo ::set-env name=CI_SLACK_SUCCESS_NOTIFICATION::%CI_SLACK_SUCCESS_NOTIFICATION%
         echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::%CI_SLACK_FAILURE_NOTIFICATION%
         echo ::set-env name=COVERALLS_REPO_TOKEN::%COVERALLS_REPO_TOKEN%
+        echo ::set-env name=MPLBACKEND::%MPLBACKEND%
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Windows - Set up Matplotlib Backend
-      run: |
-        mkdir %USERPROFILE%\.matplotlib
-        echo backend: Agg > %USERPROFILE%\.matplotlib\matplotlibrc
     - name: Install Poetry
       run: |
         curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
