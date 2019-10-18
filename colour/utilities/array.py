@@ -882,7 +882,7 @@ def linear_conversion(a, old_range, new_range):
     return ((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min
 
 
-def lerp(a, b, c):
+def lerp(a, b, c, interpolate_at_boundary=True):
     """
     Performs a simple linear interpolation between given array :math:`a` and
     array :math:`b` using :math:`c` value.
@@ -896,6 +896,9 @@ def lerp(a, b, c):
     c : array_like
         Array :math:`c` value to use to interpolate between array :math:`a` and
         array :math:`b`.
+    interpolate_at_boundary : bool, optional
+        Whether to perform the interpolation calculation when c is 0 or 1.
+        When *False* simply returns a or b.
 
     Returns
     -------
@@ -913,7 +916,17 @@ def lerp(a, b, c):
     b = as_float_array(b)
     c = as_float_array(c)
 
-    return (1 - c) * a + c * b
+    return np.select([
+        interpolate_at_boundary,
+        np.logical_and(not(interpolate_at_boundary), c == 0.0),
+        np.logical_and(not(interpolate_at_boundary), c == 1.0),
+        True,
+    ], [
+        (1 - c) * a + c * b,
+        a,
+        b,
+        (1 - c) * a + c * b,
+    ])
 
 
 def fill_nan(a, method='Interpolation', default=0):
