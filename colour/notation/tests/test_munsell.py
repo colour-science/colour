@@ -80,7 +80,6 @@ def _generate_unit_tests_specifications():  # pragma: no cover
     """
 
     from colour.notation import MUNSELL_COLOURS
-    from colour.notation.munsell import xyY_to_munsell_colour
 
     np.random.seed(16)
 

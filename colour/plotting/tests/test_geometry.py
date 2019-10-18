@@ -68,6 +68,8 @@ class TestQuad(unittest.TestCase):
                       [-0.4, -0.8, -0.6], [-0.2, -0.8, -0.6]]),
             decimal=7)
 
+        self.assertRaises(ValueError, lambda: quad(plane='Undefined'))
+
 
 class TestGrid(unittest.TestCase):
     """

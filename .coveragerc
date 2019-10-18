@@ -1,7 +1,5 @@
 [run]
 source = colour
-omit =
-    */colour/plotting/*
 [report]
 exclude_lines =
     pragma: no cover
