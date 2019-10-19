@@ -12,7 +12,6 @@ API but is a good introduction to the main concepts.
     installation: *colour/examples*. It can also be explored directly on
     `Github <https://github.com/colour-science/colour/tree/master/colour/examples>`__.
 
-
 .. code:: python
 
     from colour.plotting import *
@@ -21,40 +20,46 @@ API but is a good introduction to the main concepts.
 
     plot_visible_spectrum()
 
-
 .. image:: _static/Tutorial_Visible_Spectrum.png
-
 
 Overview
 --------
 
 **Colour** is organised around various sub-packages:
 
--  :doc:`adaptation <colour.adaptation>`: Chromatic adaptation models and transformations.
--  :doc:`algebra <colour.algebra>`: Algebra utilities.
--  :doc:`appearance <colour.appearance>`: Colour appearance models.
--  :doc:`biochemistry <colour.biochemistry>`: Biochemistry computations.
--  :doc:`blindness <colour.blindness>`: Colour vision deficiency models.
--  :doc:`continuous <colour.continuous>`: Base objects for continuous data representation.
--  :doc:`contrast <colour.contrast>`: Objects for contrast sensitivity computation.
--  :doc:`characterisation <colour.characterisation>`: Colour fitting and camera characterisation.
--  :doc:`colorimetry <colour.colorimetry>`: Core objects for colour computations.
--  :doc:`constants <colour.constants>`: *CIE* and *CODATA* constants.
--  :doc:`corresponding <colour.corresponding>`: Corresponding colour chromaticities computations.
--  :doc:`difference <colour.difference>`: Colour difference computations.
+-   :doc:`adaptation <colour.adaptation>`: Chromatic adaptation models and
+    transformations.
+-   :doc:`algebra <colour.algebra>`: Algebra utilities.
+-   :doc:`appearance <colour.appearance>`: Colour appearance models.
+-   :doc:`biochemistry <colour.biochemistry>`: Biochemistry computations.
+-   :doc:`blindness <colour.blindness>`: Colour vision deficiency models.
+-   :doc:`continuous <colour.continuous>`: Base objects for continuous data
+    representation.
+-   :doc:`contrast <colour.contrast>`: Objects for contrast sensitivity
+    computation.
+-   :doc:`characterisation <colour.characterisation>`: Colour fitting and
+    camera characterisation.
+-   :doc:`colorimetry <colour.colorimetry>`: Core objects for colour
+    computations.
+-   :doc:`constants <colour.constants>`: *CIE* and *CODATA* constants.
+-   :doc:`corresponding <colour.corresponding>`: Corresponding colour
+    chromaticities computations.
+-   :doc:`difference <colour.difference>`: Colour difference computations.
 -  *examples*: Examples for the sub-packages.
--  :doc:`io <colour.io>`: Input / output objects for reading and writing data.
--  :doc:`models <colour.models>`: Colour models.
--  :doc:`notation <colour.notation>`: Colour notation systems.
--  :doc:`phenomena <colour.phenomena>`: Computation of various optical phenomena.
--  :doc:`plotting <colour.plotting>`: Diagrams, figures, etc…
--  :doc:`quality <colour.quality>`: Colour quality computation.
--  :doc:`recovery <colour.recovery>`: Reflectance recovery.
--  :doc:`temperature <colour.temperature>`: Colour temperature and correlated colour temperature
-   computation.
--  :doc:`utilities <colour.utilities>`: Various utilities and data structures.
--  :doc:`volume <colour.volume>`: Colourspace volumes computation and optimal colour
-   stimuli.
+-   :doc:`graph <colour.graph>`: Graph for automatic colour conversions.
+-   :doc:`io <colour.io>`: Input / output objects for reading and writing data.
+-   :doc:`models <colour.models>`: Colour models.
+-   :doc:`notation <colour.notation>`: Colour notation systems.
+-   :doc:`phenomena <colour.phenomena>`: Computation of various optical
+    phenomena.
+-   :doc:`plotting <colour.plotting>`: Diagrams, figures, etc…
+-   :doc:`quality <colour.quality>`: Colour quality computation.
+-   :doc:`recovery <colour.recovery>`: Reflectance recovery.
+-   :doc:`temperature <colour.temperature>`: Colour temperature and correlated
+    colour temperature   computation.
+-   :doc:`utilities <colour.utilities>`: Various utilities and data structures.
+-   :doc:`volume <colour.volume>`: Colourspace volumes computation and optimal
+    colour stimuli.
 
 Most of the public API is available from the root ``colour`` namespace:
 
@@ -64,11 +69,9 @@ Most of the public API is available from the root ``colour`` namespace:
 
     print(colour.__all__[:5] + ['...'])
 
-
 .. code-block:: text
 
     ['domain_range_scale', 'get_domain_range_scale', 'set_domain_range_scale', 'CHROMATIC_ADAPTATION_METHODS', 'CHROMATIC_ADAPTATION_TRANSFORMS', '...']
-
 
 The various sub-packages also expose their public API:
 
@@ -81,13 +84,12 @@ The various sub-packages also expose their public API:
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
                         'blindness', 'characterisation', 'colorimetry',
                         'constants', 'continuous', 'contrast', 'corresponding',
-                        'difference', 'io', 'models', 'notation', 'phenomena',
-                        'plotting', 'quality', 'recovery', 'temperature',
-                        'utilities', 'volume'):
+                        'difference', 'graph', 'io', 'models', 'notation',
+                        'phenomena', 'plotting', 'quality', 'recovery',
+                        'temperature', 'utilities', 'volume'):
         print(sub_package.title())
         pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
         print('\n')
-
 
 .. code-block:: text
 
@@ -146,16 +148,21 @@ The various sub-packages also expose their public API:
      'DEFAULT_SPECTRAL_SHAPE',
      'SpectralDistribution',
      'MultiSpectralDistributions',
-     'sd_blackbody',
+     'sds_and_multi_sds_to_sds',
      '...']
 
 
     Constants
-    ['K_M', 'KP_M', 'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', '...']
+    ['K_M',
+     'KP_M',
+     'AVOGADRO_CONSTANT',
+     'BOLTZMANN_CONSTANT',
+     'LIGHT_SPEED',
+     '...']
 
 
     Continuous
-    ['AbstractContinuousFunction', 'Signal', 'MultiSignal', '...']
+    ['AbstractContinuousFunction', 'Signal', 'MultiSignals', '...']
 
 
     Contrast
@@ -170,9 +177,9 @@ The various sub-packages also expose their public API:
     Corresponding
     ['BRENEMAN_EXPERIMENTS',
      'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
+     'CorrespondingColourDataset',
+     'CorrespondingChromaticitiesPrediction',
      'corresponding_chromaticities_prediction_CIE1994',
-     'corresponding_chromaticities_prediction_CMCCAT2000',
-     'corresponding_chromaticities_prediction_Fairchild1990',
      '...']
 
 
@@ -182,6 +189,14 @@ The various sub-packages also expose their public API:
      'delta_E_CAM02UCS',
      'delta_E_CAM16LCD',
      'delta_E_CAM16SCD',
+     '...']
+
+
+    Graph
+    ['CONVERSION_GRAPH',
+     'CONVERSION_GRAPH_NODE_LABELS',
+     'describe_conversion_path',
+     'convert',
      '...']
 
 
@@ -248,11 +263,11 @@ The various sub-packages also expose their public API:
 
 
     Temperature
-    ['CCT_TO_UV_METHODS',
-     'UV_TO_CCT_METHODS',
-     'CCT_to_uv',
-     'CCT_to_uv_Ohno2013',
-     'CCT_to_uv_Robertson1968',
+    ['xy_to_CCT_CIE_D',
+     'CCT_to_xy_CIE_D',
+     'xy_to_CCT_Hernandez1999',
+     'CCT_to_xy_Hernandez1999',
+     'xy_to_CCT_Kang2002',
      '...']
 
 
@@ -273,13 +288,11 @@ The various sub-packages also expose their public API:
      'generate_pulse_waves',
      '...']
 
-
 The codebase is documented and most docstrings have usage examples:
 
 .. code:: python
 
     print(colour.temperature.CCT_to_uv_Ohno2013.__doc__)
-
 
 .. code-block:: text
 
@@ -289,10 +302,8 @@ The codebase is documented and most docstrings have usage examples:
 
     Parameters
     ----------
-    CCT : numeric
-        Correlated colour temperature :math:`T_{cp}`.
-    D_uv : numeric, optional
-        :math:`\Delta_{uv}`.
+    CCT_D_uv : ndarray
+        Correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
@@ -307,13 +318,14 @@ The codebase is documented and most docstrings have usage examples:
 
     Examples
     --------
-    >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> CCT = 6507.4342201047066
-    >>> D_uv = 0.003223690901513
-    >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> cmfs = (
+    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
+    ... )
+    >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
+    >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3122004...])
-
 
 At the core of **Colour** is the ``colour.colorimetry`` sub-package, it defines
 the objects needed for spectral computations and many others:
@@ -324,13 +336,13 @@ the objects needed for spectral computations and many others:
 
     pprint(colorimetry.__all__)
 
-
 .. code-block:: text
 
     ['SpectralShape',
      'DEFAULT_SPECTRAL_SHAPE',
      'SpectralDistribution',
      'MultiSpectralDistributions',
+     'sds_and_multi_sds_to_sds',
      'sd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
@@ -375,6 +387,7 @@ the objects needed for spectral computations and many others:
      'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
      'sd_to_XYZ_ASTME308',
      'multi_sds_to_XYZ_integration',
+     'multi_sds_to_XYZ_ASTME308',
      'wavelength_to_XYZ',
      'BANDPASS_CORRECTION_METHODS',
      'bandpass_correction',
@@ -425,17 +438,15 @@ the objects needed for spectral computations and many others:
      'yellowness_ASTMD1925',
      'yellowness_ASTME313']
 
-
-**Colour** computations leverage a comprehensive dataset available in most
-sub-packages, for example the ``colour.colorimetry.dataset`` defines the
-following components:
+**Colour** computations leverage a comprehensive quantity of datasets available
+in most sub-packages, for example the ``colour.colorimetry.datasets`` defines
+the following components:
 
 .. code:: python
 
-    import colour.colorimetry.dataset as dataset
+    import colour.colorimetry.datasets as datasets
 
-    pprint(dataset.__all__)
-
+    pprint(datasets.__all__)
 
 .. code-block:: text
 
@@ -452,7 +463,6 @@ following components:
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS']
-
 
 From Spectral Distribution
 --------------------------
@@ -550,7 +560,6 @@ illuminants, spectral data is manipulated using an object built with the
     sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
     print(repr(sd))
 
-
 .. code-block:: text
 
     SpectralDistribution([[  3.80000000e+02,   4.80000000e-02],
@@ -639,7 +648,6 @@ illuminants, spectral data is manipulated using an object built with the
                          extrapolator=Extrapolator,
                          extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
-
 The sample spectral distribution can be easily plotted against the visible
 spectrum:
 
@@ -648,9 +656,7 @@ spectrum:
     # Plotting the sample spectral distribution.
     plot_single_sd(sd)
 
-
 .. image:: _static/Tutorial_Sample_SD.png
-
 
 With the sample spectral distribution defined, its shape is retrieved as
 follows:
@@ -660,11 +666,9 @@ follows:
     # Displaying the sample spectral distribution shape.
     print(sd.shape)
 
-
 .. code-block:: text
 
     (380.0, 780.0, 5.0)
-
 
 The returned shape is an instance of the ``colour.SpectralShape`` class:
 
@@ -672,11 +676,9 @@ The returned shape is an instance of the ``colour.SpectralShape`` class:
 
     repr(sd.shape)
 
-
 .. code-block:: text
 
     'SpectralShape(380.0, 780.0, 5.0)'
-
 
 The ``colour.SpectralShape`` class is used throughout **Colour** to define
 spectral dimensions and is instantiated as follows:
@@ -692,7 +694,6 @@ spectral dimensions and is instantiated as follows:
     shape = colour.SpectralShape(0, 10, 0.5)
     shape.range()
 
-
 .. code-block:: text
 
     0.0
@@ -707,13 +708,11 @@ spectral dimensions and is instantiated as follows:
     9.0
     10.0
 
-
 .. code-block:: text
 
     array([  0. ,   0.5,   1. ,   1.5,   2. ,   2.5,   3. ,   3.5,   4. ,
              4.5,   5. ,   5.5,   6. ,   6.5,   7. ,   7.5,   8. ,   8.5,
              9. ,   9.5,  10. ])
-
 
 **Colour** defines three convenient objects to create constant spectral
 distributions:
@@ -742,7 +741,6 @@ distributions:
     print(sd_ones.shape)
     print(sd_ones[400])
 
-
 .. code-block:: text
 
     "Constant Spectral Distribution"
@@ -757,7 +755,6 @@ distributions:
     (360.0, 780.0, 1.0)
     1.0
 
-
 By default the shape used by ``colour.sd_constant``,
 ``colour.sd_zeros`` and ``colour.sd_ones`` is the one defined by the
 ``colour.DEFAULT_SPECTRAL_SHAPE`` attribute and based on *ASTM E308-15*
@@ -767,11 +764,9 @@ practise shape.
 
     print(repr(colour.DEFAULT_SPECTRAL_SHAPE))
 
-
 .. code-block:: text
 
     SpectralShape(360, 780, 1)
-
 
 A custom shape can be passed to construct a constant spectral distribution
 with user defined dimensions:
@@ -780,11 +775,9 @@ with user defined dimensions:
 
     colour.sd_ones(colour.SpectralShape(400, 700, 5))[450]
 
-
 .. code-block:: text
 
     1.0
-
 
 The ``colour.SpectralDistribution`` class supports the following
 arithmetical operations:
@@ -807,7 +800,6 @@ arithmetical operations:
     print('\n"+ Spectral Distribution"')
     print((sd1 + colour.sd_ones())[400])
 
-
 .. code-block:: text
 
     "Ones Filled Spectral Distribution"
@@ -818,7 +810,6 @@ arithmetical operations:
 
     "+ Spectral Distribution"
     2.0
-
 
 Often interpolation of the spectral distribution is required, this is achieved
 with the ``colour.SpectralDistribution.interpolate`` method. Depending on the
@@ -835,11 +826,9 @@ The uniformity of the sample spectral distribution is assessed as follows:
     # Checking the sample spectral distribution uniformity.
     print(sd.is_uniform())
 
-
 .. code-block:: text
 
     True
-
 
 In this case, since the sample spectral distribution is uniform the
 interpolation defaults to the ``colour.SpragueInterpolator`` interpolator.
@@ -850,7 +839,6 @@ interpolation defaults to the ``colour.SpragueInterpolator`` interpolator.
     ``colour.SpectralDistribution.copy`` method to generate a copy of the
     spectral distribution before interpolation.
 
-
 .. code:: python
 
     # Copying the sample spectral distribution.
@@ -860,20 +848,16 @@ interpolation defaults to the ``colour.SpragueInterpolator`` interpolator.
     sd_copy.interpolate(colour.SpectralShape(400, 770, 1))
     sd_copy[401]
 
-
 .. code-block:: text
 
     0.065809599999999996
-
 
 .. code:: python
 
     # Comparing the interpolated spectral distribution with the original one.
     plot_multi_sds([sd, sd_copy], bounding_box=[730,780, 0.25, 0.5])
 
-
 .. image:: _static/Tutorial_SD_Interpolation.png
-
 
 Extrapolation although dangerous can be used to help aligning two spectral
 distributions together. *CIE publication CIE 15:2004 “Colorimetry”* recommends
@@ -886,11 +870,9 @@ appropriate quantity in truncation :cite:`CIETC1-482004h`:
     sd_copy.extrapolate(colour.SpectralShape(340, 830))
     sd_copy[340], sd_copy[830]
 
-
 .. code-block:: text
 
     (0.065000000000000002, 0.44800000000000018)
-
 
 The underlying interpolator can be swapped for any of the **Colour**
 interpolators:
@@ -902,7 +884,6 @@ interpolators:
         if 'Interpolator' in export
     ])
 
-
 .. code-block:: text
 
     [u'KernelInterpolator',
@@ -912,13 +893,11 @@ interpolators:
      u'PchipInterpolator',
      u'NullInterpolator']
 
-
 .. code:: python
 
     # Changing interpolator while trimming the copied spectral distribution.
     sd_copy.interpolate(
         colour.SpectralShape(400, 700, 10), interpolator=colour.LinearInterpolator)
-
 
 .. code-block:: text
 
@@ -958,7 +937,6 @@ interpolators:
                          extrapolator=Extrapolator,
                          extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
-
 The extrapolation behaviour can be changed for ``Linear`` method instead
 of the ``Constant`` default method or even use arbitrary constant ``left``
 and ``right`` values:
@@ -972,11 +950,9 @@ and ``right`` values:
                            'right': 0})
     sd_copy[340], sd_copy[830]
 
-
 .. code-block:: text
 
     (0.046999999999999348, 0.0)
-
 
 Aligning a spectral distribution is a convenient way to first interpolates the
 current data within its original bounds, then, if required, extrapolate any
@@ -990,11 +966,9 @@ missing values to match the requested shape:
     sd_copy.align(colour.SpectralShape(340, 830, 5))
     sd_copy[340], sd_copy[830]
 
-
 .. code-block:: text
 
     (0.065000000000000002, 0.28199999999999975)
-
 
 The ``colour.SpectralDistribution`` class also supports various arithmetic
 operations like *addition*, *subtraction*, *multiplication*, *division* or
@@ -1018,14 +992,12 @@ operations like *addition*, *subtraction*, *multiplication*, *division* or
     print((sd * [0.35, 1.55, 0.75, 2.55, 0.95, 0.65, 0.15]).values)
     print((sd * colour.sd_constant(2, sd.shape) * colour.sd_constant(3, sd.shape)).values)
 
-
 .. code-block:: text
 
     [ 1.25  1.5   1.75  2.    1.75  1.5   1.25]
     [ 0.5  1.   1.5  2.   1.5  1.   0.5]
     [ 0.0875  0.775   0.5625  2.55    0.7125  0.325   0.0375]
     [ 1.5  3.   4.5  6.   4.5  3.   nan  1.5]
-
 
 The spectral distribution can be normalised with an arbitrary factor:
 
@@ -1034,12 +1006,10 @@ The spectral distribution can be normalised with an arbitrary factor:
     print(sd.normalise().values)
     print(sd.normalise(100).values)
 
-
 .. code-block:: text
 
     [ 0.25  0.5   0.75  1.    0.75  0.5   0.25]
     [  25.   50.   75.  100.   75.   50.   25.]
-
 
 A the heart of the ``colour.SpectralDistribution`` class is the
 ``colour.continuous.Signal`` class which implements the
@@ -1066,7 +1036,6 @@ this tutorial but the core capability can be described.
     signal = colour.continuous.Signal(range_)
     print(repr(signal))
 
-
 .. code-block:: text
 
     Signal([[   0.,   10.],
@@ -1084,19 +1053,16 @@ this tutorial but the core capability can be described.
            extrapolator=Extrapolator,
            extrapolator_args={u'right': nan, u'method': u'Constant', u'left': nan})
 
-
 .. code:: python
 
     # Returning the corresponding range *y* variable for any arbitrary independent domain *x* variable.
     signal[np.random.uniform(0, 9, 10)]
-
 
 .. code-block:: text
 
     array([ 55.91309735,  65.4172615 ,  65.54495059,  88.17819416,
             61.88860248,  10.53878826,  55.25130534,  46.14659783,
             86.41406136,  84.59897703])
-
 
 Convert to Tristimulus Values
 -----------------------------
@@ -1114,11 +1080,9 @@ calculated:
     XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
     print(XYZ)
 
-
 .. code-block:: text
 
     [ 10.97085572   9.70278591   6.05562778]
-
 
 From *CIE XYZ* Colourspace
 --------------------------
@@ -1130,7 +1094,6 @@ computations are available, expanding to even more computations:
 
     # Displaying objects interacting directly with the *CIE XYZ* colourspace.
     pprint([name for name in colour.__all__ if name.startswith('XYZ_to')])
-
 
 .. code-block:: text
 
@@ -1159,7 +1122,6 @@ computations are available, expanding to even more computations:
      'XYZ_to_xyY',
      'XYZ_to_sd']
 
-
 Convert to Display Colours
 --------------------------
 
@@ -1174,11 +1136,9 @@ values in order to display them on screen:
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
     print(RGB)
 
-
 .. code-block:: text
 
     [ 0.45675795  0.30986982  0.24861924]
-
 
 .. code:: python
 
@@ -1187,9 +1147,7 @@ values in order to display them on screen:
         ColourSwatch('Sample', RGB),
         text_parameters={'size': 'x-large'})
 
-
 .. image:: _static/Tutorial_Sample_Swatch.png
-
 
 Generate Colour Rendition Charts
 --------------------------------
@@ -1202,7 +1160,6 @@ Likewise, colour values from a colour rendition chart sample can be computed.
     where a synthetic colour chart can be inserted into a render to
     ensure the colour management is acting as expected.
 
-
 The ``colour.characterisation`` sub-package contains the dataset for
 various colour rendition charts:
 
@@ -1214,19 +1171,16 @@ various colour rendition charts:
     # Colour rendition charts spectral distributions.
     print(sorted(colour.characterisation.COLOURCHECKERS_SDS.keys()))
 
-
 .. code-block:: text
 
-    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
-    ['BabelColor Average', 'ColorChecker N Ohta', 'babel_average', 'cc_ohta']
-
+    [u'BabelColor Average', u'ColorChecker 1976', u'ColorChecker 2005', u'ColorChecker24 - After November 2014', u'ColorChecker24 - Before November 2014', u'babel_average', u'cc2005', u'cca2014', u'ccb2014']
+    [u'BabelColor Average', u'ColorChecker N Ohta', u'babel_average', u'cc_ohta']
 
 .. note::
 
     The above ``cc2005``, ``babel_average`` and ``cc_ohta`` keys are
     convenient aliases for respectively ``ColorChecker 2005``, ``BabelColor Average``
     and ``ColorChecker N Ohta`` keys.
-
 
 .. code:: python
 
@@ -1240,9 +1194,7 @@ various colour rendition charts:
         ColourSwatch(patch_name.title(), RGB),
         text_parameters={'size': 'x-large'})
 
-
 .. image:: _static/Tutorial_Neutral5.png
-
 
 **Colour** defines a convenient plotting object to draw synthetic colour
 rendition charts figures:
@@ -1252,9 +1204,7 @@ rendition charts figures:
     plot_single_colour_checker(
         colour_checker='ColorChecker 2005', text_parameters={'visible': False})
 
-
 .. image:: _static/Tutorial_Colour_Checker.png
-
 
 Convert to Chromaticity Coordinates
 -----------------------------------
@@ -1268,11 +1218,9 @@ using the ``colour.XYZ_to_xy`` definition:
     xy =  colour.XYZ_to_xy(XYZ)
     print(xy)
 
-
 .. code-block:: text
 
     [ 0.31259787  0.32870029]
-
 
 Chromaticity coordinates *CIE xy* can be plotted into the *CIE 1931 Chromaticity Diagram*:
 
@@ -1303,9 +1251,7 @@ Chromaticity coordinates *CIE xy* can be plotted into the *CIE 1931 Chromaticity
         x_tighten=True,
         y_tighten=True)
 
-
 .. image:: _static/Tutorial_CIE_1931_Chromaticity_Diagram.png
-
 
 And More...
 -----------

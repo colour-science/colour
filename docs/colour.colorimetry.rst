@@ -51,12 +51,23 @@ Spectral Data Generation
 
     blackbody_spectral_radiance
     daylight_locus_function
-    planck_law
+
     sd_gaussian_normal
     sd_gaussian_fwhm
     sd_single_led_Ohno2005
     sd_multi_leds_Ohno2005
     sds_and_multi_sds_to_sds
+
+**Aliases**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    planck_law
 
 Conversion to Tristimulus Values
 --------------------------------
