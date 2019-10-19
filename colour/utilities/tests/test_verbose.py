@@ -87,6 +87,14 @@ class TestDescribeEnvironment(unittest.TestCase):
             sorted(environment.keys()),
             ['Development', 'Interpreter', 'Runtime', 'colour-science.org'])
 
+        environment = describe_environment(
+            development_packages=True, extras_packages=True)
+        self.assertListEqual(
+            sorted(environment.keys()), [
+                'Development', 'Extras', 'Interpreter', 'Runtime',
+                'colour-science.org'
+            ])
+
 
 if __name__ == '__main__':
     unittest.main()
