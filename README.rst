@@ -98,7 +98,7 @@ API Reference
 ~~~~~~~~~~~~~
 
 The main technical reference for **Colour** and its API is the
-`Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`__
+`Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`__.
 
 Jupyter Notebooks
 ~~~~~~~~~~~~~~~~~
