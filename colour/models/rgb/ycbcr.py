@@ -224,9 +224,9 @@ def RGB_to_YCbCr(RGB,
     | ``YCbCr``      | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has input and output integer switches, thus the
-        domain-range scale information is only given for the floating point
-        mode.
+    \\* This definition has input and output integer switches, thus the
+    domain-range scale information is only given for the floating point mode.
+
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
         'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int': False}``
         transform a float *R'G'B'* input array normalised to domain [0, 1]
@@ -396,9 +396,8 @@ def YCbCr_to_RGB(YCbCr,
     | ``RGB``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has input and output integer switches, thus the
-        domain-range scale information is only given for the floating point
-        mode.
+    \\* This definition has input and output integer switches, thus the
+    domain-range scale information is only given for the floating point mode.
 
     Warning
     -------
@@ -508,9 +507,8 @@ def RGB_to_YcCbcCrc(RGB,
     | ``YcCbcCrc``   | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has input and output integer switches, thus the
-        domain-range scale information is only given for the floating point
-        mode.
+    \\* This definition has input and output integer switches, thus the
+    domain-range scale information is only given for the floating point mode.
 
     Warning
     -------
@@ -612,9 +610,8 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     | ``RGB``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has input and output integer switches, thus the
-        domain-range scale information is only given for the floating point
-        mode.
+    \\* This definition has input and output integer switches, thus the
+    domain-range scale information is only given for the floating point mode.
 
     Warning
     -------

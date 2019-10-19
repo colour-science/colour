@@ -154,11 +154,14 @@ def tests(ctx, nose=True):
         message_box('Running "Nosetests"...')
         ctx.run(
             'nosetests --with-doctest --with-coverage --cover-package={0} {0}'.
-            format(PYTHON_PACKAGE_NAME))
+            format(PYTHON_PACKAGE_NAME),
+            env={'MPLBACKEND': 'AGG'})
     else:
         message_box('Running "Pytest"...')
-        ctx.run('py.test --disable-warnings --doctest-modules '
-                '--ignore={0}/examples {0}'.format(PYTHON_PACKAGE_NAME))
+        ctx.run(
+            'py.test --disable-warnings --doctest-modules '
+            '--ignore={0}/examples {0}'.format(PYTHON_PACKAGE_NAME),
+            env={'MPLBACKEND': 'AGG'})
 
 
 @task

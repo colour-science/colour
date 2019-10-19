@@ -199,30 +199,6 @@ class TestPlotRGBColourspacesGamuts(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_RGB_colourspaces_gamuts(
-            reference_colourspace='CIE Lab')
-
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-        figure, axes = plot_RGB_colourspaces_gamuts(
-            reference_colourspace='CIE Luv')
-
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-        figure, axes = plot_RGB_colourspaces_gamuts(
-            reference_colourspace='CIE UVW')
-
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
-        figure, axes = plot_RGB_colourspaces_gamuts(
-            reference_colourspace='Hunter Lab')
-
-        self.assertIsInstance(figure, Figure)
-        self.assertIsInstance(axes, Axes)
-
 
 class TestPlotRGBScatter(unittest.TestCase):
     """

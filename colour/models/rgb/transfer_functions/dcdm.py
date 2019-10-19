@@ -81,8 +81,8 @@ def eotf_inverse_DCDM(XYZ, out_int=False):
     | ``XYZ_p``      | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an output integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an output integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -146,8 +146,8 @@ def eotf_DCDM(XYZ_p, in_int=False):
     | ``XYZ``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an input integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+   \\* This definition has an input integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------

@@ -538,16 +538,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
     if show_grid:
-        if reference_colourspace == 'CIE Lab':
-            limits = np.array([[-450, 450], [-450, 450]])
-        elif reference_colourspace == 'CIE Luv':
-            limits = np.array([[-650, 650], [-650, 650]])
-        elif reference_colourspace == 'CIE UVW':
-            limits = np.array([[-850, 850], [-850, 850]])
-        elif reference_colourspace in ('Hunter Lab', 'Hunter Rdab'):
-            limits = np.array([[-250, 250], [-250, 250]])
-        else:
-            limits = np.array([[-1.5, 1.5], [-1.5, 1.5]])
+        limits = np.array([[-1.5, 1.5], [-1.5, 1.5]])
 
         quads_g, RGB_gf, RGB_ge = nadir_grid(limits, grid_segments, labels,
                                              axes, **settings)

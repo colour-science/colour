@@ -364,10 +364,20 @@ Colour Component Transfer Functions
 
     cctf_encoding_ROMMRGB
     cctf_decoding_ROMMRGB
-    cctf_encoding_ProPhotoRGB
-    cctf_decoding_ProPhotoRGB
     cctf_encoding_RIMMRGB
     cctf_decoding_RIMMRGB
+
+**Aliases**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    cctf_encoding_ProPhotoRGB
+    cctf_decoding_ProPhotoRGB
 
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

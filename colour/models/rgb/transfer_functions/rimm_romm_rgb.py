@@ -89,8 +89,8 @@ def cctf_encoding_ROMMRGB(X, bit_depth=8, out_int=False):
     | ``X_p``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an output integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an output integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -153,8 +153,8 @@ def cctf_decoding_ROMMRGB(X_p, bit_depth=8, in_int=False):
     | ``X``          | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an input integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+   \\* This definition has an input integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -187,7 +187,11 @@ def cctf_decoding_ROMMRGB(X_p, bit_depth=8, in_int=False):
 
 
 cctf_encoding_ProPhotoRGB = cctf_encoding_ROMMRGB
+cctf_encoding_ProPhotoRGB.__doc__ = cctf_encoding_ProPhotoRGB.__doc__.replace(
+    '*ROMM RGB*', '*ProPhoto RGB*')
 cctf_decoding_ProPhotoRGB = cctf_decoding_ROMMRGB
+cctf_decoding_ProPhotoRGB.__doc__ = cctf_decoding_ROMMRGB.__doc__.replace(
+    '*ROMM RGB*', '*ProPhoto RGB*')
 
 
 def cctf_encoding_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
@@ -230,8 +234,8 @@ def cctf_encoding_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
     | ``X_p``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an output integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an output integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -298,8 +302,8 @@ def cctf_decoding_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
     | ``X``          | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an input integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+   \\* This definition has an input integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -378,8 +382,8 @@ def log_encoding_ERIMMRGB(X,
     | ``X_p``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an output integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an output integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -462,8 +466,8 @@ def log_decoding_ERIMMRGB(X_p,
     | ``X``          | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an input integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+   \\* This definition has an input integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
