@@ -56,12 +56,6 @@ Features
 `features <https://www.colour-science.org/features/>`_ page for more
 information.
 
-Online
-------
-
-**Colour** can be used online with
-`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
-
 Installation
 ------------
 
@@ -83,16 +77,35 @@ from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`_:
 The detailed installation procedure is described in the
 `Installation Guide <https://www.colour-science.org/installation-guide/>`_.
 
-Usage
------
+Documentation
+-------------
 
-The two main references for **Colour**
-usage are the `Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`_
-and the `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
-with detailed historical and theoretical context and images:
+Tutorial
+~~~~~~~~
 
--   `Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`_
--   `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
+The `static tutorial <https://colour.readthedocs.io/en/develop/tutorial.html>`_
+provides an introduction to **Colour**. An interactive version is available via
+`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
+
+How-To Guide
+~~~~~~~~~~~~
+
+The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`_
+guide for **Colour** shows various techniques to solve specific problems and
+highlights some interesting use cases.
+
+API Reference
+~~~~~~~~~~~~~
+
+The main technical reference for **Colour** and its API is the
+`Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`_
+
+Jupyter Notebooks
+~~~~~~~~~~~~~~~~~
+
+`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
+are available and designed to provide an historical perspective of colour
+science via **Colour** usage.
 
 Examples
 ~~~~~~~~
