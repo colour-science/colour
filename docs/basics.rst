@@ -304,11 +304,11 @@ scale value:
 Multiprocessing on Windows with Domain-Range Scales
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Windows does not have a `fork <https://linux.die.net/man/2/fork>`_ system call,
+Windows does not have a `fork <https://linux.die.net/man/2/fork>`__ system call,
 a consequence is that child processes do not necessarily
-`inherit from changes made to global variables <https://docs.python.org/2/library/multiprocessing.html#windows>`_.
+`inherit from changes made to global variables <https://docs.python.org/2/library/multiprocessing.html#windows>`__.
 
-It has crucial `consequences <https://stackoverflow.com/q/55742917/931625>`_
+It has crucial `consequences <https://stackoverflow.com/q/55742917/931625>`__
 as **Colour** stores the current domain-range scale into a global variable.
 
 The solution is to define an initialisation definition that defines the

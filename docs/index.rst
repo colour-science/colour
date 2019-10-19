@@ -1,13 +1,13 @@
 ..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
 
-`Colour <https://github.com/colour-science/colour>`_ is an open-source
-`Python <https://www.python.org/>`_ package providing a comprehensive number of
+`Colour <https://github.com/colour-science/colour>`__ is an open-source
+`Python <https://www.python.org/>`__ package providing a comprehensive number of
 algorithms and datasets for colour science.
 
 It is freely available under the
-`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
+`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
 
-**Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`_, a
+**Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`__, a
 501(c)(3) nonprofit in the United States.
 
 .. contents:: **Table of Contents**
@@ -20,37 +20,37 @@ Draft Release Notes
 -------------------
 
 The draft release notes from the
-`develop <https://github.com/colour-science/colour/tree/develop>`_
+`develop <https://github.com/colour-science/colour/tree/develop>`__
 branch are available at this
-`url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`_.
+`url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`__.
 
 Features
 --------
 
 **Colour** features a rich dataset and collection of objects, please see the
-`features <https://www.colour-science.org/features/>`_ page for more
+`features <https://www.colour-science.org/features/>`__ page for more
 information.
 
 Installation
 ------------
 
 **Colour** can be easily installed from the
-`Python Package Index <https://pypi.org/project/colour-science/>`_
+`Python Package Index <https://pypi.org/project/colour-science/>`__
 by issuing this command in a shell:
 
 .. code-block:: bash
 
     $ pip install colour-science
 
-**Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`_
-from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`_:
+**Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`__
+from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`__:
 
 .. code-block:: bash
 
     $ conda install -c conda-forge colour-science
 
 The detailed installation procedure is described in the
-`Installation Guide <https://www.colour-science.org/installation-guide/>`_.
+`Installation Guide <https://www.colour-science.org/installation-guide/>`__.
 
 Documentation
 -------------
@@ -58,14 +58,14 @@ Documentation
 Tutorial
 ~~~~~~~~
 
-The `static tutorial <https://colour.readthedocs.io/en/develop/tutorial.html>`_
+The `static tutorial <https://colour.readthedocs.io/en/develop/tutorial.html>`__
 provides an introduction to **Colour**. An interactive version is available via
 `Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
 
 How-To Guide
 ~~~~~~~~~~~~
 
-The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`_
+The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
 guide for **Colour** shows various techniques to solve specific problems and
 highlights some interesting use cases.
 
@@ -73,7 +73,7 @@ API Reference
 ~~~~~~~~~~~~~
 
 The main technical reference for **Colour** and its API is the
-`Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`_
+`Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`__
 
 .. toctree::
     :maxdepth: 4
@@ -83,7 +83,7 @@ The main technical reference for **Colour** and its API is the
 Jupyter Notebooks
 ~~~~~~~~~~~~~~~~~
 
-`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
+`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
 are available and designed to provide an historical perspective of colour
 science via **Colour** usage.
 
@@ -1123,20 +1123,20 @@ Contributing
 ------------
 
 If you would like to contribute to **Colour**, please refer to the following
-`Contributing <https://www.colour-science.org/contributing>`_ guide.
+`Contributing <https://www.colour-science.org/contributing>`__ guide.
 
 Changes
 -------
 
-The changes are viewable on the `Releases <https://github.com/colour-science/colour/releases>`_ page.
+The changes are viewable on the `Releases <https://github.com/colour-science/colour/releases>`__ page.
 
 Bibliography
 ------------
 
-The bibliography is available on the `Bibliography <https://www.colour-science.org/bibliography/>`_ page.
+The bibliography is available on the `Bibliography <https://www.colour-science.org/bibliography/>`__ page.
 
 It is also viewable directly from the repository in
-`BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_
+`BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`__
 format.
 
 See Also
@@ -1146,39 +1146,39 @@ Here is a list of notable colour science packages sorted by languages:
 
 **Python**
 
-- `Colorio <https://github.com/nschloe/colorio/>`_  by Schlömer, N.
-- `ColorPy <http://markkness.net/colorpy/ColorPy.html>`_ by Kness, M.
-- `Colorspacious <https://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
-- `python-colormath <https://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
+- `Colorio <https://github.com/nschloe/colorio/>`__  by Schlömer, N.
+- `ColorPy <http://markkness.net/colorpy/ColorPy.html>`__ by Kness, M.
+- `Colorspacious <https://colorspacious.readthedocs.io/>`__ by Smith, N. J., et al.
+- `python-colormath <https://python-colormath.readthedocs.io/>`__ by Taylor, G., et al.
 
 **Go**
 
-- `go-colorful <https://github.com/lucasb-eyer/go-colorful/>`_  by Beyer, L., et al.
+- `go-colorful <https://github.com/lucasb-eyer/go-colorful/>`__  by Beyer, L., et al.
 
 **.NET**
 
-- `Colourful <https://github.com/tompazourek/Colourful>`_ by Pažourek, T., et al.
+- `Colourful <https://github.com/tompazourek/Colourful>`__ by Pažourek, T., et al.
 
 **Julia**
 
-- `Colors.jl <https://github.com/JuliaGraphics/Colors.jl>`_ by Holy, T., et al.
+- `Colors.jl <https://github.com/JuliaGraphics/Colors.jl>`__ by Holy, T., et al.
 
 **Matlab & Octave**
 
-- `COLORLAB <https://www.uv.es/vista/vistavalencia/software/colorlab.html>`_ by Malo, J., et al.
-- `Psychtoolbox <http://psychtoolbox.org/>`_ by Brainard, D., et al.
-- `The Munsell and Kubelka-Munk Toolbox <http://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ by Centore, P.
+- `COLORLAB <https://www.uv.es/vista/vistavalencia/software/colorlab.html>`__ by Malo, J., et al.
+- `Psychtoolbox <http://psychtoolbox.org/>`__ by Brainard, D., et al.
+- `The Munsell and Kubelka-Munk Toolbox <http://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`__ by Centore, P.
 
 Code of Conduct
 ---------------
 
-The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`_,
-is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`_ page.
+The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
+is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
 
 About
 -----
 
 | **Colour** by Colour Developers - 2013-2019
-| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
-| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`_
+| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__
