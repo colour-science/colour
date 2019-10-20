@@ -589,8 +589,8 @@ def describe_environment(runtime_packages=True,
 
     if runtime_packages:
         for package in [
-                'imageio', 'numpy', 'scipy', 'six', 'pandas', 'matplotlib',
-                'networkx', 'pygraphviz'
+                'imageio', 'matplotlib', 'networkx', 'numpy', 'pandas',
+                'pygraphviz', 'scipy', 'six'
         ]:
             try:
                 namespace = __import__(package)
