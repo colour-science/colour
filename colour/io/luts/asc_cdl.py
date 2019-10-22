@@ -20,7 +20,7 @@ from xml.dom import minidom
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import AbstractLUTSequenceOperator, LUTSequence
-from colour.models import function_gamma
+from colour.models import gamma_function
 from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -229,7 +229,7 @@ class ASC_CDL(AbstractLUTSequenceOperator):
                 if self.clamp:
                     RGB_out = np.clip(RGB_out, 0, 1)
 
-            RGB_out = function_gamma(RGB_out, 1 / self.power, 'preserve')
+            RGB_out = gamma_function(RGB_out, 1 / self.power, 'preserve')
             RGB_out -= self.offset
             RGB_out /= self.slope
 
@@ -238,7 +238,7 @@ class ASC_CDL(AbstractLUTSequenceOperator):
         else:
             RGB_out *= self.slope
             RGB_out += self.offset
-            RGB_out = function_gamma(RGB_out, self.power, 'preserve')
+            RGB_out = gamma_function(RGB_out, self.power, 'preserve')
 
             if self.clamp:
                 RGB_out = np.clip(RGB_out, 0, 1)

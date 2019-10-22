@@ -17,14 +17,8 @@ from __future__ import absolute_import
 import os
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
-<<<<<<< 1c0a000c31c021a64a37596d0445f9cbf2164a5b
 from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D,
-                  LUTSequence, LUT_to_LUT, Range, Matrix, ASC_CDL)
-=======
-
-from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT2D, LUT3D,
                   LUTSequence, LUT_to_LUT, Range, Matrix)
->>>>>>> Code formatting and style.
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
 from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
@@ -35,13 +29,8 @@ from .asc_cdl import (ASC_CDL, read_LUT_cdl_xml, read_LUT_cdl_edl,
                       read_LUT_cdl_ale)
 
 __all__ = [
-<<<<<<< 1c0a000c31c021a64a37596d0445f9cbf2164a5b
     'AbstractLUTSequenceOperator', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUTSequence',
-    'LUT_to_LUT', 'Range', 'Matrix', 'ASC_CDL'
-=======
-    'AbstractLUTSequenceOperator', 'LUT1D', 'LUT2D', 'LUT3D', 'LUTSequence',
     'LUT_to_LUT', 'Range', 'Matrix'
->>>>>>> Code formatting and style.
 ]
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
 __all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']

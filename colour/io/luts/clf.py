@@ -7,13 +7,13 @@ from xml.etree import ElementTree
 from xml.dom import minidom
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.io.luts import (AbstractLUTSequenceOperator, ASC_CDL, LUT1D, LUT2D,
-                            LUT3D, LUTSequence, Matrix, Range)
+from colour.io.luts import (AbstractLUTSequenceOperator, ASC_CDL, LUT1D,
+                            LUT3x1D, LUT3D, LUTSequence, Matrix, Range)
 from colour.utilities import as_float_array, as_numeric, tsplit, tstack, lerp
 
 __all__ = [
     'half_to_uint16', 'uint16_to_half', 'half_domain_lookup', 'HalfDomain1D',
-    'HalfDomain2D', 'read_index_map', 'string_to_array', 'simple_clf_parse',
+    'HalfDomain3x1D', 'read_index_map', 'string_to_array', 'simple_clf_parse',
     'simple_clf_write'
 ]
 
@@ -34,9 +34,9 @@ def uint16_to_half(y):
 
 
 def half_domain_lookup(x, LUT, raw_halfs=True):
-    h0 = half_to_uint16(x) # nearest integer which codes for x
-    f0 = uint16_to_half(h0) # convert back to float
-    f1 = uint16_to_half(h0 + 1) # float value for next integer
+    h0 = half_to_uint16(x)  # nearest integer which codes for x
+    f0 = uint16_to_half(h0)  # convert back to float
+    f1 = uint16_to_half(h0 + 1)  # float value for next integer
     # find h1 such that h0 and h1 code floats either side of x
     h1 = np.where((x - f0) * (x - f1) > 0, h0 - 1, h0 + 1)
     # ratio of position of x in the interval
@@ -47,7 +47,7 @@ def half_domain_lookup(x, LUT, raw_halfs=True):
     out0 = LUT[h0]
     out1 = LUT[h1]
 
-    if raw_halfs: # convert table entries to float if necessary
+    if raw_halfs:  # convert table entries to float if necessary
         out0 = uint16_to_half(out0)
         out1 = uint16_to_half(out1)
 
@@ -85,7 +85,7 @@ class HalfDomain1D(AbstractLUTSequenceOperator):
         return half_domain_lookup(RGB, self.table, raw_halfs=self.raw_halfs)
 
 
-class HalfDomain2D(AbstractLUTSequenceOperator):
+class HalfDomain3x1D(AbstractLUTSequenceOperator):
     def __init__(self, table=None, name='', comments=None, raw_halfs=False):
         if table is not None:
             self.table = table
@@ -179,9 +179,9 @@ def add_LUT1D(LUT, node):
                     LUT_1 = LUT1D(table=array.reshape(-1))
             else:
                 if is_half_domain:
-                    LUT_1 = HalfDomain2D(table=array, raw_halfs=is_raw_halfs)
+                    LUT_1 = HalfDomain3x1D(table=array, raw_halfs=is_raw_halfs)
                 else:
-                    LUT_1 = LUT2D(table=array)
+                    LUT_1 = LUT3x1D(table=array)
     if shaper:
         # Fully enumerated.
         if np.all(shaper.table == np.arange(shaper.size)):
@@ -345,16 +345,16 @@ def simple_clf_parse(path):
     LUT = LUTSequence()
     tree = ElementTree.parse(path)
     process_list = tree.getroot()
-    #if 'name' in process_list.keys():
-    #LUT.name = process_list.attrib['name']
+    # if 'name' in process_list.keys():
+    # LUT.name = process_list.attrib['name']
     for node in process_list:
         tag = node.tag.lower()
-        #if node.tag.endswith('Description'):
-        #LUT.comments.append(node.text)
-        #if node.tag.endswith('InputDescriptor'):
-        #LUT.InputDescriptor = node.text
-        #if node.tag.endswith('OutputDescriptor'):
-        #LUT.OutputDescriptor = node.text
+        # if node.tag.endswith('Description'):
+        # LUT.comments.append(node.text)
+        # if node.tag.endswith('InputDescriptor'):
+        # LUT.InputDescriptor = node.text
+        # if node.tag.endswith('OutputDescriptor'):
+        # LUT.OutputDescriptor = node.text
         if tag.endswith('lut1d'):
             LUT = add_LUT1D(LUT, node)
         elif tag.endswith('lut3d'):
@@ -433,7 +433,7 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
             else:
                 array.text = _format_array(node.table, decimals=decimals)
 
-        if isinstance(node, HalfDomain2D):
+        if isinstance(node, HalfDomain3x1D):
             process_node = ElementTree.Element('LUT1D')
             process_node.set('halfDomain', 'True')
             array = ElementTree.SubElement(process_node, 'Array')
@@ -472,7 +472,7 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
             array.set('dim', '{} 1'.format(node.size))
             array.text = _format_array(node.table, decimals=decimals)
 
-        if isinstance(node, LUT2D):
+        if isinstance(node, LUT3x1D):
             process_node = ElementTree.Element('LUT1D')
 
             if not np.all(node.domain == np.array([[0, 0, 0], [1, 1, 1]])):

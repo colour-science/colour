@@ -40,7 +40,7 @@ from six import add_metaclass
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.models import function_gamma
+from colour.models import gamma_function
 from colour.utilities import (as_float_array, dot_vector, is_numeric,
                               is_iterable, is_string, full, linear_conversion,
                               runtime_warning, tsplit, tstack, usage_warning)
@@ -55,7 +55,7 @@ __status__ = 'Production'
 
 __all__ = [
     'AbstractLUT', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUT_to_LUT',
-    'AbstractLUTSequenceOperator', 'LUTSequence', 'Range', 'Matrix', 'ASC_CDL'
+    'AbstractLUTSequenceOperator', 'LUTSequence', 'Range', 'Matrix'
 ]
 
 
