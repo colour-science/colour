@@ -114,6 +114,15 @@ from colour.plotting.models import (
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_RGB_colourspaces_in_chromaticity_diagram,
 )
+from colour.plotting.phenomena import (
+    plot_multi_layer_stack,
+    plot_multi_layer_thin_film,
+    plot_single_layer_thin_film,
+    plot_thin_film_comparison,
+    plot_thin_film_iridescence,
+    plot_thin_film_reflectance_map,
+    plot_thin_film_spectrum,
+)
 from colour.plotting.quality import plot_colour_quality_bars
 from colour.plotting.section import plot_hull_section_colours, plot_hull_section_contour
 from colour.plotting.temperature import (
@@ -307,6 +316,11 @@ def generate_documentation_plots(output_directory: str) -> None:
             ["A", "B", "C"], **arguments
         )[0]
     )
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Examples_Plotting_Thin_Film_Iridescence.png"
+    )
+    plt.close(plot_thin_film_iridescence([1.0, 1.33, 1.0], **arguments)[0])
 
     # *************************************************************************
     # Documentation
@@ -793,6 +807,69 @@ def generate_documentation_plots(output_directory: str) -> None:
         output_directory, "Plotting_Plot_The_Blue_Sky.png"
     )
     plt.close(plot_the_blue_sky(**arguments)[0])
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Plotting_Plot_Single_Layer_Thin_Film.png"
+    )
+    plt.close(plot_single_layer_thin_film([1.0, 1.46, 1.5], 100, **arguments)[0])
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Plotting_Plot_Multi_Layer_Thin_Film.png"
+    )
+    plt.close(
+        plot_multi_layer_thin_film([1.0, 1.46, 2.4, 1.5], [100, 50], **arguments)[0]
+    )
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Plotting_Plot_Thin_Film_Comparison.png"
+    )
+    configurations = [
+        {
+            "type": "single",
+            "n_film": 1.46,
+            "t": 100,
+            "n_substrate": 1.5,
+            "label": "MgF2 100nm",
+        },
+        {
+            "type": "single",
+            "n_film": 2.4,
+            "t": 25,
+            "n_substrate": 1.5,
+            "label": "TiO2 25nm",
+        },
+    ]
+    plt.close(plot_thin_film_comparison(configurations, **arguments)[0])
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Plotting_Plot_Thin_Film_Spectrum.png"
+    )
+    plt.close(plot_thin_film_spectrum([1.0, 1.33, 1.0], 200, **arguments)[0])
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Plotting_Plot_Thin_Film_Iridescence.png"
+    )
+    plt.close(plot_thin_film_iridescence([1.0, 1.33, 1.0], **arguments)[0])
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Plotting_Plot_Thin_Film_Reflectance_Map.png"
+    )
+    plt.close(
+        plot_thin_film_reflectance_map(
+            [1.0, 1.33, 1.0], method="Thickness", **arguments
+        )[0]
+    )
+
+    arguments["filename"] = os.path.join(
+        output_directory, "Plotting_Plot_Multi_Layer_Stack.png"
+    )
+    configurations = [
+        {"t": 100, "n": 1.46},
+        {"t": 200, "n": 2.4},
+        {"t": 80, "n": 1.46},
+        {"t": 150, "n": 2.4},
+    ]
+    plt.close(plot_multi_layer_stack(configurations, theta=45, **arguments)[0])
 
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Colour_Quality_Bars.png"

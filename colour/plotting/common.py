@@ -128,6 +128,7 @@ __all__ = [
     "plot_single_function",
     "plot_multi_functions",
     "plot_image",
+    "plot_ray",
 ]
 
 CONSTANTS_COLOUR_STYLE: Structure = Structure(
@@ -168,6 +169,7 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
                 "#607D8B",
             ),
         ),
+        cmap="inferno",
         colourspace=RGB_COLOURSPACES["sRGB"],
     ),
     font=Structure(
@@ -185,7 +187,7 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
         }
     ),
     opacity=Structure(high=0.75, medium=0.5, low=0.25),
-    geometry=Structure(long=5, medium=2.5, short=1),
+    geometry=Structure(x_long=10, long=5, medium=2.5, short=1, x_short=0.5),
     hatch=Structure(
         patterns=(
             "\\\\",
@@ -1720,3 +1722,95 @@ def plot_image(
     settings.update(kwargs)
 
     return render(**settings)
+
+
+def plot_ray(
+    axes: Axes,
+    x_coords: ArrayLike,
+    y_coords: ArrayLike,
+    style: Literal["solid", "dashed"] | str = "solid",
+    label: str | None = None,
+    show_arrow: bool = True,
+    show_dots: bool = False,
+) -> None:
+    """
+    Draw a ray path with optional arrow and interface dots.
+
+    Parameters
+    ----------
+    axes
+        Axes to draw the ray on.
+    x_coords
+        X coordinates of the ray path.
+    y_coords
+        Y coordinates of the ray path.
+    style
+        Line style: 'solid' for transmitted rays, 'dashed' for reflected rays.
+    label
+        Label for the legend (only on first segment).
+    show_arrow
+        Whether to show directional arrow at midpoint.
+    show_dots
+        Whether to show dots at intermediate points.
+
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import numpy as np
+    >>> _fig, axes = plt.subplots()
+    >>> x = np.array([0, 1, 2])
+    >>> y = np.array([0, 1, 0])
+    >>> plot_ray(axes, x, y, style="solid", label="Ray")
+    >>> plt.close()
+    """
+
+    x_coords = as_float_array(x_coords)
+    y_coords = as_float_array(y_coords)
+
+    # Validate style
+    style = validate_method(style, ("solid", "dashed"))
+
+    # Draw the ray line
+    linestyle = "-" if style == "solid" else "--"
+    axes.plot(
+        x_coords,
+        y_coords,
+        linestyle=linestyle,
+        color="black",
+        linewidth=2,
+        label=label,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
+    )
+
+    # Draw arrows on each segment
+    if show_arrow:
+        for i in range(len(x_coords) - 1):
+            x_start, x_end = x_coords[i], x_coords[i + 1]
+            y_start, y_end = y_coords[i], y_coords[i + 1]
+
+            # Calculate midpoint
+            mid_x = (x_start + x_end) / 2
+            mid_y = (y_start + y_end) / 2
+
+            # Calculate direction
+            dx = x_end - x_start
+            dy = y_end - y_start
+
+            # Draw arrow at midpoint
+            axes.annotate(
+                "",
+                xy=(mid_x + dx * 0.1, mid_y + dy * 0.1),
+                xytext=(mid_x, mid_y),
+                arrowprops=dict(arrowstyle="->", color="black", lw=1.5),
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_annotation,
+            )
+
+    # Draw dots at intermediate points (exclude first and last)
+    if show_dots and len(x_coords) > 2:
+        axes.plot(
+            x_coords[1:-1],
+            y_coords[1:-1],
+            "ko",
+            markersize=6,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_scatter,
+        )

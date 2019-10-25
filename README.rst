@@ -1699,6 +1699,9 @@ Munsell Colour
 Optical Phenomena - ``colour.phenomena``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Rayleigh Scattering
+*******************
+
 .. code-block:: python
 
     import colour
@@ -1712,6 +1715,36 @@ Optical Phenomena - ``colour.phenomena``
      [  3.62000000e+02   5.47344692e-01]
      ...
      [  7.80000000e+02   2.35336632e-02]]
+
+Thin Film Interference
+**********************
+
+.. code-block:: python
+
+    import colour
+    import numpy as np
+
+    # Soap film (water, n=1.33) interference
+    R, T = colour.thin_film_tmm(
+        n=[1.0, 1.33, 1.0],  # [air, film, air]
+        t=300,  # 300 nm thickness
+        wavelength=np.linspace(380, 780, 10),
+        theta=0,  # Normal incidence
+    )
+    print(R[..., 0])  # s-polarisation reflectance
+
+.. code-block:: text
+
+    [[[0.01800269]]
+     [[0.03176697]]
+     [[0.0452849 ]]
+     [[0.05812178]]
+     [[0.06940598]]
+     [[0.07834261]]
+     [[0.08446072]]
+     [[0.08770155]]
+     [[0.08842705]]
+     [[0.08732785]]]
 
 Light Quality - ``colour.quality``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2232,6 +2265,21 @@ Colour Temperature
     (<Figure size 640x640 with 1 Axes>, <Axes: title={'center': 'A, B, C Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer'}, xlabel='CIE u', ylabel='CIE v'>)
 
 ..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png
+
+Thin Film Interference
+**********************
+
+.. code-block:: python
+
+    from colour.plotting import *
+
+    plot_thin_film_iridescence([1.0, 1.33, 1.0])
+
+.. code-block:: text
+
+    (<Figure size 640x480 with 1 Axes>, <Axes: title={'center': 'Thin Film Iridescence (n=1.33, θ=0°)'}, xlabel='Thickness (nm)', ylabel=''>)
+
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Thin_Film_Iridescence.png
 
 User Guide
 ----------
