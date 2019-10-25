@@ -862,7 +862,8 @@ def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> floa
 
 
 def as_complex_array(
-    a: ArrayLike, dtype: Type[DTypeComplex] | None = None
+    a: ArrayLike,
+    dtype: Type[DTypeComplex] | None = None,  # pyright: ignore
 ) -> NDArrayComplex:
     """
     Convert the specified variable :math:`a` to :class:`numpy.ndarray` using
@@ -886,9 +887,9 @@ def as_complex_array(
     Examples
     --------
     >>> as_complex_array([1, 2, 3])
-    array([1.+0.j, 2.+0.j, 3.+0.j])
+    array([ 1.+0.j,  2.+0.j,  3.+0.j])
     >>> as_complex_array([1 + 2j, 3 + 4j])
-    array([1.+2.j, 3.+4.j])
+    array([ 1.+2.j,  3.+4.j])
     """
 
     dtype = optional(dtype, DTYPE_COMPLEX_DEFAULT)

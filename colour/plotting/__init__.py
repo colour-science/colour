@@ -56,6 +56,7 @@ from .common import (
     plot_image,
     plot_multi_colour_swatches,
     plot_multi_functions,
+    plot_ray,
     plot_single_colour_swatch,
     plot_single_function,
     render,
@@ -125,8 +126,15 @@ from .notation import (
     plot_single_munsell_value_function,
 )
 from .phenomena import (
+    plot_multi_layer_stack,
+    plot_multi_layer_thin_film,
+    plot_single_layer_thin_film,
     plot_single_sd_rayleigh_scattering,
     plot_the_blue_sky,
+    plot_thin_film_comparison,
+    plot_thin_film_iridescence,
+    plot_thin_film_reflectance_map,
+    plot_thin_film_spectrum,
 )
 from .quality import (
     plot_multi_sds_colour_quality_scales_bars,
@@ -173,6 +181,7 @@ __all__ += [
     "plot_image",
     "plot_multi_colour_swatches",
     "plot_multi_functions",
+    "plot_ray",
     "plot_single_colour_swatch",
     "plot_single_function",
     "render",
@@ -242,6 +251,13 @@ __all__ += [
 __all__ += [
     "plot_single_sd_rayleigh_scattering",
     "plot_the_blue_sky",
+    "plot_single_layer_thin_film",
+    "plot_multi_layer_thin_film",
+    "plot_thin_film_comparison",
+    "plot_thin_film_spectrum",
+    "plot_thin_film_iridescence",
+    "plot_thin_film_reflectance_map",
+    "plot_multi_layer_stack",
 ]
 __all__ += [
     "plot_multi_sds_colour_quality_scales_bars",

@@ -41,6 +41,7 @@ from colour.plotting import (
     plot_image,
     plot_multi_colour_swatches,
     plot_multi_functions,
+    plot_ray,
     plot_single_colour_swatch,
     plot_single_function,
     render,
@@ -78,6 +79,7 @@ __all__ = [
     "TestPlotSingleFunction",
     "TestPlotMultiFunctions",
     "TestPlotImage",
+    "TestPlotRay",
 ]
 
 
@@ -601,3 +603,29 @@ class TestPlotImage:
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+
+
+class TestPlotRay:
+    """
+    Define :func:`colour.plotting.common.plot_ray` definition unit tests
+    methods.
+    """
+
+    def test_plot_ray(self) -> None:
+        """Test :func:`colour.plotting.common.plot_ray` definition."""
+
+        figure, axes = plt.subplots()
+        x = np.array([0, 1, 2])
+        y = np.array([0, 1, 0])
+
+        # plot_ray returns None, so we test all variations and ensure no exceptions
+        plot_ray(
+            axes, x, y, style="solid", label="Ray", show_arrow=True, show_dots=True
+        )
+
+        plot_ray(axes, x, y, style="dashed", show_arrow=False, show_dots=False)
+
+        plt.close(figure)
+
+        # If we reach here without exceptions, the test passes
+        assert True
