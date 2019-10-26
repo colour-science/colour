@@ -146,7 +146,7 @@ def eotf_DCDM(XYZ_p, in_int=False):
     | ``XYZ``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-   \\* This definition has an input integer switch, thus the domain-range
+    \\* This definition has an input integer switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References

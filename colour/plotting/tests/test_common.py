@@ -539,6 +539,11 @@ class TestPlotImage(unittest.TestCase):
         path = os.path.join(colour.__path__[0], '..', 'docs', '_static',
                             'Logo_Medium_001.png')
 
+        # Distribution does not ship the documentation thus we are skipping
+        # this unit test if the image does not exist.
+        if not os.path.exists(path):  # noqa
+            return
+
         figure, axes = plot_image(read_image(path))
 
         self.assertIsInstance(figure, Figure)
