@@ -107,6 +107,7 @@ jobs:
         echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::%CI_SLACK_FAILURE_NOTIFICATION%
         echo ::set-env name=COVERALLS_REPO_TOKEN::%COVERALLS_REPO_TOKEN%
         echo ::set-env name=MPLBACKEND::%MPLBACKEND%
+      shell: cmd
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
@@ -117,6 +118,7 @@ jobs:
         python get-poetry.py --preview
         set PATH=%USERPROFILE%\.poetry\bin;%PATH%
         echo ::set-env name=PATH::%PATH%
+      shell: cmd
     - name: Install Package Dependencies
       run: |
         call poetry install --extras "optional plotting"
@@ -124,21 +126,26 @@ jobs:
         echo ::set-env name=CI_VIRTUAL_ENVIRONMENT::%CI_VIRTUAL_ENVIRONMENT%
         call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
         python -c "import imageio;imageio.plugins.freeimage.download()"
+      shell: cmd
     - name: Lint with flake8
       run: |
         call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
         flake8 %CI_PACKAGE% --count --show-source --statistics
+      shell: cmd
     - name: Test with nosetests
       run: |
         call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
         python -W ignore -m nose -v --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=%CI_PACKAGE% %CI_PACKAGE%
+      shell: cmd
     - name: Upload Coverage to coveralls.io
       if: matrix.python-version == '3.6' || matrix.python-version == '3.7'
       run: |
         call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
         IF "%COVERALLS_REPO_TOKEN%"=="" (echo "COVERALLS_REPO_TOKEN" secret is undefined!) ELSE (coveralls)
+      shell: cmd
     - name: Notify Slack
       if: always()
       run: |
         IF "${{ job.status }}"=="Success" (set CI_SLACK_NOTIFICATION=%CI_SLACK_SUCCESS_NOTIFICATION%) ELSE (set CI_SLACK_NOTIFICATION=%CI_SLACK_FAILURE_NOTIFICATION%)
         IF "%CI_SLACK_WEBHOOK%"=="" (echo "SLACK_WEBHOOK" secret is undefined!) ELSE (curl -k -d %CI_SLACK_NOTIFICATION% -X POST %CI_SLACK_WEBHOOK%)
+      shell: cmd
