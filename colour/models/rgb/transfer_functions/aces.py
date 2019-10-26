@@ -253,7 +253,7 @@ def log_decoding_ACESproxy(ACESproxy,
     | ``lin_AP1``    | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-   \\* This definition has an input integer switch, thus the domain-range
+    \\* This definition has an input integer switch, thus the domain-range
     scale information is only given for the floating point mode.
 
     References
