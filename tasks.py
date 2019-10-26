@@ -394,7 +394,7 @@ def virtualise(ctx, tests=True):
             ctx.run('python -c "import imageio;'
                     'imageio.plugins.freeimage.download()"')
             if tests:
-                ctx.run('poetry run nosetests')
+                ctx.run('poetry run nosetests', env={'MPLBACKEND': 'AGG'})
 
 
 @task
