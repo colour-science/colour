@@ -4,10 +4,10 @@ ITU-R BT.601-7
 ==============
 
 Defines *ITU-R BT.601-7* opto-electrical transfer function (OETF / OECF) and
-its reverse:
+its inverse:
 
 -   :func:`colour.models.oetf_BT601`
--   :func:`colour.models.oetf_reverse_BT601`
+-   :func:`colour.models.oetf_inverse_BT601`
 
 See Also
 --------
@@ -40,7 +40,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_BT601', 'oetf_reverse_BT601']
+__all__ = ['oetf_BT601', 'oetf_inverse_BT601']
 
 
 def oetf_BT601(L):
@@ -90,9 +90,9 @@ def oetf_BT601(L):
     return as_float(from_range_1(E))
 
 
-def oetf_reverse_BT601(E):
+def oetf_inverse_BT601(E):
     """
-    Defines *Recommendation ITU-R BT.601-7* reverse opto-electronic transfer
+    Defines *Recommendation ITU-R BT.601-7* inverse opto-electronic transfer
     function (OETF / OECF).
 
     Parameters
@@ -126,7 +126,7 @@ def oetf_reverse_BT601(E):
 
     Examples
     --------
-    >>> oetf_reverse_BT601(0.409007728864150)  # doctest: +ELLIPSIS
+    >>> oetf_inverse_BT601(0.409007728864150)  # doctest: +ELLIPSIS
     0.1...
     """
 

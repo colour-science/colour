@@ -2,9 +2,11 @@
 
 from __future__ import absolute_import
 
-from .dataset import *  # noqa
-from . import dataset
-from .prediction import (corresponding_chromaticities_prediction_CIE1994,
+from .datasets import *  # noqa
+from . import datasets
+from .prediction import (CorrespondingColourDataset,
+                         CorrespondingChromaticitiesPrediction,
+                         corresponding_chromaticities_prediction_CIE1994,
                          corresponding_chromaticities_prediction_CMCCAT2000,
                          corresponding_chromaticities_prediction_Fairchild1990,
                          corresponding_chromaticities_prediction_VonKries,
@@ -12,8 +14,9 @@ from .prediction import (corresponding_chromaticities_prediction_CIE1994,
                          corresponding_chromaticities_prediction)
 
 __all__ = []
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += [
+    'CorrespondingColourDataset', 'CorrespondingChromaticitiesPrediction',
     'corresponding_chromaticities_prediction_CIE1994',
     'corresponding_chromaticities_prediction_CMCCAT2000',
     'corresponding_chromaticities_prediction_Fairchild1990',

@@ -110,6 +110,10 @@ class TestAsNumeric(unittest.TestCase):
 
         self.assertIsInstance(as_numeric(1, int), int)
 
+        self.assertListEqual(as_numeric(['John', 'Doe']), ['John', 'Doe'])
+
+        self.assertEqual(as_numeric('John Doe'), 'John Doe')
+
 
 class TestAsInt(unittest.TestCase):
     """

@@ -65,7 +65,7 @@ class TestXYZ_to_sRGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
-                apply_encoding_cctf=False),
+                apply_cctf_encoding=False),
             np.array([0.45620520, 0.03081070, 0.04091953]),
             decimal=7)
 
@@ -115,7 +115,7 @@ class TestsRGB_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(
                 np.array([0.45620520, 0.03081070, 0.04091953]),
-                apply_decoding_cctf=False),
+                apply_cctf_decoding=False),
             np.array([0.20654291, 0.12197943, 0.05137141]),
             decimal=7)
 

@@ -1,0 +1,144 @@
+name: Continuous Integration
+
+on: [push, pull_request]
+
+jobs:
+  unix-build:
+    name: Unix Build
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macOS-10.14]
+        python-version: [2.7, 3.6, 3.7]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Environment Variables
+      run: |
+        CI_PYTHON_VERSION=${{ matrix.python-version }}
+        CI_PACKAGE=colour
+        CI_SHA=${{ github.sha }}
+        CI_SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}
+        CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *${CI_SHA:0:7}* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
+        CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_SUCCESS_NOTIFICATION/4CAF50/F44336}"
+        CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_FAILURE_NOTIFICATION/succeeded/failed}"
+        COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
+        MPLBACKEND=AGG
+        echo ::set-env name=CI_PYTHON_VERSION::$CI_PYTHON_VERSION
+        echo ::set-env name=CI_PACKAGE::$CI_PACKAGE
+        echo ::set-env name=CI_SHA::$CI_SHA
+        echo ::set-env name=CI_SLACK_WEBHOOK::$CI_SLACK_WEBHOOK
+        echo ::set-env name=CI_SLACK_SUCCESS_NOTIFICATION::$CI_SLACK_SUCCESS_NOTIFICATION
+        echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::$CI_SLACK_FAILURE_NOTIFICATION
+        echo ::set-env name=COVERALLS_REPO_TOKEN::$COVERALLS_REPO_TOKEN
+        echo ::set-env name=MPLBACKEND::$MPLBACKEND
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Ubuntu - Update OS & Install APT Dependencies
+      if: matrix.os == 'ubuntu-18.04'
+      run: |
+        sudo apt-get update
+        sudo apt-get --yes install libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
+    - name: Install Poetry
+      run: |
+        curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
+        python get-poetry.py --preview
+        PATH=$HOME/.poetry/bin:$PATH
+        echo ::set-env name=PATH::$PATH
+    - name: Install Package Dependencies
+      run: |
+        poetry install --extras "optional plotting"
+        poetry env use $CI_PYTHON_VERSION
+        source $(poetry env info -p)/bin/activate
+        python -c "import imageio;imageio.plugins.freeimage.download()"
+    - name: Ubuntu - Install OpenImageIO
+      if: matrix.os == 'ubuntu-18.04' && matrix.python-version == '3.6'
+      run: |
+        curl -L https://github.com/colour-science/artifacts/suites/233020849/artifacts/44967 -o OpenImageIO-Release-2.0.10.zip
+        unzip OpenImageIO-Release-2.0.10.zip
+        sudo cp OpenImageIO-Release-2.0.10/linux64/bin/* /usr/bin/
+        sudo cp -r OpenImageIO-Release-2.0.10/linux64/lib/* /usr/lib/
+        sudo rm -rf /usr/lib/python3.6
+        cp OpenImageIO-Release-2.0.10/linux64/lib/python3.6/site-packages/OpenImageIO.so $(poetry env info -p)/lib/python3.6/site-packages/
+    - name: Lint with flake8
+      run: |
+        source $(poetry env info -p)/bin/activate
+        flake8 $CI_PACKAGE --count --show-source --statistics
+    - name: Test with nosetests
+      run: |
+        source $(poetry env info -p)/bin/activate
+        python -W ignore -m nose -v --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=$CI_PACKAGE $CI_PACKAGE
+    - name: Upload Coverage to coveralls.io
+      if: matrix.python-version == '3.6' || matrix.python-version == '3.7'
+      run: |
+        source $(poetry env info -p)/bin/activate
+        if [ -z "$COVERALLS_REPO_TOKEN" ]; then echo \"COVERALLS_REPO_TOKEN\" secret is undefined!; else coveralls; fi
+    - name: Notify Slack
+      if: always()
+      run: |
+        if [ "${{ job.status }}" == "Success" ]; then CI_SLACK_NOTIFICATION="$CI_SLACK_SUCCESS_NOTIFICATION"; else CI_SLACK_NOTIFICATION="$CI_SLACK_FAILURE_NOTIFICATION"; fi
+        if [ -z "$CI_SLACK_WEBHOOK" ]; then echo \"SLACK_WEBHOOK\" secret is undefined!; else curl -k -d "$CI_SLACK_NOTIFICATION" -X POST $CI_SLACK_WEBHOOK; fi
+  windows-build:
+    name: Windows Build
+    strategy:
+      matrix:
+        os: [windows-2019]
+        python-version: [2.7, 3.6, 3.7]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Environment Variables
+      run: |
+        set CI_PYTHON_VERSION=${{ matrix.python-version }}
+        set CI_PACKAGE=colour
+        set CI_SHA=${{ github.sha }}
+        set CI_SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}
+        set CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *"%CI_SHA:~0,7%"* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
+        set CI_SLACK_FAILURE_NOTIFICATION=%CI_SLACK_SUCCESS_NOTIFICATION:4CAF50=F44336%
+        set CI_SLACK_FAILURE_NOTIFICATION=%CI_SLACK_FAILURE_NOTIFICATION:succeeded=failed%
+        set COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
+        set MPLBACKEND=AGG
+        echo ::set-env name=CI_PYTHON_VERSION::%CI_PYTHON_VERSION%
+        echo ::set-env name=CI_PACKAGE::%CI_PACKAGE%
+        echo ::set-env name=CI_SHA::%CI_SHA%
+        echo ::set-env name=CI_SLACK_WEBHOOK::%CI_SLACK_WEBHOOK%
+        echo ::set-env name=CI_SLACK_SUCCESS_NOTIFICATION::%CI_SLACK_SUCCESS_NOTIFICATION%
+        echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::%CI_SLACK_FAILURE_NOTIFICATION%
+        echo ::set-env name=COVERALLS_REPO_TOKEN::%COVERALLS_REPO_TOKEN%
+        echo ::set-env name=MPLBACKEND::%MPLBACKEND%
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Poetry
+      run: |
+        curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
+        python get-poetry.py --preview
+        set PATH=%USERPROFILE%\.poetry\bin;%PATH%
+        echo ::set-env name=PATH::%PATH%
+    - name: Install Package Dependencies
+      run: |
+        call poetry install --extras "optional plotting"
+        FOR /F %%a IN ('poetry env info -p') DO SET CI_VIRTUAL_ENVIRONMENT=%%a
+        echo ::set-env name=CI_VIRTUAL_ENVIRONMENT::%CI_VIRTUAL_ENVIRONMENT%
+        call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
+        python -c "import imageio;imageio.plugins.freeimage.download()"
+    - name: Lint with flake8
+      run: |
+        call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
+        flake8 %CI_PACKAGE% --count --show-source --statistics
+    - name: Test with nosetests
+      run: |
+        call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
+        python -W ignore -m nose -v --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=%CI_PACKAGE% %CI_PACKAGE%
+    - name: Upload Coverage to coveralls.io
+      if: matrix.python-version == '3.6' || matrix.python-version == '3.7'
+      run: |
+        call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
+        IF "%COVERALLS_REPO_TOKEN%"=="" (echo "COVERALLS_REPO_TOKEN" secret is undefined!) ELSE (coveralls)
+    - name: Notify Slack
+      if: always()
+      run: |
+        IF "${{ job.status }}"=="Success" (set CI_SLACK_NOTIFICATION=%CI_SLACK_SUCCESS_NOTIFICATION%) ELSE (set CI_SLACK_NOTIFICATION=%CI_SLACK_FAILURE_NOTIFICATION%)
+        IF "%CI_SLACK_WEBHOOK%"=="" (echo "SLACK_WEBHOOK" secret is undefined!) ELSE (curl -k -d %CI_SLACK_NOTIFICATION% -X POST %CI_SLACK_WEBHOOK%)

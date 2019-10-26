@@ -10,7 +10,7 @@ import unittest
 
 from colour.colorimetry import (
     luminance_Newhall1943, intermediate_luminance_function_CIE1976,
-    luminance_CIE1976, luminance_ASTMD153508, luminance_Fairchild2010,
+    luminance_CIE1976, luminance_ASTMD1535, luminance_Fairchild2010,
     luminance_Fairchild2011)
 from colour.colorimetry.luminance import luminance
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -23,7 +23,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestLuminanceNewhall1943', 'TestLuminanceASTMD153508',
+    'TestLuminanceNewhall1943', 'TestLuminanceASTMD1535',
     'TestIntermediateLuminanceFunctionCIE1976', 'TestLuminanceCIE1976',
     'TestLuminanceFairchild2010', 'TestLuminanceFairchild2011', 'TestLuminance'
 ]
@@ -98,72 +98,72 @@ class TestLuminanceNewhall1943(unittest.TestCase):
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLuminanceASTMD153508(unittest.TestCase):
+class TestLuminanceASTMD1535(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
+    Defines :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
     definition unit tests methods.
     """
 
-    def test_luminance_ASTMD153508(self):
+    def test_luminance_ASTMD1535(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
+        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition.
         """
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(4.08244375), 12.236342675366036, places=7)
+            luminance_ASTMD1535(4.08244375), 12.236342675366036, places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(5.39132685), 22.893999867280378, places=7)
+            luminance_ASTMD1535(5.39132685), 22.893999867280378, places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(2.97619312), 6.2902253509053132, places=7)
+            luminance_ASTMD1535(2.97619312), 6.2902253509053132, places=7)
 
-    def test_n_dimensional_luminance_ASTMD153508(self):
+    def test_n_dimensional_luminance_ASTMD1535(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
+        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition n-dimensional arrays support.
         """
 
         V = 4.08244375
-        Y = luminance_ASTMD153508(V)
+        Y = luminance_ASTMD1535(V)
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(luminance_ASTMD153508(V), Y, decimal=7)
+        np.testing.assert_almost_equal(luminance_ASTMD1535(V), Y, decimal=7)
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(luminance_ASTMD153508(V), Y, decimal=7)
+        np.testing.assert_almost_equal(luminance_ASTMD1535(V), Y, decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(luminance_ASTMD153508(V), Y, decimal=7)
+        np.testing.assert_almost_equal(luminance_ASTMD1535(V), Y, decimal=7)
 
-    def test_domain_range_scale_luminance_ASTMD153508(self):
+    def test_domain_range_scale_luminance_ASTMD1535(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
+        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition domain and range scale support.
         """
 
-        Y = luminance_ASTMD153508(4.08244375)
+        Y = luminance_ASTMD1535(4.08244375)
 
         d_r = (('reference', 1, 1), (1, 0.1, 0.01), (100, 10, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    luminance_ASTMD153508(4.08244375 * factor_a),
+                    luminance_ASTMD1535(4.08244375 * factor_a),
                     Y * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_luminance_ASTMD153508(self):
+    def test_nan_luminance_ASTMD1535(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
+        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition nan support.
         """
 
-        luminance_ASTMD153508(
+        luminance_ASTMD1535(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
@@ -240,7 +240,7 @@ support.
     def test_nan_intermediate_luminance_function_CIE1976(self):
         """
         Tests :func:`colour.colorimetry.luminance.\
-    intermediate_luminance_function_CIE1976` definition nan support.
+intermediate_luminance_function_CIE1976` definition nan support.
         """
 
         intermediate_luminance_function_CIE1976(
@@ -532,7 +532,7 @@ class TestLuminance(unittest.TestCase):
         domain and range scale support.
         """
 
-        m = ('Newhall 1943', 'ASTM D1535-08', 'CIE 1976', 'Fairchild 2010',
+        m = ('Newhall 1943', 'ASTM D1535', 'CIE 1976', 'Fairchild 2010',
              'Fairchild 2011')
         v = [luminance(41.527875844653451, method, Y_n=100) for method in m]
 

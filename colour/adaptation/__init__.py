@@ -23,22 +23,27 @@ References
 
 from __future__ import absolute_import
 
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
+from colour.utilities.documentation import is_documentation_building
+
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               get_domain_range_scale, as_float_array)
 
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .vonkries import (chromatic_adaptation_matrix_VonKries,
                        chromatic_adaptation_VonKries)
 from .fairchild1990 import chromatic_adaptation_Fairchild1990
 from .cmccat2000 import (
     CMCCAT2000_InductionFactors, CMCCAT2000_VIEWING_CONDITIONS,
     chromatic_adaptation_forward_CMCCAT2000,
-    chromatic_adaptation_reverse_CMCCAT2000, chromatic_adaptation_CMCCAT2000)
+    chromatic_adaptation_inverse_CMCCAT2000, chromatic_adaptation_CMCCAT2000)
 from .cie1994 import chromatic_adaptation_CIE1994
 
 __all__ = []
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += [
     'chromatic_adaptation_matrix_VonKries', 'chromatic_adaptation_VonKries'
 ]
@@ -46,7 +51,7 @@ __all__ += ['chromatic_adaptation_Fairchild1990']
 __all__ += [
     'CMCCAT2000_InductionFactors', 'CMCCAT2000_VIEWING_CONDITIONS',
     'chromatic_adaptation_forward_CMCCAT2000',
-    'chromatic_adaptation_reverse_CMCCAT2000',
+    'chromatic_adaptation_inverse_CMCCAT2000',
     'chromatic_adaptation_CMCCAT2000'
 ]
 __all__ += ['chromatic_adaptation_CIE1994']
@@ -111,7 +116,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
         domain [0.18, 1] in **'Reference'** domain-range scale.
     direction : unicode, optional
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
-        **{'Forward', 'Reverse'}**,
+        **{'Forward', 'Inverse'}**,
         Chromatic adaptation direction.
     discount_illuminant : bool, optional
         {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
@@ -239,3 +244,31 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
 
 
 __all__ += ['CHROMATIC_ADAPTATION_METHODS', 'chromatic_adaptation']
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class adaptation(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(adaptation, self).__getattr__(attribute)
+
+
+# v0.3.14
+API_CHANGES = {
+    'ObjectRenamed': [[
+        'colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000',
+        'colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000',
+    ], ]
+}
+"""
+Defines *colour.adaptation* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+if not is_documentation_building():
+    sys.modules['colour.adaptation'] = adaptation(
+        sys.modules['colour.adaptation'], build_API_changes(API_CHANGES))
+
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

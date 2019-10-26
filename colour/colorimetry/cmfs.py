@@ -3,8 +3,8 @@
 Colour Matching Functions
 =========================
 
-Defines colour matching functions classes for the dataset from
-:mod:`colour.colorimetry.dataset.cmfs` module:
+Defines colour matching functions classes for the datasets from
+:mod:`colour.colorimetry.datasets.cmfs` module:
 
 -   :class:`colour.colorimetry.LMS_ConeFundamentals`: Implements support for
     the *Stockman and Sharpe* *LMS* cone fundamentals colour matching
@@ -23,7 +23,7 @@ blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import MultiSpectralDistribution
+from colour.colorimetry import MultiSpectralDistributions
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -38,16 +38,16 @@ __all__ = [
 ]
 
 
-class LMS_ConeFundamentals(MultiSpectralDistribution):
+class LMS_ConeFundamentals(MultiSpectralDistributions):
     """
     Implements support for the Stockman and Sharpe *LMS* cone fundamentals
     colour matching functions.
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignal or \
-MultiSpectralDistribution or array_like or dict_like, optional
-        Data to be stored in the multi-spectral distribution.
+    data : Series or Dataframe or Signal or MultiSignals or \
+MultiSpectralDistributions or array_like or dict_like, optional
+        Data to be stored in the multi-spectral distributions.
     domain : array_like, optional
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
         with. If both ``data`` and ``domain`` arguments are defined, the latter
@@ -61,7 +61,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
     Other Parameters
     ----------------
     name : unicode, optional
-       Multi-spectral distribution name.
+       Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
@@ -75,7 +75,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
-        Multi-spectral distribution labels for figures, default to
+        Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` attribute value.
     """
 
@@ -88,15 +88,15 @@ MultiSpectralDistribution or array_like or dict_like, optional
             **kwargs)
 
 
-class RGB_ColourMatchingFunctions(MultiSpectralDistribution):
+class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
     """
     Implements support for the *CIE RGB* colour matching functions.
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignal or \
-MultiSpectralDistribution or array_like or dict_like, optional
-        Data to be stored in the multi-spectral distribution.
+    data : Series or Dataframe or Signal or MultiSignals or \
+MultiSpectralDistributions or array_like or dict_like, optional
+        Data to be stored in the multi-spectral distributions.
     domain : array_like, optional
         Values to initialise the multiple :class:`colour.SpectralDistribution`
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
@@ -110,7 +110,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
     Other Parameters
     ----------------
     name : unicode, optional
-       Multi-spectral distribution name.
+       Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
@@ -124,7 +124,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
-        Multi-spectral distribution labels for figures, default to
+        Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.RGB_ColourMatchingFunctions.labels` attribute
         value.
     """
@@ -138,16 +138,16 @@ MultiSpectralDistribution or array_like or dict_like, optional
             **kwargs)
 
 
-class XYZ_ColourMatchingFunctions(MultiSpectralDistribution):
+class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
     """
     Implements support for the *CIE* Standard Observers *XYZ* colour matching
     functions.
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignal or \
-MultiSpectralDistribution or array_like or dict_like, optional
-        Data to be stored in the multi-spectral distribution.
+    data : Series or Dataframe or Signal or MultiSignals or \
+MultiSpectralDistributions or array_like or dict_like, optional
+        Data to be stored in the multi-spectral distributions.
     domain : array_like, optional
         Values to initialise the multiple :class:`colour.SpectralDistribution`
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
@@ -161,7 +161,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
     Other Parameters
     ----------------
     name : unicode, optional
-       Multi-spectral distribution name.
+       Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
@@ -175,7 +175,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
-        Multi-spectral distribution labels for figures, default to
+        Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.XYZ_ColourMatchingFunctions.labels` attribute
         value.
     """

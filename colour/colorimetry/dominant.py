@@ -52,29 +52,29 @@ __all__ = [
 ]
 
 
-def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
+def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
     """
     Returns the coordinates and closest spectral locus wavelength index to the
     point where the line defined by the given achromatic stimulus :math:`xy_n`
-    to colour stimulus :math:`xy_n` *xy* chromaticity coordinates intersects
-    the spectral locus.
+    to colour stimulus :math:`xy_n` *CIE xy* chromaticity coordinates
+    intersects the spectral locus.
 
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     xy_s : array_like
-        Spectral locus *xy* chromaticity coordinates.
-    reverse : bool, optional
+        Spectral locus *CIE xy* chromaticity coordinates.
+    inverse : bool, optional
         The intersection will be computed using the colour stimulus :math:`xy`
-        to achromatic stimulus :math:`xy_n` reverse direction.
+        to achromatic stimulus :math:`xy_n` inverse direction.
 
     Returns
     -------
     tuple
-        Closest wavelength index, intersection point *xy* chromaticity
+        Closest wavelength index, intersection point *CIE xy* chromaticity
         coordinates.
 
     Raises
@@ -99,7 +99,7 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
     xy_s = as_float_array(xy_s)
 
     xy_e = (extend_line_segment(xy, xy_n)
-            if reverse else extend_line_segment(xy_n, xy))
+            if inverse else extend_line_segment(xy_n, xy))
 
     # Closing horse-shoe shape to handle line of purples intersections.
     xy_s = np.vstack([xy_s, xy_s[0, :]])
@@ -125,7 +125,7 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
 def dominant_wavelength(xy,
                         xy_n,
                         cmfs=CMFS['CIE 1931 2 Degree Standard Observer'],
-                        reverse=False):
+                        inverse=False):
     """
     Returns the *dominant wavelength* :math:`\\lambda_d` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
@@ -144,20 +144,21 @@ def dominant_wavelength(xy,
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
-    reverse : bool, optional
-        Reverse the computation direction to retrieve the
+    inverse : bool, optional
+        Inverse the computation direction to retrieve the
         *complementary wavelength*.
 
     Returns
     -------
     tuple
-        *Dominant wavelength*, first intersection point *xy* chromaticity
-        coordinates, second intersection point *xy* chromaticity coordinates.
+        *Dominant wavelength*, first intersection point *CIE xy* chromaticity
+        coordinates, second intersection point *CIE xy* chromaticity
+        coordinates.
 
     References
     ----------
@@ -191,19 +192,19 @@ def dominant_wavelength(xy,
 
     xy_s = XYZ_to_xy(cmfs.values)
 
-    i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse)
+    i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse)
     xy_cwl = xy_wl
     wl = cmfs.wavelengths[i_wl]
 
     xy_e = (extend_line_segment(xy, xy_n)
-            if reverse else extend_line_segment(xy_n, xy))
+            if inverse else extend_line_segment(xy_n, xy))
     intersect = intersect_line_segments(
         np.concatenate((xy_n, xy_e), -1), np.hstack([xy_s[0],
                                                      xy_s[-1]])).intersect
     intersect = np.reshape(intersect, wl.shape)
 
     i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(
-        xy, xy_n, xy_s, not reverse)
+        xy, xy_n, xy_s, not inverse)
     wl_r = -cmfs.wavelengths[i_wl_r]
 
     wl = np.where(intersect, wl_r, wl)
@@ -233,17 +234,18 @@ def complementary_wavelength(xy,
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
     Returns
     -------
     tuple
-        *Complementary wavelength*, first intersection point *xy* chromaticity
-        coordinates, second intersection point *xy* chromaticity coordinates.
+        *Complementary wavelength*, first intersection point *CIE xy*
+        chromaticity coordinates, second intersection point *CIE xy*
+        chromaticity coordinates.
 
     References
     ----------
@@ -285,9 +287,9 @@ def excitation_purity(xy,
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
@@ -326,9 +328,9 @@ def colorimetric_purity(xy,
     Parameters
     ----------
     xy : array_like
-        Colour stimulus *xy* chromaticity coordinates.
+        Colour stimulus *CIE xy* chromaticity coordinates.
     xy_n : array_like
-        Achromatic stimulus *xy* chromaticity coordinates.
+        Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 

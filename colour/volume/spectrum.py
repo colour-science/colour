@@ -206,8 +206,8 @@ def XYZ_outer_surface(
             values.append(
                 NearestNeighbourInterpolator(wavelengths, wave)(domain))
 
-        XYZ = multi_sds_to_XYZ_integration(values, DEFAULT_SPECTRAL_SHAPE,
-                                           cmfs, illuminant)
+        XYZ = multi_sds_to_XYZ_integration(
+            values, cmfs, illuminant, shape=DEFAULT_SPECTRAL_SHAPE)
 
         XYZ = XYZ / np.max(XYZ[-1, 1])
 

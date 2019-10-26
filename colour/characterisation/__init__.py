@@ -4,8 +4,8 @@ from __future__ import absolute_import
 
 from .cameras import RGB_SpectralSensitivities
 from .displays import RGB_DisplayPrimaries
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .correction import (
     augmented_matrix_Cheung2004, polynomial_expansion_Finlayson2015,
     polynomial_expansion_Vandermonde, POLYNOMIAL_EXPANSION_METHODS,
@@ -19,7 +19,7 @@ from .correction import (
 __all__ = []
 __all__ += ['RGB_SpectralSensitivities']
 __all__ += ['RGB_DisplayPrimaries']
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += [
     'augmented_matrix_Cheung2004', 'polynomial_expansion_Finlayson2015',
     'polynomial_expansion_Vandermonde', 'POLYNOMIAL_EXPANSION_METHODS',

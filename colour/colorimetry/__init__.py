@@ -4,16 +4,17 @@ from __future__ import absolute_import
 
 import sys
 
-from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
-                       SpectralDistribution, MultiSpectralDistribution)
+                       SpectralDistribution, MultiSpectralDistributions,
+                       sds_and_multi_sds_to_sds)
 from .blackbody import sd_blackbody, blackbody_spectral_radiance, planck_law
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .generation import sd_constant, sd_zeros, sd_ones
 from .generation import SD_GAUSSIAN_METHODS
 from .generation import sd_gaussian, sd_gaussian_normal, sd_gaussian_fwhm
@@ -24,11 +25,11 @@ from .generation import sd_multi_leds, sd_multi_leds_Ohno2005
 from .tristimulus import SD_TO_XYZ_METHODS, MULTI_SD_TO_XYZ_METHODS
 from .tristimulus import sd_to_XYZ, multi_sds_to_XYZ
 from .tristimulus import (
-    ASTME30815_PRACTISE_SHAPE, lagrange_coefficients_ASTME202211,
-    tristimulus_weighting_factors_ASTME202211,
-    adjust_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_integration,
-    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_ASTME30815,
-    multi_sds_to_XYZ_integration, wavelength_to_XYZ)
+    ASTME308_PRACTISE_SHAPE, lagrange_coefficients_ASTME2022,
+    tristimulus_weighting_factors_ASTME2022,
+    adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
+    multi_sds_to_XYZ_integration, multi_sds_to_XYZ_ASTME308, wavelength_to_XYZ)
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_Stearns1988
@@ -44,7 +45,7 @@ from .lightness import (lightness_Glasser1958, lightness_Wyszecki1963,
 from .lightness import intermediate_lightness_function_CIE1976
 from .luminance import LUMINANCE_METHODS
 from .luminance import luminance
-from .luminance import (luminance_Newhall1943, luminance_ASTMD153508,
+from .luminance import (luminance_Newhall1943, luminance_ASTMD1535,
                         luminance_CIE1976, luminance_Fairchild2010,
                         luminance_Fairchild2011)
 from .luminance import intermediate_luminance_function_CIE1976
@@ -67,14 +68,14 @@ from .yellowness import yellowness_ASTMD1925, yellowness_ASTME313
 
 __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
-    'MultiSpectralDistribution'
+    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds'
 ]
 __all__ += ['sd_blackbody', 'blackbody_spectral_radiance', 'planck_law']
 __all__ += [
     'LMS_ConeFundamentals', 'RGB_ColourMatchingFunctions',
     'XYZ_ColourMatchingFunctions'
 ]
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += ['sd_constant', 'sd_zeros', 'sd_ones']
 __all__ += ['SD_GAUSSIAN_METHODS']
 __all__ += ['sd_gaussian', 'sd_gaussian_normal', 'sd_gaussian_fwhm']
@@ -85,11 +86,12 @@ __all__ += ['sd_multi_leds', 'sd_multi_leds_Ohno2005']
 __all__ += ['SD_TO_XYZ_METHODS', 'MULTI_SD_TO_XYZ_METHODS']
 __all__ += ['sd_to_XYZ', 'multi_sds_to_XYZ']
 __all__ += [
-    'ASTME30815_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
-    'tristimulus_weighting_factors_ASTME202211',
-    'adjust_tristimulus_weighting_factors_ASTME30815', 'sd_to_XYZ_integration',
-    'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-    'sd_to_XYZ_ASTME30815', 'multi_sds_to_XYZ_integration', 'wavelength_to_XYZ'
+    'ASTME308_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME2022',
+    'tristimulus_weighting_factors_ASTME2022',
+    'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
+    'sd_to_XYZ_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_ASTME308',
+    'multi_sds_to_XYZ_integration', 'multi_sds_to_XYZ_ASTME308',
+    'wavelength_to_XYZ'
 ]
 __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']
@@ -111,7 +113,7 @@ __all__ += ['intermediate_lightness_function_CIE1976']
 __all__ += ['LUMINANCE_METHODS']
 __all__ += ['luminance']
 __all__ += [
-    'luminance_Newhall1943', 'luminance_ASTMD153508', 'luminance_CIE1976',
+    'luminance_Newhall1943', 'luminance_ASTMD1535', 'luminance_CIE1976',
     'luminance_Fairchild2010', 'luminance_Fairchild2011'
 ]
 __all__ += ['intermediate_luminance_function_CIE1976']
@@ -146,10 +148,10 @@ class colorimetry(ModuleAPI):
 
 # v0.3.12
 API_CHANGES = {
-    'Renamed': [
+    'ObjectRenamed': [
         [
             'colour.colorimetry.spectral_to_XYZ_ASTME30815',
-            'colour.colorimetry.sd_to_XYZ_ASTME30815',
+            'colour.colorimetry.sd_to_XYZ_ASTME308',
         ],
         [
             'colour.colorimetry.spectral_to_XYZ_integration',
@@ -157,39 +159,46 @@ API_CHANGES = {
         ],
         [
             'colour.colorimetry.spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',  # noqa
-            'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',  # noqa
+            'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME308',  # noqa
         ],
     ]
 }
 """
-Defines *colour.plotting* sub-package API changes.
+Defines *colour.colorimetry* sub-package API changes.
 
 API_CHANGES : dict
 """
 
-
-def _setup_api_changes():
-    """
-    Setups *Colour* API changes.
-    """
-
-    global API_CHANGES
-
-    for renamed in API_CHANGES['Renamed']:
-        name, access = renamed
-        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
-    API_CHANGES.pop('Renamed')
-
+# v0.3.14
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.colorimetry.adjust_tristimulus_weighting_factors_ASTME30815',  # noqa
+        'colour.colorimetry.adjust_tristimulus_weighting_factors_ASTME308',  # noqa
+    ],
+    [
+        'colour.colorimetry.lagrange_coefficients_ASTME202211',
+        'colour.colorimetry.lagrange_coefficients_ASTME2022',
+    ],
+    [
+        'colour.colorimetry.luminance_ASTMD153508',
+        'colour.colorimetry.luminance_ASTMD1535',
+    ],
+    [
+        'colour.colorimetry.sd_to_XYZ_ASTME30815',
+        'colour.colorimetry.sd_to_XYZ_ASTME308',
+    ],
+    [
+        'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',  # noqa
+        'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME308',  # noqa
+    ],
+    [
+        'colour.colorimetry.tristimulus_weighting_factors_ASTME202211',
+        'colour.colorimetry.tristimulus_weighting_factors_ASTME2022',
+    ],
+]
 
 if not is_documentation_building():
-    _setup_api_changes()
-
-    del ModuleAPI
-    del Renamed
-    del is_documentation_building
-    del _setup_api_changes
-
     sys.modules['colour.colorimetry'] = colorimetry(
-        sys.modules['colour.colorimetry'], API_CHANGES)
+        sys.modules['colour.colorimetry'], build_API_changes(API_CHANGES))
 
-    del sys
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

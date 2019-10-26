@@ -16,7 +16,7 @@ RESOURCES_DIRECTORY = os.path.join(
 
 colour_style()
 
-ISHIHARA_CBT_3_IMAGE = colour.oetf_reverse(
+ISHIHARA_CBT_3_IMAGE = colour.cctf_decoding(
     colour.read_image(
         os.path.join(RESOURCES_DIRECTORY,
                      'Ishihara_Colour_Blindness_Test_Plate_3.png')),
@@ -25,8 +25,12 @@ ISHIHARA_CBT_3_IMAGE = colour.oetf_reverse(
 message_box('Colour Blindness Plots')
 
 message_box('Displaying "Ishihara Colour Blindness Test - Plate 3".')
-plot_image(colour.oetf(ISHIHARA_CBT_3_IMAGE),
-           text_parameters={'text': 'Normal Trichromat', 'color': 'black'})
+plot_image(
+    colour.cctf_encoding(ISHIHARA_CBT_3_IMAGE),
+    text_parameters={
+        'text': 'Normal Trichromat',
+        'color': 'black'
+    })
 
 print('\n')
 
@@ -34,8 +38,13 @@ message_box('Simulating average "Protanomaly" on '
             '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
             'model and pre-computed matrix.')
 plot_cvd_simulation_Machado2009(
-    ISHIHARA_CBT_3_IMAGE, 'Protanomaly', 0.5,
-    text_parameters={'text': 'Protanomaly - 50%', 'color': 'black'})
+    ISHIHARA_CBT_3_IMAGE,
+    'Protanomaly',
+    0.5,
+    text_parameters={
+        'text': 'Protanomaly - 50%',
+        'color': 'black'
+    })
 
 print('\n')
 
@@ -48,8 +57,12 @@ message_box('Simulating average "Protanomaly" on '
             'model using "Stockman & Sharpe 2 Degree Cone Fundamentals" and '
             '"Typical CRT Brainard 1997" "RGB" display primaries.')
 plot_cvd_simulation_Machado2009(
-    ISHIHARA_CBT_3_IMAGE, M_a=M_a,
-    text_parameters={'text': 'Average Protanomaly - 10nm', 'color': 'black'})
+    ISHIHARA_CBT_3_IMAGE,
+    M_a=M_a,
+    text_parameters={
+        'text': 'Average Protanomaly - 10nm',
+        'color': 'black'
+    })
 
 print('\n')
 
@@ -62,5 +75,9 @@ message_box('Simulating "Protanopia" on '
             'model using "Stockman & Sharpe 2 Degree Cone Fundamentals" and '
             '"Typical CRT Brainard 1997" "RGB" display primaries.')
 plot_cvd_simulation_Machado2009(
-    ISHIHARA_CBT_3_IMAGE, M_a=M_a,
-    text_parameters={'text': 'Protanopia - 20nm', 'color': 'black'})
+    ISHIHARA_CBT_3_IMAGE,
+    M_a=M_a,
+    text_parameters={
+        'text': 'Protanopia - 20nm',
+        'color': 'black'
+    })

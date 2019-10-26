@@ -25,7 +25,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestCAM16ColourAppearanceModelForward',
-    'TestCAM16ColourAppearanceModelReverse'
+    'TestCAM16ColourAppearanceModelInverse'
 ]
 
 
@@ -92,7 +92,10 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
 
         d_r = (
             ('reference', 1, 1),
-            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 360])),
+            (1, 0.01,
+             np.array([
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+             ])),
             (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360])),
         )
         for scale, factor_a, factor_b in d_r:
@@ -121,10 +124,10 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
-class TestCAM16ColourAppearanceModelReverse(ColourAppearanceModelTest):
+class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.cam16` module units tests methods for
-    *CAM16* colour appearance model reverse implementation.
+    *CAM16* colour appearance model inverse implementation.
     """
 
     FIXTURE_BASENAME = 'cam16.csv'
@@ -241,7 +244,10 @@ class TestCAM16ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
         d_r = (
             ('reference', 1, 1, 1),
-            (1, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 360]), 0.01, 0.01),
+            (1,
+             np.array([
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+             ]), 0.01, 0.01),
             (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360]), 1, 1),
         )
         for scale, factor_a, factor_b, factor_c in d_r:
@@ -253,10 +259,32 @@ class TestCAM16ColourAppearanceModelReverse(ColourAppearanceModelTest):
                     decimal=7)
 
     @ignore_numpy_errors
+    def test_raise_exception_CAM16_to_XYZ(self):
+        """
+        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition raised
+        exception.
+        """
+
+        try:
+            CAM16_to_XYZ(
+                CAM16_Specification(
+                    41.731207905126638,
+                    None,
+                    217.06795976739301,
+                ),
+                np.array([95.05, 100.00, 108.88]),
+                318.31,
+                20.0,
+                CAM16_VIEWING_CONDITIONS['Average'],
+            )
+        except ValueError:
+            pass
+
+    @ignore_numpy_errors
     def test_nan_CAM16_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition
-        nan support.
+        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition nan
+        support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

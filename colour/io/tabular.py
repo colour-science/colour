@@ -308,9 +308,9 @@ def write_sds_to_csv_file(sds, path, delimiter=',', fields=None):
             delimiter=str(delimiter),
             fieldnames=['wavelength'] + fields,
             lineterminator='\n')
-        # Python 2.7.x / 3.4.x only.
-        # writer.writeheader()
-        writer.writerow(dict((name, name) for name in writer.fieldnames))
+
+        writer.writeheader()
+
         for wavelength in wavelengths:
             row = {'wavelength': wavelength}
             row.update(

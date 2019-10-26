@@ -13,7 +13,9 @@
 # serve to show the default.
 
 import functools
+import os
 import re
+import sys
 
 
 def no_op_wraps(function):
@@ -34,9 +36,9 @@ def no_op_wraps(function):
 functools._wraps = functools.wraps
 functools.wraps = no_op_wraps
 
-import colour as package
+import colour as package  # noqa
 
-basename = re.sub('_(\w)', lambda x: x.group(1).upper(),
+basename = re.sub('_(\\w)', lambda x: x.group(1).upper(),
                   package.__name__.title())
 
 autosummary_generate = True
@@ -48,6 +50,15 @@ autodoc_mock_imports = [
     'scipy.interpolate', 'scipy.ndimage', 'scipy.ndimage.filters',
     'scipy.optimize', 'scipy.spatial', 'scipy.spatial.distance'
 ]
+
+if os.environ.get('READTHEDOCS') == 'True':
+    utilities_directory = os.path.abspath(
+        os.path.join(os.getcwd(), '..', 'utilities'))
+    static_directory = os.path.abspath(os.path.join(os.getcwd(), '_static'))
+    sys.path.append(utilities_directory)
+    from generate_plots import generate_documentation_plots
+
+    generate_documentation_plots(static_directory)
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -125,7 +136,7 @@ exclude_patterns = ['_build']
 # show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'lovelace'
 
 # A list of ignored prefixes for module index sorting.
 # modindex_common_prefix = []
@@ -224,7 +235,7 @@ htmlhelp_basename = '{0}Doc'.format(basename)
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     'papersize':
-        'letterpaper',
+        'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
     'pointsize':
@@ -311,10 +322,10 @@ epub_copyright = package.__copyright__.replace('Copyright (C)', '')
 # The basename for the epub file. It defaults to the project name.
 # epub_basename = basename
 
-# The HTML theme for the epub output. Since the default themes are not optimized
-# for small screen space, using the same theme for HTML and epub output is
-# usually not wise. This defaults to 'epub', a theme designed to save visual
-# space.
+# The HTML theme for the epub output. Since the default themes are not
+# optimized for small screen space, using the same theme for HTML and epub
+# output is usually not wise. This defaults to 'epub', a theme designed to save
+# visual space.
 # epub_theme = 'epub'
 
 # The language of the text. It defaults to the language option
@@ -403,7 +414,7 @@ def _continuous_signal_repr(self):
 
 
 package.colorimetry.SpectralDistribution.__repr__ = (_continuous_signal_repr)
-package.colorimetry.MultiSpectralDistribution.__repr__ = (
+package.colorimetry.MultiSpectralDistributions.__repr__ = (
     _continuous_signal_repr)
 
 

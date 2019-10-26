@@ -32,7 +32,7 @@ __all__ = [
     'usage_warning', 'filter_warnings', 'suppress_warnings',
     'numpy_print_options', 'ANCILLARY_COLOUR_SCIENCE_PACKAGES',
     'ANCILLARY_RUNTIME_PACKAGES', 'ANCILLARY_DEVELOPMENT_PACKAGES',
-    'describe_environment'
+    'ANCILLARY_EXTRAS_PACKAGES', 'describe_environment'
 ]
 
 
@@ -144,10 +144,14 @@ def show_warning(message,
                  line,
                  file_=None,
                  code=None,
-                 frame_range=(1, 2)):
+                 frame_range=(1, None)):
     """
-    Replaces :func:`warnings.showwarning` definition to allow traceback
+    Alternative :func:`warnings.showwarning` definition that allows traceback
     printing.
+
+    This definition is expected to be used by setting the
+    *COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK* environment variable
+    prior to importing *colour*.
 
     Parameters
     ----------
@@ -166,6 +170,14 @@ def show_warning(message,
         Source code to be included in the warning message.
     frame_range : array_like, optional
         Traceback frame range, i.e first frame and numbers of frame above it.
+
+    Notes
+    -----
+    -   Setting the *COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK*
+        environment variable will result in the :func:`warnings.showwarning`
+        definition to be replaced with the
+        :func:`colour.utilities.show_warning` definition and thus providing
+        complete traceback from the point where the warning occurred.
     """
 
     if file_ is None:
@@ -192,7 +204,9 @@ def show_warning(message,
         pass
 
 
-warnings.showwarning = show_warning
+if os.environ.get(  # pragma: no cover
+        'COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK'):
+    warnings.showwarning = show_warning
 
 
 def warning(*args, **kwargs):
@@ -433,9 +447,17 @@ Ancillary development packages to describe.
 ANCILLARY_DEVELOPMENT_PACKAGES : OrderedDict
 """
 
+ANCILLARY_EXTRAS_PACKAGES = OrderedDict()
+"""
+Ancillary extras packages to describe.
+
+ANCILLARY_EXTRAS_PACKAGES : OrderedDict
+"""
+
 
 def describe_environment(runtime_packages=True,
                          development_packages=False,
+                         extras_packages=False,
                          print_environment=True,
                          **kwargs):
     """
@@ -448,6 +470,8 @@ def describe_environment(runtime_packages=True,
         Whether to return the runtime packages versions.
     development_packages : bool, optional
         Whether to return the development packages versions.
+    extras_packages : bool, optional
+        Whether to return the extras packages versions.
     print_environment : bool, optional
         Whether to print the environment.
 
@@ -474,56 +498,66 @@ def describe_environment(runtime_packages=True,
     ===========================================================================
     *                                                                         *
     *   Interpreter :                                                         *
-    *       python : 2.7.14 | packaged by conda-forge | (default, Dec 25      *
-    *   2017, 01:18:54)                                                       *
-    *                [GCC 4.2.1 Compatible Apple LLVM 6.1.0                   *
-    *   (clang-602.0.53)]                                                     *
+    *       python : 3.7.4 (default, Sep  7 2019, 18:27:02)                   *
+    *                [Clang 10.0.1 (clang-1001.0.46.4)]                       *
     *                                                                         *
     *   colour-science.org :                                                  *
-    *       colour : v0.3.11-323-g380c1838                                    *
+    *       colour : v0.3.13-293-gecf1dc8a                                    *
     *                                                                         *
     *   Runtime :                                                             *
-    *       numpy : 1.14.3                                                    *
-    *       scipy : 1.0.0                                                     *
-    *       pandas : 0.22.0                                                   *
-    *       matplotlib : 2.2.2                                                *
-    *       notebook : 5.4.0                                                  *
-    *       ipywidgets : 7.2.1                                                *
+    *       imageio : 2.6.1                                                   *
+    *       numpy : 1.17.2                                                    *
+    *       scipy : 1.3.1                                                     *
+    *       six : 1.12.0                                                      *
+    *       pandas : 0.24.2                                                   *
+    *       matplotlib : 3.0.3                                                *
+    *       networkx : 2.3                                                    *
+    *       pygraphviz : 1.5                                                  *
     *                                                                         *
     ===========================================================================
-    >>> environment = describe_environment(True, True, width=75)
+    >>> environment = describe_environment(True, True, True, width=75)
     ... # doctest: +SKIP
     ===========================================================================
     *                                                                         *
     *   Interpreter :                                                         *
-    *       python : 2.7.14 | packaged by conda-forge | (default, Dec 25      *
-    *   2017, 01:18:54)                                                       *
-    *                [GCC 4.2.1 Compatible Apple LLVM 6.1.0                   *
-    *   (clang-602.0.53)]                                                     *
+    *       python : 3.7.4 (default, Sep  7 2019, 18:27:02)                   *
+    *                [Clang 10.0.1 (clang-1001.0.46.4)]                       *
     *                                                                         *
     *   colour-science.org :                                                  *
-    *       colour : v0.3.11-323-g380c1838                                    *
+    *       colour : v0.3.13-293-gecf1dc8a                                    *
     *                                                                         *
     *   Runtime :                                                             *
-    *       numpy : 1.14.3                                                    *
-    *       scipy : 1.0.0                                                     *
-    *       pandas : 0.22.0                                                   *
-    *       matplotlib : 2.2.2                                                *
-    *       notebook : 5.4.0                                                  *
-    *       ipywidgets : 7.2.1                                                *
+    *       imageio : 2.6.1                                                   *
+    *       numpy : 1.17.2                                                    *
+    *       scipy : 1.3.1                                                     *
+    *       six : 1.12.0                                                      *
+    *       pandas : 0.24.2                                                   *
+    *       matplotlib : 3.0.3                                                *
+    *       networkx : 2.3                                                    *
+    *       pygraphviz : 1.5                                                  *
     *                                                                         *
     *   Development :                                                         *
-    *       coverage : 4.5.1                                                  *
-    *       flake8 : 3.5.0                                                    *
-    *       invoke : 0.22.1                                                   *
-    *       mock : 2.0.0                                                      *
+    *       biblib-simple : 0.1.1                                             *
+    *       coverage : 4.5.4                                                  *
+    *       coveralls : 1.8.2                                                 *
+    *       flake8 : 3.7.8                                                    *
+    *       invoke : 1.3.0                                                    *
+    *       jupyter : 1.0.0                                                   *
+    *       mock : 3.0.5                                                      *
     *       nose : 1.3.7                                                      *
-    *       restructuredtext_lint : 1.1.3                                     *
-    *       six : 1.11.0                                                      *
-    *       sphinx : 1.7.5                                                    *
-    *       sphinx_rtd_theme : 0.2.4                                          *
-    *       twine : 1.10.0                                                    *
-    *       yapf : 0.20.2                                                     *
+    *       pre-commit : 1.18.3                                               *
+    *       pytest : 5.2.1                                                    *
+    *       restructuredtext-lint : 1.3.0                                     *
+    *       sphinx : 2.2.0                                                    *
+    *       sphinx_rtd_theme : 0.4.3                                          *
+    *       sphinxcontrib-bibtex : 1.0.0                                      *
+    *       toml : 0.10.0                                                     *
+    *       twine : 1.15.0                                                    *
+    *       yapf : 0.23.0                                                     *
+    *                                                                         *
+    *   Extras :                                                              *
+    *       ipywidgets : 7.5.1                                                *
+    *       notebook : 6.0.1                                                  *
     *                                                                         *
     ===========================================================================
     """
@@ -536,19 +570,28 @@ def describe_environment(runtime_packages=True,
 
     import colour
 
-    try:
+    # TODO: Implement support for "pyproject.toml" file whenever "TOML" is
+    # supported in the standard library.
+
+    # NOTE: A few clauses are not reached and a few packages are not available
+    # during continuous integration and are thus ignored for coverage.
+    try:  # pragma: no cover
         version = subprocess.check_output(  # nosec
-            ['git', 'describe'], cwd=colour.__path__[0]).strip()
+            ['git', 'describe'],
+            cwd=colour.__path__[0],
+            stderr=subprocess.STDOUT).strip()
         version = version.decode('utf-8')
-    except Exception:
+    except Exception:  # pragma: no cover
         version = colour.__version__
 
     environment['colour-science.org']['colour'] = version
     environment['colour-science.org'].update(ANCILLARY_COLOUR_SCIENCE_PACKAGES)
 
     if runtime_packages:
-        for package in ('numpy', 'scipy', 'pandas', 'matplotlib', 'notebook',
-                        'ipywidgets'):
+        for package in [
+                'imageio', 'matplotlib', 'networkx', 'numpy', 'pandas',
+                'pygraphviz', 'scipy', 'six'
+        ]:
             try:
                 namespace = __import__(package)
                 environment['Runtime'][package] = namespace.__version__
@@ -556,47 +599,74 @@ def describe_environment(runtime_packages=True,
                 continue
 
         # OpenImageIO
-        try:
+        try:  # pragma: no cover
             namespace = __import__('OpenImageIO')
             environment['Runtime']['OpenImageIO'] = namespace.VERSION_STRING
-        except ImportError:
+        except ImportError:  # pragma: no cover
             pass
 
         environment['Runtime'].update(ANCILLARY_RUNTIME_PACKAGES)
 
-    if development_packages:
-        for package in ('coverage', 'flake8', 'invoke', 'mock', 'nose',
-                        'restructuredtext_lint', 'six', 'sphinx',
-                        'sphinxcontrib.bibtex', 'sphinx_rtd_theme', 'twine',
-                        'yapf'):
-            try:
-                namespace = __import__(package)
-                if package == 'restructuredtext_lint':
-                    with open(
-                            os.path.join(
-                                os.path.dirname(namespace.__file__),
-                                'VERSION'), 'r') as version_file:
-                        version = version_file.read().strip()
-                elif package == 'sphinxcontrib.bibtex':
-                    import pip
+    def _get_package_version(package, mapping):
+        """
+        Returns given package version.
+        """
 
-                    for distribution in pip.get_installed_distributions():
-                        if distribution.name == package:
-                            version = distribution.version
-                            break
-                else:
-                    version = namespace.__version__
+        namespace = __import__(package)
+
+        if package in mapping:
+            import pkg_resources
+
+            distributions = [
+                distribution for distribution in pkg_resources.working_set
+            ]
+
+            for distribution in distributions:
+                if distribution.project_name == mapping[package]:
+                    return distribution.version
+
+        return namespace.__version__
+
+    if development_packages:
+        mapping = {
+            'biblib.bib': 'biblib-simple',
+            'pre_commit': 'pre-commit',
+            'restructuredtext_lint': 'restructuredtext-lint',
+            'sphinxcontrib.bibtex': 'sphinxcontrib-bibtex'
+        }
+        for package in [
+                'biblib.bib', 'coverage', 'coveralls', 'flake8', 'invoke',
+                'jupyter', 'mock', 'nose', 'pre_commit', 'pytest',
+                'restructuredtext_lint', 'sphinx', 'sphinx_rtd_theme',
+                'sphinxcontrib.bibtex', 'toml', 'twine', 'yapf'
+        ]:
+            try:
+                version = _get_package_version(package, mapping)
+                package = mapping.get(package, package)
 
                 environment['Development'][package] = version
-            except (AttributeError, ImportError):
+            except Exception:
                 continue
 
         environment['Development'].update(ANCILLARY_DEVELOPMENT_PACKAGES)
 
+    if extras_packages:
+        mapping = {}
+        for package in ['ipywidgets', 'notebook']:
+            try:
+                version = _get_package_version(package, mapping)
+                package = mapping.get(package, package)
+
+                environment['Extras'][package] = version
+            except Exception:
+                continue
+
+        environment['Extras'].update(ANCILLARY_EXTRAS_PACKAGES)
+
     if print_environment:
         message = str()
         for category in ('Interpreter', 'colour-science.org', 'Runtime',
-                         'Development'):
+                         'Development', 'Extras'):
             elements = environment.get(category)
             if not elements:
                 continue

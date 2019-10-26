@@ -75,7 +75,7 @@ def path_to_title(path):
     --------
     >>> # Doctests skip for Python 2.x compatibility.
     >>> path_to_title(
-    ...     'colour/io/luts/tests/resources/sony_spi3d/ColourCorrect.spi3d'
+    ...     'colour/io/luts/tests/resources/sony_spi3d/Colour_Correct.spi3d'
     ... )  # doctest: +SKIP
     u'ColourCorrect'
     """

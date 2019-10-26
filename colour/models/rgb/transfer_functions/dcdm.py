@@ -3,10 +3,10 @@
 Digital Cinema Distribution Master (DCDM)
 =========================================
 
-Defines the *DCDM* opto-electrical transfer function (OETF / OECF) and
-electro-optical transfer function (EOTF / EOCF):
+Defines the *DCDM* electro-optical transfer function (EOTF / EOCF) and its
+inverse:
 
--   :func:`colour.models.eotf_reverse_DCDM`
+-   :func:`colour.models.eotf_inverse_DCDM`
 -   :func:`colour.models.eotf_DCDM`
 
 See Also
@@ -38,12 +38,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['eotf_reverse_DCDM', 'eotf_DCDM']
+__all__ = ['eotf_inverse_DCDM', 'eotf_DCDM']
 
 
-def eotf_reverse_DCDM(XYZ, out_int=False):
+def eotf_inverse_DCDM(XYZ, out_int=False):
     """
-    Defines the *DCDM* reverse electro-optical transfer function (EOTF / EOCF).
+    Defines the *DCDM* inverse electro-optical transfer function (EOTF / EOCF).
 
     Parameters
     ----------
@@ -58,8 +58,16 @@ def eotf_reverse_DCDM(XYZ, out_int=False):
     numeric or ndarray
         Non-linear *CIE XYZ'* tristimulus values.
 
+    Warnings
+    --------
+    *DCDM* is an absolute transfer function.
+
     Notes
     -----
+
+    -   *DCDM* is an absolute transfer function, thus the domain and range
+        values for the *Reference* and *1* scales are only indicative that the
+        data is not affected by scale transformations.
 
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
@@ -73,8 +81,8 @@ def eotf_reverse_DCDM(XYZ, out_int=False):
     | ``XYZ_p``      | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an output integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an output integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -82,9 +90,9 @@ def eotf_reverse_DCDM(XYZ, out_int=False):
 
     Examples
     --------
-    >>> eotf_reverse_DCDM(0.18)  # doctest: +ELLIPSIS
+    >>> eotf_inverse_DCDM(0.18)  # doctest: +ELLIPSIS
     0.1128186...
-    >>> eotf_reverse_DCDM(0.18, out_int=True)
+    >>> eotf_inverse_DCDM(0.18, out_int=True)
     462
     """
 
@@ -115,8 +123,16 @@ def eotf_DCDM(XYZ_p, in_int=False):
     numeric or ndarray
         *CIE XYZ* tristimulus values.
 
+    Warnings
+    --------
+    *DCDM* is an absolute transfer function.
+
     Notes
     -----
+
+    -   *DCDM* is an absolute transfer function, thus the domain and range
+        values for the *Reference* and *1* scales are only indicative that the
+        data is not affected by scale transformations.
 
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
@@ -130,8 +146,8 @@ def eotf_DCDM(XYZ_p, in_int=False):
     | ``XYZ``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an input integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an input integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------

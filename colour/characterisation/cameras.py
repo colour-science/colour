@@ -3,8 +3,8 @@
 Cameras Spectral Sensitivities
 ==============================
 
-Defines spectral distributions classes for the dataset from
-:mod:`colour.characterisation.dataset.cameras` module:
+Defines spectral distributions classes for the datasets from
+:mod:`colour.characterisation.datasets.cameras` module:
 
 -   :class:`colour.characterisation.RGB_SpectralSensitivities`: Implements
     support for a camera *RGB* spectral sensitivities.
@@ -18,7 +18,7 @@ blob/master/notebooks/characterisation/cameras.ipynb>`_
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import MultiSpectralDistribution
+from colour.colorimetry import MultiSpectralDistributions
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -30,15 +30,15 @@ __status__ = 'Production'
 __all__ = ['RGB_SpectralSensitivities']
 
 
-class RGB_SpectralSensitivities(MultiSpectralDistribution):
+class RGB_SpectralSensitivities(MultiSpectralDistributions):
     """
     Implements support for a camera *RGB* spectral sensitivities.
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignal or \
-MultiSpectralDistribution or array_like or dict_like, optional
-        Data to be stored in the multi-spectral distribution.
+    data : Series or Dataframe or Signal or MultiSignals or \
+MultiSpectralDistributions or array_like or dict_like, optional
+        Data to be stored in the multi-spectral distributions.
     domain : array_like, optional
         Values to initialise the multiple :class:`colour.SpectralDistribution`
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
@@ -52,7 +52,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
     Other Parameters
     ----------------
     name : unicode, optional
-       Multi-spectral distribution name.
+       Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
@@ -66,7 +66,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
-        Multi-spectral distribution labels for figures, default to
+        Multi-spectral distributions labels for figures, default to
         :attr:`colour.characterisation.RGB_SpectralSensitivities.labels`
         attribute value.
     """

@@ -11,7 +11,8 @@ import scipy
 from distutils.version import LooseVersion
 
 from colour.colorimetry.spectrum import (SpectralShape, SpectralDistribution,
-                                         MultiSpectralDistribution)
+                                         MultiSpectralDistributions,
+                                         sds_and_multi_sds_to_sds)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -26,7 +27,7 @@ __all__ = [
     'INTERPOLATED_SAMPLE_SD_DATA', 'INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA',
     'NORMALISED_SAMPLE_SD_DATA', 'CIE_1931_2_DEGREE_STANDARD_OBSERVER',
     'CMFS_DATA', 'TestSpectralShape', 'TestSpectralDistribution',
-    'TestMultiSpectralDistribution'
+    'TestMultiSpectralDistributions', 'TestSdsAndMultiSdsToSds'
 ]
 
 SAMPLE_SD_DATA = {
@@ -1325,6 +1326,14 @@ class TestSpectralShape(unittest.TestCase):
             [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
             np.arange(0, 10 + 0.1, 0.1))
 
+    def test_raise_exception_range(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.SpectralShape.range` method
+        raised exception.
+        """
+
+        self.assertRaises(RuntimeError, SpectralShape().range)
+
 
 class TestSpectralDistribution(unittest.TestCase):
     """
@@ -1385,6 +1394,10 @@ SpectralDistribution.wavelengths` attribute.
 
         np.testing.assert_array_equal(self._sd.wavelengths, self._sd.domain)
 
+        sd = self._sd.copy()
+        sd.wavelengths = sd.wavelengths + 10
+        np.testing.assert_array_equal(sd.wavelengths, sd.domain)
+
     def test_values(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
@@ -1392,6 +1405,10 @@ SpectralDistribution.values` attribute.
         """
 
         np.testing.assert_array_equal(self._sd.values, self._sd.range)
+
+        sd = self._sd.copy()
+        sd.values = sd.values + 10
+        np.testing.assert_array_equal(sd.values, sd.range)
 
     def test_shape(self):
         """
@@ -1442,7 +1459,7 @@ SpectralDistribution.interpolate` method.
         # version.
         # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
         if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
-            return
+            return  # pragma: no cover
 
         np.testing.assert_allclose(
             self._non_uniform_sd.copy().interpolate(
@@ -1485,9 +1502,9 @@ SpectralDistribution.normalise` method.
                                        NORMALISED_SAMPLE_SD_DATA)
 
 
-class TestMultiSpectralDistribution(unittest.TestCase):
+class TestMultiSpectralDistributions(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.spectrum.MultiSpectralDistribution`
+    Defines :class:`colour.colorimetry.spectrum.MultiSpectralDistributions`
     class unit tests methods.
     """
 
@@ -1497,8 +1514,10 @@ class TestMultiSpectralDistribution(unittest.TestCase):
         """
 
         self._labels = ('x_bar', 'y_bar', 'z_bar')
+        self._strict_labels = ('Strict x_bar', 'Strict  y_bar',
+                               'Strict  z_bar')
 
-        self._multi_sd = MultiSpectralDistribution(
+        self._msds = MultiSpectralDistributions(
             CIE_1931_2_DEGREE_STANDARD_OBSERVER,
             name='Observer',
             labels=self._labels)
@@ -1506,7 +1525,7 @@ class TestMultiSpectralDistribution(unittest.TestCase):
         sd = SpectralDistribution(SAMPLE_SD_DATA)
         domain = sd.domain
         range_ = tstack([sd.values, sd.values, sd.values])
-        self._sample_multi_sd = MultiSpectralDistribution(
+        self._sample_msds = MultiSpectralDistributions(
             range_,
             domain,
             name='Sample Observer',
@@ -1516,7 +1535,7 @@ class TestMultiSpectralDistribution(unittest.TestCase):
         sd = SpectralDistribution(NON_UNIFORM_SAMPLE_SD_DATA)
         domain = sd.domain
         range_ = tstack([sd.values, sd.values, sd.values])
-        self._non_uniform_sample_multi_sd = MultiSpectralDistribution(
+        self._non_uniform_sample_msds = MultiSpectralDistributions(
             range_,
             domain,
             name='Non Uniform Sample Observer',
@@ -1535,7 +1554,7 @@ class TestMultiSpectralDistribution(unittest.TestCase):
                                'values', 'shape')
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(MultiSpectralDistribution))
+            self.assertIn(attribute, dir(MultiSpectralDistributions))
 
     def test_required_methods(self):
         """
@@ -1546,74 +1565,81 @@ class TestMultiSpectralDistribution(unittest.TestCase):
                             'trim', 'normalise', 'to_sds')
 
         for method in required_methods:
-            self.assertIn(method, dir(MultiSpectralDistribution))
+            self.assertIn(method, dir(MultiSpectralDistributions))
 
     def test_strict_name(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.strict_name` attribute.
+MultiSpectralDistributions.strict_name` attribute.
         """
 
-        self.assertEqual(self._sample_multi_sd.strict_name, 'Sample Observer')
-        self.assertEqual(self._non_uniform_sample_multi_sd.strict_name,
+        self.assertEqual(self._sample_msds.strict_name, 'Sample Observer')
+        self.assertEqual(self._non_uniform_sample_msds.strict_name,
                          'Strict Non Uniform Sample Observer')
 
     def test_wavelengths(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.wavelengths` attribute.
+MultiSpectralDistributions.wavelengths` attribute.
         """
 
-        np.testing.assert_array_equal(self._multi_sd.wavelengths,
-                                      self._multi_sd.domain)
+        np.testing.assert_array_equal(self._msds.wavelengths,
+                                      self._msds.domain)
+
+        msds = self._msds.copy()
+        msds.wavelengths = msds.wavelengths + 10
+        np.testing.assert_array_equal(msds.wavelengths, msds.domain)
 
     def test_values(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.values` attribute.
+MultiSpectralDistributions.values` attribute.
         """
 
-        np.testing.assert_array_equal(self._multi_sd.values,
-                                      self._multi_sd.range)
+        np.testing.assert_array_equal(self._msds.values, self._msds.range)
+
+        msds = self._msds.copy()
+        msds.values = msds.values + 10
+        np.testing.assert_array_equal(msds.values, msds.range)
 
     def test_strict_labels(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.strict_labels` attribute.
+MultiSpectralDistributions.strict_labels` attribute.
         """
 
         self.assertTupleEqual(
-            tuple(self._sample_multi_sd.strict_labels), self._labels)
+            tuple(self._sample_msds.strict_labels), self._labels)
         self.assertEqual(
-            tuple(self._non_uniform_sample_multi_sd.strict_labels),
+            tuple(self._non_uniform_sample_msds.strict_labels),
             ('Strict x_bar', 'Strict  y_bar', 'Strict  z_bar'))
 
     def test_shape(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.shape` attribute.
+MultiSpectralDistributions.shape` attribute.
         """
 
-        self.assertEqual(self._multi_sd.shape, SpectralShape(380, 780, 5))
+        self.assertEqual(self._msds.shape, SpectralShape(380, 780, 5))
 
     def test_extrapolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.extrapolate` method.
+MultiSpectralDistributions.extrapolate` method.
         """
 
         data = dict(zip(range(25, 35), tstack([[0] * 5 + [1] * 5] * 3)))
-        multi_sd = MultiSpectralDistribution(data)
-        multi_sd.extrapolate(SpectralShape(10, 50))
+        msds = MultiSpectralDistributions(data)
+        msds.extrapolate(SpectralShape(10, 50))
 
         np.testing.assert_almost_equal(
-            multi_sd[10], np.array([0.0, 0.0, 0.0]), decimal=7)
+            msds[10], np.array([0.0, 0.0, 0.0]), decimal=7)
         np.testing.assert_almost_equal(
-            multi_sd[50], np.array([1.0, 1.0, 1.0]), decimal=7)
+            msds[50], np.array([1.0, 1.0, 1.0]), decimal=7)
 
-        multi_sd = MultiSpectralDistribution(
+        msds = MultiSpectralDistributions(
             tstack([np.linspace(0, 1, 10)] * 3), np.linspace(25, 35, 10))
-        multi_sd.extrapolate(
+        msds.extrapolate(
             SpectralShape(10, 50),
             extrapolator_args={
                 'method': 'Linear',
@@ -1621,20 +1647,20 @@ MultiSpectralDistribution.extrapolate` method.
                 'right': None
             })
         np.testing.assert_almost_equal(
-            multi_sd[10], np.array([-1.5, -1.5, -1.5]), decimal=7)
+            msds[10], np.array([-1.5, -1.5, -1.5]), decimal=7)
         np.testing.assert_almost_equal(
-            multi_sd[50], np.array([2.5, 2.5, 2.5]), decimal=7)
+            msds[50], np.array([2.5, 2.5, 2.5]), decimal=7)
 
     def test_interpolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.interpolate` method.
+MultiSpectralDistributions.interpolate` method.
         """
 
-        multi_sd = self._sample_multi_sd.copy()
+        msds = self._sample_msds.copy()
 
-        multi_sd.interpolate(SpectralShape(interval=1))
-        for signal in multi_sd.signals.values():
+        msds.interpolate(SpectralShape(interval=1))
+        for signal in msds.signals.values():
             np.testing.assert_almost_equal(
                 signal.values, INTERPOLATED_SAMPLE_SD_DATA, decimal=7)
 
@@ -1642,11 +1668,11 @@ MultiSpectralDistribution.interpolate` method.
         # version.
         # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
         if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
-            return
+            return  # pragma: no cover
 
-        multi_sd = self._non_uniform_sample_multi_sd.copy()
-        multi_sd.interpolate(SpectralShape(interval=1))
-        for signal in multi_sd.signals.values():
+        msds = self._non_uniform_sample_msds.copy()
+        msds.interpolate(SpectralShape(interval=1))
+        for signal in msds.signals.values():
             np.testing.assert_allclose(
                 signal.values,
                 INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA,
@@ -1656,57 +1682,103 @@ MultiSpectralDistribution.interpolate` method.
     def test_align(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.align` method.
+MultiSpectralDistributions.align` method.
         """
 
-        multi_sd = self._sample_multi_sd.copy()
+        msds = self._sample_msds.copy()
 
         shape = SpectralShape(100, 900, 5)
-        self.assertEqual(multi_sd.align(shape).shape, shape)
+        self.assertEqual(msds.align(shape).shape, shape)
 
         shape = SpectralShape(600, 650, 1)
-        self.assertEqual(multi_sd.align(shape).shape, shape)
+        self.assertEqual(msds.align(shape).shape, shape)
 
     def test_trim(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.trim` method.
+MultiSpectralDistributions.trim` method.
         """
 
         shape = SpectralShape(400, 700, 5)
-        self.assertEqual(self._multi_sd.copy().trim(shape).shape, shape)
+        self.assertEqual(self._msds.copy().trim(shape).shape, shape)
 
         shape = SpectralShape(200, 900, 1)
-        self.assertEqual(self._multi_sd.copy().trim(shape).shape,
-                         self._multi_sd.shape)
+        self.assertEqual(self._msds.copy().trim(shape).shape, self._msds.shape)
 
     def test_normalise(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.normalise` method.
+MultiSpectralDistributions.normalise` method.
         """
 
         np.testing.assert_almost_equal(
-            self._sample_multi_sd.copy().normalise(100).values,
+            self._sample_msds.copy().normalise(100).values,
             tstack([NORMALISED_SAMPLE_SD_DATA] * 3))
 
-    def to_sds(self):
+    def test_to_sds(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-MultiSpectralDistribution.to_sds` method.
+MultiSpectralDistributions.to_sds` method.
         """
 
-        sds = self._non_uniform_sample_multi_sd.to_sds()
+        sds = self._non_uniform_sample_msds.to_sds()
         self.assertEqual(len(sds), 3)
 
-        for i, sd in sds:
+        for i, sd in enumerate(sds):
             self.assertEqual(
                 sd.name, '{0} - {1}'.format(
-                    self._labels[i], self._non_uniform_sample_multi_sd.name))
+                    self._labels[i], self._non_uniform_sample_msds.name))
             self.assertEqual(
                 sd.strict_name, '{0} - {1}'.format(
                     self._strict_labels[i],
-                    self._non_uniform_sample_multi_sd.name))
+                    self._non_uniform_sample_msds.strict_name))
+
+
+class TestSdsAndMultiSdsToSds(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.spectrum.sds_and_multi_sds_to_sds`
+    definition unit tests methods.
+    """
+
+    def test_sds_and_multi_sds_to_sds(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.sds_and_multi_sds_to_sds`
+        definition.
+        """
+
+        data = {
+            500: 0.0651,
+            520: 0.0705,
+            540: 0.0772,
+            560: 0.0870,
+            580: 0.1128,
+            600: 0.1360
+        }
+        sd_1 = SpectralDistribution(data)
+        sd_2 = SpectralDistribution(data)
+        data = {
+            500: (0.004900, 0.323000, 0.272000),
+            510: (0.009300, 0.503000, 0.158200),
+            520: (0.063270, 0.710000, 0.078250),
+            530: (0.165500, 0.862000, 0.042160),
+            540: (0.290400, 0.954000, 0.020300),
+            550: (0.433450, 0.994950, 0.008750),
+            560: (0.594500, 0.995000, 0.003900)
+        }
+
+        multi_sds_1 = MultiSpectralDistributions(data)
+        multi_sds_2 = MultiSpectralDistributions(data)
+
+        self.assertEqual(
+            len(
+                sds_and_multi_sds_to_sds([
+                    sd_1,
+                    sd_2,
+                    multi_sds_1,
+                    multi_sds_2,
+                ])), 8)
+
+        self.assertEqual(len(sds_and_multi_sds_to_sds(multi_sds_1)), 3)
 
 
 if __name__ == '__main__':

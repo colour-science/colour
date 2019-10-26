@@ -21,15 +21,14 @@ from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
-from colour.colorimetry import sd_to_XYZ
-from colour.constants import EPSILON
+from colour.colorimetry import sd_to_XYZ, sds_and_multi_sds_to_sds
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
                              XYZ_to_plotting_colourspace, artist, filter_cmfs,
                              override_style, render)
 from colour.utilities import (domain_range_scale, first_item, is_string,
-                              normalise_maximum, tstack)
+                              normalise_maximum, tstack, suppress_warnings)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -88,7 +87,9 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> plot_spectral_locus(spectral_locus_colours='RGB')  # doctest: +SKIP
+    >>> plot_spectral_locus(spectral_locus_colours='RGB')  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Spectral_Locus.png
         :align: center
@@ -244,7 +245,9 @@ def plot_chromaticity_diagram_colours(
 
     Examples
     --------
-    >>> plot_chromaticity_diagram_colours()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram_colours()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_Colours.png
         :align: center
@@ -265,24 +268,26 @@ def plot_chromaticity_diagram_colours(
     ii, jj = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
     ij = tstack([ii, jj])
-    # Avoiding zero division in later colour transformations.
-    ij = np.where(ij == 0, EPSILON, ij)
 
-    if method == 'CIE 1931':
-        XYZ = xy_to_XYZ(ij)
-        spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
-    elif method == 'CIE 1960 UCS':
-        XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
-        spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-    elif method == 'CIE 1976 UCS':
-        XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
-        spectral_locus = Luv_to_uv(
-            XYZ_to_Luv(cmfs.values, illuminant), illuminant)
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
-                method))
+    # NOTE: Various values in the grid have potential to generate
+    # zero-divisions, they could be avoided by perturbing the grid, e.g. adding
+    # a small epsilon. It was decided instead to disable warnings.
+    with suppress_warnings(python_warnings=True):
+        if method == 'CIE 1931':
+            XYZ = xy_to_XYZ(ij)
+            spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
+        elif method == 'CIE 1960 UCS':
+            XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
+            spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
+        elif method == 'CIE 1976 UCS':
+            XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
+            spectral_locus = Luv_to_uv(
+                XYZ_to_Luv(cmfs.values, illuminant), illuminant)
+        else:
+            raise ValueError(
+                'Invalid method: "{0}", must be one of '
+                '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+                    method))
 
     RGB = normalise_maximum(
         XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1)
@@ -347,7 +352,9 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> plot_chromaticity_diagram()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram.png
         :align: center
@@ -438,7 +445,9 @@ def plot_chromaticity_diagram_CIE1931(
 
     Examples
     --------
-    >>> plot_chromaticity_diagram_CIE1931()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram_CIE1931()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1931.png
         :align: center
@@ -486,7 +495,9 @@ def plot_chromaticity_diagram_CIE1960UCS(
 
     Examples
     --------
-    >>> plot_chromaticity_diagram_CIE1960UCS()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram_CIE1960UCS()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
@@ -534,7 +545,9 @@ def plot_chromaticity_diagram_CIE1976UCS(
 
     Examples
     --------
-    >>> plot_chromaticity_diagram_CIE1976UCS()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram_CIE1976UCS()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
@@ -562,8 +575,12 @@ def plot_sds_in_chromaticity_diagram(
 
     Parameters
     ----------
-    sds : array_like, optional
-        Spectral distributions to plot.
+    sds : array_like or MultiSpectralDistributions
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
@@ -598,12 +615,16 @@ def plot_sds_in_chromaticity_diagram(
     >>> from colour import ILLUMINANTS_SDS
     >>> A = ILLUMINANTS_SDS['A']
     >>> D65 = ILLUMINANTS_SDS['D65']
-    >>> plot_sds_in_chromaticity_diagram([A, D65])  # doctest: +SKIP
+    >>> plot_sds_in_chromaticity_diagram([A, D65])  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
-    .. image:: ../_static/Plotting_Plot_SDs_In_Chromaticity_Diagram.png
+    .. image:: ../_static/Plotting_Plot_SDS_In_Chromaticity_Diagram.png
         :align: center
         :alt: plot_sds_in_chromaticity_diagram
     """
+
+    sds = sds_and_multi_sds_to_sds(sds)
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -724,8 +745,12 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
 
     Parameters
     ----------
-    sds : array_like, optional
-        Spectral distributions to plot.
+    sds : array_like or MultiSpectralDistributions
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
@@ -757,10 +782,13 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     >>> from colour import ILLUMINANTS_SDS
     >>> A = ILLUMINANTS_SDS['A']
     >>> D65 = ILLUMINANTS_SDS['D65']
-    >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])  # doctest: +SKIP
+    >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
-Plot_SDs_In_Chromaticity_Diagram_CIE1931.png
+Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
         :align: center
         :alt: plot_sds_in_chromaticity_diagram_CIE1931
     """
@@ -787,8 +815,12 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
 
     Parameters
     ----------
-    sds : array_like, optional
-        Spectral distributions to plot.
+    sds : array_like or MultiSpectralDistributions
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
@@ -822,10 +854,12 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     >>> A = ILLUMINANTS_SDS['A']
     >>> D65 = ILLUMINANTS_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65])
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
-Plot_SDs_In_Chromaticity_Diagram_CIE1960UCS.png
+Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
         :alt: plot_sds_in_chromaticity_diagram_CIE1960UCS
     """
@@ -852,8 +886,12 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
 
     Parameters
     ----------
-    sds : array_like, optional
-        Spectral distributions to plot.
+    sds : array_like or MultiSpectralDistributions
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
@@ -887,10 +925,12 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     >>> A = ILLUMINANTS_SDS['A']
     >>> D65 = ILLUMINANTS_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65])
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
-Plot_SDs_In_Chromaticity_Diagram_CIE1976UCS.png
+Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
         :alt: plot_sds_in_chromaticity_diagram_CIE1976UCS
     """

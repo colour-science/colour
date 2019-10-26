@@ -65,6 +65,33 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
             ]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            RGB_to_sd_Smits1999(
+                XYZ_to_RGB_Smits1999(np.array([0.0, 1.0, 0.0]))).values,
+            np.array([
+                -0.2549796, -0.2848386, -0.1634905, 1.5254829, 1.9800433,
+                1.8510762, -0.7327702, -1.2758621, -1.2758621, -1.2703551
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_sd_Smits1999(
+                XYZ_to_RGB_Smits1999(np.array([1.0, 1.0, 0.0]))).values,
+            np.array([
+                -0.1168428, -0.1396982, -0.0414535, 0.581391, 0.9563091,
+                0.9562111, 1.3366949, 1.3742666, 1.3853491, 1.4027005
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_sd_Smits1999(
+                XYZ_to_RGB_Smits1999(np.array([0.5, 0.0, 1.0]))).values,
+            np.array([
+                1.1938776, 1.1938776, 1.1213867, -0.067889, -0.4668587,
+                -0.4030985, 0.703056, 0.9407334, 0.9437298, 0.9383386
+            ]),
+            decimal=7)
+
     def test_domain_range_scale_RGB_to_sd_Smits1999(self):
         """
         Tests :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`

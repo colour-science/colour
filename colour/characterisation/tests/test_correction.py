@@ -9,7 +9,6 @@ import numpy as np
 import unittest
 from itertools import permutations
 from numpy.linalg import LinAlgError
-from six import PY3
 
 from colour.characterisation.correction import (
     augmented_matrix_Cheung2004, polynomial_expansion_Finlayson2015,
@@ -100,7 +99,7 @@ augmented_matrix_Cheung2004` definition unit tests methods.
     def test_augmented_matrix_Cheung2004(self):
         """
         Tests :func:`colour.characterisation.correction.\
-    augmented_matrix_Cheung2004` definition.
+augmented_matrix_Cheung2004` definition.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
@@ -171,16 +170,21 @@ augmented_matrix_Cheung2004` definition unit tests methods.
                 polynomials[i],
                 decimal=7)
 
+    def test_raise_exception_augmented_matrix_Cheung2004(self):
+        """
+        Tests :func:`colour.characterisation.correction.\
+augmented_matrix_Cheung2004` definition raised exception.
+        """
+
+        self.assertRaises(ValueError, augmented_matrix_Cheung2004,
+                          np.array([0.17224810, 0.09170660, 0.06416938]), 4)
+
     @ignore_numpy_errors
     def test_nan_augmented_matrix_Cheung2004(self):
         """
         Tests :func:`colour.characterisation.correction.\
 augmented_matrix_Cheung2004` definition nan support.
         """
-
-        # This unit test hangs on Python 3, it is thus skipped.
-        if PY3:
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -197,7 +201,7 @@ polynomial_expansion_Finlayson2015` definition unit tests methods.
     def test_polynomial_expansion_Finlayson2015(self):
         """
         Tests :func:`colour.characterisation.correction.\
-    polynomial_expansion_Finlayson2015` definition.
+polynomial_expansion_Finlayson2015` definition.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
@@ -260,16 +264,21 @@ polynomial_expansion_Finlayson2015` definition unit tests methods.
                 polynomials[i][1],
                 decimal=7)
 
+    def test_raise_exception_polynomial_expansion_Finlayson2015(self):
+        """
+        Tests :func:`colour.characterisation.correction.\
+polynomial_expansion_Finlayson2015` definition raised exception.
+        """
+
+        self.assertRaises(ValueError, polynomial_expansion_Finlayson2015,
+                          np.array([0.17224810, 0.09170660, 0.06416938]), 5)
+
     @ignore_numpy_errors
     def test_nan_polynomial_expansion_Finlayson2015(self):
         """
         Tests :func:`colour.characterisation.correction.\
-    polynomial_expansion_Finlayson2015` definition nan support.
+polynomial_expansion_Finlayson2015` definition nan support.
         """
-
-        # This unit test hangs on Python 3, it is thus skipped.
-        if PY3:
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -286,7 +295,7 @@ polynomial_expansion_Vandermonde` definition unit tests methods.
     def test_polynomial_expansion_Vandermonde(self):
         """
         Tests :func:`colour.characterisation.correction.\
-    polynomial_expansion_Vandermonde` definition.
+polynomial_expansion_Vandermonde` definition.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
@@ -318,12 +327,8 @@ polynomial_expansion_Vandermonde` definition unit tests methods.
     def test_nan_polynomial_expansion_Vandermonde(self):
         """
         Tests :func:`colour.characterisation.correction.\
-    polynomial_expansion_Vandermonde` definition nan support.
+polynomial_expansion_Vandermonde` definition nan support.
         """
-
-        # This unit test hangs on Python 3, it is thus skipped.
-        if PY3:
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -340,7 +345,7 @@ colour_correction_matrix_Cheung2004` definition unit tests methods.
     def test_colour_correction_matrix_Cheung2004(self):
         """
         Tests :func:`colour.characterisation.correction.\
-    colour_correction_matrix_Cheung2004` definition.
+colour_correction_matrix_Cheung2004` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -377,10 +382,6 @@ colour_correction_matrix_Cheung2004` definition unit tests methods.
     colour_correction_matrix_Cheung2004` definition nan support.
         """
 
-        # This unit test hangs on Python 3, it is thus skipped.
-        if PY3:
-            return
-
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = list(set(permutations(cases * 3, r=3)))[0:4]
         for case in cases:
@@ -401,7 +402,7 @@ colour_correction_matrix_Finlayson2015` definition unit tests methods.
     def test_colour_correction_matrix_Finlayson2015(self):
         """
         Tests :func:`colour.characterisation.correction.\
-    colour_correction_matrix_Finlayson2015` definition.
+colour_correction_matrix_Finlayson2015` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -443,10 +444,6 @@ colour_correction_matrix_Finlayson2015` definition unit tests methods.
     colour_correction_matrix_Finlayson2015` definition nan support.
         """
 
-        # This unit test hangs on Python 3, it is thus skipped.
-        if PY3:
-            return
-
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = list(set(permutations(cases * 3, r=3)))[0:4]
         for case in cases:
@@ -467,7 +464,7 @@ colour_correction_matrix_Vandermonde` definition unit tests methods.
     def test_colour_correction_matrix_Vandermonde(self):
         """
         Tests :func:`colour.characterisation.correction.\
-    colour_correction_matrix_Vandermonde` definition.
+colour_correction_matrix_Vandermonde` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -506,10 +503,6 @@ colour_correction_matrix_Vandermonde` definition unit tests methods.
         Tests :func:`colour.characterisation.correction.
     colour_correction_matrix_Vandermonde` definition nan support.
         """
-
-        # This unit test hangs on Python 3, it is thus skipped.
-        if PY3:
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = list(set(permutations(cases * 3, r=3)))[0:4]
@@ -572,10 +565,6 @@ colour_correction_Cheung2004` definition n-dimensional support.
 colour_correction_Cheung2004` definition nan support.
         """
 
-        # This unit test hangs on Python 3, it is thus skipped.
-        if PY3:
-            return
-
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = list(set(permutations(cases * 3, r=3)))[0:4]
         for case in cases:
@@ -637,10 +626,6 @@ colour_correction_Finlayson2015` definition n-dimensional support.
 colour_correction_Finlayson2015` definition nan support.
         """
 
-        # This unit test hangs on Python 3, it is thus skipped.
-        if PY3:
-            return
-
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = list(set(permutations(cases * 3, r=3)))[0:4]
         for case in cases:
@@ -701,10 +686,6 @@ colour_correction_Vandermonde` definition n-dimensional support.
         Tests :func:`colour.characterisation.correction.\
 colour_correction_Vandermonde` definition nan support.
         """
-
-        # This unit test hangs on Python 3, it is thus skipped.
-        if PY3:
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = list(set(permutations(cases * 3, r=3)))[0:4]

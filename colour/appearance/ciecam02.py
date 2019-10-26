@@ -62,16 +62,16 @@ __all__ = [
     'CIECAM02_Specification', 'XYZ_to_CIECAM02', 'CIECAM02_to_XYZ',
     'chromatic_induction_factors', 'base_exponential_non_linearity',
     'viewing_condition_dependent_parameters', 'degree_of_adaptation',
-    'full_chromatic_adaptation_forward', 'full_chromatic_adaptation_reverse',
+    'full_chromatic_adaptation_forward', 'full_chromatic_adaptation_inverse',
     'RGB_to_rgb', 'rgb_to_RGB',
     'post_adaptation_non_linear_response_compression_forward',
-    'post_adaptation_non_linear_response_compression_reverse',
-    'opponent_colour_dimensions_forward', 'opponent_colour_dimensions_reverse',
+    'post_adaptation_non_linear_response_compression_inverse',
+    'opponent_colour_dimensions_forward', 'opponent_colour_dimensions_inverse',
     'hue_angle', 'hue_quadrature', 'eccentricity_factor',
-    'achromatic_response_forward', 'achromatic_response_reverse',
+    'achromatic_response_forward', 'achromatic_response_inverse',
     'lightness_correlate', 'brightness_correlate',
     'temporary_magnitude_quantity_forward',
-    'temporary_magnitude_quantity_reverse', 'chroma_correlate',
+    'temporary_magnitude_quantity_inverse', 'chroma_correlate',
     'colourfulness_correlate', 'saturation_correlate', 'P',
     'post_adaptation_non_linear_response_compression_matrix'
 ]
@@ -225,7 +225,17 @@ def XYZ_to_CIECAM02(XYZ,
     +------------------------------+-----------------------+---------------+
     | **Range**                    | **Scale - Reference** | **Scale - 1** |
     +==============================+=======================+===============+
+    | ``CIECAM02_specification.J`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.C`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
     | ``CIECAM02_specification.h`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.s`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.Q`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.M`` | [0, 100]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
     | ``CIECAM02_specification.H`` | [0, 360]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
@@ -310,8 +320,10 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
-    return CIECAM02_Specification(J, C, from_range_degrees(h), s, Q, M,
-                                  from_range_degrees(H), None)
+    return CIECAM02_Specification(
+        from_range_100(J), from_range_100(C), from_range_degrees(h),
+        from_range_100(s), from_range_100(Q), from_range_100(M),
+        from_range_degrees(H), None)
 
 
 def CIECAM02_to_XYZ(CIECAM02_specification,
@@ -321,9 +333,9 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
                     surround=CIECAM02_VIEWING_CONDITIONS['Average'],
                     discount_illuminant=False):
     """
-    Converts *CIECAM02* specification to *CIE XYZ* tristimulus values.
+    Converts from *CIECAM02* specification to *CIE XYZ* tristimulus values.
 
-    This is the *reverse* implementation.
+    This is the *inverse* implementation.
 
     Parameters
     ----------
@@ -365,7 +377,17 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     +------------------------------+-----------------------+---------------+
     | **Domain**                   | **Scale - Reference** | **Scale - 1** |
     +==============================+=======================+===============+
+    | ``CIECAM02_specification.J`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.C`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
     | ``CIECAM02_specification.h`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.s`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.Q`` | [0, 100]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
+    | ``CIECAM02_specification.M`` | [0, 100]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
     | ``CIECAM02_specification.H`` | [0, 360]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
@@ -400,9 +422,11 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CIECAM02_specification,
                                                 CIECAM02_Specification)
-    L_A = as_float_array(L_A)
-
+    J = to_domain_100(J)
+    C = to_domain_100(C) if C is not None else C
     h = to_domain_degrees(h)
+    M = to_domain_100(M) if M is not None else M
+    L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
@@ -437,32 +461,32 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     A_w = achromatic_response_forward(RGB_aw, N_bb)
 
     # Computing temporary magnitude quantity :math:`t`.
-    t = temporary_magnitude_quantity_reverse(C, J, n)
+    t = temporary_magnitude_quantity_inverse(C, J, n)
 
     # Computing eccentricity factor *e_t*.
     e_t = eccentricity_factor(h)
 
     # Computing achromatic response :math:`A` for the stimulus.
-    A = achromatic_response_reverse(A_w, J, surround.c, z)
+    A = achromatic_response_inverse(A_w, J, surround.c, z)
 
     # Computing *P_1* to *P_3*.
     P_n = P(surround.N_c, N_cb, e_t, t, A, N_bb)
     _P_1, P_2, _P_3 = tsplit(P_n)
 
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
-    a, b = tsplit(opponent_colour_dimensions_reverse(P_n, h))
+    a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
 
     # Computing post-adaptation non linear response compression matrix.
     RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
 
-    # Applying reverse post-adaptation non linear response compression.
-    RGB_p = post_adaptation_non_linear_response_compression_reverse(RGB_a, F_L)
+    # Applying inverse post-adaptation non linear response compression.
+    RGB_p = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_c = rgb_to_RGB(RGB_p)
 
-    # Applying reverse full chromatic adaptation.
-    RGB = full_chromatic_adaptation_reverse(RGB_c, RGB_w, Y_w, D)
+    # Applying inverse full chromatic adaptation.
+    RGB = full_chromatic_adaptation_inverse(RGB_c, RGB_w, Y_w, D)
 
     # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ*
     # tristimulus values.
@@ -639,7 +663,7 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     return RGB_c
 
 
-def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
+def full_chromatic_adaptation_inverse(RGB, RGB_w, Y_w, D):
     """
     Reverts full chromatic adaptation of given *CMCCAT2000* transform sharpened
     *RGB* array using given *CMCCAT2000* transform sharpened whitepoint
@@ -667,7 +691,7 @@ def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
     >>> Y_w = 100.0
     >>> D = 0.994468780088
-    >>> full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D)
+    >>> full_chromatic_adaptation_inverse(RGB, RGB_w, Y_w, D)
     array([ 18.985456,  20.707422,  21.747482])
     """
 
@@ -776,7 +800,7 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     return RGB_c
 
 
-def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
+def post_adaptation_non_linear_response_compression_inverse(RGB, F_L):
     """
     Returns given *CMCCAT2000* transform sharpened *RGB* array without post
     adaptation non linear response compression.
@@ -797,7 +821,7 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     --------
     >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
     >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_reverse(RGB, F_L)
+    >>> post_adaptation_non_linear_response_compression_inverse(RGB, F_L)
     ... # doctest: +ELLIPSIS
     array([ 19.9969397...,  20.0018612...,  20.0135052...])
     """
@@ -844,10 +868,10 @@ def opponent_colour_dimensions_forward(RGB):
     return ab
 
 
-def opponent_colour_dimensions_reverse(P_n, h):
+def opponent_colour_dimensions_inverse(P_n, h):
     """
     Returns opponent colour dimensions from given points :math:`P_n` and hue
-    :math:`h` in degrees for reverse *CIECAM02* implementation.
+    :math:`h` in degrees for inverse *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -870,7 +894,7 @@ def opponent_colour_dimensions_reverse(P_n, h):
     --------
     >>> P_n = np.array([30162.89081534, 24.23720547, 1.05000000])
     >>> h = -140.95156734
-    >>> opponent_colour_dimensions_reverse(P_n, h)  # doctest: +ELLIPSIS
+    >>> opponent_colour_dimensions_inverse(P_n, h)  # doctest: +ELLIPSIS
     array([-0.0006241..., -0.0005062...])
     """
 
@@ -1063,12 +1087,12 @@ def achromatic_response_forward(RGB, N_bb):
     return A
 
 
-def achromatic_response_reverse(A_w, J, c, z):
+def achromatic_response_inverse(A_w, J, c, z):
     """
     Returns the achromatic response :math:`A` from given achromatic response
     :math:`A_w` for the whitepoint, *Lightness* correlate :math:`J`, surround
     exponential non linearity :math:`c` and base exponential non linearity
-    :math:`z` for reverse *CIECAM02* implementation.
+    :math:`z` for inverse *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -1092,7 +1116,7 @@ def achromatic_response_reverse(A_w, J, c, z):
     >>> J = 41.73109113251392
     >>> c = 0.69
     >>> z = 1.927213595499958
-    >>> achromatic_response_reverse(A_w, J, c, z)  # doctest: +ELLIPSIS
+    >>> achromatic_response_inverse(A_w, J, c, z)  # doctest: +ELLIPSIS
     23.9394809...
     """
 
@@ -1237,9 +1261,9 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     return t
 
 
-def temporary_magnitude_quantity_reverse(C, J, n):
+def temporary_magnitude_quantity_inverse(C, J, n):
     """
-    Returns the temporary magnitude quantity :math:`t`. for reverse *CIECAM02*
+    Returns the temporary magnitude quantity :math:`t`. for inverse *CIECAM02*
     implementation.
 
     Parameters
@@ -1266,7 +1290,7 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     >>> C = 68.8364136888275
     >>> J = 41.749268505999
     >>> n = 0.2
-    >>> temporary_magnitude_quantity_reverse(C, J, n)  # doctest: +ELLIPSIS
+    >>> temporary_magnitude_quantity_inverse(C, J, n)  # doctest: +ELLIPSIS
     202.3873619...
    """
 

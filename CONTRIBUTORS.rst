@@ -52,6 +52,38 @@ Development & Technical Support
 
     Technical support.
 
+-   **Troy James Sobotka**, *Motion Picture Technician*
+
+    F-Gamut and Fuji F-Log support.
+
+-   **Dominik Moritz**, *PhD in Computer Science @ University of Washington*
+
+    Documentation improvements.
+
+-   **Matt Pppp**
+
+    *Hacktoberfest 2019* technical support.
+
+-   **Chinmay Rane**
+
+    *Hacktoberfest 2019* technical support.
+
+-   **Pavithra Eswaramoorthy**
+
+    *Hacktoberfest 2019* technical support.
+
+-   **John Mertic**
+
+    License discovery improvements.
+
+-   **Ben Pearlstine**
+
+    *Hacktoberfest 2019* technical support.
+
+-   **Manuel Leonhardt**, *Software Engineer and Image Scientist @ ARRI*
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -111,11 +143,13 @@ Issues & Discussions
 -   Vishal Vashistha
 -   Vlad Enache
 -   @Ampersandme
+-   @Apoorva-13
 -   @awehring
 -   @brandondube
 -   @briend
 -   @cclauss
 -   @Chandler
+-   @chesschi
 -   @codycuellar
 -   @Edwardlin-zlt
 -   @eyeforcolor
@@ -134,19 +168,22 @@ Issues & Discussions
 -   @lensz
 -   @Myndex
 -   @naavis
+-   @NoRoKr
 -   @nschloe
 -   @peteroupc
 -   @Queuecumber
 -   @Rob-Welch
 -   @robbuckley
 -   @Ron024
+-   @senyai
 -   @shanest
--   @sobotka
 -   @stakemura
 -   @tashdor
 -   @TFiFiE
 -   @tingeman
+-   @thunders82
 -   @totyped
+-   @vidakDK
 -   @Willingo
 -   @zachlewis
 
@@ -154,6 +191,6 @@ About
 -----
 
 | **Colour** by Colour Developers - 2013-2019
-| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
-| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`_
+| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

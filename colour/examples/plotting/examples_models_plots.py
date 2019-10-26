@@ -104,4 +104,4 @@ plot_multi_cctfs(['ITU-R BT.709', 'sRGB'])
 
 message_box(('Plotting multiple "RGB" colourspaces decoding colour component '
              'transfer functions.'))
-plot_multi_cctfs(['ACES2065-1', 'ProPhoto RGB'], decoding_cctf=True)
+plot_multi_cctfs(['ACES2065-1', 'ProPhoto RGB'], cctf_decoding=True)

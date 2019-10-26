@@ -27,7 +27,10 @@ structures.py#L37
 
 from __future__ import division, unicode_literals
 
-from collections import Mapping, MutableMapping
+try:  # pragma: no cover
+    from collections import Mapping, MutableMapping
+except ImportError:  # pragma: no cover
+    from collections.abc import Mapping, MutableMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -41,7 +44,7 @@ __all__ = ['Structure', 'Lookup', 'CaseInsensitiveMapping']
 
 class Structure(dict):
     """
-    Defines an object similar to C/C++ structured type.
+    Defines a dict-like object allowing to access key values using dot syntax.
 
     Other Parameters
     ----------------
@@ -138,10 +141,7 @@ class Lookup(dict):
             Key.
         """
 
-        try:
-            return self.keys_from_value(value)[0]
-        except IndexError:
-            pass
+        return self.keys_from_value(value)[0]
 
 
 class CaseInsensitiveMapping(MutableMapping):
@@ -325,11 +325,13 @@ class CaseInsensitiveMapping(MutableMapping):
         """
 
         if isinstance(item, Mapping):
-            item = CaseInsensitiveMapping(item)
+            item_mapping = CaseInsensitiveMapping(item)
         else:
-            return NotImplemented
+            raise ValueError(
+                'Impossible to test equality with "{0}" class type!'.format(
+                    item.__class__.__name__))
 
-        return dict(self.lower_items()) == dict(item.lower_items())
+        return dict(self.lower_items()) == dict(item_mapping.lower_items())
 
     def __ne__(self, item):
         """

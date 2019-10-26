@@ -6,7 +6,7 @@ TODO
 
 -   colour/__init__.py
 
-    -   Line 296 : # TODO: Remove legacy printing support when deemed appropriate.
+    -   Line 306 : # TODO: Remove legacy printing support when deemed appropriate.
 
 
 -   colour/colorimetry/spectrum.py
@@ -16,23 +16,23 @@ TODO
 
 -   colour/colorimetry/tristimulus.py
 
-    -   Line 765 : # TODO: Investigate code vectorisation.
+    -   Line 769 : # TODO: Investigate code vectorisation.
 
 
 -   colour/colorimetry/tests/test_spectrum.py
 
-    -   Line 1440 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-    -   Line 1640 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+    -   Line 1457 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+    -   Line 1666 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
 
 
 -   colour/appearance/ciecam02.py
 
-    -   Line 288 : # TODO: Compute hue composition.
+    -   Line 298 : # TODO: Compute hue composition.
 
 
 -   colour/appearance/cam16.py
 
-    -   Line 282 : # TODO: Compute hue composition.
+    -   Line 292 : # TODO: Compute hue composition.
 
 
 -   colour/appearance/hunt.py
@@ -62,9 +62,20 @@ TODO
     -   Line 37 : # TODO: The current fixture data is generated from direct computations using our model implementation. We have asked ground truth data to Li et al. (2016) and will update the "cam16.csv" file accordingly whenever we receive it.
 
 
+-   colour/io/tests/test_image.py
+
+    -   Line 210 : # TODO: Investigate "OIIO" behaviour here: 1.0 != 15360.0 image = read_image_OpenImageIO( os.path.join(RESOURCES_DIRECTORY, 'Colour_Logo.png'), 'float16') self.assertIs(image.dtype, np.dtype('float16')) self.assertEqual(np.min(image), 0.0) self.assertEqual(np.max(image), 1.0)
+
+
 -   colour/io/luts/lut.py
 
     -   Line 126 : # TODO: Re-enable when dropping Python 2.7. pylint: disable=E1121
+    -   Line 2009 : # TODO: Implement support for non-uniform domain, e.g. "cinespace" LUTs.
+
+
+-   colour/graph/conversion.py
+
+    -   Line 927 : # TODO: Remove the following warning whenever the automatic colour conversion graph implementation is considered stable.
 
 
 -   colour/models/rgb/derivation.py
@@ -74,8 +85,8 @@ TODO
 
 -   colour/models/rgb/rgb_colourspace.py
 
-    -   Line 540 : # TODO: Revisit for potential behaviour / type checking.
-    -   Line 573 : # TODO: Revisit for potential behaviour / type checking.
+    -   Line 541 : # TODO: Revisit for potential behaviour / type checking.
+    -   Line 574 : # TODO: Revisit for potential behaviour / type checking.
 
 
 -   colour/models/rgb/tests/test_derivation.py
@@ -83,9 +94,40 @@ TODO
     -   Line 279 : # TODO: Simplify that monster.
 
 
+-   colour/models/rgb/transfer_functions/tests/test__init__.py
+
+    -   Line 38 : # TODO: Use "assertWarns" when dropping Python 2.7.
+    -   Line 55 : # TODO: Use "assertWarns" when dropping Python 2.7.
+
+
+-   colour/utilities/verbose.py
+
+    -   Line 572 : # TODO: Implement support for "pyproject.toml" file whenever "TOML" is supported in the standard library.
+
+
+-   colour/utilities/common.py
+
+    -   Line 569 : # TODO: Remove when dropping Python 2.7.
+
+
 -   colour/utilities/array.py
 
-    -   Line 183 : # TODO: Change to "DEFAULT_INT_DTYPE" when and if https://github.com/numpy/numpy/issues/11956 is addressed.
+    -   Line 186 : # TODO: Change to "DEFAULT_INT_DTYPE" when and if https://github.com/numpy/numpy/issues/11956 is addressed.
+
+
+-   colour/utilities/tests/test_deprecation.py
+
+    -   Line 317 : # TODO: Use "assertWarns" when dropping Python 2.7.
+
+
+-   colour/plotting/models.py
+
+    -   Line 1569 : # TODO: Filter appropriate colour models.
+
+
+-   colour/plotting/common.py
+
+    -   Line 821 : # TODO: Consider using "MutableMapping" here.
 
 
 -   colour/characterisation/correction.py
@@ -95,30 +137,43 @@ TODO
 
 -   colour/notation/munsell.py
 
-    -   Line 1062 : # TODO: Consider refactoring implementation.
+    -   Line 1067 : # TODO: Consider refactoring implementation.
 
 
 -   colour/continuous/signal.py
 
-    -   Line 380 : # TODO: Check for interpolator capabilities.
-    -   Line 445 : # TODO: Check for extrapolator capabilities.
-    -   Line 586 : # TODO: Discuss what is the most suitable behaviour, either the following or __str__ one.
+    -   Line 384 : # TODO: Check for interpolator capabilities.
+    -   Line 449 : # TODO: Check for extrapolator capabilities.
 
 
--   colour/continuous/multi_signal.py
+-   colour/continuous/multi_signals.py
 
-    -   Line 698 : # TODO: Discuss what is the most suitable behaviour, either the following or __str__ one.
-    -   Line 1319 : # TODO: Implement support for Signal class passing.
+    -   Line 1322 : # TODO: Implement support for Signal class passing.
+
+
+-   colour/continuous/tests/test_multi_signal.py
+
+    -   Line 112 : # TODO: Use "assertWarns" when dropping Python 2.7.
+
+
+-   colour/continuous/tests/test_signal.py
+
+    -   Line 101 : # TODO: Use "assertWarns" when dropping Python 2.7.
 
 
 -   colour/volume/rgb.py
 
-    -   Line 305 : # TODO: Investigate for generator yielding directly a ndarray.
+    -   Line 306 : # TODO: Investigate for generator yielding directly a ndarray.
 
 
 -   colour/algebra/tests/test_interpolation.py
 
-    -   Line 437 : # TODO: Revisit if the interpolator can be applied on non-uniform "x" independent variable.
+    -   Line 532 : # TODO: Revisit if the interpolator can be applied on non-uniform "x" independent variable.
+
+
+-   colour/algebra/tests/test_random.py
+
+    -   Line 61 : # TODO: Use "assertWarns" when dropping Python 2.7.
 
 About
 -----

@@ -4,14 +4,14 @@ from __future__ import absolute_import
 
 import sys
 
-from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
-from .dataset import *  # noqa
-from . import dataset
+from .datasets import *  # noqa
+from . import datasets
 from .common import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE, colour_style,
                      override_style, XYZ_to_plotting_colourspace, ColourSwatch,
-                     colour_cycle, artist, camera, render, wrap_label,
+                     colour_cycle, artist, camera, render, wrap_title,
                      label_rectangles, uniform_axes3d, filter_passthrough,
                      filter_RGB_colourspaces, filter_cmfs, filter_illuminants,
                      filter_colour_checkers, plot_single_colour_swatch,
@@ -35,8 +35,10 @@ from .diagrams import (plot_chromaticity_diagram_CIE1931,
                        plot_sds_in_chromaticity_diagram_CIE1976UCS)
 from .corresponding import plot_corresponding_chromaticities_prediction
 from .geometry import quad, grid, cube
+from .graph import plot_automatic_colour_conversion_graph
 from .models import (
-    plot_pointer_gamut, plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
+    common_colourspace_model_axis_reorder, plot_pointer_gamut,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
@@ -45,7 +47,7 @@ from .models import (
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS,
-    plot_single_cctf, plot_multi_cctfs)
+    plot_single_cctf, plot_multi_cctfs, plot_constant_hue_loci)
 from .notation import (plot_single_munsell_value_function,
                        plot_multi_munsell_value_functions)
 from .phenomena import plot_single_sd_rayleigh_scattering, plot_the_blue_sky
@@ -59,11 +61,11 @@ from .temperature import (
 from .volume import plot_RGB_colourspaces_gamuts, plot_RGB_scatter
 
 __all__ = []
-__all__ += dataset.__all__
+__all__ += datasets.__all__
 __all__ += [
     'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
-    'colour_cycle', 'artist', 'camera', 'render', 'wrap_label',
+    'colour_cycle', 'artist', 'camera', 'render', 'wrap_title',
     'label_rectangles', 'uniform_axes3d', 'filter_passthrough',
     'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
     'filter_colour_checkers', 'plot_single_colour_swatch',
@@ -89,9 +91,10 @@ __all__ += [
     'plot_sds_in_chromaticity_diagram_CIE1976UCS'
 ]
 __all__ += ['plot_corresponding_chromaticities_prediction']
+__all__ += ['plot_automatic_colour_conversion_graph']
 __all__ += ['quad', 'grid', 'cube']
 __all__ += [
-    'plot_pointer_gamut',
+    'common_colourspace_model_axis_reorder', 'plot_pointer_gamut',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
@@ -101,7 +104,7 @@ __all__ += [
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS',
-    'plot_single_cctf', 'plot_multi_cctfs'
+    'plot_single_cctf', 'plot_multi_cctfs', 'plot_constant_hue_loci'
 ]
 __all__ += [
     'plot_single_munsell_value_function', 'plot_multi_munsell_value_functions'
@@ -130,7 +133,7 @@ class plotting(ModuleAPI):
 
 # v0.3.11
 API_CHANGES = {
-    'Renamed': [
+    'ObjectRenamed': [
         [
             'colour.plotting.CIE_1931_chromaticity_diagram_plot',
             'colour.plotting.plot_chromaticity_diagram_CIE1931',
@@ -196,7 +199,7 @@ API_CHANGES : dict
 """
 
 # v0.3.12
-API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.plotting.RGB_chromaticity_coordinates_chromaticity_diagram_plot',  # noqa
         'colour.plotting.plot_RGB_chromaticities_in_chromaticity_diagram',
@@ -431,29 +434,24 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
 ]
 
-
-def _setup_api_changes():
-    """
-    Setups *Colour* API changes.
-    """
-
-    global API_CHANGES
-
-    for renamed in API_CHANGES['Renamed']:
-        name, access = renamed
-        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
-    API_CHANGES.pop('Renamed')
-
+# v0.3.14
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.plotting.ASTM_G_173_DIRECT_CIRCUMSOLAR',
+        'colour.plotting.ASTMG173_DIRECT_CIRCUMSOLAR',
+    ],
+    [
+        'colour.plotting.ASTM_G_173_ETR',
+        'colour.plotting.ASTMG173_ETR',
+    ],
+    [
+        'colour.plotting.ASTM_G_173_GLOBAL_TILT',
+        'colour.plotting.ASTMG173_GLOBAL_TILT',
+    ],
+]
 
 if not is_documentation_building():
-    _setup_api_changes()
-
-    del ModuleAPI
-    del Renamed
-    del is_documentation_building
-    del _setup_api_changes
-
     sys.modules['colour.plotting'] = plotting(sys.modules['colour.plotting'],
-                                              API_CHANGES)
+                                              build_API_changes(API_CHANGES))
 
-    del sys
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

@@ -33,14 +33,14 @@ from collections import namedtuple
 from colour.algebra import spow
 from colour.appearance.ciecam02 import (
     CIECAM02_VIEWING_CONDITIONS, P, achromatic_response_forward,
-    achromatic_response_reverse, brightness_correlate, chroma_correlate,
+    achromatic_response_inverse, brightness_correlate, chroma_correlate,
     colourfulness_correlate, degree_of_adaptation, eccentricity_factor,
     hue_angle, hue_quadrature, lightness_correlate,
-    opponent_colour_dimensions_forward, opponent_colour_dimensions_reverse,
+    opponent_colour_dimensions_forward, opponent_colour_dimensions_inverse,
     post_adaptation_non_linear_response_compression_forward,
-    post_adaptation_non_linear_response_compression_reverse,
+    post_adaptation_non_linear_response_compression_inverse,
     post_adaptation_non_linear_response_compression_matrix,
-    saturation_correlate, temporary_magnitude_quantity_reverse,
+    saturation_correlate, temporary_magnitude_quantity_inverse,
     viewing_condition_dependent_parameters)
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               as_namedtuple, dot_vector, from_range_100,
@@ -207,9 +207,19 @@ def XYZ_to_CAM16(XYZ,
     +---------------------------+-----------------------+---------------+
     | **Range**                 | **Scale - Reference** | **Scale - 1** |
     +===========================+=======================+===============+
-    | ``CAM16_Specification.h`` | [0, 360]              | [0, 1]        |
+    | ``CAM16_specification.J`` | [0, 100]              | [0, 1]        |
     +---------------------------+-----------------------+---------------+
-    | ``CAM16_Specification.H`` | [0, 360]              | [0, 1]        |
+    | ``CAM16_specification.C`` | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.h`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.s`` | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.Q`` | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.M`` | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.H`` | [0, 360]              | [0, 1]        |
     +---------------------------+-----------------------+---------------+
 
     References
@@ -304,8 +314,10 @@ s=2.3450150..., Q=195.3717089..., M=0.1074367..., H=275.5949861..., HC=None)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
-    return CAM16_Specification(J, C, from_range_degrees(h), s, Q, M,
-                               from_range_degrees(H), None)
+    return CAM16_Specification(
+        from_range_100(J), from_range_100(C), from_range_degrees(h),
+        from_range_100(s), from_range_100(Q), from_range_100(M),
+        from_range_degrees(H), None)
 
 
 def CAM16_to_XYZ(CAM16_specification,
@@ -315,9 +327,9 @@ def CAM16_to_XYZ(CAM16_specification,
                  surround=CAM16_VIEWING_CONDITIONS['Average'],
                  discount_illuminant=False):
     """
-    Converts *CAM16* specification to *CIE XYZ* tristimulus values.
+    Converts from *CAM16* specification to *CIE XYZ* tristimulus values.
 
-    This is the *reverse* implementation.
+    This is the *inverse* implementation.
 
     Parameters
     ----------
@@ -355,7 +367,17 @@ def CAM16_to_XYZ(CAM16_specification,
     +---------------------------+-----------------------+---------------+
     | **Domain**                | **Scale - Reference** | **Scale - 1** |
     +===========================+=======================+===============+
+    | ``CAM16_specification.J`` | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.C`` | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
     | ``CAM16_specification.h`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.s`` | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.Q`` | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.M`` | [0, 100]              | [0, 1]        |
     +---------------------------+-----------------------+---------------+
     | ``CAM16_specification.H`` | [0, 360]              | [0, 1]        |
     +---------------------------+-----------------------+---------------+
@@ -389,9 +411,11 @@ def CAM16_to_XYZ(CAM16_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CAM16_specification,
                                                 CAM16_Specification)
-    L_A = as_float_array(L_A)
-
+    J = to_domain_100(J)
+    C = to_domain_100(C) if C is not None else C
     h = to_domain_degrees(h)
+    M = to_domain_100(M) if M is not None else M
+    L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
@@ -426,13 +450,13 @@ def CAM16_to_XYZ(CAM16_specification,
 
     # Step 2
     # Computing temporary magnitude quantity :math:`t`.
-    t = temporary_magnitude_quantity_reverse(C, J, n)
+    t = temporary_magnitude_quantity_inverse(C, J, n)
 
     # Computing eccentricity factor *e_t*.
     e_t = eccentricity_factor(h)
 
     # Computing achromatic response :math:`A` for the stimulus.
-    A = achromatic_response_reverse(A_w, J, surround.c, z)
+    A = achromatic_response_inverse(A_w, J, surround.c, z)
 
     # Computing *P_1* to *P_3*.
     P_n = P(surround.N_c, N_cb, e_t, t, A, N_bb)
@@ -440,15 +464,15 @@ def CAM16_to_XYZ(CAM16_specification,
 
     # Step 3
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
-    a, b = tsplit(opponent_colour_dimensions_reverse(P_n, h))
+    a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
 
     # Step 4
     # Computing post-adaptation non linear response compression matrix.
     RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
 
     # Step 5
-    # Applying reverse post-adaptation non linear response compression.
-    RGB_c = post_adaptation_non_linear_response_compression_reverse(RGB_a, F_L)
+    # Applying inverse post-adaptation non linear response compression.
+    RGB_c = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
 
     # Step 6
     RGB = RGB_c / D_RGB

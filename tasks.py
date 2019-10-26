@@ -7,19 +7,19 @@ Invoke - Tasks
 from __future__ import unicode_literals
 
 import sys
-if sys.version_info[:2] >= (3, 2):
+try:
     import biblib.bib
+except ImportError:
+    pass
 import fnmatch
-import glob
 import os
 import re
-import shutil
-import tempfile
+import toml
+import uuid
 from invoke import task
 
 import colour
-from colour import read_image
-from colour.utilities import message_box, metric_psnr
+from colour.utilities import message_box
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -29,13 +29,15 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APPLICATION_NAME', 'PYTHON_PACKAGE_NAME', 'PYPI_PACKAGE_NAME',
-    'BIBLIOGRAPHY_NAME', 'clean', 'formatting', 'tests', 'quality', 'examples',
-    'docs', 'todo', 'preflight', 'build', 'virtualise', 'tag', 'release',
-    'sha256'
+    'APPLICATION_NAME', 'APPLICATION_VERSION', 'PYTHON_PACKAGE_NAME',
+    'PYPI_PACKAGE_NAME', 'BIBLIOGRAPHY_NAME', 'clean', 'formatting', 'tests',
+    'quality', 'examples', 'preflight', 'docs', 'todo', 'requirements',
+    'build', 'virtualise', 'tag', 'release', 'sha256'
 ]
 
 APPLICATION_NAME = colour.__application_name__
+
+APPLICATION_VERSION = colour.__version__
 
 PYTHON_PACKAGE_NAME = colour.__name__
 
@@ -152,10 +154,14 @@ def tests(ctx, nose=True):
         message_box('Running "Nosetests"...')
         ctx.run(
             'nosetests --with-doctest --with-coverage --cover-package={0} {0}'.
-            format(PYTHON_PACKAGE_NAME))
+            format(PYTHON_PACKAGE_NAME),
+            env={'MPLBACKEND': 'AGG'})
     else:
         message_box('Running "Pytest"...')
-        ctx.run('pytest -W ignore')
+        ctx.run(
+            'py.test --disable-warnings --doctest-modules '
+            '--ignore={0}/examples {0}'.format(PYTHON_PACKAGE_NAME),
+            env={'MPLBACKEND': 'AGG'})
 
 
 @task
@@ -225,6 +231,26 @@ def examples(ctx, plots=False):
             ctx.run('python {0}'.format(os.path.join(root, filename)))
 
 
+@task(formatting, tests, quality, examples)
+def preflight(ctx):
+    """
+    Performs the preflight tasks, i.e. *formatting*, *tests*, *quality*, and
+    *examples*.
+
+    Parameters
+    ----------
+    ctx : invoke.context.Context
+        Context.
+
+    Returns
+    -------
+    bool
+        Task success.
+    """
+
+    message_box('Finishing "Preflight"...')
+
+
 @task
 def docs(ctx, plots=True, html=True, pdf=True):
     """
@@ -248,31 +274,9 @@ def docs(ctx, plots=True, html=True, pdf=True):
     """
 
     if plots:
-        temporary_directory = tempfile.mkdtemp()
-        test_directory = os.path.join('docs', '_static')
-        reference_directory = os.path.join(temporary_directory, '_static')
-        try:
-            shutil.copytree(test_directory, reference_directory)
-            similar_plots = []
-            with ctx.cd('utilities'):
-                message_box('Generating plots...')
-                ctx.run('./generate_plots.py')
-
-                png_files = glob.glob('{0}/*.png'.format(reference_directory))
-                for reference_png_file in png_files:
-                    test_png_file = os.path.join(
-                        test_directory, os.path.basename(reference_png_file))
-                    psnr = metric_psnr(
-                        read_image(str(reference_png_file))[::3, ::3],
-                        read_image(str(test_png_file))[::3, ::3])
-                    if psnr > 70:
-                        similar_plots.append(test_png_file)
-            with ctx.cd('docs/_static'):
-                for similar_plot in similar_plots:
-                    ctx.run('git checkout -- {0}'.format(
-                        os.path.basename(similar_plot)))
-        finally:
-            shutil.rmtree(temporary_directory)
+        with ctx.cd('utilities'):
+            message_box('Generating plots...')
+            ctx.run('./generate_plots.py')
 
     with ctx.prefix('export COLOUR_SCIENCE_DOCUMENTATION_BUILD=True'):
         with ctx.cd('docs'):
@@ -307,11 +311,10 @@ def todo(ctx):
         ctx.run('./export_todo.py')
 
 
-@task(formatting, tests, quality, examples)
-def preflight(ctx):
+@task
+def requirements(ctx):
     """
-    Performs the preflight tasks, i.e. *formatting*, *tests*, *quality*, and
-    *examples*.
+    Export the *requirements.txt* file.
 
     Parameters
     ----------
@@ -324,10 +327,12 @@ def preflight(ctx):
         Task success.
     """
 
-    message_box('Finishing "Preflight"...')
+    message_box('Exporting "requirements.txt" file...')
+    ctx.run('poetry run pip freeze | grep -v "github.com/colour-science" '
+            '> requirements.txt')
 
 
-@task(docs, todo, preflight)
+@task(preflight, docs, todo, requirements)
 def build(ctx):
     """
     Builds the project and runs dependency tasks, i.e. *docs*, *todo*, and
@@ -345,8 +350,17 @@ def build(ctx):
     """
 
     message_box('Building...')
-    ctx.run('python setup.py sdist')
-    ctx.run('python setup.py bdist_wheel --universal')
+    pyproject_content = toml.load('pyproject.toml')
+    pyproject_content['tool']['poetry']['name'] = PYPI_PACKAGE_NAME
+    pyproject_content['tool']['poetry']['packages'] = [{
+        'include': PYTHON_PACKAGE_NAME,
+        'from': '.'
+    }]
+    with open('pyproject.toml', 'w') as pyproject_file:
+        toml.dump(pyproject_content, pyproject_file)
+
+    ctx.run('poetry build')
+    ctx.run('git checkout -- pyproject.toml')
 
 
 @task(clean, build)
@@ -367,21 +381,20 @@ def virtualise(ctx, tests=True):
         Task success.
     """
 
-    pip_binary = '../staging/bin/pip'
-    nosetests_binary = '../staging/bin/nosetests'
-
+    unique_name = '{0}-{1}'.format(PYPI_PACKAGE_NAME, uuid.uuid1())
     with ctx.cd('dist'):
-        ctx.run('tar -xvf {0}-*.tar.gz'.format(PYPI_PACKAGE_NAME))
-        ctx.run('virtualenv staging')
-        with ctx.cd('{0}-*'.format(PYPI_PACKAGE_NAME)):
-            ctx.run('pwd')
-            ctx.run('{0} install numpy'.format(pip_binary))
-            ctx.run('{0} install -e .'.format(pip_binary))
-            ctx.run('{0} install matplotlib'.format(pip_binary))
-            ctx.run('{0} install nose'.format(pip_binary))
-            ctx.run('{0} install mock'.format(pip_binary))
+        ctx.run('tar -xvf {0}-{1}.tar.gz'.format(PYPI_PACKAGE_NAME,
+                                                 APPLICATION_VERSION))
+        ctx.run('mv {0}-{1} {2}'.format(PYPI_PACKAGE_NAME, APPLICATION_VERSION,
+                                        unique_name))
+        with ctx.cd(unique_name):
+            ctx.run('poetry env use 3')
+            ctx.run('poetry install --extras "optional plotting"')
+            ctx.run('source $(poetry env info -p)/bin/activate')
+            ctx.run('python -c "import imageio;'
+                    'imageio.plugins.freeimage.download()"')
             if tests:
-                ctx.run(nosetests_binary)
+                ctx.run('poetry run nosetests', env={'MPLBACKEND': 'AGG'})
 
 
 @task
@@ -402,16 +415,17 @@ def tag(ctx):
 
     message_box('Tagging...')
     result = ctx.run('git rev-parse --abbrev-ref HEAD', hide='both')
+
     assert result.stdout.strip() == 'develop', (
         'Are you still on a feature or master branch?')
 
     with open(os.path.join(PYTHON_PACKAGE_NAME, '__init__.py')) as file_handle:
         file_content = file_handle.read()
-        major_version = re.search("__major_version__\s+=\s+'(.*)'",
+        major_version = re.search("__major_version__\\s+=\\s+'(.*)'",
                                   file_content).group(1)
-        minor_version = re.search("__minor_version__\s+=\s+'(.*)'",
+        minor_version = re.search("__minor_version__\\s+=\\s+'(.*)'",
                                   file_content).group(1)
-        change_version = re.search("__change_version__\s+=\s+'(.*)'",
+        change_version = re.search("__change_version__\\s+=\\s+'(.*)'",
                                    file_content).group(1)
 
         version = '.'.join((major_version, minor_version, change_version))

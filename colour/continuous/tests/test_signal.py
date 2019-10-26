@@ -9,9 +9,11 @@ import numpy as np
 import unittest
 import re
 import textwrap
+from six import string_types
 
 from colour.algebra import (CubicSplineInterpolator, Extrapolator,
                             KernelInterpolator)
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal
 from colour.utilities import is_pandas_installed
 
@@ -65,6 +67,17 @@ class TestSignal(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(Signal))
 
+    def test_dtype(self):
+        """
+        Tests :func:`colour.continuous.signal.Signal.dtype` property.
+        """
+
+        self.assertEqual(self._signal.dtype, None)
+
+        signal = self._signal.copy()
+        signal.dtype = DEFAULT_FLOAT_DTYPE
+        self.assertEqual(signal.dtype, DEFAULT_FLOAT_DTYPE)
+
     def test_domain(self):
         """
         Tests :func:`colour.continuous.signal.Signal.domain` property.
@@ -85,6 +98,11 @@ class TestSignal(unittest.TestCase):
             signal[np.array([0, 1, 2]) * 10],
             np.array([10.0, 20.0, 30.0]),
             decimal=7)
+
+        # TODO: Use "assertWarns" when dropping Python 2.7.
+        domain = np.linspace(0, 1, 10)
+        domain[0] = -np.inf
+        signal.domain = domain
 
     def test_range(self):
         """
@@ -185,6 +203,14 @@ class TestSignal(unittest.TestCase):
 
         assert hasattr(self._signal.function, '__call__')
 
+    def test_raise_exception_function(self):
+        """
+        Tests :func:`colour.continuous.signal.Signal.function` property raised
+        exception.
+        """
+
+        self.assertRaises(RuntimeError, Signal().function, 0)
+
     def test__init__(self):
         """
         Tests :func:`colour.continuous.signal.Signal.__init__` method.
@@ -213,6 +239,13 @@ class TestSignal(unittest.TestCase):
             np.testing.assert_array_equal(signal.domain, self._domain)
             np.testing.assert_array_equal(signal.range, self._range)
 
+    def test__hash__(self):
+        """
+        Tests :func:`colour.continuous.signal.Signal.__hash__` method.
+        """
+
+        self.assertIsInstance(hash(self._signal), int)
+
     def test__str__(self):
         """
         Tests :func:`colour.continuous.signal.Signal.__str__` method.
@@ -231,6 +264,8 @@ class TestSignal(unittest.TestCase):
                  [   7.   80.]
                  [   8.   90.]
                  [   9.  100.]]""")[1:])
+
+        self.assertIsInstance(str(Signal()), string_types)
 
     def test__repr__(self):
         """
@@ -255,6 +290,8 @@ class TestSignal(unittest.TestCase):
                        interpolator_args={},
                        extrapolator=Extrapolator,
                        extrapolator_args={...})""")[1:])
+
+        self.assertIsInstance(repr(Signal()), string_types)
 
     def test__getitem__(self):
         """
@@ -449,6 +486,21 @@ class TestSignal(unittest.TestCase):
             self._signal.arithmetical_operation(10, '**', False).range,
             self._range ** 10,
             decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._signal + 10).range, self._range + 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._signal - 10).range, self._range - 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._signal * 10).range, self._range * 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._signal / 10).range, self._range / 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (self._signal ** 10).range, self._range ** 10, decimal=7)
 
         signal = self._signal.copy()
 

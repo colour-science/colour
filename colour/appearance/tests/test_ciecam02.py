@@ -25,7 +25,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestCIECAM02ColourAppearanceModelForward',
-    'TestCIECAM02ColourAppearanceModelReverse'
+    'TestCIECAM02ColourAppearanceModelInverse'
 ]
 
 
@@ -88,7 +88,10 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
 
         d_r = (
             ('reference', 1, 1),
-            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 360])),
+            (1, 0.01,
+             np.array([
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+             ])),
             (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360])),
         )
         for scale, factor_a, factor_b in d_r:
@@ -117,10 +120,10 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
-class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
+class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.ciecam02` module units tests methods for
-    *CIECAM02* colour appearance model reverse implementation.
+    *CIECAM02* colour appearance model inverse implementation.
     """
 
     FIXTURE_BASENAME = 'ciecam02.csv'
@@ -237,7 +240,10 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
         d_r = (
             ('reference', 1, 1, 1),
-            (1, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 360]), 0.01, 0.01),
+            (1,
+             np.array([
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+             ]), 0.01, 0.01),
             (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360]), 1, 1),
         )
         for scale, factor_a, factor_b, factor_c in d_r:
@@ -247,6 +253,28 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
                                     XYZ_w * factor_b, L_A, Y_b, surround),
                     XYZ * factor_c,
                     decimal=7)
+
+    @ignore_numpy_errors
+    def test_raise_exception_CIECAM02_to_XYZ(self):
+        """
+        Tests :func:`colour.appearance.cam16.CIECAM02_to_XYZ` definition raised
+        exception.
+        """
+
+        try:
+            CIECAM02_to_XYZ(
+                CIECAM02_Specification(
+                    41.731091132513917,
+                    None,
+                    219.04843265831178,
+                ),
+                np.array([95.05, 100.00, 108.88]),
+                318.31,
+                20.0,
+                CIECAM02_VIEWING_CONDITIONS['Average'],
+            )
+        except ValueError:
+            pass
 
     @ignore_numpy_errors
     def test_nan_CIECAM02_to_XYZ(self):

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-sRGB Colourspace
-================
+sRGB
+====
 
-Defines *sRGB* colourspace opto-electrical transfer function (OETF / OECF) and
-its reverse:
+Defines the *sRGB* electro-optical transfer function (EOTF / EOCF) and its
+inverse:
 
--   :func:`colour.models.oetf_sRGB`
--   :func:`colour.models.oetf_reverse_sRGB`
+-   :func:`colour.models.eotf_inverse_sRGB`
+-   :func:`colour.models.eotf_sRGB`
 
 See Also
 --------
@@ -45,13 +45,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_sRGB', 'oetf_reverse_sRGB']
+__all__ = ['eotf_inverse_sRGB', 'eotf_sRGB']
 
 
-def oetf_sRGB(L):
+def eotf_inverse_sRGB(L):
     """
-    Defines the *sRGB* colourspace opto-electronic transfer function
-    (OETF / OECF).
+    Defines the *IEC 61966-2-1:1999* *sRGB* inverse electro-optical transfer
+    function (EOTF / EOCF).
 
     Parameters
     ----------
@@ -85,7 +85,7 @@ def oetf_sRGB(L):
 
     Examples
     --------
-    >>> oetf_sRGB(0.18)  # doctest: +ELLIPSIS
+    >>> eotf_inverse_sRGB(0.18)  # doctest: +ELLIPSIS
     0.4613561...
     """
 
@@ -96,10 +96,10 @@ def oetf_sRGB(L):
     return as_float(from_range_1(V))
 
 
-def oetf_reverse_sRGB(V):
+def eotf_sRGB(V):
     """
-    Defines the *sRGB* colourspace reverse opto-electronic transfer function
-    (OETF / OECF).
+    Defines the *IEC 61966-2-1:1999* *sRGB* electro-optical transfer function
+    (EOTF / EOCF).
 
     Parameters
     ----------
@@ -133,7 +133,7 @@ def oetf_reverse_sRGB(V):
 
     Examples
     --------
-    >>> oetf_reverse_sRGB(0.461356129500442)  # doctest: +ELLIPSIS
+    >>> eotf_sRGB(0.461356129500442)  # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -141,7 +141,7 @@ def oetf_reverse_sRGB(V):
 
     with domain_range_scale('ignore'):
         L = np.where(
-            V <= oetf_sRGB(0.0031308),
+            V <= eotf_inverse_sRGB(0.0031308),
             V / 12.92,
             spow((V + 0.055) / 1.055, 2.4),
         )

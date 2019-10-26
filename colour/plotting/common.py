@@ -55,7 +55,7 @@ __status__ = 'Production'
 __all__ = [
     'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
-    'colour_cycle', 'artist', 'camera', 'render', 'wrap_label',
+    'colour_cycle', 'artist', 'camera', 'render', 'wrap_title',
     'label_rectangles', 'uniform_axes3d', 'filter_passthrough',
     'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
     'filter_colour_checkers', 'plot_single_colour_swatch',
@@ -305,7 +305,7 @@ def override_style(**kwargs):
 def XYZ_to_plotting_colourspace(XYZ,
                                 illuminant=RGB_COLOURSPACES['sRGB'].whitepoint,
                                 chromatic_adaptation_transform='CAT02',
-                                apply_encoding_cctf=True):
+                                apply_cctf_encoding=True):
     """
     Converts from *CIE XYZ* tristimulus values to
     :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace.
@@ -321,7 +321,7 @@ def XYZ_to_plotting_colourspace(XYZ,
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
-    apply_encoding_cctf : bool, optional
+    apply_cctf_encoding : bool, optional
         Apply :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace
         encoding colour component transfer function / opto-electronic transfer
         function.
@@ -344,8 +344,8 @@ def XYZ_to_plotting_colourspace(XYZ,
         XYZ, illuminant, COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint,
         COLOUR_STYLE_CONSTANTS.colour.colourspace.XYZ_to_RGB_matrix,
         chromatic_adaptation_transform,
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf
-        if apply_encoding_cctf else None)
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding
+        if apply_cctf_encoding else None)
 
 
 class ColourSwatch(namedtuple('ColourSwatch', ('name', 'RGB'))):
@@ -416,7 +416,7 @@ def artist(**kwargs):
     Returns
     -------
     tuple
-        Figure, axes.
+        Current figure and axes.
     """
 
     width, height = plt.rcParams['figure.figsize']
@@ -438,6 +438,10 @@ def camera(**kwargs):
 
     Other Parameters
     ----------------
+    figure : Figure, optional
+        Figure to apply the render elements onto.
+    axes : Axes, optional
+        Axes to apply the render elements onto.
     azimuth : numeric, optional
         Camera azimuth.
     camera_aspect : unicode, optional
@@ -447,10 +451,11 @@ def camera(**kwargs):
 
     Returns
     -------
-    Axes
-        Current axes.
+    tuple
+        Current figure and axes.
     """
 
+    figure = kwargs.get('figure', plt.gcf())
     axes = kwargs.get('axes', plt.gca())
 
     settings = Structure(**{
@@ -461,11 +466,11 @@ def camera(**kwargs):
     settings.update(kwargs)
 
     if settings.camera_aspect == 'equal':
-        uniform_axes3d(axes)
+        uniform_axes3d(axes=axes)
 
     axes.view_init(elev=settings.elevation, azim=settings.azimuth)
 
-    return axes
+    return figure, axes
 
 
 def render(**kwargs):
@@ -518,13 +523,8 @@ def render(**kwargs):
         Current figure and axes.
     """
 
-    figure = kwargs.get('figure')
-    if figure is None:
-        figure = plt.gcf()
-
-    axes = kwargs.get('axes')
-    if axes is None:
-        axes = plt.gca()
+    figure = kwargs.get('figure', plt.gcf())
+    axes = kwargs.get('axes', plt.gca())
 
     settings = Structure(
         **{
@@ -557,7 +557,7 @@ def render(**kwargs):
     if settings.title:
         title = settings.title
         if settings.wrap_title:
-            title = wrap_label(settings.title,
+            title = wrap_title(settings.title,
                                int(plt.rcParams['figure.figsize'][0] * 10))
         axes.set_title(title)
     if settings.x_label:
@@ -585,28 +585,28 @@ def render(**kwargs):
     return figure, axes
 
 
-def wrap_label(label, wrap_length=60):
+def wrap_title(title, wrap_length=60):
     """
-    Wraps given label at given length.
+    Wraps given tile at given length.
 
     The intent of this definition is to wrap long titles so that they don't
     overflow the figure.
 
     Parameters
     ----------
-    label : unicode
-        Label to wrap.
+    title : unicode
+        Title to wrap.
     wrap_length : int, optional
         Length at which wrapping should occur.
 
     Returns
     -------
     unicode
-        Wrapped label.
+        Wrapped title.
 
     Examples
     --------
-    >>> wrap_label(  # doctest: +SKIP
+    >>> wrap_title(  # doctest: +SKIP
     ...     'This is a very long figure title that would overflow the figure '
     ...     'container if it was not wrapped.')
     'This is a very long figure title that would overflow the figure \
@@ -614,9 +614,9 @@ container if it\\nwas not wrapped.'
     """
 
     if wrap_length is not None:
-        return '\n'.join(textwrap.wrap(label, wrap_length))
+        return '\n'.join(textwrap.wrap(title, wrap_length))
     else:
-        return label
+        return title
 
 
 def label_rectangles(labels,
@@ -644,18 +644,19 @@ def label_rectangles(labels,
 
     Other Parameters
     ----------------
+    figure : Figure, optional
+        Figure to apply the render elements onto.
     axes : Axes, optional
-        Axes to use for plotting.
+        Axes to apply the render elements onto.
 
     Returns
     -------
-    bool
-        Definition success.
+    tuple
+        Current figure and axes.
     """
 
-    axes = kwargs.get('axes')
-    if axes is None:
-        axes = plt.gca()
+    figure = kwargs.get('figure', plt.gcf())
+    axes = kwargs.get('axes', plt.gca())
 
     if offset is None:
         offset = (0.0, 0.025)
@@ -674,30 +675,35 @@ def label_rectangles(labels,
         axes.text(
             x + width / 2 + offset[0] * width,
             height + offset[1] * y_m,
-            '{0:.1f}'.format(labels[i]),
+            labels[i],
             ha=ha,
             va=va,
             rotation=rotation,
             fontsize=text_size,
             clip_on=True)
 
-    return True
+    return figure, axes
 
 
-def uniform_axes3d(axes):
+def uniform_axes3d(**kwargs):
     """
     Sets equal aspect ratio to given 3d axes.
 
-    Parameters
-    ----------
-    axes : object
-        Axis to set the equal aspect ratio.
+    Other Parameters
+    ----------------
+    figure : Figure, optional
+        Figure to apply the render elements onto.
+    axes : Axes, optional
+        Axes to apply the render elements onto.
 
     Returns
     -------
-    bool
-        Definition success.
+    tuple
+        Current figure and axes.
     """
+
+    figure = kwargs.get('figure', plt.gcf())
+    axes = kwargs.get('axes', plt.gca())
 
     axes.set_aspect('equal')
 
@@ -711,7 +717,7 @@ def uniform_axes3d(axes):
         getattr(axes, 'set_{}lim'.format(axis))(center - extent / 2,
                                                 center + extent / 2)
 
-    return True
+    return figure, axes
 
 
 def filter_passthrough(mapping,
@@ -813,6 +819,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
                                       flags)
 
     for filterer in object_filterers:
+        # TODO: Consider using "MutableMapping" here.
         if isinstance(filterer, (dict, OrderedDict, CaseInsensitiveMapping)):
             for key, value in filterer.items():
                 filtered_mapping[key] = value
@@ -1015,7 +1022,9 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
     Examples
     --------
     >>> RGB = ColourSwatch(RGB=(0.45620519, 0.03081071, 0.04091952))
-    >>> plot_single_colour_swatch(RGB)  # doctest: +SKIP
+    >>> plot_single_colour_swatch(RGB)  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Swatch.png
         :align: center
@@ -1060,7 +1069,7 @@ def plot_multi_colour_swatches(colour_swatches,
         half of it if comparing.
     text_parameters : dict, optional
         Parameters for the :func:`plt.text` definition, ``visible`` can be
-        set to make the text visible,``offset`` can be set to define the text
+        set to make the text visible, ``offset`` can be set to define the text
         offset.
     background_colour : array_like or unicode, optional
         Background colour.
@@ -1088,7 +1097,9 @@ def plot_multi_colour_swatches(colour_swatches,
     --------
     >>> RGB_1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
     >>> RGB_2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
-    >>> plot_multi_colour_swatches([RGB_1, RGB_2])  # doctest: +SKIP
+    >>> plot_multi_colour_swatches([RGB_1, RGB_2])  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Colour_Swatches.png
         :align: center
@@ -1220,8 +1231,11 @@ def plot_single_function(function,
 
     Examples
     --------
+    >>> from colour.models import gamma_function
     >>> plot_single_function(partial(gamma_function, exponent=1 / 2.2))
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Function.png
         :align: center
@@ -1285,7 +1299,9 @@ def plot_multi_functions(functions,
     ...     'Gamma 2.6' : lambda x: x ** (1 / 2.6),
     ... }
     >>> plot_multi_functions(functions)
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Functions.png
         :align: center
@@ -1301,17 +1317,17 @@ def plot_multi_functions(functions,
         assert log_x >= 2 and log_y >= 2, (
             'Log base must be equal or greater than 2.')
 
-        plotting_function = partial(plt.loglog, basex=log_x, basey=log_y)
+        plotting_function = partial(axes.loglog, basex=log_x, basey=log_y)
     elif log_x is not None:
         assert log_x >= 2, 'Log base must be equal or greater than 2.'
 
-        plotting_function = partial(plt.semilogx, basex=log_x)
+        plotting_function = partial(axes.semilogx, basex=log_x)
     elif log_y is not None:
         assert log_y >= 2, 'Log base must be equal or greater than 2.'
 
-        plotting_function = partial(plt.semilogy, basey=log_y)
+        plotting_function = partial(axes.semilogy, basey=log_y)
     else:
-        plotting_function = plt.plot
+        plotting_function = axes.plot
 
     if samples is None:
         samples = np.linspace(0, 1, 1000)
@@ -1377,7 +1393,9 @@ def plot_image(image,
     >>> from colour import read_image
     >>> path = os.path.join(
     ...     colour.__path__[0], '..', 'docs', '_static', 'Logo_Medium_001.png')
-    >>> plot_image(read_image(path))  # doctest: +SKIP
+    >>> plot_image(read_image(path))  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Image.png
         :align: center

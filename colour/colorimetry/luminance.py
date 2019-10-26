@@ -10,7 +10,7 @@ The following methods are available:
 -   :func:`colour.colorimetry.luminance_Newhall1943`: *luminance* :math:`Y`
     computation of given *Munsell* value :math:`V` using
     *Newhall, Nickerson and Judd (1943)* method.
--   :func:`colour.colorimetry.luminance_ASTMD153508`: *luminance* :math:`Y`
+-   :func:`colour.colorimetry.luminance_ASTMD1535`: *luminance* :math:`Y`
     computation of given *Munsell* value :math:`V` using *ASTM D1535-08e1*
     method.
 -   :func:`colour.colorimetry.luminance_CIE1976`: *luminance* :math:`Y`
@@ -80,7 +80,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'luminance_Newhall1943', 'luminance_ASTMD153508',
+    'luminance_Newhall1943', 'luminance_ASTMD1535',
     'intermediate_luminance_function_CIE1976', 'luminance_CIE1976',
     'luminance_Fairchild2010', 'luminance_Fairchild2011', 'LUMINANCE_METHODS',
     'luminance'
@@ -135,7 +135,7 @@ def luminance_Newhall1943(V):
     return from_range_100(R_Y)
 
 
-def luminance_ASTMD153508(V):
+def luminance_ASTMD1535(V):
     """
     Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *ASTM D1535-08e1* method.
@@ -171,7 +171,7 @@ def luminance_ASTMD153508(V):
 
     Examples
     --------
-    >>> luminance_ASTMD153508(4.08244375)  # doctest: +ELLIPSIS
+    >>> luminance_ASTMD1535(4.08244375)  # doctest: +ELLIPSIS
     12.2363426...
     """
 
@@ -421,7 +421,7 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
 
 LUMINANCE_METHODS = CaseInsensitiveMapping({
     'Newhall 1943': luminance_Newhall1943,
-    'ASTM D1535-08': luminance_ASTMD153508,
+    'ASTM D1535': luminance_ASTMD1535,
     'CIE 1976': luminance_CIE1976,
     'Fairchild 2010': luminance_Fairchild2010,
     'Fairchild 2011': luminance_Fairchild2011
@@ -435,14 +435,14 @@ References
 :cite:`Fairchild2011`, :cite:`Newhall1943a`, :cite:`Wyszecki2000bd`
 
 LUMINANCE_METHODS : CaseInsensitiveMapping
-    **{'Newhall 1943', 'ASTM D1535-08', 'CIE 1976', 'Fairchild 2010'}**
+    **{'Newhall 1943', 'ASTM D1535', 'CIE 1976', 'Fairchild 2010'}**
 
 Aliases:
 
--   'astm2008': 'ASTM D1535-08'
+-   'astm2008': 'ASTM D1535'
 -   'cie1976': 'CIE 1976'
 """
-LUMINANCE_METHODS['astm2008'] = (LUMINANCE_METHODS['ASTM D1535-08'])
+LUMINANCE_METHODS['astm2008'] = (LUMINANCE_METHODS['ASTM D1535'])
 LUMINANCE_METHODS['cie1976'] = (LUMINANCE_METHODS['CIE 1976'])
 
 
@@ -456,7 +456,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
     LV : numeric or array_like
         *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
     method : unicode, optional
-        **{'CIE 1976', 'Newhall 1943', 'ASTM D1535-08', 'Fairchild 2010',
+        **{'CIE 1976', 'Newhall 1943', 'ASTM D1535', 'Fairchild 2010',
         'Fairchild 2011'}**,
         Computation method.
 
@@ -507,7 +507,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
     >>> luminance(4.08244375 * 10, method='Newhall 1943')
     ... # doctest: +ELLIPSIS
     12.5500788...
-    >>> luminance(4.08244375 * 10, method='ASTM D1535-08')
+    >>> luminance(4.08244375 * 10, method='ASTM D1535')
     ... # doctest: +ELLIPSIS
     12.2363426...
     >>> luminance(29.829510892279330, epsilon=0.710, method='Fairchild 2011')
@@ -519,7 +519,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
 
     domain_range_reference = get_domain_range_scale() == 'reference'
     domain_1 = (luminance_Fairchild2010, luminance_Fairchild2011)
-    domain_10 = (luminance_Newhall1943, luminance_ASTMD153508)
+    domain_10 = (luminance_Newhall1943, luminance_ASTMD1535)
 
     if function in domain_10 and domain_range_reference:
         LV /= 10

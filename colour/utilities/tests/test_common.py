@@ -7,6 +7,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import unittest
+import six
 from collections import OrderedDict
 from functools import partial
 
@@ -78,7 +79,9 @@ def _add(a, b):
         Addition result.
     """
 
-    return a + b
+    # NOTE: No coverage information is available as this code is executed in
+    # sub-processes.
+    return a + b  # pragma: no cover
 
 
 class TestMultiprocessingPool(unittest.TestCase):
@@ -272,6 +275,12 @@ class TestFilterKwargs(unittest.TestCase):
         self.assertTupleEqual((1, 2, 3),
                               fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
 
+        if six.PY2:  # pragma: no cover
+            self.assertDictEqual(filter_kwargs(partial(fn_c, b=1), b=1), {})
+        else:  # pragma: no cover
+            self.assertDictEqual(
+                filter_kwargs(partial(fn_c, b=1), b=1), {'b': 1})
+
 
 class TestFilterMapping(unittest.TestCase):
     """
@@ -435,7 +444,7 @@ class TestDomainRangeScale(unittest.TestCase):
 
         self.assertEqual(get_domain_range_scale(), 'reference')
 
-        def _domain_range_change(a):
+        def fn_a(a):
             """
             Helper definition performing domain-range scale.
             """
@@ -451,18 +460,32 @@ class TestDomainRangeScale(unittest.TestCase):
                 with domain_range_scale('100'):
                     with domain_range_scale('Ignore'):
                         self.assertEqual(get_domain_range_scale(), 'ignore')
-                        self.assertEqual(_domain_range_change(4), 8)
+                        self.assertEqual(fn_a(4), 8)
 
                     self.assertEqual(get_domain_range_scale(), '100')
-                    self.assertEqual(_domain_range_change(40), 8)
+                    self.assertEqual(fn_a(40), 8)
 
                 self.assertEqual(get_domain_range_scale(), '1')
-                self.assertEqual(_domain_range_change(0.4), 0.08)
+                self.assertEqual(fn_a(0.4), 0.08)
 
             self.assertEqual(get_domain_range_scale(), 'reference')
-            self.assertEqual(_domain_range_change(4), 8)
+            self.assertEqual(fn_a(4), 8)
 
         self.assertEqual(get_domain_range_scale(), 'reference')
+
+        @domain_range_scale(1)
+        def fn_b(a):
+            """
+            Helper definition performing domain-range scale.
+            """
+
+            b = to_domain_10(a)
+
+            b *= 2
+
+            return from_range_100(b)
+
+        self.assertEqual(fn_b(10), 2.0)
 
 
 class TestToDomain1(unittest.TestCase):

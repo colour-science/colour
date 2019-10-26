@@ -33,9 +33,9 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
-    ASTME30815_PRACTISE_SHAPE, sd_CIE_illuminant_D_series, ILLUMINANTS,
+    DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series, ILLUMINANTS,
     STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
-from colour.quality.dataset.vs import VS_INDEXES_TO_NAMES, VS_SDS
+from colour.quality.datasets.vs import VS_INDEXES_TO_NAMES, VS_SDS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
@@ -170,7 +170,7 @@ def colour_quality_scale(sd_test, additional_data=False,
         method, COLOUR_QUALITY_SCALE_METHODS))
 
     cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
-    ).trim(ASTME30815_PRACTISE_SHAPE)
+    ).trim(DEFAULT_SPECTRAL_SHAPE)
 
     shape = cmfs.shape
     sd_test = sd_test.copy().align(shape)
@@ -471,7 +471,7 @@ def colour_quality_scales(test_data, reference_data, scaling_f, CCT_f):
         else:
             D_Ep_ab = D_E_ab
 
-        Q_a = scale_conversion(D_Ep_ab, scaling_f, CCT_f)
+        Q_a = scale_conversion(D_Ep_ab, CCT_f, scaling_f)
 
         Q_as[i + 1] = VS_ColourQualityScaleData(test_data[i].name, Q_a, D_C_ab,
                                                 D_E_ab, D_Ep_ab)

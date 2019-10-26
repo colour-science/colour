@@ -147,6 +147,14 @@ gamma_function` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             gamma_function(a, 2.2, 'Clamp'), a_p, decimal=7)
 
+    def test_raise_exception_gamma_function(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.gamma.\
+gamma_function` definition raised exception.
+        """
+
+        self.assertRaises(ValueError, gamma_function, 0.18, 1, 'Undefined')
+
     @ignore_numpy_errors
     def test_nan_gamma_function(self):
         """

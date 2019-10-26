@@ -35,7 +35,7 @@ from six.moves import reduce
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    MultiSpectralDistribution, SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ,
+    SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ, sds_and_multi_sds_to_sds,
     wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
@@ -118,7 +118,9 @@ def plot_single_sd(sd,
     ...     600: 0.1360
     ... }
     >>> sd = SpectralDistribution(data, name='Custom')
-    >>> plot_single_sd(sd)  # doctest: +SKIP
+    >>> plot_single_sd(sd)  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Single_SD.png
         :align: center
@@ -140,7 +142,7 @@ def plot_single_sd(sd,
     colours = XYZ_to_plotting_colourspace(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        apply_encoding_cctf=False)
+        apply_cctf_encoding=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
@@ -150,7 +152,7 @@ def plot_single_sd(sd,
     if modulate_colours_with_sd_amplitude:
         colours *= (values / np.max(values))[..., np.newaxis]
 
-    colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf(colours)
+    colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding(colours)
 
     if equalize_sd_amplitude:
         values = np.ones(values.shape)
@@ -204,11 +206,11 @@ def plot_multi_sds(sds,
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistribution
+    sds : array_like or MultiSpectralDistributions
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistribution` class instance, a list
-        of :class:`colour.MultiSpectralDistribution` class instances or a
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectrum creation.
@@ -249,26 +251,20 @@ def plot_multi_sds(sds,
     ...     550: 0.994950,
     ...     560: 0.995000
     ... }
-    >>> spd1 = SpectralDistribution(data_1, name='Custom 1')
-    >>> spd2 = SpectralDistribution(data_2, name='Custom 2')
-    >>> plot_multi_sds([spd1, spd2])  # doctest: +SKIP
+    >>> sd_1 = SpectralDistribution(data_1, name='Custom 1')
+    >>> sd_2 = SpectralDistribution(data_2, name='Custom 2')
+    >>> plot_multi_sds([sd_1, sd_2])  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
-    .. image:: ../_static/Plotting_Plot_Multi_SDs.png
+    .. image:: ../_static/Plotting_Plot_Multi_SDS.png
         :align: center
         :alt: plot_multi_sds
     """
 
     _figure, axes = artist(**kwargs)
 
-    if isinstance(sds, MultiSpectralDistribution):
-        sds = sds.to_sds()
-    else:
-        sds = list(sds)
-        for i, sd in enumerate(sds[:]):
-            if isinstance(sd, MultiSpectralDistribution):
-                sds.remove(sd)
-                sds[i:i] = sd.to_sds()
-
+    sds = sds_and_multi_sds_to_sds(sds)
     cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = ILLUMINANTS_SDS[
@@ -337,7 +333,9 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Examples
     --------
     >>> plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Single_CMFS.png
         :align: center
@@ -378,7 +376,9 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
     --------
     >>> cmfs = ('CIE 1931 2 Degree Standard Observer',
     ...         'CIE 1964 10 Degree Standard Observer')
-    >>> plot_multi_cmfs(cmfs)  # doctest: +SKIP
+    >>> plot_multi_cmfs(cmfs)  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_CMFS.png
         :align: center
@@ -471,7 +471,9 @@ def plot_single_illuminant_sd(illuminant='A',
 
     Examples
     --------
-    >>> plot_single_illuminant_sd('A')  # doctest: +SKIP
+    >>> plot_single_illuminant_sd('A')  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Illuminant_SD.png
         :align: center
@@ -520,9 +522,11 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
 
     Examples
     --------
-    >>> plot_multi_illuminant_sds(['A', 'B', 'C'])  # doctest: +SKIP
+    >>> plot_multi_illuminant_sds(['A', 'B', 'C'])  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
-    .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDs.png
+    .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDS.png
         :align: center
         :alt: plot_multi_illuminant_sds
     """
@@ -580,7 +584,9 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> plot_visible_spectrum()  # doctest: +SKIP
+    >>> plot_visible_spectrum()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum.png
         :align: center
@@ -640,7 +646,9 @@ def plot_single_lightness_function(function='CIE 1976', **kwargs):
 
     Examples
     --------
-    >>> plot_single_lightness_function('CIE 1976')  # doctest: +SKIP
+    >>> plot_single_lightness_function('CIE 1976')  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Lightness_Function.png
         :align: center
@@ -679,7 +687,9 @@ def plot_multi_lightness_functions(functions=None, **kwargs):
     Examples
     --------
     >>> plot_multi_lightness_functions(['CIE 1976', 'Wyszecki 1963'])
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Lightness_Functions.png
         :align: center
@@ -729,7 +739,9 @@ def plot_single_luminance_function(function='CIE 1976', **kwargs):
 
     Examples
     --------
-    >>> plot_single_luminance_function('CIE 1976')  # doctest: +SKIP
+    >>> plot_single_luminance_function('CIE 1976')  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Luminance_Function.png
         :align: center
@@ -768,7 +780,9 @@ def plot_multi_luminance_functions(functions=None, **kwargs):
     Examples
     --------
     >>> plot_multi_luminance_functions(['CIE 1976', 'Newhall 1943'])
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Luminance_Functions.png
         :align: center
@@ -827,7 +841,9 @@ def plot_blackbody_spectral_radiance(
     Examples
     --------
     >>> plot_blackbody_spectral_radiance(3500, blackbody='VY Canis Major')
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 2 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Spectral_Radiance.png
         :align: center
@@ -912,7 +928,10 @@ def plot_blackbody_colours(
 
     Examples
     --------
-    >>> plot_blackbody_colours(SpectralShape(150, 12500, 50))  # doctest: +SKIP
+    >>> plot_blackbody_colours(SpectralShape(150, 12500, 50))
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Colours.png
         :align: center

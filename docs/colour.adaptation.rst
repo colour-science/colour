@@ -71,7 +71,7 @@ CMCCAT2000
     :toctree: generated/
 
     chromatic_adaptation_forward_CMCCAT2000
-    chromatic_adaptation_reverse_CMCCAT2000
+    chromatic_adaptation_inverse_CMCCAT2000
     CMCCAT2000_InductionFactors
 
 Von Kries

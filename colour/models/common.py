@@ -23,7 +23,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'COLOURSPACE_MODELS', 'COLOURSPACE_MODELS_LABELS',
+    'COLOURSPACE_MODELS', 'COLOURSPACE_MODELS_AXIS_LABELS',
     'XYZ_to_colourspace_model'
 ]
 
@@ -32,30 +32,30 @@ COLOURSPACE_MODELS = ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
                       'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT',
                       'JzAzBz', 'OSA UCS', 'hdr-CIELAB', 'hdr-IPT')
 
-COLOURSPACE_MODELS_LABELS = {
+COLOURSPACE_MODELS_AXIS_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
     'CIE xyY': ('x', 'y', 'Y'),
-    'CIE Lab': ('$a^*$', '$b^*$', '$L^*$'),
-    'CIE LCHab': ('CH', 'ab', '$L^*$'),
-    'CIE Luv': ('$u^\\prime$', '$v^\\prime$', '$L^*$'),
+    'CIE Lab': ('$L^*$', '$a^*$', '$b^*$'),
+    'CIE LCHab': ('$L^*$', 'CH', 'ab'),
+    'CIE Luv': ('$L^*$', '$u^\\prime$', '$v^\\prime$'),
     'CIE Luv uv': ('$u^\\prime$', '$v^\\prime$'),
-    'CIE LCHuv': ('CH', 'uv', '$L^*$'),
+    'CIE LCHuv': ('$L^*$', 'CH', 'uv'),
     'CIE UCS': ('U', 'V', 'W'),
     'CIE UCS uv': ('u', 'v'),
     'CIE UVW': ('U', 'V', 'W'),
-    'DIN 99': ('a99', 'b99', 'L99'),
-    'Hunter Lab': ('$a^*$', '$b^*$', '$L^*$'),
-    'Hunter Rdab': ('a', 'b', 'Rd'),
-    'IPT': ('P', 'T', 'I'),
-    'JzAzBz': ('$A_z$', '$B_z$', '$J_z$'),
-    'OSA UCS': ('j', 'g', 'L'),
-    'hdr-CIELAB': ('a hdr', 'b hdr', 'L hdr'),
-    'hdr-IPT': ('P hdr', 'T hdr', 'I hdr'),
+    'DIN 99': ('L99', 'a99', 'b99'),
+    'Hunter Lab': ('$L^*$', '$a^*$', '$b^*$'),
+    'Hunter Rdab': ('Rd', 'a', 'b'),
+    'IPT': ('I', 'P', 'T'),
+    'JzAzBz': ('$J_z$', '$A_z$', '$B_z$'),
+    'OSA UCS': ('L', 'j', 'g'),
+    'hdr-CIELAB': ('L hdr', 'a hdr', 'b hdr'),
+    'hdr-IPT': ('I hdr', 'P hdr', 'T hdr'),
 }
 """
 Colourspace models labels mapping.
 
-COLOURSPACE_MODELS_LABELS : dict
+COLOURSPACE_MODELS_AXIS_LABELS : dict
     **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
     'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN 99', 'Hunter Lab',
     'Hunter Rdab','IPT', 'JzAzBz', 'OSA UCS', 'hdr-CIELAB', 'hdr-IPT'}**
@@ -71,8 +71,8 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like
-        *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity
-        coordinates.
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
     model : unicode
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
@@ -89,6 +89,11 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     -------
     ndarray
         Colourspace model values.
+
+    Warnings
+    --------
+    This definition is is deprecated and will be removed in a future release.
+    :func:`colour.convert` definition should be used instead.
 
     Examples
     --------
@@ -120,6 +125,9 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     ... XYZ, W, 'CIE LCHuv')
     array([ 0.4152787...,  0.9844997...,  0.0288560...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE UCS')
+    array([ 0.1376933...,  0.1219722...,  0.1053731...])
+    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE UCS uv')
     array([ 0.3772021...,  0.3341350...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
@@ -149,6 +157,13 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'hdr-IPT')
     array([ 0.4839376...,  0.4244990...,  0.2201954...])
+    >>> try:
+    ...     XYZ_to_colourspace_model(XYZ, W, 'Undefined')
+    ... except ValueError as error:
+    ...     print(error)
+    "Undefined" not found in colourspace models: "CIE XYZ, CIE xyY, CIE Lab, \
+CIE LCHab, CIE Luv, CIE Luv uv, CIE LCHuv, CIE UCS, CIE UCS uv, CIE UVW, \
+DIN 99, Hunter Lab, Hunter Rdab, IPT, JzAzBz, OSA UCS, hdr-CIELAB, hdr-IPT".
     """
 
     with domain_range_scale(1):

@@ -28,7 +28,14 @@ __status__ = 'Production'
 __all__ = ['plot_single_colour_checker', 'plot_multi_colour_checkers']
 
 
-@override_style()
+@override_style(
+    **{
+        'axes.grid': False,
+        'xtick.bottom': False,
+        'ytick.left': False,
+        'xtick.labelbottom': False,
+        'ytick.labelleft': False,
+    })
 def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
     """
     Plots given colour checker.
@@ -53,7 +60,9 @@ def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
 
     Examples
     --------
-    >>> plot_single_colour_checker('ColorChecker 2005')  # doctest: +SKIP
+    >>> plot_single_colour_checker('ColorChecker 2005')  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Checker.png
         :align: center
@@ -96,7 +105,9 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
     Examples
     --------
     >>> plot_multi_colour_checkers(['ColorChecker 1976', 'ColorChecker 2005'])
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Colour_Checkers.png
         :align: center

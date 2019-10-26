@@ -6,5 +6,6 @@ Colour Manual
 
     tutorial
     basics
+    advanced
     reference
     bibliography

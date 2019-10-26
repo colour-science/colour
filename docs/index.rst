@@ -1,14 +1,14 @@
-Colour Science for Python
-=========================
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
 
-`Colour <https://github.com/colour-science/colour>`_ is a
-`Python <https://www.python.org/>`_ colour science package implementing a
-comprehensive number of colour theory transformations and algorithms.
+`Colour <https://github.com/colour-science/colour>`__ is an open-source
+`Python <https://www.python.org/>`__ package providing a comprehensive number of
+algorithms and datasets for colour science.
 
-It is open source and freely available under the
-`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
+It is freely available under the
+`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
 
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_Tight_001.png
+**Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`__, a
+501(c)(3) nonprofit in the United States.
 
 .. contents:: **Table of Contents**
     :backlinks: none
@@ -20,59 +20,72 @@ Draft Release Notes
 -------------------
 
 The draft release notes from the
-`develop <https://github.com/colour-science/colour/tree/develop>`_
+`develop <https://github.com/colour-science/colour/tree/develop>`__
 branch are available at this
-`url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`_.
+`url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`__.
 
 Features
 --------
 
 **Colour** features a rich dataset and collection of objects, please see the
-`features <https://www.colour-science.org/features/>`_ page for more
+`features <https://www.colour-science.org/features/>`__ page for more
 information.
-
-Online
-------
-
-**Colour** can be used online with
-`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
 
 Installation
 ------------
 
-`Anaconda <https://www.continuum.io/downloads>`_ from *Continuum Analytics*
-is the Python distribution we use to develop **Colour**: it ships all the
-scientific dependencies we require and is easily deployed cross-platform:
-
-.. code-block:: bash
-
-    $ conda create -y -n python-colour
-    $ source activate python-colour
-    $ conda install -y -c conda-forge colour-science
-
 **Colour** can be easily installed from the
-`Python Package Index <https://pypi.python.org/pypi/colour-science/>`_
+`Python Package Index <https://pypi.org/project/colour-science/>`__
 by issuing this command in a shell:
 
 .. code-block:: bash
 
     $ pip install colour-science
 
+**Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`__
+from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`__:
+
+.. code-block:: bash
+
+    $ conda install -c conda-forge colour-science
+
 The detailed installation procedure is described in the
-`Installation Guide <https://www.colour-science.org/installation-guide/>`_.
+`Installation Guide <https://www.colour-science.org/installation-guide/>`__.
 
-Usage
------
+Documentation
+-------------
 
-The two main references for **Colour**
-usage are the `Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`_
-and the `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
-with detailed historical and theoretical context and images.
+Tutorial
+~~~~~~~~
+
+The `static tutorial <https://colour.readthedocs.io/en/develop/tutorial.html>`__
+provides an introduction to **Colour**. An interactive version is available via
+`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
+
+How-To Guide
+~~~~~~~~~~~~
+
+The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
+guide for **Colour** shows various techniques to solve specific problems and
+highlights some interesting use cases.
+
+API Reference
+~~~~~~~~~~~~~
+
+The main technical reference for **Colour** and its API is the
+`Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`__.
 
 .. toctree::
     :maxdepth: 4
 
     manual
+
+Jupyter Notebooks
+~~~~~~~~~~~~~~~~~
+
+`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
+are available and designed to provide an historical perspective of colour
+science via **Colour** usage.
 
 Examples
 ~~~~~~~~
@@ -82,6 +95,36 @@ Most of the objects are available from the ``colour`` namespace:
 .. code-block:: python
 
     >>> import colour
+
+Automatic Colour Conversion Graph - ``colour.graph``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Starting with version *0.3.14*, **Colour** implements an automatic colour
+conversion graph enabling easier colour conversions.
+
+..  image:: _static/Examples_Colour_Automatic_Conversion_Graph.png
+
+.. code-block:: python
+
+    >>> sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
+
+::
+
+    ===============================================================================
+    *                                                                             *
+    *   [ Conversion Path ]                                                       *
+    *                                                                             *
+    *   "sd_to_XYZ" --> "XYZ_to_sRGB"                                             *
+    *                                                                             *
+    ===============================================================================
+    array([ 0.45675795,  0.30986982,  0.24861924])
+
+.. code-block:: python
+
+    >>> illuminant = colour.ILLUMINANTS_SDS['FL2']
+    >>> convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
+    array([ 0.47924575,  0.31676968,  0.17362725])
 
 Chromatic Adaptation - ``colour.adaptation``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -125,7 +168,7 @@ Colour Appearance Models - ``colour.appearance``
 
 .. code-block:: python
 
-    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
     >>> XYZ_w = [95.05, 100.00, 108.88]
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -173,7 +216,7 @@ Spectral Computations
     >>> colour.sd_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
-    ['ASTM E308-15', 'Integration', 'astm2015']
+    ['ASTM E308', 'Integration', 'astm2015']
 
 
 Multi-Spectral Computations
@@ -181,7 +224,7 @@ Multi-Spectral Computations
 
 .. code-block:: python
 
-    >>> msd = np.array([
+    >>> msds = np.array([
     ...     [[0.01367208, 0.09127947, 0.01524376, 0.02810712, 0.19176012, 0.04299992],
     ...      [0.00959792, 0.25822842, 0.41388571, 0.22275120, 0.00407416, 0.37439537],
     ...      [0.01791409, 0.29707789, 0.56295109, 0.23752193, 0.00236515, 0.58190280]],
@@ -195,8 +238,8 @@ Multi-Spectral Computations
     ...      [0.06321812, 0.41898224, 0.15190357, 0.24591440, 0.55301750, 0.00657664],
     ...      [0.00305180, 0.11288624, 0.11357290, 0.12924391, 0.00195315, 0.21771573]],
     ... ])
-    >>> colour.multi_sds_to_XYZ(msd, colour.SpectralShape(400, 700, 60),
-    ...                              cmfs, illuminant))
+    >>> colour.multi_sds_to_XYZ(msds, cmfs, illuminant, method='Integration',
+    ...                         shape=colour.SpectralShape(400, 700, 60)))
     [[[  9.73192501   5.02105851   3.22790699]
       [ 16.08032168  24.47303359  10.28681006]
       [ 17.73513774  29.61865582  12.10713449]]
@@ -210,7 +253,7 @@ Multi-Spectral Computations
       [ 38.64801062  26.70860262  15.08396538]
       [  8.77151115  10.56330761   4.28940206]]]
     >>> sorted(colour.MULTI_SPECTRAL_TO_XYZ_METHODS.keys())
-    ['Integration']
+    ['ASTM E308', 'Integration', 'astm2015']
 
 Blackbody Spectral Radiance Computation
 ***************************************
@@ -265,7 +308,7 @@ Luminance Computation
     >>> colour.luminance(41.52787585)
     12.197225353400775
     >>> sorted(colour.LUMINANCE_METHODS.keys())
-    ['ASTM D1535-08',
+    ['ASTM D1535',
      'CIE 1976',
      'Fairchild 2010',
      'Fairchild 2011',
@@ -372,12 +415,17 @@ Look Up Table (LUT) Data
 
     >>> LUT = colour.read_LUT('ACES_Proxy_10_to_ACES.cube')
     >>> print(LUT)
+
+::
+
     LUT3x1D - ACES Proxy 10 to ACES
     -------------------------------
     Dimensions : 2
     Domain     : [[0 0 0]
                   [1 1 1]]
     Size       : (32, 3)
+
+.. code-block:: python
 
     >>> RGB = [0.17224810, 0.09170660, 0.06416938]
     >>> LUT.apply(RGB)
@@ -630,13 +678,15 @@ RGB Colourspaces
      'ECI RGB v2',
      'ERIMM RGB',
      'Ekta Space PS 5',
+     'F-Gamut',
      'FilmLight E-Gamut',
      'ITU-R BT.2020',
      'ITU-R BT.470 - 525',
      'ITU-R BT.470 - 625',
      'ITU-R BT.709',
      'Max RGB',
-     'NTSC',
+     'NTSC (1953)',
+     'NTSC (1987)',
      'P3-D65',
      'Pal/Secam',
      'ProPhoto RGB',
@@ -653,6 +703,7 @@ RGB Colourspaces
      'S-Gamut3',
      'S-Gamut3.Cine',
      'SMPTE 240M',
+     'SMPTE C',
      'Sharp RGB',
      'V-Gamut',
      'Xtreme RGB',
@@ -668,31 +719,24 @@ OETFs
 
     >>> sorted(colour.OETFS.keys())
     ['ARIB STD-B67',
-     'DICOM GSDF',
      'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
      'ITU-R BT.709',
-     'ProPhoto RGB',
-     'RIMM RGB',
-     'ROMM RGB',
-     'SMPTE 240M',
-     'ST 2084',
-     'sRGB']
+     'SMPTE 240M']
 
-OETFs Reverse
+OETFs Inverse
 *************
 
 .. code-block:: python
 
-    >>> sorted(colour.OETFS_REVERSE.keys())
+    >>> sorted(colour.OETF_INVERSES.keys())
     ['ARIB STD-B67',
      'ITU-R BT.2100 HLD',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
-     'ITU-R BT.709',
-     'sRGB']
+     'ITU-R BT.709']
 
 EOTFs
 *****
@@ -706,19 +750,23 @@ EOTFs
      'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
-     'ProPhoto RGB',
-     'RIMM RGB',
-     'ROMM RGB',
      'SMPTE 240M',
-     'ST 2084']
+     'ST 2084',
+     'sRGB']
 
-EOTFs Reverse
+EOTFs Inverse
 *************
 
 .. code-block:: python
 
-    >>> sorted(colour.EOTFS_REVERSE.keys())
-    ['DCDM', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
+    >>> sorted(colour.EOTF_INVERSES.keys())
+    ['DCDM',
+     'DICOM GSDF',
+     'ITU-R BT.1886',
+     'ITU-R BT.2100 HLG',
+     'ITU-R BT.2100 PQ',
+     'ST 2084',
+     'sRGB']
 
 OOTFs
 *****
@@ -728,20 +776,20 @@ OOTFs
     >>> sorted(colour.OOTFS.keys())
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
-OOTFs Reverse
+OOTFs Inverse
 *************
 
 .. code-block:: python
 
-    >>> sorted(colour.OOTFs_REVERSE.keys())
+    >>> sorted(colour.OOTF_INVERSES.keys())
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
-Log Encoding / Decoding Curves
-******************************
+Log Encoding / Decoding
+***********************
 
 .. code-block:: python
 
-    >>> sorted(colour.LOG_ENCODING_CURVES.keys())
+    >>> sorted(colour.LOG_ENCODINGS.keys())
     ['ACEScc',
      'ACEScct',
      'ACESproxy',
@@ -752,6 +800,7 @@ Log Encoding / Decoding Curves
      'Cineon',
      'D-Log',
      'ERIMM RGB',
+     'F-Log',
      'Filmic Pro 6',
      'Log3G10',
      'Log3G12',
@@ -767,6 +816,56 @@ Log Encoding / Decoding Curves
      'V-Log',
      'ViperLog']
 
+CCTFs Encoding / Decoding
+*************************
+
+.. code-block:: python
+
+    >>> sorted(colour.CCTF_ENCODINGS.keys())
+    ['ACEScc',
+     'ACEScct',
+     'ACESproxy',
+     'ALEXA Log C',
+     'ARIB STD-B67',
+     'Canon Log',
+     'Canon Log 2',
+     'Canon Log 3',
+     'Cineon',
+     'D-Log',
+     'DCDM',
+     'DICOM GSDF',
+     'ERIMM RGB',
+     'F-Log',
+     'Filmic Pro 6',
+     'Gamma 2.2',
+     'Gamma 2.4',
+     'Gamma 2.6',
+     'ITU-R BT.1886',
+     'ITU-R BT.2020',
+     'ITU-R BT.2100 HLG',
+     'ITU-R BT.2100 PQ',
+     'ITU-R BT.601',
+     'ITU-R BT.709',
+     'Log3G10',
+     'Log3G12',
+     'PLog',
+     'Panalog',
+     'ProPhoto RGB',
+     'Protune',
+     'REDLog',
+     'REDLogFilm',
+     'RIMM RGB',
+     'ROMM RGB',
+     'S-Log',
+     'S-Log2',
+     'S-Log3',
+     'SMPTE 240M',
+     'ST 2084',
+     'T-Log',
+     'V-Log',
+     'ViperLog',
+     'sRGB']
+
 Colour Notation Systems - ``colour.notation``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -778,7 +877,7 @@ Munsell Value
     >>> colour.munsell_value(12.23634268)
     4.0824437076525664
     >>> sorted(colour.MUNSELL_VALUE_METHODS.keys())
-    ['ASTM D1535-08',
+    ['ASTM D1535',
      'Ladd 1955',
      'McCamy 1987',
      'Moon 1943',
@@ -865,17 +964,9 @@ Correlated Colour Temperature Computation Methods - ``colour.temperature``
     >>> colour.uv_to_CCT([0.1978, 0.3122])
     array([  6.50751282e+03,   3.22335875e-03])
     >>> sorted(colour.UV_TO_CCT_METHODS.keys())
-    ['Ohno 2013', 'Robertson 1968', 'ohno2013', 'robertson1968']
-    >>> sorted(colour.UV_TO_CCT_METHODS.keys())
-    ['Krystek 1985',
-     'Ohno 2013',
-     'Robertson 1968',
-     'ohno2013',
-     'robertson1968']
-     >>> sorted(colour.XY_TO_CCT_METHODS.keys())
-     ['Hernandez 1999', 'McCamy 1992', 'hernandez1999', 'mccamy1992']
-     >>> sorted(colour.CCT_TO_XY_METHODS.keys())
-     ['CIE Illuminant D Series', 'Kang 2002', 'cie_d', 'kang2002']
+    ['Krystek 1985', 'Ohno 2013', 'Robertson 1968', 'ohno2013', 'robertson1968']
+    >>> sorted(colour.XY_TO_CCT_METHODS.keys())
+    ['CIE Illuminant D Series', 'Hernandez 1999', 'Kang 2002', 'McCamy 1992', 'daylight', 'hernandez1999', 'kang2002', 'mccamy1992']
 
 Colour Volume - ``colour.volume``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1032,20 +1123,20 @@ Contributing
 ------------
 
 If you would like to contribute to **Colour**, please refer to the following
-`Contributing <https://www.colour-science.org/contributing>`_ guide.
+`Contributing <https://www.colour-science.org/contributing>`__ guide.
 
 Changes
 -------
 
-The changes are viewable on the `Releases <https://github.com/colour-science/colour/releases>`_ page.
+The changes are viewable on the `Releases <https://github.com/colour-science/colour/releases>`__ page.
 
 Bibliography
 ------------
 
-The bibliography is available on the `Bibliography <https://www.colour-science.org/bibliography/>`_ page.
+The bibliography is available on the `Bibliography <https://www.colour-science.org/bibliography/>`__ page.
 
 It is also viewable directly from the repository in
-`BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_
+`BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`__
 format.
 
 See Also
@@ -1055,29 +1146,39 @@ Here is a list of notable colour science packages sorted by languages:
 
 **Python**
 
-- `Colorio <https://github.com/nschloe/colorio/>`_  by Schlömer, N.
-- `ColorPy <http://markkness.net/colorpy/ColorPy.html>`_ by Kness, M.
-- `Colorspacious <https://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
-- `python-colormath <https://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
+- `Colorio <https://github.com/nschloe/colorio/>`__  by Schlömer, N.
+- `ColorPy <http://markkness.net/colorpy/ColorPy.html>`__ by Kness, M.
+- `Colorspacious <https://colorspacious.readthedocs.io/>`__ by Smith, N. J., et al.
+- `python-colormath <https://python-colormath.readthedocs.io/>`__ by Taylor, G., et al.
+
+**Go**
+
+- `go-colorful <https://github.com/lucasb-eyer/go-colorful/>`__  by Beyer, L., et al.
 
 **.NET**
 
-- `Colourful <https://github.com/tompazourek/Colourful>`_ by Pažourek, T., et al.
+- `Colourful <https://github.com/tompazourek/Colourful>`__ by Pažourek, T., et al.
 
 **Julia**
 
-- `Colors.jl <https://github.com/JuliaGraphics/Colors.jl>`_ by Holy, T., et al.
+- `Colors.jl <https://github.com/JuliaGraphics/Colors.jl>`__ by Holy, T., et al.
 
 **Matlab & Octave**
 
-- `COLORLAB <https://www.uv.es/vista/vistavalencia/software/colorlab.html>`_ by Malo, J., et al.
-- `Psychtoolbox <http://psychtoolbox.org/>`_ by Brainard, D., et al.
-- `The Munsell and Kubelka-Munk Toolbox <http://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ by Centore, P.
+- `COLORLAB <https://www.uv.es/vista/vistavalencia/software/colorlab.html>`__ by Malo, J., et al.
+- `Psychtoolbox <http://psychtoolbox.org/>`__ by Brainard, D., et al.
+- `The Munsell and Kubelka-Munk Toolbox <http://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`__ by Centore, P.
+
+Code of Conduct
+---------------
+
+The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
+is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
 
 About
 -----
 
 | **Colour** by Colour Developers - 2013-2019
-| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
-| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`_
+| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

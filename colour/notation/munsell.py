@@ -22,7 +22,7 @@ Defines various objects for *Munsell Renotation System* computations:
     method.
 -   :func:`colour.notation.munsell_value_McCamy1987`: *Munsell* value :math:`V`
     computation of given *luminance* :math:`Y` using *McCamy (1987)* method.
--   :func:`colour.notation.munsell_value_ASTMD153508`: *Munsell* value
+-   :func:`colour.notation.munsell_value_ASTMD1535`: *Munsell* value
     :math:`V` computation of given *luminance* :math:`Y` using
     *ASTM D1535-08e1* method.
 -   :attr:`colour.MUNSELL_VALUE_METHODS`: Supported *Munsell* value
@@ -127,7 +127,7 @@ from collections import OrderedDict
 from colour.algebra import (Extrapolator, LinearInterpolator,
                             cartesian_to_cylindrical, euclidean_distance,
                             polar_to_cartesian, spow)
-from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
+from colour.colorimetry import ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE,
                               INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
@@ -159,7 +159,7 @@ __all__ = [
     'munsell_value_Priest1920', 'munsell_value_Munsell1933',
     'munsell_value_Moon1943', 'munsell_value_Saunderson1944',
     'munsell_value_Ladd1955', 'munsell_value_McCamy1987',
-    'munsell_value_ASTMD153508', 'MUNSELL_VALUE_METHODS', 'munsell_value',
+    'munsell_value_ASTMD1535', 'MUNSELL_VALUE_METHODS', 'munsell_value',
     'munsell_specification_to_xyY', 'munsell_colour_to_xyY',
     'xyY_to_munsell_specification', 'xyY_to_munsell_colour',
     'parse_munsell_colour', 'is_grey_munsell_colour',
@@ -242,7 +242,7 @@ def _munsell_specifications():
     return _MUNSELL_SPECIFICATIONS_CACHE
 
 
-def _munsell_value_ASTMD153508_interpolator():
+def _munsell_value_ASTMD1535_interpolator():
     """
     Returns the *Munsell* value interpolator for *ASTM D1535-08e1* method and
     caches it if not existing.
@@ -259,7 +259,7 @@ def _munsell_value_ASTMD153508_interpolator():
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator(
             LinearInterpolator(
-                luminance_ASTMD153508(munsell_values), munsell_values))
+                luminance_ASTMD1535(munsell_values), munsell_values))
 
     return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
 
@@ -584,10 +584,10 @@ def munsell_value_McCamy1987(Y):
     return from_range_10(V)
 
 
-def munsell_value_ASTMD153508(Y):
+def munsell_value_ASTMD1535(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    a reverse lookup table from *ASTM D1535-08e1* method.
+    an inverse lookup table from *ASTM D1535-08e1* method.
 
     Parameters
     ----------
@@ -623,13 +623,13 @@ def munsell_value_ASTMD153508(Y):
 
     Examples
     --------
-    >>> munsell_value_ASTMD153508(12.23634268)  # doctest: +ELLIPSIS
+    >>> munsell_value_ASTMD1535(12.23634268)  # doctest: +ELLIPSIS
     4.0824437...
     """
 
     Y = to_domain_100(Y)
 
-    V = _munsell_value_ASTMD153508_interpolator()(Y)
+    V = _munsell_value_ASTMD1535_interpolator()(Y)
 
     return from_range_10(V)
 
@@ -641,7 +641,7 @@ MUNSELL_VALUE_METHODS = CaseInsensitiveMapping({
     'Saunderson 1944': munsell_value_Saunderson1944,
     'Ladd 1955': munsell_value_Ladd1955,
     'McCamy 1987': munsell_value_McCamy1987,
-    'ASTM D1535-08': munsell_value_ASTMD153508
+    'ASTM D1535': munsell_value_ASTMD1535
 })
 MUNSELL_VALUE_METHODS.__doc__ = """
 Supported *Munsell* value computation methods.
@@ -652,16 +652,16 @@ References
 
 MUNSELL_VALUE_METHODS : CaseInsensitiveMapping
     **{'Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
-    'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08'}**
+    'Ladd 1955', 'McCamy 1987', 'ASTM D1535'}**
 
 Aliases:
 
--   'astm2008': 'ASTM D1535-08'
+-   'astm2008': 'ASTM D1535'
 """
-MUNSELL_VALUE_METHODS['astm2008'] = (MUNSELL_VALUE_METHODS['ASTM D1535-08'])
+MUNSELL_VALUE_METHODS['astm2008'] = (MUNSELL_VALUE_METHODS['ASTM D1535'])
 
 
-def munsell_value(Y, method='ASTM D1535-08'):
+def munsell_value(Y, method='ASTM D1535'):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     given method.
@@ -671,7 +671,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
     Y : numeric or array_like
         *luminance* :math:`Y`.
     method : unicode, optional
-        **{'ASTM D1535-08', 'Priest 1920', 'Munsell 1933', 'Moon 1943',
+        **{'ASTM D1535', 'Priest 1920', 'Munsell 1933', 'Moon 1943',
         'Saunderson 1944', 'Ladd 1955', 'McCamy 1987'}**,
         Computation method.
 
@@ -757,7 +757,7 @@ def _munsell_specification_to_xyY(specification):
             '[0, 10]!'.format(specification))
 
     with domain_range_scale('ignore'):
-        Y = luminance_ASTMD153508(value)
+        Y = luminance_ASTMD1535(value)
 
     if is_integer(value):
         value_minus = value_plus = round(value)
@@ -780,8 +780,8 @@ def _munsell_specification_to_xyY(specification):
         y = y_minus
     else:
         with domain_range_scale('ignore'):
-            Y_minus = luminance_ASTMD153508(value_minus)
-            Y_plus = luminance_ASTMD153508(value_plus)
+            Y_minus = luminance_ASTMD1535(value_minus)
+            Y_plus = luminance_ASTMD1535(value_plus)
 
         x = LinearInterpolator((Y_minus, Y_plus), (x_minus, x_plus))(Y)
         y = LinearInterpolator((Y_minus, Y_plus), (y_minus, y_plus))(Y)
@@ -929,7 +929,7 @@ def _xyY_to_munsell_specification(xyY):
                       '"{1}"!'.format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
     with domain_range_scale('ignore'):
-        value = munsell_value_ASTMD153508(Y * 100)
+        value = munsell_value_ASTMD1535(Y * 100)
 
     if is_integer(value):
         value = round(value)
@@ -1000,8 +1000,13 @@ def _xyY_to_munsell_specification(xyY):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise RuntimeError(('Maximum inner iterations count reached '
-                                    'without convergence!'))
+                # NOTE: This exception is likely never raised in practice:
+                # 300K iterations with random numbers never reached this code
+                # path, it is kept for consistency with the reference
+                # implementation.
+                raise RuntimeError(  # pragma: no cover
+                    ('Maximum inner iterations count reached without '
+                     'convergence!'))
 
             hue_angle_inner = ((hue_angle_current + iterations_inner *
                                 (phi_input - phi_current)) % 360)
@@ -1065,6 +1070,11 @@ def _xyY_to_munsell_specification(xyY):
             specification_current)
         chroma_maximum = maximum_chroma_from_renotation(
             hue_current, value, code_current)
+
+        # NOTE: This condition is likely never "True" while producing a valid
+        # "Munsell Specification" in practice: 100K iterations with random
+        # numbers never reached this code path while producing a valid
+        # "Munsell Specification".
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
@@ -1126,7 +1136,10 @@ def _xyY_to_munsell_specification(xyY):
                 np.array(specification_current),
                 np.array([10, 10, chroma_scale, 10]))
 
-    raise RuntimeError(
+    # NOTE: This exception is likely never raised in practice: 300K iterations
+    # with random numbers never reached this code path, it is kept for
+    # consistency with the reference # implementation
+    raise RuntimeError(  # pragma: no cover
         'Maximum outside iterations count reached without convergence!')
 
 
@@ -1472,8 +1485,7 @@ def munsell_specification_to_munsell_colour(specification,
             hue, code = 10, (code + 1) % 10
 
         if value == 0:
-            return MUNSELL_GRAY_EXTENDED_FORMAT.format(specification,
-                                                       value_decimals)
+            return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
         else:
             hue_letter = MUNSELL_HUE_LETTER_CODES.first_key_from_value(code)
 
@@ -1579,6 +1591,12 @@ def bounding_hues_from_renotation(hue, code):
     >>> bounding_hues_from_renotation(3.2, 4)
     array([[ 2.5,  4. ],
            [ 5. ,  4. ]])
+
+    # Coverage Doctests
+
+    >>> bounding_hues_from_renotation(0.0, 1)
+    array([[ 10.,   2.],
+           [ 10.,   2.]])
     """
 
     if hue % 2.5 == 0:
@@ -1800,6 +1818,9 @@ def interpolation_method_from_renotation_ovoid(specification):
 
         ASTM_hue = hue_to_ASTM_hue(hue, code)
 
+        # NOTE: The first level "else" clauses are likely never reached in
+        # practice, they are kept for consistency with the reference
+        # implementation.
         if value == 1:
             if chroma == 2:
                 if 15 < ASTM_hue < 30 or 60 < ASTM_hue < 85:
@@ -1822,11 +1843,15 @@ def interpolation_method_from_renotation_ovoid(specification):
                 else:
                     interpolation_method = 1
             elif chroma >= 10:
-                if 72.5 < ASTM_hue < 77.5:
+                # NOTE: This condition is likely never "True" while producing a
+                # valid "Munsell Specification" in practice: 1M iterations with
+                # random numbers never reached this code path while producing a
+                # valid "Munsell Specification".
+                if 72.5 < ASTM_hue < 77.5:  # pragma: no cover
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 2:
             if chroma == 2:
@@ -1854,7 +1879,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 3:
             if chroma == 2:
@@ -1877,7 +1902,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 4:
             if chroma in (2, 4):
@@ -1895,7 +1920,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 5:
             if chroma == 2:
@@ -1913,7 +1938,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 6:
             if chroma in (2, 4):
@@ -1941,7 +1966,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 7:
             if chroma in (2, 4, 6):
@@ -1972,7 +1997,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 8:
             if chroma in (2, 4, 6, 8, 10, 12):
@@ -1986,7 +2011,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
         elif value == 9:
             if chroma in (2, 4):
@@ -2004,7 +2029,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            else:
+            else:  # pragma: no cover
                 interpolation_method = 1
 
     return interpolation_methods.get(interpolation_method)
@@ -2012,9 +2037,9 @@ def interpolation_method_from_renotation_ovoid(specification):
 
 def xy_from_renotation_ovoid(specification):
     """
-    Converts given *Munsell* *Colorlab* specification to *xy* chromaticity
+    Converts given *Munsell* *Colorlab* specification to *CIE xy* chromaticity
     coordinates on *Munsell Renotation System* ovoid.
-    The *xy* point will be on the ovoid about the achromatic point,
+    The *CIE xy* point will be on the ovoid about the achromatic point,
     corresponding to the *Munsell* *Colorlab* specification
     value and chroma.
 
@@ -2026,7 +2051,7 @@ def xy_from_renotation_ovoid(specification):
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     Raises
     ------
@@ -2081,7 +2106,9 @@ def xy_from_renotation_ovoid(specification):
                 abs(hue - 5) < threshold or abs(hue - 7.5) < threshold or
                 abs(hue - 10) < threshold):
             hue = 2.5 * round(hue / 2.5)
+
             x, y, _Y = xyY_from_renotation((hue, value, chroma, code))
+
             return as_float_array([x, y])
 
         hue_cw, hue_ccw = bounding_hues_from_renotation(hue, code)
@@ -2122,6 +2149,10 @@ def xy_from_renotation_ovoid(specification):
         interpolation_method = interpolation_method_from_renotation_ovoid(
             specification).lower()
 
+        assert interpolation_method is not None, (
+            'Interpolation method must be one of : "{0}"'.format(', '.join(
+                ['Linear', 'radial'])))
+
         if interpolation_method == 'linear':
             x = LinearInterpolator((lower_hue_angle, upper_hue_angle),
                                    (x_minus, x_plus))(hue_angle)
@@ -2136,9 +2167,6 @@ def xy_from_renotation_ovoid(specification):
             x, y = tsplit(
                 polar_to_cartesian((rho, np.radians(theta))) +
                 as_float_array((x_grey, y_grey)))
-        else:
-            raise ValueError('Invalid interpolation method: "{0}"'.format(
-                interpolation_method))
 
         return as_float_array([x, y])
 
@@ -2268,9 +2296,9 @@ def maximum_chroma_from_renotation(hue, value, code):
         max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw,
                          ma_limit_pccw)
     else:
-        L = luminance_ASTMD153508(value)
-        L9 = luminance_ASTMD153508(9)
-        L10 = luminance_ASTMD153508(10)
+        L = luminance_ASTMD1535(value)
+        L9 = luminance_ASTMD1535(9)
+        L10 = luminance_ASTMD1535(10)
 
         max_chroma = min(
             LinearInterpolator((L9, L10), (ma_limit_mcw, 0))(L),
@@ -2280,7 +2308,7 @@ def maximum_chroma_from_renotation(hue, value, code):
 
 def munsell_specification_to_xy(specification):
     """
-    Converts given *Munsell* *Colorlab* specification to *xy* chromaticity
+    Converts given *Munsell* *Colorlab* specification to *CIE xy* chromaticity
     coordinates by interpolating over *Munsell Renotation System* data.
 
     Parameters
@@ -2291,7 +2319,7 @@ def munsell_specification_to_xy(specification):
     Returns
     -------
     ndarray
-        *xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates.
 
     References
     ----------

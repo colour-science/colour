@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Showcases illuminants dataset.
+Showcases illuminants datasets.
 """
 
 from pprint import pprint

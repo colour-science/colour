@@ -9,7 +9,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import oetf_DICOMGSDF, eotf_DICOMGSDF
+from colour.models.rgb.transfer_functions import (eotf_inverse_DICOMGSDF,
+                                                  eotf_DICOMGSDF)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -19,77 +20,78 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestOetf_DICOMGSDF', 'TestEotf_DICOMGSDF']
+__all__ = ['TestEotf_inverse_DICOMGSDF', 'TestEotf_DICOMGSDF']
 
 
-class TestOetf_DICOMGSDF(unittest.TestCase):
+class TestEotf_inverse_DICOMGSDF(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
-oetf_DICOMGSDF` definition unit tests methods.
+eotf_inverse_DICOMGSDF` definition unit tests methods.
     """
 
-    def test_oetf_DICOMGSDF(self):
+    def test_eotf_inverse_DICOMGSDF(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
-oetf_DICOMGSDF` definition.
+eotf_inverse_DICOMGSDF` definition.
         """
 
         self.assertAlmostEqual(
-            oetf_DICOMGSDF(0.05), 0.001007281350787, places=7)
+            eotf_inverse_DICOMGSDF(0.05), 0.001007281350787, places=7)
 
         self.assertAlmostEqual(
-            oetf_DICOMGSDF(130.0662), 0.500486263438448, places=7)
+            eotf_inverse_DICOMGSDF(130.0662), 0.500486263438448, places=7)
 
         self.assertAlmostEqual(
-            oetf_DICOMGSDF(4000), 1.000160314715578, places=7)
+            eotf_inverse_DICOMGSDF(4000), 1.000160314715578, places=7)
 
         self.assertAlmostEqual(
-            oetf_DICOMGSDF(130.0662, out_int=True), 512, places=7)
+            eotf_inverse_DICOMGSDF(130.0662, out_int=True), 512, places=7)
 
-    def test_n_dimensional_oetf_DICOMGSDF(self):
+    def test_n_dimensional_eotf_inverse_DICOMGSDF(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
-oetf_DICOMGSDF` definition n-dimensional arrays support.
+eotf_inverse_DICOMGSDF` definition n-dimensional arrays support.
         """
 
         L = 130.0662
-        J = oetf_DICOMGSDF(L)
+        J = eotf_inverse_DICOMGSDF(L)
 
         L = np.tile(L, 6)
         J = np.tile(J, 6)
-        np.testing.assert_almost_equal(oetf_DICOMGSDF(L), J, decimal=7)
+        np.testing.assert_almost_equal(eotf_inverse_DICOMGSDF(L), J, decimal=7)
 
         L = np.reshape(L, (2, 3))
         J = np.reshape(J, (2, 3))
-        np.testing.assert_almost_equal(oetf_DICOMGSDF(L), J, decimal=7)
+        np.testing.assert_almost_equal(eotf_inverse_DICOMGSDF(L), J, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         J = np.reshape(J, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_DICOMGSDF(L), J, decimal=7)
+        np.testing.assert_almost_equal(eotf_inverse_DICOMGSDF(L), J, decimal=7)
 
-    def test_domain_range_scale_oetf_DICOMGSDF(self):
+    def test_domain_range_scale_eotf_inverse_DICOMGSDF(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
-oetf_DICOMGSDF` definition domain and range scale support.
+eotf_inverse_DICOMGSDF` definition domain and range scale support.
         """
 
         L = 130.0662
-        J = oetf_DICOMGSDF(L)
+        J = eotf_inverse_DICOMGSDF(L)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    oetf_DICOMGSDF(L * factor), J * factor, decimal=7)
+                    eotf_inverse_DICOMGSDF(L * factor), J * factor, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_oetf_DICOMGSDF(self):
+    def test_nan_eotf_inverse_DICOMGSDF(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
-oetf_DICOMGSDF` definition nan support.
+eotf_inverse_DICOMGSDF` definition nan support.
         """
 
-        oetf_DICOMGSDF(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_DICOMGSDF(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_DICOMGSDF(unittest.TestCase):

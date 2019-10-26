@@ -20,9 +20,12 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 from __future__ import division, unicode_literals
 
 import numpy as np
-from collections import Mapping
-from contextlib import contextmanager
+try:  # pragma: no cover
+    from collections import Mapping
+except ImportError:  # pragma: no cover
+    from collections.abc import Mapping
 
+from contextlib import contextmanager
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
 
 __author__ = 'Colour Developers'
@@ -143,7 +146,7 @@ def as_numeric(a, dtype=DEFAULT_FLOAT_DTYPE):
 
     try:
         return dtype(a)
-    except TypeError:
+    except (TypeError, ValueError):
         return a
 
 
@@ -221,10 +224,7 @@ def as_float(a):
     array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
     """
 
-    try:
-        return DEFAULT_FLOAT_DTYPE(a)
-    except TypeError:
-        return as_float_array(a)
+    return DEFAULT_FLOAT_DTYPE(a)
 
 
 def as_namedtuple(a, named_tuple):
@@ -990,6 +990,7 @@ def ndarray_write(a):
 
     a.setflags(write=True)
 
-    yield a
-
-    a.setflags(write=False)
+    try:
+        yield a
+    finally:
+        a.setflags(write=False)

@@ -12,7 +12,7 @@ import unittest
 import tempfile
 from six import PY2, text_type
 
-from colour.colorimetry import SpectralDistribution
+from colour.colorimetry import SpectralDistribution, SpectralShape
 from colour.io import (read_spectral_data_from_csv_file,
                        read_sds_from_csv_file, write_sds_to_csv_file)
 
@@ -146,6 +146,15 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
             default=-1)
         self.assertEqual(data['s_bar'][760], -1)
 
+    def test_raise_exception_read_spectral_data_from_csv_file(self):
+        """
+        Tests :attr:`colour.io.tabular.read_spectral_data_from_csv_file`
+        definition raised exception.
+        """
+
+        self.assertRaises(RuntimeError, read_spectral_data_from_csv_file,
+                          os.path.join(RESOURCES_DIRECTORY, 'Invalid.csv'))
+
 
 class TestReadSdsFromCsvFile(unittest.TestCase):
     """
@@ -201,7 +210,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test)
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in sds.items():
-            if PY2:
+            if PY2:  # pragma: no cover
                 # Running into precision issues with Python 2.x, applying
                 # conservative rounding.
                 value.wavelengths = np.around(value.wavelengths, decimals=7)
@@ -216,6 +225,20 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test, fields=['1'])
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         self.assertEqual(len(sds_test), 1)
+
+    def test_raise_exception_write_sds_to_csv_file(self):
+        """
+        Tests :func:`colour.io.tabular.write_sds_to_csv_file` definition
+        raised exception.
+        """
+
+        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
+                                             'colorchecker_n_ohta.csv')
+        sds = read_sds_from_csv_file(colour_checker_n_ohta)
+        key = list(sds.keys())[0]
+        sds[key] = sds[key].align(SpectralShape(400, 700, 10))
+
+        self.assertRaises(RuntimeError, write_sds_to_csv_file, sds, '')
 
 
 if __name__ == '__main__':

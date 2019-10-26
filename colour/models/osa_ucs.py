@@ -33,8 +33,8 @@ from scipy.optimize import fmin
 
 from colour.algebra import spow
 from colour.models import XYZ_to_xyY
-from colour.utilities import (domain_range_scale, dot_vector, from_range_100,
-                              to_domain_100, tsplit, tstack)
+from colour.utilities import (as_float_array, domain_range_scale, dot_vector,
+                              from_range_100, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -156,7 +156,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
 
     Warnings
     --------
-    There is no analytical reverse transformation from *OSA UCS* to :math:`Ljg`
+    There is no analytical inverse transformation from *OSA UCS* to :math:`Ljg`
     lightness, jaune (yellowness), and greenness to *CIE XYZ* tristimulus
     values, the current implementation relies on optimization using
     :func:`scipy.optimize.fmin` definition and thus has reduced precision and
@@ -215,7 +215,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
         return error
 
     x_0 = np.array([30, 30, 30])
-    XYZ = np.array([
+    XYZ = as_float_array([
         fmin(error_function, x_0, (Ljg_i, ), **optimisation_settings)
         for Ljg_i in Ljg
     ])

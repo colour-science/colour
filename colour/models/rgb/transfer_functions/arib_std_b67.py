@@ -4,10 +4,10 @@ ARIB STD-B67 (Hybrid Log-Gamma)
 ===============================
 
 Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
-(OETF / OECF) and its reverse:
+(OETF / OECF) and its inverse:
 
 -   :func:`colour.models.oetf_ARIBSTDB67`
--   :func:`colour.models.oetf_reverse_ARIBSTDB67`
+-   :func:`colour.models.oetf_inverse_ARIBSTDB67`
 
 See Also
 --------
@@ -28,6 +28,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.models.rgb.transfer_functions import gamma_function
 from colour.utilities import (Structure, as_float, domain_range_scale,
                               from_range_1, to_domain_1)
 
@@ -39,7 +40,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ARIBSTDB67_CONSTANTS', 'oetf_ARIBSTDB67', 'oetf_reverse_ARIBSTDB67'
+    'ARIBSTDB67_CONSTANTS', 'oetf_ARIBSTDB67', 'oetf_inverse_ARIBSTDB67'
 ]
 
 ARIBSTDB67_CONSTANTS = Structure(a=0.17883277, b=0.28466892, c=0.55991073)
@@ -86,6 +87,10 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     | ``E_p``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
+    -   This definition uses the *mirror* negative number handling mode of
+        :func:`colour.models.gamma_function` definition to the sign of negative
+        numbers.
+
     References
     ----------
     :cite:`AssociationofRadioIndustriesandBusinesses2015a`
@@ -102,14 +107,15 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     b = constants.b
     c = constants.c
 
-    E_p = np.where(E <= 1, r * np.sqrt(E), a * np.log(E - b) + c)
+    E_p = np.where(E <= 1, r * gamma_function(E, 0.5, 'mirror'),
+                   a * np.log(E - b) + c)
 
     return as_float(from_range_1(E_p))
 
 
-def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
+def oetf_inverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     """
-    Defines *ARIB STD-B67 (Hybrid Log-Gamma)* reverse opto-electrical transfer
+    Defines *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
     function (OETF / OECF).
 
     Parameters
@@ -143,13 +149,17 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     | ``E``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
+    -   This definition uses the *mirror* negative number handling mode of
+        :func:`colour.models.gamma_function` definition to the sign of negative
+        numbers.
+
     References
     ----------
     :cite:`AssociationofRadioIndustriesandBusinesses2015a`
 
     Examples
     --------
-    >>> oetf_reverse_ARIBSTDB67(0.212132034355964)  # doctest: +ELLIPSIS
+    >>> oetf_inverse_ARIBSTDB67(0.212132034355964)  # doctest: +ELLIPSIS
     0.1799999...
     """
 
@@ -162,7 +172,7 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     with domain_range_scale('ignore'):
         E = np.where(
             E_p <= oetf_ARIBSTDB67(1),
-            (E_p / r) ** 2,
+            gamma_function((E_p / r), 2, 'mirror'),
             np.exp((E_p - c) / a) + b,
         )
 

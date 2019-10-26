@@ -312,9 +312,11 @@ RGB Colourspaces
     DON_RGB_4_COLOURSPACE
     ECI_RGB_V2_COLOURSPACE
     EKTA_SPACE_PS_5_COLOURSPACE
+    F_GAMUT_COLOURSPACE
     PROTUNE_NATIVE_COLOURSPACE
     MAX_RGB_COLOURSPACE
-    NTSC_COLOURSPACE
+    NTSC_1953_COLOURSPACE
+    NTSC_1987_COLOURSPACE
     P3_D65_COLOURSPACE
     PAL_SECAM_COLOURSPACE
     RED_COLOR_COLOURSPACE
@@ -330,6 +332,7 @@ RGB Colourspaces
     PROPHOTO_RGB_COLOURSPACE
     RUSSELL_RGB_COLOURSPACE
     SMPTE_240M_COLOURSPACE
+    SMPTE_C_COLOURSPACE
     S_GAMUT_COLOURSPACE
     S_GAMUT3_COLOURSPACE
     S_GAMUT3_CINE_COLOURSPACE
@@ -347,10 +350,34 @@ Colour Component Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    encoding_cctf
-    ENCODING_CCTFS
-    decoding_cctf
-    DECODING_CCTFS
+    cctf_encoding
+    CCTF_ENCODINGS
+    cctf_decoding
+    CCTF_DECODINGS
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    cctf_encoding_ROMMRGB
+    cctf_decoding_ROMMRGB
+    cctf_encoding_RIMMRGB
+    cctf_decoding_RIMMRGB
+
+**Aliases**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    cctf_encoding_ProPhotoRGB
+    cctf_decoding_ProPhotoRGB
 
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -364,8 +391,8 @@ Opto-Electronic Transfer Functions
 
     oetf
     OETFS
-    oetf_reverse
-    OETFS_REVERSE
+    oetf_inverse
+    OETF_INVERSES
 
 ``colour.models``
 
@@ -375,24 +402,17 @@ Opto-Electronic Transfer Functions
     :toctree: generated/
 
     oetf_ARIBSTDB67
-    oetf_reverse_ARIBSTDB67
-    oetf_DICOMGSDF
+    oetf_inverse_ARIBSTDB67
     oetf_BT2020
-    oetf_BT2100_HLG
-    oetf_reverse_BT2100_HLG
-    oetf_BT2100_PQ
-    oetf_reverse_BT2100_PQ
+    oetf_HLG_BT2100
+    oetf_inverse_HLG_BT2100
+    oetf_PQ_BT2100
+    oetf_inverse_PQ_BT2100
     oetf_BT601
-    oetf_reverse_BT601
+    oetf_inverse_BT601
     oetf_BT709
-    oetf_reverse_BT709
-    oetf_ProPhotoRGB
-    oetf_RIMMRGB
-    oetf_ROMMRGB
+    oetf_inverse_BT709
     oetf_SMPTE240M
-    oetf_ST2084
-    oetf_sRGB
-    oetf_reverse_sRGB
 
 **Ancillary Objects**
 
@@ -418,8 +438,8 @@ Electro-Optical Transfer Functions
 
     eotf
     EOTFS
-    eotf_reverse
-    EOTFS_REVERSE
+    eotf_inverse
+    EOTF_INVERSES
 
 ``colour.models``
 
@@ -429,20 +449,23 @@ Electro-Optical Transfer Functions
     :toctree: generated/
 
     eotf_DCDM
-    eotf_reverse_DCDM
+    eotf_inverse_DCDM
     eotf_DICOMGSDF
+    eotf_inverse_DICOMGSDF
     eotf_BT1886
-    eotf_reverse_BT1886
+    eotf_inverse_BT1886
     eotf_BT2020
-    eotf_BT2100_HLG
-    eotf_reverse_BT2100_HLG
-    eotf_BT2100_PQ
-    eotf_reverse_BT2100_PQ
-    eotf_ProPhotoRGB
-    eotf_RIMMRGB
-    eotf_ROMMRGB
+    BT2100_HLG_EOTF_METHODS
+    eotf_HLG_BT2100
+    BT2100_HLG_EOTF_INVERSE_METHODS
+    eotf_inverse_HLG_BT2100
+    eotf_PQ_BT2100
+    eotf_inverse_PQ_BT2100
     eotf_SMPTE240M
     eotf_ST2084
+    eotf_inverse_ST2084
+    eotf_sRGB
+    eotf_inverse_sRGB
 
 Opto-Optical Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -456,8 +479,8 @@ Opto-Optical Transfer Functions
 
     ootf
     OOTFS
-    ootf_reverse
-    OOTFS_REVERSE
+    ootf_inverse
+    OOTF_INVERSES
 
 
 ``colour.models``
@@ -467,13 +490,15 @@ Opto-Optical Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    ootf_BT2100_HLG
-    ootf_reverse_BT2100_HLG
-    ootf_BT2100_PQ
-    ootf_reverse_BT2100_PQ
+    BT2100_HLG_OOTF_METHODS
+    ootf_HLG_BT2100
+    BT2100_HLG_OOTF_INVERSE_METHODS
+    ootf_inverse_HLG_BT2100
+    ootf_PQ_BT2100
+    ootf_inverse_PQ_BT2100
 
-Log Encoding and Decoding Curves
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Log Encoding and Decoding
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``colour``
 
@@ -482,10 +507,10 @@ Log Encoding and Decoding Curves
 .. autosummary::
     :toctree: generated/
 
-    log_encoding_curve
-    LOG_ENCODING_CURVES
-    log_decoding_curve
-    LOG_DECODING_CURVES
+    log_encoding
+    LOG_ENCODINGS
+    log_decoding
+    LOG_DECODINGS
 
 ``colour.models``
 
@@ -512,7 +537,11 @@ Log Encoding and Decoding Curves
     log_decoding_Cineon
     log_encoding_ERIMMRGB
     log_decoding_ERIMMRGB
+    log_encoding_FLog
+    log_decoding_FLog
+    LOG3G10_ENCODING_METHODS
     log_encoding_Log3G10
+    LOG3G10_DECODING_METHODS
     log_decoding_Log3G10
     log_encoding_Log3G12
     log_decoding_Log3G12

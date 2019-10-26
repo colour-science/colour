@@ -206,7 +206,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
         """
         Tests :attr:`colour.io.iestm2714.SpectralDistribution_IESTM2714.read`
         method.
-
+_temporary_directory_temporary_directory
         Parameters
         ----------
         sd : SpectralDistribution_IESTM2714, optional
@@ -215,9 +215,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
         if sd is None:
             sd = SpectralDistribution_IESTM2714(
-                os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx'))
-
-        self.assertTrue(sd.read())
+                os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx')).read()
 
         sd_r = SpectralDistribution(FLUORESCENT_FILE_SPECTRAL_DATA)
 
@@ -239,13 +237,11 @@ class TestIES_TM2714_Sd(unittest.TestCase):
         """
 
         sd_r = SpectralDistribution_IESTM2714(
-            os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx'))
-
-        sd_r.read()
+            os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx')).read()
 
         sd_r.path = os.path.join(self._temporary_directory, 'Fluorescent.spdx')
         self.assertTrue(sd_r.write())
-        sd_t = SpectralDistribution_IESTM2714(sd_r.path)
+        sd_t = SpectralDistribution_IESTM2714(sd_r.path).read()
 
         self.test_read(sd_t)
         self.assertEquals(sd_r, sd_t)

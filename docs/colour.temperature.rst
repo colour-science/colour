@@ -13,14 +13,14 @@ Correlated Colour Temperature
 .. autosummary::
     :toctree: generated/
 
-    CCT_to_uv
-    CCT_TO_UV_METHODS
     uv_to_CCT
     UV_TO_CCT_METHODS
-    CCT_to_xy
-    CCT_TO_XY_METHODS
+    CCT_to_uv
+    CCT_TO_UV_METHODS
     xy_to_CCT
     XY_TO_CCT_METHODS
+    CCT_to_xy
+    CCT_TO_XY_METHODS
 
 Robertson (1968)
 ~~~~~~~~~~~~~~~~
@@ -32,8 +32,8 @@ Robertson (1968)
 .. autosummary::
     :toctree: generated/
 
-    CCT_to_uv_Robertson1968
     uv_to_CCT_Robertson1968
+    CCT_to_uv_Robertson1968
 
 Krystek (1985)
 ~~~~~~~~~~~~~~
@@ -45,6 +45,7 @@ Krystek (1985)
 .. autosummary::
     :toctree: generated/
 
+    uv_to_CCT_Krystek1985
     CCT_to_uv_Krystek1985
 
 Ohno (2013)
@@ -57,8 +58,21 @@ Ohno (2013)
 .. autosummary::
     :toctree: generated/
 
-    CCT_to_uv_Ohno2013
     uv_to_CCT_Ohno2013
+    CCT_to_uv_Ohno2013
+
+McCamy (1992)
+~~~~~~~~~~~~~
+
+``colour.temperature``
+
+.. currentmodule:: colour.temperature
+
+.. autosummary::
+    :toctree: generated/
+
+    xy_to_CCT_McCamy1992
+    CCT_to_xy_McCamy1992
 
 Hernandez-Andres, Lee and Romero (1999)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,6 +85,7 @@ Hernandez-Andres, Lee and Romero (1999)
     :toctree: generated/
 
     xy_to_CCT_Hernandez1999
+    CCT_to_xy_Hernandez1999
 
 Kang, Moon, Hong, Lee, Cho and Kim (2002)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,6 +97,7 @@ Kang, Moon, Hong, Lee, Cho and Kim (2002)
 .. autosummary::
     :toctree: generated/
 
+    xy_to_CCT_Kang2002
     CCT_to_xy_Kang2002
 
 CIE Illuminant D Series
@@ -94,4 +110,5 @@ CIE Illuminant D Series
 .. autosummary::
     :toctree: generated/
 
+    xy_to_CCT_CIE_D
     CCT_to_xy_CIE_D

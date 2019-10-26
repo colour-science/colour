@@ -21,10 +21,11 @@ import multiprocessing.pool
 import functools
 import numpy as np
 import re
+import six
 import warnings
 from contextlib import contextmanager
 from collections import OrderedDict
-from copy import deepcopy
+from copy import copy
 from six import integer_types, string_types
 
 from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
@@ -41,9 +42,9 @@ __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
     'batch', 'disable_multiprocessing', 'multiprocessing_pool',
-    'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
-    'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
-    'filter_mapping', 'first_item', 'get_domain_range_scale',
+    'is_networkx_installed', 'is_openimageio_installed', 'is_pandas_installed',
+    'is_iterable', 'is_string', 'is_numeric', 'is_integer', 'is_sibling',
+    'filter_kwargs', 'filter_mapping', 'first_item', 'get_domain_range_scale',
     'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
     'to_domain_10', 'to_domain_100', 'to_domain_degrees', 'to_domain_int',
     'from_range_1', 'from_range_10', 'from_range_100', 'from_range_degrees',
@@ -226,7 +227,9 @@ def _initializer(kwargs):
 
     global _DOMAIN_RANGE_SCALE
 
-    _DOMAIN_RANGE_SCALE = kwargs.get('scale', 'reference')
+    # NOTE: No coverage information is available as this code is executed in
+    # sub-processes.
+    _DOMAIN_RANGE_SCALE = kwargs.get('scale', 'reference')  # pragma: no cover
 
 
 @contextmanager
@@ -291,9 +294,42 @@ def multiprocessing_pool(*args, **kwargs):
 
     pool = pool_factory(*args, **kwargs)
 
-    yield pool
+    try:
+        yield pool
+    finally:
+        pool.terminate()
 
-    pool.terminate()
+
+def is_networkx_installed(raise_exception=False):
+    """
+    Returns if *NetworkX* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *NetworkX* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *NetworkX* installed.
+
+    Raises
+    ------
+    ImportError
+        If *NetworkX* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import networkx  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(('"NetworkX" related API features, e.g. '
+                               'the automatic colour conversion graph, '
+                               'are not available: "{0}".').format(error))
+        return False
 
 
 def is_openimageio_installed(raise_exception=False):
@@ -316,13 +352,13 @@ def is_openimageio_installed(raise_exception=False):
         If *OpenImageIO* is not installed.
     """
 
-    try:
+    try:  # pragma: no cover
         import OpenImageIO  # noqa
 
         return True
-    except ImportError as error:
+    except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"OpenImageIO" related Api features '
+            raise ImportError(('"OpenImageIO" related API features '
                                'are not available: "{0}".').format(error))
         return False
 
@@ -347,13 +383,13 @@ def is_pandas_installed(raise_exception=False):
         If *Pandas* is not installed.
     """
 
-    try:
+    try:  # pragma: no cover
         import pandas  # noqa
 
         return True
-    except ImportError as error:
+    except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"Pandas" related Api features '
+            raise ImportError(('"Pandas" related API features '
                                'are not available: "{0}".').format(error))
         return False
 
@@ -507,6 +543,12 @@ def filter_kwargs(function, **kwargs):
     dict
         Filtered keyword arguments.
 
+    Warnings
+    --------
+    Python 2.7 does not support inspecting the signature of *partial*
+    functions, this could cause unexpected behaviour when using this
+    definition.
+
     Examples
     --------
     >>> def fn_a(a):
@@ -523,8 +565,19 @@ def filter_kwargs(function, **kwargs):
     (1, 2, 3)
     """
 
-    kwargs = deepcopy(kwargs)
-    args, _varargs, _keywords, _defaults = inspect.getargspec(function)
+    kwargs = copy(kwargs)
+
+    # TODO: Remove when dropping Python 2.7.
+    if six.PY2:  # pragma: no cover
+        try:
+            args, _varargs, _keywords, _defaults = inspect.getargspec(function)
+        except (TypeError, ValueError):
+            return {}
+    else:  # pragma: no cover
+        try:
+            args = list(inspect.signature(function).parameters.keys())
+        except ValueError:
+            return {}
 
     args = set(kwargs.keys()) - set(args)
     for key in args:

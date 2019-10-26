@@ -224,9 +224,9 @@ def RGB_to_YCbCr(RGB,
     | ``YCbCr``      | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has input and output integer switches, thus the
-        domain-range scale information is only given for the floating point
-        mode.
+    \\* This definition has input and output integer switches, thus the
+    domain-range scale information is only given for the floating point mode.
+
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
         'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int': False}``
         transform a float *R'G'B'* input array normalised to domain [0, 1]
@@ -346,9 +346,9 @@ def YCbCr_to_RGB(YCbCr,
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
-        value for legal white is *235 / 255*. Default is *10*.
+        value for legal white is *235 / 255*. Default is *8*.
     in_legal : bool, optional
-        Whether to treat the input values as legal range. Default is *False*.
+        Whether to treat the input values as legal range. Default is *True*.
     in_int : bool, optional
         Whether to treat the input values as ``in_bits`` integer code values.
         Default is *False*.
@@ -356,9 +356,9 @@ def YCbCr_to_RGB(YCbCr,
         Bit depth for integer output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is *235 / 255*. Ignored if ``out_legal`` and
-        ``out_int`` are both *False*. Default is *8*.
+        ``out_int`` are both *False*. Default is *10*.
     out_legal : bool, optional
-        Whether to return legal range values. Default is *True*.
+        Whether to return legal range values. Default is *False*.
     out_int : bool, optional
         Whether to return values as ``out_bits`` integer code values. Default
         is *False*.
@@ -396,9 +396,8 @@ def YCbCr_to_RGB(YCbCr,
     | ``RGB``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has input and output integer switches, thus the
-        domain-range scale information is only given for the floating point
-        mode.
+    \\* This definition has input and output integer switches, thus the
+    domain-range scale information is only given for the floating point mode.
 
     Warning
     -------
@@ -508,9 +507,8 @@ def RGB_to_YcCbcCrc(RGB,
     | ``YcCbcCrc``   | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has input and output integer switches, thus the
-        domain-range scale information is only given for the floating point
-        mode.
+    \\* This definition has input and output integer switches, thus the
+    domain-range scale information is only given for the floating point mode.
 
     Warning
     -------
@@ -612,9 +610,8 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     | ``RGB``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has input and output integer switches, thus the
-        domain-range scale information is only given for the floating point
-        mode.
+    \\* This definition has input and output integer switches, thus the
+    domain-range scale information is only given for the floating point mode.
 
     Warning
     -------

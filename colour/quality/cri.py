@@ -28,9 +28,9 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
 from colour.colorimetry import (
-    ASTME30815_PRACTISE_SHAPE, sd_CIE_illuminant_D_series,
+    DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series,
     STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
-from colour.quality.dataset.tcs import TCS_INDEXES_TO_NAMES, TCS_SDS
+from colour.quality.datasets.tcs import TCS_INDEXES_TO_NAMES, TCS_SDS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
 from colour.utilities import domain_range_scale
@@ -117,7 +117,7 @@ def colour_rendering_index(sd_test, additional_data=False):
     """
 
     cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
-    ).trim(ASTME30815_PRACTISE_SHAPE)
+    ).trim(DEFAULT_SPECTRAL_SHAPE)
 
     shape = cmfs.shape
     sd_test = sd_test.copy().align(shape)

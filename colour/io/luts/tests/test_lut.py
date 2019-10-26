@@ -386,6 +386,21 @@ class TestLUT(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
+            (LUT_1 + 10).table, self._table_1 + 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (LUT_1 - 10).table, self._table_1 - 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (LUT_1 * 10).table, self._table_1 * 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (LUT_1 / 10).table, self._table_1 / 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            (LUT_1 ** 10).table, self._table_1 ** 10, decimal=7)
+
+        np.testing.assert_almost_equal(
             LUT_2.arithmetical_operation(10, '+', True).table,
             self._table_1 + 10,
             decimal=7)
@@ -819,6 +834,16 @@ class TestLUTSequence(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(LUTSequence))
 
+    def test_sequence(self):
+        """
+        Tests :class:`colour.io.luts.lut.LUTSequence.sequence` property.
+        """
+
+        sequence = [self._LUT_1, self._LUT_2, self._LUT_3]
+        LUT_sequence = LUTSequence()
+        LUT_sequence.sequence = sequence
+        self.assertListEqual(self._LUT_sequence.sequence, sequence)
+
     def test__init__(self):
         """
         Tests :class:`colour.io.luts.lut.LUTSequence.__init__` method.
@@ -1109,8 +1134,14 @@ class TestLUTSequence(unittest.TestCase):
         Tests :class:`colour.io.luts.lut.LUTSequence.__eq__` method.
         """
 
-        self.assertEqual(self._LUT_sequence,
-                         LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3))
+        LUT_sequence_1 = LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3)
+        LUT_sequence_2 = LUTSequence(self._LUT_1, self._LUT_2)
+
+        self.assertEqual(self._LUT_sequence, LUT_sequence_1)
+
+        self.assertNotEqual(self._LUT_sequence, self._LUT_sequence[0])
+
+        self.assertNotEqual(LUT_sequence_1, LUT_sequence_2)
 
     def test__neq__(self):
         """
@@ -1399,13 +1430,13 @@ class TestLUT_to_LUT(unittest.TestCase):
             force_conversion=True,
             channel_weights=channel_weights)
 
-        domain = np.array(
-            [np.max(self._domain[0, ...]),
-             np.min(self._domain[1, ...])])
-
-        np.testing.assert_array_equal(LUT.domain, domain)
-
         channel_weights = np.array([1 / 3, 1 / 3, 1 / 3])
+
+        domain = np.array([
+            np.sum(self._domain[0, ...] * channel_weights),
+            np.sum(self._domain[1, ...] * channel_weights)
+        ])
+
         LUT = LUT_to_LUT(
             self._LUT_2,
             LUT1D,
@@ -1614,17 +1645,11 @@ class TestLUT_to_LUT(unittest.TestCase):
         np.testing.assert_almost_equal(
             LUT.table,
             np.array([
-                0.18251270, 0.32131094, 0.38946008, 0.44459323, 0.49143103,
-                0.53320310, 0.57131488, 0.60668991, 0.63936815, 0.67021168,
-                0.69974159, 0.72733338, 0.75390361, 0.77972044, 0.80398593,
-                0.82762659
+                0.04562817, 0.24699999, 0.40967557, 0.50401689, 0.57985117,
+                0.64458830, 0.70250077, 0.75476586, 0.80317708, 0.83944710,
+                0.86337188, 0.88622285, 0.90786039, 0.92160338, 0.92992641,
+                0.93781796
             ]))
-
-        domain = np.array(
-            [np.max(self._domain[0, ...]),
-             np.min(self._domain[1, ...])])
-
-        np.testing.assert_array_equal(LUT.domain, domain)
 
         # "LUT" 3D to "LUT" 3x1D.
         self.assertRaises(ValueError, lambda: LUT_to_LUT(self._LUT_3, LUT3x1D))

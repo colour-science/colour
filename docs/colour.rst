@@ -16,6 +16,7 @@ Colour
     colour.continuous
     colour.corresponding
     colour.difference
+    colour.graph
     colour.io
     colour.models
     colour.notation

@@ -100,7 +100,7 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
     def test_nan_closest_spectral_locus_wavelength(self):
         """
         Tests :func:`colour.colorimetry.dominant.\
-    closest_spectral_locus_wavelength` definition nan support.
+closest_spectral_locus_wavelength` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

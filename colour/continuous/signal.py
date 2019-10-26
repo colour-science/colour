@@ -11,7 +11,6 @@ Defines the class implementing support for continuous signal:
 from __future__ import division, unicode_literals
 
 import numpy as np
-from collections import Iterator, Mapping, OrderedDict, Sequence
 from operator import add, mul, pow, sub, iadd, imul, ipow, isub
 
 # Python 3 compatibility.
@@ -22,6 +21,11 @@ except ImportError:
 
     div = truediv
     idiv = itruediv
+from collections import OrderedDict
+try:  # pragma: no cover
+    from collections import Iterator, Mapping, Sequence
+except ImportError:  # pragma: no cover
+    from collections.abc import Iterator, Mapping, Sequence
 
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -584,9 +588,7 @@ class Signal(AbstractContinuousFunction):
 
             return representation
         except TypeError:
-            # TODO: Discuss what is the most suitable behaviour, either the
-            # following or __str__ one.
-            return '{0}()'.format(self.__class__.__name__)
+            return super(Signal, self).__repr__()
 
     def __hash__(self):
         """

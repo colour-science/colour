@@ -22,7 +22,7 @@ from __future__ import division, unicode_literals
 
 from colour.colorimetry import (PHOTOPIC_LEFS, SCOTOPIC_LEFS,
                                 SpectralDistribution, SpectralShape)
-from colour.colorimetry.dataset.lefs import MESOPIC_X_DATA
+from colour.colorimetry.datasets.lefs import MESOPIC_X_DATA
 from colour.utilities import closest
 
 __author__ = 'Colour Developers'

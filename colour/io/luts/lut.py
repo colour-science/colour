@@ -980,6 +980,9 @@ class LUT1D(AbstractLUT):
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
         """
 
+        if interpolator_args is None:
+            interpolator_args = {}
+
         if self.is_domain_explicit():
             samples = self.domain
         else:
@@ -987,7 +990,8 @@ class LUT1D(AbstractLUT):
 
             samples = np.linspace(domain_min, domain_max, self._table.size)
 
-        RGB_interpolator = interpolator(samples, self._table)
+        RGB_interpolator = interpolator(samples, self._table,
+                                        **interpolator_args)
 
         return RGB_interpolator(RGB)
 
@@ -1354,6 +1358,9 @@ class LUT3x1D(AbstractLUT):
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
 
+        if interpolator_args is None:
+            interpolator_args = {}
+
         R, G, B = tsplit(RGB)
 
         if self.is_domain_explicit():
@@ -1378,7 +1385,7 @@ class LUT3x1D(AbstractLUT):
         s_R, s_G, s_B = samples
 
         RGB_i = [
-            interpolator(a[0], a[1])(a[2])
+            interpolator(a[0], a[1], **interpolator_args)(a[2])
             for a in zip((s_R, s_G, s_B), (R_t, G_t, B_t), (R, G, B))
         ]
 
@@ -1813,6 +1820,9 @@ class LUT3D(AbstractLUT):
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
 
+        if interpolator_args is None:
+            interpolator_args = {}
+
         R, G, B = tsplit(RGB)
 
         if self.is_domain_explicit():
@@ -1834,7 +1844,7 @@ class LUT3D(AbstractLUT):
             for i, j in enumerate((R, G, B))
         ]
 
-        return interpolator(tstack(RGB_l), self._table)
+        return interpolator(tstack(RGB_l), self._table, **interpolator_args)
 
     def as_LUT(self, cls, force_conversion=False, **kwargs):
         """
@@ -1997,6 +2007,8 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
         if 'channel_weights' in kwargs:
             del kwargs['channel_weights']
 
+        # TODO: Implement support for non-uniform domain, e.g. "cinespace"
+        #  LUTs.
         if isinstance(LUT, LUT1D):
             if cls is LUT3x1D:
                 domain = tstack([LUT.domain, LUT.domain, LUT.domain])
@@ -2007,9 +2019,10 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
                 table = LUT.apply(table, **kwargs)
         elif isinstance(LUT, LUT3x1D):
             if cls is LUT1D:
-                domain = np.array(
-                    [np.max(LUT.domain[0, ...]),
-                     np.min(LUT.domain[1, ...])])
+                domain = np.array([
+                    np.sum(LUT.domain[0, ...] * channel_weights),
+                    np.sum(LUT.domain[-1, ...] * channel_weights)
+                ])
                 table = np.sum(LUT.table * channel_weights, axis=-1)
             elif cls is LUT3D:
                 domain = LUT.domain
@@ -2017,9 +2030,10 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
                 table = LUT.apply(table, **kwargs)
         elif isinstance(LUT, LUT3D):
             if cls is LUT1D:
-                domain = np.array(
-                    [np.max(LUT.domain[0, ...]),
-                     np.min(LUT.domain[1, ...])])
+                domain = np.array([
+                    np.sum(LUT.domain[0, ...] * channel_weights),
+                    np.sum(LUT.domain[-1, ...] * channel_weights)
+                ])
                 table = LUT1D.linear_table(size, domain)
                 table = LUT.apply(tstack([table, table, table]), **kwargs)
                 table = np.sum(table * channel_weights, axis=-1)

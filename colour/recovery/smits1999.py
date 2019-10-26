@@ -94,7 +94,7 @@ def XYZ_to_RGB_Smits1999(XYZ):
         SMITS1999_WHITEPOINT,
         SMITS1999_WHITEPOINT,
         SMITS1999_XYZ_TO_RGB_MATRIX,
-        encoding_cctf=None)
+        cctf_encoding=None)
 
 
 def RGB_to_sd_Smits1999(RGB):

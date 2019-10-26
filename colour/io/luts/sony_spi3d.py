@@ -49,10 +49,10 @@ def read_LUT_SonySPI3D(path):
     >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spi3d',
-    ...     'ColourCorrect.spi3d')
+    ...     'Colour_Correct.spi3d')
     >>> print(read_LUT_SonySPI3D(path))
-    LUT3D - ColourCorrect
-    ---------------------
+    LUT3D - Colour Correct
+    ----------------------
     <BLANKLINE>
     Dimensions : 3
     Domain     : [[ 0.  0.  0.]
@@ -69,13 +69,8 @@ def read_LUT_SonySPI3D(path):
     comments = []
 
     with open(path) as spi3d_file:
-        lines = spi3d_file.readlines()
+        lines = filter(None, (line.strip() for line in spi3d_file.readlines()))
         for line in lines:
-            line = line.strip()
-
-            if len(line) == 0:
-                continue
-
             if line.startswith('#'):
                 comments.append(line[1:].strip())
                 continue

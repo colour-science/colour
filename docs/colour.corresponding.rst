@@ -15,6 +15,8 @@ Prediction
 
     corresponding_chromaticities_prediction
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS
+    CorrespondingColourDataset
+    CorrespondingChromaticitiesPrediction
 
 **Dataset**
 

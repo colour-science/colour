@@ -19,10 +19,10 @@ from itertools import permutations
 from colour.algebra.interpolation import vertices_and_relative_coordinates
 from colour.algebra import (
     kernel_nearest_neighbour, kernel_linear, kernel_sinc, kernel_lanczos,
-    kernel_cardinal_spline, KernelInterpolator, LinearInterpolator,
-    SpragueInterpolator, CubicSplineInterpolator, PchipInterpolator,
-    NullInterpolator, lagrange_coefficients, table_interpolation_trilinear,
-    table_interpolation_tetrahedral)
+    kernel_cardinal_spline, KernelInterpolator, NearestNeighbourInterpolator,
+    LinearInterpolator, SpragueInterpolator, CubicSplineInterpolator,
+    PchipInterpolator, NullInterpolator, lagrange_coefficients,
+    table_interpolation_trilinear, table_interpolation_tetrahedral)
 from colour.algebra import random_triplet_generator
 from colour.io import read_LUT
 from colour.utilities import ignore_numpy_errors
@@ -156,7 +156,7 @@ LAGRANGE_COEFFICIENTS_B = np.array([
 LUT_TABLE = read_LUT(
     os.path.join(
         os.path.dirname(__file__), '..', '..', 'io', 'luts', 'tests',
-        'resources', 'iridas_cube', 'ColourCorrect.cube')).table
+        'resources', 'iridas_cube', 'Colour_Correct.cube')).table
 
 
 class TestKernelNearestNeighbour(unittest.TestCase):
@@ -332,10 +332,92 @@ class TestKernelInterpolator(unittest.TestCase):
 
         required_methods = ()
 
-        for method in required_methods:
+        for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(KernelInterpolator))
 
-    def test___call__(self):
+    def test_x(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.x`
+        property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        kernel_interpolator = KernelInterpolator(x, y)
+
+        np.testing.assert_equal(kernel_interpolator.x, x)
+
+    def test_y(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.y`
+        property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        kernel_interpolator = KernelInterpolator(x, y)
+
+        np.testing.assert_equal(kernel_interpolator.y, y)
+
+    def test_window(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.window`
+        property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        kernel_interpolator = KernelInterpolator(x, y, window=3)
+
+        self.assertEqual(kernel_interpolator.window, 3)
+
+    def test_kernel(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.kernel`
+        property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        kernel_interpolator = KernelInterpolator(x, y, kernel=kernel_linear)
+
+        self.assertIs(kernel_interpolator.kernel, kernel_linear)
+
+    def test_kernel_args(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
+kernel_args` property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        kernel_args = {'a': 1}
+        kernel_interpolator = KernelInterpolator(x, y, kernel_args=kernel_args)
+
+        self.assertDictEqual(kernel_interpolator.kernel_args, kernel_args)
+
+    def test_padding_args(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
+padding_args` property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        padding_args = {'pad_width': (3, 3), 'mode': 'mean'}
+        kernel_interpolator = KernelInterpolator(
+            x, y, padding_args=padding_args)
+
+        self.assertDictEqual(kernel_interpolator.padding_args, padding_args)
+
+    def test_raise_exception___init__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__init__`
+        method raised exception.
+        """
+
+        self.assertRaises(
+            ValueError,
+            KernelInterpolator,
+            np.linspace(0, 1, 10),
+            np.linspace(0, 1, 15),
+        )
+
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.KernelInterpolator.__call__`
         method.
@@ -426,6 +508,19 @@ class TestKernelInterpolator(unittest.TestCase):
             KernelInterpolator(x_3, y)(x_i / 10),
             decimal=7)
 
+    def test_raise_exception___call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__call__`
+        method raised exception.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        kernel_interpolator = KernelInterpolator(x, y)
+
+        self.assertRaises(ValueError, kernel_interpolator, -1)
+
+        self.assertRaises(ValueError, kernel_interpolator, 11)
+
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
@@ -439,6 +534,45 @@ class TestKernelInterpolator(unittest.TestCase):
         # independent variable.
 
         pass
+
+
+class TestNearestNeighbourInterpolator(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.NearestNeighbourInterpolator`
+    class units tests methods.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ()
+
+        for attribute in required_attributes:  # pragma: no cover
+            self.assertIn(attribute, dir(NearestNeighbourInterpolator))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ()
+
+        for method in required_methods:  # pragma: no cover
+            self.assertIn(method, dir(NearestNeighbourInterpolator))
+
+    def test___init__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__init__`
+        method.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        nearest_neighbour_interpolator = NearestNeighbourInterpolator(
+            x, y, kernel_args={'a': 1})
+
+        self.assertDictEqual(nearest_neighbour_interpolator.kernel_args, {})
 
 
 class TestLinearInterpolator(unittest.TestCase):
@@ -464,10 +598,19 @@ class TestLinearInterpolator(unittest.TestCase):
 
         required_methods = ()
 
-        for method in required_methods:
+        for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(LinearInterpolator))
 
-    def test___call__(self):
+    def test_raise_exception___init__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__init__`
+        method raised exception.
+        """
+
+        x, y = np.linspace(0, 1, 10), np.linspace(0, 1, 15)
+        self.assertRaises(ValueError, LinearInterpolator, x, y)
+
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method.
@@ -490,6 +633,19 @@ class TestLinearInterpolator(unittest.TestCase):
                 np.arange(0,
                           len(POINTS_DATA_A) - 1 + interval, interval)),
             LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+
+    def test_raise_exception___call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        method raised exception.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        linear_interpolator = LinearInterpolator(x, y)
+
+        self.assertRaises(ValueError, linear_interpolator, -1)
+
+        self.assertRaises(ValueError, linear_interpolator, 11)
 
     @ignore_numpy_errors
     def test_nan__call__(self):
@@ -532,10 +688,19 @@ class TestSpragueInterpolator(unittest.TestCase):
 
         required_methods = ()
 
-        for method in required_methods:
+        for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(SpragueInterpolator))
 
-    def test___call__(self):
+    def test_raise_exception___init__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__init__`
+        method raised exception.
+        """
+
+        x, y = np.linspace(0, 1, 10), np.linspace(0, 1, 15)
+        self.assertRaises(ValueError, SpragueInterpolator, x, y)
+
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method.
@@ -559,6 +724,19 @@ class TestSpragueInterpolator(unittest.TestCase):
                           len(POINTS_DATA_A) - 1 + interval, interval)),
             SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
+    def test_raise_exception___call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
+        method raised exception.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        sprague_interpolator = SpragueInterpolator(x, y)
+
+        self.assertRaises(ValueError, sprague_interpolator, -1)
+
+        self.assertRaises(ValueError, sprague_interpolator, 11)
+
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
@@ -572,7 +750,7 @@ class TestSpragueInterpolator(unittest.TestCase):
             try:
                 sprague_interpolator = SpragueInterpolator(
                     np.array(case), np.array(case))
-                sprague_interpolator(case[0])
+                sprague_interpolator(case[0])  # pragma: no cover
             except AssertionError:
                 pass
 
@@ -583,7 +761,7 @@ class TestCubicSplineInterpolator(unittest.TestCase):
     unit tests methods.
     """
 
-    def test___call__(self):
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.\
 CubicSplineInterpolator.__call__` method.
@@ -625,7 +803,7 @@ class TestPchipInterpolator(unittest.TestCase):
 
         required_methods = ()
 
-        for method in required_methods:
+        for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(PchipInterpolator))
 
 
@@ -652,10 +830,74 @@ class TestNullInterpolator(unittest.TestCase):
 
         required_methods = ()
 
-        for method in required_methods:
+        for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(NullInterpolator))
 
-    def test___call__(self):
+    def test_x(self):
+        """
+        Tests :func:`colour.algebra.interpolation.NullInterpolator.x`
+        property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        null_interpolator = NullInterpolator(x, y)
+
+        np.testing.assert_equal(null_interpolator.x, x)
+
+    def test_y(self):
+        """
+        Tests :func:`colour.algebra.interpolation.NullInterpolator.y`
+        property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        null_interpolator = NullInterpolator(x, y)
+
+        np.testing.assert_equal(null_interpolator.y, y)
+
+    def test_absolute_tolerance(self):
+        """
+        Tests :func:`colour.algebra.interpolation.NullInterpolator.\
+    absolute_tolerance` property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        null_interpolator = NullInterpolator(x, y, absolute_tolerance=0.1)
+
+        np.testing.assert_equal(null_interpolator.absolute_tolerance, 0.1)
+
+    def test_relative_tolerance(self):
+        """
+        Tests :func:`colour.algebra.interpolation.NullInterpolator.\
+    relative_tolerance` property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        null_interpolator = NullInterpolator(x, y, relative_tolerance=0.1)
+
+        np.testing.assert_equal(null_interpolator.relative_tolerance, 0.1)
+
+    def test_default(self):
+        """
+        Tests :func:`colour.algebra.interpolation.NullInterpolator.\
+    default` property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        null_interpolator = NullInterpolator(x, y, default=0)
+
+        np.testing.assert_equal(null_interpolator.default, 0)
+
+    def test_raise_exception___init__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.NullInterpolator.__init__`
+        method raised exception.
+        """
+
+        x, y = np.linspace(0, 1, 10), np.linspace(0, 1, 15)
+        self.assertRaises(ValueError, NullInterpolator, x, y)
+
+    def test__call__(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.__call__`
         method.
@@ -671,6 +913,19 @@ class TestNullInterpolator(unittest.TestCase):
         np.testing.assert_almost_equal(
             null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),
             np.array([12.32, 12.46, 9.51, 4.33]))
+
+    def test_raise_exception___call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.NullInterpolator.__call__`
+        method raised exception.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        null_interpolator = NullInterpolator(x, y)
+
+        self.assertRaises(ValueError, null_interpolator, -1)
+
+        self.assertRaises(ValueError, null_interpolator, 11)
 
     @ignore_numpy_errors
     def test_nan__call__(self):

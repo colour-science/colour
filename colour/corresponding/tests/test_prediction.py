@@ -10,6 +10,8 @@ import numpy as np
 import unittest
 
 from colour.corresponding.prediction import (
+    CorrespondingColourDataset, convert_experiment_results_Breneman1987)
+from colour.corresponding import (
     corresponding_chromaticities_prediction_VonKries,
     corresponding_chromaticities_prediction_CIE1994,
     corresponding_chromaticities_prediction_CMCCAT2000,
@@ -23,13 +25,52 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'FAIRCHILD1990_PREDICTION_DATA', 'CIE1994_PREDICTION_DATA',
-    'CMCCAT2000_PREDICTION_DATA', 'VONKRIES_PREDICTION_DATA',
+    'CORRESPONDING_COLOUR_DATASET_1', 'FAIRCHILD1990_PREDICTION_DATA',
+    'CIE1994_PREDICTION_DATA', 'CMCCAT2000_PREDICTION_DATA',
+    'VONKRIES_PREDICTION_DATA',
     'TestCorrespondingChromaticitiesPredictionFairchild1990',
     'TestCorrespondingChromaticitiesPredictionCIE1994',
     'TestCorrespondingChromaticitiesPredictionCMCCAT2000',
     'TestCorrespondingChromaticitiesPredictionVonKries'
 ]
+
+CORRESPONDING_COLOUR_DATASET_1 = CorrespondingColourDataset(
+    name=1,
+    XYZ_r=np.array([0.947368421052632, 1.000000000000000, 1.000000000000000]),
+    XYZ_t=np.array([1.107889733840304, 1.000000000000000, 0.334125475285171]),
+    XYZ_cr=np.array([
+        [372.358829568788565, 405.000000000000000, 345.746919917864489],
+        [250.638506876227865, 135.000000000000000, 37.131630648330052],
+        [456.541750503018136, 405.000000000000000, 267.487424547283638],
+        [502.185218978102114, 405.000000000000000, 24.758211678831920],
+        [164.036312849162016, 135.000000000000000, 24.511173184357535],
+        [422.727888086642622, 405.000000000000000, 27.231498194945619],
+        [110.245746691871460, 135.000000000000000, 53.846880907372366],
+        [75.208733205374273, 135.000000000000000, 77.281669865642954],
+        [258.414179104477626, 405.000000000000000, 479.480277185501166],
+        [141.154411764705856, 135.000000000000000, 469.124999999999943],
+        [380.757042253521092, 405.000000000000000, 700.193661971831261],
+        [192.236301369863071, 135.000000000000000, 370.510273972602761],
+    ]),
+    XYZ_ct=np.array([
+        [450.407919847328230, 405.000000000000000, 143.566316793893037],
+        [267.090517241379359, 135.000000000000000, 11.831896551724059],
+        [531.851235741444839, 405.000000000000000, 107.602186311787023],
+        [603.033088235294031, 405.000000000000000, 7.444852941176350],
+        [196.511090573012893, 135.000000000000000, 8.109981515711597],
+        [526.868181818181711, 405.000000000000000, 8.468181818181574],
+        [144.589483394833962, 135.000000000000000, 24.035977859778562],
+        [108.161900369003689, 135.000000000000000, 36.178505535055272],
+        [317.877906976744100, 405.000000000000000, 223.691860465116235],
+        [126.960674157303373, 135.000000000000000, 192.792134831460686],
+        [419.434826883910489, 405.000000000000000, 309.730142566191489],
+        [185.180921052631589, 135.000000000000000, 151.430921052631589],
+    ]),
+    Y_r=np.array(1500),
+    Y_t=np.array(1500),
+    B_r=0.3,
+    B_t=0.3,
+    metadata={})
 
 FAIRCHILD1990_PREDICTION_DATA = np.array([
     [(0.199, 0.487), (0.200554934448681, 0.470155699619516)],
@@ -47,18 +88,18 @@ FAIRCHILD1990_PREDICTION_DATA = np.array([
 ])
 
 CIE1994_PREDICTION_DATA = np.array([
-    [(0.199, 0.487), (0.215767890780959, 0.498895367826280)],
-    [(0.420, 0.509), (0.410267748469504, 0.513821531425251)],
-    [(0.249, 0.497), (0.260571497362321, 0.505148168687439)],
-    [(0.302, 0.548), (0.311801622971574, 0.544064249771824)],
-    [(0.290, 0.537), (0.301614668967021, 0.535375706603034)],
-    [(0.257, 0.554), (0.269684273997378, 0.549604431199331)],
-    [(0.192, 0.529), (0.212643185166644, 0.525635424809257)],
-    [(0.129, 0.521), (0.152356526399028, 0.519785490832987)],
-    [(0.133, 0.469), (0.144776887283650, 0.484297760360214)],
-    [(0.158, 0.340), (0.158080133044082, 0.408581420625705)],
-    [(0.178, 0.426), (0.189260852492846, 0.456756636791417)],
-    [(0.231, 0.365), (0.239473218525016, 0.420497483443809)],
+    [(0.199, 0.487), (0.261386136420622, 0.533662817418878)],
+    [(0.420, 0.509), (0.451546322781523, 0.521730655299867)],
+    [(0.249, 0.497), (0.310170032403198, 0.532080871352910)],
+    [(0.302, 0.548), (0.362647256496429, 0.543095116682339)],
+    [(0.290, 0.537), (0.342002205412566, 0.540654345195812)],
+    [(0.257, 0.554), (0.320554395869614, 0.549100152511420)],
+    [(0.192, 0.529), (0.249890733398992, 0.543032894366422)],
+    [(0.129, 0.521), (0.184477356124214, 0.545089114658268)],
+    [(0.133, 0.469), (0.179131489840910, 0.534176133801835)],
+    [(0.158, 0.340), (0.173452103066259, 0.480817508459012)],
+    [(0.178, 0.426), (0.226570643054285, 0.516988754071352)],
+    [(0.231, 0.365), (0.272300292824155, 0.482318190580811)],
 ])
 
 CMCCAT2000_PREDICTION_DATA = np.array([
@@ -92,6 +133,53 @@ VONKRIES_PREDICTION_DATA = np.array([
 ])
 
 
+class TestConvertExperimentResultsBreneman1987(unittest.TestCase):
+    """
+    Defines :func:`colour.corresponding.prediction.\
+convert_experiment_results_Breneman1987` definition unit tests
+    methods.
+    """
+
+    def test_convert_experiment_results_Breneman1987(self):
+        """
+        Tests :func:`colour.corresponding.prediction.\
+convert_experiment_results_Breneman1987` definition.
+        """
+
+        corresponding_colour_dataset = convert_experiment_results_Breneman1987(
+            1)
+
+        np.testing.assert_almost_equal(
+            corresponding_colour_dataset.XYZ_r,
+            CORRESPONDING_COLOUR_DATASET_1.XYZ_r,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            corresponding_colour_dataset.XYZ_t,
+            CORRESPONDING_COLOUR_DATASET_1.XYZ_t,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            corresponding_colour_dataset.XYZ_cr,
+            CORRESPONDING_COLOUR_DATASET_1.XYZ_cr,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            corresponding_colour_dataset.XYZ_ct,
+            CORRESPONDING_COLOUR_DATASET_1.XYZ_ct,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            corresponding_colour_dataset.Y_r,
+            CORRESPONDING_COLOUR_DATASET_1.Y_r,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            corresponding_colour_dataset.Y_t,
+            CORRESPONDING_COLOUR_DATASET_1.Y_t,
+            decimal=7)
+
+
 class TestCorrespondingChromaticitiesPredictionFairchild1990(
         unittest.TestCase):  # noqa
     """
@@ -108,7 +196,7 @@ corresponding_chromaticities_prediction_Fairchild1990` definition.
 
         np.testing.assert_almost_equal(
             np.array(
-                [(p.uvp_m, p.uvp_p) for p in
+                [(p.uv_m, p.uv_p) for p in
                  corresponding_chromaticities_prediction_Fairchild1990()]),
             FAIRCHILD1990_PREDICTION_DATA,
             decimal=7)
@@ -128,7 +216,7 @@ corresponding_chromaticities_prediction_CIE1994` definition.
 
         np.testing.assert_almost_equal(
             np.array(
-                [(p.uvp_m, p.uvp_p)
+                [(p.uv_m, p.uv_p)
                  for p in corresponding_chromaticities_prediction_CIE1994()]),
             CIE1994_PREDICTION_DATA,
             decimal=7)
@@ -144,12 +232,12 @@ corresponding_chromaticities_prediction_CMCCAT2000` definition unit tests
     def test_corresponding_chromaticities_prediction_CMCCAT2000(self):
         """
         Tests :func:`colour.corresponding.prediction.\
-    corresponding_chromaticities_prediction_CMCCAT2000` definition.
+corresponding_chromaticities_prediction_CMCCAT2000` definition.
         """
 
         np.testing.assert_almost_equal(
             np.array([
-                (p.uvp_m, p.uvp_p)
+                (p.uv_m, p.uv_p)
                 for p in corresponding_chromaticities_prediction_CMCCAT2000()
             ]),
             CMCCAT2000_PREDICTION_DATA,
@@ -171,7 +259,7 @@ corresponding_chromaticities_prediction_VonKries` definition.
 
         np.testing.assert_almost_equal(
             np.array(
-                [(p.uvp_m, p.uvp_p)
+                [(p.uv_m, p.uv_p)
                  for p in corresponding_chromaticities_prediction_VonKries()]),
             VONKRIES_PREDICTION_DATA,
             decimal=7)

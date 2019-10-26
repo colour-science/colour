@@ -108,19 +108,25 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_allclose(
-            OSA_UCS_to_XYZ(np.array([-3.00499790, 2.99713697, -9.66784231])),
+            OSA_UCS_to_XYZ(
+                np.array([-3.00499790, 2.99713697, -9.66784231]),
+                {'disp': False}),
             np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             rtol=0.00001,
             atol=0.00001)
 
         np.testing.assert_allclose(
-            OSA_UCS_to_XYZ(np.array([-1.64657491, 4.59201565, 5.31738757])),
+            OSA_UCS_to_XYZ(
+                np.array([-1.64657491, 4.59201565, 5.31738757]),
+                {'disp': False}),
             np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
             rtol=0.00001,
             atol=0.00001)
 
         np.testing.assert_allclose(
-            OSA_UCS_to_XYZ(np.array([-5.08589672, -7.91062749, 0.98107575])),
+            OSA_UCS_to_XYZ(
+                np.array([-5.08589672, -7.91062749, 0.98107575]),
+                {'disp': False}),
             np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
             rtol=0.00001,
             atol=0.00001)

@@ -6,12 +6,12 @@ RIMM, ROMM and ERIMM Encodings
 Defines the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
 (OETF / OECF) and electro-optical transfer functions (EOTF / EOCF):
 
--   :func:`colour.models.oetf_ROMMRGB`
--   :func:`colour.models.eotf_ROMMRGB`
--   :func:`colour.models.oetf_ProPhotoRGB`
--   :func:`colour.models.eotf_ProPhotoRGB`
--   :func:`colour.models.oetf_RIMMRGB`
--   :func:`colour.models.eotf_RIMMRGB`
+-   :func:`colour.models.cctf_encoding_ROMMRGB`
+-   :func:`colour.models.cctf_decoding_ROMMRGB`
+-   :func:`colour.models.cctf_encoding_ProPhotoRGB`
+-   :func:`colour.models.cctf_decoding_ProPhotoRGB`
+-   :func:`colour.models.cctf_encoding_RIMMRGB`
+-   :func:`colour.models.cctf_decoding_RIMMRGB`
 -   :func:`colour.models.log_encoding_ERIMMRGB`
 -   :func:`colour.models.log_decoding_ERIMMRGB`
 
@@ -47,16 +47,17 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'oetf_ROMMRGB', 'eotf_ROMMRGB', 'oetf_ProPhotoRGB', 'eotf_ProPhotoRGB',
-    'oetf_RIMMRGB', 'eotf_RIMMRGB', 'log_encoding_ERIMMRGB',
+    'cctf_encoding_ROMMRGB', 'cctf_decoding_ROMMRGB',
+    'cctf_encoding_ProPhotoRGB', 'cctf_decoding_ProPhotoRGB',
+    'cctf_encoding_RIMMRGB', 'cctf_decoding_RIMMRGB', 'log_encoding_ERIMMRGB',
     'log_decoding_ERIMMRGB'
 ]
 
 
-def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
+def cctf_encoding_ROMMRGB(X, bit_depth=8, out_int=False):
     """
-    Defines the *ROMM RGB* encoding opto-electronic transfer function
-    (OETF / OECF).
+    Defines the *ROMM RGB* encoding colour component transfer function
+    (Encoding CCTF).
 
     Parameters
     ----------
@@ -88,8 +89,8 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
     | ``X_p``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an output integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an output integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -97,9 +98,9 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
 
     Examples
     --------
-    >>> oetf_ROMMRGB(0.18)  # doctest: +ELLIPSIS
+    >>> cctf_encoding_ROMMRGB(0.18)  # doctest: +ELLIPSIS
     0.3857114...
-    >>> oetf_ROMMRGB(0.18, out_int=True)
+    >>> cctf_encoding_ROMMRGB(0.18, out_int=True)
     98
     """
 
@@ -117,10 +118,10 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
         return as_float(from_range_1(X_p / I_max))
 
 
-def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
+def cctf_decoding_ROMMRGB(X_p, bit_depth=8, in_int=False):
     """
-    Defines the *ROMM RGB* encoding electro-optical transfer function
-    (EOTF / EOCF).
+    Defines the *ROMM RGB* decoding colour component transfer function
+    (Encoding CCTF).
 
     Parameters
     ----------
@@ -152,8 +153,8 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
     | ``X``          | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an input integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an input integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -161,9 +162,9 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
 
     Examples
     --------
-    >>> eotf_ROMMRGB(0.385711424751138) # doctest: +ELLIPSIS
+    >>> cctf_decoding_ROMMRGB(0.385711424751138) # doctest: +ELLIPSIS
     0.1...
-    >>> eotf_ROMMRGB(98, in_int=True) # doctest: +ELLIPSIS
+    >>> cctf_decoding_ROMMRGB(98, in_int=True) # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -185,14 +186,18 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
     return as_float(from_range_1(X))
 
 
-oetf_ProPhotoRGB = oetf_ROMMRGB
-eotf_ProPhotoRGB = eotf_ROMMRGB
+cctf_encoding_ProPhotoRGB = cctf_encoding_ROMMRGB
+cctf_encoding_ProPhotoRGB.__doc__ = cctf_encoding_ProPhotoRGB.__doc__.replace(
+    '*ROMM RGB*', '*ProPhoto RGB*')
+cctf_decoding_ProPhotoRGB = cctf_decoding_ROMMRGB
+cctf_decoding_ProPhotoRGB.__doc__ = cctf_decoding_ROMMRGB.__doc__.replace(
+    '*ROMM RGB*', '*ProPhoto RGB*')
 
 
-def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
+def cctf_encoding_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
     """
-    Defines the *RIMM RGB* encoding opto-electronic transfer function
-    (OETF / OECF).
+    Defines the *RIMM RGB* encoding colour component transfer function
+    (Encoding CCTF).
 
     *RIMM RGB* encoding non-linearity is based on that specified by
     *Recommendation ITU-R BT.709-6*.
@@ -229,8 +234,8 @@ def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
     | ``X_p``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an output integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an output integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -238,9 +243,9 @@ def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
 
     Examples
     --------
-    >>> oetf_RIMMRGB(0.18)  # doctest: +ELLIPSIS
+    >>> cctf_encoding_RIMMRGB(0.18)  # doctest: +ELLIPSIS
     0.2916737...
-    >>> oetf_RIMMRGB(0.18, out_int=True)
+    >>> cctf_encoding_RIMMRGB(0.18, out_int=True)
     74
     """
 
@@ -260,10 +265,10 @@ def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
         return as_float(from_range_1(X_p / I_max))
 
 
-def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
+def cctf_decoding_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
     """
-    Defines the *RIMM RGB* encoding electro-optical transfer function
-    (EOTF / EOCF).
+    Defines the *RIMM RGB* decoding colour component transfer function
+    (Encoding CCTF).
 
     Parameters
     ----------
@@ -297,8 +302,8 @@ def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
     | ``X``          | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an input integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an input integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -306,9 +311,9 @@ def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
 
     Examples
     --------
-    >>> eotf_RIMMRGB(0.291673732475746)  # doctest: +ELLIPSIS
+    >>> cctf_decoding_RIMMRGB(0.291673732475746)  # doctest: +ELLIPSIS
     0.1...
-    >>> eotf_RIMMRGB(74, in_int=True)  # doctest: +ELLIPSIS
+    >>> cctf_decoding_RIMMRGB(74, in_int=True)  # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -325,7 +330,8 @@ def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
 
     with domain_range_scale('ignore'):
         X = np.where(
-            X_p / I_max < oetf_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
+            X_p / I_max < cctf_encoding_RIMMRGB(
+                0.018, bit_depth, E_clip=E_clip),
             m / 4.5,
             spow((m + 0.099) / 1.099, 1 / 0.45),
         )
@@ -376,8 +382,8 @@ def log_encoding_ERIMMRGB(X,
     | ``X_p``        | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an output integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an output integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------
@@ -460,8 +466,8 @@ def log_decoding_ERIMMRGB(X_p,
     | ``X``          | [0, 1]                | [0, 1]        |
     +----------------+-----------------------+---------------+
 
-    -   \\* This definition has an input integer switch, thus the domain-range
-        scale information is only given for the floating point mode.
+    \\* This definition has an input integer switch, thus the domain-range
+    scale information is only given for the floating point mode.
 
     References
     ----------

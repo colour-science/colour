@@ -13,11 +13,11 @@ Defines the colour quality plotting objects:
 
 from __future__ import division
 
-import matplotlib.pyplot as plt
 import numpy as np
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.colorimetry import sds_and_multi_sds_to_sds
 from colour.plotting import (COLOUR_STYLE_CONSTANTS,
                              XYZ_to_plotting_colourspace, artist,
                              label_rectangles, override_style, render)
@@ -82,7 +82,9 @@ def plot_colour_quality_bars(specifications,
     >>> light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
-    >>> plot_colour_quality_bars([cqs_i, cqs_l])  # doctest: +SKIP
+    >>> plot_colour_quality_bars([cqs_i, cqs_l])  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_Plot_Colour_Quality_Bars.png
         :align: center
@@ -116,7 +118,7 @@ def plot_colour_quality_bars(specifications,
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
-        bars = plt.bar(
+        bars = axes.bar(
             x,
             np.abs(y),
             color=colours,
@@ -133,12 +135,13 @@ def plot_colour_quality_bars(specifications,
 
         if labels:
             label_rectangles(
-                y,
+                ['{0:.1f}'.format(y_v) for y_v in y],
                 bars,
                 rotation='horizontal' if count_s == 1 else 'vertical',
                 offset=(0 if count_s == 1 else 3 / 100 * count_s + 65 / 1000,
                         0.025),
-                text_size=-5 / 7 * count_s + 12.5)
+                text_size=-5 / 7 * count_s + 12.5,
+                axes=axes)
 
     axes.axhline(
         y=100, color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
@@ -206,7 +209,9 @@ def plot_single_sd_colour_rendering_index_bars(sd, **kwargs):
     >>> from colour import ILLUMINANTS_SDS
     >>> illuminant = ILLUMINANTS_SDS['FL2']
     >>> plot_single_sd_colour_rendering_index_bars(illuminant)
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Rendering_Index_Bars.png
@@ -225,9 +230,12 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
 
     Parameters
     ----------
-    sds : array_like
-        Array of illuminants or light sources spectral distributions to
-        plot the *Colour Rendering Index* (CRI).
+    sds : array_like or MultiSpectralDistributions
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
 
     Other Parameters
     ----------------
@@ -258,13 +266,17 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
     >>> illuminant = ILLUMINANTS_SDS['FL2']
     >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
     >>> plot_multi_sds_colour_rendering_indexes_bars(
-    ...     [illuminant, light_source])  # doctest: +SKIP
+    ...     [illuminant, light_source])  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
-Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png
+Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
         :align: center
         :alt: plot_multi_sds_colour_rendering_indexes_bars
     """
+
+    sds = sds_and_multi_sds_to_sds(sds)
 
     settings = dict(kwargs)
     settings.update({'standalone': False})
@@ -297,7 +309,7 @@ Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png
 
 @override_style()
 def plot_single_sd_colour_quality_scale_bars(sd,
-                                             method='NIST CQS 7.4',
+                                             method='NIST CQS 9.0',
                                              **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
@@ -339,7 +351,9 @@ def plot_single_sd_colour_quality_scale_bars(sd,
     >>> from colour import ILLUMINANTS_SDS
     >>> illuminant = ILLUMINANTS_SDS['FL2']
     >>> plot_single_sd_colour_quality_scale_bars(illuminant)
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Single_SD_Colour_Quality_Scale_Bars.png
@@ -352,7 +366,7 @@ Plot_Single_SD_Colour_Quality_Scale_Bars.png
 
 @override_style()
 def plot_multi_sds_colour_quality_scales_bars(sds,
-                                              method='NIST CQS 7.4',
+                                              method='NIST CQS 9.0',
                                               **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminants or light
@@ -360,9 +374,12 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
 
     Parameters
     ----------
-    sds : array_like
-        Array of illuminants or light sources spectral distributions to
-        plot the *Colour Quality Scale* (CQS).
+    sds : array_like or MultiSpectralDistributions
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistributions` class instance, a list
+        of :class:`colour.MultiSpectralDistributions` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     method : unicode, optional
         **{NIST CQS 7.4'}**,
         *Colour Quality Scale* (CQS) computation method.
@@ -396,13 +413,17 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
     >>> illuminant = ILLUMINANTS_SDS['FL2']
     >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
     >>> plot_multi_sds_colour_quality_scales_bars([illuminant, light_source])
-    ... # doctest: +SKIP
+    ... # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, \
+<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
 
     .. image:: ../_static/Plotting_\
-Plot_Multi_SDs_Colour_Quality_Scales_Bars.png
+Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
         :align: center
         :alt: plot_multi_sds_colour_quality_scales_bars
     """
+
+    sds = sds_and_multi_sds_to_sds(sds)
 
     settings = dict(kwargs)
     settings.update({'standalone': False})

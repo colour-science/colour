@@ -7,7 +7,7 @@ Defines the classes handling spectral data computations:
 
 -   :class:`colour.SpectralShape`
 -   :class:`colour.SpectralDistribution`
--   :class:`colour.MultiSpectralDistribution`
+-   :class:`colour.MultiSpectralDistributions`
 
 See Also
 --------
@@ -35,10 +35,10 @@ from six.moves import zip
 from colour.algebra import (Extrapolator, CubicSplineInterpolator,
                             SpragueInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.continuous import Signal, MultiSignal
+from colour.continuous import Signal, MultiSignals
 from colour.utilities import (as_float, first_item, is_iterable, is_numeric,
                               is_string, is_uniform, interval, runtime_warning)
-from colour.utilities.deprecation import Removed, Renamed
+from colour.utilities.deprecation import ObjectRemoved, ObjectRenamed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -49,7 +49,7 @@ __status__ = 'Production'
 
 __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
-    'MultiSpectralDistribution'
+    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds'
 ]
 
 
@@ -1398,73 +1398,74 @@ dict_like, optional
     # ---              API Changes and Deprecation Management              ---#
     # ------------------------------------------------------------------------#
     @property
-    def title(self):
+    def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.title',
-                        'SpectralDistribution.strict_name')))
+                ObjectRenamed('SpectralPowerDistribution.title',
+                              'SpectralDistribution.strict_name')))
 
         return self.strict_name
 
     @title.setter
-    def title(self, value):
+    def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.title',
-                        'SpectralDistribution.strict_name')))
+                ObjectRenamed('SpectralPowerDistribution.title',
+                              'SpectralDistribution.strict_name')))
 
         self.strict_name = value
 
     @property
-    def data(self):
+    def data(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.data')))
+        raise AttributeError(str(ObjectRemoved('SpectralDistribution.data')))
 
     @property
-    def items(self):
+    def items(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.items')))
+        raise AttributeError(str(ObjectRemoved('SpectralDistribution.items')))
 
-    def __iter__(self):
+    def __iter__(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.__iter__')))
+        raise AttributeError(
+            str(ObjectRemoved('SpectralDistribution.__iter__')))
 
-    def get(self):
+    def get(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.get')))
+        raise AttributeError(str(ObjectRemoved('SpectralDistribution.get')))
 
-    def zeros(self):
+    def zeros(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('SpectralDistribution.zeros')))
+        raise AttributeError(str(ObjectRemoved('SpectralDistribution.zeros')))
 
-    def trim_wavelengths(self, shape):
+    def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.trim_wavelengths',
-                        'SpectralDistribution.trim')))
+                ObjectRenamed('SpectralPowerDistribution.trim_wavelengths',
+                              'SpectralDistribution.trim')))
 
         return self.trim(shape)
 
-    def clone(self):
+    def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('SpectralPowerDistribution.clone',
-                        'SpectralDistribution.copy')))
+                ObjectRenamed('SpectralPowerDistribution.clone',
+                              'SpectralDistribution.copy')))
 
         return self.copy()
 
 
-class MultiSpectralDistribution(MultiSignal):
+class MultiSpectralDistributions(MultiSignals):
     """
-    Defines multi-spectral distribution: the base object for multi spectral
-    computations. It is used to model colour matching functions, display
-    primaries, camera sensitivities, etc...
+    Defines the multi-spectral distributions: the base object for multi
+    spectral computations. It is used to model colour matching functions,
+    display primaries, camera sensitivities, etc...
 
-    The multi-spectral distribution will be initialised according to
+    The multi-spectral distributions will be initialised according to
     *CIE 15:2004* recommendation: the method developed by *Sprague (1880)* will
     be used for interpolating functions having a uniformly spaced independent
     variable and the *Cubic Spline* method for non-uniformly spaced independent
@@ -1473,9 +1474,9 @@ class MultiSpectralDistribution(MultiSignal):
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignal or \
-MultiSpectralDistribution or array_like or dict_like, optional
-        Data to be stored in the multi-spectral distribution.
+    data : Series or Dataframe or Signal or MultiSignals or \
+MultiSpectralDistributions or array_like or dict_like, optional
+        Data to be stored in the multi-spectral distributions.
     domain : array_like, optional
         Values to initialise the multiple :class:`colour.SpectralDistribution`
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
@@ -1489,7 +1490,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
     Other Parameters
     ----------------
     name : unicode, optional
-       Multi-spectral distribution name.
+       Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
@@ -1503,8 +1504,8 @@ MultiSpectralDistribution or array_like or dict_like, optional
         Arguments to use when instantiating the extrapolating function of the
         :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
-        Multi-spectral distribution labels for figures, default to
-        :attr:`colour.MultiSpectralDistribution.labels` attribute value.
+        Multi-spectral distributions labels for figures, default to
+        :attr:`colour.MultiSpectralDistributions.labels` attribute value.
 
     Attributes
     ----------
@@ -1529,7 +1530,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
     Examples
     --------
-    Instantiating a multi-spectral distribution with a uniformly spaced
+    Instantiating the multi-spectral distributions with a uniformly spaced
     independent variable:
 
     >>> from colour.utilities import numpy_print_options
@@ -1544,7 +1545,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
     ... }
     >>> labels = ('x_bar', 'y_bar', 'z_bar')
     >>> with numpy_print_options(suppress=True):
-    ...     MultiSpectralDistribution(data, labels=labels)
+    ...     MultiSpectralDistributions(data, labels=labels)
     ... # doctest: +ELLIPSIS
     MultiSpectral...([[ 500.     ,    0.0049 ,    0.323  ,    0.272  ],
                  ...  [ 510.     ,    0.0093 ,    0.503  ,    0.1582 ],
@@ -1564,7 +1565,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
     >>> data[511] = (0.00314, 0.31416, 0.03142)
     >>> with numpy_print_options(suppress=True):
-    ...     MultiSpectralDistribution(data, labels=labels)
+    ...     MultiSpectralDistributions(data, labels=labels)
     ... # doctest: +ELLIPSIS
     MultiSpectral...([[ 500.     ,    0.0049 ,    0.323  ,    0.272  ],
                  ...  [ 510.     ,    0.0093 ,    0.503  ,    0.1582 ],
@@ -1582,7 +1583,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
-        signals = self.multi_signal_unpack_data(data, domain, labels)
+        signals = self.multi_signals_unpack_data(data, domain, labels)
 
         domain = signals[list(signals.keys())[0]].domain if signals else None
         uniform = is_uniform(domain) if domain is not None else True
@@ -1601,7 +1602,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
             'right': None
         })
 
-        super(MultiSpectralDistribution, self).__init__(
+        super(MultiSpectralDistributions, self).__init__(
             signals, domain, signal_type=SpectralDistribution, **kwargs)
 
         self._strict_name = None
@@ -1612,18 +1613,18 @@ MultiSpectralDistribution or array_like or dict_like, optional
     @property
     def strict_name(self):
         """
-        Getter and setter property for the multi-spectral distribution strict
+        Getter and setter property for the multi-spectral distributions strict
         name.
 
         Parameters
         ----------
         value : unicode
-            Value to set the multi-spectral distribution strict name with.
+            Value to set the multi-spectral distributions strict name with.
 
         Returns
         -------
         unicode
-            Multi-spectral distribution strict name.
+            Multi-spectral distributions strict name.
         """
 
         if self._strict_name is not None:
@@ -1646,18 +1647,18 @@ MultiSpectralDistribution or array_like or dict_like, optional
     @property
     def strict_labels(self):
         """
-        Getter and setter property for the multi-spectral distribution strict
+        Getter and setter property for the multi-spectral distributions strict
         labels.
 
         Parameters
         ----------
         value : array_like
-            Value to set the multi-spectral distribution strict labels with.
+            Value to set the multi-spectral distributions strict labels with.
 
         Returns
         -------
         array_like
-            Multi-spectral distribution strict labels.
+            Multi-spectral distributions strict labels.
         """
 
         if self._strict_labels is not None:
@@ -1684,19 +1685,19 @@ MultiSpectralDistribution or array_like or dict_like, optional
     @property
     def wavelengths(self):
         """
-        Getter and setter property for the multi-spectral distribution
+        Getter and setter property for the multi-spectral distributions
         wavelengths :math:`\\lambda_n`.
 
         Parameters
         ----------
         value : array_like
-            Value to set the multi-spectral distribution wavelengths
+            Value to set the multi-spectral distributions wavelengths
             :math:`\\lambda_n` with.
 
         Returns
         -------
         ndarray
-            Multi-spectral distribution wavelengths :math:`\\lambda_n`.
+            Multi-spectral distributions wavelengths :math:`\\lambda_n`.
         """
 
         return self.domain
@@ -1712,18 +1713,18 @@ MultiSpectralDistribution or array_like or dict_like, optional
     @property
     def values(self):
         """
-        Getter and setter property for the multi-spectral distribution values.
+        Getter and setter property for the multi-spectral distributions values.
 
         Parameters
         ----------
         value : array_like
-            Value to set the multi-spectral distribution wavelengths values
+            Value to set the multi-spectral distributions wavelengths values
             with.
 
         Returns
         -------
         ndarray
-            Multi-spectral distribution values.
+            Multi-spectral distributions values.
         """
 
         return self.range
@@ -1739,27 +1740,27 @@ MultiSpectralDistribution or array_like or dict_like, optional
     @property
     def shape(self):
         """
-        Getter and setter property for the multi-spectral distribution shape.
+        Getter and setter property for the multi-spectral distributions shape.
 
         Returns
         -------
         SpectralShape
-            Multi-spectral distribution shape.
+            Multi-spectral distributions shape.
 
         Notes
         -----
-        -   A multi-spectral distribution with a non-uniformly spaced
+        -   Multi-spectral distributions with a non-uniformly spaced
             independent variable have multiple intervals, in that case
-            :attr:`colour.MultiSpectralDistribution.shape` attribute returns
+            :attr:`colour.MultiSpectralDistributions.shape` attribute returns
             the *minimum* interval size.
 
         Warning
         -------
-        :attr:`colour.MultiSpectralDistribution.shape` attribute is read only.
+        :attr:`colour.MultiSpectralDistributions.shape` attribute is read only.
 
         Examples
         --------
-        Shape of a multi-spectral distribution with a uniformly spaced
+        Shape of the multi-spectral distributions with a uniformly spaced
         independent variable:
 
         >>> from colour.utilities import numpy_print_options
@@ -1772,14 +1773,14 @@ MultiSpectralDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> MultiSpectralDistribution(data).shape
+        >>> MultiSpectralDistributions(data).shape
         SpectralShape(500.0, 560.0, 10.0)
 
-        Shape of a multi-spectral distribution with a non-uniformly spaced
+        Shape of the multi-spectral distributions with a non-uniformly spaced
         independent variable:
 
         >>> data[511] = (0.00314, 0.31416, 0.03142)
-        >>> MultiSpectralDistribution(data).shape
+        >>> MultiSpectralDistributions(data).shape
         SpectralShape(500.0, 560.0, 1.0)
         """
 
@@ -1788,7 +1789,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
-        Extrapolates the multi-spectral distribution in-place according to
+        Extrapolates the multi-spectral distributions in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
         arguments.
 
@@ -1803,8 +1804,8 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralDistribution
-            Extrapolated multi-spectral distribution.
+        MultiSpectralDistributions
+            Extrapolated multi-spectral distributions.
 
         References
         ----------
@@ -1822,11 +1823,11 @@ MultiSpectralDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_sd = MultiSpectralDistribution(data)
-        >>> multi_sd.extrapolate(SpectralShape(400, 700)).shape
+        >>> msds = MultiSpectralDistributions(data)
+        >>> msds.extrapolate(SpectralShape(400, 700)).shape
         SpectralShape(400.0, 700.0, 10.0)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_sd)
+        ...     print(msds)
         [[ 400.         0.0049     0.323      0.272  ]
          [ 410.         0.0049     0.323      0.272  ]
          [ 420.         0.0049     0.323      0.272  ]
@@ -1867,7 +1868,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
     def interpolate(self, shape, interpolator=None, interpolator_args=None):
         """
-        Interpolates the multi-spectral distribution in-place according to
+        Interpolates the multi-spectral distributions in-place according to
         *CIE 167:2005* recommendation or given interpolation arguments.
 
         Parameters
@@ -1881,8 +1882,8 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralDistribution
-            Interpolated multi-spectral distribution.
+        MultiSpectralDistributions
+            Interpolated multi-spectral distributions.
 
         Notes
         -----
@@ -1900,7 +1901,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
         Examples
         --------
-        Multi-spectral distribution with a uniformly spaced independent
+        Multi-spectral distributions with a uniformly spaced independent
         variable uses *Sprague (1880)* interpolation:
 
         >>> from colour.utilities import numpy_print_options
@@ -1913,9 +1914,9 @@ MultiSpectralDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_sd = MultiSpectralDistribution(data)
+        >>> msds = MultiSpectralDistributions(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_sd.interpolate(SpectralShape(interval=1)))
+        ...     print(msds.interpolate(SpectralShape(interval=1)))
         ... # doctest: +ELLIPSIS
         [[ 500.            0.0049   ...    0.323    ...    0.272    ...]
          [ 501.            0.0043252...    0.3400642...    0.2599848...]
@@ -1979,13 +1980,13 @@ MultiSpectralDistribution or array_like or dict_like, optional
          [ 559.            0.5780267...    0.9957974...    0.0042671...]
          [ 560.            0.5945   ...    0.995    ...    0.0039   ...]]
 
-        Multi-spectral distribution with a non-uniformly spaced independent
+        Multi-spectral distributions with a non-uniformly spaced independent
         variable uses *Cubic Spline* interpolation:
 
         >>> data[511] = (0.00314, 0.31416, 0.03142)
-        >>> multi_sd = MultiSpectralDistribution(data)
+        >>> msds = MultiSpectralDistributions(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_sd.interpolate(SpectralShape(interval=1)))
+        ...     print(msds.interpolate(SpectralShape(interval=1)))
         ... # doctest: +ELLIPSIS
         [[ 500.            0.0049   ...    0.323    ...    0.272    ...]
          [ 501.            0.0300110...    0.9455153...    0.5985102...]
@@ -2062,7 +2063,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
               extrapolator=None,
               extrapolator_args=None):
         """
-        Aligns the multi-spectral distribution in-place to given spectral
+        Aligns the multi-spectral distributions in-place to given spectral
         shape: Interpolates first then extrapolates to fit the given range.
 
         Parameters
@@ -2080,8 +2081,8 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralDistribution
-            Aligned multi-spectral distribution.
+        MultiSpectralDistributions
+            Aligned multi-spectral distributions.
 
         Examples
         --------
@@ -2095,9 +2096,9 @@ MultiSpectralDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_sd = MultiSpectralDistribution(data)
+        >>> msds = MultiSpectralDistributions(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_sd.align(SpectralShape(505, 565, 1)))
+        ...     print(msds.align(SpectralShape(505, 565, 1)))
         ... # doctest: +ELLIPSIS
         [[ 505.            0.0031582...    0.4091067...    0.2126801...]
          [ 506.            0.0035019...    0.4268629...    0.2012748...]
@@ -2170,7 +2171,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
     def trim(self, shape):
         """
-        Trims the multi-spectral distribution wavelengths to given shape.
+        Trims the multi-spectral distributions wavelengths to given shape.
 
         Parameters
         ----------
@@ -2179,8 +2180,8 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralDistribution
-            Trimmed multi-spectral distribution.
+        MultiSpectralDistributions
+            Trimmed multi-spectral distributions.
 
         Examples
         --------
@@ -2194,10 +2195,10 @@ MultiSpectralDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_sd = MultiSpectralDistribution(data)
-        >>> multi_sd = multi_sd.interpolate(SpectralShape(interval=1))
+        >>> msds = MultiSpectralDistributions(data)
+        >>> msds = msds.interpolate(SpectralShape(interval=1))
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_sd.trim(SpectralShape(520, 580, 5)))
+        ...     print(msds.trim(SpectralShape(520, 580, 5)))
         ... # doctest: +ELLIPSIS
         [[ 520.            0.06327  ...    0.71     ...    0.07825  ...]
          [ 521.            0.0715642...    0.7283456...    0.0728614...]
@@ -2249,7 +2250,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
     def normalise(self, factor=1):
         """
-        Normalises the multi-spectral distribution with given normalization
+        Normalises the multi-spectral distributions with given normalization
         factor.
 
         Parameters
@@ -2259,7 +2260,7 @@ MultiSpectralDistribution or array_like or dict_like, optional
 
         Returns
         -------
-        MultiSpectralDistribution
+        MultiSpectralDistributions
             Normalised multi- spectral distribution.
 
         Notes
@@ -2279,9 +2280,9 @@ MultiSpectralDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_sd = MultiSpectralDistribution(data)
+        >>> msds = MultiSpectralDistributions(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_sd.normalise())  # doctest: +ELLIPSIS
+        ...     print(msds.normalise())  # doctest: +ELLIPSIS
         [[ 500.            0.0082422...    0.3246231...    1.       ...]
          [ 510.            0.0156434...    0.5055276...    0.5816176...]
          [ 520.            0.1064255...    0.7135678...    0.2876838...]
@@ -2319,9 +2320,9 @@ MultiSpectralDistribution or array_like or dict_like, optional
         ...     550: (0.433450, 0.994950, 0.008750),
         ...     560: (0.594500, 0.995000, 0.003900)
         ... }
-        >>> multi_sd = MultiSpectralDistribution(data)
+        >>> msds = MultiSpectralDistributions(data)
         >>> with numpy_print_options(suppress=True):
-        ...     for sd in multi_sd.to_sds():
+        ...     for sd in msds.to_sds():
         ...         print(sd)  # doctest: +ELLIPSIS
         [[ 500.         0.0049 ...]
          [ 510.         0.0093 ...]
@@ -2361,82 +2362,145 @@ MultiSpectralDistribution or array_like or dict_like, optional
     # ---              API Changes and Deprecation Management              ---#
     # ------------------------------------------------------------------------#
     @property
-    def title(self):
+    def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('TriSpectralPowerDistribution.title',
-                        'SpectralDistribution.strict_name')))
+                ObjectRenamed('TriSpectralPowerDistribution.title',
+                              'SpectralDistribution.strict_name')))
 
         return self.strict_name
 
     @title.setter
-    def title(self, value):
+    def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('TriSpectralPowerDistribution.title',
-                        'SpectralDistribution.strict_name')))
+                ObjectRenamed('TriSpectralPowerDistribution.title',
+                              'SpectralDistribution.strict_name')))
 
         self.strict_name = value
 
     @property
-    def data(self):
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistribution.data')))
-
-    @property
-    def items(self):
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistribution.items')))
-
-    @property
-    def mapping(self):
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistribution.mapping')))
-
-    @property
-    def x(self):
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistribution.x')))
-
-    @property
-    def y(self):
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistribution.y')))
-
-    @property
-    def z(self):
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistribution.z')))
-
-    def __iter__(self):
+    def data(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         raise AttributeError(
-            str(Removed('MultiSpectralDistribution.__iter__')))
+            str(ObjectRemoved('MultiSpectralDistributions.data')))
 
-    def get(self):
+    @property
+    def items(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistribution.get')))
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.items')))
 
-    def zeros(self):
+    @property
+    def mapping(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(Removed('MultiSpectralDistribution.zeros')))
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.mapping')))
 
-    def trim_wavelengths(self, shape):
+    @property
+    def x(self):  # pragma: no cover
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.x')))
+
+    @property
+    def y(self):  # pragma: no cover
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.y')))
+
+    @property
+    def z(self):  # pragma: no cover
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.z')))
+
+    def __iter__(self):  # pragma: no cover
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.__iter__')))
+
+    def get(self):  # pragma: no cover
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.get')))
+
+    def zeros(self):  # pragma: no cover
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(ObjectRemoved('MultiSpectralDistributions.zeros')))
+
+    def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('TriSpectralPowerDistribution.trim_wavelengths',
-                        'MultiSpectralDistribution.trim')))
+                ObjectRenamed('TriSpectralPowerDistribution.trim_wavelengths',
+                              'MultiSpectralDistributions.trim')))
 
         return self.trim(shape)
 
-    def clone(self):
+    def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
         runtime_warning(
             str(
-                Renamed('TriSpectralPowerDistribution.clone',
-                        'MultiSpectralDistribution.copy')))
+                ObjectRenamed('TriSpectralPowerDistribution.clone',
+                              'MultiSpectralDistributions.copy')))
 
         return self.copy()
+
+
+def sds_and_multi_sds_to_sds(sds):
+    """
+    Converts given spectral and multi-spectral distributions to a flat list of
+    spectral distributions.
+
+    Parameters
+    ----------
+    sds : array_like
+        Spectral and multi-spectral distributions to convert to a flat list of
+        spectral distributions.
+
+    Returns
+    -------
+    list
+        Flat list of spectral distributions.
+
+    Examples
+    --------
+    >>> data = {
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360
+    ... }
+    >>> sd_1 = SpectralDistribution(data)
+    >>> sd_2 = SpectralDistribution(data)
+    >>> data = {
+    ...     500: (0.004900, 0.323000, 0.272000),
+    ...     510: (0.009300, 0.503000, 0.158200),
+    ...     520: (0.063270, 0.710000, 0.078250),
+    ...     530: (0.165500, 0.862000, 0.042160),
+    ...     540: (0.290400, 0.954000, 0.020300),
+    ...     550: (0.433450, 0.994950, 0.008750),
+    ...     560: (0.594500, 0.995000, 0.003900)
+    ... }
+    >>> multi_sds_1 = MultiSpectralDistributions(data)
+    >>> multi_sds_2 = MultiSpectralDistributions(data)
+    >>> len(sds_and_multi_sds_to_sds([sd_1, sd_2, multi_sds_1, multi_sds_2]))
+    8
+    """
+
+    if isinstance(sds, MultiSpectralDistributions):
+        sds = sds.to_sds()
+    else:
+        sds = list(sds)
+        for i, sd in enumerate(sds[:]):
+            if isinstance(sd, MultiSpectralDistributions):
+                sds.remove(sd)
+                sds[i:i] = sd.to_sds()
+
+    return sds

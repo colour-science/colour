@@ -64,8 +64,12 @@ from __future__ import division, unicode_literals
 import itertools
 import numpy as np
 import scipy.interpolate
-from collections import OrderedDict, Mapping
 from six.moves import reduce
+from collections import OrderedDict
+try:  # pragma: no cover
+    from collections import Mapping
+except ImportError:  # pragma: no cover
+    from collections.abc import Mapping
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
@@ -1581,7 +1585,7 @@ def vertices_and_relative_coordinates(V_xyz, table):
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'ColourCorrect.cube')
+    ...     'iridas_cube', 'Colour_Correct.cube')
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1684,7 +1688,7 @@ def table_interpolation_trilinear(V_xyz, table):
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'ColourCorrect.cube')
+    ...     'iridas_cube', 'Colour_Correct.cube')
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1744,7 +1748,7 @@ def table_interpolation_tetrahedral(V_xyz, table):
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'ColourCorrect.cube')
+    ...     'iridas_cube', 'Colour_Correct.cube')
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1834,7 +1838,7 @@ def table_interpolation(V_xyz, table, method='Trilinear'):
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'ColourCorrect.cube')
+    ...     'iridas_cube', 'Colour_Correct.cube')
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
