@@ -1919,10 +1919,13 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
 
     Parameters
     ----------
+    LUT : LUT3x1D or LUT3d or LUTSequence
+        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` class instance to
+        convert.
     cls : LUT1D or LUT3x1D or LUT3D
         *LUT* class instance.
     force_conversion : bool, optional
-        Whether to force the conversion as it might be destructive.
+        Whether to force the conversion if destructive.
 
     Other Parameters
     ----------------
@@ -2007,8 +2010,6 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
         if 'channel_weights' in kwargs:
             del kwargs['channel_weights']
 
-        # TODO: Implement support for non-uniform domain, e.g. "cinespace"
-        #  LUTs.
         if isinstance(LUT, LUT1D):
             if cls is LUT3x1D:
                 domain = tstack([LUT.domain, LUT.domain, LUT.domain])

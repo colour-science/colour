@@ -332,6 +332,38 @@ def is_networkx_installed(raise_exception=False):
         return False
 
 
+def is_networkx_installed(raise_exception=False):
+    """
+    Returns if *NetworkX* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *NetworkX* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *NetworkX* installed.
+
+    Raises
+    ------
+    ImportError
+        If *NetworkX* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import networkx  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(('"NetworkX" related API features, e.g. '
+                               'the automatic colour conversion graph, '
+                               'are not available: "{0}".').format(error))
+        return False
+
+
 def is_openimageio_installed(raise_exception=False):
     """
     Returns if *OpenImageIO* is installed and available.

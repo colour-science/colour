@@ -679,6 +679,11 @@ def generate_documentation_plots(output_directory):
         'Plotting_Plot_Colour_Automatic_Conversion_Graph.png')
     plot_automatic_colour_conversion_graph(filename)
 
+    filename = os.path.join(
+        output_directory,
+        'Plotting_Plot_Colour_Automatic_Conversion_Graph.png')
+    plot_automatic_colour_conversion_graph(filename)
+
     # *************************************************************************
     # "tutorial.rst"
     # *************************************************************************
