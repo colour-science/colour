@@ -3,8 +3,9 @@ repos:
     rev: 3.7.8
     hooks:
     -   id: flake8
-        exclude: examples
+        exclude: examples|setup\.py
 -   repo: https://github.com/pre-commit/mirrors-yapf
     rev: v0.23.0
     hooks:
     -   id: yapf
+        exclude: setup\.py

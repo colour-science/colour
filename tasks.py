@@ -362,6 +362,15 @@ def build(ctx):
     ctx.run('poetry build')
     ctx.run('git checkout -- pyproject.toml')
 
+    with ctx.cd('dist'):
+        ctx.run('tar -xvf {0}-{1}.tar.gz'.format(PYPI_PACKAGE_NAME,
+                                                 APPLICATION_VERSION))
+        ctx.run('cp {0}-{1}/setup.py ../'.format(PYPI_PACKAGE_NAME,
+                                                 APPLICATION_VERSION))
+
+        ctx.run('rm -rf {0}-{1}'.format(PYPI_PACKAGE_NAME,
+                                        APPLICATION_VERSION))
+
 
 @task(clean, build)
 def virtualise(ctx, tests=True):
