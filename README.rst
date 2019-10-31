@@ -49,6 +49,14 @@ The draft release notes of the
 branch are available at this
 `url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`__.
 
+Sponsors
+--------
+
+We are grateful 💖 for the support of our
+`sponsors <https://github.com/colour-science/colour/blob/develop/SPONSORS.rst>`__.
+If you'd like to join them, please consider
+`become a sponsor on OpenCollective <https://opencollective.com/colour-science>`__.
+
 Features
 --------
 
