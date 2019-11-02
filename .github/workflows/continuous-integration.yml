@@ -49,7 +49,6 @@ jobs:
     - name: Install Package Dependencies
       run: |
         poetry install --extras "optional plotting"
-        poetry env use $CI_PYTHON_VERSION
         source $(poetry env info -p)/bin/activate
         python -c "import imageio;imageio.plugins.freeimage.download()"
     - name: Ubuntu - Install OpenImageIO
