@@ -1203,6 +1203,67 @@ Code of Conduct
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
 is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
 
+Thank You!
+----------
+
+.. raw:: html
+
+    <h3 align="center">Coffee Sponsors</h3>
+
+.. raw:: html
+
+    <table>
+        <tbody>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://opencollective.com/static/images/default-anonymous-logo.svg" target="_blank">
+                        <img width="98px" src="https://opencollective.com/static/images/default-anonymous-logo.svg">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 About
 -----
 
