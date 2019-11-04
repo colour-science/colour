@@ -238,8 +238,8 @@ If you'd like to join them, please consider
         <tbody>
             <tr>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x99/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x99/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://www.jetbrains.com/" target="_blank">
+                        <img width="176px" src="https://i.imgur.com/nN1VDUG.png">
                     </a>
                 </td>
                 <td align="center" valign="middle">
@@ -303,8 +303,8 @@ If you'd like to join them, please consider
         <tbody>
             <tr>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://opencollective.com/static/images/default-anonymous-logo.svg" target="_blank">
+                        <img width="98px" src="https://opencollective.com/static/images/default-anonymous-logo.svg">
                     </a>
                 </td>
                 <td align="center" valign="middle">

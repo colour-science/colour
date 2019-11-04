@@ -83,7 +83,8 @@ def clean(ctx, docs=True, bytecode=False):
 @task
 def formatting(ctx, yapf=False, asciify=True, bibtex=True):
     """
-    Formats the codebase with *Yapf* and converts unicode characters to ASCII.
+    Formats the codebase with *Yapf*, converts unicode characters to ASCII and
+    cleanup the "BibTeX" file.
 
     Parameters
     ----------
