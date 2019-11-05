@@ -10,7 +10,7 @@ nonprofit in the United States.
 We are grateful 💖 for the support of our
 `sponsors <https://github.com/colour-science/colour/blob/develop/SPONSORS.rst>`__.
 If you'd like to join them, please consider
-`become a sponsor on OpenCollective <https://opencollective.com/colour-science>`__.
+`becoming a sponsor on OpenCollective <https://opencollective.com/colour-science>`__.
 
 .. raw:: html
 
