@@ -272,7 +272,7 @@ def override_style(**kwargs):
     >>> f()  # doctest: +SKIP
     """
 
-    keyword_overrides = dict(kwargs)
+    keywords = kwargs.copy()
 
     def wrapper(function):
         """
@@ -285,8 +285,7 @@ def override_style(**kwargs):
             Wrapped function.
             """
 
-            keywords = dict(kwargs)
-            keywords.update(keyword_overrides)
+            keywords.update(kwargs)
 
             style_overrides = {
                 key: value
