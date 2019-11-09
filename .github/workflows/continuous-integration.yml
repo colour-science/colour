@@ -43,7 +43,7 @@ jobs:
     - name: Install Poetry
       run: |
         curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
-        python get-poetry.py --preview
+        python get-poetry.py --preview --version 1.0.0b3
         PATH=$HOME/.poetry/bin:$PATH
         echo ::set-env name=PATH::$PATH
     - name: Install Package Dependencies
@@ -114,7 +114,7 @@ jobs:
     - name: Install Poetry
       run: |
         curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
-        python get-poetry.py --preview
+        python get-poetry.py --preview --version 1.0.0b3
         set PATH=%USERPROFILE%\.poetry\bin;%PATH%
         echo ::set-env name=PATH::%PATH%
       shell: cmd
