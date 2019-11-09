@@ -7,7 +7,7 @@ jobs:
     name: Unix Build
     strategy:
       matrix:
-        os: [ubuntu-18.04, macOS-10.14]
+        os: [ubuntu-18.04, macOS-latest]
         python-version: [2.7, 3.6, 3.7]
     runs-on: ${{ matrix.os }}
     steps:
