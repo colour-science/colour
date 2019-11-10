@@ -1037,7 +1037,7 @@ multi_sds_to_XYZ_ASTME308`
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        msds = MSDS.clone().align(SpectralShape(400, 700, 20))
+        msds = MSDS.copy().align(SpectralShape(400, 700, 20))
         np.testing.assert_almost_equal(
             multi_sds_to_XYZ_ASTME308(msds, cmfs, ILLUMINANTS_SDS['D65']),
             XYZ_D65_ASTME308_MSDS,
@@ -1061,7 +1061,7 @@ multi_sds_to_XYZ_ASTME308` definition domain and range scale support.
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     multi_sds_to_XYZ_ASTME308(
-                        MSDS.clone().align(SpectralShape(400, 700, 20)), cmfs,
+                        MSDS.copy().align(SpectralShape(400, 700, 20)), cmfs,
                         ILLUMINANTS_SDS['D65']),
                     XYZ_D65_ASTME308_MSDS * factor,
                     decimal=7)

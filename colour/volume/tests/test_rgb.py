@@ -184,7 +184,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
                 BT709_COLOURSPACE, 10e3,
                 random_state=np.random.RandomState(2)),
-            47.158403869407500,
+            46.931407942238266,
             decimal=7)
 
 

@@ -164,7 +164,13 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
 
     wl_ij = dict(tuple(zip(wavelengths, ij)))
     for label in labels:
-        i, j = wl_ij[label]
+        ij = wl_ij.get(label)
+
+        if ij is None:
+            continue
+
+        i, j = ij
+        ij = np.array([ij])
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -174,7 +180,6 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
         dx = wl_ij[right][0] - wl_ij[left][0]
         dy = wl_ij[right][1] - wl_ij[left][1]
 
-        ij = np.array([i, j])
         direction = np.array([-dy, dx])
 
         normal = (np.array([-dy, dx]) if np.dot(
