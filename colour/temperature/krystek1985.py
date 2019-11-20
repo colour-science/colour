@@ -80,9 +80,9 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
 
     Examples
     --------
-    >>> uv_to_CCT_Krystek1985(np.array([0.18376696, 0.30934437]))
+    >>> uv_to_CCT_Krystek1985(np.array([0.20047203, 0.31029290]))
     ... # doctest: +ELLIPSIS
-    6504.3896615...
+    6504.3894290...
     """
 
     uv = as_float_array(uv)
