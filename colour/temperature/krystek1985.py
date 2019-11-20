@@ -145,7 +145,7 @@ def CCT_to_uv_Krystek1985(CCT):
     Examples
     --------
     >>> CCT_to_uv_Krystek1985(6504.38938305)  # doctest: +ELLIPSIS
-    array([ 0.1837669...,  0.3093443...])
+    array([ 0.2004720...,  0.3102929...])
     """
 
     T = as_float_array(CCT)
