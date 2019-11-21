@@ -36,7 +36,7 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
 
         np.testing.assert_allclose(
             uv_to_CCT_Krystek1985(
-                np.array([0.223421163527869, 0.499258998136231]),
+                np.array([0.448087794140145, 0.354731965027727]),
                 {'method': 'Nelder-Mead'}),
             1000,
             rtol=0.0000001,
@@ -44,7 +44,7 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
 
         np.testing.assert_allclose(
             uv_to_CCT_Krystek1985(
-                np.array([0.183513095046506, 0.305827773965731]),
+                np.array([0.198152565091092, 0.307023596915037]),
                 {'method': 'Nelder-Mead'}),
             7000,
             rtol=0.0000001,
@@ -52,7 +52,7 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
 
         np.testing.assert_allclose(
             uv_to_CCT_Krystek1985(
-                np.array([0.182148234861937, 0.281354360914682]),
+                np.array([0.185675876767054, 0.2822336585938984]),
                 {'method': 'Nelder-Mead'}),
             15000,
             rtol=0.0000001,
@@ -64,7 +64,7 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        uv = np.array([0.183513095046506, 0.305827773965731])
+        uv = np.array([0.198152565091092, 0.307023596915037])
         CCT = uv_to_CCT_Krystek1985(uv)
 
         uv = np.tile(uv, (6, 1))
@@ -104,17 +104,17 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             CCT_to_uv_Krystek1985(1000),
-            np.array([0.223421163527869, 0.499258998136231]),
+            np.array([0.448087794140145, 0.354731965027727]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             CCT_to_uv_Krystek1985(7000),
-            np.array([0.183513095046506, 0.305827773965731]),
+            np.array([0.198152565091092, 0.307023596915037]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             CCT_to_uv_Krystek1985(15000),
-            np.array([0.182148234861937, 0.281354360914682]),
+            np.array([0.185675876767054, 0.282233658593898]),
             decimal=7)
 
     def test_n_dimensional_CCT_to_uv_Krystek1985(self):
