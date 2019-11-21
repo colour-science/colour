@@ -52,7 +52,7 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
 
         np.testing.assert_allclose(
             uv_to_CCT_Krystek1985(
-                np.array([0.185675876767054, 0.2822336585938984]),
+                np.array([0.185675876767054, 0.282233658593898]),
                 {'method': 'Nelder-Mead'}),
             15000,
             rtol=0.0000001,
