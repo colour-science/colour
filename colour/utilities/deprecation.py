@@ -3,7 +3,7 @@
 Deprecation Utilities
 =====================
 
-Defines various deprecations management related objects.
+Defines various deprecation management related objects.
 """
 
 from __future__ import division, unicode_literals
