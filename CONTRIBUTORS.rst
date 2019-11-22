@@ -1,8 +1,8 @@
 Contributors
 ============
 
-Development & Technical Support
--------------------------------
+The Colour Developers
+---------------------
 
 -   **Thomas Mansencal**, *Visual Effects Artist @ Weta Digital*
 
@@ -32,6 +32,13 @@ Development & Technical Support
 
     Technical support.
 
+-   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
+
+    Technical support.
+
+Development & Technical Support
+-------------------------------
+
 -   **Katherine Crowson**
 
     CIECAM02 improvements, technical support.
@@ -47,10 +54,6 @@ Development & Technical Support
 -   **Shriramana Sharma**
 
     Documentation improvements.
-
--   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
-
-    Technical support.
 
 -   **Troy James Sobotka**, *Motion Picture Technician*
 
@@ -83,6 +86,10 @@ Development & Technical Support
 -   **Manuel Leonhardt**, *Software Engineer and Image Scientist @ ARRI*
 
     Documentation improvements.
+
+-   **Olli Niemitalo**
+
+    Krystek (1985) implementation fixes.
 
 Acknowledgements
 ----------------
