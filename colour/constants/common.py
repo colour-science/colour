@@ -23,7 +23,7 @@ __status__ = 'Production'
 
 __all__ = [
     'FLOATING_POINT_NUMBER_PATTERN', 'INTEGER_THRESHOLD', 'EPSILON',
-    'DEFAULT_FLOAT_DTYPE', 'DEFAULT_INT_DTYPE'
+    'DEFAULT_FLOAT_DTYPE', 'DEFAULT_COMPLEX_DTYPE', 'DEFAULT_INT_DTYPE'
 ]
 
 FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?'
@@ -57,6 +57,13 @@ DEFAULT_FLOAT_DTYPE = np.sctypeDict.get(
 Default floating point number dtype.
 
 DEFAULT_FLOAT_DTYPE : type
+"""
+
+DEFAULT_COMPLEX_DTYPE = np.complex_
+"""
+Default complex number dtype.
+
+DEFAULT_COMPLEX_DTYPE : type
 """
 
 DEFAULT_INT_DTYPE = np.sctypeDict.get(

@@ -27,7 +27,8 @@ except ImportError:  # pragma: no cover
     from collections.abc import Mapping
 
 from contextlib import contextmanager
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
+from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_COMPLEX_DTYPE,
+                              DEFAULT_INT_DTYPE, EPSILON)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -37,13 +38,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'as_array', 'as_int_array', 'as_float_array', 'as_numeric', 'as_int',
-    'as_float', 'set_float_precision', 'set_int_precision', 'as_namedtuple',
-    'closest_indexes', 'closest', 'normalise_maximum', 'interval',
-    'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
-    'vector_dot', 'matrix_dot', 'orient', 'centroid', 'linear_conversion',
-    'lerp', 'fill_nan', 'ndarray_write', 'zeros', 'ones', 'full',
-    'index_along_last_axis'
+    'as_array', 'as_int_array', 'as_float_array', 'as_complex_array',
+    'as_numeric', 'as_int', 'as_float', 'set_float_precision',
+    'set_int_precision', 'as_namedtuple', 'closest_indexes', 'closest',
+    'normalise_maximum', 'interval', 'is_uniform', 'in_array', 'tstack',
+    'tsplit', 'row_as_diagonal', 'vector_dot', 'matrix_dot', 'orient',
+    'centroid', 'linear_conversion', 'lerp', 'fill_nan', 'ndarray_write',
+    'zeros', 'ones', 'full', 'index_along_last_axis'
 ]
 
 
@@ -134,14 +135,33 @@ def as_float_array(a, dtype=None):
     array([ 1.,  2.,  3.])
     """
 
-    if dtype is None:
-        dtype = DEFAULT_FLOAT_DTYPE
+    return as_array(a, DEFAULT_FLOAT_DTYPE)
 
-    assert dtype in np.sctypes['float'], (
-        '"dtype" must be one of the following types: {0}'.format(
-            np.sctypes['float']))
 
-    return as_array(a, dtype)
+def as_complex_array(a):
+    """
+    Converts given :math:`a` variable to *ndarray* using the type defined by
+    :attr:`colour.constant.DEFAULT_COMPLEX_DTYPE` attribute.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *ndarray*.
+
+    Examples
+    --------
+    >>> as_complex_array([1, 2, 3])
+    array([ 1.+0.j,  2.+0.j,  3.+0.j])
+    >>> as_complex_array([1 + 0.25j, 2 + 0.5j, 3 + 0.75j])
+    array([ 1.+0.25j,  2.+0.5j ,  3.+0.75j])
+    """
+
+    return as_array(a, DEFAULT_COMPLEX_DTYPE)
 
 
 def as_numeric(a, dtype=None):

@@ -9,14 +9,15 @@ import numpy as np
 import unittest
 from collections import namedtuple
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_COMPLEX_DTYPE,
+                              DEFAULT_INT_DTYPE)
 from colour.utilities import (
-    as_array, as_int_array, as_float_array, as_numeric, as_int, as_float,
-    set_float_precision, set_int_precision, as_namedtuple, closest_indexes,
-    closest, normalise_maximum, interval, is_uniform, in_array, tstack, tsplit,
-    row_as_diagonal, vector_dot, matrix_dot, orient, centroid,
-    linear_conversion, lerp, fill_nan, ndarray_write, zeros, ones, full,
-    index_along_last_axis)
+    as_array, as_int_array, as_float_array, as_complex_array, as_numeric,
+    as_int, as_float, set_float_precision, set_int_precision, as_namedtuple,
+    closest_indexes, closest, normalise_maximum, interval, is_uniform,
+    in_array, tstack, tsplit, row_as_diagonal, vector_dot, matrix_dot, orient,
+    centroid, linear_conversion, lerp, fill_nan, ndarray_write, zeros, ones,
+    full, index_along_last_axis)
 from colour.utilities import is_networkx_installed
 
 __author__ = 'Colour Developers'
@@ -27,14 +28,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestAsArray', 'TestAsIntArray', 'TestAsFloatArray', 'TestAsNumeric',
-    'TestAsInt', 'TestAsFloat', 'TestSetFloatPrecision', 'TestSetIntPrecision',
-    'TestAsNametuple', 'TestClosestIndexes', 'TestClosest',
-    'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform', 'TestInArray',
-    'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestDotVector',
-    'TestDotMatrix', 'TestOrient', 'TestCentroid', 'TestLinearConversion',
-    'TestLerp', 'TestFillNan', 'TestNdarrayWrite', 'TestZeros', 'TestOnes',
-    'TestFull', 'TestIndexAlongLastAxis'
+    'TestAsArray', 'TestAsIntArray', 'TestAsFloatArray', 'TestAsComplexArray',
+    'TestAsNumeric', 'TestAsInt', 'TestAsFloat', 'TestSetFloatPrecision',
+    'TestSetIntPrecision', 'TestAsNametuple', 'TestClosestIndexes',
+    'TestClosest', 'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform',
+    'TestInArray', 'TestTstack', 'TestTsplit', 'TestRowAsDiagonal',
+    'TestDotVector', 'TestDotMatrix', 'TestOrient', 'TestCentroid',
+    'TestLinearConversion', 'TestLerp', 'TestFillNan', 'TestNdarrayWrite',
+    'TestZeros', 'TestOnes', 'TestFull', 'TestIndexAlongLastAxis'
 ]
 
 
@@ -90,6 +91,28 @@ class TestAsFloatArray(unittest.TestCase):
         np.testing.assert_equal(as_float_array([1, 2, 3]), np.array([1, 2, 3]))
 
         self.assertEqual(as_float_array([1, 2, 3]).dtype, DEFAULT_FLOAT_DTYPE)
+
+
+class TestAsComplexArray(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_complex_array` definition unit
+    tests methods.
+    """
+
+    def test_as_complex_array(self):
+        """
+        Tests :func:`colour.utilities.array.as_complex_array` definition.
+        """
+
+        np.testing.assert_equal(
+            as_complex_array([1, 2, 3]), np.array([1 + 0j, 2 + 0j, 3 + 0j]))
+
+        np.testing.assert_equal(
+            as_complex_array([1 + 0.25j, 2 + 0.5j, 3 + 0.75j]),
+            np.array([1 + 0.25j, 2 + 0.5j, 3 + 0.75j]))
+
+        self.assertEqual(
+            as_complex_array([1, 2, 3]).dtype, DEFAULT_COMPLEX_DTYPE)
 
 
 class TestAsNumeric(unittest.TestCase):

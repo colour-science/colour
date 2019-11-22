@@ -71,8 +71,9 @@ Array
     :toctree: generated/
 
     as_array
-    as_int_array
     as_float_array
+    as_complex_array
+    as_int_array
     as_numeric
     as_int
     as_float
