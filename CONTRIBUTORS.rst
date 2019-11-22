@@ -87,6 +87,10 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **Olli Niemitalo**
+
+    Krystek (1985) implementation fixes.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
