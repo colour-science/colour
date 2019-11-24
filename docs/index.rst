@@ -43,30 +43,30 @@ If you'd like to join them, please consider
             <tr>
                 <td align="center" valign="middle">
                     <a href="https://www.jetbrains.com/" target="_blank">
-                        <img width="176px" height="176px" src="https://i.imgur.com/nN1VDUG.png">
+                        <img height="176px" src="https://i.imgur.com/nN1VDUG.png">
                     </a>
                     <p><a href="https://www.jetbrains.com/" target="_blank">JetBrains</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://github.com/sobotka" target="_blank">
-                        <img width="176px" height="176px" src="https://avatars2.githubusercontent.com/u/59577">
+                        <img width="176px" src="https://avatars2.githubusercontent.com/u/59577">
                     </a>
                     <p><a href="https://github.com/sobotka" target="_blank">Troy James Sobotka</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://github.com/remia" target="_blank">
-                        <img width="176px" height="176px" src="https://avatars3.githubusercontent.com/u/1922806">
+                        <img width="176px" src="https://avatars3.githubusercontent.com/u/1922806">
                     </a>
                     <p><a href="https://github.com/remia" target="_blank">Remi Achard</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" height="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" height="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
             </tr>
