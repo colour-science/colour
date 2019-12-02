@@ -3,6 +3,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import re
 from six import StringIO
+from uuid import uuid4
 from xml.etree import ElementTree
 from xml.dom import minidom
 
@@ -388,7 +389,7 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
 
     process_list = ElementTree.Element('ProcessList')
     process_list.set('xmlns', 'urn:NATAS:AMPAS:LUT:v2.0')
-    process_list.set('id', id)
+    process_list.set('id', id or str(uuid4()))
     process_list.set('name', name)
     process_list.set('compCLFversion', '2.0')
     for node in LUT:
