@@ -56,6 +56,178 @@ def half_domain_lookup(x, LUT, raw_halfs=True):
     return lerp(out1, out0, f, interpolate_at_boundary=False)
 
 
+class Log(AbstractLUTSequenceOperator):
+    def __init__(self, id='', name='', style='log2Lin',
+                 log_side_slope=1., log_side_offset=0., lin_side_slope=1.,
+                 lin_side_offset=0., lin_side_break=None, linear_slope=None,
+                 linear_offset=None, base=10., comments=None):
+                 
+        self.id = id
+        self.name = name
+        self.style = style
+        self.comments = comments or []
+        
+        self._base = base
+        self._lin_side_slope = lin_side_slope * np.array([1.,1.,1.])
+        self._lin_side_offset = lin_side_offset * np.array([1.,1.,1.])
+        self._log_side_slope = log_side_slope * np.array([1.,1.,1.])
+        self._log_side_offset = log_side_offset * np.array([1.,1.,1.])
+
+        self._lin_side_break = None
+        self._log_side_break = None
+        self._linear_slope = None
+        self._linear_offset = None
+        
+        if lin_side_break is not None:
+            self.lin_side_break = lin_side_break * np.array([1.,1.,1.])
+            
+    def _update_coefficients(self):
+        if self.lin_side_break is None:
+            self._log_side_break = None
+            self._linear_offset = None
+            self._linear_slope = None
+            
+        else:
+            a = self.lin_side_slope
+            b = self.lin_side_offset
+            c = self.log_side_slope
+            d = self.log_side_offset
+            ln_base = np.log(self.base)
+            intercept = a * self.lin_side_break + b
+            
+            if self.linear_slope is None:
+                self._linear_slope = c * a / (intercept * ln_base)
+            
+            self._log_side_break = c * np.log(intercept) / ln_base + d
+            self._linear_offset = self.log_side_break - self.linear_slope * self.lin_side_break
+
+    @property
+    def style(self):
+        return self._style
+
+    @style.setter
+    def style(self, value):
+        if not value in LOG_STYLES:
+            raise ValueError('Invalid Log style: %s' % value)
+        self._style = value
+
+    # @property
+    # def channel(self):
+    #     return self._channel
+    # 
+    # @channel.setter
+    # def channel(self, value):
+    #     if not value in ['R', 'G', 'B', None]:
+    #         raise ValueError('Invalid channel: %s' % value)
+    #     self._channel = value
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value
+
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        self._id = value
+
+    @property
+    def comments(self):
+        return self._comments
+
+    @comments.setter
+    def comments(self, value):
+        self._comments = value
+
+    @property
+    def base(self):
+        return self._base
+
+    @base.setter
+    def base(self, value):
+        self._base = value
+        self._update_coefficients()
+        
+    @property
+    def log_side_slope(self):
+        return self._log_side_slope
+
+    @log_side_slope.setter
+    def log_side_slope(self, *value):
+        self._log_side_slope = value * np.array([1.,1.,1.])
+        self._update_coefficients()
+
+    @property
+    def log_side_offset(self):
+        return self._log_side_offset
+
+    @log_side_offset.setter
+    def log_side_offset(self, *value):
+        self._log_side_offset = value * np.array([1.,1.,1.])
+        self._update_coefficients()
+
+    @property
+    def lin_side_slope(self):
+        return self._lin_side_slope
+        
+    @lin_side_slope.setter
+    def lin_side_slope(self, *value):
+        self._lin_side_slope = value * np.array([1.,1.,1.])
+        self._update_coefficients()
+
+    @property
+    def lin_side_offset(self):
+        return self._lin_side_offset
+        
+    @lin_side_offset.setter
+    def lin_side_offset(self, *value):
+        self._lin_side_offset = value * np.array([1.,1.,1.])
+        self._update_coefficients()
+
+    @property
+    def lin_side_break(self):
+        return self._lin_side_break
+    
+    @lin_side_break.setter
+    def lin_side_break(self, *value):
+        if value is None:
+            self._lin_side_break =  None
+        self._lin_side_break = value * np.array([1.,1.,1.])
+        self._update_coefficients()
+
+    @property
+    def linear_slope(self):
+        return self._linear_slope
+    
+    @linear_slope.setter
+    def linear_slope(self, *value):
+        if value is None:
+            self._linear_slope = None
+        self._linear_slope = value * np.array([1.,1.,1.])
+        self._update_coefficients()
+
+    @property
+    def linear_offset(self):
+        return self._linear_offset
+    
+    @property
+    def log_side_break(self):
+        return self._log_side_break
+    
+    def apply(self, RGB):
+        RGB_out = as_float_array((np.copy(RGB)))
+        # todo -- implementation
+        return RGB_out
+
+
+
+
 class HalfDomain1D(AbstractLUTSequenceOperator):
     def __init__(self, table=None, name='', comments=None, raw_halfs=False):
         if table is not None:
