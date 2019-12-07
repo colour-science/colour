@@ -33,7 +33,6 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
 import re
-import textwrap
 from collections import OrderedDict, namedtuple
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
@@ -55,12 +54,11 @@ __status__ = 'Production'
 __all__ = [
     'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
-    'colour_cycle', 'artist', 'camera', 'render', 'wrap_title',
-    'label_rectangles', 'uniform_axes3d', 'filter_passthrough',
-    'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
-    'filter_colour_checkers', 'plot_single_colour_swatch',
-    'plot_multi_colour_swatches', 'plot_single_function',
-    'plot_multi_functions', 'plot_image'
+    'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
+    'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
+    'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
+    'plot_single_colour_swatch', 'plot_multi_colour_swatches',
+    'plot_single_function', 'plot_multi_functions', 'plot_image'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -505,8 +503,7 @@ def render(**kwargs):
     title : unicode, optional
         Figure title.
     wrap_title : unicode, optional
-        Whether to wrap the figure title, the default is to wrap at a number
-        of characters equal to the width of the figure multiplied by 10.
+        Whether to wrap the figure title. Default is *True*.
     x_label : unicode, optional
         *X* axis label.
     y_label : unicode, optional
@@ -554,11 +551,7 @@ def render(**kwargs):
         axes.set_ylim(settings.bounding_box[2], settings.bounding_box[3])
 
     if settings.title:
-        title = settings.title
-        if settings.wrap_title:
-            title = wrap_title(settings.title,
-                               int(plt.rcParams['figure.figsize'][0] * 10))
-        axes.set_title(title)
+        axes.set_title(settings.title, wrap=settings.wrap_title)
     if settings.x_label:
         axes.set_xlabel(settings.x_label)
     if settings.y_label:
@@ -582,40 +575,6 @@ def render(**kwargs):
             plt.show()
 
     return figure, axes
-
-
-def wrap_title(title, wrap_length=60):
-    """
-    Wraps given tile at given length.
-
-    The intent of this definition is to wrap long titles so that they don't
-    overflow the figure.
-
-    Parameters
-    ----------
-    title : unicode
-        Title to wrap.
-    wrap_length : int, optional
-        Length at which wrapping should occur.
-
-    Returns
-    -------
-    unicode
-        Wrapped title.
-
-    Examples
-    --------
-    >>> wrap_title(  # doctest: +SKIP
-    ...     'This is a very long figure title that would overflow the figure '
-    ...     'container if it was not wrapped.')
-    'This is a very long figure title that would overflow the figure \
-container if it\\nwas not wrapped.'
-    """
-
-    if wrap_length is not None:
-        return '\n'.join(textwrap.wrap(title, wrap_length))
-    else:
-        return title
 
 
 def label_rectangles(labels,
