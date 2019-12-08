@@ -22,6 +22,10 @@
 .. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.3519603-blue.svg?style=flat-square
     :target: https://dx.doi.org/10.5281/zenodo.3519603
     :alt: DOI
+.. image:: https://opencollective.com/colour-science/all/badge.svg?label=financial+contributors
+    :alt: Financial Contributors on Open Collective
+    :target: #contributors
+
 
 .. end-badges
 
@@ -1304,6 +1308,43 @@ Thank You!
             </tr>
         </tbody>
     </table>
+
+Contributors
+
++++++++
+
+Code Contributors
+
+------------------
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+
+.. image:: https://opencollective.com/colour-science/contributors.svg?width=890&button=false 
+
+Financial Contributors
+
+------------------
+
+Become a financial contributor and help us sustain our community. Contribute_
+
+Individuals
+
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: https://opencollective.com/colour-science/individuals.svg?width=890
+    :target: https://opencollective.com/colour-science
+
+Organizations
+
+~~~~~~~~~~~~~~~~~~~~~~
+
+Support this project with your organization. Your logo will show up here with a link to your website. Contribute_
+
+.. image:: https://opencollective.com/colour-science/organization/0/avatar.svg
+    :target: https://opencollective.com/XX/organization/0/website
+
+.. _Contribute: https://opencollective.com/colour-science
+
 
 About
 -----
