@@ -61,7 +61,7 @@ If you'd like to join them, please consider
                 </td>
                 <td align="center" valign="middle">
                     <a href="http://virtualmatter.org/" target="_blank">
-                        <img width="176px" src="https://images.opencollective.com/kevin-whitfield/bc24569/avatar.png">
+                        <img width="176px" src="https://ca.slack-edge.com/T02KH93GH-UCFD09UUT-g2f156f5e08e-512">
                     </a>
                     <p><a href="http://virtualmatter.org/" target="_blank">Kevin Whitfield</a></p>
                 </td>
