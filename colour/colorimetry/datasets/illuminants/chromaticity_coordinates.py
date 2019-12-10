@@ -20,6 +20,7 @@ The following *CIE* illuminants are available:
 -   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
 -   Typical LED illuminants (LED-B1, LED-B2, LED-B3, LED-B4, LED-B5, LED-BH1,
     LED-RGB1, LED-V1, LED-V2)
+-   Recommended indoor illuminants ID65 and ID50.
 
 The following other illuminants are available for the
 *CIE 1931 2 Degree Standard Observer* only:
@@ -143,7 +144,9 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
     'LED-BH1': np.array([0.44740, 0.40660]),
     'LED-RGB1': np.array([0.45570, 0.42110]),
     'LED-V1': np.array([0.45480, 0.40440]),
-    'LED-V2': np.array([0.37810, 0.37750])
+    'LED-V2': np.array([0.37810, 0.37750]),
+    'ID65': np.array([0.310656625403120, 0.330663091836953]),
+    'ID50': np.array([0.343211370103531, 0.360207541805137])
 })
 
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
@@ -205,7 +208,9 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update({
     'LED-BH1': np.array([0.452772610754910, 0.400032462750000]),
     'LED-RGB1': np.array([0.457036370583652, 0.425381348780888]),
     'LED-V1': np.array([0.453602699414564, 0.398199587905174]),
-    'LED-V2': np.array([0.377728483834020, 0.374512315539769])
+    'LED-V2': np.array([0.377728483834020, 0.374512315539769]),
+    'ID65': np.array([0.312074043269908, 0.332660121024630]),
+    'ID50': np.array([0.345621427535976, 0.361228962209198])
 })
 
 ILLUMINANTS = CaseInsensitiveMapping({
