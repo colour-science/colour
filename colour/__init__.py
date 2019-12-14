@@ -514,6 +514,10 @@ API_CHANGES = {
             'colour.models.DCI_P3_P_COLOURSPACE',
         ],
         [
+            'colour.DISPLAY_P3_COLOURSPACE',
+            'colour.models.DISPLAY_P3_COLOURSPACE',
+        ],
+        [
             'colour.DEFAULT_FLOAT_DTYPE',
             'colour.constants.DEFAULT_FLOAT_DTYPE',
         ],
