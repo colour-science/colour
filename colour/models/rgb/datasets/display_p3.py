@@ -22,7 +22,6 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
-from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB,
@@ -94,7 +93,7 @@ DISPLAY_P3_COLOURSPACE = RGB_Colourspace(
     eotf_inverse_sRGB,
     eotf_sRGB,
 )
-DCI_P3_COLOURSPACE.__doc__ = """
+DISPLAY_P3_COLOURSPACE.__doc__ = """
 *Display P3* colourspace.
 
 References

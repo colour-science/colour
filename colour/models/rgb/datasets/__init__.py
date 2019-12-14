@@ -18,7 +18,7 @@ from .canon_cinema_gamut import CINEMA_GAMUT_COLOURSPACE
 from .color_match_rgb import COLOR_MATCH_RGB_COLOURSPACE
 from .dcdm_xyz import DCDM_XYZ_COLOURSPACE
 from .dci_p3 import DCI_P3_COLOURSPACE, DCI_P3_P_COLOURSPACE
-from .display_p3 import DISPLAY_P3_COLOURSPACE, DISPLAY_P3_COLOURSPACE
+from .display_p3 import DISPLAY_P3_COLOURSPACE
 from .p3_d65 import P3_D65_COLOURSPACE
 from .don_rgb_4 import DON_RGB_4_COLOURSPACE
 from .dji_dgamut import DJI_D_GAMUT_COLOURSPACE
