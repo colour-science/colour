@@ -78,7 +78,7 @@ from colour.utilities import domain_range_scale, filter_warnings  # noqa
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['generate_documentation_plots']

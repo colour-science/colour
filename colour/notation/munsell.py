@@ -147,7 +147,7 @@ __copyright__ += (
     '(Gales Ferry, CT 06335, USA); used by permission.')
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
