@@ -453,7 +453,7 @@ class SpectralShape(object):
             samples = round(
                 (self._interval + self._end - self._start) / self._interval)
             range_, current_interval = np.linspace(
-                self._start, self._end, samples, retstep=True, dtype=dtype)
+                self._start, self._end, int(samples), retstep=True, dtype=dtype)
 
             self._range = range_
 
