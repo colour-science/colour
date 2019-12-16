@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Display P3 Colourspace
-============================
+======================
 
 Defines the *Display P3* colourspace:
 
@@ -26,6 +26,7 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB,
                                normalised_primary_matrix)
+from colour.models.rgb import DCI_P3_COLOURSPACE
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -40,11 +41,8 @@ __all__ = [
     'XYZ_TO_DISPLAY_P3_MATRIX', 'DISPLAY_P3_COLOURSPACE'
 ]
 
-DISPLAY_P3_PRIMARIES = np.array([
-    [0.6800, 0.3200],
-    [0.2650, 0.6900],
-    [0.1500, 0.0600],
-])
+DISPLAY_P3_PRIMARIES = DCI_P3_COLOURSPACE.primaries
+
 """
 *Display P3* colourspace primaries.
 
@@ -67,8 +65,8 @@ DISPLAY_P3_WHITEPOINT = (
 DISPLAY_P3_WHITEPOINT : ndarray
 """
 
-DISPLAY_P3_TO_XYZ_MATRIX = \
-    normalised_primary_matrix(DISPLAY_P3_PRIMARIES, DISPLAY_P3_WHITEPOINT)
+DISPLAY_P3_TO_XYZ_MATRIX = (
+    normalised_primary_matrix(DISPLAY_P3_PRIMARIES, DISPLAY_P3_WHITEPOINT))
 """
 *Display P3* colourspace to *CIE XYZ* tristimulus values matrix.
 
