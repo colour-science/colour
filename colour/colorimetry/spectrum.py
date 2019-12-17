@@ -37,7 +37,8 @@ from colour.algebra import (Extrapolator, CubicSplineInterpolator,
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
 from colour.utilities import (as_float, first_item, is_iterable, is_numeric,
-                              is_string, is_uniform, interval, runtime_warning)
+                              is_string, is_uniform, interval, runtime_warning,
+                              as_int)
 from colour.utilities.deprecation import ObjectRemoved, ObjectRenamed
 
 __author__ = 'Colour Developers'
@@ -450,10 +451,10 @@ class SpectralShape(object):
                                 '"interval" attributes is not defined!'))
 
         if self._range is None:
-            samples = round(
-                (self._interval + self._end - self._start) / self._interval)
+            samples = as_int(round(
+                (self._interval + self._end - self._start) / self._interval))
             range_, current_interval = np.linspace(
-                self._start, self._end, int(samples), retstep=True, dtype=dtype)
+                self._start, self._end, samples, retstep=True, dtype=dtype)
 
             self._range = range_
 
