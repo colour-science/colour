@@ -24,9 +24,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB,
-                               normalised_primary_matrix)
-from colour.models.rgb import DCI_P3_COLOURSPACE
+from colour.models.rgb.datasets import (RGB_Colourspace, eotf_inverse_sRGB,
+                                        eotf_sRGB, normalised_primary_matrix,
+                                        DCI_P3_COLOURSPACE)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
