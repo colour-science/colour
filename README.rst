@@ -741,6 +741,7 @@ RGB Colourspaces
      'DCDM XYZ',
      'DCI-P3',
      'DCI-P3+',
+     'Display P3',
      'DJI D-Gamut',
      'DRAGONcolor',
      'DRAGONcolor2',
