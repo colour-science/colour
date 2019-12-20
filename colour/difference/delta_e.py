@@ -192,7 +192,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     L = (delta_L / (k_L * s_L)) ** 2
     C = (delta_C / (k_C * s_C)) ** 2
-    H = (delta_H / (k_H * s_H)** 2)
+    H = delta_H / (k_H * s_H) ** 2
 
     d_E = np.sqrt(L + C + H)
 
