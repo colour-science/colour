@@ -696,7 +696,7 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
             slope.text = _format_row(node.slope, decimals=decimals)
             offset = ElementTree.SubElement(sop_node, 'Offset')
             offset.text = _format_row(node.offset, decimals=decimals)
-            power = ElementTree.SubElement(sop_node, 'power')
+            power = ElementTree.SubElement(sop_node, 'Power')
             power.text = _format_row(node.power, decimals=decimals)
             sat_node = ElementTree.SubElement(process_node, 'SatNode')
             saturation = ElementTree.SubElement(sat_node, 'Saturation')
