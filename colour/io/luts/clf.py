@@ -343,11 +343,41 @@ class HalfDomain1D(AbstractLUTSequenceOperator):
         else:
             self.table = self.linear_table(raw_halfs=raw_halfs)
         self.name = name
-        self.comments = comments
+        self.comments = comments or []
         self.raw_halfs = raw_halfs
 
-    # TODO: Add properties.
-
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value
+        
+    @property
+    def raw_halfs(self):
+        return self._raw_halfs
+    
+    @raw_halfs.setter
+    def raw_halfs(self, enabled):
+        self._raw_halfs = enabled
+    
+    @property
+    def comments(self):
+        return self._comments
+    
+    @comments.setter
+    def comments(self, value):
+        self._comments = value
+        
+    @property
+    def table(self):
+        return self._table
+    
+    @table.setter
+    def table(self, value):
+        self._table = self._validate_table(value)    
+    
     def _validate_table(self, table):
         table = np.asarray(table)
 
