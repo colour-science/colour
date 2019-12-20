@@ -7,10 +7,13 @@ from uuid import uuid4
 from xml.etree import ElementTree
 from xml.dom import minidom
 
+import math
+
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import (AbstractLUTSequenceOperator, ASC_CDL, LUT1D,
                             LUT3x1D, LUT3D, LUTSequence, Matrix, Range)
 from colour.utilities import as_float_array, as_numeric, tsplit, tstack, lerp
+from colour.utilities import filter_kwargs, CaseInsensitiveMapping, Structure
 
 __all__ = [
     'half_to_uint16', 'uint16_to_half', 'half_domain_lookup', 'HalfDomain1D',
@@ -56,50 +59,136 @@ def half_domain_lookup(x, LUT, raw_halfs=True):
     return lerp(out1, out0, f, interpolate_at_boundary=False)
 
 
+
+
+FLOAT_MIN = 1.1754943508222875 * pow(10, -38)
+MIN_VAL = np.asarray(FLOAT_MIN)
+
+LIN_TO_LOG_STYLES = ['log2', 'log10', 'linToLog', 'cameraLinToLog']
+LOG_TO_LIN_STYLES = ['antiLog2', 'antiLog10', 'logToLin', 'cameraLogToLin']
+LOG_STYLES = LIN_TO_LOG_STYLES + LOG_TO_LIN_STYLES
+
+
+
+def bit_depth_scale(old_bit_depth='16f', new_bit_depth='16f'):
+        max_cv = {
+             '8i': 255,   # 2 **  8 - 1,
+            '10i': 1093,  # 2 ** 10 - 1,
+            '12i': 4095,  # 2 ** 12 - 1,
+            '16i': 65535, # 2 ** 16 - 1,
+            '16f': 1.,
+            '32f': 1.
+        }
+        return float(max_cv[new_bit_depth]) / max_cv[old_bit_depth]
+
+def finalize_parameters(base=10, 
+                        logSideSlope=1.,
+                        logSideOffset=0.,
+                        linSideSlope=1.,
+                        linSideOffset=0.,
+                        linSideBreak=None,
+                        linearSlope=None,
+                        old_bit_depth='32f',
+                        new_bit_depth='32f'):
+    
+    
+    a = linSideSlope
+    b = linSideOffset
+    c = logSideSlope
+    d = logSideOffset
+    cut = linSideBreak
+    e = linearSlope
+    f = None
+    
+    # derive coefficients for linear segment
+    if cut is not None:
+        ln_base = np.log(base)
+        intercept = a * cut + b
+        
+        # linear slope
+        if e is None:
+            e = c * a / (intercept * ln_base)
+        
+        # linear offset
+        log_cut = c * np.log(intercept) / ln_base + d
+        f = log_cut - e * cut
+    
+    # rescale coefficients to compensate for adjusted output bit depth
+    if old_bit_depth is not new_bit_depth:
+        scale = bit_depth_scale(old_bit_depth, new_bit_depth)
+        a, b, c, d = (np.array([a, b, c, d]) * scale)[:]
+        if f is not None:
+            cut, e, f = (np.array([cut, e, f]) * scale)[:]
+
+    return Structure(logSideSlope=c, logSideOffset=d, linSideSlope=a,
+                     linSideOffset=b, linSideBreak=cut, linearSlope=e,
+                     linearOffset=f, base=base)
+
+
+def compute_lin_to_log(x, base=10, logSideSlope=1., logSideOffset=0.,
+                       linSideSlope=1., linSideOffset=0., linSideBreak=None,
+                       linearSlope=None, linearOffset=None):
+
+    def lin_to_log(x):
+        ln_base = np.log(base)
+        lin_side = linSideSlope * x + linSideOffset
+        slope = logSideSlope / ln_base
+        y = slope * np.log(lin_side) + logSideOffset
+        return y
+    
+    def camera_lin_to_log(x):
+        y = np.where(x <= linSideBreak,
+                     linearSlope * x + linearOffset,
+                     lin_to_log(x))
+        return y
+
+    if linSideBreak is None:
+        return lin_to_log(x)
+    
+    return camera_lin_to_log(x)
+
+    
+def compute_log_to_lin(y, base=10, logSideSlope=1., logSideOffset=0., 
+                       linSideSlope=1., linSideOffset=0., linSideBreak=None,
+                       linearSlope=None, linearOffset=None):
+    
+    def log_to_lin(y):
+        x = (y - logSideOffset) / logSideSlope
+        x = base ** x
+        x = (x - linSideOffset) / linSideSlope
+        return x
+    
+    def camera_log_to_lin(y):
+        logSideBreak = linearSlope * linSideBreak + linearOffset
+        x = np.where(y <= logSideBreak,
+                    (y - linearOffset) / linearSlope,
+                    log_to_lin(y))
+        return x
+
+    if linSideBreak is None:
+        return log_to_lin(y)
+    
+    return camera_log_to_lin(y)
+
+
 class Log(AbstractLUTSequenceOperator):
     def __init__(self, id='', name='', style='log2Lin',
                  log_side_slope=1., log_side_offset=0., lin_side_slope=1.,
                  lin_side_offset=0., lin_side_break=None, linear_slope=None,
-                 linear_offset=None, base=10., comments=None):
+                 base=10., comments=None):
                  
         self.id = id
         self.name = name
         self.style = style
         self.comments = comments or []
         
-        self._base = base
-        self._lin_side_slope = lin_side_slope * np.array([1.,1.,1.])
-        self._lin_side_offset = lin_side_offset * np.array([1.,1.,1.])
-        self._log_side_slope = log_side_slope * np.array([1.,1.,1.])
-        self._log_side_offset = log_side_offset * np.array([1.,1.,1.])
-
-        self._lin_side_break = None
-        self._log_side_break = None
-        self._linear_slope = None
-        self._linear_offset = None
-        
-        if lin_side_break is not None:
-            self.lin_side_break = lin_side_break * np.array([1.,1.,1.])
-            
-    def _update_coefficients(self):
-        if self.lin_side_break is None:
-            self._log_side_break = None
-            self._linear_offset = None
-            self._linear_slope = None
-            
-        else:
-            a = self.lin_side_slope
-            b = self.lin_side_offset
-            c = self.log_side_slope
-            d = self.log_side_offset
-            ln_base = np.log(self.base)
-            intercept = a * self.lin_side_break + b
-            
-            if self.linear_slope is None:
-                self._linear_slope = c * a / (intercept * ln_base)
-            
-            self._log_side_break = c * np.log(intercept) / ln_base + d
-            self._linear_offset = self.log_side_break - self.linear_slope * self.lin_side_break
+        self.base = base
+        self.lin_side_slope = lin_side_slope
+        self.lin_side_offset = lin_side_offset
+        self.log_side_slope = log_side_slope
+        self.log_side_offset = log_side_offset
+        self.lin_side_break = lin_side_break
+        self.linear_slope = linear_slope
 
     @property
     def style(self):
@@ -107,7 +196,7 @@ class Log(AbstractLUTSequenceOperator):
 
     @style.setter
     def style(self, value):
-        if not value in LOG_STYLES:
+        if value not in LOG_STYLES:
             raise ValueError('Invalid Log style: %s' % value)
         self._style = value
 
@@ -160,7 +249,7 @@ class Log(AbstractLUTSequenceOperator):
 
     @log_side_slope.setter
     def log_side_slope(self, *value):
-        self._log_side_slope = value * np.array([1.,1.,1.])
+        self._log_side_slope = value  # * np.array([1.,1.,1.])
         self._update_coefficients()
 
     @property
@@ -169,7 +258,7 @@ class Log(AbstractLUTSequenceOperator):
 
     @log_side_offset.setter
     def log_side_offset(self, *value):
-        self._log_side_offset = value * np.array([1.,1.,1.])
+        self._log_side_offset = value  # * np.array([1.,1.,1.])
         self._update_coefficients()
 
     @property
@@ -178,7 +267,7 @@ class Log(AbstractLUTSequenceOperator):
         
     @lin_side_slope.setter
     def lin_side_slope(self, *value):
-        self._lin_side_slope = value * np.array([1.,1.,1.])
+        self._lin_side_slope = value  # * np.array([1.,1.,1.])
         self._update_coefficients()
 
     @property
@@ -187,7 +276,7 @@ class Log(AbstractLUTSequenceOperator):
         
     @lin_side_offset.setter
     def lin_side_offset(self, *value):
-        self._lin_side_offset = value * np.array([1.,1.,1.])
+        self._lin_side_offset = value  # * np.array([1.,1.,1.])
         self._update_coefficients()
 
     @property
@@ -198,9 +287,8 @@ class Log(AbstractLUTSequenceOperator):
     def lin_side_break(self, *value):
         if value is None:
             self._lin_side_break =  None
-        self._lin_side_break = value * np.array([1.,1.,1.])
-        self._update_coefficients()
-
+        self._lin_side_break = value  # * np.array([1.,1.,1.])
+        
     @property
     def linear_slope(self):
         return self._linear_slope
@@ -209,8 +297,7 @@ class Log(AbstractLUTSequenceOperator):
     def linear_slope(self, *value):
         if value is None:
             self._linear_slope = None
-        self._linear_slope = value * np.array([1.,1.,1.])
-        self._update_coefficients()
+        self._linear_slope = value  # * np.array([1.,1.,1.])
 
     @property
     def linear_offset(self):
@@ -222,10 +309,31 @@ class Log(AbstractLUTSequenceOperator):
     
     def apply(self, RGB):
         RGB_out = as_float_array((np.copy(RGB)))
-        # todo -- implementation
+        
+        # todo: implement bit depth rescaling
+        
+        if self.style in LOG_TO_LIN_STYLES:
+            return compute_log_to_lin(RGB_out, 
+                                      base=self.base,
+                                      logSideSlope=self.log_side_slope,
+                                      logSideOffset=self.log_side_offset,
+                                      linSideSlope=self.lin_side_slope,
+                                      linSideOffset=self.lin_side_offset,
+                                      linearSlope=self.linear_slope,
+                                      linearOffset=self.linear_offset,
+                                      linSideBreak=self.lin_side_break)
+        
+        return compute_lin_to_log(RGB_out, 
+                                  base=self.base,
+                                  logSideSlope=self.log_side_slope,
+                                  logSideOffset=self.log_side_offset,
+                                  linSideSlope=self.lin_side_slope,
+                                  linSideOffset=self.lin_side_offset,
+                                  linearSlope=self.linear_slope,
+                                  linearOffset=self.linear_offset,
+                                  linSideBreak=self.lin_side_break)
+        
         return RGB_out
-
-
 
 
 class HalfDomain1D(AbstractLUTSequenceOperator):
