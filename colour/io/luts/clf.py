@@ -652,7 +652,44 @@ def add_ASC_CDL(LUT, node):
     return LUT
 
 
+def add_Log(LUT, node):
+    # todo: multiple channels
+    
+    standard_attrs = ['name', 'id', 'style']
+    op_kwargs = {a: node.attrib[a] for a in node.keys() if a in standard_attrs}
+    op_kwargs['in_bit_depth'] = node.attrib['inBitDepth']
+    op_kwargs['out_bit_depth'] = node.attrib['outBitDepth']
+    op_kwargs['comments'] = []
+    # LogParams
+    for child in node:
+        if child.tag.endswith('Description'):
+            op_kwargs['comments'].append(child.text)
+        elif child.tag.endswith('LogParams'):
+            for tag, value in child.attrib.items():
+                tag = tag.lower()
+                if tag.endswith('logsideslope'):
+                    op_kwargs['log_side_slope'] = float(value)
+                elif tag.endswith('logsideoffset'):
+                    op_kwargs['log_side_offset'] = float(value)
+                elif tag.endswith('linsideslope'):
+                    op_kwargs['lin_side_slope'] = float(value)
+                elif tag.endswith('linsideoffset'):
+                    op_kwargs['lin_side_offset'] = float(value)
+                elif tag.endswith('linsidebreak'):
+                    op_kwargs['lin_side_break'] = float(value)
+                elif tag.endswith('linearslope'):
+                    op_kwargs['linear_slope'] = float(value)
+                elif tag.endswith('base'):
+                    op_kwargs['base'] = float(value)
+                elif tag.endswith('channel'):
+                    op_kwargs['channel'] = value
+
+    operator = Log(**op_kwargs)
+    LUT.append(operator)
+    return LUT
+
 def simple_clf_parse(path):
+    # todo: bitdepth
     LUT = LUTSequence()
     tree = ElementTree.parse(path)
     process_list = tree.getroot()
@@ -676,6 +713,8 @@ def simple_clf_parse(path):
             LUT = add_Matrix(LUT, node)
         elif tag.endswith('asc_cdl'):
             LUT = add_ASC_CDL(LUT, node)
+        elif tag.endswith('log'):
+            LUT = add_Log(LUT, node)
 
     return LUT
 
@@ -849,8 +888,52 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
             else:
                 process_node.set('noClamp', 'True')
 
-        process_node.set('inBitDepth', '16f')
-        process_node.set('outBitDepth', '16f')
+        if isinstance(node, Log):
+            process_node = ElementTree.Element('Log')
+
+            _format_float = lambda f: '{1:0.{0}f}'.format(decimals, f)
+
+            process_node.set('inBitDepth', node.in_bit_depth)
+            process_node.set('outBitDepth', node.out_bit_depth)
+            process_node.set('style', node.style)  # todo: use enum
+
+            if node.comments:
+                _add_comments(process_node, node.comments)
+
+            log_params = ElementTree.SubElement(process_node, 'LogParams')
+
+            if node.channel:
+                log_params.set('channel', node.channel)
+
+            if node.style in [
+                'logToLin', 'linToLog', 'cameraLogToLin', 'cameraLinToLog'
+            ]:
+                log_params.set('base', _format_float(node.base))
+                log_params.set(
+                    'logSideSlope', _format_float(node.log_side_slope)
+                )
+                log_params.set(
+                    'logSideOffset', _format_float(node.log_side_offset)
+                )
+                log_params.set(
+                    'linSideSlope', _format_float(node.lin_side_slope)
+                )
+                log_params.set(
+                    'linSideOffset', _format_float(node.lin_side_offset)
+                )
+
+                if node.style in ['cameraLogToLin', 'cameraLinToLog']:
+                    log_params.set(
+                        'linSideBreak', _format_float(node.lin_side_break)
+                    )
+
+                    if node.linear_slope:
+                        log_params.set(
+                            'linearSlope', _format_float(node.linear_slope)
+                        )
+
+        #process_node.set('inBitDepth', '16f')
+        #process_node.set('outBitDepth', '16f')
         process_node.set('name', node.name)
         process_list.append(process_node)
 
