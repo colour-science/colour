@@ -1395,6 +1395,27 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
     unit tests methods.
     """
 
+    def test_domain_range_scale_munsell_colour_to_xyY(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
+        domain and range scale support.
+        """
+
+        munsell_colour = '4.2YR 8.1/5.3'
+        xyY = munsell_colour_to_xyY(munsell_colour)
+
+        d_r = (
+            ('reference', 1),
+            (1, 1),
+            (100, np.array([1, 1, 100])),
+        )
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    munsell_colour_to_xyY(munsell_colour),
+                    xyY * factor,
+                    decimal=7)
+
     def test_n_dimensional_munsell_colour_to_xyY(self):
         """
         Tests :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
@@ -1538,6 +1559,26 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
     Defines :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
     unit tests methods.
     """
+
+    def test_domain_range_scale_xyY_to_munsell_colour(self):
+        """
+        Tests :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
+        domain and range scale support.
+        """
+
+        xyY = np.array([0.38736945, 0.35751656, 0.59362000])
+        munsell_colour = xyY_to_munsell_colour(xyY)
+
+        d_r = (
+            ('reference', 1),
+            (1, 1),
+            (100, np.array([1, 1, 100])),
+        )
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                print(scale, factor)
+                self.assertEqual(
+                    xyY_to_munsell_colour(xyY * factor), munsell_colour)
 
     def test_n_dimensional_xyY_to_munsell_colour(self):
         """
