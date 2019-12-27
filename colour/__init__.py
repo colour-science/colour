@@ -29,6 +29,7 @@ Sub-packages
 -   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
+-   gamut: Gamut mapping computations.
 -   geometry: Geometry primitives generation.
 -   graph: Graph for automatic colour conversions.
 -   io: Input / output objects for reading and writing data.
@@ -131,6 +132,8 @@ from .models import (
     ootf, ootf_inverse, primaries_whitepoint, sRGB_to_XYZ, uv_to_Luv,
     uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ,
     xy_to_xyY)
+from .gamut import (GAMUT_BOUNDARY_DESCRIPTOR_METHODS,
+                    gamut_boundary_descriptor)
 from .corresponding import (
     BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
@@ -290,6 +293,7 @@ __all__ += [
     'sRGB_to_XYZ', 'uv_to_Luv', 'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy',
     'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ', 'xy_to_xyY'
 ]
+__all__ += ['GAMUT_BOUNDARY_DESCRIPTOR_METHODS', 'gamut_boundary_descriptor']
 __all__ += [
     'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
     'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',

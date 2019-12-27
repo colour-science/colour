@@ -31,6 +31,10 @@ from .diagrams import (  # noqa
     plot_sds_in_chromaticity_diagram_CIE1960UCS,
     plot_sds_in_chromaticity_diagram_CIE1976UCS)
 from .corresponding import plot_corresponding_chromaticities_prediction  # noqa
+from .gamut import (  # noqa
+    plot_multi_segment_maxima_gamut_boundaries_in_hue_segments,
+    plot_multi_segment_maxima_gamut_boundaries,
+    plot_Jab_samples_in_segment_maxima_gamut_boundary)
 from .graph import plot_automatic_colour_conversion_graph  # noqa
 from .models import (  # noqa
     colourspace_model_axis_reorder, plot_pointer_gamut,
@@ -90,6 +94,11 @@ __all__ += [
     'plot_sds_in_chromaticity_diagram_CIE1976UCS'
 ]
 __all__ += ['plot_corresponding_chromaticities_prediction']
+__all__ += [
+    'plot_multi_segment_maxima_gamut_boundaries_in_hue_segments',
+    'plot_multi_segment_maxima_gamut_boundaries',
+    'plot_Jab_samples_in_segment_maxima_gamut_boundary'
+]
 __all__ += ['plot_automatic_colour_conversion_graph']
 __all__ += [
     'colourspace_model_axis_reorder', 'plot_pointer_gamut',
