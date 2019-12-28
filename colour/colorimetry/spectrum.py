@@ -3,11 +3,13 @@
 Spectrum
 ========
 
-Defines the classes handling spectral data computations:
+Defines the classes and objects handling spectral data computations:
 
+-   :class:`colour.DEFAULT_SPECTRAL_SHAPE`
 -   :class:`colour.SpectralShape`
 -   :class:`colour.SpectralDistribution`
 -   :class:`colour.MultiSpectralDistributions`
+-   :func:`colour.colorimetry.sds_and_multi_sds_to_sds`
 
 See Also
 --------
