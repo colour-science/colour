@@ -1776,6 +1776,7 @@ class TestSdsAndMultiSdsToSds(unittest.TestCase):
 
         multi_sds_1 = MultiSpectralDistributions(data)
         multi_sds_2 = MultiSpectralDistributions(data)
+        self.assertIsNone(sds_and_multi_sds_to_sds([]))
 
         self.assertEqual(
             len(

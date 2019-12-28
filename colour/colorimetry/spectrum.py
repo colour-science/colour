@@ -2511,6 +2511,9 @@ def sds_and_multi_sds_to_sds(sds):
     8
     """
 
+    if not len(sds):
+        return
+
     if isinstance(sds, MultiSpectralDistributions):
         sds = sds.to_sds()
     else:
