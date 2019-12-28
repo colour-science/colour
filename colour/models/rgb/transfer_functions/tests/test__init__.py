@@ -13,6 +13,7 @@ from colour.models.rgb.transfer_functions import (
     CCTF_DECODINGS, CCTF_ENCODINGS, EOTFS, EOTF_INVERSES, LOG_DECODINGS,
     LOG_ENCODINGS, OETFS, OETF_INVERSES, OOTFS, OOTF_INVERSES, cctf_encoding,
     cctf_decoding)
+from colour.utilities import as_int
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -81,9 +82,10 @@ class TestTransferFunctions(unittest.TestCase):
             (OOTFS, OOTF_INVERSES),
         ]
 
-        samples = np.hstack(
-            [np.linspace(0, 1, 1e5),
-             np.linspace(0, 65504, 65504 * 10)])
+        samples = np.hstack([
+            np.linspace(0, 1, as_int(1e5)),
+            np.linspace(0, 65504, 65504 * 10)
+        ])
 
         for encoding_mapping, _decoding_mapping in reciprocal_mappings:
             for name in encoding_mapping:

@@ -9,7 +9,8 @@ from colour.utilities.documentation import is_documentation_building
 
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
                        SpectralDistribution, MultiSpectralDistributions,
-                       sds_and_multi_sds_to_sds)
+                       sds_and_multi_sds_to_sds,
+                       sds_and_multi_sds_to_multi_sds)
 from .blackbody import sd_blackbody, blackbody_spectral_radiance, planck_law
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
@@ -68,7 +69,8 @@ from .yellowness import yellowness_ASTMD1925, yellowness_ASTME313
 
 __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
-    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds'
+    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds',
+    'sds_and_multi_sds_to_multi_sds'
 ]
 __all__ += ['sd_blackbody', 'blackbody_spectral_radiance', 'planck_law']
 __all__ += [
