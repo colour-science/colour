@@ -57,6 +57,7 @@ Spectral Data Generation
     sd_single_led_Ohno2005
     sd_multi_leds_Ohno2005
     sds_and_multi_sds_to_sds
+    sds_and_multi_sds_to_multi_sds
 
 **Aliases**
 

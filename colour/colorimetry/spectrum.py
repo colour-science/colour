@@ -10,6 +10,7 @@ Defines the classes and objects handling spectral data computations:
 -   :class:`colour.SpectralDistribution`
 -   :class:`colour.MultiSpectralDistributions`
 -   :func:`colour.colorimetry.sds_and_multi_sds_to_sds`
+-   :func:`colour.colorimetry.sds_and_multi_sds_to_multi_sds`
 
 See Also
 --------
@@ -38,9 +39,9 @@ from colour.algebra import (Extrapolator, CubicSplineInterpolator,
                             SpragueInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
-from colour.utilities import (as_float, first_item, is_iterable, is_numeric,
-                              is_string, is_uniform, interval, runtime_warning,
-                              as_int)
+from colour.utilities import (as_float, as_int, first_item, is_iterable,
+                              is_numeric, is_string, is_uniform, interval,
+                              runtime_warning, tstack)
 from colour.utilities.deprecation import ObjectRemoved, ObjectRenamed
 
 __author__ = 'Colour Developers'
@@ -52,7 +53,8 @@ __status__ = 'Production'
 
 __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
-    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds'
+    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds',
+    'sds_and_multi_sds_to_multi_sds'
 ]
 
 
@@ -2524,3 +2526,121 @@ def sds_and_multi_sds_to_sds(sds):
                 sds[i:i] = sd.to_sds()
 
     return sds
+
+
+def sds_and_multi_sds_to_multi_sds(sds):
+    """
+    Converts given spectral and multi-spectral distributions to
+    multi-spectral distributions.
+
+    The spectral and multi-spectral distributions will be aligned to the
+    intersection of their spectral shapes.
+
+    Parameters
+    ----------
+    sds : array_like
+        Spectral and multi-spectral distributions to convert to
+        multi-spectral distributions.
+
+    Returns
+    -------
+    MultiSpectralDistributions
+        Multi-spectral distributions.
+
+    Examples
+    --------
+    >>> data = {
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360
+    ... }
+    >>> sd_1 = SpectralDistribution(data)
+    >>> sd_2 = SpectralDistribution(data)
+    >>> data = {
+    ...     500: (0.004900, 0.323000, 0.272000),
+    ...     510: (0.009300, 0.503000, 0.158200),
+    ...     520: (0.063270, 0.710000, 0.078250),
+    ...     530: (0.165500, 0.862000, 0.042160),
+    ...     540: (0.290400, 0.954000, 0.020300),
+    ...     550: (0.433450, 0.994950, 0.008750),
+    ...     560: (0.594500, 0.995000, 0.003900)
+    ... }
+    >>> multi_sds_1 = MultiSpectralDistributions(data)
+    >>> multi_sds_2 = MultiSpectralDistributions(data)
+    >>> from colour.utilities import numpy_print_options
+    >>> with numpy_print_options(suppress=True, linewidth=160):
+    ...     sds_and_multi_sds_to_multi_sds(  # doctest: +SKIP
+    ...         [sd_1, sd_2, multi_sds_1, multi_sds_2])
+    MultiSpectralDistributions([[ 500.        ,    0.0651   ...,\
+    0.0651   ...,    0.0049   ...,    0.323    ...,    0.272    ...,\
+    0.0049   ...,    0.323    ...,    0.272    ...],
+                                [ 510.        ,    0.0676692...,\
+    0.0676692...,    0.0093   ...,    0.503    ...,    0.1582   ...,\
+    0.0093   ...,    0.503    ...,    0.1582   ...],
+                                [ 520.        ,    0.0705   ...,\
+    0.0705   ...,    0.06327  ...,    0.71     ...,    0.07825  ...,\
+    0.06327  ...,    0.71     ...,    0.07825  ...],
+                                [ 530.        ,    0.0737808...,\
+    0.0737808...,    0.1655   ...,    0.862    ...,    0.04216  ...,\
+    0.1655   ...,    0.862    ...,    0.04216  ...],
+                                [ 540.        ,    0.0772   ...,\
+    0.0772   ...,    0.2904   ...,    0.954    ...,    0.0203   ...,\
+    0.2904   ...,    0.954    ...,    0.0203   ...],
+                                [ 550.        ,    0.0806671...,\
+    0.0806671...,    0.43345  ...,    0.99495  ...,    0.00875  ...,\
+    0.43345  ...,    0.99495  ...,    0.00875  ...],
+                                [ 560.        ,    0.087    ...,\
+    0.087    ...,    0.5945   ...,    0.995    ...,    0.0039   ...,\
+    0.5945   ...,    0.995    ...,    0.0039   ...]],
+                               labels=['SpectralDistribution (...)', \
+'SpectralDistribution (...)', '0 - SpectralDistribution (...)', \
+'1 - SpectralDistribution (...)', '2 - SpectralDistribution (...)', \
+'0 - SpectralDistribution (...)', '1 - SpectralDistribution (...)', \
+'2 - SpectralDistribution (...)'],
+                               interpolator=SpragueInterpolator,
+                               interpolator_args={},
+                               extrapolator=Extrapolator,
+                               extrapolator_args={...})
+    """
+
+    if not len(sds):
+        return
+
+    if isinstance(sds, MultiSpectralDistributions):
+        msds = sds
+    elif len(sds) == 1 and isinstance(sds[0], MultiSpectralDistributions):
+        msds = sds[0]
+    else:
+        sds_u = []
+        shapes = []
+        for sd in sds:
+            if isinstance(sd, MultiSpectralDistributions):
+                sds_m = sds_and_multi_sds_to_sds(sd)
+                sds_u.extend(sds_m)
+                shapes.extend([sd_m.shape for sd_m in sds_m])
+            else:
+                sds_u.append(sd)
+                shapes.append(sd.shape)
+
+        shapes = tuple(set(shapes))
+        shape = SpectralShape(
+            max([shape.start for shape in shapes]),
+            min([shape.end for shape in shapes]),
+            min([shape.interval for shape in shapes]))
+
+        values = []
+        labels = []
+        strict_labels = []
+        for sd_u in sds_u:
+            sd_u.align(shape)
+            values.append(sd_u.values)
+            labels.append(sd_u.name)
+            strict_labels.append(sd_u.strict_name)
+
+        msds = MultiSpectralDistributions(
+            tstack(values), shape.range(), labels, strict_labels=strict_labels)
+
+    return msds

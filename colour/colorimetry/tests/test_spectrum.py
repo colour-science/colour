@@ -10,9 +10,9 @@ import unittest
 import scipy
 from distutils.version import LooseVersion
 
-from colour.colorimetry.spectrum import (SpectralShape, SpectralDistribution,
-                                         MultiSpectralDistributions,
-                                         sds_and_multi_sds_to_sds)
+from colour.colorimetry.spectrum import (
+    SpectralShape, SpectralDistribution, MultiSpectralDistributions,
+    sds_and_multi_sds_to_sds, sds_and_multi_sds_to_multi_sds)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -26,8 +26,10 @@ __all__ = [
     'SAMPLE_SD_DATA', 'NON_UNIFORM_SAMPLE_SD_DATA',
     'INTERPOLATED_SAMPLE_SD_DATA', 'INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA',
     'NORMALISED_SAMPLE_SD_DATA', 'CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'CMFS_DATA', 'TestSpectralShape', 'TestSpectralDistribution',
-    'TestMultiSpectralDistributions', 'TestSdsAndMultiSdsToSds'
+    'CMFS_DATA', 'ABRIDGED_SAMPLE_SD_DATA', 'ABRIDGED_MULTI_SDS_DATA',
+    'TestSpectralShape', 'TestSpectralDistribution',
+    'TestMultiSpectralDistributions', 'TestSdsAndMultiSdsToSds',
+    'TestSdsAndMultiSdsToMultiSds'
 ]
 
 SAMPLE_SD_DATA = {
@@ -1196,6 +1198,25 @@ CMFS_DATA = {
     780: np.array([4.20e-05, 1.50e-05, 0.000000])
 }
 
+ABRIDGED_SAMPLE_SD_DATA = {
+    500: 0.0651,
+    520: 0.0705,
+    540: 0.0772,
+    560: 0.0870,
+    580: 0.1128,
+    600: 0.1360
+}
+
+ABRIDGED_MULTI_SDS_DATA = {
+    500: (0.004900, 0.323000, 0.272000),
+    510: (0.009300, 0.503000, 0.158200),
+    520: (0.063270, 0.710000, 0.078250),
+    530: (0.165500, 0.862000, 0.042160),
+    540: (0.290400, 0.954000, 0.020300),
+    550: (0.433450, 0.994950, 0.008750),
+    560: (0.594500, 0.995000, 0.003900)
+}
+
 
 class TestSpectralShape(unittest.TestCase):
     """
@@ -1754,29 +1775,12 @@ class TestSdsAndMultiSdsToSds(unittest.TestCase):
         definition.
         """
 
-        data = {
-            500: 0.0651,
-            520: 0.0705,
-            540: 0.0772,
-            560: 0.0870,
-            580: 0.1128,
-            600: 0.1360
-        }
-        sd_1 = SpectralDistribution(data)
-        sd_2 = SpectralDistribution(data)
-        data = {
-            500: (0.004900, 0.323000, 0.272000),
-            510: (0.009300, 0.503000, 0.158200),
-            520: (0.063270, 0.710000, 0.078250),
-            530: (0.165500, 0.862000, 0.042160),
-            540: (0.290400, 0.954000, 0.020300),
-            550: (0.433450, 0.994950, 0.008750),
-            560: (0.594500, 0.995000, 0.003900)
-        }
-
-        multi_sds_1 = MultiSpectralDistributions(data)
-        multi_sds_2 = MultiSpectralDistributions(data)
         self.assertIsNone(sds_and_multi_sds_to_sds([]))
+
+        sd_1 = SpectralDistribution(ABRIDGED_SAMPLE_SD_DATA)
+        sd_2 = SpectralDistribution(ABRIDGED_SAMPLE_SD_DATA)
+        multi_sds_1 = MultiSpectralDistributions(ABRIDGED_MULTI_SDS_DATA)
+        multi_sds_2 = MultiSpectralDistributions(ABRIDGED_MULTI_SDS_DATA)
 
         self.assertEqual(
             len(
@@ -1788,6 +1792,57 @@ class TestSdsAndMultiSdsToSds(unittest.TestCase):
                 ])), 8)
 
         self.assertEqual(len(sds_and_multi_sds_to_sds(multi_sds_1)), 3)
+
+
+class TestSdsAndMultiSdsToMultiSds(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.spectrum.sds_and_multi_sds_to_multi_sds`
+    definition unit tests methods.
+    """
+
+    def test_sds_and_multi_sds_to_multi_sds(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+sds_and_multi_sds_to_multi_sds` definition.
+        """
+
+        self.assertIsNone(sds_and_multi_sds_to_multi_sds([]))
+
+        sd_1 = SpectralDistribution(ABRIDGED_SAMPLE_SD_DATA)
+        sd_2 = SpectralDistribution(ABRIDGED_SAMPLE_SD_DATA)
+        multi_sds_1 = MultiSpectralDistributions(ABRIDGED_MULTI_SDS_DATA)
+        multi_sds_2 = MultiSpectralDistributions(ABRIDGED_MULTI_SDS_DATA)
+
+        self.assertEqual(
+            sds_and_multi_sds_to_multi_sds(multi_sds_1), multi_sds_1)
+
+        self.assertEqual(
+            sds_and_multi_sds_to_multi_sds([multi_sds_1]), multi_sds_1)
+
+        shape = SpectralShape(500, 560, 10)
+        self.assertEqual(
+            sds_and_multi_sds_to_multi_sds(
+                [sd_1, sd_2, multi_sds_1, multi_sds_2]).shape, shape)
+
+        np.testing.assert_almost_equal(
+            sds_and_multi_sds_to_multi_sds(
+                [sd_1, sd_2, multi_sds_1, multi_sds_2]).wavelengths,
+            shape.range(),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            sds_and_multi_sds_to_multi_sds(
+                [sd_1, sd_2, multi_sds_1, multi_sds_2]).values,
+            tstack([sd_1.align(
+                shape
+            ).values, sd_2.align(shape).values] + [
+                sd.values
+                for sd in sds_and_multi_sds_to_sds(multi_sds_1.align(shape))
+            ] + [
+                sd.values
+                for sd in sds_and_multi_sds_to_sds(multi_sds_2.align(shape))
+            ]),
+            decimal=7)
 
 
 if __name__ == '__main__':
