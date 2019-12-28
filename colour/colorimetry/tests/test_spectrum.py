@@ -1218,9 +1218,9 @@ class TestSpectralShape(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__str__', '__repr__', '__iter__',
-                            '__contains__', '__len__', '__eq__', '__ne__',
-                            'range')
+        required_methods = ('__init__', '__str__', '__repr__', '__hash__',
+                            '__iter__', '__contains__', '__len__', '__eq__',
+                            '__ne__', 'range')
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralShape))
@@ -1267,6 +1267,14 @@ class TestSpectralShape(unittest.TestCase):
 
         self.assertEqual(shape.start, 360)
         self.assertEqual(shape.end, 830)
+
+    def test__hash__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.SpectralShape.__hash__`
+        method.
+        """
+
+        self.assertIsInstance(hash(SpectralShape(0, 10, 0.1)), int)
 
     def test__iter__(self):
         """

@@ -80,6 +80,7 @@ class SpectralShape(object):
     -------
     __str__
     __repr__
+    __hash__
     __iter__
     __contains__
     __len__
@@ -279,6 +280,18 @@ class SpectralShape(object):
 
         return 'SpectralShape({0}, {1}, {2})'.format(self._start, self._end,
                                                      self._interval)
+
+    def __hash__(self):
+        """
+        Returns the spectral shape hash.
+
+        Returns
+        -------
+        int
+            Object hash.
+        """
+
+        return hash(repr(self))
 
     def __iter__(self):
         """
