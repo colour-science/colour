@@ -42,12 +42,13 @@ __all__ = [
     'batch', 'disable_multiprocessing', 'multiprocessing_pool',
     'is_matplotlib_installed', 'is_networkx_installed',
     'is_openimageio_installed', 'is_pandas_installed', 'is_tqdm_installed',
-    'required', 'is_iterable', 'is_string', 'is_numeric', 'is_integer',
-    'is_sibling', 'filter_kwargs', 'filter_mapping', 'first_item',
-    'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
-    'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
-    'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
-    'from_range_degrees', 'from_range_int', 'copy_definition'
+    'is_trimesh_installed', 'required', 'is_iterable', 'is_string',
+    'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
+    'filter_mapping', 'first_item', 'get_domain_range_scale',
+    'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
+    'to_domain_10', 'to_domain_100', 'to_domain_degrees', 'to_domain_int',
+    'from_range_1', 'from_range_10', 'from_range_100', 'from_range_degrees',
+    'from_range_int', 'copy_definition'
 ]
 
 
@@ -435,8 +436,8 @@ def is_pandas_installed(raise_exception=False):
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                ('"Pandas" related API features are not available: "{0}".\n'
-                 'Please refer to the installation guide for more '
+                ('"Pandas" related API features are not available: '
+                 '"{0}".\nPlease refer to the installation guide for more '
                  'information: '
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
@@ -479,18 +480,54 @@ def is_tqdm_installed(raise_exception=False):
         return False
 
 
+def is_trimesh_installed(raise_exception=False):
+    """
+    Returns if *Trimesh* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *Trimesh* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *Trimesh* installed.
+
+    Raises
+    ------
+    ImportError
+        If *Trimesh* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import trimesh  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(
+                ('"Trimesh" related API features are not available: '
+                 '"{0}".\nPlease refer to the installation guide for more '
+                 'information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
+        return False
+
+
 _REQUIREMENTS_TO_CALLABLE = CaseInsensitiveMapping({
     'Matplotlib': is_matplotlib_installed,
     'NetworkX': is_networkx_installed,
     'OpenImageIO': is_openimageio_installed,
     'Pandas': is_pandas_installed,
     'tqdm': is_tqdm_installed,
+    'trimesh': is_trimesh_installed,
 })
 """
 Mapping of requirements to their respective callables.
 
 _REQUIREMENTS_TO_CALLABLE : CaseInsensitiveMapping
-    **{'Matplotlib', 'NetworkX', 'OpenImageIO', 'Pandas', 'tqdm'}**
+    **{'Matplotlib', 'NetworkX', 'OpenImageIO', 'Pandas', 'tqdm', 'trimesh'}**
 """
 
 
