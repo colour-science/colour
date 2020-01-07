@@ -7,6 +7,8 @@ import sys
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
+from .common import (Jab_to_JCh, JCh_to_Jab, COLOURSPACE_MODELS,
+                     COLOURSPACE_MODELS_AXIS_LABELS, XYZ_to_colourspace_model)
 from .cam02_ucs import (JMh_CIECAM02_to_CAM02LCD, CAM02LCD_to_JMh_CIECAM02,
                         JMh_CIECAM02_to_CAM02SCD, CAM02SCD_to_JMh_CIECAM02,
                         JMh_CIECAM02_to_CAM02UCS, CAM02UCS_to_JMh_CIECAM02)
@@ -31,14 +33,16 @@ from .ipt import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
 from .jzazbz import XYZ_to_JzAzBz, JzAzBz_to_XYZ
 from .hdr_ipt import HDR_IPT_METHODS, XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
-from .common import (COLOURSPACE_MODELS, COLOURSPACE_MODELS_AXIS_LABELS,
-                     XYZ_to_colourspace_model)
 from .datasets import *  # noqa
 from . import datasets
 from .rgb import *  # noqa
 from . import rgb
 
 __all__ = [
+    'Jab_to_JCh', 'JCh_to_Jab', 'COLOURSPACE_MODELS',
+    'COLOURSPACE_MODELS_AXIS_LABELS', 'XYZ_to_colourspace_model'
+]
+__all__ += [
     'JMh_CIECAM02_to_CAM02LCD', 'CAM02LCD_to_JMh_CIECAM02',
     'JMh_CIECAM02_to_CAM02SCD', 'CAM02SCD_to_JMh_CIECAM02',
     'JMh_CIECAM02_to_CAM02UCS', 'CAM02UCS_to_JMh_CIECAM02'
@@ -72,10 +76,6 @@ __all__ += ['XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle']
 __all__ += ['XYZ_to_JzAzBz', 'JzAzBz_to_XYZ']
 __all__ += ['HDR_IPT_METHODS', 'XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ']
 __all__ += ['XYZ_to_OSA_UCS', 'OSA_UCS_to_XYZ']
-__all__ += [
-    'COLOURSPACE_MODELS', 'COLOURSPACE_MODELS_AXIS_LABELS',
-    'XYZ_to_colourspace_model'
-]
 __all__ += datasets.__all__
 __all__ += rgb.__all__
 

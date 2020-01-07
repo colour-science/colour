@@ -20,6 +20,21 @@ Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
     xyY_to_xy
     xy_to_xyY
 
+.. contents:: :local:
+
+Common Models
+-------------
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    Jab_to_JCh
+    JCh_to_Jab
+
 CIE L*a*b* Colourspace
 ----------------------
 
