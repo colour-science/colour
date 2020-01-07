@@ -469,8 +469,9 @@ class SpectralShape(object):
 
         if self._range is None:
             samples = as_int(
-                round((self._interval + self._end - self._start) /
-                      self._interval))
+                int(
+                    round((self._interval + self._end - self._start) /
+                          self._interval)))
             range_, current_interval = np.linspace(
                 self._start, self._end, samples, retstep=True, dtype=dtype)
 
