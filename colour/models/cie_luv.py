@@ -39,14 +39,12 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import (ILLUMINANTS, lightness_CIE1976,
                                 luminance_CIE1976)
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.models import xy_to_xyY, xyY_to_XYZ
+from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
 from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
-                              from_range_degrees, to_domain_1, to_domain_100,
-                              to_domain_degrees, tsplit, tstack)
+                              to_domain_1, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
@@ -417,15 +415,15 @@ def Luv_to_LCHuv(Luv):
     |            | ``v`` : [-100, 100]   | ``v`` : [-1, 1] |
     +------------+-----------------------+-----------------+
 
-    +------------+-----------------------+-----------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1**   |
-    +============+=======================+=================+
-    | ``LCHuv``  | ``L``  : [0, 100]     | ``L``  : [0, 1] |
-    |            |                       |                 |
-    |            | ``C``  : [0, 100]     | ``C``  : [0, 1] |
-    |            |                       |                 |
-    |            | ``uv`` : [0, 360]     | ``uv`` : [0, 1] |
-    +------------+-----------------------+-----------------+
+    +------------+-----------------------+------------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``LCHuv``  | ``L``   : [0, 100]    | ``L``   : [0, 1] |
+    |            |                       |                  |
+    |            | ``C``   : [0, 100]    | ``C``   : [0, 1] |
+    |            |                       |                  |
+    |            | ``Huv`` : [0, 360]    | ``Huv`` : [0, 1] |
+    +------------+-----------------------+------------------+
 
     References
     ----------
@@ -438,13 +436,7 @@ def Luv_to_LCHuv(Luv):
     array([ 41.5278752...,  98.4499795...,  10.3881634...])
     """
 
-    L, u, v = tsplit(Luv)
-
-    C, H = tsplit(cartesian_to_polar(tstack([u, v])))
-
-    LCHuv = tstack([L, C, from_range_degrees(np.degrees(H) % 360)])
-
-    return LCHuv
+    return Jab_to_JCh(Luv)
 
 
 def LCHuv_to_Luv(LCHuv):
@@ -465,15 +457,15 @@ def LCHuv_to_Luv(LCHuv):
     Notes
     -----
 
-    +------------+-----------------------+-----------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1**   |
-    +============+=======================+=================+
-    | ``LCHuv``  | ``L``  : [0, 100]     | ``L``  : [0, 1] |
-    |            |                       |                 |
-    |            | ``C``  : [0, 100]     | ``C``  : [0, 1] |
-    |            |                       |                 |
-    |            | ``uv`` : [0, 360]     | ``uv`` : [0, 1] |
-    +------------+-----------------------+-----------------+
+    +------------+-----------------------+------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``LCHuv``  | ``L``   : [0, 100]    | ``L``   : [0, 1] |
+    |            |                       |                  |
+    |            | ``C``   : [0, 100]    | ``C``   : [0, 1] |
+    |            |                       |                  |
+    |            | ``Huv`` : [0, 360]    | ``Huv`` : [0, 1] |
+    +------------+-----------------------+------------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
@@ -496,11 +488,4 @@ def LCHuv_to_Luv(LCHuv):
     array([ 41.5278752...,  96.8362605...,  17.7521014...])
     """
 
-    L, C, H = tsplit(LCHuv)
-
-    u, v = tsplit(
-        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
-
-    Luv = tstack([L, u, v])
-
-    return Luv
+    return JCh_to_Jab(LCHuv)
