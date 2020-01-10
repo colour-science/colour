@@ -7,17 +7,17 @@ Defines objects to apply transformations on coordinates systems.
 
 The following transformations are available:
 
--   :func:`colour.algebra.cartesian_to_spherical`: Cartesian to Spherical
+-   :func:`colour.algebra.cartesian_to_spherical`: Cartesian to spherical
     transformation.
--   :func:`colour.algebra.spherical_to_cartesian`: Spherical to Cartesian
+-   :func:`colour.algebra.spherical_to_cartesian`: Spherical to cartesian
     transformation.
--   :func:`colour.algebra.cartesian_to_polar`: Cartesian to Polar
+-   :func:`colour.algebra.cartesian_to_polar`: Cartesian to polar
     transformation.
--   :func:`colour.algebra.polar_to_cartesian`: Polar to Cartesian
+-   :func:`colour.algebra.polar_to_cartesian`: Polar to cartesian
     transformation.
--   :func:`colour.algebra.cartesian_to_cylindrical`: Cartesian to Cylindrical
+-   :func:`colour.algebra.cartesian_to_cylindrical`: Cartesian to cylindrical
     transformation.
--   :func:`colour.algebra.cylindrical_to_cartesian`: Cylindrical to Cartesian
+-   :func:`colour.algebra.cylindrical_to_cartesian`: Cylindrical to cartesian
     transformation.
 
 References
@@ -51,7 +51,7 @@ __all__ = [
 
 def cartesian_to_spherical(a):
     """
-    Transforms given Cartesian coordinates array :math:`xyz` to Spherical
+    Transforms given cartesian coordinates array :math:`xyz` to spherical
     coordinates array :math:`\\rho\\theta\\phi` (radial distance, inclination
     or elevation and azimuth).
 
@@ -92,8 +92,8 @@ def cartesian_to_spherical(a):
 
 def spherical_to_cartesian(a):
     """
-    Transforms given Spherical coordinates array :math:`\\rho\\theta\\phi`
-    (radial distance, inclination or elevation and azimuth) to Cartesian
+    Transforms given spherical coordinates array :math:`\\rho\\theta\\phi`
+    (radial distance, inclination or elevation and azimuth) to cartesian
     coordinates array :math:`xyz`.
 
     Parameters
@@ -133,7 +133,7 @@ def spherical_to_cartesian(a):
 
 def cartesian_to_polar(a):
     """
-    Transforms given Cartesian coordinates array :math:`xy` to Polar
+    Transforms given cartesian coordinates array :math:`xy` to polar
     coordinates array :math:`\\rho\\phi` (radial coordinate, angular
     coordinate).
 
@@ -145,7 +145,9 @@ def cartesian_to_polar(a):
     Returns
     -------
     ndarray
-        Polar coordinates array :math:`\\rho\\phi`.
+        Polar coordinates array :math:`\\rho\\phi`, :math:`\\rho` is
+        in range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians, i.e.
+        [-180, 180] degrees.
 
     References
     ----------
@@ -168,13 +170,15 @@ def cartesian_to_polar(a):
 
 def polar_to_cartesian(a):
     """
-    Transforms given Polar coordinates array :math:`\\rho\\phi` (radial
-    coordinate, angular coordinate) to Cartesian coordinates array :math:`xy`.
+    Transforms given polar coordinates array :math:`\\rho\\phi` (radial
+    coordinate, angular coordinate) to cartesian coordinates array :math:`xy`.
 
     Parameters
     ----------
     a : array_like
-        Polar coordinates array :math:`\\rho\\phi` to transform.
+        Polar coordinates array :math:`\\rho\\phi` to transform, :math:`\\rho`
+        is in range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians
+        i.e. [-180, 180] degrees.
 
     Returns
     -------
@@ -202,7 +206,7 @@ def polar_to_cartesian(a):
 
 def cartesian_to_cylindrical(a):
     """
-    Transforms given Cartesian coordinates array :math:`xyz` to Cylindrical
+    Transforms given cartesian coordinates array :math:`xyz` to cylindrical
     coordinates array :math:`\\rho\\phi z` (azimuth, radial distance and
     height).
 
@@ -214,7 +218,9 @@ def cartesian_to_cylindrical(a):
     Returns
     -------
     ndarray
-        Cylindrical coordinates array :math:`\\rho\\phi z`.
+        Cylindrical coordinates array :math:`\\rho\\phi z`, :math:`\\rho` is in
+        range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians i.e.
+        [-180, 180] degrees, :math:`z` is in range [0, +inf].
 
     References
     ----------
@@ -236,14 +242,17 @@ def cartesian_to_cylindrical(a):
 
 def cylindrical_to_cartesian(a):
     """
-    Transforms given Cylindrical coordinates array :math:`\\rho\\phi z`
-    (azimuth, radial distance and height) to Cartesian coordinates array
+    Transforms given cylindrical coordinates array :math:`\\rho\\phi z`
+    (azimuth, radial distance and height) to cartesian coordinates array
     :math:`xyz`.
 
     Parameters
     ----------
     a : array_like
-        Cylindrical coordinates array :math:`\\rho\\phi z` to transform.
+        Cylindrical coordinates array :math:`\\rho\\phi z` to transform,
+        :math:`\\rho` is in range [0, +inf], :math:`\\phi` is in range
+        [-pi, pi] radians i.e. [-180, 180] degrees, :math:`z` is in range
+        [0, +inf].
 
     Returns
     -------
