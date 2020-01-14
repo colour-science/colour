@@ -119,8 +119,8 @@ class TestLookup(unittest.TestCase):
 Lookup.first_key_from_value` method.
         """
 
-        lookup = Lookup(first_name='Doe', last_name='John', gender='male')
-        self.assertEqual('first_name', lookup.first_key_from_value('Doe'))
+        lookup = Lookup(first_name='John', last_name='Doe', gender='male')
+        self.assertEqual('first_name', lookup.first_key_from_value('John'))
 
         lookup = Lookup(
             A=np.array([0, 1, 2]),

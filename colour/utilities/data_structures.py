@@ -60,10 +60,10 @@ class Structure(dict):
 
     Examples
     --------
-    >>> person = Structure(first_name='Doe', last_name='John', gender='male')
+    >>> person = Structure(first_name='John', last_name='Doe', gender='male')
     >>> # Doctests skip for Python 2.x compatibility.
     >>> person.first_name  # doctest: +SKIP
-    'Doe'
+    'John'
     >>> sorted(person.keys())
     ['first_name', 'gender', 'last_name']
     >>> # Doctests skip for Python 2.x compatibility.
@@ -91,8 +91,8 @@ class Lookup(dict):
 
     Examples
     --------
-    >>> person = Lookup(first_name='Doe', last_name='John', gender='male')
-    >>> person.first_key_from_value('Doe')
+    >>> person = Lookup(first_name='John', last_name='Doe', gender='male')
+    >>> person.first_key_from_value('John')
     'first_name'
     >>> persons = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
     >>> sorted(persons.keys_from_value('Doe'))
