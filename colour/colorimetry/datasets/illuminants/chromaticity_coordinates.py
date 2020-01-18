@@ -18,6 +18,9 @@ The following *CIE* illuminants are available:
     FL11, FL12, FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2,
     FL3.3, FL3.4, FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
 -   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
+-   Typical LED illuminants (LED-B1, LED-B2, LED-B3, LED-B4, LED-B5, LED-BH1,
+    LED-RGB1, LED-V1, LED-V2)
+-   Recommended indoor illuminants ID65 and ID50.
 
 The following other illuminants are available for the
 *CIE 1931 2 Degree Standard Observer* only:
@@ -25,6 +28,9 @@ The following other illuminants are available for the
 - ACES
 - DCI-P3
 - ICC D50
+
+Illuminants whose chromaticity coordinates are defined at 15 decimal places
+have been computed according to practise *ASTM E308-15* method.
 
 See Also
 --------
@@ -34,6 +40,9 @@ blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
 References
 ----------
+-   :cite:`Carter2018` : Carter, E. C., Schanda, J. D., Hirschler, R., Jost,
+    S., Luo, M. R., Melgosa, M., … Wold, J. H. (2018). CIE 015:2018
+    Colorimetry, 4th Edition. Vienna. doi:10.25039/TR.015.2018
 -   :cite:`CIETC1-482004h` : CIE TC 1-48. (2004). CIE 015:2004 Colorimetry,
     3rd Edition. CIE 015:2004 Colorimetry, 3rd Edition. Commission
     internationale de l'éclairage. ISBN:978-3-901-90633-6
@@ -126,7 +135,18 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
     'HP2': np.array([0.47780, 0.41580]),
     'HP3': np.array([0.43020, 0.40750]),
     'HP4': np.array([0.38120, 0.37970]),
-    'HP5': np.array([0.37760, 0.37130])
+    'HP5': np.array([0.37760, 0.37130]),
+    'LED-B1': np.array([0.45600, 0.40780]),
+    'LED-B2': np.array([0.43570, 0.40120]),
+    'LED-B3': np.array([0.37560, 0.37230]),
+    'LED-B4': np.array([0.34220, 0.35020]),
+    'LED-B5': np.array([0.31180, 0.32360]),
+    'LED-BH1': np.array([0.44740, 0.40660]),
+    'LED-RGB1': np.array([0.45570, 0.42110]),
+    'LED-V1': np.array([0.45480, 0.40440]),
+    'LED-V2': np.array([0.37810, 0.37750]),
+    'ID65': np.array([0.310656625403120, 0.330663091836953]),
+    'ID50': np.array([0.343211370103531, 0.360207541805137])
 })
 
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
@@ -179,7 +199,18 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update({
     'HP2': np.array([0.482647330648721, 0.410815644179685]),
     'HP3': np.array([0.435560034503954, 0.398801084399711]),
     'HP4': np.array([0.385193641123543, 0.368275479241015]),
-    'HP5': np.array([0.380316415606638, 0.366617114797851])
+    'HP5': np.array([0.380316415606638, 0.366617114797851]),
+    'LED-B1': np.array([0.462504966271043, 0.403041801546906]),
+    'LED-B2': np.array([0.442119475258745, 0.396633702892576]),
+    'LED-B3': np.array([0.380851979328052, 0.368518548904765]),
+    'LED-B4': np.array([0.348371362473402, 0.345065503264192]),
+    'LED-B5': np.array([0.316916877024753, 0.322060276350364]),
+    'LED-BH1': np.array([0.452772610754910, 0.400032462750000]),
+    'LED-RGB1': np.array([0.457036370583652, 0.425381348780888]),
+    'LED-V1': np.array([0.453602699414564, 0.398199587905174]),
+    'LED-V2': np.array([0.377728483834020, 0.374512315539769]),
+    'ID65': np.array([0.312074043269908, 0.332660121024630]),
+    'ID50': np.array([0.345621427535976, 0.361228962209198])
 })
 
 ILLUMINANTS = CaseInsensitiveMapping({
