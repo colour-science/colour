@@ -27,52 +27,10 @@ branch are available at this
 Sponsors
 --------
 
-We are grateful 💖 for the support of our
+We are grateful for the support of our
 `sponsors <https://github.com/colour-science/colour/blob/develop/SPONSORS.rst>`__.
 If you'd like to join them, please consider
 `becoming a sponsor on OpenCollective <https://opencollective.com/colour-science>`__.
-
-.. raw:: html
-
-    <h2 align="center">Special Sponsors</h2>
-
-.. raw:: html
-
-    <table>
-        <tbody>
-            <tr>
-                <td align="center" valign="middle">
-                    <a href="https://www.jetbrains.com/" target="_blank">
-                        <img height="176px" src="https://i.imgur.com/nN1VDUG.png">
-                    </a>
-                    <p><a href="https://www.jetbrains.com/" target="_blank">JetBrains</a></p>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://github.com/sobotka" target="_blank">
-                        <img width="176px" src="https://avatars2.githubusercontent.com/u/59577">
-                    </a>
-                    <p><a href="https://github.com/sobotka" target="_blank">Troy James Sobotka</a></p>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://github.com/remia" target="_blank">
-                        <img width="176px" src="https://avatars3.githubusercontent.com/u/1922806">
-                    </a>
-                    <p><a href="https://github.com/remia" target="_blank">Remi Achard</a></p>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="http://virtualmatter.org/" target="_blank">
-                        <img width="176px" src="https://ca.slack-edge.com/T02KH93GH-UCFD09UUT-g2f156f5e08e-512">
-                    </a>
-                    <p><a href="http://virtualmatter.org/" target="_blank">Kevin Whitfield</a></p>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 
 Features
 --------
@@ -1233,67 +1191,6 @@ Code of Conduct
 
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
 is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
-
-Thank You!
-----------
-
-.. raw:: html
-
-    <h3 align="center">Coffee Sponsors</h3>
-
-.. raw:: html
-
-    <table>
-        <tbody>
-            <tr>
-                <td align="center" valign="middle">
-                    <a href="https://opencollective.com/static/images/default-anonymous-logo.svg" target="_blank">
-                        <img width="98px" src="https://opencollective.com/static/images/default-anonymous-logo.svg">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 
 About
 -----
