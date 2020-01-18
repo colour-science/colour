@@ -253,7 +253,8 @@ extrapolator_args` property.
         property raised exception.
         """
 
-        self.assertRaises(RuntimeError, MultiSignals().function, 0)
+        self.assertRaises((RuntimeError, TypeError),
+                          MultiSignals().function, 0)
 
     def test_signals(self):
         """

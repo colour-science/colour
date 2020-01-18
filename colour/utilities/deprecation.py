@@ -510,7 +510,7 @@ def handle_arguments_deprecation(changes, **kwargs):
 
     changes = build_API_changes(changes)
 
-    for kwarg in kwargs:
+    for kwarg in kwargs.copy():
         change = changes.get(kwarg)
 
         if change is None:

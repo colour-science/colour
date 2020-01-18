@@ -663,7 +663,12 @@ def uniform_axes3d(**kwargs):
     figure = kwargs.get('figure', plt.gcf())
     axes = kwargs.get('axes', plt.gca())
 
-    axes.set_aspect('equal')
+    try:  # pragma: no cover
+        # TODO: Reassess according to
+        # https://github.com/matplotlib/matplotlib/issues/1077
+        axes.set_aspect('equal')
+    except NotImplementedError:  # pragma: no cover
+        pass
 
     extents = np.array(
         [getattr(axes, 'get_{}lim'.format(axis))() for axis in 'xyz'])
