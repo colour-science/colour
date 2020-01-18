@@ -17,7 +17,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 import re
 from abc import ABCMeta, abstractmethod
-from collections import MutableSequence
+try:
+    from collections import MutableSequence
+except ImportError:
+    from collections.abc import MutableSequence
 from copy import deepcopy
 # pylint: disable=W0622
 from operator import add, mul, pow, sub, iadd, imul, ipow, isub

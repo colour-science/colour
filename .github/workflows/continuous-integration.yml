@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04, macOS-latest]
-        python-version: [2.7, 3.6, 3.7]
+        python-version: [2.7, 3.6, 3.7, 3.8]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v1
@@ -21,6 +21,8 @@ jobs:
         CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *${CI_SHA:0:7}* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
         CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_SUCCESS_NOTIFICATION/4CAF50/F44336}"
         CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_FAILURE_NOTIFICATION/succeeded/failed}"
+        CI_OPENIMAGEIO_ARTIFACT=https://github.com/colour-science/artifacts/suites/407105362/artifacts/1192372
+        CI_OPENIMAGEIO_VERSION=2.1.10.1
         COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
         MPLBACKEND=AGG
         echo ::set-env name=CI_PYTHON_VERSION::$CI_PYTHON_VERSION
@@ -30,6 +32,8 @@ jobs:
         echo ::set-env name=CI_SLACK_SUCCESS_NOTIFICATION::$CI_SLACK_SUCCESS_NOTIFICATION
         echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::$CI_SLACK_FAILURE_NOTIFICATION
         echo ::set-env name=COVERALLS_REPO_TOKEN::$COVERALLS_REPO_TOKEN
+        echo ::set-env name=CI_OPENIMAGEIO_ARTIFACT::$CI_OPENIMAGEIO_ARTIFACT
+        echo ::set-env name=CI_OPENIMAGEIO_VERSION::$CI_OPENIMAGEIO_VERSION
         echo ::set-env name=MPLBACKEND::$MPLBACKEND
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
@@ -46,6 +50,11 @@ jobs:
         python get-poetry.py --preview --version 1.0.0b3
         PATH=$HOME/.poetry/bin:$PATH
         echo ::set-env name=PATH::$PATH
+    - name: Python 3.8 - Matplotlib
+      if: matrix.python-version == '3.8'
+      run: |
+        sed -i.bak 's/python = "~2.7 || ^3.5"/python = "^3.6"/g' pyproject.toml
+        sed -i.bak 's/matplotlib = { version = "\*"/matplotlib = { version = "^3.1"/g' pyproject.toml
     - name: Install Package Dependencies
       run: |
         poetry install --extras "optional plotting"
@@ -54,12 +63,12 @@ jobs:
     - name: Ubuntu - Install OpenImageIO
       if: matrix.os == 'ubuntu-18.04' && matrix.python-version == '3.6'
       run: |
-        curl -L https://github.com/colour-science/artifacts/suites/233020849/artifacts/44967 -o OpenImageIO-Release-2.0.10.zip
-        unzip OpenImageIO-Release-2.0.10.zip
-        sudo cp OpenImageIO-Release-2.0.10/linux64/bin/* /usr/bin/
-        sudo cp -r OpenImageIO-Release-2.0.10/linux64/lib/* /usr/lib/
-        sudo rm -rf /usr/lib/python3.6
-        cp OpenImageIO-Release-2.0.10/linux64/lib/python3.6/site-packages/OpenImageIO.so $(poetry env info -p)/lib/python3.6/site-packages/
+        curl -L $CI_OPENIMAGEIO_ARTIFACT -o OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION.zip
+        unzip OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION.zip -d OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION
+        sudo cp OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/linux64/bin/* /usr/bin/
+        sudo cp -r OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/linux64/lib/* /usr/lib/
+        sudo rm -rf /usr/lib/python$CI_PYTHON_VERSION
+        cp OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/linux64/lib/python$CI_PYTHON_VERSION/site-packages/OpenImageIO.so $(poetry env info -p)/lib/python$CI_PYTHON_VERSION/site-packages/
     - name: Lint with flake8
       run: |
         source $(poetry env info -p)/bin/activate
@@ -69,7 +78,7 @@ jobs:
         source $(poetry env info -p)/bin/activate
         python -W ignore -m nose -v --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=$CI_PACKAGE $CI_PACKAGE
     - name: Upload Coverage to coveralls.io
-      if: matrix.python-version == '3.6' || matrix.python-version == '3.7'
+      if: matrix.python-version == '3.6' || matrix.python-version == '3.7' || matrix.python-version == '3.8'
       run: |
         source $(poetry env info -p)/bin/activate
         if [ -z "$COVERALLS_REPO_TOKEN" ]; then echo \"COVERALLS_REPO_TOKEN\" secret is undefined!; else coveralls; fi
