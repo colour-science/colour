@@ -74,6 +74,7 @@ Cameras
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     RGB_SpectralSensitivities
 
@@ -97,6 +98,7 @@ Displays
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     RGB_DisplayPrimaries
 
