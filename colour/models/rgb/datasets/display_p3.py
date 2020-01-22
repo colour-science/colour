@@ -24,8 +24,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, eotf_inverse_sRGB,
-                               eotf_sRGB, normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB,
+                               normalised_primary_matrix)
 from colour.models.rgb.datasets import DCI_P3_COLOURSPACE
 
 __author__ = 'Colour Developers'
@@ -42,7 +42,6 @@ __all__ = [
 ]
 
 DISPLAY_P3_PRIMARIES = DCI_P3_COLOURSPACE.primaries
-
 """
 *Display P3* colourspace primaries.
 
@@ -56,17 +55,16 @@ DISPLAY_P3_WHITEPOINT_NAME = 'D65'
 DISPLAY_P3_WHITEPOINT : unicode
 """
 
-DISPLAY_P3_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-        DISPLAY_P3_WHITEPOINT_NAME])
+DISPLAY_P3_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    DISPLAY_P3_WHITEPOINT_NAME])
 """
 *Display P3* colourspace whitepoint.
 
 DISPLAY_P3_WHITEPOINT : ndarray
 """
 
-DISPLAY_P3_TO_XYZ_MATRIX = (
-    normalised_primary_matrix(DISPLAY_P3_PRIMARIES, DISPLAY_P3_WHITEPOINT))
+DISPLAY_P3_TO_XYZ_MATRIX = (normalised_primary_matrix(DISPLAY_P3_PRIMARIES,
+                                                      DISPLAY_P3_WHITEPOINT))
 """
 *Display P3* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -79,7 +77,6 @@ XYZ_TO_DISPLAY_P3_MATRIX = np.linalg.inv(DISPLAY_P3_TO_XYZ_MATRIX)
 
 XYZ_TO_DISPLAY_P3_MATRIX : array_like, (3, 3)
 """
-
 
 DISPLAY_P3_COLOURSPACE = RGB_Colourspace(
     'Display P3',
