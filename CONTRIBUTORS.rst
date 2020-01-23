@@ -91,6 +91,14 @@ Development & Technical Support
 
     Krystek (1985) implementation fixes.
 
+-   **Marek Szymanski**
+
+    Numpy 1.18 compatibility.
+
+-   **Maximilian Schambach**
+
+    Python 3.8 compatibility.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -149,21 +157,27 @@ Issues & Discussions
 -   Ryan Bass
 -   Vishal Vashistha
 -   Vlad Enache
+-   @alban-sol
 -   @Ampersandme
+-   @AndersAtEndian
+-   @anshulxyz
 -   @Apoorva-13
 -   @awehring
+-   @bersbersbers
 -   @brandondube
 -   @briend
 -   @cclauss
 -   @Chandler
 -   @chesschi
 -   @codycuellar
+-   @dtbulmerJRs
 -   @Edwardlin-zlt
 -   @eyeforcolor
 -   @fangjy88
 -   @Floschoe
 -   @foutoucour
 -   @habemus-papadum
+-   @hajimen
 -   @henczati
 -   @iCagarro
 -   @iinnovations
@@ -173,11 +187,16 @@ Issues & Discussions
 -   @Legendin
 -   @leklbk
 -   @lensz
+-   @MarcusCalhoun-Lopez
+-   @matthiasbirkich
+-   @meshing
+-   @monkeywithacupcake
 -   @Myndex
 -   @naavis
 -   @NoRoKr
 -   @nschloe
 -   @peteroupc
+-   @pfk-beta
 -   @Queuecumber
 -   @Rob-Welch
 -   @robbuckley
@@ -187,8 +206,8 @@ Issues & Discussions
 -   @stakemura
 -   @tashdor
 -   @TFiFiE
--   @tingeman
 -   @thunders82
+-   @tingeman
 -   @totyped
 -   @vidakDK
 -   @Willingo
