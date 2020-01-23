@@ -292,8 +292,13 @@ RGB Colourspaces
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     RGB_Colourspace
+
+.. autosummary::
+    :toctree: generated/
+
     RGB_COLOURSPACES
 
 ``colour.models``

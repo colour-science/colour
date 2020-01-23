@@ -113,6 +113,7 @@ Data Structures
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     CaseInsensitiveMapping
     Lookup
@@ -143,6 +144,7 @@ Verbose
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     ColourWarning
     ColourUsageWarning

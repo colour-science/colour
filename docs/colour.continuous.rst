@@ -12,6 +12,7 @@ Continuous Signal
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     AbstractContinuousFunction
     Signal

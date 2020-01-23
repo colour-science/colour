@@ -12,10 +12,15 @@ Spectral Data Structure
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     SpectralShape
     SpectralDistribution
     MultiSpectralDistributions
+
+.. autosummary::
+    :toctree: generated/
+
     DEFAULT_SPECTRAL_SHAPE
     ASTME308_PRACTISE_SHAPE
 
@@ -160,6 +165,7 @@ Colour Matching Functions
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     LMS_ConeFundamentals
     RGB_ColourMatchingFunctions

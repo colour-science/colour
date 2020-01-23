@@ -7,7 +7,7 @@
 .. |NumFOCUS| image:: https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat-square&colorA=E1523D&colorB=007D8A
     :target: http://numfocus.org
     :alt: Powered by NumFOCUS
-.. |actions| image:: https://github.com/colour-science/colour/workflows/Continuous%20Integration/badge.svg
+.. |actions| image:: https://img.shields.io/github/workflow/status/colour-science/colour/Continuous%20Integration?label=actions&logo=github&style=flat-square
     :target: https://github.com/colour-science/colour/actions
     :alt: Develop Build Status
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
@@ -1318,7 +1318,7 @@ Thank You!
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2019
-| Copyright © 2013-2019 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
+| **Colour** by Colour Developers - 2013-2020
+| Copyright © 2013-2020 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

@@ -13,7 +13,7 @@ import unittest
 from colour.utilities import Structure, Lookup, CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
@@ -119,8 +119,8 @@ class TestLookup(unittest.TestCase):
 Lookup.first_key_from_value` method.
         """
 
-        lookup = Lookup(first_name='Doe', last_name='John', gender='male')
-        self.assertEqual('first_name', lookup.first_key_from_value('Doe'))
+        lookup = Lookup(first_name='John', last_name='Doe', gender='male')
+        self.assertEqual('first_name', lookup.first_key_from_value('John'))
 
         lookup = Lookup(
             A=np.array([0, 1, 2]),

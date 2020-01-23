@@ -19,7 +19,7 @@ from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
