@@ -36,6 +36,7 @@ Interpolation
 
 .. autosummary::
     :toctree: generated/
+
     lagrange_coefficients
     TABLE_INTERPOLATION_METHODS
     table_interpolation
