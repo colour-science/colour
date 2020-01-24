@@ -59,6 +59,7 @@ jupyter = { version = "*", optional = true }  # Development dependency.
 matplotlib = { version = "*", optional = true }
 mock = { version = "*", optional = true }  # Development dependency.
 networkx = { version = "*", optional = true }
+nbformat = { version = "^4", optional = true }  # Fixed development dependency for Python 2.7 support only.
 nose = { version = "*", optional = true }  # Development dependency.
 numpy = { version = "*", optional = true }
 pandas = { version = "*", optional = true }
@@ -81,6 +82,7 @@ flake8 = "*"
 invoke = "*"
 jupyter = "*"
 mock = "*"
+nbformat = "^4"
 nose = "*"
 pre-commit = "*"
 pytest = "*"
@@ -101,6 +103,7 @@ development = [
     "invoke",
     "jupyter",
     "mock",
+    "nbformat",
     "nose",
     "pre-commit",
     "pytest",
