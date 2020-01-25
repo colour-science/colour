@@ -42,8 +42,6 @@ jobs:
     - name: Ubuntu - Update OS & Install APT Dependencies
       if: matrix.os == 'ubuntu-18.04'
       run: |
-# TODO: Re-enable at earliest convenience.
-#        sudo apt-get update
         sudo apt-get --yes install libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
     - name: Install Poetry
       run: |
