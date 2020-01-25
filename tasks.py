@@ -334,7 +334,7 @@ def requirements(ctx):
             '> requirements.txt')
 
 
-@task(preflight, docs, todo, requirements)
+@task(clean, preflight, docs, todo, requirements)
 def build(ctx):
     """
     Builds the project and runs dependency tasks, i.e. *docs*, *todo*, and
@@ -406,7 +406,7 @@ setup({0}
         setup_file.write(source)
 
 
-@task(clean, build)
+@task
 def virtualise(ctx, tests=True):
     """
     Create a virtual environment for the project build.

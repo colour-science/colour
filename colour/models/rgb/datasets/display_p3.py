@@ -15,8 +15,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
--   :cite:`Apple2019` : Apple. (2019). https://developer.apple.com/\
-    documentation/coregraphics/cgcolorspace/1408916-displayp3#discussion
+-   :cite:`AppleInc.2019` : Apple. (2019). Apple Inc. (2019). displayP3.
+    Retrieved December 18, 2019, from https://developer.apple.com/\
+documentation/coregraphics/cgcolorspace/1408916-displayp3
 """
 
 from __future__ import division, unicode_literals
@@ -93,7 +94,7 @@ DISPLAY_P3_COLOURSPACE.__doc__ = """
 
 References
 ----------
-:cite:`Apple2019`
+:cite:`AppleInc.2019`
 
 DISPLAY_P3_COLOURSPACE : RGB_Colourspace
 """

@@ -154,6 +154,12 @@ from .volume import (
     is_within_mesh_volume, is_within_pointer_gamut, is_within_visible_spectrum)
 from .graph import describe_conversion_path, convert
 
+from colour.utilities import is_matplotlib_installed
+
+# Exposing "colour.plotting" sub-package if "Matplotlib" is available.
+if is_matplotlib_installed():
+    import colour.plotting as plotting  # noqa
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -298,7 +304,7 @@ __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '14'
+__change_version__ = '15'
 __version__ = '.'.join(
     (__major_version__,
      __minor_version__,

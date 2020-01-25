@@ -103,15 +103,16 @@ class TestLookup(unittest.TestCase):
         """
 
         lookup = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
-        self.assertListEqual(
-            sorted(['Jane', 'John']), sorted(lookup.keys_from_value('Doe')))
+        self.assertListEqual(['Jane', 'John'],
+                             sorted(lookup.keys_from_value('Doe')))
 
         lookup = Lookup(
             A=np.array([0, 1, 2]),
             B=np.array([0, 1, 2]),
             C=np.array([1, 2, 3]))
-        self.assertListEqual(
-            sorted(['A', 'B']), lookup.keys_from_value(np.array([0, 1, 2])))
+        self.assertListEqual(['A', 'B'],
+                             sorted(
+                                 lookup.keys_from_value(np.array([0, 1, 2]))))
 
     def test_first_key_from_value(self):
         """

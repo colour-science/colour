@@ -19,8 +19,8 @@
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.org/project/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.3519603-blue.svg?style=flat-square
-    :target: https://dx.doi.org/10.5281/zenodo.3519603
+.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.3627408-blue.svg?style=flat-square
+    :target: https://dx.doi.org/10.5281/zenodo.3627408
     :alt: DOI
 
 .. end-badges
@@ -1318,7 +1318,7 @@ Thank You!
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2020
+| **Colour** by Colour Developers
 | Copyright © 2013-2020 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

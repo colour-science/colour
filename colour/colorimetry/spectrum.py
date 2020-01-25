@@ -1907,7 +1907,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
         Notes
         -----
         -   See :meth:`colour.SpectralDistribution.interpolate` method notes
-        section.
+            section.
 
         Warning
         -------

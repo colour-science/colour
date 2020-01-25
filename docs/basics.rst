@@ -95,8 +95,6 @@ Which enables image processing:
 
 .. code:: python
 
-    import colour.plotting
-
     RGB = colour.read_image('_static/Logo_Small_001.png')
     RGB = RGB[..., 0:3]  # Discarding alpha channel.
     XYZ = colour.sRGB_to_XYZ(RGB)
