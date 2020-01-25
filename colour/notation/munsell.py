@@ -140,14 +140,14 @@ from colour.utilities import (
     is_integer, is_numeric, tsplit, usage_warning)
 
 __author__ = 'Colour Developers, Paul Centore'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __copyright__ += ', '
 __copyright__ += (
     'The Munsell and Kubelka-Munk Toolbox: Copyright  2010-2018 Paul Centore '
     '(Gales Ferry, CT 06335, USA); used by permission.')
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -721,6 +721,19 @@ def munsell_value(Y, method='ASTM D1535'):
     return MUNSELL_VALUE_METHODS.get(method)(Y)
 
 
+def _domain_range_scale_factor():
+    """
+    Returns the domain-range scale factor for *Munsell Renotation System*.
+
+    Returns
+    -------
+    ndarray
+        Domain-range scale factor for *Munsell Renotation System*.
+    """
+
+    return np.array([10, 10, 50 if get_domain_range_scale() == '1' else 2, 10])
+
+
 def _munsell_specification_to_xyY(specification):
     """
     Converts given *Munsell* *Colorlab* specification to *CIE xyY* colourspace.
@@ -743,9 +756,8 @@ def _munsell_specification_to_xyY(specification):
         specification = as_float_array(to_domain_10(specification))
         hue, value, chroma, code = specification
     else:
-        chroma_scale = 50 if get_domain_range_scale() == '1' else 2
         specification = to_domain_10(specification,
-                                     np.array([10, 10, chroma_scale, 10]))
+                                     _domain_range_scale_factor())
         hue, value, chroma, code = ([as_float(i) for i in specification[0:3]] +
                                     [DEFAULT_INT_DTYPE(specification[-1])])
 
@@ -894,7 +906,9 @@ def munsell_colour_to_xyY(munsell_colour):
         for a in np.ravel(munsell_colour)
     ])
 
-    return munsell_specification_to_xyY(specification.reshape(shape + [4]))
+    return munsell_specification_to_xyY(
+        from_range_10(
+            specification.reshape(shape + [4]), _domain_range_scale_factor()))
 
 
 def _xyY_to_munsell_specification(xyY):
@@ -1254,7 +1268,8 @@ def xyY_to_munsell_colour(xyY,
     '4.2YR 8.1/5.3'
     """
 
-    specification = xyY_to_munsell_specification(xyY)
+    specification = to_domain_10(
+        xyY_to_munsell_specification(xyY), _domain_range_scale_factor())
     shape = list(specification.shape)
 
     munsell_colour = [

@@ -29,10 +29,10 @@ from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['FLOG_CONSTANTS', 'log_encoding_FLog', 'log_decoding_FLog']

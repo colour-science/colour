@@ -13,10 +13,10 @@ from colour.temperature import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['Testxy_to_CCT_McCamy1992', 'TestCCT_to_xy_McCamy1992']

@@ -34,10 +34,10 @@ from colour.volume import (
 from colour.utilities import disable_multiprocessing
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -184,7 +184,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
                 BT709_COLOURSPACE, 10e3,
                 random_state=np.random.RandomState(2)),
-            47.158403869407500,
+            46.931407942238266,
             decimal=7)
 
 

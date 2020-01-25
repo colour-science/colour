@@ -19,10 +19,10 @@ from colour.continuous import MultiSignals, Signal
 from colour.utilities import is_pandas_installed, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['TestMultiSignals']
@@ -253,7 +253,8 @@ extrapolator_args` property.
         property raised exception.
         """
 
-        self.assertRaises(RuntimeError, MultiSignals().function, 0)
+        self.assertRaises((RuntimeError, TypeError),
+                          MultiSignals().function, 0)
 
     def test_signals(self):
         """

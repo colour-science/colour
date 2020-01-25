@@ -18,13 +18,13 @@ from colour.models import (
     RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB, RGB_to_XYZ,
     RGB_to_RGB_matrix, RGB_to_RGB, chromatically_adapted_primaries,
     normalised_primary_matrix, eotf_inverse_sRGB, eotf_sRGB)
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import as_int, domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -94,9 +94,10 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         decimals = {'DJI D-Gamut': 1, 'F-Gamut': 4}
 
-        samples = np.hstack(
-            [np.linspace(0, 1, 1e5),
-             np.linspace(0, 65504, 65504 * 10)])
+        samples = np.hstack([
+            np.linspace(0, 1, as_int(1e5)),
+            np.linspace(0, 65504, 65504 * 10)
+        ])
 
         for colourspace in RGB_COLOURSPACES.values():
             if colourspace.name in ignored_colourspaces:

@@ -22,10 +22,10 @@ import colour
 from colour.utilities import message_box
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -83,7 +83,8 @@ def clean(ctx, docs=True, bytecode=False):
 @task
 def formatting(ctx, yapf=False, asciify=True, bibtex=True):
     """
-    Formats the codebase with *Yapf* and converts unicode characters to ASCII.
+    Formats the codebase with *Yapf*, converts unicode characters to ASCII and
+    cleanup the "BibTeX" file.
 
     Parameters
     ----------
@@ -328,11 +329,12 @@ def requirements(ctx):
     """
 
     message_box('Exporting "requirements.txt" file...')
-    ctx.run('poetry run pip freeze | grep -v "github.com/colour-science" '
+    ctx.run('poetry run pip freeze | '
+            'egrep -v "github.com/colour-science|enum34" '
             '> requirements.txt')
 
 
-@task(preflight, docs, todo, requirements)
+@task(clean, preflight, docs, todo, requirements)
 def build(ctx):
     """
     Builds the project and runs dependency tasks, i.e. *docs*, *todo*, and
@@ -362,8 +364,49 @@ def build(ctx):
     ctx.run('poetry build')
     ctx.run('git checkout -- pyproject.toml')
 
+    with ctx.cd('dist'):
+        ctx.run('tar -xvf {0}-{1}.tar.gz'.format(PYPI_PACKAGE_NAME,
+                                                 APPLICATION_VERSION))
+        ctx.run('cp {0}-{1}/setup.py ../'.format(PYPI_PACKAGE_NAME,
+                                                 APPLICATION_VERSION))
 
-@task(clean, build)
+        ctx.run('rm -rf {0}-{1}'.format(PYPI_PACKAGE_NAME,
+                                        APPLICATION_VERSION))
+
+    with open('setup.py') as setup_file:
+        source = setup_file.read()
+
+    setup_kwargs = []
+
+    def sub_callable(match):
+        setup_kwargs.append(match)
+
+        return ''
+
+    template = """
+setup({0}
+)
+"""
+
+    source = re.sub(
+        'setup_kwargs = {(.*)}.*setup\\(\\*\\*setup_kwargs\\)',
+        sub_callable,
+        source,
+        flags=re.DOTALL)[:-2]
+    setup_kwargs = setup_kwargs[0].group(1).splitlines()
+    for i, line in enumerate(setup_kwargs):
+        setup_kwargs[i] = re.sub('^\\s*(\'(\\w+)\':\\s?)', '    \\2=', line)
+        if setup_kwargs[i].strip().startswith('long_description'):
+            setup_kwargs[i] = (
+                '    long_description=open(\'README.rst\').read(),')
+
+    source += template.format('\n'.join(setup_kwargs))
+
+    with open('setup.py', 'w') as setup_file:
+        setup_file.write(source)
+
+
+@task
 def virtualise(ctx, tests=True):
     """
     Create a virtual environment for the project build.

@@ -29,10 +29,10 @@ from colour.models.rgb.datasets.itur_bt_470 import (
     BT470_625_TO_XYZ_MATRIX, XYZ_TO_BT470_625_MATRIX, BT470_625_COLOURSPACE)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

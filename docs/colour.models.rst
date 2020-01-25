@@ -20,6 +20,21 @@ Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
     xyY_to_xy
     xy_to_xyY
 
+.. contents:: :local:
+
+Common Models
+-------------
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    Jab_to_JCh
+    JCh_to_Jab
+
 CIE L*a*b* Colourspace
 ----------------------
 
@@ -277,8 +292,13 @@ RGB Colourspaces
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     RGB_Colourspace
+
+.. autosummary::
+    :toctree: generated/
+
     RGB_COLOURSPACES
 
 ``colour.models``
@@ -309,6 +329,7 @@ RGB Colourspaces
     DCDM_XYZ_COLOURSPACE
     DCI_P3_COLOURSPACE
     DCI_P3_P_COLOURSPACE
+    DISPLAY_P3_COLOURSPACE
     DON_RGB_4_COLOURSPACE
     ECI_RGB_V2_COLOURSPACE
     EKTA_SPACE_PS_5_COLOURSPACE

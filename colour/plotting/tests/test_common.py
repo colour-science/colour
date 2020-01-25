@@ -21,27 +21,27 @@ from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
 from colour.plotting import ColourSwatch
 from colour.plotting import (
     colour_style, override_style, XYZ_to_plotting_colourspace, colour_cycle,
-    artist, camera, render, wrap_title, label_rectangles, uniform_axes3d,
+    artist, camera, render, label_rectangles, uniform_axes3d,
     filter_passthrough, filter_RGB_colourspaces, filter_cmfs,
     filter_illuminants, filter_colour_checkers, plot_single_colour_swatch,
     plot_multi_colour_swatches, plot_single_function, plot_multi_functions,
     plot_image)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
     'TestColourStyle', 'TestOverrideStyle', 'TestXyzToPlottingColourspace',
     'TestColourCycle', 'TestArtist', 'TestCamera', 'TestRender',
-    'TestWrapTitle', 'TestLabelRectangles', 'TestUniformAxes3d',
-    'TestFilterPassthrough', 'TestFilterRgbColourspaces', 'TestFilterCmfs',
-    'TestFilterIlluminants', 'TestFilterColourCheckers',
-    'TestPlotSingleColourSwatch', 'TestPlotMultiColourSwatches',
-    'TestPlotSingleFunction', 'TestPlotMultiFunctions', 'TestPlotImage'
+    'TestLabelRectangles', 'TestUniformAxes3d', 'TestFilterPassthrough',
+    'TestFilterRgbColourspaces', 'TestFilterCmfs', 'TestFilterIlluminants',
+    'TestFilterColourCheckers', 'TestPlotSingleColourSwatch',
+    'TestPlotMultiColourSwatches', 'TestPlotSingleFunction',
+    'TestPlotMultiFunctions', 'TestPlotImage'
 ]
 
 
@@ -235,32 +235,6 @@ class TestRender(unittest.TestCase):
             axes_visible=False)
 
 
-class TestWrapTitle(unittest.TestCase):
-    """
-    Defines :func:`colour.plotting.common.wrap_title` definition unit tests
-    methods.
-    """
-
-    def test_wrap_title(self):
-        """
-        Tests :func:`colour.plotting.common.wrap_title` definition.
-        """
-
-        self.assertEqual(
-            wrap_title(
-                'This is a very long figure title that would overflow the '
-                'figure container if it was not wrapped.'),
-            ('This is a very long figure title that would overflow the\n'
-             'figure container if it was not wrapped.'))
-
-        self.assertEqual(
-            wrap_title(
-                'This is a very long figure title that would overflow the '
-                'figure container if it was not wrapped.', None),
-            ('This is a very long figure title that would overflow the '
-             'figure container if it was not wrapped.'))
-
-
 class TestLabelRectangles(unittest.TestCase):
     """
     Defines :func:`colour.plotting.common.label_rectangles` definition unit
@@ -384,7 +358,9 @@ class TestFilterCmfs(unittest.TestCase):
         """
 
         self.assertListEqual(
-            sorted(filter_cmfs(['.*2 Degree.*']).keys()), [
+            sorted([
+                cmfs.name for cmfs in filter_cmfs(['.*2 Degree.*']).values()
+            ]), [
                 'CIE 1931 2 Degree Standard Observer',
                 'CIE 2012 2 Degree Standard Observer',
                 'Stiles & Burch 1955 2 Degree RGB CMFs',

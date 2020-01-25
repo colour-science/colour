@@ -11,10 +11,10 @@ import codecs
 import os
 from collections import OrderedDict
 
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['TODO_FILE_TEMPLATE', 'extract_todo_items', 'export_todo_items']
@@ -32,12 +32,12 @@ About
 -----
 
 | **Colour** by Colour Developers
-| Copyright © 2013-2019 – Colour Developers – \
-`colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| Copyright © 2013-2020 – Colour Developers – \
+`colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: \
 https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour \
-<https://github.com/colour-science/colour>`_
+<https://github.com/colour-science/colour>`__
 """ [1:]
 
 

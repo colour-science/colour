@@ -17,7 +17,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 import re
 from abc import ABCMeta, abstractmethod
-from collections import MutableSequence
+try:
+    from collections import MutableSequence
+except ImportError:
+    from collections.abc import MutableSequence
 from copy import deepcopy
 # pylint: disable=W0622
 from operator import add, mul, pow, sub, iadd, imul, ipow, isub
@@ -39,10 +42,10 @@ from colour.utilities import (as_float_array, is_numeric, is_iterable,
                               tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

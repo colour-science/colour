@@ -6,12 +6,12 @@ TODO
 
 -   colour/__init__.py
 
-    -   Line 306 : # TODO: Remove legacy printing support when deemed appropriate.
+    -   Line 312 : # TODO: Remove legacy printing support when deemed appropriate.
 
 
 -   colour/colorimetry/spectrum.py
 
-    -   Line 1112 : # TODO: Provide support for fractional interval like 0.1, etc...
+    -   Line 1131 : # TODO: Provide support for fractional interval like 0.1, etc...
 
 
 -   colour/colorimetry/tristimulus.py
@@ -21,8 +21,8 @@ TODO
 
 -   colour/colorimetry/tests/test_spectrum.py
 
-    -   Line 1457 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-    -   Line 1666 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+    -   Line 1486 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+    -   Line 1695 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
 
 
 -   colour/appearance/ciecam02.py
@@ -69,8 +69,8 @@ TODO
 
 -   colour/io/luts/lut.py
 
-    -   Line 126 : # TODO: Re-enable when dropping Python 2.7. pylint: disable=E1121
-    -   Line 2009 : # TODO: Implement support for non-uniform domain, e.g. "cinespace" LUTs.
+    -   Line 129 : # TODO: Re-enable when dropping Python 2.7. pylint: disable=E1121
+    -   Line 2012 : # TODO: Implement support for non-uniform domain, e.g. "cinespace" LUTs.
 
 
 -   colour/graph/conversion.py
@@ -96,8 +96,8 @@ TODO
 
 -   colour/models/rgb/transfer_functions/tests/test__init__.py
 
-    -   Line 38 : # TODO: Use "assertWarns" when dropping Python 2.7.
-    -   Line 55 : # TODO: Use "assertWarns" when dropping Python 2.7.
+    -   Line 39 : # TODO: Use "assertWarns" when dropping Python 2.7.
+    -   Line 56 : # TODO: Use "assertWarns" when dropping Python 2.7.
 
 
 -   colour/utilities/verbose.py
@@ -107,7 +107,7 @@ TODO
 
 -   colour/utilities/common.py
 
-    -   Line 569 : # TODO: Remove when dropping Python 2.7.
+    -   Line 601 : # TODO: Remove when dropping Python 2.7.
 
 
 -   colour/utilities/array.py
@@ -127,7 +127,8 @@ TODO
 
 -   colour/plotting/common.py
 
-    -   Line 821 : # TODO: Consider using "MutableMapping" here.
+    -   Line 666 : # TODO: Reassess according to https://github.com/matplotlib/matplotlib/issues/1077
+    -   Line 783 : # TODO: Consider using "MutableMapping" here.
 
 
 -   colour/characterisation/correction.py
@@ -137,7 +138,7 @@ TODO
 
 -   colour/notation/munsell.py
 
-    -   Line 1067 : # TODO: Consider refactoring implementation.
+    -   Line 1081 : # TODO: Consider refactoring implementation.
 
 
 -   colour/continuous/signal.py
@@ -179,6 +180,6 @@ About
 -----
 
 | **Colour** by Colour Developers
-| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| Copyright © 2013-2020 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
-| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`_
+| `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

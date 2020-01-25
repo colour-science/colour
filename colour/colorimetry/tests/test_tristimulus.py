@@ -26,10 +26,10 @@ from colour.colorimetry import (
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -1037,7 +1037,7 @@ multi_sds_to_XYZ_ASTME308`
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        msds = MSDS.clone().align(SpectralShape(400, 700, 20))
+        msds = MSDS.copy().align(SpectralShape(400, 700, 20))
         np.testing.assert_almost_equal(
             multi_sds_to_XYZ_ASTME308(msds, cmfs, ILLUMINANTS_SDS['D65']),
             XYZ_D65_ASTME308_MSDS,
@@ -1061,7 +1061,7 @@ multi_sds_to_XYZ_ASTME308` definition domain and range scale support.
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     multi_sds_to_XYZ_ASTME308(
-                        MSDS.clone().align(SpectralShape(400, 700, 20)), cmfs,
+                        MSDS.copy().align(SpectralShape(400, 700, 20)), cmfs,
                         ILLUMINANTS_SDS['D65']),
                     XYZ_D65_ASTME308_MSDS * factor,
                     decimal=7)

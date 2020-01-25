@@ -24,23 +24,31 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+import six
 
-from colour.algebra import NearestNeighbourInterpolator
-from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS,
-    multi_sds_to_XYZ_integration, SpectralShape, sd_ones)
+from colour.colorimetry import (STANDARD_OBSERVERS_CMFS, multi_sds_to_XYZ,
+                                SpectralShape, sd_ones)
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'generate_pulse_waves', 'XYZ_outer_surface', 'is_within_visible_spectrum'
+    'DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE', 'generate_pulse_waves',
+    'XYZ_outer_surface', 'is_within_visible_spectrum'
 ]
+
+DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE = SpectralShape(360, 780, 5)
+"""
+Default spectral shape according to *ASTM E308-15* practise shape but using an
+interval of 5.
+
+DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE : SpectralShape
+"""
 
 _XYZ_OUTER_SURFACE_CACHE = {}
 _XYZ_OUTER_SURFACE_POINTS_CACHE = {}
@@ -128,10 +136,10 @@ def generate_pulse_waves(bins):
 
 
 def XYZ_outer_surface(
-        interval=10,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
-            'CIE 1931 2 Degree Standard Observer'].shape)):
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
+        illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
+        **kwargs):
     """
     Generates the *CIE XYZ* colourspace outer surface for given colour matching
     functions using multi-spectral conversion of pulse waves to *CIE XYZ*
@@ -139,13 +147,16 @@ def XYZ_outer_surface(
 
     Parameters
     ----------
-    interval : int, optional
-        Wavelength :math:`\\lambda_{i}` range interval used to compute the
-        pulse waves.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.multi_sds_to_XYZ`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -158,58 +169,54 @@ def XYZ_outer_surface(
 
     Examples
     --------
-    >>> XYZ_outer_surface(84)  # doctest: +ELLIPSIS
+    >>> from colour.colorimetry import DEFAULT_SPECTRAL_SHAPE
+    >>> shape = SpectralShape(
+    ...     DEFAULT_SPECTRAL_SHAPE.start, DEFAULT_SPECTRAL_SHAPE.end, 84)
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> XYZ_outer_surface(cmfs.copy().align(shape))  # doctest: +ELLIPSIS
     array([[  0.0000000...e+00,   0.0000000...e+00,   0.0000000...e+00],
-           [  1.4766924...e-03,   4.1530347...e-05,   6.9884362...e-03],
-           [  1.6281275...e-01,   3.7114387...e-02,   9.0151471...e-01],
-           [  1.8650894...e-01,   5.6617464...e-01,   9.1355179...e-02],
-           [  6.1555347...e-01,   3.8427775...e-01,   4.7422070...e-04],
-           [  3.3622045...e-02,   1.2354556...e-02,   0.0000000...e+00],
-           [  1.0279500...e-04,   3.7121158...e-05,   0.0000000...e+00],
-           [  1.6428945...e-01,   3.7155917...e-02,   9.0850314...e-01],
-           [  3.4932169...e-01,   6.0328903...e-01,   9.9286989...e-01],
-           [  8.0206241...e-01,   9.5045240...e-01,   9.1829399...e-02],
-           [  6.4917552...e-01,   3.9663231...e-01,   4.7422070...e-04],
-           [  3.3724840...e-02,   1.2391678...e-02,   0.0000000...e+00],
-           [  1.5794874...e-03,   7.8651505...e-05,   6.9884362...e-03],
-           [  3.5079839...e-01,   6.0333056...e-01,   9.9985832...e-01],
-           [  9.6487517...e-01,   9.8756679...e-01,   9.9334411...e-01],
-           [  8.3568446...e-01,   9.6280696...e-01,   9.1829399...e-02],
-           [  6.4927831...e-01,   3.9666943...e-01,   4.7422070...e-04],
-           [  3.5201532...e-02,   1.2433208...e-02,   6.9884362...e-03],
-           [  1.6439224...e-01,   3.7193038...e-02,   9.0850314...e-01],
-           [  9.6635186...e-01,   9.8760832...e-01,   1.0003325...e+00],
-           [  9.9849722...e-01,   9.9992134...e-01,   9.9334411...e-01],
-           [  8.3578726...e-01,   9.6284408...e-01,   9.1829399...e-02],
-           [  6.5075501...e-01,   3.9671096...e-01,   7.4626569...e-03],
-           [  1.9801429...e-01,   4.9547595...e-02,   9.0850314...e-01],
-           [  3.5090118...e-01,   6.0336768...e-01,   9.9985832...e-01],
-           [  9.9997391...e-01,   9.9996287...e-01,   1.0003325...e+00],
-           [  9.9860001...e-01,   9.9995847...e-01,   9.9334411...e-01],
-           [  8.3726395...e-01,   9.6288561...e-01,   9.8817836...e-02],
-           [  8.1356776...e-01,   4.3382535...e-01,   9.0897737...e-01],
-           [  3.8452323...e-01,   6.1572224...e-01,   9.9985832...e-01],
-           [  9.6645466...e-01,   9.8764544...e-01,   1.0003325...e+00],
-           [  1.0000767...e+00,   1.0000000...e+00,   1.0003325...e+00]])
-
+           [  9.6361381...e-05,   2.9056776...e-06,   4.4961226...e-04],
+           [  2.5910529...e-01,   2.1031298...e-02,   1.3207468...e+00],
+           [  1.0561021...e-01,   6.2038243...e-01,   3.5423571...e-02],
+           [  7.2647980...e-01,   3.5460869...e-01,   2.1005149...e-04],
+           [  1.0971874...e-02,   3.9635453...e-03,   0.0000000...e+00],
+           [  3.0792572...e-05,   1.1119762...e-05,   0.0000000...e+00],
+           [  2.5920165...e-01,   2.1034203...e-02,   1.3211965...e+00],
+           [  3.6471551...e-01,   6.4141373...e-01,   1.3561704...e+00],
+           [  8.3209002...e-01,   9.7499113...e-01,   3.5633622...e-02],
+           [  7.3745167...e-01,   3.5857224...e-01,   2.1005149...e-04],
+           [  1.1002667...e-02,   3.9746651...e-03,   0.0000000...e+00],
+           [  1.2715395...e-04,   1.4025439...e-05,   4.4961226...e-04],
+           [  3.6481187...e-01,   6.4141663...e-01,   1.3566200...e+00],
+           [  1.0911953...e+00,   9.9602242...e-01,   1.3563805...e+00],
+           [  8.4306189...e-01,   9.7895467...e-01,   3.5633622...e-02],
+           [  7.3748247...e-01,   3.5858336...e-01,   2.1005149...e-04],
+           [  1.1099028...e-02,   3.9775708...e-03,   4.4961226...e-04],
+           [  2.5923244...e-01,   2.1045323...e-02,   1.3211965...e+00],
+           [  1.0912916...e+00,   9.9602533...e-01,   1.3568301...e+00],
+           [  1.1021671...e+00,   9.9998597...e-01,   1.3563805...e+00],
+           [  8.4309268...e-01,   9.7896579...e-01,   3.5633622...e-02],
+           [  7.3757883...e-01,   3.5858626...e-01,   6.5966375...e-04],
+           [  2.7020432...e-01,   2.5008868...e-02,   1.3211965...e+00],
+           [  3.6484266...e-01,   6.4142775...e-01,   1.3566200...e+00],
+           [  1.1022635...e+00,   9.9998888...e-01,   1.3568301...e+00],
+           [  1.1021979...e+00,   9.9999709...e-01,   1.3563805...e+00],
+           [  8.4318905...e-01,   9.7896870...e-01,   3.6083235...e-02],
+           [  9.9668412...e-01,   3.7961756...e-01,   1.3214065...e+00],
+           [  3.7581454...e-01,   6.4539130...e-01,   1.3566200...e+00],
+           [  1.0913224...e+00,   9.9603645...e-01,   1.3568301...e+00],
+           [  1.1022943...e+00,   1.0000000...e+00,   1.3568301...e+00]])
     """
 
-    key = (interval, hash(cmfs), hash(illuminant))
+    settings = {'method': 'Integration', 'shape': cmfs.shape}
+    settings.update(kwargs)
+
+    key = (hash(cmfs), hash(illuminant), six.text_type(settings))
     XYZ = _XYZ_OUTER_SURFACE_CACHE.get(key)
+
     if XYZ is None:
-        wavelengths = SpectralShape(DEFAULT_SPECTRAL_SHAPE.start,
-                                    DEFAULT_SPECTRAL_SHAPE.end,
-                                    interval).range()
-        values = []
-        domain = DEFAULT_SPECTRAL_SHAPE.range()
-        for wave in generate_pulse_waves(len(wavelengths)):
-            values.append(
-                NearestNeighbourInterpolator(wavelengths, wave)(domain))
-
-        XYZ = multi_sds_to_XYZ_integration(
-            values, cmfs, illuminant, shape=DEFAULT_SPECTRAL_SHAPE)
-
-        XYZ = XYZ / np.max(XYZ[-1, 1])
+        pulse_waves = generate_pulse_waves(len(cmfs.wavelengths))
+        XYZ = multi_sds_to_XYZ(pulse_waves, cmfs, illuminant, **settings) / 100
 
         _XYZ_OUTER_SURFACE_CACHE[key] = XYZ
 
@@ -218,11 +225,11 @@ def XYZ_outer_surface(
 
 def is_within_visible_spectrum(
         XYZ,
-        interval=10,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
-            'CIE 1931 2 Degree Standard Observer'].shape),
-        tolerance=None):
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
+        illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
+        tolerance=None,
+        **kwargs):
     """
     Returns if given *CIE XYZ* tristimulus values are within visible spectrum
     volume / given colour matching functions volume.
@@ -231,15 +238,18 @@ def is_within_visible_spectrum(
     ----------
     XYZ : array_like
         *CIE XYZ* tristimulus values.
-    interval : int, optional
-        Wavelength :math:`\\lambda_{i}` range interval used to compute the
-        pulse waves for the *CIE XYZ* colourspace outer surface.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     tolerance : numeric, optional
         Tolerance allowed in the inside-triangle check.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.multi_sds_to_XYZ`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -266,12 +276,11 @@ def is_within_visible_spectrum(
     array([ True, False], dtype=bool)
     """
 
-    key = (interval, hash(cmfs), hash(illuminant))
+    key = (hash(cmfs), hash(illuminant), six.text_type(kwargs))
     vertices = _XYZ_OUTER_SURFACE_POINTS_CACHE.get(key)
+
     if vertices is None:
         _XYZ_OUTER_SURFACE_POINTS_CACHE[key] = vertices = (XYZ_outer_surface(
-            interval,
-            STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-            illuminant))
+            cmfs, illuminant, **kwargs))
 
     return is_within_mesh_volume(XYZ, vertices, tolerance)

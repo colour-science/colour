@@ -8,7 +8,8 @@ from __future__ import division, unicode_literals
 import unittest
 from matplotlib.pyplot import Axes, Figure
 
-from colour.colorimetry import ILLUMINANTS_SDS
+from colour.colorimetry import (ILLUMINANTS_SDS, SpectralShape,
+                                STANDARD_OBSERVERS_CMFS)
 from colour.plotting import (plot_chromaticity_diagram_CIE1931,
                              plot_chromaticity_diagram_CIE1960UCS,
                              plot_chromaticity_diagram_CIE1976UCS,
@@ -20,10 +21,10 @@ from colour.plotting.diagrams import (
     plot_chromaticity_diagram, plot_sds_in_chromaticity_diagram)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -67,6 +68,13 @@ class TestPlotSpectralLocus(unittest.TestCase):
 
         figure, axes = plot_spectral_locus(
             method='CIE 1976 UCS', spectral_locus_colours='RGB')
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_spectral_locus(STANDARD_OBSERVERS_CMFS[
+            'CIE 1931 2 Degree Standard Observer'].copy().align(
+                SpectralShape(400, 700, 10)))
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

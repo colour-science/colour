@@ -34,6 +34,7 @@ Common
     batch
     disable_multiprocessing
     multiprocessing_pool
+    is_matplotlib_installed
     is_networkx_installed
     is_openimageio_installed
     is_pandas_installed
@@ -113,6 +114,7 @@ Data Structures
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     CaseInsensitiveMapping
     Lookup
@@ -143,6 +145,7 @@ Verbose
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     ColourWarning
     ColourUsageWarning

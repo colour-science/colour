@@ -3,29 +3,166 @@
 Common Colour Models Utilities
 ==============================
 
-Defines various colour models common utilities.
+Defines various colour models common utilities:
+
+-   :func:`colour.models.Jab_to_JCh`
+-   :func:`colour.models.JCh_to_Jab`
+
+References
+----------
+-   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
+    spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
+    ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
 
-from colour.models import (
-    Lab_to_DIN99, Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv, XYZ_to_IPT,
-    XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_Lab, XYZ_to_Luv,
-    XYZ_to_OSA_UCS, XYZ_to_UCS, XYZ_to_UVW, XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT,
-    XYZ_to_JzAzBz, XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
-from colour.utilities import domain_range_scale
+import numpy as np
+
+from colour.algebra import cartesian_to_polar, polar_to_cartesian
+from colour.utilities import (domain_range_scale, from_range_degrees,
+                              to_domain_degrees, tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'COLOURSPACE_MODELS', 'COLOURSPACE_MODELS_AXIS_LABELS',
-    'XYZ_to_colourspace_model'
+    'Jab_to_JCh', 'JCh_to_Jab', 'COLOURSPACE_MODELS',
+    'COLOURSPACE_MODELS_AXIS_LABELS', 'XYZ_to_colourspace_model'
 ]
+
+
+def Jab_to_JCh(Jab):
+    """
+    Converts from *Jab** colour representation to *JCh* colour representation.
+
+    This definition is used to perform conversion from *CIE L\\*a\\*b\\**
+    colourspace to *CIE L\\*C\\*Hab* colourspace and for other similar
+    conversions. It implements a generic transformation from Lightness
+    :math:`J`, :math:`a` and :math:`b` opponent colour dimensions to the
+    correlates of Lightness :math:`J`, chroma :math:`C` and hue angle
+    :math:`h`.
+
+    Parameters
+    ----------
+    Jab : array_like
+        *Jab** colour representation array.
+
+    Returns
+    -------
+    ndarray
+        *JCh* colour representation array.
+
+    Notes
+    -----
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``Jab``    | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``JCh``    | ``J``  : [0, 100]     | ``J`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``C``  : [0, 100]     | ``C`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
+    +------------+-----------------------+-----------------+
+
+    References
+    ----------
+    :cite:`CIETC1-482004m`
+
+    Examples
+    --------
+    >>> Jab = np.array([41.52787529, 52.63858304, 26.92317922])
+    >>> Jab_to_JCh(Jab)  # doctest: +ELLIPSIS
+    array([ 41.5278752...,  59.1242590...,  27.0884878...])
+    """
+
+    L, a, b = tsplit(Jab)
+
+    C, H = tsplit(cartesian_to_polar(tstack([a, b])))
+
+    JCh = tstack([L, C, from_range_degrees(np.degrees(H) % 360)])
+
+    return JCh
+
+
+def JCh_to_Jab(JCh):
+    """
+    Converts from *JCh* colour representation to *Jab** colour representation.
+
+    This definition is used to perform conversion from *CIE L\\*C\\*Hab*
+    colourspace to *CIE L\\*a\\*b\\** colourspace and for other similar
+    conversions. It implements a generic transformation from the correlates of
+    Lightness :math:`J`, chroma :math:`C` and hue angle :math:`h` to Lightness
+    :math:`J`, :math:`a` and :math:`b` opponent colour dimensions.
+
+    Parameters
+    ----------
+    JCh : array_like
+        *JCh* colour representation array.
+
+    Returns
+    -------
+    ndarray
+        *Jab** colour representation array.
+
+    Notes
+    -----
+
+    +-------------+-----------------------+-----------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1**   |
+    +=============+=======================+=================+
+    | ``JCh``     | ``J``  : [0, 100]     | ``J``  : [0, 1] |
+    |             |                       |                 |
+    |             | ``C``  : [0, 100]     | ``C``  : [0, 1] |
+    |             |                       |                 |
+    |             | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
+    +-------------+-----------------------+-----------------+
+
+    +-------------+-----------------------+-----------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1**   |
+    +=============+=======================+=================+
+    | ``Jab``     | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
+    |             |                       |                 |
+    |             | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |             |                       |                 |
+    |             | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +-------------+-----------------------+-----------------+
+
+    References
+    ----------
+    :cite:`CIETC1-482004m`
+
+    Examples
+    --------
+    >>> JCh = np.array([41.52787529, 59.12425901, 27.08848784])
+    >>> JCh_to_Jab(JCh)  # doctest: +ELLIPSIS
+    array([ 41.5278752...,  52.6385830...,  26.9231792...])
+    """
+
+    L, C, H = tsplit(JCh)
+
+    a, b = tsplit(
+        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
+
+    Jab = tstack([L, a, b])
+
+    return Jab
+
 
 COLOURSPACE_MODELS = ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
                       'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv',
@@ -165,6 +302,12 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
 CIE LCHab, CIE Luv, CIE Luv uv, CIE LCHuv, CIE UCS, CIE UCS uv, CIE UVW, \
 DIN 99, Hunter Lab, Hunter Rdab, IPT, JzAzBz, OSA UCS, hdr-CIELAB, hdr-IPT".
     """
+
+    from colour.models import (
+        Lab_to_DIN99, Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv,
+        XYZ_to_IPT, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_Lab,
+        XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_UCS, XYZ_to_UVW, XYZ_to_hdr_CIELab,
+        XYZ_to_hdr_IPT, XYZ_to_JzAzBz, XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
 
     with domain_range_scale(1):
         values = None

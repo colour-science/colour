@@ -24,6 +24,14 @@ The draft release notes from the
 branch are available at this
 `url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`__.
 
+Sponsors
+--------
+
+We are grateful for the support of our
+`sponsors <https://github.com/colour-science/colour/blob/develop/SPONSORS.rst>`__.
+If you'd like to join them, please consider
+`becoming a sponsor on OpenCollective <https://opencollective.com/colour-science>`__.
+
 Features
 --------
 
@@ -671,6 +679,7 @@ RGB Colourspaces
      'DCDM XYZ',
      'DCI-P3',
      'DCI-P3+',
+     'Display P3',
      'DJI D-Gamut',
      'DRAGONcolor',
      'DRAGONcolor2',
@@ -935,6 +944,14 @@ Colour Quality Scale
     >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2'])
     64.151520202968015
 
+Academy Spectral Similarity Index (SSI)
+***************************************
+
+.. code-block:: python
+
+    >>> colour.spectral_similarity_index(colour.ILLUMINANTS_SDS['C'], colour.ILLUMINANTS_SDS['D65'])
+    94.0
+
 Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1178,7 +1195,7 @@ is available on the `Code of Conduct <https://www.colour-science.org/code-of-con
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2019
-| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`__
+| **Colour** by Colour Developers
+| Copyright © 2013-2020 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

@@ -7,7 +7,7 @@
 .. |NumFOCUS| image:: https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat-square&colorA=E1523D&colorB=007D8A
     :target: http://numfocus.org
     :alt: Powered by NumFOCUS
-.. |actions| image:: https://github.com/colour-science/colour/workflows/Continuous%20Integration/badge.svg
+.. |actions| image:: https://img.shields.io/github/workflow/status/colour-science/colour/Continuous%20Integration?label=actions&logo=github&style=flat-square
     :target: https://github.com/colour-science/colour/actions
     :alt: Develop Build Status
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
@@ -19,8 +19,8 @@
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.org/project/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.3519603-blue.svg?style=flat-square
-    :target: https://dx.doi.org/10.5281/zenodo.3519603
+.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.3627408-blue.svg?style=flat-square
+    :target: https://dx.doi.org/10.5281/zenodo.3627408
     :alt: DOI
 
 .. end-badges
@@ -48,6 +48,56 @@ The draft release notes of the
 `develop <https://github.com/colour-science/colour/tree/develop>`__
 branch are available at this
 `url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`__.
+
+Sponsors
+--------
+
+We are grateful 💖 for the support of our
+`sponsors <https://github.com/colour-science/colour/blob/develop/SPONSORS.rst>`__.
+If you'd like to join them, please consider
+`becoming a sponsor on OpenCollective <https://opencollective.com/colour-science>`__.
+
+.. raw:: html
+
+    <h2 align="center">Special Sponsors</h2>
+
+.. raw:: html
+
+    <table>
+        <tbody>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://www.jetbrains.com/" target="_blank">
+                        <img height="176px" src="https://i.imgur.com/nN1VDUG.png">
+                    </a>
+                    <p><a href="https://www.jetbrains.com/" target="_blank">JetBrains</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://github.com/sobotka" target="_blank">
+                        <img width="176px" src="https://avatars2.githubusercontent.com/u/59577">
+                    </a>
+                    <p><a href="https://github.com/sobotka" target="_blank">Troy James Sobotka</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://github.com/remia" target="_blank">
+                        <img width="176px" src="https://avatars3.githubusercontent.com/u/1922806">
+                    </a>
+                    <p><a href="https://github.com/remia" target="_blank">Remi Achard</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="http://virtualmatter.org/" target="_blank">
+                        <img width="176px" src="https://ca.slack-edge.com/T02KH93GH-UCFD09UUT-g2f156f5e08e-512">
+                    </a>
+                    <p><a href="http://virtualmatter.org/" target="_blank">Kevin Whitfield</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 Features
 --------
@@ -691,6 +741,7 @@ RGB Colourspaces
      'DCDM XYZ',
      'DCI-P3',
      'DCI-P3+',
+     'Display P3',
      'DJI D-Gamut',
      'DRAGONcolor',
      'DRAGONcolor2',
@@ -955,6 +1006,14 @@ Colour Quality Scale
     >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2'])
     64.151520202968015
 
+Academy Spectral Similarity Index (SSI)
+***************************************
+
+.. code-block:: python
+
+    >>> colour.spectral_similarity_index(colour.ILLUMINANTS_SDS['C'], colour.ILLUMINANTS_SDS['D65'])
+    94.0
+
 Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1195,10 +1254,71 @@ Code of Conduct
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
 is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
 
+Thank You!
+----------
+
+.. raw:: html
+
+    <h3 align="center">Coffee Sponsors</h3>
+
+.. raw:: html
+
+    <table>
+        <tbody>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://opencollective.com/static/images/default-anonymous-logo.svg" target="_blank">
+                        <img width="98px" src="https://opencollective.com/static/images/default-anonymous-logo.svg">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2019
-| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`__
+| **Colour** by Colour Developers
+| Copyright © 2013-2020 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

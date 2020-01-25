@@ -19,10 +19,10 @@ from colour.io.luts.common import parse_array, path_to_title
 from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['read_LUT_SonySPI3D', 'write_LUT_SonySPI3D']
@@ -87,8 +87,9 @@ def read_LUT_SonySPI3D(path):
 
     assert np.array_equal(
         indexes,
-        DEFAULT_INT_DTYPE(LUT3D.linear_table(size) * (size - 1)).reshape(
-            (-1, 3))), 'Indexes do not match expected "LUT3D" indexes!'
+        DEFAULT_INT_DTYPE(np.around(
+            LUT3D.linear_table(size) * (size - 1))).reshape(
+                (-1, 3))), 'Indexes do not match expected "LUT3D" indexes!'
 
     table = as_float_array(table).reshape([size, size, size, 3])
 
@@ -163,7 +164,8 @@ def write_LUT_SonySPI3D(LUT, path, decimals=7):
         spi3d_file.write('{0} {0} {0}\n'.format(LUT.size))
 
         indexes = DEFAULT_INT_DTYPE(
-            LUT.linear_table(LUT.size) * (LUT.size - 1)).reshape([-1, 3])
+            np.around(LUT.linear_table(LUT.size) * (LUT.size - 1))).reshape(
+                [-1, 3])
         table = LUT.table.reshape([-1, 3])
 
         for i, row in enumerate(indexes):
