@@ -358,7 +358,9 @@ class TestFilterCmfs(unittest.TestCase):
         """
 
         self.assertListEqual(
-            sorted(filter_cmfs(['.*2 Degree.*']).keys()), [
+            sorted([
+                cmfs.name for cmfs in filter_cmfs(['.*2 Degree.*']).values()
+            ]), [
                 'CIE 1931 2 Degree Standard Observer',
                 'CIE 2012 2 Degree Standard Observer',
                 'Stiles & Burch 1955 2 Degree RGB CMFs',
