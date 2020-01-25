@@ -79,8 +79,6 @@ The various sub-packages also expose their public API:
 
     from pprint import pprint
 
-    import colour.plotting
-
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
                         'blindness', 'characterisation', 'colorimetry',
                         'constants', 'continuous', 'contrast', 'corresponding',

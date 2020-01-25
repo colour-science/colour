@@ -698,7 +698,6 @@ def filter_passthrough(mapping,
 plot_multi_illuminant_sds` definition is as follows:
 
     >>> import colour
-    >>> import colour.plotting
     >>> colour.plotting.plot_multi_illuminant_sds(['A'])
     ... # doctest: +SKIP
 
