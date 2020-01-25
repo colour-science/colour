@@ -57,6 +57,8 @@ We are grateful 💖 for the support of our
 If you'd like to join them, please consider
 `becoming a sponsor on OpenCollective <https://opencollective.com/colour-science>`__.
 
+.. begin-trim-long-description
+
 .. raw:: html
 
     <h2 align="center">Special Sponsors</h2>
@@ -98,6 +100,8 @@ If you'd like to join them, please consider
             </tr>
         </tbody>
     </table>
+
+.. end-trim-long-description
 
 Features
 --------
@@ -1254,6 +1258,8 @@ Code of Conduct
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
 is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
 
+.. begin-trim-long-description
+
 Thank You!
 ----------
 
@@ -1314,6 +1320,8 @@ Thank You!
             </tr>
         </tbody>
     </table>
+
+.. end-trim-long-description
 
 About
 -----

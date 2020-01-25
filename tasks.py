@@ -352,6 +352,10 @@ def build(ctx):
     """
 
     message_box('Building...')
+    if 'modified:   pyproject.toml' in ctx.run('git status').stdout:
+        raise RuntimeError(
+            'Please commit your changes to the "pyproject.toml" file!')
+
     pyproject_content = toml.load('pyproject.toml')
     pyproject_content['tool']['poetry']['name'] = PYPI_PACKAGE_NAME
     pyproject_content['tool']['poetry']['packages'] = [{
@@ -361,8 +365,25 @@ def build(ctx):
     with open('pyproject.toml', 'w') as pyproject_file:
         toml.dump(pyproject_content, pyproject_file)
 
+    if 'modified:   README.rst' in ctx.run('git status').stdout:
+        raise RuntimeError(
+            'Please commit your changes to the "README.rst" file!')
+
+    with open('README.rst', 'r') as readme_file:
+        readme_content = readme_file.read()
+
+    with open('README.rst', 'w') as readme_file:
+        readme_file.write(
+            re.sub(
+                ('(\\.\\. begin-trim-long-description.*?'
+                 '\\.\\. end-trim-long-description)'),
+                '',
+                readme_content,
+                flags=re.DOTALL))
+
     ctx.run('poetry build')
     ctx.run('git checkout -- pyproject.toml')
+    ctx.run('git checkout -- README.rst')
 
     with ctx.cd('dist'):
         ctx.run('tar -xvf {0}-{1}.tar.gz'.format(PYPI_PACKAGE_NAME,
@@ -404,6 +425,8 @@ setup({0}
 
     with open('setup.py', 'w') as setup_file:
         setup_file.write(source)
+
+    ctx.run('twine check dist/*')
 
 
 @task
@@ -488,7 +511,7 @@ def tag(ctx):
         ctx.run('git flow release finish v{0}'.format(version))
 
 
-@task(clean, build)
+@task(build)
 def release(ctx):
     """
     Releases the project to *Pypi* with *Twine*.
