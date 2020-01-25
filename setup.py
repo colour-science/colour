@@ -146,7 +146,7 @@ extras_require = \
 
 setup(
     name='colour-science',
-    version='0.3.14',
+    version='0.3.15',
     description='Colour Science for Python',
     long_description=open('README.rst').read(),
     author='Colour Developers',
