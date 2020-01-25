@@ -488,7 +488,7 @@ def tag(ctx):
         ctx.run('git flow release finish v{0}'.format(version))
 
 
-@task(clean, build)
+@task(build)
 def release(ctx):
     """
     Releases the project to *Pypi* with *Twine*.
