@@ -113,9 +113,9 @@ def sd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
                           [ 690.        ,  191.9309499...],
                           [ 700.        ,  198.2612232...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     wavelengths = shape.range()
@@ -275,9 +275,9 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
                           [ 825.     ,   58.8765...],
                           [ 830.     ,   60.3125...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     x, y = tsplit(xy)

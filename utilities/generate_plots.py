@@ -176,8 +176,7 @@ def generate_documentation_plots(output_directory):
         output_directory, 'Examples_Plotting_ColorChecker_2005.png')
     plt.close(
         plot_single_colour_checker(
-            'ColorChecker 2005',
-            text_parameters={'visible': False},
+            'ColorChecker 2005', text_kwargs={'visible': False},
             **arguments)[0])
 
     arguments['filename'] = os.path.join(
@@ -794,7 +793,7 @@ def generate_documentation_plots(output_directory):
     plt.close(
         plot_single_colour_swatch(
             ColourSwatch('Sample', RGB),
-            text_parameters={'size': 'x-large'},
+            text_kwargs={'size': 'x-large'},
             **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
@@ -807,7 +806,7 @@ def generate_documentation_plots(output_directory):
     plt.close(
         plot_single_colour_swatch(
             ColourSwatch(patch_name.title(), RGB),
-            text_parameters={'size': 'x-large'},
+            text_kwargs={'size': 'x-large'},
             **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
@@ -815,7 +814,7 @@ def generate_documentation_plots(output_directory):
     plt.close(
         plot_single_colour_checker(
             colour_checker='ColorChecker 2005',
-            text_parameters={'visible': False},
+            text_kwargs={'visible': False},
             **arguments)[0])
 
     arguments['filename'] = os.path.join(
@@ -848,8 +847,7 @@ def generate_documentation_plots(output_directory):
                                   'Logo_Small_001.png'))[..., 0:3]
     XYZ = sRGB_to_XYZ(RGB)
     plt.close(
-        plot_image(XYZ, text_parameters={'text': 'sRGB to XYZ'},
-                   **arguments)[0])
+        plot_image(XYZ, text_kwargs={'text': 'sRGB to XYZ'}, **arguments)[0])
 
 
 if __name__ == '__main__':

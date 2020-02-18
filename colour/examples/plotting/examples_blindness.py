@@ -27,7 +27,7 @@ message_box('Colour Blindness Plots')
 message_box('Displaying "Ishihara Colour Blindness Test - Plate 3".')
 plot_image(
     colour.cctf_encoding(ISHIHARA_CBT_3_IMAGE),
-    text_parameters={
+    text_kwargs={
         'text': 'Normal Trichromat',
         'color': 'black'
     })
@@ -41,7 +41,7 @@ plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE,
     'Protanomaly',
     0.5,
-    text_parameters={
+    text_kwargs={
         'text': 'Protanomaly - 50%',
         'color': 'black'
     })
@@ -59,7 +59,7 @@ message_box('Simulating average "Protanomaly" on '
 plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE,
     M_a=M_a,
-    text_parameters={
+    text_kwargs={
         'text': 'Average Protanomaly - 10nm',
         'color': 'black'
     })
@@ -77,7 +77,7 @@ message_box('Simulating "Protanopia" on '
 plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE,
     M_a=M_a,
-    text_parameters={
+    text_kwargs={
         'text': 'Protanopia - 20nm',
         'color': 'black'
     })

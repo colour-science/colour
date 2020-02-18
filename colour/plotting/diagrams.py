@@ -29,6 +29,7 @@ from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
                              override_style, render)
 from colour.utilities import (domain_range_scale, first_item, is_string,
                               normalise_maximum, tstack, suppress_warnings)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -570,7 +571,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
 def plot_sds_in_chromaticity_diagram(
         sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate_parameters=None,
+        annotate_kwargs=None,
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         **kwargs):
@@ -589,11 +590,11 @@ def plot_sds_in_chromaticity_diagram(
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
-    annotate_parameters : dict or array_like, optional
+    annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
         distribution names if ``annotate`` is set to *True*.
-        ``annotate_parameters`` can be either a single dictionary applied to
+        ``annotate_kwargs`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
         different settings for each spectral distribution.
     chromaticity_diagram_callable : callable, optional
@@ -609,6 +610,7 @@ def plot_sds_in_chromaticity_diagram(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -628,6 +630,10 @@ def plot_sds_in_chromaticity_diagram(
         :align: center
         :alt: plot_sds_in_chromaticity_diagram
     """
+
+    annotate_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     sds = sds_and_multi_sds_to_sds(sds)
 
@@ -694,17 +700,17 @@ def plot_sds_in_chromaticity_diagram(
         'arrowprops': COLOUR_ARROW_STYLE,
     } for _ in range(len(sds))]
 
-    if annotate_parameters is not None:
-        if not isinstance(annotate_parameters, dict):
-            assert len(annotate_parameters) == len(sds), (
+    if annotate_kwargs is not None:
+        if not isinstance(annotate_kwargs, dict):
+            assert len(annotate_kwargs) == len(sds), (
                 'Multiple annotate parameters defined, but they do not match '
                 'the spectral distributions count!')
 
         for i, annotate_settings in enumerate(annotate_settings_collection):
-            if isinstance(annotate_parameters, dict):
-                annotate_settings.update(annotate_parameters)
+            if isinstance(annotate_kwargs, dict):
+                annotate_settings.update(annotate_kwargs)
             else:
-                annotate_settings.update(annotate_parameters[i])
+                annotate_settings.update(annotate_kwargs[i])
 
     for i, sd in enumerate(sds):
         with domain_range_scale('1'):
@@ -740,7 +746,7 @@ def plot_sds_in_chromaticity_diagram(
 def plot_sds_in_chromaticity_diagram_CIE1931(
         sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate_parameters=None,
+        annotate_kwargs=None,
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
         **kwargs):
@@ -759,11 +765,11 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
-    annotate_parameters : dict or array_like, optional
+    annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
         distribution names if ``annotate`` is set to *True*.
-        ``annotate_parameters`` can be either a single dictionary applied to
+        ``annotate_kwargs`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
         different settings for each spectral distribution.
     chromaticity_diagram_callable_CIE1931 : callable, optional
@@ -776,6 +782,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -798,11 +805,15 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
         :alt: plot_sds_in_chromaticity_diagram_CIE1931
     """
 
+    annotate_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
     return plot_sds_in_chromaticity_diagram(
-        sds, cmfs, annotate_parameters, chromaticity_diagram_callable_CIE1931,
+        sds, cmfs, annotate_kwargs, chromaticity_diagram_callable_CIE1931,
         **settings)
 
 
@@ -810,7 +821,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
 def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate_parameters=None,
+        annotate_kwargs=None,
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
         **kwargs):
@@ -829,11 +840,11 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
-    annotate_parameters : dict or array_like, optional
+    annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
         distribution names if ``annotate`` is set to *True*.
-        ``annotate_parameters`` can be either a single dictionary applied to
+        ``annotate_kwargs`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
         different settings for each spectral distribution.
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
@@ -847,6 +858,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -869,19 +881,23 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
         :alt: plot_sds_in_chromaticity_diagram_CIE1960UCS
     """
 
+    annotate_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
     return plot_sds_in_chromaticity_diagram(
-        sds, cmfs, annotate_parameters,
-        chromaticity_diagram_callable_CIE1960UCS, **settings)
+        sds, cmfs, annotate_kwargs, chromaticity_diagram_callable_CIE1960UCS,
+        **settings)
 
 
 @override_style()
 def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate_parameters=None,
+        annotate_kwargs=None,
         chromaticity_diagram_callable_CIE1976UCS=(
             plot_chromaticity_diagram_CIE1976UCS),
         **kwargs):
@@ -900,11 +916,11 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
-    annotate_parameters : dict or array_like, optional
+    annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
         distribution names if ``annotate`` is set to *True*.
-        ``annotate_parameters`` can be either a single dictionary applied to
+        ``annotate_kwargs`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
         different settings for each spectral distribution.
     chromaticity_diagram_callable_CIE1976UCS : callable, optional
@@ -918,6 +934,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -940,9 +957,13 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
         :alt: plot_sds_in_chromaticity_diagram_CIE1976UCS
     """
 
+    annotate_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
     return plot_sds_in_chromaticity_diagram(
-        sds, cmfs, annotate_parameters,
-        chromaticity_diagram_callable_CIE1976UCS, **settings)
+        sds, cmfs, annotate_kwargs, chromaticity_diagram_callable_CIE1976UCS,
+        **settings)

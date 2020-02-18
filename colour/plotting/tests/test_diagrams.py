@@ -208,7 +208,7 @@ plot_sds_in_chromaticity_diagram` definition unit tests methods.
 
         figure, axes = plot_sds_in_chromaticity_diagram(
             [ILLUMINANTS_SDS['A'], ILLUMINANTS_SDS['D65']],
-            annotate_parameters={'arrowprops': {
+            annotate_kwargs={'arrowprops': {
                 'width': 10
             }})
 
@@ -217,7 +217,7 @@ plot_sds_in_chromaticity_diagram` definition unit tests methods.
 
         figure, axes = plot_sds_in_chromaticity_diagram(
             [ILLUMINANTS_SDS['A'], ILLUMINANTS_SDS['D65']],
-            annotate_parameters=[
+            annotate_kwargs=[
                 {
                     'arrowprops': {
                         'width': 10

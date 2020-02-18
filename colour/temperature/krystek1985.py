@@ -32,6 +32,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.utilities import as_float_array, as_numeric, tstack
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -43,7 +44,7 @@ __status__ = 'Production'
 __all__ = ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
 
 
-def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
+def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE UCS* colourspace *uv* chromaticity coordinates using *Krystek (1985)*
@@ -53,8 +54,13 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
     ----------
     uv : array_like
          *CIE UCS* colourspace *uv* chromaticity coordinates.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -85,6 +91,10 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
     6504.3894290...
     """
 
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_args', 'optimisation_kwargs']],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
+
     uv = as_float_array(uv)
     shape = uv.shape
     uv = np.atleast_1d(uv.reshape([-1, 2]))
@@ -104,8 +114,8 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
             'fatol': 1e-10,
         },
     }
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     CCT = as_float_array([
         minimize(

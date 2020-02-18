@@ -72,7 +72,7 @@ def luminous_flux(sd,
 
     lef = lef.copy().align(
         sd.shape,
-        extrapolator_args={
+        extrapolator_kwargs={
             'method': 'Constant',
             'left': 0,
             'right': 0
@@ -116,7 +116,7 @@ def luminous_efficiency(
 
     lef = lef.copy().align(
         sd.shape,
-        extrapolator_args={
+        extrapolator_kwargs={
             'method': 'Constant',
             'left': 0,
             'right': 0

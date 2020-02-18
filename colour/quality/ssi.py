@@ -94,7 +94,7 @@ def spectral_similarity_index(sd_test, sd_reference):
 
     settings = {
         'interpolator': LinearInterpolator,
-        'extrapolator_args': {
+        'extrapolator_kwargs': {
             'left': 0,
             'right': 0
         }

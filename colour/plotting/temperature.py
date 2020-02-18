@@ -25,6 +25,7 @@ from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
                              filter_passthrough, override_style, render)
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import tstack
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -216,7 +217,7 @@ def plot_planckian_locus_CIE1960UCS(planckian_locus_colours=None, **kwargs):
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram(
         illuminants=None,
-        annotate_parameters=None,
+        annotate_kwargs=None,
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         planckian_locus_callable=plot_planckian_locus,
         method='CIE 1931',
@@ -229,10 +230,10 @@ def plot_planckian_locus_in_chromaticity_diagram(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
-    annotate_parameters : dict or array_like, optional
+    annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective illuminant
-        names if ``annotate`` is set to *True*. ``annotate_parameters`` can be
+        names if ``annotate`` is set to *True*. ``annotate_kwargs`` can be
         either a single dictionary applied to all the arrows with same settings
         or a sequence of dictionaries with different settings for each
         illuminant.
@@ -252,6 +253,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
         :func:`colour.plotting.temperature.plot_planckian_locus`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -270,6 +272,10 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :align: center
         :alt: plot_planckian_locus_in_chromaticity_diagram
     """
+
+    annotate_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
 
@@ -326,17 +332,17 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         'arrowprops': COLOUR_ARROW_STYLE,
     } for _ in range(len(illuminants))]
 
-    if annotate_parameters is not None:
-        if not isinstance(annotate_parameters, dict):
-            assert len(annotate_parameters) == len(illuminants), (
+    if annotate_kwargs is not None:
+        if not isinstance(annotate_kwargs, dict):
+            assert len(annotate_kwargs) == len(illuminants), (
                 'Multiple annotate parameters defined, but they do not match '
                 'the illuminants count!')
 
         for i, annotate_settings in enumerate(annotate_settings_collection):
-            if isinstance(annotate_parameters, dict):
-                annotate_settings.update(annotate_parameters)
+            if isinstance(annotate_kwargs, dict):
+                annotate_settings.update(annotate_kwargs)
             else:
-                annotate_settings.update(annotate_parameters[i])
+                annotate_settings.update(annotate_kwargs[i])
 
     for i, (illuminant, xy) in enumerate(illuminants.items()):
         ij = xy_to_ij(xy)
@@ -379,7 +385,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
         illuminants=None,
-        annotate_parameters=None,
+        annotate_kwargs=None,
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
         planckian_locus_callable_CIE1931=plot_planckian_locus_CIE1931,
@@ -392,10 +398,10 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
-    annotate_parameters : dict or array_like, optional
+    annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective illuminant
-        names if ``annotate`` is set to *True*. ``annotate_parameters`` can be
+        names if ``annotate`` is set to *True*. ``annotate_kwargs`` can be
         either a single dictionary applied to all the arrows with same settings
         or a sequence of dictionaries with different settings for each
         illuminant.
@@ -415,6 +421,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
 plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -434,19 +441,22 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
         :alt: plot_planckian_locus_in_chromaticity_diagram_CIE1931
     """
 
+    annotate_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
     return plot_planckian_locus_in_chromaticity_diagram(
-        illuminants, annotate_parameters,
-        chromaticity_diagram_callable_CIE1931,
+        illuminants, annotate_kwargs, chromaticity_diagram_callable_CIE1931,
         planckian_locus_callable_CIE1931, **settings)
 
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
         illuminants=None,
-        annotate_parameters=None,
+        annotate_kwargs=None,
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
         planckian_locus_callable_CIE1960UCS=plot_planckian_locus_CIE1960UCS,
@@ -459,10 +469,10 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
-    annotate_parameters : dict or array_like, optional
+    annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective illuminant
-        names if ``annotate`` is set to *True*. ``annotate_parameters`` can be
+        names if ``annotate`` is set to *True*. ``annotate_kwargs`` can be
         either a single dictionary applied to all the arrows with same settings
         or a sequence of dictionaries with different settings for each
         illuminant.
@@ -483,6 +493,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
 plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -502,10 +513,13 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
         :alt: plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS
     """
 
+    annotate_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
     return plot_planckian_locus_in_chromaticity_diagram(
-        illuminants, annotate_parameters,
-        chromaticity_diagram_callable_CIE1960UCS,
+        illuminants, annotate_kwargs, chromaticity_diagram_callable_CIE1960UCS,
         planckian_locus_callable_CIE1960UCS, **settings)

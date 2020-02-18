@@ -52,7 +52,7 @@ print(
         Jpapbp,
         'CAM16UCS',
         'sRGB',
-        verbose_parameters={
+        verbose_kwargs={
             'describe': 'Extended',
             'width': 75
         }))

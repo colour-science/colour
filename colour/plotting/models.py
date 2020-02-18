@@ -72,6 +72,7 @@ from colour.plotting import (
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
                               first_item, tsplit, tstack)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -647,7 +648,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
         chromaticity_diagram_callable=(
             plot_RGB_colourspaces_in_chromaticity_diagram),
         method='CIE 1931',
-        scatter_parameters=None,
+        scatter_kwargs=None,
         **kwargs):
     """
     Plots given *RGB* colourspace array in the *Chromaticity Diagram* according
@@ -664,7 +665,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     method : unicode, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
-    scatter_parameters : dict, optional
+    scatter_kwargs : dict, optional
         Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
         *RGB*, the scatter will use given ``RGB`` colours.
 
@@ -677,6 +678,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -698,6 +700,10 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram
     """
 
+    scatter_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
+
     RGB = as_float_array(RGB).reshape(-1, 3)
 
     settings = {'uniform': True}
@@ -713,8 +719,8 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         'marker': 'o',
         'alpha': 0.85,
     }
-    if scatter_parameters is not None:
-        scatter_settings.update(scatter_parameters)
+    if scatter_kwargs is not None:
+        scatter_settings.update(scatter_kwargs)
 
     settings = dict(kwargs)
     settings.update({'axes': axes, 'standalone': False})
@@ -761,7 +767,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1931=(
             plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931),
-        scatter_parameters=None,
+        scatter_kwargs=None,
         **kwargs):
     """
     Plots given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
@@ -774,7 +780,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         *RGB* colourspace of the *RGB* array.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
-    scatter_parameters : dict, optional
+    scatter_kwargs : dict, optional
         Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
         *RGB*, the scatter will use given ``RGB`` colours.
 
@@ -787,6 +793,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -808,6 +815,10 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931
     """
 
+    scatter_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
@@ -815,7 +826,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
         RGB,
         colourspace,
         chromaticity_diagram_callable_CIE1931,
-        scatter_parameters=scatter_parameters,
+        scatter_kwargs=scatter_kwargs,
         **settings)
 
 
@@ -825,7 +836,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS),
-        scatter_parameters=None,
+        scatter_kwargs=None,
         **kwargs):
     """
     Plots given *RGB* colourspace array in the
@@ -840,7 +851,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
-    scatter_parameters : dict, optional
+    scatter_kwargs : dict, optional
         Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
         *RGB*, the scatter will use given ``RGB`` colours.
 
@@ -853,6 +864,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -874,6 +886,10 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1960UCS.png
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS
     """
 
+    scatter_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
@@ -881,7 +897,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1960UCS.png
         RGB,
         colourspace,
         chromaticity_diagram_callable_CIE1960UCS,
-        scatter_parameters=scatter_parameters,
+        scatter_kwargs=scatter_kwargs,
         **settings)
 
 
@@ -891,7 +907,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1976UCS=(
             plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS),
-        scatter_parameters=None,
+        scatter_kwargs=None,
         **kwargs):
     """
     Plots given *RGB* colourspace array in the
@@ -906,7 +922,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     chromaticity_diagram_callable_CIE1976UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
-    scatter_parameters : dict, optional
+    scatter_kwargs : dict, optional
         Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
         *RGB*, the scatter will use given ``RGB`` colours.
 
@@ -919,6 +935,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -940,6 +957,10 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS
     """
 
+    scatter_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
@@ -947,7 +968,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
         RGB,
         colourspace,
         chromaticity_diagram_callable_CIE1976UCS,
-        scatter_parameters=scatter_parameters,
+        scatter_kwargs=scatter_kwargs,
         **settings)
 
 
@@ -1033,7 +1054,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         chromaticity_diagram_clipping=False,
-        ellipse_parameters=None,
+        ellipse_kwargs=None,
         **kwargs):
     """
     Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
@@ -1048,8 +1069,8 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         *Chromaticity Diagram* method.
     chromaticity_diagram_clipping : bool, optional,
         Whether to clip the *Chromaticity Diagram* colours with the ellipses.
-    ellipse_parameters : dict or array_like, optional
-        Parameters for the :class:`Ellipse` class, ``ellipse_parameters`` can
+    ellipse_kwargs : dict or array_like, optional
+        Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
         be either a single dictionary applied to all the ellipses with same
         settings or a sequence of dictionaries with different settings for each
         ellipse.
@@ -1061,6 +1082,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1079,6 +1101,10 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
         :align: center
         :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram
     """
+
+    ellipse_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['ellipse_args', 'ellipse_kwargs']],
+    }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -1121,17 +1147,17 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
         'linewidth': colour_style()['lines.linewidth']
     } for _ellipses_coefficient in ellipses_coefficients]
 
-    if ellipse_parameters is not None:
-        if not isinstance(ellipse_parameters, dict):
-            assert len(ellipse_parameters) == len(ellipses_coefficients), (
+    if ellipse_kwargs is not None:
+        if not isinstance(ellipse_kwargs, dict):
+            assert len(ellipse_kwargs) == len(ellipses_coefficients), (
                 'Multiple ellipse parameters defined, but they do not match '
                 'the ellipses count!')
 
         for i, ellipse_settings in enumerate(ellipse_settings_collection):
-            if isinstance(ellipse_parameters, dict):
-                ellipse_settings.update(ellipse_parameters)
+            if isinstance(ellipse_kwargs, dict):
+                ellipse_settings.update(ellipse_kwargs)
             else:
-                ellipse_settings.update(ellipse_parameters[i])
+                ellipse_settings.update(ellipse_kwargs[i])
 
     for i, coefficients in enumerate(ellipses_coefficients):
         x_c, y_c, a_a, a_b, theta_e = coefficients
@@ -1150,7 +1176,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
         chromaticity_diagram_clipping=False,
-        ellipse_parameters=None,
+        ellipse_kwargs=None,
         **kwargs):
     """
     Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
@@ -1163,8 +1189,8 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
     chromaticity_diagram_clipping : bool, optional,
         Whether to clip the *CIE 1931 Chromaticity Diagram* colours with the
         ellipses.
-    ellipse_parameters : dict or array_like, optional
-        Parameters for the :class:`Ellipse` class, ``ellipse_parameters`` can
+    ellipse_kwargs : dict or array_like, optional
+        Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
         be either a single dictionary applied to all the ellipses with same
         settings or a sequence of dictionaries with different settings for each
         ellipse.
@@ -1178,6 +1204,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
 plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1197,13 +1224,17 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1931.png
         :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931
     """
 
+    ellipse_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['ellipse_args', 'ellipse_kwargs']],
+    }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
     return plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable_CIE1931,
         chromaticity_diagram_clipping=chromaticity_diagram_clipping,
-        ellipse_parameters=ellipse_parameters,
+        ellipse_kwargs=ellipse_kwargs,
         **settings)
 
 
@@ -1212,7 +1243,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
         chromaticity_diagram_clipping=False,
-        ellipse_parameters=None,
+        ellipse_kwargs=None,
         **kwargs):
     """
     Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
@@ -1226,8 +1257,8 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
     chromaticity_diagram_clipping : bool, optional,
         Whether to clip the *CIE 1960 UCS Chromaticity Diagram* colours with
         the ellipses.
-    ellipse_parameters : dict or array_like, optional
-        Parameters for the :class:`Ellipse` class, ``ellipse_parameters`` can
+    ellipse_kwargs : dict or array_like, optional
+        Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
         be either a single dictionary applied to all the ellipses with same
         settings or a sequence of dictionaries with different settings for each
         ellipse.
@@ -1241,6 +1272,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
 plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1260,13 +1292,17 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1960UCS.png
         :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS
     """
 
+    ellipse_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['ellipse_args', 'ellipse_kwargs']],
+    }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
     return plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable_CIE1960UCS,
         chromaticity_diagram_clipping=chromaticity_diagram_clipping,
-        ellipse_parameters=ellipse_parameters,
+        ellipse_kwargs=ellipse_kwargs,
         **settings)
 
 
@@ -1275,7 +1311,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
         chromaticity_diagram_callable_CIE1976UCS=(
             plot_chromaticity_diagram_CIE1976UCS),
         chromaticity_diagram_clipping=False,
-        ellipse_parameters=None,
+        ellipse_kwargs=None,
         **kwargs):
     """
     Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
@@ -1289,8 +1325,8 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
     chromaticity_diagram_clipping : bool, optional,
         Whether to clip the *CIE 1976 UCS Chromaticity Diagram* colours with
         the ellipses.
-    ellipse_parameters : dict or array_like, optional
-        Parameters for the :class:`Ellipse` class, ``ellipse_parameters`` can
+    ellipse_kwargs : dict or array_like, optional
+        Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
         be either a single dictionary applied to all the ellipses with same
         settings or a sequence of dictionaries with different settings for each
         ellipse.
@@ -1304,6 +1340,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
 plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1323,13 +1360,17 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
         :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS
     """
 
+    ellipse_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['ellipse_args', 'ellipse_kwargs']],
+    }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
+
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
     return plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable_CIE1976UCS,
         chromaticity_diagram_clipping=chromaticity_diagram_clipping,
-        ellipse_parameters=ellipse_parameters,
+        ellipse_kwargs=ellipse_kwargs,
         **settings)
 
 
@@ -1438,7 +1479,7 @@ def plot_multi_cctfs(cctfs=None, cctf_decoding=False, **kwargs):
 
 
 @override_style()
-def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
+def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
     """
     Plots given constant hue loci colour matches data such as that from
     :cite:`Hung1995` or :cite:`Ebner1998` that are easily loaded with
@@ -1472,7 +1513,7 @@ def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
         'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
         'hdr-CIELAB', 'hdr-IPT'}**,
         Colourspace model.
-    scatter_parameters : dict, optional
+    scatter_kwargs : dict, optional
         Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
         *RGB*, the scatter will use given ``RGB`` colours.
 
@@ -1483,6 +1524,7 @@ def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1567,6 +1609,10 @@ def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
         :alt: plot_constant_hue_loci
     """
 
+    scatter_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
+
     # TODO: Filter appropriate colour models.
 
     data = data.values() if isinstance(data, Mapping) else data
@@ -1582,8 +1628,8 @@ def plot_constant_hue_loci(data, model, scatter_parameters=None, **kwargs):
         'marker': 'o',
         'alpha': 0.85,
     }
-    if scatter_parameters is not None:
-        scatter_settings.update(scatter_parameters)
+    if scatter_kwargs is not None:
+        scatter_settings.update(scatter_kwargs)
 
     use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
 

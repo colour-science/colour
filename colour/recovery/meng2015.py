@@ -29,6 +29,7 @@ from scipy.optimize import minimize
 from colour.colorimetry import (STANDARD_OBSERVERS_CMFS, SpectralDistribution,
                                 SpectralShape, sd_ones, sd_to_XYZ_integration)
 from colour.utilities import to_domain_1, from_range_100, runtime_warning
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -53,7 +54,8 @@ def XYZ_to_sd_Meng2015(
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015),
         illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_MENG_2015),
-        optimisation_parameters=None):
+        optimisation_kwargs=None,
+        **kwargs):
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus values
     using *Meng et al. (2015)* method.
@@ -69,8 +71,13 @@ def XYZ_to_sd_Meng2015(
         interval of 5 is a good compromise between precision and time spent.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -152,12 +159,16 @@ def XYZ_to_sd_Meng2015(
                           [ 770.        ,    0.3927840...],
                           [ 780.        ,    0.3927536...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
     array([ 0.2065812...,  0.1219752...,  0.0514132...])
     """
+
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_args', 'optimisation_kwargs']],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     XYZ = to_domain_1(XYZ)
 
@@ -199,8 +210,8 @@ def XYZ_to_sd_Meng2015(
             'ftol': 1e-10,
         },
     }
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     result = minimize(objective_function, sd.values, **optimisation_settings)
 

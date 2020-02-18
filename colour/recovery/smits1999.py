@@ -142,9 +142,9 @@ def RGB_to_sd_Smits1999(RGB):
                           [ 682.2222    ,    0.4118579...],
                           [ 720.        ,    0.4118075...]],
                          interpolator=LinearInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     white_sd = SMITS_1999_SDS['white'].copy()

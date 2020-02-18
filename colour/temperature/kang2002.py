@@ -33,6 +33,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.utilities import as_float_array, as_numeric, tstack, usage_warning
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -44,7 +45,7 @@ __status__ = 'Production'
 __all__ = ['xy_to_CCT_Kang2002', 'CCT_to_xy_Kang2002']
 
 
-def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
+def xy_to_CCT_Kang2002(xy, optimisation_kwargs=None, **kwargs):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *Kang et al. (2002)* method.
@@ -53,8 +54,13 @@ def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
     ----------
     xy : array_like
         *CIE xy* chromaticity coordinates.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -80,6 +86,10 @@ def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
     6504.3893128...
     """
 
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_args', 'optimisation_kwargs']],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
+
     xy = as_float_array(xy)
     shape = xy.shape
     xy = np.atleast_1d(xy.reshape([-1, 2]))
@@ -99,8 +109,8 @@ def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
             'fatol': 1e-10,
         },
     }
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     CCT = as_float_array([
         minimize(

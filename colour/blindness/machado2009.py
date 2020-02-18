@@ -102,9 +102,9 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
     WSYBRG = dot_vector(LMS_TO_WSYBRG_MATRIX, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
-    extrapolator_args = {'method': 'Constant', 'left': 0, 'right': 0}
+    extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
     primaries = primaries.copy().align(
-        cmfs.shape, extrapolator_args=extrapolator_args)
+        cmfs.shape, extrapolator_kwargs=extrapolator_kwargs)
 
     R, G, B = tsplit(primaries.values)
 
@@ -190,7 +190,7 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     if cmfs.shape.interval != 1:
         cmfs.interpolate(SpectralShape(interval=1))
 
-    cmfs.extrapolator_args = {'method': 'Constant', 'left': 0, 'right': 0}
+    cmfs.extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
 
     L, M, _S = tsplit(cmfs.values)
     d_L, d_M, d_S = tsplit(d_LMS)
