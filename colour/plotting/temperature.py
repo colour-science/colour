@@ -253,7 +253,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
         :func:`colour.plotting.temperature.plot_planckian_locus`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -421,7 +421,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
 plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -493,7 +493,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
 plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------

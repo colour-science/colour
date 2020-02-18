@@ -678,7 +678,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -793,7 +793,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -864,7 +864,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -935,7 +935,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1082,7 +1082,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1204,7 +1204,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
 plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1272,7 +1272,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
 plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1340,7 +1340,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
 plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1524,7 +1524,7 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------

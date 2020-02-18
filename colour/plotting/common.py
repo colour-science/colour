@@ -1050,7 +1050,7 @@ def plot_multi_colour_swatches(colour_swatches,
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Keywords arguments for deprecation management.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
