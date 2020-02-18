@@ -41,7 +41,7 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
 from colour.utilities import (as_float, as_int, first_item, is_iterable,
                               is_numeric, is_string, is_uniform, interval,
-                              runtime_warning, tstack)
+                              runtime_warning, tstack, usage_warning)
 from colour.utilities.deprecation import ObjectRemoved, ObjectRenamed
 
 __author__ = 'Colour Developers'
@@ -1419,7 +1419,7 @@ dict_like, optional
     @property
     def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -1429,7 +1429,7 @@ dict_like, optional
     @title.setter
     def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -1461,7 +1461,7 @@ dict_like, optional
 
     def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.trim_wavelengths',
                               'SpectralDistribution.trim')))
@@ -1470,7 +1470,7 @@ dict_like, optional
 
     def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.clone',
                               'SpectralDistribution.copy')))
@@ -2383,7 +2383,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
     @property
     def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -2393,7 +2393,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
     @title.setter
     def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -2453,7 +2453,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.trim_wavelengths',
                               'MultiSpectralDistributions.trim')))
@@ -2462,7 +2462,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.clone',
                               'MultiSpectralDistributions.copy')))
