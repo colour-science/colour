@@ -1399,7 +1399,7 @@ class TestSpectralDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'extrapolate', 'interpolate', 'align',
+        required_methods = ('__init__', 'interpolate', 'extrapolate', 'align',
                             'trim', 'normalise')
 
         for method in required_methods:
@@ -1447,6 +1447,30 @@ SpectralDistribution.shape` attribute.
 
         self.assertEqual(self._sd.shape, SpectralShape(340, 820, 20))
 
+    def test_interpolate(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralDistribution.interpolate` method.
+        """
+
+        np.testing.assert_almost_equal(
+            self._sd.copy().interpolate(SpectralShape(interval=1)).values,
+            INTERPOLATED_SAMPLE_SD_DATA,
+            decimal=7)
+
+        # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
+        # version.
+        # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+        if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
+            return  # pragma: no cover
+
+        np.testing.assert_allclose(
+            self._non_uniform_sd.copy().interpolate(
+                SpectralShape(interval=1)).values,
+            INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA,
+            rtol=0.0000001,
+            atol=0.0000001)
+
     def test_extrapolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -1472,30 +1496,6 @@ SpectralDistribution.extrapolate` method.
 
         self.assertAlmostEqual(sd[10], -1.5000000000000004, places=7)
         self.assertAlmostEqual(sd[50], 2.4999999999999964, places=7)
-
-    def test_interpolate(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralDistribution.interpolate` method.
-        """
-
-        np.testing.assert_almost_equal(
-            self._sd.copy().interpolate(SpectralShape(interval=1)).values,
-            INTERPOLATED_SAMPLE_SD_DATA,
-            decimal=7)
-
-        # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
-        # version.
-        # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-        if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
-            return  # pragma: no cover
-
-        np.testing.assert_allclose(
-            self._non_uniform_sd.copy().interpolate(
-                SpectralShape(interval=1)).values,
-            INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA,
-            rtol=0.0000001,
-            atol=0.0000001)
 
     def test_align(self):
         """
@@ -1590,7 +1590,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'extrapolate', 'interpolate', 'align',
+        required_methods = ('__init__', 'interpolate', 'extrapolate', 'align',
                             'trim', 'normalise', 'to_sds')
 
         for method in required_methods:
@@ -1651,6 +1651,34 @@ MultiSpectralDistributions.shape` attribute.
 
         self.assertEqual(self._msds.shape, SpectralShape(380, 780, 5))
 
+    def test_interpolate(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+MultiSpectralDistributions.interpolate` method.
+        """
+
+        msds = self._sample_msds.copy()
+
+        msds.interpolate(SpectralShape(interval=1))
+        for signal in msds.signals.values():
+            np.testing.assert_almost_equal(
+                signal.values, INTERPOLATED_SAMPLE_SD_DATA, decimal=7)
+
+        # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
+        # version.
+        # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+        if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
+            return  # pragma: no cover
+
+        msds = self._non_uniform_sample_msds.copy()
+        msds.interpolate(SpectralShape(interval=1))
+        for signal in msds.signals.values():
+            np.testing.assert_allclose(
+                signal.values,
+                INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA,
+                rtol=0.0000001,
+                atol=0.0000001)
+
     def test_extrapolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -1679,34 +1707,6 @@ MultiSpectralDistributions.extrapolate` method.
             msds[10], np.array([-1.5, -1.5, -1.5]), decimal=7)
         np.testing.assert_almost_equal(
             msds[50], np.array([2.5, 2.5, 2.5]), decimal=7)
-
-    def test_interpolate(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.interpolate` method.
-        """
-
-        msds = self._sample_msds.copy()
-
-        msds.interpolate(SpectralShape(interval=1))
-        for signal in msds.signals.values():
-            np.testing.assert_almost_equal(
-                signal.values, INTERPOLATED_SAMPLE_SD_DATA, decimal=7)
-
-        # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
-        # version.
-        # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-        if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
-            return  # pragma: no cover
-
-        msds = self._non_uniform_sample_msds.copy()
-        msds.interpolate(SpectralShape(interval=1))
-        for signal in msds.signals.values():
-            np.testing.assert_allclose(
-                signal.values,
-                INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA,
-                rtol=0.0000001,
-                atol=0.0000001)
 
     def test_align(self):
         """
