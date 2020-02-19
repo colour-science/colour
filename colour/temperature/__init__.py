@@ -77,7 +77,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     iterations : int, optional
         {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Number of planckian tables to generate.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         {:func:`colour.temperature.uv_to_CCT_Krystek1985`},
         Parameters for :func:`scipy.optimize.minimize` definition.
 
@@ -224,7 +224,7 @@ def xy_to_CCT(xy, method='CIE Illuminant D Series'):
 
     Other Parameters
     ----------------
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         {:func:`colour.temperature.xy_to_CCT_CIE_D`,
         :func:`colour.temperature.xy_to_CCT_Kang2002`},
         Parameters for :func:`scipy.optimize.minimize` definition.
@@ -300,7 +300,7 @@ def CCT_to_xy(CCT, method='CIE Illuminant D Series'):
 
     Other Parameters
     ----------------
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         {:func:`colour.temperature.CCT_to_xy_Hernandez1999`,
         :func:`colour.temperature.CCT_to_xy_McCamy1992`},
         Parameters for :func:`scipy.optimize.minimize` definition.

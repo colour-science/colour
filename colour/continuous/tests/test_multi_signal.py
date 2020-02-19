@@ -52,8 +52,8 @@ class TestMultiSignals(unittest.TestCase):
         """
 
         required_attributes = ('dtype', 'domain', 'range', 'interpolator',
-                               'interpolator_args', 'extrapolator',
-                               'extrapolator_args', 'function', 'signals',
+                               'interpolator_kwargs', 'extrapolator',
+                               'extrapolator_kwargs', 'function', 'signals',
                                'labels', 'signal_type')
 
         for attribute in required_attributes:
@@ -178,10 +178,10 @@ class TestMultiSignals(unittest.TestCase):
                       [60.00000000, 70.00000000, 80.00000000]]),
             decimal=7)
 
-    def test_interpolator_args(self):
+    def test_interpolator_kwargs(self):
         """
         Tests :func:`colour.continuous.multi_signals.MultiSignals.\
-interpolator_args` property.
+interpolator_kwargs` property.
         """
 
         multi_signals = self._multi_signals.copy()
@@ -195,9 +195,9 @@ interpolator_args` property.
                       [60.00000000, 70.00000000, 80.00000000]]),
             decimal=7)
 
-        multi_signals.interpolator_args = {
+        multi_signals.interpolator_kwargs = {
             'window': 1,
-            'kernel_args': {
+            'kernel_kwargs': {
                 'a': 1
             }
         }
@@ -219,17 +219,17 @@ interpolator_args` property.
 
         self.assertIsInstance(self._multi_signals.extrapolator(), Extrapolator)
 
-    def test_extrapolator_args(self):
+    def test_extrapolator_kwargs(self):
         """
         Tests :func:`colour.continuous.multi_signals.MultiSignals.\
-extrapolator_args` property.
+extrapolator_kwargs` property.
         """
 
         multi_signals = self._multi_signals.copy()
 
         assert np.all(np.isnan(multi_signals[np.array([-1000, 1000])]))
 
-        multi_signals.extrapolator_args = {
+        multi_signals.extrapolator_kwargs = {
             'method': 'Linear',
         }
 
@@ -385,7 +385,7 @@ extrapolator_args` property.
         """
 
         self.assertEqual(
-            re.sub(r'extrapolator_args={.*}', 'extrapolator_args={...}',
+            re.sub(r'extrapolator_kwargs={.*}', 'extrapolator_kwargs={...}',
                    repr(self._multi_signals)),
             textwrap.dedent("""
                 MultiSignals([[   0.,   10.,   20.,   30.],
@@ -400,9 +400,9 @@ extrapolator_args` property.
                               [   9.,  100.,  110.,  120.]],
                              labels=[0, 1, 2],
                              interpolator=KernelInterpolator,
-                             interpolator_args={},
+                             interpolator_kwargs={},
                              extrapolator=Extrapolator,
-                             extrapolator_args={...})""")[1:])
+                             extrapolator_kwargs={...})""")[1:])
 
         self.assertIsInstance(repr(MultiSignals()), string_types)
 
@@ -433,7 +433,7 @@ extrapolator_args` property.
         assert np.all(np.isnan(self._multi_signals[np.array([-1000, 1000])]))
 
         multi_signals = self._multi_signals.copy()
-        multi_signals.extrapolator_args = {
+        multi_signals.extrapolator_kwargs = {
             'method': 'Linear',
         }
         np.testing.assert_array_equal(
@@ -441,7 +441,7 @@ extrapolator_args` property.
             np.array([[-9990.0, -9980.0, -9970.0], [10010.0, 10020.0,
                                                     10030.0]]))
 
-        multi_signals.extrapolator_args = {
+        multi_signals.extrapolator_kwargs = {
             'method': 'Constant',
             'left': 0,
             'right': 1
@@ -609,10 +609,10 @@ extrapolator_args` property.
         multi_signals_2.interpolator = KernelInterpolator
         self.assertEqual(multi_signals_1, multi_signals_2)
 
-        multi_signals_2.interpolator_args = {'window': 1}
+        multi_signals_2.interpolator_kwargs = {'window': 1}
         self.assertNotEqual(multi_signals_1, multi_signals_2)
 
-        multi_signals_2.interpolator_args = {}
+        multi_signals_2.interpolator_kwargs = {}
         self.assertEqual(multi_signals_1, multi_signals_2)
 
         class NotExtrapolator(Extrapolator):
@@ -628,10 +628,10 @@ extrapolator_args` property.
         multi_signals_2.extrapolator = Extrapolator
         self.assertEqual(multi_signals_1, multi_signals_2)
 
-        multi_signals_2.extrapolator_args = {}
+        multi_signals_2.extrapolator_kwargs = {}
         self.assertNotEqual(multi_signals_1, multi_signals_2)
 
-        multi_signals_2.extrapolator_args = {
+        multi_signals_2.extrapolator_kwargs = {
             'method': 'Constant',
             'left': np.nan,
             'right': np.nan

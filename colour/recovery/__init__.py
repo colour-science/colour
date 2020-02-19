@@ -64,7 +64,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
         ``interval`` is, the longer the computations will be.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Parameters for :func:`scipy.optimize.minimize` definition.
 
@@ -152,9 +152,9 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
                           [ 770.        ,    0.3927840...],
                           [ 780.        ,    0.3927536...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
     array([ 0.2178545...,  0.1254141...,  0.0470095...])
 
@@ -174,9 +174,9 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
                           [ 682.2222    ,    0.41185795],
                           [ 720.        ,    0.41180754]],
                          interpolator=LinearInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
     array([ 0.2004523...,  0.1105627...,  0.0420964...])
     """

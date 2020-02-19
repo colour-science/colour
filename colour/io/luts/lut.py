@@ -40,6 +40,7 @@ from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (as_float_array, is_numeric, is_iterable,
                               is_string, linear_conversion, runtime_warning,
                               tsplit, tstack, usage_warning)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -692,7 +693,7 @@ class AbstractLUT:
         pass
 
     @abstractmethod
-    def apply(self, RGB, interpolator, interpolator_args):
+    def apply(self, RGB, interpolator, interpolator_kwargs):
         """
         Applies the *LUT* to given *RGB* colourspace array using given method.
 
@@ -702,7 +703,7 @@ class AbstractLUT:
             *RGB* colourspace array to apply the *LUT* onto.
         interpolator : object, optional
             Interpolator class type or object to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating or calling the interpolating
             function.
 
@@ -742,7 +743,7 @@ class AbstractLUT:
         ----------------
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         size : int, optional
             Expected table size in case of an upcast to or a downcast from a
@@ -957,7 +958,8 @@ class LUT1D(AbstractLUT):
     def apply(self,
               RGB,
               interpolator=LinearInterpolator,
-              interpolator_args=None):
+              interpolator_kwargs=None,
+              **kwargs):
         """
         Applies the *LUT* to given *RGB* colourspace array using given method.
 
@@ -967,8 +969,13 @@ class LUT1D(AbstractLUT):
             *RGB* colourspace array to apply the *LUT* onto.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -983,8 +990,12 @@ class LUT1D(AbstractLUT):
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
         """
 
-        if interpolator_args is None:
-            interpolator_args = {}
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
+        if interpolator_kwargs is None:
+            interpolator_kwargs = {}
 
         if self.is_domain_explicit():
             samples = self.domain
@@ -994,7 +1005,7 @@ class LUT1D(AbstractLUT):
             samples = np.linspace(domain_min, domain_max, self._table.size)
 
         RGB_interpolator = interpolator(samples, self._table,
-                                        **interpolator_args)
+                                        **interpolator_kwargs)
 
         return RGB_interpolator(RGB)
 
@@ -1013,7 +1024,7 @@ class LUT1D(AbstractLUT):
         ----------------
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         size : int, optional
             Expected table size in case of an upcast to a :class:`LUT3D` class
@@ -1318,7 +1329,8 @@ class LUT3x1D(AbstractLUT):
     def apply(self,
               RGB,
               interpolator=LinearInterpolator,
-              interpolator_args=None):
+              interpolator_kwargs=None,
+              **kwargs):
         """
         Applies the *LUT* to given *RGB* colourspace array using given method.
 
@@ -1328,8 +1340,13 @@ class LUT3x1D(AbstractLUT):
             *RGB* colourspace array to apply the *LUT* onto.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1361,8 +1378,12 @@ class LUT3x1D(AbstractLUT):
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
 
-        if interpolator_args is None:
-            interpolator_args = {}
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
+        if interpolator_kwargs is None:
+            interpolator_kwargs = {}
 
         R, G, B = tsplit(RGB)
 
@@ -1388,7 +1409,7 @@ class LUT3x1D(AbstractLUT):
         s_R, s_G, s_B = samples
 
         RGB_i = [
-            interpolator(a[0], a[1], **interpolator_args)(a[2])
+            interpolator(a[0], a[1], **interpolator_kwargs)(a[2])
             for a in zip((s_R, s_G, s_B), (R_t, G_t, B_t), (R, G, B))
         ]
 
@@ -1409,7 +1430,7 @@ class LUT3x1D(AbstractLUT):
         ----------------
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         size : int, optional
             Expected table size in case of an upcast to a :class:`LUT3D` class
@@ -1786,7 +1807,8 @@ class LUT3D(AbstractLUT):
     def apply(self,
               RGB,
               interpolator=table_interpolation_trilinear,
-              interpolator_args=None):
+              interpolator_kwargs=None,
+              **kwargs):
         """
         Applies the *LUT* to given *RGB* colourspace array using given method.
 
@@ -1796,8 +1818,13 @@ class LUT3D(AbstractLUT):
             *RGB* colourspace array to apply the *LUT* onto.
         interpolator : object, optional
             Interpolator object to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when calling the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1823,8 +1850,12 @@ class LUT3D(AbstractLUT):
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
 
-        if interpolator_args is None:
-            interpolator_args = {}
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
+        if interpolator_kwargs is None:
+            interpolator_kwargs = {}
 
         R, G, B = tsplit(RGB)
 
@@ -1847,7 +1878,7 @@ class LUT3D(AbstractLUT):
             for i, j in enumerate((R, G, B))
         ]
 
-        return interpolator(tstack(RGB_l), self._table, **interpolator_args)
+        return interpolator(tstack(RGB_l), self._table, **interpolator_kwargs)
 
     def as_LUT(self, cls, force_conversion=False, **kwargs):
         """
@@ -1864,7 +1895,7 @@ class LUT3D(AbstractLUT):
         ----------------
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         size : int, optional
             Expected table size in case of a downcast from a :class:`LUT3D`
@@ -1931,7 +1962,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     ----------------
     interpolator : object, optional
         Interpolator class type to use as interpolating function.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function.
     size : int, optional
         Expected table size in case of an upcast to or a downcast from a
@@ -2357,9 +2388,10 @@ class LUTSequence(MutableSequence):
     def apply(self,
               RGB,
               interpolator_1D=LinearInterpolator,
-              interpolator_1D_args=None,
+              interpolator_1D_kwargs=None,
               interpolator_3D=table_interpolation_trilinear,
-              interpolator_3D_args=None):
+              interpolator_3D_kwargs=None,
+              **kwargs):
         """
         Applies the *LUT* sequence sequentially to given *RGB* colourspace
         array.
@@ -2373,16 +2405,21 @@ class LUTSequence(MutableSequence):
             Interpolator object to use as interpolating function for
             :class:`colour.LUT1D` (and :class:`colour.LUT3x1D`) class
             instances.
-        interpolator_1D_args : dict_like, optional
+        interpolator_1D_kwargs : dict_like, optional
             Arguments to use when calling the interpolating function for
             :class:`colour.LUT1D` (and :class:`colour.LUT3x1D`) class
             instances.
         interpolator_3D : object, optional
             Interpolator object to use as interpolating function for
             :class:`colour.LUT3D` class instances.
-        interpolator_3D_args : dict_like, optional
+        interpolator_3D_kwargs : dict_like, optional
             Arguments to use when calling the interpolating function for
             :class:`colour.LUT3D` class instances.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -2405,13 +2442,25 @@ class LUTSequence(MutableSequence):
                [ 0.75     ...,  0.75     ...,  0.75     ...]])
         """
 
+        interpolator_1D_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [[
+                'interpolator_1D_args', 'interpolator_1D_kwargs'
+            ]],
+        }, **kwargs).get('interpolator_1D_kwargs', interpolator_1D_kwargs)
+
+        interpolator_3D_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [[
+                'interpolator_3D_args', 'interpolator_3D_kwargs'
+            ]],
+        }, **kwargs).get('interpolator_3D_kwargs', interpolator_3D_kwargs)
+
         for operation in self:
             if isinstance(operation, (LUT1D, LUT3x1D)):
                 RGB = operation.apply(RGB, interpolator_1D,
-                                      interpolator_1D_args)
+                                      interpolator_1D_kwargs)
             elif isinstance(operation, LUT3D):
                 RGB = operation.apply(RGB, interpolator_3D,
-                                      interpolator_3D_args)
+                                      interpolator_3D_kwargs)
             else:
                 RGB = operation.apply(RGB)
 

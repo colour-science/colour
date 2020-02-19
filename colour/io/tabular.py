@@ -254,9 +254,9 @@ def read_sds_from_csv_file(path, delimiter=',', fields=None, default=0):
                           [ 775.   ,    0.432],
                           [ 780.   ,    0.421]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     data = read_spectral_data_from_csv_file(path, delimiter, fields, default)

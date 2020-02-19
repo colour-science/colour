@@ -18,11 +18,9 @@ message_box('Plotting colour rendition charts.')
 pprint(sorted(colour.COLOURCHECKERS.keys()))
 plot_single_colour_checker('ColorChecker 1976')
 plot_single_colour_checker(
-    'BabelColor Average', text_parameters={'visible': False})
-plot_single_colour_checker(
-    'ColorChecker 1976', text_parameters={'visible': False})
-plot_single_colour_checker(
-    'ColorChecker 2005', text_parameters={'visible': False})
+    'BabelColor Average', text_kwargs={'visible': False})
+plot_single_colour_checker('ColorChecker 1976', text_kwargs={'visible': False})
+plot_single_colour_checker('ColorChecker 2005', text_kwargs={'visible': False})
 
 print('\n')
 

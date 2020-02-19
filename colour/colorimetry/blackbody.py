@@ -563,9 +563,9 @@ def sd_blackbody(temperature, shape=DEFAULT_SPECTRAL_SHAPE, c1=C1, c2=C2, n=N):
                           [  7.79000000e+02,   1.05903327e+13],
                           [  7.80000000e+02,   1.05738520e+13]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     wavelengths = shape.range()

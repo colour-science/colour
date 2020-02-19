@@ -81,7 +81,7 @@ def plot_cvd_simulation_Machado2009(RGB,
 
     text = 'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
 
-    settings = {'text_parameters': {'text': None if M_a is None else text}}
+    settings = {'text_kwargs': {'text': None if M_a is None else text}}
     settings.update(kwargs)
 
     return plot_image(

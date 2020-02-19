@@ -69,7 +69,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
                 XYZ_to_sd_Meng2015(
                     XYZ,
                     cmfs_c,
-                    optimisation_parameters={'options': {
+                    optimisation_kwargs={'options': {
                         'ftol': 1e-10,
                     }}), cmfs_c) / 100,
             XYZ,
@@ -93,7 +93,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             RuntimeError,
             XYZ_to_sd_Meng2015,
             np.array([0.0, 0.0, 1.0]),
-            optimisation_parameters={
+            optimisation_kwargs={
                 'options': {
                     'maxiter': 10
                 },

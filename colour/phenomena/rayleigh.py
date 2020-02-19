@@ -1135,9 +1135,9 @@ def sd_rayleigh_scattering(shape=DEFAULT_SPECTRAL_SHAPE,
                           [ 779.        ,    0.0253888...],
                           [ 780.        ,    0.0252576...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     wavelengths = shape.range()

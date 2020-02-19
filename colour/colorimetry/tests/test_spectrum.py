@@ -1464,7 +1464,7 @@ SpectralDistribution.extrapolate` method.
             np.linspace(0, 1, 10), np.linspace(25, 35, 10))
         sd.extrapolate(
             SpectralShape(10, 50),
-            extrapolator_args={
+            extrapolator_kwargs={
                 'method': 'Linear',
                 'left': None,
                 'right': None
@@ -1670,7 +1670,7 @@ MultiSpectralDistributions.extrapolate` method.
             tstack([np.linspace(0, 1, 10)] * 3), np.linspace(25, 35, 10))
         msds.extrapolate(
             SpectralShape(10, 50),
-            extrapolator_args={
+            extrapolator_kwargs={
                 'method': 'Linear',
                 'left': None,
                 'right': None

@@ -43,6 +43,7 @@ from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (CaseInsensitiveMapping, Structure,
                               as_float_array, is_sibling, is_string,
                               filter_mapping, runtime_warning)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -971,7 +972,7 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
     columns : int, optional
         {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatches columns count.
-    text_parameters : dict, optional
+    text_kwargs : dict, optional
         {:func:`colour.plotting.plot_multi_colour_swatches`},
         Parameters for the :func:`plt.text` definition, ``offset`` can be
         set to define the text offset.
@@ -1009,7 +1010,7 @@ def plot_multi_colour_swatches(colour_swatches,
                                height=1,
                                spacing=0,
                                columns=None,
-                               text_parameters=None,
+                               text_kwargs=None,
                                background_colour=(1.0, 1.0, 1.0),
                                compare_swatches=None,
                                **kwargs):
@@ -1029,7 +1030,7 @@ def plot_multi_colour_swatches(colour_swatches,
     columns : int, optional
         Colour swatches columns count, defaults to the colour swatch count or
         half of it if comparing.
-    text_parameters : dict, optional
+    text_kwargs : dict, optional
         Parameters for the :func:`plt.text` definition, ``visible`` can be
         set to make the text visible, ``offset`` can be set to define the text
         offset.
@@ -1049,6 +1050,7 @@ def plot_multi_colour_swatches(colour_swatches,
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1067,6 +1069,10 @@ def plot_multi_colour_swatches(colour_swatches,
         :align: center
         :alt: plot_multi_colour_swatches
     """
+
+    text_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['text_args', 'text_kwargs']],
+    }, **kwargs).get('text_kwargs', text_kwargs)
 
     _figure, axes = artist(**kwargs)
 
@@ -1088,8 +1094,8 @@ def plot_multi_colour_swatches(colour_swatches,
         'offset': 0.05,
         'visible': True,
     }
-    if text_parameters is not None:
-        text_settings.update(text_parameters)
+    if text_kwargs is not None:
+        text_settings.update(text_kwargs)
     text_offset = text_settings.pop('offset')
 
     offset_X = offset_Y = 0
@@ -1315,7 +1321,7 @@ def plot_multi_functions(functions,
 
 @override_style()
 def plot_image(image,
-               text_parameters=None,
+               text_kwargs=None,
                interpolation='nearest',
                colour_map=matplotlib.cm.Greys_r,
                **kwargs):
@@ -1326,7 +1332,7 @@ def plot_image(image,
     ----------
     image : array_like
         Image to plot.
-    text_parameters : dict, optional
+    text_kwargs : dict, optional
         Parameters for the :func:`plt.text` definition, ``offset`` can be
         set to define the text offset.
     interpolation: unicode, optional
@@ -1372,8 +1378,8 @@ def plot_image(image,
         'color': COLOUR_STYLE_CONSTANTS.colour.brightest,
         'alpha': COLOUR_STYLE_CONSTANTS.opacity.high,
     }
-    if text_parameters is not None:
-        text_settings.update(text_parameters)
+    if text_kwargs is not None:
+        text_settings.update(text_kwargs)
     text_offset = text_settings.pop('offset')
 
     image = as_float_array(image)

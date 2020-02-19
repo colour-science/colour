@@ -21,8 +21,8 @@ jobs:
         CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *${CI_SHA:0:7}* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
         CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_SUCCESS_NOTIFICATION/4CAF50/F44336}"
         CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_FAILURE_NOTIFICATION/succeeded/failed}"
-        CI_OPENIMAGEIO_ARTIFACT=https://github.com/colour-science/artifacts/suites/407105362/artifacts/1192372
         CI_OPENIMAGEIO_VERSION=2.1.10.1
+        CI_OPENIMAGEIO_ARTIFACT=https://github.com/colour-science/artifacts/releases/download/OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION.zip
         COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
         MPLBACKEND=AGG
         echo ::set-env name=CI_PYTHON_VERSION::$CI_PYTHON_VERSION

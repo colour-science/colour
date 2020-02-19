@@ -5,7 +5,7 @@ Academy Spectral Similarity Index (SSI)
 
 Defines the *Academy Spectral Similarity Index* (SSI) computation objects:
 
--   :func:`colour.colour_quality_scale`
+-   :func:`colour.spectral_similarity_index`
 
 See Also
 --------
@@ -94,7 +94,7 @@ def spectral_similarity_index(sd_test, sd_reference):
 
     settings = {
         'interpolator': LinearInterpolator,
-        'extrapolator_args': {
+        'extrapolator_kwargs': {
             'left': 0,
             'right': 0
         }

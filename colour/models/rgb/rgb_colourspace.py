@@ -40,7 +40,7 @@ from colour.models.rgb import (chromatically_adapted_primaries,
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import (as_float_array, domain_range_scale, dot_matrix,
                               dot_vector, filter_kwargs, from_range_1,
-                              to_domain_1, is_string, runtime_warning)
+                              to_domain_1, is_string, usage_warning)
 from colour.utilities.deprecation import (ObjectRenamed,
                                           handle_arguments_deprecation)
 
@@ -866,7 +866,7 @@ class RGB_Colourspace(object):
     @property
     def illuminant(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('RGB_Colourspace.illuminant',
                               'RGB_Colourspace.whitepoint_name')))
@@ -876,7 +876,7 @@ class RGB_Colourspace(object):
     @illuminant.setter
     def illuminant(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('RGB_Colourspace.illuminant',
                               'RGB_Colourspace.whitepoint_name')))
@@ -886,7 +886,7 @@ class RGB_Colourspace(object):
     @property
     def decoding_cctf(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('RGB_Colourspace.decoding_cctf',
                               'RGB_Colourspace.cctf_decoding')))
@@ -896,7 +896,7 @@ class RGB_Colourspace(object):
     @property
     def encoding_cctf(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('RGB_Colourspace.encoding_cctf',
                               'RGB_Colourspace.cctf_encoding')))

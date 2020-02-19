@@ -41,8 +41,9 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
 from colour.utilities import (as_float, as_int, first_item, is_iterable,
                               is_numeric, is_string, is_uniform, interval,
-                              runtime_warning, tstack)
-from colour.utilities.deprecation import ObjectRemoved, ObjectRenamed
+                              runtime_warning, tstack, usage_warning)
+from colour.utilities.deprecation import (ObjectRemoved, ObjectRenamed,
+                                          handle_arguments_deprecation)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -523,11 +524,11 @@ dict_like, optional
         Spectral distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function.
     strict_name : unicode, optional
         Spectral distribution name for figures, default to
@@ -576,9 +577,9 @@ dict_like, optional
                           [ 580.    ,    0.1128],
                           [ 600.    ,    0.136 ]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
 
     Instantiating a spectral distribution with a non-uniformly spaced
     independent variable:
@@ -594,9 +595,9 @@ dict_like, optional
                           [ 580.     ,    0.1128 ],
                           [ 600.     ,    0.136  ]],
                          interpolator=CubicSplineInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     def __init__(self, data=None, domain=None, **kwargs):
@@ -609,10 +610,10 @@ dict_like, optional
         kwargs['interpolator'] = kwargs.get(
             'interpolator', SpragueInterpolator
             if uniform else CubicSplineInterpolator)
-        kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
+        kwargs['interpolator_kwargs'] = kwargs.get('interpolator_kwargs', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)
-        kwargs['extrapolator_args'] = kwargs.get('extrapolator_args', {
+        kwargs['extrapolator_kwargs'] = kwargs.get('extrapolator_kwargs', {
             'method': 'Constant',
             'left': None,
             'right': None
@@ -765,7 +766,11 @@ dict_like, optional
             min(self.wavelengths), max(self.wavelengths),
             as_float(min(wavelengths_interval)))
 
-    def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
+    def extrapolate(self,
+                    shape,
+                    extrapolator=None,
+                    extrapolator_kwargs=None,
+                    **kwargs):
         """
         Extrapolates the spectral distribution in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
@@ -777,8 +782,13 @@ dict_like, optional
             Spectral shape used for extrapolation.
         extrapolator : object, optional
             Extrapolator class type to use as extrapolating function.
-        extrapolator_args : dict_like, optional
+        extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -823,6 +833,10 @@ dict_like, optional
          [ 700.        0.136 ]]
         """
 
+        extrapolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['extrapolator_args', 'extrapolator_kwargs']],
+        }, **kwargs).get('extrapolator_kwargs', extrapolator_kwargs)
+
         self_shape = self.shape
         wavelengths = np.hstack([
             np.arange(shape.start, self_shape.start, self_shape.interval),
@@ -833,29 +847,33 @@ dict_like, optional
         if extrapolator is None:
             extrapolator = Extrapolator
 
-        if extrapolator_args is None:
-            extrapolator_args = {
+        if extrapolator_kwargs is None:
+            extrapolator_kwargs = {
                 'method': 'Constant',
                 'left': None,
                 'right': None
             }
 
         self_extrapolator = self.extrapolator
-        self_extrapolator_args = self.extrapolator_args
+        self_extrapolator_kwargs = self.extrapolator_kwargs
 
         self.extrapolator = extrapolator
-        self.extrapolator_args = extrapolator_args
+        self.extrapolator_kwargs = extrapolator_kwargs
 
         # The following self-assignment is written as intended and triggers the
         # extrapolation.
         self[wavelengths] = self[wavelengths]
 
         self.extrapolator = self_extrapolator
-        self.extrapolator_args = self_extrapolator_args
+        self.extrapolator_kwargs = self_extrapolator_kwargs
 
         return self
 
-    def interpolate(self, shape, interpolator=None, interpolator_args=None):
+    def interpolate(self,
+                    shape,
+                    interpolator=None,
+                    interpolator_kwargs=None,
+                    **kwargs):
         """
         Interpolates the spectral distribution in-place according to
         *CIE 167:2005* recommendation or given interpolation arguments.
@@ -866,8 +884,13 @@ dict_like, optional
             Spectral shape used for interpolation.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1123,6 +1146,10 @@ dict_like, optional
          [ 600.            0.136    ...]]
         """
 
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
         self_shape = self.shape
         s_e_i = zip((shape.start, shape.end, shape.interval),
                     (self_shape.start, self_shape.end, self_shape.interval))
@@ -1144,11 +1171,11 @@ dict_like, optional
             else:
                 interpolator = CubicSplineInterpolator
 
-        if interpolator_args is None:
-            interpolator_args = {}
+        if interpolator_kwargs is None:
+            interpolator_kwargs = {}
 
         interpolator = interpolator(self.wavelengths, self.values,
-                                    **interpolator_args)
+                                    **interpolator_kwargs)
 
         self.domain = shape.range()
         self.range = interpolator(self.domain)
@@ -1158,9 +1185,10 @@ dict_like, optional
     def align(self,
               shape,
               interpolator=None,
-              interpolator_args=None,
+              interpolator_kwargs=None,
               extrapolator=None,
-              extrapolator_args=None):
+              extrapolator_kwargs=None,
+              **kwargs):
         """
         Aligns the spectral distribution in-place to given spectral shape:
         Interpolates first then extrapolates to fit the given range.
@@ -1171,12 +1199,17 @@ dict_like, optional
             Spectral shape used for alignment.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         extrapolator : object, optional
             Extrapolator class type to use as extrapolating function.
-        extrapolator_args : dict_like, optional
+        extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1261,8 +1294,8 @@ dict_like, optional
          [ 565.            0.0922541...]]
         """
 
-        self.interpolate(shape, interpolator, interpolator_args)
-        self.extrapolate(shape, extrapolator, extrapolator_args)
+        self.interpolate(shape, interpolator, interpolator_kwargs)
+        self.extrapolate(shape, extrapolator, extrapolator_kwargs)
 
         return self
 
@@ -1419,7 +1452,7 @@ dict_like, optional
     @property
     def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -1429,7 +1462,7 @@ dict_like, optional
     @title.setter
     def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -1461,7 +1494,7 @@ dict_like, optional
 
     def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.trim_wavelengths',
                               'SpectralDistribution.trim')))
@@ -1470,7 +1503,7 @@ dict_like, optional
 
     def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.clone',
                               'SpectralDistribution.copy')))
@@ -1513,13 +1546,13 @@ MultiSpectralDistributions or array_like or dict_like, optional
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function of the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function of the
         :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
@@ -1575,9 +1608,9 @@ MultiSpectralDistributions or array_like or dict_like, optional
                  ...  [ 560.     ,    0.5945 ,    0.995  ,    0.0039 ]],
                  ... labels=[...'x_bar', ...'y_bar', ...'z_bar'],
                  ... interpolator=SpragueInterpolator,
-                 ... interpolator_args={},
+                 ... interpolator_kwargs={},
                  ... extrapolator=Extrapolator,
-                 ... extrapolator_args={...})
+                 ... extrapolator_kwargs={...})
 
     Instantiating a spectral distribution with a non-uniformly spaced
     independent variable:
@@ -1596,9 +1629,9 @@ MultiSpectralDistributions or array_like or dict_like, optional
                  ...  [ 560.     ,    0.5945 ,    0.995  ,    0.0039 ]],
                  ... labels=[...'x_bar', ...'y_bar', ...'z_bar'],
                  ... interpolator=CubicSplineInterpolator,
-                 ... interpolator_args={},
+                 ... interpolator_kwargs={},
                  ... extrapolator=Extrapolator,
-                 ... extrapolator_args={...})
+                 ... extrapolator_kwargs={...})
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
@@ -1612,10 +1645,10 @@ MultiSpectralDistributions or array_like or dict_like, optional
         kwargs['interpolator'] = kwargs.get(
             'interpolator', SpragueInterpolator
             if uniform else CubicSplineInterpolator)
-        kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
+        kwargs['interpolator_kwargs'] = kwargs.get('interpolator_kwargs', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)
-        kwargs['extrapolator_args'] = kwargs.get('extrapolator_args', {
+        kwargs['extrapolator_kwargs'] = kwargs.get('extrapolator_kwargs', {
             'method': 'Constant',
             'left': None,
             'right': None
@@ -1806,7 +1839,11 @@ MultiSpectralDistributions or array_like or dict_like, optional
         if self.signals:
             return first_item(self._signals.values()).shape
 
-    def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
+    def extrapolate(self,
+                    shape,
+                    extrapolator=None,
+                    extrapolator_kwargs=None,
+                    **kwargs):
         """
         Extrapolates the multi-spectral distributions in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
@@ -1818,8 +1855,13 @@ MultiSpectralDistributions or array_like or dict_like, optional
             Spectral shape used for extrapolation.
         extrapolator : object, optional
             Extrapolator class type to use as extrapolating function.
-        extrapolator_args : dict_like, optional
+        extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1880,12 +1922,20 @@ MultiSpectralDistributions or array_like or dict_like, optional
          [ 700.         0.5945     0.995      0.0039 ]]
         """
 
+        extrapolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['extrapolator_args', 'extrapolator_kwargs']],
+        }, **kwargs).get('extrapolator_kwargs', extrapolator_kwargs)
+
         for signal in self.signals.values():
-            signal.extrapolate(shape, extrapolator, extrapolator_args)
+            signal.extrapolate(shape, extrapolator, extrapolator_kwargs)
 
         return self
 
-    def interpolate(self, shape, interpolator=None, interpolator_args=None):
+    def interpolate(self,
+                    shape,
+                    interpolator=None,
+                    interpolator_kwargs=None,
+                    **kwargs):
         """
         Interpolates the multi-spectral distributions in-place according to
         *CIE 167:2005* recommendation or given interpolation arguments.
@@ -1896,8 +1946,13 @@ MultiSpectralDistributions or array_like or dict_like, optional
             Spectral shape used for interpolation.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -2070,17 +2125,22 @@ MultiSpectralDistributions or array_like or dict_like, optional
          [ 560.            0.5945   ...    0.995    ...    0.0039   ...]]
         """
 
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
         for signal in self.signals.values():
-            signal.interpolate(shape, interpolator, interpolator_args)
+            signal.interpolate(shape, interpolator, interpolator_kwargs)
 
         return self
 
     def align(self,
               shape,
               interpolator=None,
-              interpolator_args=None,
+              interpolator_kwargs=None,
               extrapolator=None,
-              extrapolator_args=None):
+              extrapolator_kwargs=None,
+              **kwargs):
         """
         Aligns the multi-spectral distributions in-place to given spectral
         shape: Interpolates first then extrapolates to fit the given range.
@@ -2091,12 +2151,17 @@ MultiSpectralDistributions or array_like or dict_like, optional
             Spectral shape used for alignment.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         extrapolator : object, optional
             Extrapolator class type to use as extrapolating function.
-        extrapolator_args : dict_like, optional
+        extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -2182,9 +2247,17 @@ MultiSpectralDistributions or array_like or dict_like, optional
          [ 565.            0.5945   ...    0.995    ...    0.0039   ...]]
         """
 
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
+        extrapolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['extrapolator_args', 'extrapolator_kwargs']],
+        }, **kwargs).get('extrapolator_kwargs', extrapolator_kwargs)
+
         for signal in self.signals.values():
-            signal.align(shape, interpolator, interpolator_args, extrapolator,
-                         extrapolator_args)
+            signal.align(shape, interpolator, interpolator_kwargs,
+                         extrapolator, extrapolator_kwargs)
 
         return self
 
@@ -2383,7 +2456,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
     @property
     def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -2393,7 +2466,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
     @title.setter
     def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -2453,7 +2526,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.trim_wavelengths',
                               'MultiSpectralDistributions.trim')))
@@ -2462,7 +2535,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.clone',
                               'MultiSpectralDistributions.copy')))
@@ -2601,9 +2674,9 @@ def sds_and_multi_sds_to_multi_sds(sds):
 '0 - SpectralDistribution (...)', '1 - SpectralDistribution (...)', \
 '2 - SpectralDistribution (...)'],
                                interpolator=SpragueInterpolator,
-                               interpolator_args={},
+                               interpolator_kwargs={},
                                extrapolator=Extrapolator,
-                               extrapolator_args={...})
+                               extrapolator_kwargs={...})
     """
 
     if not len(sds):
