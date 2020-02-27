@@ -33,7 +33,7 @@ __status__ = 'Production'
 __all__ = ['metric_mse', 'metric_psnr']
 
 
-def metric_mse(a, b):
+def metric_mse(a, b, axis=None):
     """
     Computes the mean squared error (MSE) or mean squared deviation (MSD)
     between given *array_like* :math:`a` and :math:`b` variables.
@@ -44,6 +44,11 @@ def metric_mse(a, b):
         :math:`a` variable.
     b : array_like
         :math:`b` variable.
+    axis : None or int or tuple of ints, optional
+        Axis or axes along which the means are computed. The default is to
+        compute the mean of the flattened array.
+        If this is a tuple of ints, a mean is performed over multiple axes,
+        instead of a single axis or all the axes as before.
 
     Returns
     -------
@@ -62,10 +67,10 @@ def metric_mse(a, b):
     0.0012714...
     """
 
-    return np.mean((as_float_array(a) - as_float_array(b)) ** 2)
+    return np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
 
 
-def metric_psnr(a, b, max_a=1):
+def metric_psnr(a, b, max_a=1, axis=None):
     """
     Computes the peak signal-to-noise ratio (PSNR) between given *array_like*
     :math:`a` and :math:`b` variables.
@@ -78,6 +83,11 @@ def metric_psnr(a, b, max_a=1):
         :math:`b` variable.
     max_a : numeric, optional
         Maximum possible pixel value of the :math:`a` variable.
+    axis : None or int or tuple of ints, optional
+        Axis or axes along which the means are computed. The default is to
+        compute the mean of the flattened array.
+        If this is a tuple of ints, a mean is performed over multiple axes,
+        instead of a single axis or all the axes as before.
 
     Returns
     -------
@@ -96,4 +106,4 @@ def metric_psnr(a, b, max_a=1):
     28.9568515...
     """
 
-    return 10 * np.log10(max_a ** 2 / metric_mse(a, b))
+    return 10 * np.log10(max_a ** 2 / metric_mse(a, b, axis))
