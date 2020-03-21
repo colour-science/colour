@@ -42,6 +42,12 @@ References
 -   :cite:`Brill2008a` : Brill, M. H., & Susstrunk, S. (2008). Repairing gamut
     problems in CIECAM02: A progress report. Color Research & Application,
     33(5), 424-426. doi:10.1002/col.20432
+-   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
+    Predicting Corresponding Colours under Different Chromatic and Illuminance
+    Adaptations. ISBN:978-3-900734-51-0
+-   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013). The Nayatani et al.
+    Model. In Color Appearance Models (3rd ed., pp. 4810-5085). Wiley.
+    ISBN:B00DAYO8E2
 -   :cite:`Fairchildb` : Fairchild, M. D. (n.d.). Fairchild YSh. Retrieved
     from http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
 -   :cite:`Li2007e` : Li, C., Perales, E., Luo, M. R., & Martinez-verdu,
@@ -51,6 +57,10 @@ References
 -   :cite:`Lindbloom2009g` : Fairchild, M. D. (2013). Chromatic Adaptation
     Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
     ISBN:B00DAYO8E2
+-   :cite:`Nayatani1995a` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.
+    (1995). Lightness dependency of chroma scales of a nonlinear
+    color-appearance model and its latest formulation. Color Research &
+    Application, 20(3), 156-167. doi:10.1002/col.5080200305
 -   :cite:`Westland2012g` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     CMCCAT97. In Computational Colour Science Using MATLAB (2nd ed., p. 80).
     ISBN:978-0-470-66569-5
@@ -101,7 +111,8 @@ VON_KRIES_CAT = np.array([
 
 References
 ----------
-:cite:`Lindbloom2009g`
+:cite:`CIETC1-321994b`, :cite:`Fairchild2013ba`, :cite:`Lindbloom2009g`,
+:cite:`Nayatani1995a`
 
 VON_KRIES_CAT : array_like, (3, 3)
 """
