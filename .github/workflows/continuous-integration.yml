@@ -17,10 +17,6 @@ jobs:
         CI_PYTHON_VERSION=${{ matrix.python-version }}
         CI_PACKAGE=colour
         CI_SHA=${{ github.sha }}
-        CI_SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}
-        CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *${CI_SHA:0:7}* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
-        CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_SUCCESS_NOTIFICATION/4CAF50/F44336}"
-        CI_SLACK_FAILURE_NOTIFICATION="${CI_SLACK_FAILURE_NOTIFICATION/succeeded/failed}"
         CI_OPENIMAGEIO_VERSION=2.1.10.1
         CI_OPENIMAGEIO_ARTIFACT=https://github.com/colour-science/artifacts/releases/download/OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION.zip
         COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
@@ -28,9 +24,6 @@ jobs:
         echo ::set-env name=CI_PYTHON_VERSION::$CI_PYTHON_VERSION
         echo ::set-env name=CI_PACKAGE::$CI_PACKAGE
         echo ::set-env name=CI_SHA::$CI_SHA
-        echo ::set-env name=CI_SLACK_WEBHOOK::$CI_SLACK_WEBHOOK
-        echo ::set-env name=CI_SLACK_SUCCESS_NOTIFICATION::$CI_SLACK_SUCCESS_NOTIFICATION
-        echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::$CI_SLACK_FAILURE_NOTIFICATION
         echo ::set-env name=COVERALLS_REPO_TOKEN::$COVERALLS_REPO_TOKEN
         echo ::set-env name=CI_OPENIMAGEIO_ARTIFACT::$CI_OPENIMAGEIO_ARTIFACT
         echo ::set-env name=CI_OPENIMAGEIO_VERSION::$CI_OPENIMAGEIO_VERSION
@@ -81,11 +74,6 @@ jobs:
       run: |
         source $(poetry env info -p)/bin/activate
         if [ -z "$COVERALLS_REPO_TOKEN" ]; then echo \"COVERALLS_REPO_TOKEN\" secret is undefined!; else coveralls; fi
-    - name: Notify Slack
-      if: always()
-      run: |
-        if [ "${{ job.status }}" == "Success" ]; then CI_SLACK_NOTIFICATION="$CI_SLACK_SUCCESS_NOTIFICATION"; else CI_SLACK_NOTIFICATION="$CI_SLACK_FAILURE_NOTIFICATION"; fi
-        if [ -z "$CI_SLACK_WEBHOOK" ]; then echo \"SLACK_WEBHOOK\" secret is undefined!; else curl -k -d "$CI_SLACK_NOTIFICATION" -X POST $CI_SLACK_WEBHOOK; fi
   windows-build:
     name: Windows Build
     strategy:
@@ -100,18 +88,11 @@ jobs:
         set CI_PYTHON_VERSION=${{ matrix.python-version }}
         set CI_PACKAGE=colour
         set CI_SHA=${{ github.sha }}
-        set CI_SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}
-        set CI_SLACK_SUCCESS_NOTIFICATION="payload={\"attachments\": [{\"color\": \"#4CAF50\", \"author_name\": \"Python ${{ matrix.python-version }} build on ${{ matrix.os }}\", \"text\": \"Build for commit *"%CI_SHA:~0,7%"* succeeded!\", \"title\": \"${{ github.repository }}@${{ github.ref }}\", \"title_link\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks\", \"footer\": \"Triggered by ${{ github.actor }}\"}], \"username\":\"Github Actions @ ${{ github.repository }}\", \"channel\":\"#continuous-integration\", \"icon_url\":\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"}"
-        set CI_SLACK_FAILURE_NOTIFICATION=%CI_SLACK_SUCCESS_NOTIFICATION:4CAF50=F44336%
-        set CI_SLACK_FAILURE_NOTIFICATION=%CI_SLACK_FAILURE_NOTIFICATION:succeeded=failed%
         set COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
         set MPLBACKEND=AGG
         echo ::set-env name=CI_PYTHON_VERSION::%CI_PYTHON_VERSION%
         echo ::set-env name=CI_PACKAGE::%CI_PACKAGE%
         echo ::set-env name=CI_SHA::%CI_SHA%
-        echo ::set-env name=CI_SLACK_WEBHOOK::%CI_SLACK_WEBHOOK%
-        echo ::set-env name=CI_SLACK_SUCCESS_NOTIFICATION::%CI_SLACK_SUCCESS_NOTIFICATION%
-        echo ::set-env name=CI_SLACK_FAILURE_NOTIFICATION::%CI_SLACK_FAILURE_NOTIFICATION%
         echo ::set-env name=COVERALLS_REPO_TOKEN::%COVERALLS_REPO_TOKEN%
         echo ::set-env name=MPLBACKEND::%MPLBACKEND%
       shell: cmd
@@ -149,10 +130,4 @@ jobs:
       run: |
         call %CI_VIRTUAL_ENVIRONMENT%\scripts\activate
         IF "%COVERALLS_REPO_TOKEN%"=="" (echo "COVERALLS_REPO_TOKEN" secret is undefined!) ELSE (coveralls)
-      shell: cmd
-    - name: Notify Slack
-      if: always()
-      run: |
-        IF "${{ job.status }}"=="Success" (set CI_SLACK_NOTIFICATION=%CI_SLACK_SUCCESS_NOTIFICATION%) ELSE (set CI_SLACK_NOTIFICATION=%CI_SLACK_FAILURE_NOTIFICATION%)
-        IF "%CI_SLACK_WEBHOOK%"=="" (echo "SLACK_WEBHOOK" secret is undefined!) ELSE (curl -k -d %CI_SLACK_NOTIFICATION% -X POST %CI_SLACK_WEBHOOK%)
       shell: cmd
