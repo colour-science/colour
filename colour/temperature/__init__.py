@@ -95,8 +95,9 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     --------
     >>> import numpy as np
     >>> uv = np.array([0.1978, 0.3122])
-    >>> uv_to_CCT(uv)  # doctest: +ELLIPSIS
-    array([  6.5074738...e+03,   3.2233461...e-03])
+    >>> # Doctests skipping for Python 2.x compatibility.
+    >>> uv_to_CCT(uv)  # doctest: +SKIP
+    array([  6.5074738...e+03,   3.2233460...e-03])
     """
 
     function = UV_TO_CCT_METHODS[method]
