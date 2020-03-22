@@ -15,3 +15,10 @@ docs/_static/Tutorial_*.png
 docs/generated
 poetry.lock
 references
+benchmarks/**.pyc
+benchmarks/**/__pycache__/
+benchmarks/.cache*/
+benchmarks/env/
+benchmarks/results/
+benchmarks/colour/
+benchmarks/html/
