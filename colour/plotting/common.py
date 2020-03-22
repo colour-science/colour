@@ -950,8 +950,9 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
 
     Parameters
     ----------
-    colour_swatch : ColourSwatch
-        ColourSwatch.
+    colour_swatch : array_like or ColourSwatch
+        Colour swatch, either a regular *array_like* or a
+        :class:`colour.plotting.ColourSwatch` class instance.
 
     Other Parameters
     ----------------
@@ -1019,8 +1020,9 @@ def plot_multi_colour_swatches(colour_swatches,
 
     Parameters
     ----------
-    colour_swatches : list
-        Colour swatch sequence.
+    colour_swatches : array_like
+        Colour swatch sequence, either a regular *array_like* or a sequence of
+        :class:`colour.plotting.ColourSwatch` class instances.
     width : numeric, optional
         Colour swatch width.
     height : numeric, optional
@@ -1075,6 +1077,14 @@ def plot_multi_colour_swatches(colour_swatches,
     }, **kwargs).get('text_kwargs', text_kwargs)
 
     _figure, axes = artist(**kwargs)
+
+    # Handling case where `colour_swatches` is a regular array.
+    if len(colour_swatches) != 0:
+        if not isinstance(colour_swatches[0], ColourSwatch):
+            colour_swatches = as_float_array(colour_swatches).reshape(
+                [-1, 3]).tolist()
+            for i, colour_swatch in enumerate(colour_swatches):
+                colour_swatches[i] = ColourSwatch(RGB=colour_swatch)
 
     if compare_swatches is not None:
         assert len(colour_swatches) % 2 == 0, (
