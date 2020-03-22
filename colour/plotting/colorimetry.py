@@ -348,7 +348,7 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     }
     settings.update(kwargs)
 
-    return plot_multi_cmfs((cmfs.name, ), **settings)
+    return plot_multi_cmfs((cmfs, ), **settings)
 
 
 @override_style()
