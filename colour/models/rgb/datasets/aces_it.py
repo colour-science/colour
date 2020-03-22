@@ -34,7 +34,7 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import RGB_ColourMatchingFunctions
+from colour.characterisation import RGB_SpectralSensitivities
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -519,7 +519,7 @@ ACES_RICD_DATA = {
     830.0: (0.0000000, 0.0000000, 0.0000000)
 }
 
-ACES_RICD = RGB_ColourMatchingFunctions(ACES_RICD_DATA, name='ACES RICD')
+ACES_RICD = RGB_SpectralSensitivities(ACES_RICD_DATA, name='ACES RICD')
 """
 *ACES Reference Input Capture Device* spectral sensitivities.
 
@@ -529,5 +529,5 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
-ACES_RICD : RGB_ColourMatchingFunctions
+ACES_RICD : RGB_SpectralSensitivities
 """

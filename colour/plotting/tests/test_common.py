@@ -424,6 +424,12 @@ class TestPlotSingleColourSwatch(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
+        figure, axes = plot_single_colour_swatch(
+            np.array([0.45620519, 0.03081071, 0.04091952]))
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
 
 class TestPlotMultiColourSwatches(unittest.TestCase):
     """
@@ -441,6 +447,13 @@ class TestPlotMultiColourSwatches(unittest.TestCase):
             ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773)),
             ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
         ])
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_multi_colour_swatches(
+            np.array([[0.45293517, 0.31732158, 0.26414773],
+                      [0.77875824, 0.57726450, 0.50453169]]))
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

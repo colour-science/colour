@@ -1110,18 +1110,18 @@ class SpragueInterpolator(object):
                 '"y" dependent variable values count must be normalised to'
                 'domain [6:]!')
 
-            yp1 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
-                                   np.array(value[0:6]).reshape(
-                                       (6, 1)))) / 209)[0]
-            yp2 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[1],
-                                   np.array(value[0:6]).reshape(
-                                       (6, 1)))) / 209)[0]
-            yp3 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[2],
-                                   np.array(value[-6:]).reshape(
-                                       (6, 1)))) / 209)[0]
-            yp4 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[3],
-                                   np.array(value[-6:]).reshape(
-                                       (6, 1)))) / 209)[0]
+            yp1 = np.ravel(
+                (np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
+                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
+            yp2 = np.ravel(
+                (np.dot(self.SPRAGUE_C_COEFFICIENTS[1],
+                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
+            yp3 = np.ravel(
+                (np.dot(self.SPRAGUE_C_COEFFICIENTS[2],
+                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
+            yp4 = np.ravel(
+                (np.dot(self.SPRAGUE_C_COEFFICIENTS[3],
+                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
 
             self._yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
