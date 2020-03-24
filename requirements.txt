@@ -7,7 +7,7 @@ Babel==2.8.0
 backcall==0.1.0
 backports.functools-lru-cache==1.6.1
 biblib-simple==0.1.1
-bleach==3.1.0
+bleach==3.1.2
 certifi==2019.11.28
 cfgv==2.0.1
 chardet==3.0.4
