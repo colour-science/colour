@@ -25,6 +25,7 @@ Sub-packages
 -   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
+-   geometry: Geometry primitives.
 -   graph: Graph for automatic colour conversions.
 -   io: Input / output objects for reading and writing data.
 -   models: Colour models.
@@ -92,6 +93,8 @@ from .characterisation import (
     DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
     COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
     COLOUR_CORRECTION_METHODS, colour_correction)
+from .geometry import (PRIMITIVE_METHODS, primitive,
+                       PRIMITIVE_VERTICES_METHODS, primitive_vertices)
 from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence, READ_IMAGE_METHODS,
                  SpectralDistribution_IESTM2714, WRITE_IMAGE_METHODS,
                  read_image, read_LUT, read_sds_from_csv_file,
@@ -222,6 +225,10 @@ __all__ += [
     'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
     'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
     'COLOUR_CORRECTION_METHODS', 'colour_correction'
+]
+__all__ += [
+    'PRIMITIVE_METHODS', 'primitive', 'PRIMITIVE_VERTICES_METHODS',
+    'primitive_vertices'
 ]
 __all__ += [
     'LUT1D', 'LUT3x1D', 'LUT3D', 'LUTSequence', 'READ_IMAGE_METHODS',

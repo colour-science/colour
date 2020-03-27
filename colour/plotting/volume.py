@@ -16,12 +16,14 @@ import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.geometry import (primitive_vertices_cube_mpl,
+                             primitive_vertices_grid_mpl)
 from colour.models import RGB_to_XYZ
 from colour.models.common import (COLOURSPACE_MODELS_AXIS_LABELS,
                                   XYZ_to_colourspace_model)
 from colour.plotting import (
-    COLOUR_STYLE_CONSTANTS, common_colourspace_model_axis_reorder, cube,
-    filter_RGB_colourspaces, filter_cmfs, grid, override_style, render)
+    COLOUR_STYLE_CONSTANTS, common_colourspace_model_axis_reorder,
+    filter_RGB_colourspaces, filter_cmfs, override_style, render)
 from colour.utilities import (Structure, as_float_array, as_int_array,
                               first_item)
 
@@ -168,7 +170,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     settings.update(**kwargs)
 
     # Outer grid.
-    quads_g = grid(
+    quads_g = primitive_vertices_grid_mpl(
         origin=(-extent / 2, -extent / 2),
         width=extent,
         height=extent,
@@ -190,7 +192,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     ])
 
     # Inner grid.
-    quads_gs = grid(
+    quads_gs = primitive_vertices_grid_mpl(
         origin=(-extent / 2, -extent / 2),
         width=extent,
         height=extent,
@@ -210,12 +212,12 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     # Axis.
     thickness = extent / 1000
-    quad_x = grid(
+    quad_x = primitive_vertices_grid_mpl(
         origin=(limits[0, 0], -thickness / 2), width=extent, height=thickness)
     RGB_x = np.ones((quad_x.shape[0], quad_x.shape[-1] + 1))
     RGB_x = RGB_x * settings.x_axis_colour
 
-    quad_y = grid(
+    quad_y = primitive_vertices_grid_mpl(
         origin=(-thickness / 2, limits[1, 0]), width=thickness, height=extent)
     RGB_y = np.ones((quad_y.shape[0], quad_y.shape[-1] + 1))
     RGB_y = RGB_y * settings.y_axis_colour
@@ -282,25 +284,26 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     return quads, RGB_f, RGB_e
 
 
-def RGB_identity_cube(plane=None,
-                      width_segments=16,
+def RGB_identity_cube(width_segments=16,
                       height_segments=16,
-                      depth_segments=16):
+                      depth_segments=16,
+                      planes=None):
     """
     Returns an *RGB* identity cube made of quad geometric elements and its
     associated *RGB* colours.
 
     Parameters
     ----------
-    plane : array_like, optional
-        Any combination of **{'+x', '-x', '+y', '-y', '+z', '-z'}**,
-        Included grids in the cube construction.
     width_segments: int, optional
         Cube segments, quad counts along the width.
     height_segments: int, optional
         Cube segments, quad counts along the height.
     depth_segments: int, optional
         Cube segments, quad counts along the depth.
+    planes : array_like, optional
+        **{'-x', '+x', '-y', '+y', '-z', '+z',
+        'xy', 'xz', 'yz', 'yx', 'zx', 'zy'}**,
+        Grid primitives to include in the cube construction.
 
     Returns
     -------
@@ -309,7 +312,7 @@ def RGB_identity_cube(plane=None,
 
     Examples
     --------
-    >>> vertices, RGB = RGB_identity_cube(None, 1, 1, 1)
+    >>> vertices, RGB = RGB_identity_cube(1, 1, 1)
     >>> vertices
     array([[[ 0.,  0.,  0.],
             [ 1.,  0.,  0.],
@@ -349,14 +352,14 @@ def RGB_identity_cube(plane=None,
            [ 1. ,  0.5,  0.5]])
     """
 
-    quads = cube(
-        plane=plane,
+    quads = primitive_vertices_cube_mpl(
         width=1,
         height=1,
         depth=1,
         width_segments=width_segments,
         height_segments=height_segments,
-        depth_segments=depth_segments)
+        depth_segments=depth_segments,
+        planes=planes)
     RGB = np.average(quads, axis=-2)
 
     return quads, RGB

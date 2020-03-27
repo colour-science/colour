@@ -993,6 +993,31 @@ Colour Volume - ``colour.volume``
     >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE['sRGB'])
     821958.30000000005
 
+Geometry Primitives Generation - ``colour.geometry``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> colour.primitive('Grid')
+    (array([ ([-0.5,  0.5,  0. ], [ 0.,  1.], [ 0.,  0.,  1.], [ 0.,  1.,  0.,  1.]),
+           ([ 0.5,  0.5,  0. ], [ 1.,  1.], [ 0.,  0.,  1.], [ 1.,  1.,  0.,  1.]),
+           ([-0.5, -0.5,  0. ], [ 0.,  0.], [ 0.,  0.,  1.], [ 0.,  0.,  0.,  1.]),
+           ([ 0.5, -0.5,  0. ], [ 1.,  0.], [ 0.,  0.,  1.], [ 1.,  0.,  0.,  1.])],
+          dtype=[('position', '<f4', (3,)), ('uv', '<f4', (2,)), ('normal', '<f4', (3,)), ('colour', '<f4', (4,))]), array([[0, 2, 1],
+           [2, 3, 1]], dtype=uint32), array([[0, 2],
+           [2, 3],
+           [3, 1],
+           [1, 0]], dtype=uint32))
+    >>> sorted(colour.PRIMITIVE_METHODS.keys())
+    ['Cube', 'Grid']
+    >>> colour.primitive_vertices('Quad MPL')
+    array([[ 0.,  0.,  0.],
+           [ 1.,  0.,  0.],
+           [ 1.,  1.,  0.],
+           [ 0.,  1.,  0.]])
+    >>> sorted(colour.PRIMITIVE_VERTICES_METHODS.keys())
+    ['Cube MPL', 'Grid MPL', 'Quad MPL', 'Sphere']
+
 Plotting - ``colour.plotting``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

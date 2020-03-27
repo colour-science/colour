@@ -248,20 +248,6 @@ Colour Models Volume
     plot_RGB_colourspaces_gamuts
     plot_RGB_scatter
 
-Geometry Plotting Utilities
----------------------------
-
-``colour.plotting``
-
-.. currentmodule:: colour.plotting
-
-.. autosummary::
-    :toctree: generated/
-
-    quad
-    grid
-    cube
-
 Automatic Colour Conversion Graph
 ---------------------------------
 
