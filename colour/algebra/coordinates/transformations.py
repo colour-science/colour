@@ -63,7 +63,10 @@ def cartesian_to_spherical(a):
     Returns
     -------
     ndarray
-        Spherical coordinates array :math:`\\rho\\theta\\phi`.
+        Spherical coordinates array :math:`\\rho\\theta\\phi`, :math:`\\rho` is
+        in range [0, +inf], :math:`\\theta` is in range [0, pi] radians, i.e.
+        [0, 180] degrees, and :math:`\\phi` is in range [-pi, pi] radians, i.e.
+        [-180, 180] degrees.
 
     References
     ----------
@@ -73,13 +76,13 @@ def cartesian_to_spherical(a):
     --------
     >>> a = np.array([3, 1, 6])
     >>> cartesian_to_spherical(a)  # doctest: +ELLIPSIS
-    array([ 6.7823299...,  1.0857465...,  0.3217505...])
+    array([ 6.7823299...,  0.4850497...,  0.3217505...])
     """
 
     x, y, z = tsplit(a)
 
     rho = np.linalg.norm(a, axis=-1)
-    theta = np.arctan2(z, np.linalg.norm(tstack([x, y]), axis=-1))
+    theta = np.arccos(z / rho)
     phi = np.arctan2(y, x)
 
     rtp = tstack([rho, theta, phi])
@@ -96,7 +99,10 @@ def spherical_to_cartesian(a):
     Parameters
     ----------
     a : array_like
-        Spherical coordinates array :math:`\\rho\\theta\\phi` to transform.
+        Spherical coordinates array :math:`\\rho\\theta\\phi` to transform,
+        :math:`\\rho` is in range [0, +inf], :math:`\\theta` is in range
+        [0, pi] radians, i.e. [0, 180] degrees, and :math:`\\phi` is in range
+        [-pi, pi] radians, i.e. [-180, 180] degrees.
 
     Returns
     -------
@@ -109,16 +115,16 @@ def spherical_to_cartesian(a):
 
     Examples
     --------
-    >>> a = np.array([6.78232998, 1.08574654, 0.32175055])
+    >>> a = np.array([6.78232998, 0.48504979, 0.32175055])
     >>> spherical_to_cartesian(a)  # doctest: +ELLIPSIS
-    array([ 3.        ,  0.9999999...,  6.        ])
+    array([ 3.0000000...,  0.9999999...,  5.9999999...])
     """
 
     rho, theta, phi = tsplit(a)
 
-    x = rho * np.cos(theta) * np.cos(phi)
-    y = rho * np.cos(theta) * np.sin(phi)
-    z = rho * np.sin(theta)
+    x = rho * np.sin(theta) * np.cos(phi)
+    y = rho * np.sin(theta) * np.sin(phi)
+    z = rho * np.cos(theta)
 
     xyz = tstack([x, y, z])
 
