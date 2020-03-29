@@ -46,6 +46,7 @@ Overview
     chromaticities computations.
 -   :doc:`difference <colour.difference>`: Colour difference computations.
 -  *examples*: Examples for the sub-packages.
+-   :doc:`geometry <colour.geometry>`: Geometry primitives generation.
 -   :doc:`graph <colour.graph>`: Graph for automatic colour conversions.
 -   :doc:`io <colour.io>`: Input / output objects for reading and writing data.
 -   :doc:`models <colour.models>`: Colour models.
@@ -82,9 +83,9 @@ The various sub-packages also expose their public API:
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
                         'blindness', 'characterisation', 'colorimetry',
                         'constants', 'continuous', 'contrast', 'corresponding',
-                        'difference', 'graph', 'io', 'models', 'notation',
-                        'phenomena', 'plotting', 'quality', 'recovery',
-                        'temperature', 'utilities', 'volume'):
+                        'difference', 'geometry', 'graph', 'io', 'models',
+                        'notation', 'phenomena', 'plotting', 'quality',
+                        'recovery', 'temperature', 'utilities', 'volume'):
         print(sub_package.title())
         pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
         print('\n')
@@ -151,12 +152,7 @@ The various sub-packages also expose their public API:
 
 
     Constants
-    ['K_M',
-     'KP_M',
-     'AVOGADRO_CONSTANT',
-     'BOLTZMANN_CONSTANT',
-     'LIGHT_SPEED',
-     '...']
+    ['K_M', 'KP_M', 'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', '...']
 
 
     Continuous
@@ -190,6 +186,15 @@ The various sub-packages also expose their public API:
      '...']
 
 
+    Geometry
+    ['PLANE_TO_AXIS_MAPPING',
+     'primitive_grid',
+     'primitive_cube',
+     'PRIMITIVE_METHODS',
+     'primitive',
+     '...']
+
+
     Graph
     ['CONVERSION_GRAPH',
      'CONVERSION_GRAPH_NODE_LABELS',
@@ -208,11 +213,11 @@ The various sub-packages also expose their public API:
 
 
     Models
-    ['JMh_CIECAM02_to_CAM02LCD',
-     'CAM02LCD_to_JMh_CIECAM02',
-     'JMh_CIECAM02_to_CAM02SCD',
-     'CAM02SCD_to_JMh_CIECAM02',
-     'JMh_CIECAM02_to_CAM02UCS',
+    ['Jab_to_JCh',
+     'JCh_to_Jab',
+     'COLOURSPACE_MODELS',
+     'COLOURSPACE_MODELS_AXIS_LABELS',
+     'XYZ_to_colourspace_model',
      '...']
 
 
