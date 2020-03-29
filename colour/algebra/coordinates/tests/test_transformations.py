@@ -43,17 +43,17 @@ cartesian_to_spherical` definition.
 
         np.testing.assert_almost_equal(
             cartesian_to_spherical(np.array([3, 1, 6])),
-            np.array([6.78232998, 1.08574654, 0.32175055]),
+            np.array([6.78232998, 0.48504979, 0.32175055]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             cartesian_to_spherical(np.array([-1, 9, 16])),
-            np.array([18.38477631, 1.05578119, 1.68145355]),
+            np.array([18.38477631, 0.51501513, 1.68145355]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             cartesian_to_spherical(np.array([6.3434, -0.9345, 18.5675])),
-            np.array([19.64342307, 1.23829030, -0.14626640]),
+            np.array([19.64342307, 0.33250603, -0.14626640]),
             decimal=7)
 
     def test_n_dimensional_cartesian_to_spherical(self):
@@ -103,19 +103,19 @@ spherical_to_cartesian` definition.
 
         np.testing.assert_almost_equal(
             spherical_to_cartesian(
-                np.array([6.78232998, 1.08574654, 0.32175055])),
+                np.array([6.78232998, 0.48504979, 0.32175055])),
             np.array([3.00000000, 0.99999999, 6.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spherical_to_cartesian(
-                np.array([18.38477631, 1.05578119, 1.68145355])),
+                np.array([18.38477631, 0.51501513, 1.68145355])),
             np.array([-1.00000003, 9.00000007, 15.99999996]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spherical_to_cartesian(
-                np.array([19.64342307, 1.23829030, -0.14626640])),
+                np.array([19.64342307, 0.33250603, -0.14626640])),
             np.array([6.34339996, -0.93449999, 18.56750001]),
             decimal=7)
 
@@ -125,7 +125,7 @@ spherical_to_cartesian` definition.
 spherical_to_cartesian` definition n-dimensional arrays support.
         """
 
-        a_i = np.array([6.78232998, 1.08574654, 0.32175055])
+        a_i = np.array([6.78232998, 0.48504979, 0.32175055])
         a_o = spherical_to_cartesian(a_i)
 
         a_i = np.tile(a_i, (6, 1))

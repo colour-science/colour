@@ -124,7 +124,7 @@ class TestRGBIdentityCube(unittest.TestCase):
         Tests :func:`colour.plotting.volume.RGB_identity_cube` definition.
         """
 
-        vertices, RGB = RGB_identity_cube(None, 1, 1, 1)
+        vertices, RGB = RGB_identity_cube(1, 1, 1)
 
         np.testing.assert_almost_equal(
             vertices,
