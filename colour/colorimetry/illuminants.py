@@ -34,6 +34,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import LinearInterpolator
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANTS_S_SDS,
                                 SpectralDistribution)
 from colour.utilities import as_float_array, as_numeric, tsplit
@@ -274,7 +275,7 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
                           [ 820.     ,   57.4406...],
                           [ 825.     ,   58.8765...],
                           [ 830.     ,   60.3125...]],
-                         interpolator=SpragueInterpolator,
+                         interpolator=LinearInterpolator,
                          interpolator_kwargs={},
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
@@ -297,7 +298,10 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 
     return SpectralDistribution(
-        distribution, S0.wavelengths, name='CIE Illuminant D Series')
+        distribution,
+        S0.wavelengths,
+        name='CIE xy ({0}, {1}) - CIE Illuminant D Series'.format(*xy),
+        interpolator=LinearInterpolator)
 
 
 def daylight_locus_function(x_D):
