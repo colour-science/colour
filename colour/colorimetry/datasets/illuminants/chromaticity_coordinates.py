@@ -44,6 +44,9 @@ References
     Digital Cinema System Specification - Version 1.1. Retrieved from
     http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
+-   :cite:`InternationalColorConsortium2010` : International Color Consortium.
+    (2010). Specification ICC.1:2010 (Profile version 4.3.0.0) (pp. 1-130).
+    http://www.color.org/specification/ICC1v43_2010-12.pdf
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
@@ -176,6 +179,10 @@ ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
 *ICC* illuminant chromaticity coordinates for the
 *CIE 1931 2 Degree Standard Observer*.
 
+References
+----------
+:cite:`InternationalColorConsortium2010`
+
 ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
 """
 
@@ -293,6 +300,7 @@ computed as follows::
 References
 ----------
 :cite:`CIETC1-482004h`, :cite:`DigitalCinemaInitiatives2007b`,
+:cite:`InternationalColorConsortium2010`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`, :cite:`Wikipedia2006a`
 
 ILLUMINANTS : CaseInsensitiveMapping
