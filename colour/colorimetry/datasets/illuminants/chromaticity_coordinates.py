@@ -69,11 +69,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER', 'ILLUMINANTS'
+    'ILLUMINANTS_CIE_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_ACES_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_DCI_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_CIE_CIE_1964_10_DEGREE_STANDARD_OBSERVER', 'ILLUMINANTS'
 ]
 
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+ILLUMINANTS_CIE_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'A': np.array([0.44758, 0.40745]),
     'B': np.array([0.34842, 0.35161]),
     'C': np.array([0.31006, 0.31616]),
@@ -94,22 +97,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'FL9': np.array([0.37410, 0.37270]),
     'FL10': np.array([0.34580, 0.35880]),
     'FL11': np.array([0.38050, 0.37690]),
-    'FL12': np.array([0.43700, 0.40420])
-})
-"""
-*CIE* illuminant chromaticity coordinates for the
-*CIE 1931 2 Degree Standard Observer*.
-
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
-"""
-
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
-    'ACES': np.array([0.32168, 0.33767]),
-    'DCI-P3': np.array([0.31400, 0.35100]),
-    'ICC D50': np.array([0.345702914918791, 0.358538596679933])
-})
-
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
+    'FL12': np.array([0.43700, 0.40420]),
     'FL3.1': np.array([0.44070, 0.40330]),
     'FL3.2': np.array([0.38080, 0.37340]),
     'FL3.3': np.array([0.31530, 0.34390]),
@@ -142,8 +130,56 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
     'ID65': np.array([0.310656625403120, 0.330663091836953]),
     'ID50': np.array([0.343211370103531, 0.360207541805137])
 })
+"""
+*CIE* illuminant chromaticity coordinates for the
+*CIE 1931 2 Degree Standard Observer*.
 
-ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+References
+----------
+:cite:`CIETC1-482004h`, :cite:`Wikipedia2006a`
+
+ILLUMINANTS_CIE_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_ACES_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+    'ACES': np.array([0.32168, 0.33767]),
+})
+"""
+*Academy Color Encoding System* (ACES) illuminant chromaticity coordinates for
+the *CIE 1931 2 Degree Standard Observer*.
+
+References
+----------
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+
+ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_DCI_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+    'DCI-P3': np.array([0.31400, 0.35100]),
+})
+"""
+*DCI* illuminant chromaticity coordinates for the
+*CIE 1931 2 Degree Standard Observer*.
+
+References
+----------
+:cite:`DigitalCinemaInitiatives2007b`
+
+ILLUMINANTS_DCI_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+    'ICC D50': np.array([0.345702914918791, 0.358538596679933])
+})
+"""
+*ICC* illuminant chromaticity coordinates for the
+*CIE 1931 2 Degree Standard Observer*.
+
+ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_CIE_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'A': np.array([0.45117, 0.40594]),
     'B': np.array([0.34980, 0.35270]),
     'C': np.array([0.31039, 0.31905]),
@@ -164,16 +200,7 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'FL9': np.array([0.37829, 0.37045]),
     'FL10': np.array([0.35090, 0.35444]),
     'FL11': np.array([0.38541, 0.37123]),
-    'FL12': np.array([0.44256, 0.39717])
-})
-"""
-*CIE* illuminant chromaticity coordinates for the
-*CIE 1964 10 Degree Standard Observer*.
-
-ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
-"""
-
-ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update({
+    'FL12': np.array([0.44256, 0.39717]),
     'FL3.1': np.array([0.449830684010003, 0.390231404321266]),
     'FL3.2': np.array([0.386924116672933, 0.365756034732821]),
     'FL3.3': np.array([0.321176986855865, 0.340501092654981]),
@@ -206,15 +233,27 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update({
     'ID65': np.array([0.312074043269908, 0.332660121024630]),
     'ID50': np.array([0.345621427535976, 0.361228962209198])
 })
+"""
+*CIE* illuminant chromaticity coordinates for the
+*CIE 1964 10 Degree Standard Observer*.
+
+References
+----------
+:cite:`CIETC1-482004h`, :cite:`Wikipedia2006a`
+
+ILLUMINANTS_CIE_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
 
 ILLUMINANTS = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
-        ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
+        CaseInsensitiveMapping(
+            ILLUMINANTS_CIE_CIE_1931_2_DEGREE_STANDARD_OBSERVER),
     'CIE 1964 10 Degree Standard Observer':
-        ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
+        CaseInsensitiveMapping(
+            ILLUMINANTS_CIE_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
 })
 ILLUMINANTS.__doc__ = """
-Aggregated *CIE* illuminant chromaticity coordinates.
+Aggregated illuminant chromaticity coordinates.
 
 Warning
 -------
@@ -269,3 +308,12 @@ ILLUMINANTS['cie_2_1931'] = (
     ILLUMINANTS['CIE 1931 2 Degree Standard Observer'])
 ILLUMINANTS['cie_10_1964'] = (
     ILLUMINANTS['CIE 1964 10 Degree Standard Observer'])
+
+ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
+    ILLUMINANTS_ACES_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
+
+ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
+    ILLUMINANTS_DCI_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
+
+ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
+    ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
