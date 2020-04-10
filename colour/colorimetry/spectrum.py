@@ -773,7 +773,32 @@ dict_like, optional
                     **kwargs):
         """
         Interpolates the spectral distribution in-place according to
-        *CIE 167:2005* recommendation or given interpolation arguments.
+        *CIE 167:2005* recommendation (if the interpolator has not been changed
+        at instantiation time) or given interpolation arguments.
+
+        The logic for choosing the interpolator class when ``interpolator`` is
+        not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
+                interpolator = SpragueInterpolator
+            else:
+                interpolator = CubicSplineInterpolator
+
+        The logic for choosing the interpolator keyword arguments when
+        ``interpolator_kwargs`` is not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         Parameters
         ----------
@@ -932,7 +957,7 @@ dict_like, optional
          [ 599.            0.1349201...]
          [ 600.            0.136    ...]]
 
-        Spectral distribution with a no-uniformly spaced independent variable
+        Spectral distribution with a non-uniformly spaced independent variable
         uses *Cubic Spline* interpolation:
 
         >>> sd = SpectralDistribution(data)
@@ -1063,13 +1088,24 @@ dict_like, optional
         shape.end = min(shape.end, np.floor(self_shape.end))
 
         if interpolator is None:
-            if self.is_uniform():
+            # User has specifically chosen the interpolator thus it is used
+            # instead of those from *CIE 167:2005* recommendation.
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
                 interpolator = SpragueInterpolator
             else:
                 interpolator = CubicSplineInterpolator
 
         if interpolator_kwargs is None:
-            interpolator_kwargs = {}
+            # User has specifically chosen the interpolator thus its keyword
+            # arguments are used.
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         interpolator = interpolator(self.wavelengths, self.values,
                                     **interpolator_kwargs)
@@ -1192,6 +1228,34 @@ dict_like, optional
         """
         Aligns the spectral distribution in-place to given spectral shape:
         Interpolates first then extrapolates to fit the given range.
+
+        Interpolation is performed according to *CIE 167:2005* recommendation
+        (if the interpolator has not been changed at instantiation time) or
+        given interpolation arguments.
+
+        The logic for choosing the interpolator class when ``interpolator`` is
+        not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
+                interpolator = SpragueInterpolator
+            else:
+                interpolator = CubicSplineInterpolator
+
+        The logic for choosing the interpolator keyword arguments when
+        ``interpolator_kwargs`` is not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         Parameters
         ----------
@@ -1846,7 +1910,32 @@ MultiSpectralDistributions or array_like or dict_like, optional
                     **kwargs):
         """
         Interpolates the multi-spectral distributions in-place according to
-        *CIE 167:2005* recommendation or given interpolation arguments.
+        *CIE 167:2005* recommendation (if the interpolator has not been changed
+        at instantiation time) or given interpolation arguments.
+
+        The logic for choosing the interpolator class when ``interpolator`` is
+        not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
+                interpolator = SpragueInterpolator
+            else:
+                interpolator = CubicSplineInterpolator
+
+        The logic for choosing the interpolator keyword arguments when
+        ``interpolator_kwargs`` is not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         Parameters
         ----------
@@ -2144,6 +2233,34 @@ MultiSpectralDistributions or array_like or dict_like, optional
         """
         Aligns the multi-spectral distributions in-place to given spectral
         shape: Interpolates first then extrapolates to fit the given range.
+
+        Interpolation is performed according to *CIE 167:2005* recommendation
+        (if the interpolator has not been changed at instantiation time) or
+        given interpolation arguments.
+
+        The logic for choosing the interpolator class when ``interpolator`` is
+        not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
+                interpolator = SpragueInterpolator
+            else:
+                interpolator = CubicSplineInterpolator
+
+        The logic for choosing the interpolator keyword arguments when
+        ``interpolator_kwargs`` is not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         Parameters
         ----------
