@@ -178,7 +178,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
     >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
-    array([ 0.2004523...,  0.1105627...,  0.0420964...])
+    array([ 0.1996032...,  0.1155770...,  0.0427866...])
     """
 
     a = as_float_array(XYZ)

@@ -85,7 +85,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'C': np.array([0.31006, 0.31616]),
     'D50': np.array([0.34570, 0.35850]),
     'D55': np.array([0.33243, 0.34744]),
-    'D60': np.array([0.321626242047397, 0.337736995955436]),
+    'D60': np.array([0.321616709705268, 0.337619916550817]),
     'D65': np.array([0.31270, 0.32900]),
     'D75': np.array([0.29903, 0.31488]),
     'E': np.array([1 / 3, 1 / 3]),
@@ -238,7 +238,6 @@ computed as follows::
     xy = colour.temperature.CCT_to_xy_CIE_D(CCT)
 
     sd = colour.sd_CIE_illuminant_D_series(xy)
-    sd.interpolator = colour.LinearInterpolator
     colour.XYZ_to_xy(
         colour.sd_to_XYZ(
             sd, colour.CMFS['CIE 1964 10 Degree Standard Observer']) / 100.0)

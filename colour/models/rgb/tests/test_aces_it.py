@@ -51,21 +51,21 @@ sd_to_aces_relative_exposure_values` definition.
         dark_skin = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin),
-            np.array([0.11717855, 0.08663479, 0.05897071]),
+            np.array([0.11718149, 0.08663609, 0.05897268]),
             decimal=7)
 
         dark_skin = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin,
                                                 ILLUMINANTS_SDS['A']),
-            np.array([0.13584109, 0.09431910, 0.05928216]),
+            np.array([0.13583991, 0.09431845, 0.05928214]),
             decimal=7)
 
         dark_skin = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin, apply_chromatic_adaptation=True),
-            np.array([0.11807662, 0.0869023, 0.05891045]),
+            np.array([0.11807796, 0.08690312, 0.05891252]),
             decimal=7)
 
         dark_skin = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
@@ -74,7 +74,7 @@ sd_to_aces_relative_exposure_values` definition.
                 dark_skin,
                 apply_chromatic_adaptation=True,
                 chromatic_adaptation_transform='Bradford'),
-            np.array([0.11805856, 0.08688928, 0.05900204]),
+            np.array([0.11805993, 0.08689013, 0.05900396]),
             decimal=7)
 
     def test_domain_range_scale_spectral_to_aces_relative_exposure_values(
