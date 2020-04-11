@@ -10,11 +10,11 @@ References
 
 from __future__ import absolute_import
 
-from .dslr import DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES
+from .dslr import DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES
 from colour.utilities import CaseInsensitiveMapping
 
 CAMERAS_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping(
-    DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES)
+    DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES)
 CAMERAS_RGB_SPECTRAL_SENSITIVITIES.__doc__ = """
 Cameras *RGB* spectral sensitivities.
 
