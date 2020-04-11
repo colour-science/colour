@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-CRT Displays RGB Primaries
-==========================
+CRT Display RGB Primaries
+=========================
 
-Defines *CRT* displays *RGB* primaries multi-spectral distributions.
+Defines *CRT* display *RGB* primaries multi-spectral distributions.
 
 Each *CRT* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
@@ -35,9 +35,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CRT_DISPLAYS_RGB_PRIMARIES_DATA', 'CRT_DISPLAYS_RGB_PRIMARIES']
+__all__ = ['CRT_DISPLAY_RGB_PRIMARIES_DATA', 'CRT_DISPLAY_RGB_PRIMARIES']
 
-CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
+CRT_DISPLAY_RGB_PRIMARIES_DATA = {
     'Typical CRT Brainard 1997': {
         380.0: (0.0025, 0.0018, 0.0219),
         385.0: (0.0017, 0.0016, 0.0336),
@@ -123,19 +123,19 @@ CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
     }
 }
 
-CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
+CRT_DISPLAY_RGB_PRIMARIES = CaseInsensitiveMapping({
     'Typical CRT Brainard 1997':
         RGB_DisplayPrimaries(
-            CRT_DISPLAYS_RGB_PRIMARIES_DATA['Typical CRT Brainard 1997'],
+            CRT_DISPLAY_RGB_PRIMARIES_DATA['Typical CRT Brainard 1997'],
             name='Typical CRT Brainard 1997')
 })
 """
-*CRT* displays *RGB* primaries multi-spectral distributions.
+*CRT* display *RGB* primaries multi-spectral distributions.
 
 References
 ----------
 :cite:`Machado2010a`
 
-CRT_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
+CRT_DISPLAY_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Typical CRT Brainard 1997'}**
 """
