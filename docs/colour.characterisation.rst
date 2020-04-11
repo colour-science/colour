@@ -111,4 +111,4 @@ Displays
 .. autosummary::
     :toctree: generated/
 
-    DISPLAYS_RGB_PRIMARIES
+    DISPLAY_RGB_PRIMARIES

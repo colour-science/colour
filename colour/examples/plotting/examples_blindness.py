@@ -50,7 +50,7 @@ print('\n')
 
 M_a = colour.anomalous_trichromacy_matrix_Machado2009(
     colour.LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
-    colour.DISPLAYS_RGB_PRIMARIES['Typical CRT Brainard 1997'],
+    colour.DISPLAY_RGB_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([10, 0, 0]))
 message_box('Simulating average "Protanomaly" on '
             '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
@@ -68,7 +68,7 @@ print('\n')
 
 M_a = colour.anomalous_trichromacy_matrix_Machado2009(
     colour.LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
-    colour.DISPLAYS_RGB_PRIMARIES['Typical CRT Brainard 1997'],
+    colour.DISPLAY_RGB_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([20, 0, 0]))
 message_box('Simulating "Protanopia" on '
             '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '

@@ -192,7 +192,7 @@ Colour Blindness - ``colour.blindness``
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
-    >>> primaries = colour.DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = colour.DISPLAY_RGB_PRIMARIES['Apple Studio Display']
     >>> d_LMS = (15, 0, 0)
     >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
     array([[-0.27774652,  2.65150084, -1.37375432],

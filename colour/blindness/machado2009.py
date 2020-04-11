@@ -87,10 +87,10 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
 
     Examples
     --------
-    >>> from colour import DISPLAYS_RGB_PRIMARIES, LMS_CMFS
+    >>> from colour import DISPLAY_RGB_PRIMARIES, LMS_CMFS
     >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = DISPLAY_RGB_PRIMARIES['Apple Studio Display']
     >>> RGB_to_WSYBRG_matrix(  # doctest: +ELLIPSIS
     ...     cmfs, primaries)
     array([[  0.2126535...,   0.6704626...,   0.1168838...],
@@ -267,10 +267,10 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
 
     Examples
     --------
-    >>> from colour import DISPLAYS_RGB_PRIMARIES, LMS_CMFS
+    >>> from colour import DISPLAY_RGB_PRIMARIES, LMS_CMFS
     >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = DISPLAY_RGB_PRIMARIES['Apple Studio Display']
     >>> anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
     ... # doctest: +ELLIPSIS
     array([[-0.2777465...,  2.6515008..., -1.3737543...],

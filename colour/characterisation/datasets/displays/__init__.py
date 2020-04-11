@@ -17,17 +17,17 @@ from .crt import CRT_DISPLAY_RGB_PRIMARIES
 from .lcd import LCD_DISPLAY_RGB_PRIMARIES
 from colour.utilities import CaseInsensitiveMapping
 
-DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(CRT_DISPLAY_RGB_PRIMARIES)
-DISPLAYS_RGB_PRIMARIES.update(LCD_DISPLAY_RGB_PRIMARIES)
-DISPLAYS_RGB_PRIMARIES.__doc__ = """
-Displays *RGB* primaries multi-spectral distributions.
+DISPLAY_RGB_PRIMARIES = CaseInsensitiveMapping(CRT_DISPLAY_RGB_PRIMARIES)
+DISPLAY_RGB_PRIMARIES.update(LCD_DISPLAY_RGB_PRIMARIES)
+DISPLAY_RGB_PRIMARIES.__doc__ = """
+Display *RGB* primaries multi-spectral distributions.
 
 References
 ----------
 :cite:`Fairchild1998b`, :cite:`Machado2010a`
 
-DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
+DISPLAY_RGB_PRIMARIES : CaseInsensitiveMapping
     **{Apple Studio Display, Typical CRT Brainard 1997}**
 """
 
-__all__ = ['DISPLAYS_RGB_PRIMARIES']
+__all__ = ['DISPLAY_RGB_PRIMARIES']

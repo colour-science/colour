@@ -90,7 +90,7 @@ from .appearance import (
 from .difference import DELTA_E_METHODS, delta_E
 from .characterisation import (
     CAMERA_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKERS_SDS,
-    DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
+    DISPLAY_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
     COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
     COLOUR_CORRECTION_METHODS, colour_correction)
 from .geometry import (PRIMITIVE_METHODS, primitive,
@@ -221,7 +221,7 @@ __all__ += [
 __all__ += ['DELTA_E_METHODS', 'delta_E']
 __all__ += [
     'CAMERA_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS',
-    'COLOURCHECKERS_SDS', 'DISPLAYS_RGB_PRIMARIES',
+    'COLOURCHECKERS_SDS', 'DISPLAY_RGB_PRIMARIES',
     'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
     'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
     'COLOUR_CORRECTION_METHODS', 'colour_correction'
@@ -1789,6 +1789,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
         'colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES',
+    ],
+    [
+        'colour.DISPLAYS_RGB_PRIMARIES',
+        'colour.DISPLAY_RGB_PRIMARIES',
     ],
     [
         'colour.ILLUMINANTS_SDS',
