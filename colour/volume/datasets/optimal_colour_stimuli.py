@@ -46,7 +46,7 @@ __status__ = 'Production'
 
 __all__ = [
     'A_OPTIMAL_COLOUR_STIMULI', 'C_OPTIMAL_COLOUR_STIMULI',
-    'D65_OPTIMAL_COLOUR_STIMULI', 'ILLUMINANTS_OPTIMAL_COLOUR_STIMULI'
+    'D65_OPTIMAL_COLOUR_STIMULI', 'ILLUMINANT_OPTIMAL_COLOUR_STIMULI'
 ]
 
 A_OPTIMAL_COLOUR_STIMULI = np.array([
@@ -742,18 +742,18 @@ References
 :cite:`Wyszecki2000bh`
 """
 
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping({
+ILLUMINANT_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping({
     'A': A_OPTIMAL_COLOUR_STIMULI,
     'C': C_OPTIMAL_COLOUR_STIMULI,
     'D65': D65_OPTIMAL_COLOUR_STIMULI
 })
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.__doc__ = """
+ILLUMINANT_OPTIMAL_COLOUR_STIMULI.__doc__ = """
 Illuminants *Optimal Colour Stimuli*.
 
 References
 ----------
 :cite:`Wikipedia2004a`
 
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
+ILLUMINANT_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
     **{'A', 'C', 'D65'}**
 """

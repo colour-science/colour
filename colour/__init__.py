@@ -148,13 +148,13 @@ from .recovery import XYZ_TO_SD_METHODS, XYZ_to_sd
 from .temperature import (CCT_TO_UV_METHODS, CCT_TO_XY_METHODS, CCT_to_uv,
                           CCT_to_xy, UV_TO_CCT_METHODS, XY_TO_CCT_METHODS,
                           uv_to_CCT, xy_to_CCT)
-from .volume import (
-    ILLUMINANTS_OPTIMAL_COLOUR_STIMULI, RGB_colourspace_limits,
-    RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
-    RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
-    RGB_colourspace_volume_MonteCarlo,
-    RGB_colourspace_volume_coverage_MonteCarlo, is_within_macadam_limits,
-    is_within_mesh_volume, is_within_pointer_gamut, is_within_visible_spectrum)
+from .volume import (ILLUMINANT_OPTIMAL_COLOUR_STIMULI, RGB_colourspace_limits,
+                     RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
+                     RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
+                     RGB_colourspace_volume_MonteCarlo,
+                     RGB_colourspace_volume_coverage_MonteCarlo,
+                     is_within_macadam_limits, is_within_mesh_volume,
+                     is_within_pointer_gamut, is_within_visible_spectrum)
 from .graph import describe_conversion_path, convert
 
 from colour.utilities import is_matplotlib_installed
@@ -297,7 +297,7 @@ __all__ += [
     'UV_TO_CCT_METHODS', 'XY_TO_CCT_METHODS', 'uv_to_CCT', 'xy_to_CCT'
 ]
 __all__ += [
-    'ILLUMINANTS_OPTIMAL_COLOUR_STIMULI', 'RGB_colourspace_limits',
+    'ILLUMINANT_OPTIMAL_COLOUR_STIMULI', 'RGB_colourspace_limits',
     'RGB_colourspace_pointer_gamut_coverage_MonteCarlo',
     'RGB_colourspace_visible_spectrum_coverage_MonteCarlo',
     'RGB_colourspace_volume_MonteCarlo',
@@ -1801,6 +1801,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.DISPLAYS_RGB_PRIMARIES',
         'colour.DISPLAY_RGB_PRIMARIES',
+    ],
+    [
+        'colour.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI',
+        'colour.ILLUMINANT_OPTIMAL_COLOUR_STIMULI',
     ],
     [
         'colour.ILLUMINANTS_SDS',

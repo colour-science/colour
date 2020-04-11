@@ -284,7 +284,7 @@ The various sub-packages also expose their public API:
 
 
     Volume
-    ['ILLUMINANTS_OPTIMAL_COLOUR_STIMULI',
+    ['ILLUMINANT_OPTIMAL_COLOUR_STIMULI',
      'is_within_macadam_limits',
      'is_within_mesh_volume',
      'is_within_pointer_gamut',
