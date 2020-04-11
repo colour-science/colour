@@ -321,9 +321,9 @@ The codebase is documented and most docstrings have usage examples:
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
@@ -355,7 +355,7 @@ the objects needed for spectral computations and many others:
      'CMFS',
      'LMS_CMFS',
      'RGB_CMFS',
-     'STANDARD_OBSERVERS_CMFS',
+     'STANDARD_OBSERVER_CMFS',
      'ILLUMINANTS',
      'D_ILLUMINANT_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
@@ -456,7 +456,7 @@ the following components:
     ['CMFS',
      'LMS_CMFS',
      'RGB_CMFS',
-     'STANDARD_OBSERVERS_CMFS',
+     'STANDARD_OBSERVER_CMFS',
      'ILLUMINANTS',
      'D_ILLUMINANT_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
@@ -1076,7 +1076,7 @@ calculated:
 .. code:: python
 
     sd = colour.SpectralDistribution(sample_sd_data)
-    cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    cmfs = colour.STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
     illuminant = colour.ILLUMINANT_SDS['D65']
 
     # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.

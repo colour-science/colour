@@ -9,7 +9,7 @@ import unittest
 from matplotlib.pyplot import Axes, Figure
 
 from colour.colorimetry import (ILLUMINANT_SDS, SpectralShape,
-                                STANDARD_OBSERVERS_CMFS)
+                                STANDARD_OBSERVER_CMFS)
 from colour.plotting import (plot_chromaticity_diagram_CIE1931,
                              plot_chromaticity_diagram_CIE1960UCS,
                              plot_chromaticity_diagram_CIE1976UCS,
@@ -72,7 +72,7 @@ class TestPlotSpectralLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_spectral_locus(STANDARD_OBSERVERS_CMFS[
+        figure, axes = plot_spectral_locus(STANDARD_OBSERVER_CMFS[
             'CIE 1931 2 Degree Standard Observer'].copy().align(
                 SpectralShape(400, 700, 10)))
 

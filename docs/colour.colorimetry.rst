@@ -183,7 +183,7 @@ Colour Matching Functions
     CMFS
     LMS_CMFS
     RGB_CMFS
-    STANDARD_OBSERVERS_CMFS
+    STANDARD_OBSERVER_CMFS
 
 Colour Matching Functions Transformations
 -----------------------------------------

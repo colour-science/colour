@@ -19,7 +19,7 @@ import colour  # noqa
 from colour.characterisation import COLOURCHECKERS_SDS  # noqa
 from colour.colorimetry import (  # noqa
     ILLUMINANT_SDS, LIGHT_SOURCE_SDS, PHOTOPIC_LEFS, SCOTOPIC_LEFS,
-    STANDARD_OBSERVERS_CMFS, SpectralDistribution, SpectralShape, sd_blackbody,
+    STANDARD_OBSERVER_CMFS, SpectralDistribution, SpectralShape, sd_blackbody,
     sd_mesopic_luminous_efficiency_function, sd_to_XYZ)
 from colour.io import read_image  # noqa
 from colour.models import sRGB_to_XYZ, XYZ_to_sRGB, XYZ_to_xy  # noqa
@@ -785,7 +785,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Sample_Swatch.png')
     sd = SpectralDistribution(sample_sd_data)
-    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
     illuminant = ILLUMINANT_SDS['D65']
     with domain_range_scale('1'):
         XYZ = sd_to_XYZ(sd, cmfs, illuminant)

@@ -67,7 +67,7 @@ from .colorimetry import (
     LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS, MultiSpectralDistributions,
     PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS, SD_GAUSSIAN_METHODS,
     SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS, SD_TO_XYZ_METHODS,
-    STANDARD_OBSERVERS_CMFS, SpectralDistribution, SpectralShape,
+    STANDARD_OBSERVER_CMFS, SpectralDistribution, SpectralShape,
     WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
     excitation_purity, lightness, luminance, luminous_efficacy,
@@ -193,7 +193,7 @@ __all__ += [
     'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistributions', 'PHOTOPIC_LEFS',
     'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS',
     'SD_MULTI_LEDS_METHODS', 'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS',
-    'STANDARD_OBSERVERS_CMFS', 'SpectralDistribution', 'SpectralShape',
+    'STANDARD_OBSERVER_CMFS', 'SpectralDistribution', 'SpectralShape',
     'WHITENESS_METHODS', 'YELLOWNESS_METHODS', 'bandpass_correction',
     'colorimetric_purity', 'complementary_wavelength', 'dominant_wavelength',
     'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
@@ -1793,6 +1793,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.LIGHT_SOURCES_SDS',
         'colour.LIGHT_SOURCE_SDS',
+    ],
+    [
+        'colour.STANDARD_OBSERVERS_CMFS',
+        'colour.STANDARD_OBSERVER_CMFS',
     ],
 ]
 
