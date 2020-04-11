@@ -40,12 +40,6 @@ Defines various objects for colour correction, like colour matching two images:
     colourspace array using the colour correction matrix from given
     :math:`M_T` colour array to :math:`M_R` colour array.
 
-See Also
---------
-`Colour Correction Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/correction.ipynb>`_
-
 References
 ----------
 -   :cite:`Cheung2004` : Cheung, V., Westland, S., Connah, D., & Ripamonti, C.

@@ -17,12 +17,6 @@ The following *DSLR* cameras are available:
 -   Nikon 5100 (NPL)
 -   Sigma SDMerill (NPL)
 
-See Also
---------
-`Cameras Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/cameras.ipynb>`_
-
 References
 ----------
 -   :cite:`Darrodi2015a` : Darrodi, M. M., Finlayson, G., Goodman, T., &

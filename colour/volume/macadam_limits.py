@@ -4,12 +4,6 @@ Optimal Colour Stimuli - MacAdam Limits
 =======================================
 
 Defines objects related to *Optimal Colour Stimuli* computations.
-
-See Also
---------
-`Optimal Colour Stimuli - MacAdam Limits Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/volume/macadam_limits.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

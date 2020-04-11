@@ -5,12 +5,6 @@ Corresponding Chromaticities Prediction
 
 Defines objects to compute corresponding chromaticities prediction.
 
-See Also
---------
-`Corresponding Chromaticities Prediction Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/corresponding/prediction.ipynb>`_
-
 References
 ----------
 -   :cite:`Breneman1987b` : Breneman, E. J. (1987). Corresponding

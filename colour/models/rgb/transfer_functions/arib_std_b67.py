@@ -9,12 +9,6 @@ Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
 -   :func:`colour.models.oetf_ARIBSTDB67`
 -   :func:`colour.models.oetf_inverse_ARIBSTDB67`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`AssociationofRadioIndustriesandBusinesses2015a` : Association of

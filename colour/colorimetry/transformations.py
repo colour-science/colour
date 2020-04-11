@@ -12,12 +12,6 @@ transformations:
 -   :func:`colour.colorimetry.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
 -   :func:`colour.colorimetry.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
 
-See Also
---------
-`Colour Matching Functions Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/cmfs.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-362006a` : CIE TC 1-36. (2006). CIE 170-1:2006 Fundamental

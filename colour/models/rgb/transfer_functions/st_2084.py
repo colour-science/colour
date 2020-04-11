@@ -9,12 +9,6 @@ and electro-optical transfer function (EOTF / EOCF):
 -   :func:`colour.models.eotf_ST2084`
 -   :func:`colour.models.eotf_inverse_ST2084`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Miller2014a` : Miller, S. (2014). A Perceptual EOTF for Extended

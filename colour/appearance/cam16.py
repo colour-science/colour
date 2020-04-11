@@ -11,12 +11,6 @@ Defines *CAM16* colour appearance model objects:
 -   :func:`colour.XYZ_to_CAM16`
 -   :func:`colour.CAM16_to_XYZ`
 
-See Also
---------
-`CAM16 Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/cam16.ipynb>`_
-
 References
 ----------
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,

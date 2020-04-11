@@ -9,12 +9,6 @@ Defines *CIE* illuminants computation related objects:
 -   :func:`colour.sd_CIE_illuminant_D_series`
 -   :func:`colour.daylight_locus_function`
 
-See Also
---------
-`Illuminants Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004` CIE TC 1-48. (2004). EXPLANATORY COMMENTS - 5. In

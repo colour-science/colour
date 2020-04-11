@@ -26,12 +26,6 @@ The following methods are available:
 -   :func:`colour.lightness`: *Lightness* :math:`L` computation of given
     *luminance* :math:`Y` using given method.
 
-See Also
---------
-`Lightness Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/lightness.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour

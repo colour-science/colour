@@ -12,12 +12,6 @@ Defines the classes and objects handling spectral data computations:
 -   :func:`colour.colorimetry.sds_and_multi_sds_to_sds`
 -   :func:`colour.colorimetry.sds_and_multi_sds_to_multi_sds`
 
-See Also
---------
-`Spectrum Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/spectrum.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-382005e` : CIE TC 1-38. (2005). 9. INTERPOLATION. In

@@ -11,12 +11,6 @@ and related quantities:
 -   :func:`colour.excitation_purity`
 -   :func:`colour.colorimetric_purity`
 
-See Also
---------
-`Dominant Wavelength and Purity Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/dominant_wavelength.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004o` : CIE TC 1-48. (2004). 9.1 Dominant wavelength and

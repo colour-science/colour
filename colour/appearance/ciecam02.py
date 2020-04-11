@@ -11,12 +11,6 @@ Defines *CIECAM02* colour appearance model objects:
 -   :func:`colour.XYZ_to_CIECAM02`
 -   :func:`colour.CIECAM02_to_XYZ`
 
-See Also
---------
-`CIECAM02 Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/ciecam02.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2004c` : Fairchild, M. D. (2004). CIECAM02. In Color

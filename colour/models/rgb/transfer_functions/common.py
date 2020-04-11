@@ -4,12 +4,6 @@ Common Transfer Functions Utilities
 ===================================
 
 Defines various transfer functions common utilities.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

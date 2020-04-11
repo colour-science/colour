@@ -9,12 +9,6 @@ Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
 -   :func:`colour.models.eotf_inverse_BT1886`
 -   :func:`colour.models.eotf_BT1886`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2011h` : International

@@ -16,12 +16,6 @@ as follows::
 
      [np.array(['x', 'y', 'Y']], ..., np.array(['x', 'y', 'Y']))
 
-See Also
---------
-`Optimal Colour Stimuli - MacAdam Limits Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/volume/macadam_limits.ipynb>`_
-
 References
 ----------
 -   :cite:`MacAdam1935a` : MacAdam, D. L. (1935). Maximum Visual Efficiency of

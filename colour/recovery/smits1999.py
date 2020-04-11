@@ -5,12 +5,6 @@ Smits (1999) - Reflectance Recovery
 
 Defines objects for reflectance recovery using *Smits (1999)* method.
 
-See Also
---------
-`Smits (1999) - Reflectance Recovery Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/recovery/smits1999.ipynb>`_
-
 References
 ----------
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for

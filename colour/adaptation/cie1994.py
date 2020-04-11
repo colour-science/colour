@@ -7,12 +7,6 @@ Defines *CIE 1994* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.chromatic_adaptation_CIE1994`
 
-See Also
---------
-`CIE 1994 Chromatic Adaptation Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/cie1994.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of

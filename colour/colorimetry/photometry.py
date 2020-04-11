@@ -5,12 +5,6 @@ Photometry
 
 Defines photometric quantities computation related objects.
 
-See Also
---------
-`Photometry Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/photometry.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2005c` : Wikipedia. (2005). Luminous Efficacy. Retrieved

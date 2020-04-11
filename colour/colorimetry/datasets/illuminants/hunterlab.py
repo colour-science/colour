@@ -11,12 +11,6 @@ The currently implemented data has been extracted from :cite:`HunterLab2008b`,
 however you may want to use different data according to the tables given in
 :cite:`HunterLab2008c`.
 
-See Also
---------
-`Illuminants Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-
 References
 ----------
 -   :cite:`HunterLab2008b` : HunterLab. (2008). Hunter L,a,b Color Scale.

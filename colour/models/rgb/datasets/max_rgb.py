@@ -7,12 +7,6 @@ Defines the *Max RGB* colourspace:
 
 -   :attr:`colour.models.MAX_RGB_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`HutchColorf` : HutchColor. (n.d.). MaxRGB (4 K). Retrieved from

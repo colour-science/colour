@@ -12,12 +12,6 @@ Defines the *Sony S-Log* log encodings:
 -   :func:`colour.models.log_encoding_SLog3`
 -   :func:`colour.models.log_decoding_SLog3`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SonyCorporation2012a` : Sony Corporation. (2012). S-Log2 Technical

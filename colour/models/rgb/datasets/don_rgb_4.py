@@ -7,12 +7,6 @@ Defines the *Don RGB 4* colourspace:
 
 -   :attr:`colour.models.DON_RGB_4_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`HutchColorg` : HutchColor. (n.d.). DonRGB4 (4 K). Retrieved from

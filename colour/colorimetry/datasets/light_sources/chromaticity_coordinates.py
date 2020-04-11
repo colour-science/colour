@@ -32,12 +32,6 @@ The following light sources are available:
 -   Projectors and Xenon Arc Lamps:
     Kinoton 75P
 
-See Also
---------
-`Light Sources Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/light_sources.ipynb>`_
-
 References
 ----------
 -   :cite:`Houston2015a` : Houston, J. (2015). Private Discussion with

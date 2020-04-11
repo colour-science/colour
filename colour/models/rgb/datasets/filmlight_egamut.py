@@ -7,12 +7,6 @@ Defines the *FilmLight E-Gamut* colourspace:
 
 -   :attr:`colour.models.FILMLIGHT_E_GAMUT_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Siragusano2018a` : Siragusano, D. (2018). Private Discussion with

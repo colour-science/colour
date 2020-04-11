@@ -8,12 +8,6 @@ Defines the *ITU-R BT.470* colourspaces:
 -   :attr:`colour.models.BT470_525_COLOURSPACE`.
 -   :attr:`colour.models.BT470_625_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion1998a` : International

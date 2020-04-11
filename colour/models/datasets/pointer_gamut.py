@@ -5,12 +5,6 @@ Pointer's Gamut
 
 Defines *Pointer's Gamut* data.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Pointer1980a` : Pointer, M. R. (1980). Pointer's Gamut Data.

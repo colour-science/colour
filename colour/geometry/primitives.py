@@ -11,12 +11,6 @@ Defines various geometry primitives and their generation methods:
 -   :func:`colour.PRIMITIVE_METHODS`
 -   :func:`colour.primitive`
 
-See Also
---------
-`Geometry Primitives Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/geometry/primitives.ipynb>`_
-
 References
 ----------
 -   :cite:`Cabello2015` : Cabello, R. (n.d.). PlaneGeometry.js. Retrieved May

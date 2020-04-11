@@ -8,12 +8,6 @@ Defines the *YCoCg* colour encoding related transformations:
 -   :func:`colour.RGB_to_YCoCg`
 -   :func:`colour.YCoCg_to_RGB`
 
-See Also
---------
-`YCoCg Colours Encoding Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ycocg.ipynb>`_
-
 References
 ----------
 -   :cite:`Malvar2003` : Malvar, H., & Sullivan, G. (2003). YCoCg-R: A Color

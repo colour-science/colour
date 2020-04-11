@@ -10,12 +10,6 @@ Defines :math:`\\Delta E'` colour difference computation objects based on
 -   :func:`colour.difference.delta_E_CAM02SCD`
 -   :func:`colour.difference.delta_E_CAM02UCS`
 
-See Also
---------
-`CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ucs_luo2006.ipynb>`_
-
 References
 ----------
 -   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour

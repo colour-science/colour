@@ -13,12 +13,6 @@ Defines the *Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)*
 -   :func:`colour.JMh_CAM16_to_CAM16UCS`
 -   :func:`colour.CAM16UCS_to_JMh_CAM16`
 
-See Also
---------
-`CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cam16_ucs.ipynb>`_
-
 References
 ----------
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,

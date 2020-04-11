@@ -7,12 +7,6 @@ Defines the *SMPTE C* colourspace:
 
 -   :attr:`SMPTE_C_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers2004a` : Society of

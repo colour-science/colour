@@ -8,12 +8,6 @@ Defines the *NTSC* colourspaces:
 -   :attr:`colour.models.NTSC_1953_COLOURSPACE`.
 -   :attr:`colour.models.NTSC_1987_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion1998a` : International

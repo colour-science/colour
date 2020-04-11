@@ -8,12 +8,6 @@ Implements support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
 -   :func:`colour.biochemistry.reaction_rate_MichealisMenten`
 -   :func:`colour.biochemistry.substrate_concentration_MichealisMenten`
 
-See Also
---------
-`Michaelis-Menten Kinetics
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/biochemistry/michaelis_menten.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2003d` : Wikipedia. (2003). Michaelis-Menten kinetics.

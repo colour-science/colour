@@ -14,12 +14,6 @@ Notes
 -----
 -   *Y'CbCr* is not an absolute colourspace.
 
-See Also
---------
-`YCbCr Colours Encoding Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ycbcr.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2011e` : International

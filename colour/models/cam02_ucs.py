@@ -13,12 +13,6 @@ colourspaces transformations:
 -   :func:`colour.JMh_CIECAM02_to_CAM02UCS`
 -   :func:`colour.CAM02UCS_to_JMh_CIECAM02`
 
-See Also
---------
-`CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cam02_ucs.ipynb>`_
-
 References
 ----------
 -   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour

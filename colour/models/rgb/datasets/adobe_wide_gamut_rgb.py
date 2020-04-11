@@ -7,12 +7,6 @@ Defines the *Adobe Wide Gamut RGB* colourspace:
 
 -   :attr:`colour.models.ADOBE_WIDE_GAMUT_RGB_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2004c` : Wikipedia. (2004). Wide-gamut RGB color space.

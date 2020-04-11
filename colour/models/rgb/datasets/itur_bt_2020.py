@@ -7,12 +7,6 @@ Defines the *ITU-R BT.2020* colourspace:
 
 -   :attr:`colour.models.BT2020_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015h` : International

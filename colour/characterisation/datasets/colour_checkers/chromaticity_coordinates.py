@@ -30,12 +30,6 @@ chromaticity_coordinates.COLORCHECKER24_AFTER_NOV2014`: Reference data from
     *X-Rite* published in 2015 and matching the *Colour Checker* edition after
     November 2014.
 
-See Also
---------
-`Colour Fitting Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/fitting.ipynb>`_
-
 References
 ----------
 -   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker

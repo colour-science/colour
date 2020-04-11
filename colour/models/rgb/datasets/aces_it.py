@@ -5,12 +5,6 @@ Academy Color Encoding System - Input Transform Dataset
 
 Defines the *Academy Color Encoding System* (ACES) *Input Transform* datasets.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of

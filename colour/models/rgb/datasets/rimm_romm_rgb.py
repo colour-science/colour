@@ -10,12 +10,6 @@ Defines the *RIMM, ROMM and ERIMM* encodings:
 -   :attr:`colour.models.ERIMM_RGB_COLOURSPACE`.
 -   :attr:`colour.models.PROPHOTO_RGB_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`ANSI2003a` : ANSI. (2003). Specification of ROMM RGB. Retrieved from

@@ -8,12 +8,6 @@ Defines the *FiLMiC Pro 6* encoding:
 -   :func:`colour.models.log_encoding_FilmicPro6`
 -   :func:`colour.models.log_decoding_FilmicPro6`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`FiLMiCInc2017` : FiLMiC Inc. (2017). FiLMiC Pro - User Manual v6 -

@@ -13,12 +13,6 @@ computations objects:
     coordinates computation of given correlated colour temperature
     :math:`T_{cp}` using *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
 -   :cite:`Kang2002a` : Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., &

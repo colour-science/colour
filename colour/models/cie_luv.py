@@ -14,12 +14,6 @@ Defines the *CIE L\\*u\\*v\\** colourspace transformations:
 -   :func:`colour.Luv_to_LCHuv`
 -   :func:`colour.LCHuv_to_Luv`
 
-See Also
---------
-`CIE L*u*v* Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cie_luv.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004j` : CIE TC 1-48. (2004). CIE 1976 uniform chromaticity

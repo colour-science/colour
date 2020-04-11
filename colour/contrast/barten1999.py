@@ -7,12 +7,6 @@ Defines *Barten (1999)* contrast sensitivity function:
 
 -   :func:`colour.contrast.contrast_sensitivity_function_Barten1999`
 
-See Also
---------
-`Barten (1999) Contrast Sensitivity Function Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/contrast/barten1999.ipynb>`_
-
 References
 ----------
 -   :cite:`Barten1999` : Barten, P. G. (1999). Contrast Sensitivity of the

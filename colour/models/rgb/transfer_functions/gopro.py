@@ -8,12 +8,6 @@ Defines the *GoPro* *Protune* encoding:
 -   :func:`colour.models.log_encoding_Protune`
 -   :func:`colour.models.log_decoding_Protune`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`GoPro2016a` : GoPro, Duiker, H.-P., & Mansencal, T. (2016).

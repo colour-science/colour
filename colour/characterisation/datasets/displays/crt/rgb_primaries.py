@@ -16,12 +16,6 @@ The following *CRT* displays are available:
 
 -   Typical CRT Brainard 1997
 
-See Also
---------
-`Displays Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/displays.ipynb>`_
-
 References
 ----------
 -   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of

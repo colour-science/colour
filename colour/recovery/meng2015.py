@@ -8,12 +8,6 @@ method:
 
 -   :func:`colour.recovery.XYZ_to_sd_Meng2015`
 
-See Also
---------
-`Meng et al. (2015) - Reflectance Recovery Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/recovery/meng2015.ipynb>`_
-
 References
 ----------
 -   :cite:`Meng2015c` : Meng, J., Simon, F., Hanika, J., & Dachsbacher, C.

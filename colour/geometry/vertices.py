@@ -11,12 +11,6 @@ Defines various geometry primitive vertices generation methods:
 -   :func:`colour.geometry.primitive_vertices_sphere`
 -   :func:`colour.PRIMITIVE_VERTICES_METHODS`
 -   :func:`colour.primitive_vertices`
-
-See Also
---------
-`Geometry Primitive Vertices Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/geometry/vertices.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

@@ -11,12 +11,6 @@ Defines :math:`\\Delta E'` colour difference computation objects based on
 -   :func:`colour.difference.delta_E_CAM16SCD`
 -   :func:`colour.difference.delta_E_CAM16UCS`
 
-See Also
---------
-`CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cam16_ucs.ipynb>`_
-
 References
 ----------
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,

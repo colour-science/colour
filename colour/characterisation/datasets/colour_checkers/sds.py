@@ -19,12 +19,6 @@ COLORCHECKER_N_OHTA_SDS`: Measured by Ohta (1997).
 BABELCOLOR_AVERAGE_SDS`: Average data derived from measurements of
     30 *Colour Checker* charts.
 
-See Also
---------
-`Colour Fitting Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/fitting.ipynb>`_
-
 References
 ----------
 -   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker

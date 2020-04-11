@@ -8,12 +8,6 @@ Defines the *Prismatic* colourspace transformations:
 -   :func:`colour.RGB_to_Prismatic`
 -   :func:`colour.Prismatic_to_RGB`
 
-See Also
---------
-`Prismatic Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/prismatic.ipynb>`_
-
 References
 ----------
 -   :cite:`Shirley2015a` : Shirley, P., & Hart, D. (2015). The prismatic color

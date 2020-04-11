@@ -10,12 +10,6 @@ The *CIE 1995* test colour samples data is in the form of a *dict* of
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
-See Also
---------
-`Colour Rendering Index Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/cri.ipynb>`_
-
 References
 ----------
 -   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.

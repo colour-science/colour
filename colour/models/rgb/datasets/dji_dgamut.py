@@ -7,12 +7,6 @@ Defines the *DJI D-Gamut* colourspace:
 
 -   :attr:`colour.models.DJI_D_GAMUT_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`DJI2017` : Dji. (2017). White Paper on D-Log and D-Gamut of DJI

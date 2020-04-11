@@ -7,12 +7,6 @@ Defines the *CIE Standard Illuminant D Series* :math:`S_n(\\lambda)`
 distributions involved in the computation of *CIE Standard Illuminant D Series*
 spectral distributions.
 
-See Also
---------
-`Illuminants Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-
 References
 ----------
 -   :cite:`Lindbloom2007a` : Lindbloom, B. (2007). Spectral Distribution

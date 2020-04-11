@@ -7,12 +7,6 @@ Defines the :math:`\\Delta E_{99}` *DIN99* colour difference formula:
 
 -   :func:`colour.difference.delta_E_DIN99`
 
-See Also
---------
-`DIN99 Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/din99.ipynb>`_
-
 References
 ----------
 -   :cite:`ASTMInternational2007` : ASTM International. (2007). ASTM D2244-07 -

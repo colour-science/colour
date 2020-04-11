@@ -12,12 +12,6 @@ Defines the *CIE 1960 UCS* colourspace transformations:
 -   :func:`colour.UCS_uv_to_xy`
 -   :func:`colour.xy_to_UCS_uv`
 
-See Also
---------
-`CIE UCS Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cie_ucs.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2008c` : Wikipedia. (2008). Relation to CIE XYZ. Retrieved

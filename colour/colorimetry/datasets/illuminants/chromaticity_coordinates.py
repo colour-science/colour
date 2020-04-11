@@ -32,12 +32,6 @@ The following other illuminants are available for the
 Illuminants whose chromaticity coordinates are defined at 15 decimal places
 have been computed according to practise *ASTM E308-15* method.
 
-See Also
---------
-`Illuminants Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-
 References
 ----------
 -   :cite:`Carter2018` : Carter, E. C., Schanda, J. D., Hirschler, R., Jost,

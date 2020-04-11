@@ -13,12 +13,6 @@ and whitepoint:
 -   :func:`colour.RGB_luminance_equation`
 -   :func:`colour.RGB_luminance`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1993a` : Society of

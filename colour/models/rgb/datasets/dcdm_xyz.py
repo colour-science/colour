@@ -7,12 +7,6 @@ Defines the *DCDM XYZ* colourspace:
 
 -   :attr:`colour.models.DCDM_XYZ_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).

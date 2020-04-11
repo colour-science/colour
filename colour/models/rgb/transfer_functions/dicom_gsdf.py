@@ -16,12 +16,6 @@ and the maximum exceeds the unattenuated Luminance of very bright light-boxes
 used for interpreting X-Ray mammography. The Grayscale Standard Display
 Function explicitly includes the effects of the diffused ambient Illuminance.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`NationalElectricalManufacturersAssociation2004b` : National

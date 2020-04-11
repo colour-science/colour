@@ -7,12 +7,6 @@ Defines the automatic colour conversion graph objects:
 
 -   :func:`colour.describe_conversion_path`
 -   :func:`colour.convert`
-
-See Also
---------
-`Automatic Colour Conversion Graph Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/graph/conversion.ipynb>`_
 """
 
 from __future__ import division, print_function, unicode_literals

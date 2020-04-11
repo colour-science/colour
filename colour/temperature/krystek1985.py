@@ -13,12 +13,6 @@ computations objects:
     *uv* chromaticity coordinates computation of given correlated colour
     temperature :math:`T_{cp}` using *Krystek (1985)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
 -   :cite:`Krystek1985b` : Krystek, M. (1985). An algorithm to calculate

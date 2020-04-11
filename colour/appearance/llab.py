@@ -10,12 +10,6 @@ Defines *:math:`LLAB(l:c)`* colour appearance model objects:
 -   :class:`colour.LLAB_Specification`
 -   :func:`colour.XYZ_to_LLAB`
 
-See Also
---------
-`LLAB(l:c) Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/llab.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2013x` : Fairchild, M. D. (2013). LLAB Model. In Color

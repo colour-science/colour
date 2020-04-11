@@ -7,12 +7,6 @@ Defines the *Sharp RGB* colourspace:
 
 -   :attr:`colour.models.SHARP_RGB_COLOURSPACE`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Susstrunk2000` : Susstrunk, S. E., Holm, J. M., & Finlayson, G. D.

@@ -9,12 +9,6 @@ Defines the *S-Gamut*, *S-Gamut3* and *S-Gamut3.Cine* colourspaces:
 -   :attr:`colour.models.S_GAMUT3_COLOURSPACE`.
 -   :attr:`colour.models.S_GAMUT3_CINE_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Gaggioni` : Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N.,

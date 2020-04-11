@@ -11,12 +11,6 @@ Defines *CMCCAT2000* chromatic adaptation model objects:
 -   :func:`colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000`
 -   :func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`
 
-See Also
---------
-`CMCCAT2000 Chromatic Adaptation Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/cmccat2000.ipynb>`_
-
 References
 ----------
 -   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).

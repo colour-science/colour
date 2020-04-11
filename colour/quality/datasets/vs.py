@@ -15,12 +15,6 @@ The *NIST CQS* test colour samples data is in the form of a *dict* of
         'name': SpectralDistribution}
     }
 
-See Also
---------
-`Colour Quality Scale Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/cqs.ipynb>`_
-
 References
 ----------
 -   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.

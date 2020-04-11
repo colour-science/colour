@@ -26,12 +26,6 @@ The following *CIE* illuminants are available:
     LED-RGB1, LED-V1, LED-V2)
 -   Recommended indoor illuminants ID65 and ID50.
 
-See Also
---------
-`Illuminants Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-
 Notes
 -----
 -   The spectral distributions are provided at 5 nm interval.

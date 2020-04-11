@@ -10,12 +10,6 @@ Defines various RGB colourspace volume computation objects:
 -   :func:`colour.RGB_colourspace_volume_coverage_MonteCarlo`
 -   :func:`colour.RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
 -   :func:`colour.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`
-
-See Also
---------
-`RGB Colourspace Volume Computation Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/volume/rgb.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

@@ -12,12 +12,6 @@ The following methods are available:
 -   :func:`colour.difference.delta_E_CIE2000`
 -   :func:`colour.difference.delta_E_CMC`
 
-See Also
---------
-`Delta E - Colour Difference Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/difference/delta_e.ipynb>`_
-
 References
 ----------
 -   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).

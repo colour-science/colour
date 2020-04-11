@@ -9,12 +9,6 @@ inverse:
 -   :func:`colour.models.eotf_inverse_sRGB`
 -   :func:`colour.models.eotf_sRGB`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalElectrotechnicalCommission1999a` : International

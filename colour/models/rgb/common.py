@@ -4,12 +4,6 @@ Common RGB Colour Models Utilities
 ==================================
 
 Defines various RGB colour models common utilities.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

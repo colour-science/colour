@@ -13,12 +13,6 @@ Defines the *RED* colourspaces:
 -   :attr:`colour.models.DRAGON_COLOR_2_COLOURSPACE`
 -   :attr:`colour.models.RED_WIDE_GAMUT_RGB_COLOURSPACE`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Mansencal2015d` : Mansencal, T. (2015). RED Colourspaces Derivation.

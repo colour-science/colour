@@ -28,12 +28,6 @@ Defines various chromatic adaptation transforms (CAT):
 -   :attr:`colour.adaptation.BS_PC_CAT`: *Bianco and Schettini PC (2010)*
     chromatic adaptation transform.
 
-See Also
---------
-`Chromatic Adaptation Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/vonkries.ipynb>`_
-
 References
 ----------
 -   :cite:`Bianco2010a` : Bianco, S., & Schettini, R. (2010). Two new von Kries

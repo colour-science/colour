@@ -10,12 +10,6 @@ Defines *Hunt* colour appearance model objects:
 -   :class:`colour.Hunt_Specification`
 -   :func:`colour.XYZ_to_Hunt`
 
-See Also
---------
-`Hunt Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/
-blob/master/notebooks/appearance/hunt.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2013u` : Fairchild, M. D. (2013). The Hunt Model. In Color

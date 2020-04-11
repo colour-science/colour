@@ -7,12 +7,6 @@ Defines the *ARRI ALEXA Wide Gamut* colourspace:
 
 -   :attr:`colour.models.ALEXA_WIDE_GAMUT_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.

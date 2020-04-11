@@ -7,12 +7,6 @@ Defines the *Munsell Renotation System* *Real* datasets. Those are *real*,
 within MacAdam limits *Munsell* colours only. They are the colours listed in
 the original 1943 renotation article *(Newhall, Nickerson, & Judd, 1943)*.
 
-See Also
---------
-`Munsell Renotation System Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/notation/munsell.ipynb>`_
-
 Notes
 -----
 -   The Munsell Renotation data commonly available within the all.dat,

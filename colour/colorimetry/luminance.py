@@ -28,12 +28,6 @@ The following methods are available:
     *Lightness* :math:`L^*` or given *Munsell* value :math:`V` using given
     method.
 
-See Also
---------
-`Luminance Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/luminance.ipynb>`_
-
 References
 ----------
 -   :cite:`ASTMInternational2008a` : ASTM International. (2008).

@@ -7,12 +7,6 @@ Defines the *CIE RGB* colourspace:
 
 -   :attr:`colour.models.CIE_RGB_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairman1997` : Fairman, H. S., Brill, M. H., & Hemmendinger,

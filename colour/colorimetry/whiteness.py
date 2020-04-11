@@ -27,12 +27,6 @@ Defines *whiteness* index :math:`W` computation objects:
 -   :func:`colour.whiteness`: *Whiteness* :math:`W` computation using given
     method.
 
-See Also
---------
-`Whiteness Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/whiteness.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004k` : CIE TC 1-48. (2004). The evaluation of whiteness.

@@ -8,12 +8,6 @@ Defines the *Viper Log* encoding:
 -   :func:`colour.models.log_encoding_ViperLog`
 -   :func:`colour.models.log_decoding_ViperLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved

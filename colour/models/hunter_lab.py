@@ -9,12 +9,6 @@ Defines the *Hunter L,a,b* colour scale transformations:
 -   :func:`colour.XYZ_to_Hunter_Lab`
 -   :func:`colour.Hunter_Lab_to_XYZ`
 
-See Also
---------
-`Hunter L,a,b Colour Scale Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/hunter_lab.ipynb>`_
-
 References
 ----------
 -   :cite:`HunterLab2008b` : HunterLab. (2008). Hunter L,a,b Color Scale.

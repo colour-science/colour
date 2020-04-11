@@ -9,12 +9,6 @@ electro-optical transfer function (EOTF / EOCF):
 -   :func:`colour.models.oetf_SMPTE240M`
 -   :func:`colour.models.eotf_SMPTE240M`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of

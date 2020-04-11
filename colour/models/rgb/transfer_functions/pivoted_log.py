@@ -8,12 +8,6 @@ Defines the *Pivoted Log* encoding:
 -   :func:`colour.models.log_encoding_PivotedLog`
 -   :func:`colour.models.log_decoding_PivotedLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved

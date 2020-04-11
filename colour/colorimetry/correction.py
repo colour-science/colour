@@ -15,12 +15,6 @@ The following correction methods are available:
 -   :func:`colour.bandpass_correction`: Spectral bandpass dependence
     correction using given method.
 
-See Also
---------
-`Spectral Bandpass Dependence Correction Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/correction.ipynb>`_
-
 References
 ----------
 -   :cite:`Stearns1988a` : Stearns, E. I., & Stearns, R. E. (1988). An example

@@ -5,12 +5,6 @@ Visible Spectrum Volume Computations
 
 Defines objects related to visible spectrum volume computations.
 
-See Also
---------
-`Spectrum Volume Computations Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/volume/spectrum.ipynb>`_
-
 References
 ----------
 -   :cite:`Lindbloom2015` :Lindbloom, B. (2015). About the Lab Gamut.

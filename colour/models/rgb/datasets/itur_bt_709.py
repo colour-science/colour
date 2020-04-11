@@ -7,12 +7,6 @@ Defines the *ITU-R BT.709* colourspace:
 
 -   :attr:`colour.models.BT709_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015i` : International

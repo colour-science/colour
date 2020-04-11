@@ -6,12 +6,6 @@ Blackbody - Planckian Radiator
 Defines objects to compute the spectral radiance of a planckian radiator and
 its spectral distribution.
 
-See Also
---------
-`Blackbody Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/blackbody.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON

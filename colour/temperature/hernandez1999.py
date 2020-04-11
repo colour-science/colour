@@ -13,12 +13,6 @@ Defines *Hernandez-Andres et al. (1999)* correlated colour temperature
     coordinates computation of given correlated colour temperature
     :math:`T_{cp}` using *Hernandez-Andres, Lee and Romero (1999)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
 -   :cite:`Hernandez-Andres1999a` : Hernandez-Andres, J., Lee, R. L., &

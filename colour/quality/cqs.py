@@ -8,12 +8,6 @@ Defines *Colour Quality Scale* (CQS) computation objects:
 -   :class:`colour.quality.CQS_Specification`
 -   :func:`colour.colour_quality_scale`
 
-See Also
---------
-`Colour Quality Scale Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/cqs.ipynb>`_
-
 References
 ----------
 -   :cite:`Davis2010a` : Davis, W., & Ohno, Y. (2010). Color quality scale.

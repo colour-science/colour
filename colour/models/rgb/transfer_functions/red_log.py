@@ -20,12 +20,6 @@ Defines the *RED* log encodings:
 -   :func:`colour.models.log_encoding_Log3G12`
 -   :func:`colour.models.log_decoding_Log3G12`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with

@@ -32,12 +32,6 @@ Defines various objects for *Munsell Renotation System* computations:
 -   :func:`colour.munsell_colour_to_xyY`
 -   :func:`colour.xyY_to_munsell_colour`
 
-See Also
---------
-`Munsell Renotation System Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/notation/munsell.ipynb>`_
-
 Notes
 -----
 -   The Munsell Renotation data commonly available within the all.dat,

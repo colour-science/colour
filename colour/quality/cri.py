@@ -8,12 +8,6 @@ Defines *Colour Rendering Index* (CRI) computation objects:
 -   :class:`colour.quality.CRI_Specification`
 -   :func:`colour.colour_rendering_index`
 
-See Also
---------
-`Colour Rendering Index Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/cri.ipynb>`_
-
 References
 ----------
 -   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.

@@ -8,12 +8,6 @@ Defines the *CIE 1964 U\\*V\\*W\\** colourspace transformations:
 -   :func:`colour.XYZ_to_UVW`
 -   :func:`colour.UVW_to_XYZ`
 
-See Also
---------
-`CIE U*V*W* Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cie_uvw.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2008a` : Wikipedia. (2008). CIE 1964 color space.

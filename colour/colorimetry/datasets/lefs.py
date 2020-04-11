@@ -21,12 +21,6 @@ The following luminous efficiency functions are available:
 -   CIE 2008 10 Degree Physiologically Relevant LEF
 -   CIE 1951 Scotopic Standard Observer
 
-See Also
---------
-`Luminous Efficiency Functions Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/lefs.ipynb>`_
-
 Notes
 -----
 -   The luminous efficiency functions are provided at 1 nm interval.

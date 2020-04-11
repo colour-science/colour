@@ -13,12 +13,6 @@ Defines colour matching functions classes for the datasets from
     for the *CIE RGB* colour matching functions.
 -   :class:`colour.colorimetry.XYZ_ColourMatchingFunctions`: Implements support
     for the *CIE Standard Observers* *XYZ* colour matching functions.
-
-See Also
---------
-`Colour Matching Functions Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

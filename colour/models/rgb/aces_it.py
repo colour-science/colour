@@ -7,12 +7,6 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 
 -   :func:`colour.sd_to_aces_relative_exposure_values`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Forsythe2018` : Forsythe, A. (2018). Private Discussion with

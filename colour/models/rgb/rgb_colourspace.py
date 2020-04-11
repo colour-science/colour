@@ -12,11 +12,6 @@ datasets from :mod:`colour.models.datasets.aces_rgb`, etc... and the following
 -   :func:`colour.RGB_to_RGB_matrix`
 -   :func:`colour.RGB_to_RGB`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/\
-master/notebooks/models/rgb.ipynb>`_
 References
 ----------
 -   :cite:`InternationalElectrotechnicalCommission1999a` : International

@@ -16,12 +16,6 @@ The following *LCD* displays are available:
 
 -   Apple Studio Display
 
-See Also
---------
-`Displays Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/displays.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild1998b` : Fairchild, M., & Wyble, D. (1998). Colorimetric

@@ -11,12 +11,6 @@ Defines the *Academy Color Encoding System* (ACES) related encodings:
 -   :attr:`colour.models.ACES_CCT_COLOURSPACE`
 -   :attr:`colour.models.ACES_PROXY_COLOURSPACE`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of

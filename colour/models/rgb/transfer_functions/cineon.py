@@ -8,12 +8,6 @@ Defines the *Kodak Cineon* encoding:
 -   :func:`colour.models.log_encoding_Cineon`
 -   :func:`colour.models.log_decoding_Cineon`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved

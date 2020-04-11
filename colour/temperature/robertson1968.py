@@ -15,12 +15,6 @@ computations objects:
     temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
     *Robertson (1968)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
 -   :cite:`AdobeSystems2013` : Adobe Systems. (2013). Adobe DNG Software

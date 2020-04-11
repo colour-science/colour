@@ -19,12 +19,6 @@ Defines various objects performing spectral generation:
 -   :attr:`colour.SD_MULTI_LEDS_METHODS`
 -   :func:`colour.sd_multi_leds`
 
-See Also
---------
-`Spectrum Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/generation.ipynb>`_
-
 References
 ----------
 -   :cite:`Ohno2005` : Ohno, Y. (2005). Spectral design considerations for

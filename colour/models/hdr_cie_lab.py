@@ -10,12 +10,6 @@ Defines the *hdr-CIELAB* colourspace transformations:
 -   :func:`colour.XYZ_to_hdr_CIELab`
 -   :func:`colour.hdr_CIELab_to_XYZ`
 
-See Also
---------
-`hdr-CIELAB Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/hdr_cie_lab.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).

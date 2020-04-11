@@ -7,12 +7,6 @@ Defines *Fairchild (1990)* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.chromatic_adaptation_Fairchild1990`
 
-See Also
---------
-`Fairchild (1990) Chromatic Adaptation Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/fairchild1990.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing

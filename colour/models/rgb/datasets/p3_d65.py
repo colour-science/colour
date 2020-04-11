@@ -6,12 +6,6 @@ P3-D65 Colourspace
 Defines the *P3-D65* colourspace:
 
 -   :attr:`colour.models.P3_D65_COLOURSPACE`.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

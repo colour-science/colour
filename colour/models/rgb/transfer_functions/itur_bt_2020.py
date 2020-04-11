@@ -9,12 +9,6 @@ electro-optical transfer function (EOTF / EOCF):
 -   :func:`colour.models.oetf_BT2020`
 -   :func:`colour.models.eotf_BT2020`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015h` : International

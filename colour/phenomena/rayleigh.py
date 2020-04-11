@@ -9,12 +9,6 @@ Implements *Rayleigh* scattering / optical depth in the atmosphere computation:
 -   :func:`colour.phenomena.rayleigh_optical_depth`
 -   :func:`colour.rayleigh_scattering`
 
-See Also
---------
-`Rayleigh Optical Depth - Scattering in the Atmosphere Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/phenomena/rayleigh.ipynb>`_
-
 References
 ----------
 -   :cite:`Bodhaine1999a` : Bodhaine, B. A., Wood, N. B., Dutton, E. G., &

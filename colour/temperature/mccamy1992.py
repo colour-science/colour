@@ -13,12 +13,6 @@ computations objects:
     coordinates computation of given correlated colour temperature
     :math:`T_{cp}` using *McCamy (1992)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2001` : Wikipedia. (2001). Approximation. Retrieved June

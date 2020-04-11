@@ -8,12 +8,6 @@ Defines the *DCI-P3* and *DCI-P3+* colourspaces:
 -   :attr:`colour.models.DCI_P3_COLOURSPACE`.
 -   :attr:`colour.models.DCI_P3_P_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Canon2014a` : Canon. (2014). EOS C500 Firmware Update. Retrieved

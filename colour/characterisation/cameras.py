@@ -8,12 +8,6 @@ Defines spectral distributions classes for the datasets from
 
 -   :class:`colour.characterisation.RGB_SpectralSensitivities`: Implements
     support for a camera *RGB* spectral sensitivities.
-
-See Also
---------
-`Cameras Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/cameras.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

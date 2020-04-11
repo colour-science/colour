@@ -9,12 +9,6 @@ its inverse:
 -   :func:`colour.models.oetf_BT709`
 -   :func:`colour.models.oetf_inverse_BT709`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015i` : International

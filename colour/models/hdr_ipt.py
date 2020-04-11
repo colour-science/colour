@@ -10,12 +10,6 @@ Defines the *hdr-IPT* colourspace transformations:
 -   :func:`colour.XYZ_to_hdr_IPT`
 -   :func:`colour.hdr_IPT_to_XYZ`
 
-See Also
---------
-`hdr-IPT Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/hdr_ipt.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).

@@ -9,12 +9,6 @@ Defines spectral distributions classes for the datasets from
 -   :class:`colour.characterisation.RGB_DisplayPrimaries`: Implements support
     for a *RGB* display (such as a *CRT* or *LCD*) primaries multi-spectral
     distributions.
-
-See Also
---------
-`Displays Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/displays.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

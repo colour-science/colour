@@ -5,12 +5,6 @@ MacAdam (1942) Ellipses (Observer PGN)
 
 Defines *MacAdam (1942) Ellipses (Observer PGN)* ellipses data.
 
-See Also
---------
-`MacAdam Ellipses Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/macadam_ellipses.ipynb>`_
-
 References
 ----------
 -   :cite:`Wyszecki2000` : Wyszecki, G., & Stiles, W. S. (2000). Table 2(5.4.1)

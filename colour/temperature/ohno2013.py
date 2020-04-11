@@ -14,12 +14,6 @@ objects:
     chromaticity coordinates computation of given correlated colour temperature
     :math:`T_{cp}`, :math:`\\Delta_{uv}` using *Ohno (2013)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
 -   :cite:`Ohno2014a` : Ohno, Y. (2014). Practical Use and Calculation of CCT

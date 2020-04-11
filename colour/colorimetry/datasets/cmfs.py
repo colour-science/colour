@@ -25,12 +25,6 @@ The following colour matching functions are available:
 -   CIE 2012 10 Degree Standard Observer
 -   CIE 2012 2 Degree Standard Observer
 
-See Also
---------
-`Colour Matching Functions Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/cmfs.ipynb>`_
-
 Notes
 -----
 -   *Stockman & Sharpe* *LMS* colour matching functions are provided at 1 nm

@@ -8,12 +8,6 @@ Defines the *DJI D-Log* log encoding:
 -   :func:`colour.models.log_encoding_DJIDLog`
 -   :func:`colour.models.log_decoding_DJIDLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`DJI2017` : Dji. (2017). White Paper on D-Log and D-Gamut of DJI

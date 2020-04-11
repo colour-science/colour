@@ -7,12 +7,6 @@ Defines the *ColorMatch RGB* colourspace:
 
 -   :attr:`colour.models.COLOR_MATCH_RGB_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Lindbloom2014a` : Lindbloom, B. (2014). RGB Working Space

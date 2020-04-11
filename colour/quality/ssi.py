@@ -7,12 +7,6 @@ Defines the *Academy Spectral Similarity Index* (SSI) computation objects:
 
 -   :func:`colour.spectral_similarity_index`
 
-See Also
---------
-`Academy Spectral Similarity Index Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/ssi.ipynb>`_
-
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2019` : The Academy of

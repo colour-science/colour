@@ -7,12 +7,6 @@ Defines the *SMPTE 240M* colourspace:
 
 -   :attr:`colour.models.SMPTE_240M_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of

@@ -7,12 +7,6 @@ Defines the *Ekta Space PS 5* colourspace:
 
 -   :attr:`colour.models.EKTA_SPACE_PS_5_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Holmesa` : Holmes, J. (n.d.). Ekta Space PS 5. Retrieved from

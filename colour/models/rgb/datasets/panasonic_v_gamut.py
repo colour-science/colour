@@ -7,12 +7,6 @@ Defines the *Panasonic V-Gamut* colourspace:
 
 -   :attr:`colour.models.V_GAMUT_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.

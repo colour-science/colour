@@ -34,12 +34,6 @@ functions (EOTF / EOCF) and their inverse:
 -   :attr:`colour.models.BT2100_HLG_OOTF_INVERSE_METHODS`
 -   :func:`colour.models.ootf_inverse_HLG_BT2100`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Borer2017a` : Borer, T. (2017). Private Discussion with

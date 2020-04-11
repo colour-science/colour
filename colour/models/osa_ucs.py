@@ -8,12 +8,6 @@ Defines the *OSA UCS* colourspace:
 -   :func:`colour.XYZ_to_OSA_UCS`
 -   :func:`colour.OSA_UCS_to_XYZ`
 
-See Also
---------
-`Optical Society of America Uniform Color Scales Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/osa_ucs.ipynb>`_
-
 References
 ----------
 -   :cite:`Cao2013` : Cao, R., Trussell, H. J., & Shamey, R. (2013). Comparison

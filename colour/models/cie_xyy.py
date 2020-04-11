@@ -12,12 +12,6 @@ Defines the *CIE xyY* colourspace transformations:
 -   :func:`colour.XYZ_to_xy`
 -   :func:`colour.xy_to_XYZ`
 
-See Also
---------
-`CIE xyY Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cie_xyy.ipynb>`_
-
 References
 ----------
 -   :cite:`Lindbloom2003e` : Lindbloom, B. (2003). XYZ to xyY. Retrieved
