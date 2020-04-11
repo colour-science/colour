@@ -89,7 +89,7 @@ from .appearance import (
     XYZ_to_RLAB)
 from .difference import DELTA_E_METHODS, delta_E
 from .characterisation import (
-    CAMERAS_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKERS_SDS,
+    CAMERA_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKERS_SDS,
     DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
     COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
     COLOUR_CORRECTION_METHODS, colour_correction)
@@ -220,7 +220,7 @@ __all__ += [
 ]
 __all__ += ['DELTA_E_METHODS', 'delta_E']
 __all__ += [
-    'CAMERAS_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS',
+    'CAMERA_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS',
     'COLOURCHECKERS_SDS', 'DISPLAYS_RGB_PRIMARIES',
     'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
     'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
@@ -1786,6 +1786,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
 
 # v0.3.16
 API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
+        'colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES',
+    ],
     [
         'colour.ILLUMINANTS_SDS',
         'colour.ILLUMINANT_SDS',

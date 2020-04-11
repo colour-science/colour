@@ -87,7 +87,7 @@ Cameras
 .. autosummary::
     :toctree: generated/
 
-    CAMERAS_RGB_SPECTRAL_SENSITIVITIES
+    CAMERA_RGB_SPECTRAL_SENSITIVITIES
 
 Displays
 --------

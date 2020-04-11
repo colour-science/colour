@@ -136,7 +136,7 @@ The various sub-packages also expose their public API:
     Characterisation
     ['RGB_SpectralSensitivities',
      'RGB_DisplayPrimaries',
-     'CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
+     'CAMERA_RGB_SPECTRAL_SENSITIVITIES',
      'COLOURCHECKERS',
      'ColourChecker',
      '...']
