@@ -268,7 +268,7 @@ def plot_multi_sds(sds,
     cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = ILLUMINANTS_SDS[
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.illuminant]
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint_name]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for sd in sds:
