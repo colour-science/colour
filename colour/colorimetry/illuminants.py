@@ -29,7 +29,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANTS_S_SDS,
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANT_S_SDS,
                                 SpectralDistribution)
 from colour.utilities import as_float_array, as_numeric, tsplit
 
@@ -285,9 +285,9 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
         M1 = np.around(M1, 3)
         M2 = np.around(M2, 3)
 
-    S0 = D_ILLUMINANTS_S_SDS['S0']
-    S1 = D_ILLUMINANTS_S_SDS['S1']
-    S2 = D_ILLUMINANTS_S_SDS['S2']
+    S0 = D_ILLUMINANT_S_SDS['S0']
+    S1 = D_ILLUMINANT_S_SDS['S1']
+    S2 = D_ILLUMINANT_S_SDS['S2']
 
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 

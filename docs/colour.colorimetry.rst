@@ -220,6 +220,17 @@ Illuminants and Light Sources
     LIGHT_SOURCES
     LIGHT_SOURCES_SDS
 
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    D_ILLUMINANT_S_SDS
+
 Dominant Wavelength and Purity
 ------------------------------
 
