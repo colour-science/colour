@@ -883,8 +883,8 @@ verbose={'mode': 'Long'})
 
     Examples
     --------
-    >>> from colour import COLOURCHECKERS_SDS
-    >>> sd = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> from colour import COLOURCHECKER_SDS
+    >>> sd = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
     ...     verbose={'mode': 'Short', 'width': 75})
     ... # doctest: +ELLIPSIS

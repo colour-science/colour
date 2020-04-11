@@ -1172,7 +1172,7 @@ various colour rendition charts:
     print(sorted(colour.characterisation.COLOURCHECKERS.keys()))
 
     # Colour rendition charts spectral distributions.
-    print(sorted(colour.characterisation.COLOURCHECKERS_SDS.keys()))
+    print(sorted(colour.characterisation.COLOURCHECKER_SDS.keys()))
 
 .. code-block:: text
 
@@ -1189,7 +1189,7 @@ various colour rendition charts:
 
     # Plotting the *sRGB* colourspace colour of *neutral 5 (.70 D)* patch.
     patch_name = 'neutral 5 (.70 D)'
-    patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
+    patch_sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta'][patch_name]
     XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 

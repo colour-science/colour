@@ -16,7 +16,7 @@ import numpy as np  # noqa
 import os  # noqa
 
 import colour  # noqa
-from colour.characterisation import COLOURCHECKERS_SDS  # noqa
+from colour.characterisation import COLOURCHECKER_SDS  # noqa
 from colour.colorimetry import (  # noqa
     ILLUMINANT_SDS, LIGHT_SOURCE_SDS, PHOTOPIC_LEFS, SCOTOPIC_LEFS,
     STANDARD_OBSERVER_CMFS, SpectralDistribution, SpectralShape, sd_blackbody,
@@ -166,7 +166,7 @@ def generate_documentation_plots(output_directory):
         output_directory, 'Examples_Plotting_BabelColor_Average.png')
     plt.close(
         plot_multi_sds(
-            COLOURCHECKERS_SDS['BabelColor Average'].values(),
+            COLOURCHECKER_SDS['BabelColor Average'].values(),
             use_sds_colours=True,
             title=('BabelColor Average - '
                    'Spectral Distributions'),
@@ -799,7 +799,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Neutral5.png')
     patch_name = 'neutral 5 (.70 D)'
-    patch_sd = COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
+    patch_sd = COLOURCHECKER_SDS['ColorChecker N Ohta'][patch_name]
     with domain_range_scale('1'):
         XYZ = sd_to_XYZ(patch_sd, cmfs, illuminant)
         RGB = XYZ_to_sRGB(XYZ)

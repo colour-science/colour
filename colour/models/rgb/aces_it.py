@@ -106,8 +106,8 @@ def sd_to_aces_relative_exposure_values(
 
     Examples
     --------
-    >>> from colour import COLOURCHECKERS_SDS
-    >>> sd = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> from colour import COLOURCHECKER_SDS
+    >>> sd = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
     >>> sd_to_aces_relative_exposure_values(sd)  # doctest: +ELLIPSIS
     array([ 0.1171814...,  0.0866360...,  0.0589726...])
     >>> sd_to_aces_relative_exposure_values(sd,

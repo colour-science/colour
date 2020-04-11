@@ -52,7 +52,7 @@ Colour Rendition Charts
     :toctree: generated/
 
     COLOURCHECKERS
-    COLOURCHECKERS_SDS
+    COLOURCHECKER_SDS
 
 **Ancillary Objects**
 

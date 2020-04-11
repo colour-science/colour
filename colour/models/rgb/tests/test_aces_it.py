@@ -8,7 +8,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.characterisation import COLOURCHECKERS_SDS
+from colour.characterisation import COLOURCHECKER_SDS
 from colour.colorimetry import (ILLUMINANT_SDS, sd_constant, sd_ones)
 from colour.models import ACES_RICD, sd_to_aces_relative_exposure_values
 from colour.utilities import domain_range_scale
@@ -48,27 +48,27 @@ sd_to_aces_relative_exposure_values` definition.
             np.array([0.97783784, 0.97783784, 0.97783784]),
             decimal=7)
 
-        dark_skin = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+        dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin),
             np.array([0.11718149, 0.08663609, 0.05897268]),
             decimal=7)
 
-        dark_skin = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+        dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin,
                                                 ILLUMINANT_SDS['A']),
             np.array([0.13583991, 0.09431845, 0.05928214]),
             decimal=7)
 
-        dark_skin = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+        dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin, apply_chromatic_adaptation=True),
             np.array([0.11807796, 0.08690312, 0.05891252]),
             decimal=7)
 
-        dark_skin = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+        dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin,

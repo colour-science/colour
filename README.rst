@@ -180,7 +180,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
 
 ::
@@ -1170,7 +1170,7 @@ Colour Checker
     ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
     >>> plot_multi_sds(
     ...     [
-    ...         colour.COLOURCHECKERS_SDS['BabelColor Average'][value]
+    ...         colour.COLOURCHECKER_SDS['BabelColor Average'][value]
     ...         for key, value in sorted(
     ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
     ...     ],

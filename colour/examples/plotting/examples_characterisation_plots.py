@@ -27,7 +27,7 @@ print('\n')
 message_box(('Plotting "BabelColor Average" colour rendition charts spectral '
              'distributions.'))
 plot_multi_sds(
-    colour.COLOURCHECKERS_SDS['BabelColor Average'].values(),
+    colour.COLOURCHECKER_SDS['BabelColor Average'].values(),
     use_sds_colours=True,
     title=('BabelColor Average - '
            'Spectral Distributions'))
