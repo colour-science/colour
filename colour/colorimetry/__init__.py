@@ -199,6 +199,14 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
 ]
 
+# v0.3.16
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.colorimetry.D_ILLUMINANTS_S_SDS',
+        'colour.colorimetry.D_ILLUMINANT_S_SDS',
+    ],
+]
+
 if not is_documentation_building():
     sys.modules['colour.colorimetry'] = colorimetry(
         sys.modules['colour.colorimetry'], build_API_changes(API_CHANGES))

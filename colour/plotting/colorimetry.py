@@ -33,10 +33,10 @@ from matplotlib.patches import Polygon
 from six.moves import reduce
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import (
-    ILLUMINANTS, ILLUMINANTS_SDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ, sds_and_multi_sds_to_sds,
-    wavelength_to_XYZ)
+from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS, LIGHTNESS_METHODS,
+                                LUMINANCE_METHODS, SpectralShape, sd_blackbody,
+                                sd_ones, sd_to_XYZ, sds_and_multi_sds_to_sds,
+                                wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
@@ -267,8 +267,8 @@ def plot_multi_sds(sds,
     sds = sds_and_multi_sds_to_sds(sds)
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    illuminant = ILLUMINANTS_SDS[
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.illuminant]
+    illuminant = ILLUMINANT_SDS[
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint_name]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for sd in sds:

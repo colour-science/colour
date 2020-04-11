@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import six
 
-from colour.colorimetry import (STANDARD_OBSERVERS_CMFS, multi_sds_to_XYZ,
+from colour.colorimetry import (STANDARD_OBSERVER_CMFS, multi_sds_to_XYZ,
                                 SpectralShape, sd_ones)
 from colour.volume import is_within_mesh_volume
 
@@ -130,7 +130,7 @@ def generate_pulse_waves(bins):
 
 
 def XYZ_outer_surface(
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         **kwargs):
@@ -166,7 +166,7 @@ def XYZ_outer_surface(
     >>> from colour.colorimetry import DEFAULT_SPECTRAL_SHAPE
     >>> shape = SpectralShape(
     ...     DEFAULT_SPECTRAL_SHAPE.start, DEFAULT_SPECTRAL_SHAPE.end, 84)
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> XYZ_outer_surface(cmfs.copy().align(shape))  # doctest: +ELLIPSIS
     array([[  0.0000000...e+00,   0.0000000...e+00,   0.0000000...e+00],
            [  9.6361381...e-05,   2.9056776...e-06,   4.4961226...e-04],
@@ -219,7 +219,7 @@ def XYZ_outer_surface(
 
 def is_within_visible_spectrum(
         XYZ,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         tolerance=None,

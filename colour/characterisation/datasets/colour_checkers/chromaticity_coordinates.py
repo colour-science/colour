@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Colour Checkers Chromaticity Coordinates
-========================================
+Colour Checker Chromaticity Coordinates
+=======================================
 
-Defines *Colour Checkers* chromaticity coordinates in *CIE xyY* colourspace.
+Defines *Colour Checker* chromaticity coordinates in *CIE xyY* colourspace.
 
 Each *Colour Checker* data is in the form of a list of an :class:`OrderedDict`
 class instance of 24 samples as follows::
 
     {'name': 'xyY', ..., 'name': 'xyY'}
 
-The following *Colour Checkers* data is available:
+The following *Colour Checkers* are available:
 
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER_1976`: *Colour Checker* developed by
@@ -406,7 +406,7 @@ COLOURCHECKERS = CaseInsensitiveMapping({
     'ColorChecker24 - After November 2014': COLORCHECKER24_AFTER_NOV2014,
 })
 COLOURCHECKERS.__doc__ = """
-Aggregated *Colour Checkers* chromaticity coordinates.
+Aggregated *Colour Checker* chromaticity coordinates.
 
 References
 ----------

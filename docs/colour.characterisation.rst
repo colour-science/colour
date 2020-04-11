@@ -52,7 +52,7 @@ Colour Rendition Charts
     :toctree: generated/
 
     COLOURCHECKERS
-    COLOURCHECKERS_SDS
+    COLOURCHECKER_SDS
 
 **Ancillary Objects**
 
@@ -87,7 +87,7 @@ Cameras
 .. autosummary::
     :toctree: generated/
 
-    CAMERAS_RGB_SPECTRAL_SENSITIVITIES
+    CAMERA_RGB_SPECTRAL_SENSITIVITIES
 
 Displays
 --------
@@ -111,4 +111,4 @@ Displays
 .. autosummary::
     :toctree: generated/
 
-    DISPLAYS_RGB_PRIMARIES
+    DISPLAY_RGB_PRIMARIES

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Illuminants Chromaticity Coordinates
-====================================
+Illuminant Chromaticity Coordinates
+===================================
 
-Defines *CIE* illuminants chromaticity coordinates for the
+Defines the illuminant chromaticity coordinates for the
 *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 
@@ -97,7 +97,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'FL12': np.array([0.43700, 0.40420])
 })
 """
-*CIE* illuminant chromaticity coordinates for
+*CIE* illuminant chromaticity coordinates for the
 *CIE 1931 2 Degree Standard Observer*.
 
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
@@ -167,7 +167,7 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'FL12': np.array([0.44256, 0.39717])
 })
 """
-*CIE* illuminant chromaticity coordinates for
+*CIE* illuminant chromaticity coordinates for the
 *CIE 1964 10 Degree Standard Observer*.
 
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
@@ -214,7 +214,7 @@ ILLUMINANTS = CaseInsensitiveMapping({
         ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
 })
 ILLUMINANTS.__doc__ = """
-Aggregated *CIE* illuminants chromaticity coordinates.
+Aggregated *CIE* illuminant chromaticity coordinates.
 
 Warning
 -------

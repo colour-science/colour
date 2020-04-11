@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (
-    ILLUMINANTS_SDS, SpectralShape, sd_CIE_standard_illuminant_A,
+    ILLUMINANT_SDS, SpectralShape, sd_CIE_standard_illuminant_A,
     sd_CIE_illuminant_D_series, daylight_locus_function)
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
@@ -163,7 +163,7 @@ sd_CIE_illuminant_D_series` definition.
         ):
             CCT = CCT * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
-            sd_r = ILLUMINANTS_SDS[name]
+            sd_r = ILLUMINANT_SDS[name]
             sd_t = sd_CIE_illuminant_D_series(xy)
 
             np.testing.assert_allclose(

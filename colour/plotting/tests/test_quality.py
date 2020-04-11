@@ -8,7 +8,7 @@ from __future__ import division, unicode_literals
 import unittest
 from matplotlib.pyplot import Axes, Figure
 
-from colour.colorimetry import (ILLUMINANTS_SDS, LIGHT_SOURCES_SDS,
+from colour.colorimetry import (ILLUMINANT_SDS, LIGHT_SOURCE_SDS,
                                 SpectralShape)
 from colour.plotting import (plot_single_sd_colour_rendering_index_bars,
                              plot_multi_sds_colour_rendering_indexes_bars,
@@ -44,8 +44,8 @@ class TestPlotColourQualityBars(unittest.TestCase):
         definition.
         """
 
-        illuminant = ILLUMINANTS_SDS['FL2']
-        light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+        illuminant = ILLUMINANT_SDS['FL2']
+        light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
         light_source = light_source.copy().align(SpectralShape(360, 830, 1))
         cqs_i = colour_quality_scale(illuminant, additional_data=True)
         cqs_l = colour_quality_scale(light_source, additional_data=True)
@@ -69,7 +69,7 @@ plot_single_sd_colour_rendering_index_bars` definition.
         """
 
         figure, axes = plot_single_sd_colour_rendering_index_bars(
-            ILLUMINANTS_SDS['FL2'])
+            ILLUMINANT_SDS['FL2'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -88,7 +88,7 @@ plot_multi_sds_colour_rendering_indexes_bars` definition.
         """
 
         figure, axes = plot_multi_sds_colour_rendering_indexes_bars(
-            [ILLUMINANTS_SDS['FL2'], LIGHT_SOURCES_SDS['Kinoton 75P']])
+            [ILLUMINANT_SDS['FL2'], LIGHT_SOURCE_SDS['Kinoton 75P']])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -107,7 +107,7 @@ plot_single_sd_colour_quality_scale_bars` definition.
         """
 
         figure, axes = plot_single_sd_colour_quality_scale_bars(
-            ILLUMINANTS_SDS['FL2'])
+            ILLUMINANT_SDS['FL2'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -126,7 +126,7 @@ plot_multi_sds_colour_quality_scales_bars` definition.
         """
 
         figure, axes = plot_multi_sds_colour_quality_scales_bars(
-            [ILLUMINANTS_SDS['FL2'], LIGHT_SOURCES_SDS['Kinoton 75P']])
+            [ILLUMINANT_SDS['FL2'], LIGHT_SOURCE_SDS['Kinoton 75P']])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

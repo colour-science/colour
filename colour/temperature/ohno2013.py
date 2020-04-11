@@ -25,8 +25,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS,
+                                sd_blackbody, sd_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float_array, runtime_warning, tsplit
 
@@ -79,10 +79,10 @@ def planckian_table(uv, cmfs, start, end, count):
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> from pprint import pprint
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
@@ -146,9 +146,9 @@ def planckian_table_minimal_distance_index(planckian_table_):
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
@@ -163,7 +163,7 @@ def planckian_table_minimal_distance_index(planckian_table_):
 
 def _uv_to_CCT_Ohno2013(
         uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         start=CCT_MINIMAL,
         end=CCT_MAXIMAL,
@@ -256,7 +256,7 @@ def _uv_to_CCT_Ohno2013(
 
 def uv_to_CCT_Ohno2013(
         uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'],
         start=CCT_MINIMAL,
         end=CCT_MAXIMAL,
         count=CCT_SAMPLES,
@@ -297,9 +297,9 @@ def uv_to_CCT_Ohno2013(
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
@@ -320,7 +320,7 @@ def uv_to_CCT_Ohno2013(
 
 def _CCT_to_uv_Ohno2013(
         CCT_D_uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -373,7 +373,7 @@ def _CCT_to_uv_Ohno2013(
 
 def CCT_to_uv_Ohno2013(
         CCT_D_uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -397,9 +397,9 @@ def CCT_to_uv_Ohno2013(
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])

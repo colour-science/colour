@@ -15,10 +15,10 @@ message_box(('Computing "ACES" relative exposure '
              '\n\t("dark skin", \n\t"blue sky")'))
 print(
     colour.sd_to_aces_relative_exposure_values(
-        colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']))
+        colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']))
 print(
     colour.sd_to_aces_relative_exposure_values(
-        colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['blue sky']))
+        colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['blue sky']))
 
 print('\n')
 

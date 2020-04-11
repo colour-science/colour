@@ -40,7 +40,7 @@ import numpy as np
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
                                 MultiSpectralDistributions, SpectralShape,
-                                STANDARD_OBSERVERS_CMFS, sd_ones)
+                                STANDARD_OBSERVER_CMFS, sd_ones)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               filter_kwargs, from_range_100, runtime_warning,
@@ -402,7 +402,7 @@ def adjust_tristimulus_weighting_factors_ASTME308(W, shape_r, shape_t):
 
 def sd_to_XYZ_integration(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None):
@@ -456,7 +456,7 @@ def sd_to_XYZ_integration(
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
+    ...     CMFS, ILLUMINANT_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -477,7 +477,7 @@ def sd_to_XYZ_integration(
     ...     700: 0.2852
     ... }
     >>> sd = SpectralDistribution(data)
-    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> illuminant = ILLUMINANT_SDS['D65']
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8404805...,   9.6838697...,   6.2115722...])
@@ -513,7 +513,7 @@ def sd_to_XYZ_integration(
 
 def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().trim(ASTME308_PRACTISE_SHAPE),
         illuminant=sd_ones(ASTME308_PRACTISE_SHAPE),
         k=None):
@@ -567,7 +567,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
+    ...     CMFS, ILLUMINANT_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -588,7 +588,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     ...     700: 0.2852
     ... }
     >>> sd = SpectralDistribution(data)
-    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> illuminant = ILLUMINANT_SDS['D65']
     >>> sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     ...     sd, cmfs, illuminant)  # doctest: +ELLIPSIS
     array([ 10.8405832...,   9.6844909...,   6.2155622...])
@@ -622,7 +622,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
 def sd_to_XYZ_ASTME308(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().trim(ASTME308_PRACTISE_SHAPE),
         illuminant=sd_ones(ASTME308_PRACTISE_SHAPE),
         use_practice_range=True,
@@ -703,7 +703,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
+    ...     CMFS, ILLUMINANT_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -724,7 +724,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     ...     700: 0.2852
     ... }
     >>> sd = SpectralDistribution(data)
-    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> illuminant = ILLUMINANT_SDS['D65']
     >>> sd_to_XYZ_ASTME308(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8401953...,   9.6841740...,   6.2158913...])
@@ -806,7 +806,7 @@ SD_TO_XYZ_METHODS['astm2015'] = SD_TO_XYZ_METHODS['ASTM E308']
 
 def sd_to_XYZ(
         sd,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None,
@@ -883,7 +883,7 @@ def sd_to_XYZ(
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
+    ...     CMFS, ILLUMINANT_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -904,7 +904,7 @@ def sd_to_XYZ(
     ...     700: 0.2852
     ... }
     >>> sd = SpectralDistribution(data)
-    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> illuminant = ILLUMINANT_SDS['D65']
     >>> sd_to_XYZ(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8401953...,   9.6841740...,   6.2158913...])
@@ -924,7 +924,7 @@ def sd_to_XYZ(
 
 def multi_sds_to_XYZ_integration(
         msds,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None,
@@ -994,9 +994,9 @@ def multi_sds_to_XYZ_integration(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
+    >>> from colour import ILLUMINANT_SDS
     >>> shape = SpectralShape(400, 700, 60)
-    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> D65 = ILLUMINANT_SDS['D65']
     >>> data = np.array([
     ...     [0.0137, 0.0159, 0.0096, 0.0111, 0.0179, 0.1057, 0.0433,
     ...      0.0258, 0.0248, 0.0186, 0.0310, 0.0473],
@@ -1102,7 +1102,7 @@ def multi_sds_to_XYZ_integration(
 
 def multi_sds_to_XYZ_ASTME308(
         msds,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().trim(ASTME308_PRACTISE_SHAPE),
         illuminant=sd_ones(ASTME308_PRACTISE_SHAPE),
         use_practice_range=True,
@@ -1181,9 +1181,9 @@ def multi_sds_to_XYZ_ASTME308(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
+    >>> from colour import ILLUMINANT_SDS
     >>> shape = SpectralShape(400, 700, 60)
-    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> D65 = ILLUMINANT_SDS['D65']
     >>> data = np.array([
     ...     [0.0137, 0.0159, 0.0096, 0.0111, 0.0179, 0.1057, 0.0433,
     ...      0.0258, 0.0248, 0.0186, 0.0310, 0.0473],
@@ -1253,7 +1253,7 @@ MULTI_SD_TO_XYZ_METHODS['astm2015'] = MULTI_SD_TO_XYZ_METHODS['ASTM E308']
 
 def multi_sds_to_XYZ(
         msds,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         illuminant=sd_ones(),
         k=None,
@@ -1420,7 +1420,7 @@ def multi_sds_to_XYZ(
 
 def wavelength_to_XYZ(
         wavelength,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Converts given wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
     using given colour matching functions.

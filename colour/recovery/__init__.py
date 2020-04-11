@@ -98,10 +98,10 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     >>> import numpy as np
     >>> from colour.utilities import numpy_print_options
     >>> from colour.colorimetry import (
-    ...     STANDARD_OBSERVERS_CMFS, SpectralShape, sd_to_XYZ_integration)
+    ...     STANDARD_OBSERVER_CMFS, SpectralShape, sd_to_XYZ_integration)
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> sd = XYZ_to_sd(XYZ, cmfs=cmfs)

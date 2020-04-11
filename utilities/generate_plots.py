@@ -16,10 +16,10 @@ import numpy as np  # noqa
 import os  # noqa
 
 import colour  # noqa
-from colour.characterisation import COLOURCHECKERS_SDS  # noqa
+from colour.characterisation import COLOURCHECKER_SDS  # noqa
 from colour.colorimetry import (  # noqa
-    ILLUMINANTS_SDS, LIGHT_SOURCES_SDS, PHOTOPIC_LEFS, SCOTOPIC_LEFS,
-    STANDARD_OBSERVERS_CMFS, SpectralDistribution, SpectralShape, sd_blackbody,
+    ILLUMINANT_SDS, LIGHT_SOURCE_SDS, PHOTOPIC_LEFS, SCOTOPIC_LEFS,
+    STANDARD_OBSERVER_CMFS, SpectralDistribution, SpectralShape, sd_blackbody,
     sd_mesopic_luminous_efficiency_function, sd_to_XYZ)
 from colour.io import read_image  # noqa
 from colour.models import sRGB_to_XYZ, XYZ_to_sRGB, XYZ_to_xy  # noqa
@@ -166,7 +166,7 @@ def generate_documentation_plots(output_directory):
         output_directory, 'Examples_Plotting_BabelColor_Average.png')
     plt.close(
         plot_multi_sds(
-            COLOURCHECKERS_SDS['BabelColor Average'].values(),
+            COLOURCHECKER_SDS['BabelColor Average'].values(),
             use_sds_colours=True,
             title=('BabelColor Average - '
                    'Spectral Distributions'),
@@ -207,7 +207,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_CRI.png')
     plt.close(
-        plot_single_sd_colour_rendering_index_bars(ILLUMINANTS_SDS['FL2'],
+        plot_single_sd_colour_rendering_index_bars(ILLUMINANT_SDS['FL2'],
                                                    **arguments)[0])
 
     # *************************************************************************
@@ -382,8 +382,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_SDS_In_Chromaticity_Diagram.png')
-    A = ILLUMINANTS_SDS['A']
-    D65 = ILLUMINANTS_SDS['D65']
+    A = ILLUMINANT_SDS['A']
+    D65 = ILLUMINANT_SDS['D65']
     plt.close(plot_sds_in_chromaticity_diagram([A, D65], **arguments)[0])
 
     arguments['filename'] = os.path.join(
@@ -587,8 +587,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Colour_Quality_Bars.png')
-    illuminant = ILLUMINANTS_SDS['FL2']
-    light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    illuminant = ILLUMINANT_SDS['FL2']
+    light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
     light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     cqs_i = colour_quality_scale(illuminant, additional_data=True)
     cqs_l = colour_quality_scale(light_source, additional_data=True)
@@ -597,14 +597,14 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Single_SD_Colour_Rendering_Index_Bars.png')
-    illuminant = ILLUMINANTS_SDS['FL2']
+    illuminant = ILLUMINANT_SDS['FL2']
     plt.close(
         plot_single_sd_colour_rendering_index_bars(illuminant, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png')
-    light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
     plt.close(
         plot_multi_sds_colour_rendering_indexes_bars(
             [illuminant, light_source], **arguments)[0])
@@ -612,14 +612,14 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Single_SD_Colour_Quality_Scale_Bars.png')
-    illuminant = ILLUMINANTS_SDS['FL2']
+    illuminant = ILLUMINANT_SDS['FL2']
     plt.close(
         plot_single_sd_colour_quality_scale_bars(illuminant, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Multi_SDS_Colour_Quality_Scales_Bars.png')
-    light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
     plt.close(
         plot_multi_sds_colour_quality_scales_bars([illuminant, light_source],
                                                   **arguments)[0])
@@ -785,8 +785,8 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Sample_Swatch.png')
     sd = SpectralDistribution(sample_sd_data)
-    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = ILLUMINANTS_SDS['D65']
+    cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+    illuminant = ILLUMINANT_SDS['D65']
     with domain_range_scale('1'):
         XYZ = sd_to_XYZ(sd, cmfs, illuminant)
         RGB = XYZ_to_sRGB(XYZ)
@@ -799,7 +799,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Neutral5.png')
     patch_name = 'neutral 5 (.70 D)'
-    patch_sd = COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
+    patch_sd = COLOURCHECKER_SDS['ColorChecker N Ohta'][patch_name]
     with domain_range_scale('1'):
         XYZ = sd_to_XYZ(patch_sd, cmfs, illuminant)
         RGB = XYZ_to_sRGB(XYZ)

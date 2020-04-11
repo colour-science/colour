@@ -136,7 +136,7 @@ The various sub-packages also expose their public API:
     Characterisation
     ['RGB_SpectralSensitivities',
      'RGB_DisplayPrimaries',
-     'CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
+     'CAMERA_RGB_SPECTRAL_SENSITIVITIES',
      'COLOURCHECKERS',
      'ColourChecker',
      '...']
@@ -170,7 +170,7 @@ The various sub-packages also expose their public API:
 
     Corresponding
     ['BRENEMAN_EXPERIMENTS',
-     'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
+     'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
      'CorrespondingColourDataset',
      'CorrespondingChromaticitiesPrediction',
      'corresponding_chromaticities_prediction_CIE1994',
@@ -284,7 +284,7 @@ The various sub-packages also expose their public API:
 
 
     Volume
-    ['ILLUMINANTS_OPTIMAL_COLOUR_STIMULI',
+    ['ILLUMINANT_OPTIMAL_COLOUR_STIMULI',
      'is_within_macadam_limits',
      'is_within_mesh_volume',
      'is_within_pointer_gamut',
@@ -321,9 +321,9 @@ The codebase is documented and most docstrings have usage examples:
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
@@ -355,13 +355,13 @@ the objects needed for spectral computations and many others:
      'CMFS',
      'LMS_CMFS',
      'RGB_CMFS',
-     'STANDARD_OBSERVERS_CMFS',
+     'STANDARD_OBSERVER_CMFS',
      'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SDS',
+     'D_ILLUMINANT_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SDS',
+     'ILLUMINANT_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SDS',
+     'LIGHT_SOURCE_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS',
@@ -456,13 +456,13 @@ the following components:
     ['CMFS',
      'LMS_CMFS',
      'RGB_CMFS',
-     'STANDARD_OBSERVERS_CMFS',
+     'STANDARD_OBSERVER_CMFS',
      'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SDS',
+     'D_ILLUMINANT_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SDS',
+     'ILLUMINANT_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SDS',
+     'LIGHT_SOURCE_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS']
@@ -1076,8 +1076,8 @@ calculated:
 .. code:: python
 
     sd = colour.SpectralDistribution(sample_sd_data)
-    cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_SDS['D65']
+    cmfs = colour.STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+    illuminant = colour.ILLUMINANT_SDS['D65']
 
     # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.
     XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
@@ -1172,7 +1172,7 @@ various colour rendition charts:
     print(sorted(colour.characterisation.COLOURCHECKERS.keys()))
 
     # Colour rendition charts spectral distributions.
-    print(sorted(colour.characterisation.COLOURCHECKERS_SDS.keys()))
+    print(sorted(colour.characterisation.COLOURCHECKER_SDS.keys()))
 
 .. code-block:: text
 
@@ -1189,7 +1189,7 @@ various colour rendition charts:
 
     # Plotting the *sRGB* colourspace colour of *neutral 5 (.70 D)* patch.
     patch_name = 'neutral 5 (.70 D)'
-    patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
+    patch_sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta'][patch_name]
     XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 

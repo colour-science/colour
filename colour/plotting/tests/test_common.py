@@ -15,7 +15,7 @@ from functools import partial
 from matplotlib.pyplot import Axes, Figure
 
 import colour
-from colour.colorimetry import ILLUMINANTS_SDS
+from colour.colorimetry import ILLUMINANT_SDS
 from colour.io import read_image
 from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
 from colour.plotting import ColourSwatch
@@ -303,18 +303,18 @@ class TestFilterPassthrough(unittest.TestCase):
 
         self.assertDictEqual(
             filter_passthrough(
-                ILLUMINANTS_SDS, [ILLUMINANTS_SDS['D65'], {
+                ILLUMINANT_SDS, [ILLUMINANT_SDS['D65'], {
                     'Is': 'Excluded'
                 }],
-                allow_non_siblings=False), {'D65': ILLUMINANTS_SDS['D65']})
+                allow_non_siblings=False), {'D65': ILLUMINANT_SDS['D65']})
 
         self.assertDictEqual(
             filter_passthrough(
-                ILLUMINANTS_SDS, [ILLUMINANTS_SDS['D65'], {
+                ILLUMINANT_SDS, [ILLUMINANT_SDS['D65'], {
                     'Is': 'Included'
                 }],
                 allow_non_siblings=True), {
-                    'D65': ILLUMINANTS_SDS['D65'],
+                    'D65': ILLUMINANT_SDS['D65'],
                     'Is': 'Included'
                 })
 

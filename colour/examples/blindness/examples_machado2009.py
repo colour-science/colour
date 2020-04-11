@@ -15,7 +15,7 @@ message_box('Simulation of CVD - Machado (2009)')
 
 M_a = colour.anomalous_trichromacy_matrix_Machado2009(
     colour.LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
-    colour.DISPLAYS_RGB_PRIMARIES['Typical CRT Brainard 1997'],
+    colour.DISPLAY_RGB_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([10, 0, 0]))
 message_box(('Computing a "Protanomaly" matrix using '
              '"Stockman & Sharpe 2 Degree Cone Fundamentals" and '
@@ -34,7 +34,7 @@ print('\n')
 
 M_a = colour.anomalous_trichromacy_matrix_Machado2009(
     colour.LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
-    colour.DISPLAYS_RGB_PRIMARIES['Typical CRT Brainard 1997'],
+    colour.DISPLAY_RGB_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([0, 10, 0]))
 message_box(('Computing a "Deuteranomaly" matrix using '
              '"Stockman & Sharpe 2 Degree Cone Fundamentals" and '
@@ -53,7 +53,7 @@ print('\n')
 
 M_a = colour.anomalous_trichromacy_matrix_Machado2009(
     colour.LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
-    colour.DISPLAYS_RGB_PRIMARIES['Typical CRT Brainard 1997'],
+    colour.DISPLAY_RGB_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([0, 0, 27]))
 message_box(('Computing a "Tritanomaly" matrix using '
              '"Stockman & Sharpe 2 Degree Cone Fundamentals" and '

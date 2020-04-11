@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Light Sources Chromaticity Coordinates
-======================================
+Light Source Chromaticity Coordinates
+=====================================
 
-Defines various light sources chromaticity coordinates.
+Defines various light source chromaticity coordinates.
 
 The following light sources are available:
 
@@ -29,8 +29,7 @@ The following light sources are available:
     F40/CWX (Broadband FL), F40/DX (Broadband FL), F40/DXTP (Delux FL),
     F40/N (Natural FL), H38HT-100 (Mercury), H38JA-100/DX (Mercury DX),
     MHC100/U/MP /3K, MHC100/U/MP /4K, SDW-T 100W/LV (Super HPS)
--   Projectors and Xenon Arc Lamps:
-    Kinoton 75P
+-   Common light sources: Kinoton 75P
 
 References
 ----------
@@ -65,8 +64,8 @@ __all__ = [
     'LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
     'LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
     'LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_PROJECTORS_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_PROJECTORS_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
+    'LIGHT_SOURCES_COMMON_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'LIGHT_SOURCES_COMMON_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
     'LIGHT_SOURCES'
 ]
 
@@ -90,13 +89,13 @@ LIGHT_SOURCES_RIT_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
             np.array([0.381919124282806, 0.374309261641251])
     }))
 """
-Light sources chromaticity coordinates from *RIT* *PointerData.xls* spreadsheet
+Light source chromaticity coordinates from *RIT* *PointerData.xls* spreadsheet
 for *CIE 1931 2 Degree Standard Observer*.
 
 Warning
 -------
 The chromaticity coordinates have been calculated from *PointerData.xls*
-spreadsheet that doesn't mention the data source thus the light source names
+spreadsheet which doesn't mention the data source thus the light source names
 cannot be accurately verified.
 
 References
@@ -128,7 +127,7 @@ LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
             np.array([0.385533929282467, 0.370840492090948])
     }))
 """
-Light sources chromaticity coordinates from *RIT* *PointerData.xls* spreadsheet
+Light source chromaticity coordinates from *RIT* *PointerData.xls* spreadsheet
 for *CIE 1964 10 Degree Standard Observer*. [1]_
 
 LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
@@ -160,8 +159,9 @@ LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
             np.array([0.413163268257275, 0.396422053758680])
     }))
 """
-Traditional light sources chromaticity coordinates from *NIST*
-*NIST CQS simulation 7.4.xls* spreadsheet.
+Traditional light source chromaticity coordinates from *NIST*
+*NIST CQS simulation 7.4.xls* spreadsheet for the
+*CIE 1931 2 Degree Standard Observer*.
 
 References
 ----------
@@ -197,8 +197,9 @@ LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
             np.array([0.418591963931736, 0.388947713332192])
     }))
 """
-Traditional light sources chromaticity coordinates from *NIST*
-*NIST CQS simulation 7.4.xls* spreadsheet. [2]_
+Traditional light source chromaticity coordinates from *NIST*
+*NIST CQS simulation 7.4.xls* spreadsheet for the
+*CIE 1964 10 Degree Standard Observer*. [2]_
 
 LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
@@ -240,8 +241,9 @@ LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
             np.array([0.307761817314310, 0.325268939239941])
     }))
 """
-LED light sources chromaticity coordinates from *NIST*
-*NIST CQS simulation 7.4.xls* spreadsheet. [2]_
+LED light source chromaticity coordinates from *NIST*
+*NIST CQS simulation 7.4.xls* spreadsheet for the
+*CIE 1931 2 Degree Standard Observer*. [2]_
 
 LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     **{'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
@@ -285,8 +287,9 @@ LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
             np.array([0.312807834772696, 0.334180937864035])
     }))
 """
-LED light sources chromaticity coordinates from *NIST*
-*NIST CQS simulation 7.4.xls* spreadsheet. [2]_
+LED light source chromaticity coordinates from *NIST*
+*NIST CQS simulation 7.4.xls* spreadsheet for the
+*CIE 1964 10 Degree Standard Observer*. [2]_
 
 LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
@@ -345,8 +348,9 @@ LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
             np.array([0.472339157938672, 0.407106330880316])
     }))
 """
-Philips light sources chromaticity coordinates from *NIST*
-*NIST CQS simulation 7.4.xls* spreadsheet. [2]_
+Philips light source chromaticity coordinates from *NIST*
+*NIST CQS simulation 7.4.xls* spreadsheet for the
+*CIE 1931 2 Degree Standard Observer*. [2]_
 
 LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
@@ -409,8 +413,9 @@ LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
             np.array([0.476461908192661, 0.402288012403575])
     }))
 """
-Philips light sources chromaticity coordinates from *NIST*
-*NIST CQS simulation 7.4.xls* spreadsheet. [2]_
+Philips light source chromaticity coordinates from *NIST*
+*NIST CQS simulation 7.4.xls* spreadsheet for the
+*CIE 1964 10 Degree Standard Observer*. [2]_
 
 LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
@@ -425,30 +430,32 @@ LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}**
 """
 
-LIGHT_SOURCES_PROJECTORS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
+LIGHT_SOURCES_COMMON_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
     CaseInsensitiveMapping({
         'Kinoton 75P': np.array([0.315252413629716, 0.332870794805328])
     }))
 """
-Projectors and Xenon Arc Lamps.
+Common light source chromaticity coordinates for the
+*CIE 1931 2 Degree Standard Observer*.
 
 References
 ----------
 :cite:`Houston2015a`
 
-LIGHT_SOURCES_PROJECTORS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
+LIGHT_SOURCES_COMMON_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
     **{'Kinoton 75P', }**
 """
 
-LIGHT_SOURCES_PROJECTORS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
+LIGHT_SOURCES_COMMON_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
     CaseInsensitiveMapping({
         'Kinoton 75P': np.array([0.317086642148234, 0.336222428041514])
     }))
 """
-Projectors and Xenon Arc Lamps. [3_]
+Common light source chromaticity coordinates for the
+*CIE 1964 10 Degree Standard Observer*. [3_]
 
-LIGHT_SOURCES_PROJECTORS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
+LIGHT_SOURCES_COMMON_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
     **{'Kinoton 75P', }**
 """
@@ -462,7 +469,7 @@ LIGHT_SOURCES = CaseInsensitiveMapping({
             LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
 })
 LIGHT_SOURCES.__doc__ = """
-Aggregated light sources chromaticity coordinates.
+Aggregated light source chromaticity coordinates.
 
 LIGHT_SOURCES : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
@@ -494,6 +501,6 @@ LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
     LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
 
 LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'].update(
-    LIGHT_SOURCES_PROJECTORS_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
+    LIGHT_SOURCES_COMMON_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
 LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
-    LIGHT_SOURCES_PROJECTORS_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
+    LIGHT_SOURCES_COMMON_CIE_1964_10_DEGREE_STANDARD_OBSERVER)

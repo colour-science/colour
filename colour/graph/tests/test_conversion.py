@@ -9,7 +9,7 @@ import numpy as np
 import six
 import unittest
 
-from colour import COLOURCHECKERS_SDS, ILLUMINANTS, ILLUMINANTS_SDS
+from colour import COLOURCHECKER_SDS, ILLUMINANTS, ILLUMINANT_SDS
 from colour.graph import describe_conversion_path, convert
 
 __author__ = 'Colour Developers'
@@ -43,7 +43,7 @@ class TestDescribeConversionPath(unittest.TestCase):
             'sRGB',
             mode='Extended',
             sd_to_XYZ={
-                'illuminant': ILLUMINANTS_SDS['FL2'],
+                'illuminant': ILLUMINANT_SDS['FL2'],
                 'return': np.array([0.47924575, 0.31676968, 0.17362725])
             })
 
@@ -59,7 +59,7 @@ class TestConvert(unittest.TestCase):
         Tests :func:`colour.graph.conversion.convert` definition.
         """
 
-        RGB_a = convert(COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin'],
+        RGB_a = convert(COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'],
                         'Spectral Distribution', 'sRGB')
         np.testing.assert_almost_equal(
             RGB_a, np.array([0.45675795, 0.30986982, 0.24861924]), decimal=7)
@@ -110,7 +110,7 @@ class TestConvert(unittest.TestCase):
 
         if six.PY3:  # pragma: no cover
             self.assertRaises(AttributeError, lambda: convert(
-                COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin'],
+                COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'],
                 'Spectral Distribution', 'sRGB',
                 illuminant=illuminant))
 

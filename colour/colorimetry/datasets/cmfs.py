@@ -76,7 +76,7 @@ __status__ = 'Production'
 
 __all__ = [
     'LMS_CMFS_DATA', 'LMS_CMFS', 'RGB_CMFS_DATA', 'RGB_CMFS',
-    'STANDARD_OBSERVERS_CMFS_DATA', 'STANDARD_OBSERVERS_CMFS', 'CMFS'
+    'STANDARD_OBSERVER_CMFS_DATA', 'STANDARD_OBSERVER_CMFS', 'CMFS'
 ]
 
 # *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has
@@ -1362,7 +1362,7 @@ RGB_CMFS : CaseInsensitiveMapping
     'Stiles & Burch 1959 10 Degree RGB CMFs'}**
 """
 
-STANDARD_OBSERVERS_CMFS_DATA = {
+STANDARD_OBSERVER_CMFS_DATA = {
     'CIE 1931 2 Degree Standard Observer': {
         360: (0.000129900000, 0.000003917000, 0.000606100000),
         361: (0.000145847000, 0.000004393581, 0.000680879200),
@@ -3197,40 +3197,38 @@ STANDARD_OBSERVERS_CMFS_DATA = {
     }
 }
 
-STANDARD_OBSERVERS_CMFS = CaseInsensitiveMapping({
+STANDARD_OBSERVER_CMFS = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
         XYZ_ColourMatchingFunctions(
-            STANDARD_OBSERVERS_CMFS_DATA[
-                'CIE 1931 2 Degree Standard Observer'],
+            STANDARD_OBSERVER_CMFS_DATA['CIE 1931 2 Degree Standard Observer'],
             name='CIE 1931 2 Degree Standard Observer',
             strict_name='CIE 1931 2$^\\circ$ Standard Observer'),
     'CIE 1964 10 Degree Standard Observer':
         XYZ_ColourMatchingFunctions(
-            STANDARD_OBSERVERS_CMFS_DATA[
+            STANDARD_OBSERVER_CMFS_DATA[
                 'CIE 1964 10 Degree Standard Observer'],
             name='CIE 1964 10 Degree Standard Observer',
             strict_name='CIE 1964 10$^\\circ$ Standard Observer'),
     'CIE 2012 2 Degree Standard Observer':
         XYZ_ColourMatchingFunctions(
-            STANDARD_OBSERVERS_CMFS_DATA[
-                'CIE 2012 2 Degree Standard Observer'],
+            STANDARD_OBSERVER_CMFS_DATA['CIE 2012 2 Degree Standard Observer'],
             name='CIE 2012 2 Degree Standard Observer',
             strict_name='CIE 2012 2$^\\circ$ Standard Observer'),
     'CIE 2012 10 Degree Standard Observer':
         XYZ_ColourMatchingFunctions(
-            STANDARD_OBSERVERS_CMFS_DATA[
+            STANDARD_OBSERVER_CMFS_DATA[
                 'CIE 2012 10 Degree Standard Observer'],
             name='CIE 2012 10 Degree Standard Observer',
             strict_name='CIE 2012 10$^\\circ$ Standard Observer')
 })
-STANDARD_OBSERVERS_CMFS.__doc__ = """
+STANDARD_OBSERVER_CMFS.__doc__ = """
 *CIE* Standard Observers *XYZ* colour matching functions.
 
 References
 ----------
 :cite:`CVRLr`, :cite:`CVRLs`
 
-STANDARD_OBSERVERS_CMFS : CaseInsensitiveMapping
+STANDARD_OBSERVER_CMFS : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer',
     'CIE 2012 2 Degree Standard Observer',
@@ -3241,10 +3239,10 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-STANDARD_OBSERVERS_CMFS['cie_2_1931'] = (
-    STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'])
-STANDARD_OBSERVERS_CMFS['cie_10_1964'] = (
-    STANDARD_OBSERVERS_CMFS['CIE 1964 10 Degree Standard Observer'])
+STANDARD_OBSERVER_CMFS['cie_2_1931'] = (
+    STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'])
+STANDARD_OBSERVER_CMFS['cie_10_1964'] = (
+    STANDARD_OBSERVER_CMFS['CIE 1964 10 Degree Standard Observer'])
 
 CMFS = CaseInsensitiveMapping(LMS_CMFS)
 CMFS.__doc__ = """
@@ -3267,4 +3265,4 @@ CMFS : CaseInsensitiveMapping
     'CIE 2012 10 Degree Standard Observer'}**
 """
 CMFS.update(RGB_CMFS)
-CMFS.update(STANDARD_OBSERVERS_CMFS)
+CMFS.update(STANDARD_OBSERVER_CMFS)

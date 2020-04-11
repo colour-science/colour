@@ -180,7 +180,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
 
 ::
@@ -196,7 +196,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> illuminant = colour.ILLUMINANTS_SDS['FL2']
+    >>> illuminant = colour.ILLUMINANT_SDS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
     array([ 0.47924575,  0.31676968,  0.17362725])
 
@@ -258,7 +258,7 @@ Colour Blindness - ``colour.blindness``
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
-    >>> primaries = colour.DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = colour.DISPLAY_RGB_PRIMARIES['Apple Studio Display']
     >>> d_LMS = (15, 0, 0)
     >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
     array([[-0.27774652,  2.65150084, -1.37375432],
@@ -287,7 +287,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
+    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCE_SDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     ['ASTM E308', 'Integration', 'astm2015']
@@ -424,13 +424,13 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: python
 
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_flux(sd)
     23807.655527367202
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficiency(sd)
     0.19943935624521045
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficacy(sd)
     136.21708031547874
 
@@ -997,7 +997,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.ILLUMINANTS_SDS['FL2'])
+    >>> colour.colour_quality_scale(colour.ILLUMINANT_SDS['FL2'])
     64.017283509280588
     >>> colour.COLOUR_QUALITY_SCALE_METHODS
     ('NIST CQS 7.4', 'NIST CQS 9.0')
@@ -1007,7 +1007,7 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2'])
+    >>> colour.colour_rendering_index(colour.ILLUMINANT_SDS['FL2'])
     64.151520202968015
 
 Academy Spectral Similarity Index (SSI)
@@ -1015,7 +1015,7 @@ Academy Spectral Similarity Index (SSI)
 
 .. code-block:: python
 
-    >>> colour.spectral_similarity_index(colour.ILLUMINANTS_SDS['C'], colour.ILLUMINANTS_SDS['D65'])
+    >>> colour.spectral_similarity_index(colour.ILLUMINANT_SDS['C'], colour.ILLUMINANT_SDS['D65'])
     94.0
 
 Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
@@ -1170,7 +1170,7 @@ Colour Checker
     ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
     >>> plot_multi_sds(
     ...     [
-    ...         colour.COLOURCHECKERS_SDS['BabelColor Average'][value]
+    ...         colour.COLOURCHECKER_SDS['BabelColor Average'][value]
     ...         for key, value in sorted(
     ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
     ...     ],
@@ -1223,7 +1223,7 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> plot_single_sd_colour_rendering_index_bars(
-    ...     colour.ILLUMINANTS_SDS['FL2'])
+    ...     colour.ILLUMINANT_SDS['FL2'])
 
 ..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_CRI.png
 

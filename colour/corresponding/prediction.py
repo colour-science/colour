@@ -41,8 +41,8 @@ from collections import namedtuple
 from colour.adaptation import (
     chromatic_adaptation_CIE1994, chromatic_adaptation_CMCCAT2000,
     chromatic_adaptation_Fairchild1990, chromatic_adaptation_VonKries)
-from colour.corresponding import (
-    BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES)
+from colour.corresponding import (BRENEMAN_EXPERIMENTS,
+                                  BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES)
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, XYZ_to_Luv, XYZ_to_xy,
                            xy_to_XYZ, xyY_to_XYZ)
 from colour.utilities import (CaseInsensitiveMapping, domain_range_scale,
@@ -207,7 +207,7 @@ def convert_experiment_results_Breneman1987(experiment):
 
     experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
     illuminant_chromaticities = experiment_results.pop(0)
-    Y_r = Y_t = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
+    Y_r = Y_t = BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES[experiment].Y
     B_r = B_t = 0.3
 
     XYZ_t, XYZ_r = xy_to_XYZ(

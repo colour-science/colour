@@ -18,7 +18,7 @@ message_box('Starting with version "0.3.14", "Colour" implements an automatic '
 message_box('Converting a "ColorChecker" "dark skin" sample spectral '
             'distribution to "Output-Referred" "sRGB" colourspace.')
 
-sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
 
 print(colour.convert(sd, 'Spectral Distribution', 'sRGB'))
 

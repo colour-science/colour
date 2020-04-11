@@ -28,7 +28,7 @@ from collections import namedtuple
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series, ILLUMINANTS,
-    STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
+    STANDARD_OBSERVER_CMFS, sd_blackbody, sd_to_XYZ)
 from colour.quality.datasets.vs import VS_INDEXES_TO_NAMES, VS_SDS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
@@ -151,8 +151,8 @@ def colour_quality_scale(sd_test, additional_data=False,
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> sd = ILLUMINANTS_SDS['FL2']
+    >>> from colour import ILLUMINANT_SDS
+    >>> sd = ILLUMINANT_SDS['FL2']
     >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
     64.1117031...
     """
@@ -163,7 +163,7 @@ def colour_quality_scale(sd_test, additional_data=False,
     ], ('"{0}" method is invalid, must be one of {1}!'.format(
         method, COLOUR_QUALITY_SCALE_METHODS))
 
-    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
+    cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
     ).trim(DEFAULT_SPECTRAL_SHAPE)
 
     shape = cmfs.shape

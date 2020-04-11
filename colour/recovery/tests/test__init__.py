@@ -10,7 +10,7 @@ import numpy as np
 import unittest
 from six.moves import zip
 
-from colour.colorimetry import STANDARD_OBSERVERS_CMFS, sd_to_XYZ_integration
+from colour.colorimetry import STANDARD_OBSERVER_CMFS, sd_to_XYZ_integration
 from colour.recovery import XYZ_to_sd
 from colour.recovery.meng2015 import DEFAULT_SPECTRAL_SHAPE_MENG_2015
 from colour.utilities import domain_range_scale
@@ -37,7 +37,7 @@ class TestXYZ_to_sd(unittest.TestCase):
         and range scale support.
         """
 
-        cmfs = (STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs = (STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
                 .copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015))
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])

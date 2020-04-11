@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Colour Checkers Spectral Distributions
-======================================
+Colour Checker Spectral Distributions
+=====================================
 
-Defines *Colour Checkers* spectral distributions.
+Defines *Colour Checker* spectral distributions.
 
 Each *Colour Checker* data is in the form of :class:`OrderedDict`
 class instance of :class:`colour.SpectralDistribution` classes as
@@ -11,7 +11,7 @@ follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
-The following *Colour Checkers* data is available:
+The following *Colour Checkers* are available:
 
 -   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
 COLORCHECKER_N_OHTA_SDS`: Measured by Ohta (1997).
@@ -55,7 +55,7 @@ __status__ = 'Production'
 __all__ = [
     'COLORCHECKER_N_OHTA_SDS_DATA', 'COLORCHECKER_N_OHTA_SDS',
     'BABELCOLOR_AVERAGE_SDS_DATA', 'BABELCOLOR_AVERAGE_SDS',
-    'COLOURCHECKERS_SDS'
+    'COLOURCHECKER_SDS'
 ]
 
 COLORCHECKER_N_OHTA_SDS_DATA = OrderedDict((
@@ -2986,19 +2986,19 @@ Average data derived from measurements of 30 *Colour Checker* charts.
 BABELCOLOR_AVERAGE_SDS : dict
 """
 
-COLOURCHECKERS_SDS = CaseInsensitiveMapping({
+COLOURCHECKER_SDS = CaseInsensitiveMapping({
     'BabelColor Average': BABELCOLOR_AVERAGE_SDS,
     'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SDS
 })
-COLOURCHECKERS_SDS.__doc__ = """
-Aggregated *Colour Checkers* spectral distributions.
+COLOURCHECKER_SDS.__doc__ = """
+Aggregated *Colour Checker* spectral distributions.
 
 References
 ----------
 :cite:`Ohta1997a`, :cite:`BabelColor2012b`, :cite:`BabelColor2012c`,
 :cite:`MunsellColorScienceb`
 
-COLOURCHECKERS : CaseInsensitiveMapping
+COLOURCHECKER_SDS : CaseInsensitiveMapping
     **{'BabelColor Average', 'ColorChecker N Ohta'}**
 
 Aliases:
@@ -3006,5 +3006,5 @@ Aliases:
 -   'babel_average': 'BabelColor Average'
 -   'cc_ohta': 'ColorChecker N Ohta'
 """
-COLOURCHECKERS_SDS['babel_average'] = COLOURCHECKERS_SDS['BabelColor Average']
-COLOURCHECKERS_SDS['cc_ohta'] = COLOURCHECKERS_SDS['ColorChecker N Ohta']
+COLOURCHECKER_SDS['babel_average'] = COLOURCHECKER_SDS['BabelColor Average']
+COLOURCHECKER_SDS['cc_ohta'] = COLOURCHECKER_SDS['ColorChecker N Ohta']
