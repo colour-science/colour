@@ -215,7 +215,7 @@ Illuminants and Light Sources
     :toctree: generated/
 
     ILLUMINANTS
-    ILLUMINANTS_SDS
+    ILLUMINANT_SDS
     HUNTERLAB_ILLUMINANTS
     LIGHT_SOURCES
     LIGHT_SOURCES_SDS

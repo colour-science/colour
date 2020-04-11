@@ -9,7 +9,7 @@ import numpy as np
 import six
 import unittest
 
-from colour import COLOURCHECKERS_SDS, ILLUMINANTS, ILLUMINANTS_SDS
+from colour import COLOURCHECKERS_SDS, ILLUMINANTS, ILLUMINANT_SDS
 from colour.graph import describe_conversion_path, convert
 
 __author__ = 'Colour Developers'
@@ -43,7 +43,7 @@ class TestDescribeConversionPath(unittest.TestCase):
             'sRGB',
             mode='Extended',
             sd_to_XYZ={
-                'illuminant': ILLUMINANTS_SDS['FL2'],
+                'illuminant': ILLUMINANT_SDS['FL2'],
                 'return': np.array([0.47924575, 0.31676968, 0.17362725])
             })
 

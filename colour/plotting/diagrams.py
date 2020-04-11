@@ -619,9 +619,9 @@ def plot_sds_in_chromaticity_diagram(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> A = ILLUMINANTS_SDS['A']
-    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> from colour import ILLUMINANT_SDS
+    >>> A = ILLUMINANT_SDS['A']
+    >>> D65 = ILLUMINANT_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram([A, D65])  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, \
 <matplotlib.axes._subplots.AxesSubplot object at 0x...>)
@@ -791,9 +791,9 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> A = ILLUMINANTS_SDS['A']
-    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> from colour import ILLUMINANT_SDS
+    >>> A = ILLUMINANT_SDS['A']
+    >>> D65 = ILLUMINANT_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, \
@@ -867,9 +867,9 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> A = ILLUMINANTS_SDS['A']
-    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> from colour import ILLUMINANT_SDS
+    >>> A = ILLUMINANT_SDS['A']
+    >>> D65 = ILLUMINANT_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, \
@@ -943,9 +943,9 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> A = ILLUMINANTS_SDS['A']
-    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> from colour import ILLUMINANT_SDS
+    >>> A = ILLUMINANT_SDS['A']
+    >>> D65 = ILLUMINANT_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, \

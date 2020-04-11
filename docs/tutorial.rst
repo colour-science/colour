@@ -359,7 +359,7 @@ the objects needed for spectral computations and many others:
      'ILLUMINANTS',
      'D_ILLUMINANTS_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SDS',
+     'ILLUMINANT_SDS',
      'LIGHT_SOURCES',
      'LIGHT_SOURCES_SDS',
      'LEFS',
@@ -460,7 +460,7 @@ the following components:
      'ILLUMINANTS',
      'D_ILLUMINANTS_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SDS',
+     'ILLUMINANT_SDS',
      'LIGHT_SOURCES',
      'LIGHT_SOURCES_SDS',
      'LEFS',
@@ -1077,7 +1077,7 @@ calculated:
 
     sd = colour.SpectralDistribution(sample_sd_data)
     cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_SDS['D65']
+    illuminant = colour.ILLUMINANT_SDS['D65']
 
     # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.
     XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)

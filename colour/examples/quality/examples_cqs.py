@@ -11,7 +11,7 @@ from colour.utilities import message_box
 message_box('"Colour Quality Scale (CQS)" Computations')
 
 message_box('Computing "F2" illuminant "Colour Quality Scale (CQS)".')
-print(colour.colour_quality_scale(colour.ILLUMINANTS_SDS['FL2']))
+print(colour.colour_quality_scale(colour.ILLUMINANT_SDS['FL2']))
 
 print('\n')
 

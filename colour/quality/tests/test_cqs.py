@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.quality import CQS_Specification, colour_quality_scale
-from colour.colorimetry import ILLUMINANTS_SDS, LIGHT_SOURCES_SDS
+from colour.colorimetry import ILLUMINANT_SDS, LIGHT_SOURCES_SDS
 from colour.quality.cqs import VS_ColorimetryData, VS_ColourQualityScaleData
 
 __author__ = 'Colour Developers'
@@ -34,24 +34,22 @@ class TestColourQualityScale(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour_quality_scale(ILLUMINANTS_SDS['FL1']),
+            colour_quality_scale(ILLUMINANT_SDS['FL1']),
             74.982585798279871,
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(
-                ILLUMINANTS_SDS['FL1'], method='NIST CQS 7.4'),
+            colour_quality_scale(ILLUMINANT_SDS['FL1'], method='NIST CQS 7.4'),
             75.377089740493290,
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(ILLUMINANTS_SDS['FL2']),
+            colour_quality_scale(ILLUMINANT_SDS['FL2']),
             64.111703163816699,
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(
-                ILLUMINANTS_SDS['FL2'], method='NIST CQS 7.4'),
+            colour_quality_scale(ILLUMINANT_SDS['FL2'], method='NIST CQS 7.4'),
             64.774490832419872,
             places=7)
 
@@ -372,9 +370,7 @@ class TestColourQualityScale(unittest.TestCase):
             ]))
 
         specification_t = colour_quality_scale(
-            ILLUMINANTS_SDS['FL1'],
-            additional_data=True,
-            method='NIST CQS 7.4')
+            ILLUMINANT_SDS['FL1'], additional_data=True, method='NIST CQS 7.4')
 
         np.testing.assert_almost_equal(
             [
@@ -657,9 +653,7 @@ class TestColourQualityScale(unittest.TestCase):
             ]))
 
         specification_t = colour_quality_scale(
-            ILLUMINANTS_SDS['FL1'],
-            additional_data=True,
-            method='NIST CQS 9.0')
+            ILLUMINANT_SDS['FL1'], additional_data=True, method='NIST CQS 9.0')
 
         np.testing.assert_almost_equal(
             [

@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.characterisation import COLOURCHECKERS_SDS
-from colour.colorimetry import (ILLUMINANTS_SDS, sd_constant, sd_ones)
+from colour.colorimetry import (ILLUMINANT_SDS, sd_constant, sd_ones)
 from colour.models import ACES_RICD, sd_to_aces_relative_exposure_values
 from colour.utilities import domain_range_scale
 
@@ -57,7 +57,7 @@ sd_to_aces_relative_exposure_values` definition.
         dark_skin = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin,
-                                                ILLUMINANTS_SDS['A']),
+                                                ILLUMINANT_SDS['A']),
             np.array([0.13583991, 0.09431845, 0.05928214]),
             decimal=7)
 

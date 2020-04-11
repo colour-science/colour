@@ -130,7 +130,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> illuminant = colour.ILLUMINANTS_SDS['FL2']
+    >>> illuminant = colour.ILLUMINANT_SDS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
     array([ 0.47924575,  0.31676968,  0.17362725])
 
@@ -931,7 +931,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.ILLUMINANTS_SDS['FL2'])
+    >>> colour.colour_quality_scale(colour.ILLUMINANT_SDS['FL2'])
     64.017283509280588
     >>> colour.COLOUR_QUALITY_SCALE_METHODS
     ('NIST CQS 7.4', 'NIST CQS 9.0')
@@ -941,7 +941,7 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2'])
+    >>> colour.colour_rendering_index(colour.ILLUMINANT_SDS['FL2'])
     64.151520202968015
 
 Academy Spectral Similarity Index (SSI)
@@ -949,7 +949,7 @@ Academy Spectral Similarity Index (SSI)
 
 .. code-block:: python
 
-    >>> colour.spectral_similarity_index(colour.ILLUMINANTS_SDS['C'], colour.ILLUMINANTS_SDS['D65'])
+    >>> colour.spectral_similarity_index(colour.ILLUMINANT_SDS['C'], colour.ILLUMINANT_SDS['D65'])
     94.0
 
 Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
@@ -1157,7 +1157,7 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> plot_single_sd_colour_rendering_index_bars(
-    ...     colour.ILLUMINANTS_SDS['FL2'])
+    ...     colour.ILLUMINANT_SDS['FL2'])
 
 ..  image:: _static/Examples_Plotting_CRI.png
 

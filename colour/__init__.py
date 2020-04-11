@@ -62,13 +62,13 @@ from .algebra import (CubicSplineInterpolator, Extrapolator,
                       table_interpolation, lagrange_coefficients)
 from .colorimetry import (
     ASTME308_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS, CMFS,
-    DEFAULT_SPECTRAL_SHAPE, HUNTERLAB_ILLUMINANTS, ILLUMINANTS,
-    ILLUMINANTS_SDS, LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCES_SDS,
-    LMS_CMFS, LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS,
-    MultiSpectralDistributions, PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS,
-    SD_GAUSSIAN_METHODS, SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS,
-    SD_TO_XYZ_METHODS, STANDARD_OBSERVERS_CMFS, SpectralDistribution,
-    SpectralShape, WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
+    DEFAULT_SPECTRAL_SHAPE, HUNTERLAB_ILLUMINANTS, ILLUMINANTS, ILLUMINANT_SDS,
+    LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCES_SDS, LMS_CMFS,
+    LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS, MultiSpectralDistributions,
+    PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS, SD_GAUSSIAN_METHODS,
+    SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS, SD_TO_XYZ_METHODS,
+    STANDARD_OBSERVERS_CMFS, SpectralDistribution, SpectralShape,
+    WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
     excitation_purity, lightness, luminance, luminous_efficacy,
     luminous_efficiency, luminous_flux, multi_sds_to_XYZ,
@@ -188,7 +188,7 @@ __all__ += [
 __all__ += [
     'ASTME308_PRACTISE_SHAPE', 'BANDPASS_CORRECTION_METHODS', 'CMFS',
     'DEFAULT_SPECTRAL_SHAPE', 'HUNTERLAB_ILLUMINANTS', 'ILLUMINANTS',
-    'ILLUMINANTS_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
+    'ILLUMINANT_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
     'LIGHT_SOURCES_SDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
     'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistributions', 'PHOTOPIC_LEFS',
     'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS',
@@ -1628,7 +1628,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.ILLUMINANTS_RELATIVE_SPDS',
-        'colour.ILLUMINANTS_SDS',
+        'colour.ILLUMINANT_SDS',
     ],
     [
         'colour.LIGHT_SOURCES_RELATIVE_SPDS',
@@ -1781,6 +1781,14 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.MultiSpectralDistribution',
         'colour.MultiSpectralDistributions',
+    ],
+]
+
+# v0.3.16
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.ILLUMINANTS_SDS',
+        'colour.ILLUMINANT_SDS',
     ],
 ]
 

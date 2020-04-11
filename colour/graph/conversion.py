@@ -19,7 +19,7 @@ from copy import copy
 from functools import partial
 from pprint import pformat
 
-from colour.colorimetry import (ILLUMINANTS, ILLUMINANTS_SDS,
+from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS,
                                 HUNTERLAB_ILLUMINANTS)
 from colour.colorimetry import (colorimetric_purity, complementary_wavelength,
                                 dominant_wavelength, excitation_purity,
@@ -273,7 +273,7 @@ Default automatic colour conversion graph illuminant name.
 _DEFAULT_ILLUMINANT : unicode
 """
 
-_DEFAULT_ILLUMINANT_SD = ILLUMINANTS_SDS[_DEFAULT_ILLUMINANT]
+_DEFAULT_ILLUMINANT_SD = ILLUMINANT_SDS[_DEFAULT_ILLUMINANT]
 """
 Default automatic colour conversion graph illuminant spectral distribution.
 
@@ -792,7 +792,7 @@ def convert(a, source, target, **kwargs):
         :func:`colour.sd_to_XYZ` definition is done as follows::
 
             convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={\
-'illuminant': ILLUMINANTS_SDS['FL2']})
+'illuminant': ILLUMINANT_SDS['FL2']})
 
         It is also possible to pass keyword arguments directly to the various
         conversion definitions irrespective of their name. This is
@@ -804,11 +804,11 @@ def convert(a, source, target, **kwargs):
         definition. Consider the following conversion::
 
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-ILLUMINANTS_SDS['FL2'])
+ILLUMINANT_SDS['FL2'])
 
         Because both the :func:`colour.sd_to_XYZ` and
         :func:`colour.XYZ_to_sRGB` definitions have an *illuminant* argument,
-        `ILLUMINANTS_SDS['FL2']` will be passed to both of them and will raise
+        `ILLUMINANT_SDS['FL2']` will be passed to both of them and will raise
         an exception in the :func:`colour.XYZ_to_sRGB` definition. This will
         be addressed in the future by either catching the exception and trying
         a new time without the keyword argument or more elegantly via type
@@ -840,7 +840,7 @@ illuminant}, XYZ_to_Lab={'illuminant': illuminant})
             illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']\
 ['D65']
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-ILLUMINANTS_SDS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
+ILLUMINANT_SDS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
 
         For inspection purposes, verbose is enabled by passing arguments to the
         :func:`colour.describe_conversion_path` definition via the ``verbose``
@@ -896,7 +896,7 @@ verbose={'mode': 'Long'})
     *                                                                         *
     ===========================================================================
     array([ 0.4567579...,  0.3098698...,  0.2486192...])
-    >>> illuminant = ILLUMINANTS_SDS['FL2']
+    >>> illuminant = ILLUMINANT_SDS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
     ...     sd_to_XYZ={'illuminant': illuminant})
     ... # doctest: +ELLIPSIS

@@ -34,7 +34,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS_SDS, sd_to_XYZ
+from colour.colorimetry import ILLUMINANT_SDS, sd_to_XYZ
 from colour.models import XYZ_to_xy
 from colour.models.rgb import (ACES_2065_1_COLOURSPACE, ACES_RICD, RGB_to_XYZ,
                                XYZ_to_RGB, normalised_primary_matrix)
@@ -57,7 +57,7 @@ S_FLARE_FACTOR = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 
 def sd_to_aces_relative_exposure_values(
         sd,
-        illuminant=ILLUMINANTS_SDS['D65'],
+        illuminant=ILLUMINANT_SDS['D65'],
         apply_chromatic_adaptation=False,
         chromatic_adaptation_transform='CAT02'):
     """

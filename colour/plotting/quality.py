@@ -75,9 +75,9 @@ def plot_colour_quality_bars(specifications,
 
     Examples
     --------
-    >>> from colour import (ILLUMINANTS_SDS,
+    >>> from colour import (ILLUMINANT_SDS,
     ...                     LIGHT_SOURCES_SDS, SpectralShape)
-    >>> illuminant = ILLUMINANTS_SDS['FL2']
+    >>> illuminant = ILLUMINANT_SDS['FL2']
     >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
     >>> light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
@@ -206,8 +206,8 @@ def plot_single_sd_colour_rendering_index_bars(sd, **kwargs):
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> illuminant = ILLUMINANTS_SDS['FL2']
+    >>> from colour import ILLUMINANT_SDS
+    >>> illuminant = ILLUMINANT_SDS['FL2']
     >>> plot_single_sd_colour_rendering_index_bars(illuminant)
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, \
@@ -261,9 +261,9 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
 
     Examples
     --------
-    >>> from colour import (ILLUMINANTS_SDS,
+    >>> from colour import (ILLUMINANT_SDS,
     ...                     LIGHT_SOURCES_SDS)
-    >>> illuminant = ILLUMINANTS_SDS['FL2']
+    >>> illuminant = ILLUMINANT_SDS['FL2']
     >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
     >>> plot_multi_sds_colour_rendering_indexes_bars(
     ...     [illuminant, light_source])  # doctest: +ELLIPSIS
@@ -348,8 +348,8 @@ def plot_single_sd_colour_quality_scale_bars(sd,
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> illuminant = ILLUMINANTS_SDS['FL2']
+    >>> from colour import ILLUMINANT_SDS
+    >>> illuminant = ILLUMINANT_SDS['FL2']
     >>> plot_single_sd_colour_quality_scale_bars(illuminant)
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, \
@@ -408,9 +408,9 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
 
     Examples
     --------
-    >>> from colour import (ILLUMINANTS_SDS,
+    >>> from colour import (ILLUMINANT_SDS,
     ...                     LIGHT_SOURCES_SDS)
-    >>> illuminant = ILLUMINANTS_SDS['FL2']
+    >>> illuminant = ILLUMINANT_SDS['FL2']
     >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
     >>> plot_multi_sds_colour_quality_scales_bars([illuminant, light_source])
     ... # doctest: +ELLIPSIS

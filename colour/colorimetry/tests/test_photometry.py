@@ -7,7 +7,7 @@ from __future__ import division, unicode_literals
 
 import unittest
 
-from colour.colorimetry import (ILLUMINANTS_SDS, LIGHT_SOURCES_SDS,
+from colour.colorimetry import (ILLUMINANT_SDS, LIGHT_SOURCES_SDS,
                                 luminous_flux, luminous_efficiency,
                                 luminous_efficacy, sd_zeros)
 
@@ -35,7 +35,7 @@ class TestLuminousFlux(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminous_flux(ILLUMINANTS_SDS['FL2'].copy().normalise()),
+            luminous_flux(ILLUMINANT_SDS['FL2'].copy().normalise()),
             28588.73612977,
             places=7)
 
@@ -63,7 +63,7 @@ class TestLuminousEfficiency(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminous_efficiency(ILLUMINANTS_SDS['FL2'].copy().normalise()),
+            luminous_efficiency(ILLUMINANT_SDS['FL2'].copy().normalise()),
             0.49317624,
             places=7)
 
@@ -92,7 +92,7 @@ class TestLuminousEfficacy(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminous_efficacy(ILLUMINANTS_SDS['FL2'].copy().normalise()),
+            luminous_efficacy(ILLUMINANT_SDS['FL2'].copy().normalise()),
             336.83937176,
             places=7)
 

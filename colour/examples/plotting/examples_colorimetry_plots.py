@@ -24,7 +24,7 @@ plot_single_illuminant_sd('FL1')
 print('\n')
 
 message_box(('Plotting multiple illuminants spectral ' 'distributions.'))
-pprint(sorted(colour.ILLUMINANTS_SDS.keys()))
+pprint(sorted(colour.ILLUMINANT_SDS.keys()))
 plot_multi_illuminant_sds(
     ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'FL1'])
 
