@@ -24,8 +24,8 @@ message_box(('Plotting various illuminants and light sources '
              '"Colour Rendering Index (CRI)".'))
 plot_multi_sds_colour_rendering_indexes_bars(
     (colour.ILLUMINANT_SDS['FL2'],
-     colour.LIGHT_SOURCES_SDS['F32T8/TL841 (Triphosphor)'],
-     colour.LIGHT_SOURCES_SDS['Kinoton 75P']))
+     colour.LIGHT_SOURCE_SDS['F32T8/TL841 (Triphosphor)'],
+     colour.LIGHT_SOURCE_SDS['Kinoton 75P']))
 
 print('\n')
 
@@ -38,5 +38,5 @@ message_box(('Plotting various illuminants and light sources '
              '"Colour Quality Scale (CQS)".'))
 plot_multi_sds_colour_quality_scales_bars(
     (colour.ILLUMINANT_SDS['FL2'],
-     colour.LIGHT_SOURCES_SDS['F32T8/TL841 (Triphosphor)'],
-     colour.LIGHT_SOURCES_SDS['Kinoton 75P']))
+     colour.LIGHT_SOURCE_SDS['F32T8/TL841 (Triphosphor)'],
+     colour.LIGHT_SOURCE_SDS['Kinoton 75P']))

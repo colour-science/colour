@@ -19,7 +19,7 @@ message_box(('Computing "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" '
              'with detailed output data.'))
 pprint(
     colour.colour_quality_scale(
-        colour.LIGHT_SOURCES_SDS['H38HT-100 (Mercury)'], additional_data=True))
+        colour.LIGHT_SOURCE_SDS['H38HT-100 (Mercury)'], additional_data=True))
 
 print('\n')
 
@@ -27,7 +27,7 @@ message_box('Computing "SDW-T 100W/LV Super HPS" lamp '
             '"Colour Quality Scale (CQS)".')
 print(
     colour.colour_quality_scale(
-        colour.LIGHT_SOURCES_SDS['SDW-T 100W/LV (Super HPS)']))
+        colour.LIGHT_SOURCE_SDS['SDW-T 100W/LV (Super HPS)']))
 
 print('\n')
 

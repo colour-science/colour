@@ -18,7 +18,7 @@ import os  # noqa
 import colour  # noqa
 from colour.characterisation import COLOURCHECKERS_SDS  # noqa
 from colour.colorimetry import (  # noqa
-    ILLUMINANT_SDS, LIGHT_SOURCES_SDS, PHOTOPIC_LEFS, SCOTOPIC_LEFS,
+    ILLUMINANT_SDS, LIGHT_SOURCE_SDS, PHOTOPIC_LEFS, SCOTOPIC_LEFS,
     STANDARD_OBSERVERS_CMFS, SpectralDistribution, SpectralShape, sd_blackbody,
     sd_mesopic_luminous_efficiency_function, sd_to_XYZ)
 from colour.io import read_image  # noqa
@@ -588,7 +588,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Colour_Quality_Bars.png')
     illuminant = ILLUMINANT_SDS['FL2']
-    light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
     light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     cqs_i = colour_quality_scale(illuminant, additional_data=True)
     cqs_l = colour_quality_scale(light_source, additional_data=True)
@@ -604,7 +604,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png')
-    light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
     plt.close(
         plot_multi_sds_colour_rendering_indexes_bars(
             [illuminant, light_source], **arguments)[0])
@@ -619,7 +619,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Multi_SDS_Colour_Quality_Scales_Bars.png')
-    light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
     plt.close(
         plot_multi_sds_colour_quality_scales_bars([illuminant, light_source],
                                                   **arguments)[0])

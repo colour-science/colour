@@ -8,7 +8,7 @@ from colour.utilities import message_box
 
 message_box('"Photometry" Computations')
 
-sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
 message_box(('Computing "Luminous Flux" for given spectral '
              'distribution:\n'
              '\n\t{0}'.format(sd.name)))

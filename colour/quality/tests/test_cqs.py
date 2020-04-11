@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.quality import CQS_Specification, colour_quality_scale
-from colour.colorimetry import ILLUMINANT_SDS, LIGHT_SOURCES_SDS
+from colour.colorimetry import ILLUMINANT_SDS, LIGHT_SOURCE_SDS
 from colour.quality.cqs import VS_ColorimetryData, VS_ColourQualityScaleData
 
 __author__ = 'Colour Developers'
@@ -54,50 +54,50 @@ class TestColourQualityScale(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(LIGHT_SOURCES_SDS['Neodimium Incandescent']),
+            colour_quality_scale(LIGHT_SOURCE_SDS['Neodimium Incandescent']),
             89.737441458687044,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_SDS['Neodimium Incandescent'],
+                LIGHT_SOURCE_SDS['Neodimium Incandescent'],
                 method='NIST CQS 7.4'),
             87.700319996664561,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_SDS['F32T8/TL841 (Triphosphor)']),
+                LIGHT_SOURCE_SDS['F32T8/TL841 (Triphosphor)']),
             84.934929181986888,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_SDS['F32T8/TL841 (Triphosphor)'],
+                LIGHT_SOURCE_SDS['F32T8/TL841 (Triphosphor)'],
                 method='NIST CQS 7.4'),
             83.255458192000233,
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(LIGHT_SOURCES_SDS['H38HT-100 (Mercury)']),
+            colour_quality_scale(LIGHT_SOURCE_SDS['H38HT-100 (Mercury)']),
             20.019979778489535,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_SDS['H38HT-100 (Mercury)'],
+                LIGHT_SOURCE_SDS['H38HT-100 (Mercury)'],
                 method='NIST CQS 7.4'),
             23.011011107054145,
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(LIGHT_SOURCES_SDS['Luxeon WW 2880']),
+            colour_quality_scale(LIGHT_SOURCE_SDS['Luxeon WW 2880']),
             86.497986329513722,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_SDS['Luxeon WW 2880'], method='NIST CQS 7.4'),
+                LIGHT_SOURCE_SDS['Luxeon WW 2880'], method='NIST CQS 7.4'),
             84.887918431764191,
             places=7)
 

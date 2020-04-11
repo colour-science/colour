@@ -361,7 +361,7 @@ the objects needed for spectral computations and many others:
      'HUNTERLAB_ILLUMINANTS',
      'ILLUMINANT_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SDS',
+     'LIGHT_SOURCE_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS',
@@ -462,7 +462,7 @@ the following components:
      'HUNTERLAB_ILLUMINANTS',
      'ILLUMINANT_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SDS',
+     'LIGHT_SOURCE_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS']

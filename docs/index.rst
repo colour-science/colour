@@ -221,7 +221,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
+    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCE_SDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     ['ASTM E308', 'Integration', 'astm2015']
@@ -358,13 +358,13 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: python
 
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_flux(sd)
     23807.655527367202
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficiency(sd)
     0.19943935624521045
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficacy(sd)
     136.21708031547874
 

@@ -218,7 +218,7 @@ Illuminants and Light Sources
     ILLUMINANT_SDS
     HUNTERLAB_ILLUMINANTS
     LIGHT_SOURCES
-    LIGHT_SOURCES_SDS
+    LIGHT_SOURCE_SDS
 
 **Ancillary Objects**
 

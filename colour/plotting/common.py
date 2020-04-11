@@ -38,7 +38,7 @@ from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
 
 from colour.characterisation import COLOURCHECKERS
-from colour.colorimetry import CMFS, ILLUMINANT_SDS, LIGHT_SOURCES_SDS
+from colour.colorimetry import CMFS, ILLUMINANT_SDS, LIGHT_SOURCE_SDS
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (CaseInsensitiveMapping, Structure,
                               as_float_array, is_sibling, is_string,
@@ -899,7 +899,7 @@ def filter_illuminants(filterers,
                            allow_non_siblings, flags))
 
     illuminants.update(
-        filter_passthrough(LIGHT_SOURCES_SDS, filterers, anchors,
+        filter_passthrough(LIGHT_SOURCE_SDS, filterers, anchors,
                            allow_non_siblings, flags))
 
     return illuminants

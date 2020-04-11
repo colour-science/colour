@@ -7,7 +7,7 @@ from __future__ import division, unicode_literals
 
 import unittest
 
-from colour.colorimetry import (ILLUMINANT_SDS, LIGHT_SOURCES_SDS,
+from colour.colorimetry import (ILLUMINANT_SDS, LIGHT_SOURCE_SDS,
                                 luminous_flux, luminous_efficiency,
                                 luminous_efficacy, sd_zeros)
 
@@ -40,12 +40,12 @@ class TestLuminousFlux(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            luminous_flux(LIGHT_SOURCES_SDS['Neodimium Incandescent']),
+            luminous_flux(LIGHT_SOURCE_SDS['Neodimium Incandescent']),
             23807.65552737,
             places=7)
 
         self.assertAlmostEqual(
-            luminous_flux(LIGHT_SOURCES_SDS['F32T8/TL841 (Triphosphor)']),
+            luminous_flux(LIGHT_SOURCE_SDS['F32T8/TL841 (Triphosphor)']),
             13090.06759053,
             places=7)
 
@@ -68,13 +68,12 @@ class TestLuminousEfficiency(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            luminous_efficiency(LIGHT_SOURCES_SDS['Neodimium Incandescent']),
+            luminous_efficiency(LIGHT_SOURCE_SDS['Neodimium Incandescent']),
             0.19943936,
             places=7)
 
         self.assertAlmostEqual(
-            luminous_efficiency(
-                LIGHT_SOURCES_SDS['F32T8/TL841 (Triphosphor)']),
+            luminous_efficiency(LIGHT_SOURCE_SDS['F32T8/TL841 (Triphosphor)']),
             0.51080919,
             places=7)
 
@@ -97,12 +96,12 @@ class TestLuminousEfficacy(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            luminous_efficacy(LIGHT_SOURCES_SDS['Neodimium Incandescent']),
+            luminous_efficacy(LIGHT_SOURCE_SDS['Neodimium Incandescent']),
             136.21708032,
             places=7)
 
         self.assertAlmostEqual(
-            luminous_efficacy(LIGHT_SOURCES_SDS['F32T8/TL841 (Triphosphor)']),
+            luminous_efficacy(LIGHT_SOURCE_SDS['F32T8/TL841 (Triphosphor)']),
             348.88267549,
             places=7)
 

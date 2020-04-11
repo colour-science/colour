@@ -76,9 +76,9 @@ def plot_colour_quality_bars(specifications,
     Examples
     --------
     >>> from colour import (ILLUMINANT_SDS,
-    ...                     LIGHT_SOURCES_SDS, SpectralShape)
+    ...                     LIGHT_SOURCE_SDS, SpectralShape)
     >>> illuminant = ILLUMINANT_SDS['FL2']
-    >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    >>> light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
     >>> light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
@@ -262,9 +262,9 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
     Examples
     --------
     >>> from colour import (ILLUMINANT_SDS,
-    ...                     LIGHT_SOURCES_SDS)
+    ...                     LIGHT_SOURCE_SDS)
     >>> illuminant = ILLUMINANT_SDS['FL2']
-    >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    >>> light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
     >>> plot_multi_sds_colour_rendering_indexes_bars(
     ...     [illuminant, light_source])  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, \
@@ -409,9 +409,9 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
     Examples
     --------
     >>> from colour import (ILLUMINANT_SDS,
-    ...                     LIGHT_SOURCES_SDS)
+    ...                     LIGHT_SOURCE_SDS)
     >>> illuminant = ILLUMINANT_SDS['FL2']
-    >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    >>> light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
     >>> plot_multi_sds_colour_quality_scales_bars([illuminant, light_source])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, \
