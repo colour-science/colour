@@ -113,6 +113,20 @@ Displays
 
     DISPLAY_RGB_PRIMARIES
 
+Filters
+-------
+
+**Dataset**
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    FILTER_SDS
+
 Lenses
 ------
 

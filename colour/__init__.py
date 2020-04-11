@@ -90,7 +90,7 @@ from .appearance import (
 from .difference import DELTA_E_METHODS, delta_E
 from .characterisation import (
     CAMERA_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKER_SDS,
-    DISPLAY_RGB_PRIMARIES, LENS_SDS, POLYNOMIAL_EXPANSION_METHODS,
+    DISPLAY_RGB_PRIMARIES, FILTER_SDS, LENS_SDS, POLYNOMIAL_EXPANSION_METHODS,
     polynomial_expansion, COLOUR_CORRECTION_MATRIX_METHODS,
     colour_correction_matrix, COLOUR_CORRECTION_METHODS, colour_correction)
 from .geometry import (PRIMITIVE_METHODS, primitive,
@@ -221,10 +221,10 @@ __all__ += [
 __all__ += ['DELTA_E_METHODS', 'delta_E']
 __all__ += [
     'CAMERA_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS', 'COLOURCHECKER_SDS',
-    'DISPLAY_RGB_PRIMARIES', 'LENS_SDS', 'POLYNOMIAL_EXPANSION_METHODS',
-    'polynomial_expansion', 'COLOUR_CORRECTION_MATRIX_METHODS',
-    'colour_correction_matrix', 'COLOUR_CORRECTION_METHODS',
-    'colour_correction'
+    'DISPLAY_RGB_PRIMARIES', 'FILTER_SDS', 'LENS_SDS',
+    'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
+    'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
+    'COLOUR_CORRECTION_METHODS', 'colour_correction'
 ]
 __all__ += [
     'PRIMITIVE_METHODS', 'primitive', 'PRIMITIVE_VERTICES_METHODS',
