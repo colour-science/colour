@@ -131,7 +131,7 @@ from .models import (
     uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv,
     xy_to_XYZ, xy_to_xyY)
 from .corresponding import (
-    BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
+    BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
     CorrespondingChromaticitiesPrediction,
     corresponding_chromaticities_prediction)
@@ -274,7 +274,7 @@ __all__ += [
     'xy_to_XYZ', 'xy_to_xyY'
 ]
 __all__ += [
-    'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
+    'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
     'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
     'CorrespondingColourDataset', 'CorrespondingChromaticitiesPrediction',
     'corresponding_chromaticities_prediction'
@@ -1786,6 +1786,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
 
 # v0.3.16
 API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
+        'colour.BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
+    ],
     [
         'colour.CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
         'colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES',

@@ -170,7 +170,7 @@ The various sub-packages also expose their public API:
 
     Corresponding
     ['BRENEMAN_EXPERIMENTS',
-     'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
+     'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
      'CorrespondingColourDataset',
      'CorrespondingChromaticitiesPrediction',
      'corresponding_chromaticities_prediction_CIE1994',
