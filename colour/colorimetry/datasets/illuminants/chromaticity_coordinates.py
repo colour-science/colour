@@ -22,6 +22,16 @@ The following *CIE* illuminants are available:
     LED-RGB1, LED-V1, LED-V2)
 -   Recommended indoor illuminants ID65 and ID50.
 
+The following *ISO* illuminants are available:
+
+-   ISO 7589 Photographic Daylight
+-   ISO 7589 Sensitometric Daylight
+-   ISO 7589 Studio Tungsten
+-   ISO 7589 Sensitometric Studio Tungsten
+-   ISO 7589 Photoflood
+-   ISO 7589 Sensitometric Photoflood
+-   ISO 7589 Sensitometric Printer
+
 The following other illuminants are available for the
 *CIE 1931 2 Degree Standard Observer* only:
 
@@ -44,6 +54,12 @@ References
     Digital Cinema System Specification - Version 1.1. Retrieved from
     http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
+-   :cite:`InternationalColorConsortium2010` : International Color Consortium.
+    (2010). Specification ICC.1:2010 (Profile version 4.3.0.0) (pp. 1-130).
+    http://www.color.org/specification/ICC1v43_2010-12.pdf
+-   :cite:`ISO2002` : ISO. (2002). INTERNATIONAL STANDARD 7589-2002 -
+    Photography - Illuminants for sensitometry - Specifications for daylight,
+    incandescent tungsten and printer.
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
@@ -69,11 +85,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER', 'ILLUMINANTS'
+    'ILLUMINANTS_CIE_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_ACES_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_DCI_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_ISO_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_CIE_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
+    'ILLUMINANTS_ISO_CIE_1964_10_DEGREE_STANDARD_OBSERVER', 'ILLUMINANTS'
 ]
 
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+ILLUMINANTS_CIE_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'A': np.array([0.44758, 0.40745]),
     'B': np.array([0.34842, 0.35161]),
     'C': np.array([0.31006, 0.31616]),
@@ -94,22 +115,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'FL9': np.array([0.37410, 0.37270]),
     'FL10': np.array([0.34580, 0.35880]),
     'FL11': np.array([0.38050, 0.37690]),
-    'FL12': np.array([0.43700, 0.40420])
-})
-"""
-*CIE* illuminant chromaticity coordinates for the
-*CIE 1931 2 Degree Standard Observer*.
-
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
-"""
-
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
-    'ACES': np.array([0.32168, 0.33767]),
-    'DCI-P3': np.array([0.31400, 0.35100]),
-    'ICC D50': np.array([0.345702914918791, 0.358538596679933])
-})
-
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
+    'FL12': np.array([0.43700, 0.40420]),
     'FL3.1': np.array([0.44070, 0.40330]),
     'FL3.2': np.array([0.38080, 0.37340]),
     'FL3.3': np.array([0.31530, 0.34390]),
@@ -142,8 +148,87 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
     'ID65': np.array([0.310656625403120, 0.330663091836953]),
     'ID50': np.array([0.343211370103531, 0.360207541805137])
 })
+"""
+*CIE* illuminant chromaticity coordinates for the
+*CIE 1931 2 Degree Standard Observer*.
 
-ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+References
+----------
+:cite:`CIETC1-482004h`, :cite:`Wikipedia2006a`
+
+ILLUMINANTS_CIE_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_ACES_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+    'ACES': np.array([0.32168, 0.33767]),
+})
+"""
+*Academy Color Encoding System* (ACES) illuminant chromaticity coordinates for
+the *CIE 1931 2 Degree Standard Observer*.
+
+References
+----------
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+
+ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_DCI_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+    'DCI-P3': np.array([0.31400, 0.35100]),
+})
+"""
+*DCI* illuminant chromaticity coordinates for the
+*CIE 1931 2 Degree Standard Observer*.
+
+References
+----------
+:cite:`DigitalCinemaInitiatives2007b`
+
+ILLUMINANTS_DCI_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+    'ICC D50': np.array([0.345702914918791, 0.358538596679933])
+})
+"""
+*ICC* illuminant chromaticity coordinates for the
+*CIE 1931 2 Degree Standard Observer*.
+
+References
+----------
+:cite:`InternationalColorConsortium2010`
+
+ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_ISO_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+    'ISO 7589 Photographic Daylight':
+        np.array([0.332039098470978, 0.347263885596614]),
+    'ISO 7589 Sensitometric Daylight':
+        np.array([0.333818313227557, 0.353436231513603]),
+    'ISO 7589 Studio Tungsten':
+        np.array([0.430944089109761, 0.403585442674295]),
+    'ISO 7589 Sensitometric Studio Tungsten':
+        np.array([0.431418223648390, 0.407471441950342]),
+    'ISO 7589 Photoflood':
+        np.array([0.411146015714843, 0.393719378241161]),
+    'ISO 7589 Sensitometric Photoflood':
+        np.array([0.412024776908998, 0.398177410548532]),
+    'ISO 7589 Sensitometric Printer':
+        np.array([0.412087967973680, 0.421104984758526]),
+})
+"""
+*ISO* illuminant chromaticity coordinates for the
+*CIE 1931 2 Degree Standard Observer*.
+
+References
+----------
+:cite:`ISO2002`
+
+ILLUMINANTS_ISO_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_CIE_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'A': np.array([0.45117, 0.40594]),
     'B': np.array([0.34980, 0.35270]),
     'C': np.array([0.31039, 0.31905]),
@@ -164,16 +249,7 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'FL9': np.array([0.37829, 0.37045]),
     'FL10': np.array([0.35090, 0.35444]),
     'FL11': np.array([0.38541, 0.37123]),
-    'FL12': np.array([0.44256, 0.39717])
-})
-"""
-*CIE* illuminant chromaticity coordinates for the
-*CIE 1964 10 Degree Standard Observer*.
-
-ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
-"""
-
-ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update({
+    'FL12': np.array([0.44256, 0.39717]),
     'FL3.1': np.array([0.449830684010003, 0.390231404321266]),
     'FL3.2': np.array([0.386924116672933, 0.365756034732821]),
     'FL3.3': np.array([0.321176986855865, 0.340501092654981]),
@@ -206,15 +282,54 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update({
     'ID65': np.array([0.312074043269908, 0.332660121024630]),
     'ID50': np.array([0.345621427535976, 0.361228962209198])
 })
+"""
+*CIE* illuminant chromaticity coordinates for the
+*CIE 1964 10 Degree Standard Observer*.
+
+References
+----------
+:cite:`CIETC1-482004h`, :cite:`Wikipedia2006a`
+
+ILLUMINANTS_CIE_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
+ILLUMINANTS_ISO_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+    'ISO 7589 Photographic Daylight':
+        np.array([0.333716908394534, 0.348592494683065]),
+    'ISO 7589 Sensitometric Daylight':
+        np.array([0.336125906007630, 0.354997062476417]),
+    'ISO 7589 Studio Tungsten':
+        np.array([0.434575926493196, 0.402219691745325]),
+    'ISO 7589 Sensitometric Studio Tungsten':
+        np.array([0.435607674215215, 0.406129244796761]),
+    'ISO 7589 Photoflood':
+        np.array([0.414144647169611, 0.392458587686395]),
+    'ISO 7589 Sensitometric Photoflood':
+        np.array([0.415625819190627, 0.397002292994179]),
+    'ISO 7589 Sensitometric Printer':
+        np.array([0.418841052206998, 0.418695130974955]),
+})
+"""
+*ISO* illuminant chromaticity coordinates for the
+*CIE 1964 10 Degree Standard Observer*.
+
+References
+----------
+:cite:`ISO2002`
+
+ILLUMINANTS_ISO_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
 
 ILLUMINANTS = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
-        ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
+        CaseInsensitiveMapping(
+            ILLUMINANTS_CIE_CIE_1931_2_DEGREE_STANDARD_OBSERVER),
     'CIE 1964 10 Degree Standard Observer':
-        ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
+        CaseInsensitiveMapping(
+            ILLUMINANTS_CIE_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
 })
 ILLUMINANTS.__doc__ = """
-Aggregated *CIE* illuminant chromaticity coordinates.
+Aggregated illuminant chromaticity coordinates.
 
 Warning
 -------
@@ -253,7 +368,8 @@ computed as follows::
 
 References
 ----------
-:cite:`CIETC1-482004h`, :cite:`DigitalCinemaInitiatives2007b`,
+:cite:`CIETC1-482004h`, :cite:`DigitalCinemaInitiatives2007b`, :cite:`ISO2002`,
+:cite:`InternationalColorConsortium2010`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`, :cite:`Wikipedia2006a`
 
 ILLUMINANTS : CaseInsensitiveMapping
@@ -269,3 +385,18 @@ ILLUMINANTS['cie_2_1931'] = (
     ILLUMINANTS['CIE 1931 2 Degree Standard Observer'])
 ILLUMINANTS['cie_10_1964'] = (
     ILLUMINANTS['CIE 1964 10 Degree Standard Observer'])
+
+ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
+    ILLUMINANTS_ACES_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
+
+ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
+    ILLUMINANTS_DCI_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
+
+ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
+    ILLUMINANTS_ICC_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
+
+ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
+    ILLUMINANTS_ISO_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
+
+ILLUMINANTS['CIE 1964 10 Degree Standard Observer'].update(
+    ILLUMINANTS_ISO_CIE_1964_10_DEGREE_STANDARD_OBSERVER)

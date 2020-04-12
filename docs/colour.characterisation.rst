@@ -112,3 +112,31 @@ Displays
     :toctree: generated/
 
     DISPLAY_RGB_PRIMARIES
+
+Filters
+-------
+
+**Dataset**
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    FILTER_SDS
+
+Lenses
+------
+
+**Dataset**
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    LENS_SDS
