@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Showcases *Academy Color Encoding System* *Input Device Transform* related
+Showcases *Academy Color Encoding System* *Input Transform* related
 computations.
 """
 
 import colour
 from colour.utilities import message_box
 
-message_box('"ACES" "Input Device Transform" Computations')
+message_box('"ACES" "Input Transform" Computations')
 
 message_box(('Computing "ACES" relative exposure '
              'values for some colour rendition chart spectral '
@@ -25,7 +25,7 @@ print('\n')
 message_box(('Computing "ACES" relative exposure values for various ideal '
              'reflectors:\n'
              '\n\t("18%", \n\t"100%")'))
-wavelengths = colour.models.ACES_RICD.wavelengths
+wavelengths = colour.characterisation.ACES_RICD.wavelengths
 gray_reflector = colour.SpectralDistribution(
     dict(zip(wavelengths, [0.18] * len(wavelengths))), name='18%')
 print(repr(colour.sd_to_aces_relative_exposure_values(gray_reflector)))

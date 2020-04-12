@@ -92,11 +92,6 @@ from .appearance import (
     XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB, XYZ_to_Nayatani95,
     XYZ_to_RLAB)
 from .difference import DELTA_E_METHODS, delta_E
-from .characterisation import (
-    CAMERA_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKER_SDS,
-    DISPLAY_RGB_PRIMARIES, FILTER_SDS, LENS_SDS, POLYNOMIAL_EXPANSION_METHODS,
-    polynomial_expansion, COLOUR_CORRECTION_MATRIX_METHODS,
-    colour_correction_matrix, COLOUR_CORRECTION_METHODS, colour_correction)
 from .geometry import (PRIMITIVE_METHODS, primitive,
                        PRIMITIVE_VERTICES_METHODS, primitive_vertices)
 from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence, READ_IMAGE_METHODS,
@@ -131,9 +126,14 @@ from .models import (
     full_to_legal, gamma_function, hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ,
     legal_to_full, linear_function, log_decoding, log_encoding,
     normalised_primary_matrix, oetf, oetf_inverse, ootf, ootf_inverse,
-    primaries_whitepoint, sd_to_aces_relative_exposure_values, sRGB_to_XYZ,
-    uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv,
-    xy_to_XYZ, xy_to_xyY)
+    primaries_whitepoint, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ,
+    xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
+from .characterisation import (
+    CAMERA_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKER_SDS,
+    DISPLAY_RGB_PRIMARIES, FILTER_SDS, LENS_SDS, POLYNOMIAL_EXPANSION_METHODS,
+    polynomial_expansion, COLOUR_CORRECTION_MATRIX_METHODS,
+    colour_correction_matrix, COLOUR_CORRECTION_METHODS, colour_correction,
+    sd_to_aces_relative_exposure_values)
 from .corresponding import (
     BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
@@ -224,13 +224,6 @@ __all__ += [
 ]
 __all__ += ['DELTA_E_METHODS', 'delta_E']
 __all__ += [
-    'CAMERA_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS', 'COLOURCHECKER_SDS',
-    'DISPLAY_RGB_PRIMARIES', 'FILTER_SDS', 'LENS_SDS',
-    'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
-    'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
-    'COLOUR_CORRECTION_METHODS', 'colour_correction'
-]
-__all__ += [
     'PRIMITIVE_METHODS', 'primitive', 'PRIMITIVE_VERTICES_METHODS',
     'primitive_vertices'
 ]
@@ -272,10 +265,17 @@ __all__ += [
     'gamma_function', 'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full',
     'linear_function', 'log_decoding', 'log_encoding',
     'normalised_primary_matrix', 'oetf', 'oetf_inverse', 'ootf',
-    'ootf_inverse', 'primaries_whitepoint',
-    'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'uv_to_Luv',
+    'ootf_inverse', 'primaries_whitepoint', 'sRGB_to_XYZ', 'uv_to_Luv',
     'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv',
     'xy_to_XYZ', 'xy_to_xyY'
+]
+__all__ += [
+    'CAMERA_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS', 'COLOURCHECKER_SDS',
+    'DISPLAY_RGB_PRIMARIES', 'FILTER_SDS', 'LENS_SDS',
+    'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
+    'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
+    'COLOUR_CORRECTION_METHODS', 'colour_correction',
+    'sd_to_aces_relative_exposure_values'
 ]
 __all__ += [
     'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',

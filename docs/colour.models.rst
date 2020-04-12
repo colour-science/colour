@@ -587,29 +587,6 @@ Log Encoding and Decoding
     log_encoding_ViperLog
     log_decoding_ViperLog
 
-ACES Spectral Conversion
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    sd_to_aces_relative_exposure_values
-
-**Ancillary Objects**
-
-``colour.models``
-
-.. currentmodule:: colour.models
-
-.. autosummary::
-    :toctree: generated/
-
-    ACES_RICD
-
 Colour Encodings
 ~~~~~~~~~~~~~~~~
 

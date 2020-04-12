@@ -35,9 +35,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANT_SDS, sd_to_XYZ
+from colour.characterisation import ACES_RICD
 from colour.models import XYZ_to_xy
-from colour.models.rgb import (ACES_2065_1_COLOURSPACE, ACES_RICD, RGB_to_XYZ,
-                               XYZ_to_RGB, normalised_primary_matrix)
+from colour.models.rgb import (ACES_2065_1_COLOURSPACE, RGB_to_XYZ, XYZ_to_RGB,
+                               normalised_primary_matrix)
 from colour.utilities import from_range_1, tsplit
 
 __author__ = 'Colour Developers'

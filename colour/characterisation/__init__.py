@@ -6,6 +6,7 @@ from .cameras import RGB_SpectralSensitivities
 from .displays import RGB_DisplayPrimaries
 from .datasets import *  # noqa
 from . import datasets
+from .aces_it import sd_to_aces_relative_exposure_values
 from .correction import (
     augmented_matrix_Cheung2004, polynomial_expansion_Finlayson2015,
     polynomial_expansion_Vandermonde, POLYNOMIAL_EXPANSION_METHODS,
@@ -20,6 +21,7 @@ __all__ = []
 __all__ += ['RGB_SpectralSensitivities']
 __all__ += ['RGB_DisplayPrimaries']
 __all__ += datasets.__all__
+__all__ += ['sd_to_aces_relative_exposure_values']
 __all__ += [
     'augmented_matrix_Cheung2004', 'polynomial_expansion_Finlayson2015',
     'polynomial_expansion_Vandermonde', 'POLYNOMIAL_EXPANSION_METHODS',

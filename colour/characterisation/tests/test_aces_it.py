@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.aces_it` module.
+Defines unit tests for :mod:`colour.characterisation.aces_it` module.
 """
 
 from __future__ import division, unicode_literals
@@ -8,9 +8,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.characterisation import COLOURCHECKER_SDS
-from colour.colorimetry import (ILLUMINANT_SDS, sd_constant, sd_ones)
-from colour.models import ACES_RICD, sd_to_aces_relative_exposure_values
+from colour.characterisation import (ACES_RICD, COLOURCHECKER_SDS,
+                                     sd_to_aces_relative_exposure_values)
+from colour.colorimetry import ILLUMINANT_SDS, sd_constant, sd_ones
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -25,13 +25,13 @@ __all__ = ['TestSpectralToAcesRelativeExposureValues']
 
 class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.aces_it.\
+    Defines :func:`colour.characterisation.aces_it.\
 sd_to_aces_relative_exposure_values` definition unit tests methods.
     """
 
     def test_spectral_to_aces_relative_exposure_values(self):
         """
-        Tests :func:`colour.models.rgb.aces_it.
+        Tests :func:`colour.characterisation.aces_it.
 sd_to_aces_relative_exposure_values` definition.
         """
 
@@ -80,7 +80,7 @@ sd_to_aces_relative_exposure_values` definition.
     def test_domain_range_scale_spectral_to_aces_relative_exposure_values(
             self):
         """
-        Tests :func:`colour.models.rgb.aces_it.
+        Tests :func:`colour.characterisation.aces_it.
 sd_to_aces_relative_exposure_values`  definition domain and range scale
         support.
         """
