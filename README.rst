@@ -272,6 +272,18 @@ Colour Correction - ``colour characterisation``
     >>> sorted(colour.COLOUR_CORRECTION_METHODS.keys())
     ['Cheung 2004', 'Finlayson 2015', 'Vandermonde']
 
+ACES Input Transform - ``colour characterisation``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> sensitivities = colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES['Nikon 5100 (NPL)']
+    >>> illuminant = colour.ILLUMINANT_SDS['D55']
+    >>> colour.idt_matrix(sensitivities, illuminant)
+    array([[ 0.46579991,  0.13409239,  0.01935141],
+           [ 0.01786094,  0.77557292, -0.16775555],
+           [ 0.03458652, -0.16152926,  0.74270359]])
+
 Colorimetry - ``colour.colorimetry``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
