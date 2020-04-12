@@ -25,12 +25,10 @@ message_box(('Comparing "ITU-R BT.709" and "ACEScg" RGB colourspaces volume '
 plot_RGB_colourspaces_gamuts(
     ('ITU-R BT.709', 'ACEScg'),
     reference_colourspace='CIE Lab',
-    style={
-        'face_colours': (None, (0.25, 0.25, 0.25)),
-        'edge_colours': (None, (0.25, 0.25, 0.25)),
-        'edge_alpha': (1.0, 0.1),
-        'face_alpha': (1.0, 0.0)
-    })
+    face_colours=(None, (0.25, 0.25, 0.25)),
+    edge_colours=(None, (0.25, 0.25, 0.25)),
+    edge_alpha=(1.0, 0.1),
+    face_alpha=(1.0, 0.0))
 
 print('\n')
 
