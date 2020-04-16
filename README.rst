@@ -808,7 +808,7 @@ OETFs Inverse
 
     >>> sorted(colour.OETF_INVERSES.keys())
     ['ARIB STD-B67',
-     'ITU-R BT.2100 HLD',
+     'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
      'ITU-R BT.709']
