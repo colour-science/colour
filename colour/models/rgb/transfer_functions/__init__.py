@@ -484,7 +484,7 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
 
 OETF_INVERSES = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_inverse_ARIBSTDB67,
-    'ITU-R BT.2100 HLD': oetf_inverse_HLG_BT2100,
+    'ITU-R BT.2100 HLG': oetf_inverse_HLG_BT2100,
     'ITU-R BT.2100 PQ': oetf_inverse_PQ_BT2100,
     'ITU-R BT.601': oetf_inverse_BT601,
     'ITU-R BT.709': oetf_inverse_BT709,
@@ -493,7 +493,7 @@ OETF_INVERSES.__doc__ = """
 Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 
 OETF_INVERSES : CaseInsensitiveMapping
-    **{'ARIB STD-B67', 'ITU-R BT.2100 HLD', 'ITU-R BT.2100 PQ',
+    **{'ARIB STD-B67', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
     'ITU-R BT.601', 'ITU-R BT.709'}**
 """
 
@@ -509,7 +509,7 @@ def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2100 HLD',
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2100 HLG',
         'ITU-R BT.2100 PQ', 'ITU-R BT.601', }**,
         Inverse opto-electronic transfer function (OETF / OECF).
 
