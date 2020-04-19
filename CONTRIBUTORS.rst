@@ -99,6 +99,10 @@ Development & Technical Support
 
     Python 3.8 compatibility.
 
+-   **Sianyi Huang**, *Display Tuning Engineer*
+
+    Examples fixes.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
