@@ -103,6 +103,10 @@ Development & Technical Support
 
     Examples fixes.
 
+-   **Mike Wei**, *Display Tuning Engineer*
+
+    Technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
