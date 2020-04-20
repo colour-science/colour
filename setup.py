@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup
+import codecs
 
 package_dir = \
 {'': '.'}
@@ -148,7 +149,7 @@ setup(
     name='colour-science',
     version='0.3.15',
     description='Colour Science for Python',
-    long_description=open('README.rst').read(),
+    long_description=codecs.open('README.rst', encoding='utf8').read(),
     author='Colour Developers',
     author_email='colour-developers@colour-science.org',
     maintainer='Colour Developers',
