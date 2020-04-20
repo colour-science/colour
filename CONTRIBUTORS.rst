@@ -99,6 +99,14 @@ Development & Technical Support
 
     Python 3.8 compatibility.
 
+-   **Sianyi Huang**, *Display Tuning Engineer*
+
+    Examples fixes.
+
+-   **Mike Wei**, *Display Tuning Engineer*
+
+    Technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -162,6 +170,7 @@ Issues & Discussions
 -   @AndersAtEndian
 -   @anshulxyz
 -   @Apoorva-13
+-   @aurelienbl
 -   @awehring
 -   @bersbersbers
 -   @brandondube
@@ -179,11 +188,13 @@ Issues & Discussions
 -   @habemus-papadum
 -   @hajimen
 -   @henczati
+-   @hminle
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
 -   @KOLANICH
 -   @Kunkka1988
+-   @lavrovd
 -   @Legendin
 -   @leklbk
 -   @lensz
@@ -210,7 +221,9 @@ Issues & Discussions
 -   @thunders82
 -   @tingeman
 -   @totyped
+-   @ValZapod
 -   @vidakDK
+-   @Wagyx
 -   @Willingo
 -   @zachlewis
 
