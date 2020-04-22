@@ -411,7 +411,7 @@ def colour_correction_matrix_Cheung2004(M_T, M_R, terms=3):
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> colour_correction_matrix(M_T, M_R)  # doctest: +ELLIPSIS
+    >>> colour_correction_matrix_Cheung2004(M_T, M_R)  # doctest: +ELLIPSIS
     array([[ 1.0526376...,  0.1378078..., -0.2276339...],
            [ 0.0739584...,  1.0293994..., -0.1060115...],
            [ 0.0572550..., -0.2052633...,  1.1015194...]])
@@ -454,7 +454,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> colour_correction_matrix(M_T, M_R)  # doctest: +ELLIPSIS
+    >>> colour_correction_matrix_Finlayson2015(M_T, M_R)  # doctest: +ELLIPSIS
     array([[ 1.0526376...,  0.1378078..., -0.2276339...],
            [ 0.0739584...,  1.0293994..., -0.1060115...],
            [ 0.0572550..., -0.2052633...,  1.1015194...]])
@@ -493,10 +493,10 @@ def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> colour_correction_matrix(M_T, M_R)  # doctest: +ELLIPSIS
-    array([[ 1.0526376...,  0.1378078..., -0.2276339...],
-           [ 0.0739584...,  1.0293994..., -0.1060115...],
-           [ 0.0572550..., -0.2052633...,  1.1015194...]])
+    >>> colour_correction_matrix_Vandermonde(M_T, M_R)  # doctest: +ELLIPSIS
+    array([[ 1.0300256...,  0.1141770..., -0.2621816...,  0.0418022...],
+           [ 0.0670209...,  1.0221494..., -0.1166108...,  0.0128250...],
+           [ 0.0744612..., -0.1872819...,  1.1278078..., -0.0318085...]])
     """
 
     return least_square_mapping_MoorePenrose(

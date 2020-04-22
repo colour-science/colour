@@ -154,13 +154,6 @@ API Reference
 The main technical reference for **Colour** and its API is the
 `Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`__.
 
-Jupyter Notebooks
-~~~~~~~~~~~~~~~~~
-
-`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
-are available and designed to provide an historical perspective of colour
-science via **Colour** usage.
-
 Examples
 ~~~~~~~~
 
