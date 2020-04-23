@@ -10,7 +10,7 @@ See Also
 --------
 `Machado (2009) - CVD IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/cvd/Machado2009.ipynb>`_
+blob/master/notebooks/cvd/Machado2009.ipynb>`__
 
 References
 ----------

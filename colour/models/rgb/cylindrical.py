@@ -1,48 +1,31 @@
 # -*- coding: utf-8 -*-
 """
-Deprecated Colour Models Transformations
-========================================
+Cylindrical & Spherical Colour Models
+=====================================
 
-Defines various deprecated colour models transformations:
+Defines various cylindrical and spherical colour models:
 
 -   :func:`colour.RGB_to_HSV`
 -   :func:`colour.HSV_to_RGB`
 -   :func:`colour.RGB_to_HSL`
 -   :func:`colour.HSL_to_RGB`
--   :func:`colour.RGB_to_CMY`
--   :func:`colour.CMY_to_RGB`
--   :func:`colour.CMY_to_CMYK`
--   :func:`colour.CMYK_to_CMY`
 
-These colour models are stated as deprecated because they trade off perceptual
-relevance for computation speed. They should not be used in the colour science
-domain although they are useful for image analysis and provide end user
-software colour selection tools.
+These colour models trade off perceptual relevance for computation speed.
+They should not be used in the colour science domain although they are useful
+for image analysis and provide end user software colour selection tools.
 
 They are provided for convenience and completeness.
 
-Warning
--------
-Don't use that! Seriously...
-
 References
 ----------
--   :cite:`EasyRGBh` : EasyRGB. (n.d.). RGB > CMY. Retrieved May 18, 2014,
-    from http://www.easyrgb.com/index.php?X=MATH&H=11#text11
--   :cite:`EasyRGBi` : EasyRGB. (n.d.). CMY > RGB. Retrieved May 18, 2014,
-    from http://www.easyrgb.com/index.php?X=MATH&H=12#text12
 -   :cite:`EasyRGBj` : EasyRGB. (n.d.). RGB > HSV. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=20#text20
 -   :cite:`EasyRGBk` : EasyRGB. (n.d.). HSL > RGB. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=19#text19
 -   :cite:`EasyRGBl` : EasyRGB. (n.d.). RGB > HSL. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=18#text18
--   :cite:`EasyRGBm` : EasyRGB. (n.d.). CMYK > CMY. Retrieved May 18, 2014,
-    from http://www.easyrgb.com/index.php?X=MATH&H=14#text14
 -   :cite:`EasyRGBn` : EasyRGB. (n.d.). HSV > RGB. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=21#text21
--   :cite:`EasyRGBo` : EasyRGB. (n.d.). CMY > CMYK. Retrieved May 18, 2014,
-    from http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 -   :cite:`Smith1978b` : Smith, A. R. (1978). Color gamut transform pairs. In
     Proceedings of the 5th annual conference on Computer graphics and
     interactive techniques - SIGGRAPH '78 (pp. 12-19). New York, New York,
@@ -65,10 +48,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = [
-    'RGB_to_HSV', 'HSV_to_RGB', 'RGB_to_HSL', 'HSL_to_RGB', 'RGB_to_CMY',
-    'CMY_to_RGB', 'CMY_to_CMYK', 'CMYK_to_CMY'
-]
+__all__ = ['RGB_to_HSV', 'HSV_to_RGB', 'RGB_to_HSL', 'HSL_to_RGB']
 
 
 def RGB_to_HSV(RGB):
@@ -361,200 +341,3 @@ def HSL_to_RGB(HSL):
     RGB = tstack([R, G, B])
 
     return from_range_1(RGB)
-
-
-def RGB_to_CMY(RGB):
-    """
-    Converts from *RGB* colourspace to *CMY* colourspace.
-
-    Parameters
-    ----------
-    RGB : array_like
-        *RGB* colourspace array.
-
-    Returns
-    -------
-    ndarray
-        *CMY* array.
-
-    Notes
-    -----
-
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``CMY``    | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`EasyRGBh`
-
-    Examples
-    --------
-    >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-    >>> RGB_to_CMY(RGB)  # doctest: +ELLIPSIS
-    array([ 0.5437948...,  0.9691892...,  0.9590804...])
-    """
-
-    CMY = 1 - to_domain_1(RGB)
-
-    return from_range_1(CMY)
-
-
-def CMY_to_RGB(CMY):
-    """
-    Converts from *CMY* colourspace to *CMY* colourspace.
-
-    Parameters
-    ----------
-    CMY : array_like
-        *CMY* colourspace array.
-
-    Returns
-    -------
-    ndarray
-        *RGB* colourspace array.
-
-    Notes
-    -----
-
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``CMY``    | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`EasyRGBi`
-
-    Examples
-    --------
-    >>> CMY = np.array([0.54379481, 0.96918929, 0.95908048])
-    >>> CMY_to_RGB(CMY)  # doctest: +ELLIPSIS
-    array([ 0.4562051...,  0.0308107...,  0.0409195...])
-    """
-
-    RGB = 1 - to_domain_1(CMY)
-
-    return from_range_1(RGB)
-
-
-def CMY_to_CMYK(CMY):
-    """
-    Converts from *CMY* colourspace to *CMYK* colourspace.
-
-    Parameters
-    ----------
-    CMY : array_like
-        *CMY* colourspace array.
-
-    Returns
-    -------
-    ndarray
-        *CMYK* array.
-
-    Notes
-    -----
-
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``CMY``    | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``CMYK``   | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`EasyRGBo`
-
-    Examples
-    --------
-    >>> CMY = np.array([0.54379481, 0.96918929, 0.95908048])
-    >>> CMY_to_CMYK(CMY)  # doctest: +ELLIPSIS
-    array([ 0.        ,  0.9324630...,  0.9103045...,  0.5437948...])
-    """
-
-    C, M, Y = tsplit(to_domain_1(CMY))
-
-    K = np.ones(C.shape)
-    K = np.where(C < K, C, K)
-    K = np.where(M < K, M, K)
-    K = np.where(Y < K, Y, K)
-
-    C = as_float_array((C - K) / (1 - K))
-    M = as_float_array((M - K) / (1 - K))
-    Y = as_float_array((Y - K) / (1 - K))
-
-    C[np.asarray(K == 1)] = 0
-    M[np.asarray(K == 1)] = 0
-    Y[np.asarray(K == 1)] = 0
-
-    CMYK = tstack([C, M, Y, K])
-
-    return from_range_1(CMYK)
-
-
-def CMYK_to_CMY(CMYK):
-    """
-    Converts from *CMYK* colourspace to *CMY* colourspace.
-
-    Parameters
-    ----------
-    CMYK : array_like
-        *CMYK* colourspace array.
-
-    Returns
-    -------
-    ndarray
-        *CMY* array.
-
-    Notes
-    -----
-
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``CMYK``   | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``CMY``    | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`EasyRGBm`
-
-    Examples
-    --------
-    >>> CMYK = np.array([0.50000000, 0.00000000, 0.74400000, 0.01960784])
-    >>> CMYK_to_CMY(CMYK)  # doctest: +ELLIPSIS
-    array([ 0.5098039...,  0.0196078...,  0.7490196...])
-    """
-
-    C, M, Y, K = tsplit(to_domain_1(CMYK))
-
-    CMY = tstack([C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K])
-
-    return from_range_1(CMY)

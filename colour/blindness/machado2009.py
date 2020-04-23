@@ -10,12 +10,6 @@ deficiency:
 -   :func:`colour.anomalous_trichromacy_matrix_Machado2009`
 -   :func:`colour.cvd_matrix_Machado2009`
 
-See Also
---------
-`Machado et al. (2009) - CVD IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/cvd/Machado2009.ipynb>`_
-
 References
 ----------
 -   :cite:`Colblindorb` : Colblindor. (n.d.). Protanopia - Red-Green Color

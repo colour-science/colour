@@ -4,7 +4,7 @@ Mock for Colour
 ===============
 
 Defines various mock objects to use with
-`Colour <https://github.com/colour-science/colour>`_.
+`Colour <https://github.com/colour-science/colour>`__.
 
 References
 ----------

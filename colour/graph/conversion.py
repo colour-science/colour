@@ -745,7 +745,7 @@ def convert(a, source, target, **kwargs):
     colour representation using the automatic colour conversion graph.
 
     The conversion is performed by finding the shortest path in a
-    `NetworkX <https://networkx.github.io/>`_ :class:`DiGraph` class instance.
+    `NetworkX <https://networkx.github.io/>`__ :class:`DiGraph` class instance.
 
     The conversion path adopts the **'1'** domain-range scale and the object
     :math:`a` is expected to be *soft* normalised accordingly. For example,
@@ -761,7 +761,7 @@ def convert(a, source, target, **kwargs):
     -   *Integers* in domain-range `[0, 2**n -1]` where `n` is the bit
         depth are scaled by *2**n -1*.
 
-    See the `Domain-Range Scales <../basics.html#domain-range-scales>`_ page
+    See the `Domain-Range Scales <../basics.html#domain-range-scales>`__ page
     for more information.
 
     Parameters

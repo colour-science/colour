@@ -1483,7 +1483,7 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
     """
     Plots given constant hue loci colour matches data such as that from
     :cite:`Hung1995` or :cite:`Ebner1998` that are easily loaded with
-    `Colour - Datasets <https://github.com/colour-science/colour-datasets>`_.
+    `Colour - Datasets <https://github.com/colour-science/colour-datasets>`__.
 
     Parameters
     ----------
