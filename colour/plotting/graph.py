@@ -29,8 +29,8 @@ __all__ = ['plot_automatic_colour_conversion_graph']
 def plot_automatic_colour_conversion_graph(filename, prog='fdp', args=''):
     """
     Plots *Colour* automatic colour conversion graph using
-    `Graphviz <https://www.graphviz.org/>`_ and
-    `pyraphviz <https://pygraphviz.github.io>`_.
+    `Graphviz <https://www.graphviz.org/>`__ and
+    `pyraphviz <https://pygraphviz.github.io>`__.
 
     Parameters
     ----------
