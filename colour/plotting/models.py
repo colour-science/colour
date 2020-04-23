@@ -303,10 +303,13 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     Parameters
     ----------
     colourspaces : array_like, optional
-        *RGB* colourspaces to plot.
+        *RGB* colourspaces to plot. ``colourspaces`` elements
+        can be of any type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     cmfs : unicode, optional
-        Standard observer colour matching functions used for
-        *Chromaticity Diagram* bounds.
+        Standard observer colour matching functions used for computing the
+        spectral locus boundaries. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
     method : unicode, optional
@@ -488,10 +491,13 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     Parameters
     ----------
     colourspaces : array_like, optional
-        *RGB* colourspaces to plot.
+        *RGB* colourspaces to plot. ``colourspaces`` elements
+        can be of any type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     cmfs : unicode, optional
-        Standard observer colour matching functions used for
-        *Chromaticity Diagram* bounds.
+        Standard observer colour matching functions used for computing the
+        spectral locus boundaries. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
@@ -542,10 +548,13 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     Parameters
     ----------
     colourspaces : array_like, optional
-        *RGB* colourspaces to plot.
+        *RGB* colourspaces to plot. ``colourspaces`` elements
+        can be of any type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     cmfs : unicode, optional
-        Standard observer colour matching functions used for
-        *Chromaticity Diagram* bounds.
+        Standard observer colour matching functions used for computing the
+        spectral locus boundaries. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -598,10 +607,13 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     Parameters
     ----------
     colourspaces : array_like, optional
-        *RGB* colourspaces to plot.
+        *RGB* colourspaces to plot. ``colourspaces`` elements
+        can be of any type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     cmfs : unicode, optional
-        Standard observer colour matching functions used for
-        *Chromaticity Diagram* bounds.
+        Standard observer colour matching functions used for computing the
+        spectral locus boundaries. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1976UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
@@ -659,7 +671,9 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     RGB : array_like
         *RGB* colourspace array.
     colourspace : optional, unicode
-        *RGB* colourspace of the *RGB* array.
+        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
     method : unicode, optional
@@ -777,7 +791,9 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     RGB : array_like
         *RGB* colourspace array.
     colourspace : optional, unicode
-        *RGB* colourspace of the *RGB* array.
+        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     scatter_kwargs : dict, optional
@@ -847,7 +863,9 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     RGB : array_like
         *RGB* colourspace array.
     colourspace : optional, unicode
-        *RGB* colourspace of the *RGB* array.
+        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -918,7 +936,9 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     RGB : array_like
         *RGB* colourspace array.
     colourspace : optional, unicode
-        *RGB* colourspace of the *RGB* array.
+        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable_CIE1976UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
@@ -1382,7 +1402,9 @@ def plot_single_cctf(cctf='ITU-R BT.709', cctf_decoding=False, **kwargs):
     Parameters
     ----------
     cctf : unicode, optional
-        Colour component transfer function to plot.
+        Colour component transfer function to plot. ``function`` can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
     cctf_decoding : bool
         Plot the decoding colour component transfer function instead.
 
@@ -1428,7 +1450,9 @@ def plot_multi_cctfs(cctfs=None, cctf_decoding=False, **kwargs):
     Parameters
     ----------
     cctfs : array_like, optional
-        Colour component transfer function to plot.
+        Colour component transfer function to plot. ``cctfs`` elements can be
+        of any type or form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
     cctf_decoding : bool
         Plot the decoding colour component transfer function instead.
 

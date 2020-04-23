@@ -43,7 +43,9 @@ def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
     Parameters
     ----------
     colour_checker : unicode, optional
-        Color checker name.
+        Color checker to plot. ``colour_checker`` can be of any type or form
+        supported by the
+        :func:`colour.plotting.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------
@@ -87,7 +89,9 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
     Parameters
     ----------
     colour_checkers : array_like, optional
-        Color checker names, must be less than or equal to 2 names.
+        Color checker to plot, count must be less than or equal to 2.
+        ``colour_checkers`` elements can be of any type or form supported by
+        the :func:`colour.plotting.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------

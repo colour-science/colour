@@ -37,7 +37,9 @@ def plot_single_munsell_value_function(function='ASTM D1535', **kwargs):
     Parameters
     ----------
     function : unicode, optional
-        *Munsell* value function to plot.
+        *Munsell* value function to plot. ``function`` can be of any type or
+        form supported by the :func:`colour.plotting.filter_passthrough`
+        definition.
 
     Other Parameters
     ----------------
@@ -77,7 +79,9 @@ def plot_multi_munsell_value_functions(functions=None, **kwargs):
     Parameters
     ----------
     functions : array_like, optional
-        *Munsell* value functions to plot.
+        *Munsell* value functions to plot. ``functions`` elements can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
 
     Other Parameters
     ----------------

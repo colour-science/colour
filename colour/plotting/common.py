@@ -695,14 +695,22 @@ def filter_passthrough(mapping,
 
     This definition allows passing custom but compatible objects to the various
     plotting definitions that by default expect the key from a dataset element.
+
     For example, a typical call to :func:`colour.plotting.\
-plot_multi_illuminant_sds` definition is as follows:
+plot_multi_illuminant_sds` definition with a regex pattern automatically
+    anchored at boundaries by default is as follows:
 
     >>> import colour
     >>> colour.plotting.plot_multi_illuminant_sds(['A'])
     ... # doctest: +SKIP
 
-    But it is also possible to pass a custom spectral distribution as follows:
+    Here, `'A'` is by default anchored at boundaries and transformed into
+    `'^A$'`. Note that because it is a regex pattern, special characters such
+    as parenthesis must be escaped: `'Adobe RGB (1998)'` must be written
+    `'Adobe RGB \\(1998\\)'` instead.
+
+    With the previous example, t is also possible to pass a custom spectral
+    distribution as follows:
 
     >>> data = {
     ...     500: 0.0651,
@@ -812,7 +820,9 @@ def filter_RGB_colourspaces(filterers,
     filterers : unicode or RGB_Colourspace or array_like
         Filterer or :class:`colour.RGB_Colourspace` class instance (which is
         passed through directly if its type is one of the mapping element
-        types) or list of filterers.
+        types) or list of filterers. ``filterers`` elements can also be of any
+        form supported by the :func:`colour.plotting.filter_passthrough`
+        definition.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
@@ -846,7 +856,9 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
         :class:`colour.RGB_ColourMatchingFunctions` or
         :class:`colour.XYZ_ColourMatchingFunctions` class instance (which is
         passed through directly if its type is one of the mapping element
-        types) or list of filterers.
+        types) or list of filterers. ``filterers`` elements can also be of any
+        form supported by the :func:`colour.plotting.filter_passthrough`
+        definition.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
@@ -877,7 +889,9 @@ def filter_illuminants(filterers,
     filterers : unicode or SpectralDistribution or array_like
         Filterer or :class:`colour.SpectralDistribution` class instance
         (which is passed through directly if its type is one of the mapping
-        element types) or list of filterers.
+        element types) or list of filterers. ``filterers`` elements can also be
+        of any form supported by the :func:`colour.plotting.filter_passthrough`
+        definition.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
@@ -917,7 +931,9 @@ def filter_colour_checkers(filterers,
     filterers : unicode or ColourChecker or array_like
         Filterer or :class:`colour.characterisation.ColourChecker` class
         instance (which is passed through directly if its type is one of the
-        mapping element types) or list of filterers.
+        mapping element types) or list of filterers. ``filterers`` elements
+        can also be of any form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.

@@ -229,7 +229,9 @@ def plot_planckian_locus_in_chromaticity_diagram(
     Parameters
     ----------
     illuminants : array_like, optional
-        Factory illuminants to plot.
+        Illuminants to plot. ``illuminants`` elements can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
     annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective illuminant
@@ -397,7 +399,9 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     Parameters
     ----------
     illuminants : array_like, optional
-        Factory illuminants to plot.
+        Illuminants to plot. ``illuminants`` elements can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
     annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective illuminant
@@ -468,7 +472,9 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     Parameters
     ----------
     illuminants : array_like, optional
-        Factory illuminants to plot.
+        Illuminants to plot. ``illuminants`` elements can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
     annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective illuminant

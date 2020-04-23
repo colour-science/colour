@@ -381,7 +381,9 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
     Parameters
     ----------
     colourspaces : array_like, optional
-        *RGB* colourspaces to plot the gamuts.
+        *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
+        can be of any type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
@@ -399,7 +401,9 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
     spectral_locus_colour : array_like, optional
         Spectral locus colour.
     cmfs : unicode, optional
-        Standard observer colour matching functions used for spectral locus.
+        Standard observer colour matching functions used for computing the
+        spectral locus boundaries. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -586,7 +590,9 @@ def plot_RGB_scatter(RGB,
     RGB : array_like
         *RGB* colourspace array.
     colourspace : RGB_Colourspace
-        *RGB* colourspace of the *RGB* array.
+        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
@@ -608,7 +614,9 @@ def plot_RGB_scatter(RGB,
     points_size : numeric, optional
         Scatter points size.
     cmfs : unicode, optional
-        Standard observer colour matching functions used for spectral locus.
+        Standard observer colour matching functions used for computing the
+        spectral locus boundaries. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
