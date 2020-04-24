@@ -1026,6 +1026,7 @@ def plot_multi_colour_swatches(colour_swatches,
                                width=1,
                                height=1,
                                spacing=0,
+                               direction='+y',
                                columns=None,
                                text_kwargs=None,
                                background_colour=(1.0, 1.0, 1.0),
@@ -1045,6 +1046,9 @@ def plot_multi_colour_swatches(colour_swatches,
         Colour swatch height.
     spacing : numeric, optional
         Colour swatches spacing.
+    direction : unicode, optional
+        {'+y', '-y'}
+        Row stacking direction.
     columns : int, optional
         Colour swatches columns count, defaults to the colour swatch count or
         half of it if comparing.
@@ -1055,7 +1059,7 @@ def plot_multi_colour_swatches(colour_swatches,
     background_colour : array_like or unicode, optional
         Background colour.
     compare_swatches : unicode, optional
-        **{None, 'Stacked', 'Diagonal'}**,
+        **{None, 'Diagonal', 'Stacked'}**,
         Whether to compare the swatches, in which case the colour swatch
         count must be an even number with alternating reference colour swatches
         and test colour swatches. *Stacked* will draw the test colour swatch in
@@ -1088,6 +1092,16 @@ def plot_multi_colour_swatches(colour_swatches,
         :alt: plot_multi_colour_swatches
     """
 
+    direction = direction.lower()
+    assert direction in ('+y', '-y'), (
+        '"direction" must be one of *[\'+y\', \'-y\']*!')
+
+    if compare_swatches is not None:
+        compare_swatches = compare_swatches.lower()
+
+        assert compare_swatches in ('diagonal', 'stacked'), (
+            '"compare_swatches" must be one of *[\'diagonal\', \'stacked\']*!')
+
     text_kwargs = handle_arguments_deprecation({
         'ArgumentRenamed': [['text_args', 'text_kwargs']],
     }, **kwargs).get('text_kwargs', text_kwargs)
@@ -1111,8 +1125,6 @@ def plot_multi_colour_swatches(colour_swatches,
     else:
         reference_colour_swatches = test_colour_swatches = colour_swatches
 
-    compare_swatches = str(compare_swatches).lower()
-
     if columns is None:
         columns = len(reference_colour_swatches)
 
@@ -1126,13 +1138,14 @@ def plot_multi_colour_swatches(colour_swatches,
 
     offset_X = offset_Y = 0
     x_min, x_max, y_min, y_max = 0, width, 0, height
+    direction = 1 if direction == '+y' else -1
     for i, colour_swatch in enumerate(reference_colour_swatches):
         if i % columns == 0 and i != 0:
             offset_X = 0
-            offset_Y -= height + spacing
+            offset_Y += (height + spacing) * direction
 
         x_0, x_1 = offset_X, offset_X + width
-        y_0, y_1 = offset_Y, offset_Y + height
+        y_0, y_1 = offset_Y, offset_Y + height * direction
 
         axes.fill(
             (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
@@ -1148,10 +1161,10 @@ def plot_multi_colour_swatches(colour_swatches,
                     x_1 - margin_X,
                     x_0 + margin_X,
                 ), (
-                    y_0 + margin_Y,
-                    y_0 + margin_Y,
-                    y_1 - margin_Y,
-                    y_1 - margin_Y,
+                    y_0 + margin_Y * direction,
+                    y_0 + margin_Y * direction,
+                    y_1 - margin_Y * direction,
+                    y_1 - margin_Y * direction,
                 ),
                 color=test_colour_swatches[i].RGB)
         else:
@@ -1162,8 +1175,9 @@ def plot_multi_colour_swatches(colour_swatches,
         if colour_swatch.name is not None and text_settings['visible']:
             axes.text(
                 x_0 + text_offset,
-                y_0 + text_offset,
+                y_0 + text_offset * direction,
                 colour_swatch.name,
+                verticalalignment='bottom' if direction == 1 else 'top',
                 clip_on=True,
                 **text_settings)
 
@@ -1171,12 +1185,24 @@ def plot_multi_colour_swatches(colour_swatches,
 
     x_max = min(len(colour_swatches), columns)
     x_max = x_max * width + x_max * spacing - spacing
-    y_min = offset_Y
+    y_max = offset_Y
 
     axes.patch.set_facecolor(background_colour)
 
-    bounding_box = (x_min - spacing, x_max + spacing, y_min - spacing,
-                    y_max + spacing)
+    if direction == 1:
+        bounding_box = [
+            x_min - spacing,
+            x_max + spacing,
+            y_min - spacing,
+            y_max + spacing + height,
+        ]
+    else:
+        bounding_box = [
+            x_min - spacing,
+            x_max + spacing,
+            y_max - spacing - height,
+            y_min + spacing,
+        ]
 
     settings = {
         'axes': axes,

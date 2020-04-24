@@ -19,6 +19,8 @@ from itertools import chain
 from textwrap import TextWrapper
 from warnings import filterwarnings, formatwarning, warn
 
+from colour.utilities import is_string
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -43,14 +45,14 @@ class ColourWarning(Warning):
     """
 
 
-class ColourUsageWarning(ColourWarning):
+class ColourUsageWarning(Warning):
     """
     This is the base class of *Colour* usage warnings. It is a subclass
     of :class:`colour.utilities.ColourWarning` class.
     """
 
 
-class ColourRuntimeWarning(ColourWarning):
+class ColourRuntimeWarning(Warning):
     """
     This is the base class of *Colour* runtime warnings. It is a subclass
     of :class:`colour.utilities.ColourWarning` class.
@@ -293,93 +295,120 @@ def usage_warning(*args, **kwargs):
     return True
 
 
-def filter_warnings(state=True,
-                    colour_warnings=True,
-                    colour_runtime_warnings=False,
-                    colour_usage_warnings=False,
-                    python_warnings=False):
+def filter_warnings(colour_runtime_warnings=None,
+                    colour_usage_warnings=None,
+                    colour_warnings=None,
+                    python_warnings=None):
     """
     Filters *Colour* and also optionally overall Python warnings.
 
+    The possible values for all the actions, i.e. each argument, are as
+    follows:
+
+    - *None* (No action is taken)
+    - *True* (*ignore*)
+    - *False* (*default*)
+    - *error*
+    - *ignore*
+    - *always*
+    - *default*
+    - *module*
+    - *once*
+
     Parameters
     ----------
-    state : bool, optional
-        Warnings filter state.
-    colour_warnings : bool, optional
+    colour_runtime_warnings : bool or unicode, optional
+        Whether to filter *Colour* runtime warnings according to the action
+        value.
+    colour_usage_warnings : bool or unicode, optional
+        Whether to filter *Colour* usage warnings according to the action
+        value.
+    colour_warnings : bool or unicode, optional
         Whether to filter *Colour* warnings, this also filters *Colour* usage
-        and runtime warnings.
-    colour_runtime_warnings : bool, optional
-        Whether to filter *Colour* runtime warnings.
-    colour_usage_warnings : bool, optional
-        Whether to filter *Colour* usage warnings.
-    python_warnings : bool, optional
-        Whether to filter *Python* warnings.
-
-    Returns
-    -------
-    bool
-        Definition success.
+        and runtime warnings according to the action value.
+    python_warnings : bool or unicode, optional
+        Whether to filter *Python* warnings  according to the action value.
 
     Examples
     --------
-    # Filtering *Colour* warnings:
-    >>> filter_warnings()
-    True
-
     # Filtering *Colour* runtime warnings:
-    >>> filter_warnings(colour_warnings=False, colour_runtime_warnings=True)
-    True
+    >>> filter_warnings(colour_runtime_warnings=True)
 
     # Filtering *Colour* usage warnings:
-    >>> filter_warnings(colour_warnings=False, colour_usage_warnings=True)
-    True
+    >>> filter_warnings(colour_usage_warnings=True)
 
-    # Filtering *Colour* and also Python warnings:
+    # Filtering *Colour* warnings:
+    >>> filter_warnings(colour_warnings=True)
+
+    # Filtering all the *Colour* and also Python warnings:
     >>> filter_warnings(python_warnings=True)
-    True
+
+    # Enabling all the *Colour* and Python warnings:
+    >>> filter_warnings(*[False] * 4)
+
+    # Enabling all the *Colour* and Python warnings using the *default* action:
+    >>> filter_warnings(*['default'] * 4)
+
+    # Setting back the default state:
+    >>> filter_warnings(colour_runtime_warnings=True)
     """
 
-    action = 'ignore' if state else 'default'
+    for action, category in [
+        (colour_warnings, ColourWarning),
+        (colour_runtime_warnings, ColourRuntimeWarning),
+        (colour_usage_warnings, ColourUsageWarning),
+        (python_warnings, Warning),
+    ]:
+        if action is None:
+            continue
 
-    if colour_warnings:
-        filterwarnings(action, category=ColourWarning)
+        if is_string(action):
+            action = action
+        else:
+            action = 'ignore' if action else 'default'
 
-    if colour_runtime_warnings:
-        filterwarnings(action, category=ColourRuntimeWarning)
-
-    if colour_usage_warnings:
-        filterwarnings(action, category=ColourUsageWarning)
-
-    if python_warnings:
-        filterwarnings(action, category=Warning)
-
-    return True
+        filterwarnings(action, category=category)
 
 
 # Defaulting to filter *Colour* runtime warnings.
-filter_warnings(colour_warnings=False, colour_runtime_warnings=True)
+filter_warnings(colour_runtime_warnings=True)
 
 
 @contextmanager
-def suppress_warnings(colour_warnings=True,
-                      colour_runtime_warnings=False,
-                      colour_usage_warnings=False,
-                      python_warnings=False):
+def suppress_warnings(colour_runtime_warnings=None,
+                      colour_usage_warnings=None,
+                      colour_warnings=None,
+                      python_warnings=None):
     """
     A context manager filtering *Colour* and also optionally overall Python
     warnings.
 
+    The possible values for all the actions, i.e. each argument, are as
+    follows:
+
+    - *None* (No action is taken)
+    - *True* (*ignore*)
+    - *False* (*default*)
+    - *error*
+    - *ignore*
+    - *always*
+    - *default*
+    - *module*
+    - *once*
+
     Parameters
     ----------
-    colour_warnings : bool, optional
+    colour_runtime_warnings : bool or unicode, optional
+        Whether to filter *Colour* runtime warnings according to the action
+        value.
+    colour_usage_warnings : bool or unicode, optional
+        Whether to filter *Colour* usage warnings according to the action
+        value.
+    colour_warnings : bool or unicode, optional
         Whether to filter *Colour* warnings, this also filters *Colour* usage
-        and runtime warnings.
-    colour_runtime_warnings : bool, optional
-        Whether to filter *Colour* runtime warnings.
-    colour_usage_warnings : bool, optional
-        Whether to filter *Colour* usage warnings.
-    python_warnings : bool, optional
-        Whether to filter *Python* warnings.
+        and runtime warnings according to the action value.
+    python_warnings : bool or unicode, optional
+        Whether to filter *Python* warnings  according to the action value.
     """
 
     filters = warnings.filters
@@ -390,6 +419,7 @@ def suppress_warnings(colour_warnings=True,
         colour_runtime_warnings=colour_runtime_warnings,
         colour_usage_warnings=colour_usage_warnings,
         python_warnings=python_warnings)
+
     try:
         yield
     finally:

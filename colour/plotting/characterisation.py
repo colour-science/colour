@@ -159,6 +159,7 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
         'height': height,
         'spacing': spacing,
         'columns': columns,
+        'direction': '-y',
         'text_kwargs': {
             'size': 8
         },

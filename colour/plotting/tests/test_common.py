@@ -453,7 +453,8 @@ class TestPlotMultiColourSwatches(unittest.TestCase):
 
         figure, axes = plot_multi_colour_swatches(
             np.array([[0.45293517, 0.31732158, 0.26414773],
-                      [0.77875824, 0.57726450, 0.50453169]]))
+                      [0.77875824, 0.57726450, 0.50453169]]),
+            direction='-y')
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
