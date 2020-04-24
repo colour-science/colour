@@ -1026,8 +1026,8 @@ def plot_multi_colour_swatches(colour_swatches,
                                width=1,
                                height=1,
                                spacing=0,
-                               direction='+y',
                                columns=None,
+                               direction='+y',
                                text_kwargs=None,
                                background_colour=(1.0, 1.0, 1.0),
                                compare_swatches=None,
@@ -1046,12 +1046,12 @@ def plot_multi_colour_swatches(colour_swatches,
         Colour swatch height.
     spacing : numeric, optional
         Colour swatches spacing.
-    direction : unicode, optional
-        {'+y', '-y'}
-        Row stacking direction.
     columns : int, optional
         Colour swatches columns count, defaults to the colour swatch count or
         half of it if comparing.
+    direction : unicode, optional
+        {'+y', '-y'}
+        Row stacking direction.
     text_kwargs : dict, optional
         Parameters for the :func:`plt.text` definition, ``visible`` can be
         set to make the text visible, ``offset`` can be set to define the text
