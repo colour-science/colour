@@ -721,7 +721,6 @@ OETFs
 
     >>> sorted(colour.OETFS.keys())
     ['ARIB STD-B67',
-     'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
@@ -765,6 +764,7 @@ EOTFs Inverse
     ['DCDM',
      'DICOM GSDF',
      'ITU-R BT.1886',
+     'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ST 2084',

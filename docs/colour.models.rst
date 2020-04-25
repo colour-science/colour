@@ -424,7 +424,6 @@ Opto-Electronic Transfer Functions
 
     oetf_ARIBSTDB67
     oetf_inverse_ARIBSTDB67
-    oetf_BT2020
     oetf_HLG_BT2100
     oetf_inverse_HLG_BT2100
     oetf_PQ_BT2100
@@ -476,6 +475,7 @@ Electro-Optical Transfer Functions
     eotf_BT1886
     eotf_inverse_BT1886
     eotf_BT2020
+    eotf_inverse_BT2020
     BT2100_HLG_EOTF_METHODS
     eotf_HLG_BT2100
     BT2100_HLG_EOTF_INVERSE_METHODS
