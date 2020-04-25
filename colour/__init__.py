@@ -1348,7 +1348,7 @@ API_CHANGES = {
         ],
         [
             'colour.oetf_BT2020',
-            'colour.models.oetf_BT2020',
+            'colour.models.eotf_inverse_BT2020',
         ],
         [
             'colour.oetf_BT2100_HLG',

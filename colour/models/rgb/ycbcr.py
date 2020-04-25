@@ -48,8 +48,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.models.rgb.transfer_functions import (CV_range, oetf_BT2020,
-                                                  eotf_BT2020)
+from colour.models.rgb.transfer_functions import (
+    CV_range, eotf_inverse_BT2020, eotf_BT2020)
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               domain_range_scale, from_range_1, to_domain_1,
                               tsplit, tstack)
@@ -529,9 +529,9 @@ def RGB_to_YcCbcCrc(RGB,
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
 
     with domain_range_scale('ignore'):
-        Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
-        R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
-        B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
+        Yc = eotf_inverse_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+        R = eotf_inverse_BT2020(R, is_12_bits_system=is_12_bits_system)
+        B = eotf_inverse_BT2020(B, is_12_bits_system=is_12_bits_system)
 
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)

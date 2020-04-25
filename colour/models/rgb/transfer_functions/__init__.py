@@ -29,7 +29,7 @@ from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_inverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_inverse_BT709
 from .itur_bt_1886 import eotf_inverse_BT1886, eotf_BT1886
-from .itur_bt_2020 import oetf_BT2020, eotf_BT2020
+from .itur_bt_2020 import eotf_inverse_BT2020, eotf_BT2020
 from .st_2084 import eotf_inverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
     oetf_PQ_BT2100, oetf_inverse_PQ_BT2100, eotf_PQ_BT2100,
@@ -82,7 +82,7 @@ __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
 __all__ += ['oetf_BT601', 'oetf_inverse_BT601']
 __all__ += ['oetf_BT709', 'oetf_inverse_BT709']
 __all__ += ['eotf_inverse_BT1886', 'eotf_BT1886']
-__all__ += ['oetf_BT2020', 'eotf_BT2020']
+__all__ += ['eotf_inverse_BT2020', 'eotf_BT2020']
 __all__ += ['eotf_inverse_ST2084', 'eotf_ST2084']
 __all__ += [
     'oetf_PQ_BT2100', 'oetf_inverse_PQ_BT2100', 'eotf_PQ_BT2100',
@@ -412,7 +412,6 @@ __all__ += ['log_encoding', 'log_decoding']
 
 OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
-    'ITU-R BT.2020': oetf_BT2020,
     'ITU-R BT.2100 HLG': oetf_HLG_BT2100,
     'ITU-R BT.2100 PQ': oetf_PQ_BT2100,
     'ITU-R BT.601': oetf_BT601,
@@ -423,9 +422,8 @@ OETFS.__doc__ = """
 Supported opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS : CaseInsensitiveMapping
-    **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2020', 'ITU-R BT.2100 HLG',
-    'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'ITU-R BT.709', 'SMPTE 240M',
-    'ST 2084'}**
+    **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+    'ITU-R BT.601', 'ITU-R BT.709', 'SMPTE 240M', 'ST 2084'}**
 """
 
 
@@ -440,9 +438,8 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2020',
-        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M',
-        'ST 2084'}**,
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2100 HLG',
+        'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M', 'ST 2084'}**,
         Opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
@@ -455,11 +452,6 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
         :func:`colour.models.cctf_encoding_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
-    is_12_bits_system : bool, optional
-        {:func:`colour.models.oetf_BT2020`},
-        *ITU-R BT.2020* *alpha* and *beta* constants are used
-        if system is not
-        12-bit.
     r : numeric, optional
         {:func:`colour.models.oetf_ARIBSTDB67`},
         Video level corresponding to reference white level.
@@ -637,6 +629,7 @@ EOTF_INVERSES = CaseInsensitiveMapping({
     'DCDM': eotf_inverse_DCDM,
     'DICOM GSDF': eotf_inverse_DICOMGSDF,
     'ITU-R BT.1886': eotf_inverse_BT1886,
+    'ITU-R BT.2020': eotf_inverse_BT2020,
     'ITU-R BT.2100 HLG': eotf_inverse_HLG_BT2100,
     'ITU-R BT.2100 PQ': eotf_inverse_PQ_BT2100,
     'ST 2084': eotf_inverse_ST2084,
@@ -646,8 +639,8 @@ EOTF_INVERSES.__doc__ = """
 Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTF_INVERSES : CaseInsensitiveMapping
-    **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG',
-    'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**
+    **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
+    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**
 """
 
 
@@ -662,8 +655,8 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2100 HLG',
-        'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**,
+        **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
+        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**,
         Inverse electro-optical transfer function (EOTF / EOCF).
 
     Other Parameters
@@ -680,6 +673,11 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
         {:func:`colour.models.eotf_HLG_BT2100`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    is_12_bits_system : bool, optional
+        {:func:`colour.models.eotf_inverse_BT2020`},
+        *ITU-R BT.2020* *alpha* and *beta* constants are used
+        if system is not
+        12-bit.
     L_p : numeric, optional
         {:func:`colour.models.eotf_inverse_ST2084`},
         Display peak luminance :math:`cd/m^2`.
