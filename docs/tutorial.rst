@@ -37,8 +37,8 @@ Overview
     representation.
 -   :doc:`contrast <colour.contrast>`: Objects for contrast sensitivity
     computation.
--   :doc:`characterisation <colour.characterisation>`: Colour fitting and
-    camera characterisation.
+-   :doc:`characterisation <colour.characterisation>`: Colour correction,
+    camera and display characterisation.
 -   :doc:`colorimetry <colour.colorimetry>`: Core objects for colour
     computations.
 -   :doc:`constants <colour.constants>`: *CIE* and *CODATA* constants.
