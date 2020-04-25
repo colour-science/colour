@@ -6,7 +6,6 @@ from colour.utilities import CaseInsensitiveMapping
 from .aces import (ACES_2065_1_COLOURSPACE, ACES_CC_COLOURSPACE,
                    ACES_CCT_COLOURSPACE, ACES_CG_COLOURSPACE,
                    ACES_PROXY_COLOURSPACE)
-from .aces_it import ACES_RICD
 from .adobe_rgb_1998 import ADOBE_RGB_1998_COLOURSPACE
 from .adobe_wide_gamut_rgb import ADOBE_WIDE_GAMUT_RGB_COLOURSPACE
 from .apple_rgb import APPLE_RGB_COLOURSPACE
@@ -126,8 +125,7 @@ RGB_COLOURSPACES['prophoto'] = (
     RGB_COLOURSPACES[PROPHOTO_RGB_COLOURSPACE.name])
 # yapf: enable
 
-__all__ = ['ACES_RICD']
-__all__ += ['RGB_COLOURSPACES']
+__all__ = ['RGB_COLOURSPACES']
 __all__ += [
     'ACES_2065_1_COLOURSPACE', 'ACES_CC_COLOURSPACE', 'ACES_CCT_COLOURSPACE',
     'ACES_PROXY_COLOURSPACE', 'ACES_CG_COLOURSPACE',

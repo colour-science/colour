@@ -3,6 +3,60 @@ Colour Characterisation
 
 .. contents:: :local:
 
+ACES Spectral Conversion
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    sd_to_aces_relative_exposure_values
+
+**Ancillary Objects**
+
+``colour.characterisation``
+
+.. currentmodule:: colour.characterisation
+
+.. autosummary::
+    :toctree: generated/
+
+    ACES_RICD
+
+ACES Input Transform Computation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    idt_matrix
+
+**Ancillary Objects**
+
+``colour.characterisation``
+
+.. currentmodule:: colour.characterisation
+
+.. autosummary::
+    :toctree: generated/
+
+    read_training_data_rawtoaces_v1
+    generate_illuminants_rawtoaces_v1
+    white_balance_multipliers
+    normalise_illuminant
+    training_data_sds_to_RGB
+    training_data_sds_to_XYZ
+    best_illuminant
+    optimization_factory_rawtoaces_v1
+    optimization_factory_JzAzBz
+
 Colour Fitting
 --------------
 
