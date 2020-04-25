@@ -1,6 +1,11 @@
 Tutorial
 ========
 
+.. note::
+
+    An interactive version of the tutorial is available via
+    `Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
+
 `Colour <https://github.com/colour-science/Colour/>`__ spreads over
 various domains of Colour Science, from colour models to optical
 phenomena, this tutorial does not give a complete overview of the
@@ -37,8 +42,8 @@ Overview
     representation.
 -   :doc:`contrast <colour.contrast>`: Objects for contrast sensitivity
     computation.
--   :doc:`characterisation <colour.characterisation>`: Colour fitting and
-    camera characterisation.
+-   :doc:`characterisation <colour.characterisation>`: Colour correction,
+    camera and display characterisation.
 -   :doc:`colorimetry <colour.colorimetry>`: Core objects for colour
     computations.
 -   :doc:`constants <colour.constants>`: *CIE* and *CODATA* constants.
@@ -346,6 +351,7 @@ the objects needed for spectral computations and many others:
      'SpectralDistribution',
      'MultiSpectralDistributions',
      'sds_and_multi_sds_to_sds',
+     'sds_and_multi_sds_to_multi_sds',
      'sd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
@@ -785,11 +791,11 @@ with user defined dimensions:
 The ``colour.SpectralDistribution`` class supports the following
 arithmetical operations:
 
--  *addition*
--  *subtraction*
--  *multiplication*
--  *division*
--  *exponentiation*
+-   *addition*
+-   *subtraction*
+-   *multiplication*
+-   *division*
+-   *exponentiation*
 
 .. code:: python
 
@@ -1176,8 +1182,8 @@ various colour rendition charts:
 
 .. code-block:: text
 
-    [u'BabelColor Average', u'ColorChecker 1976', u'ColorChecker 2005', u'ColorChecker24 - After November 2014', u'ColorChecker24 - Before November 2014', u'babel_average', u'cc2005', u'cca2014', u'ccb2014']
-    [u'BabelColor Average', u'ColorChecker N Ohta', u'babel_average', u'cc_ohta']
+    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
+    ['BabelColor Average', 'ColorChecker N Ohta', 'babel_average', 'cc_ohta']
 
 .. note::
 
@@ -1256,10 +1262,9 @@ Chromaticity coordinates *CIE xy* can be plotted into the *CIE 1931 Chromaticity
 
 .. image:: _static/Tutorial_CIE_1931_Chromaticity_Diagram.png
 
-And More...
------------
+See More
+--------
 
-With the hope that this small introduction was useful and gave envy to see more,
-a good place to explore the API further is the
-`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
-page.
+-   The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
+    guide for **Colour** shows various techniques to solve specific problems
+    and highlights some interesting use cases.
