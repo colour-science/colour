@@ -86,7 +86,8 @@ def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
     """
 
     optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_args', 'optimisation_kwargs']],
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
     }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     uv = as_float_array(uv)

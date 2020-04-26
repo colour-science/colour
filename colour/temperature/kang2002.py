@@ -81,7 +81,8 @@ def xy_to_CCT_Kang2002(xy, optimisation_kwargs=None, **kwargs):
     """
 
     optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_args', 'optimisation_kwargs']],
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
     }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     xy = as_float_array(xy)

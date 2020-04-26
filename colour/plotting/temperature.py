@@ -276,7 +276,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     """
 
     annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
@@ -446,7 +446,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
     """
 
     annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     settings = dict(kwargs)
@@ -520,7 +520,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
     """
 
     annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     settings = dict(kwargs)

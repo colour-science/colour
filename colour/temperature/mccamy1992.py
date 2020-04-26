@@ -116,7 +116,8 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None, **kwargs):
     """
 
     optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_args', 'optimisation_kwargs']],
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
     }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     usage_warning('"*McCamy (1992)" method for computing "CIE xy" '

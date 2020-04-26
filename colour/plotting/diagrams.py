@@ -639,7 +639,7 @@ def plot_sds_in_chromaticity_diagram(
     """
 
     annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     sds = sds_and_multi_sds_to_sds(sds)
@@ -814,7 +814,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
     """
 
     annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     settings = dict(kwargs)
@@ -891,7 +891,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
     """
 
     annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     settings = dict(kwargs)
@@ -968,7 +968,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
     """
 
     annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_args', 'annotate_kwargs']],
+        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     settings = dict(kwargs)
