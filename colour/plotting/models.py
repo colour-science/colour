@@ -715,7 +715,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     """
 
     scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
     }, **kwargs).get('scatter_kwargs', scatter_kwargs)
 
     RGB = as_float_array(RGB).reshape(-1, 3)
@@ -832,7 +832,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
     """
 
     scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
     }, **kwargs).get('scatter_kwargs', scatter_kwargs)
 
     settings = dict(kwargs)
@@ -905,7 +905,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1960UCS.png
     """
 
     scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
     }, **kwargs).get('scatter_kwargs', scatter_kwargs)
 
     settings = dict(kwargs)
@@ -978,7 +978,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
     """
 
     scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
     }, **kwargs).get('scatter_kwargs', scatter_kwargs)
 
     settings = dict(kwargs)
@@ -1123,7 +1123,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
     """
 
     ellipse_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['ellipse_args', 'ellipse_kwargs']],
+        'ArgumentRenamed': [['ellipse_parameters', 'ellipse_kwargs']],
     }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
 
     settings = {'uniform': True}
@@ -1245,7 +1245,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1931.png
     """
 
     ellipse_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['ellipse_args', 'ellipse_kwargs']],
+        'ArgumentRenamed': [['ellipse_parameters', 'ellipse_kwargs']],
     }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
 
     settings = dict(kwargs)
@@ -1313,7 +1313,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1960UCS.png
     """
 
     ellipse_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['ellipse_args', 'ellipse_kwargs']],
+        'ArgumentRenamed': [['ellipse_parameters', 'ellipse_kwargs']],
     }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
 
     settings = dict(kwargs)
@@ -1381,7 +1381,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
     """
 
     ellipse_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['ellipse_args', 'ellipse_kwargs']],
+        'ArgumentRenamed': [['ellipse_parameters', 'ellipse_kwargs']],
     }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
 
     settings = dict(kwargs)
@@ -1634,7 +1634,7 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
     """
 
     scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_args', 'scatter_kwargs']],
+        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
     }, **kwargs).get('scatter_kwargs', scatter_kwargs)
 
     # TODO: Filter appropriate colour models.

@@ -161,7 +161,8 @@ def XYZ_to_sd_Meng2015(
     """
 
     optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_args', 'optimisation_kwargs']],
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
     }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     XYZ = to_domain_1(XYZ)

@@ -196,7 +196,8 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
     """
 
     optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_args', 'optimisation_kwargs']],
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
     }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     Ljg = to_domain_100(Ljg)
