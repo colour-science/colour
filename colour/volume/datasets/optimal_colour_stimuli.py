@@ -20,7 +20,7 @@ References
 ----------
 -   :cite:`MacAdam1935a` : MacAdam, D. L. (1935). Maximum Visual Efficiency of
     Colored Materials. Journal of the Optical Society of America, 25(11),
-    361-367. DOI:10.1364/JOSA.25.000361
+    361-367. doi:10.1364/JOSA.25.000361
 -   :cite:`Wikipedia2004a` : Wikipedia. (2004). Surfaces. Retrieved September
     10, 2014, from http://en.wikipedia.org/wiki/Gamut#Surfaces
 -   :cite:`Wyszecki2000bb` : Wyszecki, G., & Stiles, W. S. (2000).

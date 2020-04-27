@@ -4,10 +4,10 @@ References
 ----------
 -   :cite:`Meng2015c` : Meng, J., Simon, F., Hanika, J., & Dachsbacher, C.
     (2015). Physically Meaningful Rendering using Tristimulus Colours. Computer
-    Graphics Forum, 34(4), 31-40. DOI:10.1111/cgf.12676
+    Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
     Reflectances. Journal of Graphics Tools, 4(4), 11-22.
-    DOI:10.1080/10867651.1999.10487511
+    doi:10.1080/10867651.1999.10487511
 """
 
 from __future__ import absolute_import

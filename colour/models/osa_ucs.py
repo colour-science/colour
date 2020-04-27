@@ -13,7 +13,7 @@ References
 -   :cite:`Cao2013` : Cao, R., Trussell, H. J., & Shamey, R. (2013). Comparison
     of the performance of inverse transformation methods from OSA-UCS to
     CIEXYZ. Journal of the Optical Society of America A, 30(8), 1508.
-    DOI:10.1364/JOSAA.30.001508
+    doi:10.1364/JOSAA.30.001508
 -   :cite:`Moroney2003` : Moroney, N. (2003). A radial sampling of the OSA
     uniform color scales. Color and Imaging Conference, 1-14. Retrieved from
     http://www.ingentaconnect.com/content/\

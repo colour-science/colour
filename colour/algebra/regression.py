@@ -13,7 +13,7 @@ References
 -   :cite:`Finlayson2015` : Finlayson, G. D., MacKiewicz, M., & Hurlbert, A.
     (2015). Color Correction Using Root-Polynomial Regression. IEEE
     Transactions on Image Processing, 24(5), 1460-1470.
-    DOI:10.1109/TIP.2015.2405336
+    doi:10.1109/TIP.2015.2405336
 """
 
 from __future__ import division, unicode_literals

@@ -15,7 +15,7 @@ References
 ----------
 -   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
-    Application, 27(1), 49-58. DOI:10.1002/col.10005
+    Application, 27(1), 49-58. doi:10.1002/col.10005
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     CMCCAT2000. In Computational Colour Science Using MATLAB
     (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5

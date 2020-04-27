@@ -19,7 +19,7 @@ References
 ----------
 -   :cite:`Stearns1988a` : Stearns, E. I., & Stearns, R. E. (1988). An example
     of a method for correcting radiance data for Bandpass error. Color Research
-    & Application, 13(4), 257-259. DOI:10.1002/col.5080130410
+    & Application, 13(4), 257-259. doi:10.1002/col.5080130410
 -   :cite:`Westland2012f` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     Correction for Spectral Bandpass. In Computational Colour Science Using
     MATLAB (2nd ed., p. 38). ISBN:978-0-470-66569-5

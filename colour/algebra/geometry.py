@@ -23,7 +23,7 @@ References
     Retrieved January 15, 2016, from http://www.mathworks.com/matlabcentral/\
 fileexchange/27205-fast-line-segment-intersection
 -   :cite:`Halir1998` : Halir, R., & Flusser, J. (1998). Numerically Stable
-    Direct Least Squares Fitting Of Ellipses, 1-8. DOI:10.1.1.1.7559
+    Direct Least Squares Fitting Of Ellipses, 1-8. doi:10.1.1.1.7559
 -   :cite:`Saeedna` : Saeedn. (n.d.). Extend a line segment a specific
     distance. Retrieved January 16, 2016, from http://stackoverflow.com/\
 questions/7740507/extend-a-line-segment-a-specific-distance

@@ -16,7 +16,7 @@ References
 -   :cite:`Nayatani1995a` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.
     (1995). Lightness dependency of chroma scales of a nonlinear
     color-appearance model and its latest formulation. Color Research &
-    Application, 20(3), 156-167. DOI:10.1002/col.5080200305
+    Application, 20(3), 156-167. doi:10.1002/col.5080200305
 """
 
 from __future__ import division, unicode_literals

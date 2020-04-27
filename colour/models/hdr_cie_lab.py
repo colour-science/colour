@@ -19,7 +19,7 @@ References
 -   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
     lightness, and specifying color in high-dynamic-range scenes and images.
     In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
-    System Performance VIII (p. 78670O). DOI:10.1117/12.872075
+    System Performance VIII (p. 78670O). doi:10.1117/12.872075
 """
 
 from __future__ import division, unicode_literals

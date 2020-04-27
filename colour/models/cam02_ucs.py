@@ -17,7 +17,7 @@ References
 ----------
 -   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
     spaces based on CIECAM02 colour appearance model. Color Research &
-    Application, 31(4), 320-330. DOI:10.1002/col.20227
+    Application, 31(4), 320-330. doi:10.1002/col.20227
 """
 
 from __future__ import division, unicode_literals

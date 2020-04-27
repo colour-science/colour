@@ -38,15 +38,15 @@ References
 -   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
     lightness, and specifying color in high-dynamic-range scenes and images.
     In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
-    System Performance VIII (p. 78670O). DOI:10.1117/12.872075
+    System Performance VIII (p. 78670O). doi:10.1117/12.872075
 -   :cite:`Glasser1958a` : Glasser, L. G., McKinney, A. H., Reilly, C. D., &
     Schnelle, P. D. (1958). Cube-Root Color Coordinate System. Journal of the
-    Optical Society of America, 48(10), 736. DOI:10.1364/JOSA.48.000736
+    Optical Society of America, 48(10), 736. doi:10.1364/JOSA.48.000736
 -   :cite:`Wikipedia2007c` : Wikipedia. (2007). Lightness. Retrieved April
     13, 2014, from http://en.wikipedia.org/wiki/Lightness
 -   :cite:`Wyszecki1963b` : Wyszecki, G. (1963). Proposal for a New
     Color-Difference Formula. Journal of the Optical Society of America,
-    53(11), 1318. DOI:10.1364/JOSA.53.001318
+    53(11), 1318. doi:10.1364/JOSA.53.001318
 -   :cite:`Wyszecki2000bd` : Wyszecki, G., & Stiles, W. S. (2000). CIE 1976
     (L*u*v*)-Space and Color-Difference Formula. In Color Science: Concepts and
     Methods, Quantitative Data and Formulae (p. 167). Wiley.

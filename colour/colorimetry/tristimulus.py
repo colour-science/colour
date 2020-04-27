@@ -24,10 +24,10 @@ References
 ----------
 -   :cite:`ASTMInternational2011a` : ASTM International. (2011). ASTM E2022-11
     - Standard Practice for Calculation of Weighting Factors for Tristimulus
-    Integration. DOI:10.1520/E2022-11
+    Integration. doi:10.1520/E2022-11
 -   :cite:`ASTMInternational2015b` : ASTM International. (2015). ASTM E308-15 -
     Standard Practice for Computing the Colors of Objects by Using the CIE
-    System. DOI:10.1520/E0308-15
+    System. doi:10.1520/E0308-15
 -   :cite:`Wyszecki2000bf` : Wyszecki, G., & Stiles, W. S. (2000). Integration
     Replaced by Summation. In Color Science: Concepts and Methods, Quantitative
     Data and Formulae (pp. 158-163). Wiley. ISBN:978-0471399186

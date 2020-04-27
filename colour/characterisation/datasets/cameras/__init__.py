@@ -5,7 +5,7 @@ References
 -   :cite:`Darrodi2015a` : Darrodi, M. M., Finlayson, G., Goodman, T., &
     Mackiewicz, M. (2015). Reference data set for camera spectral sensitivity
     estimation. Journal of the Optical Society of America A, 32(3), 381.
-    DOI:10.1364/JOSAA.32.000381
+    doi:10.1364/JOSAA.32.000381
 """
 
 from __future__ import absolute_import

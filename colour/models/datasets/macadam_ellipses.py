@@ -14,7 +14,7 @@ References
     Quantitative Data and Formulae (p. 309). Wiley. ISBN:978-0471399186
 -   :cite:`Macadam1942` : Macadam, D. L. (1942). Visual Sensitivities to Color
     Differences in Daylight. Journal of the Optical Society of America, 32(5),
-    28. DOI:10.1364/JOSA.32.000247
+    28. doi:10.1364/JOSA.32.000247
 """
 
 from __future__ import division, unicode_literals
