@@ -5,11 +5,11 @@ References
 -   :cite:`ASTMInternational2007` : ASTM International. (2007). ASTM D2244-07 -
     Standard Practice for Calculation of Color Tolerances and Color Differences
     from Instrumentally Measured Color Coordinates, i, 1-10.
-    doi:10.1520/D2244-07
+    DOI:10.1520/D2244-07
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
     Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
     CAM16-UCS. Color Research & Application, 42(6), 703-718.
-    doi:10.1002/col.22131
+    DOI:10.1002/col.22131
 -   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
@@ -23,7 +23,7 @@ References
     http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
 -   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
     spaces based on CIECAM02 colour appearance model. Color Research &
-    Application, 31(4), 320-330. doi:10.1002/col.20227
+    Application, 31(4), 320-330. DOI:10.1002/col.20227
 -   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
     CIEDE2000. Retrieved from http://www.color.org/events/colorimetry/\
 Melgosa_CIEDE2000_Workshop-July4.pdf

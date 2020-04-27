@@ -32,13 +32,13 @@ References
 -   :cite:`Ebner1998` : Ebner, F., & Fairchild, M. D. (1998). Finding constant
     hue surfaces in color space. In G. B. Beretta & R. Eschbach (Eds.), Proc.
     SPIE 3300, Color Imaging: Device-Independent Color, Color Hardcopy, and
-    Graphic Arts III, (2 January 1998) (pp. 107-117). doi:10.1117/12.298269
+    Graphic Arts III, (2 January 1998) (pp. 107-117). DOI:10.1117/12.298269
 -   :cite:`Hung1995` : Hung, P.-C., & Berns, R. S. (1995). Determination of
     constant Hue Loci for a CRT gamut and their predictions using color
     appearance spaces. Color Research & Application, 20(5), 285-295.
-    doi:10.1002/col.5080200506
+    DOI:10.1002/col.5080200506
 -   :cite:`Mansencal2019` : Mansencal, T. (2019). Colour - Datasets.
-    doi:10.5281/zenodo.3362520
+    DOI:10.5281/zenodo.3362520
 """
 
 from __future__ import division

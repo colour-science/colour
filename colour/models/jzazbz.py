@@ -13,7 +13,7 @@ References
 -   :cite:`Safdar2017` : Safdar, M., Cui, G., Kim, Y. J., & Luo, M. R. (2017).
     Perceptually uniform color space for image signals including high dynamic
     range and wide gamut. Optics Express, 25(13), 15131.
-    doi:10.1364/OE.25.015131
+    DOI:10.1364/OE.25.015131
 """
 
 from __future__ import division, unicode_literals

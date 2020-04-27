@@ -32,7 +32,7 @@ References
 ----------
 -   :cite:`ASTMInternational2008a` : ASTM International. (2008).
     ASTM D1535-08e1 - Standard Practice for Specifying Color by the Munsell
-    System. doi:10.1520/D1535-08E01
+    System. DOI:10.1520/D1535-08E01
 -   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
     spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
     ISBN:978-3-901-90633-6
@@ -43,11 +43,11 @@ References
 -   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
     lightness, and specifying color in high-dynamic-range scenes and images.
     In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
-    System Performance VIII (p. 78670O). doi:10.1117/12.872075
+    System Performance VIII (p. 78670O). DOI:10.1117/12.872075
 -   :cite:`Newhall1943a` : Newhall, S. M., Nickerson, D., & Judd, D. B. (1943).
     Final Report of the OSA Subcommittee on the Spacing of the Munsell Colors.
     Journal of the Optical Society of America, 33(7), 385.
-    doi:10.1364/JOSA.33.000385
+    DOI:10.1364/JOSA.33.000385
 -   :cite:`Wikipedia2001b` : Wikipedia. (2001). Luminance. Retrieved February
     10, 2018, from https://en.wikipedia.org/wiki/Luminance
 -   :cite:`Wyszecki2000bd` : Wyszecki, G., & Stiles, W. S. (2000). CIE 1976

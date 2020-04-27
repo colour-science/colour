@@ -24,7 +24,7 @@ tritanopia-blue-yellow-color-blindness/
 -   :cite:`Machado2009` : Machado, G. M., Oliveira, M. M., & Fernandes, L.
     (2009). A Physiologically-based Model for Simulation of Color Vision
     Deficiency. IEEE Transactions on Visualization and Computer Graphics,
-    15(6), 1291-1298. doi:10.1109/TVCG.2009.113
+    15(6), 1291-1298. DOI:10.1109/TVCG.2009.113
 """
 
 from __future__ import division, unicode_literals

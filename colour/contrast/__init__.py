@@ -3,10 +3,10 @@
 References
 ----------
 -   :cite:`Barten1999` : Barten, P. G. (1999). Contrast Sensitivity of the
-    Human Eye and Its Effects on Image Quality. SPIE. doi:10.1117/3.353254
+    Human Eye and Its Effects on Image Quality. SPIE. DOI:10.1117/3.353254
 -   :cite:`Barten2003` : Barten, P. G. J. (2003). Formula for the contrast
     sensitivity of the human eye. In Y. Miyake & D. R. Rasmussen (Eds.),
-    Proceedings of SPIE (Vol. 5294, pp. 231-238). doi:10.1117/12.537476
+    Proceedings of SPIE (Vol. 5294, pp. 231-238). DOI:10.1117/12.537476
 -   :cite:`Cowan2004` : Cowan, M., Kennel, G., Maier, T., Walker, B., & Cowan,
     M. (2004). Constant Sensitivity Experiment to Determine the Bit Depth for
     Digital Cinema, (September). Retrieved from

@@ -58,7 +58,7 @@ References
     from http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
 -   :cite:`Centore2012a` : Centore, P. (2012). An open-source inversion
     algorithm for the Munsell renotation. Color Research & Application, 37(6),
-    455-464. doi:10.1002/col.20715
+    455-464. DOI:10.1002/col.20715
 -   :cite:`Centore2014k` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/MunsellHueToASTMHue.m. Retrieved from

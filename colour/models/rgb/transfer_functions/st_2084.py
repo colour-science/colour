@@ -17,7 +17,7 @@ files/2014-05-06-EOTF-Miller-1-2-handout.pdf
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers2014a` : Society of
     Motion Picture and Television Engineers. (2014). SMPTE ST 2084:2014 -
     Dynamic Range Electro-Optical Transfer Function of Mastering Reference
-    Displays. doi:10.5594/SMPTE.ST2084.2014
+    Displays. DOI:10.5594/SMPTE.ST2084.2014
 """
 
 from __future__ import division, unicode_literals

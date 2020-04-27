@@ -34,7 +34,7 @@ References
     from http://paulbourke.net/miscellaneous/interpolation/
 -   :cite:`Burger2009b` : Burger, W., & Burge, M. J. (2009). Principles of
     Digital Image Processing. London: Springer London.
-    doi:10.1007/978-1-84800-195-4
+    DOI:10.1007/978-1-84800-195-4
 -   :cite:`CIETC1-382005f` : CIE TC 1-38. (2005). 9.2.4 Method of
     interpolation for uniformly spaced independent variable. In CIE 167:2005
     Recommended Practice for Tabulating Spectral Data for Use in Colour
@@ -45,7 +45,7 @@ References
     ISBN:978-3-901-90641-1
 -   :cite:`Fairman1985b` : Fairman, H. S. (1985). The calculation of weight
     factors for tristimulus integration. Color Research & Application, 10(4),
-    199-203. doi:10.1002/col.5080100407
+    199-203. DOI:10.1002/col.5080100407
 -   :cite:`Kirk2006` : Kirk, R. (2006). Truelight Software Library 2.0.
     Retrieved from https://www.filmlight.ltd.uk/pdf/whitepapers/\
 FL-TL-TN-0057-SoftwareLib.pdf

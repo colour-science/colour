@@ -32,10 +32,10 @@ References
 ----------
 -   :cite:`Bianco2010a` : Bianco, S., & Schettini, R. (2010). Two new von Kries
     based chromatic adaptation transforms found by numerical optimization.
-    Color Research & Application, 35(3), 184-192. doi:10.1002/col.20573
+    Color Research & Application, 35(3), 184-192. DOI:10.1002/col.20573
 -   :cite:`Brill2008a` : Brill, M. H., & Susstrunk, S. (2008). Repairing gamut
     problems in CIECAM02: A progress report. Color Research & Application,
-    33(5), 424-426. doi:10.1002/col.20432
+    33(5), 424-426. DOI:10.1002/col.20432
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
     Adaptations. ISBN:978-3-900734-51-0
@@ -54,7 +54,7 @@ References
 -   :cite:`Nayatani1995a` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.
     (1995). Lightness dependency of chroma scales of a nonlinear
     color-appearance model and its latest formulation. Color Research &
-    Application, 20(3), 156-167. doi:10.1002/col.5080200305
+    Application, 20(3), 156-167. DOI:10.1002/col.5080200305
 -   :cite:`Westland2012g` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     CMCCAT97. In Computational Colour Science Using MATLAB (2nd ed., p. 80).
     ISBN:978-0-470-66569-5
