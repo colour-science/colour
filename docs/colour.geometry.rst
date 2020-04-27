@@ -25,7 +25,7 @@ Primitives
 .. autosummary::
     :toctree: generated/
 
-    PLANES_TO_AXIS_MAPPING
+    PLANE_TO_AXIS_MAPPING
     primitive_grid
     primitive_cube
 

@@ -331,25 +331,32 @@ def filter_warnings(colour_runtime_warnings=None,
 
     Examples
     --------
-    # Filtering *Colour* runtime warnings:
+    Filtering *Colour* runtime warnings:
+
     >>> filter_warnings(colour_runtime_warnings=True)
 
-    # Filtering *Colour* usage warnings:
+    Filtering *Colour* usage warnings:
+
     >>> filter_warnings(colour_usage_warnings=True)
 
-    # Filtering *Colour* warnings:
+    Filtering *Colour* warnings:
+
     >>> filter_warnings(colour_warnings=True)
 
-    # Filtering all the *Colour* and also Python warnings:
+    Filtering all the *Colour* and also Python warnings:
+
     >>> filter_warnings(python_warnings=True)
 
-    # Enabling all the *Colour* and Python warnings:
+    Enabling all the *Colour* and Python warnings:
+
     >>> filter_warnings(*[False] * 4)
 
-    # Enabling all the *Colour* and Python warnings using the *default* action:
+    Enabling all the *Colour* and Python warnings using the *default* action:
+
     >>> filter_warnings(*['default'] * 4)
 
-    # Setting back the default state:
+    Setting back the default state:
+
     >>> filter_warnings(colour_runtime_warnings=True)
     """
 
