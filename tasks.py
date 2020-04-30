@@ -124,11 +124,12 @@ def formatting(ctx, yapf=False, asciify=True, bibtex=True):
                 del entry['file']
             except KeyError:
                 pass
+
             for key, value in entry.items():
                 entry[key] = re.sub('(?<!\\\\)\\&', '\\&', value)
 
         with open(bibtex_path, 'w') as bibtex_file:
-            for entry in bibtex.values():
+            for entry in sorted(bibtex.values(), key=lambda x: x.key):
                 bibtex_file.write(entry.to_bib())
                 bibtex_file.write('\n')
 

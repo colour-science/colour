@@ -6,7 +6,7 @@ References
 ----------
 -   :cite:`Fairman1985b` : Fairman, H. S. (1985). The calculation of weight
     factors for tristimulus integration. Color Research & Application, 10(4),
-    199-203. doi:10.1002/col.5080100407
+    199-203. DOI:10.1002/col.5080100407
 """
 
 from __future__ import division, unicode_literals

@@ -22,7 +22,7 @@ References
 -   :cite:`Guth1995a` : Guth, S. L. (1995). Further applications of the ATD
     model for color vision. In E. Walowit (Ed.), Proc. SPIE 2414,
     Device-Independent Color Imaging II (Vol. 2414, pp. 12-26).
-    doi:10.1117/12.206546
+    DOI:10.1117/12.206546
 """
 
 from __future__ import division, unicode_literals

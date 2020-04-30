@@ -11,7 +11,7 @@ References
 ----------
 -   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
     of an incomplete-chromatic-adaptation model. Color Research & Application,
-    16(4), 243-250. doi:10.1002/col.5080160406
+    16(4), 243-250. DOI:10.1002/col.5080160406
 -   :cite:`Fairchild2013s` : Fairchild, M. D. (2013). FAIRCHILD'S 1990 MODEL.
     In Color Appearance Models (3rd ed., pp. 4418-4495). Wiley. ISBN:B00DAYO8E2
 """

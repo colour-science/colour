@@ -23,7 +23,7 @@ References
 ----------
 -   :cite:`Ohno2005` : Ohno, Y. (2005). Spectral design considerations for
     white LED color rendering. Optical Engineering, 44(11), 111302.
-    doi:10.1117/1.2130694
+    DOI:10.1117/1.2130694
 -   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
 Retrieved from https://drive.google.com/file/d/\
 1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing

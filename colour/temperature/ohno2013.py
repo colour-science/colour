@@ -17,7 +17,7 @@ objects:
 References
 ----------
 -   :cite:`Ohno2014a` : Ohno, Y. (2014). Practical Use and Calculation of CCT
-    and Duv. LEUKOS, 10(1), 47-55. doi:10.1080/15502724.2014.839020
+    and Duv. LEUKOS, 10(1), 47-55. DOI:10.1080/15502724.2014.839020
 """
 
 from __future__ import division, unicode_literals

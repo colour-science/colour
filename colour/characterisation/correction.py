@@ -45,14 +45,14 @@ References
 -   :cite:`Cheung2004` : Cheung, V., Westland, S., Connah, D., & Ripamonti, C.
     (2004). A comparative study of the characterisation of colour cameras by
     means of neural networks and polynomial transforms. Coloration Technology,
-    120(1), 19-25. doi:10.1111/j.1478-4408.2004.tb00201.x
+    120(1), 19-25. DOI:10.1111/j.1478-4408.2004.tb00201.x
 -   :cite:`Finlayson2015` : Finlayson, G. D., MacKiewicz, M., & Hurlbert, A.
     (2015). Color Correction Using Root-Polynomial Regression. IEEE
     Transactions on Image Processing, 24(5), 1460-1470.
-    doi:10.1109/TIP.2015.2405336
+    DOI:10.1109/TIP.2015.2405336
 -   :cite:`Westland2004` : Westland, S., & Ripamonti, C. (2004). Table 8.2. In
     Computational Colour Science Using MATLAB (1st ed., p. 137). Chichester,
-    UK: John Wiley & Sons, Ltd. doi:10.1002/0470020326
+    UK: John Wiley & Sons, Ltd. DOI:10.1002/0470020326
 -   :cite:`Wikipedia2003e` : Wikipedia. (2003). Vandermonde matrix. Retrieved
     May 2, 2018, from https://en.wikipedia.org/wiki/Vandermonde_matrix
 """

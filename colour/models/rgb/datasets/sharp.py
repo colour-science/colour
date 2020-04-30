@@ -12,11 +12,11 @@ References
 -   :cite:`Susstrunk2000` : Susstrunk, S. E., Holm, J. M., & Finlayson, G. D.
     (2000). Chromatic adaptation performance of different RGB sensors.
     In R. Eschbach & G. G. Marcu (Eds.), Photonics West 2001 - Electronic
-    Imaging (Vol. 4300, pp. 172-183). doi:10.1117/12.410788
+    Imaging (Vol. 4300, pp. 172-183). DOI:10.1117/12.410788
 -   :cite:`Ward2002` : Ward, G., & Eydelberg-Vileshin, E. (2002). Picture
     Perfect RGB Rendering Using Spectral Prefiltering and Sharp Color
     Primaries. Eurographics Workshop on Rendering, 117-124.
-    doi:10.2312/EGWR/EGWR02/117-124
+    DOI:10.2312/EGWR/EGWR02/117-124
 -   :cite:`Ward2016` : Ward, G. (2016). Private Discussion with Mansencal, T.
 """
 

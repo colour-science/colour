@@ -18,7 +18,7 @@ References
 -   :cite:`Hernandez-Andres1999a` : Hernandez-Andres, J., Lee, R. L., &
     Romero, J. (1999). Calculating correlated color temperatures across the
     entire gamut of daylight and skylight chromaticities. Applied Optics,
-    38(27), 5703. doi:10.1364/AO.38.005703
+    38(27), 5703. DOI:10.1364/AO.38.005703
 """
 
 from __future__ import division, unicode_literals

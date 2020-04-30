@@ -11,7 +11,7 @@ Defines *Colour Quality Scale* (CQS) computation objects:
 References
 ----------
 -   :cite:`Davis2010a` : Davis, W., & Ohno, Y. (2010). Color quality scale.
-    Optical Engineering, 49(3), 33602. doi:10.1117/1.3360335
+    Optical Engineering, 49(3), 33602. DOI:10.1117/1.3360335
 -   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
     Retrieved from https://drive.google.com/file/d/\
 1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing

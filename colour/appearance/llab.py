@@ -16,7 +16,7 @@ References
     Appearance Models (3rd ed., pp. 6025-6178). Wiley. ISBN:B00DAYO8E2
 -   :cite:`Luo1996b` : Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB
     (l:c) colour model. Color Research & Application, 21(6), 412-429.
-    doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
+    DOI:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
 -   :cite:`Luo1996c` : Luo, M. R., & Morovic, J. (1996). Two Unsolved Issues in
     Colour Management - Colour Appearance and Gamut Mapping. In Conference:
     5th International Conference on High Technology: Imaging Science and

@@ -29,7 +29,7 @@ References
 -   :cite:`Smith1978b` : Smith, A. R. (1978). Color gamut transform pairs. In
     Proceedings of the 5th annual conference on Computer graphics and
     interactive techniques - SIGGRAPH '78 (pp. 12-19). New York, New York,
-    USA: ACM Press. doi:10.1145/800248.807361
+    USA: ACM Press. DOI:10.1145/800248.807361
 -   :cite:`Wikipedia2003` : Wikipedia. (2003). HSL and HSV. Retrieved
     September 10, 2014, from http://en.wikipedia.org/wiki/HSL_and_HSV
 """

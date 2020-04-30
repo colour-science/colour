@@ -19,7 +19,7 @@ References
     Motion Picture and Television Engineers. (1993). RP 177:1993 : Derivation
     of Basic Television Color Equations. RP 177:1993 (Vol. RP 177:199). The
     Society of Motion Picture and Television Engineers.
-    doi:10.5594/S9781614821915
+    DOI:10.5594/S9781614821915
 -   :cite:`Trieu2015a` : Trieu, T. (2015). Private Discussion with
     Mansencal, T.
 """
