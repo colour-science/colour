@@ -16,7 +16,7 @@ References
 ----------
 -   :cite:`CIETC1-362006a` : CIE TC 1-36. (2006). CIE 170-1:2006 Fundamental
     Chromaticity Diagram with Physiological Axes - Part 1. Commission
-    Internationale de l"Eclairage. ISBN:978-3-901906-46-6
+    Internationale de l'Eclairage. ISBN:978-3-901906-46-6
 -   :cite:`CVRLp` : CVRL. (n.d.-b). CIE (2012) 10-deg XYZ
     "physiologically-relevant" colour matching functions. Retrieved June 25,
     2014, from http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm

@@ -13,7 +13,7 @@ References
     doi:10.1364/JOSAA.4.001115
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
-    Adaptations. Commission Internationale de l"Eclairage.
+    Adaptations. Commission Internationale de l'Eclairage.
     ISBN:978-3-900734-51-0
 -   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
     of an incomplete-chromatic-adaptation model. Color Research & Application,

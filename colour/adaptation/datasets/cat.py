@@ -38,7 +38,7 @@ References
     33(5), 424-426. doi:10.1002/col.20432
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
-    Adaptations. Commission Internationale de l"Eclairage.
+    Adaptations. Commission Internationale de l'Eclairage.
     ISBN:978-3-900734-51-0
 -   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013g). The Nayatani et al.
     Model. In Color Appearance Models (3rd ed., pp. 4810-5085). Wiley.
