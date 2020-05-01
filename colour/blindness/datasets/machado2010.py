@@ -14,9 +14,10 @@ blob/master/notebooks/cvd/Machado2009.ipynb>`__
 
 References
 ----------
--   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of
-    color vision deficiency and a color contrast enhancement technique for
-    dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
+-   :cite:`Machado2010a` : Machado, Gustavo Mello. (2010). A model for
+    simulation of color vision deficiency and a color contrast enhancement
+    technique for dichromats. (pp. 1-94).
+    http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals

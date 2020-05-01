@@ -11,8 +11,9 @@ Defines the *DJI D-Log* log encoding:
 References
 ----------
 -   :cite:`DJI2017` : Dji. (2017). White Paper on D-Log and D-Gamut of DJI
-    Cinema Color System. Retrieved from https://dl.djicdn.com/downloads/\
-zenmuse+x7/20171010/D-Log_D-Gamut_Whitepaper.pdf
+    Cinema Color System (pp. 1-5).
+    https://dl.djicdn.com/downloads/zenmuse+x7/20171010/\
+D-Log_D-Gamut_Whitepaper.pdf
 """
 
 from __future__ import division, unicode_literals

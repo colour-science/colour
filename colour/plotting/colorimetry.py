@@ -21,8 +21,8 @@ Defines the colorimetry plotting objects:
 
 References
 ----------
--   :cite:`Spiker2015a` : Spiker, N. (2015). Private Discussion with
-    Mansencal, T. Retrieved from http://www.invisiblelightimages.com/
+-   :cite:`Spiker2015a` : Borer, T. (2017). Private Discussion with Mansencal,
+    T. and Shaw, N.
 """
 
 from __future__ import division

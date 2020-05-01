@@ -14,13 +14,12 @@ Defines the *CIE xyY* colourspace transformations:
 
 References
 ----------
--   :cite:`Lindbloom2003e` : Lindbloom, B. (2003). XYZ to xyY. Retrieved
+-   :cite:`Lindbloom2003e` : Lindbloom, B. (2003b). XYZ to xyY. Retrieved
     February 24, 2014, from http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
--   :cite:`Lindbloom2009d` : Lindbloom, B. (2009). xyY to XYZ. Retrieved
+-   :cite:`Lindbloom2009d` : Lindbloom, B. (2009d). xyY to XYZ. Retrieved
     February 24, 2014, from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
--   :cite:`Wikipedia2005` : Wikipedia. (2005). CIE 1931 color space. Retrieved
+-   :cite:`Wikipedia2005` : Wikipedia. (2005a). CIE 1931 color space. Retrieved
     February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1931_color_space
-
 """
 
 from __future__ import division, unicode_literals

@@ -11,11 +11,10 @@ Defines the *Hunter L,a,b* colour scale transformations:
 
 References
 ----------
--   :cite:`HunterLab2008b` : HunterLab. (2008). Hunter L,a,b Color Scale.
-    Retrieved from http://www.hunterlab.se/wp-content/uploads/2012/11/\
-Hunter-L-a-b.pdf
--   :cite:`HunterLab2008c` : HunterLab. (2008). Illuminant Factors in Universal
-    Software and EasyMatch Coatings. Retrieved from
+-   :cite:`HunterLab2008b` : HunterLab. (2008a). Hunter L,a,b Color Scale.
+    http://www.hunterlab.se/wp-content/uploads/2012/11/Hunter-L-a-b.pdf
+-   :cite:`HunterLab2008c` : HunterLab. (2008b). Illuminant Factors in
+    Universal Software and EasyMatch Coatings.
     https://support.hunterlab.com/hc/en-us/article_attachments/201437785/\
 an02_02.pdf
 """

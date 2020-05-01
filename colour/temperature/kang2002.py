@@ -15,10 +15,9 @@ computations objects:
 
 References
 ----------
--   :cite:`Kang2002a` : Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., &
-    Kim, Y. (2002). Design of advanced color: Temperature control system for
-    HDTV applications. Journal of the Korean Physical Society, 41(6), 865-871.
-    Retrieved from http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
+-   :cite:`Kang2002a` : Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., & Kim,
+    Y. (2002). Design of advanced color: Temperature control system for HDTV
+    applications. Journal of the Korean Physical Society, 41(6), 865-871.
 """
 
 from __future__ import division, unicode_literals

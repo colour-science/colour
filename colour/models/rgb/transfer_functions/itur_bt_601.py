@@ -12,9 +12,9 @@ its inverse:
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2011f` : International
-    Telecommunication Union. (2011). Recommendation ITU-R BT.601-7 - Studio
+    Telecommunication Union. (2011a). Recommendation ITU-R BT.601-7 - Studio
     encoding parameters of digital television for standard 4:3 and wide-screen
-    16:9 aspect ratios. Retrieved from
+    16:9 aspect ratios.
     http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.601-7-201103-I!!PDF-E.pdf
 """

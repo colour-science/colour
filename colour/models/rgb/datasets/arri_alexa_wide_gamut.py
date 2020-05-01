@@ -10,8 +10,7 @@ Defines the *ARRI ALEXA Wide Gamut* colourspace:
 References
 ----------
 -   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
-    Retrieved from https://drive.google.com/\
-open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
+    https://drive.google.com/open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
 """
 
 from __future__ import division, unicode_literals

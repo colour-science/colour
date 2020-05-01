@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.algebra.random` module.
+References
+----------
+-   :cite:`Laurent2012a` : Laurent. (2012). Reproducibility of python
+    pseudo-random numbers across systems and versions? Retrieved January 20,
+    2015, from
+    http://stackoverflow.com/questions/8786084/\
+reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
 from __future__ import division, unicode_literals

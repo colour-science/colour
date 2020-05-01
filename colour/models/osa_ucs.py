@@ -14,10 +14,9 @@ References
     of the performance of inverse transformation methods from OSA-UCS to
     CIEXYZ. Journal of the Optical Society of America A, 30(8), 1508.
     doi:10.1364/JOSAA.30.001508
--   :cite:`Moroney2003` : Moroney, N. (2003). A radial sampling of the OSA
-    uniform color scales. Color and Imaging Conference, 1-14. Retrieved from
-    http://www.ingentaconnect.com/content/\
-ist/cic/2003/00002003/00000001/art00031
+-   :cite:`Moroney2003` : Moroney, N. (2003). A Radial Sampling of the OSA
+    Uniform Color Scales. Color and Imaging Conference, 2003(1), 175-180.
+    ISSN:2166-9635
 """
 
 from __future__ import division, unicode_literals

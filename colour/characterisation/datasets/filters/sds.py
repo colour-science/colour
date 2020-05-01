@@ -5,9 +5,8 @@ Filter Spectral Distributions
 
 Defines *filter* spectral distributions.
 
-Each *filter* data is in the form of :class:`OrderedDict`
-class instance of :class:`colour.SpectralDistribution` classes as
-follows::
+Each *filter* data is in the form of :class:`OrderedDict` class instance of
+:class:`colour.SpectralDistribution` classes as follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 

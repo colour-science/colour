@@ -14,7 +14,7 @@ References
 -   :cite:`AssociationofRadioIndustriesandBusinesses2015a` : Association of
     Radio Industries and Businesses. (2015). Essential Parameter Values for the
     Extended Image Dynamic Range Television (EIDRTV) System for Programme
-    Production. Retrieved from
+    Production.
     https://www.arib.or.jp/english/std_tr/broadcasting/desc/std-b67.html
 """
 

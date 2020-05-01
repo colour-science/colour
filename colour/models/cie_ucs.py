@@ -14,11 +14,11 @@ Defines the *CIE 1960 UCS* colourspace transformations:
 
 References
 ----------
--   :cite:`Wikipedia2008c` : Wikipedia. (2008). Relation to CIE XYZ. Retrieved
-    February 24, 2014, from http://en.wikipedia.org/wiki/\
-CIE_1960_color_space#Relation_to_CIE_XYZ
--   :cite:`Wikipedia2008` : Wikipedia. (2008). CIE 1960 color space. Retrieved
+-   :cite:`Wikipedia2008` : Wikipedia. (2008a). CIE 1960 color space. Retrieved
     February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1960_color_space
+-   :cite:`Wikipedia2008c` : Wikipedia. (2008d). Relation to CIE XYZ. Retrieved
+    February 24, 2014, from
+    http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ
 """
 
 from __future__ import division, unicode_literals

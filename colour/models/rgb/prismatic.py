@@ -11,7 +11,7 @@ Defines the *Prismatic* colourspace transformations:
 References
 ----------
 -   :cite:`Shirley2015a` : Shirley, P., & Hart, D. (2015). The prismatic color
-    space for rgb computations.
+    space for rgb computations (pp. 2-7).
 """
 
 from __future__ import division, unicode_literals

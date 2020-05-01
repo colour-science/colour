@@ -3,8 +3,8 @@
 :math:`\\Delta E'` - Delta E Colour Difference - Luo, Cui and Li (2006)
 ======================================================================
 
-Defines :math:`\\Delta E'` colour difference computation objects based on
-*Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
+Defines :math:`\\Delta E'` colour difference computation objects based on *Luo
+et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
 
 -   :func:`colour.difference.delta_E_CAM02LCD`
 -   :func:`colour.difference.delta_E_CAM02SCD`
@@ -12,8 +12,8 @@ Defines :math:`\\Delta E'` colour difference computation objects based on
 
 References
 ----------
--   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
-    spaces based on CIECAM02 colour appearance model. Color Research &
+-   :cite:`Luo2006b` : Luo, M. Ronnier, Cui, G., & Li, C. (2006). Uniform
+    colour spaces based on CIECAM02 colour appearance model. Color Research &
     Application, 31(4), 320-330. doi:10.1002/col.20227
 """
 

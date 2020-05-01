@@ -6,6 +6,13 @@ Random Numbers Utilities
 Defines random numbers generator objects:
 
 -   :func:`colour.algebra.random_triplet_generator`
+References
+----------
+-   :cite:`Laurent2012a` : Laurent. (2012). Reproducibility of python
+    pseudo-random numbers across systems and versions? Retrieved January 20,
+    2015, from
+    http://stackoverflow.com/questions/8786084/\
+reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
 from __future__ import division, unicode_literals

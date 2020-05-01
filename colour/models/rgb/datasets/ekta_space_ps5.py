@@ -9,7 +9,7 @@ Defines the *Ekta Space PS 5* colourspace:
 
 References
 ----------
--   :cite:`Holmesa` : Holmes, J. (n.d.). Ekta Space PS 5. Retrieved from
+-   :cite:`Holmesa` : Holmes, J. (n.d.). Ekta Space PS 5.
     https://www.josephholmes.com/userfiles/Ekta_Space_PS5_JHolmes.zip
 """
 

@@ -8,30 +8,30 @@ computations objects:
 
 -   :func:`colour.temperature.uv_to_CCT_Robertson1968`: Correlated colour
     temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` computation of given
-    *CIE UCS* colourspace *uv* chromaticity coordinates using
-    *Robertson (1968)* method.
+    *CIE UCS* colourspace *uv* chromaticity coordinates using *Robertson
+    (1968)* method.
 -   :func:`colour.temperature.CCT_to_uv_Robertson1968`: *CIE UCS* colourspace
     *uv* chromaticity coordinates computation of given correlated colour
-    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
-    *Robertson (1968)* method.
+    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using *Robertson
+    (1968)* method.
 
 References
 ----------
--   :cite:`AdobeSystems2013` : Adobe Systems. (2013). Adobe DNG Software
-    Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/\
-dng_temperature.cpp::dng_temperature::Set_xy_coord. Retrieved from
+-   :cite:`AdobeSystems2013` : Adobe Systems. (2013a). Adobe DNG Software
+    Development Kit (SDK) - 1.3.0.0 -
+    dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::\
+Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
+-   :cite:`AdobeSystems2013a` : Adobe Systems. (2013b). Adobe DNG Software
+    Development Kit (SDK) - 1.3.0.0 -
+    dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::xy_coord.
     https://www.adobe.com/support/downloads/dng/dng_sdk.html
--   :cite:`AdobeSystems2013a` : Adobe Systems. (2013). Adobe DNG Software
-    Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/\
-dng_temperature.cpp::dng_temperature::xy_coord. Retrieved from
-    https://www.adobe.com/support/downloads/dng/dng_sdk.html
--   :cite:`Wyszecki2000x` : Wyszecki, G., & Stiles, W. S. (2000). Table 1(3.11)
-    Isotemperature Lines. In Color Science: Concepts and Methods, Quantitative
-    Data and Formulae (p. 228). Wiley. ISBN:978-0471399186
--   :cite:`Wyszecki2000y` : Wyszecki, G., & Stiles, W. S. (2000). DISTRIBUTION
-    TEMPERATURE, COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE. In
-    Color Science: Concepts and Methods, Quantitative Data and Formulae
-    (pp. 224-229). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000x` : Wyszecki, Günther, & Stiles, W. S. (2000h). Table
+    1(3.11) Isotemperature Lines. In Color Science: Concepts and Methods,
+    Quantitative Data and Formulae (p. 228). Wiley. ISBN:978-0-471-39918-6
+-   :cite:`Wyszecki2000y` : Wyszecki, Günther, & Stiles, W. S. (2000c).
+    DISTRIBUTION TEMPERATURE, COLOR TEMPERATURE, AND CORRELATED COLOR
+    TEMPERATURE. In Color Science: Concepts and Methods, Quantitative Data and
+    Formulae (pp. 224-229). Wiley. ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals

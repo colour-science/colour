@@ -16,17 +16,21 @@ Defines objects related to geometrical computations:
 
 References
 ----------
--   :cite:`Bourkea` : Bourke, P. (n.d.). Intersection point of two line
+-   :cite:`Bourkea` : Bourke, P. (n.d.-a). Intersection point of two line
     segments in 2 dimensions. Retrieved January 15, 2016, from
     http://paulbourke.net/geometry/pointlineplane/
 -   :cite:`Erdema` : Erdem, U. M. (n.d.). Fast Line Segment Intersection.
-    Retrieved January 15, 2016, from http://www.mathworks.com/matlabcentral/\
-fileexchange/27205-fast-line-segment-intersection
+    Retrieved January 15, 2016, from
+    http://www.mathworks.com/matlabcentral/fileexchange/\
+27205-fast-line-segment-intersection
 -   :cite:`Halir1998` : Halir, R., & Flusser, J. (1998). Numerically Stable
-    Direct Least Squares Fitting Of Ellipses, 1-8. doi:10.1.1.1.7559
+    Direct Least Squares Fitting Of Ellipses (pp. 1-8).
+    http://citeseerx.ist.psu.edu/viewdoc/download;\
+jsessionid=BEEAFC85DE53308286D626302F4A3E3C?doi=10.1.1.1.7559&rep=rep1&type=pdf
 -   :cite:`Saeedna` : Saeedn. (n.d.). Extend a line segment a specific
-    distance. Retrieved January 16, 2016, from http://stackoverflow.com/\
-questions/7740507/extend-a-line-segment-a-specific-distance
+    distance. Retrieved January 16, 2016, from
+    http://stackoverflow.com/questions/7740507/\
+extend-a-line-segment-a-specific-distance
 -   :cite:`Wikipedia` : Wikipedia. (n.d.). Ellipse. Retrieved November 24,
     2018, from https://en.wikipedia.org/wiki/Ellipse
 """

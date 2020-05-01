@@ -10,8 +10,8 @@ Defines the *Academy Spectral Similarity Index* (SSI) computation objects:
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2019` : The Academy of
-    Motion Picture Arts and Sciences. (2019). Academy Spectral Similarity
-    Index (SSI): Overview.
+    Motion Picture Arts and Sciences. (2019). Academy Spectral Similarity Index
+    (SSI): Overview (pp. 1-7).
 """
 
 from __future__ import division, unicode_literals

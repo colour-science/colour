@@ -19,12 +19,13 @@ The following *LCD* displays are available:
 References
 ----------
 -   :cite:`Fairchild1998b` : Fairchild, M., & Wyble, D. (1998). Colorimetric
-    Characterization of The Apple Studio Display (flat panel LCD). Retrieved
-    from http://scholarworks.rit.edu/cgi/viewcontent.cgi?article=1922&\
+    Characterization of The Apple Studio Display (flat panel LCD) (p. 22).
+    http://scholarworks.rit.edu/cgi/viewcontent.cgi?article=1922&\
 context=article
--   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of
-    color vision deficiency and a color contrast enhancement technique for
-    dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
+-   :cite:`Machado2010a` : Machado, Gustavo Mello. (2010). A model for
+    simulation of color vision deficiency and a color contrast enhancement
+    technique for dichromats. (pp. 1-94).
+    http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals

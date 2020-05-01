@@ -10,8 +10,7 @@ Defines the *Adobe RGB (1998)* colourspace:
 References
 ----------
 -   :cite:`AdobeSystems2005a` : Adobe Systems. (2005). Adobe RGB (1998) Color
-    Image Encoding. Retrieved from
-    http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+    Image Encoding. http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 """
 
 from __future__ import division, unicode_literals

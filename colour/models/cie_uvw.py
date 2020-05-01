@@ -10,9 +10,9 @@ Defines the *CIE 1964 U\\*V\\*W\\** colourspace transformations:
 
 References
 ----------
--   :cite:`Wikipedia2008a` : Wikipedia. (2008). CIE 1964 color space.
-    Retrieved June 10, 2014, from http://en.wikipedia.org/wiki/\
-CIE_1964_color_space
+-   :cite:`Wikipedia2008a` : Wikipedia. (2008b). CIE 1964 color space.
+    Retrieved June 10, 2014, from
+    http://en.wikipedia.org/wiki/CIE_1964_color_space
 """
 
 from __future__ import division, unicode_literals

@@ -11,13 +11,11 @@ Defines the :math:`IC_TC_P` colour encoding related transformations:
 References
 ----------
 -   :cite:`Dolby2016a` : Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION.
-    Retrieved from https://www.dolby.com/us/en/technologies/dolby-vision/\
-ICtCp-white-paper.pdf
--   :cite:`Lu2016c` : Lu, T., Pu, F., Yin, P., Chen, T., Husak, W.,
-    Pytlarz, J.,  Su, G.-M. (2016). ITP Colour Space and Its Compression
-    Performance for High Dynamic Range and Wide Colour Gamut Video
-    Distribution. ZTE Communications, 14(1), 32-38. Retrieved from
-    http://www.cnki.net/kcms/detail/34.1294.TN.20160205.1903.006.html
+    https://www.dolby.com/us/en/technologies/dolby-vision/ICtCp-white-paper.pdf
+-   :cite:`Lu2016c` : Lu, T., Pu, F., Yin, P., Chen, T., Husak, W., Pytlarz,
+    J., Atkins, R., Froehlich, J., & Su, G.-M. (2016). ITP Colour Space and Its
+    Compression Performance for High Dynamic Range and Wide Colour Gamut Video
+    Distribution. ZTE Communications, 14(1), 32-38.
 """
 
 from __future__ import division, unicode_literals

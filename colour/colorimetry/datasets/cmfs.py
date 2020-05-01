@@ -39,25 +39,27 @@ Notes
 References
 ----------
 -   :cite:`Broadbent2009a` : Broadbent, A. D. (2009). Calculation from the
-    original experimental data of the CIE 1931 RGB standard observer spectral
-    chromaticity co-ordinates and color matching functions. Retrieved June 12,
-    2014, from http://www.cis.rit.edu/mcsl/research/1931.php
--   :cite:`CVRLr` : CVRL. (n.d.). New CIE XYZ functions transformed from the
+    Original Experimental Data of the Cie 1931 RGB Standard Observer Spectral
+    Chromaticity Co-Ordinates and Color Matching Functions. Québec, Canada:
+    Département de Génie Chimique, …. Retrieved June 12, 2014, from
+    http://www.cis.rit.edu/mcsl/research/1931.php
+-   :cite:`CVRLr` : CVRL. (n.d.-d). New CIE XYZ functions transformed from the
     CIE (2006) LMS functions. Retrieved February 24, 2014, from
     http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm
--   :cite:`CVRLs` : CVRL. (n.d.). Older CIE Standards. Retrieved February 24,
+-   :cite:`CVRLs` : CVRL. (n.d.-e). Older CIE Standards. Retrieved February 24,
     2014, from http://cvrl.ioo.ucl.ac.uk/cie.htm
--   :cite:`CVRLt` : CVRL. (n.d.). Stiles & Burch individual 10-deg colour
+-   :cite:`CVRLt` : CVRL. (n.d.-g). Stiles & Burch individual 10-deg colour
     matching data. Retrieved February 24, 2014, from
     http://www.cvrl.org/stilesburch10_ind.htm
 -   :cite:`CVRLu` : Stockman, A., & Sharpe, L. T. (2000). Cone Fundamentals.
     Retrieved June 23, 2014, from http://www.cvrl.org/cones.htm
--   :cite:`CVRLw` : CVRL. (n.d.). Stiles & Burch individual 2-deg colour
+-   :cite:`CVRLw` : CVRL. (n.d.-f). Stiles & Burch individual 2-deg colour
     matching data. Retrieved February 24, 2014, from
     http://www.cvrl.org/stilesburch2_ind.htm
--   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of
-    color vision deficiency and a color contrast enhancement technique for
-    dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
+-   :cite:`Machado2010a` : Machado, Gustavo Mello. (2010). A model for
+    simulation of color vision deficiency and a color contrast enhancement
+    technique for dichromats. (pp. 1-94).
+    http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals

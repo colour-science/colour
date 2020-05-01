@@ -13,24 +13,25 @@ References
     doi:10.1364/JOSAA.4.001115
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
-    Adaptations. ISBN:978-3-900734-51-0
+    Adaptations. Commission Internationale de l"Eclairage.
+    ISBN:978-3-900734-51-0
 -   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
     of an incomplete-chromatic-adaptation model. Color Research & Application,
     16(4), 243-250. doi:10.1002/col.5080160406
--   :cite:`Fairchild2013s` : Fairchild, M. D. (2013). FAIRCHILD'S 1990 MODEL.
+-   :cite:`Fairchild2013s` : Fairchild, M. D. (2013c). FAIRCHILD'S 1990 MODEL.
     In Color Appearance Models (3rd ed., pp. 4418-4495). Wiley. ISBN:B00DAYO8E2
--   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation
+-   :cite:`Fairchild2013t` : Fairchild, M. D. (2013b). Chromatic Adaptation
     Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
     ISBN:B00DAYO8E2
 -   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
     Application, 27(1), 49-58. doi:10.1002/col.10005
--   :cite:`Luo1999` : Luo, M. R., & Rhodes, P. A. (1999). Corresponding-colour
-    datasets. Color Research & Application, 24(4), 295-296.
-    doi:10.1002/(SICI)1520-6378(199908)24:4<295::AID-COL10>3.0.CO;2-K
--   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    CMCCAT2000. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
+-   :cite:`Luo1999` : Luo, M. Ronnier, & Rhodes, P. A. (1999).
+    Corresponding-colour datasets. Color Research & Application, 24(4),
+    295-296. doi:10.1002/(SICI)1520-6378(199908)24:4<295::AID-COL10>3.0.CO;2-K
+-   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012b).
+    CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
+    83-86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals

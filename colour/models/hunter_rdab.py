@@ -11,7 +11,7 @@ Defines the *Hunter Rd,a,b* colour scale transformations:
 References
 ----------
 -   :cite:`HunterLab2012a` : HunterLab. (2012). Hunter Rd,a,b Color Scale -
-    History and Application. Retrieved from
+    History and Application.
     https://hunterlabdotcom.files.wordpress.com/2012/07/\
 an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf
 """

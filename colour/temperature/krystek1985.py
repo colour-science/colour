@@ -16,8 +16,8 @@ computations objects:
 References
 ----------
 -   :cite:`Krystek1985b` : Krystek, M. (1985). An algorithm to calculate
-    correlated colour temperature. Color Research & Application, 10(1),
-    38-40. doi:10.1002/col.5080100109
+    correlated colour temperature. Color Research & Application, 10(1), 38-40.
+    doi:10.1002/col.5080100109
 """
 
 from __future__ import division, unicode_literals

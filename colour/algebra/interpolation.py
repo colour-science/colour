@@ -30,33 +30,32 @@ Defines classes and definitions for interpolating variables.
 
 References
 ----------
--   :cite:`Bourkeb` : Bourke, P. (n.d.). Trilinear Interpolation. Retrieved
-    from http://paulbourke.net/miscellaneous/interpolation/
+-   :cite:`Bourkeb` : Bourke, P. (n.d.-b). Trilinear Interpolation. Retrieved
+    January 13, 2018, from http://paulbourke.net/miscellaneous/interpolation/
 -   :cite:`Burger2009b` : Burger, W., & Burge, M. J. (2009). Principles of
-    Digital Image Processing. London: Springer London.
-    doi:10.1007/978-1-84800-195-4
--   :cite:`CIETC1-382005f` : CIE TC 1-38. (2005). 9.2.4 Method of
+    Digital Image Processing. Springer London. doi:10.1007/978-1-84800-195-4
+-   :cite:`CIETC1-382005f` : CIE TC 1-38. (2005b). 9.2.4 Method of
     interpolation for uniformly spaced independent variable. In CIE 167:2005
     Recommended Practice for Tabulating Spectral Data for Use in Colour
-    Computations (pp. 1-27). ISBN:978-3-901-90641-1
--   :cite:`CIETC1-382005h` : CIE TC 1-38. (2005). Table V. Values of the
+    Computations (pp. 1-27). ISBN:978-3-901906-41-1
+-   :cite:`CIETC1-382005h` : CIE TC 1-38. (2005d). Table V. Values of the
     c-coefficients of Equ.s 6 and 7. In CIE 167:2005 Recommended Practice for
     Tabulating Spectral Data for Use in Colour Computations (p. 19).
-    ISBN:978-3-901-90641-1
+    ISBN:978-3-901906-41-1
 -   :cite:`Fairman1985b` : Fairman, H. S. (1985). The calculation of weight
     factors for tristimulus integration. Color Research & Application, 10(4),
     199-203. doi:10.1002/col.5080100407
 -   :cite:`Kirk2006` : Kirk, R. (2006). Truelight Software Library 2.0.
-    Retrieved from https://www.filmlight.ltd.uk/pdf/whitepapers/\
-FL-TL-TN-0057-SoftwareLib.pdf
--   :cite:`Westland2012h` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    Interpolation Methods. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 29-37). ISBN:978-0-470-66569-5
--   :cite:`Wikipedia2005b` : Wikipedia. (2005). Lanczos resampling. Retrieved
+    Retrieved July 8, 2017, from
+    https://www.filmlight.ltd.uk/pdf/whitepapers/FL-TL-TN-0057-SoftwareLib.pdf
+-   :cite:`Westland2012h` : Westland, S., Ripamonti, C., & Cheung, V. (2012e).
+    Interpolation Methods. In Computational Colour Science Using MATLAB (2nd
+    ed., pp. 29-37). ISBN:978-0-470-66569-5
+-   :cite:`Wikipedia2003a` : Wikipedia. (2003b). Lagrange polynomial -
+    Definition. Retrieved January 20, 2016, from
+    https://en.wikipedia.org/wiki/Lagrange_polynomial#Definition
+-   :cite:`Wikipedia2005b` : Wikipedia. (2005c). Lanczos resampling. Retrieved
     October 14, 2017, from https://en.wikipedia.org/wiki/Lanczos_resampling
--   :cite:`Wikipedia2003a` : Wikipedia. (2003). Lagrange polynomial -
-    Definition. Retrieved January 20, 2016, from https://en.wikipedia.org/\
-wiki/Lagrange_polynomial#Definition
 """
 
 from __future__ import division, unicode_literals

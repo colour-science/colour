@@ -33,13 +33,14 @@ The following light sources are available:
 
 References
 ----------
--   :cite:`Houston2015a` : Houston, J. (2015). Private Discussion with
-    Mansencal, T.
--   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
-    Retrieved from https://drive.google.com/file/d/\
-1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
+-   :cite:`Houston2015a` : Borer, T. (2017). Private Discussion with Mansencal,
+    T. and Shaw, N.
+-   :cite:`Ohno2008a` : Ohno, Yoshiro, & Davis, W. (2008). NIST CQS simulation
+    (Version 7.4) [Computer software].
+    https://drive.google.com/file/d/1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?\
+usp=sharing
 -   :cite:`Pointer1980a` : Pointer, M. R. (1980). Pointer's Gamut Data.
-    Retrieved from http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
+    http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
 from __future__ import division, unicode_literals

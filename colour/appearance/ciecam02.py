@@ -14,18 +14,16 @@ Defines *CIECAM02* colour appearance model objects:
 References
 ----------
 -   :cite:`Fairchild2004c` : Fairchild, M. D. (2004). CIECAM02. In Color
-    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0470012161
--   :cite:`Luo2013` : Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent
-    Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
-    Processing and Analysis (pp. 19-58). New York, NY: Springer New York.
+    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0-470-01216-1
+-   :cite:`Luo2013` : Luo, Ming Ronnier, & Li, C. (2013). CIECAM02 and Its
+    Recent Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
+    Processing and Analysis (pp. 19-58). Springer New York.
     doi:10.1007/978-1-4419-6190-7
 -   :cite:`Moroneya` : Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C.,
-    Luo, M. R., & Newman, T. (2002). The CIECAM02 Color Appearance Model.
-    Color and Imaging Conference, (1), 23-27. Retrieved from
-    http://www.ingentaconnect.com/\
-content/ist/cic/2002/00002002/00000001/art00006
--   :cite:`Wikipedia2007a` : Wikipedia. (2007). CIECAM02. Retrieved August 14,
-    2014, from http://en.wikipedia.org/wiki/CIECAM02
+    Luo, M. R., & Newman, T. (2002). The CIECAM02 color appearance model. Color
+    and Imaging Conference, 1, 23-27.
+-   :cite:`Wikipedia2007a` : Fairchild, M. D. (2004). CIECAM02. In Color
+    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0-470-01216-1
 """
 
 from __future__ import division, unicode_literals

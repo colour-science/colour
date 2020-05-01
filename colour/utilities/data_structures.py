@@ -14,13 +14,13 @@ Defines various data structures classes:
 
 References
 ----------
--   :cite:`Mansencalc` : Mansencal, T. (n.d.). Lookup. Retrieved from
+-   :cite:`Mansencalc` : Mansencal, T. (n.d.-a). Lookup.
     https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
 data_structures.py
--   :cite:`Mansencald` : Mansencal, T. (n.d.). Structure. Retrieved from
+-   :cite:`Mansencald` : Mansencal, T. (n.d.-b). Structure.
     https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
 data_structures.py
--   :cite:`Reitza` : Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from
+-   :cite:`Reitza` : Reitz, K. (n.d.). CaseInsensitiveDict.
     https://github.com/kennethreitz/requests/blob/v1.2.3/requests/\
 structures.py#L37
 """

@@ -10,7 +10,7 @@ Defines *Von Kries* chromatic adaptation model objects:
 
 References
 ----------
--   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation
+-   :cite:`Fairchild2013t` : Fairchild, M. D. (2013b). Chromatic Adaptation
     Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
     ISBN:B00DAYO8E2
 """

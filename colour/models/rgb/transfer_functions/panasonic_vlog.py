@@ -10,9 +10,9 @@ Defines the *Panasonic V-Log* log encoding:
 
 References
 ----------
--   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.
-    Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/\
-VARICAM_V-Log_V-Gamut.pdf
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut (pp.
+    1-7).
+    http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 """
 
 from __future__ import division, unicode_literals

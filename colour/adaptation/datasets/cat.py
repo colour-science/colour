@@ -38,30 +38,31 @@ References
     33(5), 424-426. doi:10.1002/col.20432
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
-    Adaptations. ISBN:978-3-900734-51-0
--   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013). The Nayatani et al.
+    Adaptations. Commission Internationale de l"Eclairage.
+    ISBN:978-3-900734-51-0
+-   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013g). The Nayatani et al.
     Model. In Color Appearance Models (3rd ed., pp. 4810-5085). Wiley.
     ISBN:B00DAYO8E2
--   :cite:`Fairchildb` : Fairchild, M. D. (n.d.). Fairchild YSh. Retrieved
-    from http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
--   :cite:`Li2007e` : Li, C., Perales, E., Luo, M. R., & Martinez-verdu,
-    F. (2007). The Problem with CAT02 and Its Correction. Retrieved from
+-   :cite:`Fairchildb` : Fairchild, M. D. (n.d.). Fairchild YSh.
+    http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
+-   :cite:`Li2007e` : Li, C., Perales, E., Luo, M. R., & Martinez-verdu, F.
+    (2007). The Problem with CAT02 and Its Correction.
     https://pdfs.semanticscholar.org/b5a9/\
 0215ad9a1fb6b01f310b3d64305f7c9feb3a.pdf
--   :cite:`Lindbloom2009g` : Fairchild, M. D. (2013). Chromatic Adaptation
+-   :cite:`Lindbloom2009g` : Fairchild, M. D. (2013b). Chromatic Adaptation
     Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
     ISBN:B00DAYO8E2
 -   :cite:`Nayatani1995a` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.
     (1995). Lightness dependency of chroma scales of a nonlinear
     color-appearance model and its latest formulation. Color Research &
     Application, 20(3), 156-167. doi:10.1002/col.5080200305
--   :cite:`Westland2012g` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
+-   :cite:`Westland2012g` : Westland, S., Ripamonti, C., & Cheung, V. (2012a).
     CMCCAT97. In Computational Colour Science Using MATLAB (2nd ed., p. 80).
     ISBN:978-0-470-66569-5
--   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    CMCCAT2000. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
--   :cite:`Wikipedia2007` : Wikipedia. (2007). CAT02. Retrieved February 24,
+-   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012b).
+    CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
+    83-86). ISBN:978-0-470-66569-5
+-   :cite:`Wikipedia2007` : Wikipedia. (2007a). CAT02. Retrieved February 24,
     2014, from http://en.wikipedia.org/wiki/CIECAM02#CAT02
 """
 
