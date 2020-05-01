@@ -167,7 +167,7 @@ def log_encoding(value, function='Cineon', **kwargs):
         Value.
     function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
+        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
         'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
         'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
         'V-Log', 'ViperLog'}**,
@@ -311,7 +311,7 @@ def log_decoding(value, function='Cineon', **kwargs):
         Value.
     function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
+        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
         'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
         'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
         'V-Log', 'ViperLog'}**,
