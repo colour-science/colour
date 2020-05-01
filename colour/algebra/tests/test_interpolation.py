@@ -860,7 +860,7 @@ class TestNullInterpolator(unittest.TestCase):
     def test_absolute_tolerance(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.\
-    absolute_tolerance` property.
+absolute_tolerance` property.
         """
 
         x = y = np.linspace(0, 1, 10)
@@ -871,7 +871,7 @@ class TestNullInterpolator(unittest.TestCase):
     def test_relative_tolerance(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.\
-    relative_tolerance` property.
+relative_tolerance` property.
         """
 
         x = y = np.linspace(0, 1, 10)
@@ -882,7 +882,7 @@ class TestNullInterpolator(unittest.TestCase):
     def test_default(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.\
-    default` property.
+default` property.
         """
 
         x = y = np.linspace(0, 1, 10)
