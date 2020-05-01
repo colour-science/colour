@@ -46,7 +46,7 @@ References
 ----------
 -   :cite:`CIETC1-482004h` : CIE TC 1-48. (2004d). CIE 015:2004 Colorimetry,
     3rd Edition. In CIE 015:2004 Colorimetry, 3rd Edition. Commission
-    Internationale de l"Eclairage. ISBN:978-3-901906-33-6
+    Internationale de l'Eclairage. ISBN:978-3-901906-33-6
 -   :cite:`Carter2018` : Carter, E. C., Schanda, J. D., Hirschler, R., Jost,
     S., Luo, M. R., Melgosa, M., Ohno, Y., Pointer, M. R., Rich, D. C., Vienot,
     F., Whitehead, L., & Wold, J. H. (2018). CIE 015:2018 Colorimetry, 4th

@@ -35,7 +35,7 @@ print('\n')
 
 xy = np.array([0.54369557, 0.32107944])
 message_box(('Computing the "complementary wavelength" for colour stimulus '
-             '"xy"and achromatic stimulus "xy_n" chromaticity coordinates:\n'
+             '"xy" and achromatic stimulus "xy_n" chromaticity coordinates:\n'
              '\n\txy   : {0}\n\txy_n : {1}\n\n'
              'In this case the "dominant wavelength" indicated by a negative '
              'sign is returned because the first intersection is located on '
