@@ -834,7 +834,7 @@ multi_signals_unpack_data` method.
     def test_domain_distance(self):
         """
         Tests :func:`colour.continuous.multi_signals.MultiSignals.\
-    domain_distance` method.
+domain_distance` method.
         """
 
         self.assertAlmostEqual(
