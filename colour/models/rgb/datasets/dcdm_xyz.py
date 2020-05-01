@@ -10,7 +10,7 @@ Defines the *DCDM XYZ* colourspace:
 References
 ----------
 -   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).
-    Digital Cinema System Specification - Version 1.1. Retrieved from
+    Digital Cinema System Specification - Version 1.1.
     http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
 """

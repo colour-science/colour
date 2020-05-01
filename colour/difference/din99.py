@@ -11,8 +11,8 @@ References
 ----------
 -   :cite:`ASTMInternational2007` : ASTM International. (2007). ASTM D2244-07 -
     Standard Practice for Calculation of Color Tolerances and Color Differences
-    from Instrumentally Measured Color Coordinates, i, 1-10.
-    doi:10.1520/D2244-07
+    from Instrumentally Measured Color Coordinates: Vol. i (pp. 1-10).
+    doi:10.1520/D2244-16
 """
 
 from __future__ import division, unicode_literals

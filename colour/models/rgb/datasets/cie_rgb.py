@@ -9,8 +9,8 @@ Defines the *CIE RGB* colourspace:
 
 References
 ----------
--   :cite:`Fairman1997` : Fairman, H. S., Brill, M. H., & Hemmendinger,
-    H. (1997). How the CIE 1931 color-matching functions were derived from
+-   :cite:`Fairman1997` : Fairman, H. S., Brill, M. H., & Hemmendinger, H.
+    (1997). How the CIE 1931 color-matching functions were derived from
     Wright-Guild data. Color Research & Application, 22(1), 11-23.
     doi:10.1002/(SICI)1520-6378(199702)22:1<11::AID-COL4>3.0.CO;2-7
 """

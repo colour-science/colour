@@ -9,9 +9,10 @@ Defines the *Fujifilm F-Gamut* colourspace:
 
 References
 ----------
--   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0. \
-Retrieved from https://www.fujifilm.com/support/digital_cameras/\
-software/lut/pdf/F-Log_DataSheet_E_Ver.1.0.pdf
+-   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0 (pp.
+    1-4).
+    https://www.fujifilm.com/support/digital_cameras/software/lut/pdf/\
+F-Log_DataSheet_E_Ver.1.0.pdf
 """
 
 from __future__ import division, unicode_literals

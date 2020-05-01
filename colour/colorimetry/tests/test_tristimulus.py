@@ -6,7 +6,7 @@ References
 ----------
 -   :cite:`ASTMInternational2015b` : ASTM International. (2015). ASTM E308-15 -
     Standard Practice for Computing the Colors of Objects by Using the CIE
-    System. doi:10.1520/E0308-15
+    System (pp. 1-47). doi:10.1520/E0308-15
 """
 
 from __future__ import division, unicode_literals

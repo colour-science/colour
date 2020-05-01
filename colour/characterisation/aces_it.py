@@ -19,28 +19,27 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 
 References
 ----------
--   :cite:`Dyer2017` : Dyer, S., Forsythe, A., Irons, J., Mansencal, T., &
-    Zhu, M. (2017). RAW to ACES (1.0).
--   :cite:`Forsythe2018` : Forsythe, A. (2018). Private Discussion with
-    Mansencal, T.
--   :cite:`TheAcademyofMotionPictureArtsandSciences2015c` : The Academy of
-    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2015). Procedure
-    P-2013-001 - Recommended Procedures for the Creation and Use of Digital
-    Camera System Input Device Transforms (IDTs) (pp. 1-29).
-    https://www.dropbox.com/s/ouwnid1aevqti5d/P-2013-001.pdf?dl=0
+-   :cite:`Dyer2017` : Dyer, S., Forsythe, A., Irons, J., Mansencal, T., & Zhu,
+    M. (2017). RAW to ACES (Version 1.0) [Computer software].
+-   :cite:`Forsythe2018` : Borer, T. (2017). Private Discussion with Mansencal,
+    T. and Shaw, N.
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Color Encoding System (ACES) Project Subcommittee. (2014b). Technical
     Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
-    Encoding Specification (ACES). Retrieved from
+    Encoding Specification (ACES) (pp. 1-40).
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Color Encoding System (ACES) Project Subcommittee. (2014c). Technical
     Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component
-    Names. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Names (pp. 1-8). https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2015c` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2015a). Procedure
+    P-2013-001 - Recommended Procedures for the Creation and Use of Digital
+    Camera System Input Device Transforms (IDTs) (pp. 1-29).
+    https://www.dropbox.com/s/ouwnid1aevqti5d/P-2013-001.pdf?dl=0
 -   :cite:`TheAcademyofMotionPictureArtsandSciencese` : The Academy of Motion
     Picture Arts and Sciences, Science and Technology Council, & Academy Color
     Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding

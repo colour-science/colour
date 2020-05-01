@@ -7,9 +7,9 @@ Defines luminous efficiency functions computation related objects.
 
 References
 ----------
--   :cite:`Wikipedia2005d` : Wikipedia. (2005). Mesopic weighting function.
-    Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/\
-Mesopic_vision#Mesopic_weighting_function
+-   :cite:`Wikipedia2005d` : Wikipedia. (2005e). Mesopic weighting function.
+    Retrieved June 20, 2014, from
+    http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
 from __future__ import division, unicode_literals

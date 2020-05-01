@@ -9,7 +9,7 @@ Defines the *Adobe Wide Gamut RGB* colourspace:
 
 References
 ----------
--   :cite:`Wikipedia2004c` : Wikipedia. (2004). Wide-gamut RGB color space.
+-   :cite:`Wikipedia2004c` : Wikipedia. (2004d). Wide-gamut RGB color space.
     Retrieved April 13, 2014, from
     http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
 """

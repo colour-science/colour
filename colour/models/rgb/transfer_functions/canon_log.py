@@ -20,13 +20,13 @@ Notes
 
 References
 ----------
--   :cite:`Canona` : Canon. (n.d.). EOS C300 Mark II - EOS C300 Mark II Input
+-   :cite:`Canona` : Canon. (2016). EOS C300 Mark II - EOS C300 Mark II Input
     Transform Version 2.0 (for Cinema Gamut / BT.2020). Retrieved August 23,
-    2016, from https://www.usa.canon.com/internet/portal/us/home/support/\
-details/cameras/cinema-eos/eos-c300-mark-ii
+    2016, from
+    https://www.usa.canon.com/internet/portal/us/home/support/details/cameras/cinema-eos/eos-c300-mark-ii
 -   :cite:`Thorpe2012a` : Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC.
-    Retrieved from http://downloads.canon.com/CDLC/\
-Canon-Log_Transfer_Characteristic_6-20-2012.pdf
+    Retrieved September 25, 2014, from
+    http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 """
 
 from __future__ import division, unicode_literals

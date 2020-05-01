@@ -10,8 +10,7 @@ Defines the *Russell RGB* colourspace:
 References
 ----------
 -   :cite:`Cottrella` : Cottrell, R. (n.d.). The Russell RGB working color
-    space. Retrieved from
-    http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
+    space. http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
 """
 
 from __future__ import division, unicode_literals

@@ -7,11 +7,11 @@ Defines photometric quantities computation related objects.
 
 References
 ----------
--   :cite:`Wikipedia2005c` : Wikipedia. (2005). Luminous Efficacy. Retrieved
+-   :cite:`Wikipedia2003b` : Wikipedia. (2003c). Luminosity function. Retrieved
+    October 20, 2014, from
+    https://en.wikipedia.org/wiki/Luminosity_function#Details
+-   :cite:`Wikipedia2005c` : Wikipedia. (2005d). Luminous Efficacy. Retrieved
     April 3, 2016, from https://en.wikipedia.org/wiki/Luminous_efficacy
--   :cite:`Wikipedia2003b` : Wikipedia. (2003). Luminosity function. Retrieved
-    October 20, 2014, from https://en.wikipedia.org/wiki/\
-Luminosity_function#Details
 """
 
 from __future__ import division, unicode_literals

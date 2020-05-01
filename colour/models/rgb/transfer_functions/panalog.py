@@ -11,8 +11,9 @@ Defines the *Panalog* encoding:
 References
 ----------
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
-    November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/\
-blob/master/nuke-default/make.py
+    November 27, 2014, from
+    https://github.com/imageworks/OpenColorIO-Configs/blob/master/\
+nuke-default/make.py
 """
 
 from __future__ import division, unicode_literals

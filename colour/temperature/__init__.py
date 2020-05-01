@@ -116,16 +116,39 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 
 References
 ----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
-:cite:`Ohno2014a`, :cite:`Wyszecki2000y`
-
-CCT_TO_UV_METHODS : CaseInsensitiveMapping
-    **{'Ohno 2013', 'Krystek 1985, 'Robertson 1968'}**
-
-Aliases:
-
--   'ohno2013': 'Ohno 2013'
--   'robertson1968': 'Robertson 1968'
+-   :cite:`AdobeSystems2013` : Adobe Systems. (2013a). Adobe DNG Software
+    Development Kit (SDK) - 1.3.0.0 -
+    dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::\
+Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
+-   :cite:`AdobeSystems2013a` : Adobe Systems. (2013b). Adobe DNG Software
+    Development Kit (SDK) - 1.3.0.0 -
+    dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::xy_coord.
+    https://www.adobe.com/support/downloads/dng/dng_sdk.html
+-   :cite:`Hernandez-Andres1999a` : Hernández-Andrés, J., Lee, R. L., &
+    Romero, J. (1999). Calculating correlated color temperatures across the
+    entire gamut of daylight and skylight chromaticities. Applied Optics,
+    38(27),
+    5703. doi:10.1364/AO.38.005703
+-   :cite:`Kang2002a` : Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., & Kim,
+    Y. (2002). Design of advanced color: Temperature control system for HDTV
+    applications. Journal of the Korean Physical Society, 41(6), 865-871.
+-   :cite:`Krystek1985b` : Krystek, M. (1985). An algorithm to calculate
+    correlated colour temperature. Color Research & Application, 10(1), 38-40.
+    doi:10.1002/col.5080100109
+-   :cite:`Ohno2014a` : Ohno, Yoshiro. (2014). Practical Use and Calculation of
+    CCT and Duv. LEUKOS, 10(1), 47-55. doi:10.1080/15502724.2014.839020
+-   :cite:`Wikipedia2001` : Wikipedia. (2001a). Approximation. Retrieved June
+    28, 2014, from http://en.wikipedia.org/wiki/Color_temperature#Approximation
+-   :cite:`Wikipedia2001a` : Wikipedia. (2001b). Color temperature. Retrieved
+    June 28, 2014, from http://en.wikipedia.org/wiki/Color_temperature
+-   :cite:`Wyszecki2000y` : Wyszecki, Günther, & Stiles, W. S. (2000c).
+    DISTRIBUTION TEMPERATURE, COLOR TEMPERATURE, AND CORRELATED COLOR
+    TEMPERATURE. In Color Science: Concepts and Methods, Quantitative Data and
+    Formulae (pp. 224-229). Wiley. ISBN:978-0-471-39918-6
+-   :cite:`Wyszecki2000z` : Wyszecki, Günther, & Stiles, W. S. (2000b). CIE
+    Method of Calculating D-Illuminants. In Color Science: Concepts and
+    Methods, Quantitative Data and Formulae (pp. 145-146). Wiley.
+    ISBN:978-0-471-39918-6
 """
 CCT_TO_UV_METHODS['ohno2013'] = CCT_TO_UV_METHODS['Ohno 2013']
 CCT_TO_UV_METHODS['robertson1968'] = CCT_TO_UV_METHODS['Robertson 1968']

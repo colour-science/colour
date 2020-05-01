@@ -43,13 +43,14 @@ Notes
 
 References
 ----------
--   :cite:`Carter2018` : Carter, E. C., Schanda, J. D., Hirschler, R., Jost,
-    S., Luo, M. R., Melgosa, M., … Wold, J. H. (2018). CIE 015:2018
-    Colorimetry, 4th Edition. Vienna. doi:10.25039/TR.015.2018
--   :cite:`CIEce` : CIE. (2004). CIE 15:2004 Tables Data. Retrieved from
+-   :cite:`CIEce` : CIE. (2004). CIE 15:2004 Tables Data.
     https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
--   :cite:`CIEcf` : CIE. (n.d.). CIE Spectral Data. Retrieved from
+-   :cite:`CIEcf` : CIE. (n.d.). CIE Spectral Data.
     http://files.cie.co.at/204.xls
+-   :cite:`Carter2018` : Carter, E. C., Schanda, J. D., Hirschler, R., Jost,
+    S., Luo, M. R., Melgosa, M., Ohno, Y., Pointer, M. R., Rich, D. C., Vienot,
+    F., Whitehead, L., & Wold, J. H. (2018). CIE 015:2018 Colorimetry, 4th
+    Edition. International Commission on Illumination. doi:10.25039/TR.015.2018
 -   :cite:`ISO2002` : ISO. (2002). INTERNATIONAL STANDARD 7589-2002 -
     Photography - Illuminants for sensitometry - Specifications for daylight,
     incandescent tungsten and printer.

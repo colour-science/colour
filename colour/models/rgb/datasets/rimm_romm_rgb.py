@@ -12,12 +12,11 @@ Defines the *RIMM, ROMM and ERIMM* encodings:
 
 References
 ----------
--   :cite:`ANSI2003a` : ANSI. (2003). Specification of ROMM RGB. Retrieved from
+-   :cite:`ANSI2003a` : ANSI. (2003). Specification of ROMM RGB (pp. 1-2).
     http://www.color.org/ROMMRGB.pdf
--   :cite:`Spaulding2000b` : Spaulding, K. E., Woolfe, G. J., & Giorgianni,
-    E. J. (2000). Reference Input/Output Medium Metric RGB Color Encodings
-    (RIMM/ROMM RGB). Retrieved from
-    http://www.photo-lovers.org/pdf/color/romm.pdf
+-   :cite:`Spaulding2000b` : Spaulding, K. E., Woolfe, G. J., & Giorgianni, E.
+    J. (2000). Reference Input/Output Medium Metric RGB Color Encodings
+    (RIMM/ROMM RGB) (pp. 1-8). http://www.photo-lovers.org/pdf/color/romm.pdf
 """
 
 from __future__ import division, unicode_literals

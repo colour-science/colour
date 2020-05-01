@@ -17,29 +17,29 @@ Notes
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2011e` : International
-    Telecommunication Union. (2011). Recommendation ITU-T T.871 - Information
+    Telecommunication Union. (2011c). Recommendation ITU-T T.871 - Information
     technology - Digital compression and coding of continuous-tone still
-    images: JPEG File Interchange Format (JFIF). Retrieved from
+    images: JPEG File Interchange Format (JFIF).
     https://www.itu.int/rec/dologin_pub.asp?lang=e&\
 id=T-REC-T.871-201105-I!!PDF-E&type=items
 -   :cite:`InternationalTelecommunicationUnion2015h` : International
-    Telecommunication Union. (2015). Recommendation ITU-R BT.2020 - Parameter
+    Telecommunication Union. (2015b). Recommendation ITU-R BT.2020 - Parameter
     values for ultra-high definition television systems for production and
-    international programme exchange. Retrieved from
+    international programme exchange (pp. 1-8).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 -   :cite:`InternationalTelecommunicationUnion2015i` : International
-    Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
+    Telecommunication Union. (2015a). Recommendation ITU-R BT.709-6 - Parameter
     values for the HDTV standards for production and international programme
-    exchange BT Series Broadcasting service. Retrieved from
+    exchange BT Series Broadcasting service (pp. 1-32).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of
     Motion Picture and Television Engineers. (1999). ANSI/SMPTE 240M-1995 -
-    Signal Parameters - 1125-Line High-Definition Production Systems. Retrieved
-    from http://car.france3.mars.free.fr/HD/INA- 26 jan 06/\
-SMPTE normes et confs/s240m.pdf
--   :cite:`Wikipedia2004d` : Wikipedia. (2004). YCbCr. Retrieved February 29,
+    Signal Parameters - 1125-Line High-Definition Production Systems (pp. 1-7).
+    http://car.france3.mars.free.fr/HD/\
+INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
+-   :cite:`Wikipedia2004d` : Wikipedia. (2004e). YCbCr. Retrieved February 29,
     2016, from https://en.wikipedia.org/wiki/YCbCr
 """
 

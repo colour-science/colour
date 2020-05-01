@@ -10,7 +10,7 @@ Defines the *Apple RGB* colourspace:
 References
 ----------
 -   :cite:`Susstrunk1999a` : Susstrunk, S., Buckley, R., & Swen, S. (1999).
-    Standard RGB Color Spaces. ISBN:2166-9635
+    Standard RGB Color Spaces.
 """
 
 from __future__ import division, unicode_literals

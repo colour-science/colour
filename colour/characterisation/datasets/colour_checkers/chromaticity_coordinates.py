@@ -32,16 +32,16 @@ chromaticity_coordinates.COLORCHECKER24_AFTER_NOV2014`: Reference data from
 
 References
 ----------
--   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker
-    (since 1976!). Retrieved September 26, 2014, from
+-   :cite:`BabelColor2012b` : BabelColor. (2012b). The ColorChecker (since
+    1976!). Retrieved September 26, 2014, from
     http://www.babelcolor.com/main_level/ColorChecker.htm
--   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and spectra.
-    Retrieved from http://www.babelcolor.com/download/\
-ColorChecker_RGB_and_spectra.xls
+-   :cite:`BabelColor2012c` : BabelColor. (2012a). ColorChecker RGB and
+    spectra.
+    http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
 -   :cite:`X-Rite2015` : X-Rite. (2015). New color specifications for
-    ColorChecker SG and Classic Charts. Retrieved October 29, 2018,
-    from http://xritephoto.com/ph_product_overview.aspx?\
-ID=938&Action=Support&SupportID=5884#
+    ColorChecker SG and Classic Charts. Retrieved October 29, 2018, from
+    http://xritephoto.com/ph_product_overview.aspx?ID=938&Action=Support&\
+SupportID=5884#
 """
 
 from __future__ import division, unicode_literals

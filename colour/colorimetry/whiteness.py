@@ -29,18 +29,18 @@ Defines *whiteness* index :math:`W` computation objects:
 
 References
 ----------
--   :cite:`CIETC1-482004k` : CIE TC 1-48. (2004). The evaluation of whiteness.
-    In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
--   :cite:`Wyszecki2000ba` : Wyszecki, G., & Stiles, W. S. (2000).
-    Table I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W). In
-    Color Science: Concepts and Methods, Quantitative Data and Formulae
-    (pp. 837-839). Wiley. ISBN:978-0471399186
--   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color
-    iMatch Color Calculations Guide. Retrieved from
-    https://www.xrite.com/-/media/xrite/files/\
-apps_engineering_techdocuments/c/09_color_calculations_en.pdf
--   :cite:`Wikipedia2004b` : Wikipedia. (2004). Whiteness. Retrieved September
+-   :cite:`CIETC1-482004k` : CIE TC 1-48. (2004i). The evaluation of whiteness.
+    In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901906-33-6
+-   :cite:`Wikipedia2004b` : Wikipedia. (2004c). Whiteness. Retrieved September
     17, 2014, from http://en.wikipedia.org/wiki/Whiteness
+-   :cite:`Wyszecki2000ba` : Wyszecki, Günther, & Stiles, W. S. (2000k). Table
+    I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W). In Color
+    Science: Concepts and Methods, Quantitative Data and Formulae (pp.
+    837-839). Wiley. ISBN:978-0-471-39918-6
+-   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color iMatch
+    Color Calculations Guide.
+    https://www.xrite.com/-/media/xrite/files/apps_engineering_techdocuments/\
+c/09_color_calculations_en.pdf
 """
 
 from __future__ import division, unicode_literals

@@ -5,9 +5,8 @@ Lens Spectral Distributions
 
 Defines *lens* spectral distributions.
 
-Each *lens* data is in the form of :class:`OrderedDict`
-class instance of :class:`colour.SpectralDistribution` classes as
-follows::
+Each *lens* data is in the form of :class:`OrderedDict` class instance of
+:class:`colour.SpectralDistribution` classes as follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 

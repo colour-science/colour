@@ -10,9 +10,8 @@ Defines *Iridas* *.cube* *LUT* Format related input / output utilities objects.
 
 References
 ----------
--   :cite:`AdobeSystems2013b` : Adobe Systems. (2013). Cube LUT
-    Specification. Retrieved from https://drive.google.com/\
-open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
+-   :cite:`AdobeSystems2013b` : Adobe Systems. (2013c). Cube LUT Specification.
+    https://drive.google.com/open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
 """
 
 from __future__ import division, unicode_literals

@@ -8,7 +8,7 @@ Defines *Pointer's Gamut* data.
 References
 ----------
 -   :cite:`Pointer1980a` : Pointer, M. R. (1980). Pointer's Gamut Data.
-    Retrieved from http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
+    http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
 from __future__ import division, unicode_literals

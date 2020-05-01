@@ -2,11 +2,10 @@
 """
 References
 ----------
--   :cite:`AdobeSystems2013b` : Adobe Systems. (2013). Cube LUT Specification.
-    Retrieved from https://drive.google.com/\
-open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
--   :cite:`Chamberlain2015`: Chamberlain, P. (2015). LUT documentation
-    (to create from another program). Retrieved August 23, 2018, from
+-   :cite:`AdobeSystems2013b` : Adobe Systems. (2013c). Cube LUT Specification.
+    https://drive.google.com/open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
+-   :cite:`Chamberlain2015` : Chamberlain, P. (2015). LUT documentation (to
+    create from another program). Retrieved August 23, 2018, from
     https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=40284#p232952
 -   :cite:`RisingSunResearch` : Rising Sun Research. (n.d.). cineSpace LUT
     Library. Retrieved November 30, 2018, from

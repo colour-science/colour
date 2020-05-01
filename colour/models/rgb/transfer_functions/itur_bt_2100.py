@@ -36,19 +36,19 @@ functions (EOTF / EOCF) and their inverse:
 
 References
 ----------
--   :cite:`Borer2017a` : Borer, T. (2017). Private Discussion with
-    Mansencal, T. and Shaw, N.
+-   :cite:`Borer2017a` : Borer, T. (2017). Private Discussion with Mansencal,
+    T. and Shaw, N.
 -   :cite:`InternationalTelecommunicationUnion2017` : International
     Telecommunication Union. (2017). Recommendation ITU-R BT.2100-1 - Image
     parameter values for high dynamic range television for use in production
-    and international programme exchange. Retrieved from
+    and international programme exchange.
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2100-1-201706-I!!PDF-E.pdf
 -   :cite:`InternationalTelecommunicationUnion2018` : International
     Telecommunication Union. (2018). Recommendation ITU-R BT.2100-2 - Image
     parameter values for high dynamic range television for use in production
-    and international programme exchange. Retrieved from
-https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+    and international programme exchange.
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 """
 

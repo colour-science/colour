@@ -14,8 +14,8 @@ Defines various geometry primitives and their generation methods:
 References
 ----------
 -   :cite:`Cabello2015` : Cabello, R. (n.d.). PlaneGeometry.js. Retrieved May
-    12, 2015, from https://github.com/\
-mrdoob/three.js/blob/dev/src/geometries/PlaneGeometry.js
+    12, 2015, from
+    https://github.com/mrdoob/three.js/blob/dev/src/geometries/PlaneGeometry.js
 """
 
 from __future__ import division, unicode_literals

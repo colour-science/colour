@@ -22,11 +22,12 @@ Defines the *RED* log encodings:
 
 References
 ----------
--   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with
-    Shaw, N.
+-   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with Shaw,
+    N.
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
-    November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/\
-blob/master/nuke-default/make.py
+    November 27, 2014, from
+    https://github.com/imageworks/OpenColorIO-Configs/blob/master/\
+nuke-default/make.py
 """
 
 from __future__ import division, unicode_literals

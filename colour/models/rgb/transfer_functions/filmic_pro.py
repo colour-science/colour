@@ -11,8 +11,7 @@ Defines the *FiLMiC Pro 6* encoding:
 References
 ----------
 -   :cite:`FiLMiCInc2017` : FiLMiC Inc. (2017). FiLMiC Pro - User Manual v6 -
-    Revision 1. Retrieved from http://www.filmicpro.com/\
-FilmicProUserManualv6.pdf
+    Revision 1 (pp. 1-46). http://www.filmicpro.com/FilmicProUserManualv6.pdf
 """
 
 from __future__ import division, unicode_literals

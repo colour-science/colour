@@ -10,7 +10,7 @@ Defines the *ECI RGB v2* colourspace:
 References
 ----------
 -   :cite:`EuropeanColorInitiative2002a` : European Color Initiative. (2002).
-    ECI RGB v2. Retrieved from
+    ECI RGB v2.
     http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 """
 

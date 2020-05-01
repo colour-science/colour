@@ -15,20 +15,20 @@ transformations:
 References
 ----------
 -   :cite:`CIETC1-362006a` : CIE TC 1-36. (2006). CIE 170-1:2006 Fundamental
-    Chromaticity Diagram with Physiological Axes - Part 1.
-    ISBN:978-3-901-90646-6
--   :cite:`CVRLp` : CVRL. (n.d.). CIE (2012) 10-deg XYZ
+    Chromaticity Diagram with Physiological Axes - Part 1. Commission
+    Internationale de l"Eclairage. ISBN:978-3-901906-46-6
+-   :cite:`CVRLp` : CVRL. (n.d.-b). CIE (2012) 10-deg XYZ
     "physiologically-relevant" colour matching functions. Retrieved June 25,
     2014, from http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
--   :cite:`CVRLv` : CVRL. (n.d.). CIE (2012) 2-deg XYZ
+-   :cite:`CVRLv` : CVRL. (n.d.-a). CIE (2012) 2-deg XYZ
     "physiologically-relevant" colour matching functions. Retrieved June 25,
     2014, from http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
--   :cite:`Wyszecki2000be` : Wyszecki, G., & Stiles, W. S. (2000). The CIE 1964
-    Standard Observer. In Color Science: Concepts and Methods, Quantitative
-    Data and Formulae (p. 141). Wiley. ISBN:978-0471399186
--   :cite:`Wyszecki2000bg` : Wyszecki, G., & Stiles, W. S. (2000).
-    Table 1(3.3.3). In Color Science: Concepts and Methods, Quantitative Data
-    and Formulae (pp. 138-139). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000be` : Wyszecki, Günther, & Stiles, W. S. (2000m). The
+    CIE 1964 Standard Observer. In Color Science: Concepts and Methods,
+    Quantitative Data and Formulae (p. 141). Wiley. ISBN:978-0-471-39918-6
+-   :cite:`Wyszecki2000bg` : Wyszecki, Günther, & Stiles, W. S. (2000g). Table
+    1(3.3.3). In Color Science: Concepts and Methods, Quantitative Data and
+    Formulae (pp. 138-139). Wiley. ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals

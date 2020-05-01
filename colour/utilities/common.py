@@ -9,8 +9,9 @@ References
 ----------
 -   :cite:`Kienzle2011a` : Kienzle, P., Patel, N., & Krycka, J. (2011).
     refl1d.numpyerrors - Refl1D v0.6.19 documentation. Retrieved January 30,
-    2015, from http://www.reflectometry.org/danse/docs/refl1d/_modules/\
-refl1d/numpyerrors.html
+    2015, from
+    http://www.reflectometry.org/danse/docs/refl1d/_modules/refl1d/\
+numpyerrors.html
 """
 
 from __future__ import division, unicode_literals

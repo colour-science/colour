@@ -12,12 +12,12 @@ References
 -   :cite:`InternationalElectrotechnicalCommission1999a` : International
     Electrotechnical Commission. (1999). IEC 61966-2-1:1999 - Multimedia
     systems and equipment - Colour measurement and management - Part 2-1:
-    Colour management - Default RGB colour space - sRGB. Retrieved from
+    Colour management - Default RGB colour space - sRGB (p. 51).
     https://webstore.iec.ch/publication/6169
 -   :cite:`InternationalTelecommunicationUnion2015i` : International
-    Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
+    Telecommunication Union. (2015a). Recommendation ITU-R BT.709-6 - Parameter
     values for the HDTV standards for production and international programme
-    exchange BT Series Broadcasting service. Retrieved from
+    exchange BT Series Broadcasting service (pp. 1-32).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """

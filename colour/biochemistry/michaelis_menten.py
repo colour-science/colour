@@ -10,9 +10,9 @@ Implements support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
 
 References
 ----------
--   :cite:`Wikipedia2003d` : Wikipedia. (2003). Michaelis-Menten kinetics.
-    Retrieved April 29, 2017, from https://en.wikipedia.org/wiki/\
-Michaelis-Menten_kinetics
+-   :cite:`Wikipedia2003d` : Wikipedia. (2003e). Michaelis-Menten kinetics.
+    Retrieved April 29, 2017, from
+    https://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics
 """
 
 from __future__ import division, unicode_literals

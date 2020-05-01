@@ -9,19 +9,19 @@ transfer function (EOTF / EOCF) and its inverse:
 -   :func:`colour.models.eotf_inverse_DICOMGSDF`
 -   :func:`colour.models.eotf_DICOMGSDF`
 
-The Grayscale Standard Display Function is defined for the Luminance Range
-from :math:`0.05` to :math:`4000 cd/m^2`. The minimum Luminance corresponds
-to the lowest practically useful Luminance of cathode-ray-tube (CRT) monitors
-and the maximum exceeds the unattenuated Luminance of very bright light-boxes
-used for interpreting X-Ray mammography. The Grayscale Standard Display
-Function explicitly includes the effects of the diffused ambient Illuminance.
+The Grayscale Standard Display Function is defined for the Luminance Range from
+:math:`0.05` to :math:`4000 cd/m^2`. The minimum Luminance corresponds to the
+lowest practically useful Luminance of cathode-ray-tube (CRT) monitors and the
+maximum exceeds the unattenuated Luminance of very bright light-boxes used for
+interpreting X-Ray mammography. The Grayscale Standard Display Function
+explicitly includes the effects of the diffused ambient Illuminance.
 
 References
 ----------
 -   :cite:`NationalElectricalManufacturersAssociation2004b` : National
     Electrical Manufacturers Association. (2004). Digital Imaging and
     Communications in Medicine (DICOM) Part 14: Grayscale Standard Display
-    Function. Retrieved from http://medical.nema.org/dicom/2004/04_14PU.PDF
+    Function. http://medical.nema.org/dicom/2004/04_14PU.PDF
 """
 
 from __future__ import division, unicode_literals

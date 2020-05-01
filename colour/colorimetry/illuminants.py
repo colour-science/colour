@@ -11,17 +11,18 @@ Defines *CIE* illuminants computation related objects:
 
 References
 ----------
--   :cite:`CIETC1-482004` CIE TC 1-48. (2004). EXPLANATORY COMMENTS - 5. In
-    CIE 015:2004 Colorimetry, 3rd Edition (pp. 68-68). ISBN:978-3-901-90633-6
--   :cite:`CIETC1-482004n` : CIE TC 1-48. (2004). 3.1 Recommendations
+-   :cite:`CIETC1-482004` : CIE TC 1-48. (2004g). EXPLANATORY COMMENTS - 5. In
+    CIE 015:2004 Colorimetry, 3rd Edition (pp. 68-68). ISBN:978-3-901906-33-6
+-   :cite:`CIETC1-482004n` : CIE TC 1-48. (2004a). 3.1 Recommendations
     concerning standard physical data of illuminants. In CIE 015:2004
-    Colorimetry, 3rd Edition (pp. 12-13). ISBN:978-3-901-90633-6
--   :cite:`Wyszecki2000a` : Wyszecki, G., & Stiles, W. S. (2000). Equation
-    I(1.2.1). In Color Science: Concepts and Methods, Quantitative Data and
-    Formulae (p. 8). Wiley. ISBN:978-0471399186
--   :cite:`Wyszecki2000z` : Wyszecki, G., & Stiles, W. S. (2000). CIE Method of
-    Calculating D-Illuminants. In Color Science: Concepts and Methods,
-    Quantitative Data and Formulae (pp. 145-146). Wiley. ISBN:978-0471399186
+    Colorimetry, 3rd Edition (pp. 12-13). ISBN:978-3-901906-33-6
+-   :cite:`Wyszecki2000a` : Wyszecki, Günther, & Stiles, W. S. (2000d).
+    Equation I(1.2.1). In Color Science: Concepts and Methods, Quantitative
+    Data and Formulae (p. 8). Wiley. ISBN:978-0-471-39918-6
+-   :cite:`Wyszecki2000z` : Wyszecki, Günther, & Stiles, W. S. (2000b). CIE
+    Method of Calculating D-Illuminants. In Color Science: Concepts and
+    Methods, Quantitative Data and Formulae (pp. 145-146). Wiley.
+    ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals
