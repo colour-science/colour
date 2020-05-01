@@ -1,0 +1,211 @@
+# -*- coding: utf-8 -*-
+"""
+Nikon N-Log Log Encoding
+===========================
+
+Defines the *Nikon N-Log* log encoding:
+
+-   :func:`colour.models.log_encoding_NLog`
+-   :func:`colour.models.log_decoding_NLog`
+
+See Also
+--------
+`RGB Colourspaces Jupyter Notebook
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
+blob/master/notebooks/models/rgb.ipynb>`_
+
+References
+----------
+-   :cite:`NikonCorp2018` : Nikon. (2018). N-Log Specification \
+    Document Ver.1.0.0 \
+    Retrieved from http://download.nikonimglib.com/archive3/\
+    hDCmK00m9JDI03RPruD74xpoU905/N-Log_Specification_(En)01.pdf
+"""
+
+import numpy as np
+
+from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
+from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-developers@colour-science.org'
+__status__ = 'Production'
+
+__all__ = ['NLOG_CONSTANTS', 'log_encoding_NLog', 'log_decoding_NLog']
+
+NLOG_CONSTANTS = Structure(
+    cut1=0.328,
+    cut2=(452 / 1023),
+    a=(650 / 1023),
+    b=0.0075,
+    c=(150 / 1023),
+    d=(619 / 1023))
+"""
+*Nikon N-Log* colourspace constants.
+
+NLOG_CONSTANTS : Structure
+"""
+
+
+def log_encoding_NLog(in_r,
+                      bit_depth=10,
+                      out_normalised_code_value=True,
+                      in_reflection=True,
+                      constants=NLOG_CONSTANTS):
+    """
+    Defines the *Nikon N-Log* log encoding curve / opto-electronic transfer
+    function.
+
+    Parameters
+    ----------
+    in_r : numeric or array_like
+        Linear reflection data :math`in`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_normalised_code_value : bool, optional
+        Whether the non-linear *Nikon N-Log* data :math:`out` is encoded as
+        normalised code values.
+    in_reflection : bool, optional
+        Whether the light level :math`in` to a camera is reflection.
+    constants : Structure, optional
+        *Nikon N-Log* constants.
+
+    Returns
+    -------
+    numeric or ndarray
+        Non-linear data :math:`out`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``in_r``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``out_r``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`NikonCorp2018`
+
+    Examples
+    --------
+    >>> log_encoding_NLog(0.18)  # doctest: +ELLIPSIS
+    0.4593184...
+
+    The values of *2-2. N-Log Code Value* table in :cite:`NikonCorp2018` are
+    obtained as follows:
+
+    >>> x = np.array([0, 18, 90]) / 100
+    >>> np.around(log_encoding_NLog(x, 10, False) * 100, 1)
+    array([  3.5,  46.3,  73.2])
+    >>> np.around(log_encoding_NLog(x) * (2 ** 10 - 1)).astype(np.int)
+    array([ 95, 470, 705])
+    """
+
+    in_r = to_domain_1(in_r)
+
+    if not in_reflection:
+        in_r = in_r * 0.9
+
+    cut1 = constants.cut1
+    a = constants.a
+    b = constants.b
+    c = constants.c
+    d = constants.d
+
+    out_r = np.where(
+        in_r < cut1,
+        a * (in_r + b) ** (1 / 3),
+        c * np.log10(in_r) + d,
+    )
+
+    out_r = (out_r
+             if out_normalised_code_value else legal_to_full(out_r, bit_depth))
+
+    return as_float(from_range_1(out_r))
+
+
+def log_decoding_NLog(out_r,
+                      bit_depth=10,
+                      in_normalised_code_value=True,
+                      out_reflection=True,
+                      constants=NLOG_CONSTANTS):
+    """
+    Defines the *Nikon N-Log* log decoding curve / electro-optical transfer
+    function.
+
+    Parameters
+    ----------
+    out_r : numeric or array_like
+        Non-linear data :math:`out`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_normalised_code_value : bool, optional
+        Whether the non-linear *Nikon N-Log* data :math:`out` is encoded as
+        normalised code values.
+    out_reflection : bool, optional
+        Whether the light level :math`in` to a camera is reflection.
+    constants : Structure, optional
+        *Nikon N-Log* constants.
+
+    Returns
+    -------
+    numeric or ndarray
+        Linear reflection data :math`in`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``out_r``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``in_r``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`NikonCorp2018`
+
+    Examples
+    --------
+    >>> log_decoding_NLog(0.45931845866162124)  # doctest: +ELLIPSIS
+    0.1800000...
+    """
+
+    out_r = to_domain_1(out_r)
+
+    out_r = (out_r
+             if in_normalised_code_value else full_to_legal(out_r, bit_depth))
+
+    cut2 = constants.cut2
+    a = constants.a
+    b = constants.b
+    c = constants.c
+    d = constants.d
+
+    in_r = np.where(
+        out_r < cut2,
+        (out_r / a) ** 3.0 - b,
+        np.exp((out_r - d) / c),
+    )
+
+    if not out_reflection:
+        in_r = in_r / 0.9
+
+    return as_float(from_range_1(in_r))
