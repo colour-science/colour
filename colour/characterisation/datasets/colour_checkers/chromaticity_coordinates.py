@@ -38,7 +38,7 @@ References
 -   :cite:`BabelColor2012c` : BabelColor. (2012a). ColorChecker RGB and
     spectra.
     http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
--   :cite:`X-Rite2015` : X-Rite. (2015). New color specifications for
+-   :cite:`X-Rite2016` : X-Rite. (2016). New color specifications for
     ColorChecker SG and Classic Charts. Retrieved October 29, 2018, from
     http://xritephoto.com/ph_product_overview.aspx?ID=938&Action=Support&\
 SupportID=5884#
@@ -410,7 +410,7 @@ Aggregated *Colour Checker* chromaticity coordinates.
 
 References
 ----------
-:cite:`BabelColor2012b`, :cite:`BabelColor2012c`, :cite:`X-Rite2015`
+:cite:`BabelColor2012b`, :cite:`BabelColor2012c`, :cite:`X-Rite2016`
 
 COLOURCHECKERS : CaseInsensitiveMapping
     **{'ColorChecker 1976', 'ColorChecker 2005', 'BabelColor Average',
