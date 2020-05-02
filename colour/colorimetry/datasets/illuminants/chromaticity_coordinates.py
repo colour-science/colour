@@ -44,7 +44,7 @@ have been computed according to practise *ASTM E308-15* method.
 
 References
 ----------
--   :cite:`CIETC1-482004h` : CIE TC 1-48. (2004d). CIE 015:2004 Colorimetry,
+-   :cite:`CIETC1-482004h` : CIE TC 1-48. (2004). CIE 015:2004 Colorimetry,
     3rd Edition. In CIE 015:2004 Colorimetry, 3rd Edition. Commission
     Internationale de l'Eclairage. ISBN:978-3-901906-33-6
 -   :cite:`Carter2018` : Carter, E. C., Schanda, J. D., Hirschler, R., Jost,
@@ -63,11 +63,11 @@ DCI_DCinema_System_Spec_v1_1.pdf
     http://www.color.org/specification/ICC1v43_2010-12.pdf
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2014b). Technical
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
     Encoding Specification (ACES) (pp. 1-40).
     https://github.com/ampas/aces-dev/tree/master/documents
--   :cite:`Wikipedia2006a` : Wikipedia. (2006b). White points of standard
+-   :cite:`Wikipedia2006a` : Wikipedia. (2006). White points of standard
     illuminants. Retrieved February 24, 2014, from
     http://en.wikipedia.org/wiki/Standard_illuminant#\
 White_points_of_standard_illuminants

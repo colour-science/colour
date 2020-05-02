@@ -28,7 +28,7 @@ Notes
 
 References
 ----------
--   :cite:`MunsellColorSciencec` : Munsell Color Science. (n.d.-b). Munsell
+-   :cite:`MunsellColorSciencec` : Munsell Color Science. (n.d.). Munsell
     Colours Data. Retrieved August 20, 2014, from
     http://www.cis.rit.edu/research/mcsl2/online/munsell.php
 """

@@ -116,11 +116,11 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 
 References
 ----------
--   :cite:`AdobeSystems2013` : Adobe Systems. (2013a). Adobe DNG Software
+-   :cite:`AdobeSystems2013` : Adobe Systems. (2013). Adobe DNG Software
     Development Kit (SDK) - 1.3.0.0 -
     dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::\
 Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
--   :cite:`AdobeSystems2013a` : Adobe Systems. (2013b). Adobe DNG Software
+-   :cite:`AdobeSystems2013a` : Adobe Systems. (2013). Adobe DNG Software
     Development Kit (SDK) - 1.3.0.0 -
     dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::xy_coord.
     https://www.adobe.com/support/downloads/dng/dng_sdk.html
@@ -137,15 +137,15 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
     doi:10.1002/col.5080100109
 -   :cite:`Ohno2014a` : Ohno, Yoshiro. (2014). Practical Use and Calculation of
     CCT and Duv. LEUKOS, 10(1), 47-55. doi:10.1080/15502724.2014.839020
--   :cite:`Wikipedia2001` : Wikipedia. (2001a). Approximation. Retrieved June
+-   :cite:`Wikipedia2001` : Wikipedia. (2001). Approximation. Retrieved June
     28, 2014, from http://en.wikipedia.org/wiki/Color_temperature#Approximation
--   :cite:`Wikipedia2001a` : Wikipedia. (2001b). Color temperature. Retrieved
+-   :cite:`Wikipedia2001a` : Wikipedia. (2001). Color temperature. Retrieved
     June 28, 2014, from http://en.wikipedia.org/wiki/Color_temperature
--   :cite:`Wyszecki2000y` : Wyszecki, Günther, & Stiles, W. S. (2000c).
+-   :cite:`Wyszecki2000y` : Wyszecki, Günther, & Stiles, W. S. (2000).
     DISTRIBUTION TEMPERATURE, COLOR TEMPERATURE, AND CORRELATED COLOR
     TEMPERATURE. In Color Science: Concepts and Methods, Quantitative Data and
     Formulae (pp. 224-229). Wiley. ISBN:978-0-471-39918-6
--   :cite:`Wyszecki2000z` : Wyszecki, Günther, & Stiles, W. S. (2000b). CIE
+-   :cite:`Wyszecki2000z` : Wyszecki, Günther, & Stiles, W. S. (2000). CIE
     Method of Calculating D-Illuminants. In Color Science: Concepts and
     Methods, Quantitative Data and Formulae (pp. 145-146). Wiley.
     ISBN:978-0-471-39918-6

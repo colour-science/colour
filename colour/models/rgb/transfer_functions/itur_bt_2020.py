@@ -12,7 +12,7 @@ electro-optical transfer function (EOTF / EOCF):
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015h` : International
-    Telecommunication Union. (2015b). Recommendation ITU-R BT.2020 - Parameter
+    Telecommunication Union. (2015). Recommendation ITU-R BT.2020 - Parameter
     values for ultra-high definition television systems for production and
     international programme exchange (pp. 1-8).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\

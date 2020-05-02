@@ -29,11 +29,11 @@ Defines *whiteness* index :math:`W` computation objects:
 
 References
 ----------
--   :cite:`CIETC1-482004k` : CIE TC 1-48. (2004i). The evaluation of whiteness.
+-   :cite:`CIETC1-482004k` : CIE TC 1-48. (2004). The evaluation of whiteness.
     In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901906-33-6
--   :cite:`Wikipedia2004b` : Wikipedia. (2004c). Whiteness. Retrieved September
+-   :cite:`Wikipedia2004b` : Wikipedia. (2004). Whiteness. Retrieved September
     17, 2014, from http://en.wikipedia.org/wiki/Whiteness
--   :cite:`Wyszecki2000ba` : Wyszecki, Günther, & Stiles, W. S. (2000k). Table
+-   :cite:`Wyszecki2000ba` : Wyszecki, Günther, & Stiles, W. S. (2000). Table
     I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W). In Color
     Science: Concepts and Methods, Quantitative Data and Formulae (pp.
     837-839). Wiley. ISBN:978-0-471-39918-6

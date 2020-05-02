@@ -10,7 +10,7 @@ References
 -   :cite:`Macadam1942` : Macadam, D. L. (1942). Visual Sensitivities to Color
     Differences in Daylight. Journal of the Optical Society of America, 32(5),
     28. doi:10.1364/JOSA.32.000247
--   :cite:`Wyszecki2000` : Wyszecki, Günther, & Stiles, W. S. (2000i). Table
+-   :cite:`Wyszecki2000` : Wyszecki, Günther, & Stiles, W. S. (2000). Table
     2(5.4.1) MacAdam Ellipses (Observer PGN) Observed and Calculated on the
     Basis of a Normal Distribution of Color Matches about a Color Center
     (Silberstein and MacAdam, 1945). In Color Science: Concepts and Methods,

@@ -15,7 +15,7 @@ References
 -   :cite:`Fairchild1996a` : Fairchild, M. D. (1996). Refinement of the RLAB
     color space. Color Research & Application, 21(5), 338-346.
     doi:10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z
--   :cite:`Fairchild2013w` : Fairchild, M. D. (2013h). The RLAB Model. In Color
+-   :cite:`Fairchild2013w` : Fairchild, M. D. (2013). The RLAB Model. In Color
     Appearance Models (3rd ed., pp. 5563-5824). Wiley. ISBN:B00DAYO8E2
 """
 

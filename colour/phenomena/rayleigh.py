@@ -15,7 +15,7 @@ References
     Slusser, J. R. (1999). On Rayleigh Optical Depth Calculations. Journal of
     Atmospheric and Oceanic Technology, 16(11), 1854-1861.
     doi:10.1175/1520-0426(1999)016<1854:ORODC>2.0.CO;2
--   :cite:`Wikipedia2001c` : Wikipedia. (2001d). Rayleigh scattering. Retrieved
+-   :cite:`Wikipedia2001c` : Wikipedia. (2001). Rayleigh scattering. Retrieved
     September 23, 2014, from http://en.wikipedia.org/wiki/Rayleigh_scattering
 """
 

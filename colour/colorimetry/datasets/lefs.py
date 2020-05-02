@@ -34,11 +34,11 @@ Notes
 
 References
 ----------
--   :cite:`CVRLq` : CVRL. (n.d.-c). Luminous efficiency. Retrieved April 19,
+-   :cite:`CVRLq` : CVRL. (n.d.). Luminous efficiency. Retrieved April 19,
     2014, from http://www.cvrl.org/lumindex.htm
--   :cite:`CVRLs` : CVRL. (n.d.-e). Older CIE Standards. Retrieved February 24,
+-   :cite:`CVRLs` : CVRL. (n.d.). Older CIE Standards. Retrieved February 24,
     2014, from http://cvrl.ioo.ucl.ac.uk/cie.htm
--   :cite:`Wikipedia2005d` : Wikipedia. (2005e). Mesopic weighting function.
+-   :cite:`Wikipedia2005d` : Wikipedia. (2005). Mesopic weighting function.
     Retrieved June 20, 2014, from
     http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """

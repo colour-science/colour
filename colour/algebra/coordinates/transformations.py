@@ -22,9 +22,9 @@ The following transformations are available:
 
 References
 ----------
--   :cite:`Wikipedia2005a` : Wikipedia. (2005b). ISO 31-11. Retrieved July 31,
+-   :cite:`Wikipedia2005a` : Wikipedia. (2005). ISO 31-11. Retrieved July 31,
     2016, from https://en.wikipedia.org/wiki/ISO_31-11
--   :cite:`Wikipedia2006` : Wikipedia. (2006a). List of common coordinate
+-   :cite:`Wikipedia2006` : Wikipedia. (2006). List of common coordinate
     transformations. Retrieved July 18, 2014, from
     http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """

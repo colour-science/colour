@@ -14,13 +14,13 @@ The following methods are available:
 
 References
 ----------
--   :cite:`Lindbloom2003c` : Lindbloom, B. (2003a). Delta E (CIE 1976).
+-   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
--   :cite:`Lindbloom2009e` : Lindbloom, B. (2009b). Delta E (CIE 2000).
+-   :cite:`Lindbloom2009e` : Lindbloom, B. (2009). Delta E (CIE 2000).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
--   :cite:`Lindbloom2009f` : Lindbloom, B. (2009c). Delta E (CMC). Retrieved
+-   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC). Retrieved
     February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
 -   :cite:`Lindbloom2011a` : Lindbloom, B. (2011). Delta E (CIE 1994).
     Retrieved February 24, 2014, from

@@ -60,47 +60,47 @@ References
 -   :cite:`Centore2012a` : Centore, P. (2012). An open-source inversion
     algorithm for the Munsell renotation. Color Research & Application, 37(6),
     455-464. doi:10.1002/col.20715
--   :cite:`Centore2014k` : Centore, P. (2014e).
+-   :cite:`Centore2014k` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/MunsellHueToASTMHue.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014l` : Centore, P. (2014k).
+-   :cite:`Centore2014l` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014m` : Centore, P. (2014h).
+-   :cite:`Centore2014m` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/MunsellToxyY.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014n` : Centore, P. (2014c).
+-   :cite:`Centore2014n` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/FindHueOnRenotationOvoid.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014o` : Centore, P. (2014j).
+-   :cite:`Centore2014o` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellSystemRoutines/BoundingRenotationHues.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014p` : Centore, P. (2014i).
+-   :cite:`Centore2014p` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/xyYtoMunsell.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014q` : Centore, P. (2014g).
+-   :cite:`Centore2014q` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014r` : Centore, P. (2014d).
+-   :cite:`Centore2014r` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014s` : Centore, P. (2014f).
+-   :cite:`Centore2014s` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014t` : Centore, P. (2014b).
+-   :cite:`Centore2014t` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
--   :cite:`Centore2014u` : Centore, P. (2014a).
+-   :cite:`Centore2014u` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     GeneralRoutines/CIELABtoApproxMunsellSpec.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox

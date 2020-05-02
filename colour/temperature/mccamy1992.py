@@ -15,7 +15,7 @@ computations objects:
 
 References
 ----------
--   :cite:`Wikipedia2001` : Wikipedia. (2001a). Approximation. Retrieved June
+-   :cite:`Wikipedia2001` : Wikipedia. (2001). Approximation. Retrieved June
     28, 2014, from http://en.wikipedia.org/wiki/Color_temperature#Approximation
 """
 

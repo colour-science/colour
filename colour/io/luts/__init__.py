@@ -2,7 +2,7 @@
 """
 References
 ----------
--   :cite:`AdobeSystems2013b` : Adobe Systems. (2013c). Cube LUT Specification.
+-   :cite:`AdobeSystems2013b` : Adobe Systems. (2013). Cube LUT Specification.
     https://drive.google.com/open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
 -   :cite:`Chamberlain2015` : Chamberlain, P. (2015). LUT documentation (to
     create from another program). Retrieved August 23, 2018, from

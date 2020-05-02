@@ -12,13 +12,13 @@ deficiency:
 
 References
 ----------
--   :cite:`Colblindora` : Colblindor. (n.d.-a). Deuteranopia - Red-Green Color
+-   :cite:`Colblindora` : Colblindor. (n.d.). Deuteranopia - Red-Green Color
     Blindness. Retrieved July 4, 2015, from
     http://www.color-blindness.com/deuteranopia-red-green-color-blindness/
--   :cite:`Colblindorb` : Colblindor. (n.d.-b). Protanopia - Red-Green Color
+-   :cite:`Colblindorb` : Colblindor. (n.d.). Protanopia - Red-Green Color
     Blindness. Retrieved July 4, 2015, from
     http://www.color-blindness.com/protanopia-red-green-color-blindness/
--   :cite:`Colblindorc` : Colblindor. (n.d.-c). Tritanopia - Blue-Yellow Color
+-   :cite:`Colblindorc` : Colblindor. (n.d.). Tritanopia - Blue-Yellow Color
     Blindness. Retrieved July 4, 2015, from
     http://www.color-blindness.com/tritanopia-blue-yellow-color-blindness/
 -   :cite:`Machado2009` : Machado, G.M., Oliveira, M. M., & Fernandes, L.

@@ -9,7 +9,7 @@ Defines the *Max RGB* colourspace:
 
 References
 ----------
--   :cite:`HutchColorf` : HutchColor. (n.d.-c). MaxRGB (4 K).
+-   :cite:`HutchColorf` : HutchColor. (n.d.). MaxRGB (4 K).
     http://www.hutchcolor.com/profiles/MaxRGB.zip
 """
 

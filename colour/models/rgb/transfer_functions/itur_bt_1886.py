@@ -12,7 +12,7 @@ Defines *Recommendation ITU-R BT.1886* electro-optical transfer function (EOTF
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2011h` : International
-    Telecommunication Union. (2011b). Recommendation ITU-R BT.1886 - Reference
+    Telecommunication Union. (2011). Recommendation ITU-R BT.1886 - Reference
     electro-optical transfer function for flat panel displays used in HDTV
     studio production BT Series Broadcasting service.
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\

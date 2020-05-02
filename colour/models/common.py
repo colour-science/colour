@@ -10,7 +10,7 @@ Defines various colour models common utilities:
 
 References
 ----------
--   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004f). CIE 1976 uniform colour
+-   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
     spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
     ISBN:978-3-901906-33-6
 """

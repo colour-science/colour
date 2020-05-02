@@ -14,13 +14,13 @@ Defines the classes and objects handling spectral data computations:
 
 References
 ----------
--   :cite:`CIETC1-382005e` : CIE TC 1-38. (2005a). 9. INTERPOLATION. In CIE
+-   :cite:`CIETC1-382005e` : CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE
     167:2005 Recommended Practice for Tabulating Spectral Data for Use in
     Colour Computations (pp. 14-19). ISBN:978-3-901906-41-1
--   :cite:`CIETC1-382005g` : CIE TC 1-38. (2005c). EXTRAPOLATION. In CIE
+-   :cite:`CIETC1-382005g` : CIE TC 1-38. (2005). EXTRAPOLATION. In CIE
     167:2005 Recommended Practice for Tabulating Spectral Data for Use in
     Colour Computations (pp. 19-20). ISBN:978-3-901906-41-1
--   :cite:`CIETC1-482004l` : CIE TC 1-48. (2004h). Extrapolation. In CIE
+-   :cite:`CIETC1-482004l` : CIE TC 1-48. (2004). Extrapolation. In CIE
     015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901906-33-6
 """
 

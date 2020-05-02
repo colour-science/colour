@@ -28,7 +28,7 @@ References
 -   :cite:`ASTMInternational2015b` : ASTM International. (2015). ASTM E308-15 -
     Standard Practice for Computing the Colors of Objects by Using the CIE
     System (pp. 1-47). doi:10.1520/E0308-15
--   :cite:`Wyszecki2000bf` : Wyszecki, Günther, & Stiles, W. S. (2000e).
+-   :cite:`Wyszecki2000bf` : Wyszecki, Günther, & Stiles, W. S. (2000).
     Integration Replaced by Summation. In Color Science: Concepts and Methods,
     Quantitative Data and Formulae (pp. 158-163). Wiley. ISBN:978-0-471-39918-6
 """
