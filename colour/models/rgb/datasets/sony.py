@@ -15,14 +15,14 @@ References
     Endo, K., & Clark, C. (n.d.). S-Log: A new LUT for digital production
     mastering and interchange applications (Vol. 709, pp. 1-13).
     http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
--   :cite:`SonyCorporation` : Sony Corporation. (n.d.-b). S-Log Whitepaper (pp.
+-   :cite:`SonyCorporation` : Sony Corporation. (n.d.). S-Log Whitepaper (pp.
     1-17). http://www.theodoropoulos.info/attachments/076_on%20S-Log.pdf
--   :cite:`SonyCorporationd` : Sony Corporation. (n.d.-c). Technical Summary
+-   :cite:`SonyCorporationd` : Sony Corporation. (n.d.). Technical Summary
     for S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3 (pp. 1-7).
     http://community.sony.com/sony/attachments/sony/\
 large-sensor-camera-F5-F55/12359/2/\
 TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
--   :cite:`SonyCorporatione` : Sony Corporation. (n.d.-a).
+-   :cite:`SonyCorporatione` : Sony Corporation. (n.d.).
     S-Gamut3_S-Gamut3Cine_Matrix.xlsx.
     https://community.sony.com/sony/attachments/sony/\
 large-sensor-camera-F5-F55/12359/3/S-Gamut3_S-Gamut3Cine_Matrix.xlsx

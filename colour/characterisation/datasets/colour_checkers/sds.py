@@ -21,13 +21,13 @@ BABELCOLOR_AVERAGE_SDS`: Average data derived from measurements of
 
 References
 ----------
--   :cite:`BabelColor2012b` : BabelColor. (2012b). The ColorChecker (since
+-   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker (since
     1976!). Retrieved September 26, 2014, from
     http://www.babelcolor.com/main_level/ColorChecker.htm
--   :cite:`BabelColor2012c` : BabelColor. (2012a). ColorChecker RGB and
+-   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and
     spectra.
     http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
--   :cite:`MunsellColorScienceb` : Munsell Color Science. (n.d.-a). Macbeth
+-   :cite:`MunsellColorScienceb` : Munsell Color Science. (n.d.). Macbeth
     Colorchecker. http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
 -   :cite:`Ohta1997a` : Ohta, N. (1997). The basis of color reproduction
     engineering.

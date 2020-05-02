@@ -12,7 +12,7 @@ Defines *:math:`LLAB(l:c)`* colour appearance model objects:
 
 References
 ----------
--   :cite:`Fairchild2013x` : Fairchild, M. D. (2013e). LLAB Model. In Color
+-   :cite:`Fairchild2013x` : Fairchild, M. D. (2013). LLAB Model. In Color
     Appearance Models (3rd ed., pp. 6025-6178). Wiley. ISBN:B00DAYO8E2
 -   :cite:`Luo1996b` : Luo, Ming Ronnier, Lo, M.-C., & Kuo, W.-G. (1996). The
     LLAB (l:c) colour model. Color Research & Application, 21(6), 412-429.

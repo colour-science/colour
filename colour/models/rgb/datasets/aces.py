@@ -15,13 +15,13 @@ References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2014b). Technical
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
     Encoding Specification (ACES) (pp. 1-40).
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2014c). Technical
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component
     Names (pp. 1-8). https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
@@ -32,13 +32,13 @@ References
 ACESproxy_v1.1.pdf
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2014a). Specification
+    Color Encoding System (ACES) Project Subcommittee. (2014). Specification
     S-2014-003 - ACEScc, A Logarithmic Encoding of ACES Data for use within
     Color Grading Systems (pp. 1-12).
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2015b` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2015b). Specification
+    Color Encoding System (ACES) Project Subcommittee. (2015). Specification
     S-2014-004 - ACEScg - A Working Space for CGI Render and Compositing (pp.
     1-9). https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c` : The Academy of

@@ -9,7 +9,7 @@ Defines the *Best RGB* colourspace:
 
 References
 ----------
--   :cite:`HutchColord` : HutchColor. (n.d.-a). BestRGB (4 K).
+-   :cite:`HutchColord` : HutchColor. (n.d.). BestRGB (4 K).
     http://www.hutchcolor.com/profiles/BestRGB.zip
 """
 

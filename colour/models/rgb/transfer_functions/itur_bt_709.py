@@ -12,7 +12,7 @@ its inverse:
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015i` : International
-    Telecommunication Union. (2015a). Recommendation ITU-R BT.709-6 - Parameter
+    Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
     values for the HDTV standards for production and international programme
     exchange BT Series Broadcasting service (pp. 1-32).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\

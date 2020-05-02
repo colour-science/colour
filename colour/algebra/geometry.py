@@ -16,7 +16,7 @@ Defines objects related to geometrical computations:
 
 References
 ----------
--   :cite:`Bourkea` : Bourke, P. (n.d.-a). Intersection point of two line
+-   :cite:`Bourkea` : Bourke, P. (n.d.). Intersection point of two line
     segments in 2 dimensions. Retrieved January 15, 2016, from
     http://paulbourke.net/geometry/pointlineplane/
 -   :cite:`Erdema` : Erdem, U. M. (n.d.). Fast Line Segment Intersection.

@@ -9,7 +9,7 @@ Defines the *Xtreme RGB* colourspace:
 
 References
 ----------
--   :cite:`HutchColore` : HutchColor. (n.d.-d). XtremeRGB (4 K).
+-   :cite:`HutchColore` : HutchColor. (n.d.). XtremeRGB (4 K).
     http://www.hutchcolor.com/profiles/XtremeRGB.zip
 """
 

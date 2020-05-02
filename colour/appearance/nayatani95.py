@@ -10,7 +10,7 @@ Defines *Nayatani (1995)* colour appearance model objects:
 
 References
 ----------
--   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013g). The Nayatani et al.
+-   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013). The Nayatani et al.
     Model. In Color Appearance Models (3rd ed., pp. 4810-5085). Wiley.
     ISBN:B00DAYO8E2
 -   :cite:`Nayatani1995a` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.

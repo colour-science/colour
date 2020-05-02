@@ -12,13 +12,13 @@ Defines various Cyan-Magenta-Yellow (Black) (CMY(K)) colour transformations:
 
 References
 ----------
--   :cite:`EasyRGBh` : EasyRGB. (n.d.-f). RGB --> CMY. Retrieved May 18, 2014,
+-   :cite:`EasyRGBh` : EasyRGB. (n.d.). RGB --> CMY. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=11#text11
--   :cite:`EasyRGBi` : EasyRGB. (n.d.-b). CMY --> RGB. Retrieved May 18, 2014,
+-   :cite:`EasyRGBi` : EasyRGB. (n.d.). CMY --> RGB. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=12#text12
--   :cite:`EasyRGBm` : EasyRGB. (n.d.-c). CMYK --> CMY. Retrieved May 18, 2014,
+-   :cite:`EasyRGBm` : EasyRGB. (n.d.). CMYK --> CMY. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=14#text14
--   :cite:`EasyRGBo` : EasyRGB. (n.d.-a). CMY --> CMYK. Retrieved May 18, 2014,
+-   :cite:`EasyRGBo` : EasyRGB. (n.d.). CMY --> CMYK. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 """
 

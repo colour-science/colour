@@ -10,13 +10,13 @@ References
     Melgosa, M., Brill, M. H., & Pointer, M. (2017). Comprehensive color
     solutions: CAM16, CAT16, and CAM16-UCS. Color Research & Application,
     42(6), 703-718. doi:10.1002/col.22131
--   :cite:`Lindbloom2003c` : Lindbloom, B. (2003a). Delta E (CIE 1976).
+-   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
--   :cite:`Lindbloom2009e` : Lindbloom, B. (2009b). Delta E (CIE 2000).
+-   :cite:`Lindbloom2009e` : Lindbloom, B. (2009). Delta E (CIE 2000).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
--   :cite:`Lindbloom2009f` : Lindbloom, B. (2009c). Delta E (CMC). Retrieved
+-   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC). Retrieved
     February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
 -   :cite:`Lindbloom2011a` : Lindbloom, B. (2011). Delta E (CIE 1994).
     Retrieved February 24, 2014, from
@@ -27,7 +27,7 @@ References
 -   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
     CIEDE2000. http://www.color.org/events/colorimetry/\
 Melgosa_CIEDE2000_Workshop-July4.pdf
--   :cite:`Wikipedia2008b` : Wikipedia. (2008c). Color difference. Retrieved
+-   :cite:`Wikipedia2008b` : Wikipedia. (2008). Color difference. Retrieved
     August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
 """
 

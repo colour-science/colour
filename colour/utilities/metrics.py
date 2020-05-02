@@ -10,9 +10,9 @@ Defines various metrics:
 
 References
 ----------
--   :cite:`Wikipedia2003c` : Wikipedia. (2003d). Mean squared error. Retrieved
+-   :cite:`Wikipedia2003c` : Wikipedia. (2003). Mean squared error. Retrieved
     March 5, 2018, from https://en.wikipedia.org/wiki/Mean_squared_error
--   :cite:`Wikipedia2004` : Wikipedia. (2004a). Peak signal-to-noise ratio.
+-   :cite:`Wikipedia2004` : Wikipedia. (2004). Peak signal-to-noise ratio.
     Retrieved March 5, 2018, from
     https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio
 """

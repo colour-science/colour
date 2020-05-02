@@ -8,7 +8,7 @@ its spectral distribution.
 
 References
 ----------
--   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004c). APPENDIX E. INFORMATION ON
+-   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON
     THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
 """

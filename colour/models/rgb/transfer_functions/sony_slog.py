@@ -17,7 +17,7 @@ References
 -   :cite:`SonyCorporation2012a` : Sony Corporation. (2012). S-Log2 Technical
     Paper (pp. 1–9). https://drive.google.com/file/d/\
 1Q1RYri6BaxtYYxX0D4zVD6lAmbwmgikc/view?usp=sharing
--   :cite:`SonyCorporationd` : Sony Corporation. (n.d.-c). Technical Summary
+-   :cite:`SonyCorporationd` : Sony Corporation. (n.d.). Technical Summary
     for S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3 (pp. 1-7).
     http://community.sony.com/sony/attachments/sony/\
 large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf

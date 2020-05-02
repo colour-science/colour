@@ -32,10 +32,10 @@ chromaticity_coordinates.COLORCHECKER24_AFTER_NOV2014`: Reference data from
 
 References
 ----------
--   :cite:`BabelColor2012b` : BabelColor. (2012b). The ColorChecker (since
+-   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker (since
     1976!). Retrieved September 26, 2014, from
     http://www.babelcolor.com/main_level/ColorChecker.htm
--   :cite:`BabelColor2012c` : BabelColor. (2012a). ColorChecker RGB and
+-   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and
     spectra.
     http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
 -   :cite:`X-Rite2016` : X-Rite. (2016). New color specifications for

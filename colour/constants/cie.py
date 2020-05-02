@@ -7,7 +7,7 @@ Defines the *CIE* constants.
 
 References
 ----------
--   :cite:`Wyszecki2000s` : Wyszecki, Günther, & Stiles, W. S. (2000f).
+-   :cite:`Wyszecki2000s` : Wyszecki, Günther, & Stiles, W. S. (2000).
     Standard Photometric Observers. In Color Science: Concepts and Methods,
     Quantitative Data and Formulae (pp. 256-259,395). Wiley.
     ISBN:978-0-471-39918-6

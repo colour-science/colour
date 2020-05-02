@@ -11,7 +11,7 @@ References
     Contrast Sensitivity Experiment to Determine the Bit Depth for Digital
     Cinema. SMPTE Motion Imaging Journal, 113(9), 281-292. doi:10.5594/j11549
 -   :cite:`InternationalTelecommunicationUnion2015` : International
-    Telecommunication Union. (2015c). Report ITU-R BT.2246-4 - The present
+    Telecommunication Union. (2015). Report ITU-R BT.2246-4 - The present
     state of ultra-high definition television BT Series Broadcasting service
     (Vol. 5, pp. 1-92).
     https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-BT.2246-4-2015-PDF-E.pdf

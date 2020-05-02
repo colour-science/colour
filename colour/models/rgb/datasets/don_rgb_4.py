@@ -9,7 +9,7 @@ Defines the *Don RGB 4* colourspace:
 
 References
 ----------
--   :cite:`HutchColorg` : HutchColor. (n.d.-b). DonRGB4 (4 K).
+-   :cite:`HutchColorg` : HutchColor. (n.d.). DonRGB4 (4 K).
     http://www.hutchcolor.com/profiles/DonRGB4.zip
 """
 

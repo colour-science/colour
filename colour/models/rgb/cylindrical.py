@@ -18,18 +18,18 @@ They are provided for convenience and completeness.
 
 References
 ----------
--   :cite:`EasyRGBj` : EasyRGB. (n.d.-h). RGB --> HSV. Retrieved May 18, 2014,
+-   :cite:`EasyRGBj` : EasyRGB. (n.d.). RGB --> HSV. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=20#text20
--   :cite:`EasyRGBk` : EasyRGB. (n.d.-d). HSL --> RGB. Retrieved May 18, 2014,
+-   :cite:`EasyRGBk` : EasyRGB. (n.d.). HSL --> RGB. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=19#text19
--   :cite:`EasyRGBl` : EasyRGB. (n.d.-g). RGB --> HSL. Retrieved May 18, 2014,
+-   :cite:`EasyRGBl` : EasyRGB. (n.d.). RGB --> HSL. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=18#text18
--   :cite:`EasyRGBn` : EasyRGB. (n.d.-e). HSV --> RGB. Retrieved May 18, 2014,
+-   :cite:`EasyRGBn` : EasyRGB. (n.d.). HSV --> RGB. Retrieved May 18, 2014,
     from http://www.easyrgb.com/index.php?X=MATH&H=21#text21
 -   :cite:`Smith1978b` : Smith, A. R. (1978). Color gamut transform pairs.
     Proceedings of the 5th Annual Conference on Computer Graphics and
     Interactive Techniques - SIGGRAPH "78, 12-19. doi:10.1145/800248.807361
--   :cite:`Wikipedia2003` : Wikipedia. (2003a). HSL and HSV. Retrieved
+-   :cite:`Wikipedia2003` : Wikipedia. (2003). HSL and HSV. Retrieved
     September 10, 2014, from http://en.wikipedia.org/wiki/HSL_and_HSV
 """
 

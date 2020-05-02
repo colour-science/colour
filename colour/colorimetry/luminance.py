@@ -33,7 +33,7 @@ References
 -   :cite:`ASTMInternational2008a` : ASTM International. (2008). ASTM
     D1535-08e1 - Standard Practice for Specifying Color by the Munsell System.
     doi:10.1520/D1535-08E01
--   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004f). CIE 1976 uniform colour
+-   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
     spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
     ISBN:978-3-901906-33-6
 -   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB
@@ -48,9 +48,9 @@ References
     Final Report of the OSA Subcommittee on the Spacing of the Munsell Colors.
     Journal of the Optical Society of America, 33(7), 385.
     doi:10.1364/JOSA.33.000385
--   :cite:`Wikipedia2001b` : Wikipedia. (2001c). Luminance. Retrieved February
+-   :cite:`Wikipedia2001b` : Wikipedia. (2001). Luminance. Retrieved February
     10, 2018, from https://en.wikipedia.org/wiki/Luminance
--   :cite:`Wyszecki2000bd` : Wyszecki, Günther, & Stiles, W. S. (2000a). CIE
+-   :cite:`Wyszecki2000bd` : Wyszecki, Günther, & Stiles, W. S. (2000). CIE
     1976 (L*u*v*)-Space and Color-Difference Formula. In Color Science:
     Concepts and Methods, Quantitative Data and Formulae (p. 167). Wiley.
     ISBN:978-0-471-39918-6

@@ -15,7 +15,7 @@ computations objects:
 
 References
 ----------
--   :cite:`Wyszecki2000z` : Wyszecki, Günther, & Stiles, W. S. (2000b). CIE
+-   :cite:`Wyszecki2000z` : Wyszecki, Günther, & Stiles, W. S. (2000). CIE
     Method of Calculating D-Illuminants. In Color Science: Concepts and
     Methods, Quantitative Data and Formulae (pp. 145-146). Wiley.
     ISBN:978-0-471-39918-6

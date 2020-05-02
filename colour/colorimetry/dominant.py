@@ -13,7 +13,7 @@ and related quantities:
 
 References
 ----------
--   :cite:`CIETC1-482004o` : CIE TC 1-48. (2004b). 9.1 Dominant wavelength and
+-   :cite:`CIETC1-482004o` : CIE TC 1-48. (2004). 9.1 Dominant wavelength and
     purity. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 32-33).
     ISBN:978-3-901906-33-6
 -   :cite:`Erdogana` : Erdogan, T. (n.d.). How to Calculate Luminosity,
