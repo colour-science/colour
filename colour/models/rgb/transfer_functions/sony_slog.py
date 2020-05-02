@@ -15,7 +15,7 @@ Defines the *Sony S-Log* log encodings:
 References
 ----------
 -   :cite:`SonyCorporation2012a` : Sony Corporation. (2012). S-Log2 Technical
-    Paper (pp. 1–9). https://drive.google.com/file/d/\
+    Paper (pp. 1-9). https://drive.google.com/file/d/\
 1Q1RYri6BaxtYYxX0D4zVD6lAmbwmgikc/view?usp=sharing
 -   :cite:`SonyCorporationd` : Sony Corporation. (n.d.-c). Technical Summary
     for S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3 (pp. 1-7).
