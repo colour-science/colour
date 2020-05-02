@@ -45,6 +45,14 @@ class TestRGB_to_HEX(unittest.TestCase):
             RGB_to_HEX(np.array([1.00000000, 1.00000000, 1.00000000])),
             '#ffffff')
 
+        np.testing.assert_equal(
+            RGB_to_HEX(
+                np.array([
+                    [10.00000000, 1.00000000, 1.00000000],
+                    [1.00000000, 1.00000000, 1.00000000],
+                    [0.00000000, 1.00000000, 0.00000000],
+                ])), ['#fe0e0e', '#0e0e0e', '#000e00'])
+
     def test_n_dimensional_RGB_to_HEX(self):
         """
         Tests :func:`colour.notation.hexadecimal.RGB_to_HEX` definition

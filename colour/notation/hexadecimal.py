@@ -13,7 +13,9 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.models import eotf_inverse_sRGB, eotf_sRGB
+from colour.utilities import (from_range_1, normalise_maximum, to_domain_1,
+                              usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -57,6 +59,20 @@ def RGB_to_HEX(RGB):
     """
 
     RGB = to_domain_1(RGB)
+
+    if np.any(RGB < 0):
+        usage_warning(
+            '"RGB" array contains negative values, those will be clipped, '
+            'unpredictable results may occur!')
+
+        RGB = np.clip(RGB, 0, np.inf)
+
+    if np.any(RGB > 1):
+        usage_warning(
+            '"RGB" array contains values over 1 and will be normalised, '
+            'unpredictable results may occur!')
+
+        RGB = eotf_inverse_sRGB(normalise_maximum(eotf_sRGB(RGB)))
 
     to_HEX = np.vectorize('{0:02x}'.format)
 
