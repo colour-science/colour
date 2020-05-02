@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Hexadecimal Triplet Notation
-============================
+Hexadecimal Notation
+====================
 
-Defines objects for hexadecimal triplet notation:
+Defines objects for hexadecimal notation:
 
 -   :func:`colour.notation.RGB_to_HEX`
 -   :func:`colour.notation.HEX_to_RGB`
@@ -27,7 +27,7 @@ __all__ = ['RGB_to_HEX', 'HEX_to_RGB']
 
 def RGB_to_HEX(RGB):
     """
-    Converts from *RGB* colourspace to hexadecimal triplet representation.
+    Converts from *RGB* colourspace to hexadecimal representation.
 
     Parameters
     ----------
@@ -37,7 +37,7 @@ def RGB_to_HEX(RGB):
     Returns
     -------
     unicode
-        Hexadecimal triplet representation.
+        Hexadecimal representation.
 
     Notes
     -----
@@ -68,20 +68,17 @@ def RGB_to_HEX(RGB):
 
 def HEX_to_RGB(HEX):
     """
-    Converts from hexadecimal triplet representation to *RGB* colourspace.
+    Converts from hexadecimal representation to *RGB* colourspace.
 
     Parameters
     ----------
     HEX : unicode or array_like
-        Hexadecimal triplet representation.
+        Hexadecimal representation.
 
     Returns
     -------
     ndarray
         *RGB* colourspace array.
-
-    Notes
-    -----
 
     Notes
     -----
