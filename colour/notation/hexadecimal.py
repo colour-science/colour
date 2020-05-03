@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Hexadecimal Triplet Notation
-============================
+Hexadecimal Notation
+====================
 
-Defines objects for hexadecimal triplet notation:
+Defines objects for hexadecimal notation:
 
 -   :func:`colour.notation.RGB_to_HEX`
 -   :func:`colour.notation.HEX_to_RGB`
@@ -13,7 +13,9 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.models import eotf_inverse_sRGB, eotf_sRGB
+from colour.utilities import (from_range_1, normalise_maximum, to_domain_1,
+                              usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -27,7 +29,7 @@ __all__ = ['RGB_to_HEX', 'HEX_to_RGB']
 
 def RGB_to_HEX(RGB):
     """
-    Converts from *RGB* colourspace to hexadecimal triplet representation.
+    Converts from *RGB* colourspace to hexadecimal representation.
 
     Parameters
     ----------
@@ -37,7 +39,7 @@ def RGB_to_HEX(RGB):
     Returns
     -------
     unicode
-        Hexadecimal triplet representation.
+        Hexadecimal representation.
 
     Notes
     -----
@@ -58,6 +60,20 @@ def RGB_to_HEX(RGB):
 
     RGB = to_domain_1(RGB)
 
+    if np.any(RGB < 0):
+        usage_warning(
+            '"RGB" array contains negative values, those will be clipped, '
+            'unpredictable results may occur!')
+
+        RGB = np.clip(RGB, 0, np.inf)
+
+    if np.any(RGB > 1):
+        usage_warning(
+            '"RGB" array contains values over 1 and will be normalised, '
+            'unpredictable results may occur!')
+
+        RGB = eotf_inverse_sRGB(normalise_maximum(eotf_sRGB(RGB)))
+
     to_HEX = np.vectorize('{0:02x}'.format)
 
     HEX = to_HEX((RGB * 255).astype(np.uint8)).astype(object)
@@ -68,20 +84,17 @@ def RGB_to_HEX(RGB):
 
 def HEX_to_RGB(HEX):
     """
-    Converts from hexadecimal triplet representation to *RGB* colourspace.
+    Converts from hexadecimal representation to *RGB* colourspace.
 
     Parameters
     ----------
     HEX : unicode or array_like
-        Hexadecimal triplet representation.
+        Hexadecimal representation.
 
     Returns
     -------
     ndarray
         *RGB* colourspace array.
-
-    Notes
-    -----
 
     Notes
     -----
