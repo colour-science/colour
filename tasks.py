@@ -410,6 +410,8 @@ setup({0}
 )
 """
 
+    source = re.sub('from setuptools import setup',
+                    'import codecs\nfrom setuptools import setup', source)
     source = re.sub(
         'setup_kwargs = {(.*)}.*setup\\(\\*\\*setup_kwargs\\)',
         sub_callable,
@@ -419,8 +421,9 @@ setup({0}
     for i, line in enumerate(setup_kwargs):
         setup_kwargs[i] = re.sub('^\\s*(\'(\\w+)\':\\s?)', '    \\2=', line)
         if setup_kwargs[i].strip().startswith('long_description'):
-            setup_kwargs[i] = (
-                '    long_description=open(\'README.rst\').read(),')
+            setup_kwargs[i] = ('    long_description='
+                               'codecs.open(\'README.rst\', encoding=\'utf8\')'
+                               '.read(),')
 
     source += template.format('\n'.join(setup_kwargs))
 

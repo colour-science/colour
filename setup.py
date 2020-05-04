@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import codecs
 from setuptools import setup
 
 package_dir = \
@@ -28,6 +29,8 @@ packages = \
  'colour.characterisation.datasets.displays',
  'colour.characterisation.datasets.displays.crt',
  'colour.characterisation.datasets.displays.lcd',
+ 'colour.characterisation.datasets.filters',
+ 'colour.characterisation.datasets.lenses',
  'colour.characterisation.tests',
  'colour.colorimetry',
  'colour.colorimetry.datasets',
@@ -54,6 +57,7 @@ packages = \
  'colour.examples.contrast',
  'colour.examples.corresponding',
  'colour.examples.difference',
+ 'colour.examples.geometry',
  'colour.examples.graph',
  'colour.examples.io',
  'colour.examples.models',
@@ -64,6 +68,8 @@ packages = \
  'colour.examples.recovery',
  'colour.examples.temperature',
  'colour.examples.volume',
+ 'colour.geometry',
+ 'colour.geometry.tests',
  'colour.graph',
  'colour.graph.tests',
  'colour.io',
@@ -104,6 +110,7 @@ packages = \
 package_data = \
 {'': ['*'],
  'colour.appearance.tests': ['fixtures/*'],
+ 'colour.characterisation.datasets': ['rawtoaces/*'],
  'colour.examples.io': ['resources/*'],
  'colour.examples.plotting': ['resources/*'],
  'colour.io.luts.tests': ['resources/cinespace/*',
@@ -148,7 +155,7 @@ setup(
     name='colour-science',
     version='0.3.15',
     description='Colour Science for Python',
-    long_description=open('README.rst').read(),
+    long_description=codecs.open('README.rst', encoding='utf8').read(),
     author='Colour Developers',
     author_email='colour-developers@colour-science.org',
     maintainer='Colour Developers',
