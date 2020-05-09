@@ -1154,7 +1154,7 @@ values in order to display them on screen:
     # Plotting the *sRGB* colourspace colour of the *Sample* spectral distribution.
     plot_single_colour_swatch(
         ColourSwatch('Sample', RGB),
-        text_parameters={'size': 'x-large'})
+        text_kwargs={'size': 'x-large'})
 
 .. image:: _static/Tutorial_Sample_Swatch.png
 
@@ -1201,7 +1201,7 @@ various colour rendition charts:
 
     plot_single_colour_swatch(
         ColourSwatch(patch_name.title(), RGB),
-        text_parameters={'size': 'x-large'})
+        text_kwargs={'size': 'x-large'})
 
 .. image:: _static/Tutorial_Neutral5.png
 
@@ -1211,7 +1211,7 @@ rendition charts figures:
 .. code:: python
 
     plot_single_colour_checker(
-        colour_checker='ColorChecker 2005', text_parameters={'visible': False})
+        colour_checker='ColorChecker 2005', text_kwargs={'visible': False})
 
 .. image:: _static/Tutorial_Colour_Checker.png
 

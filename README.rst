@@ -1189,7 +1189,7 @@ Colour Checker
 
 .. code-block:: python
 
-    >>> plot_single_colour_checker('ColorChecker 2005', text_parameters={'visible': False})
+    >>> plot_single_colour_checker('ColorChecker 2005', text_kwargs={'visible': False})
 
 ..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_ColorChecker_2005.png
 
