@@ -1372,11 +1372,7 @@ def plot_multi_functions(functions,
 
 
 @override_style()
-def plot_image(image,
-               text_kwargs=None,
-               interpolation='nearest',
-               colour_map=matplotlib.cm.Greys_r,
-               **kwargs):
+def plot_image(image, imshow_kwargs=None, text_kwargs=None, **kwargs):
     """
     Plots given image.
 
@@ -1384,16 +1380,11 @@ def plot_image(image,
     ----------
     image : array_like
         Image to plot.
+    imshow_kwargs : dict, optional
+        Parameters for the :func:`plt.imshow` definition.
     text_kwargs : dict, optional
         Parameters for the :func:`plt.text` definition, ``offset`` can be
         set to define the text offset.
-    interpolation: unicode, optional
-        **{'nearest', None, 'none', 'bilinear', 'bicubic', 'spline16',
-        'spline36', 'hanning', 'hamming', 'hermite', 'kaiser', 'quadric',
-        'catrom', 'gaussian', 'bessel', 'mitchell', 'sinc', 'lanczos'}**
-        Image display interpolation.
-    colour_map: unicode, optional
-        Colour map used to display single channel images.
 
     Other Parameters
     ----------------
@@ -1422,7 +1413,18 @@ def plot_image(image,
         :alt: plot_image
     """
 
+    text_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['text_parameters', 'text_kwargs']],
+    }, **kwargs).get('text_kwargs', text_kwargs)
+
     _figure, axes = artist(**kwargs)
+
+    imshow_settings = {
+        'interpolation': 'nearest',
+        'cmap': matplotlib.cm.Greys_r
+    }
+    if imshow_kwargs is not None:
+        imshow_settings.update(imshow_kwargs)
 
     text_settings = {
         'text': None,
@@ -1436,8 +1438,7 @@ def plot_image(image,
 
     image = as_float_array(image)
 
-    axes.imshow(
-        np.clip(image, 0, 1), interpolation=interpolation, cmap=colour_map)
+    axes.imshow(np.clip(image, 0, 1), **imshow_settings)
 
     if text_settings['text'] is not None:
         axes.text(
