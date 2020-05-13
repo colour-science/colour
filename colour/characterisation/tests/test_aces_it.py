@@ -14,8 +14,8 @@ from colour.characterisation import (
     sd_to_aces_relative_exposure_values, read_training_data_rawtoaces_v1,
     generate_illuminants_rawtoaces_v1, white_balance_multipliers,
     best_illuminant, normalise_illuminant, training_data_sds_to_RGB,
-    training_data_sds_to_XYZ, optimization_factory_rawtoaces_v1,
-    optimization_factory_JzAzBz, idt_matrix)
+    training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
+    optimisation_factory_JzAzBz, idt_matrix)
 from colour.characterisation.aces_it import RAWTOACES_RESOURCES_DIRECTORY
 from colour.colorimetry import (CMFS, ILLUMINANT_SDS, SpectralShape,
                                 sds_and_multi_sds_to_multi_sds, sd_constant,
@@ -736,31 +736,31 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
 class TestOptimizationFactoryRawtoacesV1(unittest.TestCase):
     """
     Defines :func:`colour.characterisation.aces_it.\
-optimization_factory_rawtoaces_v1` definition unit tests methods.
+optimisation_factory_rawtoaces_v1` definition unit tests methods.
     """
 
-    def test_optimization_factory_rawtoaces_v1(self):
+    def test_optimisation_factory_rawtoaces_v1(self):
         """
         Tests :func:`colour.characterisation.aces_it.\
-optimization_factory_rawtoaces_v1` definition.
+optimisation_factory_rawtoaces_v1` definition.
         """
 
-        self.assertEqual(len(optimization_factory_rawtoaces_v1()), 2)
+        self.assertEqual(len(optimisation_factory_rawtoaces_v1()), 2)
 
 
 class TestOptimizationFactoryJzAzBz(unittest.TestCase):
     """
     Defines :func:`colour.characterisation.aces_it.\
-optimization_factory_JzAzBz` definition unit tests methods.
+optimisation_factory_JzAzBz` definition unit tests methods.
     """
 
-    def test_optimization_factory_JzAzBz(self):
+    def test_optimisation_factory_JzAzBz(self):
         """
         Tests :func:`colour.characterisation.aces_it.\
-optimization_factory_JzAzBz` definition.
+optimisation_factory_JzAzBz` definition.
         """
 
-        self.assertEqual(len(optimization_factory_JzAzBz()), 2)
+        self.assertEqual(len(optimisation_factory_JzAzBz()), 2)
 
 
 class TestIdtMatrix(unittest.TestCase):
@@ -813,7 +813,7 @@ class TestIdtMatrix(unittest.TestCase):
             idt_matrix(
                 CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
                 ILLUMINANT_SDS['D55'],
-                optimization_factory=optimization_factory_JzAzBz),
+                optimisation_factory=optimisation_factory_JzAzBz),
             np.array([
                 [0.84841492, -0.01569765, 0.15799332],
                 [0.05333075, 1.11428542, -0.17523500],

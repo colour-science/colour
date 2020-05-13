@@ -13,8 +13,8 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 -   :func:`colour.characterisation.normalise_illuminant`
 -   :func:`colour.characterisation.training_data_sds_to_RGB`
 -   :func:`colour.characterisation.training_data_sds_to_XYZ`
--   :func:`colour.characterisation.optimization_factory_rawtoaces_v1`
--   :func:`colour.characterisation.optimization_factory_JzAzBz`
+-   :func:`colour.characterisation.optimisation_factory_rawtoaces_v1`
+-   :func:`colour.characterisation.optimisation_factory_JzAzBz`
 -   :func:`colour.idt_matrix`
 
 References
@@ -82,8 +82,8 @@ __all__ = [
     'RAWTOACES_RESOURCES_DIRECTORY', 'read_training_data_rawtoaces_v1',
     'generate_illuminants_rawtoaces_v1', 'white_balance_multipliers',
     'best_illuminant', 'normalise_illuminant', 'training_data_sds_to_RGB',
-    'training_data_sds_to_XYZ', 'optimization_factory_rawtoaces_v1',
-    'optimization_factory_JzAzBz', 'idt_matrix'
+    'training_data_sds_to_XYZ', 'optimisation_factory_rawtoaces_v1',
+    'optimisation_factory_JzAzBz', 'idt_matrix'
 ]
 
 FLARE_PERCENTAGE = 0.00500
@@ -606,7 +606,7 @@ def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
     return XYZ
 
 
-def optimization_factory_rawtoaces_v1():
+def optimisation_factory_rawtoaces_v1():
     """
     Factory that returns the objective function and *CIE XYZ* colourspace to
     optimisation colourspace/colour model function according to *RAW to ACES*
@@ -625,10 +625,10 @@ def optimization_factory_rawtoaces_v1():
     Examples
     --------
     >>> # Doctests skip for Python 2.x compatibility.
-    >>> optimization_factory_rawtoaces_v1()  # doctest: +SKIP
-    (<function optimization_factory_rawtoaces_v1.<locals>\
+    >>> optimisation_factory_rawtoaces_v1()  # doctest: +SKIP
+    (<function optimisation_factory_rawtoaces_v1.<locals>\
 .objective_function at 0x...>, \
-<function optimization_factory_rawtoaces_v1.<locals>\
+<function optimisation_factory_rawtoaces_v1.<locals>\
 .XYZ_to_optimization_colour_model at 0x...>)
     """
 
@@ -655,7 +655,7 @@ def optimization_factory_rawtoaces_v1():
     return objective_function, XYZ_to_optimization_colour_model
 
 
-def optimization_factory_JzAzBz():
+def optimisation_factory_JzAzBz():
     """
     Factory that returns the objective function and *CIE XYZ* colourspace to
     optimisation colourspace/colour model function based on the
@@ -674,10 +674,10 @@ def optimization_factory_JzAzBz():
     Examples
     --------
     >>> # Doctests skip for Python 2.x compatibility.
-    >>> optimization_factory_JzAzBz()  # doctest: +SKIP
-    (<function optimization_factory_JzAzBz.<locals>\
+    >>> optimisation_factory_JzAzBz()  # doctest: +SKIP
+    (<function optimisation_factory_JzAzBz.<locals>\
 .objective_function at 0x...>, \
-<function optimization_factory_JzAzBz.<locals>\
+<function optimisation_factory_JzAzBz.<locals>\
 .XYZ_to_optimization_colour_model at 0x...>)
     """
 
@@ -709,7 +709,7 @@ def idt_matrix(sensitivities,
                training_data=read_training_data_rawtoaces_v1(),
                cmfs=CMFS['CIE 1931 2 Degree Standard Observer'].copy().align(
                    DEFAULT_RAWTOACES_SPECTRAL_SHAPE),
-               optimization_factory=optimization_factory_rawtoaces_v1,
+               optimisation_factory=optimisation_factory_rawtoaces_v1,
                optimisation_kwargs=None):
     """
     Computes an *Input Device Transform* (IDT) matrix for given camera *RGB*
@@ -728,7 +728,7 @@ def idt_matrix(sensitivities,
         *RAW to ACES* v1 190 patches.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    optimization_factory : callable, optional
+    optimisation_factory : callable, optional
         Callable producing the objective function and the *CIE XYZ* to
         optimisation colour model function.
     optimisation_kwargs : dict_like, optional
@@ -770,7 +770,7 @@ def idt_matrix(sensitivities,
 
     >>> np.around(idt_matrix(
     ...     sensitivities, illuminant,
-    ...     optimization_factory=optimization_factory_JzAzBz), 3)
+    ...     optimisation_factory=optimisation_factory_JzAzBz), 3)
     array([[ 0.848, -0.016,  0.158],
            [ 0.053,  1.114, -0.175],
            [ 0.023, -0.225,  1.196]])
@@ -798,7 +798,7 @@ def idt_matrix(sensitivities,
     XYZ = training_data_sds_to_XYZ(training_data, cmfs, illuminant)
 
     objective_function, XYZ_to_optimization_colour_model = (
-        optimization_factory())
+        optimisation_factory())
     optimisation_settings = {
         'method': 'BFGS',
         'jac': '2-point',
