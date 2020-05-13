@@ -10,8 +10,8 @@ from .aces_it import (
     sd_to_aces_relative_exposure_values, read_training_data_rawtoaces_v1,
     generate_illuminants_rawtoaces_v1, white_balance_multipliers,
     best_illuminant, normalise_illuminant, training_data_sds_to_RGB,
-    training_data_sds_to_XYZ, optimization_factory_rawtoaces_v1,
-    optimization_factory_JzAzBz, idt_matrix)
+    training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
+    optimisation_factory_JzAzBz, idt_matrix)
 from .correction import (
     augmented_matrix_Cheung2004, polynomial_expansion_Finlayson2015,
     polynomial_expansion_Vandermonde, POLYNOMIAL_EXPANSION_METHODS,
@@ -29,8 +29,8 @@ __all__ += [
     'sd_to_aces_relative_exposure_values', 'read_training_data_rawtoaces_v1',
     'generate_illuminants_rawtoaces_v1', 'white_balance_multipliers',
     'best_illuminant', 'normalise_illuminant', 'training_data_sds_to_RGB',
-    'training_data_sds_to_XYZ', 'optimization_factory_rawtoaces_v1',
-    'optimization_factory_JzAzBz', 'idt_matrix'
+    'training_data_sds_to_XYZ', 'optimisation_factory_rawtoaces_v1',
+    'optimisation_factory_JzAzBz', 'idt_matrix'
 ]
 __all__ += [
     'augmented_matrix_Cheung2004', 'polynomial_expansion_Finlayson2015',
