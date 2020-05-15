@@ -500,7 +500,7 @@ def render(**kwargs):
     legend_columns : int, optional
         Number of columns in the legend. Default is *1*.
     transparent_background : bool, optional
-        Whether to turn off the background patch. Default is *False*.
+        Whether to turn off the background patch. Default is *True*.
     title : unicode, optional
         Figure title.
     wrap_title : unicode, optional
