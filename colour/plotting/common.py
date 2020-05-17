@@ -500,7 +500,7 @@ def render(**kwargs):
     legend_columns : int, optional
         Number of columns in the legend. Default is *1*.
     transparent_background : bool, optional
-        Whether to turn off the background patch. Default is *False*.
+        Whether to turn off the background patch. Default is *True*.
     title : unicode, optional
         Figure title.
     wrap_title : unicode, optional
@@ -1219,6 +1219,7 @@ def plot_single_function(function,
                          samples=None,
                          log_x=None,
                          log_y=None,
+                         plot_kwargs=None,
                          **kwargs):
     """
     Plots given function.
@@ -1235,6 +1236,9 @@ def plot_single_function(function,
     log_y : int, optional
         Log base to use for the *y* axis scale, if *None*, the *y* axis scale
         will be linear.
+    plot_kwargs : dict or array_like, optional
+        Parameters for the :func:`plt.plot` definition, used to control the
+        style of the plotted function.
 
     Other Parameters
     ----------------
@@ -1275,7 +1279,7 @@ def plot_single_function(function,
 
     return plot_multi_functions({
         name: function
-    }, samples, log_x, log_y, **settings)
+    }, samples, log_x, log_y, plot_kwargs, **settings)
 
 
 @override_style()
@@ -1283,6 +1287,7 @@ def plot_multi_functions(functions,
                          samples=None,
                          log_x=None,
                          log_y=None,
+                         plot_kwargs=None,
                          **kwargs):
     """
     Plots given functions.
@@ -1299,6 +1304,12 @@ def plot_multi_functions(functions,
     log_y : int, optional
         Log base to use for the *y* axis scale, if *None*, the *y* axis scale
         will be linear.
+    plot_kwargs : dict or array_like, optional
+        Parameters for the :func:`plt.plot` definition, used to control the
+        style of the plotted functions. ``plot_kwargs`` can be either a single
+        dictionary applied to all the plotted functions with same settings
+        or a sequence of dictionaries with different settings for plotted
+        function.
 
     Other Parameters
     ----------------
@@ -1333,6 +1344,22 @@ def plot_multi_functions(functions,
 
     _figure, axes = artist(**settings)
 
+    plot_settings_collection = [{
+        'label': '{0}'.format(name)
+    } for name in functions.keys()]
+
+    if plot_kwargs is not None:
+        if not isinstance(plot_kwargs, dict):
+            assert len(plot_kwargs) == len(functions), (
+                'Multiple plot parameters defined, but they do not match '
+                'the functions count!')
+
+        for i, plot_settings in enumerate(plot_settings_collection):
+            if isinstance(plot_kwargs, dict):
+                plot_settings.update(plot_kwargs)
+            else:
+                plot_settings.update(plot_kwargs[i])
+
     if log_x is not None and log_y is not None:
         assert log_x >= 2 and log_y >= 2, (
             'Log base must be equal or greater than 2.')
@@ -1352,8 +1379,9 @@ def plot_multi_functions(functions,
     if samples is None:
         samples = np.linspace(0, 1, 1000)
 
-    for name, function in functions.items():
-        plotting_function(samples, function(samples), label='{0}'.format(name))
+    for i, (name, function) in enumerate(functions.items()):
+        plotting_function(samples, function(samples),
+                          **plot_settings_collection[i])
 
     x_label = ('x - Log Base {0} Scale'.format(log_x)
                if log_x is not None else 'x - Linear Scale')

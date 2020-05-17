@@ -155,7 +155,7 @@ class Signal(AbstractContinuousFunction):
      [  900.    90.]
      [ 1000.   100.]]
 
-    Instantiation with a *Pandas* *Series*:
+    Instantiation with a *Pandas* `Series`:
 
     >>> if is_pandas_installed():
     ...     from pandas import Series
@@ -1091,7 +1091,7 @@ class Signal(AbstractContinuousFunction):
         >>> print(range_)
         [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
 
-        Unpacking using a *Pandas* *Series*:
+        Unpacking using a *Pandas* `Series`:
 
         >>> if is_pandas_installed():
         ...     from pandas import Series
