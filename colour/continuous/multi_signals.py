@@ -196,7 +196,7 @@ dict_like, optional
      >>> type(multi_signals.signals[0])  # doctest: +SKIP
      <class 'multi_signals.NotSignal'>
 
-    Instantiation with a *Pandas* *Series*:
+    Instantiation with a *Pandas* `Series`:
 
     >>> if is_pandas_installed():
     ...     from pandas import Series
@@ -213,7 +213,7 @@ dict_like, optional
      [  900.    90.]
      [ 1000.   100.]]
 
-    Instantiation with a *Pandas* *Dataframe*:
+    Instantiation with a *Pandas* `DataFrame`:
 
     >>> if is_pandas_installed():
     ...     from pandas import DataFrame
@@ -1277,7 +1277,7 @@ dict_like, optional
          [  900.   110.]
          [ 1000.   120.]]
 
-        Unpacking using a *Pandas* *Series*:
+        Unpacking using a *Pandas* `Series`:
 
         >>> if is_pandas_installed():
         ...     from pandas import Series
@@ -1295,7 +1295,7 @@ dict_like, optional
          [  900.    90.]
          [ 1000.   100.]]
 
-        Unpacking using a *Pandas* *Dataframe*:
+        Unpacking using a *Pandas* `DataFrame`:
 
         >>> if is_pandas_installed():
         ...     from pandas import DataFrame
