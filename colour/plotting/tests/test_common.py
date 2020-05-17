@@ -489,17 +489,20 @@ class TestPlotMultiFunctions(unittest.TestCase):
         Tests :func:`colour.plotting.common.plot_multi_functions` definition.
         """
 
-        functions = functions = {
+        functions = {
             'Gamma 2.2': lambda x: x ** (1 / 2.2),
             'Gamma 2.4': lambda x: x ** (1 / 2.4),
             'Gamma 2.6': lambda x: x ** (1 / 2.6),
         }
-        figure, axes = plot_multi_functions(functions)
+        plot_kwargs = {'c': 'r'}
+        figure, axes = plot_multi_functions(functions, plot_kwargs=plot_kwargs)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_multi_functions(functions, log_x=10, log_y=10)
+        plot_kwargs = [{'c': 'r'}, {'c': 'g'}, {'c': 'b'}]
+        figure, axes = plot_multi_functions(
+            functions, log_x=10, log_y=10, plot_kwargs=plot_kwargs)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
