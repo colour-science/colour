@@ -12,6 +12,13 @@ from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScct, log_decoding_ACEScct)
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_inverse_ARIBSTDB67
 from .arri_alexa_log_c import log_encoding_ALEXALogC, log_decoding_ALEXALogC
+from .blackmagic import (log_encoding_BMDFilm, log_decoding_BMDFilm,
+                         log_encoding_BMD4KFilm, log_decoding_BMD4KFilm,
+                         log_encoding_BMD46KFilm, log_decoding_BMD46KFilm,
+                         log_encoding_BMDPocket4KFilmV4,
+                         log_decoding_BMDPocket4KFilmV4,
+                         log_encoding_BMDPocket6KFilmV4,
+                         log_decoding_BMDPocket6KFilmV4)
 from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
                         log_encoding_CanonLog3, log_decoding_CanonLog3)
