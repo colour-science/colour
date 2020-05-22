@@ -12,10 +12,10 @@ from collections import namedtuple
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (
     as_array, as_int_array, as_float_array, as_numeric, as_int, as_float,
-    as_namedtuple, closest_indexes, closest, normalise_maximum, interval,
-    is_uniform, in_array, tstack, tsplit, row_as_diagonal, dot_vector,
-    dot_matrix, orient, centroid, linear_conversion, lerp, fill_nan,
-    ndarray_write)
+    set_float_precision, set_int_precision, as_namedtuple, closest_indexes,
+    closest, normalise_maximum, interval, is_uniform, in_array, tstack, tsplit,
+    row_as_diagonal, dot_vector, dot_matrix, orient, centroid,
+    linear_conversion, lerp, fill_nan, ndarray_write)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -26,11 +26,12 @@ __status__ = 'Production'
 
 __all__ = [
     'TestAsArray', 'TestAsIntArray', 'TestAsFloatArray', 'TestAsNumeric',
-    'TestAsInt', 'TestAsFloat', 'TestAsNametuple', 'TestClosestIndexes',
-    'TestClosest', 'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform',
-    'TestInArray', 'TestTstack', 'TestTsplit', 'TestRowAsDiagonal',
-    'TestDotVector', 'TestDotMatrix', 'TestOrient', 'TestCentroid',
-    'TestLinearConversion', 'TestLerp', 'TestFillNan', 'TestNdarrayWrite'
+    'TestAsInt', 'TestAsFloat', 'TestSetFloatPrecision', 'TestSetIntPrecision',
+    'TestAsNametuple', 'TestClosestIndexes', 'TestClosest',
+    'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform', 'TestInArray',
+    'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestDotVector',
+    'TestDotMatrix', 'TestOrient', 'TestCentroid', 'TestLinearConversion',
+    'TestLerp', 'TestFillNan', 'TestNdarrayWrite'
 ]
 
 
@@ -161,6 +162,64 @@ class TestAsFloat(unittest.TestCase):
             as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE)
 
         self.assertIsInstance(as_float(1), DEFAULT_FLOAT_DTYPE)
+
+
+class TestSetFloatPrecision(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.set_float_precision` definition units
+    tests methods.
+    """
+
+    def test_set_float_precision(self):
+        """
+        Tests :func:`colour.utilities.array.set_float_precision` definition.
+        """
+
+        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+
+        set_float_precision(np.float16)
+
+        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float16)
+
+        set_float_precision(np.float64)
+
+        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+
+    def tearDown(self):
+        """
+        After tests actions.
+        """
+
+        set_float_precision(np.float64)
+
+
+class TestSetIntPrecision(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.set_int_precision` definition units
+    tests methods.
+    """
+
+    def test_set_int_precision(self):
+        """
+        Tests :func:`colour.utilities.array.set_int_precision` definition.
+        """
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+
+        set_int_precision(np.int32)
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int32)
+
+        set_int_precision(np.int64)
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+
+    def tearDown(self):
+        """
+        After tests actions.
+        """
+
+        set_int_precision(np.int64)
 
 
 class TestAsNametuple(unittest.TestCase):

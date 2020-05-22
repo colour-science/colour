@@ -14,10 +14,11 @@ from .common import (
     to_domain_degrees, to_domain_int, from_range_1, from_range_10,
     from_range_100, from_range_degrees, from_range_int)
 from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
-                    as_float, as_namedtuple, closest_indexes, closest,
-                    normalise_maximum, interval, is_uniform, in_array, tstack,
-                    tsplit, row_as_diagonal, dot_vector, dot_matrix, orient,
-                    centroid, linear_conversion, lerp, fill_nan, ndarray_write)
+                    as_float, set_float_precision, set_int_precision,
+                    as_namedtuple, closest_indexes, closest, normalise_maximum,
+                    interval, is_uniform, in_array, tstack, tsplit,
+                    row_as_diagonal, dot_vector, dot_matrix, orient, centroid,
+                    linear_conversion, lerp, fill_nan, ndarray_write)
 from .metrics import metric_mse, metric_psnr
 from .verbose import (
     ColourWarning, ColourUsageWarning, ColourRuntimeWarning, message_box,
@@ -42,10 +43,11 @@ __all__ += [
 ]
 __all__ += [
     'as_array', 'as_int_array', 'as_float_array', 'as_numeric', 'as_int',
-    'as_float', 'as_namedtuple', 'closest_indexes', 'closest',
-    'normalise_maximum', 'interval', 'is_uniform', 'in_array', 'tstack',
-    'tsplit', 'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient',
-    'centroid', 'linear_conversion', 'fill_nan', 'lerp', 'ndarray_write'
+    'as_float', 'set_float_precision', 'set_int_precision', 'as_namedtuple',
+    'closest_indexes', 'closest', 'normalise_maximum', 'interval',
+    'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
+    'dot_vector', 'dot_matrix', 'orient', 'centroid', 'linear_conversion',
+    'fill_nan', 'lerp', 'ndarray_write'
 ]
 __all__ += ['metric_mse', 'metric_psnr']
 __all__ += [

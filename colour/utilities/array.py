@@ -20,6 +20,7 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 from __future__ import division, unicode_literals
 
 import numpy as np
+import sys
 try:  # pragma: no cover
     from collections import Mapping
 except ImportError:  # pragma: no cover
@@ -37,10 +38,11 @@ __status__ = 'Production'
 
 __all__ = [
     'as_array', 'as_int_array', 'as_float_array', 'as_numeric', 'as_int',
-    'as_float', 'as_namedtuple', 'closest_indexes', 'closest',
-    'normalise_maximum', 'interval', 'is_uniform', 'in_array', 'tstack',
-    'tsplit', 'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient',
-    'centroid', 'linear_conversion', 'lerp', 'fill_nan', 'ndarray_write'
+    'as_float', 'set_float_precision', 'set_int_precision', 'as_namedtuple',
+    'closest_indexes', 'closest', 'normalise_maximum', 'interval',
+    'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
+    'dot_vector', 'dot_matrix', 'orient', 'centroid', 'linear_conversion',
+    'lerp', 'fill_nan', 'ndarray_write'
 ]
 
 
@@ -253,6 +255,72 @@ def as_float(a, dtype=None):
         dtype = DEFAULT_FLOAT_DTYPE
 
     return dtype(a)
+
+
+def set_float_precision(dtype=DEFAULT_FLOAT_DTYPE):
+    """
+    Sets *Colour* float precision by setting
+    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute with given type
+    wherever the attribute is imported.
+
+    Parameters
+    ----------
+    dtype : object
+        Type to set :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` with.
+
+    Examples
+    --------
+    >>> as_float_array(np.ones(3)).dtype
+    dtype('float64')
+    >>> set_float_precision(np.float16)
+    >>> as_float_array(np.ones(3)).dtype
+    dtype('float16')
+    >>> set_float_precision(np.float64)
+    >>> as_float_array(np.ones(3)).dtype
+    dtype('float64')
+    """
+
+    for name, module in sys.modules.items():
+        if not name.startswith(name):
+            continue
+
+        if not hasattr(module, 'DEFAULT_FLOAT_DTYPE'):
+            continue
+
+        setattr(module, 'DEFAULT_FLOAT_DTYPE', dtype)
+
+
+def set_int_precision(dtype=DEFAULT_INT_DTYPE):
+    """
+    Sets *Colour* integer precision by setting
+    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute with given type
+    wherever the attribute is imported.
+
+    Parameters
+    ----------
+    dtype : object
+        Type to set :attr:`colour.constant.DEFAULT_INT_DTYPE` with.
+
+    Examples
+    --------
+    >>> as_int_array(np.ones(3)).dtype
+    dtype('int64')
+    >>> set_int_precision(np.int32)
+    >>> as_int_array(np.ones(3)).dtype
+    dtype('int32')
+    >>> set_int_precision(np.int64)
+    >>> as_int_array(np.ones(3)).dtype
+    dtype('int64')
+    """
+
+    for name, module in sys.modules.items():
+        if not name.startswith(name):
+            continue
+
+        if not hasattr(module, 'DEFAULT_INT_DTYPE'):
+            continue
+
+        setattr(module, 'DEFAULT_INT_DTYPE', dtype)
 
 
 def as_namedtuple(a, named_tuple):
