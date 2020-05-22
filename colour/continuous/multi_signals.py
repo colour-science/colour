@@ -1137,7 +1137,7 @@ or dict_like
     def multi_signals_unpack_data(data=None,
                                   domain=None,
                                   labels=None,
-                                  dtype=DEFAULT_FLOAT_DTYPE,
+                                  dtype=None,
                                   signal_type=Signal,
                                   **kwargs):
         """
@@ -1314,6 +1314,9 @@ dict_like, optional
          [  900.   110.]
          [ 1000.   120.]]
         """
+
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
 
         assert dtype in np.sctypes['float'], (
             '"dtype" must be one of the following types: {0}'.format(

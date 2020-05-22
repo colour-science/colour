@@ -119,7 +119,9 @@ class Extrapolator(object):
                  method='Linear',
                  left=None,
                  right=None,
-                 dtype=DEFAULT_FLOAT_DTYPE):
+                 dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
 
         self._interpolator = None
         self.interpolator = interpolator
