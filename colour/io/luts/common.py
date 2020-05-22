@@ -25,7 +25,7 @@ __status__ = 'Production'
 __all__ = ['parse_array', 'path_to_title']
 
 
-def parse_array(a, separator=' ', dtype=DEFAULT_FLOAT_DTYPE):
+def parse_array(a, separator=' ', dtype=None):
     """
     Converts given string or array of strings to :class:`ndarray` class.
 
@@ -50,6 +50,9 @@ def parse_array(a, separator=' ', dtype=DEFAULT_FLOAT_DTYPE):
     >>> parse_array(['-0.25', '0.5', '0.75'])
     array([-0.25,  0.5 ,  0.75])
     """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
 
     if is_string(a):
         a = a.split(separator)

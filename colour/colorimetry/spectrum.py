@@ -421,7 +421,7 @@ class SpectralShape(object):
 
         return not (self == shape)
 
-    def range(self, dtype=DEFAULT_FLOAT_DTYPE):
+    def range(self, dtype=None):
         """
         Returns an iterable range for the spectral shape.
 
@@ -457,6 +457,9 @@ class SpectralShape(object):
                  9. ,   9.1,   9.2,   9.3,   9.4,   9.5,   9.6,   9.7,   9.8,
                  9.9,  10. ])
         """
+
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
 
         if None in (self._start, self._end, self._interval):
             raise RuntimeError(('One of the spectral shape "start", "end" or '

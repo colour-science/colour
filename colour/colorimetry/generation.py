@@ -53,7 +53,7 @@ __all__ = [
 ]
 
 
-def sd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
+def sd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
     """
     Returns a spectral distribution of given spectral shape filled with
     constant :math:`k` values.
@@ -85,6 +85,9 @@ def sd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
     >>> sd[400]
     100.0
     """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
 
     wavelengths = shape.range(dtype)
     values = np.full(len(wavelengths), k, dtype)

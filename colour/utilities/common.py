@@ -851,7 +851,7 @@ class domain_range_scale(object):
         return wrapper
 
 
-def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_1(a, scale_factor=100, dtype=None):
     """
     Scales given array :math:`a` to domain **'1'**. The behaviour is as
     follows:
@@ -899,6 +899,9 @@ def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     array(0.01)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '100':
@@ -907,7 +910,7 @@ def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_10(a, scale_factor=10, dtype=None):
     """
     Scales given array :math:`a` to domain **'10'**, used by
     *Munsell Renotation System*. The behaviour is as follows:
@@ -957,6 +960,9 @@ def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
     array(0.1)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
@@ -968,7 +974,7 @@ def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_100(a, scale_factor=100, dtype=None):
     """
     Scales given array :math:`a` to domain **'100'**. The behaviour is as
     follows:
@@ -1016,6 +1022,9 @@ def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     array(1.0)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
@@ -1024,7 +1033,7 @@ def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_degrees(a, scale_factor=360, dtype=None):
     """
     Scales given array :math:`a` to degrees domain. The behaviour is as
     follows:
@@ -1074,6 +1083,9 @@ def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
     array(3.6)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
@@ -1085,7 +1097,7 @@ def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_int(a, bit_depth=8, dtype=None):
     """
     Scales given array :math:`a` to int domain. The behaviour is as follows:
 
@@ -1138,6 +1150,9 @@ def to_domain_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
     ...     to_domain_int(1)
     array(2.55)
     """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
 
     a = np.asarray(a, dtype).copy()
 
@@ -1365,7 +1380,7 @@ def from_range_degrees(a, scale_factor=360):
     return a
 
 
-def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
+def from_range_int(a, bit_depth=8, dtype=None):
     """
     Scales given array :math:`a` from int range. The behaviour is as follows:
 
@@ -1417,6 +1432,9 @@ def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
     ...     from_range_int(1)  # doctest: +ELLIPSIS
     array(0.3921568...)
     """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
 
     maximum_code_value = 2 ** bit_depth - 1
     if _DOMAIN_RANGE_SCALE == '1':

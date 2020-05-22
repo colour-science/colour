@@ -1039,7 +1039,7 @@ class Signal(AbstractContinuousFunction):
             return copy
 
     @staticmethod
-    def signal_unpack_data(data=None, domain=None, dtype=DEFAULT_FLOAT_DTYPE):
+    def signal_unpack_data(data=None, domain=None, dtype=None):
         """
         Unpack given data for continuous signal instantiation.
 
@@ -1112,6 +1112,9 @@ class Signal(AbstractContinuousFunction):
         >>> print(range_)
         [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
         """
+
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
 
         assert dtype in np.sctypes['float'], (
             '"dtype" must be one of the following types: {0}'.format(

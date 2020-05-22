@@ -44,16 +44,17 @@ __all__ = [
 ]
 
 
-def as_array(a, dtype=DEFAULT_FLOAT_DTYPE):
+def as_array(a, dtype=None):
     """
-    Converts given :math:`a` variable to *ndarray* with given type.
+    Converts given :math:`a` variable to *ndarray* using given type.
 
     Parameters
     ----------
     a : object
         Variable to convert.
     dtype : object
-        Type to use for conversion.
+        Type to use for conversion, default to the type defined by
+        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
     -------
@@ -68,18 +69,23 @@ def as_array(a, dtype=DEFAULT_FLOAT_DTYPE):
     array([1, 2, 3])
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     return np.asarray(a, dtype)
 
 
-def as_int_array(a):
+def as_int_array(a, dtype=None):
     """
-    Converts given :math:`a` variable to *ndarray* using the type defined by
-    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+    Converts given :math:`a` variable to *ndarray* using given type.
 
     Parameters
     ----------
     a : object
         Variable to convert.
+    dtype : object
+        Type to use for conversion, default to the type defined by
+        :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
 
     Returns
     -------
@@ -92,18 +98,23 @@ def as_int_array(a):
     array([1, 2, 3])
     """
 
-    return as_array(a, DEFAULT_INT_DTYPE)
+    if dtype is None:
+        dtype = DEFAULT_INT_DTYPE
+
+    return as_array(a, dtype)
 
 
-def as_float_array(a):
+def as_float_array(a, dtype=None):
     """
-    Converts given :math:`a` variable to *ndarray* using the type defined by
-    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    Converts given :math:`a` variable to *ndarray* using given type.
 
     Parameters
     ----------
     a : object
         Variable to convert.
+    dtype : object
+        Type to use for conversion, default to the type defined by
+        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
     -------
@@ -116,10 +127,13 @@ def as_float_array(a):
     array([ 1.,  2.,  3.])
     """
 
-    return as_array(a, DEFAULT_FLOAT_DTYPE)
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
+    return as_array(a, dtype)
 
 
-def as_numeric(a, dtype=DEFAULT_FLOAT_DTYPE):
+def as_numeric(a, dtype=None):
     """
     Converts given :math:`a` variable to *numeric*. In the event where
     :math:`a` cannot be converted, it is passed as is.
@@ -129,7 +143,8 @@ def as_numeric(a, dtype=DEFAULT_FLOAT_DTYPE):
     a : object
         Variable to convert.
     dtype : object
-        Type to use for conversion.
+        Type to use for conversion, default to the type defined by
+        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
     -------
@@ -144,23 +159,28 @@ def as_numeric(a, dtype=DEFAULT_FLOAT_DTYPE):
     array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     try:
         return dtype(a)
     except (TypeError, ValueError):
         return a
 
 
-def as_int(a):
+def as_int(a, dtype=None):
     """
-    Converts given :math:`a` variable to *numeric* using the type defined by
-    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute. In the event where
-    :math:`a` cannot be converted, it is converted to *ndarray* using the type
-    defined by :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+    Attempts to converts given :math:`a` variable to *int* using given type.
 
     Parameters
     ----------
     a : object
         Variable to convert.
+    dtype : object
+        Type to use for conversion, default to the type defined by
+        :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute. In the event where
+        :math:`a` cannot be converted, it is converted to *ndarray* using the
+        type defined by :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
 
     Returns
     -------
@@ -183,25 +203,30 @@ def as_int(a):
     array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     """
 
+    if dtype is None:
+        dtype = DEFAULT_INT_DTYPE
+
     try:
         # TODO: Change to "DEFAULT_INT_DTYPE" when and if
         # https://github.com/numpy/numpy/issues/11956 is addressed.
         return int(a)
     except TypeError:
-        return as_int_array(a)
+        return as_int_array(a, dtype)
 
 
-def as_float(a):
+def as_float(a, dtype=None):
     """
-    Converts given :math:`a` variable to *numeric* using the type defined by
-    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute. In the event where
-    :math:`a` cannot be converted, it is converted to *ndarray* using the type
-    defined by :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    Converts given :math:`a` variable to *numeric* using given type.
 
     Parameters
     ----------
     a : object
         Variable to convert.
+    dtype : object
+        Type to use for conversion, default to the type defined by
+        :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute. In the event where
+        :math:`a` cannot be converted, it is converted to *ndarray* using the
+        type defined by :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
     -------
@@ -224,7 +249,10 @@ def as_float(a):
     array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
     """
 
-    return DEFAULT_FLOAT_DTYPE(a)
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
+    return dtype(a)
 
 
 def as_namedtuple(a, named_tuple):
@@ -495,7 +523,7 @@ def in_array(a, b, tolerance=EPSILON):
     return np.any(d <= tolerance, axis=0).reshape(a.shape)
 
 
-def tstack(a, dtype=DEFAULT_FLOAT_DTYPE):
+def tstack(a, dtype=None):
     """
     Stacks arrays in sequence along the last axis (tail).
 
@@ -506,7 +534,8 @@ def tstack(a, dtype=DEFAULT_FLOAT_DTYPE):
     a : array_like
         Array to perform the stacking.
     dtype : object
-        Type to use for initial conversion to *ndarray*.
+        Type to use for initial conversion to *ndarray*, default to the type
+        defined by :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
     -------
@@ -543,12 +572,15 @@ def tstack(a, dtype=DEFAULT_FLOAT_DTYPE):
              [ 5.,  5.,  5.]]]])
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = as_array(a, dtype)
 
     return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
 
 
-def tsplit(a, dtype=DEFAULT_FLOAT_DTYPE):
+def tsplit(a, dtype=None):
     """
     Splits arrays in sequence along the last axis (tail).
 
@@ -557,7 +589,8 @@ def tsplit(a, dtype=DEFAULT_FLOAT_DTYPE):
     a : array_like
         Array to perform the splitting.
     dtype : object
-        Type to use for initial conversion to *ndarray*.
+        Type to use for initial conversion to *ndarray*, default to the type
+        defined by :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
     -------
@@ -595,6 +628,9 @@ def tsplit(a, dtype=DEFAULT_FLOAT_DTYPE):
     <BLANKLINE>
            [[ 0.,  1.,  2.,  3.,  4.,  5.]]])
     """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
 
     a = as_array(a, dtype)
 

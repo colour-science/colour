@@ -360,7 +360,10 @@ class KernelInterpolator(object):
                  kernel=kernel_lanczos,
                  kernel_kwargs=None,
                  padding_kwargs=None,
-                 dtype=DEFAULT_FLOAT_DTYPE):
+                 dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
+
         self._x_p = None
         self._y_p = None
 
@@ -804,7 +807,10 @@ class LinearInterpolator(object):
     array([ 6.7825,  8.5075])
     """
 
-    def __init__(self, x, y, dtype=DEFAULT_FLOAT_DTYPE):
+    def __init__(self, x, y, dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
+
         self._x = None
         self._y = None
         self._dtype = dtype
@@ -1019,7 +1025,10 @@ class SpragueInterpolator(object):
     :cite:`CIETC1-382005h`
     """
 
-    def __init__(self, x, y, dtype=DEFAULT_FLOAT_DTYPE):
+    def __init__(self, x, y, dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
+
         self._xp = None
         self._yp = None
 
@@ -1322,7 +1331,10 @@ class NullInterpolator(object):
                  absolute_tolerance=10e-7,
                  relative_tolerance=10e-7,
                  default=np.nan,
-                 dtype=DEFAULT_FLOAT_DTYPE):
+                 dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
+
         self._x = None
         self._y = None
         self._absolute_tolerance = None
