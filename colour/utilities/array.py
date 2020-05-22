@@ -303,16 +303,17 @@ def set_int_precision(dtype=DEFAULT_INT_DTYPE):
 
     Examples
     --------
-    >>> as_int_array(np.ones(3)).dtype
+    >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
     dtype('int64')
     >>> set_int_precision(np.int32)
-    >>> as_int_array(np.ones(3)).dtype
+    >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
     dtype('int32')
     >>> set_int_precision(np.int64)
-    >>> as_int_array(np.ones(3)).dtype
+    >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
     dtype('int64')
     """
 
+    # TODO: Investigate behaviour on Windows.
     for name, module in sys.modules.items():
         if not name.startswith(name):
             continue
