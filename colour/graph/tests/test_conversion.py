@@ -9,7 +9,9 @@ import numpy as np
 import six
 import unittest
 
-from colour import COLOURCHECKER_SDS, ILLUMINANTS, ILLUMINANT_SDS
+from colour.characterisation import COLOURCHECKER_SDS
+from colour.colorimetry import ILLUMINANTS, ILLUMINANT_SDS
+from colour.models import ACES_2065_1_COLOURSPACE
 from colour.graph import describe_conversion_path, convert
 
 __author__ = 'Colour Developers'
@@ -91,6 +93,15 @@ class TestConvert(unittest.TestCase):
                     np.array([0.5, 0.5, 0.5]), 'Output-Referred RGB',
                     'Scene-Referred RGB'), 'RGB', 'YCbCr'),
             np.array([0.49215686, 0.50196078, 0.50196078]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            convert(
+                RGB_a,
+                'RGB',
+                'Scene-Referred RGB',
+                RGB_to_RGB={'output_colourspace': ACES_2065_1_COLOURSPACE}),
+            np.array([0.36364180, 0.31715308, 0.25888531]),
             decimal=7)
 
     def test_convert_direct_keyword_argument_passing(self):

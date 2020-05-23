@@ -399,7 +399,12 @@ CONVERSION_SPECIFICATIONS_DATA = [
          illuminant_RGB=_DEFAULT_RGB_COLOURSPACE.whitepoint,
          illuminant_XYZ=_DEFAULT_RGB_COLOURSPACE.whitepoint,
          RGB_to_XYZ_matrix=_DEFAULT_RGB_COLOURSPACE.RGB_to_XYZ_matrix)),
-    ('RGB', 'RGB',
+    ('RGB', 'Scene-Referred RGB',
+     partial(
+         RGB_to_RGB,
+         input_colourspace=_DEFAULT_RGB_COLOURSPACE,
+         output_colourspace=_DEFAULT_RGB_COLOURSPACE)),
+    ('Scene-Referred RGB', 'RGB',
      partial(
          RGB_to_RGB,
          input_colourspace=_DEFAULT_RGB_COLOURSPACE,
