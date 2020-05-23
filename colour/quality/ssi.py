@@ -21,6 +21,7 @@ from scipy.ndimage.filters import convolve1d
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import SpectralShape
+from colour.utilities import zeros
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -76,7 +77,7 @@ def spectral_similarity_index(sd_test, sd_reference):
     global _INTEGRATION_MATRIX
 
     if _INTEGRATION_MATRIX is None:
-        _INTEGRATION_MATRIX = np.zeros([
+        _INTEGRATION_MATRIX = zeros([
             len(_SSI_LARGE_SPECTRAL_SHAPE.range()),
             len(SSI_SPECTRAL_SHAPE.range())
         ])

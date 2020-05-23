@@ -1318,10 +1318,6 @@ dict_like, optional
         if dtype is None:
             dtype = DEFAULT_FLOAT_DTYPE
 
-        assert dtype in np.sctypes['float'], (
-            '"dtype" must be one of the following types: {0}'.format(
-                np.sctypes['float']))
-
         domain_u, range_u, signals = None, None, None
         signals = OrderedDict()
         # TODO: Implement support for Signal class passing.

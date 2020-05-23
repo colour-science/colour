@@ -15,7 +15,8 @@ from colour.utilities import (
     set_float_precision, set_int_precision, as_namedtuple, closest_indexes,
     closest, normalise_maximum, interval, is_uniform, in_array, tstack, tsplit,
     row_as_diagonal, dot_vector, dot_matrix, orient, centroid,
-    linear_conversion, lerp, fill_nan, ndarray_write)
+    linear_conversion, lerp, fill_nan, ndarray_write, zeros, ones, full)
+from colour.utilities import is_networkx_installed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -31,7 +32,8 @@ __all__ = [
     'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform', 'TestInArray',
     'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestDotVector',
     'TestDotMatrix', 'TestOrient', 'TestCentroid', 'TestLinearConversion',
-    'TestLerp', 'TestFillNan', 'TestNdarrayWrite'
+    'TestLerp', 'TestFillNan', 'TestNdarrayWrite', 'TestZeros', 'TestOnes',
+    'TestFull'
 ]
 
 
@@ -184,6 +186,71 @@ class TestSetFloatPrecision(unittest.TestCase):
         set_float_precision(np.float64)
 
         self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+
+    def test_set_float_precision_enforcement(self):
+        """
+        Tests whether :func:`colour.utilities.array.set_float_precision` effect
+        is applied through most of *Colour* public API.
+        """
+
+        if not is_networkx_installed():
+            return
+
+        from colour.appearance import (CAM16_Specification,
+                                       CIECAM02_Specification)
+        from colour.graph.conversion import (CONVERSION_SPECIFICATIONS_DATA,
+                                             convert)
+
+        dtype = np.float32
+        set_float_precision(dtype)
+
+        for source, target, _callable in CONVERSION_SPECIFICATIONS_DATA:
+            if target in ('Hexadecimal', 'Munsell Colour'):
+                continue
+
+            # Spectral distributions are instantiated with float64 data and
+            # spectral up-sampling optimization fails.
+            if ('Spectral Distribution' in (source, target) or
+                    target == 'Complementary Wavelength' or
+                    target == 'Dominant Wavelength'):
+                continue
+
+            a = np.array([(0.25, 0.5, 0.25), (0.25, 0.5, 0.25)])
+
+            if source == 'CAM16':
+                a = CAM16_Specification(J=0.25, M=0.5, h=0.25)
+
+            if source == 'CIECAM02':
+                a = CIECAM02_Specification(J=0.25, M=0.5, h=0.25)
+
+            if source == 'CMYK':
+                a = np.array([(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)])
+
+            if source == 'Hexadecimal':
+                a = np.array(['#FFFFFF', '#FFFFFF'])
+
+            if source == 'Munsell Colour':
+                a = ['4.2YR 8.1/5.3', '4.2YR 8.1/5.3']
+
+            if source == 'Wavelength':
+                a = 555
+
+            if source.endswith(' xy') or source.endswith(' uv'):
+                a = np.array([(0.25, 0.5), (0.25, 0.5)])
+
+            def dtype_getter(x):
+                """
+                dtype getter callable.
+                """
+
+                for specification in ('ATD95', 'CIECAM02', 'CAM16', 'Hunt',
+                                      'LLAB', 'Nayatani95', 'RLAB'):
+                    if target.endswith(specification):
+                        return x[0].dtype
+
+                return x.dtype
+
+            self.assertEqual(dtype_getter(convert(a, source, target)), dtype)
 
     def tearDown(self):
         """
@@ -883,6 +950,48 @@ class TestNdarrayWrite(unittest.TestCase):
 
         with ndarray_write(a):
             a += 1
+
+
+class TestZeros(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.zeros` definition unit tests
+    methods.
+    """
+
+    def test_zeros(self):
+        """
+        Tests :func:`colour.utilities.array.zeros` definition.
+        """
+
+        np.testing.assert_equal(zeros(3), np.zeros(3))
+
+
+class TestOnes(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.ones` definition unit tests
+    methods.
+    """
+
+    def test_ones(self):
+        """
+        Tests :func:`colour.utilities.array.ones` definition.
+        """
+
+        np.testing.assert_equal(ones(3), np.ones(3))
+
+
+class TestFull(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.full` definition unit tests
+    methods.
+    """
+
+    def test_full(self):
+        """
+        Tests :func:`colour.utilities.array.full` definition.
+        """
+
+        np.testing.assert_equal(full(3, 0.5), np.full(3, 0.5))
 
 
 if __name__ == '__main__':

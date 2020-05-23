@@ -24,9 +24,9 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              dot_vector, from_range_degrees, to_domain_100,
-                              tsplit, tstack, usage_warning)
+from colour.utilities import (
+    CaseInsensitiveMapping, as_float_array, dot_vector, from_range_degrees,
+    ones, to_domain_100, tsplit, tstack, usage_warning, zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -325,7 +325,7 @@ def XYZ_to_Hunt(XYZ,
     >>> XYZ_b = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
-    >>> CCT_w = 6504.0
+    >>> CCT_w = 6504
     >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
     ... # doctest: +ELLIPSIS
     Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
@@ -662,14 +662,14 @@ def chromatic_adaptation(XYZ,
         L_A_p = spow(L_A, 1 / 3)
         F_rgb = ((1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb)))
     else:
-        F_rgb = np.ones(h_rgb.shape)
+        F_rgb = ones(h_rgb.shape)
 
     # Computing Helson-Judd effect parameters.
     if helson_judd_effect:
         D_rgb = (f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) - f_n(
             (Y_b / Y_w) * F_L * F_rgb))
     else:
-        D_rgb = np.zeros(F_rgb.shape)
+        D_rgb = zeros(F_rgb.shape)
 
     # Computing cone bleach factors.
     B_rgb = (10 ** 7) / ((10 ** 7) + 5 * L_A[..., np.newaxis] * (rgb_w / 100))

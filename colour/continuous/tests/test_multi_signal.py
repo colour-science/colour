@@ -79,11 +79,11 @@ class TestMultiSignals(unittest.TestCase):
         property.
         """
 
-        self.assertEqual(self._multi_signals.dtype, None)
+        self.assertEqual(self._multi_signals.dtype, DEFAULT_FLOAT_DTYPE)
 
         multi_signals = self._multi_signals.copy()
-        multi_signals.dtype = DEFAULT_FLOAT_DTYPE
-        self.assertEqual(multi_signals.dtype, DEFAULT_FLOAT_DTYPE)
+        multi_signals.dtype = np.float32
+        self.assertEqual(multi_signals.dtype, np.float32)
 
     def test_domain(self):
         """

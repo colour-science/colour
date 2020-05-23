@@ -25,7 +25,7 @@ from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, common_colourspace_model_axis_reorder,
     filter_RGB_colourspaces, filter_cmfs, override_style, render)
 from colour.utilities import (Structure, as_float_array, as_int_array,
-                              first_item)
+                              first_item, full, ones, zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -177,19 +177,13 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
         height_segments=segments,
         width_segments=segments)
 
-    RGB_g = np.ones((quads_g.shape[0], quads_g.shape[-1]))
+    RGB_g = ones([quads_g.shape[0], quads_g.shape[-1]])
     RGB_gf = RGB_g * settings.grid_face_colours
-    RGB_gf = np.hstack([
-        RGB_gf,
-        np.full((RGB_gf.shape[0], 1), settings.grid_face_alpha,
-                DEFAULT_FLOAT_DTYPE)
-    ])
+    RGB_gf = np.hstack(
+        [RGB_gf, full([RGB_gf.shape[0], 1], settings.grid_face_alpha)])
     RGB_ge = RGB_g * settings.grid_edge_colours
-    RGB_ge = np.hstack([
-        RGB_ge,
-        np.full((RGB_ge.shape[0], 1), settings.grid_edge_alpha,
-                DEFAULT_FLOAT_DTYPE)
-    ])
+    RGB_ge = np.hstack(
+        [RGB_ge, full([RGB_ge.shape[0], 1], settings.grid_edge_alpha)])
 
     # Inner grid.
     quads_gs = primitive_vertices_grid_mpl(
@@ -199,27 +193,24 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
         height_segments=segments * 2,
         width_segments=segments * 2)
 
-    RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
+    RGB_gs = ones([quads_gs.shape[0], quads_gs.shape[-1]])
     RGB_gsf = RGB_gs * 0
-    RGB_gsf = np.hstack(
-        [RGB_gsf,
-         np.full((RGB_gsf.shape[0], 1), 0, DEFAULT_FLOAT_DTYPE)])
+    RGB_gsf = np.hstack([RGB_gsf, full([RGB_gsf.shape[0], 1], 0)])
     RGB_gse = np.clip(RGB_gs * settings.grid_edge_colours * 1.5, 0, 1)
-    RGB_gse = np.hstack(
-        (RGB_gse,
-         np.full((RGB_gse.shape[0], 1), settings.grid_edge_alpha / 2,
-                 DEFAULT_FLOAT_DTYPE)))
+    RGB_gse = np.hstack((RGB_gse,
+                         full([RGB_gse.shape[0], 1],
+                              settings.grid_edge_alpha / 2)))
 
     # Axis.
     thickness = extent / 1000
     quad_x = primitive_vertices_grid_mpl(
         origin=(limits[0, 0], -thickness / 2), width=extent, height=thickness)
-    RGB_x = np.ones((quad_x.shape[0], quad_x.shape[-1] + 1))
+    RGB_x = ones([quad_x.shape[0], quad_x.shape[-1] + 1])
     RGB_x = RGB_x * settings.x_axis_colour
 
     quad_y = primitive_vertices_grid_mpl(
         origin=(-thickness / 2, limits[1, 0]), width=thickness, height=extent)
-    RGB_y = np.ones((quad_y.shape[0], quad_y.shape[-1] + 1))
+    RGB_y = ones([quad_y.shape[0], quad_y.shape[-1] + 1])
     RGB_y = RGB_y * settings.y_axis_colour
 
     if axes is not None:
@@ -464,7 +455,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
 
     illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
-    points = np.zeros((4, 3))
+    points = zeros([4, 3])
     if show_spectral_locus:
         cmfs = first_item(filter_cmfs(cmfs).values())
         XYZ = cmfs.values
@@ -509,24 +500,18 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
                 ), reference_colourspace))
 
         if settings.face_colours[i] is not None:
-            RGB = np.ones(RGB.shape) * settings.face_colours[i]
+            RGB = ones(RGB.shape) * settings.face_colours[i]
 
         RGB_f.extend(
-            np.hstack([
-                RGB,
-                np.full((RGB.shape[0], 1), settings.face_alpha[i],
-                        DEFAULT_FLOAT_DTYPE)
-            ]))
+            np.hstack([RGB,
+                       full([RGB.shape[0], 1], settings.face_alpha[i])]))
 
         if settings.edge_colours[i] is not None:
-            RGB = np.ones(RGB.shape) * settings.edge_colours[i]
+            RGB = ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(
-            np.hstack([
-                RGB,
-                np.full((RGB.shape[0], 1), settings.edge_alpha[i],
-                        DEFAULT_FLOAT_DTYPE)
-            ]))
+            np.hstack([RGB,
+                       full([RGB.shape[0], 1], settings.edge_alpha[i])]))
 
     quads = as_float_array(quads)
     quads[np.isnan(quads)] = 0

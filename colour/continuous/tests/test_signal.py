@@ -72,11 +72,11 @@ class TestSignal(unittest.TestCase):
         Tests :func:`colour.continuous.signal.Signal.dtype` property.
         """
 
-        self.assertEqual(self._signal.dtype, None)
+        self.assertEqual(self._signal.dtype, DEFAULT_FLOAT_DTYPE)
 
         signal = self._signal.copy()
-        signal.dtype = DEFAULT_FLOAT_DTYPE
-        self.assertEqual(signal.dtype, DEFAULT_FLOAT_DTYPE)
+        signal.dtype = np.float32
+        self.assertEqual(signal.dtype, np.float32)
 
     def test_domain(self):
         """

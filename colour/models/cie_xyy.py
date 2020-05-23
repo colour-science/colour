@@ -27,9 +27,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import (as_float_array, from_range_1, to_domain_1,
-                              tsplit, tstack)
+from colour.utilities import (as_float_array, from_range_1, full, to_domain_1,
+                              tsplit, tstack, zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -93,7 +92,7 @@ def XYZ_to_xyY(
     X, Y, Z = tsplit(XYZ)
     xy_w = as_float_array(illuminant)
 
-    XYZ_n = np.zeros(XYZ.shape)
+    XYZ_n = zeros(XYZ.shape)
     XYZ_n[..., 0:2] = xy_w
 
     xyY = np.where(
@@ -281,7 +280,7 @@ def xy_to_xyY(xy, Y=1):
 
     x, y = tsplit(xy)
 
-    Y = np.full(x.shape, from_range_1(Y), DEFAULT_FLOAT_DTYPE)
+    Y = full(x.shape, from_range_1(Y))
     xyY = tstack([x, y, Y])
 
     return xyY

@@ -31,14 +31,11 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.colorimetry import (ILLUMINANTS, lightness_CIE1976,
                                 luminance_CIE1976)
-from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
 from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
-                              to_domain_1, to_domain_100, tsplit, tstack)
+                              full, to_domain_1, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -100,6 +97,7 @@ def XYZ_to_Luv(
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  96.8362605...,  17.7521014...])
@@ -169,6 +167,7 @@ def Luv_to_XYZ(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
@@ -237,6 +236,7 @@ def Luv_to_uv(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.5012026...])
@@ -298,6 +298,7 @@ def uv_to_Luv(
 
     Examples
     --------
+    >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.50120264])
     >>> uv_to_Luv(uv)  # doctest: +ELLIPSIS
     array([ 100.        ,  233.1837603...,   42.7474385...])
@@ -308,7 +309,7 @@ def uv_to_Luv(
 
     X = 9 * u / (4 * v)
     Z = (-5 * Y * v - 3 * u / 4 + 3) / v
-    Y = np.full(u.shape, Y, DEFAULT_FLOAT_DTYPE)
+    Y = full(u.shape, Y)
 
     return XYZ_to_Luv(from_range_1(tstack([X, Y, Z])), illuminant)
 
@@ -334,6 +335,7 @@ def Luv_uv_to_xy(uv):
 
     Examples
     --------
+    >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.50120264])
     >>> Luv_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...])
@@ -368,6 +370,7 @@ def xy_to_Luv_uv(xy):
 
     Examples
     --------
+    >>> import numpy as np
     >>> xy = np.array([0.54369558, 0.32107944])
     >>> xy_to_Luv_uv(xy)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.5012026...])
@@ -425,6 +428,7 @@ def Luv_to_LCHuv(Luv):
 
     Examples
     --------
+    >>> import numpy as np
     >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_LCHuv(Luv)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  98.4499795...,  10.3881634...])
@@ -477,6 +481,7 @@ def LCHuv_to_Luv(LCHuv):
 
     Examples
     --------
+    >>> import numpy as np
     >>> LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
     >>> LCHuv_to_Luv(LCHuv)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  96.8362605...,  17.7521014...])

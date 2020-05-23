@@ -62,6 +62,7 @@ class ImageAttribute_Specification(
             cls, name, value, type_)
 
 
+# TODO: Overhaul by using "np.sctypeDict".
 if is_openimageio_installed():  # pragma: no cover
     from OpenImageIO import UINT8, UINT16, HALF, FLOAT
 

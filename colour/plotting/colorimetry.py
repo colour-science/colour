@@ -42,7 +42,7 @@ from colour.plotting import (
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
     render, plot_single_colour_swatch, plot_multi_functions)
 from colour.utilities import (domain_range_scale, first_item,
-                              normalise_maximum, tstack)
+                              normalise_maximum, ones, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -157,7 +157,7 @@ def plot_single_sd(sd,
     colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding(colours)
 
     if equalize_sd_amplitude:
-        values = np.ones(values.shape)
+        values = ones(values.shape)
 
     margin = 0 if equalize_sd_amplitude else 0.05
 

@@ -498,6 +498,7 @@ def sd_to_XYZ_integration(
     S = illuminant.values
     x_bar, y_bar, z_bar = tsplit(cmfs.values)
     R = sd.values
+
     dw = cmfs.shape.interval
 
     k = 100 / (np.sum(y_bar * S) * dw) if k is None else k
