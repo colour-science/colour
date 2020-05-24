@@ -14,8 +14,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
-from colour.utilities import (from_range_1, normalise_maximum, to_domain_1,
-                              usage_warning)
+from colour.utilities import (as_float_array, from_range_1, normalise_maximum,
+                              to_domain_1, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -124,6 +124,6 @@ def HEX_to_RGB(HEX):
 
     to_RGB_v = np.vectorize(to_RGB, otypes=[np.ndarray])
 
-    RGB = np.asarray(to_RGB_v(HEX).tolist()) / 255
+    RGB = as_float_array(to_RGB_v(HEX).tolist()) / 255
 
     return from_range_1(RGB)

@@ -36,7 +36,7 @@ import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralDistribution)
-from colour.utilities import CaseInsensitiveMapping, as_float_array
+from colour.utilities import CaseInsensitiveMapping, as_float_array, full, ones
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -90,7 +90,7 @@ def sd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
         dtype = DEFAULT_FLOAT_DTYPE
 
     wavelengths = shape.range(dtype)
-    values = np.full(len(wavelengths), k, dtype)
+    values = full(len(wavelengths), k, dtype)
 
     name = '{0} Constant'.format(k)
     return SpectralDistribution(values, wavelengths, name=name, dtype=dtype)
@@ -485,7 +485,7 @@ def sd_multi_leds_Ohno2005(peak_wavelengths,
     peak_wavelengths = as_float_array(peak_wavelengths)
     fwhm = np.resize(fwhm, peak_wavelengths.shape)
     if peak_power_ratios is None:
-        peak_power_ratios = np.ones(peak_wavelengths.shape)
+        peak_power_ratios = ones(peak_wavelengths.shape)
     else:
         peak_power_ratios = np.resize(peak_power_ratios,
                                       peak_wavelengths.shape)

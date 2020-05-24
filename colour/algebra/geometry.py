@@ -40,8 +40,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, tsplit,
-                              tstack)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array, ones,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -492,7 +492,7 @@ def ellipse_fitting_Halir1998(a):
     # Quadratic part of the design matrix.
     D1 = tstack([x ** 2, x * y, y ** 2])
     # Linear part of the design matrix.
-    D2 = tstack([x, y, np.ones(x.shape)])
+    D2 = tstack([x, y, ones(x.shape)])
 
     D1_T = np.transpose(D1)
     D2_T = np.transpose(D2)

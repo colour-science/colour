@@ -24,7 +24,7 @@ from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
                              plot_chromaticity_diagram_CIE1960UCS,
                              filter_passthrough, override_style, render)
 from colour.plotting.diagrams import plot_chromaticity_diagram
-from colour.utilities import tstack
+from colour.utilities import tstack, zeros
 from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
@@ -116,7 +116,7 @@ def plot_planckian_locus(planckian_locus_colours=None,
 
     start, end = 1667, 100000
     CCT = np.arange(start, end + 250, 250)
-    CCT_D_uv = tstack([CCT, np.zeros(CCT.shape)])
+    CCT_D_uv = tstack([CCT, zeros(CCT.shape)])
     ij = uv_to_ij(CCT_to_uv(CCT_D_uv, 'Robertson 1968'))
 
     axes.plot(ij[..., 0], ij[..., 1], color=planckian_locus_colours)

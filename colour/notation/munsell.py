@@ -791,8 +791,10 @@ def _munsell_specification_to_xyY(specification):
             Y_minus = luminance_ASTMD1535(value_minus)
             Y_plus = luminance_ASTMD1535(value_plus)
 
-        x = LinearInterpolator((Y_minus, Y_plus), (x_minus, x_plus))(Y)
-        y = LinearInterpolator((Y_minus, Y_plus), (y_minus, y_plus))(Y)
+        x = LinearInterpolator(
+            np.ravel([Y_minus, Y_plus]), np.ravel([x_minus, x_plus]))(Y)
+        y = LinearInterpolator(
+            np.ravel([Y_minus, Y_plus]), np.ravel([y_minus, y_plus]))(Y)
 
     return np.array([x, y, from_range_1(Y / 100)])
 
@@ -2165,19 +2167,23 @@ def xy_from_renotation_ovoid(specification):
                 ['Linear', 'radial'])))
 
         if interpolation_method == 'linear':
-            x = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                   (x_minus, x_plus))(hue_angle)
-            y = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                   (y_minus, y_plus))(hue_angle)
+            x = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([x_minus, x_plus]))(hue_angle)
+            y = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([y_minus, y_plus]))(hue_angle)
         elif interpolation_method == 'radial':
-            theta = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                       (phi_minus, phi_plus))(hue_angle)
-            rho = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                     (rho_minus, rho_plus))(hue_angle)
+            theta = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([phi_minus, phi_plus]))(hue_angle)
+            rho = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([rho_minus, rho_plus]))(hue_angle)
 
             x, y = tsplit(
-                polar_to_cartesian((rho, np.radians(theta))) +
-                as_float_array((x_grey, y_grey)))
+                polar_to_cartesian(np.ravel([rho, np.radians(theta)])) +
+                as_float_array([x_grey, y_grey]))
 
         return as_float_array([x, y])
 

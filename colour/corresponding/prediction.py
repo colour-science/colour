@@ -47,7 +47,7 @@ from colour.corresponding import (BRENEMAN_EXPERIMENTS,
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, XYZ_to_Luv, XYZ_to_xy,
                            xy_to_XYZ, xyY_to_XYZ)
 from colour.utilities import (CaseInsensitiveMapping, domain_range_scale,
-                              filter_kwargs, is_numeric)
+                              filter_kwargs, full, is_numeric)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -212,10 +212,9 @@ def convert_experiment_results_Breneman1987(experiment):
     B_r = B_t = 0.3
 
     XYZ_t, XYZ_r = xy_to_XYZ(
-        np.hstack([
-            Luv_uv_to_xy(illuminant_chromaticities[1:3]),
-            np.full([2, 1], Y_r)
-        ])) / Y_r
+        np.hstack(
+            [Luv_uv_to_xy(illuminant_chromaticities[1:3]),
+             full([2, 1], Y_r)])) / Y_r
 
     xyY_cr, xyY_ct = [], []
     for i, experiment_result in enumerate(experiment_results):

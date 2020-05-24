@@ -38,8 +38,8 @@ from six import add_metaclass
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (as_float_array, is_numeric, is_iterable,
-                              is_string, linear_conversion, runtime_warning,
-                              tsplit, tstack, usage_warning)
+                              is_string, full, linear_conversion,
+                              runtime_warning, tsplit, tstack, usage_warning)
 from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
@@ -2037,7 +2037,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
             del kwargs['size']
 
         channel_weights = as_float_array(
-            kwargs.get('channel_weights', np.full(3, 1 / 3)))
+            kwargs.get('channel_weights', full(3, 1 / 3)))
         if 'channel_weights' in kwargs:
             del kwargs['channel_weights']
 

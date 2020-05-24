@@ -20,6 +20,7 @@ import numpy as np
 
 from colour.colorimetry import PHOTOPIC_LEFS
 from colour.constants import K_M
+from colour.utilities import as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -75,7 +76,7 @@ def luminous_flux(sd,
 
     flux = K_m * np.trapz(sd.values, sd.wavelengths)
 
-    return flux
+    return as_float(flux)
 
 
 def luminous_efficiency(
@@ -155,4 +156,4 @@ def luminous_efficacy(
 
     efficacy = K_M * luminous_efficiency(sd, lef)
 
-    return efficacy
+    return as_float(efficacy)

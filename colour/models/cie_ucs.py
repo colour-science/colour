@@ -23,10 +23,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
-from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
+from colour.utilities import (from_range_1, full, to_domain_1, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -76,6 +73,7 @@ def XYZ_to_UCS(XYZ):
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
     array([ 0.1376933...,  0.1219722...,  0.1053731...])
@@ -123,6 +121,7 @@ def UCS_to_XYZ(UVW):
 
     Examples
     --------
+    >>> import numpy as np
     >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
@@ -165,6 +164,7 @@ def UCS_to_uv(UVW):
 
     Examples
     --------
+    >>> import numpy as np
     >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_uv(UVW)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.3341350...])
@@ -202,13 +202,14 @@ def uv_to_UCS(uv, V=1):
 
     Examples
     --------
+    >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.33413508])
     >>> uv_to_UCS(uv)  # doctest: +ELLIPSIS
     array([ 1.1288911...,  1.        ,  0.8639104...])
     """
 
     u, v = tsplit(uv)
-    V = np.full(u.shape, V, DEFAULT_FLOAT_DTYPE)
+    V = full(u.shape, V)
 
     U = V * u / v
     W = -V * (u + v - 1) / v
@@ -239,6 +240,7 @@ def UCS_uv_to_xy(uv):
 
     Examples
     --------
+    >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.33413508])
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...])
@@ -273,6 +275,7 @@ def xy_to_UCS_uv(xy):
 
     Examples
     --------
+    >>> import numpy as np
     >>> xy = np.array([0.54369555, 0.32107941])
     >>> xy_to_UCS_uv(xy)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.3341350...])

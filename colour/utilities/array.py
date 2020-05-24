@@ -42,7 +42,7 @@ __all__ = [
     'closest_indexes', 'closest', 'normalise_maximum', 'interval',
     'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
     'dot_vector', 'dot_matrix', 'orient', 'centroid', 'linear_conversion',
-    'lerp', 'fill_nan', 'ndarray_write'
+    'lerp', 'fill_nan', 'ndarray_write', 'zeros', 'ones', 'full'
 ]
 
 
@@ -55,7 +55,7 @@ def as_array(a, dtype=None):
     a : object
         Variable to convert.
     dtype : object
-        Type to use for conversion, default to the type defined by
+        Type to use for conversion, default to the type defined by the
         :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
@@ -67,8 +67,8 @@ def as_array(a, dtype=None):
     --------
     >>> as_array([1, 2, 3])
     array([ 1.,  2.,  3.])
-    >>> as_array([1, 2, 3], dtype=DEFAULT_INT_DTYPE)
-    array([1, 2, 3])
+    >>> as_array([1, 2, 3], dtype=DEFAULT_INT_DTYPE)  # doctest: +ELLIPSIS
+    array([1, 2, 3]...)
     """
 
     if dtype is None:
@@ -86,7 +86,7 @@ def as_int_array(a, dtype=None):
     a : object
         Variable to convert.
     dtype : object
-        Type to use for conversion, default to the type defined by
+        Type to use for conversion, default to the type defined by the
         :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
 
     Returns
@@ -96,12 +96,16 @@ def as_int_array(a, dtype=None):
 
     Examples
     --------
-    >>> as_int_array([1.0, 2.0, 3.0])
-    array([1, 2, 3])
+    >>> as_int_array([1.0, 2.0, 3.0])  # doctest: +ELLIPSIS
+    array([1, 2, 3]...)
     """
 
     if dtype is None:
         dtype = DEFAULT_INT_DTYPE
+
+    assert dtype in np.sctypes['int'], (
+        '"dtype" must be one of the following types: {0}'.format(
+            np.sctypes['int']))
 
     return as_array(a, dtype)
 
@@ -115,7 +119,7 @@ def as_float_array(a, dtype=None):
     a : object
         Variable to convert.
     dtype : object
-        Type to use for conversion, default to the type defined by
+        Type to use for conversion, default to the type defined by the
         :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
@@ -132,6 +136,10 @@ def as_float_array(a, dtype=None):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
+    assert dtype in np.sctypes['float'], (
+        '"dtype" must be one of the following types: {0}'.format(
+            np.sctypes['float']))
+
     return as_array(a, dtype)
 
 
@@ -145,7 +153,7 @@ def as_numeric(a, dtype=None):
     a : object
         Variable to convert.
     dtype : object
-        Type to use for conversion, default to the type defined by
+        Type to use for conversion, default to the type defined by the
         :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
@@ -179,7 +187,7 @@ def as_int(a, dtype=None):
     a : object
         Variable to convert.
     dtype : object
-        Type to use for conversion, default to the type defined by
+        Type to use for conversion, default to the type defined by the
         :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute. In the event where
         :math:`a` cannot be converted, it is converted to *ndarray* using the
         type defined by :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
@@ -201,13 +209,16 @@ def as_int(a, dtype=None):
     --------
     >>> as_int(np.array([1]))
     1
-    >>> as_int(np.arange(10))
-    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    >>> as_int(np.arange(10))  # doctest: +ELLIPSIS
+    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]...)
     """
 
     if dtype is None:
         dtype = DEFAULT_INT_DTYPE
 
+    assert dtype in np.sctypes['int'], (
+        '"dtype" must be one of the following types: {0}'.format(
+            np.sctypes['int']))
     try:
         # TODO: Change to "DEFAULT_INT_DTYPE" when and if
         # https://github.com/numpy/numpy/issues/11956 is addressed.
@@ -225,7 +236,7 @@ def as_float(a, dtype=None):
     a : object
         Variable to convert.
     dtype : object
-        Type to use for conversion, default to the type defined by
+        Type to use for conversion, default to the type defined by the
         :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute. In the event where
         :math:`a` cannot be converted, it is converted to *ndarray* using the
         type defined by :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
@@ -254,6 +265,10 @@ def as_float(a, dtype=None):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
+    assert dtype in np.sctypes['float'], (
+        '"dtype" must be one of the following types: {0}'.format(
+            np.sctypes['float']))
+
     return dtype(a)
 
 
@@ -267,6 +282,20 @@ def set_float_precision(dtype=DEFAULT_FLOAT_DTYPE):
     ----------
     dtype : object
         Type to set :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` with.
+
+    Warnings
+    --------
+    Changing float precision might result in various *Colour* functionality
+    breaking entirely: https://github.com/numpy/numpy/issues/6860. With great
+    power comes great responsibility.
+
+    Notes
+    -----
+    -   It is possible to define the float precision at import time by setting
+        the *COLOUR_SCIENCE__FLOAT_PRECISION* environment variable, for example
+        `set COLOUR_SCIENCE__FLOAT_PRECISION=float32`.
+    -   Some definition returning a single-scalar ndarray might not honour the
+        given float precision: https://github.com/numpy/numpy/issues/16353
 
     Examples
     --------
@@ -300,6 +329,19 @@ def set_int_precision(dtype=DEFAULT_INT_DTYPE):
     ----------
     dtype : object
         Type to set :attr:`colour.constant.DEFAULT_INT_DTYPE` with.
+
+    Notes
+    -----
+    -   It is possible to define the int precision at import time by setting
+        the *COLOUR_SCIENCE__INT_PRECISION* environment variable, for example
+        `set COLOUR_SCIENCE__INT_PRECISION=int32`.
+
+    Warnings
+    --------
+    This definition is mostly given for consistency purposes with
+    :func:`colour.utilities.set_float_precision` definition but contrary to the
+    latter, changing integer precision will almost certainly completely break
+    *Colour*. With great power comes great responsibility.
 
     Examples
     --------
@@ -797,6 +839,9 @@ def dot_vector(m, v):
            [ 0.1954094...,  0.0620396...,  0.0527952...]])
     """
 
+    m = as_float_array(m)
+    v = as_float_array(v)
+
     return np.einsum('...ij,...j->...i', m, v)
 
 
@@ -815,6 +860,9 @@ def dot_matrix(a, b):
         Array of 3x3 matrices.
     b : array_like
         Array of 3x3 matrices.
+    dtype : object
+        Type to use for conversion, default to the type defined by the
+        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Returns
     -------
@@ -854,6 +902,9 @@ def dot_matrix(a, b):
             [-1.7099407...,  2.5793226...,  0.1306181...],
             [-0.0044203...,  0.0377490...,  0.9666713...]]])
     """
+
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     return np.einsum('...ij,...jk->...ik', a, b)
 
@@ -929,8 +980,8 @@ def centroid(a):
     Examples
     --------
     >>> a = np.tile(np.arange(0, 5), (5, 1))
-    >>> centroid(a)
-    array([2, 3])
+    >>> centroid(a)  # doctest: +ELLIPSIS
+    array([2, 3]...)
     """
 
     a = as_float_array(a)
@@ -1099,3 +1150,113 @@ def ndarray_write(a):
         yield a
     finally:
         a.setflags(write=False)
+
+
+def zeros(shape, dtype=None, order='C'):
+    """
+    Simple wrapper around :func:`np.zeros` definition to create arrays with
+    the active type defined by the:attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
+    attribute.
+
+    Parameters
+    ----------
+    shape : int or array_like
+        Shape of the new array, e.g., ``(2, 3)`` or ``2``.
+    dtype : object
+        Type to use for conversion, default to the type defined by the
+        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    order : unicode, optional
+        {'C', 'F'},
+        Whether to store multi-dimensional data in row-major
+        (C-style) or column-major (Fortran-style) order in
+        memory.
+
+    Returns
+    -------
+    ndarray
+        Array of given shape and type, filled with zeros.
+
+    Examples
+    --------
+    >>> zeros(3)
+    array([ 0.,  0.,  0.])
+    """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
+    return np.zeros(shape, dtype, order)
+
+
+def ones(shape, dtype=None, order='C'):
+    """
+    Simple wrapper around :func:`np.ones` definition to create arrays with
+    the active type defined by the:attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
+    attribute.
+
+    Parameters
+    ----------
+    shape : int or array_like
+        Shape of the new array, e.g., ``(2, 3)`` or ``2``.
+    dtype : object
+        Type to use for conversion, default to the type defined by the
+        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    order : unicode, optional
+        {'C', 'F'},
+        Whether to store multi-dimensional data in row-major
+        (C-style) or column-major (Fortran-style) order in
+        memory.
+
+    Returns
+    -------
+    ndarray
+        Array of given shape and type, filled with ones.
+
+    Examples
+    --------
+    >>> ones(3)
+    array([ 1.,  1.,  1.])
+    """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
+    return np.ones(shape, dtype, order)
+
+
+def full(shape, fill_value, dtype=None, order='C'):
+    """
+    Simple wrapper around :func:`np.full` definition to create arrays with
+    the active type defined by the:attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
+    attribute.
+
+    Parameters
+    ----------
+    shape : int or array_like
+        Shape of the new array, e.g., ``(2, 3)`` or ``2``.
+    fill_value : numeric
+        Fill value.
+    dtype : object
+        Type to use for conversion, default to the type defined by the
+        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    order : unicode, optional
+        {'C', 'F'},
+        Whether to store multi-dimensional data in row-major
+        (C-style) or column-major (Fortran-style) order in
+        memory.
+
+    Returns
+    -------
+    ndarray
+        Array of given shape and type, filled with given value.
+
+    Examples
+    --------
+    >>> ones(3)
+    array([ 1.,  1.,  1.])
+    """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
+    return np.full(shape, fill_value, dtype, order)

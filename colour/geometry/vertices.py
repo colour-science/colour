@@ -20,7 +20,7 @@ import numpy as np
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import PLANE_TO_AXIS_MAPPING
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, tsplit, tstack)
+                              filter_kwargs, full, ones, tsplit, tstack, zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -359,16 +359,16 @@ def primitive_vertices_sphere(radius=0.5,
             np.radians(np.linspace(0, 180, segments * 2 + 1)[1::2][1:-1]),
             (segments + 1, 1))
         theta = np.hstack([
-            np.zeros([segments + 1, 1]),
+            zeros([segments + 1, 1]),
             theta,
-            np.full([segments + 1, 1], np.pi),
+            full([segments + 1, 1], np.pi),
         ])
         phi = np.transpose(
             np.tile(
                 np.radians(np.linspace(-180, 180, segments + 1)) + np.radians(
                     360 / segments / 2), (segments, 1)))
 
-    rho = np.ones(phi.shape) * radius
+    rho = ones(phi.shape) * radius
     rho_theta_phi = tstack([rho, theta, phi])
 
     vertices = spherical_to_cartesian(rho_theta_phi)

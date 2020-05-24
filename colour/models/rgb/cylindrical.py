@@ -37,7 +37,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import (as_float_array, from_range_1, to_domain_1,
+from colour.utilities import (as_float_array, from_range_1, full, to_domain_1,
                               tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -309,7 +309,7 @@ def HSL_to_RGB(HSL):
         vH[np.asarray(vH < 0)] += 1
         vH[np.asarray(vH > 1)] -= 1
 
-        v = np.full(vi.shape, np.nan)
+        v = full(vi.shape, np.nan)
 
         v = np.where(
             np.logical_and(6 * vH < 1, np.isnan(v)),

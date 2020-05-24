@@ -30,7 +30,7 @@ import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
-from colour.utilities import tsplit
+from colour.utilities import as_numeric, ones, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -206,8 +206,7 @@ def primaries_whitepoint(npm):
     npm = npm.reshape([3, 3])
 
     primaries = XYZ_to_xy(np.transpose(np.dot(npm, np.identity(3))))
-    whitepoint = np.squeeze(
-        XYZ_to_xy(np.transpose(np.dot(npm, np.ones((3, 1))))))
+    whitepoint = np.squeeze(XYZ_to_xy(np.transpose(np.dot(npm, ones([3, 1])))))
 
     # TODO: Investigate if we return an ndarray here with primaries and
     # whitepoint stacked together.
@@ -274,4 +273,4 @@ def RGB_luminance(RGB, primaries, whitepoint):
     Y = np.sum(
         normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
 
-    return Y
+    return as_numeric(Y)

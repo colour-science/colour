@@ -63,7 +63,7 @@ import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_int,
-                              closest, filter_kwargs, tsplit, tstack)
+                              closest, filter_kwargs, ones, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -119,7 +119,7 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
     """
 
     R, G, B = tsplit(RGB)
-    ones = np.ones(R.shape)
+    tail = ones(R.shape)
 
     existing_terms = np.array([3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22])
     closest_terms = as_int(closest(existing_terms, terms))
@@ -132,23 +132,23 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
     if terms == 3:
         return RGB
     elif terms == 5:
-        return tstack([R, G, B, R * G * B, ones])
+        return tstack([R, G, B, R * G * B, tail])
     elif terms == 7:
-        return tstack([R, G, B, R * G, R * B, G * B, ones])
+        return tstack([R, G, B, R * G, R * B, G * B, tail])
     elif terms == 8:
-        return tstack([R, G, B, R * G, R * B, G * B, R * G * B, ones])
+        return tstack([R, G, B, R * G, R * B, G * B, R * G * B, tail])
     elif terms == 10:
         return tstack(
-            [R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, ones])
+            [R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, tail])
     elif terms == 11:
         return tstack([
             R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            ones
+            tail
         ])
     elif terms == 14:
         return tstack([
             R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B, R
-            ** 3, G ** 3, B ** 3, ones
+            ** 3, G ** 3, B ** 3, tail
         ])
     elif terms == 16:
         return tstack([
@@ -158,7 +158,7 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
     elif terms == 17:
         return tstack([
             R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 3, G ** 3, B ** 3, ones
+            R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 3, G ** 3, B ** 3, tail
         ])
     elif terms == 19:
         return tstack([
@@ -170,7 +170,7 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
         return tstack([
             R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
             R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 2 * B, G ** 2 * R,
-            B ** 2 * G, R ** 3, G ** 3, B ** 3, ones
+            B ** 2 * G, R ** 3, G ** 3, B ** 3, tail
         ])
     elif terms == 22:
         return tstack([

@@ -30,7 +30,7 @@ except ImportError:  # pragma: no cover
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
-from colour.utilities import (as_array, fill_nan, is_pandas_installed,
+from colour.utilities import (as_array, fill_nan, full, is_pandas_installed,
                               runtime_warning, tsplit, tstack, usage_warning)
 from colour.utilities.deprecation import ObjectRenamed
 
@@ -216,7 +216,7 @@ class Signal(AbstractContinuousFunction):
 
         self.domain, self.range = self.signal_unpack_data(data, domain)
 
-        self.dtype = kwargs.get('dtype')
+        self.dtype = kwargs.get('dtype', DEFAULT_FLOAT_DTYPE)
 
         self.interpolator = kwargs.get('interpolator')
         self.interpolator_kwargs = kwargs.get('interpolator_kwargs')
@@ -250,16 +250,10 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            float_dtypes = []
-            for float_dtype in ['float16', 'float32', 'float64', 'float128']:
-                if hasattr(np, float_dtype):
-                    float_dtypes.append(getattr(np, float_dtype))
 
-            assert value in float_dtypes, ((
-                '"{0}" attribute: "{1}" type is not in "{2}"!').format(
-                    'dtype', value, ', '.join([
-                        float_dtype.__name__ for float_dtype in float_dtypes
-                    ])))
+            assert value in np.sctypes['float'], (
+                '"dtype" must be one of the following types: {0}'.format(
+                    np.sctypes['float']))
 
             self._dtype = value
 
@@ -295,25 +289,26 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            if not np.all(np.isfinite(value)):
-                runtime_warning(
-                    '"{0}" new "domain" variable is not finite: {1}, '
-                    'unpredictable results may occur!'.format(
-                        self.name, value))
-
-            value = np.copy(value).astype(self.dtype)
-
-            if self._range is not None:
-                if value.size != self._range.size:
+            if np.asarray(value).dtype != object:
+                if not np.all(np.isfinite(value)):
                     runtime_warning(
-                        '"{0}" new "domain" and current "range" variables '
-                        'have different size, "range" variable will be '
-                        'resized to "domain" variable shape!'.format(
-                            self.name))
-                    self._range = np.resize(self._range, value.shape)
+                        '"{0}" new "domain" variable is not finite: {1}, '
+                        'unpredictable results may occur!'.format(
+                            self.name, value))
 
-            self._domain = value
-            self._create_function()
+                value = np.copy(value).astype(self.dtype)
+
+                if self._range is not None:
+                    if value.size != self._range.size:
+                        runtime_warning(
+                            '"{0}" new "domain" and current "range" variables '
+                            'have different size, "range" variable will be '
+                            'resized to "domain" variable shape!'.format(
+                                self.name))
+                        self._range = np.resize(self._range, value.shape)
+
+                self._domain = value
+                self._create_function()
 
     @property
     def range(self):
@@ -342,20 +337,21 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            if not np.all(np.isfinite(value)):
-                runtime_warning(
-                    '"{0}" new "range" variable is not finite: {1}, '
-                    'unpredictable results may occur!'.format(
-                        self.name, value))
+            if np.asarray(value).dtype != object:
+                if not np.all(np.isfinite(value)):
+                    runtime_warning(
+                        '"{0}" new "range" variable is not finite: {1}, '
+                        'unpredictable results may occur!'.format(
+                            self.name, value))
 
-            value = np.copy(value).astype(self.dtype)
+                value = np.copy(value).astype(self.dtype)
 
-            if self._domain is not None:
-                assert value.size == self._domain.size, (
-                    '"domain" and "range" variables must have same size!')
+                if self._domain is not None:
+                    assert value.size == self._domain.size, (
+                        '"domain" and "range" variables must have same size!')
 
-            self._range = value
-            self._create_function()
+                self._range = value
+                self._create_function()
 
     @property
     def interpolator(self):
@@ -1028,7 +1024,7 @@ class Signal(AbstractContinuousFunction):
             if isinstance(a, Signal):
                 self[self._domain] = operation(self._range, a[self._domain])
                 exclusive_or = np.setxor1d(self._domain, a.domain)
-                self[exclusive_or] = np.full(exclusive_or.shape, np.nan)
+                self[exclusive_or] = full(exclusive_or.shape, np.nan)
             else:
                 self.range = ioperator(self.range, a)
 
@@ -1115,10 +1111,6 @@ class Signal(AbstractContinuousFunction):
 
         if dtype is None:
             dtype = DEFAULT_FLOAT_DTYPE
-
-        assert dtype in np.sctypes['float'], (
-            '"dtype" must be one of the following types: {0}'.format(
-                np.sctypes['float']))
 
         domain_u, range_u = None, None
         if isinstance(data, Signal):

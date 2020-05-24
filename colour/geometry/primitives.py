@@ -22,7 +22,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from colour.constants import DEFAULT_INT_DTYPE, DEFAULT_FLOAT_DTYPE
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs, ones, zeros
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -116,9 +117,9 @@ def primitive_grid(width=1,
     y_grid1 = y_grid + 1
 
     # Positions, normals and uvs.
-    positions = np.zeros(x_grid1 * y_grid1 * 3)
-    normals = np.zeros(x_grid1 * y_grid1 * 3)
-    uvs = np.zeros(x_grid1 * y_grid1 * 2)
+    positions = zeros(x_grid1 * y_grid1 * 3)
+    normals = zeros(x_grid1 * y_grid1 * 3)
+    uvs = zeros(x_grid1 * y_grid1 * 2)
 
     y = np.arange(y_grid1) * height / y_grid - height / 2
     x = np.arange(x_grid1) * width / x_grid - width / 2
@@ -167,15 +168,15 @@ def primitive_grid(width=1,
             np.interp(vertex_colours,
                       (np.min(vertex_colours), np.max(vertex_colours)),
                       (0, 1)), positions.shape),
-        np.ones((positions.shape[0], 1))
+        ones([positions.shape[0], 1])
     ])
     vertex_colours[..., zero_axis] = 0
 
-    vertices = np.zeros(positions.shape[0], [
-        ('position', np.float32, 3),
-        ('uv', np.float32, 2),
-        ('normal', np.float32, 3),
-        ('colour', np.float32, 4),
+    vertices = zeros(positions.shape[0], [
+        ('position', DEFAULT_FLOAT_DTYPE, 3),
+        ('uv', DEFAULT_FLOAT_DTYPE, 2),
+        ('normal', DEFAULT_FLOAT_DTYPE, 3),
+        ('colour', DEFAULT_FLOAT_DTYPE, 4),
     ])
 
     vertices['position'] = positions
@@ -321,12 +322,12 @@ def primitive_cube(width=1,
         planes_m.append(list(primitive_grid(depth, height, d_s, h_s, '+x')))
         planes_m[-1][0]['position'][..., 0] += width / 2
 
-    positions = np.zeros((0, 3), dtype=np.float32)
-    uvs = np.zeros((0, 2), dtype=np.float32)
-    normals = np.zeros((0, 3), dtype=np.float32)
+    positions = zeros([0, 3])
+    uvs = zeros([0, 2])
+    normals = zeros([0, 3])
 
-    faces = np.zeros((0, 3), dtype=np.uint32)
-    outline = np.zeros((0, 2), dtype=np.uint32)
+    faces = zeros([0, 3], dtype=DEFAULT_INT_DTYPE)
+    outline = zeros([0, 2], dtype=DEFAULT_INT_DTYPE)
 
     offset = 0
     for vertices_p, faces_p, outline_p in planes_m:
@@ -338,12 +339,10 @@ def primitive_cube(width=1,
         outline = np.vstack([outline, outline_p + offset])
         offset += vertices_p['position'].shape[0]
 
-    vertices = np.zeros(positions.shape[0], [
-        ('position', np.float32, 3),
-        ('uv', np.float32, 2),
-        ('normal', np.float32, 3),
-        ('colour', np.float32, 4),
-    ])
+    vertices = zeros(positions.shape[0], [('position', DEFAULT_FLOAT_DTYPE, 3),
+                                          ('uv', DEFAULT_FLOAT_DTYPE, 2),
+                                          ('normal', DEFAULT_FLOAT_DTYPE, 3),
+                                          ('colour', DEFAULT_FLOAT_DTYPE, 4)])
 
     vertex_colours = np.ravel(positions)
     vertex_colours = np.hstack([
@@ -351,7 +350,7 @@ def primitive_cube(width=1,
             np.interp(vertex_colours,
                       (np.min(vertex_colours), np.max(vertex_colours)),
                       (0, 1)), positions.shape),
-        np.ones([positions.shape[0], 1])
+        ones([positions.shape[0], 1])
     ])
 
     vertices['position'] = positions

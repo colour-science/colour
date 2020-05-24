@@ -22,7 +22,9 @@ import six
 
 from colour.colorimetry import (STANDARD_OBSERVER_CMFS, multi_sds_to_XYZ,
                                 SpectralShape, sd_ones)
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
+from colour.utilities import zeros
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -121,12 +123,17 @@ def generate_pulse_waves(bins):
     """
 
     square_waves = []
-    square_waves_basis = np.tril(np.ones((bins, bins)))[0:-1, :]
+    square_waves_basis = np.tril(
+        np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE))[0:-1, :]
     for square_wave_basis in square_waves_basis:
         for i in range(bins):
             square_waves.append(np.roll(square_wave_basis, i))
 
-    return np.vstack([np.zeros(bins), np.vstack(square_waves), np.ones(bins)])
+    return np.vstack([
+        zeros(bins),
+        np.vstack(square_waves),
+        np.ones(bins, dtype=DEFAULT_FLOAT_DTYPE)
+    ])
 
 
 def XYZ_outer_surface(
