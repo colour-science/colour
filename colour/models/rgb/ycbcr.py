@@ -259,7 +259,8 @@ def RGB_to_YCbCr(RGB,
     Creating integer code values as per standard 10-bit SDI:
 
     >>> RGB_to_YCbCr(RGB, out_legal=True, out_bits=10, out_int=True)
-    array([940, 512, 512])
+    ... # doctest: +ELLIPSIS
+    array([940, 512, 512]...)
 
     For JFIF JPEG conversion as per ITU-T T.871
     :cite:`InternationalTelecommunicationUnion2011e`:
@@ -267,7 +268,8 @@ def RGB_to_YCbCr(RGB,
     >>> RGB = np.array([102, 0, 51])
     >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['ITU-R BT.601'], in_range=(0, 255),
     ...              out_range=(0, 255, 0, 256), out_int=True)
-    array([ 36, 136, 175])
+    ... # doctest: +ELLIPSIS
+    array([ 36, 136, 175]...)
 
     Note the use of 256 for the max *Cb / Cr* value, which is required so that
     the *Cb* and *Cr* output is centered about 128. Using 255 centres it
@@ -281,7 +283,8 @@ def RGB_to_YCbCr(RGB,
 
     >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['ITU-R BT.601'], in_bits=8,
     ...              in_int=True, out_legal=False, out_int=True)
-    array([ 36, 136, 175])
+    ... # doctest: +ELLIPSIS
+    array([ 36, 136, 175]...)
     """
 
     if in_int:
@@ -519,7 +522,8 @@ def RGB_to_YcCbcCrc(RGB,
     >>> RGB = np.array([0.18, 0.18, 0.18])
     >>> RGB_to_YcCbcCrc(RGB, out_legal=True, out_bits=10, out_int=True,
     ...                 is_12_bits_system=False)
-    array([422, 512, 512])
+    ... # doctest: +ELLIPSIS
+    array([422, 512, 512]...)
     """
 
     R, G, B = tsplit(to_domain_1(RGB))

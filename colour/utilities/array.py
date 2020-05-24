@@ -67,8 +67,8 @@ def as_array(a, dtype=None):
     --------
     >>> as_array([1, 2, 3])
     array([ 1.,  2.,  3.])
-    >>> as_array([1, 2, 3], dtype=DEFAULT_INT_DTYPE)
-    array([1, 2, 3])
+    >>> as_array([1, 2, 3], dtype=DEFAULT_INT_DTYPE)  # doctest: +ELLIPSIS
+    array([1, 2, 3]...)
     """
 
     if dtype is None:
@@ -96,8 +96,8 @@ def as_int_array(a, dtype=None):
 
     Examples
     --------
-    >>> as_int_array([1.0, 2.0, 3.0])
-    array([1, 2, 3])
+    >>> as_int_array([1.0, 2.0, 3.0])  # doctest: +ELLIPSIS
+    array([1, 2, 3]...)
     """
 
     if dtype is None:
@@ -209,8 +209,8 @@ def as_int(a, dtype=None):
     --------
     >>> as_int(np.array([1]))
     1
-    >>> as_int(np.arange(10))
-    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    >>> as_int(np.arange(10))  # doctest: +ELLIPSIS
+    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]...)
     """
 
     if dtype is None:
@@ -980,8 +980,8 @@ def centroid(a):
     Examples
     --------
     >>> a = np.tile(np.arange(0, 5), (5, 1))
-    >>> centroid(a)
-    array([2, 3])
+    >>> centroid(a)  # doctest: +ELLIPSIS
+    array([2, 3]...)
     """
 
     a = as_float_array(a)
