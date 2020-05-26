@@ -1308,11 +1308,13 @@ Thank You!
                     <a href="https://opencollective.com/static/images/default-anonymous-logo.svg" target="_blank">
                         <img width="98px" src="https://opencollective.com/static/images/default-anonymous-logo.svg">
                     </a>
+                    <p><a href="" target="_blank">Anonymous</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/CLVPTY" target="_blank">
+                        <img width="98px" src="https://pbs.twimg.com/profile_images/973315780388540416/KEddjwch_400x400.jpg">
                     </a>
+                    <p><a href="https://twitter.com/CLVPTY" target="_blank">Cedric Lejeune</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
