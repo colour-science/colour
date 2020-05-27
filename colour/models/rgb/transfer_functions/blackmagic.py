@@ -26,10 +26,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
-from colour.utilities.deprecation import handle_arguments_deprecation
+
+from .blackmagic_curves import *
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -46,6 +46,7 @@ __all__ = [
     'log_decoding_BMDPocket6KFilmV4'
 ]
 
+
 def interp(x, table, invert=False):
     domain = np.linspace(0, 1, len(table))
     if invert:
@@ -53,11 +54,6 @@ def interp(x, table, invert=False):
     else:
         return np.interp(x, domain, table)
 
-BMDFILM_LUT = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-BMD4KFILM_LUT = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-BMD46KFILM_LUT = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-BMDPOCKET4KFILM_LUT = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-BMDPOCKET6KFILM_LUT = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
 def log_encoding_BMDFilm(x):
     """
@@ -102,7 +98,7 @@ def log_encoding_BMDFilm(x):
     x = to_domain_1(x)
 
     with domain_range_scale('ignore'):
-        bmdfilm = interp(x, BMDFILM_LUT, invert=True)
+        bmdfilm = interp(x, BMD_FILM_LUT, invert=True)
 
     return as_float(from_range_1(bmdfilm))
 
@@ -143,36 +139,44 @@ def log_decoding_BMDFilm(bmdfilm):
 
     Examples
     --------
-    >>> log_decoding_BMDFilm(0.3835615)  # doctest: +ELLIPSIS
+    >>> log_decoding_BMDFilm(0.38356155691741117)  # doctest: +ELLIPSIS
     0.17999999...
     """
 
     bmdfilm = to_domain_1(bmdfilm)
 
-    x = interp(bmdfilm, BMDFILM_LUT, invert=False)
+    x = interp(bmdfilm, BMD_FILM_LUT, invert=False)
 
     return as_float(from_range_1(x))
 
+
 def log_encoding_BMD4KFilm(x):
-    return interp(x, BMD4KFILM_LUT, invert=True)
+    return interp(x, BMD_4K_FILM_LUT, invert=True)
+
 
 def log_decoding_BMD4KFilm(y):
-    return interp(y, BMD4KFILM_LUT, invert=False)
+    return interp(y, BMD_4K_FILM_LUT, invert=False)
+
 
 def log_encoding_BMD46KFilm(x):
-    return interp(x, BMD4KFILM_LUT, invert=True)
+    return interp(x, BMD_46K_FILM_LUT, invert=True)
+
 
 def log_decoding_BMD46KFilm(y):
-    return interp(y, BMD4KFILM_LUT, invert=False)
+    return interp(y, BMD_46K_FILM_LUT, invert=False)
+
 
 def log_encoding_BMDPocket4KFilmV4(x):
-    return interp(x, BMDPOCKET4KFILM_LUT, invert=True)
+    return interp(x, BMD_POCKET_4K_FILM_LUT, invert=True)
+
 
 def log_decoding_BMDPocket4KFilmV4(y):
-    return interp(y, BMDPOCKET4KFILM_LUT, invert=False)
+    return interp(y, BMD_POCKET_4K_FILM_LUT, invert=False)
+
 
 def log_encoding_BMDPocket6KFilmV4(x):
-    return interp(x, BMDPOCKET6KFILM_LUT, invert=True)
+    return interp(x, BMD_POCKET_6K_FILM_LUT, invert=True)
+
 
 def log_decoding_BMDPocket6KFilmV4(y):
-    return interp(y, BMDPOCKET4KFILM_LUT, invert=False)
+    return interp(y, BMD_POCKET_6K_FILM_LUT, invert=False)
