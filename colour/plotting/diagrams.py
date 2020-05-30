@@ -383,6 +383,7 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
         settings = {'axes': axes, 'method': method}
         settings.update(kwargs)
         settings['standalone'] = False
+        settings['cmfs'] = cmfs
 
         plot_chromaticity_diagram_colours(**settings)
 
@@ -390,6 +391,7 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
         settings = {'axes': axes, 'method': method}
         settings.update(kwargs)
         settings['standalone'] = False
+        settings['cmfs'] = cmfs
 
         plot_spectral_locus(**settings)
 
