@@ -171,8 +171,7 @@ def CMY_to_CMYK(CMY):
 
     C, M, Y = tsplit(to_domain_1(CMY))
 
-    K = ones(C.shape)
-    K = np.where(C < K, C, K)
+    K = np.where(C < 1, C, 1)
     K = np.where(M < K, M, K)
     K = np.where(Y < K, Y, K)
 
