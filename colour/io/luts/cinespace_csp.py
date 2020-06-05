@@ -21,8 +21,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
-from colour.io.luts.common import parse_array
-from colour.utilities import tsplit, tstack
+from colour.utilities import tsplit, tstack, as_float_array, as_int_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -100,7 +99,10 @@ def read_LUT_Cinespace(path):
         """
 
         pre_LUT_size = max([int(lines[i]) for i in [0, 3, 6]])
-        pre_LUT = [parse_array(lines[i]) for i in [1, 2, 4, 5, 7, 8]]
+        pre_LUT = []
+        for i in [1, 2, 4, 5, 7, 8]:
+            tokens = lines[i].split()
+            pre_LUT.append(as_float_array(tokens))
         pre_LUT_padded = []
 
         for row in pre_LUT:
@@ -121,8 +123,16 @@ def read_LUT_Cinespace(path):
         Parses the table at given lines.
         """
 
-        size = parse_array(lines[0]).astype(int)
-        table = np.array([parse_array(line) for line in lines[1:]])
+        size = []
+        for i in lines[0].split():
+            size.append(i)
+        size = as_int_array(size)
+
+        table = []
+        for line in lines[1:]:
+            tokens = line.split()
+            table.append(tokens)
+        table = as_float_array(table)
 
         return size, table
 
