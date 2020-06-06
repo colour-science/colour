@@ -11,10 +11,8 @@ import shutil
 import tempfile
 import unittest
 
-from colour.constants import DEFAULT_INT_DTYPE
 from colour.io import (LUT3D, LUTSequence, read_LUT_SonySPI3D,
                        write_LUT_SonySPI3D)
-from colour.io.luts.common import parse_array
 from colour.utilities import as_int_array
 
 __author__ = 'Colour Developers'
@@ -215,7 +213,7 @@ class TestWriteLUTSonySPI3D(unittest.TestCase):
 
                 tokens = line.split()
                 if len(tokens) == 6:
-                    indexes.append(parse_array(tokens[:3], DEFAULT_INT_DTYPE))
+                    indexes.append(as_int_array(tokens[:3]))
 
         np.testing.assert_array_equal(
             as_int_array(indexes)[:200, ...],

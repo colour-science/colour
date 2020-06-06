@@ -20,7 +20,7 @@ import numpy as np
 
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
-from colour.io.luts.common import parse_array, path_to_title
+from colour.io.luts.common import path_to_title
 from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
@@ -121,9 +121,9 @@ def read_LUT_IridasCube(path):
             if tokens[0] == 'TITLE':
                 title = ' '.join(tokens[1:])[1:-1]
             elif tokens[0] == 'DOMAIN_MIN':
-                domain_min = parse_array(tokens[1:])
+                domain_min = as_float_array(tokens[1:])
             elif tokens[0] == 'DOMAIN_MAX':
-                domain_max = parse_array(tokens[1:])
+                domain_max = as_float_array(tokens[1:])
             elif tokens[0] == 'LUT_1D_SIZE':
                 dimensions = 2
                 size = DEFAULT_INT_DTYPE(tokens[1])
@@ -131,7 +131,7 @@ def read_LUT_IridasCube(path):
                 dimensions = 3
                 size = DEFAULT_INT_DTYPE(tokens[1])
             else:
-                table.append(parse_array(tokens))
+                table.append(tokens)
 
     table = as_float_array(table)
     if dimensions == 2:
