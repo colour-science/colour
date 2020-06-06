@@ -2,7 +2,8 @@
 
 from __future__ import absolute_import
 
-from .data_structures import Lookup, Structure, CaseInsensitiveMapping
+from .data_structures import (Lookup, Structure, CaseInsensitiveMapping,
+                              LazyCaseInsensitiveMapping)
 from .common import (
     handle_numpy_errors, ignore_numpy_errors, raise_numpy_errors,
     print_numpy_errors, warn_numpy_errors, ignore_python_warnings, batch,
@@ -27,7 +28,10 @@ from .verbose import (
     ANCILLARY_RUNTIME_PACKAGES, ANCILLARY_DEVELOPMENT_PACKAGES,
     ANCILLARY_EXTRAS_PACKAGES, describe_environment)
 
-__all__ = ['Lookup', 'Structure', 'CaseInsensitiveMapping']
+__all__ = [
+    'Lookup', 'Structure', 'CaseInsensitiveMapping',
+    'LazyCaseInsensitiveMapping'
+]
 __all__ += [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
