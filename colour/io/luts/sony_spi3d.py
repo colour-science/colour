@@ -16,7 +16,7 @@ import numpy as np
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.utilities import as_float_array, usage_warning
+from colour.utilities import as_int_array, usage_warning, as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -82,7 +82,7 @@ def read_LUT_SonySPI3D(path):
 
                 size = DEFAULT_INT_DTYPE(tokens[0])
             if len(tokens) == 6:
-                indexes.append(as_float_array(tokens[:3]))
+                indexes.append(as_int_array(tokens[:3]))
                 table.append(as_float_array(tokens[3:]))
 
     assert np.array_equal(

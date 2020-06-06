@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-A Common Utility for LUT Processing
-====================================
-Defines a LUT Processing common utility object that doesn't fall in any specific
+LUT Processing Common Utilities
+===============================
+
+Defines LUT Processing common utilities objects that don't fall in any specific
 category.
 """
 
@@ -10,7 +11,6 @@ from __future__ import division, unicode_literals
 
 import os
 import re
-
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -25,14 +25,17 @@ __all__ = ['path_to_title']
 def path_to_title(path):
     """
     Converts given file path to title.
+
     Parameters
     ----------
     path : unicode
         File path to convert to title.
+
     Returns
     -------
     unicode
         File path converted to title.
+
     Examples
     --------
     >>> # Doctests skip for Python 2.x compatibility.

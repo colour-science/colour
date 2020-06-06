@@ -19,7 +19,6 @@ __status__ = 'Production'
 __all__ = ['TestPathToTitle']
 
 
-
 class TestPathToTitle(unittest.TestCase):
     """
     Defines :func:`colour.io.luts.common.path_to_title` definition unit tests

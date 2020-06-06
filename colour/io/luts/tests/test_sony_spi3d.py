@@ -13,7 +13,7 @@ import unittest
 
 from colour.io import (LUT3D, LUTSequence, read_LUT_SonySPI3D,
                        write_LUT_SonySPI3D)
-from colour.utilities import as_int_array, as_float_array
+from colour.utilities import as_int_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -213,7 +213,7 @@ class TestWriteLUTSonySPI3D(unittest.TestCase):
 
                 tokens = line.split()
                 if len(tokens) == 6:
-                    indexes.append(as_float_array(tokens[:3]))
+                    indexes.append(as_int_array(tokens[:3]))
 
         np.testing.assert_array_equal(
             as_int_array(indexes)[:200, ...],

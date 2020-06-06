@@ -99,10 +99,9 @@ def read_LUT_Cinespace(path):
         """
 
         pre_LUT_size = max([int(lines[i]) for i in [0, 3, 6]])
-        pre_LUT = []
-        for i in [1, 2, 4, 5, 7, 8]:
-            tokens = lines[i].split()
-            pre_LUT.append(as_float_array(tokens))
+        pre_LUT = [
+            as_float_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]
+        ]
         pre_LUT_padded = []
 
         for row in pre_LUT:
@@ -123,16 +122,8 @@ def read_LUT_Cinespace(path):
         Parses the table at given lines.
         """
 
-        size = []
-        for i in lines[0].split():
-            size.append(i)
-        size = as_int_array(size)
-
-        table = []
-        for line in lines[1:]:
-            tokens = line.split()
-            table.append(tokens)
-        table = as_float_array(table)
+        size = as_int_array(lines[0].split())
+        table = as_float_array([line.split() for line in lines[1:]])
 
         return size, table
 
