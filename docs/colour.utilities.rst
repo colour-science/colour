@@ -122,6 +122,7 @@ Data Structures
     :template: class.rst
 
     CaseInsensitiveMapping
+    LazyCaseInsensitiveMapping
     Lookup
     Structure
 

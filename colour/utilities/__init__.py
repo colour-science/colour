@@ -2,7 +2,8 @@
 
 from __future__ import absolute_import
 
-from .data_structures import Lookup, Structure, CaseInsensitiveMapping
+from .data_structures import (Lookup, Structure, CaseInsensitiveMapping,
+                              LazyCaseInsensitiveMapping)
 from .common import (
     handle_numpy_errors, ignore_numpy_errors, raise_numpy_errors,
     print_numpy_errors, warn_numpy_errors, ignore_python_warnings, batch,
@@ -14,36 +15,11 @@ from .common import (
     to_domain_degrees, to_domain_int, from_range_1, from_range_10,
     from_range_100, from_range_degrees, from_range_int)
 from .array import (
-    as_array,
-    as_int_array,
-    as_float_array,
-    as_numeric,
-    as_int,
-    as_float,
-    set_float_precision,
-    set_int_precision,
-    as_namedtuple,
-    closest_indexes,
-    closest,
-    normalise_maximum,
-    interval,
-    is_uniform,
-    in_array,
-    tstack,
-    tsplit,
-    row_as_diagonal,
-    dot_vector,
-    dot_matrix,
-    orient,
-    centroid,
-    linear_conversion,
-    lerp,
-    fill_nan,
-    ndarray_write,
-    zeros,
-    ones,
-    full,
-)
+    as_array, as_int_array, as_float_array, as_numeric, as_int, as_float,
+    set_float_precision, set_int_precision, as_namedtuple, closest_indexes,
+    closest, normalise_maximum, interval, is_uniform, in_array, tstack, tsplit,
+    row_as_diagonal, dot_vector, dot_matrix, orient, centroid,
+    linear_conversion, lerp, fill_nan, ndarray_write, zeros, ones, full)
 from .metrics import metric_mse, metric_psnr
 from .verbose import (
     ColourWarning, ColourUsageWarning, ColourRuntimeWarning, message_box,
@@ -52,7 +28,10 @@ from .verbose import (
     ANCILLARY_RUNTIME_PACKAGES, ANCILLARY_DEVELOPMENT_PACKAGES,
     ANCILLARY_EXTRAS_PACKAGES, describe_environment)
 
-__all__ = ['Lookup', 'Structure', 'CaseInsensitiveMapping']
+__all__ = [
+    'Lookup', 'Structure', 'CaseInsensitiveMapping',
+    'LazyCaseInsensitiveMapping'
+]
 __all__ += [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',

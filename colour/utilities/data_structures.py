@@ -11,6 +11,9 @@ Defines various data structures classes:
     retrieve keys by values.
 -   :class:`colour.utilities.CaseInsensitiveMapping`: A case insensitive
     mapping allowing values retrieving from keys while ignoring the key case.
+-   :class:`colour.utilities.LazyCaseInsensitiveMapping`: Another case
+    insensitive mapping allowing lazy values retrieving from keys while
+    ignoring the key case.
 
 References
 ----------
@@ -39,7 +42,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['Structure', 'Lookup', 'CaseInsensitiveMapping']
+__all__ = [
+    'Structure', 'Lookup', 'CaseInsensitiveMapping',
+    'LazyCaseInsensitiveMapping'
+]
 
 
 class Structure(dict):
@@ -390,3 +396,74 @@ class CaseInsensitiveMapping(MutableMapping):
         """
 
         return ((item, value[1]) for (item, value) in self._data.items())
+
+
+class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
+    """
+    Implements a lazy case-insensitive mutable mapping / *dict* object by
+    inheriting from :class:`colour.utilities.CaseInsensitiveMapping` class.
+
+    Allows lazy values retrieving from keys while ignoring the key case.
+    The keys are expected to be unicode or string-like objects supporting the
+    :meth:`str.lower` method. The lazy retrieval is performed as follows:
+    If the value is a callable, then it is evaluated and its return value is
+    stored in place of the current value.
+
+    Parameters
+    ----------
+    data : dict
+        *dict* of data to store into the mapping at initialisation.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Key / Value pairs to store into the mapping at initialisation.
+
+    Methods
+    -------
+    __getitem__
+
+    Warning
+    -------
+    The keys are expected to be unicode or string-like objects.
+
+    Examples
+    --------
+    >>> def callable_a():
+    ...     print(2)
+    ...     return 2
+    >>> methods = LazyCaseInsensitiveMapping(
+    ...     {'McCamy': 1, 'Hernandez': callable_a})
+    >>> methods['mccamy']
+    1
+    >>> methods['hernandez']
+    2
+    2
+    """
+
+    def __getitem__(self, item):
+        """
+        Returns the value of given item.
+
+        The item value is retrieved using its lower name in the mapping. If
+        the value is a callable, then it is evaluated and its return value is
+        stored in place of the current value.
+
+        Parameters
+        ----------
+        item : unicode
+            Item name.
+
+        Returns
+        -------
+        object
+            Item value.
+        """
+
+        value = super(LazyCaseInsensitiveMapping, self).__getitem__(item)
+
+        if callable(value):
+            value = value()
+            super(LazyCaseInsensitiveMapping, self).__setitem__(item, value)
+
+        return value
