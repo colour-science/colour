@@ -70,7 +70,7 @@ def sd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
     Returns
     -------
     SpectralDistribution
-        Constant :math:`k` to filled spectral distribution.
+        Constant :math:`k` filled spectral distribution.
 
     Notes
     -----
