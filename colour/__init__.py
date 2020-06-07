@@ -75,11 +75,12 @@ from .colorimetry import (
     WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
     excitation_purity, lightness, luminance, luminous_efficacy,
-    luminous_efficiency, luminous_flux, multi_sds_to_XYZ,
-    sd_CIE_standard_illuminant_A, sd_CIE_illuminant_D_series, sd_blackbody,
-    sd_constant, sd_gaussian, sd_mesopic_luminous_efficiency_function,
-    sd_multi_leds, sd_ones, sd_single_led, sd_zeros, sd_to_XYZ,
-    wavelength_to_XYZ, whiteness, yellowness)
+    luminous_efficiency, luminous_flux, msds_constant, msds_ones, msds_zeros,
+    multi_sds_to_XYZ, sd_CIE_standard_illuminant_A, sd_CIE_illuminant_D_series,
+    sd_blackbody, sd_constant, sd_gaussian,
+    sd_mesopic_luminous_efficiency_function, sd_multi_leds, sd_ones,
+    sd_single_led, sd_zeros, sd_to_XYZ, wavelength_to_XYZ, whiteness,
+    yellowness)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
     anomalous_trichromacy_matrix_Machado2009, cvd_matrix_Machado2009)
@@ -201,9 +202,9 @@ __all__ += [
     'WHITENESS_METHODS', 'YELLOWNESS_METHODS', 'bandpass_correction',
     'colorimetric_purity', 'complementary_wavelength', 'dominant_wavelength',
     'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
-    'luminous_efficiency', 'luminous_flux', 'multi_sds_to_XYZ',
-    'sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series',
-    'sd_blackbody', 'sd_constant', 'sd_gaussian',
+    'luminous_efficiency', 'luminous_flux', 'msds_constant', 'msds_ones',
+    'msds_zeros', 'multi_sds_to_XYZ', 'sd_CIE_standard_illuminant_A',
+    'sd_CIE_illuminant_D_series', 'sd_blackbody', 'sd_constant', 'sd_gaussian',
     'sd_mesopic_luminous_efficiency_function', 'sd_multi_leds', 'sd_ones',
     'sd_zeros', 'sd_single_led', 'sd_to_XYZ', 'wavelength_to_XYZ', 'whiteness',
     'yellowness'

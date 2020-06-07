@@ -40,6 +40,9 @@ Spectral Data Generation
     sd_constant
     sd_ones
     sd_zeros
+    msds_constant
+    msds_ones
+    msds_zeros
     SD_GAUSSIAN_METHODS
     sd_gaussian
     SD_SINGLE_LED_METHODS
