@@ -8,6 +8,9 @@ Defines various objects performing spectral generation:
 -   :func:`colour.sd_constant`
 -   :func:`colour.sd_zeros`
 -   :func:`colour.sd_ones`
+-   :func:`colour.msds_constant`
+-   :func:`colour.msds_zeros`
+-   :func:`colour.msds_ones`
 -   :func:`colour.colorimetry.sd_gaussian_normal`
 -   :func:`colour.colorimetry.sd_gaussian_fwhm`
 -   :attr:`colour.SD_GAUSSIAN_METHODS`
@@ -35,7 +38,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralDistribution)
+from colour.colorimetry import (
+    DEFAULT_SPECTRAL_SHAPE, MultiSpectralDistributions, SpectralDistribution)
 from colour.utilities import CaseInsensitiveMapping, as_float_array, full, ones
 
 __author__ = 'Colour Developers'
@@ -46,10 +50,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'sd_constant', 'sd_zeros', 'sd_ones', 'sd_gaussian_normal',
-    'sd_gaussian_fwhm', 'SD_GAUSSIAN_METHODS', 'sd_gaussian',
-    'sd_single_led_Ohno2005', 'SD_SINGLE_LED_METHODS', 'sd_single_led',
-    'sd_multi_leds_Ohno2005', 'SD_MULTI_LEDS_METHODS', 'sd_multi_leds'
+    'sd_constant', 'sd_zeros', 'sd_ones', 'msds_constant', 'msds_zeros',
+    'msds_ones', 'sd_gaussian_normal', 'sd_gaussian_fwhm',
+    'SD_GAUSSIAN_METHODS', 'sd_gaussian', 'sd_single_led_Ohno2005',
+    'SD_SINGLE_LED_METHODS', 'sd_single_led', 'sd_multi_leds_Ohno2005',
+    'SD_MULTI_LEDS_METHODS', 'sd_multi_leds'
 ]
 
 
@@ -156,6 +161,129 @@ def sd_ones(shape=DEFAULT_SPECTRAL_SHAPE):
     """
 
     return sd_constant(1, shape)
+
+
+def msds_constant(k, labels, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
+    """
+    Returns the multi-spectral distributions with given labels and given
+    spectral shape filled with constant :math:`k` values.
+
+    Parameters
+    ----------
+    k : numeric
+        Constant :math:`k` to fill the multi-spectral distributions with.
+    labels : array_like
+        Names to use for the :class:`colour.SpectralDistribution` class
+        instances.
+    shape : SpectralShape, optional
+        Spectral shape used to create the multi-spectral distributions.
+    dtype : type
+        Data type used for the multi-spectral distributions.
+
+    Returns
+    -------
+    MultiSpectralDistributions
+        Constant :math:`k` filled multi-spectral distributions.
+
+    Notes
+    -----
+    -   By default, the multi-spectral distributions will use the shape given
+        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+
+    Examples
+    --------
+    >>> msds = msds_constant(100, labels=['a', 'b', 'c'])
+    >>> msds.shape
+    SpectralShape(360.0, 780.0, 1.0)
+    >>> msds[400]
+    array([ 100.,  100.,  100.])
+    >>> msds.labels  # doctest: +SKIP
+    ['a', 'b', 'c']
+    """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
+    wavelengths = shape.range(dtype)
+    values = full([len(wavelengths), len(labels)], k, dtype)
+
+    name = '{0} Constant'.format(k)
+    return MultiSpectralDistributions(
+        values, wavelengths, name=name, labels=labels, dtype=dtype)
+
+
+def msds_zeros(labels, shape=DEFAULT_SPECTRAL_SHAPE):
+    """
+    Returns the multi-spectral distributionss with given labels and given
+    spectral shape filled with zeros.
+
+    Parameters
+    ----------
+    labels : array_like
+        Names to use for the :class:`colour.SpectralDistribution` class
+        instances.
+    shape : SpectralShape, optional
+        Spectral shape used to create the multi-spectral distributions.
+
+    Returns
+    -------
+    MultiSpectralDistributions
+        Zeros filled multi-spectral distributions.
+
+    Notes
+    -----
+    -   By default, the multi-spectral distributions will use the shape given
+        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+
+    Examples
+    --------
+    >>> msds = msds_zeros(labels=['a', 'b', 'c'])
+    >>> msds.shape
+    SpectralShape(360.0, 780.0, 1.0)
+    >>> msds[400]
+    array([ 0.,  0.,  0.])
+    >>> msds.labels  # doctest: +SKIP
+    ['a', 'b', 'c']
+    """
+
+    return msds_constant(0, labels, shape)
+
+
+def msds_ones(labels, shape=DEFAULT_SPECTRAL_SHAPE):
+    """
+    Returns the multi-spectral distributionss with given labels and given
+    spectral shape filled with ones.
+
+    Parameters
+    ----------
+    labels : array_like
+        Names to use for the :class:`colour.SpectralDistribution` class
+        instances.
+    shape : SpectralShape, optional
+        Spectral shape used to create the multi-spectral distributions.
+
+    Returns
+    -------
+    MultiSpectralDistributions
+        Ones filled multi-spectral distributions.
+
+    Notes
+    -----
+    -   By default, the multi-spectral distributions will use the shape given
+        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+
+    Examples
+    --------
+    >>> msds = msds_ones(labels=['a', 'b', 'c'])
+    >>> msds.shape
+    SpectralShape(360.0, 780.0, 1.0)
+    >>> msds[400]
+    array([ 1.,  1.,  1.])
+    >>> msds.labels  # doctest: +SKIP
+    ['a', 'b', 'c']
+    """
+
+    return msds_constant(1, labels, shape)
 
 
 def sd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
