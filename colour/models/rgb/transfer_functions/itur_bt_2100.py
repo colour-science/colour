@@ -1344,23 +1344,22 @@ def ootf_inverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
 
+    Y_D_beta = (np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma))
+
     R_S = np.where(
         Y_D == beta,
         0.0,
-        (np.abs((Y_D - beta) / alpha) **
-         ((1 - gamma) / gamma)) * (R_D - beta) / alpha,
+        Y_D_beta * (R_D - beta) / alpha,
     )
     G_S = np.where(
         Y_D == beta,
         0.0,
-        (np.abs((Y_D - beta) / alpha) **
-         ((1 - gamma) / gamma)) * (G_D - beta) / alpha,
+        Y_D_beta * (G_D - beta) / alpha,
     )
     B_S = np.where(
         Y_D == beta,
         0.0,
-        (np.abs((Y_D - beta) / alpha) **
-         ((1 - gamma) / gamma)) * (B_D - beta) / alpha,
+        Y_D_beta * (B_D - beta) / alpha,
     )
 
     if F_D.shape[-1] != 3:
@@ -1439,20 +1438,22 @@ def ootf_inverse_HLG_BT2100_2(F_D, L_W=1000, gamma=None):
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
 
+    Y_D_alpha = (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma))
+
     R_S = np.where(
         Y_D == 0,
         0.0,
-        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * R_D / alpha,
+        Y_D_alpha * R_D / alpha,
     )
     G_S = np.where(
         Y_D == 0,
         0.0,
-        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * G_D / alpha,
+        Y_D_alpha * G_D / alpha,
     )
     B_S = np.where(
         Y_D == 0,
         0.0,
-        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * B_D / alpha,
+        Y_D_alpha * B_D / alpha,
     )
 
     if F_D.shape[-1] != 3:

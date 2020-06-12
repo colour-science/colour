@@ -182,8 +182,8 @@ def log_encoding_ACESproxy(lin_AP1,
 
     constants = constants[bit_depth]
 
-    CV_min = np.resize(constants.CV_min, lin_AP1.shape)
-    CV_max = np.resize(constants.CV_max, lin_AP1.shape)
+    CV_min = constants.CV_min
+    CV_max = constants.CV_max
 
     def float_2_cv(x):
         """
