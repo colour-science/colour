@@ -172,7 +172,9 @@ def UCS_to_uv(UVW):
 
     U, V, W = tsplit(to_domain_1(UVW))
 
-    uv = tstack([U / (U + V + W), V / (U + V + W)])
+    U_V_W = U + V + W
+
+    uv = tstack([U / U_V_W, V / U_V_W])
 
     return uv
 

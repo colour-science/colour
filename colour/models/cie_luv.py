@@ -110,10 +110,11 @@ def XYZ_to_Luv(
     with domain_range_scale('100'):
         L = lightness_CIE1976(Y, Y_r)
 
-    u = (13 * L * ((4 * X / (X + 15 * Y + 3 * Z)) -
-                   (4 * X_r / (X_r + 15 * Y_r + 3 * Z_r))))
-    v = (13 * L * ((9 * Y / (X + 15 * Y + 3 * Z)) -
-                   (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))))
+    X_Y_Z = X + 15 * Y + 3 * Z
+    X_r_Y_r_Z_r = X_r + 15 * Y_r + 3 * Z_r
+
+    u = (13 * L * ((4 * X / X_Y_Z) - (4 * X_r / X_r_Y_r_Z_r)))
+    v = (13 * L * ((9 * Y / X_Y_Z) - (9 * Y_r / X_r_Y_r_Z_r)))
 
     Luv = tstack([L, u, v])
 
@@ -246,7 +247,9 @@ def Luv_to_uv(
 
     X, Y, Z = tsplit(Luv_to_XYZ(Luv, illuminant))
 
-    uv = tstack([4 * X / (X + 15 * Y + 3 * Z), 9 * Y / (X + 15 * Y + 3 * Z)])
+    X_Y_Z = X + 15 * Y + 3 * Z
+
+    uv = tstack([4 * X / X_Y_Z, 9 * Y / X_Y_Z])
 
     return uv
 

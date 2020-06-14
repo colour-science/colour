@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import (as_float_array, from_range_1, ones, to_domain_1,
+from colour.utilities import (as_float_array, from_range_1, to_domain_1,
                               tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -171,8 +171,7 @@ def CMY_to_CMYK(CMY):
 
     C, M, Y = tsplit(to_domain_1(CMY))
 
-    K = ones(C.shape)
-    K = np.where(C < K, C, K)
+    K = np.where(C < 1, C, 1)
     K = np.where(M < K, M, K)
     K = np.where(Y < K, Y, K)
 
