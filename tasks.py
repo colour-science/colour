@@ -280,7 +280,7 @@ def docs(ctx, plots=True, html=True, pdf=True):
             message_box('Generating plots...')
             ctx.run('./generate_plots.py')
 
-    with ctx.prefix('export COLOUR_SCIENCE_DOCUMENTATION_BUILD=True'):
+    with ctx.prefix('export COLOUR_SCIENCE__DOCUMENTATION_BUILD=True'):
         with ctx.cd('docs'):
             if html:
                 message_box('Building "HTML" documentation...')

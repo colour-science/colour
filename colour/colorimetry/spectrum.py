@@ -595,6 +595,20 @@ dict_like, optional
                          interpolator_kwargs={},
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
+
+    Instantiation with a *Pandas* `Series`:
+
+    >>> from colour.utilities import is_pandas_installed
+    >>> if is_pandas_installed():
+    ...     from pandas import Series
+    ...     print(SpectralDistribution(Series(data)))  # doctest: +SKIP
+    [[  5.0000000...e+02   6.5100000...e-02]
+     [  5.2000000...e+02   7.0500000...e-02]
+     [  5.4000000...e+02   7.7200000...e-02]
+     [  5.6000000...e+02   8.7000000...e-02]
+     [  5.8000000...e+02   1.1280000...e-01]
+     [  6.0000000...e+02   1.3600000...e-01]
+     [  5.1000000...e+02   3.1416000...e-01]]
     """
 
     def __init__(self, data=None, domain=None, **kwargs):
@@ -1693,6 +1707,34 @@ MultiSpectralDistributions or array_like or dict_like, optional
                  ... interpolator_kwargs={},
                  ... extrapolator=Extrapolator,
                  ... extrapolator_kwargs={...})
+
+    Instantiation with a *Pandas* `DataFrame`:
+
+    >>> from colour.utilities import is_pandas_installed
+    >>> if is_pandas_installed():
+    ...     from pandas import DataFrame
+    ...     x_bar = [data[key][0] for key in sorted(data.keys())]
+    ...     y_bar = [data[key][1] for key in sorted(data.keys())]
+    ...     z_bar = [data[key][2] for key in sorted(data.keys())]
+    ...     print(MultiSignals(  # doctest: +SKIP
+    ...         DataFrame(
+    ...             dict(zip(labels, [x_bar, y_bar, z_bar])), data.keys())))
+    [[  5.0000000...e+02   4.9000000...e-03   3.2300000...e-01   \
+2.7200000...e-01]
+     [  5.1000000...e+02   9.3000000...e-03   5.0300000...e-01   \
+1.5820000...e-01]
+     [  5.2000000...e+02   3.1400000...e-03   3.1416000...e-01   \
+3.1420000...e-02]
+     [  5.3000000...e+02   6.3270000...e-02   7.1000000...e-01   \
+7.8250000...e-02]
+     [  5.4000000...e+02   1.6550000...e-01   8.6200000...e-01   \
+4.2160000...e-02]
+     [  5.5000000...e+02   2.9040000...e-01   9.5400000...e-01   \
+2.0300000...e-02]
+     [  5.6000000...e+02   4.3345000...e-01   9.9495000...e-01   \
+8.7500000...e-03]
+     [  5.1100000...e+02   5.9450000...e-01   9.9500000...e-01   \
+3.9000000...e-03]]
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):

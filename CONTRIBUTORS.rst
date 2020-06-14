@@ -1,6 +1,8 @@
 Contributors
 ============
 
+
+
 The Colour Developers
 ---------------------
 
@@ -35,6 +37,20 @@ The Colour Developers
 -   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
 
     Technical support.
+
+Google Summer of Code
+---------------------
+
+2020
+~~~~
+
+-   **Nishant Joywardhan**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    LUT IO Improvements.
+
+-   **Omar Wagih**, *Student @ Faculty of Engineering, Cairo University*
+
+    The Need for Speed.
 
 Development & Technical Support
 -------------------------------
@@ -172,9 +188,11 @@ Issues & Discussions
 -   @Apoorva-13
 -   @aurelienbl
 -   @awehring
+-   @beckstev
 -   @bersbersbers
 -   @brandondube
 -   @briend
+-   @bsdis
 -   @cclauss
 -   @Chandler
 -   @chesschi
@@ -195,6 +213,7 @@ Issues & Discussions
 -   @KOLANICH
 -   @Kunkka1988
 -   @lavrovd
+-   @LeCyberDucky
 -   @Legendin
 -   @leklbk
 -   @lensz
@@ -215,6 +234,7 @@ Issues & Discussions
 -   @Ron024
 -   @senyai
 -   @shanest
+-   @spicymatt
 -   @stakemura
 -   @tashdor
 -   @TFiFiE
