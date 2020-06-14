@@ -48,6 +48,10 @@ Google Summer of Code
 
     LUT IO Improvements.
 
+-   **Omar Wagih**, *Student @ Faculty of Engineering, Cairo University*
+
+    The Need for Speed.
+
 Development & Technical Support
 -------------------------------
 
