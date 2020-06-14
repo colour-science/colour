@@ -1,6 +1,8 @@
 Contributors
 ============
 
+
+
 The Colour Developers
 ---------------------
 
@@ -35,6 +37,16 @@ The Colour Developers
 -   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
 
     Technical support.
+
+Google Summer of Code
+---------------------
+
+2020
+~~~~
+
+-   **Nishant Joywardhan**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    LUT IO Improvements.
 
 Development & Technical Support
 -------------------------------
