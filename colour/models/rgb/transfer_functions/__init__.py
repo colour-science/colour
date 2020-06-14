@@ -58,6 +58,7 @@ from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
                         log_encoding_SLog3, log_decoding_SLog3)
 from .srgb import eotf_inverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
+from .log import log_encoding_Log2, log_decoding_Log2
 
 __all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
 __all__ += ['gamma_function']
@@ -116,6 +117,7 @@ __all__ += [
 ]
 __all__ += ['eotf_inverse_sRGB', 'eotf_sRGB']
 __all__ += ['log_encoding_ViperLog', 'log_decoding_ViperLog']
+__all__ += ['log_encoding_Log2', 'log_decoding_Log2']
 
 LOG_ENCODINGS = CaseInsensitiveMapping({
     'ACEScc': log_encoding_ACEScc,
@@ -142,7 +144,8 @@ LOG_ENCODINGS = CaseInsensitiveMapping({
     'S-Log3': log_encoding_SLog3,
     'T-Log': log_encoding_FilmLightTLog,
     'V-Log': log_encoding_VLog,
-    'ViperLog': log_encoding_ViperLog
+    'ViperLog': log_encoding_ViperLog,
+    'Log2': log_encoding_Log2
 })
 LOG_ENCODINGS.__doc__ = """
 Supported *log* encoding functions.
@@ -152,7 +155,7 @@ LOG_ENCODINGS : CaseInsensitiveMapping
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
     'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
     'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log',
-    'ViperLog'}**
+    'ViperLog', 'Log2'}**
 """
 
 
@@ -170,7 +173,7 @@ def log_encoding(value, function='Cineon', **kwargs):
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
         'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
         'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-        'V-Log', 'ViperLog'}**,
+        'V-Log', 'ViperLog', 'Log2'}**,
         Computation function.
 
     Other Parameters
@@ -286,7 +289,8 @@ LOG_DECODINGS = CaseInsensitiveMapping({
     'S-Log3': log_decoding_SLog3,
     'T-Log': log_decoding_FilmLightTLog,
     'V-Log': log_decoding_VLog,
-    'ViperLog': log_decoding_ViperLog
+    'ViperLog': log_decoding_ViperLog,
+    'Log2': log_decoding_Log2
 })
 LOG_DECODINGS.__doc__ = """
 Supported *log* decoding functions.
@@ -296,7 +300,7 @@ LOG_DECODINGS : CaseInsensitiveMapping
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
     'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
     'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log',
-    'ViperLog'}**
+    'ViperLog', 'Log2'}**
 """
 
 
@@ -314,7 +318,7 @@ def log_decoding(value, function='Cineon', **kwargs):
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
         'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
         'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-        'V-Log', 'ViperLog'}**,
+        'V-Log', 'ViperLog', 'Log2'}**,
         Computation function.
 
     Other Parameters

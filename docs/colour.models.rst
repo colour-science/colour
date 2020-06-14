@@ -588,6 +588,8 @@ Log Encoding and Decoding
     log_decoding_VLog
     log_encoding_ViperLog
     log_decoding_ViperLog
+    log_encoding_Log2
+    log_decoding_Log2
 
 Colour Encodings
 ~~~~~~~~~~~~~~~~
