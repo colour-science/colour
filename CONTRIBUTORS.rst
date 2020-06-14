@@ -188,9 +188,11 @@ Issues & Discussions
 -   @Apoorva-13
 -   @aurelienbl
 -   @awehring
+-   @beckstev
 -   @bersbersbers
 -   @brandondube
 -   @briend
+-   @bsdis
 -   @cclauss
 -   @Chandler
 -   @chesschi
@@ -211,6 +213,7 @@ Issues & Discussions
 -   @KOLANICH
 -   @Kunkka1988
 -   @lavrovd
+-   @LeCyberDucky
 -   @Legendin
 -   @leklbk
 -   @lensz
@@ -231,6 +234,7 @@ Issues & Discussions
 -   @Ron024
 -   @senyai
 -   @shanest
+-   @spicymatt
 -   @stakemura
 -   @tashdor
 -   @TFiFiE
