@@ -231,7 +231,7 @@ If you'd like to join them, please consider
 
 .. raw:: html
 
-    <h2 align="center">Special Sponsors</h2>
+    <h2 align="center">Donations & Special Sponsors</h2>
 
 .. raw:: html
 
@@ -263,9 +263,10 @@ If you'd like to join them, please consider
                     <p><a href="http://virtualmatter.org/" target="_blank">Kevin Whitfield</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://www.richardlackey.com/" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/555774739629633536/JjxFzBHy.jpeg">
                     </a>
+                    <p><a href="https://www.richardlackey.com/" target="_blank">Richard Lackey</a></p>
                 </td>
             </tr>
             <tr>
