@@ -1,9 +1,9 @@
 #
 """
-Log2 Shaper Implementation
+Common Log Encodings
 ==========================
 
-Defines the *Log2 shaper* log encodings:
+Defines the common log encodings:
 
 -   :func:`colour.models.log_encoding_Log2`
 -   :func:`colour.models.log_decoding_Log2`
@@ -46,38 +46,52 @@ def log_encoding_Log2(lin,
                       min_exposure=0.18 * 2 ** -6.5,
                       max_exposure=0.18 * 2 ** 6.5):
     """
-    Defines the *Log2 shaper* log encoding function.
+    Defines the common *Log2* encoding function.
 
     Parameters
     ----------
     lin : numeric or array_like
           Linear data to undergo encoding.
     middle_grey : numeric, optional
-                  'Middle Grey' exposure value.
+          *Middle Grey* exposure value.
     min_exposure : numeric, optional
-                   Minimum exposure level.
+          Minimum exposure level.
     max_exposure : numeric, optional
-                   Maximum exposure level.
+          Maximum exposure level.
 
     Returns
     -------
     numeric or ndarray
-        Non-linear *Log2 shaper* encoded data
+        Non-linear *Log2* encoded data.
 
     Notes
     -----
 
+    The common *Log2* encoding function can be used
+    to build linear to logarithmic shapers in the
+    ACES OCIO configuration.
+
+    A (48-nits OCIO) shaper having values in a linear
+    domain, can be encoded to a logarithmic domain:
+
+    +-------------------+------------------+
+    | **Shaper Domain** | **Shaper range** |
+    +===================+==================+
+    | [0.002, 16.291]   | [0, 1]           |
+    +-------------------+------------------+
+
     References
     ----------
+    :cite:`TheAcademyofMotionPictureArtsandSciencesa`
 
     Examples
     --------
-    Linear numeric input gets encoded as follows:
+    Linear numeric input is encoded as follows:
 
     >>> log_encoding_Log2(18)
     0.40773288970434662
 
-    Linear array-like input gets encoded as follows:
+    Linear array-like input is encoded as follows:
 
     >>> log_encoding_Log2(np.linspace(1, 2, 3))
     array([ 0.15174832,  0.18765817,  0.21313661])
@@ -96,38 +110,52 @@ def log_decoding_Log2(log_norm,
                       min_exposure=0.18 * 2 ** -6.5,
                       max_exposure=0.18 * 2 ** 6.5):
     """
-    Defines the *Log2 shaper* log decoding function.
+    Defines the common *Log2* decoding function.
 
     Parameters
     ----------
     log_norm : numeric or array_like
                Logarithmic data to undergo decoding.
     middle_grey : numeric, optional
-                  'Middle Grey' exposure value.
+               *Middle Grey* exposure value.
     min_exposure : numeric, optional
-                   Minimum exposure level.
+               Minimum exposure level.
     max_exposure : numeric, optional
-                   Maximum exposure level.
+               Maximum exposure level.
 
     Returns
     -------
     numeric or ndarray
-        Linear *Log2 shaper* decoded data
+        Linear *Log2* decoded data.
 
     Notes
     -----
 
+    The common *Log2* decoding function can be used
+    to build logarithmic to linear shapers in the
+    ACES OCIO configuration.
+
+    The shaper with logarithmic encoded values can be
+    decoded back to linear domain:
+
+    +-------------------+------------------+
+    | **Shaper Range** | **Shaper Domain** |
+    +===================+==================+
+    | [0, 1]           | [0.002, 16.291]   |
+    +-------------------+------------------+
+
     References
     ----------
+    :cite:`TheAcademyofMotionPictureArtsandSciencesb`
 
     Examples
     --------
-    Logarithmic input gets decoded as follows:
+    Logarithmic input is decoded as follows:
 
     >>> log_decoding_Log2(0.40773288970434662)
     17.999999999999993
 
-    Linear array-like input gets encoded as follows:
+    Linear array-like input is encoded as follows:
 
     >>> log_decoding_Log2(np.linspace(0, 1, 4))
     array([  1.80248299e-01,   7.77032379e+00,   3.34970882e+02,

@@ -562,6 +562,8 @@ Log Encoding and Decoding
     log_decoding_ERIMMRGB
     log_encoding_FLog
     log_decoding_FLog
+    log_encoding_Log2
+    log_decoding_Log2
     LOG3G10_ENCODING_METHODS
     log_encoding_Log3G10
     LOG3G10_DECODING_METHODS
@@ -588,8 +590,6 @@ Log Encoding and Decoding
     log_decoding_VLog
     log_encoding_ViperLog
     log_decoding_ViperLog
-    log_encoding_Log2
-    log_decoding_Log2
 
 Colour Encodings
 ~~~~~~~~~~~~~~~~

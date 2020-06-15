@@ -39,6 +39,7 @@ from .itur_bt_2100 import (
     BT2100_HLG_OOTF_METHODS, ootf_HLG_BT2100, BT2100_HLG_OOTF_INVERSE_METHODS,
     ootf_inverse_HLG_BT2100)
 from .linear import linear_function
+from .log import log_encoding_Log2, log_decoding_Log2
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .fujifilm_flog import log_encoding_FLog, log_decoding_FLog
@@ -58,7 +59,6 @@ from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
                         log_encoding_SLog3, log_decoding_SLog3)
 from .srgb import eotf_inverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
-from .log import log_encoding_Log2, log_decoding_Log2
 
 __all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
 __all__ += ['gamma_function']
@@ -94,6 +94,7 @@ __all__ += [
     'BT2100_HLG_OOTF_INVERSE_METHODS', 'ootf_inverse_HLG_BT2100'
 ]
 __all__ += ['linear_function']
+__all__ += ['log_encoding_Log2', 'log_decoding_Log2']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_FLog', 'log_decoding_FLog']
@@ -117,7 +118,6 @@ __all__ += [
 ]
 __all__ += ['eotf_inverse_sRGB', 'eotf_sRGB']
 __all__ += ['log_encoding_ViperLog', 'log_decoding_ViperLog']
-__all__ += ['log_encoding_Log2', 'log_decoding_Log2']
 
 LOG_ENCODINGS = CaseInsensitiveMapping({
     'ACEScc': log_encoding_ACEScc,
@@ -132,6 +132,7 @@ LOG_ENCODINGS = CaseInsensitiveMapping({
     'ERIMM RGB': log_encoding_ERIMMRGB,
     'F-Log': log_encoding_FLog,
     'Filmic Pro 6': log_encoding_FilmicPro6,
+    'Log2': log_encoding_Log2,
     'Log3G10': log_encoding_Log3G10,
     'Log3G12': log_encoding_Log3G12,
     'Panalog': log_encoding_Panalog,
@@ -144,8 +145,7 @@ LOG_ENCODINGS = CaseInsensitiveMapping({
     'S-Log3': log_encoding_SLog3,
     'T-Log': log_encoding_FilmLightTLog,
     'V-Log': log_encoding_VLog,
-    'ViperLog': log_encoding_ViperLog,
-    'Log2': log_encoding_Log2
+    'ViperLog': log_encoding_ViperLog
 })
 LOG_ENCODINGS.__doc__ = """
 Supported *log* encoding functions.
@@ -153,9 +153,9 @@ Supported *log* encoding functions.
 LOG_ENCODINGS : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
-    'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log',
-    'ViperLog', 'Log2'}**
+    'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
+    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+    'T-Log', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -171,9 +171,9 @@ def log_encoding(value, function='Cineon', **kwargs):
     function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-        'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
-        'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-        'V-Log', 'ViperLog', 'Log2'}**,
+        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
+        'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+        'T-Log', 'V-Log', 'ViperLog'}**,
         Computation function.
 
     Other Parameters
@@ -277,6 +277,7 @@ LOG_DECODINGS = CaseInsensitiveMapping({
     'ERIMM RGB': log_decoding_ERIMMRGB,
     'F-Log': log_decoding_FLog,
     'Filmic Pro 6': log_decoding_FilmicPro6,
+    'Log2': log_decoding_Log2,
     'Log3G10': log_decoding_Log3G10,
     'Log3G12': log_decoding_Log3G12,
     'Panalog': log_decoding_Panalog,
@@ -289,8 +290,7 @@ LOG_DECODINGS = CaseInsensitiveMapping({
     'S-Log3': log_decoding_SLog3,
     'T-Log': log_decoding_FilmLightTLog,
     'V-Log': log_decoding_VLog,
-    'ViperLog': log_decoding_ViperLog,
-    'Log2': log_decoding_Log2
+    'ViperLog': log_decoding_ViperLog
 })
 LOG_DECODINGS.__doc__ = """
 Supported *log* decoding functions.
@@ -298,9 +298,9 @@ Supported *log* decoding functions.
 LOG_DECODINGS : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
-    'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log',
-    'ViperLog', 'Log2'}**
+    'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
+    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+    'T-Log', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -316,9 +316,9 @@ def log_decoding(value, function='Cineon', **kwargs):
     function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-        'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
-        'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-        'V-Log', 'ViperLog', 'Log2'}**,
+        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
+        'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+        'T-Log', 'V-Log', 'ViperLog'}**,
         Computation function.
 
     Other Parameters
