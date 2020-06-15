@@ -277,9 +277,10 @@ If you'd like to join them, please consider
                     <p><a href="https://www.artstation.com/monsieur_lixm" target="_blank">Liam Collod</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="http://antlerpost.com/" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1175674352/NS_Portrait_1k.jpg">
                     </a>
+                    <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
