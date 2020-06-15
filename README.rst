@@ -162,9 +162,10 @@ If you'd like to join them, please consider
                     <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/alexmitchellmus" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/763631280722370560/F9FN4lEz.jpg">
                     </a>
+                    <p><a href="https://twitter.com/alexmitchellmus" target="_blank">Alex Mitchell</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
