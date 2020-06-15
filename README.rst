@@ -148,6 +148,34 @@ If you'd like to join them, please consider
                     <p><a href="https://www.richardlackey.com/" target="_blank">Richard Lackey</a></p>
                 </td>
             </tr>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://www.artstation.com/monsieur_lixm" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1006611034088595462/HNQh_FZQ.jpg">
+                    </a>
+                    <p><a href="https://www.artstation.com/monsieur_lixm" target="_blank">Liam Collod</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+            </tr>
         </tbody>
     </table>
 
