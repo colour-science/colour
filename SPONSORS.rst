@@ -231,7 +231,7 @@ If you'd like to join them, please consider
 
 .. raw:: html
 
-    <h2 align="center">Special Sponsors</h2>
+    <h2 align="center">Donations & Special Sponsors</h2>
 
 .. raw:: html
 
@@ -263,26 +263,30 @@ If you'd like to join them, please consider
                     <p><a href="http://virtualmatter.org/" target="_blank">Kevin Whitfield</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://www.richardlackey.com/" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/555774739629633536/JjxFzBHy.jpeg">
                     </a>
+                    <p><a href="https://www.richardlackey.com/" target="_blank">Richard Lackey</a></p>
                 </td>
             </tr>
             <tr>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://www.artstation.com/monsieur_lixm" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1006611034088595462/HNQh_FZQ.jpg">
                     </a>
+                    <p><a href="https://www.artstation.com/monsieur_lixm" target="_blank">Liam Collod</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="http://antlerpost.com/" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1175674352/NS_Portrait_1k.jpg">
                     </a>
+                    <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/alexmitchellmus" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/763631280722370560/F9FN4lEz.jpg">
                     </a>
+                    <p><a href="https://twitter.com/alexmitchellmus" target="_blank">Alex Mitchell</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
