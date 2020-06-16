@@ -1,7 +1,7 @@
 #
 """
 Common Log Encodings
-==========================
+====================
 
 Defines the common log encodings:
 
@@ -74,11 +74,11 @@ def log_encoding_Log2(lin,
     A (48-nits OCIO) shaper having values in a linear
     domain, can be encoded to a logarithmic domain:
 
-    +-------------------+------------------+
-    | **Shaper Domain** | **Shaper range** |
-    +===================+==================+
-    | [0.002, 16.291]   | [0, 1]           |
-    +-------------------+------------------+
+    +-------------------+-------------------+
+    | **Shaper Domain** | **Shaper Range**  |
+    +===================+===================+
+    | [0.002, 16.291]   | [0, 1]            |
+    +-------------------+-------------------+
 
     References
     ----------
@@ -138,11 +138,11 @@ def log_decoding_Log2(log_norm,
     The shaper with logarithmic encoded values can be
     decoded back to linear domain:
 
-    +-------------------+------------------+
-    | **Shaper Range** | **Shaper Domain** |
-    +===================+==================+
-    | [0, 1]           | [0.002, 16.291]   |
-    +-------------------+------------------+
+    +-------------------+-------------------+
+    | **Shaper Range**  | **Shaper Domain** |
+    +===================+===================+
+    | [0, 1]            | [0.002, 16.291]   |
+    +-------------------+-------------------+
 
     References
     ----------
