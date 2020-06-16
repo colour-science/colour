@@ -1,4 +1,4 @@
-#
+# -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.models.rgb.transfer_functions.log`
 module.
@@ -25,8 +25,8 @@ __all__ = ['TestLogEncoding_Log2', 'TestLogDecoding_Log2']
 
 class TestLogEncoding_Log2(unittest.TestCase):
     """
-   Defines :func:`colour.models.rgb.transfer_functions.log.\
-log_encoding_Log2` definition unit tests methods.
+    Defines :func:`colour.models.rgb.transfer_functions.log.log_encoding_Log2`
+    definition unit tests methods.
     """
 
     def test_log_encoding_Log2(self):
@@ -35,17 +35,18 @@ log_encoding_Log2` definition unit tests methods.
 log_encoding_Log2` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_Log2(18), 0.407732889704, places=7)
+        self.assertAlmostEqual(
+            log_encoding_Log2(18), 0.407732889704347, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_Log2(18, 0.12), 0.443642737727, places=7)
+            log_encoding_Log2(18, 0.12), 0.443642737727224, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_Log2(18, 0.12, 0.0045), 0.443556955303, places=7)
+            log_encoding_Log2(18, 0.12, 0.0045), 0.443556955303088, places=7)
 
         self.assertAlmostEqual(
             log_encoding_Log2(18, 0.12, 0.0045, 15.0),
-            0.481765775766,
+            0.481765775765788,
             places=7)
 
     def test_n_dimensional_log_encoding_Log2(self):
@@ -107,19 +108,21 @@ log_decoding_Log2` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_Log2(0.40773288970434662), 17.9999999991, places=7)
+            log_decoding_Log2(0.407732889704347), 18.000000000000075, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Log2(0.4077328897, 0.12), 11.9999999994, places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_Log2(0.4077328897, 0.12, 0.0045),
-            12.0123777083,
+            log_decoding_Log2(0.443642737727224, 0.12),
+            17.999999999999904,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Log2(0.4077328897, 0.12, 0.0045, 15.0),
-            8.33836692466,
+            log_decoding_Log2(0.443556955303088, 0.12, 0.0045),
+            17.999999999999982,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_Log2(0.481765775765788, 0.12, 0.0045, 15.0),
+            17.999999999999918,
             places=7)
 
     def test_n_dimensional_log_decoding_Log2(self):
@@ -128,7 +131,7 @@ log_decoding_Log2` definition.
 log_decoding_Log2` definition n-dimensional arrays support.
         """
 
-        y = 0.384970815928670
+        y = 0.407732889704347
         x = log_decoding_Log2(y)
 
         y = np.tile(y, 6)
@@ -149,7 +152,7 @@ log_decoding_Log2` definition n-dimensional arrays support.
 log_decoding_Log2` definition domain and range scale support.
         """
 
-        y = 0.384970815928670
+        y = 0.407732889704347
         x = log_decoding_Log2(y)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
