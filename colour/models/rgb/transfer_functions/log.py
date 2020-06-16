@@ -1,4 +1,4 @@
-#
+# -*- coding: utf-8 -*-
 """
 Common Log Encodings
 ====================
@@ -13,17 +13,19 @@ References
 -   :cite:`TheAcademyofMotionPictureArtsandSciencesa` :
     The Academy of Motion Picture Arts and Sciences,
     Science and Technology Council,
-    & Academy Color Encoding System (ACES) Project Subcommittee.(n.d.-a).
+    & Academy Color Encoding System (ACES) Project Subcommittee.(n.d.).
     ACESutil.Lin_to_Log2_param.ctl. Retrieved June 14, 2020,
     from https://github.com/ampas/aces-dev/blob/\
-518c27f577e99cdecfddf2ebcfaa53444b1f9343/transforms/ctl/utilities/ACESutil.Lin_to_Log2_param.ctl
+518c27f577e99cdecfddf2ebcfaa53444b1f9343/transforms/ctl/utilities/\
+ACESutil.Lin_to_Log2_param.ctl
 -   :cite:`TheAcademyofMotionPictureArtsandSciencesb` :
     The Academy of Motion Picture Arts and Sciences,
     Science and Technology Council,
-    & Academy Color Encoding System (ACES) Project Subcommittee.(n.d.-b).
+    & Academy Color Encoding System (ACES) Project Subcommittee.(n.d.).
     ACESutil.Log2_to_Lin_param.ctl. Retrieved June 14, 2020,
     from https://github.com/ampas/aces-dev/blob/\
-518c27f577e99cdecfddf2ebcfaa53444b1f9343/transforms/ctl/utilities/ACESutil.Log2_to_Lin_param.ctl
+518c27f577e99cdecfddf2ebcfaa53444b1f9343/transforms/ctl/utilities/\
+ACESutil.Log2_to_Lin_param.ctl
 """
 
 from __future__ import division, unicode_literals
