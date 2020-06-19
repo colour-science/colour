@@ -23,13 +23,14 @@ from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator
 
 from colour import ILLUMINANT_SDS
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_visible_spectrum
 from colour.colorimetry import (STANDARD_OBSERVER_CMFS, SpectralDistribution,
                                 SpectralShape, sd_ones, sd_to_XYZ)
 from colour.difference import delta_E_CIE1976
 from colour.models import XYZ_to_xy, XYZ_to_Lab
 from colour.utilities import runtime_warning
-                                                 
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -203,10 +204,8 @@ class Jakob2019Interpolator:
                 raise ValueError('Bad magic number, this likely is not the right file')
 
             self.res = struct.unpack('i', fd.read(4))[0]
-            self.scale = np.fromfile(fd, count=self.res,
-                                     dtype=DEFAULT_FLOAT_DTYPE)
-            coeffs = np.fromfile(fd, count=3*self.res**3*3,
-                                 dtype=DEFAULT_FLOAT_DTYPE)
+            self.scale = np.fromfile(fd, count=self.res, dtype=np.float32)
+            coeffs = np.fromfile(fd, count=3*self.res**3*3, dtype=np.float32)
             coeffs = coeffs.reshape(3, self.res, self.res, self.res, 3)
 
         t = np.linspace(0, 1, self.res)
@@ -225,4 +224,5 @@ class Jakob2019Interpolator:
         v3 = np.take_along_axis(chroma, np.expand_dims((imax + 1) % 3, axis=-1),
                                 axis=-1).squeeze(axis=-1)
         coords = np.stack([imax, vmax, v2, v3], axis=-1)
-        return self.cubes(coords).squeeze()
+        ccp = self.cubes(coords).squeeze()
+        return model_sd(ccp, primed=False)
