@@ -213,7 +213,7 @@ class Jakob2019Interpolator:
         self.cubes = RegularGridInterpolator(axes, coeffs[:, :, :, :, :],
                                              bounds_error=False)
 
-    def __call__(self, RGB):
+    def coeffs(self, RGB):
         RGB = np.asarray(RGB, dtype=DEFAULT_FLOAT_DTYPE)
         vmax = np.max(RGB, axis=-1)
         imax = np.argmax(RGB, axis=-1)
@@ -224,5 +224,8 @@ class Jakob2019Interpolator:
         v3 = np.take_along_axis(chroma, np.expand_dims((imax + 1) % 3, axis=-1),
                                 axis=-1).squeeze(axis=-1)
         coords = np.stack([imax, vmax, v2, v3], axis=-1)
-        ccp = self.cubes(coords).squeeze()
+        return self.cubes(coords).squeeze()
+
+    def __call__(self, RGB):
+        ccp = self.coeffs(RGB)
         return model_sd(ccp, primed=False)
