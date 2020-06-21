@@ -6,6 +6,8 @@ Jakob and Hanika (2019) - Reflectance Recovery
 Defines objects for reflectance recovery using *Jakob and Hanika (2019)*
 method:
 
+-   :func:`colour.recovery.error_function_Jakob2019`
+-   :func:`colour.recovery.coefficients_Jakob2019`
 -   :func:`colour.recovery.XYZ_to_sd_Jakob2019`
 
 References
@@ -40,8 +42,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DEFAULT_SPECTRAL_SHAPE_JAKOB_2019', 'spectral_model', 'spectral_values',
-    'solve_Jakob2019', 'XYZ_to_sd_Jakob2019', 'Jakob2019Interpolator'
+    'DEFAULT_SPECTRAL_SHAPE_JAKOB_2019', 'spectral_model',
+    'error_function_Jakob2019', 'coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
+    'Jakob2019Interpolator'
 ]
 
 DEFAULT_SPECTRAL_SHAPE_JAKOB_2019 = SpectralShape(360, 780, 5)
@@ -50,158 +53,212 @@ DEFAULT_SPECTRAL_SHAPE_JAKOB_2019 : SpectralShape
 """
 
 
-def spectral_model(wl, coefficients):
+def spectral_model(coefficients,
+                   shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
+                   name=None):
     """
     Spectral model given by *Jakob and Hanika (2019)*.
     """
 
     c_0, c_1, c_2 = coefficients
-    x = c_0 * wl ** 2 + c_1 * wl + c_2
-
-    return 1 / 2 + x / (2 * np.sqrt(1 + x ** 2))
-
-
-def spectral_values(coefficients,
-                    shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
-                    dimensionless=True):
-    """
-    Create a SpectralDistribution using given coefficients
-    """
-
     wl = shape.range()
-    wl_p = (wl - shape.start) / (shape.end - shape.start)
-    wl = wl_p if dimensionless else wl
+    U = c_0 * wl ** 2 + c_1 * wl + c_2
+    R = 1 / 2 + U / (2 * np.sqrt(1 + U ** 2))
 
-    return spectral_model(wl, coefficients)
+    if name is None:
+        name = "Jakob (2019) - {0} (coeffs.)".format(coefficients)
+    
+    return SpectralDistribution(R, wl, name=name)
 
 
-# TODO: This code is *very* slow and needs a rework.
-def solve_Jakob2019(XYZ,
-                    cmfs,
-                    illuminant,
-                    coefficients_0=(0, 0, 0),
-                    try_hard=True,
-                    verbose=False):
+
+# The goal is to minimize the color difference between a given distrbution
+# and the one computed from the model above.
+# This function also calculates the first derivatives with respect to c's.
+def error_function_Jakob2019(
+        coefficients,
+        target,
+        shape,
+        cmfs,
+        illuminant,
+        illuminant_XYZ,
+        return_intermediates=False):
     """
-    Computes the coefficients for *Jakob and Hanika (2019)* reflectance
-    spectral model for a given XYZ color and optional starting point.
+    Computes :math:`\\Delta E_{76}` between the target colour and the
+    colour defined by given spectral model, along with its gradient.
+
+    Parameters
+    ----------
+    coefficients : array_like
+        Dimensionless coefficients for *Jakob and Hanika (2019)* reflectance
+        spectral model.
+    target : array_like, (3,)
+        *CIE L\\*a\\*b\\** colourspace array of the target colour.
+    shape : SpectralShape
+        Spectral distribution shape used in calculations.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralDistribution
+        Illuminant spectral distribution.
+    illuminant_XYZ : array_like, (3,)
+        *CIE XYZ* tristimulus values of the illuminant.
+
+    Other parameters
+    ----------------
+    return_intermediates : bool, optional
+        If true, some intermediate calculations are returned, for use in
+        correctness tests: R, XYZ and Lab
+
+    Returns
+    -------
+    error : float
+        The computed :math:`\\Delta E_{76}` error.
+    derror : ndarray, (3,)
+        The gradient of error, ie. the first derivatives of error with respect
+        to the input coefficients.
+    R : ndarray
+        Computed spectral reflectance.
+    XYZ : ndarray, (3,)
+        *CIE XYZ* tristimulus values corresponding to `R`.
+    Lab : ndarray, (3,)
+        *CIE L\\*a\\*b\\** colourspace array corresponding to `XYZ`.
     """
 
-    XYZ = as_float_array(XYZ)
+    c_0, c_1, c_2 = coefficients
+    wv = np.linspace(0, 1, len(shape.range()))
 
-    if XYZ[1] > 1:
-        raise ValueError(
-            'Non physically-realisable tristimulus reflectance values with '
-            '"Luminance Y"={0}!'.format(XYZ[1]))
+    U = c_0 * wv ** 2 + c_1 * wv + c_2
+    t1 = np.sqrt(1 + U**2)
+    R = 1 / 2 + U / (2 * t1)
 
-    # TODO: Code below assumes we can always get a near-zero delta E and will
-    #        fail if it's not possible.
-    if not is_within_visible_spectrum(XYZ, cmfs, illuminant):
-        raise ValueError(
-            'Non physically-realisable tristimulus reflectance values outside '
-            'the visible spectrum!')
+    t2 = 1 / (2 * t1) - U**2 / (2 * t1**3)
+    dR = np.array([wv**2 * t2, wv * t2, t2])
 
-    xy_w = XYZ_to_xy(sd_to_XYZ(illuminant))
+    E = illuminant.values * R
+    dE = illuminant.values * dR
 
-    def objective_function(ccp, target):
-        """
-        Computes :math:`\\Delta E_{76}` between the target colour and the
-        colour defined by given spectral model parameters and illuminant.
-        """
+    dw = cmfs.wavelengths[1] - cmfs.wavelengths[0] # cmfs.interval?
+    k = 100 / (np.sum(cmfs.values[:, 1] * illuminant.values) * dw)
 
-        sd_v = spectral_values(ccp)
-        Lab = XYZ_to_Lab(
-            multi_sds_to_XYZ_integration(
-                sd_v,
-                cmfs=cmfs,
-                illuminant=illuminant,
-                shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019) / 100, xy_w)
+    XYZ = np.empty(3)
+    dXYZ = np.empty((3, 3))
+    for i in range(3):
+        XYZ[i] = k * np.dot(E, cmfs.values[:, i]) * dw
+        for j in range(3):
+            dXYZ[i, j] = k * np.dot(dE[j], cmfs.values[:, i]) * dw
 
-        return delta_E_CIE1976(target, Lab)
+    # TODO: this isn't the full CIE 1976 lightness function
+    f = (XYZ / illuminant_XYZ)**(1/3)
 
-    def optimize(XYZ, coefficients_0):
-        """
-        Performs the actual minimization. This function will be called multiple
-        times if minimization diverges and intermediate solutions are required.
-        """
+    # TODO: this can be vectorized
+    df = np.empty((3, 3))
+    for i in range(3):
+        for j in range(3):
+            df[i, j] = 1 / (3 * illuminant_XYZ[i]**(1/3)
+                            * XYZ[i]**(2/3)) * dXYZ[i, j]
 
-        Lab = XYZ_to_Lab(XYZ, xy_w)
+    Lab = np.array([
+        116 * f[1] - 16,
+        500 * (f[0] - f[1]),
+        200 * (f[1] - f[2])
+    ])
 
-        result = minimize(
-            objective_function,
-            coefficients_0, (Lab, ),
-            method='Nelder-Mead',
-            options={'disp': verbose})
+    dLab = np.array([
+        116 * df[1],
+        500 * (df[0] - df[1]),
+        200 * (df[1] - df[2])
+    ])
 
-        if verbose:
-            print(result)
+    error = np.sqrt(np.sum((Lab - target)**2))
 
-        return result
+    derror = np.zeros(3)
+    for i in range(3):
+        for j in range(3):
+            derror[i] += dLab[j, i] * (Lab[j] - target[j])
+        derror[i] /= error
 
-    if verbose:
-        print('Trying the target directly, XYZ={0}'.format(XYZ))
+    # DEBUG
+    #print("%12.5g %12.5g %12.5g %12.5g %12.5g %12.5g %g"
+    #      % (*coefficients, *XYZ, error))
 
-    result = optimize(XYZ, coefficients_0)
-
-    if result.fun < 0.1 or not try_hard:
-        return result.x, result.fun
-
-    # The coefficients below are good only in case of D65, but this should be
-    # good enough.
-    good_XYZ = (1 / 3, 1 / 3, 1 / 3)
-    good_ccp = (2.1276356, -1.07293026, -0.29583292)
-
-    divisions = 3
-    while divisions < 10:
-        if verbose:
-            print('Trying with {0} divisions'.format(divisions))
-
-        keep_divisions = False
-        XYZ_ref = good_XYZ
-        ccp_ref = good_ccp
-
-        coefficients_0 = ccp_ref
-        for i in range(1, divisions):
-            intermediate_XYZ = XYZ_ref + (XYZ - XYZ_ref) * i / (divisions - 1)
-            if verbose:
-                print(
-                    'Intermediate step {0}/{1}, XYZ={2} with ccp0={3}'.format(
-                        i + 1, divisions, intermediate_XYZ, coefficients_0))
-
-            result = optimize(intermediate_XYZ, coefficients_0)
-            if result.fun > 0.1:
-                if verbose:
-                    print('WARNING: intermediate optimization failed')
-                break
-            else:
-                good_XYZ = intermediate_XYZ
-                good_ccp = result.x
-                keep_divisions = True
-
-            coefficients_0 = result.x
-        else:
-            return result.x, result.fun
-
-        if not keep_divisions:
-            divisions += 2
-
-    raise RuntimeError('Optimization failed for XYZ={0}, ccp0={1}'.format(
-        XYZ, coefficients_0))
+    if return_intermediates:
+        return error, derror, R, XYZ, Lab
+    return error, derror
 
 
-def XYZ_to_sd_Jakob2019(
-        XYZ,
+
+def dimensionalise_coefficients(coefficients, shape):
+    """
+    Rescale dimensionless coefficients.
+
+    A nondimensionalised form of the reflectance spectral model is used in
+    optimisation. Instead of the usual spectral shape, specified in nanometers,
+    it's normalised to the [0, 1] range. A side effect is that computed
+    coefficients work only with the normalised range and need to be
+    rescaled to regain units and be compatible with standard shapes.
+
+    Parameters
+    ----------
+    coefficients : array_like, (3,)
+        Dimensionless coefficients.
+    shape : SpectralShape
+        Spectral distribution shape used in calculations.
+
+    Returns
+    -------
+    ndarray, (3,)
+        Dimensionful coefficients, with units of
+        :math:`\frac{1}{\mathrm{nm}^2}`, :math:`\frac{1}{\mathrm{nm}}` and 1,
+        respectively.
+    """
+
+    cp_0, cp_1, cp_2 = coefficients
+    span = shape.end - shape.start
+    
+    c_0 = cp_0 / span ** 2
+    c_1 = cp_1 / span - 2 * cp_0 * shape.start / span ** 2
+    c_2 = cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2
+
+    return np.array([c_0, c_1, c_2])
+
+
+
+def coefficients_Jakob2019(
+        target_XYZ,
         cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
             DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
-        optimisation_kwargs=None,
-        verbose=False):
+        coefficients_0=(0, 0, 0),
+        dimensionalise=True):
     """
-    Recovers the spectral distribution of given *CIE XYZ* tristimulus values
-    using *Jakob and Hanika (2019)* method.
+    Computes coefficients for *Jakob and Hanika (2019)* reflectance spectral
+    model.
 
-    TODO: documentation
+    Parameters
+    ----------
+    target_XYZ : array_like, (3,)
+        *CIE XYZ** tristimulus values of the target colour.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralDistribution
+        Illuminant spectral distribution.
+    coefficients_0 : array_like, (3,), optional
+        Starting coefficients for the solver.
+
+    Other parameters
+    ----------------
+    return_intermediates : bool, optional
+        If true, some intermediate calculations are returned, for use in
+        correctness tests: R, XYZ and Lab
+
+    Returns
+    -------
+    coefficients : ndarray, (3,)
+        Computed coefficients that best fit the given colour.
+    error : float
+        :math:`\\Delta E_{76}` between the target colour and the colour
+        corresponding to the computed coefficients.
     """
 
     if illuminant.shape != cmfs.shape:
@@ -210,12 +267,69 @@ def XYZ_to_sd_Jakob2019(
             'functions shape.'.format(illuminant.name, cmfs.name))
         illuminant = illuminant.copy().align(cmfs.shape)
 
-    coefficients, _ = solve_Jakob2019(XYZ, cmfs, illuminant, verbose=verbose)
+    shape = illuminant.shape
+    illuminant_XYZ = sd_to_XYZ(illuminant) / 100
+    illuminant_xy = XYZ_to_xy(illuminant_XYZ)
+    target = XYZ_to_Lab(target_XYZ, illuminant_xy)
 
-    return SpectralDistribution(
-        spectral_values(coefficients),
-        cmfs.shape.range(),
-        name='Jakob (2019) - {0}'.format(XYZ))
+    opt = minimize(
+        error_function_Jakob2019,
+        coefficients_0,
+        (target, shape, cmfs, illuminant, illuminant_XYZ),
+        method="L-BFGS-B",
+        jac=True,
+    )
+
+    if dimensionalise:
+        coefficients = dimensionalise_coefficients(opt.x, shape)
+    else:
+        coefficients = opt.x
+
+    return coefficients, opt.fun
+
+
+def XYZ_to_sd_Jakob2019(
+        target_XYZ,
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().align(DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
+        illuminant=ILLUMINANT_SDS['D65'].copy().align(
+            DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
+        return_error=False):
+    """
+    Recovers the spectral distribution of given *CIE XYZ* tristimulus values
+    using *Jakob and Hanika (2019)* method.
+
+    Parameters
+    ----------
+    target_XYZ : array_like, (3,)
+        *CIE XYZ** tristimulus values of the target colour.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralDistribution
+        Illuminant spectral distribution.
+    return_error : bool, optional
+        If true, `error` will be returned alongside.
+    
+    Returns
+    -------
+    sd : SpectralDistribution
+        Recovered spectral distribution.
+    error : float
+        :math:`\\Delta E_{76}` between the target colour and the colour
+        corresponding to the computed coefficients.
+    """
+
+    coefficients, error = coefficients_Jakob2019(target_XYZ, cmfs, illuminant)
+
+    sd = spectral_model(
+        coefficients,
+        cmfs.shape,
+        name='Jakob (2019) - {0}'.format(target_XYZ))
+
+    if return_error:
+        return sd, error
+    return sd
+
 
 
 class Jakob2019Interpolator:
@@ -257,7 +371,7 @@ class Jakob2019Interpolator:
         return self.cubes(coords).squeeze()
 
     def RGB_to_sd(self, RGB, shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019):
-        return SpectralDistribution(
-            spectral_values(self.coefficients(RGB), shape, dimensionless=False),
-            shape.range(),
+        return spectral_model(
+            self.coefficients(RGB),
+            shape,
             name='Jakob (2019) - {0} (RGB)'.format(RGB))
