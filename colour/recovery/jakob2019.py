@@ -55,22 +55,22 @@ def spectral_model(wl, coefficients):
     Spectral model given by *Jakob and Hanika (2019)*.
     """
 
-    c_1, c_2, c_3 = coefficients
-    x = c_1 * wl ** 2 + c_2 * wl + c_3
+    c_0, c_1, c_2 = coefficients
+    x = c_0 * wl ** 2 + c_1 * wl + c_2
 
     return 1 / 2 + x / (2 * np.sqrt(1 + x ** 2))
 
 
 def spectral_values(coefficients,
                     shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
-                    initialised=True):
+                    dimensionless=True):
     """
     Create a SpectralDistribution using given coefficients
     """
 
     wl = shape.range()
     wl_p = (wl - shape.start) / (shape.end - shape.start)
-    wl = wl_p if initialised else wl
+    wl = wl_p if dimensionless else wl
 
     return spectral_model(wl, coefficients)
 
@@ -93,11 +93,6 @@ def solve_Jakob2019(XYZ,
         raise ValueError(
             'Non physically-realisable tristimulus reflectance values with '
             '"Luminance Y"={0}!'.format(XYZ[1]))
-
-    if np.allclose(XYZ, [0, 0, 0]):
-        raise ValueError(
-            'Almost null tristimulus reflectance values are not recoverable!'
-            .format(XYZ[1]))
 
     # TODO: Code below assumes we can always get a near-zero delta E and will
     #        fail if it's not possible.
@@ -263,5 +258,5 @@ class Jakob2019Interpolator:
 
     def __call__(self, RGB):
         return SpectralDistribution(
-            spectral_values(self.coefficients(RGB), initialised=False),
+            spectral_values(self.coefficients(RGB), dimensionless=False),
             name='Jakob (2019) - {0} (RGB)'.format(RGB))
