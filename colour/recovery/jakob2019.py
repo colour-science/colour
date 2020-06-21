@@ -256,7 +256,8 @@ class Jakob2019Interpolator:
         coords = np.stack([imax, vmax, v2, v3], axis=-1)
         return self.cubes(coords).squeeze()
 
-    def __call__(self, RGB):
+    def RGB_to_sd(self, RGB, shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019):
         return SpectralDistribution(
-            spectral_values(self.coefficients(RGB), dimensionless=False),
+            spectral_values(self.coefficients(RGB), shape, dimensionless=False),
+            shape.range(),
             name='Jakob (2019) - {0} (RGB)'.format(RGB))
