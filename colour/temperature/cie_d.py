@@ -156,11 +156,14 @@ def CCT_to_xy_CIE_D(CCT):
         usage_warning(('Correlated colour temperature must be in domain '
                        '[4000, 25000], unpredictable results may occur!'))
 
+    CCT_3 = CCT ** 3
+    CCT_2 = CCT ** 2
+
     x = np.where(
         CCT <= 7000,
-        -4.607 * 10 ** 9 / CCT ** 3 + 2.9678 * 10 ** 6 / CCT ** 2 +
+        -4.607 * 10 ** 9 / CCT_3 + 2.9678 * 10 ** 6 / CCT_2 +
         0.09911 * 10 ** 3 / CCT + 0.244063,
-        -2.0064 * 10 ** 9 / CCT ** 3 + 1.9018 * 10 ** 6 / CCT ** 2 +
+        -2.0064 * 10 ** 9 / CCT_3 + 1.9018 * 10 ** 6 / CCT_2 +
         0.24748 * 10 ** 3 / CCT + 0.23704,
     )
 
