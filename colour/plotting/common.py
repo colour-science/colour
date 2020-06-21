@@ -1149,7 +1149,7 @@ def plot_multi_colour_swatches(colour_swatches,
 
         axes.fill(
             (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
-            color=reference_colour_swatches[i].RGB)
+            color=np.clip(reference_colour_swatches[i].RGB, 0, 1))
 
         if compare_swatches == 'stacked':
             margin_X = width * 0.25
@@ -1166,11 +1166,11 @@ def plot_multi_colour_swatches(colour_swatches,
                     y_1 - margin_Y * direction,
                     y_1 - margin_Y * direction,
                 ),
-                color=test_colour_swatches[i].RGB)
+                color=np.clip(test_colour_swatches[i].RGB, 0, 1))
         else:
             axes.fill(
                 (x_0, x_1, x_1), (y_0, y_0, y_1),
-                color=test_colour_swatches[i].RGB)
+                color=np.clip(test_colour_swatches[i].RGB, 0, 1))
 
         if colour_swatch.name is not None and text_settings['visible']:
             axes.text(
