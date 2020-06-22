@@ -258,7 +258,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
     else:
         raise ValueError(
             'Invalid method: "{0}", must be one of '
-            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
     ij = xy_to_ij(as_float_array(POINTER_GAMUT_BOUNDARIES))
@@ -419,7 +419,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
     else:
         raise ValueError(
             'Invalid method: "{0}", must be one of '
-            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
     settings = {'colour_cycle_count': len(colourspaces)}
@@ -1050,7 +1050,7 @@ def ellipses_MacAdam1942(method='CIE 1931'):
     else:
         raise ValueError(
             'Invalid method: "{0}", must be one of '
-            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
     x, y, _a, _b, _theta, a, b, theta = tsplit(MACADAM_1942_ELLIPSES_DATA)

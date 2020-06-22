@@ -133,7 +133,7 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
     else:
         raise ValueError(
             'Invalid method: "{0}", must be one of '
-            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
     pl_ij = tstack([
@@ -294,7 +294,7 @@ def plot_chromaticity_diagram_colours(
         else:
             raise ValueError(
                 'Invalid method: "{0}", must be one of '
-                '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+                '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                     method))
 
     RGB = normalise_maximum(
@@ -404,7 +404,7 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
     else:
         raise ValueError(
             'Invalid method: "{0}", must be one of '
-            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
     title = '{0} Chromaticity Diagram - {1}'.format(method, cmfs.strict_name)
@@ -699,7 +699,7 @@ def plot_sds_in_chromaticity_diagram(
     else:
         raise ValueError(
             'Invalid method: "{0}", must be one of '
-            '{{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}}'.format(
+            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
     annotate_settings_collection = [{
