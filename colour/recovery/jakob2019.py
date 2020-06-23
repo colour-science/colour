@@ -6,9 +6,7 @@ Jakob and Hanika (2019) - Reflectance Recovery
 Defines objects for reflectance recovery using *Jakob and Hanika (2019)*
 method:
 
--   :func:`colour.recovery.error_function_Jakob2019`
--   :func:`colour.recovery.coefficients_Jakob2019`
--   :func:`colour.recovery.XYZ_to_sd_Jakob2019`
+-   :func:`colour.recovery.RGB_to_sd_Jakob2019`
 
 References
 ----------
@@ -27,7 +25,7 @@ from scipy.interpolate import RegularGridInterpolator
 from colour import ILLUMINANT_SDS
 from colour.colorimetry import (STANDARD_OBSERVER_CMFS, SpectralDistribution,
                                 SpectralShape, sd_to_XYZ)
-from colour.models import XYZ_to_xy, XYZ_to_Lab
+from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (as_float_array, runtime_warning,
                               index_along_last_axis)
 
@@ -39,9 +37,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DEFAULT_SPECTRAL_SHAPE_JAKOB_2019', 'spectral_model',
-    'error_function_Jakob2019', 'coefficients_Jakob2019',
-    'XYZ_to_sd_Jakob2019', 'Jakob2019Interpolator'
+    'DEFAULT_SPECTRAL_SHAPE_JAKOB_2019', 'RGB_to_sd_Jakob2019',
+    'Jakob2019Interpolator'
 ]
 
 DEFAULT_SPECTRAL_SHAPE_JAKOB_2019 = SpectralShape(360, 780, 5)
@@ -115,9 +112,9 @@ def error_function_Jakob2019(
     R : ndarray
         Computed spectral reflectance.
     XYZ : ndarray, (3,)
-        *CIE XYZ* tristimulus values corresponding to `R`.
+        *CIE XYZ* tristimulus values corresponding to ``R``.
     Lab : ndarray, (3,)
-        *CIE L\\*a\\*b\\** colourspace array corresponding to `XYZ`.
+        *CIE L\\*a\\*b\\** colourspace array corresponding to ``XYZ``.
     """
 
     c_0, c_1, c_2 = coefficients
@@ -214,8 +211,24 @@ def dimensionalise_coefficients(coefficients, shape):
     return np.array([c_0, c_1, c_2])
 
 
+def create_lightness_scale(steps):
+    """
+    Create a non-linear lightness scale, as described in *Jakob and Hanika
+    (2019)*. The spacing between very dark and very bright (and saturated)
+    colors is made smaller, because in those regions coefficients tend to
+    change rapidly and a finer resolution is needed.
+    """
+
+    def smoothstep(x):
+        return x ** 2 * (3 - 2 * x)
+
+    linear = np.linspace(0, 1, steps)
+    return smoothstep(smoothstep(linear))
+
+
 def coefficients_Jakob2019(
-        target_XYZ,
+        target_RGB,
+        colourspace,
         cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
@@ -228,8 +241,11 @@ def coefficients_Jakob2019(
 
     Parameters
     ----------
-    target_XYZ : array_like, (3,)
-        *CIE XYZ** tristimulus values of the target colour.
+    target_RGB : array_like, (3,)
+        *RGB* colourspace array of the target colour. Values must be linear;
+        do not apply cctf encoding.
+    colourspace : RGB_Colourspace
+        The RGB colourspace.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     illuminant : SpectralDistribution
@@ -261,6 +277,14 @@ def coefficients_Jakob2019(
     shape = illuminant.shape
     illuminant_XYZ = sd_to_XYZ(illuminant) / 100
     illuminant_xy = XYZ_to_xy(illuminant_XYZ)
+
+    target_XYZ = RGB_to_XYZ(
+        target_RGB,
+        colourspace.whitepoint,
+        illuminant_xy,
+        colourspace.RGB_to_XYZ_matrix,
+    )
+
     target = XYZ_to_Lab(target_XYZ, illuminant_xy)
 
     opt = minimize(
@@ -279,27 +303,31 @@ def coefficients_Jakob2019(
     return coefficients, opt.fun
 
 
-def XYZ_to_sd_Jakob2019(
-        target_XYZ,
+def RGB_to_sd_Jakob2019(
+        target_RGB,
+        colourspace,
         cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
             DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         return_error=False):
     """
-    Recovers the spectral distribution of given *CIE XYZ* tristimulus values
+    Recovers the spectral distribution of given RGB colourspace array
     using *Jakob and Hanika (2019)* method.
 
     Parameters
     ----------
-    target_XYZ : array_like, (3,)
-        *CIE XYZ** tristimulus values of the target colour.
+    target_RGB : array_like, (3,)
+        *RGB* colourspace array of the target colour. Values must be linear;
+        do not apply cctf encoding.
+    colourspace : RGB_Colourspace
+        The *RGB* colourspace.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
     return_error : bool, optional
-        If true, `error` will be returned alongside.
+        If true, ``error`` will be returned alongside ``sd``.
 
     Returns
     -------
@@ -310,12 +338,17 @@ def XYZ_to_sd_Jakob2019(
         corresponding to the computed coefficients.
     """
 
-    coefficients, error = coefficients_Jakob2019(target_XYZ, cmfs, illuminant)
+    coefficients, error = coefficients_Jakob2019(
+        target_RGB,
+        colourspace,
+        cmfs,
+        illuminant
+    )
 
     sd = spectral_model(
         coefficients,
         cmfs.shape,
-        name='Jakob (2019) - {0}'.format(target_XYZ))
+        name='Jakob (2019) - {0} {1}'.format(colourspace.name, target_RGB))
 
     if return_error:
         return sd, error

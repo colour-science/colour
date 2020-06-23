@@ -8,9 +8,9 @@ References
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
     Reflectances. Journal of Graphics Tools, 4(4), 11-22.
     doi:10.1080/10867651.1999.10487511
--   :cite:`Jakob2019Spectral` : Wenzel Jakob and Johannes Hanika. 2019.
-    A Low-Dimensional Function Space for Efficient Spectral Upsampling. In
-    Computer Graphics Forum (Proceedings of Eurographics) 38(2).
+-   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low‐Dimensional
+    Function Space for Efficient Spectral Upsampling. Computer Graphics Forum,
+    38(2), 147–155. doi:10.1111/cgf.13626
 """
 
 from __future__ import absolute_import
@@ -22,18 +22,22 @@ from .datasets import *  # noqa
 from . import datasets
 from .meng2015 import XYZ_to_sd_Meng2015
 from .smits1999 import RGB_to_sd_Smits1999
-from .jakob2019 import XYZ_to_sd_Jakob2019, Jakob2019Interpolator
+# error_function_Jakob2019 and coefficients_Jakob2019 are exposed here only
+# for debugging. They should be hidden once they've been covered by unit tests.
+from .jakob2019 import (RGB_to_sd_Jakob2019, Jakob2019Interpolator,
+                        error_function_Jakob2019, coefficients_Jakob2019)
 
 __all__ = []
 __all__ += datasets.__all__
 __all__ += ['XYZ_to_sd_Meng2015']
 __all__ += ['RGB_to_sd_Smits1999']
-__all__ += ['XYZ_to_sd_Jakob2019']
+__all__ += ['RGB_to_sd_Jakob2019']
+__all__ += ['error_function_Jakob2019']
+__all__ += ['coefficients_Jakob2019']
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
     'Meng 2015': XYZ_to_sd_Meng2015,
     'Smits 1999': RGB_to_sd_Smits1999,
-    'Jakob 2019': XYZ_to_sd_Jakob2019,
 })
 XYZ_TO_SD_METHODS.__doc__ = """
 Supported spectral distribution recovery methods.
