@@ -1292,43 +1292,43 @@ def index_along_last_axis(a, indexes):
     Examples
     --------
     >>> a = np.array(
-        [[[0.3, 0.5, 6.9],
-          [3.3, 4.4, 1.6],
-          [4.4, 7.5, 2.3],
-          [2.3, 1.6, 7.4]],
-         [[2. , 5.9, 2.8],
-          [6.2, 4.9, 8.6],
-          [3.7, 9.7, 7.3],
-          [6.3, 4.3, 3.2]],
-         [[0.8, 1.9, 0.7],
-          [5.6, 4. , 1.7],
-          [6.7, 8.2, 1.7],
-          [1.2, 7.1, 1.4]],
-         [[4. , 4.8, 8.9],
-          [4. , 0.3, 6.9],
-          [3.5, 7.1, 4.5],
-          [1.4, 1.9, 1.6]]]
-    )
+    ...     [[[0.3, 0.5, 6.9],
+    ...       [3.3, 4.4, 1.6],
+    ...       [4.4, 7.5, 2.3],
+    ...       [2.3, 1.6, 7.4]],
+    ...      [[2. , 5.9, 2.8],
+    ...       [6.2, 4.9, 8.6],
+    ...       [3.7, 9.7, 7.3],
+    ...       [6.3, 4.3, 3.2]],
+    ...      [[0.8, 1.9, 0.7],
+    ...       [5.6, 4. , 1.7],
+    ...       [6.7, 8.2, 1.7],
+    ...       [1.2, 7.1, 1.4]],
+    ...      [[4. , 4.8, 8.9],
+    ...       [4. , 0.3, 6.9],
+    ...       [3.5, 7.1, 4.5],
+    ...       [1.4, 1.9, 1.6]]]
+    ... )
     >>> indexes = np.array(
-        [[2, 0, 1, 1],
-         [2, 1, 1, 0],
-         [0, 0, 1, 2],
-         [0, 0, 1, 2]]
-    )
+    ...     [[2, 0, 1, 1],
+    ...      [2, 1, 1, 0],
+    ...      [0, 0, 1, 2],
+    ...      [0, 0, 1, 2]]
+    ... )
     >>> index_along_last_axis(a, indexes)
-    [[ 6.9  3.3  7.5  1.6]
-     [ 2.8  4.9  9.7  6.3]
-     [ 0.8  5.6  8.2  1.4]
-     [ 4.   4.   7.1  1.6]]
+    array([[ 6.9,  3.3,  7.5,  1.6],
+           [ 2.8,  4.9,  9.7,  6.3],
+           [ 0.8,  5.6,  8.2,  1.4],
+           [ 4. ,  4. ,  7.1,  1.6]])
 
     This function can be used to compute the result of :func:`np.min` along
     the last axis given the corresponding :func:`np.argmin` indexes.
 
     >>> indexes = np.argmin(a, axis=-1)
     >>> np.array_equal(
-        index_along_last_axis(a, indexes),
-        np.min(a, axis=-1)
-    )
+    ...     index_along_last_axis(a, indexes),
+    ...     np.min(a, axis=-1)
+    ... )
     True
 
     In particular, this can be used to manipulate the indices given by
@@ -1336,10 +1336,10 @@ def index_along_last_axis(a, indexes):
     get elements directly following the smallest elements:
 
     >>> index_along_last_axis(a, (indexes + 1) % 3)
-    [[ 0.5  3.3  4.4  7.4]
-     [ 5.9  8.6  9.7  6.3]
-     [ 0.8  5.6  6.7  7.1]
-     [ 4.8  6.9  7.1  1.9]]    
+    array([[ 0.5,  3.3,  4.4,  7.4],
+           [ 5.9,  8.6,  9.7,  6.3],
+           [ 0.8,  5.6,  6.7,  7.1],
+           [ 4.8,  6.9,  7.1,  1.9]])
     """
 
     if a.shape[:-1] != indexes.shape:

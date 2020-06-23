@@ -25,14 +25,11 @@ from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator
 
 from colour import ILLUMINANT_SDS
-from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.volume import is_within_visible_spectrum
 from colour.colorimetry import (STANDARD_OBSERVER_CMFS, SpectralDistribution,
-                                SpectralShape, sd_to_XYZ,
-                                multi_sds_to_XYZ_integration)
-from colour.difference import delta_E_CIE1976
+                                SpectralShape, sd_to_XYZ)
 from colour.models import XYZ_to_xy, XYZ_to_Lab
-from colour.utilities import as_float_array, runtime_warning
+from colour.utilities import (as_float_array, runtime_warning,
+                              index_along_last_axis)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -43,8 +40,8 @@ __status__ = 'Production'
 
 __all__ = [
     'DEFAULT_SPECTRAL_SHAPE_JAKOB_2019', 'spectral_model',
-    'error_function_Jakob2019', 'coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
-    'Jakob2019Interpolator'
+    'error_function_Jakob2019', 'coefficients_Jakob2019',
+    'XYZ_to_sd_Jakob2019', 'Jakob2019Interpolator'
 ]
 
 DEFAULT_SPECTRAL_SHAPE_JAKOB_2019 = SpectralShape(360, 780, 5)
@@ -67,9 +64,8 @@ def spectral_model(coefficients,
 
     if name is None:
         name = "Jakob (2019) - {0} (coeffs.)".format(coefficients)
-    
-    return SpectralDistribution(R, wl, name=name)
 
+    return SpectralDistribution(R, wl, name=name)
 
 
 # The goal is to minimize the color difference between a given distrbution
@@ -137,7 +133,7 @@ def error_function_Jakob2019(
     E = illuminant.values * R
     dE = illuminant.values * dR
 
-    dw = cmfs.wavelengths[1] - cmfs.wavelengths[0] # cmfs.interval?
+    dw = cmfs.wavelengths[1] - cmfs.wavelengths[0]
     k = 100 / (np.sum(cmfs.values[:, 1] * illuminant.values) * dw)
 
     XYZ = np.empty(3)
@@ -177,14 +173,9 @@ def error_function_Jakob2019(
             derror[i] += dLab[j, i] * (Lab[j] - target[j])
         derror[i] /= error
 
-    # DEBUG
-    #print("%12.5g %12.5g %12.5g %12.5g %12.5g %12.5g %g"
-    #      % (*coefficients, *XYZ, error))
-
     if return_intermediates:
         return error, derror, R, XYZ, Lab
     return error, derror
-
 
 
 def dimensionalise_coefficients(coefficients, shape):
@@ -208,19 +199,19 @@ def dimensionalise_coefficients(coefficients, shape):
     -------
     ndarray, (3,)
         Dimensionful coefficients, with units of
-        :math:`\frac{1}{\mathrm{nm}^2}`, :math:`\frac{1}{\mathrm{nm}}` and 1,
-        respectively.
+        :math:`\\frac{1}{\\mathrm{nm}^2}`, :math:`\\frac{1}{\\mathrm{nm}}`
+        and 1, respectively.
     """
 
     cp_0, cp_1, cp_2 = coefficients
     span = shape.end - shape.start
-    
+
     c_0 = cp_0 / span ** 2
     c_1 = cp_1 / span - 2 * cp_0 * shape.start / span ** 2
-    c_2 = cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2
+    c_2 = (cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span
+           + cp_2)
 
     return np.array([c_0, c_1, c_2])
-
 
 
 def coefficients_Jakob2019(
@@ -309,7 +300,7 @@ def XYZ_to_sd_Jakob2019(
         Illuminant spectral distribution.
     return_error : bool, optional
         If true, `error` will be returned alongside.
-    
+
     Returns
     -------
     sd : SpectralDistribution
@@ -329,7 +320,6 @@ def XYZ_to_sd_Jakob2019(
     if return_error:
         return sd, error
     return sd
-
 
 
 class Jakob2019Interpolator:
@@ -355,19 +345,17 @@ class Jakob2019Interpolator:
             axes, coeffs[:, :, :, :, :], bounds_error=False)
 
     def coefficients(self, RGB):
-        RGB = np.asarray(RGB, dtype=DEFAULT_FLOAT_DTYPE)
+        RGB = as_float_array(RGB)
+
         vmax = np.max(RGB, axis=-1)
+        chroma = RGB / (np.expand_dims(vmax, -1) + 1e-10)
+
         imax = np.argmax(RGB, axis=-1)
-        chroma = RGB / (np.expand_dims(vmax, -1) + 1e-10
-                        )  # Avoid division by zero
-        vmax = np.max(RGB, axis=-1)
-        v2 = np.take_along_axis(
-            chroma, np.expand_dims((imax + 2) % 3, axis=-1),
-            axis=-1).squeeze(axis=-1)
-        v3 = np.take_along_axis(
-            chroma, np.expand_dims((imax + 1) % 3, axis=-1),
-            axis=-1).squeeze(axis=-1)
-        coords = np.stack([imax, vmax, v2, v3], axis=-1)
+        v1 = index_along_last_axis(RGB, imax)
+        v2 = index_along_last_axis(chroma, (imax + 2) % 3)
+        v3 = index_along_last_axis(chroma, (imax + 1) % 3)
+
+        coords = np.stack([imax, v1, v2, v3], axis=-1)
         return self.cubes(coords).squeeze()
 
     def RGB_to_sd(self, RGB, shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019):
