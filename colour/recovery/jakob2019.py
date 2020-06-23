@@ -234,7 +234,9 @@ def coefficients_Jakob2019(
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
             DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         coefficients_0=(0, 0, 0),
-        dimensionalise=True):
+        dimensionalise=True,
+        use_feedback=True,
+        lightness_steps=64):
     """
     Computes coefficients for *Jakob and Hanika (2019)* reflectance spectral
     model.
@@ -252,12 +254,22 @@ def coefficients_Jakob2019(
         Illuminant spectral distribution.
     coefficients_0 : array_like, (3,), optional
         Starting coefficients for the solver.
+    use_feedback : bool, optional
+        If true (the default), a slightly saturated version of the target color
+        is solved for first. Then, colors closer and closer to the target are
+        computed, feeding the result of every iteration to the next (as
+        starting coefficients). This improves stability of results and can
+        help if the solver diverges.
 
     Other parameters
     ----------------
     return_intermediates : bool, optional
         If true, some intermediate calculations are returned, for use in
         correctness tests: R, XYZ and Lab
+    lightness_steps : int, optional
+        The numbers of steps in the lightness scale used for computing
+        intermediate colours when ``use_feedback`` is enabled. The default
+        value of 64 is what is used in *Jakob and Hanika (2019)*.
 
     Returns
     -------
@@ -278,15 +290,47 @@ def coefficients_Jakob2019(
     illuminant_XYZ = sd_to_XYZ(illuminant) / 100
     illuminant_xy = XYZ_to_xy(illuminant_XYZ)
 
-    target_XYZ = RGB_to_XYZ(
-        target_RGB,
-        colourspace.whitepoint,
-        illuminant_xy,
-        colourspace.RGB_to_XYZ_matrix,
-    )
+    def RGB_to_Lab(RGB):
+        """
+        A shorthand for converting from *RGB* to *CIE Lab*.
+        """
+        XYZ = RGB_to_XYZ(
+            RGB,
+            colourspace.whitepoint,
+            illuminant_xy,
+            colourspace.RGB_to_XYZ_matrix,
+        )
+        return XYZ_to_Lab(XYZ, illuminant_xy)
 
-    target = XYZ_to_Lab(target_XYZ, illuminant_xy)
+    if use_feedback:
+        target_max = np.max(target_RGB) + 1e-10
+        scale = create_lightness_scale(lightness_steps)
 
+        i = lightness_steps // 3
+        going_up = scale[i] < np.max(target_RGB)
+        while True:
+            if going_up:
+                if i + 1 == lightness_steps or scale[i + 1] >= target_max:
+                    break
+            else:
+                if i == 0 or scale[i - 1] <= target_max:
+                    break
+
+            intermediate_RGB = scale[i] * (target_RGB + 1e-10) / target_max
+            intermediate = RGB_to_Lab(intermediate_RGB)
+
+            opt = minimize(
+                error_function_Jakob2019,
+                coefficients_0,
+                (intermediate, shape, cmfs, illuminant, illuminant_XYZ),
+                method="L-BFGS-B",
+                jac=True,
+            )
+            coefficients_0 = opt.x
+
+            i += 1 if going_up else -1
+
+    target = RGB_to_Lab(target_RGB)
     opt = minimize(
         error_function_Jakob2019,
         coefficients_0,
@@ -338,6 +382,8 @@ def RGB_to_sd_Jakob2019(
         corresponding to the computed coefficients.
     """
 
+    target_RGB = as_float_array(target_RGB)
+
     coefficients, error = coefficients_Jakob2019(
         target_RGB,
         colourspace,
@@ -348,7 +394,8 @@ def RGB_to_sd_Jakob2019(
     sd = spectral_model(
         coefficients,
         cmfs.shape,
-        name='Jakob (2019) - {0} {1}'.format(colourspace.name, target_RGB))
+        name='Jakob (2019) - {0} {1}'.format(colourspace.name, target_RGB)
+    )
 
     if return_error:
         return sd, error
