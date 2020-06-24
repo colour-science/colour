@@ -59,13 +59,13 @@ def exponent_function_basic(x, exponent, style='basicFwd'):
             Values less than zero are clamped.
 
         -   *basicMirrorFwd*: *Basic Mirror Forward* exponential behaviour
-             where the function definition applies a basic power law using
+            where the function definition applies a basic power law using
             the exponent for values greator than or equal to zero and mirrors
             the function for values less than zero (i.e. rotationally symmetric
             around the origin).
 
         -   *basicMirrorRev*: *Basic Mirror Reverse* exponential behaviour
-             where the function definition applies a basic power law using
+            where the function definition applies a basic power law using
             the exponent for values greator than or equal to zero and mirrors
             the function for values less than zero (i.e. rotationally symmetric
             around the origin).
