@@ -22,18 +22,13 @@ from .datasets import *  # noqa
 from . import datasets
 from .meng2015 import XYZ_to_sd_Meng2015
 from .smits1999 import RGB_to_sd_Smits1999
-# error_function_Jakob2019 and coefficients_Jakob2019 are exposed here only
-# for debugging. They should be hidden once they've been covered by unit tests.
-from .jakob2019 import (RGB_to_sd_Jakob2019, Jakob2019Interpolator,
-                        error_function_Jakob2019, coefficients_Jakob2019)
+from .jakob2019 import RGB_to_sd_Jakob2019, Jakob2019Interpolator
 
 __all__ = []
 __all__ += datasets.__all__
 __all__ += ['XYZ_to_sd_Meng2015']
 __all__ += ['RGB_to_sd_Smits1999']
 __all__ += ['RGB_to_sd_Jakob2019']
-__all__ += ['error_function_Jakob2019']
-__all__ += ['coefficients_Jakob2019']
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
     'Meng 2015': XYZ_to_sd_Meng2015,

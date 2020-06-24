@@ -23,6 +23,7 @@ from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator
 
 from colour import ILLUMINANT_SDS
+from colour.algebra import spow
 from colour.colorimetry import (STANDARD_OBSERVER_CMFS, SpectralDistribution,
                                 SpectralShape, sd_to_XYZ)
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
@@ -68,7 +69,7 @@ def spectral_model(coefficients,
 # The goal is to minimize the color difference between a given distrbution
 # and the one computed from the model above.
 # This function also calculates the first derivatives with respect to c's.
-def error_function_Jakob2019(
+def error_function(
         coefficients,
         target,
         shape,
@@ -131,7 +132,7 @@ def error_function_Jakob2019(
     dE = illuminant.values * dR
 
     dw = cmfs.wavelengths[1] - cmfs.wavelengths[0]
-    k = 100 / (np.sum(cmfs.values[:, 1] * illuminant.values) * dw)
+    k = 1 / (np.sum(cmfs.values[:, 1] * illuminant.values) * dw)
 
     XYZ = np.empty(3)
     dXYZ = np.empty((3, 3))
@@ -140,15 +141,22 @@ def error_function_Jakob2019(
         for j in range(3):
             dXYZ[i, j] = k * np.dot(dE[j], cmfs.values[:, i]) * dw
 
-    # TODO: this isn't the full CIE 1976 lightness function
-    f = (XYZ / illuminant_XYZ)**(1/3)
+    XYZ_norm = XYZ / illuminant_XYZ
+    f = np.where(
+        XYZ_norm > (24 / 116) ** 3,
+        spow(XYZ_norm, 1 / 3),
+        (841 / 108) * XYZ_norm + 16 / 116,
+    )
 
     # TODO: this can be vectorized
     df = np.empty((3, 3))
     for i in range(3):
         for j in range(3):
-            df[i, j] = 1 / (3 * illuminant_XYZ[i]**(1/3)
-                            * XYZ[i]**(2/3)) * dXYZ[i, j]
+            if XYZ_norm[i] > (24 / 116) ** 3:
+                df[i, j] = 1 / (3 * spow(illuminant_XYZ[i], 1 / 3)
+                                * spow(XYZ[i], 2 / 3)) * dXYZ[i, j]
+            else:
+                df[i, j] = (841 / 108) * dXYZ[i, j] / illuminant_XYZ[i]
 
     Lab = np.array([
         116 * f[1] - 16,
@@ -226,7 +234,7 @@ def create_lightness_scale(steps):
     return smoothstep(smoothstep(linear))
 
 
-def coefficients_Jakob2019(
+def find_coefficients(
         target_RGB,
         colourspace,
         cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
@@ -255,11 +263,7 @@ def coefficients_Jakob2019(
     coefficients_0 : array_like, (3,), optional
         Starting coefficients for the solver.
     use_feedback : bool, optional
-        If true (the default), a slightly saturated version of the target color
-        is solved for first. Then, colors closer and closer to the target are
-        computed, feeding the result of every iteration to the next (as
-        starting coefficients). This improves stability of results and can
-        help if the solver diverges.
+        See the documentation for :func:`RGB_to_sd_Jakob2019`.
 
     Other parameters
     ----------------
@@ -267,9 +271,7 @@ def coefficients_Jakob2019(
         If true, some intermediate calculations are returned, for use in
         correctness tests: R, XYZ and Lab
     lightness_steps : int, optional
-        The numbers of steps in the lightness scale used for computing
-        intermediate colours when ``use_feedback`` is enabled. The default
-        value of 64 is what is used in *Jakob and Hanika (2019)*.
+        See the documentation for :func:`RGB_to_sd_Jakob2019`.
 
     Returns
     -------
@@ -287,7 +289,8 @@ def coefficients_Jakob2019(
         illuminant = illuminant.copy().align(cmfs.shape)
 
     shape = illuminant.shape
-    illuminant_XYZ = sd_to_XYZ(illuminant) / 100
+    illuminant_XYZ = sd_to_XYZ(illuminant)
+    illuminant_XYZ /= illuminant_XYZ[1]
     illuminant_xy = XYZ_to_xy(illuminant_XYZ)
 
     def RGB_to_Lab(RGB):
@@ -320,7 +323,7 @@ def coefficients_Jakob2019(
             intermediate = RGB_to_Lab(intermediate_RGB)
 
             opt = minimize(
-                error_function_Jakob2019,
+                error_function,
                 coefficients_0,
                 (intermediate, shape, cmfs, illuminant, illuminant_XYZ),
                 method="L-BFGS-B",
@@ -332,7 +335,7 @@ def coefficients_Jakob2019(
 
     target = RGB_to_Lab(target_RGB)
     opt = minimize(
-        error_function_Jakob2019,
+        error_function,
         coefficients_0,
         (target, shape, cmfs, illuminant, illuminant_XYZ),
         method="L-BFGS-B",
@@ -354,7 +357,9 @@ def RGB_to_sd_Jakob2019(
         .copy().align(DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
             DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
-        return_error=False):
+        return_error=False,
+        use_feedback=True,
+        lightness_steps=64):
     """
     Recovers the spectral distribution of given RGB colourspace array
     using *Jakob and Hanika (2019)* method.
@@ -372,6 +377,19 @@ def RGB_to_sd_Jakob2019(
         Illuminant spectral distribution.
     return_error : bool, optional
         If true, ``error`` will be returned alongside ``sd``.
+    use_feedback : bool, optional
+        If true (the default), a slightly saturated version of the target color
+        is solved for first. Then, colors closer and closer to the target are
+        computed, feeding the result of every iteration to the next (as
+        starting coefficients). This improves stability of results and can
+        help if the solver diverges.
+
+    Other parameters
+    ----------------
+    lightness_steps : int, optional
+        The numbers of steps in the lightness scale used for computing
+        intermediate colours when ``use_feedback`` is enabled. The default
+        value of 64 is what is used in *Jakob and Hanika (2019)*.
 
     Returns
     -------
@@ -384,7 +402,7 @@ def RGB_to_sd_Jakob2019(
 
     target_RGB = as_float_array(target_RGB)
 
-    coefficients, error = coefficients_Jakob2019(
+    coefficients, error = find_coefficients(
         target_RGB,
         colourspace,
         cmfs,
