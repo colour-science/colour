@@ -445,6 +445,8 @@ Opto-Electronic Transfer Functions
 .. autosummary::
     :toctree: generated/
 
+    exponent_function_basic
+    exponent_function_monitor_curve
     gamma_function
     linear_function
 
