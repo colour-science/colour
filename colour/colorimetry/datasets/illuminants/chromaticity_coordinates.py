@@ -65,8 +65,8 @@ DCI_DCinema_System_Spec_v1_1.pdf
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
-    Encoding Specification (ACES) (pp. 1-40).
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Encoding Specification (ACES) (pp. 1-40). Retrieved December 19, 2014, from
+    http://j.mp/TB-2014-004
 -   :cite:`Wikipedia2006a` : Wikipedia. (2006). White points of standard
     illuminants. Retrieved February 24, 2014, from
     http://en.wikipedia.org/wiki/Standard_illuminant#\
