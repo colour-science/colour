@@ -1265,7 +1265,7 @@ def full(shape, fill_value, dtype=None, order='C'):
 def index_along_last_axis(a, indexes):
     """
     Reduces the dimension of an array by one, by using an array of indexes to
-    to pick elements the last axis.
+    to pick elements off the last axis.
 
     Parameters
     ----------
