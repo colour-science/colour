@@ -475,6 +475,12 @@ class Jakob2019Interpolator:
     def __init__(self):
         pass
 
+    def __setup_cubes(self):
+        samples = np.linspace(0, 1, self.res)
+        axes = ([0, 1, 2], self.scale, samples, samples)
+        self.cubes = RegularGridInterpolator(
+            axes, self.coefficients, bounds_error=False)
+
     def from_file(self, path):
         with open(path, 'rb') as fd:
             if fd.read(4).decode('ISO-8859-1') != 'SPEC':
@@ -484,16 +490,14 @@ class Jakob2019Interpolator:
 
             self.res = struct.unpack('i', fd.read(4))[0]
             self.scale = np.fromfile(fd, count=self.res, dtype=np.float32)
-            coeffs = np.fromfile(
+            self.coefficients = np.fromfile(
                 fd, count=3 * self.res ** 3 * 3, dtype=np.float32)
-            coeffs = coeffs.reshape(3, self.res, self.res, self.res, 3)
+            self.coefficients = self.coefficients.reshape(
+                3, self.res, self.res, self.res, 3)
 
-        samples = np.linspace(0, 1, self.res)
-        axes = ([0, 1, 2], self.scale, samples, samples)
-        self.cubes = RegularGridInterpolator(
-            axes, coeffs[:, :, :, :, :], bounds_error=False)
+        self.__setup_cubes()
 
-    def coefficients(self, RGB):
+    def RGB_to_coefficients(self, RGB):
         RGB = as_float_array(RGB)
 
         vmax = np.max(RGB, axis=-1)
@@ -509,6 +513,77 @@ class Jakob2019Interpolator:
 
     def RGB_to_sd(self, RGB, shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019):
         return spectral_model(
-            self.coefficients(RGB),
+            self.RGB_to_coefficients(RGB),
             shape,
             name='Jakob (2019) - {0} (RGB)'.format(RGB))
+
+    def generate(
+            self,
+            colourspace,
+            cmfs,
+            illuminant,
+            chroma_steps,
+            lightness_steps,
+            verbose=True):
+
+        self.scale = create_lightness_scale(lightness_steps)
+        self.coefficients = np.empty((
+            3, chroma_steps, chroma_steps, lightness_steps, 3))
+
+        # First, create a list of all fully bright colours we want.
+        chromas = []
+        for j, x in enumerate(np.linspace(0, 1, chroma_steps)):
+            for k, y in enumerate(np.linspace(0, 1, chroma_steps)):
+                for i, RGB in enumerate([np.array([1, x, y]),
+                                         np.array([x, 1, y]),
+                                         np.array([x, y, 1])]):
+                    chromas.append((i, j, k, RGB))
+
+        # TODO: Something's off about the main solver and some debugging
+        # messages are needed. These prints should be removed in the final
+        # version; possibly replaced by a proper progress bar or something.
+        if verbose:
+            print('%6s %6s %6s  %13s %13s %13s  %s'
+                  % ('R', 'G', 'B', 'c0', 'c1', 'c2', 'Delta E'))
+
+        # TODO: Send the list to a multiprocessing pool; this takes a while.
+        for i, j, k, chroma in chromas:
+            if verbose:
+                print('i=%d, j=%d, k=%d, R=%g, G=%g, B=%g'
+                      % (i, j, k, chroma[0], chroma[1], chroma[2]))
+
+            def optimize(l, coefficients_0):
+                RGB = self.scale[l] * chroma
+
+                coefficients, error = find_coefficients(
+                    RGB,
+                    colourspace,
+                    cmfs,
+                    illuminant,
+                    coefficients_0,
+                    dimensionalise=False,
+                    use_feedback=False
+                )
+
+                if verbose:
+                    print('%.4f %.4f %.4f  %13.6g %13.6g %13.6g  %g'
+                          % (RGB[0], RGB[1], RGB[2], coefficients[0],
+                             coefficients[1], coefficients[2], error))
+
+                self.coefficients[i, j, k, l, :] = coefficients
+                return coefficients
+
+            # Start from somewhere in the middle, similarly to how feedback
+            # works in find_coefficients.
+            middle_l = lightness_steps // 3
+            middle_coefficients = optimize(middle_l, (0, 0, 0))
+
+            # Go down the lightness scale
+            coefficients_0 = middle_coefficients
+            for l in reversed(range(0, middle_l)):
+                coefficients_0 = optimize(l, coefficients_0)
+
+            # Go up the lightness scale
+            coefficients_0 = middle_coefficients
+            for l in range(middle_l + 1, lightness_steps):
+                coefficients_0 = optimize(l, coefficients_0)
