@@ -46,6 +46,11 @@ DEFAULT_SPECTRAL_SHAPE_JAKOB_2019 = SpectralShape(360, 780, 5)
 """
 DEFAULT_SPECTRAL_SHAPE_JAKOB_2019 : SpectralShape
 """
+ACCEPTABLE_DELTA_E = 2.4 / 100  # 1% of JND
+"""
+ACCEPTABLE_DELTA_E = 2.4 / 100 : float
+"""
+
 
 
 def spectral_model(coefficients,
@@ -66,9 +71,24 @@ def spectral_model(coefficients,
     return SpectralDistribution(R, wl, name=name)
 
 
-# The goal is to minimize the color difference between a given distrbution
-# and the one computed from the model above.
-# This function also calculates the first derivatives with respect to c's.
+class StopMinimizationEarly(Exception):
+    """
+    The exception used to stop :func:`scipy.optimize.minimize` once the
+    value of the minimized function is small enough. Currently *SciPy* doesn't
+    provide a better way of doing it.
+
+    Attributes
+    ----------
+    coefficients : ndarray, (3,)
+        Coefficients (function arguments) when this exception was thrown.
+    error : float
+        Error (function value) when this exception was thrown.
+    """
+    def __init__(self, coefficients, error):
+        self.coefficients = coefficients
+        self.error = error
+
+
 def error_function(
         coefficients,
         target,
@@ -76,6 +96,7 @@ def error_function(
         cmfs,
         illuminant,
         illuminant_XYZ,
+        max_error=None,
         return_intermediates=False):
     """
     Computes :math:`\\Delta E_{76}` between the target colour and the
@@ -96,6 +117,9 @@ def error_function(
         Illuminant spectral distribution.
     illuminant_XYZ : array_like, (3,)
         *CIE XYZ* tristimulus values of the illuminant.
+    max_error : float, optional
+        Raise ``StopMinimizationEarly`` if the error is smaller than this.
+        The default is ``None`` and the function doesn't raise anything.
 
     Other parameters
     ----------------
@@ -116,6 +140,11 @@ def error_function(
         *CIE XYZ* tristimulus values corresponding to ``R``.
     Lab : ndarray, (3,)
         *CIE L\\*a\\*b\\** colourspace array corresponding to ``XYZ``.
+
+    Raises
+    ------
+    StopMinimizationEarly
+        Raised when the error is below ``max_error``.
     """
 
     c_0, c_1, c_2 = coefficients
@@ -171,6 +200,8 @@ def error_function(
     ])
 
     error = np.sqrt(np.sum((Lab - target)**2))
+    if max_error is not None and error <= max_error:
+        raise StopMinimizationEarly(coefficients, error)
 
     derror = np.zeros(3)
     for i in range(3):
@@ -244,7 +275,8 @@ def find_coefficients(
         coefficients_0=(0, 0, 0),
         dimensionalise=True,
         use_feedback=True,
-        lightness_steps=64):
+        lightness_steps=64,
+        max_error=ACCEPTABLE_DELTA_E):
     """
     Computes coefficients for *Jakob and Hanika (2019)* reflectance spectral
     model.
@@ -262,6 +294,9 @@ def find_coefficients(
         Illuminant spectral distribution.
     coefficients_0 : array_like, (3,), optional
         Starting coefficients for the solver.
+    dimensionalise : bool, optional
+        If true, returned coefficients are dimensionful and will not work
+        correctly if fed back as ``coefficients_0``. The default is true.
     use_feedback : bool, optional
         See the documentation for :func:`RGB_to_sd_Jakob2019`.
 
@@ -271,6 +306,8 @@ def find_coefficients(
         If true, some intermediate calculations are returned, for use in
         correctness tests: R, XYZ and Lab
     lightness_steps : int, optional
+        See the documentation for :func:`RGB_to_sd_Jakob2019`.
+    max_error : float, optional
         See the documentation for :func:`RGB_to_sd_Jakob2019`.
 
     Returns
@@ -305,6 +342,23 @@ def find_coefficients(
         )
         return XYZ_to_Lab(XYZ, illuminant_xy)
 
+    def _minimize(target, coefficients_0):
+        print("wtf")
+        try:
+            print("coeffs_0 = %s" % as_float_array(coefficients_0))
+            opt = minimize(
+                error_function,
+                coefficients_0,
+                (target, shape, cmfs, illuminant, illuminant_XYZ, max_error),
+                method="L-BFGS-B",
+                jac=True,
+                options=dict(disp=True)
+            )
+            print(opt)
+            return opt.x, opt.fun
+        except StopMinimizationEarly as e:
+            return e.coefficients, e.error
+
     if use_feedback:
         target_max = np.max(target_RGB) + 1e-10
         scale = create_lightness_scale(lightness_steps)
@@ -312,6 +366,7 @@ def find_coefficients(
         i = lightness_steps // 3
         going_up = scale[i] < np.max(target_RGB)
         while True:
+            print("scale[%d] = %g" % (i, scale[i]))
             if going_up:
                 if i + 1 == lightness_steps or scale[i + 1] >= target_max:
                     break
@@ -322,32 +377,16 @@ def find_coefficients(
             intermediate_RGB = scale[i] * (target_RGB + 1e-10) / target_max
             intermediate = RGB_to_Lab(intermediate_RGB)
 
-            opt = minimize(
-                error_function,
-                coefficients_0,
-                (intermediate, shape, cmfs, illuminant, illuminant_XYZ),
-                method="L-BFGS-B",
-                jac=True,
-            )
-            coefficients_0 = opt.x
-
+            coefficients_0, _ = _minimize(intermediate, coefficients_0)
             i += 1 if going_up else -1
 
     target = RGB_to_Lab(target_RGB)
-    opt = minimize(
-        error_function,
-        coefficients_0,
-        (target, shape, cmfs, illuminant, illuminant_XYZ),
-        method="L-BFGS-B",
-        jac=True,
-    )
+    coefficients, error = _minimize(target, coefficients_0)
 
     if dimensionalise:
-        coefficients = dimensionalise_coefficients(opt.x, shape)
-    else:
-        coefficients = opt.x
+        coefficients = dimensionalise_coefficients(coefficients, shape)
 
-    return coefficients, opt.fun
+    return coefficients, error
 
 
 def RGB_to_sd_Jakob2019(
@@ -359,7 +398,9 @@ def RGB_to_sd_Jakob2019(
             DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         return_error=False,
         use_feedback=True,
-        lightness_steps=64):
+        coefficients_0=(0, 0, 0),
+        lightness_steps=64,
+        max_error=ACCEPTABLE_DELTA_E):
     """
     Recovers the spectral distribution of given RGB colourspace array
     using *Jakob and Hanika (2019)* method.
@@ -386,10 +427,16 @@ def RGB_to_sd_Jakob2019(
 
     Other parameters
     ----------------
+    coefficients_0 : array_like, (3,), optional
+        Starting coefficients for the solver.
     lightness_steps : int, optional
         The numbers of steps in the lightness scale used for computing
         intermediate colours when ``use_feedback`` is enabled. The default
         value of 64 is what is used in *Jakob and Hanika (2019)*.
+    max_error : float, optional
+        Maximal acceptable error. Set higher to save computational time.
+        If ``None``, the solver will keep going until it's very close to the
+        minimum. The default is ``ACCEPTABLE_DELTA_E``.
 
     Returns
     -------
@@ -406,7 +453,11 @@ def RGB_to_sd_Jakob2019(
         target_RGB,
         colourspace,
         cmfs,
-        illuminant
+        illuminant,
+        coefficients_0=coefficients_0,
+        use_feedback=use_feedback,
+        lightness_steps=lightness_steps,
+        max_error=max_error
     )
 
     sd = spectral_model(

@@ -17,7 +17,8 @@ from colour.models import (RGB_COLOURSPACES, XYZ_to_RGB,
 from colour.recovery.jakob2019 import (RGB_to_sd_Jakob2019, spectral_model,
                                        error_function,
                                        dimensionalise_coefficients,
-                                       DEFAULT_SPECTRAL_SHAPE_JAKOB_2019)
+                                       DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
+                                       ACCEPTABLE_DELTA_E)
 
 
 __author__ = 'Colour Developers'
@@ -33,8 +34,6 @@ cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
 colourspace = RGB_COLOURSPACES["ProPhoto RGB"]
 D65 = SpectralDistribution(ILLUMINANT_SDS["D65"])
 D65_xy = ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
-
-ACCEPTABLE_DELTA_E = 2.4 / 100  # 1% of JND
 
 
 class TestRGB_to_sd_Jakob2019(unittest.TestCase):
