@@ -52,7 +52,6 @@ ACCEPTABLE_DELTA_E = 2.4 / 100 : float
 """
 
 
-
 def spectral_model(coefficients,
                    shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
                    name=None):
@@ -84,20 +83,20 @@ class StopMinimizationEarly(Exception):
     error : float
         Error (function value) when this exception was thrown.
     """
+
     def __init__(self, coefficients, error):
         self.coefficients = coefficients
         self.error = error
 
 
-def error_function(
-        coefficients,
-        target,
-        shape,
-        cmfs,
-        illuminant,
-        illuminant_XYZ,
-        max_error=None,
-        return_intermediates=False):
+def error_function(coefficients,
+                   target,
+                   shape,
+                   cmfs,
+                   illuminant,
+                   illuminant_XYZ,
+                   max_error=None,
+                   return_intermediates=False):
     """
     Computes :math:`\\Delta E_{76}` between the target colour and the
     colour defined by given spectral model, along with its gradient.
@@ -151,11 +150,11 @@ def error_function(
     wv = np.linspace(0, 1, len(shape.range()))
 
     U = c_0 * wv ** 2 + c_1 * wv + c_2
-    t1 = np.sqrt(1 + U**2)
+    t1 = np.sqrt(1 + U ** 2)
     R = 1 / 2 + U / (2 * t1)
 
-    t2 = 1 / (2 * t1) - U**2 / (2 * t1**3)
-    dR = np.array([wv**2 * t2, wv * t2, t2])
+    t2 = 1 / (2 * t1) - U ** 2 / (2 * t1 ** 3)
+    dR = np.array([wv ** 2 * t2, wv * t2, t2])
 
     E = illuminant.values * R
     dE = illuminant.values * dR
@@ -244,8 +243,8 @@ def dimensionalise_coefficients(coefficients, shape):
 
     c_0 = cp_0 / span ** 2
     c_1 = cp_1 / span - 2 * cp_0 * shape.start / span ** 2
-    c_2 = (cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span
-           + cp_2)
+    c_2 = (
+        cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2)
 
     return np.array([c_0, c_1, c_2])
 
@@ -352,8 +351,7 @@ def find_coefficients(
                 (target, shape, cmfs, illuminant, illuminant_XYZ, max_error),
                 method="L-BFGS-B",
                 jac=True,
-                options=dict(disp=True)
-            )
+                options=dict(disp=True))
             print(opt)
             return opt.x, opt.fun
         except StopMinimizationEarly as e:
@@ -457,14 +455,12 @@ def RGB_to_sd_Jakob2019(
         coefficients_0=coefficients_0,
         use_feedback=use_feedback,
         lightness_steps=lightness_steps,
-        max_error=max_error
-    )
+        max_error=max_error)
 
     sd = spectral_model(
         coefficients,
         cmfs.shape,
-        name='Jakob (2019) - {0} {1}'.format(colourspace.name, target_RGB)
-    )
+        name='Jakob (2019) - {0} {1}'.format(colourspace.name, target_RGB))
 
     if return_error:
         return sd, error
@@ -517,40 +513,41 @@ class Jakob2019Interpolator:
             shape,
             name='Jakob (2019) - {0} (RGB)'.format(RGB))
 
-    def generate(
-            self,
-            colourspace,
-            cmfs,
-            illuminant,
-            chroma_steps,
-            lightness_steps,
-            verbose=True):
+    def generate(self,
+                 colourspace,
+                 cmfs,
+                 illuminant,
+                 chroma_steps,
+                 lightness_steps,
+                 verbose=True):
 
         self.scale = create_lightness_scale(lightness_steps)
-        self.coefficients = np.empty((
-            3, chroma_steps, chroma_steps, lightness_steps, 3))
+        self.coefficients = np.empty((3, chroma_steps, chroma_steps,
+                                      lightness_steps, 3))
 
         # First, create a list of all fully bright colours we want.
         chromas = []
         for j, x in enumerate(np.linspace(0, 1, chroma_steps)):
             for k, y in enumerate(np.linspace(0, 1, chroma_steps)):
-                for i, RGB in enumerate([np.array([1, x, y]),
-                                         np.array([x, 1, y]),
-                                         np.array([x, y, 1])]):
+                for i, RGB in enumerate([
+                        np.array([1, x, y]),
+                        np.array([x, 1, y]),
+                        np.array([x, y, 1])
+                ]):
                     chromas.append((i, j, k, RGB))
 
         # TODO: Something's off about the main solver and some debugging
         # messages are needed. These prints should be removed in the final
         # version; possibly replaced by a proper progress bar or something.
         if verbose:
-            print('%6s %6s %6s  %13s %13s %13s  %s'
-                  % ('R', 'G', 'B', 'c0', 'c1', 'c2', 'Delta E'))
+            print('%6s %6s %6s  %13s %13s %13s  %s' % ('R', 'G', 'B', 'c0',
+                                                       'c1', 'c2', 'Delta E'))
 
         # TODO: Send the list to a multiprocessing pool; this takes a while.
         for i, j, k, chroma in chromas:
             if verbose:
-                print('i=%d, j=%d, k=%d, R=%g, G=%g, B=%g'
-                      % (i, j, k, chroma[0], chroma[1], chroma[2]))
+                print('i=%d, j=%d, k=%d, R=%g, G=%g, B=%g' %
+                      (i, j, k, chroma[0], chroma[1], chroma[2]))
 
             def optimize(l, coefficients_0):
                 RGB = self.scale[l] * chroma
@@ -562,13 +559,12 @@ class Jakob2019Interpolator:
                     illuminant,
                     coefficients_0,
                     dimensionalise=False,
-                    use_feedback=False
-                )
+                    use_feedback=False)
 
                 if verbose:
-                    print('%.4f %.4f %.4f  %13.6g %13.6g %13.6g  %g'
-                          % (RGB[0], RGB[1], RGB[2], coefficients[0],
-                             coefficients[1], coefficients[2], error))
+                    print('%.4f %.4f %.4f  %13.6g %13.6g %13.6g  %g' %
+                          (RGB[0], RGB[1], RGB[2], coefficients[0],
+                           coefficients[1], coefficients[2], error))
 
                 self.coefficients[i, j, k, l, :] = coefficients
                 return coefficients
