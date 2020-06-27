@@ -24,8 +24,9 @@ from scipy.interpolate import RegularGridInterpolator
 
 from colour import ILLUMINANT_SDS
 from colour.algebra import spow
-from colour.colorimetry import (STANDARD_OBSERVER_CMFS, SpectralDistribution,
-                                SpectralShape, sd_to_XYZ)
+from colour.colorimetry import (
+    STANDARD_OBSERVER_CMFS, SpectralDistribution, SpectralShape,
+    intermediate_lightness_function_CIE1976, sd_to_XYZ)
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (as_float_array, runtime_warning,
                               index_along_last_axis)
@@ -162,54 +163,39 @@ def error_function(coefficients,
     dw = cmfs.wavelengths[1] - cmfs.wavelengths[0]
     k = 1 / (np.sum(cmfs.values[:, 1] * illuminant.values) * dw)
 
-    XYZ = np.empty(3)
-    dXYZ = np.empty((3, 3))
-    for i in range(3):
-        XYZ[i] = k * np.dot(E, cmfs.values[:, i]) * dw
-        for j in range(3):
-            dXYZ[i, j] = k * np.dot(dE[j], cmfs.values[:, i]) * dw
+    XYZ = k * np.dot(E, cmfs.values) * dw
+    dXYZ = np.transpose(k * np.dot(dE, cmfs.values) * dw)
 
     XYZ_norm = XYZ / illuminant_XYZ
-    f = np.where(
+
+    f = intermediate_lightness_function_CIE1976(XYZ, illuminant_XYZ)
+    df = np.where(
         XYZ_norm > (24 / 116) ** 3,
-        spow(XYZ_norm, 1 / 3),
-        (841 / 108) * XYZ_norm + 16 / 116,
+        1 / (3 * spow(illuminant_XYZ[..., np.newaxis], 1 / 3) * spow(
+            XYZ[..., np.newaxis], 2 / 3)) * dXYZ,
+        (841 / 108) * dXYZ / illuminant_XYZ[..., np.newaxis],
     )
 
-    # TODO: this can be vectorized
-    df = np.empty((3, 3))
-    for i in range(3):
-        for j in range(3):
-            if XYZ_norm[i] > (24 / 116) ** 3:
-                df[i, j] = 1 / (3 * spow(illuminant_XYZ[i], 1 / 3)
-                                * spow(XYZ[i], 2 / 3)) * dXYZ[i, j]
-            else:
-                df[i, j] = (841 / 108) * dXYZ[i, j] / illuminant_XYZ[i]
+    def intermediate_XYZ_to_Lab(XYZ, offset=16):
+        return np.array([
+            116 * XYZ[1] - offset, 500 * (XYZ[0] - XYZ[1]),
+            200 * (XYZ[1] - XYZ[2])
+        ])
 
-    Lab = np.array([
-        116 * f[1] - 16,
-        500 * (f[0] - f[1]),
-        200 * (f[1] - f[2])
-    ])
+    Lab = intermediate_XYZ_to_Lab(f)
+    dLab = intermediate_XYZ_to_Lab(df, 0)
 
-    dLab = np.array([
-        116 * df[1],
-        500 * (df[0] - df[1]),
-        200 * (df[1] - df[2])
-    ])
-
-    error = np.sqrt(np.sum((Lab - target)**2))
+    error = np.sqrt(np.sum((Lab - target) ** 2))
     if max_error is not None and error <= max_error:
         raise StopMinimizationEarly(coefficients, error)
 
-    derror = np.zeros(3)
-    for i in range(3):
-        for j in range(3):
-            derror[i] += dLab[j, i] * (Lab[j] - target[j])
-        derror[i] /= error
+    derror = np.sum(
+        dLab * (Lab[..., np.newaxis] - target[..., np.newaxis]),
+        axis=0) / error
 
     if return_intermediates:
         return error, derror, R, XYZ, Lab
+
     return error, derror
 
 
