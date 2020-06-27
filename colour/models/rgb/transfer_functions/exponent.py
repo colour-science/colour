@@ -216,21 +216,25 @@ def exponent_function_monitor_curve(x, exponent, offset, style='monCurveFwd'):
     array(1.7777777777777777)
     >>> exponent_function_monitor_curve(-2, 2, 2)
     array(-1.7777777777777777)
-    >>> exponent_function_monitor_curve(1.7777777777777777, 2, 2,
-    'monCurveRev')
+    >>> exponent_function_monitor_curve(\
+            1.7777777777777777, 2, 2, 'monCurveRev')  # doctest: +ELLIPSIS
     array(2.0)
-    >>> exponent_function_monitor_curve(-1.7777777777777777, 2, 2,
-    'monCurveRev')
+    >>> exponent_function_monitor_curve(\
+            -1.7777777777777777, 2, 2, 'monCurveRev')  # doctest: +ELLIPSIS
     array(-2.0)
-    >>> exponent_function_monitor_curve(2, 2, 2, 'monCurveMirrorFwd')
+    >>> exponent_function_monitor_curve(\
+            2, 2, 2, 'monCurveMirrorFwd')
     array(1.7777777777777777)
-    >>> exponent_function_monitor_curve(-2, 2, 2, 'monCurveMirrorFwd')
+    >>> exponent_function_monitor_curve(\
+            -2, 2, 2, 'monCurveMirrorFwd')
     array(-1.7777777777777777)
-    >>> exponent_function_monitor_curve(1.7777777777777777, 2, 2,
-    'monCurveMirrorRev')
+    >>> exponent_function_monitor_curve(\
+            1.7777777777777777, 2, 2,\
+            'monCurveMirrorRev')  # doctest: +ELLIPSIS
     array(2.0)
-    >>> exponent_function_monitor_curve(-1.7777777777777777, 2, 2,
-    'monCurveMirrorRev')
+    >>> exponent_function_monitor_curve(\
+            -1.7777777777777777, 2, 2,\
+            'monCurveMirrorRev')  # doctest: +ELLIPSIS
     array(-2.0)
     """
 
