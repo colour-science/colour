@@ -328,17 +328,13 @@ def find_coefficients(
         return XYZ_to_Lab(XYZ, illuminant_xy)
 
     def _minimize(target, coefficients_0):
-        print("wtf")
         try:
-            print("coeffs_0 = %s" % as_float_array(coefficients_0))
             opt = minimize(
                 error_function,
                 coefficients_0,
                 (target, shape, cmfs, illuminant, illuminant_XYZ, max_error),
                 method="L-BFGS-B",
-                jac=True,
-                options=dict(disp=True))
-            print(opt)
+                jac=True)
             return opt.x, opt.fun
         except StopMinimizationEarly as e:
             return e.coefficients, e.error
@@ -350,7 +346,6 @@ def find_coefficients(
         i = lightness_steps // 3
         going_up = scale[i] < np.max(target_RGB)
         while True:
-            print("scale[%d] = %g" % (i, scale[i]))
             if going_up:
                 if i + 1 == lightness_steps or scale[i + 1] >= target_max:
                     break
