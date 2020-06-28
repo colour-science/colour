@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.log`
-module.
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.log` module.
 """
 
 from __future__ import division, unicode_literals
@@ -35,18 +34,24 @@ class TestLogEncoding_Log2(unittest.TestCase):
 log_encoding_Log2` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_Log2(18), 0.407732889704347, places=7)
+        self.assertAlmostEqual(log_encoding_Log2(0.0), -np.inf, places=7)
+
+        self.assertAlmostEqual(log_encoding_Log2(0.18), 0.5, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_Log2(18, 0.12), 0.443642737727224, places=7)
+            log_encoding_Log2(1.0), 0.690302399102493, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_Log2(18, 0.12, 0.0045), 0.443556955303088, places=7)
+            log_encoding_Log2(0.18, 0.12), 0.544997115440089, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_Log2(18, 0.12, 0.0045, 15.0),
-            0.481765775765788,
+            log_encoding_Log2(0.18, 0.12, 2 ** -10),
+            0.089857490719529,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_Log2(0.18, 0.12, 2 ** -10, 2 ** 10),
+            0.000570299311674,
             places=7)
 
     def test_n_dimensional_log_encoding_Log2(self):
@@ -55,7 +60,7 @@ log_encoding_Log2` definition.
 log_encoding_Log2` definition n-dimensional arrays support.
         """
 
-        x = 18
+        x = 0.18
         y = log_encoding_Log2(x)
 
         x = np.tile(x, 6)
@@ -76,7 +81,7 @@ log_encoding_Log2` definition n-dimensional arrays support.
 log_encoding_Log2` definition domain and range scale support.
         """
 
-        x = 18
+        x = 0.18
         y = log_encoding_Log2(x)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -108,21 +113,24 @@ log_decoding_Log2` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_Log2(0.407732889704347), 18.000000000000075, places=7)
+            log_decoding_Log2(0.0), 0.001988737822087, places=7)
+
+        self.assertAlmostEqual(log_decoding_Log2(0.5), 0.18, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Log2(0.443642737727224, 0.12),
-            17.999999999999904,
+            log_decoding_Log2(0.690302399102493), 1.0, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_Log2(0.544997115440089, 0.12), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_Log2(0.089857490719529, 0.12, 2 ** -10),
+            0.180000000000000,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Log2(0.443556955303088, 0.12, 0.0045),
-            17.999999999999982,
-            places=7)
-
-        self.assertAlmostEqual(
-            log_decoding_Log2(0.481765775765788, 0.12, 0.0045, 15.0),
-            17.999999999999918,
+            log_decoding_Log2(0.000570299311674, 0.12, 2 ** -10, 2 ** 10),
+            0.180000000000000,
             places=7)
 
     def test_n_dimensional_log_decoding_Log2(self):
@@ -131,7 +139,7 @@ log_decoding_Log2` definition.
 log_decoding_Log2` definition n-dimensional arrays support.
         """
 
-        y = 0.407732889704347
+        y = 0.5
         x = log_decoding_Log2(y)
 
         y = np.tile(y, 6)
@@ -152,7 +160,7 @@ log_decoding_Log2` definition n-dimensional arrays support.
 log_decoding_Log2` definition domain and range scale support.
         """
 
-        y = 0.407732889704347
+        y = 0.5
         x = log_decoding_Log2(y)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
