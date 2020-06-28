@@ -1,4 +1,4 @@
-#
+# -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.models.rgb.transfer_functions.exponent`
 module.
@@ -209,7 +209,7 @@ exponent_function_monitor_curve` definition.
         """
 
         a = 2.0
-        a_p = 1.7777777777777777
+        a_p = 1.777777777777777
         self.assertAlmostEqual(
             exponent_function_monitor_curve(a, 2.0, 2.0), a_p, places=7)
 
@@ -218,7 +218,7 @@ exponent_function_monitor_curve` definition.
             a_p,
             places=7)
 
-        a = 1.7777777777777777
+        a = 1.777777777777777
         a_p = 2.0
         self.assertAlmostEqual(
             exponent_function_monitor_curve(a, 2.0, 2.0, 'monCurveRev'),
@@ -231,7 +231,7 @@ exponent_function_monitor_curve` definition.
             places=7)
 
         a = -2.0
-        a_p = -1.7777777777777777
+        a_p = -1.777777777777777
         self.assertAlmostEqual(
             exponent_function_monitor_curve(a, 2.0, 2.0), a_p, places=7)
 
@@ -240,7 +240,7 @@ exponent_function_monitor_curve` definition.
             a_p,
             places=7)
 
-        a = -1.7777777777777777
+        a = -1.777777777777777
         a_p = -2.0
         self.assertAlmostEqual(
             exponent_function_monitor_curve(a, 2.0, 2.0, 'monCurveRev'),
