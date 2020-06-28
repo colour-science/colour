@@ -170,7 +170,7 @@ def error_function(coefficients,
 
     f = intermediate_lightness_function_CIE1976(XYZ, illuminant_XYZ)
     df = np.where(
-        XYZ_norm > (24 / 116) ** 3,
+        XYZ_norm[..., np.newaxis] > (24 / 116) ** 3,
         1 / (3 * spow(illuminant_XYZ[..., np.newaxis], 1 / 3) * spow(
             XYZ[..., np.newaxis], 2 / 3)) * dXYZ,
         (841 / 108) * dXYZ / illuminant_XYZ[..., np.newaxis],
