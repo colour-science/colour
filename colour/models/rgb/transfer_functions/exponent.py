@@ -3,20 +3,18 @@
 Basic and Monitor-Curve Exponent Transfer Functions
 ===================================================
 
-Defines exponent transfer function implementations:
+Defines the exponent transfer functions:
 
 -   :func:`colour.models.exponent_function_basic`
 -   :func:`colour.models.exponent_function_monitor_curve`
 
 References
 ----------
--   :cite: `TheAcademyofMotionPictureArtsandSciences2020` :
-    The Academy of Motion Picture Arts and Sciences,
-    Science and Technology Council,
-    & Academy Color Encoding System (ACES) Project Subcommittee. (2020).
-    Specification S-2014-006 - Common LUT Format (CLF) -
-    A Common File Format for Look-Up Tables.
-    Retrieved June 24, 2020, from http://j.mp/S-2014-006
+-   :cite: `TheAcademyofMotionPictureArtsandSciences2020` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2020). Specification
+    S-2014-006 - Common LUT Format (CLF) - A Common File Format for Look-Up
+    Tables. Retrieved June 24, 2020, from http://j.mp/S-2014-006
 """
 
 from __future__ import division, unicode_literals
@@ -42,58 +40,51 @@ def exponent_function_basic(x, exponent, style='basicFwd'):
     Parameters
     ----------
     x : numeric or array_like
-        The data to undergo basic exponential transfer.
+        Data to undergo the basic exponent conversion.
     exponent : numeric or array_like
-        The exponent value used for the transfer.
+        Exponent value used for the conversion.
     style : unicode, optional
         **{'basicFwd', 'basicRev', 'basicMirrorFwd', 'basicMirrorRev',
         'basicPassThruFwd', 'basicPassThruRev'}**,
         Defines the behaviour for the transfer function to operate:
 
         -   *basicFwd*: *Basic Forward* exponential behaviour where the
-            function definition applies a basic power law using the exponent.
-            Values less than zero are clamped.
-
+            definition applies a basic power law using the exponent. Values
+            less than zero are clamped.
         -   *basicRev*: *Basic Reverse* exponential behaviour where the
-            function definition applies a basic power law using the exponent.
-            Values less than zero are clamped.
-
+            definition applies a basic power law using the exponent. Values
+            less than zero are clamped.
         -   *basicMirrorFwd*: *Basic Mirror Forward* exponential behaviour
-            where the function definition applies a basic power law using
-            the exponent for values greator than or equal to zero and mirrors
-            the function for values less than zero (i.e. rotationally symmetric
+            where the definition applies a basic power law using the exponent
+            for values greater than or equal to zero and mirrors the function
+            for values less than zero (i.e. rotationally symmetric
             around the origin).
-
         -   *basicMirrorRev*: *Basic Mirror Reverse* exponential behaviour
-            where the function definition applies a basic power law using
-            the exponent for values greator than or equal to zero and mirrors
-            the function for values less than zero (i.e. rotationally symmetric
-            around the origin).
-
+            where the definition applies a basic power law using the exponent
+            for values greater than or equal to zero and mirrors the function
+            for values less than zero (i.e. rotationally symmetric around the
+            origin).
         -   *basicPassThruFwd*: *Basic Pass Forward* exponential behaviour
-            where the function definition applies a basic power law using
-            the exponent for values greator than or equal to zero and
-            passes values less than zero unchanged.
-
+            where the definition applies a basic power law using the exponent
+            for values greater than or equal to zero and passes values less
+            than zero unchanged.
         -   *basicPassThruRev*: *Basic Pass Reverse* exponential behaviour
-            where the function definition applies a basic power law using
-            the exponent for values greator than or equal to zero and
-            passes values less than zero unchanged.
+            where the definition applies a basic power law using the exponent
+            for values greater than or equal to zero and passes values less
+            than zero unchanged.
 
     Returns
     -------
     numeric or ndarray
-        *Basic* exponential transferred data.
+        Exponentially converted data.
 
     Raises
     ------
     ValueError
-        If the *style* of function operation is not defined.
+        If the *style* is not defined.
 
     Examples
     --------
-    The basic exponent function *styles* operate as follows:
-
     >>> exponent_function_basic(2, 2)
     array(4.0)
     >>> exponent_function_basic(-2, 2)
@@ -168,50 +159,43 @@ def exponent_function_monitor_curve(x, exponent, offset, style='monCurveFwd'):
     Parameters
     ----------
     x : numeric or array_like
-        The data to undergo monitor curve exponential transfer.
+        Data to undergo the monitor curve exponential conversion.
     exponent : numeric or array_like
-        The exponent value used for the transfer.
+        Exponent value used for the conversion.
     offset: numeric or array_like
-        The offset value used for the transfer.
+        Offset value used for the conversion.
     style : unicode, optional
         **{'monCurveFwd', 'monCurveRev', 'monCurveMirrorFwd',
         'monCurveMirrorRev'}**,
         Defines the behaviour for the transfer function to operate:
 
         -   *monCurveFwd*: *Monitor Curve Forward* exponential behaviour
-            where the function definition applies a power law function
-            with a linear segment near the origin.
-
+            where the definition applies a power law function with a linear
+            segment near the origin.
         -   *monCurveRev*: *Monitor Curve Reverse* exponential behaviour
-            where the function definition applies a power law function
-            with a linear segment near the origin.
-
-        -   *monCurveMirrorFwd*: *Monitor Curve Mirror Forward*
-            exponential behaviour where the function definition applies
-            a power law function with a linear segment near the origin
-            and mirrors the function for values less than zero
-            (i.e. rotationally symmetric around the origin).
-
-        -   *monCurveMirrorRev*: *Monitor Curve Mirror Reverse*
-            exponential behaviour where the function definition applies
-            a power law function with a linear segment near the origin
-            and mirrors the function for values less than zero
-            (i.e. rotationally symmetric around the origin).
+            where the definition applies a power law function with a linear
+            segment near the origin.
+        -   *monCurveMirrorFwd*: *Monitor Curve Mirror Forward* exponential
+            behaviour where the definition applies a power law function with a
+            linear segment near the origin and mirrors the function for values
+            less than zero (i.e. rotationally symmetric around the origin).
+        -   *monCurveMirrorRev*: *Monitor Curve Mirror Reverse* exponential
+            behaviour where the definition applies a power law function with a
+            linear segment near the origin and mirrors the function for values
+            less than zero (i.e. rotationally symmetric around the origin).
 
     Returns
     -------
     numeric or ndarray
-        *Monitor curve* exponentially transferred data.
+        Exponentially converted data.
 
     Raises
     ------
     ValueError
-        If the *style* of function operation is not defined.
+        If the *style* is not defined.
 
     Examples
     --------
-    The monitor curve exponent function *styles* operate as follows:
-
     >>> exponent_function_monitor_curve(2, 2, 2)
     array(1.7777777777777777)
     >>> exponent_function_monitor_curve(-2, 2, 2)
@@ -256,7 +240,7 @@ def exponent_function_monitor_curve(x, exponent, offset, style='monCurveFwd'):
 
     def monitor_curve_forward(x):
         """
-        Monitor Curve Forward function definition.
+        Defines the *Monitor Curve Forward* function.
         """
 
         xBreak = offset / (exponent - 1)
@@ -265,7 +249,7 @@ def exponent_function_monitor_curve(x, exponent, offset, style='monCurveFwd'):
 
     def monitor_curve_reverse(y):
         """
-        Monitor Curve Reverse function definition.
+        Defines the *Monitor Curve Reverse* function.
         """
 
         yBreak = ((exponent * offset) / (
