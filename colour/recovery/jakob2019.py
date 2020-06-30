@@ -505,16 +505,39 @@ def RGB_to_sd_Jakob2019(
 
 
 class Jakob2019Interpolator:
+    """
+    Class for working with pre-computed lookup tables for the
+    *Jakob and Hanika (2019)* spectral upsampling method. It allows significant
+    time savings by performing the expensive numerical optimization ahead of
+    time and storing the results in a file.
+
+    The file format is compatible with the code and .coeff files in
+    supplemental material published alongside the article.
+    """
+
     def __init__(self):
         pass
 
     def __setup_cubes(self):
+        """
+        Create a RegularGridInterpolator for loaded or generated coefficients.
+        """
+
         samples = np.linspace(0, 1, self.res)
         axes = ([0, 1, 2], self.scale, samples, samples)
         self.cubes = RegularGridInterpolator(
             axes, self.coefficients, bounds_error=False)
 
     def from_file(self, path):
+        """
+        Load a lookup table from a file.
+
+        Parameters
+        ==========
+        path : string
+            Path to the file.
+        """
+
         with open(path, 'rb') as fd:
             if fd.read(4).decode('ISO-8859-1') != 'SPEC':
                 raise ValueError(
@@ -531,6 +554,23 @@ class Jakob2019Interpolator:
         self.__setup_cubes()
 
     def RGB_to_coefficients(self, RGB):
+        """
+        Look up a given *RGB* colourspace array and return corresponding
+        coefficients. Interpolation is used for colours not on the table grid.
+
+        Parameters
+        ==========
+        RGB : ndarray, (3,)
+            *RGB* colourspace array.
+
+        Returns
+        =======
+        coefficients : ndarray, (3,)
+            Corresponding coefficients that can be passed to
+            :func:`colour.recovery.jakob2019.spectral_model` to obtain a
+            spectral distribution.
+        """
+
         RGB = as_float_array(RGB)
 
         vmax = np.max(RGB, axis=-1)
@@ -545,6 +585,21 @@ class Jakob2019Interpolator:
         return self.cubes(coords).squeeze()
 
     def RGB_to_sd(self, RGB, shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019):
+        """
+        Look up a given *RGB* colourspace array and return the corresponding
+        spectral distribution.
+
+        Parameters
+        ==========
+        RGB : ndarray, (3,)
+            *RGB* colourspace array.
+
+        Returns
+        =======
+        sd : SpectralDistribution
+            Corresponding spectral distribution.
+        """
+
         return spectral_model(
             self.RGB_to_coefficients(RGB),
             shape,
@@ -556,6 +611,27 @@ class Jakob2019Interpolator:
                  illuminant,
                  resolution,
                  verbose=True):
+        """
+        Create a lookup table for a given *RGB* colourspace and of a given
+        resolution. 
+
+        Parameters
+        ==========
+        colourspace: RGB_Colourspace
+            The *RGB* colourspace to create a lookup table for.
+        cmfs : XYZ_ColourMatchingFunctions
+            Standard observer colour matching functions.
+        illuminant : SpectralDistribution
+            Illuminant spectral distribution.
+        resolution : int
+            The resolution of the lookup table. Higher values will decrease
+            errors but at the cost of a much longer run time. The published
+            .coeff files have a resolution of 64.
+        verbose : bool, optional
+            If true (the default), information about the progress is printed
+            to the standard output.
+        """
+
 
         # It could be interesting to have different resolutions for lightness
         # and chromaticity, but the current file format doesn't allow it.
@@ -591,6 +667,11 @@ class Jakob2019Interpolator:
                       (i, j, k, chroma[0], chroma[1], chroma[2]))
 
             def optimize(L, coefficients_0):
+                """
+                Solve for a specific lightness and store the result in the
+                appropriate cell.
+                """
+
                 RGB = self.scale[L] * chroma
 
                 coefficients, error = find_coefficients(
@@ -632,6 +713,15 @@ class Jakob2019Interpolator:
         self.__setup_cubes()
 
     def to_file(self, path):
+        """
+        Write the lookup table to a file.
+
+        Parameters
+        ==========
+        path : string
+            Path to the file.
+        """
+
         with open(path, 'wb') as fd:
             fd.write(b'SPEC')
             fd.write(struct.pack('i', self.coefficients.shape[1]))
