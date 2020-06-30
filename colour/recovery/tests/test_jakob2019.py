@@ -6,19 +6,21 @@ Defines unit tests for :mod:`colour.recovery.jakob2019` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import os
+import shutil
+import tempfile
 import unittest
 
 from colour import (SpectralDistribution, COLOURCHECKER_SDS, ILLUMINANT_SDS,
                     ILLUMINANTS, STANDARD_OBSERVER_CMFS,)
 from colour.colorimetry import sd_to_XYZ
 from colour.difference import delta_E_CIE1976
-from colour.models import (RGB_COLOURSPACES, XYZ_to_RGB,
+from colour.models import (RGB_COLOURSPACES, XYZ_to_RGB, RGB_to_XYZ,
                            XYZ_to_Lab)
-from colour.recovery.jakob2019 import (RGB_to_sd_Jakob2019, spectral_model,
-                                       error_function,
-                                       dimensionalise_coefficients,
-                                       DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
-                                       ACCEPTABLE_DELTA_E)
+from colour.recovery.jakob2019 import (
+    RGB_to_sd_Jakob2019, spectral_model, error_function,
+    dimensionalise_coefficients, DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
+    ACCEPTABLE_DELTA_E, Jakob2019Interpolator)
 
 
 __author__ = 'Colour Developers'
@@ -28,10 +30,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestRGB_to_sd_Jakob2019']
+__all__ = ['TestRGB_to_sd_Jakob2019', 'TestErrorFunction', 'TestInterpolator']
 
 cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
-colourspace = RGB_COLOURSPACES["ProPhoto RGB"]
+sRGB = RGB_COLOURSPACES["sRGB"]
+ProPhotoRGB = RGB_COLOURSPACES["ProPhoto RGB"]
 D65 = SpectralDistribution(ILLUMINANT_SDS["D65"])
 D65_xy = ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
@@ -57,13 +60,13 @@ class TestRGB_to_sd_Jakob2019(unittest.TestCase):
                 RGB = XYZ_to_RGB(
                     XYZ,
                     D65_xy,
-                    colourspace.whitepoint,
-                    colourspace.XYZ_to_RGB_matrix,
+                    ProPhotoRGB.whitepoint,
+                    ProPhotoRGB.XYZ_to_RGB_matrix,
                 )
 
                 recovered_sd, error = RGB_to_sd_Jakob2019(
                     RGB,
-                    colourspace,
+                    ProPhotoRGB,
                     return_error=True,
                     use_feedback=use_feedback
                 )
@@ -182,6 +185,61 @@ class TestErrorFunction(unittest.TestCase):
                 atol=1e-3,
                 rtol=1e-2
             )
+
+
+class TestInterpolator(unittest.TestCase):
+    """
+    Defines :class:`colour.recovery.jakob2019.Jakob2019Interpolator`
+    definition unit tests methods.
+    """
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        self._temporary_directory = tempfile.mkdtemp()
+
+    def tearDown(self):
+        """
+        After tests actions.
+        """
+
+        shutil.rmtree(self._temporary_directory)
+
+    def test_interpolator(self):
+        """
+        Tests the entirety of the
+        :class:`colour.recovery.jakob2019.Jakob2019Interpolator`class.
+        """
+        interpolator = Jakob2019Interpolator()
+        interpolator.generate(sRGB, cmfs, D65, 4, 4, False)
+
+        path = os.path.join(self._temporary_directory, 'test.coeff')
+        interpolator.to_file(path)
+        interpolator.from_file(path)
+
+        for RGB in [np.array([1., 0., 0.]),
+                    np.array([0., 1., 0.]),
+                    np.array([0., 0., 1.]),
+                    np.array([0., 0., 0.]),
+                    np.array([0.5, 0.5, 0.5]),
+                    np.array([1., 1., 1.])]:
+            XYZ = RGB_to_XYZ(
+                RGB,
+                sRGB.whitepoint,
+                D65_xy,
+                sRGB.RGB_to_XYZ_matrix,
+            )
+            Lab = XYZ_to_Lab(XYZ, D65_xy)
+
+            recovered_sd = interpolator.RGB_to_sd(RGB)
+            recovered_XYZ = sd_to_XYZ(recovered_sd, illuminant=D65) / 100
+            recovered_Lab = XYZ_to_Lab(recovered_XYZ, D65_xy)
+
+            error = delta_E_CIE1976(Lab, recovered_Lab)
+            if error > 2 * ACCEPTABLE_DELTA_E:
+                self.fail('Delta E for RGB={0} in colourspace {1} is {2}'
+                          .format(RGB, sRGB.name, error))
 
 
 if __name__ == '__main__':

@@ -554,9 +554,13 @@ class Jakob2019Interpolator:
                  colourspace,
                  cmfs,
                  illuminant,
-                 chroma_steps,
-                 lightness_steps,
+                 resolution,
                  verbose=True):
+
+        # It could be interesting to have different resolutions for lightness
+        # and chromaticity, but the current file format doesn't allow it.
+        lightness_steps = resolution
+        chroma_steps = resolution
 
         self.scale = create_lightness_scale(lightness_steps)
         self.coefficients = np.empty((3, chroma_steps, chroma_steps,
@@ -564,18 +568,18 @@ class Jakob2019Interpolator:
 
         # First, create a list of all fully bright colours we want.
         chromas = []
+        target = np.empty((3, chroma_steps, chroma_steps, 3))
         for j, x in enumerate(np.linspace(0, 1, chroma_steps)):
             for k, y in enumerate(np.linspace(0, 1, chroma_steps)):
                 for i, RGB in enumerate([
-                        np.array([1, x, y]),
+                        np.array([1, y, x]),
                         np.array([x, 1, y]),
-                        np.array([x, y, 1])
+                        np.array([y, x, 1])
                 ]):
                     chromas.append((i, j, k, RGB))
+                    target[i, j, k, :] = RGB
 
-        # TODO: Something's off about the main solver and some debugging
-        # messages are needed. These prints should be removed in the final
-        # version; possibly replaced by a proper progress bar or something.
+        # TODO: replace this with a proper progress bar or something.
         if verbose:
             print('%6s %6s %6s  %13s %13s %13s  %s' % ('R', 'G', 'B', 'c0',
                                                        'c1', 'c2', 'Delta E'))
@@ -604,7 +608,9 @@ class Jakob2019Interpolator:
                           (RGB[0], RGB[1], RGB[2], coefficients[0],
                            coefficients[1], coefficients[2], error))
 
-                self.coefficients[i, j, k, L, :] = coefficients
+                self.coefficients[i, L, j, k, :] = dimensionalise_coefficients(
+                    coefficients, cmfs.shape)
+
                 return coefficients
 
             # Start from somewhere in the middle, similarly to how feedback
@@ -621,3 +627,13 @@ class Jakob2019Interpolator:
             coefficients_0 = middle_coefficients
             for L in range(middle_L + 1, lightness_steps):
                 coefficients_0 = optimize(L, coefficients_0)
+
+        self.res = lightness_steps
+        self.__setup_cubes()
+
+    def to_file(self, path):
+        with open(path, 'wb') as fd:
+            fd.write(b'SPEC')
+            fd.write(struct.pack('i', self.coefficients.shape[1]))
+            np.float32(self.scale).tofile(fd)
+            np.float32(self.coefficients).tofile(fd)
