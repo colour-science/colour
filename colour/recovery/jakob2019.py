@@ -259,9 +259,10 @@ def find_coefficients(
             DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         coefficients_0=(0, 0, 0),
         dimensionalise=True,
-        use_feedback=True,
+        use_feedback="adaptive-from-grey",
         lightness_steps=64,
-        max_error=ACCEPTABLE_DELTA_E):
+        max_error=ACCEPTABLE_DELTA_E,
+        try_directly_first=False):
     """
     Computes coefficients for *Jakob and Hanika (2019)* reflectance spectral
     model.
@@ -282,7 +283,7 @@ def find_coefficients(
     dimensionalise : bool, optional
         If true, returned coefficients are dimensionful and will not work
         correctly if fed back as ``coefficients_0``. The default is true.
-    use_feedback : bool, optional
+    use_feedback : string, optional
         See the documentation for :func:`RGB_to_sd_Jakob2019`.
 
     Other parameters
@@ -293,6 +294,8 @@ def find_coefficients(
     lightness_steps : int, optional
         See the documentation for :func:`RGB_to_sd_Jakob2019`.
     max_error : float, optional
+        See the documentation for :func:`RGB_to_sd_Jakob2019`.
+    try_directly_first: bool, optional
         See the documentation for :func:`RGB_to_sd_Jakob2019`.
 
     Returns
@@ -339,7 +342,16 @@ def find_coefficients(
         except StopMinimizationEarly as e:
             return e.coefficients, e.error
 
-    if use_feedback:
+    if try_directly_first:
+        target = RGB_to_Lab(target_RGB)
+        coefficients, error = _minimize(target, coefficients_0)
+
+        if error < max_error:
+            if dimensionalise:
+                coefficients = dimensionalise_coefficients(coefficients, shape)
+            return coefficients, error
+
+    if use_feedback == "from-unsaturated":
         target_max = np.max(target_RGB) + 1e-10
         scale = create_lightness_scale(lightness_steps)
 
@@ -358,6 +370,37 @@ def find_coefficients(
 
             coefficients_0, _ = _minimize(intermediate, coefficients_0)
             i += 1 if going_up else -1
+    elif use_feedback == "adaptive-from-grey":
+        good_RGB = np.array([0.5, 0.5, 0.5])
+        good_coefficients = np.array([0., 0., 0.])
+
+        divisions = 3
+        while divisions < 10:
+            keep_divisions = False
+            reference_RGB = good_RGB
+            reference_coefficients = good_coefficients
+
+            coefficients_0 = reference_coefficients
+            for i in range(1, divisions):
+                intermediate_RGB = (target_RGB - reference_RGB) * i / (
+                                    divisions - 1) + reference_RGB
+                intermediate = RGB_to_Lab(intermediate_RGB)
+
+                coefficients_0, error = _minimize(intermediate, coefficients_0)
+                if error > max_error:
+                    break
+                else:
+                    good_RGB = intermediate_RGB
+                    good_coefficients = coefficients_0
+                    keep_divisions = True
+            else:
+                break
+
+            if not keep_divisions:
+                divisions += 2
+    elif use_feedback is not None:
+        raise ValueError('Invalid value for use_feedback: "{0}"'.format(
+                         use_feedback))
 
     target = RGB_to_Lab(target_RGB)
     coefficients, error = _minimize(target, coefficients_0)
@@ -376,10 +419,11 @@ def RGB_to_sd_Jakob2019(
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
             DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         return_error=False,
-        use_feedback=True,
+        use_feedback="adaptive-from-grey",
         coefficients_0=(0, 0, 0),
         lightness_steps=64,
-        max_error=ACCEPTABLE_DELTA_E):
+        max_error=ACCEPTABLE_DELTA_E,
+        try_directly_first=False):
     """
     Recovers the spectral distribution of given RGB colourspace array
     using *Jakob and Hanika (2019)* method.
@@ -397,12 +441,20 @@ def RGB_to_sd_Jakob2019(
         Illuminant spectral distribution.
     return_error : bool, optional
         If true, ``error`` will be returned alongside ``sd``.
-    use_feedback : bool, optional
-        If true (the default), a slightly saturated version of the target color
-        is solved for first. Then, colors closer and closer to the target are
-        computed, feeding the result of every iteration to the next (as
-        starting coefficients). This improves stability of results and can
-        help if the solver diverges.
+    use_feedback : string, optional
+        If set, a less saturated version of the target color is solved for
+        first. Then, colors closer and closer to the target are computed,
+        feeding the result of every iteration to the next (as starting
+        coefficients). This improves stability of results and greaty improves
+        convergence. The possible values are:
+
+            - 'from-unsaturated'   Start from an unsaturated colour with the
+                                   same chromaticity and go up or down a
+                                   lightness scale toward the target color.
+            - 'adaptive-from-gray' Start from gray and move toward the target
+                                   in a straight line (in the RGB colourspace)
+                                   with an adaptive step size.
+            - None                 Don't use feedback.
 
     Other parameters
     ----------------
@@ -416,6 +468,10 @@ def RGB_to_sd_Jakob2019(
         Maximal acceptable error. Set higher to save computational time.
         If ``None``, the solver will keep going until it's very close to the
         minimum. The default is ``ACCEPTABLE_DELTA_E``.
+    try_directly_first: bool, optional
+        If true and use_feedback is not ``None``, an attempt to solve for
+        the target colour will be made, and feedback will be used only if that
+        fails to produce an error below ``max_error``.
 
     Returns
     -------
@@ -530,8 +586,8 @@ class Jakob2019Interpolator:
                 print('i=%d, j=%d, k=%d, R=%g, G=%g, B=%g' %
                       (i, j, k, chroma[0], chroma[1], chroma[2]))
 
-            def optimize(l, coefficients_0):
-                RGB = self.scale[l] * chroma
+            def optimize(L, coefficients_0):
+                RGB = self.scale[L] * chroma
 
                 coefficients, error = find_coefficients(
                     RGB,
@@ -540,27 +596,28 @@ class Jakob2019Interpolator:
                     illuminant,
                     coefficients_0,
                     dimensionalise=False,
-                    use_feedback=False)
+                    use_feedback="adaptive-from-grey",
+                    try_directly_first=True)
 
                 if verbose:
                     print('%.4f %.4f %.4f  %13.6g %13.6g %13.6g  %g' %
                           (RGB[0], RGB[1], RGB[2], coefficients[0],
                            coefficients[1], coefficients[2], error))
 
-                self.coefficients[i, j, k, l, :] = coefficients
+                self.coefficients[i, j, k, L, :] = coefficients
                 return coefficients
 
             # Start from somewhere in the middle, similarly to how feedback
             # works in find_coefficients.
-            middle_l = lightness_steps // 3
-            middle_coefficients = optimize(middle_l, (0, 0, 0))
+            middle_L = lightness_steps // 3
+            middle_coefficients = optimize(middle_L, (0, 0, 0))
 
             # Go down the lightness scale
             coefficients_0 = middle_coefficients
-            for l in reversed(range(0, middle_l)):
-                coefficients_0 = optimize(l, coefficients_0)
+            for L in reversed(range(0, middle_L)):
+                coefficients_0 = optimize(L, coefficients_0)
 
             # Go up the lightness scale
             coefficients_0 = middle_coefficients
-            for l in range(middle_l + 1, lightness_steps):
-                coefficients_0 = optimize(l, coefficients_0)
+            for L in range(middle_L + 1, lightness_steps):
+                coefficients_0 = optimize(L, coefficients_0)

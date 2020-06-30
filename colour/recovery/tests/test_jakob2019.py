@@ -51,7 +51,7 @@ class TestRGB_to_sd_Jakob2019(unittest.TestCase):
         for name, sd in COLOURCHECKER_SDS['ColorChecker N Ohta'].items():
             # The colours aren't too saturated and the tests should pass with
             # or without feedback.
-            for use_feedback in [False, True]:
+            for use_feedback in [None, "adaptive-from-grey"]:
                 XYZ = sd_to_XYZ(sd, illuminant=D65) / 100
 
                 RGB = XYZ_to_RGB(
