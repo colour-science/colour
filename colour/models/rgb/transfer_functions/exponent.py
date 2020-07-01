@@ -138,9 +138,9 @@ def exponent_function_basic(x, exponent=1, style='basicFwd'):
 
     style = style.lower()
     if style == 'basicfwd':
-        return as_float(np.where(x > 0, exponent_forward(x), 0))
+        return as_float(np.where(x >= 0, exponent_forward(x), 0))
     elif style == 'basicrev':
-        return as_float(np.where(x > 0, exponent_reverse(x), 0))
+        return as_float(np.where(x >= 0, exponent_reverse(x), 0))
     elif style == 'basicmirrorfwd':
         return as_float(
             np.where(x >= 0, exponent_forward(x), -exponent_forward(-x)))
@@ -148,9 +148,9 @@ def exponent_function_basic(x, exponent=1, style='basicFwd'):
         return as_float(
             np.where(x >= 0, exponent_reverse(x), -exponent_reverse(-x)))
     elif style == 'basicpassthrufwd':
-        return as_float(np.where(x > 0, exponent_forward(x), x))
+        return as_float(np.where(x >= 0, exponent_forward(x), x))
     elif style == 'basicpassthrurev':
-        return as_float(np.where(x > 0, exponent_reverse(x), x))
+        return as_float(np.where(x >= 0, exponent_reverse(x), x))
     else:
         raise ValueError(
             'Undefined style used: "{0}", must be one of the following: '
