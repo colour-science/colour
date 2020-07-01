@@ -212,7 +212,7 @@ class TestInterpolator(unittest.TestCase):
         :class:`colour.recovery.jakob2019.Jakob2019Interpolator`class.
         """
         interpolator = Jakob2019Interpolator()
-        interpolator.generate(sRGB, cmfs, D65, 4, 4, verbose=False)
+        interpolator.generate(sRGB, cmfs, D65, 4, verbose=False)
 
         path = os.path.join(self._temporary_directory, 'test.coeff')
         interpolator.to_file(path)
