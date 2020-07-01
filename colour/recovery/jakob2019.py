@@ -613,7 +613,7 @@ class Jakob2019Interpolator:
                  verbose=True):
         """
         Create a lookup table for a given *RGB* colourspace and of a given
-        resolution. 
+        resolution.
 
         Parameters
         ==========
@@ -631,7 +631,6 @@ class Jakob2019Interpolator:
             If true (the default), information about the progress is printed
             to the standard output.
         """
-
 
         # It could be interesting to have different resolutions for lightness
         # and chromaticity, but the current file format doesn't allow it.

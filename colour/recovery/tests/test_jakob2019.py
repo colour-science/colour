@@ -64,7 +64,7 @@ class TestRGB_to_sd_Jakob2019(unittest.TestCase):
                     ProPhotoRGB.XYZ_to_RGB_matrix,
                 )
 
-                recovered_sd, error = RGB_to_sd_Jakob2019(
+                _recovered_sd, error = RGB_to_sd_Jakob2019(
                     RGB,
                     ProPhotoRGB,
                     return_error=True,
@@ -114,7 +114,7 @@ class TestErrorFunction(unittest.TestCase):
         illuminant_XYZ /= illuminant_XYZ[1]
 
         for coefficients in coefficient_list:
-            error, derror, R, XYZ, Lab = error_function(
+            error, _derror, R, XYZ, Lab = error_function(
                 coefficients,
                 self.EXAMPLE_LAB,
                 DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
@@ -212,7 +212,7 @@ class TestInterpolator(unittest.TestCase):
         :class:`colour.recovery.jakob2019.Jakob2019Interpolator`class.
         """
         interpolator = Jakob2019Interpolator()
-        interpolator.generate(sRGB, cmfs, D65, 4, 4, False)
+        interpolator.generate(sRGB, cmfs, D65, 4, 4, verbose=False)
 
         path = os.path.join(self._temporary_directory, 'test.coeff')
         interpolator.to_file(path)
