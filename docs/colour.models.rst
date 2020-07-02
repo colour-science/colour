@@ -377,6 +377,8 @@ Colour Component Transfer Functions
     CCTF_ENCODINGS
     cctf_decoding
     CCTF_DECODINGS
+    gamma_function
+    linear_function
 
 ``colour.models``
 
@@ -401,6 +403,18 @@ Colour Component Transfer Functions
 
     cctf_encoding_ProPhotoRGB
     cctf_decoding_ProPhotoRGB
+
+**Ancillary Objects**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    exponent_function_basic
+    exponent_function_monitor_curve
 
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -435,18 +449,6 @@ Opto-Electronic Transfer Functions
     oetf_BT709
     oetf_inverse_BT709
     oetf_SMPTE240M
-
-**Ancillary Objects**
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    gamma_function
-    linear_function
 
 Electro-Optical Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

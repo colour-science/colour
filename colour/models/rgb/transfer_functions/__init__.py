@@ -22,6 +22,7 @@ from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dcdm import eotf_inverse_DCDM, eotf_DCDM
 from .dicom_gsdf import eotf_inverse_DICOMGSDF, eotf_DICOMGSDF
 from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
+from .exponent import exponent_function_basic, exponent_function_monitor_curve
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
 from .filmlight_tlog import (log_encoding_FilmLightTLog,
                              log_decoding_FilmLightTLog)
@@ -77,6 +78,7 @@ __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['eotf_inverse_DCDM', 'eotf_DCDM']
 __all__ += ['eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
+__all__ += ['exponent_function_basic', 'exponent_function_monitor_curve']
 __all__ += ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']
 __all__ += ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
