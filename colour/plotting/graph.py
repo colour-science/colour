@@ -80,7 +80,7 @@ def plot_automatic_colour_conversion_graph(filename, prog='fdp', args=''):
             color='#2196F3FF',
             fillcolor='#2196F370',
             fontname='Helvetica',
-            fontcolor="#263238")
+            fontcolor='#263238')
         agraph.edge_attr.update(color='#26323870')
         for node in ('CIE XYZ', 'RGB', 'Spectral Distribution'):
             agraph.get_node(node.lower()).attr.update(

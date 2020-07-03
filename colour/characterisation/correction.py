@@ -210,9 +210,9 @@ def polynomial_expansion_Finlayson2015(RGB,
     --------
     >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
     >>> polynomial_expansion_Finlayson2015(RGB, degree=2)  # doctest: +ELLIPSIS
-    array([ 0.1722481...,  0.0917066...,  0.06416938...\
-,  0.0078981...,  0.0029423...,
-            0.0055265...])
+    array([ 0.1722481...,  0.0917066...,  0.0641693...,  0.1256832...,  \
+0.0767121...,
+            0.1051335...])
     """
 
     R, G, B = tsplit(RGB)
@@ -231,7 +231,8 @@ def polynomial_expansion_Finlayson2015(RGB,
     elif degree == 2:
         if root_polynomial_expansion:
             return tstack([
-                R, G, B, (R * G) ** 1 / 2, (G * B) ** 1 / 2, (R * B) ** 1 / 2
+                R, G, B, (R * G) ** (1 / 2), (G * B) ** (1 / 2), (R * B)
+                ** (1 / 2)
             ])
 
         else:
@@ -240,11 +241,10 @@ def polynomial_expansion_Finlayson2015(RGB,
     elif degree == 3:
         if root_polynomial_expansion:
             return tstack([
-                R, G, B, (R * G) ** 1 / 2, (G * B) ** 1 / 2, (R * B) ** 1 / 2,
-                (R * G ** 2) ** 1 / 3, (G * B ** 2) ** 1 / 3,
-                (R * B ** 2) ** 1 / 3, (G * R ** 2) ** 1 / 3,
-                (B * G ** 2) ** 1 / 3, (B * R ** 2) ** 1 / 3,
-                (R * G * B) ** 1 / 3
+                R, G, B, (R * G) ** (1 / 2), (G * B) ** (1 / 2), (R * B)
+                ** (1 / 2), (R * G ** 2) ** (1 / 3), (G * B ** 2) ** (1 / 3),
+                (R * B ** 2) ** (1 / 3), (G * R ** 2) ** (1 / 3), (B * G ** 2)
+                ** (1 / 3), (B * R ** 2) ** (1 / 3), (R * G * B) ** (1 / 3)
             ])
         else:
             return tstack([
@@ -255,15 +255,14 @@ def polynomial_expansion_Finlayson2015(RGB,
     elif degree == 4:
         if root_polynomial_expansion:
             return tstack([
-                R, G, B, (R * G) ** 1 / 2, (G * B) ** 1 / 2, (R * B) ** 1 / 2,
-                (R * G ** 2) ** 1 / 3, (G * B ** 2) ** 1 / 3,
-                (R * B ** 2) ** 1 / 3, (G * R ** 2) ** 1 / 3,
-                (B * G ** 2) ** 1 / 3, (B * R ** 2) ** 1 / 3,
-                (R * G * B) ** 1 / 3, (R ** 3 * G) ** 1 / 4,
-                (R ** 3 * B) ** 1 / 4, (G ** 3 * R) ** 1 / 4,
-                (G ** 3 * B) ** 1 / 4, (B ** 3 * R) ** 1 / 4,
-                (B ** 3 * G) ** 1 / 4, (R ** 2 * G * B) ** 1 / 4,
-                (G ** 2 * R * B) ** 1 / 4, (B ** 2 * R * G) ** 1 / 4
+                R, G, B, (R * G) ** (1 / 2), (G * B) ** (1 / 2), (R * B)
+                ** (1 / 2), (R * G ** 2) ** (1 / 3), (G * B ** 2) ** (1 / 3),
+                (R * B ** 2) ** (1 / 3), (G * R ** 2) ** (1 / 3), (B * G ** 2)
+                ** (1 / 3), (B * R ** 2) ** (1 / 3), (R * G * B) ** (1 / 3),
+                (R ** 3 * G) ** (1 / 4), (R ** 3 * B) ** (1 / 4), (G ** 3 * R)
+                ** (1 / 4), (G ** 3 * B) ** (1 / 4), (B ** 3 * R) ** (1 / 4),
+                (B ** 3 * G) ** (1 / 4), (R ** 2 * G * B) ** (1 / 4),
+                (G ** 2 * R * B) ** (1 / 4), (B ** 2 * R * G) ** (1 / 4)
             ])
         else:
             return tstack([

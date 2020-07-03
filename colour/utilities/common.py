@@ -533,7 +533,7 @@ def is_integer(a):
     False
     """
 
-    return abs(a - round(a)) <= INTEGER_THRESHOLD
+    return abs(a - np.around(a)) <= INTEGER_THRESHOLD
 
 
 def is_sibling(element, mapping):
