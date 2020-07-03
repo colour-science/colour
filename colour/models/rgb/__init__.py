@@ -20,7 +20,7 @@ from .ycbcr import (YCBCR_WEIGHTS, RGB_to_YCbCr, YCbCr_to_RGB, RGB_to_YcCbcCrc,
                     YcCbcCrc_to_RGB)
 from .ycocg import RGB_to_YCoCg, YCoCg_to_RGB
 from .ictcp import RGB_to_ICTCP, ICTCP_to_RGB
-
+from .Hanbury2002 import RGB_to_IHLS,IHLS_to_RGB
 __all__ = [
     'normalised_primary_matrix', 'chromatically_adapted_primaries',
     'primaries_whitepoint', 'RGB_luminance_equation', 'RGB_luminance'
@@ -40,3 +40,4 @@ __all__ += [
 ]
 __all__ += ['RGB_to_YCoCg', 'YCoCg_to_RGB']
 __all__ += ['RGB_to_ICTCP', 'ICTCP_to_RGB']
+__all__ += ['RGB_to_IHLS','IHLS_to_RGB']
