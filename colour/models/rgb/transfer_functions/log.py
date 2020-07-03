@@ -97,10 +97,10 @@ def logarithm_basic(x, base=2, style='log2'):
     >>> logarithm_basic(0.18, 10, 'log10')  # doctest: +ELLIPSIS
     -0.7447274...
     >>> logarithm_basic(  # doctest: +ELLIPSIS
-        -2.473931188332412, 2, 'antiLog2')
+    ...    -2.473931188332412, 2, 'antiLog2')
     0.18000000...
     >>> logarithm_basic(  # doctest: +ELLIPSIS
-        -0.7447274948966939, 10, 'antiLog10')
+    ...    -0.7447274948966939, 10, 'antiLog10')
     0.18000000...
     """
 
