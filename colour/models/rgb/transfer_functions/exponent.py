@@ -250,9 +250,12 @@ def exponent_function_monitor_curve(x,
         """
 
         x_break = offset / (exponent - 1)
-        y = ((x + offset) / (1 + offset)) ** exponent
 
-        return np.where(x >= x_break, y, x * s)
+        return np.where(
+            x >= x_break,
+            ((x + offset) / (1 + offset)) ** exponent,
+            x * s,
+        )
 
     def monitor_curve_reverse(y):
         """
@@ -260,10 +263,13 @@ def exponent_function_monitor_curve(x,
         """
 
         y_break = ((exponent * offset) / (
-            (exponent - 1) * (offset + 1))) ** exponent
+            (exponent - 1) * (1 + offset))) ** exponent
 
-        return np.where(y >= y_break,
-                        ((1 + offset) * (y ** (1 / exponent))) - offset, y / s)
+        return np.where(
+            y >= y_break,
+            ((1 + offset) * (y ** (1 / exponent))) - offset,
+            y / s,
+        )
 
     style = style.lower()
     if style == 'moncurvefwd':
@@ -272,12 +278,18 @@ def exponent_function_monitor_curve(x,
         return as_float(monitor_curve_reverse(x))
     elif style == 'moncurvemirrorfwd':
         return as_float(
-            np.where(x >= 0, monitor_curve_forward(x),
-                     -monitor_curve_forward(-x)))
+            np.where(
+                x >= 0,
+                monitor_curve_forward(x),
+                -monitor_curve_forward(-x),
+            ))
     elif style == 'moncurvemirrorrev':
         return as_float(
-            np.where(x >= 0, monitor_curve_reverse(x),
-                     -monitor_curve_reverse(-x)))
+            np.where(
+                x >= 0,
+                monitor_curve_reverse(x),
+                -monitor_curve_reverse(-x),
+            ))
     else:
         raise ValueError(
             'Undefined style used: "{0}", must be one of the following: '
