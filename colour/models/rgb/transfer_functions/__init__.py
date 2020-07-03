@@ -40,7 +40,9 @@ from .itur_bt_2100 import (
     BT2100_HLG_OOTF_METHODS, ootf_HLG_BT2100, BT2100_HLG_OOTF_INVERSE_METHODS,
     ootf_inverse_HLG_BT2100)
 from .linear import linear_function
-from .log import log_encoding_Log2, log_decoding_Log2
+from .log import (logarithm_basic, logarithm_lin_to_log, logarithm_log_to_lin,
+                  logarithm_camera_lin_to_log, logarithm_camera_log_to_lin,
+                  log_encoding_Log2, log_decoding_Log2)
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .fujifilm_flog import log_encoding_FLog, log_decoding_FLog
@@ -96,7 +98,11 @@ __all__ += [
     'BT2100_HLG_OOTF_INVERSE_METHODS', 'ootf_inverse_HLG_BT2100'
 ]
 __all__ += ['linear_function']
-__all__ += ['log_encoding_Log2', 'log_decoding_Log2']
+__all__ += [
+    'logarithm_basic', 'log_encoding_Log2', 'log_decoding_Log2',
+    'logarithm_lin_to_log', 'logarithm_log_to_lin',
+    'logarithm_camera_lin_to_log', 'logarithm_camera_log_to_lin'
+]
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_FLog', 'log_decoding_FLog']

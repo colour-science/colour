@@ -9,8 +9,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import (log_encoding_Log2,
-                                                  log_decoding_Log2)
+from colour.models.rgb.transfer_functions import (
+    logarithm_basic, logarithm_lin_to_log, logarithm_log_to_lin,
+    logarithm_camera_lin_to_log, logarithm_camera_log_to_lin,
+    log_encoding_Log2, log_decoding_Log2)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -20,13 +22,208 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestLogEncoding_Log2', 'TestLogDecoding_Log2']
+__all__ = [
+    'TestLogarithm_basic', 'TestLogarithm_linToLog', 'TestLogarithm_logToLin',
+    'TestLogarithm_cameraLinToLog', 'TestLogarithm_cameraLogToLin',
+    'TestLogEncoding_Log2', 'TestLogDecoding_Log2'
+]
+
+
+class TestLogarithm_basic(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.log.logarithm_basic`
+    definition unit tests methods.
+    """
+
+    def test_logarithm_basic(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithm_basic` definition.
+        """
+
+        self.assertAlmostEqual(logarithm_basic(0.18), -2.47393118833, places=7)
+
+        self.assertAlmostEqual(
+            logarithm_basic(0.18, 10, 'log10'), -0.744727494897, places=7)
+
+        self.assertAlmostEqual(
+            logarithm_basic(-0.744727494897, 10, 'antiLog10'),
+            0.179999999999,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_basic(-2.47393118833, 2, 'antiLog2'),
+            0.180000000000,
+            places=7)
+
+
+class TestLogarithm_linToLog(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.log.\
+logarithm_lin_to_log` definition unit tests methods.
+    """
+
+    def test_logarithm_lin_to_log(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithm_lin_to_log` definition.
+        """
+
+        self.assertAlmostEqual(
+            logarithm_lin_to_log(0.18), -2.47393118833, places=7)
+
+        self.assertAlmostEqual(
+            logarithm_lin_to_log(0.18, 2.2), -2.17487782383, places=7)
+
+        self.assertAlmostEqual(
+            logarithm_lin_to_log(0.18, 2.2, 0.001), -0.002174877823, places=7)
+
+        self.assertAlmostEqual(
+            logarithm_lin_to_log(0.18, 2.2, 0.001, 0.12),
+            -0.0048640068025,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_lin_to_log(0.18, 2.2, 0.001, 0.12, 0.001),
+            -0.003864006802,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_lin_to_log(0.18, 2.2, 0.001, 0.12, 0.001, 0.12),
+            -0.001479207115,
+            places=7)
+
+
+class TestLogarithm_logToLin(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.log.\
+logarithm_log_to_lin` definition unit tests methods.
+    """
+
+    def test_logarithm_log_to_lin(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithm_log_to_lin` definition.
+        """
+
+        self.assertAlmostEqual(
+            logarithm_log_to_lin(-2.47393118833), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            logarithm_log_to_lin(-2.17487782383, 2.2), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            logarithm_log_to_lin(-0.002174877823, 2.2, 0.001), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            logarithm_log_to_lin(-0.004864006802, 2.2, 0.001, 0.12),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_log_to_lin(-0.003864006802, 2.2, 0.001, 0.12, 0.001),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_log_to_lin(-0.001479207115, 2.2, 0.001, 0.12, 0.001,
+                                 0.12),
+            0.18,
+            places=7)
+
+
+class TestLogarithm_cameraLinToLog(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.log.\
+logarithm_camera_lin_to_log` definition unit tests methods.
+    """
+
+    def test_logarithm_camera_lin_to_log(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithm_camera_lin_to_log` definition.
+        """
+
+        self.assertAlmostEqual(
+            logarithm_camera_lin_to_log(0.18, 2.2), -0.187152831975, places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_lin_to_log(0.18, 2.2, 2.2),
+            -0.164529452496,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_lin_to_log(0.18, 2.2, 2.2, 0.001),
+            -0.000164529452,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_lin_to_log(0.18, 2.2, 2.2, 0.001, 0.001),
+            -0.008925631353,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_lin_to_log(0.18, 2.2, 2.2, 0.001, 0.001, 0.12),
+            0.111074368646,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_lin_to_log(0.18, 2.2, 2.2, 0.001, 0.001, 0.12,
+                                        0.12),
+            0.11731294726,
+            places=7)
+
+
+class TestLogarithm_cameraLogToLin(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.log.\
+logarithm_camera_log_to_lin` definition unit tests methods.
+    """
+
+    def test_logarithm_camera_log_to_lin(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithm_camera_log_to_lin` definition.
+        """
+
+        self.assertAlmostEqual(
+            logarithm_camera_log_to_lin(-0.187152831975, 2.2),
+            0.180000000001,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_log_to_lin(-0.164529452496, 2.2, 2.2),
+            0.180000000001,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_log_to_lin(-0.000164529452, 2.2, 2.2, 0.001),
+            0.180000000001,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_log_to_lin(-0.008925631353, 2.2, 2.2, 0.001,
+                                        0.001),
+            0.179999999996,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_log_to_lin(0.111074368646, 2.2, 2.2, 0.001, 0.001,
+                                        0.12),
+            0.179999999649,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithm_camera_log_to_lin(0.11731294726, 2.2, 2.2, 0.001, 0.001,
+                                        0.12, 0.12),
+            0.17999999231,
+            places=7)
 
 
 class TestLogEncoding_Log2(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.log.log_encoding_Log2`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.transfer_functions.log.\
+log_encoding_Log2` definition unit tests methods.
     """
 
     def test_log_encoding_Log2(self):
