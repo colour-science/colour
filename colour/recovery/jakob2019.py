@@ -383,7 +383,7 @@ def find_coefficients(
             coefficients_0 = reference_coefficients
             for i in range(1, divisions):
                 intermediate_RGB = (target_RGB - reference_RGB) * i / (
-                                    divisions - 1) + reference_RGB
+                    divisions - 1) + reference_RGB
                 intermediate = RGB_to_Lab(intermediate_RGB)
 
                 coefficients_0, error = _minimize(intermediate, coefficients_0)
@@ -399,8 +399,8 @@ def find_coefficients(
             if not keep_divisions:
                 divisions += 2
     elif use_feedback is not None:
-        raise ValueError('Invalid value for use_feedback: "{0}"'.format(
-                         use_feedback))
+        raise ValueError(
+            'Invalid value for use_feedback: "{0}"'.format(use_feedback))
 
     target = RGB_to_Lab(target_RGB)
     coefficients, error = _minimize(target, coefficients_0)
@@ -605,11 +605,7 @@ class Jakob2019Interpolator:
             shape,
             name='Jakob (2019) - {0} (RGB)'.format(RGB))
 
-    def generate(self,
-                 colourspace,
-                 cmfs,
-                 illuminant,
-                 resolution,
+    def generate(self, colourspace, cmfs, illuminant, resolution,
                  verbose=True):
         """
         Create a lookup table for a given *RGB* colourspace and of a given
