@@ -39,7 +39,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DEFAULT_SPECTRAL_SHAPE_JAKOB_2019', 'RGB_to_sd_Jakob2019',
+    'DEFAULT_SPECTRAL_SHAPE_JAKOB_2019', 'ACCEPTABLE_DELTA_E', 'sd_Jakob2019',
+    'StopMinimizationEarly', 'error_function', 'dimensionalise_coefficients',
+    'create_lightness_scale', 'find_coefficients', 'RGB_to_sd_Jakob2019',
     'Jakob2019Interpolator'
 ]
 
@@ -53,11 +55,50 @@ ACCEPTABLE_DELTA_E = 2.4 / 100 : float
 """
 
 
-def spectral_model(coefficients,
-                   shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
-                   name=None):
+def sd_Jakob2019(coefficients, shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019):
     """
-    Spectral model given by *Jakob and Hanika (2019)*.
+    Returns a spectral distribution following the spectral model given by
+    *Jakob and Hanika (2019)*.
+
+    Parameters
+    ----------
+    coefficients : array_like
+        Dimensionless coefficients for *Jakob and Hanika (2019)* reflectance
+        spectral model.
+    shape : SpectralShape, optional
+        Shape used by the spectral distribution.
+
+    Returns
+    -------
+    SpectralDistribution
+        *Jakob and Hanika (2019)* spectral distribution.
+
+    Examples
+    --------
+    >>> from colour.utilities import numpy_print_options
+    >>> with numpy_print_options(suppress=True):
+    ...     sd_Jakob2019([-9e-05, 8.5e-02, -20], SpectralShape(400, 700, 20))
+    ...     # doctest: +ELLIPSIS
+    SpectralDistribution([[ 400.        ,    0.3143046...],
+                          [ 420.        ,    0.4133320...],
+                          [ 440.        ,    0.4880034...],
+                          [ 460.        ,    0.5279562...],
+                          [ 480.        ,    0.5319346...],
+                          [ 500.        ,    0.5      ...],
+                          [ 520.        ,    0.4326202...],
+                          [ 540.        ,    0.3373544...],
+                          [ 560.        ,    0.2353056...],
+                          [ 580.        ,    0.1507665...],
+                          [ 600.        ,    0.0931332...],
+                          [ 620.        ,    0.0577434...],
+                          [ 640.        ,    0.0367011...],
+                          [ 660.        ,    0.0240879...],
+                          [ 680.        ,    0.0163316...],
+                          [ 700.        ,    0.0114118...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_kwargs={},
+                         extrapolator=Extrapolator,
+                         extrapolator_kwargs={...})
     """
 
     c_0, c_1, c_2 = coefficients
@@ -65,8 +106,7 @@ def spectral_model(coefficients,
     U = c_0 * wl ** 2 + c_1 * wl + c_2
     R = 1 / 2 + U / (2 * np.sqrt(1 + U ** 2))
 
-    if name is None:
-        name = "Jakob (2019) - {0} (coeffs.)".format(coefficients)
+    name = 'Jakob (2019) - {0} (COEFF)'.format(coefficients)
 
     return SpectralDistribution(R, wl, name=name)
 
@@ -494,10 +534,10 @@ def RGB_to_sd_Jakob2019(
         lightness_steps=lightness_steps,
         max_error=max_error)
 
-    sd = spectral_model(
-        coefficients,
-        cmfs.shape,
-        name='Jakob (2019) - {0} {1}'.format(colourspace.name, target_RGB))
+    print(coefficients)
+    sd = sd_Jakob2019(coefficients, cmfs.shape)
+    print(sd)
+    sd.name = 'Jakob (2019) - {0} {1}'.format(colourspace.name, target_RGB)
 
     if return_error:
         return sd, error
@@ -567,7 +607,7 @@ class Jakob2019Interpolator:
         =======
         coefficients : ndarray, (3,)
             Corresponding coefficients that can be passed to
-            :func:`colour.recovery.jakob2019.spectral_model` to obtain a
+            :func:`colour.recovery.jakob2019.sd_Jakob2019` to obtain a
             spectral distribution.
         """
 
@@ -600,10 +640,10 @@ class Jakob2019Interpolator:
             Corresponding spectral distribution.
         """
 
-        return spectral_model(
-            self.RGB_to_coefficients(RGB),
-            shape,
-            name='Jakob (2019) - {0} (RGB)'.format(RGB))
+        sd = sd_Jakob2019(self.RGB_to_coefficients(RGB), shape)
+        sd.name = 'Jakob (2019) - {0} (RGB)'.format(RGB)
+
+        return sd
 
     def generate(self, colourspace, cmfs, illuminant, resolution,
                  verbose=True):

@@ -18,7 +18,7 @@ from colour.difference import delta_E_CIE1976
 from colour.models import (RGB_COLOURSPACES, XYZ_to_RGB, RGB_to_XYZ,
                            XYZ_to_Lab)
 from colour.recovery.jakob2019 import (
-    RGB_to_sd_Jakob2019, spectral_model, error_function,
+    RGB_to_sd_Jakob2019, sd_Jakob2019, error_function,
     dimensionalise_coefficients, DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
     ACCEPTABLE_DELTA_E, Jakob2019Interpolator)
 
@@ -121,7 +121,7 @@ class TestErrorFunction(unittest.TestCase):
                 illuminant_XYZ,
                 return_intermediates=True)
 
-            sd = spectral_model(
+            sd = sd_Jakob2019(
                 dimensionalise_coefficients(coefficients, shape), shape)
 
             sd_XYZ = sd_to_XYZ(sd, illuminant=illuminant) / 100
