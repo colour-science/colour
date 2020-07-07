@@ -712,20 +712,16 @@ class Jakob2019Interpolator:
         self.coefficients = np.empty((3, chroma_steps, chroma_steps,
                                       lightness_steps, 3))
 
-        # TODO: Use vectorised code: https://github.com/colour-science/colour\
-        # /pull/603#issuecomment-650514549
-        # First, create a list of all fully bright colours we want.
-        chromas = []
-        target = np.empty((3, chroma_steps, chroma_steps, 3))
-        for j, x in enumerate(np.linspace(0, 1, chroma_steps)):
-            for k, y in enumerate(np.linspace(0, 1, chroma_steps)):
-                for i, RGB in enumerate([
-                        np.array([1, y, x]),
-                        np.array([x, 1, y]),
-                        np.array([y, x, 1])
-                ]):
-                    chromas.append((i, j, k, RGB))
-                    target[i, j, k, :] = RGB
+        cube_indexes = np.ndindex(3, chroma_steps, chroma_steps)
+
+        # First, create a list of all the fully bright colours with the order
+        # matching cube_indexes.
+        samples = np.linspace(0, 1, chroma_steps)
+        yx = np.meshgrid(*[[1], samples, samples], indexing='ij')
+        yx = np.transpose(yx).reshape(-1, 3)
+        chromas = np.concatenate(
+            [yx, np.roll(yx, 1, axis=1),
+             np.roll(yx, 2, axis=1)])
 
         # TODO: Replace this with a proper progress bar.
         if verbose:
@@ -734,7 +730,7 @@ class Jakob2019Interpolator:
                     'R', 'G', 'B', 'c0', 'c1', 'c2', 'Delta E'))
 
         # TODO: Send the list to a multiprocessing pool; this takes a while.
-        for i, j, k, chroma in chromas:
+        for (i, j, k), chroma in zip(cube_indexes, chromas):
             if verbose:
                 print_callable(
                     'i={0}, j={1}, k={2}, R={3:.6f}, G={4:.6f}, B={5:.6f}'.
