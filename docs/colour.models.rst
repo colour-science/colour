@@ -566,10 +566,6 @@ Log Encoding and Decoding
     log_decoding_FLog
     log_encoding_Log2
     log_decoding_Log2
-    logarithm_lin_to_log
-    logarithm_log_to_lin
-    logarithm_camera_lin_to_log
-    logarithm_camera_log_to_lin
     LOG3G10_ENCODING_METHODS
     log_encoding_Log3G10
     LOG3G10_DECODING_METHODS

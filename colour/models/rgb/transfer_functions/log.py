@@ -5,11 +5,8 @@ Common Log Encodings
 
 Defines the common log encodings:
 
--   :func:`colour.models.logarithm_basic`
--   :func:`colour.models.logarithm_lin_to_log`
--   :func:`colour.models.logarithm_log_to_lin`
--   :func:`colour.models.logarithm_camera_lin_to_log`
--   :func:`colour.models.logarithm_camera_log_to_lin`
+-   :func:`colour.models.logarithm_function_basic`
+-   :func:`colour.models.logarithm_function_camera`
 -   :func:`colour.models.log_encoding_Log2`
 -   :func:`colour.models.log_decoding_Log2`
 
@@ -51,15 +48,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'logarithm_basic', 'logarithm_lin_to_log', 'logarithm_log_to_lin',
-    'logarithm_camera_lin_to_log', 'logarithm_camera_log_to_lin',
+    'logarithm_function_basic', 'logarithm_function_camera',
     'log_encoding_Log2', 'log_decoding_Log2'
 ]
 
 FLT_MIN = 1.175494e-38
 
 
-def logarithm_basic(x, base=2, style='log2'):
+def logarithm_function_basic(x, base=2, style='log2'):
     """
     Defines the basic logarithmic function.
 
@@ -92,14 +88,14 @@ def logarithm_basic(x, base=2, style='log2'):
     --------
     The basic logarithmic function *styles* operate as follows:
 
-    >>> logarithm_basic(0.18)  # doctest: +ELLIPSIS
+    >>> logarithm_function_basic(0.18)  # doctest: +ELLIPSIS
     -2.4739311...
-    >>> logarithm_basic(0.18, 10, 'log10')  # doctest: +ELLIPSIS
+    >>> logarithm_function_basic(0.18, 10, 'log10')  # doctest: +ELLIPSIS
     -0.7447274...
-    >>> logarithm_basic(  # doctest: +ELLIPSIS
+    >>> logarithm_function_basic(  # doctest: +ELLIPSIS
     ...    -2.473931188332412, 2, 'antiLog2')
     0.18000000...
-    >>> logarithm_basic(  # doctest: +ELLIPSIS
+    >>> logarithm_function_basic(  # doctest: +ELLIPSIS
     ...    -0.7447274948966939, 10, 'antiLog10')
     0.18000000...
     """
@@ -135,113 +131,44 @@ def logarithm_basic(x, base=2, style='log2'):
                 style, ', '.join(['log10', 'antiLog10', 'log2', 'antiLog2'])))
 
 
-def logarithm_lin_to_log(x,
-                         base=2,
-                         log_side_slope=1,
-                         lin_side_slope=1,
-                         log_side_offset=0,
-                         lin_side_offset=0):
+def logarithm_function_camera(x,
+                              lin_side_break=0,
+                              style='linToLog',
+                              base=2,
+                              log_side_slope=1,
+                              lin_side_slope=1,
+                              log_side_offset=0,
+                              lin_side_offset=0):
     """
-    Defines the linear to logarithm encoding transfer function.
+    Defines the camera logarithmic function.
 
     Parameters
     ----------
     x : numeric
-        Linear data to undergo encoding.
-    base : numeric, optional
-        The base value used for the transfer.
-    log_side_slope : numeric, optional
-        It is the slope (or gain) applied to the log side
-        of the logarithmic segment. Its default value is 1.
-    lin_side_slope : numeric, optional
-        It is the slope of the linear side of the
-        logarithmic segment. Its default value is 1.
-    log_side_offset : numeric, optional
-        It is the offset applied to the log side
-        of the logarithmic segment. Its default value is 0.
-    lin_side_offset : numeric, optional
-        It is the offset applied to the linaer side
-        of the logarithmic segment. Its default value is 0.
-
-    Returns
-    -------
-    numeric or ndarray
-        Logarithmic encoded data.
-
-    Example
-    -------
-    >>> logarithm_lin_to_log(0.18)  # doctest: +ELLIPSIS
-    -2.4739311...
-    """
-
-    return as_float((log_side_slope * (np.log(
-        max(lin_side_slope * x + lin_side_offset, FLT_MIN)) / np.log(base)) +
-                     log_side_offset))
-
-
-def logarithm_log_to_lin(x,
-                         base=2,
-                         log_side_slope=1,
-                         lin_side_slope=1,
-                         log_side_offset=0,
-                         lin_side_offset=0):
-    """
-    Defines the logarithmic to linear decoding transfer function.
-
-    Parameters
-    ----------
-    x : numeric
-        Logarithmic data to undergo decoding.
-    base : numeric, optional
-        The base value used for the transfer.
-    log_side_slope : numeric, optional
-        It is the slope (or gain) applied to the log side
-        of the logarithmic segment. Its default value is 1.
-    lin_side_slope : numeric, optional
-        It is the slope of the linear side
-        of the logarithmic segment. Its default value is 1.
-    log_side_offset : numeric, optional
-        It is the offset applied to the log side
-        of the logarithmic segment. Its default value is 0.
-    lin_side_offset : numeric, optional
-        It is the offset applied to the linaer side
-        of the logarithmic segment. Its default value is 0.
-
-    Returns
-    -------
-    numeric or ndarray
-        Linear decoded data.
-
-    Example
-    -------
-    >>> logarithm_log_to_lin(-2.47393118833)  # doctest: +ELLIPSIS
-    0.18000000...
-    """
-
-    return as_float(
-        ((base ** ((x - log_side_offset) / log_side_slope) - lin_side_offset) /
-         lin_side_slope))
-
-
-def logarithm_camera_lin_to_log(x,
-                                lin_side_break,
-                                base=2,
-                                log_side_slope=1,
-                                lin_side_slope=1,
-                                log_side_offset=0,
-                                lin_side_offset=0):
-    """
-    Defines the parametrized camera log encoding function,
-    which does the linear to logarithmic conversion.
-
-    Parameters
-    ----------
-    x : numeric
-        Linear data to undergo encdoing.
+        Linear/non-linear data to undergo encoding/decoding.
     lin_side_break : numeric
         It is the the break-point, defined in linear space,
         at which the piece-wise function transitions between
         the logarithmic and linear segments.
+
+    style : unicode, optional
+        **{'linToLog', 'logToLin', 'cameraLinToLog', 'cameraLogToLin'}**,
+        Defines the behaviour for the logarithmic function to operate:
+
+        -   *linToLog*: Applies a logarithm to convert linear data to
+            logarithmic data.
+
+        -   *logToLin*: Applies an anti-logarithm to convert logarithmic
+            data to linear data.
+
+        -   *cameraLinToLog*: Applies a piece-wise function with logarithmic
+            and linear segments on linear values, converting them to non-linear
+            values.
+
+        -   *cameraLogToLin*: Applies a piece-wise function with logarithmic
+            and linear segments on non-linear values, converting them to linear
+            values.
+
     base : numeric, optional
         The base value used for the transfer.
     log_side_slope : numeric, optional
@@ -260,83 +187,88 @@ def logarithm_camera_lin_to_log(x,
     Returns
     -------
     numeric or ndarray
-        Logarithmic encoded data.
+        Encoded/Decoded data.
 
-    Example
-    -------
-    >>> logarithm_camera_lin_to_log(0.18, 2.2)  # doctest: +ELLIPSIS
-    -0.1871528...
-    """
+    Raises
+    ------
+    ValueError
+        If the *style* is not defined.
 
-    log_side_break = (
-        log_side_slope *
-        (np.log(lin_side_slope * lin_side_break + lin_side_offset) /
-         np.log(base)) + log_side_offset)
-    linear_slope = (log_side_slope * (lin_side_slope / (
-        (lin_side_slope * lin_side_break + lin_side_offset) * np.log(base))))
-    linear_offset = log_side_break - linear_slope * lin_side_break
-
-    return as_float(
-        np.where(x <= lin_side_break, linear_slope * x + linear_offset,
-                 logarithm_lin_to_log(x)))
-
-
-def logarithm_camera_log_to_lin(x,
-                                lin_side_break,
-                                base=2,
-                                log_side_slope=1,
-                                lin_side_slope=1,
-                                log_side_offset=0,
-                                lin_side_offset=0):
-    """
-    Defines the parametrized camera log decoding function,
-    which does the logarithmic to linear conversion.
-
-    Parameters
-    ----------
-    x : numeric
-        Logarithmic data to undergo decoding.
-    lin_side_break : numeric
-        It is the the break-point, defined in linear space,
-        at which the piece-wise function transitions between
-        the logarithmic and linear segments.
-    base : numeric, optional
-        The base value used for the transfer.
-    log_side_slope : numeric, optional
-        It is the slope (or gain) applied to the log side
-        of the logarithmic segment. Its default value is 1.
-    lin_side_slope : numeric, optional
-        It is the slope of the linear side
-        of the logarithmic segment. Its default value is 1.
-    log_side_offset : numeric, optional
-        It is the offset applied to the log side
-        of the logarithmic segment. Its default value is 0.
-    lin_side_offset : numeric, optional
-        It is the offset applied to the linaer side
-        of the logarithmic segment. Its default value is 0.
-
-    Returns
-    -------
-    numeric or ndarray
-        Linear decoded data.
-
-    Example
-    -------
-    >>> logarithm_camera_log_to_lin(-0.187152831975, 2.2)  # doctest: +ELLIPSIS
+    Examples
+    --------
+    >>> logarithm_function_camera(  # doctest: +ELLIPSIS
+    ...    0.18, style='linToLog')
+    -2.4739311...
+    >>> logarithm_function_camera(  # doctest: +ELLIPSIS
+    ...    -2.47393118833, style='logToLin')
     0.18000000...
+    >>> logarithm_function_camera(  # doctest: +ELLIPSIS
+    ...    0.18, 2.2, style='cameraLinToLog')
+    array(-0.187152831975386)
+    >>> logarithm_function_camera(  # doctest: +ELLIPSIS
+    ...    -0.187152831975, 2.2, style='cameraLogToLin')
+    array(0.18000000000058866)
     """
+
+    def lin_to_log(x,
+                   base=2,
+                   log_side_slope=1,
+                   lin_side_slope=1,
+                   log_side_offset=0,
+                   lin_side_offset=0):
+        """
+        Defines the linear to logarithm encoding transfer function.
+        """
+
+        return as_float((log_side_slope * (np.log(
+            max(lin_side_slope * x + lin_side_offset, FLT_MIN)) / np.log(base))
+                         + log_side_offset))
+
+    def log_to_lin(x,
+                   base=2,
+                   log_side_slope=1,
+                   lin_side_slope=1,
+                   log_side_offset=0,
+                   lin_side_offset=0):
+        """
+        Defines the logarithmic to linear decoding transfer function.
+        """
+
+        return as_float(
+            ((base **
+              ((x - log_side_offset) / log_side_slope) - lin_side_offset) /
+             lin_side_slope))
 
     log_side_break = (
         log_side_slope *
         (np.log(lin_side_slope * lin_side_break + lin_side_offset) /
          np.log(base)) + log_side_offset)
+
     linear_slope = (log_side_slope * (lin_side_slope / (
         (lin_side_slope * lin_side_break + lin_side_offset) * np.log(base))))
+
     linear_offset = log_side_break - linear_slope * lin_side_break
 
-    return as_float(
-        np.where(x <= log_side_break, (x - linear_offset) / linear_slope,
-                 logarithm_log_to_lin(x)))
+    style = style.lower()
+    if style == 'lintolog':
+        return lin_to_log(x, base, log_side_slope, lin_side_slope,
+                          log_side_offset, lin_side_offset)
+    elif style == 'logtolin':
+        return log_to_lin(x, base, log_side_slope, lin_side_slope,
+                          log_side_offset, lin_side_offset)
+    elif style == 'cameralintolog':
+        return np.where(x <= lin_side_break, linear_slope * x + linear_offset,
+                        lin_to_log(x))
+    elif style == 'cameralogtolin':
+        return np.where(x <= log_side_break,
+                        (x - linear_offset) / linear_slope, log_to_lin(x))
+    else:
+        raise ValueError(
+            'Undefined style used: "{0}", must be one of the following: '
+            '"{1}".'.format(
+                style, ', '.join([
+                    'logToLog', 'logToLin', 'cameraLinToLog', 'cameraLogToLin'
+                ])))
 
 
 def log_encoding_Log2(lin,
