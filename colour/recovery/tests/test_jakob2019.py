@@ -11,9 +11,10 @@ import shutil
 import tempfile
 import unittest
 
-from colour import (SpectralDistribution, COLOURCHECKER_SDS, ILLUMINANT_SDS,
-                    ILLUMINANTS, STANDARD_OBSERVER_CMFS)
-from colour.colorimetry import sd_to_XYZ
+from colour.characterisation import COLOURCHECKER_SDS
+from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS,
+                                STANDARD_OBSERVER_CMFS, SpectralDistribution,
+                                sd_to_XYZ)
 from colour.difference import delta_E_CIE1976
 from colour.models import (RGB_COLOURSPACES, XYZ_to_RGB, RGB_to_XYZ,
                            XYZ_to_Lab)
@@ -29,13 +30,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestRGB_to_sd_Jakob2019', 'TestErrorFunction', 'TestInterpolator']
+__all__ = [
+    'TestRGB_to_sd_Jakob2019', 'TestErrorFunction', 'TestJakob2019Interpolator'
+]
 
-cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
-sRGB = RGB_COLOURSPACES["sRGB"]
-ProPhotoRGB = RGB_COLOURSPACES["ProPhoto RGB"]
-D65 = SpectralDistribution(ILLUMINANT_SDS["D65"])
-D65_xy = ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+CMFS = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+sRGB = RGB_COLOURSPACES['sRGB']
+PROPHOTO_RGB = RGB_COLOURSPACES['ProPhoto RGB']
+D65 = SpectralDistribution(ILLUMINANT_SDS['D65'])
+D65_XY = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']["D65"]
 
 
 class TestRGB_to_sd_Jakob2019(unittest.TestCase):
@@ -44,7 +47,7 @@ class TestRGB_to_sd_Jakob2019(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_roundtrip_colorchecker(self):
+    def test_roundtrip_colourchecker(self):
         """
         Tests :func:`colour.recovery.jakob2019.RGB_to_sd_Jakob2019` definition
         round-trip errors using a color checker.
@@ -53,19 +56,19 @@ class TestRGB_to_sd_Jakob2019(unittest.TestCase):
         for name, sd in COLOURCHECKER_SDS['ColorChecker N Ohta'].items():
             # The colours aren't too saturated and the tests should pass with
             # or without feedback.
-            for use_feedback in [None, "adaptive-from-grey"]:
+            for use_feedback in [None, 'adaptive-from-grey']:
                 XYZ = sd_to_XYZ(sd, illuminant=D65) / 100
 
                 RGB = XYZ_to_RGB(
                     XYZ,
-                    D65_xy,
-                    ProPhotoRGB.whitepoint,
-                    ProPhotoRGB.XYZ_to_RGB_matrix,
+                    D65_XY,
+                    PROPHOTO_RGB.whitepoint,
+                    PROPHOTO_RGB.XYZ_to_RGB_matrix,
                 )
 
                 _recovered_sd, error = RGB_to_sd_Jakob2019(
                     RGB,
-                    ProPhotoRGB,
+                    PROPHOTO_RGB,
                     return_error=True,
                     use_feedback=use_feedback)
 
@@ -76,11 +79,16 @@ class TestRGB_to_sd_Jakob2019(unittest.TestCase):
 
 class TestErrorFunction(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.jakob2019.error_function`
-    definition unit tests methods.
+    Defines :func:`colour.recovery.jakob2019.error_function` definition unit
+    tests methods.
     """
 
-    EXAMPLE_LAB = np.array([72., -20., 61.])
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        self._Lab_e = np.array([72, -20, 61])
 
     def test_compare_intermediates(self):
         """
@@ -90,6 +98,7 @@ class TestErrorFunction(unittest.TestCase):
         error is computed correctly by comparing it with
         :func:`colour.difference.delta_E_CIE1976`.
         """
+
         # Quoted names refer to colours from ColorChecker N Ohta (using D65).
         coefficient_list = [
             np.array([0, 0, 0]),  # 50% gray
@@ -106,7 +115,7 @@ class TestErrorFunction(unittest.TestCase):
 
         # error_function will not align these for us.
         shape = DEFAULT_SPECTRAL_SHAPE_JAKOB_2019
-        aligned_cmfs = cmfs.copy().align(shape)
+        aligned_cmfs = CMFS.copy().align(shape)
         illuminant = D65.copy().align(shape)
         illuminant_XYZ = sd_to_XYZ(D65)
         illuminant_XYZ /= illuminant_XYZ[1]
@@ -114,7 +123,7 @@ class TestErrorFunction(unittest.TestCase):
         for coefficients in coefficient_list:
             error, _derror, R, XYZ, Lab = error_function(
                 coefficients,
-                self.EXAMPLE_LAB,
+                self._Lab_e,
                 DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
                 aligned_cmfs,
                 illuminant,
@@ -125,8 +134,8 @@ class TestErrorFunction(unittest.TestCase):
                 dimensionalise_coefficients(coefficients, shape), shape)
 
             sd_XYZ = sd_to_XYZ(sd, illuminant=illuminant) / 100
-            sd_Lab = XYZ_to_Lab(XYZ, D65_xy)
-            error_reference = delta_E_CIE1976(self.EXAMPLE_LAB, Lab)
+            sd_Lab = XYZ_to_Lab(XYZ, D65_XY)
+            error_reference = delta_E_CIE1976(self._Lab_e, Lab)
 
             np.testing.assert_allclose(sd.values, R, atol=1e-14)
             np.testing.assert_allclose(XYZ, sd_XYZ, atol=1e-14)
@@ -140,7 +149,7 @@ class TestErrorFunction(unittest.TestCase):
         """
 
         shape = DEFAULT_SPECTRAL_SHAPE_JAKOB_2019
-        aligned_cmfs = cmfs.copy().align(shape)
+        aligned_cmfs = CMFS.copy().align(shape)
         illuminant = D65.copy().align(shape)
         illuminant_XYZ = sd_to_XYZ(D65)
         illuminant_XYZ /= illuminant_XYZ[1]
@@ -157,7 +166,7 @@ class TestErrorFunction(unittest.TestCase):
                 coefficients = np.array([1.0, 1, 1])
                 coefficients[coeff_index] = var
 
-                error, derror = error_function(coefficients, self.EXAMPLE_LAB,
+                error, derror = error_function(coefficients, self._Lab_e,
                                                shape, aligned_cmfs, illuminant,
                                                illuminant_XYZ)
 
@@ -173,7 +182,7 @@ class TestErrorFunction(unittest.TestCase):
                 staggered_derrors, approximate_derrors, atol=1e-3, rtol=1e-2)
 
 
-class TestInterpolator(unittest.TestCase):
+class TestJakob2019Interpolator(unittest.TestCase):
     """
     Defines :class:`colour.recovery.jakob2019.Jakob2019Interpolator`
     definition unit tests methods.
@@ -198,12 +207,13 @@ class TestInterpolator(unittest.TestCase):
         Tests the entirety of the
         :class:`colour.recovery.jakob2019.Jakob2019Interpolator`class.
         """
-        interpolator = Jakob2019Interpolator()
-        interpolator.generate(sRGB, cmfs, D65, 4, verbose=False)
 
-        path = os.path.join(self._temporary_directory, 'test.coeff')
-        interpolator.to_file(path)
-        interpolator.from_file(path)
+        interpolator = Jakob2019Interpolator()
+        interpolator.generate(sRGB, CMFS, D65, 4, verbose=True)
+
+        path = os.path.join(self._temporary_directory, 'Jakob2019_Test.coeff')
+        interpolator.write(path)
+        interpolator.read(path)
 
         for RGB in [
                 np.array([1., 0., 0.]),
@@ -216,14 +226,14 @@ class TestInterpolator(unittest.TestCase):
             XYZ = RGB_to_XYZ(
                 RGB,
                 sRGB.whitepoint,
-                D65_xy,
+                D65_XY,
                 sRGB.RGB_to_XYZ_matrix,
             )
-            Lab = XYZ_to_Lab(XYZ, D65_xy)
+            Lab = XYZ_to_Lab(XYZ, D65_XY)
 
             recovered_sd = interpolator.RGB_to_sd(RGB)
             recovered_XYZ = sd_to_XYZ(recovered_sd, illuminant=D65) / 100
-            recovered_Lab = XYZ_to_Lab(recovered_XYZ, D65_xy)
+            recovered_Lab = XYZ_to_Lab(recovered_XYZ, D65_XY)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
             if error > 2 * ACCEPTABLE_DELTA_E:
