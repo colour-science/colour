@@ -40,7 +40,7 @@ from .itur_bt_2100 import (
     BT2100_HLG_OOTF_METHODS, ootf_HLG_BT2100, BT2100_HLG_OOTF_INVERSE_METHODS,
     ootf_inverse_HLG_BT2100)
 from .linear import linear_function
-from .log import (logarithm_function_basic, logarithm_function_camera,
+from .log import (logarithmic_function_basic, logarithmic_function_camera,
                   log_encoding_Log2, log_decoding_Log2)
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
@@ -98,7 +98,7 @@ __all__ += [
 ]
 __all__ += ['linear_function']
 __all__ += [
-    'logarithm_function_basic', 'logarithm_function_camera',
+    'logarithmic_function_basic', 'logarithmic_function_camera',
     'log_encoding_Log2', 'log_decoding_Log2'
 ]
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']

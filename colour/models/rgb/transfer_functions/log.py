@@ -5,8 +5,8 @@ Common Log Encodings
 
 Defines the common log encodings:
 
--   :func:`colour.models.logarithm_function_basic`
--   :func:`colour.models.logarithm_function_camera`
+-   :func:`colour.models.logarithmic_function_basic`
+-   :func:`colour.models.logarithmic_function_camera`
 -   :func:`colour.models.log_encoding_Log2`
 -   :func:`colour.models.log_decoding_Log2`
 
@@ -48,14 +48,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'logarithm_function_basic', 'logarithm_function_camera',
+    'logarithmic_function_basic', 'logarithmic_function_camera',
     'log_encoding_Log2', 'log_decoding_Log2'
 ]
 
 FLT_MIN = 1.175494e-38
 
 
-def logarithm_function_basic(x, base=2, style='log2'):
+def logarithmic_function_basic(x, base=2, style='log2'):
     """
     Defines the basic logarithmic function.
 
@@ -88,14 +88,14 @@ def logarithm_function_basic(x, base=2, style='log2'):
     --------
     The basic logarithmic function *styles* operate as follows:
 
-    >>> logarithm_function_basic(0.18)  # doctest: +ELLIPSIS
+    >>> logarithmic_function_basic(0.18)  # doctest: +ELLIPSIS
     -2.4739311...
-    >>> logarithm_function_basic(0.18, 10, 'log10')  # doctest: +ELLIPSIS
+    >>> logarithmic_function_basic(0.18, 10, 'log10')  # doctest: +ELLIPSIS
     -0.7447274...
-    >>> logarithm_function_basic(  # doctest: +ELLIPSIS
+    >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
     ...    -2.473931188332412, 2, 'antiLog2')
     0.18000000...
-    >>> logarithm_function_basic(  # doctest: +ELLIPSIS
+    >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
     ...    -0.7447274948966939, 10, 'antiLog10')
     0.18000000...
     """
@@ -115,15 +115,11 @@ def logarithm_function_basic(x, base=2, style='log2'):
         return base ** x
 
     style = style.lower()
-    if style == 'log10':
+    if style == 'log10' or style == 'log2':
         return as_float(
-            np.where(x >= FLT_MIN, log_base(x, 10), log_base(FLT_MIN, 10)))
-    elif style == 'antilog10':
-        return antilog_base(x, 10)
-    elif style == 'log2':
-        return as_float(np.where(x >= FLT_MIN, log_base(x), log_base(FLT_MIN)))
-    elif style == 'antilog2':
-        return antilog_base(x)
+            np.where(x >= FLT_MIN, log_base(x, base), log_base(FLT_MIN, base)))
+    elif style == 'antilog10' or style == 'antilog2':
+        return antilog_base(x, base)
     else:
         raise ValueError(
             'Undefined style used: "{0}", must be one of the following: '
@@ -131,14 +127,14 @@ def logarithm_function_basic(x, base=2, style='log2'):
                 style, ', '.join(['log10', 'antiLog10', 'log2', 'antiLog2'])))
 
 
-def logarithm_function_camera(x,
-                              lin_side_break=0,
-                              style='linToLog',
-                              base=2,
-                              log_side_slope=1,
-                              lin_side_slope=1,
-                              log_side_offset=0,
-                              lin_side_offset=0):
+def logarithmic_function_camera(x,
+                                lin_side_break=0,
+                                style='linToLog',
+                                base=2,
+                                log_side_slope=1,
+                                lin_side_slope=1,
+                                log_side_offset=0,
+                                lin_side_offset=0):
     """
     Defines the camera logarithmic function.
 
@@ -181,7 +177,7 @@ def logarithm_function_camera(x,
         It is the offset applied to the log side
         of the logarithmic segment. Its default value is 0.
     lin_side_offset : numeric, optional
-        It is the offset applied to the linaer side
+        It is the offset applied to the linear side
         of the logarithmic segment. Its default value is 0.
 
     Returns
@@ -196,16 +192,16 @@ def logarithm_function_camera(x,
 
     Examples
     --------
-    >>> logarithm_function_camera(  # doctest: +ELLIPSIS
+    >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
     ...    0.18, style='linToLog')
     -2.4739311...
-    >>> logarithm_function_camera(  # doctest: +ELLIPSIS
+    >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
     ...    -2.47393118833, style='logToLin')
     0.18000000...
-    >>> logarithm_function_camera(  # doctest: +ELLIPSIS
+    >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
     ...    0.18, 2.2, style='cameraLinToLog')
     array(-0.187152831975386)
-    >>> logarithm_function_camera(  # doctest: +ELLIPSIS
+    >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
     ...    -0.187152831975, 2.2, style='cameraLogToLin')
     array(0.18000000000058866)
     """
