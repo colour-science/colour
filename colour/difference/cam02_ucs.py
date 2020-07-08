@@ -19,7 +19,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.utilities import tsplit
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006

@@ -3,7 +3,7 @@
 Showcases Look Up Table (LUT) data related examples.
 """
 
-import numpy as np
+import colour.ndarray as np
 import os
 
 import colour

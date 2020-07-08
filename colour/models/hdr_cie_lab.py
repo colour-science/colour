@@ -24,7 +24,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import (
     CCS_ILLUMINANTS, lightness_Fairchild2010, lightness_Fairchild2011,

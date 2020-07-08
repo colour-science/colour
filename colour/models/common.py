@@ -17,7 +17,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.utilities import (domain_range_scale, from_range_degrees,
@@ -234,7 +234,7 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> W = np.array([0.31270, 0.32900])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS

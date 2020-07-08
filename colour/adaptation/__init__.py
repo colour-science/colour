@@ -171,7 +171,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
 
     *Von Kries* chromatic adaptation:
 
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])

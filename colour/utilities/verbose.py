@@ -8,7 +8,7 @@ Defines verbose related objects.
 
 from __future__ import division, print_function, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import os
 import sys
 import traceback

@@ -44,7 +44,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "~2.7 || ^3.5"
+python = "^3.6"
 imageio = "*"
 six = "*"
 scipy = "*"
@@ -55,6 +55,8 @@ coverage = { version = "*", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
+jax = { version = "*", optional = true }
+jaxlib = { version = "*", optional = true }
 jupyter = { version = "*", optional = true }  # Development dependency.
 matplotlib = { version = "*", optional = true }
 mock = { version = "*", optional = true }  # Development dependency.
@@ -115,6 +117,7 @@ development = [
     "twine",
     "yapf"
 ]
+jax = [ "jax", "jaxlib" ]
 graphviz = [ "pygraphviz" ]
 optional = [ "networkx", "pandas" ]
 plotting = [ "backports.functools_lru_cache", "matplotlib" ]

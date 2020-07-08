@@ -1,0 +1,76 @@
+[33m0599e49f[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/ndarray_backend[m[33m)[m HEAD@{0}: rebase finished: returning to refs/heads/feature/ndarray_backend
+[33m0599e49f[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/ndarray_backend[m[33m)[m HEAD@{1}: rebase: Fixes for the munsell code, still have one test to pass
+[33m167168c3[m HEAD@{2}: rebase: Fixed the switches between cupy and numpy, turned jakob2019 to ndarray instead of numpy, redefined the as_float for numpy to avoid the zero division error, currently all tests work on numpy and some of them do not work on cupy as shared in the document
+[33mc9e08e51[m HEAD@{3}: rebase: Tests for models, appearance and algebra
+[33mfe39c1b0[m HEAD@{4}: rebase: Fixes for appearance, quality and phenomenal
+[33mac344755[m HEAD@{5}: rebase: Fixes for appearance, quality and phenomenal
+[33m8312766e[m HEAD@{6}: rebase: Fixes for models/rgb/derivation
+[33me492b354[m HEAD@{7}: rebase: Fixes for the temperature module
+[33m3ed6adc8[m HEAD@{8}: rebase: Fixes for the temperature module
+[33mf0032963[m HEAD@{9}: rebase: Fixes for tests of all submodules, all submodules now work except these functions, continous/signal-Multisignal, rgb/derivation, temperature CCT_to_xy, XYZto_sd_Meng2015, notation/munsell and primitive_grid/cube
+[33mec242fad[m HEAD@{10}: rebase: Fixes for the volume, luts, colorimetry, blindness and characterisation module
+[33mb02d16d1[m HEAD@{11}: rebase: Fixes for algebra, colorimetry, luts, notation, phenomena and quality sub modules
+[33m3200a3d6[m HEAD@{12}: rebase: Testing cupy support for models, adaptation, transfer_functions, rgb, coordinates, temperature, difference, biochemistry, colorimetry and algebra. Currently parts of the last two modules do not work.
+[33mf8500cf0[m HEAD@{13}: rebase: Adding Cupy computational backend with supporting utility function to change backends
+[33m9170f204[m HEAD@{14}: rebase: Investigate n-dimensional array backend change.
+[33mc5adcbae[m HEAD@{15}: rebase: Convert CAM test to unit tests.
+[33mcdd87391[m[33m ([m[1;31mupstream/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{16}: rebase: checkout develop
+[33m28e979c1[m[33m ([m[1;31morigin/feature/ndarray_backend[m[33m)[m HEAD@{17}: checkout: moving from develop to feature/ndarray_backend
+[33mcdd87391[m[33m ([m[1;31mupstream/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{18}: pull upstream develop: Fast-forward
+[33mbf9a50fc[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{19}: checkout: moving from feature/ndarray_backend to develop
+[33m28e979c1[m[33m ([m[1;31morigin/feature/ndarray_backend[m[33m)[m HEAD@{20}: commit: Fixes for the munsell code, still have one test to pass
+[33mf66cc9ac[m HEAD@{21}: commit: Fixed the switches between cupy and numpy, turned jakob2019 to ndarray instead of numpy, redefined the as_float for numpy to avoid the zero division error, currently all tests work on numpy and some of them do not work on cupy as shared in the document
+[33me44f803a[m HEAD@{22}: commit: Tests for models, appearance and algebra
+[33m693a74ba[m HEAD@{23}: checkout: moving from feature/cam-unit-tests to feature/ndarray_backend
+[33m42e4321f[m[33m ([m[1;31mupstream/feature/cam-unit-tests[m[33m, [m[1;32mfeature/cam-unit-tests[m[33m)[m HEAD@{24}: reset: moving to HEAD
+[33m42e4321f[m[33m ([m[1;31mupstream/feature/cam-unit-tests[m[33m, [m[1;32mfeature/cam-unit-tests[m[33m)[m HEAD@{25}: checkout: moving from feature/ndarray_backend to feature/cam-unit-tests
+[33m693a74ba[m HEAD@{26}: reset: moving to HEAD
+[33m693a74ba[m HEAD@{27}: checkout: moving from feature/cam-unit-tests to feature/ndarray_backend
+[33m42e4321f[m[33m ([m[1;31mupstream/feature/cam-unit-tests[m[33m, [m[1;32mfeature/cam-unit-tests[m[33m)[m HEAD@{28}: reset: moving to HEAD
+[33m42e4321f[m[33m ([m[1;31mupstream/feature/cam-unit-tests[m[33m, [m[1;32mfeature/cam-unit-tests[m[33m)[m HEAD@{29}: checkout: moving from feature/ndarray_backend to feature/cam-unit-tests
+[33m693a74ba[m HEAD@{30}: checkout: moving from feature/cam-unit-tests to feature/ndarray_backend
+[33m42e4321f[m[33m ([m[1;31mupstream/feature/cam-unit-tests[m[33m, [m[1;32mfeature/cam-unit-tests[m[33m)[m HEAD@{31}: checkout: moving from feature/ndarray_backend to feature/cam-unit-tests
+[33m693a74ba[m HEAD@{32}: checkout: moving from feature/ndarray_backend to feature/ndarray_backend
+[33m693a74ba[m HEAD@{33}: commit: Fixes for appearance, quality and phenomenal
+[33m7f474da9[m HEAD@{34}: commit: Fixes for appearance, quality and phenomenal
+[33mc5216b5f[m HEAD@{35}: rebase finished: returning to refs/heads/feature/ndarray_backend
+[33mc5216b5f[m HEAD@{36}: rebase: Fixes for models/rgb/derivation
+[33mb5adb486[m HEAD@{37}: rebase: Fixes for the temperature module
+[33m2a5c455c[m HEAD@{38}: rebase: Fixes for the temperature module
+[33mdca2a93f[m HEAD@{39}: rebase: Fixes for tests of all submodules, all submodules now work except these functions, continous/signal-Multisignal, rgb/derivation, temperature CCT_to_xy, XYZto_sd_Meng2015, notation/munsell and primitive_grid/cube
+[33m4f7f0849[m HEAD@{40}: rebase: Fixes for the volume, luts, colorimetry, blindness and characterisation module
+[33md74e9f49[m HEAD@{41}: rebase: Fixes for algebra, colorimetry, luts, notation, phenomena and quality sub modules
+[33m2ce3c5da[m HEAD@{42}: rebase: Testing cupy support for models, adaptation, transfer_functions, rgb, coordinates, temperature, difference, biochemistry, colorimetry and algebra. Currently parts of the last two modules do not work.
+[33mc1caf486[m HEAD@{43}: rebase: Adding Cupy computational backend with supporting utility function to change backends
+[33m51feea29[m HEAD@{44}: rebase: Investigate n-dimensional array backend change.
+[33m42e4321f[m[33m ([m[1;31mupstream/feature/cam-unit-tests[m[33m, [m[1;32mfeature/cam-unit-tests[m[33m)[m HEAD@{45}: rebase: checkout feature/cam-unit-tests
+[33m42e4321f[m[33m ([m[1;31mupstream/feature/cam-unit-tests[m[33m, [m[1;32mfeature/cam-unit-tests[m[33m)[m HEAD@{46}: initial pull
+[33m2ebd0262[m[33m ([m[1;32mfeature/cam-unit-test[m[33m)[m HEAD@{47}: reset: moving to HEAD
+[33m2ebd0262[m[33m ([m[1;32mfeature/cam-unit-test[m[33m)[m HEAD@{48}: checkout: moving from feature/ndarray_backend to feature/cam-unit-test
+[33m2ebd0262[m[33m ([m[1;32mfeature/cam-unit-test[m[33m)[m HEAD@{49}: reset: moving to HEAD
+[33m2ebd0262[m[33m ([m[1;32mfeature/cam-unit-test[m[33m)[m HEAD@{50}: commit: Fixes for models/rgb/derivation
+[33mf21eb520[m HEAD@{51}: checkout: moving from develop to feature/ndarray_backend
+[33mbf9a50fc[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{52}: checkout: moving from feature/ndarray_backend to develop
+[33mf21eb520[m HEAD@{53}: commit: Fixes for the temperature module
+[33m9d0462f1[m HEAD@{54}: commit: Fixes for the temperature module
+[33m271c5215[m HEAD@{55}: commit: Fixes for tests of all submodules, all submodules now work except these functions, continous/signal-Multisignal, rgb/derivation, temperature CCT_to_xy, XYZto_sd_Meng2015, notation/munsell and primitive_grid/cube
+[33m6f359160[m HEAD@{56}: commit: Fixes for the volume, luts, colorimetry, blindness and characterisation module
+[33mf9cf2191[m HEAD@{57}: commit: Fixes for algebra, colorimetry, luts, notation, phenomena and quality sub modules
+[33me5b11a33[m HEAD@{58}: commit: Testing cupy support for models, adaptation, transfer_functions, rgb, coordinates, temperature, difference, biochemistry, colorimetry and algebra. Currently parts of the last two modules do not work.
+[33ma422cef1[m HEAD@{59}: reset: moving to HEAD~3
+[33m604dddcd[m HEAD@{60}: commit: deleting array
+[33m10afbb52[m HEAD@{61}: commit: Fixing code style issues
+[33m2c84b9a6[m HEAD@{62}: commit: Testing cupy support for models, adaptation, transfer_functions, rgb, coordinates, temperature, difference, biochemistry, colorimetry and algebra. Currently parts of the last two modules do not work.
+[33ma422cef1[m HEAD@{63}: reset: moving to HEAD~1
+[33md4bf2662[m HEAD@{64}: reset: moving to HEAD~1
+[33m216ba195[m HEAD@{65}: commit: Numpy
+[33md4bf2662[m HEAD@{66}: commit: Creating default cupy
+[33ma422cef1[m HEAD@{67}: commit: Adding Cupy computational backend with supporting utility function to change backends
+[33m0791f8ad[m HEAD@{68}: reset: moving to HEAD
+[33m0791f8ad[m HEAD@{69}: reset: moving to HEAD
+[33m0791f8ad[m HEAD@{70}: reset: moving to HEAD
+[33m0791f8ad[m HEAD@{71}: checkout: moving from develop to feature/ndarray_backend
+[33mbf9a50fc[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{72}: checkout: moving from feature/ndarray_backend to develop
+[33m0791f8ad[m HEAD@{73}: reset: moving to HEAD
+[33m0791f8ad[m HEAD@{74}: checkout: moving from develop to feature/ndarray_backend
+[33mbf9a50fc[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{75}: clone: from git@github.com:colour-science/colour.git

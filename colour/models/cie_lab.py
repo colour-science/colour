@@ -83,7 +83,7 @@ def XYZ_to_Lab(XYZ,
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
@@ -153,7 +153,7 @@ def Lab_to_XYZ(Lab,
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
@@ -220,7 +220,7 @@ def Lab_to_LCHab(Lab):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_LCHab(Lab)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  59.1242590...,  27.0884878...])
@@ -273,7 +273,7 @@ def LCHab_to_Lab(LCHab):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
     >>> LCHab_to_Lab(LCHab)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  52.6385830...,  26.9231792...])

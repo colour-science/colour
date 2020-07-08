@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.models.rgb.rgb_colourspace` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import pickle
 import re
 import six

@@ -7,7 +7,7 @@ Defines the common unit tests objects for :mod:`colour.appearance` package.
 from __future__ import division, unicode_literals
 
 import csv
-import numpy as np
+import colour.ndarray as np
 import os
 from abc import ABCMeta, abstractmethod
 from collections import defaultdict

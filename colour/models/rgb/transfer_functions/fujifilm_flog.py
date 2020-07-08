@@ -17,7 +17,7 @@ F-Log_DataSheet_E_Ver.1.0.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1

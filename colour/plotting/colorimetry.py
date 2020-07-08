@@ -28,7 +28,7 @@ References
 from __future__ import division
 
 import matplotlib.pyplot as plt
-import numpy as np
+import colour.ndarray as np
 from matplotlib.patches import Polygon
 from six.moves import reduce
 

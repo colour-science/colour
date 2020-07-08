@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.models.rgb.ictpt` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 

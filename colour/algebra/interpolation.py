@@ -61,7 +61,7 @@ References
 from __future__ import division, unicode_literals
 
 import itertools
-import numpy as np
+import colour.ndarray as np
 import scipy.interpolate
 from six.moves import reduce
 from collections import OrderedDict
@@ -1078,7 +1078,11 @@ class SpragueInterpolator(object):
             xp3 = value[-1] + value_interval
             xp4 = value[-1] + value_interval * 2
 
-            self._xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
+            self._xp = np.concatenate([
+                np.array([xp1, xp2]),
+                value,
+                np.array([xp3, xp4]),
+            ])
 
         self._x = value
 
@@ -1131,7 +1135,11 @@ class SpragueInterpolator(object):
                 (np.dot(self.SPRAGUE_C_COEFFICIENTS[3],
                         np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
 
-            self._yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
+            self._yp = np.concatenate([
+                np.array([yp1, yp2]),
+                value,
+                np.array([yp3, yp4]),
+            ])
 
         self._y = value
 

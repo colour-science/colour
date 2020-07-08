@@ -16,7 +16,7 @@ F-Log_DataSheet_E_Ver.1.0.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_FLog,

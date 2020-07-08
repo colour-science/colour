@@ -12,7 +12,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 

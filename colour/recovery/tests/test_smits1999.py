@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.recovery.smits1999` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.colorimetry import sd_to_XYZ_integration

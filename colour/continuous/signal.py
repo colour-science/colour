@@ -10,7 +10,7 @@ Defines the class implementing support for continuous signal:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from operator import add, mul, pow, sub, iadd, imul, ipow, isub
 
 # Python 3 compatibility.
@@ -296,6 +296,7 @@ class Signal(AbstractContinuousFunction):
                         'unpredictable results may occur!'.format(
                             self.name, value))
 
+                value
                 value = np.copy(value).astype(self.dtype)
 
                 if self._range is not None:

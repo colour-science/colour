@@ -46,7 +46,7 @@ Sub-packages
 
 from __future__ import absolute_import
 
-import numpy as np
+import colour.ndarray as np
 import sys
 
 from .utilities.deprecation import ModuleAPI, build_API_changes

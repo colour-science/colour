@@ -21,7 +21,7 @@ an02_02.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import TVS_ILLUMINANT_HUNTERLAB
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack

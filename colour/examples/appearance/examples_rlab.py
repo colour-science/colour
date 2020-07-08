@@ -3,7 +3,7 @@
 Showcases *RLAB* colour appearance model computations.
 """
 
-import numpy as np
+import colour.ndarray as np
 
 import colour
 from colour.appearance.rlab import CAM_ReferenceSpecification_RLAB

@@ -10,7 +10,7 @@ Defines the class implementing support for multi-continuous signals:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 # Python 3 compatibility.
 try:

@@ -6,10 +6,10 @@ Defines unit tests for :mod:`colour.appearance.rlab` module.
 
 from __future__ import division, unicode_literals
 
+import colour.ndarray as np
 from itertools import permutations
 from unittest import TestCase
 
-import numpy as np
 
 from colour.appearance import (D_FACTOR_RLAB, VIEWING_CONDITIONS_RLAB,
                                XYZ_to_RLAB)

@@ -3,7 +3,7 @@
 Showcases hexadecimal computations.
 """
 
-import numpy as np
+import colour.ndarray as np
 
 import colour.notation.hexadecimal
 from colour.utilities import message_box

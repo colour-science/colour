@@ -58,7 +58,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.biochemistry import substrate_concentration_MichealisMenten
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,

@@ -12,7 +12,7 @@ Defines the automatic colour conversion graph objects:
 from __future__ import division, print_function, unicode_literals
 
 import inspect
-import numpy as np
+import colour.ndarray as np
 import textwrap
 from collections import namedtuple
 from copy import copy

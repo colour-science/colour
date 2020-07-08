@@ -15,7 +15,7 @@ Defines various geometry primitive vertices generation methods:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import PLANE_TO_AXIS_MAPPING

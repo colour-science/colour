@@ -6,7 +6,7 @@ Defines unit tests for :mod:`colour.corresponding.prediction` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.corresponding.prediction import (

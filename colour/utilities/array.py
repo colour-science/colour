@@ -19,7 +19,7 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import sys
 try:  # pragma: no cover
     from collections import Mapping

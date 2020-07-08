@@ -20,7 +20,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spow
 from colour.utilities import (from_range_1, from_range_degrees, to_domain_1,

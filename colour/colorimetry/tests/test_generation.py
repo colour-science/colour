@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.colorimetry.generation` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.colorimetry.generation import (

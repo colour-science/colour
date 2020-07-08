@@ -23,7 +23,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from collections import namedtuple
 
 from colour.adaptation import CAT_CMCCAT2000

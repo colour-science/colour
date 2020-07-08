@@ -6,7 +6,7 @@ dji_dlog` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (log_encoding_DJIDLog,

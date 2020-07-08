@@ -21,7 +21,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models import (RGB_COLOURSPACE_ACES2065_1, RGB_COLOURSPACE_BT2020,

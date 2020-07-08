@@ -35,7 +35,7 @@ usp=sharing
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.colorimetry import (

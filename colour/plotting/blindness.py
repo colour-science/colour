@@ -65,7 +65,7 @@ def plot_cvd_simulation_Machado2009(RGB,
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> RGB = np.random.rand(32, 32, 3)
     >>> plot_cvd_simulation_Machado2009(RGB)  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)

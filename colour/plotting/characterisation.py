@@ -11,7 +11,7 @@ Defines the characterisation plotting objects:
 
 from __future__ import division
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.models import xyY_to_XYZ
 from colour.plotting import (

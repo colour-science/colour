@@ -207,7 +207,7 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
     --------
     Writing a 3x1D *Iridas* *.cube* *LUT*:
 
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
     >>> LUT = LUT3x1D(

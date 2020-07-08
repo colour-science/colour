@@ -8,7 +8,7 @@ Defines matrices computation helpers objects.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'

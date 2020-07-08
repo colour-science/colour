@@ -11,7 +11,7 @@ Defines objects for hexadecimal notation:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import (as_float_array, from_range_1, normalise_maximum,

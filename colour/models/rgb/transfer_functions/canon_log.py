@@ -31,7 +31,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (as_float, domain_range_scale, from_range_1,

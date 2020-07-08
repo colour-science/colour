@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.blindness.machado2009` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.blindness import (CVD_MATRICES_MACHADO2010, cvd_matrix_Machado2009,

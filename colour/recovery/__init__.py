@@ -137,7 +137,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
 
     *Mallett and Yuksel (2019)* reflectance recovery:
 
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> from colour.utilities import numpy_print_options
     >>> from colour.colorimetry import (
     ...     MSDS_CMFS_STANDARD_OBSERVER, SpectralShape, sd_to_XYZ_integration)
