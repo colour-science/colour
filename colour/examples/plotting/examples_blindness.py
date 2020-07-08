@@ -3,7 +3,7 @@
 Showcases corresponding colour blindness plotting examples.
 """
 
-import numpy as np
+import colour.ndarray as np
 import os
 
 import colour

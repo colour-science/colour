@@ -13,7 +13,7 @@ Defines the colour quality plotting objects:
 
 from __future__ import division
 
-import numpy as np
+import colour.ndarray as np
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE

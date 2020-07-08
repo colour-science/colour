@@ -6,7 +6,7 @@ Defines unit tests for :mod:`colour.appearance.cam16` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from itertools import permutations
 
 from colour.appearance import (CAM16_VIEWING_CONDITIONS,

@@ -6,7 +6,7 @@ Defines unit tests for :mod:`colour.plotting.common` module.
 from __future__ import division, unicode_literals
 
 import matplotlib.pyplot as plt
-import numpy as np
+import colour.ndarray as np
 import os
 import shutil
 import tempfile

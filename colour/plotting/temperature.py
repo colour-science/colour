@@ -14,7 +14,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS`
 
 from __future__ import division
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)

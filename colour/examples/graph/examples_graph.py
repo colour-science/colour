@@ -3,7 +3,7 @@
 Showcases *Automatic Colour Conversion Graph* computations.
 """
 
-import numpy as np
+import colour.ndarray as np
 
 import colour
 from colour.utilities import message_box

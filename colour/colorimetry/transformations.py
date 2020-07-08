@@ -33,7 +33,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import LMS_CMFS, RGB_CMFS, PHOTOPIC_LEFS
 from colour.utilities import dot_vector, tstack

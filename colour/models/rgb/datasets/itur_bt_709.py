@@ -19,7 +19,7 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, oetf_BT709, oetf_inverse_BT709,

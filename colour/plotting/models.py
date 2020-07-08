@@ -43,7 +43,7 @@ References
 
 from __future__ import division
 
-import numpy as np
+import colour.ndarray as np
 import scipy.optimize
 try:  # pragma: no cover
     from collections import Mapping

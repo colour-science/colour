@@ -3,7 +3,7 @@
 Showcases reflectance recovery computations using *Smits (1999)* method.
 """
 
-import numpy as np
+import colour.ndarray as np
 
 import colour
 from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999

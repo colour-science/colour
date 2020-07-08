@@ -21,7 +21,7 @@ R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spow
 from colour.utilities import (Structure, as_float, domain_range_scale,

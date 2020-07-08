@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.colorimetry.transformations` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.colorimetry import (CMFS, RGB_10_degree_cmfs_to_LMS_10_degree_cmfs,

@@ -45,7 +45,7 @@ INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models.rgb.transfer_functions import (

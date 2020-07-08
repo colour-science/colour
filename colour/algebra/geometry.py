@@ -37,7 +37,7 @@ extend-a-line-segment-a-specific-distance
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from collections import namedtuple
 
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, ones,

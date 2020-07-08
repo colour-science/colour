@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.algebra.common` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.algebra import is_spow_enabled, set_spow_enable, spow_enable, spow

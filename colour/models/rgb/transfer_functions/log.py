@@ -30,7 +30,7 @@ ACESutil.Log2_to_Lin_param.ctl
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'

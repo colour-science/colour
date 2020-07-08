@@ -8,7 +8,7 @@ Defines image related input / output utilities objects.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import platform
 from collections import namedtuple
 from six import string_types

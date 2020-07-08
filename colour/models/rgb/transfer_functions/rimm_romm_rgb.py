@@ -26,7 +26,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spow
 from colour.utilities import (as_float, as_int, domain_range_scale,

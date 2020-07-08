@@ -21,7 +21,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import ILLUMINANTS
@@ -59,7 +59,7 @@ def xy_to_CCT_McCamy1992(xy):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> xy = np.array([0.31270, 0.32900])
     >>> xy_to_CCT_McCamy1992(xy)  # doctest: +ELLIPSIS
     6505.0805913...

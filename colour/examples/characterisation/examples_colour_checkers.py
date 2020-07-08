@@ -3,7 +3,7 @@
 Showcases colour rendition charts computations.
 """
 
-import numpy as np
+import colour.ndarray as np
 from pprint import pprint
 
 import colour

@@ -10,7 +10,7 @@ Defines the *P3-D65* colourspace:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS

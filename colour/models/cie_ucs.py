@@ -73,7 +73,7 @@ def XYZ_to_UCS(XYZ):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
     array([ 0.1376933...,  0.1219722...,  0.1053731...])
@@ -121,7 +121,7 @@ def UCS_to_XYZ(UVW):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
@@ -164,7 +164,7 @@ def UCS_to_uv(UVW):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_uv(UVW)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.3341350...])
@@ -204,7 +204,7 @@ def uv_to_UCS(uv, V=1):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> uv = np.array([0.37720213, 0.33413508])
     >>> uv_to_UCS(uv)  # doctest: +ELLIPSIS
     array([ 1.1288911...,  1.        ,  0.8639104...])
@@ -242,7 +242,7 @@ def UCS_uv_to_xy(uv):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> uv = np.array([0.37720213, 0.33413508])
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...])
@@ -277,7 +277,7 @@ def xy_to_UCS_uv(xy):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> xy = np.array([0.54369555, 0.32107941])
     >>> xy_to_UCS_uv(xy)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.3341350...])

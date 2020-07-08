@@ -3,7 +3,7 @@
 Showcases *ATD (1995)* colour appearance model computations.
 """
 
-import numpy as np
+import colour.ndarray as np
 
 import colour
 from colour.appearance.atd95 import ATD95_ReferenceSpecification

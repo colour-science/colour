@@ -26,7 +26,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from copy import deepcopy
 
 from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ

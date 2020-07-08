@@ -26,7 +26,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ

@@ -17,7 +17,7 @@ product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, linear_function,

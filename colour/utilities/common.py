@@ -20,7 +20,7 @@ import inspect
 import multiprocessing
 import multiprocessing.pool
 import functools
-import numpy as np
+import colour.ndarray as np
 import re
 import six
 import warnings

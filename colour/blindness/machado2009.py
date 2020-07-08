@@ -29,7 +29,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.blindness import CVD_MATRICES_MACHADO2010
 from colour.colorimetry import SpectralShape

@@ -20,7 +20,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.models.rgb.transfer_functions import gamma_function
 from colour.utilities import (Structure, as_float, domain_range_scale,

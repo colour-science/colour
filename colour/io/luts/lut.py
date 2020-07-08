@@ -14,7 +14,7 @@ Defines the classes and definitions handling *LUT* processing:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import re
 from abc import ABCMeta, abstractmethod
 try:

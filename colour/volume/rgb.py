@@ -16,7 +16,7 @@ from __future__ import division, unicode_literals
 
 import itertools
 import multiprocessing
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import ILLUMINANTS

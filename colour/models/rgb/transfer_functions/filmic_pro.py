@@ -16,7 +16,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import Extrapolator, LinearInterpolator
 from colour.utilities import from_range_1, to_domain_1

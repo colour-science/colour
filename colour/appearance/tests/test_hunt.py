@@ -6,7 +6,7 @@ Defines unit tests for :mod:`colour.appearance.hunt` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from itertools import permutations
 
 from colour.appearance import (HUNT_VIEWING_CONDITIONS, Hunt_InductionFactors,

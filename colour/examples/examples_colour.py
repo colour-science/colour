@@ -3,7 +3,7 @@
 Showcases overall *Colour* examples.
 """
 
-import numpy as np
+import colour.ndarray as np
 import warnings
 
 import colour

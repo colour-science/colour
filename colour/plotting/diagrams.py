@@ -16,7 +16,7 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 from __future__ import division
 
 import bisect
-import numpy as np
+import colour.ndarray as np
 from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 

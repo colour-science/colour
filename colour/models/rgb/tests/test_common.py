@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.models.rgb.common` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models import XYZ_to_sRGB, sRGB_to_XYZ

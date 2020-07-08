@@ -59,7 +59,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import least_square_mapping_MoorePenrose
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_int,

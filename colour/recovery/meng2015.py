@@ -17,7 +17,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import (STANDARD_OBSERVER_CMFS, SpectralDistribution,

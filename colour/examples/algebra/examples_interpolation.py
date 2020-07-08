@@ -4,7 +4,7 @@ Showcases interpolation computations.
 """
 
 import matplotlib.pyplot as plt
-import numpy as np
+import colour.ndarray as np
 import os
 
 import colour

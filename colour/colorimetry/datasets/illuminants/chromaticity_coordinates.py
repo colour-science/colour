@@ -75,7 +75,7 @@ White_points_of_standard_illuminants
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.utilities import CaseInsensitiveMapping
 

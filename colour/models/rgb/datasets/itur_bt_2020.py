@@ -19,7 +19,7 @@ R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,

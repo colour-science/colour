@@ -73,7 +73,7 @@ def delta_E_DIN99(Lab_1, Lab_2, textiles=False):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> Lab_1 = np.array([60.2574, -34.0099, 36.2677])
     >>> Lab_2 = np.array([60.4626, -34.1751, 39.4387])
     >>> delta_E_DIN99(Lab_1, Lab_2)  # doctest: +ELLIPSIS

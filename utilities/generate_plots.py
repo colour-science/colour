@@ -12,7 +12,7 @@ import matplotlib
 matplotlib.use('AGG')
 
 import matplotlib.pyplot as plt  # noqa
-import numpy as np  # noqa
+import colour.ndarray as np  # noqa
 import os  # noqa
 
 import colour  # noqa
