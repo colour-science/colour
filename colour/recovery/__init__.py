@@ -11,6 +11,9 @@ References
 -   :cite:`Meng2015c` : Meng, J., Simon, F., Hanika, J., & Dachsbacher, C.
     (2015). Physically Meaningful Rendering using Tristimulus Colours. Computer
     Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
+-   :cite:`Otsu2018` : Otsu, H., Yamamoto, M. & Hachisuka, T. (2018)
+    Reproducing Spectral Reflectances From Tristimulus Colours. Computer
+    Graphics Forum. 37(6), 370–381. doi:10.1111/cgf.13332
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
     Reflectances. Journal of Graphics Tools, 4(4), 11-22.
     doi:10.1080/10867651.1999.10487511
@@ -33,6 +36,7 @@ from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
 from .mallett2019 import (spectral_primary_decomposition_Mallett2019,
                           RGB_to_sd_Mallett2019, sRGB_to_sd_Mallett2019)
 from .meng2015 import XYZ_to_sd_Meng2015
+from .otsu2018 import XYZ_to_sd_Otsu2018
 from .smits1999 import RGB_to_sd_Smits1999
 __all__ = []
 __all__ += datasets.__all__
@@ -51,6 +55,7 @@ XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
     'Jakob 2019': XYZ_to_sd_Jakob2019,
     'Mallet 2019': sRGB_to_sd_Mallett2019,
     'Meng 2015': XYZ_to_sd_Meng2015,
+    'Otsu 2018': XYZ_to_sd_Otsu2018,
     'Smits 1999': RGB_to_sd_Smits1999,
 })
 XYZ_TO_SD_METHODS.__doc__ = """
@@ -62,7 +67,7 @@ References
 :cite:`Smits1999a`
 
 XYZ_TO_SD_METHODS : CaseInsensitiveMapping
-    **{'Jakob 2019', 'Mallet 2019', 'Meng 2015', 'Smits 1999'}**
+    **{'Jakob 2019', 'Mallet 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999'}**
 """
 
 
@@ -77,7 +82,8 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
         *CIE XYZ* tristimulus values to recover the spectral distribution
         from.
     method : unicode, optional
-        **{'Meng 2015', 'Jakob 2019', 'Mallet 2019', 'Smits 1999'}**
+        **{'Meng 2015', 'Jakob 2019', 'Mallet 2019', 'Otsu 2018',
+        'Smits 1999'}**
         Computation method.
 
     Other Parameters
@@ -130,7 +136,8 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
 
     References
     ----------
-    :cite:`Jakob2019Spectral`, :cite:`Meng2015c`, :cite:`Smits1999a`
+    :cite:`Jakob2019Spectral`,  :cite:`Mallett2019`, :cite:`Meng2015c`,
+    :cite:`Otsu2018`, :cite:`Smits1999a`
 
     Examples
     --------
