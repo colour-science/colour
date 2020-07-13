@@ -47,12 +47,22 @@ logarithmic_function_basic` definition.
             places=7)
 
         self.assertAlmostEqual(
+            logarithmic_function_basic(0.18, 2.2, 'logN'),
+            -2.174877823830,
+            places=7)
+
+        self.assertAlmostEqual(
             logarithmic_function_basic(-0.744727494897, 10, 'antiLog10'),
             0.179999999999,
             places=7)
 
         self.assertAlmostEqual(
             logarithmic_function_basic(-2.47393118833, 2, 'antiLog2'),
+            0.180000000000,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_basic(-2.174877823830, 2.2, 'antiLogN'),
             0.180000000000,
             places=7)
 

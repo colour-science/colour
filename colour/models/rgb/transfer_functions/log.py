@@ -66,13 +66,16 @@ def logarithmic_function_basic(x, base=2, style='log2'):
     base : numeric, optional
         The base value used for the conversion.
     style : unicode, optional
-        **{'log10', 'antiLog10', 'log2', 'antiLog2'}**,
+        **{'log10', 'antiLog10', 'log2', 'antiLog2', 'logN', 'antiLogN'}**,
         Defines the behaviour for the logarithmic function to operate:
 
         -   *log10*: Applies a base 10 logarithm to the passed value.
         -   *antiLog10*: Applies a base 10 anti-logarithm to the passed value.
         -   *log2*: Applies a base 2 logarithm to the passed value.
         -   *antiLog2*: Applies a base 2 anti-logarithm to the passed value.
+        -   *LogN*: Applies arbitrary base logarithm to the passed value.
+        -   *antiLogN*: Applies arbitrary base anti-logarithm to the passed
+            value.
 
     Returns
     -------
@@ -93,38 +96,40 @@ def logarithmic_function_basic(x, base=2, style='log2'):
     >>> logarithmic_function_basic(0.18, 10, 'log10')  # doctest: +ELLIPSIS
     -0.7447274...
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
+    ...    0.18, 2.2 , 'LogN')
+    -2.17487782...
+    >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
     ...    -2.473931188332412, 2, 'antiLog2')
     0.18000000...
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
     ...    -0.7447274948966939, 10, 'antiLog10')
     0.18000000...
+    >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
+    ...    -2.1748778238301729 , 2.2 , 'antiLogN')
+    0.18000000...
     """
 
-    def log_base(x, base=2):
-        """
-        Returns the (base) logarithm of the passed value.
-        """
-
-        return (np.log(x) / np.log(base))
-
-    def antilog_base(x, base=2):
-        """
-        Returns the (base) anti-logarithm of the passed value.
-        """
-
-        return base ** x
-
     style = style.lower()
-    if style == 'log10' or style == 'log2':
-        return as_float(
-            np.where(x >= FLT_MIN, log_base(x, base), log_base(FLT_MIN, base)))
-    elif style == 'antilog10' or style == 'antilog2':
-        return antilog_base(x, base)
+    if style == 'log10':
+        return as_float(np.where(x >= FLT_MIN, np.log10(x), np.log10(FLT_MIN)))
+    elif style == 'antilog10':
+        return as_float(10 ** x)
+    elif style == 'log2':
+        return as_float(np.where(x >= FLT_MIN, np.log2(x), np.log2(FLT_MIN)))
+    elif style == 'antilog2':
+        return as_float(2 ** x)
+    elif style == 'logn':
+        return as_float(np.log(x) / np.log(base))
+    elif style == 'antilogn':
+        return as_float(base ** x)
     else:
         raise ValueError(
             'Undefined style used: "{0}", must be one of the following: '
             '"{1}".'.format(
-                style, ', '.join(['log10', 'antiLog10', 'log2', 'antiLog2'])))
+                style, ', '.join([
+                    'log10', 'antiLog10', 'log2', 'antiLog2', 'logN',
+                    'antiLogN'
+                ])))
 
 
 def logarithmic_function_camera(x,
