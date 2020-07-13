@@ -73,8 +73,8 @@ def logarithmic_function_basic(x, base=2, style='log2'):
         -   *antiLog10*: Applies a base 10 anti-logarithm to the passed value.
         -   *log2*: Applies a base 2 logarithm to the passed value.
         -   *antiLog2*: Applies a base 2 anti-logarithm to the passed value.
-        -   *LogN*: Applies arbitrary base logarithm to the passed value.
-        -   *antiLogN*: Applies arbitrary base anti-logarithm to the passed
+        -   *LogN*: Applies an arbitrary base logarithm to the passed value.
+        -   *antiLogN*: Applies an arbitrary base anti-logarithm to the passed
             value.
 
     Returns
