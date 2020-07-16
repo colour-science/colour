@@ -914,11 +914,11 @@ def XYZ_to_RGB(XYZ,
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant_XYZ : array_like
-        *CIE XYZ* tristimulus values *illuminant* *CIE xy* chromaticity
-        coordinates or *CIE xyY* colourspace array.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
+        *illuminant* for the input *CIE XYZ* tristimulus values.
     illuminant_RGB : array_like
-        *RGB* colourspace *illuminant* *CIE xy* chromaticity coordinates or
-        *CIE xyY* colourspace array.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
+        *illuminant* for the output *RGB* colourspace array.
     XYZ_to_RGB_matrix : array_like
         *Normalised primary matrix*.
     chromatic_adaptation_transform : unicode, optional
@@ -1014,11 +1014,11 @@ def RGB_to_XYZ(RGB,
     RGB : array_like
         *RGB* colourspace array.
     illuminant_RGB : array_like
-        *RGB* colourspace *illuminant* chromaticity coordinates or *CIE xyY*
-        colourspace array.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
+        *illuminant* for the input *RGB* colourspace array.
     illuminant_XYZ : array_like
-        *CIE XYZ* tristimulus values *illuminant* chromaticity coordinates or
-        *CIE xyY* colourspace array.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
+        *illuminant* for the output *CIE XYZ* tristimulus values.
     RGB_to_XYZ_matrix : array_like
         *Normalised primary matrix*.
     chromatic_adaptation_transform : unicode, optional
