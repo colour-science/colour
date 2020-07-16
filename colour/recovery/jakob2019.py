@@ -812,7 +812,7 @@ class Jakob2019Interpolator:
                 coeff_file, count=self.resolution, dtype=np.float32)
             self.coefficients = np.fromfile(
                 coeff_file,
-                count=3 * self.resolution ** 3 * 3,
+                count=3 * (self.resolution ** 3) * 3,
                 dtype=np.float32)
             self.coefficients = self.coefficients.reshape(
                 3, self.resolution, self.resolution, self.resolution, 3)
