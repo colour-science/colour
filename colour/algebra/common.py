@@ -194,6 +194,12 @@ def smoothstep_function(x, a=0, b=1, clip=False):
     -------
     array_like
         Array :math:`x` after *smoothstep* sigmoid-like function evaluation.
+
+    Examples
+    --------
+    >>> x = np.linspace(-2, 2, 5)
+    >>> smoothstep_function(x, -2, 2, clip=True)
+    array([ 0.     ,  0.15625,  0.5    ,  0.84375,  1.     ])
     """
 
     x = as_float_array(x)
