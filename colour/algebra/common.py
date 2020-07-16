@@ -200,4 +200,4 @@ def smoothstep_function(x, a=0, b=1, clip=False):
 
     i = np.clip((x - a) / (b - a), 0, 1) if clip else x
 
-    return i ** 2 * (3 - 2 * i)
+    return (i ** 2) * (3 - 2 * i)
