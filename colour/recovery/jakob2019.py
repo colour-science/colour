@@ -59,8 +59,15 @@ Acceptable *perceptual* distance in the *CIE L\\*a\\*b\\** colourspace.
 
 Notes
 -----
-Because *Jakob and Hanika (2019)* uses :math:`\\Delta E_{76}` in the
-*CIE L\\*a\\*b\\** colourspace, the optimization errors are maybe not ideal.
+*Jakob and Hanika (2019)* uses :math:`\\Delta E_{76}` in the
+*CIE L\\*a\\*b\\** colourspace as an error metric during the optimization
+process. While the *CIE L\\*a\\*b\\** colourspace features decent perceptual
+uniformity, it was deemed unsatisfactory when comparing some pair of colors,
+compelling the CIE into improving the metric with the CIE 1994
+(:math:`\\Delta E_{94}`) quasimetric whose perceptual uniformity was
+subsequently corrected with the CIE 2000 (:math:`\\Delta E_{00}`) quasimetric.
+Thus, the error metric could be improved by adopting CIE 2000 or even a more
+perceptually uniform colourspace such as :math:`IC_TC_P` or :math:`J_zA_zB_z`.
 
 ACCEPTABLE_DELTA_E = 2.4 / 100 : float
 """
