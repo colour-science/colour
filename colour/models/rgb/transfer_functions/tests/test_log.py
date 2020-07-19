@@ -9,8 +9,8 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    logarithmic_function_basic, logarithmic_function_camera, log_encoding_Log2,
-    log_decoding_Log2)
+    logarithmic_function_basic, logarithmic_function_quasilog,
+    logarithmic_function_camera, log_encoding_Log2, log_decoding_Log2)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -21,8 +21,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestLogarithmFunction_Basic', 'TestLogarithmFunction_Camera',
-    'TestLogEncoding_Log2', 'TestLogDecoding_Log2'
+    'TestLogarithmFunction_Basic', 'TestLogarithmFunction_Quasilog',
+    'TestLogarithmFunction_Camera', 'TestLogEncoding_Log2',
+    'TestLogDecoding_Log2'
 ]
 
 
@@ -67,6 +68,83 @@ logarithmic_function_basic` definition.
             places=7)
 
 
+class TestLogarithmFunction_Quasilog(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_quasilog` definition unit tests methods.
+    """
+
+    def test_logarithmic_function_quasilog(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_quasilog` definition.
+        """
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(0.18), -2.47393118833, places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(0.18, 2.2, 'linToLog'),
+            -2.17487782383,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(0.18, 2.2, 'linToLog', 0.001),
+            -0.002174877823,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(0.18, 2.2, 'linToLog', 0.001, 0.12),
+            -0.0048640068025,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(0.18, 2.2, 'linToLog', 0.001, 0.12,
+                                          0.001),
+            -0.003864006802,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(0.18, 2.2, 'linToLog', 0.001, 0.12,
+                                          0.001, 0.12),
+            -0.001479207115,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(-2.47393118833, 2, 'logToLin'),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(-2.17487782383, 2.2, 'logToLin'),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(-0.002174877823, 2.2, 'logToLin',
+                                          0.001),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(-0.004864006802, 2.2, 'logToLin',
+                                          0.001, 0.12),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(-0.003864006802, 2.2, 'logToLin',
+                                          0.001, 0.12, 0.001),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(-0.001479207115, 2.2, 'logToLin',
+                                          0.001, 0.12, 0.001, 0.12),
+            0.18,
+            places=7)
+
+
 class TestLogarithmFunction_Camera(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.log.\
@@ -80,71 +158,7 @@ logarithmic_function_camera` definition.
         """
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18), -2.47393118833, places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 0, 'linToLog', 2.2),
-            -2.17487782383,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 0, 'linToLog', 2.2, 0.001),
-            -0.002174877823,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 0, 'linToLog', 2.2, 0.001, 0.12),
-            -0.0048640068025,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 0, 'linToLog', 2.2, 0.001, 0.12,
-                                        0.001),
-            -0.003864006802,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 0, 'linToLog', 2.2, 0.001, 0.12,
-                                        0.001, 0.12),
-            -0.001479207115,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(-2.47393118833, 0, 'logToLin'),
-            0.18,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(-2.17487782383, 0, 'logToLin', 2.2),
-            0.18,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(-0.002174877823, 0, 'logToLin', 2.2,
-                                        0.001),
-            0.18,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(-0.004864006802, 0, 'logToLin', 2.2,
-                                        0.001, 0.12),
-            0.18,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(-0.003864006802, 0, 'logToLin', 2.2,
-                                        0.001, 0.12, 0.001),
-            0.18,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(-0.001479207115, 0, 'logToLin', 2.2,
-                                        0.001, 0.12, 0.001, 0.12),
-            0.18,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 2.2, 'cameraLinToLog'),
+            logarithmic_function_camera(0.18, 2, 'cameraLinToLog', 2.2),
             -0.187152831975,
             places=7)
 
@@ -178,8 +192,8 @@ logarithmic_function_camera` definition.
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(-0.187152831975, 2.2,
-                                        'cameraLogToLin'),
+            logarithmic_function_camera(-0.187152831975, 2, 'cameraLogToLin',
+                                        2.2),
             0.180000000001,
             places=7)
 
@@ -198,7 +212,7 @@ logarithmic_function_camera` definition.
         self.assertAlmostEqual(
             logarithmic_function_camera(-0.008925631353, 2.2, 'cameraLogToLin',
                                         2.2, 0.001, 0.001),
-            0.179999999996,
+            0.180000000001,
             places=7)
 
         self.assertAlmostEqual(
