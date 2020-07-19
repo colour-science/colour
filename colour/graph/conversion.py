@@ -867,26 +867,39 @@ verbose={'mode': 'Long'})
 
     Notes
     -----
-    -   Various defaults have been systematically adopted compared to the
-        low-level *Colour* API:
+    -   The **RGB** colour representation is assumed to be linear and
+        representing *scene-referred* imagery, i.e. **Scene-Referred RGB**
+        representation. To encode such *RGB* values as *output-referred*
+        (*display-referred*) imagery, i.e. encode the *RGB* values using an
+        encoding colour component transfer function (Encoding CCTF) /
+        opto-electronic transfer function (OETF / OECF), the
+        **Output-Referred RGB** representation must be used::
+
+             convert(RGB, 'Scene-Referred RGB', 'Output-Referred RGB')
+
+        Likewise, encoded *output-referred* *RGB* values can be decoded with
+        the **Scene-Referred RGB** representation::
+
+            convert(RGB, 'Output-Referred RGB', 'Scene-Referred RGB')
+
+    -   Various defaults have been adopted compared to the low-level *Colour*
+        API:
 
         -   The default illuminant for the computation is
             *CIE Standard Illuminant D Series* *D65*. It can be changed on a
             per definition basis along the conversion path.
-        -   The default *RGB* colourspace is the *sRGB* colourspace. It can
-            also be changed on a per definition basis along the conversion
-            path.
+        -   The default *RGB* colourspace primaries and whitepoint are that of
+            the *BT.709*/*sRGB* colourspace. They can be changed on a per
+            definition basis along the conversion path.
+        -   When using **sRGB** as a source or target colour representation,
+            the convenient :func:`colour.sRGB_to_XYZ` and
+            :func:`colour.XYZ_to_sRGB` definitions are used, respectively.
+            Thus, decoding and encoding using the sRGB electro-optical transfer
+            function (EOTF) and its inverse will be applied by default.
         -   Most of the colour appearance models have defaults set according to
             *IEC 61966-2-1:1999* viewing conditions, i.e. *sRGB* 64 Lux ambiant
             illumination, 80 :math:`cd/m^2`, adapting field luminance about
             20% of a white object in the scene.
-
-    -   The **RGB** colour representation is assumed to be linear and
-        representing *scene-referred* imagery. To convert such *RGB* values to
-        *output-referred* (*display-referred*) imagery, i.e. encode the *RGB*
-        values using an encoding colour component transfer function
-        (Encoding CCTF) / opto-electronic transfer function (OETF / OECF), the
-        **Output-Referred RGB** representation must be used.
 
     Examples
     --------
