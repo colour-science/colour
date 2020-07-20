@@ -121,8 +121,7 @@ def plot_single_sd(sd,
     ... }
     >>> sd = SpectralDistribution(data, name='Custom')
     >>> plot_single_sd(sd)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_SD.png
         :align: center
@@ -258,8 +257,7 @@ def plot_multi_sds(sds,
     >>> sd_1 = SpectralDistribution(data_1, name='Custom 1')
     >>> sd_2 = SpectralDistribution(data_2, name='Custom 2')
     >>> plot_multi_sds([sd_1, sd_2])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_SDS.png
         :align: center
@@ -339,8 +337,7 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     --------
     >>> plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_CMFS.png
         :align: center
@@ -384,8 +381,7 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
     >>> cmfs = ('CIE 1931 2 Degree Standard Observer',
     ...         'CIE 1964 10 Degree Standard Observer')
     >>> plot_multi_cmfs(cmfs)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_CMFS.png
         :align: center
@@ -482,8 +478,7 @@ def plot_single_illuminant_sd(illuminant='A',
     Examples
     --------
     >>> plot_single_illuminant_sd('A')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Illuminant_SD.png
         :align: center
@@ -535,8 +530,7 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
     Examples
     --------
     >>> plot_multi_illuminant_sds(['A', 'B', 'C'])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDS.png
         :align: center
@@ -599,8 +593,7 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
     Examples
     --------
     >>> plot_visible_spectrum()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum.png
         :align: center
@@ -662,8 +655,7 @@ def plot_single_lightness_function(function='CIE 1976', **kwargs):
     Examples
     --------
     >>> plot_single_lightness_function('CIE 1976')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Lightness_Function.png
         :align: center
@@ -705,8 +697,7 @@ def plot_multi_lightness_functions(functions=None, **kwargs):
     --------
     >>> plot_multi_lightness_functions(['CIE 1976', 'Wyszecki 1963'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Lightness_Functions.png
         :align: center
@@ -757,8 +748,7 @@ def plot_single_luminance_function(function='CIE 1976', **kwargs):
     Examples
     --------
     >>> plot_single_luminance_function('CIE 1976')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Luminance_Function.png
         :align: center
@@ -800,8 +790,7 @@ def plot_multi_luminance_functions(functions=None, **kwargs):
     --------
     >>> plot_multi_luminance_functions(['CIE 1976', 'Newhall 1943'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Luminance_Functions.png
         :align: center
@@ -863,8 +852,7 @@ def plot_blackbody_spectral_radiance(
     --------
     >>> plot_blackbody_spectral_radiance(3500, blackbody='VY Canis Major')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 2 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 2 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Spectral_Radiance.png
         :align: center
@@ -953,8 +941,7 @@ def plot_blackbody_colours(
     --------
     >>> plot_blackbody_colours(SpectralShape(150, 12500, 50))
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Colours.png
         :align: center

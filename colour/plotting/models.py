@@ -186,8 +186,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
     Examples
     --------
     >>> plot_pointer_gamut()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Pointer_Gamut.png
         :align: center
@@ -339,8 +338,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     >>> plot_RGB_colourspaces_in_chromaticity_diagram(
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
@@ -519,8 +517,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
@@ -577,8 +574,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
@@ -636,8 +632,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
@@ -705,8 +700,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     >>> plot_RGB_chromaticities_in_chromaticity_diagram(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
@@ -822,8 +816,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
@@ -895,8 +888,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1960UCS.png
@@ -968,8 +960,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
@@ -1113,8 +1104,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
     --------
     >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram()
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/\
 Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
@@ -1235,8 +1225,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
     --------
     >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931()
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/\
 Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1931.png
@@ -1303,8 +1292,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
     --------
     >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS()
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/\
 Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1960UCS.png
@@ -1371,8 +1359,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
     --------
     >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS()
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/\
 Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
@@ -1424,8 +1411,7 @@ def plot_single_cctf(cctf='ITU-R BT.709', cctf_decoding=False, **kwargs):
     Examples
     --------
     >>> plot_single_cctf('ITU-R BT.709')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_CCTF.png
         :align: center
@@ -1472,8 +1458,7 @@ def plot_multi_cctfs(cctfs=None, cctf_decoding=False, **kwargs):
     Examples
     --------
     >>> plot_multi_cctfs(['ITU-R BT.709', 'sRGB'])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_CCTFs.png
         :align: center
@@ -1625,8 +1610,7 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
     ...     ],
     ... ])
     >>> plot_constant_hue_loci(data, 'IPT')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Constant_Hue_Loci.png
         :align: center

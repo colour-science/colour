@@ -420,8 +420,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
     --------
     >>> plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.Axes3DSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Colourspaces_Gamuts.png
         :align: center
@@ -619,8 +618,7 @@ def plot_RGB_scatter(RGB,
     --------
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_scatter(RGB, 'ITU-R BT.709')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.Axes3DSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Scatter.png
         :align: center

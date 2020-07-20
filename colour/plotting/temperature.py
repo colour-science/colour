@@ -72,8 +72,7 @@ def plot_planckian_locus(planckian_locus_colours=None,
     Examples
     --------
     >>> plot_planckian_locus()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Planckian_Locus.png
         :align: center
@@ -162,8 +161,7 @@ def plot_planckian_locus_CIE1931(planckian_locus_colours=None, **kwargs):
     Examples
     --------
     >>> plot_planckian_locus_CIE1931()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Planckian_Locus_CIE1931.png
         :align: center
@@ -200,8 +198,7 @@ def plot_planckian_locus_CIE1960UCS(planckian_locus_colours=None, **kwargs):
     Examples
     --------
     >>> plot_planckian_locus_CIE1960UCS()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Planckian_Locus_CIE1960UCS.png
         :align: center
@@ -266,8 +263,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
     --------
     >>> plot_planckian_locus_in_chromaticity_diagram(['A', 'B', 'C'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Planckian_Locus_In_Chromaticity_Diagram.png
@@ -436,8 +432,7 @@ plot_planckian_locus_in_chromaticity_diagram`,
     --------
     >>> plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
@@ -510,8 +505,7 @@ plot_planckian_locus_in_chromaticity_diagram`,
     --------
     >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     ...     ['A', 'C', 'E'])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png

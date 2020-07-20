@@ -63,8 +63,7 @@ def plot_corresponding_chromaticities_prediction(experiment=1,
     --------
     >>> plot_corresponding_chromaticities_prediction(1, 'Von Kries', 'CAT02')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Corresponding_Chromaticities_Prediction.png
