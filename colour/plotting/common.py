@@ -1003,8 +1003,7 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
     --------
     >>> RGB = ColourSwatch(RGB=(0.45620519, 0.03081071, 0.04091952))
     >>> plot_single_colour_swatch(RGB)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Swatch.png
         :align: center
@@ -1084,8 +1083,7 @@ def plot_multi_colour_swatches(colour_swatches,
     >>> RGB_1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
     >>> RGB_2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
     >>> plot_multi_colour_swatches([RGB_1, RGB_2])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Colour_Swatches.png
         :align: center
@@ -1258,8 +1256,7 @@ def plot_single_function(function,
     >>> from colour.models import gamma_function
     >>> plot_single_function(partial(gamma_function, exponent=1 / 2.2))
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Function.png
         :align: center
@@ -1331,8 +1328,7 @@ def plot_multi_functions(functions,
     ... }
     >>> plot_multi_functions(functions)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Functions.png
         :align: center
@@ -1433,8 +1429,7 @@ def plot_image(image, imshow_kwargs=None, text_kwargs=None, **kwargs):
     >>> path = os.path.join(
     ...     colour.__path__[0], '..', 'docs', '_static', 'Logo_Medium_001.png')
     >>> plot_image(read_image(path))  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Image.png
         :align: center
@@ -1469,10 +1464,12 @@ def plot_image(image, imshow_kwargs=None, text_kwargs=None, **kwargs):
     axes.imshow(np.clip(image, 0, 1), **imshow_settings)
 
     if text_settings['text'] is not None:
+        text = text_settings.pop('text')
+
         axes.text(
             text_offset,
             text_offset,
-            text_settings['text'],
+            text,
             transform=axes.transAxes,
             ha='left',
             va='bottom',

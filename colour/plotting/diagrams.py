@@ -90,8 +90,7 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
     Examples
     --------
     >>> plot_spectral_locus(spectral_locus_colours='RGB')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Spectral_Locus.png
         :align: center
@@ -254,8 +253,7 @@ def plot_chromaticity_diagram_colours(
     Examples
     --------
     >>> plot_chromaticity_diagram_colours()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_Colours.png
         :align: center
@@ -362,8 +360,7 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
     Examples
     --------
     >>> plot_chromaticity_diagram()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram.png
         :align: center
@@ -458,8 +455,7 @@ def plot_chromaticity_diagram_CIE1931(
     Examples
     --------
     >>> plot_chromaticity_diagram_CIE1931()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1931.png
         :align: center
@@ -509,8 +505,7 @@ def plot_chromaticity_diagram_CIE1960UCS(
     Examples
     --------
     >>> plot_chromaticity_diagram_CIE1960UCS()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
@@ -560,8 +555,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
     Examples
     --------
     >>> plot_chromaticity_diagram_CIE1976UCS()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
@@ -632,8 +626,7 @@ def plot_sds_in_chromaticity_diagram(
     >>> A = ILLUMINANT_SDS['A']
     >>> D65 = ILLUMINANT_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram([A, D65])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_SDS_In_Chromaticity_Diagram.png
         :align: center
@@ -806,8 +799,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     >>> D65 = ILLUMINANT_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
@@ -883,8 +875,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     >>> D65 = ILLUMINANT_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
@@ -960,8 +951,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     >>> D65 = ILLUMINANT_SDS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
