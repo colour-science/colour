@@ -415,6 +415,9 @@ Colour Component Transfer Functions
 
     exponent_function_basic
     exponent_function_monitor_curve
+    logarithmic_function_basic
+    logarithmic_function_quasilog
+    logarithmic_function_camera
 
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
