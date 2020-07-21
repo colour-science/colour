@@ -149,29 +149,27 @@ def logarithmic_function_quasilog(x,
         Linear/non-linear data to undergo encoding/decoding.
     base : numeric, optional
         The base value used for the transfer.
-
     style : unicode, optional
         **{'linToLog', 'logToLin'}**,
         Defines the behaviour for the logarithmic function to operate:
 
         -   *linToLog*: Applies a logarithm to convert linear data to
             logarithmic data.
-
         -   *logToLin*: Applies an anti-logarithm to convert logarithmic
             data to linear data.
 
     log_side_slope : numeric, optional
         It is the slope (or gain) applied to the log side
-        of the logarithmic segment. Its default value is 1.
+        of the logarithmic function. The default value is 1.
     lin_side_slope : numeric, optional
         It is the slope of the linear side of
-        the logarithmic segment. Its default value is 1.
+        the logarithmic function. The default value is 1.
     log_side_offset : numeric, optional
         It is the offset applied to the log side
-        of the logarithmic segment. Its default value is 0.
+        of the logarithmic function. The default value is 0.
     lin_side_offset : numeric, optional
         It is the offset applied to the linear side
-        of the logarithmic segment. Its default value is 0.
+        of the logarithmic function. The default value is 0.
 
     Returns
     -------
@@ -226,7 +224,6 @@ def logarithmic_function_camera(x,
         Linear/non-linear data to undergo encoding/decoding.
     base : numeric, optional
         The base value used for the transfer.
-
     style : unicode, optional
         **{'cameraLinToLog', 'cameraLogToLin'}**,
         Defines the behaviour for the logarithmic function to operate:
@@ -234,7 +231,6 @@ def logarithmic_function_camera(x,
         -   *cameraLinToLog*: Applies a piece-wise function with logarithmic
             and linear segments on linear values, converting them to non-linear
             values.
-
         -   *cameraLogToLin*: Applies a piece-wise function with logarithmic
             and linear segments on non-linear values, converting them to linear
             values.
@@ -245,16 +241,16 @@ def logarithmic_function_camera(x,
         the logarithmic and linear segments.
     log_side_slope : numeric, optional
         It is the slope (or gain) applied to the log side
-        of the logarithmic segment. Its default value is 1.
+        of the logarithmic segment. The default value is 1.
     lin_side_slope : numeric, optional
         It is the slope of the linear side of
-        the logarithmic segment. Its default value is 1.
+        the logarithmic segment. The default value is 1.
     log_side_offset : numeric, optional
         It is the offset applied to the log side
-        of the logarithmic segment. Its default value is 0.
+        of the logarithmic segment. The default value is 0.
     lin_side_offset : numeric, optional
         It is the offset applied to the linear side
-        of the logarithmic segment. Its default value is 0.
+        of the logarithmic segment. The default value is 0.
 
     Returns
     -------
