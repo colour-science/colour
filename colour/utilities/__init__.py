@@ -19,7 +19,8 @@ from .array import (
     set_float_precision, set_int_precision, as_namedtuple, closest_indexes,
     closest, normalise_maximum, interval, is_uniform, in_array, tstack, tsplit,
     row_as_diagonal, dot_vector, dot_matrix, orient, centroid,
-    linear_conversion, lerp, fill_nan, ndarray_write, zeros, ones, full)
+    linear_conversion, lerp, fill_nan, ndarray_write, zeros, ones, full,
+    index_along_last_axis)
 from .metrics import metric_mse, metric_psnr
 from .verbose import (
     ColourWarning, ColourUsageWarning, ColourRuntimeWarning, message_box,
@@ -51,7 +52,8 @@ __all__ += [
     'closest_indexes', 'closest', 'normalise_maximum', 'interval',
     'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
     'dot_vector', 'dot_matrix', 'orient', 'centroid', 'linear_conversion',
-    'fill_nan', 'lerp', 'ndarray_write', 'zeros', 'ones', 'full'
+    'fill_nan', 'lerp', 'ndarray_write', 'zeros', 'ones', 'full',
+    'index_along_last_axis'
 ]
 __all__ += ['metric_mse', 'metric_psnr']
 __all__ += [

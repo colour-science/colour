@@ -4,7 +4,8 @@ from __future__ import absolute_import
 
 from .coordinates import *  # noqa
 from . import coordinates
-from .common import is_spow_enabled, set_spow_enable, spow_enable, spow
+from .common import (is_spow_enabled, set_spow_enable, spow_enable, spow,
+                     smoothstep_function)
 from .extrapolation import Extrapolator
 from .geometry import (
     normalise_vector, euclidean_distance, extend_line_segment,
@@ -25,7 +26,10 @@ from .regression import least_square_mapping_MoorePenrose
 
 __all__ = []
 __all__ += coordinates.__all__
-__all__ += ['is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow']
+__all__ += [
+    'is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow',
+    'smoothstep_function'
+]
 __all__ += ['Extrapolator']
 __all__ += [
     'normalise_vector', 'euclidean_distance', 'extend_line_segment',
