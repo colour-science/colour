@@ -78,6 +78,8 @@ _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
 
 _TRISTIMULUS_WEIGHTING_FACTORS_CACHE = None
 
+_SD_TO_XYZ_CACHE = None
+
 
 def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
     """
@@ -130,11 +132,11 @@ def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
 
     global _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE
     if _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE is None:
-        _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = CaseInsensitiveMapping()
+        _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = {}
 
-    name_lica = ', '.join((str(interval), interval_type))
-    if name_lica in _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE:
-        return _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica]
+    hash_key = tuple([hash(arg) for arg in (interval, interval_type)])
+    if hash_key in _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE:
+        return _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[hash_key]
 
     r_n = np.linspace(1 / interval, 1 - (1 / interval), interval - 1)
     d = 3
@@ -142,7 +144,7 @@ def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
         r_n += 1
         d = 4
 
-    lica = _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica] = (
+    lica = _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[hash_key] = (
         as_float_array([lagrange_coefficients(r, d) for r in r_n]))
 
     return lica
@@ -190,18 +192,6 @@ def tristimulus_weighting_factors_ASTME2022(cmfs, illuminant, shape, k=None):
     ValueError
         If the colour matching functions or illuminant intervals are not equal
         to 1 nm.
-
-    Warning
-    -------
-    -   The tables of tristimulus weighting factors are cached in
-        :attr:`colour.colorimetry.tristimulus.\
-_TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
-        defined by the colour matching functions and illuminant names along
-        with the current shape and normalisation constant :math:`k` such as:
-        `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0), None`
-        Considering the above, one should be mindful that using similar colour
-        matching functions and illuminant names but with different spectral
-        data will lead to unexpected behaviour.
 
     Notes
     -----
@@ -263,11 +253,11 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
     global _TRISTIMULUS_WEIGHTING_FACTORS_CACHE
     if _TRISTIMULUS_WEIGHTING_FACTORS_CACHE is None:
-        _TRISTIMULUS_WEIGHTING_FACTORS_CACHE = CaseInsensitiveMapping()
+        _TRISTIMULUS_WEIGHTING_FACTORS_CACHE = {}
 
-    name_twf = ', '.join((cmfs.name, illuminant.name, str(shape), str(k)))
-    if name_twf in _TRISTIMULUS_WEIGHTING_FACTORS_CACHE:
-        return _TRISTIMULUS_WEIGHTING_FACTORS_CACHE[name_twf]
+    hash_key = tuple([hash(arg) for arg in (cmfs, illuminant, shape, k)])
+    if hash_key in _TRISTIMULUS_WEIGHTING_FACTORS_CACHE:
+        return _TRISTIMULUS_WEIGHTING_FACTORS_CACHE[hash_key]
 
     Y = cmfs.values
     S = illuminant.values
@@ -322,7 +312,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
     W *= 100 / np.sum(W, axis=0)[1] if k_n is None else k_n
 
-    _TRISTIMULUS_WEIGHTING_FACTORS_CACHE[name_twf] = W
+    _TRISTIMULUS_WEIGHTING_FACTORS_CACHE[hash_key] = W
 
     return W
 
@@ -676,18 +666,6 @@ def sd_to_XYZ_ASTME308(
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    -   The tables of tristimulus weighting factors are cached in
-        :attr:`colour.colorimetry.tristimulus.\
-_TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
-        defined by the colour matching functions and illuminant names along
-        with the current shape and normalisation constant :math:`k` such as:
-        `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0), None`
-        Considering the above, one should be mindful that using similar colour
-        matching functions and illuminant names but with different spectral
-        data will lead to unexpected behaviour.
-
     Notes
     -----
 
@@ -917,10 +895,23 @@ def sd_to_XYZ(
     array([ 10.8404805...,   9.6838697...,   6.2115722...])
     """
 
+    global _SD_TO_XYZ_CACHE
+    if _SD_TO_XYZ_CACHE is None:
+        _SD_TO_XYZ_CACHE = {}
+
+    hash_key = tuple([
+        hash(arg) for arg in (sd, cmfs, illuminant, k, method,
+                              tuple(kwargs.items()))
+    ])
+    if hash_key in _SD_TO_XYZ_CACHE:
+        return _SD_TO_XYZ_CACHE[hash_key]
+
     function = SD_TO_XYZ_METHODS[method]
 
-    return function(
+    XYZ = _SD_TO_XYZ_CACHE[hash_key] = function(
         sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
+
+    return XYZ
 
 
 def multi_sds_to_XYZ_integration(

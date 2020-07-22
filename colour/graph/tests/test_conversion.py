@@ -120,10 +120,13 @@ class TestConvert(unittest.TestCase):
             decimal=7)
 
         if six.PY3:  # pragma: no cover
+            # Illuminant "ndarray" is converted to tuple here so that it can
+            # be hashed by the "sd_to_XYZ" definition, this should never occur
+            # in practical application.
             self.assertRaises(AttributeError, lambda: convert(
                 COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'],
                 'Spectral Distribution', 'sRGB',
-                illuminant=illuminant))
+                illuminant=tuple(illuminant)))
 
 
 if __name__ == '__main__':
