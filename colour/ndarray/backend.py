@@ -34,11 +34,11 @@ def get_ndimensional_array_backend():
     return _NDIMENSIONAL_ARRAY_BACKEND
 
 
-def set_ndimensional_array_backend(backend='Numpy'):
+def _set_ndimensional_array_backend(backend='Numpy'):
     global _NDIMENSIONAL_ARRAY_BACKEND
 
     backend = str(backend).lower()
-    valid = ('numpy', 'jax')
+    valid = ('numpy', 'cupy')
     assert backend in valid, 'Scale must be one of "{0}".'.format(valid)
 
     _NDIMENSIONAL_ARRAY_BACKEND = backend
@@ -73,28 +73,17 @@ class NDimensionalArrayBackend(object):
 
         self._failsafe = self._numpy = numpy
 
-        # Jax
-        self._jax = None
-        self._jax_unsupported = []
+        # CuPy
+        self._cupy = None
+        self._cupy_unsupported = []
         try:
-            import jax.numpy
-
-            self._jax = jax.numpy
-            for name in dir(jax.numpy):
-                function = getattr(jax.numpy, name)
-                try:
-                    source = inspect.getsource(function)
-                except (TypeError, OSError):
-                    continue
-
-                if "Numpy function {} not yet implemented" in source:
-                    self._jax_unsupported.append(name)
-
-            # TypeError: pad() got an unexpected keyword argument 'end_values'
-            self._jax_unsupported.append('pad')
-            # TypeError: full() takes from 2 to 3 positional arguments
-            # but 4 were given
-            self._jax_unsupported.append('full')
+            import cupy
+            numpyList = dir(numpy)
+            cupyList = dir(cupy)
+            for i in numpyList:
+                if i not in cupyList:
+                    self._cupy_unsupported.append(i)
+            self._cupy = cupy
         except ImportError:
             pass
 
@@ -103,13 +92,34 @@ class NDimensionalArrayBackend(object):
 
         if _NDIMENSIONAL_ARRAY_BACKEND == 'numpy':
             return getattr(self._numpy, attribute)
-        elif _NDIMENSIONAL_ARRAY_BACKEND == 'jax' and self._jax is not None:
-            if attribute not in self._jax_unsupported:
+        elif _NDIMENSIONAL_ARRAY_BACKEND == 'cupy' and self._cupy is not None:
+            if attribute not in self._cupy_unsupported:
                 try:
-                    return getattr(self._jax, attribute)
+                    return getattr(self._cupy, attribute)
                 except AttributeError:
                     return failsafe
             else:
-                return failsafe
+                def middleware(*args, **kwargs):
+                    args = list(args)
+                    for i in range(len(args)):
+                        if isinstance(args[i], self._cupy.ndarray):
+                            args[i] = self._cupy.asnumpy(args[i])
+                            args = tuple(args)
+                            r = failsafe(*args,**kwargs)
+                            print(type(r))
+                            if isinstance(r, self._numpy.ndarray):
+                                return self._cupy.array(r)
+                            elif isinstance(r, (list)):
+                                for z in range(len(r)):
+                                    if isinstance(r, self._numpy.ndarray):
+                                        r[z] = self._cupy.array(r[z])
+                            return r
+                if callable(failsafe):
+                    return middleware
+                else:
+                    return failsafe
         else:
             return failsafe
+
+    def set_ndimensional_array_backend(self, backend):
+        _set_ndimensional_array_backend(backend)

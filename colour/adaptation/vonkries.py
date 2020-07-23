@@ -102,7 +102,7 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     XYZ_w = to_domain_1(XYZ_w)
     XYZ_wr = to_domain_1(XYZ_wr)
 
-    M = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
+    M = np.array(CHROMATIC_ADAPTATION_TRANSFORMS.get(transform))
 
     if M is None:
         raise KeyError(
@@ -116,7 +116,6 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     D = rgb_wr / rgb_w
 
     D = row_as_diagonal(D)
-
     M_CAT = dot_matrix(np.linalg.inv(M), D)
     M_CAT = dot_matrix(M_CAT, M)
 

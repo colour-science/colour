@@ -225,6 +225,7 @@ def as_int(a, dtype=None):
         # https://github.com/numpy/numpy/issues/11956 is addressed.
         return int(a)
     except TypeError:
+        print('error')
         return as_int_array(a, dtype)
 
 
@@ -269,8 +270,12 @@ def as_float(a, dtype=None):
     assert dtype in np.sctypes['float'], (
         '"dtype" must be one of the following types: {0}'.format(
             np.sctypes['float']))
-
-    return dtype(a)
+    try:
+        # TODO: Change to "DEFAULT_INT_DTYPE" when and if
+        # https://github.com/numpy/numpy/issues/11956 is addressed.
+        return float(a)
+    except TypeError:
+        return as_float_array(a, dtype)
 
 
 def set_float_precision(dtype=DEFAULT_FLOAT_DTYPE):
