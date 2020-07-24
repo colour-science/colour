@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Otsu et al. (2018) - Reflectance Recovery
-==============================================
+=========================================
 
 Defines objects for reflectance recovery, i.e. spectral upsampling, using
 *Otsu et al. (2018)* method:
@@ -25,7 +25,7 @@ from colour.colorimetry import (STANDARD_OBSERVER_CMFS, SpectralDistribution,
 from colour.models import XYZ_to_xy
 from colour.recovery import (OTSU_2018_SPECTRAL_SHAPE,
                              OTSU_2018_BASIS_FUNCTIONS, OTSU_2018_MEANS,
-                             select_cluster_Otsu2018)
+                             OTSU_2018_SELECTOR_ARRAY)
 from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
@@ -35,7 +35,98 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_sd_Otsu2018']
+__all__ = ['Otsu2018Dataset', 'XYZ_to_sd_Otsu2018']
+
+
+class Otsu2018Dataset:
+    """
+    Stores all the information needed for the *Otsu et al. (2018)* spectral
+    upsampling method. Datasets can be either generated and turned into
+    this form using ``Otsu2018Tree.to_dataset`` or loaded from disk.
+
+    Attributes
+    ==========
+    shape: SpectralShape
+        Shape of the spectral data.
+    basis_functions : ndarray(n, 3, m)
+        Three basis functions for every cluster.
+    means : ndarray(n, m)
+        Mean for every cluster.
+    selector_array : ndarray(k, 4)
+        Array describing how to select the appropriate cluster. See
+        ``Otsu2018Dataset.select`` for details.
+    """
+
+    def __init__(self,
+                 shape=None,
+                 basis_functions=None,
+                 means=None,
+                 selector_array=None):
+        self.shape = shape
+        self.basis_functions = basis_functions
+        self.means = means
+        self.selector_array = selector_array
+
+    def select(self, xy):
+        """
+        Returns the cluster index appropriate for the given *CIE xy*
+        coordinates.
+
+        Parameters
+        ==========
+        ndarray : (2,)
+            *CIE xy* chromaticity coordinates.
+
+        Returns
+        =======
+        int
+            Cluster index.
+        """
+
+        i = 0
+        while True:
+            row = self.selector_array[i, :]
+            direction, origin, lesser_index, greater_index = row
+
+            if xy[int(direction)] <= origin:
+                index = int(lesser_index)
+            else:
+                index = int(greater_index)
+
+            if index < 0:
+                i = -index
+            else:
+                return index
+
+    def cluster(self, xy):
+        """
+        Returns the basis functions and dataset mean for the given *CIE xy*
+        coordinates.
+
+        Parameters
+        ==========
+        ndarray : (2,)
+            *CIE xy* chromaticity coordinates.
+
+        Returns
+        =======
+        basis_functions : ndarray (3, n)
+            Three basis functions.
+        mean : ndarray (n,)
+            Dataset mean.
+        """
+
+        index = self.select(xy)
+        return self.basis_functions[index, :, :], self.means[index, :]
+
+
+builtin_Otsu2018_dataset = Otsu2018Dataset(
+    OTSU_2018_SPECTRAL_SHAPE, OTSU_2018_BASIS_FUNCTIONS, OTSU_2018_MEANS,
+    OTSU_2018_SELECTOR_ARRAY)
+"""
+Builtin *Otsu et al. (2018)* dataset in the form of an ``Otsu2018Dataset``
+object, usable in ``XYZ_to_sd_Otsu2018``, among others.
+"""
 
 
 def XYZ_to_sd_Otsu2018(
@@ -44,6 +135,7 @@ def XYZ_to_sd_Otsu2018(
         .copy().align(OTSU_2018_SPECTRAL_SHAPE),
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
             OTSU_2018_SPECTRAL_SHAPE),
+        dataset=builtin_Otsu2018_dataset,
         clip=True):
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus values
@@ -57,6 +149,9 @@ def XYZ_to_sd_Otsu2018(
         Standard observer colour matching functions.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
+    dataset : Otsu2018Dataset, optional
+        Dataset to use for reconstruction. The default is to use the published
+        data.
 
     Other Parameters
     ----------------
@@ -75,21 +170,16 @@ def XYZ_to_sd_Otsu2018(
 
     XYZ = as_float_array(XYZ)
     xy = XYZ_to_xy(XYZ)
-    cluster = select_cluster_Otsu2018(xy)
 
-    basis_functions = OTSU_2018_BASIS_FUNCTIONS[cluster]
-    mean = OTSU_2018_MEANS[cluster]
+    basis_functions, mean = dataset.cluster(xy)
 
     M = np.empty((3, 3))
     for i in range(3):
-        sd = SpectralDistribution(
-            basis_functions[i, :],
-            OTSU_2018_SPECTRAL_SHAPE.range(),
-        )
+        sd = SpectralDistribution(basis_functions[i, :], dataset.shape.range())
         M[:, i] = sd_to_XYZ(sd, illuminant=illuminant) / 100
     M_inverse = np.linalg.inv(M)
 
-    sd = SpectralDistribution(mean, OTSU_2018_SPECTRAL_SHAPE.range())
+    sd = SpectralDistribution(mean, dataset.shape.range())
     XYZ_mu = sd_to_XYZ(sd, illuminant=illuminant) / 100
 
     weights = np.dot(M_inverse, XYZ - XYZ_mu)
@@ -98,4 +188,4 @@ def XYZ_to_sd_Otsu2018(
     if clip:
         recovered_sd = np.clip(recovered_sd, 0, 1)
 
-    return SpectralDistribution(recovered_sd, OTSU_2018_SPECTRAL_SHAPE.range())
+    return SpectralDistribution(recovered_sd, dataset.shape.range())
