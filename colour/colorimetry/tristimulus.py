@@ -585,6 +585,11 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     array([ 10.8405832...,   9.6844909...,   6.2155622...])
     """
 
+    if cmfs.shape.interval != 1:
+        runtime_warning('Interpolating "{0}" cmfs to 1nm interval.'.format(
+            cmfs.name))
+        cmfs = cmfs.copy().interpolate(SpectralShape(interval=1))
+
     if illuminant.shape != cmfs.shape:
         runtime_warning(
             'Aligning "{0}" illuminant shape to "{1}" colour matching '
