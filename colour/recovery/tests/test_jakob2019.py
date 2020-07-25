@@ -16,10 +16,9 @@ from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS,
                                 STANDARD_OBSERVER_CMFS, SpectralDistribution,
                                 sd_to_XYZ)
 from colour.difference import delta_E_CIE1976
-from colour.models import (RGB_COLOURSPACES, XYZ_to_RGB, RGB_to_XYZ,
-                           XYZ_to_Lab)
+from colour.models import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_Lab
 from colour.recovery.jakob2019 import (
-    RGB_to_sd_Jakob2019, sd_Jakob2019, error_function,
+    XYZ_to_sd_Jakob2019, sd_Jakob2019, error_function,
     dimensionalise_coefficients, DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
     ACCEPTABLE_DELTA_E, Jakob2019Interpolator)
 
@@ -31,7 +30,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestRGB_to_sd_Jakob2019', 'TestErrorFunction', 'TestJakob2019Interpolator'
+    'TestXYZ_to_sd_Jakob2019', 'TestErrorFunction', 'TestJakob2019Interpolator'
 ]
 
 CMFS = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
@@ -41,15 +40,15 @@ D65 = SpectralDistribution(ILLUMINANT_SDS['D65'])
 D65_XY = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']["D65"]
 
 
-class TestRGB_to_sd_Jakob2019(unittest.TestCase):
+class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.jakob2019.RGB_to_sd_Jakob2019`
+    Defines :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019`
     definition unit tests methods.
     """
 
     def test_roundtrip_colourchecker(self):
         """
-        Tests :func:`colour.recovery.jakob2019.RGB_to_sd_Jakob2019` definition
+        Tests :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
         round-trip errors using a color checker.
         """
 
@@ -59,18 +58,8 @@ class TestRGB_to_sd_Jakob2019(unittest.TestCase):
             for use_feedback in [None, 'adaptive-from-grey']:
                 XYZ = sd_to_XYZ(sd, illuminant=D65) / 100
 
-                RGB = XYZ_to_RGB(
-                    XYZ,
-                    D65_XY,
-                    PROPHOTO_RGB.whitepoint,
-                    PROPHOTO_RGB.XYZ_to_RGB_matrix,
-                )
-
-                _recovered_sd, error = RGB_to_sd_Jakob2019(
-                    RGB,
-                    PROPHOTO_RGB,
-                    return_error=True,
-                    use_feedback=use_feedback)
+                _recovered_sd, error = XYZ_to_sd_Jakob2019(
+                    XYZ, return_error=True, use_feedback=use_feedback)
 
                 if error > ACCEPTABLE_DELTA_E:
                     self.fail('Delta E for \'{0}\' with use_feedback={1}'

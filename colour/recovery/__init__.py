@@ -22,18 +22,18 @@ from .datasets import *  # noqa
 from . import datasets
 from .meng2015 import XYZ_to_sd_Meng2015
 from .smits1999 import RGB_to_sd_Smits1999
-from .jakob2019 import RGB_to_sd_Jakob2019, Jakob2019Interpolator
+from .jakob2019 import XYZ_to_sd_Jakob2019, Jakob2019Interpolator
 
 __all__ = []
 __all__ += datasets.__all__
 __all__ += ['XYZ_to_sd_Meng2015']
 __all__ += ['RGB_to_sd_Smits1999']
-__all__ += ['RGB_to_sd_Jakob2019', 'Jakob2019Interpolator']
+__all__ += ['XYZ_to_sd_Jakob2019', 'Jakob2019Interpolator']
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
     'Meng 2015': XYZ_to_sd_Meng2015,
     'Smits 1999': RGB_to_sd_Smits1999,
-    'Jakob 2019': RGB_to_sd_Jakob2019,
+    'Jakob 2019': XYZ_to_sd_Jakob2019,
 })
 XYZ_TO_SD_METHODS.__doc__ = """
 Supported spectral distribution recovery methods.
