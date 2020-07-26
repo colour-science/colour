@@ -713,7 +713,14 @@ or dict_like
             Object hash.
         """
 
-        return hash(repr(self))
+        return hash((
+            self.domain.tostring(),
+            self.range.tostring(),
+            self.interpolator.__name__,
+            repr(self.interpolator_kwargs),
+            self.extrapolator.__name__,
+            repr(self.extrapolator_kwargs),
+        ))
 
     def __getitem__(self, x):
         """

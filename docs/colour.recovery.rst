@@ -40,3 +40,28 @@ Meng, Simon and Hanika (2015)
     :toctree: generated/
 
     XYZ_to_sd_Meng2015
+
+Jakob and Hanika (2019)
+-----------------------
+
+``colour.recovery``
+
+.. currentmodule:: colour.recovery
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_to_sd_Jakob2019
+    Jakob2019Interpolator
+
+**Ancillary Objects**
+
+``colour.recovery``
+
+.. currentmodule:: colour.recovery
+
+.. autosummary::
+    :toctree: generated/
+
+    sd_Jakob2019
+    find_coefficients_Jakob2019
