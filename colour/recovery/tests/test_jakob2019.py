@@ -21,6 +21,7 @@ from colour.recovery.jakob2019 import (
     XYZ_to_sd_Jakob2019, sd_Jakob2019, error_function,
     dimensionalise_coefficients, DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
     ACCEPTABLE_DELTA_E, Jakob2019Interpolator)
+from colour.utilities import domain_range_scale, full, ones, zeros
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -30,7 +31,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestXYZ_to_sd_Jakob2019', 'TestErrorFunction', 'TestJakob2019Interpolator'
+    'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestJakob2019Interpolator'
 ]
 
 CMFS = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
@@ -38,32 +39,6 @@ sRGB = RGB_COLOURSPACES['sRGB']
 PROPHOTO_RGB = RGB_COLOURSPACES['ProPhoto RGB']
 D65 = SpectralDistribution(ILLUMINANT_SDS['D65'])
 D65_XY = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']["D65"]
-
-
-class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
-    """
-    Defines :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019`
-    definition unit tests methods.
-    """
-
-    def test_roundtrip_colourchecker(self):
-        """
-        Tests :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
-        round-trip errors using a color checker.
-        """
-
-        for name, sd in COLOURCHECKER_SDS['ColorChecker N Ohta'].items():
-            # The colours aren't too saturated and the tests should pass with
-            # or without feedback.
-            for use_feedback in [None, 'adaptive-from-grey']:
-                XYZ = sd_to_XYZ(sd, illuminant=D65) / 100
-
-                _recovered_sd, error = XYZ_to_sd_Jakob2019(
-                    XYZ, return_error=True, use_feedback=use_feedback)
-
-                if error > ACCEPTABLE_DELTA_E:
-                    self.fail('Delta E for \'{0}\' with use_feedback={1}'
-                              ' is {2}'.format(name, use_feedback, error))
 
 
 class TestErrorFunction(unittest.TestCase):
@@ -106,18 +81,16 @@ class TestErrorFunction(unittest.TestCase):
         shape = DEFAULT_SPECTRAL_SHAPE_JAKOB_2019
         aligned_cmfs = CMFS.copy().align(shape)
         illuminant = D65.copy().align(shape)
-        illuminant_XYZ = sd_to_XYZ(D65)
-        illuminant_XYZ /= illuminant_XYZ[1]
+        XYZ_n = sd_to_XYZ(D65)
+        XYZ_n /= XYZ_n[1]
 
         for coefficients in coefficient_list:
             error, _derror, R, XYZ, Lab = error_function(
                 coefficients,
                 self._Lab_e,
-                DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
                 aligned_cmfs,
                 illuminant,
-                illuminant_XYZ,
-                return_intermediates=True)
+                additional_data=True)
 
             sd = sd_Jakob2019(
                 dimensionalise_coefficients(coefficients, shape), shape)
@@ -140,27 +113,26 @@ class TestErrorFunction(unittest.TestCase):
         shape = DEFAULT_SPECTRAL_SHAPE_JAKOB_2019
         aligned_cmfs = CMFS.copy().align(shape)
         illuminant = D65.copy().align(shape)
-        illuminant_XYZ = sd_to_XYZ(D65)
-        illuminant_XYZ /= illuminant_XYZ[1]
+        XYZ_n = sd_to_XYZ(D65)
+        XYZ_n /= XYZ_n[1]
 
         var_range = np.linspace(-10, 10, 1000)
         h = var_range[1] - var_range[0]
 
         # Vary one coefficient at a time, keeping the others fixed to 1.
-        for coeff_index in range(3):
+        for coefficient_i in range(3):
             errors = np.empty_like(var_range)
             derrors = np.empty_like(var_range)
 
             for i, var in enumerate(var_range):
-                coefficients = np.array([1.0, 1, 1])
-                coefficients[coeff_index] = var
+                coefficients = ones(3)
+                coefficients[coefficient_i] = var
 
                 error, derror = error_function(coefficients, self._Lab_e,
-                                               shape, aligned_cmfs, illuminant,
-                                               illuminant_XYZ)
+                                               aligned_cmfs, illuminant)
 
                 errors[i] = error
-                derrors[i] = derror[coeff_index]
+                derrors[i] = derror[coefficient_i]
 
             staggered_derrors = (derrors[:-1] + derrors[1:]) / 2
             approximate_derrors = np.diff(errors) / h
@@ -169,6 +141,52 @@ class TestErrorFunction(unittest.TestCase):
             # have to be rather loose.
             np.testing.assert_allclose(
                 staggered_derrors, approximate_derrors, atol=1e-3, rtol=1e-2)
+
+
+class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
+    """
+    Defines :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
+    unit tests methods.
+    """
+
+    def test_XYZ_to_sd_Jakob2019(self):
+        """
+        Tests :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition.
+        """
+
+        # Tests the round-trip with values of a colour checker.
+        for name, sd in COLOURCHECKER_SDS['ColorChecker N Ohta'].items():
+            # The colours aren't too saturated and the tests should pass with
+            # or without feedback.
+            for use_feedback in [False, True]:
+                XYZ = sd_to_XYZ(sd, illuminant=D65) / 100
+
+                _recovered_sd, error = XYZ_to_sd_Jakob2019(
+                    XYZ,
+                    illuminant=D65,
+                    optimisation_kwargs={'use_feedback': use_feedback},
+                    additional_data=True)
+
+                if error > ACCEPTABLE_DELTA_E:
+                    self.fail('Delta E for \'{0}\' with use_feedback={1}'
+                              ' is {2}'.format(name, use_feedback, error))
+
+    def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
+        """
+        Tests :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
+        domain and range scale support.
+        """
+
+        XYZ_i = np.array([0.21781186, 0.12541048, 0.04697113])
+        XYZ_o = sd_to_XYZ(XYZ_to_sd_Jakob2019(XYZ_i))
+
+        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    sd_to_XYZ(XYZ_to_sd_Jakob2019(XYZ_i * factor_a)),
+                    XYZ_o * factor_b,
+                    decimal=7)
 
 
 class TestJakob2019Interpolator(unittest.TestCase):
@@ -191,7 +209,7 @@ class TestJakob2019Interpolator(unittest.TestCase):
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_interpolator(self):
+    def test_Jakob2019Interpolator(self):
         """
         Tests the entirety of the
         :class:`colour.recovery.jakob2019.Jakob2019Interpolator`class.
@@ -205,19 +223,15 @@ class TestJakob2019Interpolator(unittest.TestCase):
         interpolator.read(path)
 
         for RGB in [
-                np.array([1., 0., 0.]),
-                np.array([0., 1., 0.]),
-                np.array([0., 0., 1.]),
-                np.array([0., 0., 0.]),
-                np.array([0.5, 0.5, 0.5]),
-                np.array([1., 1., 1.])
+                np.array([1, 0, 0]),
+                np.array([0, 1, 0]),
+                np.array([0, 0, 1]),
+                zeros(3),
+                full(3, 0.5),
+                ones(3),
         ]:
-            XYZ = RGB_to_XYZ(
-                RGB,
-                sRGB.whitepoint,
-                D65_XY,
-                sRGB.RGB_to_XYZ_matrix,
-            )
+            XYZ = RGB_to_XYZ(RGB, sRGB.whitepoint, D65_XY,
+                             sRGB.RGB_to_XYZ_matrix)
             Lab = XYZ_to_Lab(XYZ, D65_XY)
 
             recovered_sd = interpolator.RGB_to_sd(RGB)

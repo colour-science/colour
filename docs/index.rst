@@ -978,7 +978,7 @@ Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
                          extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
 
     >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS.keys())
-    ['Meng 2015', 'Smits 1999']
+    ['Jakob 2019', 'Meng 2015', 'Smits 1999']
 
 Correlated Colour Temperature Computation Methods - ``colour.temperature``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
