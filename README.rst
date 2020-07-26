@@ -208,6 +208,34 @@ If you'd like to join them, please consider
                     <p><a href="https://github.com/zachlewis" target="_blank">Zack Lewis</a></p>
                 </td>
             </tr>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://twitter.com/fredsavoir" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/363988638/FS_Portrait082009.jpg">
+                    </a>
+                    <p><a href="https://twitter.com/fredsavoir" target="_blank">Frederic Savoir</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+            </tr>
         </tbody>
     </table>
 
