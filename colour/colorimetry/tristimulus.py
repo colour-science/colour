@@ -43,8 +43,8 @@ from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
                                 STANDARD_OBSERVER_CMFS, sd_ones)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, from_range_100, runtime_warning,
-                              tsplit)
+                              filter_kwargs, from_range_100,
+                              get_domain_range_scale, runtime_warning, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -255,7 +255,10 @@ def tristimulus_weighting_factors_ASTME2022(cmfs, illuminant, shape, k=None):
     if _TRISTIMULUS_WEIGHTING_FACTORS_CACHE is None:
         _TRISTIMULUS_WEIGHTING_FACTORS_CACHE = {}
 
-    hash_key = tuple([hash(arg) for arg in (cmfs, illuminant, shape, k)])
+    hash_key = tuple([
+        hash(arg) for arg in (cmfs, illuminant, shape, k,
+                              get_domain_range_scale())
+    ])
     if hash_key in _TRISTIMULUS_WEIGHTING_FACTORS_CACHE:
         return _TRISTIMULUS_WEIGHTING_FACTORS_CACHE[hash_key]
 
@@ -906,7 +909,7 @@ def sd_to_XYZ(
 
     hash_key = tuple([
         hash(arg) for arg in (sd, cmfs, illuminant, k, method,
-                              tuple(kwargs.items()))
+                              tuple(kwargs.items()), get_domain_range_scale())
     ])
     if hash_key in _SD_TO_XYZ_CACHE:
         return _SD_TO_XYZ_CACHE[hash_key]
