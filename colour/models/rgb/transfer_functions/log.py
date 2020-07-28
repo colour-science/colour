@@ -39,7 +39,9 @@ ACESutil.Log2_to_Lin_param.ctl
 from __future__ import division, unicode_literals
 
 import numpy as np
-from colour.utilities import as_float, from_range_1, to_domain_1
+
+from colour.utilities import (as_float, as_float_array, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -56,7 +58,7 @@ __all__ = [
 FLT_MIN = 1.175494e-38
 
 
-def logarithmic_function_basic(x, base=2, style='log2'):
+def logarithmic_function_basic(x, style='log2', base=2):
     """
     Defines the basic logarithmic function.
 
@@ -64,19 +66,19 @@ def logarithmic_function_basic(x, base=2, style='log2'):
     ----------
     x : numeric
         The data to undergo basic logarithmic conversion.
-    base : numeric, optional
-        The base value used for the conversion.
     style : unicode, optional
-        **{'log10', 'antiLog10', 'log2', 'antiLog2', 'logN', 'antiLogN'}**,
+        **{'log10', 'antiLog10', 'log2', 'antiLog2', 'logB', 'antiLogB'}**,
         Defines the behaviour for the logarithmic function to operate:
 
         -   *log10*: Applies a base 10 logarithm to the passed value.
         -   *antiLog10*: Applies a base 10 anti-logarithm to the passed value.
         -   *log2*: Applies a base 2 logarithm to the passed value.
         -   *antiLog2*: Applies a base 2 anti-logarithm to the passed value.
-        -   *LogN*: Applies an arbitrary base logarithm to the passed value.
-        -   *antiLogN*: Applies an arbitrary base anti-logarithm to the passed
+        -   *logB*: Applies an arbitrary base logarithm to the passed value.
+        -   *antiLogB*: Applies an arbitrary base anti-logarithm to the passed
             value.
+    base : numeric, optional
+        The base value used for the conversion.
 
     Returns
     -------
@@ -94,21 +96,23 @@ def logarithmic_function_basic(x, base=2, style='log2'):
 
     >>> logarithmic_function_basic(0.18)  # doctest: +ELLIPSIS
     -2.4739311...
-    >>> logarithmic_function_basic(0.18, 10, 'log10')  # doctest: +ELLIPSIS
+    >>> logarithmic_function_basic(0.18, 'log10')  # doctest: +ELLIPSIS
     -0.7447274...
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
-    ...    0.18, 2.2 , 'LogN')
-    -2.17487782...
+    ...    0.18, 'logB', 3)
+    -1.5608767...
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
-    ...    -2.473931188332412, 2, 'antiLog2')
+    ...    -2.473931188332412, 'antiLog2')
     0.18000000...
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
-    ...    -0.7447274948966939, 10, 'antiLog10')
+    ...    -0.7447274948966939, 'antiLog10')
     0.18000000...
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
-    ...    -2.1748778238301729 , 2.2 , 'antiLogN')
+    ...    -1.5608767950073117, 'antiLogB', 3)
     0.18000000...
     """
+
+    x = as_float_array(x)
 
     style = style.lower()
     if style == 'log10':
@@ -119,23 +123,23 @@ def logarithmic_function_basic(x, base=2, style='log2'):
         return as_float(np.where(x >= FLT_MIN, np.log2(x), np.log2(FLT_MIN)))
     elif style == 'antilog2':
         return as_float(2 ** x)
-    elif style == 'logn':
+    elif style == 'logb':
         return as_float(np.log(x) / np.log(base))
-    elif style == 'antilogn':
+    elif style == 'antilogb':
         return as_float(base ** x)
     else:
         raise ValueError(
             'Undefined style used: "{0}", must be one of the following: '
             '"{1}".'.format(
                 style, ', '.join([
-                    'log10', 'antiLog10', 'log2', 'antiLog2', 'logN',
-                    'antiLogN'
+                    'log10', 'antiLog10', 'log2', 'antiLog2', 'logB',
+                    'antiLogB'
                 ])))
 
 
 def logarithmic_function_quasilog(x,
-                                  base=2,
                                   style='linToLog',
+                                  base=2,
                                   log_side_slope=1,
                                   lin_side_slope=1,
                                   log_side_offset=0,
@@ -147,8 +151,6 @@ def logarithmic_function_quasilog(x,
     ----------
     x : numeric
         Linear/non-linear data to undergo encoding/decoding.
-    base : numeric, optional
-        The base value used for the transfer.
     style : unicode, optional
         **{'linToLog', 'logToLin'}**,
         Defines the behaviour for the logarithmic function to operate:
@@ -157,7 +159,8 @@ def logarithmic_function_quasilog(x,
             logarithmic data.
         -   *logToLin*: Applies an anti-logarithm to convert logarithmic
             data to linear data.
-
+    base : numeric, optional
+        The base value used for the transfer.
     log_side_slope : numeric, optional
         It is the slope (or gain) applied to the log side
         of the logarithmic function. The default value is 1.
@@ -184,18 +187,21 @@ def logarithmic_function_quasilog(x,
     Examples
     --------
     >>> logarithmic_function_quasilog(  # doctest: +ELLIPSIS
-    ...    0.18, style='linToLog')
+    ...    0.18, 'linToLog')
     -2.4739311...
     >>> logarithmic_function_quasilog(  # doctest: +ELLIPSIS
-    ...    -2.47393118833, style='logToLin')
+    ...    -2.473931188332412, 'logToLin')
     0.18000000...
     """
 
+    x = as_float_array(x)
+
     style = style.lower()
     if style == 'lintolog':
-        return as_float((log_side_slope * (np.log(
-            max(lin_side_slope * x + lin_side_offset, FLT_MIN)) / np.log(base))
-                         + log_side_offset))
+        return as_float((
+            log_side_slope *
+            (np.log(np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN))
+             / np.log(base)) + log_side_offset))
     elif style == 'logtolin':
         return as_float(
             ((base **
@@ -204,17 +210,17 @@ def logarithmic_function_quasilog(x,
     else:
         raise ValueError(
             'Undefined style used: "{0}", must be one of the following: '
-            '"{1}".'.format(style, ', '.join(['logToLog', 'logToLin'])))
+            '"{1}".'.format(style, ', '.join(['linToLog', 'logToLin'])))
 
 
 def logarithmic_function_camera(x,
-                                base=2,
                                 style='cameraLinToLog',
-                                lin_side_break=0,
+                                base=2,
                                 log_side_slope=1,
                                 lin_side_slope=1,
                                 log_side_offset=0,
-                                lin_side_offset=0):
+                                lin_side_offset=0,
+                                lin_side_break=0):
     """
     Defines the camera logarithmic function.
 
@@ -222,8 +228,6 @@ def logarithmic_function_camera(x,
     ----------
     x : numeric
         Linear/non-linear data to undergo encoding/decoding.
-    base : numeric, optional
-        The base value used for the transfer.
     style : unicode, optional
         **{'cameraLinToLog', 'cameraLogToLin'}**,
         Defines the behaviour for the logarithmic function to operate:
@@ -234,11 +238,8 @@ def logarithmic_function_camera(x,
         -   *cameraLogToLin*: Applies a piece-wise function with logarithmic
             and linear segments on non-linear values, converting them to linear
             values.
-
-    lin_side_break : numeric
-        It is the the break-point, defined in linear space,
-        at which the piece-wise function transitions between
-        the logarithmic and linear segments.
+    base : numeric, optional
+        The base value used for the transfer.
     log_side_slope : numeric, optional
         It is the slope (or gain) applied to the log side
         of the logarithmic segment. The default value is 1.
@@ -251,6 +252,10 @@ def logarithmic_function_camera(x,
     lin_side_offset : numeric, optional
         It is the offset applied to the linear side
         of the logarithmic segment. The default value is 0.
+    lin_side_break : numeric
+        It is the the break-point, defined in linear space,
+        at which the piece-wise function transitions between
+        the logarithmic and linear segments.
 
     Returns
     -------
@@ -265,12 +270,14 @@ def logarithmic_function_camera(x,
     Examples
     --------
     >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
-    ...    0.18, style='cameraLinToLog', lin_side_break=2.2)
-    array(-0.187152831975386)
+    ...    0.18, 'cameraLinToLog')
+    -2.4739311...
     >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
-    ...    -0.187152831975, style='cameraLogToLin', lin_side_break=2.2)
-    array(0.18000000000058866)
+    ...    -2.4739311883324122, 'cameraLogToLin')
+    0.1800000...
     """
+
+    x = as_float_array(x)
 
     log_side_break = (
         log_side_slope *
@@ -284,12 +291,21 @@ def logarithmic_function_camera(x,
 
     style = style.lower()
     if style == 'cameralintolog':
-        return np.where(x <= lin_side_break, linear_slope * x + linear_offset,
-                        logarithmic_function_quasilog(x, style='logToLin'))
+        return as_float(
+            np.where(
+                x <= lin_side_break, linear_slope * x + linear_offset,
+                logarithmic_function_quasilog(
+                    x, 'linToLog', base, log_side_slope, lin_side_slope,
+                    log_side_offset, lin_side_offset)))
     elif style == 'cameralogtolin':
-        return np.where(x <= log_side_break,
-                        (x - linear_offset) / linear_slope,
-                        logarithmic_function_quasilog(x, style='logToLin'))
+        return as_float(
+            np.where(
+                x <= log_side_break,
+                (x - linear_offset) / linear_slope,
+                logarithmic_function_quasilog(
+                    x, 'logToLin', base, log_side_slope, lin_side_slope,
+                    log_side_offset, lin_side_offset),
+            ))
     else:
         raise ValueError(
             'Undefined style used: "{0}", must be one of the following: '
