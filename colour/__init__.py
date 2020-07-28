@@ -52,7 +52,7 @@ import sys
 from .utilities.deprecation import ModuleAPI, build_API_changes
 from .utilities.documentation import is_documentation_building
 from .utilities.common import (domain_range_scale, get_domain_range_scale,
-                               set_domain_range_scale, set_ndimensional_array_backend)
+                               set_domain_range_scale)
 
 from .adaptation import (CHROMATIC_ADAPTATION_METHODS,
                          CHROMATIC_ADAPTATION_TRANSFORMS,

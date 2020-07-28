@@ -532,8 +532,8 @@ def is_integer(a):
     >>> is_integer(1.01)
     False
     """
-
-    return abs(a - np.around(a)) <= INTEGER_THRESHOLD
+    # FLOAT IS PLACEHOLDER
+    return abs(a - np.around(a)) <= float(INTEGER_THRESHOLD)
 
 
 def is_sibling(element, mapping):
@@ -1446,22 +1446,3 @@ def from_range_int(a, bit_depth=8, dtype=None):
         a /= maximum_code_value / 100
 
     return a
-
-def set_ndimensional_array_backend(backend):
-	"""
-	    Changes the computation backend framework
-
-	    Parameters
-	    ----------
-	    backend : string
-		possible values: "Numpy", "Cupy"
-		
-
-	    Returns
-	    -------
-
-	    Examples
-	    --------
-	    - 	set_ndimensional_array_backend('Cupy')
-	"""
-	np.set_ndimensional_array_backend(backend)

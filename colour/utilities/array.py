@@ -447,7 +447,7 @@ def closest_indexes(a, b):
     """
 
     a = np.ravel(a)[:, np.newaxis]
-    b = np.ravel(b)[np.newaxis, :]
+    b = np.ravel(np.array(b))[np.newaxis, :]
 
     return np.abs(a - b).argmin(axis=0)
 
@@ -1227,7 +1227,7 @@ def ones(shape, dtype=None, order='C'):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
-    return np.ones(shape, dtype, order)
+    return np.ones(shape, dtype)
 
 
 def full(shape, fill_value, dtype=None, order='C'):

@@ -190,11 +190,15 @@ def log_encoding_ACESproxy(lin_AP1,
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 
+    resized = np.full(lin_AP1.shape, CV_min)
+
+    float2cv = float_2_cv((np.log2(lin_AP1) + constants.mid_log_offset) *
+                          constants.steps_per_stop + constants.mid_CV_offset)
+
     ACESproxy = np.where(
         lin_AP1 > 2 ** -9.72,
-        float_2_cv((np.log2(lin_AP1) + constants.mid_log_offset) *
-                   constants.steps_per_stop + constants.mid_CV_offset),
-        np.resize(CV_min, lin_AP1.shape),
+        float2cv,
+        resized,
     )
 
     if out_int:

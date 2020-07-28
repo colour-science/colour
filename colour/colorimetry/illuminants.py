@@ -290,7 +290,11 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
     S1 = SDS_ILLUMINANTS_D_SERIES['S1']
     S2 = SDS_ILLUMINANTS_D_SERIES['S2']
 
-    distribution = S0.values + M1 * S1.values + M2 * S2.values
+    S0Vals = np.array(S0.values)
+    S1Vals = np.array(S1.values)
+    S2Vals = np.array(S2.values)
+
+    distribution = S0Vals + M1 * S1Vals + M2 * S2Vals
 
     return SpectralDistribution(
         distribution,

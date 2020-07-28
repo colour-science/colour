@@ -94,7 +94,7 @@ def sd_constant(k, shape=SPECTRAL_SHAPE_DEFAULT, dtype=None):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
-    wavelengths = shape.range(dtype)
+    wavelengths = np.array(shape.range(dtype))
     values = full(len(wavelengths), k, dtype)
 
     name = '{0} Constant'.format(k)
@@ -204,7 +204,7 @@ def msds_constant(k, labels, shape=SPECTRAL_SHAPE_DEFAULT, dtype=None):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
-    wavelengths = shape.range(dtype)
+    wavelengths = np.array(shape.range(dtype))
     values = full([len(wavelengths), len(labels)], k, dtype)
 
     name = '{0} Constant'.format(k)
@@ -322,7 +322,7 @@ def sd_gaussian_normal(mu, sigma, shape=SPECTRAL_SHAPE_DEFAULT):
     0.6065306...
     """
 
-    wavelengths = shape.range()
+    wavelengths = np.array(shape.range())
 
     values = np.exp(-(wavelengths - mu) ** 2 / (2 * sigma ** 2.))
 
@@ -368,7 +368,7 @@ def sd_gaussian_fwhm(peak_wavelength, fwhm, shape=SPECTRAL_SHAPE_DEFAULT):
     0.3678794...
     """
 
-    wavelengths = shape.range()
+    wavelengths = np.array(shape.range())
 
     values = np.exp(-((wavelengths - peak_wavelength) / fwhm) ** 2)
 

@@ -56,6 +56,10 @@ def reaction_rate_MichealisMenten(S, V_max, K_m):
     ----------
     :cite:`Wikipedia2003d`
 
+    Notes
+    -----
+    On CuPy, this returns an array even for length of 1.
+
     Examples
     --------
     >>> reaction_rate_MichealisMenten(0.5, 2.5, 0.8)  # doctest: +ELLIPSIS
@@ -95,6 +99,10 @@ def substrate_concentration_MichealisMenten(v, V_max, K_m):
     References
     ----------
     :cite:`Wikipedia2003d`
+
+    Notes
+    -----
+    On CuPy, this returns an array even for length of 1.
 
     Examples
     --------

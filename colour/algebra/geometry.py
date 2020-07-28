@@ -95,6 +95,10 @@ def euclidean_distance(a, b):
     b : array_like
         Point array :math:`b`.
 
+    Notes
+    -----
+    On CuPy, this returns an array even for length of 1.
+
     Returns
     -------
     numeric or ndarray
@@ -280,12 +284,16 @@ def intersect_line_segments(l_1, l_2):
     u_a = numerator_a / denominator
     u_b = numerator_b / denominator
 
-    intersect = np.logical_and.reduce((u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
+    logicalAndA = np.logical_and(u_a >= 0, u_a <= 1)
+    logicalAndB = np.logical_and(u_b >= 0, u_b <= 1)
+
+    intersect = np.logical_and(logicalAndA, logicalAndB)
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
     xy[~intersect] = np.nan
     parallel = denominator == 0
-    coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0,
-                                        parallel))
+
+    logicalAndNumerators = np.logical_and(numerator_a == 0, numerator_b == 0)
+    coincident = np.logical_and(logicalAndNumerators, parallel)
 
     return LineSegmentsIntersections_Specification(xy, intersect, parallel,
                                                    coincident)

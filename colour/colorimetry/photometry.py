@@ -118,8 +118,9 @@ def luminous_efficiency(
         })
     sd = sd.copy()
 
-    efficiency = (np.trapz(lef.values * sd.values, sd.wavelengths) / np.trapz(
-        sd.values, sd.wavelengths))
+    efficiency = (np.trapz(
+        np.array(lef.values) * np.array(sd.values), np.array(sd.wavelengths)) /
+                  np.trapz(np.array(sd.values), np.array(sd.wavelengths)))
 
     return efficiency
 

@@ -773,7 +773,7 @@ dict_like, optional
                              'using minimum interval!'.format(self.name)))
 
         return SpectralShape(
-            min(self.wavelengths), max(self.wavelengths),
+            as_float(min(self.wavelengths)), as_float(max(self.wavelengths)),
             as_float(min(wavelengths_interval)))
 
     def interpolate(self,

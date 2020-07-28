@@ -198,7 +198,11 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
         'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
                             ],
     }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
-
+    cupy = False
+    if np.__name__ == 'cupy':
+        Ljg = np.asnumpy(Ljg)
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
     Ljg = to_domain_100(Ljg)
     shape = Ljg.shape
     Ljg = np.atleast_1d(Ljg.reshape([-1, 3]))
@@ -223,5 +227,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
         fmin(error_function, x_0, (Ljg_i, ), **optimisation_settings)
         for Ljg_i in Ljg
     ])
-
+    if cupy:
+        np.set_ndimensional_array_backend('cupy')
+        XYZ = np.array(XYZ)
     return from_range_100(XYZ.reshape(shape))

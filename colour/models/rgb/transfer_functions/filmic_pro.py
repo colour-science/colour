@@ -106,9 +106,9 @@ def _log_decoding_FilmicPro6_interpolator():
     global _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE
 
     t = np.arange(0, 1, 0.0001)
-    if _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE is None:
-        _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE = Extrapolator(
-            LinearInterpolator(log_encoding_FilmicPro6(t), t))
+    # Turn from cupy to numpy and back creates an error
+    _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE = Extrapolator(
+        LinearInterpolator(log_encoding_FilmicPro6(t), t))
 
     return _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE
 

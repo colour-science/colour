@@ -295,12 +295,10 @@ class Extrapolator(object):
         ndarray
             Extrapolated points values.
         """
-
         xi = self._interpolator.x
         yi = self._interpolator.y
 
         y = np.empty_like(x)
-
         if self._method == 'linear':
             y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) /
                             (xi[1] - xi[0]))

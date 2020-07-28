@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.temperature.robertson1968` module.
 
 from __future__ import division, unicode_literals
 
-import colour.ndarray as np
+import numpy as np
 import unittest
 from itertools import permutations
 

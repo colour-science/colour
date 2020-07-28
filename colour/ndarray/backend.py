@@ -9,7 +9,6 @@ backend.
 
 from __future__ import division, unicode_literals
 
-import inspect
 import os
 import functools
 
@@ -21,7 +20,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'get_ndimensional_array_backend', 'set_ndimensional_array_backend',
+    'get_ndimensional_array_backend', '_set_ndimensional_array_backend',
     'ndimensional_array_backend', 'NDimensionalArrayBackend'
 ]
 
@@ -50,12 +49,12 @@ class ndimensional_array_backend(object):
         self._previous_backend = get_ndimensional_array_backend()
 
     def __enter__(self):
-        set_ndimensional_array_backend(self._backend)
+        _set_ndimensional_array_backend(self._backend)
 
         return self
 
     def __exit__(self, *args):
-        set_ndimensional_array_backend(self._previous_backend)
+        _set_ndimensional_array_backend(self._previous_backend)
 
     def __call__(self, function):
         @functools.wraps(function)
@@ -88,7 +87,11 @@ class NDimensionalArrayBackend(object):
             pass
 
     def __getattr__(self, attribute):
-        failsafe = getattr(self._failsafe, attribute)
+
+        try:
+            failsafe = getattr(self._failsafe, attribute)
+        except Exception:
+            failsafe = None
 
         if _NDIMENSIONAL_ARRAY_BACKEND == 'numpy':
             return getattr(self._numpy, attribute)
@@ -99,21 +102,35 @@ class NDimensionalArrayBackend(object):
                 except AttributeError:
                     return failsafe
             else:
+
                 def middleware(*args, **kwargs):
                     args = list(args)
                     for i in range(len(args)):
                         if isinstance(args[i], self._cupy.ndarray):
                             args[i] = self._cupy.asnumpy(args[i])
-                            args = tuple(args)
-                            r = failsafe(*args,**kwargs)
-                            print(type(r))
+                        else:
+                            if isinstance(args[i], tuple):
+                                args[i] = list(args[i])
+                            try:
+                                for z in range(len(args[i])):
+                                    if isinstance(args[i][z],
+                                                  self._cupy.ndarray):
+                                        arr = self._cupy.asnumpy(args[i][z])
+                                        args[i][z] = arr
+                                args[i] = tuple(args[i])
+                            except Exception:
+                                pass
+
+                    args = tuple(args)
+                    r = failsafe(*args, **kwargs)
+                    if isinstance(r, self._numpy.ndarray):
+                        return self._cupy.array(r)
+                    elif isinstance(r, (list)):
+                        for z in range(len(r)):
                             if isinstance(r, self._numpy.ndarray):
-                                return self._cupy.array(r)
-                            elif isinstance(r, (list)):
-                                for z in range(len(r)):
-                                    if isinstance(r, self._numpy.ndarray):
-                                        r[z] = self._cupy.array(r[z])
-                            return r
+                                r[z] = self._cupy.array(r[z])
+                    return r
+
                 if callable(failsafe):
                     return middleware
                 else:

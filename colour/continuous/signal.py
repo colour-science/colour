@@ -726,6 +726,7 @@ class Signal(AbstractContinuousFunction):
         else:
             x = np.atleast_1d(x).astype(self.dtype)
             y = np.resize(y, x.shape)
+            self._domain = np.array(self._domain)
 
             # Matching domain, updating existing `self._range` values.
             mask = np.in1d(x, self._domain)
@@ -1019,6 +1020,8 @@ class Signal(AbstractContinuousFunction):
          [   8.  280.]
          [   9.  310.]]
         """
+        self._domain = np.array(self._domain)
+        self._range = np.array(self._range)
 
         operation, ioperator = {
             '+': (add, iadd),

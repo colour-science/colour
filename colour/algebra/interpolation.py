@@ -426,13 +426,16 @@ class KernelInterpolator(object):
 
             self._x = value
 
+            minx = np.min(self._x)
+            maxx = np.max(self._x)
+
             if self._window is not None:
                 self._x_p = np.pad(
                     self._x, (self._window, self._window),
                     'linear_ramp',
                     end_values=(
-                        np.min(self._x) - self._window * value_interval[0],
-                        np.max(self._x) + self._window * value_interval[0]))
+                        float(minx - self._window * value_interval[0]),
+                        float(maxx + self._window * value_interval[0])))
 
     @property
     def y(self):
@@ -1122,18 +1125,18 @@ class SpragueInterpolator(object):
                 '"y" dependent variable values count must be normalised to'
                 'domain [6:]!')
 
-            yp1 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
-                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
-            yp2 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[1],
-                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
-            yp3 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[2],
-                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
-            yp4 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[3],
-                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
+            yp1 = np.ravel((np.dot(
+                np.array(self.SPRAGUE_C_COEFFICIENTS[0]),
+                np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
+            yp2 = np.ravel((np.dot(
+                np.array(self.SPRAGUE_C_COEFFICIENTS[1]),
+                np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
+            yp3 = np.ravel((np.dot(
+                np.array(self.SPRAGUE_C_COEFFICIENTS[2]),
+                np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
+            yp4 = np.ravel((np.dot(
+                np.array(self.SPRAGUE_C_COEFFICIENTS[3]),
+                np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
 
             self._yp = np.concatenate([
                 np.array([yp1, yp2]),
@@ -1179,11 +1182,12 @@ class SpragueInterpolator(object):
 
         self._validate_dimensions()
         self._validate_interpolation_range(x)
+        self._xp = np.array(self._xp)
 
         i = np.searchsorted(self._xp, x) - 1
         X = (x - self._xp[i]) / (self._xp[i + 1] - self._xp[i])
 
-        r = self._yp
+        r = np.array(self._yp)
 
         a0p = r[i]
         a1p = ((2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] -
