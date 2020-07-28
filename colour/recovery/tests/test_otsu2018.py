@@ -13,7 +13,8 @@ from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS,
                                 sd_to_XYZ)
 from colour.difference import delta_E_CIE1976
 from colour.models import XYZ_to_Lab
-from colour.recovery import XYZ_to_sd_Otsu2018
+from colour.recovery import XYZ_to_sd_Otsu2018, OTSU_2018_SPECTRAL_SHAPE
+from colour.utilities import metric_mse
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -49,8 +50,13 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
             recovered_XYZ = sd_to_XYZ(recovered_sd, illuminant=D65) / 100
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, D65_XY)
 
-            error = delta_E_CIE1976(Lab, recovered_Lab)
-            self.assertLess(error, 1e-12)
+            error = metric_mse(
+                sd.copy().align(OTSU_2018_SPECTRAL_SHAPE).values,
+                recovered_sd.values)
+            self.assertLess(error, 0.02)
+
+            delta_E = delta_E_CIE1976(Lab, recovered_Lab)
+            self.assertLess(delta_E, 1e-12)
 
 
 if __name__ == '__main__':
