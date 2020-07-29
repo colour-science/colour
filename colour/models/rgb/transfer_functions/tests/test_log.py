@@ -40,32 +40,82 @@ logarithmic_function_basic` definition.
         """
 
         self.assertAlmostEqual(
-            logarithmic_function_basic(0.18), -2.47393118833, places=7)
+            logarithmic_function_basic(0.18), -2.473931188332412, places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_basic(0.18, 10, 'log10'),
-            -0.744727494897,
+            logarithmic_function_basic(-2.473931188332412, 'antiLog2'),
+            0.180000000000000,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_basic(0.18, 2.2, 'logN'),
-            -2.174877823830,
+            logarithmic_function_basic(0.18, 'log10'),
+            -0.744727494896694,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_basic(-0.744727494897, 10, 'antiLog10'),
-            0.179999999999,
+            logarithmic_function_basic(-0.744727494896694, 'antiLog10'),
+            0.179999999999999,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_basic(-2.47393118833, 2, 'antiLog2'),
-            0.180000000000,
+            logarithmic_function_basic(0.18, 'logB', 3),
+            -1.560876795007312,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_basic(-2.174877823830, 2.2, 'antiLogN'),
-            0.180000000000,
+            logarithmic_function_basic(-1.560876795007312, 'antiLogB', 3),
+            0.180000000000000,
             places=7)
+
+    def test_n_dimensional_logarithmic_function_basic(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_basic` definition n-dimensional arrays support.
+        """
+
+        styles = ['log10', 'antiLog10', 'log2', 'antiLog2', 'logB', 'antiLogB']
+
+        for style in styles:
+            a = 0.18
+            a_p = logarithmic_function_basic(a, style)
+
+            a = np.tile(a, 6)
+            a_p = np.tile(a_p, 6)
+            np.testing.assert_almost_equal(
+                logarithmic_function_basic(a, style), a_p, decimal=7)
+
+            a = np.reshape(a, (2, 3))
+            a_p = np.reshape(a_p, (2, 3))
+            np.testing.assert_almost_equal(
+                logarithmic_function_basic(a, style), a_p, decimal=7)
+
+            a = np.reshape(a, (2, 3, 1))
+            a_p = np.reshape(a_p, (2, 3, 1))
+            np.testing.assert_almost_equal(
+                logarithmic_function_basic(a, style), a_p, decimal=7)
+
+    def test_raise_exception_logarithmic_function_basic(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_basic` definition raised exception.
+        """
+
+        self.assertRaises(ValueError, logarithmic_function_basic, 0.18,
+                          'Undefined')
+
+    @ignore_numpy_errors
+    def test_nan_logarithmic_function_basic(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_basic` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        styles = ['log10', 'antiLog10', 'log2', 'antiLog2', 'logB', 'antiLogB']
+
+        for case in cases:
+            for style in styles:
+                logarithmic_function_basic(case, style)
 
 
 class TestLogarithmFunction_Quasilog(unittest.TestCase):
@@ -81,68 +131,118 @@ logarithmic_function_quasilog` definition.
         """
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(0.18), -2.47393118833, places=7)
+            logarithmic_function_quasilog(0.18), -2.473931188332412, places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(0.18, 2.2, 'linToLog'),
-            -2.17487782383,
+            logarithmic_function_quasilog(-2.473931188332412, 'logToLin'),
+            0.18,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(0.18, 2.2, 'linToLog', 0.001),
-            -0.002174877823,
+            logarithmic_function_quasilog(0.18, 'linToLog', 10),
+            -0.744727494896694,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(0.18, 2.2, 'linToLog', 0.001, 0.12),
-            -0.0048640068025,
+            logarithmic_function_quasilog(-0.744727494896694, 'logToLin', 10),
+            0.18,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(0.18, 2.2, 'linToLog', 0.001, 0.12,
+            logarithmic_function_quasilog(0.18, 'linToLog', 10, 0.75),
+            -0.558545621172520,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(-0.558545621172520, 'logToLin', 10,
+                                          0.75),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(0.18, 'linToLog', 10, 0.75, 0.75),
+            -0.652249673628745,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(-0.652249673628745, 'logToLin', 10,
+                                          0.75, 0.75),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_quasilog(0.18, 'linToLog', 10, 0.75, 0.75,
                                           0.001),
-            -0.003864006802,
+            -0.651249673628745,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(0.18, 2.2, 'linToLog', 0.001, 0.12,
-                                          0.001, 0.12),
-            -0.001479207115,
-            places=7)
-
-        self.assertAlmostEqual(
-            logarithmic_function_quasilog(-2.47393118833, 2, 'logToLin'),
+            logarithmic_function_quasilog(-0.651249673628745, 'logToLin', 10,
+                                          0.75, 0.75, 0.001),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(-2.17487782383, 2.2, 'logToLin'),
-            0.18,
+            logarithmic_function_quasilog(0.18, 'linToLog', 10, 0.75, 0.75,
+                                          0.001, 0.01),
+            -0.627973998323769,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(-0.002174877823, 2.2, 'logToLin',
-                                          0.001),
+            logarithmic_function_quasilog(-0.627973998323769, 'logToLin', 10,
+                                          0.75, 0.75, 0.001, 0.01),
             0.18,
             places=7)
 
-        self.assertAlmostEqual(
-            logarithmic_function_quasilog(-0.004864006802, 2.2, 'logToLin',
-                                          0.001, 0.12),
-            0.18,
-            places=7)
+    def test_n_dimensional_logarithmic_function_quasilog(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_quasilog` definition n-dimensional arrays support.
+        """
 
-        self.assertAlmostEqual(
-            logarithmic_function_quasilog(-0.003864006802, 2.2, 'logToLin',
-                                          0.001, 0.12, 0.001),
-            0.18,
-            places=7)
+        styles = ['lintolog', 'logtolin']
 
-        self.assertAlmostEqual(
-            logarithmic_function_quasilog(-0.001479207115, 2.2, 'logToLin',
-                                          0.001, 0.12, 0.001, 0.12),
-            0.18,
-            places=7)
+        for style in styles:
+            a = 0.18
+            a_p = logarithmic_function_quasilog(a, style)
+
+            a = np.tile(a, 6)
+            a_p = np.tile(a_p, 6)
+            np.testing.assert_almost_equal(
+                logarithmic_function_quasilog(a, style), a_p, decimal=7)
+
+            a = np.reshape(a, (2, 3))
+            a_p = np.reshape(a_p, (2, 3))
+            np.testing.assert_almost_equal(
+                logarithmic_function_quasilog(a, style), a_p, decimal=7)
+
+            a = np.reshape(a, (2, 3, 1))
+            a_p = np.reshape(a_p, (2, 3, 1))
+            np.testing.assert_almost_equal(
+                logarithmic_function_quasilog(a, style), a_p, decimal=7)
+
+    def test_raise_exception_logarithmic_function_quasilog(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_quasilog` definition raised exception.
+        """
+
+        self.assertRaises(ValueError, logarithmic_function_quasilog, 0.18,
+                          'Undefined')
+
+    @ignore_numpy_errors
+    def test_nan_logarithmic_function_quasilog(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_quasilog` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        styles = ['lintolog', 'logtolin']
+
+        for case in cases:
+            for style in styles:
+                logarithmic_function_quasilog(case, style)
 
 
 class TestLogarithmFunction_Camera(unittest.TestCase):
@@ -158,74 +258,134 @@ logarithmic_function_camera` definition.
         """
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 2, 'cameraLinToLog', 2.2),
-            -0.187152831975,
+            logarithmic_function_camera(0.18, 'cameraLinToLog'),
+            -2.473931188332412,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 2.2, 'cameraLinToLog', 2.2),
-            -0.164529452496,
+            logarithmic_function_camera(-2.473931188332412, 'cameraLogToLin'),
+            0.18,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 2.2, 'cameraLinToLog', 2.2,
+            logarithmic_function_camera(0.18, 'cameraLinToLog', 10),
+            -0.744727494896694,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_camera(-0.744727494896694, 'cameraLogToLin',
+                                        10),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_camera(0.18, 'cameraLinToLog', 10, 0.75),
+            -0.558545621172520,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_camera(-0.558545621172520, 'cameraLogToLin',
+                                        10, 0.75),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_camera(0.18, 'cameraLinToLog', 10, 0.75,
+                                        0.75),
+            -0.652249673628745,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_camera(-0.652249673628745, 'cameraLogToLin',
+                                        10, 0.75, 0.75),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_camera(0.18, 'cameraLinToLog', 10, 0.75, 0.75,
                                         0.001),
-            -0.000164529452,
+            -0.651249673628745,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 2.2, 'cameraLinToLog', 2.2,
-                                        0.001, 0.001),
-            -0.008925631353,
+            logarithmic_function_camera(-0.651249673628745, 'cameraLogToLin',
+                                        10, 0.75, 0.75, 0.001),
+            0.18,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 2.2, 'cameraLinToLog', 2.2,
-                                        0.001, 0.001, 0.12),
-            0.111074368646,
+            logarithmic_function_camera(0.18, 'cameraLinToLog', 10, 0.75, 0.75,
+                                        0.001, 0.01),
+            -0.627973998323769,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 2.2, 'cameraLinToLog', 2.2,
-                                        0.001, 0.001, 0.12, 0.12),
-            0.11731294726,
+            logarithmic_function_camera(-0.627973998323769, 'cameraLogToLin',
+                                        10, 0.75, 0.75, 0.001, 0.01),
+            0.18,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(-0.187152831975, 2, 'cameraLogToLin',
-                                        2.2),
-            0.180000000001,
+            logarithmic_function_camera(0.18, 'cameraLinToLog', 10, 0.75, 0.75,
+                                        0.001, 0.01, 0.20),
+            -0.626446343766879,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(-0.164529452496, 2.2, 'cameraLogToLin',
-                                        2.2),
-            0.180000000001,
+            logarithmic_function_camera(-0.626446343766879, 'cameraLogToLin',
+                                        10, 0.75, 0.75, 0.001, 0.01, 0.20),
+            0.18,
             places=7)
 
-        self.assertAlmostEqual(
-            logarithmic_function_camera(-0.000164529452, 2.2, 'cameraLogToLin',
-                                        2.2, 0.001),
-            0.180000000001,
-            places=7)
+    def test_n_dimensional_logarithmic_function_camera(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_camera` definition n-dimensional arrays support.
+        """
 
-        self.assertAlmostEqual(
-            logarithmic_function_camera(-0.008925631353, 2.2, 'cameraLogToLin',
-                                        2.2, 0.001, 0.001),
-            0.180000000001,
-            places=7)
+        styles = styles = ['cameraLinToLog', 'cameraLogToLin']
 
-        self.assertAlmostEqual(
-            logarithmic_function_camera(0.111074368646, 2.2, 'cameraLogToLin',
-                                        2.2, 0.001, 0.001, 0.12),
-            0.179999999649,
-            places=7)
+        for style in styles:
+            a = 0.18
+            a_p = logarithmic_function_camera(a, style)
 
-        self.assertAlmostEqual(
-            logarithmic_function_camera(0.11731294726, 2.2, 'cameraLogToLin',
-                                        2.2, 0.001, 0.001, 0.12, 0.12),
-            0.17999999231,
-            places=7)
+            a = np.tile(a, 6)
+            a_p = np.tile(a_p, 6)
+            np.testing.assert_almost_equal(
+                logarithmic_function_camera(a, style), a_p, decimal=7)
+
+            a = np.reshape(a, (2, 3))
+            a_p = np.reshape(a_p, (2, 3))
+            np.testing.assert_almost_equal(
+                logarithmic_function_camera(a, style), a_p, decimal=7)
+
+            a = np.reshape(a, (2, 3, 1))
+            a_p = np.reshape(a_p, (2, 3, 1))
+            np.testing.assert_almost_equal(
+                logarithmic_function_camera(a, style), a_p, decimal=7)
+
+    def test_raise_exception_logarithmic_function_camera(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_camera` definition raised exception.
+        """
+
+        self.assertRaises(ValueError, logarithmic_function_camera, 0.18,
+                          'Undefined')
+
+    @ignore_numpy_errors
+    def test_nan_logarithmic_function_camera(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.log.\
+logarithmic_function_camera` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        styles = ['cameraLinToLog', 'cameraLogToLin']
+
+        for case in cases:
+            for style in styles:
+                logarithmic_function_camera(case, style)
 
 
 class TestLogEncoding_Log2(unittest.TestCase):
