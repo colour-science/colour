@@ -18,7 +18,7 @@ import os
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D,
-                  LUTSequence, LUT_to_LUT, Range, Matrix)
+                  LUTSequence, LUT_to_LUT, Range, Matrix, Exponent)
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
 from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
@@ -30,7 +30,7 @@ from .asc_cdl import (ASC_CDL, read_LUT_cdl_xml, read_LUT_cdl_edl,
 
 __all__ = [
     'AbstractLUTSequenceOperator', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUTSequence',
-    'LUT_to_LUT', 'Range', 'Matrix'
+    'LUT_to_LUT', 'Range', 'Matrix', 'Exponent'
 ]
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
 __all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']

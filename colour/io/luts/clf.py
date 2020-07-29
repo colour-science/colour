@@ -8,13 +8,14 @@ from xml.dom import minidom
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import (AbstractLUTSequenceOperator, ASC_CDL, LUT1D,
-                            LUT3x1D, LUT3D, LUTSequence, Matrix, Range)
+                            LUT3x1D, LUT3D, LUTSequence, Matrix, Range,
+                            Exponent)
 from colour.utilities import as_float_array, as_numeric, tsplit, tstack, lerp
 
 __all__ = [
     'half_to_uint16', 'uint16_to_half', 'half_domain_lookup', 'HalfDomain1D',
-    'HalfDomain3x1D', 'read_index_map', 'string_to_array', 'simple_clf_parse',
-    'simple_clf_write'
+    'HalfDomain3x1D', 'read_index_map', 'string_to_array', 'read_clf',
+    'write_clf'
 ]
 
 
@@ -340,8 +341,44 @@ def add_ASC_CDL(LUT, node):
 
     return LUT
 
+def add_Exponent(LUT, node):
+    operator = Exponent(exponent=[1, 1, 1], offset=[0, 0, 0])
 
-def simple_clf_parse(path):
+    if 'name' in node.keys():
+        operator.name = node.attrib['name']
+
+    if 'style' in node.keys():
+        operator.style = node.attrib['style']
+
+    for child in node:
+        if child.tag.lower().endswith('exponentparams'):
+            if 'channel' in child.keys():
+                if child.attrib['channel'].lower() == 'r':
+                    operator.exponent[0] = child.attrib['exponent']
+                    if 'offset' in child.keys():
+                        operator.offset[0] = child.attrib['offset']
+                elif child.attrib['channel'].lower() == 'g':
+                    operator.exponent[1] = child.attrib['exponent']
+                    if 'offset' in child.keys():
+                        operator.offset[1] = child.attrib['offset']
+                elif child.attrib['channel'].lower() == 'b':
+                    operator.exponent[2] = child.attrib['exponent']
+                    if 'offset' in child.keys():
+                        operator.offset[2] = child.attrib['offset']
+            else:
+                operator.exponent = [child.attrib['exponent'],
+                                     child.attrib['exponent'],
+                                     child.attrib['exponent']]
+                if 'offset' in child.keys():
+                        operator.offset = [child.attrib['offset'],
+                                           child.attrib['offset'],
+                                           child.attrib['offset']]
+
+    LUT.append(operator)
+
+    return LUT
+
+def read_clf(path):
     LUT = LUTSequence()
     tree = ElementTree.parse(path)
     process_list = tree.getroot()
@@ -365,11 +402,13 @@ def simple_clf_parse(path):
             LUT = add_Matrix(LUT, node)
         elif tag.endswith('asc_cdl'):
             LUT = add_ASC_CDL(LUT, node)
+        elif tag.endswith('exponent'):
+            LUT = add_Exponent(LUT, node)
 
     return LUT
 
 
-def simple_clf_write(LUT, path, name='', id='', decimals=10):
+def write_clf(LUT, path, name='', id='', decimals=10):
     def _format_array(array, decimals=10):
         buffer = StringIO()
         if not array.dtype == np.uint16:
@@ -537,6 +576,35 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
                 process_node.set('noClamp', 'False')
             else:
                 process_node.set('noClamp', 'True')
+
+        if isinstance(node, Exponent):
+            process_node = ElementTree.Element('Exponent')
+            process_node.set('style', node.style)
+
+            if node.comments:
+                _add_comments(process_node, node.comments)
+
+            if (node.offset[0] == node.offset[1] == node.offset[2]) and (node.exponent[0] == node.exponent[2] == node.exponent[2]):
+                ep = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep.set('exponent', '{}'.format(node.exponent[0]))
+                if node.style.lower()[:8] == 'moncurve':
+                    ep.set('offset', '{}'.format(node.offset[0]))
+            else:
+                ep_red = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep_red.set('channel', 'R')
+                ep_red.set('exponent', '{}'.format(node.exponent[0]))
+                if node.style.lower()[:8] == 'moncurve':
+                    ep_red.set('offset', '{}'.format(node.offset[0]))
+                ep_green = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep_green.set('channel', 'G')
+                ep_green.set('exponent', '{}'.format(node.exponent[1]))
+                if node.style.lower()[:8] == 'moncurve':
+                    ep_green.set('offset', '{}'.format(node.offset[1]))
+                ep_blue = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep_blue.set('channel', 'B')
+                ep_blue.set('exponent', '{}'.format(node.exponent[2]))
+                if node.style.lower()[:8] == 'moncurve':
+                    ep_blue.set('offset', '{}'.format(node.offset[2]))
 
         process_node.set('inBitDepth', '16f')
         process_node.set('outBitDepth', '16f')

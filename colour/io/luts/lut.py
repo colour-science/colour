@@ -13,6 +13,7 @@ Defines the classes and definitions handling *LUT* processing:
 -   :class:`colour.io.Range`
 -   :class:`colour.io.Matrix`
 -   :class:`colour.io.ASC_CDL`
+-   :class:`colour.io.Exponent`
 """
 
 from __future__ import division, unicode_literals
@@ -40,7 +41,8 @@ from six import add_metaclass
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.models import gamma_function
+from colour.models import (gamma_function, exponent_function_basic,
+                           exponent_function_monitor_curve)
 from colour.utilities import (as_float_array, dot_vector, is_numeric,
                               is_iterable, is_string, full, linear_conversion,
                               runtime_warning, tsplit, tstack, usage_warning)
@@ -2735,4 +2737,54 @@ class Matrix(AbstractLUTSequenceOperator):
                     '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
                     self.array.shape, _indent_array(
                         self.array), '\n\n{0}'.format('\n'.join(self.comments))
+                    if self.comments else ''))
+
+class Exponent(AbstractLUTSequenceOperator):
+    def __init__(self,
+                 exponent=[1, 1, 1],
+                 offset=[0, 0, 0], # ignored for basic
+                 style='basicFwd',
+                 name='',
+                 comments=None):
+        self.exponent = exponent
+        self.offset = offset
+        self.style = style
+        self.name = name
+        self.comments = comments
+
+    def apply(self, RGB):
+        if as_float_array(RGB).size == 3 or (isinstance(RGB, np.ndarray) and RGB.shape[-1] == 3):
+                r, g, b = tsplit(np.asarray(RGB))
+
+        else:
+            r = g = b = np.asarray(RGB)
+
+        if self.style.lower()[:5] == 'basic':
+            r = exponent_function_basic(r, self.exponent[0], self.style)
+            g = exponent_function_basic(g, self.exponent[1], self.style)
+            b = exponent_function_basic(b, self.exponent[2], self.style)
+
+            return tstack((r, g, b))
+    
+        if self.style.lower()[:8] == 'moncurve':
+            r = exponent_function_monitor_curve(r, self.exponent[0], self.offset[0], self.style)
+            g = exponent_function_monitor_curve(g, self.exponent[1], self.offset[1], self.style)
+            b = exponent_function_monitor_curve(b, self.exponent[2], self.offset[2], self.style)
+
+            return tstack((r, g, b))
+
+    def __str__(self):
+        return ('{0} - {1}\n'
+                '{2}\n\n'
+                'Exponent.r : {3}\n'
+                'Exponent.g : {4}\n'
+                'Exponent.b : {5}\n'
+                '{6}'
+                'Style : {7}\n'
+                '{8}'.format(
+                    self.__class__.__name__, self.name, 
+                    '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
+                     self.exponent[0], self.exponent[1], self.exponent[2],
+                     'Offset.r : {}\nOffset.g : {}\nOffset.b : {}\n'.format(self.offset[0], self.offset[1], self.offset[2]) if self.style.lower()[:8] == 'moncurve' else '', self.style,
+                    '\n\n{0}'.format('\n'.join(self.comments))
                     if self.comments else ''))
