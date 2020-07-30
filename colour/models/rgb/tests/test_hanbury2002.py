@@ -31,6 +31,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
         """
         Tests :func:`colour.models.rgb.HLS.RGB_to_HLS` definition.
         """
+
         np.testing.assert_almost_equal(
             RGB_to_IHLS(np.array([0.45620519, 0.03081071, 0.04091952])),
             np.array([3.59979176e+02, 1.21979433e-01, -1.57572751e-01]),
