@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.cylindrical` module.
+Defines unit tests for :mod:`colour.models.rgb.hanbury2002` module.
 """
 
 from __future__ import division, unicode_literals
@@ -23,7 +23,7 @@ __all__ = ['TestRGB_to_IHLS', 'TestIHLS_to_RGB']
 
 class TestRGB_to_IHLS(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cylindrical.RGB_to_IHLS` definition unit
+    Defines :func:`colour.models.rgb.hanbury2002.RGB_to_IHLS` definition unit
     tests methods.
     """
 
@@ -37,17 +37,17 @@ class TestRGB_to_IHLS(unittest.TestCase):
             decimal=7)
         np.testing.assert_almost_equal(
             RGB_to_IHLS(np.array([0.00000000, 0.00000000, 0.00000000])),
-            np.array([np.nan, 0., np.nan]),
+            np.array([np.nan, 0., 0.]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             RGB_to_IHLS(np.array([1.00000000, 1.00000000, 1.00000000])),
-            np.array([np.nan, 1.0, np.nan]),
+            np.array([np.nan, 1.0, 0.]),
             decimal=7)
 
     def test_n_dimensional_RGB_to_IHLS(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_IHLS` definition
+        Tests :func:`colour.models.rgb.hanbury2002.RGB_to_IHLS` definition
         n-dimensional arrays support.
         """
 
@@ -64,7 +64,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_IHLS(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_IHLS` definition
+        Tests :func:`colour.models.rgb.hanbury2002.RGB_to_IHLS` definition
         domain and range scale support.
         """
 
@@ -80,7 +80,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_IHLS(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_IHLS` definition nan
+        Tests :func:`colour.models.rgb.hanbury2002.RGB_to_IHLS` definition nan
         support.
         """
 
@@ -93,13 +93,13 @@ class TestRGB_to_IHLS(unittest.TestCase):
 
 class TestIHLS_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cylindrical.RGB_to_IHLS` definition unit
+    Defines :func:`colour.models.rgb.hanbury2002.RGB_to_IHLS` definition unit
     tests methods.
     """
 
     def test_IHLS_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.IHLS_to_RGB` definition.
+        Tests :func:`colour.models.rgb.hanbury2002.IHLS_to_RGB` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -109,17 +109,17 @@ class TestIHLS_to_RGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             IHLS_to_RGB(np.array([0.00000000, 0.00000000, 0.00000000])),
-            np.array([np.nan, 0., np.nan]),
+            np.array([0., 0., 0.]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             IHLS_to_RGB(np.array([0.00000000, 0.00000000, 1.00000000])),
-            np.array([np.nan, 1.0, np.nan]),
+            np.array([1.17461569, -0.31695979, -0.31695979]),
             decimal=7)
 
     def test_n_dimensional_IHLS_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.IHLS_to_RGB` definition
+        Tests :func:`colour.models.rgb.hanbury2002.IHLS_to_RGB` definition
         n-dimensional arrays support.
         """
 
@@ -136,7 +136,7 @@ class TestIHLS_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_IHLS_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.IHLS_to_RGB` definition
+        Tests :func:`colour.models.rgb.hanbury2002.IHLS_to_RGB` definition
         domain and range scale support.
         """
 
@@ -152,7 +152,7 @@ class TestIHLS_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_IHLS_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.IHLS_to_RGB` definition nan
+        Tests :func:`colour.models.rgb.hanbury2002.IHLS_to_RGB` definition nan
         support.
         """
 
