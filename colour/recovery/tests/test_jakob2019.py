@@ -162,7 +162,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
                 XYZ, illuminant=D65, additional_data=True)
 
             if error > ACCEPTABLE_DELTA_E:
-                self.fail('Delta E for \'{0}\' is {2}'.format(name, error))
+                self.fail('Delta E for \'{0}\' is {1}!'.format(name, error))
 
     def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
         """
@@ -233,7 +233,7 @@ class TestJakob2019Interpolator(unittest.TestCase):
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
             if error > 2 * ACCEPTABLE_DELTA_E:
-                self.fail('Delta E for RGB={0} in colourspace {1} is {2}'
+                self.fail('Delta E for RGB={0} in colourspace {1} is {2}!'
                           .format(RGB, sRGB.name, error))
 
 
