@@ -332,8 +332,6 @@ def find_coefficients_Jakob2019(
             DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
         coefficients_0=zeros(3),
         max_error=ACCEPTABLE_DELTA_E,
-        try_directly_first=False,
-        use_feedback=True,
         dimensionalise=True):
     """
     Computes the coefficients for *Jakob and Hanika (2019)* reflectance
@@ -353,16 +351,6 @@ def find_coefficients_Jakob2019(
         Maximal acceptable error. Set higher to save computational time.
         If *None*, the solver will keep going until it is very close to the
         minimum. The default is ``ACCEPTABLE_DELTA_E``.
-    try_directly_first: bool, optional
-        If *True* and ``use_feedback`` is not *None*, an attempt to solve for
-        the target colour will be made, and feedback will be used only if that
-        fails to produce an error below ``max_error``.
-    use_feedback : bool, optional
-        If *True*, a less saturated version of the target colour is solved for
-        first. Then, colours closer and closer to the target are computed,
-        feeding the result of every iteration to the next (as starting
-        coefficients). This improves stability of results and greatly improves
-        convergence.
     dimensionalise : bool, optional
         If *True*, returned coefficients are dimensionful and will not work
         correctly if fed back as ``coefficients_0``. The default is *True*.
@@ -402,44 +390,33 @@ def find_coefficients_Jakob2019(
 
     xy_n = XYZ_to_xy(sd_to_XYZ(illuminant))
 
-    if try_directly_first:
-        target = XYZ_to_Lab(XYZ, xy_n)
-        coefficients, error = optimize(target, coefficients_0)
+    XYZ_good = full(3, 0.5)
+    coefficients_good = zeros(3)
 
-        if error < max_error:
-            if dimensionalise:
-                coefficients = dimensionalise_coefficients(coefficients, shape)
+    divisions = 3
+    while divisions < 10:
+        XYZ_r = XYZ_good
+        coefficient_r = coefficients_good
+        keep_divisions = False
 
-            return coefficients, error
+        coefficients_0 = coefficient_r
+        for i in range(1, divisions):
+            XYZ_i = (XYZ - XYZ_r) * i / (divisions - 1) + XYZ_r
+            Lab_i = XYZ_to_Lab(XYZ_i)
 
-    if use_feedback:
-        XYZ_good = full(3, 0.5)
-        coefficients_good = zeros(3)
+            coefficients_0, error = optimize(Lab_i, coefficients_0)
 
-        divisions = 3
-        while divisions < 10:
-            XYZ_r = XYZ_good
-            coefficient_r = coefficients_good
-            keep_divisions = False
-
-            coefficients_0 = coefficient_r
-            for i in range(1, divisions):
-                XYZ_i = (XYZ - XYZ_r) * i / (divisions - 1) + XYZ_r
-                Lab_i = XYZ_to_Lab(XYZ_i)
-
-                coefficients_0, error = optimize(Lab_i, coefficients_0)
-
-                if error > max_error:
-                    break
-                else:
-                    XYZ_good = XYZ_i
-                    coefficients_good = coefficients_0
-                    keep_divisions = True
-            else:
+            if error > max_error:
                 break
+            else:
+                XYZ_good = XYZ_i
+                coefficients_good = coefficients_0
+                keep_divisions = True
+        else:
+            break
 
-            if not keep_divisions:
-                divisions += 2
+        if not keep_divisions:
+            divisions += 2
 
     target = XYZ_to_Lab(XYZ, xy_n)
     coefficients, error = optimize(target, coefficients_0)
@@ -745,7 +722,6 @@ class Jakob2019Interpolator:
                     cmfs,
                     illuminant,
                     coefficients_0,
-                    try_directly_first=True,
                     dimensionalise=False)
 
                 if verbose:

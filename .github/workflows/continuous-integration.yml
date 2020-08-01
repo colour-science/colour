@@ -39,7 +39,7 @@ jobs:
     - name: Install Poetry
       run: |
         curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
-        python get-poetry.py --preview --version 1.0.0b3
+        python get-poetry.py
         PATH=$HOME/.poetry/bin:$PATH
         echo ::set-env name=PATH::$PATH
     - name: Python 3.8 - Matplotlib
@@ -103,7 +103,7 @@ jobs:
     - name: Install Poetry
       run: |
         curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
-        python get-poetry.py --preview --version 1.0.0b3
+        python get-poetry.py
         set PATH=%USERPROFILE%\.poetry\bin;%PATH%
         echo ::set-env name=PATH::%PATH%
       shell: cmd
