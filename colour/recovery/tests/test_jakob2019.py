@@ -156,20 +156,13 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
 
         # Tests the round-trip with values of a colour checker.
         for name, sd in COLOURCHECKER_SDS['ColorChecker N Ohta'].items():
-            # The colours aren't too saturated and the tests should pass with
-            # or without feedback.
-            for use_feedback in [False, True]:
-                XYZ = sd_to_XYZ(sd, illuminant=D65) / 100
+            XYZ = sd_to_XYZ(sd, illuminant=D65) / 100
 
-                _recovered_sd, error = XYZ_to_sd_Jakob2019(
-                    XYZ,
-                    illuminant=D65,
-                    optimisation_kwargs={'use_feedback': use_feedback},
-                    additional_data=True)
+            _recovered_sd, error = XYZ_to_sd_Jakob2019(
+                XYZ, illuminant=D65, additional_data=True)
 
-                if error > ACCEPTABLE_DELTA_E:
-                    self.fail('Delta E for \'{0}\' with use_feedback={1}'
-                              ' is {2}'.format(name, use_feedback, error))
+            if error > ACCEPTABLE_DELTA_E:
+                self.fail('Delta E for \'{0}\' is {2}'.format(name, error))
 
     def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
         """
