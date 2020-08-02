@@ -34,7 +34,8 @@ from colour.models.ipt import (IPT_XYZ_TO_LMS_MATRIX, IPT_LMS_TO_XYZ_MATRIX,
 from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
                               from_range_100, to_domain_1, to_domain_100,
                               dot_vector)
-from colour.utilities.documentation import DocstringTuple
+from colour.utilities.documentation import (DocstringTuple,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -47,8 +48,10 @@ __all__ = [
     'HDR_IPT_METHODS', 'exponent_hdr_IPT', 'XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ'
 ]
 
-HDR_IPT_METHODS = DocstringTuple(('Fairchild 2010', 'Fairchild 2011'))
-HDR_IPT_METHODS.__doc__ = """
+HDR_IPT_METHODS = ('Fairchild 2010', 'Fairchild 2011')
+if is_documentation_building():  # pragma: no cover
+    HDR_IPT_METHODS = DocstringTuple(HDR_IPT_METHODS)
+    HDR_IPT_METHODS.__doc__ = """
 Supported *hdr-IPT* colourspace computation methods.
 
 References

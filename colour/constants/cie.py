@@ -15,7 +15,8 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.utilities.documentation import DocstringFloat
+from colour.utilities.documentation import (DocstringFloat,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -26,8 +27,10 @@ __status__ = 'Production'
 
 __all__ = ['K_M', 'KP_M']
 
-K_M = DocstringFloat(683)
-K_M.__doc__ = """
+K_M = 683
+if is_documentation_building():  # pragma: no cover
+    K_M = DocstringFloat(K_M)
+    K_M.__doc__ = """
 Rounded maximum photopic luminous efficiency :math:`K_m` value in
 :math:`lm\\cdot W^{-1}`.
 
@@ -43,8 +46,10 @@ References
 :cite:`Wyszecki2000s`
 """
 
-KP_M = DocstringFloat(1700)
-KP_M.__doc__ = """
+KP_M = 1700
+if is_documentation_building():  # pragma: no cover
+    KP_M = DocstringFloat(KP_M)
+    KP_M.__doc__ = """
 Rounded maximum scotopic luminous efficiency :math:`K^{\\prime}_m` value in
 :math:`lm\\cdot W^{-1}`.
 

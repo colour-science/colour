@@ -11,7 +11,8 @@ from __future__ import division, unicode_literals
 import os
 import numpy as np
 
-from colour.utilities.documentation import DocstringFloat
+from colour.utilities.documentation import (DocstringFloat,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -32,9 +33,12 @@ Floating point number regex matching pattern.
 FLOATING_POINT_NUMBER_PATTERN : unicode
 """
 
-INTEGER_THRESHOLD = DocstringFloat(1e-3)
-INTEGER_THRESHOLD.__doc__ = """
-Integer threshold value.
+INTEGER_THRESHOLD = 1e-3
+if is_documentation_building():  # pragma: no cover
+    INTEGER_THRESHOLD = DocstringFloat(INTEGER_THRESHOLD)
+    INTEGER_THRESHOLD.__doc__ = """
+Integer threshold value when checking if a floating point number is almost an
+integer.
 
 INTEGER_THRESHOLD : numeric
 """

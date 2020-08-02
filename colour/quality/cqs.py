@@ -37,7 +37,8 @@ from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import as_float_array, domain_range_scale, tsplit
-from colour.utilities.documentation import DocstringTuple
+from colour.utilities.documentation import (DocstringTuple,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -113,8 +114,10 @@ class CQS_Specification(
     """
 
 
-COLOUR_QUALITY_SCALE_METHODS = DocstringTuple(['NIST CQS 7.4', 'NIST CQS 9.0'])
-COLOUR_QUALITY_SCALE_METHODS.__doc__ = """
+COLOUR_QUALITY_SCALE_METHODS = ('NIST CQS 7.4', 'NIST CQS 9.0')
+if is_documentation_building():  # pragma: no cover
+    COLOUR_QUALITY_SCALE_METHODS = DocstringTuple(COLOUR_QUALITY_SCALE_METHODS)
+    COLOUR_QUALITY_SCALE_METHODS.__doc__ = """
 Supported  *Colour Quality Scale* (CQS) computation methods.
 
 References

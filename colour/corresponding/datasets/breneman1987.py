@@ -19,7 +19,8 @@ import numpy as np
 
 from collections import namedtuple
 
-from colour.utilities.documentation import DocstringDict
+from colour.utilities.documentation import (DocstringDict,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -777,7 +778,7 @@ Notes
 """
 
 # yapf: disable
-BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES = DocstringDict({
+BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES = {
     1: PrimariesChromaticityCoordinates(
         1, ('A', 'D65'), 1500,
         (0.671, 0.519), (-0.586, 0.627), (0.253, 0.016)),
@@ -804,9 +805,12 @@ BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES = DocstringDict({
         (0.680, 0.529), (0.018, 0.576), (0.307, 0.080)),
     12: PrimariesChromaticityCoordinates(
         12, ('D55', 'green'), 75,
-        (0.661, 0.505), (0.039, 0.598), (0.345, 0.127))})
+        (0.661, 0.505), (0.039, 0.598), (0.345, 0.127))}
 # yapf: enable
-BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES.__doc__ = """
+if is_documentation_building():  # pragma: no cover
+    BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES = DocstringDict(
+        BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES)
+    BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES.__doc__ = """
 *Breneman (1987)* experiments primaries chromaticities.
 
 References
@@ -816,7 +820,7 @@ References
 BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES : dict
 """
 
-BRENEMAN_EXPERIMENTS = DocstringDict({
+BRENEMAN_EXPERIMENTS = {
     1: BRENEMAN_EXPERIMENT_1_RESULTS,
     2: BRENEMAN_EXPERIMENT_2_RESULTS,
     3: BRENEMAN_EXPERIMENT_3_RESULTS,
@@ -829,8 +833,10 @@ BRENEMAN_EXPERIMENTS = DocstringDict({
     10: BRENEMAN_EXPERIMENT_10_RESULTS,
     11: BRENEMAN_EXPERIMENT_11_RESULTS,
     12: BRENEMAN_EXPERIMENT_12_RESULTS
-})
-BRENEMAN_EXPERIMENTS.__doc__ = """
+}
+if is_documentation_building():  # pragma: no cover
+    BRENEMAN_EXPERIMENTS = DocstringDict(BRENEMAN_EXPERIMENTS)
+    BRENEMAN_EXPERIMENTS.__doc__ = """
 *Breneman (1987)* experiments.
 
 References

@@ -9,7 +9,8 @@ Science and Technology (CODATA).
 
 from __future__ import division, unicode_literals
 
-from colour.utilities.documentation import DocstringFloat
+from colour.utilities.documentation import (DocstringFloat,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -22,29 +23,37 @@ __all__ = [
     'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', 'PLANCK_CONSTANT'
 ]
 
-AVOGADRO_CONSTANT = DocstringFloat(6.02214179e23)
-AVOGADRO_CONSTANT.__doc__ = """
+AVOGADRO_CONSTANT = 6.02214179e23
+if is_documentation_building():  # pragma: no cover
+    AVOGADRO_CONSTANT = DocstringFloat(AVOGADRO_CONSTANT)
+    AVOGADRO_CONSTANT.__doc__ = """
 Avogadro constant.
 
 AVOGADRO_CONSTANT : numeric
 """
 
-BOLTZMANN_CONSTANT = DocstringFloat(1.38065e-23)
-BOLTZMANN_CONSTANT.__doc__ = """
+BOLTZMANN_CONSTANT = 1.38065e-23
+if is_documentation_building():  # pragma: no cover
+    BOLTZMANN_CONSTANT = DocstringFloat(BOLTZMANN_CONSTANT)
+    BOLTZMANN_CONSTANT.__doc__ = """
 Boltzmann constant.
 
 BOLTZMANN_CONSTANT : numeric
 """
 
-LIGHT_SPEED = DocstringFloat(299792458)
-LIGHT_SPEED.__doc__ = """
+LIGHT_SPEED = 299792458
+if is_documentation_building():  # pragma: no cover
+    LIGHT_SPEED = DocstringFloat(LIGHT_SPEED)
+    LIGHT_SPEED.__doc__ = """
 Speed of light in vacuum.
 
 LIGHT_SPEED : numeric
 """
 
-PLANCK_CONSTANT = DocstringFloat(6.62607e-34)
-PLANCK_CONSTANT.__doc__ = """
+PLANCK_CONSTANT = 6.62607e-34
+if is_documentation_building():  # pragma: no cover
+    PLANCK_CONSTANT = DocstringFloat(PLANCK_CONSTANT)
+    PLANCK_CONSTANT.__doc__ = """
 Planck constant.
 
 PLANCK_CONSTANT : numeric
