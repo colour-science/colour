@@ -1308,10 +1308,16 @@ class LUT3x1D(AbstractLUT):
 
             R, G, B = tsplit(domain)
 
-            samples = [
-                np.linspace(a[0], a[1], size[i])
-                for i, a in enumerate([R, G, B])
-            ]
+            if np.__name__ == 'cupy':
+                samples = [
+                    np.linspace(a[0].item(), a[1].item(), size[i].item())
+                    for i, a in enumerate([B, G, R])
+                ]
+            else:
+                samples = [
+                    np.linspace(a[0], a[1], size[i])
+                    for i, a in enumerate([R, G, B])
+                ]
 
             if not len(np.unique(size)) == 1:
                 runtime_warning('Table is non uniform, axis will be '
@@ -1791,16 +1797,24 @@ class LUT3D(AbstractLUT):
                 size = np.tile(size, 3)
 
             R, G, B = tsplit(domain)
+            if np.__name__ == 'cupy':
+                samples = [
+                    np.linspace(a[0].item(), a[1].item(), size[i].item())
+                    for i, a in enumerate([B, G, R])
+                ]
+            else:
+                samples = [
+                    np.linspace(a[0], a[1], size[i])
+                    for i, a in enumerate([B, G, R])
+                ]
 
-            size = np.flip(size, -1)
-            samples = [
-                np.linspace(a[0], a[1], size[i])
-                for i, a in enumerate([B, G, R])
-            ]
-
-        table = np.meshgrid(*samples, indexing='ij')
-        table = np.flip(
-            np.transpose(table).reshape(np.hstack([np.flip(size, -1), 3])), -1)
+        table = np.array(np.meshgrid(*samples, indexing='ij'))
+        if np.__name__ == 'cupy':
+            table_tuple = tuple(np.asnumpy(np.hstack([np.flip(size, -1), 3])))
+            table = np.flip(np.transpose(table).reshape(table_tuple), -1)
+        else:
+            hstack = np.hstack([np.flip(size, -1), 3])
+            table = np.flip(np.transpose(table).reshape(hstack), -1)
 
         return table
 

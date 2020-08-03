@@ -97,14 +97,19 @@ def read_LUT_SonySPI3D(path):
                 indexes.append(as_int_array(tokens[:3]))
                 table.append(as_float_array(tokens[3:]))
 
-    indexes = as_int_array(indexes)
-    sorting_indexes = np.lexsort((indexes[:, 2], indexes[:, 1], indexes[:, 0]))
-
-    assert np.array_equal(
-        indexes[sorting_indexes],
-        DEFAULT_INT_DTYPE(np.around(
-            LUT3D.linear_table(size) * (size - 1))).reshape(
-                (-1, 3))), 'Indexes do not match expected "LUT3D" indexes!'
+    if np.__name__ == 'cupy':
+        assert np.array_equal(
+            indexes,
+            np.array(
+                np.around(LUT3D.linear_table(size) * (size - 1)),
+                dtype=np.int64).reshape(
+                    (-1, 3))), 'Indexes do not match expected "LUT3D" indexes!'
+    else:
+        assert np.array_equal(
+            indexes,
+            DEFAULT_INT_DTYPE(
+                np.around(LUT3D.linear_table(size) * (size - 1))).reshape(
+                    (-1, 3))), 'Indexes do not match expected "LUT3D" indexes!'
 
     table = as_float_array(table)[sorting_indexes].reshape(
         [size, size, size, 3])

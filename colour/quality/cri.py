@@ -221,6 +221,10 @@ def tcs_colorimetry_data(sd_t, sd_r, sds_tcs, cmfs,
         U_tcs = 13 * W_tcs * (u_tcs - u_r)
         V_tcs = 13 * W_tcs * (v_tcs - v_r)
 
+        if np.__name__ == 'cupy':
+            U_tcs = U_tcs.item()
+            V_tcs = V_tcs.item()
+
         tcs_data.append(
             TCS_ColorimetryData(sd_tcs.name, XYZ_tcs, uv_tcs,
                                 np.array([U_tcs, V_tcs, W_tcs])))

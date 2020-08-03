@@ -106,11 +106,17 @@ def spectral_similarity_index(sd_test, sd_reference):
 
     d_i = test_i - reference_i
     dr_i = d_i / (reference_i + np.mean(reference_i))
-    wdr_i = dr_i * [
+    wdr_i = dr_i * np.array([
         12 / 45, 22 / 45, 32 / 45, 40 / 45, 44 / 45, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11 / 15, 3 / 15
-    ]
-    c_wdr_i = convolve1d(np.hstack([0, wdr_i, 0]), [0.22, 0.56, 0.22])
+    ])
+
+    if np.__name__ == 'cupy':
+        numpy_c_wdr_i = convolve1d(
+            np.asnumpy(np.hstack([0, wdr_i, 0])), [0.22, 0.56, 0.22])
+        c_wdr_i = np.array(numpy_c_wdr_i)
+    else:
+        c_wdr_i = convolve1d(np.hstack([0, wdr_i, 0]), [0.22, 0.56, 0.22])
     m_v = np.sum(c_wdr_i ** 2)
 
     SSI = np.around(100 - 32 * np.sqrt(m_v))

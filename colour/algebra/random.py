@@ -84,7 +84,8 @@ def random_triplet_generator(size,
     if integer_size != size:
         runtime_warning(
             '"size" has been cast to integer: {0}'.format(integer_size))
-
+    integer_size = integer_size.item()
+    limits = np.array(limits)
     return tstack([
         random_state.uniform(*limits[0], size=integer_size),
         random_state.uniform(*limits[1], size=integer_size),

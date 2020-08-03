@@ -110,6 +110,11 @@ def read_LUT_SonySPI1D(path):
                 table.append(tokens)
 
     table = as_float_array(table)
+
+    if np.__name__ == 'cupy':
+        domain_min = domain_min.item()
+        domain_max = domain_max.item()
+
     if dimensions == 1:
         return LUT1D(
             np.squeeze(table),

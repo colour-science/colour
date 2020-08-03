@@ -432,7 +432,8 @@ def molecular_density(temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
     >>> molecular_density(288.15, 6.0221367e23)  # doctest: +ELLIPSIS
     2.5468999...e+19
     """
-
+    if not (isinstance(avogadro_constant, np.ndarray)):
+        avogadro_constant = float(avogadro_constant)
     T = as_float_array(temperature)
 
     N_s = (avogadro_constant / 22.4141) * (273.15 / T) * (1 / 1000)
@@ -563,7 +564,8 @@ def scattering_cross_section(
     >>> scattering_cross_section(555 * 10e-8)  # doctest: +ELLIPSIS
     4.6613309...e-27
     """
-
+    if not (isinstance(avogadro_constant, np.ndarray)):
+        avogadro_constant = float(avogadro_constant)
     wl = as_float_array(wavelength)
     CO2_c = as_float_array(CO2_concentration)
     temperature = as_float_array(temperature)
@@ -640,7 +642,8 @@ def rayleigh_optical_depth(
     >>> rayleigh_optical_depth(555 * 10e-8)  # doctest: +ELLIPSIS
     0.1004070...
     """
-
+    if not (isinstance(avogadro_constant, np.ndarray)):
+        avogadro_constant = float(avogadro_constant)
     wavelength = as_float_array(wavelength)
     CO2_c = as_float_array(CO2_concentration)
     latitude = as_float_array(latitude)
@@ -1138,7 +1141,8 @@ def sd_rayleigh_scattering(
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
     """
-
+    if not (isinstance(avogadro_constant, np.ndarray)):
+        avogadro_constant = float(avogadro_constant)
     wavelengths = shape.range()
     return SpectralDistribution(
         data=dict(

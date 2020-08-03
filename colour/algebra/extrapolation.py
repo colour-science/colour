@@ -23,6 +23,7 @@ import colour.ndarray as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import as_float, is_numeric, is_string
+from .interpolation import (CubicSplineInterpolator, PchipInterpolator)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -314,6 +315,13 @@ class Extrapolator(object):
             y[x > xi[-1]] = self._right
 
         in_range = np.logical_and(x >= xi[0], x <= xi[-1])
-        y[in_range] = self._interpolator(x[in_range])
+
+        instance_compare = isinstance(
+            self._interpolator, (CubicSplineInterpolator, PchipInterpolator))
+
+        if instance_compare and np.__name__ == 'cupy':
+            y[in_range] = np.array(self._interpolator(np.asnumpy(x[in_range])))
+        else:
+            y[in_range] = self._interpolator(x[in_range])
 
         return y

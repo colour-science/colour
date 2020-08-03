@@ -233,10 +233,17 @@ def colour_quality_scale(sd_test, additional_data=False,
     if method == 'nist cqs 9.0':
         Q_d = Q_p = None
     else:
-        p_delta_C = np.average([
-            sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
-            for sample_data in Q_as.values()
-        ])
+        if np.__name__ == 'cupy':
+            p_delta_C = np.average(
+                np.array([
+                    sample_data.D_C_ab.item() if sample_data.D_C_ab > 0 else 0
+                    for sample_data in Q_as.values()
+                ]))
+        else:
+            p_delta_C = np.average([
+                sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
+                for sample_data in Q_as.values()
+            ])
         Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
         Q_d = G_t / G_r * CCT_f * 100
 
@@ -433,10 +440,11 @@ def delta_E_RMS(cqs_data, attribute):
         Root-mean-square average.
     """
 
-    return np.sqrt(1 / len(cqs_data) * np.sum([
-        getattr(sample_data, attribute) ** 2
-        for sample_data in cqs_data.values()
-    ]))
+    return np.sqrt(1 / len(cqs_data) * np.sum(
+        np.array([
+            getattr(sample_data, attribute) ** 2
+            for sample_data in cqs_data.values()
+        ])))
 
 
 def colour_quality_scales(test_data, reference_data, scaling_f, CCT_f):

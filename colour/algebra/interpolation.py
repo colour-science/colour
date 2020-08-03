@@ -1242,6 +1242,14 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
 
     def __init__(self, *args, **kwargs):
+
+        if np.__name__ == 'cupy':
+            args = list(args)
+            for i in range(len(args)):
+                if isinstance(args[i], np.ndarray):
+                    args[i] = np.asnumpy(args[i])
+            args = tuple(args)
+
         super(CubicSplineInterpolator, self).__init__(
             kind='cubic', *args, **kwargs)
 
@@ -1262,6 +1270,18 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     """
 
     def __init__(self, x, y, *args, **kwargs):
+
+        if np.__name__ == 'cupy':
+            args = list(args)
+            for i in range(len(args)):
+                if isinstance(args[i], np.ndarray):
+                    args[i] = np.asnumpy(args[i])
+            args = tuple(args)
+            if isinstance(x, np.ndarray):
+                x = np.asnumpy(x)
+            if isinstance(y, np.ndarray):
+                y = np.asnumpy(y)
+
         super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
 
         self._y = y
@@ -1782,9 +1802,10 @@ def table_interpolation_trilinear(V_xyz, table):
 
     weights = np.moveaxis(
         np.transpose(
-            [(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
-             (1 - x) * y * (1 - z), (1 - x) * y * z, x * (1 - y) * (1 - z),
-             x * (1 - y) * z, x * y * (1 - z), x * y * z]), 0, -1)
+            np.array(
+                [(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
+                 (1 - x) * y * (1 - z), (1 - x) * y * z, x * (1 - y) * (1 - z),
+                 x * (1 - y) * z, x * y * (1 - z), x * y * z])), 0, -1)
 
     xyz_o = np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
 

@@ -1093,9 +1093,12 @@ dict_like, optional
                 round(self_shape.end) != self_shape.end):
             runtime_warning(
                 'Fractional bound encountered, rounding will occur!')
-
-        shape.start = max(shape.start, np.ceil(self_shape.start))
-        shape.end = min(shape.end, np.floor(self_shape.end))
+        if np.__name__ == 'cupy':
+            shape.start = max(shape.start, np.ceil(self_shape.start).item())
+            shape.end = min(shape.end, np.floor(self_shape.end).item())
+        else:
+            shape.start = max(shape.start, np.ceil(self_shape.start))
+            shape.end = min(shape.end, np.floor(self_shape.end))
 
         if interpolator is None:
             # User has specifically chosen the interpolator thus it is used
@@ -1121,7 +1124,13 @@ dict_like, optional
                                     **interpolator_kwargs)
 
         self.domain = shape.range()
-        self.range = interpolator(self.domain)
+
+        interpolator_compare = self.interpolator == CubicSplineInterpolator
+
+        if interpolator_compare and np.__name__ == 'cupy':
+            self.range = np.array(interpolator(np.asnumpy(self.domain)))
+        else:
+            self.range = interpolator(self.domain)
 
         return self
 
@@ -1465,6 +1474,8 @@ dict_like, optional
          [ 579.            0.1114554...]
          [ 580.            0.1128   ...]]
         """
+        self.domain = np.array(self.domain)
+        self.values = np.array(self.values)
 
         start = max(shape.start, self.shape.start)
         end = min(shape.end, self.shape.end)

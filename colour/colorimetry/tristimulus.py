@@ -488,9 +488,9 @@ def sd_to_XYZ_integration(
                             sd.name, cmfs.name))
         sd = sd.copy().align(cmfs.shape)
 
-    S = illuminant.values
+    S = np.array(illuminant.values)
     x_bar, y_bar, z_bar = tsplit(cmfs.values)
-    R = sd.values
+    R = np.array(sd.values)
 
     dw = cmfs.shape.interval
 
@@ -1467,15 +1467,21 @@ def wavelength_to_XYZ(wavelength,
     >>> wavelength_to_XYZ(480.5, cmfs)  # doctest: +ELLIPSIS
     array([ 0.0914287...,  0.1418350...,  0.7915726...])
     """
-
     cmfs_shape = cmfs.shape
-    if (np.min(wavelength) < cmfs_shape.start or
-            np.max(wavelength) > cmfs_shape.end):
-        raise ValueError(
-            '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
-                wavelength, cmfs_shape.start, cmfs_shape.end))
-
-    XYZ = np.reshape(cmfs[np.ravel(wavelength)],
-                     as_float_array(wavelength).shape + (3, ))
+    if np.__name__ == 'cupy' and not (isinstance(wavelength, np.ndarray)):
+        if (wavelength < cmfs_shape.start or wavelength > cmfs_shape.end):
+            raise ValueError(
+                '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
+                    wavelength, cmfs_shape.start, cmfs_shape.end))
+        XYZ = np.reshape(cmfs[wavelength],
+                         as_float_array(wavelength).shape + (3, ))
+    else:
+        if (np.min(wavelength) < cmfs_shape.start or
+                np.max(wavelength) > cmfs_shape.end):
+            raise ValueError(
+                '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
+                    wavelength, cmfs_shape.start, cmfs_shape.end))
+        XYZ = np.reshape(cmfs[np.ravel(wavelength)],
+                         as_float_array(wavelength).shape + (3, ))
 
     return XYZ

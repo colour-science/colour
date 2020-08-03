@@ -167,7 +167,13 @@ def read_LUT_Cinespace(path):
 
         if (is_3D and pre_LUT.shape == (6, 2) and np.array_equal(
                 pre_LUT.reshape(3, 4).transpose()[2:4], unity_range)):
-            table = table.reshape([size[0], size[1], size[2], 3], order='F')
+            if np.__name__ == 'cupy':
+                table = table.reshape(
+                    [size[0].item(), size[1].item(), size[2].item(), 3],
+                    order='F')
+            else:
+                table = table.reshape(
+                    [size[0], size[1], size[2], 3], order='F')
             LUT = LUT3D(
                 domain=pre_LUT.reshape(3, 4).transpose()[0:2],
                 name=title,
@@ -190,7 +196,13 @@ def read_LUT_Cinespace(path):
             pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
             shaper_name = '{0} - Shaper'.format(title)
             cube_name = '{0} - Cube'.format(title)
-            table = table.reshape([size[0], size[1], size[2], 3], order='F')
+            if np.__name__ == 'cupy':
+                table = table.reshape(
+                    [size[0].item(), size[1].item(), size[2].item(), 3],
+                    order='F')
+            else:
+                table = table.reshape(
+                    [size[0], size[1], size[2], 3], order='F')
             LUT_A = LUT3x1D(pre_table, shaper_name, pre_domain)
             LUT_B = LUT3D(table, cube_name, comments=comments)
 
