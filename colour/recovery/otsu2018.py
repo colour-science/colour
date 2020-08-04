@@ -102,13 +102,13 @@ class Otsu2018Dataset:
             fd.write('from numpy import array\n')
             fd.write('from colour import SpectralShape\n\n\n')
 
-            fd.write('OTSU_2018_SPECTRAL_SHAPE = SpectralShape%s\n\n\n' %
-                     self.shape)
+            fd.write('OTSU_2018_SPECTRAL_SHAPE = SpectralShape{}\n\n\n'
+                     .format(self.shape))
 
             def write_array(name, array):
-                fd.write('%s = [\n' % name)
+                fd.write('{} = [\n'.format(name))
                 for line in (repr(array) + ',').splitlines():
-                    fd.write('    %s\n' % line)
+                    fd.write('    {}\n'.format(line))
                 fd.write(']\n\n\n')
 
             write_array('OTSU_2018_BASIS_FUNCTIONS', self.basis_functions)
@@ -290,7 +290,7 @@ class PartitionAxis:
         self.direction = direction
 
     def __str__(self):
-        return '%s=%s' % ('yx' [self.direction], repr(self.origin))
+        return '{}={}'.format('yx' [self.direction], repr(self.origin))
 
 
 # Python 3: drop the subclassing
@@ -403,7 +403,7 @@ class Node(object):
         Node._counter += 1
 
     def __str__(self):
-        return 'Node #%d (%d)' % (self.number, len(self.colours))
+        return 'Node #{} ({})'.format(self.number, len(self.colours))
 
     @property
     def leaf(self):
@@ -740,7 +740,8 @@ class Otsu2018Tree(Node):
                 return
 
             delta = time.time() - t0
-            stamp = '%3d:%02d ' % (delta // 60, np.floor(delta % 60))
+            stamp = '{:3.0f}:{:02.0f} '.format(delta // 60,
+                                               np.floor(delta % 60))
             for line in text.splitlines():
                 print_callback(stamp, line)
 
@@ -755,21 +756,21 @@ class Otsu2018Tree(Node):
             self.min_cluster_size = 3
 
         initial_error = self.total_reconstruction_error()
-        _print('Initial error is %g.' % initial_error)
+        _print('Initial error is {:g}.'.format(initial_error))
 
         for repeat in range(repeats):
-            _print('\n=== Iteration %d of %d ===' % (repeat + 1, repeats))
+            _print('\n=== Iteration {} of {} ==='.format(repeat + 1, repeats))
 
             best_total_error = None
             total_error = self.total_reconstruction_error()
 
             for i, leaf in enumerate(self.leaves):
-                _print('Optimising %s...' % leaf)
+                _print('Optimising {}...'.format(leaf))
 
                 try:
                     error, axis, partition = leaf.find_best_partition()
                 except Otsu2018Error as e:
-                    _print('Failed: %s' % e)
+                    _print('Failed: {}'.format(e))
                     continue
 
                 new_total_error = (
@@ -783,16 +784,15 @@ class Otsu2018Tree(Node):
 
             if best_total_error is None:
                 _print('\nNo further improvements are possible.\n'
-                       'Terminating at iteration %d.\n' % repeat)
+                       'Terminating at iteration {}.\n'.format(repeat))
                 break
 
-            _print(
-                '\nSplit %s into %s and %s along %s.' %
-                (best_leaf, best_partition[0], best_partition[1], best_axis))
-            _print('Error is reduced by %g and is now %g, '
-                   '%.1f%% of the initial error.' %
-                   (leaf.reconstruction_error() - error, best_total_error,
-                    100 * best_total_error / initial_error))
+            _print('\nSplit {} into {} and {} along {}.'.format(
+                best_leaf, best_partition[0], best_partition[1], best_axis))
+            _print('Error is reduced by {:g} and is now {:g}, '
+                   '{:.1f}% of the initial error.'.format(
+                       leaf.reconstruction_error() - error, best_total_error,
+                       100 * best_total_error / initial_error))
 
             best_leaf.split(best_partition, best_axis)
 
