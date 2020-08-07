@@ -10,7 +10,7 @@ References
     doi:10.1080/10867651.1999.10487511
 -   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low‐Dimensional
     Function Space for Efficient Spectral Upsampling. Computer Graphics Forum,
-    38(2), 147–155. doi:10.1111/cgf.13626
+    38(2), 147-155. doi:10.1111/cgf.13626
 """
 
 from __future__ import absolute_import
@@ -25,17 +25,24 @@ from colour.utilities import (CaseInsensitiveMapping, as_float_array,
 
 from .datasets import *  # noqa
 from . import datasets
+from .mallett2019 import (spectral_primary_decomposition_Mallett2019,
+                          RGB_to_sd_Mallett2019, sRGB_to_sd_Mallett2019)
 from .meng2015 import XYZ_to_sd_Meng2015
 from .smits1999 import RGB_to_sd_Smits1999
 from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
-                        XYZ_to_sd_Jakob2019, Jakob2019Interpolator)
+                        XYZ_to_sd_Jakob2019, Jakob2019Interpolator,
+                        ACCEPTABLE_DELTA_E)
 __all__ = []
 __all__ += datasets.__all__
+__all__ += [
+    'spectral_primary_decomposition_Mallett2019', 'RGB_to_sd_Mallett2019',
+    'sRGB_to_sd_Mallett2019'
+]
 __all__ += ['XYZ_to_sd_Meng2015']
 __all__ += ['RGB_to_sd_Smits1999']
 __all__ += [
     'sd_Jakob2019', 'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
-    'Jakob2019Interpolator'
+    'Jakob2019Interpolator', 'ACCEPTABLE_DELTA_E'
 ]
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
