@@ -1085,9 +1085,9 @@ def msds_to_XYZ_integration(
                 illuminant.name, shape))
             illuminant = illuminant.copy().align(shape)
 
-        S = illuminant.values
+        S = np.array(illuminant.values)
         x_bar, y_bar, z_bar = tsplit(cmfs.values)
-        dw = cmfs.shape.interval
+        dw = np.array(cmfs.shape.interval)
 
         k = 100 / (np.sum(y_bar * S) * dw) if k is None else k
 

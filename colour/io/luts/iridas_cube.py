@@ -227,6 +227,15 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     else:
         assert 2 <= size <= 256, '"LUT" size must be in domain [2, 256]!'
 
+    domain = LUT.domain
+    table = LUT.table
+    cupy = False
+    if np.__name__ == 'cupy':
+        domain = np.asnumpy(domain)
+        table = np.asnumpy(table)
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
+
     def _format_array(array):
         """
         Formats given array as an *Iridas* *.cube* data row.
@@ -242,21 +251,24 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
                 cube_file.write('# {0}\n'.format(comment))
 
         cube_file.write('{0} {1}\n'.format(
-            'LUT_1D_SIZE' if is_3x1D else 'LUT_3D_SIZE', LUT.table.shape[0]))
+            'LUT_1D_SIZE' if is_3x1D else 'LUT_3D_SIZE', table.shape[0]))
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
-        if not np.array_equal(LUT.domain, default_domain):
+        if not np.array_equal(domain, default_domain):
             cube_file.write('DOMAIN_MIN {0}\n'.format(
-                _format_array(LUT.domain[0])))
+                _format_array(domain[0])))
             cube_file.write('DOMAIN_MAX {0}\n'.format(
-                _format_array(LUT.domain[1])))
+                _format_array(domain[1])))
 
         if not is_3x1D:
-            table = LUT.table.reshape([-1, 3], order='F')
+            table = table.reshape([-1, 3], order='F')
         else:
-            table = LUT.table
+            table = table
 
         for row in table:
             cube_file.write('{0}\n'.format(_format_array(row)))
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
 
     return True

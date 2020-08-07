@@ -164,7 +164,19 @@ def write_LUT_SonySPI3D(LUT, path, decimals=7):
 
     assert isinstance(LUT, LUT3D), '"LUT" must be either a 3D "LUT"!'
 
-    assert np.array_equal(LUT.domain, np.array([
+    domain = LUT.domain
+    table = LUT.table
+    indexTable = LUT.linear_table(LUT.size)
+
+    cupy = False
+    if np.__name__ == 'cupy':
+        domain = np.asnumpy(domain)
+        table = np.asnumpy(table)
+        indexTable = np.asnumpy(indexTable)
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
+
+    assert np.array_equal(domain, np.array([
         [0, 0, 0],
         [1, 1, 1],
     ])), '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!'
@@ -184,10 +196,9 @@ def write_LUT_SonySPI3D(LUT, path, decimals=7):
 
         spi3d_file.write('{0} {0} {0}\n'.format(LUT.size))
 
-        indexes = DEFAULT_INT_DTYPE(
-            np.around(LUT.linear_table(LUT.size) * (LUT.size - 1))).reshape(
-                [-1, 3])
-        table = LUT.table.reshape([-1, 3])
+        indexes = DEFAULT_INT_DTYPE(np.around(
+            indexTable * (LUT.size - 1))).reshape([-1, 3])
+        table = table.reshape([-1, 3])
 
         for i, row in enumerate(indexes):
             spi3d_file.write('{0}\n'.format(
@@ -196,5 +207,8 @@ def write_LUT_SonySPI3D(LUT, path, decimals=7):
         if LUT.comments:
             for comment in LUT.comments:
                 spi3d_file.write('# {0}\n'.format(comment))
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
 
     return True

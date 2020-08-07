@@ -274,6 +274,10 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
     ...     comments=['A first comment.', 'A second comment.'])
     >>> write_LUT_Cinespace(LUT, 'My_LUT.cube')  # doctest: +SKIP
     """
+    cupy = False
+    if np.__name__ == 'cupy':
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
 
     has_3D, has_3x1D, non_uniform = False, False, False
 
@@ -430,5 +434,8 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
 
             for row in table:
                 csp_file.write('{0}\n'.format(_format_array(row)))
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
 
     return True

@@ -67,7 +67,7 @@ from colour.models.rgb import (RGB_COLOURSPACE_ACES2065_1, RGB_to_XYZ,
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               dot_vector, from_range_1, runtime_warning,
-                              tsplit, suppress_warnings)
+                              tsplit, suppress_warnings, as_int_array)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -317,8 +317,20 @@ def generate_illuminants_rawtoaces_v1():
             CCT = i * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
             sd = sd_CIE_illuminant_D_series(xy)
+<<<<<<< HEAD
             sd.name = 'D{0:d}'.format(DEFAULT_INT_DTYPE(CCT / 100))
             illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
+=======
+            if np.__name__ == 'cupy':
+                cctInt = as_int_array(CCT / 100)
+                cctInt = np.asnumpy(cctInt)
+                np.set_ndimensional_array_backend('numpy')
+                sd.name = 'D{0:d}'.format(cctInt)
+                np.set_ndimensional_array_backend('cupy')
+            else:
+                sd.name = 'D{0:d}'.format(DEFAULT_INT_DTYPE(CCT / 100))
+            illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
+>>>>>>> Fixes for the volume, luts, colorimetry, blindness and characterisation module
 
         # TODO: Remove when removing the "colour.sd_blackbody" definition
         # warning.
@@ -380,7 +392,9 @@ def white_balance_multipliers(sensitivities, illuminant):
         illuminant = illuminant.copy().align(shape)
 
     RGB_w = 1 / np.sum(
-        sensitivities.values * illuminant.values[..., np.newaxis], axis=0)
+        np.array(sensitivities.values) * np.array(
+            illuminant.values)[..., np.newaxis],
+        axis=0)
     RGB_w *= 1 / np.min(RGB_w)
 
     return RGB_w
@@ -810,8 +824,20 @@ def idt_matrix(sensitivities,
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
+    cupy = False
+    XYZoptimization = XYZ_to_optimization_colour_model(XYZ)
+    if np.__name__ == 'cupy':
+        RGB = np.asnumpy(RGB)
+        XYZoptimization = np.asnumpy(XYZoptimization)
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
+
     M = minimize(objective_function, np.ravel(np.identity(3)),
-                 (RGB, XYZ_to_optimization_colour_model(XYZ)),
-                 **optimisation_settings).x.reshape([3, 3])
+                 (RGB, XYZoptimization), **optimisation_settings).x.reshape(
+                     [3, 3])
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        return np.array(M)
 
     return M
