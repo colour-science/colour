@@ -15,11 +15,11 @@ from colour.characterisation import COLOURCHECKER_SDS
 from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS,
                                 STANDARD_OBSERVER_CMFS, SpectralDistribution,
                                 sd_to_XYZ)
-from colour.difference import delta_E_CIE1976
+from colour.difference import JND_CIE1976, delta_E_CIE1976
 from colour.models import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_Lab
 from colour.recovery.jakob2019 import (
     XYZ_to_sd_Jakob2019, sd_Jakob2019, error_function,
-    dimensionalise_coefficients, JAKOB2019_SPECTRAL_SHAPE, ACCEPTABLE_DELTA_E,
+    dimensionalise_coefficients, JAKOB2019_SPECTRAL_SHAPE,
     Jakob2019Interpolator)
 from colour.utilities import domain_range_scale, full, ones, zeros
 
@@ -101,8 +101,8 @@ class TestErrorFunction(unittest.TestCase):
 
             np.testing.assert_allclose(sd.values, R, atol=1e-14)
             np.testing.assert_allclose(XYZ, sd_XYZ, atol=1e-14)
-            self.assertLess(abs(error_reference - error), ACCEPTABLE_DELTA_E)
-            self.assertLess(delta_E_CIE1976(Lab, sd_Lab), ACCEPTABLE_DELTA_E)
+            self.assertLess(abs(error_reference - error), JND_CIE1976)
+            self.assertLess(delta_E_CIE1976(Lab, sd_Lab), JND_CIE1976)
 
     def test_derivatives(self):
         """
@@ -161,7 +161,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             _recovered_sd, error = XYZ_to_sd_Jakob2019(
                 XYZ, illuminant=D65, additional_data=True)
 
-            if error > ACCEPTABLE_DELTA_E:
+            if error > JND_CIE1976:
                 self.fail('Delta E for \'{0}\' is {1}!'.format(name, error))
 
     def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
@@ -232,7 +232,7 @@ class TestJakob2019Interpolator(unittest.TestCase):
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, D65_XY)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
-            if error > 2 * ACCEPTABLE_DELTA_E:
+            if error > 2 * JND_CIE1976:
                 self.fail('Delta E for RGB={0} in colourspace {1} is {2}!'
                           .format(RGB, sRGB.name, error))
 

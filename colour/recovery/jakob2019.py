@@ -30,6 +30,7 @@ from colour.algebra import spow, smoothstep_function
 from colour.colorimetry import (
     STANDARD_OBSERVER_CMFS, SpectralDistribution, SpectralShape,
     intermediate_lightness_function_CIE1976, sd_ones, sd_to_XYZ)
+from colour.difference import JND_CIE1976
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (as_float_array, domain_range_scale, full,
                               index_along_last_axis, to_domain_1,
@@ -43,9 +44,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'JAKOB2019_SPECTRAL_SHAPE', 'ACCEPTABLE_DELTA_E',
-    'StopMinimizationEarly', 'sd_Jakob2019', 'error_function',
-    'dimensionalise_coefficients', 'lightness_scale',
+    'JAKOB2019_SPECTRAL_SHAPE', 'StopMinimizationEarly', 'sd_Jakob2019',
+    'error_function', 'dimensionalise_coefficients', 'lightness_scale',
     'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
     'Jakob2019Interpolator'
 ]
@@ -55,25 +55,6 @@ JAKOB2019_SPECTRAL_SHAPE = SpectralShape(360, 780, 5)
 Spectral shape for *Jakob and Hanika (2019)* method.
 
 JAKOB2019_SPECTRAL_SHAPE : SpectralShape
-"""
-
-ACCEPTABLE_DELTA_E = 2.4 / 100  # 1% of JND
-"""
-Acceptable *perceptual* distance in the *CIE L\\*a\\*b\\** colourspace.
-
-Notes
------
-*Jakob and Hanika (2019)* uses :math:`\\Delta E_{76}` in the
-*CIE L\\*a\\*b\\** colourspace as an error metric during the optimization
-process. While the *CIE L\\*a\\*b\\** colourspace features decent perceptual
-uniformity, it was deemed unsatisfactory when comparing some pair of colors,
-compelling the CIE into improving the metric with the CIE 1994
-(:math:`\\Delta E_{94}`) quasimetric whose perceptual uniformity was
-subsequently corrected with the CIE 2000 (:math:`\\Delta E_{00}`) quasimetric.
-Thus, the error metric could be improved by adopting CIE 2000 or even a more
-perceptually uniform colourspace such as :math:`IC_TC_P` or :math:`J_zA_zB_z`.
-
-ACCEPTABLE_DELTA_E = 2.4 / 100 : float
 """
 
 
@@ -331,7 +312,7 @@ def find_coefficients_Jakob2019(
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
             JAKOB2019_SPECTRAL_SHAPE),
         coefficients_0=zeros(3),
-        max_error=ACCEPTABLE_DELTA_E,
+        max_error=JND_CIE1976,
         dimensionalise=True):
     """
     Computes the coefficients for *Jakob and Hanika (2019)* reflectance
