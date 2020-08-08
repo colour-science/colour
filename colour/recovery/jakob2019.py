@@ -43,18 +43,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DEFAULT_SPECTRAL_SHAPE_JAKOB_2019', 'ACCEPTABLE_DELTA_E',
+    'JAKOB2019_SPECTRAL_SHAPE', 'ACCEPTABLE_DELTA_E',
     'StopMinimizationEarly', 'sd_Jakob2019', 'error_function',
     'dimensionalise_coefficients', 'lightness_scale',
     'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
     'Jakob2019Interpolator'
 ]
 
-DEFAULT_SPECTRAL_SHAPE_JAKOB_2019 = SpectralShape(360, 780, 5)
+JAKOB2019_SPECTRAL_SHAPE = SpectralShape(360, 780, 5)
 """
-Default spectral shape for *Jakob and Hanika (2019)* method.
+Spectral shape for *Jakob and Hanika (2019)* method.
 
-DEFAULT_SPECTRAL_SHAPE_JAKOB_2019 : SpectralShape
+JAKOB2019_SPECTRAL_SHAPE : SpectralShape
 """
 
 ACCEPTABLE_DELTA_E = 2.4 / 100  # 1% of JND
@@ -96,7 +96,7 @@ class StopMinimizationEarly(Exception):
         self.error = error
 
 
-def sd_Jakob2019(coefficients, shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019):
+def sd_Jakob2019(coefficients, shape=JAKOB2019_SPECTRAL_SHAPE):
     """
     Returns a spectral distribution following the spectral model given by
     *Jakob and Hanika (2019)*.
@@ -327,9 +327,9 @@ def lightness_scale(steps):
 def find_coefficients_Jakob2019(
         XYZ,
         cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
-        .copy().align(DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
+        .copy().align(JAKOB2019_SPECTRAL_SHAPE),
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
-            DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
+            JAKOB2019_SPECTRAL_SHAPE),
         coefficients_0=zeros(3),
         max_error=ACCEPTABLE_DELTA_E,
         dimensionalise=True):
@@ -430,8 +430,8 @@ def find_coefficients_Jakob2019(
 def XYZ_to_sd_Jakob2019(
         XYZ,
         cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
-        .copy().align(DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
-        illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_JAKOB_2019),
+        .copy().align(JAKOB2019_SPECTRAL_SHAPE),
+        illuminant=sd_ones(JAKOB2019_SPECTRAL_SHAPE),
         optimisation_kwargs=None,
         additional_data=False):
     """
@@ -617,7 +617,7 @@ class Jakob2019Interpolator:
 
         return self.cube(coords).squeeze()
 
-    def RGB_to_sd(self, RGB, shape=DEFAULT_SPECTRAL_SHAPE_JAKOB_2019):
+    def RGB_to_sd(self, RGB, shape=JAKOB2019_SPECTRAL_SHAPE):
         """
         Looks up a given *RGB* colourspace array and return the corresponding
         spectral distribution.

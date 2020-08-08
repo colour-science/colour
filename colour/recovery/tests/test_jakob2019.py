@@ -19,8 +19,8 @@ from colour.difference import delta_E_CIE1976
 from colour.models import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_Lab
 from colour.recovery.jakob2019 import (
     XYZ_to_sd_Jakob2019, sd_Jakob2019, error_function,
-    dimensionalise_coefficients, DEFAULT_SPECTRAL_SHAPE_JAKOB_2019,
-    ACCEPTABLE_DELTA_E, Jakob2019Interpolator)
+    dimensionalise_coefficients, JAKOB2019_SPECTRAL_SHAPE, ACCEPTABLE_DELTA_E,
+    Jakob2019Interpolator)
 from colour.utilities import domain_range_scale, full, ones, zeros
 
 __author__ = 'Colour Developers'
@@ -78,7 +78,7 @@ class TestErrorFunction(unittest.TestCase):
         ]
 
         # error_function will not align these for us.
-        shape = DEFAULT_SPECTRAL_SHAPE_JAKOB_2019
+        shape = JAKOB2019_SPECTRAL_SHAPE
         aligned_cmfs = CMFS.copy().align(shape)
         illuminant = D65.copy().align(shape)
         XYZ_n = sd_to_XYZ(D65)
@@ -110,7 +110,7 @@ class TestErrorFunction(unittest.TestCase):
         derivatives with finite difference approximations.
         """
 
-        shape = DEFAULT_SPECTRAL_SHAPE_JAKOB_2019
+        shape = JAKOB2019_SPECTRAL_SHAPE
         aligned_cmfs = CMFS.copy().align(shape)
         illuminant = D65.copy().align(shape)
         XYZ_n = sd_to_XYZ(D65)
