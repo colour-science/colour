@@ -26,6 +26,7 @@ CIE 1976
 .. autosummary::
     :toctree: generated/
 
+    JND_CIE1976
     delta_E_CIE1976
 
 CIE 1994

@@ -37,14 +37,15 @@ from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 from .cam02_ucs import delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS
 from .cam16_ucs import delta_E_CAM16LCD, delta_E_CAM16SCD, delta_E_CAM16UCS
-from .delta_e import (delta_E_CIE1976, delta_E_CIE1994, delta_E_CIE2000,
-                      delta_E_CMC)
+from .delta_e import (JND_CIE1976, delta_E_CIE1976, delta_E_CIE1994,
+                      delta_E_CIE2000, delta_E_CMC)
 from .din99 import delta_E_DIN99
 
 __all__ = ['delta_E_CAM02LCD', 'delta_E_CAM02SCD', 'delta_E_CAM02UCS']
 __all__ += ['delta_E_CAM16LCD', 'delta_E_CAM16SCD', 'delta_E_CAM16UCS']
 __all__ += [
-    'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000', 'delta_E_CMC'
+    'JND_CIE1976', 'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000',
+    'delta_E_CMC'
 ]
 __all__ += ['delta_E_DIN99']
 
