@@ -70,7 +70,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ConversionSpecification', 'CIECAM02_to_JMh_CIECAM02',
+    'Conversion_Specification', 'CIECAM02_to_JMh_CIECAM02',
     'JMh_CIECAM02_to_CIECAM02', 'CAM16_to_JMh_CAM16', 'JMh_CAM16_to_CAM16',
     'XYZ_to_luminance', 'RGB_luminance_to_RGB',
     'CONVERSION_SPECIFICATIONS_DATA', 'CONVERSION_GRAPH_NODE_LABELS',
@@ -79,8 +79,8 @@ __all__ = [
 ]
 
 
-class ConversionSpecification(
-        namedtuple('ConversionSpecification',
+class Conversion_Specification(
+        namedtuple('Conversion_Specification',
                    ('source', 'target', 'conversion_function'))):
     """
     Conversion specification for *Colour* graph for automatic colour
@@ -97,7 +97,7 @@ class ConversionSpecification(
     """
 
     def __new__(cls, source=None, target=None, conversion_function=None):
-        return super(ConversionSpecification, cls).__new__(
+        return super(Conversion_Specification, cls).__new__(
             cls, source.lower(), target.lower(), conversion_function)
 
 
@@ -529,7 +529,7 @@ CONVERSION_SPECIFICATIONS_DATA : list
 """
 
 CONVERSION_SPECIFICATIONS = [
-    ConversionSpecification(*specification)
+    Conversion_Specification(*specification)
     for specification in CONVERSION_SPECIFICATIONS_DATA
 ]
 """
