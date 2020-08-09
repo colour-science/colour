@@ -6,7 +6,7 @@ Showcases *ATD (1995)* colour appearance model computations.
 import numpy as np
 
 import colour
-from colour.appearance.atd95 import ATD95_ReferenceSpecification
+from colour.appearance.atd95 import CAM_ReferenceSpecification_ATD95
 from colour.utilities import message_box
 
 message_box('"ATD (1995)" Colour Appearance Model Computations')
@@ -16,7 +16,7 @@ XYZ_0 = np.array([95.05, 100.00, 108.88])
 Y_0 = 318.31
 k_1 = 0.0
 k_2 = 50.0
-surround = colour.CIECAM02_VIEWING_CONDITIONS['Average']
+surround = colour.VIEWING_CONDITIONS_CIECAM02['Average']
 message_box(
     ('Converting to "ATD (1995)" colour appearance model '
      'specification using given parameters:\n'
@@ -37,4 +37,4 @@ message_box(('Broadcasting current output "ATD (1995)" colour appearance '
              'the other colour appearance model specification by using same '
              'argument names for consistency wherever possible.'))
 
-print(ATD95_ReferenceSpecification(*specification))
+print(CAM_ReferenceSpecification_ATD95(*specification))

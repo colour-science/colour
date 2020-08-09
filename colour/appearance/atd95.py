@@ -5,7 +5,7 @@ ATD (1995) Colour Vision Model
 
 Defines *ATD (1995)* colour vision model objects:
 
--   :class:`colour.ATD95_Specification`
+-   :class:`colour.CAM_Specification_ATD95`
 -   :func:`colour.XYZ_to_ATD95`
 
 Notes
@@ -42,15 +42,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ATD95_ReferenceSpecification', 'ATD95_Specification', 'XYZ_to_ATD95',
-    'luminance_to_retinal_illuminance', 'XYZ_to_LMS_ATD95',
+    'CAM_ReferenceSpecification_ATD95', 'CAM_Specification_ATD95',
+    'XYZ_to_ATD95', 'luminance_to_retinal_illuminance', 'XYZ_to_LMS_ATD95',
     'opponent_colour_dimensions', 'final_response'
 ]
 
 
-class ATD95_ReferenceSpecification(
+class CAM_ReferenceSpecification_ATD95(
         namedtuple(
-            'ATD95_ReferenceSpecification',
+            'CAM_ReferenceSpecification_ATD95',
             ('H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
     """
     Defines the *ATD (1995)* colour vision model reference specification.
@@ -89,8 +89,8 @@ class ATD95_ReferenceSpecification(
     """
 
 
-class ATD95_Specification(
-        namedtuple('ATD95_Specification',
+class CAM_Specification_ATD95(
+        namedtuple('CAM_Specification_ATD95',
                    ('h', 'C', 'Q', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
     """
     Defines the *ATD (1995)* colour vision model specification.
@@ -155,7 +155,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
 
     Returns
     -------
-    ATD95_Specification
+    CAM_Specification_ATD95
         *ATD (1995)* colour vision model specification.
 
     Notes
@@ -168,11 +168,11 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     | ``XYZ_0``                 | [0, 100]              | [0, 1]        |
     +---------------------------+-----------------------+---------------+
 
-    +---------------------------+-----------------------+---------------+
-    | **Range**                 | **Scale - Reference** | **Scale - 1** |
-    +===========================+=======================+===============+
-    | ``ATD95_Specification.h`` | [0, 360]              | [0, 1]        |
-    +---------------------------+-----------------------+---------------+
+    +-------------------------------+-----------------------+---------------+
+    | **Range**                     | **Scale - Reference** | **Scale - 1** |
+    +===============================+=======================+===============+
+    | ``CAM_Specification_ATD95.h`` | [0, 360]              | [0, 1]        |
+    +-------------------------------+-----------------------+---------------+
 
     -   For unrelated colors, there is only self-adaptation and :math:`k_1` is
         set to 1.0 while :math:`k_2` is set to 0.0. For related colors such as
@@ -191,7 +191,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     >>> k_1 = 0.0
     >>> k_2 = 50.0
     >>> XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)  # doctest: +ELLIPSIS
-    ATD95_Specification(h=1.9089869..., C=1.2064060..., Q=0.1814003..., \
+    CAM_Specification_ATD95(h=1.9089869..., C=1.2064060..., Q=0.1814003..., \
 A_1=0.1787931... T_1=0.0286942..., D_1=0.0107584..., A_2=0.0192182..., \
 T_2=0.0205377..., D_2=0.0107584...)
     """
@@ -226,7 +226,7 @@ T_2=0.0205377..., D_2=0.0107584...)
     # modulus of the :math:`H`, thus :math:`H` can exceed 360 degrees.
     H = T_2 / D_2
 
-    return ATD95_Specification(
+    return CAM_Specification_ATD95(
         from_range_degrees(H), C, Br, A_1, T_1, D_1, A_2, T_2, D_2)
 
 

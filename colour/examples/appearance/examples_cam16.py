@@ -14,7 +14,7 @@ XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
 L_A = 318.31
 Y_b = 20.0
-surround = colour.CAM16_VIEWING_CONDITIONS['Average']
+surround = colour.VIEWING_CONDITIONS_CAM16['Average']
 message_box(
     ('Converting to "CAM16" colour appearance model specification '
      'using given parameters:\n'
@@ -30,7 +30,7 @@ print('\n')
 J = 41.73120791
 C = 0.10335574
 h = 217.06795977
-specification = colour.CAM16_Specification(J, C, h)
+specification = colour.CAM_Specification_CAM16(J, C, h)
 message_box(
     ('Converting to "CIE XYZ" tristimulus values using given '
      'parameters:\n'

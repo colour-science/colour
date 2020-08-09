@@ -344,7 +344,7 @@ XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
 L_A = 318.31
 Y_b = 20.0
-surround = colour.CIECAM02_VIEWING_CONDITIONS['Average']
+surround = colour.VIEWING_CONDITIONS_CIECAM02['Average']
 specification = colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 JMh = (specification.J, specification.M, specification.h)
 message_box(('Converting to "CAM02-UCS" colourspace from given '

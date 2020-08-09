@@ -197,8 +197,8 @@ class TestSetFloatPrecision(unittest.TestCase):
         if not is_networkx_installed():
             return
 
-        from colour.appearance import (CAM16_Specification,
-                                       CIECAM02_Specification)
+        from colour.appearance import (CAM_Specification_CAM16,
+                                       CAM_Specification_CIECAM02)
         from colour.graph.conversion import (CONVERSION_SPECIFICATIONS_DATA,
                                              convert)
 
@@ -219,10 +219,10 @@ class TestSetFloatPrecision(unittest.TestCase):
             a = np.array([(0.25, 0.5, 0.25), (0.25, 0.5, 0.25)])
 
             if source == 'CAM16':
-                a = CAM16_Specification(J=0.25, M=0.5, h=0.25)
+                a = CAM_Specification_CAM16(J=0.25, M=0.5, h=0.25)
 
             if source == 'CIECAM02':
-                a = CIECAM02_Specification(J=0.25, M=0.5, h=0.25)
+                a = CAM_Specification_CIECAM02(J=0.25, M=0.5, h=0.25)
 
             if source == 'CMYK':
                 a = np.array([(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)])
@@ -1005,52 +1005,27 @@ class TestIndexAlongLastAxis(unittest.TestCase):
         """
         Tests :func:`colour.utilities.array.index_along_last_axis` definition.
         """
-        a = np.array(
-            [[[[0.51090627, 0.86191718, 0.8687926],
-               [0.82738158, 0.80587656, 0.28285687]],
-              [[0.84085977, 0.03851814, 0.06057988],
-               [0.94659267, 0.79308353, 0.30870888]]],
-             [[[0.50758436, 0.24066455, 0.20199051],
-               [0.4507304, 0.84189245, 0.81160878]],
-             [[0.75421871, 0.88187494, 0.01612045],
-              [0.38777511, 0.58905552, 0.32970469]]],
-             [[[0.99285824, 0.738076, 0.0716432],
-               [0.35847844, 0.0367514, 0.18586322]],
-             [[0.72674561, 0.0822759, 0.9771182],
-              [0.90644279, 0.09689787, 0.93483977]]]])
+        a = np.array([[[[0.51090627, 0.86191718, 0.8687926],
+                        [0.82738158, 0.80587656, 0.28285687]],
+                       [[0.84085977, 0.03851814, 0.06057988],
+                        [0.94659267, 0.79308353, 0.30870888]]],
+                      [[[0.50758436, 0.24066455, 0.20199051],
+                        [0.4507304, 0.84189245, 0.81160878]],
+                       [[0.75421871, 0.88187494, 0.01612045],
+                        [0.38777511, 0.58905552, 0.32970469]]],
+                      [[[0.99285824, 0.738076, 0.0716432],
+                        [0.35847844, 0.0367514, 0.18586322]],
+                       [[0.72674561, 0.0822759, 0.9771182],
+                        [0.90644279, 0.09689787, 0.93483977]]]])
 
-        indexes = np.array(
-            [[[0,
-               1],
-              [0,
-               1]],
-             [[2,
-               1],
-              [2,
-               1]],
-             [[2,
-               1],
-              [2,
-               0]]]
-        )
+        indexes = np.array([[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1],
+                                                                 [2, 0]]])
 
         np.testing.assert_equal(
             index_along_last_axis(a, indexes),
-            np.array(
-               [[[0.51090627,
-                  0.80587656],
-                 [0.84085977,
-                  0.79308353]],
-                [[0.20199051,
-                  0.84189245],
-                 [0.01612045,
-                  0.58905552]],
-                [[0.0716432,
-                  0.0367514],
-                 [0.9771182,
-                  0.90644279]]]
-            )
-        )
+            np.array([[[0.51090627, 0.80587656], [0.84085977, 0.79308353]],
+                      [[0.20199051, 0.84189245], [0.01612045, 0.58905552]],
+                      [[0.0716432, 0.0367514], [0.9771182, 0.90644279]]]))
 
     def test_compare_with_argmin_argmax(self):
         """
@@ -1061,14 +1036,12 @@ class TestIndexAlongLastAxis(unittest.TestCase):
         a = np.random.random((2, 3, 4, 5, 6, 7))
 
         np.testing.assert_equal(
-            index_along_last_axis(a, np.argmin(a, axis=-1)),
-            np.min(a, axis=-1)
-        )
+            index_along_last_axis(a, np.argmin(a, axis=-1)), np.min(
+                a, axis=-1))
 
         np.testing.assert_equal(
-            index_along_last_axis(a, np.argmax(a, axis=-1)),
-            np.max(a, axis=-1)
-        )
+            index_along_last_axis(a, np.argmax(a, axis=-1)), np.max(
+                a, axis=-1))
 
     def test_exceptions(self):
         """

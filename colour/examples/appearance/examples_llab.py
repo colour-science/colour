@@ -6,7 +6,7 @@ Showcases *LLAB(l:c)* colour appearance model computations.
 import numpy as np
 
 import colour
-from colour.appearance.llab import LLAB_ReferenceSpecification
+from colour.appearance.llab import CAM_ReferenceSpecification_LLAB
 from colour.utilities import message_box
 
 message_box('"LLAB(l:c)" Colour Appearance Model Computations')
@@ -15,7 +15,7 @@ XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_0 = np.array([95.05, 100.00, 108.88])
 Y_b = 20.0
 L = 318.31
-surround = colour.LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
+surround = colour.VIEWING_CONDITIONS_LLAB['ref_average_4_minus']
 message_box(
     ('Converting to "LLAB(l:c)" colour appearance model '
      'specification using given parameters:\n'
@@ -36,4 +36,4 @@ message_box(('Broadcasting current output "LLAB(l:c)" colour appearance '
              'the other colour appearance model specification by using same '
              'argument names for consistency wherever possible.'))
 
-print(LLAB_ReferenceSpecification(*specification))
+print(CAM_ReferenceSpecification_LLAB(*specification))

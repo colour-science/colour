@@ -116,11 +116,11 @@ The various sub-packages also expose their public API:
 
 
     Appearance
-    ['Hunt_InductionFactors',
-     'HUNT_VIEWING_CONDITIONS',
-     'Hunt_Specification',
+    ['InductionFactors_Hunt',
+     'VIEWING_CONDITIONS_HUNT',
+     'CAM_Specification_Hunt',
      'XYZ_to_Hunt',
-     'ATD95_Specification',
+     'CAM_Specification_ATD95',
      '...']
 
 

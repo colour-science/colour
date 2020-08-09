@@ -6,7 +6,7 @@ Showcases *RLAB* colour appearance model computations.
 import numpy as np
 
 import colour
-from colour.appearance.rlab import RLAB_ReferenceSpecification
+from colour.appearance.rlab import CAM_ReferenceSpecification_RLAB
 from colour.utilities import message_box
 
 message_box('"RLAB" Colour Appearance Model Computations')
@@ -14,8 +14,8 @@ message_box('"RLAB" Colour Appearance Model Computations')
 XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_n = np.array([109.85, 100, 35.58])
 Y_n = 31.83
-sigma = colour.RLAB_VIEWING_CONDITIONS['Average']
-D = colour.RLAB_D_FACTOR['Hard Copy Images']
+sigma = colour.VIEWING_CONDITIONS_RLAB['Average']
+D = colour.D_FACTOR_RLAB['Hard Copy Images']
 message_box(
     ('Converting to "RLAB" colour appearance model '
      'specification using given parameters:\n'
@@ -36,4 +36,4 @@ message_box(('Broadcasting current output "RLAB" colour appearance '
              'the other colour appearance model specification by using same '
              'argument names for consistency wherever possible.'))
 
-print(RLAB_ReferenceSpecification(*specification))
+print(CAM_ReferenceSpecification_RLAB(*specification))

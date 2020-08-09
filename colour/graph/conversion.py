@@ -51,9 +51,9 @@ from colour.notation import (HEX_to_RGB, RGB_to_HEX, munsell_value,
                              munsell_colour_to_xyY, xyY_to_munsell_colour)
 from colour.quality import colour_quality_scale, colour_rendering_index
 from colour.appearance import (
-    CAM16_Specification, CAM16_to_XYZ, CIECAM02_Specification, CIECAM02_to_XYZ,
-    XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB,
-    XYZ_to_Nayatani95, XYZ_to_RLAB)
+    CAM_Specification_CAM16, CAM16_to_XYZ, CAM_Specification_CIECAM02,
+    CIECAM02_to_XYZ, XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt,
+    XYZ_to_LLAB, XYZ_to_Nayatani95, XYZ_to_RLAB)
 from colour.temperature import CCT_to_uv, CCT_to_xy, uv_to_CCT, xy_to_CCT
 from colour.utilities import (domain_range_scale, filter_kwargs,
                               is_networkx_installed, message_box, tsplit,
@@ -101,14 +101,14 @@ class ConversionSpecification(
             cls, source.lower(), target.lower(), conversion_function)
 
 
-def CIECAM02_to_JMh_CIECAM02(CIECAM02_specification):
+def CIECAM02_to_JMh_CIECAM02(CAM_Specification_CIECAM02):
     """
     Converts from *CIECAM02* specification to *CIECAM02* :math:`JMh`
     correlates.
 
     Parameters
     ----------
-    CIECAM02_specification : CIECAM02_Specification
+    CAM_Specification_CIECAM02 : CAM_Specification_CIECAM02
         *CIECAM02* colour appearance model specification.
 
     Returns
@@ -118,7 +118,7 @@ def CIECAM02_to_JMh_CIECAM02(CIECAM02_specification):
 
     Examples
     --------
-    >>> specification = CIECAM02_Specification(J=41.731091132513917,
+    >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
     ...                                        M=0.108842175669226,
     ...                                        h=219.048432658311780)
     >>> CIECAM02_to_JMh_CIECAM02(specification)  # doctest: +ELLIPSIS
@@ -126,9 +126,9 @@ def CIECAM02_to_JMh_CIECAM02(CIECAM02_specification):
     """
 
     return tstack([
-        CIECAM02_specification.J,
-        CIECAM02_specification.M,
-        CIECAM02_specification.h,
+        CAM_Specification_CIECAM02.J,
+        CAM_Specification_CIECAM02.M,
+        CAM_Specification_CIECAM02.h,
     ])
 
 
@@ -144,29 +144,29 @@ def JMh_CIECAM02_to_CIECAM02(JMh):
 
     Returns
     -------
-    CIECAM02_Specification
+    CAM_Specification_CIECAM02
         *CIECAM02* colour appearance model specification.
 
     Examples
     --------
     >>> JMh = np.array([4.17310911e+01, 1.08842176e-01, 2.19048433e+02])
     >>> JMh_CIECAM02_to_CIECAM02(JMh)  # doctest: +ELLIPSIS
-    CIECAM02_Specification(J=41.7310911..., C=None, h=219.0484329..., s=None, \
-Q=None, M=0.1088421..., H=None, HC=None)
+    CAM_Specification_CIECAM02(J=41.7310911..., C=None, h=219.0484329..., \
+s=None, Q=None, M=0.1088421..., H=None, HC=None)
     """
 
     J, M, h = tsplit(JMh)
 
-    return CIECAM02_Specification(J=J, M=M, h=h)
+    return CAM_Specification_CIECAM02(J=J, M=M, h=h)
 
 
-def CAM16_to_JMh_CAM16(CAM16_specification):
+def CAM16_to_JMh_CAM16(CAM_Specification_CAM16):
     """
     Converts from *CAM16* specification to *CAM16* :math:`JMh` correlates.
 
     Parameters
     ----------
-    CAM16_specification : CAM16_Specification
+    CAM_Specification_CAM16 : CAM_Specification_CAM16
         *CAM16* colour appearance model specification.
 
     Returns
@@ -176,7 +176,7 @@ def CAM16_to_JMh_CAM16(CAM16_specification):
 
     Examples
     --------
-    >>> specification = CAM16_Specification(J=41.731207905126638,
+    >>> specification = CAM_Specification_CAM16(J=41.731207905126638,
     ...                                     M=0.107436772335905,
     ...                                     h=217.067959767393010)
     >>> CAM16_to_JMh_CAM16(specification)  # doctest: +ELLIPSIS
@@ -184,9 +184,9 @@ def CAM16_to_JMh_CAM16(CAM16_specification):
     """
 
     return tstack([
-        CAM16_specification.J,
-        CAM16_specification.M,
-        CAM16_specification.h,
+        CAM_Specification_CAM16.J,
+        CAM_Specification_CAM16.M,
+        CAM_Specification_CAM16.h,
     ])
 
 
@@ -208,13 +208,13 @@ def JMh_CAM16_to_CAM16(JMh):
     --------
     >>> JMh = np.array([4.17312079e+01, 1.07436772e-01, 2.17067960e+02])
     >>> JMh_CAM16_to_CAM16(JMh)  # doctest: +ELLIPSIS
-    CAM16_Specification(J=41.7312079..., C=None, h=217.06796..., s=None, \
+    CAM_Specification_CAM16(J=41.7312079..., C=None, h=217.06796..., s=None, \
 Q=None, M=0.1074367..., H=None, HC=None)
     """
 
     J, M, h = tsplit(JMh)
 
-    return CAM16_Specification(J=J, M=M, h=h)
+    return CAM_Specification_CAM16(J=J, M=M, h=h)
 
 
 def XYZ_to_luminance(XYZ):

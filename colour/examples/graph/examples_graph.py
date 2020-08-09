@@ -57,7 +57,7 @@ print(
             'width': 75
         }))
 J, M, h = colour.utilities.tsplit(colour.CAM16UCS_to_JMh_CAM16(Jpapbp * 100))
-specification = colour.CAM16_Specification(J=J, M=M, h=h)
+specification = colour.CAM_Specification_CAM16(J=J, M=M, h=h)
 print(
     colour.XYZ_to_sRGB(
         colour.CAM16_to_XYZ(
