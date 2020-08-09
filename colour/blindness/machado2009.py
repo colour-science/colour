@@ -44,12 +44,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'LMS_TO_WSYBRG_MATRIX', 'RGB_to_WSYBRG_matrix',
+    'MATRIX_LMS_TO_WSYBRG', 'RGB_to_WSYBRG_matrix',
     'anomalous_trichromacy_cmfs_Machado2009',
     'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
 ]
 
-LMS_TO_WSYBRG_MATRIX = np.array([
+MATRIX_LMS_TO_WSYBRG = np.array([
     [0.600, 0.400, 0.000],
     [0.240, 0.105, -0.700],
     [1.200, -1.600, 0.400],
@@ -58,7 +58,7 @@ LMS_TO_WSYBRG_MATRIX = np.array([
 Ingling and Tsou (1977) matrix converting from cones responses to
 opponent-colour space.
 
-LMS_TO_WSYBRG_MATRIX : array_like, (3, 3)
+MATRIX_LMS_TO_WSYBRG : array_like, (3, 3)
 """
 
 
@@ -93,7 +93,7 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
     """
 
     wavelengths = cmfs.wavelengths
-    WSYBRG = dot_vector(LMS_TO_WSYBRG_MATRIX, cmfs.values)
+    WSYBRG = dot_vector(MATRIX_LMS_TO_WSYBRG, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
     extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
