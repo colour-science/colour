@@ -316,8 +316,8 @@ def XYZ_to_plotting_colourspace(XYZ,
         Source illuminant chromaticity coordinates.
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
     apply_cctf_encoding : bool, optional
         Apply :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace

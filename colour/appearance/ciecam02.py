@@ -32,7 +32,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.adaptation import CAT02_CAT
+from colour.adaptation import CAT_CAT02
 from colour.appearance.hunt import (HPE_TO_XYZ_MATRIX, XYZ_TO_HPE_MATRIX,
                                     luminance_level_adaptation_factor)
 from colour.constants import EPSILON
@@ -68,7 +68,7 @@ __all__ = [
     'post_adaptation_non_linear_response_compression_matrix'
 ]
 
-CAT02_INVERSE_CAT = np.linalg.inv(CAT02_CAT)
+CAT02_INVERSE_CAT = np.linalg.inv(CAT_CAT02)
 """
 Inverse CAT02 chromatic adaptation transform.
 
@@ -260,8 +260,8 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB = dot_vector(CAT02_CAT, XYZ)
-    RGB_w = dot_vector(CAT02_CAT, XYZ_w)
+    RGB = dot_vector(CAT_CAT02, XYZ)
+    RGB_w = dot_vector(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (degree_of_adaptation(surround.F, L_A)
@@ -433,7 +433,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB_w = dot_vector(CAT02_CAT, XYZ_w)
+    RGB_w = dot_vector(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (degree_of_adaptation(surround.F, L_A)
@@ -747,7 +747,7 @@ def rgb_to_RGB(rgb):
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = dot_vector(dot_matrix(CAT02_CAT, HPE_TO_XYZ_MATRIX), rgb)
+    RGB = dot_vector(dot_matrix(CAT_CAT02, HPE_TO_XYZ_MATRIX), rgb)
 
     return RGB
 

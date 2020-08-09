@@ -14,7 +14,7 @@ colour_style()
 message_box('Plotting corresponding chromaticities prediction with '
             '"Von Kries" chromatic adaptation model for "Breneman (1987)" '
             'experiment number "2" using "Bianco" CAT.')
-plot_corresponding_chromaticities_prediction(2, 'Von Kries', 'Bianco')
+plot_corresponding_chromaticities_prediction(2, 'Von Kries', 'Bianco 2010')
 
 print('\n')
 

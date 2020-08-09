@@ -99,10 +99,10 @@ The various sub-packages also expose their public API:
 
     Adaptation
     ['CHROMATIC_ADAPTATION_TRANSFORMS',
-     'XYZ_SCALING_CAT',
-     'VON_KRIES_CAT',
-     'BRADFORD_CAT',
-     'SHARP_CAT',
+     'CAT_XYZ_SCALING',
+     'CAT_VON_KRIES',
+     'CAT_BRADFORD',
+     'CAT_SHARP',
      '...']
 
 

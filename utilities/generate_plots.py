@@ -182,8 +182,8 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Chromaticities_Prediction.png')
     plt.close(
-        plot_corresponding_chromaticities_prediction(2, 'Von Kries', 'Bianco',
-                                                     **arguments)[0])
+        plot_corresponding_chromaticities_prediction(
+            2, 'Von Kries', 'Bianco 2010', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory,

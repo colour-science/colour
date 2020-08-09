@@ -25,7 +25,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.adaptation.cie1994 import (CIE1994_XYZ_TO_RGB_MATRIX, beta_1,
+from colour.adaptation.cie1994 import (MATRIX_XYZ_TO_RGB_CIE1994, beta_1,
                                        exponential_factors,
                                        intermediate_values)
 from colour.models import XYZ_to_xy
@@ -52,7 +52,7 @@ __all__ = [
     'chromatic_strength_function'
 ]
 
-NAYATANI95_XYZ_TO_RGB_MATRIX = CIE1994_XYZ_TO_RGB_MATRIX
+NAYATANI95_XYZ_TO_RGB_MATRIX = MATRIX_XYZ_TO_RGB_CIE1994
 """
 *Nayatani (1995)* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.

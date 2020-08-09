@@ -56,7 +56,7 @@ from .utilities.common import (domain_range_scale, get_domain_range_scale,
 
 from .adaptation import (CHROMATIC_ADAPTATION_METHODS,
                          CHROMATIC_ADAPTATION_TRANSFORMS,
-                         CMCCAT2000_VIEWING_CONDITIONS, chromatic_adaptation)
+                         VIEWING_CONDITIONS_CMCCAT2000, chromatic_adaptation)
 from .algebra import (CubicSplineInterpolator, Extrapolator,
                       KernelInterpolator, NearestNeighbourInterpolator,
                       LinearInterpolator, NullInterpolator, PchipInterpolator,
@@ -180,7 +180,7 @@ __all__ = [
 ]
 __all__ += [
     'CHROMATIC_ADAPTATION_METHODS', 'CHROMATIC_ADAPTATION_TRANSFORMS',
-    'CMCCAT2000_VIEWING_CONDITIONS', 'chromatic_adaptation'
+    'VIEWING_CONDITIONS_CMCCAT2000', 'chromatic_adaptation'
 ]
 __all__ += [
     'CubicSplineInterpolator', 'Extrapolator', 'KernelInterpolator',
@@ -409,15 +409,15 @@ API_CHANGES = {
         ],
         [
             'colour.BRADFORD_CAT',
-            'colour.adaptation.BRADFORD_CAT',
+            'colour.adaptation.CAT_BRADFORD',
         ],
         [
             'colour.BS_CAT',
-            'colour.adaptation.BS_CAT',
+            'colour.adaptation.CAT_BIANCO2010',
         ],
         [
             'colour.BS_PC_CAT',
-            'colour.adaptation.BS_PC_CAT',
+            'colour.adaptation.CAT_PC_BIANCO2010',
         ],
         [
             'colour.BT2020_COLOURSPACE',
@@ -441,11 +441,11 @@ API_CHANGES = {
         ],
         [
             'colour.CAT02_BRILL_CAT',
-            'colour.adaptation.CAT02_BRILL_CAT',
+            'colour.adaptation.CAT_CAT02_BRILL2008',
         ],
         [
             'colour.CAT02_CAT',
-            'colour.adaptation.CAT02_CAT',
+            'colour.adaptation.CAT_CAT02',
         ],
         [
             'colour.CCT_to_uv_Krystek1985',
@@ -481,15 +481,15 @@ API_CHANGES = {
         ],
         [
             'colour.CMCCAT2000_CAT',
-            'colour.adaptation.CMCCAT2000_CAT',
+            'colour.adaptation.CAT_CMCCAT2000',
         ],
         [
-            'colour.CMCCAT2000_InductionFactors',
-            'colour.adaptation.CMCCAT2000_InductionFactors',
+            'colour.InductionFactors_CMCCAT2000',
+            'colour.adaptation.InductionFactors_CMCCAT2000',
         ],
         [
             'colour.CMCCAT97_CAT',
-            'colour.adaptation.CMCCAT97_CAT',
+            'colour.adaptation.CAT_CMCCAT97',
         ],
         [
             'colour.COLOR_MATCH_RGB_COLOURSPACE',
@@ -569,7 +569,7 @@ API_CHANGES = {
         ],
         [
             'colour.FAIRCHILD_CAT',
-            'colour.adaptation.FAIRCHILD_CAT',
+            'colour.adaptation.CAT_FAIRCHILD',
         ],
         [
             'colour.FLOATING_POINT_NUMBER_PATTERN',
@@ -721,7 +721,7 @@ API_CHANGES = {
         ],
         [
             'colour.SHARP_CAT',
-            'colour.adaptation.SHARP_CAT',
+            'colour.adaptation.CAT_SHARP',
         ],
         [
             'colour.SMITS_1999_SPDS',
@@ -757,7 +757,7 @@ API_CHANGES = {
         ],
         [
             'colour.VON_KRIES_CAT',
-            'colour.adaptation.VON_KRIES_CAT',
+            'colour.adaptation.CAT_VON_KRIES',
         ],
         [
             'colour.VS_SPDS',
@@ -777,7 +777,7 @@ API_CHANGES = {
         ],
         [
             'colour.XYZ_SCALING_CAT',
-            'colour.adaptation.XYZ_SCALING_CAT',
+            'colour.adaptation.CAT_XYZ_SCALING',
         ],
         [
             'colour.XYZ_to_colourspace_model',
@@ -1798,6 +1798,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
         'colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES',
+    ],
+    [
+        'colour.CMCCAT2000_VIEWING_CONDITIONS',
+        'colour.VIEWING_CONDITIONS_CMCCAT2000',
     ],
     [
         'colour.COLOURCHECKERS_SDS',

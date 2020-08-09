@@ -38,7 +38,7 @@ from .vonkries import (chromatic_adaptation_matrix_VonKries,
                        chromatic_adaptation_VonKries)
 from .fairchild1990 import chromatic_adaptation_Fairchild1990
 from .cmccat2000 import (
-    CMCCAT2000_InductionFactors, CMCCAT2000_VIEWING_CONDITIONS,
+    InductionFactors_CMCCAT2000, VIEWING_CONDITIONS_CMCCAT2000,
     chromatic_adaptation_forward_CMCCAT2000,
     chromatic_adaptation_inverse_CMCCAT2000, chromatic_adaptation_CMCCAT2000)
 from .cie1994 import chromatic_adaptation_CIE1994
@@ -50,7 +50,7 @@ __all__ += [
 ]
 __all__ += ['chromatic_adaptation_Fairchild1990']
 __all__ += [
-    'CMCCAT2000_InductionFactors', 'CMCCAT2000_VIEWING_CONDITIONS',
+    'InductionFactors_CMCCAT2000', 'VIEWING_CONDITIONS_CMCCAT2000',
     'chromatic_adaptation_forward_CMCCAT2000',
     'chromatic_adaptation_inverse_CMCCAT2000',
     'chromatic_adaptation_CMCCAT2000'
@@ -125,14 +125,14 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     n : numeric, optional
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Noise component in fundamental primary system.
-    surround : CMCCAT2000_InductionFactors, optional
+    surround : InductionFactors_CMCCAT2000, optional
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Surround viewing conditions induction factors.
     transform : unicode, optional
         {:func:`colour.adaptation.chromatic_adaptation_VonKries`},
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         Chromatic adaptation transform.
 
     Returns
@@ -267,6 +267,62 @@ Defines *colour.adaptation* sub-package API changes.
 
 API_CHANGES : dict
 """
+
+# v0.3.16
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.adaptation.XYZ_SCALING_CAT',
+        'colour.adaptation.CAT_XYZ_SCALING',
+    ],
+    [
+        'colour.adaptation.VON_KRIES_CAT',
+        'colour.adaptation.CAT_VON_KRIES',
+    ],
+    [
+        'colour.adaptation.BRADFORD_CAT',
+        'colour.adaptation.CAT_BRADFORD',
+    ],
+    [
+        'colour.adaptation.SHARP_CAT',
+        'colour.adaptation.CAT_SHARP',
+    ],
+    [
+        'colour.adaptation.FAIRCHILD_CAT',
+        'colour.adaptation.CAT_FAIRCHILD',
+    ],
+    [
+        'colour.adaptation.CMCCAT97_CAT',
+        'colour.adaptation.CAT_CMCCAT97',
+    ],
+    [
+        'colour.adaptation.CMCCAT2000_CAT',
+        'colour.adaptation.CAT_CMCCAT2000',
+    ],
+    [
+        'colour.adaptation.CMCCAT2000_InductionFactors',
+        'colour.adaptation.InductionFactors_CMCCAT2000',
+    ],
+    [
+        'colour.adaptation.CMCCAT2000_VIEWING_CONDITIONS',
+        'colour.adaptation.VIEWING_CONDITIONS_CMCCAT2000',
+    ],
+    [
+        'colour.adaptation.CAT02_CAT',
+        'colour.adaptation.CAT_CAT02',
+    ],
+    [
+        'colour.adaptation.CAT02_BRILL_CAT',
+        'colour.adaptation.CAT_CAT02_BRILL2008',
+    ],
+    [
+        'colour.adaptation.BS_CAT',
+        'colour.adaptation.CAT_BIANCO2010',
+    ],
+    [
+        'colour.adaptation.BS_PC_CAT',
+        'colour.adaptation.CAT_PC_BIANCO2010)',
+    ],
+]
 
 if not is_documentation_building():
     sys.modules['colour.adaptation'] = adaptation(

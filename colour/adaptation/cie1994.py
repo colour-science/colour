@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
-from colour.adaptation import VON_KRIES_CAT
+from colour.adaptation import CAT_VON_KRIES
 from colour.utilities import (as_float_array, dot_vector, from_range_100,
                               to_domain_100, tsplit, tstack, usage_warning)
 
@@ -32,26 +32,26 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CIE1994_XYZ_TO_RGB_MATRIX', 'CIE1994_RGB_TO_XYZ_MATRIX',
+    'MATRIX_XYZ_TO_RGB_CIE1994', 'MATRIX_RGB_TO_XYZ_CIE1994',
     'chromatic_adaptation_CIE1994', 'XYZ_to_RGB_CIE1994', 'RGB_to_XYZ_CIE1994',
     'intermediate_values', 'effective_adapting_responses', 'beta_1', 'beta_2',
     'exponential_factors', 'K_coefficient', 'corresponding_colour'
 ]
 
-CIE1994_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
+MATRIX_XYZ_TO_RGB_CIE1994 = CAT_VON_KRIES
 """
 *CIE 1994* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
-CIE1994_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_RGB_CIE1994 : array_like, (3, 3)
 """
 
-CIE1994_RGB_TO_XYZ_MATRIX = np.linalg.inv(CIE1994_XYZ_TO_RGB_MATRIX)
+MATRIX_RGB_TO_XYZ_CIE1994 = np.linalg.inv(MATRIX_XYZ_TO_RGB_CIE1994)
 """
 *CIE 1994* colour appearance model cone responses to *CIE XYZ* tristimulus
 values matrix.
 
-CIE1994_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_RGB_TO_XYZ_CIE1994 : array_like, (3, 3)
 """
 
 
@@ -170,7 +170,7 @@ def XYZ_to_RGB_CIE1994(XYZ):
     array([ 25.8244273...,  18.6791422...,   4.8390194...])
     """
 
-    return dot_vector(CIE1994_XYZ_TO_RGB_MATRIX, XYZ)
+    return dot_vector(MATRIX_XYZ_TO_RGB_CIE1994, XYZ)
 
 
 def RGB_to_XYZ_CIE1994(RGB):
@@ -194,7 +194,7 @@ def RGB_to_XYZ_CIE1994(RGB):
     array([ 28.  ,  21.26,   5.27])
     """
 
-    return dot_vector(CIE1994_RGB_TO_XYZ_MATRIX, RGB)
+    return dot_vector(MATRIX_RGB_TO_XYZ_CIE1994, RGB)
 
 
 def intermediate_values(xy_o):
