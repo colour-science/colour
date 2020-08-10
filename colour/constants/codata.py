@@ -20,41 +20,42 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', 'PLANCK_CONSTANT'
+    'CONSTANT_AVOGADRO', 'CONSTANT_BOLTZMANN', 'CONSTANT_LIGHT_SPEED',
+    'CONSTANT_PLANCK'
 ]
 
-AVOGADRO_CONSTANT = 6.02214179e23
+CONSTANT_AVOGADRO = 6.02214179e23
 if is_documentation_building():  # pragma: no cover
-    AVOGADRO_CONSTANT = DocstringFloat(AVOGADRO_CONSTANT)
-    AVOGADRO_CONSTANT.__doc__ = """
+    CONSTANT_AVOGADRO = DocstringFloat(CONSTANT_AVOGADRO)
+    CONSTANT_AVOGADRO.__doc__ = """
 Avogadro constant.
 
-AVOGADRO_CONSTANT : numeric
+CONSTANT_AVOGADRO : numeric
 """
 
-BOLTZMANN_CONSTANT = 1.38065e-23
+CONSTANT_BOLTZMANN = 1.38065e-23
 if is_documentation_building():  # pragma: no cover
-    BOLTZMANN_CONSTANT = DocstringFloat(BOLTZMANN_CONSTANT)
-    BOLTZMANN_CONSTANT.__doc__ = """
+    CONSTANT_BOLTZMANN = DocstringFloat(CONSTANT_BOLTZMANN)
+    CONSTANT_BOLTZMANN.__doc__ = """
 Boltzmann constant.
 
-BOLTZMANN_CONSTANT : numeric
+CONSTANT_BOLTZMANN : numeric
 """
 
-LIGHT_SPEED = 299792458
+CONSTANT_LIGHT_SPEED = 299792458
 if is_documentation_building():  # pragma: no cover
-    LIGHT_SPEED = DocstringFloat(LIGHT_SPEED)
-    LIGHT_SPEED.__doc__ = """
+    CONSTANT_LIGHT_SPEED = DocstringFloat(CONSTANT_LIGHT_SPEED)
+    CONSTANT_LIGHT_SPEED.__doc__ = """
 Speed of light in vacuum.
 
-LIGHT_SPEED : numeric
+CONSTANT_LIGHT_SPEED : numeric
 """
 
-PLANCK_CONSTANT = 6.62607e-34
+CONSTANT_PLANCK = 6.62607e-34
 if is_documentation_building():  # pragma: no cover
-    PLANCK_CONSTANT = DocstringFloat(PLANCK_CONSTANT)
-    PLANCK_CONSTANT.__doc__ = """
+    CONSTANT_PLANCK = DocstringFloat(CONSTANT_PLANCK)
+    CONSTANT_PLANCK.__doc__ = """
 Planck constant.
 
-PLANCK_CONSTANT : numeric
+CONSTANT_PLANCK : numeric
 """

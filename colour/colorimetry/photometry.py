@@ -19,7 +19,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import SDS_LEFS_PHOTOPIC
-from colour.constants import K_M
+from colour.constants import CONSTANT_K_M
 from colour.utilities import as_float
 
 __author__ = 'Colour Developers'
@@ -34,7 +34,7 @@ __all__ = ['luminous_flux', 'luminous_efficiency', 'luminous_efficacy']
 
 def luminous_flux(sd,
                   lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
-                  K_m=K_M):
+                  K_m=CONSTANT_K_M):
     """
     Returns the *luminous flux* for given spectral distribution using given
     luminous efficiency function.
@@ -154,6 +154,6 @@ def luminous_efficacy(
     136.2170803...
     """
 
-    efficacy = K_M * luminous_efficiency(sd, lef)
+    efficacy = CONSTANT_K_M * luminous_efficiency(sd, lef)
 
     return as_float(efficacy)

@@ -388,7 +388,7 @@ API_CHANGES = {
         ],
         [
             'colour.AVOGADRO_CONSTANT',
-            'colour.constants.AVOGADRO_CONSTANT',
+            'colour.constants.CONSTANT_AVOGADRO',
         ],
         [
             'colour.AbstractContinuousFunction',
@@ -404,7 +404,7 @@ API_CHANGES = {
         ],
         [
             'colour.BOLTZMANN_CONSTANT',
-            'colour.constants.BOLTZMANN_CONSTANT',
+            'colour.constants.CONSTANT_BOLTZMANN',
         ],
         [
             'colour.BRADFORD_CAT',
@@ -584,15 +584,15 @@ API_CHANGES = {
         ],
         [
             'colour.KP_M',
-            'colour.constants.KP_M',
+            'colour.constants.CONSTANT_KP_M',
         ],
         [
             'colour.K_M',
-            'colour.constants.K_M',
+            'colour.constants.CONSTANT_K_M',
         ],
         [
             'colour.LIGHT_SPEED',
-            'colour.constants.LIGHT_SPEED',
+            'colour.constants.CONSTANT_LIGHT_SPEED',
         ],
         [
             'colour.LLAB_InductionFactors',
@@ -648,7 +648,7 @@ API_CHANGES = {
         ],
         [
             'colour.PLANCK_CONSTANT',
-            'colour.constants.PLANCK_CONSTANT',
+            'colour.constants.CONSTANT_PLANCK',
         ],
         [
             'colour.PROPHOTO_RGB_COLOURSPACE',

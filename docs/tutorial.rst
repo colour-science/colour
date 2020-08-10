@@ -157,7 +157,7 @@ The various sub-packages also expose their public API:
 
 
     Constants
-    ['K_M', 'KP_M', 'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', '...']
+    ['CONSTANT_K_M', 'CONSTANT_KP_M', 'CONSTANT_AVOGADRO', 'CONSTANT_BOLTZMANN', 'CONSTANT_LIGHT_SPEED', '...']
 
 
     Continuous

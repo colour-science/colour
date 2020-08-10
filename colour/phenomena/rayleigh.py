@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
-from colour.constants import AVOGADRO_CONSTANT
+from colour.constants import CONSTANT_AVOGADRO
 from colour.utilities import as_float_array, filter_kwargs
 
 __author__ = 'Colour Developers'
@@ -400,7 +400,7 @@ def F_air_Bodhaine1999(wavelength,
 
 
 def molecular_density(temperature=STANDARD_AIR_TEMPERATURE,
-                      avogadro_constant=AVOGADRO_CONSTANT):
+                      avogadro_constant=CONSTANT_AVOGADRO):
     """
     Returns the molecular density :math:`N_s` (molecules :math:`cm^{-3}`)
     as function of air temperature :math:`T[K]` in kelvin degrees.
@@ -515,7 +515,7 @@ def gravity_List1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
 def scattering_cross_section(wavelength,
                              CO2_concentration=STANDARD_CO2_CONCENTRATION,
                              temperature=STANDARD_AIR_TEMPERATURE,
-                             avogadro_constant=AVOGADRO_CONSTANT,
+                             avogadro_constant=CONSTANT_AVOGADRO,
                              n_s=air_refraction_index_Bodhaine1999,
                              F_air=F_air_Bodhaine1999):
     """
@@ -587,7 +587,7 @@ def rayleigh_optical_depth(wavelength,
                            pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
                            latitude=DEFAULT_LATITUDE,
                            altitude=DEFAULT_ALTITUDE,
-                           avogadro_constant=AVOGADRO_CONSTANT,
+                           avogadro_constant=CONSTANT_AVOGADRO,
                            n_s=air_refraction_index_Bodhaine1999,
                            F_air=F_air_Bodhaine1999):
     """
@@ -664,7 +664,7 @@ def sd_rayleigh_scattering(shape=SPECTRAL_SHAPE_DEFAULT,
                            pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
                            latitude=DEFAULT_LATITUDE,
                            altitude=DEFAULT_ALTITUDE,
-                           avogadro_constant=AVOGADRO_CONSTANT,
+                           avogadro_constant=CONSTANT_AVOGADRO,
                            n_s=air_refraction_index_Bodhaine1999,
                            F_air=F_air_Bodhaine1999):
     """
