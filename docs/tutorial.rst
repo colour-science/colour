@@ -262,7 +262,7 @@ The various sub-packages also expose their public API:
 
 
     Recovery
-    ['SMITS_1999_SDS',
+    ['SDS_SMITS1999',
      'XYZ_to_sd_Meng2015',
      'RGB_to_sd_Smits1999',
      'XYZ_TO_SD_METHODS',

@@ -13,8 +13,7 @@ import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
-                                MSDS_CMFS_STANDARD_OBSERVER,
-                                SpectralDistribution, sd_to_XYZ)
+                                MSDS_CMFS_STANDARD_OBSERVER, sd_to_XYZ)
 from colour.difference import JND_CIE1976, delta_E_CIE1976
 from colour.models import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_Lab
 from colour.recovery.jakob2019 import (
@@ -35,10 +34,10 @@ __all__ = [
 ]
 
 MSDS_CMFS = MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-sRGB = RGB_COLOURSPACES['sRGB']
-PROPHOTO_RGB = RGB_COLOURSPACES['ProPhoto RGB']
-D65 = SpectralDistribution(SDS_ILLUMINANTS['D65'])
-D65_XY = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']["D65"]
+RGB_COLOURSPACE_sRGB = RGB_COLOURSPACES['sRGB']
+RGB_COLOURSPACE_PROPHOTO_RGB = RGB_COLOURSPACES['ProPhoto RGB']
+SD_D65 = SDS_ILLUMINANTS['D65']
+CCS_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 
 
 class TestErrorFunction(unittest.TestCase):
@@ -80,8 +79,8 @@ class TestErrorFunction(unittest.TestCase):
         # error_function will not align these for us.
         shape = JAKOB2019_SPECTRAL_SHAPE
         aligned_cmfs = MSDS_CMFS.copy().align(shape)
-        illuminant = D65.copy().align(shape)
-        XYZ_n = sd_to_XYZ(D65)
+        illuminant = SD_D65.copy().align(shape)
+        XYZ_n = sd_to_XYZ(SD_D65)
         XYZ_n /= XYZ_n[1]
 
         for coefficients in coefficient_list:
@@ -96,7 +95,7 @@ class TestErrorFunction(unittest.TestCase):
                 dimensionalise_coefficients(coefficients, shape), shape)
 
             sd_XYZ = sd_to_XYZ(sd, illuminant=illuminant) / 100
-            sd_Lab = XYZ_to_Lab(XYZ, D65_XY)
+            sd_Lab = XYZ_to_Lab(XYZ, CCS_D65)
             error_reference = delta_E_CIE1976(self._Lab_e, Lab)
 
             np.testing.assert_allclose(sd.values, R, atol=1e-14)
@@ -112,8 +111,8 @@ class TestErrorFunction(unittest.TestCase):
 
         shape = JAKOB2019_SPECTRAL_SHAPE
         aligned_cmfs = MSDS_CMFS.copy().align(shape)
-        illuminant = D65.copy().align(shape)
-        XYZ_n = sd_to_XYZ(D65)
+        illuminant = SD_D65.copy().align(shape)
+        XYZ_n = sd_to_XYZ(SD_D65)
         XYZ_n /= XYZ_n[1]
 
         var_range = np.linspace(-10, 10, 1000)
@@ -156,10 +155,10 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
 
         # Tests the round-trip with values of a colour checker.
         for name, sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].items():
-            XYZ = sd_to_XYZ(sd, illuminant=D65) / 100
+            XYZ = sd_to_XYZ(sd, illuminant=SD_D65) / 100
 
             _recovered_sd, error = XYZ_to_sd_Jakob2019(
-                XYZ, illuminant=D65, additional_data=True)
+                XYZ, illuminant=SD_D65, additional_data=True)
 
             if error > JND_CIE1976:
                 self.fail('Delta E for \'{0}\' is {1}!'.format(name, error))
@@ -209,7 +208,8 @@ class TestJakob2019Interpolator(unittest.TestCase):
         """
 
         interpolator = Jakob2019Interpolator()
-        interpolator.generate(sRGB, MSDS_CMFS, D65, 4, verbose=True)
+        interpolator.generate(
+            RGB_COLOURSPACE_sRGB, MSDS_CMFS, SD_D65, 4, verbose=True)
 
         path = os.path.join(self._temporary_directory, 'Jakob2019_Test.coeff')
         interpolator.write(path)
@@ -223,18 +223,18 @@ class TestJakob2019Interpolator(unittest.TestCase):
                 full(3, 0.5),
                 ones(3),
         ]:
-            XYZ = RGB_to_XYZ(RGB, sRGB.whitepoint, D65_XY,
-                             sRGB.RGB_to_XYZ_matrix)
-            Lab = XYZ_to_Lab(XYZ, D65_XY)
+            XYZ = RGB_to_XYZ(RGB, RGB_COLOURSPACE_sRGB.whitepoint, CCS_D65,
+                             RGB_COLOURSPACE_sRGB.RGB_to_XYZ_matrix)
+            Lab = XYZ_to_Lab(XYZ, CCS_D65)
 
             recovered_sd = interpolator.RGB_to_sd(RGB)
-            recovered_XYZ = sd_to_XYZ(recovered_sd, illuminant=D65) / 100
-            recovered_Lab = XYZ_to_Lab(recovered_XYZ, D65_XY)
+            recovered_XYZ = sd_to_XYZ(recovered_sd, illuminant=SD_D65) / 100
+            recovered_Lab = XYZ_to_Lab(recovered_XYZ, CCS_D65)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
             if error > 2 * JND_CIE1976:
                 self.fail('Delta E for RGB={0} in colourspace {1} is {2}!'
-                          .format(RGB, sRGB.name, error))
+                          .format(RGB, RGB_COLOURSPACE_sRGB.name, error))
 
 
 if __name__ == '__main__':

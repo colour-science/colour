@@ -721,7 +721,7 @@ API_CHANGES = {
         ],
         [
             'colour.SMITS_1999_SPDS',
-            'colour.recovery.SMITS_1999_SDS',
+            'colour.recovery.SDS_SMITS1999',
         ],
         [
             'colour.SMPTE_240M_COLOURSPACE',

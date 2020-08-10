@@ -15,6 +15,11 @@ References
 
 from __future__ import absolute_import
 
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
+from colour.utilities.documentation import is_documentation_building
+
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               filter_kwargs)
 
@@ -273,3 +278,31 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
 
 
 __all__ += ['XYZ_TO_SD_METHODS', 'XYZ_to_sd']
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class recovery(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(recovery, self).__getattr__(attribute)
+
+
+# v0.3.16
+API_CHANGES = {
+    'ObjectRenamed': [[
+        'colour.recovery.SMITS_1999_SDS',
+        'colour.recovery.SDS_SMITS1999',
+    ], ]
+}
+"""
+Defines *colour.recovery* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+if not is_documentation_building():
+    sys.modules['colour.recovery'] = recovery(sys.modules['colour.recovery'],
+                                              build_API_changes(API_CHANGES))
+
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

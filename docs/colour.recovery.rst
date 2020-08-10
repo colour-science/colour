@@ -27,7 +27,7 @@ Smits (1999)
     :toctree: generated/
 
     RGB_to_sd_Smits1999
-    SMITS_1999_SDS
+    SDS_SMITS1999
 
 Meng, Simon and Hanika (2015)
 -----------------------------
