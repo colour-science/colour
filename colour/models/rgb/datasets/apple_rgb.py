@@ -5,7 +5,7 @@ Apple RGB Colourspace
 
 Defines the *Apple RGB* colourspace:
 
--   :attr:`colour.models.APPLE_RGB_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_APPLE_RGB`.
 
 References
 ----------
@@ -30,12 +30,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'APPLE_RGB_PRIMARIES', 'APPLE_RGB_WHITEPOINT_NAME', 'APPLE_RGB_WHITEPOINT',
-    'APPLE_RGB_TO_XYZ_MATRIX', 'XYZ_TO_APPLE_RGB_MATRIX',
-    'APPLE_RGB_COLOURSPACE'
+    'PRIMARIES_APPLE_RGB', 'WHITEPOINT_NAME_APPLE_RGB',
+    'CCS_WHITEPOINT_APPLE_RGB', 'MATRIX_APPLE_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_APPLE_RGB', 'RGB_COLOURSPACE_APPLE_RGB'
 ]
 
-APPLE_RGB_PRIMARIES = np.array([
+PRIMARIES_APPLE_RGB = np.array([
     [0.6250, 0.3400],
     [0.2800, 0.5950],
     [0.1550, 0.0700],
@@ -43,55 +43,55 @@ APPLE_RGB_PRIMARIES = np.array([
 """
 *Apple RGB* colourspace primaries.
 
-APPLE_RGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_APPLE_RGB : ndarray, (3, 2)
 """
 
-APPLE_RGB_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_APPLE_RGB = 'D65'
 """
 *Apple RGB* colourspace whitepoint name.
 
-APPLE_RGB_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_APPLE_RGB : unicode
 """
 
-APPLE_RGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    APPLE_RGB_WHITEPOINT_NAME])
+CCS_WHITEPOINT_APPLE_RGB = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_APPLE_RGB])
 """
-*Apple RGB* colourspace whitepoint.
+*Apple RGB* colourspace whitepoint chromaticity coordinates.
 
-APPLE_RGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_APPLE_RGB : ndarray
 """
 
-APPLE_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(APPLE_RGB_PRIMARIES,
-                                                    APPLE_RGB_WHITEPOINT)
+MATRIX_APPLE_RGB_TO_XYZ = normalised_primary_matrix(PRIMARIES_APPLE_RGB,
+                                                    CCS_WHITEPOINT_APPLE_RGB)
 """
 *Apple RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-APPLE_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_APPLE_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_APPLE_RGB_MATRIX = np.linalg.inv(APPLE_RGB_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_APPLE_RGB = np.linalg.inv(MATRIX_APPLE_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Apple RGB* colourspace matrix.
 
-XYZ_TO_APPLE_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_APPLE_RGB : array_like, (3, 3)
 """
 
-APPLE_RGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_APPLE_RGB = RGB_Colourspace(
     'Apple RGB',
-    APPLE_RGB_PRIMARIES,
-    APPLE_RGB_WHITEPOINT,
-    APPLE_RGB_WHITEPOINT_NAME,
-    APPLE_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_APPLE_RGB_MATRIX,
+    PRIMARIES_APPLE_RGB,
+    CCS_WHITEPOINT_APPLE_RGB,
+    WHITEPOINT_NAME_APPLE_RGB,
+    MATRIX_APPLE_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_APPLE_RGB,
     partial(gamma_function, exponent=1 / 1.8),
     partial(gamma_function, exponent=1.8),
 )
-APPLE_RGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_APPLE_RGB.__doc__ = """
 *Apple RGB* colourspace.
 
 References
 ----------
 :cite:`Susstrunk1999a`
 
-APPLE_RGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_APPLE_RGB : RGB_Colourspace
 """

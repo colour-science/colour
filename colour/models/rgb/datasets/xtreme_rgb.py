@@ -5,7 +5,7 @@ Xtreme RGB Colourspace
 
 Defines the *Xtreme RGB* colourspace:
 
--   :attr:`colour.models.XTREME_RGB_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_XTREME_RGB`.
 
 References
 ----------
@@ -30,12 +30,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'XTREME_RGB_PRIMARIES', 'XTREME_RGB_WHITEPOINT_NAME',
-    'XTREME_RGB_WHITEPOINT', 'XTREME_RGB_TO_XYZ_MATRIX',
-    'XYZ_TO_XTREME_RGB_MATRIX', 'XTREME_RGB_COLOURSPACE'
+    'PRIMARIES_XTREME_RGB', 'WHITEPOINT_NAME_XTREME_RGB',
+    'CCS_WHITEPOINT_XTREME_RGB', 'MATRIX_XTREME_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_XTREME_RGB', 'RGB_COLOURSPACE_XTREME_RGB'
 ]
 
-XTREME_RGB_PRIMARIES = np.array([
+PRIMARIES_XTREME_RGB = np.array([
     [1.0, 0.0],
     [0.0, 1.0],
     [0.0, 0.0],
@@ -43,55 +43,55 @@ XTREME_RGB_PRIMARIES = np.array([
 """
 *Xtreme RGB* colourspace primaries.
 
-XTREME_RGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_XTREME_RGB : ndarray, (3, 2)
 """
 
-XTREME_RGB_WHITEPOINT_NAME = 'D50'
+WHITEPOINT_NAME_XTREME_RGB = 'D50'
 """
 *Xtreme RGB* colourspace whitepoint name.
 
-XTREME_RGB_WHITEPOINT : unicode
+CCS_WHITEPOINT_XTREME_RGB : unicode
 """
 
-XTREME_RGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                         [XTREME_RGB_WHITEPOINT_NAME])
+CCS_WHITEPOINT_XTREME_RGB = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_XTREME_RGB])
 """
-*Xtreme RGB* colourspace whitepoint.
+*Xtreme RGB* colourspace whitepoint chromaticity coordinates.
 
-XTREME_RGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_XTREME_RGB : ndarray
 """
 
-XTREME_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(XTREME_RGB_PRIMARIES,
-                                                     XTREME_RGB_WHITEPOINT)
+MATRIX_XTREME_RGB_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_XTREME_RGB, CCS_WHITEPOINT_XTREME_RGB)
 """
 *Xtreme RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-XTREME_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_XTREME_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_XTREME_RGB_MATRIX = np.linalg.inv(XTREME_RGB_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_XTREME_RGB = np.linalg.inv(MATRIX_XTREME_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Xtreme RGB* colourspace matrix.
 
-XYZ_TO_XTREME_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_XTREME_RGB : array_like, (3, 3)
 """
 
-XTREME_RGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_XTREME_RGB = RGB_Colourspace(
     'Xtreme RGB',
-    XTREME_RGB_PRIMARIES,
-    XTREME_RGB_WHITEPOINT,
-    XTREME_RGB_WHITEPOINT_NAME,
-    XTREME_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_XTREME_RGB_MATRIX,
+    PRIMARIES_XTREME_RGB,
+    CCS_WHITEPOINT_XTREME_RGB,
+    WHITEPOINT_NAME_XTREME_RGB,
+    MATRIX_XTREME_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_XTREME_RGB,
     partial(gamma_function, exponent=1 / 2.2),
     partial(gamma_function, exponent=2.2),
 )
-XTREME_RGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_XTREME_RGB.__doc__ = """
 *Xtreme RGB* colourspace.
 
 References
 ----------
 :cite:`HutchColore`
 
-XTREME_RGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_XTREME_RGB : RGB_Colourspace
 """

@@ -35,12 +35,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ICTCP_RGB_TO_LMS_MATRIX', 'ICTCP_LMS_TO_RGB_MATRIX',
-    'ICTCP_LMS_P_TO_ICTCP_MATRIX', 'ICTCP_ICTCP_TO_LMS_P_MATRIX',
+    'MATRIX_ICTCP_RGB_TO_LMS', 'MATRIX_ICTCP_LMS_TO_RGB',
+    'MATRIX_ICTCP_LMS_P_TO_ICTCP', 'MATRIX_ICTCP_ICTCP_TO_LMS_P',
     'RGB_to_ICTCP', 'ICTCP_to_RGB'
 ]
 
-ICTCP_RGB_TO_LMS_MATRIX = np.array([
+MATRIX_ICTCP_RGB_TO_LMS = np.array([
     [1688, 2146, 262],
     [683, 2951, 462],
     [99, 309, 3688],
@@ -48,18 +48,18 @@ ICTCP_RGB_TO_LMS_MATRIX = np.array([
 """
 *ITU-R BT.2020* colourspace to normalised cone responses matrix.
 
-ICTCP_RGB_TO_LMS_MATRIX : array_like, (3, 3)
+MATRIX_ICTCP_RGB_TO_LMS : array_like, (3, 3)
 """
 
-ICTCP_LMS_TO_RGB_MATRIX = np.linalg.inv(ICTCP_RGB_TO_LMS_MATRIX)
+MATRIX_ICTCP_LMS_TO_RGB = np.linalg.inv(MATRIX_ICTCP_RGB_TO_LMS)
 """
 :math:`IC_TC_P` colourspace normalised cone responses to *ITU-R BT.2020*
 colourspace matrix.
 
-ICTCP_LMS_TO_RGB_MATRIX : array_like, (3, 3)
+MATRIX_ICTCP_LMS_TO_RGB : array_like, (3, 3)
 """
 
-ICTCP_LMS_P_TO_ICTCP_MATRIX = np.array([
+MATRIX_ICTCP_LMS_P_TO_ICTCP = np.array([
     [2048, 2048, 0],
     [6610, -13613, 7003],
     [17933, -17390, -543],
@@ -68,15 +68,15 @@ ICTCP_LMS_P_TO_ICTCP_MATRIX = np.array([
 :math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
 :math:`IC_TC_P` colour encoding matrix.
 
-ICTCP_LMS_P_TO_ICTCP_MATRIX : array_like, (3, 3)
+MATRIX_ICTCP_LMS_P_TO_ICTCP : array_like, (3, 3)
 """
 
-ICTCP_ICTCP_TO_LMS_P_MATRIX = np.linalg.inv(ICTCP_LMS_P_TO_ICTCP_MATRIX)
+MATRIX_ICTCP_ICTCP_TO_LMS_P = np.linalg.inv(MATRIX_ICTCP_LMS_P_TO_ICTCP)
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
 normalised cone responses matrix.
 
-ICTCP_ICTCP_TO_LMS_P_MATRIX : array_like, (3, 3)
+MATRIX_ICTCP_ICTCP_TO_LMS_P : array_like, (3, 3)
 """
 
 
@@ -130,12 +130,12 @@ def RGB_to_ICTCP(RGB, L_p=10000):
 
     RGB = to_domain_1(RGB)
 
-    LMS = dot_vector(ICTCP_RGB_TO_LMS_MATRIX, RGB)
+    LMS = dot_vector(MATRIX_ICTCP_RGB_TO_LMS, RGB)
 
     with domain_range_scale('ignore'):
         LMS_p = eotf_inverse_ST2084(LMS, L_p)
 
-    ICTCP = dot_vector(ICTCP_LMS_P_TO_ICTCP_MATRIX, LMS_p)
+    ICTCP = dot_vector(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
 
     return from_range_1(ICTCP)
 
@@ -190,11 +190,11 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
 
     ICTCP = to_domain_1(ICTCP)
 
-    LMS_p = dot_vector(ICTCP_ICTCP_TO_LMS_P_MATRIX, ICTCP)
+    LMS_p = dot_vector(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICTCP)
 
     with domain_range_scale('ignore'):
         LMS = eotf_ST2084(LMS_p, L_p)
 
-    RGB = dot_vector(ICTCP_LMS_TO_RGB_MATRIX, LMS)
+    RGB = dot_vector(MATRIX_ICTCP_LMS_TO_RGB, LMS)
 
     return from_range_1(RGB)

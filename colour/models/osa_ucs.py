@@ -39,7 +39,7 @@ __status__ = 'Production'
 
 __all__ = ['XYZ_to_OSA_UCS', 'OSA_UCS_to_XYZ']
 
-M_XYZ_TO_RGB_OSA_UCS = np.array([
+MATRIX_XYZ_TO_RGB_OSA_UCS = np.array([
     [0.799, 0.4194, -0.1648],
     [-0.4493, 1.3265, 0.0927],
     [-0.1149, 0.3394, 0.717],
@@ -48,7 +48,7 @@ M_XYZ_TO_RGB_OSA_UCS = np.array([
 *OSA UCS* matrix converting from *CIE XYZ* tristimulus values to *RGB*
 colourspace.
 
-M_XYZ_TO_RGB_OSA_UCS : array_like, (3, 3)
+MATRIX_XYZ_TO_RGB_OSA_UCS : array_like, (3, 3)
 """
 
 
@@ -117,7 +117,7 @@ def XYZ_to_OSA_UCS(XYZ):
     Y_0_s = Y_0 - 30
     Lambda = 5.9 * (Y_0_es + 0.042 * spow(Y_0_s, o_3))
 
-    RGB = dot_vector(M_XYZ_TO_RGB_OSA_UCS, XYZ)
+    RGB = dot_vector(MATRIX_XYZ_TO_RGB_OSA_UCS, XYZ)
     RGB_3 = spow(RGB, 1 / 3)
 
     C = Lambda / (5.9 * Y_0_es)

@@ -5,7 +5,7 @@ Best RGB Colourspace
 
 Defines the *Best RGB* colourspace:
 
--   :attr:`colour.models.BEST_RGB_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_BEST_RGB`.
 
 References
 ----------
@@ -30,11 +30,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'BEST_RGB_PRIMARIES', 'BEST_RGB_WHITEPOINT_NAME', 'BEST_RGB_WHITEPOINT',
-    'BEST_RGB_TO_XYZ_MATRIX', 'XYZ_TO_BEST_RGB_MATRIX', 'BEST_RGB_COLOURSPACE'
+    'PRIMARIES_BEST_RGB', 'WHITEPOINT_NAME_BEST_RGB',
+    'CCS_WHITEPOINT_BEST_RGB', 'MATRIX_BEST_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_BEST_RGB', 'RGB_COLOURSPACE_BEST_RGB'
 ]
 
-BEST_RGB_PRIMARIES = np.array([
+PRIMARIES_BEST_RGB = np.array([
     [0.735191637630662, 0.264808362369338],
     [0.215336134453781, 0.774159663865546],
     [0.130122950819672, 0.034836065573770],
@@ -42,55 +43,55 @@ BEST_RGB_PRIMARIES = np.array([
 """
 *Best RGB* colourspace primaries.
 
-BEST_RGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_BEST_RGB : ndarray, (3, 2)
 """
 
-BEST_RGB_WHITEPOINT_NAME = 'D50'
+WHITEPOINT_NAME_BEST_RGB = 'D50'
 """
 *Best RGB* colourspace whitepoint name.
 
-BEST_RGB_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_BEST_RGB : unicode
 """
 
-BEST_RGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    BEST_RGB_WHITEPOINT_NAME])
+CCS_WHITEPOINT_BEST_RGB = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_BEST_RGB])
 """
-*Best RGB* colourspace whitepoint.
+*Best RGB* colourspace whitepoint chromaticity coordinates.
 
-BEST_RGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_BEST_RGB : ndarray
 """
 
-BEST_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BEST_RGB_PRIMARIES,
-                                                   BEST_RGB_WHITEPOINT)
+MATRIX_BEST_RGB_TO_XYZ = normalised_primary_matrix(PRIMARIES_BEST_RGB,
+                                                   CCS_WHITEPOINT_BEST_RGB)
 """
 *Best RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-BEST_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_BEST_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_BEST_RGB_MATRIX = np.linalg.inv(BEST_RGB_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_BEST_RGB = np.linalg.inv(MATRIX_BEST_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Best RGB* colourspace matrix.
 
-XYZ_TO_BEST_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_BEST_RGB : array_like, (3, 3)
 """
 
-BEST_RGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_BEST_RGB = RGB_Colourspace(
     'Best RGB',
-    BEST_RGB_PRIMARIES,
-    BEST_RGB_WHITEPOINT,
-    BEST_RGB_WHITEPOINT_NAME,
-    BEST_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_BEST_RGB_MATRIX,
+    PRIMARIES_BEST_RGB,
+    CCS_WHITEPOINT_BEST_RGB,
+    WHITEPOINT_NAME_BEST_RGB,
+    MATRIX_BEST_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_BEST_RGB,
     partial(gamma_function, exponent=1 / 2.2),
     partial(gamma_function, exponent=2.2),
 )
-BEST_RGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_BEST_RGB.__doc__ = """
 *Best RGB* colourspace.
 
 References
 ----------
 :cite:`HutchColord`
 
-BEST_RGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_BEST_RGB : RGB_Colourspace
 """

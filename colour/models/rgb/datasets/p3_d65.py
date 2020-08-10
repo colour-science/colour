@@ -5,7 +5,7 @@ P3-D65 Colourspace
 
 Defines the *P3-D65* colourspace:
 
--   :attr:`colour.models.P3_D65_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_P3_D65`.
 """
 
 from __future__ import division, unicode_literals
@@ -25,11 +25,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'P3_D65_PRIMARIES', 'P3_D65_WHITEPOINT_NAME', 'P3_D65_WHITEPOINT',
-    'P3_D65_TO_XYZ_MATRIX', 'XYZ_TO_P3_D65_MATRIX', 'P3_D65_COLOURSPACE'
+    'PRIMARIES_P3_D65', 'WHITEPOINT_NAME_P3_D65', 'CCS_WHITEPOINT_P3_D65',
+    'MATRIX_P3_D65_TO_XYZ', 'MATRIX_XYZ_TO_P3_D65', 'RGB_COLOURSPACE_P3_D65'
 ]
 
-P3_D65_PRIMARIES = np.array([
+PRIMARIES_P3_D65 = np.array([
     [0.6800, 0.3200],
     [0.2650, 0.6900],
     [0.1500, 0.0600],
@@ -37,51 +37,51 @@ P3_D65_PRIMARIES = np.array([
 """
 *P3-D65* colourspace primaries.
 
-P3_D65_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_P3_D65 : ndarray, (3, 2)
 """
 
-P3_D65_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_P3_D65 = 'D65'
 """
 *P3-D65* colourspace whitepoint name.
 
-P3_D65_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_P3_D65 : unicode
 """
 
-P3_D65_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    P3_D65_WHITEPOINT_NAME])
+CCS_WHITEPOINT_P3_D65 = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                         [WHITEPOINT_NAME_P3_D65])
 """
-*P3-D65* colourspace whitepoint.
+*P3-D65* colourspace whitepoint chromaticity coordinates.
 
-P3_D65_WHITEPOINT : ndarray
+CCS_WHITEPOINT_P3_D65 : ndarray
 """
 
-P3_D65_TO_XYZ_MATRIX = normalised_primary_matrix(P3_D65_PRIMARIES,
-                                                 P3_D65_WHITEPOINT)
+MATRIX_P3_D65_TO_XYZ = normalised_primary_matrix(PRIMARIES_P3_D65,
+                                                 CCS_WHITEPOINT_P3_D65)
 """
 *P3-D65* colourspace to *CIE XYZ* tristimulus values matrix.
 
-P3_D65_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_P3_D65_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_P3_D65_MATRIX = np.linalg.inv(P3_D65_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_P3_D65 = np.linalg.inv(MATRIX_P3_D65_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *P3-D65* colourspace matrix.
 
-XYZ_TO_P3_D65_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_P3_D65 : array_like, (3, 3)
 """
 
-P3_D65_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_P3_D65 = RGB_Colourspace(
     'P3-D65',
-    P3_D65_PRIMARIES,
-    P3_D65_WHITEPOINT,
-    P3_D65_WHITEPOINT_NAME,
-    P3_D65_TO_XYZ_MATRIX,
-    XYZ_TO_P3_D65_MATRIX,
+    PRIMARIES_P3_D65,
+    CCS_WHITEPOINT_P3_D65,
+    WHITEPOINT_NAME_P3_D65,
+    MATRIX_P3_D65_TO_XYZ,
+    MATRIX_XYZ_TO_P3_D65,
     partial(gamma_function, exponent=1 / 2.6),
     partial(gamma_function, exponent=2.6),
 )
-P3_D65_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_P3_D65.__doc__ = """
 *P3-D65* colourspace.
 
-P3_D65_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_P3_D65 : RGB_Colourspace
 """

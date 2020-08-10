@@ -1201,7 +1201,7 @@ Colour Volume - ``colour.volume``
 
 .. code-block:: python
 
-    >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE['sRGB'])
+    >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE_RGB['sRGB'])
     821958.30000000005
 
 Geometry Primitives Generation - ``colour.geometry``

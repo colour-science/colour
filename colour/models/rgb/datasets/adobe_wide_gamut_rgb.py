@@ -5,7 +5,7 @@ Adobe Wide Gamut RGB Colourspace
 
 Defines the *Adobe Wide Gamut RGB* colourspace:
 
--   :attr:`colour.models.ADOBE_WIDE_GAMUT_RGB_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB`.
 
 References
 ----------
@@ -31,12 +31,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ADOBE_WIDE_GAMUT_RGB_PRIMARIES', 'ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME',
-    'ADOBE_WIDE_GAMUT_RGB_WHITEPOINT', 'ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
-    'XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX', 'ADOBE_WIDE_GAMUT_RGB_COLOURSPACE'
+    'PRIMARIES_ADOBE_WIDE_GAMUT_RGB', 'WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB',
+    'CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB',
+    'MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ', 'MATRIX_XYZ_TO_ADOBE_WIDE_GAMUT_RGB',
+    'RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB'
 ]
 
-ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array([
+PRIMARIES_ADOBE_WIDE_GAMUT_RGB = np.array([
     [0.7347, 0.2653],
     [0.1152, 0.8264],
     [0.1566, 0.0177],
@@ -44,57 +45,57 @@ ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array([
 """
 *Adobe Wide Gamut RGB* colourspace primaries.
 
-ADOBE_WIDE_GAMUT_RGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_ADOBE_WIDE_GAMUT_RGB : ndarray, (3, 2)
 """
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME = 'D50'
+WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB = 'D50'
 """
 *Adobe Wide Gamut RGB* colourspace whitepoint name.
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB : unicode
 """
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = (
+CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB = (
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-        ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME])
+        WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB])
 """
-*Adobe Wide Gamut RGB* colourspace whitepoint.
+*Adobe Wide Gamut RGB* colourspace whitepoint chromaticity coordinates.
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB : ndarray
 """
 
-ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    ADOBE_WIDE_GAMUT_RGB_PRIMARIES, ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
+MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_ADOBE_WIDE_GAMUT_RGB, CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB)
 """
 *Adobe Wide Gamut RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
-    ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_ADOBE_WIDE_GAMUT_RGB = np.linalg.inv(
+    MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Adobe Wide Gamut RGB* colourspace matrix.
 
-XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_ADOBE_WIDE_GAMUT_RGB : array_like, (3, 3)
 """
 
-ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB = RGB_Colourspace(
     'Adobe Wide Gamut RGB',
-    ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
-    ADOBE_WIDE_GAMUT_RGB_WHITEPOINT,
-    ADOBE_WIDE_GAMUT_RGB_WHITEPOINT_NAME,
-    ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
+    PRIMARIES_ADOBE_WIDE_GAMUT_RGB,
+    CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB,
+    WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB,
+    MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_ADOBE_WIDE_GAMUT_RGB,
     partial(gamma_function, exponent=1 / (563 / 256)),
     partial(gamma_function, exponent=563 / 256),
 )
-ADOBE_WIDE_GAMUT_RGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB.__doc__ = """
 *Adobe Wide Gamut RGB* colourspace.
 
 References
 ----------
 :cite:`Wikipedia2004c`
 
-ADOBE_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB : RGB_Colourspace
 """

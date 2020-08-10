@@ -5,7 +5,7 @@ ECI RGB v2 Colourspace
 
 Defines the *ECI RGB v2* colourspace:
 
--   :attr:`colour.models.ECI_RGB_V2_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_ECI_RGB_V2`.
 
 References
 ----------
@@ -32,12 +32,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ECI_RGB_V2_PRIMARIES', 'ECI_RGB_V_WHITEPOINT_NAME',
-    'ECI_RGB_V2_WHITEPOINT', 'ECI_RGB_V2_TO_XYZ_MATRIX',
-    'XYZ_TO_ECI_RGB_V2_MATRIX', 'ECI_RGB_V2_COLOURSPACE'
+    'PRIMARIES_ECI_RGB_V2', 'WHITEPOINT_NAME_ECI_RGB_V',
+    'CCS_WHITEPOINT_ECI_RGB_V2', 'MATRIX_ECI_RGB_V2_TO_XYZ',
+    'MATRIX_XYZ_TO_ECI_RGB_V2', 'RGB_COLOURSPACE_ECI_RGB_V2'
 ]
 
-ECI_RGB_V2_PRIMARIES = np.array([
+PRIMARIES_ECI_RGB_V2 = np.array([
     [0.670103092783505, 0.329896907216495],
     [0.209905660377358, 0.709905660377358],
     [0.140061791967044, 0.080329557157570],
@@ -45,37 +45,37 @@ ECI_RGB_V2_PRIMARIES = np.array([
 """
 *ECI RGB v2* colourspace primaries.
 
-ECI_RGB_V2_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_ECI_RGB_V2 : ndarray, (3, 2)
 """
 
-ECI_RGB_V_WHITEPOINT_NAME = 'D50'
+WHITEPOINT_NAME_ECI_RGB_V = 'D50'
 """
 *ECI RGB v2* colourspace whitepoint name.
 
-ECI_RGB_V_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_ECI_RGB_V : unicode
 """
 
-ECI_RGB_V2_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                         [ECI_RGB_V_WHITEPOINT_NAME])
+CCS_WHITEPOINT_ECI_RGB_V2 = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_ECI_RGB_V])
 """
-*ECI RGB v2* colourspace whitepoint.
+*ECI RGB v2* colourspace whitepoint chromaticity coordinates.
 
-ECI_RGB_V2_WHITEPOINT : ndarray
+CCS_WHITEPOINT_ECI_RGB_V2 : ndarray
 """
 
-ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
-                                                     ECI_RGB_V2_WHITEPOINT)
+MATRIX_ECI_RGB_V2_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_ECI_RGB_V2, CCS_WHITEPOINT_ECI_RGB_V2)
 """
 *ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
 
-ECI_RGB_V2_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_ECI_RGB_V2_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_ECI_RGB_V2_MATRIX = np.linalg.inv(ECI_RGB_V2_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_ECI_RGB_V2 = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix.
 
-XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_ECI_RGB_V2 : array_like, (3, 3)
 """
 
 
@@ -106,22 +106,22 @@ def _scale_domain_0_100_range_0_1(a, callable_):
     return callable_(a * 100, Y_n=100) / 100
 
 
-ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_ECI_RGB_V2 = RGB_Colourspace(
     'ECI RGB v2',
-    ECI_RGB_V2_PRIMARIES,
-    ECI_RGB_V2_WHITEPOINT,
-    ECI_RGB_V_WHITEPOINT_NAME,
-    ECI_RGB_V2_TO_XYZ_MATRIX,
-    XYZ_TO_ECI_RGB_V2_MATRIX,
+    PRIMARIES_ECI_RGB_V2,
+    CCS_WHITEPOINT_ECI_RGB_V2,
+    WHITEPOINT_NAME_ECI_RGB_V,
+    MATRIX_ECI_RGB_V2_TO_XYZ,
+    MATRIX_XYZ_TO_ECI_RGB_V2,
     partial(_scale_domain_0_100_range_0_1, callable_=lightness_CIE1976),
     partial(_scale_domain_0_100_range_0_1, callable_=luminance_CIE1976),
 )
-ECI_RGB_V2_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_ECI_RGB_V2.__doc__ = """
 *ECI RGB v2* colourspace.
 
 References
 ----------
 :cite:`EuropeanColorInitiative2002a`
 
-ECI_RGB_V2_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_ECI_RGB_V2 : RGB_Colourspace
 """

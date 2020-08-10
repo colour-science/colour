@@ -5,7 +5,7 @@ Panasonic V-Gamut Colourspace
 
 Defines the *Panasonic V-Gamut* colourspace:
 
--   :attr:`colour.models.V_GAMUT_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_V_GAMUT`.
 
 References
 ----------
@@ -30,11 +30,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'V_GAMUT_PRIMARIES', 'V_GAMUT_WHITEPOINT_NAME', 'V_GAMUT_WHITEPOINT',
-    'V_GAMUT_TO_XYZ_MATRIX', 'XYZ_TO_V_GAMUT_MATRIX', 'V_GAMUT_COLOURSPACE'
+    'PRIMARIES_V_GAMUT', 'WHITEPOINT_NAME_V_GAMUT', 'CCS_WHITEPOINT_V_GAMUT',
+    'MATRIX_V_GAMUT_TO_XYZ', 'MATRIX_XYZ_TO_V_GAMUT', 'RGB_COLOURSPACE_V_GAMUT'
 ]
 
-V_GAMUT_PRIMARIES = np.array([
+PRIMARIES_V_GAMUT = np.array([
     [0.7300, 0.2800],
     [0.1650, 0.8400],
     [0.1000, -0.0300],
@@ -42,25 +42,25 @@ V_GAMUT_PRIMARIES = np.array([
 """
 *Panasonic V-Gamut* colourspace primaries.
 
-V_GAMUT_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_V_GAMUT : ndarray, (3, 2)
 """
 
-V_GAMUT_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_V_GAMUT = 'D65'
 """
 *Panasonic V-Gamut* colourspace whitepoint name.
 
-V_GAMUT_WHITEPOINT : unicode
+CCS_WHITEPOINT_V_GAMUT : unicode
 """
 
-V_GAMUT_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    V_GAMUT_WHITEPOINT_NAME])
+CCS_WHITEPOINT_V_GAMUT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_V_GAMUT])
 """
-*Panasonic V-Gamut* colourspace whitepoint.
+*Panasonic V-Gamut* colourspace whitepoint chromaticity coordinates.
 
-V_GAMUT_WHITEPOINT : ndarray
+CCS_WHITEPOINT_V_GAMUT : ndarray
 """
 
-V_GAMUT_TO_XYZ_MATRIX = np.array([
+MATRIX_V_GAMUT_TO_XYZ = np.array([
     [0.679644, 0.152211, 0.118600],
     [0.260686, 0.774894, -0.035580],
     [-0.009310, -0.004612, 1.102980],
@@ -68,10 +68,10 @@ V_GAMUT_TO_XYZ_MATRIX = np.array([
 """
 *Panasonic V-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
-V_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_V_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_V_GAMUT_MATRIX = np.array([
+MATRIX_XYZ_TO_V_GAMUT = np.array([
     [1.589012, -0.313204, -0.180965],
     [-0.534053, 1.396011, 0.102458],
     [0.011179, 0.003194, 0.905535],
@@ -79,25 +79,25 @@ XYZ_TO_V_GAMUT_MATRIX = np.array([
 """
 *CIE XYZ* tristimulus values to *Panasonic V-Gamut* colourspace matrix.
 
-XYZ_TO_V_GAMUT_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_V_GAMUT : array_like, (3, 3)
 """
 
-V_GAMUT_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_V_GAMUT = RGB_Colourspace(
     'V-Gamut',
-    V_GAMUT_PRIMARIES,
-    V_GAMUT_WHITEPOINT,
-    V_GAMUT_WHITEPOINT_NAME,
-    V_GAMUT_TO_XYZ_MATRIX,
-    XYZ_TO_V_GAMUT_MATRIX,
+    PRIMARIES_V_GAMUT,
+    CCS_WHITEPOINT_V_GAMUT,
+    WHITEPOINT_NAME_V_GAMUT,
+    MATRIX_V_GAMUT_TO_XYZ,
+    MATRIX_XYZ_TO_V_GAMUT,
     log_encoding_VLog,
     log_decoding_VLog,
 )
-V_GAMUT_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_V_GAMUT.__doc__ = """
 *Panasonic V-Gamut* colourspace.
 
 References
 ----------
 :cite:`Panasonic2014a`
 
-V_GAMUT_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_V_GAMUT : RGB_Colourspace
 """

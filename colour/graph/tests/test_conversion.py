@@ -11,7 +11,7 @@ import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS
-from colour.models import ACES_2065_1_COLOURSPACE
+from colour.models import RGB_COLOURSPACE_ACES2065_1
 from colour.graph import describe_conversion_path, convert
 
 __author__ = 'Colour Developers'
@@ -100,7 +100,7 @@ class TestConvert(unittest.TestCase):
                 RGB_a,
                 'RGB',
                 'Scene-Referred RGB',
-                RGB_to_RGB={'output_colourspace': ACES_2065_1_COLOURSPACE}),
+                RGB_to_RGB={'output_colourspace': RGB_COLOURSPACE_ACES2065_1}),
             np.array([0.36364180, 0.31715308, 0.25888531]),
             decimal=7)
 

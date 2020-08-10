@@ -5,7 +5,7 @@ Ekta Space PS 5 Colourspace
 
 Defines the *Ekta Space PS 5* colourspace:
 
--   :attr:`colour.models.EKTA_SPACE_PS_5_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_EKTA_SPACE_PS_5`.
 
 References
 ----------
@@ -29,12 +29,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'EKTA_SPACE_PS_5_PRIMARIES', 'EKTA_SPACE_PS_5_V_WHITEPOINT_NAME',
-    'EKTA_SPACE_PS_5_WHITEPOINT', 'EKTA_SPACE_PS_5_TO_XYZ_MATRIX',
-    'XYZ_TO_EKTA_SPACE_PS_5_MATRIX', 'EKTA_SPACE_PS_5_COLOURSPACE'
+    'PRIMARIES_EKTA_SPACE_PS_5', 'WHITEPOINT_NAME_EKTA_SPACE_PS_5_V',
+    'CCS_WHITEPOINT_EKTA_SPACE_PS_5', 'MATRIX_EKTA_SPACE_PS_5_TO_XYZ',
+    'MATRIX_XYZ_TO_EKTA_SPACE_PS_5', 'RGB_COLOURSPACE_EKTA_SPACE_PS_5'
 ]
 
-EKTA_SPACE_PS_5_PRIMARIES = np.array([
+PRIMARIES_EKTA_SPACE_PS_5 = np.array([
     [0.694736842105263, 0.305263157894737],
     [0.260000000000000, 0.700000000000000],
     [0.109728506787330, 0.004524886877828],
@@ -42,55 +42,55 @@ EKTA_SPACE_PS_5_PRIMARIES = np.array([
 """
 *Ekta Space PS 5* colourspace primaries.
 
-EKTA_SPACE_PS_5_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_EKTA_SPACE_PS_5 : ndarray, (3, 2)
 """
 
-EKTA_SPACE_PS_5_V_WHITEPOINT_NAME = 'D50'
+WHITEPOINT_NAME_EKTA_SPACE_PS_5_V = 'D50'
 """
 *Ekta Space PS 5* colourspace whitepoint name.
 
-EKTA_SPACE_PS_5_V_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_EKTA_SPACE_PS_5_V : unicode
 """
 
-EKTA_SPACE_PS_5_WHITEPOINT = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][EKTA_SPACE_PS_5_V_WHITEPOINT_NAME])
+CCS_WHITEPOINT_EKTA_SPACE_PS_5 = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_EKTA_SPACE_PS_5_V])
 """
-*Ekta Space PS 5* colourspace whitepoint.
+*Ekta Space PS 5* colourspace whitepoint chromaticity coordinates.
 
-EKTA_SPACE_PS_5_WHITEPOINT : ndarray
+CCS_WHITEPOINT_EKTA_SPACE_PS_5 : ndarray
 """
 
-EKTA_SPACE_PS_5_TO_XYZ_MATRIX = normalised_primary_matrix(
-    EKTA_SPACE_PS_5_PRIMARIES, EKTA_SPACE_PS_5_WHITEPOINT)
+MATRIX_EKTA_SPACE_PS_5_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_EKTA_SPACE_PS_5, CCS_WHITEPOINT_EKTA_SPACE_PS_5)
 """
 *Ekta Space PS 5* colourspace to *CIE XYZ* tristimulus values matrix.
 
-EKTA_SPACE_PS_5_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_EKTA_SPACE_PS_5_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_EKTA_SPACE_PS_5_MATRIX = np.linalg.inv(EKTA_SPACE_PS_5_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_EKTA_SPACE_PS_5 = np.linalg.inv(MATRIX_EKTA_SPACE_PS_5_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Ekta Space PS 5* colourspace matrix.
 
-XYZ_TO_EKTA_SPACE_PS_5_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_EKTA_SPACE_PS_5 : array_like, (3, 3)
 """
 
-EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_EKTA_SPACE_PS_5 = RGB_Colourspace(
     'Ekta Space PS 5',
-    EKTA_SPACE_PS_5_PRIMARIES,
-    EKTA_SPACE_PS_5_WHITEPOINT,
-    EKTA_SPACE_PS_5_V_WHITEPOINT_NAME,
-    EKTA_SPACE_PS_5_TO_XYZ_MATRIX,
-    XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
+    PRIMARIES_EKTA_SPACE_PS_5,
+    CCS_WHITEPOINT_EKTA_SPACE_PS_5,
+    WHITEPOINT_NAME_EKTA_SPACE_PS_5_V,
+    MATRIX_EKTA_SPACE_PS_5_TO_XYZ,
+    MATRIX_XYZ_TO_EKTA_SPACE_PS_5,
     partial(gamma_function, exponent=1 / 2.2),
     partial(gamma_function, exponent=2.2),
 )
-EKTA_SPACE_PS_5_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_EKTA_SPACE_PS_5.__doc__ = """
 *Ekta Space PS 5* colourspace.
 
 References
 ----------
 :cite:`Holmesa`
 
-EKTA_SPACE_PS_5_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_EKTA_SPACE_PS_5 : RGB_Colourspace
 """

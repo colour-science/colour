@@ -103,31 +103,30 @@ from .models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM16LCD_to_JMh_CAM16, CAM16SCD_to_JMh_CAM16,
     CAM16UCS_to_JMh_CAM16, CCTF_DECODINGS, CCTF_ENCODINGS, CMYK_to_CMY,
-    CMY_to_CMYK, CMY_to_RGB, CV_range, DIN99_to_Lab, EOTFS, EOTF_INVERSES,
-    HDR_CIELAB_METHODS, HDR_IPT_METHODS, HSL_to_RGB, HSV_to_RGB,
-    Hunter_Lab_to_XYZ, Hunter_Rdab_to_XYZ, ICTCP_to_RGB, IPT_hue_angle,
-    IPT_to_XYZ, JMh_CAM16_to_CAM16LCD, JMh_CAM16_to_CAM16SCD,
-    JMh_CAM16_to_CAM16UCS, JMh_CIECAM02_to_CAM02LCD, JMh_CIECAM02_to_CAM02SCD,
-    JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ, LCHab_to_Lab, LCHuv_to_Luv,
-    LOG_DECODINGS, LOG_ENCODINGS, Lab_to_DIN99, Lab_to_LCHab, Lab_to_XYZ,
-    Luv_to_LCHuv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy,
-    MACADAM_1942_ELLIPSES_DATA, OETFS, OETF_INVERSES, OOTFS, OOTF_INVERSES,
-    OSA_UCS_to_XYZ, POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA,
-    POINTER_GAMUT_ILLUMINANT, Prismatic_to_RGB, RGB_COLOURSPACES,
-    RGB_Colourspace, RGB_luminance, RGB_luminance_equation, RGB_to_CMY,
-    RGB_to_HSL, RGB_to_HSV, RGB_to_ICTCP, RGB_to_Prismatic, RGB_to_RGB,
-    RGB_to_RGB_matrix, RGB_to_XYZ, RGB_to_YCbCr, RGB_to_YcCbcCrc, RGB_to_YCoCg,
-    UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy, UVW_to_XYZ, XYZ_to_Hunter_Lab,
-    XYZ_to_Hunter_Rdab, XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_K_ab_HunterLab1966,
-    XYZ_to_Lab, XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW,
+    CMY_to_CMYK, CMY_to_RGB, CV_range, DATA_MACADAM_1942_ELLIPSES,
+    DIN99_to_Lab, EOTFS, EOTF_INVERSES, HDR_CIELAB_METHODS, HDR_IPT_METHODS,
+    HSL_to_RGB, HSV_to_RGB, Hunter_Lab_to_XYZ, Hunter_Rdab_to_XYZ,
+    ICTCP_to_RGB, IPT_hue_angle, IPT_to_XYZ, JMh_CAM16_to_CAM16LCD,
+    JMh_CAM16_to_CAM16SCD, JMh_CAM16_to_CAM16UCS, JMh_CIECAM02_to_CAM02LCD,
+    JMh_CIECAM02_to_CAM02SCD, JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ,
+    LCHab_to_Lab, LCHuv_to_Luv, LOG_DECODINGS, LOG_ENCODINGS, Lab_to_DIN99,
+    Lab_to_LCHab, Lab_to_XYZ, Luv_to_LCHuv, Luv_to_XYZ, Luv_to_uv,
+    Luv_uv_to_xy, OETFS, OETF_INVERSES, OOTFS, OOTF_INVERSES, OSA_UCS_to_XYZ,
+    Prismatic_to_RGB, RGB_COLOURSPACES, RGB_Colourspace, RGB_luminance,
+    RGB_luminance_equation, RGB_to_CMY, RGB_to_HSL, RGB_to_HSV, RGB_to_ICTCP,
+    RGB_to_Prismatic, RGB_to_RGB, RGB_to_RGB_matrix, RGB_to_XYZ, RGB_to_YCbCr,
+    RGB_to_YCoCg, RGB_to_YcCbcCrc, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy,
+    UVW_to_XYZ, WEIGHTS_YCBCR, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab,
+    XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_K_ab_HunterLab1966, XYZ_to_Lab,
+    XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW,
     XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY,
-    YCBCR_WEIGHTS, YCbCr_to_RGB, YcCbcCrc_to_RGB, YCoCg_to_RGB, cctf_decoding,
-    cctf_encoding, chromatically_adapted_primaries, eotf, eotf_inverse,
-    full_to_legal, gamma_function, hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ,
-    legal_to_full, linear_function, log_decoding, log_encoding,
-    normalised_primary_matrix, oetf, oetf_inverse, ootf, ootf_inverse,
-    primaries_whitepoint, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ,
-    xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
+    YCbCr_to_RGB, YCoCg_to_RGB, YcCbcCrc_to_RGB, cctf_decoding, cctf_encoding,
+    chromatically_adapted_primaries, eotf, eotf_inverse, full_to_legal,
+    gamma_function, hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, legal_to_full,
+    linear_function, log_decoding, log_encoding, normalised_primary_matrix,
+    oetf, oetf_inverse, ootf, ootf_inverse, primaries_whitepoint, sRGB_to_XYZ,
+    uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv,
+    xy_to_XYZ, xy_to_xyY)
 from .corresponding import (
     BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
@@ -239,28 +238,26 @@ __all__ += [
     'CAM02UCS_to_JMh_CIECAM02', 'CAM16LCD_to_JMh_CAM16',
     'CAM16SCD_to_JMh_CAM16', 'CAM16UCS_to_JMh_CAM16', 'CCTF_DECODINGS',
     'CCTF_ENCODINGS', 'CMYK_to_CMY', 'CMY_to_CMYK', 'CMY_to_RGB', 'CV_range',
-    'DIN99_to_Lab', 'EOTFS', 'EOTF_INVERSES', 'HDR_CIELAB_METHODS',
-    'HDR_IPT_METHODS', 'HSL_to_RGB', 'HSV_to_RGB', 'Hunter_Lab_to_XYZ',
-    'Hunter_Rdab_to_XYZ', 'ICTCP_to_RGB', 'IPT_hue_angle', 'IPT_to_XYZ',
-    'JMh_CAM16_to_CAM16LCD', 'JMh_CAM16_to_CAM16SCD', 'JMh_CAM16_to_CAM16UCS',
-    'JMh_CIECAM02_to_CAM02LCD', 'JMh_CIECAM02_to_CAM02SCD',
-    'JMh_CIECAM02_to_CAM02UCS', 'JzAzBz_to_XYZ', 'LCHab_to_Lab',
-    'LCHuv_to_Luv', 'LOG_DECODINGS', 'LOG_ENCODINGS', 'Lab_to_DIN99',
-    'Lab_to_LCHab', 'Lab_to_XYZ', 'Luv_to_LCHuv', 'Luv_to_XYZ', 'Luv_to_uv',
-    'Luv_uv_to_xy', 'OETFS', 'OETF_INVERSES', 'OOTFS',
-    'MACADAM_1942_ELLIPSES_DATA', 'OOTF_INVERSES', 'OSA_UCS_to_XYZ',
-    'POINTER_GAMUT_BOUNDARIES', 'POINTER_GAMUT_DATA',
-    'POINTER_GAMUT_ILLUMINANT', 'Prismatic_to_RGB', 'RGB_COLOURSPACES',
+    'DATA_MACADAM_1942_ELLIPSES', 'DIN99_to_Lab', 'EOTFS', 'EOTF_INVERSES',
+    'HDR_CIELAB_METHODS', 'HDR_IPT_METHODS', 'HSL_to_RGB', 'HSV_to_RGB',
+    'Hunter_Lab_to_XYZ', 'Hunter_Rdab_to_XYZ', 'ICTCP_to_RGB', 'IPT_hue_angle',
+    'IPT_to_XYZ', 'JMh_CAM16_to_CAM16LCD', 'JMh_CAM16_to_CAM16SCD',
+    'JMh_CAM16_to_CAM16UCS', 'JMh_CIECAM02_to_CAM02LCD',
+    'JMh_CIECAM02_to_CAM02SCD', 'JMh_CIECAM02_to_CAM02UCS', 'JzAzBz_to_XYZ',
+    'LCHab_to_Lab', 'LCHuv_to_Luv', 'LOG_DECODINGS', 'LOG_ENCODINGS',
+    'Lab_to_DIN99', 'Lab_to_LCHab', 'Lab_to_XYZ', 'Luv_to_LCHuv', 'Luv_to_XYZ',
+    'Luv_to_uv', 'Luv_uv_to_xy', 'OETFS', 'OETF_INVERSES', 'OOTFS',
+    'OOTF_INVERSES', 'OSA_UCS_to_XYZ', 'Prismatic_to_RGB', 'RGB_COLOURSPACES',
     'RGB_Colourspace', 'RGB_luminance', 'RGB_luminance_equation', 'RGB_to_CMY',
     'RGB_to_HSL', 'RGB_to_HSV', 'RGB_to_ICTCP', 'RGB_to_Prismatic',
     'RGB_to_RGB', 'RGB_to_RGB_matrix', 'RGB_to_XYZ', 'RGB_to_YCbCr',
-    'RGB_to_YcCbcCrc', 'RGB_to_YCoCg', 'UCS_to_XYZ', 'UCS_to_uv',
-    'UCS_uv_to_xy', 'UVW_to_XYZ', 'XYZ_to_Hunter_Lab', 'XYZ_to_Hunter_Rdab',
-    'XYZ_to_IPT', 'XYZ_to_JzAzBz', 'XYZ_to_K_ab_HunterLab1966', 'XYZ_to_Lab',
-    'XYZ_to_Luv', 'XYZ_to_OSA_UCS', 'XYZ_to_RGB', 'XYZ_to_UCS', 'XYZ_to_UVW',
-    'XYZ_to_hdr_CIELab', 'XYZ_to_hdr_IPT', 'XYZ_to_sRGB', 'XYZ_to_xy',
-    'XYZ_to_xyY', 'YCBCR_WEIGHTS', 'YCbCr_to_RGB', 'YcCbcCrc_to_RGB',
-    'YCoCg_to_RGB', 'cctf_decoding', 'cctf_encoding',
+    'RGB_to_YCoCg', 'RGB_to_YcCbcCrc', 'UCS_to_XYZ', 'UCS_to_uv',
+    'UCS_uv_to_xy', 'UVW_to_XYZ', 'WEIGHTS_YCBCR', 'XYZ_to_Hunter_Lab',
+    'XYZ_to_Hunter_Rdab', 'XYZ_to_IPT', 'XYZ_to_JzAzBz',
+    'XYZ_to_K_ab_HunterLab1966', 'XYZ_to_Lab', 'XYZ_to_Luv', 'XYZ_to_OSA_UCS',
+    'XYZ_to_RGB', 'XYZ_to_UCS', 'XYZ_to_UVW', 'XYZ_to_hdr_CIELab',
+    'XYZ_to_hdr_IPT', 'XYZ_to_sRGB', 'XYZ_to_xy', 'XYZ_to_xyY', 'YCbCr_to_RGB',
+    'YCoCg_to_RGB', 'YcCbcCrc_to_RGB', 'cctf_decoding', 'cctf_encoding',
     'chromatically_adapted_primaries', 'eotf', 'eotf_inverse', 'full_to_legal',
     'gamma_function', 'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full',
     'linear_function', 'log_decoding', 'log_encoding',
@@ -348,43 +345,43 @@ API_CHANGES = {
     'ObjectFutureAccessChange': [
         [
             'colour.ACES_2065_1_COLOURSPACE',
-            'colour.models.ACES_2065_1_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ACES2065_1',
         ],
         [
             'colour.ACES_CCT_COLOURSPACE',
-            'colour.models.ACES_CCT_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ACESCCT',
         ],
         [
             'colour.ACES_CC_COLOURSPACE',
-            'colour.models.ACES_CC_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ACESCC',
         ],
         [
             'colour.ACES_CG_COLOURSPACE',
-            'colour.models.ACES_CG_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ACESCG',
         ],
         [
             'colour.ACES_PROXY_COLOURSPACE',
-            'colour.models.ACES_PROXY_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ACESPROXY',
         ],
         [
             'colour.ACES_RICD',
             'colour.models.MSDS_ACES_RICD',
         ],
         [
-            'colour.ADOBE_RGB_1998_COLOURSPACE',
-            'colour.models.ADOBE_RGB_1998_COLOURSPACE',
+            'colour.ADOBE_RGB1998_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ADOBE_RGB1998',
         ],
         [
             'colour.ADOBE_WIDE_GAMUT_RGB_COLOURSPACE',
-            'colour.models.ADOBE_WIDE_GAMUT_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB',
         ],
         [
             'colour.ALEXA_WIDE_GAMUT_COLOURSPACE',
-            'colour.models.ALEXA_WIDE_GAMUT_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ALEXA_WIDE_GAMUT',
         ],
         [
             'colour.APPLE_RGB_COLOURSPACE',
-            'colour.models.APPLE_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_APPLE_RGB',
         ],
         [
             'colour.AVOGADRO_CONSTANT',
@@ -396,11 +393,11 @@ API_CHANGES = {
         ],
         [
             'colour.BEST_RGB_COLOURSPACE',
-            'colour.models.BEST_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_BEST_RGB',
         ],
         [
             'colour.BETA_RGB_COLOURSPACE',
-            'colour.models.BETA_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_BETA_RGB',
         ],
         [
             'colour.BOLTZMANN_CONSTANT',
@@ -420,19 +417,19 @@ API_CHANGES = {
         ],
         [
             'colour.BT2020_COLOURSPACE',
-            'colour.models.BT2020_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_BT2020',
         ],
         [
             'colour.BT470_525_COLOURSPACE',
-            'colour.models.BT470_525_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_BT470_525',
         ],
         [
             'colour.BT470_625_COLOURSPACE',
-            'colour.models.BT470_625_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_BT470_625',
         ],
         [
             'colour.BT709_COLOURSPACE',
-            'colour.models.BT709_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_BT709',
         ],
         [
             'colour.CAM16_InductionFactors',
@@ -472,11 +469,11 @@ API_CHANGES = {
         ],
         [
             'colour.CIE_RGB_COLOURSPACE',
-            'colour.models.CIE_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_CIE_RGB',
         ],
         [
             'colour.CINEMA_GAMUT_COLOURSPACE',
-            'colour.models.CINEMA_GAMUT_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_CINEMA_GAMUT',
         ],
         [
             'colour.CMCCAT2000_CAT',
@@ -492,7 +489,7 @@ API_CHANGES = {
         ],
         [
             'colour.COLOR_MATCH_RGB_COLOURSPACE',
-            'colour.models.COLOR_MATCH_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_COLOR_MATCH_RGB',
         ],
         [
             'colour.COLOURCHECKER_INDEXES_TO_NAMES_MAPPING',
@@ -524,11 +521,11 @@ API_CHANGES = {
         ],
         [
             'colour.DCI_P3_COLOURSPACE',
-            'colour.models.DCI_P3_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_DCI_P3',
         ],
         [
             'colour.DCI_P3_P_COLOURSPACE',
-            'colour.models.DCI_P3_P_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_DCI_P3_P',
         ],
         [
             'colour.DEFAULT_FLOAT_DTYPE',
@@ -536,15 +533,15 @@ API_CHANGES = {
         ],
         [
             'colour.DON_RGB_4_COLOURSPACE',
-            'colour.models.DON_RGB_4_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_DON_RGB_4',
         ],
         [
             'colour.DRAGON_COLOR_2_COLOURSPACE',
-            'colour.models.DRAGON_COLOR_2_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_DRAGON_COLOR_2',
         ],
         [
             'colour.DRAGON_COLOR_COLOURSPACE',
-            'colour.models.DRAGON_COLOR_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_DRAGON_COLOR',
         ],
         [
             'colour.D_ILLUMINANTS_S_SPDS',
@@ -552,11 +549,11 @@ API_CHANGES = {
         ],
         [
             'colour.ECI_RGB_V2_COLOURSPACE',
-            'colour.models.ECI_RGB_V2_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ECI_RGB_V2',
         ],
         [
             'colour.EKTA_SPACE_PS_5_COLOURSPACE',
-            'colour.models.EKTA_SPACE_PS_5_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_EKTA_SPACE_PS_5',
         ],
         [
             'colour.EPSILON',
@@ -564,7 +561,7 @@ API_CHANGES = {
         ],
         [
             'colour.ERIMM_RGB_COLOURSPACE',
-            'colour.models.ERIMM_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ERIMM_RGB',
         ],
         [
             'colour.FAIRCHILD_CAT',
@@ -620,7 +617,7 @@ API_CHANGES = {
         ],
         [
             'colour.MAX_RGB_COLOURSPACE',
-            'colour.models.MAX_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_MAX_RGB',
         ],
         [
             'colour.MUNSELL_COLOURS_1929',
@@ -639,12 +636,12 @@ API_CHANGES = {
             'colour.continuous.MultiSignals',
         ],
         [
-            'colour.NTSC_1953_COLOURSPACE',
-            'colour.models.NTSC_1953_COLOURSPACE',
+            'colour.NTSC1953_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_NTSC1953',
         ],
         [
             'colour.PAL_SECAM_COLOURSPACE',
-            'colour.models.PAL_SECAM_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_PAL_SECAM',
         ],
         [
             'colour.PLANCK_CONSTANT',
@@ -652,31 +649,31 @@ API_CHANGES = {
         ],
         [
             'colour.PROPHOTO_RGB_COLOURSPACE',
-            'colour.models.PROPHOTO_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_PROPHOTO_RGB',
         ],
         [
             'colour.PROTUNE_NATIVE_COLOURSPACE',
-            'colour.models.PROTUNE_NATIVE_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_PROTUNE_NATIVE',
         ],
         [
             'colour.RED_COLOR_2_COLOURSPACE',
-            'colour.models.RED_COLOR_2_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_RED_COLOR_2',
         ],
         [
             'colour.RED_COLOR_3_COLOURSPACE',
-            'colour.models.RED_COLOR_3_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_RED_COLOR_3',
         ],
         [
             'colour.RED_COLOR_4_COLOURSPACE',
-            'colour.models.RED_COLOR_4_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_RED_COLOR_4',
         ],
         [
             'colour.RED_COLOR_COLOURSPACE',
-            'colour.models.RED_COLOR_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_RED_COLOR',
         ],
         [
             'colour.RED_WIDE_GAMUT_RGB_COLOURSPACE',
-            'colour.models.RED_WIDE_GAMUT_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_RED_WIDE_GAMUT_RGB',
         ],
         [
             'colour.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
@@ -708,15 +705,15 @@ API_CHANGES = {
         ],
         [
             'colour.RIMM_RGB_COLOURSPACE',
-            'colour.models.RIMM_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_RIMM_RGB',
         ],
         [
             'colour.ROMM_RGB_COLOURSPACE',
-            'colour.models.ROMM_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ROMM_RGB',
         ],
         [
             'colour.RUSSELL_RGB_COLOURSPACE',
-            'colour.models.RUSSELL_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_RUSSELL_RGB',
         ],
         [
             'colour.SHARP_CAT',
@@ -728,19 +725,19 @@ API_CHANGES = {
         ],
         [
             'colour.SMPTE_240M_COLOURSPACE',
-            'colour.models.SMPTE_240M_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_SMPTE_240M',
         ],
         [
             'colour.S_GAMUT3_CINE_COLOURSPACE',
-            'colour.models.S_GAMUT3_CINE_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_S_GAMUT3_CINE',
         ],
         [
             'colour.S_GAMUT3_COLOURSPACE',
-            'colour.models.S_GAMUT3_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_S_GAMUT3',
         ],
         [
             'colour.S_GAMUT_COLOURSPACE',
-            'colour.models.S_GAMUT_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_S_GAMUT',
         ],
         [
             'colour.Signal',
@@ -764,11 +761,11 @@ API_CHANGES = {
         ],
         [
             'colour.V_GAMUT_COLOURSPACE',
-            'colour.models.V_GAMUT_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_V_GAMUT',
         ],
         [
             'colour.XTREME_RGB_COLOURSPACE',
-            'colour.models.XTREME_RGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_XTREME_RGB',
         ],
         [
             'colour.XYZ_ColourMatchingFunctions',
@@ -1464,7 +1461,7 @@ API_CHANGES = {
         ],
         [
             'colour.sRGB_COLOURSPACE',
-            'colour.models.sRGB_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_sRGB',
         ],
         [
             'colour.sd_to_XYZ_ASTME30815',
@@ -1587,27 +1584,27 @@ API_CHANGES.update({
         ],
         [
             'colour.ALEXA_WIDE_GAMUT_RGB_COLOURSPACE',
-            'colour.models.ALEXA_WIDE_GAMUT_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_ALEXA_WIDE_GAMUT',
         ],
         [
             'colour.NTSC_1953_RGB_COLOURSPACE',
-            'colour.models.NTSC_1953_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_NTSC1953',
         ],
         [
             'colour.PAL_SECAM_RGB_COLOURSPACE',
-            'colour.models.PAL_SECAM_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_PAL_SECAM',
         ],
         [
             'colour.REC_709_COLOURSPACE',
-            'colour.models.BT709_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_BT709',
         ],
         [
             'colour.REC_2020_COLOURSPACE',
-            'colour.models.BT2020_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_BT2020',
         ],
         [
             'colour.SMPTE_C_RGB_COLOURSPACE',
-            'colour.models.SMPTE_240M_COLOURSPACE',
+            'colour.models.RGB_COLOURSPACE_SMPTE_240M',
         ],
         [
             'colour.TriSpectralPowerDistribution',
@@ -1895,6 +1892,18 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.colorimetry.SDS_LEFS_PHOTOPIC',
     ],
     [
+        'colour.POINTER_GAMUT_BOUNDARIES',
+        'colour.models.CCS_POINTER_GAMUT_BOUNDARY',
+    ],
+    [
+        'colour.POINTER_GAMUT_DATA',
+        'colour.models.DATA_POINTER_GAMUT_VOLUME',
+    ],
+    [
+        'colour.POINTER_GAMUT_ILLUMINANT',
+        'colour.models.CCS_ILLUMINANT_POINTER_GAMUT',
+    ],
+    [
         'colour.RGB_CMFS',
         'colour.colorimetry.MSDS_CMFS_RGB',
     ],
@@ -1913,6 +1922,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.STANDARD_OBSERVERS_CMFS',
         'colour.colorimetry.MSDS_CMFS_STANDARD_OBSERVER',
+    ],
+    [
+        'colour.YCBCR_WEIGHTS',
+        'colour.WEIGHTS_YCBCR',
     ],
 ]
 

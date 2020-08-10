@@ -5,7 +5,7 @@ Digital Cinema Distribution Master (DCDM) XYZ Colourspace
 
 Defines the *DCDM XYZ* colourspace:
 
--   :attr:`colour.models.DCDM_XYZ_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_DCDM_XYZ`.
 
 References
 ----------
@@ -31,11 +31,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DCDM_XYZ_PRIMARIES', 'DCDM_XYZ_WHITEPOINT_NAME', 'DCDM_XYZ_WHITEPOINT',
-    'DCDM_XYZ_TO_XYZ_MATRIX', 'XYZ_TO_DCDM_XYZ_MATRIX', 'DCDM_XYZ_COLOURSPACE'
+    'PRIMARIES_DCDM_XYZ', 'WHITEPOINT_NAME_DCDM_XYZ',
+    'CCS_WHITEPOINT_DCDM_XYZ', 'MATRIX_DCDM_XYZ_TO_XYZ',
+    'MATRIX_XYZ_TO_DCDM_XYZ', 'RGB_COLOURSPACE_DCDM_XYZ'
 ]
 
-DCDM_XYZ_PRIMARIES = np.array([
+PRIMARIES_DCDM_XYZ = np.array([
     [1.0, 0.0],
     [0.0, 1.0],
     [0.0, 0.0],
@@ -43,55 +44,55 @@ DCDM_XYZ_PRIMARIES = np.array([
 """
 *DCDM XYZ* colourspace primaries.
 
-DCDM_XYZ_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_DCDM_XYZ : ndarray, (3, 2)
 """
 
-DCDM_XYZ_WHITEPOINT_NAME = 'E'
+WHITEPOINT_NAME_DCDM_XYZ = 'E'
 """
 *DCDM XYZ* colourspace whitepoint name.
 
-DCDM_XYZ_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_DCDM_XYZ : unicode
 """
 
-DCDM_XYZ_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    DCDM_XYZ_WHITEPOINT_NAME])
+CCS_WHITEPOINT_DCDM_XYZ = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DCDM_XYZ])
 """
-*DCDM XYZ* colourspace whitepoint.
+*DCDM XYZ* colourspace whitepoint chromaticity coordinates.
 
-DCDM_XYZ_WHITEPOINT : ndarray
+CCS_WHITEPOINT_DCDM_XYZ : ndarray
 """
 
-DCDM_XYZ_TO_XYZ_MATRIX = normalised_primary_matrix(DCDM_XYZ_PRIMARIES,
-                                                   DCDM_XYZ_WHITEPOINT)
+MATRIX_DCDM_XYZ_TO_XYZ = normalised_primary_matrix(PRIMARIES_DCDM_XYZ,
+                                                   CCS_WHITEPOINT_DCDM_XYZ)
 """
 *DCDM XYZ* colourspace to *CIE XYZ* tristimulus values matrix.
 
-DCDM_XYZ_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_DCDM_XYZ_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_DCDM_XYZ_MATRIX = np.linalg.inv(DCDM_XYZ_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_DCDM_XYZ = np.linalg.inv(MATRIX_DCDM_XYZ_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *DCDM XYZ* colourspace matrix.
 
-XYZ_TO_DCDM_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_DCDM_XYZ : array_like, (3, 3)
 """
 
-DCDM_XYZ_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_DCDM_XYZ = RGB_Colourspace(
     'DCDM XYZ',
-    DCDM_XYZ_PRIMARIES,
-    DCDM_XYZ_WHITEPOINT,
-    DCDM_XYZ_WHITEPOINT_NAME,
-    DCDM_XYZ_TO_XYZ_MATRIX,
-    XYZ_TO_DCDM_XYZ_MATRIX,
+    PRIMARIES_DCDM_XYZ,
+    CCS_WHITEPOINT_DCDM_XYZ,
+    WHITEPOINT_NAME_DCDM_XYZ,
+    MATRIX_DCDM_XYZ_TO_XYZ,
+    MATRIX_XYZ_TO_DCDM_XYZ,
     eotf_inverse_DCDM,
     eotf_DCDM,
 )
-DCDM_XYZ_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_DCDM_XYZ.__doc__ = """
 *DCDM XYZ* colourspace.
 
 References
 ----------
 :cite:`DigitalCinemaInitiatives2007b`
 
-DCDM_XYZ_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_DCDM_XYZ : RGB_Colourspace
 """

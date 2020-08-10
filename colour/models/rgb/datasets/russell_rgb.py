@@ -5,7 +5,7 @@ Russell RGB Colourspace
 
 Defines the *Russell RGB* colourspace:
 
--   :attr:`colour.models.RUSSELL_RGB_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_RUSSELL_RGB`.
 
 References
 ----------
@@ -30,12 +30,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RUSSELL_RGB_PRIMARIES', 'RUSSELL_RGB_WHITEPOINT_NAME',
-    'RUSSELL_RGB_WHITEPOINT', 'RUSSELL_RGB_TO_XYZ_MATRIX',
-    'XYZ_TO_RUSSELL_RGB_MATRIX', 'RUSSELL_RGB_COLOURSPACE'
+    'PRIMARIES_RUSSELL_RGB', 'WHITEPOINT_NAME_RUSSELL_RGB',
+    'CCS_WHITEPOINT_RUSSELL_RGB', 'MATRIX_RUSSELL_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_RUSSELL_RGB', 'RGB_COLOURSPACE_RUSSELL_RGB'
 ]
 
-RUSSELL_RGB_PRIMARIES = np.array([
+PRIMARIES_RUSSELL_RGB = np.array([
     [0.6900, 0.3100],
     [0.1800, 0.7700],
     [0.1000, 0.0200],
@@ -43,55 +43,55 @@ RUSSELL_RGB_PRIMARIES = np.array([
 """
 *Russell RGB* colourspace primaries.
 
-RUSSELL_RGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_RUSSELL_RGB : ndarray, (3, 2)
 """
 
-RUSSELL_RGB_WHITEPOINT_NAME = 'D55'
+WHITEPOINT_NAME_RUSSELL_RGB = 'D55'
 """
 *Russell RGB* colourspace whitepoint name.
 
-RUSSELL_RGB_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_RUSSELL_RGB : unicode
 """
 
-RUSSELL_RGB_WHITEPOINT = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][RUSSELL_RGB_WHITEPOINT_NAME])
+CCS_WHITEPOINT_RUSSELL_RGB = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_RUSSELL_RGB])
 """
-*Russell RGB* colourspace whitepoint.
+*Russell RGB* colourspace whitepoint chromaticity coordinates.
 
-RUSSELL_RGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_RUSSELL_RGB : ndarray
 """
 
-RUSSELL_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(RUSSELL_RGB_PRIMARIES,
-                                                      RUSSELL_RGB_WHITEPOINT)
+MATRIX_RUSSELL_RGB_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_RUSSELL_RGB, CCS_WHITEPOINT_RUSSELL_RGB)
 """
 *Russell RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-RUSSELL_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_RUSSELL_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_RUSSELL_RGB_MATRIX = np.linalg.inv(RUSSELL_RGB_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_RUSSELL_RGB = np.linalg.inv(MATRIX_RUSSELL_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Russell RGB* colourspace matrix.
 
-XYZ_TO_RUSSELL_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_RUSSELL_RGB : array_like, (3, 3)
 """
 
-RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_RUSSELL_RGB = RGB_Colourspace(
     'Russell RGB',
-    RUSSELL_RGB_PRIMARIES,
-    RUSSELL_RGB_WHITEPOINT,
-    RUSSELL_RGB_WHITEPOINT_NAME,
-    RUSSELL_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_RUSSELL_RGB_MATRIX,
+    PRIMARIES_RUSSELL_RGB,
+    CCS_WHITEPOINT_RUSSELL_RGB,
+    WHITEPOINT_NAME_RUSSELL_RGB,
+    MATRIX_RUSSELL_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_RUSSELL_RGB,
     partial(gamma_function, exponent=1 / 2.2),
     partial(gamma_function, exponent=2.2),
 )
-RUSSELL_RGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_RUSSELL_RGB.__doc__ = """
 *Russell RGB* colourspace.
 
 References
 ----------
 :cite:`Cottrella`
 
-RUSSELL_RGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_RUSSELL_RGB : RGB_Colourspace
 """

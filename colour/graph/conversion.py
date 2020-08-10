@@ -27,7 +27,7 @@ from colour.colorimetry import (colorimetric_purity, complementary_wavelength,
                                 luminous_efficiency, luminous_flux, sd_to_XYZ,
                                 whiteness, yellowness, wavelength_to_XYZ)
 from colour.recovery import XYZ_to_sd
-from colour.models import sRGB_COLOURSPACE
+from colour.models import RGB_COLOURSPACE_sRGB
 from colour.models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM16LCD_to_JMh_CAM16, CAM16SCD_to_JMh_CAM16,
@@ -297,11 +297,11 @@ values.
 _DEFAULT_ILLUMINANT_XYZ : ndarray
 """
 
-_DEFAULT_RGB_COLOURSPACE = sRGB_COLOURSPACE
+RGB_COLOURSPACE__DEFAULT_RGB = RGB_COLOURSPACE_sRGB
 """
 Default automatic colour conversion graph *RGB* colourspace.
 
-_DEFAULT_RGB_COLOURSPACE : RGB_COLOURSPACE
+RGB_COLOURSPACE__DEFAULT_RGB : RGB_COLOURSPACE_RGB
 """
 
 CONVERSION_SPECIFICATIONS_DATA = [
@@ -390,25 +390,25 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'RGB',
      partial(
          XYZ_to_RGB,
-         illuminant_XYZ=_DEFAULT_RGB_COLOURSPACE.whitepoint,
-         illuminant_RGB=_DEFAULT_RGB_COLOURSPACE.whitepoint,
-         XYZ_to_RGB_matrix=_DEFAULT_RGB_COLOURSPACE.XYZ_to_RGB_matrix)),
+         illuminant_XYZ=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
+         illuminant_RGB=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
+         XYZ_to_RGB_matrix=RGB_COLOURSPACE__DEFAULT_RGB.XYZ_to_RGB_matrix)),
     ('RGB', 'CIE XYZ',
      partial(
          RGB_to_XYZ,
-         illuminant_RGB=_DEFAULT_RGB_COLOURSPACE.whitepoint,
-         illuminant_XYZ=_DEFAULT_RGB_COLOURSPACE.whitepoint,
-         RGB_to_XYZ_matrix=_DEFAULT_RGB_COLOURSPACE.RGB_to_XYZ_matrix)),
+         illuminant_RGB=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
+         illuminant_XYZ=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
+         RGB_to_XYZ_matrix=RGB_COLOURSPACE__DEFAULT_RGB.RGB_to_XYZ_matrix)),
     ('RGB', 'Scene-Referred RGB',
      partial(
          RGB_to_RGB,
-         input_colourspace=_DEFAULT_RGB_COLOURSPACE,
-         output_colourspace=_DEFAULT_RGB_COLOURSPACE)),
+         input_colourspace=RGB_COLOURSPACE__DEFAULT_RGB,
+         output_colourspace=RGB_COLOURSPACE__DEFAULT_RGB)),
     ('Scene-Referred RGB', 'RGB',
      partial(
          RGB_to_RGB,
-         input_colourspace=_DEFAULT_RGB_COLOURSPACE,
-         output_colourspace=_DEFAULT_RGB_COLOURSPACE)),
+         input_colourspace=RGB_COLOURSPACE__DEFAULT_RGB,
+         output_colourspace=RGB_COLOURSPACE__DEFAULT_RGB)),
     ('RGB', 'HSV', RGB_to_HSV),
     ('HSV', 'RGB', HSV_to_RGB),
     ('RGB', 'HSL', RGB_to_HSL),
@@ -420,8 +420,8 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('RGB', 'RGB Luminance',
      partial(
          RGB_luminance,
-         primaries=_DEFAULT_RGB_COLOURSPACE.primaries,
-         whitepoint=_DEFAULT_RGB_COLOURSPACE.whitepoint)),
+         primaries=RGB_COLOURSPACE__DEFAULT_RGB.primaries,
+         whitepoint=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint)),
     ('RGB Luminance', 'RGB', RGB_luminance_to_RGB),
     ('RGB', 'ICTCP', RGB_to_ICTCP),
     ('ICTCP', 'RGB', ICTCP_to_RGB),

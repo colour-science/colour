@@ -5,7 +5,7 @@ Sharp RGB Colourspace
 
 Defines the *Sharp RGB* colourspace:
 
--   :attr:`colour.models.SHARP_RGB_COLOURSPACE`
+-   :attr:`colour.models.RGB_COLOURSPACE_SHARP_RGB`
 
 References
 ----------
@@ -37,12 +37,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SHARP_RGB_PRIMARIES', 'SHARP_RGB_WHITEPOINT_NAME', 'SHARP_RGB_WHITEPOINT',
-    'SHARP_RGB_TO_XYZ_MATRIX', 'XYZ_TO_SHARP_RGB_MATRIX',
-    'SHARP_RGB_COLOURSPACE'
+    'PRIMARIES_SHARP_RGB', 'WHITEPOINT_NAME_SHARP_RGB',
+    'CCS_WHITEPOINT_SHARP_RGB', 'MATRIX_SHARP_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_SHARP_RGB', 'RGB_COLOURSPACE_SHARP_RGB'
 ]
 
-SHARP_RGB_PRIMARIES = np.array([
+PRIMARIES_SHARP_RGB = np.array([
     [0.6898, 0.3206],
     [0.0736, 0.9003],
     [0.1166, 0.0374],
@@ -71,55 +71,55 @@ and whitepoint:
 
     [0.6898, 0.3206, 0.0736, 0.9003, 0.1166, 0.0374, 1 / 3, 1 / 3]
 
-SHARP_RGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_SHARP_RGB : ndarray, (3, 2)
 """
 
-SHARP_RGB_WHITEPOINT_NAME = 'E'
+WHITEPOINT_NAME_SHARP_RGB = 'E'
 """
 *Sharp RGB* colourspace whitepoint name.
 
-SHARP_RGB_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_SHARP_RGB : unicode
 """
 
-SHARP_RGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    SHARP_RGB_WHITEPOINT_NAME])
+CCS_WHITEPOINT_SHARP_RGB = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_SHARP_RGB])
 """
-*Sharp RGB* colourspace whitepoint.
+*Sharp RGB* colourspace whitepoint chromaticity coordinates.
 
-SHARP_RGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_SHARP_RGB : ndarray
 """
 
-SHARP_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(SHARP_RGB_PRIMARIES,
-                                                    SHARP_RGB_WHITEPOINT)
+MATRIX_SHARP_RGB_TO_XYZ = normalised_primary_matrix(PRIMARIES_SHARP_RGB,
+                                                    CCS_WHITEPOINT_SHARP_RGB)
 """
 *Sharp RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-SHARP_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_SHARP_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_SHARP_RGB_MATRIX = np.linalg.inv(SHARP_RGB_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_SHARP_RGB = np.linalg.inv(MATRIX_SHARP_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Sharp RGB* colourspace matrix.
 
-XYZ_TO_SHARP_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_SHARP_RGB : array_like, (3, 3)
 """
 
-SHARP_RGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_SHARP_RGB = RGB_Colourspace(
     'Sharp RGB',
-    SHARP_RGB_PRIMARIES,
-    SHARP_RGB_WHITEPOINT,
-    SHARP_RGB_WHITEPOINT_NAME,
-    SHARP_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_SHARP_RGB_MATRIX,
+    PRIMARIES_SHARP_RGB,
+    CCS_WHITEPOINT_SHARP_RGB,
+    WHITEPOINT_NAME_SHARP_RGB,
+    MATRIX_SHARP_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_SHARP_RGB,
     linear_function,
     linear_function,
 )
-SHARP_RGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_SHARP_RGB.__doc__ = """
 *Sharp RGB* colourspace.
 
 References
 ----------
 :cite:`Susstrunk2000`, :cite:`Ward2002`, :cite:`Ward2016`
 
-SHARP_RGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_SHARP_RGB : RGB_Colourspace
 """

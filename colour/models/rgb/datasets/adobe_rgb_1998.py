@@ -3,9 +3,9 @@
 Adobe RGB (1998) Colourspace
 ============================
 
-Defines the *Adobe RGB (1998)* colourspace:
+Defines the *Adobe RGB (1998)* *RGB* colourspace:
 
--   :attr:`colour.models.ADOBE_RGB_1998_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_ADOBE_RGB1998`.
 
 References
 ----------
@@ -29,12 +29,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ADOBE_RGB_1998_PRIMARIES', 'ADOBE_RGB_1998_WHITEPOINT_NAME',
-    'ADOBE_RGB_1998_WHITEPOINT', 'ADOBE_RGB_1998_TO_XYZ_MATRIX',
-    'XYZ_TO_ADOBE_RGB_1998_MATRIX', 'ADOBE_RGB_1998_COLOURSPACE'
+    'PRIMARIES_ADOBE_RGB1998', 'WHITEPOINT_NAME_ADOBE_RGB1998',
+    'CCS_WHITEPOINT_ADOBE_RGB1998', 'MATRIX_ADOBE_RGB1998_TO_XYZ',
+    'MATRIX_XYZ_TO_ADOBE_RGB1998', 'RGB_COLOURSPACE_ADOBE_RGB1998'
 ]
 
-ADOBE_RGB_1998_PRIMARIES = np.array([
+PRIMARIES_ADOBE_RGB1998 = np.array([
     [0.6400, 0.3300],
     [0.2100, 0.7100],
     [0.1500, 0.0600],
@@ -42,37 +42,36 @@ ADOBE_RGB_1998_PRIMARIES = np.array([
 """
 *Adobe RGB (1998)* colourspace primaries.
 
-ADOBE_RGB_1998_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_ADOBE_RGB1998 : ndarray, (3, 2)
 """
 
-ADOBE_RGB_1998_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_ADOBE_RGB1998 = 'D65'
 """
 *Adobe RGB (1998)* colourspace whitepoint name.
 
-ADOBE_RGB_1998_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_ADOBE_RGB1998 : unicode
 """
 
-ADOBE_RGB_1998_WHITEPOINT = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][ADOBE_RGB_1998_WHITEPOINT_NAME])
+CCS_WHITEPOINT_ADOBE_RGB1998 = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_ADOBE_RGB1998])
 """
-*Adobe RGB (1998)* colourspace whitepoint.
+*Adobe RGB (1998)* colourspace whitepoint chromaticity coordinates.
 
-ADOBE_RGB_1998_WHITEPOINT : ndarray
+CCS_WHITEPOINT_ADOBE_RGB1998 : ndarray
 """
 
-ADOBE_RGB_1998_TO_XYZ_MATRIX = np.array([
+MATRIX_ADOBE_RGB1998_TO_XYZ = np.array([
     [0.57667, 0.18556, 0.18823],
     [0.29734, 0.62736, 0.07529],
     [0.02703, 0.07069, 0.99134],
 ])
 """
-*Adobe RGB (1998)* colourspace to *CIE XYZ* tristimulus values matrix defined
-as per [1].
+*Adobe RGB (1998)* colourspace to *CIE XYZ* tristimulus values matrix.
 
-ADOBE_RGB_1998_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_ADOBE_RGB1998_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_ADOBE_RGB_1998_MATRIX = np.array([
+MATRIX_XYZ_TO_ADOBE_RGB1998 = np.array([
     [2.04159, -0.56501, -0.34473],
     [-0.96924, 1.87597, 0.04156],
     [0.01344, -0.11836, 1.01517],
@@ -80,25 +79,25 @@ XYZ_TO_ADOBE_RGB_1998_MATRIX = np.array([
 """
 *CIE XYZ* tristimulus values to *Adobe RGB (1998)* colourspace matrix.
 
-XYZ_TO_ADOBE_RGB_1998_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_ADOBE_RGB1998 : array_like, (3, 3)
 """
 
-ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_ADOBE_RGB1998 = RGB_Colourspace(
     'Adobe RGB (1998)',
-    ADOBE_RGB_1998_PRIMARIES,
-    ADOBE_RGB_1998_WHITEPOINT,
-    ADOBE_RGB_1998_WHITEPOINT_NAME,
-    ADOBE_RGB_1998_TO_XYZ_MATRIX,
-    XYZ_TO_ADOBE_RGB_1998_MATRIX,
+    PRIMARIES_ADOBE_RGB1998,
+    CCS_WHITEPOINT_ADOBE_RGB1998,
+    WHITEPOINT_NAME_ADOBE_RGB1998,
+    MATRIX_ADOBE_RGB1998_TO_XYZ,
+    MATRIX_XYZ_TO_ADOBE_RGB1998,
     partial(gamma_function, exponent=1 / (563 / 256)),
     partial(gamma_function, exponent=563 / 256),
 )
-ADOBE_RGB_1998_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_ADOBE_RGB1998.__doc__ = """
 *Adobe RGB (1998)* colourspace.
 
 References
 ----------
 :cite:`AdobeSystems2005a`
 
-ADOBE_RGB_1998_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_ADOBE_RGB1998 : RGB_Colourspace
 """

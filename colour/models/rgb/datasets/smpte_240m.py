@@ -5,7 +5,7 @@ SMPTE 240M Colourspace
 
 Defines the *SMPTE 240M* colourspace:
 
--   :attr:`colour.models.SMPTE_240M_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_SMPTE_240M`.
 
 References
 ----------
@@ -32,12 +32,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SMPTE_240M_PRIMARIES', 'SMPTE_240M_WHITEPOINT_NAME',
-    'SMPTE_240M_WHITEPOINT', 'SMPTE_240M_TO_XYZ_MATRIX',
-    'XYZ_TO_SMPTE_240M_MATRIX', 'SMPTE_240M_COLOURSPACE'
+    'PRIMARIES_SMPTE_240M', 'WHITEPOINT_NAME_SMPTE_240M',
+    'CCS_WHITEPOINT_SMPTE_240M', 'MATRIX_SMPTE_240M_TO_XYZ',
+    'MATRIX_XYZ_TO_SMPTE_240M', 'RGB_COLOURSPACE_SMPTE_240M'
 ]
 
-SMPTE_240M_PRIMARIES = np.array([
+PRIMARIES_SMPTE_240M = np.array([
     [0.6300, 0.3400],
     [0.3100, 0.5950],
     [0.1550, 0.0700],
@@ -45,55 +45,55 @@ SMPTE_240M_PRIMARIES = np.array([
 """
 *SMPTE 240M* colourspace primaries.
 
-SMPTE_240M_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_SMPTE_240M : ndarray, (3, 2)
 """
 
-SMPTE_240M_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_SMPTE_240M = 'D65'
 """
 *SMPTE 240M* colourspace whitepoint name.
 
-SMPTE_240M_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_SMPTE_240M : unicode
 """
 
-SMPTE_240M_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                         [SMPTE_240M_WHITEPOINT_NAME])
+CCS_WHITEPOINT_SMPTE_240M = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_SMPTE_240M])
 """
-*SMPTE 240M* colourspace whitepoint.
+*SMPTE 240M* colourspace whitepoint chromaticity coordinates.
 
-SMPTE_240M_WHITEPOINT : ndarray
+CCS_WHITEPOINT_SMPTE_240M : ndarray
 """
 
-SMPTE_240M_TO_XYZ_MATRIX = normalised_primary_matrix(SMPTE_240M_PRIMARIES,
-                                                     SMPTE_240M_WHITEPOINT)
+MATRIX_SMPTE_240M_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_SMPTE_240M, CCS_WHITEPOINT_SMPTE_240M)
 """
 *SMPTE 240M* colourspace to *CIE XYZ* tristimulus values matrix.
 
-SMPTE_240M_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_SMPTE_240M_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_SMPTE_240M_MATRIX = np.linalg.inv(SMPTE_240M_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_SMPTE_240M = np.linalg.inv(MATRIX_SMPTE_240M_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *SMPTE 240M* colourspace matrix.
 
-XYZ_TO_SMPTE_240M_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_SMPTE_240M : array_like, (3, 3)
 """
 
-SMPTE_240M_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_SMPTE_240M = RGB_Colourspace(
     'SMPTE 240M',
-    SMPTE_240M_PRIMARIES,
-    SMPTE_240M_WHITEPOINT,
-    SMPTE_240M_WHITEPOINT_NAME,
-    SMPTE_240M_TO_XYZ_MATRIX,
-    XYZ_TO_SMPTE_240M_MATRIX,
+    PRIMARIES_SMPTE_240M,
+    CCS_WHITEPOINT_SMPTE_240M,
+    WHITEPOINT_NAME_SMPTE_240M,
+    MATRIX_SMPTE_240M_TO_XYZ,
+    MATRIX_XYZ_TO_SMPTE_240M,
     oetf_SMPTE240M,
     eotf_SMPTE240M,
 )
-SMPTE_240M_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_SMPTE_240M.__doc__ = """
 *SMPTE 240M* colourspace.
 
 References
 ----------
 :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
 
-SMPTE_240M_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_SMPTE_240M : RGB_Colourspace
 """

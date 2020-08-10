@@ -5,7 +5,7 @@ GoPro Colourspaces
 
 Defines the *GoPro* colourspaces:
 
--   :attr:`colour.models.PROTUNE_NATIVE_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_PROTUNE_NATIVE`.
 
 Notes
 -----
@@ -41,12 +41,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PROTUNE_NATIVE_PRIMARIES', 'PROTUNE_NATIVE_WHITEPOINT_NAME',
-    'PROTUNE_NATIVE_WHITEPOINT', 'PROTUNE_NATIVE_TO_XYZ_MATRIX',
-    'XYZ_TO_PROTUNE_NATIVE_MATRIX', 'PROTUNE_NATIVE_COLOURSPACE'
+    'PRIMARIES_PROTUNE_NATIVE', 'WHITEPOINT_NAME_PROTUNE_NATIVE',
+    'CCS_WHITEPOINT_PROTUNE_NATIVE', 'MATRIX_PROTUNE_NATIVE_TO_XYZ',
+    'MATRIX_XYZ_TO_PROTUNE_NATIVE', 'RGB_COLOURSPACE_PROTUNE_NATIVE'
 ]
 
-PROTUNE_NATIVE_PRIMARIES = np.array([
+PRIMARIES_PROTUNE_NATIVE = np.array([
     [0.698480461493841, 0.193026445370121],
     [0.329555378387345, 1.024596624134644],
     [0.108442631407675, -0.034678569754016],
@@ -54,55 +54,55 @@ PROTUNE_NATIVE_PRIMARIES = np.array([
 """
 *Protune Native* colourspace primaries.
 
-PROTUNE_NATIVE_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_PROTUNE_NATIVE : ndarray, (3, 2)
 """
 
-PROTUNE_NATIVE_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_PROTUNE_NATIVE = 'D65'
 """
 *Protune Native* colourspace whitepoint name.
 
-PROTUNE_NATIVE_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_PROTUNE_NATIVE : unicode
 """
 
-PROTUNE_NATIVE_WHITEPOINT = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][PROTUNE_NATIVE_WHITEPOINT_NAME])
+CCS_WHITEPOINT_PROTUNE_NATIVE = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_PROTUNE_NATIVE])
 """
-*Protune Native* colourspace whitepoint.
+*Protune Native* colourspace whitepoint chromaticity coordinates.
 
-PROTUNE_NATIVE_WHITEPOINT : ndarray
+CCS_WHITEPOINT_PROTUNE_NATIVE : ndarray
 """
 
-PROTUNE_NATIVE_TO_XYZ_MATRIX = normalised_primary_matrix(
-    PROTUNE_NATIVE_PRIMARIES, PROTUNE_NATIVE_WHITEPOINT)
+MATRIX_PROTUNE_NATIVE_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_PROTUNE_NATIVE, CCS_WHITEPOINT_PROTUNE_NATIVE)
 """
 *Protune Native* colourspace to *CIE XYZ* tristimulus values matrix.
 
-PROTUNE_NATIVE_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_PROTUNE_NATIVE_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_PROTUNE_NATIVE_MATRIX = np.linalg.inv(PROTUNE_NATIVE_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_PROTUNE_NATIVE = np.linalg.inv(MATRIX_PROTUNE_NATIVE_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Protune Native* colourspace matrix.
 
-XYZ_TO_PROTUNE_NATIVE_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_PROTUNE_NATIVE : array_like, (3, 3)
 """
 
-PROTUNE_NATIVE_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_PROTUNE_NATIVE = RGB_Colourspace(
     'Protune Native',
-    PROTUNE_NATIVE_PRIMARIES,
-    PROTUNE_NATIVE_WHITEPOINT,
-    PROTUNE_NATIVE_WHITEPOINT_NAME,
-    PROTUNE_NATIVE_TO_XYZ_MATRIX,
-    XYZ_TO_PROTUNE_NATIVE_MATRIX,
+    PRIMARIES_PROTUNE_NATIVE,
+    CCS_WHITEPOINT_PROTUNE_NATIVE,
+    WHITEPOINT_NAME_PROTUNE_NATIVE,
+    MATRIX_PROTUNE_NATIVE_TO_XYZ,
+    MATRIX_XYZ_TO_PROTUNE_NATIVE,
     log_encoding_Protune,
     log_decoding_Protune,
 )
-PROTUNE_NATIVE_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_PROTUNE_NATIVE.__doc__ = """
 *Protune Native* colourspace.
 
 References
 ----------
 :cite:`GoPro2016a`, :cite:`Mansencal2015d`
 
-PROTUNE_NATIVE_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_PROTUNE_NATIVE : RGB_Colourspace
 """

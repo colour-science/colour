@@ -5,7 +5,7 @@ SMPTE C Colourspace
 
 Defines the *SMPTE C* colourspace:
 
--   :attr:`SMPTE_C_COLOURSPACE`.
+-   :attr:`RGB_COLOURSPACE_SMPTE_C`.
 
 References
 ----------
@@ -32,11 +32,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SMPTE_C_PRIMARIES', 'SMPTE_C_WHITEPOINT_NAME', 'SMPTE_C_WHITEPOINT',
-    'SMPTE_C_TO_XYZ_MATRIX', 'XYZ_TO_SMPTE_C_MATRIX', 'SMPTE_C_COLOURSPACE'
+    'PRIMARIES_SMPTE_C', 'WHITEPOINT_NAME_SMPTE_C', 'CCS_WHITEPOINT_SMPTE_C',
+    'MATRIX_SMPTE_C_TO_XYZ', 'MATRIX_XYZ_TO_SMPTE_C', 'RGB_COLOURSPACE_SMPTE_C'
 ]
 
-SMPTE_C_PRIMARIES = np.array([
+PRIMARIES_SMPTE_C = np.array([
     [0.630, 0.340],
     [0.310, 0.595],
     [0.155, 0.070],
@@ -44,46 +44,46 @@ SMPTE_C_PRIMARIES = np.array([
 """
 *SMPTE C* colourspace primaries.
 
-SMPTE_C_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_SMPTE_C : ndarray, (3, 2)
 """
 
-SMPTE_C_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_SMPTE_C = 'D65'
 """
 *SMPTE C* colourspace whitepoint name.
 
-SMPTE_C_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_SMPTE_C : unicode
 """
 
-SMPTE_C_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    SMPTE_C_WHITEPOINT_NAME])
+CCS_WHITEPOINT_SMPTE_C = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_SMPTE_C])
 """
-*SMPTE C* colourspace whitepoint.
+*SMPTE C* colourspace whitepoint chromaticity coordinates.
 
-SMPTE_C_WHITEPOINT : ndarray
+CCS_WHITEPOINT_SMPTE_C : ndarray
 """
 
-SMPTE_C_TO_XYZ_MATRIX = normalised_primary_matrix(SMPTE_C_PRIMARIES,
-                                                  SMPTE_C_WHITEPOINT)
+MATRIX_SMPTE_C_TO_XYZ = normalised_primary_matrix(PRIMARIES_SMPTE_C,
+                                                  CCS_WHITEPOINT_SMPTE_C)
 """
 *SMPTE C* colourspace to *CIE XYZ* tristimulus values matrix.
 
-SMPTE_C_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_SMPTE_C_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_SMPTE_C_MATRIX = np.linalg.inv(SMPTE_C_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_SMPTE_C = np.linalg.inv(MATRIX_SMPTE_C_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *SMPTE C* colourspace matrix.
 
-XYZ_TO_SMPTE_C_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_SMPTE_C : array_like, (3, 3)
 """
 
-SMPTE_C_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_SMPTE_C = RGB_Colourspace(
     'SMPTE C',
-    SMPTE_C_PRIMARIES,
-    SMPTE_C_WHITEPOINT,
-    SMPTE_C_WHITEPOINT_NAME,
-    SMPTE_C_TO_XYZ_MATRIX,
-    XYZ_TO_SMPTE_C_MATRIX,
+    PRIMARIES_SMPTE_C,
+    CCS_WHITEPOINT_SMPTE_C,
+    WHITEPOINT_NAME_SMPTE_C,
+    MATRIX_SMPTE_C_TO_XYZ,
+    MATRIX_XYZ_TO_SMPTE_C,
     partial(gamma_function, exponent=1 / 2.2),
     partial(gamma_function, exponent=2.2),
 )
@@ -94,5 +94,5 @@ References
 ----------
 :cite:`SocietyofMotionPictureandTelevisionEngineers2004a`
 
-SMPTE_C_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_SMPTE_C : RGB_Colourspace
 """

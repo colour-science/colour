@@ -5,7 +5,7 @@ ITU-R BT.2020 Colourspace
 
 Defines the *ITU-R BT.2020* colourspace:
 
--   :attr:`colour.models.BT2020_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_BT2020`.
 
 References
 ----------
@@ -33,11 +33,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'BT2020_PRIMARIES', 'BT2020_WHITEPOINT_NAME', 'BT2020_WHITEPOINT',
-    'BT2020_TO_XYZ_MATRIX', 'XYZ_TO_BT2020_MATRIX', 'BT2020_COLOURSPACE'
+    'PRIMARIES_BT2020', 'WHITEPOINT_NAME_BT2020', 'CCS_WHITEPOINT_BT2020',
+    'MATRIX_BT2020_TO_XYZ', 'MATRIX_XYZ_TO_BT2020', 'RGB_COLOURSPACE_BT2020'
 ]
 
-BT2020_PRIMARIES = np.array([
+PRIMARIES_BT2020 = np.array([
     [0.7080, 0.2920],
     [0.1700, 0.7970],
     [0.1310, 0.0460],
@@ -45,55 +45,55 @@ BT2020_PRIMARIES = np.array([
 """
 *ITU-R BT.2020* colourspace primaries.
 
-BT2020_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_BT2020 : ndarray, (3, 2)
 """
 
-BT2020_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_BT2020 = 'D65'
 """
 *ITU-R BT.2020* colourspace whitepoint name.
 
-BT2020_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_BT2020 : unicode
 """
 
-BT2020_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    BT2020_WHITEPOINT_NAME])
+CCS_WHITEPOINT_BT2020 = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                         [WHITEPOINT_NAME_BT2020])
 """
-*ITU-R BT.2020* colourspace whitepoint.
+*ITU-R BT.2020* colourspace whitepoint chromaticity coordinates.
 
-BT2020_WHITEPOINT : ndarray
+CCS_WHITEPOINT_BT2020 : ndarray
 """
 
-BT2020_TO_XYZ_MATRIX = normalised_primary_matrix(BT2020_PRIMARIES,
-                                                 BT2020_WHITEPOINT)
+MATRIX_BT2020_TO_XYZ = normalised_primary_matrix(PRIMARIES_BT2020,
+                                                 CCS_WHITEPOINT_BT2020)
 """
 *ITU-R BT.2020* colourspace to *CIE XYZ* tristimulus values matrix.
 
-BT2020_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_BT2020_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_BT2020_MATRIX = np.linalg.inv(BT2020_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_BT2020 = np.linalg.inv(MATRIX_BT2020_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *ITU-R BT.2020* colourspace matrix.
 
-XYZ_TO_BT2020_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_BT2020 : array_like, (3, 3)
 """
 
-BT2020_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_BT2020 = RGB_Colourspace(
     'ITU-R BT.2020',
-    BT2020_PRIMARIES,
-    BT2020_WHITEPOINT,
-    BT2020_WHITEPOINT_NAME,
-    BT2020_TO_XYZ_MATRIX,
-    XYZ_TO_BT2020_MATRIX,
+    PRIMARIES_BT2020,
+    CCS_WHITEPOINT_BT2020,
+    WHITEPOINT_NAME_BT2020,
+    MATRIX_BT2020_TO_XYZ,
+    MATRIX_XYZ_TO_BT2020,
     eotf_inverse_BT2020,
     eotf_BT2020,
 )
-BT2020_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_BT2020.__doc__ = """
 *ITU-R BT.2020* colourspace.
 
 References
 ----------
 :cite:`InternationalTelecommunicationUnion2015h`
 
-BT2020_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_BT2020 : RGB_Colourspace
 """

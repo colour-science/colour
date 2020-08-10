@@ -62,11 +62,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'YCBCR_WEIGHTS', 'YCbCr_ranges', 'RGB_to_YCbCr', 'YCbCr_to_RGB',
+    'WEIGHTS_YCBCR', 'YCbCr_ranges', 'RGB_to_YCbCr', 'YCbCr_to_RGB',
     'RGB_to_YcCbcCrc', 'YcCbcCrc_to_RGB'
 ]
 
-YCBCR_WEIGHTS = CaseInsensitiveMapping({
+WEIGHTS_YCBCR = CaseInsensitiveMapping({
     'ITU-R BT.601': np.array([0.2990, 0.1140]),
     'ITU-R BT.709': np.array([0.2126, 0.0722]),
     'ITU-R BT.2020': np.array([0.2627, 0.0593]),
@@ -83,7 +83,7 @@ References
 :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
 :cite:`Wikipedia2004d`
 
-YCBCR_WEIGHTS : dict
+WEIGHTS_YCBCR : dict
     **{'ITU-R BT.601', 'ITU-R BT.709', 'ITU-R BT.2020', 'SMPTE-240M}**
 """
 
@@ -138,7 +138,7 @@ def YCbCr_ranges(bits, is_legal, is_int):
 
 
 def RGB_to_YCbCr(RGB,
-                 K=YCBCR_WEIGHTS['ITU-R BT.709'],
+                 K=WEIGHTS_YCBCR['ITU-R BT.709'],
                  in_bits=10,
                  in_legal=False,
                  in_int=False,
@@ -156,7 +156,7 @@ def RGB_to_YCbCr(RGB,
         Input *R'G'B'* array of floats or integer values.
     K : array_like, optional
         Luma weighting coefficients of red and blue. See
-        :attr:`colour.YCBCR_WEIGHTS` for presets. Default is
+        :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
@@ -266,7 +266,7 @@ def RGB_to_YCbCr(RGB,
     :cite:`InternationalTelecommunicationUnion2011e`:
 
     >>> RGB = np.array([102, 0, 51])
-    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['ITU-R BT.601'], in_range=(0, 255),
+    >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_range=(0, 255),
     ...              out_range=(0, 255, 0, 256), out_int=True)
     ... # doctest: +ELLIPSIS
     array([ 36, 136, 175]...)
@@ -281,7 +281,7 @@ def RGB_to_YCbCr(RGB,
 
     These JFIF JPEG ranges are also obtained as follows:
 
-    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['ITU-R BT.601'], in_bits=8,
+    >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_bits=8,
     ...              in_int=True, out_legal=False, out_int=True)
     ... # doctest: +ELLIPSIS
     array([ 36, 136, 175]...)
@@ -320,7 +320,7 @@ def RGB_to_YCbCr(RGB,
 
 
 def YCbCr_to_RGB(YCbCr,
-                 K=YCBCR_WEIGHTS['ITU-R BT.709'],
+                 K=WEIGHTS_YCBCR['ITU-R BT.709'],
                  in_bits=8,
                  in_legal=True,
                  in_int=False,
@@ -338,7 +338,7 @@ def YCbCr_to_RGB(YCbCr,
         Input *Y'CbCr* colour encoding array of integer or float values.
     K : array_like, optional
         Luma weighting coefficients of red and blue. See
-        :attr:`colour.YCBCR_WEIGHTS` for presets. Default is
+        :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the

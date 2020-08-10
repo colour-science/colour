@@ -306,7 +306,7 @@ def XYZ_to_plotting_colourspace(XYZ,
                                 apply_cctf_encoding=True):
     """
     Converts from *CIE XYZ* tristimulus values to
-    :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace.
+    :attr:`colour.plotting.RGB_COLOURSPACE_DEFAULT_PLOTTING` colourspace.
 
     Parameters
     ----------
@@ -320,15 +320,15 @@ def XYZ_to_plotting_colourspace(XYZ,
         'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
     apply_cctf_encoding : bool, optional
-        Apply :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace
-        encoding colour component transfer function / opto-electronic transfer
-        function.
+        Apply :attr:`colour.plotting.RGB_COLOURSPACE_DEFAULT_PLOTTING`
+        colourspace encoding colour component transfer function /
+        opto-electronic transfer function.
 
     Returns
     -------
     ndarray
-        :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace colour
-        array.
+        :attr:`colour.plotting.RGB_COLOURSPACE_DEFAULT_PLOTTING` colourspace
+        colour array.
 
     Examples
     --------

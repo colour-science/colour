@@ -60,10 +60,10 @@ from colour.algebra import (point_at_angle_on_ellipse,
 from colour.graph import convert
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS, CCTF_ENCODINGS, CCTF_DECODINGS,
-    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, MACADAM_1942_ELLIPSES_DATA,
-    POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT,
-    RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS,
-    XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
+    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, DATA_MACADAM_1942_ELLIPSES,
+    CCS_POINTER_GAMUT_BOUNDARY, DATA_POINTER_GAMUT_VOLUME,
+    CCS_ILLUMINANT_POINTER_GAMUT, RGB_to_RGB, RGB_to_XYZ, UCS_to_uv,
+    XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, plot_chromaticity_diagram_CIE1931, artist,
     plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
@@ -260,7 +260,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
             '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
-    ij = xy_to_ij(as_float_array(POINTER_GAMUT_BOUNDARIES))
+    ij = xy_to_ij(as_float_array(CCS_POINTER_GAMUT_BOUNDARY))
     alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
     colour_p = COLOUR_STYLE_CONSTANTS.colour.darkest
     axes.plot(
@@ -275,8 +275,8 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
         alpha=alpha_p)
 
     XYZ = Lab_to_XYZ(
-        LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
-    ij = XYZ_to_ij(XYZ, POINTER_GAMUT_ILLUMINANT)
+        LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT)
+    ij = XYZ_to_ij(XYZ, CCS_ILLUMINANT_POINTER_GAMUT)
     axes.scatter(
         ij[..., 0], ij[..., 1], alpha=alpha_p / 2, color=colour_p, marker='+')
 
@@ -1044,7 +1044,7 @@ def ellipses_MacAdam1942(method='CIE 1931'):
             '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
-    x, y, _a, _b, _theta, a, b, theta = tsplit(MACADAM_1942_ELLIPSES_DATA)
+    x, y, _a, _b, _theta, a, b, theta = tsplit(DATA_MACADAM_1942_ELLIPSES)
 
     ellipses_coefficients = []
     # pylint: disable=C0200

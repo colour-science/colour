@@ -63,13 +63,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ACES_PROXY_10_CONSTANTS', 'ACES_PROXY_12_CONSTANTS',
-    'ACES_PROXY_CONSTANTS', 'ACES_CCT_CONSTANTS', 'log_encoding_ACESproxy',
+    'CONSTANTS_ACES_PROXY_10', 'CONSTANTS_ACES_PROXY_12',
+    'CONSTANTS_ACES_PROXY', 'CONSTANTS_ACES_CCT', 'log_encoding_ACESproxy',
     'log_decoding_ACESproxy', 'log_encoding_ACEScc', 'log_decoding_ACEScc',
     'log_encoding_ACEScct', 'log_decoding_ACEScct'
 ]
 
-ACES_PROXY_10_CONSTANTS = Structure(
+CONSTANTS_ACES_PROXY_10 = Structure(
     CV_min=64,
     CV_max=940,
     steps_per_stop=50,
@@ -78,10 +78,10 @@ ACES_PROXY_10_CONSTANTS = Structure(
 """
 *ACESproxy* 10 bit colourspace constants.
 
-ACES_PROXY_10_CONSTANTS : Structure
+CONSTANTS_ACES_PROXY_10 : Structure
 """
 
-ACES_PROXY_12_CONSTANTS = Structure(
+CONSTANTS_ACES_PROXY_12 = Structure(
     CV_min=256,
     CV_max=3760,
     steps_per_stop=200,
@@ -90,21 +90,21 @@ ACES_PROXY_12_CONSTANTS = Structure(
 """
 *ACESproxy* 12 bit colourspace constants.
 
-ACES_PROXY_12_CONSTANTS : Structure
+CONSTANTS_ACES_PROXY_12 : Structure
 """
 
-ACES_PROXY_CONSTANTS = {
-    10: ACES_PROXY_10_CONSTANTS,
-    12: ACES_PROXY_12_CONSTANTS
+CONSTANTS_ACES_PROXY = {
+    10: CONSTANTS_ACES_PROXY_10,
+    12: CONSTANTS_ACES_PROXY_12
 }
 """
 Aggregated *ACESproxy* colourspace constants.
 
-ACES_PROXY_CONSTANTS : dict
+CONSTANTS_ACES_PROXY : dict
     **{10, 12}**
 """
 
-ACES_CCT_CONSTANTS = Structure(
+CONSTANTS_ACES_CCT = Structure(
     X_BRK=0.0078125,
     Y_BRK=0.155251141552511,
     A=10.5402377416545,
@@ -112,7 +112,7 @@ ACES_CCT_CONSTANTS = Structure(
 """
 *ACEScct* colourspace constants.
 
-ACES_CCT_CONSTANTS : Structure
+CONSTANTS_ACES_CCT : Structure
 """
 
 
@@ -120,7 +120,7 @@ ACES_CCT_CONSTANTS : Structure
 def log_encoding_ACESproxy(lin_AP1,
                            bit_depth=10,
                            out_int=False,
-                           constants=ACES_PROXY_CONSTANTS):
+                           constants=CONSTANTS_ACES_PROXY):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
@@ -207,7 +207,7 @@ def log_encoding_ACESproxy(lin_AP1,
 def log_decoding_ACESproxy(ACESproxy,
                            bit_depth=10,
                            in_int=False,
-                           constants=ACES_PROXY_CONSTANTS):
+                           constants=CONSTANTS_ACES_PROXY):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
@@ -396,7 +396,7 @@ def log_decoding_ACEScc(ACEScc):
 
 
 # pylint: disable=W0102
-def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
+def log_encoding_ACEScct(lin_AP1, constants=CONSTANTS_ACES_CCT):
     """
     Defines the *ACEScct* colourspace log encoding / opto-electronic transfer
     function.
@@ -453,7 +453,7 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
 
 
 # pylint: disable=W0102
-def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
+def log_decoding_ACEScct(ACEScct, constants=CONSTANTS_ACES_CCT):
     """
     Defines the *ACEScct* colourspace log decoding / electro-optical transfer
     function.

@@ -5,7 +5,7 @@ CIE RGB Colourspace
 
 Defines the *CIE RGB* colourspace:
 
--   :attr:`colour.models.CIE_RGB_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_CIE_RGB`.
 
 References
 ----------
@@ -31,11 +31,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CIE_RGB_PRIMARIES', 'CIE_RGB_WHITEPOINT_NAME', 'CIE_RGB_WHITEPOINT',
-    'CIE_RGB_TO_XYZ_MATRIX', 'XYZ_TO_CIE_RGB_MATRIX', 'CIE_RGB_COLOURSPACE'
+    'PRIMARIES_CIE_RGB', 'WHITEPOINT_NAME_CIE_RGB', 'CCS_WHITEPOINT_CIE_RGB',
+    'MATRIX_CIE_RGB_TO_XYZ', 'MATRIX_XYZ_TO_CIE_RGB', 'RGB_COLOURSPACE_CIE_RGB'
 ]
 
-CIE_RGB_PRIMARIES = np.array([
+PRIMARIES_CIE_RGB = np.array([
     [0.734742840005998, 0.265257159994002],
     [0.273779033824958, 0.717477700256116],
     [0.166555629580280, 0.008910726182545],
@@ -43,31 +43,31 @@ CIE_RGB_PRIMARIES = np.array([
 """
 *CIE RGB* colourspace primaries.
 
-CIE_RGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_CIE_RGB : ndarray, (3, 2)
 
 Notes
 -----
 -   *CIE RGB* colourspace primaries were computed using
-    :attr:`colour.models.rgb.datasets.cie_rgb.CIE_RGB_TO_XYZ_MATRIX` attribute
+    :attr:`colour.models.rgb.datasets.cie_rgb.MATRIX_CIE_RGB_TO_XYZ` attribute
     and :func:`colour.primaries_whitepoint` definition.
 """
 
-CIE_RGB_WHITEPOINT_NAME = 'E'
+WHITEPOINT_NAME_CIE_RGB = 'E'
 """
 *CIE RGB* colourspace whitepoint name.
 
-CIE_RGB_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_CIE_RGB : unicode
 """
 
-CIE_RGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    CIE_RGB_WHITEPOINT_NAME])
+CCS_WHITEPOINT_CIE_RGB = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_CIE_RGB])
 """
-*CIE RGB* colourspace whitepoint.
+*CIE RGB* colourspace whitepoint chromaticity coordinates.
 
-CIE_RGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_CIE_RGB : ndarray
 """
 
-CIE_RGB_TO_XYZ_MATRIX = np.array([
+MATRIX_CIE_RGB_TO_XYZ = np.array([
     [0.4900, 0.3100, 0.2000],
     [0.1769, 0.8124, 0.0107],
     [0.0000, 0.0099, 0.9901],
@@ -75,32 +75,32 @@ CIE_RGB_TO_XYZ_MATRIX = np.array([
 """
 *CIE RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-CIE_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_CIE_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_CIE_RGB_MATRIX = np.linalg.inv(CIE_RGB_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_CIE_RGB = np.linalg.inv(MATRIX_CIE_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *CIE RGB* colourspace matrix.
 
-XYZ_TO_CIE_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_CIE_RGB : array_like, (3, 3)
 """
 
-CIE_RGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_CIE_RGB = RGB_Colourspace(
     'CIE RGB',
-    CIE_RGB_PRIMARIES,
-    CIE_RGB_WHITEPOINT,
-    CIE_RGB_WHITEPOINT_NAME,
-    CIE_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_CIE_RGB_MATRIX,
+    PRIMARIES_CIE_RGB,
+    CCS_WHITEPOINT_CIE_RGB,
+    WHITEPOINT_NAME_CIE_RGB,
+    MATRIX_CIE_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_CIE_RGB,
     partial(gamma_function, exponent=1 / 2.2),
     partial(gamma_function, exponent=2.2),
 )
-CIE_RGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_CIE_RGB.__doc__ = """
 *CIE RGB* colourspace.
 
 References
 ----------
 :cite:`Fairman1997`
 
-CIE_RGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_CIE_RGB : RGB_Colourspace
 """

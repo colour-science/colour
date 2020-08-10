@@ -18,7 +18,7 @@ import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
-                           sRGB_COLOURSPACE)
+                           RGB_COLOURSPACE_sRGB)
 from colour.recovery import SMITS_1999_SDS
 from colour.utilities import to_domain_1
 
@@ -35,7 +35,7 @@ __all__ = [
     'RGB_to_sd_Smits1999'
 ]
 
-SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
+SMITS1999_PRIMARIES = RGB_COLOURSPACE_sRGB.primaries
 """
 Current *Smits (1999)* method implementation colourspace primaries.
 
