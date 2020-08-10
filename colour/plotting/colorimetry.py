@@ -38,7 +38,7 @@ from colour.colorimetry import (
     SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ, sds_and_multi_sds_to_sds,
     wavelength_to_XYZ)
 from colour.plotting import (
-    ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
+    ColourSwatch, CONSTANTS_COLOUR_STYLE, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
     render, plot_single_colour_swatch, plot_multi_functions)
 from colour.utilities import (domain_range_scale, first_item,
@@ -153,7 +153,7 @@ def plot_single_sd(sd,
     if modulate_colours_with_sd_amplitude:
         colours *= (values / np.max(values))[..., np.newaxis]
 
-    colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding(colours)
+    colours = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(colours)
 
     if equalize_sd_amplitude:
         values = ones(values.shape)
@@ -182,7 +182,7 @@ def plot_single_sd(sd,
         align='edge',
         clip_path=polygon)
 
-    axes.plot(wavelengths, values, color=COLOUR_STYLE_CONSTANTS.colour.dark)
+    axes.plot(wavelengths, values, color=CONSTANTS_COLOUR_STYLE.colour.dark)
 
     settings = {
         'axes': axes,
@@ -270,7 +270,7 @@ def plot_multi_sds(sds,
     cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = SDS_ILLUMINANTS[
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint_name]
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for sd in sds:
@@ -396,7 +396,7 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
 
     _figure, axes = artist(**kwargs)
 
-    axes.axhline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
+    axes.axhline(color=CONSTANTS_COLOUR_STYLE.colour.dark, linestyle='--')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, cmfs_i in enumerate(cmfs):
@@ -861,7 +861,7 @@ def plot_blackbody_spectral_radiance(
 
     figure = plt.figure()
 
-    figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
+    figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 

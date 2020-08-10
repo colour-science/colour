@@ -2,9 +2,10 @@
 
 from __future__ import absolute_import
 
-from .astm_g_173 import (ASTMG173_ETR, ASTMG173_GLOBAL_TILT,
-                         ASTMG173_DIRECT_CIRCUMSOLAR)
+from .astm_g_173 import (SD_ASTMG173_ETR, SD_ASTMG173_GLOBAL_TILT,
+                         SD_ASTMG173_DIRECT_CIRCUMSOLAR)
 
 __all__ = [
-    'ASTMG173_ETR', 'ASTMG173_GLOBAL_TILT', 'ASTMG173_DIRECT_CIRCUMSOLAR'
+    'SD_ASTMG173_ETR', 'SD_ASTMG173_GLOBAL_TILT',
+    'SD_ASTMG173_DIRECT_CIRCUMSOLAR'
 ]

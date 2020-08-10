@@ -19,7 +19,7 @@ import numpy as np
 from colour.colorimetry import MSDS_CMFS, CCS_ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
+from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
                              artist, plot_chromaticity_diagram_CIE1931,
                              plot_chromaticity_diagram_CIE1960UCS,
                              filter_passthrough, override_style, render)
@@ -80,7 +80,7 @@ def plot_planckian_locus(planckian_locus_colours=None,
     """
 
     if planckian_locus_colours is None:
-        planckian_locus_colours = COLOUR_STYLE_CONSTANTS.colour.dark
+        planckian_locus_colours = CONSTANTS_COLOUR_STYLE.colour.dark
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -328,7 +328,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         'annotate': True,
         'xytext': (-50, 30),
         'textcoords': 'offset points',
-        'arrowprops': COLOUR_ARROW_STYLE,
+        'arrowprops': CONSTANTS_ARROW_STYLE,
     } for _ in range(len(illuminants))]
 
     if annotate_kwargs is not None:
@@ -350,11 +350,11 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
             ij[0],
             ij[1],
             'o',
-            color=COLOUR_STYLE_CONSTANTS.colour.brightest,
-            markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
-            markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
-                        COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
-            markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75,
+            color=CONSTANTS_COLOUR_STYLE.colour.brightest,
+            markeredgecolor=CONSTANTS_COLOUR_STYLE.colour.dark,
+            markersize=(CONSTANTS_COLOUR_STYLE.geometry.short * 6 +
+                        CONSTANTS_COLOUR_STYLE.geometry.short * 0.75),
+            markeredgewidth=CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
             label=illuminant)
 
         if annotate_settings_collection[i]['annotate']:

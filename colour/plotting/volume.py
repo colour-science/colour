@@ -22,7 +22,7 @@ from colour.models import RGB_to_XYZ
 from colour.models.common import (COLOURSPACE_MODELS_AXIS_LABELS,
                                   XYZ_to_colourspace_model)
 from colour.plotting import (
-    COLOUR_STYLE_CONSTANTS, common_colourspace_model_axis_reorder,
+    CONSTANTS_COLOUR_STYLE, common_colourspace_model_axis_reorder,
     filter_RGB_colourspaces, filter_cmfs, override_style, render)
 from colour.utilities import (Structure, as_float_array, as_int_array,
                               first_item, full, ones, zeros)
@@ -452,7 +452,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
     figure = plt.figure()
     axes = figure.add_subplot(111, projection='3d')
 
-    illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
+    illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
     points = zeros([4, 3])
     if show_spectral_locus:

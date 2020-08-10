@@ -11,7 +11,7 @@ Defines the colour blindness plotting objects:
 from __future__ import division
 
 from colour.blindness import cvd_matrix_Machado2009
-from colour.plotting import COLOUR_STYLE_CONSTANTS, plot_image, override_style
+from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
 from colour.utilities import dot_vector
 
 __author__ = 'Colour Developers'
@@ -84,5 +84,5 @@ def plot_cvd_simulation_Machado2009(RGB,
     settings.update(kwargs)
 
     return plot_image(
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding(
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
             dot_vector(M_a, RGB)), **settings)

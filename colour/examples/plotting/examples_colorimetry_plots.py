@@ -7,7 +7,7 @@ from pprint import pprint
 
 import colour
 from colour.plotting import (
-    ASTMG173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
+    SD_ASTMG173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
     colour_style, plot_multi_cmfs, plot_multi_illuminant_sds,
     plot_multi_lightness_functions, plot_multi_sds, plot_single_cmfs,
     plot_single_illuminant_sd, plot_single_lightness_function, plot_single_sd,
@@ -927,9 +927,9 @@ plot_blackbody_spectral_radiance(temperature=12130, blackbody='Rigel')
 print('\n')
 
 message_box('Comparing theoretical and measured "Sun" spectral distributions.')
-# Arbitrary ASTMG173_ETR scaling factor calculated with
+# Arbitrary SD_ASTMG173_ETR scaling factor calculated with
 # :func:`colour.sd_to_XYZ` definition.
-ASTMG173_sd = ASTMG173_ETR.copy() * 1.37905559e+13
+ASTMG173_sd = SD_ASTMG173_ETR.copy() * 1.37905559e+13
 
 ASTMG173_sd.interpolate(
     colour.SpectralShape(interval=5), interpolator=colour.LinearInterpolator)

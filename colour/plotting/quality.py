@@ -18,7 +18,7 @@ from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.colorimetry import sds_and_multi_sds_to_sds
-from colour.plotting import (COLOUR_STYLE_CONSTANTS,
+from colour.plotting import (CONSTANTS_COLOUR_STYLE,
                              XYZ_to_plotting_colourspace, artist,
                              label_rectangles, override_style, render)
 from colour.quality import (colour_quality_scale, colour_rendering_index)
@@ -98,7 +98,7 @@ def plot_colour_quality_bars(specifications,
     bar_width = 0.5
     y_ticks_interval = 10
     count_s, count_Q_as = len(specifications), 0
-    patterns = cycle(COLOUR_STYLE_CONSTANTS.hatch.patterns)
+    patterns = cycle(CONSTANTS_COLOUR_STYLE.hatch.patterns)
     if hatching is None:
         hatching = False if count_s == 1 else True
     for i, specification in enumerate(specifications):
@@ -122,7 +122,7 @@ def plot_colour_quality_bars(specifications,
             np.abs(y),
             color=colours,
             width=bar_width,
-            edgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
+            edgecolor=CONSTANTS_COLOUR_STYLE.colour.dark,
             label=specification.name)
 
         hatches = ([next(patterns) * hatching_repeat] * (count_Q_as + 1)
@@ -143,7 +143,7 @@ def plot_colour_quality_bars(specifications,
                 axes=axes)
 
     axes.axhline(
-        y=100, color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
+        y=100, color=CONSTANTS_COLOUR_STYLE.colour.dark, linestyle='--')
 
     axes.set_xticks((np.arange(
         0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),

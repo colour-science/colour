@@ -15,7 +15,7 @@ import numpy as np
 
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
-    COLOUR_STYLE_CONSTANTS, ColourSwatch, XYZ_to_plotting_colourspace, artist,
+    CONSTANTS_COLOUR_STYLE, ColourSwatch, XYZ_to_plotting_colourspace, artist,
     filter_colour_checkers, plot_multi_colour_swatches, override_style, render)
 
 __author__ = 'Colour Developers'
@@ -174,9 +174,9 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
         0.005,
         '{0} - {1} - Colour Rendition Chart'.format(
             ', '.join(colour_checker_names),
-            COLOUR_STYLE_CONSTANTS.colour.colourspace.name),
+            CONSTANTS_COLOUR_STYLE.colour.colourspace.name),
         transform=axes.transAxes,
-        color=COLOUR_STYLE_CONSTANTS.colour.bright,
+        color=CONSTANTS_COLOUR_STYLE.colour.bright,
         ha='center',
         va='bottom')
 

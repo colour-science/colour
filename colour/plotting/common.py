@@ -53,7 +53,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
+    'CONSTANTS_COLOUR_STYLE', 'CONSTANTS_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
     'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
@@ -62,7 +62,7 @@ __all__ = [
     'plot_single_function', 'plot_multi_functions', 'plot_image'
 ]
 
-COLOUR_STYLE_CONSTANTS = Structure(
+CONSTANTS_COLOUR_STYLE = Structure(
     **{
         'colour':
             Structure(
@@ -137,22 +137,22 @@ COLOUR_STYLE_CONSTANTS = Structure(
 """
 Various defaults settings used across the plotting sub-package.
 
-COLOUR_STYLE_CONSTANTS : Structure
+CONSTANTS_COLOUR_STYLE : Structure
 """
 
-COLOUR_ARROW_STYLE = Structure(
+CONSTANTS_ARROW_STYLE = Structure(
     **{
-        'color': COLOUR_STYLE_CONSTANTS.colour.dark,
-        'headwidth': COLOUR_STYLE_CONSTANTS.geometry.short * 4,
-        'headlength': COLOUR_STYLE_CONSTANTS.geometry.long,
-        'width': COLOUR_STYLE_CONSTANTS.geometry.short * 0.5,
-        'shrink': COLOUR_STYLE_CONSTANTS.geometry.short * 0.1,
+        'color': CONSTANTS_COLOUR_STYLE.colour.dark,
+        'headwidth': CONSTANTS_COLOUR_STYLE.geometry.short * 4,
+        'headlength': CONSTANTS_COLOUR_STYLE.geometry.long,
+        'width': CONSTANTS_COLOUR_STYLE.geometry.short * 0.5,
+        'shrink': CONSTANTS_COLOUR_STYLE.geometry.short * 0.1,
         'connectionstyle': 'arc3,rad=-0.2',
     })
 """
 Annotation arrow settings used across the plotting sub-package.
 
-COLOUR_ARROW_STYLE : Structure
+CONSTANTS_ARROW_STYLE : Structure
 """
 
 
@@ -171,7 +171,7 @@ def colour_style(use_style=True):
         *Colour* style.
     """
 
-    constants = COLOUR_STYLE_CONSTANTS
+    constants = CONSTANTS_COLOUR_STYLE
     style = {
         # Figure Size Settings
         'figure.figsize': (12.80, 7.20),
@@ -339,10 +339,10 @@ def XYZ_to_plotting_colourspace(XYZ,
     """
 
     return XYZ_to_RGB(
-        XYZ, illuminant, COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint,
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.XYZ_to_RGB_matrix,
+        XYZ, illuminant, CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint,
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.XYZ_to_RGB_matrix,
         chromatic_adaptation_transform,
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding
         if apply_cctf_encoding else None)
 
 
@@ -386,8 +386,8 @@ def colour_cycle(**kwargs):
 
     settings = Structure(
         **{
-            'colour_cycle_map': COLOUR_STYLE_CONSTANTS.colour.map,
-            'colour_cycle_count': len(COLOUR_STYLE_CONSTANTS.colour.cycle)
+            'colour_cycle_map': CONSTANTS_COLOUR_STYLE.colour.map,
+            'colour_cycle_count': len(CONSTANTS_COLOUR_STYLE.colour.cycle)
         })
     settings.update(kwargs)
 
@@ -1452,8 +1452,8 @@ def plot_image(image, imshow_kwargs=None, text_kwargs=None, **kwargs):
     text_settings = {
         'text': None,
         'offset': 0.005,
-        'color': COLOUR_STYLE_CONSTANTS.colour.brightest,
-        'alpha': COLOUR_STYLE_CONSTANTS.opacity.high,
+        'color': CONSTANTS_COLOUR_STYLE.colour.brightest,
+        'alpha': CONSTANTS_COLOUR_STYLE.opacity.high,
     }
     if text_kwargs is not None:
         text_settings.update(text_kwargs)

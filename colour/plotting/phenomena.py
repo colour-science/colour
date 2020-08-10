@@ -19,7 +19,7 @@ from colour.phenomena.rayleigh import (
     CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL, DEFAULT_ALTITUDE,
     DEFAULT_LATITUDE, CONSTANT_STANDARD_AIR_TEMPERATURE,
     CONSTANT_STANDARD_CO2_CONCENTRATION)
-from colour.plotting import (ASTMG173_ETR, COLOUR_STYLE_CONSTANTS,
+from colour.plotting import (SD_ASTMG173_ETR, CONSTANTS_COLOUR_STYLE,
                              ColourSwatch, XYZ_to_plotting_colourspace,
                              filter_cmfs, override_style, render,
                              plot_single_colour_swatch, plot_single_sd)
@@ -143,11 +143,11 @@ def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     figure = plt.figure()
 
-    figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
+    figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    ASTMG173_sd = ASTMG173_ETR.copy()
+    ASTMG173_sd = SD_ASTMG173_ETR.copy()
     rayleigh_sd = sd_rayleigh_scattering()
     ASTMG173_sd.align(rayleigh_sd.shape)
 

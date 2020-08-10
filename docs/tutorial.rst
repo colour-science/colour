@@ -244,11 +244,11 @@ The various sub-packages also expose their public API:
 
 
     Plotting
-    ['ASTMG173_ETR',
-     'ASTMG173_GLOBAL_TILT',
-     'ASTMG173_DIRECT_CIRCUMSOLAR',
-     'COLOUR_STYLE_CONSTANTS',
-     'COLOUR_ARROW_STYLE',
+    ['SD_ASTMG173_ETR',
+     'SD_ASTMG173_GLOBAL_TILT',
+     'SD_ASTMG173_DIRECT_CIRCUMSOLAR',
+     'CONSTANTS_COLOUR_STYLE',
+     'CONSTANTS_ARROW_STYLE',
      '...']
 
 
