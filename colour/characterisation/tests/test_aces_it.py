@@ -17,7 +17,7 @@ from colour.characterisation import (
     training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
     optimisation_factory_JzAzBz, idt_matrix)
 from colour.characterisation.aces_it import RAWTOACES_RESOURCES_DIRECTORY
-from colour.colorimetry import (CMFS, ILLUMINANT_SDS, SpectralShape,
+from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
                                 sds_and_multi_sds_to_multi_sds, sd_constant,
                                 sd_ones)
 from colour.io import read_sds_from_csv_file
@@ -84,7 +84,7 @@ sd_to_aces_relative_exposure_values` definition.
         dark_skin = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin,
-                                                ILLUMINANT_SDS['A']),
+                                                SDS_ILLUMINANTS['A']),
             np.array([0.13583991, 0.09431845, 0.05928214]),
             decimal=7)
 
@@ -179,14 +179,14 @@ class TestWhiteBalanceMultipliers(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             white_balance_multipliers(MSDS_CANON_EOS_5DMARK_II,
-                                      ILLUMINANT_SDS['D55']),
+                                      SDS_ILLUMINANTS['D55']),
             np.array([2.34141541, 1.00000000, 1.51633759]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             white_balance_multipliers(
                 MSDS_CANON_EOS_5DMARK_II,
-                ILLUMINANT_SDS['ISO 7589 Studio Tungsten']),
+                SDS_ILLUMINANTS['ISO 7589 Studio Tungsten']),
             np.array([1.57095278, 1.00000000, 2.43560477]),
             decimal=7)
 
@@ -207,14 +207,16 @@ class TestBestIlluminant(unittest.TestCase):
             best_illuminant(
                 white_balance_multipliers(
                     MSDS_CANON_EOS_5DMARK_II,
-                    ILLUMINANT_SDS['FL2']), MSDS_CANON_EOS_5DMARK_II,
+                    SDS_ILLUMINANTS['FL2']),
+                MSDS_CANON_EOS_5DMARK_II,
                 generate_illuminants_rawtoaces_v1()).name, 'D40')
 
         self.assertEqual(
             best_illuminant(
                 white_balance_multipliers(
                     MSDS_CANON_EOS_5DMARK_II,
-                    ILLUMINANT_SDS['A']), MSDS_CANON_EOS_5DMARK_II,
+                    SDS_ILLUMINANTS['A']),
+                MSDS_CANON_EOS_5DMARK_II,
                 generate_illuminants_rawtoaces_v1()).name, '3000K Blackbody')
 
 
@@ -232,8 +234,9 @@ class TestNormaliseIlluminant(unittest.TestCase):
 
         self.assertAlmostEqual(
             np.sum(
-                normalise_illuminant(ILLUMINANT_SDS['D55'],
-                                     MSDS_CANON_EOS_5DMARK_II).values),
+                normalise_illuminant(
+                    SDS_ILLUMINANTS['D55'],
+                    MSDS_CANON_EOS_5DMARK_II).values),
             3.439037388220850,
             places=7)
 
@@ -253,7 +256,7 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             training_data_sds_to_RGB(read_training_data_rawtoaces_v1(),
                                      MSDS_CANON_EOS_5DMARK_II,
-                                     ILLUMINANT_SDS['D55']),
+                                     SDS_ILLUMINANTS['D55']),
             np.array([
                 [42.00296381, 39.83290349, 43.28842394],
                 [181.25453293, 180.47486885, 180.30657630],
@@ -451,8 +454,9 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
         training_data = sds_and_multi_sds_to_multi_sds(
             SDS_COLOURCHECKERS['BabelColor Average'].values())
         np.testing.assert_almost_equal(
-            training_data_sds_to_RGB(training_data, MSDS_CANON_EOS_5DMARK_II,
-                                     ILLUMINANT_SDS['D55']),
+            training_data_sds_to_RGB(training_data,
+                                     MSDS_CANON_EOS_5DMARK_II,
+                                     SDS_ILLUMINANTS['D55']),
             np.array([
                 [263.80361607, 170.29412869, 132.71463416],
                 [884.07936328, 628.44083126, 520.43504675],
@@ -497,8 +501,8 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
                 read_training_data_rawtoaces_v1(),
-                CMFS['CIE 1931 2 Degree Standard Observer'],
-                ILLUMINANT_SDS['D55']),
+                MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
+                SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.01743541, 0.01795040, 0.01961110],
                 [0.08556071, 0.08957352, 0.09017032],
@@ -698,8 +702,9 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
-                training_data, CMFS['CIE 1931 2 Degree Standard Observer'],
-                ILLUMINANT_SDS['D55']),
+                training_data,
+                MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
+                SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.11386016, 0.10184316, 0.06318332],
                 [0.38043230, 0.34842093, 0.23582246],
@@ -778,7 +783,8 @@ class TestIdtMatrix(unittest.TestCase):
         # 0.056527 1.122997 -0.179524
         # 0.023683 -0.202547 1.178864
         np.testing.assert_allclose(
-            idt_matrix(MSDS_CANON_EOS_5DMARK_II, ILLUMINANT_SDS['D55']),
+            idt_matrix(MSDS_CANON_EOS_5DMARK_II,
+                       SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.84993207, -0.01605594, 0.15143504],
                 [0.05090392, 1.12559930, -0.18498249],
@@ -807,7 +813,7 @@ class TestIdtMatrix(unittest.TestCase):
         np.testing.assert_allclose(
             idt_matrix(
                 MSDS_CANON_EOS_5DMARK_II,
-                ILLUMINANT_SDS['D55'],
+                SDS_ILLUMINANTS['D55'],
                 optimisation_factory=optimisation_factory_JzAzBz),
             np.array([
                 [0.84841492, -0.01569765, 0.15799332],
@@ -820,7 +826,7 @@ class TestIdtMatrix(unittest.TestCase):
         np.testing.assert_allclose(
             idt_matrix(
                 MSDS_CANON_EOS_5DMARK_II,
-                ILLUMINANT_SDS['D55'],
+                SDS_ILLUMINANTS['D55'],
                 optimisation_kwargs={'method': 'Nelder-Mead'}),
             np.array([
                 [0.71327381, 0.19213397, 0.11115511],

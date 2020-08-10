@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_FilmLightTLog,
                                log_decoding_FilmLightTLog,
                                normalised_primary_matrix)
@@ -53,7 +53,7 @@ FILMLIGHT_E_GAMUT_WHITEPOINT_NAME = 'D65'
 FILMLIGHT_E_GAMUT_WHITEPOINT : unicode
 """
 
-FILMLIGHT_E_GAMUT_WHITEPOINT = (ILLUMINANTS[
+FILMLIGHT_E_GAMUT_WHITEPOINT = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][FILMLIGHT_E_GAMUT_WHITEPOINT_NAME])
 """
 *FilmLight E-Gamut* colourspace whitepoint.

@@ -43,7 +43,7 @@ __all__ = [
     'bandpass_correction'
 ]
 
-ALPHA_STEARNS = 0.083
+CONSTANT_ALPHA_STEARNS = 0.083
 
 
 def bandpass_correction_Stearns1988(sd):
@@ -93,12 +93,14 @@ def bandpass_correction_Stearns1988(sd):
     """
 
     values = np.copy(sd.values)
-    values[0] = (1 + ALPHA_STEARNS) * values[0] - ALPHA_STEARNS * values[1]
-    values[-1] = (1 + ALPHA_STEARNS) * values[-1] - ALPHA_STEARNS * values[-2]
+    values[0] = (1 + CONSTANT_ALPHA_STEARNS
+                 ) * values[0] - CONSTANT_ALPHA_STEARNS * values[1]
+    values[-1] = (1 + CONSTANT_ALPHA_STEARNS
+                  ) * values[-1] - CONSTANT_ALPHA_STEARNS * values[-2]
     for i in range(1, len(values) - 1):
-        values[i] = (-ALPHA_STEARNS * values[i - 1] +
-                     (1 + 2 * ALPHA_STEARNS) * values[i] -
-                     ALPHA_STEARNS * values[i + 1])
+        values[i] = (-CONSTANT_ALPHA_STEARNS * values[i - 1] +
+                     (1 + 2 * CONSTANT_ALPHA_STEARNS) * values[i] -
+                     CONSTANT_ALPHA_STEARNS * values[i + 1])
 
     sd.values = values
 

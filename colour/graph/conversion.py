@@ -19,8 +19,8 @@ from copy import copy
 from functools import partial
 from pprint import pformat
 
-from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS,
-                                HUNTERLAB_ILLUMINANTS)
+from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
+                                TVS_ILLUMINANT_HUNTERLAB)
 from colour.colorimetry import (colorimetric_purity, complementary_wavelength,
                                 dominant_wavelength, excitation_purity,
                                 lightness, luminance, luminous_efficacy,
@@ -273,15 +273,15 @@ Default automatic colour conversion graph illuminant name.
 _DEFAULT_ILLUMINANT : unicode
 """
 
-_DEFAULT_ILLUMINANT_SD = ILLUMINANT_SDS[_DEFAULT_ILLUMINANT]
+_DEFAULT_ILLUMINANT_SD = SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT]
 """
 Default automatic colour conversion graph illuminant spectral distribution.
 
 _DEFAULT_ILLUMINANT_SD : SpectralDistribution
 """
 
-_DEFAULT_ILLUMINANT_XY = ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    _DEFAULT_ILLUMINANT]
+_DEFAULT_ILLUMINANT_XY = CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][_DEFAULT_ILLUMINANT]
 """
 Default automatic colour conversion graph illuminant *CIE xy* chromaticity
 coordinates.
@@ -361,22 +361,22 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'Hunter Lab',
      partial(
          XYZ_to_Hunter_Lab,
-         XYZ_n=HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('Hunter Lab', 'CIE XYZ',
      partial(
          Hunter_Lab_to_XYZ,
-         XYZ_n=HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('CIE XYZ', 'Hunter Rdab',
      partial(
          XYZ_to_Hunter_Rdab,
-         XYZ_n=HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('Hunter Rdab', 'CIE XYZ',
      partial(
          Hunter_Rdab_to_XYZ,
-         XYZ_n=HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('CIE XYZ', 'IPT', XYZ_to_IPT),
     ('IPT', 'CIE XYZ', IPT_to_XYZ),
@@ -799,7 +799,7 @@ def convert(a, source, target, **kwargs):
         :func:`colour.sd_to_XYZ` definition is done as follows::
 
             convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={\
-'illuminant': ILLUMINANT_SDS['FL2']})
+'illuminant': SDS_ILLUMINANTS['FL2']})
 
         It is also possible to pass keyword arguments directly to the various
         conversion definitions irrespective of their name. This is
@@ -811,11 +811,11 @@ def convert(a, source, target, **kwargs):
         definition. Consider the following conversion::
 
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-ILLUMINANT_SDS['FL2'])
+SDS_ILLUMINANTS['FL2'])
 
         Because both the :func:`colour.sd_to_XYZ` and
         :func:`colour.XYZ_to_sRGB` definitions have an *illuminant* argument,
-        `ILLUMINANT_SDS['FL2']` will be passed to both of them and will raise
+        `SDS_ILLUMINANTS['FL2']` will be passed to both of them and will raise
         an exception in the :func:`colour.XYZ_to_sRGB` definition. This will
         be addressed in the future by either catching the exception and trying
         a new time without the keyword argument or more elegantly via type
@@ -828,8 +828,8 @@ ILLUMINANT_SDS['FL2'])
         definition arguments::
 
             a = np.array([0.20654008, 0.12197225, 0.05136952])
-            illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']\
-['D65']
+            illuminant = CCS_ILLUMINANTS[\
+'CIE 1931 2 Degree Standard Observer']['D65']
             for model in ('CIE xyY', 'CIE Lab'):
                 convert(a, 'CIE XYZ', model, illuminant=illuminant)
 
@@ -844,10 +844,10 @@ illuminant}, XYZ_to_Lab={'illuminant': illuminant})
         first and then the resulting dict is updated with the explicit
         conversion definition arguments::
 
-            illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']\
-['D65']
+            illuminant = CCS_ILLUMINANTS[\
+'CIE 1931 2 Degree Standard Observer']['D65']
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-ILLUMINANT_SDS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
+SDS_ILLUMINANTS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
 
         For inspection purposes, verbose is enabled by passing arguments to the
         :func:`colour.describe_conversion_path` definition via the ``verbose``
@@ -916,7 +916,7 @@ verbose={'mode': 'Long'})
     *                                                                         *
     ===========================================================================
     array([ 0.4567579...,  0.3098698...,  0.2486192...])
-    >>> illuminant = ILLUMINANT_SDS['FL2']
+    >>> illuminant = SDS_ILLUMINANTS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
     ...     sd_to_XYZ={'illuminant': illuminant})
     ... # doctest: +ELLIPSIS

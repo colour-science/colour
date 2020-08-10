@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.quality import CRI_Specification, colour_rendering_index
-from colour.colorimetry import ILLUMINANT_SDS, SpectralDistribution
+from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
 from colour.quality.cri import TCS_ColorimetryData, TCS_ColourQualityScaleData
 
 __author__ = 'Colour Developers'
@@ -118,17 +118,17 @@ class TestColourRenderingIndex(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour_rendering_index(ILLUMINANT_SDS['FL1']),
+            colour_rendering_index(SDS_ILLUMINANTS['FL1']),
             75.852827992149358,
             places=7)
 
         self.assertAlmostEqual(
-            colour_rendering_index(ILLUMINANT_SDS['FL2']),
+            colour_rendering_index(SDS_ILLUMINANTS['FL2']),
             64.233724121664778,
             places=7)
 
         self.assertAlmostEqual(
-            colour_rendering_index(ILLUMINANT_SDS['A']),
+            colour_rendering_index(SDS_ILLUMINANTS['A']),
             99.996230290506887,
             places=7)
 
@@ -329,7 +329,7 @@ class TestColourRenderingIndex(unittest.TestCase):
             ]))
 
         specification_t = colour_rendering_index(
-            ILLUMINANT_SDS['FL1'], additional_data=True)
+            SDS_ILLUMINANTS['FL1'], additional_data=True)
 
         np.testing.assert_almost_equal(
             [

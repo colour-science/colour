@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (
-    ILLUMINANT_SDS, SpectralShape, sd_CIE_standard_illuminant_A,
+    SDS_ILLUMINANTS, SpectralShape, sd_CIE_standard_illuminant_A,
     sd_CIE_illuminant_D_series, daylight_locus_function)
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
@@ -22,11 +22,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'A_DATA', 'TestSdCIEStandardIlluminantA', 'TestSdCIEIlluminantDSeries',
+    'DATA_A', 'TestSdCIEStandardIlluminantA', 'TestSdCIEIlluminantDSeries',
     'TestDaylightLocusFunction'
 ]
 
-A_DATA = np.array([
+DATA_A = np.array([
     6.14461778,
     6.94719899,
     7.82134941,
@@ -139,7 +139,7 @@ sd_CIE_standard_illuminant_A` definition.
 
         np.testing.assert_almost_equal(
             sd_CIE_standard_illuminant_A(SpectralShape(360, 830, 5)).values,
-            A_DATA,
+            DATA_A,
             decimal=7)
 
 
@@ -163,7 +163,7 @@ sd_CIE_illuminant_D_series` definition.
         ):
             CCT = CCT * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
-            sd_r = ILLUMINANT_SDS[name]
+            sd_r = SDS_ILLUMINANTS[name]
             sd_t = sd_CIE_illuminant_D_series(xy)
 
             np.testing.assert_allclose(

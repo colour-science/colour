@@ -30,8 +30,8 @@ print('\n')
 message_box(('Computing the chromatic adaptation matrix from '
              '"CIE Standard Illuminant A" to '
              '"CIE Standard Illuminant D Series D65" using "Von Kries" CAT.'))
-A = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
-D65 = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
+A = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
+D65 = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 print(
     colour.adaptation.chromatic_adaptation_matrix_VonKries(
         colour.xy_to_XYZ(A), colour.xy_to_XYZ(D65), transform='Von Kries'))

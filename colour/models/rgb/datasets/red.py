@@ -30,7 +30,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace, normalised_primary_matrix, log_encoding_REDLogFilm,
     log_decoding_REDLogFilm, log_encoding_Log3G10, log_decoding_Log3G10)
@@ -84,7 +84,7 @@ RED_COLOR_WHITEPOINT_NAME = 'D65'
 RED_COLOR_WHITEPOINT_NAME : unicode
 """
 
-RED_COLOR_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+RED_COLOR_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     RED_COLOR_WHITEPOINT_NAME])
 """
 *REDcolor* colourspace whitepoint.

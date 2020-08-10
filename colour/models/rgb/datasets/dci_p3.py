@@ -30,7 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
@@ -83,8 +83,8 @@ official reference spectral measurement for this whitepoint. The closest
 matching spectral distribution is Kinoton 75P projector.
 """
 
-DCI_P3_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DCI_P3_WHITEPOINT_NAME])
+DCI_P3_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    DCI_P3_WHITEPOINT_NAME])
 """
 *DCI-P3* colourspace whitepoint.
 

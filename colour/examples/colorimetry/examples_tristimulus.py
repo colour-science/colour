@@ -96,8 +96,8 @@ sample_sd_data = {
 
 sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
 
-cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
-illuminant = colour.ILLUMINANT_SDS['A']
+cmfs = colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+illuminant = colour.SDS_ILLUMINANTS['A']
 
 message_box(('Computing *CIE XYZ* tristimulus values for sample spectral '
              'distribution and "CIE Standard Illuminant A".'))
@@ -115,7 +115,7 @@ message_box(('Computing *CIE XYZ* tristimulus values for a single given '
              'wavelength in nm.'))
 print(
     colour.wavelength_to_XYZ(
-        546.1, colour.CMFS['CIE 1931 2 Degree Standard Observer']))
+        546.1, colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer']))
 
 message_box(('Computing *CIE XYZ* tristimulus values from given '
              'multi-spectral image with shape (4, 3, 6).'))

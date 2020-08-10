@@ -29,7 +29,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_decoding_Protune,
                                log_encoding_Protune, normalised_primary_matrix)
 
@@ -64,8 +64,8 @@ PROTUNE_NATIVE_WHITEPOINT_NAME = 'D65'
 PROTUNE_NATIVE_WHITEPOINT_NAME : unicode
 """
 
-PROTUNE_NATIVE_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                             [PROTUNE_NATIVE_WHITEPOINT_NAME])
+PROTUNE_NATIVE_WHITEPOINT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][PROTUNE_NATIVE_WHITEPOINT_NAME])
 """
 *Protune Native* colourspace whitepoint.
 

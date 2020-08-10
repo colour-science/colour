@@ -15,7 +15,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import LIGHT_SOURCES
+from colour.colorimetry import CCS_LIGHT_SOURCES
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -30,7 +30,7 @@ __all__ = [
 ]
 
 POINTER_GAMUT_ILLUMINANT = (
-    LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer']['SC'])
+    CCS_LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer']['SC'])
 """
 *Pointer's Gamut* illuminant *SC*.
 

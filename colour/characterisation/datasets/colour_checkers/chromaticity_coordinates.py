@@ -49,7 +49,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import OrderedDict, namedtuple
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import Lab_to_XYZ, XYZ_to_xyY
 from colour.utilities import CaseInsensitiveMapping
 
@@ -157,7 +157,7 @@ DATA_COLORCHECKER1976 = OrderedDict(
     ]))
 
 CCS_ILLUMINANT_COLORCHECKER1976 = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['C'])
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['C'])
 """
 *ColorChecker Classic 1976* illuminant.
 
@@ -203,7 +203,7 @@ DATA_COLORCHECKER2005 = OrderedDict(
     ]))
 
 CCS_ILLUMINANT_COLORCHECKER2005 = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *ColorChecker Classic 2005* illuminant.
 
@@ -247,7 +247,7 @@ DATA_BABELCOLOR_AVERAGE = OrderedDict(
     ]))
 
 CCS_ILLUMINANT_BABELCOLOR_AVERAGE = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *BabelColor Average* illuminant.
 
@@ -308,11 +308,11 @@ DATA_COLORCHECKER24_BEFORE_NOV2014 = OrderedDict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(DATA_COLORCHECKER24_BEFORE_NOV2014.values()),
-                ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+                CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
                     'ICC D50']))))
 
 CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014 = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *ColorChecker24 - Before November 2014* illuminant.
 
@@ -379,11 +379,11 @@ DATA_COLORCHECKER24_AFTER_NOV2014 = OrderedDict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(DATA_COLORCHECKER24_AFTER_NOV2014.values()),
-                ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+                CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
                     'ICC D50']))))
 
 CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014 = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *ColorChecker24 - After November 2014* illuminant.
 

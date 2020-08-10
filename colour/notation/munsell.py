@@ -123,7 +123,7 @@ from collections import OrderedDict
 from colour.algebra import (Extrapolator, LinearInterpolator,
                             cartesian_to_cylindrical, euclidean_distance,
                             polar_to_cartesian, spow)
-from colour.colorimetry import ILLUMINANTS, luminance_ASTMD1535
+from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE,
                               INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
@@ -194,7 +194,7 @@ MUNSELL_HUE_LETTER_CODES = Lookup({
 })
 
 MUNSELL_DEFAULT_ILLUMINANT = 'C'
-MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = (ILLUMINANTS[
+MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][MUNSELL_DEFAULT_ILLUMINANT])
 
 _MUNSELL_SPECIFICATIONS_CACHE = None

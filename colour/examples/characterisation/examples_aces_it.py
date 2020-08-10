@@ -46,6 +46,6 @@ path = os.path.join(
     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
 sensitivities = colour.colorimetry.sds_and_multi_sds_to_multi_sds(
     colour.io.read_sds_from_csv_file(path).values())
-illuminant = colour.ILLUMINANT_SDS['D55']
+illuminant = colour.SDS_ILLUMINANTS['D55']
 
 print(colour.idt_matrix(sensitivities, illuminant))

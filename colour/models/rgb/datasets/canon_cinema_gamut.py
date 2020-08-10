@@ -19,7 +19,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, linear_function,
                                normalised_primary_matrix)
 
@@ -54,8 +54,8 @@ CINEMA_GAMUT_WHITEPOINT_NAME = 'D65'
 CINEMA_GAMUT_WHITEPOINT_NAME : unicode
 """
 
-CINEMA_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    CINEMA_GAMUT_WHITEPOINT_NAME])
+CINEMA_GAMUT_WHITEPOINT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][CINEMA_GAMUT_WHITEPOINT_NAME])
 """
 *Canon Cinema Gamut* colourspace whitepoint.
 

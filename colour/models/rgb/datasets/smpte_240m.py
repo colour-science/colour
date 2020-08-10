@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
                                oetf_SMPTE240M, eotf_SMPTE240M)
 
@@ -55,8 +55,8 @@ SMPTE_240M_WHITEPOINT_NAME = 'D65'
 SMPTE_240M_WHITEPOINT_NAME : unicode
 """
 
-SMPTE_240M_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    SMPTE_240M_WHITEPOINT_NAME])
+SMPTE_240M_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                         [SMPTE_240M_WHITEPOINT_NAME])
 """
 *SMPTE 240M* colourspace whitepoint.
 

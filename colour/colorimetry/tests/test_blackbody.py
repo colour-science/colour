@@ -20,10 +20,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PLANCK_LAW_DATA', 'BLACKBODY_SD_DATA', 'TestPlanckLaw', 'TestSdBlackbody'
+    'DATA_PLANCK_LAW', 'DATA_BLACKBODY', 'TestPlanckLaw', 'TestSdBlackbody'
 ]
 
-PLANCK_LAW_DATA = {
+DATA_PLANCK_LAW = {
     1667: {
         10: 0.000000000000000,
         20: 0.000000000000000,
@@ -4030,7 +4030,7 @@ PLANCK_LAW_DATA = {
     }
 }
 
-BLACKBODY_SD_DATA = np.array([
+DATA_BLACKBODY = np.array([
     6654.27827064,
     6709.60527925,
     6764.82512152,
@@ -4516,7 +4516,7 @@ class TestPlanckLaw(unittest.TestCase):
         Tests :func:`colour.colorimetry.blackbody.planck_law` definition.
         """
 
-        for temperature, wavelengths in sorted(PLANCK_LAW_DATA.items()):
+        for temperature, wavelengths in sorted(DATA_PLANCK_LAW.items()):
             for wavelength, radiance in sorted(wavelengths.items()):
                 np.testing.assert_allclose(
                     planck_law(wavelength * 1e-9, temperature),
@@ -4572,7 +4572,7 @@ class TestSdBlackbody(unittest.TestCase):
 
         np.testing.assert_allclose(
             sd_blackbody(5000, SpectralShape(360, 830, 1)).values,
-            BLACKBODY_SD_DATA,
+            DATA_BLACKBODY,
             rtol=0.0000001,
             atol=0.0000001)
 

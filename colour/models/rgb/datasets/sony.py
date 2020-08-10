@@ -48,7 +48,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_SLog2,
                                log_decoding_SLog2, log_encoding_SLog3,
                                log_decoding_SLog3, normalised_primary_matrix)
@@ -94,7 +94,7 @@ S_GAMUT_WHITEPOINT_NAME = 'D65'
 S_GAMUT_WHITEPOINT_NAME : unicode
 """
 
-S_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+S_GAMUT_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     S_GAMUT_WHITEPOINT_NAME])
 """
 *S-Gamut* colourspace whitepoint.

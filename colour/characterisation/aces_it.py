@@ -56,7 +56,7 @@ from scipy.optimize import minimize
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
-    CMFS, ILLUMINANT_SDS, SpectralShape, sds_and_multi_sds_to_multi_sds,
+    MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape, sds_and_multi_sds_to_multi_sds,
     sd_CIE_illuminant_D_series, sd_blackbody, sd_to_XYZ)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.characterisation import MSDS_ACES_RICD
@@ -103,7 +103,7 @@ S_FLARE_FACTOR : float
 
 def sd_to_aces_relative_exposure_values(
         sd,
-        illuminant=ILLUMINANT_SDS['D65'],
+        illuminant=SDS_ILLUMINANTS['D65'],
         apply_chromatic_adaptation=False,
         chromatic_adaptation_transform='CAT02'):
     """
@@ -366,7 +366,7 @@ def white_balance_multipliers(sensitivities, illuminant):
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
     >>> sensitivities = sds_and_multi_sds_to_multi_sds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = ILLUMINANT_SDS['D55']
+    >>> illuminant = SDS_ILLUMINANTS['D55']
     >>> white_balance_multipliers(sensitivities, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
@@ -412,7 +412,8 @@ def best_illuminant(RGB_w, sensitivities, illuminants):
     >>> sensitivities = sds_and_multi_sds_to_multi_sds(
     ...     read_sds_from_csv_file(path).values())
     >>> illuminants = generate_illuminants_rawtoaces_v1()
-    >>> RGB_w = white_balance_multipliers(sensitivities, ILLUMINANT_SDS['FL2'])
+    >>> RGB_w = white_balance_multipliers(
+    ...     sensitivities, SDS_ILLUMINANTS['FL2'])
     >>> # Doctests skip for Python 2.x compatibility.
     >>> best_illuminant(RGB_w, sensitivities, illuminants).name
     ... # doctest: +SKIP
@@ -460,7 +461,7 @@ def normalise_illuminant(illuminant, sensitivities):
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
     >>> sensitivities = sds_and_multi_sds_to_multi_sds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = ILLUMINANT_SDS['D55']
+    >>> illuminant = SDS_ILLUMINANTS['D55']
     >>> np.sum(illuminant.values)  # doctest: +ELLIPSIS
     7276.1490000...
     >>> np.sum(normalise_illuminant(illuminant, sensitivities).values)
@@ -506,7 +507,8 @@ def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
     >>> sensitivities = sds_and_multi_sds_to_multi_sds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = normalise_illuminant(ILLUMINANT_SDS['D55'], sensitivities)
+    >>> illuminant = normalise_illuminant(
+    ...     SDS_ILLUMINANTS['D55'], sensitivities)
     >>> training_data = read_training_data_rawtoaces_v1()
     >>> training_data_sds_to_RGB(training_data, sensitivities, illuminant)[:5]
     ... # doctest: +ELLIPSIS
@@ -563,10 +565,11 @@ def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
     >>> path = os.path.join(
     ...     RAWTOACES_RESOURCES_DIRECTORY,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> sensitivities = sds_and_multi_sds_to_multi_sds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = normalise_illuminant(ILLUMINANT_SDS['D55'], sensitivities)
+    >>> illuminant = normalise_illuminant(
+    ...     SDS_ILLUMINANTS['D55'], sensitivities)
     >>> training_data = read_training_data_rawtoaces_v1()
     >>> training_data_sds_to_XYZ(training_data, cmfs, illuminant)[:5]
     ... # doctest: +ELLIPSIS
@@ -707,7 +710,7 @@ def optimisation_factory_JzAzBz():
 def idt_matrix(sensitivities,
                illuminant,
                training_data=read_training_data_rawtoaces_v1(),
-               cmfs= CMFS['CIE 1931 2 Degree Standard Observer'].copy()
+               cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].copy()
                .align(SPECTRAL_SHAPE_RAWTOACES),
                optimisation_factory=optimisation_factory_rawtoaces_v1,
                optimisation_kwargs=None):
@@ -754,7 +757,7 @@ def idt_matrix(sensitivities,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
     >>> sensitivities = sds_and_multi_sds_to_multi_sds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = ILLUMINANT_SDS['D55']
+    >>> illuminant = SDS_ILLUMINANTS['D55']
     >>> np.around(
     ...     idt_matrix(sensitivities, illuminant), 3)
     array([[ 0.85 , -0.016,  0.151],

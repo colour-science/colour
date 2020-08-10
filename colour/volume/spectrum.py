@@ -20,8 +20,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import six
 
-from colour.colorimetry import (STANDARD_OBSERVER_CMFS, multi_sds_to_XYZ,
-                                SpectralShape, sd_ones)
+from colour.colorimetry import (MSDS_CMFS, multi_sds_to_XYZ, SpectralShape,
+                                sd_ones)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
 from colour.utilities import zeros
@@ -137,7 +137,7 @@ def generate_pulse_waves(bins):
 
 
 def XYZ_outer_surface(
-        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         **kwargs):
@@ -170,10 +170,10 @@ def XYZ_outer_surface(
 
     Examples
     --------
-    >>> from colour.colorimetry import DEFAULT_SPECTRAL_SHAPE
+    >>> from colour.colorimetry import SPECTRAL_SHAPE_DEFAULT
     >>> shape = SpectralShape(
-    ...     DEFAULT_SPECTRAL_SHAPE.start, DEFAULT_SPECTRAL_SHAPE.end, 84)
-    >>> cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+    ...     SPECTRAL_SHAPE_DEFAULT.start, SPECTRAL_SHAPE_DEFAULT.end, 84)
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> XYZ_outer_surface(cmfs.copy().align(shape))  # doctest: +ELLIPSIS
     array([[  0.0000000...e+00,   0.0000000...e+00,   0.0000000...e+00],
            [  9.6361381...e-05,   2.9056776...e-06,   4.4961226...e-04],
@@ -226,7 +226,7 @@ def XYZ_outer_surface(
 
 def is_within_visible_spectrum(
         XYZ,
-        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         tolerance=None,

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Light Source Chromaticity Coordinates
-=====================================
+Chromaticity Coordinates of the Light Sources
+============================================
 
-Defines various light source chromaticity coordinates.
+Defines the chromaticity coordinates of the light sources.
 
 The following light sources are available:
 
@@ -57,20 +57,20 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'LIGHT_SOURCES_RIT_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_COMMON_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES_COMMON_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
-    'LIGHT_SOURCES'
+    'CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_10_DEGREE_CIE1964',
+    'CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_10_DEGREE_CIE1964',
+    'CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_10_DEGREE_CIE1964',
+    'CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_10_DEGREE_CIE1964',
+    'CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_10_DEGREE_CIE1964',
+    'CCS_LIGHT_SOURCES'
 ]
 
-LIGHT_SOURCES_RIT_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
     CaseInsensitiveMapping({
         'Natural':
             np.array([0.381585730647787, 0.359224138274067]),
@@ -90,8 +90,8 @@ LIGHT_SOURCES_RIT_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
             np.array([0.381919124282806, 0.374309261641251])
     }))
 """
-Light source chromaticity coordinates from *RIT* *PointerData.xls* spreadsheet
-for *CIE 1931 2 Degree Standard Observer*.
+Chromaticity coordinates of the light sources from the *RIT* *PointerData.xls*
+spreadsheet for the *CIE 1931 2 Degree Standard Observer*.
 
 Warning
 -------
@@ -103,12 +103,13 @@ References
 ----------
 :cite:`Pointer1980a`
 
-LIGHT_SOURCES_RIT_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931 : \
+CaseInsensitiveMapping
     **{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
     'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}**
 """
 
-LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
     CaseInsensitiveMapping({
         'Natural':
             np.array([0.384870991183035, 0.353869223366545]),
@@ -128,15 +129,16 @@ LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
             np.array([0.385533929282467, 0.370840492090948])
     }))
 """
-Light source chromaticity coordinates from *RIT* *PointerData.xls* spreadsheet
-for *CIE 1964 10 Degree Standard Observer*. [1]_
+Chromaticity coordinates of the light sources from the *RIT* *PointerData.xls*
+spreadsheet for the *CIE 1964 10 Degree Standard Observer*.
 
-LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
+CaseInsensitiveMapping
     **{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
     'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}**
 """
 
-LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
     CaseInsensitiveMapping({
         'Cool White FL':
             np.array([0.369256318971281, 0.372549878176631]),
@@ -160,7 +162,7 @@ LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
             np.array([0.413163268257275, 0.396422053758680])
     }))
 """
-Traditional light source chromaticity coordinates from *NIST*
+Chromaticity coordinates of the traditional light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet for the
 *CIE 1931 2 Degree Standard Observer*.
 
@@ -168,13 +170,13 @@ References
 ----------
 :cite:`Ohno2008a`
 
-LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
-    CaseInsensitiveMapping
+CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_2_DEGREE_CIE1931 : \
+CaseInsensitiveMapping
     **{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
     'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}**
 """
 
-LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
     CaseInsensitiveMapping({
         'Cool White FL':
             np.array([0.376715047518455, 0.364576802118673]),
@@ -198,17 +200,17 @@ LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
             np.array([0.418591963931736, 0.388947713332192])
     }))
 """
-Traditional light source chromaticity coordinates from *NIST*
+Chromaticity coordinates of the traditional light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet for the
-*CIE 1964 10 Degree Standard Observer*. [2]_
+*CIE 1964 10 Degree Standard Observer*.
 
-LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
-    CaseInsensitiveMapping
+CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
+CaseInsensitiveMapping
     **{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
     'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}**
 """
 
-LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
     CaseInsensitiveMapping({
         '3-LED-1 (457/540/605)':
             np.array([0.417057686949170, 0.396262457986602]),
@@ -242,11 +244,11 @@ LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
             np.array([0.307761817314310, 0.325268939239941])
     }))
 """
-LED light source chromaticity coordinates from *NIST*
+Chromaticity coordinates of the LED light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet for the
-*CIE 1931 2 Degree Standard Observer*. [2]_
+*CIE 1931 2 Degree Standard Observer*.
 
-LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
+CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_2_DEGREE_CIE1931 :
     **{'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
     '3-LED-3 (465/546/614)', '3-LED-4 (455/547/623)', '4-LED No Yellow',
     '4-LED Yellow', '4-LED-1 (461/526/576/624)', '4-LED-2 (447/512/573/627)',
@@ -254,7 +256,7 @@ LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     'Phosphor LED YAG'}**
 """
 
-LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
     CaseInsensitiveMapping({
         '3-LED-1 (457/540/605)':
             np.array([0.425099988926548, 0.389451349911075]),
@@ -288,12 +290,12 @@ LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
             np.array([0.312807834772696, 0.334180937864035])
     }))
 """
-LED light source chromaticity coordinates from *NIST*
+Chromaticity coordinates of the LED light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet for the
-*CIE 1964 10 Degree Standard Observer*. [2]_
+*CIE 1964 10 Degree Standard Observer*.
 
-LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
-    CaseInsensitiveMapping
+CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
+CaseInsensitiveMapping
     **{'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
     '3-LED-3 (465/546/614)', '3-LED-4 (455/547/623)', '4-LED No Yellow',
     '4-LED Yellow', '4-LED-1 (461/526/576/624)', '4-LED-2 (447/512/573/627)',
@@ -301,7 +303,7 @@ LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     'Phosphor LED YAG'}**
 """
 
-LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
     CaseInsensitiveMapping({
         '60 A/W (Soft White)':
             np.array([0.450730217519680, 0.408046128945005]),
@@ -349,12 +351,12 @@ LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
             np.array([0.472339157938672, 0.407106330880316])
     }))
 """
-Philips light source chromaticity coordinates from *NIST*
+Chromaticity coordinates of the Philips light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet for the
-*CIE 1931 2 Degree Standard Observer*. [2]_
+*CIE 1931 2 Degree Standard Observer*.
 
-LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
-    CaseInsensitiveMapping
+CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_2_DEGREE_CIE1931 : \
+CaseInsensitiveMapping
     **{'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
     'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
     'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
@@ -366,7 +368,7 @@ LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}**
 """
 
-LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
     CaseInsensitiveMapping({
         '60 A/W (Soft White)':
             np.array([0.454365604973572, 0.406573684216774]),
@@ -414,12 +416,12 @@ LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
             np.array([0.476461908192661, 0.402288012403575])
     }))
 """
-Philips light source chromaticity coordinates from *NIST*
+Chromaticity coordinates of the Philips light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet for the
-*CIE 1964 10 Degree Standard Observer*. [2]_
+*CIE 1964 10 Degree Standard Observer*.
 
-LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
-    CaseInsensitiveMapping
+CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
+CaseInsensitiveMapping
     **{'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
     'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
     'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
@@ -431,48 +433,48 @@ LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}**
 """
 
-LIGHT_SOURCES_COMMON_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
     CaseInsensitiveMapping({
         'Kinoton 75P': np.array([0.315252413629716, 0.332870794805328])
     }))
 """
-Common light source chromaticity coordinates for the
+Chromaticity coordinates of the common light sources for the
 *CIE 1931 2 Degree Standard Observer*.
 
 References
 ----------
 :cite:`Houston2015a`
 
-LIGHT_SOURCES_COMMON_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
-    CaseInsensitiveMapping
+CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_2_DEGREE_CIE1931 : \
+CaseInsensitiveMapping
     **{'Kinoton 75P', }**
 """
 
-LIGHT_SOURCES_COMMON_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
+CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
     CaseInsensitiveMapping({
         'Kinoton 75P': np.array([0.317086642148234, 0.336222428041514])
     }))
 """
-Common light source chromaticity coordinates for the
-*CIE 1964 10 Degree Standard Observer*. [3_]
+Chromaticity coordinates of the common light sources for the
+*CIE 1964 10 Degree Standard Observer*.
 
-LIGHT_SOURCES_COMMON_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
-    CaseInsensitiveMapping
+CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
+CaseInsensitiveMapping
     **{'Kinoton 75P', }**
 """
 
-LIGHT_SOURCES = CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
         CaseInsensitiveMapping(
-            LIGHT_SOURCES_RIT_CIE_1931_2_DEGREE_STANDARD_OBSERVER),
+            CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931),
     'CIE 1964 10 Degree Standard Observer':
         CaseInsensitiveMapping(
-            LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
+            CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_10_DEGREE_CIE1964)
 })
-LIGHT_SOURCES.__doc__ = """
-Aggregated light source chromaticity coordinates.
+CCS_LIGHT_SOURCES.__doc__ = """
+Chromaticity coordinates of the light sources.
 
-LIGHT_SOURCES : CaseInsensitiveMapping
+CCS_LIGHT_SOURCES : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer'}**
 
@@ -481,27 +483,27 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-LIGHT_SOURCES['cie_2_1931'] = (
-    LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'])
-LIGHT_SOURCES['cie_10_1964'] = (
-    LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'])
+CCS_LIGHT_SOURCES['cie_2_1931'] = (
+    CCS_LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'])
+CCS_LIGHT_SOURCES['cie_10_1964'] = (
+    CCS_LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'])
 
-LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'].update(
-    LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
-LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
-    LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
+CCS_LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'].update(
+    CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_2_DEGREE_CIE1931)
+CCS_LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
+    CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_10_DEGREE_CIE1964)
 
-LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'].update(
-    LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
-LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
-    LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
+CCS_LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'].update(
+    CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_2_DEGREE_CIE1931)
+CCS_LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
+    CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_10_DEGREE_CIE1964)
 
-LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'].update(
-    LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
-LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
-    LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
+CCS_LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'].update(
+    CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_2_DEGREE_CIE1931)
+CCS_LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
+    CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_10_DEGREE_CIE1964)
 
-LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'].update(
-    LIGHT_SOURCES_COMMON_CIE_1931_2_DEGREE_STANDARD_OBSERVER)
-LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
-    LIGHT_SOURCES_COMMON_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
+CCS_LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer'].update(
+    CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_2_DEGREE_CIE1931)
+CCS_LIGHT_SOURCES['CIE 1964 10 Degree Standard Observer'].update(
+    CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_10_DEGREE_CIE1964)

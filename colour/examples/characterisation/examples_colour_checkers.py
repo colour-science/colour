@@ -36,7 +36,7 @@ message_box(('Converting "ColorChecker 2005" colour rendition chart "CIE xyY" '
 for name, xyY in data.items():
     RGB = colour.XYZ_to_RGB(
         colour.xyY_to_XYZ(xyY), illuminant,
-        colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+        colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
         colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix, 'Bradford',
         colour.RGB_COLOURSPACES['sRGB'].cctf_encoding)
 

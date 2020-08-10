@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 from functools import partial
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
@@ -52,7 +52,7 @@ EKTA_SPACE_PS_5_V_WHITEPOINT_NAME = 'D50'
 EKTA_SPACE_PS_5_V_WHITEPOINT_NAME : unicode
 """
 
-EKTA_SPACE_PS_5_WHITEPOINT = (ILLUMINANTS[
+EKTA_SPACE_PS_5_WHITEPOINT = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][EKTA_SPACE_PS_5_V_WHITEPOINT_NAME])
 """
 *Ekta Space PS 5* colourspace whitepoint.

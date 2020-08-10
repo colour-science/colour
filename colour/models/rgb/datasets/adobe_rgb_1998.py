@@ -18,7 +18,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
@@ -52,8 +52,8 @@ ADOBE_RGB_1998_WHITEPOINT_NAME = 'D65'
 ADOBE_RGB_1998_WHITEPOINT_NAME : unicode
 """
 
-ADOBE_RGB_1998_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                             [ADOBE_RGB_1998_WHITEPOINT_NAME])
+ADOBE_RGB_1998_WHITEPOINT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][ADOBE_RGB_1998_WHITEPOINT_NAME])
 """
 *Adobe RGB (1998)* colourspace whitepoint.
 

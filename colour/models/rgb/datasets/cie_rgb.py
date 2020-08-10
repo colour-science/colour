@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
@@ -59,7 +59,7 @@ CIE_RGB_WHITEPOINT_NAME = 'E'
 CIE_RGB_WHITEPOINT_NAME : unicode
 """
 
-CIE_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+CIE_RGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     CIE_RGB_WHITEPOINT_NAME])
 """
 *CIE RGB* colourspace whitepoint.

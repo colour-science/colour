@@ -23,8 +23,8 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
 from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series, STANDARD_OBSERVER_CMFS,
-    sd_blackbody, sd_to_XYZ)
+    SPECTRAL_SHAPE_DEFAULT, sd_CIE_illuminant_D_series,
+    MSDS_CMFS_STANDARD_OBSERVER, sd_blackbody, sd_to_XYZ)
 from colour.quality.datasets.tcs import TCS_INDEXES_TO_NAMES, TCS_SDS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
@@ -105,14 +105,15 @@ def colour_rendering_index(sd_test, additional_data=False):
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> sd = ILLUMINANT_SDS['FL2']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> sd = SDS_ILLUMINANTS['FL2']
     >>> colour_rendering_index(sd)  # doctest: +ELLIPSIS
     64.2337241...
     """
 
-    cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
-    ).trim(DEFAULT_SPECTRAL_SHAPE)
+    cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+        'CIE 1931 2 Degree Standard Observer'].copy().trim(
+            SPECTRAL_SHAPE_DEFAULT)
 
     shape = cmfs.shape
     sd_test = sd_test.copy().align(shape)

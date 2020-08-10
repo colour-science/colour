@@ -16,7 +16,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
                            sRGB_COLOURSPACE)
 from colour.recovery import SMITS_1999_SDS
@@ -43,7 +43,7 @@ SMITS1999_PRIMARIES : ndarray, (3, 2)
 """
 
 SMITS1999_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
 """
 Current *Smits (1999)* method implementation colourspace whitepoint.
 

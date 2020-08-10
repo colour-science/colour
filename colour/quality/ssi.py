@@ -67,9 +67,9 @@ def spectral_similarity_index(sd_test, sd_reference):
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> sd_test = ILLUMINANT_SDS['C']
-    >>> sd_reference = ILLUMINANT_SDS['D65']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> sd_test = SDS_ILLUMINANTS['C']
+    >>> sd_reference = SDS_ILLUMINANTS['D65']
     >>> spectral_similarity_index(sd_test, sd_reference)
     94.0
     """

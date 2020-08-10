@@ -19,7 +19,7 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import (ILLUMINANTS,
+from colour.colorimetry import (CCS_ILLUMINANTS,
                                 intermediate_lightness_function_CIE1976,
                                 intermediate_luminance_function_CIE1976)
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
@@ -36,9 +36,9 @@ __status__ = 'Production'
 __all__ = ['XYZ_to_Lab', 'Lab_to_XYZ', 'Lab_to_LCHab', 'LCHab_to_Lab']
 
 
-def XYZ_to_Lab(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_Lab(XYZ,
+               illuminant=CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
@@ -106,9 +106,9 @@ def XYZ_to_Lab(
     return from_range_100(Lab)
 
 
-def Lab_to_XYZ(
-        Lab,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def Lab_to_XYZ(Lab,
+               illuminant=CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.

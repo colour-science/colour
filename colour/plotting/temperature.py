@@ -16,7 +16,7 @@ from __future__ import division
 
 import numpy as np
 
-from colour.colorimetry import CMFS, ILLUMINANTS
+from colour.colorimetry import MSDS_CMFS, CCS_ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
@@ -275,12 +275,13 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
-    cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+    cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
 
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
 
-    illuminants = filter_passthrough(ILLUMINANTS.get(cmfs.name), illuminants)
+    illuminants = filter_passthrough(
+        CCS_ILLUMINANTS.get(cmfs.name), illuminants)
 
     settings = {'uniform': True}
     settings.update(kwargs)

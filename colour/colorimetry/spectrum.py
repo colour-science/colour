@@ -5,7 +5,7 @@ Spectrum
 
 Defines the classes and objects handling spectral data computations:
 
--   :class:`colour.DEFAULT_SPECTRAL_SHAPE`
+-   :class:`colour.SPECTRAL_SHAPE_DEFAULT`
 -   :class:`colour.SpectralShape`
 -   :class:`colour.SpectralDistribution`
 -   :class:`colour.MultiSpectralDistributions`
@@ -47,7 +47,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
+    'SpectralShape', 'SPECTRAL_SHAPE_DEFAULT', 'SpectralDistribution',
     'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds',
     'sds_and_multi_sds_to_multi_sds'
 ]
@@ -484,11 +484,11 @@ class SpectralShape(object):
         return self._range
 
 
-DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
+SPECTRAL_SHAPE_DEFAULT = SpectralShape(360, 780, 1)
 """
 Default spectral shape according to *ASTM E308-15* practise shape.
 
-DEFAULT_SPECTRAL_SHAPE : SpectralShape
+SPECTRAL_SHAPE_DEFAULT : SpectralShape
 """
 
 

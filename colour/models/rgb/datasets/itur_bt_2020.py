@@ -21,7 +21,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
                                eotf_inverse_BT2020, eotf_BT2020)
 
@@ -55,8 +55,8 @@ BT2020_WHITEPOINT_NAME = 'D65'
 BT2020_WHITEPOINT_NAME : unicode
 """
 
-BT2020_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT2020_WHITEPOINT_NAME])
+BT2020_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    BT2020_WHITEPOINT_NAME])
 """
 *ITU-R BT.2020* colourspace whitepoint.
 

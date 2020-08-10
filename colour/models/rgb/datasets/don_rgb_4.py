@@ -18,7 +18,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
@@ -53,7 +53,7 @@ DON_RGB_4_WHITEPOINT_NAME = 'D50'
 DON_RGB_4_WHITEPOINT_NAME : unicode
 """
 
-DON_RGB_4_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+DON_RGB_4_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     DON_RGB_4_WHITEPOINT_NAME])
 """
 *Don RGB 4* colourspace whitepoint.

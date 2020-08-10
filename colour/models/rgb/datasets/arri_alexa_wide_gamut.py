@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_ALEXALogC,
                                log_decoding_ALEXALogC)
 
@@ -52,7 +52,7 @@ ALEXA_WIDE_GAMUT_WHITEPOINT_NAME = 'D65'
 ALEXA_WIDE_GAMUT_WHITEPOINT : unicode
 """
 
-ALEXA_WIDE_GAMUT_WHITEPOINT = (ILLUMINANTS[
+ALEXA_WIDE_GAMUT_WHITEPOINT = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][ALEXA_WIDE_GAMUT_WHITEPOINT_NAME])
 """
 *ARRI ALEXA Wide Gamut* colourspace whitepoint.

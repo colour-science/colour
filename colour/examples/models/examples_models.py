@@ -28,7 +28,7 @@ message_box('Using an alternative illuminant.')
 print(
     colour.XYZ_to_xyY(
         np.array([0.00000000, 0.00000000, 0.00000000]),
-        colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ACES'],
+        colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ACES'],
     ))
 
 print('\n')
@@ -59,7 +59,7 @@ print('\n')
 message_box(('Converting to "RGB" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
-D65 = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
+D65 = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 print(
     colour.XYZ_to_RGB(
         XYZ,

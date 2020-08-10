@@ -19,7 +19,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_DJIDLog,
                                log_decoding_DJIDLog)
 
@@ -54,8 +54,8 @@ DJI_D_GAMUT_WHITEPOINT_NAME = 'D65'
 DJI_D_GAMUT_WHITEPOINT : unicode
 """
 
-DJI_D_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    DJI_D_GAMUT_WHITEPOINT_NAME])
+DJI_D_GAMUT_WHITEPOINT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][DJI_D_GAMUT_WHITEPOINT_NAME])
 """
 *DJI D-Gamut* colourspace whitepoint.
 

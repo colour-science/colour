@@ -49,7 +49,7 @@ plot_cvd_simulation_Machado2009(
 print('\n')
 
 M_a = colour.anomalous_trichromacy_matrix_Machado2009(
-    colour.LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
+    colour.MSDS_CMFS_LMS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
     colour.MSDS_DISPLAY_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([10, 0, 0]))
 message_box('Simulating average "Protanomaly" on '
@@ -67,7 +67,7 @@ plot_cvd_simulation_Machado2009(
 print('\n')
 
 M_a = colour.anomalous_trichromacy_matrix_Machado2009(
-    colour.LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
+    colour.MSDS_CMFS_LMS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
     colour.MSDS_DISPLAY_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([20, 0, 0]))
 message_box('Simulating "Protanopia" on '

@@ -17,7 +17,7 @@ sd = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
 print(colour.convert(sd, 'Spectral Distribution', 'sRGB'))
 print(
     colour.XYZ_to_sRGB(
-        colour.sd_to_XYZ(sd, illuminant=colour.ILLUMINANT_SDS['D65']) / 100))
+        colour.sd_to_XYZ(sd, illuminant=colour.SDS_ILLUMINANTS['D65']) / 100))
 
 print('\n')
 
@@ -29,7 +29,7 @@ print(colour.convert(RGB, 'Output-Referred RGB', 'CAM16UCS'))
 specification = colour.XYZ_to_CAM16(
     colour.sRGB_to_XYZ(RGB) * 100,
     XYZ_w=colour.xy_to_XYZ(
-        colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']) *
+        colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']) *
     100,
     L_A=64 / np.pi * 0.2,
     Y_b=20)
@@ -63,7 +63,7 @@ print(
         colour.CAM16_to_XYZ(
             specification,
             XYZ_w=colour.xy_to_XYZ(
-                colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
                 ['D65']) * 100,
             L_A=64 / np.pi * 0.2,
             Y_b=20) / 100))

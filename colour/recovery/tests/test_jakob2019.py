@@ -12,9 +12,9 @@ import tempfile
 import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS,
-                                STANDARD_OBSERVER_CMFS, SpectralDistribution,
-                                sd_to_XYZ)
+from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
+                                MSDS_CMFS_STANDARD_OBSERVER,
+                                SpectralDistribution, sd_to_XYZ)
 from colour.difference import JND_CIE1976, delta_E_CIE1976
 from colour.models import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_Lab
 from colour.recovery.jakob2019 import (
@@ -34,11 +34,11 @@ __all__ = [
     'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestJakob2019Interpolator'
 ]
 
-CMFS = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+MSDS_CMFS = MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
 sRGB = RGB_COLOURSPACES['sRGB']
 PROPHOTO_RGB = RGB_COLOURSPACES['ProPhoto RGB']
-D65 = SpectralDistribution(ILLUMINANT_SDS['D65'])
-D65_XY = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']["D65"]
+D65 = SpectralDistribution(SDS_ILLUMINANTS['D65'])
+D65_XY = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']["D65"]
 
 
 class TestErrorFunction(unittest.TestCase):
@@ -79,7 +79,7 @@ class TestErrorFunction(unittest.TestCase):
 
         # error_function will not align these for us.
         shape = JAKOB2019_SPECTRAL_SHAPE
-        aligned_cmfs = CMFS.copy().align(shape)
+        aligned_cmfs = MSDS_CMFS.copy().align(shape)
         illuminant = D65.copy().align(shape)
         XYZ_n = sd_to_XYZ(D65)
         XYZ_n /= XYZ_n[1]
@@ -111,7 +111,7 @@ class TestErrorFunction(unittest.TestCase):
         """
 
         shape = JAKOB2019_SPECTRAL_SHAPE
-        aligned_cmfs = CMFS.copy().align(shape)
+        aligned_cmfs = MSDS_CMFS.copy().align(shape)
         illuminant = D65.copy().align(shape)
         XYZ_n = sd_to_XYZ(D65)
         XYZ_n /= XYZ_n[1]
@@ -209,7 +209,7 @@ class TestJakob2019Interpolator(unittest.TestCase):
         """
 
         interpolator = Jakob2019Interpolator()
-        interpolator.generate(sRGB, CMFS, D65, 4, verbose=True)
+        interpolator.generate(sRGB, MSDS_CMFS, D65, 4, verbose=True)
 
         path = os.path.join(self._temporary_directory, 'Jakob2019_Test.coeff')
         interpolator.write(path)

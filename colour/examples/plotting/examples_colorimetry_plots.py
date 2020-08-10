@@ -24,7 +24,7 @@ plot_single_illuminant_sd('FL1')
 print('\n')
 
 message_box(('Plotting multiple illuminants spectral ' 'distributions.'))
-pprint(sorted(colour.ILLUMINANT_SDS.keys()))
+pprint(sorted(colour.SDS_ILLUMINANTS.keys()))
 plot_multi_illuminant_sds(
     ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'FL1'])
 
@@ -41,8 +41,8 @@ message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral '
              'distributions.'))
 plot_multi_sds(
     [
-        value
-        for key, value in sorted(colour.colorimetry.D_ILLUMINANT_S_SDS.items())
+        value for key, value in sorted(
+            colour.colorimetry.SDS_ILLUMINANTS_D_SERIES.items())
     ],
     title='CIE Standard Illuminant D Series - S Distributions')
 
@@ -841,7 +841,7 @@ plot_multi_cmfs(
 print('\n')
 
 message_box('Plotting various single colour matching functions.')
-pprint(sorted(colour.CMFS.keys()))
+pprint(sorted(colour.MSDS_CMFS.keys()))
 plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
 plot_single_cmfs('CIE 1964 10 Degree Standard Observer')
 plot_single_cmfs(
@@ -877,16 +877,18 @@ print('\n')
 
 message_box('Plotting photopic luminous efficiency functions.')
 plot_multi_sds(
-    colour.PHOTOPIC_LEFS.values(),
+    colour.SDS_LEFS_PHOTOPIC.values(),
     title='Luminous Efficiency Functions',
     y_label='Luminous Efficiency')
 
 print('\n')
 
 message_box('Comparing photopic and scotopic luminous efficiency functions.')
+LEF_PHOTOPIC = colour.SDS_LEFS_PHOTOPIC[
+    'CIE 2008 2 Degree Physiologically Relevant LEF']
+LEF_SCOTOPIC = colour.SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']
 plot_multi_sds(
-    (colour.PHOTOPIC_LEFS['CIE 2008 2 Degree Physiologically Relevant LEF'],
-     colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
+    (LEF_PHOTOPIC, LEF_SCOTOPIC),
     title='Photopic & Scotopic Luminous Efficiency Functions',
     y_label='Luminous Efficiency')
 
@@ -900,8 +902,8 @@ sd_mesopic_luminous_efficiency_function = (
 
 plot_multi_sds(
     (sd_mesopic_luminous_efficiency_function,
-     colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-     colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
+     colour.SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
+     colour.SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']),
     y_label='Luminous Efficiency')
 
 print('\n')

@@ -7,7 +7,7 @@ import sys
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
-from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
+from .spectrum import (SpectralShape, SPECTRAL_SHAPE_DEFAULT,
                        SpectralDistribution, MultiSpectralDistributions,
                        sds_and_multi_sds_to_sds,
                        sds_and_multi_sds_to_multi_sds)
@@ -27,7 +27,7 @@ from .generation import sd_multi_leds, sd_multi_leds_Ohno2005
 from .tristimulus import SD_TO_XYZ_METHODS, MULTI_SD_TO_XYZ_METHODS
 from .tristimulus import sd_to_XYZ, multi_sds_to_XYZ
 from .tristimulus import (
-    ASTME308_PRACTISE_SHAPE, lagrange_coefficients_ASTME2022,
+    SPECTRAL_SHAPE_ASTME308, lagrange_coefficients_ASTME2022,
     tristimulus_weighting_factors_ASTME2022,
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
@@ -69,7 +69,7 @@ from .yellowness import yellowness
 from .yellowness import yellowness_ASTMD1925, yellowness_ASTME313
 
 __all__ = [
-    'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
+    'SpectralShape', 'SPECTRAL_SHAPE_DEFAULT', 'SpectralDistribution',
     'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds',
     'sds_and_multi_sds_to_multi_sds'
 ]
@@ -90,7 +90,7 @@ __all__ += ['sd_multi_leds', 'sd_multi_leds_Ohno2005']
 __all__ += ['SD_TO_XYZ_METHODS', 'MULTI_SD_TO_XYZ_METHODS']
 __all__ += ['sd_to_XYZ', 'multi_sds_to_XYZ']
 __all__ += [
-    'ASTME308_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME2022',
+    'SPECTRAL_SHAPE_ASTME308', 'lagrange_coefficients_ASTME2022',
     'tristimulus_weighting_factors_ASTME2022',
     'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_ASTME308',
@@ -204,8 +204,64 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
 # v0.3.16
 API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
+        'colour.colorimetry.ASTME308_PRACTISE_SHAPE',
+        'colour.colorimetry.SPECTRAL_SHAPE_ASTME308',
+    ],
+    [
+        'colour.colorimetry.CMFS',
+        'colour.colorimetry.MSDS_CMFS',
+    ],
+    [
         'colour.colorimetry.D_ILLUMINANTS_S_SDS',
-        'colour.colorimetry.D_ILLUMINANT_S_SDS',
+        'colour.colorimetry.SDS_ILLUMINANTS_D_SERIES',
+    ],
+    [
+        'colour.colorimetry.DEFAULT_SPECTRAL_SHAPE',
+        'colour.colorimetry.SPECTRAL_SHAPE_DEFAULT',
+    ],
+    [
+        'colour.colorimetry.HUNTERLAB_ILLUMINANTS',
+        'colour.colorimetry.TVS_ILLUMINANT_HUNTERLAB',
+    ],
+    [
+        'colour.colorimetry.ILLUMINANTS',
+        'colour.colorimetry.CCS_ILLUMINANTS',
+    ],
+    [
+        'colour.colorimetry.ILLUMINANTS_SDS',
+        'colour.colorimetry.SDS_ILLUMINANTS',
+    ],
+    [
+        'colour.colorimetry.LEFS',
+        'colour.colorimetry.SDS_LEFS',
+    ],
+    [
+        'colour.colorimetry.LIGHT_SOURCES',
+        'colour.colorimetry.CCS_LIGHT_SOURCES',
+    ],
+    [
+        'colour.colorimetry.LIGHT_SOURCES_SDS',
+        'colour.colorimetry.SDS_LIGHT_SOURCES',
+    ],
+    [
+        'colour.colorimetry.LMS_CMFS',
+        'colour.colorimetry.MSDS_CMFS_LMS',
+    ],
+    [
+        'colour.colorimetry.PHOTOPIC_LEFS',
+        'colour.colorimetry.SDS_LEFS_PHOTOPIC',
+    ],
+    [
+        'colour.colorimetry.RGB_CMFS',
+        'colour.colorimetry.MSDS_CMFS_RGB',
+    ],
+    [
+        'colour.colorimetry.SCOTOPIC_LEFS',
+        'colour.colorimetry.SDS_LEFS_SCOTOPIC',
+    ],
+    [
+        'colour.colorimetry.STANDARD_OBSERVERS_CMFS',
+        'colour.colorimetry.MSDS_CMFS_STANDARD_OBSERVER',
     ],
 ]
 

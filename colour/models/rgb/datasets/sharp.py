@@ -25,7 +25,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, linear_function,
                                normalised_primary_matrix)
 
@@ -81,7 +81,7 @@ SHARP_RGB_WHITEPOINT_NAME = 'E'
 SHARP_RGB_WHITEPOINT_NAME : unicode
 """
 
-SHARP_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+SHARP_RGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     SHARP_RGB_WHITEPOINT_NAME])
 """
 *Sharp RGB* colourspace whitepoint.

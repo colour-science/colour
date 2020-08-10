@@ -13,7 +13,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
@@ -47,8 +47,8 @@ P3_D65_WHITEPOINT_NAME = 'D65'
 P3_D65_WHITEPOINT_NAME : unicode
 """
 
-P3_D65_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][P3_D65_WHITEPOINT_NAME])
+P3_D65_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    P3_D65_WHITEPOINT_NAME])
 """
 *P3-D65* colourspace whitepoint.
 

@@ -23,7 +23,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralDistribution)
+from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
 from colour.constants import AVOGADRO_CONSTANT
 from colour.utilities import as_float_array, filter_kwargs
 
@@ -658,7 +658,7 @@ def rayleigh_optical_depth(wavelength,
 rayleigh_scattering = rayleigh_optical_depth
 
 
-def sd_rayleigh_scattering(shape=DEFAULT_SPECTRAL_SHAPE,
+def sd_rayleigh_scattering(shape=SPECTRAL_SHAPE_DEFAULT,
                            CO2_concentration=STANDARD_CO2_CONCENTRATION,
                            temperature=STANDARD_AIR_TEMPERATURE,
                            pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,

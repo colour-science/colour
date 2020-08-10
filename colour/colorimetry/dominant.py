@@ -29,7 +29,7 @@ import scipy.spatial.distance
 
 from colour.algebra import (euclidean_distance, extend_line_segment,
                             intersect_line_segments)
-from colour.colorimetry import CMFS
+from colour.colorimetry import MSDS_CMFS
 from colour.models import XYZ_to_xy
 from colour.utilities import as_float_array
 
@@ -78,9 +78,10 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
 
     Examples
     --------
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> xy_s = XYZ_to_xy(CMFS['CIE 1931 2 Degree Standard Observer'].values)
+    >>> xy_s = XYZ_to_xy(cmfs.values)
     >>> ix, intersect = closest_spectral_locus_wavelength(xy, xy_n, xy_s)
     >>> print(ix) #
     256
@@ -118,7 +119,7 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
 
 def dominant_wavelength(xy,
                         xy_n,
-                        cmfs=CMFS['CIE 1931 2 Degree Standard Observer'],
+                        cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
                         inverse=False):
     """
     Returns the *dominant wavelength* :math:`\\lambda_d` for given colour
@@ -165,7 +166,7 @@ def dominant_wavelength(xy,
     >>> from pprint import pprint
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
     (array(616...),
      array([ 0.6835474...,  0.3162840...]),
@@ -207,9 +208,8 @@ def dominant_wavelength(xy,
     return wl, np.squeeze(xy_wl), np.squeeze(xy_cwl)
 
 
-def complementary_wavelength(xy,
-                             xy_n,
-                             cmfs=CMFS['CIE 1931 2 Degree Standard Observer']):
+def complementary_wavelength(
+        xy, xy_n, cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *complementary wavelength* :math:`\\lambda_c` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
@@ -252,7 +252,7 @@ def complementary_wavelength(xy,
     >>> from pprint import pprint
     >>> xy = np.array([0.37605506, 0.24452225])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
     (array(509.0),
      array([ 0.0104096...,  0.7320745...]),
@@ -273,7 +273,7 @@ def complementary_wavelength(xy,
 
 def excitation_purity(xy,
                       xy_n,
-                      cmfs=CMFS['CIE 1931 2 Degree Standard Observer']):
+                      cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *excitation purity* :math:`P_e` for given colour stimulus
     :math:`xy`.
@@ -300,7 +300,7 @@ def excitation_purity(xy,
     --------
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> excitation_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
     0.6228856...
     """
@@ -314,7 +314,7 @@ def excitation_purity(xy,
 
 def colorimetric_purity(xy,
                         xy_n,
-                        cmfs=CMFS['CIE 1931 2 Degree Standard Observer']):
+                        cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *colorimetric purity* :math:`P_c` for given colour stimulus
     :math:`xy`.
@@ -341,7 +341,7 @@ def colorimetric_purity(xy,
     --------
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> colorimetric_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
     0.6135828...
     """

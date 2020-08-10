@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Illuminant Spectral Distributions
+Spectral Distributions of the Illuminants
 =================================
 
-Defines the illuminant spectral distributions.
+Defines the spectral distributions of the illuminants.
 
 The illuminants data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::
@@ -70,11 +70,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ILLUMINANT_CIE_SDS_DATA', 'ILLUMINANT_CIE_SDS', 'ILLUMINANT_ISO_SDS_DATA',
-    'ILLUMINANT_ISO_SDS', 'ILLUMINANT_SDS'
+    'DATA_ILLUMINANTS_CIE', 'SDS_ILLUMINANTS_CIE', 'DATA_ILLUMINANTS_ISO',
+    'SDS_ILLUMINANTS_ISO', 'SDS_ILLUMINANTS'
 ]
 
-ILLUMINANT_CIE_SDS_DATA = {
+DATA_ILLUMINANTS_CIE = {
     'A': {
         300: 0.930483,
         305: 1.128210,
@@ -4575,121 +4575,120 @@ ILLUMINANT_CIE_SDS_DATA = {
     }
 }
 
-ILLUMINANT_CIE_SDS = CaseInsensitiveMapping({
+SDS_ILLUMINANTS_CIE = CaseInsensitiveMapping({
     'A':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['A'], name='A'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['A'], name='A'),
     'B':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['B'], name='B'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['B'], name='B'),
     'C':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['C'], name='C'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['C'], name='C'),
     'D50':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['D50'], name='D50'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['D50'], name='D50'),
     'D55':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['D55'], name='D55'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['D55'], name='D55'),
     'D60':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['D60'], name='D60'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['D60'], name='D60'),
     'D65':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['D65'], name='D65'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['D65'], name='D65'),
     'D75':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['D75'], name='D75'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['D75'], name='D75'),
     'E':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['E'], name='E'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['E'], name='E'),
     'FL1':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL1'], name='FL1'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL1'], name='FL1'),
     'FL2':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL2'], name='FL2'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL2'], name='FL2'),
     'FL3':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3'], name='FL3'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3'], name='FL3'),
     'FL4':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL4'], name='FL4'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL4'], name='FL4'),
     'FL5':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL5'], name='FL5'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL5'], name='FL5'),
     'FL6':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL6'], name='FL6'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL6'], name='FL6'),
     'FL7':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL7'], name='FL7'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL7'], name='FL7'),
     'FL8':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL8'], name='FL8'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL8'], name='FL8'),
     'FL9':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL9'], name='FL9'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL9'], name='FL9'),
     'FL10':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL10'], name='FL10'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL10'], name='FL10'),
     'FL11':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL11'], name='FL11'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL11'], name='FL11'),
     'FL12':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL12'], name='FL12'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL12'], name='FL12'),
     'FL3.1':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.1'], name='FL3.1'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.1'], name='FL3.1'),
     'FL3.2':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.2'], name='FL3.2'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.2'], name='FL3.2'),
     'FL3.3':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.3'], name='FL3.3'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.3'], name='FL3.3'),
     'FL3.4':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.4'], name='FL3.4'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.4'], name='FL3.4'),
     'FL3.5':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.5'], name='FL3.5'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.5'], name='FL3.5'),
     'FL3.6':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.6'], name='FL3.6'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.6'], name='FL3.6'),
     'FL3.7':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.7'], name='FL3.7'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.7'], name='FL3.7'),
     'FL3.8':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.8'], name='FL3.8'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.8'], name='FL3.8'),
     'FL3.9':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.9'], name='FL3.9'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.9'], name='FL3.9'),
     'FL3.10':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.10'], name='FL3.10'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.10'], name='FL3.10'),
     'FL3.11':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.11'], name='FL3.11'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.11'], name='FL3.11'),
     'FL3.12':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.12'], name='FL3.12'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.12'], name='FL3.12'),
     'FL3.13':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.13'], name='FL3.13'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.13'], name='FL3.13'),
     'FL3.14':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.14'], name='FL3.14'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.14'], name='FL3.14'),
     'FL3.15':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['FL3.15'], name='FL3.15'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.15'], name='FL3.15'),
     'HP1':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['HP1'], name='HP1'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP1'], name='HP1'),
     'HP2':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['HP2'], name='HP2'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP2'], name='HP2'),
     'HP3':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['HP3'], name='HP3'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP3'], name='HP3'),
     'HP4':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['HP4'], name='HP4'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP4'], name='HP4'),
     'HP5':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['HP5'], name='HP5'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP5'], name='HP5'),
     'LED-B1':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['LED-B1'], name='LED-B1'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B1'], name='LED-B1'),
     'LED-B2':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['LED-B2'], name='LED-B2'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B2'], name='LED-B2'),
     'LED-B3':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['LED-B3'], name='LED-B3'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B3'], name='LED-B3'),
     'LED-B4':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['LED-B4'], name='LED-B4'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B4'], name='LED-B4'),
     'LED-B5':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['LED-B5'], name='LED-B5'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B5'], name='LED-B5'),
     'LED-BH1':
-        SpectralDistribution(
-            ILLUMINANT_CIE_SDS_DATA['LED-BH1'], name='LED-BH1'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-BH1'], name='LED-BH1'),
     'LED-RGB1':
         SpectralDistribution(
-            ILLUMINANT_CIE_SDS_DATA['LED-RGB1'], name='LED-RGB1'),
+            DATA_ILLUMINANTS_CIE['LED-RGB1'], name='LED-RGB1'),
     'LED-V1':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['LED-V1'], name='LED-V1'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-V1'], name='LED-V1'),
     'LED-V2':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['LED-V2'], name='LED-V2'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-V2'], name='LED-V2'),
     'ID65':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['ID65'], name='ID65'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['ID65'], name='ID65'),
     'ID50':
-        SpectralDistribution(ILLUMINANT_CIE_SDS_DATA['ID50'], name='ID50'),
+        SpectralDistribution(DATA_ILLUMINANTS_CIE['ID50'], name='ID50'),
 })
-ILLUMINANT_CIE_SDS.__doc__ = """
-*CIE* illuminant spectral distributions.
+SDS_ILLUMINANTS_CIE.__doc__ = """
+Spectral distributions of the *CIE* illuminants.
 
 Notes
 -----
 
-*CIE Illuminant D Series D60* illuminant spectral distribution was
+The *CIE Illuminant D Series D60* illuminant spectral distribution was
 computed as follows::
 
     CCT = 6000 * 1.4388 / 1.438
@@ -4701,10 +4700,10 @@ References
 ----------
 :cite:`Carter2018`, :cite:`CIEce`, :cite:`CIEcf`
 
-ILLUMINANT_CIE_SDS : CaseInsensitiveMapping
+SDS_ILLUMINANTS_CIE : CaseInsensitiveMapping
 """
 
-ILLUMINANT_ISO_SDS_DATA = {
+DATA_ILLUMINANTS_ISO = {
     'ISO 7589 Photographic Daylight': {
         350: 28,
         360: 31,
@@ -4953,38 +4952,38 @@ ILLUMINANT_ISO_SDS_DATA = {
     }
 }
 
-ILLUMINANT_ISO_SDS = CaseInsensitiveMapping({
+SDS_ILLUMINANTS_ISO = CaseInsensitiveMapping({
     'ISO 7589 Photographic Daylight':
         SpectralDistribution(
-            ILLUMINANT_ISO_SDS_DATA['ISO 7589 Photographic Daylight'],
+            DATA_ILLUMINANTS_ISO['ISO 7589 Photographic Daylight'],
             name='ISO 7589 Photographic Daylight'),
     'ISO 7589 Sensitometric Daylight':
         SpectralDistribution(
-            ILLUMINANT_ISO_SDS_DATA['ISO 7589 Sensitometric Daylight'],
+            DATA_ILLUMINANTS_ISO['ISO 7589 Sensitometric Daylight'],
             name='ISO 7589 Sensitometric Daylight'),
     'ISO 7589 Studio Tungsten':
         SpectralDistribution(
-            ILLUMINANT_ISO_SDS_DATA['ISO 7589 Studio Tungsten'],
+            DATA_ILLUMINANTS_ISO['ISO 7589 Studio Tungsten'],
             name='ISO 7589 Studio Tungsten'),
     'ISO 7589 Sensitometric Studio Tungsten':
         SpectralDistribution(
-            ILLUMINANT_ISO_SDS_DATA['ISO 7589 Sensitometric Studio Tungsten'],
+            DATA_ILLUMINANTS_ISO['ISO 7589 Sensitometric Studio Tungsten'],
             name='ISO 7589 Sensitometric Studio Tungsten'),
     'ISO 7589 Photoflood':
         SpectralDistribution(
-            ILLUMINANT_ISO_SDS_DATA['ISO 7589 Photoflood'],
+            DATA_ILLUMINANTS_ISO['ISO 7589 Photoflood'],
             name='ISO 7589 Photoflood'),
     'ISO 7589 Sensitometric Photoflood':
         SpectralDistribution(
-            ILLUMINANT_ISO_SDS_DATA['ISO 7589 Sensitometric Photoflood'],
+            DATA_ILLUMINANTS_ISO['ISO 7589 Sensitometric Photoflood'],
             name='ISO 7589 Sensitometric Photoflood'),
     'ISO 7589 Sensitometric Printer':
         SpectralDistribution(
-            ILLUMINANT_ISO_SDS_DATA['ISO 7589 Sensitometric Printer'],
+            DATA_ILLUMINANTS_ISO['ISO 7589 Sensitometric Printer'],
             name='ISO 7589 Sensitometric Printer'),
 })
-ILLUMINANT_ISO_SDS.__doc__ = """
-*ISO* illuminant spectral distributions.
+SDS_ILLUMINANTS_ISO.__doc__ = """
+Spectral distributions of the *ISO* illuminants.
 
 Notes
 -----
@@ -5007,24 +5006,24 @@ References
 ----------
 :cite:`ISO2002`
 
-ILLUMINANT_ISO_SDS : CaseInsensitiveMapping
+SDS_ILLUMINANTS_ISO : CaseInsensitiveMapping
 """
 
-ILLUMINANT_SDS = CaseInsensitiveMapping(ILLUMINANT_CIE_SDS)
-ILLUMINANT_SDS.__doc__ = """
-Aggregated illuminant spectral distributions.
+SDS_ILLUMINANTS = CaseInsensitiveMapping(SDS_ILLUMINANTS_CIE)
+SDS_ILLUMINANTS.__doc__ = """
+Spectral distributions of the illuminants.
 
 References
 ----------
 :cite:`Carter2018`, :cite:`CIEce`, :cite:`CIEcf`, :cite:`ISO2002`
 
-ILLUMINANT_SDS : CaseInsensitiveMapping
+SDS_ILLUMINANTS : CaseInsensitiveMapping
 """
 
-ILLUMINANT_SDS.update(ILLUMINANT_ISO_SDS)
+SDS_ILLUMINANTS.update(SDS_ILLUMINANTS_ISO)
 
 # *CIE 15:2004* recommends using linear interpolation for
 # *CIE Standard Illuminant D Series*, for consistency all the illuminants are
 # using a linear interpolator.
-for _sd in ILLUMINANT_SDS.values():
+for _sd in SDS_ILLUMINANTS.values():
     _sd.interpolator = LinearInterpolator

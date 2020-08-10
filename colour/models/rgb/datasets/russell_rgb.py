@@ -18,7 +18,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry.datasets import ILLUMINANTS
+from colour.colorimetry.datasets import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
@@ -53,8 +53,8 @@ RUSSELL_RGB_WHITEPOINT_NAME = 'D55'
 RUSSELL_RGB_WHITEPOINT_NAME : unicode
 """
 
-RUSSELL_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    RUSSELL_RGB_WHITEPOINT_NAME])
+RUSSELL_RGB_WHITEPOINT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][RUSSELL_RGB_WHITEPOINT_NAME])
 """
 *Russell RGB* colourspace whitepoint.
 

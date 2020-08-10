@@ -217,11 +217,11 @@ Illuminants and Light Sources
 .. autosummary::
     :toctree: generated/
 
-    ILLUMINANTS
-    ILLUMINANT_SDS
-    HUNTERLAB_ILLUMINANTS
-    LIGHT_SOURCES
-    LIGHT_SOURCE_SDS
+    CHROMATICITIES_ILLUMINANT
+    SDS_ILLUMINANT
+    TRISTIMULUS_VALUES_ILLUMINANT_HUNTERLAB
+    CHROMATICITIES_LIGHT_SOURCE
+    SDS_LIGHT_SOURCE
 
 **Ancillary Objects**
 
@@ -232,7 +232,7 @@ Illuminants and Light Sources
 .. autosummary::
     :toctree: generated/
 
-    D_ILLUMINANT_S_SDS
+    SDS_ILLUMINANT_D_SERIES
 
 Dominant Wavelength and Purity
 ------------------------------

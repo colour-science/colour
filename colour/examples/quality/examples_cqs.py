@@ -11,7 +11,7 @@ from colour.utilities import message_box
 message_box('"Colour Quality Scale (CQS)" Computations')
 
 message_box('Computing "F2" illuminant "Colour Quality Scale (CQS)".')
-print(colour.colour_quality_scale(colour.ILLUMINANT_SDS['FL2']))
+print(colour.colour_quality_scale(colour.SDS_ILLUMINANTS['FL2']))
 
 print('\n')
 
@@ -19,7 +19,7 @@ message_box(('Computing "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" '
              'with detailed output data.'))
 pprint(
     colour.colour_quality_scale(
-        colour.LIGHT_SOURCE_SDS['H38HT-100 (Mercury)'], additional_data=True))
+        colour.SDS_LIGHT_SOURCES['H38HT-100 (Mercury)'], additional_data=True))
 
 print('\n')
 
@@ -27,7 +27,7 @@ message_box('Computing "SDW-T 100W/LV Super HPS" lamp '
             '"Colour Quality Scale (CQS)".')
 print(
     colour.colour_quality_scale(
-        colour.LIGHT_SOURCE_SDS['SDW-T 100W/LV (Super HPS)']))
+        colour.SDS_LIGHT_SOURCES['SDW-T 100W/LV (Super HPS)']))
 
 print('\n')
 

@@ -30,8 +30,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANT_S_SDS,
-                                SpectralDistribution)
+from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
+                                SDS_ILLUMINANTS_D_SERIES, SpectralDistribution)
 from colour.utilities import as_float_array, as_numeric, tsplit
 
 __author__ = 'Colour Developers'
@@ -47,7 +47,7 @@ __all__ = [
 ]
 
 
-def sd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_CIE_standard_illuminant_A(shape=SPECTRAL_SHAPE_DEFAULT):
     """
     *CIE Standard Illuminant A* is intended to represent typical, domestic,
     tungsten-filament lighting.
@@ -286,9 +286,9 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
         M1 = np.around(M1, 3)
         M2 = np.around(M2, 3)
 
-    S0 = D_ILLUMINANT_S_SDS['S0']
-    S1 = D_ILLUMINANT_S_SDS['S1']
-    S2 = D_ILLUMINANT_S_SDS['S2']
+    S0 = SDS_ILLUMINANTS_D_SERIES['S0']
+    S1 = SDS_ILLUMINANTS_D_SERIES['S1']
+    S2 = SDS_ILLUMINANTS_D_SERIES['S2']
 
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 

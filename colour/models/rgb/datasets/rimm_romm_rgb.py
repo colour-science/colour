@@ -23,7 +23,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace, cctf_encoding_ROMMRGB, cctf_decoding_ROMMRGB,
     cctf_encoding_RIMMRGB, cctf_decoding_RIMMRGB, log_encoding_ERIMMRGB,
@@ -68,7 +68,7 @@ ROMM_RGB_WHITEPOINT_NAME = 'D50'
 ROMM_RGB_WHITEPOINT_NAME : unicode
 """
 
-ROMM_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+ROMM_RGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     ROMM_RGB_WHITEPOINT_NAME])
 """
 *ROMM RGB* colourspace whitepoint.

@@ -19,7 +19,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import (ILLUMINANTS, lightness_CIE1976,
+from colour.colorimetry import (CCS_ILLUMINANTS, lightness_CIE1976,
                                 luminance_CIE1976)
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
@@ -55,8 +55,8 @@ ECI_RGB_V_WHITEPOINT_NAME = 'D50'
 ECI_RGB_V_WHITEPOINT_NAME : unicode
 """
 
-ECI_RGB_V2_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    ECI_RGB_V_WHITEPOINT_NAME])
+ECI_RGB_V2_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                         [ECI_RGB_V_WHITEPOINT_NAME])
 """
 *ECI RGB v2* colourspace whitepoint.
 

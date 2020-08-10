@@ -19,7 +19,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, eotf_DCDM,
                                normalised_primary_matrix, eotf_inverse_DCDM)
 
@@ -53,7 +53,7 @@ DCDM_XYZ_WHITEPOINT_NAME = 'E'
 DCDM_XYZ_WHITEPOINT_NAME : unicode
 """
 
-DCDM_XYZ_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+DCDM_XYZ_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     DCDM_XYZ_WHITEPOINT_NAME])
 """
 *DCDM XYZ* colourspace whitepoint.

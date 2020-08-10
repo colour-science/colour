@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Colour Matching Functions Spectral Distributions
-================================================
+Multi-Spectral Distributions of the Colour Matching Functions
+=============================================================
 
-Defines various colour matching functions involved in spectral computations.
+Defines the multi-spectral distributions of the colour matching functions.
 
 The colour matching functions data is in the form of a *dict* of
 :class:`colour.colorimetry.MultiSpectralDistributions` classes as follows::
@@ -77,13 +77,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'LMS_CMFS_DATA', 'LMS_CMFS', 'RGB_CMFS_DATA', 'RGB_CMFS',
-    'STANDARD_OBSERVER_CMFS_DATA', 'STANDARD_OBSERVER_CMFS', 'CMFS'
+    'DATA_CMFS_LMS', 'MSDS_CMFS_LMS', 'DATA_CMFS_RGB', 'MSDS_CMFS_RGB',
+    'DATA_CMFS_STANDARD_OBSERVER', 'MSDS_CMFS_STANDARD_OBSERVER', 'MSDS_CMFS'
 ]
 
 # *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has
 # been set to zero.
-LMS_CMFS_DATA = {
+DATA_CMFS_LMS = {
     'Stockman & Sharpe 2 Degree Cone Fundamentals': {
         390: (4.15003e-04, 3.68349e-04, 9.54729e-03),
         391: (5.02650e-04, 4.48015e-04, 1.14794e-02),
@@ -1055,37 +1055,37 @@ LMS_CMFS_DATA = {
     }
 }
 
-LMS_CMFS = CaseInsensitiveMapping({
+MSDS_CMFS_LMS = CaseInsensitiveMapping({
     'Stockman & Sharpe 2 Degree Cone Fundamentals':
         LMS_ConeFundamentals(
-            LMS_CMFS_DATA['Stockman & Sharpe 2 Degree Cone Fundamentals'],
+            DATA_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals'],
             name='Stockman & Sharpe 2 Degree Cone Fundamentals',
             strict_name='Stockman & Sharpe 2$^\\circ$ Cone Fundamentals'),
     'Stockman & Sharpe 10 Degree Cone Fundamentals':
         LMS_ConeFundamentals(
-            LMS_CMFS_DATA['Stockman & Sharpe 10 Degree Cone Fundamentals'],
+            DATA_CMFS_LMS['Stockman & Sharpe 10 Degree Cone Fundamentals'],
             name='Stockman & Sharpe 10 Degree Cone Fundamentals',
             strict_name='Stockman & Sharpe 10$^\\circ$ Cone Fundamentals'),
     'Smith & Pokorny 1975 Normal Trichromats':
         LMS_ConeFundamentals(
-            LMS_CMFS_DATA['Smith & Pokorny 1975 Normal Trichromats'],
+            DATA_CMFS_LMS['Smith & Pokorny 1975 Normal Trichromats'],
             name='Smith & Pokorny 1975 Normal Trichromats',
             strict_name='Smith & Pokorny (1975) Normal Trichromats')
 })
-LMS_CMFS.__doc__ = """
-*LMS* colour matching functions.
+MSDS_CMFS_LMS.__doc__ = """
+Multi-spectral distributions of the *LMS* colour matching functions.
 
 References
 ----------
 :cite:`CVRLu`, :cite:`Machado2010a`
 
-LMS_CMFS : CaseInsensitiveMapping
+MSDS_CMFS_LMS : CaseInsensitiveMapping
     {'Stockman & Sharpe 2 Degree Cone Fundamentals',
     'Stockman & Sharpe 10 Degree Cone Fundamentals',
     'Smith & Pokorny 1975 Normal Trichromats'}
 """
 
-RGB_CMFS_DATA = {
+DATA_CMFS_RGB = {
     'Wright & Guild 1931 2 Degree RGB CMFs': {
         380: (0.00003, -0.00001, 0.00117),
         385: (0.00005, -0.00002, 0.00189),
@@ -1333,38 +1333,38 @@ RGB_CMFS_DATA = {
     }
 }
 
-RGB_CMFS = CaseInsensitiveMapping({
+MSDS_CMFS_RGB = CaseInsensitiveMapping({
     'Wright & Guild 1931 2 Degree RGB CMFs':
         RGB_ColourMatchingFunctions(
-            RGB_CMFS_DATA['Wright & Guild 1931 2 Degree RGB CMFs'],
+            DATA_CMFS_RGB['Wright & Guild 1931 2 Degree RGB CMFs'],
             name='Wright & Guild 1931 2 Degree RGB CMFs',
             strict_name='Wright & Guild (1931) 2$^\\circ$ RGB CMFs',
         ),
     'Stiles & Burch 1955 2 Degree RGB CMFs':
         RGB_ColourMatchingFunctions(
-            RGB_CMFS_DATA['Stiles & Burch 1955 2 Degree RGB CMFs'],
+            DATA_CMFS_RGB['Stiles & Burch 1955 2 Degree RGB CMFs'],
             name='Stiles & Burch 1955 2 Degree RGB CMFs',
             strict_name='Stiles & Burch (1955) 2$^\\circ$ RGB CMFs'),
     'Stiles & Burch 1959 10 Degree RGB CMFs':
         RGB_ColourMatchingFunctions(
-            RGB_CMFS_DATA['Stiles & Burch 1959 10 Degree RGB CMFs'],
+            DATA_CMFS_RGB['Stiles & Burch 1959 10 Degree RGB CMFs'],
             name='Stiles & Burch 1959 10 Degree RGB CMFs',
             strict_name='Stiles & Burch (1959) 10$^\\circ$ RGB CMFs')
 })
-RGB_CMFS.__doc__ = """
-*CIE RGB* colour matching functions.
+MSDS_CMFS_RGB.__doc__ = """
+Multi-spectral distributions of the *RGB* colour matching functions.
 
 References
 ----------
 :cite:`Broadbent2009a`, :cite:`CVRLt`, :cite:`CVRLw`
 
-RGB_CMFS : CaseInsensitiveMapping
+MSDS_CMFS_RGB : CaseInsensitiveMapping
     **{'Wright & Guild 1931 2 Degree RGB CMFs',
     'Stiles & Burch 1955 2 Degree RGB CMFs',
     'Stiles & Burch 1959 10 Degree RGB CMFs'}**
 """
 
-STANDARD_OBSERVER_CMFS_DATA = {
+DATA_CMFS_STANDARD_OBSERVER = {
     'CIE 1931 2 Degree Standard Observer': {
         360: (0.000129900000, 0.000003917000, 0.000606100000),
         361: (0.000145847000, 0.000004393581, 0.000680879200),
@@ -3199,38 +3199,39 @@ STANDARD_OBSERVER_CMFS_DATA = {
     }
 }
 
-STANDARD_OBSERVER_CMFS = CaseInsensitiveMapping({
+MSDS_CMFS_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
         XYZ_ColourMatchingFunctions(
-            STANDARD_OBSERVER_CMFS_DATA['CIE 1931 2 Degree Standard Observer'],
+            DATA_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
             name='CIE 1931 2 Degree Standard Observer',
             strict_name='CIE 1931 2$^\\circ$ Standard Observer'),
     'CIE 1964 10 Degree Standard Observer':
         XYZ_ColourMatchingFunctions(
-            STANDARD_OBSERVER_CMFS_DATA[
+            DATA_CMFS_STANDARD_OBSERVER[
                 'CIE 1964 10 Degree Standard Observer'],
             name='CIE 1964 10 Degree Standard Observer',
             strict_name='CIE 1964 10$^\\circ$ Standard Observer'),
     'CIE 2012 2 Degree Standard Observer':
         XYZ_ColourMatchingFunctions(
-            STANDARD_OBSERVER_CMFS_DATA['CIE 2012 2 Degree Standard Observer'],
+            DATA_CMFS_STANDARD_OBSERVER['CIE 2012 2 Degree Standard Observer'],
             name='CIE 2012 2 Degree Standard Observer',
             strict_name='CIE 2012 2$^\\circ$ Standard Observer'),
     'CIE 2012 10 Degree Standard Observer':
         XYZ_ColourMatchingFunctions(
-            STANDARD_OBSERVER_CMFS_DATA[
+            DATA_CMFS_STANDARD_OBSERVER[
                 'CIE 2012 10 Degree Standard Observer'],
             name='CIE 2012 10 Degree Standard Observer',
             strict_name='CIE 2012 10$^\\circ$ Standard Observer')
 })
-STANDARD_OBSERVER_CMFS.__doc__ = """
-*CIE* Standard Observers *XYZ* colour matching functions.
+MSDS_CMFS_STANDARD_OBSERVER.__doc__ = """
+Multi-spectral distributions of the *CIE* Standard Observer colour matching
+functions.
 
 References
 ----------
 :cite:`CVRLr`, :cite:`CVRLs`
 
-STANDARD_OBSERVER_CMFS : CaseInsensitiveMapping
+MSDS_CMFS_STANDARD_OBSERVER : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer',
     'CIE 2012 2 Degree Standard Observer',
@@ -3241,21 +3242,21 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-STANDARD_OBSERVER_CMFS['cie_2_1931'] = (
-    STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'])
-STANDARD_OBSERVER_CMFS['cie_10_1964'] = (
-    STANDARD_OBSERVER_CMFS['CIE 1964 10 Degree Standard Observer'])
+MSDS_CMFS_STANDARD_OBSERVER['cie_2_1931'] = (
+    MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'])
+MSDS_CMFS_STANDARD_OBSERVER['cie_10_1964'] = (
+    MSDS_CMFS_STANDARD_OBSERVER['CIE 1964 10 Degree Standard Observer'])
 
-CMFS = CaseInsensitiveMapping(LMS_CMFS)
-CMFS.__doc__ = """
-Aggregated colour matching functions.
+MSDS_CMFS = CaseInsensitiveMapping(MSDS_CMFS_LMS)
+MSDS_CMFS.__doc__ = """
+Multi-spectral distributions of the colour matching functions.
 
 References
 ----------
 :cite:`Broadbent2009a`, :cite:`CVRLr`, :cite:`CVRLs`, :cite:`CVRLt`,
 :cite:`CVRLu`, :cite:`CVRLw`, :cite:`Machado2010a`
 
-CMFS : CaseInsensitiveMapping
+MSDS_CMFS : CaseInsensitiveMapping
     **{'Stockman & Sharpe 10 Degree Cone Fundamentals',
     'Stockman & Sharpe 2 Degree Cone Fundamentals',
     'Wright & Guild 1931 2 Degree RGB CMFs',
@@ -3266,5 +3267,5 @@ CMFS : CaseInsensitiveMapping
     'CIE 2012 2 Degree Standard Observer',
     'CIE 2012 10 Degree Standard Observer'}**
 """
-CMFS.update(RGB_CMFS)
-CMFS.update(STANDARD_OBSERVER_CMFS)
+MSDS_CMFS.update(MSDS_CMFS_RGB)
+MSDS_CMFS.update(MSDS_CMFS_STANDARD_OBSERVER)

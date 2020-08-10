@@ -65,21 +65,20 @@ from .algebra import (CubicSplineInterpolator, Extrapolator,
                       kernel_nearest_neighbour, kernel_sinc,
                       table_interpolation, lagrange_coefficients)
 from .colorimetry import (
-    ASTME308_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS, CMFS,
-    DEFAULT_SPECTRAL_SHAPE, HUNTERLAB_ILLUMINANTS, ILLUMINANTS, ILLUMINANT_SDS,
-    LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCE_SDS, LMS_CMFS,
-    LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS, MultiSpectralDistributions,
-    PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS, SD_GAUSSIAN_METHODS,
-    SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS, SD_TO_XYZ_METHODS,
-    STANDARD_OBSERVER_CMFS, SpectralDistribution, SpectralShape,
+    BANDPASS_CORRECTION_METHODS, CCS_ILLUMINANTS, CCS_LIGHT_SOURCES,
+    LIGHTNESS_METHODS, LUMINANCE_METHODS, MSDS_CMFS, MULTI_SD_TO_XYZ_METHODS,
+    MultiSpectralDistributions, SDS_ILLUMINANTS, SDS_LEFS, SDS_LIGHT_SOURCES,
+    SD_GAUSSIAN_METHODS, SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS,
+    SD_TO_XYZ_METHODS, SPECTRAL_SHAPE_ASTME308, SPECTRAL_SHAPE_DEFAULT,
+    SpectralDistribution, SpectralShape, TVS_ILLUMINANT_HUNTERLAB,
     WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
     excitation_purity, lightness, luminance, luminous_efficacy,
     luminous_efficiency, luminous_flux, msds_constant, msds_ones, msds_zeros,
-    multi_sds_to_XYZ, sd_CIE_standard_illuminant_A, sd_CIE_illuminant_D_series,
+    multi_sds_to_XYZ, sd_CIE_illuminant_D_series, sd_CIE_standard_illuminant_A,
     sd_blackbody, sd_constant, sd_gaussian,
     sd_mesopic_luminous_efficiency_function, sd_multi_leds, sd_ones,
-    sd_single_led, sd_zeros, sd_to_XYZ, wavelength_to_XYZ, whiteness,
+    sd_single_led, sd_to_XYZ, sd_zeros, wavelength_to_XYZ, whiteness,
     yellowness)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
@@ -191,23 +190,22 @@ __all__ += [
     'lagrange_coefficients'
 ]
 __all__ += [
-    'ASTME308_PRACTISE_SHAPE', 'BANDPASS_CORRECTION_METHODS', 'CMFS',
-    'DEFAULT_SPECTRAL_SHAPE', 'HUNTERLAB_ILLUMINANTS', 'ILLUMINANTS',
-    'ILLUMINANT_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
-    'LIGHT_SOURCE_SDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
-    'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistributions', 'PHOTOPIC_LEFS',
-    'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS',
+    'BANDPASS_CORRECTION_METHODS', 'CCS_ILLUMINANTS', 'CCS_LIGHT_SOURCES',
+    'LIGHTNESS_METHODS', 'LUMINANCE_METHODS', 'MSDS_CMFS',
+    'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistributions', 'SDS_ILLUMINANTS',
+    'SDS_LEFS', 'SDS_LIGHT_SOURCES', 'SD_GAUSSIAN_METHODS',
     'SD_MULTI_LEDS_METHODS', 'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS',
-    'STANDARD_OBSERVER_CMFS', 'SpectralDistribution', 'SpectralShape',
+    'SPECTRAL_SHAPE_ASTME308', 'SPECTRAL_SHAPE_DEFAULT',
+    'SpectralDistribution', 'SpectralShape', 'TVS_ILLUMINANT_HUNTERLAB',
     'WHITENESS_METHODS', 'YELLOWNESS_METHODS', 'bandpass_correction',
     'colorimetric_purity', 'complementary_wavelength', 'dominant_wavelength',
     'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
     'luminous_efficiency', 'luminous_flux', 'msds_constant', 'msds_ones',
-    'msds_zeros', 'multi_sds_to_XYZ', 'sd_CIE_standard_illuminant_A',
-    'sd_CIE_illuminant_D_series', 'sd_blackbody', 'sd_constant', 'sd_gaussian',
-    'sd_mesopic_luminous_efficiency_function', 'sd_multi_leds', 'sd_ones',
-    'sd_zeros', 'sd_single_led', 'sd_to_XYZ', 'wavelength_to_XYZ', 'whiteness',
-    'yellowness'
+    'msds_zeros', 'multi_sds_to_XYZ', 'sd_CIE_illuminant_D_series',
+    'sd_CIE_standard_illuminant_A', 'sd_blackbody', 'sd_constant',
+    'sd_gaussian', 'sd_mesopic_luminous_efficiency_function', 'sd_multi_leds',
+    'sd_ones', 'sd_single_led', 'sd_to_XYZ', 'sd_zeros', 'wavelength_to_XYZ',
+    'whiteness', 'yellowness'
 ]
 __all__ += [
     'CVD_MATRICES_MACHADO2010', 'anomalous_trichromacy_cmfs_Machado2009',
@@ -550,7 +548,7 @@ API_CHANGES = {
         ],
         [
             'colour.D_ILLUMINANTS_S_SPDS',
-            'colour.colorimetry.D_ILLUMINANT_S_SDS',
+            'colour.colorimetry.SDS_ILLUMINANTS_D_SERIES',
         ],
         [
             'colour.ECI_RGB_V2_COLOURSPACE',
@@ -1634,11 +1632,11 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.ILLUMINANTS_RELATIVE_SPDS',
-        'colour.ILLUMINANT_SDS',
+        'colour.SDS_ILLUMINANTS',
     ],
     [
         'colour.LIGHT_SOURCES_RELATIVE_SPDS',
-        'colour.LIGHT_SOURCE_SDS',
+        'colour.SDS_LIGHT_SOURCES',
     ],
     [
         'colour.MultiSpectralPowerDistribution',
@@ -1726,7 +1724,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
 API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.ASTME30815_PRACTISE_SHAPE',
-        'colour.ASTME308_PRACTISE_SHAPE',
+        'colour.SPECTRAL_SHAPE_ASTME308',
     ],
     [
         'colour.decoding_cctf',
@@ -1793,6 +1791,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
 # v0.3.16
 API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
+        'colour.ASTME308_PRACTISE_SHAPE',
+        'colour.SPECTRAL_SHAPE_ASTME308',
+    ],
+    [
         'colour.ATD95_Specification',
         'colour.CAM_Specification_ATD95',
     ],
@@ -1817,12 +1819,28 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.VIEWING_CONDITIONS_CMCCAT2000',
     ],
     [
+        'colour.CMFS',
+        'colour.colorimetry.MSDS_CMFS',
+    ],
+    [
+        'colour.COLOURCHECKERS',
+        'colour.CCS_COLOURCHECKERS',
+    ],
+    [
+        'colour.CMCCAT2000_VIEWING_CONDITIONS',
+        'colour.VIEWING_CONDITIONS_CMCCAT2000',
+    ],
+    [
         'colour.COLOURCHECKERS',
         'colour.CCS_COLOURCHECKERS',
     ],
     [
         'colour.COLOURCHECKERS_SDS',
         'colour.SDS_COLOURCHECKERS',
+    ],
+    [
+        'colour.DEFAULT_SPECTRAL_SHAPE',
+        'colour.SPECTRAL_SHAPE_DEFAULT',
     ],
     [
         'colour.DISPLAYS_RGB_PRIMARIES',
@@ -1833,24 +1851,52 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.CAM_Specification_Hunt',
     ],
     [
+        'colour.HUNTERLAB_ILLUMINANTS',
+        'colour.TVS_ILLUMINANT_HUNTERLAB',
+    ],
+    [
+        'colour.ILLUMINANTS',
+        'colour.CCS_ILLUMINANTS',
+    ],
+    [
         'colour.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI',
         'colour.ILLUMINANT_OPTIMAL_COLOUR_STIMULI',
     ],
     [
         'colour.ILLUMINANTS_SDS',
-        'colour.ILLUMINANT_SDS',
+        'colour.SDS_ILLUMINANTS',
+    ],
+    [
+        'colour.LEFS',
+        'colour.SDS_LEFS',
+    ],
+    [
+        'colour.LIGHT_SOURCES',
+        'colour.CCS_LIGHT_SOURCES',
+    ],
+    [
+        'colour.LIGHT_SOURCES_SDS',
+        'colour.SDS_LIGHT_SOURCES',
     ],
     [
         'colour.LLAB_Specification',
         'colour.CAM_Specification_LLAB',
     ],
     [
-        'colour.LIGHT_SOURCES_SDS',
-        'colour.LIGHT_SOURCE_SDS',
+        'colour.LMS_CMFS',
+        'colour.colorimetry.MSDS_CMFS_LMS',
     ],
     [
         'colour.Nayatani95_Specification',
         'colour.CAM_Specification_Nayatani95',
+    ],
+    [
+        'colour.PHOTOPIC_LEFS',
+        'colour.colorimetry.SDS_LEFS_PHOTOPIC',
+    ],
+    [
+        'colour.RGB_CMFS',
+        'colour.colorimetry.MSDS_CMFS_RGB',
     ],
     [
         'colour.RLAB_D_FACTOR',
@@ -1861,8 +1907,12 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.CAM_Specification_RLAB',
     ],
     [
+        'colour.SCOTOPIC_LEFS',
+        'colour.colorimetry.SDS_LEFS_SCOTOPIC',
+    ],
+    [
         'colour.STANDARD_OBSERVERS_CMFS',
-        'colour.STANDARD_OBSERVER_CMFS',
+        'colour.colorimetry.MSDS_CMFS_STANDARD_OBSERVER',
     ],
 ]
 

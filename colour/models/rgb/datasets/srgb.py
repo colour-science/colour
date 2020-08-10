@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB
 
 __author__ = 'Colour Developers'
@@ -59,8 +59,8 @@ sRGB_WHITEPOINT_NAME = 'D65'
 sRGB_WHITEPOINT : unicode
 """
 
-sRGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][sRGB_WHITEPOINT_NAME])
+sRGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    sRGB_WHITEPOINT_NAME])
 """
 *sRGB* colourspace whitepoint.
 

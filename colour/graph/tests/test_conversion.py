@@ -10,7 +10,7 @@ import six
 import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import ILLUMINANTS, ILLUMINANT_SDS
+from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS
 from colour.models import ACES_2065_1_COLOURSPACE
 from colour.graph import describe_conversion_path, convert
 
@@ -45,7 +45,7 @@ class TestDescribeConversionPath(unittest.TestCase):
             'sRGB',
             mode='Extended',
             sd_to_XYZ={
-                'illuminant': ILLUMINANT_SDS['FL2'],
+                'illuminant': SDS_ILLUMINANTS['FL2'],
                 'return': np.array([0.47924575, 0.31676968, 0.17362725])
             })
 
@@ -111,7 +111,8 @@ class TestConvert(unittest.TestCase):
         """
 
         a = np.array([0.20654008, 0.12197225, 0.05136952])
-        illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']
+        illuminant = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D50']
         np.testing.assert_almost_equal(
             convert(
                 a, 'CIE XYZ', 'CIE xyY',

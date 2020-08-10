@@ -9,8 +9,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
-                                STANDARD_OBSERVER_CMFS)
+from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralShape,
+                                MSDS_CMFS_STANDARD_OBSERVER)
 from colour.volume import (generate_pulse_waves, XYZ_outer_surface,
                            is_within_visible_spectrum)
 from colour.utilities import ignore_numpy_errors
@@ -80,9 +80,10 @@ class TestXYZOuterSurface(unittest.TestCase):
         definition.
         """
 
-        shape = SpectralShape(DEFAULT_SPECTRAL_SHAPE.start,
-                              DEFAULT_SPECTRAL_SHAPE.end, 84)
-        cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+        shape = SpectralShape(SPECTRAL_SHAPE_DEFAULT.start,
+                              SPECTRAL_SHAPE_DEFAULT.end, 84)
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+            'CIE 1931 2 Degree Standard Observer']
 
         np.testing.assert_array_almost_equal(
             XYZ_outer_surface(cmfs.copy().align(shape)),

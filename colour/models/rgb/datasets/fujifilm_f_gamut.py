@@ -18,7 +18,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_FLog,
                                normalised_primary_matrix, log_decoding_FLog)
 
@@ -52,7 +52,7 @@ F_GAMUT_WHITEPOINT_NAME = 'D65'
 F_GAMUT_WHITEPOINT : unicode
 """
 
-F_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+F_GAMUT_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     F_GAMUT_WHITEPOINT_NAME])
 """
 *Fujifilm F-Gamut* colourspace whitepoint.

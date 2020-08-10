@@ -56,7 +56,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace, linear_function, normalised_primary_matrix,
     log_encoding_ACEScc, log_decoding_ACEScc, log_encoding_ACEScct,
@@ -106,8 +106,8 @@ ACES_WHITEPOINT_NAME = 'ACES'
 ACES_WHITEPOINT_NAME : unicode
 """
 
-ACES_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ACES_WHITEPOINT_NAME])
+ACES_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    ACES_WHITEPOINT_NAME])
 """
 *ACES2065-1* colourspace whitepoint.
 

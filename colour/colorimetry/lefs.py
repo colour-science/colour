@@ -14,9 +14,9 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import (PHOTOPIC_LEFS, SCOTOPIC_LEFS,
+from colour.colorimetry import (SDS_LEFS_PHOTOPIC, SDS_LEFS_SCOTOPIC,
                                 SpectralDistribution, SpectralShape)
-from colour.colorimetry.datasets.lefs import MESOPIC_X_DATA
+from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
 from colour.utilities import closest
 
 __author__ = 'Colour Developers'
@@ -36,8 +36,8 @@ def mesopic_weighting_function(
         Lp,
         source='Blue Heavy',
         method='MOVE',
-        photopic_lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-        scotopic_lef=SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']):
+        photopic_lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
+        scotopic_lef=SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']):
     """
     Calculates the mesopic weighting function factor at given wavelength
     :math:`\\lambda` using the photopic luminance :math:`L_p`.
@@ -75,10 +75,10 @@ def mesopic_weighting_function(
     0.7052200...
     """
 
-    mesopic_x_luminance_values = sorted(MESOPIC_X_DATA.keys())
+    mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
     index = mesopic_x_luminance_values.index(
         closest(mesopic_x_luminance_values, Lp))
-    x = MESOPIC_X_DATA[mesopic_x_luminance_values[index]][source][method]
+    x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
 
     Vm = (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
 
@@ -89,8 +89,8 @@ def sd_mesopic_luminous_efficiency_function(
         Lp,
         source='Blue Heavy',
         method='MOVE',
-        photopic_lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-        scotopic_lef=SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']):
+        photopic_lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
+        scotopic_lef=SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']):
     """
     Returns the mesopic luminous efficiency function :math:`V_m(\\lambda)` for
     given photopic luminance :math:`L_p`.

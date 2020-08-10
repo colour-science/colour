@@ -35,7 +35,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import LMS_CMFS, RGB_CMFS, PHOTOPIC_LEFS
+from colour.colorimetry import MSDS_CMFS_LMS, MSDS_CMFS_RGB, SDS_LEFS_PHOTOPIC
 from colour.utilities import dot_vector, tstack
 
 __author__ = 'Colour Developers'
@@ -86,7 +86,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     array([ 0.0113577...,  0.004102  ,  0.        ])
     """
 
-    cmfs = RGB_CMFS['Wright & Guild 1931 2 Degree RGB CMFs']
+    cmfs = MSDS_CMFS_RGB['Wright & Guild 1931 2 Degree RGB CMFs']
 
     rgb_bar = cmfs[wavelength]
 
@@ -109,7 +109,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
-    V = PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'].copy()
+    V = SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'].copy()
     V.align(cmfs.shape)
     L = V[wavelength]
 
@@ -155,7 +155,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     array([ 0.0096432...,  0.0037526..., -0.0000041...])
     """
 
-    cmfs = RGB_CMFS['Stiles & Burch 1959 10 Degree RGB CMFs']
+    cmfs = MSDS_CMFS_RGB['Stiles & Burch 1959 10 Degree RGB CMFs']
 
     rgb_bar = cmfs[wavelength]
 
@@ -204,7 +204,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     array([ 0.0052860...,  0.0003252...,  0.        ])
     """
 
-    cmfs = RGB_CMFS['Stiles & Burch 1959 10 Degree RGB CMFs']
+    cmfs = MSDS_CMFS_RGB['Stiles & Burch 1959 10 Degree RGB CMFs']
 
     rgb_bar = cmfs[wavelength]
 
@@ -253,7 +253,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     array([ 0.0109677...,  0.0041959...,  0.        ])
     """
 
-    cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
 
     lms_bar = cmfs[wavelength]
 
@@ -301,7 +301,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     array([ 0.0098162...,  0.0037761...,  0.        ])
     """
 
-    cmfs = LMS_CMFS['Stockman & Sharpe 10 Degree Cone Fundamentals']
+    cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 10 Degree Cone Fundamentals']
 
     lms_bar = cmfs[wavelength]
 

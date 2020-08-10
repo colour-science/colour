@@ -21,7 +21,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, oetf_BT709, oetf_inverse_BT709,
                                normalised_primary_matrix)
 
@@ -55,8 +55,8 @@ BT709_WHITEPOINT_NAME = 'D65'
 BT709_WHITEPOINT_NAME : unicode
 """
 
-BT709_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT709_WHITEPOINT_NAME])
+BT709_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    BT709_WHITEPOINT_NAME])
 """
 *ITU-R BT.709* colourspace whitepoint.
 

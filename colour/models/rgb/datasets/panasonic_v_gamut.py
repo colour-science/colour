@@ -18,7 +18,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_VLog,
                                log_decoding_VLog)
 
@@ -52,7 +52,7 @@ V_GAMUT_WHITEPOINT_NAME = 'D65'
 V_GAMUT_WHITEPOINT : unicode
 """
 
-V_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+V_GAMUT_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     V_GAMUT_WHITEPOINT_NAME])
 """
 *Panasonic V-Gamut* colourspace whitepoint.

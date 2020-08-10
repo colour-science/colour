@@ -18,7 +18,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
@@ -52,7 +52,7 @@ BEST_RGB_WHITEPOINT_NAME = 'D50'
 BEST_RGB_WHITEPOINT_NAME : unicode
 """
 
-BEST_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+BEST_RGB_WHITEPOINT = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
     BEST_RGB_WHITEPOINT_NAME])
 """
 *Best RGB* colourspace whitepoint.

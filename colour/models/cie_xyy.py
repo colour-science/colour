@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.utilities import (as_float_array, from_range_1, full, to_domain_1,
                               tsplit, tstack, zeros)
 
@@ -43,9 +43,9 @@ __all__ = [
 ]
 
 
-def XYZ_to_xyY(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_xyY(XYZ,
+               illuminant=CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE xyY* colourspace and
     reference *illuminant*.
@@ -286,9 +286,9 @@ def xy_to_xyY(xy, Y=1):
     return xyY
 
 
-def XYZ_to_xy(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_xy(XYZ,
+              illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+              ['D65']):
     """
     Returns the *CIE xy* chromaticity coordinates from given *CIE XYZ*
     tristimulus values.
