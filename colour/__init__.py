@@ -749,7 +749,7 @@ API_CHANGES = {
         ],
         [
             'colour.TCS_SPDS',
-            'colour.quality.TCS_SDS',
+            'colour.quality.SDS_TCS',
         ],
         [
             'colour.VON_KRIES_CAT',
@@ -757,7 +757,7 @@ API_CHANGES = {
         ],
         [
             'colour.VS_SPDS',
-            'colour.quality.VS_SDS',
+            'colour.quality.SDS_VS',
         ],
         [
             'colour.V_GAMUT_COLOURSPACE',

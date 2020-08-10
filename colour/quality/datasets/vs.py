@@ -40,11 +40,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'VS_INDEXES_TO_NAMES', 'VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQS74',
-    'VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQS90', 'VS_SDS_DATA', 'VS_SDS'
+    'INDEXES_TO_NAMES_VS', 'APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74',
+    'APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90', 'DATA_VS', 'SDS_VS'
 ]
 
-VS_INDEXES_TO_NAMES = {
+INDEXES_TO_NAMES_VS = {
     1: 'VS1',
     2: 'VS2',
     3: 'VS3',
@@ -64,10 +64,10 @@ VS_INDEXES_TO_NAMES = {
 """
 *NIST CQS* test colour samples indexes to names mapping.
 
-VS_INDEXES_TO_NAMES : dict
+INDEXES_TO_NAMES_VS : dict
 """
 
-VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQS74 = CaseInsensitiveMapping({
+APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74 = CaseInsensitiveMapping({
     'VS1': '7.5P 4/10',
     'VS2': '10PB 4/10',
     'VS3': '5PB 4/2',
@@ -87,10 +87,10 @@ VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQS74 = CaseInsensitiveMapping({
 """
 *NIST CQS 7.4* test colour samples *Munsell* colour approximations.
 
-VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQS74 : CaseInsensitiveMapping
+APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74 : CaseInsensitiveMapping
 """
 
-VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQS90 = CaseInsensitiveMapping({
+APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90 = CaseInsensitiveMapping({
     'VS1': '5R 4/14',
     'VS2': '10R 6/12',
     'VS3': '7.5YR 7/12',
@@ -113,7 +113,7 @@ VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQS90 = CaseInsensitiveMapping({
 VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQ90 : CaseInsensitiveMapping
 """
 
-VS_SDS_DATA = {
+DATA_VS = {
     'NIST CQS 7.4': {
         'VS1': {
             380: 0.1086,
@@ -2970,10 +2970,10 @@ VS_SDS_DATA = {
     }
 }
 
-VS_SDS = CaseInsensitiveMapping({
+SDS_VS = CaseInsensitiveMapping({
     key: dict((name, SpectralDistribution(data, name=name))
               for name, data in value.items())
-    for key, value in VS_SDS_DATA.items()
+    for key, value in DATA_VS.items()
 })
 """
 *NIST CQS* test colour samples spectral distributions.
@@ -2982,6 +2982,6 @@ References
 ----------
 :cite:`Ohno2008a`, :cite:`Ohno2013`
 
-VS_SDS : CaseInsensitiveMapping
+SDS_VS : CaseInsensitiveMapping
     **{'NIST CQS 7.4', 'NIST CQS 9.0'}**
 """

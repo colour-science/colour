@@ -25,7 +25,7 @@ from colour.algebra import euclidean_distance, spow
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT, sd_CIE_illuminant_D_series,
     MSDS_CMFS_STANDARD_OBSERVER, sd_blackbody, sd_to_XYZ)
-from colour.quality.datasets.tcs import TCS_INDEXES_TO_NAMES, TCS_SDS
+from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
 from colour.utilities import domain_range_scale
@@ -117,7 +117,7 @@ def colour_rendering_index(sd_test, additional_data=False):
 
     shape = cmfs.shape
     sd_test = sd_test.copy().align(shape)
-    tcs_sds = {sd.name: sd.copy().align(shape) for sd in TCS_SDS.values()}
+    tcs_sds = {sd.name: sd.copy().align(shape) for sd in SDS_TCS.values()}
 
     with domain_range_scale('1'):
         XYZ = sd_to_XYZ(sd_test, cmfs)
@@ -185,7 +185,7 @@ def tcs_colorimetry_data(sd_t, sd_r, sds_tcs, cmfs,
     u_r, v_r = uv_r[0], uv_r[1]
 
     tcs_data = []
-    for _key, value in sorted(TCS_INDEXES_TO_NAMES.items()):
+    for _key, value in sorted(INDEXES_TO_NAMES_TCS.items()):
         sd_tcs = sds_tcs[value]
         XYZ_tcs = sd_to_XYZ(sd_tcs, cmfs, sd_t)
         xyY_tcs = XYZ_to_xyY(XYZ_tcs)

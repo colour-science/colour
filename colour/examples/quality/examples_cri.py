@@ -30,7 +30,7 @@ print(colour.colour_rendering_index(colour.SDS_ILLUMINANTS['A']))
 print('\n')
 
 message_box('Computing sample light "Colour Rendering Index (CRI)".')
-SAMPLE_SD_DATA = {
+DATA_SAMPLE = {
     380: 0.00588346,
     385: 0.00315377,
     390: 0.00242868,
@@ -116,4 +116,4 @@ SAMPLE_SD_DATA = {
 
 print(
     colour.colour_rendering_index(
-        colour.SpectralDistribution(SAMPLE_SD_DATA, name='Sample')))
+        colour.SpectralDistribution(DATA_SAMPLE, name='Sample')))

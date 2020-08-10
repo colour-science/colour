@@ -31,7 +31,7 @@ from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT, sd_CIE_illuminant_D_series, CCS_ILLUMINANTS,
     MSDS_CMFS_STANDARD_OBSERVER, sd_blackbody, sd_to_XYZ)
-from colour.quality.datasets.vs import VS_INDEXES_TO_NAMES, VS_SDS
+from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
@@ -176,7 +176,7 @@ def colour_quality_scale(sd_test, additional_data=False,
     sd_test = sd_test.copy().align(shape)
     vs_sds = {
         sd.name: sd.copy().align(shape)
-        for sd in VS_SDS[method].values()
+        for sd in SDS_VS[method].values()
     }
 
     with domain_range_scale('1'):
@@ -336,7 +336,7 @@ def vs_colorimetry_data(sd_test,
     xy_r = XYZ_to_xy(XYZ_r)
 
     vs_data = []
-    for _key, value in sorted(VS_INDEXES_TO_NAMES.items()):
+    for _key, value in sorted(INDEXES_TO_NAMES_VS.items()):
         sd_vs = sds_vs[value]
 
         with domain_range_scale('1'):

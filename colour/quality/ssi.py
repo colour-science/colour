@@ -30,18 +30,18 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['SSI_SPECTRAL_SHAPE', 'spectral_similarity_index']
+__all__ = ['SPECTRAL_SHAPE_SSI', 'spectral_similarity_index']
 
-SSI_SPECTRAL_SHAPE = SpectralShape(375, 675, 1)
+SPECTRAL_SHAPE_SSI = SpectralShape(375, 675, 1)
 """
 *Academy Spectral Similarity Index* (SSI) spectral shape.
 
-SSI_SPECTRAL_SHAPE : SpectralShape
+SPECTRAL_SHAPE_SSI : SpectralShape
 """
 
-_SSI_LARGE_SPECTRAL_SHAPE = SpectralShape(380, 670, 10)
+_SPECTRAL_SHAPE_SSI_LARGE = SpectralShape(380, 670, 10)
 
-_INTEGRATION_MATRIX = None
+_MATRIX_INTEGRATION = None
 
 
 def spectral_similarity_index(sd_test, sd_reference):
@@ -74,18 +74,18 @@ def spectral_similarity_index(sd_test, sd_reference):
     94.0
     """
 
-    global _INTEGRATION_MATRIX
+    global _MATRIX_INTEGRATION
 
-    if _INTEGRATION_MATRIX is None:
-        _INTEGRATION_MATRIX = zeros([
-            len(_SSI_LARGE_SPECTRAL_SHAPE.range()),
-            len(SSI_SPECTRAL_SHAPE.range())
+    if _MATRIX_INTEGRATION is None:
+        _MATRIX_INTEGRATION = zeros([
+            len(_SPECTRAL_SHAPE_SSI_LARGE.range()),
+            len(SPECTRAL_SHAPE_SSI.range())
         ])
 
         weights = np.array([0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5])
 
-        for i in range(_INTEGRATION_MATRIX.shape[0]):
-            _INTEGRATION_MATRIX[i, (10 * i):(10 * i + 11)] = weights
+        for i in range(_MATRIX_INTEGRATION.shape[0]):
+            _MATRIX_INTEGRATION[i, (10 * i):(10 * i + 11)] = weights
 
     settings = {
         'interpolator': LinearInterpolator,
@@ -95,11 +95,11 @@ def spectral_similarity_index(sd_test, sd_reference):
         }
     }
 
-    sd_test = sd_test.copy().align(SSI_SPECTRAL_SHAPE, **settings)
-    sd_reference = sd_reference.copy().align(SSI_SPECTRAL_SHAPE, **settings)
+    sd_test = sd_test.copy().align(SPECTRAL_SHAPE_SSI, **settings)
+    sd_reference = sd_reference.copy().align(SPECTRAL_SHAPE_SSI, **settings)
 
-    test_i = np.dot(_INTEGRATION_MATRIX, sd_test.values)
-    reference_i = np.dot(_INTEGRATION_MATRIX, sd_reference.values)
+    test_i = np.dot(_MATRIX_INTEGRATION, sd_test.values)
+    reference_i = np.dot(_MATRIX_INTEGRATION, sd_reference.values)
 
     test_i /= np.sum(test_i)
     reference_i /= np.sum(reference_i)

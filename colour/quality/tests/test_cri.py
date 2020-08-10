@@ -21,7 +21,7 @@ __status__ = 'Production'
 
 __all__ = ['TestColourRenderingIndex']
 
-SAMPLE_SD_DATA = {
+DATA_SAMPLE = {
     380: 0.00588346,
     385: 0.00315377,
     390: 0.00242868,
@@ -133,7 +133,7 @@ class TestColourRenderingIndex(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour_rendering_index(SpectralDistribution(SAMPLE_SD_DATA)),
+            colour_rendering_index(SpectralDistribution(DATA_SAMPLE)),
             70.815265381660197,
             places=7)
 

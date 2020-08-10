@@ -253,8 +253,8 @@ The various sub-packages also expose their public API:
 
 
     Quality
-    ['TCS_SDS',
-     'VS_SDS',
+    ['SDS_TCS',
+     'SDS_VS',
      'CRI_Specification',
      'colour_rendering_index',
      'CQS_Specification',
