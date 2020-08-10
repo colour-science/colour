@@ -151,13 +151,13 @@ from .characterisation import (
     MSDS_DISPLAY_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, SDS_COLOURCHECKERS,
     SDS_FILTERS, SDS_LENSES, colour_correction, colour_correction_matrix,
     idt_matrix, polynomial_expansion, sd_to_aces_relative_exposure_values)
-from .volume import (ILLUMINANT_OPTIMAL_COLOUR_STIMULI, RGB_colourspace_limits,
-                     RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
-                     RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
-                     RGB_colourspace_volume_MonteCarlo,
-                     RGB_colourspace_volume_coverage_MonteCarlo,
-                     is_within_macadam_limits, is_within_mesh_volume,
-                     is_within_pointer_gamut, is_within_visible_spectrum)
+from .volume import (
+    OPTIMAL_COLOUR_STIMULI_ILLUMINANTS, RGB_colourspace_limits,
+    RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
+    RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
+    RGB_colourspace_volume_MonteCarlo,
+    RGB_colourspace_volume_coverage_MonteCarlo, is_within_macadam_limits,
+    is_within_mesh_volume, is_within_pointer_gamut, is_within_visible_spectrum)
 from .graph import describe_conversion_path, convert
 
 from colour.utilities import is_matplotlib_installed
@@ -298,7 +298,7 @@ __all__ += [
     'sd_to_aces_relative_exposure_values'
 ]
 __all__ += [
-    'ILLUMINANT_OPTIMAL_COLOUR_STIMULI', 'RGB_colourspace_limits',
+    'OPTIMAL_COLOUR_STIMULI_ILLUMINANTS', 'RGB_colourspace_limits',
     'RGB_colourspace_pointer_gamut_coverage_MonteCarlo',
     'RGB_colourspace_visible_spectrum_coverage_MonteCarlo',
     'RGB_colourspace_volume_MonteCarlo',
@@ -1857,7 +1857,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI',
-        'colour.ILLUMINANT_OPTIMAL_COLOUR_STIMULI',
+        'colour.OPTIMAL_COLOUR_STIMULI_ILLUMINANTS',
     ],
     [
         'colour.ILLUMINANTS_SDS',
