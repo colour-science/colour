@@ -49,12 +49,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ROBERTSON_ISOTEMPERATURE_LINES_DATA',
-    'ROBERTSON_ISOTEMPERATURE_LINES_RUVT', 'ROBERTSON_ISOTEMPERATURE_LINES',
-    'uv_to_CCT_Robertson1968', 'CCT_to_uv_Robertson1968'
+    'DATA_ISOTEMPERATURE_LINES_ROBERTSON1968',
+    'RUVT_ISOTEMPERATURE_LINES_ROBERTSON1968',
+    'ISOTEMPERATURE_LINES_ROBERTSON1968', 'uv_to_CCT_Robertson1968',
+    'CCT_to_uv_Robertson1968'
 ]
 
-ROBERTSON_ISOTEMPERATURE_LINES_DATA = (
+DATA_ISOTEMPERATURE_LINES_ROBERTSON1968 = (
     (0, 0.18006, 0.26352, -0.24341),
     (10, 0.18066, 0.26589, -0.25479),
     (20, 0.18133, 0.26846, -0.26876),
@@ -89,7 +90,7 @@ ROBERTSON_ISOTEMPERATURE_LINES_DATA = (
 """
 *Robertson (1968)* iso-temperature lines.
 
-ROBERTSON_ISOTEMPERATURE_LINES_DATA : tuple
+DATA_ISOTEMPERATURE_LINES_ROBERTSON1968 : tuple
     (Reciprocal Megakelvin,
     CIE 1960 Chromaticity Coordinate *u*,
     CIE 1960 Chromaticity Coordinate *v*,
@@ -105,12 +106,12 @@ References
 :cite:`Wyszecki2000x`
 """
 
-ROBERTSON_ISOTEMPERATURE_LINES_RUVT = namedtuple('WyszeckiRobertson_ruvt',
-                                                 ('r', 'u', 'v', 't'))
+RUVT_ISOTEMPERATURE_LINES_ROBERTSON1968 = namedtuple('WyszeckiRobertson_ruvt',
+                                                     ('r', 'u', 'v', 't'))
 
-ROBERTSON_ISOTEMPERATURE_LINES = [
-    ROBERTSON_ISOTEMPERATURE_LINES_RUVT(*x)
-    for x in ROBERTSON_ISOTEMPERATURE_LINES_DATA
+ISOTEMPERATURE_LINES_ROBERTSON1968 = [
+    RUVT_ISOTEMPERATURE_LINES_ROBERTSON1968(*x)
+    for x in DATA_ISOTEMPERATURE_LINES_ROBERTSON1968
 ]
 
 
@@ -136,8 +137,8 @@ def _uv_to_CCT_Robertson1968(uv):
     last_dt = last_dv = last_du = 0
 
     for i in range(1, 31):
-        wr_ruvt = ROBERTSON_ISOTEMPERATURE_LINES[i]
-        wr_ruvt_previous = ROBERTSON_ISOTEMPERATURE_LINES[i - 1]
+        wr_ruvt = ISOTEMPERATURE_LINES_ROBERTSON1968[i]
+        wr_ruvt_previous = ISOTEMPERATURE_LINES_ROBERTSON1968[i - 1]
 
         du = 1
         dv = wr_ruvt.t
@@ -240,8 +241,8 @@ def _CCT_to_uv_Robertson1968(CCT_D_uv):
     r = 1.0e6 / CCT
 
     for i in range(30):
-        wr_ruvt = ROBERTSON_ISOTEMPERATURE_LINES[i]
-        wr_ruvt_next = ROBERTSON_ISOTEMPERATURE_LINES[i + 1]
+        wr_ruvt = ISOTEMPERATURE_LINES_ROBERTSON1968[i]
+        wr_ruvt_next = ISOTEMPERATURE_LINES_ROBERTSON1968[i + 1]
 
         if r < wr_ruvt_next.r or i == 29:
             f = (wr_ruvt_next.r - r) / (wr_ruvt_next.r - wr_ruvt.r)
