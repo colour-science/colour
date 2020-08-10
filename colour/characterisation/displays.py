@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-RGB Displays
-============
+RGB Display Primaries
+=====================
 
 Defines spectral distributions classes for the datasets from
 :mod:`colour.characterisation.datasets.displays` module:

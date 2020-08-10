@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Lens Spectral Distributions
-===========================
+Spectral Distributions of Lenses
+================================
 
-Defines *lens* spectral distributions.
+Defines spectral distributions of lenses.
 
-Each *lens* data is in the form of :class:`OrderedDict` class instance of
+Each lens data is in the form of :class:`OrderedDict` class instance of
 :class:`colour.SpectralDistribution` classes as follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
@@ -33,9 +33,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['LENS_ISO_SDS_DATA', 'LENS_ISO_SDS', 'LENS_SDS']
+__all__ = ['DATA_LENSES_ISO', 'SDS_LENSES_ISO', 'SDS_LENSES']
 
-LENS_ISO_SDS_DATA = {
+DATA_LENSES_ISO = {
     'ISO Standard Lens': {
         350: 0.00,
         360: 0.07,
@@ -75,28 +75,28 @@ LENS_ISO_SDS_DATA = {
     }
 }
 
-LENS_ISO_SDS = CaseInsensitiveMapping({
+SDS_LENSES_ISO = CaseInsensitiveMapping({
     'ISO Standard Lens':
         SpectralDistribution(
-            LENS_ISO_SDS_DATA['ISO Standard Lens'], name='ISO Standard Lens'),
+            DATA_LENSES_ISO['ISO Standard Lens'], name='ISO Standard Lens'),
 })
-LENS_ISO_SDS.__doc__ = """
-*ISO* lens spectral distributions.
+SDS_LENSES_ISO.__doc__ = """
+Spectral distributions of *ISO* lenses.
 
 References
 ----------
 :cite:`ISO2002`
 
-LENS_ISO_SDS : CaseInsensitiveMapping
+SDS_LENSES_ISO : CaseInsensitiveMapping
 """
 
-LENS_SDS = CaseInsensitiveMapping(LENS_ISO_SDS)
-LENS_SDS.__doc__ = """
-Aggregated lens spectral distributions.
+SDS_LENSES = CaseInsensitiveMapping(SDS_LENSES_ISO)
+SDS_LENSES.__doc__ = """
+Spectral distributions of lenses.
 
 References
 ----------
 :cite:`ISO2002`
 
-LENS_SDS : CaseInsensitiveMapping
+SDS_LENSES : CaseInsensitiveMapping
 """

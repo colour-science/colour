@@ -11,7 +11,7 @@ import unittest
 from colour.blindness import (CVD_MATRICES_MACHADO2010, cvd_matrix_Machado2009,
                               anomalous_trichromacy_cmfs_Machado2009,
                               anomalous_trichromacy_matrix_Machado2009)
-from colour.characterisation import DISPLAY_RGB_PRIMARIES
+from colour.characterisation import MSDS_DISPLAY_PRIMARIES
 from colour.colorimetry import LMS_CMFS
 from colour.utilities import ignore_numpy_errors
 
@@ -97,7 +97,7 @@ anomalous_trichromacy_matrix_Machado2009` definition.
         """
 
         cmfs = LMS_CMFS.get('Smith & Pokorny 1975 Normal Trichromats')
-        primaries = DISPLAY_RGB_PRIMARIES['Typical CRT Brainard 1997']
+        primaries = MSDS_DISPLAY_PRIMARIES['Typical CRT Brainard 1997']
         np.testing.assert_almost_equal(
             anomalous_trichromacy_matrix_Machado2009(cmfs, primaries,
                                                      np.array([0, 0, 0])),

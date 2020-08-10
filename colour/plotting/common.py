@@ -37,7 +37,7 @@ from collections import OrderedDict, namedtuple
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
 
-from colour.characterisation import COLOURCHECKERS
+from colour.characterisation import CCS_COLOURCHECKERS
 from colour.colorimetry import CMFS, ILLUMINANT_SDS, LIGHT_SOURCE_SDS
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (CaseInsensitiveMapping, Structure,
@@ -948,7 +948,7 @@ def filter_colour_checkers(filterers,
         Filtered colour checkers.
     """
 
-    return filter_passthrough(COLOURCHECKERS, filterers, anchors,
+    return filter_passthrough(CCS_COLOURCHECKERS, filterers, anchors,
                               allow_non_siblings, flags)
 
 

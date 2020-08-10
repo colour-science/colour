@@ -12,19 +12,19 @@ from colour.utilities import message_box
 message_box('Colour Rendition Charts Computations')
 
 message_box('Colour rendition charts chromaticity coordinates dataset.')
-pprint(sorted(colour.COLOURCHECKERS.keys()))
+pprint(sorted(colour.CCS_COLOURCHECKERS.keys()))
 
 print('\n')
 
 message_box('Colour rendition charts spectral distributions dataset.')
-pprint(colour.COLOURCHECKER_SDS.keys())
+pprint(colour.SDS_COLOURCHECKERS.keys())
 
 print('\n')
 
 message_box(('"ColorChecker 2005" colour rendition chart chromaticity '
              'coordinates data:\n'
              '\n\t("Patch Number", "Patch Name", "xyY")'))
-name, data, illuminant = colour.COLOURCHECKERS['ColorChecker 2005']
+name, data, illuminant = colour.CCS_COLOURCHECKERS['ColorChecker 2005']
 for name, xyY in data.items():
     print(name, xyY)
 

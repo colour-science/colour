@@ -11,7 +11,7 @@ import shutil
 import tempfile
 import unittest
 
-from colour.characterisation import COLOURCHECKER_SDS
+from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS,
                                 STANDARD_OBSERVER_CMFS, SpectralDistribution,
                                 sd_to_XYZ)
@@ -155,7 +155,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         """
 
         # Tests the round-trip with values of a colour checker.
-        for name, sd in COLOURCHECKER_SDS['ColorChecker N Ohta'].items():
+        for name, sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].items():
             XYZ = sd_to_XYZ(sd, illuminant=D65) / 100
 
             _recovered_sd, error = XYZ_to_sd_Jakob2019(

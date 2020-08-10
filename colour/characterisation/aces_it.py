@@ -59,7 +59,7 @@ from colour.colorimetry import (
     CMFS, ILLUMINANT_SDS, SpectralShape, sds_and_multi_sds_to_multi_sds,
     sd_CIE_illuminant_D_series, sd_blackbody, sd_to_XYZ)
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.characterisation import ACES_RICD
+from colour.characterisation import MSDS_ACES_RICD
 from colour.io import read_sds_from_csv_file
 from colour.models import XYZ_to_JzAzBz, XYZ_to_Lab, XYZ_to_xy, xy_to_XYZ
 from colour.models.rgb import (ACES_2065_1_COLOURSPACE, RGB_to_XYZ, XYZ_to_RGB,
@@ -78,7 +78,7 @@ __status__ = 'Production'
 
 __all__ = [
     'FLARE_PERCENTAGE', 'S_FLARE_FACTOR',
-    'sd_to_aces_relative_exposure_values', 'DEFAULT_RAWTOACES_SPECTRAL_SHAPE',
+    'sd_to_aces_relative_exposure_values', 'SPECTRAL_SHAPE_RAWTOACES',
     'RAWTOACES_RESOURCES_DIRECTORY', 'read_training_data_rawtoaces_v1',
     'generate_illuminants_rawtoaces_v1', 'white_balance_multipliers',
     'best_illuminant', 'normalise_illuminant', 'training_data_sds_to_RGB',
@@ -152,8 +152,8 @@ def sd_to_aces_relative_exposure_values(
 
     Examples
     --------
-    >>> from colour import COLOURCHECKER_SDS
-    >>> sd = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
+    >>> from colour import SDS_COLOURCHECKERS
+    >>> sd = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
     >>> sd_to_aces_relative_exposure_values(sd)  # doctest: +ELLIPSIS
     array([ 0.1171814...,  0.0866360...,  0.0589726...])
     >>> sd_to_aces_relative_exposure_values(sd,
@@ -161,17 +161,17 @@ def sd_to_aces_relative_exposure_values(
     array([ 0.1180779...,  0.0869031...,  0.0589125...])
     """
 
-    shape = ACES_RICD.shape
-    if sd.shape != ACES_RICD.shape:
+    shape = MSDS_ACES_RICD.shape
+    if sd.shape != MSDS_ACES_RICD.shape:
         sd = sd.copy().align(shape)
 
-    if illuminant.shape != ACES_RICD.shape:
+    if illuminant.shape != MSDS_ACES_RICD.shape:
         illuminant = illuminant.copy().align(shape)
 
     s_v = sd.values
     i_v = illuminant.values
 
-    r_bar, g_bar, b_bar = tsplit(ACES_RICD.values)
+    r_bar, g_bar, b_bar = tsplit(MSDS_ACES_RICD.values)
 
     def k(x, y):
         """
@@ -206,11 +206,11 @@ def sd_to_aces_relative_exposure_values(
     return from_range_1(E_rgb)
 
 
-DEFAULT_RAWTOACES_SPECTRAL_SHAPE = SpectralShape(380, 780, 5)
+SPECTRAL_SHAPE_RAWTOACES = SpectralShape(380, 780, 5)
 """
 Default spectral shape according to *RAW to ACES* v1.
 
-DEFAULT_RAWTOACES_SPECTRAL_SHAPE : SpectralShape
+SPECTRAL_SHAPE_RAWTOACES : SpectralShape
 """
 
 RAWTOACES_RESOURCES_DIRECTORY = os.path.join(
@@ -317,14 +317,14 @@ def generate_illuminants_rawtoaces_v1():
             xy = CCT_to_xy_CIE_D(CCT)
             sd = sd_CIE_illuminant_D_series(xy)
             sd.name = 'D{0:d}'.format(DEFAULT_INT_DTYPE(CCT / 100))
-            illuminants[sd.name] = sd.align(DEFAULT_RAWTOACES_SPECTRAL_SHAPE)
+            illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
 
         # TODO: Remove when removing the "colour.sd_blackbody" definition
         # warning.
         with suppress_warnings(colour_usage_warnings=True):
             # Blackbody from 1000K to 4000K.
             for i in np.arange(1000, 4000, 500):
-                sd = sd_blackbody(i, DEFAULT_RAWTOACES_SPECTRAL_SHAPE)
+                sd = sd_blackbody(i, SPECTRAL_SHAPE_RAWTOACES)
                 illuminants[sd.name] = sd
 
         # A.M.P.A.S. variant of ISO 7589 Studio Tungsten.
@@ -345,7 +345,7 @@ def white_balance_multipliers(sensitivities, illuminant):
 
     Parameters
     ----------
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
@@ -394,7 +394,7 @@ def best_illuminant(RGB_w, sensitivities, illuminants):
     ----------
     RGB_w : array_like
         *RGB* white balance multipliers.
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
     illuminants : SpectralDistribution
         Illuminant spectral distributions to choose the best illuminant from.
@@ -445,7 +445,7 @@ def normalise_illuminant(illuminant, sensitivities):
     ----------
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
 
     Returns
@@ -489,7 +489,7 @@ def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
     ----------
     training_data : MultiSpectralDistributions
         Training data multi-spectral distributions.
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
@@ -707,8 +707,8 @@ def optimisation_factory_JzAzBz():
 def idt_matrix(sensitivities,
                illuminant,
                training_data=read_training_data_rawtoaces_v1(),
-               cmfs=CMFS['CIE 1931 2 Degree Standard Observer'].copy().align(
-                   DEFAULT_RAWTOACES_SPECTRAL_SHAPE),
+               cmfs= CMFS['CIE 1931 2 Degree Standard Observer'].copy()
+               .align(SPECTRAL_SHAPE_RAWTOACES),
                optimisation_factory=optimisation_factory_rawtoaces_v1,
                optimisation_kwargs=None):
     """
@@ -719,7 +719,7 @@ def idt_matrix(sensitivities,
 
     Parameters
     ----------
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.

@@ -2,16 +2,17 @@
 
 from __future__ import absolute_import
 
-from .aces_it import ACES_RICD
-from .cameras import CAMERA_RGB_SPECTRAL_SENSITIVITIES
-from .colour_checkers import COLOURCHECKERS, ColourChecker, COLOURCHECKER_SDS
-from .displays import DISPLAY_RGB_PRIMARIES
-from .filters import FILTER_SDS
-from .lenses import LENS_SDS
+from .aces_it import MSDS_ACES_RICD
+from .cameras import MSDS_CAMERA_SENSITIVITIES
+from .colour_checkers import (CCS_COLOURCHECKERS, ColourChecker,
+                              SDS_COLOURCHECKERS)
+from .displays import MSDS_DISPLAY_PRIMARIES
+from .filters import SDS_FILTERS
+from .lenses import SDS_LENSES
 
-__all__ = ['ACES_RICD']
-__all__ += ['CAMERA_RGB_SPECTRAL_SENSITIVITIES']
-__all__ += ['COLOURCHECKERS', 'ColourChecker', 'COLOURCHECKER_SDS']
-__all__ += ['DISPLAY_RGB_PRIMARIES']
-__all__ += ['FILTER_SDS']
-__all__ += ['LENS_SDS']
+__all__ = ['MSDS_ACES_RICD']
+__all__ += ['MSDS_CAMERA_SENSITIVITIES']
+__all__ += ['CCS_COLOURCHECKERS', 'ColourChecker', 'SDS_COLOURCHECKERS']
+__all__ += ['MSDS_DISPLAY_PRIMARIES']
+__all__ += ['SDS_FILTERS']
+__all__ += ['SDS_LENSES']

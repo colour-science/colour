@@ -9,7 +9,7 @@ import numpy as np
 import six
 import unittest
 
-from colour.characterisation import COLOURCHECKER_SDS
+from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import ILLUMINANTS, ILLUMINANT_SDS
 from colour.models import ACES_2065_1_COLOURSPACE
 from colour.graph import describe_conversion_path, convert
@@ -61,7 +61,7 @@ class TestConvert(unittest.TestCase):
         Tests :func:`colour.graph.conversion.convert` definition.
         """
 
-        RGB_a = convert(COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'],
+        RGB_a = convert(SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin'],
                         'Spectral Distribution', 'sRGB')
         np.testing.assert_almost_equal(
             RGB_a, np.array([0.45675795, 0.30986982, 0.24861924]), decimal=7)
@@ -124,7 +124,7 @@ class TestConvert(unittest.TestCase):
             # be hashed by the "sd_to_XYZ" definition, this should never occur
             # in practical application.
             self.assertRaises(AttributeError, lambda: convert(
-                COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'],
+                SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin'],
                 'Spectral Distribution', 'sRGB',
                 illuminant=tuple(illuminant)))
 

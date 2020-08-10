@@ -26,7 +26,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'M_T', 'M_R', 'TestAugmentedMatrixCheung2004',
+    'MATRIX_TEST', 'MATRIX_REFERENCE', 'TestAugmentedMatrixCheung2004',
     'TestPolynomialExpansionFinlayson2015',
     'TestPolynomialExpansionVandermonde',
     'TestColourCorrectionMatrixCheung2004',
@@ -35,7 +35,7 @@ __all__ = [
     'TestColourCorrectionFinlayson2015', 'TestColourCorrectionVandermonde'
 ]
 
-M_T = np.array([
+MATRIX_TEST = np.array([
     [0.17224810, 0.09170660, 0.06416938],
     [0.49189645, 0.27802050, 0.21923399],
     [0.10999751, 0.18658946, 0.29938611],
@@ -62,7 +62,7 @@ M_T = np.array([
     [0.03405071, 0.03295077, 0.03702047],
 ])
 
-M_R = np.array([
+MATRIX_REFERENCE = np.array([
     [0.15579559, 0.09715755, 0.07514556],
     [0.39113140, 0.25943419, 0.21266708],
     [0.12824821, 0.18463570, 0.31508023],
@@ -349,7 +349,7 @@ colour_correction_matrix_Cheung2004` definition.
         """
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Cheung2004(M_T, M_R),
+            colour_correction_matrix_Cheung2004(MATRIX_TEST, MATRIX_REFERENCE),
             np.array([
                 [0.69822661, 0.03071629, 0.16210422],
                 [0.06893498, 0.67579611, 0.16430385],
@@ -358,7 +358,8 @@ colour_correction_matrix_Cheung2004` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Cheung2004(M_T, M_R, terms=7),
+            colour_correction_matrix_Cheung2004(
+                MATRIX_TEST, MATRIX_REFERENCE, terms=7),
             np.array([
                 [
                     0.80512769, 0.04001012, -0.01255261, -0.41056170,
@@ -406,7 +407,8 @@ colour_correction_matrix_Finlayson2015` definition.
         """
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Finlayson2015(M_T, M_R),
+            colour_correction_matrix_Finlayson2015(MATRIX_TEST,
+                                                   MATRIX_REFERENCE),
             np.array([
                 [0.69822661, 0.03071629, 0.16210422],
                 [0.06893498, 0.67579611, 0.16430385],
@@ -415,7 +417,8 @@ colour_correction_matrix_Finlayson2015` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Finlayson2015(M_T, M_R, degree=3),
+            colour_correction_matrix_Finlayson2015(
+                MATRIX_TEST, MATRIX_REFERENCE, degree=3),
             np.array([
                 [
                     2.87796213, 9.85720054, 2.99863978, 76.97227806,
@@ -469,7 +472,8 @@ colour_correction_matrix_Vandermonde` definition.
         """
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Vandermonde(M_T, M_R),
+            colour_correction_matrix_Vandermonde(MATRIX_TEST,
+                                                 MATRIX_REFERENCE),
             np.array([
                 [0.66770040, 0.02514036, 0.12745797, 0.02485425],
                 [0.03155494, 0.66896825, 0.12187874, 0.03043460],
@@ -478,7 +482,8 @@ colour_correction_matrix_Vandermonde` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Vandermonde(M_T, M_R, degree=3),
+            colour_correction_matrix_Vandermonde(
+                MATRIX_TEST, MATRIX_REFERENCE, degree=3),
             np.array([
                 [
                     -0.04328223, -1.87886146, 1.83369170, -0.10798116,
@@ -531,12 +536,13 @@ colour_correction_Cheung2004` definition.
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
         np.testing.assert_almost_equal(
-            colour_correction_Cheung2004(RGB, M_T, M_R),
+            colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             np.array([0.13348722, 0.08439216, 0.05990144]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour_correction_Cheung2004(RGB, M_T, M_R, terms=7),
+            colour_correction_Cheung2004(
+                RGB, MATRIX_TEST, MATRIX_REFERENCE, terms=7),
             np.array([0.15850295, 0.09871628, 0.08105752]),
             decimal=7)
 
@@ -547,17 +553,22 @@ colour_correction_Cheung2004` definition n-dimensional support.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-        RGB_c = colour_correction_Cheung2004(RGB, M_T, M_R)
+        RGB_c = colour_correction_Cheung2004(RGB, MATRIX_TEST,
+                                             MATRIX_REFERENCE)
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
         np.testing.assert_almost_equal(
-            colour_correction_Cheung2004(RGB, M_T, M_R), RGB_c, decimal=7)
+            colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE),
+            RGB_c,
+            decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
         np.testing.assert_almost_equal(
-            colour_correction_Cheung2004(RGB, M_T, M_R), RGB_c, decimal=7)
+            colour_correction_Cheung2004(RGB, MATRIX_TEST, MATRIX_REFERENCE),
+            RGB_c,
+            decimal=7)
 
     @ignore_numpy_errors
     def test_nan_colour_correction_Cheung2004(self):
@@ -592,12 +603,14 @@ colour_correction_Finlayson2015` definition.
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
         np.testing.assert_almost_equal(
-            colour_correction_Finlayson2015(RGB, M_T, M_R),
+            colour_correction_Finlayson2015(RGB, MATRIX_TEST,
+                                            MATRIX_REFERENCE),
             np.array([0.13348722, 0.08439216, 0.05990144]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour_correction_Finlayson2015(RGB, M_T, M_R, degree=3),
+            colour_correction_Finlayson2015(
+                RGB, MATRIX_TEST, MATRIX_REFERENCE, degree=3),
             np.array([0.13914542, 0.08602124, 0.06422973]),
             decimal=7)
 
@@ -608,17 +621,24 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-        RGB_c = colour_correction_Finlayson2015(RGB, M_T, M_R)
+        RGB_c = colour_correction_Finlayson2015(RGB, MATRIX_TEST,
+                                                MATRIX_REFERENCE)
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
         np.testing.assert_almost_equal(
-            colour_correction_Finlayson2015(RGB, M_T, M_R), RGB_c, decimal=7)
+            colour_correction_Finlayson2015(RGB, MATRIX_TEST,
+                                            MATRIX_REFERENCE),
+            RGB_c,
+            decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
         np.testing.assert_almost_equal(
-            colour_correction_Finlayson2015(RGB, M_T, M_R), RGB_c, decimal=7)
+            colour_correction_Finlayson2015(RGB, MATRIX_TEST,
+                                            MATRIX_REFERENCE),
+            RGB_c,
+            decimal=7)
 
     @ignore_numpy_errors
     def test_nan_colour_correction_Finlayson2015(self):
@@ -653,12 +673,13 @@ colour_correction_Vandermonde` definition.
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
         np.testing.assert_almost_equal(
-            colour_correction_Vandermonde(RGB, M_T, M_R),
+            colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE),
             np.array([0.15034881, 0.10503956, 0.10512517]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour_correction_Vandermonde(RGB, M_T, M_R, degree=3),
+            colour_correction_Vandermonde(
+                RGB, MATRIX_TEST, MATRIX_REFERENCE, degree=3),
             np.array([0.15747814, 0.10035799, 0.06616709]),
             decimal=7)
 
@@ -669,17 +690,22 @@ colour_correction_Vandermonde` definition n-dimensional support.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-        RGB_c = colour_correction_Vandermonde(RGB, M_T, M_R)
+        RGB_c = colour_correction_Vandermonde(RGB, MATRIX_TEST,
+                                              MATRIX_REFERENCE)
 
         RGB = np.tile(RGB, (6, 1))
         RGB_c = np.tile(RGB_c, (6, 1))
         np.testing.assert_almost_equal(
-            colour_correction_Vandermonde(RGB, M_T, M_R), RGB_c, decimal=7)
+            colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE),
+            RGB_c,
+            decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         RGB_c = np.reshape(RGB_c, (2, 3, 3))
         np.testing.assert_almost_equal(
-            colour_correction_Vandermonde(RGB, M_T, M_R), RGB_c, decimal=7)
+            colour_correction_Vandermonde(RGB, MATRIX_TEST, MATRIX_REFERENCE),
+            RGB_c,
+            decimal=7)
 
     @ignore_numpy_errors
     def test_nan_colour_correction_Vandermonde(self):

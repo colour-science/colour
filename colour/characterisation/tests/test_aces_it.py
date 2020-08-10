@@ -10,7 +10,7 @@ import os
 import unittest
 
 from colour.characterisation import (
-    ACES_RICD, CAMERA_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKER_SDS,
+    MSDS_ACES_RICD, MSDS_CAMERA_SENSITIVITIES, SDS_COLOURCHECKERS,
     sd_to_aces_relative_exposure_values, read_training_data_rawtoaces_v1,
     generate_illuminants_rawtoaces_v1, white_balance_multipliers,
     best_illuminant, normalise_illuminant, training_data_sds_to_RGB,
@@ -31,7 +31,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CANON_EOS_5DMARK_II_RGB_SENSITIVITIES', 'AMPAS_ISO7589_STUDIO_TUNGSTEN',
+    'MSDS_CANON_EOS_5DMARK_II', 'SD_AMPAS_ISO7589_STUDIO_TUNGSTEN',
     'TestSpectralToAcesRelativeExposureValues',
     'TestReadTrainingDataRawtoacesV1', 'TestGenerateIlluminantsRawtoacesV1',
     'TestWhiteBalanceMultipliers', 'TestBestIlluminant',
@@ -40,12 +40,12 @@ __all__ = [
     'TestOptimizationFactoryJzAzBz', 'TestIdtMatrix'
 ]
 
-CANON_EOS_5DMARK_II_RGB_SENSITIVITIES = sds_and_multi_sds_to_multi_sds(
+MSDS_CANON_EOS_5DMARK_II = sds_and_multi_sds_to_multi_sds(
     read_sds_from_csv_file(
         os.path.join(RAWTOACES_RESOURCES_DIRECTORY,
                      'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')).values())
 
-AMPAS_ISO7589_STUDIO_TUNGSTEN = read_sds_from_csv_file(
+SD_AMPAS_ISO7589_STUDIO_TUNGSTEN = read_sds_from_csv_file(
     os.path.join(RAWTOACES_RESOURCES_DIRECTORY,
                  'AMPAS_ISO_7589_Tungsten.csv'))['iso7589']
 
@@ -62,7 +62,7 @@ sd_to_aces_relative_exposure_values` definition unit tests methods.
 sd_to_aces_relative_exposure_values` definition.
         """
 
-        shape = ACES_RICD.shape
+        shape = MSDS_ACES_RICD.shape
         grey_reflector = sd_constant(0.18, shape)
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(grey_reflector),
@@ -75,27 +75,27 @@ sd_to_aces_relative_exposure_values` definition.
             np.array([0.97783784, 0.97783784, 0.97783784]),
             decimal=7)
 
-        dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
+        dark_skin = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin),
             np.array([0.11718149, 0.08663609, 0.05897268]),
             decimal=7)
 
-        dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
+        dark_skin = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin,
                                                 ILLUMINANT_SDS['A']),
             np.array([0.13583991, 0.09431845, 0.05928214]),
             decimal=7)
 
-        dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
+        dark_skin = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin, apply_chromatic_adaptation=True),
             np.array([0.11807796, 0.08690312, 0.05891252]),
             decimal=7)
 
-        dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
+        dark_skin = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin,
@@ -112,7 +112,7 @@ sd_to_aces_relative_exposure_values`  definition domain and range scale
         support.
         """
 
-        shape = ACES_RICD.shape
+        shape = MSDS_ACES_RICD.shape
         grey_reflector = sd_constant(0.18, shape)
         RGB = sd_to_aces_relative_exposure_values(grey_reflector)
 
@@ -178,14 +178,14 @@ class TestWhiteBalanceMultipliers(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            white_balance_multipliers(CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
+            white_balance_multipliers(MSDS_CANON_EOS_5DMARK_II,
                                       ILLUMINANT_SDS['D55']),
             np.array([2.34141541, 1.00000000, 1.51633759]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             white_balance_multipliers(
-                CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
+                MSDS_CANON_EOS_5DMARK_II,
                 ILLUMINANT_SDS['ISO 7589 Studio Tungsten']),
             np.array([1.57095278, 1.00000000, 2.43560477]),
             decimal=7)
@@ -206,17 +206,15 @@ class TestBestIlluminant(unittest.TestCase):
         self.assertEqual(
             best_illuminant(
                 white_balance_multipliers(
-                    CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
-                    ILLUMINANT_SDS['FL2']),
-                CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
+                    MSDS_CANON_EOS_5DMARK_II,
+                    ILLUMINANT_SDS['FL2']), MSDS_CANON_EOS_5DMARK_II,
                 generate_illuminants_rawtoaces_v1()).name, 'D40')
 
         self.assertEqual(
             best_illuminant(
                 white_balance_multipliers(
-                    CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
-                    ILLUMINANT_SDS['A']),
-                CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
+                    MSDS_CANON_EOS_5DMARK_II,
+                    ILLUMINANT_SDS['A']), MSDS_CANON_EOS_5DMARK_II,
                 generate_illuminants_rawtoaces_v1()).name, '3000K Blackbody')
 
 
@@ -234,9 +232,8 @@ class TestNormaliseIlluminant(unittest.TestCase):
 
         self.assertAlmostEqual(
             np.sum(
-                normalise_illuminant(
-                    ILLUMINANT_SDS['D55'],
-                    CANON_EOS_5DMARK_II_RGB_SENSITIVITIES).values),
+                normalise_illuminant(ILLUMINANT_SDS['D55'],
+                                     MSDS_CANON_EOS_5DMARK_II).values),
             3.439037388220850,
             places=7)
 
@@ -255,7 +252,7 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             training_data_sds_to_RGB(read_training_data_rawtoaces_v1(),
-                                     CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
+                                     MSDS_CANON_EOS_5DMARK_II,
                                      ILLUMINANT_SDS['D55']),
             np.array([
                 [42.00296381, 39.83290349, 43.28842394],
@@ -452,10 +449,9 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
             decimal=7)
 
         training_data = sds_and_multi_sds_to_multi_sds(
-            COLOURCHECKER_SDS['BabelColor Average'].values())
+            SDS_COLOURCHECKERS['BabelColor Average'].values())
         np.testing.assert_almost_equal(
-            training_data_sds_to_RGB(training_data,
-                                     CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
+            training_data_sds_to_RGB(training_data, MSDS_CANON_EOS_5DMARK_II,
                                      ILLUMINANT_SDS['D55']),
             np.array([
                 [263.80361607, 170.29412869, 132.71463416],
@@ -698,7 +694,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
             decimal=7)
 
         training_data = sds_and_multi_sds_to_multi_sds(
-            COLOURCHECKER_SDS['BabelColor Average'].values())
+            SDS_COLOURCHECKERS['BabelColor Average'].values())
 
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
@@ -782,8 +778,7 @@ class TestIdtMatrix(unittest.TestCase):
         # 0.056527 1.122997 -0.179524
         # 0.023683 -0.202547 1.178864
         np.testing.assert_allclose(
-            idt_matrix(CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
-                       ILLUMINANT_SDS['D55']),
+            idt_matrix(MSDS_CANON_EOS_5DMARK_II, ILLUMINANT_SDS['D55']),
             np.array([
                 [0.84993207, -0.01605594, 0.15143504],
                 [0.05090392, 1.12559930, -0.18498249],
@@ -799,8 +794,8 @@ class TestIdtMatrix(unittest.TestCase):
         # 0.021805 1.066614 -0.088418
         # -0.019718 -0.206664 1.226381
         np.testing.assert_allclose(
-            idt_matrix(CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
-                       AMPAS_ISO7589_STUDIO_TUNGSTEN),
+            idt_matrix(MSDS_CANON_EOS_5DMARK_II,
+                       SD_AMPAS_ISO7589_STUDIO_TUNGSTEN),
             np.array([
                 [0.85895300, -0.04381920, 0.15978620],
                 [0.01024800, 1.08825364, -0.11392229],
@@ -811,7 +806,7 @@ class TestIdtMatrix(unittest.TestCase):
 
         np.testing.assert_allclose(
             idt_matrix(
-                CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
+                MSDS_CANON_EOS_5DMARK_II,
                 ILLUMINANT_SDS['D55'],
                 optimisation_factory=optimisation_factory_JzAzBz),
             np.array([
@@ -824,7 +819,7 @@ class TestIdtMatrix(unittest.TestCase):
 
         np.testing.assert_allclose(
             idt_matrix(
-                CANON_EOS_5DMARK_II_RGB_SENSITIVITIES,
+                MSDS_CANON_EOS_5DMARK_II,
                 ILLUMINANT_SDS['D55'],
                 optimisation_kwargs={'method': 'Nelder-Mead'}),
             np.array([
@@ -836,13 +831,13 @@ class TestIdtMatrix(unittest.TestCase):
             atol=0.0001)
 
         training_data = sds_and_multi_sds_to_multi_sds(
-            COLOURCHECKER_SDS['BabelColor Average'].values())
+            SDS_COLOURCHECKERS['BabelColor Average'].values())
 
         np.testing.assert_allclose(
             idt_matrix(
-                CAMERA_RGB_SPECTRAL_SENSITIVITIES['Nikon 5100 (NPL)'].copy()
-                .align(SpectralShape(400, 700, 10)),
-                AMPAS_ISO7589_STUDIO_TUNGSTEN,
+                MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)'].copy().align(
+                    SpectralShape(400, 700, 10)),
+                SD_AMPAS_ISO7589_STUDIO_TUNGSTEN,
                 training_data=training_data),
             np.array([
                 [0.74041064, 0.10951105, 0.11963256],

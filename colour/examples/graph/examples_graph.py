@@ -13,7 +13,7 @@ message_box('Automatic Colour Conversion Graph')
 message_box('Converting a "ColorChecker" "dark skin" sample spectral '
             'distribution to "Output-Referred" "sRGB" colourspace.')
 
-sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
+sd = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
 print(colour.convert(sd, 'Spectral Distribution', 'sRGB'))
 print(
     colour.XYZ_to_sRGB(

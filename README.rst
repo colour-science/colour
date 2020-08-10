@@ -311,7 +311,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
+    >>> sd = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
 
 ::
@@ -389,7 +389,7 @@ Colour Blindness - ``colour.blindness``
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
-    >>> primaries = colour.DISPLAY_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = colour.MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
     >>> d_LMS = (15, 0, 0)
     >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
     array([[-0.27774652,  2.65150084, -1.37375432],
@@ -415,7 +415,7 @@ ACES Input Transform - ``colour characterisation``
 
 .. code-block:: python
 
-    >>> sensitivities = colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES['Nikon 5100 (NPL)']
+    >>> sensitivities = colour.MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)']
     >>> illuminant = colour.ILLUMINANT_SDS['D55']
     >>> colour.idt_matrix(sensitivities, illuminant)
     array([[ 0.46579991,  0.13409239,  0.01935141],
@@ -1315,7 +1315,7 @@ Colour Checker
     ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
     >>> plot_multi_sds(
     ...     [
-    ...         colour.COLOURCHECKER_SDS['BabelColor Average'][value]
+    ...         colour.SDS_COLOURCHECKERS['BabelColor Average'][value]
     ...         for key, value in sorted(
     ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
     ...     ],

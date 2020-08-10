@@ -148,11 +148,11 @@ from .temperature import (CCT_TO_UV_METHODS, CCT_TO_XY_METHODS, CCT_to_uv,
                           CCT_to_xy, UV_TO_CCT_METHODS, XY_TO_CCT_METHODS,
                           uv_to_CCT, xy_to_CCT)
 from .characterisation import (
-    CAMERA_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKER_SDS,
-    DISPLAY_RGB_PRIMARIES, FILTER_SDS, LENS_SDS, POLYNOMIAL_EXPANSION_METHODS,
-    polynomial_expansion, COLOUR_CORRECTION_MATRIX_METHODS,
-    colour_correction_matrix, COLOUR_CORRECTION_METHODS, colour_correction,
-    idt_matrix, sd_to_aces_relative_exposure_values)
+    CCS_COLOURCHECKERS, COLOUR_CORRECTION_MATRIX_METHODS,
+    COLOUR_CORRECTION_METHODS, MSDS_CAMERA_SENSITIVITIES,
+    MSDS_DISPLAY_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, SDS_COLOURCHECKERS,
+    SDS_FILTERS, SDS_LENSES, colour_correction, colour_correction_matrix,
+    idt_matrix, polynomial_expansion, sd_to_aces_relative_exposure_values)
 from .volume import (ILLUMINANT_OPTIMAL_COLOUR_STIMULI, RGB_colourspace_limits,
                      RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
                      RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
@@ -295,11 +295,11 @@ __all__ += [
     'UV_TO_CCT_METHODS', 'XY_TO_CCT_METHODS', 'uv_to_CCT', 'xy_to_CCT'
 ]
 __all__ += [
-    'CAMERA_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS', 'COLOURCHECKER_SDS',
-    'DISPLAY_RGB_PRIMARIES', 'FILTER_SDS', 'LENS_SDS',
-    'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
-    'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
-    'COLOUR_CORRECTION_METHODS', 'colour_correction', 'idt_matrix',
+    'CCS_COLOURCHECKERS', 'COLOUR_CORRECTION_MATRIX_METHODS',
+    'COLOUR_CORRECTION_METHODS', 'MSDS_CAMERA_SENSITIVITIES',
+    'MSDS_DISPLAY_PRIMARIES', 'POLYNOMIAL_EXPANSION_METHODS',
+    'SDS_COLOURCHECKERS', 'SDS_FILTERS', 'SDS_LENSES', 'colour_correction',
+    'colour_correction_matrix', 'idt_matrix', 'polynomial_expansion',
     'sd_to_aces_relative_exposure_values'
 ]
 __all__ += [
@@ -370,7 +370,7 @@ API_CHANGES = {
         ],
         [
             'colour.ACES_RICD',
-            'colour.models.ACES_RICD',
+            'colour.models.MSDS_ACES_RICD',
         ],
         [
             'colour.ADOBE_RGB_1998_COLOURSPACE',
@@ -702,7 +702,7 @@ API_CHANGES = {
         ],
         [
             'colour.RGB_SpectralSensitivities',
-            'colour.characterisation.RGB_SpectralSensitivities',
+            'colour.characterisation.RGB_CameraSensitivities',
         ],
         [
             'colour.RGB_to_sd_Smits1999',
@@ -1626,7 +1626,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.COLOURCHECKERS_SPDS',
-        'colour.COLOURCHECKER_SDS',
+        'colour.SDS_COLOURCHECKERS',
     ],
     [
         'colour.D_illuminant_relative_spd',
@@ -1810,19 +1810,23 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
-        'colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES',
+        'colour.MSDS_CAMERA_SENSITIVITIES',
     ],
     [
         'colour.CMCCAT2000_VIEWING_CONDITIONS',
         'colour.VIEWING_CONDITIONS_CMCCAT2000',
     ],
     [
+        'colour.COLOURCHECKERS',
+        'colour.CCS_COLOURCHECKERS',
+    ],
+    [
         'colour.COLOURCHECKERS_SDS',
-        'colour.COLOURCHECKER_SDS',
+        'colour.SDS_COLOURCHECKERS',
     ],
     [
         'colour.DISPLAYS_RGB_PRIMARIES',
-        'colour.DISPLAY_RGB_PRIMARIES',
+        'colour.MSDS_DISPLAY_PRIMARIES',
     ],
     [
         'colour.Hunt_Specification',

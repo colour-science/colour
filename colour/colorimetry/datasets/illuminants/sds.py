@@ -4989,7 +4989,7 @@ ILLUMINANT_ISO_SDS.__doc__ = """
 Notes
 -----
 -   All the *ISO 7589 Sensitometric* spectral distributions are transmitted by
-    the *ISO Standard Lens* given in :attr:`colour.LENS_SDS` attribute except
+    the *ISO Standard Lens* given in :attr:`colour.SDS_LENSES` attribute except
     for the *ISO 7589 Sensitometric Printer* spectral distribution which is
     modulated by both the *ISO Standard Lens* and the *ISO 7589 Diffuser* given
     in :attr:`colour.FILTERS_SDS` attribute:

@@ -248,7 +248,7 @@ API_CHANGES : dict
 API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.models.ACES_RICD',
-        'colour.characterisation.ACES_RICD',
+        'colour.characterisation.MSDS_ACES_RICD',
     ],
     [
         'colour.models.oetf_BT2020',
