@@ -23,7 +23,7 @@ plot_single_illuminant_sd('FL1')
 
 print('\n')
 
-message_box(('Plotting multiple illuminants spectral ' 'distributions.'))
+message_box('Plotting multiple illuminants spectral distributions.')
 pprint(sorted(colour.SDS_ILLUMINANTS.keys()))
 plot_multi_illuminant_sds(
     ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'FL1'])
@@ -48,7 +48,7 @@ plot_multi_sds(
 
 print('\n')
 
-sample_sd_data = {
+data_sample = {
     380: 0.048,
     385: 0.051,
     390: 0.055,
@@ -134,7 +134,7 @@ sample_sd_data = {
 
 # http://speclib.jpl.nasa.gov/speclibdata/
 # jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt  # noqa
-galvanized_steel_metal_sd_data = {
+data_galvanized_steel_metal = {
     360: 2.24,
     362: 2.25,
     364: 2.26,
@@ -361,7 +361,7 @@ galvanized_steel_metal_sd_data = {
 
 # http://speclib.jpl.nasa.gov/speclibdata/
 # jhu.becknic.manmade.construction.marble.solid.0722uuu.spectrum.txt
-white_marble_sd_data = {
+data_white_marble = {
     360: 40.93,
     362: 41.58,
     364: 42.25,
@@ -587,23 +587,23 @@ white_marble_sd_data = {
 }
 
 message_box('Plotting various single spectral distributions.')
-plot_single_sd(colour.SpectralDistribution(sample_sd_data, name='Custom'))
+plot_single_sd(colour.SpectralDistribution(data_sample, name='Custom'))
 plot_single_sd(
     colour.SpectralDistribution(
-        galvanized_steel_metal_sd_data, name='Galvanized Steel Metal'))
+        data_galvanized_steel_metal, name='Galvanized Steel Metal'))
 
 print('\n')
 
 message_box('Plotting multiple spectral distributions.')
 plot_multi_sds((colour.SpectralDistribution(
-    galvanized_steel_metal_sd_data, name='Galvanized Steel Metal'),
+    data_galvanized_steel_metal, name='Galvanized Steel Metal'),
                 colour.SpectralDistribution(
-                    white_marble_sd_data, name='White Marble')))
+                    data_white_marble, name='White Marble')))
 
 print('\n')
 
 message_box('Plotting spectral bandpass dependence correction.')
-street_light_sd_data = {
+data_street_light = {
     380: 8.9770000e-003,
     382: 5.8380000e-003,
     384: 8.3290000e-003,
@@ -807,16 +807,16 @@ street_light_sd_data = {
     780: 8.8190000e-002
 }
 
-street_light_sd = colour.SpectralDistribution(
-    street_light_sd_data, name='Street Light')
+sd_street_light = colour.SpectralDistribution(
+    data_street_light, name='Street Light')
 
-bandpass_corrected_street_light_sd = street_light_sd.copy()
-bandpass_corrected_street_light_sd.name = 'Street Light (Bandpass Corrected)'
-bandpass_corrected_street_light_sd = colour.bandpass_correction(
-    bandpass_corrected_street_light_sd, method='Stearns 1988')
+sd_bandpass_corrected_street_light = sd_street_light.copy()
+sd_bandpass_corrected_street_light.name = 'Street Light (Bandpass Corrected)'
+sd_bandpass_corrected_street_light = colour.bandpass_correction(
+    sd_bandpass_corrected_street_light, method='Stearns 1988')
 
 plot_multi_sds(
-    (street_light_sd, bandpass_corrected_street_light_sd),
+    (sd_street_light, sd_bandpass_corrected_street_light),
     title='Stearns Bandpass Correction')
 
 print('\n')

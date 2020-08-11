@@ -35,9 +35,9 @@ message_box(('Plotting "CIE Standard Illuminant A" and '
              '"CIE Standard Illuminant D65" spectral '
              'distribution chromaticity coordinates in '
              '"CIE 1931 Chromaticity Diagram".'))
-A = SDS_ILLUMINANTS['A']
-D65 = SDS_ILLUMINANTS['D65']
-plot_sds_in_chromaticity_diagram_CIE1931((A, D65))
+sd_A = SDS_ILLUMINANTS['A']
+sd_D65 = SDS_ILLUMINANTS['D65']
+plot_sds_in_chromaticity_diagram_CIE1931((sd_A, sd_D65))
 
 print('\n')
 
@@ -45,7 +45,7 @@ message_box(('Plotting "CIE Standard Illuminant A" and '
              '"CIE Standard Illuminant D65" spectral '
              'distribution chromaticity coordinates in '
              '"CIE 1960 UCS Chromaticity Diagram".'))
-plot_sds_in_chromaticity_diagram_CIE1960UCS((A, D65))
+plot_sds_in_chromaticity_diagram_CIE1960UCS((sd_A, sd_D65))
 
 print('\n')
 
@@ -53,4 +53,4 @@ message_box(('Plotting "CIE Standard Illuminant A" and '
              '"CIE Standard Illuminant D65" spectral '
              'distribution chromaticity coordinates in '
              '"CIE 1976 UCS Chromaticity Diagram".'))
-plot_sds_in_chromaticity_diagram_CIE1976UCS((A, D65))
+plot_sds_in_chromaticity_diagram_CIE1976UCS((sd_A, sd_D65))

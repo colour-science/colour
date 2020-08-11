@@ -10,7 +10,7 @@ from colour.utilities import message_box
 
 message_box('"CIE XYZ" Tristimulus Values Computations')
 
-sample_sd_data = {
+data_sample = {
     380: 0.048,
     385: 0.051,
     390: 0.055,
@@ -94,14 +94,14 @@ sample_sd_data = {
     780: 0.421
 }
 
-sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
+sd_sample = colour.SpectralDistribution(data_sample, name='Sample')
 
 cmfs = colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
 illuminant = colour.SDS_ILLUMINANTS['A']
 
 message_box(('Computing *CIE XYZ* tristimulus values for sample spectral '
              'distribution and "CIE Standard Illuminant A".'))
-print(colour.sd_to_XYZ(sd, cmfs, illuminant))
+print(colour.sd_to_XYZ(sd_sample, cmfs, illuminant))
 
 print('\n')
 

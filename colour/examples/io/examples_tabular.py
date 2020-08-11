@@ -15,19 +15,19 @@ RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 message_box('"CSV" Tabular Data IO')
 
 message_box('Reading tabular data from "CSV" file.')
-data = colour.read_spectral_data_from_csv_file(
+data_babelcolor_average = colour.read_spectral_data_from_csv_file(
     os.path.join(RESOURCES_DIRECTORY, 'babelcolor_average.csv'))
-pprint(sorted(data.keys()))
+pprint(sorted(data_babelcolor_average.keys()))
 
 print('\n')
 
 message_box('Format spectral data for pretty printing.')
-print(format_spectral_data(data))
+print(format_spectral_data(data_babelcolor_average))
 
 print('\n')
 
 message_box(('Reading spectral data from a "CSV" file directly as spectral '
              'distributions.'))
-sds = colour.read_sds_from_csv_file(
+sds_babelcolor_average = colour.read_sds_from_csv_file(
     os.path.join(RESOURCES_DIRECTORY, 'babelcolor_average.csv'))
-pprint(sds)
+pprint(sds_babelcolor_average)

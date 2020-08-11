@@ -13,9 +13,9 @@ message_box(('Computing the spectral distribution of a blackbody at '
              'tristimulus values.'))
 cmfs = colour.MSDS_CMFS_STANDARD_OBSERVER[
     'CIE 1931 2 Degree Standard Observer']
-blackbody_sd = colour.sd_blackbody(5500, cmfs.shape)
-print(blackbody_sd)
-XYZ = colour.sd_to_XYZ(blackbody_sd, cmfs)
+sd_blackbody = colour.sd_blackbody(5500, cmfs.shape)
+print(sd_blackbody)
+XYZ = colour.sd_to_XYZ(sd_blackbody, cmfs)
 print(XYZ)
 
 print('\n')

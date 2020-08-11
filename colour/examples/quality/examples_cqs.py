@@ -32,7 +32,7 @@ print(
 print('\n')
 
 message_box('Computing sample light "Colour Quality Scale (CQS)".')
-DATA_SAMPLE = {
+data_sample = {
     380: 0.00588346,
     385: 0.00315377,
     390: 0.00242868,
@@ -118,4 +118,4 @@ DATA_SAMPLE = {
 
 print(
     colour.colour_quality_scale(
-        colour.SpectralDistribution(DATA_SAMPLE, name='Sample')))
+        colour.SpectralDistribution(data_sample, name='Sample')))
