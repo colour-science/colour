@@ -42,7 +42,7 @@ class TestReadLUTIridasCube(unittest.TestCase):
         LUT_1 = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.cube'))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.table,
             np.array([
                 [4.88300000e-04, 4.88300000e-04, 4.88300000e-04],

@@ -148,8 +148,8 @@ def primitive_grid(width=1,
     uvs = np.reshape(uvs, (-1, 2))
     normals = np.reshape(normals, (-1, 3))
 
-    faces = np.reshape(faces, (-1, 3)).astype(np.uint32)
-    outline = np.reshape(outline, (-1, 2)).astype(np.uint32)
+    faces = np.reshape(np.array(faces), (-1, 3)).astype(np.uint32)
+    outline = np.reshape(np.array(outline), (-1, 2)).astype(np.uint32)
 
     if axis in ('-x', '+x'):
         shift, zero_axis = 1, 0

@@ -1787,11 +1787,24 @@ class LUT3D(AbstractLUT):
         domain = as_float_array(domain)
 
         if domain.shape != (2, 3):
-            samples = np.flip([
-                axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
-                for axes in np.transpose(domain)
-            ], -1)
-            size = [len(axes) for axes in samples]
+
+            if np.__name__ == 'cupy':
+                np.set_ndimensional_array_backend('numpy')
+                samples = np.flip(
+                    np.array([
+                        axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
+                        for axes in np.transpose(np.array(domain))
+                    ]), -1)
+                table = np.array(np.meshgrid(*samples, indexing='ij'))
+                np.set_ndimensional_array_backend('cupy')
+                table = np.array(table)
+            else:
+                samples = np.flip([
+                    axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
+                    for axes in np.transpose(domain)
+                ], -1)
+
+            size = np.array([len(axes) for axes in samples])
         else:
             if is_numeric(size):
                 size = np.tile(size, 3)
@@ -1802,17 +1815,18 @@ class LUT3D(AbstractLUT):
                     np.linspace(a[0].item(), a[1].item(), size[i].item())
                     for i, a in enumerate([B, G, R])
                 ]
+                table = np.array(np.meshgrid(*samples, indexing='ij'))
             else:
                 samples = [
                     np.linspace(a[0], a[1], size[i])
                     for i, a in enumerate([B, G, R])
                 ]
 
-        table = np.array(np.meshgrid(*samples, indexing='ij'))
         if np.__name__ == 'cupy':
             table_tuple = tuple(np.asnumpy(np.hstack([np.flip(size, -1), 3])))
             table = np.flip(np.transpose(table).reshape(table_tuple), -1)
         else:
+            table = np.array(np.meshgrid(*samples, indexing='ij'))
             hstack = np.hstack([np.flip(size, -1), 3])
             table = np.flip(np.transpose(table).reshape(hstack), -1)
 

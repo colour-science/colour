@@ -58,15 +58,18 @@ oetf_ARIBSTDB67` definition n-dimensional arrays support.
 
         E = np.tile(E, 6)
         E_p = np.tile(E_p, 6)
-        np.testing.assert_almost_equal(oetf_ARIBSTDB67(E), E_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            oetf_ARIBSTDB67(E), E_p, decimal=7)
 
         E = np.reshape(E, (2, 3))
         E_p = np.reshape(E_p, (2, 3))
-        np.testing.assert_almost_equal(oetf_ARIBSTDB67(E), E_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            oetf_ARIBSTDB67(E), E_p, decimal=7)
 
         E = np.reshape(E, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_ARIBSTDB67(E), E_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            oetf_ARIBSTDB67(E), E_p, decimal=7)
 
     def test_domain_range_scale_oetf_ARIBSTDB67(self):
         """
@@ -80,7 +83,7 @@ oetf_ARIBSTDB67` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     oetf_ARIBSTDB67(E * factor), E_p * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -128,17 +131,17 @@ oetf_inverse_ARIBSTDB67` definition n-dimensional arrays support.
 
         E_p = np.tile(E_p, 6)
         E = np.tile(E, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_inverse_ARIBSTDB67(E_p), E, decimal=7)
 
         E_p = np.reshape(E_p, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_inverse_ARIBSTDB67(E_p), E, decimal=7)
 
         E_p = np.reshape(E_p, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             oetf_inverse_ARIBSTDB67(E_p), E, decimal=7)
 
     def test_domain_range_scale_oetf_inverse_ARIBSTDB67(self):
@@ -153,7 +156,7 @@ oetf_inverse_ARIBSTDB67` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     oetf_inverse_ARIBSTDB67(E_p * factor),
                     E * factor,
                     decimal=7)

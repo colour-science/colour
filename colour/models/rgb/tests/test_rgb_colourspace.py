@@ -81,7 +81,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             colourspace.use_derived_transformation_matrices(True)
             RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
             XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
-            np.testing.assert_almost_equal(XYZ_r, XYZ, decimal=7)
+            np.testing.assert_array_almost_equal(XYZ_r, XYZ, decimal=7)
 
     def test_cctf(self):
         """
@@ -106,7 +106,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             cctf_encoding_s = colourspace.cctf_encoding(samples)
             cctf_decoding_s = colourspace.cctf_decoding(cctf_encoding_s)
 
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 samples,
                 cctf_decoding_s,
                 decimal=decimals.get(colourspace.name, 7))
@@ -124,28 +124,28 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             value_cctf_encoding = 0.5
             value_cctf_decoding = colourspace.cctf_decoding(
                 colourspace.cctf_encoding(value_cctf_encoding))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 value_cctf_encoding,
                 value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7))
 
             value_cctf_encoding = np.tile(value_cctf_encoding, 6)
             value_cctf_decoding = np.tile(value_cctf_decoding, 6)
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 value_cctf_encoding,
                 value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7))
 
             value_cctf_encoding = np.reshape(value_cctf_encoding, (3, 2))
             value_cctf_decoding = np.reshape(value_cctf_decoding, (3, 2))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 value_cctf_encoding,
                 value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7))
 
             value_cctf_encoding = np.reshape(value_cctf_encoding, (3, 2, 1))
             value_cctf_decoding = np.reshape(value_cctf_decoding, (3, 2, 1))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 value_cctf_encoding,
                 value_cctf_decoding,
                 decimal=decimals.get(colourspace.name, 7))
@@ -301,7 +301,7 @@ use_derived_transformation_matrices` method.
         self.assertTrue(
             self._colourspace.use_derived_transformation_matrices())
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._colourspace.RGB_to_XYZ_matrix,
             np.array([
                 [0.95255240, 0.00000000, 0.00009368],
@@ -309,7 +309,7 @@ use_derived_transformation_matrices` method.
                 [0.00000000, 0.00000000, 1.00882518],
             ]),
             decimal=7)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._colourspace.XYZ_to_RGB_matrix,
             np.array([
                 [1.04981102, 0.00000000, -0.00009748],
@@ -388,7 +388,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RGB(
                 np.array([0.21638819, 0.12570000, 0.03847493]),
                 np.array([0.34570, 0.35850]), np.array([0.31270, 0.32900]),
@@ -400,7 +400,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
             np.array([0.70556599, 0.19109268, 0.22340812]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RGB(
                 np.array([0.21638819, 0.12570000, 0.03847493]),
                 np.array([0.34570, 0.35850]), np.array([0.31270, 0.32900]),
@@ -412,7 +412,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
             np.array([0.72794579, 0.18180021, 0.17951580]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RGB(
                 np.array([0.21638819, 0.12570000, 0.03847493]),
                 np.array([0.34570, 0.35850]), np.array([0.32168, 0.33767]),
@@ -424,7 +424,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
             np.array([0.21959099, 0.06985815, 0.04703704]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RGB(
                 np.array([0.21638819, 0.12570000, 0.03847493]),
                 np.array([0.34570, 0.35850]),
@@ -455,14 +455,14 @@ class TestXYZ_to_RGB(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', eotf_inverse_sRGB),
             RGB,
             decimal=7)
 
         W_R = np.tile(W_R, (6, 1))
         W_T = np.tile(W_T, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', eotf_inverse_sRGB),
             RGB,
             decimal=7)
@@ -471,7 +471,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         W_R = np.reshape(W_R, (2, 3, 2))
         W_T = np.reshape(W_T, (2, 3, 2))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RGB(XYZ, W_R, W_T, M, 'Bradford', eotf_inverse_sRGB),
             RGB,
             decimal=7)
@@ -495,7 +495,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_RGB(XYZ * factor, W_R, W_T, M),
                     RGB * factor,
                     decimal=7)
@@ -528,7 +528,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
         Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_XYZ(
                 np.array([0.70556599, 0.19109268, 0.22340812]),
                 np.array([0.31270, 0.32900]), np.array([0.34570, 0.35850]),
@@ -540,7 +540,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
             np.array([0.21638819, 0.12570000, 0.03847493]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_XYZ(
                 np.array([0.72794579, 0.18180021, 0.17951580]),
                 np.array([0.31270, 0.32900]), np.array([0.34570, 0.35850]),
@@ -552,7 +552,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
             np.array([0.21638819, 0.12570000, 0.03847493]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_XYZ(
                 np.array([0.21959099, 0.06985815, 0.04703704]),
                 np.array([0.32168, 0.33767]), np.array([0.34570, 0.35850]),
@@ -564,7 +564,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
             np.array([0.21638819, 0.12570000, 0.03847493]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_XYZ(
                 np.array([0.45620801, 0.03079991, 0.04091883]),
                 np.array([0.31270, 0.32900, 1.00000]),
@@ -595,14 +595,14 @@ class TestRGB_to_XYZ(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', eotf_sRGB),
             XYZ,
             decimal=7)
 
         W_R = np.tile(W_R, (6, 1))
         W_T = np.tile(W_T, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', eotf_sRGB),
             XYZ,
             decimal=7)
@@ -611,7 +611,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
         W_R = np.reshape(W_R, (2, 3, 2))
         W_T = np.reshape(W_T, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_XYZ(RGB, W_R, W_T, M, 'Bradford', eotf_sRGB),
             XYZ,
             decimal=7)
@@ -635,7 +635,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_XYZ(RGB * factor, W_R, W_T, M),
                     XYZ * factor,
                     decimal=7)
@@ -673,7 +673,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
         aces_cg_colourspace = RGB_COLOURSPACES['ACEScg']
         sRGB_colourspace = RGB_COLOURSPACES['sRGB']
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB_matrix(aces_2065_1_colourspace, sRGB_colourspace),
             np.array([
                 [2.52164943, -1.13688855, -0.38491759],
@@ -682,7 +682,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB_matrix(sRGB_colourspace, aces_2065_1_colourspace),
             np.array([
                 [0.43958564, 0.38392940, 0.17653274],
@@ -691,7 +691,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB_matrix(aces_2065_1_colourspace, aces_cg_colourspace,
                               'Bradford'),
             np.array([
@@ -701,7 +701,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB_matrix(aces_2065_1_colourspace, sRGB_colourspace,
                               'Bradford'),
             np.array([
@@ -711,7 +711,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB_matrix(aces_2065_1_colourspace, sRGB_colourspace, None),
             np.array([
                 [2.55809607, -1.11933692, -0.39181451],
@@ -735,28 +735,28 @@ class TestRGB_to_RGB(unittest.TestCase):
         aces_2065_1_colourspace = RGB_COLOURSPACES['ACES2065-1']
         sRGB_colourspace = RGB_COLOURSPACES['sRGB']
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB(
                 np.array([0.21931722, 0.06950287, 0.04694832]),
                 aces_2065_1_colourspace, sRGB_colourspace),
             np.array([0.45595289, 0.03040780, 0.04087313]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB(
                 np.array([0.45595571, 0.03039702, 0.04087245]),
                 sRGB_colourspace, aces_2065_1_colourspace),
             np.array([0.21931722, 0.06950287, 0.04694832]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB(
                 np.array([0.21931722, 0.06950287, 0.04694832]),
                 aces_2065_1_colourspace, sRGB_colourspace, 'Bradford'),
             np.array([0.45597530, 0.03030054, 0.04086041]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB(
                 np.array([0.21931722, 0.06950287, 0.04694832]),
                 aces_2065_1_colourspace, sRGB_colourspace, None),
@@ -766,7 +766,7 @@ class TestRGB_to_RGB(unittest.TestCase):
         aces_cg_colourspace = RGB_COLOURSPACES['ACEScg']
         aces_cc_colourspace = RGB_COLOURSPACES['ACEScc']
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB(
                 np.array([0.21931722, 0.06950287, 0.04694832]),
                 aces_cg_colourspace,
@@ -776,7 +776,7 @@ class TestRGB_to_RGB(unittest.TestCase):
             np.array([0.42985679, 0.33522924, 0.30292336]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB(
                 np.array([0.46956438, 0.48137533, 0.43788601]),
                 aces_cc_colourspace,
@@ -807,14 +807,14 @@ class TestRGB_to_RGB(unittest.TestCase):
 
         RGB_i = np.tile(RGB_i, (6, 1))
         RGB_o = np.tile(RGB_o, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
             RGB_o,
             decimal=7)
 
         RGB_i = np.reshape(RGB_i, (2, 3, 3))
         RGB_o = np.reshape(RGB_o, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
             RGB_o,
             decimal=7)
@@ -833,7 +833,7 @@ class TestRGB_to_RGB(unittest.TestCase):
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_RGB(RGB_i * factor, aces_2065_1_colourspace,
                                sRGB_colourspace),
                     RGB_o * factor,

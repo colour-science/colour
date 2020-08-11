@@ -279,6 +279,8 @@ class Signal(AbstractContinuousFunction):
         ndarray
             Continuous signal independent domain :math:`x` variable.
         """
+        if np.__name__ == 'cupy' and self._domain is None:
+            return None
 
         return np.copy(self._domain)
 
@@ -289,6 +291,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
+            value = np.array(value)
             if np.asarray(value).dtype != object:
                 if not np.all(np.isfinite(value)):
                     runtime_warning(
@@ -328,6 +331,8 @@ class Signal(AbstractContinuousFunction):
         ndarray
             Continuous signal corresponding range :math:`y` variable.
         """
+        if np.__name__ == 'cupy' and self._range is None:
+            return None
 
         return np.copy(self._range)
 
@@ -338,6 +343,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
+            value = np.array(value)
             if np.asarray(value).dtype != object:
                 if not np.all(np.isfinite(value)):
                     runtime_warning(
@@ -1248,6 +1254,12 @@ class Signal(AbstractContinuousFunction):
 
         if is_pandas_installed():
             from pandas import Series
+
+            if np.__name__ == 'cupy':
+                return Series(
+                    data=np.asnumpy(self._range),
+                    index=np.asnumpy(self._domain),
+                    name=self.name)
 
             return Series(data=self._range, index=self._domain, name=self.name)
 

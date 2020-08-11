@@ -61,12 +61,12 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         CCT = np.tile(CCT, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_CCT_Hernandez1999(xy), CCT, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         CCT = np.reshape(CCT, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_CCT_Hernandez1999(xy), CCT, decimal=7)
 
     @ignore_numpy_errors
@@ -94,17 +94,17 @@ class TestCCT_to_xy_Hernandez1999(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_Hernandez1999(6500.74204318, {'method': 'Nelder-Mead'}),
             np.array([0.31269943, 0.32900373]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_Hernandez1999(2790.64222533, {'method': 'Nelder-Mead'}),
             np.array([0.42864308, 0.36754776]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_Hernandez1999(64448.11092565, {'method': 'Nelder-Mead'}),
             np.array([0.08269106, 0.36612620]),
             decimal=7)
@@ -120,12 +120,12 @@ class TestCCT_to_xy_Hernandez1999(unittest.TestCase):
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_Hernandez1999(CCT), xy, decimal=7)
 
         CCT = np.reshape(CCT, (2, 3))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_Hernandez1999(CCT), xy, decimal=7)
 
     @ignore_numpy_errors

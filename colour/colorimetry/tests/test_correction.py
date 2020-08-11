@@ -52,7 +52,7 @@ bandpass_correction_Stearns1988` definition.
                     range(len(DATA_NON_BANDPASS_CORRECTED)),
                     DATA_NON_BANDPASS_CORRECTED)))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             bandpass_correction_Stearns1988(sd).values,
             DATA_BANDPASS_CORRECTED)
 

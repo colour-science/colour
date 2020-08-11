@@ -349,25 +349,31 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
         if has_3x1D:
             cube_file.write('{0} {1}\n'.format('LUT_1D_SIZE',
                                                LUT[0].table.shape[0]))
-            if not np.array_equal(LUT[0].domain, default_domain):
+            if not np.array_equal(np.array(LUT[0].domain), default_domain):
                 cube_file.write('LUT_1D_INPUT_RANGE {0}\n'.format(
-                    _format_tuple([LUT[0].domain[0][0], LUT[0].domain[1][0]])))
+                    _format_tuple([
+                        np.array(LUT[0].domain)[0][0],
+                        np.array(LUT[0].domain)[1][0]
+                    ])))
 
         if has_3D:
             cube_file.write('{0} {1}\n'.format('LUT_3D_SIZE',
                                                LUT[1].table.shape[0]))
-            if not np.array_equal(LUT[1].domain, default_domain):
+            if not np.array_equal(np.array(LUT[1].domain), default_domain):
                 cube_file.write('LUT_3D_INPUT_RANGE {0}\n'.format(
-                    _format_tuple([LUT[1].domain[0][0], LUT[1].domain[1][0]])))
+                    _format_tuple([
+                        np.array(LUT[1].domain)[0][0],
+                        np.array(LUT[1].domain)[1][0]
+                    ])))
 
         if has_3x1D:
-            table = LUT[0].table
+            table = np.array(LUT[0].table)
             for row in table:
                 cube_file.write('{0}\n'.format(_format_array(row)))
             cube_file.write('\n')
 
         if has_3D:
-            table = LUT[1].table.reshape([-1, 3], order='F')
+            table = np.array(LUT[1].table).reshape([-1, 3], order='F')
             for row in table:
                 cube_file.write('{0}\n'.format(_format_array(row)))
 

@@ -55,17 +55,17 @@ log_encoding_FilmLightTLog` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         t = np.tile(t, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_FilmLightTLog(x), t, decimal=7)
 
         x = np.reshape(x, (2, 3))
         t = np.reshape(t, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_FilmLightTLog(x), t, decimal=7)
 
         x = np.reshape(x, (2, 3, 1))
         t = np.reshape(t, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_FilmLightTLog(x), t, decimal=7)
 
     def test_domain_range_scale_log_encoding_TLog(self):
@@ -80,7 +80,7 @@ log_encoding_FilmLightTLog` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_FilmLightTLog(x * factor),
                     t * factor,
                     decimal=7)
@@ -128,17 +128,17 @@ log_decoding_FilmLightTLog` definition n-dimensional arrays support.
 
         t = np.tile(t, 6)
         x = np.tile(x, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_FilmLightTLog(t), x, decimal=7)
 
         t = np.reshape(t, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_FilmLightTLog(t), x, decimal=7)
 
         t = np.reshape(t, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_FilmLightTLog(t), x, decimal=7)
 
     def test_domain_range_scale_log_decoding_TLog(self):
@@ -153,7 +153,7 @@ log_decoding_FilmLightTLog` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_FilmLightTLog(t * factor),
                     x * factor,
                     decimal=7)

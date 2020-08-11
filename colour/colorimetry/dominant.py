@@ -31,7 +31,7 @@ from colour.algebra import (euclidean_distance, extend_line_segment,
                             intersect_line_segments)
 from colour.colorimetry import MSDS_CMFS
 from colour.models import XYZ_to_xy
-from colour.utilities import as_float_array
+from colour.utilities import as_float_array, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -357,5 +357,8 @@ def colorimetric_purity(xy,
     P_e = excitation_purity(xy, xy_n, cmfs)
 
     P_c = P_e * xy_wl[..., 1] / xy[..., 1]
+
+    if np.__name__ == 'cupy' and P_c.size == 1:
+        return as_float(P_c)
 
     return P_c

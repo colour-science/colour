@@ -94,6 +94,18 @@ class NDimensionalArrayBackend(object):
             failsafe = None
 
         if _NDIMENSIONAL_ARRAY_BACKEND == 'numpy':
+            if attribute in ['array', 'asarray']:
+
+                def checkForCupy(*args, **kwargs):
+                    args = list(args)
+                    for i in range(len(args)):
+                        if hasattr(self._cupy, 'ndarray') and \
+                           isinstance(args[i], self._cupy.ndarray):
+                            args[i] = self._cupy.asnumpy(args[i])
+                    args = tuple(args)
+                    return failsafe(*args, **kwargs)
+
+                return checkForCupy
             return getattr(self._numpy, attribute)
         elif _NDIMENSIONAL_ARRAY_BACKEND == 'cupy' and self._cupy is not None:
             if attribute not in self._cupy_unsupported:

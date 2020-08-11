@@ -38,22 +38,22 @@ class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_quad_mpl(),
             np.array([[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_quad_mpl(axis='+y'),
             np.array([[0, 0, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_quad_mpl(axis='+x'),
             np.array([[0, 0, 0], [0, 1, 0], [0, 1, 1], [0, 0, 1]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_quad_mpl(
                 width=0.2,
                 height=0.4,
@@ -68,7 +68,7 @@ class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_quad_mpl(
                 width=-0.2,
                 height=-0.4,
@@ -84,7 +84,7 @@ class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
             decimal=7)
 
         for plane in ('xy', 'xz', 'yz'):
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 primitive_vertices_quad_mpl(axis=plane),
                 primitive_vertices_quad_mpl(axis=PLANE_TO_AXIS_MAPPING[plane]),
                 decimal=7)
@@ -105,22 +105,22 @@ class TestPrimitiveVerticesGridMpl(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_grid_mpl(),
             np.array([[[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0]]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_grid_mpl(axis='+y'),
             np.array([[[0, 0, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1]]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_grid_mpl(axis='+x'),
             np.array([[[0, 0, 0], [0, 1, 0], [0, 1, 1], [0, 0, 1]]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_grid_mpl(
                 width=0.2,
                 height=0.4,
@@ -145,7 +145,7 @@ class TestPrimitiveVerticesGridMpl(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_grid_mpl(
                 width=-0.2,
                 height=-0.4,
@@ -183,7 +183,7 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_cube_mpl(),
             np.array([
                 [
@@ -225,37 +225,37 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_cube_mpl(planes=['+x']),
             np.array([[[1, 0, 0], [1, 1, 0], [1, 1, 1], [1, 0, 1]]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_cube_mpl(planes=['-x']),
             np.array([[[0, 0, 0], [0, 1, 0], [0, 1, 1], [0, 0, 1]]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_cube_mpl(planes=['+y']),
             np.array([[[0, 1, 0], [1, 1, 0], [1, 1, 1], [0, 1, 1]]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_cube_mpl(planes=['-y']),
             np.array([[[0, 0, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1]]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_cube_mpl(planes=['+z']),
             np.array([[[0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_cube_mpl(planes=['-z']),
             np.array([[[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0]]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_cube_mpl(
                 width=0.2,
                 height=0.4,
@@ -400,7 +400,7 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_cube_mpl(
                 width=-0.2,
                 height=-0.4,
@@ -546,7 +546,7 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
             decimal=7)
 
         for plane in PLANE_TO_AXIS_MAPPING.keys():
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 primitive_vertices_cube_mpl(planes=[plane]),
                 primitive_vertices_cube_mpl(
                     planes=[PLANE_TO_AXIS_MAPPING[plane]]),
@@ -565,7 +565,7 @@ class TestPrimitiveVerticesSphere(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_sphere(),
             np.array([
                 [
@@ -659,7 +659,7 @@ class TestPrimitiveVerticesSphere(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_sphere(intermediate=True),
             np.array([
                 [
@@ -745,7 +745,7 @@ class TestPrimitiveVerticesSphere(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_sphere(segments=6, axis='+y'),
             np.array([
                 [
@@ -805,7 +805,7 @@ class TestPrimitiveVerticesSphere(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_sphere(segments=6, axis='+x'),
             np.array([
                 [
@@ -865,7 +865,7 @@ class TestPrimitiveVerticesSphere(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             primitive_vertices_sphere(
                 radius=100,
                 segments=6,
@@ -930,7 +930,7 @@ class TestPrimitiveVerticesSphere(unittest.TestCase):
             decimal=7)
 
         for plane in ('xy', 'xz', 'yz'):
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 primitive_vertices_sphere(axis=plane),
                 primitive_vertices_sphere(axis=PLANE_TO_AXIS_MAPPING[plane]),
                 decimal=7)

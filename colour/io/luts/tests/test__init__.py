@@ -39,7 +39,7 @@ class TestReadLUT(unittest.TestCase):
         LUT_1 = read_LUT(
             os.path.join(LUTS_DIRECTORY, 'sony_spi1d', 'eotf_sRGB_1D.spi1d'))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.table,
             np.array([
                 -7.73990000e-03, 5.16000000e-04, 1.22181000e-02,
@@ -58,7 +58,7 @@ class TestReadLUT(unittest.TestCase):
 
         LUT_2 = read_LUT(
             os.path.join(LUTS_DIRECTORY, 'resolve_cube', 'LogC_Video.cube'))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2[0].table,
             np.array([
                 [0.00000000, 0.00000000, 0.00000000],

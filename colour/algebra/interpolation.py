@@ -1204,6 +1204,9 @@ class SpragueInterpolator(object):
         y = (a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 +
              a5p * X ** 5)
 
+        if np.__name__ == 'cupy':
+            return as_float(y)
+
         return y
 
     def _validate_dimensions(self):
@@ -1246,12 +1249,23 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
         if np.__name__ == 'cupy':
             args = list(args)
             for i in range(len(args)):
-                if isinstance(args[i], np.ndarray):
+                if isinstance(args[i], (np.ndarray, tuple)):
                     args[i] = np.asnumpy(args[i])
             args = tuple(args)
 
         super(CubicSplineInterpolator, self).__init__(
             kind='cubic', *args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+
+        if np.__name__ == 'cupy':
+            args = list(args)
+            for i in range(len(args)):
+                if isinstance(args[i], (np.ndarray, tuple)):
+                    args[i] = np.asnumpy(args[i])
+            args = tuple(args)
+
+        return super(CubicSplineInterpolator, self).__call__(*args, **kwargs)
 
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):

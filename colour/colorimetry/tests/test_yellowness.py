@@ -66,12 +66,12 @@ class TestYellownessASTMD1925(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         YI = np.tile(YI, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             yellowness_ASTMD1925(XYZ), YI, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         YI = np.reshape(YI, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             yellowness_ASTMD1925(XYZ), YI, decimal=7)
 
     def test_domain_range_scale_yellowness_ASTMD1925(self):
@@ -86,7 +86,7 @@ class TestYellownessASTMD1925(unittest.TestCase):
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     yellowness_ASTMD1925(XYZ * factor), YI * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -144,11 +144,13 @@ class TestYellownessASTM313(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         YI = np.tile(YI, 6)
-        np.testing.assert_almost_equal(yellowness_ASTME313(XYZ), YI, decimal=7)
+        np.testing.assert_array_almost_equal(
+            yellowness_ASTME313(XYZ), YI, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         YI = np.reshape(YI, (2, 3))
-        np.testing.assert_almost_equal(yellowness_ASTME313(XYZ), YI, decimal=7)
+        np.testing.assert_array_almost_equal(
+            yellowness_ASTME313(XYZ), YI, decimal=7)
 
     def test_domain_range_scale_yellowness_ASTME313(self):
         """
@@ -162,7 +164,7 @@ class TestYellownessASTM313(unittest.TestCase):
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     yellowness_ASTME313(XYZ * factor), YI * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -200,7 +202,7 @@ class TestYellowness(unittest.TestCase):
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_almost_equal(
+                    np.testing.assert_array_almost_equal(
                         yellowness(XYZ * factor, method),
                         value * factor,
                         decimal=7)

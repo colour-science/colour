@@ -55,7 +55,7 @@ class TestPlanckianTable(unittest.TestCase):
         cmfs = MSDS_CMFS_STANDARD_OBSERVER[
             'CIE 1931 2 Degree Standard Observer']
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             [(x.Ti, x.ui, x.vi, x.di) for x in planckian_table(
                 np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)],
             PLANCKIAN_TABLE)
@@ -95,17 +95,17 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
 
         cmfs = MSDS_CMFS_STANDARD_OBSERVER[
             'CIE 1931 2 Degree Standard Observer']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122]), cmfs),
             np.array([6507.47380460, 0.00322335]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.4328, 0.2883]), cmfs),
             np.array([1041.68315360, -0.06737802]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722]), cmfs, iterations=4),
             np.array([2452.15316417, -0.08437064]),
             decimal=7)
@@ -121,12 +121,12 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7)
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7)
 
     @ignore_numpy_errors
@@ -157,17 +157,17 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
 
         cmfs = MSDS_CMFS_STANDARD_OBSERVER[
             'CIE 1931 2 Degree Standard Observer']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(np.array([6507.47380460, 0.00322335]), cmfs),
             np.array([0.19779997, 0.31219997]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(np.array([1041.68315360, -0.06737802]), cmfs),
             np.array([0.43279885, 0.28830013]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(np.array([2452.15316417, -0.08437064]), cmfs),
             np.array([0.29247364, 0.27215157]),
             decimal=7)
@@ -185,12 +185,12 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
 
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(CCT_D_uv, cmfs), uv, decimal=7)
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(CCT_D_uv, cmfs), uv, decimal=7)
 
     @ignore_numpy_errors

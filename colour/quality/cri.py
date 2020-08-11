@@ -28,7 +28,7 @@ from colour.colorimetry import (
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
-from colour.utilities import domain_range_scale
+from colour.utilities import as_float, domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -149,6 +149,12 @@ def colour_rendering_index(sd_test, additional_data=False):
             sd_test.name, Q_a, Q_as,
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data))
     else:
+        try:
+            if Q_a.size == 1:
+                return as_float(Q_a)
+        except Exception:
+            pass
+
         return Q_a
 
 

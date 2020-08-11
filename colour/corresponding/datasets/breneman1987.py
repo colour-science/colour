@@ -65,7 +65,13 @@ class BrenemanExperimentResult(
         :math:`\\delta_uv_g^p`.
     """
 
-    def __new__(cls, name, uv_t, uv_m, s_uv=None, d_uv_i=None, d_uv_g=None):
+    def __new__(cls,
+                name,
+                uv_t,
+                uv_m,
+                s_uv=np.nan,
+                d_uv_i=np.nan,
+                d_uv_g=np.nan):
         """
         Returns a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\
@@ -73,8 +79,7 @@ BrenemanExperimentResult` class.
         """
 
         return super(BrenemanExperimentResult, cls).__new__(
-            cls, name, np.array(uv_t), np.array(uv_m), np.array(s_uv),
-            np.array(d_uv_i), np.array(d_uv_g))
+            cls, name, np.array(uv_t), np.array(uv_m), s_uv, d_uv_i, d_uv_g)
 
 
 class PrimariesChromaticityCoordinates(
@@ -104,9 +109,9 @@ class PrimariesChromaticityCoordinates(
                 experiment,
                 illuminants,
                 Y,
-                P_uvp=None,
-                D_uvp=None,
-                T_uvp=None):
+                P_uvp=np.nan,
+                D_uvp=np.nan,
+                T_uvp=np.nan):
         """
         Returns a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\
@@ -114,8 +119,8 @@ PrimariesChromaticityCoordinates` class.
         """
 
         return super(PrimariesChromaticityCoordinates, cls).__new__(
-            cls, experiment, np.array(illuminants), np.array(Y),
-            np.array(P_uvp), np.array(D_uvp), np.array(T_uvp))
+            cls, experiment, illuminants, np.array(Y), np.array(P_uvp),
+            np.array(D_uvp), np.array(T_uvp))
 
 
 # yapf: disable

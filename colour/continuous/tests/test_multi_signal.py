@@ -93,7 +93,7 @@ class TestMultiSignals(unittest.TestCase):
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.array([0, 1, 2])],
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0],
                       [30.0, 40.0, 50.0]]),
@@ -104,7 +104,7 @@ class TestMultiSignals(unittest.TestCase):
         np.testing.assert_array_equal(multi_signals.domain,
                                       self._domain_1 * 10)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.array([0, 1, 2]) * 10],
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0],
                       [30.0, 40.0, 50.0]]),
@@ -123,7 +123,7 @@ class TestMultiSignals(unittest.TestCase):
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.array([0, 1, 2])],
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0],
                       [30.0, 40.0, 50.0]]),
@@ -134,7 +134,7 @@ class TestMultiSignals(unittest.TestCase):
         np.testing.assert_array_equal(multi_signals.range,
                                       tstack([self._range_1] * 3) * 10)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.array([0, 1, 2])],
             np.array([[10.0, 10.0, 10.0], [20.0, 20.0, 20.0],
                       [30.0, 30.0, 30.0]]) * 10,
@@ -144,7 +144,7 @@ class TestMultiSignals(unittest.TestCase):
 
         np.testing.assert_array_equal(multi_signals.range, self._range_2 * 10)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.array([0, 1, 2])],
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0],
                       [30.0, 40.0, 50.0]]) * 10,
@@ -158,7 +158,7 @@ class TestMultiSignals(unittest.TestCase):
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.linspace(0, 5, 5)],
             np.array([[10.00000000, 20.00000000,
                        30.00000000], [22.83489024, 32.80460562, 42.77432100],
@@ -169,7 +169,7 @@ class TestMultiSignals(unittest.TestCase):
 
         multi_signals.interpolator = CubicSplineInterpolator
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.linspace(0, 5, 5)],
             np.array([[10.00000000, 20.00000000,
                        30.00000000], [22.50000000, 32.50000000, 42.50000000],
@@ -186,7 +186,7 @@ interpolator_kwargs` property.
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.linspace(0, 5, 5)],
             np.array([[10.00000000, 20.00000000,
                        30.00000000], [22.83489024, 32.80460562, 42.77432100],
@@ -202,7 +202,7 @@ interpolator_kwargs` property.
             }
         }
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.linspace(0, 5, 5)],
             np.array([[10.00000000, 20.00000000,
                        30.00000000], [18.91328761, 27.91961505, 36.92594248],
@@ -233,7 +233,7 @@ extrapolator_kwargs` property.
             'method': 'Linear',
         }
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.array([-1000, 1000])],
             np.array([[-9990.0, -9980.0, -9970.0], [10010.0, 10020.0,
                                                     10030.0]]),
@@ -412,16 +412,16 @@ extrapolator_kwargs` property.
         method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._multi_signals[0], np.array([10.0, 20.0, 30.0]), decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._multi_signals[np.array([0, 1, 2])],
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0],
                       [30.0, 40.0, 50.0]]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._multi_signals[np.linspace(0, 5, 5)],
             np.array([[10.00000000, 20.00000000,
                        30.00000000], [22.83489024, 32.80460562, 42.77432100],
@@ -467,32 +467,32 @@ extrapolator_kwargs` property.
         multi_signals = self._multi_signals.copy()
 
         multi_signals[0] = 20
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[0], np.array([20.0, 20.0, 20.0]), decimal=7)
 
         multi_signals[np.array([0, 1, 2])] = 30
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[np.array([0, 1, 2])],
             np.array([[30.0, 30.0, 30.0], [30.0, 30.0, 30.0],
                       [30.0, 30.0, 30.0]]),
             decimal=7)
 
         multi_signals[0:3] = 40
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals[0:3],
             np.array([[40.0, 40.0, 40.0], [40.0, 40.0, 40.0],
                       [40.0, 40.0, 40.0]]),
             decimal=7)
 
         multi_signals[np.linspace(0, 5, 5)] = 50
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.domain,
             np.array([
                 0.00, 1.00, 1.25, 2.00, 2.50, 3.00, 3.75, 4.00, 5.00, 6.00,
                 7.00, 8.00, 9.00
             ]),
             decimal=7)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.range,
             np.array([
                 [50.0, 50.0, 50.0],
@@ -512,7 +512,7 @@ extrapolator_kwargs` property.
             decimal=7)
 
         multi_signals[np.array([0, 1, 2])] = np.array([10, 20, 30])
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.range,
             np.array([
                 [10.0, 20.0, 30.0],
@@ -532,7 +532,7 @@ extrapolator_kwargs` property.
             decimal=7)
 
         multi_signals[np.array([0, 1, 2])] = np.arange(1, 10, 1).reshape(3, 3)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.range,
             np.array([
                 [1.0, 2.0, 3.0],
@@ -644,81 +644,81 @@ extrapolator_kwargs` property.
 arithmetical_operation` method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._multi_signals.arithmetical_operation(10, '+', False).range,
             self._range_2 + 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._multi_signals.arithmetical_operation(10, '-', False).range,
             self._range_2 - 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._multi_signals.arithmetical_operation(10, '*', False).range,
             self._range_2 * 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._multi_signals.arithmetical_operation(10, '/', False).range,
             self._range_2 / 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._multi_signals.arithmetical_operation(10, '**', False).range,
             self._range_2 ** 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._multi_signals + 10).range, self._range_2 + 10, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._multi_signals - 10).range, self._range_2 - 10, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._multi_signals * 10).range, self._range_2 * 10, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._multi_signals / 10).range, self._range_2 / 10, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._multi_signals ** 10).range, self._range_2 ** 10, decimal=7)
 
         multi_signals = self._multi_signals.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.arithmetical_operation(10, '+', True).range,
             self._range_2 + 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.arithmetical_operation(10, '-', True).range,
             self._range_2,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.arithmetical_operation(10, '*', True).range,
             self._range_2 * 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.arithmetical_operation(10, '/', True).range,
             self._range_2,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.arithmetical_operation(10, '**', True).range,
             self._range_2 ** 10,
             decimal=7)
 
         multi_signals = self._multi_signals.copy()
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.arithmetical_operation(self._range_2, '+',
                                                  False).range,
             self._range_2 + self._range_2,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.arithmetical_operation(multi_signals, '+',
                                                  False).range,
             self._range_2 + self._range_2,
@@ -812,7 +812,7 @@ multi_signals_unpack_data` method.
 
         multi_signals[3:7] = np.nan
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.fill_nan().range,
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [
                 30.0, 40.0, 50.0
@@ -823,7 +823,7 @@ multi_signals_unpack_data` method.
 
         multi_signals[3:7] = np.nan
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             multi_signals.fill_nan(method='Constant').range,
             np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0],
                       [30.0, 40.0, 50.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0],
@@ -840,7 +840,7 @@ domain_distance` method.
         self.assertAlmostEqual(
             self._multi_signals.domain_distance(0.5), 0.5, places=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._multi_signals.domain_distance(np.linspace(0, 9, 10) + 0.5),
             np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
             decimal=7)

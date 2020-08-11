@@ -25,7 +25,7 @@ import colour.ndarray as np
 
 from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
 from colour.constants import CONSTANT_AVOGADRO
-from colour.utilities import as_float_array, filter_kwargs
+from colour.utilities import as_float, as_float_array, filter_kwargs
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -110,6 +110,12 @@ def air_refraction_index_Penndorf1957(wavelength):
     n /= 1.0e8
     n += +1
 
+    try:
+        if n.size == 1:
+            return as_float(n)
+    except Exception:
+        pass
+
     return n
 
 
@@ -140,6 +146,12 @@ def air_refraction_index_Edlen1966(wavelength):
     n = 8342.13 + 2406030 / (130 - wl ** (-2)) + 15997 / (38.9 - wl ** (-2))
     n /= 1.0e8
     n += +1
+
+    try:
+        if n.size == 1:
+            return as_float(n)
+    except Exception:
+        pass
 
     return n
 
@@ -172,6 +184,12 @@ def air_refraction_index_Peck1972(wavelength):
                               (-2)) + 17455.7 / (39.32957 - wl ** (-2)))
     n /= 1.0e8
     n += +1
+
+    try:
+        if n.size == 1:
+            return as_float(n)
+    except Exception:
+        pass
 
     return n
 
@@ -207,6 +225,12 @@ def air_refraction_index_Bodhaine1999(
     n = ((1 + 0.54 * ((CO2_c * 1e-6) - 300e-6)) *
          (air_refraction_index_Peck1972(wl) - 1) + 1)
 
+    try:
+        if n.size == 1:
+            return as_float(n)
+    except Exception:
+        pass
+
     return n
 
 
@@ -234,6 +258,12 @@ def N2_depolarisation(wavelength):
     wl = as_float_array(wavelength)
 
     N2 = 1.034 + 3.17 * 1.0e-4 * (1 / wl ** 2)
+
+    try:
+        if N2.size == 1:
+            return as_float(N2)
+    except Exception:
+        pass
 
     return N2
 
@@ -263,6 +293,12 @@ def O2_depolarisation(wavelength):
 
     O2 = (1.096 + 1.385 * 1.0e-3 * (1 / wl ** 2) +
           1.448 * 1.0e-4 * (1 / wl ** 4))
+
+    try:
+        if O2.size == 1:
+            return as_float(O2)
+    except Exception:
+        pass
 
     return O2
 
@@ -361,6 +397,12 @@ def F_air_Bates1984(wavelength):
     F_air = (
         (78.084 * N2 + 20.946 * O2 + CO2 + Ar) / (78.084 + 20.946 + Ar + CO2))
 
+    try:
+        if F_air.size == 1:
+            return as_float(F_air)
+    except Exception:
+        pass
+
     return F_air
 
 
@@ -396,6 +438,12 @@ def F_air_Bodhaine1999(wavelength,
 
     F_air = ((78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) /
              (78.084 + 20.946 + 0.934 + CO2_c))
+
+    try:
+        if F_air.size == 1:
+            return as_float(F_air)
+    except Exception:
+        pass
 
     return F_air
 
@@ -438,6 +486,12 @@ def molecular_density(temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
 
     N_s = (avogadro_constant / 22.4141) * (273.15 / T) * (1 / 1000)
 
+    try:
+        if N_s.size == 1:
+            return as_float(N_s)
+    except Exception:
+        pass
+
     return N_s
 
 
@@ -466,6 +520,13 @@ def mean_molecular_weights(
     CO2_c = CO2_concentration * 1.0e-6
 
     m_a = 15.0556 * CO2_c + 28.9595
+
+    try:
+        if m_a.size == 1:
+            return as_float(m_a)
+    except Exception:
+        pass
+
     return m_a
 
 
@@ -511,6 +572,12 @@ def gravity_List1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
     g = (g0 - (3.085462e-4 + 2.27e-7 * cos2phi) * altitude +
          (7.254e-11 + 1.0e-13 * cos2phi) * altitude ** 2 -
          (1.517e-17 + 6e-20 * cos2phi) * altitude ** 3)
+
+    try:
+        if g.size == 1:
+            return as_float(g)
+    except Exception:
+        pass
 
     return g
 
@@ -582,6 +649,12 @@ def scattering_cross_section(
     sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 / (wl ** 4 * N_s ** 2 *
                                                       (n_s ** 2 + 2) ** 2))
     sigma *= F_air
+
+    try:
+        if sigma.size == 1:
+            return as_float(sigma)
+    except Exception:
+        pass
 
     return sigma
 
@@ -658,6 +731,12 @@ def rayleigh_optical_depth(
     g = gravity_List1968(latitude, altitude)
 
     T_R = sigma * (P * avogadro_constant) / (m_a * g)
+
+    try:
+        if T_R.size == 1:
+            return as_float(T_R)
+    except Exception:
+        pass
 
     return T_R
 

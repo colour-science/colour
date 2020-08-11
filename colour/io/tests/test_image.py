@@ -59,7 +59,7 @@ class TestConvertBitDepth(unittest.TestCase):
 
         self.assertIs(
             convert_bit_depth(a, 'float16').dtype, np.dtype('float16'))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, 'float16'),
             np.array([
                 0.0000, 0.1098, 0.2235, 0.3333, 0.443, 0.5566, 0.6665, 0.7764,
@@ -69,7 +69,7 @@ class TestConvertBitDepth(unittest.TestCase):
 
         self.assertIs(
             convert_bit_depth(a, 'float32').dtype, np.dtype('float32'))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, 'float32'),
             np.array([
                 0.00000000, 0.10980392, 0.22352941, 0.33333334, 0.44313726,
@@ -96,7 +96,7 @@ class TestConvertBitDepth(unittest.TestCase):
 
         self.assertIs(
             convert_bit_depth(a, 'float16').dtype, np.dtype('float16'))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, 'float16'),
             np.array([
                 0.0000, 0.1098, 0.2235, 0.3333, 0.443, 0.5566, 0.6665, 0.7764,
@@ -106,7 +106,7 @@ class TestConvertBitDepth(unittest.TestCase):
 
         self.assertIs(
             convert_bit_depth(a, 'float32').dtype, np.dtype('float32'))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, 'float32'),
             np.array([
                 0.00000000, 0.11111620, 0.22221714, 0.33333334, 0.44444954,
@@ -137,7 +137,7 @@ class TestConvertBitDepth(unittest.TestCase):
 
         self.assertIs(
             convert_bit_depth(a, 'float16').dtype, np.dtype('float16'))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, 'float16'),
             np.array([
                 0.0000, 0.1111, 0.2222, 0.3333, 0.4443, 0.5557, 0.6665, 0.7780,
@@ -147,7 +147,7 @@ class TestConvertBitDepth(unittest.TestCase):
 
         self.assertIs(
             convert_bit_depth(a, 'float32').dtype, np.dtype('float32'))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, 'float32'), a, decimal=7)
 
         self.assertIs(

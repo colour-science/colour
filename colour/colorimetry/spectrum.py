@@ -1128,7 +1128,7 @@ dict_like, optional
         interpolator_compare = self.interpolator == CubicSplineInterpolator
 
         if interpolator_compare and np.__name__ == 'cupy':
-            self.range = np.array(interpolator(np.asnumpy(self.domain)))
+            self.range = np.array(interpolator(self.domain))
         else:
             self.range = interpolator(self.domain)
 

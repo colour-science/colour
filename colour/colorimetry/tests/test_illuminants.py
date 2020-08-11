@@ -137,7 +137,7 @@ sd_CIE_standard_illuminant_A` definition unit tests methods.
 sd_CIE_standard_illuminant_A` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_CIE_standard_illuminant_A(SpectralShape(360, 830, 5)).values,
             DATA_A,
             decimal=7)
@@ -205,12 +205,12 @@ class TestDaylightLocusFunction(unittest.TestCase):
 
         x_D = np.tile(x_D, (6, 1))
         y_D = np.tile(y_D, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             daylight_locus_function(x_D), y_D, decimal=7)
 
         x_D = np.reshape(x_D, (2, 3, 1))
         y_D = np.reshape(y_D, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             daylight_locus_function(x_D), y_D, decimal=7)
 
     @ignore_numpy_errors

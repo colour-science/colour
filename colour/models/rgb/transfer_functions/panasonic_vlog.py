@@ -129,6 +129,9 @@ def log_encoding_VLog(L_in,
     c = constants.c
     d = constants.d
 
+    if np.__name__ == 'cupy':
+        L_in = np.array(L_in)
+
     V_out = np.where(
         L_in < cut1,
         5.6 * L_in + 0.125,
@@ -213,6 +216,9 @@ def log_decoding_VLog(V_out,
     b = constants.b
     c = constants.c
     d = constants.d
+
+    if np.__name__ == 'cupy':
+        V_out = np.array(V_out)
 
     L_in = np.where(
         V_out < cut2,

@@ -499,6 +499,9 @@ def log_decoding_SLog3(y,
 
     y = y if in_normalised_code_value else full_to_legal(y, bit_depth)
 
+    if np.__name__ == 'cupy':
+        y = np.array(y)
+
     x = np.where(
         y >= 171.2102946929 / 1023,
         ((10 ** ((y * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01),

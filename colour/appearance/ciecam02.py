@@ -39,7 +39,7 @@ from colour.constants import EPSILON
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
     as_float, from_range_degrees, dot_matrix, dot_vector, from_range_100, ones,
-    to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
+    to_domain_100, to_domain_degrees, tsplit, tstack, zeros, as_int)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -1031,7 +1031,16 @@ def hue_quadrature(h):
 
     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
     h[np.asarray(np.isnan(h))] = 0
-    i = as_int_array(np.searchsorted(h_i, h, side='left') - 1)
+
+    if np.__name__ == 'cupy':
+        hnp = np.asnumpy(h)
+        h_inp = np.asnumpy(h_i)
+        np.set_ndimensional_array_backend('numpy')
+        i = as_int_array(np.searchsorted(h_inp, hnp, side='left') - 1)
+        np.set_ndimensional_array_backend('cupy')
+        i = as_int(i)
+    else:
+        i = as_int_array(np.searchsorted(h_i, h, side='left') - 1)
 
     h_ii = h_i[i]
     e_ii = e_i[i]

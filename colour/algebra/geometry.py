@@ -41,7 +41,7 @@ import colour.ndarray as np
 from collections import namedtuple
 
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, ones,
-                              tsplit, tstack)
+                              tsplit, tstack, as_float)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -112,7 +112,12 @@ def euclidean_distance(a, b):
     451.7133019...
     """
 
-    return np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)
+    distance = np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)
+
+    if np.__name__ == 'cupy':
+        return as_float(distance)
+
+    return distance
 
 
 def extend_line_segment(a, b, distance=1):
@@ -518,12 +523,20 @@ def ellipse_fitting_Halir1998(a):
     M = S1 + np.dot(S2, T)
     M = np.array([M[2, :] / 2, -M[1, :], M[0, :] / 2])
 
-    _w, v = np.linalg.eig(M)
+    if np.__name__ == 'cupy':
+        Mnp = np.asnumpy(M)
+        np.set_ndimensional_array_backend('numpy')
+        _w, v = np.linalg.eig(Mnp)
+        np.set_ndimensional_array_backend('cupy')
+        _w = np.array(_w)
+        v = np.array(v)
+    else:
+        _w, v = np.linalg.eig(M)
 
     A1 = v[:, np.nonzero(4 * v[0, :] * v[2, :] - v[1, :] ** 2 > 0)[0]]
     A2 = np.dot(T, A1)
 
-    A = np.ravel([A1, A2])
+    A = np.ravel(np.array([A1, A2]))
 
     return A
 

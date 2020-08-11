@@ -12,7 +12,6 @@ from itertools import permutations
 
 from colour.notation.hexadecimal import (RGB_to_HEX, HEX_to_RGB)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
-np.set_ndimensional_array_backend('cupy')
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'

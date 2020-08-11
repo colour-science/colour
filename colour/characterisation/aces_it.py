@@ -317,10 +317,6 @@ def generate_illuminants_rawtoaces_v1():
             CCT = i * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
             sd = sd_CIE_illuminant_D_series(xy)
-<<<<<<< HEAD
-            sd.name = 'D{0:d}'.format(DEFAULT_INT_DTYPE(CCT / 100))
-            illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
-=======
             if np.__name__ == 'cupy':
                 cctInt = as_int_array(CCT / 100)
                 cctInt = np.asnumpy(cctInt)
@@ -330,7 +326,6 @@ def generate_illuminants_rawtoaces_v1():
             else:
                 sd.name = 'D{0:d}'.format(DEFAULT_INT_DTYPE(CCT / 100))
             illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
->>>>>>> Fixes for the volume, luts, colorimetry, blindness and characterisation module
 
         # TODO: Remove when removing the "colour.sd_blackbody" definition
         # warning.

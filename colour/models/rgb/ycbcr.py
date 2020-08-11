@@ -537,6 +537,10 @@ def RGB_to_YcCbcCrc(RGB,
         R = eotf_inverse_BT2020(R, is_12_bits_system=is_12_bits_system)
         B = eotf_inverse_BT2020(B, is_12_bits_system=is_12_bits_system)
 
+    if np.__name__ == 'cupy' and isinstance(B, float):
+        B = np.array(B)
+        Yc = np.array(Yc)
+
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
     Yc *= Y_max - Y_min

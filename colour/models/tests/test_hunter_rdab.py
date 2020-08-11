@@ -35,19 +35,19 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         Tests :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Rdab(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
             np.array([12.19722500, 57.12537874, 17.46241341]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Rdab(
                 np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
             np.array([23.04276800, -32.40057474, 20.96542183]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Rdab(
                 np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
             np.array([6.15720100, 18.13400284, -67.14408607]),
@@ -55,7 +55,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
 
         h_i = TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
         A = h_i['A']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Rdab(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100, A.XYZ_n,
                 A.K_ab),
@@ -63,14 +63,14 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
             decimal=7)
 
         D65 = h_i['D65']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Rdab(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
                 D65.XYZ_n, D65.K_ab),
             np.array([12.19722500, 57.12537874, 17.46241341]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Rdab(
                 np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
                 D65.XYZ_n,
@@ -94,19 +94,19 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         R_d_ab = np.tile(R_d_ab, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab), R_d_ab, decimal=7)
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
         K_ab = np.tile(K_ab, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab), R_d_ab, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
         R_d_ab = np.reshape(R_d_ab, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab), R_d_ab, decimal=7)
 
     def test_domain_range_scale_XYZ_to_Hunter_Rdab(self):
@@ -126,7 +126,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Hunter_Rdab(XYZ * factor, XYZ_n * factor, K_ab),
                     R_d_ab * factor,
                     decimal=7)
@@ -158,19 +158,19 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         Tests :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Rdab_to_XYZ(
                 np.array([12.19722500, 57.12537874, 17.46241341])),
             np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Rdab_to_XYZ(
                 np.array([23.04276800, -32.40057474, 20.96542183])),
             np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Rdab_to_XYZ(
                 np.array([6.15720100, 18.13400284, -67.14408607])),
             np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
@@ -178,7 +178,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
 
         h_i = TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
         A = h_i['A']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Rdab_to_XYZ(
                 np.array([12.19722500, 42.53572838, -3.00653110]), A.XYZ_n,
                 A.K_ab),
@@ -186,14 +186,14 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
             decimal=7)
 
         D65 = h_i['D65']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Rdab_to_XYZ(
                 np.array([12.19722500, 57.12537874, 17.46241341]), D65.XYZ_n,
                 D65.K_ab),
             np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Rdab_to_XYZ(
                 np.array([12.19722500, 57.11906384, 17.45962317]),
                 D65.XYZ_n,
@@ -217,19 +217,19 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
 
         R_d_ab = np.tile(R_d_ab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Rdab_to_XYZ(R_d_ab, XYZ_n, K_ab), XYZ, decimal=7)
 
         K_ab = np.tile(K_ab, (6, 1))
         XYZ_n = np.tile(XYZ_n, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Rdab_to_XYZ(R_d_ab, XYZ_n, K_ab), XYZ, decimal=7)
 
         R_d_ab = np.reshape(R_d_ab, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hunter_Rdab_to_XYZ(R_d_ab, XYZ_n, K_ab), XYZ, decimal=7)
 
     def test_domain_range_scale_Hunter_Rdab_to_XYZ(self):
@@ -249,7 +249,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Hunter_Rdab_to_XYZ(R_d_ab * factor, XYZ_n * factor, K_ab),
                     XYZ * factor,
                     decimal=7)

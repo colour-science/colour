@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 
 import colour.ndarray as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import from_range_1, to_domain_1, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -75,8 +75,15 @@ def log_encoding_Protune(x):
     x = to_domain_1(x)
 
     y = np.log(x * 112 + 1) / np.log(113)
+    y = from_range_1(y)
 
-    return from_range_1(y)
+    try:
+        if y.size == 1:
+            return as_float(y)
+    except Exception:
+        pass
+
+    return y
 
 
 def log_decoding_Protune(y):
@@ -122,5 +129,12 @@ def log_decoding_Protune(y):
     y = to_domain_1(y)
 
     x = (113 ** y - 1) / 112
+    x = from_range_1(x)
 
-    return from_range_1(x)
+    try:
+        if x.size == 1:
+            return as_float(x)
+    except Exception:
+        pass
+
+    return x

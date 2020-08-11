@@ -60,7 +60,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
         Tests :func:`colour.volume.rgb.RGB_colourspace_limits` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_limits(RGB_COLOURSPACE_BT709),
             np.array([
                 [0.00000000, 100.00000000],
@@ -69,7 +69,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_limits(RGB_COLOURSPACE_BT2020),
             np.array([
                 [0.00000000, 100.00000000],
@@ -78,7 +78,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_limits(RGB_COLOURSPACE_ACES2065_1),
             np.array([
                 [-58.9920208, 102.4721629],
@@ -130,7 +130,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
 RGB_colourspace_volume_coverage_MonteCarlo` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_volume_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 is_within_pointer_gamut,
@@ -157,7 +157,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
 RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 10e3,
@@ -183,7 +183,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
 RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 10e3,

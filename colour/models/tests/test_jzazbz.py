@@ -33,17 +33,17 @@ class TestXYZ_to_JzAzBz(unittest.TestCase):
         Tests :func:`colour.models.jzazbz.XYZ_to_JzAzBz` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_JzAzBz(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.00535048, 0.00924302, 0.00526007]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_JzAzBz(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.00619681, -0.00608426, 0.00534077]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_JzAzBz(np.array([0.96907232, 1.00000000, 1.12179215])),
             np.array([0.01766826, 0.00064174, -0.00052906]),
             decimal=7)
@@ -59,11 +59,13 @@ class TestXYZ_to_JzAzBz(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         JzAzBz = np.tile(JzAzBz, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_JzAzBz(XYZ), JzAzBz, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_JzAzBz(XYZ), JzAzBz, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         JzAzBz = np.reshape(JzAzBz, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_JzAzBz(XYZ), JzAzBz, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_JzAzBz(XYZ), JzAzBz, decimal=7)
 
     def test_domain_range_scale_XYZ_to_JzAzBz(self):
         """
@@ -77,7 +79,7 @@ class TestXYZ_to_JzAzBz(unittest.TestCase):
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_JzAzBz(XYZ * factor), JzAzBz * factor, decimal=7)
 
     @ignore_numpy_errors

@@ -61,15 +61,18 @@ class TestLuminanceNewhall1943(unittest.TestCase):
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(luminance_Newhall1943(V), Y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            luminance_Newhall1943(V), Y, decimal=7)
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(luminance_Newhall1943(V), Y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            luminance_Newhall1943(V), Y, decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(luminance_Newhall1943(V), Y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            luminance_Newhall1943(V), Y, decimal=7)
 
     def test_domain_range_scale_luminance_Newhall1943(self):
         """
@@ -82,7 +85,7 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         d_r = (('reference', 1, 1), (1, 0.1, 0.01), (100, 10, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     luminance_Newhall1943(4.08244375 * factor_a),
                     Y * factor_b,
                     decimal=7)
@@ -130,15 +133,18 @@ class TestLuminanceASTMD1535(unittest.TestCase):
 
         V = np.tile(V, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(luminance_ASTMD1535(V), Y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            luminance_ASTMD1535(V), Y, decimal=7)
 
         V = np.reshape(V, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(luminance_ASTMD1535(V), Y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            luminance_ASTMD1535(V), Y, decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(luminance_ASTMD1535(V), Y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            luminance_ASTMD1535(V), Y, decimal=7)
 
     def test_domain_range_scale_luminance_ASTMD1535(self):
         """
@@ -151,7 +157,7 @@ class TestLuminanceASTMD1535(unittest.TestCase):
         d_r = (('reference', 1, 1), (1, 0.1, 0.01), (100, 10, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     luminance_ASTMD1535(4.08244375 * factor_a),
                     Y * factor_b,
                     decimal=7)
@@ -206,17 +212,17 @@ support.
 
         f_Y_Y_n = np.tile(f_Y_Y_n, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             intermediate_luminance_function_CIE1976(f_Y_Y_n), Y, decimal=7)
 
         f_Y_Y_n = np.reshape(f_Y_Y_n, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             intermediate_luminance_function_CIE1976(f_Y_Y_n), Y, decimal=7)
 
         f_Y_Y_n = np.reshape(f_Y_Y_n, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             intermediate_luminance_function_CIE1976(f_Y_Y_n), Y, decimal=7)
 
     def test_domain_range_scale_intermediate_luminance_function_CIE1976(self):
@@ -230,7 +236,7 @@ support.
 
         for scale in ('reference', 1, 100):
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     intermediate_luminance_function_CIE1976(
                         41.527875844653451, 100),
                     Y,
@@ -298,15 +304,18 @@ class TestLuminanceCIE1976(unittest.TestCase):
 
         L_star = np.tile(L_star, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(luminance_CIE1976(L_star), Y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            luminance_CIE1976(L_star), Y, decimal=7)
 
         L_star = np.reshape(L_star, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(luminance_CIE1976(L_star), Y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            luminance_CIE1976(L_star), Y, decimal=7)
 
         L_star = np.reshape(L_star, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(luminance_CIE1976(L_star), Y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            luminance_CIE1976(L_star), Y, decimal=7)
 
     def test_domain_range_scale_luminance_CIE1976(self):
         """
@@ -319,7 +328,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     luminance_CIE1976(41.527875844653451 * factor, 100),
                     Y * factor,
                     decimal=7)
@@ -387,17 +396,17 @@ class TestLuminanceFairchild2010(unittest.TestCase):
 
         L_hdr = np.tile(L_hdr, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             luminance_Fairchild2010(L_hdr), Y, decimal=7)
 
         L_hdr = np.reshape(L_hdr, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             luminance_Fairchild2010(L_hdr), Y, decimal=7)
 
         L_hdr = np.reshape(L_hdr, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             luminance_Fairchild2010(L_hdr), Y, decimal=7)
 
     def test_domain_range_scale_luminance_Fairchild2010(self):
@@ -411,7 +420,7 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     luminance_Fairchild2010(31.996390226262736 * factor_a),
                     Y * factor_b,
                     decimal=7)
@@ -480,17 +489,17 @@ class TestLuminanceFairchild2011(unittest.TestCase):
 
         L_hdr = np.tile(L_hdr, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             luminance_Fairchild2011(L_hdr), Y, decimal=7)
 
         L_hdr = np.reshape(L_hdr, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             luminance_Fairchild2011(L_hdr), Y, decimal=7)
 
         L_hdr = np.reshape(L_hdr, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             luminance_Fairchild2011(L_hdr), Y, decimal=7)
 
     def test_domain_range_scale_luminance_Fairchild2011(self):
@@ -504,7 +513,7 @@ class TestLuminanceFairchild2011(unittest.TestCase):
         d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     luminance_Fairchild2011(26.459509817572265 * factor_a),
                     Y * factor_b,
                     decimal=7)
@@ -540,7 +549,7 @@ class TestLuminance(unittest.TestCase):
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_almost_equal(
+                    np.testing.assert_array_almost_equal(
                         luminance(
                             41.527875844653451 * factor, method, Y_n=100),
                         value * factor,

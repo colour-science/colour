@@ -555,7 +555,6 @@ def interval(distribution, unique=True):
     >>> interval(y, False)
     array([ 1.,  1.,  1.,  4.])
     """
-
     distribution = as_float_array(distribution)
     i = np.arange(distribution.size - 1)
 

@@ -66,8 +66,14 @@ def metric_mse(a, b, axis=None):
     >>> metric_mse(a, b)  # doctest: +ELLIPSIS
     0.0012714...
     """
+    metric = np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
+    try:
+        if metric.size == 1:
+            return metric.item()
+    except Exception:
+        pass
 
-    return np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
+    return metric
 
 
 def metric_psnr(a, b, max_a=1, axis=None):

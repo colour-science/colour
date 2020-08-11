@@ -21,7 +21,7 @@ from scipy.ndimage.filters import convolve1d
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import SpectralShape
-from colour.utilities import zeros
+from colour.utilities import as_float, zeros
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -120,5 +120,11 @@ def spectral_similarity_index(sd_test, sd_reference):
     m_v = np.sum(c_wdr_i ** 2)
 
     SSI = np.around(100 - 32 * np.sqrt(m_v))
+
+    try:
+        if SSI.size == 1:
+            return as_float(SSI)
+    except Exception:
+        pass
 
     return SSI

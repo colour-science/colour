@@ -65,17 +65,17 @@ log_encoding_VLog` definition n-dimensional arrays support.
 
         L_in = np.tile(L_in, 6)
         V_out = np.tile(V_out, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_VLog(L_in), V_out, decimal=7)
 
         L_in = np.reshape(L_in, (2, 3))
         V_out = np.reshape(V_out, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_VLog(L_in), V_out, decimal=7)
 
         L_in = np.reshape(L_in, (2, 3, 1))
         V_out = np.reshape(V_out, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_VLog(L_in), V_out, decimal=7)
 
     def test_domain_range_scale_log_encoding_VLog(self):
@@ -90,7 +90,7 @@ log_encoding_VLog` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_VLog(L_in * factor),
                     V_out * factor,
                     decimal=7)
@@ -147,17 +147,17 @@ log_decoding_VLog` definition n-dimensional arrays support.
 
         V_out = np.tile(V_out, 6)
         L_in = np.tile(L_in, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_VLog(V_out), L_in, decimal=7)
 
         V_out = np.reshape(V_out, (2, 3))
         L_in = np.reshape(L_in, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_VLog(V_out), L_in, decimal=7)
 
         V_out = np.reshape(V_out, (2, 3, 1))
         L_in = np.reshape(L_in, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_VLog(V_out), L_in, decimal=7)
 
     def test_domain_range_scale_log_decoding_VLog(self):
@@ -172,7 +172,7 @@ log_decoding_VLog` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_VLog(V_out * factor),
                     L_in * factor,
                     decimal=7)

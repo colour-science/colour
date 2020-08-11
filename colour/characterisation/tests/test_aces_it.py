@@ -63,39 +63,39 @@ sd_to_aces_relative_exposure_values` definition.
 
         shape = MSDS_ACES_RICD.shape
         grey_reflector = sd_constant(0.18, shape)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(grey_reflector),
             np.array([0.18, 0.18, 0.18]),
             decimal=7)
 
         perfect_reflector = sd_ones(shape)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(perfect_reflector),
             np.array([0.97783784, 0.97783784, 0.97783784]),
             decimal=7)
 
         dark_skin = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin),
             np.array([0.11718149, 0.08663609, 0.05897268]),
             decimal=7)
 
         dark_skin = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin,
                                                 SDS_ILLUMINANTS['A']),
             np.array([0.13583991, 0.09431845, 0.05928214]),
             decimal=7)
 
         dark_skin = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin, apply_chromatic_adaptation=True),
             np.array([0.11807796, 0.08690312, 0.05891252]),
             decimal=7)
 
         dark_skin = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin,
                 apply_chromatic_adaptation=True,
@@ -118,7 +118,7 @@ sd_to_aces_relative_exposure_values`  definition domain and range scale
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     sd_to_aces_relative_exposure_values(grey_reflector),
                     RGB * factor,
                     decimal=7)
@@ -176,13 +176,13 @@ class TestWhiteBalanceMultipliers(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             white_balance_multipliers(MSDS_CANON_EOS_5DMARK_II,
                                       SDS_ILLUMINANTS['D55']),
             np.array([2.34141541, 1.00000000, 1.51633759]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             white_balance_multipliers(
                 MSDS_CANON_EOS_5DMARK_II,
                 SDS_ILLUMINANTS['ISO 7589 Studio Tungsten']),
@@ -249,7 +249,7 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             training_data_sds_to_RGB(read_training_data_rawtoaces_v1(),
                                      MSDS_CANON_EOS_5DMARK_II,
                                      SDS_ILLUMINANTS['D55']),
@@ -449,7 +449,7 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
 
         training_data = sds_and_msds_to_msds(
             SDS_COLOURCHECKERS['BabelColor Average'].values())
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             training_data_sds_to_RGB(training_data, MSDS_CANON_EOS_5DMARK_II,
                                      SDS_ILLUMINANTS['D55']),
             np.array([
@@ -493,7 +493,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             training_data_sds_to_XYZ(
                 read_training_data_rawtoaces_v1(),
                 MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
@@ -695,7 +695,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         training_data = sds_and_msds_to_msds(
             SDS_COLOURCHECKERS['BabelColor Average'].values())
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             training_data_sds_to_XYZ(
                 training_data,
                 MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],

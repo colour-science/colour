@@ -36,9 +36,9 @@ from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.utilities import as_float_array, domain_range_scale, tsplit
-from colour.utilities.documentation import (DocstringTuple,
-                                            is_documentation_building)
+from colour.utilities import (as_float, as_float_array, domain_range_scale,
+                              tsplit)
+from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -252,6 +252,12 @@ def colour_quality_scale(sd_test, additional_data=False,
             sd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
             (test_vs_colorimetry_data, reference_vs_colorimetry_data))
     else:
+        try:
+            if Q_a.size == 1:
+                return as_float(Q_a)
+        except Exception:
+            pass
+
         return Q_a
 
 
@@ -442,7 +448,7 @@ def delta_E_RMS(cqs_data, attribute):
 
     return np.sqrt(1 / len(cqs_data) * np.sum(
         np.array([
-            getattr(sample_data, attribute) ** 2
+            as_float(getattr(sample_data, attribute)) ** 2
             for sample_data in cqs_data.values()
         ])))
 

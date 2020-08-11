@@ -423,7 +423,7 @@ def gamma_function_HLG_BT2100(L_W=1000):
 
     gamma = 1.2 + 0.42 * np.log10(L_W / 1000)
 
-    return gamma
+    return as_float(gamma)
 
 
 def oetf_HLG_BT2100(E, constants=CONSTANTS_BT2100_HLG):
@@ -561,7 +561,7 @@ def black_level_lift_HLG_BT2100(L_B=0, L_W=1000, gamma=None):
 
     beta = np.sqrt(3 * spow((L_B / L_W), 1 / gamma))
 
-    return beta
+    return as_float(beta)
 
 
 def eotf_HLG_BT2100_1(E_p,
@@ -919,9 +919,9 @@ def eotf_inverse_HLG_BT2100_2(F_D,
 
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
-    return (oetf_ARIBSTDB67(
+    return as_float((oetf_ARIBSTDB67(
         ootf_inverse_HLG_BT2100_2(F_D, L_W, gamma) * 12, constants=constants) -
-            beta) / (1 - beta)
+                     beta) / (1 - beta))
 
 
 BT2100_HLG_EOTF_INVERSE_METHODS = CaseInsensitiveMapping({

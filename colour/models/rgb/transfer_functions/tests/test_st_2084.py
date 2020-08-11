@@ -57,15 +57,18 @@ eotf_inverse_ST2084` definition n-dimensional arrays support.
 
         C = np.tile(C, 6)
         N = np.tile(N, 6)
-        np.testing.assert_almost_equal(eotf_inverse_ST2084(C), N, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_ST2084(C), N, decimal=7)
 
         C = np.reshape(C, (2, 3))
         N = np.reshape(N, (2, 3))
-        np.testing.assert_almost_equal(eotf_inverse_ST2084(C), N, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_ST2084(C), N, decimal=7)
 
         C = np.reshape(C, (2, 3, 1))
         N = np.reshape(N, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_inverse_ST2084(C), N, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_ST2084(C), N, decimal=7)
 
     def test_domain_range_scale_eotf_inverse_ST2084(self):
         """
@@ -79,7 +82,7 @@ eotf_inverse_ST2084` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_inverse_ST2084(C * factor), N * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -124,15 +127,15 @@ eotf_ST2084` definition n-dimensional arrays support.
 
         N = np.tile(N, 6)
         C = np.tile(C, 6)
-        np.testing.assert_almost_equal(eotf_ST2084(N), C, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_ST2084(N), C, decimal=7)
 
         N = np.reshape(N, (2, 3))
         C = np.reshape(C, (2, 3))
-        np.testing.assert_almost_equal(eotf_ST2084(N), C, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_ST2084(N), C, decimal=7)
 
         N = np.reshape(N, (2, 3, 1))
         C = np.reshape(C, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_ST2084(N), C, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_ST2084(N), C, decimal=7)
 
     def test_domain_range_scale_eotf_ST2084(self):
         """
@@ -146,7 +149,7 @@ eotf_ST2084` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_ST2084(N * factor), C * factor, decimal=7)
 
     @ignore_numpy_errors

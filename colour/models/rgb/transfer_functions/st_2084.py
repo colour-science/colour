@@ -189,6 +189,9 @@ def eotf_ST2084(N, L_p=10000, constants=CONSTANTS_ST2084):
 
     n = V_p - constants.c_1
     # Limiting negative values.
+    if np.__name__ == 'cupy':
+        n = np.array(n)
+
     n = np.where(n < 0, 0, n)
 
     L = spow((n / (constants.c_2 - constants.c_3 * V_p)), m_1_d)

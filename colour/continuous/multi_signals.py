@@ -1486,6 +1486,12 @@ dict_like, optional
         if is_pandas_installed():
             from pandas import DataFrame
 
+            if np.__name__ == 'cupy':
+                return DataFrame(
+                    data=np.asnumpy(self.range),
+                    index=np.asnumpy(self.domain),
+                    columns=np.asnumpy(self.labels))
+
             return DataFrame(
                 data=self.range, index=self.domain, columns=self.labels)
 

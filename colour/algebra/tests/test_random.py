@@ -61,7 +61,7 @@ class TestRandomTripletGenerator(unittest.TestCase):
         """
 
         prng = np.random.RandomState(4)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RANDOM_TRIPLETS,
             random_triplet_generator(10, random_state=prng),
             decimal=7)

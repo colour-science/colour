@@ -23,7 +23,7 @@ from __future__ import division, unicode_literals
 
 import colour.ndarray as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import from_range_1, to_domain_1, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -90,8 +90,15 @@ def eotf_inverse_BT1886(L, L_B=0, L_W=1):
     b = L_B ** gamma_d / n
 
     V = (L / a) ** gamma_d - b
+    V = from_range_1(V)
 
-    return from_range_1(V)
+    try:
+        if V.size == 1:
+            return as_float(V)
+    except Exception:
+        pass
+
+    return V
 
 
 def eotf_BT1886(V, L_B=0, L_W=1):
@@ -151,5 +158,12 @@ def eotf_BT1886(V, L_B=0, L_W=1):
     a = n ** gamma
     b = L_B ** gamma_d / n
     L = a * np.maximum(V + b, 0) ** gamma
+    L = from_range_1(L)
 
-    return from_range_1(L)
+    try:
+        if L.size == 1:
+            return as_float(L)
+    except Exception:
+        pass
+
+    return L

@@ -10,22 +10,22 @@ References
 """
 
 from __future__ import division, unicode_literals
-
-import colour.ndarray as np
-import os
-import unittest
-from itertools import permutations
-
-from colour.algebra.interpolation import vertices_and_relative_coordinates
+from colour.utilities import ignore_numpy_errors
+from colour.io import read_LUT
+from colour.algebra import random_triplet_generator
 from colour.algebra import (
     kernel_nearest_neighbour, kernel_linear, kernel_sinc, kernel_lanczos,
     kernel_cardinal_spline, KernelInterpolator, NearestNeighbourInterpolator,
     LinearInterpolator, SpragueInterpolator, CubicSplineInterpolator,
     PchipInterpolator, NullInterpolator, lagrange_coefficients,
     table_interpolation_trilinear, table_interpolation_tetrahedral)
-from colour.algebra import random_triplet_generator
-from colour.io import read_LUT
-from colour.utilities import ignore_numpy_errors
+from colour.algebra.interpolation import vertices_and_relative_coordinates
+
+import colour.ndarray as np
+import os
+import unittest
+from itertools import permutations
+np.set_ndimensional_array_backend('cupy')
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -171,7 +171,7 @@ class TestKernelNearestNeighbour(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_nearest_neighbour(np.linspace(-5, 5, 25)),
             np.array([
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
@@ -191,7 +191,7 @@ class TestKernelLinear(unittest.TestCase):
         Tests :func:`colour.algebra.interpolation.kernel_linear` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_linear(np.linspace(-5, 5, 25)),
             np.array([
                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
@@ -214,7 +214,7 @@ class TestKernelSinc(unittest.TestCase):
         Tests :func:`colour.algebra.interpolation.kernel_sinc` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_sinc(np.linspace(-5, 5, 25)),
             np.array([
                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
@@ -225,7 +225,7 @@ class TestKernelSinc(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_sinc(np.linspace(-5, 5, 25), 1),
             np.array([
                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
@@ -248,7 +248,7 @@ class TestKernelLanczos(unittest.TestCase):
         Tests :func:`colour.algebra.interpolation.kernel_lanczos` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_lanczos(np.linspace(-5, 5, 25)),
             np.array([
                 0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
@@ -261,7 +261,7 @@ class TestKernelLanczos(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_lanczos(np.linspace(-5, 5, 25), 1),
             np.array([
                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
@@ -285,7 +285,7 @@ class TestKernelCardinalSpline(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_cardinal_spline(np.linspace(-5, 5, 25)),
             np.array([
                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
@@ -296,7 +296,7 @@ class TestKernelCardinalSpline(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_cardinal_spline(np.linspace(-5, 5, 25), 0, 1),
             np.array([
                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
@@ -344,7 +344,7 @@ class TestKernelInterpolator(unittest.TestCase):
         x = y = np.linspace(0, 1, 10)
         kernel_interpolator = KernelInterpolator(x, y)
 
-        np.testing.assert_equal(kernel_interpolator.x, x)
+        np.testing.assert_array_equal(kernel_interpolator.x, x)
 
     def test_y(self):
         """
@@ -355,7 +355,7 @@ class TestKernelInterpolator(unittest.TestCase):
         x = y = np.linspace(0, 1, 10)
         kernel_interpolator = KernelInterpolator(x, y)
 
-        np.testing.assert_equal(kernel_interpolator.y, y)
+        np.testing.assert_array_equal(kernel_interpolator.y, y)
 
     def test_window(self):
         """
@@ -430,7 +430,7 @@ padding_kwargs` property.
         x_i = np.linspace(11, 25, 25)
 
         kernel_interpolator = KernelInterpolator(x, y)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.43848790, 4.26286480, 3.64640076, 2.77982023, 2.13474499,
@@ -442,7 +442,7 @@ padding_kwargs` property.
             decimal=7)
 
         kernel_interpolator = KernelInterpolator(x, y, kernel=kernel_sinc)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.43848790, 4.47570010, 3.84353906, 3.05959493, 2.53514958,
@@ -454,7 +454,7 @@ padding_kwargs` property.
             decimal=7)
 
         kernel_interpolator = KernelInterpolator(x, y, window=1)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.43848790, 4.96712277, 4.09584229, 3.23991575, 2.80418924,
@@ -467,7 +467,7 @@ padding_kwargs` property.
 
         kernel_interpolator = KernelInterpolator(
             x, y, window=1, kernel_kwargs={'a': 1})
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.43848790, 3.34379320, 3.62463711, 2.34585418, 2.04767083,
@@ -483,7 +483,7 @@ padding_kwargs` property.
                 'pad_width': (3, 3),
                 'mode': 'mean'
             })
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.4384879, 4.35723245, 3.62918155, 2.77471295, 2.13474499,
@@ -500,12 +500,12 @@ padding_kwargs` property.
         y = np.sin(x_1 / len(x_1) * np.pi * 6) / (x_1 / len(x_1))
         x_i = np.linspace(1, 9, 25)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             KernelInterpolator(x_1, y)(x_i),
             KernelInterpolator(x_2, y)(x_i * 10),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             KernelInterpolator(x_1, y)(x_i),
             KernelInterpolator(x_3, y)(x_i / 10),
             decimal=7)
@@ -630,7 +630,7 @@ class TestLinearInterpolator(unittest.TestCase):
                 linear_interpolator(value),
                 places=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             linear_interpolator(
                 np.arange(0,
                           len(DATA_POINTS_A) - 1 + interval, interval)),
@@ -720,7 +720,7 @@ class TestSpragueInterpolator(unittest.TestCase):
                 sprague_interpolator(value),
                 places=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sprague_interpolator(
                 np.arange(0,
                           len(DATA_POINTS_A) - 1 + interval, interval)),
@@ -773,12 +773,16 @@ CubicSplineInterpolator.__call__` method.
         -   This class is a wrapper around *scipy.interpolate.interp1d* class
             and is assumed to be unit tested thoroughly.
         """
-
-        np.testing.assert_almost_equal(
+        print(
+            np.linspace(0, 1,
+                        len(POINTS_DATA_A) * 2),
+            type(np.linspace(0, 1,
+                             len(POINTS_DATA_A) * 2)))
+        np.testing.assert_array_almost_equal(
             CubicSplineInterpolator(
                 np.linspace(0, 1, len(DATA_POINTS_A)),
-                DATA_POINTS_A)(np.linspace(0, 1,
-                                           len(DATA_POINTS_A) * 2)),
+                np.array(POINTS_DATA_A))(np.linspace(0, 1,
+                                                     len(DATA_POINTS_A) * 2)),
             DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES)
 
 
@@ -844,7 +848,7 @@ class TestNullInterpolator(unittest.TestCase):
         x = y = np.linspace(0, 1, 10)
         null_interpolator = NullInterpolator(x, y)
 
-        np.testing.assert_equal(null_interpolator.x, x)
+        np.testing.assert_array_equal(null_interpolator.x, x)
 
     def test_y(self):
         """
@@ -855,7 +859,7 @@ class TestNullInterpolator(unittest.TestCase):
         x = y = np.linspace(0, 1, 10)
         null_interpolator = NullInterpolator(x, y)
 
-        np.testing.assert_equal(null_interpolator.y, y)
+        np.testing.assert_array_equal(null_interpolator.y, y)
 
     def test_absolute_tolerance(self):
         """
@@ -866,7 +870,8 @@ absolute_tolerance` property.
         x = y = np.linspace(0, 1, 10)
         null_interpolator = NullInterpolator(x, y, absolute_tolerance=0.1)
 
-        np.testing.assert_equal(null_interpolator.absolute_tolerance, 0.1)
+        np.testing.assert_array_equal(null_interpolator.absolute_tolerance,
+                                      0.1)
 
     def test_relative_tolerance(self):
         """
@@ -877,7 +882,8 @@ relative_tolerance` property.
         x = y = np.linspace(0, 1, 10)
         null_interpolator = NullInterpolator(x, y, relative_tolerance=0.1)
 
-        np.testing.assert_equal(null_interpolator.relative_tolerance, 0.1)
+        np.testing.assert_array_equal(null_interpolator.relative_tolerance,
+                                      0.1)
 
     def test_default(self):
         """
@@ -888,7 +894,7 @@ default` property.
         x = y = np.linspace(0, 1, 10)
         null_interpolator = NullInterpolator(x, y, default=0)
 
-        np.testing.assert_equal(null_interpolator.default, 0)
+        np.testing.assert_array_equal(null_interpolator.default, 0)
 
     def test_raise_exception___init__(self):
         """
@@ -907,12 +913,12 @@ default` property.
 
         x = np.arange(len(DATA_POINTS_A))
         null_interpolator = NullInterpolator(x, DATA_POINTS_A)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),
             np.array([np.nan, 12.46, 9.51, np.nan]))
 
         null_interpolator = NullInterpolator(x, DATA_POINTS_A, 0.25, 0.25)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),
             np.array([12.32, 12.46, 9.51, 4.33]))
 
@@ -968,11 +974,15 @@ class TestLagrangeCoefficients(unittest.TestCase):
         :cite:`Fairman1985b`
         """
 
-        lc = [lagrange_coefficients(i, 3) for i in np.linspace(0.05, 0.95, 19)]
-        np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS_A, decimal=7)
+        lc = np.array(
+            [lagrange_coefficients(i, 3) for i in np.linspace(0.05, 0.95, 19)])
+        np.testing.assert_array_almost_equal(
+            lc, LAGRANGE_COEFFICIENTS_A, decimal=7)
 
-        lc = [lagrange_coefficients(i, 4) for i in np.linspace(1.05, 1.95, 19)]
-        np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS_B, decimal=7)
+        lc = np.array(
+            [lagrange_coefficients(i, 4) for i in np.linspace(1.05, 1.95, 19)])
+        np.testing.assert_array_almost_equal(
+            lc, LAGRANGE_COEFFICIENTS_B, decimal=7)
 
 
 class TestVerticesAndRelativeCoordinates(unittest.TestCase):
@@ -992,7 +1002,7 @@ vertices_and_relative_coordinates` definition.
         V_xyz = random_triplet_generator(4, random_state=prng)
         vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, LUT_TABLE)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices,
             np.array([
                 [
@@ -1044,7 +1054,7 @@ vertices_and_relative_coordinates` definition.
                     [1.13122500, 0.29792000, 0.29792000],
                 ],
             ]))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             V_xyzr,
             np.array([
                 [0.90108952, 0.09318647, 0.75894709],
@@ -1070,7 +1080,7 @@ table_interpolation_trilinear` definition.
 
         V_xyz = random_triplet_generator(16, random_state=prng)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             table_interpolation_trilinear(V_xyz, LUT_TABLE),
             np.array([
                 [1.07937594, -0.02773926, 0.55498254],
@@ -1108,7 +1118,7 @@ table_interpolation_tetrahedral` definition.
 
         V_xyz = random_triplet_generator(16, random_state=prng)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             table_interpolation_tetrahedral(V_xyz, LUT_TABLE),
             np.array([
                 [1.08039215, -0.02840092, 0.55855303],

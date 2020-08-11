@@ -25,7 +25,8 @@ import colour.ndarray as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.utilities import as_float_array, as_numeric, tsplit, usage_warning
+from colour.utilities import (as_float_array, as_float, as_numeric, tsplit,
+                              usage_warning)
 from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
@@ -69,6 +70,12 @@ def xy_to_CCT_McCamy1992(xy):
 
     n = (x - 0.3320) / (y - 0.1858)
     CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
+
+    try:
+        if CCT.size == 1:
+            return as_float(CCT)
+    except Exception:
+        pass
 
     return CCT
 

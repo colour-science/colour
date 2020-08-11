@@ -35,7 +35,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([28.00, 21.26, 5.27]),
                 xy_o1=np.array([0.44760, 0.40740]),
@@ -46,7 +46,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
             np.array([24.03379521, 21.15621214, 17.64301199]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([21.77, 19.18, 16.73]),
                 xy_o1=np.array([0.31270, 0.32900]),
@@ -57,7 +57,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
             np.array([21.12891746, 19.42980532, 19.49577765]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
                 xy_o1=np.array([0.31270, 0.32900]),
@@ -85,7 +85,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
 
         XYZ_1 = np.tile(XYZ_1, (6, 1))
         XYZ_2 = np.tile(XYZ_2, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
             XYZ_2,
             decimal=7)
@@ -95,7 +95,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         Y_o = np.tile(Y_o, 6)
         E_o1 = np.tile(E_o1, 6)
         E_o2 = np.tile(E_o2, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
             XYZ_2,
             decimal=7)
@@ -107,7 +107,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         E_o1 = np.reshape(E_o1, (2, 3))
         E_o2 = np.reshape(E_o2, (2, 3))
         XYZ_2 = np.reshape(XYZ_2, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
             XYZ_2,
             decimal=7)
@@ -130,7 +130,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     chromatic_adaptation_CIE1994(XYZ_1 * factor, xy_o1, xy_o2,
                                                  Y_o * factor, E_o1, E_o2),
                     XYZ_2 * factor,

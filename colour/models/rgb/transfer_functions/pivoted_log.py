@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 
 import colour.ndarray as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import from_range_1, to_domain_1, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -88,8 +88,15 @@ def log_encoding_PivotedLog(x,
 
     y = ((log_reference + np.log10(x / linear_reference) /
           (density_per_code_value / negative_gamma)) / 1023)
+    y = from_range_1(y)
 
-    return from_range_1(y)
+    try:
+        if y.size == 1:
+            return as_float(y)
+    except Exception:
+        pass
+
+    return y
 
 
 def log_decoding_PivotedLog(y,
@@ -148,5 +155,12 @@ def log_decoding_PivotedLog(y,
 
     x = (10 ** ((y * 1023 - log_reference) *
                 (density_per_code_value / negative_gamma)) * linear_reference)
+    x = from_range_1(x)
 
-    return from_range_1(x)
+    try:
+        if x.size == 1:
+            return as_float(x)
+    except Exception:
+        pass
+
+    return x

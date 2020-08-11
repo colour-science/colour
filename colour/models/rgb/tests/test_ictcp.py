@@ -33,17 +33,17 @@ class TestRGB_to_ICTCP(unittest.TestCase):
         Tests :func:`colour.models.rgb.ictpt.RGB_to_ICTCP` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICTCP(np.array([0.45620519, 0.03081071, 0.04091952])),
             np.array([0.07351364, 0.00475253, 0.09351596]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICTCP(np.array([0.45620519, 0.03081071, 0.04091952]), 4000),
             np.array([0.10516931, 0.00514031, 0.12318730]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_ICTCP(np.array([0.45620519, 0.03081071, 0.04091952]), 1000),
             np.array([0.17079612, 0.00485580, 0.17431356]),
             decimal=7)
@@ -59,11 +59,13 @@ class TestRGB_to_ICTCP(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         ICTCP = np.tile(ICTCP, (6, 1))
-        np.testing.assert_almost_equal(RGB_to_ICTCP(RGB), ICTCP, decimal=7)
+        np.testing.assert_array_almost_equal(
+            RGB_to_ICTCP(RGB), ICTCP, decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         ICTCP = np.reshape(ICTCP, (2, 3, 3))
-        np.testing.assert_almost_equal(RGB_to_ICTCP(RGB), ICTCP, decimal=7)
+        np.testing.assert_array_almost_equal(
+            RGB_to_ICTCP(RGB), ICTCP, decimal=7)
 
     def test_domain_range_scale_RGB_to_ICTCP(self):
         """
@@ -77,7 +79,7 @@ class TestRGB_to_ICTCP(unittest.TestCase):
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_ICTCP(RGB * factor), ICTCP * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -105,17 +107,17 @@ class TestICTCP_to_RGB(unittest.TestCase):
         Tests :func:`colour.models.rgb.ictpt.ICTCP_to_RGB` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICTCP_to_RGB(np.array([0.07351364, 0.00475253, 0.09351596])),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICTCP_to_RGB(np.array([0.10516931, 0.00514031, 0.12318730]), 4000),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ICTCP_to_RGB(np.array([0.17079612, 0.00485580, 0.17431356]), 1000),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7)
@@ -131,11 +133,13 @@ class TestICTCP_to_RGB(unittest.TestCase):
 
         ICTCP = np.tile(ICTCP, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(ICTCP_to_RGB(ICTCP), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(
+            ICTCP_to_RGB(ICTCP), RGB, decimal=7)
 
         ICTCP = np.reshape(ICTCP, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(ICTCP_to_RGB(ICTCP), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(
+            ICTCP_to_RGB(ICTCP), RGB, decimal=7)
 
     def test_domain_range_scale_ICTCP_to_RGB(self):
         """
@@ -149,7 +153,7 @@ class TestICTCP_to_RGB(unittest.TestCase):
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     ICTCP_to_RGB(ICTCP * factor), RGB * factor, decimal=7)
 
     @ignore_numpy_errors

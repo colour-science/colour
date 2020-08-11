@@ -115,17 +115,17 @@ class TestSpow(unittest.TestCase):
 
         self.assertEqual(spow(-2, 2), -4.0)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             spow([2, -2, -2, 0], [2, 2, 0.15, 0]),
             np.array([4.00000000, -4.00000000, -1.10956947, 0.00000000]),
             decimal=7)
 
         with spow_enable(True):
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 spow(-2, 0.15), -1.10956947, decimal=7)
 
         with spow_enable(False):
-            np.testing.assert_equal(spow(-2, 0.15), np.nan)
+            np.testing.assert_array_equal(spow(-2, 0.15), np.nan)
 
 
 class TestSmoothstepFunction(unittest.TestCase):

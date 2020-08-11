@@ -215,6 +215,7 @@ def polynomial_expansion_Finlayson2015(RGB,
             0.1051335...])
     """
 
+    RGB = np.array(RGB)
     R, G, B = tsplit(RGB)
 
     # TODO: Generalise polynomial expansion.
@@ -772,6 +773,8 @@ def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
     array([ 0.2128689...,  0.1106242...,  0.036213 ...])
     """
 
+    M_T = np.array((M_T))
+    M_R = np.array((M_R))
     RGB = as_float_array(RGB)
     shape = RGB.shape
 

@@ -103,7 +103,7 @@ def normalised_primary_matrix(primaries, whitepoint):
            [  0.0000000...e+00,   0.0000000...e+00,   1.0088251...e+00]])
     """
 
-    primaries = np.reshape(primaries, (3, 2))
+    primaries = np.reshape(np.array(primaries), (3, 2))
 
     z = xy_to_z(primaries)[..., np.newaxis]
     primaries = np.transpose(np.hstack([primaries, z]))
@@ -159,7 +159,7 @@ def chromatically_adapted_primaries(primaries,
            [ 0.1558932...,  0.0660492...]])
     """
 
-    primaries = np.reshape(primaries, (3, 2))
+    primaries = np.reshape(np.array(primaries), (3, 2))
 
     XYZ_a = chromatic_adaptation_VonKries(
         xy_to_XYZ(primaries), xy_to_XYZ(whitepoint_t), xy_to_XYZ(whitepoint_r),

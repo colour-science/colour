@@ -30,11 +30,10 @@ from colour.colorimetry import (
     CCS_ILLUMINANTS, lightness_Fairchild2010, lightness_Fairchild2011,
     luminance_Fairchild2010, luminance_Fairchild2011)
 from colour.models import xy_to_xyY, xyY_to_XYZ
-from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
-                              from_range_100, to_domain_1, to_domain_100,
-                              tsplit, tstack)
-from colour.utilities.documentation import (DocstringTuple,
-                                            is_documentation_building)
+from colour.utilities import (as_float, as_float_array, domain_range_scale,
+                              from_range_1, from_range_100, to_domain_1,
+                              to_domain_100, tsplit, tstack)
+from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -122,6 +121,12 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
         epsilon *= sf * lf
     else:
         epsilon /= sf * lf
+
+    try:
+        if epsilon.size == 1:
+            return as_float(epsilon)
+    except Exception:
+        pass
 
     return epsilon
 

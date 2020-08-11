@@ -200,6 +200,9 @@ def log_decoding_FLog(out_r,
     e = constants.e
     f = constants.f
 
+    if np.__name__ == 'cupy':
+        out_r = np.array(out_r)
+
     in_r = np.where(
         out_r < cut2,
         (out_r - f) / e,

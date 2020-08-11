@@ -42,7 +42,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         cmfs_c = cmfs.copy().align(shape)
 
         XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ, cmfs_c), cmfs_c) /
             100,
             XYZ,
@@ -51,20 +51,20 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, 10)
         cmfs_c = cmfs.copy().align(shape)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ, cmfs_c), cmfs_c) /
             100,
             XYZ,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(XYZ, cmfs_c, SDS_ILLUMINANTS['D65']),
                 cmfs_c, SDS_ILLUMINANTS['D65']) / 100,
             XYZ,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(
                     XYZ,
@@ -77,7 +77,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
         shape = SpectralShape(400, 700, 5)
         cmfs_c = cmfs.copy().align(shape)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ, cmfs_c), cmfs_c) /
             100,
             XYZ,
@@ -111,7 +111,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     sd_to_XYZ_integration(
                         XYZ_to_sd_Meng2015(XYZ_i * factor_a)),
                     XYZ_o * factor_b,
