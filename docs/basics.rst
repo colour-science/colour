@@ -1,12 +1,32 @@
 Basics
 ======
 
+Abbreviations
+-------------
+
+The following abbreviations are in use in `Colour <https://github.com/colour-science/Colour/>`__:
+
+- **CAM** : Colour Appearance Model
+- **CCS** : Chromaticity Coordinates
+- **CCTF** : Colour Component Transfer Function
+- **CCT** : Correlated Colour Temperature
+- **CMY** : Cyan, Magenta, Yellow
+- **CMYK** : Cyan, Magenta, Yellow, Black
+- **CVD** : Colour Vision Deficiency
+- **CV** : Code Value
+- **EOTF** : Electro-Optical Transfer Function
+- **IDT** : Input Device Transform
+- **MSDS** : Multi-Spectral Distributions
+- **OETF** : Optical-Electrical Transfer Function
+- **OOTF** : Optical-Optical Transfer Function
+- **SD** : Spectral Distribution
+- **TVS** : Tristimulus Values
+
 N-Dimensional Arrays Support
 ----------------------------
 
-Most of `Colour <https://github.com/colour-science/Colour/>`__ definitions are
-fully vectorised and support n-dimensional arrays by leveraging
-`Numpy <http://www.numpy.org/>`__.
+Most of **Colour** definitions are fully vectorised and support n-dimensional
+arrays by leveraging `Numpy <http://www.numpy.org/>`__.
 
 While it is recommended to use
 `ndarrays <https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.ndarray.html>`__
