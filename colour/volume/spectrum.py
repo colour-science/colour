@@ -20,8 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import six
 
-from colour.colorimetry import (MSDS_CMFS, multi_sds_to_XYZ, SpectralShape,
-                                sd_ones)
+from colour.colorimetry import (MSDS_CMFS, msds_to_XYZ, SpectralShape, sd_ones)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
 from colour.utilities import zeros
@@ -155,7 +154,7 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.multi_sds_to_XYZ`},
+        {:func:`colour.msds_to_XYZ`},
         Please refer to the documentation of the previously listed definition.
 
     Returns
@@ -216,7 +215,7 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
 
     if XYZ is None:
         pulse_waves = generate_pulse_waves(len(cmfs.wavelengths))
-        XYZ = multi_sds_to_XYZ(pulse_waves, cmfs, illuminant, **settings) / 100
+        XYZ = msds_to_XYZ(pulse_waves, cmfs, illuminant, **settings) / 100
 
         _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
 
@@ -248,7 +247,7 @@ def is_within_visible_spectrum(
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.multi_sds_to_XYZ`},
+        {:func:`colour.msds_to_XYZ`},
         Please refer to the documentation of the previously listed definition.
 
     Returns

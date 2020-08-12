@@ -35,7 +35,7 @@ from six.moves import reduce
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     CCS_ILLUMINANTS, SDS_ILLUMINANTS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ, sds_and_multi_sds_to_sds,
+    SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ, sds_and_msds_to_sds,
     wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, CONSTANTS_COLOUR_STYLE, XYZ_to_plotting_colourspace, artist,
@@ -266,7 +266,7 @@ def plot_multi_sds(sds,
 
     _figure, axes = artist(**kwargs)
 
-    sds = sds_and_multi_sds_to_sds(sds)
+    sds = sds_and_msds_to_sds(sds)
     cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = SDS_ILLUMINANTS[

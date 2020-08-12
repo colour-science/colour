@@ -66,7 +66,7 @@ from .algebra import (CubicSplineInterpolator, Extrapolator,
                       table_interpolation, lagrange_coefficients)
 from .colorimetry import (
     BANDPASS_CORRECTION_METHODS, CCS_ILLUMINANTS, CCS_LIGHT_SOURCES,
-    LIGHTNESS_METHODS, LUMINANCE_METHODS, MSDS_CMFS, MULTI_SD_TO_XYZ_METHODS,
+    LIGHTNESS_METHODS, LUMINANCE_METHODS, MSDS_CMFS, MSDS_TO_XYZ_METHODS,
     MultiSpectralDistributions, SDS_ILLUMINANTS, SDS_LEFS, SDS_LIGHT_SOURCES,
     SD_GAUSSIAN_METHODS, SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS,
     SD_TO_XYZ_METHODS, SPECTRAL_SHAPE_ASTME308, SPECTRAL_SHAPE_DEFAULT,
@@ -75,7 +75,7 @@ from .colorimetry import (
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
     excitation_purity, lightness, luminance, luminous_efficacy,
     luminous_efficiency, luminous_flux, msds_constant, msds_ones, msds_zeros,
-    multi_sds_to_XYZ, sd_CIE_illuminant_D_series, sd_CIE_standard_illuminant_A,
+    msds_to_XYZ, sd_CIE_illuminant_D_series, sd_CIE_standard_illuminant_A,
     sd_blackbody, sd_constant, sd_gaussian,
     sd_mesopic_luminous_efficiency_function, sd_multi_leds, sd_ones,
     sd_single_led, sd_to_XYZ, sd_zeros, wavelength_to_XYZ, whiteness,
@@ -191,7 +191,7 @@ __all__ += [
 __all__ += [
     'BANDPASS_CORRECTION_METHODS', 'CCS_ILLUMINANTS', 'CCS_LIGHT_SOURCES',
     'LIGHTNESS_METHODS', 'LUMINANCE_METHODS', 'MSDS_CMFS',
-    'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistributions', 'SDS_ILLUMINANTS',
+    'MSDS_TO_XYZ_METHODS', 'MultiSpectralDistributions', 'SDS_ILLUMINANTS',
     'SDS_LEFS', 'SDS_LIGHT_SOURCES', 'SD_GAUSSIAN_METHODS',
     'SD_MULTI_LEDS_METHODS', 'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS',
     'SPECTRAL_SHAPE_ASTME308', 'SPECTRAL_SHAPE_DEFAULT',
@@ -200,7 +200,7 @@ __all__ += [
     'colorimetric_purity', 'complementary_wavelength', 'dominant_wavelength',
     'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
     'luminous_efficiency', 'luminous_flux', 'msds_constant', 'msds_ones',
-    'msds_zeros', 'multi_sds_to_XYZ', 'sd_CIE_illuminant_D_series',
+    'msds_zeros', 'msds_to_XYZ', 'sd_CIE_illuminant_D_series',
     'sd_CIE_standard_illuminant_A', 'sd_blackbody', 'sd_constant',
     'sd_gaussian', 'sd_mesopic_luminous_efficiency_function', 'sd_multi_leds',
     'sd_ones', 'sd_single_led', 'sd_to_XYZ', 'sd_zeros', 'wavelength_to_XYZ',
@@ -1882,6 +1882,14 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.LMS_CMFS',
         'colour.colorimetry.MSDS_CMFS_LMS',
+    ],
+    [
+        'colour.MULTI_SD_TO_XYZ_METHODS',
+        'colour.MSDS_TO_XYZ_METHODS',
+    ],
+    [
+        'colour.multi_sds_to_XYZ',
+        'colour.msds_to_XYZ',
     ],
     [
         'colour.Nayatani95_Specification',

@@ -18,8 +18,7 @@ from colour.characterisation import (
     optimisation_factory_JzAzBz, idt_matrix)
 from colour.characterisation.aces_it import RAWTOACES_RESOURCES_DIRECTORY
 from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
-                                sds_and_multi_sds_to_multi_sds, sd_constant,
-                                sd_ones)
+                                sds_and_msds_to_msds, sd_constant, sd_ones)
 from colour.io import read_sds_from_csv_file
 from colour.utilities import domain_range_scale
 
@@ -40,7 +39,7 @@ __all__ = [
     'TestOptimizationFactoryJzAzBz', 'TestIdtMatrix'
 ]
 
-MSDS_CANON_EOS_5DMARK_II = sds_and_multi_sds_to_multi_sds(
+MSDS_CANON_EOS_5DMARK_II = sds_and_msds_to_msds(
     read_sds_from_csv_file(
         os.path.join(RAWTOACES_RESOURCES_DIRECTORY,
                      'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')).values())
@@ -207,16 +206,14 @@ class TestBestIlluminant(unittest.TestCase):
             best_illuminant(
                 white_balance_multipliers(
                     MSDS_CANON_EOS_5DMARK_II,
-                    SDS_ILLUMINANTS['FL2']),
-                MSDS_CANON_EOS_5DMARK_II,
+                    SDS_ILLUMINANTS['FL2']), MSDS_CANON_EOS_5DMARK_II,
                 generate_illuminants_rawtoaces_v1()).name, 'D40')
 
         self.assertEqual(
             best_illuminant(
                 white_balance_multipliers(
                     MSDS_CANON_EOS_5DMARK_II,
-                    SDS_ILLUMINANTS['A']),
-                MSDS_CANON_EOS_5DMARK_II,
+                    SDS_ILLUMINANTS['A']), MSDS_CANON_EOS_5DMARK_II,
                 generate_illuminants_rawtoaces_v1()).name, '3000K Blackbody')
 
 
@@ -234,9 +231,8 @@ class TestNormaliseIlluminant(unittest.TestCase):
 
         self.assertAlmostEqual(
             np.sum(
-                normalise_illuminant(
-                    SDS_ILLUMINANTS['D55'],
-                    MSDS_CANON_EOS_5DMARK_II).values),
+                normalise_illuminant(SDS_ILLUMINANTS['D55'],
+                                     MSDS_CANON_EOS_5DMARK_II).values),
             3.439037388220850,
             places=7)
 
@@ -451,11 +447,10 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
             ]),
             decimal=7)
 
-        training_data = sds_and_multi_sds_to_multi_sds(
+        training_data = sds_and_msds_to_msds(
             SDS_COLOURCHECKERS['BabelColor Average'].values())
         np.testing.assert_almost_equal(
-            training_data_sds_to_RGB(training_data,
-                                     MSDS_CANON_EOS_5DMARK_II,
+            training_data_sds_to_RGB(training_data, MSDS_CANON_EOS_5DMARK_II,
                                      SDS_ILLUMINANTS['D55']),
             np.array([
                 [263.80361607, 170.29412869, 132.71463416],
@@ -697,7 +692,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
             ]),
             decimal=7)
 
-        training_data = sds_and_multi_sds_to_multi_sds(
+        training_data = sds_and_msds_to_msds(
             SDS_COLOURCHECKERS['BabelColor Average'].values())
 
         np.testing.assert_almost_equal(
@@ -783,8 +778,7 @@ class TestIdtMatrix(unittest.TestCase):
         # 0.056527 1.122997 -0.179524
         # 0.023683 -0.202547 1.178864
         np.testing.assert_allclose(
-            idt_matrix(MSDS_CANON_EOS_5DMARK_II,
-                       SDS_ILLUMINANTS['D55']),
+            idt_matrix(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.84993207, -0.01605594, 0.15143504],
                 [0.05090392, 1.12559930, -0.18498249],
@@ -836,7 +830,7 @@ class TestIdtMatrix(unittest.TestCase):
             rtol=0.0001,
             atol=0.0001)
 
-        training_data = sds_and_multi_sds_to_multi_sds(
+        training_data = sds_and_msds_to_msds(
             SDS_COLOURCHECKERS['BabelColor Average'].values())
 
         np.testing.assert_allclose(

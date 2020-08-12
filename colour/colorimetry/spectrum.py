@@ -9,8 +9,8 @@ Defines the classes and objects handling spectral data computations:
 -   :class:`colour.SpectralShape`
 -   :class:`colour.SpectralDistribution`
 -   :class:`colour.MultiSpectralDistributions`
--   :func:`colour.colorimetry.sds_and_multi_sds_to_sds`
--   :func:`colour.colorimetry.sds_and_multi_sds_to_multi_sds`
+-   :func:`colour.colorimetry.sds_and_msds_to_sds`
+-   :func:`colour.colorimetry.sds_and_msds_to_msds`
 
 References
 ----------
@@ -48,8 +48,7 @@ __status__ = 'Production'
 
 __all__ = [
     'SpectralShape', 'SPECTRAL_SHAPE_DEFAULT', 'SpectralDistribution',
-    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds',
-    'sds_and_multi_sds_to_multi_sds'
+    'MultiSpectralDistributions', 'sds_and_msds_to_sds', 'sds_and_msds_to_msds'
 ]
 
 
@@ -2699,7 +2698,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
         return self.copy()
 
 
-def sds_and_multi_sds_to_sds(sds):
+def sds_and_msds_to_sds(sds):
     """
     Converts given spectral and multi-spectral distributions to a flat list of
     spectral distributions.
@@ -2738,7 +2737,7 @@ def sds_and_multi_sds_to_sds(sds):
     ... }
     >>> multi_sds_1 = MultiSpectralDistributions(data)
     >>> multi_sds_2 = MultiSpectralDistributions(data)
-    >>> len(sds_and_multi_sds_to_sds([sd_1, sd_2, multi_sds_1, multi_sds_2]))
+    >>> len(sds_and_msds_to_sds([sd_1, sd_2, multi_sds_1, multi_sds_2]))
     8
     """
 
@@ -2757,7 +2756,7 @@ def sds_and_multi_sds_to_sds(sds):
     return sds
 
 
-def sds_and_multi_sds_to_multi_sds(sds):
+def sds_and_msds_to_msds(sds):
     """
     Converts given spectral and multi-spectral distributions to
     multi-spectral distributions.
@@ -2801,7 +2800,7 @@ def sds_and_multi_sds_to_multi_sds(sds):
     >>> multi_sds_2 = MultiSpectralDistributions(data)
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True, linewidth=160):
-    ...     sds_and_multi_sds_to_multi_sds(  # doctest: +SKIP
+    ...     sds_and_msds_to_msds(  # doctest: +SKIP
     ...         [sd_1, sd_2, multi_sds_1, multi_sds_2])
     MultiSpectralDistributions([[ 500.        ,    0.0651   ...,\
 0.0651   ...,    0.0049   ...,    0.323    ...,    0.272    ...,\
@@ -2847,7 +2846,7 @@ def sds_and_multi_sds_to_multi_sds(sds):
         shapes = []
         for sd in sds:
             if isinstance(sd, MultiSpectralDistributions):
-                sds_m = sds_and_multi_sds_to_sds(sd)
+                sds_m = sds_and_msds_to_sds(sd)
                 sds_u.extend(sds_m)
                 shapes.extend([sd_m.shape for sd_m in sds_m])
             else:

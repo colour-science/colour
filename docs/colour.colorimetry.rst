@@ -64,8 +64,8 @@ Spectral Data Generation
     sd_gaussian_fwhm
     sd_single_led_Ohno2005
     sd_multi_leds_Ohno2005
-    sds_and_multi_sds_to_sds
-    sds_and_multi_sds_to_multi_sds
+    sds_and_msds_to_sds
+    sds_and_msds_to_msds
 
 **Aliases**
 
@@ -90,8 +90,8 @@ Conversion to Tristimulus Values
 
     sd_to_XYZ
     SD_TO_XYZ_METHODS
-    multi_sds_to_XYZ
-    MULTI_SD_TO_XYZ_METHODS
+    msds_to_XYZ
+    MSDS_TO_XYZ_METHODS
     wavelength_to_XYZ
 
 ASTM E308-15
@@ -105,7 +105,7 @@ ASTM E308-15
     :toctree: generated/
 
     sd_to_XYZ_ASTME308
-    multi_sds_to_XYZ_ASTME308
+    msds_to_XYZ_ASTME308
 
 **Ancillary Objects**
 
@@ -132,7 +132,7 @@ Integration
     :toctree: generated/
 
     sd_to_XYZ_integration
-    multi_sds_to_XYZ_integration
+    msds_to_XYZ_integration
 
 Spectral Bandpass Dependence Correction
 ---------------------------------------

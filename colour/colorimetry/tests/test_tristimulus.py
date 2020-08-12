@@ -22,7 +22,7 @@ from colour.colorimetry import (
     lagrange_coefficients_ASTME2022, tristimulus_weighting_factors_ASTME2022,
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
-    multi_sds_to_XYZ_integration, multi_sds_to_XYZ_ASTME308, wavelength_to_XYZ)
+    msds_to_XYZ_integration, msds_to_XYZ_ASTME308, wavelength_to_XYZ)
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -42,7 +42,7 @@ __all__ = [
     'TestTristimulusWeightingFactorsASTME2022',
     'TestAdjustTristimulusWeightingFactorsASTME308',
     'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME308',
-    'TestMultiSds_to_XYZ_integration', 'TestMultiSds_to_XYZ_ASTME308',
+    'TestMsds_to_XYZ_integration', 'TestMsds_to_XYZ_ASTME308',
     'TestWavelength_to_XYZ'
 ]
 
@@ -963,28 +963,26 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
                           self._sd.copy().align(SpectralShape(360, 820, 2)))
 
 
-class TestMultiSds_to_XYZ_integration(unittest.TestCase):
+class TestMsds_to_XYZ_integration(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus.\
-multi_sds_to_XYZ_integration` definition unit tests methods.
+    Defines :func:`colour.colorimetry.tristimulus.msds_to_XYZ_integration`
+    definition unit tests methods.
     """
 
-    def test_multi_sds_to_XYZ_integration(self):
+    def test_msds_to_XYZ_integration(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.\
-multi_sds_to_XYZ_integration`
+        Tests :func:`colour.colorimetry.tristimulus.msds_to_XYZ_integration`
         definition.
         """
 
         cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            multi_sds_to_XYZ_integration(MSDS_TWO, cmfs,
-                                         SDS_ILLUMINANTS['D65']),
+            msds_to_XYZ_integration(MSDS_TWO, cmfs, SDS_ILLUMINANTS['D65']),
             TVS_D65_INTEGRATION_MSDS,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            multi_sds_to_XYZ_integration(
+            msds_to_XYZ_integration(
                 DATA_TWO,
                 cmfs,
                 SDS_ILLUMINANTS['D65'],
@@ -993,7 +991,7 @@ multi_sds_to_XYZ_integration`
             decimal=7)
 
         np.testing.assert_almost_equal(
-            multi_sds_to_XYZ_integration(
+            msds_to_XYZ_integration(
                 DATA_TWO,
                 cmfs,
                 SDS_ILLUMINANTS['D65'],
@@ -1002,10 +1000,10 @@ multi_sds_to_XYZ_integration`
             TVS_D65_ARRAY_K1_INTEGRATION,
             decimal=7)
 
-    def test_domain_range_scale_multi_sds_to_XYZ_integration(self):
+    def test_domain_range_scale_msds_to_XYZ_integration(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.\
-multi_sds_to_XYZ_integration` definition domain and range scale support.
+        Tests :func:`colour.colorimetry.tristimulus.msds_to_XYZ_integration`
+        definition domain and range scale support.
         """
 
         cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
@@ -1013,7 +1011,7 @@ multi_sds_to_XYZ_integration` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    multi_sds_to_XYZ_integration(
+                    msds_to_XYZ_integration(
                         DATA_TWO,
                         cmfs,
                         SDS_ILLUMINANTS['D65'],
@@ -1022,35 +1020,34 @@ multi_sds_to_XYZ_integration` definition domain and range scale support.
                     decimal=7)
 
 
-class TestMultiSds_to_XYZ_ASTME308(unittest.TestCase):
+class TestMsds_to_XYZ_ASTME308(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus.\
-multi_sds_to_XYZ_ASTME308` definition unit tests methods.
+    Defines :func:`colour.colorimetry.tristimulus.msds_to_XYZ_ASTME308`
+    definition unit tests methods.
     """
 
-    def test_multi_sds_to_XYZ_ASTME308(self):
+    def test_msds_to_XYZ_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.\
-multi_sds_to_XYZ_ASTME308`
+        Tests :func:`colour.colorimetry.tristimulus.msds_to_XYZ_ASTME308`
         definition.
         """
 
         cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         msds = MSDS_TWO.copy().align(SpectralShape(400, 700, 20))
         np.testing.assert_almost_equal(
-            multi_sds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS['D65']),
+            msds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS['D65']),
             TVS_D65_ASTME308_MSDS,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            multi_sds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS['D65'], k=1),
+            msds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS['D65'], k=1),
             TVS_D65_ASTME308_K1_MSDS,
             decimal=7)
 
-    def test_domain_range_scale_multi_sds_to_XYZ_ASTME308(self):
+    def test_domain_range_scale_msds_to_XYZ_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.\
-multi_sds_to_XYZ_ASTME308` definition domain and range scale support.
+        Tests :func:`colour.colorimetry.tristimulus.msds_to_XYZ_ASTME308`
+        definition domain and range scale support.
         """
 
         cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
@@ -1058,19 +1055,19 @@ multi_sds_to_XYZ_ASTME308` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    multi_sds_to_XYZ_ASTME308(
+                    msds_to_XYZ_ASTME308(
                         MSDS_TWO.copy().align(SpectralShape(400, 700, 20)),
                         cmfs, SDS_ILLUMINANTS['D65']),
                     TVS_D65_ASTME308_MSDS * factor,
                     decimal=7)
 
-    def test_raise_exception_multi_sds_to_XYZ_ASTME308(self):
+    def test_raise_exception_msds_to_XYZ_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.\
-multi_sds_to_XYZ_ASTME308` definition raise exception.
+        Tests :func:`colour.colorimetry.tristimulus.msds_to_XYZ_ASTME308`
+        definition raise exception.
         """
 
-        self.assertRaises(ValueError, multi_sds_to_XYZ_ASTME308, DATA_TWO)
+        self.assertRaises(ValueError, msds_to_XYZ_ASTME308, DATA_TWO)
 
 
 class TestWavelength_to_XYZ(unittest.TestCase):

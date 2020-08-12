@@ -21,7 +21,7 @@ from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
-from colour.colorimetry import sd_to_XYZ, sds_and_multi_sds_to_sds
+from colour.colorimetry import sd_to_XYZ, sds_and_msds_to_sds
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
@@ -637,7 +637,7 @@ def plot_sds_in_chromaticity_diagram(
         'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
-    sds = sds_and_multi_sds_to_sds(sds)
+    sds = sds_and_msds_to_sds(sds)
 
     settings = {'uniform': True}
     settings.update(kwargs)

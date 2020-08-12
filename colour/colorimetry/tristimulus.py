@@ -12,10 +12,10 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 -   :func:`colour.colorimetry.sd_to_XYZ_ASTME308`
 -   :attr:`colour.SD_TO_XYZ_METHODS`
 -   :func:`colour.sd_to_XYZ`
--   :func:`colour.colorimetry.multi_sds_to_XYZ_integration`
--   :func:`colour.colorimetry.multi_sds_to_XYZ_ASTME308`
--   :attr:`colour.MULTI_SD_TO_XYZ_METHODS`
--   :func:`colour.multi_sds_to_XYZ`
+-   :func:`colour.colorimetry.msds_to_XYZ_integration`
+-   :func:`colour.colorimetry.msds_to_XYZ_ASTME308`
+-   :attr:`colour.MSDS_TO_XYZ_METHODS`
+-   :func:`colour.msds_to_XYZ`
 -   :func:`colour.wavelength_to_XYZ`
 
 The default implementation is based on practise *ASTM E308-15* method.
@@ -58,8 +58,8 @@ __all__ = [
     'tristimulus_weighting_factors_ASTME2022',
     'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_ASTME308',
-    'SD_TO_XYZ_METHODS', 'sd_to_XYZ', 'multi_sds_to_XYZ_integration',
-    'multi_sds_to_XYZ_ASTME308', 'MULTI_SD_TO_XYZ_METHODS', 'multi_sds_to_XYZ',
+    'SD_TO_XYZ_METHODS', 'sd_to_XYZ', 'msds_to_XYZ_integration',
+    'msds_to_XYZ_ASTME308', 'MSDS_TO_XYZ_METHODS', 'msds_to_XYZ',
     'wavelength_to_XYZ'
 ]
 
@@ -922,7 +922,7 @@ def sd_to_XYZ(
     return XYZ
 
 
-def multi_sds_to_XYZ_integration(
+def msds_to_XYZ_integration(
         msds,
         cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
         .copy().trim(SPECTRAL_SHAPE_DEFAULT),
@@ -1012,7 +1012,7 @@ def multi_sds_to_XYZ_integration(
     ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
     ... ])
     >>> msds = MultiSpectralDistributions(data, shape.range())
-    >>> multi_sds_to_XYZ_integration(msds, illuminant=D65, shape=shape)
+    >>> msds_to_XYZ_integration(msds, illuminant=D65, shape=shape)
     ... # doctest: +ELLIPSIS
     array([[  7.5029651...,   3.9487840...,   8.4034770...],
            [ 26.925986 ...,  15.0724738...,  28.7058153...],
@@ -1044,7 +1044,7 @@ def multi_sds_to_XYZ_integration(
     ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
     ...     ],
     ... ])
-    >>> multi_sds_to_XYZ_integration(msds, illuminant=D65, shape=shape)
+    >>> msds_to_XYZ_integration(msds, illuminant=D65, shape=shape)
     ... # doctest: +ELLIPSIS
     array([[[  7.1958378...,   3.8605390...,  10.1016398...],
             [ 25.5738615...,  14.7200581...,  34.8440007...],
@@ -1100,7 +1100,7 @@ def multi_sds_to_XYZ_integration(
         return from_range_100(np.rollaxis(XYZ, 0, msds.ndim))
 
 
-def multi_sds_to_XYZ_ASTME308(
+def msds_to_XYZ_ASTME308(
         msds,
         cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
         .copy().trim(SPECTRAL_SHAPE_ASTME308),
@@ -1200,7 +1200,7 @@ def multi_sds_to_XYZ_ASTME308(
     ... ])
     >>> msds = MultiSpectralDistributions(data, shape.range())
     >>> msds = msds.align(SpectralShape(400, 700, 20))
-    >>> multi_sds_to_XYZ_ASTME308(msds, illuminant=D65)
+    >>> msds_to_XYZ_ASTME308(msds, illuminant=D65)
     ... # doctest: +ELLIPSIS
     array([[  7.5052758...,   3.9557516...,   8.38929  ...],
            [ 26.9408494...,  15.0987746...,  28.6631260...],
@@ -1228,11 +1228,11 @@ def multi_sds_to_XYZ_ASTME308(
                          'multi-spectral distributions!')
 
 
-MULTI_SD_TO_XYZ_METHODS = CaseInsensitiveMapping({
-    'ASTM E308': multi_sds_to_XYZ_ASTME308,
-    'Integration': multi_sds_to_XYZ_integration
+MSDS_TO_XYZ_METHODS = CaseInsensitiveMapping({
+    'ASTM E308': msds_to_XYZ_ASTME308,
+    'Integration': msds_to_XYZ_integration
 })
-MULTI_SD_TO_XYZ_METHODS.__doc__ = """
+MSDS_TO_XYZ_METHODS.__doc__ = """
 Supported multi-spectral array to *CIE XYZ* tristimulus values conversion
 methods.
 
@@ -1241,17 +1241,17 @@ References
 :cite:`ASTMInternational2011a`, :cite:`ASTMInternational2015b`,
 :cite:`Wyszecki2000bf`
 
-MULTI_SD_TO_XYZ_METHODS : CaseInsensitiveMapping
+MSDS_TO_XYZ_METHODS : CaseInsensitiveMapping
     **{'ASTM E308', 'Integration'}**
 
 Aliases:
 
 -   'astm2015': 'ASTM E308'
 """
-MULTI_SD_TO_XYZ_METHODS['astm2015'] = MULTI_SD_TO_XYZ_METHODS['ASTM E308']
+MSDS_TO_XYZ_METHODS['astm2015'] = MSDS_TO_XYZ_METHODS['ASTM E308']
 
 
-def multi_sds_to_XYZ(
+def msds_to_XYZ(
         msds,
         cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
         .copy().trim(SPECTRAL_SHAPE_DEFAULT),
@@ -1298,22 +1298,22 @@ def multi_sds_to_XYZ(
     Other Parameters
     ----------------
     use_practice_range : bool, optional
-        {:func:`colour.colorimetry.multi_sds_to_XYZ_ASTME308`},
+        {:func:`colour.colorimetry.msds_to_XYZ_ASTME308`},
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional
-        {:func:`colour.colorimetry.multi_sds_to_XYZ_ASTME308`},
+        {:func:`colour.colorimetry.msds_to_XYZ_ASTME308`},
         5 nm measurement intervals multi-spectral distributions conversion to
         tristimulus values will use a 5 nm version of the colour matching
         functions instead of a table of tristimulus weighting factors.
     mi_20nm_interpolation_method : bool, optional
-        {:func:`colour.colorimetry.multi_sds_to_XYZ_ASTME308`},
+        {:func:`colour.colorimetry.msds_to_XYZ_ASTME308`},
         20 nm measurement intervals multi-spectral distributions conversion to
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.
     shape : SpectralShape, optional
-        {:func:`colour.colorimetry.multi_sds_to_XYZ_integration`},
+        {:func:`colour.colorimetry.msds_to_XYZ_integration`},
         Spectral shape of the multi-spectral distributions array :math:`msds`,
         ``cmfs`` and ``illuminant`` will be aligned to it.
 
@@ -1363,7 +1363,7 @@ def multi_sds_to_XYZ(
     ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
     ... ])
     >>> msds = MultiSpectralDistributions(data, shape.range())
-    >>> multi_sds_to_XYZ(msds, method='Integration', shape=shape)
+    >>> msds_to_XYZ(msds, method='Integration', shape=shape)
     ... # doctest: +ELLIPSIS
     array([[  8.2415862...,   4.2543993...,   7.6100842...],
            [ 29.6144619...,  16.1158465...,  25.9015472...],
@@ -1395,7 +1395,7 @@ def multi_sds_to_XYZ(
     ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
     ...     ],
     ... ])
-    >>> multi_sds_to_XYZ(msds, method='Integration', shape=shape)
+    >>> msds_to_XYZ(msds, method='Integration', shape=shape)
     ... # doctest: +ELLIPSIS
     array([[[  7.6862675...,   4.0925470...,   8.4950412...],
             [ 27.4119366...,  15.5014764...,  29.2825122...],
@@ -1412,7 +1412,7 @@ def multi_sds_to_XYZ(
             [ 24.6610235...,  26.1093760...,  30.7298791...]]])
     """
 
-    function = MULTI_SD_TO_XYZ_METHODS[method]
+    function = MSDS_TO_XYZ_METHODS[method]
 
     return function(msds, cmfs, illuminant, k,
                     **filter_kwargs(function, **kwargs))

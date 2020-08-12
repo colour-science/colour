@@ -44,7 +44,7 @@ message_box('Computing an "ACES" input device transform for a '
 path = os.path.join(
     colour.characterisation.aces_it.RAWTOACES_RESOURCES_DIRECTORY,
     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-sensitivities = colour.colorimetry.sds_and_multi_sds_to_multi_sds(
+sensitivities = colour.colorimetry.sds_and_msds_to_msds(
     colour.io.read_sds_from_csv_file(path).values())
 illuminant = colour.SDS_ILLUMINANTS['D55']
 

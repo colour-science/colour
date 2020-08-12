@@ -17,7 +17,7 @@ import numpy as np
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.colorimetry import sds_and_multi_sds_to_sds
+from colour.colorimetry import sds_and_msds_to_sds
 from colour.plotting import (CONSTANTS_COLOUR_STYLE,
                              XYZ_to_plotting_colourspace, artist,
                              label_rectangles, override_style, render)
@@ -273,7 +273,7 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
         :alt: plot_multi_sds_colour_rendering_indexes_bars
     """
 
-    sds = sds_and_multi_sds_to_sds(sds)
+    sds = sds_and_msds_to_sds(sds)
 
     settings = dict(kwargs)
     settings.update({'standalone': False})
@@ -418,7 +418,7 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
         :alt: plot_multi_sds_colour_quality_scales_bars
     """
 
-    sds = sds_and_multi_sds_to_sds(sds)
+    sds = sds_and_msds_to_sds(sds)
 
     settings = dict(kwargs)
     settings.update({'standalone': False})
