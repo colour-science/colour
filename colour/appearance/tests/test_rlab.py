@@ -6,8 +6,10 @@ Defines unit tests for :mod:`colour.appearance.rlab` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
 from itertools import permutations
+from unittest import TestCase
+
+import numpy as np
 
 from colour.appearance import (RLAB_D_FACTOR, RLAB_VIEWING_CONDITIONS,
                                XYZ_to_RLAB)
@@ -24,7 +26,7 @@ __status__ = 'Production'
 __all__ = ['TestRLABColourAppearanceModel']
 
 
-class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
+class TestRLABColourAppearanceModel(ColourAppearanceModelTest, TestCase):
     """
     Defines :mod:`colour.appearance.rlab` module unit tests methods for
     *RLAB* colour appearance model.

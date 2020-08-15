@@ -8,6 +8,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 from itertools import permutations
+from unittest import TestCase
 
 from colour.appearance import (HUNT_VIEWING_CONDITIONS, Hunt_InductionFactors,
                                XYZ_to_Hunt)
@@ -24,7 +25,7 @@ __status__ = 'Production'
 __all__ = ['TestHuntColourAppearanceModel']
 
 
-class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
+class TestHuntColourAppearanceModel(ColourAppearanceModelTest, TestCase):
     """
     Defines :mod:`colour.appearance.hunt` module unit tests methods for
     *Hunt* colour appearance model.
