@@ -13,7 +13,9 @@ try:
     from unittest import mock
 except ImportError:  # pragma: no cover
     import mock
+
 from itertools import permutations
+from unittest import TestCase
 
 from colour.appearance import (VIEWING_CONDITIONS_LLAB, InductionFactors_LLAB,
                                XYZ_to_LLAB, llab)
@@ -30,7 +32,7 @@ __status__ = 'Production'
 __all__ = ['TestLLABColourAppearanceModel']
 
 
-class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
+class TestLLABColourAppearanceModel(ColourAppearanceModelTest, TestCase):
     """
     Defines :mod:`colour.appearance.llab` module unit tests methods for
     *LLAB(l:c)* colour appearance model.

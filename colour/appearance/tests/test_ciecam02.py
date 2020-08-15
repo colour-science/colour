@@ -6,8 +6,10 @@ Defines unit tests for :mod:`colour.appearance.ciecam02` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
 from itertools import permutations
+from unittest import TestCase
+
+import numpy as np
 
 from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM02, InductionFactors_CIECAM02,
@@ -29,7 +31,8 @@ __all__ = [
 ]
 
 
-class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
+class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest,
+                                               TestCase):
     """
     Defines :mod:`colour.appearance.ciecam02` module units tests methods for
     *CIECAM02* colour appearance model forward implementation.

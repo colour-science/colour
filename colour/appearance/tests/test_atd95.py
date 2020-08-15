@@ -6,8 +6,10 @@ Defines unit tests for :mod:`colour.appearance.atd95` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
 from itertools import permutations
+from unittest import TestCase
+
+import numpy as np
 
 from colour.appearance import XYZ_to_ATD95
 from colour.appearance.tests.common import ColourAppearanceModelTest
@@ -23,7 +25,7 @@ __status__ = 'Production'
 __all__ = ['TestATD95ColourAppearanceModel']
 
 
-class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
+class TestATD95ColourAppearanceModel(ColourAppearanceModelTest, TestCase):
     """
     Defines :mod:`colour.appearance.atd95` module unit tests methods for
     *ATD (1995)* colour vision model.
