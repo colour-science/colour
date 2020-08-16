@@ -235,7 +235,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
     >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
-    array([ 0.2177098...,  0.1253832...,  0.0469567...])
+    array([ 0.2177372...,  0.1253941...,  0.0469309...])
 
     *Smits (1999)* reflectance recovery:
 
