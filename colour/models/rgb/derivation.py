@@ -110,10 +110,21 @@ def normalised_primary_matrix(primaries, whitepoint):
 
     whitepoint = xy_to_XYZ(whitepoint)
 
+    cupy = False
+    if np.__name__ == 'cupy':
+        np.set_ndimensional_array_backend('numpy')
+        whitepoint = np.array(whitepoint)
+        primaries = np.array(primaries)
+        cupy = True
+
     coefficients = np.dot(np.linalg.inv(primaries), whitepoint)
     coefficients = np.diagflat(coefficients)
 
     npm = np.dot(primaries, coefficients)
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        npm = np.array(npm)
 
     return npm
 

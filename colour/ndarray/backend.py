@@ -25,7 +25,7 @@ __all__ = [
 ]
 
 _NDIMENSIONAL_ARRAY_BACKEND = os.environ.get(
-    'COLOUR_SCIENCE__NDIMENSIONAL_ARRAY_BACKEND', 'Cupy').lower()
+    'COLOUR_SCIENCE__NDIMENSIONAL_ARRAY_BACKEND', 'Numpy').lower()
 
 
 def get_ndimensional_array_backend():
@@ -33,7 +33,7 @@ def get_ndimensional_array_backend():
     return _NDIMENSIONAL_ARRAY_BACKEND
 
 
-def _set_ndimensional_array_backend(backend='Cupy'):
+def _set_ndimensional_array_backend(backend='Numpy'):
     global _NDIMENSIONAL_ARRAY_BACKEND
 
     backend = str(backend).lower()

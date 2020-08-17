@@ -108,6 +108,9 @@ def primitive_grid(width=1,
      [1 0]]
     """
 
+    if np.__name__ == 'cupy':
+        raise NotImplementedError
+
     axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
 
     x_grid = width_segments
@@ -289,6 +292,9 @@ def primitive_cube(width=1,
      [23 21]
      [21 20]]
     """
+
+    if np.__name__ == 'cupy':
+        raise NotImplementedError
 
     planes = (sorted(list(
         PLANE_TO_AXIS_MAPPING.values())) if planes is None else [
