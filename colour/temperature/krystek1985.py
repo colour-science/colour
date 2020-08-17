@@ -85,6 +85,12 @@ def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
     6504.3894290...
     """
 
+    cupy = False
+    if np.__name__ == 'cupy':
+        cupy = True
+        uv = np.asnumpy(uv)
+        np.set_ndimensional_array_backend('numpy')
+
     optimisation_kwargs = handle_arguments_deprecation({
         'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
                             ],
@@ -119,6 +125,10 @@ def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
             args=(uv_i, ),
             **optimisation_settings).x for uv_i in uv
     ])
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        CCT = np.array(CCT)
 
     return as_numeric(CCT.reshape(shape[:-1]))
 

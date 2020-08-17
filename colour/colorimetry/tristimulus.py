@@ -489,7 +489,7 @@ def sd_to_XYZ_integration(
         sd = sd.copy().align(cmfs.shape)
 
     S = np.array(illuminant.values)
-    x_bar, y_bar, z_bar = tsplit(cmfs.values)
+    x_bar, y_bar, z_bar = tsplit(np.array(cmfs.values))
     R = np.array(sd.values)
 
     dw = cmfs.shape.interval

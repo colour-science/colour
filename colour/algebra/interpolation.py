@@ -848,7 +848,7 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+            value = np.array(np.atleast_1d(value).astype(self._dtype))
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
@@ -882,7 +882,7 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+            value = np.array(np.atleast_1d(value).astype(self._dtype))
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
@@ -907,7 +907,7 @@ class LinearInterpolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xi = as_float(self._evaluate(x))
+        xi = as_float(self._evaluate(np.array(x)))
 
         return xi
 
@@ -1069,13 +1069,12 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+            value = np.array(np.atleast_1d(value).astype(self._dtype))
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
             value_interval = interval(value)[0]
-
             xp1 = value[0] - value_interval * 2
             xp2 = value[0] - value_interval
             xp3 = value[-1] + value_interval
@@ -1116,7 +1115,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+            value = np.array(np.atleast_1d(value).astype(self._dtype))
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')

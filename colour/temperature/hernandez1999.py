@@ -140,6 +140,12 @@ def CCT_to_xy_Hernandez1999(CCT, optimisation_kwargs=None, **kwargs):
                   'computation methods but should be avoided for practical '
                   'applications.')
 
+    cupy = False
+    if np.__name__ == 'cupy':
+        cupy = True
+        CCT = np.asnumpy(CCT)
+        np.set_ndimensional_array_backend('numpy')
+
     CCT = as_float_array(CCT)
     shape = list(CCT.shape)
     CCT = np.atleast_1d(CCT.reshape([-1, 1]))
@@ -165,9 +171,14 @@ def CCT_to_xy_Hernandez1999(CCT, optimisation_kwargs=None, **kwargs):
     CCT = as_float_array([
         minimize(
             objective_function,
-            x0=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+            x0=np.array(
+                CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']),
             args=(CCT_i, ),
             **optimisation_settings).x for CCT_i in CCT
     ])
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        CCT = np.array(CCT)
 
     return as_numeric(CCT.reshape(shape + [2]))

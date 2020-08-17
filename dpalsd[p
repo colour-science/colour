@@ -1,0 +1,1419 @@
+[33mcommit 271c52154cac0491e0fb83396f87e4eb492de282[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/ndarray_backend[m[33m, [m[1;31morigin/feature/ndarray_backend[m[33m)[m
+Author: Omar Wagih <o.wagih.ow@gmail.com>
+Date:   Tue Aug 11 17:31:22 2020 +0200
+
+    Fixes for tests of all submodules, all submodules now work except these functions, continous/signal-Multisignal, rgb/derivation, temperature CCT_to_xy, XYZto_sd_Meng2015, notation/munsell and primitive_grid/cube
+
+[1mdiff --git a/colour/adaptation/tests/test_cie1994.py b/colour/adaptation/tests/test_cie1994.py[m
+[1mindex 83b5fb08..e067b376 100644[m
+[1m--- a/colour/adaptation/tests/test_cie1994.py[m
+[1m+++ b/colour/adaptation/tests/test_cie1994.py[m
+[36m@@ -35,7 +35,7 @@[m [mclass TestChromaticAdaptationCIE1994(unittest.TestCase):[m
+         definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_CIE1994([m
+                 XYZ_1=np.array([28.00, 21.26, 5.27]),[m
+                 xy_o1=np.array([0.44760, 0.40740]),[m
+[36m@@ -46,7 +46,7 @@[m [mclass TestChromaticAdaptationCIE1994(unittest.TestCase):[m
+             np.array([24.03379521, 21.15621214, 17.64301199]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_CIE1994([m
+                 XYZ_1=np.array([21.77, 19.18, 16.73]),[m
+                 xy_o1=np.array([0.31270, 0.32900]),[m
+[36m@@ -57,7 +57,7 @@[m [mclass TestChromaticAdaptationCIE1994(unittest.TestCase):[m
+             np.array([21.12891746, 19.42980532, 19.49577765]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_CIE1994([m
+                 XYZ_1=np.array([0.07818780, 0.06157201, 0.28099326]) * 100,[m
+                 xy_o1=np.array([0.31270, 0.32900]),[m
+[36m@@ -85,7 +85,7 @@[m [mclass TestChromaticAdaptationCIE1994(unittest.TestCase):[m
+ [m
+         XYZ_1 = np.tile(XYZ_1, (6, 1))[m
+         XYZ_2 = np.tile(XYZ_2, (6, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),[m
+             XYZ_2,[m
+             decimal=7)[m
+[36m@@ -95,7 +95,7 @@[m [mclass TestChromaticAdaptationCIE1994(unittest.TestCase):[m
+         Y_o = np.tile(Y_o, 6)[m
+         E_o1 = np.tile(E_o1, 6)[m
+         E_o2 = np.tile(E_o2, 6)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),[m
+             XYZ_2,[m
+             decimal=7)[m
+[36m@@ -107,7 +107,7 @@[m [mclass TestChromaticAdaptationCIE1994(unittest.TestCase):[m
+         E_o1 = np.reshape(E_o1, (2, 3))[m
+         E_o2 = np.reshape(E_o2, (2, 3))[m
+         XYZ_2 = np.reshape(XYZ_2, (2, 3, 3))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),[m
+             XYZ_2,[m
+             decimal=7)[m
+[36m@@ -130,7 +130,7 @@[m [mclass TestChromaticAdaptationCIE1994(unittest.TestCase):[m
+         d_r = (('reference', 1), (1, 0.01), (100, 1))[m
+         for scale, factor in d_r:[m
+             with domain_range_scale(scale):[m
+[31m-                np.testing.assert_almost_equal([m
+[32m+[m[32m                np.testing.assert_array_almost_equal([m
+                     chromatic_adaptation_CIE1994(XYZ_1 * factor, xy_o1, xy_o2,[m
+                                                  Y_o * factor, E_o1, E_o2),[m
+                     XYZ_2 * factor,[m
+[1mdiff --git a/colour/adaptation/tests/test_cmccat2000.py b/colour/adaptation/tests/test_cmccat2000.py[m
+[1mindex c1081a6a..05e31baf 100644[m
+[1m--- a/colour/adaptation/tests/test_cmccat2000.py[m
+[1m+++ b/colour/adaptation/tests/test_cmccat2000.py[m
+[36m@@ -41,7 +41,7 @@[m [mchromatic_adaptation_forward_CMCCAT2000` definition unit tests methods.[m
+ chromatic_adaptation_forward_CMCCAT2000` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_forward_CMCCAT2000([m
+                 np.array([22.48, 22.74, 8.54]),[m
+                 np.array([111.15, 100.00, 35.20]),[m
+[36m@@ -49,7 +49,7 @@[m [mchromatic_adaptation_forward_CMCCAT2000` definition.[m
+             np.array([19.52698326, 23.06833960, 24.97175229]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_forward_CMCCAT2000([m
+                 np.array([0.14222010, 0.23042768, 0.10495772]) * 100,[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,[m
+[36m@@ -58,7 +58,7 @@[m [mchromatic_adaptation_forward_CMCCAT2000` definition.[m
+             np.array([17.90511171, 22.75299363, 3.79837384]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_forward_CMCCAT2000([m
+                 np.array([0.07818780, 0.06157201, 0.28099326]) * 100,[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,[m
+[36m@@ -84,7 +84,7 @@[m [mchromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays[m
+ [m
+         XYZ = np.tile(XYZ, (6, 1))[m
+         XYZ_c = np.tile(XYZ_c, (6, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1,[m
+                                                     L_A2),[m
+             XYZ_c,[m
+[36m@@ -94,7 +94,7 @@[m [mchromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays[m
+         XYZ_wr = np.tile(XYZ_wr, (6, 1))[m
+         L_A1 = np.tile(L_A1, 6)[m
+         L_A2 = np.tile(L_A2, 6)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1,[m
+                                                     L_A2),[m
+             XYZ_c,[m
+[36m@@ -106,7 +106,7 @@[m [mchromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays[m
+         L_A1 = np.reshape(L_A1, (2, 3))[m
+         L_A2 = np.reshape(L_A2, (2, 3))[m
+         XYZ_c = np.reshape(XYZ_c, (2, 3, 3))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1,[m
+                                                     L_A2),[m
+             XYZ_c,[m
+[36m@@ -130,7 +130,7 @@[m [mchromatic_adaptation_forward_CMCCAT2000` definition domain and range scale[m
+         d_r = (('reference', 1), (1, 0.01), (100, 1))[m
+         for scale, factor in d_r:[m
+             with domain_range_scale(scale):[m
+[31m-                np.testing.assert_almost_equal([m
+[32m+[m[32m                np.testing.assert_array_almost_equal([m
+                     chromatic_adaptation_forward_CMCCAT2000([m
+                         XYZ * factor, XYZ_w * factor, XYZ_wr * factor, L_A1,[m
+                         L_A2),[m
+[36m@@ -168,7 +168,7 @@[m [mchromatic_adaptation_inverse_CMCCAT2000` definition unit tests methods.[m
+ chromatic_adaptation_inverse_CMCCAT2000` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_inverse_CMCCAT2000([m
+                 np.array([19.52698326, 23.06833960, 24.97175229]),[m
+                 np.array([111.15, 100.00, 35.20]),[m
+[36m@@ -176,7 +176,7 @@[m [mchromatic_adaptation_inverse_CMCCAT2000` definition.[m
+             np.array([22.48, 22.74, 8.54]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_inverse_CMCCAT2000([m
+                 np.array([17.90511171, 22.75299363, 3.79837384]),[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,[m
+[36m@@ -185,7 +185,7 @@[m [mchromatic_adaptation_inverse_CMCCAT2000` definition.[m
+             np.array([0.14222010, 0.23042768, 0.10495772]) * 100,[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_inverse_CMCCAT2000([m
+                 np.array([6.76564344, 5.86585763, 18.40577315]),[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,[m
+[36m@@ -211,7 +211,7 @@[m [mchromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays[m
+ [m
+         XYZ_c = np.tile(XYZ_c, (6, 1))[m
+         XYZ = np.tile(XYZ, (6, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1,[m
+                                                     L_A2),[m
+             XYZ,[m
+[36m@@ -221,7 +221,7 @@[m [mchromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays[m
+         XYZ_wr = np.tile(XYZ_wr, (6, 1))[m
+         L_A1 = np.tile(L_A1, 6)[m
+         L_A2 = np.tile(L_A2, 6)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1,[m
+                                                     L_A2),[m
+             XYZ,[m
+[36m@@ -233,7 +233,7 @@[m [mchromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays[m
+         L_A1 = np.reshape(L_A1, (2, 3))[m
+         L_A2 = np.reshape(L_A2, (2, 3))[m
+         XYZ = np.reshape(XYZ, (2, 3, 3))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1,[m
+                                                     L_A2),[m
+             XYZ,[m
+[36m@@ -257,7 +257,7 @@[m [mchromatic_adaptation_inverse_CMCCAT2000` definition domain and range scale[m
+         d_r = (('reference', 1), (1, 0.01), (100, 1))[m
+         for scale, factor in d_r:[m
+             with domain_range_scale(scale):[m
+[31m-                np.testing.assert_almost_equal([m
+[32m+[m[32m                np.testing.assert_array_almost_equal([m
+                     chromatic_adaptation_inverse_CMCCAT2000([m
+                         XYZ_c * factor, XYZ_w * factor, XYZ_wr * factor, L_A1,[m
+                         L_A2),[m
+[1mdiff --git a/colour/adaptation/tests/test_fairchild1990.py b/colour/adaptation/tests/test_fairchild1990.py[m
+[1mindex 4f52bf45..1fdf535f 100644[m
+[1m--- a/colour/adaptation/tests/test_fairchild1990.py[m
+[1m+++ b/colour/adaptation/tests/test_fairchild1990.py[m
+[36m@@ -35,7 +35,7 @@[m [mchromatic_adaptation_Fairchild1990` definition unit tests methods.[m
+ chromatic_adaptation_Fairchild1990` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_Fairchild1990([m
+                 np.array([19.53, 23.07, 24.97]),[m
+                 np.array([111.15, 100.00, 35.20]),[m
+[36m@@ -43,7 +43,7 @@[m [mchromatic_adaptation_Fairchild1990` definition.[m
+             np.array([23.32526349, 23.32455819, 76.11593750]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_Fairchild1990([m
+                 np.array([0.14222010, 0.23042768, 0.10495772]) * 100,[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,[m
+[36m@@ -51,7 +51,7 @@[m [mchromatic_adaptation_Fairchild1990` definition.[m
+             np.array([19.28089326, 22.91583715, 3.42923503]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_Fairchild1990([m
+                 np.array([0.07818780, 0.06157201, 0.28099326]) * 100,[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]) * 100,[m
+[36m@@ -73,7 +73,7 @@[m [mchromatic_adaptation_Fairchild1990` definition n-dimensional arrays support.[m
+ [m
+         XYZ_1 = np.tile(XYZ_1, (6, 1))[m
+         XYZ_c = np.tile(XYZ_c, (6, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),[m
+             XYZ_c,[m
+             decimal=7)[m
+[36m@@ -81,7 +81,7 @@[m [mchromatic_adaptation_Fairchild1990` definition n-dimensional arrays support.[m
+         XYZ_n = np.tile(XYZ_n, (6, 1))[m
+         XYZ_r = np.tile(XYZ_r, (6, 1))[m
+         Y_n = np.tile(Y_n, 6)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),[m
+             XYZ_c,[m
+             decimal=7)[m
+[36m@@ -91,7 +91,7 @@[m [mchromatic_adaptation_Fairchild1990` definition n-dimensional arrays support.[m
+         XYZ_r = np.reshape(XYZ_r, (2, 3, 3))[m
+         Y_n = np.reshape(Y_n, (2, 3))[m
+         XYZ_c = np.reshape(XYZ_c, (2, 3, 3))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),[m
+             XYZ_c,[m
+             decimal=7)[m
+[36m@@ -111,7 +111,7 @@[m [mchromatic_adaptation_Fairchild1990` definition domain and range scale support.[m
+         d_r = (('reference', 1), (1, 0.01), (100, 1))[m
+         for scale, factor in d_r:[m
+             with domain_range_scale(scale):[m
+[31m-                np.testing.assert_almost_equal([m
+[32m+[m[32m                np.testing.assert_array_almost_equal([m
+                     chromatic_adaptation_Fairchild1990([m
+                         XYZ_1 * factor, XYZ_n * factor, XYZ_r * factor, Y_n),[m
+                     XYZ_c * factor,[m
+[1mdiff --git a/colour/adaptation/tests/test_vonkries.py b/colour/adaptation/tests/test_vonkries.py[m
+[1mindex 3f80eb3e..5e0d63b0 100644[m
+[1m--- a/colour/adaptation/tests/test_vonkries.py[m
+[1m+++ b/colour/adaptation/tests/test_vonkries.py[m
+[36m@@ -39,7 +39,7 @@[m [mchromatic_adaptation_matrix_VonKries` definition unit tests methods.[m
+ chromatic_adaptation_matrix_VonKries` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_matrix_VonKries([m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+                 np.array([0.96429568, 1.00000000, 0.82510460])),[m
+[36m@@ -50,7 +50,7 @@[m [mchromatic_adaptation_matrix_VonKries` definition.[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_matrix_VonKries([m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+                 np.array([1.09846607, 1.00000000, 0.35582280])),[m
+[36m@@ -61,7 +61,7 @@[m [mchromatic_adaptation_matrix_VonKries` definition.[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_matrix_VonKries([m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+                 np.array([0.99144661, 1.00000000, 0.67315942])),[m
+[36m@@ -71,7 +71,7 @@[m [mchromatic_adaptation_matrix_VonKries` definition.[m
+                     np.array([0.95045593, 1.00000000, 1.08905775]))),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_matrix_VonKries([m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+                 np.array([0.96429568, 1.00000000, 0.82510460]),[m
+[36m@@ -83,7 +83,7 @@[m [mchromatic_adaptation_matrix_VonKries` definition.[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_matrix_VonKries([m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+                 np.array([0.96429568, 1.00000000, 0.82510460]),[m
+[36m@@ -95,7 +95,7 @@[m [mchromatic_adaptation_matrix_VonKries` definition.[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_matrix_VonKries([m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+                 np.array([0.96429568, 1.00000000, 0.82510460]),[m
+[36m@@ -133,13 +133,13 @@[m [mchromatic_adaptation_matrix_VonKries` definition n-dimensional arrays support.[m
+         XYZ_w = np.tile(XYZ_w, (6, 1))[m
+         XYZ_wr = np.tile(XYZ_wr, (6, 1))[m
+         M = np.reshape(np.tile(M, (6, 1)), (6, 3, 3))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr), M, decimal=7)[m
+ [m
+         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))[m
+         XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))[m
+         M = np.reshape(M, (2, 3, 3, 3))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr), M, decimal=7)[m
+ [m
+     def test_domain_range_scale_chromatic_adaptation_VonKries(self):[m
+[36m@@ -156,7 +156,7 @@[m [mchromatic_adaptation_matrix_VonKries` definition domain and range scale[m
+         d_r = (('reference', 1), (1, 1), (100, 0.01))[m
+         for scale, factor in d_r:[m
+             with domain_range_scale(scale):[m
+[31m-                np.testing.assert_almost_equal([m
+[32m+[m[32m                np.testing.assert_array_almost_equal([m
+                     chromatic_adaptation_matrix_VonKries([m
+                         XYZ_w * factor, XYZ_wr * factor),[m
+                     M,[m
+[36m@@ -189,7 +189,7 @@[m [mclass TestChromaticAdaptationVonKries(unittest.TestCase):[m
+         definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_VonKries([m
+                 np.array([0.20654008, 0.12197225, 0.05136952]),[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+[36m@@ -197,7 +197,7 @@[m [mclass TestChromaticAdaptationVonKries(unittest.TestCase):[m
+             np.array([0.21638819, 0.12570000, 0.03847494]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_VonKries([m
+                 np.array([0.14222010, 0.23042768, 0.10495772]),[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+[36m@@ -205,7 +205,7 @@[m [mclass TestChromaticAdaptationVonKries(unittest.TestCase):[m
+             np.array([0.18673833, 0.23111171, 0.03285972]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_VonKries([m
+                 np.array([0.07818780, 0.06157201, 0.28099326]),[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+[36m@@ -213,7 +213,7 @@[m [mclass TestChromaticAdaptationVonKries(unittest.TestCase):[m
+             np.array([0.06385467, 0.05509729, 0.17506386]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_VonKries([m
+                 np.array([0.20654008, 0.12197225, 0.05136952]),[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+[36m@@ -222,7 +222,7 @@[m [mclass TestChromaticAdaptationVonKries(unittest.TestCase):[m
+             np.array([0.20954755, 0.12197225, 0.03891917]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_VonKries([m
+                 np.array([0.20654008, 0.12197225, 0.05136952]),[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+[36m@@ -231,7 +231,7 @@[m [mclass TestChromaticAdaptationVonKries(unittest.TestCase):[m
+             np.array([0.21666003, 0.12604777, 0.03855068]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_VonKries([m
+                 np.array([0.20654008, 0.12197225, 0.05136952]),[m
+                 np.array([0.95045593, 1.00000000, 1.08905775]),[m
+[36m@@ -255,7 +255,7 @@[m [mclass TestChromaticAdaptationVonKries(unittest.TestCase):[m
+         XYZ_w = np.tile(XYZ_w, (6, 1))[m
+         XYZ_wr = np.tile(XYZ_wr, (6, 1))[m
+         XYZ_a = np.tile(XYZ_a, (6, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr),[m
+             XYZ_a,[m
+             decimal=7)[m
+[36m@@ -264,7 +264,7 @@[m [mclass TestChromaticAdaptationVonKries(unittest.TestCase):[m
+         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))[m
+         XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))[m
+         XYZ_a = np.reshape(XYZ_a, (2, 3, 3))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr),[m
+             XYZ_a,[m
+             decimal=7)[m
+[36m@@ -283,7 +283,7 @@[m [mclass TestChromaticAdaptationVonKries(unittest.TestCase):[m
+         d_r = (('reference', 1), (1, 1), (100, 0.01))[m
+         for scale, factor in d_r:[m
+             with domain_range_scale(scale):[m
+[31m-                np.testing.assert_almost_equal([m
+[32m+[m[32m                np.testing.assert_array_almost_equal([m
+                     chromatic_adaptation_VonKries(XYZ * factor, XYZ_w * factor,[m
+                                                   XYZ_wr * factor),[m
+                     XYZ_a * factor,[m
+[1mdiff --git a/colour/algebra/geometry.py b/colour/algebra/geometry.py[m
+[1mindex 5b8caf58..867892e4 100644[m
+[1m--- a/colour/algebra/geometry.py[m
+[1m+++ b/colour/algebra/geometry.py[m
+[36m@@ -41,7 +41,7 @@[m [mimport colour.ndarray as np[m
+ from collections import namedtuple[m
+ [m
+ from colour.utilities import (CaseInsensitiveMapping, as_float_array, ones,[m
+[31m-                              tsplit, tstack)[m
+[32m+[m[32m                              tsplit, tstack, as_float)[m
+ [m
+ __author__ = 'Colour Developers'[m
+ __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'[m
+[36m@@ -112,7 +112,12 @@[m [mdef euclidean_distance(a, b):[m
+     451.7133019...[m
+     """[m
+ [m
+[31m-    return np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)[m
+[32m+[m[32m    distance = np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)[m
+[32m+[m
+[32m+[m[32m    if np.__name__ == 'cupy':[m
+[32m+[m[32m        return as_float(distance)[m
+[32m+[m
+[32m+[m[32m    return distance[m
+ [m
+ [m
+ def extend_line_segment(a, b, distance=1):[m
+[36m@@ -518,12 +523,20 @@[m [mdef ellipse_fitting_Halir1998(a):[m
+     M = S1 + np.dot(S2, T)[m
+     M = np.array([M[2, :] / 2, -M[1, :], M[0, :] / 2])[m
+ [m
+[31m-    _w, v = np.linalg.eig(M)[m
+[32m+[m[32m    if np.__name__ == 'cupy':[m
+[32m+[m[32m        Mnp = np.asnumpy(M)[m
+[32m+[m[32m        np.set_ndimensional_array_backend('numpy')[m
+[32m+[m[32m        _w, v = np.linalg.eig(Mnp)[m
+[32m+[m[32m        np.set_ndimensional_array_backend('cupy')[m
+[32m+[m[32m        _w = np.array(_w)[m
+[32m+[m[32m        v = np.array(v)[m
+[32m+[m[32m    else:[m
+[32m+[m[32m        _w, v = np.linalg.eig(M)[m
+ [m
+     A1 = v[:, np.nonzero(4 * v[0, :] * v[2, :] - v[1, :] ** 2 > 0)[0]][m
+     A2 = np.dot(T, A1)[m
+ [m
+[31m-    A = np.ravel([A1, A2])[m
+[32m+[m[32m    A = np.ravel(np.array([A1, A2]))[m
+ [m
+     return A[m
+ [m
+[1mdiff --git a/colour/algebra/interpolation.py b/colour/algebra/interpolation.py[m
+[1mindex 2fe19ab8..5f3d8c17 100644[m
+[1m--- a/colour/algebra/interpolation.py[m
+[1m+++ b/colour/algebra/interpolation.py[m
+[36m@@ -1204,6 +1204,9 @@[m [mclass SpragueInterpolator(object):[m
+         y = (a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 +[m
+              a5p * X ** 5)[m
+ [m
+[32m+[m[32m        if np.__name__ == 'cupy':[m
+[32m+[m[32m            return as_float(y)[m
+[32m+[m
+         return y[m
+ [m
+     def _validate_dimensions(self):[m
+[36m@@ -1246,13 +1249,24 @@[m [mclass CubicSplineInterpolator(scipy.interpolate.interp1d):[m
+         if np.__name__ == 'cupy':[m
+             args = list(args)[m
+             for i in range(len(args)):[m
+[31m-                if isinstance(args[i], np.ndarray):[m
+[32m+[m[32m                if isinstance(args[i], (np.ndarray, tuple)):[m
+                     args[i] = np.asnumpy(args[i])[m
+             args = tuple(args)[m
+ [m
+         super(CubicSplineInterpolator, self).__init__([m
+             kind='cubic', *args, **kwargs)[m
+ [m
+[32m+[m[32m    def __call__(self, *args, **kwargs):[m
+[32m+[m
+[32m+[m[32m        if np.__name__ == 'cupy':[m
+[32m+[m[32m            args = list(args)[m
+[32m+[m[32m            for i in range(len(args)):[m
+[32m+[m[32m                if isinstance(args[i], (np.ndarray, tuple)):[m
+[32m+[m[32m                    args[i] = np.asnumpy(args[i])[m
+[32m+[m[32m            args = tuple(args)[m
+[32m+[m
+[32m+[m[32m        return super(CubicSplineInterpolator, self).__call__(*args, **kwargs)[m
+[32m+[m
+ [m
+ class PchipInterpolator(scipy.interpolate.PchipInterpolator):[m
+     """[m
+[1mdiff --git a/colour/algebra/regression.py b/colour/algebra/regression.py[m
+[1mindex afbc7c9c..9da2eb5c 100644[m
+[1m--- a/colour/algebra/regression.py[m
+[1m+++ b/colour/algebra/regression.py[m
+[36m@@ -66,4 +66,17 @@[m [mdef least_square_mapping_MoorePenrose(y, x):[m
+     y = np.atleast_2d(y)[m
+     x = np.atleast_2d(x)[m
+ [m
+[32m+[m[32m    if np.__name__ == 'cupy':[m
+[32m+[m[32m        x = np.asnumpy(x)[m
+[32m+[m[32m        y = np.asnumpy(y)[m
+[32m+[m[32m        np.set_ndimensional_array_backend('numpy')[m
+[32m+[m[32m        try:[m
+[32m+[m[32m            pinv_y = np.linalg.pinv(np.transpose(y))[m
+[32m+[m[32m            result = np.dot(np.transpose(x), pinv_y)[m
+[32m+[m[32m            np.set_ndimensional_array_backend('cupy')[m
+[32m+[m[32m        except Exception:[m
+[32m+[m[32m            np.set_ndimensional_array_backend('cupy')[m
+[32m+[m[32m            raise[m
+[32m+[m[32m        return np.array(result)[m
+[32m+[m
+     return np.dot(np.transpose(x), np.linalg.pinv(np.transpose(y)))[m
+[1mdiff --git a/colour/algebra/tests/test_common.py b/colour/algebra/tests/test_common.py[m
+[1mindex 98d474fe..100615bc 100644[m
+[1m--- a/colour/algebra/tests/test_common.py[m
+[1m+++ b/colour/algebra/tests/test_common.py[m
+[36m@@ -111,17 +111,17 @@[m [mclass TestSpow(unittest.TestCase):[m
+ [m
+         self.assertEqual(spow(-2, 2), -4.0)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             spow([2, -2, -2, 0], [2, 2, 0.15, 0]),[m
+             np.array([4.00000000, -4.00000000, -1.10956947, 0.00000000]),[m
+             decimal=7)[m
+ [m
+         with spow_enable(True):[m
+[31m-            np.testing.assert_almost_equal([m
+[32m+[m[32m            np.testing.assert_array_almost_equal([m
+                 spow(-2, 0.15), -1.10956947, decimal=7)[m
+ [m
+         with spow_enable(False):[m
+[31m-            np.testing.assert_equal(spow(-2, 0.15), np.nan)[m
+[32m+[m[32m            np.testing.assert_array_equal(spow(-2, 0.15), np.nan)[m
+ [m
+ [m
+ if __name__ == '__main__':[m
+[1mdiff --git a/colour/algebra/tests/test_extrapolation.py b/colour/algebra/tests/test_extrapolation.py[m
+[1mindex af75d527..302b6853 100644[m
+[1m--- a/colour/algebra/tests/test_extrapolation.py[m
+[1m+++ b/colour/algebra/tests/test_extrapolation.py[m
+[36m@@ -104,13 +104,13 @@[m [mclass TestExtrapolator(unittest.TestCase):[m
+ [m
+         extrapolator = Extrapolator([m
+             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])))[m
+[31m-        np.testing.assert_almost_equal(extrapolator((4, 8)), (4, 8))[m
+[32m+[m[32m        np.testing.assert_array_almost_equal(extrapolator((4, 8)), (4, 8))[m
+         self.assertEqual(extrapolator(4), 4)[m
+ [m
+         extrapolator = Extrapolator([m
+             LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),[m
+             method='Constant')[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             extrapolator((0.1, 0.2, 8, 9)), (1, 1, 3, 3))[m
+         self.assertEqual(extrapolator(0.1), 1.)[m
+ [m
+[36m@@ -118,7 +118,7 @@[m [mclass TestExtrapolator(unittest.TestCase):[m
+             LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),[m
+             method='Constant',[m
+             left=0)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             extrapolator((0.1, 0.2, 8, 9)), (0, 0, 3, 3))[m
+         self.assertEqual(extrapolator(0.1), 0)[m
+ [m
+[36m@@ -126,20 +126,20 @@[m [mclass TestExtrapolator(unittest.TestCase):[m
+             LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),[m
+             method='Constant',[m
+             right=0)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             extrapolator((0.1, 0.2, 8, 9)), (1, 1, 0, 0))[m
+         self.assertEqual(extrapolator(9), 0)[m
+ [m
+         extrapolator = Extrapolator([m
+             CubicSplineInterpolator([m
+                 np.array([3, 4, 5, 6]), np.array([1, 2, 3, 4])))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             extrapolator((0.1, 0.2, 8.0, 9.0)), (-1.9, -1.8, 6.0, 7.0))[m
+         self.assertEqual(extrapolator(9), 7)[m
+ [m
+         extrapolator = Extrapolator([m
+             PchipInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             extrapolator((0.1, 0.2, 8.0, 9.0)), (-1.9, -1.8, 6.0, 7.0))[m
+         self.assertEqual(extrapolator(9), 7.)[m
+ [m
+[1mdiff --git a/colour/algebra/tests/test_geometry.py b/colour/algebra/tests/test_geometry.py[m
+[1mindex 81862a06..59f7a855 100644[m
+[1m--- a/colour/algebra/tests/test_geometry.py[m
+[1m+++ b/colour/algebra/tests/test_geometry.py[m
+[36m@@ -42,17 +42,17 @@[m [mclass TestNormaliseVector(unittest.TestCase):[m
+         Tests :func:`colour.algebra.geometry.normalise_vector` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             normalise_vector(np.array([0.20654008, 0.12197225, 0.05136952])),[m
+             np.array([0.84197033, 0.49722560, 0.20941026]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             normalise_vector(np.array([0.14222010, 0.23042768, 0.10495772])),[m
+             np.array([0.48971705, 0.79344877, 0.36140872]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             normalise_vector(np.array([0.07818780, 0.06157201, 0.28099326])),[m
+             np.array([0.26229003, 0.20655044, 0.94262445]),[m
+             decimal=7)[m
+[36m@@ -103,13 +103,13 @@[m [mclass TestEuclideanDistance(unittest.TestCase):[m
+         a = np.tile(a, (6, 1))[m
+         b = np.tile(b, (6, 1))[m
+         distance = np.tile(distance, 6)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             euclidean_distance(a, b), distance, decimal=7)[m
+ [m
+         a = np.reshape(a, (2, 3, 3))[m
+         b = np.reshape(b, (2, 3, 3))[m
+         distance = np.reshape(distance, (2, 3))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             euclidean_distance(a, b), distance, decimal=7)[m
+ [m
+     @ignore_numpy_errors[m
+[36m@@ -138,21 +138,21 @@[m [mclass TestExtendLineSegment(unittest.TestCase):[m
+         Tests :func:`colour.algebra.geometry.extend_line_segment` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             extend_line_segment([m
+                 np.array([0.95694934, 0.13720932]),[m
+                 np.array([0.28382835, 0.60608318])),[m
+             np.array([-0.5367248, 1.17765341]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             extend_line_segment([m
+                 np.array([0.95694934, 0.13720932]),[m
+                 np.array([0.28382835, 0.60608318]), 5),[m
+             np.array([-3.81893739, 3.46393435]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             extend_line_segment([m
+                 np.array([0.95694934, 0.13720932]),[m
+                 np.array([0.28382835, 0.60608318]), -1),[m
+[36m@@ -185,7 +185,7 @@[m [mclass TestIntersectLineSegments(unittest.TestCase):[m
+ [m
+         s = intersect_line_segments(l_1, l_2)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             s.xy,[m
+             np.array([[[np.nan, np.nan], [0.22791841, 0.60064309],[m
+                        [np.nan, np.nan], [np.nan, np.nan]],[m
+[36m@@ -220,13 +220,13 @@[m [mclass TestEllipseCoefficientsCanonicalForm(unittest.TestCase):[m
+ ellipse_coefficients_canonical_form` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             ellipse_coefficients_canonical_form([m
+                 np.array([2.5, -3.0, 2.5, -1.0, -1.0, -3.5])),[m
+             np.array([0.5, 0.5, 2, 1, 45]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             ellipse_coefficients_canonical_form([m
+                 np.array([1.0, 0.0, 1.0, 0.0, 0.0, -1.0])),[m
+             np.array([0.0, 0.0, 1, 1, 0]),[m
+[36m@@ -245,12 +245,12 @@[m [mclass TestEllipseCoefficientsGeneralForm(unittest.TestCase):[m
+         definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             ellipse_coefficients_general_form(np.array([0.5, 0.5, 2, 1, 45])),[m
+             np.array([2.5, -3.0, 2.5, -1.0, -1.0, -3.5]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             ellipse_coefficients_general_form(np.array([0.0, 0.0, 1, 1, 0])),[m
+             np.array([1.0, 0.0, 1.0, 0.0, 0.0, -1.0]),[m
+             decimal=7)[m
+[36m@@ -268,13 +268,13 @@[m [mclass TestPointAtAngleOnEllipse(unittest.TestCase):[m
+         definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             point_at_angle_on_ellipse([m
+                 np.array([0, 90, 180, 270]), np.array([0.0, 0.0, 2, 1, 0])),[m
+             np.array([[2, 0], [0, 1], [-2, 0], [0, -1]]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             point_at_angle_on_ellipse([m
+                 np.linspace(0, 360, 10), np.array([0.5, 0.5, 2, 1, 45])),[m
+             np.array([[m
+[36m@@ -304,7 +304,7 @@[m [mclass TestEllipseFittingHalir1998(unittest.TestCase):[m
+         definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             ellipse_fitting_Halir1998([m
+                 np.array([[2, 0], [0, 1], [-2, 0], [0, -1]])),[m
+             np.array([[m
+[1mdiff --git a/colour/algebra/tests/test_interpolation.py b/colour/algebra/tests/test_interpolation.py[m
+[1mindex 12e0baaa..3d19e96c 100644[m
+[1m--- a/colour/algebra/tests/test_interpolation.py[m
+[1m+++ b/colour/algebra/tests/test_interpolation.py[m
+[36m@@ -10,22 +10,22 @@[m [mReferences[m
+ """[m
+ [m
+ from __future__ import division, unicode_literals[m
+[31m-[m
+[31m-import colour.ndarray as np[m
+[31m-import os[m
+[31m-import unittest[m
+[31m-from itertools import permutations[m
+[31m-[m
+[31m-from colour.algebra.interpolation import vertices_and_relative_coordinates[m
+[32m+[m[32mfrom colour.utilities import ignore_numpy_errors[m
+[32m+[m[32mfrom colour.io import read_LUT[m
+[32m+[m[32mfrom colour.algebra import random_triplet_generator[m
+ from colour.algebra import ([m
+     kernel_nearest_neighbour, kernel_linear, kernel_sinc, kernel_lanczos,[m
+     kernel_cardinal_spline, KernelInterpolator, NearestNeighbourInterpolator,[m
+     LinearInterpolator, SpragueInterpolator, CubicSplineInterpolator,[m
+     PchipInterpolator, NullInterpolator, lagrange_coefficients,[m
+     table_interpolation_trilinear, table_interpolation_tetrahedral)[m
+[31m-from colour.algebra import random_triplet_generator[m
+[31m-from colour.io import read_LUT[m
+[31m-from colour.utilities import ignore_numpy_errors[m
+[32m+[m[32mfrom colour.algebra.interpolation import vertices_and_relative_coordinates[m
+[32m+[m
+[32m+[m[32mimport colour.ndarray as np[m
+[32m+[m[32mimport os[m
+[32m+[m[32mimport unittest[m
+[32m+[m[32mfrom itertools import permutations[m
+[32m+[m[32mnp.set_ndimensional_array_backend('cupy')[m
+ [m
+ __author__ = 'Colour Developers'[m
+ __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'[m
+[36m@@ -171,7 +171,7 @@[m [mclass TestKernelNearestNeighbour(unittest.TestCase):[m
+         definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_nearest_neighbour(np.linspace(-5, 5, 25)),[m
+             np.array([[m
+                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,[m
+[36m@@ -191,7 +191,7 @@[m [mclass TestKernelLinear(unittest.TestCase):[m
+         Tests :func:`colour.algebra.interpolation.kernel_linear` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_linear(np.linspace(-5, 5, 25)),[m
+             np.array([[m
+                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,[m
+[36m@@ -214,7 +214,7 @@[m [mclass TestKernelSinc(unittest.TestCase):[m
+         Tests :func:`colour.algebra.interpolation.kernel_sinc` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_sinc(np.linspace(-5, 5, 25)),[m
+             np.array([[m
+                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,[m
+[36m@@ -225,7 +225,7 @@[m [mclass TestKernelSinc(unittest.TestCase):[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_sinc(np.linspace(-5, 5, 25), 1),[m
+             np.array([[m
+                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,[m
+[36m@@ -248,7 +248,7 @@[m [mclass TestKernelLanczos(unittest.TestCase):[m
+         Tests :func:`colour.algebra.interpolation.kernel_lanczos` definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_lanczos(np.linspace(-5, 5, 25)),[m
+             np.array([[m
+                 0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,[m
+[36m@@ -261,7 +261,7 @@[m [mclass TestKernelLanczos(unittest.TestCase):[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_lanczos(np.linspace(-5, 5, 25), 1),[m
+             np.array([[m
+                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,[m
+[36m@@ -285,7 +285,7 @@[m [mclass TestKernelCardinalSpline(unittest.TestCase):[m
+         definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_cardinal_spline(np.linspace(-5, 5, 25)),[m
+             np.array([[m
+                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,[m
+[36m@@ -296,7 +296,7 @@[m [mclass TestKernelCardinalSpline(unittest.TestCase):[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_cardinal_spline(np.linspace(-5, 5, 25), 0, 1),[m
+             np.array([[m
+                 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,[m
+[36m@@ -344,7 +344,7 @@[m [mclass TestKernelInterpolator(unittest.TestCase):[m
+         x = y = np.linspace(0, 1, 10)[m
+         kernel_interpolator = KernelInterpolator(x, y)[m
+ [m
+[31m-        np.testing.assert_equal(kernel_interpolator.x, x)[m
+[32m+[m[32m        np.testing.assert_array_equal(kernel_interpolator.x, x)[m
+ [m
+     def test_y(self):[m
+         """[m
+[36m@@ -355,7 +355,7 @@[m [mclass TestKernelInterpolator(unittest.TestCase):[m
+         x = y = np.linspace(0, 1, 10)[m
+         kernel_interpolator = KernelInterpolator(x, y)[m
+ [m
+[31m-        np.testing.assert_equal(kernel_interpolator.y, y)[m
+[32m+[m[32m        np.testing.assert_array_equal(kernel_interpolator.y, y)[m
+ [m
+     def test_window(self):[m
+         """[m
+[36m@@ -430,7 +430,7 @@[m [mpadding_kwargs` property.[m
+         x_i = np.linspace(11, 25, 25)[m
+ [m
+         kernel_interpolator = KernelInterpolator(x, y)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_interpolator(x_i),[m
+             np.array([[m
+                 4.43848790, 4.26286480, 3.64640076, 2.77982023, 2.13474499,[m
+[36m@@ -442,7 +442,7 @@[m [mpadding_kwargs` property.[m
+             decimal=7)[m
+ [m
+         kernel_interpolator = KernelInterpolator(x, y, kernel=kernel_sinc)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_interpolator(x_i),[m
+             np.array([[m
+                 4.43848790, 4.47570010, 3.84353906, 3.05959493, 2.53514958,[m
+[36m@@ -454,7 +454,7 @@[m [mpadding_kwargs` property.[m
+             decimal=7)[m
+ [m
+         kernel_interpolator = KernelInterpolator(x, y, window=1)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_interpolator(x_i),[m
+             np.array([[m
+                 4.43848790, 4.96712277, 4.09584229, 3.23991575, 2.80418924,[m
+[36m@@ -467,7 +467,7 @@[m [mpadding_kwargs` property.[m
+ [m
+         kernel_interpolator = KernelInterpolator([m
+             x, y, window=1, kernel_kwargs={'a': 1})[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_interpolator(x_i),[m
+             np.array([[m
+                 4.43848790, 3.34379320, 3.62463711, 2.34585418, 2.04767083,[m
+[36m@@ -483,7 +483,7 @@[m [mpadding_kwargs` property.[m
+                 'pad_width': (3, 3),[m
+                 'mode': 'mean'[m
+             })[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             kernel_interpolator(x_i),[m
+             np.array([[m
+                 4.4384879, 4.35723245, 3.62918155, 2.77471295, 2.13474499,[m
+[36m@@ -500,12 +500,12 @@[m [mpadding_kwargs` property.[m
+         y = np.sin(x_1 / len(x_1) * np.pi * 6) / (x_1 / len(x_1))[m
+         x_i = np.linspace(1, 9, 25)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             KernelInterpolator(x_1, y)(x_i),[m
+             KernelInterpolator(x_2, y)(x_i * 10),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             KernelInterpolator(x_1, y)(x_i),[m
+             KernelInterpolator(x_3, y)(x_i / 10),[m
+             decimal=7)[m
+[36m@@ -630,7 +630,7 @@[m [mclass TestLinearInterpolator(unittest.TestCase):[m
+                 linear_interpolator(value),[m
+                 places=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             linear_interpolator([m
+                 np.arange(0,[m
+                           len(POINTS_DATA_A) - 1 + interval, interval)),[m
+[36m@@ -720,7 +720,7 @@[m [mclass TestSpragueInterpolator(unittest.TestCase):[m
+                 sprague_interpolator(value),[m
+                 places=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             sprague_interpolator([m
+                 np.arange(0,[m
+                           len(POINTS_DATA_A) - 1 + interval, interval)),[m
+[36m@@ -773,12 +773,16 @@[m [mCubicSplineInterpolator.__call__` method.[m
+         -   This class is a wrapper around *scipy.interpolate.interp1d* class[m
+             and is assumed to be unit tested thoroughly.[m
+         """[m
+[31m-[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        print([m
+[32m+[m[32m            np.linspace(0, 1,[m
+[32m+[m[32m                        len(POINTS_DATA_A) * 2),[m
+[32m+[m[32m            type(np.linspace(0, 1,[m
+[32m+[m[32m                             len(POINTS_DATA_A) * 2)))[m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             CubicSplineInterpolator([m
+                 np.linspace(0, 1, len(POINTS_DATA_A)),[m
+[31m-                POINTS_DATA_A)(np.linspace(0, 1,[m
+[31m-                                           len(POINTS_DATA_A) * 2)),[m
+[32m+[m[32m                np.array(POINTS_DATA_A))(np.linspace(0, 1,[m
+[32m+[m[32m                                                     len(POINTS_DATA_A) * 2)),[m
+             CUBIC_SPLINE_INTERPOLATED_POINTS_DATA_A_X2_SAMPLES)[m
+ [m
+ [m
+[36m@@ -844,7 +848,7 @@[m [mclass TestNullInterpolator(unittest.TestCase):[m
+         x = y = np.linspace(0, 1, 10)[m
+         null_interpolator = NullInterpolator(x, y)[m
+ [m
+[31m-        np.testing.assert_equal(null_interpolator.x, x)[m
+[32m+[m[32m        np.testing.assert_array_equal(null_interpolator.x, x)[m
+ [m
+     def test_y(self):[m
+         """[m
+[36m@@ -855,7 +859,7 @@[m [mclass TestNullInterpolator(unittest.TestCase):[m
+         x = y = np.linspace(0, 1, 10)[m
+         null_interpolator = NullInterpolator(x, y)[m
+ [m
+[31m-        np.testing.assert_equal(null_interpolator.y, y)[m
+[32m+[m[32m        np.testing.assert_array_equal(null_interpolator.y, y)[m
+ [m
+     def test_absolute_tolerance(self):[m
+         """[m
+[36m@@ -866,7 +870,8 @@[m [mabsolute_tolerance` property.[m
+         x = y = np.linspace(0, 1, 10)[m
+         null_interpolator = NullInterpolator(x, y, absolute_tolerance=0.1)[m
+ [m
+[31m-        np.testing.assert_equal(null_interpolator.absolute_tolerance, 0.1)[m
+[32m+[m[32m        np.testing.assert_array_equal(null_interpolator.absolute_tolerance,[m
+[32m+[m[32m                                      0.1)[m
+ [m
+     def test_relative_tolerance(self):[m
+         """[m
+[36m@@ -877,7 +882,8 @@[m [mrelative_tolerance` property.[m
+         x = y = np.linspace(0, 1, 10)[m
+         null_interpolator = NullInterpolator(x, y, relative_tolerance=0.1)[m
+ [m
+[31m-        np.testing.assert_equal(null_interpolator.relative_tolerance, 0.1)[m
+[32m+[m[32m        np.testing.assert_array_equal(null_interpolator.relative_tolerance,[m
+[32m+[m[32m                                      0.1)[m
+ [m
+     def test_default(self):[m
+         """[m
+[36m@@ -888,7 +894,7 @@[m [mdefault` property.[m
+         x = y = np.linspace(0, 1, 10)[m
+         null_interpolator = NullInterpolator(x, y, default=0)[m
+ [m
+[31m-        np.testing.assert_equal(null_interpolator.default, 0)[m
+[32m+[m[32m        np.testing.assert_array_equal(null_interpolator.default, 0)[m
+ [m
+     def test_raise_exception___init__(self):[m
+         """[m
+[36m@@ -907,12 +913,12 @@[m [mdefault` property.[m
+ [m
+         x = np.arange(len(POINTS_DATA_A))[m
+         null_interpolator = NullInterpolator(x, POINTS_DATA_A)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),[m
+             np.array([np.nan, 12.46, 9.51, np.nan]))[m
+ [m
+         null_interpolator = NullInterpolator(x, POINTS_DATA_A, 0.25, 0.25)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),[m
+             np.array([12.32, 12.46, 9.51, 4.33]))[m
+ [m
+[36m@@ -968,11 +974,15 @@[m [mclass TestLagrangeCoefficients(unittest.TestCase):[m
+         :cite:`Fairman1985b`[m
+         """[m
+ [m
+[31m-        lc = [lagrange_coefficients(i, 3) for i in np.linspace(0.05, 0.95, 19)][m
+[31m-        np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS_A, decimal=7)[m
+[32m+[m[32m        lc = np.array([m
+[32m+[m[32m            [lagrange_coefficients(i, 3) for i in np.linspace(0.05, 0.95, 19)])[m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+[32m+[m[32m            lc, LAGRANGE_COEFFICIENTS_A, decimal=7)[m
+ [m
+[31m-        lc = [lagrange_coefficients(i, 4) for i in np.linspace(1.05, 1.95, 19)][m
+[31m-        np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS_B, decimal=7)[m
+[32m+[m[32m        lc = np.array([m
+[32m+[m[32m            [lagrange_coefficients(i, 4) for i in np.linspace(1.05, 1.95, 19)])[m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+[32m+[m[32m            lc, LAGRANGE_COEFFICIENTS_B, decimal=7)[m
+ [m
+ [m
+ class TestVerticesAndRelativeCoordinates(unittest.TestCase):[m
+[36m@@ -992,7 +1002,7 @@[m [mvertices_and_relative_coordinates` definition.[m
+         V_xyz = random_triplet_generator(4, random_state=prng)[m
+         vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, LUT_TABLE)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             vertices,[m
+             np.array([[m
+                 [[m
+[36m@@ -1044,7 +1054,7 @@[m [mvertices_and_relative_coordinates` definition.[m
+                     [1.13122500, 0.29792000, 0.29792000],[m
+                 ],[m
+             ]))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             V_xyzr,[m
+             np.array([[m
+                 [0.90108952, 0.09318647, 0.75894709],[m
+[36m@@ -1070,7 +1080,7 @@[m [mtable_interpolation_trilinear` definition.[m
+ [m
+         V_xyz = random_triplet_generator(16, random_state=prng)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             table_interpolation_trilinear(V_xyz, LUT_TABLE),[m
+             np.array([[m
+                 [1.07937594, -0.02773926, 0.55498254],[m
+[36m@@ -1108,7 +1118,7 @@[m [mtable_interpolation_tetrahedral` definition.[m
+ [m
+         V_xyz = random_triplet_generator(16, random_state=prng)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             table_interpolation_tetrahedral(V_xyz, LUT_TABLE),[m
+             np.array([[m
+                 [1.08039215, -0.02840092, 0.55855303],[m
+[1mdiff --git a/colour/algebra/tests/test_random.py b/colour/algebra/tests/test_random.py[m
+[1mindex 75f62f2c..921a10df 100644[m
+[1m--- a/colour/algebra/tests/test_random.py[m
+[1m+++ b/colour/algebra/tests/test_random.py[m
+[36m@@ -61,7 +61,7 @@[m [mclass TestRandomTripletGenerator(unittest.TestCase):[m
+         """[m
+ [m
+         prng = np.random.RandomState(4)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             RANDOM_TRIPLETS,[m
+             random_triplet_generator(10, random_state=prng),[m
+             decimal=7)[m
+[1mdiff --git a/colour/algebra/tests/test_regression.py b/colour/algebra/tests/test_regression.py[m
+[1mindex f9b1f9ff..f1b23d9a 100644[m
+[1m--- a/colour/algebra/tests/test_regression.py[m
+[1m+++ b/colour/algebra/tests/test_regression.py[m
+[36m@@ -36,7 +36,7 @@[m [mleast_square_mapping_MoorePenrose` definition.[m
+         y = prng.random_sample((24, 3))[m
+         x = y + (prng.random_sample((24, 3)) - 0.5) * 0.5[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             least_square_mapping_MoorePenrose(y, x),[m
+             np.array([[m
+                 [1.05263767, 0.13780789, -0.22763399],[m
+[36m@@ -47,7 +47,7 @@[m [mleast_square_mapping_MoorePenrose` definition.[m
+ [m
+         y = prng.random_sample((4, 3, 2))[m
+         x = y + (prng.random_sample((4, 3, 2)) - 0.5) * 0.5[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             least_square_mapping_MoorePenrose(y, x),[m
+             np.array([[m
+                 [[m
+[1mdiff --git a/colour/appearance/ciecam02.py b/colour/appearance/ciecam02.py[m
+[1mindex d13fdd0b..a093636c 100644[m
+[1m--- a/colour/appearance/ciecam02.py[m
+[1m+++ b/colour/appearance/ciecam02.py[m
+[36m@@ -39,7 +39,7 @@[m [mfrom colour.constants import EPSILON[m
+ from colour.utilities import ([m
+     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,[m
+     as_float, from_range_degrees, dot_matrix, dot_vector, from_range_100, ones,[m
+[31m-    to_domain_100, to_domain_degrees, tsplit, tstack, zeros)[m
+[32m+[m[32m    to_domain_100, to_domain_degrees, tsplit, tstack, zeros, as_int)[m
+ [m
+ __author__ = 'Colour Developers'[m
+ __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'[m
+[36m@@ -994,7 +994,16 @@[m [mdef hue_quadrature(h):[m
+ [m
+     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.[m
+     h[np.asarray(np.isnan(h))] = 0[m
+[31m-    i = as_int_array(np.searchsorted(h_i, h, side='left') - 1)[m
+[32m+[m
+[32m+[m[32m    if np.__name__ == 'cupy':[m
+[32m+[m[32m        hnp = np.asnumpy(h)[m
+[32m+[m[32m        h_inp = np.asnumpy(h_i)[m
+[32m+[m[32m        np.set_ndimensional_array_backend('numpy')[m
+[32m+[m[32m        i = as_int_array(np.searchsorted(h_inp, hnp, side='left') - 1)[m
+[32m+[m[32m        np.set_ndimensional_array_backend('cupy')[m
+[32m+[m[32m        i = as_int(i)[m
+[32m+[m[32m    else:[m
+[32m+[m[32m        i = as_int_array(np.searchsorted(h_i, h, side='left') - 1)[m
+ [m
+     h_ii = h_i[i][m
+     e_ii = e_i[i][m
+[1mdiff --git a/colour/biochemistry/michaelis_menten.py b/colour/biochemistry/michaelis_menten.py[m
+[1mindex 5bb4e8d2..b2c5d2c4 100644[m
+[1m--- a/colour/biochemistry/michaelis_menten.py[m
+[1m+++ b/colour/biochemistry/michaelis_menten.py[m
+[36m@@ -17,7 +17,8 @@[m [mReferences[m
+ [m
+ from __future__ import division, unicode_literals[m
+ [m
+[31m-from colour.utilities import as_float_array[m
+[32m+[m[32mfrom colour.utilities import as_float_array, as_float[m
+[32m+[m[32mimport colour.ndarray as np[m
+ [m
+ __author__ = 'Colour Developers'[m
+ __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'[m
+[36m@@ -72,6 +73,9 @@[m [mdef reaction_rate_MichealisMenten(S, V_max, K_m):[m
+ [m
+     v = (V_max * S) / (K_m + S)[m
+ [m
+[32m+[m[32m    if np.__name__ == 'cupy' and v.size == 1:[m
+[32m+[m[32m        return as_float(v)[m
+[32m+[m
+     return v[m
+ [m
+ [m
+[36m@@ -100,10 +104,6 @@[m [mdef substrate_concentration_MichealisMenten(v, V_max, K_m):[m
+     ----------[m
+     :cite:`Wikipedia2003d`[m
+ [m
+[31m-    Notes[m
+[31m-    -----[m
+[31m-    On CuPy, this returns an array even for length of 1.[m
+[31m-[m
+     Examples[m
+     --------[m
+     >>> substrate_concentration_MichealisMenten(0.961538461538461, 2.5, 0.8)[m
+[36m@@ -117,4 +117,7 @@[m [mdef substrate_concentration_MichealisMenten(v, V_max, K_m):[m
+ [m
+     S = (v * K_m) / (V_max - v)[m
+ [m
+[32m+[m[32m    if np.__name__ == 'cupy' and S.size == 1:[m
+[32m+[m[32m        return as_float(S)[m
+[32m+[m
+     return S[m
+[1mdiff --git a/colour/biochemistry/tests/test_michaelis_menten.py b/colour/biochemistry/tests/test_michaelis_menten.py[m
+[1mindex 9f39ae7a..f22524c9 100644[m
+[1m--- a/colour/biochemistry/tests/test_michaelis_menten.py[m
+[1m+++ b/colour/biochemistry/tests/test_michaelis_menten.py[m
+[36m@@ -67,19 +67,19 @@[m [mreaction_rate_MichealisMenten` definition n-dimensional arrays[m
+ [m
+         v = np.tile(v, (6, 1))[m
+         S = np.tile(S, (6, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)[m
+ [m
+         V_max = np.tile(V_max, (6, 1))[m
+         K_m = np.tile(K_m, (6, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)[m
+ [m
+         v = np.reshape(v, (2, 3, 1))[m
+         V_max = np.reshape(V_max, (2, 3, 1))[m
+         K_m = np.reshape(K_m, (2, 3, 1))[m
+         S = np.reshape(S, (2, 3, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)[m
+ [m
+     @ignore_numpy_errors[m
+[36m@@ -139,14 +139,14 @@[m [msubstrate_concentration_MichealisMenten` definition n-dimensional arrays[m
+ [m
+         S = np.tile(S, (6, 1))[m
+         v = np.tile(v, (6, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             substrate_concentration_MichealisMenten(S, V_max, K_m),[m
+             v,[m
+             decimal=7)[m
+ [m
+         V_max = np.tile(V_max, (6, 1))[m
+         K_m = np.tile(K_m, (6, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             substrate_concentration_MichealisMenten(S, V_max, K_m),[m
+             v,[m
+             decimal=7)[m
+[36m@@ -155,7 +155,7 @@[m [msubstrate_concentration_MichealisMenten` definition n-dimensional arrays[m
+         V_max = np.reshape(V_max, (2, 3, 1))[m
+         K_m = np.reshape(K_m, (2, 3, 1))[m
+         v = np.reshape(v, (2, 3, 1))[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             substrate_concentration_MichealisMenten(S, V_max, K_m),[m
+             v,[m
+             decimal=7)[m
+[1mdiff --git a/colour/blindness/tests/test_machado2009.py b/colour/blindness/tests/test_machado2009.py[m
+[1mindex 3f3541b2..06c70c82 100644[m
+[1m--- a/colour/blindness/tests/test_machado2009.py[m
+[1m+++ b/colour/blindness/tests/test_machado2009.py[m
+[36m@@ -41,43 +41,43 @@[m [manomalous_trichromacy_cmfs_Machado2009` definition.[m
+         """[m
+ [m
+         cmfs = LMS_CMFS.get('Smith & Pokorny 1975 Normal Trichromats')[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             anomalous_trichromacy_cmfs_Machado2009(cmfs,[m
+                                                    np.array([0, 0, 0], ))[450],[m
+             cmfs[450],[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             anomalous_trichromacy_cmfs_Machado2009(cmfs,[m
+                                                    np.array([1, 0, 0], ))[450],[m
+             np.array([0.03631700, 0.06350000, 0.91000000]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             anomalous_trichromacy_cmfs_Machado2009(cmfs,[m
+                                                    np.array([0, 1, 0], ))[450],[m
+             np.array([0.03430000, 0.06178404, 0.91000000]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             anomalous_trichromacy_cmfs_Machado2009(cmfs,[m
+                                                    np.array([0, 0, 1], ))[450],[m
+             np.array([0.03430000, 0.06350000, 0.92270240]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([m
+                 [10, 0, 0], ))[450],[m
+             np.array([0.05447001, 0.06350000, 0.91000000]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([m
+                 [0, 10, 0], ))[450],[m
+             np.array([0.03430000, 0.04634036, 0.91000000]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([m
+                 [0, 0, 10], ))[450],[m
+             np.array([0.03430000, 0.06350000, 1.00000000]),[m
+[36m@@ -98,7 +98,7 @@[m [manomalous_trichromacy_matrix_Machado2009` definition.[m
+ [m
+         cmfs = LMS_CMFS.get('Smith & Pokorny 1975 Normal Trichromats')[m
+         primaries = DISPLAY_RGB_PRIMARIES['Typical CRT Brainard 1997'][m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             anomalous_trichromacy_matrix_Machado2009(cmfs, primaries,[m
+                                                      np.array([0, 0, 0])),[m
+             np.identity(3),[m
+[36m@@ -159,7 +159,7 @@[m [mclass TestCvdMatrixMachado2009(unittest.TestCase):[m
+         definition.[m
+         """[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             cvd_matrix_Machado2009('Protanomaly', 0.0),[m
+             np.array([[m
+                 [1, 0, 0],[m
+[36m@@ -168,7 +168,7 @@[m [mclass TestCvdMatrixMachado2009(unittest.TestCase):[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             cvd_matrix_Machado2009('Deuteranomaly', 0.1),[m
+             np.array([[m
+                 [0.86643500, 0.17770400, -0.04413900],[m
+[36m@@ -177,7 +177,7 @@[m [mclass TestCvdMatrixMachado2009(unittest.TestCase):[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             cvd_matrix_Machado2009('Tritanomaly', 1.0),[m
+             np.array([[m
+                 [1.25552800, -0.07674900, -0.17877900],[m
+[36m@@ -186,7 +186,7 @@[m [mclass TestCvdMatrixMachado2009(unittest.TestCase):[m
+             ]),[m
+             decimal=7)[m
+ [m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             cvd_matrix_Machado2009('Tritanomaly', 0.55),[m
+             np.array([[m
+                 [1.06088700, -0.01504350, -0.04584350],[m
+[1mdiff --git a/colour/characterisation/correction.py b/colour/characterisation/correction.py[m
+[1mindex 09337bad..4c41c30c 100644[m
+[1m--- a/colour/characterisation/correction.py[m
+[1m+++ b/colour/characterisation/correction.py[m
+[36m@@ -215,6 +215,7 @@[m [mdef polynomial_expansion_Finlayson2015(RGB,[m
+             0.1051335...])[m
+     """[m
+ [m
+[32m+[m[32m    RGB = np.array(RGB)[m
+     R, G, B = tsplit(RGB)[m
+ [m
+     # TODO: Generalise polynomial expansion.[m
+[36m@@ -772,6 +773,8 @@[m [mdef colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):[m
+     array([ 0.2128689...,  0.1106242...,  0.036213 ...])[m
+     """[m
+ [m
+[32m+[m[32m    M_T = np.array((M_T))[m
+[32m+[m[32m    M_R = np.array((M_R))[m
+     RGB = as_float_array(RGB)[m
+     shape = RGB.shape[m
+ [m
+[1mdiff --git a/colour/characterisation/tests/test_aces_it.py b/colour/characterisation/tests/test_aces_it.py[m
+[1mindex d7ae029e..324b5571 100644[m
+[1m--- a/colour/characterisation/tests/test_aces_it.py[m
+[1m+++ b/colour/characterisation/tests/test_aces_it.py[m
+[36m@@ -64,39 +64,39 @@[m [msd_to_aces_relative_exposure_values` definition.[m
+ [m
+         shape = ACES_RICD.shape[m
+         grey_reflector = sd_constant(0.18, shape)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             sd_to_aces_relative_exposure_values(grey_reflector),[m
+             np.array([0.18, 0.18, 0.18]),[m
+             decimal=7)[m
+ [m
+         perfect_reflector = sd_ones(shape)[m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             sd_to_aces_relative_exposure_values(perfect_reflector),[m
+             np.array([0.97783784, 0.97783784, 0.97783784]),[m
+             decimal=7)[m
+ [m
+         dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'][m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             sd_to_aces_relative_exposure_values(dark_skin),[m
+             np.array([0.11718149, 0.08663609, 0.05897268]),[m
+             decimal=7)[m
+ [m
+         dark_skin = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'][m
+[31m-        np.testing.assert_almost_equal([m
+[32m+[m[32m        np.testing.assert_array_almost_equal([m
+             sd_to_aces_relative_exposure_values(dark_skin,[m
+                                                 ILLUMINANT_SDS['A']),[m
+             np.array([0.13583991, 0.09431845, 0.05928214]),[m
+             decimal=7)[m
+ [m
+         dark_skin = COLOU

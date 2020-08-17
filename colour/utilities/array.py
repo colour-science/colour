@@ -555,10 +555,11 @@ def interval(distribution, unique=True):
     >>> interval(y, False)
     array([ 1.,  1.,  1.,  4.])
     """
+
     distribution = as_float_array(distribution)
     i = np.arange(distribution.size - 1)
-
     differences = np.abs(distribution[i + 1] - distribution[i])
+
     if unique:
         return np.unique(differences)
     else:

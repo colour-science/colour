@@ -113,6 +113,11 @@ def _generate_unit_tests_specifications():  # pragma: no cover
     return specifications, specifications_r
 
 
+cupy = False
+if np.__name__ == 'cupy':
+    np.set_ndimensional_array_backend('numpy')
+    cupy = True
+
 MUNSELL_SPECIFICATIONS = np.array([
     [[7.18927191, 5.34025196, 16.05861170, 3.00000000],
      [0.16623068, 0.45684550, 0.22399519]],
@@ -764,6 +769,9 @@ MUNSELL_XY_FROM_RENOTATION_OVOID = [
     [0.3850, 0.4120],
     [0.4320, 0.3118],
 ]
+
+if cupy is True:
+    np.set_ndimensional_array_backend('cupy')
 
 
 class TestMunsellValuePriest1920(unittest.TestCase):

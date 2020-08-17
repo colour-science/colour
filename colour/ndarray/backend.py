@@ -25,7 +25,7 @@ __all__ = [
 ]
 
 _NDIMENSIONAL_ARRAY_BACKEND = os.environ.get(
-    'COLOUR_SCIENCE__NDIMENSIONAL_ARRAY_BACKEND', 'Numpy').lower()
+    'COLOUR_SCIENCE__NDIMENSIONAL_ARRAY_BACKEND', 'Cupy').lower()
 
 
 def get_ndimensional_array_backend():
@@ -33,7 +33,7 @@ def get_ndimensional_array_backend():
     return _NDIMENSIONAL_ARRAY_BACKEND
 
 
-def _set_ndimensional_array_backend(backend='Numpy'):
+def _set_ndimensional_array_backend(backend='Cupy'):
     global _NDIMENSIONAL_ARRAY_BACKEND
 
     backend = str(backend).lower()
@@ -103,6 +103,7 @@ class NDimensionalArrayBackend(object):
                            isinstance(args[i], self._cupy.ndarray):
                             args[i] = self._cupy.asnumpy(args[i])
                     args = tuple(args)
+
                     return failsafe(*args, **kwargs)
 
                 return checkForCupy

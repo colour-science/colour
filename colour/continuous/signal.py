@@ -309,7 +309,8 @@ class Signal(AbstractContinuousFunction):
                             'have different size, "range" variable will be '
                             'resized to "domain" variable shape!'.format(
                                 self.name))
-                        self._range = np.resize(self._range, value.shape)
+                        self._range = np.resize(
+                            np.array(self._range), value.shape)
 
                 self._domain = value
                 self._create_function()

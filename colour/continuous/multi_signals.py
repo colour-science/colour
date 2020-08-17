@@ -352,7 +352,8 @@ dict_like, optional
         """
 
         if self._signals:
-            return tstack([signal.range for signal in self._signals.values()])
+            return tstack(
+                [np.array(signal.range) for signal in self._signals.values()])
 
     @range.setter
     def range(self, value):
