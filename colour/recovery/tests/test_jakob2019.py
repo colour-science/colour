@@ -101,8 +101,8 @@ class TestErrorFunction(unittest.TestCase):
 
             np.testing.assert_allclose(sd.values, R, atol=1e-14)
             np.testing.assert_allclose(XYZ, sd_XYZ, atol=1e-14)
-            self.assertLess(abs(error_reference - error), JND_CIE1976)
-            self.assertLess(delta_E_CIE1976(Lab, sd_Lab), JND_CIE1976)
+            self.assertLess(abs(error_reference - error), JND_CIE1976 / 100)
+            self.assertLess(delta_E_CIE1976(Lab, sd_Lab), JND_CIE1976 / 100)
 
     def test_derivatives(self):
         """
@@ -161,7 +161,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             _recovered_sd, error = XYZ_to_sd_Jakob2019(
                 XYZ, illuminant=D65, additional_data=True)
 
-            if error > JND_CIE1976:
+            if error > JND_CIE1976 / 100:
                 self.fail('Delta E for \'{0}\' is {1}!'.format(name, error))
 
     def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
@@ -232,7 +232,7 @@ class TestJakob2019Interpolator(unittest.TestCase):
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, D65_XY)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
-            if error > 2 * JND_CIE1976:
+            if error > 2 * JND_CIE1976 / 100:
                 self.fail('Delta E for RGB={0} in colourspace {1} is {2}!'
                           .format(RGB, sRGB.name, error))
 

@@ -312,7 +312,7 @@ def find_coefficients_Jakob2019(
         illuminant=ILLUMINANT_SDS['D65'].copy().align(
             JAKOB2019_SPECTRAL_SHAPE),
         coefficients_0=zeros(3),
-        max_error=JND_CIE1976,
+        max_error=JND_CIE1976 / 100,
         dimensionalise=True):
     """
     Computes the coefficients for *Jakob and Hanika (2019)* reflectance

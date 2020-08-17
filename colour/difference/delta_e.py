@@ -53,7 +53,7 @@ __all__ = [
     'delta_E_CMC'
 ]
 
-JND_CIE1976 = 2.3 / 100
+JND_CIE1976 = 2.3
 if is_documentation_building():  # pragma: no cover
     JND_CIE1976 = DocstringFloat(JND_CIE1976)
     JND_CIE1976.__doc__ = """
