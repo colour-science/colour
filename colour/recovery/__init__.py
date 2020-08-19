@@ -2,6 +2,9 @@
 """
 References
 ----------
+-   :cite:`Mallett2019` : Mallett, I., & Yuksel, C. (2019). Spectral Primary
+    Decomposition for Rendering with sRGB Reflectance. Eurographics Symposium
+    on Rendering - DL-Only and Industry Track, 7 pages. doi:10.2312/SR.20191216
 -   :cite:`Meng2015c` : Meng, J., Simon, F., Hanika, J., & Dachsbacher, C.
     (2015). Physically Meaningful Rendering using Tristimulus Colours. Computer
     Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
@@ -30,8 +33,7 @@ from .mallett2019 import (spectral_primary_decomposition_Mallett2019,
 from .meng2015 import XYZ_to_sd_Meng2015
 from .smits1999 import RGB_to_sd_Smits1999
 from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
-                        XYZ_to_sd_Jakob2019, Jakob2019Interpolator,
-                        ACCEPTABLE_DELTA_E)
+                        XYZ_to_sd_Jakob2019, Jakob2019Interpolator)
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
@@ -42,11 +44,12 @@ __all__ += ['XYZ_to_sd_Meng2015']
 __all__ += ['RGB_to_sd_Smits1999']
 __all__ += [
     'sd_Jakob2019', 'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
-    'Jakob2019Interpolator', 'ACCEPTABLE_DELTA_E'
+    'Jakob2019Interpolator'
 ]
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
     'Jakob 2019': XYZ_to_sd_Jakob2019,
+    'Mallet 2019': sRGB_to_sd_Mallett2019,
     'Meng 2015': XYZ_to_sd_Meng2015,
     'Smits 1999': RGB_to_sd_Smits1999,
 })
@@ -55,10 +58,11 @@ Supported spectral distribution recovery methods.
 
 References
 ----------
-:cite:`Jakob2019Spectral`, :cite:`Meng2015c`, :cite:`Smits1999a`
+:cite:`Jakob2019Spectral`, :cite:`Mallett2019`, :cite:`Meng2015c`,
+:cite:`Smits1999a`
 
 XYZ_TO_SD_METHODS : CaseInsensitiveMapping
-    **{'Jakob 2019', 'Meng 2015', 'Smits 1999'}**
+    **{'Jakob 2019', 'Mallet 2019', 'Meng 2015', 'Smits 1999'}**
 """
 
 
@@ -73,7 +77,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
         *CIE XYZ* tristimulus values to recover the spectral distribution
         from.
     method : unicode, optional
-        **{'Meng 2015', 'Jakob 2019', 'Smits 1999'}**
+        **{'Meng 2015', 'Mallet 2019', 'Jakob 2019', 'Smits 1999'}**
         Computation method.
 
     Other Parameters
@@ -117,8 +121,11 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     | ``XYZ``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
+    -   *Mallett and Yuksel (2019)* method will internally convert given
+        *CIE XYZ* tristimulus values to *sRGB* colourspace array assuming
+        illuminant *D65*.
     -   *Smits (1999)* method will internally convert given *CIE XYZ*
-        tristimulus values to *RGB* colourspace array assuming equal energy
+        tristimulus values to *sRGB* colourspace array assuming equal energy
         illuminant *E*.
 
     References
@@ -128,13 +135,107 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     Examples
     --------
 
-    *Meng (2015)* reflectance recovery:
+    *Mallett and Yuksel (2019)* reflectance recovery:
 
     >>> import numpy as np
     >>> from colour.utilities import numpy_print_options
     >>> from colour.colorimetry import (
     ...     MSDS_CMFS_STANDARD_OBSERVER, SpectralShape, sd_to_XYZ_integration)
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
+    >>> sd = XYZ_to_sd(XYZ, method='Mallet 2019')
+    >>> with numpy_print_options(suppress=True):
+    ...     # Doctests skip for Python 2.x compatibility.
+    ...     sd  # doctest: +SKIP
+    SpectralDistribution([[ 380.        ,    0.1813482...],
+                          [ 385.        ,    0.1796892...],
+                          [ 390.        ,    0.1750320...],
+                          [ 395.        ,    0.1639826...],
+                          [ 400.        ,    0.1417079...],
+                          [ 405.        ,    0.1196185...],
+                          [ 410.        ,    0.0895052...],
+                          [ 415.        ,    0.0687549...],
+                          [ 420.        ,    0.0555547...],
+                          [ 425.        ,    0.0487807...],
+                          [ 430.        ,    0.0458916...],
+                          [ 435.        ,    0.0435306...],
+                          [ 440.        ,    0.0423284...],
+                          [ 445.        ,    0.0418111...],
+                          [ 450.        ,    0.0413207...],
+                          [ 455.        ,    0.0409975...],
+                          [ 460.        ,    0.0407940...],
+                          [ 465.        ,    0.0405660...],
+                          [ 470.        ,    0.0406118...],
+                          [ 475.        ,    0.0405960...],
+                          [ 480.        ,    0.0403872...],
+                          [ 485.        ,    0.0398562...],
+                          [ 490.        ,    0.0374426...],
+                          [ 495.        ,    0.0331002...],
+                          [ 500.        ,    0.0314433...],
+                          [ 505.        ,    0.0304597...],
+                          [ 510.        ,    0.0297928...],
+                          [ 515.        ,    0.0293396...],
+                          [ 520.        ,    0.0290523...],
+                          [ 525.        ,    0.0288407...],
+                          [ 530.        ,    0.0287263...],
+                          [ 535.        ,    0.028758 ...],
+                          [ 540.        ,    0.0288899...],
+                          [ 545.        ,    0.0290629...],
+                          [ 550.        ,    0.0293262...],
+                          [ 555.        ,    0.0298128...],
+                          [ 560.        ,    0.0303161...],
+                          [ 565.        ,    0.0311398...],
+                          [ 570.        ,    0.0325980...],
+                          [ 575.        ,    0.0352838...],
+                          [ 580.        ,    0.0411570...],
+                          [ 585.        ,    0.0607403...],
+                          [ 590.        ,    0.3156658...],
+                          [ 595.        ,    0.4518805...],
+                          [ 600.        ,    0.4662154...],
+                          [ 605.        ,    0.4703553...],
+                          [ 610.        ,    0.4703602...],
+                          [ 615.        ,    0.4703667...],
+                          [ 620.        ,    0.4692156...],
+                          [ 625.        ,    0.4703019...],
+                          [ 630.        ,    0.4685110...],
+                          [ 635.        ,    0.4655251...],
+                          [ 640.        ,    0.4614200...],
+                          [ 645.        ,    0.4548821...],
+                          [ 650.        ,    0.4457476...],
+                          [ 655.        ,    0.4346216...],
+                          [ 660.        ,    0.4196212...],
+                          [ 665.        ,    0.4003110...],
+                          [ 670.        ,    0.3758452...],
+                          [ 675.        ,    0.3454964...],
+                          [ 680.        ,    0.3144157...],
+                          [ 685.        ,    0.2784768...],
+                          [ 690.        ,    0.2476872...],
+                          [ 695.        ,    0.2292924...],
+                          [ 700.        ,    0.2168127...],
+                          [ 705.        ,    0.2077526...],
+                          [ 710.        ,    0.2011401...],
+                          [ 715.        ,    0.1950474...],
+                          [ 720.        ,    0.1909969...],
+                          [ 725.        ,    0.1892522...],
+                          [ 730.        ,    0.1879039...],
+                          [ 735.        ,    0.1868181...],
+                          [ 740.        ,    0.1857415...],
+                          [ 745.        ,    0.1852891...],
+                          [ 750.        ,    0.1848325...],
+                          [ 755.        ,    0.1844928...],
+                          [ 760.        ,    0.1843048...],
+                          [ 765.        ,    0.1842625...],
+                          [ 770.        ,    0.1842182...],
+                          [ 775.        ,    0.1841519...],
+                          [ 780.        ,    0.1841048...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_kwargs={},
+                         extrapolator=Extrapolator,
+                         extrapolator_kwargs={...})
+    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
+    array([ 0.2448215...,  0.1376973...,  0.0439205...])
+
+    *Meng (2015)* reflectance recovery:
+
     >>> cmfs = (
     ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
@@ -280,6 +381,10 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
         from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
 
         a = XYZ_to_RGB_Smits1999(XYZ)
+    elif function is sRGB_to_sd_Mallett2019:
+        from colour.models import XYZ_to_sRGB
+
+        a = XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)
 
     return function(a, **filter_kwargs(function, **kwargs))
 

@@ -29,6 +29,22 @@ Smits (1999)
     RGB_to_sd_Smits1999
     SDS_SMITS1999
 
+Mallett and Yuksel (2019)
+-------------------------
+
+``colour.recovery``
+
+.. currentmodule:: colour.recovery
+
+.. autosummary::
+    :toctree: generated/
+
+    spectral_primary_decomposition_Mallett2019
+    RGB_to_sd_Mallett2019
+    sRGB_to_sd_Mallett2019
+    SPECTRAL_SHAPE_sRGB_MALLETT2019
+    BASIS_sRGB_MALLETT2019
+
 Meng, Simon and Hanika (2015)
 -----------------------------
 
