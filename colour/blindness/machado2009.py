@@ -44,12 +44,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'LMS_TO_WSYBRG_MATRIX', 'RGB_to_WSYBRG_matrix',
+    'MATRIX_LMS_TO_WSYBRG', 'RGB_to_WSYBRG_matrix',
     'anomalous_trichromacy_cmfs_Machado2009',
     'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
 ]
 
-LMS_TO_WSYBRG_MATRIX = np.array([
+MATRIX_LMS_TO_WSYBRG = np.array([
     [0.600, 0.400, 0.000],
     [0.240, 0.105, -0.700],
     [1.200, -1.600, 0.400],
@@ -58,7 +58,7 @@ LMS_TO_WSYBRG_MATRIX = np.array([
 Ingling and Tsou (1977) matrix converting from cones responses to
 opponent-colour space.
 
-LMS_TO_WSYBRG_MATRIX : array_like, (3, 3)
+MATRIX_LMS_TO_WSYBRG : array_like, (3, 3)
 """
 
 
@@ -81,10 +81,11 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
 
     Examples
     --------
-    >>> from colour import DISPLAY_RGB_PRIMARIES, LMS_CMFS
-    >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> from colour.characterisation import MSDS_DISPLAY_PRIMARIES
+    >>> from colour.colorimetry import MSDS_CMFS_LMS
+    >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = DISPLAY_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
     >>> RGB_to_WSYBRG_matrix(  # doctest: +ELLIPSIS
     ...     cmfs, primaries)
     array([[  0.2126535...,   0.6704626...,   0.1168838...],
@@ -93,7 +94,7 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
     """
 
     wavelengths = cmfs.wavelengths
-    WSYBRG = dot_vector(LMS_TO_WSYBRG_MATRIX, cmfs.values)
+    WSYBRG = dot_vector(MATRIX_LMS_TO_WSYBRG, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
     extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
@@ -171,8 +172,8 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
 
     Examples
     --------
-    >>> from colour import LMS_CMFS
-    >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> from colour.colorimetry import MSDS_CMFS_LMS
+    >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> cmfs[450]
     array([ 0.0498639,  0.0870524,  0.955393 ])
     >>> anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
@@ -261,10 +262,11 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
 
     Examples
     --------
-    >>> from colour import DISPLAY_RGB_PRIMARIES, LMS_CMFS
-    >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> from colour.characterisation import MSDS_DISPLAY_PRIMARIES
+    >>> from colour.colorimetry import MSDS_CMFS_LMS
+    >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = DISPLAY_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
     >>> anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
     ... # doctest: +ELLIPSIS
     array([[-0.2777465...,  2.6515008..., -1.3737543...],

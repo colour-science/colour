@@ -27,7 +27,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import (
-    ILLUMINANTS, lightness_Fairchild2010, lightness_Fairchild2011,
+    CCS_ILLUMINANTS, lightness_Fairchild2010, lightness_Fairchild2011,
     luminance_Fairchild2010, luminance_Fairchild2011)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
@@ -126,12 +126,12 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
     return epsilon
 
 
-def XYZ_to_hdr_CIELab(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
-        Y_s=0.2,
-        Y_abs=100,
-        method='Fairchild 2011'):
+def XYZ_to_hdr_CIELab(XYZ,
+                      illuminant=CCS_ILLUMINANTS[
+                          'CIE 1931 2 Degree Standard Observer']['D65'],
+                      Y_s=0.2,
+                      Y_abs=100,
+                      method='Fairchild 2011'):
     """
     Converts from *CIE XYZ* tristimulus values to *hdr-CIELAB* colourspace.
 
@@ -228,12 +228,12 @@ def XYZ_to_hdr_CIELab(
     return from_range_100(Lab_hdr)
 
 
-def hdr_CIELab_to_XYZ(
-        Lab_hdr,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
-        Y_s=0.2,
-        Y_abs=100,
-        method='Fairchild 2011'):
+def hdr_CIELab_to_XYZ(Lab_hdr,
+                      illuminant=CCS_ILLUMINANTS[
+                          'CIE 1931 2 Degree Standard Observer']['D65'],
+                      Y_s=0.2,
+                      Y_abs=100,
+                      method='Fairchild 2011'):
     """
     Converts from *hdr-CIELAB* colourspace to *CIE XYZ* tristimulus values.
 

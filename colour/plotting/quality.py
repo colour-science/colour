@@ -17,8 +17,8 @@ import numpy as np
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.colorimetry import sds_and_multi_sds_to_sds
-from colour.plotting import (COLOUR_STYLE_CONSTANTS,
+from colour.colorimetry import sds_and_msds_to_sds
+from colour.plotting import (CONSTANTS_COLOUR_STYLE,
                              XYZ_to_plotting_colourspace, artist,
                              label_rectangles, override_style, render)
 from colour.quality import (colour_quality_scale, colour_rendering_index)
@@ -75,10 +75,10 @@ def plot_colour_quality_bars(specifications,
 
     Examples
     --------
-    >>> from colour import (ILLUMINANT_SDS,
-    ...                     LIGHT_SOURCE_SDS, SpectralShape)
-    >>> illuminant = ILLUMINANT_SDS['FL2']
-    >>> light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
+    >>> from colour import (SDS_ILLUMINANTS,
+    ...                     SDS_LIGHT_SOURCES, SpectralShape)
+    >>> illuminant = SDS_ILLUMINANTS['FL2']
+    >>> light_source = SDS_LIGHT_SOURCES['Kinoton 75P']
     >>> light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
@@ -98,7 +98,7 @@ def plot_colour_quality_bars(specifications,
     bar_width = 0.5
     y_ticks_interval = 10
     count_s, count_Q_as = len(specifications), 0
-    patterns = cycle(COLOUR_STYLE_CONSTANTS.hatch.patterns)
+    patterns = cycle(CONSTANTS_COLOUR_STYLE.hatch.patterns)
     if hatching is None:
         hatching = False if count_s == 1 else True
     for i, specification in enumerate(specifications):
@@ -122,7 +122,7 @@ def plot_colour_quality_bars(specifications,
             np.abs(y),
             color=colours,
             width=bar_width,
-            edgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
+            edgecolor=CONSTANTS_COLOUR_STYLE.colour.dark,
             label=specification.name)
 
         hatches = ([next(patterns) * hatching_repeat] * (count_Q_as + 1)
@@ -143,7 +143,7 @@ def plot_colour_quality_bars(specifications,
                 axes=axes)
 
     axes.axhline(
-        y=100, color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
+        y=100, color=CONSTANTS_COLOUR_STYLE.colour.dark, linestyle='--')
 
     axes.set_xticks((np.arange(
         0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
@@ -205,8 +205,8 @@ def plot_single_sd_colour_rendering_index_bars(sd, **kwargs):
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> illuminant = ILLUMINANT_SDS['FL2']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> illuminant = SDS_ILLUMINANTS['FL2']
     >>> plot_single_sd_colour_rendering_index_bars(illuminant)
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -259,10 +259,10 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
 
     Examples
     --------
-    >>> from colour import (ILLUMINANT_SDS,
-    ...                     LIGHT_SOURCE_SDS)
-    >>> illuminant = ILLUMINANT_SDS['FL2']
-    >>> light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
+    >>> from colour import (SDS_ILLUMINANTS,
+    ...                     SDS_LIGHT_SOURCES)
+    >>> illuminant = SDS_ILLUMINANTS['FL2']
+    >>> light_source = SDS_LIGHT_SOURCES['Kinoton 75P']
     >>> plot_multi_sds_colour_rendering_indexes_bars(
     ...     [illuminant, light_source])  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -273,7 +273,7 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
         :alt: plot_multi_sds_colour_rendering_indexes_bars
     """
 
-    sds = sds_and_multi_sds_to_sds(sds)
+    sds = sds_and_msds_to_sds(sds)
 
     settings = dict(kwargs)
     settings.update({'standalone': False})
@@ -345,8 +345,8 @@ def plot_single_sd_colour_quality_scale_bars(sd,
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> illuminant = ILLUMINANT_SDS['FL2']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> illuminant = SDS_ILLUMINANTS['FL2']
     >>> plot_single_sd_colour_quality_scale_bars(illuminant)
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -404,10 +404,10 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
 
     Examples
     --------
-    >>> from colour import (ILLUMINANT_SDS,
-    ...                     LIGHT_SOURCE_SDS)
-    >>> illuminant = ILLUMINANT_SDS['FL2']
-    >>> light_source = LIGHT_SOURCE_SDS['Kinoton 75P']
+    >>> from colour import (SDS_ILLUMINANTS,
+    ...                     SDS_LIGHT_SOURCES)
+    >>> illuminant = SDS_ILLUMINANTS['FL2']
+    >>> light_source = SDS_LIGHT_SOURCES['Kinoton 75P']
     >>> plot_multi_sds_colour_quality_scales_bars([illuminant, light_source])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -418,7 +418,7 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
         :alt: plot_multi_sds_colour_quality_scales_bars
     """
 
-    sds = sds_and_multi_sds_to_sds(sds)
+    sds = sds_and_msds_to_sds(sds)
 
     settings = dict(kwargs)
     settings.update({'standalone': False})

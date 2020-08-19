@@ -21,10 +21,10 @@ from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
-from colour.colorimetry import sd_to_XYZ, sds_and_multi_sds_to_sds
+from colour.colorimetry import sd_to_XYZ, sds_and_msds_to_sds
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
-from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
+from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
                              XYZ_to_plotting_colourspace, artist, filter_cmfs,
                              override_style, render)
 from colour.utilities import (domain_range_scale, first_item, is_string,
@@ -98,7 +98,7 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
     """
 
     if spectral_locus_colours is None:
-        spectral_locus_colours = COLOUR_STYLE_CONSTANTS.colour.dark
+        spectral_locus_colours = CONSTANTS_COLOUR_STYLE.colour.dark
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -109,7 +109,7 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
+    illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
@@ -269,7 +269,7 @@ def plot_chromaticity_diagram_colours(
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
+    illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
     ii, jj = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
@@ -622,9 +622,9 @@ def plot_sds_in_chromaticity_diagram(
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> A = ILLUMINANT_SDS['A']
-    >>> D65 = ILLUMINANT_SDS['D65']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> A = SDS_ILLUMINANTS['A']
+    >>> D65 = SDS_ILLUMINANTS['D65']
     >>> plot_sds_in_chromaticity_diagram([A, D65])  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -637,7 +637,7 @@ def plot_sds_in_chromaticity_diagram(
         'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
-    sds = sds_and_multi_sds_to_sds(sds)
+    sds = sds_and_msds_to_sds(sds)
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -699,7 +699,7 @@ def plot_sds_in_chromaticity_diagram(
         'annotate': True,
         'xytext': (-50, 30),
         'textcoords': 'offset points',
-        'arrowprops': COLOUR_ARROW_STYLE,
+        'arrowprops': CONSTANTS_ARROW_STYLE,
     } for _ in range(len(sds))]
 
     if annotate_kwargs is not None:
@@ -724,11 +724,11 @@ def plot_sds_in_chromaticity_diagram(
             ij[0],
             ij[1],
             'o',
-            color=COLOUR_STYLE_CONSTANTS.colour.brightest,
-            markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
-            markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
-                        COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
-            markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75,
+            color=CONSTANTS_COLOUR_STYLE.colour.brightest,
+            markeredgecolor=CONSTANTS_COLOUR_STYLE.colour.dark,
+            markersize=(CONSTANTS_COLOUR_STYLE.geometry.short * 6 +
+                        CONSTANTS_COLOUR_STYLE.geometry.short * 0.75),
+            markeredgewidth=CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
             label=sd.strict_name)
 
         if (sd.name is not None and
@@ -794,9 +794,9 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> A = ILLUMINANT_SDS['A']
-    >>> D65 = ILLUMINANT_SDS['D65']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> A = SDS_ILLUMINANTS['A']
+    >>> D65 = SDS_ILLUMINANTS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -870,9 +870,9 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> A = ILLUMINANT_SDS['A']
-    >>> D65 = ILLUMINANT_SDS['D65']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> A = SDS_ILLUMINANTS['A']
+    >>> D65 = SDS_ILLUMINANTS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -946,9 +946,9 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> A = ILLUMINANT_SDS['A']
-    >>> D65 = ILLUMINANT_SDS['D65']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> A = SDS_ILLUMINANTS['A']
+    >>> D65 = SDS_ILLUMINANTS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)

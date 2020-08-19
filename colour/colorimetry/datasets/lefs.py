@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Luminous Efficiency Functions Spectral Distributions
-====================================================
+Spectral Distributions of the Luminous Efficiency Functions
+===========================================================
 
-Defines various luminous efficiency functions involved in spectral
-computations.
+Defines the spectral distributions of the luminous efficiency functions.
 
 The luminous efficiency data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::
@@ -28,7 +27,7 @@ Notes
     *CIE 1924 Photopic Standard Observer* and
     *CIE 1951 Scotopic Standard Observer* luminous efficiency functions with
     the :func:`colour.sd_mesopic_luminous_efficiency_function` definition and
-    the data from :attr:`colour.colorimetry.datasets.lefs.MESOPIC_X_DATA`
+    the data from :attr:`colour.colorimetry.datasets.lefs.DATA_MESOPIC_X`
     attribute that defines weighting factors dependent on the photopic
     luminance :math:`L_p`.
 
@@ -56,11 +55,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PHOTOPIC_LEFS_DATA', 'PHOTOPIC_LEFS', 'SCOTOPIC_LEFS_DATA',
-    'SCOTOPIC_LEFS', 'LEFS', 'MESOPIC_X_DATA'
+    'DATA_LEFS_PHOTOPIC', 'SDS_LEFS_PHOTOPIC', 'DATA_LEFS_SCOTOPIC',
+    'SDS_LEFS_SCOTOPIC', 'SDS_LEFS', 'DATA_MESOPIC_X'
 ]
 
-PHOTOPIC_LEFS_DATA = {
+DATA_LEFS_PHOTOPIC = {
     'CIE 1924 Photopic Standard Observer': {
         360: 0.0000039170000,
         361: 0.0000043935810,
@@ -2341,48 +2340,48 @@ PHOTOPIC_LEFS_DATA = {
     }
 }
 
-PHOTOPIC_LEFS = CaseInsensitiveMapping({
+SDS_LEFS_PHOTOPIC = CaseInsensitiveMapping({
     'CIE 1924 Photopic Standard Observer':
         SpectralDistribution(
-            PHOTOPIC_LEFS_DATA['CIE 1924 Photopic Standard Observer'],
+            DATA_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
             name='CIE 1924 Photopic Standard Observer'),
     'Judd Modified CIE 1951 Photopic Standard Observer':
         SpectralDistribution(
-            PHOTOPIC_LEFS_DATA[
+            DATA_LEFS_PHOTOPIC[
                 'Judd Modified CIE 1951 Photopic Standard Observer'],
             name='Judd Modified CIE 1951 Photopic Standard Observer'),
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer':
         SpectralDistribution(
-            PHOTOPIC_LEFS_DATA[
+            DATA_LEFS_PHOTOPIC[
                 'Judd-Vos Modified CIE 1978 Photopic Standard Observer'],
             name='Judd-Vos Modified CIE 1978 Photopic Standard Observer'),
     'CIE 1964 Photopic 10 Degree Standard Observer':
         SpectralDistribution(
-            PHOTOPIC_LEFS_DATA[
+            DATA_LEFS_PHOTOPIC[
                 'CIE 1964 Photopic 10 Degree Standard Observer'],
             name='CIE 1964 Photopic 10 Degree Standard Observer',
             strict_name='CIE 1964 Photopic 10$^\\circ$ Standard Observer'),
     'CIE 2008 2 Degree Physiologically Relevant LEF':
         SpectralDistribution(
-            PHOTOPIC_LEFS_DATA[
+            DATA_LEFS_PHOTOPIC[
                 'CIE 2008 2 Degree Physiologically Relevant LEF'],
             name='CIE 2008 2 Degree Physiologically Relevant LEF',
             strict_name='CIE 2008 2$^\\circ$ Physiologically Relevant LEF'),
     'CIE 2008 10 Degree Physiologically Relevant LEF':
         SpectralDistribution(
-            PHOTOPIC_LEFS_DATA[
+            DATA_LEFS_PHOTOPIC[
                 'CIE 2008 10 Degree Physiologically Relevant LEF'],
             name='CIE 2008 10 Degree Physiologically Relevant LEF',
             strict_name='CIE 2008 10$^\\circ$ Physiologically Relevant LEF')
 })
-PHOTOPIC_LEFS.__doc__ = """
-Photopic luminous efficiency functions.
+SDS_LEFS_PHOTOPIC.__doc__ = """
+Spectral distributions of the photopic luminous efficiency functions.
 
 References
 ----------
 :cite:`CVRLq`, :cite:`CVRLs`
 
-PHOTOPIC_LEFS : CaseInsensitiveMapping
+SDS_LEFS_PHOTOPIC : CaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
@@ -2395,12 +2394,12 @@ Aliases:
 -   'cie_2_1924': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 Photopic 10 Degree Standard Observer'
 """
-PHOTOPIC_LEFS['cie_2_1924'] = (
-    PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'])
-PHOTOPIC_LEFS['cie_10_1964'] = (
-    PHOTOPIC_LEFS['CIE 1964 Photopic 10 Degree Standard Observer'])
+SDS_LEFS_PHOTOPIC['cie_2_1924'] = (
+    SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'])
+SDS_LEFS_PHOTOPIC['cie_10_1964'] = (
+    SDS_LEFS_PHOTOPIC['CIE 1964 Photopic 10 Degree Standard Observer'])
 
-SCOTOPIC_LEFS_DATA = {
+DATA_LEFS_SCOTOPIC = {
     'CIE 1951 Scotopic Standard Observer': {
         380: 0.0005890000,
         381: 0.0006650000,
@@ -2806,38 +2805,38 @@ SCOTOPIC_LEFS_DATA = {
     }
 }
 
-SCOTOPIC_LEFS = CaseInsensitiveMapping({
+SDS_LEFS_SCOTOPIC = CaseInsensitiveMapping({
     'CIE 1951 Scotopic Standard Observer':
         SpectralDistribution(
-            SCOTOPIC_LEFS_DATA['CIE 1951 Scotopic Standard Observer'],
+            DATA_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer'],
             name='CIE 1951 Scotopic Standard Observer')
 })
-SCOTOPIC_LEFS.__doc__ = """
-Scotopic luminous efficiency functions.
+SDS_LEFS_SCOTOPIC.__doc__ = """
+Spectral distributions of the scotopic luminous efficiency functions.
 
 References
 ----------
 :cite:`CVRLs`
 
-SCOTOPIC_LEFS : CaseInsensitiveMapping
+SDS_LEFS_SCOTOPIC : CaseInsensitiveMapping
     **{'CIE 1951 Scotopic Standard Observer', }**
 
 Aliases:
 
 -   'cie_1951': 'CIE 1951 Scotopic Standard Observer'
 """
-SCOTOPIC_LEFS['cie_1951'] = (
-    SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer'])
+SDS_LEFS_SCOTOPIC['cie_1951'] = (
+    SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer'])
 
-LEFS = CaseInsensitiveMapping(PHOTOPIC_LEFS)
-LEFS.__doc__ = """
-Aggregated luminous efficiency functions.
+SDS_LEFS = CaseInsensitiveMapping(SDS_LEFS_PHOTOPIC)
+SDS_LEFS.__doc__ = """
+Spectral distributions of the luminous efficiency functions.
 
 References
 ----------
 :cite:`CVRLq`, :cite:`CVRLs`, :cite:`Wikipedia2005d`
 
-LEFS : CaseInsensitiveMapping
+SDS_LEFS : CaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
@@ -2846,9 +2845,9 @@ LEFS : CaseInsensitiveMapping
     'CIE 2008 10 Degree Physiologically Relevant LEF',
     'CIE 1951 Scotopic Standard Observer'}**
 """
-LEFS.update(SCOTOPIC_LEFS)
+SDS_LEFS.update(SDS_LEFS_SCOTOPIC)
 
-MESOPIC_X_DATA = {
+DATA_MESOPIC_X = {
     0.01:
         CaseInsensitiveMapping({
             'Blue Heavy': CaseInsensitiveMapping({
@@ -2897,5 +2896,5 @@ MESOPIC_X_DATA = {
 """
 Weighting factors for the mesopic luminous efficiency function calculation.
 
-MESOPIC_X_DATA : CaseInsensitiveMapping
+DATA_MESOPIC_X : CaseInsensitiveMapping
 """

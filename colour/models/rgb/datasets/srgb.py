@@ -5,7 +5,7 @@ sRGB Colourspace
 
 Defines the *sRGB* colourspace:
 
--   :attr:`colour.models.sRGB_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_sRGB`.
 
 References
 ----------
@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB
 
 __author__ = 'Colour Developers'
@@ -37,11 +37,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'sRGB_PRIMARIES', 'sRGB_WHITEPOINT_NAME', 'sRGB_WHITEPOINT',
-    'sRGB_TO_XYZ_MATRIX', 'XYZ_TO_sRGB_MATRIX', 'sRGB_COLOURSPACE'
+    'PRIMARIES_sRGB', 'WHITEPOINT_NAME_sRGB', 'CCS_WHITEPOINT_sRGB',
+    'MATRIX_sRGB_TO_XYZ', 'MATRIX_XYZ_TO_sRGB', 'RGB_COLOURSPACE_sRGB'
 ]
 
-sRGB_PRIMARIES = np.array([
+PRIMARIES_sRGB = np.array([
     [0.6400, 0.3300],
     [0.3000, 0.6000],
     [0.1500, 0.0600],
@@ -49,25 +49,25 @@ sRGB_PRIMARIES = np.array([
 """
 *sRGB* colourspace primaries.
 
-sRGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_sRGB : ndarray, (3, 2)
 """
 
-sRGB_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_sRGB = 'D65'
 """
 *sRGB* colourspace whitepoint name.
 
-sRGB_WHITEPOINT : unicode
+CCS_WHITEPOINT_sRGB : unicode
 """
 
-sRGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][sRGB_WHITEPOINT_NAME])
+CCS_WHITEPOINT_sRGB = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    WHITEPOINT_NAME_sRGB])
 """
-*sRGB* colourspace whitepoint.
+*sRGB* colourspace whitepoint chromaticity coordinates.
 
-sRGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_sRGB : ndarray
 """
 
-sRGB_TO_XYZ_MATRIX = np.array([
+MATRIX_sRGB_TO_XYZ = np.array([
     [0.4124, 0.3576, 0.1805],
     [0.2126, 0.7152, 0.0722],
     [0.0193, 0.1192, 0.9505],
@@ -75,10 +75,10 @@ sRGB_TO_XYZ_MATRIX = np.array([
 """
 *sRGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-sRGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_sRGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_sRGB_MATRIX = np.array([
+MATRIX_XYZ_TO_sRGB = np.array([
     [3.2406, -1.5372, -0.4986],
     [-0.9689, 1.8758, 0.0415],
     [0.0557, -0.2040, 1.0570],
@@ -86,20 +86,20 @@ XYZ_TO_sRGB_MATRIX = np.array([
 """
 *CIE XYZ* tristimulus values to *sRGB* colourspace matrix.
 
-XYZ_TO_sRGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_sRGB : array_like, (3, 3)
 """
 
-sRGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_sRGB = RGB_Colourspace(
     'sRGB',
-    sRGB_PRIMARIES,
-    sRGB_WHITEPOINT,
-    sRGB_WHITEPOINT_NAME,
-    sRGB_TO_XYZ_MATRIX,
-    XYZ_TO_sRGB_MATRIX,
+    PRIMARIES_sRGB,
+    CCS_WHITEPOINT_sRGB,
+    WHITEPOINT_NAME_sRGB,
+    MATRIX_sRGB_TO_XYZ,
+    MATRIX_XYZ_TO_sRGB,
     eotf_inverse_sRGB,
     eotf_sRGB,
 )
-sRGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_sRGB.__doc__ = """
 *sRGB* colourspace.
 
 References
@@ -107,5 +107,5 @@ References
 :cite:`InternationalElectrotechnicalCommission1999a`,
 :cite:`InternationalTelecommunicationUnion2015i`
 
-sRGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_sRGB : RGB_Colourspace
 """

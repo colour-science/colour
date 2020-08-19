@@ -17,17 +17,17 @@ message_box(('Computing "ACES" relative exposure '
              '\n\t("dark skin", \n\t"blue sky")'))
 print(
     colour.sd_to_aces_relative_exposure_values(
-        colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']))
+        colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']))
 print(
     colour.sd_to_aces_relative_exposure_values(
-        colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['blue sky']))
+        colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']['blue sky']))
 
 print('\n')
 
 message_box(('Computing "ACES" relative exposure values for various ideal '
              'reflectors:\n'
              '\n\t("18%", \n\t"100%")'))
-wavelengths = colour.characterisation.ACES_RICD.wavelengths
+wavelengths = colour.characterisation.MSDS_ACES_RICD.wavelengths
 gray_reflector = colour.SpectralDistribution(
     dict(zip(wavelengths, [0.18] * len(wavelengths))), name='18%')
 print(repr(colour.sd_to_aces_relative_exposure_values(gray_reflector)))
@@ -44,8 +44,8 @@ message_box('Computing an "ACES" input device transform for a '
 path = os.path.join(
     colour.characterisation.aces_it.RAWTOACES_RESOURCES_DIRECTORY,
     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-sensitivities = colour.colorimetry.sds_and_multi_sds_to_multi_sds(
+sensitivities = colour.colorimetry.sds_and_msds_to_msds(
     colour.io.read_sds_from_csv_file(path).values())
-illuminant = colour.ILLUMINANT_SDS['D55']
+illuminant = colour.SDS_ILLUMINANTS['D55']
 
 print(colour.idt_matrix(sensitivities, illuminant))

@@ -107,7 +107,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
+    >>> sd = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
 
 ::
@@ -123,7 +123,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> illuminant = colour.ILLUMINANT_SDS['FL2']
+    >>> illuminant = colour.SDS_ILLUMINANT['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
     array([ 0.47924575,  0.31676968,  0.17362725])
 
@@ -133,8 +133,8 @@ Chromatic Adaptation - ``colour.adaptation``
 .. code-block:: python
 
     >>> XYZ = [0.20654008, 0.12197225, 0.05136952]
-    >>> D65 = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
-    >>> A = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
+    >>> D65 = colour.CHROMATICITIES_ILLUMINANT['CIE 1931 2 Degree Standard Observer']['D65']
+    >>> A = colour.CHROMATICITIES_ILLUMINANT['CIE 1931 2 Degree Standard Observer']['A']
     >>> colour.chromatic_adaptation(
     ...     XYZ, colour.xy_to_XYZ(D65), colour.xy_to_XYZ(A))
     array([ 0.2533053 ,  0.13765138,  0.01543307])
@@ -174,7 +174,7 @@ Colour Appearance Models - ``colour.appearance``
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)
-    CIECAM02_Specification(J=34.434525727858997, C=67.365010921125915, h=22.279164147957076, s=62.814855853327131, Q=177.47124941102123, M=70.024939419291385, H=2.689608534423904, HC=None)
+    CAM_Specification_CIECAM02(J=34.434525727858997, C=67.365010921125915, h=22.279164147957076, s=62.814855853327131, Q=177.47124941102123, M=70.024939419291385, H=2.689608534423904, HC=None)
 
 Colour Blindness - ``colour.blindness``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -185,7 +185,7 @@ Colour Blindness - ``colour.blindness``
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
-    >>> primaries = colour.DISPLAY_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = colour.MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
     >>> d_LMS = (15, 0, 0)
     >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
     array([[-0.27774652,  2.65150084, -1.37375432],
@@ -211,8 +211,8 @@ ACES Input Transform - ``colour characterisation``
 
 .. code-block:: python
 
-    >>> sensitivities = colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES['Nikon 5100 (NPL)']
-    >>> illuminant = colour.ILLUMINANT_SDS['D55']
+    >>> sensitivities = colour.MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)']
+    >>> illuminant = colour.SDS_ILLUMINANT['D55']
     >>> colour.idt_matrix(sensitivities, illuminant)
     array([[ 0.46579991,  0.13409239,  0.01935141],
            [ 0.01786094,  0.77557292, -0.16775555],
@@ -226,7 +226,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCE_SDS['Neodimium Incandescent'])
+    >>> colour.sd_to_XYZ(colour.SDS_LIGHT_SOURCE['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     ['ASTM E308', 'Integration', 'astm2015']
@@ -251,7 +251,7 @@ Multi-Spectral Computations
     ...      [0.06321812, 0.41898224, 0.15190357, 0.24591440, 0.55301750, 0.00657664],
     ...      [0.00305180, 0.11288624, 0.11357290, 0.12924391, 0.00195315, 0.21771573]],
     ... ])
-    >>> colour.multi_sds_to_XYZ(msds, cmfs, illuminant, method='Integration',
+    >>> colour.msds_to_XYZ(msds, cmfs, illuminant, method='Integration',
     ...                         shape=colour.SpectralShape(400, 700, 60)))
     [[[  9.73192501   5.02105851   3.22790699]
       [ 16.08032168  24.47303359  10.28681006]
@@ -363,13 +363,13 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: python
 
-    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
+    >>> sd = colour.SDS_LIGHT_SOURCE['Neodimium Incandescent']
     >>> colour.luminous_flux(sd)
     23807.655527367202
-    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
+    >>> sd = colour.SDS_LIGHT_SOURCE['Neodimium Incandescent']
     >>> colour.luminous_efficiency(sd)
     0.19943935624521045
-    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
+    >>> sd = colour.SDS_LIGHT_SOURCE['Neodimium Incandescent']
     >>> colour.luminous_efficacy(sd)
     136.21708031547874
 
@@ -515,7 +515,7 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
     >>> XYZ_w = [95.05, 100.00, 108.88]
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = colour.CIECAM02_VIEWING_CONDITIONS['Average']
+    >>> surround = colour.VIEWING_CONDITIONS_CIECAM02['Average']
     >>> specification = colour.XYZ_to_CIECAM02(
             XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
@@ -531,7 +531,7 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     >>> XYZ_w = [95.05, 100.00, 108.88]
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = colour.CAM16_VIEWING_CONDITIONS['Average']
+    >>> surround = colour.VIEWING_CONDITIONS_CAM16['Average']
     >>> specification = colour.XYZ_to_CAM16(
             XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
@@ -938,7 +938,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.ILLUMINANT_SDS['FL2'])
+    >>> colour.colour_quality_scale(colour.SDS_ILLUMINANT['FL2'])
     64.017283509280588
     >>> colour.COLOUR_QUALITY_SCALE_METHODS
     ('NIST CQS 7.4', 'NIST CQS 9.0')
@@ -948,7 +948,7 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.ILLUMINANT_SDS['FL2'])
+    >>> colour.colour_rendering_index(colour.SDS_ILLUMINANT['FL2'])
     64.151520202968015
 
 Academy Spectral Similarity Index (SSI)
@@ -956,7 +956,7 @@ Academy Spectral Similarity Index (SSI)
 
 .. code-block:: python
 
-    >>> colour.spectral_similarity_index(colour.ILLUMINANT_SDS['C'], colour.ILLUMINANT_SDS['D65'])
+    >>> colour.spectral_similarity_index(colour.SDS_ILLUMINANT['C'], colour.SDS_ILLUMINANT['D65'])
     94.0
 
 Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
@@ -997,7 +997,7 @@ Colour Volume - ``colour.volume``
 
 .. code-block:: python
 
-    >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE['sRGB'])
+    >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE_RGB['sRGB'])
     821958.30000000005
 
 Geometry Primitives Generation - ``colour.geometry``
@@ -1111,7 +1111,7 @@ Colour Checker
     ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
     >>> plot_multi_sds(
     ...     [
-    ...         colour.COLOURCHECKER_SDS['BabelColor Average'][value]
+    ...         colour.SDS_COLOURCHECKERS['BabelColor Average'][value]
     ...         for key, value in sorted(
     ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
     ...     ],
@@ -1132,7 +1132,7 @@ Chromaticities Prediction
 
 .. code-block:: python
 
-    >>> plot_corresponding_chromaticities_prediction(2, 'Von Kries', 'Bianco')
+    >>> plot_corresponding_chromaticities_prediction(2, 'Von Kries', 'Bianco 2010')
 
 ..  image:: _static/Examples_Plotting_Chromaticities_Prediction.png
 
@@ -1164,7 +1164,7 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> plot_single_sd_colour_rendering_index_bars(
-    ...     colour.ILLUMINANT_SDS['FL2'])
+    ...     colour.SDS_ILLUMINANT['FL2'])
 
 ..  image:: _static/Examples_Plotting_CRI.png
 

@@ -9,8 +9,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.notation.munsell import (
-    MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES)
+from colour.notation.munsell import (CCS_ILLUMINANT_MUNSELL)
 from colour.notation.munsell import (parse_munsell_colour,
                                      is_grey_munsell_colour,
                                      normalize_munsell_specification)
@@ -1597,7 +1596,7 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         munsell_colour = np.reshape(munsell_colour, (2, 3))
         np.testing.assert_equal(xyY_to_munsell_colour(xyY), munsell_colour)
 
-        xyY = list(MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES) + [1.0]
+        xyY = list(CCS_ILLUMINANT_MUNSELL) + [1.0]
         munsell_colour = xyY_to_munsell_colour(xyY)
 
         xyY = np.tile(xyY, (6, 1))

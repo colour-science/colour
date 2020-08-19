@@ -21,7 +21,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
-from colour.adaptation import VON_KRIES_CAT
+from colour.adaptation import CAT_VON_KRIES
 from colour.utilities import (as_float_array, dot_vector, from_range_100, ones,
                               row_as_diagonal, to_domain_100, tsplit, tstack)
 
@@ -33,25 +33,25 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'FAIRCHILD1990_XYZ_TO_RGB_MATRIX', 'FAIRCHILD1990_RGB_TO_XYZ_MATRIX',
+    'MATRIX_XYZ_TO_RGB_FAIRCHILD1990', 'MATRIX_RGB_TO_XYZ_FAIRCHILD1990',
     'chromatic_adaptation_Fairchild1990', 'XYZ_to_RGB_Fairchild1990',
     'RGB_to_XYZ_Fairchild1990', 'degrees_of_adaptation'
 ]
 
-FAIRCHILD1990_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
+MATRIX_XYZ_TO_RGB_FAIRCHILD1990 = CAT_VON_KRIES
 """
 *Fairchild (1990)* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
-FAIRCHILD1990_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_RGB_FAIRCHILD1990 : array_like, (3, 3)
 """
 
-FAIRCHILD1990_RGB_TO_XYZ_MATRIX = np.linalg.inv(VON_KRIES_CAT)
+MATRIX_RGB_TO_XYZ_FAIRCHILD1990 = np.linalg.inv(CAT_VON_KRIES)
 """
 *Fairchild (1990)* colour appearance model cone responses to *CIE XYZ*
 tristimulus values matrix.
 
-FAIRCHILD1990_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_RGB_TO_XYZ_FAIRCHILD1990 : array_like, (3, 3)
 """
 
 
@@ -123,9 +123,9 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     XYZ_r = to_domain_100(XYZ_r)
     Y_n = as_float_array(Y_n)
 
-    LMS_1 = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_1)
-    LMS_n = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_n)
-    LMS_r = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_r)
+    LMS_1 = dot_vector(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_1)
+    LMS_n = dot_vector(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_n)
+    LMS_r = dot_vector(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_r)
 
     p_LMS = degrees_of_adaptation(
         LMS_1, Y_n, discount_illuminant=discount_illuminant)
@@ -145,7 +145,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     LMSp_2 = dot_vector(np.linalg.inv(C), LMS_a)
 
     LMS_c = dot_vector(np.linalg.inv(A_2), LMSp_2)
-    XYZ_c = dot_vector(FAIRCHILD1990_RGB_TO_XYZ_MATRIX, LMS_c)
+    XYZ_c = dot_vector(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, LMS_c)
 
     return from_range_100(XYZ_c)
 
@@ -171,7 +171,7 @@ def XYZ_to_RGB_Fairchild1990(XYZ):
     array([ 22.1231935...,  23.6054224...,  22.9279534...])
     """
 
-    return dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ)
+    return dot_vector(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ)
 
 
 def RGB_to_XYZ_Fairchild1990(RGB):
@@ -195,7 +195,7 @@ def RGB_to_XYZ_Fairchild1990(RGB):
     array([ 19.53,  23.07,  24.97])
     """
 
-    return dot_vector(FAIRCHILD1990_RGB_TO_XYZ_MATRIX, RGB)
+    return dot_vector(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, RGB)
 
 
 def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
@@ -239,7 +239,7 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
     L, M, S = tsplit(LMS)
 
     # E illuminant.
-    LMS_E = dot_vector(VON_KRIES_CAT, ones(LMS.shape))
+    LMS_E = dot_vector(CAT_VON_KRIES, ones(LMS.shape))
     L_E, M_E, S_E = tsplit(LMS_E)
 
     Ye_n = spow(Y_n, v)

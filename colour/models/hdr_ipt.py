@@ -29,8 +29,8 @@ import numpy as np
 from colour.colorimetry import (
     lightness_Fairchild2010, lightness_Fairchild2011, luminance_Fairchild2010,
     luminance_Fairchild2011)
-from colour.models.ipt import (IPT_XYZ_TO_LMS_MATRIX, IPT_LMS_TO_XYZ_MATRIX,
-                               IPT_LMS_TO_IPT_MATRIX, IPT_IPT_TO_LMS_MATRIX)
+from colour.models.ipt import (MATRIX_IPT_XYZ_TO_LMS, MATRIX_IPT_LMS_TO_XYZ,
+                               MATRIX_IPT_LMS_TO_IPT, MATRIX_IPT_IPT_TO_LMS)
 from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
                               from_range_100, to_domain_1, to_domain_100,
                               dot_vector)
@@ -200,13 +200,13 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
 
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
 
-    LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
+    LMS = dot_vector(MATRIX_IPT_XYZ_TO_LMS, XYZ)
 
     # Domain and range scaling has already be handled.
     with domain_range_scale('ignore'):
         LMS_prime = np.sign(LMS) * np.abs(lightness_callable(LMS, e))
 
-    IPT_hdr = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
+    IPT_hdr = dot_vector(MATRIX_IPT_LMS_TO_IPT, LMS_prime)
 
     return from_range_100(IPT_hdr)
 
@@ -284,12 +284,12 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
 
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
 
-    LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT_hdr)
+    LMS = dot_vector(MATRIX_IPT_IPT_TO_LMS, IPT_hdr)
 
     # Domain and range scaling has already be handled.
     with domain_range_scale('ignore'):
         LMS_prime = np.sign(LMS) * np.abs(luminance_callable(LMS, e))
 
-    XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
+    XYZ = dot_vector(MATRIX_IPT_LMS_TO_XYZ, LMS_prime)
 
     return from_range_1(XYZ)

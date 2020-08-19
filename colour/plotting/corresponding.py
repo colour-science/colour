@@ -11,7 +11,7 @@ Defines corresponding chromaticities prediction plotting objects:
 from __future__ import division
 
 from colour.corresponding import corresponding_chromaticities_prediction
-from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
+from colour.plotting import (CONSTANTS_COLOUR_STYLE, artist,
                              plot_chromaticity_diagram_CIE1976UCS,
                              override_style, render)
 from colour.utilities import is_numeric
@@ -101,29 +101,29 @@ Plot_Corresponding_Chromaticities_Prediction.png
             uv_t[1],
             uv_p[0] - uv_t[0] - 0.1 * (uv_p[0] - uv_t[0]),
             uv_p[1] - uv_t[1] - 0.1 * (uv_p[1] - uv_t[1]),
-            color=COLOUR_STYLE_CONSTANTS.colour.dark,
+            color=CONSTANTS_COLOUR_STYLE.colour.dark,
             head_width=0.005,
             head_length=0.005)
         axes.plot(
             uv_t[0],
             uv_t[1],
             'o',
-            color=COLOUR_STYLE_CONSTANTS.colour.brightest,
-            markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
-            markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
-                        COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
-            markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75)
+            color=CONSTANTS_COLOUR_STYLE.colour.brightest,
+            markeredgecolor=CONSTANTS_COLOUR_STYLE.colour.dark,
+            markersize=(CONSTANTS_COLOUR_STYLE.geometry.short * 6 +
+                        CONSTANTS_COLOUR_STYLE.geometry.short * 0.75),
+            markeredgewidth=CONSTANTS_COLOUR_STYLE.geometry.short * 0.75)
         axes.plot(
             uv_m[0],
             uv_m[1],
             '^',
-            color=COLOUR_STYLE_CONSTANTS.colour.brightest,
-            markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
-            markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
-                        COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
-            markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75)
+            color=CONSTANTS_COLOUR_STYLE.colour.brightest,
+            markeredgecolor=CONSTANTS_COLOUR_STYLE.colour.dark,
+            markersize=(CONSTANTS_COLOUR_STYLE.geometry.short * 6 +
+                        CONSTANTS_COLOUR_STYLE.geometry.short * 0.75),
+            markeredgewidth=CONSTANTS_COLOUR_STYLE.geometry.short * 0.75)
         axes.plot(
-            uv_p[0], uv_p[1], '^', color=COLOUR_STYLE_CONSTANTS.colour.dark)
+            uv_p[0], uv_p[1], '^', color=CONSTANTS_COLOUR_STYLE.colour.dark)
 
     settings.update({
         'standalone': True,

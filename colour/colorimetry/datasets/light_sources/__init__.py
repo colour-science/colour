@@ -2,7 +2,7 @@
 
 from __future__ import absolute_import
 
-from .chromaticity_coordinates import LIGHT_SOURCES
-from .sds import LIGHT_SOURCE_SDS
+from .chromaticity_coordinates import CCS_LIGHT_SOURCES
+from .sds import SDS_LIGHT_SOURCES
 
-__all__ = ['LIGHT_SOURCES', 'LIGHT_SOURCE_SDS']
+__all__ = ['CCS_LIGHT_SOURCES', 'SDS_LIGHT_SOURCES']

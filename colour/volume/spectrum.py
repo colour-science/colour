@@ -20,8 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import six
 
-from colour.colorimetry import (STANDARD_OBSERVER_CMFS, multi_sds_to_XYZ,
-                                SpectralShape, sd_ones)
+from colour.colorimetry import (MSDS_CMFS, msds_to_XYZ, SpectralShape, sd_ones)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
 from colour.utilities import zeros
@@ -34,20 +33,20 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE', 'generate_pulse_waves',
+    'SPECTRAL_SHAPE_OUTER_SURFACE_XYZ', 'generate_pulse_waves',
     'XYZ_outer_surface', 'is_within_visible_spectrum'
 ]
 
-DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE = SpectralShape(360, 780, 5)
+SPECTRAL_SHAPE_OUTER_SURFACE_XYZ = SpectralShape(360, 780, 5)
 """
 Default spectral shape according to *ASTM E308-15* practise shape but using an
 interval of 5.
 
-DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE : SpectralShape
+SPECTRAL_SHAPE_OUTER_SURFACE_XYZ : SpectralShape
 """
 
-_XYZ_OUTER_SURFACE_CACHE = {}
-_XYZ_OUTER_SURFACE_POINTS_CACHE = {}
+_CACHE_OUTER_SURFACE_XYZ = {}
+_CACHE_OUTER_SURFACE_XYZ_POINTS = {}
 
 
 def generate_pulse_waves(bins):
@@ -136,11 +135,10 @@ def generate_pulse_waves(bins):
     ])
 
 
-def XYZ_outer_surface(
-        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
-        .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
-        illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
-        **kwargs):
+def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+                      .copy().align(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
+                      illuminant=sd_ones(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
+                      **kwargs):
     """
     Generates the *CIE XYZ* colourspace outer surface for given colour matching
     functions using multi-spectral conversion of pulse waves to *CIE XYZ*
@@ -156,7 +154,7 @@ def XYZ_outer_surface(
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.multi_sds_to_XYZ`},
+        {:func:`colour.msds_to_XYZ`},
         Please refer to the documentation of the previously listed definition.
 
     Returns
@@ -170,10 +168,10 @@ def XYZ_outer_surface(
 
     Examples
     --------
-    >>> from colour.colorimetry import DEFAULT_SPECTRAL_SHAPE
+    >>> from colour.colorimetry import SPECTRAL_SHAPE_DEFAULT
     >>> shape = SpectralShape(
-    ...     DEFAULT_SPECTRAL_SHAPE.start, DEFAULT_SPECTRAL_SHAPE.end, 84)
-    >>> cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+    ...     SPECTRAL_SHAPE_DEFAULT.start, SPECTRAL_SHAPE_DEFAULT.end, 84)
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> XYZ_outer_surface(cmfs.copy().align(shape))  # doctest: +ELLIPSIS
     array([[  0.0000000...e+00,   0.0000000...e+00,   0.0000000...e+00],
            [  9.6361381...e-05,   2.9056776...e-06,   4.4961226...e-04],
@@ -213,22 +211,22 @@ def XYZ_outer_surface(
     settings.update(kwargs)
 
     key = (hash(cmfs), hash(illuminant), six.text_type(settings))
-    XYZ = _XYZ_OUTER_SURFACE_CACHE.get(key)
+    XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
     if XYZ is None:
         pulse_waves = generate_pulse_waves(len(cmfs.wavelengths))
-        XYZ = multi_sds_to_XYZ(pulse_waves, cmfs, illuminant, **settings) / 100
+        XYZ = msds_to_XYZ(pulse_waves, cmfs, illuminant, **settings) / 100
 
-        _XYZ_OUTER_SURFACE_CACHE[key] = XYZ
+        _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
 
     return XYZ
 
 
 def is_within_visible_spectrum(
         XYZ,
-        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
-        .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
-        illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
+        cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+        .copy().align(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
+        illuminant=sd_ones(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
         tolerance=None,
         **kwargs):
     """
@@ -249,7 +247,7 @@ def is_within_visible_spectrum(
     Other Parameters
     ----------------
     \\**kwargs : dict, optional
-        {:func:`colour.multi_sds_to_XYZ`},
+        {:func:`colour.msds_to_XYZ`},
         Please refer to the documentation of the previously listed definition.
 
     Returns
@@ -278,10 +276,10 @@ def is_within_visible_spectrum(
     """
 
     key = (hash(cmfs), hash(illuminant), six.text_type(kwargs))
-    vertices = _XYZ_OUTER_SURFACE_POINTS_CACHE.get(key)
+    vertices = _CACHE_OUTER_SURFACE_XYZ_POINTS.get(key)
 
     if vertices is None:
-        _XYZ_OUTER_SURFACE_POINTS_CACHE[key] = vertices = (XYZ_outer_surface(
+        _CACHE_OUTER_SURFACE_XYZ_POINTS[key] = vertices = (XYZ_outer_surface(
             cmfs, illuminant, **kwargs))
 
     return is_within_mesh_volume(XYZ, vertices, tolerance)

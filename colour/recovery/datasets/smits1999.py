@@ -25,9 +25,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['SMITS_1999_SDS_DATA', 'SMITS_1999_SDS']
+__all__ = ['DATA_SMITS1999', 'SDS_SMITS1999']
 
-SMITS_1999_SDS_DATA = {
+DATA_SMITS1999 = {
     'white': {
         380.0000: 1.0000,
         417.7778: 1.0000,
@@ -114,47 +114,47 @@ SMITS_1999_SDS_DATA = {
     }
 }
 
-SMITS_1999_SDS = CaseInsensitiveMapping({
+SDS_SMITS1999 = CaseInsensitiveMapping({
     'white':
         SpectralDistribution(
-            SMITS_1999_SDS_DATA['white'],
+            DATA_SMITS1999['white'],
             name='white'),
     'cyan':
         SpectralDistribution(
-            SMITS_1999_SDS_DATA['cyan'],
+            DATA_SMITS1999['cyan'],
             name='cyan'),
     'magenta':
         SpectralDistribution(
-            SMITS_1999_SDS_DATA['magenta'],
+            DATA_SMITS1999['magenta'],
             name='magenta'),
     'yellow':
         SpectralDistribution(
-            SMITS_1999_SDS_DATA['yellow'],
+            DATA_SMITS1999['yellow'],
             name='yellow'),
     'red':
         SpectralDistribution(
-            SMITS_1999_SDS_DATA['red'],
+            DATA_SMITS1999['red'],
             name='red'),
     'green':
         SpectralDistribution(
-            SMITS_1999_SDS_DATA['green'],
+            DATA_SMITS1999['green'],
             name='green'),
     'blue':
         SpectralDistribution(
-            SMITS_1999_SDS_DATA['blue'],
+            DATA_SMITS1999['blue'],
             name='blue')
 })  # yapf: disable
-SMITS_1999_SDS.__doc__ = """
+SDS_SMITS1999.__doc__ = """
 *Smits (1999)* spectral distributions.
 
 References
 ----------
 :cite:`Smits1999a`
 
-SMITS_1999_SDS : CaseInsensitiveMapping
+SDS_SMITS1999 : CaseInsensitiveMapping
 """
 
 # Using linear interpolation to preserve the shape of the basis spectral
 # distributions once combined and interpolated.
-for _sd in SMITS_1999_SDS.values():
+for _sd in SDS_SMITS1999.values():
     _sd.interpolator = LinearInterpolator

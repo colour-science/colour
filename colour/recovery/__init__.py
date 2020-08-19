@@ -15,6 +15,11 @@ References
 
 from __future__ import absolute_import
 
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
+from colour.utilities.documentation import is_documentation_building
+
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               filter_kwargs)
 
@@ -121,10 +126,10 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     >>> import numpy as np
     >>> from colour.utilities import numpy_print_options
     >>> from colour.colorimetry import (
-    ...     STANDARD_OBSERVER_CMFS, SpectralShape, sd_to_XYZ_integration)
+    ...     MSDS_CMFS_STANDARD_OBSERVER, SpectralShape, sd_to_XYZ_integration)
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
     >>> cmfs = (
-    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> sd = XYZ_to_sd(XYZ, cmfs=cmfs)
@@ -273,3 +278,31 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
 
 
 __all__ += ['XYZ_TO_SD_METHODS', 'XYZ_to_sd']
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class recovery(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(recovery, self).__getattr__(attribute)
+
+
+# v0.3.16
+API_CHANGES = {
+    'ObjectRenamed': [[
+        'colour.recovery.SMITS_1999_SDS',
+        'colour.recovery.SDS_SMITS1999',
+    ], ]
+}
+"""
+Defines *colour.recovery* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+if not is_documentation_building():
+    sys.modules['colour.recovery'] = recovery(sys.modules['colour.recovery'],
+                                              build_API_changes(API_CHANGES))
+
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

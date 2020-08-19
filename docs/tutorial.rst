@@ -99,10 +99,10 @@ The various sub-packages also expose their public API:
 
     Adaptation
     ['CHROMATIC_ADAPTATION_TRANSFORMS',
-     'XYZ_SCALING_CAT',
-     'VON_KRIES_CAT',
-     'BRADFORD_CAT',
-     'SHARP_CAT',
+     'CAT_XYZ_SCALING',
+     'CAT_VON_KRIES',
+     'CAT_BRADFORD',
+     'CAT_SHARP',
      '...']
 
 
@@ -116,11 +116,11 @@ The various sub-packages also expose their public API:
 
 
     Appearance
-    ['Hunt_InductionFactors',
-     'HUNT_VIEWING_CONDITIONS',
-     'Hunt_Specification',
+    ['InductionFactors_Hunt',
+     'VIEWING_CONDITIONS_HUNT',
+     'CAM_Specification_Hunt',
      'XYZ_to_Hunt',
-     'ATD95_Specification',
+     'CAM_Specification_ATD95',
      '...']
 
 
@@ -139,10 +139,10 @@ The various sub-packages also expose their public API:
 
 
     Characterisation
-    ['RGB_SpectralSensitivities',
+    ['RGB_CameraSensitivities',
      'RGB_DisplayPrimaries',
-     'CAMERA_RGB_SPECTRAL_SENSITIVITIES',
-     'COLOURCHECKERS',
+     'MSDS_CAMERA_SENSITIVITIES',
+     'CHROMATICITIES_COLOURCHECKERS',
      'ColourChecker',
      '...']
 
@@ -152,12 +152,12 @@ The various sub-packages also expose their public API:
      'DEFAULT_SPECTRAL_SHAPE',
      'SpectralDistribution',
      'MultiSpectralDistributions',
-     'sds_and_multi_sds_to_sds',
+     'sds_and_msds_to_sds',
      '...']
 
 
     Constants
-    ['K_M', 'KP_M', 'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', '...']
+    ['CONSTANT_K_M', 'CONSTANT_KP_M', 'CONSTANT_AVOGADRO', 'CONSTANT_BOLTZMANN', 'CONSTANT_LIGHT_SPEED', '...']
 
 
     Continuous
@@ -244,17 +244,17 @@ The various sub-packages also expose their public API:
 
 
     Plotting
-    ['ASTMG173_ETR',
-     'ASTMG173_GLOBAL_TILT',
-     'ASTMG173_DIRECT_CIRCUMSOLAR',
-     'COLOUR_STYLE_CONSTANTS',
-     'COLOUR_ARROW_STYLE',
+    ['SD_ASTMG173_ETR',
+     'SD_ASTMG173_GLOBAL_TILT',
+     'SD_ASTMG173_DIRECT_CIRCUMSOLAR',
+     'CONSTANTS_COLOUR_STYLE',
+     'CONSTANTS_ARROW_STYLE',
      '...']
 
 
     Quality
-    ['TCS_SDS',
-     'VS_SDS',
+    ['SDS_TCS',
+     'SDS_VS',
      'CRI_Specification',
      'colour_rendering_index',
      'CQS_Specification',
@@ -262,7 +262,7 @@ The various sub-packages also expose their public API:
 
 
     Recovery
-    ['SMITS_1999_SDS',
+    ['SDS_SMITS1999',
      'XYZ_to_sd_Meng2015',
      'RGB_to_sd_Smits1999',
      'XYZ_TO_SD_METHODS',
@@ -289,7 +289,7 @@ The various sub-packages also expose their public API:
 
 
     Volume
-    ['ILLUMINANT_OPTIMAL_COLOUR_STIMULI',
+    ['OPTIMAL_COLOUR_STIMULI_ILLUMINANTS',
      'is_within_macadam_limits',
      'is_within_mesh_volume',
      'is_within_pointer_gamut',
@@ -350,8 +350,8 @@ the objects needed for spectral computations and many others:
      'DEFAULT_SPECTRAL_SHAPE',
      'SpectralDistribution',
      'MultiSpectralDistributions',
-     'sds_and_multi_sds_to_sds',
-     'sds_and_multi_sds_to_multi_sds',
+     'sds_and_msds_to_sds',
+     'sds_and_msds_to_msds',
      'sd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
@@ -362,12 +362,12 @@ the objects needed for spectral computations and many others:
      'LMS_CMFS',
      'RGB_CMFS',
      'STANDARD_OBSERVER_CMFS',
-     'ILLUMINANTS',
-     'D_ILLUMINANT_S_SDS',
-     'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANT_SDS',
-     'LIGHT_SOURCES',
-     'LIGHT_SOURCE_SDS',
+     'CHROMATICITIES_ILLUMINANT',
+     'SDS_ILLUMINANT_D_SERIES',
+     'TRISTIMULUS_VALUES_ILLUMINANT_HUNTERLAB',
+     'SDS_ILLUMINANT',
+     'CHROMATICITIES_LIGHT_SOURCE',
+     'SDS_LIGHT_SOURCE',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS',
@@ -385,9 +385,9 @@ the objects needed for spectral computations and many others:
      'sd_multi_leds',
      'sd_multi_leds_Ohno2005',
      'SD_TO_XYZ_METHODS',
-     'MULTI_SD_TO_XYZ_METHODS',
+     'MSDS_TO_XYZ_METHODS',
      'sd_to_XYZ',
-     'multi_sds_to_XYZ',
+     'msds_to_XYZ',
      'ASTME308_PRACTISE_SHAPE',
      'lagrange_coefficients_ASTME2022',
      'tristimulus_weighting_factors_ASTME2022',
@@ -395,8 +395,8 @@ the objects needed for spectral computations and many others:
      'sd_to_XYZ_integration',
      'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
      'sd_to_XYZ_ASTME308',
-     'multi_sds_to_XYZ_integration',
-     'multi_sds_to_XYZ_ASTME308',
+     'msds_to_XYZ_integration',
+     'msds_to_XYZ_ASTME308',
      'wavelength_to_XYZ',
      'BANDPASS_CORRECTION_METHODS',
      'bandpass_correction',
@@ -463,12 +463,12 @@ the following components:
      'LMS_CMFS',
      'RGB_CMFS',
      'STANDARD_OBSERVER_CMFS',
-     'ILLUMINANTS',
-     'D_ILLUMINANT_S_SDS',
-     'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANT_SDS',
-     'LIGHT_SOURCES',
-     'LIGHT_SOURCE_SDS',
+     'CHROMATICITIES_ILLUMINANT',
+     'SDS_ILLUMINANT_D_SERIES',
+     'TRISTIMULUS_VALUES_ILLUMINANT_HUNTERLAB',
+     'SDS_ILLUMINANT',
+     'CHROMATICITIES_LIGHT_SOURCE',
+     'SDS_LIGHT_SOURCE',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS']
@@ -1083,7 +1083,7 @@ calculated:
 
     sd = colour.SpectralDistribution(sample_sd_data)
     cmfs = colour.STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANT_SDS['D65']
+    illuminant = colour.SDS_ILLUMINANT['D65']
 
     # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.
     XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
@@ -1175,10 +1175,10 @@ various colour rendition charts:
 .. code:: python
 
     # Colour rendition charts chromaticity coordinates.
-    print(sorted(colour.characterisation.COLOURCHECKERS.keys()))
+    print(sorted(colour.characterisation.CHROMATICITIES_COLOURCHECKERS.keys()))
 
     # Colour rendition charts spectral distributions.
-    print(sorted(colour.characterisation.COLOURCHECKER_SDS.keys()))
+    print(sorted(colour.characterisation.SDS_COLOURCHECKERS.keys()))
 
 .. code-block:: text
 
@@ -1195,7 +1195,7 @@ various colour rendition charts:
 
     # Plotting the *sRGB* colourspace colour of *neutral 5 (.70 D)* patch.
     patch_name = 'neutral 5 (.70 D)'
-    patch_sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta'][patch_name]
+    patch_sd = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta'][patch_name]
     XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 

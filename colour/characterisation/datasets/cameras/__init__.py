@@ -10,20 +10,20 @@ References
 
 from __future__ import absolute_import
 
-from .dslr import DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES
+from .dslr import MSDS_CAMERA_SENSITIVITIES_DSLR
 from colour.utilities import CaseInsensitiveMapping
 
-CAMERA_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping(
-    DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES)
-CAMERA_RGB_SPECTRAL_SENSITIVITIES.__doc__ = """
-Camera *RGB* spectral sensitivities.
+MSDS_CAMERA_SENSITIVITIES = CaseInsensitiveMapping(
+    MSDS_CAMERA_SENSITIVITIES_DSLR)
+MSDS_CAMERA_SENSITIVITIES.__doc__ = """
+Multi-spectral distributions of camera sensitivities.
 
 References
 ----------
 :cite:`Darrodi2015a`
 
-CAMERA_RGB_SPECTRAL_SENSITIVITIES : CaseInsensitiveMapping
+MSDS_CAMERA_SENSITIVITIES : CaseInsensitiveMapping
     **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**
 """
 
-__all__ = ['CAMERA_RGB_SPECTRAL_SENSITIVITIES']
+__all__ = ['MSDS_CAMERA_SENSITIVITIES']

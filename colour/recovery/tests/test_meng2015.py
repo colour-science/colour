@@ -8,9 +8,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS,
-                                SpectralShape, ILLUMINANT_SDS,
-                                sd_to_XYZ_integration)
+from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
+                                MSDS_CMFS_STANDARD_OBSERVER, SpectralShape,
+                                SDS_ILLUMINANTS, sd_to_XYZ_integration)
 from colour.recovery import XYZ_to_sd_Meng2015
 from colour.utilities import domain_range_scale
 
@@ -35,8 +35,9 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition.
         """
 
-        cmfs = (STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
-                .copy().trim(DEFAULT_SPECTRAL_SHAPE))
+        cmfs = (
+            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
+            .copy().trim(SPECTRAL_SHAPE_DEFAULT))
         shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, 5)
         cmfs_c = cmfs.copy().align(shape)
 
@@ -58,8 +59,8 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_integration(
-                XYZ_to_sd_Meng2015(XYZ, cmfs_c, ILLUMINANT_SDS['D65']), cmfs_c,
-                ILLUMINANT_SDS['D65']) / 100,
+                XYZ_to_sd_Meng2015(XYZ, cmfs_c, SDS_ILLUMINANTS['D65']),
+                cmfs_c, SDS_ILLUMINANTS['D65']) / 100,
             XYZ,
             decimal=7)
 

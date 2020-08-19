@@ -30,13 +30,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'RGB_TO_YCOCG_MATRIX',
-    'YCOCG_TO_RGB_MATRIX',
+    'MATRIX_RGB_TO_YCOCG',
+    'MATRIX_YCOCG_TO_RGB',
     'RGB_to_YCoCg',
     'YCoCg_to_RGB',
 ]
 
-RGB_TO_YCOCG_MATRIX = np.array([
+MATRIX_RGB_TO_YCOCG = np.array([
     [1 / 4, 1 / 2, 1 / 4],
     [1 / 2, 0, -1 / 2],
     [-1 / 4, 1 / 2, -1 / 4],
@@ -44,10 +44,10 @@ RGB_TO_YCOCG_MATRIX = np.array([
 """
 *R'G'B'* colourspace to *YCoCg* colour encoding matrix.
 
-RGB_TO_YCOCG_MATRIX : array_like, (3, 3)
+MATRIX_RGB_TO_YCOCG : array_like, (3, 3)
 """
 
-YCOCG_TO_RGB_MATRIX = np.array([
+MATRIX_YCOCG_TO_RGB = np.array([
     [1, 1, -1],
     [1, 0, 1],
     [1, -1, -1],
@@ -55,7 +55,7 @@ YCOCG_TO_RGB_MATRIX = np.array([
 """
 *YCoCg* colour encoding to *R'G'B'* colourspace matrix.
 
-YCOCG_TO_RGB_MATRIX : array_like, (3, 3)
+MATRIX_YCOCG_TO_RGB : array_like, (3, 3)
 """
 
 
@@ -86,7 +86,7 @@ def RGB_to_YCoCg(RGB):
     array([ 0.5625,  0.125 , -0.0625])
     """
 
-    return dot_vector(RGB_TO_YCOCG_MATRIX, RGB)
+    return dot_vector(MATRIX_RGB_TO_YCOCG, RGB)
 
 
 def YCoCg_to_RGB(YCoCg):
@@ -116,4 +116,4 @@ def YCoCg_to_RGB(YCoCg):
     array([ 0.75,  0.5 ,  0.5 ])
     """
 
-    return dot_vector(YCOCG_TO_RGB_MATRIX, YCoCg)
+    return dot_vector(MATRIX_YCOCG_TO_RGB, YCoCg)

@@ -2,7 +2,7 @@
 
 from __future__ import absolute_import
 
-from .tcs import TCS_SDS
-from .vs import VS_SDS
+from .tcs import SDS_TCS
+from .vs import SDS_VS
 
-__all__ = ['TCS_SDS', 'VS_SDS']
+__all__ = ['SDS_TCS', 'SDS_VS']

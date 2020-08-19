@@ -20,11 +20,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MESOPIC_LEF_SD_DATA', 'TestMesopicWeightingFunction',
+    'DATA_MESOPIC_LEF', 'TestMesopicWeightingFunction',
     'TestSdMesopicLuminousEfficiencyFunction'
 ]
 
-MESOPIC_LEF_SD_DATA = (
+DATA_MESOPIC_LEF = (
     0.000423996221042, 0.000478105586021, 0.000539901310829, 0.000612292743837,
     0.000696128469661, 0.000792943994169, 0.000907002019269, 0.001038991062951,
     0.001192298013423, 0.001370309788741, 0.001577100133700, 0.001816732944066,
@@ -201,7 +201,7 @@ sd_mesopic_luminous_efficiency_function` definition.
 
         np.testing.assert_almost_equal(
             sd_mesopic_luminous_efficiency_function(0.2).values,
-            MESOPIC_LEF_SD_DATA,
+            DATA_MESOPIC_LEF,
             decimal=7)
 
 

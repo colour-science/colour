@@ -31,7 +31,7 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import (ILLUMINANTS, lightness_CIE1976,
+from colour.colorimetry import (CCS_ILLUMINANTS, lightness_CIE1976,
                                 luminance_CIE1976)
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
 from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
@@ -50,9 +50,9 @@ __all__ = [
 ]
 
 
-def XYZ_to_Luv(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_Luv(XYZ,
+               illuminant=CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
     colourspace.
@@ -121,9 +121,9 @@ def XYZ_to_Luv(
     return from_range_100(Luv)
 
 
-def Luv_to_XYZ(
-        Luv,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def Luv_to_XYZ(Luv,
+               illuminant=CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -196,9 +196,9 @@ def Luv_to_XYZ(
     return from_range_1(XYZ)
 
 
-def Luv_to_uv(
-        Luv,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def Luv_to_uv(Luv,
+              illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+              ['D65']):
     """
     Returns the :math:`uv^p` chromaticity coordinates from given
     *CIE L\\*u\\*v\\** colourspace array.
@@ -254,10 +254,10 @@ def Luv_to_uv(
     return uv
 
 
-def uv_to_Luv(
-        uv,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
-        Y=1):
+def uv_to_Luv(uv,
+              illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+              ['D65'],
+              Y=1):
     """
     Returns the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
     chromaticity coordinates by extending the array last dimension with given

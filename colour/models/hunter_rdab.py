@@ -18,7 +18,7 @@ an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import HUNTERLAB_ILLUMINANTS
+from colour.colorimetry import TVS_ILLUMINANT_HUNTERLAB
 from colour.models import XYZ_to_K_ab_HunterLab1966
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
@@ -33,9 +33,9 @@ __all__ = ['XYZ_to_Hunter_Rdab', 'Hunter_Rdab_to_XYZ']
 
 
 def XYZ_to_Hunter_Rdab(XYZ,
-                       XYZ_n=HUNTERLAB_ILLUMINANTS[
+                       XYZ_n=TVS_ILLUMINANT_HUNTERLAB[
                            'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
-                       K_ab=HUNTERLAB_ILLUMINANTS[
+                       K_ab=TVS_ILLUMINANT_HUNTERLAB[
                            'CIE 1931 2 Degree Standard Observer']['D65'].K_ab):
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
@@ -85,7 +85,7 @@ def XYZ_to_Hunter_Rdab(XYZ,
     --------
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-    >>> D65 = HUNTERLAB_ILLUMINANTS[
+    >>> D65 = TVS_ILLUMINANT_HUNTERLAB[
     ...     'CIE 1931 2 Degree Standard Observer']['D65']
     >>> XYZ_to_Hunter_Rdab(XYZ, D65.XYZ_n, D65.K_ab)
     ... # doctest: +ELLIPSIS
@@ -110,9 +110,9 @@ def XYZ_to_Hunter_Rdab(XYZ,
 
 
 def Hunter_Rdab_to_XYZ(R_d_ab,
-                       XYZ_n=HUNTERLAB_ILLUMINANTS[
+                       XYZ_n=TVS_ILLUMINANT_HUNTERLAB[
                            'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
-                       K_ab=HUNTERLAB_ILLUMINANTS[
+                       K_ab=TVS_ILLUMINANT_HUNTERLAB[
                            'CIE 1931 2 Degree Standard Observer']['D65'].K_ab):
     """
     Converts from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus values.
@@ -162,7 +162,7 @@ def Hunter_Rdab_to_XYZ(R_d_ab,
     --------
     >>> import numpy as np
     >>> R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])
-    >>> D65 = HUNTERLAB_ILLUMINANTS[
+    >>> D65 = TVS_ILLUMINANT_HUNTERLAB[
     ...     'CIE 1931 2 Degree Standard Observer']['D65']
     >>> Hunter_Rdab_to_XYZ(R_d_ab, D65.XYZ_n, D65.K_ab)
     array([ 20.654008,  12.197225,   5.136952])

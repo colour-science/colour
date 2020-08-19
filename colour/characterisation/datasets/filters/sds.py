@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Filter Spectral Distributions
-=============================
+Spectral Distributions of Filters
+=================================
 
-Defines *filter* spectral distributions.
+Defines the spectral distributions of filters.
 
-Each *filter* data is in the form of :class:`OrderedDict` class instance of
+Each filter data is in the form of :class:`OrderedDict` class instance of
 :class:`colour.SpectralDistribution` classes as follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
-The following *filters* are available:
+The following filters are available:
 
 -   ISO 7589 Diffuser
 
@@ -33,9 +33,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['FILTER_ISO_SDS_DATA', 'FILTER_ISO_SDS', 'FILTER_SDS']
+__all__ = ['DATA_FILTERS_ISO', 'SDS_FILTERS_ISO', 'SDS_FILTERS']
 
-FILTER_ISO_SDS_DATA = {
+DATA_FILTERS_ISO = {
     'ISO 7589 Diffuser': {
         350: 0.00,
         360: 0.00,
@@ -62,29 +62,28 @@ FILTER_ISO_SDS_DATA = {
     }
 }
 
-FILTER_ISO_SDS = CaseInsensitiveMapping({
+SDS_FILTERS_ISO = CaseInsensitiveMapping({
     'ISO 7589 Diffuser':
         SpectralDistribution(
-            FILTER_ISO_SDS_DATA['ISO 7589 Diffuser'],
-            name='ISO 7589 Diffuser'),
+            DATA_FILTERS_ISO['ISO 7589 Diffuser'], name='ISO 7589 Diffuser'),
 })
-FILTER_ISO_SDS.__doc__ = """
-*ISO* filter spectral distributions.
+SDS_FILTERS_ISO.__doc__ = """
+Spectral distributions of *ISO* filters.
 
 References
 ----------
 :cite:`ISO2002`
 
-FILTER_ISO_SDS : CaseInsensitiveMapping
+SDS_FILTERS_ISO : CaseInsensitiveMapping
 """
 
-FILTER_SDS = CaseInsensitiveMapping(FILTER_ISO_SDS)
-FILTER_SDS.__doc__ = """
-Aggregated filter spectral distributions.
+SDS_FILTERS = CaseInsensitiveMapping(SDS_FILTERS_ISO)
+SDS_FILTERS.__doc__ = """
+Spectral distributions of filters.
 
 References
 ----------
 :cite:`ISO2002`
 
-FILTER_SDS : CaseInsensitiveMapping
+SDS_FILTERS : CaseInsensitiveMapping
 """

@@ -9,10 +9,10 @@ from colour.utilities.documentation import is_documentation_building
 
 from .datasets import *  # noqa
 from . import datasets
-from .common import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE, colour_style,
-                     override_style, XYZ_to_plotting_colourspace, ColourSwatch,
-                     colour_cycle, artist, camera, render, label_rectangles,
-                     uniform_axes3d, filter_passthrough,
+from .common import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
+                     colour_style, override_style, XYZ_to_plotting_colourspace,
+                     ColourSwatch, colour_cycle, artist, camera, render,
+                     label_rectangles, uniform_axes3d, filter_passthrough,
                      filter_RGB_colourspaces, filter_cmfs, filter_illuminants,
                      filter_colour_checkers, plot_single_colour_swatch,
                      plot_multi_colour_swatches, plot_single_function,
@@ -62,7 +62,7 @@ from .volume import plot_RGB_colourspaces_gamuts, plot_RGB_scatter
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
-    'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
+    'CONSTANTS_COLOUR_STYLE', 'CONSTANTS_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
     'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
@@ -435,20 +435,28 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
 API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.plotting.ASTM_G_173_DIRECT_CIRCUMSOLAR',
-        'colour.plotting.ASTMG173_DIRECT_CIRCUMSOLAR',
+        'colour.plotting.SD_ASTMG173_DIRECT_CIRCUMSOLAR',
     ],
     [
         'colour.plotting.ASTM_G_173_ETR',
-        'colour.plotting.ASTMG173_ETR',
+        'colour.plotting.SD_ASTMG173_ETR',
     ],
     [
         'colour.plotting.ASTM_G_173_GLOBAL_TILT',
-        'colour.plotting.ASTMG173_GLOBAL_TILT',
+        'colour.plotting.SD_ASTMG173_GLOBAL_TILT',
     ],
 ]
 
 # v0.3.16
 API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.plotting.COLOUR_STYLE_CONSTANTS',
+        'colour.plotting.CONSTANTS_COLOUR_STYLE',
+    ],
+    [
+        'colour.plotting.COLOUR_ARROW_STYLE',
+        'colour.plotting.CONSTANTS_ARROW_STYLE',
+    ],
     [
         'colour.plotting.quad',
         'colour.geometry.primitive_vertices_quad_mpl',

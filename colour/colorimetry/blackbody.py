@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralDistribution)
+from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
 from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
@@ -28,16 +28,24 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'C1', 'C2', 'N', 'planck_law', 'blackbody_spectral_radiance',
-    'sd_blackbody'
+    'CONSTANT_C1', 'CONSTANT_C2', 'CONSTANT_N', 'planck_law',
+    'blackbody_spectral_radiance', 'sd_blackbody'
 ]
 
-C1 = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED ** 2
-C2 = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED / BOLTZMANN_CONSTANT
-N = 1
+# 2 * math.pi * CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED ** 2
+CONSTANT_C1 = 3.741771e-16
+
+# CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED / CONSTANT_BOLTZMANN
+CONSTANT_C2 = 1.4388e-2
+
+CONSTANT_N = 1
 
 
-def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
+def planck_law(wavelength,
+               temperature,
+               c1=CONSTANT_C1,
+               c2=CONSTANT_C2,
+               n=CONSTANT_N):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature
     :math:`T[K]` in a medium having index of refraction :math:`n`.
@@ -98,7 +106,11 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 blackbody_spectral_radiance = planck_law
 
 
-def sd_blackbody(temperature, shape=DEFAULT_SPECTRAL_SHAPE, c1=C1, c2=C2, n=N):
+def sd_blackbody(temperature,
+                 shape=SPECTRAL_SHAPE_DEFAULT,
+                 c1=CONSTANT_C1,
+                 c2=CONSTANT_C2,
+                 n=CONSTANT_N):
     """
     Returns the spectral distribution of the planckian radiator for given
     temperature :math:`T[K]` with values in

@@ -15,10 +15,10 @@ message_box(('Computing corresponding chromaticities prediction with '
              'experiment number "3" and "Bianco" CAT.'))
 pprint(
     colour.corresponding_chromaticities_prediction(
-        3, model='Von Kries', transform='Bianco'))
+        3, model='Von Kries', transform='Bianco 2010'))
 pprint(
     colour.corresponding.corresponding_chromaticities_prediction_VonKries(
-        3, 'Bianco'))
+        3, 'Bianco 2010'))
 
 print('\n')
 

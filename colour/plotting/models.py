@@ -60,12 +60,12 @@ from colour.algebra import (point_at_angle_on_ellipse,
 from colour.graph import convert
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS, CCTF_ENCODINGS, CCTF_DECODINGS,
-    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, MACADAM_1942_ELLIPSES_DATA,
-    POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT,
-    RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS,
-    XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
+    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, DATA_MACADAM_1942_ELLIPSES,
+    CCS_POINTER_GAMUT_BOUNDARY, DATA_POINTER_GAMUT_VOLUME,
+    CCS_ILLUMINANT_POINTER_GAMUT, RGB_to_RGB, RGB_to_XYZ, UCS_to_uv,
+    XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
-    COLOUR_STYLE_CONSTANTS, plot_chromaticity_diagram_CIE1931, artist,
+    CONSTANTS_COLOUR_STYLE, plot_chromaticity_diagram_CIE1931, artist,
     plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
     colour_cycle, colour_style, filter_passthrough, filter_RGB_colourspaces,
     filter_cmfs, plot_multi_functions, override_style, render)
@@ -260,9 +260,9 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
             '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
-    ij = xy_to_ij(as_float_array(POINTER_GAMUT_BOUNDARIES))
-    alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
-    colour_p = COLOUR_STYLE_CONSTANTS.colour.darkest
+    ij = xy_to_ij(as_float_array(CCS_POINTER_GAMUT_BOUNDARY))
+    alpha_p = CONSTANTS_COLOUR_STYLE.opacity.high
+    colour_p = CONSTANTS_COLOUR_STYLE.colour.darkest
     axes.plot(
         ij[..., 0],
         ij[..., 1],
@@ -275,8 +275,8 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
         alpha=alpha_p)
 
     XYZ = Lab_to_XYZ(
-        LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
-    ij = XYZ_to_ij(XYZ, POINTER_GAMUT_ILLUMINANT)
+        LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT)
+    ij = XYZ_to_ij(XYZ, CCS_ILLUMINANT_POINTER_GAMUT)
     axes.scatter(
         ij[..., 0], ij[..., 1], alpha=alpha_p / 2, color=colour_p, marker='+')
 
@@ -746,7 +746,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
             RGB_to_RGB(
                 RGB,
                 colourspace,
-                COLOUR_STYLE_CONSTANTS.colour.colourspace,
+                CONSTANTS_COLOUR_STYLE.colour.colourspace,
                 apply_cctf_encoding=True).reshape(-1, 3), 0, 1)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
@@ -1044,7 +1044,7 @@ def ellipses_MacAdam1942(method='CIE 1931'):
             '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
                 method))
 
-    x, y, _a, _b, _theta, a, b, theta = tsplit(MACADAM_1942_ELLIPSES_DATA)
+    x, y, _a, _b, _theta, a, b, theta = tsplit(DATA_MACADAM_1942_ELLIPSES)
 
     ellipses_coefficients = []
     # pylint: disable=C0200
@@ -1151,9 +1151,9 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
     chromaticity_diagram_callable(**settings)
 
     ellipse_settings_collection = [{
-        'color': COLOUR_STYLE_CONSTANTS.colour.cycle[4],
+        'color': CONSTANTS_COLOUR_STYLE.colour.cycle[4],
         'alpha': 0.4,
-        'edgecolor': COLOUR_STYLE_CONSTANTS.colour.cycle[1],
+        'edgecolor': CONSTANTS_COLOUR_STYLE.colour.cycle[1],
         'linewidth': colour_style()['lines.linewidth']
     } for _ellipses_coefficient in ellipses_coefficients]
 
@@ -1641,7 +1641,7 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
 
     use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
 
-    colourspace = COLOUR_STYLE_CONSTANTS.colour.colourspace
+    colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
     for hue_data in data:
         _name, XYZ_r, XYZ_cr, XYZ_ct, _metadata = hue_data
 
@@ -1664,7 +1664,7 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
         axes.plot(
             ijk_ct[..., 0],
             _linear_equation(ijk_ct[..., 0], *popt),
-            c=COLOUR_STYLE_CONSTANTS.colour.average)
+            c=CONSTANTS_COLOUR_STYLE.colour.average)
 
         if use_RGB_colours:
 
@@ -1695,7 +1695,7 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
             's',
             zorder=10,
             c=np.clip(np.ravel(RGB_cr), 0, 1),
-            markersize=COLOUR_STYLE_CONSTANTS.geometry.short * 8)
+            markersize=CONSTANTS_COLOUR_STYLE.geometry.short * 8)
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[as_int_array(
         common_colourspace_model_axis_reorder([0, 1, 2], model))]

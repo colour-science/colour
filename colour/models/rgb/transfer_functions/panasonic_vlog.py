@@ -30,14 +30,14 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['VLOG_CONSTANTS', 'log_encoding_VLog', 'log_decoding_VLog']
+__all__ = ['CONSTANTS_VLOG', 'log_encoding_VLog', 'log_decoding_VLog']
 
-VLOG_CONSTANTS = Structure(
+CONSTANTS_VLOG = Structure(
     cut1=0.01, cut2=0.181, b=0.00873, c=0.241514, d=0.598206)
 """
 *Panasonic V-Log* colourspace constants.
 
-VLOG_CONSTANTS : Structure
+CONSTANTS_VLOG : Structure
 """
 
 
@@ -45,7 +45,7 @@ def log_encoding_VLog(L_in,
                       bit_depth=10,
                       out_normalised_code_value=True,
                       in_reflection=True,
-                      constants=VLOG_CONSTANTS,
+                      constants=CONSTANTS_VLOG,
                       **kwargs):
     """
     Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
@@ -145,7 +145,7 @@ def log_decoding_VLog(V_out,
                       bit_depth=10,
                       in_normalised_code_value=True,
                       out_reflection=True,
-                      constants=VLOG_CONSTANTS,
+                      constants=CONSTANTS_VLOG,
                       **kwargs):
     """
     Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer

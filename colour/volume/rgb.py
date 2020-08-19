@@ -19,7 +19,7 @@ import multiprocessing
 import numpy as np
 
 from colour.algebra import random_triplet_generator
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.models import (Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB)
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
@@ -65,7 +65,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
-        illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        illuminant_Lab=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
             'D65'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
@@ -86,8 +86,8 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* method.
     random_generator : generator, optional
         Random triplet generator providing the random samples within the
@@ -114,7 +114,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     Examples
     --------
-    >>> from colour.models import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import RGB_COLOURSPACE_sRGB as sRGB
     >>> prng = np.random.RandomState(2)
     >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)
     ... # doctest: +ELLIPSIS
@@ -137,9 +137,9 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     return len(RGB_w)
 
 
-def RGB_colourspace_limits(
-        colourspace,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def RGB_colourspace_limits(colourspace,
+                           illuminant=CCS_ILLUMINANTS[
+                               'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Computes given *RGB* colourspace volume limits in *CIE L\\*a\\*b\\**
     colourspace.
@@ -158,7 +158,7 @@ def RGB_colourspace_limits(
 
     Examples
     --------
-    >>> from colour.models import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import RGB_COLOURSPACE_sRGB as sRGB
     >>> RGB_colourspace_limits(sRGB)  # doctest: +ELLIPSIS
     array([[   0.       ...,  100.       ...],
            [ -86.182855 ...,   98.2563272...],
@@ -184,7 +184,7 @@ def RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]], dtype=np.float),
-        illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        illuminant_Lab=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
             'D65'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
@@ -205,8 +205,8 @@ def RGB_colourspace_volume_MonteCarlo(
         *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* method.
     random_generator : generator, optional
         Random triplet generator providing the random samples within the
@@ -233,7 +233,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     Examples
     --------
-    >>> from colour.models import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import RGB_COLOURSPACE_sRGB as sRGB
     >>> from colour.utilities import disable_multiprocessing
     >>> prng = np.random.RandomState(2)
     >>> with disable_multiprocessing():
@@ -287,7 +287,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
 
     Examples
     --------
-    >>> from colour.models import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import RGB_COLOURSPACE_sRGB as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_volume_coverage_MonteCarlo(
     ...     sRGB, is_within_pointer_gamut, 10e3, random_state=prng)
@@ -341,7 +341,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
 
     Examples
     --------
-    >>> from colour.models import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import RGB_COLOURSPACE_sRGB as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
@@ -381,7 +381,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
 
     Examples
     --------
-    >>> from colour.models import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import RGB_COLOURSPACE_sRGB as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS

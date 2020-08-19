@@ -14,21 +14,21 @@ context=article
 
 from __future__ import absolute_import
 
-from .crt import CRT_DISPLAY_RGB_PRIMARIES
-from .lcd import LCD_DISPLAY_RGB_PRIMARIES
+from .crt import MSDS_DISPLAY_PRIMARIES_CRT
+from .lcd import MSDS_DISPLAY_PRIMARIES_LCD
 from colour.utilities import CaseInsensitiveMapping
 
-DISPLAY_RGB_PRIMARIES = CaseInsensitiveMapping(CRT_DISPLAY_RGB_PRIMARIES)
-DISPLAY_RGB_PRIMARIES.update(LCD_DISPLAY_RGB_PRIMARIES)
-DISPLAY_RGB_PRIMARIES.__doc__ = """
-Display *RGB* primaries multi-spectral distributions.
+MSDS_DISPLAY_PRIMARIES = CaseInsensitiveMapping(MSDS_DISPLAY_PRIMARIES_CRT)
+MSDS_DISPLAY_PRIMARIES.update(MSDS_DISPLAY_PRIMARIES_LCD)
+MSDS_DISPLAY_PRIMARIES.__doc__ = """
+Primaries multi-spectral distributions of displays.
 
 References
 ----------
 :cite:`Fairchild1998b`, :cite:`Machado2010a`
 
-DISPLAY_RGB_PRIMARIES : CaseInsensitiveMapping
+MSDS_DISPLAY_PRIMARIES : CaseInsensitiveMapping
     **{Apple Studio Display, Typical CRT Brainard 1997}**
 """
 
-__all__ = ['DISPLAY_RGB_PRIMARIES']
+__all__ = ['MSDS_DISPLAY_PRIMARIES']

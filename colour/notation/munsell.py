@@ -123,7 +123,7 @@ from collections import OrderedDict
 from colour.algebra import (Extrapolator, LinearInterpolator,
                             cartesian_to_cylindrical, euclidean_distance,
                             polar_to_cartesian, spow)
-from colour.colorimetry import ILLUMINANTS, luminance_ASTMD1535
+from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE,
                               INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
@@ -150,8 +150,7 @@ __all__ = [
     'MUNSELL_GRAY_PATTERN', 'MUNSELL_COLOUR_PATTERN', 'MUNSELL_GRAY_FORMAT',
     'MUNSELL_COLOUR_FORMAT', 'MUNSELL_GRAY_EXTENDED_FORMAT',
     'MUNSELL_COLOUR_EXTENDED_FORMAT', 'MUNSELL_HUE_LETTER_CODES',
-    'MUNSELL_DEFAULT_ILLUMINANT',
-    'MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES',
+    'ILLUMINANT_NAME_MUNSELL', 'CCS_ILLUMINANT_MUNSELL',
     'munsell_value_Priest1920', 'munsell_value_Munsell1933',
     'munsell_value_Moon1943', 'munsell_value_Saunderson1944',
     'munsell_value_Ladd1955', 'munsell_value_McCamy1987',
@@ -193,9 +192,9 @@ MUNSELL_HUE_LETTER_CODES = Lookup({
     'P': 9
 })
 
-MUNSELL_DEFAULT_ILLUMINANT = 'C'
-MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = (ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][MUNSELL_DEFAULT_ILLUMINANT])
+ILLUMINANT_NAME_MUNSELL = 'C'
+CCS_ILLUMINANT_MUNSELL = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][ILLUMINANT_NAME_MUNSELL])
 
 _MUNSELL_SPECIFICATIONS_CACHE = None
 _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = None
@@ -936,9 +935,9 @@ def _xyY_to_munsell_specification(xyY):
     x, y, Y = tsplit(xyY)
     Y = to_domain_1(Y)
 
-    if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
+    if not is_within_macadam_limits(xyY, ILLUMINANT_NAME_MUNSELL):
         usage_warning('"{0}" is not within "MacAdam" limits for illuminant '
-                      '"{1}"!'.format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
+                      '"{1}"!'.format(xyY, ILLUMINANT_NAME_MUNSELL))
 
     with domain_range_scale('ignore'):
         value = munsell_value_ASTMD1535(Y * 100)
@@ -958,7 +957,7 @@ def _xyY_to_munsell_specification(xyY):
         return from_range_10(normalize_munsell_specification(value))
 
     X, Y, Z = xyY_to_XYZ([x, y, Y])
-    xi, yi = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+    xi, yi = CCS_ILLUMINANT_MUNSELL
     Xr, Yr, Zr = xyY_to_XYZ([xi, yi, Y])
 
     XYZ = np.array([X, Y, Z])
@@ -2089,7 +2088,7 @@ def xy_from_renotation_ovoid(specification):
     specification = normalize_munsell_specification(specification)
 
     if is_grey_munsell_colour(specification):
-        return MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+        return CCS_ILLUMINANT_MUNSELL
     else:
         hue, value, chroma, code = specification
 
@@ -2128,7 +2127,7 @@ def xy_from_renotation_ovoid(specification):
         hue_minus, code_minus = hue_cw
         hue_plus, code_plus = hue_ccw
 
-        x_grey, y_grey = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+        x_grey, y_grey = CCS_ILLUMINANT_MUNSELL
 
         specification_minus = (hue_minus, value, chroma, code_minus)
         x_minus, y_minus, Y_minus = xyY_from_renotation(specification_minus)
@@ -2356,7 +2355,7 @@ def munsell_specification_to_xy(specification):
     specification = normalize_munsell_specification(specification)
 
     if is_grey_munsell_colour(specification):
-        return MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+        return CCS_ILLUMINANT_MUNSELL
     else:
         hue, value, chroma, code = specification
 
@@ -2378,8 +2377,7 @@ def munsell_specification_to_xy(specification):
         if chroma_minus == 0:
             # Smallest chroma ovoid collapses to illuminant chromaticity
             # coordinates.
-            x_minus, y_minus = (
-                MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES)
+            x_minus, y_minus = (CCS_ILLUMINANT_MUNSELL)
         else:
             x_minus, y_minus = xy_from_renotation_ovoid((hue, value,
                                                          chroma_minus, code))

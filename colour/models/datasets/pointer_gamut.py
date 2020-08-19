@@ -3,7 +3,7 @@
 Pointer's Gamut
 ===============
 
-Defines *Pointer's Gamut* data.
+Defines the *Pointer's Gamut* data.
 
 References
 ----------
@@ -15,7 +15,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import LIGHT_SOURCES
+from colour.colorimetry import CCS_LIGHT_SOURCES
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -25,23 +25,23 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'POINTER_GAMUT_ILLUMINANT', 'POINTER_GAMUT_DATA',
-    'POINTER_GAMUT_BOUNDARIES'
+    'CCS_ILLUMINANT_POINTER_GAMUT', 'DATA_POINTER_GAMUT_VOLUME',
+    'CCS_POINTER_GAMUT_BOUNDARY'
 ]
 
-POINTER_GAMUT_ILLUMINANT = (
-    LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer']['SC'])
+CCS_ILLUMINANT_POINTER_GAMUT = (
+    CCS_LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer']['SC'])
 """
-*Pointer's Gamut* illuminant *SC*.
+*Pointer's Gamut* illuminant, i.e. *SC*.
 
 References
 ----------
 :cite:`Pointer1980a`
 
-POINTER_GAMUT_ILLUMINANT : ndarray
+CCS_ILLUMINANT_POINTER_GAMUT : ndarray
 """
 
-POINTER_GAMUT_DATA = np.array([
+DATA_POINTER_GAMUT_VOLUME = np.array([
     [15, 10, 0],
     [15, 15, 10],
     [15, 14, 20],
@@ -620,16 +620,16 @@ POINTER_GAMUT_DATA = np.array([
     [90, 6, 350],
 ])
 """
-*Pointer's Gamut* data as a tuple of *CIE L\\*C\\*Hab* colourspace matrices.
+*CIE L\\*C\\*Hab* colourspace array of *Pointer's Gamut* volume.
 
 References
 ----------
 :cite:`Pointer1980a`
 
-POINTER_GAMUT_DATA : ndarray
+DATA_POINTER_GAMUT_VOLUME : ndarray
 """
 
-POINTER_GAMUT_BOUNDARIES = np.array([
+CCS_POINTER_GAMUT_BOUNDARY = np.array([
     [0.659, 0.316],
     [0.634, 0.351],
     [0.594, 0.391],
@@ -664,11 +664,11 @@ POINTER_GAMUT_BOUNDARIES = np.array([
     [0.508, 0.226],
 ])
 """
-*Pointer's Gamut* *CIE xy* chromaticity coordinates boundaries.
+*CIE xy* chromaticity coordinates of *Pointer's Gamut* boundaries.
 
 References
 ----------
 :cite:`Pointer1980a`
 
-POINTER_GAMUT_BOUNDARIES : ndarray
+CCS_POINTER_GAMUT_BOUNDARY : ndarray
 """

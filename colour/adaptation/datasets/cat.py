@@ -5,28 +5,28 @@ Chromatic Adaptation Transforms
 
 Defines various chromatic adaptation transforms (CAT):
 
--   :attr:`colour.adaptation.XYZ_SCALING_CAT`: *XYZ Scaling* chromatic
+-   :attr:`colour.adaptation.CAT_XYZ_SCALING`: *XYZ Scaling* chromatic
     adaptation transform.
--   :attr:`colour.adaptation.VON_KRIES_CAT`: *Von Kries* chromatic adaptation
+-   :attr:`colour.adaptation.CAT_VON_KRIES`: *Von Kries* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.BRADFORD_CAT`: *Bradford* chromatic adaptation
+-   :attr:`colour.adaptation.CAT_BRADFORD`: *Bradford* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.SHARP_CAT`: *Sharp* chromatic adaptation
+-   :attr:`colour.adaptation.CAT_SHARP`: *Sharp* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.FAIRCHILD_CAT`: *Fairchild* chromatic adaptation
+-   :attr:`colour.adaptation.CAT_FAIRCHILD`: *Fairchild* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.CMCCAT97_CAT`: *CMCCAT97* chromatic adaptation
+-   :attr:`colour.adaptation.CAT_CMCCAT97`: *CMCCAT97* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.CMCCAT2000_CAT`: *CMCCAT2000* chromatic adaptation
+-   :attr:`colour.adaptation.CAT_CMCCAT2000`: *CMCCAT2000* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.CAT02_CAT`: *CAT02* chromatic adaptation
+-   :attr:`colour.adaptation.CAT_CAT02`: *CAT02* chromatic adaptation
     transform.
--   :attr:`colour.adaptation.CAT02_BRILL_CAT`: *Brill and Susstrunk (2008)*
+-   :attr:`colour.adaptation.CAT_CAT02_BRILL2008`: *Brill and Susstrunk (2008)*
     corrected CAT02 chromatic adaptation transform.
--   :attr:`colour.adaptation.BS_CAT`: *Bianco and Schettini (2010)* chromatic
-    adaptation transform.
--   :attr:`colour.adaptation.BS_PC_CAT`: *Bianco and Schettini PC (2010)*
+-   :attr:`colour.adaptation.CAT_BIANCO2010`: *Bianco and Schettini (2010)*
     chromatic adaptation transform.
+-   :attr:`colour.adaptation.CAT_PC_BIANCO2010`:
+    *Bianco and Schettini PC (2010)* chromatic adaptation transform.
 
 References
 ----------
@@ -80,12 +80,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'XYZ_SCALING_CAT', 'VON_KRIES_CAT', 'BRADFORD_CAT', 'SHARP_CAT',
-    'FAIRCHILD_CAT', 'CMCCAT97_CAT', 'CMCCAT2000_CAT', 'CAT02_CAT',
-    'CAT02_BRILL_CAT', 'BS_CAT', 'BS_PC_CAT', 'CHROMATIC_ADAPTATION_TRANSFORMS'
+    'CAT_XYZ_SCALING', 'CAT_VON_KRIES', 'CAT_BRADFORD', 'CAT_SHARP',
+    'CAT_FAIRCHILD', 'CAT_CMCCAT97', 'CAT_CMCCAT2000', 'CAT_CAT02',
+    'CAT_CAT02_BRILL2008', 'CAT_BIANCO2010', 'CAT_PC_BIANCO2010',
+    'CHROMATIC_ADAPTATION_TRANSFORMS'
 ]
 
-XYZ_SCALING_CAT = np.array(np.identity(3)).reshape([3, 3])
+CAT_XYZ_SCALING = np.array(np.identity(3)).reshape([3, 3])
 """
 *XYZ Scaling* chromatic adaptation transform.
 
@@ -93,10 +94,10 @@ References
 ----------
 :cite:`Lindbloom2009g`
 
-XYZ_SCALING_CAT : array_like, (3, 3)
+CAT_XYZ_SCALING : array_like, (3, 3)
 """
 
-VON_KRIES_CAT = np.array([
+CAT_VON_KRIES = np.array([
     [0.4002400, 0.7076000, -0.0808100],
     [-0.2263000, 1.1653200, 0.0457000],
     [0.0000000, 0.0000000, 0.9182200],
@@ -109,10 +110,10 @@ References
 :cite:`CIETC1-321994b`, :cite:`Fairchild2013ba`, :cite:`Lindbloom2009g`,
 :cite:`Nayatani1995a`
 
-VON_KRIES_CAT : array_like, (3, 3)
+CAT_VON_KRIES : array_like, (3, 3)
 """
 
-BRADFORD_CAT = np.array([
+CAT_BRADFORD = np.array([
     [0.8951000, 0.2664000, -0.1614000],
     [-0.7502000, 1.7135000, 0.0367000],
     [0.0389000, -0.0685000, 1.0296000],
@@ -124,10 +125,10 @@ References
 ----------
 :cite:`Lindbloom2009g`
 
-BRADFORD_CAT : array_like, (3, 3)
+CAT_BRADFORD : array_like, (3, 3)
 """
 
-SHARP_CAT = np.array([
+CAT_SHARP = np.array([
     [1.2694, -0.0988, -0.1706],
     [-0.8364, 1.8006, 0.0357],
     [0.0297, -0.0315, 1.0018],
@@ -139,10 +140,10 @@ References
 ----------
 :cite:`Bianco2010a`
 
-SHARP_CAT : array_like, (3, 3)
+CAT_SHARP : array_like, (3, 3)
 """
 
-FAIRCHILD_CAT = np.array([
+CAT_FAIRCHILD = np.array([
     [0.8562, 0.3372, -0.1934],
     [-0.8360, 1.8327, 0.0033],
     [0.0357, -0.0469, 1.0112],
@@ -154,10 +155,10 @@ References
 ----------
 :cite:`Fairchildb`
 
-FAIRCHILD_CAT : array_like, (3, 3)
+CAT_FAIRCHILD : array_like, (3, 3)
 """
 
-CMCCAT97_CAT = np.array([
+CAT_CMCCAT97 = np.array([
     [0.8951, -0.7502, 0.0389],
     [0.2664, 1.7135, 0.0685],
     [-0.1614, 0.0367, 1.0296],
@@ -169,10 +170,10 @@ References
 ----------
 :cite:`Westland2012g`
 
-CMCCAT97_CAT : array_like, (3, 3)
+CAT_CMCCAT97 : array_like, (3, 3)
 """
 
-CMCCAT2000_CAT = np.array([
+CAT_CMCCAT2000 = np.array([
     [0.7982, 0.3389, -0.1371],
     [-0.5918, 1.5512, 0.0406],
     [0.0008, 0.0239, 0.9753],
@@ -184,10 +185,10 @@ References
 ----------
 :cite:`Westland2012k`
 
-CMCCAT2000_CAT : array_like, (3, 3)
+CAT_CMCCAT2000 : array_like, (3, 3)
 """
 
-CAT02_CAT = np.array([
+CAT_CAT02 = np.array([
     [0.7328, 0.4296, -0.1624],
     [-0.7036, 1.6975, 0.0061],
     [0.0030, 0.0136, 0.9834],
@@ -199,10 +200,10 @@ References
 ----------
 :cite:`Wikipedia2007`
 
-CAT02_CAT : array_like, (3, 3)
+CAT_CAT02 : array_like, (3, 3)
 """
 
-CAT02_BRILL_CAT = np.array([
+CAT_CAT02_BRILL2008 = np.array([
     [0.7328, 0.4296, -0.1624],
     [-0.7036, 1.6975, 0.0061],
     [0.0000, 0.0000, 1.0000],
@@ -215,10 +216,10 @@ References
 ----------
 :cite:`Brill2008a`, :cite:`Li2007e`
 
-CAT02_BRILL_CAT : array_like, (3, 3)
+CAT_CAT02_BRILL2008 : array_like, (3, 3)
 """
 
-BS_CAT = np.array([
+CAT_BIANCO2010 = np.array([
     [0.8752, 0.2787, -0.1539],
     [-0.8904, 1.8709, 0.0195],
     [-0.0061, 0.0162, 0.9899],
@@ -230,10 +231,10 @@ References
 ----------
 :cite:`Bianco2010a`
 
-BS_CAT : array_like, (3, 3)
+CAT_BIANCO2010 : array_like, (3, 3)
 """
 
-BS_PC_CAT = np.array([
+CAT_PC_BIANCO2010 = np.array([
     [0.6489, 0.3915, -0.0404],
     [-0.3775, 1.3055, 0.0720],
     [-0.0271, 0.0888, 0.9383],
@@ -245,7 +246,7 @@ References
 ----------
 :cite:`Bianco2010a`
 
-BS_PC_CAT : array_like, (3, 3)
+CAT_PC_BIANCO2010 : array_like, (3, 3)
 
 Notes
 -----
@@ -253,20 +254,20 @@ Notes
 """
 
 CHROMATIC_ADAPTATION_TRANSFORMS = CaseInsensitiveMapping({
-    'XYZ Scaling': XYZ_SCALING_CAT,
-    'Von Kries': VON_KRIES_CAT,
-    'Bradford': BRADFORD_CAT,
-    'Sharp': SHARP_CAT,
-    'Fairchild': FAIRCHILD_CAT,
-    'CMCCAT97': CMCCAT97_CAT,
-    'CMCCAT2000': CMCCAT2000_CAT,
-    'CAT02': CAT02_CAT,
-    'CAT02_BRILL_CAT': CAT02_BRILL_CAT,
-    'Bianco': BS_CAT,
-    'Bianco PC': BS_PC_CAT
+    'XYZ Scaling': CAT_XYZ_SCALING,
+    'Von Kries': CAT_VON_KRIES,
+    'Bradford': CAT_BRADFORD,
+    'Sharp': CAT_SHARP,
+    'Fairchild': CAT_FAIRCHILD,
+    'CMCCAT97': CAT_CMCCAT97,
+    'CMCCAT2000': CAT_CMCCAT2000,
+    'CAT02': CAT_CAT02,
+    'CAT02 Brill 2008': CAT_CAT02_BRILL2008,
+    'Bianco 2010': CAT_BIANCO2010,
+    'Bianco PC 2010': CAT_PC_BIANCO2010
 })
 CHROMATIC_ADAPTATION_TRANSFORMS.__doc__ = """
-Supported chromatic adaptation transforms.
+Chromatic adaptation transforms.
 
 References
 ----------
@@ -276,5 +277,6 @@ References
 
 CHROMATIC_ADAPTATION_TRANSFORMS : CaseInsensitiveMapping
     **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-    'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'}**
+    'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'Bianco 2010',
+    'Bianco PC 2010'}**
 """

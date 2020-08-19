@@ -5,7 +5,7 @@ Don RGB 4 Colourspace
 
 Defines the *Don RGB 4* colourspace:
 
--   :attr:`colour.models.DON_RGB_4_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_DON_RGB_4`.
 
 References
 ----------
@@ -18,7 +18,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
@@ -30,12 +30,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DON_RGB_4_PRIMARIES', 'DON_RGB_4_WHITEPOINT_NAME', 'DON_RGB_4_WHITEPOINT',
-    'DON_RGB_4_TO_XYZ_MATRIX', 'XYZ_TO_DON_RGB_4_MATRIX',
-    'DON_RGB_4_COLOURSPACE'
+    'PRIMARIES_DON_RGB_4', 'WHITEPOINT_NAME_DON_RGB_4',
+    'CCS_WHITEPOINT_DON_RGB_4', 'MATRIX_DON_RGB_4_TO_XYZ',
+    'MATRIX_XYZ_TO_DON_RGB_4', 'RGB_COLOURSPACE_DON_RGB_4'
 ]
 
-DON_RGB_4_PRIMARIES = np.array([
+PRIMARIES_DON_RGB_4 = np.array([
     [0.696120689655172, 0.299568965517241],
     [0.214682981090100, 0.765294771968854],
     [0.129937629937630, 0.035343035343035],
@@ -43,55 +43,55 @@ DON_RGB_4_PRIMARIES = np.array([
 """
 *Don RGB 4* colourspace primaries.
 
-DON_RGB_4_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_DON_RGB_4 : ndarray, (3, 2)
 """
 
-DON_RGB_4_WHITEPOINT_NAME = 'D50'
+WHITEPOINT_NAME_DON_RGB_4 = 'D50'
 """
 *Don RGB 4* colourspace whitepoint name.
 
-DON_RGB_4_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_DON_RGB_4 : unicode
 """
 
-DON_RGB_4_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    DON_RGB_4_WHITEPOINT_NAME])
+CCS_WHITEPOINT_DON_RGB_4 = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DON_RGB_4])
 """
-*Don RGB 4* colourspace whitepoint.
+*Don RGB 4* colourspace whitepoint chromaticity coordinates.
 
-DON_RGB_4_WHITEPOINT : ndarray
+CCS_WHITEPOINT_DON_RGB_4 : ndarray
 """
 
-DON_RGB_4_TO_XYZ_MATRIX = normalised_primary_matrix(DON_RGB_4_PRIMARIES,
-                                                    DON_RGB_4_WHITEPOINT)
+MATRIX_DON_RGB_4_TO_XYZ = normalised_primary_matrix(PRIMARIES_DON_RGB_4,
+                                                    CCS_WHITEPOINT_DON_RGB_4)
 """
 *Don RGB 4* colourspace to *CIE XYZ* tristimulus values matrix.
 
-DON_RGB_4_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_DON_RGB_4_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_DON_RGB_4_MATRIX = np.linalg.inv(DON_RGB_4_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_DON_RGB_4 = np.linalg.inv(MATRIX_DON_RGB_4_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Don RGB 4* colourspace matrix.
 
-XYZ_TO_DON_RGB_4_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_DON_RGB_4 : array_like, (3, 3)
 """
 
-DON_RGB_4_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_DON_RGB_4 = RGB_Colourspace(
     'Don RGB 4',
-    DON_RGB_4_PRIMARIES,
-    DON_RGB_4_WHITEPOINT,
-    DON_RGB_4_WHITEPOINT_NAME,
-    DON_RGB_4_TO_XYZ_MATRIX,
-    XYZ_TO_DON_RGB_4_MATRIX,
+    PRIMARIES_DON_RGB_4,
+    CCS_WHITEPOINT_DON_RGB_4,
+    WHITEPOINT_NAME_DON_RGB_4,
+    MATRIX_DON_RGB_4_TO_XYZ,
+    MATRIX_XYZ_TO_DON_RGB_4,
     partial(gamma_function, exponent=1 / 2.2),
     partial(gamma_function, exponent=2.2),
 )
-DON_RGB_4_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_DON_RGB_4.__doc__ = """
 *Don RGB 4* colourspace.
 
 References
 ----------
 :cite:`HutchColorg`
 
-DON_RGB_4_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_DON_RGB_4 : RGB_Colourspace
 """

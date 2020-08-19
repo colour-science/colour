@@ -15,7 +15,7 @@ message_box('Characterisation Plots')
 colour_style()
 
 message_box('Plotting colour rendition charts.')
-pprint(sorted(colour.COLOURCHECKERS.keys()))
+pprint(sorted(colour.CCS_COLOURCHECKERS.keys()))
 plot_single_colour_checker('ColorChecker 1976')
 plot_single_colour_checker(
     'BabelColor Average', text_kwargs={'visible': False})
@@ -27,7 +27,7 @@ print('\n')
 message_box(('Plotting "BabelColor Average" colour rendition charts spectral '
              'distributions.'))
 plot_multi_sds(
-    colour.COLOURCHECKER_SDS['BabelColor Average'].values(),
+    colour.SDS_COLOURCHECKERS['BabelColor Average'].values(),
     use_sds_colours=True,
     title=('BabelColor Average - '
            'Spectral Distributions'))

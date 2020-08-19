@@ -5,9 +5,9 @@ Hunt Colour Appearance Model
 
 Defines *Hunt* colour appearance model objects:
 
--   :class:`colour.appearance.Hunt_InductionFactors`
--   :attr:`colour.HUNT_VIEWING_CONDITIONS`
--   :class:`colour.Hunt_Specification`
+-   :class:`colour.appearance.InductionFactors_Hunt`
+-   :attr:`colour.VIEWING_CONDITIONS_HUNT`
+-   :class:`colour.CAM_Specification_Hunt`
 -   :func:`colour.XYZ_to_Hunt`
 
 References
@@ -36,9 +36,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'Hunt_InductionFactors', 'HUNT_VIEWING_CONDITIONS',
-    'HUE_DATA_FOR_HUE_QUADRATURE', 'XYZ_TO_HPE_MATRIX', 'HPE_TO_XYZ_MATRIX',
-    'Hunt_ReferenceSpecification', 'Hunt_Specification', 'XYZ_to_Hunt',
+    'InductionFactors_Hunt', 'VIEWING_CONDITIONS_HUNT',
+    'HUE_DATA_FOR_HUE_QUADRATURE', 'MATRIX_XYZ_TO_HPE', 'MATRIX_HPE_TO_XYZ',
+    'CAM_ReferenceSpecification_Hunt', 'CAM_Specification_Hunt', 'XYZ_to_Hunt',
     'luminance_level_adaptation_factor', 'illuminant_scotopic_luminance',
     'XYZ_to_rgb', 'f_n', 'chromatic_adaptation',
     'adjusted_reference_white_signals', 'achromatic_post_adaptation_signal',
@@ -50,8 +50,8 @@ __all__ = [
 ]
 
 
-class Hunt_InductionFactors(
-        namedtuple('Hunt_InductionFactors', ('N_c', 'N_b', 'N_cb', 'N_bb'))):
+class InductionFactors_Hunt(
+        namedtuple('InductionFactors_Hunt', ('N_c', 'N_b', 'N_cb', 'N_bb'))):
     """
     *Hunt* colour appearance model induction factors.
 
@@ -78,33 +78,33 @@ class Hunt_InductionFactors(
     def __new__(cls, N_c, N_b, N_cb=None, N_bb=None):
         """
         Returns a new instance of the
-        :class:`colour.appearance.Hunt_InductionFactors` class.
+        :class:`colour.appearance.InductionFactors_Hunt` class.
         """
 
-        return super(Hunt_InductionFactors, cls).__new__(
+        return super(InductionFactors_Hunt, cls).__new__(
             cls, N_c, N_b, N_cb, N_bb)
 
 
-HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping({
+VIEWING_CONDITIONS_HUNT = CaseInsensitiveMapping({
     'Small Areas, Uniform Background & Surrounds':
-        Hunt_InductionFactors(1, 300),
+        InductionFactors_Hunt(1, 300),
     'Normal Scenes':
-        Hunt_InductionFactors(1, 75),
+        InductionFactors_Hunt(1, 75),
     'Television & CRT, Dim Surrounds':
-        Hunt_InductionFactors(1, 25),
+        InductionFactors_Hunt(1, 25),
     'Large Transparencies On Light Boxes':
-        Hunt_InductionFactors(0.7, 25),
+        InductionFactors_Hunt(0.7, 25),
     'Projected Transparencies, Dark Surrounds':
-        Hunt_InductionFactors(0.7, 10)
+        InductionFactors_Hunt(0.7, 10)
 })
-HUNT_VIEWING_CONDITIONS.__doc__ = """
+VIEWING_CONDITIONS_HUNT.__doc__ = """
 Reference *Hunt* colour appearance model viewing conditions.
 
 References
 ----------
 :cite:`Fairchild2013u`, :cite:`Hunt2004b`
 
-HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
+VIEWING_CONDITIONS_HUNT : CaseInsensitiveMapping
     **{'Small Areas, Uniform Background & Surrounds',
     'Normal Scenes',
     'Television & CRT, Dim Surrounds',
@@ -120,22 +120,22 @@ Aliases:
 -   'projected_dark': 'Projected Transparencies, Dark Surrounds'
 
 """
-HUNT_VIEWING_CONDITIONS['small_uniform'] = (
-    HUNT_VIEWING_CONDITIONS['Small Areas, Uniform Background & Surrounds'])
-HUNT_VIEWING_CONDITIONS['normal'] = (HUNT_VIEWING_CONDITIONS['Normal Scenes'])
-HUNT_VIEWING_CONDITIONS['tv_dim'] = (
-    HUNT_VIEWING_CONDITIONS['Television & CRT, Dim Surrounds'])
-HUNT_VIEWING_CONDITIONS['light_boxes'] = (
-    HUNT_VIEWING_CONDITIONS['Large Transparencies On Light Boxes'])
-HUNT_VIEWING_CONDITIONS['projected_dark'] = (
-    HUNT_VIEWING_CONDITIONS['Projected Transparencies, Dark Surrounds'])
+VIEWING_CONDITIONS_HUNT['small_uniform'] = (
+    VIEWING_CONDITIONS_HUNT['Small Areas, Uniform Background & Surrounds'])
+VIEWING_CONDITIONS_HUNT['normal'] = (VIEWING_CONDITIONS_HUNT['Normal Scenes'])
+VIEWING_CONDITIONS_HUNT['tv_dim'] = (
+    VIEWING_CONDITIONS_HUNT['Television & CRT, Dim Surrounds'])
+VIEWING_CONDITIONS_HUNT['light_boxes'] = (
+    VIEWING_CONDITIONS_HUNT['Large Transparencies On Light Boxes'])
+VIEWING_CONDITIONS_HUNT['projected_dark'] = (
+    VIEWING_CONDITIONS_HUNT['Projected Transparencies, Dark Surrounds'])
 
 HUE_DATA_FOR_HUE_QUADRATURE = {
     'h_s': np.array([20.14, 90.00, 164.25, 237.53]),
     'e_s': np.array([0.8, 0.7, 1.0, 1.2])
 }
 
-XYZ_TO_HPE_MATRIX = np.array([
+MATRIX_XYZ_TO_HPE = np.array([
     [0.38971, 0.68898, -0.07868],
     [-0.22981, 1.18340, 0.04641],
     [0.00000, 0.00000, 1.00000],
@@ -144,20 +144,20 @@ XYZ_TO_HPE_MATRIX = np.array([
 *Hunt* colour appearance model *CIE XYZ* tristimulus values to
 *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace matrix.
 
-XYZ_TO_HPE_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_HPE : array_like, (3, 3)
 """
 
-HPE_TO_XYZ_MATRIX = np.linalg.inv(XYZ_TO_HPE_MATRIX)
+MATRIX_HPE_TO_XYZ = np.linalg.inv(MATRIX_XYZ_TO_HPE)
 """
 *Hunt* colour appearance model *Hunt-Pointer-Estevez*
 :math:`\\rho\\gamma\\beta` colourspace to *CIE XYZ* tristimulus values matrix.
 
-HPE_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_HPE_TO_XYZ : array_like, (3, 3)
 """
 
 
-class Hunt_ReferenceSpecification(
-        namedtuple('Hunt_ReferenceSpecification',
+class CAM_ReferenceSpecification_Hunt(
+        namedtuple('CAM_ReferenceSpecification_Hunt',
                    ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))):
     """
     Defines the *Hunt* colour appearance model reference specification.
@@ -190,8 +190,8 @@ class Hunt_ReferenceSpecification(
     """
 
 
-class Hunt_Specification(
-        namedtuple('Hunt_Specification',
+class CAM_Specification_Hunt(
+        namedtuple('CAM_Specification_Hunt',
                    ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
     Defines the *Hunt* colour appearance model specification.
@@ -233,7 +233,7 @@ def XYZ_to_Hunt(XYZ,
                 XYZ_w,
                 XYZ_b,
                 L_A,
-                surround=HUNT_VIEWING_CONDITIONS['Normal Scenes'],
+                surround=VIEWING_CONDITIONS_HUNT['Normal Scenes'],
                 L_AS=None,
                 CCT_w=None,
                 XYZ_p=None,
@@ -255,7 +255,7 @@ def XYZ_to_Hunt(XYZ,
         *CIE XYZ* tristimulus values of background.
     L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    surround : Hunt_InductionFactors, optional
+    surround : InductionFactors_Hunt, optional
          Surround viewing conditions induction factors.
     L_AS : numeric or array_like, optional
         Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
@@ -285,7 +285,7 @@ def XYZ_to_Hunt(XYZ,
 
     Returns
     -------
-    Hunt_Specification
+    CAM_Specification_Hunt
         *Hunt* colour appearance model specification.
 
     Raises
@@ -308,11 +308,11 @@ def XYZ_to_Hunt(XYZ,
     | ``XYZ_p``                | [0, 100]              | [0, 1]        |
     +--------------------------+-----------------------+---------------+
 
-    +--------------------------+-----------------------+---------------+
-    | **Range**                | **Scale - Reference** | **Scale - 1** |
-    +==========================+=======================+===============+
-    | ``Hunt_Specification.h`` | [0, 360]              | [0, 1]        |
-    +--------------------------+-----------------------+---------------+
+    +------------------------------+-----------------------+---------------+
+    | **Range**                    | **Scale - Reference** | **Scale - 1** |
+    +==============================+=======================+===============+
+    | ``CAM_Specification_Hunt.h`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
 
     References
     ----------
@@ -324,11 +324,11 @@ def XYZ_to_Hunt(XYZ,
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> XYZ_b = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
-    >>> surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
+    >>> surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
     >>> CCT_w = 6504
     >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
     ... # doctest: +ELLIPSIS
-    Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
+    CAM_Specification_Hunt(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
 s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
     XYZ = to_domain_100(XYZ)
@@ -460,8 +460,8 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     # -------------------------------------------------------------------------
     M_94 = colourfulness_correlate(F_L, C_94)
 
-    return Hunt_Specification(J, C_94, from_range_degrees(h), s, Q, M_94, None,
-                              None)
+    return CAM_Specification_Hunt(J, C_94, from_range_degrees(h), s, Q, M_94,
+                                  None, None)
 
 
 def luminance_level_adaptation_factor(L_A):
@@ -546,7 +546,7 @@ def XYZ_to_rgb(XYZ):
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return dot_vector(XYZ_TO_HPE_MATRIX, XYZ)
+    return dot_vector(MATRIX_XYZ_TO_HPE, XYZ)
 
 
 def f_n(x):

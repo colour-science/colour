@@ -2,6 +2,6 @@
 
 from __future__ import absolute_import
 
-from .smits1999 import SMITS_1999_SDS
+from .smits1999 import SDS_SMITS1999
 
-__all__ = ['SMITS_1999_SDS']
+__all__ = ['SDS_SMITS1999']

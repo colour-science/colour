@@ -9,9 +9,9 @@ import numpy as np
 import six
 import unittest
 
-from colour.characterisation import COLOURCHECKER_SDS
-from colour.colorimetry import ILLUMINANTS, ILLUMINANT_SDS
-from colour.models import ACES_2065_1_COLOURSPACE
+from colour.characterisation import SDS_COLOURCHECKERS
+from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS
+from colour.models import RGB_COLOURSPACE_ACES2065_1
 from colour.graph import describe_conversion_path, convert
 
 __author__ = 'Colour Developers'
@@ -45,7 +45,7 @@ class TestDescribeConversionPath(unittest.TestCase):
             'sRGB',
             mode='Extended',
             sd_to_XYZ={
-                'illuminant': ILLUMINANT_SDS['FL2'],
+                'illuminant': SDS_ILLUMINANTS['FL2'],
                 'return': np.array([0.47924575, 0.31676968, 0.17362725])
             })
 
@@ -61,7 +61,7 @@ class TestConvert(unittest.TestCase):
         Tests :func:`colour.graph.conversion.convert` definition.
         """
 
-        RGB_a = convert(COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'],
+        RGB_a = convert(SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin'],
                         'Spectral Distribution', 'sRGB')
         np.testing.assert_almost_equal(
             RGB_a, np.array([0.45675795, 0.30986982, 0.24861924]), decimal=7)
@@ -100,7 +100,7 @@ class TestConvert(unittest.TestCase):
                 RGB_a,
                 'RGB',
                 'Scene-Referred RGB',
-                RGB_to_RGB={'output_colourspace': ACES_2065_1_COLOURSPACE}),
+                RGB_to_RGB={'output_colourspace': RGB_COLOURSPACE_ACES2065_1}),
             np.array([0.36364180, 0.31715308, 0.25888531]),
             decimal=7)
 
@@ -111,7 +111,8 @@ class TestConvert(unittest.TestCase):
         """
 
         a = np.array([0.20654008, 0.12197225, 0.05136952])
-        illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']
+        illuminant = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D50']
         np.testing.assert_almost_equal(
             convert(
                 a, 'CIE XYZ', 'CIE xyY',
@@ -124,7 +125,7 @@ class TestConvert(unittest.TestCase):
             # be hashed by the "sd_to_XYZ" definition, this should never occur
             # in practical application.
             self.assertRaises(AttributeError, lambda: convert(
-                COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'],
+                SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin'],
                 'Spectral Distribution', 'sRGB',
                 illuminant=tuple(illuminant)))
 

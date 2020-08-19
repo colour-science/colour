@@ -35,9 +35,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['ST2084_CONSTANTS', 'eotf_inverse_ST2084', 'eotf_ST2084']
+__all__ = ['CONSTANTS_ST2084', 'eotf_inverse_ST2084', 'eotf_ST2084']
 
-ST2084_CONSTANTS = Structure(
+CONSTANTS_ST2084 = Structure(
     m_1=2610 / 4096 * (1 / 4),
     m_2=2523 / 4096 * 128,
     c_1=3424 / 4096,
@@ -47,11 +47,11 @@ ST2084_CONSTANTS = Structure(
 Constants for *SMPTE ST 2084:2014* inverse electro-optical transfer function
 (EOTF / EOCF) and electro-optical transfer function (EOTF / EOCF).
 
-ST2084_CONSTANTS : Structure
+CONSTANTS_ST2084 : Structure
 """
 
 
-def eotf_inverse_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
+def eotf_inverse_ST2084(C, L_p=10000, constants=CONSTANTS_ST2084):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
     transfer function (EOTF / EOCF).
@@ -119,7 +119,7 @@ def eotf_inverse_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     return from_range_1(N)
 
 
-def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
+def eotf_ST2084(N, L_p=10000, constants=CONSTANTS_ST2084):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF / EOCF).

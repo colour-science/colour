@@ -8,7 +8,7 @@ Defines various RGB colour models common utilities.
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.utilities.deprecation import handle_arguments_deprecation
 
@@ -22,12 +22,12 @@ __status__ = 'Production'
 __all__ = ['XYZ_to_sRGB', 'sRGB_to_XYZ']
 
 
-def XYZ_to_sRGB(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
-        chromatic_adaptation_transform='CAT02',
-        apply_cctf_encoding=True,
-        **kwargs):
+def XYZ_to_sRGB(XYZ,
+                illuminant=CCS_ILLUMINANTS[
+                    'CIE 1931 2 Degree Standard Observer']['D65'],
+                chromatic_adaptation_transform='CAT02',
+                apply_cctf_encoding=True,
+                **kwargs):
     """
     Converts from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -39,8 +39,8 @@ def XYZ_to_sRGB(
         Source illuminant chromaticity coordinates.
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
     apply_cctf_encoding : bool, optional
         Apply *sRGB* encoding colour component transfer function /
@@ -95,12 +95,12 @@ def XYZ_to_sRGB(
     )
 
 
-def sRGB_to_XYZ(
-        RGB,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
-        chromatic_adaptation_method='CAT02',
-        apply_cctf_decoding=True,
-        **kwargs):
+def sRGB_to_XYZ(RGB,
+                illuminant=CCS_ILLUMINANTS[
+                    'CIE 1931 2 Degree Standard Observer']['D65'],
+                chromatic_adaptation_method='CAT02',
+                apply_cctf_decoding=True,
+                **kwargs):
     """
     Converts from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -112,8 +112,8 @@ def sRGB_to_XYZ(
         Source illuminant chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* method.
     apply_cctf_decoding : bool, optional
         Apply *sRGB* decoding colour component transfer function  /

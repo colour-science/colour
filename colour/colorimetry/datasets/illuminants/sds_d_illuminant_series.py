@@ -30,9 +30,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['D_ILLUMINANT_S_SDS_DATA', 'D_ILLUMINANT_S_SDS']
+__all__ = ['DATA_ILLUMINANTS_D_SERIES', 'SDS_ILLUMINANTS_D_SERIES']
 
-D_ILLUMINANT_S_SDS_DATA = {
+DATA_ILLUMINANTS_D_SERIES = {
     'S0': {
         300: 0.04,
         305: 3.02,
@@ -362,18 +362,18 @@ D_ILLUMINANT_S_SDS_DATA = {
     }
 }
 
-D_ILLUMINANT_S_SDS = CaseInsensitiveMapping({
-    'S0': SpectralDistribution(D_ILLUMINANT_S_SDS_DATA['S0'], name='S0'),
-    'S1': SpectralDistribution(D_ILLUMINANT_S_SDS_DATA['S1'], name='S1'),
-    'S2': SpectralDistribution(D_ILLUMINANT_S_SDS_DATA['S2'], name='S2')
+SDS_ILLUMINANTS_D_SERIES = CaseInsensitiveMapping({
+    'S0': SpectralDistribution(DATA_ILLUMINANTS_D_SERIES['S0'], name='S0'),
+    'S1': SpectralDistribution(DATA_ILLUMINANTS_D_SERIES['S1'], name='S1'),
+    'S2': SpectralDistribution(DATA_ILLUMINANTS_D_SERIES['S2'], name='S2')
 })
-D_ILLUMINANT_S_SDS.__doc__ = """
+SDS_ILLUMINANTS_D_SERIES.__doc__ = """
 *CIE Illuminant D Series* :math:`S_n(\\lambda)` spectral distributions.
 
 References
 ----------
 :cite:`Lindbloom2007a`, :cite:`Wyszecki2000z`
 
-D_ILLUMINANT_S_SDS : CaseInsensitiveMapping
+SDS_ILLUMINANTS_D_SERIES : CaseInsensitiveMapping
    **{'S0', 'S1', 'S1'}**
 """

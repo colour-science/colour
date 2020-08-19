@@ -16,10 +16,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
-                           sRGB_COLOURSPACE)
-from colour.recovery import SMITS_1999_SDS
+                           RGB_COLOURSPACE_sRGB)
+from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1
 
 __author__ = 'Colour Developers'
@@ -35,7 +35,7 @@ __all__ = [
     'RGB_to_sd_Smits1999'
 ]
 
-SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
+SMITS1999_PRIMARIES = RGB_COLOURSPACE_sRGB.primaries
 """
 Current *Smits (1999)* method implementation colourspace primaries.
 
@@ -43,7 +43,7 @@ SMITS1999_PRIMARIES : ndarray, (3, 2)
 """
 
 SMITS1999_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
 """
 Current *Smits (1999)* method implementation colourspace whitepoint.
 
@@ -141,13 +141,13 @@ def RGB_to_sd_Smits1999(RGB):
                          extrapolator_kwargs={...})
     """
 
-    white_sd = SMITS_1999_SDS['white'].copy()
-    cyan_sd = SMITS_1999_SDS['cyan'].copy()
-    magenta_sd = SMITS_1999_SDS['magenta'].copy()
-    yellow_sd = SMITS_1999_SDS['yellow'].copy()
-    red_sd = SMITS_1999_SDS['red'].copy()
-    green_sd = SMITS_1999_SDS['green'].copy()
-    blue_sd = SMITS_1999_SDS['blue'].copy()
+    white_sd = SDS_SMITS1999['white'].copy()
+    cyan_sd = SDS_SMITS1999['cyan'].copy()
+    magenta_sd = SDS_SMITS1999['magenta'].copy()
+    yellow_sd = SDS_SMITS1999['yellow'].copy()
+    red_sd = SDS_SMITS1999['red'].copy()
+    green_sd = SDS_SMITS1999['green'].copy()
+    blue_sd = SDS_SMITS1999['blue'].copy()
 
     R, G, B = to_domain_1(RGB)
     sd = white_sd.copy() * 0

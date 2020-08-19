@@ -34,11 +34,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'IPT_XYZ_TO_LMS_MATRIX', 'IPT_LMS_TO_XYZ_MATRIX', 'IPT_LMS_TO_IPT_MATRIX',
-    'IPT_IPT_TO_LMS_MATRIX', 'XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle'
+    'MATRIX_IPT_XYZ_TO_LMS', 'MATRIX_IPT_LMS_TO_XYZ', 'MATRIX_IPT_LMS_TO_IPT',
+    'MATRIX_IPT_IPT_TO_LMS', 'XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle'
 ]
 
-IPT_XYZ_TO_LMS_MATRIX = np.array([
+MATRIX_IPT_XYZ_TO_LMS = np.array([
     [0.4002, 0.7075, -0.0807],
     [-0.2280, 1.1500, 0.0612],
     [0.0000, 0.0000, 0.9184],
@@ -46,17 +46,17 @@ IPT_XYZ_TO_LMS_MATRIX = np.array([
 """
 *CIE XYZ* tristimulus values to normalised cone responses matrix.
 
-IPT_XYZ_TO_LMS_MATRIX : array_like, (3, 3)
+MATRIX_IPT_XYZ_TO_LMS : array_like, (3, 3)
 """
 
-IPT_LMS_TO_XYZ_MATRIX = np.linalg.inv(IPT_XYZ_TO_LMS_MATRIX)
+MATRIX_IPT_LMS_TO_XYZ = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
 """
 Normalised cone responses to *CIE XYZ* tristimulus values matrix.
 
-IPT_LMS_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_IPT_LMS_TO_XYZ : array_like, (3, 3)
 """
 
-IPT_LMS_TO_IPT_MATRIX = np.array([
+MATRIX_IPT_LMS_TO_IPT = np.array([
     [0.4000, 0.4000, 0.2000],
     [4.4550, -4.8510, 0.3960],
     [0.8056, 0.3572, -1.1628],
@@ -64,14 +64,14 @@ IPT_LMS_TO_IPT_MATRIX = np.array([
 """
 Normalised cone responses to *IPT* colourspace matrix.
 
-IPT_LMS_TO_IPT_MATRIX : array_like, (3, 3)
+MATRIX_IPT_LMS_TO_IPT : array_like, (3, 3)
 """
 
-IPT_IPT_TO_LMS_MATRIX = np.linalg.inv(IPT_LMS_TO_IPT_MATRIX)
+MATRIX_IPT_IPT_TO_LMS = np.linalg.inv(MATRIX_IPT_LMS_TO_IPT)
 """
 *IPT* colourspace to normalised cone responses matrix.
 
-IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
+MATRIX_IPT_IPT_TO_LMS : array_like, (3, 3)
 """
 
 
@@ -124,9 +124,9 @@ def XYZ_to_IPT(XYZ):
 
     XYZ = to_domain_1(XYZ)
 
-    LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
+    LMS = dot_vector(MATRIX_IPT_XYZ_TO_LMS, XYZ)
     LMS_prime = spow(LMS, 0.43)
-    IPT = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
+    IPT = dot_vector(MATRIX_IPT_LMS_TO_IPT, LMS_prime)
 
     return from_range_1(IPT)
 
@@ -177,9 +177,9 @@ def IPT_to_XYZ(IPT):
 
     IPT = to_domain_1(IPT)
 
-    LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT)
+    LMS = dot_vector(MATRIX_IPT_IPT_TO_LMS, IPT)
     LMS_prime = spow(LMS, 1 / 0.43)
-    XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
+    XYZ = dot_vector(MATRIX_IPT_LMS_TO_XYZ, LMS_prime)
 
     return from_range_1(XYZ)
 

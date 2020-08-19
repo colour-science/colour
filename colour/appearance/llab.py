@@ -5,9 +5,9 @@
 
 Defines *:math:`LLAB(l:c)`* colour appearance model objects:
 
--   :class:`colour.appearance.LLAB_InductionFactors`
--   :attr:`colour.LLAB_VIEWING_CONDITIONS`
--   :class:`colour.LLAB_Specification`
+-   :class:`colour.appearance.InductionFactors_LLAB`
+-   :attr:`colour.VIEWING_CONDITIONS_LLAB`
+-   :class:`colour.CAM_Specification_LLAB`
 -   :func:`colour.XYZ_to_LLAB`
 
 References
@@ -44,17 +44,17 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'LLAB_InductionFactors', 'LLAB_VIEWING_CONDITIONS',
-    'LLAB_XYZ_TO_RGB_MATRIX', 'LLAB_RGB_TO_XYZ_MATRIX',
-    'LLAB_ReferenceSpecification', 'LLAB_Specification', 'XYZ_to_LLAB',
+    'InductionFactors_LLAB', 'VIEWING_CONDITIONS_LLAB',
+    'MATRIX_XYZ_TO_RGB_LLAB', 'MATRIX_RGB_TO_XYZ_LLAB',
+    'CAM_ReferenceSpecification_LLAB', 'CAM_Specification_LLAB', 'XYZ_to_LLAB',
     'XYZ_to_RGB_LLAB', 'chromatic_adaptation', 'f',
     'opponent_colour_dimensions', 'hue_angle', 'chroma_correlate',
     'colourfulness_correlate', 'saturation_correlate', 'final_opponent_signals'
 ]
 
 
-class LLAB_InductionFactors(
-        namedtuple('LLAB_InductionFactors', ('D', 'F_S', 'F_L', 'F_C'))):
+class InductionFactors_LLAB(
+        namedtuple('InductionFactors_LLAB', ('D', 'F_S', 'F_L', 'F_C'))):
     """
     *:math:`LLAB(l:c)`* colour appearance model induction factors.
 
@@ -75,26 +75,26 @@ class LLAB_InductionFactors(
     """
 
 
-LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
+VIEWING_CONDITIONS_LLAB = CaseInsensitiveMapping({
     'Reference Samples & Images, Average Surround, Subtending > 4': (
-        LLAB_InductionFactors(1, 3, 0, 1)),
+        InductionFactors_LLAB(1, 3, 0, 1)),
     'Reference Samples & Images, Average Surround, Subtending < 4': (
-        LLAB_InductionFactors(1, 3, 1, 1)),
-    'Television & VDU Displays, Dim Surround': (LLAB_InductionFactors(
+        InductionFactors_LLAB(1, 3, 1, 1)),
+    'Television & VDU Displays, Dim Surround': (InductionFactors_LLAB(
         0.7, 3.5, 1, 1)),
-    'Cut Sheet Transparency, Dim Surround': (LLAB_InductionFactors(
+    'Cut Sheet Transparency, Dim Surround': (InductionFactors_LLAB(
         1, 5, 1, 1.1)),
-    '35mm Projection Transparency, Dark Surround': (LLAB_InductionFactors(
+    '35mm Projection Transparency, Dark Surround': (InductionFactors_LLAB(
         0.7, 4, 1, 1))
 })
-LLAB_VIEWING_CONDITIONS.__doc__ = """
+VIEWING_CONDITIONS_LLAB.__doc__ = """
 Reference :math:`LLAB(l:c)` colour appearance model viewing conditions.
 
 References
 ----------
 :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
 
-LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
+VIEWING_CONDITIONS_LLAB : CaseInsensitiveMapping
     **{'Reference Samples & Images, Average Surround, Subtending > 4',
     'Reference Samples & Images, Average Surround, Subtending < 4',
     'Television & VDU Displays, Dim Surround',
@@ -111,20 +111,20 @@ Aliases:
 -   'sheet_dim': 'Cut Sheet Transparency, Dim Surround'
 -   'projected_dark': '35mm Projection Transparency, Dark Surround'
 """
-LLAB_VIEWING_CONDITIONS['ref_average_4_plus'] = (  # yapf: disable
-    LLAB_VIEWING_CONDITIONS['Reference Samples & Images, '
+VIEWING_CONDITIONS_LLAB['ref_average_4_plus'] = (  # yapf: disable
+    VIEWING_CONDITIONS_LLAB['Reference Samples & Images, '
                             'Average Surround, Subtending > 4'])
-LLAB_VIEWING_CONDITIONS['ref_average_4_minus'] = (  # yapf: disable
-    LLAB_VIEWING_CONDITIONS['Reference Samples & Images, '
+VIEWING_CONDITIONS_LLAB['ref_average_4_minus'] = (  # yapf: disable
+    VIEWING_CONDITIONS_LLAB['Reference Samples & Images, '
                             'Average Surround, Subtending < 4'])
-LLAB_VIEWING_CONDITIONS['tv_dim'] = (
-    LLAB_VIEWING_CONDITIONS['Television & VDU Displays, Dim Surround'])
-LLAB_VIEWING_CONDITIONS['sheet_dim'] = (
-    LLAB_VIEWING_CONDITIONS['Cut Sheet Transparency, Dim Surround'])
-LLAB_VIEWING_CONDITIONS['projected_dark'] = (
-    LLAB_VIEWING_CONDITIONS['35mm Projection Transparency, Dark Surround'])
+VIEWING_CONDITIONS_LLAB['tv_dim'] = (
+    VIEWING_CONDITIONS_LLAB['Television & VDU Displays, Dim Surround'])
+VIEWING_CONDITIONS_LLAB['sheet_dim'] = (
+    VIEWING_CONDITIONS_LLAB['Cut Sheet Transparency, Dim Surround'])
+VIEWING_CONDITIONS_LLAB['projected_dark'] = (
+    VIEWING_CONDITIONS_LLAB['35mm Projection Transparency, Dark Surround'])
 
-LLAB_XYZ_TO_RGB_MATRIX = np.array([
+MATRIX_XYZ_TO_RGB_LLAB = np.array([
     [0.8951, 0.2664, -0.1614],
     [-0.7502, 1.7135, 0.0367],
     [0.0389, -0.0685, 1.0296],
@@ -133,20 +133,20 @@ LLAB_XYZ_TO_RGB_MATRIX = np.array([
 LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values to normalised
 cone responses matrix.
 
-LLAB_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_RGB_LLAB : array_like, (3, 3)
 """
 
-LLAB_RGB_TO_XYZ_MATRIX = np.linalg.inv(LLAB_XYZ_TO_RGB_MATRIX)
+MATRIX_RGB_TO_XYZ_LLAB = np.linalg.inv(MATRIX_XYZ_TO_RGB_LLAB)
 """
 LLAB(l:c) colour appearance model normalised cone responses to *CIE XYZ*
 tristimulus values matrix.
 
-LLAB_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_RGB_TO_XYZ_LLAB : array_like, (3, 3)
 """
 
 
-class LLAB_ReferenceSpecification(
-        namedtuple('LLAB_ReferenceSpecification',
+class CAM_ReferenceSpecification_LLAB(
+        namedtuple('CAM_ReferenceSpecification_LLAB',
                    ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
     """
     Defines the *:math:`LLAB(l:c)`* colour appearance model reference
@@ -180,8 +180,8 @@ class LLAB_ReferenceSpecification(
     """
 
 
-class LLAB_Specification(
-        namedtuple('LLAB_Specification',
+class CAM_Specification_LLAB(
+        namedtuple('CAM_Specification_LLAB',
                    ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
     """
     Defines the *:math:`LLAB(l:c)`* colour appearance model specification.
@@ -224,7 +224,7 @@ def XYZ_to_LLAB(
         XYZ_0,
         Y_b,
         L,
-        surround=LLAB_VIEWING_CONDITIONS[
+        surround=VIEWING_CONDITIONS_LLAB[
             'Reference Samples & Images, Average Surround, Subtending < 4']):
     """
     Computes the *:math:`LLAB(l:c)`* colour appearance model correlates.
@@ -239,12 +239,12 @@ def XYZ_to_LLAB(
         Luminance factor of the background in :math:`cd/m^2`.
     L : numeric or array_like
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
-    surround : LLAB_InductionFactors, optional
+    surround : InductionFactors_LLAB, optional
          Surround viewing conditions induction factors.
 
     Returns
     -------
-    LLAB_Specification
+    CAM_Specification_LLAB
         *:math:`LLAB(l:c)`* colour appearance model specification.
 
     Notes
@@ -258,11 +258,11 @@ def XYZ_to_LLAB(
     | ``XYZ_0``                | [0, 100]              | [0, 1]        |
     +--------------------------+-----------------------+---------------+
 
-    +--------------------------+-----------------------+---------------+
-    | **Range**                | **Scale - Reference** | **Scale - 1** |
-    +==========================+=======================+===============+
-    | ``LLAB_Specification.h`` | [0, 360]              | [0, 1]        |
-    +--------------------------+-----------------------+---------------+
+    +------------------------------+-----------------------+---------------+
+    | **Range**                    | **Scale - Reference** | **Scale - 1** |
+    +==============================+=======================+===============+
+    | ``CAM_Specification_LLAB.h`` | [0, 360]              | [0, 1]        |
+    +------------------------------+-----------------------+---------------+
 
     References
     ----------
@@ -274,9 +274,9 @@ def XYZ_to_LLAB(
     >>> XYZ_0 = np.array([95.05, 100.00, 108.88])
     >>> Y_b = 20.0
     >>> L = 318.31
-    >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
+    >>> surround = VIEWING_CONDITIONS_LLAB['ref_average_4_minus']
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
-    LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270..., \
+    CAM_Specification_LLAB(J=37.3668650..., C=0.0089496..., h=270..., \
 s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     """
 
@@ -325,8 +325,8 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # -------------------------------------------------------------------------
     A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
-    return LLAB_Specification(L_L, Ch_L, from_range_degrees(h_L), s_L, C_L,
-                              None, A_L, B_L)
+    return CAM_Specification_LLAB(L_L, Ch_L, from_range_degrees(h_L), s_L, C_L,
+                                  None, A_L, B_L)
 
 
 def XYZ_to_RGB_LLAB(XYZ):
@@ -355,7 +355,7 @@ def XYZ_to_RGB_LLAB(XYZ):
     Y = tstack([Y, Y, Y])
     XYZ_n = XYZ / Y
 
-    return dot_vector(LLAB_XYZ_TO_RGB_MATRIX, XYZ_n)
+    return dot_vector(MATRIX_XYZ_TO_RGB_LLAB, XYZ_n)
 
 
 def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
@@ -407,7 +407,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
     Y = tstack([Y, Y, Y])
 
-    XYZ_r = dot_vector(LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
+    XYZ_r = dot_vector(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
 
     return XYZ_r
 

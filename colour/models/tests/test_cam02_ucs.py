@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.appearance import (CIECAM02_VIEWING_CONDITIONS, XYZ_to_CIECAM02)
+from colour.appearance import (VIEWING_CONDITIONS_CIECAM02, XYZ_to_CIECAM02)
 from colour.models.cam02_ucs import (COEFFICIENTS_UCS_LUO2006,
                                      JMh_CIECAM02_to_UCS_Luo2006,
                                      UCS_Luo2006_to_JMh_CIECAM02)
@@ -45,7 +45,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20.0
-        surround = CIECAM02_VIEWING_CONDITIONS['Average']
+        surround = VIEWING_CONDITIONS_CIECAM02['Average']
         specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 
         self._JMh = np.array(

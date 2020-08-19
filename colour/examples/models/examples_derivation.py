@@ -55,7 +55,7 @@ print(
     colour.chromatically_adapted_primaries(
         colour.RGB_COLOURSPACES['sRGB'].primaries,
         colour.RGB_COLOURSPACES['sRGB'].whitepoint,
-        colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
+        colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
     ))
 
 print('\n')

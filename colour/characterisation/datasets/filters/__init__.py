@@ -2,6 +2,6 @@
 
 from __future__ import absolute_import
 
-from .sds import FILTER_SDS
+from .sds import SDS_FILTERS
 
-__all__ = ['FILTER_SDS']
+__all__ = ['SDS_FILTERS']

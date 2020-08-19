@@ -13,8 +13,8 @@ CIE
 .. autosummary::
     :toctree: generated/
 
-    K_M
-    KP_M
+    CONSTANT_K_M
+    CONSTANT_KP_M
 
 CODATA
 ------
@@ -26,10 +26,10 @@ CODATA
 .. autosummary::
     :toctree: generated/
 
-    AVOGADRO_CONSTANT
-    BOLTZMANN_CONSTANT
-    LIGHT_SPEED
-    PLANCK_CONSTANT
+    CONSTANT_AVOGADRO
+    CONSTANT_BOLTZMANN
+    CONSTANT_LIGHT_SPEED
+    CONSTANT_PLANCK
 
 Common
 ------

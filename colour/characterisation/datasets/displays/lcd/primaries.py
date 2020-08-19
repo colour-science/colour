@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-LCD Display RGB Primaries
+Primaries of LCD Displays
 =========================
 
-Defines *LCD* display *RGB* primaries multi-spectral distributions.
+Defines the primaries multi-spectral distributions of *LCD* displays.
 
 Each *LCD* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
@@ -40,9 +40,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['LCD_DISPLAY_RGB_PRIMARIES_DATA', 'LCD_DISPLAY_RGB_PRIMARIES']
+__all__ = ['DATA_DISPLAY_PRIMARIES_LCD', 'MSDS_DISPLAY_PRIMARIES_LCD']
 
-LCD_DISPLAY_RGB_PRIMARIES_DATA = {
+DATA_DISPLAY_PRIMARIES_LCD = {
     'Apple Studio Display': {
         380: (0.0000, 0.0000, 0.0000),
         385: (0.0000, 0.0000, 0.0000),
@@ -128,19 +128,19 @@ LCD_DISPLAY_RGB_PRIMARIES_DATA = {
     }
 }
 
-LCD_DISPLAY_RGB_PRIMARIES = CaseInsensitiveMapping({
+MSDS_DISPLAY_PRIMARIES_LCD = CaseInsensitiveMapping({
     'Apple Studio Display':
         RGB_DisplayPrimaries(
-            LCD_DISPLAY_RGB_PRIMARIES_DATA['Apple Studio Display'],
+            DATA_DISPLAY_PRIMARIES_LCD['Apple Studio Display'],
             name='Apple Studio Display')
 })
 """
-*LCD* display *RGB* primaries multi-spectral distributions.
+Primaries multi-spectral distributions of *LCD* displays.
 
 References
 ----------
 :cite:`Fairchild1998b`, :cite:`Machado2010a`
 
-LCD_DISPLAY_RGB_PRIMARIES : CaseInsensitiveMapping
+MSDS_DISPLAY_PRIMARIES_LCD : CaseInsensitiveMapping
     **{'Apple Studio Display'}**
 """

@@ -8,7 +8,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (CMFS, RGB_10_degree_cmfs_to_LMS_10_degree_cmfs,
+from colour.colorimetry import (MSDS_CMFS,
+                                RGB_10_degree_cmfs_to_LMS_10_degree_cmfs,
                                 RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs,
                                 RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs,
                                 LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs,
@@ -43,7 +44,7 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
 RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
-        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_allclose(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs[435],
@@ -107,7 +108,7 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
 RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
-        cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs[435],
@@ -171,7 +172,7 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition unit tests methods.
 RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition.
         """
 
-        cmfs = CMFS['Stockman & Sharpe 10 Degree Cone Fundamentals']
+        cmfs = MSDS_CMFS['Stockman & Sharpe 10 Degree Cone Fundamentals']
         np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(435),
             cmfs[435],
@@ -235,7 +236,7 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
 LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
-        cmfs = CMFS['CIE 2012 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 2012 2 Degree Standard Observer']
         np.testing.assert_allclose(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs[435],
@@ -299,7 +300,7 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
 LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
-        cmfs = CMFS['CIE 2012 10 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 2012 10 Degree Standard Observer']
         np.testing.assert_allclose(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs[435],

@@ -3,7 +3,7 @@
 Showcases *CIE* chromaticity diagrams plotting examples.
 """
 
-from colour import ILLUMINANT_SDS
+from colour import SDS_ILLUMINANTS
 from colour.plotting import (colour_style, plot_chromaticity_diagram_CIE1931,
                              plot_chromaticity_diagram_CIE1960UCS,
                              plot_chromaticity_diagram_CIE1976UCS,
@@ -35,9 +35,9 @@ message_box(('Plotting "CIE Standard Illuminant A" and '
              '"CIE Standard Illuminant D65" spectral '
              'distribution chromaticity coordinates in '
              '"CIE 1931 Chromaticity Diagram".'))
-A = ILLUMINANT_SDS['A']
-D65 = ILLUMINANT_SDS['D65']
-plot_sds_in_chromaticity_diagram_CIE1931((A, D65))
+sd_A = SDS_ILLUMINANTS['A']
+sd_D65 = SDS_ILLUMINANTS['D65']
+plot_sds_in_chromaticity_diagram_CIE1931((sd_A, sd_D65))
 
 print('\n')
 
@@ -45,7 +45,7 @@ message_box(('Plotting "CIE Standard Illuminant A" and '
              '"CIE Standard Illuminant D65" spectral '
              'distribution chromaticity coordinates in '
              '"CIE 1960 UCS Chromaticity Diagram".'))
-plot_sds_in_chromaticity_diagram_CIE1960UCS((A, D65))
+plot_sds_in_chromaticity_diagram_CIE1960UCS((sd_A, sd_D65))
 
 print('\n')
 
@@ -53,4 +53,4 @@ message_box(('Plotting "CIE Standard Illuminant A" and '
              '"CIE Standard Illuminant D65" spectral '
              'distribution chromaticity coordinates in '
              '"CIE 1976 UCS Chromaticity Diagram".'))
-plot_sds_in_chromaticity_diagram_CIE1976UCS((A, D65))
+plot_sds_in_chromaticity_diagram_CIE1976UCS((sd_A, sd_D65))

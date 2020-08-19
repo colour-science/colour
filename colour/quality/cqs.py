@@ -29,9 +29,9 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series, ILLUMINANTS,
-    STANDARD_OBSERVER_CMFS, sd_blackbody, sd_to_XYZ)
-from colour.quality.datasets.vs import VS_INDEXES_TO_NAMES, VS_SDS
+    SPECTRAL_SHAPE_DEFAULT, sd_CIE_illuminant_D_series, CCS_ILLUMINANTS,
+    MSDS_CMFS_STANDARD_OBSERVER, sd_blackbody, sd_to_XYZ)
+from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
@@ -156,8 +156,8 @@ def colour_quality_scale(sd_test, additional_data=False,
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> sd = ILLUMINANT_SDS['FL2']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> sd = SDS_ILLUMINANTS['FL2']
     >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
     64.1117031...
     """
@@ -168,14 +168,15 @@ def colour_quality_scale(sd_test, additional_data=False,
     ], ('"{0}" method is invalid, must be one of {1}!'.format(
         method, COLOUR_QUALITY_SCALE_METHODS))
 
-    cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
-    ).trim(DEFAULT_SPECTRAL_SHAPE)
+    cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+        'CIE 1931 2 Degree Standard Observer'].copy().trim(
+            SPECTRAL_SHAPE_DEFAULT)
 
     shape = cmfs.shape
     sd_test = sd_test.copy().align(shape)
     vs_sds = {
         sd.name: sd.copy().align(shape)
-        for sd in VS_SDS[method].values()
+        for sd in SDS_VS[method].values()
     }
 
     with domain_range_scale('1'):
@@ -335,7 +336,7 @@ def vs_colorimetry_data(sd_test,
     xy_r = XYZ_to_xy(XYZ_r)
 
     vs_data = []
-    for _key, value in sorted(VS_INDEXES_TO_NAMES.items()):
+    for _key, value in sorted(INDEXES_TO_NAMES_VS.items()):
         sd_vs = sds_vs[value]
 
         with domain_range_scale('1'):
@@ -370,7 +371,7 @@ def CCT_factor(reference_data, XYZ_r):
         Correlated colour temperature factor.
     """
 
-    xy_w = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
+    xy_w = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
     XYZ_w = xy_to_XYZ(xy_w)
 
     Labs = []

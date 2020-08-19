@@ -12,7 +12,7 @@ from distutils.version import LooseVersion
 
 from colour.colorimetry.spectrum import (
     SpectralShape, SpectralDistribution, MultiSpectralDistributions,
-    sds_and_multi_sds_to_sds, sds_and_multi_sds_to_multi_sds)
+    sds_and_msds_to_sds, sds_and_msds_to_msds)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -23,16 +23,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SAMPLE_SD_DATA', 'NON_UNIFORM_SAMPLE_SD_DATA',
-    'INTERPOLATED_SAMPLE_SD_DATA', 'INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA',
-    'NORMALISED_SAMPLE_SD_DATA', 'CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'CMFS_DATA', 'ABRIDGED_SAMPLE_SD_DATA', 'ABRIDGED_MULTI_SDS_DATA',
-    'TestSpectralShape', 'TestSpectralDistribution',
-    'TestMultiSpectralDistributions', 'TestSdsAndMultiSdsToSds',
-    'TestSdsAndMultiSdsToMultiSds'
+    'DATA_SAMPLE', 'DATA_SAMPLE_NON_UNIFORM', 'DATA_SAMPLE_INTERPOLATED',
+    'DATA_SAMPLE_INTERPOLATED_NON_UNIFORM', 'DATA_SAMPLE_NORMALISED',
+    'DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931', 'DATA_CMFS',
+    'DATA_SAMPLE_ABRIDGED', 'DATA_MULTI_SAMPLE_ABRIDGED', 'TestSpectralShape',
+    'TestSpectralDistribution', 'TestMultiSpectralDistributions',
+    'TestSdsAndMdsToSds', 'TestSdsAndMsdsToMsds'
 ]
 
-SAMPLE_SD_DATA = {
+DATA_SAMPLE = {
     340: 0.0000,
     360: 0.0000,
     380: 0.0000,
@@ -60,7 +59,7 @@ SAMPLE_SD_DATA = {
     820: 0.0000
 }
 
-NON_UNIFORM_SAMPLE_SD_DATA = {
+DATA_SAMPLE_NON_UNIFORM = {
     391.898: 16.331740,
     392.069: 16.333122,
     405.606: 40.197224,
@@ -117,7 +116,7 @@ NON_UNIFORM_SAMPLE_SD_DATA = {
     805.862: 8.850659
 }
 
-INTERPOLATED_SAMPLE_SD_DATA = (
+DATA_SAMPLE_INTERPOLATED = (
     0.000000000000000,
     0.000230709627131,
     0.000384144814593,
@@ -600,7 +599,7 @@ INTERPOLATED_SAMPLE_SD_DATA = (
     0.000000000000000,
     0.000000000000000)  # yapf: disable
 
-INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA = (
+DATA_SAMPLE_INTERPOLATED_NON_UNIFORM = (
     16.329808636577400,
     16.722487609243078,
     17.780769796558388,
@@ -1016,21 +1015,21 @@ INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA = (
     6.434033619962720,
     7.652991396265083)  # yapf: disable
 
-NORMALISED_SAMPLE_SD_DATA = (0.000000000000000, 0.000000000000000,
-                             0.000000000000000, 22.475455820476860,
-                             22.615708274894811, 19.705469845722302,
-                             18.828892005610097, 19.600280504908834,
-                             22.826086956521742, 24.719495091164092,
-                             27.068723702664798, 30.504908835904626,
-                             39.551192145862551, 47.685834502103788,
-                             52.980364656381497, 59.186535764375883,
-                             69.985974754558200, 84.046283309957929,
-                             100.000000000000000, 0.000000000000000,
-                             0.000000000000000, 0.000000000000000,
-                             0.000000000000000, 0.000000000000000,
-                             0.000000000000000)
+DATA_SAMPLE_NORMALISED = (0.000000000000000, 0.000000000000000,
+                          0.000000000000000, 22.475455820476860,
+                          22.615708274894811, 19.705469845722302,
+                          18.828892005610097, 19.600280504908834,
+                          22.826086956521742, 24.719495091164092,
+                          27.068723702664798, 30.504908835904626,
+                          39.551192145862551, 47.685834502103788,
+                          52.980364656381497, 59.186535764375883,
+                          69.985974754558200, 84.046283309957929,
+                          100.000000000000000, 0.000000000000000,
+                          0.000000000000000, 0.000000000000000,
+                          0.000000000000000, 0.000000000000000,
+                          0.000000000000000)
 
-CIE_1931_2_DEGREE_STANDARD_OBSERVER = {
+DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931 = {
     380: (0.001368, 0.000039, 0.006450),
     385: (0.002236, 0.000064, 0.010550),
     390: (0.004243, 0.000120, 0.020050),
@@ -1114,7 +1113,7 @@ CIE_1931_2_DEGREE_STANDARD_OBSERVER = {
     780: (0.000042, 0.000015, 0.000000)
 }
 
-CMFS_DATA = {
+DATA_CMFS = {
     380: np.array([0.001368, 3.90e-05, 0.006450]),
     385: np.array([0.002236, 6.40e-05, 0.010550]),
     390: np.array([0.004243, 0.000120, 0.020050]),
@@ -1198,7 +1197,7 @@ CMFS_DATA = {
     780: np.array([4.20e-05, 1.50e-05, 0.000000])
 }
 
-ABRIDGED_SAMPLE_SD_DATA = {
+DATA_SAMPLE_ABRIDGED = {
     500: 0.0651,
     520: 0.0705,
     540: 0.0772,
@@ -1207,7 +1206,7 @@ ABRIDGED_SAMPLE_SD_DATA = {
     600: 0.1360
 }
 
-ABRIDGED_MULTI_SDS_DATA = {
+DATA_MULTI_SAMPLE_ABRIDGED = {
     500: (0.004900, 0.323000, 0.272000),
     510: (0.009300, 0.503000, 0.158200),
     520: (0.063270, 0.710000, 0.078250),
@@ -1375,10 +1374,10 @@ class TestSpectralDistribution(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._sd = SpectralDistribution(SAMPLE_SD_DATA, name='Sample')
+        self._sd = SpectralDistribution(DATA_SAMPLE, name='Sample')
 
         self._non_uniform_sd = SpectralDistribution(
-            NON_UNIFORM_SAMPLE_SD_DATA,
+            DATA_SAMPLE_NON_UNIFORM,
             name='Non Uniform Sample',
             strict_name='Strict Non Uniform Sample')
 
@@ -1455,7 +1454,7 @@ SpectralDistribution.interpolate` method.
 
         np.testing.assert_almost_equal(
             self._sd.copy().interpolate(SpectralShape(interval=1)).values,
-            INTERPOLATED_SAMPLE_SD_DATA,
+            DATA_SAMPLE_INTERPOLATED,
             decimal=7)
 
         # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
@@ -1467,7 +1466,7 @@ SpectralDistribution.interpolate` method.
         np.testing.assert_allclose(
             self._non_uniform_sd.copy().interpolate(
                 SpectralShape(interval=1)).values,
-            INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA,
+            DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
             rtol=0.0000001,
             atol=0.0000001)
 
@@ -1528,7 +1527,7 @@ SpectralDistribution.normalise` method.
         """
 
         np.testing.assert_almost_equal(self._sd.copy().normalise(100).values,
-                                       NORMALISED_SAMPLE_SD_DATA)
+                                       DATA_SAMPLE_NORMALISED)
 
 
 class TestMultiSpectralDistributions(unittest.TestCase):
@@ -1547,11 +1546,11 @@ class TestMultiSpectralDistributions(unittest.TestCase):
                                'Strict  z_bar')
 
         self._msds = MultiSpectralDistributions(
-            CIE_1931_2_DEGREE_STANDARD_OBSERVER,
+            DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931,
             name='Observer',
             labels=self._labels)
 
-        sd = SpectralDistribution(SAMPLE_SD_DATA)
+        sd = SpectralDistribution(DATA_SAMPLE)
         domain = sd.domain
         range_ = tstack([sd.values, sd.values, sd.values])
         self._sample_msds = MultiSpectralDistributions(
@@ -1561,7 +1560,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
             labels=self._labels,
         )
 
-        sd = SpectralDistribution(NON_UNIFORM_SAMPLE_SD_DATA)
+        sd = SpectralDistribution(DATA_SAMPLE_NON_UNIFORM)
         domain = sd.domain
         range_ = tstack([sd.values, sd.values, sd.values])
         self._non_uniform_sample_msds = MultiSpectralDistributions(
@@ -1662,7 +1661,7 @@ MultiSpectralDistributions.interpolate` method.
         msds.interpolate(SpectralShape(interval=1))
         for signal in msds.signals.values():
             np.testing.assert_almost_equal(
-                signal.values, INTERPOLATED_SAMPLE_SD_DATA, decimal=7)
+                signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7)
 
         # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
         # version.
@@ -1675,7 +1674,7 @@ MultiSpectralDistributions.interpolate` method.
         for signal in msds.signals.values():
             np.testing.assert_allclose(
                 signal.values,
-                INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA,
+                DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
                 rtol=0.0000001,
                 atol=0.0000001)
 
@@ -1736,13 +1735,13 @@ MultiSpectralDistributions.trim` method.
 
     def test_normalise(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Tests :func:`colour.colorimetry.spectrum.
 MultiSpectralDistributions.normalise` method.
         """
 
         np.testing.assert_almost_equal(
             self._sample_msds.copy().normalise(100).values,
-            tstack([NORMALISED_SAMPLE_SD_DATA] * 3))
+            tstack([DATA_SAMPLE_NORMALISED] * 3))
 
     def test_to_sds(self):
         """
@@ -1763,85 +1762,82 @@ MultiSpectralDistributions.to_sds` method.
                     self._non_uniform_sample_msds.strict_name))
 
 
-class TestSdsAndMultiSdsToSds(unittest.TestCase):
+class TestSdsAndMdsToSds(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.spectrum.sds_and_multi_sds_to_sds`
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.spectrum.sds_and_msds_to_sds` definition
+    unit tests methods.
     """
 
-    def test_sds_and_multi_sds_to_sds(self):
+    def test_sds_and_msds_to_sds(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.sds_and_multi_sds_to_sds`
+        Tests :func:`colour.colorimetry.spectrum.sds_and_msds_to_sds`
         definition.
         """
 
-        self.assertIsNone(sds_and_multi_sds_to_sds([]))
+        self.assertIsNone(sds_and_msds_to_sds([]))
 
-        sd_1 = SpectralDistribution(ABRIDGED_SAMPLE_SD_DATA)
-        sd_2 = SpectralDistribution(ABRIDGED_SAMPLE_SD_DATA)
-        multi_sds_1 = MultiSpectralDistributions(ABRIDGED_MULTI_SDS_DATA)
-        multi_sds_2 = MultiSpectralDistributions(ABRIDGED_MULTI_SDS_DATA)
+        sd_1 = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
+        sd_2 = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
+        multi_sds_1 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
+        multi_sds_2 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
 
         self.assertEqual(
-            len(
-                sds_and_multi_sds_to_sds([
-                    sd_1,
-                    sd_2,
-                    multi_sds_1,
-                    multi_sds_2,
-                ])), 8)
+            len(sds_and_msds_to_sds([
+                sd_1,
+                sd_2,
+                multi_sds_1,
+                multi_sds_2,
+            ])), 8)
 
-        self.assertEqual(len(sds_and_multi_sds_to_sds(multi_sds_1)), 3)
+        self.assertEqual(len(sds_and_msds_to_sds(multi_sds_1)), 3)
 
 
-class TestSdsAndMultiSdsToMultiSds(unittest.TestCase):
+class TestSdsAndMsdsToMsds(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.spectrum.sds_and_multi_sds_to_multi_sds`
+    Defines :func:`colour.colorimetry.spectrum.sds_and_msds_to_msds`
     definition unit tests methods.
     """
 
-    def test_sds_and_multi_sds_to_multi_sds(self):
+    def test_sds_and_msds_to_msds(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
-sds_and_multi_sds_to_multi_sds` definition.
+        Tests :func:`colour.colorimetry.spectrum.sds_and_msds_to_msds`
+        definition.
         """
 
-        self.assertIsNone(sds_and_multi_sds_to_multi_sds([]))
+        self.assertIsNone(sds_and_msds_to_msds([]))
 
-        sd_1 = SpectralDistribution(ABRIDGED_SAMPLE_SD_DATA)
-        sd_2 = SpectralDistribution(ABRIDGED_SAMPLE_SD_DATA)
-        multi_sds_1 = MultiSpectralDistributions(ABRIDGED_MULTI_SDS_DATA)
-        multi_sds_2 = MultiSpectralDistributions(ABRIDGED_MULTI_SDS_DATA)
+        sd_1 = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
+        sd_2 = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
+        multi_sds_1 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
+        multi_sds_2 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
 
-        self.assertEqual(
-            sds_and_multi_sds_to_multi_sds(multi_sds_1), multi_sds_1)
+        self.assertEqual(sds_and_msds_to_msds(multi_sds_1), multi_sds_1)
 
-        self.assertEqual(
-            sds_and_multi_sds_to_multi_sds([multi_sds_1]), multi_sds_1)
+        self.assertEqual(sds_and_msds_to_msds([multi_sds_1]), multi_sds_1)
 
         shape = SpectralShape(500, 560, 10)
         self.assertEqual(
-            sds_and_multi_sds_to_multi_sds(
-                [sd_1, sd_2, multi_sds_1, multi_sds_2]).shape, shape)
+            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1, multi_sds_2]).shape,
+            shape)
 
         np.testing.assert_almost_equal(
-            sds_and_multi_sds_to_multi_sds(
-                [sd_1, sd_2, multi_sds_1, multi_sds_2]).wavelengths,
+            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1,
+                                  multi_sds_2]).wavelengths,
             shape.range(),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sds_and_multi_sds_to_multi_sds(
-                [sd_1, sd_2, multi_sds_1, multi_sds_2]).values,
-            tstack([sd_1.align(
-                shape
-            ).values, sd_2.align(shape).values] + [
-                sd.values
-                for sd in sds_and_multi_sds_to_sds(multi_sds_1.align(shape))
-            ] + [
-                sd.values
-                for sd in sds_and_multi_sds_to_sds(multi_sds_2.align(shape))
-            ]),
+            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1,
+                                  multi_sds_2]).values,
+            tstack([sd_1.align(shape).values,
+                    sd_2.align(shape).values] +
+                   [
+                       sd.values
+                       for sd in sds_and_msds_to_sds(multi_sds_1.align(shape))
+                   ] + [
+                       sd.values
+                       for sd in sds_and_msds_to_sds(multi_sds_2.align(shape))
+                   ]),
             decimal=7)
 
 

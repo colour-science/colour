@@ -8,8 +8,8 @@ Defines objects related to *Pointer's Gamut* volume computations.
 
 from __future__ import division, unicode_literals
 
-from colour.models import (Lab_to_XYZ, LCHab_to_Lab, POINTER_GAMUT_DATA,
-                           POINTER_GAMUT_ILLUMINANT)
+from colour.models import (Lab_to_XYZ, LCHab_to_Lab, DATA_POINTER_GAMUT_VOLUME,
+                           CCS_ILLUMINANT_POINTER_GAMUT)
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
@@ -59,6 +59,6 @@ def is_within_pointer_gamut(XYZ, tolerance=None):
     """
 
     XYZ_p = Lab_to_XYZ(
-        LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
+        LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT)
 
     return is_within_mesh_volume(XYZ, XYZ_p, tolerance)

@@ -35,20 +35,20 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'BT2020_CONSTANTS', 'BT2020_CONSTANTS_PRECISE', 'eotf_inverse_BT2020',
+    'CONSTANTS_BT2020', 'CONSTANTS_BT2020_PRECISE', 'eotf_inverse_BT2020',
     'eotf_BT2020'
 ]
 
-BT2020_CONSTANTS = Structure(
+CONSTANTS_BT2020 = Structure(
     alpha=lambda x: 1.0993 if x else 1.099,
     beta=lambda x: 0.0181 if x else 0.018)
 """
 *BT.2020* colourspace constants.
 
-BT2020_CONSTANTS : Structure
+CONSTANTS_BT2020 : Structure
 """
 
-BT2020_CONSTANTS_PRECISE = Structure(
+CONSTANTS_BT2020_PRECISE = Structure(
     alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807)
 """
 *BT.2020* colourspace constants at double precision to connect the two curve
@@ -58,12 +58,12 @@ References
 ----------
 :cite:`InternationalTelecommunicationUnion2015h`
 
-BT2020_CONSTANTS_PRECISE : Structure
+CONSTANTS_BT2020_PRECISE : Structure
 """
 
 
 def eotf_inverse_BT2020(E, is_12_bits_system=False,
-                        constants=BT2020_CONSTANTS):
+                        constants=CONSTANTS_BT2020):
     """
     Defines *Recommendation ITU-R BT.2020* inverse electro-optical transfer
     function (EOTF / EOCF).
@@ -119,7 +119,7 @@ def eotf_inverse_BT2020(E, is_12_bits_system=False,
     return as_float(from_range_1(E_p))
 
 
-def eotf_BT2020(E_p, is_12_bits_system=False, constants=BT2020_CONSTANTS):
+def eotf_BT2020(E_p, is_12_bits_system=False, constants=CONSTANTS_BT2020):
     """
     Defines *Recommendation ITU-R BT.2020* electro-optical transfer function
     (EOTF / EOCF).

@@ -5,7 +5,7 @@ DJI D-Gamut Colourspace
 
 Defines the *DJI D-Gamut* colourspace:
 
--   :attr:`colour.models.DJI_D_GAMUT_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_DJI_D_GAMUT`.
 
 References
 ----------
@@ -19,7 +19,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_DJIDLog,
                                log_decoding_DJIDLog)
 
@@ -31,12 +31,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DJI_D_GAMUT_PRIMARIES', 'DJI_D_GAMUT_WHITEPOINT_NAME',
-    'DJI_D_GAMUT_WHITEPOINT', 'DJI_D_GAMUT_TO_XYZ_MATRIX',
-    'XYZ_TO_DJI_D_GAMUT_MATRIX', 'DJI_D_GAMUT_COLOURSPACE'
+    'PRIMARIES_DJI_D_GAMUT', 'WHITEPOINT_NAME_DJI_D_GAMUT',
+    'CCS_WHITEPOINT_DJI_D_GAMUT', 'MATRIX_DJI_D_GAMUT_TO_XYZ',
+    'MATRIX_XYZ_TO_DJI_D_GAMUT', 'RGB_COLOURSPACE_DJI_D_GAMUT'
 ]
 
-DJI_D_GAMUT_PRIMARIES = np.array([
+PRIMARIES_DJI_D_GAMUT = np.array([
     [0.71, 0.31],
     [0.21, 0.88],
     [0.09, -0.08],
@@ -44,58 +44,58 @@ DJI_D_GAMUT_PRIMARIES = np.array([
 """
 *DJI D-Gamut* colourspace primaries.
 
-DJI_D_GAMUT_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_DJI_D_GAMUT : ndarray, (3, 2)
 """
 
-DJI_D_GAMUT_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_DJI_D_GAMUT = 'D65'
 """
 *DJI D-Gamut* colourspace whitepoint name.
 
-DJI_D_GAMUT_WHITEPOINT : unicode
+CCS_WHITEPOINT_DJI_D_GAMUT : unicode
 """
 
-DJI_D_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    DJI_D_GAMUT_WHITEPOINT_NAME])
+CCS_WHITEPOINT_DJI_D_GAMUT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DJI_D_GAMUT])
 """
-*DJI D-Gamut* colourspace whitepoint.
+*DJI D-Gamut* colourspace whitepoint chromaticity coordinates.
 
-DJI_D_GAMUT_WHITEPOINT : ndarray
+CCS_WHITEPOINT_DJI_D_GAMUT : ndarray
 """
 
-DJI_D_GAMUT_TO_XYZ_MATRIX = np.array([[0.6482, 0.1940,
+MATRIX_DJI_D_GAMUT_TO_XYZ = np.array([[0.6482, 0.1940,
                                        0.1082], [0.2830, 0.8132, -0.0962],
                                       [-0.0183, -0.0832, 1.1903]])
 """
 *DJI D-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
-DJI_D_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_DJI_D_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_DJI_D_GAMUT_MATRIX = np.array([[1.7257, -0.4314,
+MATRIX_XYZ_TO_DJI_D_GAMUT = np.array([[1.7257, -0.4314,
                                        -0.1917], [-0.6025, 1.3906, 0.1671],
                                       [-0.0156, 0.0905, 0.8489]])
 """
 *CIE XYZ* tristimulus values to *DJI D-Gamut* colourspace matrix.
 
-XYZ_TO_DJI_D_GAMUT_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_DJI_D_GAMUT : array_like, (3, 3)
 """
 
-DJI_D_GAMUT_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_DJI_D_GAMUT = RGB_Colourspace(
     'DJI D-Gamut',
-    DJI_D_GAMUT_PRIMARIES,
-    DJI_D_GAMUT_WHITEPOINT,
-    DJI_D_GAMUT_WHITEPOINT_NAME,
-    DJI_D_GAMUT_TO_XYZ_MATRIX,
-    XYZ_TO_DJI_D_GAMUT_MATRIX,
+    PRIMARIES_DJI_D_GAMUT,
+    CCS_WHITEPOINT_DJI_D_GAMUT,
+    WHITEPOINT_NAME_DJI_D_GAMUT,
+    MATRIX_DJI_D_GAMUT_TO_XYZ,
+    MATRIX_XYZ_TO_DJI_D_GAMUT,
     log_encoding_DJIDLog,
     log_decoding_DJIDLog,
 )
-DJI_D_GAMUT_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_DJI_D_GAMUT.__doc__ = """
 *DJI_D-Gamut* colourspace.
 
     References
     ----------
     :cite:`DJI2017`
 
-DJI_D_GAMUT_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_DJI_D_GAMUT : RGB_Colourspace
 """

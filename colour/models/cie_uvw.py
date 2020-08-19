@@ -18,7 +18,7 @@ References
 from __future__ import division, unicode_literals
 
 from colour.algebra import spow
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import (UCS_to_uv, UCS_uv_to_xy, XYZ_to_UCS, XYZ_to_xyY,
                            xy_to_UCS_uv, xyY_to_XYZ, xyY_to_xy)
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
@@ -33,9 +33,9 @@ __status__ = 'Production'
 __all__ = ['XYZ_to_UVW', 'UVW_to_XYZ']
 
 
-def XYZ_to_UVW(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_UVW(XYZ,
+               illuminant=CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
@@ -108,9 +108,9 @@ def XYZ_to_UVW(
     return from_range_100(UVW)
 
 
-def UVW_to_XYZ(
-        UVW,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def UVW_to_XYZ(UVW,
+               illuminant=CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.

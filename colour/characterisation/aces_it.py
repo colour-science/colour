@@ -56,14 +56,14 @@ from scipy.optimize import minimize
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
-    CMFS, ILLUMINANT_SDS, SpectralShape, sds_and_multi_sds_to_multi_sds,
+    MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape, sds_and_msds_to_msds,
     sd_CIE_illuminant_D_series, sd_blackbody, sd_to_XYZ)
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.characterisation import ACES_RICD
+from colour.characterisation import MSDS_ACES_RICD
 from colour.io import read_sds_from_csv_file
 from colour.models import XYZ_to_JzAzBz, XYZ_to_Lab, XYZ_to_xy, xy_to_XYZ
-from colour.models.rgb import (ACES_2065_1_COLOURSPACE, RGB_to_XYZ, XYZ_to_RGB,
-                               normalised_primary_matrix)
+from colour.models.rgb import (RGB_COLOURSPACE_ACES2065_1, RGB_to_XYZ,
+                               XYZ_to_RGB, normalised_primary_matrix)
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               dot_vector, from_range_1, runtime_warning,
@@ -78,7 +78,7 @@ __status__ = 'Production'
 
 __all__ = [
     'FLARE_PERCENTAGE', 'S_FLARE_FACTOR',
-    'sd_to_aces_relative_exposure_values', 'DEFAULT_RAWTOACES_SPECTRAL_SHAPE',
+    'sd_to_aces_relative_exposure_values', 'SPECTRAL_SHAPE_RAWTOACES',
     'RAWTOACES_RESOURCES_DIRECTORY', 'read_training_data_rawtoaces_v1',
     'generate_illuminants_rawtoaces_v1', 'white_balance_multipliers',
     'best_illuminant', 'normalise_illuminant', 'training_data_sds_to_RGB',
@@ -103,7 +103,7 @@ S_FLARE_FACTOR : float
 
 def sd_to_aces_relative_exposure_values(
         sd,
-        illuminant=ILLUMINANT_SDS['D65'],
+        illuminant=SDS_ILLUMINANTS['D65'],
         apply_chromatic_adaptation=False,
         chromatic_adaptation_transform='CAT02'):
     """
@@ -120,8 +120,8 @@ def sd_to_aces_relative_exposure_values(
         Whether to apply chromatic adaptation using given transform.
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
 
     Returns
@@ -152,8 +152,8 @@ def sd_to_aces_relative_exposure_values(
 
     Examples
     --------
-    >>> from colour import COLOURCHECKER_SDS
-    >>> sd = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
+    >>> from colour import SDS_COLOURCHECKERS
+    >>> sd = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
     >>> sd_to_aces_relative_exposure_values(sd)  # doctest: +ELLIPSIS
     array([ 0.1171814...,  0.0866360...,  0.0589726...])
     >>> sd_to_aces_relative_exposure_values(sd,
@@ -161,17 +161,17 @@ def sd_to_aces_relative_exposure_values(
     array([ 0.1180779...,  0.0869031...,  0.0589125...])
     """
 
-    shape = ACES_RICD.shape
-    if sd.shape != ACES_RICD.shape:
+    shape = MSDS_ACES_RICD.shape
+    if sd.shape != MSDS_ACES_RICD.shape:
         sd = sd.copy().align(shape)
 
-    if illuminant.shape != ACES_RICD.shape:
+    if illuminant.shape != MSDS_ACES_RICD.shape:
         illuminant = illuminant.copy().align(shape)
 
     s_v = sd.values
     i_v = illuminant.values
 
-    r_bar, g_bar, b_bar = tsplit(ACES_RICD.values)
+    r_bar, g_bar, b_bar = tsplit(MSDS_ACES_RICD.values)
 
     def k(x, y):
         """
@@ -196,21 +196,22 @@ def sd_to_aces_relative_exposure_values(
 
     if apply_chromatic_adaptation:
         xy = XYZ_to_xy(sd_to_XYZ(illuminant) / 100)
-        NPM = normalised_primary_matrix(ACES_2065_1_COLOURSPACE.primaries, xy)
-        XYZ = RGB_to_XYZ(E_rgb, xy, ACES_2065_1_COLOURSPACE.whitepoint, NPM,
+        NPM = normalised_primary_matrix(RGB_COLOURSPACE_ACES2065_1.primaries,
+                                        xy)
+        XYZ = RGB_to_XYZ(E_rgb, xy, RGB_COLOURSPACE_ACES2065_1.whitepoint, NPM,
                          chromatic_adaptation_transform)
-        E_rgb = XYZ_to_RGB(XYZ, ACES_2065_1_COLOURSPACE.whitepoint,
-                           ACES_2065_1_COLOURSPACE.whitepoint,
-                           ACES_2065_1_COLOURSPACE.XYZ_to_RGB_matrix)
+        E_rgb = XYZ_to_RGB(XYZ, RGB_COLOURSPACE_ACES2065_1.whitepoint,
+                           RGB_COLOURSPACE_ACES2065_1.whitepoint,
+                           RGB_COLOURSPACE_ACES2065_1.XYZ_to_RGB_matrix)
 
     return from_range_1(E_rgb)
 
 
-DEFAULT_RAWTOACES_SPECTRAL_SHAPE = SpectralShape(380, 780, 5)
+SPECTRAL_SHAPE_RAWTOACES = SpectralShape(380, 780, 5)
 """
 Default spectral shape according to *RAW to ACES* v1.
 
-DEFAULT_RAWTOACES_SPECTRAL_SHAPE : SpectralShape
+SPECTRAL_SHAPE_RAWTOACES : SpectralShape
 """
 
 RAWTOACES_RESOURCES_DIRECTORY = os.path.join(
@@ -255,7 +256,7 @@ def read_training_data_rawtoaces_v1():
         training_data = _TRAINING_DATA_RAWTOACES_V1
     else:
         path = os.path.join(RAWTOACES_RESOURCES_DIRECTORY, '190_Patches.csv')
-        training_data = sds_and_multi_sds_to_multi_sds(
+        training_data = sds_and_msds_to_msds(
             read_sds_from_csv_file(path).values())
 
         _TRAINING_DATA_RAWTOACES_V1 = training_data
@@ -317,14 +318,14 @@ def generate_illuminants_rawtoaces_v1():
             xy = CCT_to_xy_CIE_D(CCT)
             sd = sd_CIE_illuminant_D_series(xy)
             sd.name = 'D{0:d}'.format(DEFAULT_INT_DTYPE(CCT / 100))
-            illuminants[sd.name] = sd.align(DEFAULT_RAWTOACES_SPECTRAL_SHAPE)
+            illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
 
         # TODO: Remove when removing the "colour.sd_blackbody" definition
         # warning.
         with suppress_warnings(colour_usage_warnings=True):
             # Blackbody from 1000K to 4000K.
             for i in np.arange(1000, 4000, 500):
-                sd = sd_blackbody(i, DEFAULT_RAWTOACES_SPECTRAL_SHAPE)
+                sd = sd_blackbody(i, SPECTRAL_SHAPE_RAWTOACES)
                 illuminants[sd.name] = sd
 
         # A.M.P.A.S. variant of ISO 7589 Studio Tungsten.
@@ -345,7 +346,7 @@ def white_balance_multipliers(sensitivities, illuminant):
 
     Parameters
     ----------
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
@@ -364,9 +365,9 @@ def white_balance_multipliers(sensitivities, illuminant):
     >>> path = os.path.join(
     ...     RAWTOACES_RESOURCES_DIRECTORY,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> sensitivities = sds_and_multi_sds_to_multi_sds(
+    >>> sensitivities = sds_and_msds_to_msds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = ILLUMINANT_SDS['D55']
+    >>> illuminant = SDS_ILLUMINANTS['D55']
     >>> white_balance_multipliers(sensitivities, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
@@ -394,7 +395,7 @@ def best_illuminant(RGB_w, sensitivities, illuminants):
     ----------
     RGB_w : array_like
         *RGB* white balance multipliers.
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
     illuminants : SpectralDistribution
         Illuminant spectral distributions to choose the best illuminant from.
@@ -409,10 +410,11 @@ def best_illuminant(RGB_w, sensitivities, illuminants):
     >>> path = os.path.join(
     ...     RAWTOACES_RESOURCES_DIRECTORY,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> sensitivities = sds_and_multi_sds_to_multi_sds(
+    >>> sensitivities = sds_and_msds_to_msds(
     ...     read_sds_from_csv_file(path).values())
     >>> illuminants = generate_illuminants_rawtoaces_v1()
-    >>> RGB_w = white_balance_multipliers(sensitivities, ILLUMINANT_SDS['FL2'])
+    >>> RGB_w = white_balance_multipliers(
+    ...     sensitivities, SDS_ILLUMINANTS['FL2'])
     >>> # Doctests skip for Python 2.x compatibility.
     >>> best_illuminant(RGB_w, sensitivities, illuminants).name
     ... # doctest: +SKIP
@@ -445,7 +447,7 @@ def normalise_illuminant(illuminant, sensitivities):
     ----------
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
 
     Returns
@@ -458,9 +460,9 @@ def normalise_illuminant(illuminant, sensitivities):
     >>> path = os.path.join(
     ...     RAWTOACES_RESOURCES_DIRECTORY,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> sensitivities = sds_and_multi_sds_to_multi_sds(
+    >>> sensitivities = sds_and_msds_to_msds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = ILLUMINANT_SDS['D55']
+    >>> illuminant = SDS_ILLUMINANTS['D55']
     >>> np.sum(illuminant.values)  # doctest: +ELLIPSIS
     7276.1490000...
     >>> np.sum(normalise_illuminant(illuminant, sensitivities).values)
@@ -489,7 +491,7 @@ def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
     ----------
     training_data : MultiSpectralDistributions
         Training data multi-spectral distributions.
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
@@ -504,9 +506,10 @@ def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
     >>> path = os.path.join(
     ...     RAWTOACES_RESOURCES_DIRECTORY,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> sensitivities = sds_and_multi_sds_to_multi_sds(
+    >>> sensitivities = sds_and_msds_to_msds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = normalise_illuminant(ILLUMINANT_SDS['D55'], sensitivities)
+    >>> illuminant = normalise_illuminant(
+    ...     SDS_ILLUMINANTS['D55'], sensitivities)
     >>> training_data = read_training_data_rawtoaces_v1()
     >>> training_data_sds_to_RGB(training_data, sensitivities, illuminant)[:5]
     ... # doctest: +ELLIPSIS
@@ -563,10 +566,11 @@ def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
     >>> path = os.path.join(
     ...     RAWTOACES_RESOURCES_DIRECTORY,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> sensitivities = sds_and_multi_sds_to_multi_sds(
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> sensitivities = sds_and_msds_to_msds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = normalise_illuminant(ILLUMINANT_SDS['D55'], sensitivities)
+    >>> illuminant = normalise_illuminant(
+    ...     SDS_ILLUMINANTS['D55'], sensitivities)
     >>> training_data = read_training_data_rawtoaces_v1()
     >>> training_data_sds_to_XYZ(training_data, cmfs, illuminant)[:5]
     ... # doctest: +ELLIPSIS
@@ -599,7 +603,7 @@ def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
     XYZ_w *= 1 / XYZ_w[1]
 
     M_CAT = chromatic_adaptation_matrix_VonKries(
-        XYZ_w, xy_to_XYZ(ACES_2065_1_COLOURSPACE.whitepoint))
+        XYZ_w, xy_to_XYZ(RGB_COLOURSPACE_ACES2065_1.whitepoint))
 
     XYZ = dot_vector(M_CAT, XYZ)
 
@@ -639,9 +643,9 @@ def optimisation_factory_rawtoaces_v1():
 
         M = np.reshape(M, [3, 3])
 
-        XYZ_t = dot_vector(ACES_2065_1_COLOURSPACE.RGB_to_XYZ_matrix,
+        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.RGB_to_XYZ_matrix,
                            dot_vector(M, RGB))
-        Lab_t = XYZ_to_Lab(XYZ_t, ACES_2065_1_COLOURSPACE.whitepoint)
+        Lab_t = XYZ_to_Lab(XYZ_t, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
         return np.linalg.norm(Lab_t - Lab)
 
@@ -650,7 +654,7 @@ def optimisation_factory_rawtoaces_v1():
         *CIE XYZ* colourspace to *CIE L\\*a\\*b\\** colourspace function.
         """
 
-        return XYZ_to_Lab(XYZ, ACES_2065_1_COLOURSPACE.whitepoint)
+        return XYZ_to_Lab(XYZ, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
     return objective_function, XYZ_to_optimization_colour_model
 
@@ -688,7 +692,7 @@ def optimisation_factory_JzAzBz():
 
         M = np.reshape(M, [3, 3])
 
-        XYZ_t = dot_vector(ACES_2065_1_COLOURSPACE.RGB_to_XYZ_matrix,
+        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.RGB_to_XYZ_matrix,
                            dot_vector(M, RGB))
         Jab_t = XYZ_to_JzAzBz(XYZ_t)
 
@@ -707,8 +711,8 @@ def optimisation_factory_JzAzBz():
 def idt_matrix(sensitivities,
                illuminant,
                training_data=read_training_data_rawtoaces_v1(),
-               cmfs=CMFS['CIE 1931 2 Degree Standard Observer'].copy().align(
-                   DEFAULT_RAWTOACES_SPECTRAL_SHAPE),
+               cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].copy()
+               .align(SPECTRAL_SHAPE_RAWTOACES),
                optimisation_factory=optimisation_factory_rawtoaces_v1,
                optimisation_kwargs=None):
     """
@@ -719,7 +723,7 @@ def idt_matrix(sensitivities,
 
     Parameters
     ----------
-    sensitivities : RGB_SpectralSensitivities
+    sensitivities : RGB_CameraSensitivities
          Camera *RGB* spectral sensitivities.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
@@ -752,9 +756,9 @@ def idt_matrix(sensitivities,
     >>> path = os.path.join(
     ...     RAWTOACES_RESOURCES_DIRECTORY,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> sensitivities = sds_and_multi_sds_to_multi_sds(
+    >>> sensitivities = sds_and_msds_to_msds(
     ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = ILLUMINANT_SDS['D55']
+    >>> illuminant = SDS_ILLUMINANTS['D55']
     >>> np.around(
     ...     idt_matrix(sensitivities, illuminant), 3)
     array([[ 0.85 , -0.016,  0.151],

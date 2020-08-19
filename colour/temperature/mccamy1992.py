@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.utilities import as_float_array, as_numeric, tsplit, usage_warning
 from colour.utilities.deprecation import handle_arguments_deprecation
 
@@ -152,7 +152,7 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None, **kwargs):
     CCT = as_float_array([
         minimize(
             objective_function,
-            x0=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+            x0=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
             args=(CCT_i, ),
             **optimisation_settings).x for CCT_i in CCT
     ])

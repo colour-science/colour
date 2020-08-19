@@ -28,9 +28,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['MACADAM_1942_ELLIPSES_DATA']
+__all__ = ['DATA_MACADAM_1942_ELLIPSES']
 
-MACADAM_1942_ELLIPSES_DATA = np.array([
+DATA_MACADAM_1942_ELLIPSES = np.array([
     [0.160, 0.057, 0.85, 0.35, 62.5, 0.94, 0.30, 62.3],
     [0.187, 0.118, 2.20, 0.55, 77.0, 2.31, 0.44, 74.8],
     [0.253, 0.125, 2.50, 0.50, 55.5, 2.49, 0.49, 54.8],
@@ -80,5 +80,5 @@ References
 ----------
 :cite:`Wyszecki2000`, :cite:`Macadam1942`
 
-MACADAM_1942_ELLIPSES_DATA : ndarray
+DATA_MACADAM_1942_ELLIPSES : ndarray
 """

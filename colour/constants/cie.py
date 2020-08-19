@@ -25,16 +25,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['K_M', 'KP_M']
+__all__ = ['CONSTANT_K_M', 'CONSTANT_KP_M']
 
-K_M = 683
+CONSTANT_K_M = 683
 if is_documentation_building():  # pragma: no cover
-    K_M = DocstringFloat(K_M)
-    K_M.__doc__ = """
+    CONSTANT_K_M = DocstringFloat(CONSTANT_K_M)
+    CONSTANT_K_M.__doc__ = """
 Rounded maximum photopic luminous efficiency :math:`K_m` value in
 :math:`lm\\cdot W^{-1}`.
 
-K_M : numeric
+CONSTANT_K_M : numeric
 
 Notes
 -----
@@ -46,14 +46,14 @@ References
 :cite:`Wyszecki2000s`
 """
 
-KP_M = 1700
+CONSTANT_KP_M = 1700
 if is_documentation_building():  # pragma: no cover
-    KP_M = DocstringFloat(KP_M)
-    KP_M.__doc__ = """
+    CONSTANT_KP_M = DocstringFloat(CONSTANT_KP_M)
+    CONSTANT_KP_M.__doc__ = """
 Rounded maximum scotopic luminous efficiency :math:`K^{\\prime}_m` value in
 :math:`lm\\cdot W^{-1}`.
 
-KP_M : numeric
+CONSTANT_KP_M : numeric
 
 Notes
 -----

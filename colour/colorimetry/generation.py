@@ -39,7 +39,7 @@ import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE, MultiSpectralDistributions, SpectralDistribution)
+    SPECTRAL_SHAPE_DEFAULT, MultiSpectralDistributions, SpectralDistribution)
 from colour.utilities import CaseInsensitiveMapping, as_float_array, full, ones
 
 __author__ = 'Colour Developers'
@@ -58,7 +58,7 @@ __all__ = [
 ]
 
 
-def sd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
+def sd_constant(k, shape=SPECTRAL_SHAPE_DEFAULT, dtype=None):
     """
     Returns a spectral distribution of given spectral shape filled with
     constant :math:`k` values.
@@ -80,7 +80,7 @@ def sd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
     --------
@@ -101,7 +101,7 @@ def sd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
     return SpectralDistribution(values, wavelengths, name=name, dtype=dtype)
 
 
-def sd_zeros(shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_zeros(shape=SPECTRAL_SHAPE_DEFAULT):
     """
     Returns a spectral distribution of given spectral shape filled with zeros.
 
@@ -118,7 +118,7 @@ def sd_zeros(shape=DEFAULT_SPECTRAL_SHAPE):
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
     --------
@@ -132,7 +132,7 @@ def sd_zeros(shape=DEFAULT_SPECTRAL_SHAPE):
     return sd_constant(0, shape)
 
 
-def sd_ones(shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_ones(shape=SPECTRAL_SHAPE_DEFAULT):
     """
     Returns a spectral distribution of given spectral shape filled with ones.
 
@@ -149,7 +149,7 @@ def sd_ones(shape=DEFAULT_SPECTRAL_SHAPE):
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
     --------
@@ -163,7 +163,7 @@ def sd_ones(shape=DEFAULT_SPECTRAL_SHAPE):
     return sd_constant(1, shape)
 
 
-def msds_constant(k, labels, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
+def msds_constant(k, labels, shape=SPECTRAL_SHAPE_DEFAULT, dtype=None):
     """
     Returns the multi-spectral distributions with given labels and given
     spectral shape filled with constant :math:`k` values.
@@ -188,7 +188,7 @@ def msds_constant(k, labels, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
     Notes
     -----
     -   By default, the multi-spectral distributions will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
     --------
@@ -212,7 +212,7 @@ def msds_constant(k, labels, shape=DEFAULT_SPECTRAL_SHAPE, dtype=None):
         values, wavelengths, name=name, labels=labels, dtype=dtype)
 
 
-def msds_zeros(labels, shape=DEFAULT_SPECTRAL_SHAPE):
+def msds_zeros(labels, shape=SPECTRAL_SHAPE_DEFAULT):
     """
     Returns the multi-spectral distributionss with given labels and given
     spectral shape filled with zeros.
@@ -233,7 +233,7 @@ def msds_zeros(labels, shape=DEFAULT_SPECTRAL_SHAPE):
     Notes
     -----
     -   By default, the multi-spectral distributions will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
     --------
@@ -249,7 +249,7 @@ def msds_zeros(labels, shape=DEFAULT_SPECTRAL_SHAPE):
     return msds_constant(0, labels, shape)
 
 
-def msds_ones(labels, shape=DEFAULT_SPECTRAL_SHAPE):
+def msds_ones(labels, shape=SPECTRAL_SHAPE_DEFAULT):
     """
     Returns the multi-spectral distributionss with given labels and given
     spectral shape filled with ones.
@@ -270,7 +270,7 @@ def msds_ones(labels, shape=DEFAULT_SPECTRAL_SHAPE):
     Notes
     -----
     -   By default, the multi-spectral distributions will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
     --------
@@ -286,7 +286,7 @@ def msds_ones(labels, shape=DEFAULT_SPECTRAL_SHAPE):
     return msds_constant(1, labels, shape)
 
 
-def sd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_gaussian_normal(mu, sigma, shape=SPECTRAL_SHAPE_DEFAULT):
     """
     Returns a gaussian spectral distribution of given spectral shape at
     given mean wavelength :math:`\\mu` and standard deviation :math:`sigma`.
@@ -309,7 +309,7 @@ def sd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
     --------
@@ -331,7 +331,7 @@ def sd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
     return SpectralDistribution(values, wavelengths, name=name)
 
 
-def sd_gaussian_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_gaussian_fwhm(peak_wavelength, fwhm, shape=SPECTRAL_SHAPE_DEFAULT):
     """
     Returns a gaussian spectral distribution of given spectral shape at given
     peak wavelength and full width at half maximum.
@@ -355,7 +355,7 @@ def sd_gaussian_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
     --------
@@ -391,7 +391,7 @@ SD_GAUSSIAN_METHODS : CaseInsensitiveMapping
 
 def sd_gaussian(mu_peak_wavelength,
                 sigma_fwhm,
-                shape=DEFAULT_SPECTRAL_SHAPE,
+                shape=SPECTRAL_SHAPE_DEFAULT,
                 method='Normal'):
     """
     Returns a gaussian spectral distribution of given spectral shape using
@@ -421,7 +421,7 @@ def sd_gaussian(mu_peak_wavelength,
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     Examples
     --------
@@ -445,7 +445,7 @@ def sd_gaussian(mu_peak_wavelength,
 
 
 def sd_single_led_Ohno2005(peak_wavelength, fwhm,
-                           shape=DEFAULT_SPECTRAL_SHAPE):
+                           shape=SPECTRAL_SHAPE_DEFAULT):
     """
     Returns a single *LED* spectral distribution of given spectral shape at
     given peak wavelength and full width at half maximum according to
@@ -470,7 +470,7 @@ def sd_single_led_Ohno2005(peak_wavelength, fwhm,
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     References
     ----------
@@ -508,7 +508,7 @@ SD_SINGLE_LED_METHODS : CaseInsensitiveMapping
 
 def sd_single_led(peak_wavelength,
                   fwhm,
-                  shape=DEFAULT_SPECTRAL_SHAPE,
+                  shape=SPECTRAL_SHAPE_DEFAULT,
                   method='Ohno 2005'):
     """
     Returns a single *LED* spectral distribution of given spectral shape at
@@ -537,7 +537,7 @@ def sd_single_led(peak_wavelength,
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     References
     ----------
@@ -558,7 +558,7 @@ def sd_single_led(peak_wavelength,
 def sd_multi_leds_Ohno2005(peak_wavelengths,
                            fwhm,
                            peak_power_ratios=None,
-                           shape=DEFAULT_SPECTRAL_SHAPE):
+                           shape=SPECTRAL_SHAPE_DEFAULT):
     """
     Returns a multi *LED* spectral distribution of given spectral shape at
     given peak wavelengths and full widths at half maximum according to
@@ -591,7 +591,7 @@ def sd_multi_leds_Ohno2005(peak_wavelengths,
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     References
     ----------
@@ -666,7 +666,7 @@ SD_MULTI_LEDS_METHODS : CaseInsensitiveMapping
 def sd_multi_leds(peak_wavelengths,
                   fwhm,
                   peak_power_ratios=None,
-                  shape=DEFAULT_SPECTRAL_SHAPE,
+                  shape=SPECTRAL_SHAPE_DEFAULT,
                   method='Ohno 2005'):
     """
     Returns a multi *LED* spectral distribution of given spectral shape at
@@ -699,7 +699,7 @@ def sd_multi_leds(peak_wavelengths,
     Notes
     -----
     -   By default, the spectral distribution will use the shape given by
-        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+        :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
 
     References
     ----------

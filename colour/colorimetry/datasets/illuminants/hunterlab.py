@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-HunterLab Dataset
-=================
+Tristimulus Values of the Hunter L,a,b Illuminants
+==================================================
 
-Defines the *HunterLab* illuminants dataset for the
-*CIE 1931 2 Degree Standard Observer* and
+Defines the tristimulus values of the *Hunter L,a,b* illuminants dataset for
+the *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 
 The currently implemented data has been extracted from :cite:`HunterLab2008b`,
@@ -36,19 +36,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'HunterLab_Illuminant_Specification',
-    'HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA',
-    'HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA',
-    'HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
-    'HUNTERLAB_ILLUMINANTS'
+    'Illuminant_Specification_HunterLab',
+    'DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964',
+    'TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964',
+    'TVS_ILLUMINANT_HUNTERLAB'
 ]
 
-HunterLab_Illuminant_Specification = namedtuple(
-    'HunterLab_Illuminant_Specification', ('name', 'XYZ_n', 'K_ab'))
+Illuminant_Specification_HunterLab = namedtuple(
+    'Illuminant_Specification_HunterLab', ('name', 'XYZ_n', 'K_ab'))
 
-# yapf: disable
-HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
+DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
     ('A', np.array([109.83, 100.00, 35.55]), np.array([185.20, 38.40])),
     ('C', np.array([98.04, 100.00, 118.11]), np.array([175.00, 70.00])),
     ('D50', np.array([96.38, 100.00, 82.45]), np.array([173.51, 58.48])),
@@ -57,28 +56,27 @@ HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
     ('D75', np.array([94.96, 100.00, 122.53]), np.array([172.22, 71.30])),
     ('FL2', np.array([98.09, 100.00, 67.53]), np.array([175.00, 52.90])),
     ('TL 4', np.array([101.40, 100.00, 65.90]), np.array([178.00, 52.30])),
-    ('UL 3000', np.array([107.99, 100.00, 33.91]), np.array([183.70, 37.50])))
-# yapf: enable
+    ('UL 3000', np.array([107.99, 100.00, 33.91]), np.array([183.70, 37.50])),
+)
 
-HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
+TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
     CaseInsensitiveMapping({
-        x[0]: HunterLab_Illuminant_Specification(*x)
-        for x in HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA
+        x[0]: Illuminant_Specification_HunterLab(*x)
+        for x in DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931
     }))
 """
-*Hunter L,a,b* illuminant dataset for the
+Tristimulus values of the *Hunter L,a,b* illuminants for the
 *CIE 1931 2 Degree Standard Observer*.
 
 References
 ----------
 :cite:`HunterLab2008b`, :cite:`HunterLab2008c`
 
-HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
+TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931 :
     CaseInsensitiveMapping
 """
 
-# yapf: disable
-HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA = (
+DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
     ('A', np.array([111.16, 100.00, 35.19]), np.array([186.30, 38.20])),
     ('C', np.array([97.30, 100.00, 116.14]), np.array([174.30, 69.40])),
     ('D50', np.array([96.72, 100.00, 81.45]), np.array([173.82, 58.13])),
@@ -87,41 +85,40 @@ HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA = (
     ('D75', np.array([94.45, 100.00, 120.70]), np.array([171.76, 70.76])),
     ('FL2', np.array([102.13, 100.00, 69.37]), np.array([178.60, 53.60])),
     ('TL 4', np.array([103.82, 100.00, 66.90]), np.array([180.10, 52.70])),
-    ('UL 3000', np.array([111.12, 100.00, 35.21]), np.array([186.30, 38.20])))
-# yapf: enable
+    ('UL 3000', np.array([111.12, 100.00, 35.21]), np.array([186.30, 38.20])),
+)
 
-HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
+TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
     CaseInsensitiveMapping({
-        x[0]: HunterLab_Illuminant_Specification(*x)
-        for x in
-        HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA
+        x[0]: Illuminant_Specification_HunterLab(*x)
+        for x in DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
     }))
 """
-*Hunter L,a,b* illuminant dataset for the
+Tristimulus values of the *Hunter L,a,b* illuminants for the
 *CIE 1964 10 Degree Standard Observer*.
 
 References
 ----------
 :cite:`HunterLab2008b`, :cite:`HunterLab2008c`
 
-HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
+TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964 :
     CaseInsensitiveMapping
 """
 
-HUNTERLAB_ILLUMINANTS = CaseInsensitiveMapping({
+TVS_ILLUMINANT_HUNTERLAB = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
-        HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
+        TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931,
     'CIE 1964 10 Degree Standard Observer':
-        HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
+        TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
 })
-HUNTERLAB_ILLUMINANTS.__doc__ = """
-Aggregated *Hunter L,a,b* illuminant dataset.
+TVS_ILLUMINANT_HUNTERLAB.__doc__ = """
+Tristimulus values of the *HunterLab* illuminants.
 
 References
 ----------
 :cite:`HunterLab2008b`, :cite:`HunterLab2008c`
 
-HUNTERLAB_ILLUMINANTS : CaseInsensitiveMapping
+TVS_ILLUMINANT_HUNTERLAB : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer'}**
 
@@ -130,7 +127,7 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-HUNTERLAB_ILLUMINANTS['cie_2_1931'] = (
-    HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'])
-HUNTERLAB_ILLUMINANTS['cie_10_1964'] = (
-    HUNTERLAB_ILLUMINANTS['CIE 1964 10 Degree Standard Observer'])
+TVS_ILLUMINANT_HUNTERLAB['cie_2_1931'] = (
+    TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer'])
+TVS_ILLUMINANT_HUNTERLAB['cie_10_1964'] = (
+    TVS_ILLUMINANT_HUNTERLAB['CIE 1964 10 Degree Standard Observer'])

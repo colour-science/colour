@@ -25,10 +25,10 @@ import struct
 from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator
 
-from colour import ILLUMINANT_SDS
+from colour import SDS_ILLUMINANTS
 from colour.algebra import spow, smoothstep_function
 from colour.colorimetry import (
-    STANDARD_OBSERVER_CMFS, SpectralDistribution, SpectralShape,
+    MSDS_CMFS_STANDARD_OBSERVER, SpectralDistribution, SpectralShape,
     intermediate_lightness_function_CIE1976, sd_ones, sd_to_XYZ)
 from colour.difference import JND_CIE1976
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
@@ -307,9 +307,9 @@ def lightness_scale(steps):
 
 def find_coefficients_Jakob2019(
         XYZ,
-        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
         .copy().align(JAKOB2019_SPECTRAL_SHAPE),
-        illuminant=ILLUMINANT_SDS['D65'].copy().align(
+        illuminant=SDS_ILLUMINANTS['D65'].copy().align(
             JAKOB2019_SPECTRAL_SHAPE),
         coefficients_0=zeros(3),
         max_error=JND_CIE1976 / 100,
@@ -410,7 +410,7 @@ def find_coefficients_Jakob2019(
 
 def XYZ_to_sd_Jakob2019(
         XYZ,
-        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
         .copy().align(JAKOB2019_SPECTRAL_SHAPE),
         illuminant=sd_ones(JAKOB2019_SPECTRAL_SHAPE),
         optimisation_kwargs=None,
@@ -443,12 +443,12 @@ def XYZ_to_sd_Jakob2019(
 
     Examples
     --------
-    >>> from colour.colorimetry import ILLUMINANTS, sd_to_XYZ_integration
+    >>> from colour.colorimetry import CCS_ILLUMINANTS, sd_to_XYZ_integration
     >>> from colour.models import XYZ_to_sRGB
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> sd = XYZ_to_sd_Jakob2019(XYZ, cmfs)

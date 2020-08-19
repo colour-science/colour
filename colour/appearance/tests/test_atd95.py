@@ -55,7 +55,7 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
 
         Returns
         -------
-        ATD95_Specification
+        CAM_Specification_ATD95
             *ATD (1995)* colour vision model specification.
         """
 

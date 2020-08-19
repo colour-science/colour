@@ -13,11 +13,12 @@ message_box('Automatic Colour Conversion Graph')
 message_box('Converting a "ColorChecker" "dark skin" sample spectral '
             'distribution to "Output-Referred" "sRGB" colourspace.')
 
-sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
-print(colour.convert(sd, 'Spectral Distribution', 'sRGB'))
+sd_dark_skin = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
+print(colour.convert(sd_dark_skin, 'Spectral Distribution', 'sRGB'))
 print(
     colour.XYZ_to_sRGB(
-        colour.sd_to_XYZ(sd, illuminant=colour.ILLUMINANT_SDS['D65']) / 100))
+        colour.sd_to_XYZ(
+            sd_dark_skin, illuminant=colour.SDS_ILLUMINANTS['D65']) / 100))
 
 print('\n')
 
@@ -29,7 +30,7 @@ print(colour.convert(RGB, 'Output-Referred RGB', 'CAM16UCS'))
 specification = colour.XYZ_to_CAM16(
     colour.sRGB_to_XYZ(RGB) * 100,
     XYZ_w=colour.xy_to_XYZ(
-        colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']) *
+        colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']) *
     100,
     L_A=64 / np.pi * 0.2,
     Y_b=20)
@@ -57,13 +58,13 @@ print(
             'width': 75
         }))
 J, M, h = colour.utilities.tsplit(colour.CAM16UCS_to_JMh_CAM16(Jpapbp * 100))
-specification = colour.CAM16_Specification(J=J, M=M, h=h)
+specification = colour.CAM_Specification_CAM16(J=J, M=M, h=h)
 print(
     colour.XYZ_to_sRGB(
         colour.CAM16_to_XYZ(
             specification,
             XYZ_w=colour.xy_to_XYZ(
-                colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
                 ['D65']) * 100,
             L_A=64 / np.pi * 0.2,
             Y_b=20) / 100))

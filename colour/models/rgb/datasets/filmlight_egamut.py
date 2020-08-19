@@ -5,7 +5,7 @@ FilmLight E-Gamut Colourspace
 
 Defines the *FilmLight E-Gamut* colourspace:
 
--   :attr:`colour.models.FILMLIGHT_E_GAMUT_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_FILMLIGHT_E_GAMUT`.
 
 References
 ----------
@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_FilmLightTLog,
                                log_decoding_FilmLightTLog,
                                normalised_primary_matrix)
@@ -30,12 +30,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'FILMLIGHT_E_GAMUT_PRIMARIES', 'FILMLIGHT_E_GAMUT_WHITEPOINT_NAME',
-    'FILMLIGHT_E_GAMUT_WHITEPOINT', 'FILMLIGHT_E_GAMUT_TO_XYZ_MATRIX',
-    'XYZ_TO_FILMLIGHT_E_GAMUT_MATRIX', 'FILMLIGHT_E_GAMUT_COLOURSPACE'
+    'PRIMARIES_FILMLIGHT_E_GAMUT', 'WHITEPOINT_NAME_FILMLIGHT_E_GAMUT',
+    'CCS_WHITEPOINT_FILMLIGHT_E_GAMUT', 'MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ',
+    'MATRIX_XYZ_TO_FILMLIGHT_E_GAMUT', 'RGB_COLOURSPACE_FILMLIGHT_E_GAMUT'
 ]
 
-FILMLIGHT_E_GAMUT_PRIMARIES = np.array([
+PRIMARIES_FILMLIGHT_E_GAMUT = np.array([
     [0.8000, 0.3177],
     [0.1800, 0.9000],
     [0.0650, -0.0805],
@@ -43,56 +43,56 @@ FILMLIGHT_E_GAMUT_PRIMARIES = np.array([
 """
 *FilmLight E-Gamut* colourspace primaries.
 
-FILMLIGHT_E_GAMUT_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_FILMLIGHT_E_GAMUT : ndarray, (3, 2)
 """
 
-FILMLIGHT_E_GAMUT_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_FILMLIGHT_E_GAMUT = 'D65'
 """
 *FilmLight E-Gamut* colourspace whitepoint name.
 
-FILMLIGHT_E_GAMUT_WHITEPOINT : unicode
+CCS_WHITEPOINT_FILMLIGHT_E_GAMUT : unicode
 """
 
-FILMLIGHT_E_GAMUT_WHITEPOINT = (ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][FILMLIGHT_E_GAMUT_WHITEPOINT_NAME])
+CCS_WHITEPOINT_FILMLIGHT_E_GAMUT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_FILMLIGHT_E_GAMUT])
 """
-*FilmLight E-Gamut* colourspace whitepoint.
+*FilmLight E-Gamut* colourspace whitepoint chromaticity coordinates.
 
-FILMLIGHT_E_GAMUT_WHITEPOINT : ndarray
+CCS_WHITEPOINT_FILMLIGHT_E_GAMUT : ndarray
 """
 
-FILMLIGHT_E_GAMUT_TO_XYZ_MATRIX = (normalised_primary_matrix(
-    FILMLIGHT_E_GAMUT_PRIMARIES, FILMLIGHT_E_GAMUT_WHITEPOINT))
+MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ = (normalised_primary_matrix(
+    PRIMARIES_FILMLIGHT_E_GAMUT, CCS_WHITEPOINT_FILMLIGHT_E_GAMUT))
 """
 *FilmLight E-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
-FILMLIGHT_E_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_FILMLIGHT_E_GAMUT_MATRIX = (
-    np.linalg.inv(FILMLIGHT_E_GAMUT_TO_XYZ_MATRIX))
+MATRIX_XYZ_TO_FILMLIGHT_E_GAMUT = (
+    np.linalg.inv(MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ))
 """
 *CIE XYZ* tristimulus values to *FilmLight E-Gamut* colourspace matrix.
 
-XYZ_TO_FILMLIGHT_E_GAMUT_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_FILMLIGHT_E_GAMUT : array_like, (3, 3)
 """
 
-FILMLIGHT_E_GAMUT_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_FILMLIGHT_E_GAMUT = RGB_Colourspace(
     'FilmLight E-Gamut',
-    FILMLIGHT_E_GAMUT_PRIMARIES,
-    FILMLIGHT_E_GAMUT_WHITEPOINT,
-    FILMLIGHT_E_GAMUT_WHITEPOINT_NAME,
-    FILMLIGHT_E_GAMUT_TO_XYZ_MATRIX,
-    XYZ_TO_FILMLIGHT_E_GAMUT_MATRIX,
+    PRIMARIES_FILMLIGHT_E_GAMUT,
+    CCS_WHITEPOINT_FILMLIGHT_E_GAMUT,
+    WHITEPOINT_NAME_FILMLIGHT_E_GAMUT,
+    MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ,
+    MATRIX_XYZ_TO_FILMLIGHT_E_GAMUT,
     log_encoding_FilmLightTLog,
     log_decoding_FilmLightTLog,
 )
-FILMLIGHT_E_GAMUT_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_FILMLIGHT_E_GAMUT.__doc__ = """
 *FilmLight E-Gamut* colourspace.
 
     References
     ----------
     :cite:`Siragusano2018a`
 
-FILMLIGHT_E_GAMUT_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_FILMLIGHT_E_GAMUT : RGB_Colourspace
 """
