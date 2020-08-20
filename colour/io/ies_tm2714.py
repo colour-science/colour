@@ -34,17 +34,17 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'IES_TM2714_VERSION', 'IES_TM2714_NAMESPACE',
-    'IES_TM2714_ElementSpecification', 'IES_TM2714_Header',
+    'VERSION_IESTM2714', 'NAMESPACE_IESTM2714',
+    'Element_Specification_IESTM2714', 'Header_IESTM2714',
     'SpectralDistribution_IESTM2714'
 ]
 
-IES_TM2714_VERSION = '1.0'
-IES_TM2714_NAMESPACE = 'http://www.ies.org/iestm2714'
+VERSION_IESTM2714 = '1.0'
+NAMESPACE_IESTM2714 = 'http://www.ies.org/iestm2714'
 
 
-class IES_TM2714_ElementSpecification(
-        namedtuple('IES_TM2714_ElementSpecification',
+class Element_Specification_IESTM2714(
+        namedtuple('Element_Specification_IESTM2714',
                    ('element', 'attribute', 'type', 'required',
                     'read_conversion', 'write_conversion'))):
     """
@@ -81,12 +81,12 @@ class IES_TM2714_ElementSpecification(
         :class:`colour.io.ies_tm2714.IES_TM2714_Element` class.
         """
 
-        return super(IES_TM2714_ElementSpecification, cls).__new__(
+        return super(Element_Specification_IESTM2714, cls).__new__(
             cls, element, attribute, type_, required, read_conversion,
             write_conversion)
 
 
-class IES_TM2714_Header(object):
+class Header_IESTM2714(object):
     """
     Defines the header object for a *IES TM-27-14* spectral distribution.
 
@@ -136,9 +136,9 @@ class IES_TM2714_Header(object):
 
     Examples
     --------
-    >>> IES_TM2714_Header('colour-science')  # doctest: +ELLIPSIS
-    <...IES_TM2714_Header object at 0x...>
-    >>> IES_TM2714_Header('colour-science').manufacturer  # doctest: +SKIP
+    >>> Header_IESTM2714('colour-science')  # doctest: +ELLIPSIS
+    <...Header_IESTM2714 object at 0x...>
+    >>> Header_IESTM2714('colour-science').manufacturer  # doctest: +SKIP
     'colour-science'
     """
 
@@ -160,29 +160,29 @@ class IES_TM2714_Header(object):
                 'element':
                     'Header',
                 'elements':
-                    (IES_TM2714_ElementSpecification('Manufacturer',
+                    (Element_Specification_IESTM2714('Manufacturer',
                                                      'manufacturer'),
-                     IES_TM2714_ElementSpecification('CatalogNumber',
+                     Element_Specification_IESTM2714('CatalogNumber',
                                                      'catalog_number'),
-                     IES_TM2714_ElementSpecification(
+                     Element_Specification_IESTM2714(
                          'Description', 'description', required=True),
-                     IES_TM2714_ElementSpecification(
+                     Element_Specification_IESTM2714(
                          'DocumentCreator', 'document_creator', required=True),
-                     IES_TM2714_ElementSpecification('UniqueIdentifier',
+                     Element_Specification_IESTM2714('UniqueIdentifier',
                                                      'unique_identifier'),
-                     IES_TM2714_ElementSpecification('MeasurementEquipment',
+                     Element_Specification_IESTM2714('MeasurementEquipment',
                                                      'measurement_equipment'),
-                     IES_TM2714_ElementSpecification('Laboratory',
+                     Element_Specification_IESTM2714('Laboratory',
                                                      'laboratory'),
-                     IES_TM2714_ElementSpecification('ReportNumber',
+                     Element_Specification_IESTM2714('ReportNumber',
                                                      'report_number'),
-                     IES_TM2714_ElementSpecification('ReportDate',
+                     Element_Specification_IESTM2714('ReportDate',
                                                      'report_date'),
-                     IES_TM2714_ElementSpecification(
+                     Element_Specification_IESTM2714(
                          'DocumentCreationDate',
                          'document_creation_date',
                          required=True),
-                     IES_TM2714_ElementSpecification('Comments', 'comments',
+                     Element_Specification_IESTM2714('Comments', 'comments',
                                                      False))
             })
 
@@ -568,7 +568,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     ----------
     path : unicode, optional
         Spectral data XML file path.
-    header : IES_TM2714_Header, optional
+    header : Header_IESTM2714, optional
         *IES TM-27-14* spectral distribution header.
     spectral_quantity : unicode, optional
         **{'flux', 'absorptance', 'transmittance', 'reflectance', 'intensity',
@@ -665,18 +665,18 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 'element':
                     'SpectralDistribution',
                 'elements':
-                    (IES_TM2714_ElementSpecification(
+                    (Element_Specification_IESTM2714(
                         'SpectralQuantity', 'spectral_quantity',
                         required=True),
-                     IES_TM2714_ElementSpecification('ReflectionGeometry',
+                     Element_Specification_IESTM2714('ReflectionGeometry',
                                                      'reflection_geometry'),
-                     IES_TM2714_ElementSpecification('TransmissionGeometry',
+                     Element_Specification_IESTM2714('TransmissionGeometry',
                                                      'transmission_geometry'),
-                     IES_TM2714_ElementSpecification(
+                     Element_Specification_IESTM2714(
                          'BandwidthFWHM',
                          'bandwidth_FWHM',
                          read_conversion=DEFAULT_FLOAT_DTYPE),
-                     IES_TM2714_ElementSpecification(
+                     Element_Specification_IESTM2714(
                          'BandwidthCorrected',
                          'bandwidth_corrected',
                          read_conversion=(
@@ -684,14 +684,14 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                          write_conversion=(
                              lambda x: 'true' if x is True else 'False'))),
                 'data':
-                    IES_TM2714_ElementSpecification(
+                    Element_Specification_IESTM2714(
                         'SpectralData', 'wavelength', required=True)
             })
 
         self._path = None
         self.path = path
         self._header = None
-        self.header = header if header is not None else IES_TM2714_Header()
+        self.header = header if header is not None else Header_IESTM2714()
         self._spectral_quantity = None
         self.spectral_quantity = spectral_quantity
         self._reflection_geometry = None
@@ -758,12 +758,12 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         Parameters
         ----------
-        value : IES_TM2714_Header
+        value : Header_IESTM2714
             Value to set the header with.
 
         Returns
         -------
-        IES_TM2714_Header
+        Header_IESTM2714
             Header.
         """
 
@@ -776,8 +776,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         """
 
         if value is not None:
-            assert isinstance(value, IES_TM2714_Header), (
-                '"{0}" attribute: "{1}" is not a "IES_TM2714_Header" '
+            assert isinstance(value, Header_IESTM2714), (
+                '"{0}" attribute: "{1}" is not a "Header_IESTM2714" '
                 'instance!'.format('header', value))
         self._header = value
 
@@ -1018,8 +1018,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         root = ElementTree.Element('IESTM2714')
         root.attrib = {
-            'xmlns': IES_TM2714_NAMESPACE,
-            'version': IES_TM2714_VERSION
+            'xmlns': NAMESPACE_IESTM2714,
+            'version': VERSION_IESTM2714
         }
 
         spectral_distribution = None
