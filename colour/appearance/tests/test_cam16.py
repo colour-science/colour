@@ -102,7 +102,7 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest,
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_CAM16(XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b,
                                  surround)[:-1],
                     specification * factor_b,
@@ -226,7 +226,7 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
                 atol=0.01,
                 verbose=False)
 
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 value, expected, decimal=1, err_msg=error_message)
 
     @ignore_numpy_errors
@@ -254,7 +254,7 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
         )
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     CAM16_to_XYZ(specification[:-1] * factor_a,
                                  XYZ_w * factor_b, L_A, Y_b, surround),
                     XYZ * factor_c,

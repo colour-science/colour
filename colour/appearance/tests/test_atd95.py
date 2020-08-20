@@ -89,7 +89,7 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest, TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_ATD95(XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1,
                                  k_2),
                     specification * factor_b,

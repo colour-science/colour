@@ -131,7 +131,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest, TestCase):
         for _ in range(100000):
             result = llab.MATRIX_RGB_TO_XYZ_LLAB.dot(result)
             result = llab.MATRIX_XYZ_TO_RGB_LLAB.dot(result)
-        np.testing.assert_almost_equal(start, result, decimal=7)
+        np.testing.assert_array_almost_equal(start, result, decimal=7)
 
     def test_domain_range_scale_XYZ_to_LLAB(self):
         """
@@ -153,7 +153,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest, TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_LLAB(XYZ * factor_a, XYZ_0 * factor_a, Y_b, L,
                                 surround)[:5],
                     specification * factor_b,

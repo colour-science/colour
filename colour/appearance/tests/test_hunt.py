@@ -94,7 +94,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest, TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Hunt(
                         XYZ * factor_a,
                         XYZ_w * factor_a,
@@ -102,7 +102,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest, TestCase):
                         L_A,
                         surround,
                         CCT_w=CCT_w)[:-2],
-                    specification * factor_b,
+                    np.array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors
@@ -149,7 +149,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest, TestCase):
         surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
         CCT_w = 6504.0
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(
                 XYZ,
                 XYZ_w,

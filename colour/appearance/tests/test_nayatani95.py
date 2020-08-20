@@ -10,7 +10,6 @@ import colour.ndarray as np
 from itertools import permutations
 from unittest import TestCase
 
-
 from colour.appearance import XYZ_to_Nayatani95
 from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
@@ -87,7 +86,7 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest, TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Nayatani95(XYZ * factor_a, XYZ_n * factor_a, Y_o,
                                       E_o, E_or)[:6],
                     specification * factor_b,

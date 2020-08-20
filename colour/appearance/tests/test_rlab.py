@@ -87,7 +87,7 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest, TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_RLAB(XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma,
                                 D)[:4],
                     specification * factor_b,
