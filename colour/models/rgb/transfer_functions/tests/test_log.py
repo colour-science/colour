@@ -81,17 +81,17 @@ logarithmic_function_basic` definition n-dimensional arrays support.
 
             a = np.tile(a, 6)
             a_p = np.tile(a_p, 6)
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_basic(a, style), a_p, decimal=7)
 
             a = np.reshape(a, (2, 3))
             a_p = np.reshape(a_p, (2, 3))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_basic(a, style), a_p, decimal=7)
 
             a = np.reshape(a, (2, 3, 1))
             a_p = np.reshape(a_p, (2, 3, 1))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_basic(a, style), a_p, decimal=7)
 
     def test_raise_exception_logarithmic_function_basic(self):
@@ -208,17 +208,17 @@ logarithmic_function_quasilog` definition n-dimensional arrays support.
 
             a = np.tile(a, 6)
             a_p = np.tile(a_p, 6)
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_quasilog(a, style), a_p, decimal=7)
 
             a = np.reshape(a, (2, 3))
             a_p = np.reshape(a_p, (2, 3))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_quasilog(a, style), a_p, decimal=7)
 
             a = np.reshape(a, (2, 3, 1))
             a_p = np.reshape(a_p, (2, 3, 1))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_quasilog(a, style), a_p, decimal=7)
 
     def test_raise_exception_logarithmic_function_quasilog(self):
@@ -351,17 +351,17 @@ logarithmic_function_camera` definition n-dimensional arrays support.
 
             a = np.tile(a, 6)
             a_p = np.tile(a_p, 6)
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_camera(a, style), a_p, decimal=7)
 
             a = np.reshape(a, (2, 3))
             a_p = np.reshape(a_p, (2, 3))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_camera(a, style), a_p, decimal=7)
 
             a = np.reshape(a, (2, 3, 1))
             a_p = np.reshape(a_p, (2, 3, 1))
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 logarithmic_function_camera(a, style), a_p, decimal=7)
 
     def test_raise_exception_logarithmic_function_camera(self):

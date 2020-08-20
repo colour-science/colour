@@ -313,9 +313,11 @@ extrapolator_kwargs` property.
         np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
         np.testing.assert_array_equal(multi_signals.range, self._range_2)
 
-        multi_signals = MultiSignals(dict(zip(self._domain_2, self._range_2)))
-        np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
-        np.testing.assert_array_equal(multi_signals.range, self._range_2)
+        if np.__name__ == 'numpy':
+            multi_signals = MultiSignals(
+                dict(zip(self._domain_2, self._range_2)))
+            np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
+            np.testing.assert_array_equal(multi_signals.range, self._range_2)
 
         multi_signals = MultiSignals(multi_signals)
         np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
@@ -334,7 +336,7 @@ extrapolator_kwargs` property.
         np.testing.assert_array_equal(multi_signals.range,
                                       self._range_1[:, np.newaxis])
 
-        if is_pandas_installed():
+        if np.__name__ == 'numpy' and is_pandas_installed():
             from pandas import DataFrame, Series
 
             multi_signals = MultiSignals(

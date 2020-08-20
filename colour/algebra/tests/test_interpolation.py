@@ -25,7 +25,6 @@ import colour.ndarray as np
 import os
 import unittest
 from itertools import permutations
-np.set_ndimensional_array_backend('cupy')
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'

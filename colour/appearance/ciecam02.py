@@ -330,6 +330,15 @@ H=278.0607358..., HC=None)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
+    if np.__name__ == 'cupy':
+        J = as_float(J)
+        C = as_float(C)
+        h = as_float(h)
+        s = as_float(s)
+        Q = as_float(Q)
+        M = as_float(M)
+        H = as_float(H)
+
     return CAM_Specification_CIECAM02(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
         from_range_100(s), from_range_100(Q), from_range_100(M),

@@ -204,6 +204,9 @@ def log_decoding_CanonLog(clog,
     clog = (legal_to_full(clog, bit_depth)
             if in_normalised_code_value else clog)
 
+    if np.__name__ == 'cupy':
+        clog = np.array(clog)
+
     x = np.where(
         clog < 0.0730597,
         -(10 ** ((0.0730597 - clog) / 0.529136) - 1) / 10.1596,
@@ -358,6 +361,9 @@ def log_decoding_CanonLog2(clog2,
 
     clog2 = (legal_to_full(clog2, bit_depth)
              if in_normalised_code_value else clog2)
+
+    if np.__name__ == 'cupy':
+        clog2 = np.array(clog2)
 
     x = np.where(
         clog2 < 0.035388128,

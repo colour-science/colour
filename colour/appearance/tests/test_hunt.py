@@ -86,7 +86,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest, TestCase):
         CCT_w = 6504.0
         specification = XYZ_to_Hunt(
             XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)[:-2]
-
+        print(specification, np.__name__)
         d_r = (
             ('reference', 1, 1),
             (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1])),

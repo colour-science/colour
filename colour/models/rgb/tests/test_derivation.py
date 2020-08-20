@@ -10,6 +10,7 @@ import re
 import unittest
 from itertools import permutations
 from six import text_type
+from numpy.linalg import LinAlgError
 
 from colour.models import (
     normalised_primary_matrix, chromatically_adapted_primaries,
@@ -135,7 +136,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
             W = np.array(case)
             try:
                 normalised_primary_matrix(P, W)
-            except np.linalg.linalg.LinAlgError:
+            except LinAlgError:
                 pass
 
 
@@ -337,8 +338,8 @@ class TestRGBLuminance(unittest.TestCase):
         n_dimensional arrays support.
         """
 
-        RGB = np.array([0.18, 0.18, 0.18]),
-        P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+        RGB = np.array([0.18, 0.18, 0.18])
+        P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         W = np.array([0.32168, 0.33767])
         Y = RGB_luminance(RGB, P, W)
 
@@ -366,7 +367,7 @@ class TestRGBLuminance(unittest.TestCase):
             W = np.array(case[0:2])
             try:
                 RGB_luminance(RGB, P, W)
-            except np.linalg.linalg.LinAlgError:
+            except LinAlgError:
                 pass
 
 

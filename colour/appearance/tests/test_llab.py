@@ -156,7 +156,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest, TestCase):
                 np.testing.assert_array_almost_equal(
                     XYZ_to_LLAB(XYZ * factor_a, XYZ_0 * factor_a, Y_b, L,
                                 surround)[:5],
-                    specification * factor_b,
+                    np.array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

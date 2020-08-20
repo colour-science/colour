@@ -89,7 +89,7 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest, TestCase):
                 np.testing.assert_array_almost_equal(
                     XYZ_to_Nayatani95(XYZ * factor_a, XYZ_n * factor_a, Y_o,
                                       E_o, E_or)[:6],
-                    specification * factor_b,
+                    np.array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

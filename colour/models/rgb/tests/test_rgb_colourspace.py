@@ -786,7 +786,7 @@ class TestRGB_to_RGB(unittest.TestCase):
             np.array([0.60983062, 0.67896356, 0.50435764]),
             decimal=7)
 
-        np.testing.assert_equal(
+        np.testing.assert_array_equal(
             RGB_to_RGB(
                 np.array([0.21931722, 0.06950287, 0.04694832]),
                 aces_2065_1_colourspace,

@@ -92,7 +92,7 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest, TestCase):
                 np.testing.assert_array_almost_equal(
                     XYZ_to_ATD95(XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1,
                                  k_2),
-                    specification * factor_b,
+                    np.array(specification[:]) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

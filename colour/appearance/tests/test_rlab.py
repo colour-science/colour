@@ -90,7 +90,7 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest, TestCase):
                 np.testing.assert_array_almost_equal(
                     XYZ_to_RLAB(XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma,
                                 D)[:4],
-                    specification * factor_b,
+                    np.array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

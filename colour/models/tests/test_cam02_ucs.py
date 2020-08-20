@@ -48,9 +48,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         surround = VIEWING_CONDITIONS_CIECAM02['Average']
         specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
         self._JMh = np.array(
-            [specification.J,
-             specification.M.item(),
-             specification.h.item()])
+            [specification.J, specification.M, specification.h])
 
     def test_JMh_CIECAM02_to_UCS_Luo2006(self):
         """

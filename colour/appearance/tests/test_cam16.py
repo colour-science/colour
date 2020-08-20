@@ -105,7 +105,7 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest,
                 np.testing.assert_array_almost_equal(
                     XYZ_to_CAM16(XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b,
                                  surround)[:-1],
-                    specification * factor_b,
+                    np.array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors
@@ -243,7 +243,6 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
         surround = VIEWING_CONDITIONS_CAM16['Average']
         specification = XYZ_to_CAM16(XYZ_i, XYZ_w, L_A, Y_b, surround)
         XYZ = CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
-
         d_r = (
             ('reference', 1, 1, 1),
             (1,
@@ -252,11 +251,13 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
              ]), 0.01, 0.01),
             (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360]), 1, 1),
         )
+
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_array_almost_equal(
-                    CAM16_to_XYZ(specification[:-1] * factor_a,
-                                 XYZ_w * factor_b, L_A, Y_b, surround),
+                    CAM16_to_XYZ(
+                        np.array(specification[:-1]) * factor_a,
+                        XYZ_w * factor_b, L_A, Y_b, surround),
                     XYZ * factor_c,
                     decimal=7)
 

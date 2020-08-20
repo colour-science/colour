@@ -36,7 +36,7 @@ from colour.appearance.ciecam02 import (
     post_adaptation_non_linear_response_compression_matrix,
     saturation_correlate, temporary_magnitude_quantity_inverse,
     viewing_condition_dependent_parameters)
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+from colour.utilities import (CaseInsensitiveMapping, as_float, as_float_array,
                               as_namedtuple, dot_vector, from_range_100,
                               from_range_degrees, ones, to_domain_100,
                               to_domain_degrees, tsplit)
@@ -308,6 +308,15 @@ H=275.5949861..., HC=None)
 
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
+
+    if np.__name__ == 'cupy':
+        J = as_float(J)
+        C = as_float(C)
+        h = as_float(h)
+        s = as_float(s)
+        Q = as_float(Q)
+        M = as_float(M)
+        H = as_float(H)
 
     return CAM_Specification_CAM16(
         from_range_100(J), from_range_100(C), from_range_degrees(h),

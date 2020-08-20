@@ -116,11 +116,14 @@ def normalised_primary_matrix(primaries, whitepoint):
         whitepoint = np.array(whitepoint)
         primaries = np.array(primaries)
         cupy = True
+    try:
+        coefficients = np.dot(np.linalg.inv(primaries), whitepoint)
+        coefficients = np.diagflat(coefficients)
 
-    coefficients = np.dot(np.linalg.inv(primaries), whitepoint)
-    coefficients = np.diagflat(coefficients)
-
-    npm = np.dot(primaries, coefficients)
+        npm = np.dot(primaries, coefficients)
+    except Exception:
+        np.set_ndimensional_array_backend('cupy')
+        raise
 
     if cupy is True:
         np.set_ndimensional_array_backend('cupy')

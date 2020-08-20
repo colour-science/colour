@@ -31,8 +31,9 @@ import colour.ndarray as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.utilities import (as_float_array, dot_vector, from_range_degrees,
-                              to_domain_100, tsplit, tstack)
+from colour.utilities import (as_float, as_float_array, dot_vector,
+                              from_range_degrees, to_domain_100, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -225,6 +226,17 @@ T_2=0.0205377..., D_2=0.0107584...)
     # Computing the *hue* :math:`H`. Note that the reference does not take the
     # modulus of the :math:`H`, thus :math:`H` can exceed 360 degrees.
     H = T_2 / D_2
+
+    if np.__name__ == 'cupy':
+        H = as_float(H)
+        C = as_float(C)
+        Br = as_float(Br)
+        A_1 = as_float(A_1)
+        D_1 = as_float(D_1)
+        T_1 = as_float(T_1)
+        A_2 = as_float(A_2)
+        T_2 = as_float(T_2)
+        D_2 = as_float(D_2)
 
     return CAM_Specification_ATD95(
         from_range_degrees(H), C, Br, A_1, T_1, D_1, A_2, T_2, D_2)
