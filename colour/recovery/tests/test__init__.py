@@ -43,7 +43,7 @@ class TestXYZ_to_sd(unittest.TestCase):
             .copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015))
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        m = ('Jakob 2019', 'Smits 1999', 'Meng 2015')
+        m = ('Jakob 2019', 'Mallet 2019', 'Meng 2015', 'Smits 1999')
         v = [
             sd_to_XYZ_integration(XYZ_to_sd(XYZ, method), cmfs) for method in m
         ]
