@@ -636,9 +636,20 @@ or dict_like
          [   8.   90.  100.  110.]
          [   9.  100.  110.  120.]]
         """
-
+        cupy = False
+        if np.__name__ == 'cupy':
+            np.set_ndimensional_array_backend('numpy')
+            cupy = True
         try:
-            return str(np.hstack([self.domain[:, np.newaxis], self.range]))
+            string = str(
+                np.hstack([
+                    np.array(self.domain[:, np.newaxis]),
+                    np.array(self.range)
+                ]))
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
+
+            return string
         except TypeError:
             return super(MultiSignals, self).__str__()
 
@@ -674,10 +685,17 @@ or dict_like
                      extrapolator=Extrapolator,
                      extrapolator_kwargs={...)
         """
+        cupy = False
+        if np.__name__ == 'cupy':
+            np.set_ndimensional_array_backend('numpy')
+            cupy = True
 
         try:
             representation = repr(
-                np.hstack([self.domain[:, np.newaxis], self.range]))
+                np.hstack([
+                    np.array(self.domain[:, np.newaxis]),
+                    np.array(self.range)
+                ]))
             representation = representation.replace('array',
                                                     self.__class__.__name__)
             representation = representation.replace(
@@ -700,6 +718,9 @@ or dict_like
                                   self.extrapolator,
                                   repr(self.extrapolator_kwargs))
 
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
+
             return representation
         except TypeError:
             return super(MultiSignals, self).__repr__()
@@ -714,14 +735,24 @@ or dict_like
             Object hash.
         """
 
-        return hash((
-            self.domain.tostring(),
-            self.range.tostring(),
+        cupy = False
+        if np.__name__ == 'cupy':
+            cupy = True
+            np.set_ndimensional_array_backend('numpy')
+
+        hashed = hash((
+            np.array(self.domain).tostring(),
+            np.array(self.range).tostring(),
             self.interpolator.__name__,
             repr(self.interpolator_kwargs),
             self.extrapolator.__name__,
             repr(self.extrapolator_kwargs),
         ))
+
+        if cupy is True:
+            np.set_ndimensional_array_backend('cupy')
+
+        return hashed
 
     def __getitem__(self, x):
         """

@@ -24,9 +24,10 @@ import colour.ndarray as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, dot_vector, from_range_degrees,
-    ones, to_domain_100, tsplit, tstack, usage_warning, zeros)
+from colour.utilities import (CaseInsensitiveMapping, as_float, as_float_array,
+                              dot_vector, from_range_degrees, ones,
+                              to_domain_100, tsplit, tstack, usage_warning,
+                              zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -490,6 +491,12 @@ def luminance_level_adaptation_factor(L_A):
     k4 = k ** 4
     F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * spow(5 * L_A, 1 / 3)
 
+    try:
+        if F_L.size == 1:
+            return (F_L).item()
+    except Exception:
+        pass
+
     return F_L
 
 
@@ -520,6 +527,12 @@ def illuminant_scotopic_luminance(L_A, CCT):
     CCT = as_float_array(CCT)
 
     CCT = 2.26 * L_A * spow((CCT / 4000) - 0.4, 1 / 3)
+
+    try:
+        if CCT.size == 1:
+            return (CCT).item()
+    except Exception:
+        pass
 
     return CCT
 
@@ -576,6 +589,12 @@ def f_n(x):
 
     x_p = spow(x, 0.73)
     x_m = 40 * (x_p / (x_p + 2))
+
+    try:
+        if x_m.size == 1:
+            return (x_m).item()
+    except Exception:
+        pass
 
     return x_m
 
@@ -761,6 +780,12 @@ def achromatic_post_adaptation_signal(rgb):
 
     A = 2 * r + g + (1 / 20) * b - 3.05 + 1
 
+    try:
+        if A.size == 1:
+            return (A).item()
+    except Exception:
+        pass
+
     return A
 
 
@@ -828,6 +853,13 @@ def hue_angle(C):
 
     hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 -
                             (C_2 / 11)) / np.pi) % 360
+
+    try:
+        if hue.size == 1:
+            return (hue).item()
+    except Exception:
+        pass
+
     return hue
 
 
@@ -861,6 +893,12 @@ def eccentricity_factor(hue):
     x = np.where(hue < 20.14, 0.856 - (hue / 20.14) * 0.056, x)
     x = np.where(hue > 237.53, 0.856 + 0.344 * (360 - hue) / (360 - 237.53), x)
 
+    try:
+        if x.size == 1:
+            return (x).item()
+    except Exception:
+        pass
+
     return x
 
 
@@ -888,6 +926,12 @@ def low_luminance_tritanopia_factor(L_A):
     L_A = as_float_array(L_A)
 
     F_t = L_A / (L_A + 0.1)
+
+    try:
+        if F_t.size == 1:
+            return (F_t).item()
+    except Exception:
+        pass
 
     return F_t
 
@@ -939,6 +983,12 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     M_yb = (
         100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s * (10 / 13) * N_c * N_cb * F_t))
 
+    try:
+        if M_yb.size == 1:
+            return (M_yb).item()
+    except Exception:
+        pass
+
     return M_yb
 
 
@@ -983,6 +1033,12 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
 
     M_rg = 100 * (C_1 - (C_2 / 11)) * (e_s * (10 / 13) * N_c * N_cb)
 
+    try:
+        if M_rg.size == 1:
+            return (M_rg).item()
+    except Exception:
+        pass
+
     return M_rg
 
 
@@ -1014,6 +1070,12 @@ def overall_chromatic_response(M_yb, M_rg):
     M_rg = as_float_array(M_rg)
 
     M = spow((M_yb ** 2) + (M_rg ** 2), 0.5)
+
+    try:
+        if M.size == 1:
+            return (M).item()
+    except Exception:
+        pass
 
     return M
 
@@ -1047,6 +1109,12 @@ def saturation_correlate(M, rgb_a):
     rgb_a = as_float_array(rgb_a)
 
     s = 50 * M / np.sum(rgb_a, axis=-1)
+
+    try:
+        if M.size == 1:
+            return (M).item()
+    except Exception:
+        pass
 
     return s
 
@@ -1106,6 +1174,12 @@ def achromatic_signal(L_AS, S, S_w, N_bb, A_a):
     # Computing achromatic signal :math:`A`.
     A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt((1 + (0.3 ** 2))))
 
+    try:
+        if A.size == 1:
+            return (A).item()
+    except Exception:
+        pass
+
     return A
 
 
@@ -1149,6 +1223,12 @@ def brightness_correlate(A, A_w, M, N_b):
 
     Q = spow(7 * (A + (M / 100)), 0.6) * N_1 - N_2
 
+    try:
+        if Q.size == 1:
+            return (Q).item()
+    except Exception:
+        pass
+
     return Q
 
 
@@ -1189,6 +1269,12 @@ def lightness_correlate(Y_b, Y_w, Q, Q_w):
 
     Z = 1 + spow(Y_b / Y_w, 0.5)
     J = 100 * spow(Q / Q_w, Z)
+
+    try:
+        if J.size == 1:
+            return (J).item()
+    except Exception:
+        pass
 
     return J
 
@@ -1235,6 +1321,12 @@ def chroma_correlate(s, Y_b, Y_w, Q, Q_w):
     C_94 = (2.44 * spow(s, 0.69) * (spow(Q / Q_w, Y_b / Y_w)) *
             (1.64 - spow(0.29, Y_b / Y_w)))
 
+    try:
+        if C_94.size == 1:
+            return (C_94).item()
+    except Exception:
+        pass
+
     return C_94
 
 
@@ -1267,4 +1359,4 @@ def colourfulness_correlate(F_L, C_94):
 
     M_94 = spow(F_L, 0.15) * C_94
 
-    return M_94
+    return as_float(M_94)

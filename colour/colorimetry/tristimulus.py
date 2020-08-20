@@ -746,8 +746,8 @@ def sd_to_XYZ_ASTME308(
         sd.align(SpectralShape(sd.shape.start - 20, sd.shape.end + 20, 10))
         for i in range(2):
             sd[sd.wavelengths[i]] = (
-                    3 * sd.values[i + 2] -
-                    3 * sd.values[i + 4] + sd.values[i + 6])  # yapf: disable
+                3 * sd.values[i + 2] -
+                3 * sd.values[i + 4] + sd.values[i + 6])  # yapf: disable
             i_e = len(sd.domain) - 1 - i
             sd[sd.wavelengths[i_e]] = (
                 sd.values[i_e - 6] - 3 * sd.values[i_e - 4] +
@@ -907,6 +907,15 @@ def sd_to_XYZ(
     if _CACHE_SD_TO_XYZ is None:
         _CACHE_SD_TO_XYZ = {}
 
+    cupy = False
+    if np.__name__ == 'cupy':
+        cupy = True
+        if isinstance(illuminant, np.ndarray):
+            illuminant = np.asnumpy(illuminant)
+        if isinstance(illuminant, tuple):
+            illuminant = tuple(np.asnumpy(illuminant))
+        np.set_ndimensional_array_backend('numpy')
+
     hash_key = tuple([
         hash(arg) for arg in (sd, cmfs, illuminant, k, method,
                               tuple(kwargs.items()), get_domain_range_scale())
@@ -918,6 +927,11 @@ def sd_to_XYZ(
 
     XYZ = _CACHE_SD_TO_XYZ[hash_key] = function(
         sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        _SD_TO_XYZ_CACHE[hash_key] = np.array(_SD_TO_XYZ_CACHE[hash_key])
+        XYZ = np.array(XYZ)
 
     return XYZ
 

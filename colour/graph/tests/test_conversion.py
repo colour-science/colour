@@ -111,8 +111,8 @@ class TestConvert(unittest.TestCase):
         """
 
         a = np.array([0.20654008, 0.12197225, 0.05136952])
-        illuminant = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-            'D50']
+        illuminant = np.array(
+            CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
         np.testing.assert_array_almost_equal(
             convert(
                 a, 'CIE XYZ', 'CIE xyY',

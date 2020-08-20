@@ -33,7 +33,8 @@ from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (as_float, as_float_array, domain_range_scale,
                               from_range_1, from_range_100, to_domain_1,
                               to_domain_100, tsplit, tstack)
-from colour.utilities.documentation import DocstringTuple
+from colour.utilities.documentation import (DocstringTuple,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'

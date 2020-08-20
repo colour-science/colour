@@ -1222,6 +1222,7 @@ def sd_rayleigh_scattering(
     """
     if not (isinstance(avogadro_constant, np.ndarray)):
         avogadro_constant = float(avogadro_constant)
+
     wavelengths = shape.range()
     return SpectralDistribution(
         data=dict(

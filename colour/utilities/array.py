@@ -1230,7 +1230,7 @@ def ones(shape, dtype=None, order='C'):
     return np.ones(shape, dtype)
 
 
-def full(shape, fill_value, dtype=None, order='C'):
+def full(shape, fill_value, dtype=None):
     """
     Simple wrapper around :func:`np.full` definition to create arrays with
     the active type defined by the:attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
@@ -1265,7 +1265,7 @@ def full(shape, fill_value, dtype=None, order='C'):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
-    return np.full(shape, fill_value, dtype, order)
+    return np.full(shape, fill_value, dtype)
 
 
 def index_along_last_axis(a, indexes):

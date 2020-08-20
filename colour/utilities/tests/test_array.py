@@ -1025,7 +1025,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
         indexes = np.array([[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1],
                                                                  [2, 0]]])
 
-        np.testing.assert_equal(
+        np.testing.assert_array_equal(
             index_along_last_axis(a, indexes),
             np.array([[[0.51090627, 0.80587656], [0.84085977, 0.79308353]],
                       [[0.20199051, 0.84189245], [0.01612045, 0.58905552]],
@@ -1039,11 +1039,11 @@ class TestIndexAlongLastAxis(unittest.TestCase):
 
         a = np.random.random((2, 3, 4, 5, 6, 7))
 
-        np.testing.assert_equal(
+        np.testing.assert_array_equal(
             index_along_last_axis(a, np.argmin(a, axis=-1)), np.min(
                 a, axis=-1))
 
-        np.testing.assert_equal(
+        np.testing.assert_array_equal(
             index_along_last_axis(a, np.argmax(a, axis=-1)), np.max(
                 a, axis=-1))
 

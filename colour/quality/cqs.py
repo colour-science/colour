@@ -38,7 +38,8 @@ from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import (as_float, as_float_array, domain_range_scale,
                               tsplit)
-from colour.utilities.documentation import DocstringTuple
+from colour.utilities.documentation import (DocstringTuple,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'

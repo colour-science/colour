@@ -773,11 +773,7 @@ CubicSplineInterpolator.__call__` method.
         -   This class is a wrapper around *scipy.interpolate.interp1d* class
             and is assumed to be unit tested thoroughly.
         """
-        print(
-            np.linspace(0, 1,
-                        len(POINTS_DATA_A) * 2),
-            type(np.linspace(0, 1,
-                             len(POINTS_DATA_A) * 2)))
+
         np.testing.assert_array_almost_equal(
             CubicSplineInterpolator(
                 np.linspace(0, 1, len(DATA_POINTS_A)),

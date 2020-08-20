@@ -191,7 +191,7 @@ def convert_experiment_results_Breneman1987(experiment):
         '"Breneman (1987)" experiment result must be one of "{0}"!'.format(
             valid_experiment_results))
 
-    samples_luminance = [
+    samples_luminance = np.array([
         0.270,
         0.090,
         0.270,
@@ -204,7 +204,7 @@ def convert_experiment_results_Breneman1987(experiment):
         0.090,
         0.270,
         0.090,
-    ]
+    ])
 
     experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
     illuminant_chromaticities = experiment_results.pop(0)
@@ -212,9 +212,10 @@ def convert_experiment_results_Breneman1987(experiment):
     B_r = B_t = 0.3
 
     XYZ_t, XYZ_r = xy_to_XYZ(
-        np.hstack(
-            [Luv_uv_to_xy(illuminant_chromaticities[1:3]),
-             full([2, 1], Y_r)])) / Y_r
+        np.hstack([
+            Luv_uv_to_xy(illuminant_chromaticities[1:3]),
+            full((2, 1), Y_r, dtype=np.int)
+        ])) / Y_r
 
     xyY_cr, xyY_ct = [], []
     for i, experiment_result in enumerate(experiment_results):
