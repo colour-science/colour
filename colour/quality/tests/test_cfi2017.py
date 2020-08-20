@@ -12,7 +12,7 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (SpectralShape, SpectralDistribution,
-                                sd_blackbody, ILLUMINANT_SDS)
+                                sd_blackbody, SDS_ILLUMINANTS)
 from colour.quality.cfi2017 import (reference_illuminant_CFI2017,
                                     colour_fidelity_index_CFI2017)
 from colour.utilities import ColourUsageWarning
@@ -564,7 +564,7 @@ class TestColourFidelityIndexCFI2017(unittest.TestCase):
             ], 1)
 
         spec = colour_fidelity_index_CFI2017(
-            ILLUMINANT_SDS['FL1'], additional_data=True)
+            SDS_ILLUMINANTS['FL1'], additional_data=True)
         np.testing.assert_almost_equal(spec.R_f, 80.6, 1)
         np.testing.assert_almost_equal(spec.Rs, [
             85.1, 68.9, 73.9, 79.7, 51.6, 77.8, 52.1, 47.8, 95.3, 68.9, 67.3,
@@ -579,7 +579,7 @@ class TestColourFidelityIndexCFI2017(unittest.TestCase):
         ], 1)
 
         spec = colour_fidelity_index_CFI2017(
-            ILLUMINANT_SDS['FL2'], additional_data=True)
+            SDS_ILLUMINANTS['FL2'], additional_data=True)
         np.testing.assert_almost_equal(spec.R_f, 70.1, 1)
         np.testing.assert_almost_equal(spec.Rs, [
             78.9, 59.0, 66.9, 65.7, 35.8, 66.1, 40.4, 34.7, 95.1, 53.5, 47.4,
@@ -600,12 +600,12 @@ class TestColourFidelityIndexCFI2017(unittest.TestCase):
         shapes.
         """
 
-        sd = ILLUMINANT_SDS['FL2'].copy().align(SpectralShape(400, 700, 5))
+        sd = SDS_ILLUMINANTS['FL2'].copy().align(SpectralShape(400, 700, 5))
         with self.assertWarnsRegex(ColourUsageWarning,
                                    'does not cover the 380-780 nm range'):
             colour_fidelity_index_CFI2017(sd)
 
-        sd = ILLUMINANT_SDS['FL2'].copy().align(SpectralShape(380, 780, 10))
+        sd = SDS_ILLUMINANTS['FL2'].copy().align(SpectralShape(380, 780, 10))
         with self.assertRaises(ValueError):
             colour_fidelity_index_CFI2017(sd)
 

@@ -113,8 +113,8 @@ def colour_fidelity_index_TM_30_18(sd_test, additional_data=False):
 
     Examples
     --------
-    >>> from colour import ILLUMINANT_SDS
-    >>> sd = ILLUMINANT_SDS['FL2']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> sd = SDS_ILLUMINANTS['FL2']
     >>> colour_fidelity_index_TM_30_18(sd)  # doctest: +ELLIPSIS
     70.1208254...
     """

@@ -24,10 +24,10 @@ import os
 from collections import namedtuple
 
 from colour.algebra import euclidean_distance, Extrapolator
-from colour.appearance import XYZ_to_CIECAM02, CIECAM02_VIEWING_CONDITIONS
+from colour.appearance import XYZ_to_CIECAM02, VIEWING_CONDITIONS_CIECAM02
 from colour.colorimetry import (
     SpectralShape, SpectralDistribution, MultiSpectralDistributions, sd_to_XYZ,
-    sd_blackbody, CMFS, sd_ones, sd_CIE_illuminant_D_series)
+    sd_blackbody, MSDS_CMFS, sd_ones, sd_CIE_illuminant_D_series)
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT, CCT_to_xy
 from colour.utilities import usage_warning
@@ -211,7 +211,7 @@ def tcs_colorimetry_data_CFI2017(illuminant, sds_tcs, cmfs):
     XYZ_w = sd_to_XYZ(sd_ones(), cmfs, illuminant)
     Y_b = 20
     L_A = 100
-    surround = CIECAM02_VIEWING_CONDITIONS['Average']
+    surround = VIEWING_CONDITIONS_CIECAM02['Average']
 
     tcs_data = []
     for sd in sds_tcs.to_sds():
@@ -245,8 +245,8 @@ def colour_fidelity_index_CFI2017(sd_test, additional_data=False):
 
     Examples
     --------
-    >>> from colour.colorimetry import ILLUMINANT_SDS
-    >>> sd = ILLUMINANT_SDS['FL2']
+    >>> from colour.colorimetry import SDS_ILLUMINANTS
+    >>> sd = SDS_ILLUMINANTS['FL2']
     >>> colour_fidelity_index_CFI2017(sd)  # doctest: +ELLIPSIS
     70.1208254...
     """
@@ -273,7 +273,8 @@ def colour_fidelity_index_CFI2017(sd_test, additional_data=False):
     sd_reference, CCT, D_uv = reference_illuminant_CFI2017(sd_test, shape)
 
     # All computations except CCT calculation use the 10 degree observer.
-    cmfs_10 = CMFS['CIE 1964 10 Degree Standard Observer'].copy().align(shape)
+    cmfs_10 = MSDS_CMFS['CIE 1964 10 Degree Standard Observer'].copy().align(
+        shape)
 
     sds_tcs = get_tcs_CFI2017(shape).align(shape)
 

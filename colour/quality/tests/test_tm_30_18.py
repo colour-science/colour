@@ -8,7 +8,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import ILLUMINANT_SDS
+from colour.colorimetry import SDS_ILLUMINANTS
 from colour.quality.tm_30_18 import (averages_area,
                                      colour_fidelity_index_TM_30_18)
 from colour.utilities import as_float_array
@@ -65,7 +65,7 @@ class TestColourFidelityIndexTM_30_18(unittest.TestCase):
         """
 
         spec = colour_fidelity_index_TM_30_18(
-            ILLUMINANT_SDS['FL2'], additional_data=True)
+            SDS_ILLUMINANTS['FL2'], additional_data=True)
 
         np.testing.assert_almost_equal(spec.R_f, 70, 0)
         np.testing.assert_almost_equal(spec.R_g, 86, 0)
