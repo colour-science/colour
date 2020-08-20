@@ -534,8 +534,7 @@ class TestColourFidelityIndexCFI2017(unittest.TestCase):
 
         for sd, shape in [[SAMPLE_SD_5_NM, SAMPLE_SHAPE_5_NM],
                           [SAMPLE_SD_1_NM, SAMPLE_SHAPE_1_NM]]:
-            sd_ref, CCT, D_uv = reference_illuminant_CFI2017(
-                sd, shape, additional_data=True)
+            sd_ref, CCT, D_uv = reference_illuminant_CFI2017(sd, shape)
 
             np.testing.assert_almost_equal(CCT, 3288, 0)
             np.testing.assert_almost_equal(D_uv, -0.0003, 4)
@@ -548,22 +547,21 @@ class TestColourFidelityIndexCFI2017(unittest.TestCase):
         definition.
         """
 
-        sample_Rs = [
-            89.5, 80.5, 81.5, 79.4, 65.9, 79.4, 73.2, 68.5, 95.9, 76.3, 71.9,
-            71.8, 83.3, 93.0, 89.2, 72.9, 75.1, 85.8, 75.1, 63.4, 69.4, 71.4,
-            89.7, 76.8, 67.6, 75.5, 92.7, 87.7, 81.1, 95.0, 83.3, 74.4, 90.4,
-            80.4, 89.0, 86.9, 85.0, 95.7, 98.5, 96.3, 98.7, 88.4, 85.2, 99.6,
-            90.4, 88.6, 94.3, 85.3, 86.4, 90.0, 89.3, 88.0, 83.6, 89.6, 86.7,
-            81.4, 80.2, 80.6, 88.5, 89.7, 84.2, 84.2, 79.4, 71.3, 72.8, 65.8,
-            64.1, 71.7, 77.4, 68.0, 63.2, 87.1, 62.4, 92.7, 67.3, 67.6, 80.0,
-            70.4, 89.0, 87.0, 81.5, 94.2, 94.3, 89.4, 79.3, 76.6, 83.7, 87.7,
-            76.7, 88.6, 76.2, 68.5, 80.1, 65.3, 74.9, 83.9, 88.6, 84.2, 77.4
-        ]
-
         for sd in [SAMPLE_SD_5_NM, SAMPLE_SD_1_NM]:
             spec = colour_fidelity_index_CFI2017(sd, additional_data=True)
             np.testing.assert_almost_equal(spec.R_f, 81.6, 1)
-            np.testing.assert_almost_equal(spec.Rs, sample_Rs, 1)
+            np.testing.assert_almost_equal(spec.Rs, [
+                89.5, 80.5, 81.5, 79.4, 65.9, 79.4, 73.2, 68.5, 95.9, 76.3,
+                71.9, 71.8, 83.3, 93.0, 89.2, 72.9, 75.1, 85.8, 75.1, 63.4,
+                69.4, 71.4, 89.7, 76.8, 67.6, 75.5, 92.7, 87.7, 81.1, 95.0,
+                83.3, 74.4, 90.4, 80.4, 89.0, 86.9, 85.0, 95.7, 98.5, 96.3,
+                98.7, 88.4, 85.2, 99.6, 90.4, 88.6, 94.3, 85.3, 86.4, 90.0,
+                89.3, 88.0, 83.6, 89.6, 86.7, 81.4, 80.2, 80.6, 88.5, 89.7,
+                84.2, 84.2, 79.4, 71.3, 72.8, 65.8, 64.1, 71.7, 77.4, 68.0,
+                63.2, 87.1, 62.4, 92.7, 67.3, 67.6, 80.0, 70.4, 89.0, 87.0,
+                81.5, 94.2, 94.3, 89.4, 79.3, 76.6, 83.7, 87.7, 76.7, 88.6,
+                76.2, 68.5, 80.1, 65.3, 74.9, 83.9, 88.6, 84.2, 77.4
+            ], 1)
 
         spec = colour_fidelity_index_CFI2017(
             ILLUMINANT_SDS['FL1'], additional_data=True)

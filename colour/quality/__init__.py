@@ -14,10 +14,12 @@ from .cri import ColourRendering_Specification_CRI, colour_rendering_index
 from .cqs import (COLOUR_QUALITY_SCALE_METHODS,
                   ColourRendering_Specification_CQS, colour_quality_scale)
 from .ssi import spectral_similarity_index
+from .tm_30_18 import TM_30_18_Specification, colour_fidelity_index_TM_30_18
 
 __all__ = []
 __all__ += datasets.__all__
 __all__ += ['CFI2017_Specification', 'colour_fidelity_index_CFI2017']
+__all__ += ['TM_30_18_Specification', 'colour_fidelity_index_TM_30_18']
 __all__ += ['ColourRendering_Specification_CRI', 'colour_rendering_index']
 __all__ += [
     'ColourRendering_Specification_CQS', 'COLOUR_QUALITY_SCALE_METHODS',
