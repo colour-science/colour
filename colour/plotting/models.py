@@ -479,6 +479,8 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
+        show_whitepoints=True,
+        show_pointer_gamut=False,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
@@ -495,6 +497,10 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
         supported by the :func:`colour.plotting.filter_cmfs` definition.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
+    show_whitepoints : bool, optional
+        Whether to display the *RGB* colourspaces whitepoints.
+    show_pointer_gamut : bool, optional
+        Whether to display the *Pointer's Gamut*.
 
     Other Parameters
     ----------------
@@ -526,7 +532,12 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
     settings.update({'method': 'CIE 1931'})
 
     return plot_RGB_colourspaces_in_chromaticity_diagram(
-        colourspaces, cmfs, chromaticity_diagram_callable_CIE1931, **settings)
+        colourspaces,
+        cmfs,
+        chromaticity_diagram_callable_CIE1931,
+        show_whitepoints=show_whitepoints,
+        show_pointer_gamut=show_pointer_gamut,
+        **settings)
 
 
 @override_style()
@@ -535,6 +546,8 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
+        show_whitepoints=True,
+        show_pointer_gamut=False,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
@@ -552,6 +565,10 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
+    show_whitepoints : bool, optional
+        Whether to display the *RGB* colourspaces whitepoints.
+    show_pointer_gamut : bool, optional
+        Whether to display the *Pointer's Gamut*.
 
     Other Parameters
     ----------------
@@ -583,7 +600,11 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
     settings.update({'method': 'CIE 1960 UCS'})
 
     return plot_RGB_colourspaces_in_chromaticity_diagram(
-        colourspaces, cmfs, chromaticity_diagram_callable_CIE1960UCS,
+        colourspaces,
+        cmfs,
+        chromaticity_diagram_callable_CIE1960UCS,
+        show_whitepoints=show_whitepoints,
+        show_pointer_gamut=show_pointer_gamut,
         **settings)
 
 
@@ -593,6 +614,8 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1976UCS=(
             plot_chromaticity_diagram_CIE1976UCS),
+        show_whitepoints=True,
+        show_pointer_gamut=False,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
@@ -610,6 +633,10 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     chromaticity_diagram_callable_CIE1976UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
+    show_whitepoints : bool, optional
+        Whether to display the *RGB* colourspaces whitepoints.
+    show_pointer_gamut : bool, optional
+        Whether to display the *Pointer's Gamut*.
 
     Other Parameters
     ----------------
@@ -641,7 +668,11 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
     settings.update({'method': 'CIE 1976 UCS'})
 
     return plot_RGB_colourspaces_in_chromaticity_diagram(
-        colourspaces, cmfs, chromaticity_diagram_callable_CIE1976UCS,
+        colourspaces,
+        cmfs,
+        chromaticity_diagram_callable_CIE1976UCS,
+        show_whitepoints=show_whitepoints,
+        show_pointer_gamut=show_pointer_gamut,
         **settings)
 
 
