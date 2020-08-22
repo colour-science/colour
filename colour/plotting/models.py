@@ -294,6 +294,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
         method='CIE 1931',
         show_whitepoints=True,
         show_pointer_gamut=False,
+        chromatically_adapt=True,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *Chromaticity Diagram* according
@@ -318,6 +319,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
         Whether to display the *RGB* colourspaces whitepoints.
     show_pointer_gamut : bool, optional
         Whether to display the *Pointer's Gamut*.
+    chromatically_adapt : bool, optional
+        Whether to chromatically adapt the *RGB* colourspaces given in
+        ``colourspaces`` to the whitepoint of the default plotting colourspace.
 
     Other Parameters
     ----------------
@@ -425,7 +429,16 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
     cycle = colour_cycle(**settings)
 
+    plotting_colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
+
     for colourspace in colourspaces:
+
+        if chromatically_adapt and not np.array_equal(
+                colourspace.whitepoint, plotting_colourspace.whitepoint):
+            colourspace = colourspace.chromatically_adapt(
+                plotting_colourspace.whitepoint,
+                plotting_colourspace.whitepoint_name)
+
         R, G, B, _A = next(cycle)
 
         # RGB colourspaces such as *ACES2065-1* have primaries with
@@ -481,6 +494,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
             plot_chromaticity_diagram_CIE1931),
         show_whitepoints=True,
         show_pointer_gamut=False,
+        chromatically_adapt=False,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
@@ -501,6 +515,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
         Whether to display the *RGB* colourspaces whitepoints.
     show_pointer_gamut : bool, optional
         Whether to display the *Pointer's Gamut*.
+    chromatically_adapt : bool, optional
+        Whether to chromatically adapt the *RGB* colourspaces given in
+        ``colourspaces`` to the whitepoint of the default plotting colourspace.
 
     Other Parameters
     ----------------
@@ -537,6 +554,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
         chromaticity_diagram_callable_CIE1931,
         show_whitepoints=show_whitepoints,
         show_pointer_gamut=show_pointer_gamut,
+        chromatically_adapt=chromatically_adapt,
         **settings)
 
 
@@ -548,6 +566,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
             plot_chromaticity_diagram_CIE1960UCS),
         show_whitepoints=True,
         show_pointer_gamut=False,
+        chromatically_adapt=False,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
@@ -569,6 +588,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
         Whether to display the *RGB* colourspaces whitepoints.
     show_pointer_gamut : bool, optional
         Whether to display the *Pointer's Gamut*.
+    chromatically_adapt : bool, optional
+        Whether to chromatically adapt the *RGB* colourspaces given in
+        ``colourspaces`` to the whitepoint of the default plotting colourspace.
 
     Other Parameters
     ----------------
@@ -605,6 +627,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
         chromaticity_diagram_callable_CIE1960UCS,
         show_whitepoints=show_whitepoints,
         show_pointer_gamut=show_pointer_gamut,
+        chromatically_adapt=chromatically_adapt,
         **settings)
 
 
@@ -616,6 +639,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
             plot_chromaticity_diagram_CIE1976UCS),
         show_whitepoints=True,
         show_pointer_gamut=False,
+        chromatically_adapt=False,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
@@ -637,6 +661,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
         Whether to display the *RGB* colourspaces whitepoints.
     show_pointer_gamut : bool, optional
         Whether to display the *Pointer's Gamut*.
+    chromatically_adapt : bool, optional
+        Whether to chromatically adapt the *RGB* colourspaces given in
+        ``colourspaces`` to the whitepoint of the default plotting colourspace.
 
     Other Parameters
     ----------------
@@ -673,6 +700,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
         chromaticity_diagram_callable_CIE1976UCS,
         show_whitepoints=show_whitepoints,
         show_pointer_gamut=show_pointer_gamut,
+        chromatically_adapt=chromatically_adapt,
         **settings)
 
 

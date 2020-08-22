@@ -194,7 +194,9 @@ class TestPlotRGBColourspacesGamuts(unittest.TestCase):
         """
 
         figure, axes = plot_RGB_colourspaces_gamuts(
-            show_spectral_locus=True, face_colours=[0.18, 0.18])
+            show_spectral_locus=True,
+            face_colours=[0.18, 0.18],
+            chromatically_adapt=True)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
