@@ -457,12 +457,6 @@ class TestHandleArgumentsDeprecation(unittest.TestCase):
                     'argument_4_name': True
                 })
 
-        self.assertRaises(
-            ValueError,
-            lambda: handle_arguments_deprecation(
-                changes, argument_3_name=True),
-            )
-
 
 if __name__ == '__main__':
     unittest.main()

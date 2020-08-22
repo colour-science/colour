@@ -525,6 +525,6 @@ def handle_arguments_deprecation(changes, **kwargs):
             else:
                 kwargs[change[1]] = kwargs.pop(kwarg)
         else:
-            raise ValueError(str(change))
+            usage_warning(str(change))
 
     return kwargs
