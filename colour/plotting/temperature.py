@@ -230,12 +230,14 @@ def plot_planckian_locus_in_chromaticity_diagram(
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective illuminant
-        names if ``annotate`` is set to *True*. ``annotate_kwargs`` can be
-        either a single dictionary applied to all the arrows with same settings
-        or a sequence of dictionaries with different settings for each
-        illuminant.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        illuminant names. ``annotate_kwargs`` can be either a single dictionary
+        applied to all the arrows with same settings or a sequence of
+        dictionaries with different settings for each illuminant.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the illuminants.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
     planckian_locus_callable : callable, optional
@@ -400,12 +402,14 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective illuminant
-        names if ``annotate`` is set to *True*. ``annotate_kwargs`` can be
-        either a single dictionary applied to all the arrows with same settings
-        or a sequence of dictionaries with different settings for each
-        illuminant.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        illuminant names. ``annotate_kwargs`` can be either a single dictionary
+        applied to all the arrows with same settings or a sequence of
+        dictionaries with different settings for each illuminant.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the illuminants.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     planckian_locus_callable_CIE1931 : callable, optional
@@ -472,12 +476,14 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective illuminant
-        names if ``annotate`` is set to *True*. ``annotate_kwargs`` can be
-        either a single dictionary applied to all the arrows with same settings
-        or a sequence of dictionaries with different settings for each
-        illuminant.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        illuminant names. ``annotate_kwargs`` can be either a single dictionary
+        applied to all the arrows with same settings or a sequence of
+        dictionaries with different settings for each illuminant.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the illuminants.
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.

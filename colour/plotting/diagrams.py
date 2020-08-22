@@ -599,12 +599,14 @@ def plot_sds_in_chromaticity_diagram(
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective spectral
-        distribution names if ``annotate`` is set to *True*.
-        ``annotate_kwargs`` can be either a single dictionary applied to
-        all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral distribution.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        spectral distribution names. ``annotate_kwargs`` can be either a single
+        dictionary applied to all the arrows with same settings or a sequence
+        of dictionaries with different settings for each spectral distribution.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the spectral distributions.
 
     Other Parameters
     ----------------
@@ -771,12 +773,14 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective spectral
-        distribution names if ``annotate`` is set to *True*.
-        ``annotate_kwargs`` can be either a single dictionary applied to
-        all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral distribution.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        spectral distribution names. ``annotate_kwargs`` can be either a single
+        dictionary applied to all the arrows with same settings or a sequence
+        of dictionaries with different settings for each spectral distribution.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the spectral distributions.
 
     Other Parameters
     ----------------
@@ -850,12 +854,14 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective spectral
-        distribution names if ``annotate`` is set to *True*.
-        ``annotate_kwargs`` can be either a single dictionary applied to
-        all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral distribution.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        spectral distribution names. ``annotate_kwargs`` can be either a single
+        dictionary applied to all the arrows with same settings or a sequence
+        of dictionaries with different settings for each spectral distribution.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the spectral distributions.
 
     Other Parameters
     ----------------
@@ -929,12 +935,14 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective spectral
-        distribution names if ``annotate`` is set to *True*.
-        ``annotate_kwargs`` can be either a single dictionary applied to
-        all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral distribution.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        spectral distribution names. ``annotate_kwargs`` can be either a single
+        dictionary applied to all the arrows with same settings or a sequence
+        of dictionaries with different settings for each spectral distribution.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the spectral distributions.
 
     Other Parameters
     ----------------

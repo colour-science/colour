@@ -731,8 +731,12 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
     scatter_kwargs : dict, optional
-        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
-        *RGB*, the scatter will use given ``RGB`` colours.
+        Keyword arguments for the :func:`plt.scatter` definition. The following
+        special keyword arguments can also be used:
+
+        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+            will use the colours as given by the ``RGB`` argument.
+
 
     Other Parameters
     ----------------
@@ -847,8 +851,11 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     scatter_kwargs : dict, optional
-        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
-        *RGB*, the scatter will use given ``RGB`` colours.
+        Keyword arguments for the :func:`plt.scatter` definition. The following
+        special keyword arguments can also be used:
+
+        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+            will use the colours as given by the ``RGB`` argument.
 
     Other Parameters
     ----------------
@@ -919,8 +926,11 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
     scatter_kwargs : dict, optional
-        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
-        *RGB*, the scatter will use given ``RGB`` colours.
+        Keyword arguments for the :func:`plt.scatter` definition. The following
+        special keyword arguments can also be used:
+
+        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+            will use the colours as given by the ``RGB`` argument.
 
     Other Parameters
     ----------------
@@ -991,8 +1001,11 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
     scatter_kwargs : dict, optional
-        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
-        *RGB*, the scatter will use given ``RGB`` colours.
+        Keyword arguments for the :func:`plt.scatter` definition. The following
+        special keyword arguments can also be used:
+
+        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+            will use the colours as given by the ``RGB`` argument.
 
     Other Parameters
     ----------------
@@ -1579,8 +1592,11 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
         'hdr-CIELAB', 'hdr-IPT'}**,
         Colourspace model.
     scatter_kwargs : dict, optional
-        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
-        *RGB*, the scatter will use given ``RGB`` colours.
+        Keyword arguments for the :func:`plt.scatter` definition. The following
+        special keyword arguments can also be used:
+
+        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+            will use the colours as given by the ``RGB`` argument.
 
     Other Parameters
     ----------------
