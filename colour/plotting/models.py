@@ -439,20 +439,17 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         P = xy_to_ij(P)
         W = xy_to_ij(colourspace.whitepoint)
 
+        P_p = np.vstack([P, P[0]])
         axes.plot(
-            (W[0], W[0]), (W[1], W[1]),
+            P_p[..., 0],
+            P_p[..., 1],
+            'o-',
             color=(R, G, B),
             label=colourspace.name)
 
         if show_whitepoints:
-            axes.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
-
-        axes.plot(
-            (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]), 'o-', color=(R, G, B))
-        axes.plot(
-            (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]), 'o-', color=(R, G, B))
-        axes.plot(
-            (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]), 'o-', color=(R, G, B))
+            W_p = np.vstack([W, W])
+            axes.plot(W_p[..., 0], W_p[..., 1], 'o', color=(R, G, B))
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
         y_limit_min.append(np.amin(P[..., 1]) - 0.1)
