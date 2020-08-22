@@ -62,8 +62,8 @@ class TestAbstractLUT(unittest.TestCase):
                             '__add__', '__iadd__', '__sub__', '__isub__',
                             '__mul__', '__imul__', '__div__', '__idiv__',
                             '__pow__', '__ipow__', 'arithmetical_operation',
-                            'is_domain_explicit', 'linear_table', 'apply',
-                            'copy', 'as_LUT')
+                            'is_domain_explicit', 'linear_table', 'invert',
+                            'apply', 'copy', 'as_LUT')
 
         for method in required_methods:
             self.assertIn(method, dir(AbstractLUT))
@@ -96,6 +96,9 @@ class TestLUT(unittest.TestCase):
         self._table_1 = None
         self._table_2 = None
         self._table_3 = None
+        self._table_1_i = None
+        self._table_2_i = None
+        # self._table_3_i = None
         self._table_1_kwargs = None
         self._table_2_kwargs = None
         self._table_3_kwargs = None
@@ -103,16 +106,19 @@ class TestLUT(unittest.TestCase):
         self._str = None
         self._repr = None
         self._applied_1 = None
+        self._applied_1_i = None
         self._applied_2 = None
+        self._applied_2_i = None
         self._applied_3 = None
+        # self._applied_3_i = None
 
     def test_required_methods(self):
         """
         Tests presence of required methods.
         """
 
-        required_methods = ('is_domain_explicit', 'linear_table', 'apply',
-                            'as_LUT')
+        required_methods = ('is_domain_explicit', 'linear_table', 'invert',
+                            'apply', 'as_LUT')
 
         for method in required_methods:
             self.assertIn(method, dir(LUT1D))
@@ -461,6 +467,31 @@ class TestLUT(unittest.TestCase):
             self._table_3,
             decimal=7)
 
+    def test_invert(self):
+        """
+        Tests :class:`colour.io.luts.lut.LUT1D.invert`,
+        :class:`colour.io.luts.lut.LUT3x1D.invert` and
+        :class:`colour.io.luts.lut.LUT3D.invert` methods.
+        """
+        if self._LUT_factory is None:
+            return
+
+        LUT_1 = self._LUT_factory(self._table_2)
+
+        np.testing.assert_almost_equal(
+            LUT_1.invert().table, self._table_1_i, decimal=7)
+
+        LUT_2 = self._LUT_factory(domain=self._domain_2)
+        LUT_2.table = spow(LUT_2.table, 1 / 2.2)
+
+        np.testing.assert_almost_equal(
+            LUT_2.invert().table, self._table_2_i, decimal=7)
+
+        # LUT_3 = self._LUT_factory(self._table_3, domain=self._domain_3)
+
+        # np.testing.assert_almost_equal(
+        #   LUT_3.invert().table, self._table_2_i, decimal=7)
+
     def test_apply(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.apply`,
@@ -477,6 +508,11 @@ class TestLUT(unittest.TestCase):
         np.testing.assert_almost_equal(
             LUT_1.apply(RANDOM_TRIPLETS), self._applied_1, decimal=7)
 
+        np.testing.assert_almost_equal(
+            LUT_1.apply(RANDOM_TRIPLETS, inverse=True),
+            self._applied_1_i,
+            decimal=7)
+
         # pylint: disable=E1102
         LUT_2 = self._LUT_factory(domain=self._domain_2)
         LUT_2.table = spow(LUT_2.table, 1 / 2.2)
@@ -484,11 +520,20 @@ class TestLUT(unittest.TestCase):
         np.testing.assert_almost_equal(
             LUT_2.apply(RANDOM_TRIPLETS), self._applied_2, decimal=7)
 
+        np.testing.assert_almost_equal(
+            LUT_2.apply(RANDOM_TRIPLETS, inverse=True),
+            self._applied_2_i,
+            decimal=7)
+
         # pylint: disable=E1102
         LUT_3 = self._LUT_factory(self._table_3, domain=self._domain_3)
 
         np.testing.assert_almost_equal(
             LUT_3.apply(RANDOM_TRIPLETS), self._applied_3, decimal=7)
+
+        # np.testing.assert_almost_equal(
+        #    LUT_3.apply(RANDOM_TRIPLETS, inverse=True),
+        #    self._applied_3_i, decimal=7)
 
     def test_copy(self):
         """
@@ -532,6 +577,10 @@ class TestLUT1D(TestLUT):
         self._table_1 = np.linspace(0, 1, 10)
         self._table_2 = self._table_1 ** (1 / 2.2)
         self._table_3 = spow(np.linspace(-0.1, 1.5, 10), (1 / 2.6))
+        self._table_1_i = [
+            0., 0.03351673, 0.06703345, 0.10055018, 0.17309499, 0.27747181,
+            0.41163987, 0.57611496, 0.77196048, 1.
+        ]
         self._table_1_kwargs = {'size': 10, 'domain': self._domain_1}
         self._table_2_kwargs = {'size': 10, 'domain': self._domain_2}
         self._table_3_kwargs = {'size': 10, 'domain': self._domain_3}
@@ -558,6 +607,18 @@ class TestLUT1D(TestLUT):
             [[0.98886872, 0.43308440, 0.89633381],
              [0.02065388, 0.79040970, 0.93651642]],
         ])
+
+        self._applied_1_i = np.array([
+            [[0.9323335, 0.07631226, 0.00271066],
+             [0.26965297, 0.16679257, 0.13530941]],
+            [[0.94393859, 0.5789442, 0.0133209],
+             [0.48291415, 0.05963181, 0.91103647]],
+            [[0.45762043, 0.72631655, 0.16767733],
+             [0.06518351, 0.96593228, 0.89528328]],
+            [[0.95130674, 0.0494231, 0.59114686],
+             [0.00187936, 0.32791974, 0.73212622]],
+        ])
+
         self._applied_2 = np.array([
             [[0.98486877, 0.53461565, 0.05614915],
              [0.75787807, 0.68473291, 0.64540281]],
@@ -612,6 +673,16 @@ class TestLUT3x1D(TestLUT):
         ])
         self._table_1 = tstack([samples_1, samples_1, samples_1])
         self._table_2 = self._table_1 ** (1 / 2.2)
+        self._table_2_i = np.array([[[0.05872527, 0.05872527, 0.05872527], [
+            0.07228641, 0.07228641, 0.07228641
+        ], [0.08584755, 0.08584755, 0.08584755], [
+            0.09940869, 0.09940869, 0.09940869
+        ], [0.11660766, 0.11660766, 0.11660766], [
+            0.15671035, 0.15671035, 0.15671035
+        ], [0.19681304, 0.19681304,
+            0.19681304], [0.24484413, 0.24484413,
+                          0.24484413], [0.30658564, 0.30658564, 0.30658564],
+                                     [0.37748608, 0.37748608, 0.37748608]]])
         self._table_3 = spow(
             tstack([
                 np.hstack([samples_1, np.full(10, np.nan)]),
@@ -657,6 +728,7 @@ class TestLUT3x1D(TestLUT):
             [[0.98886872, 0.43308440, 0.89633381],
              [0.02065388, 0.79040970, 0.93651642]],
         ])
+
         self._applied_2 = np.array([
             [[0.98453144, 0.53461565, 0.05393585],
              [0.76000720, 0.68473291, 0.62923633]],
@@ -667,6 +739,18 @@ class TestLUT3x1D(TestLUT):
             [[0.98886872, 0.42197234, 0.89183123],
              [0.02065388, 0.79047033, 0.93681229]],
         ])
+
+        self._applied_2_i = np.array([
+            [[0.35644769, 0.08960183, 0.05982203],
+             [0.15370627, 0.11511348, 0.10764943]],
+            [[0.36005586, 0.24573607, 0.06411502],
+             [0.21762702, 0.08285278, 0.34982617]],
+            [[0.21024058, 0.29219611, 0.11532324],
+             [0.08509905, 0.36689399, 0.3449283]],
+            [[0.36234671, 0.07872226, 0.24958303],
+             [0.05948568, 0.17178918, 0.29402764]],
+        ])
+
         self._applied_3 = np.array([
             [[0.98685765, 0.58844468, 0.09393531],
              [0.79274650, 0.72453018, 0.69347904]],
