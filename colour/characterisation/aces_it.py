@@ -168,8 +168,8 @@ def sd_to_aces_relative_exposure_values(
     if illuminant.shape != MSDS_ACES_RICD.shape:
         illuminant = illuminant.copy().align(shape)
 
-    s_v = sd.values
-    i_v = illuminant.values
+    s_v = np.array(sd.values)
+    i_v = np.array(illuminant.values)
 
     r_bar, g_bar, b_bar = tsplit(MSDS_ACES_RICD.values)
 

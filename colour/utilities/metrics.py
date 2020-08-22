@@ -68,7 +68,7 @@ def metric_mse(a, b, axis=None):
     """
     metric = np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
     try:
-        if metric.size == 1:
+        if np.__name__ == 'cupy' and metric.size == 1:
             return metric.item()
     except Exception:
         pass

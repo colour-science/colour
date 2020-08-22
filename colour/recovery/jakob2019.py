@@ -20,7 +20,7 @@ References
 
 from __future__ import division, print_function, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import struct
 from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator

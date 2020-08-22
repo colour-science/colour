@@ -9,7 +9,6 @@ from colour.geometry import (PLANE_TO_AXIS_MAPPING, primitive_grid,
 
 import colour.ndarray as np
 import unittest
-np.set_ndimensional_array_backend('cupy')
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'

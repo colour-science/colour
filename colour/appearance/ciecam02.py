@@ -1045,7 +1045,10 @@ def hue_quadrature(h):
         hnp = np.asnumpy(h)
         h_inp = np.asnumpy(h_i)
         np.set_ndimensional_array_backend('numpy')
-        i = as_int_array(np.searchsorted(h_inp, hnp, side='left') - 1)
+        try:
+            i = as_int_array(np.searchsorted(h_inp, hnp, side='left') - 1)
+        except Exception:
+            np.set_ndimensional_array_backend('cupy')
         np.set_ndimensional_array_backend('cupy')
         i = as_int(i)
     else:

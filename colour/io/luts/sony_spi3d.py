@@ -98,9 +98,15 @@ def read_LUT_SonySPI3D(path):
                 table.append(as_float_array(tokens[3:]))
 
     indexes = as_int_array(indexes)
-    sorting_indexes = np.lexsort((indexes[:, 2], indexes[:, 1], indexes[:, 0]))
 
     if np.__name__ == 'cupy':
+        np.set_ndimensional_array_backend('numpy')
+        indexes = np.array(indexes)
+        sorting_indexes = np.lexsort((indexes[:, 2], indexes[:, 1],
+                                      indexes[:, 0]))
+        np.set_ndimensional_array_backend('cupy')
+        indexes = np.array(indexes)
+        sorting_indexes = np.array(sorting_indexes)
         assert np.array_equal(
             indexes[sorting_indexes],
             np.array(
@@ -108,6 +114,8 @@ def read_LUT_SonySPI3D(path):
                 dtype=np.int64).reshape(
                     (-1, 3))), 'Indexes do not match expected "LUT3D" indexes!'
     else:
+        sorting_indexes = np.lexsort((indexes[:, 2], indexes[:, 1],
+                                      indexes[:, 0]))
         assert np.array_equal(
             indexes[sorting_indexes],
             DEFAULT_INT_DTYPE(
@@ -172,17 +180,18 @@ def write_LUT_SonySPI3D(LUT, path, decimals=7):
     indexTable = LUT.linear_table(LUT.size)
 
     cupy = False
+
+    assert np.array_equal(domain, np.array([
+        [0, 0, 0],
+        [1, 1, 1],
+    ])), '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!'
+
     if np.__name__ == 'cupy':
         domain = np.asnumpy(domain)
         table = np.asnumpy(table)
         indexTable = np.asnumpy(indexTable)
         np.set_ndimensional_array_backend('numpy')
         cupy = True
-
-    assert np.array_equal(domain, np.array([
-        [0, 0, 0],
-        [1, 1, 1],
-    ])), '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!'
 
     def _format_array(array):
         """

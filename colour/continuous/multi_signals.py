@@ -646,11 +646,14 @@ or dict_like
                     np.array(self.domain[:, np.newaxis]),
                     np.array(self.range)
                 ]))
+
             if cupy is True:
                 np.set_ndimensional_array_backend('cupy')
 
             return string
         except TypeError:
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
             return super(MultiSignals, self).__str__()
 
     def __repr__(self):
@@ -723,6 +726,8 @@ or dict_like
 
             return representation
         except TypeError:
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
             return super(MultiSignals, self).__repr__()
 
     def __hash__(self):

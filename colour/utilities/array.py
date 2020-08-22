@@ -270,12 +270,14 @@ def as_float(a, dtype=None):
     assert dtype in np.sctypes['float'], (
         '"dtype" must be one of the following types: {0}'.format(
             np.sctypes['float']))
-    try:
-        # TODO: Change to "DEFAULT_INT_DTYPE" when and if
-        # https://github.com/numpy/numpy/issues/11956 is addressed.
-        return float(a)
-    except TypeError:
-        return as_float_array(a, dtype)
+
+    if np.__name__ == 'cupy':
+        try:
+            return float(a)
+        except TypeError:
+            return as_float_array(a, dtype)
+
+    return dtype(a)
 
 
 def set_float_precision(dtype=DEFAULT_FLOAT_DTYPE):

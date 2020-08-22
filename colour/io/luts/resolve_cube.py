@@ -273,9 +273,6 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
     """
 
     cupy = False
-    if np.__name__ == 'cupy':
-        np.set_ndimensional_array_backend('numpy')
-        cupy = True
 
     has_3D, has_3x1D = False, False
 
@@ -317,6 +314,10 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
             'Shaper size must be in domain [2, 65536]!')
     if has_3D:
         assert 2 <= LUT[1].size <= 256, 'Cube size must be in domain [2, 256]!'
+
+    if np.__name__ == 'cupy':
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
 
     def _format_array(array):
         """

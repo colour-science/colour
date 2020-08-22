@@ -526,7 +526,13 @@ def ellipse_fitting_Halir1998(a):
     if np.__name__ == 'cupy':
         Mnp = np.asnumpy(M)
         np.set_ndimensional_array_backend('numpy')
-        _w, v = np.linalg.eig(Mnp)
+
+        try:
+            _w, v = np.linalg.eig(Mnp)
+        except Exception:
+            np.set_ndimensional_array_backend('cupy')
+            raise
+
         np.set_ndimensional_array_backend('cupy')
         _w = np.array(_w)
         v = np.array(v)

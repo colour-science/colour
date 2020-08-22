@@ -542,13 +542,13 @@ class Signal(AbstractContinuousFunction):
             np.set_ndimensional_array_backend('numpy')
             cupy = True
         try:
-            string = str(
-                np.hstack([np.array(self.domain),
-                           np.array(self.range)]))
+            string = str(tstack([np.array(self.domain), np.array(self.range)]))
             if cupy is True:
                 np.set_ndimensional_array_backend('cupy')
             return string
         except TypeError:
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
             return super(Signal, self).__str__()
 
     def __repr__(self):
@@ -610,6 +610,8 @@ class Signal(AbstractContinuousFunction):
 
             return representation
         except TypeError:
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
             return super(Signal, self).__repr__()
 
     def __hash__(self):

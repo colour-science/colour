@@ -102,7 +102,7 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     XYZ_w = to_domain_1(XYZ_w)
     XYZ_wr = to_domain_1(XYZ_wr)
 
-    M = np.array(CHROMATIC_ADAPTATION_TRANSFORMS.get(transform))
+    M = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
 
     if M is None:
         raise KeyError(

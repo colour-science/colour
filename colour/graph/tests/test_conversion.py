@@ -120,7 +120,7 @@ class TestConvert(unittest.TestCase):
             convert(a, 'CIE XYZ', 'CIE xyY', illuminant=illuminant),
             decimal=7)
 
-        if six.PY3:  # pragma: no cover
+        if np.__name__ == 'numpy' and six.PY3:  # pragma: no cover
             # Illuminant "ndarray" is converted to tuple here so that it can
             # be hashed by the "sd_to_XYZ" definition, this should never occur
             # in practical application.

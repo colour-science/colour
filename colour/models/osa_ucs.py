@@ -227,7 +227,9 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
         fmin(error_function, x_0, (Ljg_i, ), **optimisation_settings)
         for Ljg_i in Ljg
     ])
-    if cupy:
+
+    if cupy is True:
         np.set_ndimensional_array_backend('cupy')
         XYZ = np.array(XYZ)
+
     return from_range_100(XYZ.reshape(shape))

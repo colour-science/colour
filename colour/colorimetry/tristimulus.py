@@ -921,7 +921,9 @@ def sd_to_XYZ(
                               tuple(kwargs.items()), get_domain_range_scale())
     ])
     if hash_key in _CACHE_SD_TO_XYZ:
-        return _CACHE_SD_TO_XYZ[hash_key]
+        if cupy is True:
+            np.set_ndimensional_array_backend('cupy')
+        return np.array(_CACHE_SD_TO_XYZ[hash_key])
 
     function = SD_TO_XYZ_METHODS[method]
 

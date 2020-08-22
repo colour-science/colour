@@ -139,15 +139,17 @@ class TestSmoothstepFunction(unittest.TestCase):
         Tests :func:`colour.algebra.common.smoothstep_function` definition.
         """
 
-        self.assertEqual(smoothstep_function(0.5), 0.5)
-        self.assertEqual(smoothstep_function(0.25), 0.15625)
-        self.assertEqual(smoothstep_function(0.75), 0.84375)
+        np.testing.assert_array_almost_equal(smoothstep_function(0.5), 0.5)
+        np.testing.assert_array_almost_equal(
+            smoothstep_function(0.25), 0.15625)
+        np.testing.assert_array_almost_equal(
+            smoothstep_function(0.75), 0.84375)
 
         x = np.linspace(-2, 2, 5)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             smoothstep_function(x),
             np.array([28.00000, 5.00000, 0.00000, 1.00000, -4.00000]))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             smoothstep_function(x, -2, 2, clip=True),
             np.array([0.00000, 0.15625, 0.50000, 0.84375, 1.00000]))
 

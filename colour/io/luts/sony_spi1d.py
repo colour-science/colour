@@ -195,16 +195,16 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
     table = LUT.table
     cupy = False
 
+    if not (is_1D):
+        domain = np.unique(domain)
+
+        assert len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!'
+
     if np.__name__ == 'cupy':
         domain = np.asnumpy(domain)
         table = np.asnumpy(table)
         np.set_ndimensional_array_backend('numpy')
         cupy = True
-
-    if not (is_1D):
-        domain = np.unique(domain)
-
-        assert len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!'
 
     def _format_array(array):
         """

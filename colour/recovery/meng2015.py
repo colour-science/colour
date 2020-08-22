@@ -218,6 +218,8 @@ def XYZ_to_sd_Meng2015(
     result = minimize(objective_function, np.array(sd.values),
                       **optimisation_settings)
     if not result.success:
+        if cupy is True:
+            np.set_ndimensional_array_backend('cupy')
         raise RuntimeError(
             'Optimization failed for {0} after {1} iterations: "{2}".'.format(
                 XYZ, result.nit, result.message))

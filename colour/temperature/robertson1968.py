@@ -39,7 +39,7 @@ from __future__ import division, unicode_literals
 import colour.ndarray as np
 from collections import namedtuple
 
-from colour.utilities import as_float_array, tsplit
+from colour.utilities import as_float, as_float_array, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -182,7 +182,7 @@ def _uv_to_CCT_Robertson1968(uv):
         last_du = du
         last_dv = dv
 
-    return np.array([T, -D_uv])
+    return np.array([as_float(T), as_float(-D_uv)])
 
 
 def uv_to_CCT_Robertson1968(uv):

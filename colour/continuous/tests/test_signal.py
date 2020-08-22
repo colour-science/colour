@@ -224,15 +224,16 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_array_equal(signal.domain, self._domain)
         np.testing.assert_array_equal(signal.range, self._range)
 
-        signal = Signal(dict(zip(self._domain, self._range)))
-        np.testing.assert_array_equal(signal.domain, self._domain)
-        np.testing.assert_array_equal(signal.range, self._range)
+        if np.__name__ == 'numpy':
+            signal = Signal(dict(zip(self._domain, self._range)))
+            np.testing.assert_array_equal(signal.domain, self._domain)
+            np.testing.assert_array_equal(signal.range, self._range)
 
         signal = Signal(signal)
         np.testing.assert_array_equal(signal.domain, self._domain)
         np.testing.assert_array_equal(signal.range, self._range)
 
-        if is_pandas_installed():
+        if np.__name__ == 'numpy' and is_pandas_installed():
             from pandas import Series
 
             signal = Signal(Series(dict(zip(self._domain, self._range))))
@@ -250,7 +251,19 @@ class TestSignal(unittest.TestCase):
         """
         Tests :func:`colour.continuous.signal.Signal.__str__` method.
         """
-
+        print(str(self._signal))
+        print(
+            textwrap.dedent("""
+                [[   0.   10.]
+                 [   1.   20.]
+                 [   2.   30.]
+                 [   3.   40.]
+                 [   4.   50.]
+                 [   5.   60.]
+                 [   6.   70.]
+                 [   7.   80.]
+                 [   8.   90.]
+                 [   9.  100.]]""")[1:])
         self.assertEqual(
             str(self._signal),
             textwrap.dedent("""
@@ -574,17 +587,18 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
-        domain, range_ = Signal.signal_unpack_data(
-            dict(zip(self._domain, self._range)))
-        np.testing.assert_array_equal(range_, self._range)
-        np.testing.assert_array_equal(domain, self._domain)
+        if np.__name__ == 'numpy':
+            domain, range_ = Signal.signal_unpack_data(
+                dict(zip(self._domain, self._range)))
+            np.testing.assert_array_equal(range_, self._range)
+            np.testing.assert_array_equal(domain, self._domain)
 
         domain, range_ = Signal.signal_unpack_data(
             Signal(self._range, self._domain))
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
-        if is_pandas_installed():
+        if np.__name__ == 'numpy' and is_pandas_installed():
             from pandas import Series
 
             domain, range_ = Signal.signal_unpack_data(
@@ -633,7 +647,7 @@ class TestSignal(unittest.TestCase):
         Tests :func:`colour.continuous.signal.Signal.to_series` method.
         """
 
-        if is_pandas_installed():
+        if np.__name__ == 'numpy' and is_pandas_installed():
             from pandas import Series
 
             self.assertEqual(
