@@ -705,8 +705,8 @@ def plot_sds_in_chromaticity_diagram(
     if annotate_kwargs is not None:
         if not isinstance(annotate_kwargs, dict):
             assert len(annotate_kwargs) == len(sds), (
-                'Multiple annotate parameters defined, but they do not match '
-                'the spectral distributions count!')
+                'Multiple annotate keyword arguments defined, but they do not '
+                'match the spectral distribution count!')
 
         for i, annotate_settings in enumerate(annotate_settings_collection):
             if isinstance(annotate_kwargs, dict):

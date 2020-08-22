@@ -1216,8 +1216,8 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
     if ellipse_kwargs is not None:
         if not isinstance(ellipse_kwargs, dict):
             assert len(ellipse_kwargs) == len(ellipses_coefficients), (
-                'Multiple ellipse parameters defined, but they do not match '
-                'the ellipses count!')
+                'Multiple ellipse keyword arguments defined, but they do not '
+                'match the ellipse count!')
 
         for i, ellipse_settings in enumerate(ellipse_settings_collection):
             if isinstance(ellipse_kwargs, dict):

@@ -1345,8 +1345,8 @@ def plot_multi_functions(functions,
     if plot_kwargs is not None:
         if not isinstance(plot_kwargs, dict):
             assert len(plot_kwargs) == len(functions), (
-                'Multiple plot parameters defined, but they do not match '
-                'the functions count!')
+                'Multiple plot keyword arguments defined, but they do not '
+                'match the function count!')
 
         for i, plot_settings in enumerate(plot_settings_collection):
             if isinstance(plot_kwargs, dict):

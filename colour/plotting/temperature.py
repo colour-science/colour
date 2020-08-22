@@ -334,8 +334,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     if annotate_kwargs is not None:
         if not isinstance(annotate_kwargs, dict):
             assert len(annotate_kwargs) == len(illuminants), (
-                'Multiple annotate parameters defined, but they do not match '
-                'the illuminants count!')
+                'Multiple annotate keyword arguments defined, but they do not '
+                'match the illuminant count!')
 
         for i, annotate_settings in enumerate(annotate_settings_collection):
             if isinstance(annotate_kwargs, dict):
