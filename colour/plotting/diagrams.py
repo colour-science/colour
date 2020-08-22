@@ -573,9 +573,9 @@ def plot_chromaticity_diagram_CIE1976UCS(
 def plot_sds_in_chromaticity_diagram(
         sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate_kwargs=None,
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
+        annotate_kwargs=None,
         **kwargs):
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -593,6 +593,11 @@ def plot_sds_in_chromaticity_diagram(
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
+    chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the *Chromaticity Diagram*.
+    method : unicode, optional
+        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+        *Chromaticity Diagram* method.
     annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
@@ -600,11 +605,6 @@ def plot_sds_in_chromaticity_diagram(
         ``annotate_kwargs`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
         different settings for each spectral distribution.
-    chromaticity_diagram_callable : callable, optional
-        Callable responsible for drawing the *Chromaticity Diagram*.
-    method : unicode, optional
-        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
-        *Chromaticity Diagram* method.
 
     Other Parameters
     ----------------
@@ -748,9 +748,9 @@ def plot_sds_in_chromaticity_diagram(
 def plot_sds_in_chromaticity_diagram_CIE1931(
         sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate_kwargs=None,
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
+        annotate_kwargs=None,
         **kwargs):
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -768,6 +768,8 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
+    chromaticity_diagram_callable_CIE1931 : callable, optional
+        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
@@ -775,8 +777,6 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
         ``annotate_kwargs`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
         different settings for each spectral distribution.
-    chromaticity_diagram_callable_CIE1931 : callable, optional
-        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -815,7 +815,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
     settings.update({'method': 'CIE 1931'})
 
     return plot_sds_in_chromaticity_diagram(
-        sds, cmfs, annotate_kwargs, chromaticity_diagram_callable_CIE1931,
+        sds, cmfs, chromaticity_diagram_callable_CIE1931, annotate_kwargs,
         **settings)
 
 
@@ -823,9 +823,9 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
 def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate_kwargs=None,
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
+        annotate_kwargs=None,
         **kwargs):
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -843,6 +843,9 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
+    chromaticity_diagram_callable_CIE1960UCS : callable, optional
+        Callable responsible for drawing the
+        *CIE 1960 UCS Chromaticity Diagram*.
     annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
@@ -850,9 +853,6 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         ``annotate_kwargs`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
         different settings for each spectral distribution.
-    chromaticity_diagram_callable_CIE1960UCS : callable, optional
-        Callable responsible for drawing the
-        *CIE 1960 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -891,7 +891,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
     settings.update({'method': 'CIE 1960 UCS'})
 
     return plot_sds_in_chromaticity_diagram(
-        sds, cmfs, annotate_kwargs, chromaticity_diagram_callable_CIE1960UCS,
+        sds, cmfs, chromaticity_diagram_callable_CIE1960UCS, annotate_kwargs,
         **settings)
 
 
@@ -899,9 +899,9 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
 def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate_kwargs=None,
         chromaticity_diagram_callable_CIE1976UCS=(
             plot_chromaticity_diagram_CIE1976UCS),
+        annotate_kwargs=None,
         **kwargs):
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -919,6 +919,9 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
+    chromaticity_diagram_callable_CIE1976UCS : callable, optional
+        Callable responsible for drawing the
+        *CIE 1976 UCS Chromaticity Diagram*.
     annotate_kwargs : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
@@ -926,9 +929,6 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         ``annotate_kwargs`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
         different settings for each spectral distribution.
-    chromaticity_diagram_callable_CIE1976UCS : callable, optional
-        Callable responsible for drawing the
-        *CIE 1976 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -967,5 +967,5 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
     settings.update({'method': 'CIE 1976 UCS'})
 
     return plot_sds_in_chromaticity_diagram(
-        sds, cmfs, annotate_kwargs, chromaticity_diagram_callable_CIE1976UCS,
+        sds, cmfs, chromaticity_diagram_callable_CIE1976UCS, annotate_kwargs,
         **settings)
