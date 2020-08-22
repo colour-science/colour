@@ -815,7 +815,10 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
     settings.update({'method': 'CIE 1931'})
 
     return plot_sds_in_chromaticity_diagram(
-        sds, cmfs, chromaticity_diagram_callable_CIE1931, annotate_kwargs,
+        sds,
+        cmfs,
+        chromaticity_diagram_callable_CIE1931,
+        annotate_kwargs=annotate_kwargs,
         **settings)
 
 
@@ -891,7 +894,10 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
     settings.update({'method': 'CIE 1960 UCS'})
 
     return plot_sds_in_chromaticity_diagram(
-        sds, cmfs, chromaticity_diagram_callable_CIE1960UCS, annotate_kwargs,
+        sds,
+        cmfs,
+        chromaticity_diagram_callable_CIE1960UCS,
+        annotate_kwargs=annotate_kwargs,
         **settings)
 
 
@@ -967,5 +973,8 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
     settings.update({'method': 'CIE 1976 UCS'})
 
     return plot_sds_in_chromaticity_diagram(
-        sds, cmfs, chromaticity_diagram_callable_CIE1976UCS, annotate_kwargs,
+        sds,
+        cmfs,
+        chromaticity_diagram_callable_CIE1976UCS,
+        annotate_kwargs=annotate_kwargs,
         **settings)
