@@ -42,7 +42,8 @@ __all__ = [
     'closest_indexes', 'closest', 'normalise_maximum', 'interval',
     'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
     'dot_vector', 'dot_matrix', 'orient', 'centroid', 'linear_conversion',
-    'lerp', 'fill_nan', 'ndarray_write', 'zeros', 'ones', 'full'
+    'lerp', 'fill_nan', 'ndarray_write', 'zeros', 'ones', 'full',
+    'index_along_last_axis'
 ]
 
 
@@ -1344,10 +1345,7 @@ def index_along_last_axis(a, indexes):
 
     if a.shape[:-1] != indexes.shape:
         raise ValueError('Arrays have incompatible shapes: {0} and {1}'.format(
-                         a.shape, indexes.shape))
+            a.shape, indexes.shape))
 
     return np.take_along_axis(
-        a,
-        np.expand_dims(indexes, axis=-1),
-        axis=-1
-    ).squeeze(axis=-1)
+        a, np.expand_dims(indexes, axis=-1), axis=-1).squeeze(axis=-1)
