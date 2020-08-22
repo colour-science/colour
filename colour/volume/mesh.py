@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Mesh Volume Computations Helpers
-================================
+Mesh Volume Computation Helpers
+===============================
 
 Defines helpers objects related to volume computations.
 """

@@ -803,8 +803,8 @@ class RGB_Colourspace(object):
         >>> colourspace = RGB_Colourspace('RGB Colourspace', p, w_t, 'D65')
         >>> print(colourspace.chromatically_adapt(w_r, 'D50', 'Bradford'))
         ... # doctest: +ELLIPSIS
-        RGB Colourspace - Chromatically Adapted to [ 0.3127  0.329 ]
-        ------------------------------------------------------------
+        RGB Colourspace - Chromatically Adapted to D50
+        ----------------------------------------------
         <BLANKLINE>
         Primaries          : [[ 0.73485524  0.26422533]
                               [-0.00617091  1.01131496]
@@ -839,7 +839,8 @@ class RGB_Colourspace(object):
         colourspace.use_derived_transformation_matrices()
 
         colourspace.name = '{0} - Chromatically Adapted to {1}'.format(
-            colourspace.name, whitepoint)
+            colourspace.name, whitepoint
+            if whitepoint_name is None else whitepoint_name)
 
         return colourspace
 

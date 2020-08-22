@@ -174,7 +174,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_RGB_colourspaces_in_chromaticity_diagram(
-            show_pointer_gamut=True)
+            show_pointer_gamut=True, chromatically_adapt=True)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

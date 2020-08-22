@@ -365,6 +365,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
                                  show_spectral_locus=False,
                                  spectral_locus_colour=None,
                                  cmfs='CIE 1931 2 Degree Standard Observer',
+                                 chromatically_adapt=False,
                                  **kwargs):
     """
     Plots given *RGB* colourspaces gamuts in given reference colourspace.
@@ -395,6 +396,9 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
+    chromatically_adapt : bool, optional
+        Whether to chromatically adapt the *RGB* colourspaces given in
+        ``colourspaces`` to the whitepoint of the default plotting colourspace.
 
     Other Parameters
     ----------------
@@ -476,8 +480,17 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
             color=c,
             zorder=10)
 
+    plotting_colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
+
     quads, RGB_f, RGB_e = [], [], []
     for i, colourspace in enumerate(colourspaces):
+
+        if chromatically_adapt and not np.array_equal(
+                colourspace.whitepoint, plotting_colourspace.whitepoint):
+            colourspace = colourspace.chromatically_adapt(
+                plotting_colourspace.whitepoint,
+                plotting_colourspace.whitepoint_name)
+
         quads_c, RGB = RGB_identity_cube(
             width_segments=segments,
             height_segments=segments,
@@ -565,6 +578,7 @@ def plot_RGB_scatter(RGB,
                      spectral_locus_colour=None,
                      points_size=12,
                      cmfs='CIE 1931 2 Degree Standard Observer',
+                     chromatically_adapt=False,
                      **kwargs):
     """
     Plots given *RGB* colourspace array in a scatter plot.
@@ -601,6 +615,9 @@ def plot_RGB_scatter(RGB,
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
+    chromatically_adapt : bool, optional
+        Whether to chromatically adapt the *RGB* colourspaces given in
+        ``colourspaces`` to the whitepoint of the default plotting colourspace.
 
     Other Parameters
     ----------------
@@ -650,6 +667,7 @@ def plot_RGB_scatter(RGB,
         show_spectral_locus=show_spectral_locus,
         spectral_locus_colour=spectral_locus_colour,
         cmfs=cmfs,
+        chromatically_adapt=chromatically_adapt,
         **settings)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,

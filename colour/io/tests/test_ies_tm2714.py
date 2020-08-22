@@ -12,7 +12,7 @@ import unittest
 import tempfile
 
 from colour.colorimetry import SpectralDistribution
-from colour.io.ies_tm2714 import (IES_TM2714_Header,
+from colour.io.ies_tm2714 import (Header_IESTM2714,
                                   SpectralDistribution_IESTM2714)
 
 __author__ = 'Colour Developers'
@@ -140,7 +140,7 @@ FLUORESCENT_FILE_SPECTRAL_DATA = {
 
 class TestIES_TM2714_Header(unittest.TestCase):
     """
-    Defines :class:`colour.io.iestm2714.IES_TM2714_Header` class unit tests
+    Defines :class:`colour.io.iestm2714.Header_IESTM2714` class unit tests
     methods.
     """
 
@@ -156,7 +156,7 @@ class TestIES_TM2714_Header(unittest.TestCase):
                                'document_creation_date', 'comments')
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(IES_TM2714_Header))
+            self.assertIn(attribute, dir(Header_IESTM2714))
 
 
 class TestIES_TM2714_Sd(unittest.TestCase):
