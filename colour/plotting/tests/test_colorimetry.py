@@ -40,7 +40,7 @@ class TestPlotSingleSd(unittest.TestCase):
     tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_single_sd(self):
         """
         Tests :func:`colour.plotting.colorimetry.plot_single_sd` definition.
         """
@@ -128,7 +128,7 @@ class TestPlotSingleCmfs(unittest.TestCase):
     unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_single_cmfs(self):
         """
         Tests :func:`colour.plotting.colorimetry.plot_single_cmfs` definition.
         """
@@ -145,7 +145,7 @@ class TestPlotMultiCmfs(unittest.TestCase):
     tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_multi_cmfs(self):
         """
         Tests :func:`colour.plotting.colorimetry.plot_multi_cmfs` definition.
         """
@@ -162,7 +162,7 @@ class TestPlotSingleIlluminantSd(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_single_illuminant_sd(self):
         """
         Tests :func:`colour.plotting.colorimetry.plot_single_illuminant_sd`
         definition.
@@ -180,7 +180,7 @@ class TestPlotMultiIlluminantSds(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_multi_illuminant_sds(self):
         """
         Tests :func:`colour.plotting.colorimetry.plot_multi_illuminant_sds`
         definition.
@@ -206,7 +206,7 @@ class TestPlotVisibleSpectrum(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_visible_spectrum(self):
         """
         Tests :func:`colour.plotting.colorimetry.plot_visible_spectrum`
         definition.
@@ -224,7 +224,7 @@ class TestPlotSingleLightnessFunction(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_single_lightness_function(self):
         """
         Tests :func:`colour.plotting.colorimetry.\
 plot_single_lightness_function` definition.
@@ -242,7 +242,7 @@ class TestPlotMultiLightnessFunctions(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_multi_lightness_functions(self):
         """
         Tests :func:`colour.plotting.colorimetry.\
 plot_multi_lightness_functions` definition.
@@ -260,7 +260,7 @@ class TestPlotSingleLuminanceFunction(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_single_luminance_function(self):
         """
         Tests :func:`colour.plotting.colorimetry.\
 plot_single_luminance_function` definition.
@@ -278,7 +278,7 @@ class TestPlotMultiLuminanceFunctions(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_multi_luminance_functions(self):
         """
         Tests :func:`colour.plotting.colorimetry.\
 plot_multi_luminance_functions` definition.
@@ -296,7 +296,7 @@ class TestPlotBlackbodySpectralRadiance(unittest.TestCase):
 plot_blackbody_spectral_radiance` definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_blackbody_spectral_radiance(self):
         """
         Tests :func:`colour.plotting.colorimetry.\
 plot_blackbody_spectral_radiance` definition.
@@ -314,7 +314,7 @@ class TestPlotBlackbodyColours(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_blackbody_colours(self):
         """
         Tests :func:`colour.plotting.colorimetry.plot_blackbody_colours`
         definition.
