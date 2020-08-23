@@ -40,7 +40,8 @@ from colour.colorimetry import (
 from colour.plotting import (
     ColourSwatch, CONSTANTS_COLOUR_STYLE, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
-    render, plot_single_colour_swatch, plot_multi_functions)
+    render, plot_single_colour_swatch, plot_multi_functions,
+    update_settings_collection)
 from colour.utilities import (domain_range_scale, first_item,
                               normalise_maximum, ones, tstack)
 from colour.utilities.deprecation import handle_arguments_deprecation
@@ -308,16 +309,8 @@ def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
     } for sd in sds]
 
     if plot_kwargs is not None:
-        if not isinstance(plot_kwargs, dict):
-            assert len(plot_kwargs) == len(sds), (
-                'Multiple plot keyword arguments defined, but they do not '
-                'match the spectral distribution count!')
-
-        for i, plot_settings in enumerate(plot_settings_collection):
-            if isinstance(plot_kwargs, dict):
-                plot_settings.update(plot_kwargs)
-            else:
-                plot_settings.update(plot_kwargs[i])
+        update_settings_collection(plot_settings_collection, plot_kwargs,
+                                   len(sds))
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, sd in enumerate(sds):

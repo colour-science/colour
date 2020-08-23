@@ -14,9 +14,9 @@ from .common import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
                      ColourSwatch, colour_cycle, artist, camera, render,
                      label_rectangles, uniform_axes3d, filter_passthrough,
                      filter_RGB_colourspaces, filter_cmfs, filter_illuminants,
-                     filter_colour_checkers, plot_single_colour_swatch,
-                     plot_multi_colour_swatches, plot_single_function,
-                     plot_multi_functions, plot_image)
+                     filter_colour_checkers, update_settings_collection,
+                     plot_single_colour_swatch, plot_multi_colour_swatches,
+                     plot_single_function, plot_multi_functions, plot_image)
 from .blindness import plot_cvd_simulation_Machado2009
 from .colorimetry import (
     plot_single_sd, plot_multi_sds, plot_single_cmfs, plot_multi_cmfs,
@@ -67,8 +67,9 @@ __all__ += [
     'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
     'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
-    'plot_single_colour_swatch', 'plot_multi_colour_swatches',
-    'plot_single_function', 'plot_multi_functions', 'plot_image'
+    'update_settings_collection', 'plot_single_colour_swatch',
+    'plot_multi_colour_swatches', 'plot_single_function',
+    'plot_multi_functions', 'plot_image'
 ]
 __all__ += ['plot_cvd_simulation_Machado2009']
 __all__ += [

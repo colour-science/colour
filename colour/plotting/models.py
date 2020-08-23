@@ -68,7 +68,8 @@ from colour.plotting import (
     CONSTANTS_COLOUR_STYLE, plot_chromaticity_diagram_CIE1931, artist,
     plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
     colour_cycle, colour_style, filter_passthrough, filter_RGB_colourspaces,
-    filter_cmfs, plot_multi_functions, override_style, render)
+    filter_cmfs, plot_multi_functions, override_style, render,
+    update_settings_collection)
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
                               first_item, tsplit, tstack)
@@ -447,16 +448,8 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
     } for colourspace in colourspaces]
 
     if plot_kwargs is not None:
-        if not isinstance(plot_kwargs, dict):
-            assert len(plot_kwargs) == len(colourspaces), (
-                'Multiple plot keyword arguments defined, but they do not '
-                'match the "RGB" colourspaces count!')
-
-        for i, plot_settings in enumerate(plot_settings_collection):
-            if isinstance(plot_kwargs, dict):
-                plot_settings.update(plot_kwargs)
-            else:
-                plot_settings.update(plot_kwargs[i])
+        update_settings_collection(plot_settings_collection, plot_kwargs,
+                                   len(colourspaces))
 
     for i, colourspace in enumerate(colourspaces):
         plot_settings = plot_settings_collection[i]
@@ -1275,16 +1268,8 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
     } for _ellipses_coefficient in ellipses_coefficients]
 
     if ellipse_kwargs is not None:
-        if not isinstance(ellipse_kwargs, dict):
-            assert len(ellipse_kwargs) == len(ellipses_coefficients), (
-                'Multiple ellipse keyword arguments defined, but they do not '
-                'match the ellipse count!')
-
-        for i, ellipse_settings in enumerate(ellipse_settings_collection):
-            if isinstance(ellipse_kwargs, dict):
-                ellipse_settings.update(ellipse_kwargs)
-            else:
-                ellipse_settings.update(ellipse_kwargs[i])
+        update_settings_collection(ellipse_settings_collection, ellipse_kwargs,
+                                   len(ellipses_coefficients))
 
     for i, coefficients in enumerate(ellipses_coefficients):
         x_c, y_c, a_a, a_b, theta_e = coefficients

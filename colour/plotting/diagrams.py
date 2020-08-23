@@ -26,7 +26,8 @@ from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
                              XYZ_to_plotting_colourspace, artist, filter_cmfs,
-                             filter_illuminants, override_style, render)
+                             filter_illuminants, override_style, render,
+                             update_settings_collection)
 from colour.utilities import (domain_range_scale, first_item, is_string,
                               normalise_maximum, tstack, suppress_warnings)
 from colour.utilities.deprecation import handle_arguments_deprecation
@@ -745,16 +746,8 @@ def plot_sds_in_chromaticity_diagram(
     } for _ in range(len(sds))]
 
     if annotate_kwargs is not None:
-        if not isinstance(annotate_kwargs, dict):
-            assert len(annotate_kwargs) == len(sds), (
-                'Multiple annotate keyword arguments defined, but they do not '
-                'match the spectral distribution count!')
-
-        for i, annotate_settings in enumerate(annotate_settings_collection):
-            if isinstance(annotate_kwargs, dict):
-                annotate_settings.update(annotate_kwargs)
-            else:
-                annotate_settings.update(annotate_kwargs[i])
+        update_settings_collection(annotate_settings_collection,
+                                   annotate_kwargs, len(sds))
 
     plot_settings_collection = [{
         'color':
@@ -782,16 +775,8 @@ def plot_sds_in_chromaticity_diagram(
     } for sd in sds]
 
     if plot_kwargs is not None:
-        if not isinstance(plot_kwargs, dict):
-            assert len(plot_kwargs) == len(sds), (
-                'Multiple plot keyword arguments defined, but they do not '
-                'match the spectral distribution count!')
-
-        for i, plot_settings in enumerate(plot_settings_collection):
-            if isinstance(plot_kwargs, dict):
-                plot_settings.update(plot_kwargs)
-            else:
-                plot_settings.update(plot_kwargs[i])
+        update_settings_collection(plot_settings_collection, plot_kwargs,
+                                   len(sds))
 
     for i, sd in enumerate(sds):
         plot_settings = plot_settings_collection[i]
