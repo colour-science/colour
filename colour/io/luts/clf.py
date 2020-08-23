@@ -426,10 +426,10 @@ def write_clf(LUT, path, name='', id='', decimals=10):
             d.text = comment
 
     process_list = ElementTree.Element('ProcessList')
-    process_list.set('xmlns', 'urn:NATAS:AMPAS:LUT:v2.0')
+    process_list.set('xmlns', 'urn:AMPAS:LUT:v3.0')
     process_list.set('id', id)
     process_list.set('name', name)
-    process_list.set('compCLFversion', '2.0')
+    process_list.set('compCLFversion', '3.0')
     for node in LUT:
         if isinstance(node, ASC_CDL):
             process_node = ElementTree.Element('ASC_CDL')
@@ -606,8 +606,8 @@ def write_clf(LUT, path, name='', id='', decimals=10):
                 if node.style.lower()[:8] == 'moncurve':
                     ep_blue.set('offset', '{}'.format(node.offset[2]))
 
-        process_node.set('inBitDepth', '16f')
-        process_node.set('outBitDepth', '16f')
+        process_node.set('inBitDepth', '32f')
+        process_node.set('outBitDepth', '32f')
         process_node.set('name', node.name)
         process_list.append(process_node)
 

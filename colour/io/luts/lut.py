@@ -2773,6 +2773,24 @@ class Exponent(AbstractLUTSequenceOperator):
 
             return tstack((r, g, b))
 
+class Log(AbstractLUTSequenceOperator):
+    def __init__(self,
+                 base=2,
+                 logSideSlope=1,
+                 logSideOffset=0,
+                 linSideSlope=1,
+                 linSideOffset=0,
+                 linSideBreak=0,
+                 linearSlope=1,
+                 style='cameraLinToLog',
+                 name='',
+                 comments=None):
+        self.exponent = exponent
+        self.offset = offset
+        self.style = style
+        self.name = name
+        self.comments = comments
+
     def __str__(self):
         return ('{0} - {1}\n'
                 '{2}\n\n'
