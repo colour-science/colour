@@ -174,7 +174,17 @@ plot_RGB_colourspaces_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_RGB_colourspaces_in_chromaticity_diagram(
-            show_pointer_gamut=True, chromatically_adapt=True)
+            show_pointer_gamut=True,
+            chromatically_adapt=True,
+            plot_kwargs={'linestyle': 'dashed'})
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_RGB_colourspaces_in_chromaticity_diagram(
+            plot_kwargs=[{
+                'linestyle': 'dashed'
+            }] * 3)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

@@ -295,6 +295,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
         show_whitepoints=True,
         show_pointer_gamut=False,
         chromatically_adapt=True,
+        plot_kwargs=None,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *Chromaticity Diagram* according
@@ -322,6 +323,12 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     chromatically_adapt : bool, optional
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
+    plot_kwargs : dict or array_like, optional
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted *RGB* colourspaces. ``plot_kwargs`` can be
+        either a single dictionary applied to all the plotted *RGB*
+        colourspaces with same settings or a sequence of dictionaries with
+        different settings for each plotted *RGB* colourspace.
 
     Other Parameters
     ----------------
@@ -339,8 +346,13 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
 
     Examples
     --------
+    >>> plot_kwargs = [
+    ...     {'color': 'r'},
+    ...     {'linestyle': 'dashed'},
+    ...     {'marker': None}
+    ... ]
     >>> plot_RGB_colourspaces_in_chromaticity_diagram(
-    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], plot_kwargs=plot_kwargs)
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -431,15 +443,32 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
     plotting_colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
 
-    for colourspace in colourspaces:
+    plot_settings_collection = [{
+        'label': '{0}'.format(colourspace.name),
+        'marker': 'o',
+        'color': next(cycle)[:3]
+    } for colourspace in colourspaces]
+
+    if plot_kwargs is not None:
+        if not isinstance(plot_kwargs, dict):
+            assert len(plot_kwargs) == len(colourspaces), (
+                'Multiple plot keyword arguments defined, but they do not '
+                'match the "RGB" colourspaces count!')
+
+        for i, plot_settings in enumerate(plot_settings_collection):
+            if isinstance(plot_kwargs, dict):
+                plot_settings.update(plot_kwargs)
+            else:
+                plot_settings.update(plot_kwargs[i])
+
+    for i, colourspace in enumerate(colourspaces):
+        plot_settings = plot_settings_collection[i]
 
         if chromatically_adapt and not np.array_equal(
                 colourspace.whitepoint, plotting_colourspace.whitepoint):
             colourspace = colourspace.chromatically_adapt(
                 plotting_colourspace.whitepoint,
                 plotting_colourspace.whitepoint_name)
-
-        R, G, B, _A = next(cycle)
 
         # RGB colourspaces such as *ACES2065-1* have primaries with
         # chromaticity coordinates set to 0 thus we prevent nan from being
@@ -453,16 +482,14 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         W = xy_to_ij(colourspace.whitepoint)
 
         P_p = np.vstack([P, P[0]])
-        axes.plot(
-            P_p[..., 0],
-            P_p[..., 1],
-            'o-',
-            color=(R, G, B),
-            label=colourspace.name)
+        axes.plot(P_p[..., 0], P_p[..., 1], **plot_settings)
 
         if show_whitepoints:
+            plot_settings['marker'] = 'o'
+            plot_settings.pop('label')
+
             W_p = np.vstack([W, W])
-            axes.plot(W_p[..., 0], W_p[..., 1], 'o', color=(R, G, B))
+            axes.plot(W_p[..., 0], W_p[..., 1], **plot_settings)
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
         y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -495,6 +522,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
         show_whitepoints=True,
         show_pointer_gamut=False,
         chromatically_adapt=False,
+        plot_kwargs=None,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
@@ -518,6 +546,12 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     chromatically_adapt : bool, optional
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
+    plot_kwargs : dict or array_like, optional
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted *RGB* colourspaces. ``plot_kwargs`` can be
+        either a single dictionary applied to all the plotted *RGB*
+        colourspaces with same settings or a sequence of dictionaries with
+        different settings for each plotted *RGB* colourspace.
 
     Other Parameters
     ----------------
@@ -555,6 +589,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
         show_whitepoints=show_whitepoints,
         show_pointer_gamut=show_pointer_gamut,
         chromatically_adapt=chromatically_adapt,
+        plot_kwargs=plot_kwargs,
         **settings)
 
 
@@ -567,6 +602,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
         show_whitepoints=True,
         show_pointer_gamut=False,
         chromatically_adapt=False,
+        plot_kwargs=None,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
@@ -591,6 +627,12 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     chromatically_adapt : bool, optional
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
+    plot_kwargs : dict or array_like, optional
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted *RGB* colourspaces. ``plot_kwargs`` can be
+        either a single dictionary applied to all the plotted *RGB*
+        colourspaces with same settings or a sequence of dictionaries with
+        different settings for each plotted *RGB* colourspace.
 
     Other Parameters
     ----------------
@@ -628,6 +670,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
         show_whitepoints=show_whitepoints,
         show_pointer_gamut=show_pointer_gamut,
         chromatically_adapt=chromatically_adapt,
+        plot_kwargs=plot_kwargs,
         **settings)
 
 
@@ -640,6 +683,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
         show_whitepoints=True,
         show_pointer_gamut=False,
         chromatically_adapt=False,
+        plot_kwargs=None,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
@@ -664,6 +708,12 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     chromatically_adapt : bool, optional
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
+    plot_kwargs : dict or array_like, optional
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted *RGB* colourspaces. ``plot_kwargs`` can be
+        either a single dictionary applied to all the plotted *RGB*
+        colourspaces with same settings or a sequence of dictionaries with
+        different settings for each plotted *RGB* colourspace.
 
     Other Parameters
     ----------------
@@ -701,6 +751,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
         show_whitepoints=show_whitepoints,
         show_pointer_gamut=show_pointer_gamut,
         chromatically_adapt=chromatically_adapt,
+        plot_kwargs=plot_kwargs,
         **settings)
 
 
