@@ -426,10 +426,10 @@ def write_clf(LUT, path, name='', id='', decimals=10):
             d.text = comment
 
     process_list = ElementTree.Element('ProcessList')
-    process_list.set('xmlns', 'urn:AMPAS:LUT:v3.0')
+    process_list.set('xmlns', 'urn:NATAS:AMPAS:LUT:v2.0')
     process_list.set('id', id)
     process_list.set('name', name)
-    process_list.set('compCLFversion', '3.0')
+    process_list.set('compCLFversion', '2.0')
     for node in LUT:
         if isinstance(node, ASC_CDL):
             process_node = ElementTree.Element('ASC_CDL')

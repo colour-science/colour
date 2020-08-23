@@ -2773,6 +2773,21 @@ class Exponent(AbstractLUTSequenceOperator):
 
             return tstack((r, g, b))
 
+        return ('{0} - {1}\n'
+                '{2}\n\n'
+                'Exponent.r : {3}\n'
+                'Exponent.g : {4}\n'
+                'Exponent.b : {5}\n'
+                '{6}'
+                'Style : {7}\n'
+                '{8}'.format(
+                    self.__class__.__name__, self.name, 
+                    '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
+                     self.exponent[0], self.exponent[1], self.exponent[2],
+                     'Offset.r : {}\nOffset.g : {}\nOffset.b : {}\n'.format(self.offset[0], self.offset[1], self.offset[2]) if self.style.lower()[:8] == 'moncurve' else '', self.style,
+                    '\n\n{0}'.format('\n'.join(self.comments))
+                    if self.comments else ''))
+
 class Log(AbstractLUTSequenceOperator):
     def __init__(self,
                  base=2,
@@ -2790,19 +2805,3 @@ class Log(AbstractLUTSequenceOperator):
         self.style = style
         self.name = name
         self.comments = comments
-
-    def __str__(self):
-        return ('{0} - {1}\n'
-                '{2}\n\n'
-                'Exponent.r : {3}\n'
-                'Exponent.g : {4}\n'
-                'Exponent.b : {5}\n'
-                '{6}'
-                'Style : {7}\n'
-                '{8}'.format(
-                    self.__class__.__name__, self.name, 
-                    '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
-                     self.exponent[0], self.exponent[1], self.exponent[2],
-                     'Offset.r : {}\nOffset.g : {}\nOffset.b : {}\n'.format(self.offset[0], self.offset[1], self.offset[2]) if self.style.lower()[:8] == 'moncurve' else '', self.style,
-                    '\n\n{0}'.format('\n'.join(self.comments))
-                    if self.comments else ''))
