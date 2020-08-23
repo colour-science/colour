@@ -7,6 +7,7 @@ from colour.models import XYZ_to_sRGB
 from colour.notation import RGB_to_HEX
 from colour.quality.cfi2017 import get_tcs_CFI2017
 
+
 if __name__ == '__main__':
     sds = get_tcs_CFI2017(SpectralShape(380, 780, 5)).to_sds()
     D65 = SDS_ILLUMINANTS['D65']

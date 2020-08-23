@@ -7,9 +7,9 @@ from colour.colorimetry import sd_to_XYZ
 from colour.utilities import as_float_array
 
 _BIN_BAR_COLOURS = ['#a35c60', '#cc765e', '#cc8145', '#d8ac62', '#ac9959',
-                   '#919e5d', '#668b5e', '#61b290', '#7bbaa6', '#297a7e',
-                   '#55788d', '#708ab2', '#988caa', '#735877', '#8f6682',
-                   '#ba7a8e']
+                    '#919e5d', '#668b5e', '#61b290', '#7bbaa6', '#297a7e',
+                    '#55788d', '#708ab2', '#988caa', '#735877', '#8f6682',
+                    '#ba7a8e']
 
 _BIN_ARROW_COLOURS = ['#e62828', '#e74b4b', '#fb812e', '#ffb529', '#cbca46',
                       '#7eb94c', '#41c06d', '#009c7c', '#16bcb0', '#00a4bf',
@@ -36,7 +36,7 @@ _TCS_BAR_COLOURS = [
     '#9d587f', '#ce6997', '#ae4a79']
 
 
-def plot_spectra_TM_30_18(spec):
+def plot_spectra_TM_30_18(ax, spec):
     """
     Plots a comparison of spectral distributions of a test and a reference
     illuminant, for use in *TM-30-18* color rendition reports.
@@ -50,21 +50,22 @@ def plot_spectra_TM_30_18(spec):
     Y_reference = sd_to_XYZ(spec.sd_reference)[1]
     Y_test = sd_to_XYZ(spec.sd_test)[1]
 
-    plt.plot(spec.sd_reference.wavelengths,
-             spec.sd_reference.values / Y_reference,
-             'k', label='Reference')
-    plt.plot(spec.sd_test.wavelengths,
-             spec.sd_test.values / Y_test,
-             'r', label='Test')
+    ax.plot(spec.sd_reference.wavelengths,
+            spec.sd_reference.values / Y_reference,
+            'k', label='Reference')
+    ax.plot(spec.sd_test.wavelengths,
+            spec.sd_test.values / Y_test,
+            'r', label='Test')
 
-    plt.yticks([])
+    ax.set_yticks([])
+    ax.grid()
 
-    plt.xlabel('Wavelength (nm)')
-    plt.ylabel('Radiant power')
-    plt.legend()
+    ax.set_xlabel('Wavelength (nm)')
+    ax.set_ylabel('Radiant power')
+    ax.legend()
 
 
-def plot_color_vector_graphic(spec):
+def plot_color_vector_graphic(ax, spec):
     """
     Plots a *Color Vector Graphic* according to *TM-30-18* recommendations.
 
@@ -77,34 +78,34 @@ def plot_color_vector_graphic(spec):
     # Background
     backdrop = mpimg.imread(os.path.join(os.path.dirname(__file__),
                                          'CVG background.jpg'))
-    plt.imshow(backdrop, extent=(-1.5, 1.5, -1.5, 1.5))
-    plt.axis('off')
+    ax.imshow(backdrop, extent=(-1.5, 1.5, -1.5, 1.5))
+    ax.axis('off')
 
     # Lines dividing the hues in 16 equal parts along with bin numbers
-    plt.plot(0, 0, '+', color='#a6a6a6')
+    ax.plot(0, 0, '+', color='#a6a6a6')
     for i in range(16):
         angle = 2 * np.pi * i / 16
         dx = np.cos(angle)
         dy = np.sin(angle)
-        plt.plot((0.15 * dx, 1.5 * dx), (0.15 * dy, 1.5 * dy), '--',
-                 color='#a6a6a6', lw=0.75)
+        ax.plot((0.15 * dx, 1.5 * dx), (0.15 * dy, 1.5 * dy), '--',
+                color='#a6a6a6', lw=0.75)
 
         angle = 2 * np.pi * (i + 0.5) / 16
-        plt.annotate(str(i + 1), color='#a6a6a6', ha='center', va='center',
-                     xy=(1.41 * np.cos(angle), 1.41 * np.sin(angle)),
-                     weight='bold', size=9)
+        ax.annotate(str(i + 1), color='#a6a6a6', ha='center', va='center',
+                    xy=(1.41 * np.cos(angle), 1.41 * np.sin(angle)),
+                    weight='bold', size=9)
 
     # Circles
     circle = plt.Circle((0, 0), 1, color='black', lw=1.25, fill=False)
-    plt.gca().add_artist(circle)
+    ax.add_artist(circle)
     for radius in [0.8, 0.9, 1.1, 1.2]:
         circle = plt.Circle((0, 0), radius, color='white', lw=0.75, fill=False)
-        plt.gca().add_artist(circle)
+        ax.add_artist(circle)
 
     # -/+20% marks near the white circles
     props = dict(ha='right', color='white', size=7)
-    plt.annotate('-20%', xy=(0, -0.8), va='bottom', **props)
-    plt.annotate('+20%', xy=(0, -1.2), va='top', **props)
+    ax.annotate('-20%', xy=(0, -0.8), va='bottom', **props)
+    ax.annotate('+20%', xy=(0, -1.2), va='top', **props)
 
     # Average CAM02 h correlate for each bin, in radians
     average_hues = as_float_array([np.mean([spec.colorimetry_data[1][i].CAM.h
@@ -119,23 +120,23 @@ def plot_color_vector_graphic(spec):
 
     # Arrows
     for i in range(16):
-        plt.arrow(xy_reference[i, 0], xy_reference[i, 1], offsets[i, 0],
-                  offsets[i, 1], length_includes_head=True, width=0.005,
-                  head_width=0.04, linewidth=None, color=_BIN_ARROW_COLOURS[i])
+        ax.arrow(xy_reference[i, 0], xy_reference[i, 1], offsets[i, 0],
+                 offsets[i, 1], length_includes_head=True, width=0.005,
+                 head_width=0.04, linewidth=None, color=_BIN_ARROW_COLOURS[i])
 
     # Red (test) gamut shape
     loop = np.append(xy_test, xy_test[0, np.newaxis], axis=0)
-    plt.plot(loop[:, 0], loop[:, 1], '-', color='#f05046', lw=2)
+    ax.plot(loop[:, 0], loop[:, 1], '-', color='#f05046', lw=2)
 
     def corner_text(label, text, ha, va):
         x = -1.44 if ha == 'left' else 1.44
         y = 1.44 if va == 'top' else -1.44
         y_text = -14 if va == 'top' else 14
 
-        plt.annotate(text, xy=(x, y), color='black', ha=ha, va=va,
-                     weight='bold', size=14)
-        plt.annotate(label, xy=(x, y), color='black', xytext=(0, y_text),
-                     textcoords='offset points', ha=ha, va=va, size=11)
+        ax.annotate(text, xy=(x, y), color='black', ha=ha, va=va,
+                    weight='bold', size=14)
+        ax.annotate(label, xy=(x, y), color='black', xytext=(0, y_text),
+                    textcoords='offset points', ha=ha, va=va, size=11)
 
     corner_text('$R_f$', '{:.0f}'.format(spec.R_f), 'left', 'top')
     corner_text('$R_g$', '{:.0f}'.format(spec.R_g), 'right', 'top')
@@ -143,51 +144,72 @@ def plot_color_vector_graphic(spec):
     corner_text('$D_{uv}$', '{:.4f}'.format(spec.D_uv), 'right', 'bottom')
 
 
-
-def _plot_bin_bars(values, ticks, labels_format, labels='vertical'):
+def _plot_bin_bars(ax, values, ticks, labels_format, labels='vertical'):
     """
     A convenience function for plotting coloured bar graphs with labels at each
     bar.
     """
 
-    plt.bar(np.arange(16) + 1, values, color=_BIN_BAR_COLOURS)
-    plt.xlim(0.5, 16.5)
+    ax.set_axisbelow(True)  # Draw the grid behind the bars
+    ax.grid(axis='y')
+
+    ax.bar(np.arange(16) + 1, values, color=_BIN_BAR_COLOURS)
+    ax.set_xlim(0.5, 16.5)
     if ticks:
-        plt.xticks(np.arange(1, 17))
+        ax.set_xticks(np.arange(1, 17))
     else:
-        plt.xticks([])
+        ax.set_xticks([])
 
     for i, value in enumerate(values):
         if labels == 'vertical':
             va = 'bottom' if value > 0 else 'top'
-            plt.annotate(labels_format.format(value), xy=(i + 1, value),
-                         rotation=90, ha='center', va=va)
+            ax.annotate(labels_format.format(value), xy=(i + 1, value),
+                        rotation=90, ha='center', va=va)
 
         elif labels == 'horizontal':
-            plt.annotate(labels_format.format(value), xy=(i + 1, value),
-                         ha='center', va='bottom')
+            va = 'bottom' if value < 90 else 'top'
+            ax.annotate(labels_format.format(value), xy=(i + 1, value),
+                        ha='center', va=va)
 
 
-def plot_local_chroma_shifts(spec, ticks=True):
-    _plot_bin_bars(spec.R_cs, ticks, '{:.0f}%')
-    plt.ylim(-40, 40)
-    plt.ylabel('Local Chroma Shift')
+def plot_local_chroma_shifts(ax, spec, ticks=True):
+    _plot_bin_bars(ax, spec.R_cs, ticks, '{:.0f}%')
+    ax.set_ylim(-40, 40)
+    ax.set_ylabel('Local Chroma Shift ($R_{cs,hj}$)')
+
+    ticks = np.arange(-40, 41, 10)
+    ax.set_yticks(ticks)
+    ax.set_yticklabels(['{}%'.format(value) for value in ticks])
 
 
-def plot_local_hue_shifts(spec, ticks=True):
-    _plot_bin_bars(spec.R_hs, ticks, '{:.2f}')
-    plt.ylim(-0.5, 0.5)
-    plt.ylabel('Local Hue Shift')
+def plot_local_hue_shifts(ax, spec, ticks=True):
+    _plot_bin_bars(ax, spec.R_hs, ticks, '{:.2f}')
+    ax.set_ylim(-0.5, 0.5)
+    ax.set_yticks(np.arange(-0.5, 0.51, 0.1))
+    ax.set_ylabel('Local Hue Shift ($R_{hs,hj}$)')
 
 
-def plot_local_color_fidelities(spec, ticks=True):
-    _plot_bin_bars(spec.R_fs, ticks, '{:.0f}')
-    plt.ylim(0, 100)
-    plt.xlabel('Hue-angle bin')
-    plt.ylabel('Local Color Fidelity')
+def plot_local_color_fidelities(ax, spec, ticks=True):
+    _plot_bin_bars(ax, spec.R_fs, ticks, '{:.0f}', 'horizontal')
+    ax.set_ylim(0, 100)
+    ax.set_yticks(np.arange(0, 101, 10))
+    ax.set_xlabel('Hue-angle bin')
+    ax.set_ylabel('Local Color Fidelity ($R_{f,hj}$)')
 
-def plot_colour_fidelity_indexes(spec):
-    plt.bar(np.arange(99) + 1, spec.Rs, color=_TCS_BAR_COLOURS)
-    plt.xlim(0.5, 99.5)
-    plt.ylim(0, 100)
 
+def plot_colour_fidelity_indexes(ax, spec):
+    ax.set_axisbelow(True)  # Draw the grid behind the bars
+    ax.grid(axis='y')
+
+    ax.bar(np.arange(99) + 1, spec.Rs, color=_TCS_BAR_COLOURS)
+    ax.set_xlim(0.5, 99.5)
+    ax.set_ylim(0, 100)
+    ax.set_yticks(np.arange(0, 101, 10))
+    ax.set_ylabel('Color Sample Fidelity ($R_{f,ces}$)')
+
+    ticks = list(range(1, 100, 1))
+    ax.set_xticks(ticks)
+
+    labels = ['CES{:02d}'.format(i) if i % 3 == 1 else ''
+              for i in range(1, 100)]
+    ax.set_xticklabels(labels, rotation=90)
