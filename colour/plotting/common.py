@@ -989,8 +989,10 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
         Colour swatches columns count.
     text_kwargs : dict, optional
         {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Parameters for the :func:`plt.text` definition, ``offset`` can be
-        set to define the text offset.
+        Keyword arguments for the :func:`plt.text` definition. The following
+        special keywords can also be used:
+
+        -   *offset*: Sets the text offset.
 
     Returns
     -------
@@ -1050,9 +1052,11 @@ def plot_multi_colour_swatches(colour_swatches,
         {'+y', '-y'}
         Row stacking direction.
     text_kwargs : dict, optional
-        Parameters for the :func:`plt.text` definition, ``visible`` can be
-        set to make the text visible, ``offset`` can be set to define the text
-        offset.
+        Keyword arguments for the :func:`plt.text` definition. The following
+        special keywords can also be used:
+
+        -   *offset*: Sets the text offset.
+        -   *visible*: Makes the text visible.
     background_colour : array_like or unicode, optional
         Background colour.
     compare_swatches : unicode, optional
@@ -1233,8 +1237,8 @@ def plot_single_function(function,
         Log base to use for the *y* axis scale, if *None*, the *y* axis scale
         will be linear.
     plot_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.plot` definition, used to control the
-        style of the plotted function.
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted function.
 
     Other Parameters
     ----------------
@@ -1300,11 +1304,11 @@ def plot_multi_functions(functions,
         Log base to use for the *y* axis scale, if *None*, the *y* axis scale
         will be linear.
     plot_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.plot` definition, used to control the
-        style of the plotted functions. ``plot_kwargs`` can be either a single
-        dictionary applied to all the plotted functions with same settings
-        or a sequence of dictionaries with different settings for plotted
-        function.
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted functions. ``plot_kwargs`` can be either a
+        single dictionary applied to all the plotted functions with same
+        settings or a sequence of dictionaries with different settings for each
+        plotted function.
 
     Other Parameters
     ----------------
@@ -1345,8 +1349,8 @@ def plot_multi_functions(functions,
     if plot_kwargs is not None:
         if not isinstance(plot_kwargs, dict):
             assert len(plot_kwargs) == len(functions), (
-                'Multiple plot parameters defined, but they do not match '
-                'the functions count!')
+                'Multiple plot keyword arguments defined, but they do not '
+                'match the function count!')
 
         for i, plot_settings in enumerate(plot_settings_collection):
             if isinstance(plot_kwargs, dict):
@@ -1403,10 +1407,12 @@ def plot_image(image, imshow_kwargs=None, text_kwargs=None, **kwargs):
     image : array_like
         Image to plot.
     imshow_kwargs : dict, optional
-        Parameters for the :func:`plt.imshow` definition.
+        Keyword arguments for the :func:`plt.imshow` definition.
     text_kwargs : dict, optional
-        Parameters for the :func:`plt.text` definition, ``offset`` can be
-        set to define the text offset.
+        Keyword arguments for the :func:`plt.text` definition. The following
+        special keyword arguments can also be used:
+
+        -   *offset* : array_like, sets the text offset.
 
     Other Parameters
     ----------------

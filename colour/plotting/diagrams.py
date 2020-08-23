@@ -21,12 +21,12 @@ from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
-from colour.colorimetry import sd_to_XYZ, sds_and_msds_to_sds
+from colour.colorimetry import SDS_ILLUMINANTS, sd_to_XYZ, sds_and_msds_to_sds
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
                              XYZ_to_plotting_colourspace, artist, filter_cmfs,
-                             override_style, render)
+                             filter_illuminants, override_style, render)
 from colour.utilities import (domain_range_scale, first_item, is_string,
                               normalise_maximum, tstack, suppress_warnings)
 from colour.utilities.deprecation import handle_arguments_deprecation
@@ -576,6 +576,7 @@ def plot_sds_in_chromaticity_diagram(
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         annotate_kwargs=None,
+        plot_kwargs=None,
         **kwargs):
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -599,12 +600,39 @@ def plot_sds_in_chromaticity_diagram(
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective spectral
-        distribution names if ``annotate`` is set to *True*.
-        ``annotate_kwargs`` can be either a single dictionary applied to
-        all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral distribution.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        spectral distribution names. ``annotate_kwargs`` can be either a single
+        dictionary applied to all the arrows with same settings or a sequence
+        of dictionaries with different settings for each spectral distribution.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the spectral distributions.
+    plot_kwargs : dict or array_like, optional
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted spectral distributions. ``plot_kwargs`` can be
+        either a single dictionary applied to all the plotted spectral
+        distributions with same settings or a sequence of dictionaries with
+        different settings for each plotted spectral distributions.
+        The following special keyword arguments can also be used:
+
+        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+            illuminant used to compute the spectral distributions colours. The
+            default is the illuminant associated with the whitepoint of the
+            default plotting colourspace. ``illuminant`` can be of any type or
+            form supported by the :func:`colour.plotting.filter_cmfs`
+            definition.
+        -   *cmfs* : unicode, the standard observer colour matching functions
+            used for computing the spectral distributions colours. ``cmfs`` can
+            be of any type or form supported by the
+            :func:`colour.plotting.filter_cmfs` definition.
+        -   *normalise_sd_colours* : bool, whether to normalise the computed
+            spectral distributions colours. The default is *True*.
+        -   *use_sd_colours* : bool, whether to use the computed spectral
+            distributions colours under the plotting colourspace illuminant.
+            Alternatively, it is possible to use the :func:`plt.plot`
+            definition ``color`` argument with pre-computed values. The default
+            is *True*.
 
     Other Parameters
     ----------------
@@ -622,10 +650,24 @@ def plot_sds_in_chromaticity_diagram(
 
     Examples
     --------
-    >>> from colour import SDS_ILLUMINANTS
     >>> A = SDS_ILLUMINANTS['A']
     >>> D65 = SDS_ILLUMINANTS['D65']
-    >>> plot_sds_in_chromaticity_diagram([A, D65])  # doctest: +ELLIPSIS
+    >>> annotate_kwargs = [
+    ...     {'xytext': (-25, 15), 'arrowprops':{'arrowstyle':'-'}},
+    ...     {}
+    ... ]
+    >>> plot_kwargs = [
+    ...     {
+    ...         'illuminant': SDS_ILLUMINANTS['E'],
+    ...         'markersize' : 15,
+    ...         'normalise_sd_colours': True,
+    ...         'use_sd_colours': True
+    ...     },
+    ...     {'illuminant': SDS_ILLUMINANTS['E']},
+    ... ]
+    >>> plot_sds_in_chromaticity_diagram(
+    ...     [A, D65], annotate_kwargs=annotate_kwargs, plot_kwargs=plot_kwargs)
+    ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_SDS_In_Chromaticity_Diagram.png
@@ -705,8 +747,8 @@ def plot_sds_in_chromaticity_diagram(
     if annotate_kwargs is not None:
         if not isinstance(annotate_kwargs, dict):
             assert len(annotate_kwargs) == len(sds), (
-                'Multiple annotate parameters defined, but they do not match '
-                'the spectral distributions count!')
+                'Multiple annotate keyword arguments defined, but they do not '
+                'match the spectral distribution count!')
 
         for i, annotate_settings in enumerate(annotate_settings_collection):
             if isinstance(annotate_kwargs, dict):
@@ -714,22 +756,65 @@ def plot_sds_in_chromaticity_diagram(
             else:
                 annotate_settings.update(annotate_kwargs[i])
 
+    plot_settings_collection = [{
+        'color':
+            CONSTANTS_COLOUR_STYLE.colour.brightest,
+        'label':
+            '{0}'.format(sd.strict_name),
+        'marker':
+            'o',
+        'markeredgecolor':
+            CONSTANTS_COLOUR_STYLE.colour.dark,
+        'markeredgewidth':
+            CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
+        'markersize': (CONSTANTS_COLOUR_STYLE.geometry.short * 6 +
+                       CONSTANTS_COLOUR_STYLE.geometry.short * 0.75),
+        'cmfs':
+            cmfs,
+        'illuminant':
+            SDS_ILLUMINANTS[
+                CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name
+            ],
+        'use_sd_colours':
+            False,
+        'normalise_sd_colours':
+            False,
+    } for sd in sds]
+
+    if plot_kwargs is not None:
+        if not isinstance(plot_kwargs, dict):
+            assert len(plot_kwargs) == len(sds), (
+                'Multiple plot keyword arguments defined, but they do not '
+                'match the spectral distribution count!')
+
+        for i, plot_settings in enumerate(plot_settings_collection):
+            if isinstance(plot_kwargs, dict):
+                plot_settings.update(plot_kwargs)
+            else:
+                plot_settings.update(plot_kwargs[i])
+
     for i, sd in enumerate(sds):
+        plot_settings = plot_settings_collection[i]
+
+        cmfs = first_item(filter_cmfs(plot_settings.pop('cmfs')).values())
+        illuminant = first_item(
+            filter_illuminants(plot_settings.pop('illuminant')).values())
+        normalise_sd_colours = plot_settings.pop('normalise_sd_colours')
+        use_sd_colours = plot_settings.pop('use_sd_colours')
+
         with domain_range_scale('1'):
-            XYZ = sd_to_XYZ(sd)
+            XYZ = sd_to_XYZ(sd, cmfs, illuminant)
+
+        if use_sd_colours:
+            if normalise_sd_colours:
+                XYZ /= XYZ[..., 1]
+
+            plot_settings['color'] = np.clip(
+                XYZ_to_plotting_colourspace(XYZ), 0, 1)
 
         ij = XYZ_to_ij(XYZ)
 
-        axes.plot(
-            ij[0],
-            ij[1],
-            'o',
-            color=CONSTANTS_COLOUR_STYLE.colour.brightest,
-            markeredgecolor=CONSTANTS_COLOUR_STYLE.colour.dark,
-            markersize=(CONSTANTS_COLOUR_STYLE.geometry.short * 6 +
-                        CONSTANTS_COLOUR_STYLE.geometry.short * 0.75),
-            markeredgewidth=CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
-            label=sd.strict_name)
+        axes.plot(ij[0], ij[1], **plot_settings)
 
         if (sd.name is not None and
                 annotate_settings_collection[i]['annotate']):
@@ -751,6 +836,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
         annotate_kwargs=None,
+        plot_kwargs=None,
         **kwargs):
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -771,12 +857,39 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective spectral
-        distribution names if ``annotate`` is set to *True*.
-        ``annotate_kwargs`` can be either a single dictionary applied to
-        all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral distribution.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        spectral distribution names. ``annotate_kwargs`` can be either a single
+        dictionary applied to all the arrows with same settings or a sequence
+        of dictionaries with different settings for each spectral distribution.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the spectral distributions.
+    plot_kwargs : dict or array_like, optional
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted spectral distributions. ``plot_kwargs`` can be
+        either a single dictionary applied to all the plotted spectral
+        distributions with same settings or a sequence of dictionaries with
+        different settings for each plotted spectral distributions.
+        The following special keyword arguments can also be used:
+
+        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+            illuminant used to compute the spectral distributions colours. The
+            default is the illuminant associated with the whitepoint of the
+            default plotting colourspace. ``illuminant`` can be of any type or
+            form supported by the :func:`colour.plotting.filter_cmfs`
+            definition.
+        -   *cmfs* : unicode, the standard observer colour matching functions
+            used for computing the spectral distributions colours. ``cmfs`` can
+            be of any type or form supported by the
+            :func:`colour.plotting.filter_cmfs` definition.
+        -   *normalise_sd_colours* : bool, whether to normalise the computed
+            spectral distributions colours. The default is *True*.
+        -   *use_sd_colours* : bool, whether to use the computed spectral
+            distributions colours under the plotting colourspace illuminant.
+            Alternatively, it is possible to use the :func:`plt.plot`
+            definition ``color`` argument with pre-computed values. The default
+            is *True*.
 
     Other Parameters
     ----------------
@@ -794,7 +907,6 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
 
     Examples
     --------
-    >>> from colour import SDS_ILLUMINANTS
     >>> A = SDS_ILLUMINANTS['A']
     >>> D65 = SDS_ILLUMINANTS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])
@@ -819,6 +931,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
         cmfs,
         chromaticity_diagram_callable_CIE1931,
         annotate_kwargs=annotate_kwargs,
+        plot_kwargs=plot_kwargs,
         **settings)
 
 
@@ -829,6 +942,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
         annotate_kwargs=None,
+        plot_kwargs=None,
         **kwargs):
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -850,12 +964,39 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective spectral
-        distribution names if ``annotate`` is set to *True*.
-        ``annotate_kwargs`` can be either a single dictionary applied to
-        all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral distribution.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        spectral distribution names. ``annotate_kwargs`` can be either a single
+        dictionary applied to all the arrows with same settings or a sequence
+        of dictionaries with different settings for each spectral distribution.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the spectral distributions.
+    plot_kwargs : dict or array_like, optional
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted spectral distributions. ``plot_kwargs`` can be
+        either a single dictionary applied to all the plotted spectral
+        distributions with same settings or a sequence of dictionaries with
+        different settings for each plotted spectral distributions.
+        The following special keyword arguments can also be used:
+
+        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+            illuminant used to compute the spectral distributions colours. The
+            default is the illuminant associated with the whitepoint of the
+            default plotting colourspace. ``illuminant`` can be of any type or
+            form supported by the :func:`colour.plotting.filter_cmfs`
+            definition.
+        -   *cmfs* : unicode, the standard observer colour matching functions
+            used for computing the spectral distributions colours. ``cmfs`` can
+            be of any type or form supported by the
+            :func:`colour.plotting.filter_cmfs` definition.
+        -   *normalise_sd_colours* : bool, whether to normalise the computed
+            spectral distributions colours. The default is *True*.
+        -   *use_sd_colours* : bool, whether to use the computed spectral
+            distributions colours under the plotting colourspace illuminant.
+            Alternatively, it is possible to use the :func:`plt.plot`
+            definition ``color`` argument with pre-computed values. The default
+            is *True*.
 
     Other Parameters
     ----------------
@@ -873,7 +1014,6 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
 
     Examples
     --------
-    >>> from colour import SDS_ILLUMINANTS
     >>> A = SDS_ILLUMINANTS['A']
     >>> D65 = SDS_ILLUMINANTS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65])
@@ -898,6 +1038,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
         cmfs,
         chromaticity_diagram_callable_CIE1960UCS,
         annotate_kwargs=annotate_kwargs,
+        plot_kwargs=plot_kwargs,
         **settings)
 
 
@@ -908,6 +1049,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         chromaticity_diagram_callable_CIE1976UCS=(
             plot_chromaticity_diagram_CIE1976UCS),
         annotate_kwargs=None,
+        plot_kwargs=None,
         **kwargs):
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -929,12 +1071,39 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
     annotate_kwargs : dict or array_like, optional
-        Parameters for the :func:`plt.annotate` definition, used to annotate
-        the resulting chromaticity coordinates with their respective spectral
-        distribution names if ``annotate`` is set to *True*.
-        ``annotate_kwargs`` can be either a single dictionary applied to
-        all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral distribution.
+        Keyword arguments for the :func:`plt.annotate` definition, used to
+        annotate the resulting chromaticity coordinates with their respective
+        spectral distribution names. ``annotate_kwargs`` can be either a single
+        dictionary applied to all the arrows with same settings or a sequence
+        of dictionaries with different settings for each spectral distribution.
+        The following special keyword arguments can also be used:
+
+        -   *annotate* : bool, whether to annotate the spectral distributions.
+    plot_kwargs : dict or array_like, optional
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted spectral distributions. ``plot_kwargs`` can be
+        either a single dictionary applied to all the plotted spectral
+        distributions with same settings or a sequence of dictionaries with
+        different settings for each plotted spectral distributions.
+        The following special keyword arguments can also be used:
+
+        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+            illuminant used to compute the spectral distributions colours. The
+            default is the illuminant associated with the whitepoint of the
+            default plotting colourspace. ``illuminant`` can be of any type or
+            form supported by the :func:`colour.plotting.filter_cmfs`
+            definition.
+        -   *cmfs* : unicode, the standard observer colour matching functions
+            used for computing the spectral distributions colours. ``cmfs`` can
+            be of any type or form supported by the
+            :func:`colour.plotting.filter_cmfs` definition.
+        -   *normalise_sd_colours* : bool, whether to normalise the computed
+            spectral distributions colours. The default is *True*.
+        -   *use_sd_colours* : bool, whether to use the computed spectral
+            distributions colours under the plotting colourspace illuminant.
+            Alternatively, it is possible to use the :func:`plt.plot`
+            definition ``color`` argument with pre-computed values. The default
+            is *True*.
 
     Other Parameters
     ----------------
@@ -952,7 +1121,6 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
 
     Examples
     --------
-    >>> from colour import SDS_ILLUMINANTS
     >>> A = SDS_ILLUMINANTS['A']
     >>> D65 = SDS_ILLUMINANTS['D65']
     >>> plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65])
@@ -977,4 +1145,5 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
         cmfs,
         chromaticity_diagram_callable_CIE1976UCS,
         annotate_kwargs=annotate_kwargs,
+        plot_kwargs=plot_kwargs,
         **settings)

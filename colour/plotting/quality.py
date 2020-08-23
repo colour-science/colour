@@ -106,7 +106,7 @@ def plot_colour_quality_bars(specifications,
                                        specification.colorimetry_data)
 
         count_Q_as = len(Q_as)
-        colours = ([[1] * 3] + [
+        RGB = ([[1] * 3] + [
             np.clip(XYZ_to_plotting_colourspace(x.XYZ), 0, 1)
             for x in colorimetry_data[0]
         ])
@@ -120,7 +120,7 @@ def plot_colour_quality_bars(specifications,
         bars = axes.bar(
             x,
             np.abs(y),
-            color=colours,
+            color=RGB,
             width=bar_width,
             edgecolor=CONSTANTS_COLOUR_STYLE.colour.dark,
             label=specification.name)

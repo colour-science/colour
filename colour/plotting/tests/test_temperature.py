@@ -104,29 +104,23 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
             annotate_kwargs={'arrowprops': {
                 'width': 10
-            }})
+            }},
+            plot_kwargs={
+                'markersize': 15,
+            })
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
-            annotate_kwargs=[
-                {
-                    'arrowprops': {
-                        'width': 10
-                    }
-                },
-                {
-                    'arrowprops': {
-                        'width': 10
-                    }
-                },
-                {
-                    'arrowprops': {
-                        'width': 10
-                    }
-                },
-            ])
+            annotate_kwargs=[{
+                'arrowprops': {
+                    'width': 10
+                }
+            }] * 3,
+            plot_kwargs=[{
+                'markersize': 15,
+            }] * 3)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

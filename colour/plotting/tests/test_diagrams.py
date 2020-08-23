@@ -210,25 +210,26 @@ plot_sds_in_chromaticity_diagram` definition unit tests methods.
             [SDS_ILLUMINANTS['A'], SDS_ILLUMINANTS['D65']],
             annotate_kwargs={'arrowprops': {
                 'width': 10
-            }})
+            }},
+            plot_kwargs={
+                'normalise_sd_colours': True,
+                'use_sd_colours': True
+            })
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_sds_in_chromaticity_diagram(
             [SDS_ILLUMINANTS['A'], SDS_ILLUMINANTS['D65']],
-            annotate_kwargs=[
-                {
-                    'arrowprops': {
-                        'width': 10
-                    }
-                },
-                {
-                    'arrowprops': {
-                        'width': 10
-                    }
-                },
-            ])
+            annotate_kwargs=[{
+                'arrowprops': {
+                    'width': 10
+                }
+            }] * 2,
+            plot_kwargs=[{
+                'normalise_sd_colours': True,
+                'use_sd_colours': True
+            }] * 2)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

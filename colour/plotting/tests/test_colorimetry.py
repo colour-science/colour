@@ -73,7 +73,7 @@ class TestPlotMultiSds(unittest.TestCase):
     tests methods.
     """
 
-    def test_plot_single_colour_checker(self):
+    def test_plot_multi_sds(self):
         """
         Tests :func:`colour.plotting.colorimetry.plot_multi_sds` definition.
         """
@@ -102,7 +102,21 @@ class TestPlotMultiSds(unittest.TestCase):
             name='Custom 2')
 
         figure, axes = plot_multi_sds(
-            [sd_1, sd_2], use_sds_colours=True, normalise_sds_colours=True)
+            [sd_1, sd_2],
+            plot_kwargs={
+                'use_sd_colours': True,
+                'normalise_sd_colours': True
+            })
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_multi_sds(
+            [sd_1, sd_2],
+            plot_kwargs=[{
+                'use_sd_colours': True,
+                'normalise_sd_colours': True
+            }] * 2)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -173,6 +187,14 @@ class TestPlotMultiIlluminantSds(unittest.TestCase):
         """
 
         figure, axes = plot_multi_illuminant_sds()
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_multi_illuminant_sds(plot_kwargs=[{
+            'use_sd_colours': True,
+            'normalise_sd_colours': True
+        }] * 3)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

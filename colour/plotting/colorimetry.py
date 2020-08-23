@@ -43,6 +43,7 @@ from colour.plotting import (
     render, plot_single_colour_swatch, plot_multi_functions)
 from colour.utilities import (domain_range_scale, first_item,
                               normalise_maximum, ones, tstack)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -140,20 +141,20 @@ def plot_single_sd(sd,
     )]
     values = sd[wavelengths]
 
-    colours = XYZ_to_plotting_colourspace(
+    RGB = XYZ_to_plotting_colourspace(
         wavelength_to_XYZ(wavelengths, cmfs),
         CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
         apply_cctf_encoding=False)
 
     if not out_of_gamut_clipping:
-        colours += np.abs(np.min(colours))
+        RGB += np.abs(np.min(RGB))
 
-    colours = normalise_maximum(colours)
+    RGB = normalise_maximum(RGB)
 
     if modulate_colours_with_sd_amplitude:
-        colours *= (values / np.max(values))[..., np.newaxis]
+        RGB *= (values / np.max(values))[..., np.newaxis]
 
-    colours = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(colours)
+    RGB = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(RGB)
 
     if equalize_sd_amplitude:
         values = ones(values.shape)
@@ -178,7 +179,7 @@ def plot_single_sd(sd,
         x=wavelengths - padding,
         height=max(values),
         width=1 + padding,
-        color=colours,
+        color=RGB,
         align='edge',
         clip_path=polygon)
 
@@ -197,11 +198,7 @@ def plot_single_sd(sd,
 
 
 @override_style()
-def plot_multi_sds(sds,
-                   cmfs='CIE 1931 2 Degree Standard Observer',
-                   use_sds_colours=False,
-                   normalise_sds_colours=False,
-                   **kwargs):
+def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
     """
     Plots given spectral distributions.
 
@@ -213,14 +210,31 @@ def plot_multi_sds(sds,
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
-    cmfs : unicode, optional
-        Standard observer colour matching functions used for computing the
-        spectral distributions colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
-    use_sds_colours : bool, optional
-        Whether to use spectral distributions colours.
-    normalise_sds_colours : bool
-        Whether to normalise spectral distributions colours.
+    plot_kwargs : dict or array_like, optional
+        Keyword arguments for the :func:`plt.plot` definition, used to control
+        the style of the plotted spectral distributions. ``plot_kwargs`` can be
+        either a single dictionary applied to all the plotted spectral
+        distributions with same settings or a sequence of dictionaries with
+        different settings for each plotted spectral distributions.
+        The following special keyword arguments can also be used:
+
+        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+            illuminant used to compute the spectral distributions colours. The
+            default is the illuminant associated with the whitepoint of the
+            default plotting colourspace. ``illuminant`` can be of any type or
+            form supported by the :func:`colour.plotting.filter_cmfs`
+            definition.
+        -   *cmfs* : unicode, the standard observer colour matching functions
+            used for computing the spectral distributions colours. ``cmfs`` can
+            be of any type or form supported by the
+            :func:`colour.plotting.filter_cmfs` definition.
+        -   *normalise_sd_colours* : bool, whether to normalise the computed
+            spectral distributions colours. The default is *True*.
+        -   *use_sd_colours* : bool, whether to use the computed spectral
+            distributions colours under the plotting colourspace illuminant.
+            Alternatively, it is possible to use the :func:`plt.plot`
+            definition ``color`` argument with pre-computed values. The default
+            is *True*.
 
     Other Parameters
     ----------------
@@ -256,7 +270,12 @@ def plot_multi_sds(sds,
     ... }
     >>> sd_1 = SpectralDistribution(data_1, name='Custom 1')
     >>> sd_2 = SpectralDistribution(data_2, name='Custom 2')
-    >>> plot_multi_sds([sd_1, sd_2])  # doctest: +ELLIPSIS
+    >>> plot_kwargs = [
+    ...     {'use_sd_colours': True},
+    ...     {'use_sd_colours': True, 'linestyle': 'dashed'},
+    ... ]
+    >>> plot_multi_sds([sd_1, sd_2], plot_kwargs=plot_kwargs)
+    ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_SDS.png
@@ -264,16 +283,51 @@ def plot_multi_sds(sds,
         :alt: plot_multi_sds
     """
 
+    handle_arguments_deprecation({
+        'ArgumentRemoved': ['normalise_sd_colours', 'use_sds_colours']
+    }, **kwargs)
+
     _figure, axes = artist(**kwargs)
 
     sds = sds_and_msds_to_sds(sds)
-    cmfs = first_item(filter_cmfs(cmfs).values())
 
-    illuminant = SDS_ILLUMINANTS[
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name]
+    plot_settings_collection = [{
+        'label':
+            '{0}'.format(sd.strict_name),
+        'cmfs':
+            'CIE 1931 2 Degree Standard Observer',
+        'illuminant':
+            SDS_ILLUMINANTS[
+                CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name
+            ],
+        'use_sd_colours':
+            False,
+        'normalise_sd_colours':
+            False,
+    } for sd in sds]
+
+    if plot_kwargs is not None:
+        if not isinstance(plot_kwargs, dict):
+            assert len(plot_kwargs) == len(sds), (
+                'Multiple plot keyword arguments defined, but they do not '
+                'match the spectral distribution count!')
+
+        for i, plot_settings in enumerate(plot_settings_collection):
+            if isinstance(plot_kwargs, dict):
+                plot_settings.update(plot_kwargs)
+            else:
+                plot_settings.update(plot_kwargs[i])
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for sd in sds:
+    for i, sd in enumerate(sds):
+        plot_settings = plot_settings_collection[i]
+
+        cmfs = first_item(filter_cmfs(plot_settings.pop('cmfs')).values())
+        illuminant = first_item(
+            filter_illuminants(plot_settings.pop('illuminant')).values())
+        normalise_sd_colours = plot_settings.pop('normalise_sd_colours')
+        use_sd_colours = plot_settings.pop('use_sd_colours')
+
         wavelengths, values = sd.wavelengths, sd.values
 
         shape = sd.shape
@@ -282,18 +336,17 @@ def plot_multi_sds(sds,
         y_limit_min.append(min(values))
         y_limit_max.append(max(values))
 
-        if use_sds_colours:
+        if use_sd_colours:
             with domain_range_scale('1'):
                 XYZ = sd_to_XYZ(sd, cmfs, illuminant)
 
-            if normalise_sds_colours:
-                XYZ = normalise_maximum(XYZ, clip=False)
+            if normalise_sd_colours:
+                XYZ /= XYZ[..., 1]
 
-            RGB = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
+            plot_settings['color'] = np.clip(
+                XYZ_to_plotting_colourspace(XYZ), 0, 1)
 
-            axes.plot(wavelengths, values, color=RGB, label=sd.strict_name)
-        else:
-            axes.plot(wavelengths, values, label=sd.strict_name)
+        axes.plot(wavelengths, values, **plot_settings)
 
     bounding_box = (min(x_limit_min), max(x_limit_max), min(y_limit_min),
                     max(y_limit_max) + max(y_limit_max) * 0.05)
@@ -515,12 +568,6 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
         :func:`colour.plotting.plot_multi_sds`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-    use_sds_colours : bool, optional
-        {:func:`colour.plotting.plot_multi_sds`}
-        Whether to use spectral distributions colours.
-    normalise_sds_colours : bool
-        {:func:`colour.plotting.plot_multi_sds`}
-        Whether to normalise spectral distributions colours.
 
     Returns
     -------
@@ -539,6 +586,16 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
 
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
+
+    if 'plot_kwargs' not in kwargs:
+        kwargs['plot_kwargs'] = {}
+
+    SD_E = SDS_ILLUMINANTS['E']
+    if isinstance(kwargs['plot_kwargs'], dict):
+        kwargs['plot_kwargs']['illuminant'] = SD_E
+    else:
+        for i in range(len(kwargs['plot_kwargs'])):
+            kwargs['plot_kwargs'][i]['illuminant'] = SD_E
 
     illuminants = filter_illuminants(illuminants).values()
 
@@ -952,7 +1009,7 @@ def plot_blackbody_colours(
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    colours = []
+    RGB = []
     temperatures = []
 
     for temperature in shape:
@@ -961,9 +1018,7 @@ def plot_blackbody_colours(
         with domain_range_scale('1'):
             XYZ = sd_to_XYZ(sd, cmfs)
 
-        RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
-
-        colours.append(RGB)
+        RGB.append(normalise_maximum(XYZ_to_plotting_colourspace(XYZ)))
         temperatures.append(temperature)
 
     x_min, x_max = min(temperatures), max(temperatures)
@@ -974,7 +1029,7 @@ def plot_blackbody_colours(
         x=np.array(temperatures) - padding,
         height=1,
         width=shape.interval + (padding * shape.interval),
-        color=colours,
+        color=RGB,
         align='edge')
 
     settings = {
