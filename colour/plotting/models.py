@@ -294,7 +294,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
         method='CIE 1931',
         show_whitepoints=True,
         show_pointer_gamut=False,
-        chromatically_adapt=True,
+        chromatically_adapt=False,
         plot_kwargs=None,
         **kwargs):
     """
