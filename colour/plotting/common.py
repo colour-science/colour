@@ -1226,7 +1226,7 @@ def plot_single_function(function,
 
     Parameters
     ----------
-    function : callable, optional
+    function : callable
         Function to plot.
     samples : array_like, optional,
         Samples to evaluate the functions with.

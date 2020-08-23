@@ -102,6 +102,7 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
+            ['A', 'B', 'C'],
             annotate_kwargs={'arrowprops': {
                 'width': 10
             }},
@@ -113,6 +114,7 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
+            ['A', 'B', 'C'],
             annotate_kwargs=[{
                 'arrowprops': {
                     'width': 10
@@ -127,6 +129,7 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
 
         self.assertRaises(
             ValueError, lambda: plot_planckian_locus_in_chromaticity_diagram(
+                ['A', 'B', 'C'],
                 chromaticity_diagram_callable=lambda **x: x,
                 planckian_locus_callable=lambda **x: x,
                 method='Undefined'))
@@ -145,7 +148,8 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition unit tests
 plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition.
         """
 
-        figure, axes = plot_planckian_locus_in_chromaticity_diagram_CIE1931()
+        figure, axes = plot_planckian_locus_in_chromaticity_diagram_CIE1931(
+            ['A', 'B', 'C'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -165,7 +169,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-        )
+            ['A', 'B', 'C'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

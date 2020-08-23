@@ -213,7 +213,7 @@ def plot_planckian_locus_CIE1960UCS(planckian_locus_colours=None, **kwargs):
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram(
-        illuminants=None,
+        illuminants,
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         planckian_locus_callable=plot_planckian_locus,
         method='CIE 1931',
@@ -226,7 +226,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
 
     Parameters
     ----------
-    illuminants : array_like, optional
+    illuminants : unicode or object or array_like
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -300,9 +300,6 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-
-    if illuminants is None:
-        illuminants = ('A', 'B', 'C')
 
     illuminants = filter_passthrough(
         CCS_ILLUMINANTS.get(cmfs.name), illuminants)
@@ -427,7 +424,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-        illuminants=None,
+        illuminants,
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
         planckian_locus_callable_CIE1931=plot_planckian_locus_CIE1931,
@@ -440,7 +437,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
 
     Parameters
     ----------
-    illuminants : array_like, optional
+    illuminants : unicode or object or array_like
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -512,7 +509,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-        illuminants=None,
+        illuminants,
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
         planckian_locus_callable_CIE1960UCS=plot_planckian_locus_CIE1960UCS,
@@ -525,7 +522,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
 
     Parameters
     ----------
-    illuminants : array_like, optional
+    illuminants : unicode or object or array_like
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.

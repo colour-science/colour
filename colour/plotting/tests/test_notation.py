@@ -35,7 +35,7 @@ class TestPlotSingleMunsellValueFunction(unittest.TestCase):
 plot_single_munsell_value_function` definition.
         """
 
-        figure, axes = plot_single_munsell_value_function()
+        figure, axes = plot_single_munsell_value_function('ASTM D1535')
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -53,7 +53,8 @@ class TestPlotMultiMunsellValueFunctions(unittest.TestCase):
 plot_multi_munsell_value_functions` definition.
         """
 
-        figure, axes = plot_multi_munsell_value_functions()
+        figure, axes = plot_multi_munsell_value_functions(
+            ['ASTM D1535', 'McCamy 1987'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

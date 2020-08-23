@@ -150,7 +150,10 @@ class TestPlotMultiCmfs(unittest.TestCase):
         Tests :func:`colour.plotting.colorimetry.plot_multi_cmfs` definition.
         """
 
-        figure, axes = plot_multi_cmfs()
+        figure, axes = plot_multi_cmfs([
+            'CIE 1931 2 Degree Standard Observer',
+            'CIE 1964 10 Degree Standard Observer',
+        ])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -168,7 +171,7 @@ class TestPlotSingleIlluminantSd(unittest.TestCase):
         definition.
         """
 
-        figure, axes = plot_single_illuminant_sd()
+        figure, axes = plot_single_illuminant_sd('A')
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -186,15 +189,17 @@ class TestPlotMultiIlluminantSds(unittest.TestCase):
         definition.
         """
 
-        figure, axes = plot_multi_illuminant_sds()
+        figure, axes = plot_multi_illuminant_sds(['A', 'B', 'C'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_multi_illuminant_sds(plot_kwargs=[{
-            'use_sd_colours': True,
-            'normalise_sd_colours': True
-        }] * 3)
+        figure, axes = plot_multi_illuminant_sds(
+            ['A', 'B', 'C'],
+            plot_kwargs=[{
+                'use_sd_colours': True,
+                'normalise_sd_colours': True
+            }] * 3)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -230,7 +235,7 @@ class TestPlotSingleLightnessFunction(unittest.TestCase):
 plot_single_lightness_function` definition.
         """
 
-        figure, axes = plot_single_lightness_function()
+        figure, axes = plot_single_lightness_function('CIE 1976')
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -248,7 +253,8 @@ class TestPlotMultiLightnessFunctions(unittest.TestCase):
 plot_multi_lightness_functions` definition.
         """
 
-        figure, axes = plot_multi_lightness_functions()
+        figure, axes = plot_multi_lightness_functions(
+            ['CIE 1976', 'Wyszecki 1963'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -266,7 +272,7 @@ class TestPlotSingleLuminanceFunction(unittest.TestCase):
 plot_single_luminance_function` definition.
         """
 
-        figure, axes = plot_single_luminance_function()
+        figure, axes = plot_single_luminance_function('CIE 1976')
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -284,7 +290,8 @@ class TestPlotMultiLuminanceFunctions(unittest.TestCase):
 plot_multi_luminance_functions` definition.
         """
 
-        figure, axes = plot_multi_luminance_functions()
+        figure, axes = plot_multi_luminance_functions(
+            ['CIE 1976', 'Newhall 1943'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
