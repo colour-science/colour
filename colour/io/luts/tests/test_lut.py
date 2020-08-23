@@ -61,7 +61,8 @@ class TestAbstractLUT(unittest.TestCase):
                             '__isub__', '__mul__', '__imul__', '__div__',
                             '__idiv__', '__pow__', '__ipow__',
                             'arithmetical_operation', 'is_domain_explicit',
-                            'linear_table', 'apply', 'copy', 'as_LUT')
+                            'linear_table', 'apply', 'copy', 'as_LUT',
+                            'invert')
 
         for method in required_methods:
             self.assertIn(method, dir(AbstractLUT))
@@ -110,7 +111,7 @@ class AbstractLUTTest(unittest.TestCase):
         """
 
         required_methods = ('__init__', 'is_domain_explicit', 'linear_table',
-                            'apply', 'as_LUT')
+                            'apply', 'as_LUT', 'invert')
 
         for class_ in (LUT1D, LUT3x1D, LUT3D):
             for method in required_methods:
@@ -459,6 +460,14 @@ class AbstractLUTTest(unittest.TestCase):
                 1 / 2.6),
             self._table_3,
             decimal=7)
+
+    def test_invert(self):
+        """
+        Tests :class:`colour.io.luts.lut.LUT1D.invert`,
+        :class:`colour.io.luts.lut.LUT3x1D.invert` and
+        :class:`colour.io.luts.lut.LUT3D.invert` methods.
+        """
+        pass
 
     def test_apply(self):
         """
