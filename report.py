@@ -82,9 +82,45 @@ def _full_report(spec, source, date, manufacturer, model, notes=None):
                 ha='center')
 
 
+def _intermediate_report(spec, source, date, manufacturer, model, notes=None):
+    figure = plt.figure(figsize=(8.27, 4.44))
+
+    figure.text(0.500, 0.945, 'TM-30-18 Color Rendition Report', ha='center',
+                size='x-large')
+
+    ax = figure.add_axes((0.024, 0.077, 0.443, 0.833))
+    plot_color_vector_graphic(ax, spec)
+
+    ax = figure.add_axes((0.560, 0.550, 0.409, 0.342))
+    plot_local_chroma_shifts(ax, spec)
+
+    ax = figure.add_axes((0.560, 0.150, 0.409, 0.342))
+    plot_local_hue_shifts(ax, spec)
+
+    figure.text(0.500, 0.020, 'Created with Colour ' + colour.__version__,
+                ha='center')
+
+
+def _simple_report(spec, source, date, manufacturer, model, notes=None):
+    figure = plt.figure(figsize=(4.22, 4.44))
+
+    figure.text(0.500, 0.945, 'TM-30-18 Color Rendition Report', ha='center',
+                size='x-large')
+
+    ax = figure.add_axes((0.05, 0.05, 0.90, 0.90))
+    plot_color_vector_graphic(ax, spec)
+
+    figure.text(0.500, 0.022, 'Created with Colour ' + colour.__version__,
+                ha='center')
+
+
 def plot_color_rendition_report(spec, size='full', **kwargs):
     if size == 'full':
         _full_report(spec, **kwargs)
+    elif size == 'intermediate':
+        _intermediate_report(spec, **kwargs)
+    elif size == 'simple':
+        _simple_report(spec, **kwargs)
     else:
         raise ValueError('size must be one of \'simple\', \'intermediate\' or '
                          '\'full\'')
@@ -95,6 +131,7 @@ if __name__ == '__main__':
 
     spec = colour_fidelity_index_TM_30_18(lamp, True)
     plot_color_rendition_report(spec,
+                                'simple',
                                 source='CIE FL2',
                                 date='Aug 23 2020',
                                 manufacturer='N/A',
