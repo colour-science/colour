@@ -140,20 +140,20 @@ def plot_single_sd(sd,
     )]
     values = sd[wavelengths]
 
-    colours = XYZ_to_plotting_colourspace(
+    RGB = XYZ_to_plotting_colourspace(
         wavelength_to_XYZ(wavelengths, cmfs),
         CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
         apply_cctf_encoding=False)
 
     if not out_of_gamut_clipping:
-        colours += np.abs(np.min(colours))
+        RGB += np.abs(np.min(RGB))
 
-    colours = normalise_maximum(colours)
+    RGB = normalise_maximum(RGB)
 
     if modulate_colours_with_sd_amplitude:
-        colours *= (values / np.max(values))[..., np.newaxis]
+        RGB *= (values / np.max(values))[..., np.newaxis]
 
-    colours = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(colours)
+    RGB = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(RGB)
 
     if equalize_sd_amplitude:
         values = ones(values.shape)
@@ -178,7 +178,7 @@ def plot_single_sd(sd,
         x=wavelengths - padding,
         height=max(values),
         width=1 + padding,
-        color=colours,
+        color=RGB,
         align='edge',
         clip_path=polygon)
 
@@ -952,7 +952,7 @@ def plot_blackbody_colours(
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    colours = []
+    RGB = []
     temperatures = []
 
     for temperature in shape:
@@ -961,9 +961,7 @@ def plot_blackbody_colours(
         with domain_range_scale('1'):
             XYZ = sd_to_XYZ(sd, cmfs)
 
-        RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
-
-        colours.append(RGB)
+        RGB.append(normalise_maximum(XYZ_to_plotting_colourspace(XYZ)))
         temperatures.append(temperature)
 
     x_min, x_max = min(temperatures), max(temperatures)
@@ -974,7 +972,7 @@ def plot_blackbody_colours(
         x=np.array(temperatures) - padding,
         height=1,
         width=shape.interval + (padding * shape.interval),
-        color=colours,
+        color=RGB,
         align='edge')
 
     settings = {
