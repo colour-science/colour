@@ -932,7 +932,7 @@ def sd_to_XYZ(
 
     if cupy is True:
         np.set_ndimensional_array_backend('cupy')
-        _SD_TO_XYZ_CACHE[hash_key] = np.array(_SD_TO_XYZ_CACHE[hash_key])
+        _CACHE_SD_TO_XYZ[hash_key] = np.array(_CACHE_SD_TO_XYZ[hash_key])
         XYZ = np.array(XYZ)
 
     return XYZ

@@ -776,7 +776,7 @@ CubicSplineInterpolator.__call__` method.
         np.testing.assert_array_almost_equal(
             CubicSplineInterpolator(
                 np.linspace(0, 1, len(DATA_POINTS_A)),
-                np.array(POINTS_DATA_A))(np.linspace(0, 1,
+                np.array(DATA_POINTS_A))(np.linspace(0, 1,
                                                      len(DATA_POINTS_A) * 2)),
             DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES)
 

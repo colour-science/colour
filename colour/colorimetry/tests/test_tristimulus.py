@@ -611,13 +611,8 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
             np.array([14.46341867, 10.85820227, 2.04697034]),
             decimal=7)
 
-<<<<<<< HEAD
         cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_array_almost_equal(
-=======
-        cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-        np.testing.assert_array_almost_equal(
->>>>>>> Fixes for tests of all submodules, all submodules now work except these functions, continous/signal-Multisignal, rgb/derivation, temperature CCT_to_xy, XYZto_sd_Meng2015, notation/munsell and primitive_grid/cube
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS['C']),
             np.array([10.77005571, 9.44877491, 6.62428210]),

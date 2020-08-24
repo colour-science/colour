@@ -333,30 +333,20 @@ class TestExcitationPurity(unittest.TestCase):
         xy = np.tile(xy, (6, 1))
         xy_n = np.tile(xy_n, (6, 1))
         P_e = np.tile(P_e, 6)
-<<<<<<< HEAD
         np.testing.assert_array_almost_equal(
             excitation_purity(xy, xy_n,
                               CMFS_STANDARD_OBSERVER_2_DEGREE_CIE1931),
             P_e,
             decimal=7)
-=======
-        np.testing.assert_array_almost_equal(
-            excitation_purity(xy, xy_n, CIE_2_1931_CMFS), P_e, decimal=7)
->>>>>>> Fixes for tests of all submodules, all submodules now work except these functions, continous/signal-Multisignal, rgb/derivation, temperature CCT_to_xy, XYZto_sd_Meng2015, notation/munsell and primitive_grid/cube
 
         xy = np.reshape(xy, (2, 3, 2))
         xy_n = np.reshape(xy_n, (2, 3, 2))
         P_e = np.reshape(P_e, (2, 3))
-<<<<<<< HEAD
         np.testing.assert_array_almost_equal(
             excitation_purity(xy, xy_n,
                               CMFS_STANDARD_OBSERVER_2_DEGREE_CIE1931),
             P_e,
             decimal=7)
-=======
-        np.testing.assert_array_almost_equal(
-            excitation_purity(xy, xy_n, CIE_2_1931_CMFS), P_e, decimal=7)
->>>>>>> Fixes for tests of all submodules, all submodules now work except these functions, continous/signal-Multisignal, rgb/derivation, temperature CCT_to_xy, XYZto_sd_Meng2015, notation/munsell and primitive_grid/cube
 
     @ignore_numpy_errors
     def test_nan_excitation_purity(self):
