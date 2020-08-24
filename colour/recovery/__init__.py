@@ -2,6 +2,9 @@
 """
 References
 ----------
+-   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low‐Dimensional
+    Function Space for Efficient Spectral Upsampling. Computer Graphics Forum,
+    38(2), 147-155. doi:10.1111/cgf.13626
 -   :cite:`Mallett2019` : Mallett, I., & Yuksel, C. (2019). Spectral Primary
     Decomposition for Rendering with sRGB Reflectance. Eurographics Symposium
     on Rendering - DL-Only and Industry Track, 7 pages. doi:10.2312/SR.20191216
@@ -11,9 +14,6 @@ References
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
     Reflectances. Journal of Graphics Tools, 4(4), 11-22.
     doi:10.1080/10867651.1999.10487511
--   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low‐Dimensional
-    Function Space for Efficient Spectral Upsampling. Computer Graphics Forum,
-    38(2), 147-155. doi:10.1111/cgf.13626
 """
 
 from __future__ import absolute_import
@@ -28,24 +28,24 @@ from colour.utilities import (CaseInsensitiveMapping, as_float_array,
 
 from .datasets import *  # noqa
 from . import datasets
+from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
+                        XYZ_to_sd_Jakob2019, Jakob2019Interpolator)
 from .mallett2019 import (spectral_primary_decomposition_Mallett2019,
                           RGB_to_sd_Mallett2019, sRGB_to_sd_Mallett2019)
 from .meng2015 import XYZ_to_sd_Meng2015
 from .smits1999 import RGB_to_sd_Smits1999
-from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
-                        XYZ_to_sd_Jakob2019, Jakob2019Interpolator)
 __all__ = []
 __all__ += datasets.__all__
+__all__ += [
+    'sd_Jakob2019', 'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
+    'Jakob2019Interpolator'
+]
 __all__ += [
     'spectral_primary_decomposition_Mallett2019', 'RGB_to_sd_Mallett2019',
     'sRGB_to_sd_Mallett2019'
 ]
 __all__ += ['XYZ_to_sd_Meng2015']
 __all__ += ['RGB_to_sd_Smits1999']
-__all__ += [
-    'sd_Jakob2019', 'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
-    'Jakob2019Interpolator'
-]
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
     'Jakob 2019': XYZ_to_sd_Jakob2019,
@@ -77,7 +77,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
         *CIE XYZ* tristimulus values to recover the spectral distribution
         from.
     method : unicode, optional
-        **{'Meng 2015', 'Mallet 2019', 'Jakob 2019', 'Smits 1999'}**
+        **{'Meng 2015', 'Jakob 2019', 'Mallet 2019', 'Smits 1999'}**
         Computation method.
 
     Other Parameters
