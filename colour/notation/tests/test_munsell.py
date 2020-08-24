@@ -1438,7 +1438,14 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
         munsell_colour = '4.2YR 8.1/5.3'
         xyY = munsell_colour_to_xyY(munsell_colour)
 
-        munsell_colour = np.tile(munsell_colour, 6)
+        if np.__name__ == 'cupy':
+            np.set_ndimensional_array_backend('numpy')
+            munsell_colour = np.array(munsell_colour)
+            munsell_colour = np.tile(munsell_colour, 6)
+            np.set_ndimensional_array_backend('cupy')
+        else:
+            munsell_colour = np.tile(munsell_colour, 6)
+
         xyY = np.tile(xyY, (6, 1))
         np.testing.assert_array_almost_equal(
             munsell_colour_to_xyY(munsell_colour), xyY, decimal=7)
@@ -1450,8 +1457,14 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
 
         munsell_colour = 'N8.9'
         xyY = munsell_colour_to_xyY(munsell_colour)
+        if np.__name__ == 'cupy':
+            np.set_ndimensional_array_backend('numpy')
+            munsell_colour = np.array(munsell_colour)
+            munsell_colour = np.tile(munsell_colour, 6)
+            np.set_ndimensional_array_backend('cupy')
+        else:
+            munsell_colour = np.tile(munsell_colour, 6)
 
-        munsell_colour = np.tile(munsell_colour, 6)
         xyY = np.tile(xyY, (6, 1))
         np.testing.assert_array_almost_equal(
             munsell_colour_to_xyY(munsell_colour), xyY, decimal=7)
@@ -1534,7 +1547,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        xyY = [0.16623068, 0.45684550, 0.22399519]
+        xyY = np.array([0.16623068, 0.45684550, 0.22399519])
         specification = xyY_to_munsell_specification(xyY)
 
         d_r = (
@@ -1589,7 +1602,6 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         )
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                print(scale, factor)
                 self.assertEqual(
                     xyY_to_munsell_colour(xyY * factor), munsell_colour)
 
@@ -1603,7 +1615,14 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         munsell_colour = xyY_to_munsell_colour(xyY)
 
         xyY = np.tile(xyY, (6, 1))
-        munsell_colour = np.tile(munsell_colour, 6)
+        if np.__name__ == 'cupy':
+            np.set_ndimensional_array_backend('numpy')
+            munsell_colour = np.array(munsell_colour)
+            munsell_colour = np.tile(munsell_colour, 6)
+            np.set_ndimensional_array_backend('cupy')
+        else:
+            munsell_colour = np.tile(munsell_colour, 6)
+
         np.testing.assert_array_equal(
             xyY_to_munsell_colour(xyY), munsell_colour)
 
@@ -1611,12 +1630,17 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         munsell_colour = np.reshape(munsell_colour, (2, 3))
         np.testing.assert_array_equal(
             xyY_to_munsell_colour(xyY), munsell_colour)
-
-        xyY = list(CCS_ILLUMINANT_MUNSELL) + [1.0]
+        xyY = list(CCS_ILLUMINANT_MUNSELL) + [np.array(1.0)]
         munsell_colour = xyY_to_munsell_colour(xyY)
 
-        xyY = np.tile(xyY, (6, 1))
-        munsell_colour = np.tile(munsell_colour, 6)
+        xyY = np.tile(np.array(xyY), (6, 1))
+        if np.__name__ == 'cupy':
+            np.set_ndimensional_array_backend('numpy')
+            munsell_colour = np.array(munsell_colour)
+            munsell_colour = np.tile(munsell_colour, 6)
+            np.set_ndimensional_array_backend('cupy')
+        else:
+            munsell_colour = np.tile(munsell_colour, 6)
         np.testing.assert_array_equal(
             xyY_to_munsell_colour(xyY), munsell_colour)
 
