@@ -68,7 +68,8 @@ from colour.plotting import (
     CONSTANTS_COLOUR_STYLE, plot_chromaticity_diagram_CIE1931, artist,
     plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
     colour_cycle, colour_style, filter_passthrough, filter_RGB_colourspaces,
-    filter_cmfs, plot_multi_functions, override_style, render)
+    filter_cmfs, plot_multi_functions, override_style, render,
+    update_settings_collection)
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
                               first_item, tsplit, tstack)
@@ -288,7 +289,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram(
-        colourspaces=None,
+        colourspaces,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
@@ -303,11 +304,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
 
     Parameters
     ----------
-    colourspaces : array_like, optional
+    colourspaces : unicode or RGB_Colourspace or array_like
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : unicode, optional
+    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -361,9 +362,6 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         :align: center
         :alt: plot_RGB_colourspaces_in_chromaticity_diagram
     """
-
-    if colourspaces is None:
-        colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut']
 
     colourspaces = filter_RGB_colourspaces(colourspaces).values()
 
@@ -450,16 +448,8 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
     } for colourspace in colourspaces]
 
     if plot_kwargs is not None:
-        if not isinstance(plot_kwargs, dict):
-            assert len(plot_kwargs) == len(colourspaces), (
-                'Multiple plot keyword arguments defined, but they do not '
-                'match the "RGB" colourspaces count!')
-
-        for i, plot_settings in enumerate(plot_settings_collection):
-            if isinstance(plot_kwargs, dict):
-                plot_settings.update(plot_kwargs)
-            else:
-                plot_settings.update(plot_kwargs[i])
+        update_settings_collection(plot_settings_collection, plot_kwargs,
+                                   len(colourspaces))
 
     for i, colourspace in enumerate(colourspaces):
         plot_settings = plot_settings_collection[i]
@@ -515,7 +505,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
-        colourspaces=None,
+        colourspaces,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
@@ -529,11 +519,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
 
     Parameters
     ----------
-    colourspaces : array_like, optional
+    colourspaces : unicode or RGB_Colourspace or array_like
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : unicode, optional
+    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -595,7 +585,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
-        colourspaces=None,
+        colourspaces,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
@@ -609,11 +599,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
 
     Parameters
     ----------
-    colourspaces : array_like, optional
+    colourspaces : unicode or RGB_Colourspace or array_like
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : unicode, optional
+    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -676,7 +666,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
-        colourspaces=None,
+        colourspaces,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1976UCS=(
             plot_chromaticity_diagram_CIE1976UCS),
@@ -690,11 +680,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
 
     Parameters
     ----------
-    colourspaces : array_like, optional
+    colourspaces : unicode or RGB_Colourspace or array_like
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : unicode, optional
+    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -772,7 +762,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : optional, unicode
+    colourspace : unicode or RGB_Colourspace, optional
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -895,7 +885,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : optional, unicode
+    colourspace : unicode or RGB_Colourspace, optional
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -969,7 +959,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : optional, unicode
+    colourspace : unicode or RGB_Colourspace, optional
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -1044,7 +1034,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : optional, unicode
+    colourspace : unicode or RGB_Colourspace, optional
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -1278,16 +1268,8 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
     } for _ellipses_coefficient in ellipses_coefficients]
 
     if ellipse_kwargs is not None:
-        if not isinstance(ellipse_kwargs, dict):
-            assert len(ellipse_kwargs) == len(ellipses_coefficients), (
-                'Multiple ellipse keyword arguments defined, but they do not '
-                'match the ellipse count!')
-
-        for i, ellipse_settings in enumerate(ellipse_settings_collection):
-            if isinstance(ellipse_kwargs, dict):
-                ellipse_settings.update(ellipse_kwargs)
-            else:
-                ellipse_settings.update(ellipse_kwargs[i])
+        update_settings_collection(ellipse_settings_collection, ellipse_kwargs,
+                                   len(ellipses_coefficients))
 
     for i, coefficients in enumerate(ellipses_coefficients):
         x_c, y_c, a_a, a_b, theta_e = coefficients
@@ -1502,13 +1484,13 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
 
 
 @override_style()
-def plot_single_cctf(cctf='ITU-R BT.709', cctf_decoding=False, **kwargs):
+def plot_single_cctf(cctf, cctf_decoding=False, **kwargs):
     """
     Plots given colourspace colour component transfer function.
 
     Parameters
     ----------
-    cctf : unicode, optional
+    cctf : unicode or object
         Colour component transfer function to plot. ``function`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -1549,13 +1531,13 @@ def plot_single_cctf(cctf='ITU-R BT.709', cctf_decoding=False, **kwargs):
 
 
 @override_style()
-def plot_multi_cctfs(cctfs=None, cctf_decoding=False, **kwargs):
+def plot_multi_cctfs(cctfs, cctf_decoding=False, **kwargs):
     """
     Plots given colour component transfer functions.
 
     Parameters
     ----------
-    cctfs : array_like, optional
+    cctfs : unicode or object or array_like, optional
         Colour component transfer function to plot. ``cctfs`` elements can be
         of any type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -1584,9 +1566,6 @@ def plot_multi_cctfs(cctfs=None, cctf_decoding=False, **kwargs):
         :align: center
         :alt: plot_multi_cctfs
     """
-
-    if cctfs is None:
-        cctfs = ('ITU-R BT.709', 'sRGB')
 
     cctfs = filter_passthrough(
         CCTF_DECODINGS if cctf_decoding else CCTF_ENCODINGS, cctfs)

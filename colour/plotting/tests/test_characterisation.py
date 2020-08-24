@@ -51,7 +51,8 @@ class TestPlotMultiColourCheckers(unittest.TestCase):
 plot_multi_colour_checkers` definition.
         """
 
-        figure, axes = plot_multi_colour_checkers()
+        figure, axes = plot_multi_colour_checkers(
+            ['ColorChecker 1976', 'ColorChecker 2005'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

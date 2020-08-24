@@ -36,13 +36,14 @@ __all__ = ['plot_single_colour_checker', 'plot_multi_colour_checkers']
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
+def plot_single_colour_checker(
+        colour_checker='ColorChecker24 - After November 2014', **kwargs):
     """
     Plots given colour checker.
 
     Parameters
     ----------
-    colour_checker : unicode, optional
+    colour_checker : unicode or ColourChecker, optional
         Color checker to plot. ``colour_checker`` can be of any type or form
         supported by the
         :func:`colour.plotting.filter_colour_checkers` definition.
@@ -81,13 +82,13 @@ def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
+def plot_multi_colour_checkers(colour_checkers, **kwargs):
     """
     Plots and compares given colour checkers.
 
     Parameters
     ----------
-    colour_checkers : array_like, optional
+    colour_checkers : unicode or ColourChecker or array_like
         Color checker to plot, count must be less than or equal to 2.
         ``colour_checkers`` elements can be of any type or form supported by
         the :func:`colour.plotting.filter_colour_checkers` definition.
@@ -116,11 +117,8 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
         :alt: plot_multi_colour_checkers
     """
 
-    if colour_checkers is None:
-        colour_checkers = ['ColorChecker 1976', 'ColorChecker 2005']
-    else:
-        assert len(colour_checkers) <= 2, (
-            'Only two colour checkers can be compared at a time!')
+    assert len(colour_checkers) <= 2, (
+        'Only two colour checkers can be compared at a time!')
 
     colour_checkers = filter_colour_checkers(colour_checkers).values()
 

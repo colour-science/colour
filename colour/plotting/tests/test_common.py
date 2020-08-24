@@ -23,9 +23,9 @@ from colour.plotting import (
     colour_style, override_style, XYZ_to_plotting_colourspace, colour_cycle,
     artist, camera, render, label_rectangles, uniform_axes3d,
     filter_passthrough, filter_RGB_colourspaces, filter_cmfs,
-    filter_illuminants, filter_colour_checkers, plot_single_colour_swatch,
-    plot_multi_colour_swatches, plot_single_function, plot_multi_functions,
-    plot_image)
+    filter_illuminants, filter_colour_checkers, update_settings_collection,
+    plot_single_colour_swatch, plot_multi_colour_swatches,
+    plot_single_function, plot_multi_functions, plot_image)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -39,9 +39,9 @@ __all__ = [
     'TestColourCycle', 'TestArtist', 'TestCamera', 'TestRender',
     'TestLabelRectangles', 'TestUniformAxes3d', 'TestFilterPassthrough',
     'TestFilterRgbColourspaces', 'TestFilterCmfs', 'TestFilterIlluminants',
-    'TestFilterColourCheckers', 'TestPlotSingleColourSwatch',
-    'TestPlotMultiColourSwatches', 'TestPlotSingleFunction',
-    'TestPlotMultiFunctions', 'TestPlotImage'
+    'TestFilterColourCheckers', 'TestUpdateSettingsCollection',
+    'TestPlotSingleColourSwatch', 'TestPlotMultiColourSwatches',
+    'TestPlotSingleFunction', 'TestPlotMultiFunctions', 'TestPlotImage'
 ]
 
 
@@ -404,6 +404,29 @@ class TestFilterColourCheckers(unittest.TestCase):
                 'ColorChecker24 - After November 2014',
                 'ColorChecker24 - Before November 2014'
             ])
+
+
+class TestUpdateSettingsCollection(unittest.TestCase):
+    """
+    Defines :func:`colour.plotting.common.update_settings_collection`
+    definition unit tests methods.
+    """
+
+    def test_update_settings_collection(self):
+        """
+        Tests :func:`colour.plotting.common.update_settings_collection`
+        definition.
+        """
+
+        settings_collection = [{1: 2}, {3: 4}]
+        keyword_arguments = {5: 6}
+        update_settings_collection(settings_collection, keyword_arguments, 2)
+        self.assertListEqual(settings_collection, [{1: 2, 5: 6}, {3: 4, 5: 6}])
+
+        settings_collection = [{1: 2}, {3: 4}]
+        keyword_arguments = [{5: 6}, {7: 8}]
+        update_settings_collection(settings_collection, keyword_arguments, 2)
+        self.assertListEqual(settings_collection, [{1: 2, 5: 6}, {3: 4, 7: 8}])
 
 
 class TestPlotSingleColourSwatch(unittest.TestCase):

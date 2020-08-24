@@ -58,8 +58,9 @@ __all__ = [
     'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
     'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
-    'plot_single_colour_swatch', 'plot_multi_colour_swatches',
-    'plot_single_function', 'plot_multi_functions', 'plot_image'
+    'update_settings_collection', 'plot_single_colour_swatch',
+    'plot_multi_colour_swatches', 'plot_single_function',
+    'plot_multi_functions', 'plot_image'
 ]
 
 CONSTANTS_COLOUR_STYLE = Structure(
@@ -950,6 +951,47 @@ def filter_colour_checkers(filterers,
                               allow_non_siblings, flags)
 
 
+def update_settings_collection(settings_collection, keyword_arguments,
+                               expected_count):
+    """
+    Updates given settings collection, in-place, with given keyword arguments
+    and expected count of settings collection elements.
+
+    Parameters
+    ----------
+    settings_collection : dict or list
+        Settings collection to update.
+    keyword_arguments : dict
+        Keyword arguments to update the settings collection.
+    expected_count : int
+        Expected count of settings collection elements.
+
+    Examples
+    --------
+    >>> settings_collection = [{1: 2}, {3: 4}]
+    >>> keyword_arguments = {5 : 6}
+    >>> update_settings_collection(settings_collection, keyword_arguments, 2)
+    >>> print(settings_collection)
+    [{1: 2, 5: 6}, {3: 4, 5: 6}]
+    >>> settings_collection = [{1: 2}, {3: 4}]
+    >>> keyword_arguments = [{5 : 6}, {7: 8}]
+    >>> update_settings_collection(settings_collection, keyword_arguments, 2)
+    >>> print(settings_collection)
+    [{1: 2, 5: 6}, {3: 4, 7: 8}]
+    """
+
+    if not isinstance(keyword_arguments, dict):
+        assert len(keyword_arguments) == expected_count, (
+            'Multiple keyword arguments defined, but they do not '
+            'match the expected count!')
+
+    for i, settings in enumerate(settings_collection):
+        if isinstance(keyword_arguments, dict):
+            settings.update(keyword_arguments)
+        else:
+            settings.update(keyword_arguments[i])
+
+
 @override_style(
     **{
         'axes.grid': False,
@@ -1226,7 +1268,7 @@ def plot_single_function(function,
 
     Parameters
     ----------
-    function : callable, optional
+    function : callable
         Function to plot.
     samples : array_like, optional,
         Samples to evaluate the functions with.
@@ -1347,16 +1389,8 @@ def plot_multi_functions(functions,
     } for name in functions.keys()]
 
     if plot_kwargs is not None:
-        if not isinstance(plot_kwargs, dict):
-            assert len(plot_kwargs) == len(functions), (
-                'Multiple plot keyword arguments defined, but they do not '
-                'match the function count!')
-
-        for i, plot_settings in enumerate(plot_settings_collection):
-            if isinstance(plot_kwargs, dict):
-                plot_settings.update(plot_kwargs)
-            else:
-                plot_settings.update(plot_kwargs[i])
+        update_settings_collection(plot_settings_collection, plot_kwargs,
+                                   len(functions))
 
     if log_x is not None and log_y is not None:
         assert log_x >= 2 and log_y >= 2, (

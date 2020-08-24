@@ -30,13 +30,13 @@ __all__ = [
 
 
 @override_style()
-def plot_single_munsell_value_function(function='ASTM D1535', **kwargs):
+def plot_single_munsell_value_function(function, **kwargs):
     """
     Plots given *Lightness* function.
 
     Parameters
     ----------
-    function : unicode, optional
+    function : unicode or object
         *Munsell* value function to plot. ``function`` can be of any type or
         form supported by the :func:`colour.plotting.filter_passthrough`
         definition.
@@ -71,13 +71,13 @@ def plot_single_munsell_value_function(function='ASTM D1535', **kwargs):
 
 
 @override_style()
-def plot_multi_munsell_value_functions(functions=None, **kwargs):
+def plot_multi_munsell_value_functions(functions, **kwargs):
     """
     Plots given *Munsell* value functions.
 
     Parameters
     ----------
-    functions : array_like, optional
+    functions : unicode or object or array_like
         *Munsell* value functions to plot. ``functions`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -105,9 +105,6 @@ def plot_multi_munsell_value_functions(functions=None, **kwargs):
         :align: center
         :alt: plot_multi_munsell_value_functions
     """
-
-    if functions is None:
-        functions = ('ASTM D1535', 'McCamy 1987')
 
     functions = filter_passthrough(MUNSELL_VALUE_METHODS, functions)
 

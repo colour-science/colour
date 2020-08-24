@@ -40,7 +40,8 @@ from colour.colorimetry import (
 from colour.plotting import (
     ColourSwatch, CONSTANTS_COLOUR_STYLE, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
-    render, plot_single_colour_swatch, plot_multi_functions)
+    render, plot_single_colour_swatch, plot_multi_functions,
+    update_settings_collection)
 from colour.utilities import (domain_range_scale, first_item,
                               normalise_maximum, ones, tstack)
 from colour.utilities.deprecation import handle_arguments_deprecation
@@ -76,7 +77,8 @@ def plot_single_sd(sd,
     ----------
     sd : SpectralDistribution
         Spectral distribution to plot.
-    cmfs : unicode, optional
+    cmfs : unicode or LMS_ConeFundamentals or \
+RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -307,16 +309,8 @@ def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
     } for sd in sds]
 
     if plot_kwargs is not None:
-        if not isinstance(plot_kwargs, dict):
-            assert len(plot_kwargs) == len(sds), (
-                'Multiple plot keyword arguments defined, but they do not '
-                'match the spectral distribution count!')
-
-        for i, plot_settings in enumerate(plot_settings_collection):
-            if isinstance(plot_kwargs, dict):
-                plot_settings.update(plot_kwargs)
-            else:
-                plot_settings.update(plot_kwargs[i])
+        update_settings_collection(plot_settings_collection, plot_kwargs,
+                                   len(sds))
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, sd in enumerate(sds):
@@ -369,7 +363,8 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Parameters
     ----------
-    cmfs : unicode, optional
+    cmfs : unicode or LMS_ConeFundamentals or \
+RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         Colour matching functions to plot. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
 
@@ -407,13 +402,14 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
 
 @override_style()
-def plot_multi_cmfs(cmfs=None, **kwargs):
+def plot_multi_cmfs(cmfs, **kwargs):
     """
     Plots given colour matching functions.
 
     Parameters
     ----------
-    cmfs : array_like, optional
+    cmfs : unicode or LMS_ConeFundamentals or \
+RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
         Colour matching functions to plot. ``cmfs`` elements can be of any
         type or form supported by the :func:`colour.plotting.filter_cmfs`
         definition.
@@ -431,8 +427,10 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
 
     Examples
     --------
-    >>> cmfs = ('CIE 1931 2 Degree Standard Observer',
-    ...         'CIE 1964 10 Degree Standard Observer')
+    >>> cmfs = [
+    ...     'CIE 1931 2 Degree Standard Observer',
+    ...     'CIE 1964 10 Degree Standard Observer',
+    ... ]
     >>> plot_multi_cmfs(cmfs)  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -440,10 +438,6 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
         :align: center
         :alt: plot_multi_cmfs
     """
-
-    if cmfs is None:
-        cmfs = ('CIE 1931 2 Degree Standard Observer',
-                'CIE 1964 10 Degree Standard Observer')
 
     cmfs = filter_cmfs(cmfs).values()
 
@@ -490,7 +484,7 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
 
 
 @override_style()
-def plot_single_illuminant_sd(illuminant='A',
+def plot_single_illuminant_sd(illuminant,
                               cmfs='CIE 1931 2 Degree Standard Observer',
                               **kwargs):
     """
@@ -498,10 +492,11 @@ def plot_single_illuminant_sd(illuminant='A',
 
     Parameters
     ----------
-    illuminant : unicode, optional
+    illuminant : unicode or LMS_ConeFundamentals or \
+RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         Illuminant to plot. ``illuminant`` can be of any type or form supported
         by the :func:`colour.plotting.filter_illuminants` definition.
-    cmfs : unicode, optional
+    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -550,13 +545,13 @@ def plot_single_illuminant_sd(illuminant='A',
 
 
 @override_style()
-def plot_multi_illuminant_sds(illuminants=None, **kwargs):
+def plot_multi_illuminant_sds(illuminants, **kwargs):
     """
     Plots given illuminants spectral distributions.
 
     Parameters
     ----------
-    illuminants : array_like, optional
+    illuminants : unicode or SpectralDistribution or array_like
         Illuminants to plot. ``illuminants`` elements can be of any type or
         form supported by the :func:`colour.plotting.filter_illuminants`
         definition.
@@ -583,9 +578,6 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
         :align: center
         :alt: plot_multi_illuminant_sds
     """
-
-    if illuminants is None:
-        illuminants = ('A', 'B', 'C')
 
     if 'plot_kwargs' not in kwargs:
         kwargs['plot_kwargs'] = {}
@@ -621,7 +613,8 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Parameters
     ----------
-    cmfs : unicode, optional
+    cmfs : unicode or LMS_ConeFundamentals or \
+RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -686,13 +679,13 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
 
 
 @override_style()
-def plot_single_lightness_function(function='CIE 1976', **kwargs):
+def plot_single_lightness_function(function, **kwargs):
     """
     Plots given *Lightness* function.
 
     Parameters
     ----------
-    function : unicode, optional
+    function : unicode or object
         *Lightness* function to plot. ``function`` can be of any type or form
         supported by the :func:`colour.plotting.filter_passthrough` definition.
 
@@ -726,13 +719,13 @@ def plot_single_lightness_function(function='CIE 1976', **kwargs):
 
 
 @override_style()
-def plot_multi_lightness_functions(functions=None, **kwargs):
+def plot_multi_lightness_functions(functions, **kwargs):
     """
     Plots given *Lightness* functions.
 
     Parameters
     ----------
-    functions : array_like, optional
+    functions : unicode or object or array_like
         *Lightness* functions to plot. ``functions`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -761,9 +754,6 @@ def plot_multi_lightness_functions(functions=None, **kwargs):
         :alt: plot_multi_lightness_functions
     """
 
-    if functions is None:
-        functions = ('CIE 1976', 'Wyszecki 1963')
-
     functions = filter_passthrough(LIGHTNESS_METHODS, functions)
 
     settings = {
@@ -780,13 +770,13 @@ def plot_multi_lightness_functions(functions=None, **kwargs):
 
 
 @override_style()
-def plot_single_luminance_function(function='CIE 1976', **kwargs):
+def plot_single_luminance_function(function, **kwargs):
     """
     Plots given *Luminance* function.
 
     Parameters
     ----------
-    function : unicode, optional
+    function : unicode or object, optional
         *Luminance* function to plot.
 
     Other Parameters
@@ -819,13 +809,13 @@ def plot_single_luminance_function(function='CIE 1976', **kwargs):
 
 
 @override_style()
-def plot_multi_luminance_functions(functions=None, **kwargs):
+def plot_multi_luminance_functions(functions, **kwargs):
     """
     Plots given *Luminance* functions.
 
     Parameters
     ----------
-    functions : array_like, optional
+    functions : unicode or object or array_like
         *Luminance* functions to plot. ``functions`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -853,9 +843,6 @@ def plot_multi_luminance_functions(functions=None, **kwargs):
         :align: center
         :alt: plot_multi_luminance_functions
     """
-
-    if functions is None:
-        functions = ('CIE 1976', 'Newhall 1943')
 
     functions = filter_passthrough(LUMINANCE_METHODS, functions)
 

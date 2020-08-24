@@ -357,7 +357,7 @@ def RGB_identity_cube(width_segments=16,
 
 
 @override_style()
-def plot_RGB_colourspaces_gamuts(colourspaces=None,
+def plot_RGB_colourspaces_gamuts(colourspaces,
                                  reference_colourspace='CIE xyY',
                                  segments=8,
                                  show_grid=True,
@@ -372,7 +372,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
 
     Parameters
     ----------
-    colourspaces : array_like, optional
+    colourspaces : unicode or RGB_Colourspace or array_like
         *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -392,7 +392,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
         Whether to show the spectral locus.
     spectral_locus_colour : array_like, optional
         Spectral locus colour.
-    cmfs : unicode, optional
+    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -430,9 +430,6 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
         :align: center
         :alt: plot_RGB_colourspaces_gamuts
     """
-
-    if colourspaces is None:
-        colourspaces = ('ITU-R BT.709', 'ACEScg')
 
     colourspaces = filter_RGB_colourspaces(colourspaces).values()
 
@@ -587,7 +584,7 @@ def plot_RGB_scatter(RGB,
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : RGB_Colourspace
+    colourspace : unicode or RGB_Colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -597,8 +594,10 @@ def plot_RGB_scatter(RGB,
         'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
         'hdr-CIELAB', 'hdr-IPT'}**,
         Reference colourspace for colour conversion.
-    colourspaces : array_like, optional
-        *RGB* colourspaces to plot the gamuts.
+    colourspaces : unicode or RGB_Colourspace or array_like
+        *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
+        can be of any type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
     show_grid : bool, optional
@@ -611,7 +610,7 @@ def plot_RGB_scatter(RGB,
         Spectral locus colour.
     points_size : numeric, optional
         Scatter points size.
-    cmfs : unicode, optional
+    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.

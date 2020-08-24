@@ -19,10 +19,10 @@ import numpy as np
 from colour.colorimetry import MSDS_CMFS, CCS_ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
-                             artist, plot_chromaticity_diagram_CIE1931,
-                             plot_chromaticity_diagram_CIE1960UCS,
-                             filter_passthrough, override_style, render)
+from colour.plotting import (
+    CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE, artist,
+    plot_chromaticity_diagram_CIE1931, plot_chromaticity_diagram_CIE1960UCS,
+    filter_passthrough, override_style, render, update_settings_collection)
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import tstack, zeros
 from colour.utilities.deprecation import handle_arguments_deprecation
@@ -213,7 +213,7 @@ def plot_planckian_locus_CIE1960UCS(planckian_locus_colours=None, **kwargs):
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram(
-        illuminants=None,
+        illuminants,
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         planckian_locus_callable=plot_planckian_locus,
         method='CIE 1931',
@@ -226,7 +226,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
 
     Parameters
     ----------
-    illuminants : array_like, optional
+    illuminants : unicode or object or array_like
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -301,9 +301,6 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
     cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
 
-    if illuminants is None:
-        illuminants = ('A', 'B', 'C')
-
     illuminants = filter_passthrough(
         CCS_ILLUMINANTS.get(cmfs.name), illuminants)
 
@@ -356,16 +353,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     } for _ in range(len(illuminants))]
 
     if annotate_kwargs is not None:
-        if not isinstance(annotate_kwargs, dict):
-            assert len(annotate_kwargs) == len(illuminants), (
-                'Multiple annotate keyword arguments defined, but they do not '
-                'match the illuminant count!')
-
-        for i, annotate_settings in enumerate(annotate_settings_collection):
-            if isinstance(annotate_kwargs, dict):
-                annotate_settings.update(annotate_kwargs)
-            else:
-                annotate_settings.update(annotate_kwargs[i])
+        update_settings_collection(annotate_settings_collection,
+                                   annotate_kwargs, len(illuminants))
 
     plot_settings_collection = [{
         'color':
@@ -383,16 +372,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     } for illuminant in illuminants]
 
     if plot_kwargs is not None:
-        if not isinstance(plot_kwargs, dict):
-            assert len(plot_kwargs) == len(illuminants), (
-                'Multiple plot keyword arguments defined, but they do not '
-                'match the illuminant count!')
-
-        for i, plot_settings in enumerate(plot_settings_collection):
-            if isinstance(plot_kwargs, dict):
-                plot_settings.update(plot_kwargs)
-            else:
-                plot_settings.update(plot_kwargs[i])
+        update_settings_collection(plot_settings_collection, plot_kwargs,
+                                   len(illuminants))
 
     for i, (illuminant, xy) in enumerate(illuminants.items()):
         plot_settings = plot_settings_collection[i]
@@ -427,7 +408,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-        illuminants=None,
+        illuminants,
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
         planckian_locus_callable_CIE1931=plot_planckian_locus_CIE1931,
@@ -440,7 +421,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
 
     Parameters
     ----------
-    illuminants : array_like, optional
+    illuminants : unicode or object or array_like
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -512,7 +493,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-        illuminants=None,
+        illuminants,
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
         planckian_locus_callable_CIE1960UCS=plot_planckian_locus_CIE1960UCS,
@@ -525,7 +506,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
 
     Parameters
     ----------
-    illuminants : array_like, optional
+    illuminants : unicode or object or array_like
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
