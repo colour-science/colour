@@ -22,7 +22,7 @@ from scipy.linalg import block_diag
 from scipy.optimize import Bounds, LinearConstraint, minimize
 
 from colour.colorimetry import SpectralDistribution, MultiSpectralDistributions
-from colour.recovery import (BASIS_sRGB_MALLETT2019,
+from colour.recovery import (BASIS_FUNCTIONS_sRGB_MALLETT2019,
                              SPECTRAL_SHAPE_sRGB_MALLETT2019)
 from colour.utilities import to_domain_1, runtime_warning
 
@@ -161,7 +161,7 @@ def sRGB_to_sd_Mallett2019(RGB):
         Recovered reflectance.
     """
 
-    basis = MultiSpectralDistributions(BASIS_sRGB_MALLETT2019,
+    basis = MultiSpectralDistributions(BASIS_FUNCTIONS_sRGB_MALLETT2019,
                                        SPECTRAL_SHAPE_sRGB_MALLETT2019.range())
 
     return RGB_to_sd_Mallett2019(RGB, basis)
