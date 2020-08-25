@@ -11,50 +11,40 @@ Defines the *Academy Color Encoding System* (ACES) related encodings:
 -   :attr:`colour.models.ACES_CCT_COLOURSPACE`
 -   :attr:`colour.models.ACES_PROXY_COLOURSPACE`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
-    Encoding Specification (ACES). Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Encoding Specification (ACES) (pp. 1-40). Retrieved December 19, 2014, from
+    http://j.mp/TB-2014-004
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
-    Motion Picture Arts and Sciences, Science and Technology Council, &
-    Academy Color Encoding System (ACES) Project Subcommittee. (2014).
-    Technical Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0
-    Component Names. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component
+    Names (pp. 1-8). Retrieved December 19, 2014, from http://j.mp/TB-2014-012
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
-    Motion Picture Arts and Sciences, Science and Technology Council, &
-    Academy Color Encoding System (ACES) Project Subcommittee. (2014).
-    Specification S-2013-001 - ACESproxy, an Integer Log Encoding of ACES
-    Image Data. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2013). Specification
+    S-2013-001 - ACESproxy, an Integer Log Encoding of ACES Image Data.
+    Retrieved December 19, 2014, from http://j.mp/S-2013-001
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Specification
     S-2014-003 - ACEScc, A Logarithmic Encoding of ACES Data for use within
-    Color Grading Systems. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Color Grading Systems (pp. 1-12). Retrieved December 19, 2014, from
+    http://j.mp/S-2014-003
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2015b` : The Academy of
-    Motion Picture Arts and Sciences, Science and Technology Council, &
-    Academy Color Encoding System (ACES) Project Subcommittee. (2015).
-    Specification S-2014-004 - ACEScg - A Working Space for CGI Render and
-    Compositing. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2015). Specification
+    S-2014-004 - ACEScg - A Working Space for CGI Render and Compositing
+    (pp. 1-9). Retrieved April 24, 2015, from http://j.mp/S-2014-004
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c` : The Academy of
-    Motion Picture Arts and Sciences, Science and Technology Council, &
-    Academy Color Encoding System (ACES) Project. (2016). Specification
-    S-2016-001 - ACEScct, A Quasi-Logarithmic Encoding of ACES Data for use
-    within Color Grading Systems. Retrieved October 10, 2016, from
-    https://github.com/ampas/aces-dev/tree/v1.0.3/documents
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project. (2016). Specification S-2016-001 -
+    ACEScct, A Quasi-Logarithmic Encoding of ACES Data for use within Color
+    Grading Systems. Retrieved October 10, 2016, from http://j.mp/S-2016-001
 -   :cite:`TheAcademyofMotionPictureArtsandSciencese` : The Academy of Motion
     Picture Arts and Sciences, Science and Technology Council, & Academy Color
     Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding

@@ -1,6 +1,11 @@
 Tutorial
 ========
 
+.. note::
+
+    An interactive version of the tutorial is available via
+    `Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
+
 `Colour <https://github.com/colour-science/Colour/>`__ spreads over
 various domains of Colour Science, from colour models to optical
 phenomena, this tutorial does not give a complete overview of the
@@ -37,8 +42,8 @@ Overview
     representation.
 -   :doc:`contrast <colour.contrast>`: Objects for contrast sensitivity
     computation.
--   :doc:`characterisation <colour.characterisation>`: Colour fitting and
-    camera characterisation.
+-   :doc:`characterisation <colour.characterisation>`: Colour correction,
+    camera and display characterisation.
 -   :doc:`colorimetry <colour.colorimetry>`: Core objects for colour
     computations.
 -   :doc:`constants <colour.constants>`: *CIE* and *CODATA* constants.
@@ -46,6 +51,7 @@ Overview
     chromaticities computations.
 -   :doc:`difference <colour.difference>`: Colour difference computations.
 -  *examples*: Examples for the sub-packages.
+-   :doc:`geometry <colour.geometry>`: Geometry primitives generation.
 -   :doc:`graph <colour.graph>`: Graph for automatic colour conversions.
 -   :doc:`io <colour.io>`: Input / output objects for reading and writing data.
 -   :doc:`models <colour.models>`: Colour models.
@@ -82,9 +88,9 @@ The various sub-packages also expose their public API:
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
                         'blindness', 'characterisation', 'colorimetry',
                         'constants', 'continuous', 'contrast', 'corresponding',
-                        'difference', 'graph', 'io', 'models', 'notation',
-                        'phenomena', 'plotting', 'quality', 'recovery',
-                        'temperature', 'utilities', 'volume'):
+                        'difference', 'geometry', 'graph', 'io', 'models',
+                        'notation', 'phenomena', 'plotting', 'quality',
+                        'recovery', 'temperature', 'utilities', 'volume'):
         print(sub_package.title())
         pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
         print('\n')
@@ -135,7 +141,7 @@ The various sub-packages also expose their public API:
     Characterisation
     ['RGB_SpectralSensitivities',
      'RGB_DisplayPrimaries',
-     'CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
+     'CAMERA_RGB_SPECTRAL_SENSITIVITIES',
      'COLOURCHECKERS',
      'ColourChecker',
      '...']
@@ -151,12 +157,7 @@ The various sub-packages also expose their public API:
 
 
     Constants
-    ['K_M',
-     'KP_M',
-     'AVOGADRO_CONSTANT',
-     'BOLTZMANN_CONSTANT',
-     'LIGHT_SPEED',
-     '...']
+    ['K_M', 'KP_M', 'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', '...']
 
 
     Continuous
@@ -174,7 +175,7 @@ The various sub-packages also expose their public API:
 
     Corresponding
     ['BRENEMAN_EXPERIMENTS',
-     'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
+     'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
      'CorrespondingColourDataset',
      'CorrespondingChromaticitiesPrediction',
      'corresponding_chromaticities_prediction_CIE1994',
@@ -187,6 +188,15 @@ The various sub-packages also expose their public API:
      'delta_E_CAM02UCS',
      'delta_E_CAM16LCD',
      'delta_E_CAM16SCD',
+     '...']
+
+
+    Geometry
+    ['PLANE_TO_AXIS_MAPPING',
+     'primitive_grid',
+     'primitive_cube',
+     'PRIMITIVE_METHODS',
+     'primitive',
      '...']
 
 
@@ -208,11 +218,11 @@ The various sub-packages also expose their public API:
 
 
     Models
-    ['JMh_CIECAM02_to_CAM02LCD',
-     'CAM02LCD_to_JMh_CIECAM02',
-     'JMh_CIECAM02_to_CAM02SCD',
-     'CAM02SCD_to_JMh_CIECAM02',
-     'JMh_CIECAM02_to_CAM02UCS',
+    ['Jab_to_JCh',
+     'JCh_to_Jab',
+     'COLOURSPACE_MODELS',
+     'COLOURSPACE_MODELS_AXIS_LABELS',
+     'XYZ_to_colourspace_model',
      '...']
 
 
@@ -279,7 +289,7 @@ The various sub-packages also expose their public API:
 
 
     Volume
-    ['ILLUMINANTS_OPTIMAL_COLOUR_STIMULI',
+    ['ILLUMINANT_OPTIMAL_COLOUR_STIMULI',
      'is_within_macadam_limits',
      'is_within_mesh_volume',
      'is_within_pointer_gamut',
@@ -316,9 +326,9 @@ The codebase is documented and most docstrings have usage examples:
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
@@ -341,6 +351,7 @@ the objects needed for spectral computations and many others:
      'SpectralDistribution',
      'MultiSpectralDistributions',
      'sds_and_multi_sds_to_sds',
+     'sds_and_multi_sds_to_multi_sds',
      'sd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
@@ -350,13 +361,13 @@ the objects needed for spectral computations and many others:
      'CMFS',
      'LMS_CMFS',
      'RGB_CMFS',
-     'STANDARD_OBSERVERS_CMFS',
+     'STANDARD_OBSERVER_CMFS',
      'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SDS',
+     'D_ILLUMINANT_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SDS',
+     'ILLUMINANT_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SDS',
+     'LIGHT_SOURCE_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS',
@@ -451,13 +462,13 @@ the following components:
     ['CMFS',
      'LMS_CMFS',
      'RGB_CMFS',
-     'STANDARD_OBSERVERS_CMFS',
+     'STANDARD_OBSERVER_CMFS',
      'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SDS',
+     'D_ILLUMINANT_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SDS',
+     'ILLUMINANT_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SDS',
+     'LIGHT_SOURCE_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS']
@@ -780,11 +791,11 @@ with user defined dimensions:
 The ``colour.SpectralDistribution`` class supports the following
 arithmetical operations:
 
--  *addition*
--  *subtraction*
--  *multiplication*
--  *division*
--  *exponentiation*
+-   *addition*
+-   *subtraction*
+-   *multiplication*
+-   *division*
+-   *exponentiation*
 
 .. code:: python
 
@@ -1071,8 +1082,8 @@ calculated:
 .. code:: python
 
     sd = colour.SpectralDistribution(sample_sd_data)
-    cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_SDS['D65']
+    cmfs = colour.STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
+    illuminant = colour.ILLUMINANT_SDS['D65']
 
     # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.
     XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
@@ -1143,7 +1154,7 @@ values in order to display them on screen:
     # Plotting the *sRGB* colourspace colour of the *Sample* spectral distribution.
     plot_single_colour_swatch(
         ColourSwatch('Sample', RGB),
-        text_parameters={'size': 'x-large'})
+        text_kwargs={'size': 'x-large'})
 
 .. image:: _static/Tutorial_Sample_Swatch.png
 
@@ -1167,12 +1178,12 @@ various colour rendition charts:
     print(sorted(colour.characterisation.COLOURCHECKERS.keys()))
 
     # Colour rendition charts spectral distributions.
-    print(sorted(colour.characterisation.COLOURCHECKERS_SDS.keys()))
+    print(sorted(colour.characterisation.COLOURCHECKER_SDS.keys()))
 
 .. code-block:: text
 
-    [u'BabelColor Average', u'ColorChecker 1976', u'ColorChecker 2005', u'ColorChecker24 - After November 2014', u'ColorChecker24 - Before November 2014', u'babel_average', u'cc2005', u'cca2014', u'ccb2014']
-    [u'BabelColor Average', u'ColorChecker N Ohta', u'babel_average', u'cc_ohta']
+    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
+    ['BabelColor Average', 'ColorChecker N Ohta', 'babel_average', 'cc_ohta']
 
 .. note::
 
@@ -1184,13 +1195,13 @@ various colour rendition charts:
 
     # Plotting the *sRGB* colourspace colour of *neutral 5 (.70 D)* patch.
     patch_name = 'neutral 5 (.70 D)'
-    patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
+    patch_sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta'][patch_name]
     XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 
     plot_single_colour_swatch(
         ColourSwatch(patch_name.title(), RGB),
-        text_parameters={'size': 'x-large'})
+        text_kwargs={'size': 'x-large'})
 
 .. image:: _static/Tutorial_Neutral5.png
 
@@ -1200,7 +1211,7 @@ rendition charts figures:
 .. code:: python
 
     plot_single_colour_checker(
-        colour_checker='ColorChecker 2005', text_parameters={'visible': False})
+        colour_checker='ColorChecker 2005', text_kwargs={'visible': False})
 
 .. image:: _static/Tutorial_Colour_Checker.png
 
@@ -1251,10 +1262,9 @@ Chromaticity coordinates *CIE xy* can be plotted into the *CIE 1931 Chromaticity
 
 .. image:: _static/Tutorial_CIE_1931_Chromaticity_Diagram.png
 
-And More...
------------
+See More
+--------
 
-With the hope that this small introduction was useful and gave envy to see more,
-a good place to explore the API further is the
-`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
-page.
+-   The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
+    guide for **Colour** shows various techniques to solve specific problems
+    and highlights some interesting use cases.

@@ -1399,7 +1399,7 @@ class TestSpectralDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'extrapolate', 'interpolate', 'align',
+        required_methods = ('__init__', 'interpolate', 'extrapolate', 'align',
                             'trim', 'normalise')
 
         for method in required_methods:
@@ -1447,32 +1447,6 @@ SpectralDistribution.shape` attribute.
 
         self.assertEqual(self._sd.shape, SpectralShape(340, 820, 20))
 
-    def test_extrapolate(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralDistribution.extrapolate` method.
-        """
-
-        data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
-        sd = SpectralDistribution(data)
-        sd.extrapolate(SpectralShape(10, 50))
-
-        self.assertAlmostEqual(sd[10], 0, places=7)
-        self.assertAlmostEqual(sd[50], 1, places=7)
-
-        sd = SpectralDistribution(
-            np.linspace(0, 1, 10), np.linspace(25, 35, 10))
-        sd.extrapolate(
-            SpectralShape(10, 50),
-            extrapolator_args={
-                'method': 'Linear',
-                'left': None,
-                'right': None
-            })
-
-        self.assertAlmostEqual(sd[10], -1.5000000000000004, places=7)
-        self.assertAlmostEqual(sd[50], 2.4999999999999964, places=7)
-
     def test_interpolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -1496,6 +1470,32 @@ SpectralDistribution.interpolate` method.
             INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA,
             rtol=0.0000001,
             atol=0.0000001)
+
+    def test_extrapolate(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralDistribution.extrapolate` method.
+        """
+
+        data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
+        sd = SpectralDistribution(data)
+        sd.extrapolate(SpectralShape(10, 50))
+
+        self.assertAlmostEqual(sd[10], 0, places=7)
+        self.assertAlmostEqual(sd[50], 1, places=7)
+
+        sd = SpectralDistribution(
+            np.linspace(0, 1, 10), np.linspace(25, 35, 10))
+        sd.extrapolate(
+            SpectralShape(10, 50),
+            extrapolator_kwargs={
+                'method': 'Linear',
+                'left': None,
+                'right': None
+            })
+
+        self.assertAlmostEqual(sd[10], -1.5000000000000004, places=7)
+        self.assertAlmostEqual(sd[50], 2.4999999999999964, places=7)
 
     def test_align(self):
         """
@@ -1590,7 +1590,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'extrapolate', 'interpolate', 'align',
+        required_methods = ('__init__', 'interpolate', 'extrapolate', 'align',
                             'trim', 'normalise', 'to_sds')
 
         for method in required_methods:
@@ -1651,35 +1651,6 @@ MultiSpectralDistributions.shape` attribute.
 
         self.assertEqual(self._msds.shape, SpectralShape(380, 780, 5))
 
-    def test_extrapolate(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.extrapolate` method.
-        """
-
-        data = dict(zip(range(25, 35), tstack([[0] * 5 + [1] * 5] * 3)))
-        msds = MultiSpectralDistributions(data)
-        msds.extrapolate(SpectralShape(10, 50))
-
-        np.testing.assert_almost_equal(
-            msds[10], np.array([0.0, 0.0, 0.0]), decimal=7)
-        np.testing.assert_almost_equal(
-            msds[50], np.array([1.0, 1.0, 1.0]), decimal=7)
-
-        msds = MultiSpectralDistributions(
-            tstack([np.linspace(0, 1, 10)] * 3), np.linspace(25, 35, 10))
-        msds.extrapolate(
-            SpectralShape(10, 50),
-            extrapolator_args={
-                'method': 'Linear',
-                'left': None,
-                'right': None
-            })
-        np.testing.assert_almost_equal(
-            msds[10], np.array([-1.5, -1.5, -1.5]), decimal=7)
-        np.testing.assert_almost_equal(
-            msds[50], np.array([2.5, 2.5, 2.5]), decimal=7)
-
     def test_interpolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -1707,6 +1678,35 @@ MultiSpectralDistributions.interpolate` method.
                 INTERPOLATED_NON_UNIFORM_SAMPLE_SD_DATA,
                 rtol=0.0000001,
                 atol=0.0000001)
+
+    def test_extrapolate(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+MultiSpectralDistributions.extrapolate` method.
+        """
+
+        data = dict(zip(range(25, 35), tstack([[0] * 5 + [1] * 5] * 3)))
+        msds = MultiSpectralDistributions(data)
+        msds.extrapolate(SpectralShape(10, 50))
+
+        np.testing.assert_almost_equal(
+            msds[10], np.array([0.0, 0.0, 0.0]), decimal=7)
+        np.testing.assert_almost_equal(
+            msds[50], np.array([1.0, 1.0, 1.0]), decimal=7)
+
+        msds = MultiSpectralDistributions(
+            tstack([np.linspace(0, 1, 10)] * 3), np.linspace(25, 35, 10))
+        msds.extrapolate(
+            SpectralShape(10, 50),
+            extrapolator_kwargs={
+                'method': 'Linear',
+                'left': None,
+                'right': None
+            })
+        np.testing.assert_almost_equal(
+            msds[10], np.array([-1.5, -1.5, -1.5]), decimal=7)
+        np.testing.assert_almost_equal(
+            msds[50], np.array([2.5, 2.5, 2.5]), decimal=7)
 
     def test_align(self):
         """

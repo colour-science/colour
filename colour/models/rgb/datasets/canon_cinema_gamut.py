@@ -7,17 +7,12 @@ Defines the *Canon Cinema Gamut* colourspace:
 
 -   :attr:`colour.models.CINEMA_GAMUT_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Canon2014a` : Canon. (2014). EOS C500 Firmware Update. Retrieved
-    August 27, 2016, from https://www.usa.canon.com/internet/portal/us/home/\
-explore/product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
+    August 27, 2016, from
+    https://www.usa.canon.com/internet/portal/us/home/explore/\
+product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 """
 
 from __future__ import division, unicode_literals

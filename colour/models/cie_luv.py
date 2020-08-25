@@ -14,37 +14,28 @@ Defines the *CIE L\\*u\\*v\\** colourspace transformations:
 -   :func:`colour.Luv_to_LCHuv`
 -   :func:`colour.LCHuv_to_Luv`
 
-See Also
---------
-`CIE L*u*v* Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cie_luv.ipynb>`_
-
 References
 ----------
--   :cite:`CIETC1-482004j` : CIE TC 1-48. (2004). CIE 1976 uniform chromaticity
-    scale diagram (UCS diagram). In CIE 015:2004 Colorimetry, 3rd Edition
-    (p. 24). ISBN:978-3-901-90633-6
+-   :cite:`CIETC1-482004j` : CIE TC 1-48. (2004). CIE 1976 uniform
+    chromaticity scale diagram (UCS diagram). In CIE 015:2004 Colorimetry, 3rd
+    Edition (p. 24). ISBN:978-3-901906-33-6
 -   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
     spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
-    ISBN:978-3-901-90633-6
--   :cite:`Wikipedia2007d` : Wikipedia. (2007). The reverse transformation.
-    Retrieved February 24, 2014, from http://en.wikipedia.org/wiki/\
-CIELUV#The_reverse_transformation
+    ISBN:978-3-901906-33-6
 -   :cite:`Wikipedia2007b` : Wikipedia. (2007). CIELUV. Retrieved February 24,
     2014, from http://en.wikipedia.org/wiki/CIELUV
+-   :cite:`Wikipedia2007d` : Wikipedia. (2007). The reverse transformation.
+    Retrieved February 24, 2014, from
+    http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
 """
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.colorimetry import (ILLUMINANTS, lightness_CIE1976,
                                 luminance_CIE1976)
-from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
 from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
-                              to_domain_1, to_domain_100, tsplit, tstack)
+                              full, to_domain_1, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -106,6 +97,7 @@ def XYZ_to_Luv(
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  96.8362605...,  17.7521014...])
@@ -118,10 +110,11 @@ def XYZ_to_Luv(
     with domain_range_scale('100'):
         L = lightness_CIE1976(Y, Y_r)
 
-    u = (13 * L * ((4 * X / (X + 15 * Y + 3 * Z)) -
-                   (4 * X_r / (X_r + 15 * Y_r + 3 * Z_r))))
-    v = (13 * L * ((9 * Y / (X + 15 * Y + 3 * Z)) -
-                   (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))))
+    X_Y_Z = X + 15 * Y + 3 * Z
+    X_r_Y_r_Z_r = X_r + 15 * Y_r + 3 * Z_r
+
+    u = (13 * L * ((4 * X / X_Y_Z) - (4 * X_r / X_r_Y_r_Z_r)))
+    v = (13 * L * ((9 * Y / X_Y_Z) - (9 * Y_r / X_r_Y_r_Z_r)))
 
     Luv = tstack([L, u, v])
 
@@ -175,6 +168,7 @@ def Luv_to_XYZ(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
@@ -243,6 +237,7 @@ def Luv_to_uv(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.5012026...])
@@ -252,7 +247,9 @@ def Luv_to_uv(
 
     X, Y, Z = tsplit(Luv_to_XYZ(Luv, illuminant))
 
-    uv = tstack([4 * X / (X + 15 * Y + 3 * Z), 9 * Y / (X + 15 * Y + 3 * Z)])
+    X_Y_Z = X + 15 * Y + 3 * Z
+
+    uv = tstack([4 * X / X_Y_Z, 9 * Y / X_Y_Z])
 
     return uv
 
@@ -304,6 +301,7 @@ def uv_to_Luv(
 
     Examples
     --------
+    >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.50120264])
     >>> uv_to_Luv(uv)  # doctest: +ELLIPSIS
     array([ 100.        ,  233.1837603...,   42.7474385...])
@@ -314,7 +312,7 @@ def uv_to_Luv(
 
     X = 9 * u / (4 * v)
     Z = (-5 * Y * v - 3 * u / 4 + 3) / v
-    Y = np.full(u.shape, Y, DEFAULT_FLOAT_DTYPE)
+    Y = full(u.shape, Y)
 
     return XYZ_to_Luv(from_range_1(tstack([X, Y, Z])), illuminant)
 
@@ -340,6 +338,7 @@ def Luv_uv_to_xy(uv):
 
     Examples
     --------
+    >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.50120264])
     >>> Luv_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...])
@@ -374,6 +373,7 @@ def xy_to_Luv_uv(xy):
 
     Examples
     --------
+    >>> import numpy as np
     >>> xy = np.array([0.54369558, 0.32107944])
     >>> xy_to_Luv_uv(xy)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.5012026...])
@@ -431,6 +431,7 @@ def Luv_to_LCHuv(Luv):
 
     Examples
     --------
+    >>> import numpy as np
     >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_LCHuv(Luv)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  98.4499795...,  10.3881634...])
@@ -483,6 +484,7 @@ def LCHuv_to_Luv(LCHuv):
 
     Examples
     --------
+    >>> import numpy as np
     >>> LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
     >>> LCHuv_to_Luv(LCHuv)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  96.8362605...,  17.7521014...])

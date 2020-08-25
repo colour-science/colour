@@ -8,6 +8,9 @@ References
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
     Reflectances. Journal of Graphics Tools, 4(4), 11-22.
     doi:10.1080/10867651.1999.10487511
+-   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low‐Dimensional
+    Function Space for Efficient Spectral Upsampling. Computer Graphics Forum,
+    38(2), 147–155. doi:10.1111/cgf.13626
 """
 
 from __future__ import absolute_import
@@ -19,13 +22,19 @@ from .datasets import *  # noqa
 from . import datasets
 from .meng2015 import XYZ_to_sd_Meng2015
 from .smits1999 import RGB_to_sd_Smits1999
-
+from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
+                        XYZ_to_sd_Jakob2019, Jakob2019Interpolator)
 __all__ = []
 __all__ += datasets.__all__
 __all__ += ['XYZ_to_sd_Meng2015']
 __all__ += ['RGB_to_sd_Smits1999']
+__all__ += [
+    'sd_Jakob2019', 'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
+    'Jakob2019Interpolator'
+]
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
+    'Jakob 2019': XYZ_to_sd_Jakob2019,
     'Meng 2015': XYZ_to_sd_Meng2015,
     'Smits 1999': RGB_to_sd_Smits1999,
 })
@@ -34,10 +43,10 @@ Supported spectral distribution recovery methods.
 
 References
 ----------
-:cite:`Meng2015c`, :cite:`Smits1999a`
+:cite:`Jakob2019Spectral`, :cite:`Meng2015c`, :cite:`Smits1999a`
 
 XYZ_TO_SD_METHODS : CaseInsensitiveMapping
-    **{'Meng 2015', 'Smits 1999'}**
+    **{'Jakob 2019', 'Meng 2015', 'Smits 1999'}**
 """
 
 
@@ -52,21 +61,35 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
         *CIE XYZ* tristimulus values to recover the spectral distribution
         from.
     method : unicode, optional
-        **{'Meng 2015', 'Smits 1999'}**,
+        **{'Meng 2015', 'Jakob 2019', 'Smits 1999'}**
         Computation method.
 
     Other Parameters
     ----------------
-    cmfs : XYZ_ColourMatchingFunctions
+    additional_data : bool, optional
+        {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
+        If *True*, ``error`` will be returned alongside ``sd``.
+    cmfs : XYZ_ColourMatchingFunctions, optional
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Standard observer colour matching functions.
+    colourspace : RGB_Colourspace, optional
+        {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
+        *RGB* colourspace of the target colour. Note that no chromatic
+        adaptation is performed between ``illuminant`` and the colourspace
+        whitepoint.
+    illuminant : SpectralDistribution, optional
+        {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
+        :func:`colour.recovery.XYZ_to_sd_Meng2015`},
+        Illuminant spectral distribution.
     interval : numeric, optional
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
         ``interval`` is, the longer the computations will be.
-    optimisation_parameters : dict_like, optional
-        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
-        Parameters for :func:`scipy.optimize.minimize` definition.
+    optimisation_kwargs : dict_like, optional
+        {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
+        :func:`colour.recovery.XYZ_to_sd_Meng2015`},
+        Parameters for :func:`scipy.optimize.minimize` and
+        :func:`colour.recovery.find_coefficients_Jakob2019` definitions.
 
     Returns
     -------
@@ -88,7 +111,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
 
     References
     ----------
-    :cite:`Meng2015c`, :cite:`Smits1999a`
+    :cite:`Jakob2019Spectral`, :cite:`Meng2015c`, :cite:`Smits1999a`
 
     Examples
     --------
@@ -98,10 +121,10 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     >>> import numpy as np
     >>> from colour.utilities import numpy_print_options
     >>> from colour.colorimetry import (
-    ...     STANDARD_OBSERVERS_CMFS, SpectralShape, sd_to_XYZ_integration)
+    ...     STANDARD_OBSERVER_CMFS, SpectralShape, sd_to_XYZ_integration)
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> sd = XYZ_to_sd(XYZ, cmfs=cmfs)
@@ -152,11 +175,67 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
                           [ 770.        ,    0.3927840...],
                           [ 780.        ,    0.3927536...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
     array([ 0.2178545...,  0.1254141...,  0.0470095...])
+
+    *Jakob and Hanika (2009)* reflectance recovery:
+
+    >>> sd = XYZ_to_sd(XYZ, cmfs=cmfs, method='Jakob 2019')
+    >>> with numpy_print_options(suppress=True):
+    ...     # Doctests skip for Python 2.x compatibility.
+    ...     sd  # doctest: +SKIP
+    SpectralDistribution([[ 360.        ,    0.3692754...],
+                          [ 370.        ,    0.2470157...],
+                          [ 380.        ,    0.1702836...],
+                          [ 390.        ,    0.1237443...],
+                          [ 400.        ,    0.0948289...],
+                          [ 410.        ,    0.0761417...],
+                          [ 420.        ,    0.0636055...],
+                          [ 430.        ,    0.0549472...],
+                          [ 440.        ,    0.0488572...],
+                          [ 450.        ,    0.0445552...],
+                          [ 460.        ,    0.0415635...],
+                          [ 470.        ,    0.0395874...],
+                          [ 480.        ,    0.0384489...],
+                          [ 490.        ,    0.038052 ...],
+                          [ 500.        ,    0.0383639...],
+                          [ 510.        ,    0.0394104...],
+                          [ 520.        ,    0.0412793...],
+                          [ 530.        ,    0.0441372...],
+                          [ 540.        ,    0.0482625...],
+                          [ 550.        ,    0.0541060...],
+                          [ 560.        ,    0.0624031...],
+                          [ 570.        ,    0.0743826...],
+                          [ 580.        ,    0.0921694...],
+                          [ 590.        ,    0.1195616...],
+                          [ 600.        ,    0.1634560...],
+                          [ 610.        ,    0.2357564...],
+                          [ 620.        ,    0.3520400...],
+                          [ 630.        ,    0.5140310...],
+                          [ 640.        ,    0.6821088...],
+                          [ 650.        ,    0.8073255...],
+                          [ 660.        ,    0.8831221...],
+                          [ 670.        ,    0.9262541...],
+                          [ 680.        ,    0.9512104...],
+                          [ 690.        ,    0.9662805...],
+                          [ 700.        ,    0.9758111...],
+                          [ 710.        ,    0.9820992...],
+                          [ 720.        ,    0.9864037...],
+                          [ 730.        ,    0.9894449...],
+                          [ 740.        ,    0.9916522...],
+                          [ 750.        ,    0.9932920...],
+                          [ 760.        ,    0.9945349...],
+                          [ 770.        ,    0.9954934...],
+                          [ 780.        ,    0.9962442...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_kwargs={},
+                         extrapolator=Extrapolator,
+                         extrapolator_kwargs={...})
+    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
+    array([ 0.2177098...,  0.1253832...,  0.0469567...])
 
     *Smits (1999)* reflectance recovery:
 
@@ -174,11 +253,11 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
                           [ 682.2222    ,    0.41185795],
                           [ 720.        ,    0.41180754]],
                          interpolator=LinearInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
-    array([ 0.2004523...,  0.1105627...,  0.0420964...])
+    array([ 0.1996032...,  0.1155770...,  0.0427866...])
     """
 
     a = as_float_array(XYZ)

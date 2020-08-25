@@ -12,7 +12,7 @@ References
 ----------
 -   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
     spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
-    ISBN:978-3-901-90633-6
+    ISBN:978-3-901906-33-6
 """
 
 from __future__ import division, unicode_literals
@@ -42,9 +42,9 @@ def Jab_to_JCh(Jab):
 
     This definition is used to perform conversion from *CIE L\\*a\\*b\\**
     colourspace to *CIE L\\*C\\*Hab* colourspace and for other similar
-    conversions. It implements a generic transformation from Lightness
+    conversions. It implements a generic transformation from *Lightness*
     :math:`J`, :math:`a` and :math:`b` opponent colour dimensions to the
-    correlates of Lightness :math:`J`, chroma :math:`C` and hue angle
+    correlates of *Lightness* :math:`J`, chroma :math:`C` and hue angle
     :math:`h`.
 
     Parameters
@@ -107,8 +107,8 @@ def JCh_to_Jab(JCh):
     This definition is used to perform conversion from *CIE L\\*C\\*Hab*
     colourspace to *CIE L\\*a\\*b\\** colourspace and for other similar
     conversions. It implements a generic transformation from the correlates of
-    Lightness :math:`J`, chroma :math:`C` and hue angle :math:`h` to Lightness
-    :math:`J`, :math:`a` and :math:`b` opponent colour dimensions.
+    *Lightness* :math:`J`, chroma :math:`C` and hue angle :math:`h` to
+    *Lightness* :math:`J`, :math:`a` and :math:`b` opponent colour dimensions.
 
     Parameters
     ----------

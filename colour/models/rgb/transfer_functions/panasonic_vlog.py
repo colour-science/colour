@@ -8,17 +8,11 @@ Defines the *Panasonic V-Log* log encoding:
 -   :func:`colour.models.log_encoding_VLog`
 -   :func:`colour.models.log_decoding_VLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.
-    Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/\
-VARICAM_V-Log_V-Gamut.pdf
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut (pp.
+    1-7).
+    http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 """
 
 from __future__ import division, unicode_literals

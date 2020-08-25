@@ -13,18 +13,11 @@ computations objects:
     coordinates computation of given correlated colour temperature
     :math:`T_{cp}` using *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
--   :cite:`Kang2002a` : Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., &
-    Kim, Y. (2002). Design of advanced color: Temperature control system for
-    HDTV applications. Journal of the Korean Physical Society, 41(6), 865-871.
-    Retrieved from http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
+-   :cite:`Kang2002a` : Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., & Kim,
+    Y. (2002). Design of advanced color: Temperature control system for HDTV
+    applications. Journal of the Korean Physical Society, 41(6), 865-871.
 """
 
 from __future__ import division, unicode_literals
@@ -33,6 +26,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.utilities import as_float_array, as_numeric, tstack, usage_warning
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -44,7 +38,7 @@ __status__ = 'Production'
 __all__ = ['xy_to_CCT_Kang2002', 'CCT_to_xy_Kang2002']
 
 
-def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
+def xy_to_CCT_Kang2002(xy, optimisation_kwargs=None, **kwargs):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *Kang et al. (2002)* method.
@@ -53,8 +47,13 @@ def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
     ----------
     xy : array_like
         *CIE xy* chromaticity coordinates.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -80,6 +79,11 @@ def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
     6504.3893128...
     """
 
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
+
     xy = as_float_array(xy)
     shape = xy.shape
     xy = np.atleast_1d(xy.reshape([-1, 2]))
@@ -99,8 +103,8 @@ def xy_to_CCT_Kang2002(xy, optimisation_parameters=None):
             'fatol': 1e-10,
         },
     }
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     CCT = as_float_array([
         minimize(
@@ -149,18 +153,24 @@ def CCT_to_xy_Kang2002(CCT):
         usage_warning(('Correlated colour temperature must be in domain '
                        '[1667, 25000], unpredictable results may occur!'))
 
+    CCT_3 = CCT ** 3
+    CCT_2 = CCT ** 2
+
     x = np.where(
         CCT <= 4000,
-        -0.2661239 * 10 ** 9 / CCT ** 3 - 0.2343589 * 10 ** 6 / CCT ** 2 +
+        -0.2661239 * 10 ** 9 / CCT_3 - 0.2343589 * 10 ** 6 / CCT_2 +
         0.8776956 * 10 ** 3 / CCT + 0.179910,
-        -3.0258469 * 10 ** 9 / CCT ** 3 + 2.1070379 * 10 ** 6 / CCT ** 2 +
+        -3.0258469 * 10 ** 9 / CCT_3 + 2.1070379 * 10 ** 6 / CCT_2 +
         0.2226347 * 10 ** 3 / CCT + 0.24039,
     )
 
+    x_3 = x ** 3
+    x_2 = x ** 2
+
     cnd_l = [CCT <= 2222, np.logical_and(CCT > 2222, CCT <= 4000), CCT > 4000]
-    i = -1.1063814 * x ** 3 - 1.34811020 * x ** 2 + 2.18555832 * x - 0.20219683
-    j = -0.9549476 * x ** 3 - 1.37418593 * x ** 2 + 2.09137015 * x - 0.16748867
-    k = 3.0817580 * x ** 3 - 5.8733867 * x ** 2 + 3.75112997 * x - 0.37001483
+    i = -1.1063814 * x_3 - 1.34811020 * x_2 + 2.18555832 * x - 0.20219683
+    j = -0.9549476 * x_3 - 1.37418593 * x_2 + 2.09137015 * x - 0.16748867
+    k = 3.0817580 * x_3 - 5.8733867 * x_2 + 3.75112997 * x - 0.37001483
     y = np.select(cnd_l, [i, j, k])
 
     xy = tstack([x, y])

@@ -4,12 +4,6 @@ Optimal Colour Stimuli - MacAdam Limits
 =======================================
 
 Defines objects related to *Optimal Colour Stimuli* computations.
-
-See Also
---------
-`Optimal Colour Stimuli - MacAdam Limits Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/volume/macadam_limits.ipynb>`_
 """
 
 from __future__ import division, unicode_literals
@@ -18,7 +12,7 @@ import numpy as np
 from scipy.spatial import Delaunay
 
 from colour.models import xyY_to_XYZ
-from colour.volume import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
+from colour.volume import ILLUMINANT_OPTIMAL_COLOUR_STIMULI
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -49,12 +43,12 @@ def _XYZ_optimal_colour_stimuli(illuminant):
         Illuminant *Optimal Colour Stimuli*.
     """
 
-    optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
+    optimal_colour_stimuli = ILLUMINANT_OPTIMAL_COLOUR_STIMULI.get(illuminant)
     if optimal_colour_stimuli is None:
         raise KeyError('"{0}" not found in factory '
                        '"Optimal Colour Stimuli": "{1}".'.format(
                            illuminant,
-                           sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
+                           sorted(ILLUMINANT_OPTIMAL_COLOUR_STIMULI.keys())))
 
     vertices = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
     if vertices is None:

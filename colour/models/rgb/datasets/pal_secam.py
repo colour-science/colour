@@ -7,18 +7,13 @@ Defines the *Pal/Secam* colourspace:
 
 -   :attr:`colour.models.PAL_SECAM_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion1998a` : International
     Telecommunication Union. (1998). Recommendation ITU-R BT.470-6 -
-    CONVENTIONAL TELEVISION SYSTEMS. Retrieved from http://www.itu.int/\
-dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+    CONVENTIONAL TELEVISION SYSTEMS (pp. 1-36).
+    http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.470-6-199811-S!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals

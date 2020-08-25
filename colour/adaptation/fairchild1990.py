@@ -7,12 +7,6 @@ Defines *Fairchild (1990)* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.chromatic_adaptation_Fairchild1990`
 
-See Also
---------
-`Fairchild (1990) Chromatic Adaptation Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/fairchild1990.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
@@ -28,7 +22,7 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.adaptation import VON_KRIES_CAT
-from colour.utilities import (as_float_array, dot_vector, from_range_100,
+from colour.utilities import (as_float_array, dot_vector, from_range_100, ones,
                               row_as_diagonal, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -237,14 +231,15 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     LMS = as_float_array(LMS)
     if discount_illuminant:
-        return np.ones(LMS.shape)
+        return ones(LMS.shape)
 
     Y_n = as_float_array(Y_n)
     v = as_float_array(v)
 
     L, M, S = tsplit(LMS)
 
-    LMS_E = dot_vector(VON_KRIES_CAT, np.ones(LMS.shape))  # E illuminant.
+    # E illuminant.
+    LMS_E = dot_vector(VON_KRIES_CAT, ones(LMS.shape))
     L_E, M_E, S_E = tsplit(LMS_E)
 
     Ye_n = spow(Y_n, v)

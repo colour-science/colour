@@ -16,12 +16,6 @@ as follows::
 
      [np.array(['x', 'y', 'Y']], ..., np.array(['x', 'y', 'Y']))
 
-See Also
---------
-`Optimal Colour Stimuli - MacAdam Limits Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/volume/macadam_limits.ipynb>`_
-
 References
 ----------
 -   :cite:`MacAdam1935a` : MacAdam, D. L. (1935). Maximum Visual Efficiency of
@@ -29,12 +23,12 @@ References
     361-367. doi:10.1364/JOSA.25.000361
 -   :cite:`Wikipedia2004a` : Wikipedia. (2004). Surfaces. Retrieved September
     10, 2014, from http://en.wikipedia.org/wiki/Gamut#Surfaces
--   :cite:`Wyszecki2000bb` : Wyszecki, G., & Stiles, W. S. (2000).
-    Table I(3.7). In Color Science: Concepts and Methods, Quantitative Data and
-    Formulae (pp. 776-777). Wiley. ISBN:978-0471399186
--   :cite:`Wyszecki2000bh` : Wyszecki, G., & Stiles, W. S. (2000).
-    Table II(3.7). In Color Science: Concepts and Methods, Quantitative Data
-    and Formulae (pp. 778-779). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000bb` : Wyszecki, Günther, & Stiles, W. S. (2000). Table
+    I(3.7). In Color Science: Concepts and Methods, Quantitative Data and
+    Formulae (pp. 776-777). Wiley. ISBN:978-0-471-39918-6
+-   :cite:`Wyszecki2000bh` : Wyszecki, Günther, & Stiles, W. S. (2000). Table
+    II(3.7). In Color Science: Concepts and Methods, Quantitative Data and
+    Formulae (pp. 778-779). Wiley. ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals
@@ -52,7 +46,7 @@ __status__ = 'Production'
 
 __all__ = [
     'A_OPTIMAL_COLOUR_STIMULI', 'C_OPTIMAL_COLOUR_STIMULI',
-    'D65_OPTIMAL_COLOUR_STIMULI', 'ILLUMINANTS_OPTIMAL_COLOUR_STIMULI'
+    'D65_OPTIMAL_COLOUR_STIMULI', 'ILLUMINANT_OPTIMAL_COLOUR_STIMULI'
 ]
 
 A_OPTIMAL_COLOUR_STIMULI = np.array([
@@ -748,18 +742,18 @@ References
 :cite:`Wyszecki2000bh`
 """
 
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping({
+ILLUMINANT_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping({
     'A': A_OPTIMAL_COLOUR_STIMULI,
     'C': C_OPTIMAL_COLOUR_STIMULI,
     'D65': D65_OPTIMAL_COLOUR_STIMULI
 })
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.__doc__ = """
+ILLUMINANT_OPTIMAL_COLOUR_STIMULI.__doc__ = """
 Illuminants *Optimal Colour Stimuli*.
 
 References
 ----------
 :cite:`Wikipedia2004a`
 
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
+ILLUMINANT_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
     **{'A', 'C', 'D65'}**
 """

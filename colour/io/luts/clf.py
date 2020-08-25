@@ -1,24 +1,106 @@
+                            Exponent, Log)
+            LUT = add_Exponent(LUT, node)
+        elif tag.endswith('log'):
+            LUT = add_Log(LUT, node)
+                    ep_blue.set('offset', '{}'.format(node.offset[2]))
+        
+        if isinstance(node, Log):
+            process_node = ElementTree.Element('Log')
+            process_node.set('style', node.style)
+            
+            def _format_float(f): = return '{1:0.{0}f}'.format(decimals, f)
+
+            if node.comments:
+                _add_comments(process_node, node.comments)
+
+            log_params = ElementTree.SubElement(process_node, 'LogParams')
+
+            
+            if node.channel:
+                log_params.set('channel', node.channel)
+        
+
+            if node.style in [
+                'logToLin', 'linToLog', 'cameraLogToLin', 'cameraLinToLog'
+            ]:
+                log_params.set('base', _format_float(node.base))
+                log_params.set(
+                    'logSideSlope', _format_float(node.log_side_slope)
+                )
+                log_params.set(
+                    'logSideOffset', _format_float(node.log_side_offset)
+                )
+                log_params.set(
+                    'linSideSlope', _format_float(node.lin_side_slope)
+                )
+                log_params.set(
+                    'linSideOffset', _format_float(node.lin_side_offset)
+                )
+
+                if node.style in ['cameraLogToLin', 'cameraLinToLog']:
+                    log_params.set(
+                        'linSideBreak', _format_float(node.lin_side_break)
+                    )
+
+                    if node.linear_slope:
+                        log_params.set(
+                            'linearSlope', _format_float(node.linear_slope)
+                        )
+
+def add_Log(LUT, node):
+    # todo: multiple channels
+    
+    standard_attrs = ['name', 'id', 'style']
+    op_kwargs = {a: node.attrib[a] for a in node.keys() if a in standard_attrs}
+    op_kwargs['in_bit_depth'] = node.attrib['inBitDepth']
+    op_kwargs['out_bit_depth'] = node.attrib['outBitDepth']
+    op_kwargs['comments'] = []
+    # LogParams
+    for child in node:
+        if child.tag.endswith('Description'):
+            op_kwargs['comments'].append(child.text)
+        elif child.tag.endswith('LogParams'):
+            for tag, value in child.attrib.items():
+                tag = tag.lower()
+                if tag.endswith('logsideslope'):
+                    op_kwargs['log_side_slope'] = float(value)
+                elif tag.endswith('logsideoffset'):
+                    op_kwargs['log_side_offset'] = float(value)
+                elif tag.endswith('linsideslope'):
+                    op_kwargs['lin_side_slope'] = float(value)
+                elif tag.endswith('linsideoffset'):
+                    op_kwargs['lin_side_offset'] = float(value)
+                elif tag.endswith('linsidebreak'):
+                    op_kwargs['lin_side_break'] = float(value)
+                elif tag.endswith('linearslope'):
+                    op_kwargs['linear_slope'] = float(value)
+                elif tag.endswith('base'):
+                    op_kwargs['base'] = float(value)
+                elif tag.endswith('channel'):
+                    op_kwargs['channel'] = value
+
+    operator = Log(**op_kwargs)
+    LUT.append(operator)
+    return LUT
+
 from __future__ import division, unicode_literals
 
 import numpy as np
 import re
 from six import StringIO
-from uuid import uuid4
 from xml.etree import ElementTree
 from xml.dom import minidom
 
-import math
-
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import (AbstractLUTSequenceOperator, ASC_CDL, LUT1D,
-                            LUT3x1D, LUT3D, LUTSequence, Matrix, Range)
+                            LUT3x1D, LUT3D, LUTSequence, Matrix, Range,
+                            Exponent)
 from colour.utilities import as_float_array, as_numeric, tsplit, tstack, lerp
-from colour.utilities import filter_kwargs, CaseInsensitiveMapping, Structure
 
 __all__ = [
     'half_to_uint16', 'uint16_to_half', 'half_domain_lookup', 'HalfDomain1D',
-    'HalfDomain3x1D', 'read_index_map', 'string_to_array', 'simple_clf_parse',
-    'simple_clf_write'
+    'HalfDomain3x1D', 'read_index_map', 'string_to_array', 'read_clf',
+    'write_clf'
 ]
 
 
@@ -59,280 +141,6 @@ def half_domain_lookup(x, LUT, raw_halfs=True):
     return lerp(out1, out0, f, interpolate_at_boundary=False)
 
 
-
-
-FLOAT_MIN = 1.1754943508222875 * pow(10, -38)
-MIN_VAL = np.asarray(FLOAT_MIN)
-
-LIN_TO_LOG_STYLES = ['log2', 'log10', 'linToLog', 'cameraLinToLog']
-LOG_TO_LIN_STYLES = ['antiLog2', 'antiLog10', 'logToLin', 'cameraLogToLin']
-LOG_STYLES = LIN_TO_LOG_STYLES + LOG_TO_LIN_STYLES
-
-
-
-def bit_depth_scale(old_bit_depth='16f', new_bit_depth='16f'):
-        max_cv = {
-             '8i': 255,   # 2 **  8 - 1,
-            '10i': 1093,  # 2 ** 10 - 1,
-            '12i': 4095,  # 2 ** 12 - 1,
-            '16i': 65535, # 2 ** 16 - 1,
-            '16f': 1.,
-            '32f': 1.
-        }
-        return float(max_cv[new_bit_depth]) / max_cv[old_bit_depth]
-
-class Log(AbstractLUTSequenceOperator):
-    def __init__(self, id='', name='', style='log2Lin',
-                 log_side_slope=1., log_side_offset=0., lin_side_slope=1.,
-                 lin_side_offset=0., lin_side_break=None, linear_slope=None,
-                 linear_offset=None, base=10., comments=None):
-                 
-        self.id = id
-        self.name = name
-        self.style = style
-        self.comments = comments or []
-
-        if self.style.lower() in ['log2', 'antilog2']:
-            self._base = 2
-        elif self.style.lower() in ['log10', 'antilog10']:
-            self._base = 10
-        else:
-            self._base = base
-            
-        self._lin_side_slope  = lin_side_slope# * np.array([1.,1.,1.])
-        self._lin_side_offset = lin_side_offset# * np.array([1.,1.,1.])
-        self._log_side_slope  = log_side_slope# * np.array([1.,1.,1.])
-        self._log_side_offset = log_side_offset# * np.array([1.,1.,1.])
-
-        self._lin_side_break = None
-        self._log_side_break = None
-        self._linear_slope = None
-        self._linear_offset = None
-        
-        if lin_side_break is not None:
-            self.lin_side_break = lin_side_break #* np.array([1.,1.,1.])
-            
-    def _update_coefficients(self):
-        if self.lin_side_break is None:
-            self._log_side_break = None
-            self._linear_offset = None
-            self._linear_slope = None
-            
-        else:
-            a = self.lin_side_slope
-            b = self.lin_side_offset
-            c = self.log_side_slope
-            d = self.log_side_offset
-            ln_base = np.log(self.base)
-            intercept = a * self.lin_side_break + b
-            
-            if self.linear_slope is None:
-                self._linear_slope = c * a / (intercept * ln_base)
-            
-            self._log_side_break = c * np.log(intercept) / ln_base + d
-            self._linear_offset = self.log_side_break - self.linear_slope * self.lin_side_break
-
-    @property
-    def style(self):
-        return self._style
-
-    @style.setter
-    def style(self, value):
-        if not value in LOG_STYLES:
-            raise ValueError('Invalid Log style: %s' % value)
-            
-        if value in ['log2', 'antiLog2']:
-            self.base = 2
-        elif value in ['log10', 'antiLog10']:
-            self.base = 10
-            
-        self._style = value
-
-    # @property
-    # def channel(self):
-    #     return self._channel
-    # 
-    # @channel.setter
-    # def channel(self, value):
-    #     if not value in ['R', 'G', 'B', None]:
-    #         raise ValueError('Invalid channel: %s' % value)
-    #     self._channel = value
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, value):
-        self._name = value
-
-    @property
-    def id(self):
-        return self._id
-
-    @id.setter
-    def id(self, value):
-        self._id = value
-
-    @property
-    def comments(self):
-        return self._comments
-
-    @comments.setter
-    def comments(self, value):
-        self._comments = value
-
-    @property
-    def base(self):
-        return self._base
-
-    @base.setter
-    def base(self, value):
-        self._base = value
-        self._update_coefficients()
-        
-    @property
-    def log_side_slope(self):
-        return self._log_side_slope
-
-    @log_side_slope.setter
-    def log_side_slope(self, *value):
-        self._log_side_slope = value * np.ones(len(value))
-        self._update_coefficients()
-
-    @property
-    def log_side_offset(self):
-        return self._log_side_offset
-
-    @log_side_offset.setter
-    def log_side_offset(self, *value):
-        self._log_side_offset = value * np.ones(len(value))
-        self._update_coefficients()
-
-    @property
-    def lin_side_slope(self):
-        return self._lin_side_slope
-        
-    @lin_side_slope.setter
-    def lin_side_slope(self, *value):
-        self._lin_side_slope = value * np.ones(len(value))
-        self._update_coefficients()
-
-    @property
-    def lin_side_offset(self):
-        return self._lin_side_offset
-        
-    @lin_side_offset.setter
-    def lin_side_offset(self, *value):
-        self._lin_side_offset = value * np.ones(len(value))
-        self._update_coefficients()
-
-    @property
-    def lin_side_break(self):
-        return self._lin_side_break
-    
-    @lin_side_break.setter
-    def lin_side_break(self, *value):
-        if value is None:
-            self._lin_side_break =  None
-        self._lin_side_break = value * np.ones(len(value))
-        self._update_coefficients()
-
-    @property
-    def linear_slope(self):
-        return self._linear_slope
-    
-    @linear_slope.setter
-    def linear_slope(self, *value):
-        if value is None:
-            self._linear_slope = None
-        self._linear_slope = value * np.ones(len(value))
-        self._update_coefficients()
-
-    @property
-    def linear_offset(self):
-        return self._linear_offset
-    
-    @property
-    def log_side_break(self):
-        return self._log_side_break
-
-    def to_linear(self, y):
-        # affine with linear
-        if np.all(self.lin_side_break):
-            return self._camera_log_to_lin(y)
-        # affine
-        return self._log_to_lin(y)
-
-    def from_linear(self, x):
-        if np.all(self.lin_side_break):
-            return self._camera_lin_to_log(x)
-        return self._lin_to_log(x)
-            
-    def _log_to_lin(self, y):
-        
-        x = (y - self.log_side_offset) / np.maximum(MIN_VAL, self.log_side_slope)
-        x = np.power(self.base, x)
-        x = (x - self.lin_side_offset) / np.maximum(MIN_VAL, self.lin_side_slope)
-        
-        return x
-
-    def _lin_to_log(self, x):
-        
-        logSideSlope = np.copy(self.log_side_slope)
-        logSideSlope /= np.maximum(MIN_VAL, np.log(self.base))
-        y = np.maximum(MIN_VAL, (self.lin_side_slope * x + self.lin_side_offset))
-        y = logSideSlope * np.log(y) + self.log_side_offset
-        
-        return y
-
-    def _camera_log_to_lin(self, y):
-        try:
-            x = np.where(y <= self.log_side_break,
-                        (y - self.linear_offset) / self.linear_slope,
-                        self._log_to_lin(y))
-            return x
-        except TypeError:
-            raise TypeError('"lin_side_break" must be set.')
-
-    def _camera_lin_to_log(self, x):
-        try:
-            y = np.where(x <= self.lin_side_break,
-                         self.linear_slope * x + self.linear_offset,
-                         self._lin_to_log(x))
-            return y
-        except TypeError:
-            raise TypeError('"lin_side_break" must be set.')
-            
-    def apply(self, RGB, inverse=False):
-        RGB_out = as_float_array((np.copy(RGB)))
-        inv_style = {
-            "antiLog2": "log2",
-            "antiLog10": "log10",
-            "lin2Log": "log2Lin",
-            "cameraLin2Log": "cameraLog2Lin",
-            "log2": "antiLog2",
-            "log10": "antiLog10",
-            "log2Lin": "lin2Log",
-            "cameraLog2Lin": "cameraLin2Log"
-        }
-        style = inv_style[self.style] if inverse else self.style
-        
-        if style in ['antiLog2', 'antiLog10', 'log2Lin', 'cameraLog2Lin']:
-            RGB_out = self.to_linear(RGB_out)
-        elif style in ['log2', 'log10', 'lin2Log', 'cameraLin2Log']:
-            RGB_out = self.from_linear(RGB_out)
-        else:
-            raise 
-        return RGB_out
-
-    def reverse(self, RGB):
-        return self.apply(RGB, inverse=True)
-
-
-
-
-
 class HalfDomain1D(AbstractLUTSequenceOperator):
     def __init__(self, table=None, name='', comments=None, raw_halfs=False):
         if table is not None:
@@ -340,41 +148,11 @@ class HalfDomain1D(AbstractLUTSequenceOperator):
         else:
             self.table = self.linear_table(raw_halfs=raw_halfs)
         self.name = name
-        self.comments = comments or []
+        self.comments = comments
         self.raw_halfs = raw_halfs
 
-    @property
-    def name(self):
-        return self._name
-    
-    @name.setter
-    def name(self, value):
-        self._name = value
-        
-    @property
-    def raw_halfs(self):
-        return self._raw_halfs
-    
-    @raw_halfs.setter
-    def raw_halfs(self, enabled):
-        self._raw_halfs = enabled
-    
-    @property
-    def comments(self):
-        return self._comments
-    
-    @comments.setter
-    def comments(self, value):
-        self._comments = value
-        
-    @property
-    def table(self):
-        return self._table
-    
-    @table.setter
-    def table(self, value):
-        self._table = self._validate_table(value)    
-    
+    # TODO: Add properties.
+
     def _validate_table(self, table):
         table = np.asarray(table)
 
@@ -648,45 +426,44 @@ def add_ASC_CDL(LUT, node):
 
     return LUT
 
+def add_Exponent(LUT, node):
+    operator = Exponent(exponent=[1, 1, 1], offset=[0, 0, 0])
 
-def add_Log(LUT, node):
-    # todo: multiple channels
-    
-    standard_attrs = ['name', 'id', 'style']
-    op_kwargs = {a: node.attrib[a] for a in node.keys() if a in standard_attrs}
-    op_kwargs['in_bit_depth'] = node.attrib['inBitDepth']
-    op_kwargs['out_bit_depth'] = node.attrib['outBitDepth']
-    op_kwargs['comments'] = []
-    # LogParams
+    if 'name' in node.keys():
+        operator.name = node.attrib['name']
+
+    if 'style' in node.keys():
+        operator.style = node.attrib['style']
+
     for child in node:
-        if child.tag.endswith('Description'):
-            op_kwargs['comments'].append(child.text)
-        elif child.tag.endswith('LogParams'):
-            for tag, value in child.attrib.items():
-                tag = tag.lower()
-                if tag.endswith('logsideslope'):
-                    op_kwargs['log_side_slope'] = float(value)
-                elif tag.endswith('logsideoffset'):
-                    op_kwargs['log_side_offset'] = float(value)
-                elif tag.endswith('linsideslope'):
-                    op_kwargs['lin_side_slope'] = float(value)
-                elif tag.endswith('linsideoffset'):
-                    op_kwargs['lin_side_offset'] = float(value)
-                elif tag.endswith('linsidebreak'):
-                    op_kwargs['lin_side_break'] = float(value)
-                elif tag.endswith('linearslope'):
-                    op_kwargs['linear_slope'] = float(value)
-                elif tag.endswith('base'):
-                    op_kwargs['base'] = float(value)
-                elif tag.endswith('channel'):
-                    op_kwargs['channel'] = value
+        if child.tag.lower().endswith('exponentparams'):
+            if 'channel' in child.keys():
+                if child.attrib['channel'].lower() == 'r':
+                    operator.exponent[0] = child.attrib['exponent']
+                    if 'offset' in child.keys():
+                        operator.offset[0] = child.attrib['offset']
+                elif child.attrib['channel'].lower() == 'g':
+                    operator.exponent[1] = child.attrib['exponent']
+                    if 'offset' in child.keys():
+                        operator.offset[1] = child.attrib['offset']
+                elif child.attrib['channel'].lower() == 'b':
+                    operator.exponent[2] = child.attrib['exponent']
+                    if 'offset' in child.keys():
+                        operator.offset[2] = child.attrib['offset']
+            else:
+                operator.exponent = [child.attrib['exponent'],
+                                     child.attrib['exponent'],
+                                     child.attrib['exponent']]
+                if 'offset' in child.keys():
+                        operator.offset = [child.attrib['offset'],
+                                           child.attrib['offset'],
+                                           child.attrib['offset']]
 
-    operator = Log(**op_kwargs)
     LUT.append(operator)
+
     return LUT
 
-def simple_clf_parse(path):
-    # todo: bitdepth
+def read_clf(path):
     LUT = LUTSequence()
     tree = ElementTree.parse(path)
     process_list = tree.getroot()
@@ -710,13 +487,13 @@ def simple_clf_parse(path):
             LUT = add_Matrix(LUT, node)
         elif tag.endswith('asc_cdl'):
             LUT = add_ASC_CDL(LUT, node)
-        elif tag.endswith('log'):
-            LUT = add_Log(LUT, node)
+        elif tag.endswith('exponent'):
+            LUT = add_Exponent(LUT, node)
 
     return LUT
 
 
-def simple_clf_write(LUT, path, name='', id='', decimals=10):
+def write_clf(LUT, path, name='', id='', decimals=10):
     def _format_array(array, decimals=10):
         buffer = StringIO()
         if not array.dtype == np.uint16:
@@ -735,7 +512,7 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
 
     process_list = ElementTree.Element('ProcessList')
     process_list.set('xmlns', 'urn:NATAS:AMPAS:LUT:v2.0')
-    process_list.set('id', id or str(uuid4()))
+    process_list.set('id', id)
     process_list.set('name', name)
     process_list.set('compCLFversion', '2.0')
     for node in LUT:
@@ -762,7 +539,7 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
             slope.text = _format_row(node.slope, decimals=decimals)
             offset = ElementTree.SubElement(sop_node, 'Offset')
             offset.text = _format_row(node.offset, decimals=decimals)
-            power = ElementTree.SubElement(sop_node, 'Power')
+            power = ElementTree.SubElement(sop_node, 'power')
             power.text = _format_row(node.power, decimals=decimals)
             sat_node = ElementTree.SubElement(process_node, 'SatNode')
             saturation = ElementTree.SubElement(sat_node, 'Saturation')
@@ -885,52 +662,37 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
             else:
                 process_node.set('noClamp', 'True')
 
-        if isinstance(node, Log):
-            process_node = ElementTree.Element('Log')
-
-            _format_float = lambda f: '{1:0.{0}f}'.format(decimals, f)
-
-            process_node.set('inBitDepth', node.in_bit_depth)
-            process_node.set('outBitDepth', node.out_bit_depth)
-            process_node.set('style', node.style)  # todo: use enum
+        if isinstance(node, Exponent):
+            process_node = ElementTree.Element('Exponent')
+            process_node.set('style', node.style)
 
             if node.comments:
                 _add_comments(process_node, node.comments)
 
-            log_params = ElementTree.SubElement(process_node, 'LogParams')
+            if (node.offset[0] == node.offset[1] == node.offset[2]) and (node.exponent[0] == node.exponent[2] == node.exponent[2]):
+                ep = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep.set('exponent', '{}'.format(node.exponent[0]))
+                if node.style.lower()[:8] == 'moncurve':
+                    ep.set('offset', '{}'.format(node.offset[0]))
+            else:
+                ep_red = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep_red.set('channel', 'R')
+                ep_red.set('exponent', '{}'.format(node.exponent[0]))
+                if node.style.lower()[:8] == 'moncurve':
+                    ep_red.set('offset', '{}'.format(node.offset[0]))
+                ep_green = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep_green.set('channel', 'G')
+                ep_green.set('exponent', '{}'.format(node.exponent[1]))
+                if node.style.lower()[:8] == 'moncurve':
+                    ep_green.set('offset', '{}'.format(node.offset[1]))
+                ep_blue = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep_blue.set('channel', 'B')
+                ep_blue.set('exponent', '{}'.format(node.exponent[2]))
+                if node.style.lower()[:8] == 'moncurve':
+                    ep_blue.set('offset', '{}'.format(node.offset[2]))
 
-            if node.channel:
-                log_params.set('channel', node.channel)
-
-            if node.style in [
-                'logToLin', 'linToLog', 'cameraLogToLin', 'cameraLinToLog'
-            ]:
-                log_params.set('base', _format_float(node.base))
-                log_params.set(
-                    'logSideSlope', _format_float(node.log_side_slope)
-                )
-                log_params.set(
-                    'logSideOffset', _format_float(node.log_side_offset)
-                )
-                log_params.set(
-                    'linSideSlope', _format_float(node.lin_side_slope)
-                )
-                log_params.set(
-                    'linSideOffset', _format_float(node.lin_side_offset)
-                )
-
-                if node.style in ['cameraLogToLin', 'cameraLinToLog']:
-                    log_params.set(
-                        'linSideBreak', _format_float(node.lin_side_break)
-                    )
-
-                    if node.linear_slope:
-                        log_params.set(
-                            'linearSlope', _format_float(node.linear_slope)
-                        )
-
-        #process_node.set('inBitDepth', '16f')
-        #process_node.set('outBitDepth', '16f')
+        process_node.set('inBitDepth', '32f')
+        process_node.set('outBitDepth', '32f')
         process_node.set('name', node.name)
         process_list.append(process_node)
 
@@ -938,17 +700,3 @@ def simple_clf_write(LUT, path, name='', id='', decimals=10):
 
     with open(path, 'w') as clf_file:
         clf_file.write(minidom.parseString(xml_string).toprettyxml())
-
-
-def _test_camera_log():
-    from colour.models.rgb.transfer_functions import (
-        log_encoding_ALEXALogC, log_decoding_ALEXALogC
-    )
-    logc800 = Log(lin_side_slope=5.555556, lin_side_offset=0.052272,
-                  log_side_slope=0.247190, log_side_offset=0.385537,
-                  lin_side_break=0.010591, base=10, style='cameraLog2Lin')
-    x = np.linspace(-1, 1, 4095)
-    assert(np.allclose(logc800.reverse(1), 0.5706315581204173))
-    assert(np.allclose(logc800.apply(0.0001), -0.017271788145847674))
-    assert(np.allclose(logc800.to_linear(x), log_decoding_ALEXALogC(x), .01))
-    assert(np.allclose(logc800.from_linear(x), log_encoding_ALEXALogC(x), 0.01))

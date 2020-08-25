@@ -68,8 +68,7 @@ def plot_cvd_simulation_Machado2009(RGB,
     >>> import numpy as np
     >>> RGB = np.random.rand(32, 32, 3)
     >>> plot_cvd_simulation_Machado2009(RGB)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_CVD_Simulation_Machado2009.png
         :align: center
@@ -81,7 +80,7 @@ def plot_cvd_simulation_Machado2009(RGB,
 
     text = 'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
 
-    settings = {'text_parameters': {'text': None if M_a is None else text}}
+    settings = {'text_kwargs': {'text': None if M_a is None else text}}
     settings.update(kwargs)
 
     return plot_image(

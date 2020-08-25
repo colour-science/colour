@@ -7,17 +7,10 @@ Defines the *Russell RGB* colourspace:
 
 -   :attr:`colour.models.RUSSELL_RGB_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Cottrella` : Cottrell, R. (n.d.). The Russell RGB working color
-    space. Retrieved from
-    http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
+    space. http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
 """
 
 from __future__ import division, unicode_literals

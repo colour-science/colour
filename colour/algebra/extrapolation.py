@@ -9,12 +9,12 @@ Defines classes for extrapolating variables:
 
 References
 ----------
--   :cite:`Sastanina` : sastanin. (n.d.). How to make scipy.interpolate give
-    an extrapolated result beyond the input range? Retrieved August 8, 2014,
-    from http://stackoverflow.com/a/2745496/931625
+-   :cite:`Sastanina` : sastanin. (n.d.). How to make scipy.interpolate give an
+    extrapolated result beyond the input range? Retrieved August 8, 2014, from
+    http://stackoverflow.com/a/2745496/931625
 -   :cite:`Westland2012i` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    Extrapolation Methods. In Computational Colour Science Using MATLAB
-    (2nd ed., p. 38). ISBN:978-0-470-66569-5
+    Extrapolation Methods. In Computational Colour Science Using MATLAB (2nd
+    ed., p. 38). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
@@ -119,7 +119,9 @@ class Extrapolator(object):
                  method='Linear',
                  left=None,
                  right=None,
-                 dtype=DEFAULT_FLOAT_DTYPE):
+                 dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
 
         self._interpolator = None
         self.interpolator = interpolator

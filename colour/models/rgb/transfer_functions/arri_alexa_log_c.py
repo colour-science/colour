@@ -8,17 +8,10 @@ Defines the *ARRI ALEXA Log C* log encoding:
 -   :func:`colour.models.log_encoding_ALEXALogC`
 -   :func:`colour.models.log_decoding_ALEXALogC`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
-    Retrieved from https://drive.google.com/\
-open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
+    https://drive.google.com/open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
 """
 
 from __future__ import division, unicode_literals

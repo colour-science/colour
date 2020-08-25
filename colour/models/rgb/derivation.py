@@ -13,21 +13,15 @@ and whitepoint:
 -   :func:`colour.RGB_luminance_equation`
 -   :func:`colour.RGB_luminance`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1993a` : Society of
-    Motion Picture and Television Engineers. (1993). RP 177:1993 : Derivation
-    of Basic Television Color Equations. RP 177:1993 (Vol. RP 177:199). The
+    Motion Picture and Television Engineers. (1993). RP 177:1993 - Derivation
+    of Basic Television Color Equations. In RP 177:1993: Vol. RP 177:199. The
     Society of Motion Picture and Television Engineers.
     doi:10.5594/S9781614821915
--   :cite:`Trieu2015a` : Trieu, T. (2015). Private Discussion with
-    Mansencal, T.
+-   :cite:`Trieu2015a` : Borer, T. (2017). Private Discussion with Mansencal,
+    T. and Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -36,7 +30,7 @@ import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
-from colour.utilities import tsplit
+from colour.utilities import as_numeric, ones, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -212,8 +206,7 @@ def primaries_whitepoint(npm):
     npm = npm.reshape([3, 3])
 
     primaries = XYZ_to_xy(np.transpose(np.dot(npm, np.identity(3))))
-    whitepoint = np.squeeze(
-        XYZ_to_xy(np.transpose(np.dot(npm, np.ones((3, 1))))))
+    whitepoint = np.squeeze(XYZ_to_xy(np.transpose(np.dot(npm, ones([3, 1])))))
 
     # TODO: Investigate if we return an ndarray here with primaries and
     # whitepoint stacked together.
@@ -280,4 +273,4 @@ def RGB_luminance(RGB, primaries, whitepoint):
     Y = np.sum(
         normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
 
-    return Y
+    return as_numeric(Y)

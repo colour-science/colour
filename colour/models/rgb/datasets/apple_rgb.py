@@ -7,16 +7,10 @@ Defines the *Apple RGB* colourspace:
 
 -   :attr:`colour.models.APPLE_RGB_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Susstrunk1999a` : Susstrunk, S., Buckley, R., & Swen, S. (1999).
-    Standard RGB Color Spaces. ISBN:2166-9635
+    Standard RGB Color Spaces.
 """
 
 from __future__ import division, unicode_literals

@@ -8,12 +8,6 @@ Defines *Von Kries* chromatic adaptation model objects:
 -   :func:`colour.adaptation.chromatic_adaptation_matrix_VonKries`
 -   :func:`colour.adaptation.chromatic_adaptation_VonKries`
 
-See Also
---------
-`Chromatic Adaptation Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/vonkries.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation

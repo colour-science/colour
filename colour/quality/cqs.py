@@ -8,22 +8,18 @@ Defines *Colour Quality Scale* (CQS) computation objects:
 -   :class:`colour.quality.CQS_Specification`
 -   :func:`colour.colour_quality_scale`
 
-See Also
---------
-`Colour Quality Scale Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/cqs.ipynb>`_
-
 References
 ----------
 -   :cite:`Davis2010a` : Davis, W., & Ohno, Y. (2010). Color quality scale.
-    Optical Engineering, 49(3), 33602. doi:10.1117/1.3360335
--   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
-    Retrieved from https://drive.google.com/file/d/\
-1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
--   :cite:`Ohno2013` : Ohno, Y., & Davis, W. (2013). NIST CQS simulation 9.0.
-    Retrieved from https://www.researchgate.net/file.PostFileLoader.html?\
-id=5541c498f15bc7cc2c8b4578&assetKey=AS%3A273582771376136%401442238623549
+    Optical Engineering, 49(3), 033602. doi:10.1117/1.3360335
+-   :cite:`Ohno2008a` : Ohno, Yoshiro, & Davis, W. (2008). NIST CQS simulation
+    (Version 7.4) [Computer software].
+    https://drive.google.com/file/d/1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?\
+usp=sharing
+-   :cite:`Ohno2013` : Ohno, Yoshiro, & Davis, W. (2008). NIST CQS simulation
+    (Version 7.4) [Computer software].
+    https://drive.google.com/file/d/1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?\
+usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -34,7 +30,7 @@ from collections import namedtuple
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series, ILLUMINANTS,
-    STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
+    STANDARD_OBSERVER_CMFS, sd_blackbody, sd_to_XYZ)
 from colour.quality.datasets.vs import VS_INDEXES_TO_NAMES, VS_SDS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
@@ -157,10 +153,10 @@ def colour_quality_scale(sd_test, additional_data=False,
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> sd = ILLUMINANTS_SDS['FL2']
+    >>> from colour import ILLUMINANT_SDS
+    >>> sd = ILLUMINANT_SDS['FL2']
     >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
-    64.0172835...
+    64.1117031...
     """
 
     method = method.lower()
@@ -169,7 +165,7 @@ def colour_quality_scale(sd_test, additional_data=False,
     ], ('"{0}" method is invalid, must be one of {1}!'.format(
         method, COLOUR_QUALITY_SCALE_METHODS))
 
-    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
+    cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
     ).trim(DEFAULT_SPECTRAL_SHAPE)
 
     shape = cmfs.shape

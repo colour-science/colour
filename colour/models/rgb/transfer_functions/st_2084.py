@@ -9,21 +9,16 @@ and electro-optical transfer function (EOTF / EOCF):
 -   :func:`colour.models.eotf_ST2084`
 -   :func:`colour.models.eotf_inverse_ST2084`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Miller2014a` : Miller, S. (2014). A Perceptual EOTF for Extended
-    Dynamic Range Imagery. Retrieved from https://www.smpte.org/sites/default/\
-files/2014-05-06-EOTF-Miller-1-2-handout.pdf
+    Dynamic Range Imagery (pp. 1-17).
+    https://www.smpte.org/sites/default/files/\
+2014-05-06-EOTF-Miller-1-2-handout.pdf
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers2014a` : Society of
     Motion Picture and Television Engineers. (2014). SMPTE ST 2084:2014 -
     Dynamic Range Electro-Optical Transfer Function of Mastering Reference
-    Displays. doi:10.5594/SMPTE.ST2084.2014
+    Displays (pp. 1-14). doi:10.5594/SMPTE.ST2084.2014
 """
 
 from __future__ import division, unicode_literals

@@ -163,3 +163,4 @@ Common
     set_spow_enable
     spow_enable
     spow
+    smoothstep_function

@@ -3,10 +3,9 @@
 References
 ----------
 -   :cite:`AdobeSystems2013b` : Adobe Systems. (2013). Cube LUT Specification.
-    Retrieved from https://drive.google.com/\
-open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
--   :cite:`Chamberlain2015`: Chamberlain, P. (2015). LUT documentation
-    (to create from another program). Retrieved August 23, 2018, from
+    https://drive.google.com/open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
+-   :cite:`Chamberlain2015` : Chamberlain, P. (2015). LUT documentation (to
+    create from another program). Retrieved August 23, 2018, from
     https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=40284#p232952
 -   :cite:`RisingSunResearch` : Rising Sun Research. (n.d.). cineSpace LUT
     Library. Retrieved November 30, 2018, from
@@ -19,7 +18,7 @@ import os
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D,
-                  LUTSequence, LUT_to_LUT, Range, Matrix)
+                  LUTSequence, LUT_to_LUT, Range, Matrix, Exponent)
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
 from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
@@ -31,7 +30,7 @@ from .asc_cdl import (ASC_CDL, read_LUT_cdl_xml, read_LUT_cdl_edl,
 
 __all__ = [
     'AbstractLUTSequenceOperator', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUTSequence',
-    'LUT_to_LUT', 'Range', 'Matrix'
+    'LUT_to_LUT', 'Range', 'Matrix', 'Exponent'
 ]
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
 __all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']

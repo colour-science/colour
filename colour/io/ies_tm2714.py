@@ -3,14 +3,15 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Defines the :class:`colour.SpectralDistribution_IESTM2714` class handling
-*IES TM-27-14* spectral data XML files.
+Defines the :class:`colour.SpectralDistribution_IESTM2714` class handling *IES
+TM-27-14* spectral data XML files.
 
 References
 ----------
 -   :cite:`IESComputerCommittee2014a` : IES Computer Committee, & TM-27-14
     Working Group. (2014). IES Standard Format for the Electronic Transfer of
-    Spectral Data Electronic Transfer of Spectral Data. ISBN:978-0879952952
+    Spectral Data Electronic Transfer of Spectral Data. Illuminating
+    Engineering Society. ISBN:978-0-87995-295-2
 """
 
 from __future__ import division, unicode_literals

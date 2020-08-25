@@ -9,7 +9,9 @@ import numpy as np
 import six
 import unittest
 
-from colour import COLOURCHECKERS_SDS, ILLUMINANTS, ILLUMINANTS_SDS
+from colour.characterisation import COLOURCHECKER_SDS
+from colour.colorimetry import ILLUMINANTS, ILLUMINANT_SDS
+from colour.models import ACES_2065_1_COLOURSPACE
 from colour.graph import describe_conversion_path, convert
 
 __author__ = 'Colour Developers'
@@ -43,7 +45,7 @@ class TestDescribeConversionPath(unittest.TestCase):
             'sRGB',
             mode='Extended',
             sd_to_XYZ={
-                'illuminant': ILLUMINANTS_SDS['FL2'],
+                'illuminant': ILLUMINANT_SDS['FL2'],
                 'return': np.array([0.47924575, 0.31676968, 0.17362725])
             })
 
@@ -59,7 +61,7 @@ class TestConvert(unittest.TestCase):
         Tests :func:`colour.graph.conversion.convert` definition.
         """
 
-        RGB_a = convert(COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin'],
+        RGB_a = convert(COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'],
                         'Spectral Distribution', 'sRGB')
         np.testing.assert_almost_equal(
             RGB_a, np.array([0.45675795, 0.30986982, 0.24861924]), decimal=7)
@@ -93,6 +95,15 @@ class TestConvert(unittest.TestCase):
             np.array([0.49215686, 0.50196078, 0.50196078]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            convert(
+                RGB_a,
+                'RGB',
+                'Scene-Referred RGB',
+                RGB_to_RGB={'output_colourspace': ACES_2065_1_COLOURSPACE}),
+            np.array([0.36364180, 0.31715308, 0.25888531]),
+            decimal=7)
+
     def test_convert_direct_keyword_argument_passing(self):
         """
         Tests :func:`colour.graph.conversion.convert` definition behaviour when
@@ -109,10 +120,13 @@ class TestConvert(unittest.TestCase):
             decimal=7)
 
         if six.PY3:  # pragma: no cover
+            # Illuminant "ndarray" is converted to tuple here so that it can
+            # be hashed by the "sd_to_XYZ" definition, this should never occur
+            # in practical application.
             self.assertRaises(AttributeError, lambda: convert(
-                COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin'],
+                COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin'],
                 'Spectral Distribution', 'sRGB',
-                illuminant=illuminant))
+                illuminant=tuple(illuminant)))
 
 
 if __name__ == '__main__':

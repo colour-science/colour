@@ -8,12 +8,6 @@ Defines spectral distributions classes for the datasets from
 
 -   :class:`colour.characterisation.RGB_SpectralSensitivities`: Implements
     support for a camera *RGB* spectral sensitivities.
-
-See Also
---------
-`Cameras Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/cameras.ipynb>`_
 """
 
 from __future__ import division, unicode_literals
@@ -56,13 +50,13 @@ MultiSpectralDistributions or array_like or dict_like, optional
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function of the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-LCD Displays RGB Primaries
-==========================
+LCD Display RGB Primaries
+=========================
 
-Defines *LCD* displays *RGB* primaries multi-spectral distributions.
+Defines *LCD* display *RGB* primaries multi-spectral distributions.
 
 Each *LCD* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
@@ -16,21 +16,16 @@ The following *LCD* displays are available:
 
 -   Apple Studio Display
 
-See Also
---------
-`Displays Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/displays.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild1998b` : Fairchild, M., & Wyble, D. (1998). Colorimetric
-    Characterization of The Apple Studio Display (flat panel LCD). Retrieved
-    from http://scholarworks.rit.edu/cgi/viewcontent.cgi?article=1922&\
+    Characterization of The Apple Studio Display (flat panel LCD) (p. 22).
+    http://scholarworks.rit.edu/cgi/viewcontent.cgi?article=1922&\
 context=article
--   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of
-    color vision deficiency and a color contrast enhancement technique for
-    dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
+-   :cite:`Machado2010a` : Machado, Gustavo Mello. (2010). A model for
+    simulation of color vision deficiency and a color contrast enhancement
+    technique for dichromats. (pp. 1-94).
+    http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals
@@ -45,9 +40,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['LCD_DISPLAYS_RGB_PRIMARIES_DATA', 'LCD_DISPLAYS_RGB_PRIMARIES']
+__all__ = ['LCD_DISPLAY_RGB_PRIMARIES_DATA', 'LCD_DISPLAY_RGB_PRIMARIES']
 
-LCD_DISPLAYS_RGB_PRIMARIES_DATA = {
+LCD_DISPLAY_RGB_PRIMARIES_DATA = {
     'Apple Studio Display': {
         380: (0.0000, 0.0000, 0.0000),
         385: (0.0000, 0.0000, 0.0000),
@@ -133,19 +128,19 @@ LCD_DISPLAYS_RGB_PRIMARIES_DATA = {
     }
 }
 
-LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
+LCD_DISPLAY_RGB_PRIMARIES = CaseInsensitiveMapping({
     'Apple Studio Display':
         RGB_DisplayPrimaries(
-            LCD_DISPLAYS_RGB_PRIMARIES_DATA['Apple Studio Display'],
+            LCD_DISPLAY_RGB_PRIMARIES_DATA['Apple Studio Display'],
             name='Apple Studio Display')
 })
 """
-*LCD* displays *RGB* primaries multi-spectral distributions.
+*LCD* display *RGB* primaries multi-spectral distributions.
 
 References
 ----------
 :cite:`Fairchild1998b`, :cite:`Machado2010a`
 
-LCD_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
+LCD_DISPLAY_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Apple Studio Display'}**
 """

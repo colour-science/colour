@@ -10,17 +10,11 @@ Defines the *CIE L\\*a\\*b\\** colourspace transformations:
 -   :func:`colour.Lab_to_LCHab`
 -   :func:`colour.LCHab_to_Lab`
 
-See Also
---------
-`CIE L*a*b* Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cie_lab.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
     spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
-    ISBN:978-3-901-90633-6
+    ISBN:978-3-901906-33-6
 """
 
 from __future__ import division, unicode_literals

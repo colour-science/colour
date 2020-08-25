@@ -7,17 +7,10 @@ Defines the *Adobe RGB (1998)* colourspace:
 
 -   :attr:`colour.models.ADOBE_RGB_1998_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`AdobeSystems2005a` : Adobe Systems. (2005). Adobe RGB (1998) Color
-    Image Encoding. Retrieved from
-    http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+    Image Encoding. http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 """
 
 from __future__ import division, unicode_literals

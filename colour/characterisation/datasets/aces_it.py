@@ -3,13 +3,7 @@
 Academy Color Encoding System - Input Transform Dataset
 =======================================================
 
-Defines the *Academy Color Encoding System* (ACES) *Input Transform* datasets.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
+Defines the *Academy Color Encoding System* (ACES) *Input Transform* dataset.
 
 References
 ----------
@@ -17,14 +11,13 @@ References
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
-    Encoding Specification (ACES). Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Encoding Specification (ACES) (pp. 1-40). Retrieved December 19, 2014, from
+    http://j.mp/TB-2014-004
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component
-    Names. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Names (pp. 1-8). Retrieved December 19, 2014, from http://j.mp/TB-2014-012
 -   :cite:`TheAcademyofMotionPictureArtsandSciencese` : The Academy of Motion
     Picture Arts and Sciences, Science and Technology Council, & Academy Color
     Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding
@@ -34,7 +27,7 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import RGB_ColourMatchingFunctions
+from colour.characterisation import RGB_SpectralSensitivities
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -519,7 +512,7 @@ ACES_RICD_DATA = {
     830.0: (0.0000000, 0.0000000, 0.0000000)
 }
 
-ACES_RICD = RGB_ColourMatchingFunctions(ACES_RICD_DATA, name='ACES RICD')
+ACES_RICD = RGB_SpectralSensitivities(ACES_RICD_DATA, name='ACES RICD')
 """
 *ACES Reference Input Capture Device* spectral sensitivities.
 
@@ -529,5 +522,5 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
-ACES_RICD : RGB_ColourMatchingFunctions
+ACES_RICD : RGB_SpectralSensitivities
 """

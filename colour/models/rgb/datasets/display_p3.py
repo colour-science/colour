@@ -7,12 +7,6 @@ Defines the *Display P3* colourspace:
 
 -   :attr:`colour.models.DISPLAY_P3_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`AppleInc.2019` : Apple. (2019). Apple Inc. (2019). displayP3.

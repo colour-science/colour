@@ -5,19 +5,13 @@ Academy Spectral Similarity Index (SSI)
 
 Defines the *Academy Spectral Similarity Index* (SSI) computation objects:
 
--   :func:`colour.colour_quality_scale`
-
-See Also
---------
-`Academy Spectral Similarity Index Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/ssi.ipynb>`_
+-   :func:`colour.spectral_similarity_index`
 
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2019` : The Academy of
-    Motion Picture Arts and Sciences. (2019). Academy Spectral Similarity
-    Index (SSI): Overview.
+    Motion Picture Arts and Sciences. (2019). Academy Spectral Similarity Index
+    (SSI): Overview (pp. 1-7).
 """
 
 from __future__ import division, unicode_literals
@@ -27,6 +21,7 @@ from scipy.ndimage.filters import convolve1d
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import SpectralShape
+from colour.utilities import zeros
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -72,9 +67,9 @@ def spectral_similarity_index(sd_test, sd_reference):
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> sd_test = ILLUMINANTS_SDS['C']
-    >>> sd_reference = ILLUMINANTS_SDS['D65']
+    >>> from colour import ILLUMINANT_SDS
+    >>> sd_test = ILLUMINANT_SDS['C']
+    >>> sd_reference = ILLUMINANT_SDS['D65']
     >>> spectral_similarity_index(sd_test, sd_reference)
     94.0
     """
@@ -82,7 +77,7 @@ def spectral_similarity_index(sd_test, sd_reference):
     global _INTEGRATION_MATRIX
 
     if _INTEGRATION_MATRIX is None:
-        _INTEGRATION_MATRIX = np.zeros([
+        _INTEGRATION_MATRIX = zeros([
             len(_SSI_LARGE_SPECTRAL_SHAPE.range()),
             len(SSI_SPECTRAL_SHAPE.range())
         ])
@@ -94,7 +89,7 @@ def spectral_similarity_index(sd_test, sd_reference):
 
     settings = {
         'interpolator': LinearInterpolator,
-        'extrapolator_args': {
+        'extrapolator_kwargs': {
             'left': 0,
             'right': 0
         }

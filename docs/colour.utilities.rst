@@ -73,6 +73,8 @@ Array
     as_numeric
     as_int
     as_float
+    set_float_precision
+    set_int_precision
     as_namedtuple
     closest_indexes
     closest
@@ -91,6 +93,9 @@ Array
     lerp
     fill_nan
     ndarray_write
+    zeros
+    ones
+    full
 
 Metrics
 -------
@@ -117,6 +122,7 @@ Data Structures
     :template: class.rst
 
     CaseInsensitiveMapping
+    LazyCaseInsensitiveMapping
     Lookup
     Structure
 

@@ -6,21 +6,15 @@ ITU-R BT.2020
 Defines *ITU-R BT.2020* opto-electrical transfer function (OETF / OECF) and
 electro-optical transfer function (EOTF / EOCF):
 
--   :func:`colour.models.oetf_BT2020`
+-   :func:`colour.models.eotf_inverse_BT2020`
 -   :func:`colour.models.eotf_BT2020`
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015h` : International
     Telecommunication Union. (2015). Recommendation ITU-R BT.2020 - Parameter
     values for ultra-high definition television systems for production and
-    international programme exchange. Retrieved from
+    international programme exchange (pp. 1-8).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 """
@@ -41,7 +35,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'BT2020_CONSTANTS', 'BT2020_CONSTANTS_PRECISE', 'oetf_BT2020',
+    'BT2020_CONSTANTS', 'BT2020_CONSTANTS_PRECISE', 'eotf_inverse_BT2020',
     'eotf_BT2020'
 ]
 
@@ -68,10 +62,11 @@ BT2020_CONSTANTS_PRECISE : Structure
 """
 
 
-def oetf_BT2020(E, is_12_bits_system=False, constants=BT2020_CONSTANTS):
+def eotf_inverse_BT2020(E, is_12_bits_system=False,
+                        constants=BT2020_CONSTANTS):
     """
-    Defines *Recommendation ITU-R BT.2020* opto-electrical transfer function
-    (OETF / OECF).
+    Defines *Recommendation ITU-R BT.2020* inverse electro-optical transfer
+    function (EOTF / EOCF).
 
     Parameters
     ----------
@@ -110,7 +105,7 @@ def oetf_BT2020(E, is_12_bits_system=False, constants=BT2020_CONSTANTS):
 
     Examples
     --------
-    >>> oetf_BT2020(0.18)  # doctest: +ELLIPSIS
+    >>> eotf_inverse_BT2020(0.18)  # doctest: +ELLIPSIS
     0.4090077...
     """
 
@@ -175,7 +170,7 @@ def eotf_BT2020(E_p, is_12_bits_system=False, constants=BT2020_CONSTANTS):
 
     with domain_range_scale('ignore'):
         E = np.where(
-            E_p < oetf_BT2020(b),
+            E_p < eotf_inverse_BT2020(b),
             E_p / 4.5,
             spow((E_p + (a - 1)) / a, 1 / 0.45),
         )

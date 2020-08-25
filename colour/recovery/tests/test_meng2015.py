@@ -8,9 +8,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
-                                STANDARD_OBSERVERS_CMFS, SpectralShape,
-                                ILLUMINANTS_SDS, sd_to_XYZ_integration)
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS,
+                                SpectralShape, ILLUMINANT_SDS,
+                                sd_to_XYZ_integration)
 from colour.recovery import XYZ_to_sd_Meng2015
 from colour.utilities import domain_range_scale
 
@@ -26,17 +26,16 @@ __all__ = ['TestXYZ_to_sd_Meng2015']
 
 class TestXYZ_to_sd_Meng2015(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
-    definition unit tests methods.
+    Defines :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition unit
+    tests methods.
     """
 
     def test_XYZ_to_sd_Meng2015(self):
         """
-        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
-        definition.
+        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition.
         """
 
-        cmfs = (STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs = (STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
                 .copy().trim(DEFAULT_SPECTRAL_SHAPE))
         shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, 5)
         cmfs_c = cmfs.copy().align(shape)
@@ -59,8 +58,8 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_integration(
-                XYZ_to_sd_Meng2015(XYZ, cmfs_c, ILLUMINANTS_SDS['D65']),
-                cmfs_c, ILLUMINANTS_SDS['D65']) / 100,
+                XYZ_to_sd_Meng2015(XYZ, cmfs_c, ILLUMINANT_SDS['D65']), cmfs_c,
+                ILLUMINANT_SDS['D65']) / 100,
             XYZ,
             decimal=7)
 
@@ -69,7 +68,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
                 XYZ_to_sd_Meng2015(
                     XYZ,
                     cmfs_c,
-                    optimisation_parameters={'options': {
+                    optimisation_kwargs={'options': {
                         'ftol': 1e-10,
                     }}), cmfs_c) / 100,
             XYZ,
@@ -93,7 +92,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             RuntimeError,
             XYZ_to_sd_Meng2015,
             np.array([0.0, 0.0, 1.0]),
-            optimisation_parameters={
+            optimisation_kwargs={
                 'options': {
                     'maxiter': 10
                 },
@@ -101,8 +100,8 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_sd_Meng2015(self):
         """
-        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
-        definition domain and range scale support.
+        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition
+        domain and range scale support.
         """
 
         XYZ_i = np.array([0.21781186, 0.12541048, 0.04697113])

@@ -8,16 +8,10 @@ Defines the *YCoCg* colour encoding related transformations:
 -   :func:`colour.RGB_to_YCoCg`
 -   :func:`colour.YCoCg_to_RGB`
 
-See Also
---------
-`YCoCg Colours Encoding Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ycocg.ipynb>`_
-
 References
 ----------
 -   :cite:`Malvar2003` : Malvar, H., & Sullivan, G. (2003). YCoCg-R: A Color
-    Space with RGB Reversibility and Low Dynamic Range. Retrieved from
+    Space with RGB Reversibility and Low Dynamic Range.
     https://www.microsoft.com/en-us/research/wp-content/uploads/2016/06/\
 Malvar_Sullivan_YCoCg-R_JVT-I014r3-2.pdf
 """

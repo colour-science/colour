@@ -8,12 +8,6 @@ Defines the :math:`J_zA_zB_z` colourspace:
 -   :func:`colour.XYZ_to_JzAzBz`
 -   :func:`colour.JzAzBz_to_XYZ`
 
-See Also
---------
-`JzAzBz Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/jzazbz.ipynb>`_
-
 References
 ----------
 -   :cite:`Safdar2017` : Safdar, M., Cui, G., Kim, Y. J., & Luo, M. R. (2017).

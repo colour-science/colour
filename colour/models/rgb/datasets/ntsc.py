@@ -8,22 +8,17 @@ Defines the *NTSC* colourspaces:
 -   :attr:`colour.models.NTSC_1953_COLOURSPACE`.
 -   :attr:`colour.models.NTSC_1987_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion1998a` : International
     Telecommunication Union. (1998). Recommendation ITU-R BT.470-6 -
-    CONVENTIONAL TELEVISION SYSTEMS. Retrieved from http://www.itu.int/\
-dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+    CONVENTIONAL TELEVISION SYSTEMS (pp. 1-36).
+    http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.470-6-199811-S!!PDF-E.pdf
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers2004a` : Society of
-Motion Picture and Television Engineers. (2004). RP 145:2004: SMPTE C Color
-Monitor Colorimetry. RP 145:2004 (Vol. RP 145:200). The Society of Motion
-Picture and Television Engineers. doi:10.5594/S9781614821649
+    Motion Picture and Television Engineers. (2004). RP 145:2004: SMPTE C Color
+    Monitor Colorimetry. In RP 145:2004: Vol. RP 145:200. The Society of Motion
+    Picture and Television Engineers. doi:10.5594/S9781614821649
 """
 
 from __future__ import division, unicode_literals

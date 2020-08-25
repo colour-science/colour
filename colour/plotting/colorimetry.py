@@ -21,8 +21,8 @@ Defines the colorimetry plotting objects:
 
 References
 ----------
--   :cite:`Spiker2015a` : Spiker, N. (2015). Private Discussion with
-    Mansencal, T. Retrieved from http://www.invisiblelightimages.com/
+-   :cite:`Spiker2015a` : Borer, T. (2017). Private Discussion with Mansencal,
+    T. and Shaw, N.
 """
 
 from __future__ import division
@@ -33,16 +33,16 @@ from matplotlib.patches import Polygon
 from six.moves import reduce
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import (
-    ILLUMINANTS, ILLUMINANTS_SDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ, sds_and_multi_sds_to_sds,
-    wavelength_to_XYZ)
+from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS, LIGHTNESS_METHODS,
+                                LUMINANCE_METHODS, SpectralShape, sd_blackbody,
+                                sd_ones, sd_to_XYZ, sds_and_multi_sds_to_sds,
+                                wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
     render, plot_single_colour_swatch, plot_multi_functions)
 from colour.utilities import (domain_range_scale, first_item,
-                              normalise_maximum, tstack)
+                              normalise_maximum, ones, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -75,6 +75,10 @@ def plot_single_sd(sd,
     ----------
     sd : SpectralDistribution
         Spectral distribution to plot.
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for computing the
+        spectrum domain and colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
     out_of_gamut_clipping : bool, optional
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
@@ -88,8 +92,6 @@ def plot_single_sd(sd,
         arguments to *True* will generate a spectrum strip where each
         wavelength colour is modulated by the spectral distribution amplitude.
         The usual 5% margin above the spectral distribution is also omitted.
-    cmfs : unicode
-        Standard observer colour matching functions used for spectrum creation.
 
     Other Parameters
     ----------------
@@ -119,8 +121,7 @@ def plot_single_sd(sd,
     ... }
     >>> sd = SpectralDistribution(data, name='Custom')
     >>> plot_single_sd(sd)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_SD.png
         :align: center
@@ -155,7 +156,7 @@ def plot_single_sd(sd,
     colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding(colours)
 
     if equalize_sd_amplitude:
-        values = np.ones(values.shape)
+        values = ones(values.shape)
 
     margin = 0 if equalize_sd_amplitude else 0.05
 
@@ -213,7 +214,9 @@ def plot_multi_sds(sds,
         of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
-        Standard observer colour matching functions used for spectrum creation.
+        Standard observer colour matching functions used for computing the
+        spectral distributions colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
     use_sds_colours : bool, optional
         Whether to use spectral distributions colours.
     normalise_sds_colours : bool
@@ -254,8 +257,7 @@ def plot_multi_sds(sds,
     >>> sd_1 = SpectralDistribution(data_1, name='Custom 1')
     >>> sd_2 = SpectralDistribution(data_2, name='Custom 2')
     >>> plot_multi_sds([sd_1, sd_2])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_SDS.png
         :align: center
@@ -267,8 +269,8 @@ def plot_multi_sds(sds,
     sds = sds_and_multi_sds_to_sds(sds)
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    illuminant = ILLUMINANTS_SDS[
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.illuminant]
+    illuminant = ILLUMINANT_SDS[
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint_name]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for sd in sds:
@@ -315,7 +317,8 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Parameters
     ----------
     cmfs : unicode, optional
-        Colour matching functions to plot.
+        Colour matching functions to plot. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -334,8 +337,7 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     --------
     >>> plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_CMFS.png
         :align: center
@@ -348,7 +350,7 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     }
     settings.update(kwargs)
 
-    return plot_multi_cmfs((cmfs.name, ), **settings)
+    return plot_multi_cmfs((cmfs, ), **settings)
 
 
 @override_style()
@@ -359,7 +361,9 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
     Parameters
     ----------
     cmfs : array_like, optional
-        Colour matching functions to plot.
+        Colour matching functions to plot. ``cmfs`` elements can be of any
+        type or form supported by the :func:`colour.plotting.filter_cmfs`
+        definition.
 
     Other Parameters
     ----------------
@@ -377,8 +381,7 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
     >>> cmfs = ('CIE 1931 2 Degree Standard Observer',
     ...         'CIE 1964 10 Degree Standard Observer')
     >>> plot_multi_cmfs(cmfs)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_CMFS.png
         :align: center
@@ -443,9 +446,12 @@ def plot_single_illuminant_sd(illuminant='A',
     Parameters
     ----------
     illuminant : unicode, optional
-        Factory illuminant to plot.
+        Illuminant to plot. ``illuminant`` can be of any type or form supported
+        by the :func:`colour.plotting.filter_illuminants` definition.
     cmfs : unicode, optional
-        Standard observer colour matching functions to plot.
+        Standard observer colour matching functions used for computing the
+        spectrum domain and colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -472,8 +478,7 @@ def plot_single_illuminant_sd(illuminant='A',
     Examples
     --------
     >>> plot_single_illuminant_sd('A')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Illuminant_SD.png
         :align: center
@@ -499,7 +504,9 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
     Parameters
     ----------
     illuminants : array_like, optional
-        Factory illuminants to plot.
+        Illuminants to plot. ``illuminants`` elements can be of any type or
+        form supported by the :func:`colour.plotting.filter_illuminants`
+        definition.
 
     Other Parameters
     ----------------
@@ -523,8 +530,7 @@ def plot_multi_illuminant_sds(illuminants=None, **kwargs):
     Examples
     --------
     >>> plot_multi_illuminant_sds(['A', 'B', 'C'])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDS.png
         :align: center
@@ -559,7 +565,9 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
     Parameters
     ----------
     cmfs : unicode, optional
-        Standard observer colour matching functions used for spectrum creation.
+        Standard observer colour matching functions used for computing the
+        spectrum domain and colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
     out_of_gamut_clipping : bool, optional
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
@@ -585,8 +593,7 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
     Examples
     --------
     >>> plot_visible_spectrum()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum.png
         :align: center
@@ -629,7 +636,8 @@ def plot_single_lightness_function(function='CIE 1976', **kwargs):
     Parameters
     ----------
     function : unicode, optional
-        *Lightness* function to plot.
+        *Lightness* function to plot. ``function`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -647,8 +655,7 @@ def plot_single_lightness_function(function='CIE 1976', **kwargs):
     Examples
     --------
     >>> plot_single_lightness_function('CIE 1976')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Lightness_Function.png
         :align: center
@@ -669,7 +676,9 @@ def plot_multi_lightness_functions(functions=None, **kwargs):
     Parameters
     ----------
     functions : array_like, optional
-        *Lightness* functions to plot.
+        *Lightness* functions to plot. ``functions`` elements can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -688,8 +697,7 @@ def plot_multi_lightness_functions(functions=None, **kwargs):
     --------
     >>> plot_multi_lightness_functions(['CIE 1976', 'Wyszecki 1963'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Lightness_Functions.png
         :align: center
@@ -740,8 +748,7 @@ def plot_single_luminance_function(function='CIE 1976', **kwargs):
     Examples
     --------
     >>> plot_single_luminance_function('CIE 1976')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Luminance_Function.png
         :align: center
@@ -762,7 +769,9 @@ def plot_multi_luminance_functions(functions=None, **kwargs):
     Parameters
     ----------
     functions : array_like, optional
-        *Luminance* functions to plot.
+        *Luminance* functions to plot. ``functions`` elements can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -781,8 +790,7 @@ def plot_multi_luminance_functions(functions=None, **kwargs):
     --------
     >>> plot_multi_luminance_functions(['CIE 1976', 'Newhall 1943'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Luminance_Functions.png
         :align: center
@@ -821,7 +829,9 @@ def plot_blackbody_spectral_radiance(
     temperature : numeric, optional
         Blackbody temperature.
     cmfs : unicode, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions used for computing the
+        spectrum domain and colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
     blackbody : unicode, optional
         Blackbody name.
 
@@ -842,8 +852,7 @@ def plot_blackbody_spectral_radiance(
     --------
     >>> plot_blackbody_spectral_radiance(3500, blackbody='VY Canis Major')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 2 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 2 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Spectral_Radiance.png
         :align: center
@@ -913,7 +922,9 @@ def plot_blackbody_colours(
     shape : SpectralShape, optional
         Spectral shape to use as plot boundaries.
     cmfs : unicode, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions used for computing the
+        blackbody colours. ``cmfs`` can be of any type or form supported by the
+        :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -930,8 +941,7 @@ def plot_blackbody_colours(
     --------
     >>> plot_blackbody_colours(SpectralShape(150, 12500, 50))
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Blackbody_Colours.png
         :align: center

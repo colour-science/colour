@@ -10,12 +10,6 @@ Defines *RLAB* colour appearance model objects:
 -   :class:`colour.RLAB_Specification`
 -   :func:`colour.XYZ_to_RLAB`
 
-See Also
---------
-`RLAB Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/rlab.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild1996a` : Fairchild, M. D. (1996). Refinement of the RLAB

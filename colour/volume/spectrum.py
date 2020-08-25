@@ -5,20 +5,14 @@ Visible Spectrum Volume Computations
 
 Defines objects related to visible spectrum volume computations.
 
-See Also
---------
-`Spectrum Volume Computations Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/volume/spectrum.ipynb>`_
-
 References
 ----------
--   :cite:`Lindbloom2015` :Lindbloom, B. (2015). About the Lab Gamut.
+-   :cite:`Lindbloom2015` : Lindbloom, B. (2015). About the Lab Gamut.
     Retrieved August 20, 2018, from
     http://www.brucelindbloom.com/LabGamutDisplayHelp.html
--   :cite:`Mansencal2018` :Mansencal, T. (2018). How is the visible gamut
-    bounded? Retrieved August 19, 2018, from https://stackoverflow.com/a/\
-48396021/931625
+-   :cite:`Mansencal2018` : Mansencal, T. (2018). How is the visible gamut
+    bounded? Retrieved August 19, 2018, from
+    https://stackoverflow.com/a/48396021/931625
 """
 
 from __future__ import division, unicode_literals
@@ -26,9 +20,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 import six
 
-from colour.colorimetry import (STANDARD_OBSERVERS_CMFS, multi_sds_to_XYZ,
+from colour.colorimetry import (STANDARD_OBSERVER_CMFS, multi_sds_to_XYZ,
                                 SpectralShape, sd_ones)
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
+from colour.utilities import zeros
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -127,16 +123,21 @@ def generate_pulse_waves(bins):
     """
 
     square_waves = []
-    square_waves_basis = np.tril(np.ones((bins, bins)))[0:-1, :]
+    square_waves_basis = np.tril(
+        np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE))[0:-1, :]
     for square_wave_basis in square_waves_basis:
         for i in range(bins):
             square_waves.append(np.roll(square_wave_basis, i))
 
-    return np.vstack([np.zeros(bins), np.vstack(square_waves), np.ones(bins)])
+    return np.vstack([
+        zeros(bins),
+        np.vstack(square_waves),
+        np.ones(bins, dtype=DEFAULT_FLOAT_DTYPE)
+    ])
 
 
 def XYZ_outer_surface(
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         **kwargs):
@@ -172,7 +173,7 @@ def XYZ_outer_surface(
     >>> from colour.colorimetry import DEFAULT_SPECTRAL_SHAPE
     >>> shape = SpectralShape(
     ...     DEFAULT_SPECTRAL_SHAPE.start, DEFAULT_SPECTRAL_SHAPE.end, 84)
-    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> XYZ_outer_surface(cmfs.copy().align(shape))  # doctest: +ELLIPSIS
     array([[  0.0000000...e+00,   0.0000000...e+00,   0.0000000...e+00],
            [  9.6361381...e-05,   2.9056776...e-06,   4.4961226...e-04],
@@ -225,7 +226,7 @@ def XYZ_outer_surface(
 
 def is_within_visible_spectrum(
         XYZ,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().align(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_XYZ_OUTER_SURFACE),
         tolerance=None,

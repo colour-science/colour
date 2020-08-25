@@ -40,12 +40,6 @@ Defines various objects for colour correction, like colour matching two images:
     colourspace array using the colour correction matrix from given
     :math:`M_T` colour array to :math:`M_R` colour array.
 
-See Also
---------
-`Colour Correction Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/correction.ipynb>`_
-
 References
 ----------
 -   :cite:`Cheung2004` : Cheung, V., Westland, S., Connah, D., & Ripamonti, C.
@@ -57,8 +51,8 @@ References
     Transactions on Image Processing, 24(5), 1460-1470.
     doi:10.1109/TIP.2015.2405336
 -   :cite:`Westland2004` : Westland, S., & Ripamonti, C. (2004). Table 8.2. In
-    Computational Colour Science Using MATLAB (1st ed., p. 137). Chichester,
-    UK: John Wiley & Sons, Ltd. doi:10.1002/0470020326
+    Computational Colour Science Using MATLAB (1st ed., p. 137). John Wiley &
+    Sons, Ltd. doi:10.1002/0470020326
 -   :cite:`Wikipedia2003e` : Wikipedia. (2003). Vandermonde matrix. Retrieved
     May 2, 2018, from https://en.wikipedia.org/wiki/Vandermonde_matrix
 """
@@ -69,7 +63,7 @@ import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_int,
-                              closest, filter_kwargs, tsplit, tstack)
+                              closest, filter_kwargs, ones, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -125,7 +119,7 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
     """
 
     R, G, B = tsplit(RGB)
-    ones = np.ones(R.shape)
+    tail = ones(R.shape)
 
     existing_terms = np.array([3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22])
     closest_terms = as_int(closest(existing_terms, terms))
@@ -138,23 +132,23 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
     if terms == 3:
         return RGB
     elif terms == 5:
-        return tstack([R, G, B, R * G * B, ones])
+        return tstack([R, G, B, R * G * B, tail])
     elif terms == 7:
-        return tstack([R, G, B, R * G, R * B, G * B, ones])
+        return tstack([R, G, B, R * G, R * B, G * B, tail])
     elif terms == 8:
-        return tstack([R, G, B, R * G, R * B, G * B, R * G * B, ones])
+        return tstack([R, G, B, R * G, R * B, G * B, R * G * B, tail])
     elif terms == 10:
         return tstack(
-            [R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, ones])
+            [R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, tail])
     elif terms == 11:
         return tstack([
             R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            ones
+            tail
         ])
     elif terms == 14:
         return tstack([
             R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B, R
-            ** 3, G ** 3, B ** 3, ones
+            ** 3, G ** 3, B ** 3, tail
         ])
     elif terms == 16:
         return tstack([
@@ -164,7 +158,7 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
     elif terms == 17:
         return tstack([
             R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 3, G ** 3, B ** 3, ones
+            R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 3, G ** 3, B ** 3, tail
         ])
     elif terms == 19:
         return tstack([
@@ -176,7 +170,7 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
         return tstack([
             R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
             R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 2 * B, G ** 2 * R,
-            B ** 2 * G, R ** 3, G ** 3, B ** 3, ones
+            B ** 2 * G, R ** 3, G ** 3, B ** 3, tail
         ])
     elif terms == 22:
         return tstack([
@@ -216,9 +210,9 @@ def polynomial_expansion_Finlayson2015(RGB,
     --------
     >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
     >>> polynomial_expansion_Finlayson2015(RGB, degree=2)  # doctest: +ELLIPSIS
-    array([ 0.1722481...,  0.0917066...,  0.06416938...\
-,  0.0078981...,  0.0029423...,
-            0.0055265...])
+    array([ 0.1722481...,  0.0917066...,  0.0641693...,  0.1256832...,  \
+0.0767121...,
+            0.1051335...])
     """
 
     R, G, B = tsplit(RGB)
@@ -237,7 +231,8 @@ def polynomial_expansion_Finlayson2015(RGB,
     elif degree == 2:
         if root_polynomial_expansion:
             return tstack([
-                R, G, B, (R * G) ** 1 / 2, (G * B) ** 1 / 2, (R * B) ** 1 / 2
+                R, G, B, (R * G) ** (1 / 2), (G * B) ** (1 / 2), (R * B)
+                ** (1 / 2)
             ])
 
         else:
@@ -246,11 +241,10 @@ def polynomial_expansion_Finlayson2015(RGB,
     elif degree == 3:
         if root_polynomial_expansion:
             return tstack([
-                R, G, B, (R * G) ** 1 / 2, (G * B) ** 1 / 2, (R * B) ** 1 / 2,
-                (R * G ** 2) ** 1 / 3, (G * B ** 2) ** 1 / 3,
-                (R * B ** 2) ** 1 / 3, (G * R ** 2) ** 1 / 3,
-                (B * G ** 2) ** 1 / 3, (B * R ** 2) ** 1 / 3,
-                (R * G * B) ** 1 / 3
+                R, G, B, (R * G) ** (1 / 2), (G * B) ** (1 / 2), (R * B)
+                ** (1 / 2), (R * G ** 2) ** (1 / 3), (G * B ** 2) ** (1 / 3),
+                (R * B ** 2) ** (1 / 3), (G * R ** 2) ** (1 / 3), (B * G ** 2)
+                ** (1 / 3), (B * R ** 2) ** (1 / 3), (R * G * B) ** (1 / 3)
             ])
         else:
             return tstack([
@@ -261,15 +255,14 @@ def polynomial_expansion_Finlayson2015(RGB,
     elif degree == 4:
         if root_polynomial_expansion:
             return tstack([
-                R, G, B, (R * G) ** 1 / 2, (G * B) ** 1 / 2, (R * B) ** 1 / 2,
-                (R * G ** 2) ** 1 / 3, (G * B ** 2) ** 1 / 3,
-                (R * B ** 2) ** 1 / 3, (G * R ** 2) ** 1 / 3,
-                (B * G ** 2) ** 1 / 3, (B * R ** 2) ** 1 / 3,
-                (R * G * B) ** 1 / 3, (R ** 3 * G) ** 1 / 4,
-                (R ** 3 * B) ** 1 / 4, (G ** 3 * R) ** 1 / 4,
-                (G ** 3 * B) ** 1 / 4, (B ** 3 * R) ** 1 / 4,
-                (B ** 3 * G) ** 1 / 4, (R ** 2 * G * B) ** 1 / 4,
-                (G ** 2 * R * B) ** 1 / 4, (B ** 2 * R * G) ** 1 / 4
+                R, G, B, (R * G) ** (1 / 2), (G * B) ** (1 / 2), (R * B)
+                ** (1 / 2), (R * G ** 2) ** (1 / 3), (G * B ** 2) ** (1 / 3),
+                (R * B ** 2) ** (1 / 3), (G * R ** 2) ** (1 / 3), (B * G ** 2)
+                ** (1 / 3), (B * R ** 2) ** (1 / 3), (R * G * B) ** (1 / 3),
+                (R ** 3 * G) ** (1 / 4), (R ** 3 * B) ** (1 / 4), (G ** 3 * R)
+                ** (1 / 4), (G ** 3 * B) ** (1 / 4), (B ** 3 * R) ** (1 / 4),
+                (B ** 3 * G) ** (1 / 4), (R ** 2 * G * B) ** (1 / 4),
+                (G ** 2 * R * B) ** (1 / 4), (B ** 2 * R * G) ** (1 / 4)
             ])
         else:
             return tstack([
@@ -417,7 +410,7 @@ def colour_correction_matrix_Cheung2004(M_T, M_R, terms=3):
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> colour_correction_matrix(M_T, M_R)  # doctest: +ELLIPSIS
+    >>> colour_correction_matrix_Cheung2004(M_T, M_R)  # doctest: +ELLIPSIS
     array([[ 1.0526376...,  0.1378078..., -0.2276339...],
            [ 0.0739584...,  1.0293994..., -0.1060115...],
            [ 0.0572550..., -0.2052633...,  1.1015194...]])
@@ -460,7 +453,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> colour_correction_matrix(M_T, M_R)  # doctest: +ELLIPSIS
+    >>> colour_correction_matrix_Finlayson2015(M_T, M_R)  # doctest: +ELLIPSIS
     array([[ 1.0526376...,  0.1378078..., -0.2276339...],
            [ 0.0739584...,  1.0293994..., -0.1060115...],
            [ 0.0572550..., -0.2052633...,  1.1015194...]])
@@ -499,10 +492,10 @@ def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> colour_correction_matrix(M_T, M_R)  # doctest: +ELLIPSIS
-    array([[ 1.0526376...,  0.1378078..., -0.2276339...],
-           [ 0.0739584...,  1.0293994..., -0.1060115...],
-           [ 0.0572550..., -0.2052633...,  1.1015194...]])
+    >>> colour_correction_matrix_Vandermonde(M_T, M_R)  # doctest: +ELLIPSIS
+    array([[ 1.0300256...,  0.1141770..., -0.2621816...,  0.0418022...],
+           [ 0.0670209...,  1.0221494..., -0.1166108...,  0.0128250...],
+           [ 0.0744612..., -0.1872819...,  1.1278078..., -0.0318085...]])
     """
 
     return least_square_mapping_MoorePenrose(

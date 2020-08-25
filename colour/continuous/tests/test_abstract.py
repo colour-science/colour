@@ -31,8 +31,8 @@ class TestAbstractContinuousFunction(unittest.TestCase):
         """
 
         required_attributes = ('name', 'domain', 'range', 'interpolator',
-                               'interpolator_args', 'extrapolator',
-                               'extrapolator_args', 'function')
+                               'interpolator_kwargs', 'extrapolator',
+                               'extrapolator_kwargs', 'function')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(AbstractContinuousFunction))

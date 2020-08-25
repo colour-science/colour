@@ -15,7 +15,7 @@ from functools import partial
 from matplotlib.pyplot import Axes, Figure
 
 import colour
-from colour.colorimetry import ILLUMINANTS_SDS
+from colour.colorimetry import ILLUMINANT_SDS
 from colour.io import read_image
 from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
 from colour.plotting import ColourSwatch
@@ -303,18 +303,18 @@ class TestFilterPassthrough(unittest.TestCase):
 
         self.assertDictEqual(
             filter_passthrough(
-                ILLUMINANTS_SDS, [ILLUMINANTS_SDS['D65'], {
+                ILLUMINANT_SDS, [ILLUMINANT_SDS['D65'], {
                     'Is': 'Excluded'
                 }],
-                allow_non_siblings=False), {'D65': ILLUMINANTS_SDS['D65']})
+                allow_non_siblings=False), {'D65': ILLUMINANT_SDS['D65']})
 
         self.assertDictEqual(
             filter_passthrough(
-                ILLUMINANTS_SDS, [ILLUMINANTS_SDS['D65'], {
+                ILLUMINANT_SDS, [ILLUMINANT_SDS['D65'], {
                     'Is': 'Included'
                 }],
                 allow_non_siblings=True), {
-                    'D65': ILLUMINANTS_SDS['D65'],
+                    'D65': ILLUMINANT_SDS['D65'],
                     'Is': 'Included'
                 })
 
@@ -424,6 +424,12 @@ class TestPlotSingleColourSwatch(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
+        figure, axes = plot_single_colour_swatch(
+            np.array([0.45620519, 0.03081071, 0.04091952]))
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
 
 class TestPlotMultiColourSwatches(unittest.TestCase):
     """
@@ -441,6 +447,14 @@ class TestPlotMultiColourSwatches(unittest.TestCase):
             ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773)),
             ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
         ])
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_multi_colour_swatches(
+            np.array([[0.45293517, 0.31732158, 0.26414773],
+                      [0.77875824, 0.57726450, 0.50453169]]),
+            direction='-y')
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -475,17 +489,20 @@ class TestPlotMultiFunctions(unittest.TestCase):
         Tests :func:`colour.plotting.common.plot_multi_functions` definition.
         """
 
-        functions = functions = {
+        functions = {
             'Gamma 2.2': lambda x: x ** (1 / 2.2),
             'Gamma 2.4': lambda x: x ** (1 / 2.4),
             'Gamma 2.6': lambda x: x ** (1 / 2.6),
         }
-        figure, axes = plot_multi_functions(functions)
+        plot_kwargs = {'c': 'r'}
+        figure, axes = plot_multi_functions(functions, plot_kwargs=plot_kwargs)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_multi_functions(functions, log_x=10, log_y=10)
+        plot_kwargs = [{'c': 'r'}, {'c': 'g'}, {'c': 'b'}]
+        figure, axes = plot_multi_functions(
+            functions, log_x=10, log_y=10, plot_kwargs=plot_kwargs)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

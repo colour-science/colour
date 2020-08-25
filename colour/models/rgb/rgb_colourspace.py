@@ -12,21 +12,16 @@ datasets from :mod:`colour.models.datasets.aces_rgb`, etc... and the following
 -   :func:`colour.RGB_to_RGB_matrix`
 -   :func:`colour.RGB_to_RGB`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/\
-master/notebooks/models/rgb.ipynb>`_
 References
 ----------
 -   :cite:`InternationalElectrotechnicalCommission1999a` : International
     Electrotechnical Commission. (1999). IEC 61966-2-1:1999 - Multimedia
     systems and equipment - Colour measurement and management - Part 2-1:
-    Colour management - Default RGB colour space - sRGB. Retrieved from
+    Colour management - Default RGB colour space - sRGB (p. 51).
     https://webstore.iec.ch/publication/6169
--   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.
-    Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/\
-VARICAM_V-Log_V-Gamut.pdf
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut (pp.
+    1-7).
+    http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -40,7 +35,7 @@ from colour.models.rgb import (chromatically_adapted_primaries,
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import (as_float_array, domain_range_scale, dot_matrix,
                               dot_vector, filter_kwargs, from_range_1,
-                              to_domain_1, is_string, runtime_warning)
+                              to_domain_1, is_string, usage_warning)
 from colour.utilities.deprecation import (ObjectRenamed,
                                           handle_arguments_deprecation)
 
@@ -866,7 +861,7 @@ class RGB_Colourspace(object):
     @property
     def illuminant(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('RGB_Colourspace.illuminant',
                               'RGB_Colourspace.whitepoint_name')))
@@ -876,7 +871,7 @@ class RGB_Colourspace(object):
     @illuminant.setter
     def illuminant(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('RGB_Colourspace.illuminant',
                               'RGB_Colourspace.whitepoint_name')))
@@ -886,7 +881,7 @@ class RGB_Colourspace(object):
     @property
     def decoding_cctf(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('RGB_Colourspace.decoding_cctf',
                               'RGB_Colourspace.cctf_decoding')))
@@ -896,7 +891,7 @@ class RGB_Colourspace(object):
     @property
     def encoding_cctf(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('RGB_Colourspace.encoding_cctf',
                               'RGB_Colourspace.cctf_encoding')))
@@ -919,11 +914,11 @@ def XYZ_to_RGB(XYZ,
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant_XYZ : array_like
-        *CIE XYZ* tristimulus values *illuminant* *CIE xy* chromaticity
-        coordinates or *CIE xyY* colourspace array.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
+        *illuminant* for the input *CIE XYZ* tristimulus values.
     illuminant_RGB : array_like
-        *RGB* colourspace *illuminant* *CIE xy* chromaticity coordinates or
-        *CIE xyY* colourspace array.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
+        *illuminant* for the output *RGB* colourspace array.
     XYZ_to_RGB_matrix : array_like
         *Normalised primary matrix*.
     chromatic_adaptation_transform : unicode, optional
@@ -1019,11 +1014,11 @@ def RGB_to_XYZ(RGB,
     RGB : array_like
         *RGB* colourspace array.
     illuminant_RGB : array_like
-        *RGB* colourspace *illuminant* chromaticity coordinates or *CIE xyY*
-        colourspace array.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
+        *illuminant* for the input *RGB* colourspace array.
     illuminant_XYZ : array_like
-        *CIE XYZ* tristimulus values *illuminant* chromaticity coordinates or
-        *CIE xyY* colourspace array.
+        *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
+        *illuminant* for the output *CIE XYZ* tristimulus values.
     RGB_to_XYZ_matrix : array_like
         *Normalised primary matrix*.
     chromatic_adaptation_transform : unicode, optional

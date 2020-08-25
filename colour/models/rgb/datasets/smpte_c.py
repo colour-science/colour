@@ -7,18 +7,12 @@ Defines the *SMPTE C* colourspace:
 
 -   :attr:`SMPTE_C_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers2004a` : Society of
-Motion Picture and Television Engineers. (2004). RP 145:2004: SMPTE C Color
-Monitor Colorimetry. RP 145:2004 (Vol. RP 145:200). The Society of Motion
-Picture and Television Engineers. doi:10.5594/S9781614821649
+    Motion Picture and Television Engineers. (2004). RP 145:2004: SMPTE C Color
+    Monitor Colorimetry. In RP 145:2004: Vol. RP 145:200. The Society of Motion
+    Picture and Television Engineers. doi:10.5594/S9781614821649
 """
 
 from __future__ import division, unicode_literals

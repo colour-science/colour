@@ -8,22 +8,15 @@ Defines the *OSA UCS* colourspace:
 -   :func:`colour.XYZ_to_OSA_UCS`
 -   :func:`colour.OSA_UCS_to_XYZ`
 
-See Also
---------
-`Optical Society of America Uniform Color Scales Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/osa_ucs.ipynb>`_
-
 References
 ----------
 -   :cite:`Cao2013` : Cao, R., Trussell, H. J., & Shamey, R. (2013). Comparison
     of the performance of inverse transformation methods from OSA-UCS to
     CIEXYZ. Journal of the Optical Society of America A, 30(8), 1508.
     doi:10.1364/JOSAA.30.001508
--   :cite:`Moroney2003` : Moroney, N. (2003). A radial sampling of the OSA
-    uniform color scales. Color and Imaging Conference, 1-14. Retrieved from
-    http://www.ingentaconnect.com/content/\
-ist/cic/2003/00002003/00000001/art00031
+-   :cite:`Moroney2003` : Moroney, N. (2003). A Radial Sampling of the OSA
+    Uniform Color Scales. Color and Imaging Conference, 2003(1), 175-180.
+    ISSN:2166-9635
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +28,7 @@ from colour.algebra import spow
 from colour.models import XYZ_to_xyY
 from colour.utilities import (as_float_array, domain_range_scale, dot_vector,
                               from_range_100, to_domain_100, tsplit, tstack)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -136,7 +130,7 @@ def XYZ_to_OSA_UCS(XYZ):
     return from_range_100(Ljg)
 
 
-def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
+def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
     """
     Converts from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.
@@ -145,8 +139,13 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
     ----------
     Ljg : array_like
         *OSA UCS* :math:`Ljg` lightness, jaune (yellowness), and greenness.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.fmin` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -195,13 +194,18 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
     array([ 20.6540240...,  12.1972369...,   5.1369372...])
     """
 
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
+
     Ljg = to_domain_100(Ljg)
     shape = Ljg.shape
     Ljg = np.atleast_1d(Ljg.reshape([-1, 3]))
 
     optimisation_settings = {'disp': False}
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     def error_function(XYZ, Ljg):
         """

@@ -88,13 +88,6 @@ The main technical reference for **Colour** and its API is the
 
     manual
 
-Jupyter Notebooks
-~~~~~~~~~~~~~~~~~
-
-`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
-are available and designed to provide an historical perspective of colour
-science via **Colour** usage.
-
 Examples
 ~~~~~~~~
 
@@ -114,7 +107,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
 
 ::
@@ -130,7 +123,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> illuminant = colour.ILLUMINANTS_SDS['FL2']
+    >>> illuminant = colour.ILLUMINANT_SDS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
     array([ 0.47924575,  0.31676968,  0.17362725])
 
@@ -192,7 +185,7 @@ Colour Blindness - ``colour.blindness``
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
-    >>> primaries = colour.DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = colour.DISPLAY_RGB_PRIMARIES['Apple Studio Display']
     >>> d_LMS = (15, 0, 0)
     >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
     array([[-0.27774652,  2.65150084, -1.37375432],
@@ -213,6 +206,18 @@ Colour Correction - ``colour characterisation``
     >>> sorted(colour.COLOUR_CORRECTION_METHODS.keys())
     ['Cheung 2004', 'Finlayson 2015', 'Vandermonde']
 
+ACES Input Transform - ``colour characterisation``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> sensitivities = colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES['Nikon 5100 (NPL)']
+    >>> illuminant = colour.ILLUMINANT_SDS['D55']
+    >>> colour.idt_matrix(sensitivities, illuminant)
+    array([[ 0.46579991,  0.13409239,  0.01935141],
+           [ 0.01786094,  0.77557292, -0.16775555],
+           [ 0.03458652, -0.16152926,  0.74270359]])
+
 Colorimetry - ``colour.colorimetry``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -221,7 +226,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
+    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCE_SDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     ['ASTM E308', 'Integration', 'astm2015']
@@ -358,13 +363,13 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: python
 
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_flux(sd)
     23807.655527367202
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficiency(sd)
     0.19943935624521045
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficacy(sd)
     136.21708031547874
 
@@ -679,10 +684,10 @@ RGB Colourspaces
      'DCDM XYZ',
      'DCI-P3',
      'DCI-P3+',
-     'Display P3',
      'DJI D-Gamut',
      'DRAGONcolor',
      'DRAGONcolor2',
+     'Display P3',
      'Don RGB 4',
      'ECI RGB v2',
      'ERIMM RGB',
@@ -715,6 +720,8 @@ RGB Colourspaces
      'SMPTE C',
      'Sharp RGB',
      'V-Gamut',
+     'Venice S-Gamut3',
+     'Venice S-Gamut3.Cine',
      'Xtreme RGB',
      'aces',
      'adobe1998',
@@ -728,7 +735,6 @@ OETFs
 
     >>> sorted(colour.OETFS.keys())
     ['ARIB STD-B67',
-     'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
@@ -742,7 +748,7 @@ OETFs Inverse
 
     >>> sorted(colour.OETF_INVERSES.keys())
     ['ARIB STD-B67',
-     'ITU-R BT.2100 HLD',
+     'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
      'ITU-R BT.709']
@@ -772,6 +778,7 @@ EOTFs Inverse
     ['DCDM',
      'DICOM GSDF',
      'ITU-R BT.1886',
+     'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ST 2084',
@@ -931,7 +938,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.ILLUMINANTS_SDS['FL2'])
+    >>> colour.colour_quality_scale(colour.ILLUMINANT_SDS['FL2'])
     64.017283509280588
     >>> colour.COLOUR_QUALITY_SCALE_METHODS
     ('NIST CQS 7.4', 'NIST CQS 9.0')
@@ -941,7 +948,7 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2'])
+    >>> colour.colour_rendering_index(colour.ILLUMINANT_SDS['FL2'])
     64.151520202968015
 
 Academy Spectral Similarity Index (SSI)
@@ -949,7 +956,7 @@ Academy Spectral Similarity Index (SSI)
 
 .. code-block:: python
 
-    >>> colour.spectral_similarity_index(colour.ILLUMINANTS_SDS['C'], colour.ILLUMINANTS_SDS['D65'])
+    >>> colour.spectral_similarity_index(colour.ILLUMINANT_SDS['C'], colour.ILLUMINANT_SDS['D65'])
     94.0
 
 Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
@@ -971,7 +978,7 @@ Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
                          extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
 
     >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS.keys())
-    ['Meng 2015', 'Smits 1999']
+    ['Jakob 2019', 'Meng 2015', 'Smits 1999']
 
 Correlated Colour Temperature Computation Methods - ``colour.temperature``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -992,6 +999,31 @@ Colour Volume - ``colour.volume``
 
     >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE['sRGB'])
     821958.30000000005
+
+Geometry Primitives Generation - ``colour.geometry``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> colour.primitive('Grid')
+    (array([ ([-0.5,  0.5,  0. ], [ 0.,  1.], [ 0.,  0.,  1.], [ 0.,  1.,  0.,  1.]),
+           ([ 0.5,  0.5,  0. ], [ 1.,  1.], [ 0.,  0.,  1.], [ 1.,  1.,  0.,  1.]),
+           ([-0.5, -0.5,  0. ], [ 0.,  0.], [ 0.,  0.,  1.], [ 0.,  0.,  0.,  1.]),
+           ([ 0.5, -0.5,  0. ], [ 1.,  0.], [ 0.,  0.,  1.], [ 1.,  0.,  0.,  1.])],
+          dtype=[('position', '<f4', (3,)), ('uv', '<f4', (2,)), ('normal', '<f4', (3,)), ('colour', '<f4', (4,))]), array([[0, 2, 1],
+           [2, 3, 1]], dtype=uint32), array([[0, 2],
+           [2, 3],
+           [3, 1],
+           [1, 0]], dtype=uint32))
+    >>> sorted(colour.PRIMITIVE_METHODS.keys())
+    ['Cube', 'Grid']
+    >>> colour.primitive_vertices('Quad MPL')
+    array([[ 0.,  0.,  0.],
+           [ 1.,  0.,  0.],
+           [ 1.,  1.,  0.],
+           [ 0.,  1.,  0.]])
+    >>> sorted(colour.PRIMITIVE_VERTICES_METHODS.keys())
+    ['Cube MPL', 'Grid MPL', 'Quad MPL', 'Sphere']
 
 Plotting - ``colour.plotting``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1079,7 +1111,7 @@ Colour Checker
     ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
     >>> plot_multi_sds(
     ...     [
-    ...         colour.COLOURCHECKERS_SDS['BabelColor Average'][value]
+    ...         colour.COLOURCHECKER_SDS['BabelColor Average'][value]
     ...         for key, value in sorted(
     ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
     ...     ],
@@ -1091,7 +1123,7 @@ Colour Checker
 
 .. code-block:: python
 
-    >>> plot_single_colour_checker('ColorChecker 2005', text_parameters={'visible': False})
+    >>> plot_single_colour_checker('ColorChecker 2005', text_kwargs={'visible': False})
 
 ..  image:: _static/Examples_Plotting_ColorChecker_2005.png
 
@@ -1132,7 +1164,7 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> plot_single_sd_colour_rendering_index_bars(
-    ...     colour.ILLUMINANTS_SDS['FL2'])
+    ...     colour.ILLUMINANT_SDS['FL2'])
 
 ..  image:: _static/Examples_Plotting_CRI.png
 

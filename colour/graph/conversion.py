@@ -7,12 +7,6 @@ Defines the automatic colour conversion graph objects:
 
 -   :func:`colour.describe_conversion_path`
 -   :func:`colour.convert`
-
-See Also
---------
-`Automatic Colour Conversion Graph Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/graph/conversion.ipynb>`_
 """
 
 from __future__ import division, print_function, unicode_literals
@@ -25,7 +19,7 @@ from copy import copy
 from functools import partial
 from pprint import pformat
 
-from colour.colorimetry import (ILLUMINANTS, ILLUMINANTS_SDS,
+from colour.colorimetry import (ILLUMINANTS, ILLUMINANT_SDS,
                                 HUNTERLAB_ILLUMINANTS)
 from colour.colorimetry import (colorimetric_purity, complementary_wavelength,
                                 dominant_wavelength, excitation_purity,
@@ -279,7 +273,7 @@ Default automatic colour conversion graph illuminant name.
 _DEFAULT_ILLUMINANT : unicode
 """
 
-_DEFAULT_ILLUMINANT_SD = ILLUMINANTS_SDS[_DEFAULT_ILLUMINANT]
+_DEFAULT_ILLUMINANT_SD = ILLUMINANT_SDS[_DEFAULT_ILLUMINANT]
 """
 Default automatic colour conversion graph illuminant spectral distribution.
 
@@ -405,7 +399,12 @@ CONVERSION_SPECIFICATIONS_DATA = [
          illuminant_RGB=_DEFAULT_RGB_COLOURSPACE.whitepoint,
          illuminant_XYZ=_DEFAULT_RGB_COLOURSPACE.whitepoint,
          RGB_to_XYZ_matrix=_DEFAULT_RGB_COLOURSPACE.RGB_to_XYZ_matrix)),
-    ('RGB', 'RGB',
+    ('RGB', 'Scene-Referred RGB',
+     partial(
+         RGB_to_RGB,
+         input_colourspace=_DEFAULT_RGB_COLOURSPACE,
+         output_colourspace=_DEFAULT_RGB_COLOURSPACE)),
+    ('Scene-Referred RGB', 'RGB',
      partial(
          RGB_to_RGB,
          input_colourspace=_DEFAULT_RGB_COLOURSPACE,
@@ -461,7 +460,8 @@ CONVERSION_SPECIFICATIONS_DATA = [
          XYZ_to_Hunt,
          XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
          XYZ_b=_DEFAULT_ILLUMINANT_XYZ,
-         L_A=80 * 0.2)),
+         L_A=80 * 0.2,
+         CCT_w=6504)),
     ('CIE XYZ', 'ATD95',
      partial(
          XYZ_to_ATD95,
@@ -506,7 +506,8 @@ CONVERSION_SPECIFICATIONS_DATA = [
          Y_o=0.2,
          E_o=1000,
          E_or=1000)),
-    ('CIE XYZ', 'RLAB', XYZ_to_RLAB),
+    ('CIE XYZ', 'RLAB',
+     partial(XYZ_to_RLAB, XYZ_n=_DEFAULT_ILLUMINANT_XYZ, Y_n=20)),
     ('CIECAM02 JMh', 'CAM02LCD', JMh_CIECAM02_to_CAM02LCD),
     ('CAM02LCD', 'CIECAM02 JMh', CAM02LCD_to_JMh_CIECAM02),
     ('CIECAM02 JMh', 'CAM02SCD', JMh_CIECAM02_to_CAM02SCD),
@@ -751,7 +752,7 @@ def convert(a, source, target, **kwargs):
     colour representation using the automatic colour conversion graph.
 
     The conversion is performed by finding the shortest path in a
-    `NetworkX <https://networkx.github.io/>`_ :class:`DiGraph` class instance.
+    `NetworkX <https://networkx.github.io/>`__ :class:`DiGraph` class instance.
 
     The conversion path adopts the **'1'** domain-range scale and the object
     :math:`a` is expected to be *soft* normalised accordingly. For example,
@@ -767,7 +768,7 @@ def convert(a, source, target, **kwargs):
     -   *Integers* in domain-range `[0, 2**n -1]` where `n` is the bit
         depth are scaled by *2**n -1*.
 
-    See the `Domain-Range Scales <../basics.html#domain-range-scales>`_ page
+    See the `Domain-Range Scales <../basics.html#domain-range-scales>`__ page
     for more information.
 
     Parameters
@@ -798,7 +799,7 @@ def convert(a, source, target, **kwargs):
         :func:`colour.sd_to_XYZ` definition is done as follows::
 
             convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={\
-'illuminant': ILLUMINANTS_SDS['FL2']})
+'illuminant': ILLUMINANT_SDS['FL2']})
 
         It is also possible to pass keyword arguments directly to the various
         conversion definitions irrespective of their name. This is
@@ -810,11 +811,11 @@ def convert(a, source, target, **kwargs):
         definition. Consider the following conversion::
 
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-ILLUMINANTS_SDS['FL2'])
+ILLUMINANT_SDS['FL2'])
 
         Because both the :func:`colour.sd_to_XYZ` and
         :func:`colour.XYZ_to_sRGB` definitions have an *illuminant* argument,
-        `ILLUMINANTS_SDS['FL2']` will be passed to both of them and will raise
+        `ILLUMINANT_SDS['FL2']` will be passed to both of them and will raise
         an exception in the :func:`colour.XYZ_to_sRGB` definition. This will
         be addressed in the future by either catching the exception and trying
         a new time without the keyword argument or more elegantly via type
@@ -846,7 +847,7 @@ illuminant}, XYZ_to_Lab={'illuminant': illuminant})
             illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']\
 ['D65']
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-ILLUMINANTS_SDS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
+ILLUMINANT_SDS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
 
         For inspection purposes, verbose is enabled by passing arguments to the
         :func:`colour.describe_conversion_path` definition via the ``verbose``
@@ -866,31 +867,44 @@ verbose={'mode': 'Long'})
 
     Notes
     -----
-    -   Various defaults have been systematically adopted compared to the
-        low-level *Colour* API:
+    -   The **RGB** colour representation is assumed to be linear and
+        representing *scene-referred* imagery, i.e. **Scene-Referred RGB**
+        representation. To encode such *RGB* values as *output-referred*
+        (*display-referred*) imagery, i.e. encode the *RGB* values using an
+        encoding colour component transfer function (Encoding CCTF) /
+        opto-electronic transfer function (OETF / OECF), the
+        **Output-Referred RGB** representation must be used::
+
+             convert(RGB, 'Scene-Referred RGB', 'Output-Referred RGB')
+
+        Likewise, encoded *output-referred* *RGB* values can be decoded with
+        the **Scene-Referred RGB** representation::
+
+            convert(RGB, 'Output-Referred RGB', 'Scene-Referred RGB')
+
+    -   Various defaults have been adopted compared to the low-level *Colour*
+        API:
 
         -   The default illuminant for the computation is
             *CIE Standard Illuminant D Series* *D65*. It can be changed on a
             per definition basis along the conversion path.
-        -   The default *RGB* colourspace is the *sRGB* colourspace. It can
-            also be changed on a per definition basis along the conversion
-            path.
+        -   The default *RGB* colourspace primaries and whitepoint are that of
+            the *BT.709*/*sRGB* colourspace. They can be changed on a per
+            definition basis along the conversion path.
+        -   When using **sRGB** as a source or target colour representation,
+            the convenient :func:`colour.sRGB_to_XYZ` and
+            :func:`colour.XYZ_to_sRGB` definitions are used, respectively.
+            Thus, decoding and encoding using the sRGB electro-optical transfer
+            function (EOTF) and its inverse will be applied by default.
         -   Most of the colour appearance models have defaults set according to
             *IEC 61966-2-1:1999* viewing conditions, i.e. *sRGB* 64 Lux ambiant
             illumination, 80 :math:`cd/m^2`, adapting field luminance about
             20% of a white object in the scene.
 
-    -   The **RGB** colour representation is assumed to be linear and
-        representing *scene-referred* imagery. To convert such *RGB* values to
-        *output-referred* (*display-referred*) imagery, i.e. encode the *RGB*
-        values using an encoding colour component transfer function
-        (Encoding CCTF) / opto-electronic transfer function (OETF / OECF), the
-        **Output-Referred RGB** representation must be used.
-
     Examples
     --------
-    >>> from colour import COLOURCHECKERS_SDS
-    >>> sd = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> from colour import COLOURCHECKER_SDS
+    >>> sd = COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
     ...     verbose={'mode': 'Short', 'width': 75})
     ... # doctest: +ELLIPSIS
@@ -902,7 +916,7 @@ verbose={'mode': 'Long'})
     *                                                                         *
     ===========================================================================
     array([ 0.4567579...,  0.3098698...,  0.2486192...])
-    >>> illuminant = ILLUMINANTS_SDS['FL2']
+    >>> illuminant = ILLUMINANT_SDS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
     ...     sd_to_XYZ={'illuminant': illuminant})
     ... # doctest: +ELLIPSIS

@@ -32,12 +32,6 @@ Defines various objects for *Munsell Renotation System* computations:
 -   :func:`colour.munsell_colour_to_xyY`
 -   :func:`colour.xyY_to_munsell_colour`
 
-See Also
---------
-`Munsell Renotation System Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/notation/munsell.ipynb>`_
-
 Notes
 -----
 -   The Munsell Renotation data commonly available within the all.dat,
@@ -60,62 +54,64 @@ Notes
 References
 ----------
 -   :cite:`ASTMInternational1989a` : ASTM International. (1989). ASTM D1535-89
-    - Standard Practice for Specifying Color by the Munsell System. Retrieved
-    from http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
+    - Standard Practice for Specifying Color by the Munsell System (pp. 1-29).
+    Retrieved September 25, 2014, from
+    http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
 -   :cite:`Centore2012a` : Centore, P. (2012). An open-source inversion
     algorithm for the Munsell renotation. Color Research & Application, 37(6),
     455-464. doi:10.1002/col.20715
 -   :cite:`Centore2014k` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MunsellHueToASTMHue.m. Retrieved from
+    MunsellRenotationRoutines/MunsellHueToASTMHue.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014l` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m.
-    Retrieved from
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014m` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MunsellToxyY.m. Retrieved from
+    MunsellRenotationRoutines/MunsellToxyY.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014n` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/FindHueOnRenotationOvoid.m. Retrieved from
+    MunsellRenotationRoutines/FindHueOnRenotationOvoid.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014o` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellSystemRoutines/BoundingRenotationHues.m. Retrieved from
+    MunsellSystemRoutines/BoundingRenotationHues.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014p` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/xyYtoMunsell.m. Retrieved from
+    MunsellRenotationRoutines/xyYtoMunsell.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014q` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m. Retrieved
-    from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m.
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014r` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m. Retrieved
-    from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m.
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014s` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m. Retrieved from
+    MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014t` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m. Retrieved from
+    MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014u` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    GeneralRoutines/CIELABtoApproxMunsellSpec.m. Retrieved from
+    GeneralRoutines/CIELABtoApproxMunsellSpec.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centorea` : Centore, P. (n.d.). The Munsell and Kubelka-Munk
     Toolbox. Retrieved January 23, 2018, from
     http://www.munsellcolourscienceforpainters.com/\
 MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
--   :cite:`Wikipedia2007c` : Wikipedia. (2007). Lightness. Retrieved April
-    13, 2014, from http://en.wikipedia.org/wiki/Lightness
+-   :cite:`Wikipedia2007c` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.
+    (1995). Lightness dependency of chroma scales of a nonlinear
+    color-appearance model and its latest formulation. Color Research &
+    Application, 20(3), 156-167. doi:10.1002/col.5080200305
 """
 
 from __future__ import division, unicode_literals
@@ -795,8 +791,10 @@ def _munsell_specification_to_xyY(specification):
             Y_minus = luminance_ASTMD1535(value_minus)
             Y_plus = luminance_ASTMD1535(value_plus)
 
-        x = LinearInterpolator((Y_minus, Y_plus), (x_minus, x_plus))(Y)
-        y = LinearInterpolator((Y_minus, Y_plus), (y_minus, y_plus))(Y)
+        x = LinearInterpolator(
+            np.ravel([Y_minus, Y_plus]), np.ravel([x_minus, x_plus]))(Y)
+        y = LinearInterpolator(
+            np.ravel([Y_minus, Y_plus]), np.ravel([y_minus, y_plus]))(Y)
 
     return np.array([x, y, from_range_1(Y / 100)])
 
@@ -2169,19 +2167,23 @@ def xy_from_renotation_ovoid(specification):
                 ['Linear', 'radial'])))
 
         if interpolation_method == 'linear':
-            x = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                   (x_minus, x_plus))(hue_angle)
-            y = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                   (y_minus, y_plus))(hue_angle)
+            x = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([x_minus, x_plus]))(hue_angle)
+            y = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([y_minus, y_plus]))(hue_angle)
         elif interpolation_method == 'radial':
-            theta = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                       (phi_minus, phi_plus))(hue_angle)
-            rho = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                     (rho_minus, rho_plus))(hue_angle)
+            theta = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([phi_minus, phi_plus]))(hue_angle)
+            rho = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([rho_minus, rho_plus]))(hue_angle)
 
             x, y = tsplit(
-                polar_to_cartesian((rho, np.radians(theta))) +
-                as_float_array((x_grey, y_grey)))
+                polar_to_cartesian(np.ravel([rho, np.radians(theta)])) +
+                as_float_array([x_grey, y_grey]))
 
         return as_float_array([x, y])
 

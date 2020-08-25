@@ -1,6 +1,8 @@
 Contributors
 ============
 
+
+
 The Colour Developers
 ---------------------
 
@@ -35,6 +37,20 @@ The Colour Developers
 -   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
 
     Technical support.
+
+Google Summer of Code
+---------------------
+
+2020
+~~~~
+
+-   **Nishant Joywardhan**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    LUT IO Improvements.
+
+-   **Omar Wagih**, *Student @ Faculty of Engineering, Cairo University*
+
+    The Need for Speed.
 
 Development & Technical Support
 -------------------------------
@@ -99,6 +115,14 @@ Development & Technical Support
 
     Python 3.8 compatibility.
 
+-   **Sianyi Huang**, *Display Tuning Engineer*
+
+    Examples fixes.
+
+-   **Mike Wei**, *Display Tuning Engineer*
+
+    Technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -162,10 +186,13 @@ Issues & Discussions
 -   @AndersAtEndian
 -   @anshulxyz
 -   @Apoorva-13
+-   @aurelienbl
 -   @awehring
+-   @beckstev
 -   @bersbersbers
 -   @brandondube
 -   @briend
+-   @bsdis
 -   @cclauss
 -   @Chandler
 -   @chesschi
@@ -179,11 +206,14 @@ Issues & Discussions
 -   @habemus-papadum
 -   @hajimen
 -   @henczati
+-   @hminle
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
 -   @KOLANICH
 -   @Kunkka1988
+-   @lavrovd
+-   @LeCyberDucky
 -   @Legendin
 -   @leklbk
 -   @lensz
@@ -204,13 +234,16 @@ Issues & Discussions
 -   @Ron024
 -   @senyai
 -   @shanest
+-   @spicymatt
 -   @stakemura
 -   @tashdor
 -   @TFiFiE
 -   @thunders82
 -   @tingeman
 -   @totyped
+-   @ValZapod
 -   @vidakDK
+-   @Wagyx
 -   @Willingo
 -   @zachlewis
 

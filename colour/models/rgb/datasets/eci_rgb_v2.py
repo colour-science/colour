@@ -7,16 +7,10 @@ Defines the *ECI RGB v2* colourspace:
 
 -   :attr:`colour.models.ECI_RGB_V2_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`EuropeanColorInitiative2002a` : European Color Initiative. (2002).
-    ECI RGB v2. Retrieved from
+    ECI RGB v2.
     http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 """
 

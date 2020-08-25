@@ -17,6 +17,7 @@ from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
 from .datasets import *  # noqa
 from . import datasets
 from .generation import sd_constant, sd_zeros, sd_ones
+from .generation import msds_constant, msds_zeros, msds_ones
 from .generation import SD_GAUSSIAN_METHODS
 from .generation import sd_gaussian, sd_gaussian_normal, sd_gaussian_fwhm
 from .generation import SD_SINGLE_LED_METHODS
@@ -79,6 +80,7 @@ __all__ += [
 ]
 __all__ += datasets.__all__
 __all__ += ['sd_constant', 'sd_zeros', 'sd_ones']
+__all__ += ['msds_constant', 'msds_zeros', 'msds_ones']
 __all__ += ['SD_GAUSSIAN_METHODS']
 __all__ += ['sd_gaussian', 'sd_gaussian_normal', 'sd_gaussian_fwhm']
 __all__ += ['SD_SINGLE_LED_METHODS']
@@ -196,6 +198,14 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.colorimetry.tristimulus_weighting_factors_ASTME202211',
         'colour.colorimetry.tristimulus_weighting_factors_ASTME2022',
+    ],
+]
+
+# v0.3.16
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.colorimetry.D_ILLUMINANTS_S_SDS',
+        'colour.colorimetry.D_ILLUMINANT_S_SDS',
     ],
 ]
 

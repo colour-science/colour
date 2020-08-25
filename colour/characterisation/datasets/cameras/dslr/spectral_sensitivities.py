@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-DSLR Cameras Spectral Sensitivities
-===================================
+DSLR Camera Spectral Sensitivities
+==================================
 
-Defines *DSLR* cameras *RGB* spectral sensitivities.
+Defines *DSLR* camera *RGB* spectral sensitivities.
 
 Each *DSLR* camera data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_SpectralSensitivities` classes as follows::
@@ -16,12 +16,6 @@ The following *DSLR* cameras are available:
 
 -   Nikon 5100 (NPL)
 -   Sigma SDMerill (NPL)
-
-See Also
---------
-`Cameras Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/cameras.ipynb>`_
 
 References
 ----------
@@ -44,11 +38,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA',
-    'DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES'
+    'DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES_DATA',
+    'DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES'
 ]
 
-DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
+DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES_DATA = {
     'Nikon 5100 (NPL)': {
         380.0: (
             0.00156384299336578000,
@@ -496,24 +490,24 @@ DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
     }
 }  # yapf: disable
 
-DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping({
+DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping({
     'Nikon 5100 (NPL)':
         RGB_SpectralSensitivities(
-            DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Nikon 5100 (NPL)'],
+            DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES_DATA['Nikon 5100 (NPL)'],
             name='Nikon 5100 (NPL)'),
     'Sigma SDMerill (NPL)':
         RGB_SpectralSensitivities(
-            DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA[
+            DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES_DATA[
                 'Sigma SDMerill (NPL)'],
             name='Sigma SDMerill (NPL)')
 })
 """
-*DSLR* cameras *RGB* spectral sensitivities.
+*DSLR* camera *RGB* spectral sensitivities.
 
 References
 ----------
 :cite:`Darrodi2015a`
 
-DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES : CaseInsensitiveMapping
+DSLR_CAMERA_RGB_SPECTRAL_SENSITIVITIES : CaseInsensitiveMapping
     **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**
 """

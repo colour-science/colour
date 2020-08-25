@@ -1,26 +1,21 @@
 # -*- coding: utf-8 -*-
 """
-CIE Standard Illuminant D Series :math:`S_n(\\lambda)` Distributions
-====================================================================
+CIE Illuminant D Series :math:`S_n(\\lambda)` Distributions
+===========================================================
 
-Defines the *CIE Standard Illuminant D Series* :math:`S_n(\\lambda)`
-distributions involved in the computation of *CIE Standard Illuminant D Series*
-spectral distributions.
-
-See Also
---------
-`Illuminants Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/illuminants.ipynb>`_
+Defines the *CIE Illuminant D Series* :math:`S_n(\\lambda)` distributions
+involved in the computation of *CIE Illuminant D Series* spectral
+distributions.
 
 References
 ----------
--   :cite:`Lindbloom2007a` : Lindbloom, B. (2007). Spectral Distribution
+-   :cite:`Lindbloom2007a` : Lindbloom, B. (2007). Spectral Power Distribution
     of a CIE D-Illuminant. Retrieved April 5, 2014, from
     http://www.brucelindbloom.com/Eqn_DIlluminant.html
--   :cite:`Wyszecki2000z` : Wyszecki, G., & Stiles, W. S. (2000). CIE Method of
-    Calculating D-Illuminants. In Color Science: Concepts and Methods,
-    Quantitative Data and Formulae (pp. 145-146). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000z` : Wyszecki, Günther, & Stiles, W. S. (2000). CIE
+    Method of Calculating D-Illuminants. In Color Science: Concepts and
+    Methods, Quantitative Data and Formulae (pp. 145-146). Wiley.
+    ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals
@@ -35,9 +30,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['D_ILLUMINANTS_S_SDS_DATA', 'D_ILLUMINANTS_S_SDS']
+__all__ = ['D_ILLUMINANT_S_SDS_DATA', 'D_ILLUMINANT_S_SDS']
 
-D_ILLUMINANTS_S_SDS_DATA = {
+D_ILLUMINANT_S_SDS_DATA = {
     'S0': {
         300: 0.04,
         305: 3.02,
@@ -367,19 +362,18 @@ D_ILLUMINANTS_S_SDS_DATA = {
     }
 }
 
-D_ILLUMINANTS_S_SDS = CaseInsensitiveMapping({
-    'S0': SpectralDistribution(D_ILLUMINANTS_S_SDS_DATA['S0'], name='S0'),
-    'S1': SpectralDistribution(D_ILLUMINANTS_S_SDS_DATA['S1'], name='S1'),
-    'S2': SpectralDistribution(D_ILLUMINANTS_S_SDS_DATA['S2'], name='S2')
+D_ILLUMINANT_S_SDS = CaseInsensitiveMapping({
+    'S0': SpectralDistribution(D_ILLUMINANT_S_SDS_DATA['S0'], name='S0'),
+    'S1': SpectralDistribution(D_ILLUMINANT_S_SDS_DATA['S1'], name='S1'),
+    'S2': SpectralDistribution(D_ILLUMINANT_S_SDS_DATA['S2'], name='S2')
 })
-"""
-*CIE Standard Illuminant D Series* :math:`S_n(\\lambda)` spectral
-distributions
+D_ILLUMINANT_S_SDS.__doc__ = """
+*CIE Illuminant D Series* :math:`S_n(\\lambda)` spectral distributions.
 
 References
 ----------
 :cite:`Lindbloom2007a`, :cite:`Wyszecki2000z`
 
-D_ILLUMINANTS_S_SDS : CaseInsensitiveMapping
+D_ILLUMINANT_S_SDS : CaseInsensitiveMapping
    **{'S0', 'S1', 'S1'}**
 """

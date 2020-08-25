@@ -4,12 +4,6 @@ Pointer's Gamut Volume Computations
 ===================================
 
 Defines objects related to *Pointer's Gamut* volume computations.
-
-See Also
---------
-`Pointer's Gamut Volume Computations Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/volume/pointer_gamut.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

@@ -3,26 +3,20 @@
 :math:`\\Delta E'` - Delta E Colour Difference - Li et al. (2017)
 ================================================================
 
-Defines :math:`\\Delta E'` colour difference computation objects based on
-*Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)*
-*CAM16-LCD*, *CAM16-SCD*, and *CAM16-UCS* colourspaces:
+Defines :math:`\\Delta E'` colour difference computation objects based on *Li,
+Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)* *CAM16-LCD*,
+*CAM16-SCD*, and *CAM16-UCS* colourspaces:
 
 -   :func:`colour.difference.delta_E_CAM16LCD`
 -   :func:`colour.difference.delta_E_CAM16SCD`
 -   :func:`colour.difference.delta_E_CAM16UCS`
 
-See Also
---------
-`CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cam16_ucs.ipynb>`_
-
 References
 ----------
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
-    Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
-    CAM16-UCS. Color Research & Application, 42(6), 703-718.
-    doi:10.1002/col.22131
+    Melgosa, M., Brill, M. H., & Pointer, M. (2017). Comprehensive color
+    solutions: CAM16, CAT16, and CAM16-UCS. Color Research & Application,
+    42(6), 703-718. doi:10.1002/col.22131
 """
 
 from __future__ import division, unicode_literals

@@ -5,17 +5,11 @@ Luminous Efficiency Functions Spectral Distributions
 
 Defines luminous efficiency functions computation related objects.
 
-See Also
---------
-`Luminous Efficiency Functions Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/lefs.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2005d` : Wikipedia. (2005). Mesopic weighting function.
-    Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/\
-Mesopic_vision#Mesopic_weighting_function
+    Retrieved June 20, 2014, from
+    http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
 from __future__ import division, unicode_literals
@@ -532,9 +526,9 @@ def sd_mesopic_luminous_efficiency_function(
                           [ 779.        ,    0.0000080...],
                           [ 780.        ,    0.0000075...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     photopic_lef_shape = photopic_lef.shape
