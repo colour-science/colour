@@ -258,6 +258,16 @@ logarithmic_function_camera` definition.
         """
 
         self.assertAlmostEqual(
+            logarithmic_function_camera(0, 'cameraLinToLog'),
+            -9.08655123066369,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_camera(-9.08655123066369, 'cameraLogToLin'),
+            0.000000000000000,
+            places=7)
+
+        self.assertAlmostEqual(
             logarithmic_function_camera(0.18, 'cameraLinToLog'),
             -2.473931188332412,
             places=7)
@@ -265,6 +275,16 @@ logarithmic_function_camera` definition.
         self.assertAlmostEqual(
             logarithmic_function_camera(-2.473931188332412, 'cameraLogToLin'),
             0.180000000000000,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_camera(1, 'cameraLinToLog'),
+            0.000000000000000,
+            places=7)
+
+        self.assertAlmostEqual(
+            logarithmic_function_camera(0, 'cameraLogToLin'),
+            1.000000000000000,
             places=7)
 
         self.assertAlmostEqual(
