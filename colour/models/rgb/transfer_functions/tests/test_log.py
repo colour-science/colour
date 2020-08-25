@@ -327,25 +327,25 @@ logarithmic_function_camera` definition.
 
         self.assertAlmostEqual(
             logarithmic_function_camera(0.18, 'cameraLinToLog', 10, 0.25, 0.95,
-                                        0.6, 0.01, 5),
+                                        0.6, 0.01, 0.005),
             0.414419643717296,
             places=7)
 
         self.assertAlmostEqual(
             logarithmic_function_camera(0.414419643717296, 'cameraLogToLin',
-                                        10, 0.25, 0.95, 0.6, 0.01, 5),
+                                        10, 0.25, 0.95, 0.6, 0.01, 0.005),
             0.180000000000000,
             places=7)
 
         self.assertAlmostEqual(
             logarithmic_function_camera(0.18, 'cameraLinToLog', 10, 0.25, 0.95,
-                                        0.6, 0.01, 5, 0.005),
+                                        0.6, 0.01, 0.005, 6),
             0.414419643717296,
             places=7)
 
         self.assertAlmostEqual(
             logarithmic_function_camera(0.414419643717296, 'cameraLogToLin',
-                                        10, 0.25, 0.95, 0.6, 0.01, 5, 0.005),
+                                        10, 0.25, 0.95, 0.6, 0.01, 0.005, 6),
             0.180000000000000,
             places=7)
 

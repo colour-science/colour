@@ -220,8 +220,8 @@ def logarithmic_function_camera(x,
                                 lin_side_slope=1,
                                 log_side_offset=0,
                                 lin_side_offset=0,
-                                linear_slope=None,
-                                lin_side_break=0):
+                                lin_side_break=0,
+                                linear_slope=None):
     """
     Defines the camera logarithmic function.
 
@@ -253,11 +253,11 @@ def logarithmic_function_camera(x,
     lin_side_offset : numeric, optional
         Offset applied to the linear side of the logarithmic segment. The
         default value is 0.
-    linear_slope : numeric, optional
-        Slope of the linear portion of the curve. The default value is *None*.
     lin_side_break : numeric
         Break-point, defined in linear space, at which the piece-wise function
         transitions between the logarithmic and linear segments.
+    linear_slope : numeric, optional
+        Slope of the linear portion of the curve. The default value is *None*.
 
     Returns
     -------
@@ -286,7 +286,7 @@ def logarithmic_function_camera(x,
         (np.log(lin_side_slope * lin_side_break + lin_side_offset) /
          np.log(base)) + log_side_offset)
 
-    if (linear_slope is None):
+    if linear_slope is None:
         linear_slope = (log_side_slope * (lin_side_slope / (
             (lin_side_slope * lin_side_break + lin_side_offset) * np.log(base))
                                           ))
