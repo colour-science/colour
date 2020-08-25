@@ -10,6 +10,10 @@ Defines the classes and definitions handling *LUT* processing:
 -   :class:`colour.LUT3D`
 -   :class:`colour.LUTSequence`
 -   :class:`colour.io.LUT_to_LUT`
+-   :class:`colour.io.Range`
+-   :class:`colour.io.Matrix`
+-   :class:`colour.io.ASC_CDL`
+-   :class:`colour.io.Exponent`
 """
 
 from __future__ import division, unicode_literals
@@ -37,8 +41,10 @@ from six import add_metaclass
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (as_float_array, is_numeric, is_iterable,
-                              is_string, full, linear_conversion,
+from colour.models import (gamma_function, exponent_function_basic,
+                           exponent_function_monitor_curve)
+from colour.utilities import (as_float_array, dot_vector, is_numeric,
+                              is_iterable, is_string, full, linear_conversion,
                               runtime_warning, tsplit, tstack, usage_warning)
 from colour.utilities.deprecation import handle_arguments_deprecation
 
@@ -51,7 +57,7 @@ __status__ = 'Production'
 
 __all__ = [
     'AbstractLUT', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUT_to_LUT',
-    'AbstractLUTSequenceOperator', 'LUTSequence'
+    'AbstractLUTSequenceOperator', 'LUTSequence', 'Range', 'Matrix'
 ]
 
 
@@ -2391,6 +2397,7 @@ class LUTSequence(MutableSequence):
               interpolator_1D=LinearInterpolator,
               interpolator_1D_kwargs=None,
               interpolator_3D=table_interpolation_trilinear,
+              clip_input_to_domain=False,
               interpolator_3D_kwargs=None,
               **kwargs):
         """
@@ -2456,6 +2463,17 @@ class LUTSequence(MutableSequence):
         }, **kwargs).get('interpolator_3D_kwargs', interpolator_3D_kwargs)
 
         for operation in self:
+            if clip_input_to_domain:
+                if isinstance(operation, LUT1D):
+                    RGB = np.clip(RGB, np.nanmin(operation.domain),
+                                  np.nanmax(operation.domain))
+                elif isinstance(operation, (LUT3x1D, LUT3D)):
+                    r, g, b = tsplit(RGB)
+                    domain_r, domain_g, domain_b = tsplit(operation.domain)
+                    r = np.clip(r, np.nanmin(domain_r), np.nanmax(domain_r))
+                    g = np.clip(g, np.nanmin(domain_g), np.nanmax(domain_g))
+                    b = np.clip(b, np.nanmin(domain_b), np.nanmax(domain_b))
+                    RGB = tstack((r, g, b))
             if isinstance(operation, (LUT1D, LUT3x1D)):
                 RGB = operation.apply(RGB, interpolator_1D,
                                       interpolator_1D_kwargs)
@@ -2478,3 +2496,313 @@ class LUTSequence(MutableSequence):
         """
 
         return deepcopy(self)
+
+
+class Range(AbstractLUTSequenceOperator):
+    """
+    Defines the class for a *Range* scale.
+
+    Parameters
+    ----------
+    min_in_value : numeric, optional
+        Input value which will be mapped to min_out_value.
+    max_in_value : numeric, optional
+        Input value which will be mapped to max_out_value.
+    min_out_value : numeric, optional
+        Output value to which min_in_value will be mapped.
+    max_out_value : numeric, optional
+        Output value to which max_in_value will be mapped.
+    no_clamp : boolean, optional
+        Whether to not clamp the output values.
+    name : unicode, optional
+        *Range* name.
+    comments : array_like, optional
+        Comments to add to the *Range*.
+
+    Methods
+    -------
+    apply
+
+    Examples
+    --------
+    A full to legal scale:
+
+    >>> print(Range(name='Full to Legal',
+                    min_out_value=64./1023,
+                    max_out_value=940./1023))
+    Range - Full to Legal
+    ---------------------
+    <BLANKLINE>
+    Input      : 0.0 - 1.0
+    Output     : 0.0625610948192 - 0.918866080156
+    <BLANKLINE>
+    Clamping   : No
+    """
+
+    def __init__(self,
+                 min_in_value=0.0,
+                 max_in_value=1.0,
+                 min_out_value=0.0,
+                 max_out_value=1.0,
+                 no_clamp=True,
+                 name='',
+                 comments=None):
+        self.min_in_value = min_in_value
+        self.max_in_value = max_in_value
+        self.min_out_value = min_out_value
+        self.max_out_value = max_out_value
+        self.no_clamp = no_clamp
+        self.name = name
+        self.comments = comments
+
+    def apply(self, RGB):
+        """
+        Applies the *Range* scale to given *RGB* array.
+
+        Parameters
+        ----------
+        RGB : array_like
+            *RGB* array to apply the *Range* scale to.
+
+        Returns
+        -------
+        ndarray
+            Scaled *RGB* array.
+
+        Examples
+        --------
+        >>> R = Range(name='Legal to Full',
+        ...           min_in_value=64./1023,
+        ...           max_in_value=940./1023,
+        ...           no_clamp=False)
+        >>> RGB = np.array([0.8, 0.9, 1.0])
+        >>> R.apply(RGB)
+        array([ 0.86118721,  0.97796804,  1.        ])
+        """
+        RGB = np.asarray(RGB)
+
+        scale = ((self.max_out_value - self.min_out_value) /
+                 (self.max_in_value - self.min_in_value))
+        RGB_out = RGB * scale + self.min_out_value - self.min_in_value * scale
+
+        if not self.no_clamp:
+            RGB_out = np.clip(RGB_out, self.min_out_value, self.max_out_value)
+
+        return RGB_out
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *Range* operation.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        return ('{0} - {1}\n'
+                '{2}\n\n'
+                'Input      : {3} - {4}\n'
+                'Output     : {5} - {6}\n\n'
+                'Clamping   : {7}'
+                '{8}'.format(
+                    self.__class__.__name__,
+                    self.name,
+                    '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
+                    self.min_in_value,
+                    self.max_in_value,
+                    self.min_out_value,
+                    self.max_out_value,
+                    'No' if self.no_clamp else 'Yes',
+                    '\n\n{0}'.format('\n'.join(self.comments))
+                    if self.comments else '',
+                ))
+
+
+class Matrix(AbstractLUTSequenceOperator):
+    """
+    Defines the base class for a *Matrix* transform.
+
+    Parameters
+    ----------
+    array : array_like, optional
+        3x3 or 3x4 matrix for the transform.
+    name : unicode, optional
+        *Matrix* name.
+    comments : array_like, optional
+        Comments to add to the *Matrix*.
+
+    Methods
+    -------
+    apply
+
+    Examples
+    --------
+    Instantiating an identity matrix:
+
+    >>> print(Matrix(name='Identity'))
+    Matrix - Identity
+    -----------------
+    <BLANKLINE>
+    Dimensions : (3, 3)
+    Matrix     : [[ 1.  0.  0.]
+                  [ 0.  1.  0.]
+                  [ 0.  0.  1.]]
+
+    Instantiating a matrix with comments:
+
+    >>> array = np.array([[ 1.45143932, -0.23651075, -0.21492857],
+        ...                   [-0.07655377,  1.1762297 , -0.09967593],
+        ...                   [ 0.00831615, -0.00603245,  0.9977163 ]])
+    >>> print(Matrix(array=array,
+    ...       name='AP0 to AP1',
+    ...       comments=['A first comment.', 'A second comment.']))
+    Matrix - AP0 to AP1
+    -------------------
+    <BLANKLINE>
+    Dimensions : (3, 3)
+    Matrix     : [[ 1.45143932 -0.23651075 -0.21492857]
+                  [-0.07655377  1.1762297  -0.09967593]
+                  [ 0.00831615 -0.00603245  0.9977163 ]]
+    <BLANKLINE>
+    A first comment.
+    A second comment.
+    """
+
+    def __init__(self, array=np.identity(3), name='', comments=None):
+        self.array = array
+        self.name = name
+        self.comments = comments
+
+    @staticmethod
+    def _validate_array(array):
+        assert array.shape in [(3, 4), (3, 3)], 'Matrix shape error!'
+
+        return array
+
+    def apply(self, RGB):
+        """
+        Applies the *Matrix* transform to given *RGB* array.
+
+        Parameters
+        ----------
+        RGB : array_like
+            *RGB* array to apply the *Matrix* transform to.
+
+        Returns
+        -------
+        ndarray
+            Transformed *RGB* array.
+
+        Examples
+        --------
+        >>> array = np.array([[ 1.45143932, -0.23651075, -0.21492857],
+        ...                   [-0.07655377,  1.1762297 , -0.09967593],
+        ...                   [ 0.00831615, -0.00603245,  0.9977163 ]])
+        >>> M = Matrix(array=array)
+        >>> RGB = [0.3, 0.4, 0.5]
+        >>> M.apply(RGB)
+        array([ 0.23336321,  0.39768778,  0.49894002])
+        """
+        RGB = np.asarray(RGB)
+
+        if self.array.shape == (3, 4):
+            R, G, B = tsplit(RGB)
+            RGB = tstack([R, G, B, np.ones(R.shape)])
+
+        return dot_vector(self.array, RGB)
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *Matrix*.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        def _indent_array(a):
+            """
+            Indents given array string representation.
+            """
+
+            return str(a).replace(' [', ' ' * 14 + '[')
+
+        return ('{0} - {1}\n'
+                '{2}\n\n'
+                'Dimensions : {3}\n'
+                'Matrix     : {4}'
+                '{5}'.format(
+                    self.__class__.__name__, self.name,
+                    '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
+                    self.array.shape, _indent_array(
+                        self.array), '\n\n{0}'.format('\n'.join(self.comments))
+                    if self.comments else ''))
+
+class Exponent(AbstractLUTSequenceOperator):
+    def __init__(self,
+                 exponent=[1, 1, 1],
+                 offset=[0, 0, 0], # ignored for basic
+                 style='basicFwd',
+                 name='',
+                 comments=None):
+        self.exponent = exponent
+        self.offset = offset
+        self.style = style
+        self.name = name
+        self.comments = comments
+
+    def apply(self, RGB):
+        if as_float_array(RGB).size == 3 or (isinstance(RGB, np.ndarray) and RGB.shape[-1] == 3):
+                r, g, b = tsplit(np.asarray(RGB))
+
+        else:
+            r = g = b = np.asarray(RGB)
+
+        if self.style.lower()[:5] == 'basic':
+            r = exponent_function_basic(r, self.exponent[0], self.style)
+            g = exponent_function_basic(g, self.exponent[1], self.style)
+            b = exponent_function_basic(b, self.exponent[2], self.style)
+
+            return tstack((r, g, b))
+    
+        if self.style.lower()[:8] == 'moncurve':
+            r = exponent_function_monitor_curve(r, self.exponent[0], self.offset[0], self.style)
+            g = exponent_function_monitor_curve(g, self.exponent[1], self.offset[1], self.style)
+            b = exponent_function_monitor_curve(b, self.exponent[2], self.offset[2], self.style)
+
+            return tstack((r, g, b))
+
+        return ('{0} - {1}\n'
+                '{2}\n\n'
+                'Exponent.r : {3}\n'
+                'Exponent.g : {4}\n'
+                'Exponent.b : {5}\n'
+                '{6}'
+                'Style : {7}\n'
+                '{8}'.format(
+                    self.__class__.__name__, self.name, 
+                    '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
+                     self.exponent[0], self.exponent[1], self.exponent[2],
+                     'Offset.r : {}\nOffset.g : {}\nOffset.b : {}\n'.format(self.offset[0], self.offset[1], self.offset[2]) if self.style.lower()[:8] == 'moncurve' else '', self.style,
+                    '\n\n{0}'.format('\n'.join(self.comments))
+                    if self.comments else ''))
+
+class Log(AbstractLUTSequenceOperator):
+    def __init__(self,
+                 base=2,
+                 logSideSlope=1,
+                 logSideOffset=0,
+                 linSideSlope=1,
+                 linSideOffset=0,
+                 linSideBreak=0,
+                 linearSlope=1,
+                 style='cameraLinToLog',
+                 name='',
+                 comments=None):
+        self.exponent = exponent
+        self.offset = offset
+        self.style = style
+        self.name = name
+        self.comments = comments
