@@ -1,88 +1,3 @@
-                            Exponent, Log)
-            LUT = add_Exponent(LUT, node)
-        elif tag.endswith('log'):
-            LUT = add_Log(LUT, node)
-                    ep_blue.set('offset', '{}'.format(node.offset[2]))
-        
-        if isinstance(node, Log):
-            process_node = ElementTree.Element('Log')
-            process_node.set('style', node.style)
-            
-            def _format_float(f): = return '{1:0.{0}f}'.format(decimals, f)
-
-            if node.comments:
-                _add_comments(process_node, node.comments)
-
-            log_params = ElementTree.SubElement(process_node, 'LogParams')
-
-            
-            if node.channel:
-                log_params.set('channel', node.channel)
-        
-
-            if node.style in [
-                'logToLin', 'linToLog', 'cameraLogToLin', 'cameraLinToLog'
-            ]:
-                log_params.set('base', _format_float(node.base))
-                log_params.set(
-                    'logSideSlope', _format_float(node.log_side_slope)
-                )
-                log_params.set(
-                    'logSideOffset', _format_float(node.log_side_offset)
-                )
-                log_params.set(
-                    'linSideSlope', _format_float(node.lin_side_slope)
-                )
-                log_params.set(
-                    'linSideOffset', _format_float(node.lin_side_offset)
-                )
-
-                if node.style in ['cameraLogToLin', 'cameraLinToLog']:
-                    log_params.set(
-                        'linSideBreak', _format_float(node.lin_side_break)
-                    )
-
-                    if node.linear_slope:
-                        log_params.set(
-                            'linearSlope', _format_float(node.linear_slope)
-                        )
-
-def add_Log(LUT, node):
-    # todo: multiple channels
-    
-    standard_attrs = ['name', 'id', 'style']
-    op_kwargs = {a: node.attrib[a] for a in node.keys() if a in standard_attrs}
-    op_kwargs['in_bit_depth'] = node.attrib['inBitDepth']
-    op_kwargs['out_bit_depth'] = node.attrib['outBitDepth']
-    op_kwargs['comments'] = []
-    # LogParams
-    for child in node:
-        if child.tag.endswith('Description'):
-            op_kwargs['comments'].append(child.text)
-        elif child.tag.endswith('LogParams'):
-            for tag, value in child.attrib.items():
-                tag = tag.lower()
-                if tag.endswith('logsideslope'):
-                    op_kwargs['log_side_slope'] = float(value)
-                elif tag.endswith('logsideoffset'):
-                    op_kwargs['log_side_offset'] = float(value)
-                elif tag.endswith('linsideslope'):
-                    op_kwargs['lin_side_slope'] = float(value)
-                elif tag.endswith('linsideoffset'):
-                    op_kwargs['lin_side_offset'] = float(value)
-                elif tag.endswith('linsidebreak'):
-                    op_kwargs['lin_side_break'] = float(value)
-                elif tag.endswith('linearslope'):
-                    op_kwargs['linear_slope'] = float(value)
-                elif tag.endswith('base'):
-                    op_kwargs['base'] = float(value)
-                elif tag.endswith('channel'):
-                    op_kwargs['channel'] = value
-
-    operator = Log(**op_kwargs)
-    LUT.append(operator)
-    return LUT
-
 from __future__ import division, unicode_literals
 
 import numpy as np
@@ -107,8 +22,8 @@ __all__ = [
 def half_to_uint16(x):
     x_half = np.copy(np.asarray(x)).astype(np.float16)
 
-    return np.frombuffer(
-        x_half.tobytes(), dtype=np.uint16).reshape(x_half.shape)
+    return np.frombuffer(x_half.tobytes(),
+                         dtype=np.uint16).reshape(x_half.shape)
 
 
 def uint16_to_half(y):
@@ -126,8 +41,7 @@ def half_domain_lookup(x, LUT, raw_halfs=True):
     # find h1 such that h0 and h1 code floats either side of x
     h1 = np.where((x - f0) * (x - f1) > 0, h0 - 1, h0 + 1)
     # ratio of position of x in the interval
-    f = np.where(f0 == x,
-                 1.0,
+    f = np.where(f0 == x, 1.0,
                  (x - uint16_to_half(h1)) / (f0 - uint16_to_half(h1)))
     # get table entries either side of x
     out0 = LUT[h0]
@@ -226,9 +140,8 @@ def string_to_array(string, dimensions=None):
     assert dimensions is not None, (
         'Dimensions must be set to dimensions of array!')
 
-    return np.fromstring(
-        string, count=dimensions[0] * dimensions[1],
-        sep=' ').reshape(dimensions)
+    return np.fromstring(string, count=dimensions[0] * dimensions[1],
+                         sep=' ').reshape(dimensions)
 
 
 def parse_array(array):
@@ -259,8 +172,8 @@ def add_LUT1D(LUT, node):
 
             if columns == 1:
                 if is_half_domain:
-                    LUT_1 = HalfDomain1D(
-                        table=array.reshape(-1), raw_halfs=is_raw_halfs)
+                    LUT_1 = HalfDomain1D(table=array.reshape(-1),
+                                         raw_halfs=is_raw_halfs)
                 else:
                     LUT_1 = LUT1D(table=array.reshape(-1))
             else:
@@ -379,8 +292,8 @@ def add_Matrix(LUT, node):
             dimensions = child.attrib['dim']
             rows = DEFAULT_INT_DTYPE(dimensions.split()[0])
             columns = DEFAULT_INT_DTYPE(dimensions.split()[1])
-            operator.array = string_to_array(
-                child.text, dimensions=(rows, columns))
+            operator.array = string_to_array(child.text,
+                                             dimensions=(rows, columns))
 
     LUT.append(operator)
 
@@ -426,6 +339,7 @@ def add_ASC_CDL(LUT, node):
 
     return LUT
 
+
 def add_Exponent(LUT, node):
     operator = Exponent(exponent=[1, 1, 1], offset=[0, 0, 0])
 
@@ -451,17 +365,20 @@ def add_Exponent(LUT, node):
                     if 'offset' in child.keys():
                         operator.offset[2] = child.attrib['offset']
             else:
-                operator.exponent = [child.attrib['exponent'],
-                                     child.attrib['exponent'],
-                                     child.attrib['exponent']]
+                operator.exponent = [
+                    child.attrib['exponent'], child.attrib['exponent'],
+                    child.attrib['exponent']
+                ]
                 if 'offset' in child.keys():
-                        operator.offset = [child.attrib['offset'],
-                                           child.attrib['offset'],
-                                           child.attrib['offset']]
+                    operator.offset = [
+                        child.attrib['offset'], child.attrib['offset'],
+                        child.attrib['offset']
+                    ]
 
     LUT.append(operator)
 
     return LUT
+
 
 def read_clf(path):
     LUT = LUTSequence()
@@ -584,8 +501,8 @@ def write_clf(LUT, path, name='', id='', decimals=10):
                     for i in range(len(node.domain)):
                         index_text = '{1} {2:0.{0}f}@{3}'.format(
                             decimals, index_text, node.domain[i],
-                            int((node.size - 1) * node.table[i] / np.max(
-                                node.table)))
+                            int((node.size - 1) * node.table[i] /
+                                np.max(node.table)))
 
                     index_map.text = index_text[1:]
 
@@ -628,8 +545,8 @@ def write_clf(LUT, path, name='', id='', decimals=10):
 
             array = ElementTree.SubElement(process_node, 'Array')
             array.set('dim', '{0} {0} {0} 3'.format(node.size))
-            array.text = _format_array(
-                node.table.reshape(-1, 3, order='C'), decimals=decimals)
+            array.text = _format_array(node.table.reshape(-1, 3, order='C'),
+                                       decimals=decimals)
 
         if isinstance(node, Matrix):
             process_node = ElementTree.Element('Matrix')
@@ -638,8 +555,9 @@ def write_clf(LUT, path, name='', id='', decimals=10):
                 _add_comments(process_node, node.comments)
 
             array = ElementTree.SubElement(process_node, 'Array')
-            array.set('dim', '{} {} 3'.format(node.array.shape[0],
-                                              node.array.shape[1]))
+            array.set(
+                'dim', '{} {} 3'.format(node.array.shape[0],
+                                        node.array.shape[1]))
             array.text = _format_array(node.array, decimals=decimals)
 
         if isinstance(node, Range):
@@ -669,7 +587,8 @@ def write_clf(LUT, path, name='', id='', decimals=10):
             if node.comments:
                 _add_comments(process_node, node.comments)
 
-            if (node.offset[0] == node.offset[1] == node.offset[2]) and (node.exponent[0] == node.exponent[2] == node.exponent[2]):
+            if (node.offset[0] == node.offset[1] == node.offset[2]) and (
+                    node.exponent[0] == node.exponent[2] == node.exponent[2]):
                 ep = ElementTree.SubElement(process_node, 'ExponentParams')
                 ep.set('exponent', '{}'.format(node.exponent[0]))
                 if node.style.lower()[:8] == 'moncurve':
@@ -680,12 +599,14 @@ def write_clf(LUT, path, name='', id='', decimals=10):
                 ep_red.set('exponent', '{}'.format(node.exponent[0]))
                 if node.style.lower()[:8] == 'moncurve':
                     ep_red.set('offset', '{}'.format(node.offset[0]))
-                ep_green = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep_green = ElementTree.SubElement(process_node,
+                                                  'ExponentParams')
                 ep_green.set('channel', 'G')
                 ep_green.set('exponent', '{}'.format(node.exponent[1]))
                 if node.style.lower()[:8] == 'moncurve':
                     ep_green.set('offset', '{}'.format(node.offset[1]))
-                ep_blue = ElementTree.SubElement(process_node, 'ExponentParams')
+                ep_blue = ElementTree.SubElement(process_node,
+                                                 'ExponentParams')
                 ep_blue.set('channel', 'B')
                 ep_blue.set('exponent', '{}'.format(node.exponent[2]))
                 if node.style.lower()[:8] == 'moncurve':
