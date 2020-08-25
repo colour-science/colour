@@ -355,7 +355,7 @@ logarithmic_function_camera` definition.
 logarithmic_function_camera` definition n-dimensional arrays support.
         """
 
-        styles = styles = ['cameraLinToLog', 'cameraLogToLin']
+        styles = ['cameraLinToLog', 'cameraLogToLin']
 
         for style in styles:
             a = 0.18
