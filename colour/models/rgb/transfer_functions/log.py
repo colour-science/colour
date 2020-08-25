@@ -78,7 +78,7 @@ def logarithmic_function_basic(x, style='log2', base=2):
         -   *antiLogB*: Applies an arbitrary base anti-logarithm to the passed
             value.
     base : numeric, optional
-        The base value used for the conversion.
+        Logarithmic base used for the conversion.
 
     Returns
     -------
@@ -160,19 +160,19 @@ def logarithmic_function_quasilog(x,
         -   *logToLin*: Applies an anti-logarithm to convert logarithmic
             data to linear data.
     base : numeric, optional
-        The base value used for the transfer.
+        Logarithmic base used for the conversion.
     log_side_slope : numeric, optional
-        It is the slope (or gain) applied to the log side
-        of the logarithmic function. The default value is 1.
+        Slope (or gain) applied to the log side of the logarithmic function.
+        The default value is 1.
     lin_side_slope : numeric, optional
-        It is the slope of the linear side of
-        the logarithmic function. The default value is 1.
+        Slope of the linear side of the logarithmic function. The default value
+        is 1.
     log_side_offset : numeric, optional
-        It is the offset applied to the log side
-        of the logarithmic function. The default value is 0.
+        Offset applied to the log side of the logarithmic function. The default
+        value is 0.
     lin_side_offset : numeric, optional
-        It is the offset applied to the linear side
-        of the logarithmic function. The default value is 0.
+        Offset applied to the linear side of the logarithmic function. The
+        default value is 0.
 
     Returns
     -------
@@ -220,7 +220,8 @@ def logarithmic_function_camera(x,
                                 lin_side_slope=1,
                                 log_side_offset=0,
                                 lin_side_offset=0,
-                                lin_side_break=0):
+                                lin_side_break=0.005,
+                                linear_slope=None):
     """
     Defines the camera logarithmic function.
 
@@ -239,23 +240,24 @@ def logarithmic_function_camera(x,
             and linear segments on non-linear values, converting them to linear
             values.
     base : numeric, optional
-        The base value used for the transfer.
+        Logarithmic base used for the conversion.
     log_side_slope : numeric, optional
-        It is the slope (or gain) applied to the log side
-        of the logarithmic segment. The default value is 1.
+        Slope (or gain) applied to the log side of the logarithmic segment. The
+        default value is 1.
     lin_side_slope : numeric, optional
-        It is the slope of the linear side of
-        the logarithmic segment. The default value is 1.
+        Slope of the linear side of the logarithmic segment. The default value
+        is 1.
     log_side_offset : numeric, optional
-        It is the offset applied to the log side
-        of the logarithmic segment. The default value is 0.
+        Offset applied to the log side of the logarithmic segment. The default
+        value is 0.
     lin_side_offset : numeric, optional
-        It is the offset applied to the linear side
-        of the logarithmic segment. The default value is 0.
+        Offset applied to the linear side of the logarithmic segment. The
+        default value is 0.
     lin_side_break : numeric
-        It is the the break-point, defined in linear space,
-        at which the piece-wise function transitions between
-        the logarithmic and linear segments.
+        Break-point, defined in linear space, at which the piece-wise function
+        transitions between the logarithmic and linear segments.
+    linear_slope : numeric, optional
+        Slope of the linear portion of the curve. The default value is *None*.
 
     Returns
     -------
@@ -284,8 +286,10 @@ def logarithmic_function_camera(x,
         (np.log(lin_side_slope * lin_side_break + lin_side_offset) /
          np.log(base)) + log_side_offset)
 
-    linear_slope = (log_side_slope * (lin_side_slope / (
-        (lin_side_slope * lin_side_break + lin_side_offset) * np.log(base))))
+    if linear_slope is None:
+        linear_slope = (log_side_slope * (lin_side_slope / (
+            (lin_side_slope * lin_side_break + lin_side_offset) * np.log(base))
+                                          ))
 
     linear_offset = log_side_break - linear_slope * lin_side_break
 
