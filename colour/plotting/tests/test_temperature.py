@@ -17,10 +17,10 @@ from colour.plotting.temperature import (
     plot_planckian_locus_in_chromaticity_diagram)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -102,7 +102,7 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
-            annotate_parameters={'arrowprops': {
+            annotate_kwargs={'arrowprops': {
                 'width': 10
             }})
 
@@ -110,7 +110,7 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
-            annotate_parameters=[
+            annotate_kwargs=[
                 {
                     'arrowprops': {
                         'width': 10

@@ -13,17 +13,11 @@ computations objects:
     *uv* chromaticity coordinates computation of given correlated colour
     temperature :math:`T_{cp}` using *Krystek (1985)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
 -   :cite:`Krystek1985b` : Krystek, M. (1985). An algorithm to calculate
-    correlated colour temperature. Color Research & Application, 10(1),
-    38-40. doi:10.1002/col.5080100109
+    correlated colour temperature. Color Research & Application, 10(1), 38-40.
+    doi:10.1002/col.5080100109
 """
 
 from __future__ import division, unicode_literals
@@ -32,18 +26,19 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.utilities import as_float_array, as_numeric, tstack
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
 
 
-def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
+def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE UCS* colourspace *uv* chromaticity coordinates using *Krystek (1985)*
@@ -53,8 +48,13 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
     ----------
     uv : array_like
          *CIE UCS* colourspace *uv* chromaticity coordinates.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -80,10 +80,15 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
 
     Examples
     --------
-    >>> uv_to_CCT_Krystek1985(np.array([0.18376696, 0.30934437]))
+    >>> uv_to_CCT_Krystek1985(np.array([0.20047203, 0.31029290]))
     ... # doctest: +ELLIPSIS
-    6504.3896615...
+    6504.3894290...
     """
+
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     uv = as_float_array(uv)
     shape = uv.shape
@@ -104,8 +109,8 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
             'fatol': 1e-10,
         },
     }
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     CCT = as_float_array([
         minimize(
@@ -145,14 +150,18 @@ def CCT_to_uv_Krystek1985(CCT):
     Examples
     --------
     >>> CCT_to_uv_Krystek1985(6504.38938305)  # doctest: +ELLIPSIS
-    array([ 0.1837669...,  0.3093443...])
+    array([ 0.2004720...,  0.3102929...])
     """
 
     T = as_float_array(CCT)
 
-    u = ((0.860117757 + 1.54118254 * 10e-4 * T + 1.28641212 * 10e-7 * T ** 2) /
-         (1 + 8.42420235 * 10e-4 * T + 7.08145163 * 10e-7 * T ** 2))
-    v = ((0.317398726 + 4.22806245 * 10e-5 * T + 4.20481691 * 10e-8 * T ** 2) /
-         (1 - 2.89741816 * 10e-5 * T + 1.61456053 * 10e-7 * T ** 2))
+    T_2 = T ** 2
+
+    u = (
+        (0.860117757 + 1.54118254 * 10 ** -4 * T + 1.28641212 * 10 ** -7 * T_2)
+        / (1 + 8.42420235 * 10 ** -4 * T + 7.08145163 * 10 ** -7 * T_2))
+    v = (
+        (0.317398726 + 4.22806245 * 10 ** -5 * T + 4.20481691 * 10 ** -8 * T_2)
+        / (1 - 2.89741816 * 10 ** -5 * T + 1.61456053 * 10 ** -7 * T_2))
 
     return tstack([u, v])

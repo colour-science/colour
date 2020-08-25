@@ -20,6 +20,21 @@ Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
     xyY_to_xy
     xy_to_xyY
 
+.. contents:: :local:
+
+Common Models
+-------------
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    Jab_to_JCh
+    JCh_to_Jab
+
 CIE L*a*b* Colourspace
 ----------------------
 
@@ -277,8 +292,13 @@ RGB Colourspaces
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     RGB_Colourspace
+
+.. autosummary::
+    :toctree: generated/
+
     RGB_COLOURSPACES
 
 ``colour.models``
@@ -309,6 +329,7 @@ RGB Colourspaces
     DCDM_XYZ_COLOURSPACE
     DCI_P3_COLOURSPACE
     DCI_P3_P_COLOURSPACE
+    DISPLAY_P3_COLOURSPACE
     DON_RGB_4_COLOURSPACE
     ECI_RGB_V2_COLOURSPACE
     EKTA_SPACE_PS_5_COLOURSPACE
@@ -336,6 +357,8 @@ RGB Colourspaces
     S_GAMUT_COLOURSPACE
     S_GAMUT3_COLOURSPACE
     S_GAMUT3_CINE_COLOURSPACE
+    VENICE_S_GAMUT3_COLOURSPACE
+    VENICE_S_GAMUT3_CINE_COLOURSPACE
     sRGB_COLOURSPACE
     V_GAMUT_COLOURSPACE
     XTREME_RGB_COLOURSPACE
@@ -354,6 +377,8 @@ Colour Component Transfer Functions
     CCTF_ENCODINGS
     cctf_decoding
     CCTF_DECODINGS
+    gamma_function
+    linear_function
 
 ``colour.models``
 
@@ -379,6 +404,21 @@ Colour Component Transfer Functions
     cctf_encoding_ProPhotoRGB
     cctf_decoding_ProPhotoRGB
 
+**Ancillary Objects**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    exponent_function_basic
+    exponent_function_monitor_curve
+    logarithmic_function_basic
+    logarithmic_function_quasilog
+    logarithmic_function_camera
+
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -403,7 +443,6 @@ Opto-Electronic Transfer Functions
 
     oetf_ARIBSTDB67
     oetf_inverse_ARIBSTDB67
-    oetf_BT2020
     oetf_HLG_BT2100
     oetf_inverse_HLG_BT2100
     oetf_PQ_BT2100
@@ -413,18 +452,6 @@ Opto-Electronic Transfer Functions
     oetf_BT709
     oetf_inverse_BT709
     oetf_SMPTE240M
-
-**Ancillary Objects**
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    gamma_function
-    linear_function
 
 Electro-Optical Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -455,6 +482,7 @@ Electro-Optical Transfer Functions
     eotf_BT1886
     eotf_inverse_BT1886
     eotf_BT2020
+    eotf_inverse_BT2020
     BT2100_HLG_EOTF_METHODS
     eotf_HLG_BT2100
     BT2100_HLG_EOTF_INVERSE_METHODS
@@ -539,6 +567,8 @@ Log Encoding and Decoding
     log_decoding_ERIMMRGB
     log_encoding_FLog
     log_decoding_FLog
+    log_encoding_Log2
+    log_decoding_Log2
     LOG3G10_ENCODING_METHODS
     log_encoding_Log3G10
     LOG3G10_DECODING_METHODS
@@ -565,29 +595,6 @@ Log Encoding and Decoding
     log_decoding_VLog
     log_encoding_ViperLog
     log_decoding_ViperLog
-
-ACES Spectral Conversion
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    sd_to_aces_relative_exposure_values
-
-**Ancillary Objects**
-
-``colour.models``
-
-.. currentmodule:: colour.models
-
-.. autosummary::
-    :toctree: generated/
-
-    ACES_RICD
 
 Colour Encodings
 ~~~~~~~~~~~~~~~~

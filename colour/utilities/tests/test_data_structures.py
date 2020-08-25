@@ -10,16 +10,20 @@ import operator
 import pickle
 import unittest
 
-from colour.utilities import Structure, Lookup, CaseInsensitiveMapping
+from colour.utilities import (Structure, Lookup, CaseInsensitiveMapping,
+                              LazyCaseInsensitiveMapping)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestStructure', 'TestLookup', 'TestCaseInsensitiveMapping']
+__all__ = [
+    'TestStructure', 'TestLookup', 'TestCaseInsensitiveMapping',
+    'TestLazyCaseInsensitiveMapping'
+]
 
 
 class TestStructure(unittest.TestCase):
@@ -103,15 +107,16 @@ class TestLookup(unittest.TestCase):
         """
 
         lookup = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
-        self.assertListEqual(
-            sorted(['Jane', 'John']), sorted(lookup.keys_from_value('Doe')))
+        self.assertListEqual(['Jane', 'John'],
+                             sorted(lookup.keys_from_value('Doe')))
 
         lookup = Lookup(
             A=np.array([0, 1, 2]),
             B=np.array([0, 1, 2]),
             C=np.array([1, 2, 3]))
-        self.assertListEqual(
-            sorted(['A', 'B']), lookup.keys_from_value(np.array([0, 1, 2])))
+        self.assertListEqual(['A', 'B'],
+                             sorted(
+                                 lookup.keys_from_value(np.array([0, 1, 2]))))
 
     def test_first_key_from_value(self):
         """
@@ -119,8 +124,8 @@ class TestLookup(unittest.TestCase):
 Lookup.first_key_from_value` method.
         """
 
-        lookup = Lookup(first_name='Doe', last_name='John', gender='male')
-        self.assertEqual('first_name', lookup.first_key_from_value('Doe'))
+        lookup = Lookup(first_name='John', last_name='Doe', gender='male')
+        self.assertEqual('first_name', lookup.first_key_from_value('John'))
 
         lookup = Lookup(
             A=np.array([0, 1, 2]),
@@ -329,6 +334,51 @@ CaseInsensitiveMapping.lower_items` method.
         self.assertListEqual(
             sorted([item for item in mapping.lower_items()]),
             [('jane', 'Doe'), ('john', 'Doe')])
+
+
+class TestLazyCaseInsensitiveMapping(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.data_structures.\
+LazyCaseInsensitiveMapping` class unit tests methods.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('data', )
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(CaseInsensitiveMapping))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('__setitem__', '__getitem__', '__delitem__',
+                            '__contains__', '__iter__', '__len__', '__eq__',
+                            '__ne__', '__repr__', 'copy', 'lower_items')
+
+        for method in required_methods:
+            self.assertIn(method, dir(CaseInsensitiveMapping))
+
+    def test__getitem__(self):
+        """
+        Tests :meth:`colour.utilities.data_structures.\
+LazyCaseInsensitiveMapping.__getitem__` method.
+        """
+
+        mapping = LazyCaseInsensitiveMapping(John='Doe', Jane=lambda: 'Doe')
+
+        self.assertEqual(mapping['John'], 'Doe')
+
+        self.assertEqual(mapping['john'], 'Doe')
+
+        self.assertEqual(mapping['Jane'], 'Doe')
+
+        self.assertEqual(mapping['jane'], 'Doe')
 
 
 if __name__ == '__main__':

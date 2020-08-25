@@ -7,17 +7,12 @@ Defines *CIE 1994* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.chromatic_adaptation_CIE1994`
 
-See Also
---------
-`CIE 1994 Chromatic Adaptation Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/cie1994.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
-    Adaptations. ISBN:978-3-900734-51-0
+    Adaptations. Commission Internationale de l'Eclairage.
+    ISBN:978-3-900734-51-0
 """
 
 from __future__ import division, unicode_literals
@@ -30,10 +25,10 @@ from colour.utilities import (as_float_array, dot_vector, from_range_100,
                               to_domain_100, tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

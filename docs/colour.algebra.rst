@@ -12,6 +12,7 @@ Extrapolation
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     Extrapolator
 
@@ -24,6 +25,7 @@ Interpolation
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     KernelInterpolator
     NearestNeighbourInterpolator
@@ -31,6 +33,10 @@ Interpolation
     NullInterpolator
     PchipInterpolator
     SpragueInterpolator
+
+.. autosummary::
+    :toctree: generated/
+
     lagrange_coefficients
     TABLE_INTERPOLATION_METHODS
     table_interpolation
@@ -157,3 +163,4 @@ Common
     set_spow_enable
     spow_enable
     spow
+    smoothstep_function

@@ -10,24 +10,18 @@ deficiency:
 -   :func:`colour.anomalous_trichromacy_matrix_Machado2009`
 -   :func:`colour.cvd_matrix_Machado2009`
 
-See Also
---------
-`Machado et al. (2009) - CVD IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/cvd/Machado2009.ipynb>`_
-
 References
 ----------
--   :cite:`Colblindorb` : Colblindor. (n.d.). Protanopia - Red-Green Color
-    Blindness. Retrieved July 4, 2015, from http://www.color-blindness.com/\
-protanopia-red-green-color-blindness/
 -   :cite:`Colblindora` : Colblindor. (n.d.). Deuteranopia - Red-Green Color
-    Blindness. Retrieved July 4, 2015, from http://www.color-blindness.com/\
-deuteranopia-red-green-color-blindness/
+    Blindness. Retrieved July 4, 2015, from
+    http://www.color-blindness.com/deuteranopia-red-green-color-blindness/
+-   :cite:`Colblindorb` : Colblindor. (n.d.). Protanopia - Red-Green Color
+    Blindness. Retrieved July 4, 2015, from
+    http://www.color-blindness.com/protanopia-red-green-color-blindness/
 -   :cite:`Colblindorc` : Colblindor. (n.d.). Tritanopia - Blue-Yellow Color
-    Blindness. Retrieved July 4, 2015, from http://www.color-blindness.com/\
-tritanopia-blue-yellow-color-blindness/
--   :cite:`Machado2009` : Machado, G. M., Oliveira, M. M., & Fernandes, L.
+    Blindness. Retrieved July 4, 2015, from
+    http://www.color-blindness.com/tritanopia-blue-yellow-color-blindness/
+-   :cite:`Machado2009` : Machado, G.M., Oliveira, M. M., & Fernandes, L.
     (2009). A Physiologically-based Model for Simulation of Color Vision
     Deficiency. IEEE Transactions on Visualization and Computer Graphics,
     15(6), 1291-1298. doi:10.1109/TVCG.2009.113
@@ -43,10 +37,10 @@ from colour.utilities import (dot_matrix, dot_vector, tsplit, tstack,
                               usage_warning)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -87,10 +81,10 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
 
     Examples
     --------
-    >>> from colour import DISPLAYS_RGB_PRIMARIES, LMS_CMFS
+    >>> from colour import DISPLAY_RGB_PRIMARIES, LMS_CMFS
     >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = DISPLAY_RGB_PRIMARIES['Apple Studio Display']
     >>> RGB_to_WSYBRG_matrix(  # doctest: +ELLIPSIS
     ...     cmfs, primaries)
     array([[  0.2126535...,   0.6704626...,   0.1168838...],
@@ -102,9 +96,9 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
     WSYBRG = dot_vector(LMS_TO_WSYBRG_MATRIX, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
-    extrapolator_args = {'method': 'Constant', 'left': 0, 'right': 0}
+    extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
     primaries = primaries.copy().align(
-        cmfs.shape, extrapolator_args=extrapolator_args)
+        cmfs.shape, extrapolator_kwargs=extrapolator_kwargs)
 
     R, G, B = tsplit(primaries.values)
 
@@ -190,7 +184,7 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     if cmfs.shape.interval != 1:
         cmfs.interpolate(SpectralShape(interval=1))
 
-    cmfs.extrapolator_args = {'method': 'Constant', 'left': 0, 'right': 0}
+    cmfs.extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
 
     L, M, _S = tsplit(cmfs.values)
     d_L, d_M, d_S = tsplit(d_LMS)
@@ -267,10 +261,10 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
 
     Examples
     --------
-    >>> from colour import DISPLAYS_RGB_PRIMARIES, LMS_CMFS
+    >>> from colour import DISPLAY_RGB_PRIMARIES, LMS_CMFS
     >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = DISPLAY_RGB_PRIMARIES['Apple Studio Display']
     >>> anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
     ... # doctest: +ELLIPSIS
     array([[-0.2777465...,  2.6515008..., -1.3737543...],

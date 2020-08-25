@@ -5,12 +5,6 @@ Corresponding Chromaticities Prediction
 
 Defines objects to compute corresponding chromaticities prediction.
 
-See Also
---------
-`Corresponding Chromaticities Prediction Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/corresponding/prediction.ipynb>`_
-
 References
 ----------
 -   :cite:`Breneman1987b` : Breneman, E. J. (1987). Corresponding
@@ -19,7 +13,8 @@ References
     doi:10.1364/JOSAA.4.001115
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
-    Adaptations. ISBN:978-3-900734-51-0
+    Adaptations. Commission Internationale de l'Eclairage.
+    ISBN:978-3-900734-51-0
 -   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
     of an incomplete-chromatic-adaptation model. Color Research & Application,
     16(4), 243-250. doi:10.1002/col.5080160406
@@ -31,12 +26,12 @@ References
 -   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
     Application, 27(1), 49-58. doi:10.1002/col.10005
--   :cite:`Luo1999` : Luo, M. R., & Rhodes, P. A. (1999). Corresponding-colour
-    datasets. Color Research & Application, 24(4), 295-296.
-    doi:10.1002/(SICI)1520-6378(199908)24:4<295::AID-COL10>3.0.CO;2-K
+-   :cite:`Luo1999` : Luo, M. Ronnier, & Rhodes, P. A. (1999).
+    Corresponding-colour datasets. Color Research & Application, 24(4),
+    295-296. doi:10.1002/(SICI)1520-6378(199908)24:4<295::AID-COL10>3.0.CO;2-K
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    CMCCAT2000. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
+    CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
+    83-86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
@@ -47,18 +42,18 @@ from collections import namedtuple
 from colour.adaptation import (
     chromatic_adaptation_CIE1994, chromatic_adaptation_CMCCAT2000,
     chromatic_adaptation_Fairchild1990, chromatic_adaptation_VonKries)
-from colour.corresponding import (
-    BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES)
+from colour.corresponding import (BRENEMAN_EXPERIMENTS,
+                                  BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES)
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, XYZ_to_Luv, XYZ_to_xy,
                            xy_to_XYZ, xyY_to_XYZ)
 from colour.utilities import (CaseInsensitiveMapping, domain_range_scale,
-                              filter_kwargs, is_numeric)
+                              filter_kwargs, full, is_numeric)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -213,14 +208,13 @@ def convert_experiment_results_Breneman1987(experiment):
 
     experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
     illuminant_chromaticities = experiment_results.pop(0)
-    Y_r = Y_t = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
+    Y_r = Y_t = BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES[experiment].Y
     B_r = B_t = 0.3
 
     XYZ_t, XYZ_r = xy_to_XYZ(
-        np.hstack([
-            Luv_uv_to_xy(illuminant_chromaticities[1:3]),
-            np.full([2, 1], Y_r)
-        ])) / Y_r
+        np.hstack(
+            [Luv_uv_to_xy(illuminant_chromaticities[1:3]),
+             full([2, 1], Y_r)])) / Y_r
 
     xyY_cr, xyY_ct = [], []
     for i, experiment_result in enumerate(experiment_results):

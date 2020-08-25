@@ -8,17 +8,12 @@ Defines the *Pivoted Log* encoding:
 -   :func:`colour.models.log_encoding_PivotedLog`
 -   :func:`colour.models.log_decoding_PivotedLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
-    November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/\
-blob/master/nuke-default/make.py
+    November 27, 2014, from
+    https://github.com/imageworks/OpenColorIO-Configs/blob/master/\
+nuke-default/make.py
 """
 
 from __future__ import division, unicode_literals
@@ -28,10 +23,10 @@ import numpy as np
 from colour.utilities import from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']

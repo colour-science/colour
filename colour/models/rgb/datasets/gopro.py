@@ -7,12 +7,6 @@ Defines the *GoPro* colourspaces:
 
 -   :attr:`colour.models.PROTUNE_NATIVE_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 Notes
 -----
 -   The *Protune Native* colourspace primaries were derived using the method
@@ -40,10 +34,10 @@ from colour.models.rgb import (RGB_Colourspace, log_decoding_Protune,
                                log_encoding_Protune, normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

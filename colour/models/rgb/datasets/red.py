@@ -13,22 +13,17 @@ Defines the *RED* colourspaces:
 -   :attr:`colour.models.DRAGON_COLOR_2_COLOURSPACE`
 -   :attr:`colour.models.RED_WIDE_GAMUT_RGB_COLOURSPACE`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Mansencal2015d` : Mansencal, T. (2015). RED Colourspaces Derivation.
     Retrieved May 20, 2015, from
     https://www.colour-science.org/posts/red-colourspaces-derivation
--   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with
-    Shaw, N.
+-   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with Shaw,
+    N.
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
-    November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/\
-blob/master/nuke-default/make.py
+    November 27, 2014, from
+    https://github.com/imageworks/OpenColorIO-Configs/blob/master/\
+nuke-default/make.py
 """
 
 from __future__ import division, unicode_literals
@@ -41,10 +36,10 @@ from colour.models.rgb import (
     log_decoding_REDLogFilm, log_encoding_Log3G10, log_decoding_Log3G10)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

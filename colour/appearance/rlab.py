@@ -10,12 +10,6 @@ Defines *RLAB* colour appearance model objects:
 -   :class:`colour.RLAB_Specification`
 -   :func:`colour.XYZ_to_RLAB`
 
-See Also
---------
-`RLAB Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/rlab.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild1996a` : Fairchild, M. D. (1996). Refinement of the RLAB
@@ -37,10 +31,10 @@ from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               to_domain_100, tsplit, row_as_diagonal)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

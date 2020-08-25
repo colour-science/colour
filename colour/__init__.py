@@ -3,12 +3,16 @@
 Colour
 ======
 
-`Colour <https://github.com/colour-science/colour>`_ is an open-source
-`Python <https://www.python.org/>`_ package providing a comprehensive number of
-algorithms and datasets for colour science.
+`Colour <https://github.com/colour-science/colour>`__ is an open-source
+`Python <https://www.python.org/>`__ package providing a comprehensive number
+of algorithms and datasets for colour science.
 
 It is freely available under the
-`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`_ terms.
+`New BSD License <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
+
+`Colour <https://github.com/colour-science/colour>`__ is an affiliated project
+of `NumFOCUS <https://numfocus.org/>`__, a 501(c)(3) nonprofit in the United
+States.
 
 Sub-packages
 ------------
@@ -17,7 +21,7 @@ Sub-packages
 -   appearance: Colour appearance models.
 -   biochemistry: Biochemistry computations.
 -   blindness: Colour vision deficiency models.
--   characterisation: Colour fitting and camera characterisation.
+-   characterisation: Colour correction, camera and display characterisation.
 -   colorimetry: Core objects for colour computations.
 -   constants: *CIE* and *CODATA* constants.
 -   continuous: Base objects for continuous data representation.
@@ -25,6 +29,7 @@ Sub-packages
 -   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
+-   geometry: Geometry primitives generation.
 -   graph: Graph for automatic colour conversions.
 -   io: Input / output objects for reading and writing data.
 -   models: Colour models.
@@ -61,20 +66,21 @@ from .algebra import (CubicSplineInterpolator, Extrapolator,
                       table_interpolation, lagrange_coefficients)
 from .colorimetry import (
     ASTME308_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS, CMFS,
-    DEFAULT_SPECTRAL_SHAPE, HUNTERLAB_ILLUMINANTS, ILLUMINANTS,
-    ILLUMINANTS_SDS, LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCES_SDS,
-    LMS_CMFS, LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS,
-    MultiSpectralDistributions, PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS,
-    SD_GAUSSIAN_METHODS, SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS,
-    SD_TO_XYZ_METHODS, STANDARD_OBSERVERS_CMFS, SpectralDistribution,
-    SpectralShape, WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
+    DEFAULT_SPECTRAL_SHAPE, HUNTERLAB_ILLUMINANTS, ILLUMINANTS, ILLUMINANT_SDS,
+    LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCE_SDS, LMS_CMFS,
+    LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS, MultiSpectralDistributions,
+    PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS, SD_GAUSSIAN_METHODS,
+    SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS, SD_TO_XYZ_METHODS,
+    STANDARD_OBSERVER_CMFS, SpectralDistribution, SpectralShape,
+    WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
     excitation_purity, lightness, luminance, luminous_efficacy,
-    luminous_efficiency, luminous_flux, multi_sds_to_XYZ,
-    sd_CIE_standard_illuminant_A, sd_CIE_illuminant_D_series, sd_blackbody,
-    sd_constant, sd_gaussian, sd_mesopic_luminous_efficiency_function,
-    sd_multi_leds, sd_ones, sd_single_led, sd_zeros, sd_to_XYZ,
-    wavelength_to_XYZ, whiteness, yellowness)
+    luminous_efficiency, luminous_flux, msds_constant, msds_ones, msds_zeros,
+    multi_sds_to_XYZ, sd_CIE_standard_illuminant_A, sd_CIE_illuminant_D_series,
+    sd_blackbody, sd_constant, sd_gaussian,
+    sd_mesopic_luminous_efficiency_function, sd_multi_leds, sd_ones,
+    sd_single_led, sd_zeros, sd_to_XYZ, wavelength_to_XYZ, whiteness,
+    yellowness)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
     anomalous_trichromacy_matrix_Machado2009, cvd_matrix_Machado2009)
@@ -87,11 +93,8 @@ from .appearance import (
     XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB, XYZ_to_Nayatani95,
     XYZ_to_RLAB)
 from .difference import DELTA_E_METHODS, delta_E
-from .characterisation import (
-    CAMERAS_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKERS_SDS,
-    DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
-    COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
-    COLOUR_CORRECTION_METHODS, colour_correction)
+from .geometry import (PRIMITIVE_METHODS, primitive,
+                       PRIMITIVE_VERTICES_METHODS, primitive_vertices)
 from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence, READ_IMAGE_METHODS,
                  SpectralDistribution_IESTM2714, WRITE_IMAGE_METHODS,
                  read_image, read_LUT, read_sds_from_csv_file,
@@ -124,11 +127,10 @@ from .models import (
     full_to_legal, gamma_function, hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ,
     legal_to_full, linear_function, log_decoding, log_encoding,
     normalised_primary_matrix, oetf, oetf_inverse, ootf, ootf_inverse,
-    primaries_whitepoint, sd_to_aces_relative_exposure_values, sRGB_to_XYZ,
-    uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv,
-    xy_to_XYZ, xy_to_xyY)
+    primaries_whitepoint, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ,
+    xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
 from .corresponding import (
-    BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
+    BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
     CorrespondingChromaticitiesPrediction,
     corresponding_chromaticities_prediction)
@@ -140,25 +142,37 @@ from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
                        munsell_colour_to_xyY, munsell_value,
                        xyY_to_munsell_colour)
 from .quality import (COLOUR_QUALITY_SCALE_METHODS, colour_quality_scale,
-                      colour_rendering_index)
+                      colour_rendering_index, spectral_similarity_index)
 from .recovery import XYZ_TO_SD_METHODS, XYZ_to_sd
 from .temperature import (CCT_TO_UV_METHODS, CCT_TO_XY_METHODS, CCT_to_uv,
                           CCT_to_xy, UV_TO_CCT_METHODS, XY_TO_CCT_METHODS,
                           uv_to_CCT, xy_to_CCT)
-from .volume import (
-    ILLUMINANTS_OPTIMAL_COLOUR_STIMULI, RGB_colourspace_limits,
-    RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
-    RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
-    RGB_colourspace_volume_MonteCarlo,
-    RGB_colourspace_volume_coverage_MonteCarlo, is_within_macadam_limits,
-    is_within_mesh_volume, is_within_pointer_gamut, is_within_visible_spectrum)
+from .characterisation import (
+    CAMERA_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKER_SDS,
+    DISPLAY_RGB_PRIMARIES, FILTER_SDS, LENS_SDS, POLYNOMIAL_EXPANSION_METHODS,
+    polynomial_expansion, COLOUR_CORRECTION_MATRIX_METHODS,
+    colour_correction_matrix, COLOUR_CORRECTION_METHODS, colour_correction,
+    idt_matrix, sd_to_aces_relative_exposure_values)
+from .volume import (ILLUMINANT_OPTIMAL_COLOUR_STIMULI, RGB_colourspace_limits,
+                     RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
+                     RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
+                     RGB_colourspace_volume_MonteCarlo,
+                     RGB_colourspace_volume_coverage_MonteCarlo,
+                     is_within_macadam_limits, is_within_mesh_volume,
+                     is_within_pointer_gamut, is_within_visible_spectrum)
 from .graph import describe_conversion_path, convert
 
+from colour.utilities import is_matplotlib_installed
+
+# Exposing "colour.plotting" sub-package if "Matplotlib" is available.
+if is_matplotlib_installed():
+    import colour.plotting as plotting  # noqa
+
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -179,18 +193,18 @@ __all__ += [
 __all__ += [
     'ASTME308_PRACTISE_SHAPE', 'BANDPASS_CORRECTION_METHODS', 'CMFS',
     'DEFAULT_SPECTRAL_SHAPE', 'HUNTERLAB_ILLUMINANTS', 'ILLUMINANTS',
-    'ILLUMINANTS_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
-    'LIGHT_SOURCES_SDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
+    'ILLUMINANT_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
+    'LIGHT_SOURCE_SDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
     'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistributions', 'PHOTOPIC_LEFS',
     'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS',
     'SD_MULTI_LEDS_METHODS', 'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS',
-    'STANDARD_OBSERVERS_CMFS', 'SpectralDistribution', 'SpectralShape',
+    'STANDARD_OBSERVER_CMFS', 'SpectralDistribution', 'SpectralShape',
     'WHITENESS_METHODS', 'YELLOWNESS_METHODS', 'bandpass_correction',
     'colorimetric_purity', 'complementary_wavelength', 'dominant_wavelength',
     'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
-    'luminous_efficiency', 'luminous_flux', 'multi_sds_to_XYZ',
-    'sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series',
-    'sd_blackbody', 'sd_constant', 'sd_gaussian',
+    'luminous_efficiency', 'luminous_flux', 'msds_constant', 'msds_ones',
+    'msds_zeros', 'multi_sds_to_XYZ', 'sd_CIE_standard_illuminant_A',
+    'sd_CIE_illuminant_D_series', 'sd_blackbody', 'sd_constant', 'sd_gaussian',
     'sd_mesopic_luminous_efficiency_function', 'sd_multi_leds', 'sd_ones',
     'sd_zeros', 'sd_single_led', 'sd_to_XYZ', 'wavelength_to_XYZ', 'whiteness',
     'yellowness'
@@ -211,11 +225,8 @@ __all__ += [
 ]
 __all__ += ['DELTA_E_METHODS', 'delta_E']
 __all__ += [
-    'CAMERAS_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS',
-    'COLOURCHECKERS_SDS', 'DISPLAYS_RGB_PRIMARIES',
-    'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
-    'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
-    'COLOUR_CORRECTION_METHODS', 'colour_correction'
+    'PRIMITIVE_METHODS', 'primitive', 'PRIMITIVE_VERTICES_METHODS',
+    'primitive_vertices'
 ]
 __all__ += [
     'LUT1D', 'LUT3x1D', 'LUT3D', 'LUTSequence', 'READ_IMAGE_METHODS',
@@ -255,13 +266,12 @@ __all__ += [
     'gamma_function', 'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full',
     'linear_function', 'log_decoding', 'log_encoding',
     'normalised_primary_matrix', 'oetf', 'oetf_inverse', 'ootf',
-    'ootf_inverse', 'primaries_whitepoint',
-    'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'uv_to_Luv',
+    'ootf_inverse', 'primaries_whitepoint', 'sRGB_to_XYZ', 'uv_to_Luv',
     'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv',
     'xy_to_XYZ', 'xy_to_xyY'
 ]
 __all__ += [
-    'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
+    'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
     'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
     'CorrespondingColourDataset', 'CorrespondingChromaticitiesPrediction',
     'corresponding_chromaticities_prediction'
@@ -276,7 +286,7 @@ __all__ += [
 ]
 __all__ += [
     'COLOUR_QUALITY_SCALE_METHODS', 'colour_quality_scale',
-    'colour_rendering_index'
+    'colour_rendering_index', 'spectral_similarity_index'
 ]
 __all__ += ['XYZ_TO_SD_METHODS', 'XYZ_to_sd']
 __all__ += [
@@ -284,7 +294,15 @@ __all__ += [
     'UV_TO_CCT_METHODS', 'XY_TO_CCT_METHODS', 'uv_to_CCT', 'xy_to_CCT'
 ]
 __all__ += [
-    'ILLUMINANTS_OPTIMAL_COLOUR_STIMULI', 'RGB_colourspace_limits',
+    'CAMERA_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS', 'COLOURCHECKER_SDS',
+    'DISPLAY_RGB_PRIMARIES', 'FILTER_SDS', 'LENS_SDS',
+    'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
+    'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
+    'COLOUR_CORRECTION_METHODS', 'colour_correction', 'idt_matrix',
+    'sd_to_aces_relative_exposure_values'
+]
+__all__ += [
+    'ILLUMINANT_OPTIMAL_COLOUR_STIMULI', 'RGB_colourspace_limits',
     'RGB_colourspace_pointer_gamut_coverage_MonteCarlo',
     'RGB_colourspace_visible_spectrum_coverage_MonteCarlo',
     'RGB_colourspace_volume_MonteCarlo',
@@ -298,7 +316,7 @@ __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '14'
+__change_version__ = '15'
 __version__ = '.'.join(
     (__major_version__,
      __minor_version__,
@@ -531,7 +549,7 @@ API_CHANGES = {
         ],
         [
             'colour.D_ILLUMINANTS_S_SPDS',
-            'colour.colorimetry.D_ILLUMINANTS_S_SDS',
+            'colour.colorimetry.D_ILLUMINANT_S_SDS',
         ],
         [
             'colour.ECI_RGB_V2_COLOURSPACE',
@@ -1331,7 +1349,7 @@ API_CHANGES = {
         ],
         [
             'colour.oetf_BT2020',
-            'colour.models.oetf_BT2020',
+            'colour.models.eotf_inverse_BT2020',
         ],
         [
             'colour.oetf_BT2100_HLG',
@@ -1607,7 +1625,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.COLOURCHECKERS_SPDS',
-        'colour.COLOURCHECKERS_SDS',
+        'colour.COLOURCHECKER_SDS',
     ],
     [
         'colour.D_illuminant_relative_spd',
@@ -1615,11 +1633,11 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.ILLUMINANTS_RELATIVE_SPDS',
-        'colour.ILLUMINANTS_SDS',
+        'colour.ILLUMINANT_SDS',
     ],
     [
         'colour.LIGHT_SOURCES_RELATIVE_SPDS',
-        'colour.LIGHT_SOURCES_SDS',
+        'colour.LIGHT_SOURCE_SDS',
     ],
     [
         'colour.MultiSpectralPowerDistribution',
@@ -1768,6 +1786,42 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.MultiSpectralDistribution',
         'colour.MultiSpectralDistributions',
+    ],
+]
+
+# v0.3.16
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
+        'colour.BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
+    ],
+    [
+        'colour.CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
+        'colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES',
+    ],
+    [
+        'colour.COLOURCHECKERS_SDS',
+        'colour.COLOURCHECKER_SDS',
+    ],
+    [
+        'colour.DISPLAYS_RGB_PRIMARIES',
+        'colour.DISPLAY_RGB_PRIMARIES',
+    ],
+    [
+        'colour.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI',
+        'colour.ILLUMINANT_OPTIMAL_COLOUR_STIMULI',
+    ],
+    [
+        'colour.ILLUMINANTS_SDS',
+        'colour.ILLUMINANT_SDS',
+    ],
+    [
+        'colour.LIGHT_SOURCES_SDS',
+        'colour.LIGHT_SOURCE_SDS',
+    ],
+    [
+        'colour.STANDARD_OBSERVERS_CMFS',
+        'colour.STANDARD_OBSERVER_CMFS',
     ],
 ]
 

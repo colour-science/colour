@@ -9,8 +9,9 @@ References
 ----------
 -   :cite:`Kienzle2011a` : Kienzle, P., Patel, N., & Krycka, J. (2011).
     refl1d.numpyerrors - Refl1D v0.6.19 documentation. Retrieved January 30,
-    2015, from http://www.reflectometry.org/danse/docs/refl1d/_modules/\
-refl1d/numpyerrors.html
+    2015, from
+    http://www.reflectometry.org/danse/docs/refl1d/_modules/refl1d/\
+numpyerrors.html
 """
 
 from __future__ import division, unicode_literals
@@ -32,19 +33,20 @@ from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
 from colour.utilities import Lookup
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
     'batch', 'disable_multiprocessing', 'multiprocessing_pool',
-    'is_networkx_installed', 'is_openimageio_installed', 'is_pandas_installed',
-    'is_iterable', 'is_string', 'is_numeric', 'is_integer', 'is_sibling',
-    'filter_kwargs', 'filter_mapping', 'first_item', 'get_domain_range_scale',
+    'is_matplotlib_installed', 'is_networkx_installed',
+    'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
+    'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
+    'filter_mapping', 'first_item', 'get_domain_range_scale',
     'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
     'to_domain_10', 'to_domain_100', 'to_domain_degrees', 'to_domain_int',
     'from_range_1', 'from_range_10', 'from_range_100', 'from_range_degrees',
@@ -300,6 +302,37 @@ def multiprocessing_pool(*args, **kwargs):
         pool.terminate()
 
 
+def is_matplotlib_installed(raise_exception=False):
+    """
+    Returns if *Matplotlib* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *Matplotlib* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *Matplotlib* installed.
+
+    Raises
+    ------
+    ImportError
+        If *Matplotlib* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import matplotlib  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(('"Matplotlib" related API features '
+                               'are not available: "{0}".').format(error))
+        return False
+
+
 def is_networkx_installed(raise_exception=False):
     """
     Returns if *NetworkX* is installed and available.
@@ -532,7 +565,7 @@ def is_integer(a):
     False
     """
 
-    return abs(a - round(a)) <= INTEGER_THRESHOLD
+    return abs(a - np.around(a)) <= INTEGER_THRESHOLD
 
 
 def is_sibling(element, mapping):
@@ -850,7 +883,7 @@ class domain_range_scale(object):
         return wrapper
 
 
-def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_1(a, scale_factor=100, dtype=None):
     """
     Scales given array :math:`a` to domain **'1'**. The behaviour is as
     follows:
@@ -898,6 +931,9 @@ def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     array(0.01)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '100':
@@ -906,7 +942,7 @@ def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_10(a, scale_factor=10, dtype=None):
     """
     Scales given array :math:`a` to domain **'10'**, used by
     *Munsell Renotation System*. The behaviour is as follows:
@@ -956,6 +992,9 @@ def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
     array(0.1)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
@@ -967,7 +1006,7 @@ def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_100(a, scale_factor=100, dtype=None):
     """
     Scales given array :math:`a` to domain **'100'**. The behaviour is as
     follows:
@@ -1015,6 +1054,9 @@ def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     array(1.0)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
@@ -1023,7 +1065,7 @@ def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_degrees(a, scale_factor=360, dtype=None):
     """
     Scales given array :math:`a` to degrees domain. The behaviour is as
     follows:
@@ -1073,6 +1115,9 @@ def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
     array(3.6)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
@@ -1084,7 +1129,7 @@ def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_int(a, bit_depth=8, dtype=None):
     """
     Scales given array :math:`a` to int domain. The behaviour is as follows:
 
@@ -1137,6 +1182,9 @@ def to_domain_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
     ...     to_domain_int(1)
     array(2.55)
     """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
 
     a = np.asarray(a, dtype).copy()
 
@@ -1364,7 +1412,7 @@ def from_range_degrees(a, scale_factor=360):
     return a
 
 
-def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
+def from_range_int(a, bit_depth=8, dtype=None):
     """
     Scales given array :math:`a` from int range. The behaviour is as follows:
 
@@ -1416,6 +1464,9 @@ def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
     ...     from_range_int(1)  # doctest: +ELLIPSIS
     array(0.3921568...)
     """
+
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
 
     maximum_code_value = 2 ** bit_depth - 1
     if _DOMAIN_RANGE_SCALE == '1':

@@ -12,12 +12,6 @@ Defines the *CIE xyY* colourspace transformations:
 -   :func:`colour.XYZ_to_xy`
 -   :func:`colour.xy_to_XYZ`
 
-See Also
---------
-`CIE xyY Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cie_xyy.ipynb>`_
-
 References
 ----------
 -   :cite:`Lindbloom2003e` : Lindbloom, B. (2003). XYZ to xyY. Retrieved
@@ -26,7 +20,6 @@ References
     February 24, 2014, from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
 -   :cite:`Wikipedia2005` : Wikipedia. (2005). CIE 1931 color space. Retrieved
     February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1931_color_space
-
 """
 
 from __future__ import division, unicode_literals
@@ -34,15 +27,14 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import (as_float_array, from_range_1, to_domain_1,
-                              tsplit, tstack)
+from colour.utilities import (as_float_array, from_range_1, full, to_domain_1,
+                              tsplit, tstack, zeros)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -100,7 +92,7 @@ def XYZ_to_xyY(
     X, Y, Z = tsplit(XYZ)
     xy_w = as_float_array(illuminant)
 
-    XYZ_n = np.zeros(XYZ.shape)
+    XYZ_n = zeros(XYZ.shape)
     XYZ_n[..., 0:2] = xy_w
 
     xyY = np.where(
@@ -288,7 +280,7 @@ def xy_to_xyY(xy, Y=1):
 
     x, y = tsplit(xy)
 
-    Y = np.full(x.shape, from_range_1(Y), DEFAULT_FLOAT_DTYPE)
+    Y = full(x.shape, from_range_1(Y))
     xyY = tstack([x, y, Y])
 
     return xyY

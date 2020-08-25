@@ -97,7 +97,7 @@ sample_sd_data = {
 sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
 
 cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
-illuminant = colour.ILLUMINANTS_SDS['A']
+illuminant = colour.ILLUMINANT_SDS['A']
 
 message_box(('Computing *CIE XYZ* tristimulus values for sample spectral '
              'distribution and "CIE Standard Illuminant A".'))

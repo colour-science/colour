@@ -12,25 +12,29 @@ from collections import namedtuple
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (
     as_array, as_int_array, as_float_array, as_numeric, as_int, as_float,
-    as_namedtuple, closest_indexes, closest, normalise_maximum, interval,
-    is_uniform, in_array, tstack, tsplit, row_as_diagonal, dot_vector,
-    dot_matrix, orient, centroid, linear_conversion, lerp, fill_nan,
-    ndarray_write)
+    set_float_precision, set_int_precision, as_namedtuple, closest_indexes,
+    closest, normalise_maximum, interval, is_uniform, in_array, tstack, tsplit,
+    row_as_diagonal, dot_vector, dot_matrix, orient, centroid,
+    linear_conversion, lerp, fill_nan, ndarray_write, zeros, ones, full,
+    index_along_last_axis)
+from colour.utilities import is_networkx_installed
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
     'TestAsArray', 'TestAsIntArray', 'TestAsFloatArray', 'TestAsNumeric',
-    'TestAsInt', 'TestAsFloat', 'TestAsNametuple', 'TestClosestIndexes',
-    'TestClosest', 'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform',
-    'TestInArray', 'TestTstack', 'TestTsplit', 'TestRowAsDiagonal',
-    'TestDotVector', 'TestDotMatrix', 'TestOrient', 'TestCentroid',
-    'TestLinearConversion', 'TestLerp', 'TestFillNan', 'TestNdarrayWrite'
+    'TestAsInt', 'TestAsFloat', 'TestSetFloatPrecision', 'TestSetIntPrecision',
+    'TestAsNametuple', 'TestClosestIndexes', 'TestClosest',
+    'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform', 'TestInArray',
+    'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestDotVector',
+    'TestDotMatrix', 'TestOrient', 'TestCentroid', 'TestLinearConversion',
+    'TestLerp', 'TestFillNan', 'TestNdarrayWrite', 'TestZeros', 'TestOnes',
+    'TestFull', 'TestIndexAlongLastAxis'
 ]
 
 
@@ -161,6 +165,129 @@ class TestAsFloat(unittest.TestCase):
             as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE)
 
         self.assertIsInstance(as_float(1), DEFAULT_FLOAT_DTYPE)
+
+
+class TestSetFloatPrecision(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.set_float_precision` definition units
+    tests methods.
+    """
+
+    def test_set_float_precision(self):
+        """
+        Tests :func:`colour.utilities.array.set_float_precision` definition.
+        """
+
+        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+
+        set_float_precision(np.float16)
+
+        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float16)
+
+        set_float_precision(np.float64)
+
+        self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
+
+    def test_set_float_precision_enforcement(self):
+        """
+        Tests whether :func:`colour.utilities.array.set_float_precision` effect
+        is applied through most of *Colour* public API.
+        """
+
+        if not is_networkx_installed():
+            return
+
+        from colour.appearance import (CAM16_Specification,
+                                       CIECAM02_Specification)
+        from colour.graph.conversion import (CONVERSION_SPECIFICATIONS_DATA,
+                                             convert)
+
+        dtype = np.float32
+        set_float_precision(dtype)
+
+        for source, target, _callable in CONVERSION_SPECIFICATIONS_DATA:
+            if target in ('Hexadecimal', 'Munsell Colour'):
+                continue
+
+            # Spectral distributions are instantiated with float64 data and
+            # spectral up-sampling optimization fails.
+            if ('Spectral Distribution' in (source, target) or
+                    target == 'Complementary Wavelength' or
+                    target == 'Dominant Wavelength'):
+                continue
+
+            a = np.array([(0.25, 0.5, 0.25), (0.25, 0.5, 0.25)])
+
+            if source == 'CAM16':
+                a = CAM16_Specification(J=0.25, M=0.5, h=0.25)
+
+            if source == 'CIECAM02':
+                a = CIECAM02_Specification(J=0.25, M=0.5, h=0.25)
+
+            if source == 'CMYK':
+                a = np.array([(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)])
+
+            if source == 'Hexadecimal':
+                a = np.array(['#FFFFFF', '#FFFFFF'])
+
+            if source == 'Munsell Colour':
+                a = ['4.2YR 8.1/5.3', '4.2YR 8.1/5.3']
+
+            if source == 'Wavelength':
+                a = 555
+
+            if source.endswith(' xy') or source.endswith(' uv'):
+                a = np.array([(0.25, 0.5), (0.25, 0.5)])
+
+            def dtype_getter(x):
+                """
+                dtype getter callable.
+                """
+
+                for specification in ('ATD95', 'CIECAM02', 'CAM16', 'Hunt',
+                                      'LLAB', 'Nayatani95', 'RLAB'):
+                    if target.endswith(specification):
+                        return x[0].dtype
+
+                return x.dtype
+
+            self.assertEqual(dtype_getter(convert(a, source, target)), dtype)
+
+    def tearDown(self):
+        """
+        After tests actions.
+        """
+
+        set_float_precision(np.float64)
+
+
+class TestSetIntPrecision(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.set_int_precision` definition units
+    tests methods.
+    """
+
+    def test_set_int_precision(self):
+        """
+        Tests :func:`colour.utilities.array.set_int_precision` definition.
+        """
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+
+        set_int_precision(np.int32)
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int32)
+
+        set_int_precision(np.int64)
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+
+    def tearDown(self):
+        """
+        After tests actions.
+        """
+
+        set_int_precision(np.int64)
 
 
 class TestAsNametuple(unittest.TestCase):
@@ -824,6 +951,147 @@ class TestNdarrayWrite(unittest.TestCase):
 
         with ndarray_write(a):
             a += 1
+
+
+class TestZeros(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.zeros` definition unit tests
+    methods.
+    """
+
+    def test_zeros(self):
+        """
+        Tests :func:`colour.utilities.array.zeros` definition.
+        """
+
+        np.testing.assert_equal(zeros(3), np.zeros(3))
+
+
+class TestOnes(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.ones` definition unit tests
+    methods.
+    """
+
+    def test_ones(self):
+        """
+        Tests :func:`colour.utilities.array.ones` definition.
+        """
+
+        np.testing.assert_equal(ones(3), np.ones(3))
+
+
+class TestFull(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.full` definition unit tests
+    methods.
+    """
+
+    def test_full(self):
+        """
+        Tests :func:`colour.utilities.array.full` definition.
+        """
+
+        np.testing.assert_equal(full(3, 0.5), np.full(3, 0.5))
+
+
+class TestIndexAlongLastAxis(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.index_along_last_axis` definition
+    unit tests methods.
+    """
+
+    def test_index_along_last_axis(self):
+        """
+        Tests :func:`colour.utilities.array.index_along_last_axis` definition.
+        """
+        a = np.array(
+            [[[[0.51090627, 0.86191718, 0.8687926],
+               [0.82738158, 0.80587656, 0.28285687]],
+              [[0.84085977, 0.03851814, 0.06057988],
+               [0.94659267, 0.79308353, 0.30870888]]],
+             [[[0.50758436, 0.24066455, 0.20199051],
+               [0.4507304, 0.84189245, 0.81160878]],
+             [[0.75421871, 0.88187494, 0.01612045],
+              [0.38777511, 0.58905552, 0.32970469]]],
+             [[[0.99285824, 0.738076, 0.0716432],
+               [0.35847844, 0.0367514, 0.18586322]],
+             [[0.72674561, 0.0822759, 0.9771182],
+              [0.90644279, 0.09689787, 0.93483977]]]])
+
+        indexes = np.array(
+            [[[0,
+               1],
+              [0,
+               1]],
+             [[2,
+               1],
+              [2,
+               1]],
+             [[2,
+               1],
+              [2,
+               0]]]
+        )
+
+        np.testing.assert_equal(
+            index_along_last_axis(a, indexes),
+            np.array(
+               [[[0.51090627,
+                  0.80587656],
+                 [0.84085977,
+                  0.79308353]],
+                [[0.20199051,
+                  0.84189245],
+                 [0.01612045,
+                  0.58905552]],
+                [[0.0716432,
+                  0.0367514],
+                 [0.9771182,
+                  0.90644279]]]
+            )
+        )
+
+    def test_compare_with_argmin_argmax(self):
+        """
+        Tests :func:`colour.utilities.array.index_along_last_axis` definition
+        by comparison with :func:`argmin` and :func:`argmax`.
+        """
+
+        a = np.random.random((2, 3, 4, 5, 6, 7))
+
+        np.testing.assert_equal(
+            index_along_last_axis(a, np.argmin(a, axis=-1)),
+            np.min(a, axis=-1)
+        )
+
+        np.testing.assert_equal(
+            index_along_last_axis(a, np.argmax(a, axis=-1)),
+            np.max(a, axis=-1)
+        )
+
+    def test_exceptions(self):
+        """
+        Tests :func:`colour.utilities.array.index_along_last_axis` definition
+        handling of invalid inputs.
+        """
+
+        a = as_float_array([[11, 12], [21, 22]])
+
+        # Bad shape
+        with self.assertRaises(ValueError):
+            indexes = np.array([0])
+            index_along_last_axis(a, indexes)
+
+        # Indexes out of range
+        with self.assertRaises(IndexError):
+            indexes = np.array([123, 456])
+            index_along_last_axis(a, indexes)
+
+        # Non-integer indexes
+        with self.assertRaises(IndexError):
+            indexes = np.array([0., 0.])
+            index_along_last_axis(a, indexes)
 
 
 if __name__ == '__main__':

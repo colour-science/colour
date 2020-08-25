@@ -7,19 +7,14 @@ Defines the *ITU-R BT.2020* colourspace:
 
 -   :attr:`colour.models.BT2020_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015h` : International
     Telecommunication Union. (2015). Recommendation ITU-R BT.2020 - Parameter
     values for ultra-high definition television systems for production and
-    international programme exchange. Retrieved from https://www.itu.int/\
-dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
+    international programme exchange (pp. 1-8).
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -28,13 +23,13 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
-                               oetf_BT2020, eotf_BT2020)
+                               eotf_inverse_BT2020, eotf_BT2020)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -90,7 +85,7 @@ BT2020_COLOURSPACE = RGB_Colourspace(
     BT2020_WHITEPOINT_NAME,
     BT2020_TO_XYZ_MATRIX,
     XYZ_TO_BT2020_MATRIX,
-    oetf_BT2020,
+    eotf_inverse_BT2020,
     eotf_BT2020,
 )
 BT2020_COLOURSPACE.__doc__ = """

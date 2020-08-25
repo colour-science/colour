@@ -8,12 +8,6 @@ Defines *Nayatani (1995)* colour appearance model objects:
 -   :class:`colour.Nayatani95_Specification`
 -   :func:`colour.XYZ_to_Nayatani95`
 
-See Also
---------
-`Nayatani (1995) Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/nayatani95.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013). The Nayatani et al.
@@ -39,10 +33,10 @@ from colour.utilities import (as_float_array, dot_vector, from_range_degrees,
                               to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

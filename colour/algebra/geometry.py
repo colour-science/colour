@@ -20,13 +20,17 @@ References
     segments in 2 dimensions. Retrieved January 15, 2016, from
     http://paulbourke.net/geometry/pointlineplane/
 -   :cite:`Erdema` : Erdem, U. M. (n.d.). Fast Line Segment Intersection.
-    Retrieved January 15, 2016, from http://www.mathworks.com/matlabcentral/\
-fileexchange/27205-fast-line-segment-intersection
+    Retrieved January 15, 2016, from
+    http://www.mathworks.com/matlabcentral/fileexchange/\
+27205-fast-line-segment-intersection
 -   :cite:`Halir1998` : Halir, R., & Flusser, J. (1998). Numerically Stable
-    Direct Least Squares Fitting Of Ellipses, 1-8. doi:10.1.1.1.7559
+    Direct Least Squares Fitting Of Ellipses (pp. 1-8).
+    http://citeseerx.ist.psu.edu/viewdoc/download;\
+jsessionid=BEEAFC85DE53308286D626302F4A3E3C?doi=10.1.1.1.7559&rep=rep1&type=pdf
 -   :cite:`Saeedna` : Saeedn. (n.d.). Extend a line segment a specific
-    distance. Retrieved January 16, 2016, from http://stackoverflow.com/\
-questions/7740507/extend-a-line-segment-a-specific-distance
+    distance. Retrieved January 16, 2016, from
+    http://stackoverflow.com/questions/7740507/\
+extend-a-line-segment-a-specific-distance
 -   :cite:`Wikipedia` : Wikipedia. (n.d.). Ellipse. Retrieved November 24,
     2018, from https://en.wikipedia.org/wiki/Ellipse
 """
@@ -36,14 +40,14 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, tsplit,
-                              tstack)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array, ones,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -488,7 +492,7 @@ def ellipse_fitting_Halir1998(a):
     # Quadratic part of the design matrix.
     D1 = tstack([x ** 2, x * y, y ** 2])
     # Linear part of the design matrix.
-    D2 = tstack([x, y, np.ones(x.shape)])
+    D2 = tstack([x, y, ones(x.shape)])
 
     D1_T = np.transpose(D1)
     D2_T = np.transpose(D2)

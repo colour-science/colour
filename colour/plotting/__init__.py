@@ -11,8 +11,8 @@ from .datasets import *  # noqa
 from . import datasets
 from .common import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE, colour_style,
                      override_style, XYZ_to_plotting_colourspace, ColourSwatch,
-                     colour_cycle, artist, camera, render, wrap_title,
-                     label_rectangles, uniform_axes3d, filter_passthrough,
+                     colour_cycle, artist, camera, render, label_rectangles,
+                     uniform_axes3d, filter_passthrough,
                      filter_RGB_colourspaces, filter_cmfs, filter_illuminants,
                      filter_colour_checkers, plot_single_colour_swatch,
                      plot_multi_colour_swatches, plot_single_function,
@@ -34,7 +34,6 @@ from .diagrams import (plot_chromaticity_diagram_CIE1931,
                        plot_sds_in_chromaticity_diagram_CIE1960UCS,
                        plot_sds_in_chromaticity_diagram_CIE1976UCS)
 from .corresponding import plot_corresponding_chromaticities_prediction
-from .geometry import quad, grid, cube
 from .graph import plot_automatic_colour_conversion_graph
 from .models import (
     common_colourspace_model_axis_reorder, plot_pointer_gamut,
@@ -65,12 +64,11 @@ __all__ += datasets.__all__
 __all__ += [
     'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
-    'colour_cycle', 'artist', 'camera', 'render', 'wrap_title',
-    'label_rectangles', 'uniform_axes3d', 'filter_passthrough',
-    'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
-    'filter_colour_checkers', 'plot_single_colour_swatch',
-    'plot_multi_colour_swatches', 'plot_single_function',
-    'plot_multi_functions', 'plot_image'
+    'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
+    'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
+    'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
+    'plot_single_colour_swatch', 'plot_multi_colour_swatches',
+    'plot_single_function', 'plot_multi_functions', 'plot_image'
 ]
 __all__ += ['plot_cvd_simulation_Machado2009']
 __all__ += [
@@ -92,7 +90,6 @@ __all__ += [
 ]
 __all__ += ['plot_corresponding_chromaticities_prediction']
 __all__ += ['plot_automatic_colour_conversion_graph']
-__all__ += ['quad', 'grid', 'cube']
 __all__ += [
     'common_colourspace_model_axis_reorder', 'plot_pointer_gamut',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
@@ -447,6 +444,22 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.plotting.ASTM_G_173_GLOBAL_TILT',
         'colour.plotting.ASTMG173_GLOBAL_TILT',
+    ],
+]
+
+# v0.3.16
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.plotting.quad',
+        'colour.geometry.primitive_vertices_quad_mpl',
+    ],
+    [
+        'colour.plotting.grid',
+        'colour.geometry.primitive_vertices_grid_mpl',
+    ],
+    [
+        'colour.plotting.cube',
+        'colour.geometry.primitive_vertices_cube_mpl',
     ],
 ]
 

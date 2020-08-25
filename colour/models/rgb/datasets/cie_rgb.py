@@ -7,16 +7,10 @@ Defines the *CIE RGB* colourspace:
 
 -   :attr:`colour.models.CIE_RGB_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`Fairman1997` : Fairman, H. S., Brill, M. H., & Hemmendinger,
-    H. (1997). How the CIE 1931 color-matching functions were derived from
+-   :cite:`Fairman1997` : Fairman, H. S., Brill, M. H., & Hemmendinger, H.
+    (1997). How the CIE 1931 color-matching functions were derived from
     Wright-Guild data. Color Research & Application, 22(1), 11-23.
     doi:10.1002/(SICI)1520-6378(199702)22:1<11::AID-COL4>3.0.CO;2-7
 """
@@ -30,10 +24,10 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

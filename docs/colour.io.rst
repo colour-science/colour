@@ -43,11 +43,16 @@ Look Up Table (LUT) Data
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     LUT1D
     LUT3x1D
     LUT3D
     LUTSequence
+
+.. autosummary::
+    :toctree: generated/
+
     read_LUT
     write_LUT
 
@@ -59,8 +64,13 @@ Look Up Table (LUT) Data
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     AbstractLUTSequenceOperator
+
+.. autosummary::
+    :toctree: generated/
+
     LUT_to_LUT
     read_LUT_Cinespace
     write_LUT_Cinespace
@@ -94,6 +104,7 @@ IES TM-27-14 Data
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     SpectralDistribution_IESTM2714
 

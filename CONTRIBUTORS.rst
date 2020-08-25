@@ -1,8 +1,10 @@
 Contributors
 ============
 
-Development & Technical Support
--------------------------------
+
+
+The Colour Developers
+---------------------
 
 -   **Thomas Mansencal**, *Visual Effects Artist @ Weta Digital*
 
@@ -32,6 +34,27 @@ Development & Technical Support
 
     Technical support.
 
+-   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
+
+    Technical support.
+
+Google Summer of Code
+---------------------
+
+2020
+~~~~
+
+-   **Nishant Joywardhan**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    LUT IO Improvements.
+
+-   **Omar Wagih**, *Student @ Faculty of Engineering, Cairo University*
+
+    The Need for Speed.
+
+Development & Technical Support
+-------------------------------
+
 -   **Katherine Crowson**
 
     CIECAM02 improvements, technical support.
@@ -47,10 +70,6 @@ Development & Technical Support
 -   **Shriramana Sharma**
 
     Documentation improvements.
-
--   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
-
-    Technical support.
 
 -   **Troy James Sobotka**, *Motion Picture Technician*
 
@@ -83,6 +102,26 @@ Development & Technical Support
 -   **Manuel Leonhardt**, *Software Engineer and Image Scientist @ ARRI*
 
     Documentation improvements.
+
+-   **Olli Niemitalo**
+
+    Krystek (1985) implementation fixes.
+
+-   **Marek Szymanski**
+
+    Numpy 1.18 compatibility.
+
+-   **Maximilian Schambach**
+
+    Python 3.8 compatibility.
+
+-   **Sianyi Huang**, *Display Tuning Engineer*
+
+    Examples fixes.
+
+-   **Mike Wei**, *Display Tuning Engineer*
+
+    Technical support.
 
 Acknowledgements
 ----------------
@@ -142,55 +181,76 @@ Issues & Discussions
 -   Ryan Bass
 -   Vishal Vashistha
 -   Vlad Enache
+-   @alban-sol
 -   @Ampersandme
+-   @AndersAtEndian
+-   @anshulxyz
 -   @Apoorva-13
+-   @aurelienbl
 -   @awehring
+-   @beckstev
+-   @bersbersbers
 -   @brandondube
 -   @briend
+-   @bsdis
 -   @cclauss
 -   @Chandler
 -   @chesschi
 -   @codycuellar
+-   @dtbulmerJRs
 -   @Edwardlin-zlt
 -   @eyeforcolor
 -   @fangjy88
 -   @Floschoe
 -   @foutoucour
 -   @habemus-papadum
+-   @hajimen
 -   @henczati
+-   @hminle
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
 -   @KOLANICH
 -   @Kunkka1988
+-   @lavrovd
+-   @LeCyberDucky
 -   @Legendin
 -   @leklbk
 -   @lensz
+-   @MarcusCalhoun-Lopez
+-   @matthiasbirkich
+-   @meshing
+-   @mokincha
+-   @monkeywithacupcake
 -   @Myndex
 -   @naavis
 -   @NoRoKr
 -   @nschloe
 -   @peteroupc
+-   @pfk-beta
 -   @Queuecumber
 -   @Rob-Welch
 -   @robbuckley
 -   @Ron024
 -   @senyai
 -   @shanest
+-   @spicymatt
 -   @stakemura
 -   @tashdor
 -   @TFiFiE
--   @tingeman
 -   @thunders82
+-   @tingeman
 -   @totyped
+-   @ValZapod
 -   @vidakDK
+-   @Wagyx
 -   @Willingo
 -   @zachlewis
 
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2019
-| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`__
+| **Colour** by Colour Developers
+| Copyright © 2013-2020 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

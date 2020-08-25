@@ -6,7 +6,7 @@ References
 ----------
 -   :cite:`ASTMInternational2015b` : ASTM International. (2015). ASTM E308-15 -
     Standard Practice for Computing the Colors of Objects by Using the CIE
-    System. doi:10.1520/E0308-15
+    System (pp. 1-47). doi:10.1520/E0308-15
 """
 
 from __future__ import division, unicode_literals
@@ -16,7 +16,7 @@ import unittest
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (CMFS, sd_CIE_standard_illuminant_A,
-                                ILLUMINANTS_SDS, MultiSpectralDistributions,
+                                ILLUMINANT_SDS, MultiSpectralDistributions,
                                 SpectralDistribution, SpectralShape)
 from colour.colorimetry import (
     lagrange_coefficients_ASTME2022, tristimulus_weighting_factors_ASTME2022,
@@ -26,10 +26,10 @@ from colour.colorimetry import (
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -343,18 +343,18 @@ MSDS = MultiSpectralDistributions(
     SpectralShape(400, 700, 60).range())
 
 XYZ_D65_INTEGRATION_MSDS = np.array([
-    [7.50233492, 3.95038753, 8.40338691],
-    [26.92687731, 15.07139447, 28.71690972],
-    [16.70142165, 28.21458593, 25.65389977],
-    [11.57556582, 8.64089371, 6.57886800],
-    [18.73219899, 35.07426727, 30.15041858],
-    [45.16536627, 39.61360393, 43.69092793],
-    [8.17423105, 13.09267724, 25.94320661],
-    [22.46636804, 19.31025987, 7.96118575],
-    [6.58131705, 2.52857864, 11.09362054],
-    [43.91622393, 27.97952698, 11.73575112],
-    [8.53774314, 19.70241814, 17.70479540],
-    [23.91149458, 26.21467120, 30.68294836],
+    [7.50219602, 3.95048275, 8.40152163],
+    [26.92629005, 15.07170066, 28.71020457],
+    [16.70060700, 28.21421317, 25.64802044],
+    [11.57577260, 8.64108703, 6.57740493],
+    [18.73108262, 35.07369122, 30.14365007],
+    [45.16559608, 39.61411218, 43.68158810],
+    [8.17318743, 13.09236381, 25.93755134],
+    [22.46715798, 19.31066951, 7.95954422],
+    [6.58106180, 2.52865132, 11.09122159],
+    [43.91745731, 27.98043364, 11.73313699],
+    [8.53693599, 19.70195654, 17.70110118],
+    [23.91114755, 26.21471641, 30.67613685],
 ])
 
 XYZ_D65_ARRAY_INTEGRATION = np.array([
@@ -396,33 +396,33 @@ XYZ_D65_ARRAY_K1_INTEGRATION = np.array([
 ])
 
 XYZ_D65_ASTME308_MSDS = np.array([
-    [7.50462879, 3.95733605, 8.38922164],
-    [26.94169070, 15.09763521, 28.67425696],
-    [16.70295581, 28.20634330, 25.66397540],
-    [11.57004370, 8.64530316, 6.56080272],
-    [18.74361790, 35.06186242, 30.18256374],
-    [45.12217114, 39.62387120, 43.59379506],
-    [8.17736556, 13.09427036, 25.93377871],
-    [22.44504068, 19.31189958, 7.92783105],
-    [6.57962398, 2.53363268, 11.07307595],
-    [43.91277836, 27.99946326, 11.69170298],
-    [8.55079137, 19.69075442, 17.73974503],
-    [23.88934466, 26.21652383, 30.63634245],
+    [7.50450425, 3.95744742, 8.38735462],
+    [26.94116124, 15.09801442, 28.66753115],
+    [16.70212538, 28.20596151, 25.65809190],
+    [11.57025728, 8.64549437, 6.55935421],
+    [18.74248163, 35.06128859, 30.17576781],
+    [45.12240306, 39.62432052, 43.58455883],
+    [8.17632546, 13.09396693, 25.92811880],
+    [22.44582614, 19.31227394, 7.92623840],
+    [6.57937576, 2.53370970, 11.07068448],
+    [43.91405117, 28.00039763, 11.68910584],
+    [8.54996478, 19.69029667, 17.73601959],
+    [23.88899194, 26.21653407, 30.62958339],
 ])
 
 XYZ_D65_ASTME308_K1_MSDS = np.array([
-    [793.03459123, 418.18249296, 886.51193069],
-    [2847.00193341, 1595.40828847, 3030.08693538],
-    [1765.04689430, 2980.64122346, 2711.98227327],
-    [1222.63807218, 913.57276319, 693.29791668],
-    [1980.68922284, 3705.08262551, 3189.47382721],
-    [4768.18288568, 4187.16253479, 4606.67521602],
-    [864.12452076, 1383.70726024, 2740.49312500],
-    [2371.82866258, 2040.74109793, 837.75552835],
-    [695.28681092, 267.73587534, 1170.12213512],
-    [4640.38305142, 2958.77964509, 1235.49414014],
-    [903.58544429, 2080.77572128, 1874.60723907],
-    [2524.45220328, 2770.37157298, 3237.42586015],
+    [793.00584037, 418.18604067, 886.29721234],
+    [2846.89001419, 1595.41699464, 3029.31664392],
+    [1764.92444185, 2980.54228038, 2711.30724359],
+    [1222.63660519, 913.57500818, 693.13122104],
+    [1980.53021265, 3704.94914782, 3188.69299177],
+    [4768.11365133, 4187.12769685, 4605.60865221],
+    [863.99762445, 1383.64799389, 2739.84116154],
+    [2371.86503263, 2040.74053594, 837.57076242],
+    [695.24691183, 267.73875067, 1169.84642292],
+    [4640.42632139, 2958.82021193, 1235.19540951],
+    [903.48033348, 2080.68644330, 1874.17671434],
+    [2524.36530136, 2770.31818974, 3236.64797963],
 ])
 
 
@@ -485,7 +485,7 @@ tristimulus_weighting_factors_ASTME2022` definition.
             np.round(twf, 3), A_CIE_1964_10_20_TWF, decimal=3)
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        D65 = ILLUMINANTS_SDS['D65'].copy().align(
+        D65 = ILLUMINANT_SDS['D65'].copy().align(
             cmfs.shape, interpolator=LinearInterpolator)
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, D65, SpectralShape(360, 830, 20))
@@ -544,49 +544,48 @@ class TestSd_to_XYZ_integration(unittest.TestCase):
 
     def test_sd_to_XYZ_integration(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.\
-sd_to_XYZ_integration`
+        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_integration`
         definition.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A']),
-            np.array([14.46365624, 10.85827910, 2.04662343]),
+            sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANT_SDS['A']),
+            np.array([14.46341147, 10.85819624, 2.04695585]),
             decimal=7)
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANTS_SDS['C']),
-            np.array([10.77031004, 9.44863775, 6.62745989]),
+            sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANT_SDS['C']),
+            np.array([10.77002699, 9.44876636, 6.62415290]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANTS_SDS['FL2']),
-            np.array([11.57834054, 9.98738373, 3.95462625]),
+            sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANT_SDS['FL2']),
+            np.array([11.57540576, 9.98608874, 3.95242590]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_integration(
-                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['FL2'], k=683),
-            np.array([122441.23450378, 105616.82732832, 41820.26940409]),
+                SAMPLE_SD, cmfs, ILLUMINANT_SDS['FL2'], k=683),
+            np.array([122375.09261493, 105572.84645912, 41785.01342332]),
             decimal=7)
 
     def test_domain_range_scale_sd_to_XYZ_integration(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.\
-sd_to_XYZ_integration` definition domain and range scale support.
+        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ_integration`
+        definition domain and range scale support.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        XYZ = sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A'])
+        XYZ = sd_to_XYZ_integration(SAMPLE_SD, cmfs, ILLUMINANT_SDS['A'])
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     sd_to_XYZ_integration(SAMPLE_SD, cmfs,
-                                          ILLUMINANTS_SDS['A']),
+                                          ILLUMINANT_SDS['A']),
                     XYZ * factor,
                     decimal=7)
 
@@ -608,51 +607,51 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A']),
-            np.array([14.46366344, 10.85828513, 2.04663792]),
+                SAMPLE_SD, cmfs, ILLUMINANT_SDS['A']),
+            np.array([14.46341867, 10.85820227, 2.04697034]),
             decimal=7)
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['C']),
-            np.array([10.77033881, 9.44864632, 6.62758924]),
+                SAMPLE_SD, cmfs, ILLUMINANT_SDS['C']),
+            np.array([10.77005571, 9.44877491, 6.62428210]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['FL2']),
-            np.array([11.57837130, 9.98734511, 3.95499522]),
+                SAMPLE_SD, cmfs, ILLUMINANT_SDS['FL2']),
+            np.array([11.57542759, 9.98605604, 3.95273304]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD.copy().trim(SpectralShape(400, 700, 5)), cmfs,
-                ILLUMINANTS_SDS['A']),
-            np.array([14.38180830, 10.74512906, 2.01579131]),
+                ILLUMINANT_SDS['A']),
+            np.array([14.38153638, 10.74503131, 2.01613844]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD.copy().interpolate(SpectralShape(400, 700, 10)),
-                cmfs, ILLUMINANTS_SDS['A']),
-            np.array([14.38284399, 10.74577954, 2.01553721]),
+                cmfs, ILLUMINANT_SDS['A']),
+            np.array([14.38257202, 10.74568178, 2.01588427]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD.copy().interpolate(SpectralShape(400, 700, 20)),
-                cmfs, ILLUMINANTS_SDS['A']),
-            np.array([14.38356848, 10.74613294, 2.01526418]),
+                cmfs, ILLUMINANT_SDS['A']),
+            np.array([14.38329645, 10.74603515, 2.01561113]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SAMPLE_SD.copy().interpolate(SpectralShape(400, 700, 20)),
                 cmfs,
-                ILLUMINANTS_SDS['A'],
+                ILLUMINANT_SDS['A'],
                 k=1),
-            np.array([1636.74286798, 1222.82981953, 229.32204062]),
+            np.array([1636.74881983, 1222.84626486, 229.36669308]),
             decimal=7)
 
     def test_domain_range_scale_sd_to_XYZ_twf_ASTME308(self):
@@ -664,14 +663,14 @@ range scale support.
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         XYZ = sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-            SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A'])
+            SAMPLE_SD, cmfs, ILLUMINANT_SDS['A'])
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                        SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A']),
+                        SAMPLE_SD, cmfs, ILLUMINANT_SDS['A']),
                     XYZ * factor,
                     decimal=7)
 
@@ -979,7 +978,7 @@ multi_sds_to_XYZ_integration`
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            multi_sds_to_XYZ_integration(MSDS, cmfs, ILLUMINANTS_SDS['D65']),
+            multi_sds_to_XYZ_integration(MSDS, cmfs, ILLUMINANT_SDS['D65']),
             XYZ_D65_INTEGRATION_MSDS,
             decimal=7)
 
@@ -987,7 +986,7 @@ multi_sds_to_XYZ_integration`
             multi_sds_to_XYZ_integration(
                 MSDS_ARRAY,
                 cmfs,
-                ILLUMINANTS_SDS['D65'],
+                ILLUMINANT_SDS['D65'],
                 shape=SpectralShape(400, 700, 60)),
             XYZ_D65_ARRAY_INTEGRATION,
             decimal=7)
@@ -996,7 +995,7 @@ multi_sds_to_XYZ_integration`
             multi_sds_to_XYZ_integration(
                 MSDS_ARRAY,
                 cmfs,
-                ILLUMINANTS_SDS['D65'],
+                ILLUMINANT_SDS['D65'],
                 1,
                 shape=SpectralShape(400, 700, 60)),
             XYZ_D65_ARRAY_K1_INTEGRATION,
@@ -1009,7 +1008,6 @@ multi_sds_to_XYZ_integration` definition domain and range scale support.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
@@ -1017,7 +1015,7 @@ multi_sds_to_XYZ_integration` definition domain and range scale support.
                     multi_sds_to_XYZ_integration(
                         MSDS_ARRAY,
                         cmfs,
-                        ILLUMINANTS_SDS['D65'],
+                        ILLUMINANT_SDS['D65'],
                         shape=SpectralShape(400, 700, 60)),
                     XYZ_D65_ARRAY_INTEGRATION * factor,
                     decimal=7)
@@ -1037,14 +1035,14 @@ multi_sds_to_XYZ_ASTME308`
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        msds = MSDS.clone().align(SpectralShape(400, 700, 20))
+        msds = MSDS.copy().align(SpectralShape(400, 700, 20))
         np.testing.assert_almost_equal(
-            multi_sds_to_XYZ_ASTME308(msds, cmfs, ILLUMINANTS_SDS['D65']),
+            multi_sds_to_XYZ_ASTME308(msds, cmfs, ILLUMINANT_SDS['D65']),
             XYZ_D65_ASTME308_MSDS,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            multi_sds_to_XYZ_ASTME308(msds, cmfs, ILLUMINANTS_SDS['D65'], k=1),
+            multi_sds_to_XYZ_ASTME308(msds, cmfs, ILLUMINANT_SDS['D65'], k=1),
             XYZ_D65_ASTME308_K1_MSDS,
             decimal=7)
 
@@ -1055,14 +1053,13 @@ multi_sds_to_XYZ_ASTME308` definition domain and range scale support.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     multi_sds_to_XYZ_ASTME308(
-                        MSDS.clone().align(SpectralShape(400, 700, 20)), cmfs,
-                        ILLUMINANTS_SDS['D65']),
+                        MSDS.copy().align(SpectralShape(400, 700, 20)), cmfs,
+                        ILLUMINANT_SDS['D65']),
                     XYZ_D65_ASTME308_MSDS * factor,
                     decimal=7)
 

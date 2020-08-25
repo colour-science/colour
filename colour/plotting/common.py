@@ -33,34 +33,33 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
 import re
-import textwrap
 from collections import OrderedDict, namedtuple
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
 
 from colour.characterisation import COLOURCHECKERS
-from colour.colorimetry import CMFS, ILLUMINANTS_SDS, LIGHT_SOURCES_SDS
+from colour.colorimetry import CMFS, ILLUMINANT_SDS, LIGHT_SOURCE_SDS
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (CaseInsensitiveMapping, Structure,
                               as_float_array, is_sibling, is_string,
                               filter_mapping, runtime_warning)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
     'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
     'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
-    'colour_cycle', 'artist', 'camera', 'render', 'wrap_title',
-    'label_rectangles', 'uniform_axes3d', 'filter_passthrough',
-    'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
-    'filter_colour_checkers', 'plot_single_colour_swatch',
-    'plot_multi_colour_swatches', 'plot_single_function',
-    'plot_multi_functions', 'plot_image'
+    'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
+    'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
+    'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
+    'plot_single_colour_swatch', 'plot_multi_colour_swatches',
+    'plot_single_function', 'plot_multi_functions', 'plot_image'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -272,7 +271,7 @@ def override_style(**kwargs):
     >>> f()  # doctest: +SKIP
     """
 
-    keyword_overrides = dict(kwargs)
+    keywords = kwargs.copy()
 
     def wrapper(function):
         """
@@ -285,8 +284,7 @@ def override_style(**kwargs):
             Wrapped function.
             """
 
-            keywords = dict(kwargs)
-            keywords.update(keyword_overrides)
+            keywords.update(kwargs)
 
             style_overrides = {
                 key: value
@@ -502,12 +500,11 @@ def render(**kwargs):
     legend_columns : int, optional
         Number of columns in the legend. Default is *1*.
     transparent_background : bool, optional
-        Whether to turn off the background patch. Default is *False*.
+        Whether to turn off the background patch. Default is *True*.
     title : unicode, optional
         Figure title.
     wrap_title : unicode, optional
-        Whether to wrap the figure title, the default is to wrap at a number
-        of characters equal to the width of the figure multiplied by 10.
+        Whether to wrap the figure title. Default is *True*.
     x_label : unicode, optional
         *X* axis label.
     y_label : unicode, optional
@@ -555,11 +552,7 @@ def render(**kwargs):
         axes.set_ylim(settings.bounding_box[2], settings.bounding_box[3])
 
     if settings.title:
-        title = settings.title
-        if settings.wrap_title:
-            title = wrap_title(settings.title,
-                               int(plt.rcParams['figure.figsize'][0] * 10))
-        axes.set_title(title)
+        axes.set_title(settings.title, wrap=settings.wrap_title)
     if settings.x_label:
         axes.set_xlabel(settings.x_label)
     if settings.y_label:
@@ -583,40 +576,6 @@ def render(**kwargs):
             plt.show()
 
     return figure, axes
-
-
-def wrap_title(title, wrap_length=60):
-    """
-    Wraps given tile at given length.
-
-    The intent of this definition is to wrap long titles so that they don't
-    overflow the figure.
-
-    Parameters
-    ----------
-    title : unicode
-        Title to wrap.
-    wrap_length : int, optional
-        Length at which wrapping should occur.
-
-    Returns
-    -------
-    unicode
-        Wrapped title.
-
-    Examples
-    --------
-    >>> wrap_title(  # doctest: +SKIP
-    ...     'This is a very long figure title that would overflow the figure '
-    ...     'container if it was not wrapped.')
-    'This is a very long figure title that would overflow the figure \
-container if it\\nwas not wrapped.'
-    """
-
-    if wrap_length is not None:
-        return '\n'.join(textwrap.wrap(title, wrap_length))
-    else:
-        return title
 
 
 def label_rectangles(labels,
@@ -705,7 +664,12 @@ def uniform_axes3d(**kwargs):
     figure = kwargs.get('figure', plt.gcf())
     axes = kwargs.get('axes', plt.gca())
 
-    axes.set_aspect('equal')
+    try:  # pragma: no cover
+        # TODO: Reassess according to
+        # https://github.com/matplotlib/matplotlib/issues/1077
+        axes.set_aspect('equal')
+    except NotImplementedError:  # pragma: no cover
+        pass
 
     extents = np.array(
         [getattr(axes, 'get_{}lim'.format(axis))() for axis in 'xyz'])
@@ -731,15 +695,22 @@ def filter_passthrough(mapping,
 
     This definition allows passing custom but compatible objects to the various
     plotting definitions that by default expect the key from a dataset element.
+
     For example, a typical call to :func:`colour.plotting.\
-plot_multi_illuminant_sds` definition is as follows:
+plot_multi_illuminant_sds` definition with a regex pattern automatically
+    anchored at boundaries by default is as follows:
 
     >>> import colour
-    >>> import colour.plotting
     >>> colour.plotting.plot_multi_illuminant_sds(['A'])
     ... # doctest: +SKIP
 
-    But it is also possible to pass a custom spectral distribution as follows:
+    Here, `'A'` is by default anchored at boundaries and transformed into
+    `'^A$'`. Note that because it is a regex pattern, special characters such
+    as parenthesis must be escaped: `'Adobe RGB (1998)'` must be written
+    `'Adobe RGB \\(1998\\)'` instead.
+
+    With the previous example, t is also possible to pass a custom spectral
+    distribution as follows:
 
     >>> data = {
     ...     500: 0.0651,
@@ -849,7 +820,9 @@ def filter_RGB_colourspaces(filterers,
     filterers : unicode or RGB_Colourspace or array_like
         Filterer or :class:`colour.RGB_Colourspace` class instance (which is
         passed through directly if its type is one of the mapping element
-        types) or list of filterers.
+        types) or list of filterers. ``filterers`` elements can also be of any
+        form supported by the :func:`colour.plotting.filter_passthrough`
+        definition.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
@@ -883,7 +856,9 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
         :class:`colour.RGB_ColourMatchingFunctions` or
         :class:`colour.XYZ_ColourMatchingFunctions` class instance (which is
         passed through directly if its type is one of the mapping element
-        types) or list of filterers.
+        types) or list of filterers. ``filterers`` elements can also be of any
+        form supported by the :func:`colour.plotting.filter_passthrough`
+        definition.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
@@ -914,7 +889,9 @@ def filter_illuminants(filterers,
     filterers : unicode or SpectralDistribution or array_like
         Filterer or :class:`colour.SpectralDistribution` class instance
         (which is passed through directly if its type is one of the mapping
-        element types) or list of filterers.
+        element types) or list of filterers. ``filterers`` elements can also be
+        of any form supported by the :func:`colour.plotting.filter_passthrough`
+        definition.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
@@ -932,11 +909,11 @@ def filter_illuminants(filterers,
     illuminants = OrderedDict()
 
     illuminants.update(
-        filter_passthrough(ILLUMINANTS_SDS, filterers, anchors,
+        filter_passthrough(ILLUMINANT_SDS, filterers, anchors,
                            allow_non_siblings, flags))
 
     illuminants.update(
-        filter_passthrough(LIGHT_SOURCES_SDS, filterers, anchors,
+        filter_passthrough(LIGHT_SOURCE_SDS, filterers, anchors,
                            allow_non_siblings, flags))
 
     return illuminants
@@ -954,7 +931,9 @@ def filter_colour_checkers(filterers,
     filterers : unicode or ColourChecker or array_like
         Filterer or :class:`colour.characterisation.ColourChecker` class
         instance (which is passed through directly if its type is one of the
-        mapping element types) or list of filterers.
+        mapping element types) or list of filterers. ``filterers`` elements
+        can also be of any form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
@@ -987,8 +966,9 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
 
     Parameters
     ----------
-    colour_swatch : ColourSwatch
-        ColourSwatch.
+    colour_swatch : array_like or ColourSwatch
+        Colour swatch, either a regular *array_like* or a
+        :class:`colour.plotting.ColourSwatch` class instance.
 
     Other Parameters
     ----------------
@@ -1009,7 +989,7 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
     columns : int, optional
         {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatches columns count.
-    text_parameters : dict, optional
+    text_kwargs : dict, optional
         {:func:`colour.plotting.plot_multi_colour_swatches`},
         Parameters for the :func:`plt.text` definition, ``offset`` can be
         set to define the text offset.
@@ -1023,8 +1003,7 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
     --------
     >>> RGB = ColourSwatch(RGB=(0.45620519, 0.03081071, 0.04091952))
     >>> plot_single_colour_swatch(RGB)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Swatch.png
         :align: center
@@ -1047,7 +1026,8 @@ def plot_multi_colour_swatches(colour_swatches,
                                height=1,
                                spacing=0,
                                columns=None,
-                               text_parameters=None,
+                               direction='+y',
+                               text_kwargs=None,
                                background_colour=(1.0, 1.0, 1.0),
                                compare_swatches=None,
                                **kwargs):
@@ -1056,8 +1036,9 @@ def plot_multi_colour_swatches(colour_swatches,
 
     Parameters
     ----------
-    colour_swatches : list
-        Colour swatch sequence.
+    colour_swatches : array_like
+        Colour swatch sequence, either a regular *array_like* or a sequence of
+        :class:`colour.plotting.ColourSwatch` class instances.
     width : numeric, optional
         Colour swatch width.
     height : numeric, optional
@@ -1067,14 +1048,17 @@ def plot_multi_colour_swatches(colour_swatches,
     columns : int, optional
         Colour swatches columns count, defaults to the colour swatch count or
         half of it if comparing.
-    text_parameters : dict, optional
+    direction : unicode, optional
+        {'+y', '-y'}
+        Row stacking direction.
+    text_kwargs : dict, optional
         Parameters for the :func:`plt.text` definition, ``visible`` can be
         set to make the text visible, ``offset`` can be set to define the text
         offset.
     background_colour : array_like or unicode, optional
         Background colour.
     compare_swatches : unicode, optional
-        **{None, 'Stacked', 'Diagonal'}**,
+        **{None, 'Diagonal', 'Stacked'}**,
         Whether to compare the swatches, in which case the colour swatch
         count must be an even number with alternating reference colour swatches
         and test colour swatches. *Stacked* will draw the test colour swatch in
@@ -1087,6 +1071,7 @@ def plot_multi_colour_swatches(colour_swatches,
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1098,15 +1083,36 @@ def plot_multi_colour_swatches(colour_swatches,
     >>> RGB_1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
     >>> RGB_2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
     >>> plot_multi_colour_swatches([RGB_1, RGB_2])  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Colour_Swatches.png
         :align: center
         :alt: plot_multi_colour_swatches
     """
 
+    direction = direction.lower()
+    assert direction in ('+y', '-y'), (
+        '"direction" must be one of *[\'+y\', \'-y\']*!')
+
+    if compare_swatches is not None:
+        compare_swatches = compare_swatches.lower()
+
+        assert compare_swatches in ('diagonal', 'stacked'), (
+            '"compare_swatches" must be one of *[\'diagonal\', \'stacked\']*!')
+
+    text_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['text_args', 'text_kwargs']],
+    }, **kwargs).get('text_kwargs', text_kwargs)
+
     _figure, axes = artist(**kwargs)
+
+    # Handling case where `colour_swatches` is a regular array.
+    if len(colour_swatches) != 0:
+        if not isinstance(colour_swatches[0], ColourSwatch):
+            colour_swatches = as_float_array(colour_swatches).reshape(
+                [-1, 3]).tolist()
+            for i, colour_swatch in enumerate(colour_swatches):
+                colour_swatches[i] = ColourSwatch(RGB=colour_swatch)
 
     if compare_swatches is not None:
         assert len(colour_swatches) % 2 == 0, (
@@ -1117,8 +1123,6 @@ def plot_multi_colour_swatches(colour_swatches,
     else:
         reference_colour_swatches = test_colour_swatches = colour_swatches
 
-    compare_swatches = str(compare_swatches).lower()
-
     if columns is None:
         columns = len(reference_colour_swatches)
 
@@ -1126,23 +1130,24 @@ def plot_multi_colour_swatches(colour_swatches,
         'offset': 0.05,
         'visible': True,
     }
-    if text_parameters is not None:
-        text_settings.update(text_parameters)
+    if text_kwargs is not None:
+        text_settings.update(text_kwargs)
     text_offset = text_settings.pop('offset')
 
     offset_X = offset_Y = 0
     x_min, x_max, y_min, y_max = 0, width, 0, height
+    direction = 1 if direction == '+y' else -1
     for i, colour_swatch in enumerate(reference_colour_swatches):
         if i % columns == 0 and i != 0:
             offset_X = 0
-            offset_Y -= height + spacing
+            offset_Y += (height + spacing) * direction
 
         x_0, x_1 = offset_X, offset_X + width
-        y_0, y_1 = offset_Y, offset_Y + height
+        y_0, y_1 = offset_Y, offset_Y + height * direction
 
         axes.fill(
             (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
-            color=reference_colour_swatches[i].RGB)
+            color=np.clip(reference_colour_swatches[i].RGB, 0, 1))
 
         if compare_swatches == 'stacked':
             margin_X = width * 0.25
@@ -1154,22 +1159,23 @@ def plot_multi_colour_swatches(colour_swatches,
                     x_1 - margin_X,
                     x_0 + margin_X,
                 ), (
-                    y_0 + margin_Y,
-                    y_0 + margin_Y,
-                    y_1 - margin_Y,
-                    y_1 - margin_Y,
+                    y_0 + margin_Y * direction,
+                    y_0 + margin_Y * direction,
+                    y_1 - margin_Y * direction,
+                    y_1 - margin_Y * direction,
                 ),
-                color=test_colour_swatches[i].RGB)
+                color=np.clip(test_colour_swatches[i].RGB, 0, 1))
         else:
             axes.fill(
                 (x_0, x_1, x_1), (y_0, y_0, y_1),
-                color=test_colour_swatches[i].RGB)
+                color=np.clip(test_colour_swatches[i].RGB, 0, 1))
 
         if colour_swatch.name is not None and text_settings['visible']:
             axes.text(
                 x_0 + text_offset,
-                y_0 + text_offset,
+                y_0 + text_offset * direction,
                 colour_swatch.name,
+                verticalalignment='bottom' if direction == 1 else 'top',
                 clip_on=True,
                 **text_settings)
 
@@ -1177,12 +1183,24 @@ def plot_multi_colour_swatches(colour_swatches,
 
     x_max = min(len(colour_swatches), columns)
     x_max = x_max * width + x_max * spacing - spacing
-    y_min = offset_Y
+    y_max = offset_Y
 
     axes.patch.set_facecolor(background_colour)
 
-    bounding_box = (x_min - spacing, x_max + spacing, y_min - spacing,
-                    y_max + spacing)
+    if direction == 1:
+        bounding_box = [
+            x_min - spacing,
+            x_max + spacing,
+            y_min - spacing,
+            y_max + spacing + height,
+        ]
+    else:
+        bounding_box = [
+            x_min - spacing,
+            x_max + spacing,
+            y_max - spacing - height,
+            y_min + spacing,
+        ]
 
     settings = {
         'axes': axes,
@@ -1199,6 +1217,7 @@ def plot_single_function(function,
                          samples=None,
                          log_x=None,
                          log_y=None,
+                         plot_kwargs=None,
                          **kwargs):
     """
     Plots given function.
@@ -1215,6 +1234,9 @@ def plot_single_function(function,
     log_y : int, optional
         Log base to use for the *y* axis scale, if *None*, the *y* axis scale
         will be linear.
+    plot_kwargs : dict or array_like, optional
+        Parameters for the :func:`plt.plot` definition, used to control the
+        style of the plotted function.
 
     Other Parameters
     ----------------
@@ -1234,8 +1256,7 @@ def plot_single_function(function,
     >>> from colour.models import gamma_function
     >>> plot_single_function(partial(gamma_function, exponent=1 / 2.2))
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Function.png
         :align: center
@@ -1255,7 +1276,7 @@ def plot_single_function(function,
 
     return plot_multi_functions({
         name: function
-    }, samples, log_x, log_y, **settings)
+    }, samples, log_x, log_y, plot_kwargs, **settings)
 
 
 @override_style()
@@ -1263,6 +1284,7 @@ def plot_multi_functions(functions,
                          samples=None,
                          log_x=None,
                          log_y=None,
+                         plot_kwargs=None,
                          **kwargs):
     """
     Plots given functions.
@@ -1279,6 +1301,12 @@ def plot_multi_functions(functions,
     log_y : int, optional
         Log base to use for the *y* axis scale, if *None*, the *y* axis scale
         will be linear.
+    plot_kwargs : dict or array_like, optional
+        Parameters for the :func:`plt.plot` definition, used to control the
+        style of the plotted functions. ``plot_kwargs`` can be either a single
+        dictionary applied to all the plotted functions with same settings
+        or a sequence of dictionaries with different settings for plotted
+        function.
 
     Other Parameters
     ----------------
@@ -1300,8 +1328,7 @@ def plot_multi_functions(functions,
     ... }
     >>> plot_multi_functions(functions)
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Functions.png
         :align: center
@@ -1312,6 +1339,22 @@ def plot_multi_functions(functions,
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
+
+    plot_settings_collection = [{
+        'label': '{0}'.format(name)
+    } for name in functions.keys()]
+
+    if plot_kwargs is not None:
+        if not isinstance(plot_kwargs, dict):
+            assert len(plot_kwargs) == len(functions), (
+                'Multiple plot parameters defined, but they do not match '
+                'the functions count!')
+
+        for i, plot_settings in enumerate(plot_settings_collection):
+            if isinstance(plot_kwargs, dict):
+                plot_settings.update(plot_kwargs)
+            else:
+                plot_settings.update(plot_kwargs[i])
 
     if log_x is not None and log_y is not None:
         assert log_x >= 2 and log_y >= 2, (
@@ -1332,8 +1375,9 @@ def plot_multi_functions(functions,
     if samples is None:
         samples = np.linspace(0, 1, 1000)
 
-    for name, function in functions.items():
-        plotting_function(samples, function(samples), label='{0}'.format(name))
+    for i, (name, function) in enumerate(functions.items()):
+        plotting_function(samples, function(samples),
+                          **plot_settings_collection[i])
 
     x_label = ('x - Log Base {0} Scale'.format(log_x)
                if log_x is not None else 'x - Linear Scale')
@@ -1352,11 +1396,7 @@ def plot_multi_functions(functions,
 
 
 @override_style()
-def plot_image(image,
-               text_parameters=None,
-               interpolation='nearest',
-               colour_map=matplotlib.cm.Greys_r,
-               **kwargs):
+def plot_image(image, imshow_kwargs=None, text_kwargs=None, **kwargs):
     """
     Plots given image.
 
@@ -1364,16 +1404,11 @@ def plot_image(image,
     ----------
     image : array_like
         Image to plot.
-    text_parameters : dict, optional
+    imshow_kwargs : dict, optional
+        Parameters for the :func:`plt.imshow` definition.
+    text_kwargs : dict, optional
         Parameters for the :func:`plt.text` definition, ``offset`` can be
         set to define the text offset.
-    interpolation: unicode, optional
-        **{'nearest', None, 'none', 'bilinear', 'bicubic', 'spline16',
-        'spline36', 'hanning', 'hamming', 'hermite', 'kaiser', 'quadric',
-        'catrom', 'gaussian', 'bessel', 'mitchell', 'sinc', 'lanczos'}**
-        Image display interpolation.
-    colour_map: unicode, optional
-        Colour map used to display single channel images.
 
     Other Parameters
     ----------------
@@ -1394,15 +1429,25 @@ def plot_image(image,
     >>> path = os.path.join(
     ...     colour.__path__[0], '..', 'docs', '_static', 'Logo_Medium_001.png')
     >>> plot_image(read_image(path))  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Image.png
         :align: center
         :alt: plot_image
     """
 
+    text_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['text_parameters', 'text_kwargs']],
+    }, **kwargs).get('text_kwargs', text_kwargs)
+
     _figure, axes = artist(**kwargs)
+
+    imshow_settings = {
+        'interpolation': 'nearest',
+        'cmap': matplotlib.cm.Greys_r
+    }
+    if imshow_kwargs is not None:
+        imshow_settings.update(imshow_kwargs)
 
     text_settings = {
         'text': None,
@@ -1410,20 +1455,21 @@ def plot_image(image,
         'color': COLOUR_STYLE_CONSTANTS.colour.brightest,
         'alpha': COLOUR_STYLE_CONSTANTS.opacity.high,
     }
-    if text_parameters is not None:
-        text_settings.update(text_parameters)
+    if text_kwargs is not None:
+        text_settings.update(text_kwargs)
     text_offset = text_settings.pop('offset')
 
     image = as_float_array(image)
 
-    axes.imshow(
-        np.clip(image, 0, 1), interpolation=interpolation, cmap=colour_map)
+    axes.imshow(np.clip(image, 0, 1), **imshow_settings)
 
     if text_settings['text'] is not None:
+        text = text_settings.pop('text')
+
         axes.text(
             text_offset,
             text_offset,
-            text_settings['text'],
+            text,
             transform=axes.transAxes,
             ha='left',
             va='bottom',

@@ -12,29 +12,9 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import functools
 import os
 import re
 import sys
-
-
-def no_op_wraps(function):
-    """
-    Replaces functools.wraps in order to undo wrapping when generating Sphinx
-    documentation.
-    """
-
-    if function.__module__ is None or 'colour' not in function.__module__:
-        return functools._wraps(function)
-
-    def wrapper(*args):
-        return function
-
-    return wrapper
-
-
-functools._wraps = functools.wraps
-functools.wraps = no_op_wraps
 
 import colour as package  # noqa
 

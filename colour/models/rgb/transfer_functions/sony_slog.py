@@ -12,22 +12,15 @@ Defines the *Sony S-Log* log encodings:
 -   :func:`colour.models.log_encoding_SLog3`
 -   :func:`colour.models.log_decoding_SLog3`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SonyCorporation2012a` : Sony Corporation. (2012). S-Log2 Technical
-    Paper. Retrieved from https://pro.sony.com/bbsccms/assets/files/micro/\
-dmpc/training/S-Log2_Technical_PaperV1_0.pdf
--   :cite:`SonyCorporationd` : Sony Corporation. (n.d.). Technical Summary for
-    S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from
+    Paper (pp. 1-9). https://drive.google.com/file/d/\
+1Q1RYri6BaxtYYxX0D4zVD6lAmbwmgikc/view?usp=sharing
+-   :cite:`SonyCorporationd` : Sony Corporation. (n.d.). Technical Summary
+    for S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3 (pp. 1-7).
     http://community.sony.com/sony/attachments/sony/\
-large-sensor-camera-F5-F55/12359/2/\
-TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
+large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -40,10 +33,10 @@ from colour.utilities import (as_float, domain_range_scale, from_range_1,
 from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

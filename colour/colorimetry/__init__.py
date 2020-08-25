@@ -9,13 +9,15 @@ from colour.utilities.documentation import is_documentation_building
 
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
                        SpectralDistribution, MultiSpectralDistributions,
-                       sds_and_multi_sds_to_sds)
+                       sds_and_multi_sds_to_sds,
+                       sds_and_multi_sds_to_multi_sds)
 from .blackbody import sd_blackbody, blackbody_spectral_radiance, planck_law
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
 from .datasets import *  # noqa
 from . import datasets
 from .generation import sd_constant, sd_zeros, sd_ones
+from .generation import msds_constant, msds_zeros, msds_ones
 from .generation import SD_GAUSSIAN_METHODS
 from .generation import sd_gaussian, sd_gaussian_normal, sd_gaussian_fwhm
 from .generation import SD_SINGLE_LED_METHODS
@@ -68,7 +70,8 @@ from .yellowness import yellowness_ASTMD1925, yellowness_ASTME313
 
 __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
-    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds'
+    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds',
+    'sds_and_multi_sds_to_multi_sds'
 ]
 __all__ += ['sd_blackbody', 'blackbody_spectral_radiance', 'planck_law']
 __all__ += [
@@ -77,6 +80,7 @@ __all__ += [
 ]
 __all__ += datasets.__all__
 __all__ += ['sd_constant', 'sd_zeros', 'sd_ones']
+__all__ += ['msds_constant', 'msds_zeros', 'msds_ones']
 __all__ += ['SD_GAUSSIAN_METHODS']
 __all__ += ['sd_gaussian', 'sd_gaussian_normal', 'sd_gaussian_fwhm']
 __all__ += ['SD_SINGLE_LED_METHODS']
@@ -194,6 +198,14 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.colorimetry.tristimulus_weighting_factors_ASTME202211',
         'colour.colorimetry.tristimulus_weighting_factors_ASTME2022',
+    ],
+]
+
+# v0.3.16
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.colorimetry.D_ILLUMINANTS_S_SDS',
+        'colour.colorimetry.D_ILLUMINANT_S_SDS',
     ],
 ]
 

@@ -13,17 +13,12 @@ computations objects:
     coordinates computation of a *CIE Illuminant D Series* from its correlated
     colour temperature :math:`T_{cp}`.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
--   :cite:`Wyszecki2000z` : Wyszecki, G., & Stiles, W. S. (2000). CIE Method of
-    Calculating D-Illuminants. In Color Science: Concepts and Methods,
-    Quantitative Data and Formulae (pp. 145-146). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000z` : Wyszecki, Günther, & Stiles, W. S. (2000). CIE
+    Method of Calculating D-Illuminants. In Color Science: Concepts and
+    Methods, Quantitative Data and Formulae (pp. 145-146). Wiley.
+    ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals
@@ -33,18 +28,19 @@ from scipy.optimize import minimize
 
 from colour.colorimetry import daylight_locus_function
 from colour.utilities import as_float_array, as_numeric, tstack, usage_warning
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['xy_to_CCT_CIE_D', 'CCT_to_xy_CIE_D']
 
 
-def xy_to_CCT_CIE_D(xy, optimisation_parameters=None):
+def xy_to_CCT_CIE_D(xy, optimisation_kwargs=None, **kwargs):
     """
     Returns the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* from its *CIE xy* chromaticity coordinates.
@@ -53,8 +49,13 @@ def xy_to_CCT_CIE_D(xy, optimisation_parameters=None):
     ----------
     xy : array_like
         *CIE xy* chromaticity coordinates.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -80,6 +81,11 @@ def xy_to_CCT_CIE_D(xy, optimisation_parameters=None):
     6504.3895840...
     """
 
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
+
     xy = as_float_array(xy)
     shape = xy.shape
     xy = np.atleast_1d(xy.reshape([-1, 2]))
@@ -99,8 +105,8 @@ def xy_to_CCT_CIE_D(xy, optimisation_parameters=None):
             'fatol': 1e-10,
         },
     }
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     CCT = as_float_array([
         minimize(
@@ -150,11 +156,14 @@ def CCT_to_xy_CIE_D(CCT):
         usage_warning(('Correlated colour temperature must be in domain '
                        '[4000, 25000], unpredictable results may occur!'))
 
+    CCT_3 = CCT ** 3
+    CCT_2 = CCT ** 2
+
     x = np.where(
         CCT <= 7000,
-        -4.607 * 10 ** 9 / CCT ** 3 + 2.9678 * 10 ** 6 / CCT ** 2 +
+        -4.607 * 10 ** 9 / CCT_3 + 2.9678 * 10 ** 6 / CCT_2 +
         0.09911 * 10 ** 3 / CCT + 0.244063,
-        -2.0064 * 10 ** 9 / CCT ** 3 + 1.9018 * 10 ** 6 / CCT ** 2 +
+        -2.0064 * 10 ** 9 / CCT_3 + 1.9018 * 10 ** 6 / CCT_2 +
         0.24748 * 10 ** 3 / CCT + 0.23704,
     )
 

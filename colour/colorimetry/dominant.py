@@ -11,19 +11,13 @@ and related quantities:
 -   :func:`colour.excitation_purity`
 -   :func:`colour.colorimetric_purity`
 
-See Also
---------
-`Dominant Wavelength and Purity Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/dominant_wavelength.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004o` : CIE TC 1-48. (2004). 9.1 Dominant wavelength and
     purity. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 32-33).
-    ISBN:978-3-901-90633-6
+    ISBN:978-3-901906-33-6
 -   :cite:`Erdogana` : Erdogan, T. (n.d.). How to Calculate Luminosity,
-    Dominant Wavelength, and Excitation Purity. Retrieved from
+    Dominant Wavelength, and Excitation Purity (p. 7).
     http://www.semrock.com/Data/Sites/1/semrockpdfs/\
 whitepaper_howtocalculateluminositywavelengthandpurity.pdf
 """
@@ -40,10 +34,10 @@ from colour.models import XYZ_to_xy
 from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

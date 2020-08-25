@@ -8,18 +8,13 @@ Defines the *ITU-R BT.470* colourspaces:
 -   :attr:`colour.models.BT470_525_COLOURSPACE`.
 -   :attr:`colour.models.BT470_625_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion1998a` : International
     Telecommunication Union. (1998). Recommendation ITU-R BT.470-6 -
-    CONVENTIONAL TELEVISION SYSTEMS. Retrieved from http://www.itu.int/\
-dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+    CONVENTIONAL TELEVISION SYSTEMS (pp. 1-36).
+    http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.470-6-199811-S!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -32,10 +27,10 @@ from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

@@ -9,25 +9,19 @@ transfer function (EOTF / EOCF) and its inverse:
 -   :func:`colour.models.eotf_inverse_DICOMGSDF`
 -   :func:`colour.models.eotf_DICOMGSDF`
 
-The Grayscale Standard Display Function is defined for the Luminance Range
-from :math:`0.05` to :math:`4000 cd/m^2`. The minimum Luminance corresponds
-to the lowest practically useful Luminance of cathode-ray-tube (CRT) monitors
-and the maximum exceeds the unattenuated Luminance of very bright light-boxes
-used for interpreting X-Ray mammography. The Grayscale Standard Display
-Function explicitly includes the effects of the diffused ambient Illuminance.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
+The Grayscale Standard Display Function is defined for the Luminance Range from
+:math:`0.05` to :math:`4000 cd/m^2`. The minimum Luminance corresponds to the
+lowest practically useful Luminance of cathode-ray-tube (CRT) monitors and the
+maximum exceeds the unattenuated Luminance of very bright light-boxes used for
+interpreting X-Ray mammography. The Grayscale Standard Display Function
+explicitly includes the effects of the diffused ambient Illuminance.
 
 References
 ----------
 -   :cite:`NationalElectricalManufacturersAssociation2004b` : National
     Electrical Manufacturers Association. (2004). Digital Imaging and
     Communications in Medicine (DICOM) Part 14: Grayscale Standard Display
-    Function. Retrieved from http://medical.nema.org/dicom/2004/04_14PU.PDF
+    Function. http://medical.nema.org/dicom/2004/04_14PU.PDF
 """
 
 from __future__ import division, unicode_literals
@@ -38,10 +32,10 @@ from colour.utilities import (Structure, as_float, as_int, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['DICOMGSDF_CONSTANTS', 'eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']

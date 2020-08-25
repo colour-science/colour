@@ -15,20 +15,13 @@ Defines the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
 -   :func:`colour.models.log_encoding_ERIMMRGB`
 -   :func:`colour.models.log_decoding_ERIMMRGB`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`ANSI2003a` : ANSI. (2003). Specification of ROMM RGB. Retrieved from
+-   :cite:`ANSI2003a` : ANSI. (2003). Specification of ROMM RGB (pp. 1-2).
     http://www.color.org/ROMMRGB.pdf
--   :cite:`Spaulding2000b` : Spaulding, K. E., Woolfe, G. J., &
-    Giorgianni, E. J. (2000). Reference Input/Output Medium Metric RGB Color
-    Encodings (RIMM/ROMM RGB). Retrieved from
-    http://www.photo-lovers.org/pdf/color/romm.pdf
+-   :cite:`Spaulding2000b` : Spaulding, K. E., Woolfe, G. J., & Giorgianni, E.
+    J. (2000). Reference Input/Output Medium Metric RGB Color Encodings
+    (RIMM/ROMM RGB) (pp. 1-8). http://www.photo-lovers.org/pdf/color/romm.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -40,10 +33,10 @@ from colour.utilities import (as_float, as_int, domain_range_scale,
                               from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

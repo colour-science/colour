@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Colour Checkers Chromaticity Coordinates
-========================================
+Colour Checker Chromaticity Coordinates
+=======================================
 
-Defines *Colour Checkers* chromaticity coordinates in *CIE xyY* colourspace.
+Defines *Colour Checker* chromaticity coordinates in *CIE xyY* colourspace.
 
 Each *Colour Checker* data is in the form of a list of an :class:`OrderedDict`
 class instance of 24 samples as follows::
 
     {'name': 'xyY', ..., 'name': 'xyY'}
 
-The following *Colour Checkers* data is available:
+The following *Colour Checkers* are available:
 
 -   :attr:`colour.characterisation.datasets.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER_1976`: *Colour Checker* developed by
@@ -30,24 +30,18 @@ chromaticity_coordinates.COLORCHECKER24_AFTER_NOV2014`: Reference data from
     *X-Rite* published in 2015 and matching the *Colour Checker* edition after
     November 2014.
 
-See Also
---------
-`Colour Fitting Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/fitting.ipynb>`_
-
 References
 ----------
--   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker
-    (since 1976!). Retrieved September 26, 2014, from
+-   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker (since
+    1976!). Retrieved September 26, 2014, from
     http://www.babelcolor.com/main_level/ColorChecker.htm
--   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and spectra.
-    Retrieved from http://www.babelcolor.com/download/\
-ColorChecker_RGB_and_spectra.xls
--   :cite:`X-Rite2015` : X-Rite. (2015). New color specifications for
-    ColorChecker SG and Classic Charts. Retrieved October 29, 2018,
-    from http://xritephoto.com/ph_product_overview.aspx?\
-ID=938&Action=Support&SupportID=5884#
+-   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and
+    spectra.
+    http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
+-   :cite:`X-Rite2016` : X-Rite. (2016). New color specifications for
+    ColorChecker SG and Classic Charts. Retrieved October 29, 2018, from
+    http://xritephoto.com/ph_product_overview.aspx?ID=938&Action=Support&\
+SupportID=5884#
 """
 
 from __future__ import division, unicode_literals
@@ -60,14 +54,14 @@ from colour.models import Lab_to_XYZ, XYZ_to_xyY
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers, Danny Pascale '
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __copyright__ += ', '
 __copyright__ += (
     'BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale '
     '(www.babelcolor.com); used by permission.')
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -412,11 +406,11 @@ COLOURCHECKERS = CaseInsensitiveMapping({
     'ColorChecker24 - After November 2014': COLORCHECKER24_AFTER_NOV2014,
 })
 COLOURCHECKERS.__doc__ = """
-Aggregated *Colour Checkers* chromaticity coordinates.
+Aggregated *Colour Checker* chromaticity coordinates.
 
 References
 ----------
-:cite:`BabelColor2012b`, :cite:`BabelColor2012c`, :cite:`X-Rite2015`
+:cite:`BabelColor2012b`, :cite:`BabelColor2012c`, :cite:`X-Rite2016`
 
 COLOURCHECKERS : CaseInsensitiveMapping
     **{'ColorChecker 1976', 'ColorChecker 2005', 'BabelColor Average',

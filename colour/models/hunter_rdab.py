@@ -8,16 +8,10 @@ Defines the *Hunter Rd,a,b* colour scale transformations:
 -   :func:`colour.XYZ_to_Hunter_Rdab`
 -   :func:`colour.Hunter_Rdab_to_XYZ`
 
-See Also
---------
-`Hunter Rd,a,b Colour Scale Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/hunter_rdab.ipynb>`_
-
 References
 ----------
 -   :cite:`HunterLab2012a` : HunterLab. (2012). Hunter Rd,a,b Color Scale -
-    History and Application. Retrieved from
+    History and Application.
     https://hunterlabdotcom.files.wordpress.com/2012/07/\
 an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf
 """
@@ -29,10 +23,10 @@ from colour.models import XYZ_to_K_ab_HunterLab1966
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['XYZ_to_Hunter_Rdab', 'Hunter_Rdab_to_XYZ']

@@ -8,17 +8,11 @@ Defines the *Fujifilm F-Log* log encoding:
 -   :func:`colour.models.log_encoding_FLog`
 -   :func:`colour.models.log_decoding_FLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0.
-    Retrieved from https://www.fujifilm.com/support/digital_cameras/\
-software/lut/pdf/F-Log_DataSheet_E_Ver.1.0.pdf
+-   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0 (pp.
+    1-4). https://www.fujifilm.com/support/digital_cameras/software/lut/pdf/\
+F-Log_DataSheet_E_Ver.1.0.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -29,10 +23,10 @@ from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['FLOG_CONSTANTS', 'log_encoding_FLog', 'log_decoding_FLog']

@@ -7,16 +7,10 @@ Defines the *DCDM XYZ* colourspace:
 
 -   :attr:`colour.models.DCDM_XYZ_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).
-    Digital Cinema System Specification - Version 1.1. Retrieved from
+    Digital Cinema System Specification - Version 1.1.
     http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
 """
@@ -30,10 +24,10 @@ from colour.models.rgb import (RGB_Colourspace, eotf_DCDM,
                                normalised_primary_matrix, eotf_inverse_DCDM)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

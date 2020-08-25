@@ -5,16 +5,10 @@ Pointer's Gamut
 
 Defines *Pointer's Gamut* data.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Pointer1980a` : Pointer, M. R. (1980). Pointer's Gamut Data.
-    Retrieved from http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
+    http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
 from __future__ import division, unicode_literals
@@ -24,10 +18,10 @@ import numpy as np
 from colour.colorimetry import LIGHT_SOURCES
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

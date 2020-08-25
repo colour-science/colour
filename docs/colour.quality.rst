@@ -46,3 +46,15 @@ Colour Quality Scale
     :toctree: generated/
 
     CQS_Specification
+
+Academy Spectral Similarity Index (SSI)
+---------------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    spectral_similarity_index

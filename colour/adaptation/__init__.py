@@ -4,7 +4,8 @@ References
 ----------
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
-    Adaptations. ISBN:978-3-900734-51-0
+    Adaptations. Commission Internationale de l'Eclairage.
+    ISBN:978-3-900734-51-0
 -   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
     of an incomplete-chromatic-adaptation model. Color Research & Application,
     16(4), 243-250. doi:10.1002/col.5080160406
@@ -17,8 +18,8 @@ References
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
     Application, 27(1), 49-58. doi:10.1002/col.10005
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    CMCCAT2000. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
+    CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
+    83-86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import absolute_import

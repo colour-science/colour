@@ -7,18 +7,12 @@ Defines the *ITU-R BT.709* colourspace:
 
 -   :attr:`colour.models.BT709_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015i` : International
     Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
     values for the HDTV standards for production and international programme
-    exchange BT Series Broadcasting service. Retrieved from
+    exchange BT Series Broadcasting service (pp. 1-32).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
@@ -32,10 +26,10 @@ from colour.models.rgb import (RGB_Colourspace, oetf_BT709, oetf_inverse_BT709,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

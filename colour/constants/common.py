@@ -8,15 +8,16 @@ Defines common constants objects that don't belong to any specific category.
 
 from __future__ import division, unicode_literals
 
+import os
 import numpy as np
 
 from colour.utilities.documentation import DocstringFloat
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -46,14 +47,16 @@ computations.
 EPSILON : numeric
 """
 
-DEFAULT_FLOAT_DTYPE = np.float_
+DEFAULT_FLOAT_DTYPE = np.sctypeDict.get(
+    os.environ.get('COLOUR_SCIENCE__FLOAT_PRECISION', 'float64'), 'float64')
 """
 Default floating point number dtype.
 
 DEFAULT_FLOAT_DTYPE : type
 """
 
-DEFAULT_INT_DTYPE = np.int_
+DEFAULT_INT_DTYPE = np.sctypeDict.get(
+    os.environ.get('COLOUR_SCIENCE__INT_PRECISION', 'int64'), 'int64')
 """
 Default integer number dtype.
 

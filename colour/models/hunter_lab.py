@@ -9,19 +9,12 @@ Defines the *Hunter L,a,b* colour scale transformations:
 -   :func:`colour.XYZ_to_Hunter_Lab`
 -   :func:`colour.Hunter_Lab_to_XYZ`
 
-See Also
---------
-`Hunter L,a,b Colour Scale Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/hunter_lab.ipynb>`_
-
 References
 ----------
 -   :cite:`HunterLab2008b` : HunterLab. (2008). Hunter L,a,b Color Scale.
-    Retrieved from http://www.hunterlab.se/wp-content/uploads/2012/11/\
-Hunter-L-a-b.pdf
--   :cite:`HunterLab2008c` : HunterLab. (2008). Illuminant Factors in Universal
-    Software and EasyMatch Coatings. Retrieved from
+    http://www.hunterlab.se/wp-content/uploads/2012/11/Hunter-L-a-b.pdf
+-   :cite:`HunterLab2008c` : HunterLab. (2008). Illuminant Factors in
+    Universal Software and EasyMatch Coatings.
     https://support.hunterlab.com/hc/en-us/article_attachments/201437785/\
 an02_02.pdf
 """
@@ -34,10 +27,10 @@ from colour.colorimetry import HUNTERLAB_ILLUMINANTS
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

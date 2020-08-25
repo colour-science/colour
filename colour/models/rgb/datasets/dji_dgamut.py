@@ -7,17 +7,12 @@ Defines the *DJI D-Gamut* colourspace:
 
 -   :attr:`colour.models.DJI_D_GAMUT_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`DJI2017` : Dji. (2017). White Paper on D-Log and D-Gamut of DJI
-    Cinema Color System. Retrieved from https://dl.djicdn.com/downloads/\
-zenmuse+x7/20171010/D-Log_D-Gamut_Whitepaper.pdf
+    Cinema Color System (pp. 1-5).
+    https://dl.djicdn.com/downloads/zenmuse+x7/20171010/\
+D-Log_D-Gamut_Whitepaper.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -29,10 +24,10 @@ from colour.models.rgb import (RGB_Colourspace, log_encoding_DJIDLog,
                                log_decoding_DJIDLog)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

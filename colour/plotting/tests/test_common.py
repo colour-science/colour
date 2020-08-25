@@ -15,33 +15,33 @@ from functools import partial
 from matplotlib.pyplot import Axes, Figure
 
 import colour
-from colour.colorimetry import ILLUMINANTS_SDS
+from colour.colorimetry import ILLUMINANT_SDS
 from colour.io import read_image
 from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
 from colour.plotting import ColourSwatch
 from colour.plotting import (
     colour_style, override_style, XYZ_to_plotting_colourspace, colour_cycle,
-    artist, camera, render, wrap_title, label_rectangles, uniform_axes3d,
+    artist, camera, render, label_rectangles, uniform_axes3d,
     filter_passthrough, filter_RGB_colourspaces, filter_cmfs,
     filter_illuminants, filter_colour_checkers, plot_single_colour_swatch,
     plot_multi_colour_swatches, plot_single_function, plot_multi_functions,
     plot_image)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
     'TestColourStyle', 'TestOverrideStyle', 'TestXyzToPlottingColourspace',
     'TestColourCycle', 'TestArtist', 'TestCamera', 'TestRender',
-    'TestWrapTitle', 'TestLabelRectangles', 'TestUniformAxes3d',
-    'TestFilterPassthrough', 'TestFilterRgbColourspaces', 'TestFilterCmfs',
-    'TestFilterIlluminants', 'TestFilterColourCheckers',
-    'TestPlotSingleColourSwatch', 'TestPlotMultiColourSwatches',
-    'TestPlotSingleFunction', 'TestPlotMultiFunctions', 'TestPlotImage'
+    'TestLabelRectangles', 'TestUniformAxes3d', 'TestFilterPassthrough',
+    'TestFilterRgbColourspaces', 'TestFilterCmfs', 'TestFilterIlluminants',
+    'TestFilterColourCheckers', 'TestPlotSingleColourSwatch',
+    'TestPlotMultiColourSwatches', 'TestPlotSingleFunction',
+    'TestPlotMultiFunctions', 'TestPlotImage'
 ]
 
 
@@ -235,32 +235,6 @@ class TestRender(unittest.TestCase):
             axes_visible=False)
 
 
-class TestWrapTitle(unittest.TestCase):
-    """
-    Defines :func:`colour.plotting.common.wrap_title` definition unit tests
-    methods.
-    """
-
-    def test_wrap_title(self):
-        """
-        Tests :func:`colour.plotting.common.wrap_title` definition.
-        """
-
-        self.assertEqual(
-            wrap_title(
-                'This is a very long figure title that would overflow the '
-                'figure container if it was not wrapped.'),
-            ('This is a very long figure title that would overflow the\n'
-             'figure container if it was not wrapped.'))
-
-        self.assertEqual(
-            wrap_title(
-                'This is a very long figure title that would overflow the '
-                'figure container if it was not wrapped.', None),
-            ('This is a very long figure title that would overflow the '
-             'figure container if it was not wrapped.'))
-
-
 class TestLabelRectangles(unittest.TestCase):
     """
     Defines :func:`colour.plotting.common.label_rectangles` definition unit
@@ -329,18 +303,18 @@ class TestFilterPassthrough(unittest.TestCase):
 
         self.assertDictEqual(
             filter_passthrough(
-                ILLUMINANTS_SDS, [ILLUMINANTS_SDS['D65'], {
+                ILLUMINANT_SDS, [ILLUMINANT_SDS['D65'], {
                     'Is': 'Excluded'
                 }],
-                allow_non_siblings=False), {'D65': ILLUMINANTS_SDS['D65']})
+                allow_non_siblings=False), {'D65': ILLUMINANT_SDS['D65']})
 
         self.assertDictEqual(
             filter_passthrough(
-                ILLUMINANTS_SDS, [ILLUMINANTS_SDS['D65'], {
+                ILLUMINANT_SDS, [ILLUMINANT_SDS['D65'], {
                     'Is': 'Included'
                 }],
                 allow_non_siblings=True), {
-                    'D65': ILLUMINANTS_SDS['D65'],
+                    'D65': ILLUMINANT_SDS['D65'],
                     'Is': 'Included'
                 })
 
@@ -384,7 +358,9 @@ class TestFilterCmfs(unittest.TestCase):
         """
 
         self.assertListEqual(
-            sorted(filter_cmfs(['.*2 Degree.*']).keys()), [
+            sorted([
+                cmfs.name for cmfs in filter_cmfs(['.*2 Degree.*']).values()
+            ]), [
                 'CIE 1931 2 Degree Standard Observer',
                 'CIE 2012 2 Degree Standard Observer',
                 'Stiles & Burch 1955 2 Degree RGB CMFs',
@@ -448,6 +424,12 @@ class TestPlotSingleColourSwatch(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
+        figure, axes = plot_single_colour_swatch(
+            np.array([0.45620519, 0.03081071, 0.04091952]))
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
 
 class TestPlotMultiColourSwatches(unittest.TestCase):
     """
@@ -465,6 +447,14 @@ class TestPlotMultiColourSwatches(unittest.TestCase):
             ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773)),
             ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
         ])
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_multi_colour_swatches(
+            np.array([[0.45293517, 0.31732158, 0.26414773],
+                      [0.77875824, 0.57726450, 0.50453169]]),
+            direction='-y')
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -499,17 +489,20 @@ class TestPlotMultiFunctions(unittest.TestCase):
         Tests :func:`colour.plotting.common.plot_multi_functions` definition.
         """
 
-        functions = functions = {
+        functions = {
             'Gamma 2.2': lambda x: x ** (1 / 2.2),
             'Gamma 2.4': lambda x: x ** (1 / 2.4),
             'Gamma 2.6': lambda x: x ** (1 / 2.6),
         }
-        figure, axes = plot_multi_functions(functions)
+        plot_kwargs = {'c': 'r'}
+        figure, axes = plot_multi_functions(functions, plot_kwargs=plot_kwargs)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_multi_functions(functions, log_x=10, log_y=10)
+        plot_kwargs = [{'c': 'r'}, {'c': 'g'}, {'c': 'b'}]
+        figure, axes = plot_multi_functions(
+            functions, log_x=10, log_y=10, plot_kwargs=plot_kwargs)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

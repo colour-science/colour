@@ -16,20 +16,22 @@ import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.geometry import (primitive_vertices_cube_mpl,
+                             primitive_vertices_grid_mpl)
 from colour.models import RGB_to_XYZ
 from colour.models.common import (COLOURSPACE_MODELS_AXIS_LABELS,
                                   XYZ_to_colourspace_model)
 from colour.plotting import (
-    COLOUR_STYLE_CONSTANTS, common_colourspace_model_axis_reorder, cube,
-    filter_RGB_colourspaces, filter_cmfs, grid, override_style, render)
+    COLOUR_STYLE_CONSTANTS, common_colourspace_model_axis_reorder,
+    filter_RGB_colourspaces, filter_cmfs, override_style, render)
 from colour.utilities import (Structure, as_float_array, as_int_array,
-                              first_item)
+                              first_item, full, ones, zeros)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -168,56 +170,47 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     settings.update(**kwargs)
 
     # Outer grid.
-    quads_g = grid(
+    quads_g = primitive_vertices_grid_mpl(
         origin=(-extent / 2, -extent / 2),
         width=extent,
         height=extent,
         height_segments=segments,
         width_segments=segments)
 
-    RGB_g = np.ones((quads_g.shape[0], quads_g.shape[-1]))
+    RGB_g = ones([quads_g.shape[0], quads_g.shape[-1]])
     RGB_gf = RGB_g * settings.grid_face_colours
-    RGB_gf = np.hstack([
-        RGB_gf,
-        np.full((RGB_gf.shape[0], 1), settings.grid_face_alpha,
-                DEFAULT_FLOAT_DTYPE)
-    ])
+    RGB_gf = np.hstack(
+        [RGB_gf, full([RGB_gf.shape[0], 1], settings.grid_face_alpha)])
     RGB_ge = RGB_g * settings.grid_edge_colours
-    RGB_ge = np.hstack([
-        RGB_ge,
-        np.full((RGB_ge.shape[0], 1), settings.grid_edge_alpha,
-                DEFAULT_FLOAT_DTYPE)
-    ])
+    RGB_ge = np.hstack(
+        [RGB_ge, full([RGB_ge.shape[0], 1], settings.grid_edge_alpha)])
 
     # Inner grid.
-    quads_gs = grid(
+    quads_gs = primitive_vertices_grid_mpl(
         origin=(-extent / 2, -extent / 2),
         width=extent,
         height=extent,
         height_segments=segments * 2,
         width_segments=segments * 2)
 
-    RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
+    RGB_gs = ones([quads_gs.shape[0], quads_gs.shape[-1]])
     RGB_gsf = RGB_gs * 0
-    RGB_gsf = np.hstack(
-        [RGB_gsf,
-         np.full((RGB_gsf.shape[0], 1), 0, DEFAULT_FLOAT_DTYPE)])
+    RGB_gsf = np.hstack([RGB_gsf, full([RGB_gsf.shape[0], 1], 0)])
     RGB_gse = np.clip(RGB_gs * settings.grid_edge_colours * 1.5, 0, 1)
-    RGB_gse = np.hstack(
-        (RGB_gse,
-         np.full((RGB_gse.shape[0], 1), settings.grid_edge_alpha / 2,
-                 DEFAULT_FLOAT_DTYPE)))
+    RGB_gse = np.hstack((RGB_gse,
+                         full([RGB_gse.shape[0], 1],
+                              settings.grid_edge_alpha / 2)))
 
     # Axis.
     thickness = extent / 1000
-    quad_x = grid(
+    quad_x = primitive_vertices_grid_mpl(
         origin=(limits[0, 0], -thickness / 2), width=extent, height=thickness)
-    RGB_x = np.ones((quad_x.shape[0], quad_x.shape[-1] + 1))
+    RGB_x = ones([quad_x.shape[0], quad_x.shape[-1] + 1])
     RGB_x = RGB_x * settings.x_axis_colour
 
-    quad_y = grid(
+    quad_y = primitive_vertices_grid_mpl(
         origin=(-thickness / 2, limits[1, 0]), width=thickness, height=extent)
-    RGB_y = np.ones((quad_y.shape[0], quad_y.shape[-1] + 1))
+    RGB_y = ones([quad_y.shape[0], quad_y.shape[-1] + 1])
     RGB_y = RGB_y * settings.y_axis_colour
 
     if axes is not None:
@@ -282,25 +275,26 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     return quads, RGB_f, RGB_e
 
 
-def RGB_identity_cube(plane=None,
-                      width_segments=16,
+def RGB_identity_cube(width_segments=16,
                       height_segments=16,
-                      depth_segments=16):
+                      depth_segments=16,
+                      planes=None):
     """
     Returns an *RGB* identity cube made of quad geometric elements and its
     associated *RGB* colours.
 
     Parameters
     ----------
-    plane : array_like, optional
-        Any combination of **{'+x', '-x', '+y', '-y', '+z', '-z'}**,
-        Included grids in the cube construction.
     width_segments: int, optional
         Cube segments, quad counts along the width.
     height_segments: int, optional
         Cube segments, quad counts along the height.
     depth_segments: int, optional
         Cube segments, quad counts along the depth.
+    planes : array_like, optional
+        **{'-x', '+x', '-y', '+y', '-z', '+z',
+        'xy', 'xz', 'yz', 'yx', 'zx', 'zy'}**,
+        Grid primitives to include in the cube construction.
 
     Returns
     -------
@@ -309,7 +303,7 @@ def RGB_identity_cube(plane=None,
 
     Examples
     --------
-    >>> vertices, RGB = RGB_identity_cube(None, 1, 1, 1)
+    >>> vertices, RGB = RGB_identity_cube(1, 1, 1)
     >>> vertices
     array([[[ 0.,  0.,  0.],
             [ 1.,  0.,  0.],
@@ -349,14 +343,14 @@ def RGB_identity_cube(plane=None,
            [ 1. ,  0.5,  0.5]])
     """
 
-    quads = cube(
-        plane=plane,
+    quads = primitive_vertices_cube_mpl(
         width=1,
         height=1,
         depth=1,
         width_segments=width_segments,
         height_segments=height_segments,
-        depth_segments=depth_segments)
+        depth_segments=depth_segments,
+        planes=planes)
     RGB = np.average(quads, axis=-2)
 
     return quads, RGB
@@ -378,7 +372,9 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
     Parameters
     ----------
     colourspaces : array_like, optional
-        *RGB* colourspaces to plot the gamuts.
+        *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
+        can be of any type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
@@ -396,7 +392,9 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
     spectral_locus_colour : array_like, optional
         Spectral locus colour.
     cmfs : unicode, optional
-        Standard observer colour matching functions used for spectral locus.
+        Standard observer colour matching functions used for computing the
+        spectral locus boundaries. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -422,8 +420,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
     --------
     >>> plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.Axes3DSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Colourspaces_Gamuts.png
         :align: center
@@ -457,7 +454,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
 
     illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
-    points = np.zeros((4, 3))
+    points = zeros([4, 3])
     if show_spectral_locus:
         cmfs = first_item(filter_cmfs(cmfs).values())
         XYZ = cmfs.values
@@ -502,24 +499,18 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
                 ), reference_colourspace))
 
         if settings.face_colours[i] is not None:
-            RGB = np.ones(RGB.shape) * settings.face_colours[i]
+            RGB = ones(RGB.shape) * settings.face_colours[i]
 
         RGB_f.extend(
-            np.hstack([
-                RGB,
-                np.full((RGB.shape[0], 1), settings.face_alpha[i],
-                        DEFAULT_FLOAT_DTYPE)
-            ]))
+            np.hstack([RGB,
+                       full([RGB.shape[0], 1], settings.face_alpha[i])]))
 
         if settings.edge_colours[i] is not None:
-            RGB = np.ones(RGB.shape) * settings.edge_colours[i]
+            RGB = ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(
-            np.hstack([
-                RGB,
-                np.full((RGB.shape[0], 1), settings.edge_alpha[i],
-                        DEFAULT_FLOAT_DTYPE)
-            ]))
+            np.hstack([RGB,
+                       full([RGB.shape[0], 1], settings.edge_alpha[i])]))
 
     quads = as_float_array(quads)
     quads[np.isnan(quads)] = 0
@@ -583,7 +574,9 @@ def plot_RGB_scatter(RGB,
     RGB : array_like
         *RGB* colourspace array.
     colourspace : RGB_Colourspace
-        *RGB* colourspace of the *RGB* array.
+        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_RGB_colourspaces` definition.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
@@ -605,7 +598,9 @@ def plot_RGB_scatter(RGB,
     points_size : numeric, optional
         Scatter points size.
     cmfs : unicode, optional
-        Standard observer colour matching functions used for spectral locus.
+        Standard observer colour matching functions used for computing the
+        spectral locus boundaries. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -623,8 +618,7 @@ def plot_RGB_scatter(RGB,
     --------
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_scatter(RGB, 'ITU-R BT.709')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.Axes3DSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Scatter.png
         :align: center

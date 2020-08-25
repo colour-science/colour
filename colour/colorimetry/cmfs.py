@@ -13,12 +13,6 @@ Defines colour matching functions classes for the datasets from
     for the *CIE RGB* colour matching functions.
 -   :class:`colour.colorimetry.XYZ_ColourMatchingFunctions`: Implements support
     for the *CIE Standard Observers* *XYZ* colour matching functions.
-
-See Also
---------
-`Colour Matching Functions Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 """
 
 from __future__ import division, unicode_literals
@@ -26,10 +20,10 @@ from __future__ import division, unicode_literals
 from colour.colorimetry import MultiSpectralDistributions
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -65,13 +59,13 @@ MultiSpectralDistributions or array_like or dict_like, optional
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function
         of the :class:`colour.SpectralDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
@@ -114,13 +108,13 @@ MultiSpectralDistributions or array_like or dict_like, optional
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function
         of the :class:`colour.SpectralDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
@@ -165,13 +159,13 @@ MultiSpectralDistributions or array_like or dict_like, optional
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function
         of the :class:`colour.SpectralDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional

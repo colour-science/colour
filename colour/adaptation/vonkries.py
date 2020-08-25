@@ -8,12 +8,6 @@ Defines *Von Kries* chromatic adaptation model objects:
 -   :func:`colour.adaptation.chromatic_adaptation_matrix_VonKries`
 -   :func:`colour.adaptation.chromatic_adaptation_VonKries`
 
-See Also
---------
-`Chromatic Adaptation Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/vonkries.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation
@@ -30,10 +24,10 @@ from colour.utilities import (dot_matrix, dot_vector, from_range_1,
                               row_as_diagonal, to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

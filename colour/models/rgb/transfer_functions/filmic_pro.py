@@ -8,17 +8,10 @@ Defines the *FiLMiC Pro 6* encoding:
 -   :func:`colour.models.log_encoding_FilmicPro6`
 -   :func:`colour.models.log_decoding_FilmicPro6`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`FiLMiCInc2017` : FiLMiC Inc. (2017). FiLMiC Pro - User Manual v6 -
-    Revision 1. Retrieved from http://www.filmicpro.com/\
-FilmicProUserManualv6.pdf
+    Revision 1 (pp. 1-46). http://www.filmicpro.com/FilmicProUserManualv6.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -29,10 +22,10 @@ from colour.algebra import Extrapolator, LinearInterpolator
 from colour.utilities import from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']

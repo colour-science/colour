@@ -15,14 +15,14 @@ import numpy as np
 
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
-from colour.io.luts.common import parse_array, path_to_title
+from colour.io.luts.common import path_to_title
 from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['read_LUT_SonySPI1D', 'write_LUT_SonySPI1D']
@@ -95,7 +95,7 @@ def read_LUT_SonySPI1D(path):
             if tokens[0] == 'Version':
                 continue
             if tokens[0] == 'From':
-                domain_min, domain_max = parse_array(tokens[1:])
+                domain_min, domain_max = as_float_array(tokens[1:])
             elif tokens[0] == 'Length':
                 continue
             elif tokens[0] == 'Components':
@@ -107,7 +107,7 @@ def read_LUT_SonySPI1D(path):
             elif tokens[0] in ('{', '}'):
                 continue
             else:
-                table.append(parse_array(tokens))
+                table.append(tokens)
 
     table = as_float_array(table)
     if dimensions == 1:

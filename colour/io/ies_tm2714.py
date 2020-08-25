@@ -3,14 +3,15 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Defines the :class:`colour.SpectralDistribution_IESTM2714` class handling
-*IES TM-27-14* spectral data XML files.
+Defines the :class:`colour.SpectralDistribution_IESTM2714` class handling *IES
+TM-27-14* spectral data XML files.
 
 References
 ----------
 -   :cite:`IESComputerCommittee2014a` : IES Computer Committee, & TM-27-14
     Working Group. (2014). IES Standard Format for the Electronic Transfer of
-    Spectral Data Electronic Transfer of Spectral Data. ISBN:978-0879952952
+    Spectral Data Electronic Transfer of Spectral Data. Illuminating
+    Engineering Society. ISBN:978-0-87995-295-2
 """
 
 from __future__ import division, unicode_literals
@@ -26,10 +27,10 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import Structure, is_numeric, is_string, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

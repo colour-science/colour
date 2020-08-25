@@ -17,10 +17,10 @@ from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
 from colour.utilities import is_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['plot_corresponding_chromaticities_prediction']
@@ -63,8 +63,7 @@ def plot_corresponding_chromaticities_prediction(experiment=1,
     --------
     >>> plot_corresponding_chromaticities_prediction(1, 'Von Kries', 'CAT02')
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\
 Plot_Corresponding_Chromaticities_Prediction.png

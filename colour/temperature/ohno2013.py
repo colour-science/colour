@@ -14,16 +14,10 @@ objects:
     chromaticity coordinates computation of given correlated colour temperature
     :math:`T_{cp}`, :math:`\\Delta_{uv}` using *Ohno (2013)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
--   :cite:`Ohno2014a` : Ohno, Y. (2014). Practical Use and Calculation of CCT
-    and Duv. LEUKOS, 10(1), 47-55. doi:10.1080/15502724.2014.839020
+-   :cite:`Ohno2014a` : Ohno, Yoshiro. (2014). Practical Use and Calculation of
+    CCT and Duv. LEUKOS, 10(1), 47-55. doi:10.1080/15502724.2014.839020
 """
 
 from __future__ import division, unicode_literals
@@ -31,16 +25,16 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS,
+                                sd_blackbody, sd_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float_array, runtime_warning, tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -85,10 +79,10 @@ def planckian_table(uv, cmfs, start, end, count):
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> from pprint import pprint
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
@@ -152,9 +146,9 @@ def planckian_table_minimal_distance_index(planckian_table_):
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
@@ -169,7 +163,7 @@ def planckian_table_minimal_distance_index(planckian_table_):
 
 def _uv_to_CCT_Ohno2013(
         uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         .copy().trim(DEFAULT_SPECTRAL_SHAPE),
         start=CCT_MINIMAL,
         end=CCT_MAXIMAL,
@@ -262,7 +256,7 @@ def _uv_to_CCT_Ohno2013(
 
 def uv_to_CCT_Ohno2013(
         uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'],
         start=CCT_MINIMAL,
         end=CCT_MAXIMAL,
         count=CCT_SAMPLES,
@@ -303,14 +297,15 @@ def uv_to_CCT_Ohno2013(
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
-    >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
-    array([  6.5074738...e+03,   3.2233461...e-03])
+    >>> # Doctests skipping for Python 2.x compatibility.
+    >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +SKIP
+    array([  6.5074738...e+03,   3.2233460...e-03])
     """
 
     uv = as_float_array(uv)
@@ -325,7 +320,7 @@ def uv_to_CCT_Ohno2013(
 
 def _CCT_to_uv_Ohno2013(
         CCT_D_uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -378,7 +373,7 @@ def _CCT_to_uv_Ohno2013(
 
 def CCT_to_uv_Ohno2013(
         CCT_D_uv,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
+        cmfs=STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -402,9 +397,9 @@ def CCT_to_uv_Ohno2013(
 
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVER_CMFS
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
+    ...     STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])

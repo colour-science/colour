@@ -7,15 +7,9 @@ Defines the *Best RGB* colourspace:
 
 -   :attr:`colour.models.BEST_RGB_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`HutchColord` : HutchColor. (n.d.). BestRGB (4 K). Retrieved from
+-   :cite:`HutchColord` : HutchColor. (n.d.). BestRGB (4 K).
     http://www.hutchcolor.com/profiles/BestRGB.zip
 """
 
@@ -29,10 +23,10 @@ from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

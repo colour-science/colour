@@ -9,18 +9,12 @@ its inverse:
 -   :func:`colour.models.oetf_BT601`
 -   :func:`colour.models.oetf_inverse_BT601`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2011f` : International
     Telecommunication Union. (2011). Recommendation ITU-R BT.601-7 - Studio
     encoding parameters of digital television for standard 4:3 and wide-screen
-    16:9 aspect ratios. Retrieved from
+    16:9 aspect ratios.
     http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.601-7-201103-I!!PDF-E.pdf
 """
@@ -34,10 +28,10 @@ from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['oetf_BT601', 'oetf_inverse_BT601']

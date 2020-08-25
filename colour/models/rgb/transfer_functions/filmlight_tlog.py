@@ -8,12 +8,6 @@ Defines the *FilmLight T-Log* log encoding:
 -   :func:`colour.models.log_encoding_FilmLightTLog`
 -   :func:`colour.models.log_decoding_FilmLightTLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Siragusano2018a` : Siragusano, D. (2018). Private Discussion with
@@ -27,10 +21,10 @@ import numpy as np
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']

@@ -7,12 +7,6 @@ Defines *Barten (1999)* contrast sensitivity function:
 
 -   :func:`colour.contrast.contrast_sensitivity_function_Barten1999`
 
-See Also
---------
-`Barten (1999) Contrast Sensitivity Function Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/contrast/barten1999.ipynb>`_
-
 References
 ----------
 -   :cite:`Barten1999` : Barten, P. G. (1999). Contrast Sensitivity of the
@@ -20,15 +14,14 @@ References
 -   :cite:`Barten2003` : Barten, P. G. J. (2003). Formula for the contrast
     sensitivity of the human eye. In Y. Miyake & D. R. Rasmussen (Eds.),
     Proceedings of SPIE (Vol. 5294, pp. 231-238). doi:10.1117/12.537476
--   :cite:`Cowan2004` : Cowan, M., Kennel, G., Maier, T., Walker, B., & Cowan,
-    M. (2004). Constant Sensitivity Experiment to Determine the Bit Depth for
-    Digital Cinema, (September). Retrieved from
-    http://car.france3.mars.free.fr/Formation INA HD/HDTV/HDTV  2007 v35/\
-SMPTE normes et confs/Contrastm.pdf
+-   :cite:`Cowan2004` : Cowan, M., Kennel, G., Maier, T., & Walker, B. (2004).
+    Contrast Sensitivity Experiment to Determine the Bit Depth for Digital
+    Cinema. SMPTE Motion Imaging Journal, 113(9), 281-292. doi:10.5594/j11549
 -   :cite:`InternationalTelecommunicationUnion2015` : International
-    Telecommunication Union. (2015). Report ITU-R BT.2246-4 - The present state
-    of ultra-high definition television BT Series Broadcasting service, 5,
-    1-92.
+    Telecommunication Union. (2015). Report ITU-R BT.2246-4 - The present
+    state of ultra-high definition television BT Series Broadcasting service
+    (Vol. 5, pp. 1-92).
+    https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-BT.2246-4-2015-PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -38,10 +31,10 @@ import numpy as np
 from colour.utilities import as_float_array, as_float
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

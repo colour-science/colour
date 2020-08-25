@@ -12,10 +12,15 @@ Spectral Data Structure
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     SpectralShape
     SpectralDistribution
     MultiSpectralDistributions
+
+.. autosummary::
+    :toctree: generated/
+
     DEFAULT_SPECTRAL_SHAPE
     ASTME308_PRACTISE_SHAPE
 
@@ -35,6 +40,9 @@ Spectral Data Generation
     sd_constant
     sd_ones
     sd_zeros
+    msds_constant
+    msds_ones
+    msds_zeros
     SD_GAUSSIAN_METHODS
     sd_gaussian
     SD_SINGLE_LED_METHODS
@@ -57,6 +65,7 @@ Spectral Data Generation
     sd_single_led_Ohno2005
     sd_multi_leds_Ohno2005
     sds_and_multi_sds_to_sds
+    sds_and_multi_sds_to_multi_sds
 
 **Aliases**
 
@@ -159,6 +168,7 @@ Colour Matching Functions
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     LMS_ConeFundamentals
     RGB_ColourMatchingFunctions
@@ -176,7 +186,7 @@ Colour Matching Functions
     CMFS
     LMS_CMFS
     RGB_CMFS
-    STANDARD_OBSERVERS_CMFS
+    STANDARD_OBSERVER_CMFS
 
 Colour Matching Functions Transformations
 -----------------------------------------
@@ -208,10 +218,21 @@ Illuminants and Light Sources
     :toctree: generated/
 
     ILLUMINANTS
-    ILLUMINANTS_SDS
+    ILLUMINANT_SDS
     HUNTERLAB_ILLUMINANTS
     LIGHT_SOURCES
-    LIGHT_SOURCES_SDS
+    LIGHT_SOURCE_SDS
+
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    D_ILLUMINANT_S_SDS
 
 Dominant Wavelength and Purity
 ------------------------------

@@ -12,43 +12,35 @@ Defines the *Academy Color Encoding System* (ACES) log encodings:
 -   :func:`colour.models.log_encoding_ACEScct`
 -   :func:`colour.models.log_decoding_ACEScct`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
-    Encoding Specification (ACES). Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Encoding Specification (ACES) (pp. 1-40). Retrieved December 19, 2014, from
+    http://j.mp/TB-2014-004
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component
-    Names. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Names (pp. 1-8). Retrieved December 19, 2014, from http://j.mp/TB-2014-012
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2014). Specification
+    Color Encoding System (ACES) Project Subcommittee. (2013). Specification
     S-2013-001 - ACESproxy, an Integer Log Encoding of ACES Image Data.
-    Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
+    Retrieved December 19, 2014, from http://j.mp/S-2013-001
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Specification
     S-2014-003 - ACEScc, A Logarithmic Encoding of ACES Data for use within
-    Color Grading Systems. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Color Grading Systems (pp. 1-12). Retrieved December 19, 2014, from
+    http://j.mp/S-2014-003
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project. (2016). Specification S-2016-001 -
     ACEScct, A Quasi-Logarithmic Encoding of ACES Data for use within Color
-    Grading Systems. Retrieved October 10, 2016, from
-    https://github.com/ampas/aces-dev/tree/v1.0.3/documents
+    Grading Systems. Retrieved October 10, 2016, from http://j.mp/S-2016-001
 -   :cite:`TheAcademyofMotionPictureArtsandSciencese` : The Academy of Motion
     Picture Arts and Sciences, Science and Technology Council, & Academy Color
     Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding
@@ -64,10 +56,10 @@ from colour.utilities import (Structure, as_float, as_int, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -188,8 +180,8 @@ def log_encoding_ACESproxy(lin_AP1,
 
     constants = constants[bit_depth]
 
-    CV_min = np.resize(constants.CV_min, lin_AP1.shape)
-    CV_max = np.resize(constants.CV_max, lin_AP1.shape)
+    CV_min = constants.CV_min
+    CV_max = constants.CV_max
 
     def float_2_cv(x):
         """

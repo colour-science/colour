@@ -24,7 +24,7 @@ plot_single_illuminant_sd('FL1')
 print('\n')
 
 message_box(('Plotting multiple illuminants spectral ' 'distributions.'))
-pprint(sorted(colour.ILLUMINANTS_SDS.keys()))
+pprint(sorted(colour.ILLUMINANT_SDS.keys()))
 plot_multi_illuminant_sds(
     ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'FL1'])
 
@@ -41,8 +41,8 @@ message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral '
              'distributions.'))
 plot_multi_sds(
     [
-        value for key, value in sorted(
-            colour.colorimetry.D_ILLUMINANTS_S_SDS.items())
+        value
+        for key, value in sorted(colour.colorimetry.D_ILLUMINANT_S_SDS.items())
     ],
     title='CIE Standard Illuminant D Series - S Distributions')
 

@@ -9,12 +9,12 @@ Defines classes for extrapolating variables:
 
 References
 ----------
--   :cite:`Sastanina` : sastanin. (n.d.). How to make scipy.interpolate give
-    an extrapolated result beyond the input range? Retrieved August 8, 2014,
-    from http://stackoverflow.com/a/2745496/931625
+-   :cite:`Sastanina` : sastanin. (n.d.). How to make scipy.interpolate give an
+    extrapolated result beyond the input range? Retrieved August 8, 2014, from
+    http://stackoverflow.com/a/2745496/931625
 -   :cite:`Westland2012i` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    Extrapolation Methods. In Computational Colour Science Using MATLAB
-    (2nd ed., p. 38). ISBN:978-0-470-66569-5
+    Extrapolation Methods. In Computational Colour Science Using MATLAB (2nd
+    ed., p. 38). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
@@ -25,10 +25,10 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import as_float, is_numeric, is_string
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['Extrapolator']
@@ -119,7 +119,9 @@ class Extrapolator(object):
                  method='Linear',
                  left=None,
                  right=None,
-                 dtype=DEFAULT_FLOAT_DTYPE):
+                 dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
 
         self._interpolator = None
         self.interpolator = interpolator

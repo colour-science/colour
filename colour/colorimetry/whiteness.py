@@ -27,26 +27,20 @@ Defines *whiteness* index :math:`W` computation objects:
 -   :func:`colour.whiteness`: *Whiteness* :math:`W` computation using given
     method.
 
-See Also
---------
-`Whiteness Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/whiteness.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004k` : CIE TC 1-48. (2004). The evaluation of whiteness.
-    In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
--   :cite:`Wyszecki2000ba` : Wyszecki, G., & Stiles, W. S. (2000).
-    Table I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W). In
-    Color Science: Concepts and Methods, Quantitative Data and Formulae
-    (pp. 837-839). Wiley. ISBN:978-0471399186
--   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color
-    iMatch Color Calculations Guide. Retrieved from
-    https://www.xrite.com/-/media/xrite/files/\
-apps_engineering_techdocuments/c/09_color_calculations_en.pdf
+    In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901906-33-6
 -   :cite:`Wikipedia2004b` : Wikipedia. (2004). Whiteness. Retrieved September
     17, 2014, from http://en.wikipedia.org/wiki/Whiteness
+-   :cite:`Wyszecki2000ba` : Wyszecki, Günther, & Stiles, W. S. (2000). Table
+    I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W). In Color
+    Science: Concepts and Methods, Quantitative Data and Formulae (pp.
+    837-839). Wiley. ISBN:978-0-471-39918-6
+-   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color iMatch
+    Color Calculations Guide.
+    https://www.xrite.com/-/media/xrite/files/apps_engineering_techdocuments/\
+c/09_color_calculations_en.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -56,10 +50,10 @@ from colour.utilities import (CaseInsensitiveMapping, get_domain_range_scale,
                               tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

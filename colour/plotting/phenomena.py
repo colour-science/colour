@@ -25,10 +25,10 @@ from colour.plotting import (ASTMG173_ETR, COLOUR_STYLE_CONSTANTS,
 from colour.utilities import first_item, normalise_maximum
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['plot_single_sd_rayleigh_scattering', 'plot_the_blue_sky']
@@ -59,7 +59,9 @@ def plot_single_sd_rayleigh_scattering(
     altitude : numeric, optional
         Altitude of the site in meters.
     cmfs : unicode, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions used for computing the
+        spectrum domain and colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -82,8 +84,7 @@ def plot_single_sd_rayleigh_scattering(
     Examples
     --------
     >>> plot_single_sd_rayleigh_scattering()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_SD_Rayleigh_Scattering.png
         :align: center
@@ -111,7 +112,9 @@ def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Parameters
     ----------
     cmfs : unicode, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions used for computing the
+        spectrum domain and colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -130,8 +133,7 @@ def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Examples
     --------
     >>> plot_the_blue_sky()  # doctest: +ELLIPSIS
-    (<Figure size ... with 2 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 2 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_The_Blue_Sky.png
         :align: center

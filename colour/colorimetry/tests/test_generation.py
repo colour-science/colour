@@ -9,18 +9,20 @@ import numpy as np
 import unittest
 
 from colour.colorimetry.generation import (
-    sd_constant, sd_zeros, sd_ones, sd_gaussian_normal, sd_gaussian_fwhm,
-    sd_single_led_Ohno2005, sd_multi_leds_Ohno2005)
+    sd_constant, sd_zeros, sd_ones, msds_constant, msds_zeros, msds_ones,
+    sd_gaussian_normal, sd_gaussian_fwhm, sd_single_led_Ohno2005,
+    sd_multi_leds_Ohno2005)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestSdConstant', 'TestSdZeros', 'TestSdOnes', 'TestSdGaussianNormal',
+    'TestSdConstant', 'TestSdZeros', 'TestSdOnes', 'TestMsdsConstant',
+    'TestMsdsZeros', 'TestMsdsOnes', 'TestSdGaussianNormal',
     'TestSdGaussianFwhm', 'TestSdSingleLedOhno2005', 'TestSdMultiLedsOhno2005'
 ]
 
@@ -84,6 +86,70 @@ class TestSdOnes(unittest.TestCase):
         self.assertEqual(sd[555], 1)
 
         self.assertEqual(sd[780], 1)
+
+
+class TestMsdsConstant(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.generation.msds_constant` definition unit
+    tests methods.
+    """
+
+    def test_msds_constant(self):
+        """
+        Tests :func:`colour.colorimetry.generation.msds_constant` definition.
+        """
+
+        msds = msds_constant(np.pi, labels=['a', 'b', 'c'])
+
+        np.testing.assert_almost_equal(
+            msds[360], np.array([np.pi, np.pi, np.pi]), decimal=7)
+
+        np.testing.assert_almost_equal(
+            msds[555], np.array([np.pi, np.pi, np.pi]), decimal=7)
+
+        np.testing.assert_almost_equal(
+            msds[780], np.array([np.pi, np.pi, np.pi]), decimal=7)
+
+
+class TestMsdsZeros(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.generation.msds_zeros` definition unit
+    tests methods.
+    """
+
+    def test_msds_zeros(self):
+        """
+        Tests :func:`colour.colorimetry.generation.msds_zeros`
+        definition.
+        """
+
+        msds = msds_zeros(labels=['a', 'b', 'c'])
+
+        np.testing.assert_equal(msds[360], np.array([0, 0, 0]))
+
+        np.testing.assert_equal(msds[555], np.array([0, 0, 0]))
+
+        np.testing.assert_equal(msds[780], np.array([0, 0, 0]))
+
+
+class TestMsdsOnes(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.generation.msds_ones` definition unit
+    tests methods.
+    """
+
+    def test_msds_ones(self):
+        """
+        Tests :func:`colour.colorimetry.generation.msds_ones` definition.
+        """
+
+        msds = msds_ones(labels=['a', 'b', 'c'])
+
+        np.testing.assert_equal(msds[360], np.array([1, 1, 1]))
+
+        np.testing.assert_equal(msds[555], np.array([1, 1, 1]))
+
+        np.testing.assert_equal(msds[780], np.array([1, 1, 1]))
 
 
 class TestSdGaussianNormal(unittest.TestCase):

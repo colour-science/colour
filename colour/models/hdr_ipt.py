@@ -10,21 +10,15 @@ Defines the *hdr-IPT* colourspace transformations:
 -   :func:`colour.XYZ_to_hdr_IPT`
 -   :func:`colour.hdr_IPT_to_XYZ`
 
-See Also
---------
-`hdr-IPT Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/hdr_ipt.ipynb>`_
-
 References
 ----------
--   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).
-    hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of
-    High-Dynamic-Range and Wide-Color-Gamut Images. In Proc. of Color and
-    Imaging Conference (pp. 322-326). ISBN:9781629932156
+-   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB
+    and hdr-IPT: Simple Models for Describing the Color of High-Dynamic-Range
+    and Wide-Color-Gamut Images. Proc. of Color and Imaging Conference,
+    322-326. ISBN:978-1-62993-215-6
 -   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
-    lightness, and specifying color in high-dynamic-range scenes and images.
-    In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
+    lightness, and specifying color in high-dynamic-range scenes and images. In
+    S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
     System Performance VIII (p. 78670O). doi:10.1117/12.872075
 """
 
@@ -43,10 +37,10 @@ from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
 from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

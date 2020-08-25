@@ -16,18 +16,12 @@ Defines *yellowness* index :math:`Y` computation objects:
 -   :func:`colour.whiteness`: *Yellowness* :math:`YI` computation using given
     method.
 
-See Also
---------
-`Yellowness Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/yellowness.ipynb>`_
-
 References
 ----------
--   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color
-    iMatch Color Calculations Guide. Retrieved from
-    https://www.xrite.com/-/media/xrite/files/\
-apps_engineering_techdocuments/c/09_color_calculations_en.pdf
+-   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color iMatch
+    Color Calculations Guide.
+    https://www.xrite.com/-/media/xrite/files/apps_engineering_techdocuments/\
+c/09_color_calculations_en.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -36,10 +30,10 @@ from colour.utilities import (CaseInsensitiveMapping, from_range_100,
                               to_domain_100, tsplit)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

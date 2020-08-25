@@ -34,6 +34,7 @@ Common
     batch
     disable_multiprocessing
     multiprocessing_pool
+    is_matplotlib_installed
     is_networkx_installed
     is_openimageio_installed
     is_pandas_installed
@@ -72,6 +73,8 @@ Array
     as_numeric
     as_int
     as_float
+    set_float_precision
+    set_int_precision
     as_namedtuple
     closest_indexes
     closest
@@ -90,6 +93,9 @@ Array
     lerp
     fill_nan
     ndarray_write
+    zeros
+    ones
+    full
 
 Metrics
 -------
@@ -113,8 +119,10 @@ Data Structures
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     CaseInsensitiveMapping
+    LazyCaseInsensitiveMapping
     Lookup
     Structure
 
@@ -143,6 +151,7 @@ Verbose
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     ColourWarning
     ColourUsageWarning

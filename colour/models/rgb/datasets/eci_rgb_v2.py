@@ -7,16 +7,10 @@ Defines the *ECI RGB v2* colourspace:
 
 -   :attr:`colour.models.ECI_RGB_V2_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`EuropeanColorInitiative2002a` : European Color Initiative. (2002).
-    ECI RGB v2. Retrieved from
+    ECI RGB v2.
     http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 """
 
@@ -31,10 +25,10 @@ from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

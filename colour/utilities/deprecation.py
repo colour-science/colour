@@ -3,7 +3,7 @@
 Deprecation Utilities
 =====================
 
-Defines various deprecations management related objects.
+Defines various deprecation management related objects.
 """
 
 from __future__ import division, unicode_literals
@@ -16,10 +16,10 @@ from operator import attrgetter
 from colour.utilities import usage_warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -510,7 +510,7 @@ def handle_arguments_deprecation(changes, **kwargs):
 
     changes = build_API_changes(changes)
 
-    for kwarg in kwargs:
+    for kwarg in kwargs.copy():
         change = changes.get(kwarg)
 
         if change is None:

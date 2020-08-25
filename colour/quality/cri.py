@@ -8,17 +8,12 @@ Defines *Colour Rendering Index* (CRI) computation objects:
 -   :class:`colour.quality.CRI_Specification`
 -   :func:`colour.colour_rendering_index`
 
-See Also
---------
-`Colour Rendering Index Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/cri.ipynb>`_
-
 References
 ----------
--   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
-    Retrieved from https://drive.google.com/file/d/\
-1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
+-   :cite:`Ohno2008a` : Ohno, Yoshiro, & Davis, W. (2008). NIST CQS simulation
+    (Version 7.4) [Computer software].
+    https://drive.google.com/file/d/1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?\
+usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -28,18 +23,18 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
 from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series,
-    STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
+    DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series, STANDARD_OBSERVER_CMFS,
+    sd_blackbody, sd_to_XYZ)
 from colour.quality.datasets.tcs import TCS_INDEXES_TO_NAMES, TCS_SDS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -110,13 +105,13 @@ def colour_rendering_index(sd_test, additional_data=False):
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> sd = ILLUMINANTS_SDS['FL2']
+    >>> from colour import ILLUMINANT_SDS
+    >>> sd = ILLUMINANT_SDS['FL2']
     >>> colour_rendering_index(sd)  # doctest: +ELLIPSIS
-    64.1515202...
+    64.2337241...
     """
 
-    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
+    cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
     ).trim(DEFAULT_SPECTRAL_SHAPE)
 
     shape = cmfs.shape

@@ -11,27 +11,19 @@ Defines *CIECAM02* colour appearance model objects:
 -   :func:`colour.XYZ_to_CIECAM02`
 -   :func:`colour.CIECAM02_to_XYZ`
 
-See Also
---------
-`CIECAM02 Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/ciecam02.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2004c` : Fairchild, M. D. (2004). CIECAM02. In Color
-    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0470012161
--   :cite:`Luo2013` : Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent
-    Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
-    Processing and Analysis (pp. 19-58). New York, NY: Springer New York.
+    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0-470-01216-1
+-   :cite:`Luo2013` : Luo, Ming Ronnier, & Li, C. (2013). CIECAM02 and Its
+    Recent Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
+    Processing and Analysis (pp. 19-58). Springer New York.
     doi:10.1007/978-1-4419-6190-7
 -   :cite:`Moroneya` : Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C.,
-    Luo, M. R., & Newman, T. (2002). The CIECAM02 Color Appearance Model.
-    Color and Imaging Conference, (1), 23-27. Retrieved from
-    http://www.ingentaconnect.com/\
-content/ist/cic/2002/00002002/00000001/art00006
--   :cite:`Wikipedia2007a` : Wikipedia. (2007). CIECAM02. Retrieved August 14,
-    2014, from http://en.wikipedia.org/wiki/CIECAM02
+    Luo, M. R., & Newman, T. (2002). The CIECAM02 color appearance model. Color
+    and Imaging Conference, 1, 23-27.
+-   :cite:`Wikipedia2007a` : Fairchild, M. D. (2004). CIECAM02. In Color
+    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0-470-01216-1
 """
 
 from __future__ import division, unicode_literals
@@ -46,14 +38,14 @@ from colour.appearance.hunt import (HPE_TO_XYZ_MATRIX, XYZ_TO_HPE_MATRIX,
 from colour.constants import EPSILON
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
-    as_float, from_range_degrees, dot_matrix, dot_vector, from_range_100,
-    to_domain_100, to_domain_degrees, tsplit, tstack)
+    as_float, from_range_degrees, dot_matrix, dot_vector, from_range_100, ones,
+    to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -273,7 +265,7 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
 
     # Computing degree of adaptation :math:`D`.
     D = (degree_of_adaptation(surround.F, L_A)
-         if not discount_illuminant else np.ones(L_A.shape))
+         if not discount_illuminant else ones(L_A.shape))
 
     # Computing full chromatic adaptation.
     RGB_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
@@ -445,7 +437,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     # Computing degree of adaptation :math:`D`.
     D = (degree_of_adaptation(surround.F, L_A)
-         if not discount_illuminant else np.ones(L_A.shape))
+         if not discount_illuminant else ones(L_A.shape))
 
     # Computing full chromatic adaptation.
     RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
@@ -908,8 +900,8 @@ def opponent_colour_dimensions_inverse(P_n, h):
     P_5 = P_1 / cos_hr
     n = P_2 * (2 + P_3) * (460 / 1403)
 
-    a = np.zeros(hr.shape)
-    b = np.zeros(hr.shape)
+    a = zeros(hr.shape)
+    b = zeros(hr.shape)
 
     b = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
@@ -1464,7 +1456,7 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
 
     P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
     P_2 = A / N_bb + 0.305
-    P_3 = np.ones(P_1.shape) * (21 / 20)
+    P_3 = ones(P_1.shape) * (21 / 20)
 
     P_n = tstack([P_1, P_2, P_3])
 

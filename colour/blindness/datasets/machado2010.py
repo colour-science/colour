@@ -6,17 +6,12 @@ Pre-Computed Matrices for simulation of CVD - Machado (2009)
 Defines the pre-computed matrices for simulation of colour vision deficiency
 from Machado (2010).
 
-See Also
---------
-`Machado (2009) - CVD IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/cvd/Machado2009.ipynb>`_
-
 References
 ----------
--   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of
-    color vision deficiency and a color contrast enhancement technique for
-    dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
+-   :cite:`Machado2010a` : Machado, Gustavo Mello. (2010). A model for
+    simulation of color vision deficiency and a color contrast enhancement
+    technique for dichromats. (pp. 1-94).
+    http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals
@@ -26,10 +21,10 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['CVD_MATRICES_MACHADO2010']

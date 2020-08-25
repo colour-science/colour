@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-CRT Displays RGB Primaries
-==========================
+CRT Display RGB Primaries
+=========================
 
-Defines *CRT* displays *RGB* primaries multi-spectral distributions.
+Defines *CRT* display *RGB* primaries multi-spectral distributions.
 
 Each *CRT* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
@@ -16,17 +16,12 @@ The following *CRT* displays are available:
 
 -   Typical CRT Brainard 1997
 
-See Also
---------
-`Displays Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/displays.ipynb>`_
-
 References
 ----------
--   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of
-    color vision deficiency and a color contrast enhancement technique for
-    dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
+-   :cite:`Machado2010a` : Machado, Gustavo Mello. (2010). A model for
+    simulation of color vision deficiency and a color contrast enhancement
+    technique for dichromats. (pp. 1-94).
+    http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals
@@ -35,15 +30,15 @@ from colour.characterisation import RGB_DisplayPrimaries
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CRT_DISPLAYS_RGB_PRIMARIES_DATA', 'CRT_DISPLAYS_RGB_PRIMARIES']
+__all__ = ['CRT_DISPLAY_RGB_PRIMARIES_DATA', 'CRT_DISPLAY_RGB_PRIMARIES']
 
-CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
+CRT_DISPLAY_RGB_PRIMARIES_DATA = {
     'Typical CRT Brainard 1997': {
         380.0: (0.0025, 0.0018, 0.0219),
         385.0: (0.0017, 0.0016, 0.0336),
@@ -129,19 +124,19 @@ CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
     }
 }
 
-CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
+CRT_DISPLAY_RGB_PRIMARIES = CaseInsensitiveMapping({
     'Typical CRT Brainard 1997':
         RGB_DisplayPrimaries(
-            CRT_DISPLAYS_RGB_PRIMARIES_DATA['Typical CRT Brainard 1997'],
+            CRT_DISPLAY_RGB_PRIMARIES_DATA['Typical CRT Brainard 1997'],
             name='Typical CRT Brainard 1997')
 })
 """
-*CRT* displays *RGB* primaries multi-spectral distributions.
+*CRT* display *RGB* primaries multi-spectral distributions.
 
 References
 ----------
 :cite:`Machado2010a`
 
-CRT_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
+CRT_DISPLAY_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Typical CRT Brainard 1997'}**
 """

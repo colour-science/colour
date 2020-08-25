@@ -9,18 +9,12 @@ Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
 -   :func:`colour.models.oetf_ARIBSTDB67`
 -   :func:`colour.models.oetf_inverse_ARIBSTDB67`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`AssociationofRadioIndustriesandBusinesses2015a` : Association of
     Radio Industries and Businesses. (2015). Essential Parameter Values for the
     Extended Image Dynamic Range Television (EIDRTV) System for Programme
-    Production. Retrieved from
+    Production.
     https://www.arib.or.jp/english/std_tr/broadcasting/desc/std-b67.html
 """
 
@@ -33,10 +27,10 @@ from colour.utilities import (Structure, as_float, domain_range_scale,
                               from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

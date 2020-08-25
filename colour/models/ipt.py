@@ -12,12 +12,6 @@ And computation of correlates:
 
 -   :func:`colour.IPT_hue_angle`
 
-See Also
---------
-`IPT Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ipt.ipynb>`_
-
 References
 ----------
 -   :cite:`Fairchild2013y` : Fairchild, M. D. (2013). IPT Colourspace. In
@@ -33,10 +27,10 @@ from colour.utilities import (from_range_1, from_range_degrees, to_domain_1,
                               dot_vector, tsplit)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

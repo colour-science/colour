@@ -13,18 +13,12 @@ Defines the *Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)*
 -   :func:`colour.JMh_CAM16_to_CAM16UCS`
 -   :func:`colour.CAM16UCS_to_JMh_CAM16`
 
-See Also
---------
-`CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cam16_ucs.ipynb>`_
-
 References
 ----------
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
-    Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
-    CAM16-UCS. Color Research & Application, 42(6), 703-718.
-    doi:10.1002/col.22131
+    Melgosa, M., Brill, M. H., & Pointer, M. (2017). Comprehensive color
+    solutions: CAM16, CAT16, and CAM16-UCS. Color Research & Application,
+    42(6), 703-718. doi:10.1002/col.22131
 """
 
 from __future__ import division, unicode_literals
@@ -40,10 +34,10 @@ from colour.models.cam02_ucs import (
     CAM02UCS_to_JMh_CIECAM02)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

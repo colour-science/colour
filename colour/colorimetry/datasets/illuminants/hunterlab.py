@@ -3,7 +3,7 @@
 HunterLab Dataset
 =================
 
-Defines the *HunterLab* illuminants datasets for the
+Defines the *HunterLab* illuminants dataset for the
 *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 
@@ -11,19 +11,12 @@ The currently implemented data has been extracted from :cite:`HunterLab2008b`,
 however you may want to use different data according to the tables given in
 :cite:`HunterLab2008c`.
 
-See Also
---------
-`Illuminants Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-
 References
 ----------
 -   :cite:`HunterLab2008b` : HunterLab. (2008). Hunter L,a,b Color Scale.
-    Retrieved from http://www.hunterlab.se/wp-content/uploads/2012/11/\
-Hunter-L-a-b.pdf
--   :cite:`HunterLab2008c` : HunterLab. (2008). Illuminant Factors in Universal
-    Software and EasyMatch Coatings. Retrieved from
+    http://www.hunterlab.se/wp-content/uploads/2012/11/Hunter-L-a-b.pdf
+-   :cite:`HunterLab2008c` : HunterLab. (2008). Illuminant Factors in
+    Universal Software and EasyMatch Coatings.
     https://support.hunterlab.com/hc/en-us/article_attachments/201437785/\
 an02_02.pdf
 """
@@ -36,10 +29,10 @@ from collections import namedtuple
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -73,7 +66,8 @@ HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
         for x in HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA
     }))
 """
-*Hunter L,a,b* illuminant datasets for *CIE 1931 2 Degree Standard Observer*.
+*Hunter L,a,b* illuminant dataset for the
+*CIE 1931 2 Degree Standard Observer*.
 
 References
 ----------
@@ -103,7 +97,8 @@ HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
         HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA
     }))
 """
-*Hunter L,a,b* illuminant datasets for *CIE 1964 10 Degree Standard Observer*.
+*Hunter L,a,b* illuminant dataset for the
+*CIE 1964 10 Degree Standard Observer*.
 
 References
 ----------
@@ -120,7 +115,7 @@ HUNTERLAB_ILLUMINANTS = CaseInsensitiveMapping({
         HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
 })
 HUNTERLAB_ILLUMINANTS.__doc__ = """
-Aggregated *Hunter L,a,b* illuminant datasets.
+Aggregated *Hunter L,a,b* illuminant dataset.
 
 References
 ----------

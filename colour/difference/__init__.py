@@ -4,28 +4,28 @@ References
 ----------
 -   :cite:`ASTMInternational2007` : ASTM International. (2007). ASTM D2244-07 -
     Standard Practice for Calculation of Color Tolerances and Color Differences
-    from Instrumentally Measured Color Coordinates, i, 1-10.
-    doi:10.1520/D2244-07
+    from Instrumentally Measured Color Coordinates: Vol. i (pp. 1-10).
+    doi:10.1520/D2244-16
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
-    Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
-    CAM16-UCS. Color Research & Application, 42(6), 703-718.
-    doi:10.1002/col.22131
+    Melgosa, M., Brill, M. H., & Pointer, M. (2017). Comprehensive color
+    solutions: CAM16, CAT16, and CAM16-UCS. Color Research & Application,
+    42(6), 703-718. doi:10.1002/col.22131
 -   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
 -   :cite:`Lindbloom2009e` : Lindbloom, B. (2009). Delta E (CIE 2000).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
--   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC).Retrieved
+-   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC). Retrieved
     February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
 -   :cite:`Lindbloom2011a` : Lindbloom, B. (2011). Delta E (CIE 1994).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
--   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
-    spaces based on CIECAM02 colour appearance model. Color Research &
+-   :cite:`Luo2006b` : Luo, M. Ronnier, Cui, G., & Li, C. (2006). Uniform
+    colour spaces based on CIECAM02 colour appearance model. Color Research &
     Application, 31(4), 320-330. doi:10.1002/col.20227
 -   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
-    CIEDE2000. Retrieved from http://www.color.org/events/colorimetry/\
+    CIEDE2000. http://www.color.org/events/colorimetry/\
 Melgosa_CIEDE2000_Workshop-July4.pdf
 -   :cite:`Wikipedia2008b` : Wikipedia. (2008). Color difference. Retrieved
     August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference

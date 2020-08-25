@@ -15,12 +15,6 @@ The following correction methods are available:
 -   :func:`colour.bandpass_correction`: Spectral bandpass dependence
     correction using given method.
 
-See Also
---------
-`Spectral Bandpass Dependence Correction Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/correction.ipynb>`_
-
 References
 ----------
 -   :cite:`Stearns1988a` : Stearns, E. I., & Stearns, R. E. (1988). An example
@@ -38,10 +32,10 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -93,9 +87,9 @@ def bandpass_correction_Stearns1988(sd):
                           [ 580.        ,    0.1129644...],
                           [ 600.        ,    0.1379256...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     values = np.copy(sd.values)
@@ -166,9 +160,9 @@ def bandpass_correction(sd, method='Stearns 1988'):
                           [ 580.        ,    0.1129644...],
                           [ 600.        ,    0.1379256...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     return BANDPASS_CORRECTION_METHODS.get(method)(sd)

@@ -28,10 +28,10 @@ from six import add_metaclass
 from colour.utilities import as_float, closest, is_uniform, is_string
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['AbstractContinuousFunction']
@@ -67,9 +67,9 @@ class AbstractContinuousFunction:
     domain
     range
     interpolator
-    interpolator_args
+    interpolator_kwargs
     extrapolator
-    extrapolator_args
+    extrapolator_kwargs
     function
 
     Methods
@@ -253,7 +253,7 @@ class AbstractContinuousFunction:
 
     interpolator = abstractproperty(_get_interpolator, _set_interpolator)
 
-    def _get_interpolator_args(self):
+    def _get_interpolator_kwargs(self):
         """
         Getter and setter property for the abstract continuous function
         interpolator instantiation time arguments, must be reimplemented by
@@ -274,16 +274,16 @@ class AbstractContinuousFunction:
 
         pass
 
-    def _set_interpolator_args(self, value):
+    def _set_interpolator_kwargs(self, value):
         """
-        Setter for the **self.interpolator_args** property, must be
+        Setter for the **self.interpolator_kwargs** property, must be
         reimplemented by sub-classes.
         """
 
         pass
 
-    interpolator_args = abstractproperty(_get_interpolator_args,
-                                         _set_interpolator_args)
+    interpolator_kwargs = abstractproperty(_get_interpolator_kwargs,
+                                           _set_interpolator_kwargs)
 
     def _get_extrapolator(self):
         """
@@ -314,7 +314,7 @@ class AbstractContinuousFunction:
 
     extrapolator = abstractproperty(_get_extrapolator, _set_extrapolator)
 
-    def _get_extrapolator_args(self):
+    def _get_extrapolator_kwargs(self):
         """
         Getter and setter property for the abstract continuous function
         extrapolator instantiation time arguments, must be reimplemented by
@@ -335,16 +335,16 @@ class AbstractContinuousFunction:
 
         pass
 
-    def _set_extrapolator_args(self, value):
+    def _set_extrapolator_kwargs(self, value):
         """
-        Setter for the **self.extrapolator_args** property, must be
+        Setter for the **self.extrapolator_kwargs** property, must be
         reimplemented by sub-classes.
         """
 
         pass
 
-    extrapolator_args = abstractproperty(_get_extrapolator_args,
-                                         _set_extrapolator_args)
+    extrapolator_kwargs = abstractproperty(_get_extrapolator_kwargs,
+                                           _set_extrapolator_kwargs)
 
     def _get_function(self):
         """

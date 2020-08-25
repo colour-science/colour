@@ -8,17 +8,11 @@ Implements support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
 -   :func:`colour.biochemistry.reaction_rate_MichealisMenten`
 -   :func:`colour.biochemistry.substrate_concentration_MichealisMenten`
 
-See Also
---------
-`Michaelis-Menten Kinetics
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/biochemistry/michaelis_menten.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2003d` : Wikipedia. (2003). Michaelis-Menten kinetics.
-    Retrieved April 29, 2017, from https://en.wikipedia.org/wiki/\
-Michaelis-Menten_kinetics
+    Retrieved April 29, 2017, from
+    https://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics
 """
 
 from __future__ import division, unicode_literals
@@ -26,10 +20,10 @@ from __future__ import division, unicode_literals
 from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

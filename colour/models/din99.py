@@ -8,18 +8,12 @@ Defines the *DIN99* colourspace transformations:
 -   :func:`colour.Lab_to_DIN99`
 -   :func:`colour.DIN99_to_Lab`
 
-See Also
---------
-`DIN99 Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/din99.ipynb>`_
-
 References
 ----------
 -   :cite:`ASTMInternational2007` : ASTM International. (2007). ASTM D2244-07 -
     Standard Practice for Calculation of Color Tolerances and Color Differences
-    from Instrumentally Measured Color Coordinates, i, 1-10.
-    doi:10.1520/D2244-07
+    from Instrumentally Measured Color Coordinates: Vol. i (pp. 1-10).
+    doi:10.1520/D2244-16
 """
 
 from __future__ import division, unicode_literals
@@ -30,10 +24,10 @@ from colour.algebra import spow
 from colour.utilities import from_range_100, tsplit, tstack, to_domain_100
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['Lab_to_DIN99', 'DIN99_to_Lab']

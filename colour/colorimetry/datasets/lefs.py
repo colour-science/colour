@@ -21,12 +21,6 @@ The following luminous efficiency functions are available:
 -   CIE 2008 10 Degree Physiologically Relevant LEF
 -   CIE 1951 Scotopic Standard Observer
 
-See Also
---------
-`Luminous Efficiency Functions Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/lefs.ipynb>`_
-
 Notes
 -----
 -   The luminous efficiency functions are provided at 1 nm interval.
@@ -45,8 +39,8 @@ References
 -   :cite:`CVRLs` : CVRL. (n.d.). Older CIE Standards. Retrieved February 24,
     2014, from http://cvrl.ioo.ucl.ac.uk/cie.htm
 -   :cite:`Wikipedia2005d` : Wikipedia. (2005). Mesopic weighting function.
-    Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/\
-Mesopic_vision#Mesopic_weighting_function
+    Retrieved June 20, 2014, from
+    http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
 from __future__ import division, unicode_literals
@@ -55,10 +49,10 @@ from colour.colorimetry import SpectralDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

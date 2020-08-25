@@ -15,10 +15,10 @@ from colour.utilities.deprecation import (
     get_attribute, build_API_changes, handle_arguments_deprecation)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -256,7 +256,7 @@ class TestArgumentFutureRename(unittest.TestCase):
     def test__str__(self):
         """
         Tests :meth:`colour.utilities.deprecation.\
-    ArgumentFutureRename.__str__` method.
+ArgumentFutureRename.__str__` method.
         """
 
         self.assertIn('name', str(ArgumentFutureRename('name', 'new_name')))

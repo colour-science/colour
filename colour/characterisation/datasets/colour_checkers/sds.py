@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Colour Checkers Spectral Distributions
-======================================
+Colour Checker Spectral Distributions
+=====================================
 
-Defines *Colour Checkers* spectral distributions.
+Defines *Colour Checker* spectral distributions.
 
 Each *Colour Checker* data is in the form of :class:`OrderedDict`
 class instance of :class:`colour.SpectralDistribution` classes as
@@ -11,7 +11,7 @@ follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
-The following *Colour Checkers* data is available:
+The following *Colour Checkers* are available:
 
 -   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
 COLORCHECKER_N_OHTA_SDS`: Measured by Ohta (1997).
@@ -19,23 +19,16 @@ COLORCHECKER_N_OHTA_SDS`: Measured by Ohta (1997).
 BABELCOLOR_AVERAGE_SDS`: Average data derived from measurements of
     30 *Colour Checker* charts.
 
-See Also
---------
-`Colour Fitting Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/characterisation/fitting.ipynb>`_
-
 References
 ----------
--   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker
-    (since 1976!). Retrieved September 26, 2014, from
+-   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker (since
+    1976!). Retrieved September 26, 2014, from
     http://www.babelcolor.com/main_level/ColorChecker.htm
--   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and spectra.
-    Retrieved from http://www.babelcolor.com/download/\
-ColorChecker_RGB_and_spectra.xls
+-   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and
+    spectra.
+    http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
 -   :cite:`MunsellColorScienceb` : Munsell Color Science. (n.d.). Macbeth
-    Colorchecker. Retrieved from http://www.rit-mcsl.org/UsefulData/\
-MacbethColorChecker.xls
+    Colorchecker. http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
 -   :cite:`Ohta1997a` : Ohta, N. (1997). The basis of color reproduction
     engineering.
 """
@@ -48,20 +41,20 @@ from colour.utilities import CaseInsensitiveMapping
 from collections import OrderedDict
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __copyright__ += ', '
 __copyright__ += (
     'BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale '
     '(www.babelcolor.com); used by permission.')
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
     'COLORCHECKER_N_OHTA_SDS_DATA', 'COLORCHECKER_N_OHTA_SDS',
     'BABELCOLOR_AVERAGE_SDS_DATA', 'BABELCOLOR_AVERAGE_SDS',
-    'COLOURCHECKERS_SDS'
+    'COLOURCHECKER_SDS'
 ]
 
 COLORCHECKER_N_OHTA_SDS_DATA = OrderedDict((
@@ -2992,19 +2985,19 @@ Average data derived from measurements of 30 *Colour Checker* charts.
 BABELCOLOR_AVERAGE_SDS : dict
 """
 
-COLOURCHECKERS_SDS = CaseInsensitiveMapping({
+COLOURCHECKER_SDS = CaseInsensitiveMapping({
     'BabelColor Average': BABELCOLOR_AVERAGE_SDS,
     'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SDS
 })
-COLOURCHECKERS_SDS.__doc__ = """
-Aggregated *Colour Checkers* spectral distributions.
+COLOURCHECKER_SDS.__doc__ = """
+Aggregated *Colour Checker* spectral distributions.
 
 References
 ----------
 :cite:`Ohta1997a`, :cite:`BabelColor2012b`, :cite:`BabelColor2012c`,
 :cite:`MunsellColorScienceb`
 
-COLOURCHECKERS : CaseInsensitiveMapping
+COLOURCHECKER_SDS : CaseInsensitiveMapping
     **{'BabelColor Average', 'ColorChecker N Ohta'}**
 
 Aliases:
@@ -3012,5 +3005,5 @@ Aliases:
 -   'babel_average': 'BabelColor Average'
 -   'cc_ohta': 'ColorChecker N Ohta'
 """
-COLOURCHECKERS_SDS['babel_average'] = COLOURCHECKERS_SDS['BabelColor Average']
-COLOURCHECKERS_SDS['cc_ohta'] = COLOURCHECKERS_SDS['ColorChecker N Ohta']
+COLOURCHECKER_SDS['babel_average'] = COLOURCHECKER_SDS['BabelColor Average']
+COLOURCHECKER_SDS['cc_ohta'] = COLOURCHECKER_SDS['ColorChecker N Ohta']

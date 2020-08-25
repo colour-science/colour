@@ -29,13 +29,14 @@ except ImportError:  # pragma: no cover
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.utilities import (as_float_array, first_item, is_pandas_installed,
-                              tsplit, tstack)
+                              usage_warning, tsplit, tstack)
+from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['MultiSignals']
@@ -71,13 +72,13 @@ dict_like, optional
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.continuous.Signal` sub-class instances.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function
         of the :class:`colour.continuous.Signal` sub-class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.continuous.Signal` sub-class instances.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.continuous.Signal` sub-class instances.
     signal_type : type, optional
@@ -90,9 +91,9 @@ dict_like, optional
     domain
     range
     interpolator
-    interpolator_args
+    interpolator_kwargs
     extrapolator
-    extrapolator_args
+    extrapolator_kwargs
     function
     signals
     labels
@@ -195,7 +196,7 @@ dict_like, optional
      >>> type(multi_signals.signals[0])  # doctest: +SKIP
      <class 'multi_signals.NotSignal'>
 
-    Instantiation with a *Pandas* *Series*:
+    Instantiation with a *Pandas* `Series`:
 
     >>> if is_pandas_installed():
     ...     from pandas import Series
@@ -212,7 +213,7 @@ dict_like, optional
      [  900.    90.]
      [ 1000.   100.]]
 
-    Instantiation with a *Pandas* *Dataframe*:
+    Instantiation with a *Pandas* `DataFrame`:
 
     >>> if is_pandas_installed():
     ...     from pandas import DataFrame
@@ -406,7 +407,7 @@ dict_like, optional
                 signal.interpolator = value
 
     @property
-    def interpolator_args(self):
+    def interpolator_kwargs(self):
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances interpolator instantiation time arguments.
@@ -425,17 +426,17 @@ dict_like, optional
         """
 
         if self._signals:
-            return first_item(self._signals.values()).interpolator_args
+            return first_item(self._signals.values()).interpolator_kwargs
 
-    @interpolator_args.setter
-    def interpolator_args(self, value):
+    @interpolator_kwargs.setter
+    def interpolator_kwargs(self, value):
         """
-        Setter for the **self.interpolator_args** property.
+        Setter for the **self.interpolator_kwargs** property.
         """
 
         if value is not None:
             for signal in self._signals.values():
-                signal.interpolator_args = value
+                signal.interpolator_kwargs = value
 
     @property
     def extrapolator(self):
@@ -470,7 +471,7 @@ dict_like, optional
                 signal.extrapolator = value
 
     @property
-    def extrapolator_args(self):
+    def extrapolator_kwargs(self):
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances extrapolator instantiation time arguments.
@@ -489,17 +490,17 @@ dict_like, optional
         """
 
         if self._signals:
-            return first_item(self._signals.values()).extrapolator_args
+            return first_item(self._signals.values()).extrapolator_kwargs
 
-    @extrapolator_args.setter
-    def extrapolator_args(self, value):
+    @extrapolator_kwargs.setter
+    def extrapolator_kwargs(self, value):
         """
-        Setter for the **self.extrapolator_args** property.
+        Setter for the **self.extrapolator_kwargs** property.
         """
 
         if value is not None:
             for signal in self._signals.values():
-                signal.extrapolator_args = value
+                signal.extrapolator_kwargs = value
 
     @property
     def function(self):
@@ -668,9 +669,9 @@ or dict_like
                       [   9.,  100.,  110.,  120.]],
                      labels=[0, 1, 2],
                      interpolator=KernelInterpolator,
-                     interpolator_args={},
+                     interpolator_kwargs={},
                      extrapolator=Extrapolator,
-                     extrapolator_args={...)
+                     extrapolator_kwargs={...)
         """
 
         try:
@@ -684,19 +685,19 @@ or dict_like
             representation = ('{0},\n'
                               '{1}labels={2},\n'
                               '{1}interpolator={3},\n'
-                              '{1}interpolator_args={4},\n'
+                              '{1}interpolator_kwargs={4},\n'
                               '{1}extrapolator={5},\n'
-                              '{1}extrapolator_args={6})').format(
+                              '{1}extrapolator_kwargs={6})').format(
                                   representation[:-1],
                                   ' ' * (len(self.__class__.__name__) + 1),
                                   repr(self.labels), self.interpolator.__name__
                                   if self.interpolator is not None else
                                   self.interpolator,
-                                  repr(self.interpolator_args),
+                                  repr(self.interpolator_kwargs),
                                   self.extrapolator.__name__
                                   if self.extrapolator is not None else
                                   self.extrapolator,
-                                  repr(self.extrapolator_args))
+                                  repr(self.extrapolator_kwargs))
 
             return representation
         except TypeError:
@@ -712,7 +713,14 @@ or dict_like
             Object hash.
         """
 
-        return hash(repr(self))
+        return hash((
+            self.domain.tostring(),
+            self.range.tostring(),
+            self.interpolator.__name__,
+            repr(self.interpolator_kwargs),
+            self.extrapolator.__name__,
+            repr(self.extrapolator_kwargs),
+        ))
 
     def __getitem__(self, x):
         """
@@ -948,9 +956,9 @@ or dict_like
                     np.array_equal(
                         self.range,
                         other.range), self.interpolator is other.interpolator,
-                    self.interpolator_args == other.interpolator_args,
+                    self.interpolator_kwargs == other.interpolator_kwargs,
                     self.extrapolator is other.extrapolator,
-                    self.extrapolator_args == other.extrapolator_args,
+                    self.extrapolator_kwargs == other.extrapolator_kwargs,
                     self.labels == other.labels
             ]):
                 return True
@@ -1136,7 +1144,7 @@ or dict_like
     def multi_signals_unpack_data(data=None,
                                   domain=None,
                                   labels=None,
-                                  dtype=DEFAULT_FLOAT_DTYPE,
+                                  dtype=None,
                                   signal_type=Signal,
                                   **kwargs):
         """
@@ -1166,13 +1174,13 @@ dict_like, optional
         interpolator : object, optional
             Interpolator class type to use as interpolating function for the
             :class:`colour.continuous.Signal` sub-class instances.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function
             of the :class:`colour.continuous.Signal` sub-class instances.
         extrapolator : object, optional
             Extrapolator class type to use as extrapolating function for the
             :class:`colour.continuous.Signal` sub-class instances.
-        extrapolator_args : dict_like, optional
+        extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function
             of the :class:`colour.continuous.Signal` sub-class instances.
 
@@ -1276,7 +1284,7 @@ dict_like, optional
          [  900.   110.]
          [ 1000.   120.]]
 
-        Unpacking using a *Pandas* *Series*:
+        Unpacking using a *Pandas* `Series`:
 
         >>> if is_pandas_installed():
         ...     from pandas import Series
@@ -1294,7 +1302,7 @@ dict_like, optional
          [  900.    90.]
          [ 1000.   100.]]
 
-        Unpacking using a *Pandas* *Dataframe*:
+        Unpacking using a *Pandas* `DataFrame`:
 
         >>> if is_pandas_installed():
         ...     from pandas import DataFrame
@@ -1314,9 +1322,8 @@ dict_like, optional
          [ 1000.   120.]]
         """
 
-        assert dtype in np.sctypes['float'], (
-            '"dtype" must be one of the following types: {0}'.format(
-                np.sctypes['float']))
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
 
         domain_u, range_u, signals = None, None, None
         signals = OrderedDict()
@@ -1481,3 +1488,46 @@ dict_like, optional
 
             return DataFrame(
                 data=self.range, index=self.domain, columns=self.labels)
+
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    @property
+    def interpolator_args(self):
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed('MultiSignals.interpolator_args',
+                              'MultiSignals.interpolator_kwargs')))
+
+        return self.interpolator_kwargs
+
+    @interpolator_args.setter
+    def interpolator_args(self, value):
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed('MultiSignals.interpolator_args',
+                              'MultiSignals.interpolator_kwargs')))
+
+        self.interpolator_kwargs = value
+
+    @property
+    def extrapolator_args(self):
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed('MultiSignals.extrapolator_args',
+                              'MultiSignals.extrapolator_kwargs')))
+
+        return self.extrapolator_kwargs
+
+    @extrapolator_args.setter
+    def extrapolator_args(self, value):
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed('MultiSignals.extrapolator_args',
+                              'MultiSignals.extrapolator_kwargs')))
+
+        self.extrapolator_kwargs = value

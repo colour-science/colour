@@ -7,7 +7,7 @@
 .. |NumFOCUS| image:: https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat-square&colorA=E1523D&colorB=007D8A
     :target: http://numfocus.org
     :alt: Powered by NumFOCUS
-.. |actions| image:: https://github.com/colour-science/colour/workflows/Continuous%20Integration/badge.svg
+.. |actions| image:: https://img.shields.io/github/workflow/status/colour-science/colour/Continuous%20Integration?label=actions&logo=github&style=flat-square
     :target: https://github.com/colour-science/colour/actions
     :alt: Develop Build Status
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
@@ -19,8 +19,8 @@
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.org/project/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.3519603-blue.svg?style=flat-square
-    :target: https://dx.doi.org/10.5281/zenodo.3519603
+.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.3627408-blue.svg?style=flat-square
+    :target: https://dx.doi.org/10.5281/zenodo.3627408
     :alt: DOI
 
 .. end-badges
@@ -48,6 +48,198 @@ The draft release notes of the
 `develop <https://github.com/colour-science/colour/tree/develop>`__
 branch are available at this
 `url <https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d>`__.
+
+Sponsors
+--------
+
+We are grateful 💖 for the support of our
+`sponsors <https://github.com/colour-science/colour/blob/develop/SPONSORS.rst>`__.
+If you'd like to join them, please consider
+`becoming a sponsor on OpenCollective <https://opencollective.com/colour-science>`__.
+
+.. begin-trim-long-description
+
+.. raw:: html
+
+    <h2 align="center">Gold Sponsors</h2>
+
+.. raw:: html
+
+    <table>
+        <tbody>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://makeup.land/" target="_blank">
+                        <img width="288px"" src="https://images.opencollective.com/makeup-land/28c2133/logo/512.png">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="288px"" src="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="288px"" src="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+.. raw:: html
+
+    <h2 align="center">Bronze Sponsors</h2>
+
+.. raw:: html
+
+    <table>
+        <tbody>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://github.com/scoopxyz" target="_blank">
+                        <img width="126px" src="https://avatars0.githubusercontent.com/u/22137450">
+                    </a>
+                    <p><a href="https://github.com/scoopxyz" target="_blank">Sean Cooper</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+.. raw:: html
+
+    <h2 align="center">Donations & Special Sponsors</h2>
+
+.. raw:: html
+
+    <table>
+        <tbody>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://www.jetbrains.com/" target="_blank">
+                        <img height="176px" src="https://i.imgur.com/nN1VDUG.png">
+                    </a>
+                    <p><a href="https://www.jetbrains.com/" target="_blank">JetBrains</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://github.com/sobotka" target="_blank">
+                        <img width="176px" src="https://avatars2.githubusercontent.com/u/59577">
+                    </a>
+                    <p><a href="https://github.com/sobotka" target="_blank">Troy James Sobotka</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://github.com/remia" target="_blank">
+                        <img width="176px" src="https://avatars3.githubusercontent.com/u/1922806">
+                    </a>
+                    <p><a href="https://github.com/remia" target="_blank">Remi Achard</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="http://virtualmatter.org/" target="_blank">
+                        <img width="176px" src="https://ca.slack-edge.com/T02KH93GH-UCFD09UUT-g2f156f5e08e-512">
+                    </a>
+                    <p><a href="http://virtualmatter.org/" target="_blank">Kevin Whitfield</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://www.richardlackey.com/" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/555774739629633536/JjxFzBHy.jpeg">
+                    </a>
+                    <p><a href="https://www.richardlackey.com/" target="_blank">Richard Lackey</a></p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://www.artstation.com/monsieur_lixm" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1006611034088595462/HNQh_FZQ.jpg">
+                    </a>
+                    <p><a href="https://www.artstation.com/monsieur_lixm" target="_blank">Liam Collod</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="http://antlerpost.com/" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1175674352/NS_Portrait_1k.jpg">
+                    </a>
+                    <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://twitter.com/alexmitchellmus" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/763631280722370560/F9FN4lEz.jpg">
+                    </a>
+                    <p><a href="https://twitter.com/alexmitchellmus" target="_blank">Alex Mitchell</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://twitter.com/ilia_sibiryakov" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1072964248890998796/kAKBzCef.jpg">
+                    </a>
+                    <p><a href="https://twitter.com/ilia_sibiryakov" target="_blank">Ilia Sibiryakov</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://github.com/zachlewis" target="_blank">
+                        <img width="176px" src="https://avatars0.githubusercontent.com/u/2228592">
+                    </a>
+                    <p><a href="https://github.com/zachlewis" target="_blank">Zack Lewis</a></p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://twitter.com/fredsavoir" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/363988638/FS_Portrait082009.jpg">
+                    </a>
+                    <p><a href="https://twitter.com/fredsavoir" target="_blank">Frederic Savoir</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+.. end-trim-long-description
 
 Features
 --------
@@ -100,13 +292,6 @@ API Reference
 The main technical reference for **Colour** and its API is the
 `Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`__.
 
-Jupyter Notebooks
-~~~~~~~~~~~~~~~~~
-
-`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
-are available and designed to provide an historical perspective of colour
-science via **Colour** usage.
-
 Examples
 ~~~~~~~~
 
@@ -126,7 +311,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> sd = colour.COLOURCHECKER_SDS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
 
 ::
@@ -142,7 +327,7 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> illuminant = colour.ILLUMINANTS_SDS['FL2']
+    >>> illuminant = colour.ILLUMINANT_SDS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
     array([ 0.47924575,  0.31676968,  0.17362725])
 
@@ -204,7 +389,7 @@ Colour Blindness - ``colour.blindness``
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
-    >>> primaries = colour.DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> primaries = colour.DISPLAY_RGB_PRIMARIES['Apple Studio Display']
     >>> d_LMS = (15, 0, 0)
     >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
     array([[-0.27774652,  2.65150084, -1.37375432],
@@ -225,6 +410,18 @@ Colour Correction - ``colour characterisation``
     >>> sorted(colour.COLOUR_CORRECTION_METHODS.keys())
     ['Cheung 2004', 'Finlayson 2015', 'Vandermonde']
 
+ACES Input Transform - ``colour characterisation``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> sensitivities = colour.CAMERA_RGB_SPECTRAL_SENSITIVITIES['Nikon 5100 (NPL)']
+    >>> illuminant = colour.ILLUMINANT_SDS['D55']
+    >>> colour.idt_matrix(sensitivities, illuminant)
+    array([[ 0.46579991,  0.13409239,  0.01935141],
+           [ 0.01786094,  0.77557292, -0.16775555],
+           [ 0.03458652, -0.16152926,  0.74270359]])
+
 Colorimetry - ``colour.colorimetry``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -233,7 +430,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
+    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCE_SDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     ['ASTM E308', 'Integration', 'astm2015']
@@ -370,13 +567,13 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: python
 
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_flux(sd)
     23807.655527367202
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficiency(sd)
     0.19943935624521045
-    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> sd = colour.LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> colour.luminous_efficacy(sd)
     136.21708031547874
 
@@ -694,6 +891,7 @@ RGB Colourspaces
      'DJI D-Gamut',
      'DRAGONcolor',
      'DRAGONcolor2',
+     'Display P3',
      'Don RGB 4',
      'ECI RGB v2',
      'ERIMM RGB',
@@ -726,6 +924,8 @@ RGB Colourspaces
      'SMPTE C',
      'Sharp RGB',
      'V-Gamut',
+     'Venice S-Gamut3',
+     'Venice S-Gamut3.Cine',
      'Xtreme RGB',
      'aces',
      'adobe1998',
@@ -739,7 +939,6 @@ OETFs
 
     >>> sorted(colour.OETFS.keys())
     ['ARIB STD-B67',
-     'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
@@ -753,7 +952,7 @@ OETFs Inverse
 
     >>> sorted(colour.OETF_INVERSES.keys())
     ['ARIB STD-B67',
-     'ITU-R BT.2100 HLD',
+     'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
      'ITU-R BT.709']
@@ -783,6 +982,7 @@ EOTFs Inverse
     ['DCDM',
      'DICOM GSDF',
      'ITU-R BT.1886',
+     'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
      'ST 2084',
@@ -942,7 +1142,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.ILLUMINANTS_SDS['FL2'])
+    >>> colour.colour_quality_scale(colour.ILLUMINANT_SDS['FL2'])
     64.017283509280588
     >>> colour.COLOUR_QUALITY_SCALE_METHODS
     ('NIST CQS 7.4', 'NIST CQS 9.0')
@@ -952,8 +1152,16 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['FL2'])
+    >>> colour.colour_rendering_index(colour.ILLUMINANT_SDS['FL2'])
     64.151520202968015
+
+Academy Spectral Similarity Index (SSI)
+***************************************
+
+.. code-block:: python
+
+    >>> colour.spectral_similarity_index(colour.ILLUMINANT_SDS['C'], colour.ILLUMINANT_SDS['D65'])
+    94.0
 
 Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -974,7 +1182,7 @@ Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
                          extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
 
     >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS.keys())
-    ['Meng 2015', 'Smits 1999']
+    ['Jakob 2019', 'Meng 2015', 'Smits 1999']
 
 Correlated Colour Temperature Computation Methods - ``colour.temperature``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -995,6 +1203,31 @@ Colour Volume - ``colour.volume``
 
     >>> colour.RGB_colourspace_volume_MonteCarlo(colour.RGB_COLOURSPACE['sRGB'])
     821958.30000000005
+
+Geometry Primitives Generation - ``colour.geometry``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> colour.primitive('Grid')
+    (array([ ([-0.5,  0.5,  0. ], [ 0.,  1.], [ 0.,  0.,  1.], [ 0.,  1.,  0.,  1.]),
+           ([ 0.5,  0.5,  0. ], [ 1.,  1.], [ 0.,  0.,  1.], [ 1.,  1.,  0.,  1.]),
+           ([-0.5, -0.5,  0. ], [ 0.,  0.], [ 0.,  0.,  1.], [ 0.,  0.,  0.,  1.]),
+           ([ 0.5, -0.5,  0. ], [ 1.,  0.], [ 0.,  0.,  1.], [ 1.,  0.,  0.,  1.])],
+          dtype=[('position', '<f4', (3,)), ('uv', '<f4', (2,)), ('normal', '<f4', (3,)), ('colour', '<f4', (4,))]), array([[0, 2, 1],
+           [2, 3, 1]], dtype=uint32), array([[0, 2],
+           [2, 3],
+           [3, 1],
+           [1, 0]], dtype=uint32))
+    >>> sorted(colour.PRIMITIVE_METHODS.keys())
+    ['Cube', 'Grid']
+    >>> colour.primitive_vertices('Quad MPL')
+    array([[ 0.,  0.,  0.],
+           [ 1.,  0.,  0.],
+           [ 1.,  1.,  0.],
+           [ 0.,  1.,  0.]])
+    >>> sorted(colour.PRIMITIVE_VERTICES_METHODS.keys())
+    ['Cube MPL', 'Grid MPL', 'Quad MPL', 'Sphere']
 
 Plotting - ``colour.plotting``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1082,7 +1315,7 @@ Colour Checker
     ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
     >>> plot_multi_sds(
     ...     [
-    ...         colour.COLOURCHECKERS_SDS['BabelColor Average'][value]
+    ...         colour.COLOURCHECKER_SDS['BabelColor Average'][value]
     ...         for key, value in sorted(
     ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
     ...     ],
@@ -1094,7 +1327,7 @@ Colour Checker
 
 .. code-block:: python
 
-    >>> plot_single_colour_checker('ColorChecker 2005', text_parameters={'visible': False})
+    >>> plot_single_colour_checker('ColorChecker 2005', text_kwargs={'visible': False})
 
 ..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_ColorChecker_2005.png
 
@@ -1135,7 +1368,7 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> plot_single_sd_colour_rendering_index_bars(
-    ...     colour.ILLUMINANTS_SDS['FL2'])
+    ...     colour.ILLUMINANT_SDS['FL2'])
 
 ..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_CRI.png
 
@@ -1195,10 +1428,77 @@ Code of Conduct
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
 is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
 
+.. begin-trim-long-description
+
+Thank You!
+----------
+
+.. raw:: html
+
+    <h3 align="center">Coffee Sponsors</h3>
+
+.. raw:: html
+
+    <table>
+        <tbody>
+            <tr>
+                <td align="center" valign="middle">
+                    <a href="https://opencollective.com/static/images/default-anonymous-logo.svg" target="_blank">
+                        <img width="98px" src="https://opencollective.com/static/images/default-anonymous-logo.svg">
+                    </a>
+                    <p><a href="" target="_blank">Anonymous</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://twitter.com/CLVPTY" target="_blank">
+                        <img width="98px" src="https://pbs.twimg.com/profile_images/973315780388540416/KEddjwch_400x400.jpg">
+                    </a>
+                    <p><a href="https://twitter.com/CLVPTY" target="_blank">Cedric Lejeune</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x55/f9f9fc/000000.png&text=Your+Logo+Here">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+.. end-trim-long-description
+
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2019
-| Copyright © 2013-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`__
+| **Colour** by Colour Developers
+| Copyright © 2013-2020 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

@@ -9,40 +9,36 @@ Defines *CIE* illuminants computation related objects:
 -   :func:`colour.sd_CIE_illuminant_D_series`
 -   :func:`colour.daylight_locus_function`
 
-See Also
---------
-`Illuminants Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-
 References
 ----------
--   :cite:`CIETC1-482004` CIE TC 1-48. (2004). EXPLANATORY COMMENTS - 5. In
-    CIE 015:2004 Colorimetry, 3rd Edition (pp. 68-68). ISBN:978-3-901-90633-6
+-   :cite:`CIETC1-482004` : CIE TC 1-48. (2004). EXPLANATORY COMMENTS - 5. In
+    CIE 015:2004 Colorimetry, 3rd Edition (pp. 68-68). ISBN:978-3-901906-33-6
 -   :cite:`CIETC1-482004n` : CIE TC 1-48. (2004). 3.1 Recommendations
     concerning standard physical data of illuminants. In CIE 015:2004
-    Colorimetry, 3rd Edition (pp. 12-13). ISBN:978-3-901-90633-6
--   :cite:`Wyszecki2000a` : Wyszecki, G., & Stiles, W. S. (2000). Equation
-    I(1.2.1). In Color Science: Concepts and Methods, Quantitative Data and
-    Formulae (p. 8). Wiley. ISBN:978-0471399186
--   :cite:`Wyszecki2000z` : Wyszecki, G., & Stiles, W. S. (2000). CIE Method of
-    Calculating D-Illuminants. In Color Science: Concepts and Methods,
-    Quantitative Data and Formulae (pp. 145-146). Wiley. ISBN:978-0471399186
+    Colorimetry, 3rd Edition (pp. 12-13). ISBN:978-3-901906-33-6
+-   :cite:`Wyszecki2000a` : Wyszecki, Günther, & Stiles, W. S. (2000).
+    Equation I(1.2.1). In Color Science: Concepts and Methods, Quantitative
+    Data and Formulae (p. 8). Wiley. ISBN:978-0-471-39918-6
+-   :cite:`Wyszecki2000z` : Wyszecki, Günther, & Stiles, W. S. (2000). CIE
+    Method of Calculating D-Illuminants. In Color Science: Concepts and
+    Methods, Quantitative Data and Formulae (pp. 145-146). Wiley.
+    ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANTS_S_SDS,
+from colour.algebra import LinearInterpolator
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANT_S_SDS,
                                 SpectralDistribution)
 from colour.utilities import as_float_array, as_numeric, tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -113,9 +109,9 @@ def sd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
                           [ 690.        ,  191.9309499...],
                           [ 700.        ,  198.2612232...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     wavelengths = shape.range()
@@ -274,10 +270,10 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
                           [ 820.     ,   57.4406...],
                           [ 825.     ,   58.8765...],
                           [ 830.     ,   60.3125...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator=LinearInterpolator,
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     x, y = tsplit(xy)
@@ -290,14 +286,17 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
         M1 = np.around(M1, 3)
         M2 = np.around(M2, 3)
 
-    S0 = D_ILLUMINANTS_S_SDS['S0']
-    S1 = D_ILLUMINANTS_S_SDS['S1']
-    S2 = D_ILLUMINANTS_S_SDS['S2']
+    S0 = D_ILLUMINANT_S_SDS['S0']
+    S1 = D_ILLUMINANT_S_SDS['S1']
+    S2 = D_ILLUMINANT_S_SDS['S2']
 
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 
     return SpectralDistribution(
-        distribution, S0.wavelengths, name='CIE Illuminant D Series')
+        distribution,
+        S0.wavelengths,
+        name='CIE xy ({0}, {1}) - CIE Illuminant D Series'.format(*xy),
+        interpolator=LinearInterpolator)
 
 
 def daylight_locus_function(x_D):

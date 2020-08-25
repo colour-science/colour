@@ -5,22 +5,16 @@ MacAdam (1942) Ellipses (Observer PGN)
 
 Defines *MacAdam (1942) Ellipses (Observer PGN)* ellipses data.
 
-See Also
---------
-`MacAdam Ellipses Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/macadam_ellipses.ipynb>`_
-
 References
 ----------
--   :cite:`Wyszecki2000` : Wyszecki, G., & Stiles, W. S. (2000). Table 2(5.4.1)
-    MacAdam Ellipses (Observer PGN) Observed and Calculated on the Basis of a
-    Normal Distribution of Color Matches about a Color Center
-    (Silberstein and MacAdam, 1945). In Color Science: Concepts and Methods,
-    Quantitative Data and Formulae (p. 309). Wiley. ISBN:978-0471399186
 -   :cite:`Macadam1942` : Macadam, D. L. (1942). Visual Sensitivities to Color
     Differences in Daylight. Journal of the Optical Society of America, 32(5),
     28. doi:10.1364/JOSA.32.000247
+-   :cite:`Wyszecki2000` : Wyszecki, Günther, & Stiles, W. S. (2000). Table
+    2(5.4.1) MacAdam Ellipses (Observer PGN) Observed and Calculated on the
+    Basis of a Normal Distribution of Color Matches about a Color Center
+    (Silberstein and MacAdam, 1945). In Color Science: Concepts and Methods,
+    Quantitative Data and Formulae (p. 309). Wiley. ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals
@@ -28,10 +22,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['MACADAM_1942_ELLIPSES_DATA']

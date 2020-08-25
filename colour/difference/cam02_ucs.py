@@ -3,23 +3,17 @@
 :math:`\\Delta E'` - Delta E Colour Difference - Luo, Cui and Li (2006)
 ======================================================================
 
-Defines :math:`\\Delta E'` colour difference computation objects based on
-*Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
+Defines :math:`\\Delta E'` colour difference computation objects based on *Luo
+et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
 
 -   :func:`colour.difference.delta_E_CAM02LCD`
 -   :func:`colour.difference.delta_E_CAM02SCD`
 -   :func:`colour.difference.delta_E_CAM02UCS`
 
-See Also
---------
-`CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ucs_luo2006.ipynb>`_
-
 References
 ----------
--   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
-    spaces based on CIECAM02 colour appearance model. Color Research &
+-   :cite:`Luo2006b` : Luo, M. Ronnier, Cui, G., & Li, C. (2006). Uniform
+    colour spaces based on CIECAM02 colour appearance model. Color Research &
     Application, 31(4), 320-330. doi:10.1002/col.20227
 """
 
@@ -31,10 +25,10 @@ from colour.utilities import tsplit
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

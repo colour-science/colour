@@ -11,20 +11,14 @@ Defines *CMCCAT2000* chromatic adaptation model objects:
 -   :func:`colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000`
 -   :func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`
 
-See Also
---------
-`CMCCAT2000 Chromatic Adaptation Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/cmccat2000.ipynb>`_
-
 References
 ----------
 -   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
     Application, 27(1), 49-58. doi:10.1002/col.10005
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    CMCCAT2000. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
+    CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
+    83-86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
@@ -37,10 +31,10 @@ from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               dot_vector, from_range_100, to_domain_100)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

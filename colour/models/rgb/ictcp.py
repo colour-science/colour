@@ -8,22 +8,14 @@ Defines the :math:`IC_TC_P` colour encoding related transformations:
 -   :func:`colour.RGB_to_ICTCP`
 -   :func:`colour.ICTCP_to_RGB`
 
-See Also
---------
-`ICTCP Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ictcp.ipynb>`_
-
 References
 ----------
 -   :cite:`Dolby2016a` : Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION.
-    Retrieved from https://www.dolby.com/us/en/technologies/dolby-vision/\
-ICtCp-white-paper.pdf
--   :cite:`Lu2016c` : Lu, T., Pu, F., Yin, P., Chen, T., Husak, W.,
-    Pytlarz, J.,  Su, G.-M. (2016). ITP Colour Space and Its Compression
-    Performance for High Dynamic Range and Wide Colour Gamut Video
-    Distribution. ZTE Communications, 14(1), 32-38. Retrieved from
-    http://www.cnki.net/kcms/detail/34.1294.TN.20160205.1903.006.html
+    https://www.dolby.com/us/en/technologies/dolby-vision/ICtCp-white-paper.pdf
+-   :cite:`Lu2016c` : Lu, T., Pu, F., Yin, P., Chen, T., Husak, W., Pytlarz,
+    J., Atkins, R., Froehlich, J., & Su, G.-M. (2016). ITP Colour Space and Its
+    Compression Performance for High Dynamic Range and Wide Colour Gamut Video
+    Distribution. ZTE Communications, 14(1), 32-38.
 """
 
 from __future__ import division, unicode_literals
@@ -36,10 +28,10 @@ from colour.utilities import (domain_range_scale, dot_vector, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

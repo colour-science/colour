@@ -28,10 +28,10 @@ from colour.io import read_LUT
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -319,8 +319,8 @@ class TestKernelInterpolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('x', 'y', 'window', 'kernel', 'kernel_args',
-                               'padding_args')
+        required_attributes = ('x', 'y', 'window', 'kernel', 'kernel_kwargs',
+                               'padding_kwargs')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(KernelInterpolator))
@@ -379,30 +379,32 @@ class TestKernelInterpolator(unittest.TestCase):
 
         self.assertIs(kernel_interpolator.kernel, kernel_linear)
 
-    def test_kernel_args(self):
+    def test_kernel_kwargs(self):
         """
         Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
-kernel_args` property.
+kernel_kwargs` property.
         """
 
         x = y = np.linspace(0, 1, 10)
-        kernel_args = {'a': 1}
-        kernel_interpolator = KernelInterpolator(x, y, kernel_args=kernel_args)
-
-        self.assertDictEqual(kernel_interpolator.kernel_args, kernel_args)
-
-    def test_padding_args(self):
-        """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
-padding_args` property.
-        """
-
-        x = y = np.linspace(0, 1, 10)
-        padding_args = {'pad_width': (3, 3), 'mode': 'mean'}
+        kernel_kwargs = {'a': 1}
         kernel_interpolator = KernelInterpolator(
-            x, y, padding_args=padding_args)
+            x, y, kernel_kwargs=kernel_kwargs)
 
-        self.assertDictEqual(kernel_interpolator.padding_args, padding_args)
+        self.assertDictEqual(kernel_interpolator.kernel_kwargs, kernel_kwargs)
+
+    def test_padding_kwargs(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
+padding_kwargs` property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        padding_kwargs = {'pad_width': (3, 3), 'mode': 'mean'}
+        kernel_interpolator = KernelInterpolator(
+            x, y, padding_kwargs=padding_kwargs)
+
+        self.assertDictEqual(kernel_interpolator.padding_kwargs,
+                             padding_kwargs)
 
     def test_raise_exception___init__(self):
         """
@@ -464,7 +466,7 @@ padding_args` property.
             decimal=7)
 
         kernel_interpolator = KernelInterpolator(
-            x, y, window=1, kernel_args={'a': 1})
+            x, y, window=1, kernel_kwargs={'a': 1})
         np.testing.assert_almost_equal(
             kernel_interpolator(x_i),
             np.array([
@@ -477,7 +479,7 @@ padding_args` property.
             decimal=7)
 
         kernel_interpolator = KernelInterpolator(
-            x, y, padding_args={
+            x, y, padding_kwargs={
                 'pad_width': (3, 3),
                 'mode': 'mean'
             })
@@ -570,9 +572,9 @@ class TestNearestNeighbourInterpolator(unittest.TestCase):
 
         x = y = np.linspace(0, 1, 10)
         nearest_neighbour_interpolator = NearestNeighbourInterpolator(
-            x, y, kernel_args={'a': 1})
+            x, y, kernel_kwargs={'a': 1})
 
-        self.assertDictEqual(nearest_neighbour_interpolator.kernel_args, {})
+        self.assertDictEqual(nearest_neighbour_interpolator.kernel_kwargs, {})
 
 
 class TestLinearInterpolator(unittest.TestCase):
@@ -858,7 +860,7 @@ class TestNullInterpolator(unittest.TestCase):
     def test_absolute_tolerance(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.\
-    absolute_tolerance` property.
+absolute_tolerance` property.
         """
 
         x = y = np.linspace(0, 1, 10)
@@ -869,7 +871,7 @@ class TestNullInterpolator(unittest.TestCase):
     def test_relative_tolerance(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.\
-    relative_tolerance` property.
+relative_tolerance` property.
         """
 
         x = y = np.linspace(0, 1, 10)
@@ -880,7 +882,7 @@ class TestNullInterpolator(unittest.TestCase):
     def test_default(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.\
-    default` property.
+default` property.
         """
 
         x = y = np.linspace(0, 1, 10)

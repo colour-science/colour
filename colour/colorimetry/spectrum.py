@@ -3,28 +3,25 @@
 Spectrum
 ========
 
-Defines the classes handling spectral data computations:
+Defines the classes and objects handling spectral data computations:
 
+-   :class:`colour.DEFAULT_SPECTRAL_SHAPE`
 -   :class:`colour.SpectralShape`
 -   :class:`colour.SpectralDistribution`
 -   :class:`colour.MultiSpectralDistributions`
-
-See Also
---------
-`Spectrum Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/spectrum.ipynb>`_
+-   :func:`colour.colorimetry.sds_and_multi_sds_to_sds`
+-   :func:`colour.colorimetry.sds_and_multi_sds_to_multi_sds`
 
 References
 ----------
--   :cite:`CIETC1-382005e` : CIE TC 1-38. (2005). 9. INTERPOLATION. In
-    CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in
-    Colour Computations (pp. 14-19). ISBN:978-3-901-90641-1
--   :cite:`CIETC1-382005g` : CIE TC 1-38. (2005). EXTRAPOLATION. In
-    CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in
-    Colour Computations (pp. 19-20). ISBN:978-3-901-90641-1
--   :cite:`CIETC1-482004l` : CIE TC 1-48. (2004). Extrapolation. In
-    CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+-   :cite:`CIETC1-382005e` : CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE
+    167:2005 Recommended Practice for Tabulating Spectral Data for Use in
+    Colour Computations (pp. 14-19). ISBN:978-3-901906-41-1
+-   :cite:`CIETC1-382005g` : CIE TC 1-38. (2005). EXTRAPOLATION. In CIE
+    167:2005 Recommended Practice for Tabulating Spectral Data for Use in
+    Colour Computations (pp. 19-20). ISBN:978-3-901906-41-1
+-   :cite:`CIETC1-482004l` : CIE TC 1-48. (2004). Extrapolation. In CIE
+    015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901906-33-6
 """
 
 from __future__ import division, unicode_literals
@@ -36,20 +33,23 @@ from colour.algebra import (Extrapolator, CubicSplineInterpolator,
                             SpragueInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
-from colour.utilities import (as_float, first_item, is_iterable, is_numeric,
-                              is_string, is_uniform, interval, runtime_warning)
-from colour.utilities.deprecation import ObjectRemoved, ObjectRenamed
+from colour.utilities import (as_float, as_int, first_item, is_iterable,
+                              is_numeric, is_string, is_uniform, interval,
+                              runtime_warning, tstack, usage_warning)
+from colour.utilities.deprecation import (ObjectRemoved, ObjectRenamed,
+                                          handle_arguments_deprecation)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralDistribution',
-    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds'
+    'MultiSpectralDistributions', 'sds_and_multi_sds_to_sds',
+    'sds_and_multi_sds_to_multi_sds'
 ]
 
 
@@ -77,6 +77,7 @@ class SpectralShape(object):
     -------
     __str__
     __repr__
+    __hash__
     __iter__
     __contains__
     __len__
@@ -277,6 +278,18 @@ class SpectralShape(object):
         return 'SpectralShape({0}, {1}, {2})'.format(self._start, self._end,
                                                      self._interval)
 
+    def __hash__(self):
+        """
+        Returns the spectral shape hash.
+
+        Returns
+        -------
+        int
+            Object hash.
+        """
+
+        return hash(repr(self))
+
     def __iter__(self):
         """
         Returns a generator for the spectral shape data.
@@ -408,7 +421,7 @@ class SpectralShape(object):
 
         return not (self == shape)
 
-    def range(self, dtype=DEFAULT_FLOAT_DTYPE):
+    def range(self, dtype=None):
         """
         Returns an iterable range for the spectral shape.
 
@@ -445,13 +458,17 @@ class SpectralShape(object):
                  9.9,  10. ])
         """
 
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
+
         if None in (self._start, self._end, self._interval):
             raise RuntimeError(('One of the spectral shape "start", "end" or '
                                 '"interval" attributes is not defined!'))
 
         if self._range is None:
-            samples = round(
-                (self._interval + self._end - self._start) / self._interval)
+            samples = as_int(
+                round((self._interval + self._end - self._start) /
+                      self._interval))
             range_, current_interval = np.linspace(
                 self._start, self._end, samples, retstep=True, dtype=dtype)
 
@@ -504,11 +521,11 @@ dict_like, optional
         Spectral distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function.
     strict_name : unicode, optional
         Spectral distribution name for figures, default to
@@ -524,8 +541,8 @@ dict_like, optional
     Methods
     -------
     __init__
-    extrapolate
     interpolate
+    extrapolate
     align
     trim
     normalise
@@ -557,9 +574,9 @@ dict_like, optional
                           [ 580.    ,    0.1128],
                           [ 600.    ,    0.136 ]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
 
     Instantiating a spectral distribution with a non-uniformly spaced
     independent variable:
@@ -575,9 +592,23 @@ dict_like, optional
                           [ 580.     ,    0.1128 ],
                           [ 600.     ,    0.136  ]],
                          interpolator=CubicSplineInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
+
+    Instantiation with a *Pandas* `Series`:
+
+    >>> from colour.utilities import is_pandas_installed
+    >>> if is_pandas_installed():
+    ...     from pandas import Series
+    ...     print(SpectralDistribution(Series(data)))  # doctest: +SKIP
+    [[  5.0000000...e+02   6.5100000...e-02]
+     [  5.2000000...e+02   7.0500000...e-02]
+     [  5.4000000...e+02   7.7200000...e-02]
+     [  5.6000000...e+02   8.7000000...e-02]
+     [  5.8000000...e+02   1.1280000...e-01]
+     [  6.0000000...e+02   1.3600000...e-01]
+     [  5.1000000...e+02   3.1416000...e-01]]
     """
 
     def __init__(self, data=None, domain=None, **kwargs):
@@ -590,10 +621,10 @@ dict_like, optional
         kwargs['interpolator'] = kwargs.get(
             'interpolator', SpragueInterpolator
             if uniform else CubicSplineInterpolator)
-        kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
+        kwargs['interpolator_kwargs'] = kwargs.get('interpolator_kwargs', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)
-        kwargs['extrapolator_args'] = kwargs.get('extrapolator_args', {
+        kwargs['extrapolator_kwargs'] = kwargs.get('extrapolator_kwargs', {
             'method': 'Constant',
             'left': None,
             'right': None
@@ -746,100 +777,39 @@ dict_like, optional
             min(self.wavelengths), max(self.wavelengths),
             as_float(min(wavelengths_interval)))
 
-    def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
-        """
-        Extrapolates the spectral distribution in-place according to
-        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
-        arguments.
-
-        Parameters
-        ----------
-        shape : SpectralShape
-            Spectral shape used for extrapolation.
-        extrapolator : object, optional
-            Extrapolator class type to use as extrapolating function.
-        extrapolator_args : dict_like, optional
-            Arguments to use when instantiating the extrapolating function.
-
-        Returns
-        -------
-        SpectralDistribution
-            Extrapolated spectral distribution.
-
-        References
-        ----------
-        :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
-
-        Examples
-        --------
-        >>> from colour.utilities import numpy_print_options
-        >>> data = {
-        ...     500: 0.0651,
-        ...     520: 0.0705,
-        ...     540: 0.0772,
-        ...     560: 0.0870,
-        ...     580: 0.1128,
-        ...     600: 0.1360
-        ... }
-        >>> sd = SpectralDistribution(data)
-        >>> sd.extrapolate(SpectralShape(400, 700)).shape
-        SpectralShape(400.0, 700.0, 20.0)
-        >>> with numpy_print_options(suppress=True):
-        ...     print(sd)
-        [[ 400.        0.0651]
-         [ 420.        0.0651]
-         [ 440.        0.0651]
-         [ 460.        0.0651]
-         [ 480.        0.0651]
-         [ 500.        0.0651]
-         [ 520.        0.0705]
-         [ 540.        0.0772]
-         [ 560.        0.087 ]
-         [ 580.        0.1128]
-         [ 600.        0.136 ]
-         [ 620.        0.136 ]
-         [ 640.        0.136 ]
-         [ 660.        0.136 ]
-         [ 680.        0.136 ]
-         [ 700.        0.136 ]]
-        """
-
-        self_shape = self.shape
-        wavelengths = np.hstack([
-            np.arange(shape.start, self_shape.start, self_shape.interval),
-            np.arange(self_shape.end + self_shape.interval,
-                      shape.end + self_shape.interval, self_shape.interval)
-        ])
-
-        if extrapolator is None:
-            extrapolator = Extrapolator
-
-        if extrapolator_args is None:
-            extrapolator_args = {
-                'method': 'Constant',
-                'left': None,
-                'right': None
-            }
-
-        self_extrapolator = self.extrapolator
-        self_extrapolator_args = self.extrapolator_args
-
-        self.extrapolator = extrapolator
-        self.extrapolator_args = extrapolator_args
-
-        # The following self-assignment is written as intended and triggers the
-        # extrapolation.
-        self[wavelengths] = self[wavelengths]
-
-        self.extrapolator = self_extrapolator
-        self.extrapolator_args = self_extrapolator_args
-
-        return self
-
-    def interpolate(self, shape, interpolator=None, interpolator_args=None):
+    def interpolate(self,
+                    shape,
+                    interpolator=None,
+                    interpolator_kwargs=None,
+                    **kwargs):
         """
         Interpolates the spectral distribution in-place according to
-        *CIE 167:2005* recommendation or given interpolation arguments.
+        *CIE 167:2005* recommendation (if the interpolator has not been changed
+        at instantiation time) or given interpolation arguments.
+
+        The logic for choosing the interpolator class when ``interpolator`` is
+        not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
+                interpolator = SpragueInterpolator
+            else:
+                interpolator = CubicSplineInterpolator
+
+        The logic for choosing the interpolator keyword arguments when
+        ``interpolator_kwargs`` is not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         Parameters
         ----------
@@ -847,8 +817,13 @@ dict_like, optional
             Spectral shape used for interpolation.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -993,7 +968,7 @@ dict_like, optional
          [ 599.            0.1349201...]
          [ 600.            0.136    ...]]
 
-        Spectral distribution with a no-uniformly spaced independent variable
+        Spectral distribution with a non-uniformly spaced independent variable
         uses *Cubic Spline* interpolation:
 
         >>> sd = SpectralDistribution(data)
@@ -1104,6 +1079,10 @@ dict_like, optional
          [ 600.            0.136    ...]]
         """
 
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
         self_shape = self.shape
         s_e_i = zip((shape.start, shape.end, shape.interval),
                     (self_shape.start, self_shape.end, self_shape.interval))
@@ -1120,31 +1099,174 @@ dict_like, optional
         shape.end = min(shape.end, np.floor(self_shape.end))
 
         if interpolator is None:
-            if self.is_uniform():
+            # User has specifically chosen the interpolator thus it is used
+            # instead of those from *CIE 167:2005* recommendation.
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
                 interpolator = SpragueInterpolator
             else:
                 interpolator = CubicSplineInterpolator
 
-        if interpolator_args is None:
-            interpolator_args = {}
+        if interpolator_kwargs is None:
+            # User has specifically chosen the interpolator thus its keyword
+            # arguments are used.
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         interpolator = interpolator(self.wavelengths, self.values,
-                                    **interpolator_args)
+                                    **interpolator_kwargs)
 
         self.domain = shape.range()
         self.range = interpolator(self.domain)
 
         return self
 
+    def extrapolate(self,
+                    shape,
+                    extrapolator=None,
+                    extrapolator_kwargs=None,
+                    **kwargs):
+        """
+        Extrapolates the spectral distribution in-place according to
+        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
+        arguments.
+
+        Parameters
+        ----------
+        shape : SpectralShape
+            Spectral shape used for extrapolation.
+        extrapolator : object, optional
+            Extrapolator class type to use as extrapolating function.
+        extrapolator_kwargs : dict_like, optional
+            Arguments to use when instantiating the extrapolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
+
+        Returns
+        -------
+        SpectralDistribution
+            Extrapolated spectral distribution.
+
+        References
+        ----------
+        :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
+
+        Examples
+        --------
+        >>> from colour.utilities import numpy_print_options
+        >>> data = {
+        ...     500: 0.0651,
+        ...     520: 0.0705,
+        ...     540: 0.0772,
+        ...     560: 0.0870,
+        ...     580: 0.1128,
+        ...     600: 0.1360
+        ... }
+        >>> sd = SpectralDistribution(data)
+        >>> sd.extrapolate(SpectralShape(400, 700)).shape
+        SpectralShape(400.0, 700.0, 20.0)
+        >>> with numpy_print_options(suppress=True):
+        ...     print(sd)
+        [[ 400.        0.0651]
+         [ 420.        0.0651]
+         [ 440.        0.0651]
+         [ 460.        0.0651]
+         [ 480.        0.0651]
+         [ 500.        0.0651]
+         [ 520.        0.0705]
+         [ 540.        0.0772]
+         [ 560.        0.087 ]
+         [ 580.        0.1128]
+         [ 600.        0.136 ]
+         [ 620.        0.136 ]
+         [ 640.        0.136 ]
+         [ 660.        0.136 ]
+         [ 680.        0.136 ]
+         [ 700.        0.136 ]]
+        """
+
+        extrapolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['extrapolator_args', 'extrapolator_kwargs']],
+        }, **kwargs).get('extrapolator_kwargs', extrapolator_kwargs)
+
+        self_shape = self.shape
+        wavelengths = np.hstack([
+            np.arange(shape.start, self_shape.start, self_shape.interval),
+            np.arange(self_shape.end + self_shape.interval,
+                      shape.end + self_shape.interval, self_shape.interval)
+        ])
+
+        if extrapolator is None:
+            extrapolator = Extrapolator
+
+        if extrapolator_kwargs is None:
+            extrapolator_kwargs = {
+                'method': 'Constant',
+                'left': None,
+                'right': None
+            }
+
+        self_extrapolator = self.extrapolator
+        self_extrapolator_kwargs = self.extrapolator_kwargs
+
+        self.extrapolator = extrapolator
+        self.extrapolator_kwargs = extrapolator_kwargs
+
+        # The following self-assignment is written as intended and triggers the
+        # extrapolation.
+        self[wavelengths] = self[wavelengths]
+
+        self.extrapolator = self_extrapolator
+        self.extrapolator_kwargs = self_extrapolator_kwargs
+
+        return self
+
     def align(self,
               shape,
               interpolator=None,
-              interpolator_args=None,
+              interpolator_kwargs=None,
               extrapolator=None,
-              extrapolator_args=None):
+              extrapolator_kwargs=None,
+              **kwargs):
         """
         Aligns the spectral distribution in-place to given spectral shape:
         Interpolates first then extrapolates to fit the given range.
+
+        Interpolation is performed according to *CIE 167:2005* recommendation
+        (if the interpolator has not been changed at instantiation time) or
+        given interpolation arguments.
+
+        The logic for choosing the interpolator class when ``interpolator`` is
+        not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
+                interpolator = SpragueInterpolator
+            else:
+                interpolator = CubicSplineInterpolator
+
+        The logic for choosing the interpolator keyword arguments when
+        ``interpolator_kwargs`` is not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         Parameters
         ----------
@@ -1152,12 +1274,17 @@ dict_like, optional
             Spectral shape used for alignment.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         extrapolator : object, optional
             Extrapolator class type to use as extrapolating function.
-        extrapolator_args : dict_like, optional
+        extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1242,8 +1369,8 @@ dict_like, optional
          [ 565.            0.0922541...]]
         """
 
-        self.interpolate(shape, interpolator, interpolator_args)
-        self.extrapolate(shape, extrapolator, extrapolator_args)
+        self.interpolate(shape, interpolator, interpolator_kwargs)
+        self.extrapolate(shape, extrapolator, extrapolator_kwargs)
 
         return self
 
@@ -1400,7 +1527,7 @@ dict_like, optional
     @property
     def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -1410,7 +1537,7 @@ dict_like, optional
     @title.setter
     def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -1442,7 +1569,7 @@ dict_like, optional
 
     def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.trim_wavelengths',
                               'SpectralDistribution.trim')))
@@ -1451,7 +1578,7 @@ dict_like, optional
 
     def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('SpectralPowerDistribution.clone',
                               'SpectralDistribution.copy')))
@@ -1494,13 +1621,13 @@ MultiSpectralDistributions or array_like or dict_like, optional
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function of the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function of the
         :class:`colour.SpectralDistribution` class instances.
     strict_labels : array_like, optional
@@ -1517,8 +1644,8 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     Methods
     -------
-    extrapolate
     interpolate
+    extrapolate
     align
     trim
     normalise
@@ -1556,9 +1683,9 @@ MultiSpectralDistributions or array_like or dict_like, optional
                  ...  [ 560.     ,    0.5945 ,    0.995  ,    0.0039 ]],
                  ... labels=[...'x_bar', ...'y_bar', ...'z_bar'],
                  ... interpolator=SpragueInterpolator,
-                 ... interpolator_args={},
+                 ... interpolator_kwargs={},
                  ... extrapolator=Extrapolator,
-                 ... extrapolator_args={...})
+                 ... extrapolator_kwargs={...})
 
     Instantiating a spectral distribution with a non-uniformly spaced
     independent variable:
@@ -1577,9 +1704,37 @@ MultiSpectralDistributions or array_like or dict_like, optional
                  ...  [ 560.     ,    0.5945 ,    0.995  ,    0.0039 ]],
                  ... labels=[...'x_bar', ...'y_bar', ...'z_bar'],
                  ... interpolator=CubicSplineInterpolator,
-                 ... interpolator_args={},
+                 ... interpolator_kwargs={},
                  ... extrapolator=Extrapolator,
-                 ... extrapolator_args={...})
+                 ... extrapolator_kwargs={...})
+
+    Instantiation with a *Pandas* `DataFrame`:
+
+    >>> from colour.utilities import is_pandas_installed
+    >>> if is_pandas_installed():
+    ...     from pandas import DataFrame
+    ...     x_bar = [data[key][0] for key in sorted(data.keys())]
+    ...     y_bar = [data[key][1] for key in sorted(data.keys())]
+    ...     z_bar = [data[key][2] for key in sorted(data.keys())]
+    ...     print(MultiSignals(  # doctest: +SKIP
+    ...         DataFrame(
+    ...             dict(zip(labels, [x_bar, y_bar, z_bar])), data.keys())))
+    [[  5.0000000...e+02   4.9000000...e-03   3.2300000...e-01   \
+2.7200000...e-01]
+     [  5.1000000...e+02   9.3000000...e-03   5.0300000...e-01   \
+1.5820000...e-01]
+     [  5.2000000...e+02   3.1400000...e-03   3.1416000...e-01   \
+3.1420000...e-02]
+     [  5.3000000...e+02   6.3270000...e-02   7.1000000...e-01   \
+7.8250000...e-02]
+     [  5.4000000...e+02   1.6550000...e-01   8.6200000...e-01   \
+4.2160000...e-02]
+     [  5.5000000...e+02   2.9040000...e-01   9.5400000...e-01   \
+2.0300000...e-02]
+     [  5.6000000...e+02   4.3345000...e-01   9.9495000...e-01   \
+8.7500000...e-03]
+     [  5.1100000...e+02   5.9450000...e-01   9.9500000...e-01   \
+3.9000000...e-03]]
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
@@ -1593,10 +1748,10 @@ MultiSpectralDistributions or array_like or dict_like, optional
         kwargs['interpolator'] = kwargs.get(
             'interpolator', SpragueInterpolator
             if uniform else CubicSplineInterpolator)
-        kwargs['interpolator_args'] = kwargs.get('interpolator_args', {})
+        kwargs['interpolator_kwargs'] = kwargs.get('interpolator_kwargs', {})
 
         kwargs['extrapolator'] = kwargs.get('extrapolator', Extrapolator)
-        kwargs['extrapolator_args'] = kwargs.get('extrapolator_args', {
+        kwargs['extrapolator_kwargs'] = kwargs.get('extrapolator_kwargs', {
             'method': 'Constant',
             'left': None,
             'right': None
@@ -1787,89 +1942,39 @@ MultiSpectralDistributions or array_like or dict_like, optional
         if self.signals:
             return first_item(self._signals.values()).shape
 
-    def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
-        """
-        Extrapolates the multi-spectral distributions in-place according to
-        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
-        arguments.
-
-        Parameters
-        ----------
-        shape : SpectralShape
-            Spectral shape used for extrapolation.
-        extrapolator : object, optional
-            Extrapolator class type to use as extrapolating function.
-        extrapolator_args : dict_like, optional
-            Arguments to use when instantiating the extrapolating function.
-
-        Returns
-        -------
-        MultiSpectralDistributions
-            Extrapolated multi-spectral distributions.
-
-        References
-        ----------
-        :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
-
-        Examples
-        --------
-        >>> from colour.utilities import numpy_print_options
-        >>> data = {
-        ...     500: (0.004900, 0.323000, 0.272000),
-        ...     510: (0.009300, 0.503000, 0.158200),
-        ...     520: (0.063270, 0.710000, 0.078250),
-        ...     530: (0.165500, 0.862000, 0.042160),
-        ...     540: (0.290400, 0.954000, 0.020300),
-        ...     550: (0.433450, 0.994950, 0.008750),
-        ...     560: (0.594500, 0.995000, 0.003900)
-        ... }
-        >>> msds = MultiSpectralDistributions(data)
-        >>> msds.extrapolate(SpectralShape(400, 700)).shape
-        SpectralShape(400.0, 700.0, 10.0)
-        >>> with numpy_print_options(suppress=True):
-        ...     print(msds)
-        [[ 400.         0.0049     0.323      0.272  ]
-         [ 410.         0.0049     0.323      0.272  ]
-         [ 420.         0.0049     0.323      0.272  ]
-         [ 430.         0.0049     0.323      0.272  ]
-         [ 440.         0.0049     0.323      0.272  ]
-         [ 450.         0.0049     0.323      0.272  ]
-         [ 460.         0.0049     0.323      0.272  ]
-         [ 470.         0.0049     0.323      0.272  ]
-         [ 480.         0.0049     0.323      0.272  ]
-         [ 490.         0.0049     0.323      0.272  ]
-         [ 500.         0.0049     0.323      0.272  ]
-         [ 510.         0.0093     0.503      0.1582 ]
-         [ 520.         0.06327    0.71       0.07825]
-         [ 530.         0.1655     0.862      0.04216]
-         [ 540.         0.2904     0.954      0.0203 ]
-         [ 550.         0.43345    0.99495    0.00875]
-         [ 560.         0.5945     0.995      0.0039 ]
-         [ 570.         0.5945     0.995      0.0039 ]
-         [ 580.         0.5945     0.995      0.0039 ]
-         [ 590.         0.5945     0.995      0.0039 ]
-         [ 600.         0.5945     0.995      0.0039 ]
-         [ 610.         0.5945     0.995      0.0039 ]
-         [ 620.         0.5945     0.995      0.0039 ]
-         [ 630.         0.5945     0.995      0.0039 ]
-         [ 640.         0.5945     0.995      0.0039 ]
-         [ 650.         0.5945     0.995      0.0039 ]
-         [ 660.         0.5945     0.995      0.0039 ]
-         [ 670.         0.5945     0.995      0.0039 ]
-         [ 680.         0.5945     0.995      0.0039 ]
-         [ 690.         0.5945     0.995      0.0039 ]
-         [ 700.         0.5945     0.995      0.0039 ]]
-        """
-
-        for signal in self.signals.values():
-            signal.extrapolate(shape, extrapolator, extrapolator_args)
-
-        return self
-
-    def interpolate(self, shape, interpolator=None, interpolator_args=None):
+    def interpolate(self,
+                    shape,
+                    interpolator=None,
+                    interpolator_kwargs=None,
+                    **kwargs):
         """
         Interpolates the multi-spectral distributions in-place according to
-        *CIE 167:2005* recommendation or given interpolation arguments.
+        *CIE 167:2005* recommendation (if the interpolator has not been changed
+        at instantiation time) or given interpolation arguments.
+
+        The logic for choosing the interpolator class when ``interpolator`` is
+        not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
+                interpolator = SpragueInterpolator
+            else:
+                interpolator = CubicSplineInterpolator
+
+        The logic for choosing the interpolator keyword arguments when
+        ``interpolator_kwargs`` is not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         Parameters
         ----------
@@ -1877,8 +1982,13 @@ MultiSpectralDistributions or array_like or dict_like, optional
             Spectral shape used for interpolation.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1888,7 +1998,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
         Notes
         -----
         -   See :meth:`colour.SpectralDistribution.interpolate` method notes
-        section.
+            section.
 
         Warning
         -------
@@ -2051,20 +2161,145 @@ MultiSpectralDistributions or array_like or dict_like, optional
          [ 560.            0.5945   ...    0.995    ...    0.0039   ...]]
         """
 
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
         for signal in self.signals.values():
-            signal.interpolate(shape, interpolator, interpolator_args)
+            signal.interpolate(shape, interpolator, interpolator_kwargs)
+
+        return self
+
+    def extrapolate(self,
+                    shape,
+                    extrapolator=None,
+                    extrapolator_kwargs=None,
+                    **kwargs):
+        """
+        Extrapolates the multi-spectral distributions in-place according to
+        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
+        arguments.
+
+        Parameters
+        ----------
+        shape : SpectralShape
+            Spectral shape used for extrapolation.
+        extrapolator : object, optional
+            Extrapolator class type to use as extrapolating function.
+        extrapolator_kwargs : dict_like, optional
+            Arguments to use when instantiating the extrapolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
+
+        Returns
+        -------
+        MultiSpectralDistributions
+            Extrapolated multi-spectral distributions.
+
+        References
+        ----------
+        :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
+
+        Examples
+        --------
+        >>> from colour.utilities import numpy_print_options
+        >>> data = {
+        ...     500: (0.004900, 0.323000, 0.272000),
+        ...     510: (0.009300, 0.503000, 0.158200),
+        ...     520: (0.063270, 0.710000, 0.078250),
+        ...     530: (0.165500, 0.862000, 0.042160),
+        ...     540: (0.290400, 0.954000, 0.020300),
+        ...     550: (0.433450, 0.994950, 0.008750),
+        ...     560: (0.594500, 0.995000, 0.003900)
+        ... }
+        >>> msds = MultiSpectralDistributions(data)
+        >>> msds.extrapolate(SpectralShape(400, 700)).shape
+        SpectralShape(400.0, 700.0, 10.0)
+        >>> with numpy_print_options(suppress=True):
+        ...     print(msds)
+        [[ 400.         0.0049     0.323      0.272  ]
+         [ 410.         0.0049     0.323      0.272  ]
+         [ 420.         0.0049     0.323      0.272  ]
+         [ 430.         0.0049     0.323      0.272  ]
+         [ 440.         0.0049     0.323      0.272  ]
+         [ 450.         0.0049     0.323      0.272  ]
+         [ 460.         0.0049     0.323      0.272  ]
+         [ 470.         0.0049     0.323      0.272  ]
+         [ 480.         0.0049     0.323      0.272  ]
+         [ 490.         0.0049     0.323      0.272  ]
+         [ 500.         0.0049     0.323      0.272  ]
+         [ 510.         0.0093     0.503      0.1582 ]
+         [ 520.         0.06327    0.71       0.07825]
+         [ 530.         0.1655     0.862      0.04216]
+         [ 540.         0.2904     0.954      0.0203 ]
+         [ 550.         0.43345    0.99495    0.00875]
+         [ 560.         0.5945     0.995      0.0039 ]
+         [ 570.         0.5945     0.995      0.0039 ]
+         [ 580.         0.5945     0.995      0.0039 ]
+         [ 590.         0.5945     0.995      0.0039 ]
+         [ 600.         0.5945     0.995      0.0039 ]
+         [ 610.         0.5945     0.995      0.0039 ]
+         [ 620.         0.5945     0.995      0.0039 ]
+         [ 630.         0.5945     0.995      0.0039 ]
+         [ 640.         0.5945     0.995      0.0039 ]
+         [ 650.         0.5945     0.995      0.0039 ]
+         [ 660.         0.5945     0.995      0.0039 ]
+         [ 670.         0.5945     0.995      0.0039 ]
+         [ 680.         0.5945     0.995      0.0039 ]
+         [ 690.         0.5945     0.995      0.0039 ]
+         [ 700.         0.5945     0.995      0.0039 ]]
+        """
+
+        extrapolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['extrapolator_args', 'extrapolator_kwargs']],
+        }, **kwargs).get('extrapolator_kwargs', extrapolator_kwargs)
+
+        for signal in self.signals.values():
+            signal.extrapolate(shape, extrapolator, extrapolator_kwargs)
 
         return self
 
     def align(self,
               shape,
               interpolator=None,
-              interpolator_args=None,
+              interpolator_kwargs=None,
               extrapolator=None,
-              extrapolator_args=None):
+              extrapolator_kwargs=None,
+              **kwargs):
         """
         Aligns the multi-spectral distributions in-place to given spectral
         shape: Interpolates first then extrapolates to fit the given range.
+
+        Interpolation is performed according to *CIE 167:2005* recommendation
+        (if the interpolator has not been changed at instantiation time) or
+        given interpolation arguments.
+
+        The logic for choosing the interpolator class when ``interpolator`` is
+        not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator = self.interpolator
+            elif self.is_uniform():
+                interpolator = SpragueInterpolator
+            else:
+                interpolator = CubicSplineInterpolator
+
+        The logic for choosing the interpolator keyword arguments when
+        ``interpolator_kwargs`` is not given is as follows:
+
+        .. code-block:: python
+
+            if self.interpolator not in (SpragueInterpolator,
+                                         CubicSplineInterpolator):
+                interpolator_kwargs = self.interpolator_kwargs
+            else:
+                interpolator_kwargs = {}
 
         Parameters
         ----------
@@ -2072,12 +2307,17 @@ MultiSpectralDistributions or array_like or dict_like, optional
             Spectral shape used for alignment.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         extrapolator : object, optional
             Extrapolator class type to use as extrapolating function.
-        extrapolator_args : dict_like, optional
+        extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -2163,9 +2403,17 @@ MultiSpectralDistributions or array_like or dict_like, optional
          [ 565.            0.5945   ...    0.995    ...    0.0039   ...]]
         """
 
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
+        extrapolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['extrapolator_args', 'extrapolator_kwargs']],
+        }, **kwargs).get('extrapolator_kwargs', extrapolator_kwargs)
+
         for signal in self.signals.values():
-            signal.align(shape, interpolator, interpolator_args, extrapolator,
-                         extrapolator_args)
+            signal.align(shape, interpolator, interpolator_kwargs,
+                         extrapolator, extrapolator_kwargs)
 
         return self
 
@@ -2364,7 +2612,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
     @property
     def title(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -2374,7 +2622,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
     @title.setter
     def title(self, value):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.title',
                               'SpectralDistribution.strict_name')))
@@ -2434,7 +2682,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     def trim_wavelengths(self, shape):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.trim_wavelengths',
                               'MultiSpectralDistributions.trim')))
@@ -2443,7 +2691,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     def clone(self):  # pragma: no cover
         # Docstrings are omitted for documentation purposes.
-        runtime_warning(
+        usage_warning(
             str(
                 ObjectRenamed('TriSpectralPowerDistribution.clone',
                               'MultiSpectralDistributions.copy')))
@@ -2494,6 +2742,9 @@ def sds_and_multi_sds_to_sds(sds):
     8
     """
 
+    if not len(sds):
+        return
+
     if isinstance(sds, MultiSpectralDistributions):
         sds = sds.to_sds()
     else:
@@ -2504,3 +2755,121 @@ def sds_and_multi_sds_to_sds(sds):
                 sds[i:i] = sd.to_sds()
 
     return sds
+
+
+def sds_and_multi_sds_to_multi_sds(sds):
+    """
+    Converts given spectral and multi-spectral distributions to
+    multi-spectral distributions.
+
+    The spectral and multi-spectral distributions will be aligned to the
+    intersection of their spectral shapes.
+
+    Parameters
+    ----------
+    sds : array_like
+        Spectral and multi-spectral distributions to convert to
+        multi-spectral distributions.
+
+    Returns
+    -------
+    MultiSpectralDistributions
+        Multi-spectral distributions.
+
+    Examples
+    --------
+    >>> data = {
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360
+    ... }
+    >>> sd_1 = SpectralDistribution(data)
+    >>> sd_2 = SpectralDistribution(data)
+    >>> data = {
+    ...     500: (0.004900, 0.323000, 0.272000),
+    ...     510: (0.009300, 0.503000, 0.158200),
+    ...     520: (0.063270, 0.710000, 0.078250),
+    ...     530: (0.165500, 0.862000, 0.042160),
+    ...     540: (0.290400, 0.954000, 0.020300),
+    ...     550: (0.433450, 0.994950, 0.008750),
+    ...     560: (0.594500, 0.995000, 0.003900)
+    ... }
+    >>> multi_sds_1 = MultiSpectralDistributions(data)
+    >>> multi_sds_2 = MultiSpectralDistributions(data)
+    >>> from colour.utilities import numpy_print_options
+    >>> with numpy_print_options(suppress=True, linewidth=160):
+    ...     sds_and_multi_sds_to_multi_sds(  # doctest: +SKIP
+    ...         [sd_1, sd_2, multi_sds_1, multi_sds_2])
+    MultiSpectralDistributions([[ 500.        ,    0.0651   ...,\
+0.0651   ...,    0.0049   ...,    0.323    ...,    0.272    ...,\
+0.0049   ...,    0.323    ...,    0.272    ...],
+                                [ 510.        ,    0.0676692...,\
+0.0676692...,    0.0093   ...,    0.503    ...,    0.1582   ...,\
+0.0093   ...,    0.503    ...,    0.1582   ...],
+                                [ 520.        ,    0.0705   ...,\
+0.0705   ...,    0.06327  ...,    0.71     ...,    0.07825  ...,\
+0.06327  ...,    0.71     ...,    0.07825  ...],
+                                [ 530.        ,    0.0737808...,\
+0.0737808...,    0.1655   ...,    0.862    ...,    0.04216  ...,\
+0.1655   ...,    0.862    ...,    0.04216  ...],
+                                [ 540.        ,    0.0772   ...,\
+0.0772   ...,    0.2904   ...,    0.954    ...,    0.0203   ...,\
+0.2904   ...,    0.954    ...,    0.0203   ...],
+                                [ 550.        ,    0.0806671...,\
+0.0806671...,    0.43345  ...,    0.99495  ...,    0.00875  ...,\
+0.43345  ...,    0.99495  ...,    0.00875  ...],
+                                [ 560.        ,    0.087    ...,\
+0.087    ...,    0.5945   ...,    0.995    ...,    0.0039   ...,\
+0.5945   ...,    0.995    ...,    0.0039   ...]],
+                               labels=['SpectralDistribution (...)', \
+'SpectralDistribution (...)', '0 - SpectralDistribution (...)', \
+'1 - SpectralDistribution (...)', '2 - SpectralDistribution (...)', \
+'0 - SpectralDistribution (...)', '1 - SpectralDistribution (...)', \
+'2 - SpectralDistribution (...)'],
+                               interpolator=SpragueInterpolator,
+                               interpolator_kwargs={},
+                               extrapolator=Extrapolator,
+                               extrapolator_kwargs={...})
+    """
+
+    if not len(sds):
+        return
+
+    if isinstance(sds, MultiSpectralDistributions):
+        msds = sds
+    elif len(sds) == 1 and isinstance(sds[0], MultiSpectralDistributions):
+        msds = sds[0]
+    else:
+        sds_u = []
+        shapes = []
+        for sd in sds:
+            if isinstance(sd, MultiSpectralDistributions):
+                sds_m = sds_and_multi_sds_to_sds(sd)
+                sds_u.extend(sds_m)
+                shapes.extend([sd_m.shape for sd_m in sds_m])
+            else:
+                sds_u.append(sd)
+                shapes.append(sd.shape)
+
+        shapes = tuple(set(shapes))
+        shape = SpectralShape(
+            max([shape.start for shape in shapes]),
+            min([shape.end for shape in shapes]),
+            min([shape.interval for shape in shapes]))
+
+        values = []
+        labels = []
+        strict_labels = []
+        for sd_u in sds_u:
+            sd_u.align(shape)
+            values.append(sd_u.values)
+            labels.append(sd_u.name)
+            strict_labels.append(sd_u.strict_name)
+
+        msds = MultiSpectralDistributions(
+            tstack(values), shape.range(), labels, strict_labels=strict_labels)
+
+    return msds

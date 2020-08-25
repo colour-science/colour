@@ -11,18 +11,12 @@ Defines *CAM16* colour appearance model objects:
 -   :func:`colour.XYZ_to_CAM16`
 -   :func:`colour.CAM16_to_XYZ`
 
-See Also
---------
-`CAM16 Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/cam16.ipynb>`_
-
 References
 ----------
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
-    Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
-    CAM16-UCS. Color Research & Application, 42(6), 703-718.
-    doi:10.1002/col.22131
+    Melgosa, M., Brill, M. H., & Pointer, M. (2017). Comprehensive color
+    solutions: CAM16, CAT16, and CAM16-UCS. Color Research & Application,
+    42(6), 703-718. doi:10.1002/col.22131
 """
 
 from __future__ import division, unicode_literals
@@ -44,14 +38,14 @@ from colour.appearance.ciecam02 import (
     viewing_condition_dependent_parameters)
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               as_namedtuple, dot_vector, from_range_100,
-                              from_range_degrees, to_domain_100,
+                              from_range_degrees, ones, to_domain_100,
                               to_domain_degrees, tsplit)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -250,7 +244,7 @@ s=2.3450150..., Q=195.3717089..., M=0.1074367..., H=275.5949861..., HC=None)
 
     # Computing degree of adaptation :math:`D`.
     D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-         if not discount_illuminant else np.ones(L_A.shape))
+         if not discount_illuminant else ones(L_A.shape))
 
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
@@ -425,7 +419,7 @@ def CAM16_to_XYZ(CAM16_specification,
 
     # Computing degree of adaptation :math:`D`.
     D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-         if not discount_illuminant else np.ones(L_A.shape))
+         if not discount_illuminant else ones(L_A.shape))
 
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))

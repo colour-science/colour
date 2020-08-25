@@ -9,17 +9,17 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import STANDARD_OBSERVERS_CMFS
+from colour.colorimetry import STANDARD_OBSERVER_CMFS
 from colour.temperature import CCT_to_uv_Ohno2013, uv_to_CCT_Ohno2013
 from colour.temperature.ohno2013 import (
     planckian_table, planckian_table_minimal_distance_index)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -52,7 +52,7 @@ class TestPlanckianTable(unittest.TestCase):
         Tests :func:`colour.temperature.ohno2013.planckian_table` definition.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
 
         np.testing.assert_almost_equal(
             [(x.Ti, x.ui, x.vi, x.di) for x in planckian_table(
@@ -72,7 +72,7 @@ planckian_table_minimal_distance_index` definition unit tests methods.
 planckian_table_minimal_distance_index` definition.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         self.assertEqual(
             planckian_table_minimal_distance_index(
                 planckian_table(
@@ -91,7 +91,7 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122]), cmfs),
             np.array([6507.47380460, 0.00322335]),
@@ -152,7 +152,7 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             CCT_to_uv_Ohno2013(np.array([6507.47380460, 0.00322335]), cmfs),
             np.array([0.19779997, 0.31219997]),
@@ -174,7 +174,7 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
+        cmfs = STANDARD_OBSERVER_CMFS['CIE 1931 2 Degree Standard Observer']
         CCT_D_uv = np.array([6507.47380460, 0.00322335])
         uv = CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)
 

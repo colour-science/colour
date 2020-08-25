@@ -9,19 +9,13 @@ electro-optical transfer function (EOTF / EOCF):
 -   :func:`colour.models.oetf_SMPTE240M`
 -   :func:`colour.models.eotf_SMPTE240M`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of
     Motion Picture and Television Engineers. (1999). ANSI/SMPTE 240M-1995 -
-    Signal Parameters - 1125-Line High-Definition Production Systems. Retrieved
-    from http://car.france3.mars.free.fr/HD/INA- 26 jan 06/\
-SMPTE normes et confs/s240m.pdf
+    Signal Parameters - 1125-Line High-Definition Production Systems (pp. 1-7).
+    http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/\
+SMPTE%20normes%20et%20confs/s240m.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -33,10 +27,10 @@ from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['oetf_SMPTE240M', 'eotf_SMPTE240M']

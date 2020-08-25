@@ -8,25 +8,21 @@ Defines the *DCI-P3* and *DCI-P3+* colourspaces:
 -   :attr:`colour.models.DCI_P3_COLOURSPACE`.
 -   :attr:`colour.models.DCI_P3_P_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Canon2014a` : Canon. (2014). EOS C500 Firmware Update. Retrieved
-    August 27, 2016, from https://www.usa.canon.com/internet/portal/us/home/\
-explore/product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
+    August 27, 2016, from
+    https://www.usa.canon.com/internet/portal/us/home/explore/\
+product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 -   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).
-    Digital Cinema System Specification - Version 1.1. Retrieved from
+    Digital Cinema System Specification - Version 1.1.
     http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
 -   :cite:`Hewlett-PackardDevelopmentCompany2009a` : Hewlett-Packard
     Development Company. (2009). Understanding the HP DreamColor LP2480zx
-    DCI-P3 Emulation Color Space. Retrieved from http://www.hp.com/\
-united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf
+    DCI-P3 Emulation Color Space (pp. 1-3).
+    http://www.hp.com/united-states/campaigns/workstations/pdfs/\
+lp2480zx-dci--p3-emulation.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -39,10 +35,10 @@ from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

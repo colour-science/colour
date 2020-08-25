@@ -8,12 +8,6 @@ Defines *ATD (1995)* colour vision model objects:
 -   :class:`colour.ATD95_Specification`
 -   :func:`colour.XYZ_to_ATD95`
 
-See Also
---------
-`ATD (1995) Colour Vision Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/atd95.ipynb>`_
-
 Notes
 -----
 -   According to *CIE TC1-34* definition of a colour appearance model, the
@@ -41,10 +35,10 @@ from colour.utilities import (as_float_array, dot_vector, from_range_degrees,
                               to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

@@ -34,27 +34,21 @@ functions (EOTF / EOCF) and their inverse:
 -   :attr:`colour.models.BT2100_HLG_OOTF_INVERSE_METHODS`
 -   :func:`colour.models.ootf_inverse_HLG_BT2100`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`Borer2017a` : Borer, T. (2017). Private Discussion with
-    Mansencal, T. and Shaw, N.
+-   :cite:`Borer2017a` : Borer, T. (2017). Private Discussion with Mansencal,
+    T. and Shaw, N.
 -   :cite:`InternationalTelecommunicationUnion2017` : International
     Telecommunication Union. (2017). Recommendation ITU-R BT.2100-1 - Image
     parameter values for high dynamic range television for use in production
-    and international programme exchange. Retrieved from
+    and international programme exchange.
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2100-1-201706-I!!PDF-E.pdf
 -   :cite:`InternationalTelecommunicationUnion2018` : International
     Telecommunication Union. (2018). Recommendation ITU-R BT.2100-2 - Image
     parameter values for high dynamic range television for use in production
-    and international programme exchange. Retrieved from
-https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+    and international programme exchange.
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 """
 
@@ -73,10 +67,10 @@ from colour.utilities import (
     from_range_1, to_domain_1, tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -1350,23 +1344,22 @@ def ootf_inverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
 
+    Y_D_beta = (np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma))
+
     R_S = np.where(
         Y_D == beta,
         0.0,
-        (np.abs((Y_D - beta) / alpha) **
-         ((1 - gamma) / gamma)) * (R_D - beta) / alpha,
+        Y_D_beta * (R_D - beta) / alpha,
     )
     G_S = np.where(
         Y_D == beta,
         0.0,
-        (np.abs((Y_D - beta) / alpha) **
-         ((1 - gamma) / gamma)) * (G_D - beta) / alpha,
+        Y_D_beta * (G_D - beta) / alpha,
     )
     B_S = np.where(
         Y_D == beta,
         0.0,
-        (np.abs((Y_D - beta) / alpha) **
-         ((1 - gamma) / gamma)) * (B_D - beta) / alpha,
+        Y_D_beta * (B_D - beta) / alpha,
     )
 
     if F_D.shape[-1] != 3:
@@ -1445,20 +1438,22 @@ def ootf_inverse_HLG_BT2100_2(F_D, L_W=1000, gamma=None):
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
 
+    Y_D_alpha = (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma))
+
     R_S = np.where(
         Y_D == 0,
         0.0,
-        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * R_D / alpha,
+        Y_D_alpha * R_D / alpha,
     )
     G_S = np.where(
         Y_D == 0,
         0.0,
-        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * G_D / alpha,
+        Y_D_alpha * G_D / alpha,
     )
     B_S = np.where(
         Y_D == 0,
         0.0,
-        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * B_D / alpha,
+        Y_D_alpha * B_D / alpha,
     )
 
     if F_D.shape[-1] != 3:

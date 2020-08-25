@@ -27,10 +27,10 @@ from colour.plotting.models import (
     plot_ellipses_MacAdam1942_in_chromaticity_diagram)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
@@ -261,8 +261,7 @@ plot_RGB_chromaticities_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_RGB_chromaticities_in_chromaticity_diagram(
-            np.random.random((128, 128, 3)),
-            scatter_parameters={'marker': 'v'})
+            np.random.random((128, 128, 3)), scatter_kwargs={'marker': 'v'})
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -363,15 +362,14 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_ellipses_MacAdam1942_in_chromaticity_diagram(
-            chromaticity_diagram_clipping=True,
-            ellipse_parameters={'color': 'k'})
+            chromaticity_diagram_clipping=True, ellipse_kwargs={'color': 'k'})
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_ellipses_MacAdam1942_in_chromaticity_diagram(
             chromaticity_diagram_clipping=True,
-            ellipse_parameters=[{
+            ellipse_kwargs=[{
                 'color': 'k'
             }] * 25)
 
@@ -554,7 +552,7 @@ class TestPlotConstantHueLoci(unittest.TestCase):
         ])
 
         figure, axes = plot_constant_hue_loci(
-            data, 'IPT', scatter_parameters={'marker': 'v'})
+            data, 'IPT', scatter_kwargs={'marker': 'v'})
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

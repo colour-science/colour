@@ -5,19 +5,13 @@ Photometry
 
 Defines photometric quantities computation related objects.
 
-See Also
---------
-`Photometry Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/photometry.ipynb>`_
-
 References
 ----------
+-   :cite:`Wikipedia2003b` : Wikipedia. (2003). Luminosity function. Retrieved
+    October 20, 2014, from
+    https://en.wikipedia.org/wiki/Luminosity_function#Details
 -   :cite:`Wikipedia2005c` : Wikipedia. (2005). Luminous Efficacy. Retrieved
     April 3, 2016, from https://en.wikipedia.org/wiki/Luminous_efficacy
--   :cite:`Wikipedia2003b` : Wikipedia. (2003). Luminosity function. Retrieved
-    October 20, 2014, from https://en.wikipedia.org/wiki/\
-Luminosity_function#Details
 """
 
 from __future__ import division, unicode_literals
@@ -26,12 +20,13 @@ import numpy as np
 
 from colour.colorimetry import PHOTOPIC_LEFS
 from colour.constants import K_M
+from colour.utilities import as_float
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['luminous_flux', 'luminous_efficiency', 'luminous_efficacy']
@@ -64,15 +59,15 @@ def luminous_flux(sd,
 
     Examples
     --------
-    >>> from colour import LIGHT_SOURCES_SDS
-    >>> sd = LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> from colour import LIGHT_SOURCE_SDS
+    >>> sd = LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> luminous_flux(sd)  # doctest: +ELLIPSIS
     23807.6555273...
     """
 
     lef = lef.copy().align(
         sd.shape,
-        extrapolator_args={
+        extrapolator_kwargs={
             'method': 'Constant',
             'left': 0,
             'right': 0
@@ -81,7 +76,7 @@ def luminous_flux(sd,
 
     flux = K_m * np.trapz(sd.values, sd.wavelengths)
 
-    return flux
+    return as_float(flux)
 
 
 def luminous_efficiency(
@@ -108,15 +103,15 @@ def luminous_efficiency(
 
     Examples
     --------
-    >>> from colour import LIGHT_SOURCES_SDS
-    >>> sd = LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> from colour import LIGHT_SOURCE_SDS
+    >>> sd = LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> luminous_efficiency(sd)  # doctest: +ELLIPSIS
     0.1994393...
     """
 
     lef = lef.copy().align(
         sd.shape,
-        extrapolator_args={
+        extrapolator_kwargs={
             'method': 'Constant',
             'left': 0,
             'right': 0
@@ -153,12 +148,12 @@ def luminous_efficacy(
 
     Examples
     --------
-    >>> from colour import LIGHT_SOURCES_SDS
-    >>> sd = LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> from colour import LIGHT_SOURCE_SDS
+    >>> sd = LIGHT_SOURCE_SDS['Neodimium Incandescent']
     >>> luminous_efficacy(sd)  # doctest: +ELLIPSIS
     136.2170803...
     """
 
     efficacy = K_M * luminous_efficiency(sd, lef)
 
-    return efficacy
+    return as_float(efficacy)

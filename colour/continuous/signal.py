@@ -30,14 +30,15 @@ except ImportError:  # pragma: no cover
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
-from colour.utilities import (as_array, fill_nan, is_pandas_installed,
-                              runtime_warning, tsplit, tstack)
+from colour.utilities import (as_array, fill_nan, full, is_pandas_installed,
+                              runtime_warning, tsplit, tstack, usage_warning)
+from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['Signal']
@@ -75,11 +76,11 @@ class Signal(AbstractContinuousFunction):
         Floating point data type.
     interpolator : object, optional
         Interpolator class type to use as interpolating function.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function.
-    extrapolator_args : dict_like, optional
+    extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function.
 
     Attributes
@@ -88,9 +89,9 @@ class Signal(AbstractContinuousFunction):
     domain
     range
     interpolator
-    interpolator_args
+    interpolator_kwargs
     extrapolator
-    extrapolator_args
+    extrapolator_kwargs
     function
 
     Methods
@@ -154,7 +155,7 @@ class Signal(AbstractContinuousFunction):
      [  900.    90.]
      [ 1000.   100.]]
 
-    Instantiation with a *Pandas* *Series*:
+    Instantiation with a *Pandas* `Series`:
 
     >>> if is_pandas_installed():
     ...     from pandas import Series
@@ -205,9 +206,9 @@ class Signal(AbstractContinuousFunction):
         self._domain = None
         self._range = None
         self._interpolator = KernelInterpolator
-        self._interpolator_args = {}
+        self._interpolator_kwargs = {}
         self._extrapolator = Extrapolator
-        self._extrapolator_args = {
+        self._extrapolator_kwargs = {
             'method': 'Constant',
             'left': np.nan,
             'right': np.nan
@@ -215,12 +216,12 @@ class Signal(AbstractContinuousFunction):
 
         self.domain, self.range = self.signal_unpack_data(data, domain)
 
-        self.dtype = kwargs.get('dtype')
+        self.dtype = kwargs.get('dtype', DEFAULT_FLOAT_DTYPE)
 
         self.interpolator = kwargs.get('interpolator')
-        self.interpolator_args = kwargs.get('interpolator_args')
+        self.interpolator_kwargs = kwargs.get('interpolator_kwargs')
         self.extrapolator = kwargs.get('extrapolator')
-        self.extrapolator_args = kwargs.get('extrapolator_args')
+        self.extrapolator_kwargs = kwargs.get('extrapolator_kwargs')
 
         self._create_function()
 
@@ -249,16 +250,10 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            float_dtypes = []
-            for float_dtype in ['float16', 'float32', 'float64', 'float128']:
-                if hasattr(np, float_dtype):
-                    float_dtypes.append(getattr(np, float_dtype))
 
-            assert value in float_dtypes, ((
-                '"{0}" attribute: "{1}" type is not in "{2}"!').format(
-                    'dtype', value, ', '.join([
-                        float_dtype.__name__ for float_dtype in float_dtypes
-                    ])))
+            assert value in np.sctypes['float'], (
+                '"dtype" must be one of the following types: {0}'.format(
+                    np.sctypes['float']))
 
             self._dtype = value
 
@@ -294,25 +289,26 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            if not np.all(np.isfinite(value)):
-                runtime_warning(
-                    '"{0}" new "domain" variable is not finite: {1}, '
-                    'unpredictable results may occur!'.format(
-                        self.name, value))
-
-            value = np.copy(value).astype(self.dtype)
-
-            if self._range is not None:
-                if value.size != self._range.size:
+            if np.asarray(value).dtype != object:
+                if not np.all(np.isfinite(value)):
                     runtime_warning(
-                        '"{0}" new "domain" and current "range" variables '
-                        'have different size, "range" variable will be '
-                        'resized to "domain" variable shape!'.format(
-                            self.name))
-                    self._range = np.resize(self._range, value.shape)
+                        '"{0}" new "domain" variable is not finite: {1}, '
+                        'unpredictable results may occur!'.format(
+                            self.name, value))
 
-            self._domain = value
-            self._create_function()
+                value = np.copy(value).astype(self.dtype)
+
+                if self._range is not None:
+                    if value.size != self._range.size:
+                        runtime_warning(
+                            '"{0}" new "domain" and current "range" variables '
+                            'have different size, "range" variable will be '
+                            'resized to "domain" variable shape!'.format(
+                                self.name))
+                        self._range = np.resize(self._range, value.shape)
+
+                self._domain = value
+                self._create_function()
 
     @property
     def range(self):
@@ -341,20 +337,21 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            if not np.all(np.isfinite(value)):
-                runtime_warning(
-                    '"{0}" new "range" variable is not finite: {1}, '
-                    'unpredictable results may occur!'.format(
-                        self.name, value))
+            if np.asarray(value).dtype != object:
+                if not np.all(np.isfinite(value)):
+                    runtime_warning(
+                        '"{0}" new "range" variable is not finite: {1}, '
+                        'unpredictable results may occur!'.format(
+                            self.name, value))
 
-            value = np.copy(value).astype(self.dtype)
+                value = np.copy(value).astype(self.dtype)
 
-            if self._domain is not None:
-                assert value.size == self._domain.size, (
-                    '"domain" and "range" variables must have same size!')
+                if self._domain is not None:
+                    assert value.size == self._domain.size, (
+                        '"domain" and "range" variables must have same size!')
 
-            self._range = value
-            self._create_function()
+                self._range = value
+                self._create_function()
 
     @property
     def interpolator(self):
@@ -387,7 +384,7 @@ class Signal(AbstractContinuousFunction):
             self._create_function()
 
     @property
-    def interpolator_args(self):
+    def interpolator_kwargs(self):
         """
         Getter and setter property for the continuous signal interpolator
         instantiation time arguments.
@@ -405,20 +402,20 @@ class Signal(AbstractContinuousFunction):
             arguments.
         """
 
-        return self._interpolator_args
+        return self._interpolator_kwargs
 
-    @interpolator_args.setter
-    def interpolator_args(self, value):
+    @interpolator_kwargs.setter
+    def interpolator_kwargs(self, value):
         """
-        Setter for the **self.interpolator_args** property.
+        Setter for the **self.interpolator_kwargs** property.
         """
 
         if value is not None:
             assert isinstance(value, (dict, OrderedDict)), (
                 '"{0}" attribute: "{1}" type is not "dict" or "OrderedDict"!'
-            ).format('interpolator_args', value)
+            ).format('interpolator_kwargs', value)
 
-            self._interpolator_args = value
+            self._interpolator_kwargs = value
             self._create_function()
 
     @property
@@ -452,7 +449,7 @@ class Signal(AbstractContinuousFunction):
             self._create_function()
 
     @property
-    def extrapolator_args(self):
+    def extrapolator_kwargs(self):
         """
         Getter and setter property for the continuous signal extrapolator
         instantiation time arguments.
@@ -470,20 +467,20 @@ class Signal(AbstractContinuousFunction):
             arguments.
         """
 
-        return self._extrapolator_args
+        return self._extrapolator_kwargs
 
-    @extrapolator_args.setter
-    def extrapolator_args(self, value):
+    @extrapolator_kwargs.setter
+    def extrapolator_kwargs(self, value):
         """
-        Setter for the **self.extrapolator_args** property.
+        Setter for the **self.extrapolator_kwargs** property.
         """
 
         if value is not None:
             assert isinstance(value, (dict, OrderedDict)), (
                 '"{0}" attribute: "{1}" type is not "dict" or "OrderedDict"!'.
-                format('extrapolator_args', value))
+                format('extrapolator_kwargs', value))
 
-            self._extrapolator_args = value
+            self._extrapolator_kwargs = value
             self._create_function()
 
     @property
@@ -562,9 +559,9 @@ class Signal(AbstractContinuousFunction):
                 [   8.,   90.],
                 [   9.,  100.]],
                interpolator=KernelInterpolator,
-               interpolator_args={},
+               interpolator_kwargs={},
                extrapolator=Extrapolator,
-               extrapolator_args={...})
+               extrapolator_kwargs={...})
         """
 
         try:
@@ -576,15 +573,15 @@ class Signal(AbstractContinuousFunction):
                 '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
             representation = ('{0},\n'
                               '{1}interpolator={2},\n'
-                              '{1}interpolator_args={3},\n'
+                              '{1}interpolator_kwargs={3},\n'
                               '{1}extrapolator={4},\n'
-                              '{1}extrapolator_args={5})').format(
+                              '{1}extrapolator_kwargs={5})').format(
                                   representation[:-1],
                                   ' ' * (len(self.__class__.__name__) + 1),
                                   self.interpolator.__name__,
-                                  repr(self.interpolator_args),
+                                  repr(self.interpolator_kwargs),
                                   self.extrapolator.__name__,
-                                  repr(self.extrapolator_args))
+                                  repr(self.extrapolator_kwargs))
 
             return representation
         except TypeError:
@@ -600,7 +597,14 @@ class Signal(AbstractContinuousFunction):
             Object hash.
         """
 
-        return hash(repr(self))
+        return hash((
+            self.domain.tostring(),
+            self.range.tostring(),
+            self.interpolator.__name__,
+            repr(self.interpolator_kwargs),
+            self.extrapolator.__name__,
+            repr(self.extrapolator_kwargs),
+        ))
 
     def __getitem__(self, x):
         """
@@ -811,9 +815,9 @@ class Signal(AbstractContinuousFunction):
                     np.array_equal(self._domain, other.domain),
                     np.array_equal(self._range, other.range),
                     self._interpolator is other.interpolator,
-                    self._interpolator_args == other.interpolator_args,
+                    self._interpolator_kwargs == other.interpolator_kwargs,
                     self._extrapolator is other.extrapolator,
-                    self._extrapolator_args == other.extrapolator_args
+                    self._extrapolator_kwargs == other.extrapolator_kwargs
             ]):
                 return True
 
@@ -863,8 +867,8 @@ class Signal(AbstractContinuousFunction):
         if self._domain is not None and self._range is not None:
             self._function = self._extrapolator(
                 self._interpolator(self.domain, self.range,
-                                   **self._interpolator_args),
-                **self._extrapolator_args)
+                                   **self._interpolator_kwargs),
+                **self._extrapolator_kwargs)
         else:
 
             def _undefined_function(*args, **kwargs):
@@ -1027,7 +1031,7 @@ class Signal(AbstractContinuousFunction):
             if isinstance(a, Signal):
                 self[self._domain] = operation(self._range, a[self._domain])
                 exclusive_or = np.setxor1d(self._domain, a.domain)
-                self[exclusive_or] = np.full(exclusive_or.shape, np.nan)
+                self[exclusive_or] = full(exclusive_or.shape, np.nan)
             else:
                 self.range = ioperator(self.range, a)
 
@@ -1038,7 +1042,7 @@ class Signal(AbstractContinuousFunction):
             return copy
 
     @staticmethod
-    def signal_unpack_data(data=None, domain=None, dtype=DEFAULT_FLOAT_DTYPE):
+    def signal_unpack_data(data=None, domain=None, dtype=None):
         """
         Unpack given data for continuous signal instantiation.
 
@@ -1090,7 +1094,7 @@ class Signal(AbstractContinuousFunction):
         >>> print(range_)
         [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
 
-        Unpacking using a *Pandas* *Series*:
+        Unpacking using a *Pandas* `Series`:
 
         >>> if is_pandas_installed():
         ...     from pandas import Series
@@ -1112,9 +1116,8 @@ class Signal(AbstractContinuousFunction):
         [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
         """
 
-        assert dtype in np.sctypes['float'], (
-            '"dtype" must be one of the following types: {0}'.format(
-                np.sctypes['float']))
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
 
         domain_u, range_u = None, None
         if isinstance(data, Signal):
@@ -1243,3 +1246,46 @@ class Signal(AbstractContinuousFunction):
             from pandas import Series
 
             return Series(data=self._range, index=self._domain, name=self.name)
+
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    @property
+    def interpolator_args(self):
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed('Signal.interpolator_args',
+                              'Signal.interpolator_kwargs')))
+
+        return self.interpolator_kwargs
+
+    @interpolator_args.setter
+    def interpolator_args(self, value):
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed('Signal.interpolator_args',
+                              'Signal.interpolator_kwargs')))
+
+        self.interpolator_kwargs = value
+
+    @property
+    def extrapolator_args(self):
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed('Signal.extrapolator_args',
+                              'Signal.extrapolator_kwargs')))
+
+        return self.extrapolator_kwargs
+
+    @extrapolator_args.setter
+    def extrapolator_args(self, value):
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed('Signal.extrapolator_args',
+                              'Signal.extrapolator_kwargs')))
+
+        self.extrapolator_kwargs = value

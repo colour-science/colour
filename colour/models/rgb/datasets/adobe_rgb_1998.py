@@ -7,17 +7,10 @@ Defines the *Adobe RGB (1998)* colourspace:
 
 -   :attr:`colour.models.ADOBE_RGB_1998_COLOURSPACE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`AdobeSystems2005a` : Adobe Systems. (2005). Adobe RGB (1998) Color
-    Image Encoding. Retrieved from
-    http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+    Image Encoding. http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -29,10 +22,10 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [

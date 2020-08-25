@@ -7,9 +7,10 @@ Defines the *CIE* constants.
 
 References
 ----------
--   :cite:`Wyszecki2000s` : Wyszecki, G., & Stiles, W. S. (2000). Standard
-    Photometric Observers. In Color Science: Concepts and Methods,
-    Quantitative Data and Formulae (p. 256-259,395). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000s` : Wyszecki, Günther, & Stiles, W. S. (2000).
+    Standard Photometric Observers. In Color Science: Concepts and Methods,
+    Quantitative Data and Formulae (pp. 256-259,395). Wiley.
+    ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals
@@ -17,10 +18,10 @@ from __future__ import division, unicode_literals
 from colour.utilities.documentation import DocstringFloat
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['K_M', 'KP_M']
