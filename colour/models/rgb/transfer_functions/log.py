@@ -220,7 +220,7 @@ def logarithmic_function_camera(x,
                                 lin_side_slope=1,
                                 log_side_offset=0,
                                 lin_side_offset=0,
-                                lin_side_break=0,
+                                lin_side_break=0.005,
                                 linear_slope=None):
     """
     Defines the camera logarithmic function.

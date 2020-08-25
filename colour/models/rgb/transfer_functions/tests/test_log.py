@@ -326,27 +326,27 @@ logarithmic_function_camera` definition.
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 'cameraLinToLog', 10, 0.25, 0.95,
-                                        0.6, 0.01, 0.005),
-            0.414419643717296,
+            logarithmic_function_camera(0.005, 'cameraLinToLog', 10, 0.25,
+                                        0.95, 0.6, 0.01, 0.01),
+            0.146061232468316,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.414419643717296, 'cameraLogToLin',
-                                        10, 0.25, 0.95, 0.6, 0.01, 0.005),
-            0.180000000000000,
+            logarithmic_function_camera(0.146061232468316, 'cameraLogToLin',
+                                        10, 0.25, 0.95, 0.6, 0.01, 0.01),
+            0.005000000000000,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, 'cameraLinToLog', 10, 0.25, 0.95,
-                                        0.6, 0.01, 0.005, 6),
-            0.414419643717296,
+            logarithmic_function_camera(0.005, 'cameraLinToLog', 10, 0.25,
+                                        0.95, 0.6, 0.01, 0.01, 6),
+            0.142508652840630,
             places=7)
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.414419643717296, 'cameraLogToLin',
-                                        10, 0.25, 0.95, 0.6, 0.01, 0.005, 6),
-            0.180000000000000,
+            logarithmic_function_camera(0.142508652840630, 'cameraLogToLin',
+                                        10, 0.25, 0.95, 0.6, 0.01, 0.01, 6),
+            0.005000000000000,
             places=7)
 
     def test_n_dimensional_logarithmic_function_camera(self):
