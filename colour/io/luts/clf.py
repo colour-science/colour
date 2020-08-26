@@ -1,5 +1,6 @@
 from __future__ import division, unicode_literals
 
+from logging import getLogger
 import numpy as np
 import re
 from six import StringIO
@@ -9,8 +10,9 @@ from xml.dom import minidom
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import (AbstractLUTSequenceOperator, ASC_CDL, LUT1D,
                             LUT3x1D, LUT3D, LUTSequence, Matrix, Range,
-                            Exponent)
-from colour.utilities import as_float_array, as_numeric, tsplit, tstack, lerp
+                            Exponent, Log)
+from colour.utilities import (as_float_array, as_numeric, tsplit, tstack, lerp,
+                              filter_kwargs)
 
 __all__ = [
     'half_to_uint16', 'uint16_to_half', 'half_domain_lookup', 'HalfDomain1D',
@@ -150,6 +152,76 @@ def parse_array(array):
 
 def ns_strip(s):
     return re.sub('{.+}', '', s)
+
+
+def _collect_operator_kwargs(node, parameter_class='LogParams'):
+    standard_attrs = ['name', 'id', 'style', 'inBitDepth', 'outBitDepth']
+    parameter_classes = {
+        'LogParams': [
+            'base', 'logSideSlope', 'logSideOffset', 'linSideOffset',
+            'logSideOffset', 'linSideBreak', 'linearSlope'
+        ],
+        'ExponentParams': ['offset', 'exponent'],
+        None: [],
+    }
+    parameters = parameter_classes[parameter_class]
+    unmatched = []
+    op_kwargs = {}
+
+    for child in node:
+        # shared node attributes
+        if any([
+                child.tag.lower().endswith(attr.lower())
+                for attr in standard_attrs
+        ]):
+            for attr in standard_attrs:
+                if child.tag.lower().endswith(attr.lower()):
+                    op_kwargs[attr] = child.text
+
+        # special cases
+        elif child.tag.lower().endswith('description'):
+            op_kwargs['comments'].append(child.text)
+
+        # operator paramaters
+        elif child.tag.lower().endswith(parameter_class.lower()):
+            this_channel = child.attrib.pop('channel', '').upper()
+            for tag, value in child.attrib.items():
+                tag = tag.lower()
+
+                # special cases (non-float params)
+                if tag in ['base']:
+                    op_kwargs[tag] = int(value)
+
+                # standard float params
+                elif any(
+                    [tag.endswith(param.lower()) for param in parameters]):
+                    for param in parameters:
+                        if tag.endswith(param.lower()):
+
+                            # single value for all channels
+                            if not this_channel:
+                                op_kwargs[param] = float(value)
+
+                            # individual per-channel values
+                            else:
+                                rgb_vars = np.ones(3)
+                                rgb_vars['RGB'.index(this_channel)] = float(
+                                    value)
+                                if param in op_kwargs.keys():
+                                    op_kwargs[param] *= rgb_vars
+                                else:
+                                    op_kwargs[param] = rgb_vars
+                else:
+                    unmatched.append(tag)
+        else:
+            unmatched.append(tag)
+
+    if len(unmatched) > 0:
+        msg = 'Ignored {} unknown tags: [{}]'.format(len(unmatched),
+                                                     ', '.join(unmatched))
+        getLogger(__name__).warning(msg)
+
+    return op_kwargs
 
 
 def add_LUT1D(LUT, node):
@@ -380,6 +452,13 @@ def add_Exponent(LUT, node):
     return LUT
 
 
+def add_Log(LUT, node):
+    op_kwargs = _collect_operator_kwargs(node, 'LogParams')
+    operator = Log(**op_kwargs)
+    LUT.append(operator)
+    return LUT
+
+
 def read_clf(path):
     LUT = LUTSequence()
     tree = ElementTree.parse(path)
@@ -406,6 +485,8 @@ def read_clf(path):
             LUT = add_ASC_CDL(LUT, node)
         elif tag.endswith('exponent'):
             LUT = add_Exponent(LUT, node)
+        elif tag.endswith('log'):
+            LUT = add_Log(LUT, node)
 
     return LUT
 
@@ -422,10 +503,36 @@ def write_clf(LUT, path, name='', id='', decimals=10):
     def _format_row(array, decimals=10):
         return '{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}'.format(decimals, *array)
 
+    def _format_float(value, decimals=10):
+        return '{1:0.{0}f}'.format(decimals, value)
+
     def _add_comments(node, comments):
         for comment in comments:
             d = ElementTree.SubElement(node, 'Description')
             d.text = comment
+
+    def _populate_node_params(process_node,
+                              parameter_class,
+                              decimals=10,
+                              **parameter_data):
+        single_channel = True
+        for key, value in parameter_data.items():
+            value *= np.ones(3)
+            parameter_data[key] = value
+            if not value.max() == value.min():
+                single_channel = False
+
+        if single_channel:
+            params = ElementTree.SubElement(process_node, parameter_class)
+            for key, value in parameter_data.items():
+                params.set(key, _format_float(value[0], decimals=decimals))
+        else:
+            for idx, params in enumerate(
+                [ElementTree.SubElement(process_node, parameter_class)] * 3):
+                params.set('channel', 'RGB'[idx])
+                for key, value in parameter_data.items():
+                    params.set(key, _format_float(value[idx],
+                                                  decimals=decimals))
 
     process_list = ElementTree.Element('ProcessList')
     process_list.set('xmlns', 'urn:NATAS:AMPAS:LUT:v2.0')
@@ -611,6 +718,32 @@ def write_clf(LUT, path, name='', id='', decimals=10):
                 ep_blue.set('exponent', '{}'.format(node.exponent[2]))
                 if node.style.lower()[:8] == 'moncurve':
                     ep_blue.set('offset', '{}'.format(node.offset[2]))
+
+        if isinstance(node, Log):
+            process_node = ElementTree.Element('Log')
+            process_node.set('style', node.style)
+
+            if node.comments:
+                _add_comments(process_node, node.comments)
+
+            parameters = {
+                'base': node.base,
+                'logSideSlope': node.log_side_slope,
+                'logSideOffset': node.log_side_offset,
+                'linSideSlope': node.lin_side_slope,
+                'linSideOffset': node.lin_side_offset,
+            }
+
+            if node.style.startswith('camera'):
+                parameters['linSideBreak'] = node.lin_side_break
+
+                if node.linear_slope:
+                    parameters['linearSlope'] = node.linear_slope
+
+            _populate_node_params(process_node,
+                                  'LogParams',
+                                  decimals=decimals,
+                                  **parameters)
 
         process_node.set('inBitDepth', '32f')
         process_node.set('outBitDepth', '32f')
