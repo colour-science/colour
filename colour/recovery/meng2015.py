@@ -33,22 +33,22 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DEFAULT_SPECTRAL_SHAPE_MENG_2015', 'XYZ_to_sd_Meng2015']
+__all__ = ['SPECTRAL_SHAPE_MENG2015', 'XYZ_to_sd_Meng2015']
 
-DEFAULT_SPECTRAL_SHAPE_MENG_2015 = SpectralShape(360, 780, 5)
+SPECTRAL_SHAPE_MENG2015 = SpectralShape(360, 780, 5)
 """
-Default spectral shape according to *ASTM E308-15* practise shape but using an
-interval of 5.
+Spectral shape according to *ASTM E308-15* practise shape but using an interval
+of 5.
 
-DEFAULT_SPECTRAL_SHAPE_MENG_2015 : SpectralShape
+SPECTRAL_SHAPE_MENG2015 : SpectralShape
 """
 
 
 def XYZ_to_sd_Meng2015(
         XYZ,
         cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015),
-        illuminant=sd_ones(DEFAULT_SPECTRAL_SHAPE_MENG_2015),
+        .copy().align(SPECTRAL_SHAPE_MENG2015),
+        illuminant=sd_ones(SPECTRAL_SHAPE_MENG2015),
         optimisation_kwargs=None,
         **kwargs):
     """
