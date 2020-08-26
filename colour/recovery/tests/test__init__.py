@@ -13,7 +13,7 @@ from six.moves import zip
 from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
                                 sd_to_XYZ_integration)
 from colour.recovery import XYZ_to_sd
-from colour.recovery.meng2015 import DEFAULT_SPECTRAL_SHAPE_MENG_2015
+from colour.recovery.meng2015 import SPECTRAL_SHAPE_MENG2015
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -40,7 +40,7 @@ class TestXYZ_to_sd(unittest.TestCase):
 
         cmfs = (
             MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-            .copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015))
+            .copy().align(SPECTRAL_SHAPE_MENG2015))
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         m = ('Jakob 2019', 'Mallet 2019', 'Meng 2015', 'Smits 1999')
