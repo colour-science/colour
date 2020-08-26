@@ -21,7 +21,7 @@ from __future__ import division, unicode_literals
 
 import colour.ndarray as np
 
-from colour.utilities import as_float_array
+from colour.utilities import as_float, as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -67,11 +67,9 @@ def metric_mse(a, b, axis=None):
     0.0012714...
     """
     metric = np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
-    try:
-        if np.__name__ == 'cupy' and metric.size == 1:
-            return metric.item()
-    except Exception:
-        pass
+
+    if np.__name__ == 'cupy':
+        return as_float(metric)
 
     return metric
 

@@ -48,10 +48,10 @@ class TestConvertBitDepth(unittest.TestCase):
 
         a = np.around(np.linspace(0, 1, 10) * 255).astype('uint8')
         self.assertIs(convert_bit_depth(a, 'uint8').dtype, np.dtype('uint8'))
-        np.testing.assert_equal(convert_bit_depth(a, 'uint8'), a)
+        np.testing.assert_array_equal(convert_bit_depth(a, 'uint8'), a)
 
         self.assertIs(convert_bit_depth(a, 'uint16').dtype, np.dtype('uint16'))
-        np.testing.assert_equal(
+        np.testing.assert_array_equal(
             convert_bit_depth(a, 'uint16'),
             np.array([
                 0, 7196, 14649, 21845, 29041, 36494, 43690, 50886, 58339, 65535
@@ -87,12 +87,12 @@ class TestConvertBitDepth(unittest.TestCase):
 
         a = np.around(np.linspace(0, 1, 10) * 65535).astype('uint16')
         self.assertIs(convert_bit_depth(a, 'uint8').dtype, np.dtype('uint8'))
-        np.testing.assert_equal(
+        np.testing.assert_array_equal(
             convert_bit_depth(a, 'uint8'),
             np.array([0, 28, 56, 85, 113, 141, 170, 198, 226, 255]))
 
         self.assertIs(convert_bit_depth(a, 'uint16').dtype, np.dtype('uint16'))
-        np.testing.assert_equal(convert_bit_depth(a, 'uint16'), a)
+        np.testing.assert_array_equal(convert_bit_depth(a, 'uint16'), a)
 
         self.assertIs(
             convert_bit_depth(a, 'float16').dtype, np.dtype('float16'))
@@ -124,12 +124,12 @@ class TestConvertBitDepth(unittest.TestCase):
 
         a = np.linspace(0, 1, 10, dtype=np.float64)
         self.assertIs(convert_bit_depth(a, 'uint8').dtype, np.dtype('uint8'))
-        np.testing.assert_equal(
+        np.testing.assert_array_equal(
             convert_bit_depth(a, 'uint8'),
             np.array([0, 28, 57, 85, 113, 142, 170, 198, 227, 255]))
 
         self.assertIs(convert_bit_depth(a, 'uint16').dtype, np.dtype('uint16'))
-        np.testing.assert_equal(
+        np.testing.assert_array_equal(
             convert_bit_depth(a, 'uint16'),
             np.array([
                 0, 7282, 14563, 21845, 29127, 36408, 43690, 50972, 58253, 65535

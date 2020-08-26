@@ -79,11 +79,8 @@ def log_encoding_Cineon(x, black_offset=10 ** ((95 - 685) / 300)):
     y = ((685 + 300 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
     y = from_range_1(y)
 
-    try:
-        if y.size == 1:
-            return as_float(y)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(y)
 
     return y
 
@@ -135,10 +132,7 @@ def log_decoding_Cineon(y, black_offset=10 ** ((95 - 685) / 300)):
     x = ((10 ** ((1023 * y - 685) / 300) - black_offset) / (1 - black_offset))
     x = from_range_1(x)
 
-    try:
-        if x.size == 1:
-            return as_float(x)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(x)
 
     return x

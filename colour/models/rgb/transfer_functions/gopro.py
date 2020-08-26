@@ -77,11 +77,8 @@ def log_encoding_Protune(x):
     y = np.log(x * 112 + 1) / np.log(113)
     y = from_range_1(y)
 
-    try:
-        if y.size == 1:
-            return as_float(y)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(y)
 
     return y
 
@@ -131,10 +128,7 @@ def log_decoding_Protune(y):
     x = (113 ** y - 1) / 112
     x = from_range_1(x)
 
-    try:
-        if x.size == 1:
-            return as_float(x)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(x)
 
     return x

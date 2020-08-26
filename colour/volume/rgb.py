@@ -262,11 +262,8 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     result = Lab_volume * np.sum(np.array(results)) / \
         (process_samples * processes)
 
-    try:
-        if result.size == 1:
-            return as_float(result)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(result)
 
     return result
 

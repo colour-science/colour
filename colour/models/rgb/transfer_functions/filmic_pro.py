@@ -86,11 +86,8 @@ def log_encoding_FilmicPro6(t):
     y = 0.371 * (np.sqrt(t) + 0.28257 * np.log(t) + 1.69542)
     y = from_range_1(y)
 
-    try:
-        if y.size == 1:
-            return as_float(y)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(y)
 
     return y
 

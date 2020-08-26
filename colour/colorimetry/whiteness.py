@@ -45,6 +45,7 @@ c/09_color_calculations_en.pdf
 
 from __future__ import division, unicode_literals
 
+import colour.ndarray as np
 from colour.utilities import (CaseInsensitiveMapping, get_domain_range_scale,
                               filter_kwargs, from_range_100, to_domain_100,
                               tsplit, tstack, as_float)
@@ -120,11 +121,8 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     WI = from_range_100(WI)
 
-    try:
-        if WI.size == 1:
-            return as_float(WI)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(WI)
 
     return WI
 
@@ -185,11 +183,8 @@ def whiteness_Taube1960(XYZ, XYZ_0):
     WI = 400 * (Z / Z_0) - 3 * Y
     WI = from_range_100(WI)
 
-    try:
-        if WI.size == 1:
-            return as_float(WI)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(WI)
 
     return WI
 
@@ -306,11 +301,8 @@ def whiteness_ASTME313(XYZ):
 
     WI = from_range_100(WI)
 
-    try:
-        if WI.size == 1:
-            return as_float(WI)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(WI)
 
     return WI
 

@@ -121,10 +121,7 @@ def spectral_similarity_index(sd_test, sd_reference):
 
     SSI = np.around(100 - 32 * np.sqrt(m_v))
 
-    try:
-        if SSI.size == 1:
-            return as_float(SSI)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(SSI)
 
     return SSI

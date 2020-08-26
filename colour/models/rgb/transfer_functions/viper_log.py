@@ -77,11 +77,8 @@ def log_encoding_ViperLog(x):
     y = (1023 + 500 * np.log10(x)) / 1023
     y = from_range_1(y)
 
-    try:
-        if y.size == 1:
-            return as_float(y)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(y)
 
     return y
 
@@ -131,10 +128,7 @@ def log_decoding_ViperLog(y):
     x = 10 ** ((1023 * y - 1023) / 500)
     x = from_range_1(x)
 
-    try:
-        if x.size == 1:
-            return as_float(x)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(x)
 
     return x

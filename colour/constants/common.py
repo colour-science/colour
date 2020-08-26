@@ -9,7 +9,7 @@ Defines common constants objects that don't belong to any specific category.
 from __future__ import division, unicode_literals
 
 import os
-import colour.ndarray as np
+import numpy as np
 
 from colour.utilities.documentation import (DocstringFloat,
                                             is_documentation_building)

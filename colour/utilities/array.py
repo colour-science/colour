@@ -273,9 +273,12 @@ def as_float(a, dtype=None):
 
     if np.__name__ == 'cupy':
         try:
-            return float(a)
-        except TypeError:
-            return as_float_array(a, dtype)
+            if a.size == 1:
+                return dtype(np.asnumpy(a))
+            else:
+                return as_float_array(a, dtype)
+        except Exception:
+            return a
 
     return dtype(a)
 

@@ -221,11 +221,8 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     d_E = np.sqrt(L + C + H)
 
-    try:
-        if d_E.size == 1:
-            return as_float(d_E)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(d_E)
 
     return d_E
 
@@ -370,11 +367,8 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
                   (delta_C_prime / (k_C * s_C)) * (delta_H_prime /
                                                    (k_H * s_H)) * r_T)
 
-    try:
-        if d_E.size == 1:
-            return as_float(d_E)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(d_E)
 
     return d_E
 
@@ -468,10 +462,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
 
     d_E = np.sqrt(v_1 ** 2 + v_2 ** 2 + (delta_H2 / (v_3 * v_3)))
 
-    try:
-        if d_E.size == 1:
-            return as_float(d_E)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(d_E)
 
     return d_E

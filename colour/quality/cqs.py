@@ -253,11 +253,8 @@ def colour_quality_scale(sd_test, additional_data=False,
             sd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
             (test_vs_colorimetry_data, reference_vs_colorimetry_data))
     else:
-        try:
-            if Q_a.size == 1:
-                return as_float(Q_a)
-        except Exception:
-            pass
+        if np.__name__ == 'cupy':
+            return as_float(Q_a)
 
         return Q_a
 

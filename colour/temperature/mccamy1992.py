@@ -71,11 +71,8 @@ def xy_to_CCT_McCamy1992(xy):
     n = (x - 0.3320) / (y - 0.1858)
     CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
 
-    try:
-        if CCT.size == 1:
-            return as_float(CCT)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(CCT)
 
     return CCT
 

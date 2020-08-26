@@ -92,11 +92,8 @@ def eotf_inverse_BT1886(L, L_B=0, L_W=1):
     V = (L / a) ** gamma_d - b
     V = from_range_1(V)
 
-    try:
-        if V.size == 1:
-            return as_float(V)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(V)
 
     return V
 
@@ -160,10 +157,7 @@ def eotf_BT1886(V, L_B=0, L_W=1):
     L = a * np.maximum(V + b, 0) ** gamma
     L = from_range_1(L)
 
-    try:
-        if L.size == 1:
-            return as_float(L)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(L)
 
     return L

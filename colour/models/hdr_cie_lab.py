@@ -123,11 +123,8 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
     else:
         epsilon /= sf * lf
 
-    try:
-        if epsilon.size == 1:
-            return as_float(epsilon)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(epsilon)
 
     return epsilon
 

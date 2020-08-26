@@ -149,11 +149,8 @@ def colour_rendering_index(sd_test, additional_data=False):
             sd_test.name, Q_a, Q_as,
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data))
     else:
-        try:
-            if Q_a.size == 1:
-                return as_float(Q_a)
-        except Exception:
-            pass
+        if np.__name__ == 'cupy':
+            return as_float(Q_a)
 
         return Q_a
 

@@ -90,11 +90,8 @@ def log_encoding_PivotedLog(x,
           (density_per_code_value / negative_gamma)) / 1023)
     y = from_range_1(y)
 
-    try:
-        if y.size == 1:
-            return as_float(y)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(y)
 
     return y
 
@@ -157,10 +154,7 @@ def log_decoding_PivotedLog(y,
                 (density_per_code_value / negative_gamma)) * linear_reference)
     x = from_range_1(x)
 
-    try:
-        if x.size == 1:
-            return as_float(x)
-    except Exception:
-        pass
+    if np.__name__ == 'cupy':
+        return as_float(x)
 
     return x
