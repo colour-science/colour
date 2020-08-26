@@ -166,7 +166,7 @@ def _collect_operator_kwargs(node, parameter_class='LogParams'):
     }
     parameters = parameter_classes[parameter_class]
     unmatched = []
-    op_kwargs = {}
+    opkwargs = {}
 
     for child in node:
         # shared node attributes
@@ -176,41 +176,40 @@ def _collect_operator_kwargs(node, parameter_class='LogParams'):
         ]):
             for attr in standard_attrs:
                 if child.tag.lower().endswith(attr.lower()):
-                    op_kwargs[attr] = child.text
+                    opkwargs[attr] = child.text
 
-        # special cases
+        # special case attributes
         elif child.tag.lower().endswith('description'):
-            op_kwargs['comments'].append(child.text)
+            opkwargs['comments'].append(child.text)
 
-        # operator paramaters
+        # node parameters
         elif child.tag.lower().endswith(parameter_class.lower()):
-            this_channel = child.attrib.pop('channel', '').upper()
+            channel = child.attrib.pop('channel', '').upper()
             for tag, value in child.attrib.items():
                 tag = tag.lower()
 
-                # special cases (non-float params)
+                # special case parameters
                 if tag in ['base']:
-                    op_kwargs[tag] = int(value)
+                    opkwargs[tag] = value
 
-                # standard float params
+                # standard class parameters parameters (either floats or rgb-tuples of floats)
                 elif any(
                     [tag.endswith(param.lower()) for param in parameters]):
                     for param in parameters:
                         if tag.endswith(param.lower()):
 
                             # single value for all channels
-                            if not this_channel:
-                                op_kwargs[param] = float(value)
+                            if not channel:
+                                opkwargs[param] = float(value)
 
                             # individual per-channel values
                             else:
                                 rgb_vars = np.ones(3)
-                                rgb_vars['RGB'.index(this_channel)] = float(
-                                    value)
-                                if param in op_kwargs.keys():
-                                    op_kwargs[param] *= rgb_vars
+                                rgb_vars['RGB'.index(channel)] = value
+                                if param in opkwargs.keys():
+                                    opkwargs[param] *= rgb_vars
                                 else:
-                                    op_kwargs[param] = rgb_vars
+                                    opkwargs[param] = rgb_vars
                 else:
                     unmatched.append(tag)
         else:
@@ -221,7 +220,7 @@ def _collect_operator_kwargs(node, parameter_class='LogParams'):
                                                      ', '.join(unmatched))
         getLogger(__name__).warning(msg)
 
-    return op_kwargs
+    return opkwargs
 
 
 def add_LUT1D(LUT, node):
@@ -453,8 +452,8 @@ def add_Exponent(LUT, node):
 
 
 def add_Log(LUT, node):
-    op_kwargs = _collect_operator_kwargs(node, 'LogParams')
-    operator = Log(**op_kwargs)
+    opkwargs = _collect_operator_kwargs(node, 'LogParams')
+    operator = Log(**opkwargs)
     LUT.append(operator)
     return LUT
 
