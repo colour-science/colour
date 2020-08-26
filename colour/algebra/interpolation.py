@@ -1257,14 +1257,8 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     @property
     def y(self):
         """
-        Getter and setter property for the dependent and already known
-        :math:`y` variable.
-
-        Parameters
-        ----------
-        value : array_like
-            Value to set the dependent and already known :math:`y` variable
-            with.
+        Getter property for the dependent and already known :math:`y`
+        variable.
 
         Returns
         -------

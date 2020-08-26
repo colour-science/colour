@@ -486,21 +486,12 @@ class Signal(AbstractContinuousFunction):
     @property
     def function(self):
         """
-        Getter and setter property for the continuous signal callable.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
+        Getter property for the continuous signal callable.
 
         Returns
         -------
         callable
             Continuous signal callable.
-
-        Notes
-        -----
-        -   This property is read only.
         """
 
         return self._function

@@ -227,7 +227,7 @@ class AbstractLUT:
     @property
     def dimensions(self):
         """
-        Getter and setter property for the *LUT* dimensions.
+        Getter property for the *LUT* dimensions.
 
         Returns
         -------

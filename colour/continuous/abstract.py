@@ -360,10 +360,6 @@ class AbstractContinuousFunction:
         -------
         callable
             Abstract continuous function callable.
-
-        Notes
-        -----
-        -   This property is read only.
         """
 
         pass

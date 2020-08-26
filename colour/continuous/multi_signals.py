@@ -505,22 +505,13 @@ dict_like, optional
     @property
     def function(self):
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances callable.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
+        Getter property for the :class:`colour.continuous.Signal` sub-class
+        instances callable.
 
         Returns
         -------
         callable
             :class:`colour.continuous.Signal` sub-class instances callable.
-
-        Notes
-        -----
-        -   This property is read only.
         """
 
         if self._signals:
@@ -593,17 +584,13 @@ or dict_like
     @property
     def signal_type(self):
         """
-        Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances type.
+        Getter property for the :class:`colour.continuous.Signal` sub-class
+        instances type.
 
         Returns
         -------
         type
             :class:`colour.continuous.Signal` sub-class instances type.
-
-        Notes
-        -----
-        -   This property is read only.
         """
 
         return self._signal_type

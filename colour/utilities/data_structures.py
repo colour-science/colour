@@ -205,12 +205,7 @@ class CaseInsensitiveMapping(MutableMapping):
     @property
     def data(self):
         """
-        Getter and setter property for the data.
-
-        Parameters
-        ----------
-        value : dict
-            Value to set the data with.
+        Getter property for the data.
 
         Returns
         -------
