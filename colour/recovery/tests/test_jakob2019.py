@@ -18,7 +18,7 @@ from colour.difference import JND_CIE1976, delta_E_CIE1976
 from colour.models import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_Lab
 from colour.recovery.jakob2019 import (
     XYZ_to_sd_Jakob2019, sd_Jakob2019, error_function,
-    dimensionalise_coefficients, JAKOB2019_SPECTRAL_SHAPE,
+    dimensionalise_coefficients, SPECTRAL_SHAPE_JAKOB2019,
     Jakob2019Interpolator)
 from colour.utilities import domain_range_scale, full, ones, zeros
 
@@ -77,7 +77,7 @@ class TestErrorFunction(unittest.TestCase):
         ]
 
         # error_function will not align these for us.
-        shape = JAKOB2019_SPECTRAL_SHAPE
+        shape = SPECTRAL_SHAPE_JAKOB2019
         aligned_cmfs = MSDS_CMFS.copy().align(shape)
         illuminant = SD_D65.copy().align(shape)
         XYZ_n = sd_to_XYZ(SD_D65)
@@ -109,7 +109,7 @@ class TestErrorFunction(unittest.TestCase):
         derivatives with finite difference approximations.
         """
 
-        shape = JAKOB2019_SPECTRAL_SHAPE
+        shape = SPECTRAL_SHAPE_JAKOB2019
         aligned_cmfs = MSDS_CMFS.copy().align(shape)
         illuminant = SD_D65.copy().align(shape)
         XYZ_n = sd_to_XYZ(SD_D65)
@@ -200,6 +200,28 @@ class TestJakob2019Interpolator(unittest.TestCase):
         """
 
         shutil.rmtree(self._temporary_directory)
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('table', 'lightness_scale', 'coefficients',
+                               'size')
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(Jakob2019Interpolator))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('__init__', 'RGB_to_coefficients', 'RGB_to_sd',
+                            'generate', 'read', 'write')
+
+        for method in required_methods:
+            self.assertIn(method, dir(Jakob2019Interpolator))
 
     def test_Jakob2019Interpolator(self):
         """
