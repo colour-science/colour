@@ -1956,7 +1956,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     cls : LUT1D or LUT3x1D or LUT3D
         *LUT* class instance.
     force_conversion : bool, optional
-        Whether to force the conversion as it might be destructive.
+        Whether to force the conversion if destructive.
 
     Other Parameters
     ----------------
@@ -2041,8 +2041,6 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
         if 'channel_weights' in kwargs:
             del kwargs['channel_weights']
 
-        # TODO: Implement support for non-uniform domain, e.g. "cinespace"
-        #  LUTs.
         if isinstance(LUT, LUT1D):
             if cls is LUT3x1D:
                 domain = tstack([LUT.domain, LUT.domain, LUT.domain])
@@ -2053,10 +2051,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
                 table = LUT.apply(table, **kwargs)
         elif isinstance(LUT, LUT3x1D):
             if cls is LUT1D:
-                domain = np.array([
-                    np.sum(LUT.domain[0, ...] * channel_weights),
-                    np.sum(LUT.domain[-1, ...] * channel_weights)
-                ])
+                domain = np.sum(LUT.domain * channel_weights, axis=-1)
                 table = np.sum(LUT.table * channel_weights, axis=-1)
             elif cls is LUT3D:
                 domain = LUT.domain
@@ -2064,10 +2059,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
                 table = LUT.apply(table, **kwargs)
         elif isinstance(LUT, LUT3D):
             if cls is LUT1D:
-                domain = np.array([
-                    np.sum(LUT.domain[0, ...] * channel_weights),
-                    np.sum(LUT.domain[-1, ...] * channel_weights)
-                ])
+                domain = np.sum(LUT.domain * channel_weights, axis=-1)
                 table = LUT1D.linear_table(size, domain)
                 table = LUT.apply(tstack([table, table, table]), **kwargs)
                 table = np.sum(table * channel_weights, axis=-1)
