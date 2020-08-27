@@ -1432,10 +1432,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         channel_weights = np.array([1 / 3, 1 / 3, 1 / 3])
 
-        domain = np.array([
-            np.sum(self._domain[0, ...] * channel_weights),
-            np.sum(self._domain[1, ...] * channel_weights)
-        ])
+        domain = np.sum(self._domain * channel_weights, axis=-1)
 
         LUT = LUT_to_LUT(
             self._LUT_2,
