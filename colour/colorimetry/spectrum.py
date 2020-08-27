@@ -725,7 +725,7 @@ dict_like, optional
     @property
     def shape(self):
         """
-        Getter and setter property for the spectral distribution shape.
+        Getter property for the spectral distribution shape.
 
         Returns
         -------
@@ -738,10 +738,6 @@ dict_like, optional
             variable have multiple intervals, in that case
             :attr:`colour.SpectralDistribution.shape` attribute returns
             the *minimum* interval size.
-
-        Warning
-        -------
-        :attr:`colour.SpectralDistribution.shape` attribute is read only.
 
         Examples
         --------
@@ -1894,7 +1890,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
     @property
     def shape(self):
         """
-        Getter and setter property for the multi-spectral distributions shape.
+        Getter property for the multi-spectral distributions shape.
 
         Returns
         -------
@@ -1907,10 +1903,6 @@ MultiSpectralDistributions or array_like or dict_like, optional
             independent variable have multiple intervals, in that case
             :attr:`colour.MultiSpectralDistributions.shape` attribute returns
             the *minimum* interval size.
-
-        Warning
-        -------
-        :attr:`colour.MultiSpectralDistributions.shape` attribute is read only.
 
         Examples
         --------

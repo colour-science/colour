@@ -44,17 +44,17 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'JAKOB2019_SPECTRAL_SHAPE', 'StopMinimizationEarly', 'sd_Jakob2019',
+    'SPECTRAL_SHAPE_JAKOB2019', 'StopMinimizationEarly', 'sd_Jakob2019',
     'error_function', 'dimensionalise_coefficients', 'lightness_scale',
     'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
     'Jakob2019Interpolator'
 ]
 
-JAKOB2019_SPECTRAL_SHAPE = SpectralShape(360, 780, 5)
+SPECTRAL_SHAPE_JAKOB2019 = SpectralShape(360, 780, 5)
 """
 Spectral shape for *Jakob and Hanika (2019)* method.
 
-JAKOB2019_SPECTRAL_SHAPE : SpectralShape
+SPECTRAL_SHAPE_JAKOB2019 : SpectralShape
 """
 
 
@@ -73,11 +73,39 @@ class StopMinimizationEarly(Exception):
     """
 
     def __init__(self, coefficients, error):
-        self.coefficients = coefficients
-        self.error = error
+        self._coefficients = coefficients
+        self._error = error
+
+    @property
+    def coefficients(self):
+        """
+        Getter property for the *Jakob and Hanika (2019)* exception
+        coefficients.
+
+        Returns
+        -------
+        ndarray
+            *Jakob and Hanika (2019)* exception coefficients.
+        """
+
+        return self._coefficients
+
+    @property
+    def error(self):
+        """
+        Getter property for the *Jakob and Hanika (2019)* exception error
+        value.
+
+        Returns
+        -------
+        ndarray
+            *Jakob and Hanika (2019)* exception coefficients.
+        """
+
+        return self._error
 
 
-def sd_Jakob2019(coefficients, shape=JAKOB2019_SPECTRAL_SHAPE):
+def sd_Jakob2019(coefficients, shape=SPECTRAL_SHAPE_JAKOB2019):
     """
     Returns a spectral distribution following the spectral model given by
     *Jakob and Hanika (2019)*.
@@ -308,9 +336,9 @@ def lightness_scale(steps):
 def find_coefficients_Jakob2019(
         XYZ,
         cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().align(JAKOB2019_SPECTRAL_SHAPE),
+        .copy().align(SPECTRAL_SHAPE_JAKOB2019),
         illuminant=SDS_ILLUMINANTS['D65'].copy().align(
-            JAKOB2019_SPECTRAL_SHAPE),
+            SPECTRAL_SHAPE_JAKOB2019),
         coefficients_0=zeros(3),
         max_error=JND_CIE1976 / 100,
         dimensionalise=True):
@@ -411,8 +439,8 @@ def find_coefficients_Jakob2019(
 def XYZ_to_sd_Jakob2019(
         XYZ,
         cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().align(JAKOB2019_SPECTRAL_SHAPE),
-        illuminant=sd_ones(JAKOB2019_SPECTRAL_SHAPE),
+        .copy().align(SPECTRAL_SHAPE_JAKOB2019),
+        illuminant=sd_ones(SPECTRAL_SHAPE_JAKOB2019),
         optimisation_kwargs=None,
         additional_data=False):
     """
@@ -524,7 +552,7 @@ def XYZ_to_sd_Jakob2019(
         return sd
 
 
-class Jakob2019Interpolator:
+class Jakob2019Interpolator(object):
     """
     Class for working with pre-computed lookup tables for the
     *Jakob and Hanika (2019)* spectral upsampling method. It allows significant
@@ -536,9 +564,10 @@ class Jakob2019Interpolator:
 
     Attributes
     ----------
-    scale
+    table
+    size
+    lightness_scale
     coefficients
-    resolution
 
     Methods
     -------
@@ -550,21 +579,78 @@ class Jakob2019Interpolator:
     """
 
     def __init__(self):
-        self.scale = None
-        self.coefficients = None
-        self.resolution = None
+        self._table = None
+        self._size = None
+        self._lightness_scale = None
+        self._coefficients = None
 
-    def _create_cube(self):
+    @property
+    def table(self):
+        """
+        Getter property for the *Jakob and Hanika (2019)* interpolator
+        3D table, i.e. the cube storing the interpolation data.
+
+        Returns
+        -------
+        RegularGridInterpolator
+            *Jakob and Hanika (2019)* interpolator 3D table.
+        """
+
+        return self._table
+
+    @property
+    def size(self):
+        """
+        Getter property for the *Jakob and Hanika (2019)* interpolator
+        size, i.e. the samples count on one side of the 3D table.
+
+        Returns
+        -------
+        ndarray
+            *Jakob and Hanika (2019)* interpolator size.
+        """
+
+        return self._size
+
+    @property
+    def lightness_scale(self):
+        """
+        Getter property for the *Jakob and Hanika (2019)* interpolator
+        lightness scale.
+
+        Returns
+        -------
+        int
+            *Jakob and Hanika (2019)* interpolator lightness scale.
+        """
+
+        return self._lightness_scale
+
+    @property
+    def coefficients(self):
+        """
+        Getter property for the *Jakob and Hanika (2019)* interpolator
+        coefficients.
+
+        Returns
+        -------
+        ndarray
+            *Jakob and Hanika (2019)* interpolator coefficients.
+        """
+
+        return self._coefficients
+
+    def _create_table(self):
         """
         Creates a :class:`scipy.interpolate.RegularGridInterpolator` class
         instance for read or generated coefficients.
         """
 
-        samples = np.linspace(0, 1, self.resolution)
-        axes = ([0, 1, 2], self.scale, samples, samples)
+        samples = np.linspace(0, 1, self._size)
+        axes = ([0, 1, 2], self._lightness_scale, samples, samples)
 
-        self.cube = RegularGridInterpolator(
-            axes, self.coefficients, bounds_error=False)
+        self._table = RegularGridInterpolator(
+            axes, self._coefficients, bounds_error=False)
 
     def RGB_to_coefficients(self, RGB):
         """
@@ -596,9 +682,9 @@ class Jakob2019Interpolator:
 
         coords = np.stack([imax, v1, v2, v3], axis=-1)
 
-        return self.cube(coords).squeeze()
+        return self._table(coords).squeeze()
 
-    def RGB_to_sd(self, RGB, shape=JAKOB2019_SPECTRAL_SHAPE):
+    def RGB_to_sd(self, RGB, shape=SPECTRAL_SHAPE_JAKOB2019):
         """
         Looks up a given *RGB* colourspace array and return the corresponding
         spectral distribution.
@@ -659,9 +745,9 @@ class Jakob2019Interpolator:
         lightness_steps = resolution
         chroma_steps = resolution
 
-        self.scale = lightness_scale(lightness_steps)
-        self.coefficients = np.empty((3, chroma_steps, chroma_steps,
-                                      lightness_steps, 3))
+        self._lightness_scale = lightness_scale(lightness_steps)
+        self._coefficients = np.empty(
+            [3, chroma_steps, chroma_steps, lightness_steps, 3])
 
         cube_indexes = np.ndindex(3, chroma_steps, chroma_steps)
 
@@ -693,7 +779,7 @@ class Jakob2019Interpolator:
                 appropriate cell.
                 """
 
-                RGB = self.scale[L] * chroma
+                RGB = self._lightness_scale[L] * chroma
 
                 XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, illuminant_xy,
                                  colourspace.RGB_to_XYZ_matrix)
@@ -712,8 +798,9 @@ class Jakob2019Interpolator:
                             RGB[0], RGB[1], RGB[2], coefficients[0],
                             coefficients[1], coefficients[2], error))
 
-                self.coefficients[i, L, j, k, :] = dimensionalise_coefficients(
-                    coefficients, cmfs.shape)
+                self._coefficients[i, L, j,
+                                   k, :] = dimensionalise_coefficients(
+                                       coefficients, cmfs.shape)
 
                 return coefficients
 
@@ -733,8 +820,8 @@ class Jakob2019Interpolator:
             for L in range(middle_L + 1, lightness_steps):
                 coefficients_0 = optimize(L, coefficients_0)
 
-        self.resolution = lightness_steps
-        self._create_cube()
+        self._size = lightness_steps
+        self._create_table()
 
     def read(self, path):
         """
@@ -752,17 +839,15 @@ class Jakob2019Interpolator:
                     'Bad magic number, this is likely not the right file type!'
                 )
 
-            self.resolution = struct.unpack('i', coeff_file.read(4))[0]
-            self.scale = np.fromfile(
-                coeff_file, count=self.resolution, dtype=np.float32)
-            self.coefficients = np.fromfile(
-                coeff_file,
-                count=3 * (self.resolution ** 3) * 3,
-                dtype=np.float32)
-            self.coefficients = self.coefficients.reshape(
-                3, self.resolution, self.resolution, self.resolution, 3)
+            self._size = struct.unpack('i', coeff_file.read(4))[0]
+            self._lightness_scale = np.fromfile(
+                coeff_file, count=self._size, dtype=np.float32)
+            self._coefficients = np.fromfile(
+                coeff_file, count=3 * (self._size ** 3) * 3, dtype=np.float32)
+            self._coefficients = self._coefficients.reshape(
+                3, self._size, self._size, self._size, 3)
 
-        self._create_cube()
+        self._create_table()
 
     def write(self, path):
         """
@@ -776,6 +861,6 @@ class Jakob2019Interpolator:
 
         with open(path, 'wb') as coeff_file:
             coeff_file.write(b'SPEC')
-            coeff_file.write(struct.pack('i', self.coefficients.shape[1]))
-            np.float32(self.scale).tofile(coeff_file)
-            np.float32(self.coefficients).tofile(coeff_file)
+            coeff_file.write(struct.pack('i', self._coefficients.shape[1]))
+            np.float32(self._lightness_scale).tofile(coeff_file)
+            np.float32(self._coefficients).tofile(coeff_file)

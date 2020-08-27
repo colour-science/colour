@@ -212,12 +212,7 @@ class Header_IESTM2714(object):
     @property
     def mapping(self):
         """
-        Getter and setter property for the mapping structure.
-
-        Parameters
-        ----------
-        value : Structure
-            Value to set the mapping structure with.
+        Getter property for the mapping structure.
 
         Returns
         -------
@@ -706,12 +701,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def mapping(self):
         """
-        Getter and setter property for the mapping structure.
-
-        Parameters
-        ----------
-        value : Structure
-            Value to set the mapping structure with.
+        Getter property for the mapping structure.
 
         Returns
         -------
