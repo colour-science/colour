@@ -14,6 +14,7 @@ Defines the classes and definitions handling *LUT* processing:
 -   :class:`colour.io.Matrix`
 -   :class:`colour.io.ASC_CDL`
 -   :class:`colour.io.Exponent`
+-   :class:`colour.io.Log`
 """
 
 from __future__ import division, unicode_literals
@@ -26,6 +27,7 @@ try:
 except ImportError:
     from collections.abc import MutableSequence
 from copy import deepcopy
+from functools import partial
 # pylint: disable=W0622
 from operator import add, mul, pow, sub, iadd, imul, ipow, isub
 
@@ -47,7 +49,9 @@ from colour.utilities import (as_float_array, dot_vector, is_numeric,
                               is_iterable, is_string, full, linear_conversion,
                               runtime_warning, tsplit, tstack, usage_warning)
 from colour.utilities.deprecation import handle_arguments_deprecation
-
+from colour.models.rgb.transfer_functions.log import (
+    logarithmic_function_basic, logarithmic_function_camera,
+    logarithmic_function_quasilog, log_decoding_Log2, log_decoding_Log2)
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -119,7 +123,6 @@ class AbstractLUT:
     copy
     as_LUT
     """
-
     def __init__(self,
                  table=None,
                  name=None,
@@ -295,7 +298,6 @@ class AbstractLUT:
         unicode
             Formatted string representation.
         """
-
         def _indent_array(a):
             """
             Indents given array string representation.
@@ -840,7 +842,6 @@ class LUT1D(AbstractLUT):
     Comment 01 : A first comment.
     Comment 02 : A second comment.
     """
-
     def __init__(self,
                  table=None,
                  name=None,
@@ -1152,7 +1153,6 @@ class LUT3x1D(AbstractLUT):
     Comment 01 : A first comment.
     Comment 02 : A second comment.
     """
-
     def __init__(self,
                  table=None,
                  name=None,
@@ -1325,7 +1325,6 @@ class LUT3x1D(AbstractLUT):
 
                 samples = [
                     np.pad(
-                        axis, (0, np.max(size) - len(axis)),
                         mode='constant',
                         constant_values=np.nan) for axis in samples
                 ]
@@ -1557,7 +1556,6 @@ class LUT3D(AbstractLUT):
     Comment 01 : A first comment.
     Comment 02 : A second comment.
     """
-
     def __init__(self,
                  table=None,
                  name=None,
@@ -2100,7 +2098,6 @@ class AbstractLUTSequenceOperator:
     -------
     apply
     """
-
     @abstractmethod
     def apply(self, RGB, *args):
         """
@@ -2189,7 +2186,6 @@ class LUTSequence(MutableSequence):
                       [ 1.  1.  1.]]
         Size       : (10, 3)
     """
-
     def __init__(self, *args):
         for arg in args:
             assert isinstance(
@@ -2292,7 +2288,6 @@ class LUTSequence(MutableSequence):
         """
 
         operations = re.sub(
-            '^',
             ' ' * 4,
             '\n\n'.join([str(a) for a in self._sequence]),
             flags=re.MULTILINE)
@@ -2319,7 +2314,6 @@ class LUTSequence(MutableSequence):
         """
 
         operations = re.sub(
-            '^',
             ' ' * 4,
             ',\n'.join([repr(a) for a in self._sequence]),
             flags=re.MULTILINE)
@@ -2538,7 +2532,6 @@ class Range(AbstractLUTSequenceOperator):
     <BLANKLINE>
     Clamping   : No
     """
-
     def __init__(self,
                  min_in_value=0.0,
                  max_in_value=1.0,
@@ -2668,7 +2661,6 @@ class Matrix(AbstractLUTSequenceOperator):
     A first comment.
     A second comment.
     """
-
     def __init__(self, array=np.identity(3), name='', comments=None):
         self.array = array
         self.name = name
@@ -2721,7 +2713,6 @@ class Matrix(AbstractLUTSequenceOperator):
         unicode
             Formatted string representation.
         """
-
         def _indent_array(a):
             """
             Indents given array string representation.
@@ -2774,6 +2765,7 @@ class Exponent(AbstractLUTSequenceOperator):
 
             return tstack((r, g, b))
 
+    def __str__(self):
         return ('{0} - {1}\n'
                 '{2}\n\n'
                 'Exponent.r : {3}\n'
@@ -2801,8 +2793,242 @@ class Log(AbstractLUTSequenceOperator):
                  style='cameraLinToLog',
                  name='',
                  comments=None):
-        self.exponent = exponent
-        self.offset = offset
-        self.style = style
         self.name = name
-        self.comments = comments
+        self.style = style
+        self.comments = comments or []
+        self.base = base
+        self.linSideOffset = linSideOffset
+        self.linSideSlope = linSideSlope
+        self.logSideSlope = logSideSlope
+        self.logSideOffset = logSideOffset
+        self.linSideBreak = linSideBreak
+        self.linearSlope = linearSlope
+
+    @property
+    def lin_to_log_styles(self):
+        return ['log2', 'log10', 'linToLog', 'cameraLinToLog']
+
+    @property
+    def log_to_lin_styles(self):
+        return ['antiLog2', 'antiLog10', 'logToLin', 'cameraLogToLin']
+
+    @property
+    def style(self):
+        style = self._style
+        if style.startswith('camera') and self.linear_slope is None:
+            style = style.replace('cameraL', 'l')
+        return style
+
+    @style.setter
+    def style(self, value):
+        if not value in self.log_styles:
+            raise ValueError('Invalid Log style: %s' % value)
+
+        if value.endswith("2"):
+            self.base = 2
+        elif value.endswith("10"):
+            self.base = 10
+        else:
+            self._style = value
+
+    @property
+    def log_styles(self):
+        return self.log_to_lin_styles + self.lin_to_log_styles
+
+    @property
+    def log_side_slope(self):
+        return self.logSideSlope
+
+    @log_side_slope.setter
+    def log_side_slope(self, *value):
+        self.logSideSlope = value
+
+    @property
+    def log_side_offset(self):
+        return self.logSideOffset
+
+    @log_side_offset.setter
+    def log_side_offset(self, *value):
+        self.logSideOffset = value
+
+    @property
+    def lin_side_slope(self):
+        return self.linSideSlope
+
+    @lin_side_slope.setter
+    def lin_side_slope(self, *value):
+        self.linSideSlope = value
+
+    @property
+    def lin_side_offset(self):
+        return self.linSideOffset
+
+    @lin_side_offset.setter
+    def lin_side_offset(self, *value):
+        self.linSideOffset = value
+
+    @property
+    def lin_side_break(self):
+        return self.linSideBreak
+
+    @lin_side_break.setter
+    def lin_side_break(self, *value):
+        if value is None:
+            self.linSideBreak = None
+        self.linSideBreak = value
+
+    @property
+    def linear_slope(self):
+        return self.linearSlope
+
+    @linear_slope.setter
+    def linear_slope(self, *value):
+        if value is None:
+            self.linearSlope = None
+        self.linearSlope = value
+
+    def is_encoding_style(self, style=None):
+        style = style or self.style
+        return style.lower() in [s.lower() for s in self.lin_to_log_styles]
+
+    def is_decoding_style(self, style=None):
+        style = style or self.style
+        return style.lower() in [s.lower() for s in self.log_to_lin_styles]
+
+    def log_function(self, **kwargs):
+        style = kwargs.pop('style', self.style)
+        if self.style.lower().startswith('anti') or self.style[-1] in [
+                '2', '0'
+        ]:
+            return partial(logarithmic_function_basic,
+                           style=style,
+                           base=int(self.style[-1]))
+
+        elif any([
+                x is None for x in [
+                    self.linSideSlope, self.linSideOffset, self.logSideSlope,
+                    self.logSideOffset
+                ]
+        ]):
+            style = 'antiLogB' if self.is_decoding_style(style) else 'logB'
+            return partial(logarithmic_function_basic,
+                           base=self.base,
+                           style=style)
+        else:
+            function_kwargs = dict(
+                log_side_slope=self.log_side_slope * np.ones(3),
+                log_side_offset=self.log_side_offset * np.ones(3),
+                lin_side_slope=self.lin_side_slope * np.ones(3),
+                lin_side_offset=self.lin_side_offset * np.ones(3),
+            )
+            if self.linear_slope:
+                function_kwargs.update(linear_slope=self.linear_slope *
+                                       np.ones(3))
+
+            if self.lin_side_break is not None:
+                function_kwargs.update(lin_side_break=self.lin_side_break *
+                                       np.ones(3))
+                style = 'cameraLogToLin' if self.is_decoding_style(
+                    style) else 'cameraLinToLog'
+                return partial(logarithmic_function_camera,
+                               style=style,
+                               base=self.base,
+                               **function_kwargs)
+
+            else:
+                style = 'logToLin' if self.is_decoding_style(
+                    style) else 'linToLog'
+                return partial(logarithmic_function_quasilog,
+                               style=style,
+                               base=self.base,
+                               **function_kwargs)
+
+    def _apply_directed(self, RGB, inverse=False):
+        inverse_styles = {
+            fwd: inv
+            for fwd, inv in zip(
+                self.lin_to_log_styles +
+                self.log_to_lin_styles, self.log_to_lin_styles +
+                self.lin_to_log_styles)
+        }
+        style = inverse_styles[self.style] if inverse else self.style
+
+        if as_float_array(RGB).size == 3 or (isinstance(RGB, np.ndarray) and
+                                             RGB.shape[-1] == 3):
+            r, g, b = tsplit(np.asarray(RGB))
+
+        else:
+            # TODO: check size of params to see if we can keep this a single channel affair
+            r = g = b = np.asarray(RGB)
+
+        RGB_out = tstack([r, g, b])
+
+        _function = self.log_function(style=style)
+        return _function(RGB_out)
+
+    def apply(self, RGB):
+        return self._apply_directed(RGB, inverse=False)
+
+    def reverse(self, RGB):
+        return self._apply_directed(RGB, inverse=True)
+
+    def __str__(self):
+        direction = "Log to Linear" if self.style in self.log_to_lin_styles else "Linear to Log"
+        title = "{0}{1}".format(
+            "{0} - ".format(self.name) if self.name else '', direction)
+        basic_style = self.style[-1] in '20'
+        return (
+            '{0} - {1}\n'
+            '{2}\n\n'
+            'Style          : {3}\n'
+            'base           : {4}'
+            '{5}{6}{7}{8}{9}{10}{11}').format(
+                self.__class__.__name__, title,
+                '-' * (len(self.__class__.__name__) + 3 + len(title)),
+                self.style, self.base, '\nlogSideSlope   : {0}'.format(
+                    self.log_side_slope) if not basic_style else '',
+                '\nlogSideOffset  : {0}'.format(self.log_side_offset)
+                if not basic_style else '', '\nlinSideSlope   : {0}'.format(
+                    self.lin_side_slope) if not basic_style else '',
+                '\nlinSideOffset  : {0}'.format(self.lin_side_offset)
+                if not basic_style else '',
+                '\nlinearSlope    : {0}'.format(self.linear_slope)
+                if not basic_style and self.linear_slope is not None else '',
+                '\nlinSideBreak   : {0}'.format(self.lin_side_break)
+                if not basic_style and self.lin_side_break is not None else '',
+                '\n\n{0}'.format('\n'.join(self.comments))
+                if self.comments else '')
+
+    def __repr__(self):
+        return ("{0}("
+                "base={1}, "
+                "logSideSlope={2}, "
+                "logSideOffset={3}, "
+                "linSideSlope={4}, "
+                "linSideOffset={5}, "
+                "linearSlope={6}, "
+                "linSideBreak={7}, "
+                'style="{8}{9}")').format(
+                    self.__class__.__name__, self.base, self.log_side_slope,
+                    self.log_side_offset, self.lin_side_slope,
+                    self.lin_side_offset, self.linear_slope,
+                    self.lin_side_break, self.style,
+                    'name={0}'.format(self.name) if self.name else "")
+
+
+def test_lgc():
+    from colour.models.rgb.transfer_functions.arri_alexa_log_c import (
+        log_decoding_ALEXALogC, log_encoding_ALEXALogC)
+    import numpy as np
+
+    lgc = Log(base=10,
+              logSideSlope=0.24719,
+              logSideOffset=0.385537,
+              linSideSlope=5.55556,
+              linSideOffset=0.0522723,
+              linSideBreak=0.010591)
+
+    x = np.linspace(0, 1, 1024)
+    x = tstack([x, x, x])
+    assert np.allclose(log_encoding_ALEXALogC(x), lgc.apply(x))
+    assert np.allclose(log_decoding_ALEXALogC(x), lgc.reverse(x))
