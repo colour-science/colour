@@ -11,9 +11,9 @@ References
 -   :cite:`Meng2015c` : Meng, J., Simon, F., Hanika, J., & Dachsbacher, C.
     (2015). Physically Meaningful Rendering using Tristimulus Colours. Computer
     Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
--   :cite:`Otsu2018` : Otsu, H., Yamamoto, M. & Hachisuka, T. (2018)
+-   :cite:`Otsu2018` : Otsu, H., Yamamoto, M., & Hachisuka, T. (2018).
     Reproducing Spectral Reflectances From Tristimulus Colours. Computer
-    Graphics Forum. 37(6), 370–381. doi:10.1111/cgf.13332
+    Graphics Forum, 37(6), 370–381. doi:10.1111/cgf.13332
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
     Reflectances. Journal of Graphics Tools, 4(4), 11-22.
     doi:10.1080/10867651.1999.10487511
@@ -36,7 +36,7 @@ from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
 from .mallett2019 import (spectral_primary_decomposition_Mallett2019,
                           RGB_to_sd_Mallett2019, sRGB_to_sd_Mallett2019)
 from .meng2015 import XYZ_to_sd_Meng2015
-from .otsu2018 import XYZ_to_sd_Otsu2018
+from .otsu2018 import Dataset_Otsu2018, NodeTree_Otsu2018, XYZ_to_sd_Otsu2018
 from .smits1999 import RGB_to_sd_Smits1999
 __all__ = []
 __all__ += datasets.__all__
@@ -49,6 +49,7 @@ __all__ += [
     'sRGB_to_sd_Mallett2019'
 ]
 __all__ += ['XYZ_to_sd_Meng2015']
+__all__ += ['Dataset_Otsu2018', 'NodeTree_Otsu2018', 'XYZ_to_sd_Otsu2018']
 __all__ += ['RGB_to_sd_Smits1999']
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
