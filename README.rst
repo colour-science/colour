@@ -251,7 +251,7 @@ information.
 Installation
 ------------
 
-**Colour** can be easily installed from the
+**Colour** and its primary dependencies can be easily installed from the
 `Python Package Index <https://pypi.org/project/colour-science/>`__
 by issuing this command in a shell:
 
@@ -259,15 +259,15 @@ by issuing this command in a shell:
 
     $ pip install colour-science
 
+The detailed installation procedure for the secondary dependencies is
+described in the `Installation Guide <https://www.colour-science.org/installation-guide/>`__.
+
 **Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`__
 from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`__:
 
 .. code-block:: bash
 
     $ conda install -c conda-forge colour-science
-
-The detailed installation procedure is described in the
-`Installation Guide <https://www.colour-science.org/installation-guide/>`__.
 
 Documentation
 -------------
