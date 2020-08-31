@@ -330,8 +330,8 @@ def is_matplotlib_installed(raise_exception=False):
         if raise_exception:
             raise ImportError(
                 ('"Matplotlib" related API features are not available: '
-                 '"{0}".\nPlease refer to the installation guide '
-                 'for more information: '
+                 '"{0}".\nPlease refer to the installation guide for more '
+                 'information: '
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
         return False
@@ -363,9 +363,12 @@ def is_networkx_installed(raise_exception=False):
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"NetworkX" related API features, e.g. '
-                               'the automatic colour conversion graph, '
-                               'are not available: "{0}".').format(error))
+            raise ImportError(
+                ('"NetworkX" related API features, e.g. the automatic colour '
+                 'conversion graph, are not available: "{0}".\nPlease refer '
+                 'to the installation guide for more information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
         return False
 
 
@@ -395,8 +398,12 @@ def is_openimageio_installed(raise_exception=False):
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"OpenImageIO" related API features '
-                               'are not available: "{0}".').format(error))
+            raise ImportError(
+                ('"OpenImageIO" related API features are not available: '
+                 '"{0}".\nPlease refer to the installation guide for more '
+                 'information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
         return False
 
 
@@ -426,8 +433,12 @@ def is_pandas_installed(raise_exception=False):
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"Pandas" related API features '
-                               'are not available: "{0}".').format(error))
+            raise ImportError(
+                ('"Pandas" related API features are not available: "{0}".\n'
+                 'Please refer to the installation guide for more '
+                 'information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
         return False
 
 

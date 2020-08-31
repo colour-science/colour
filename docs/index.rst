@@ -1,8 +1,8 @@
 ..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
 
 `Colour <https://github.com/colour-science/colour>`__ is an open-source
-`Python <https://www.python.org/>`__ package providing a comprehensive number of
-algorithms and datasets for colour science.
+`Python <https://www.python.org/>`__ package providing a comprehensive number
+of algorithms and datasets for colour science.
 
 It is freely available under the
 `New BSD License <https://opensource.org/licenses/BSD-3-Clause>`__ terms.
