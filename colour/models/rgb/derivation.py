@@ -74,7 +74,8 @@ def xy_to_z(xy):
 
 def normalised_primary_matrix(primaries, whitepoint):
     """
-    Returns the *normalised primary matrix* using given *primaries* and
+    Computes the *Normalised Primary Matrix* (NPM) converting a *RGB*
+    colourspace array to *CIE XYZ* tristimus values using given *primaries* and
     *whitepoint* :math:`xy` chromaticity coordinates.
 
     Parameters
@@ -87,7 +88,7 @@ def normalised_primary_matrix(primaries, whitepoint):
     Returns
     -------
     ndarray, (3, 3)
-        *Normalised primary matrix*.
+        *Normalised Primary Matrix* (NPM).
 
     References
     ----------
@@ -172,13 +173,13 @@ def chromatically_adapted_primaries(primaries,
 
 def primaries_whitepoint(npm):
     """
-    Returns the *primaries* and *whitepoint* :math:`xy` chromaticity
-    coordinates using given *normalised primary matrix*.
+    Computes the *primaries* and *whitepoint* :math:`xy` chromaticity
+    coordinates using given *Normalised Primary Matrix* (NPM).
 
     Parameters
     ----------
     npm : array_like, (3, 3)
-        *Normalised primary matrix*.
+        *Normalised Primary Matrix*.
 
     Returns
     -------
