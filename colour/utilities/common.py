@@ -328,8 +328,12 @@ def is_matplotlib_installed(raise_exception=False):
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"Matplotlib" related API features '
-                               'are not available: "{0}".').format(error))
+            raise ImportError(
+                ('"Matplotlib" related API features are not available: '
+                 '"{0}".\nPlease refer to the installation guide '
+                 'for more information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
         return False
 
 
