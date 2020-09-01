@@ -54,7 +54,7 @@ R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spow
 from colour.models.rgb.transfer_functions import (
@@ -423,7 +423,7 @@ def gamma_function_HLG_BT2100(L_W=1000):
 
     gamma = 1.2 + 0.42 * np.log10(L_W / 1000)
 
-    return gamma
+    return as_float(gamma)
 
 
 def oetf_HLG_BT2100(E, constants=CONSTANTS_BT2100_HLG):
@@ -561,7 +561,7 @@ def black_level_lift_HLG_BT2100(L_B=0, L_W=1000, gamma=None):
 
     beta = np.sqrt(3 * spow((L_B / L_W), 1 / gamma))
 
-    return beta
+    return as_float(beta)
 
 
 def eotf_HLG_BT2100_1(E_p,
@@ -919,9 +919,9 @@ def eotf_inverse_HLG_BT2100_2(F_D,
 
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
-    return (oetf_ARIBSTDB67(
+    return as_float((oetf_ARIBSTDB67(
         ootf_inverse_HLG_BT2100_2(F_D, L_W, gamma) * 12, constants=constants) -
-            beta) / (1 - beta)
+                     beta) / (1 - beta))
 
 
 BT2100_HLG_EOTF_INVERSE_METHODS = CaseInsensitiveMapping({
@@ -1084,7 +1084,9 @@ def ootf_HLG_BT2100_1(E, L_B=0, L_W=1000, gamma=None):
     alpha = L_W - L_B
     beta = L_B
 
-    Y_S = np.sum(WEIGHTS_BT2100_HLG * tstack([R_S, G_S, B_S]), axis=-1)
+    weights = np.array(WEIGHTS_BT2100_HLG)
+
+    Y_S = np.sum(weights * tstack([R_S, G_S, B_S]), axis=-1)
 
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
@@ -1166,7 +1168,9 @@ def ootf_HLG_BT2100_2(E, L_W=1000, gamma=None):
 
     alpha = L_W
 
-    Y_S = np.sum(WEIGHTS_BT2100_HLG * tstack([R_S, G_S, B_S]), axis=-1)
+    weights = np.array(WEIGHTS_BT2100_HLG)
+
+    Y_S = np.sum(weights * tstack([R_S, G_S, B_S]), axis=-1)
 
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
@@ -1336,7 +1340,9 @@ def ootf_inverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     else:
         R_D, G_D, B_D = tsplit(F_D)
 
-    Y_D = np.sum(WEIGHTS_BT2100_HLG * tstack([R_D, G_D, B_D]), axis=-1)
+    weights = np.array(WEIGHTS_BT2100_HLG)
+
+    Y_D = np.sum(weights * tstack([R_D, G_D, B_D]), axis=-1)
 
     alpha = L_W - L_B
     beta = L_B
@@ -1431,7 +1437,9 @@ def ootf_inverse_HLG_BT2100_2(F_D, L_W=1000, gamma=None):
     else:
         R_D, G_D, B_D = tsplit(F_D)
 
-    Y_D = np.sum(WEIGHTS_BT2100_HLG * tstack([R_D, G_D, B_D]), axis=-1)
+    weights = np.array(WEIGHTS_BT2100_HLG)
+
+    Y_D = np.sum(weights * tstack([R_D, G_D, B_D]), axis=-1)
 
     alpha = L_W
 

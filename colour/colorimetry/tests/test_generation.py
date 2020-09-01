@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.colorimetry.generation` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.colorimetry.generation import (
@@ -101,13 +101,13 @@ class TestMsdsConstant(unittest.TestCase):
 
         msds = msds_constant(np.pi, labels=['a', 'b', 'c'])
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[360], np.array([np.pi, np.pi, np.pi]), decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[555], np.array([np.pi, np.pi, np.pi]), decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[780], np.array([np.pi, np.pi, np.pi]), decimal=7)
 
 
@@ -125,11 +125,11 @@ class TestMsdsZeros(unittest.TestCase):
 
         msds = msds_zeros(labels=['a', 'b', 'c'])
 
-        np.testing.assert_equal(msds[360], np.array([0, 0, 0]))
+        np.testing.assert_array_equal(msds[360], np.array([0, 0, 0]))
 
-        np.testing.assert_equal(msds[555], np.array([0, 0, 0]))
+        np.testing.assert_array_equal(msds[555], np.array([0, 0, 0]))
 
-        np.testing.assert_equal(msds[780], np.array([0, 0, 0]))
+        np.testing.assert_array_equal(msds[780], np.array([0, 0, 0]))
 
 
 class TestMsdsOnes(unittest.TestCase):
@@ -145,11 +145,11 @@ class TestMsdsOnes(unittest.TestCase):
 
         msds = msds_ones(labels=['a', 'b', 'c'])
 
-        np.testing.assert_equal(msds[360], np.array([1, 1, 1]))
+        np.testing.assert_array_equal(msds[360], np.array([1, 1, 1]))
 
-        np.testing.assert_equal(msds[555], np.array([1, 1, 1]))
+        np.testing.assert_array_equal(msds[555], np.array([1, 1, 1]))
 
-        np.testing.assert_equal(msds[780], np.array([1, 1, 1]))
+        np.testing.assert_array_equal(msds[780], np.array([1, 1, 1]))
 
 
 class TestSdGaussianNormal(unittest.TestCase):

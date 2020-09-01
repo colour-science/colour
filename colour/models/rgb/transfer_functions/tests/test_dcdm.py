@@ -6,7 +6,7 @@ module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import eotf_inverse_DCDM, eotf_DCDM
@@ -53,17 +53,17 @@ eotf_inverse_DCDM` definition n-dimensional arrays support.
 
         XYZ = np.tile(XYZ, 6)
         XYZ_p = np.tile(XYZ_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             eotf_inverse_DCDM(XYZ), XYZ_p, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3))
         XYZ_p = np.reshape(XYZ_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             eotf_inverse_DCDM(XYZ), XYZ_p, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 1))
         XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             eotf_inverse_DCDM(XYZ), XYZ_p, decimal=7)
 
     def test_domain_range_scale_eotf_inverse_DCDM(self):
@@ -78,7 +78,7 @@ dcdm.eotf_inverse_DCDM` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_inverse_DCDM(XYZ * factor), XYZ_p * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -123,15 +123,15 @@ class TestEotf_DCDM(unittest.TestCase):
 
         XYZ_p = np.tile(XYZ_p, 6)
         XYZ = np.tile(XYZ, 6)
-        np.testing.assert_almost_equal(eotf_DCDM(XYZ_p), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_DCDM(XYZ_p), XYZ, decimal=7)
 
         XYZ_p = np.reshape(XYZ_p, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3))
-        np.testing.assert_almost_equal(eotf_DCDM(XYZ_p), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_DCDM(XYZ_p), XYZ, decimal=7)
 
         XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_DCDM(XYZ_p), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_DCDM(XYZ_p), XYZ, decimal=7)
 
     def test_domain_range_scale_eotf_DCDM(self):
         """
@@ -145,7 +145,7 @@ class TestEotf_DCDM(unittest.TestCase):
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_DCDM(XYZ_p * factor), XYZ * factor, decimal=7)
 
     @ignore_numpy_errors

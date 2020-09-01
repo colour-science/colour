@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.algebra.regression` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.algebra import least_square_mapping_MoorePenrose
@@ -36,7 +36,7 @@ least_square_mapping_MoorePenrose` definition.
         y = prng.random_sample((24, 3))
         x = y + (prng.random_sample((24, 3)) - 0.5) * 0.5
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             least_square_mapping_MoorePenrose(y, x),
             np.array([
                 [1.05263767, 0.13780789, -0.22763399],
@@ -47,7 +47,7 @@ least_square_mapping_MoorePenrose` definition.
 
         y = prng.random_sample((4, 3, 2))
         x = y + (prng.random_sample((4, 3, 2)) - 0.5) * 0.5
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             least_square_mapping_MoorePenrose(y, x),
             np.array([
                 [

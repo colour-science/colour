@@ -21,12 +21,12 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from collections import namedtuple
 
 from colour.algebra import spow
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+from colour.utilities import (CaseInsensitiveMapping, as_float, as_float_array,
                               dot_matrix, dot_vector, from_range_degrees,
                               to_domain_100, tsplit, row_as_diagonal)
 
@@ -261,11 +261,11 @@ h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     bR = 170 * (spow(Y_ref, sigma) - spow(Z_ref, sigma))
 
     # Computing the *hue* angle :math:`h^R`.
-    hR = np.degrees(np.arctan2(bR, aR)) % 360
+    hR = as_float(np.degrees(np.arctan2(bR, aR)) % 360)
     # TODO: Implement hue composition computation.
 
     # Computing the correlate of *chroma* :math:`C^R`.
-    CR = np.hypot(aR, bR)
+    CR = as_float(np.hypot(aR, bR))
 
     # Computing the correlate of *saturation* :math:`s^R`.
     sR = CR / LR

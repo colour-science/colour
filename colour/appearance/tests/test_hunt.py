@@ -6,8 +6,9 @@ Defines unit tests for :mod:`colour.appearance.hunt` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from itertools import permutations
+from unittest import TestCase
 
 from colour.appearance import (VIEWING_CONDITIONS_HUNT, InductionFactors_Hunt,
                                XYZ_to_Hunt)
@@ -24,7 +25,7 @@ __status__ = 'Production'
 __all__ = ['TestHuntColourAppearanceModel']
 
 
-class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
+class TestHuntColourAppearanceModel(ColourAppearanceModelTest, TestCase):
     """
     Defines :mod:`colour.appearance.hunt` module unit tests methods for
     *Hunt* colour appearance model.
@@ -85,7 +86,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         CCT_w = 6504.0
         specification = XYZ_to_Hunt(
             XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)[:-2]
-
+        print(specification, np.__name__)
         d_r = (
             ('reference', 1, 1),
             (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1])),
@@ -93,7 +94,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Hunt(
                         XYZ * factor_a,
                         XYZ_w * factor_a,
@@ -101,7 +102,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
                         L_A,
                         surround,
                         CCT_w=CCT_w)[:-2],
-                    specification * factor_b,
+                    np.array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors
@@ -148,7 +149,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
         CCT_w = 6504.0
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(
                 XYZ,
                 XYZ_w,

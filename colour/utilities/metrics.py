@@ -19,9 +19,9 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
-from colour.utilities import as_float_array
+from colour.utilities import as_float, as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -66,8 +66,12 @@ def metric_mse(a, b, axis=None):
     >>> metric_mse(a, b)  # doctest: +ELLIPSIS
     0.0012714...
     """
+    metric = np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
 
-    return np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
+    if np.__name__ == 'cupy':
+        return as_float(metric)
+
+    return metric
 
 
 def metric_psnr(a, b, max_a=1, axis=None):

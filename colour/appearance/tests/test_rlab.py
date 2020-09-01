@@ -6,8 +6,10 @@ Defines unit tests for :mod:`colour.appearance.rlab` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from itertools import permutations
+from unittest import TestCase
+
 
 from colour.appearance import (D_FACTOR_RLAB, VIEWING_CONDITIONS_RLAB,
                                XYZ_to_RLAB)
@@ -24,7 +26,7 @@ __status__ = 'Production'
 __all__ = ['TestRLABColourAppearanceModel']
 
 
-class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
+class TestRLABColourAppearanceModel(ColourAppearanceModelTest, TestCase):
     """
     Defines :mod:`colour.appearance.rlab` module unit tests methods for
     *RLAB* colour appearance model.
@@ -85,10 +87,10 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_RLAB(XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma,
                                 D)[:4],
-                    specification * factor_b,
+                    np.array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

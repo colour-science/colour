@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.continuous.signal` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 import re
 import textwrap
@@ -85,7 +85,7 @@ class TestSignal(unittest.TestCase):
 
         signal = self._signal.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal[np.array([0, 1, 2])],
             np.array([10.0, 20.0, 30.0]),
             decimal=7)
@@ -94,7 +94,7 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_array_equal(signal.domain, np.arange(0, 10, 1) * 10)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal[np.array([0, 1, 2]) * 10],
             np.array([10.0, 20.0, 30.0]),
             decimal=7)
@@ -111,7 +111,7 @@ class TestSignal(unittest.TestCase):
 
         signal = self._signal.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal[np.array([0, 1, 2])],
             np.array([10.0, 20.0, 30.0]),
             decimal=7)
@@ -120,7 +120,7 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_array_equal(signal.range, self._range * 10)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal[np.array([0, 1, 2])],
             np.array([10.0, 20.0, 30.0]) * 10,
             decimal=7)
@@ -132,7 +132,7 @@ class TestSignal(unittest.TestCase):
 
         signal = self._signal.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal[np.linspace(0, 5, 5)],
             np.array([
                 10.00000000, 22.83489024, 34.80044921, 47.55353925, 60.00000000
@@ -141,7 +141,7 @@ class TestSignal(unittest.TestCase):
 
         signal.interpolator = CubicSplineInterpolator
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal[np.linspace(0, 5, 5)],
             np.array([10.0, 22.5, 35.0, 47.5, 60.0]),
             decimal=7)
@@ -154,7 +154,7 @@ class TestSignal(unittest.TestCase):
 
         signal = self._signal.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal[np.linspace(0, 5, 5)],
             np.array([
                 10.00000000, 22.83489024, 34.80044921, 47.55353925, 60.00000000
@@ -163,7 +163,7 @@ class TestSignal(unittest.TestCase):
 
         signal.interpolator_kwargs = {'window': 1, 'kernel_kwargs': {'a': 1}}
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal[np.linspace(0, 5, 5)],
             np.array([
                 10.00000000, 18.91328761, 28.36993142, 44.13100443, 60.00000000
@@ -191,7 +191,7 @@ class TestSignal(unittest.TestCase):
             'method': 'Linear',
         }
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal[np.array([-1000, 1000])],
             np.array([-9990.0, 10010.0]),
             decimal=7)
@@ -224,15 +224,16 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_array_equal(signal.domain, self._domain)
         np.testing.assert_array_equal(signal.range, self._range)
 
-        signal = Signal(dict(zip(self._domain, self._range)))
-        np.testing.assert_array_equal(signal.domain, self._domain)
-        np.testing.assert_array_equal(signal.range, self._range)
+        if np.__name__ == 'numpy':
+            signal = Signal(dict(zip(self._domain, self._range)))
+            np.testing.assert_array_equal(signal.domain, self._domain)
+            np.testing.assert_array_equal(signal.range, self._range)
 
         signal = Signal(signal)
         np.testing.assert_array_equal(signal.domain, self._domain)
         np.testing.assert_array_equal(signal.range, self._range)
 
-        if is_pandas_installed():
+        if np.__name__ == 'numpy' and is_pandas_installed():
             from pandas import Series
 
             signal = Signal(Series(dict(zip(self._domain, self._range))))
@@ -250,7 +251,19 @@ class TestSignal(unittest.TestCase):
         """
         Tests :func:`colour.continuous.signal.Signal.__str__` method.
         """
-
+        print(str(self._signal))
+        print(
+            textwrap.dedent("""
+                [[   0.   10.]
+                 [   1.   20.]
+                 [   2.   30.]
+                 [   3.   40.]
+                 [   4.   50.]
+                 [   5.   60.]
+                 [   6.   70.]
+                 [   7.   80.]
+                 [   8.   90.]
+                 [   9.  100.]]""")[1:])
         self.assertEqual(
             str(self._signal),
             textwrap.dedent("""
@@ -300,12 +313,12 @@ class TestSignal(unittest.TestCase):
 
         self.assertEqual(self._signal[0], 10.0)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._signal[np.array([0, 1, 2])],
             np.array([10.0, 20.0, 30.0]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._signal[np.linspace(0, 5, 5)],
             np.array([
                 10.00000000, 22.83489024, 34.80044921, 47.55353925, 60.00000000
@@ -337,34 +350,34 @@ class TestSignal(unittest.TestCase):
         signal = self._signal.copy()
 
         signal[0] = 20
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.range,
             np.array(
                 [20.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]))
 
         signal[np.array([0, 1, 2])] = 30
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.range,
             np.array(
                 [30.0, 30.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
             decimal=7)
 
         signal[0:3] = 40
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.range,
             np.array(
                 [40.0, 40.0, 40.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
             decimal=7)
 
         signal[np.linspace(0, 5, 5)] = 50
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.domain,
             np.array([
                 0.00, 1.00, 1.25, 2.00, 2.50, 3.00, 3.75, 4.00, 5.00, 6.00,
                 7.00, 8.00, 9.00
             ]),
             decimal=7)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.range,
             np.array([
                 50.0, 40.0, 50.0, 40.0, 50.0, 40.0, 50.0, 50.0, 50.0, 70.0,
@@ -373,7 +386,7 @@ class TestSignal(unittest.TestCase):
             decimal=7)
 
         signal[np.array([0, 1, 2])] = np.array([10, 20, 30])
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.range,
             np.array([
                 10.0, 20.0, 50.0, 30.0, 50.0, 40.0, 50.0, 50.0, 50.0, 70.0,
@@ -462,81 +475,81 @@ class TestSignal(unittest.TestCase):
         method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._signal.arithmetical_operation(10, '+', False).range,
             self._range + 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._signal.arithmetical_operation(10, '-', False).range,
             self._range - 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._signal.arithmetical_operation(10, '*', False).range,
             self._range * 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._signal.arithmetical_operation(10, '/', False).range,
             self._range / 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._signal.arithmetical_operation(10, '**', False).range,
             self._range ** 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._signal + 10).range, self._range + 10, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._signal - 10).range, self._range - 10, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._signal * 10).range, self._range * 10, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._signal / 10).range, self._range / 10, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (self._signal ** 10).range, self._range ** 10, decimal=7)
 
         signal = self._signal.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.arithmetical_operation(10, '+', True).range,
             self._range + 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.arithmetical_operation(10, '-', True).range,
             self._range,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.arithmetical_operation(10, '*', True).range,
             self._range * 10,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.arithmetical_operation(10, '/', True).range,
             self._range,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.arithmetical_operation(10, '**', True).range,
             self._range ** 10,
             decimal=7)
 
         signal = self._signal.copy()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.arithmetical_operation(self._range, '+', False).range,
             signal.range + self._range,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.arithmetical_operation(signal, '+', False).range,
             signal.range + signal._range,
             decimal=7)
@@ -574,17 +587,18 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
-        domain, range_ = Signal.signal_unpack_data(
-            dict(zip(self._domain, self._range)))
-        np.testing.assert_array_equal(range_, self._range)
-        np.testing.assert_array_equal(domain, self._domain)
+        if np.__name__ == 'numpy':
+            domain, range_ = Signal.signal_unpack_data(
+                dict(zip(self._domain, self._range)))
+            np.testing.assert_array_equal(range_, self._range)
+            np.testing.assert_array_equal(domain, self._domain)
 
         domain, range_ = Signal.signal_unpack_data(
             Signal(self._range, self._domain))
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
-        if is_pandas_installed():
+        if np.__name__ == 'numpy' and is_pandas_installed():
             from pandas import Series
 
             domain, range_ = Signal.signal_unpack_data(
@@ -601,7 +615,7 @@ class TestSignal(unittest.TestCase):
 
         signal[3:7] = np.nan
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.fill_nan().range,
             np.array(
                 [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
@@ -609,7 +623,7 @@ class TestSignal(unittest.TestCase):
 
         signal[3:7] = np.nan
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             signal.fill_nan(method='Constant').range,
             np.array([10.0, 20.0, 30.0, 0.0, 0.0, 0.0, 0.0, 80.0, 90.0,
                       100.0]),
@@ -623,7 +637,7 @@ class TestSignal(unittest.TestCase):
         self.assertAlmostEqual(
             self._signal.domain_distance(0.5), 0.5, places=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._signal.domain_distance(np.linspace(0, 9, 10) + 0.5),
             np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
             decimal=7)
@@ -633,7 +647,7 @@ class TestSignal(unittest.TestCase):
         Tests :func:`colour.continuous.signal.Signal.to_series` method.
         """
 
-        if is_pandas_installed():
+        if np.__name__ == 'numpy' and is_pandas_installed():
             from pandas import Series
 
             self.assertEqual(

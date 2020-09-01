@@ -20,7 +20,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.constants import DEFAULT_INT_DTYPE, DEFAULT_FLOAT_DTYPE
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs, ones, zeros
@@ -108,6 +108,9 @@ def primitive_grid(width=1,
      [1 0]]
     """
 
+    if np.__name__ == 'cupy':
+        raise NotImplementedError
+
     axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
 
     x_grid = width_segments
@@ -148,8 +151,8 @@ def primitive_grid(width=1,
     uvs = np.reshape(uvs, (-1, 2))
     normals = np.reshape(normals, (-1, 3))
 
-    faces = np.reshape(faces, (-1, 3)).astype(np.uint32)
-    outline = np.reshape(outline, (-1, 2)).astype(np.uint32)
+    faces = np.reshape(np.array(faces), (-1, 3)).astype(np.uint32)
+    outline = np.reshape(np.array(outline), (-1, 2)).astype(np.uint32)
 
     if axis in ('-x', '+x'):
         shift, zero_axis = 1, 0
@@ -289,6 +292,9 @@ def primitive_cube(width=1,
      [23 21]
      [21 20]]
     """
+
+    if np.__name__ == 'cupy':
+        raise NotImplementedError
 
     planes = (sorted(list(
         PLANE_TO_AXIS_MAPPING.values())) if planes is None else [

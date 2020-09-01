@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.biochemistry.michaelis_menten` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 
@@ -67,19 +67,19 @@ reaction_rate_MichealisMenten` definition n-dimensional arrays
 
         v = np.tile(v, (6, 1))
         S = np.tile(S, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)
 
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)
 
         v = np.reshape(v, (2, 3, 1))
         V_max = np.reshape(V_max, (2, 3, 1))
         K_m = np.reshape(K_m, (2, 3, 1))
         S = np.reshape(S, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)
 
     @ignore_numpy_errors
@@ -139,14 +139,14 @@ substrate_concentration_MichealisMenten` definition n-dimensional arrays
 
         S = np.tile(S, (6, 1))
         v = np.tile(v, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichealisMenten(S, V_max, K_m),
             v,
             decimal=7)
 
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichealisMenten(S, V_max, K_m),
             v,
             decimal=7)
@@ -155,7 +155,7 @@ substrate_concentration_MichealisMenten` definition n-dimensional arrays
         V_max = np.reshape(V_max, (2, 3, 1))
         K_m = np.reshape(K_m, (2, 3, 1))
         v = np.reshape(v, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichealisMenten(S, V_max, K_m),
             v,
             decimal=7)

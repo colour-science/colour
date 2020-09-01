@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.quality.cqs` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.quality import CQS_Specification, colour_quality_scale
@@ -376,7 +376,7 @@ class TestColourQualityScale(unittest.TestCase):
             additional_data=True,
             method='NIST CQS 7.4')
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             [
                 data.Q_a
                 for _index, data in sorted(specification_r.Q_as.items())
@@ -661,7 +661,7 @@ class TestColourQualityScale(unittest.TestCase):
             additional_data=True,
             method='NIST CQS 9.0')
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             [
                 data.Q_a
                 for _index, data in sorted(specification_r.Q_as.items())

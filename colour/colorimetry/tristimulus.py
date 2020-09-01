@@ -35,7 +35,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
@@ -488,9 +488,9 @@ def sd_to_XYZ_integration(
                             sd.name, cmfs.name))
         sd = sd.copy().align(cmfs.shape)
 
-    S = illuminant.values
-    x_bar, y_bar, z_bar = tsplit(cmfs.values)
-    R = sd.values
+    S = np.array(illuminant.values)
+    x_bar, y_bar, z_bar = tsplit(np.array(cmfs.values))
+    R = np.array(sd.values)
 
     dw = cmfs.shape.interval
 
@@ -746,8 +746,8 @@ def sd_to_XYZ_ASTME308(
         sd.align(SpectralShape(sd.shape.start - 20, sd.shape.end + 20, 10))
         for i in range(2):
             sd[sd.wavelengths[i]] = (
-                    3 * sd.values[i + 2] -
-                    3 * sd.values[i + 4] + sd.values[i + 6])  # yapf: disable
+                3 * sd.values[i + 2] -
+                3 * sd.values[i + 4] + sd.values[i + 6])  # yapf: disable
             i_e = len(sd.domain) - 1 - i
             sd[sd.wavelengths[i_e]] = (
                 sd.values[i_e - 6] - 3 * sd.values[i_e - 4] +
@@ -907,17 +907,33 @@ def sd_to_XYZ(
     if _CACHE_SD_TO_XYZ is None:
         _CACHE_SD_TO_XYZ = {}
 
+    cupy = False
+    if np.__name__ == 'cupy':
+        cupy = True
+        if isinstance(illuminant, np.ndarray):
+            illuminant = np.asnumpy(illuminant)
+        if isinstance(illuminant, tuple):
+            illuminant = tuple(np.asnumpy(illuminant))
+        np.set_ndimensional_array_backend('numpy')
+
     hash_key = tuple([
         hash(arg) for arg in (sd, cmfs, illuminant, k, method,
                               tuple(kwargs.items()), get_domain_range_scale())
     ])
     if hash_key in _CACHE_SD_TO_XYZ:
-        return _CACHE_SD_TO_XYZ[hash_key]
+        if cupy is True:
+            np.set_ndimensional_array_backend('cupy')
+        return np.array(_CACHE_SD_TO_XYZ[hash_key])
 
     function = SD_TO_XYZ_METHODS[method]
 
     XYZ = _CACHE_SD_TO_XYZ[hash_key] = function(
         sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        _CACHE_SD_TO_XYZ[hash_key] = np.array(_CACHE_SD_TO_XYZ[hash_key])
+        XYZ = np.array(XYZ)
 
     return XYZ
 
@@ -1085,9 +1101,9 @@ def msds_to_XYZ_integration(
                 illuminant.name, shape))
             illuminant = illuminant.copy().align(shape)
 
-        S = illuminant.values
+        S = np.array(illuminant.values)
         x_bar, y_bar, z_bar = tsplit(cmfs.values)
-        dw = cmfs.shape.interval
+        dw = np.array(cmfs.shape.interval)
 
         k = 100 / (np.sum(y_bar * S) * dw) if k is None else k
 
@@ -1467,15 +1483,21 @@ def wavelength_to_XYZ(wavelength,
     >>> wavelength_to_XYZ(480.5, cmfs)  # doctest: +ELLIPSIS
     array([ 0.0914287...,  0.1418350...,  0.7915726...])
     """
-
     cmfs_shape = cmfs.shape
-    if (np.min(wavelength) < cmfs_shape.start or
-            np.max(wavelength) > cmfs_shape.end):
-        raise ValueError(
-            '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
-                wavelength, cmfs_shape.start, cmfs_shape.end))
-
-    XYZ = np.reshape(cmfs[np.ravel(wavelength)],
-                     as_float_array(wavelength).shape + (3, ))
+    if np.__name__ == 'cupy' and not (isinstance(wavelength, np.ndarray)):
+        if (wavelength < cmfs_shape.start or wavelength > cmfs_shape.end):
+            raise ValueError(
+                '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
+                    wavelength, cmfs_shape.start, cmfs_shape.end))
+        XYZ = np.reshape(cmfs[wavelength],
+                         as_float_array(wavelength).shape + (3, ))
+    else:
+        if (np.min(wavelength) < cmfs_shape.start or
+                np.max(wavelength) > cmfs_shape.end):
+            raise ValueError(
+                '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
+                    wavelength, cmfs_shape.start, cmfs_shape.end))
+        XYZ = np.reshape(cmfs[np.ravel(wavelength)],
+                         as_float_array(wavelength).shape + (3, ))
 
     return XYZ

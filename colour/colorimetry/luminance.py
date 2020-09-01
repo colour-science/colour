@@ -58,7 +58,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.biochemistry import substrate_concentration_MichealisMenten
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
@@ -125,8 +125,12 @@ def luminance_Newhall1943(V):
 
     R_Y = (1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) -
            0.021009 * (V ** 4) + 0.0008404 * (V ** 5))
+    R_Y = from_range_100(R_Y)
 
-    return from_range_100(R_Y)
+    if np.__name__ == 'cupy' and R_Y.size == 1:
+        return as_float(R_Y)
+
+    return R_Y
 
 
 def luminance_ASTMD1535(V):
@@ -173,8 +177,12 @@ def luminance_ASTMD1535(V):
 
     Y = (1.1914 * V - 0.22533 * (V ** 2) + 0.23352 * (V ** 3) -
          0.020484 * (V ** 4) + 0.00081939 * (V ** 5))
+    Y = from_range_100(Y)
 
-    return from_range_100(Y)
+    if np.__name__ == 'cupy' and isinstance(Y, np.ndarray) and Y.size == 1:
+        return as_float(Y)
+
+    return Y
 
 
 def intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n=100):
@@ -287,8 +295,12 @@ def luminance_CIE1976(L_star, Y_n=100):
     f_Y_Y_n = (L_star + 16) / 116
 
     Y = intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n)
+    Y = from_range_100(Y)
 
-    return from_range_100(Y)
+    if np.__name__ == 'cupy' and isinstance(Y, np.ndarray) and Y.size == 1:
+        return as_float(Y)
+
+    return Y
 
 
 def luminance_Fairchild2010(L_hdr, epsilon=1.836):
@@ -345,8 +357,12 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
         np.log(
             substrate_concentration_MichealisMenten(L_hdr - 0.02, 100, 0.184 **
                                                     epsilon)) / epsilon)
+    Y = from_range_1(Y)
 
-    return from_range_1(Y)
+    if np.__name__ == 'cupy' and isinstance(Y, np.ndarray) and Y.size == 1:
+        return as_float(Y)
+
+    return Y
 
 
 def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
@@ -409,8 +425,12 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
         np.log(
             substrate_concentration_MichealisMenten(
                 L_hdr - 0.02, maximum_perception, 2 ** epsilon)) / epsilon)
+    Y = from_range_1(Y)
 
-    return from_range_1(Y)
+    if np.__name__ == 'cupy' and isinstance(Y, np.ndarray) and Y.size == 1:
+        return as_float(Y)
+
+    return Y
 
 
 LUMINANCE_METHODS = CaseInsensitiveMapping({

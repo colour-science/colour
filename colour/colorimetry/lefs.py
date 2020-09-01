@@ -542,9 +542,9 @@ def sd_mesopic_luminous_efficiency_function(
 
     sd_data = dict(
         zip(
-            wavelengths,
+            wavelengths.tolist(),
             mesopic_weighting_function(wavelengths, Lp, source, method,
-                                       photopic_lef, scotopic_lef)))
+                                       photopic_lef, scotopic_lef).tolist()))
 
     sd = SpectralDistribution(
         sd_data, name='{0} Lp Mesopic Luminous Efficiency Function'.format(Lp))

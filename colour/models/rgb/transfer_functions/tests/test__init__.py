@@ -6,7 +6,7 @@ module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
@@ -95,7 +95,7 @@ class TestTransferFunctions(unittest.TestCase):
                 encoded_s = CCTF_ENCODINGS[name](samples)
                 decoded_s = CCTF_DECODINGS[name](encoded_s)
 
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     samples, decoded_s, decimal=decimals.get(name, 7))
 
 

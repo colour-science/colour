@@ -18,7 +18,7 @@ Malvar_Sullivan_YCoCg-R_JVT-I014r3-2.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.utilities import dot_vector
 

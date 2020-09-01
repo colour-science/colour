@@ -8,10 +8,10 @@ Defines various transfer functions common utilities.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.utilities import as_float_array
+from colour.utilities import as_float_array, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -120,7 +120,9 @@ def legal_to_full(CV, bit_depth=10, in_int=False, out_int=False):
 
     CV = (CV - B) / (W - B)
 
-    return np.round(CV * MV).astype(DEFAULT_INT_DTYPE) if out_int else CV
+    intCV = np.round(CV * MV).astype(DEFAULT_INT_DTYPE)
+
+    return intCV if out_int else as_float(CV)
 
 
 def full_to_legal(CV, bit_depth=10, in_int=False, out_int=False):
@@ -179,4 +181,6 @@ def full_to_legal(CV, bit_depth=10, in_int=False, out_int=False):
 
     CV = (W - B) * CV + B
 
-    return np.round(CV).astype(DEFAULT_INT_DTYPE) if out_int else CV / MV
+    intCV = np.round(CV).astype(DEFAULT_INT_DTYPE)
+
+    return intCV if out_int else as_float(CV / MV)

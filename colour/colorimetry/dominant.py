@@ -24,14 +24,14 @@ whitepaper_howtocalculateluminositywavelengthandpurity.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import scipy.spatial.distance
 
 from colour.algebra import (euclidean_distance, extend_line_segment,
                             intersect_line_segments)
 from colour.colorimetry import MSDS_CMFS
 from colour.models import XYZ_to_xy
-from colour.utilities import as_float_array
+from colour.utilities import as_float_array, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -109,7 +109,12 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
             'for "{0}" colour stimulus and "{1}" achromatic stimulus "xy" '
             'chromaticity coordinates!'.format(xy, xy_n))
 
-    i_wl = np.argmin(scipy.spatial.distance.cdist(xy_wl, xy_s), axis=-1)
+    if np.__name__ == 'cupy':
+        i_wlnp = scipy.spatial.distance.cdist(
+            np.asnumpy(xy_wl), np.asnumpy(xy_s))
+        i_wl = np.argmin(np.array(i_wlnp), axis=-1)
+    else:
+        i_wl = np.argmin(scipy.spatial.distance.cdist(xy_wl, xy_s), axis=-1)
 
     i_wl = np.reshape(i_wl, xy.shape[0:-1])
     xy_wl = np.reshape(xy_wl, xy.shape)
@@ -185,11 +190,11 @@ def dominant_wavelength(xy,
     xy = as_float_array(xy)
     xy_n = np.resize(xy_n, xy.shape)
 
-    xy_s = XYZ_to_xy(cmfs.values)
+    xy_s = XYZ_to_xy(np.array(cmfs.values))
 
     i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse)
     xy_cwl = xy_wl
-    wl = cmfs.wavelengths[i_wl]
+    wl = np.array(cmfs.wavelengths)[i_wl]
 
     xy_e = (extend_line_segment(xy, xy_n)
             if inverse else extend_line_segment(xy_n, xy))
@@ -200,7 +205,7 @@ def dominant_wavelength(xy,
 
     i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(
         xy, xy_n, xy_s, not inverse)
-    wl_r = -cmfs.wavelengths[i_wl_r]
+    wl_r = -np.array(cmfs.wavelengths)[i_wl_r]
 
     wl = np.where(intersect, wl_r, wl)
     xy_cwl = np.where(intersect[..., np.newaxis], xy_cwl_r, xy_cwl)
@@ -352,5 +357,8 @@ def colorimetric_purity(xy,
     P_e = excitation_purity(xy, xy_n, cmfs)
 
     P_c = P_e * xy_wl[..., 1] / xy[..., 1]
+
+    if np.__name__ == 'cupy' and P_c.size == 1:
+        return as_float(P_c)
 
     return P_c

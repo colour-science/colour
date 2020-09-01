@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.graph.conversion` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import six
 import unittest
 
@@ -63,11 +63,11 @@ class TestConvert(unittest.TestCase):
 
         RGB_a = convert(SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin'],
                         'Spectral Distribution', 'sRGB')
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_a, np.array([0.45675795, 0.30986982, 0.24861924]), decimal=7)
 
         Jpapbp = convert(RGB_a, 'Output-Referred RGB', 'CAM16UCS')
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Jpapbp, np.array([0.39994810, 0.09206557, 0.08127526]), decimal=7)
 
         RGB_b = convert(
@@ -77,7 +77,7 @@ class TestConvert(unittest.TestCase):
         # exact roundtrip.
         np.testing.assert_allclose(RGB_a, RGB_b, rtol=1e-5, atol=1e-5)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert('#808080', 'Hexadecimal', 'Scene-Referred RGB'),
             np.array([0.21586050, 0.21586050, 0.21586050]),
             decimal=7)
@@ -87,7 +87,7 @@ class TestConvert(unittest.TestCase):
             0.21586050,
             places=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert(
                 convert(
                     np.array([0.5, 0.5, 0.5]), 'Output-Referred RGB',
@@ -95,7 +95,7 @@ class TestConvert(unittest.TestCase):
             np.array([0.49215686, 0.50196078, 0.50196078]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert(
                 RGB_a,
                 'RGB',
@@ -111,16 +111,16 @@ class TestConvert(unittest.TestCase):
         """
 
         a = np.array([0.20654008, 0.12197225, 0.05136952])
-        illuminant = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-            'D50']
-        np.testing.assert_almost_equal(
+        illuminant = np.array(
+            CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
+        np.testing.assert_array_almost_equal(
             convert(
                 a, 'CIE XYZ', 'CIE xyY',
                 XYZ_to_xyY={'illuminant': illuminant}),
             convert(a, 'CIE XYZ', 'CIE xyY', illuminant=illuminant),
             decimal=7)
 
-        if six.PY3:  # pragma: no cover
+        if np.__name__ == 'numpy' and six.PY3:  # pragma: no cover
             # Illuminant "ndarray" is converted to tuple here so that it can
             # be hashed by the "sd_to_XYZ" definition, this should never occur
             # in practical application.

@@ -6,7 +6,7 @@ module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import linear_function
@@ -51,15 +51,18 @@ linear_function` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(linear_function(a), a_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            linear_function(a), a_p, decimal=7)
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(linear_function(a), a_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            linear_function(a), a_p, decimal=7)
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(linear_function(a), a_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            linear_function(a), a_p, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_linear_function(self):

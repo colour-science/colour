@@ -18,7 +18,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.utilities import tsplit, tstack, as_float_array, as_int_array
@@ -167,7 +167,13 @@ def read_LUT_Cinespace(path):
 
         if (is_3D and pre_LUT.shape == (6, 2) and np.array_equal(
                 pre_LUT.reshape(3, 4).transpose()[2:4], unity_range)):
-            table = table.reshape([size[0], size[1], size[2], 3], order='F')
+            if np.__name__ == 'cupy':
+                table = table.reshape(
+                    [size[0].item(), size[1].item(), size[2].item(), 3],
+                    order='F')
+            else:
+                table = table.reshape(
+                    [size[0], size[1], size[2], 3], order='F')
             LUT = LUT3D(
                 domain=pre_LUT.reshape(3, 4).transpose()[0:2],
                 name=title,
@@ -190,7 +196,13 @@ def read_LUT_Cinespace(path):
             pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
             shaper_name = '{0} - Shaper'.format(title)
             cube_name = '{0} - Cube'.format(title)
-            table = table.reshape([size[0], size[1], size[2], 3], order='F')
+            if np.__name__ == 'cupy':
+                table = table.reshape(
+                    [size[0].item(), size[1].item(), size[2].item(), 3],
+                    order='F')
+            else:
+                table = table.reshape(
+                    [size[0], size[1], size[2], 3], order='F')
             LUT_A = LUT3x1D(pre_table, shaper_name, pre_domain)
             LUT_B = LUT3D(table, cube_name, comments=comments)
 
@@ -303,6 +315,21 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
     if has_3D:
         assert 2 <= LUT[1].size <= 256, 'Cube size must be in domain [2, 256]!'
 
+    domain0 = LUT[0].domain
+    table0 = LUT[0].table
+
+    domain1 = LUT[1].domain
+    table1 = LUT[1].table
+
+    cupy = False
+    if np.__name__ == 'cupy':
+        domain0 = np.asnumpy(domain0)
+        table0 = np.asnumpy(table0)
+        domain1 = np.asnumpy(domain1)
+        table1 = np.asnumpy(table1)
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
+
     def _ragged_size(table):
         """
         Return the ragged size of given table.
@@ -356,9 +383,9 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
             if has_3x1D:
                 for i in range(3):
                     if LUT[0].is_domain_explicit():
-                        size = _ragged_size(LUT[0].domain)[i]
-                        table_min = np.nanmin(LUT[0].table)
-                        table_max = np.nanmax(LUT[0].table)
+                        size = _ragged_size(domain0)[i]
+                        table_min = np.nanmin(table0)
+                        table_max = np.nanmax(table0)
                     else:
                         size = LUT[0].size
 
@@ -366,18 +393,17 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
 
                     for j in range(size):
                         if LUT[0].is_domain_explicit():
-                            entry = LUT[0].domain[j][i]
+                            entry = domain0[j][i]
                         else:
-                            entry = (
-                                LUT[0].domain[0][i] + j *
-                                (LUT[0].domain[1][i] - LUT[0].domain[0][i]) /
-                                (LUT[0].size - 1))
+                            entry = (domain0[0][i] +
+                                     j * (domain0[1][i] - domain0[0][i]) /
+                                     (LUT[0].size - 1))
                         csp_file.write('{0:.{1}f} '.format(entry, decimals))
 
                     csp_file.write('\n')
 
                     for j in range(size):
-                        entry = LUT[0].table[j][i]
+                        entry = table0[j][i]
                         if non_uniform:
                             entry -= table_min
                             entry /= (table_max - table_min)
@@ -388,8 +414,7 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                 for i in range(3):
                     csp_file.write('2\n')
                     csp_file.write('{0}\n'.format(
-                        _format_tuple(
-                            [LUT[1].domain[0][i], LUT[1].domain[1][i]])))
+                        _format_tuple([domain1[0][i], domain1[1][i]])))
                     csp_file.write('{0:.{2}f} {1:.{2}f}\n'.format(
                         0, 1, decimals))
             if non_uniform:
@@ -400,9 +425,8 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                 csp_file.write('{0}\n'.format(_format_array(row)))
             else:
                 csp_file.write('\n{0} {1} {2}\n'.format(
-                    LUT[1].table.shape[0], LUT[1].table.shape[1],
-                    LUT[1].table.shape[2]))
-                table = LUT[1].table.reshape([-1, 3], order='F')
+                    table1.shape[0], table1.shape[1], table1.shape[2]))
+                table = table1.reshape([-1, 3], order='F')
 
                 for row in table:
                     csp_file.write('{0}\n'.format(_format_array(row)))
@@ -411,12 +435,15 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
             for i in range(3):
                 csp_file.write('2\n')
                 csp_file.write('{0}\n'.format(
-                    _format_tuple([LUT[0].domain[0][i], LUT[0].domain[1][i]])))
+                    _format_tuple([domain0[0][i], domain0[1][i]])))
                 csp_file.write('0.0 1.0\n')
             csp_file.write('\n{0}\n'.format(LUT[0].size))
-            table = LUT[0].table
+            table = table0
 
             for row in table:
                 csp_file.write('{0}\n'.format(_format_array(row)))
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
 
     return True

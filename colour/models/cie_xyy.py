@@ -24,7 +24,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.utilities import (as_float_array, from_range_1, full, to_domain_1,

@@ -10,7 +10,7 @@ Defines the class implementing support for continuous signal:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from operator import add, mul, pow, sub, iadd, imul, ipow, isub
 
 # Python 3 compatibility.
@@ -279,6 +279,8 @@ class Signal(AbstractContinuousFunction):
         ndarray
             Continuous signal independent domain :math:`x` variable.
         """
+        if np.__name__ == 'cupy' and self._domain is None:
+            return None
 
         return np.copy(self._domain)
 
@@ -289,6 +291,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
+            value = np.array(value)
             if np.asarray(value).dtype != object:
                 if not np.all(np.isfinite(value)):
                     runtime_warning(
@@ -296,6 +299,7 @@ class Signal(AbstractContinuousFunction):
                         'unpredictable results may occur!'.format(
                             self.name, value))
 
+                value
                 value = np.copy(value).astype(self.dtype)
 
                 if self._range is not None:
@@ -305,7 +309,8 @@ class Signal(AbstractContinuousFunction):
                             'have different size, "range" variable will be '
                             'resized to "domain" variable shape!'.format(
                                 self.name))
-                        self._range = np.resize(self._range, value.shape)
+                        self._range = np.resize(
+                            np.array(self._range), value.shape)
 
                 self._domain = value
                 self._create_function()
@@ -327,6 +332,8 @@ class Signal(AbstractContinuousFunction):
         ndarray
             Continuous signal corresponding range :math:`y` variable.
         """
+        if np.__name__ == 'cupy' and self._range is None:
+            return None
 
         return np.copy(self._range)
 
@@ -337,6 +344,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
+            value = np.array(value)
             if np.asarray(value).dtype != object:
                 if not np.all(np.isfinite(value)):
                     runtime_warning(
@@ -520,10 +528,18 @@ class Signal(AbstractContinuousFunction):
          [   8.   90.]
          [   9.  100.]]
         """
-
+        cupy = False
+        if np.__name__ == 'cupy':
+            np.set_ndimensional_array_backend('numpy')
+            cupy = True
         try:
-            return str(tstack([self.domain, self.range]))
+            string = str(tstack([np.array(self.domain), np.array(self.range)]))
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
+            return string
         except TypeError:
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
             return super(Signal, self).__str__()
 
     def __repr__(self):
@@ -554,9 +570,15 @@ class Signal(AbstractContinuousFunction):
                extrapolator=Extrapolator,
                extrapolator_kwargs={...})
         """
+        cupy = False
+        if np.__name__ == 'cupy':
+            np.set_ndimensional_array_backend('numpy')
+            cupy = True
 
         try:
-            representation = repr(tstack([self.domain, self.range]))
+            representation = repr(
+                tstack([np.array(self.domain),
+                        np.array(self.range)]))
             representation = representation.replace('array',
                                                     self.__class__.__name__)
             representation = representation.replace(
@@ -574,8 +596,13 @@ class Signal(AbstractContinuousFunction):
                                   self.extrapolator.__name__,
                                   repr(self.extrapolator_kwargs))
 
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
+
             return representation
         except TypeError:
+            if cupy is True:
+                np.set_ndimensional_array_backend('cupy')
             return super(Signal, self).__repr__()
 
     def __hash__(self):
@@ -587,15 +614,24 @@ class Signal(AbstractContinuousFunction):
         int
             Object hash.
         """
+        cupy = False
+        if np.__name__ == 'cupy':
+            cupy = True
+            np.set_ndimensional_array_backend('numpy')
 
-        return hash((
-            self.domain.tostring(),
-            self.range.tostring(),
+        hashed = hash((
+            np.array(self.domain).tostring(),
+            np.array(self.range).tostring(),
             self.interpolator.__name__,
             repr(self.interpolator_kwargs),
             self.extrapolator.__name__,
             repr(self.extrapolator_kwargs),
         ))
+
+        if cupy is True:
+            np.set_ndimensional_array_backend('cupy')
+
+        return hashed
 
     def __getitem__(self, x):
         """
@@ -716,6 +752,7 @@ class Signal(AbstractContinuousFunction):
         else:
             x = np.atleast_1d(x).astype(self.dtype)
             y = np.resize(y, x.shape)
+            self._domain = np.array(self._domain)
 
             # Matching domain, updating existing `self._range` values.
             mask = np.in1d(x, self._domain)
@@ -1009,6 +1046,8 @@ class Signal(AbstractContinuousFunction):
          [   8.  280.]
          [   9.  310.]]
         """
+        self._domain = np.array(self._domain)
+        self._range = np.array(self._range)
 
         operation, ioperator = {
             '+': (add, iadd),
@@ -1235,6 +1274,12 @@ class Signal(AbstractContinuousFunction):
 
         if is_pandas_installed():
             from pandas import Series
+
+            if np.__name__ == 'cupy':
+                return Series(
+                    data=np.asnumpy(self._range),
+                    index=np.asnumpy(self._domain),
+                    name=self.name)
 
             return Series(data=self._range, index=self._domain, name=self.name)
 

@@ -6,7 +6,7 @@ Defines unit tests for :mod:`colour.corresponding.prediction` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.corresponding.prediction import (
@@ -149,32 +149,32 @@ convert_experiment_results_Breneman1987` definition.
         corresponding_colour_dataset = convert_experiment_results_Breneman1987(
             1)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             corresponding_colour_dataset.XYZ_r,
             DATASET_CORRESPONDING_COLOUR_1.XYZ_r,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             corresponding_colour_dataset.XYZ_t,
             DATASET_CORRESPONDING_COLOUR_1.XYZ_t,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             corresponding_colour_dataset.XYZ_cr,
             DATASET_CORRESPONDING_COLOUR_1.XYZ_cr,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             corresponding_colour_dataset.XYZ_ct,
             DATASET_CORRESPONDING_COLOUR_1.XYZ_ct,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             corresponding_colour_dataset.Y_r,
             DATASET_CORRESPONDING_COLOUR_1.Y_r,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             corresponding_colour_dataset.Y_t,
             DATASET_CORRESPONDING_COLOUR_1.Y_t,
             decimal=7)
@@ -194,7 +194,7 @@ corresponding_chromaticities_prediction_Fairchild1990` definition unit tests
 corresponding_chromaticities_prediction_Fairchild1990` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(
                 [(p.uv_m, p.uv_p) for p in
                  corresponding_chromaticities_prediction_Fairchild1990()]),
@@ -214,7 +214,7 @@ corresponding_chromaticities_prediction_CIE1994` definition unit tests methods.
 corresponding_chromaticities_prediction_CIE1994` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(
                 [(p.uv_m, p.uv_p)
                  for p in corresponding_chromaticities_prediction_CIE1994()]),
@@ -235,7 +235,7 @@ corresponding_chromaticities_prediction_CMCCAT2000` definition unit tests
 corresponding_chromaticities_prediction_CMCCAT2000` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array([
                 (p.uv_m, p.uv_p)
                 for p in corresponding_chromaticities_prediction_CMCCAT2000()
@@ -257,7 +257,7 @@ corresponding_chromaticities_prediction_VonKries` definition unit tests
 corresponding_chromaticities_prediction_VonKries` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(
                 [(p.uv_m, p.uv_p)
                  for p in corresponding_chromaticities_prediction_VonKries()]),

@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.models.hdr_ipt` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 
@@ -34,19 +34,19 @@ class TestExponent_hdr_IPT(unittest.TestCase):
         Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition.
         """
 
-        self.assertAlmostEqual(
-            exponent_hdr_IPT(0.2, 100), 0.482020919845900, places=7)
+        np.testing.assert_array_almost_equal(
+            exponent_hdr_IPT(0.2, 100), 0.482020919845900, decimal=7)
 
-        self.assertAlmostEqual(
-            exponent_hdr_IPT(0.4, 100), 0.667413581325092, places=7)
-
-        self.assertAlmostEqual(
+        np.testing.assert_array_almost_equal(
             exponent_hdr_IPT(0.4, 100, method='Fairchild 2010'),
             1.219933220992410,
-            places=7)
+            decimal=7)
 
-        self.assertAlmostEqual(
-            exponent_hdr_IPT(0.2, 1000), 0.723031379768850, places=7)
+        np.testing.assert_array_almost_equal(
+            exponent_hdr_IPT(0.2, 1000), 0.723031379768850, decimal=7)
+
+        np.testing.assert_array_almost_equal(
+            exponent_hdr_IPT(0.2, 1000), 0.723031379768850, decimal=7)
 
     def test_n_dimensional_exponent_hdr_IPT(self):
         """
@@ -61,19 +61,19 @@ class TestExponent_hdr_IPT(unittest.TestCase):
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
         epsilon = np.tile(epsilon, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_hdr_IPT(Y_s, Y_abs), epsilon, decimal=7)
 
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         epsilon = np.reshape(epsilon, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_hdr_IPT(Y_s, Y_abs), epsilon, decimal=7)
 
         Y_s = np.reshape(Y_s, (2, 3, 1))
         Y_abs = np.reshape(Y_abs, (2, 3, 1))
         epsilon = np.reshape(epsilon, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_hdr_IPT(Y_s, Y_abs), epsilon, decimal=7)
 
     def test_domain_range_scale_exponent_hdr_IPT(self):
@@ -89,7 +89,7 @@ class TestExponent_hdr_IPT(unittest.TestCase):
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     exponent_hdr_IPT(Y_s * factor, Y_abs), epsilon, decimal=7)
 
     @ignore_numpy_errors
@@ -114,25 +114,25 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         Tests :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_IPT(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([48.39376346, 42.44990202, 22.01954033]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_IPT(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 method='Fairchild 2010'),
             np.array([30.02873147, 83.93845061, 34.90287382]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_IPT(
                 np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5),
             np.array([20.75088680, 37.98300971, 16.66974299]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_IPT(
                 np.array([0.07818780, 0.06157201, 0.28099326]), Y_abs=1000),
             np.array([23.83205010, -5.98739209, -32.74311745]),
@@ -151,19 +151,19 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         IPT_hdr = np.tile(IPT_hdr, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         IPT_hdr = np.reshape(IPT_hdr, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
     def test_domain_range_scale_XYZ_to_hdr_IPT(self):
@@ -180,7 +180,7 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_hdr_IPT(XYZ * factor_a, Y_s * factor_a, Y_abs),
                     IPT_hdr * factor_b,
                     decimal=7)
@@ -212,25 +212,25 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         Tests :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_IPT_to_XYZ(np.array([48.39376346, 42.44990202, 22.01954033])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_IPT_to_XYZ(
                 np.array([30.02873147, 83.93845061, 34.90287382]),
                 method='Fairchild 2010'),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_IPT_to_XYZ(
                 np.array([20.75088680, 37.98300971, 16.66974299]), Y_s=0.5),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_IPT_to_XYZ(
                 np.array([23.83205010, -5.98739209, -32.74311745]),
                 Y_abs=1000),
@@ -250,19 +250,19 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
 
         IPT_hdr = np.tile(IPT_hdr, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
 
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
 
         IPT_hdr = np.reshape(IPT_hdr, (2, 3, 3))
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
 
     def test_domain_range_scale_hdr_IPT_to_XYZ(self):
@@ -279,7 +279,7 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         d_r = (('reference', 1, 1, 1), (1, 0.01, 1, 1), (100, 1, 100, 100))
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     hdr_IPT_to_XYZ(IPT_hdr * factor_a, Y_s * factor_b, Y_abs),
                     XYZ * factor_c,
                     decimal=7)

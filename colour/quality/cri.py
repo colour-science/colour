@@ -18,7 +18,7 @@ usp=sharing
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
@@ -28,7 +28,7 @@ from colour.colorimetry import (
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
-from colour.utilities import domain_range_scale
+from colour.utilities import as_float, domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -149,6 +149,9 @@ def colour_rendering_index(sd_test, additional_data=False):
             sd_test.name, Q_a, Q_as,
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data))
     else:
+        if np.__name__ == 'cupy':
+            return as_float(Q_a)
+
         return Q_a
 
 
@@ -220,6 +223,10 @@ def tcs_colorimetry_data(sd_t, sd_r, sds_tcs, cmfs,
         W_tcs = 25 * spow(xyY_tcs[-1], 1 / 3) - 17
         U_tcs = 13 * W_tcs * (u_tcs - u_r)
         V_tcs = 13 * W_tcs * (v_tcs - v_r)
+
+        if np.__name__ == 'cupy':
+            U_tcs = U_tcs.item()
+            V_tcs = V_tcs.item()
 
         tcs_data.append(
             TCS_ColorimetryData(sd_tcs.name, XYZ_tcs, uv_tcs,

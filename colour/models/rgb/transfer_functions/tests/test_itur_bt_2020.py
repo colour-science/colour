@@ -6,7 +6,7 @@ module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (eotf_inverse_BT2020,
@@ -53,15 +53,18 @@ eotf_inverse_BT2020` definition n-dimensional arrays support.
 
         E = np.tile(E, 6)
         E_p = np.tile(E_p, 6)
-        np.testing.assert_almost_equal(eotf_inverse_BT2020(E), E_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_BT2020(E), E_p, decimal=7)
 
         E = np.reshape(E, (2, 3))
         E_p = np.reshape(E_p, (2, 3))
-        np.testing.assert_almost_equal(eotf_inverse_BT2020(E), E_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_BT2020(E), E_p, decimal=7)
 
         E = np.reshape(E, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_inverse_BT2020(E), E_p, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_BT2020(E), E_p, decimal=7)
 
     def test_domain_range_scale_eotf_inverse_BT2020(self):
         """
@@ -75,7 +78,7 @@ eotf_inverse_BT2020` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_inverse_BT2020(E * factor), E_p * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -118,15 +121,15 @@ eotf_BT2020` definition n-dimensional arrays support.
 
         E_p = np.tile(E_p, 6)
         E = np.tile(E, 6)
-        np.testing.assert_almost_equal(eotf_BT2020(E_p), E, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_BT2020(E_p), E, decimal=7)
 
         E_p = np.reshape(E_p, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_almost_equal(eotf_BT2020(E_p), E, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_BT2020(E_p), E, decimal=7)
 
         E_p = np.reshape(E_p, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_BT2020(E_p), E, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_BT2020(E_p), E, decimal=7)
 
     def test_domain_range_scale_eotf_BT2020(self):
         """
@@ -140,7 +143,7 @@ eotf_BT2020` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_BT2020(E_p * factor), E * factor, decimal=7)
 
     @ignore_numpy_errors

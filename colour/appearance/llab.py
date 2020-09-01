@@ -28,11 +28,11 @@ Colour_Appearance_and_Gamut_Mapping
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from collections import namedtuple
 
 from colour.algebra import polar_to_cartesian, spow
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+from colour.utilities import (CaseInsensitiveMapping, as_float, as_float_array,
                               dot_vector, from_range_degrees, to_domain_100,
                               tsplit, tstack)
 
@@ -325,8 +325,17 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # -------------------------------------------------------------------------
     A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
+    if np.__name__ == 'cupy':
+        L_L = as_float(L_L)
+        Ch_L = as_float(Ch_L)
+        h_L = as_float(h_L)
+        s_L = as_float(s_L)
+        C_L = as_float(C_L)
+        A_L = as_float(A_L)
+        B_L = as_float(B_L)
+
     return CAM_Specification_LLAB(L_L, Ch_L, from_range_degrees(h_L), s_L, C_L,
-                                  None, A_L, B_L)
+                              None, A_L, B_L)
 
 
 def XYZ_to_RGB_LLAB(XYZ):

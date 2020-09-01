@@ -24,15 +24,15 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import (
     CCS_ILLUMINANTS, lightness_Fairchild2010, lightness_Fairchild2011,
     luminance_Fairchild2010, luminance_Fairchild2011)
 from colour.models import xy_to_xyY, xyY_to_XYZ
-from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
-                              from_range_100, to_domain_1, to_domain_100,
-                              tsplit, tstack)
+from colour.utilities import (as_float, as_float_array, domain_range_scale,
+                              from_range_1, from_range_100, to_domain_1,
+                              to_domain_100, tsplit, tstack)
 from colour.utilities.documentation import (DocstringTuple,
                                             is_documentation_building)
 
@@ -122,6 +122,9 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
         epsilon *= sf * lf
     else:
         epsilon /= sf * lf
+
+    if np.__name__ == 'cupy':
+        return as_float(epsilon)
 
     return epsilon
 

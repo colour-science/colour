@@ -35,10 +35,10 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import euclidean_distance
-from colour.utilities import to_domain_100, tsplit
+from colour.utilities import as_float, to_domain_100, tsplit
 from colour.utilities.documentation import (DocstringFloat,
                                             is_documentation_building)
 __author__ = 'Colour Developers'
@@ -221,6 +221,9 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     d_E = np.sqrt(L + C + H)
 
+    if np.__name__ == 'cupy':
+        return as_float(d_E)
+
     return d_E
 
 
@@ -364,6 +367,9 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
                   (delta_C_prime / (k_C * s_C)) * (delta_H_prime /
                                                    (k_H * s_H)) * r_T)
 
+    if np.__name__ == 'cupy':
+        return as_float(d_E)
+
     return d_E
 
 
@@ -455,5 +461,8 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     v_3 = s_h
 
     d_E = np.sqrt(v_1 ** 2 + v_2 ** 2 + (delta_H2 / (v_3 * v_3)))
+
+    if np.__name__ == 'cupy':
+        return as_float(d_E)
 
     return d_E

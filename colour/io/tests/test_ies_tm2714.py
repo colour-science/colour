@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.io.iestm2714` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import os
 import shutil
 import unittest
@@ -220,7 +220,7 @@ _temporary_directory_temporary_directory
         sd_r = SpectralDistribution(FLUORESCENT_FILE_SPECTRAL_DATA)
 
         np.testing.assert_array_equal(sd_r.domain, sd.domain)
-        np.testing.assert_almost_equal(sd_r.values, sd.values, decimal=7)
+        np.testing.assert_array_almost_equal(sd_r.values, sd.values, decimal=7)
 
         for test, read in ((FLUORESCENT_FILE_HEADER, sd.header),
                            (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd)):

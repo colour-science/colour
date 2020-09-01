@@ -37,11 +37,11 @@ extend-a-line-segment-a-specific-distance
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from collections import namedtuple
 
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, ones,
-                              tsplit, tstack)
+                              tsplit, tstack, as_float)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -95,6 +95,10 @@ def euclidean_distance(a, b):
     b : array_like
         Point array :math:`b`.
 
+    Notes
+    -----
+    On CuPy, this returns an array even for length of 1.
+
     Returns
     -------
     numeric or ndarray
@@ -108,7 +112,12 @@ def euclidean_distance(a, b):
     451.7133019...
     """
 
-    return np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)
+    distance = np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)
+
+    if np.__name__ == 'cupy':
+        return as_float(distance)
+
+    return distance
 
 
 def extend_line_segment(a, b, distance=1):
@@ -280,12 +289,16 @@ def intersect_line_segments(l_1, l_2):
     u_a = numerator_a / denominator
     u_b = numerator_b / denominator
 
-    intersect = np.logical_and.reduce((u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
+    logicalAndA = np.logical_and(u_a >= 0, u_a <= 1)
+    logicalAndB = np.logical_and(u_b >= 0, u_b <= 1)
+
+    intersect = np.logical_and(logicalAndA, logicalAndB)
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
     xy[~intersect] = np.nan
     parallel = denominator == 0
-    coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0,
-                                        parallel))
+
+    logicalAndNumerators = np.logical_and(numerator_a == 0, numerator_b == 0)
+    coincident = np.logical_and(logicalAndNumerators, parallel)
 
     return LineSegmentsIntersections_Specification(xy, intersect, parallel,
                                                    coincident)
@@ -510,12 +523,26 @@ def ellipse_fitting_Halir1998(a):
     M = S1 + np.dot(S2, T)
     M = np.array([M[2, :] / 2, -M[1, :], M[0, :] / 2])
 
-    _w, v = np.linalg.eig(M)
+    if np.__name__ == 'cupy':
+        Mnp = np.asnumpy(M)
+        np.set_ndimensional_array_backend('numpy')
+
+        try:
+            _w, v = np.linalg.eig(Mnp)
+        except Exception:
+            np.set_ndimensional_array_backend('cupy')
+            raise
+
+        np.set_ndimensional_array_backend('cupy')
+        _w = np.array(_w)
+        v = np.array(v)
+    else:
+        _w, v = np.linalg.eig(M)
 
     A1 = v[:, np.nonzero(4 * v[0, :] * v[2, :] - v[1, :] ** 2 > 0)[0]]
     A2 = np.dot(T, A1)
 
-    A = np.ravel([A1, A2])
+    A = np.ravel(np.array([A1, A2]))
 
     return A
 

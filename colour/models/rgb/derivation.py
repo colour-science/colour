@@ -26,7 +26,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
@@ -104,17 +104,33 @@ def normalised_primary_matrix(primaries, whitepoint):
            [  0.0000000...e+00,   0.0000000...e+00,   1.0088251...e+00]])
     """
 
-    primaries = np.reshape(primaries, (3, 2))
+    primaries = np.reshape(np.array(primaries), (3, 2))
 
     z = xy_to_z(primaries)[..., np.newaxis]
     primaries = np.transpose(np.hstack([primaries, z]))
 
     whitepoint = xy_to_XYZ(whitepoint)
 
-    coefficients = np.dot(np.linalg.inv(primaries), whitepoint)
-    coefficients = np.diagflat(coefficients)
+    cupy = False
+    if np.__name__ == 'cupy':
+        np.set_ndimensional_array_backend('numpy')
+        whitepoint = np.array(whitepoint)
+        primaries = np.array(primaries)
+        cupy = True
+    try:
+        coefficients = np.dot(np.linalg.inv(primaries), whitepoint)
+        coefficients = np.diagflat(coefficients)
 
-    npm = np.dot(primaries, coefficients)
+        npm = np.dot(primaries, coefficients)
+
+    except Exception:
+        if cupy is True:
+            np.set_ndimensional_array_backend('cupy')
+        raise
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        npm = np.array(npm)
 
     return npm
 
@@ -160,7 +176,7 @@ def chromatically_adapted_primaries(primaries,
            [ 0.1558932...,  0.0660492...]])
     """
 
-    primaries = np.reshape(primaries, (3, 2))
+    primaries = np.reshape(np.array(primaries), (3, 2))
 
     XYZ_a = chromatic_adaptation_VonKries(
         xy_to_XYZ(primaries), xy_to_XYZ(whitepoint_t), xy_to_XYZ(whitepoint_r),

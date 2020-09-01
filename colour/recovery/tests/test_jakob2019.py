@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.recovery.jakob2019` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import os
 import shutil
 import tempfile

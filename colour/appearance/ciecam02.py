@@ -28,7 +28,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from collections import namedtuple
 
 from colour.algebra import spow
@@ -39,7 +39,7 @@ from colour.constants import EPSILON
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
     as_float, from_range_degrees, dot_matrix, dot_vector, from_range_100, ones,
-    to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
+    to_domain_100, to_domain_degrees, tsplit, tstack, zeros, as_int)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -329,6 +329,15 @@ H=278.0607358..., HC=None)
 
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
+
+    if np.__name__ == 'cupy':
+        J = as_float(J)
+        C = as_float(C)
+        h = as_float(h)
+        s = as_float(s)
+        Q = as_float(Q)
+        M = as_float(M)
+        H = as_float(H)
 
     return CAM_Specification_CIECAM02(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
@@ -1031,7 +1040,19 @@ def hue_quadrature(h):
 
     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
     h[np.asarray(np.isnan(h))] = 0
-    i = as_int_array(np.searchsorted(h_i, h, side='left') - 1)
+
+    if np.__name__ == 'cupy':
+        hnp = np.asnumpy(h)
+        h_inp = np.asnumpy(h_i)
+        np.set_ndimensional_array_backend('numpy')
+        try:
+            i = as_int_array(np.searchsorted(h_inp, hnp, side='left') - 1)
+        except Exception:
+            np.set_ndimensional_array_backend('cupy')
+        np.set_ndimensional_array_backend('cupy')
+        i = as_int(i)
+    else:
+        i = as_int_array(np.searchsorted(h_i, h, side='left') - 1)
 
     h_ii = h_i[i]
     e_ii = e_i[i]

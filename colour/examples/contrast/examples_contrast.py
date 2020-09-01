@@ -5,7 +5,7 @@ Showcases contrast sensitivity computations.
 
 from pprint import pprint
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import fmin
 
 import colour

@@ -11,7 +11,7 @@ Defines *Sony* *.spi1d* *LUT* Format related input / output utilities objects.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
@@ -110,6 +110,11 @@ def read_LUT_SonySPI1D(path):
                 table.append(tokens)
 
     table = as_float_array(table)
+
+    if np.__name__ == 'cupy':
+        domain_min = domain_min.item()
+        domain_max = domain_max.item()
+
     if dimensions == 1:
         return LUT1D(
             np.squeeze(table),
@@ -186,12 +191,20 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
 
     is_1D = isinstance(LUT, LUT1D)
 
-    if is_1D:
-        domain = LUT.domain
-    else:
-        domain = np.unique(LUT.domain)
+    domain = LUT.domain
+    table = LUT.table
+    cupy = False
+
+    if not (is_1D):
+        domain = np.unique(domain)
 
         assert len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!'
+
+    if np.__name__ == 'cupy':
+        domain = np.asnumpy(domain)
+        table = np.asnumpy(table)
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
 
     def _format_array(array):
         """
@@ -206,13 +219,13 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
         spi1d_file.write('From {1:0.{0}f} {2:0.{0}f}\n'.format(
             decimals, *domain))
 
-        spi1d_file.write('Length {0}\n'.format(LUT.table.size if is_1D else
-                                               LUT.table.shape[0]))
+        spi1d_file.write(
+            'Length {0}\n'.format(table.size if is_1D else table.shape[0]))
 
         spi1d_file.write('Components {0}\n'.format(1 if is_1D else 3))
 
         spi1d_file.write('{\n')
-        for row in LUT.table:
+        for row in table:
             if is_1D:
                 spi1d_file.write(' {1:0.{0}f}\n'.format(decimals, row))
             else:
@@ -222,5 +235,8 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
         if LUT.comments:
             for comment in LUT.comments:
                 spi1d_file.write('# {0}\n'.format(comment))
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
 
     return True

@@ -6,7 +6,7 @@ module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
@@ -53,15 +53,15 @@ oetf_BT601` definition n-dimensional arrays support.
 
         L = np.tile(L, 6)
         E = np.tile(E, 6)
-        np.testing.assert_almost_equal(oetf_BT601(L), E, decimal=7)
+        np.testing.assert_array_almost_equal(oetf_BT601(L), E, decimal=7)
 
         L = np.reshape(L, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_almost_equal(oetf_BT601(L), E, decimal=7)
+        np.testing.assert_array_almost_equal(oetf_BT601(L), E, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_BT601(L), E, decimal=7)
+        np.testing.assert_array_almost_equal(oetf_BT601(L), E, decimal=7)
 
     def test_domain_range_scale_oetf_BT601(self):
         """
@@ -75,7 +75,7 @@ oetf_BT601` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     oetf_BT601(L * factor), E * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -121,15 +121,18 @@ oetf_inverse_BT601` definition n-dimensional arrays support.
 
         E = np.tile(E, 6)
         L = np.tile(L, 6)
-        np.testing.assert_almost_equal(oetf_inverse_BT601(E), L, decimal=7)
+        np.testing.assert_array_almost_equal(
+            oetf_inverse_BT601(E), L, decimal=7)
 
         E = np.reshape(E, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(oetf_inverse_BT601(E), L, decimal=7)
+        np.testing.assert_array_almost_equal(
+            oetf_inverse_BT601(E), L, decimal=7)
 
         E = np.reshape(E, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_inverse_BT601(E), L, decimal=7)
+        np.testing.assert_array_almost_equal(
+            oetf_inverse_BT601(E), L, decimal=7)
 
     def test_domain_range_scale_oetf_inverse_BT601(self):
         """
@@ -143,7 +146,7 @@ oetf_inverse_BT601` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     oetf_inverse_BT601(E * factor), L * factor, decimal=7)
 
     @ignore_numpy_errors

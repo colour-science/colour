@@ -16,7 +16,7 @@ documentation/coregraphics/cgcolorspace/1408916-displayp3
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB,

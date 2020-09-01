@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.models.hdr_cie_lab` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 
@@ -64,19 +64,19 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
         epsilon = np.tile(epsilon, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
 
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         epsilon = np.reshape(epsilon, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
 
         Y_s = np.reshape(Y_s, (2, 3, 1))
         Y_abs = np.reshape(Y_abs, (2, 3, 1))
         epsilon = np.reshape(epsilon, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
 
     def test_domain_range_scale_exponent_hdr_CIELab(self):
@@ -92,7 +92,7 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     exponent_hdr_CIELab(Y_s * factor, Y_abs),
                     epsilon,
                     decimal=7)
@@ -119,19 +119,19 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         Tests :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_CIELab(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([51.87002062, 60.47633850, 32.14551912]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.44757, 0.40745])),
             np.array([51.87002062, 44.49667330, -6.69619196]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.44757, 0.40745]),
@@ -139,13 +139,13 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
             np.array([31.99621114, 95.08564341, -14.14047055]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5),
             np.array([23.10388654, 59.31425004, 23.69960142]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.20654008, 0.12197225, 0.05136952]), Y_abs=1000),
             np.array([29.77261805, 62.58315675, 27.31232673]),
@@ -165,13 +165,13 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab_hdr = np.tile(Lab_hdr, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7)
 
         illuminant = np.tile(illuminant, (6, 1))
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
@@ -179,7 +179,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         Lab_hdr = np.reshape(Lab_hdr, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7)
 
     def test_domain_range_scale_XYZ_to_hdr_CIELab(self):
@@ -197,7 +197,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_hdr_CIELab(XYZ * factor_a, illuminant,
                                       Y_s * factor_a, Y_abs),
                     Lab_hdr * factor_b,
@@ -231,20 +231,20 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         Tests :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_CIELab_to_XYZ(
                 np.array([51.87002062, 60.47633850, 32.14551912])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_CIELab_to_XYZ(
                 np.array([51.87002062, 44.49667330, -6.69619196]),
                 np.array([0.44757, 0.40745])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_CIELab_to_XYZ(
                 np.array([31.99621114, 95.08564341, -14.14047055]),
                 np.array([0.44757, 0.40745]),
@@ -252,13 +252,13 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_CIELab_to_XYZ(
                 np.array([23.10388654, 59.31425004, 23.69960142]), Y_s=0.5),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_CIELab_to_XYZ(
                 np.array([29.77261805, 62.58315675, 27.31232673]), Y_abs=1000),
             np.array([0.20654008, 0.12197225, 0.05136952]),
@@ -278,13 +278,13 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
 
         Lab_hdr = np.tile(Lab_hdr, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs), XYZ, decimal=7)
 
         illuminant = np.tile(illuminant, (6, 1))
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs), XYZ, decimal=7)
 
         Lab_hdr = np.reshape(Lab_hdr, (2, 3, 3))
@@ -292,7 +292,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs), XYZ, decimal=7)
 
     def test_domain_range_scale_hdr_CIELab_to_XYZ(self):
@@ -310,7 +310,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         d_r = (('reference', 1, 1, 1), (1, 0.01, 1, 1), (100, 1, 100, 100))
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     hdr_CIELab_to_XYZ(Lab_hdr * factor_a, illuminant,
                                       Y_s * factor_b, Y_abs),
                     XYZ * factor_c,

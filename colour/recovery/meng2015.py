@@ -17,7 +17,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
@@ -166,6 +166,13 @@ def XYZ_to_sd_Meng2015(
                             ],
     }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
+    cupy = False
+
+    if np.__name__ == 'cupy':
+        XYZ = np.asnumpy(XYZ)
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
+
     XYZ = to_domain_1(XYZ)
 
     if illuminant.shape != cmfs.shape:
@@ -180,7 +187,6 @@ def XYZ_to_sd_Meng2015(
         """
         Objective function.
         """
-
         return np.sum(np.diff(a) ** 2)
 
     def constraint_function(a):
@@ -192,7 +198,7 @@ def XYZ_to_sd_Meng2015(
         return sd_to_XYZ_integration(
             sd, cmfs=cmfs, illuminant=illuminant) - XYZ
 
-    wavelengths = sd.wavelengths
+    wavelengths = np.array(sd.wavelengths)
     bins = wavelengths.size
 
     optimisation_settings = {
@@ -209,14 +215,21 @@ def XYZ_to_sd_Meng2015(
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    result = minimize(objective_function, sd.values, **optimisation_settings)
-
+    result = minimize(objective_function, np.array(sd.values),
+                      **optimisation_settings)
     if not result.success:
+        if cupy is True:
+            np.set_ndimensional_array_backend('cupy')
         raise RuntimeError(
             'Optimization failed for {0} after {1} iterations: "{2}".'.format(
                 XYZ, result.nit, result.message))
 
+    name = 'Meng (2015) - {0}'.format(XYZ)
+    returned = result.x
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        returned = np.array(returned)
+        wavelengths = np.array(wavelengths)
+
     return SpectralDistribution(
-        from_range_100(result.x * 100),
-        wavelengths,
-        name='Meng (2015) - {0}'.format(XYZ))
+        from_range_100(returned * 100), wavelengths, name=name)

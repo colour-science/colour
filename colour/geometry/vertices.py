@@ -15,7 +15,7 @@ Defines various geometry primitive vertices generation methods:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import PLANE_TO_AXIS_MAPPING
@@ -77,6 +77,10 @@ def primitive_vertices_quad_mpl(width=1,
     axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
 
     u, v = tsplit(origin)
+
+    if not (isinstance(u, np.float64)):
+        u = u.item()
+        v = v.item()
 
     if axis == '+z':
         vertices = ((u, v, depth), (u + width, v, depth),
@@ -155,6 +159,10 @@ def primitive_vertices_grid_mpl(width=1,
     """
 
     u, v = tsplit(origin)
+
+    if not (isinstance(u, np.float64)):
+        u = u.item()
+        v = v.item()
 
     w_x, h_y = width / width_segments, height / height_segments
 
@@ -247,6 +255,10 @@ def primitive_vertices_cube_mpl(width=1,
         ])
 
     u, v, w = tsplit(origin)
+
+    if not (isinstance(u, np.float64)):
+        u = u.item()
+        v = v.item()
 
     w_s, h_s, d_s = width_segments, height_segments, depth_segments
 
@@ -386,7 +398,7 @@ def primitive_vertices_sphere(radius=0.5,
         raise ValueError('Axis must be one of "{0}"!'.format(
             ['+x', '+y', '+z']))
 
-    vertices += origin
+    vertices += np.array(origin)
 
     return vertices
 

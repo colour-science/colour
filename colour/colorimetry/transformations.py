@@ -33,7 +33,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import MSDS_CMFS_LMS, MSDS_CMFS_RGB, SDS_LEFS_PHOTOPIC
 from colour.utilities import dot_vector, tstack

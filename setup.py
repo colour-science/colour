@@ -105,7 +105,8 @@ packages = \
  'colour.utilities.tests',
  'colour.volume',
  'colour.volume.datasets',
- 'colour.volume.tests']
+ 'colour.volume.tests',
+ 'colour.ndarray']
 
 package_data = \
 {'': ['*'],
@@ -153,7 +154,7 @@ extras_require = \
 
 setup(
     name='colour-science',
-    version='0.3.15',
+    version='0.3.16',
     description='Colour Science for Python',
     long_description=codecs.open('README.rst', encoding='utf8').read(),
     author='Colour Developers',

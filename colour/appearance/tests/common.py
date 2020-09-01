@@ -7,7 +7,7 @@ Defines the common unit tests objects for :mod:`colour.appearance` package.
 from __future__ import division, unicode_literals
 
 import csv
-import numpy as np
+import colour.ndarray as np
 import os
 from abc import ABCMeta, abstractmethod
 from collections import defaultdict
@@ -143,7 +143,7 @@ class ColourAppearanceModelTest(object):
             atol=0.01,
             verbose=False)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             value, expected, decimal=1, err_msg=error_message)
 
     def check_model_consistency(self, data, output_attributes):

@@ -17,7 +17,8 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.utilities import as_float_array
+from colour.utilities import as_float_array, as_float
+import colour.ndarray as np
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -56,6 +57,10 @@ def reaction_rate_MichealisMenten(S, V_max, K_m):
     ----------
     :cite:`Wikipedia2003d`
 
+    Notes
+    -----
+    On CuPy, this returns an array even for length of 1.
+
     Examples
     --------
     >>> reaction_rate_MichealisMenten(0.5, 2.5, 0.8)  # doctest: +ELLIPSIS
@@ -67,6 +72,9 @@ def reaction_rate_MichealisMenten(S, V_max, K_m):
     K_m = as_float_array(K_m)
 
     v = (V_max * S) / (K_m + S)
+
+    if np.__name__ == 'cupy' and v.size == 1:
+        return as_float(v)
 
     return v
 
@@ -108,5 +116,8 @@ def substrate_concentration_MichealisMenten(v, V_max, K_m):
     K_m = as_float_array(K_m)
 
     S = (v * K_m) / (V_max - v)
+
+    if np.__name__ == 'cupy' and S.size == 1:
+        return as_float(S)
 
     return S

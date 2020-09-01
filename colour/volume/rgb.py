@@ -16,14 +16,14 @@ from __future__ import division, unicode_literals
 
 import itertools
 import multiprocessing
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.models import (Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB)
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
-from colour.utilities import as_float_array, multiprocessing_pool
+from colour.utilities import as_float, as_float_array, multiprocessing_pool
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -174,8 +174,13 @@ def RGB_colourspace_limits(colourspace,
     Lab = np.array(Lab)
 
     limits = []
-    for i in np.arange(3):
-        limits.append((np.min(Lab[..., i]), np.max(Lab[..., i])))
+    if np.__name__ == 'cupy':
+        for i in np.arange(3):
+            limits.append((as_float(np.min(Lab[..., i])),
+                           as_float(np.max(Lab[..., i]))))
+    else:
+        for i in np.arange(3):
+            limits.append((np.min(Lab[..., i]), np.max(Lab[..., i])))
 
     return np.array(limits)
 
@@ -254,7 +259,13 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     Lab_volume = np.product([np.sum(np.abs(x)) for x in limits])
 
-    return Lab_volume * np.sum(results) / (process_samples * processes)
+    result = Lab_volume * np.sum(np.array(results)) / \
+        (process_samples * processes)
+
+    if np.__name__ == 'cupy':
+        return as_float(result)
+
+    return result
 
 
 def RGB_colourspace_volume_coverage_MonteCarlo(

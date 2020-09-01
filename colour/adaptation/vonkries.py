@@ -17,7 +17,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.utilities import (dot_matrix, dot_vector, from_range_1,
@@ -116,7 +116,6 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     D = rgb_wr / rgb_w
 
     D = row_as_diagonal(D)
-
     M_CAT = dot_matrix(np.linalg.inv(M), D)
     M_CAT = dot_matrix(M_CAT, M)
 

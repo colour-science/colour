@@ -18,7 +18,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
@@ -272,6 +272,8 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
     >>> write_LUT_ResolveCube(LUT_sequence, 'My_LUT.cube')  # doctest: +SKIP
     """
 
+    cupy = False
+
     has_3D, has_3x1D = False, False
 
     if isinstance(LUT, LUTSequence):
@@ -313,6 +315,10 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
     if has_3D:
         assert 2 <= LUT[1].size <= 256, 'Cube size must be in domain [2, 256]!'
 
+    if np.__name__ == 'cupy':
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
+
     def _format_array(array):
         """
         Formats given array as a *Resolve* *.cube* data row.
@@ -344,26 +350,35 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
         if has_3x1D:
             cube_file.write('{0} {1}\n'.format('LUT_1D_SIZE',
                                                LUT[0].table.shape[0]))
-            if not np.array_equal(LUT[0].domain, default_domain):
+            if not np.array_equal(np.array(LUT[0].domain), default_domain):
                 cube_file.write('LUT_1D_INPUT_RANGE {0}\n'.format(
-                    _format_tuple([LUT[0].domain[0][0], LUT[0].domain[1][0]])))
+                    _format_tuple([
+                        np.array(LUT[0].domain)[0][0],
+                        np.array(LUT[0].domain)[1][0]
+                    ])))
 
         if has_3D:
             cube_file.write('{0} {1}\n'.format('LUT_3D_SIZE',
                                                LUT[1].table.shape[0]))
-            if not np.array_equal(LUT[1].domain, default_domain):
+            if not np.array_equal(np.array(LUT[1].domain), default_domain):
                 cube_file.write('LUT_3D_INPUT_RANGE {0}\n'.format(
-                    _format_tuple([LUT[1].domain[0][0], LUT[1].domain[1][0]])))
+                    _format_tuple([
+                        np.array(LUT[1].domain)[0][0],
+                        np.array(LUT[1].domain)[1][0]
+                    ])))
 
         if has_3x1D:
-            table = LUT[0].table
+            table = np.array(LUT[0].table)
             for row in table:
                 cube_file.write('{0}\n'.format(_format_array(row)))
             cube_file.write('\n')
 
         if has_3D:
-            table = LUT[1].table.reshape([-1, 3], order='F')
+            table = np.array(LUT[1].table).reshape([-1, 3], order='F')
             for row in table:
                 cube_file.write('{0}\n'.format(_format_array(row)))
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
 
     return True

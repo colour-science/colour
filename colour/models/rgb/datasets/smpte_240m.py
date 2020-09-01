@@ -18,7 +18,7 @@ SMPTE%20normes%20et%20confs/s240m.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,

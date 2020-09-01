@@ -45,9 +45,10 @@ c/09_color_calculations_en.pdf
 
 from __future__ import division, unicode_literals
 
+import colour.ndarray as np
 from colour.utilities import (CaseInsensitiveMapping, get_domain_range_scale,
                               filter_kwargs, from_range_100, to_domain_100,
-                              tsplit, tstack)
+                              tsplit, tstack, as_float)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -106,7 +107,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Berger1959(XYZ, XYZ_0)  # doctest: +ELLIPSIS
@@ -118,7 +119,12 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     WI = 0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0)
 
-    return from_range_100(WI)
+    WI = from_range_100(WI)
+
+    if np.__name__ == 'cupy':
+        return as_float(WI)
+
+    return WI
 
 
 def whiteness_Taube1960(XYZ, XYZ_0):
@@ -164,7 +170,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Taube1960(XYZ, XYZ_0)  # doctest: +ELLIPSIS
@@ -175,8 +181,12 @@ def whiteness_Taube1960(XYZ, XYZ_0):
     _X_0, _Y_0, Z_0 = tsplit(to_domain_100(XYZ_0))
 
     WI = 400 * (Z / Z_0) - 3 * Y
+    WI = from_range_100(WI)
 
-    return from_range_100(WI)
+    if np.__name__ == 'cupy':
+        return as_float(WI)
+
+    return WI
 
 
 def whiteness_Stensby1968(Lab):
@@ -222,7 +232,7 @@ def whiteness_Stensby1968(Lab):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> Lab = np.array([100.00000000, -2.46875131, -16.72486654])
     >>> whiteness_Stensby1968(Lab)  # doctest: +ELLIPSIS
     142.7683456...
@@ -232,7 +242,15 @@ def whiteness_Stensby1968(Lab):
 
     WI = L - 3 * b + 3 * a
 
-    return from_range_100(WI)
+    WI = from_range_100(WI)
+
+    try:
+        if WI.size == 1:
+            return as_float(WI)
+    except Exception:
+        pass
+
+    return WI
 
 
 def whiteness_ASTME313(XYZ):
@@ -271,7 +289,7 @@ def whiteness_ASTME313(XYZ):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> whiteness_ASTME313(XYZ)  # doctest: +ELLIPSIS
     55.7400000...
@@ -281,7 +299,12 @@ def whiteness_ASTME313(XYZ):
 
     WI = 3.388 * Z - 3 * Y
 
-    return from_range_100(WI)
+    WI = from_range_100(WI)
+
+    if np.__name__ == 'cupy':
+        return as_float(WI)
+
+    return WI
 
 
 def whiteness_Ganz1979(xy, Y):
@@ -333,7 +356,7 @@ def whiteness_Ganz1979(xy, Y):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> xy = np.array([0.3167, 0.3334])
     >>> whiteness_Ganz1979(xy, 100)  # doctest: +ELLIPSIS
     array([ 85.6003766...,   0.6789003...])
@@ -412,7 +435,7 @@ def whiteness_CIE2004(xy,
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> xy = np.array([0.3167, 0.3334])
     >>> xy_n = np.array([0.3139, 0.3311])
     >>> whiteness_CIE2004(xy, 100, xy_n)  # doctest: +ELLIPSIS
@@ -511,7 +534,7 @@ def whiteness(XYZ, XYZ_0, method='CIE 2004', **kwargs):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> from colour.models import xyY_to_XYZ
     >>> XYZ = xyY_to_XYZ(np.array([0.3167, 0.3334, 100]))
     >>> XYZ_0 = xyY_to_XYZ(np.array([0.3139, 0.3311, 100]))

@@ -8,7 +8,7 @@ Defines helpers objects related to volume computations.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from scipy.spatial import Delaunay
 
 __author__ = 'Colour Developers'
@@ -56,10 +56,21 @@ def is_within_mesh_volume(points, mesh, tolerance=None):
     >>> is_within_mesh_volume(a, mesh)
     array([ True, False], dtype=bool)
     """
+    cupy = False
+    if np.__name__ == 'cupy':
+        cupy = True
+        points = np.asnumpy(points)
+        mesh = np.asnumpy(mesh)
+        np.set_ndimensional_array_backend('numpy')
 
     triangulation = Delaunay(mesh)
 
     simplex = triangulation.find_simplex(points, tol=tolerance)
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        simplex = np.array(simplex)
+
     simplex = np.where(simplex >= 0, True, False)
 
     return simplex

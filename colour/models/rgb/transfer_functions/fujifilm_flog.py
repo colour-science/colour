@@ -17,7 +17,7 @@ F-Log_DataSheet_E_Ver.1.0.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
@@ -199,6 +199,9 @@ def log_decoding_FLog(out_r,
     d = constants.d
     e = constants.e
     f = constants.f
+
+    if np.__name__ == 'cupy':
+        out_r = np.array(out_r)
 
     in_r = np.where(
         out_r < cut2,

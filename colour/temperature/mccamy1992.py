@@ -21,11 +21,12 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.utilities import as_float_array, as_numeric, tsplit, usage_warning
+from colour.utilities import (as_float_array, as_float, as_numeric, tsplit,
+                              usage_warning)
 from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
@@ -59,7 +60,7 @@ def xy_to_CCT_McCamy1992(xy):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> xy = np.array([0.31270, 0.32900])
     >>> xy_to_CCT_McCamy1992(xy)  # doctest: +ELLIPSIS
     6505.0805913...
@@ -69,6 +70,9 @@ def xy_to_CCT_McCamy1992(xy):
 
     n = (x - 0.3320) / (y - 0.1858)
     CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
+
+    if np.__name__ == 'cupy':
+        return as_float(CCT)
 
     return CCT
 
@@ -127,6 +131,12 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None, **kwargs):
                   'correlated colour temperature computation methods but '
                   'should be avoided for practical applications.')
 
+    cupy = False
+    if np.__name__ == 'cupy':
+        cupy = True
+        CCT = np.asnumpy(CCT)
+        np.set_ndimensional_array_backend('numpy')
+
     CCT = as_float_array(CCT)
     shape = list(CCT.shape)
     CCT = np.atleast_1d(CCT.reshape([-1, 1]))
@@ -152,9 +162,14 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None, **kwargs):
     CCT = as_float_array([
         minimize(
             objective_function,
-            x0=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+            x0=np.array(
+                CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']),
             args=(CCT_i, ),
             **optimisation_settings).x for CCT_i in CCT
     ])
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        CCT = np.array(CCT)
 
     return as_numeric(CCT.reshape(shape + [2]))

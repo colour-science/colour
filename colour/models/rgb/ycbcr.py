@@ -45,7 +45,7 @@ INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models.rgb.transfer_functions import (
@@ -536,6 +536,10 @@ def RGB_to_YcCbcCrc(RGB,
         Yc = eotf_inverse_BT2020(Yc, is_12_bits_system=is_12_bits_system)
         R = eotf_inverse_BT2020(R, is_12_bits_system=is_12_bits_system)
         B = eotf_inverse_BT2020(B, is_12_bits_system=is_12_bits_system)
+
+    if np.__name__ == 'cupy' and isinstance(B, float):
+        B = np.array(B)
+        Yc = np.array(Yc)
 
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)

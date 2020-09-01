@@ -32,12 +32,13 @@ nuke-default/make.py
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
                                                   log_decoding_Cineon)
 
-from colour.utilities import CaseInsensitiveMapping, from_range_1, to_domain_1
+from colour.utilities import (CaseInsensitiveMapping, from_range_1,
+                              to_domain_1, as_float)
 from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
@@ -102,8 +103,12 @@ def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
     x = to_domain_1(x)
 
     y = (1023 + 511 * np.log10(x * (1 - black_offset) + black_offset)) / 1023
+    y = from_range_1(y)
 
-    return from_range_1(y)
+    if np.__name__ == 'cupy':
+        return as_float(y)
+
+    return y
 
 
 def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
@@ -151,8 +156,12 @@ def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
     y = to_domain_1(y)
 
     x = ((10 ** ((1023 * y - 1023) / 511)) - black_offset) / (1 - black_offset)
+    x = from_range_1(x)
 
-    return from_range_1(x)
+    if np.__name__ == 'cupy':
+        return as_float(x)
+
+    return x
 
 
 def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
@@ -288,8 +297,12 @@ def log_encoding_Log3G10_v1(x):
     x = to_domain_1(x)
 
     y = np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
+    y = from_range_1(y)
 
-    return from_range_1(y)
+    if np.__name__ == 'cupy':
+        return as_float(y)
+
+    return y
 
 
 def log_decoding_Log3G10_v1(y):
@@ -335,8 +348,12 @@ def log_decoding_Log3G10_v1(y):
     y = to_domain_1(y)
 
     x = (np.sign(y) * (10.0 ** (np.abs(y) / 0.222497) - 1) / 169.379333)
+    x = from_range_1(x)
 
-    return from_range_1(x)
+    if np.__name__ == 'cupy':
+        return as_float(x)
+
+    return x
 
 
 def log_encoding_Log3G10_v2(x):
@@ -384,7 +401,12 @@ def log_encoding_Log3G10_v2(x):
     y = (np.sign(x + 0.01) * 0.224282 *
          np.log10((np.abs(x + 0.01) * 155.975327) + 1))
 
-    return from_range_1(y)
+    y = from_range_1(y)
+
+    if np.__name__ == 'cupy':
+        return as_float(y)
+
+    return y
 
 
 def log_decoding_Log3G10_v2(y):
@@ -430,8 +452,12 @@ def log_decoding_Log3G10_v2(y):
     y = to_domain_1(y)
 
     x = (np.sign(y) * (10.0 ** (np.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
+    x = from_range_1(x)
 
-    return from_range_1(x)
+    if np.__name__ == 'cupy':
+        return as_float(x)
+
+    return x
 
 
 LOG3G10_ENCODING_METHODS = CaseInsensitiveMapping({
@@ -657,8 +683,12 @@ def log_encoding_Log3G12(x):
     x = to_domain_1(x)
 
     y = np.sign(x) * 0.184904 * np.log10((np.abs(x) * 347.189667) + 1)
+    y = from_range_1(y)
 
-    return from_range_1(y)
+    if np.__name__ == 'cupy':
+        return as_float(y)
+
+    return y
 
 
 def log_decoding_Log3G12(y):
@@ -704,5 +734,9 @@ def log_decoding_Log3G12(y):
     y = to_domain_1(y)
 
     x = np.sign(y) * (10.0 ** (np.abs(y) / 0.184904) - 1) / 347.189667
+    x = from_range_1(x)
 
-    return from_range_1(x)
+    if np.__name__ == 'cupy':
+        return as_float(x)
+
+    return x

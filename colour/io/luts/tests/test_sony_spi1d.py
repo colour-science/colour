@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.io.luts.sony_spi1d` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import os
 import shutil
 import tempfile
@@ -40,7 +40,7 @@ class TestReadLUTSonySPI1D(unittest.TestCase):
         LUT_1 = read_LUT_SonySPI1D(
             os.path.join(LUTS_DIRECTORY, 'eotf_sRGB_1D.spi1d'))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.table,
             np.array([
                 -7.73990000e-03, 5.16000000e-04, 1.22181000e-02,

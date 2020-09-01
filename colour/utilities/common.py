@@ -20,7 +20,7 @@ import inspect
 import multiprocessing
 import multiprocessing.pool
 import functools
-import numpy as np
+import colour.ndarray as np
 import re
 import six
 import warnings
@@ -547,8 +547,8 @@ def is_integer(a):
     >>> is_integer(1.01)
     False
     """
-
-    return abs(a - np.around(a)) <= INTEGER_THRESHOLD
+    # FLOAT IS PLACEHOLDER
+    return abs(a - np.around(a)) <= float(INTEGER_THRESHOLD)
 
 
 def is_sibling(element, mapping):

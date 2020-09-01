@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.temperature.mccamy1992` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 
@@ -61,12 +61,12 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         CCT = np.tile(CCT, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_CCT_McCamy1992(xy), CCT, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         CCT = np.reshape(CCT, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             xy_to_CCT_McCamy1992(xy), CCT, decimal=7)
 
     @ignore_numpy_errors
@@ -94,17 +94,17 @@ class TestCCT_to_xy_McCamy1992(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_McCamy1992(6505.08059131, {'method': 'Nelder-Mead'}),
             np.array([0.31269945, 0.32900411]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_McCamy1992(2857.28961266, {'method': 'Nelder-Mead'}),
             np.array([0.42350314, 0.36129253]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_McCamy1992(19501.61953130, {'method': 'Nelder-Mead'}),
             np.array([0.11173782, 0.36987375]),
             decimal=7)
@@ -120,12 +120,12 @@ class TestCCT_to_xy_McCamy1992(unittest.TestCase):
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_McCamy1992(CCT), xy, decimal=7)
 
         CCT = np.reshape(CCT, (2, 3))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_xy_McCamy1992(CCT), xy, decimal=7)
 
     @ignore_numpy_errors

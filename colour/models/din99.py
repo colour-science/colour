@@ -18,7 +18,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spow
 from colour.utilities import from_range_100, tsplit, tstack, to_domain_100
@@ -82,7 +82,7 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_DIN99(Lab)  # doctest: +ELLIPSIS
     array([ 53.2282198...,  28.4163465...,   3.8983955...])
@@ -159,7 +159,7 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
     >>> DIN99_to_Lab(Lab_99)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  52.6385830...,  26.9231792...])

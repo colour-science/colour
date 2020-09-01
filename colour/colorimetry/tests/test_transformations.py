@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.colorimetry.transformations` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.colorimetry import (MSDS_CMFS,
@@ -72,17 +72,17 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
     @ignore_numpy_errors
@@ -136,17 +136,17 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
     @ignore_numpy_errors
@@ -200,17 +200,17 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         LMS = np.tile(LMS, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS)
 
         wl = np.reshape(wl, (2, 3))
         LMS = np.reshape(LMS, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS)
 
         wl = np.reshape(wl, (2, 3, 1))
         LMS = np.reshape(LMS, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS)
 
     @ignore_numpy_errors
@@ -264,17 +264,17 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
     @ignore_numpy_errors
@@ -328,17 +328,17 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
     @ignore_numpy_errors

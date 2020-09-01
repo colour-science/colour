@@ -16,10 +16,10 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import Extrapolator, LinearInterpolator
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import from_range_1, to_domain_1, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -84,8 +84,12 @@ def log_encoding_FilmicPro6(t):
     t = to_domain_1(t)
 
     y = 0.371 * (np.sqrt(t) + 0.28257 * np.log(t) + 1.69542)
+    y = from_range_1(y)
 
-    return from_range_1(y)
+    if np.__name__ == 'cupy':
+        return as_float(y)
+
+    return y
 
 
 _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE = None
@@ -106,6 +110,7 @@ def _log_decoding_FilmicPro6_interpolator():
     global _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE
 
     t = np.arange(0, 1, 0.0001)
+
     if _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE is None:
         _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE = Extrapolator(
             LinearInterpolator(log_encoding_FilmicPro6(t), t))

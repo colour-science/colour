@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.volume.mesh` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 
@@ -73,11 +73,13 @@ class TestIsWithinMeshVolume(unittest.TestCase):
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, 6)
-        np.testing.assert_almost_equal(is_within_mesh_volume(a, self._mesh), b)
+        np.testing.assert_array_almost_equal(
+            is_within_mesh_volume(a, self._mesh), b)
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3))
-        np.testing.assert_almost_equal(is_within_mesh_volume(a, self._mesh), b)
+        np.testing.assert_array_almost_equal(
+            is_within_mesh_volume(a, self._mesh), b)
 
     @ignore_numpy_errors
     def test_nan_is_within_mesh_volume(self):

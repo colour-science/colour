@@ -84,7 +84,7 @@ def XYZ_to_UVW(XYZ,
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
     >>> XYZ_to_UVW(XYZ)  # doctest: +ELLIPSIS
     array([ 94.5503572...,  11.5553652...,  40.5475740...])
@@ -159,7 +159,7 @@ def UVW_to_XYZ(UVW,
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> UVW = np.array([94.55035725, 11.55536523, 40.54757405])
     >>> UVW_to_XYZ(UVW)
     array([ 20.654008,  12.197225,   5.136952])

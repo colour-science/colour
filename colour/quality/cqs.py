@@ -24,7 +24,7 @@ usp=sharing
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from collections import namedtuple
 
 from colour.algebra import euclidean_distance
@@ -36,7 +36,8 @@ from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.utilities import as_float_array, domain_range_scale, tsplit
+from colour.utilities import (as_float, as_float_array, domain_range_scale,
+                              tsplit)
 from colour.utilities.documentation import (DocstringTuple,
                                             is_documentation_building)
 
@@ -233,10 +234,17 @@ def colour_quality_scale(sd_test, additional_data=False,
     if method == 'nist cqs 9.0':
         Q_d = Q_p = None
     else:
-        p_delta_C = np.average([
-            sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
-            for sample_data in Q_as.values()
-        ])
+        if np.__name__ == 'cupy':
+            p_delta_C = np.average(
+                np.array([
+                    sample_data.D_C_ab.item() if sample_data.D_C_ab > 0 else 0
+                    for sample_data in Q_as.values()
+                ]))
+        else:
+            p_delta_C = np.average([
+                sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
+                for sample_data in Q_as.values()
+            ])
         Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
         Q_d = G_t / G_r * CCT_f * 100
 
@@ -245,6 +253,9 @@ def colour_quality_scale(sd_test, additional_data=False,
             sd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
             (test_vs_colorimetry_data, reference_vs_colorimetry_data))
     else:
+        if np.__name__ == 'cupy':
+            return as_float(Q_a)
+
         return Q_a
 
 
@@ -433,10 +444,11 @@ def delta_E_RMS(cqs_data, attribute):
         Root-mean-square average.
     """
 
-    return np.sqrt(1 / len(cqs_data) * np.sum([
-        getattr(sample_data, attribute) ** 2
-        for sample_data in cqs_data.values()
-    ]))
+    return np.sqrt(1 / len(cqs_data) * np.sum(
+        np.array([
+            as_float(getattr(sample_data, attribute)) ** 2
+            for sample_data in cqs_data.values()
+        ])))
 
 
 def colour_quality_scales(test_data, reference_data, scaling_f, CCT_f):

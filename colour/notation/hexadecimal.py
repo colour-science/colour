@@ -11,7 +11,7 @@ Defines objects for hexadecimal notation:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import (as_float_array, from_range_1, normalise_maximum,
@@ -73,11 +73,18 @@ def RGB_to_HEX(RGB):
             'unpredictable results may occur!')
 
         RGB = eotf_inverse_sRGB(normalise_maximum(eotf_sRGB(RGB)))
+    if np.__name__ == 'cupy':
+        RGB = np.asnumpy(RGB)
+        np.set_ndimensional_array_backend('numpy')
+        to_HEX = np.vectorize('{0:02x}'.format)
+        HEX = to_HEX((RGB * 255).astype(np.uint8)).astype(object)
+        HEX = np.asarray('#') + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
+        np.set_ndimensional_array_backend('cupy')
+    else:
+        to_HEX = np.vectorize('{0:02x}'.format)
 
-    to_HEX = np.vectorize('{0:02x}'.format)
-
-    HEX = to_HEX((RGB * 255).astype(np.uint8)).astype(object)
-    HEX = np.asarray('#') + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
+        HEX = to_HEX((RGB * 255).astype(np.uint8)).astype(object)
+        HEX = np.asarray('#') + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
 
     return HEX
 
@@ -111,6 +118,10 @@ def HEX_to_RGB(HEX):
     >>> HEX_to_RGB(HEX)  # doctest: +ELLIPSIS
     array([ 0.6666666...,  0.8666666...,  1.        ])
     """
+    cupy = False
+    if np.__name__ == 'cupy':
+        cupy = True
+        np.set_ndimensional_array_backend('numpy')
 
     HEX = np.core.defchararray.lstrip(HEX, '#')
 
@@ -125,5 +136,9 @@ def HEX_to_RGB(HEX):
     to_RGB_v = np.vectorize(to_RGB, otypes=[np.ndarray])
 
     RGB = as_float_array(to_RGB_v(HEX).tolist()) / 255
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        RGB = np.array(RGB)
 
     return from_range_1(RGB)

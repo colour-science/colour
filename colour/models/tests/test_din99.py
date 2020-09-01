@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.models.din99` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 
@@ -33,17 +33,17 @@ class TestLab_to_DIN99(unittest.TestCase):
         Tests :func:`colour.models.din99.Lab_to_DIN99` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_DIN99(np.array([41.52787529, 52.63858304, 26.92317922])),
             np.array([53.22821988, 28.41634656, 3.89839552]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_DIN99(np.array([55.11636304, -41.08791787, 30.91825778])),
             np.array([66.08943912, -17.35290106, 16.09690691]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_DIN99(np.array([29.80565520, 20.01830466, -48.34913874])),
             np.array([40.71533366, 3.48714163, -21.45321411]),
             decimal=7)
@@ -59,11 +59,13 @@ class TestLab_to_DIN99(unittest.TestCase):
 
         Lab = np.tile(Lab, (6, 1))
         Lab_99 = np.tile(Lab_99, (6, 1))
-        np.testing.assert_almost_equal(Lab_to_DIN99(Lab), Lab_99, decimal=7)
+        np.testing.assert_array_almost_equal(
+            Lab_to_DIN99(Lab), Lab_99, decimal=7)
 
         Lab = np.reshape(Lab, (2, 3, 3))
         Lab_99 = np.reshape(Lab_99, (2, 3, 3))
-        np.testing.assert_almost_equal(Lab_to_DIN99(Lab), Lab_99, decimal=7)
+        np.testing.assert_array_almost_equal(
+            Lab_to_DIN99(Lab), Lab_99, decimal=7)
 
     def test_domain_range_scale_Lab_to_DIN99(self):
         """
@@ -77,7 +79,7 @@ class TestLab_to_DIN99(unittest.TestCase):
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Lab_to_DIN99(Lab * factor), Lab_99 * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -103,17 +105,17 @@ class TestDIN99_to_Lab(unittest.TestCase):
         Tests :func:`colour.models.din99.DIN99_to_Lab` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             DIN99_to_Lab(np.array([53.22821988, 28.41634656, 3.89839552])),
             np.array([41.52787529, 52.63858304, 26.92317922]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             DIN99_to_Lab(np.array([66.08943912, -17.35290106, 16.09690691])),
             np.array([55.11636304, -41.08791787, 30.91825778]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             DIN99_to_Lab(np.array([40.71533366, 3.48714163, -21.45321411])),
             np.array([29.80565520, 20.01830466, -48.34913874]),
             decimal=7)
@@ -129,11 +131,13 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
         Lab_99 = np.tile(Lab_99, (6, 1))
         Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_almost_equal(DIN99_to_Lab(Lab_99), Lab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            DIN99_to_Lab(Lab_99), Lab, decimal=7)
 
         Lab_99 = np.reshape(Lab_99, (2, 3, 3))
         Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_almost_equal(DIN99_to_Lab(Lab_99), Lab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            DIN99_to_Lab(Lab_99), Lab, decimal=7)
 
     def test_domain_range_scale_DIN99_to_Lab(self):
         """
@@ -147,7 +151,7 @@ class TestDIN99_to_Lab(unittest.TestCase):
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     DIN99_to_Lab(Lab_99 * factor), Lab * factor, decimal=7)
 
     @ignore_numpy_errors

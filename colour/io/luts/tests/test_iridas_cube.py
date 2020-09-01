@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.io.luts.iridas_cube` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import os
 import unittest
 import shutil
@@ -42,7 +42,7 @@ class TestReadLUTIridasCube(unittest.TestCase):
         LUT_1 = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.cube'))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.table,
             np.array([
                 [4.88300000e-04, 4.88300000e-04, 4.88300000e-04],

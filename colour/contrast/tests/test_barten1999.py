@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.contrast.barten1999` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 
@@ -42,13 +42,13 @@ class TestOpticalMTFBarten1999(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             optical_MTF_Barten1999(4, 0.01), 0.968910791191297, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             optical_MTF_Barten1999(8, 0.01), 0.881323136669471, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             optical_MTF_Barten1999(4, 0.05), 0.454040738727245, decimal=7)
 
     def test_n_dimensional_optical_MTF_Barten1999(self):
@@ -64,13 +64,13 @@ class TestOpticalMTFBarten1999(unittest.TestCase):
         u = np.tile(u, (6, 1))
         sigma = np.tile(sigma, (6, 1))
         M_opt = np.tile(M_opt, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             optical_MTF_Barten1999(u, sigma), M_opt, decimal=7)
 
         u = np.reshape(u, (2, 3, 3))
         sigma = np.reshape(sigma, (2, 3, 3))
         M_opt = np.reshape(M_opt, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             optical_MTF_Barten1999(u, sigma), M_opt, decimal=7)
 
     @ignore_numpy_errors
@@ -98,13 +98,13 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             pupil_diameter_Barten1999(20, 60), 2.272517118855717, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             pupil_diameter_Barten1999(0.2, 600), 2.272517118855717, decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             pupil_diameter_Barten1999(20, 60, 30),
             2.459028745178825,
             decimal=7)
@@ -123,13 +123,13 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
         L = np.tile(L, (6, 1))
         X_0 = np.tile(X_0, (6, 1))
         d = np.tile(d, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             pupil_diameter_Barten1999(L, X_0, Y_0), d, decimal=7)
 
         L = np.reshape(L, (2, 3, 3))
         X_0 = np.reshape(X_0, (2, 3, 3))
         d = np.reshape(d, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             pupil_diameter_Barten1999(L, X_0, Y_0), d, decimal=7)
 
     @ignore_numpy_errors
@@ -157,22 +157,22 @@ class TestSigmaBarten1999(unittest.TestCase):
         Tests :func:`colour.contrast.barten1999.sigma_Barten1999` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.1),
             0.008791157173231,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sigma_Barten1999(0.75 / 60, 0.08 / 60, 2.1),
             0.012809761902549,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sigma_Barten1999(0.5 / 60, 0.16 / 60, 2.1),
             0.010040141654601,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.5),
             0.008975274678558,
             decimal=7)
@@ -191,13 +191,13 @@ class TestSigmaBarten1999(unittest.TestCase):
         sigma_0 = np.tile(sigma_0, (6, 1))
         C_ab = np.tile(C_ab, (6, 1))
         sigma = np.tile(sigma, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sigma_Barten1999(sigma_0, C_ab, d), sigma, decimal=7)
 
         sigma_0 = np.reshape(sigma_0, (2, 3, 3))
         C_ab = np.reshape(C_ab, (2, 3, 3))
         sigma = np.reshape(sigma, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sigma_Barten1999(sigma_0, C_ab, d), sigma, decimal=7)
 
     @ignore_numpy_errors
@@ -225,17 +225,17 @@ class TestRetinalIlluminanceBarten1999(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             retinal_illuminance_Barten1999(20, 2.1, True),
             66.082316060529919,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             retinal_illuminance_Barten1999(20, 2.5, True),
             91.815644777503664,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             retinal_illuminance_Barten1999(20, 2.1, False),
             69.272118011654939,
             decimal=7)
@@ -253,13 +253,13 @@ class TestRetinalIlluminanceBarten1999(unittest.TestCase):
         L = np.tile(L, (6, 1))
         d = np.tile(d, (6, 1))
         E = np.tile(E, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             retinal_illuminance_Barten1999(L, d), E, decimal=7)
 
         L = np.reshape(L, (2, 3, 3))
         d = np.reshape(d, (2, 3, 3))
         E = np.reshape(E, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             retinal_illuminance_Barten1999(L, d), E, decimal=7)
 
     @ignore_numpy_errors
@@ -287,27 +287,27 @@ class TestMaximumAngularSizeBarten1999(unittest.TestCase):
 maximum_angular_size_Barten1999` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             maximum_angular_size_Barten1999(4, 60, 12, 15),
             3.572948005052482,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             maximum_angular_size_Barten1999(8, 60, 12, 15),
             1.851640199545103,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             maximum_angular_size_Barten1999(4, 120, 12, 15),
             3.577708763999663,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             maximum_angular_size_Barten1999(4, 60, 24, 15),
             3.698001308168194,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             maximum_angular_size_Barten1999(4, 60, 12, 30),
             6.324555320336758,
             decimal=7)
@@ -327,7 +327,7 @@ maximum_angular_size_Barten1999` definition n-dimensional support.
         u = np.tile(u, (6, 1))
         X_0 = np.tile(X_0, (6, 1))
         X = np.tile(X, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             maximum_angular_size_Barten1999(u, X_0, X_max, N_max),
             X,
             decimal=7)
@@ -335,7 +335,7 @@ maximum_angular_size_Barten1999` definition n-dimensional support.
         u = np.reshape(u, (2, 3, 3))
         X_0 = np.reshape(X_0, (2, 3, 3))
         X = np.reshape(X, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             maximum_angular_size_Barten1999(u, X_0, X_max, N_max),
             X,
             decimal=7)
@@ -366,7 +366,7 @@ contrast_sensitivity_function_Barten1999` definition unit tests methods.
 contrast_sensitivity_function_Barten1999` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
@@ -379,7 +379,7 @@ contrast_sensitivity_function_Barten1999` definition.
             352.761342126727020,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=8,
                 sigma=0.01,
@@ -392,7 +392,7 @@ contrast_sensitivity_function_Barten1999` definition.
             177.706338840717340,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.02,
@@ -405,7 +405,7 @@ contrast_sensitivity_function_Barten1999` definition.
             320.872401634215750,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
@@ -418,7 +418,7 @@ contrast_sensitivity_function_Barten1999` definition.
             455.171315756946400,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
@@ -431,7 +431,7 @@ contrast_sensitivity_function_Barten1999` definition.
             352.996281545740660,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
@@ -444,7 +444,7 @@ contrast_sensitivity_function_Barten1999` definition.
             358.881580104493650,
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
@@ -465,7 +465,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 p=1.2 * 10 ** 6),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=4,
                 sigma=0.01,
@@ -494,7 +494,7 @@ contrast_sensitivity_function_Barten1999` definition n-dimensional support.
         u = np.tile(u, (6, 1))
         E = np.tile(E, (6, 1))
         S = np.tile(S, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=u, sigma=sigma, E=E, X_0=X_0),
             S,
@@ -503,7 +503,7 @@ contrast_sensitivity_function_Barten1999` definition n-dimensional support.
         u = np.reshape(u, (2, 3, 3))
         E = np.reshape(E, (2, 3, 3))
         S = np.reshape(S, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             contrast_sensitivity_function_Barten1999(
                 u=u, sigma=sigma, E=E, X_0=X_0),
             S,

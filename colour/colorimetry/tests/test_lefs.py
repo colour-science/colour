@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.colorimetry.lefs` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.colorimetry import (mesopic_weighting_function,
@@ -166,15 +166,18 @@ class TestMesopicWeightingFunction(unittest.TestCase):
 
         wl = np.tile(wl, 6)
         Vm = np.tile(Vm, 6)
-        np.testing.assert_almost_equal(mesopic_weighting_function(wl, 0.2), Vm)
+        np.testing.assert_array_almost_equal(
+            mesopic_weighting_function(wl, 0.2), Vm)
 
         wl = np.reshape(wl, (2, 3))
         Vm = np.reshape(Vm, (2, 3))
-        np.testing.assert_almost_equal(mesopic_weighting_function(wl, 0.2), Vm)
+        np.testing.assert_array_almost_equal(
+            mesopic_weighting_function(wl, 0.2), Vm)
 
         wl = np.reshape(wl, (2, 3, 1))
         Vm = np.reshape(Vm, (2, 3, 1))
-        np.testing.assert_almost_equal(mesopic_weighting_function(wl, 0.2), Vm)
+        np.testing.assert_array_almost_equal(
+            mesopic_weighting_function(wl, 0.2), Vm)
 
     @ignore_numpy_errors
     def test_nan_mesopic_weighting_function(self):
@@ -199,7 +202,7 @@ sd_mesopic_luminous_efficiency_function` definition unit tests methods.
 sd_mesopic_luminous_efficiency_function` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_mesopic_luminous_efficiency_function(0.2).values,
             DATA_MESOPIC_LEF,
             decimal=7)

@@ -6,7 +6,7 @@ module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (eotf_inverse_DICOMGSDF,
@@ -58,15 +58,18 @@ eotf_inverse_DICOMGSDF` definition n-dimensional arrays support.
 
         L = np.tile(L, 6)
         J = np.tile(J, 6)
-        np.testing.assert_almost_equal(eotf_inverse_DICOMGSDF(L), J, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_DICOMGSDF(L), J, decimal=7)
 
         L = np.reshape(L, (2, 3))
         J = np.reshape(J, (2, 3))
-        np.testing.assert_almost_equal(eotf_inverse_DICOMGSDF(L), J, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_DICOMGSDF(L), J, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         J = np.reshape(J, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_inverse_DICOMGSDF(L), J, decimal=7)
+        np.testing.assert_array_almost_equal(
+            eotf_inverse_DICOMGSDF(L), J, decimal=7)
 
     def test_domain_range_scale_eotf_inverse_DICOMGSDF(self):
         """
@@ -80,7 +83,7 @@ eotf_inverse_DICOMGSDF` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_inverse_DICOMGSDF(L * factor), J * factor, decimal=7)
 
     @ignore_numpy_errors
@@ -129,15 +132,15 @@ eotf_DICOMGSDF` definition n-dimensional arrays support.
 
         J = np.tile(J, 6)
         L = np.tile(L, 6)
-        np.testing.assert_almost_equal(eotf_DICOMGSDF(J), L, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_DICOMGSDF(J), L, decimal=7)
 
         J = np.reshape(J, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(eotf_DICOMGSDF(J), L, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_DICOMGSDF(J), L, decimal=7)
 
         J = np.reshape(J, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_DICOMGSDF(J), L, decimal=7)
+        np.testing.assert_array_almost_equal(eotf_DICOMGSDF(J), L, decimal=7)
 
     def test_domain_range_scale_eotf_DICOMGSDF(self):
         """
@@ -151,7 +154,7 @@ eotf_DICOMGSDF` definition domain and range scale support.
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     eotf_DICOMGSDF(J * factor), L * factor, decimal=7)
 
     @ignore_numpy_errors

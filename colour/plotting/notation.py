@@ -11,7 +11,7 @@ Defines the colour notation systems plotting objects:
 
 from __future__ import division
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import (filter_passthrough, plot_multi_functions,

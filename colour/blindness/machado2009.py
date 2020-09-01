@@ -29,7 +29,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.blindness import CVD_MATRICES_MACHADO2010
 from colour.colorimetry import SpectralShape
@@ -333,6 +333,12 @@ def cvd_matrix_Machado2009(deficiency, severity):
             '[5, 59] contrary to the domain [0, 20] used for protanomaly and '
             'deuteranomaly simulation.')
 
+    cupy = False
+
+    if np.__name__ == 'cupy':
+        cupy = True
+        np.set_ndimensional_array_backend('numpy')
+
     matrices = CVD_MATRICES_MACHADO2010[deficiency]
     samples = np.array(sorted(matrices.keys()))
     index = min(np.searchsorted(samples, severity), len(samples) - 1)
@@ -341,6 +347,11 @@ def cvd_matrix_Machado2009(deficiency, severity):
     b = samples[min(index + 1, len(samples) - 1)]
 
     m1, m2 = matrices[a], matrices[b]
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        m1 = np.array(m1)
+        m2 = np.array(m2)
 
     if a == b:
         # 1.0 severity CVD matrix, returning directly.

@@ -16,7 +16,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import SDS_LEFS_PHOTOPIC
 from colour.constants import CONSTANT_K_M
@@ -118,8 +118,9 @@ def luminous_efficiency(
         })
     sd = sd.copy()
 
-    efficiency = (np.trapz(lef.values * sd.values, sd.wavelengths) / np.trapz(
-        sd.values, sd.wavelengths))
+    efficiency = (np.trapz(
+        np.array(lef.values) * np.array(sd.values), np.array(sd.wavelengths)) /
+                  np.trapz(np.array(sd.values), np.array(sd.wavelengths)))
 
     return efficiency
 

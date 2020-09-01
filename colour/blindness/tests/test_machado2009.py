@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.blindness.machado2009` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.blindness import (CVD_MATRICES_MACHADO2010, cvd_matrix_Machado2009,
@@ -41,43 +41,43 @@ anomalous_trichromacy_cmfs_Machado2009` definition.
         """
 
         cmfs = MSDS_CMFS_LMS.get('Smith & Pokorny 1975 Normal Trichromats')
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             anomalous_trichromacy_cmfs_Machado2009(cmfs,
                                                    np.array([0, 0, 0], ))[450],
             cmfs[450],
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             anomalous_trichromacy_cmfs_Machado2009(cmfs,
                                                    np.array([1, 0, 0], ))[450],
             np.array([0.03631700, 0.06350000, 0.91000000]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             anomalous_trichromacy_cmfs_Machado2009(cmfs,
                                                    np.array([0, 1, 0], ))[450],
             np.array([0.03430000, 0.06178404, 0.91000000]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             anomalous_trichromacy_cmfs_Machado2009(cmfs,
                                                    np.array([0, 0, 1], ))[450],
             np.array([0.03430000, 0.06350000, 0.92270240]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array(
                 [10, 0, 0], ))[450],
             np.array([0.05447001, 0.06350000, 0.91000000]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array(
                 [0, 10, 0], ))[450],
             np.array([0.03430000, 0.04634036, 0.91000000]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array(
                 [0, 0, 10], ))[450],
             np.array([0.03430000, 0.06350000, 1.00000000]),
@@ -98,7 +98,7 @@ anomalous_trichromacy_matrix_Machado2009` definition.
 
         cmfs = MSDS_CMFS_LMS.get('Smith & Pokorny 1975 Normal Trichromats')
         primaries = MSDS_DISPLAY_PRIMARIES['Typical CRT Brainard 1997']
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             anomalous_trichromacy_matrix_Machado2009(cmfs, primaries,
                                                      np.array([0, 0, 0])),
             np.identity(3),
@@ -159,7 +159,7 @@ class TestCvdMatrixMachado2009(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             cvd_matrix_Machado2009('Protanomaly', 0.0),
             np.array([
                 [1, 0, 0],
@@ -168,7 +168,7 @@ class TestCvdMatrixMachado2009(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             cvd_matrix_Machado2009('Deuteranomaly', 0.1),
             np.array([
                 [0.86643500, 0.17770400, -0.04413900],
@@ -177,7 +177,7 @@ class TestCvdMatrixMachado2009(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             cvd_matrix_Machado2009('Tritanomaly', 1.0),
             np.array([
                 [1.25552800, -0.07674900, -0.17877900],
@@ -186,7 +186,7 @@ class TestCvdMatrixMachado2009(unittest.TestCase):
             ]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             cvd_matrix_Machado2009('Tritanomaly', 0.55),
             np.array([
                 [1.06088700, -0.01504350, -0.04584350],

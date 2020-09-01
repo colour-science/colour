@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.difference` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.difference import delta_E
@@ -43,7 +43,7 @@ class TestDelta_E(unittest.TestCase):
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_almost_equal(
+                    np.testing.assert_array_almost_equal(
                         delta_E(Lab_1 * factor, Lab_2 * factor, method),
                         value,
                         decimal=7)

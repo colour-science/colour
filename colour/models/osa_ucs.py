@@ -21,7 +21,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import fmin
 
 from colour.algebra import spow
@@ -99,7 +99,7 @@ def XYZ_to_OSA_UCS(XYZ):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
     >>> XYZ_to_OSA_UCS(XYZ)  # doctest: +ELLIPSIS
     array([-3.0049979...,  2.9971369..., -9.6678423...])
@@ -188,7 +188,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> Ljg = np.array([-3.00499790, 2.99713697, -9.66784231])
     >>> OSA_UCS_to_XYZ(Ljg)  # doctest: +ELLIPSIS
     array([ 20.6540240...,  12.1972369...,   5.1369372...])
@@ -198,7 +198,11 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
         'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
                             ],
     }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
-
+    cupy = False
+    if np.__name__ == 'cupy':
+        Ljg = np.asnumpy(Ljg)
+        np.set_ndimensional_array_backend('numpy')
+        cupy = True
     Ljg = to_domain_100(Ljg)
     shape = Ljg.shape
     Ljg = np.atleast_1d(Ljg.reshape([-1, 3]))
@@ -223,5 +227,9 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
         fmin(error_function, x_0, (Ljg_i, ), **optimisation_settings)
         for Ljg_i in Ljg
     ])
+
+    if cupy is True:
+        np.set_ndimensional_array_backend('cupy')
+        XYZ = np.array(XYZ)
 
     return from_range_100(XYZ.reshape(shape))

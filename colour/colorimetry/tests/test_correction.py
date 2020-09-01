@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.colorimetry.correction` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.colorimetry import (SpectralDistribution,
@@ -52,7 +52,7 @@ bandpass_correction_Stearns1988` definition.
                     range(len(DATA_NON_BANDPASS_CORRECTED)),
                     DATA_NON_BANDPASS_CORRECTED)))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             bandpass_correction_Stearns1988(sd).values,
             DATA_BANDPASS_CORRECTED)
 

@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.algebra.common` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.algebra import (is_spow_enabled, set_spow_enable, spow_enable,
@@ -115,17 +115,17 @@ class TestSpow(unittest.TestCase):
 
         self.assertEqual(spow(-2, 2), -4.0)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             spow([2, -2, -2, 0], [2, 2, 0.15, 0]),
             np.array([4.00000000, -4.00000000, -1.10956947, 0.00000000]),
             decimal=7)
 
         with spow_enable(True):
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 spow(-2, 0.15), -1.10956947, decimal=7)
 
         with spow_enable(False):
-            np.testing.assert_equal(spow(-2, 0.15), np.nan)
+            np.testing.assert_array_equal(spow(-2, 0.15), np.nan)
 
 
 class TestSmoothstepFunction(unittest.TestCase):
@@ -139,15 +139,17 @@ class TestSmoothstepFunction(unittest.TestCase):
         Tests :func:`colour.algebra.common.smoothstep_function` definition.
         """
 
-        self.assertEqual(smoothstep_function(0.5), 0.5)
-        self.assertEqual(smoothstep_function(0.25), 0.15625)
-        self.assertEqual(smoothstep_function(0.75), 0.84375)
+        np.testing.assert_array_almost_equal(smoothstep_function(0.5), 0.5)
+        np.testing.assert_array_almost_equal(
+            smoothstep_function(0.25), 0.15625)
+        np.testing.assert_array_almost_equal(
+            smoothstep_function(0.75), 0.84375)
 
         x = np.linspace(-2, 2, 5)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             smoothstep_function(x),
             np.array([28.00000, 5.00000, 0.00000, 1.00000, -4.00000]))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             smoothstep_function(x, -2, 2, clip=True),
             np.array([0.00000, 0.15625, 0.50000, 0.84375, 1.00000]))
 

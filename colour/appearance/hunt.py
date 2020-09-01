@@ -20,13 +20,14 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, dot_vector, from_range_degrees,
-    ones, to_domain_100, tsplit, tstack, usage_warning, zeros)
+from colour.utilities import (CaseInsensitiveMapping, as_float, as_float_array,
+                              dot_vector, from_range_degrees, ones,
+                              to_domain_100, tsplit, tstack, usage_warning,
+                              zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -828,6 +829,10 @@ def hue_angle(C):
 
     hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 -
                             (C_2 / 11)) / np.pi) % 360
+
+    if np.__name__ == 'cupy' and hue.size == 1:
+        hue = hue.item()
+
     return hue
 
 
@@ -1048,6 +1053,9 @@ def saturation_correlate(M, rgb_a):
 
     s = 50 * M / np.sum(rgb_a, axis=-1)
 
+    if np.__name__ == 'cupy' and s.size == 1:
+        s = s.item()
+
     return s
 
 
@@ -1148,6 +1156,9 @@ def brightness_correlate(A, A_w, M, N_b):
     N_2 = (7 * A_w * spow(N_b, 0.362)) / 200
 
     Q = spow(7 * (A + (M / 100)), 0.6) * N_1 - N_2
+
+    if np.__name__ == 'cupy' and Q.size == 1:
+        Q = Q.item()
 
     return Q
 
@@ -1267,4 +1278,4 @@ def colourfulness_correlate(F_L, C_94):
 
     M_94 = spow(F_L, 0.15) * C_94
 
-    return M_94
+    return as_float(M_94)

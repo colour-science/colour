@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.models.cie_lab` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 
@@ -35,36 +35,36 @@ class TestXYZ_to_Lab(unittest.TestCase):
         Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Lab(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([41.52787529, 52.63858304, 26.92317922]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Lab(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([55.11636304, -41.08791787, 30.91825778]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Lab(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([29.80565520, 20.01830466, -48.34913874]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Lab(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.44757, 0.40745])),
             np.array([41.52787529, 38.48089305, -5.73295122]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Lab(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.34570, 0.35850])),
             np.array([41.52787529, 51.19354174, 19.91843098]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Lab(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.34570, 0.35850, 1.00000])),
@@ -83,17 +83,17 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
 
     def test_domain_range_scale_XYZ_to_Lab(self):
@@ -109,7 +109,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Lab(XYZ * factor_a, illuminant),
                     Lab * factor_b,
                     decimal=7)
@@ -139,36 +139,36 @@ class TestLab_to_XYZ(unittest.TestCase):
         Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_XYZ(np.array([41.52787529, 52.63858304, 26.92317922])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_XYZ(np.array([55.11636304, -41.08791787, 30.91825778])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_XYZ(np.array([29.80565520, 20.01830466, -48.34913874])),
             np.array([0.07818780, 0.06157201, 0.28099326]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_XYZ(
                 np.array([41.52787529, 38.48089305, -5.73295122]),
                 np.array([0.44757, 0.40745])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_XYZ(
                 np.array([41.52787529, 51.19354174, 19.91843098]),
                 np.array([0.34570, 0.35850])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_XYZ(
                 np.array([41.52787529, 51.19354174, 19.91843098]),
                 np.array([0.34570, 0.35850, 1.00000])),
@@ -187,17 +187,17 @@ class TestLab_to_XYZ(unittest.TestCase):
 
         Lab = np.tile(Lab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
 
         Lab = np.reshape(Lab, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
 
     def test_domain_range_scale_Lab_to_XYZ(self):
@@ -213,7 +213,7 @@ class TestLab_to_XYZ(unittest.TestCase):
         d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Lab_to_XYZ(Lab * factor_a, illuminant),
                     XYZ * factor_b,
                     decimal=7)
@@ -243,17 +243,17 @@ class TestLab_to_LCHab(unittest.TestCase):
         Tests :func:`colour.models.cie_lab.Lab_to_LCHab` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_LCHab(np.array([41.52787529, 52.63858304, 26.92317922])),
             np.array([41.52787529, 59.12425901, 27.08848784]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_LCHab(np.array([55.11636304, -41.08791787, 30.91825778])),
             np.array([55.11636304, 51.42135412, 143.03889556]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Lab_to_LCHab(np.array([29.80565520, 20.01830466, -48.34913874])),
             np.array([29.80565520, 52.32945383, 292.49133666]),
             decimal=7)
@@ -269,11 +269,13 @@ class TestLab_to_LCHab(unittest.TestCase):
 
         Lab = np.tile(Lab, (6, 1))
         LCHab = np.tile(LCHab, (6, 1))
-        np.testing.assert_almost_equal(Lab_to_LCHab(Lab), LCHab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            Lab_to_LCHab(Lab), LCHab, decimal=7)
 
         Lab = np.reshape(Lab, (2, 3, 3))
         LCHab = np.reshape(LCHab, (2, 3, 3))
-        np.testing.assert_almost_equal(Lab_to_LCHab(Lab), LCHab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            Lab_to_LCHab(Lab), LCHab, decimal=7)
 
     def test_domain_range_scale_Lab_to_LCHab(self):
         """
@@ -288,7 +290,7 @@ class TestLab_to_LCHab(unittest.TestCase):
                (100, 1, np.array([1, 1, 1 / 3.6])))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Lab_to_LCHab(Lab * factor_a), LCHab * factor_b, decimal=7)
 
     @ignore_numpy_errors
@@ -316,17 +318,17 @@ class TestLCHab_to_Lab(unittest.TestCase):
         Tests :func:`colour.models.cie_lab.LCHab_to_Lab` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LCHab_to_Lab(np.array([41.52787529, 59.12425901, 27.08848784])),
             np.array([41.52787529, 52.63858304, 26.92317922]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LCHab_to_Lab(np.array([55.11636304, 51.42135412, 143.03889556])),
             np.array([55.11636304, -41.08791787, 30.91825778]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LCHab_to_Lab(np.array([29.80565520, 52.32945383, 292.49133666])),
             np.array([29.80565520, 20.01830466, -48.34913874]),
             decimal=7)
@@ -342,11 +344,13 @@ class TestLCHab_to_Lab(unittest.TestCase):
 
         LCHab = np.tile(LCHab, (6, 1))
         Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_almost_equal(LCHab_to_Lab(LCHab), Lab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            LCHab_to_Lab(LCHab), Lab, decimal=7)
 
         LCHab = np.reshape(LCHab, (2, 3, 3))
         Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_almost_equal(LCHab_to_Lab(LCHab), Lab, decimal=7)
+        np.testing.assert_array_almost_equal(
+            LCHab_to_Lab(LCHab), Lab, decimal=7)
 
     def test_domain_range_scale_LCHab_to_Lab(self):
         """
@@ -361,7 +365,7 @@ class TestLCHab_to_Lab(unittest.TestCase):
                (100, np.array([1, 1, 1 / 3.6]), 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     LCHab_to_Lab(LCHab * factor_a), Lab * factor_b, decimal=7)
 
     @ignore_numpy_errors

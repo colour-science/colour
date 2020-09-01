@@ -19,7 +19,7 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import sys
 try:  # pragma: no cover
     from collections import Mapping
@@ -225,6 +225,7 @@ def as_int(a, dtype=None):
         # https://github.com/numpy/numpy/issues/11956 is addressed.
         return int(a)
     except TypeError:
+        print('error')
         return as_int_array(a, dtype)
 
 
@@ -269,6 +270,15 @@ def as_float(a, dtype=None):
     assert dtype in np.sctypes['float'], (
         '"dtype" must be one of the following types: {0}'.format(
             np.sctypes['float']))
+
+    if np.__name__ == 'cupy':
+        try:
+            if a.size == 1:
+                return dtype(np.asnumpy(a))
+            else:
+                return as_float_array(a, dtype)
+        except Exception:
+            return a
 
     return dtype(a)
 
@@ -442,7 +452,7 @@ def closest_indexes(a, b):
     """
 
     a = np.ravel(a)[:, np.newaxis]
-    b = np.ravel(b)[np.newaxis, :]
+    b = np.ravel(np.array(b))[np.newaxis, :]
 
     return np.abs(a - b).argmin(axis=0)
 
@@ -553,8 +563,8 @@ def interval(distribution, unique=True):
 
     distribution = as_float_array(distribution)
     i = np.arange(distribution.size - 1)
-
     differences = np.abs(distribution[i + 1] - distribution[i])
+
     if unique:
         return np.unique(differences)
     else:
@@ -1222,10 +1232,10 @@ def ones(shape, dtype=None, order='C'):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
-    return np.ones(shape, dtype, order)
+    return np.ones(shape, dtype)
 
 
-def full(shape, fill_value, dtype=None, order='C'):
+def full(shape, fill_value, dtype=None):
     """
     Simple wrapper around :func:`np.full` definition to create arrays with
     the active type defined by the:attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
@@ -1260,7 +1270,7 @@ def full(shape, fill_value, dtype=None, order='C'):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
-    return np.full(shape, fill_value, dtype, order)
+    return np.full(shape, fill_value, dtype)
 
 
 def index_along_last_axis(a, indexes):

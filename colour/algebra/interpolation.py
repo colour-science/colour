@@ -61,7 +61,7 @@ References
 from __future__ import division, unicode_literals
 
 import itertools
-import numpy as np
+import colour.ndarray as np
 import scipy.interpolate
 from six.moves import reduce
 from collections import OrderedDict
@@ -426,13 +426,16 @@ class KernelInterpolator(object):
 
             self._x = value
 
+            minx = np.min(self._x)
+            maxx = np.max(self._x)
+
             if self._window is not None:
                 self._x_p = np.pad(
                     self._x, (self._window, self._window),
                     'linear_ramp',
                     end_values=(
-                        np.min(self._x) - self._window * value_interval[0],
-                        np.max(self._x) + self._window * value_interval[0]))
+                        float(minx - self._window * value_interval[0]),
+                        float(maxx + self._window * value_interval[0])))
 
     @property
     def y(self):
@@ -845,7 +848,7 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+            value = np.array(np.atleast_1d(value).astype(self._dtype))
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
@@ -879,7 +882,7 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+            value = np.array(np.atleast_1d(value).astype(self._dtype))
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
@@ -904,7 +907,7 @@ class LinearInterpolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xi = as_float(self._evaluate(x))
+        xi = as_float(self._evaluate(np.array(x)))
 
         return xi
 
@@ -1066,19 +1069,22 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+            value = np.array(np.atleast_1d(value).astype(self._dtype))
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
             value_interval = interval(value)[0]
-
             xp1 = value[0] - value_interval * 2
             xp2 = value[0] - value_interval
             xp3 = value[-1] + value_interval
             xp4 = value[-1] + value_interval * 2
 
-            self._xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
+            self._xp = np.concatenate([
+                np.array([xp1, xp2]),
+                value,
+                np.array([xp3, xp4]),
+            ])
 
         self._x = value
 
@@ -1109,7 +1115,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+            value = np.array(np.atleast_1d(value).astype(self._dtype))
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
@@ -1118,20 +1124,24 @@ class SpragueInterpolator(object):
                 '"y" dependent variable values count must be normalised to'
                 'domain [6:]!')
 
-            yp1 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
-                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
-            yp2 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[1],
-                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
-            yp3 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[2],
-                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
-            yp4 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[3],
-                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
+            yp1 = np.ravel((np.dot(
+                np.array(self.SPRAGUE_C_COEFFICIENTS[0]),
+                np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
+            yp2 = np.ravel((np.dot(
+                np.array(self.SPRAGUE_C_COEFFICIENTS[1]),
+                np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
+            yp3 = np.ravel((np.dot(
+                np.array(self.SPRAGUE_C_COEFFICIENTS[2]),
+                np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
+            yp4 = np.ravel((np.dot(
+                np.array(self.SPRAGUE_C_COEFFICIENTS[3]),
+                np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
 
-            self._yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
+            self._yp = np.concatenate([
+                np.array([yp1, yp2]),
+                value,
+                np.array([yp3, yp4]),
+            ])
 
         self._y = value
 
@@ -1171,11 +1181,12 @@ class SpragueInterpolator(object):
 
         self._validate_dimensions()
         self._validate_interpolation_range(x)
+        self._xp = np.array(self._xp)
 
         i = np.searchsorted(self._xp, x) - 1
         X = (x - self._xp[i]) / (self._xp[i + 1] - self._xp[i])
 
-        r = self._yp
+        r = np.array(self._yp)
 
         a0p = r[i]
         a1p = ((2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] -
@@ -1191,6 +1202,9 @@ class SpragueInterpolator(object):
 
         y = (a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 +
              a5p * X ** 5)
+
+        if np.__name__ == 'cupy':
+            return as_float(y)
 
         return y
 
@@ -1230,8 +1244,27 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
 
     def __init__(self, *args, **kwargs):
+
+        if np.__name__ == 'cupy':
+            args = list(args)
+            for i in range(len(args)):
+                if isinstance(args[i], (np.ndarray, tuple)):
+                    args[i] = np.asnumpy(args[i])
+            args = tuple(args)
+
         super(CubicSplineInterpolator, self).__init__(
             kind='cubic', *args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+
+        if np.__name__ == 'cupy':
+            args = list(args)
+            for i in range(len(args)):
+                if isinstance(args[i], (np.ndarray, tuple)):
+                    args[i] = np.asnumpy(args[i])
+            args = tuple(args)
+
+        return super(CubicSplineInterpolator, self).__call__(*args, **kwargs)
 
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):
@@ -1250,6 +1283,18 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     """
 
     def __init__(self, x, y, *args, **kwargs):
+
+        if np.__name__ == 'cupy':
+            args = list(args)
+            for i in range(len(args)):
+                if isinstance(args[i], np.ndarray):
+                    args[i] = np.asnumpy(args[i])
+            args = tuple(args)
+            if isinstance(x, np.ndarray):
+                x = np.asnumpy(x)
+            if isinstance(y, np.ndarray):
+                y = np.asnumpy(y)
+
         super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
 
         self._y = y
@@ -1764,9 +1809,10 @@ def table_interpolation_trilinear(V_xyz, table):
 
     weights = np.moveaxis(
         np.transpose(
-            [(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
-             (1 - x) * y * (1 - z), (1 - x) * y * z, x * (1 - y) * (1 - z),
-             x * (1 - y) * z, x * y * (1 - z), x * y * z]), 0, -1)
+            np.array(
+                [(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
+                 (1 - x) * y * (1 - z), (1 - x) * y * z, x * (1 - y) * (1 - z),
+                 x * (1 - y) * z, x * y * (1 - z), x * y * z])), 0, -1)
 
     xyz_o = np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
 

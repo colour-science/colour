@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.quality.cri` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.quality import CRI_Specification, colour_rendering_index
@@ -331,7 +331,7 @@ class TestColourRenderingIndex(unittest.TestCase):
         specification_t = colour_rendering_index(
             SDS_ILLUMINANTS['FL1'], additional_data=True)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             [
                 data.Q_a
                 for _index, data in sorted(specification_r.Q_as.items())

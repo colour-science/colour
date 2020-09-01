@@ -84,7 +84,7 @@ def yellowness_ASTMD1925(XYZ):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness_ASTMD1925(XYZ)  # doctest: +ELLIPSIS
     10.2999999...
@@ -136,7 +136,7 @@ def yellowness_ASTME313(XYZ):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness_ASTME313(XYZ)  # doctest: +ELLIPSIS
     11.0650000...
@@ -203,7 +203,7 @@ def yellowness(XYZ, method='ASTM E313'):
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness(XYZ)  # doctest: +ELLIPSIS
     11.0650000...

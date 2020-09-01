@@ -25,7 +25,7 @@ large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (as_float, domain_range_scale, from_range_1,
@@ -498,6 +498,9 @@ def log_decoding_SLog3(y,
     y = to_domain_1(y)
 
     y = y if in_normalised_code_value else full_to_legal(y, bit_depth)
+
+    if np.__name__ == 'cupy':
+        y = np.array(y)
 
     x = np.where(
         y >= 171.2102946929 / 1023,

@@ -6,8 +6,9 @@ Defines unit tests for :mod:`colour.appearance.atd95` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 from itertools import permutations
+from unittest import TestCase
 
 from colour.appearance import XYZ_to_ATD95
 from colour.appearance.tests.common import ColourAppearanceModelTest
@@ -23,7 +24,7 @@ __status__ = 'Production'
 __all__ = ['TestATD95ColourAppearanceModel']
 
 
-class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
+class TestATD95ColourAppearanceModel(ColourAppearanceModelTest, TestCase):
     """
     Defines :mod:`colour.appearance.atd95` module unit tests methods for
     *ATD (1995)* colour vision model.
@@ -88,10 +89,10 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_ATD95(XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1,
                                  k_2),
-                    specification * factor_b,
+                    np.array(specification[:]) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

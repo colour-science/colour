@@ -18,7 +18,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -65,5 +65,18 @@ def least_square_mapping_MoorePenrose(y, x):
 
     y = np.atleast_2d(y)
     x = np.atleast_2d(x)
+
+    if np.__name__ == 'cupy':
+        x = np.asnumpy(x)
+        y = np.asnumpy(y)
+        np.set_ndimensional_array_backend('numpy')
+        try:
+            pinv_y = np.linalg.pinv(np.transpose(y))
+            result = np.dot(np.transpose(x), pinv_y)
+            np.set_ndimensional_array_backend('cupy')
+        except Exception:
+            np.set_ndimensional_array_backend('cupy')
+            raise
+        return np.array(result)
 
     return np.dot(np.transpose(x), np.linalg.pinv(np.transpose(y)))

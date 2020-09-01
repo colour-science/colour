@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.colorimetry.blackbody` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 
@@ -4536,15 +4536,15 @@ class TestPlanckLaw(unittest.TestCase):
 
         wl = np.tile(wl, 6)
         p = np.tile(p, 6)
-        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
+        np.testing.assert_array_almost_equal(planck_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3))
         p = np.reshape(p, (2, 3))
-        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
+        np.testing.assert_array_almost_equal(planck_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3, 1))
         p = np.reshape(p, (2, 3, 1))
-        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
+        np.testing.assert_array_almost_equal(planck_law(wl, 5500), p)
 
     @ignore_numpy_errors
     def test_nan_planck_law(self):

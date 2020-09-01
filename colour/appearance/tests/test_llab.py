@@ -7,13 +7,15 @@ Defines unit tests for :mod:`colour.appearance.llab` module.
 from __future__ import division, unicode_literals
 from colour.utilities.array import tstack
 
-import numpy as np
+import colour.ndarray as np
 
 try:
     from unittest import mock
 except ImportError:  # pragma: no cover
     import mock
+
 from itertools import permutations
+from unittest import TestCase
 
 from colour.appearance import (VIEWING_CONDITIONS_LLAB, InductionFactors_LLAB,
                                XYZ_to_LLAB, llab)
@@ -30,7 +32,7 @@ __status__ = 'Production'
 __all__ = ['TestLLABColourAppearanceModel']
 
 
-class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
+class TestLLABColourAppearanceModel(ColourAppearanceModelTest, TestCase):
     """
     Defines :mod:`colour.appearance.llab` module unit tests methods for
     *LLAB(l:c)* colour appearance model.
@@ -129,7 +131,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         for _ in range(100000):
             result = llab.MATRIX_RGB_TO_XYZ_LLAB.dot(result)
             result = llab.MATRIX_XYZ_TO_RGB_LLAB.dot(result)
-        np.testing.assert_almost_equal(start, result, decimal=7)
+        np.testing.assert_array_almost_equal(start, result, decimal=7)
 
     def test_domain_range_scale_XYZ_to_LLAB(self):
         """
@@ -151,10 +153,10 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_LLAB(XYZ * factor_a, XYZ_0 * factor_a, Y_b, L,
                                 surround)[:5],
-                    specification * factor_b,
+                    np.array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

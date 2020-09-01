@@ -5,7 +5,7 @@ Defines unit tests for :mod:`colour.io.luts.resolve_cube` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 import os
 import unittest
 import shutil
@@ -43,7 +43,7 @@ class TestReadLUTResolveCube(unittest.TestCase):
         LUT_1 = read_LUT_ResolveCube(
             os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.cube'))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.table,
             np.array([
                 [4.88300000e-04, 4.88300000e-04, 4.88300000e-04],
@@ -98,7 +98,7 @@ class TestReadLUTResolveCube(unittest.TestCase):
 
         LUT_4 = read_LUT_ResolveCube(
             os.path.join(LUTS_DIRECTORY, 'LogC_Video.cube'))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_4[0].table,
             np.array([
                 [0.00000000, 0.00000000, 0.00000000],

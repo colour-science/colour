@@ -35,7 +35,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.utilities import (as_float_array, from_range_1, to_domain_1,
                               tsplit, tstack)
@@ -171,14 +171,15 @@ def HSV_to_RGB(HSV):
     i = tstack([i, i, i]).astype(np.uint8)
 
     RGB = np.choose(
-        i, [
+        i,
+        np.array([
             tstack([V, l, j]),
             tstack([k, V, j]),
             tstack([j, V, l]),
             tstack([j, k, V]),
             tstack([l, j, V]),
             tstack([V, j, k]),
-        ],
+        ]),
         mode='clip')
 
     return from_range_1(RGB)

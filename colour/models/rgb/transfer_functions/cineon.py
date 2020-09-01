@@ -18,9 +18,9 @@ nuke-default/make.py
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import colour.ndarray as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import from_range_1, to_domain_1, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -77,8 +77,12 @@ def log_encoding_Cineon(x, black_offset=10 ** ((95 - 685) / 300)):
     x = to_domain_1(x)
 
     y = ((685 + 300 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
+    y = from_range_1(y)
 
-    return from_range_1(y)
+    if np.__name__ == 'cupy':
+        return as_float(y)
+
+    return y
 
 
 def log_decoding_Cineon(y, black_offset=10 ** ((95 - 685) / 300)):
@@ -126,5 +130,9 @@ def log_decoding_Cineon(y, black_offset=10 ** ((95 - 685) / 300)):
     y = to_domain_1(y)
 
     x = ((10 ** ((1023 * y - 685) / 300) - black_offset) / (1 - black_offset))
+    x = from_range_1(x)
 
-    return from_range_1(x)
+    if np.__name__ == 'cupy':
+        return as_float(x)
+
+    return x
