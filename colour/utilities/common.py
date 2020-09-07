@@ -30,7 +30,7 @@ from copy import copy
 from six import integer_types, string_types
 
 from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
-from colour.utilities import Lookup
+from colour.utilities import CaseInsensitiveMapping, Lookup
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -44,9 +44,9 @@ __all__ = [
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
     'batch', 'disable_multiprocessing', 'multiprocessing_pool',
     'is_matplotlib_installed', 'is_networkx_installed',
-    'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
-    'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
-    'filter_mapping', 'first_item', 'get_domain_range_scale',
+    'is_openimageio_installed', 'is_pandas_installed', 'required',
+    'is_iterable', 'is_string', 'is_numeric', 'is_integer', 'is_sibling',
+    'filter_kwargs', 'filter_mapping', 'first_item', 'get_domain_range_scale',
     'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
     'to_domain_10', 'to_domain_100', 'to_domain_degrees', 'to_domain_int',
     'from_range_1', 'from_range_10', 'from_range_100', 'from_range_degrees',
@@ -440,6 +440,56 @@ def is_pandas_installed(raise_exception=False):
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
         return False
+
+
+_REQUIREMENTS_TO_CALLABLE = CaseInsensitiveMapping({
+    'Matplotlib': is_matplotlib_installed,
+    'NetworkX': is_networkx_installed,
+    'OpenImageIO': is_openimageio_installed,
+    'Pandas': is_pandas_installed,
+})
+"""
+Mapping of requirements to their respective callables.
+
+_REQUIREMENTS_TO_CALLABLE : CaseInsensitiveMapping
+    **{'Matplotlib', 'NetworkX', 'OpenImageIO', 'Pandas'}**
+"""
+
+
+def required(*requirements):
+    """
+    A decorator checking if various requirements are satisfied.
+
+    Other Parameters
+    ----------------
+    \\*requirements : list, optional
+        **{'Matplotlib', 'NetworkX', 'OpenImageIO', 'Pandas'}**,
+        Requirements to check whether they are satisfied.
+
+    Returns
+    -------
+    object
+    """
+
+    def wrapper(function):
+        """
+        Wrapper for given function.
+        """
+
+        @functools.wraps(function)
+        def wrapped(*args, **kwargs):
+            """
+            Wrapped function.
+            """
+
+            for requirement in requirements:
+                _REQUIREMENTS_TO_CALLABLE[requirement](raise_exception=True)
+
+            return function(*args, **kwargs)
+
+        return wrapped
+
+    return wrapper
 
 
 def is_iterable(a):

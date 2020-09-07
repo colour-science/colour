@@ -55,12 +55,8 @@ from colour.appearance import (
     CIECAM02_to_XYZ, XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt,
     XYZ_to_LLAB, XYZ_to_Nayatani95, XYZ_to_RLAB)
 from colour.temperature import CCT_to_uv, CCT_to_xy, uv_to_CCT, xy_to_CCT
-from colour.utilities import (domain_range_scale, filter_kwargs,
-                              is_networkx_installed, message_box, tsplit,
-                              tstack, usage_warning)
-
-if is_networkx_installed():  # pragma: no cover
-    import networkx as nx
+from colour.utilities import (domain_range_scale, filter_kwargs, message_box,
+                              required, tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -555,6 +551,7 @@ CONVERSION_GRAPH_NODE_LABELS.update({
 })
 
 
+@required('NetworkX')
 def _build_graph():
     """
     Builds the automatic colour conversion graph.
@@ -564,6 +561,8 @@ def _build_graph():
     DiGraph
          Automatic colour conversion graph.
     """
+
+    import networkx as nx
 
     graph = nx.DiGraph()
 
@@ -576,7 +575,7 @@ def _build_graph():
     return graph
 
 
-CONVERSION_GRAPH = _build_graph() if is_networkx_installed() else None
+CONVERSION_GRAPH = None
 """
 Automatic colour conversion graph.
 
@@ -584,6 +583,7 @@ CONVERSION_GRAPH : DiGraph
 """
 
 
+@required('NetworkX')
 def _conversion_path(source, target):
     """
     Returns the conversion path from the source node to the target node in the
@@ -609,13 +609,20 @@ def _conversion_path(source, target):
     [<function Lab_to_XYZ at 0x...>, <function XYZ_to_xy at 0x...>, \
 <function xy_to_CCT at 0x...>]
     """
-    if is_networkx_installed(raise_exception=True):  # pragma: no cover
-        path = nx.shortest_path(CONVERSION_GRAPH, source, target)
 
-        return [
-            CONVERSION_GRAPH.get_edge_data(a, b)['conversion_function']
-            for a, b in zip(path[:-1], path[1:])
-        ]
+    import networkx as nx
+
+    global CONVERSION_GRAPH
+
+    if CONVERSION_GRAPH is None:
+        CONVERSION_GRAPH = _build_graph()
+
+    path = nx.shortest_path(CONVERSION_GRAPH, source, target)
+
+    return [
+        CONVERSION_GRAPH.get_edge_data(a, b)['conversion_function']
+        for a, b in zip(path[:-1], path[1:])
+    ]
 
 
 def _lower_order_function(callable_):
