@@ -31,7 +31,8 @@ from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
 from colour.utilities import (as_array, fill_nan, full, is_pandas_installed,
-                              runtime_warning, tsplit, tstack, usage_warning)
+                              required, runtime_warning, tsplit, tstack,
+                              usage_warning)
 from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = 'Colour Developers'
@@ -1204,6 +1205,7 @@ class Signal(AbstractContinuousFunction):
 
         return self
 
+    @required('Pandas')
     def to_series(self):
         """
         Converts the continuous signal to a *Pandas* :class:`Series` class
@@ -1233,10 +1235,9 @@ class Signal(AbstractContinuousFunction):
         Name: Signal (...), dtype: float64
         """
 
-        if is_pandas_installed():
-            from pandas import Series
+        from pandas import Series
 
-            return Series(data=self._range, index=self._domain, name=self.name)
+        return Series(data=self._range, index=self._domain, name=self.name)
 
     # ------------------------------------------------------------------------#
     # ---              API Changes and Deprecation Management              ---#

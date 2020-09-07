@@ -29,7 +29,7 @@ except ImportError:  # pragma: no cover
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.utilities import (as_float_array, first_item, is_pandas_installed,
-                              usage_warning, tsplit, tstack)
+                              required, tsplit, tstack, usage_warning)
 from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = 'Colour Developers'
@@ -1439,6 +1439,7 @@ dict_like, optional
 
         return self
 
+    @required('Pandas')
     def to_dataframe(self):
         """
         Converts the continuous signal to a *Pandas* :class:`DataFrame` class
@@ -1470,11 +1471,10 @@ dict_like, optional
         9.0  100.0  110.0  120.0
         """
 
-        if is_pandas_installed():
-            from pandas import DataFrame
+        from pandas import DataFrame
 
-            return DataFrame(
-                data=self.range, index=self.domain, columns=self.labels)
+        return DataFrame(
+            data=self.range, index=self.domain, columns=self.labels)
 
     # ------------------------------------------------------------------------#
     # ---              API Changes and Deprecation Management              ---#
