@@ -2782,7 +2782,22 @@ class Exponent(AbstractLUTSequenceOperator):
                     '\n\n{0}'.format('\n'.join(self.comments))
                     if self.comments else ''))
 
+
 class Log(AbstractLUTSequenceOperator):
+    # TODO: Actual docstrings :)
+    """
+    >>> from colour.models.rgb.transfer_functions.arri_alexa_log_c import (
+    ...      log_decoding_ALEXALogC, log_encoding_ALEXALogC)
+    >>> logc = Log(logSideSlope=0.24719, logSideOffset=0.385537,
+    ...            linSideSlope=5.55556,  linSideOffset=0.0522723,
+    ...            linSideBreak=0.010591)
+    ... x = np.linspace(-0.33, 1.33, 1024)
+    ... RGB = tstack([x, x, x])
+    ... assert np.allclose(log_encoding_ALEXALogC(x), logc.apply(x))
+    ... assert np.allclose(log_decoding_ALEXALogC(RGB), logc.reverse(RGB))
+    ... assert np.array_equal(RGB, logc.apply(logc.reverse(RGB)))
+    ... assert np.array_equal(RGB, logc.reverse(logc.apply(RGB)))
+    """
     def __init__(self,
                  base=2,
                  logSideSlope=1,
@@ -2816,7 +2831,7 @@ class Log(AbstractLUTSequenceOperator):
     @property
     def style(self):
         style = self._style
-        if style.startswith('camera') and self.linear_slope is None:
+        if style.startswith('camera') and self.lin_side_break is None:
             style = style.replace('cameraL', 'l')
         return style
 
@@ -2893,58 +2908,75 @@ class Log(AbstractLUTSequenceOperator):
         return style.lower() in [s.lower() for s in self.lin_to_log_styles]
 
     def is_decoding_style(self, style=None):
+
         style = style or self.style
         return style.lower() in [s.lower() for s in self.log_to_lin_styles]
 
-    def log_function(self, **kwargs):
-        style = kwargs.pop('style', self.style)
-        if self.style.lower().startswith('anti') or self.style[-1] in [
-                '2', '0'
-        ]:
-            return partial(logarithmic_function_basic,
-                           style=style,
-                           base=int(self.style[-1]))
+    def _logarithmic_function_factory(self,
+                                      lin_side_slope=None,
+                                      lin_side_offset=None,
+                                      log_side_slope=None,
+                                      log_side_offset=None,
+                                      lin_side_break=None,
+                                      linear_slope=None,
+                                      base=None,
+                                      style='log10'):
+        # TODO: promote to module level? Make static?
+        def _is_decoding_style(s):
+            s = style.lower()
+            return s.beginswith('anti') or s.endswith('lin')
 
-        elif any([
-                x is None for x in [
-                    self.linSideSlope, self.linSideOffset, self.logSideSlope,
-                    self.logSideOffset
-                ]
+        function_kwargs = {}
+        if style[-1] in ['2', '0']:
+            __function = partial(logarithmic_function_basic,
+                                 base=int(style[-1]),
+                                 style=style)
+
+        elif style.beginswith('anti') or any([
+                x is None for x in
+            [lin_side_slope, lin_side_offset, log_side_slope, log_side_offset]
         ]):
-            style = 'antiLogB' if self.is_decoding_style(style) else 'logB'
-            return partial(logarithmic_function_basic,
-                           base=self.base,
-                           style=style)
-        else:
-            function_kwargs = dict(
-                log_side_slope=self.log_side_slope * np.ones(3),
-                log_side_offset=self.log_side_offset * np.ones(3),
-                lin_side_slope=self.lin_side_slope * np.ones(3),
-                lin_side_offset=self.lin_side_offset * np.ones(3),
-            )
-            # if self.linear_slope:
-            #     function_kwargs.update(linear_slope=self.linear_slope *
-            #                            np.ones(3))
+            style = 'logB'
+            if style.lower().beginswith('anti'):
+                style = 'antiLogB'
 
-            if self.lin_side_break is not None:
-                function_kwargs.update(lin_side_break=self.lin_side_break *
-                                       np.ones(3))
-                style = 'cameraLogToLin' if self.is_decoding_style(
+            __function = partial(logarithmic_function_basic,
+                                 base=base,
+                                 style=style)
+
+        else:
+            function_kwargs = dict(log_side_slope=log_side_slope,
+                                   log_side_offset=log_side_offset,
+                                   lin_side_slope=lin_side_slope,
+                                   lin_side_offset=lin_side_offset)
+
+            if lin_side_break is not None:
+                function_kwargs.update(lin_side_break=lin_side_break)
+                style = 'cameraLogToLin' if _is_decoding_style(
                     style) else 'cameraLinToLog'
-                return partial(logarithmic_function_camera,
-                               style=style,
-                               base=self.base,
-                               **function_kwargs)
+                __function = partial(logarithmic_function_camera,
+                                     base=base,
+                                     style=style)
 
             else:
-                style = 'logToLin' if self.is_decoding_style(
-                    style) else 'linToLog'
-                return partial(logarithmic_function_quasilog,
-                               style=style,
-                               base=self.base,
-                               **function_kwargs)
+                style = 'logToLin' if _is_decoding_style(style) else 'linToLog'
+                __function = partial(logarithmic_function_quasilog,
+                                     base=base,
+                                     style=style)
+
+            if any(
+                [as_float_array(v).size > 1
+                 for v in function_kwargs.values()]):
+                function_kwargs = {
+                    k: v * np.ones(3)
+                    for k, v in function_kwargs.items()
+                }
+
+        return partial(__function, **function_kwargs)
 
     def _apply_directed(self, RGB, inverse=False):
+        RGB_out = as_float_array(RGB)
+
         inverse_styles = {
             fwd: inv
             for fwd, inv in zip(
@@ -2953,19 +2985,17 @@ class Log(AbstractLUTSequenceOperator):
                 self.lin_to_log_styles)
         }
         style = inverse_styles[self.style] if inverse else self.style
+        logarithmic_function = self._logarithmic_function_factory(
+            style=style,
+            base=self.base,
+            lin_side_slope=self.lin_side_slope,
+            lin_side_offset=self.lin_side_offset,
+            log_side_slope=self.log_side_slope,
+            log_side_offset=self.log_side_offset,
+            lin_side_break=self.lin_side_break,
+            linear_slope=self.linear_slope)
 
-        if as_float_array(RGB).size == 3 or (isinstance(RGB, np.ndarray) and
-                                             RGB.shape[-1] == 3):
-            r, g, b = tsplit(np.asarray(RGB))
-
-        else:
-            # TODO: check size of params to see if we can keep this a single channel affair
-            r = g = b = np.asarray(RGB)
-
-        RGB_out = tstack([r, g, b])
-
-        _function = self.log_function(style=style)
-        return _function(RGB_out)
+        return logarithmic_function(RGB_out)
 
     def apply(self, RGB):
         return self._apply_directed(RGB, inverse=False)
@@ -2981,7 +3011,7 @@ class Log(AbstractLUTSequenceOperator):
         return (
             '{0} - {1}\n'
             '{2}\n\n'
-            'Style          : {3}\n'
+            'style          : {3}\n'
             'base           : {4}'
             '{5}{6}{7}{8}{9}{10}{11}').format(
                 self.__class__.__name__, title,
@@ -3015,23 +3045,3 @@ class Log(AbstractLUTSequenceOperator):
                     self.lin_side_offset, self.linear_slope,
                     self.lin_side_break, self.style,
                     'name={0}'.format(self.name) if self.name else "")
-
-
-def test_lgc():
-    from colour.models.rgb.transfer_functions.arri_alexa_log_c import (
-        log_decoding_ALEXALogC, log_encoding_ALEXALogC)
-    import numpy as np
-
-    lgc = Log(base=10,
-              logSideSlope=0.24719,
-              logSideOffset=0.385537,
-              linSideSlope=5.55556,
-              linSideOffset=0.0522723,
-              linSideBreak=0.010591)
-
-    x = np.linspace(0, 1, 1024)
-    x = tstack([x, x, x])
-    assert np.allclose(log_encoding_ALEXALogC(x), lgc.apply(x))
-    assert np.allclose(log_decoding_ALEXALogC(x), lgc.reverse(x))
-
-    # TODO: Make sure processed 1D-arrays return 1D-arrays
