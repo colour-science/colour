@@ -2924,7 +2924,7 @@ class Log(AbstractLUTSequenceOperator):
         # TODO: promote to module level? Make static?
         def _is_decoding_style(s):
             s = style.lower()
-            return s.beginswith('anti') or s.endswith('lin')
+            return s.startswith('anti') or s.endswith('lin')
 
         function_kwargs = {}
         if style[-1] in ['2', '0']:
@@ -2932,12 +2932,12 @@ class Log(AbstractLUTSequenceOperator):
                                  base=int(style[-1]),
                                  style=style)
 
-        elif style.beginswith('anti') or any([
+        elif style.startswith('anti') or any([
                 x is None for x in
             [lin_side_slope, lin_side_offset, log_side_slope, log_side_offset]
         ]):
             style = 'logB'
-            if style.lower().beginswith('anti'):
+            if style.lower().startswith('anti'):
                 style = 'antiLogB'
 
             __function = partial(logarithmic_function_basic,
