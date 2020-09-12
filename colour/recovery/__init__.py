@@ -92,6 +92,12 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     additional_data : bool, optional
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
         If *True*, ``error`` will be returned alongside ``sd``.
+    clip : bool, optional
+        {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
+        If *True*, the default, values below zero and above unity in the
+        recovered spectral distributions will be clipped. This ensures that the
+        returned reflectance is physical and conserves energy, but will cause
+        noticeable colour differences in case of very saturated colours.
     cmfs : XYZ_ColourMatchingFunctions, optional
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Standard observer colour matching functions.
@@ -100,6 +106,10 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
         *RGB* colourspace of the target colour. Note that no chromatic
         adaptation is performed between ``illuminant`` and the colourspace
         whitepoint.
+    dataset : Dataset_Otsu2018, optional
+        {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
+        Dataset to use for reconstruction. The default is to use the published
+        data.
     illuminant : SpectralDistribution, optional
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
         :func:`colour.recovery.XYZ_to_sd_Meng2015`},
@@ -142,14 +152,69 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
 
     Examples
     --------
-
-    *Mallett and Yuksel (2019)* reflectance recovery:
+    *Jakob and Hanika (2009)* reflectance recovery:
 
     >>> import numpy as np
     >>> from colour.utilities import numpy_print_options
     >>> from colour.colorimetry import (
     ...     MSDS_CMFS_STANDARD_OBSERVER, SpectralShape, sd_to_XYZ_integration)
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
+    >>> sd = XYZ_to_sd(XYZ, cmfs=cmfs, method='Jakob 2019')
+    >>> with numpy_print_options(suppress=True):
+    ...     # Doctests skip for Python 2.x compatibility.
+    ...     sd  # doctest: +SKIP
+    SpectralDistribution([[ 360.        ,    0.3692754...],
+                          [ 370.        ,    0.2470157...],
+                          [ 380.        ,    0.1702836...],
+                          [ 390.        ,    0.1237443...],
+                          [ 400.        ,    0.0948289...],
+                          [ 410.        ,    0.0761417...],
+                          [ 420.        ,    0.0636055...],
+                          [ 430.        ,    0.0549472...],
+                          [ 440.        ,    0.0488572...],
+                          [ 450.        ,    0.0445552...],
+                          [ 460.        ,    0.0415635...],
+                          [ 470.        ,    0.0395874...],
+                          [ 480.        ,    0.0384489...],
+                          [ 490.        ,    0.038052 ...],
+                          [ 500.        ,    0.0383639...],
+                          [ 510.        ,    0.0394104...],
+                          [ 520.        ,    0.0412793...],
+                          [ 530.        ,    0.0441372...],
+                          [ 540.        ,    0.0482625...],
+                          [ 550.        ,    0.0541060...],
+                          [ 560.        ,    0.0624031...],
+                          [ 570.        ,    0.0743826...],
+                          [ 580.        ,    0.0921694...],
+                          [ 590.        ,    0.1195616...],
+                          [ 600.        ,    0.1634560...],
+                          [ 610.        ,    0.2357564...],
+                          [ 620.        ,    0.3520400...],
+                          [ 630.        ,    0.5140310...],
+                          [ 640.        ,    0.6821088...],
+                          [ 650.        ,    0.8073255...],
+                          [ 660.        ,    0.8831221...],
+                          [ 670.        ,    0.9262541...],
+                          [ 680.        ,    0.9512104...],
+                          [ 690.        ,    0.9662805...],
+                          [ 700.        ,    0.9758111...],
+                          [ 710.        ,    0.9820992...],
+                          [ 720.        ,    0.9864037...],
+                          [ 730.        ,    0.9894449...],
+                          [ 740.        ,    0.9916522...],
+                          [ 750.        ,    0.9932920...],
+                          [ 760.        ,    0.9945349...],
+                          [ 770.        ,    0.9954934...],
+                          [ 780.        ,    0.9962442...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_kwargs={},
+                         extrapolator=Extrapolator,
+                         extrapolator_kwargs={...})
+    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
+    array([ 0.2177372...,  0.1253941...,  0.0469309...])
+
+    *Mallett and Yuksel (2019)* reflectance recovery:
+
     >>> sd = XYZ_to_sd(XYZ, method='Mallet 2019')
     >>> with numpy_print_options(suppress=True):
     ...     # Doctests skip for Python 2.x compatibility.
@@ -302,61 +367,54 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
     array([ 0.2178545...,  0.1254141...,  0.0470095...])
 
-    *Jakob and Hanika (2009)* reflectance recovery:
+    *Otsu, Yamamoto and Hachisuka (2018)* reflectance recovery:
 
-    >>> sd = XYZ_to_sd(XYZ, cmfs=cmfs, method='Jakob 2019')
+    >>> sd = XYZ_to_sd(XYZ, method='Otsu 2018')
     >>> with numpy_print_options(suppress=True):
     ...     # Doctests skip for Python 2.x compatibility.
     ...     sd  # doctest: +SKIP
-    SpectralDistribution([[ 360.        ,    0.3692754...],
-                          [ 370.        ,    0.2470157...],
-                          [ 380.        ,    0.1702836...],
-                          [ 390.        ,    0.1237443...],
-                          [ 400.        ,    0.0948289...],
-                          [ 410.        ,    0.0761417...],
-                          [ 420.        ,    0.0636055...],
-                          [ 430.        ,    0.0549472...],
-                          [ 440.        ,    0.0488572...],
-                          [ 450.        ,    0.0445552...],
-                          [ 460.        ,    0.0415635...],
-                          [ 470.        ,    0.0395874...],
-                          [ 480.        ,    0.0384489...],
-                          [ 490.        ,    0.038052 ...],
-                          [ 500.        ,    0.0383639...],
-                          [ 510.        ,    0.0394104...],
-                          [ 520.        ,    0.0412793...],
-                          [ 530.        ,    0.0441372...],
-                          [ 540.        ,    0.0482625...],
-                          [ 550.        ,    0.0541060...],
-                          [ 560.        ,    0.0624031...],
-                          [ 570.        ,    0.0743826...],
-                          [ 580.        ,    0.0921694...],
-                          [ 590.        ,    0.1195616...],
-                          [ 600.        ,    0.1634560...],
-                          [ 610.        ,    0.2357564...],
-                          [ 620.        ,    0.3520400...],
-                          [ 630.        ,    0.5140310...],
-                          [ 640.        ,    0.6821088...],
-                          [ 650.        ,    0.8073255...],
-                          [ 660.        ,    0.8831221...],
-                          [ 670.        ,    0.9262541...],
-                          [ 680.        ,    0.9512104...],
-                          [ 690.        ,    0.9662805...],
-                          [ 700.        ,    0.9758111...],
-                          [ 710.        ,    0.9820992...],
-                          [ 720.        ,    0.9864037...],
-                          [ 730.        ,    0.9894449...],
-                          [ 740.        ,    0.9916522...],
-                          [ 750.        ,    0.9932920...],
-                          [ 760.        ,    0.9945349...],
-                          [ 770.        ,    0.9954934...],
-                          [ 780.        ,    0.9962442...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+SpectralDistribution([[  3.80000000e+02,   6.0857907...e-02],
+                      [  3.90000000e+02,   5.7030353...e-02],
+                      [  4.00000000e+02,   5.1421291...e-02],
+                      [  4.10000000e+02,   4.9092459...e-02],
+                      [  4.20000000e+02,   4.9635289...e-02],
+                      [  4.30000000e+02,   5.0077128...e-02],
+                      [  4.40000000e+02,   5.0378607...e-02],
+                      [  4.50000000e+02,   4.8757898...e-02],
+                      [  4.60000000e+02,   4.6450365...e-02],
+                      [  4.70000000e+02,   4.3460543...e-02],
+                      [  4.80000000e+02,   4.1573421...e-02],
+                      [  4.90000000e+02,   4.0404063...e-02],
+                      [  5.00000000e+02,   4.0734112...e-02],
+                      [  5.10000000e+02,   4.0691006...e-02],
+                      [  5.20000000e+02,   4.1665157...e-02],
+                      [  5.30000000e+02,   4.3361540...e-02],
+                      [  5.40000000e+02,   4.4848329...e-02],
+                      [  5.50000000e+02,   4.6514676...e-02],
+                      [  5.60000000e+02,   5.0243470...e-02],
+                      [  5.70000000e+02,   6.0336864...e-02],
+                      [  5.80000000e+02,   7.8710325...e-02],
+                      [  5.90000000e+02,   1.2363963...e-01],
+                      [  6.00000000e+02,   2.1138545...e-01],
+                      [  6.10000000e+02,   3.3510529...e-01],
+                      [  6.20000000e+02,   4.5233653...e-01],
+                      [  6.30000000e+02,   5.3100469...e-01],
+                      [  6.40000000e+02,   5.7088750...e-01],
+                      [  6.50000000e+02,   5.9396606...e-01],
+                      [  6.60000000e+02,   6.0840414...e-01],
+                      [  6.70000000e+02,   6.1562232...e-01],
+                      [  6.80000000e+02,   6.2502268...e-01],
+                      [  6.90000000e+02,   6.3338374...e-01],
+                      [  7.00000000e+02,   6.4383540...e-01],
+                      [  7.10000000e+02,   6.5127076...e-01],
+                      [  7.20000000e+02,   6.5783175...e-01],
+                      [  7.30000000e+02,   6.6539230...e-01]],
+                     interpolator=SpragueInterpolator,
+                     interpolator_kwargs={},
+                     extrapolator=Extrapolator,
+                     extrapolator_kwargs={...})
     >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
-    array([ 0.2177372...,  0.1253941...,  0.0469309...])
+    array([ 0.2179481...,  0.1254432...,  0.0470408...])
 
     *Smits (1999)* reflectance recovery:
 
