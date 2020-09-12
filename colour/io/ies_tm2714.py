@@ -103,7 +103,8 @@ class Header_IESTM2714(object):
         test lab, a research group, a standard body, a company or an
         individual.
     unique_identifier : unicode, optional
-        Description of the equipment used to measure the spectral data.
+        Unique identifier to the product under test or the spectral data in the
+        document.
     measurement_equipment : unicode, optional
         Description of the equipment used to measure the spectral data.
     laboratory : unicode, optional
