@@ -710,7 +710,7 @@ def optimisation_factory_JzAzBz():
 
 def idt_matrix(sensitivities,
                illuminant,
-               training_data=read_training_data_rawtoaces_v1(),
+               training_data=None,
                cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].copy()
                .align(SPECTRAL_SHAPE_RAWTOACES),
                optimisation_factory=optimisation_factory_rawtoaces_v1,
@@ -779,6 +779,9 @@ def idt_matrix(sensitivities,
            [ 0.053,  1.114, -0.175],
            [ 0.023, -0.225,  1.196]])
     """
+
+    if training_data is None:
+        training_data = read_training_data_rawtoaces_v1()
 
     shape = cmfs.shape
     if sensitivities.shape != shape:
