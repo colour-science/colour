@@ -323,6 +323,7 @@ def is_matplotlib_installed(raise_exception=False):
     """
 
     try:  # pragma: no cover
+        # pylint: disable=W0612
         import matplotlib  # noqa
 
         return True
@@ -358,6 +359,7 @@ def is_networkx_installed(raise_exception=False):
     """
 
     try:  # pragma: no cover
+        # pylint: disable=W0612
         import networkx  # noqa
 
         return True
@@ -393,6 +395,7 @@ def is_openimageio_installed(raise_exception=False):
     """
 
     try:  # pragma: no cover
+        # pylint: disable=W0612
         import OpenImageIO  # noqa
 
         return True
@@ -428,6 +431,7 @@ def is_pandas_installed(raise_exception=False):
     """
 
     try:  # pragma: no cover
+        # pylint: disable=W0612
         import pandas  # noqa
 
         return True
@@ -463,6 +467,7 @@ def is_tqdm_installed(raise_exception=False):
     """
 
     try:  # pragma: no cover
+        # pylint: disable=W0612
         import tqdm  # noqa
 
         return True
