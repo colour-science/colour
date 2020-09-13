@@ -53,7 +53,7 @@ __all__ += ['RGB_to_sd_Smits1999']
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
     'Jakob 2019': XYZ_to_sd_Jakob2019,
-    'Mallet 2019': RGB_to_sd_Mallett2019,
+    'Mallett 2019': RGB_to_sd_Mallett2019,
     'Meng 2015': XYZ_to_sd_Meng2015,
     'Otsu 2018': XYZ_to_sd_Otsu2018,
     'Smits 1999': RGB_to_sd_Smits1999,
@@ -67,7 +67,7 @@ References
 :cite:`Smits1999a`
 
 XYZ_TO_SD_METHODS : CaseInsensitiveMapping
-    **{'Jakob 2019', 'Mallet 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999'}**
+    **{'Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999'}**
 """
 
 
@@ -82,7 +82,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
         *CIE XYZ* tristimulus values to recover the spectral distribution
         from.
     method : unicode, optional
-        **{'Meng 2015', 'Jakob 2019', 'Mallet 2019', 'Otsu 2018',
+        **{'Meng 2015', 'Jakob 2019', 'Mallett 2019', 'Otsu 2018',
         'Smits 1999'}**
         Computation method.
 
@@ -229,7 +229,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     ...     copy().align(SPECTRAL_SHAPE_sRGB_MALLETT2019)
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
-    >>> sd = XYZ_to_sd(XYZ, method='Mallet 2019')
+    >>> sd = XYZ_to_sd(XYZ, method='Mallett 2019')
     >>> with numpy_print_options(suppress=True):
     ...     # Doctests skip for Python 2.x compatibility.
     ...     sd  # doctest: +SKIP

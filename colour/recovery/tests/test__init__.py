@@ -49,7 +49,7 @@ class TestXYZ_to_sd(unittest.TestCase):
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        m = ('Jakob 2019', 'Mallet 2019', 'Meng 2015', 'Otsu 2018',
+        m = ('Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018',
              'Smits 1999')
         v = [
             sd_to_XYZ_integration(
