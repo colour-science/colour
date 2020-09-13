@@ -56,7 +56,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('write', 'read', 'select', 'cluster')
+        required_methods = ('select', 'cluster', 'read', 'write')
 
         for method in required_methods:
             self.assertIn(method, dir(Dataset_Otsu2018))

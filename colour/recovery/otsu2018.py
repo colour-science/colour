@@ -87,10 +87,10 @@ class Dataset_Otsu2018(object):
 
     Methods
     -------
-    write
-    read
     select
     cluster
+    read
+    write
     """
 
     def __init__(self,
@@ -170,55 +170,6 @@ class Dataset_Otsu2018(object):
         return '{0}({1} basis functions)'.format(
             self.__class__.__name__, self._basis_functions.shape[0])
 
-    def write(self, path):
-        """
-        Writes the dataset to an *.npz* file at given path.
-        """
-
-        shape_array = as_float_array(
-            [self._shape.start, self._shape.end, self._shape.interval])
-
-        np.savez(
-            path,
-            shape=shape_array,
-            basis_functions=self._basis_functions,
-            means=self._means,
-            selector_array=self._selector_array)
-
-    def read(self, path):
-        """
-        Reads and loads a dataset from an *.npz* file.
-
-        Parameters
-        ----------
-        path : unicode
-            Path to file.
-
-        Raises
-        ------
-        ValueError, KeyError
-            Raised when loading the file succeeded but it did not contain the
-            expected data.
-        """
-
-        npz = np.load(path)
-
-        if not isinstance(npz, np.lib.npyio.NpzFile):
-            raise ValueError('The loaded file is not an ".npz" type file!')
-
-        start, end, interval = npz['shape']
-        self._shape = SpectralShape(start, end, interval)
-        self._basis_functions = npz['basis_functions']
-        self._means = npz['means']
-        self._selector_array = npz['selector_array']
-
-        n, three, m = self._basis_functions.shape
-        if (three != 3 or self._means.shape != (n, m) or
-                self._selector_array.shape[1] != 4):
-            raise ValueError(
-                'Unexpected array shapes encountered, the file could be '
-                'corrupted or in a wrong format!')
-
     def select(self, xy):
         """
         Returns the cluster index appropriate for the given *CIE xy*
@@ -271,6 +222,55 @@ class Dataset_Otsu2018(object):
         index = self.select(xy)
 
         return self._basis_functions[index, :, :], self._means[index, :]
+
+    def read(self, path):
+        """
+        Reads and loads a dataset from an *.npz* file.
+
+        Parameters
+        ----------
+        path : unicode
+            Path to file.
+
+        Raises
+        ------
+        ValueError, KeyError
+            Raised when loading the file succeeded but it did not contain the
+            expected data.
+        """
+
+        npz = np.load(path)
+
+        if not isinstance(npz, np.lib.npyio.NpzFile):
+            raise ValueError('The loaded file is not an ".npz" type file!')
+
+        start, end, interval = npz['shape']
+        self._shape = SpectralShape(start, end, interval)
+        self._basis_functions = npz['basis_functions']
+        self._means = npz['means']
+        self._selector_array = npz['selector_array']
+
+        n, three, m = self._basis_functions.shape
+        if (three != 3 or self._means.shape != (n, m) or
+                self._selector_array.shape[1] != 4):
+            raise ValueError(
+                'Unexpected array shapes encountered, the file could be '
+                'corrupted or in a wrong format!')
+
+    def write(self, path):
+        """
+        Writes the dataset to an *.npz* file at given path.
+        """
+
+        shape_array = as_float_array(
+            [self._shape.start, self._shape.end, self._shape.interval])
+
+        np.savez(
+            path,
+            shape=shape_array,
+            basis_functions=self._basis_functions,
+            means=self._means,
+            selector_array=self._selector_array)
 
 
 DATASET_REFERENCE_OTSU2018 = Dataset_Otsu2018(
