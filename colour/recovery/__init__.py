@@ -32,7 +32,7 @@ from colour.utilities import (CaseInsensitiveMapping, as_float_array,
 from .datasets import *  # noqa
 from . import datasets
 from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
-                        XYZ_to_sd_Jakob2019, Jakob2019Interpolator)
+                        XYZ_to_sd_Jakob2019, LUT3D_Jakob2019)
 from .mallett2019 import (spectral_primary_decomposition_Mallett2019,
                           RGB_to_sd_Mallett2019)
 from .meng2015 import XYZ_to_sd_Meng2015
@@ -42,7 +42,7 @@ __all__ = []
 __all__ += datasets.__all__
 __all__ += [
     'sd_Jakob2019', 'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
-    'Jakob2019Interpolator'
+    'LUT3D_Jakob2019'
 ]
 __all__ += [
     'spectral_primary_decomposition_Mallett2019', 'RGB_to_sd_Mallett2019'

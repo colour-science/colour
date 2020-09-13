@@ -18,8 +18,7 @@ from colour.difference import JND_CIE1976, delta_E_CIE1976
 from colour.models import RGB_COLOURSPACE_sRGB, RGB_to_XYZ, XYZ_to_Lab
 from colour.recovery.jakob2019 import (
     XYZ_to_sd_Jakob2019, sd_Jakob2019, error_function,
-    dimensionalise_coefficients, SPECTRAL_SHAPE_JAKOB2019,
-    Jakob2019Interpolator)
+    dimensionalise_coefficients, SPECTRAL_SHAPE_JAKOB2019, LUT3D_Jakob2019)
 from colour.utilities import domain_range_scale, full, ones, zeros
 
 __author__ = 'Colour Developers'
@@ -30,7 +29,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestJakob2019Interpolator'
+    'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestLUT3D_Jakob2019'
 ]
 
 
@@ -189,9 +188,9 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
                     decimal=7)
 
 
-class TestJakob2019Interpolator(unittest.TestCase):
+class TestLUT3D_Jakob2019(unittest.TestCase):
     """
-    Defines :class:`colour.recovery.jakob2019.Jakob2019Interpolator`
+    Defines :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`
     definition unit tests methods.
     """
 
@@ -224,36 +223,36 @@ class TestJakob2019Interpolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('table', 'lightness_scale', 'coefficients',
-                               'size')
+        required_attributes = ('lightness_scale', 'coefficients', 'size',
+                               'interpolator')
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(Jakob2019Interpolator))
+            self.assertIn(attribute, dir(LUT3D_Jakob2019))
 
     def test_required_methods(self):
         """
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'RGB_to_coefficients', 'RGB_to_sd',
-                            'generate', 'read', 'write')
+        required_methods = ('__init__', 'generate', 'RGB_to_coefficients',
+                            'RGB_to_sd', 'read', 'write')
 
         for method in required_methods:
-            self.assertIn(method, dir(Jakob2019Interpolator))
+            self.assertIn(method, dir(LUT3D_Jakob2019))
 
-    def test_Jakob2019Interpolator(self):
+    def test_LUT3D_Jakob2019(self):
         """
         Tests the entirety of the
-        :class:`colour.recovery.jakob2019.Jakob2019Interpolator`class.
+        :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`class.
         """
 
-        interpolator = Jakob2019Interpolator()
-        interpolator.generate(
-            self._RGB_colourspace, self._cmfs, self._sd_D65, 4, verbose=True)
+        LUT = LUT3D_Jakob2019()
+        LUT.generate(self._RGB_colourspace, self._cmfs, self._sd_D65, 5)
 
-        path = os.path.join(self._temporary_directory, 'Jakob2019_Test.coeff')
-        interpolator.write(path)
-        interpolator.read(path)
+        path = os.path.join(self._temporary_directory, 'Test_Jakob2019.coeff')
+
+        LUT.write(path)
+        LUT.read(path)
 
         for RGB in [
                 np.array([1, 0, 0]),
@@ -268,7 +267,7 @@ class TestJakob2019Interpolator(unittest.TestCase):
                              self._RGB_colourspace.RGB_to_XYZ_matrix)
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
-            recovered_sd = interpolator.RGB_to_sd(RGB)
+            recovered_sd = LUT.RGB_to_sd(RGB)
             recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs,
                                       self._sd_D65) / 100
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)

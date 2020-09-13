@@ -9,7 +9,7 @@ Defines objects for reflectance recovery, i.e. spectral upsampling, using
 -   :func:`colour.recovery.sd_Jakob2019`
 -   :func:`colour.recovery.find_coefficients_Jakob2019`
 -   :func:`colour.recovery.XYZ_to_sd_Jakob2019`
--   :class:`colour.recovery.Jakob2019Interpolator`
+-   :class:`colour.recovery.LUT3D_Jakob2019`
 
 References
 ----------
@@ -21,6 +21,7 @@ References
 from __future__ import division, print_function, unicode_literals
 
 import numpy as np
+import six
 import struct
 from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator
@@ -33,8 +34,16 @@ from colour.colorimetry import (
 from colour.difference import JND_CIE1976
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (as_float_array, domain_range_scale, full,
-                              index_along_last_axis, to_domain_1,
-                              runtime_warning, zeros)
+                              index_along_last_axis, is_tqdm_installed,
+                              message_box, to_domain_1, runtime_warning, zeros)
+if six.PY3:
+    from unittest import mock
+else:
+    import mock
+if is_tqdm_installed():
+    from tqdm import tqdm
+else:
+    tqdm = mock.MagicMock()
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -46,8 +55,7 @@ __status__ = 'Production'
 __all__ = [
     'SPECTRAL_SHAPE_JAKOB2019', 'StopMinimizationEarly', 'sd_Jakob2019',
     'error_function', 'dimensionalise_coefficients', 'lightness_scale',
-    'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019',
-    'Jakob2019Interpolator'
+    'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019', 'LUT3D_Jakob2019'
 ]
 
 SPECTRAL_SHAPE_JAKOB2019 = SpectralShape(360, 780, 5)
@@ -371,6 +379,13 @@ def find_coefficients_Jakob2019(
     error : float
         :math:`\\Delta E_{76}` between the target colour and the colour
         corresponding to the computed coefficients.
+
+    Examples
+    --------
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> find_coefficients_Jakob2019(XYZ)  # doctest: +ELLIPSIS
+    (array([  1.3723791...e-04,  -1.3514399...e-01,   3.0838973...e+01]), \
+0.0141941...)
     """
 
     shape = cmfs.shape
@@ -397,7 +412,7 @@ def find_coefficients_Jakob2019(
         except StopMinimizationEarly as error:
             return error.coefficients, error.error
 
-    xy_n = XYZ_to_xy(sd_to_XYZ(illuminant))
+    xy_n = XYZ_to_xy(sd_to_XYZ(illuminant, cmfs))
 
     XYZ_good = full(3, 0.5)
     coefficients_good = zeros(3)
@@ -554,51 +569,106 @@ def XYZ_to_sd_Jakob2019(
         return sd
 
 
-class Jakob2019Interpolator(object):
+class LUT3D_Jakob2019(object):
     """
     Class for working with pre-computed lookup tables for the
     *Jakob and Hanika (2019)* spectral upsampling method. It allows significant
     time savings by performing the expensive numerical optimization ahead of
     time and storing the results in a file.
 
-    The file format is compatible with the code and *.coeff* files in
+    The file format is compatible with the code and *\\*.coeff* files in
     supplemental material published alongside the article.
 
     Attributes
     ----------
-    table
     size
     lightness_scale
     coefficients
+    interpolator
 
     Methods
     -------
+    generate
     RGB_to_coefficients
     RGB_to_sd
-    generate
     read
     write
+
+    Examples
+    --------
+    >>> import os
+    >>> import colour
+    >>> from colour.models import RGB_COLOURSPACE_sRGB
+    >>> from colour.utilities import numpy_print_options
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(SpectralShape(360, 780, 10))
+    ... )
+    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> LUT = LUT3D_Jakob2019()
+    >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
+    >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
+    ...                     'resources', 'sRGB_Jakob2019.coeff')
+    >>> LUT.write(path)  # doctest: +SKIP
+    >>> LUT.read(path)  # doctest: +SKIP
+    >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
+    >>> with numpy_print_options(suppress=True):
+    ...     # Doctests skip for Python 2.x compatibility.
+    ...     LUT.RGB_to_sd(RGB, cmfs.shape)  # doctest: +SKIP
+    SpectralDistribution([[ 360.        ,    0.7663248...],
+                          [ 370.        ,    0.6248040...],
+                          [ 380.        ,    0.4582328...],
+                          [ 390.        ,    0.3161403...],
+                          [ 400.        ,    0.2196885...],
+                          [ 410.        ,    0.1597642...],
+                          [ 420.        ,    0.1226653...],
+                          [ 430.        ,    0.0990878...],
+                          [ 440.        ,    0.0836822...],
+                          [ 450.        ,    0.0734525...],
+                          [ 460.        ,    0.0667002...],
+                          [ 470.        ,    0.0624502...],
+                          [ 480.        ,    0.0601529...],
+                          [ 490.        ,    0.0595328...],
+                          [ 500.        ,    0.0605182...],
+                          [ 510.        ,    0.0632235...],
+                          [ 520.        ,    0.0679778...],
+                          [ 530.        ,    0.0754093...],
+                          [ 540.        ,    0.0866232...],
+                          [ 550.        ,    0.1035471...],
+                          [ 560.        ,    0.1295933...],
+                          [ 570.        ,    0.1708525...],
+                          [ 580.        ,    0.2377171...],
+                          [ 590.        ,    0.3442627...],
+                          [ 600.        ,    0.4952907...],
+                          [ 610.        ,    0.6605014...],
+                          [ 620.        ,    0.7914286...],
+                          [ 630.        ,    0.8738002...],
+                          [ 640.        ,    0.9212534...],
+                          [ 650.        ,    0.9486329...],
+                          [ 660.        ,    0.9650124...],
+                          [ 670.        ,    0.9752510...],
+                          [ 680.        ,    0.9819246...],
+                          [ 690.        ,    0.9864387...],
+                          [ 700.        ,    0.9895916...],
+                          [ 710.        ,    0.9918554...],
+                          [ 720.        ,    0.9935199...],
+                          [ 730.        ,    0.9947694...],
+                          [ 740.        ,    0.9957242...],
+                          [ 750.        ,    0.9964656...],
+                          [ 760.        ,    0.9970494...],
+                          [ 770.        ,    0.9975148...],
+                          [ 780.        ,    0.9978900...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_kwargs={},
+                         extrapolator=Extrapolator,
+                         extrapolator_kwargs={...})
     """
 
     def __init__(self):
-        self._table = None
+        self._interpolator = None
         self._size = None
         self._lightness_scale = None
         self._coefficients = None
-
-    @property
-    def table(self):
-        """
-        Getter property for the *Jakob and Hanika (2019)* interpolator
-        3D table, i.e. the cube storing the interpolation data.
-
-        Returns
-        -------
-        RegularGridInterpolator
-            *Jakob and Hanika (2019)* interpolator 3D table.
-        """
-
-        return self._table
 
     @property
     def size(self):
@@ -642,7 +712,20 @@ class Jakob2019Interpolator(object):
 
         return self._coefficients
 
-    def _create_table(self):
+    @property
+    def interpolator(self):
+        """
+        Getter property for the *Jakob and Hanika (2019)* interpolator.
+
+        Returns
+        -------
+        RegularGridInterpolator
+            *Jakob and Hanika (2019)* interpolator.
+        """
+
+        return self._interpolator
+
+    def _create_interpolator(self):
         """
         Creates a :class:`scipy.interpolate.RegularGridInterpolator` class
         instance for read or generated coefficients.
@@ -651,8 +734,151 @@ class Jakob2019Interpolator(object):
         samples = np.linspace(0, 1, self._size)
         axes = ([0, 1, 2], self._lightness_scale, samples, samples)
 
-        self._table = RegularGridInterpolator(
+        self._interpolator = RegularGridInterpolator(
             axes, self._coefficients, bounds_error=False)
+
+    def generate(self,
+                 colourspace,
+                 cmfs=MSDS_CMFS_STANDARD_OBSERVER[
+                     'CIE 1931 2 Degree Standard Observer']
+                 .copy().align(SPECTRAL_SHAPE_JAKOB2019),
+                 illuminant=SDS_ILLUMINANTS['D65'].copy().align(
+                     SPECTRAL_SHAPE_JAKOB2019),
+                 size=64,
+                 print_callable=print):
+        """
+        Generates the lookup table data for given *RGB* colourspace, colour
+        matching functions, illuminant and given size.
+
+        Parameters
+        ----------
+        colourspace: RGB_Colourspace
+            The *RGB* colourspace to create a lookup table for.
+        cmfs : XYZ_ColourMatchingFunctions, optional
+            Standard observer colour matching functions.
+        illuminant : SpectralDistribution, optional
+            Illuminant spectral distribution.
+        size : int, optional
+            The resolution of the lookup table. Higher values will decrease
+            errors but at the cost of a much longer run time. The published
+            *\\*.coeff* files have a resolution of 64.
+        print_callable : callable, optional
+            Callable used to print progress and diagnostic information.
+
+        Examples
+        --------
+        >>> from colour.utilities import numpy_print_options
+        >>> from colour.models import RGB_COLOURSPACE_sRGB
+        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
+        ...             SpectralShape(360, 780, 10))
+        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> LUT = LUT3D_Jakob2019()
+        >>> print(LUT.interpolator)
+        None
+        >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3)
+        ======================================================================\
+=========
+        *                                                                     \
+        *
+        *   "Jakob et al. (2018)" LUT Optimisation                            \
+        *
+        *                                                                     \
+        *
+        ======================================================================\
+=========
+        <BLANKLINE>
+        Optimising 27 coefficients...
+        <BLANKLINE>
+        >>> print(LUT.interpolator)
+        ... # doctest: +ELLIPSIS
+        <scipy.interpolate.interpolate.RegularGridInterpolator object at 0x...>
+        """
+
+        shape = cmfs.shape
+
+        if illuminant.shape != shape:
+            runtime_warning(
+                'Aligning "{0}" illuminant shape to "{1}" colour matching '
+                'functions shape.'.format(illuminant.name, cmfs.name))
+            illuminant = illuminant.copy().align(cmfs.shape)
+
+        xy_n = XYZ_to_xy(sd_to_XYZ(illuminant, cmfs))
+
+        # It could be interesting to have different resolutions for lightness
+        # and chromaticity, but the current file format doesn't allow it.
+        lightness_steps = size
+        chroma_steps = size
+
+        self._lightness_scale = lightness_scale(lightness_steps)
+        self._coefficients = np.empty(
+            [3, chroma_steps, chroma_steps, lightness_steps, 3])
+
+        cube_indexes = np.ndindex(3, chroma_steps, chroma_steps)
+        total_coefficients = chroma_steps ** 2 * 3
+
+        # First, create a list of all the fully bright colours with the order
+        # matching cube_indexes.
+        samples = np.linspace(0, 1, chroma_steps)
+        ij = np.meshgrid(*[[1], samples, samples], indexing='ij')
+        ij = np.transpose(ij).reshape(-1, 3)
+        chromas = np.concatenate(
+            [ij, np.roll(ij, 1, axis=1),
+             np.roll(ij, 2, axis=1)])
+
+        message_box(
+            '"Jakob et al. (2018)" LUT Optimisation',
+            print_callable=print_callable)
+
+        print_callable(
+            '\nOptimising {0} coefficients...\n'.format(total_coefficients))
+
+        def optimize(ijkL, coefficients_0):
+            """
+            Solves for a specific lightness and stores the result in the
+            appropriate cell.
+            """
+
+            i, j, k, L = ijkL
+
+            RGB = self._lightness_scale[L] * chroma
+
+            XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, xy_n,
+                             colourspace.RGB_to_XYZ_matrix)
+
+            coefficients, error = find_coefficients_Jakob2019(
+                XYZ, cmfs, illuminant, coefficients_0, dimensionalise=False)
+
+            self._coefficients[i, L, j, k, :] = dimensionalise_coefficients(
+                coefficients, shape)
+
+            return coefficients
+
+        with tqdm(total=total_coefficients) as progress:
+            for ijk, chroma in zip(cube_indexes, chromas):
+                progress.update()
+
+                # Starts from somewhere in the middle, similarly to how
+                # feedback works in "colour.recovery.\
+                # find_coefficients_Jakob2019" definition.
+                L_middle = lightness_steps // 3
+                coefficients_middle = optimize(
+                    np.hstack([ijk, L_middle]), zeros(3))
+
+                # Goes down the lightness scale.
+                coefficients_0 = coefficients_middle
+                for L in reversed(range(0, L_middle)):
+                    coefficients_0 = optimize(
+                        np.hstack([ijk, L]), coefficients_0)
+
+                # Goes up the lightness scale.
+                coefficients_0 = coefficients_middle
+                for L in range(L_middle + 1, lightness_steps):
+                    coefficients_0 = optimize(
+                        np.hstack([ijk, L]), coefficients_0)
+
+        self._size = size
+        self._create_interpolator()
 
     def RGB_to_coefficients(self, RGB):
         """
@@ -668,23 +894,37 @@ class Jakob2019Interpolator(object):
         -------
         coefficients : ndarray, (3,)
             Corresponding coefficients that can be passed to
-            :func:`colour.recovery.jakob2019.sd_Jakob2019` to obtain a
-            spectral distribution.
+            :func:`colour.recovery.jakob2019.sd_Jakob2019` to obtain a spectral
+            distribution.
+
+        Examples
+        --------
+        >>> from colour.models import RGB_COLOURSPACE_sRGB
+        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
+        ...             SpectralShape(360, 780, 10))
+        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> LUT = LUT3D_Jakob2019()
+        >>> LUT.generate(
+        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
+        >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
+        >>> LUT.RGB_to_coefficients(RGB)  # doctest: +ELLIPSIS
+        array([  1.5012557...e-04,  -1.4678661...e-01,   3.4017293...e+01])
         """
 
         RGB = as_float_array(RGB)
 
-        vmax = np.max(RGB, axis=-1)
-        chroma = RGB / (np.expand_dims(vmax, -1) + 1e-10)
+        value_max = np.max(RGB, axis=-1)
+        chroma = RGB / (np.expand_dims(value_max, -1) + 1e-10)
 
-        imax = np.argmax(RGB, axis=-1)
-        v1 = index_along_last_axis(RGB, imax)
-        v2 = index_along_last_axis(chroma, (imax + 2) % 3)
-        v3 = index_along_last_axis(chroma, (imax + 1) % 3)
+        i_m = np.argmax(RGB, axis=-1)
+        i_1 = index_along_last_axis(RGB, i_m)
+        i_2 = index_along_last_axis(chroma, (i_m + 2) % 3)
+        i_3 = index_along_last_axis(chroma, (i_m + 1) % 3)
 
-        coords = np.stack([imax, v1, v2, v3], axis=-1)
+        indexes = np.stack([i_m, i_1, i_2, i_3], axis=-1)
 
-        return self._table(coords).squeeze()
+        return self._interpolator(indexes).squeeze()
 
     def RGB_to_sd(self, RGB, shape=SPECTRAL_SHAPE_JAKOB2019):
         """
@@ -703,6 +943,69 @@ class Jakob2019Interpolator(object):
         sd : SpectralDistribution
             Spectral distribution corresponding with the RGB* colourspace
             array.
+
+        Examples
+        --------
+        >>> from colour.utilities import numpy_print_options
+        >>> from colour.models import RGB_COLOURSPACE_sRGB
+        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
+        ...             SpectralShape(360, 780, 10))
+        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> LUT = LUT3D_Jakob2019()
+        >>> LUT.generate(
+        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
+        >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
+        >>> with numpy_print_options(suppress=True):
+        ...     # Doctests skip for Python 2.x compatibility.
+        ...     LUT.RGB_to_sd(RGB, cmfs.shape)  # doctest: +SKIP
+        SpectralDistribution([[ 360.        ,    0.7663250...],
+                              [ 370.        ,    0.6248043...],
+                              [ 380.        ,    0.4582331...],
+                              [ 390.        ,    0.3161405...],
+                              [ 400.        ,    0.2196887...],
+                              [ 410.        ,    0.1597643...],
+                              [ 420.        ,    0.1226654...],
+                              [ 430.        ,    0.0990879...],
+                              [ 440.        ,    0.0836822...],
+                              [ 450.        ,    0.0734526...],
+                              [ 460.        ,    0.0667003...],
+                              [ 470.        ,    0.0624502...],
+                              [ 480.        ,    0.060153 ...],
+                              [ 490.        ,    0.0595329...],
+                              [ 500.        ,    0.0605182...],
+                              [ 510.        ,    0.0632236...],
+                              [ 520.        ,    0.0679778...],
+                              [ 530.        ,    0.0754094...],
+                              [ 540.        ,    0.0866233...],
+                              [ 550.        ,    0.1035472...],
+                              [ 560.        ,    0.1295934...],
+                              [ 570.        ,    0.1708527...],
+                              [ 580.        ,    0.2377174...],
+                              [ 590.        ,    0.3442632...],
+                              [ 600.        ,    0.4952913...],
+                              [ 610.        ,    0.6605019...],
+                              [ 620.        ,    0.7914290...],
+                              [ 630.        ,    0.8738004...],
+                              [ 640.        ,    0.9212535...],
+                              [ 650.        ,    0.9486330...],
+                              [ 660.        ,    0.9650125...],
+                              [ 670.        ,    0.9752511...],
+                              [ 680.        ,    0.9819246...],
+                              [ 690.        ,    0.9864387...],
+                              [ 700.        ,    0.9895916...],
+                              [ 710.        ,    0.9918554...],
+                              [ 720.        ,    0.9935199...],
+                              [ 730.        ,    0.9947694...],
+                              [ 740.        ,    0.9957242...],
+                              [ 750.        ,    0.9964656...],
+                              [ 760.        ,    0.9970494...],
+                              [ 770.        ,    0.9975148...],
+                              [ 780.        ,    0.9978900...]],
+                             interpolator=SpragueInterpolator,
+                             interpolator_kwargs={},
+                             extrapolator=Extrapolator,
+                             extrapolator_kwargs={...})
         """
 
         sd = sd_Jakob2019(self.RGB_to_coefficients(RGB), shape)
@@ -710,129 +1013,32 @@ class Jakob2019Interpolator(object):
 
         return sd
 
-    def generate(self,
-                 colourspace,
-                 cmfs,
-                 illuminant,
-                 resolution,
-                 verbose=False,
-                 print_callable=print):
-        """
-        Creates a lookup table for a given *RGB* colourspace with given
-        resolution.
-
-        Parameters
-        ----------
-        colourspace: RGB_Colourspace
-            The *RGB* colourspace to create a lookup table for.
-        cmfs : XYZ_ColourMatchingFunctions
-            Standard observer colour matching functions.
-        illuminant : SpectralDistribution
-            Illuminant spectral distribution.
-        resolution : int
-            The resolution of the lookup table. Higher values will decrease
-            errors but at the cost of a much longer run time. The published
-            *.coeff* files have a resolution of 64.
-        verbose : bool, optional
-            If *True*, the default, information about the progress is printed
-            to the standard output.
-        print_callable : callable, optional
-            Callable used to for verbose.
-        """
-
-        illuminant_xy = XYZ_to_xy(sd_to_XYZ(illuminant))
-
-        # It could be interesting to have different resolutions for lightness
-        # and chromaticity, but the current file format doesn't allow it.
-        lightness_steps = resolution
-        chroma_steps = resolution
-
-        self._lightness_scale = lightness_scale(lightness_steps)
-        self._coefficients = np.empty(
-            [3, chroma_steps, chroma_steps, lightness_steps, 3])
-
-        cube_indexes = np.ndindex(3, chroma_steps, chroma_steps)
-
-        # First, create a list of all the fully bright colours with the order
-        # matching cube_indexes.
-        samples = np.linspace(0, 1, chroma_steps)
-        yx = np.meshgrid(*[[1], samples, samples], indexing='ij')
-        yx = np.transpose(yx).reshape(-1, 3)
-        chromas = np.concatenate(
-            [yx, np.roll(yx, 1, axis=1),
-             np.roll(yx, 2, axis=1)])
-
-        # TODO: Replace this with a proper progress bar.
-        if verbose:
-            print_callable(
-                '{0:>6} {1:>6} {2:>6}  {3:>13} {4:>13} {5:>13}  {6}'.format(
-                    'R', 'G', 'B', 'c0', 'c1', 'c2', 'Delta E'))
-
-        # TODO: Send the list to a multiprocessing pool; this takes a while.
-        for (i, j, k), chroma in zip(cube_indexes, chromas):
-            if verbose:
-                print_callable(
-                    'i={0}, j={1}, k={2}, R={3:.6f}, G={4:.6f}, B={5:.6f}'.
-                    format(i, j, k, chroma[0], chroma[1], chroma[2]))
-
-            def optimize(L, coefficients_0):
-                """
-                Solves for a specific lightness and stores the result in the
-                appropriate cell.
-                """
-
-                RGB = self._lightness_scale[L] * chroma
-
-                XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, illuminant_xy,
-                                 colourspace.RGB_to_XYZ_matrix)
-
-                coefficients, error = find_coefficients_Jakob2019(
-                    XYZ,
-                    cmfs,
-                    illuminant,
-                    coefficients_0,
-                    dimensionalise=False)
-
-                if verbose:
-                    print_callable(
-                        '{0:.4f} {1:.4f} {2:.4f}  '
-                        '{3:>13.6f} {4:>13.6f} {5:>13.6f} {6:.6f}'.format(
-                            RGB[0], RGB[1], RGB[2], coefficients[0],
-                            coefficients[1], coefficients[2], error))
-
-                self._coefficients[i, L, j,
-                                   k, :] = dimensionalise_coefficients(
-                                       coefficients, cmfs.shape)
-
-                return coefficients
-
-            # Starts from somewhere in the middle, similarly to how feedback
-            # works in "colour.recovery.find_coefficients_Jakob2019"
-            # definition.
-            middle_L = lightness_steps // 3
-            middle_coefficients = optimize(middle_L, (0, 0, 0))
-
-            # Goes down the lightness scale.
-            coefficients_0 = middle_coefficients
-            for L in reversed(range(0, middle_L)):
-                coefficients_0 = optimize(L, coefficients_0)
-
-            # Goes up the lightness scale.
-            coefficients_0 = middle_coefficients
-            for L in range(middle_L + 1, lightness_steps):
-                coefficients_0 = optimize(L, coefficients_0)
-
-        self._size = lightness_steps
-        self._create_table()
-
     def read(self, path):
         """
-        Loads a lookup table from a *.coeff* file.
+        Loads a lookup table from a *\\*.coeff* file.
 
         Parameters
         ----------
         path : unicode
             Path to the file.
+
+        Examples
+        --------
+        >>> import os
+        >>> import colour
+        >>> from colour.utilities import numpy_print_options
+        >>> from colour.models import RGB_COLOURSPACE_sRGB
+        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
+        ...             SpectralShape(360, 780, 10))
+        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> LUT = LUT3D_Jakob2019()
+        >>> LUT.generate(
+        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
+        >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
+        ...                     'resources', 'sRGB_Jakob2019.coeff')
+        >>> LUT.write(path)  # doctest: +SKIP
+        >>> LUT.read(path)  # doctest: +SKIP
         """
 
         with open(path, 'rb') as coeff_file:
@@ -849,16 +1055,34 @@ class Jakob2019Interpolator(object):
             self._coefficients = self._coefficients.reshape(
                 3, self._size, self._size, self._size, 3)
 
-        self._create_table()
+        self._create_interpolator()
 
     def write(self, path):
         """
-        Writes the lookup table to a *.coeff* file.
+        Writes the lookup table to a *\\*.coeff* file.
 
         Parameters
         ----------
         path : unicode
             Path to the file.
+
+        Examples
+        --------
+        >>> import os
+        >>> import colour
+        >>> from colour.utilities import numpy_print_options
+        >>> from colour.models import RGB_COLOURSPACE_sRGB
+        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
+        ...             SpectralShape(360, 780, 10))
+        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> LUT = LUT3D_Jakob2019()
+        >>> LUT.generate(
+        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
+        >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
+        ...                     'resources', 'sRGB_Jakob2019.coeff')
+        >>> LUT.write(path)  # doctest: +SKIP
+        >>> LUT.read(path)  # doctest: +SKIP
         """
 
         with open(path, 'wb') as coeff_file:

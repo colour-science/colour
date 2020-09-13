@@ -27,7 +27,7 @@ Jakob and Hanika (2019)
     :toctree: generated/
 
     RGB_to_sd_Jakob2019
-    Jakob2019Interpolator
+    LUT3D_Jakob2019
 
 **Ancillary Objects**
 
