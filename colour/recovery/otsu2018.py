@@ -30,7 +30,8 @@ from colour.models import XYZ_to_xy
 from colour.recovery import (SPECTRAL_SHAPE_OTSU2018, BASIS_FUNCTIONS_OTSU2018,
                              CLUSTER_MEANS_OTSU2018, SELECTOR_ARRAY_OTSU2018)
 from colour.utilities import (as_float_array, interval, domain_range_scale,
-                              is_tqdm_installed, to_domain_1, zeros)
+                              is_tqdm_installed, message_box, to_domain_1,
+                              zeros)
 
 if six.PY3:
     from unittest import mock
@@ -1311,13 +1312,18 @@ class NodeTree_Otsu2018(Node):
         self._minimum_cluster_size = max(self._minimum_cluster_size, 3)
 
         initial_branch_error = self.branch_reconstruction_error()
+
+        message_box(
+            '"Otsu et al. (2018)" Node Tree Optimisation',
+            print_callable=print_callable)
+
         print_callable(
-            'Initial branch error is: {0:g}.'.format(initial_branch_error))
+            'Initial branch error is: {0}'.format(initial_branch_error))
 
         best_leaf, best_partition, best_axis, partition_error = [None] * 4
 
         for i in range(iterations):
-            print_callable('\n=== Iteration {0} of {1} ==='.format(
+            print_callable('\nIteration {0} of {1}:\n'.format(
                 i + 1, iterations))
 
             total_error = self.branch_reconstruction_error()
@@ -1363,7 +1369,7 @@ class NodeTree_Otsu2018(Node):
 
             best_leaf.split(best_partition, best_axis)
 
-        print_callable('Tree optimisation is complete!')
+        print_callable('Node tree optimisation is complete!')
 
     def to_dataset(self):
         """
