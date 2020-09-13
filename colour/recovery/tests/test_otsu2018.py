@@ -19,7 +19,7 @@ from colour.models import XYZ_to_Lab
 from colour.recovery import (XYZ_to_sd_Otsu2018, SPECTRAL_SHAPE_OTSU2018,
                              Dataset_Otsu2018, NodeTree_Otsu2018)
 from colour.recovery.otsu2018 import ColourData, Node
-from colour.utilities import domain_range_scale, as_float_array, metric_mse
+from colour.utilities import domain_range_scale, metric_mse
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -220,7 +220,7 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('reflectances', 'shape', 'cmfs', 'illuminant',
+        required_attributes = ('reflectances', 'cmfs', 'illuminant',
                                'minimum_cluster_size')
 
         for attribute in required_attributes:
@@ -244,17 +244,16 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         reconstruction errors.
         """
 
-        data = []
+        reflectances = []
         for colourchecker in ['ColorChecker N Ohta', 'BabelColor Average']:
             for sd in SDS_COLOURCHECKERS[colourchecker].values():
-                data.append(sd.copy().align(self._shape).values)
+                reflectances.append(sd.copy().align(self._shape).values)
 
-        data = as_float_array(data)
-        tree = NodeTree_Otsu2018(data, self._shape)
-        tree.optimise(iterations=2)
+        node_tree = NodeTree_Otsu2018(reflectances, self._cmfs, self._sd_D65)
+        node_tree.optimise(iterations=2)
 
-        path = os.path.join(self._temporary_directory, 'Otsu2018_Test.npz')
-        dataset = tree.to_dataset()
+        path = os.path.join(self._temporary_directory, 'Test_Otsu2018.npz')
+        dataset = node_tree.to_dataset()
         dataset.write(path)
 
         dataset = Dataset_Otsu2018()
@@ -264,8 +263,8 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
-            recovered_sd = XYZ_to_sd_Otsu2018(
-                XYZ, self._cmfs, self._sd_D65, clip=False, dataset=dataset)
+            recovered_sd = XYZ_to_sd_Otsu2018(XYZ, self._cmfs, self._sd_D65,
+                                              dataset, False)
             recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs,
                                       self._sd_D65) / 100
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
