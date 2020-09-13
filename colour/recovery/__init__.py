@@ -34,7 +34,7 @@ from . import datasets
 from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
                         XYZ_to_sd_Jakob2019, Jakob2019Interpolator)
 from .mallett2019 import (spectral_primary_decomposition_Mallett2019,
-                          RGB_to_sd_Mallett2019, sRGB_to_sd_Mallett2019)
+                          RGB_to_sd_Mallett2019)
 from .meng2015 import XYZ_to_sd_Meng2015
 from .otsu2018 import Dataset_Otsu2018, NodeTree_Otsu2018, XYZ_to_sd_Otsu2018
 from .smits1999 import RGB_to_sd_Smits1999
@@ -45,8 +45,7 @@ __all__ += [
     'Jakob2019Interpolator'
 ]
 __all__ += [
-    'spectral_primary_decomposition_Mallett2019', 'RGB_to_sd_Mallett2019',
-    'sRGB_to_sd_Mallett2019'
+    'spectral_primary_decomposition_Mallett2019', 'RGB_to_sd_Mallett2019'
 ]
 __all__ += ['XYZ_to_sd_Meng2015']
 __all__ += ['Dataset_Otsu2018', 'NodeTree_Otsu2018', 'XYZ_to_sd_Otsu2018']
@@ -54,7 +53,7 @@ __all__ += ['RGB_to_sd_Smits1999']
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
     'Jakob 2019': XYZ_to_sd_Jakob2019,
-    'Mallet 2019': sRGB_to_sd_Mallett2019,
+    'Mallet 2019': RGB_to_sd_Mallett2019,
     'Meng 2015': XYZ_to_sd_Meng2015,
     'Otsu 2018': XYZ_to_sd_Otsu2018,
     'Smits 1999': RGB_to_sd_Smits1999,
@@ -92,6 +91,11 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     additional_data : bool, optional
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
         If *True*, ``error`` will be returned alongside ``sd``.
+    basis_functions : MultiSpectralDistributions
+        {:func:`colour.recovery.RGB_to_sd_Mallett2019`},
+        Basis functions for the method. The default is to use the built-in
+        *sRGB* basis functions, i.e.
+        :attr:`colour.recovery.MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019`.
     clip : bool, optional
         {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
         If *True*, the default, values below zero and above unity in the
@@ -447,7 +451,7 @@ SpectralDistribution([[  3.80000000e+02,   6.0857907...e-02],
         from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
 
         a = XYZ_to_RGB_Smits1999(XYZ)
-    elif function is sRGB_to_sd_Mallett2019:
+    elif function is RGB_to_sd_Mallett2019:
         from colour.models import XYZ_to_sRGB
 
         a = XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)

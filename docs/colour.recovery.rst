@@ -52,7 +52,6 @@ Mallett and Yuksel (2019)
     :toctree: generated/
 
     RGB_to_sd_Mallett2019
-    sRGB_to_sd_Mallett2019
 
 **Ancillary Objects**
 
