@@ -1049,7 +1049,7 @@ class Node(object):
         with tqdm(total=2 * len(self.colour_data)) as progress:
             for direction in [0, 1]:
                 for i in range(len(self.colour_data)):
-                    progress.update(1)
+                    progress.update()
                     origin = self.colour_data.xy[i, direction]
                     axis = PartitionAxis(origin, direction)
 
