@@ -15,11 +15,10 @@ from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
                                 MSDS_CMFS_STANDARD_OBSERVER, sd_to_XYZ)
 from colour.difference import JND_CIE1976, delta_E_CIE1976
-from colour.models import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_Lab
+from colour.models import RGB_COLOURSPACE_sRGB, RGB_to_XYZ, XYZ_to_Lab
 from colour.recovery.jakob2019 import (
     XYZ_to_sd_Jakob2019, sd_Jakob2019, error_function,
-    dimensionalise_coefficients, SPECTRAL_SHAPE_JAKOB2019,
-    Jakob2019Interpolator)
+    dimensionalise_coefficients, SPECTRAL_SHAPE_JAKOB2019, LUT3D_Jakob2019)
 from colour.utilities import domain_range_scale, full, ones, zeros
 
 __author__ = 'Colour Developers'
@@ -30,14 +29,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestJakob2019Interpolator'
+    'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestLUT3D_Jakob2019'
 ]
-
-MSDS_CMFS = MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-RGB_COLOURSPACE_sRGB = RGB_COLOURSPACES['sRGB']
-RGB_COLOURSPACE_PROPHOTO_RGB = RGB_COLOURSPACES['ProPhoto RGB']
-SD_D65 = SDS_ILLUMINANTS['D65']
-CCS_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 
 
 class TestErrorFunction(unittest.TestCase):
@@ -51,11 +44,21 @@ class TestErrorFunction(unittest.TestCase):
         Initialises common tests attributes.
         """
 
+        self._shape = SPECTRAL_SHAPE_JAKOB2019
+        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+            'CIE 1931 2 Degree Standard Observer'].copy().align(self._shape)
+
+        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._shape)
+        self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
+        self._XYZ_D65 /= self._XYZ_D65[1]
+        self._xy_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D65']
+
         self._Lab_e = np.array([72, -20, 61])
 
-    def test_compare_intermediates(self):
+    def test_intermediates(self):
         """
-        Compares intermediate results of
+        Tests intermediate results of
         :func:`colour.recovery.jakob2019.error_function` with
         :func:`colour.sd_to_XYZ`, :func:`colour.XYZ_to_Lab` and checks if the
         error is computed correctly by comparing it with
@@ -76,65 +79,54 @@ class TestErrorFunction(unittest.TestCase):
             np.array([-15.864009, 8.6735071, -1.4012552]),  # 'cyan'
         ]
 
-        # error_function will not align these for us.
-        shape = SPECTRAL_SHAPE_JAKOB2019
-        aligned_cmfs = MSDS_CMFS.copy().align(shape)
-        illuminant = SD_D65.copy().align(shape)
-        XYZ_n = sd_to_XYZ(SD_D65)
-        XYZ_n /= XYZ_n[1]
-
         for coefficients in coefficient_list:
             error, _derror, R, XYZ, Lab = error_function(
                 coefficients,
                 self._Lab_e,
-                aligned_cmfs,
-                illuminant,
+                self._cmfs,
+                self._sd_D65,
                 additional_data=True)
 
             sd = sd_Jakob2019(
-                dimensionalise_coefficients(coefficients, shape), shape)
+                dimensionalise_coefficients(coefficients, self._shape),
+                self._shape)
 
-            sd_XYZ = sd_to_XYZ(sd, illuminant=illuminant) / 100
-            sd_Lab = XYZ_to_Lab(XYZ, CCS_D65)
+            sd_XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
+            sd_Lab = XYZ_to_Lab(XYZ, self._xy_D65)
             error_reference = delta_E_CIE1976(self._Lab_e, Lab)
 
             np.testing.assert_allclose(sd.values, R, atol=1e-14)
             np.testing.assert_allclose(XYZ, sd_XYZ, atol=1e-14)
+
             self.assertLess(abs(error_reference - error), JND_CIE1976 / 100)
             self.assertLess(delta_E_CIE1976(Lab, sd_Lab), JND_CIE1976 / 100)
 
     def test_derivatives(self):
         """
-        Compares gradients computed using closed-form expressions of
+        Tests the gradients computed using closed-form expressions of the
         derivatives with finite difference approximations.
         """
 
-        shape = SPECTRAL_SHAPE_JAKOB2019
-        aligned_cmfs = MSDS_CMFS.copy().align(shape)
-        illuminant = SD_D65.copy().align(shape)
-        XYZ_n = sd_to_XYZ(SD_D65)
-        XYZ_n /= XYZ_n[1]
-
-        var_range = np.linspace(-10, 10, 1000)
-        h = var_range[1] - var_range[0]
+        samples = np.linspace(-10, 10, 1000)
+        ds = samples[1] - samples[0]
 
         # Vary one coefficient at a time, keeping the others fixed to 1.
         for coefficient_i in range(3):
-            errors = np.empty_like(var_range)
-            derrors = np.empty_like(var_range)
+            errors = np.empty_like(samples)
+            derrors = np.empty_like(samples)
 
-            for i, var in enumerate(var_range):
+            for i, sample in enumerate(samples):
                 coefficients = ones(3)
-                coefficients[coefficient_i] = var
+                coefficients[coefficient_i] = sample
 
                 error, derror = error_function(coefficients, self._Lab_e,
-                                               aligned_cmfs, illuminant)
+                                               self._cmfs, self._sd_D65)
 
                 errors[i] = error
                 derrors[i] = derror[coefficient_i]
 
             staggered_derrors = (derrors[:-1] + derrors[1:]) / 2
-            approximate_derrors = np.diff(errors) / h
+            approximate_derrors = np.diff(errors) / ds
 
             # The approximated derivatives aren't too accurate, so tolerances
             # have to be rather loose.
@@ -148,6 +140,16 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
     unit tests methods.
     """
 
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        self._shape = SPECTRAL_SHAPE_JAKOB2019
+        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+            'CIE 1931 2 Degree Standard Observer'].copy().align(self._shape)
+        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._shape)
+
     def test_XYZ_to_sd_Jakob2019(self):
         """
         Tests :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition.
@@ -155,10 +157,10 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
 
         # Tests the round-trip with values of a colour checker.
         for name, sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].items():
-            XYZ = sd_to_XYZ(sd, illuminant=SD_D65) / 100
+            XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
 
             _recovered_sd, error = XYZ_to_sd_Jakob2019(
-                XYZ, illuminant=SD_D65, additional_data=True)
+                XYZ, self._cmfs, self._sd_D65, additional_data=True)
 
             if error > JND_CIE1976 / 100:
                 self.fail('Delta E for \'{0}\' is {1}!'.format(name, error))
@@ -169,21 +171,26 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         domain and range scale support.
         """
 
-        XYZ_i = np.array([0.21781186, 0.12541048, 0.04697113])
-        XYZ_o = sd_to_XYZ(XYZ_to_sd_Jakob2019(XYZ_i))
+        XYZ_i = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ_o = sd_to_XYZ(
+            XYZ_to_sd_Jakob2019(XYZ_i, self._cmfs, self._sd_D65), self._cmfs,
+            self._sd_D65)
 
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    sd_to_XYZ(XYZ_to_sd_Jakob2019(XYZ_i * factor_a)),
+                    sd_to_XYZ(
+                        XYZ_to_sd_Jakob2019(XYZ_i * factor_a, self._cmfs,
+                                            self._sd_D65), self._cmfs,
+                        self._sd_D65),
                     XYZ_o * factor_b,
                     decimal=7)
 
 
-class TestJakob2019Interpolator(unittest.TestCase):
+class TestLUT3D_Jakob2019(unittest.TestCase):
     """
-    Defines :class:`colour.recovery.jakob2019.Jakob2019Interpolator`
+    Defines :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`
     definition unit tests methods.
     """
 
@@ -191,6 +198,16 @@ class TestJakob2019Interpolator(unittest.TestCase):
         """
         Initialises common tests attributes.
         """
+
+        self._RGB_colourspace = RGB_COLOURSPACE_sRGB
+
+        self._shape = SPECTRAL_SHAPE_JAKOB2019
+        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+            'CIE 1931 2 Degree Standard Observer'].copy().align(self._shape)
+
+        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._shape)
+        self._xy_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D65']
 
         self._temporary_directory = tempfile.mkdtemp()
 
@@ -206,36 +223,36 @@ class TestJakob2019Interpolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('table', 'lightness_scale', 'coefficients',
-                               'size')
+        required_attributes = ('lightness_scale', 'coefficients', 'size',
+                               'interpolator')
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(Jakob2019Interpolator))
+            self.assertIn(attribute, dir(LUT3D_Jakob2019))
 
     def test_required_methods(self):
         """
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'RGB_to_coefficients', 'RGB_to_sd',
-                            'generate', 'read', 'write')
+        required_methods = ('__init__', 'generate', 'RGB_to_coefficients',
+                            'RGB_to_sd', 'read', 'write')
 
         for method in required_methods:
-            self.assertIn(method, dir(Jakob2019Interpolator))
+            self.assertIn(method, dir(LUT3D_Jakob2019))
 
-    def test_Jakob2019Interpolator(self):
+    def test_LUT3D_Jakob2019(self):
         """
         Tests the entirety of the
-        :class:`colour.recovery.jakob2019.Jakob2019Interpolator`class.
+        :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`class.
         """
 
-        interpolator = Jakob2019Interpolator()
-        interpolator.generate(
-            RGB_COLOURSPACE_sRGB, MSDS_CMFS, SD_D65, 4, verbose=True)
+        LUT = LUT3D_Jakob2019()
+        LUT.generate(self._RGB_colourspace, self._cmfs, self._sd_D65, 5)
 
-        path = os.path.join(self._temporary_directory, 'Jakob2019_Test.coeff')
-        interpolator.write(path)
-        interpolator.read(path)
+        path = os.path.join(self._temporary_directory, 'Test_Jakob2019.coeff')
+
+        LUT.write(path)
+        LUT.read(path)
 
         for RGB in [
                 np.array([1, 0, 0]),
@@ -245,18 +262,21 @@ class TestJakob2019Interpolator(unittest.TestCase):
                 full(3, 0.5),
                 ones(3),
         ]:
-            XYZ = RGB_to_XYZ(RGB, RGB_COLOURSPACE_sRGB.whitepoint, CCS_D65,
-                             RGB_COLOURSPACE_sRGB.RGB_to_XYZ_matrix)
-            Lab = XYZ_to_Lab(XYZ, CCS_D65)
+            XYZ = RGB_to_XYZ(RGB, self._RGB_colourspace.whitepoint,
+                             self._xy_D65,
+                             self._RGB_colourspace.RGB_to_XYZ_matrix)
+            Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
-            recovered_sd = interpolator.RGB_to_sd(RGB)
-            recovered_XYZ = sd_to_XYZ(recovered_sd, illuminant=SD_D65) / 100
-            recovered_Lab = XYZ_to_Lab(recovered_XYZ, CCS_D65)
+            recovered_sd = LUT.RGB_to_sd(RGB)
+            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs,
+                                      self._sd_D65) / 100
+            recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
+
             if error > 2 * JND_CIE1976 / 100:
                 self.fail('Delta E for RGB={0} in colourspace {1} is {2}!'
-                          .format(RGB, RGB_COLOURSPACE_sRGB.name, error))
+                          .format(RGB, self._RGB_colourspace.name, error))
 
 
 if __name__ == '__main__':

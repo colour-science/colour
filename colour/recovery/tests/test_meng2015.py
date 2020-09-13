@@ -8,8 +8,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
-                                MSDS_CMFS_STANDARD_OBSERVER, SpectralShape,
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SpectralShape,
                                 SDS_ILLUMINANTS, sd_to_XYZ_integration)
 from colour.recovery import XYZ_to_sd_Meng2015
 from colour.utilities import domain_range_scale
@@ -30,37 +29,34 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
     tests methods.
     """
 
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+            'CIE 1931 2 Degree Standard Observer'].copy().align(
+                SpectralShape(360, 780, 10))
+        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._cmfs.shape)
+        self._sd_E = SDS_ILLUMINANTS['E'].copy().align(self._cmfs.shape)
+
     def test_XYZ_to_sd_Meng2015(self):
         """
         Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition.
         """
 
-        cmfs = (
-            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-            .copy().trim(SPECTRAL_SHAPE_DEFAULT))
-        shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, 5)
-        cmfs_c = cmfs.copy().align(shape)
-
-        XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ, cmfs_c), cmfs_c) /
-            100,
-            XYZ,
-            decimal=7)
-
-        shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, 10)
-        cmfs_c = cmfs.copy().align(shape)
-
-        np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ, cmfs_c), cmfs_c) /
-            100,
+            sd_to_XYZ_integration(
+                XYZ_to_sd_Meng2015(XYZ, self._cmfs, self._sd_D65), self._cmfs,
+                self._sd_D65) / 100,
             XYZ,
             decimal=7)
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_integration(
-                XYZ_to_sd_Meng2015(XYZ, cmfs_c, SDS_ILLUMINANTS['D65']),
-                cmfs_c, SDS_ILLUMINANTS['D65']) / 100,
+                XYZ_to_sd_Meng2015(XYZ, self._cmfs, self._sd_E), self._cmfs,
+                self._sd_E) / 100,
             XYZ,
             decimal=7)
 
@@ -68,18 +64,20 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(
                     XYZ,
-                    cmfs_c,
+                    self._cmfs,
+                    self._sd_D65,
                     optimisation_kwargs={'options': {
                         'ftol': 1e-10,
-                    }}), cmfs_c) / 100,
+                    }}), self._cmfs, self._sd_D65) / 100,
             XYZ,
             decimal=7)
 
         shape = SpectralShape(400, 700, 5)
-        cmfs_c = cmfs.copy().align(shape)
+        cmfs = self._cmfs.copy().align(shape)
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ, cmfs_c), cmfs_c) /
-            100,
+            sd_to_XYZ_integration(
+                XYZ_to_sd_Meng2015(XYZ, cmfs, self._sd_D65), cmfs,
+                self._sd_D65) / 100,
             XYZ,
             decimal=7)
 
@@ -105,15 +103,19 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         domain and range scale support.
         """
 
-        XYZ_i = np.array([0.21781186, 0.12541048, 0.04697113])
-        XYZ_o = sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ_i))
+        XYZ_i = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ_o = sd_to_XYZ_integration(
+            XYZ_to_sd_Meng2015(XYZ_i, self._cmfs, self._sd_D65), self._cmfs,
+            self._sd_D65)
 
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     sd_to_XYZ_integration(
-                        XYZ_to_sd_Meng2015(XYZ_i * factor_a)),
+                        XYZ_to_sd_Meng2015(XYZ_i * factor_a, self._cmfs,
+                                           self._sd_D65), self._cmfs,
+                        self._sd_D65),
                     XYZ_o * factor_b,
                     decimal=7)
 

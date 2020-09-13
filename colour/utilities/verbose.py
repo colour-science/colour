@@ -683,6 +683,7 @@ def describe_environment(runtime_packages=True,
 
                 environment['Development'][package] = version
             except Exception:
+                # pylint: disable=B112
                 continue
 
         environment['Development'].update(ANCILLARY_DEVELOPMENT_PACKAGES)
@@ -696,6 +697,7 @@ def describe_environment(runtime_packages=True,
 
                 environment['Extras'][package] = version
             except Exception:
+                # pylint: disable=B112
                 continue
 
         environment['Extras'].update(ANCILLARY_EXTRAS_PACKAGES)

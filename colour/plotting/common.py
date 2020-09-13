@@ -1411,7 +1411,7 @@ def plot_multi_functions(functions,
     if samples is None:
         samples = np.linspace(0, 1, 1000)
 
-    for i, (name, function) in enumerate(functions.items()):
+    for i, (_name, function) in enumerate(functions.items()):
         plotting_function(samples, function(samples),
                           **plot_settings_collection[i])
 

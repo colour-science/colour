@@ -17,7 +17,7 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import SpectralShape
+from colour.colorimetry import MultiSpectralDistributions, SpectralShape
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -27,7 +27,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SPECTRAL_SHAPE_sRGB_MALLETT2019', 'BASIS_FUNCTIONS_sRGB_MALLETT2019'
+    'SPECTRAL_SHAPE_sRGB_MALLETT2019', 'DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019',
+    'MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019'
 ]
 
 SPECTRAL_SHAPE_sRGB_MALLETT2019 = SpectralShape(380, 780, 5)
@@ -42,7 +43,7 @@ References
 SPECTRAL_SHAPE_sRGB_MALLETT2019 : SpectralShape
 """
 
-BASIS_FUNCTIONS_sRGB_MALLETT2019 = np.array([
+DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019 = np.array([
     [0.32745741382705500, 0.33186171308587400, 0.34068079154805200],
     [0.32375057827054100, 0.32968818775939900, 0.34656118662485200],
     [0.31343946125157700, 0.32786002162469700, 0.35870049314035100],
@@ -125,6 +126,12 @@ BASIS_FUNCTIONS_sRGB_MALLETT2019 = np.array([
     [0.33367277492845600, 0.33329432844873200, 0.33302596748863200],
     [0.33356951340559100, 0.33330942495777500, 0.33311108308149700],
 ])
+
+MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019 = MultiSpectralDistributions(
+    DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019,
+    SPECTRAL_SHAPE_sRGB_MALLETT2019.range(),
+    name='Basis Functions - sRGB - Mallett 2019',
+    labels=('red', 'green', 'blue'))
 """
 *Mallett and Yuksel (2019)* basis functions for the *sRGB* colourspace.
 
@@ -132,5 +139,5 @@ References
 ----------
 :cite:`Mallett2019`
 
-BASIS_FUNCTIONS_sRGB_MALLETT2019 : ndarray
+MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019 : MultiSpectralDistributions
 """
