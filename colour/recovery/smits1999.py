@@ -88,7 +88,7 @@ def XYZ_to_RGB_Smits1999(XYZ):
         SMITS1999_WHITEPOINT,
         SMITS1999_WHITEPOINT,
         SMITS1999_XYZ_TO_RGB_MATRIX,
-        cctf_encoding=None)
+    )
 
 
 def RGB_to_sd_Smits1999(RGB):
@@ -121,24 +121,37 @@ def RGB_to_sd_Smits1999(RGB):
 
     Examples
     --------
+    >>> from colour.colorimetry import (
+    ...     MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
+    ...     SpectralShape, sd_to_XYZ_integration
+    ... )
     >>> from colour.utilities import numpy_print_options
-    >>> RGB = np.array([0.40639599, 0.02752894, 0.03982193])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> RGB = XYZ_to_RGB_Smits1999(XYZ)
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(SpectralShape(360, 780, 10))
+    ... )
+    >>> illuminant = SDS_ILLUMINANTS['E'].copy().align(cmfs.shape)
+    >>> sd = RGB_to_sd_Smits1999(RGB)
     >>> with numpy_print_options(suppress=True):
-    ...     RGB_to_sd_Smits1999(RGB)  # doctest: +ELLIPSIS
-    SpectralDistribution([[ 380.        ,    0.0769192...],
-                          [ 417.7778    ,    0.0587004...],
-                          [ 455.5556    ,    0.0394319...],
-                          [ 493.3333    ,    0.0302497...],
-                          [ 531.1111    ,    0.0275069...],
-                          [ 568.8889    ,    0.0280864...],
-                          [ 606.6667    ,    0.3429898...],
-                          [ 644.4444    ,    0.4118579...],
-                          [ 682.2222    ,    0.4118579...],
-                          [ 720.        ,    0.4118075...]],
+    ...     sd # doctest: +ELLIPSIS
+    SpectralDistribution([[ 380.        ,    0.0787830...],
+                          [ 417.7778    ,    0.0622018...],
+                          [ 455.5556    ,    0.0446206...],
+                          [ 493.3333    ,    0.0352220...],
+                          [ 531.1111    ,    0.0324149...],
+                          [ 568.8889    ,    0.0330105...],
+                          [ 606.6667    ,    0.3207115...],
+                          [ 644.4444    ,    0.3836164...],
+                          [ 682.2222    ,    0.3836164...],
+                          [ 720.        ,    0.3835649...]],
                          interpolator=LinearInterpolator,
                          interpolator_kwargs={},
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
+    >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
+    array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """
 
     white_sd = SDS_SMITS1999['white'].copy()

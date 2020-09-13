@@ -5,21 +5,21 @@ Defines unit tests for :mod:`colour.recovery.jakob2019` module.
 
 from __future__ import division, unicode_literals
 
-import unittest
+import numpy as np
 import os
 import shutil
 import tempfile
+import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
-                                MSDS_CMFS_STANDARD_OBSERVER,
-                                SpectralDistribution, sd_to_XYZ)
+                                MSDS_CMFS_STANDARD_OBSERVER, sd_to_XYZ)
 from colour.difference import delta_E_CIE1976
 from colour.models import XYZ_to_Lab
 from colour.recovery import (XYZ_to_sd_Otsu2018, SPECTRAL_SHAPE_OTSU2018,
                              Dataset_Otsu2018, NodeTree_Otsu2018)
 from colour.recovery.otsu2018 import ColourData, Node
-from colour.utilities import as_float_array, metric_mse
+from colour.utilities import domain_range_scale, as_float_array, metric_mse
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -32,10 +32,6 @@ __all__ = [
     'TestDataset_Otsu2018', 'TestXYZ_to_sd_Otsu2018', 'TestColourData',
     'TestNode', 'TestNodeTree_Otsu2018'
 ]
-
-CMFS = MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-SD_D65 = SpectralDistribution(SDS_ILLUMINANTS['D65'])
-CCS_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 
 
 class TestDataset_Otsu2018(unittest.TestCase):
@@ -68,23 +64,38 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
 class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.otsu2018.XYZ_to_sd_otsu2018` definition unit
+    Defines :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition unit
     tests methods.
     """
 
-    def test_XYZ_to_sd_otsu2018(self):
+    def setUp(self):
         """
-        Tests :func:`colour.recovery.otsu2018.XYZ_to_sd_otsu2018` definition.
+        Initialises common tests attributes.
+        """
+
+        self._shape = SPECTRAL_SHAPE_OTSU2018
+        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+            'CIE 1931 2 Degree Standard Observer'].copy().align(self._shape)
+
+        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._shape)
+        self._xy_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D65']
+
+    def test_XYZ_to_sd_Otsu2018(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition.
         """
 
         # Tests the round-trip with values of a colour checker.
         for _name, sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].items():
-            XYZ = sd_to_XYZ(sd, illuminant=SD_D65) / 100
-            Lab = XYZ_to_Lab(XYZ, CCS_D65)
+            XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
+            Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
-            recovered_sd = XYZ_to_sd_Otsu2018(XYZ, CMFS, SD_D65, clip=False)
-            recovered_XYZ = sd_to_XYZ(recovered_sd, illuminant=SD_D65) / 100
-            recovered_Lab = XYZ_to_Lab(recovered_XYZ, CCS_D65)
+            recovered_sd = XYZ_to_sd_Otsu2018(
+                XYZ, self._cmfs, self._sd_D65, clip=False)
+            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs,
+                                      self._sd_D65) / 100
+            recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = metric_mse(sd.copy().align(SPECTRAL_SHAPE_OTSU2018).values,
                                recovered_sd.values)
@@ -92,6 +103,28 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
 
             delta_E = delta_E_CIE1976(Lab, recovered_Lab)
             self.assertLess(delta_E, 1e-12)
+
+    def test_domain_range_scale_XYZ_to_sd_Otsu2018(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition
+        domain and range scale support.
+        """
+
+        XYZ_i = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ_o = sd_to_XYZ(
+            XYZ_to_sd_Otsu2018(XYZ_i, self._cmfs, self._sd_D65), self._cmfs,
+            self._sd_D65)
+
+        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    sd_to_XYZ(
+                        XYZ_to_sd_Otsu2018(XYZ_i * factor_a, self._cmfs,
+                                           self._sd_D65), self._cmfs,
+                        self._sd_D65),
+                    XYZ_o * factor_b,
+                    decimal=7)
 
 
 class TestColourData(unittest.TestCase):
@@ -165,6 +198,14 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         Initialises common tests attributes.
         """
 
+        self._shape = SPECTRAL_SHAPE_OTSU2018
+        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+            'CIE 1931 2 Degree Standard Observer'].copy().align(self._shape)
+
+        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._shape)
+        self._xy_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D65']
+
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
@@ -206,10 +247,10 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         data = []
         for colourchecker in ['ColorChecker N Ohta', 'BabelColor Average']:
             for sd in SDS_COLOURCHECKERS[colourchecker].values():
-                data.append(sd.copy().align(SPECTRAL_SHAPE_OTSU2018).values)
+                data.append(sd.copy().align(self._shape).values)
 
         data = as_float_array(data)
-        tree = NodeTree_Otsu2018(data, SPECTRAL_SHAPE_OTSU2018)
+        tree = NodeTree_Otsu2018(data, self._shape)
         tree.optimise(iterations=2)
 
         path = os.path.join(self._temporary_directory, 'Otsu2018_Test.npz')
@@ -220,13 +261,14 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         dataset.read(path)
 
         for sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].values():
-            XYZ = sd_to_XYZ(sd, illuminant=SD_D65) / 100
-            Lab = XYZ_to_Lab(XYZ, CCS_D65)
+            XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
+            Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
             recovered_sd = XYZ_to_sd_Otsu2018(
-                XYZ, CMFS, SD_D65, clip=False, dataset=dataset)
-            recovered_XYZ = sd_to_XYZ(recovered_sd, illuminant=SD_D65) / 100
-            recovered_Lab = XYZ_to_Lab(recovered_XYZ, CCS_D65)
+                XYZ, self._cmfs, self._sd_D65, clip=False, dataset=dataset)
+            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs,
+                                      self._sd_D65) / 100
+            recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = metric_mse(sd.copy().align(SPECTRAL_SHAPE_OTSU2018).values,
                                recovered_sd.values)

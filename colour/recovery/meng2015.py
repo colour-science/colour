@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
                                 SpectralDistribution, SpectralShape, sd_ones,
                                 sd_to_XYZ_integration)
 from colour.utilities import to_domain_1, from_range_100, runtime_warning
@@ -48,7 +48,8 @@ def XYZ_to_sd_Meng2015(
         XYZ,
         cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
         .copy().align(SPECTRAL_SHAPE_MENG2015),
-        illuminant=sd_ones(SPECTRAL_SHAPE_MENG2015),
+        illuminant=SDS_ILLUMINANTS['D65'].copy().align(
+            SPECTRAL_SHAPE_MENG2015),
         optimisation_kwargs=None,
         **kwargs):
     """
@@ -106,59 +107,60 @@ def XYZ_to_sd_Meng2015(
     ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
-    >>> sd = XYZ_to_sd_Meng2015(XYZ, cmfs)
+    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> sd = XYZ_to_sd_Meng2015(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     # Doctests skip for Python 2.x compatibility.
     ...     sd  # doctest: +SKIP
-    SpectralDistribution([[ 360.        ,    0.0780114...],
-                          [ 370.        ,    0.0780316...],
-                          [ 380.        ,    0.0780471...],
-                          [ 390.        ,    0.0780351...],
-                          [ 400.        ,    0.0779702...],
-                          [ 410.        ,    0.0778033...],
-                          [ 420.        ,    0.0770958...],
-                          [ 430.        ,    0.0748008...],
-                          [ 440.        ,    0.0693230...],
-                          [ 450.        ,    0.0601136...],
-                          [ 460.        ,    0.0477407...],
-                          [ 470.        ,    0.0334964...],
-                          [ 480.        ,    0.0193352...],
-                          [ 490.        ,    0.0074858...],
-                          [ 500.        ,    0.0001225...],
+    SpectralDistribution([[ 360.        ,    0.0765153...],
+                          [ 370.        ,    0.0764771...],
+                          [ 380.        ,    0.0764286...],
+                          [ 390.        ,    0.0764329...],
+                          [ 400.        ,    0.0765863...],
+                          [ 410.        ,    0.0764339...],
+                          [ 420.        ,    0.0757213...],
+                          [ 430.        ,    0.0733091...],
+                          [ 440.        ,    0.0676493...],
+                          [ 450.        ,    0.0577616...],
+                          [ 460.        ,    0.0440805...],
+                          [ 470.        ,    0.0284802...],
+                          [ 480.        ,    0.0138019...],
+                          [ 490.        ,    0.0033557...],
+                          [ 500.        ,    0.       ...],
                           [ 510.        ,    0.       ...],
                           [ 520.        ,    0.       ...],
                           [ 530.        ,    0.       ...],
-                          [ 540.        ,    0.0124896...],
-                          [ 550.        ,    0.0389831...],
-                          [ 560.        ,    0.0775105...],
-                          [ 570.        ,    0.1247947...],
-                          [ 580.        ,    0.1765339...],
-                          [ 590.        ,    0.2281918...],
-                          [ 600.        ,    0.2751347...],
-                          [ 610.        ,    0.3140115...],
-                          [ 620.        ,    0.3433561...],
-                          [ 630.        ,    0.3635777...],
-                          [ 640.        ,    0.3765428...],
-                          [ 650.        ,    0.3841726...],
-                          [ 660.        ,    0.3883633...],
-                          [ 670.        ,    0.3905415...],
-                          [ 680.        ,    0.3916742...],
-                          [ 690.        ,    0.3922554...],
-                          [ 700.        ,    0.3925427...],
-                          [ 710.        ,    0.3926783...],
-                          [ 720.        ,    0.3927330...],
-                          [ 730.        ,    0.3927586...],
-                          [ 740.        ,    0.3927548...],
-                          [ 750.        ,    0.3927681...],
-                          [ 760.        ,    0.3927813...],
-                          [ 770.        ,    0.3927840...],
-                          [ 780.        ,    0.3927536...]],
+                          [ 540.        ,    0.0055360...],
+                          [ 550.        ,    0.0317335...],
+                          [ 560.        ,    0.075457 ...],
+                          [ 570.        ,    0.1314930...],
+                          [ 580.        ,    0.1938219...],
+                          [ 590.        ,    0.2559747...],
+                          [ 600.        ,    0.3122869...],
+                          [ 610.        ,    0.3584363...],
+                          [ 620.        ,    0.3927112...],
+                          [ 630.        ,    0.4158866...],
+                          [ 640.        ,    0.4305832...],
+                          [ 650.        ,    0.4391142...],
+                          [ 660.        ,    0.4439484...],
+                          [ 670.        ,    0.4464121...],
+                          [ 680.        ,    0.4475718...],
+                          [ 690.        ,    0.4481182...],
+                          [ 700.        ,    0.4483734...],
+                          [ 710.        ,    0.4484743...],
+                          [ 720.        ,    0.4485753...],
+                          [ 730.        ,    0.4486474...],
+                          [ 740.        ,    0.4486629...],
+                          [ 750.        ,    0.4486995...],
+                          [ 760.        ,    0.4486925...],
+                          [ 770.        ,    0.4486794...],
+                          [ 780.        ,    0.4486982...]],
                          interpolator=SpragueInterpolator,
                          interpolator_kwargs={},
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
-    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
-    array([ 0.2065812...,  0.1219752...,  0.0514132...])
+    >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     optimisation_kwargs = handle_arguments_deprecation({
@@ -219,4 +221,4 @@ def XYZ_to_sd_Meng2015(
     return SpectralDistribution(
         from_range_100(result.x * 100),
         wavelengths,
-        name='Meng (2015) - {0}'.format(XYZ))
+        name='{0} (XYZ) - Meng (2015)'.format(XYZ))

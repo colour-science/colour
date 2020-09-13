@@ -98,8 +98,9 @@ def spectral_primary_decomposition_Mallett2019(
     ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
+    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
     >>> msds = spectral_primary_decomposition_Mallett2019(
-    ...     RGB_COLOURSPACE_PAL_SECAM, cmfs, optimisation_kwargs={
+    ...     RGB_COLOURSPACE_PAL_SECAM, cmfs, illuminant, optimisation_kwargs={
     ...         'options': {'ftol': 1e-5}
     ...     }
     ... )
@@ -236,10 +237,15 @@ def RGB_to_sd_Mallett2019(
     --------
     >>> from colour.colorimetry import SDS_ILLUMINANTS, sd_to_XYZ_integration
     >>> from colour.models import XYZ_to_sRGB
+    >>> from colour.recovery import SPECTRAL_SHAPE_sRGB_MALLETT2019
     >>> from colour.utilities import numpy_print_options
-    >>> illuminant = SDS_ILLUMINANTS['D65']
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> RGB = XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(SPECTRAL_SHAPE_sRGB_MALLETT2019)
+    ... )
+    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Mallett2019(RGB)
     >>> with numpy_print_options(suppress=True):
     ...     # Doctests skip for Python 2.x compatibility.
@@ -329,9 +335,9 @@ def RGB_to_sd_Mallett2019(
                          interpolator_kwargs={},
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
-    >>> sd_to_XYZ_integration(sd, illuminant=illuminant) / 100
+    >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100
     ... # doctest: +ELLIPSIS
-    array([ 0.2065713...,  0.1220193...,  0.0513980...])
+    array([ 0.2065436...,  0.1219996...,  0.0513764...])
     """
 
     RGB = to_domain_1(RGB)

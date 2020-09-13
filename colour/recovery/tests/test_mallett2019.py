@@ -26,18 +26,27 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SD_D65', 'CCS_D65', 'TestMixinMallett2019',
-    'TestSpectralPrimaryDecompositionMallett2019', 'TestRGB_to_sd_Mallett2019'
+    'TestMixinMallett2019', 'TestSpectralPrimaryDecompositionMallett2019',
+    'TestRGB_to_sd_Mallett2019'
 ]
-
-SD_D65 = SDS_ILLUMINANTS['D65']
-CCS_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 
 
 class TestMixinMallett2019(object):
     """
     A mixin for testing the :mod:`colour.recovery.mallett2019` module.
     """
+
+    def __init__(self):
+        """
+        Initialises common tests attributes for the mixin.
+        """
+
+        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+            'CIE 1931 2 Degree Standard Observer'].copy().align(
+                SpectralShape(360, 780, 10))
+        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._cmfs.shape)
+        self._xy_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D65']
 
     def check_basis_functions(self):
         """
@@ -62,19 +71,21 @@ class TestMixinMallett2019(object):
 
         # Check Delta E's using a colour checker.
         for name, sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].items():
-            XYZ = sd_to_XYZ(sd, illuminant=SD_D65) / 100
-            Lab = XYZ_to_Lab(XYZ, CCS_D65)
-            RGB = XYZ_to_RGB(XYZ, CCS_D65, CCS_D65,
+            XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
+            Lab = XYZ_to_Lab(XYZ, self._xy_D65)
+            RGB = XYZ_to_RGB(XYZ, self._RGB_colourspace.whitepoint,
+                             self._xy_D65,
                              self._RGB_colourspace.XYZ_to_RGB_matrix)
 
             recovered_sd = RGB_to_sd_Mallett2019(RGB, self._basis)
-            recovered_XYZ = sd_to_XYZ(recovered_sd, illuminant=SD_D65) / 100
-            recovered_Lab = XYZ_to_Lab(recovered_XYZ, CCS_D65)
+            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs,
+                                      self._sd_D65) / 100
+            recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
 
-            if error > 2 * JND_CIE1976 / 100:
-                self.fail('Delta E for \'{0}\' is {1}!'.format(name, error))
+            if error > 4 * JND_CIE1976 / 100:
+                self.fail('Delta E for "{0}" is {1}!'.format(name, error))
 
 
 class TestSpectralPrimaryDecompositionMallett2019(unittest.TestCase,
@@ -89,6 +100,8 @@ class TestSpectralPrimaryDecompositionMallett2019(unittest.TestCase,
         Initialises common tests attributes.
         """
 
+        TestMixinMallett2019.__init__(self)
+
         self._RGB_colourspace = RGB_COLOURSPACE_PAL_SECAM
 
     def test_spectral_primary_decomposition_Mallett2019(self):
@@ -97,14 +110,8 @@ class TestSpectralPrimaryDecompositionMallett2019(unittest.TestCase,
 test_spectral_primary_decomposition_Mallett2019` definition.
         """
 
-        shape = SpectralShape(380, 730, 5)
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
-        cmfs = cmfs.copy().align(shape)
-        illuminant = SD_D65.copy().align(shape)
-
         self._basis = spectral_primary_decomposition_Mallett2019(
-            self._RGB_colourspace, cmfs, illuminant)
+            self._RGB_colourspace, self._cmfs, self._sd_D65)
 
         self.check_basis_functions()
 
@@ -119,6 +126,8 @@ class TestRGB_to_sd_Mallett2019(unittest.TestCase, TestMixinMallett2019):
         """
         Initialises common tests attributes.
         """
+
+        TestMixinMallett2019.__init__(self)
 
         self._RGB_colourspace = RGB_COLOURSPACE_sRGB
         self._basis = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019

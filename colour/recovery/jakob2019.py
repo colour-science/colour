@@ -29,7 +29,7 @@ from colour import SDS_ILLUMINANTS
 from colour.algebra import spow, smoothstep_function
 from colour.colorimetry import (
     MSDS_CMFS_STANDARD_OBSERVER, SpectralDistribution, SpectralShape,
-    intermediate_lightness_function_CIE1976, sd_ones, sd_to_XYZ)
+    intermediate_lightness_function_CIE1976, sd_to_XYZ)
 from colour.difference import JND_CIE1976
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (as_float_array, domain_range_scale, full,
@@ -156,7 +156,7 @@ def sd_Jakob2019(coefficients, shape=SPECTRAL_SHAPE_JAKOB2019):
     U = c_0 * wl ** 2 + c_1 * wl + c_2
     R = 1 / 2 + U / (2 * np.sqrt(1 + U ** 2))
 
-    name = 'Jakob (2019) - {0} (COEFF)'.format(coefficients)
+    name = '{0} (COEFF) - Jakob (2019)'.format(coefficients)
 
     return SpectralDistribution(R, wl, name=name)
 
@@ -440,7 +440,8 @@ def XYZ_to_sd_Jakob2019(
         XYZ,
         cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
         .copy().align(SPECTRAL_SHAPE_JAKOB2019),
-        illuminant=sd_ones(SPECTRAL_SHAPE_JAKOB2019),
+        illuminant=SDS_ILLUMINANTS['D65'].copy().align(
+            SPECTRAL_SHAPE_JAKOB2019),
         optimisation_kwargs=None,
         additional_data=False):
     """
@@ -479,59 +480,60 @@ def XYZ_to_sd_Jakob2019(
     ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
-    >>> sd = XYZ_to_sd_Jakob2019(XYZ, cmfs)
+    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> sd = XYZ_to_sd_Jakob2019(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     # Doctests skip for Python 2.x compatibility.
     ...     sd  # doctest: +SKIP
-    SpectralDistribution([[ 360.        ,    0.3717653...],
-                          [ 370.        ,    0.2551674...],
-                          [ 380.        ,    0.1796344...],
-                          [ 390.        ,    0.1324685...],
-                          [ 400.        ,    0.1025098...],
-                          [ 410.        ,    0.0828360...],
-                          [ 420.        ,    0.0694814...],
-                          [ 430.        ,    0.0601729...],
-                          [ 440.        ,    0.0535745...],
-                          [ 450.        ,    0.0488773...],
-                          [ 460.        ,    0.0455801...],
-                          [ 470.        ,    0.0433696...],
-                          [ 480.        ,    0.0420540...],
-                          [ 490.        ,    0.0415260...],
-                          [ 500.        ,    0.0417442...],
-                          [ 510.        ,    0.0427256...],
-                          [ 520.        ,    0.0445487...],
-                          [ 530.        ,    0.0473671...],
-                          [ 540.        ,    0.0514381...],
-                          [ 550.        ,    0.0571745...],
-                          [ 560.        ,    0.0652386...],
-                          [ 570.        ,    0.0767126...],
-                          [ 580.        ,    0.0934152...],
-                          [ 590.        ,    0.1184910...],
-                          [ 600.        ,    0.1574567...],
-                          [ 610.        ,    0.2196538...],
-                          [ 620.        ,    0.3181180...],
-                          [ 630.        ,    0.4598423...],
-                          [ 640.        ,    0.6224910...],
-                          [ 650.        ,    0.7601476...],
-                          [ 660.        ,    0.8516183...],
-                          [ 670.        ,    0.9061111...],
-                          [ 680.        ,    0.9381461...],
-                          [ 690.        ,    0.9575256...],
-                          [ 700.        ,    0.9697334...],
-                          [ 710.        ,    0.9777401...],
-                          [ 720.        ,    0.9831864...],
-                          [ 730.        ,    0.9870109...],
-                          [ 740.        ,    0.9897712...],
-                          [ 750.        ,    0.9918114...],
-                          [ 760.        ,    0.9933506...],
-                          [ 770.        ,    0.9945329...],
-                          [ 780.        ,    0.9954555...]],
+    SpectralDistribution([[ 360.        ,    0.4884502...],
+                          [ 370.        ,    0.3251871...],
+                          [ 380.        ,    0.2144337...],
+                          [ 390.        ,    0.1480663...],
+                          [ 400.        ,    0.1085298...],
+                          [ 410.        ,    0.0840835...],
+                          [ 420.        ,    0.0682934...],
+                          [ 430.        ,    0.0577098...],
+                          [ 440.        ,    0.0504300...],
+                          [ 450.        ,    0.0453634...],
+                          [ 460.        ,    0.0418635...],
+                          [ 470.        ,    0.0395397...],
+                          [ 480.        ,    0.0381585...],
+                          [ 490.        ,    0.0375912...],
+                          [ 500.        ,    0.0377870...],
+                          [ 510.        ,    0.0387631...],
+                          [ 520.        ,    0.0406086...],
+                          [ 530.        ,    0.0435015...],
+                          [ 540.        ,    0.0477476...],
+                          [ 550.        ,    0.0538528...],
+                          [ 560.        ,    0.0626607...],
+                          [ 570.        ,    0.0756177...],
+                          [ 580.        ,    0.0952978...],
+                          [ 590.        ,    0.1264501...],
+                          [ 600.        ,    0.1779277...],
+                          [ 610.        ,    0.2648782...],
+                          [ 620.        ,    0.4037993...],
+                          [ 630.        ,    0.5829234...],
+                          [ 640.        ,    0.7442651...],
+                          [ 650.        ,    0.8497961...],
+                          [ 660.        ,    0.9093483...],
+                          [ 670.        ,    0.9424527...],
+                          [ 680.        ,    0.9615805...],
+                          [ 690.        ,    0.9732085...],
+                          [ 700.        ,    0.9806277...],
+                          [ 710.        ,    0.9855663...],
+                          [ 720.        ,    0.9889743...],
+                          [ 730.        ,    0.9913993...],
+                          [ 740.        ,    0.9931703...],
+                          [ 750.        ,    0.9944931...],
+                          [ 760.        ,    0.9955002...],
+                          [ 770.        ,    0.9962802...],
+                          [ 780.        ,    0.9968932...]],
                          interpolator=SpragueInterpolator,
                          interpolator_kwargs={},
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
-    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
-    array([ 0.2065209...,  0.1220029...,  0.0513715...])
+    >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
+    array([ 0.2065841...,  0.1220125...,  0.0514023...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -544,7 +546,7 @@ def XYZ_to_sd_Jakob2019(
             XYZ, cmfs, illuminant, **optimisation_kwargs)
 
     sd = sd_Jakob2019(coefficients, cmfs.shape)
-    sd.name = 'Jakob (2019) - {0}'.format(XYZ)
+    sd.name = '{0} (XYZ) - Jakob (2019)'.format(XYZ)
 
     if additional_data:
         return sd, error
@@ -704,7 +706,7 @@ class Jakob2019Interpolator(object):
         """
 
         sd = sd_Jakob2019(self.RGB_to_coefficients(RGB), shape)
-        sd.name = 'Jakob (2019) - {0} (RGB)'.format(RGB)
+        sd.name = '{0} (RGB) - Jakob (2019)'.format(RGB)
 
         return sd
 
