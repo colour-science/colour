@@ -610,12 +610,14 @@ def _conversion_path(source, target):
 <function xy_to_CCT at 0x...>]
     """
 
+    import colour
     import networkx as nx
 
     global CONVERSION_GRAPH
 
     if CONVERSION_GRAPH is None:
-        CONVERSION_GRAPH = _build_graph()
+        # Updating the :attr:`CONVERSION_GRAPH` attributes.
+        colour.graph.CONVERSION_GRAPH = CONVERSION_GRAPH = _build_graph()
 
     path = nx.shortest_path(CONVERSION_GRAPH, source, target)
 

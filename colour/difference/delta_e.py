@@ -264,10 +264,6 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
     +------------+-----------------------+-------------------+
 
-    -   *CIE 2000* colour differences are not symmetrical: difference between
-        ``Lab_1`` and ``Lab_2`` may not be the same as difference between
-        ``Lab_2`` and ``Lab_1`` thus one colour must be understood to be the
-        reference against which a sample colour is compared.
     -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
         *reference conditions*:
 
