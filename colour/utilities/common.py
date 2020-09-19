@@ -1574,7 +1574,7 @@ def copy_definition(definition, name=None):
     """
 
     copy = types.FunctionType(definition.__code__, definition.__globals__,
-                              name or definition.__name__,
+                              str(name or definition.__name__),
                               definition.__defaults__, definition.__closure__)
     copy.__dict__.update(definition.__dict__)
 

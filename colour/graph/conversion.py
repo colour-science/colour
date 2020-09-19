@@ -941,7 +941,7 @@ verbose={'mode': 'Long'})
     *                                                                         *
     *   [ Conversion Path ]                                                   *
     *                                                                         *
-    *   "UCS_Luo2006_to_JMh_CIECAM02" --> "JMh_CAM16_to_CAM16" -->            *
+    *   "UCS_Li2017_to_JMh_CAM16" --> "JMh_CAM16_to_CAM16" -->                *
     *   "CAM16_to_XYZ" --> "XYZ_to_sRGB"                                      *
     *                                                                         *
     ===========================================================================
