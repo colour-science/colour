@@ -13,7 +13,7 @@ References
     Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
 -   :cite:`Otsu2018` : Otsu, H., Yamamoto, M., & Hachisuka, T. (2018).
     Reproducing Spectral Reflectances From Tristimulus Colours. Computer
-    Graphics Forum, 37(6), 370–381. doi:10.1111/cgf.13332
+    Graphics Forum, 37(6), 370-381. doi:10.1111/cgf.13332
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
     Reflectances. Journal of Graphics Tools, 4(4), 11-22.
     doi:10.1080/10867651.1999.10487511

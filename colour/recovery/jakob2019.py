@@ -15,7 +15,7 @@ References
 ----------
 -   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low‐Dimensional
     Function Space for Efficient Spectral Upsampling. Computer Graphics Forum,
-    38(2), 147–155. doi:10.1111/cgf.13626
+    38(2), 147-155. doi:10.1111/cgf.13626
 """
 
 from __future__ import division, print_function, unicode_literals

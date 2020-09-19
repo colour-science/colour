@@ -14,7 +14,7 @@ References
 ----------
 -   :cite:`Otsu2018` : Otsu, H., Yamamoto, M., & Hachisuka, T. (2018).
     Reproducing Spectral Reflectances From Tristimulus Colours. Computer
-    Graphics Forum, 37(6), 370–381. doi:10.1111/cgf.13332
+    Graphics Forum, 37(6), 370-381. doi:10.1111/cgf.13332
 """
 
 from __future__ import division, print_function, unicode_literals
