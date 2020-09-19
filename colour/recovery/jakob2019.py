@@ -129,6 +129,10 @@ def sd_Jakob2019(coefficients, shape=SPECTRAL_SHAPE_JAKOB2019):
     SpectralDistribution
         *Jakob and Hanika (2019)* spectral distribution.
 
+    References
+    ----------
+    :cite:`Jakob2019`
+
     Examples
     --------
     >>> from colour.utilities import numpy_print_options
@@ -378,6 +382,10 @@ def find_coefficients_Jakob2019(
         :math:`\\Delta E_{76}` between the target colour and the colour
         corresponding to the computed coefficients.
 
+    References
+    ----------
+    :cite:`Jakob2019`
+
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -482,6 +490,10 @@ def XYZ_to_sd_Jakob2019(
     error : float
         :math:`\\Delta E_{76}` between the target colour and the colour
         corresponding to the computed coefficients.
+
+    References
+    ----------
+    :cite:`Jakob2019`
 
     Examples
     --------
@@ -592,6 +604,10 @@ class LUT3D_Jakob2019(object):
     -   :meth:`~colour.recovery.LUT3D_Jakob2019.RGB_to_sd`
     -   :meth:`~colour.recovery.LUT3D_Jakob2019.read`
     -   :meth:`~colour.recovery.LUT3D_Jakob2019.write`
+
+    References
+    ----------
+    :cite:`Jakob2019`
 
     Examples
     --------

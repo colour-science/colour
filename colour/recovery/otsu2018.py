@@ -93,6 +93,10 @@ class Dataset_Otsu2018(object):
     -   :meth:`~colour.recovery.Dataset_Otsu2018.read`
     -   :meth:`~colour.recovery.Dataset_Otsu2018.write`
 
+    References
+    ----------
+    :cite:`Otsu2018`
+
     Examples
     --------
     >>> import os
@@ -375,6 +379,10 @@ def XYZ_to_sd_Otsu2018(
     SpectralDistribution
         Recovered spectral distribution. Its shape is always that of the
         :class:`colour.recovery.SPECTRAL_SHAPE_OTSU2018` class instance.
+
+    References
+    ----------
+    :cite:`Otsu2018`
 
     Examples
     --------
@@ -1161,6 +1169,10 @@ class NodeTree_Otsu2018(Node):
     -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.msds_to_XYZ`
     -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.optimise`
     -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.to_dataset`
+
+    References
+    ----------
+    :cite:`Otsu2018`
 
     Examples
     --------

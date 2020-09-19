@@ -63,7 +63,7 @@ Supported spectral distribution recovery methods.
 
 References
 ----------
-:cite:`Jakob2019Spectral`, :cite:`Mallett2019`, :cite:`Meng2015c`,
+:cite:`Jakob2019`, :cite:`Mallett2019`, :cite:`Meng2015c`,
 :cite:`Smits1999a`
 
 XYZ_TO_SD_METHODS : CaseInsensitiveMapping
@@ -148,7 +148,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
 
     References
     ----------
-    :cite:`Jakob2019Spectral`,  :cite:`Mallett2019`, :cite:`Meng2015c`,
+    :cite:`Jakob2019`,  :cite:`Mallett2019`, :cite:`Meng2015c`,
     :cite:`Otsu2018`, :cite:`Smits1999a`
 
     Examples
