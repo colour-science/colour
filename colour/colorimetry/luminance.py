@@ -309,8 +309,8 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
     array_like
         *luminance* :math:`Y`.
 
-    Warning
-    -------
+    Warnings
+    --------
     The output range of that definition is non standard!
 
     Notes

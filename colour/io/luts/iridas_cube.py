@@ -172,8 +172,8 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     bool
         Definition success.
 
-    Warning
-    -------
+    Warnings
+    --------
     -   If a :class:`LUTSequence` class instance is passed as ``LUT``, the
         first *LUT* in the *LUT* sequence will be used.
 

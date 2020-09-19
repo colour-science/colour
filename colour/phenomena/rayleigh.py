@@ -548,8 +548,8 @@ def scattering_cross_section(
     numeric or ndarray
         Scattering cross section per molecule :math:`\\sigma` of dry air.
 
-    Warning
-    -------
+    Warnings
+    --------
     Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
     :func:`colour.scattering_cross_section` expects wavelength :math:`\\lambda`
     to be expressed in centimeters (cm).
@@ -625,8 +625,8 @@ def rayleigh_optical_depth(
     numeric or ndarray
         *Rayleigh* optical depth :math:`T_r(\\lambda)`.
 
-    Warning
-    -------
+    Warnings
+    --------
     Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
     :func:`colour.phenomena.rayleigh_optical_depth` expects wavelength
     :math:`\\lambda` to be expressed in centimeters (cm).

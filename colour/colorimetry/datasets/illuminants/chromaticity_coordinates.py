@@ -343,8 +343,8 @@ CCS_ILLUMINANTS = CaseInsensitiveMapping({
 CCS_ILLUMINANTS.__doc__ = """
 Chromaticity coordinates of the illuminants.
 
-Warning
--------
+Warnings
+--------
 *DCI-P3* illuminant has no associated spectral distribution. *DCI* has no
 official reference spectral measurement for this whitepoint. The closest
 matching spectral distribution is *Kinoton 75P* projector.

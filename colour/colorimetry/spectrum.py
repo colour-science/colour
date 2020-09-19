@@ -832,8 +832,8 @@ dict_like, optional
             :meth:`colour.SpectralDistribution.extrapolate` or
             :meth:`colour.SpectralDistribution.align` methods.
 
-        Warning
-        -------
+        Warnings
+        --------
         -   *Cubic Spline* interpolator requires at least 3 wavelengths
             :math:`\\lambda_n` for interpolation.
         -   *Sprague (1880)* interpolator requires at least 6 wavelengths
@@ -1991,8 +1991,8 @@ MultiSpectralDistributions or array_like or dict_like, optional
         -   See :meth:`colour.SpectralDistribution.interpolate` method notes
             section.
 
-        Warning
-        -------
+        Warnings
+        --------
         See :meth:`colour.SpectralDistribution.interpolate` method warning
         section.
 

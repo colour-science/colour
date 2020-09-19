@@ -754,8 +754,8 @@ class AbstractLUT:
         LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
-        Warning
-        -------
+        Warnings
+        --------
         Some conversions are destructive and raise a :class:`ValueError`
         exception by default.
 
@@ -1035,8 +1035,8 @@ class LUT1D(AbstractLUT):
         LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
-        Warning
-        -------
+        Warnings
+        --------
         Some conversions are destructive and raise a :class:`ValueError`
         exception by default.
 
@@ -1441,8 +1441,8 @@ class LUT3x1D(AbstractLUT):
         LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
-        Warning
-        -------
+        Warnings
+        --------
         Some conversions are destructive and raise a :class:`ValueError`
         exception by default.
 
@@ -1906,8 +1906,8 @@ class LUT3D(AbstractLUT):
         LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
-        Warning
-        -------
+        Warnings
+        --------
         Some conversions are destructive and raise a :class:`ValueError`
         exception by default.
 
@@ -1976,8 +1976,8 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     LUT1D or LUT3x1D or LUT3D
         Converted *LUT* class instance.
 
-    Warning
-    -------
+    Warnings
+    --------
     Some conversions are destructive and raise a :class:`ValueError` exception
     by default.
 

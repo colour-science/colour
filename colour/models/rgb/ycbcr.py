@@ -196,8 +196,8 @@ def RGB_to_YCbCr(RGB,
     ndarray
         *Y'CbCr* colour encoding array of integer or float values.
 
-    Warning
-    -------
+    Warnings
+    --------
     For *Recommendation ITU-R BT.2020*, :func:`colour.RGB_to_YCbCr` definition
     is only applicable to the non-constant luminance implementation.
     :func:`colour.RGB_to_YcCbcCrc` definition should be used for the constant
@@ -396,8 +396,8 @@ def YCbCr_to_RGB(YCbCr,
     \\* This definition has input and output integer switches, thus the
     domain-range scale information is only given for the floating point mode.
 
-    Warning
-    -------
+    Warnings
+    --------
     For *Recommendation ITU-R BT.2020*, :func:`colour.YCbCr_to_RGB`
     definition is only applicable to the non-constant luminance implementation.
     :func:`colour.YcCbcCrc_to_RGB` definition should be used for the constant
@@ -507,8 +507,8 @@ def RGB_to_YcCbcCrc(RGB,
     \\* This definition has input and output integer switches, thus the
     domain-range scale information is only given for the floating point mode.
 
-    Warning
-    -------
+    Warnings
+    --------
     This definition is specifically for usage with
     *Recommendation ITU-R BT.2020* when adopting the constant luminance
     implementation.
@@ -611,8 +611,8 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     \\* This definition has input and output integer switches, thus the
     domain-range scale information is only given for the floating point mode.
 
-    Warning
-    -------
+    Warnings
+    --------
     This definition is specifically for usage with
     *Recommendation ITU-R BT.2020* when adopting the constant luminance
     implementation.

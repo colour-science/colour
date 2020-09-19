@@ -156,8 +156,8 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
         Anomalous trichromacy *LMS* cone fundamentals colour matching
         functions.
 
-    Warning
-    -------
+    Warnings
+    --------
     *Machado et al. (2009)* simulation of tritanomaly is based on the shift
     paradigm as an approximation to the actual phenomenon and restrain the
     model from trying to model tritanopia.

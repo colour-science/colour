@@ -182,8 +182,8 @@ class CaseInsensitiveMapping(MutableMapping):
     copy
     lower_items
 
-    Warning
-    -------
+    Warnings
+    --------
     The keys are expected to be unicode or string-like objects.
 
     References
@@ -418,8 +418,8 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     -------
     __getitem__
 
-    Warning
-    -------
+    Warnings
+    --------
     The keys are expected to be unicode or string-like objects.
 
     Examples

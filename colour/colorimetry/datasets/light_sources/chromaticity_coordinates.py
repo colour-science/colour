@@ -93,8 +93,8 @@ CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
 Chromaticity coordinates of the light sources from the *RIT* *PointerData.xls*
 spreadsheet for the *CIE 1931 2 Degree Standard Observer*.
 
-Warning
--------
+Warnings
+--------
 The chromaticity coordinates have been calculated from *PointerData.xls*
 spreadsheet which doesn't mention the data source thus the light source names
 cannot be accurately verified.

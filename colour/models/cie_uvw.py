@@ -53,8 +53,8 @@ def XYZ_to_UVW(XYZ,
     ndarray
         *CIE 1964 U\\*V\\*W\\** colourspace array.
 
-    Warning
-    -------
+    Warnings
+    --------
     The input domain and output range of that definition are non standard!
 
     Notes
@@ -128,8 +128,8 @@ def UVW_to_XYZ(UVW,
     ndarray
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
+    Warnings
+    --------
     The input domain and output range of that definition are non standard!
 
     Notes
