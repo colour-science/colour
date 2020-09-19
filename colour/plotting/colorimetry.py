@@ -220,7 +220,7 @@ def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or
