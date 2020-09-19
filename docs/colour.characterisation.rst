@@ -105,7 +105,7 @@ Colour Rendition Charts
 .. autosummary::
     :toctree: generated/
 
-    CHROMATICITIES_COLOURCHECKERS
+    CCS_COLOURCHECKERS
     SDS_COLOURCHECKERS
 
 **Ancillary Objects**

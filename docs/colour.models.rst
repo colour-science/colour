@@ -716,7 +716,7 @@ Pointer's Gamut
 
 ``colour``
 
-.. currentmodule:: colour
+.. currentmodule:: colour.models
 
 .. autosummary::
     :toctree: generated/

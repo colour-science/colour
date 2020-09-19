@@ -312,7 +312,7 @@ conversion graph enabling easier colour conversions.
 .. code-block:: python
 
     >>> sd = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
-    >>> convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
+    >>> colour.convert(sd, 'Spectral Distribution', 'sRGB', verbose={'mode': 'Short'})
 
 ::
 
@@ -327,8 +327,8 @@ conversion graph enabling easier colour conversions.
 
 .. code-block:: python
 
-    >>> illuminant = colour.SDS_ILLUMINANT['FL2']
-    >>> convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
+    >>> illuminant = colour.SDS_ILLUMINANTS['FL2']
+    >>> colour.convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={'illuminant': illuminant})
     array([ 0.47924575,  0.31676968,  0.17362725])
 
 Chromatic Adaptation - ``colour.adaptation``
@@ -337,8 +337,8 @@ Chromatic Adaptation - ``colour.adaptation``
 .. code-block:: python
 
     >>> XYZ = [0.20654008, 0.12197225, 0.05136952]
-    >>> D65 = colour.CHROMATICITIES_ILLUMINANT['CIE 1931 2 Degree Standard Observer']['D65']
-    >>> A = colour.CHROMATICITIES_ILLUMINANT['CIE 1931 2 Degree Standard Observer']['A']
+    >>> D65 = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
+    >>> A = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
     >>> colour.chromatic_adaptation(
     ...     XYZ, colour.xy_to_XYZ(D65), colour.xy_to_XYZ(A))
     array([ 0.2533053 ,  0.13765138,  0.01543307])
@@ -385,7 +385,7 @@ Colour Blindness - ``colour.blindness``
 
 .. code-block:: python
 
-    >>> import colour
+    >>> import numpy as np
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
@@ -406,7 +406,7 @@ Colour Correction - ``colour characterisation``
     >>> M_T = np.random.random((24, 3))
     >>> M_R = M_T + (np.random.random((24, 3)) - 0.5) * 0.5
     >>> colour.colour_correction(RGB, M_T, M_R)
-    array([ 0.15205429,  0.08974029,  0.04141435])
+    array([ 0.1806237 ,  0.07234791,  0.07848845])
     >>> sorted(colour.COLOUR_CORRECTION_METHODS.keys())
     ['Cheung 2004', 'Finlayson 2015', 'Vandermonde']
 
@@ -416,7 +416,7 @@ ACES Input Transform - ``colour characterisation``
 .. code-block:: python
 
     >>> sensitivities = colour.MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)']
-    >>> illuminant = colour.SDS_ILLUMINANT['D55']
+    >>> illuminant = colour.SDS_ILLUMINANTS['D55']
     >>> colour.idt_matrix(sensitivities, illuminant)
     array([[ 0.46579991,  0.13409239,  0.01935141],
            [ 0.01786094,  0.77557292, -0.16775555],
@@ -430,7 +430,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.sd_to_XYZ(colour.SDS_LIGHT_SOURCE['Neodimium Incandescent'])
+    >>> colour.sd_to_XYZ(colour.SDS_LIGHT_SOURCES['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     ['ASTM E308', 'Integration', 'astm2015']
@@ -455,21 +455,21 @@ Multi-Spectral Computations
     ...      [0.06321812, 0.41898224, 0.15190357, 0.24591440, 0.55301750, 0.00657664],
     ...      [0.00305180, 0.11288624, 0.11357290, 0.12924391, 0.00195315, 0.21771573]],
     ... ])
-    >>> colour.msds_to_XYZ(msds, cmfs, illuminant, method='Integration',
-    ...                         shape=colour.SpectralShape(400, 700, 60)))
-    [[[  9.73192501   5.02105851   3.22790699]
-      [ 16.08032168  24.47303359  10.28681006]
-      [ 17.73513774  29.61865582  12.10713449]]
-     [[ 25.69298792  11.72611193   3.70187275]
-      [ 18.51208526   8.03720984   9.30361825]
-      [ 48.55945054  32.30885571   4.09223401]]
-     [[  5.7743232   10.10692925  10.08461311]
-      [  8.81306527   3.65394599   4.20783881]
-      [  8.06007398  15.87077693   7.02551086]]
-     [[ 90.88877129  81.82966846  29.86765971]
-      [ 38.64801062  26.70860262  15.08396538]
-      [  8.77151115  10.56330761   4.28940206]]]
-    >>> sorted(colour.MULTI_SPECTRAL_TO_XYZ_METHODS.keys())
+    >>> colour.msds_to_XYZ(msds, method='Integration',
+    ...                    shape=colour.SpectralShape(400, 700, 60))
+    array([[[  7.68544647,   4.09414317,   8.49324254],
+            [ 17.12567298,  27.77681821,  25.52573685],
+            [ 19.10280411,  34.45851476,  29.76319628]],
+           [[ 18.03375827,   8.62340812,   9.71702574],
+            [ 15.03110867,   6.54001068,  24.53208465],
+            [ 37.68269495,  26.4411103 ,  10.66361816]],
+           [[  8.09532373,  12.75333339,  25.79613956],
+            [  7.09620297,   2.79257389,  11.15039854],
+            [  8.933163  ,  19.39985815,  17.14915636]],
+           [[ 80.00969553,  80.39810464,  76.08184429],
+            [ 33.27611427,  24.38947838,  39.34919287],
+            [  8.89425686,  11.05185138,  10.86767594]]])
+    >>> sorted(colour.MSDS_TO_XYZ_METHODS.keys())
     ['ASTM E308', 'Integration', 'astm2015']
 
 Blackbody Spectral Radiance Computation
@@ -567,13 +567,13 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: python
 
-    >>> sd = colour.SDS_LIGHT_SOURCE['Neodimium Incandescent']
+    >>> sd = colour.SDS_LIGHT_SOURCES['Neodimium Incandescent']
     >>> colour.luminous_flux(sd)
     23807.655527367202
-    >>> sd = colour.SDS_LIGHT_SOURCE['Neodimium Incandescent']
+    >>> sd = colour.SDS_LIGHT_SOURCES['Neodimium Incandescent']
     >>> colour.luminous_efficiency(sd)
     0.19943935624521045
-    >>> sd = colour.SDS_LIGHT_SOURCE['Neodimium Incandescent']
+    >>> sd = colour.SDS_LIGHT_SOURCES['Neodimium Incandescent']
     >>> colour.luminous_efficacy(sd)
     136.21708031547874
 
@@ -930,7 +930,6 @@ RGB Colourspaces
      'aces',
      'adobe1998',
      'prophoto',
-     'sRGB']
 
 OETFs
 *****
@@ -1022,6 +1021,7 @@ Log Encoding / Decoding
      'ERIMM RGB',
      'F-Log',
      'Filmic Pro 6',
+     'Log2',
      'Log3G10',
      'Log3G12',
      'PLog',
@@ -1066,6 +1066,7 @@ CCTFs Encoding / Decoding
      'ITU-R BT.2100 PQ',
      'ITU-R BT.601',
      'ITU-R BT.709',
+     'Log2',
      'Log3G10',
      'Log3G12',
      'PLog',
@@ -1142,8 +1143,8 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.SDS_ILLUMINANT['FL2'])
-    64.017283509280588
+    >>> colour.colour_quality_scale(colour.SDS_ILLUMINANTS['FL2'])
+    64.111703163816699
     >>> colour.COLOUR_QUALITY_SCALE_METHODS
     ('NIST CQS 7.4', 'NIST CQS 9.0')
 
@@ -1152,15 +1153,15 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.SDS_ILLUMINANT['FL2'])
-    64.151520202968015
+    >>> colour.colour_rendering_index(colour.SDS_ILLUMINANTS['FL2'])
+    64.233724121664807
 
 Academy Spectral Similarity Index (SSI)
 ***************************************
 
 .. code-block:: python
 
-    >>> colour.spectral_similarity_index(colour.SDS_ILLUMINANT['C'], colour.SDS_ILLUMINANT['D65'])
+    >>> colour.spectral_similarity_index(colour.SDS_ILLUMINANTS['C'], colour.SDS_ILLUMINANTS['D65'])
     94.0
 
 Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
@@ -1169,20 +1170,19 @@ Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
 .. code-block:: python
 
     >>> colour.XYZ_to_sd([0.20654008, 0.12197225, 0.05136952])
-    SpectralDistribution([[  3.60000000e+02,   7.73462151e-02],
-                          [  3.65000000e+02,   7.73632975e-02],
-                          [  3.70000000e+02,   7.74299705e-02],
+    SpectralDistribution([[  3.60000000e+02,   8.37868873e-02],
+                          [  3.65000000e+02,   8.39337988e-02],
                           ...
-                          [  8.20000000e+02,   3.93126353e-01],
-                          [  8.25000000e+02,   3.93158148e-01],
-                          [  8.30000000e+02,   3.93163548e-01]],
+                          [  7.70000000e+02,   4.46793405e-01],
+                          [  7.75000000e+02,   4.46872853e-01],
+                          [  7.80000000e+02,   4.46914431e-01]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
+                         extrapolator_kwargs={'method': 'Constant', 'left': None, 'right': None})
 
     >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS.keys())
-    ['Jakob 2019', 'Mallet 2019', 'Meng 2015', 'Otsu 2018','Smits 1999']
+    ['Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999']
 
 Correlated Colour Temperature Computation Methods - ``colour.temperature``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1194,7 +1194,14 @@ Correlated Colour Temperature Computation Methods - ``colour.temperature``
     >>> sorted(colour.UV_TO_CCT_METHODS.keys())
     ['Krystek 1985', 'Ohno 2013', 'Robertson 1968', 'ohno2013', 'robertson1968']
     >>> sorted(colour.XY_TO_CCT_METHODS.keys())
-    ['CIE Illuminant D Series', 'Hernandez 1999', 'Kang 2002', 'McCamy 1992', 'daylight', 'hernandez1999', 'kang2002', 'mccamy1992']
+    ['CIE Illuminant D Series',
+     'Hernandez 1999',
+     'Kang 2002',
+     'McCamy 1992',
+     'daylight',
+     'hernandez1999',
+     'kang2002',
+     'mccamy1992']
 
 Colour Volume - ``colour.volume``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1269,8 +1276,10 @@ Blackbody
     >>> plot_multi_sds(
     ...     blackbody_sds,
     ...     y_label='W / (sr m$^2$) / m',
-    ...     use_sds_colours=True,
-    ...     normalise_sds_colours=True,
+    ...     plot_kwargs={
+    ...         use_sd_colours=True,
+    ...         normalise_sd_colours=True,
+    ...     },
     ...     legend_location='upper right',
     ...     bounding_box=(0, 1250, 0, 2.5e15))
 
@@ -1319,7 +1328,9 @@ Colour Checker
     ...         for key, value in sorted(
     ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
     ...     ],
-    ...     use_sds_colours=True,
+    ...     plot_kwargs={
+    ...         use_sd_colours=True,
+    ...     },
     ...     title=('BabelColor Average - '
     ...            'Spectral Distributions'))
 
@@ -1327,7 +1338,8 @@ Colour Checker
 
 .. code-block:: python
 
-    >>> plot_single_colour_checker('ColorChecker 2005', text_kwargs={'visible': False})
+    >>> plot_single_colour_checker(
+    ...     'ColorChecker 2005', text_kwargs={'visible': False})
 
 ..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_ColorChecker_2005.png
 
@@ -1336,7 +1348,8 @@ Chromaticities Prediction
 
 .. code-block:: python
 
-    >>> plot_corresponding_chromaticities_prediction(2, 'Von Kries', 'Bianco 2010')
+    >>> plot_corresponding_chromaticities_prediction(
+    ...     2, 'Von Kries', 'Bianco 2010')
 
 ..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_Chromaticities_Prediction.png
 
@@ -1358,7 +1371,8 @@ Chromaticities
     >>> import numpy as np
     >>> RGB = np.random.random((32, 32, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
-    ...     RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    ...     RGB, 'ITU-R BT.709',
+    ...     colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 ..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png
 
@@ -1368,7 +1382,7 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> plot_single_sd_colour_rendering_index_bars(
-    ...     colour.SDS_ILLUMINANT['FL2'])
+    ...     colour.SDS_ILLUMINANTS['FL2'])
 
 ..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_CRI.png
 

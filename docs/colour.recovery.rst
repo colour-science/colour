@@ -26,7 +26,7 @@ Jakob and Hanika (2019)
 .. autosummary::
     :toctree: generated/
 
-    RGB_to_sd_Jakob2019
+    XYZ_to_sd_Jakob2019
     LUT3D_Jakob2019
 
 **Ancillary Objects**
@@ -62,9 +62,9 @@ Mallett and Yuksel (2019)
 .. autosummary::
     :toctree: generated/
 
-    spectral_primary_decomposition_Mallett2019
+    MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
     SPECTRAL_SHAPE_sRGB_MALLETT2019
-    BASIS_sRGB_MALLETT2019
+    spectral_primary_decomposition_Mallett2019
 
 Meng, Simon and Hanika (2015)
 -----------------------------
