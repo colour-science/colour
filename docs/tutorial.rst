@@ -97,187 +97,186 @@ The various sub-packages also expose their public API:
 
 .. code-block:: text
 
+    Adaptation
+    ['CHROMATIC_ADAPTATION_TRANSFORMS',
+     'CAT_XYZ_SCALING',
+     'CAT_VON_KRIES',
+     'CAT_BRADFORD',
+     'CAT_SHARP',
+     '...']
 
-Adaptation
-['CHROMATIC_ADAPTATION_TRANSFORMS',
- 'CAT_XYZ_SCALING',
- 'CAT_VON_KRIES',
- 'CAT_BRADFORD',
- 'CAT_SHARP',
- '...']
+    Algebra
+    ['cartesian_to_spherical',
+     'spherical_to_cartesian',
+     'cartesian_to_polar',
+     'polar_to_cartesian',
+     'cartesian_to_cylindrical',
+     '...']
 
-Algebra
-['cartesian_to_spherical',
- 'spherical_to_cartesian',
- 'cartesian_to_polar',
- 'polar_to_cartesian',
- 'cartesian_to_cylindrical',
- '...']
+    Appearance
+    ['InductionFactors_Hunt',
+     'VIEWING_CONDITIONS_HUNT',
+     'CAM_Specification_Hunt',
+     'XYZ_to_Hunt',
+     'CAM_Specification_ATD95',
+     '...']
 
-Appearance
-['InductionFactors_Hunt',
- 'VIEWING_CONDITIONS_HUNT',
- 'CAM_Specification_Hunt',
- 'XYZ_to_Hunt',
- 'CAM_Specification_ATD95',
- '...']
+    Biochemistry
+    ['reaction_rate_MichealisMenten',
+     'substrate_concentration_MichealisMenten',
+     '...']
 
-Biochemistry
-['reaction_rate_MichealisMenten',
- 'substrate_concentration_MichealisMenten',
- '...']
+    Blindness
+    ['CVD_MATRICES_MACHADO2010',
+     'anomalous_trichromacy_cmfs_Machado2009',
+     'anomalous_trichromacy_matrix_Machado2009',
+     'cvd_matrix_Machado2009',
+     '...']
 
-Blindness
-['CVD_MATRICES_MACHADO2010',
- 'anomalous_trichromacy_cmfs_Machado2009',
- 'anomalous_trichromacy_matrix_Machado2009',
- 'cvd_matrix_Machado2009',
- '...']
+    Characterisation
+    ['RGB_CameraSensitivities',
+     'RGB_DisplayPrimaries',
+     'MSDS_ACES_RICD',
+     'MSDS_CAMERA_SENSITIVITIES',
+     'CCS_COLOURCHECKERS',
+     '...']
 
-Characterisation
-['RGB_CameraSensitivities',
- 'RGB_DisplayPrimaries',
- 'MSDS_ACES_RICD',
- 'MSDS_CAMERA_SENSITIVITIES',
- 'CCS_COLOURCHECKERS',
- '...']
+    Colorimetry
+    ['SpectralShape',
+     'SPECTRAL_SHAPE_DEFAULT',
+     'SpectralDistribution',
+     'MultiSpectralDistributions',
+     'sds_and_msds_to_sds',
+     '...']
 
-Colorimetry
-['SpectralShape',
- 'SPECTRAL_SHAPE_DEFAULT',
- 'SpectralDistribution',
- 'MultiSpectralDistributions',
- 'sds_and_msds_to_sds',
- '...']
+    Constants
+    ['CONSTANT_K_M',
+     'CONSTANT_KP_M',
+     'CONSTANT_AVOGADRO',
+     'CONSTANT_BOLTZMANN',
+     'CONSTANT_LIGHT_SPEED',
+     '...']
 
-Constants
-['CONSTANT_K_M',
- 'CONSTANT_KP_M',
- 'CONSTANT_AVOGADRO',
- 'CONSTANT_BOLTZMANN',
- 'CONSTANT_LIGHT_SPEED',
- '...']
+    Continuous
+    ['AbstractContinuousFunction', 'Signal', 'MultiSignals', '...']
 
-Continuous
-['AbstractContinuousFunction', 'Signal', 'MultiSignals', '...']
+    Contrast
+    ['optical_MTF_Barten1999',
+     'pupil_diameter_Barten1999',
+     'sigma_Barten1999',
+     'retinal_illuminance_Barten1999',
+     'maximum_angular_size_Barten1999',
+     '...']
 
-Contrast
-['optical_MTF_Barten1999',
- 'pupil_diameter_Barten1999',
- 'sigma_Barten1999',
- 'retinal_illuminance_Barten1999',
- 'maximum_angular_size_Barten1999',
- '...']
+    Corresponding
+    ['BRENEMAN_EXPERIMENTS',
+     'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
+     'CorrespondingColourDataset',
+     'CorrespondingChromaticitiesPrediction',
+     'corresponding_chromaticities_prediction_CIE1994',
+     '...']
 
-Corresponding
-['BRENEMAN_EXPERIMENTS',
- 'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
- 'CorrespondingColourDataset',
- 'CorrespondingChromaticitiesPrediction',
- 'corresponding_chromaticities_prediction_CIE1994',
- '...']
+    Difference
+    ['delta_E_CAM02LCD',
+     'delta_E_CAM02SCD',
+     'delta_E_CAM02UCS',
+     'delta_E_CAM16LCD',
+     'delta_E_CAM16SCD',
+     '...']
 
-Difference
-['delta_E_CAM02LCD',
- 'delta_E_CAM02SCD',
- 'delta_E_CAM02UCS',
- 'delta_E_CAM16LCD',
- 'delta_E_CAM16SCD',
- '...']
+    Geometry
+    ['PLANE_TO_AXIS_MAPPING',
+     'primitive_grid',
+     'primitive_cube',
+     'PRIMITIVE_METHODS',
+     'primitive',
+     '...']
 
-Geometry
-['PLANE_TO_AXIS_MAPPING',
- 'primitive_grid',
- 'primitive_cube',
- 'PRIMITIVE_METHODS',
- 'primitive',
- '...']
+    Graph
+    ['CONVERSION_GRAPH',
+     'CONVERSION_GRAPH_NODE_LABELS',
+     'describe_conversion_path',
+     'convert',
+     '...']
 
-Graph
-['CONVERSION_GRAPH',
- 'CONVERSION_GRAPH_NODE_LABELS',
- 'describe_conversion_path',
- 'convert',
- '...']
+    Io
+    ['SpectralDistribution_IESTM2714',
+     'AbstractLUTSequenceOperator',
+     'LUT1D',
+     'LUT3x1D',
+     'LUT3D',
+     '...']
 
-Io
-['SpectralDistribution_IESTM2714',
- 'AbstractLUTSequenceOperator',
- 'LUT1D',
- 'LUT3x1D',
- 'LUT3D',
- '...']
+    Models
+    ['Jab_to_JCh',
+     'JCh_to_Jab',
+     'COLOURSPACE_MODELS',
+     'COLOURSPACE_MODELS_AXIS_LABELS',
+     'XYZ_to_colourspace_model',
+     '...']
 
-Models
-['Jab_to_JCh',
- 'JCh_to_Jab',
- 'COLOURSPACE_MODELS',
- 'COLOURSPACE_MODELS_AXIS_LABELS',
- 'XYZ_to_colourspace_model',
- '...']
+    Notation
+    ['MUNSELL_COLOURS_ALL',
+     'MUNSELL_COLOURS_1929',
+     'MUNSELL_COLOURS_REAL',
+     'MUNSELL_COLOURS',
+     'munsell_value',
+     '...']
 
-Notation
-['MUNSELL_COLOURS_ALL',
- 'MUNSELL_COLOURS_1929',
- 'MUNSELL_COLOURS_REAL',
- 'MUNSELL_COLOURS',
- 'munsell_value',
- '...']
+    Phenomena
+    ['scattering_cross_section',
+     'rayleigh_optical_depth',
+     'rayleigh_scattering',
+     'sd_rayleigh_scattering',
+     '...']
 
-Phenomena
-['scattering_cross_section',
- 'rayleigh_optical_depth',
- 'rayleigh_scattering',
- 'sd_rayleigh_scattering',
- '...']
+    Plotting
+    ['SD_ASTMG173_ETR',
+     'SD_ASTMG173_GLOBAL_TILT',
+     'SD_ASTMG173_DIRECT_CIRCUMSOLAR',
+     'CONSTANTS_COLOUR_STYLE',
+     'CONSTANTS_ARROW_STYLE',
+     '...']
 
-Plotting
-['SD_ASTMG173_ETR',
- 'SD_ASTMG173_GLOBAL_TILT',
- 'SD_ASTMG173_DIRECT_CIRCUMSOLAR',
- 'CONSTANTS_COLOUR_STYLE',
- 'CONSTANTS_ARROW_STYLE',
- '...']
+    Quality
+    ['SDS_TCS',
+     'SDS_VS',
+     'CRI_Specification',
+     'colour_rendering_index',
+     'CQS_Specification',
+     '...']
 
-Quality
-['SDS_TCS',
- 'SDS_VS',
- 'CRI_Specification',
- 'colour_rendering_index',
- 'CQS_Specification',
- '...']
+    Recovery
+    ['SPECTRAL_SHAPE_sRGB_MALLETT2019',
+     'MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019',
+     'SPECTRAL_SHAPE_OTSU2018',
+     'BASIS_FUNCTIONS_OTSU2018',
+     'CLUSTER_MEANS_OTSU2018',
+     '...']
 
-Recovery
-['SPECTRAL_SHAPE_sRGB_MALLETT2019',
- 'MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019',
- 'SPECTRAL_SHAPE_OTSU2018',
- 'BASIS_FUNCTIONS_OTSU2018',
- 'CLUSTER_MEANS_OTSU2018',
- '...']
+    Temperature
+    ['xy_to_CCT_CIE_D',
+     'CCT_to_xy_CIE_D',
+     'xy_to_CCT_Hernandez1999',
+     'CCT_to_xy_Hernandez1999',
+     'xy_to_CCT_Kang2002',
+     '...']
 
-Temperature
-['xy_to_CCT_CIE_D',
- 'CCT_to_xy_CIE_D',
- 'xy_to_CCT_Hernandez1999',
- 'CCT_to_xy_Hernandez1999',
- 'xy_to_CCT_Kang2002',
- '...']
+    Utilities
+    ['Lookup',
+     'Structure',
+     'CaseInsensitiveMapping',
+     'LazyCaseInsensitiveMapping',
+     'handle_numpy_errors',
+     '...']
 
-Utilities
-['Lookup',
- 'Structure',
- 'CaseInsensitiveMapping',
- 'LazyCaseInsensitiveMapping',
- 'handle_numpy_errors',
- '...']
-
-Volume
-['OPTIMAL_COLOUR_STIMULI_ILLUMINANTS',
- 'is_within_macadam_limits',
- 'is_within_mesh_volume',
- 'is_within_pointer_gamut',
- 'generate_pulse_waves',
- '...']
+    Volume
+    ['OPTIMAL_COLOUR_STIMULI_ILLUMINANTS',
+     'is_within_macadam_limits',
+     'is_within_mesh_volume',
+     'is_within_pointer_gamut',
+     'generate_pulse_waves',
+     '...']
 
 The codebase is documented and most docstrings have usage examples:
 
