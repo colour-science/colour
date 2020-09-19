@@ -14,7 +14,7 @@ References
 ----------
 -   :cite:`Otsu2018` : Otsu, H., Yamamoto, M., & Hachisuka, T. (2018).
     Reproducing Spectral Reflectances From Tristimulus Colours. Computer
-    Graphics Forum, 37(6), 370–381. doi:10.1111/cgf.13332
+    Graphics Forum, 37(6), 370-381. doi:10.1111/cgf.13332
 """
 
 from __future__ import division, print_function, unicode_literals
@@ -80,17 +80,22 @@ class Dataset_Otsu2018(object):
 
     Attributes
     ----------
-    shape
-    basis_functions
-    means
-    selector_array
+    -   :attr:`~colour.recovery.Dataset_Otsu2018.shape`
+    -   :attr:`~colour.recovery.Dataset_Otsu2018.basis_functions`
+    -   :attr:`~colour.recovery.Dataset_Otsu2018.means`
+    -   :attr:`~colour.recovery.Dataset_Otsu2018.selector_array`
 
     Methods
     -------
-    select
-    cluster
-    read
-    write
+    -   :meth:`~colour.recovery.Dataset_Otsu2018.__init__`
+    -   :meth:`~colour.recovery.Dataset_Otsu2018.select`
+    -   :meth:`~colour.recovery.Dataset_Otsu2018.cluster`
+    -   :meth:`~colour.recovery.Dataset_Otsu2018.read`
+    -   :meth:`~colour.recovery.Dataset_Otsu2018.write`
+
+    References
+    ----------
+    :cite:`Otsu2018`
 
     Examples
     --------
@@ -375,6 +380,10 @@ def XYZ_to_sd_Otsu2018(
         Recovered spectral distribution. Its shape is always that of the
         :class:`colour.recovery.SPECTRAL_SHAPE_OTSU2018` class instance.
 
+    References
+    ----------
+    :cite:`Otsu2018`
+
     Examples
     --------
     >>> from colour.colorimetry import CCS_ILLUMINANTS, sd_to_XYZ_integration
@@ -476,7 +485,7 @@ class PartitionAxis(namedtuple('PartitionAxis', ('origin', 'direction'))):
 
     Methods
     -------
-    __str__
+    -   :meth:`~colour.recovery.otsu2018.PartitionAxis.__str__`
     """
 
     def __str__(self):
@@ -517,16 +526,17 @@ class ColourData(object):
 
     Attributes
     ----------
-    tree
-    reflectances
-    XYZ
-    xy
+    -   :attr:`~colour.recovery.otsu2018.ColourData.tree`
+    -   :attr:`~colour.recovery.otsu2018.ColourData.reflectances`
+    -   :attr:`~colour.recovery.otsu2018.ColourData.XYZ`
+    -   :attr:`~colour.recovery.otsu2018.ColourData.xy`
 
     Methods
     -------
-    __str__
-    __len__
-    partition
+    -   :meth:`~colour.recovery.otsu2018.ColourData.__init__`
+    -   :meth:`~colour.recovery.otsu2018.ColourData.__str__`
+    -   :meth:`~colour.recovery.otsu2018.ColourData.__len__`
+    -   :meth:`~colour.recovery.otsu2018.ColourData.partition`
     """
 
     def __init__(self, tree, reflectances):
@@ -682,27 +692,28 @@ class Node(object):
 
     Attributes
     ----------
-    id
-    tree
-    colour_data
-    children
-    partition_axis
-    basis_functions
-    mean
-    leaves
+    -   :attr:`~colour.recovery.otsu2018.Node.id`
+    -   :attr:`~colour.recovery.otsu2018.Node.tree`
+    -   :attr:`~colour.recovery.otsu2018.Node.colour_data`
+    -   :attr:`~colour.recovery.otsu2018.Node.children`
+    -   :attr:`~colour.recovery.otsu2018.Node.partition_axis`
+    -   :attr:`~colour.recovery.otsu2018.Node.basis_functions`
+    -   :attr:`~colour.recovery.otsu2018.Node.mean`
+    -   :attr:`~colour.recovery.otsu2018.Node.leaves`
 
     Methods
     -------
-    __str__
-    __len__
-    is_leaf
-    split
-    PCA
-    reconstruct
-    leaf_reconstruction_error
-    branch_reconstruction_error
-    partition_reconstruction_error
-    find_best_partition
+    -   :meth:`~colour.recovery.otsu2018.Node.__init__`
+    -   :meth:`~colour.recovery.otsu2018.Node.__str__`
+    -   :meth:`~colour.recovery.otsu2018.Node.__len__`
+    -   :meth:`~colour.recovery.otsu2018.Node.is_leaf`
+    -   :meth:`~colour.recovery.otsu2018.Node.split`
+    -   :meth:`~colour.recovery.otsu2018.Node.PCA`
+    -   :meth:`~colour.recovery.otsu2018.Node.reconstruct`
+    -   :meth:`~colour.recovery.otsu2018.Node.leaf_reconstruction_error`
+    -   :meth:`~colour.recovery.otsu2018.Node.branch_reconstruction_error`
+    -   :meth:`~colour.recovery.otsu2018.Node.partition_reconstruction_error`
+    -   :meth:`~colour.recovery.otsu2018.Node.find_best_partition`
     """
 
     _NODE_COUNT = 1
@@ -1146,17 +1157,22 @@ class NodeTree_Otsu2018(Node):
 
     Attributes
     ----------
-    reflectances
-    cmfs
-    illuminant
-    minimum_cluster_size
+    -   :attr:`~colour.recovery.NodeTree_Otsu2018.reflectances`
+    -   :attr:`~colour.recovery.NodeTree_Otsu2018.cmfs`
+    -   :attr:`~colour.recovery.NodeTree_Otsu2018.illuminant`
+    -   :attr:`~colour.recovery.NodeTree_Otsu2018.minimum_cluster_size`
 
     Methods
     -------
-    __str__
-    msds_to_XYZ
-    optimise
-    to_dataset
+    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.__init__`
+    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.__str__`
+    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.msds_to_XYZ`
+    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.optimise`
+    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.to_dataset`
+
+    References
+    ----------
+    :cite:`Otsu2018`
 
     Examples
     --------

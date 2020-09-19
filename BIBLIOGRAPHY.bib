@@ -1310,6 +1310,28 @@
   doi          = {10.1.1.1.7559},
   keywords     = {eigenvectors,ellipses,fitting,least squares},
 }
+@inproceedings{Hanbury2003,
+  title        = {A 3D-Polar Coordinate Colour Representation Well
+    Adapted to Image Analysis},
+  booktitle    = {Image Analysis},
+  author       = {Hanbury, Allan},
+  editor       = {Bigun, Josef and Gustavsson, Tomas},
+  year         = 2003,
+  pages        = {804--811},
+  publisher    = {Springer Berlin Heidelberg},
+  address      = {Berlin, Heidelberg},
+  abstract     = {Representations of the RGB space in terms of
+    3D-polar coordinates (hue, saturation and brightness) are often
+    used in image analysis. The literature describes a large number of
+    similar coordinate systems (HLS, HSV, etc.). We show that the
+    reason for the existence of so many systems is a poor definition
+    of the saturation coordinate which makes it dependent on the
+    brightness function used, and hence poorly suited to image
+    analysis applications. An improved saturation measurement which
+    (1) always has small values for achromatic colours and (2) is
+    independent of the brightness function is derived.},
+  isbn         = {978-3-540-45103-7},
+}
 @article{Hernandez-Andres1999a,
   title        = {Calculating correlated color temperatures across the
     entire gamut of daylight and skylight chromaticities},
@@ -2017,6 +2039,42 @@
     Deficiency,Color-Contrast Enhancement,Dichromacy,Models of Color
     Vision,Recoloring Algorithm,Simulation of Color Vision Deficiency},
 }
+@article{Mallett2019,
+  title        = {Spectral Primary Decomposition for Rendering with
+    sRGB Reflectance},
+  author       = {Mallett, Ian and Yuksel, Cem},
+  year         = 2019,
+  pages        = {7 pages},
+  publisher    = {The Eurographics Association},
+  issn         = {1727-3463},
+  doi          = {10.2312/SR.20191216},
+  abstract     = {Spectral renderers, as-compared to RGB renderers,
+    are able to simulate light transport that is closer to reality,
+    capturing light behavior that is impossible to simulate with any
+    three-primary decomposition. However, spectral rendering requires
+    spectral scene data (e.g. textures and material properties), which
+    is not widely available, severely limiting the practicality of
+    spectral rendering. Unfortunately, producing a physically valid
+    reflectance spectrum from a given sRGB triple has been a
+    challenging problem, and indeed until very recently constructing a
+    spectrum without colorimetric round-trip error was thought to be
+    impossible. In this paper, we introduce a new procedure for
+    efficiently generating a reflectance spectrum from any given sRGB
+    input data. We show for the first time that it is possible to
+    create any sRGB reflectance spectrum as a linear combination of
+    three separate spectra, each directly corresponding to one of the
+    BT.709 primaries. Our approach produces consistent results, such
+    that the input sRGB value is perfectly reproduced by the
+    corresponding reflectance spectrum under D65 illumination, bounded
+    only by Monte Carlo and numerical error. We provide a complete
+    implementation, including a precomputed spectral basis, and
+    discuss important optimizations and generalization to other RGB
+    spaces.},
+  isbn         = 9783038680956,
+  journal      = {Eurographics Symposium on Rendering - DL-only and
+    Industry Track},
+  keywords     = {Computing methodologies,Reflectance modeling},
+}
 @misc{Malvar2003,
   title        = {YCoCg-R: A Color Space with RGB Reversibility and
     Low Dynamic Range},
@@ -2080,6 +2138,28 @@
   year         = 2014,
   pages        = {1--17},
   url          = {https://www.smpte.org/sites/default/files/2014-05-06-EOTF-Miller-1-2-handout.pdf},
+}
+@article{Mokrzycki2011,
+  title        = {Color difference Delta E - A survey},
+  author       = {Mokrzycki, Wojciech and Tatol, Maciej},
+  year         = 2011,
+  month        = apr,
+  volume       = 20,
+  pages        = {383--411},
+  url          = {https://www.researchgate.net/publication/236023905_Color_difference_Delta_E_-_A_survey},
+  urldate      = {2020-08-09},
+  abstract     = {Color perception is crucial for human existence. For
+    this purpose, color spaces have been developed to describe
+    mathematically the color that a person can feel with unaided eye.
+    There was a new need to distinguish colors, define them as
+    similar, identical or completely different. However colormatching
+    technique requires a color palette with perceptually linear
+    characteristics. In this article, will be presented to the most
+    popular colors spaces, as both linear and nonlinear due to
+    perceptual abilities, and are briefly discussed and compared to
+    the sample values.},
+  journal      = {Machine Graphics and Vision},
+  keywords     = {⛔ No DOI found},
 }
 @article{Moroney2003,
   title        = {A Radial Sampling of the OSA Uniform Color Scales},
@@ -2281,6 +2361,26 @@
   title        = {The basis of color reproduction engineering},
   author       = {Ohta, N.},
   year         = 1997,
+}
+@article{Otsu2018,
+  title        = {Reproducing Spectral Reflectances From Tristimulus
+    Colours},
+  shorttitle   = {Reproducing Spectral Reflectances From Tristimulus
+    Colours},
+  author       = {Otsu, H. and Yamamoto, M. and Hachisuka, T.},
+  year         = 2018,
+  month        = sep,
+  volume       = 37,
+  pages        = {370--381},
+  issn         = 01677055,
+  doi          = {10.1111/cgf.13332},
+  journal      = {Computer Graphics Forum},
+  keywords     = {3,7,according to acm ccs,and texture,categories and
+    subject descriptors,color,computer
+    graphics,i,realism,shading,shadowing,spectral reflectance
+    reconstruction,spectral rendering,three-dimensional graphics and},
+  language     = {en},
+  number       = 6,
 }
 @misc{Panasonic2014a,
   title        = {VARICAM V-Log/V-Gamut},
@@ -3253,7 +3353,6 @@
   url          = {https://www.xrite.com/-/media/xrite/files/apps_engineering_techdocuments/c/09_color_calculations_en.pdf},
 }
 @misc{X-Rite2016,
-  ids          = {X-Rite2016},
   title        = {New color specifications for ColorChecker SG and
     Classic Charts},
   author       = {{X-Rite}},

@@ -67,22 +67,23 @@ class SpectralShape(object):
 
     Attributes
     ----------
-    start
-    end
-    interval
-    boundaries
+    -   :attr:`~colour.SpectralShape.start`
+    -   :attr:`~colour.SpectralShape.end`
+    -   :attr:`~colour.SpectralShape.interval`
+    -   :attr:`~colour.SpectralShape.boundaries`
 
     Methods
     -------
-    __str__
-    __repr__
-    __hash__
-    __iter__
-    __contains__
-    __len__
-    __eq__
-    __ne__
-    range
+    -   :meth:`~colour.SpectralShape.__init__`
+    -   :meth:`~colour.SpectralShape.__str__`
+    -   :meth:`~colour.SpectralShape.__repr__`
+    -   :meth:`~colour.SpectralShape.__hash__`
+    -   :meth:`~colour.SpectralShape.__iter__`
+    -   :meth:`~colour.SpectralShape.__contains__`
+    -   :meth:`~colour.SpectralShape.__len__`
+    -   :meth:`~colour.SpectralShape.__eq__`
+    -   :meth:`~colour.SpectralShape.__ne__`
+    -   :meth:`~colour.SpectralShape.range`
 
     Examples
     --------
@@ -532,19 +533,19 @@ dict_like, optional
 
     Attributes
     ----------
-    strict_name
-    wavelengths
-    values
-    shape
+    -   :attr:`~colour.SpectralDistribution.strict_name`
+    -   :attr:`~colour.SpectralDistribution.wavelengths`
+    -   :attr:`~colour.SpectralDistribution.values`
+    -   :attr:`~colour.SpectralDistribution.shape`
 
     Methods
     -------
-    __init__
-    interpolate
-    extrapolate
-    align
-    trim
-    normalise
+    -   :meth:`~colour.SpectralDistribution.__init__`
+    -   :meth:`~colour.SpectralDistribution.interpolate`
+    -   :meth:`~colour.SpectralDistribution.extrapolate`
+    -   :meth:`~colour.SpectralDistribution.align`
+    -   :meth:`~colour.SpectralDistribution.trim`
+    -   :meth:`~colour.SpectralDistribution.normalise`
 
     References
     ----------
@@ -832,8 +833,8 @@ dict_like, optional
             :meth:`colour.SpectralDistribution.extrapolate` or
             :meth:`colour.SpectralDistribution.align` methods.
 
-        Warning
-        -------
+        Warnings
+        --------
         -   *Cubic Spline* interpolator requires at least 3 wavelengths
             :math:`\\lambda_n` for interpolation.
         -   *Sprague (1880)* interpolator requires at least 6 wavelengths
@@ -1631,20 +1632,21 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     Attributes
     ----------
-    strict_name
-    strict_labels
-    wavelengths
-    values
-    shape
+    -   :attr:`~colour.MultiSpectralDistributions.strict_name`
+    -   :attr:`~colour.MultiSpectralDistributions.strict_labels`
+    -   :attr:`~colour.MultiSpectralDistributions.wavelengths`
+    -   :attr:`~colour.MultiSpectralDistributions.values`
+    -   :attr:`~colour.MultiSpectralDistributions.shape`
 
     Methods
     -------
-    interpolate
-    extrapolate
-    align
-    trim
-    normalise
-    to_sds
+    -   :meth:`~colour.MultiSpectralDistributions.__init__`
+    -   :meth:`~colour.MultiSpectralDistributions.interpolate`
+    -   :meth:`~colour.MultiSpectralDistributions.extrapolate`
+    -   :meth:`~colour.MultiSpectralDistributions.align`
+    -   :meth:`~colour.MultiSpectralDistributions.trim`
+    -   :meth:`~colour.MultiSpectralDistributions.normalise`
+    -   :meth:`~colour.MultiSpectralDistributions.to_sds`
 
     References
     ----------
@@ -1991,8 +1993,8 @@ MultiSpectralDistributions or array_like or dict_like, optional
         -   See :meth:`colour.SpectralDistribution.interpolate` method notes
             section.
 
-        Warning
-        -------
+        Warnings
+        --------
         See :meth:`colour.SpectralDistribution.interpolate` method warning
         section.
 

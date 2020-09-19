@@ -163,9 +163,10 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__setitem__', '__getitem__', '__delitem__',
-                            '__contains__', '__iter__', '__len__', '__eq__',
-                            '__ne__', '__repr__', 'copy', 'lower_items')
+        required_methods = ('__init__', '__setitem__', '__getitem__',
+                            '__delitem__', '__contains__', '__iter__',
+                            '__len__', '__eq__', '__ne__', '__repr__', 'copy',
+                            'lower_items')
 
         for method in required_methods:
             self.assertIn(method, dir(CaseInsensitiveMapping))
@@ -347,22 +348,20 @@ LazyCaseInsensitiveMapping` class unit tests methods.
         Tests presence of required attributes.
         """
 
-        required_attributes = ('data', )
+        required_attributes = ()
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(CaseInsensitiveMapping))
+            self.assertIn(attribute, dir(LazyCaseInsensitiveMapping))
 
     def test_required_methods(self):
         """
         Tests presence of required methods.
         """
 
-        required_methods = ('__setitem__', '__getitem__', '__delitem__',
-                            '__contains__', '__iter__', '__len__', '__eq__',
-                            '__ne__', '__repr__', 'copy', 'lower_items')
+        required_methods = ('__getitem__', )
 
         for method in required_methods:
-            self.assertIn(method, dir(CaseInsensitiveMapping))
+            self.assertIn(method, dir(LazyCaseInsensitiveMapping))
 
     def test__getitem__(self):
         """

@@ -32,6 +32,7 @@ from colour.models.cam02_ucs import (
     CAM02LCD_to_JMh_CIECAM02, JMh_CIECAM02_to_CAM02SCD,
     CAM02SCD_to_JMh_CIECAM02, JMh_CIECAM02_to_CAM02UCS,
     CAM02UCS_to_JMh_CIECAM02)
+from colour.utilities import copy_definition
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -70,21 +71,17 @@ def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_):
     docstring = docstring.replace('Luo2006b', 'Li2017')
 
     docstring = re.match('(.*)Examples', docstring, re.DOTALL).group(1)
-    docstring += (
-        'Notes\n'
-        '    -----\n'
-        '    -  This docstring is automatically generated, please refer to\n'
-        '       :func:`colour.{0}` definition\n'
-        '       for an usage example.'.format(callable_.__name__))
 
     return docstring
 
 
-JMh_CAM16_to_UCS_Li2017 = JMh_CIECAM02_to_UCS_Luo2006
+JMh_CAM16_to_UCS_Li2017 = copy_definition(JMh_CIECAM02_to_UCS_Luo2006,
+                                          'JMh_CAM16_to_UCS_Li2017')
 JMh_CAM16_to_UCS_Li2017.__doc__ = (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring(JMh_CIECAM02_to_UCS_Luo2006))
 
-UCS_Li2017_to_JMh_CAM16 = UCS_Luo2006_to_JMh_CIECAM02
+UCS_Li2017_to_JMh_CAM16 = copy_definition(UCS_Luo2006_to_JMh_CIECAM02,
+                                          'UCS_Li2017_to_JMh_CAM16')
 UCS_Li2017_to_JMh_CAM16.__doc__ = (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring(UCS_Luo2006_to_JMh_CIECAM02))
 

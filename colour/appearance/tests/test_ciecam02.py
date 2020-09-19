@@ -197,8 +197,8 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
         expected : float.
             Expected attribute value.
 
-        Warning
-        -------
+        Warnings
+        --------
         The method name does not reflect the underlying implementation.
         """
 

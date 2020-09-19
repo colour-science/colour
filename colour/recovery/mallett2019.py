@@ -78,6 +78,10 @@ def spectral_primary_decomposition_Mallett2019(
     MultiSpectralDistributions
         Basis functions for given *RGB* colourspace.
 
+    References
+    ----------
+    :cite:`Mallett2019`
+
     Notes
     -----
     -   In-addition to the *BT.709* primaries used by the *sRGB* colourspace,
@@ -221,6 +225,10 @@ def RGB_to_sd_Mallett2019(
     -------
     SpectralDistribution
         Recovered reflectance.
+
+    References
+    ----------
+    :cite:`Mallett2019`
 
     Notes
     -----

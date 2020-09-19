@@ -30,7 +30,7 @@ References
     CIEDE2000. http://www.color.org/events/colorimetry/\
 Melgosa_CIEDE2000_Workshop-July4.pdf
 -   :cite:`Mokrzycki2011` : Mokrzycki, W., & Tatol, M. (2011). Color difference
-    Delta E - A survey. Machine Graphics and Vision, 20, 383–411.
+    Delta E - A survey. Machine Graphics and Vision, 20, 383-411.
 """
 
 from __future__ import division, unicode_literals

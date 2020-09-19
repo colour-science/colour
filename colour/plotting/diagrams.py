@@ -617,7 +617,7 @@ def plot_sds_in_chromaticity_diagram(
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or
@@ -858,7 +858,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or
@@ -965,7 +965,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or
@@ -1072,7 +1072,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :colour:`SpectralDistribution`, the
+        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or

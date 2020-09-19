@@ -21,8 +21,7 @@ import colour as package  # noqa
 basename = re.sub('_(\\w)', lambda x: x.group(1).upper(),
                   package.__name__.title())
 
-autosummary_generate = True
-
+autodoc_member_order = 'bysource'
 autodoc_mock_imports = [
     'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.patches',
     'matplotlib.path', 'matplotlib.pyplot', 'matplotlib.ticker',
@@ -31,11 +30,16 @@ autodoc_mock_imports = [
     'scipy.optimize', 'scipy.spatial', 'scipy.spatial.distance'
 ]
 
+autosummary_generate = True
+
+napoleon_custom_sections = ['Attributes', 'Methods']
+
 if os.environ.get('READTHEDOCS') == 'True':
     utilities_directory = os.path.abspath(
         os.path.join(os.getcwd(), '..', 'utilities'))
     static_directory = os.path.abspath(os.path.join(os.getcwd(), '_static'))
     sys.path.append(utilities_directory)
+
     from generate_plots import generate_documentation_plots
 
     generate_documentation_plots(static_directory)

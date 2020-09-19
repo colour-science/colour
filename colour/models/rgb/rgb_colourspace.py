@@ -138,24 +138,25 @@ class RGB_Colourspace(object):
 
     Attributes
     ----------
-    name
-    primaries
-    whitepoint
-    whitepoint_name
-    RGB_to_XYZ_matrix
-    XYZ_to_RGB_matrix
-    cctf_encoding
-    cctf_decoding
-    use_derived_RGB_to_XYZ_matrix
-    use_derived_XYZ_to_RGB_matrix
+    -   :attr:`~colour.RGB_Colourspace.name`
+    -   :attr:`~colour.RGB_Colourspace.primaries`
+    -   :attr:`~colour.RGB_Colourspace.whitepoint`
+    -   :attr:`~colour.RGB_Colourspace.whitepoint_name`
+    -   :attr:`~colour.RGB_Colourspace.RGB_to_XYZ_matrix`
+    -   :attr:`~colour.RGB_Colourspace.XYZ_to_RGB_matrix`
+    -   :attr:`~colour.RGB_Colourspace.cctf_encoding`
+    -   :attr:`~colour.RGB_Colourspace.cctf_decoding`
+    -   :attr:`~colour.RGB_Colourspace.use_derived_RGB_to_XYZ_matrix`
+    -   :attr:`~colour.RGB_Colourspace.use_derived_XYZ_to_RGB_matrix`
 
     Methods
     -------
-    __str__
-    __repr__
-    use_derived_transformation_matrices
-    chromatically_adapt
-    copy
+    -   :attr:`~colour.RGB_Colourspace.__init__`
+    -   :attr:`~colour.RGB_Colourspace.__str__`
+    -   :attr:`~colour.RGB_Colourspace.__repr__`
+    -   :attr:`~colour.RGB_Colourspace.use_derived_transformation_matrices`
+    -   :attr:`~colour.RGB_Colourspace.chromatically_adapt`
+    -   :attr:`~colour.RGB_Colourspace.copy`
 
     Notes
     -----

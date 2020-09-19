@@ -743,8 +743,8 @@ collection of the functions defined by :attr:`colour.LOG_ENCODINGS`,
 :func:`colour.models.cctf_encoding_ROMMRGB` definitions and 3 gamma encoding
 functions (1 / 2.2, 1 / 2.4, 1 / 2.6).
 
-Warning
--------
+Warnings
+--------
 For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 (EOTFs / EOCFs) are exposed by this attribute, please refer to the
 :attr:`colour.OETFS` attribute for the opto-electronic transfer functions
@@ -775,8 +775,8 @@ def cctf_encoding(value, function='sRGB', **kwargs):
         Keywords arguments for the relevant encoding CCTF of the
         :attr:`colour.CCTF_ENCODINGS` attribute collection.
 
-    Warning
-    -------
+    Warnings
+    --------
     For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
     (EOTFs / EOCFs) are exposed by this definition, please refer to the
     :func:`colour.oetf` definition for the opto-electronic transfer functions
@@ -832,8 +832,8 @@ collection of the functions defined by :attr:`colour.LOG_DECODINGS`,
 :func:`colour.models.cctf_decoding_ROMMRGB` definitions and 3 gamma decoding
 functions (2.2, 2.4, 2.6).
 
-Warning
--------
+Warnings
+--------
 For *ITU-R BT.2100*, only the electro-optical transfer functions
 (EOTFs / EOCFs) are exposed by this attribute, please refer to the
 :attr:`colour.OETF_INVERSES` attribute for the inverse opto-electronic
@@ -869,8 +869,8 @@ def cctf_decoding(value, function='sRGB', **kwargs):
         Keywords arguments for the relevant decoding CCTF of the
         :attr:`colour.CCTF_DECODINGS` attribute collection.
 
-    Warning
-    -------
+    Warnings
+    --------
     For *ITU-R BT.2100*, only the electro-optical transfer functions
     (EOTFs / EOCFs) are exposed by this definition, please refer to the
     :func:`colour.oetf_inverse` definition for the inverse opto-electronic

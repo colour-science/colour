@@ -302,9 +302,9 @@ class ModuleAPI(object):
 
     Methods
     -------
-    __init__
-    __getattr__
-    __dir__
+    -   :meth:`~colour.utilities.ModuleAPI.__init__`
+    -   :meth:`~colour.utilities.ModuleAPI.__getattr__`
+    -   :meth:`~colour.utilities.ModuleAPI.__dir__`
 
     Examples
     --------

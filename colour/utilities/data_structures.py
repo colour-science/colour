@@ -59,6 +59,9 @@ class Structure(dict):
     \\**kwargs : dict, optional
         Key / Value pairs.
 
+    Methods
+    -------
+    -   :meth:`~colour.utilities.Structure.__init__`
 
     References
     ----------
@@ -88,8 +91,8 @@ class Lookup(dict):
 
     Methods
     -------
-    keys_from_value
-    first_key_from_value
+    -   :meth:`~colour.utilities.Lookup.keys_from_value`
+    -   :meth:`~colour.utilities.Lookup.first_key_from_value`
 
     References
     ----------
@@ -168,22 +171,27 @@ class CaseInsensitiveMapping(MutableMapping):
     \\**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
+    Attributes
+    ----------
+    -   :attr:`~colour.utilities.CaseInsensitiveMapping.data`
+
     Methods
     -------
-    __setitem__
-    __getitem__
-    __delitem__
-    __contains__
-    __iter__
-    __len__
-    __eq__
-    __ne__
-    __repr__
-    copy
-    lower_items
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__init__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__setitem__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__getitem__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__delitem__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__contains__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__iter__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__len__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__eq__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__ne__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__repr__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.copy`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_items`
 
-    Warning
-    -------
+    Warnings
+    --------
     The keys are expected to be unicode or string-like objects.
 
     References
@@ -416,10 +424,10 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
 
     Methods
     -------
-    __getitem__
+    -   :meth:`~colour.utilities.LazyCaseInsensitiveMapping.__getitem__`
 
-    Warning
-    -------
+    Warnings
+    --------
     The keys are expected to be unicode or string-like objects.
 
     Examples

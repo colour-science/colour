@@ -776,8 +776,8 @@ SDS_LIGHT_SOURCES_RIT = CaseInsensitiveMapping({
 Spectral distributions of the light sources from the *RIT* *PointerData.xls*
 spreadsheet.
 
-Warning
--------
+Warnings
+--------
 The spectral distributions have been extracted from
 *PointerData.xls* spreadsheet that doesn't mention the data source thus the
 light source names cannot be accurately verified.

@@ -14,7 +14,7 @@ from .common import (
     get_domain_range_scale, set_domain_range_scale, domain_range_scale,
     to_domain_1, to_domain_10, to_domain_100, to_domain_degrees, to_domain_int,
     from_range_1, from_range_10, from_range_100, from_range_degrees,
-    from_range_int)
+    from_range_int, copy_definition)
 from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
                     as_float, set_float_precision, set_int_precision,
                     as_namedtuple, closest_indexes, closest, normalise_maximum,
@@ -45,7 +45,7 @@ __all__ += [
     'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
     'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
     'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
-    'from_range_degrees', 'from_range_int'
+    'from_range_degrees', 'from_range_int', 'copy_definition'
 ]
 __all__ += [
     'as_array', 'as_int_array', 'as_float_array', 'as_numeric', 'as_int',

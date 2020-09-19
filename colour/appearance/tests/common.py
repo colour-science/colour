@@ -34,11 +34,15 @@ class ColourAppearanceModelTest(object):
 
     Methods
     -------
-    load_fixtures
-    output_specification_from_data
-    check_specification_attribute
-    check_model_consistency
-    test_forward_examples
+    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.load_fixtures`
+    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+output_specification_from_data`
+    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+check_specification_attribute`
+    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+check_model_consistency`
+    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+test_forward_examples`
     """
 
     __metaclass__ = ABCMeta

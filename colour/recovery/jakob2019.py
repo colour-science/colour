@@ -15,7 +15,7 @@ References
 ----------
 -   :cite:`Jakob2019` : Jakob, W., & Hanika, J. (2019). A Low‐Dimensional
     Function Space for Efficient Spectral Upsampling. Computer Graphics Forum,
-    38(2), 147–155. doi:10.1111/cgf.13626
+    38(2), 147-155. doi:10.1111/cgf.13626
 """
 
 from __future__ import division, print_function, unicode_literals
@@ -74,10 +74,8 @@ class StopMinimizationEarly(Exception):
 
     Attributes
     ----------
-    coefficients : ndarray, (3,)
-        Coefficients (function arguments) when this exception was raised.
-    error : float
-        Error (function value) when this exception was raised.
+    -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarly.coefficients`
+    -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarly.error`
     """
 
     def __init__(self, coefficients, error):
@@ -130,6 +128,10 @@ def sd_Jakob2019(coefficients, shape=SPECTRAL_SHAPE_JAKOB2019):
     -------
     SpectralDistribution
         *Jakob and Hanika (2019)* spectral distribution.
+
+    References
+    ----------
+    :cite:`Jakob2019`
 
     Examples
     --------
@@ -380,6 +382,10 @@ def find_coefficients_Jakob2019(
         :math:`\\Delta E_{76}` between the target colour and the colour
         corresponding to the computed coefficients.
 
+    References
+    ----------
+    :cite:`Jakob2019`
+
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -485,6 +491,10 @@ def XYZ_to_sd_Jakob2019(
         :math:`\\Delta E_{76}` between the target colour and the colour
         corresponding to the computed coefficients.
 
+    References
+    ----------
+    :cite:`Jakob2019`
+
     Examples
     --------
     >>> from colour.colorimetry import CCS_ILLUMINANTS, sd_to_XYZ_integration
@@ -581,18 +591,23 @@ class LUT3D_Jakob2019(object):
 
     Attributes
     ----------
-    size
-    lightness_scale
-    coefficients
-    interpolator
+    -   :attr:`~colour.recovery.LUT3D_Jakob2019.size`
+    -   :attr:`~colour.recovery.LUT3D_Jakob2019.lightness_scale`
+    -   :attr:`~colour.recovery.LUT3D_Jakob2019.coefficients`
+    -   :attr:`~colour.recovery.LUT3D_Jakob2019.interpolator`
 
     Methods
     -------
-    generate
-    RGB_to_coefficients
-    RGB_to_sd
-    read
-    write
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.__init__`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.generate`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.RGB_to_coefficients`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.RGB_to_sd`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.read`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.write`
+
+    References
+    ----------
+    :cite:`Jakob2019`
 
     Examples
     --------

@@ -212,7 +212,7 @@ class TestRGB_Colourspace(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', '__repr__',
+        required_methods = ('__init__', '__str__', '__repr__',
                             'use_derived_transformation_matrices',
                             'chromatically_adapt', 'copy')
 

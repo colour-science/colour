@@ -201,8 +201,8 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
         expected : float.
             Expected attribute value.
 
-        Warning
-        -------
+        Warnings
+        --------
         The method name does not reflect the underlying implementation.
         """
 

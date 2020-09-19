@@ -23,6 +23,7 @@ import functools
 import numpy as np
 import re
 import six
+import types
 import warnings
 from contextlib import contextmanager
 from collections import OrderedDict
@@ -50,7 +51,7 @@ __all__ = [
     'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
     'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
     'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
-    'from_range_degrees', 'from_range_int'
+    'from_range_degrees', 'from_range_int', 'copy_definition'
 ]
 
 
@@ -1552,3 +1553,29 @@ def from_range_int(a, bit_depth=8, dtype=None):
         a /= maximum_code_value / 100
 
     return a
+
+
+def copy_definition(definition, name=None):
+    """
+    Copies a definition with same code, globals, defaults, closure, and
+    name.
+
+    Parameters
+    ----------
+    definition : callable
+        Definition to be copied.
+    name : unicode, optional
+        Optional definition copy name.
+
+    Returns
+    -------
+    callable
+        Definition copy.
+    """
+
+    copy = types.FunctionType(definition.__code__, definition.__globals__,
+                              name or definition.__name__,
+                              definition.__defaults__, definition.__closure__)
+    copy.__dict__.update(definition.__dict__)
+
+    return copy
