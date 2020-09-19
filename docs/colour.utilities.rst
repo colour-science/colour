@@ -58,6 +58,7 @@ Common
     from_range_100
     from_range_degrees
     from_range_int
+    copy_definition
 
 Array
 -----

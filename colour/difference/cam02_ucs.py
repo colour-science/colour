@@ -147,6 +147,7 @@ def delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2):
     >>> delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     14.0555464...
     """
+
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
                            COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
@@ -200,6 +201,7 @@ def delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2):
     >>> delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     14.0551718...
     """
+
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
                            COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
 
@@ -253,5 +255,6 @@ def delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2):
     >>> delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     14.0552982...
     """
+
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
                            COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
