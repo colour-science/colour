@@ -20,7 +20,7 @@ from functools import partial
 from pprint import pformat
 
 from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
-                                TVS_ILLUMINANT_HUNTERLAB)
+                                TVS_ILLUMINANTS_HUNTERLAB)
 from colour.colorimetry import (colorimetric_purity, complementary_wavelength,
                                 dominant_wavelength, excitation_purity,
                                 lightness, luminance, luminous_efficacy,
@@ -357,22 +357,22 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'Hunter Lab',
      partial(
          XYZ_to_Hunter_Lab,
-         XYZ_n=TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('Hunter Lab', 'CIE XYZ',
      partial(
          Hunter_Lab_to_XYZ,
-         XYZ_n=TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('CIE XYZ', 'Hunter Rdab',
      partial(
          XYZ_to_Hunter_Rdab,
-         XYZ_n=TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('Hunter Rdab', 'CIE XYZ',
      partial(
          Hunter_Rdab_to_XYZ,
-         XYZ_n=TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('CIE XYZ', 'IPT', XYZ_to_IPT),
     ('IPT', 'CIE XYZ', IPT_to_XYZ),

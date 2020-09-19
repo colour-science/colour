@@ -218,7 +218,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.colorimetry.HUNTERLAB_ILLUMINANTS',
-        'colour.colorimetry.TVS_ILLUMINANT_HUNTERLAB',
+        'colour.colorimetry.TVS_ILLUMINANTS_HUNTERLAB',
     ],
     [
         'colour.colorimetry.ILLUMINANTS',
