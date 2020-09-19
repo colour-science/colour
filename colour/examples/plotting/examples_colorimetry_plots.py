@@ -45,8 +45,9 @@ message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral '
              'distributions.'))
 plot_multi_sds(
     [
-        value for key, value in sorted(
-            colour.colorimetry.SDS_ILLUMINANTS_D_SERIES.items())
+        value for key, value in
+        sorted(colour.colorimetry.SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES.
+               items())
     ],
     title='CIE Standard Illuminant D Series - S Distributions')
 

@@ -31,7 +31,8 @@ import numpy as np
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
-                                SDS_ILLUMINANTS_D_SERIES, SpectralDistribution)
+                                SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
+                                SpectralDistribution)
 from colour.utilities import as_float_array, as_numeric, tsplit
 
 __author__ = 'Colour Developers'
@@ -286,9 +287,9 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
         M1 = np.around(M1, 3)
         M2 = np.around(M2, 3)
 
-    S0 = SDS_ILLUMINANTS_D_SERIES['S0']
-    S1 = SDS_ILLUMINANTS_D_SERIES['S1']
-    S2 = SDS_ILLUMINANTS_D_SERIES['S2']
+    S0 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S0']
+    S1 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S1']
+    S2 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S2']
 
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 

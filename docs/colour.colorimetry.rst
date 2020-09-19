@@ -21,8 +21,8 @@ Spectral Data Structure
 .. autosummary::
     :toctree: generated/
 
-    DEFAULT_SPECTRAL_SHAPE
-    ASTME308_PRACTISE_SHAPE
+    SPECTRAL_SHAPE_ASTME308
+    SPECTRAL_SHAPE_DEFAULT
 
 Spectral Data Generation
 ------------------------
@@ -183,13 +183,25 @@ Colour Matching Functions
 .. autosummary::
     :toctree: generated/
 
-    CMFS
-    LMS_CMFS
-    RGB_CMFS
-    STANDARD_OBSERVER_CMFS
+    MSDS_CMFS
+
+
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    MSDS_CMFS_LMS
+    MSDS_CMFS_RGB
+    MSDS_CMFS_STANDARD_OBSERVER
 
 Colour Matching Functions Transformations
 -----------------------------------------
+
 **Ancillary Objects**
 
 ``colour.colorimetry``
@@ -217,11 +229,11 @@ Illuminants and Light Sources
 .. autosummary::
     :toctree: generated/
 
-    CHROMATICITIES_ILLUMINANT
-    SDS_ILLUMINANT
-    TRISTIMULUS_VALUES_ILLUMINANT_HUNTERLAB
-    CHROMATICITIES_LIGHT_SOURCE
-    SDS_LIGHT_SOURCE
+    CCS_ILLUMINANTS
+    SDS_ILLUMINANTS
+    CCS_LIGHT_SOURCES
+    SDS_LIGHT_SOURCES
+    TVS_ILLUMINANTS_HUNTERLAB
 
 **Ancillary Objects**
 
@@ -232,7 +244,7 @@ Illuminants and Light Sources
 .. autosummary::
     :toctree: generated/
 
-    SDS_ILLUMINANT_D_SERIES
+    SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES
 
 Dominant Wavelength and Purity
 ------------------------------
@@ -271,9 +283,20 @@ Luminous Efficiency Functions
 .. autosummary::
     :toctree: generated/
 
-    LEFS
-    PHOTOPIC_LEFS
-    SCOTOPIC_LEFS
+    SDS_LEFS
+
+
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    SDS_LEFS_PHOTOPIC
+    SDS_LEFS_SCOTOPIC
 
 Lightness Computation
 ---------------------

@@ -37,17 +37,17 @@ __status__ = 'Production'
 
 __all__ = [
     'Illuminant_Specification_HunterLab',
-    'DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931',
     'TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931',
-    'DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964',
+    'DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964',
     'TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964',
-    'TVS_ILLUMINANT_HUNTERLAB'
+    'TVS_ILLUMINANTS_HUNTERLAB'
 ]
 
 Illuminant_Specification_HunterLab = namedtuple(
     'Illuminant_Specification_HunterLab', ('name', 'XYZ_n', 'K_ab'))
 
-DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
+DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
     ('A', np.array([109.83, 100.00, 35.55]), np.array([185.20, 38.40])),
     ('C', np.array([98.04, 100.00, 118.11]), np.array([175.00, 70.00])),
     ('D50', np.array([96.38, 100.00, 82.45]), np.array([173.51, 58.48])),
@@ -62,7 +62,7 @@ DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
 TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
     CaseInsensitiveMapping({
         x[0]: Illuminant_Specification_HunterLab(*x)
-        for x in DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931
+        for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931
     }))
 """
 Tristimulus values of the *Hunter L,a,b* illuminants for the
@@ -76,7 +76,7 @@ TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931 :
     CaseInsensitiveMapping
 """
 
-DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
+DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
     ('A', np.array([111.16, 100.00, 35.19]), np.array([186.30, 38.20])),
     ('C', np.array([97.30, 100.00, 116.14]), np.array([174.30, 69.40])),
     ('D50', np.array([96.72, 100.00, 81.45]), np.array([173.82, 58.13])),
@@ -91,7 +91,7 @@ DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
 TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
     CaseInsensitiveMapping({
         x[0]: Illuminant_Specification_HunterLab(*x)
-        for x in DATA_ILLUMINANT_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
+        for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
     }))
 """
 Tristimulus values of the *Hunter L,a,b* illuminants for the
@@ -105,20 +105,20 @@ TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964 :
     CaseInsensitiveMapping
 """
 
-TVS_ILLUMINANT_HUNTERLAB = CaseInsensitiveMapping({
+TVS_ILLUMINANTS_HUNTERLAB = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
         TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931,
     'CIE 1964 10 Degree Standard Observer':
         TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
 })
-TVS_ILLUMINANT_HUNTERLAB.__doc__ = """
+TVS_ILLUMINANTS_HUNTERLAB.__doc__ = """
 Tristimulus values of the *HunterLab* illuminants.
 
 References
 ----------
 :cite:`HunterLab2008b`, :cite:`HunterLab2008c`
 
-TVS_ILLUMINANT_HUNTERLAB : CaseInsensitiveMapping
+TVS_ILLUMINANTS_HUNTERLAB : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer'}**
 
@@ -127,7 +127,7 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-TVS_ILLUMINANT_HUNTERLAB['cie_2_1931'] = (
-    TVS_ILLUMINANT_HUNTERLAB['CIE 1931 2 Degree Standard Observer'])
-TVS_ILLUMINANT_HUNTERLAB['cie_10_1964'] = (
-    TVS_ILLUMINANT_HUNTERLAB['CIE 1964 10 Degree Standard Observer'])
+TVS_ILLUMINANTS_HUNTERLAB['cie_2_1931'] = (
+    TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer'])
+TVS_ILLUMINANTS_HUNTERLAB['cie_10_1964'] = (
+    TVS_ILLUMINANTS_HUNTERLAB['CIE 1964 10 Degree Standard Observer'])

@@ -5,6 +5,7 @@ Tristimulus Values
 
 Defines objects for tristimulus values computation from spectral data:
 
+-   :attr:`colour.SPECTRAL_SHAPE_ASTME308`
 -   :func:`colour.colorimetry.tristimulus_weighting_factors_ASTME2022`
 -   :func:`colour.colorimetry.sd_to_XYZ_integration`
 -   :func:`colour.colorimetry.\

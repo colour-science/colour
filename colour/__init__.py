@@ -70,7 +70,7 @@ from .colorimetry import (
     MultiSpectralDistributions, SDS_ILLUMINANTS, SDS_LEFS, SDS_LIGHT_SOURCES,
     SD_GAUSSIAN_METHODS, SD_MULTI_LEDS_METHODS, SD_SINGLE_LED_METHODS,
     SD_TO_XYZ_METHODS, SPECTRAL_SHAPE_ASTME308, SPECTRAL_SHAPE_DEFAULT,
-    SpectralDistribution, SpectralShape, TVS_ILLUMINANT_HUNTERLAB,
+    SpectralDistribution, SpectralShape, TVS_ILLUMINANTS_HUNTERLAB,
     WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
     excitation_purity, lightness, luminance, luminous_efficacy,
@@ -207,7 +207,7 @@ __all__ += [
     'SDS_LEFS', 'SDS_LIGHT_SOURCES', 'SD_GAUSSIAN_METHODS',
     'SD_MULTI_LEDS_METHODS', 'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS',
     'SPECTRAL_SHAPE_ASTME308', 'SPECTRAL_SHAPE_DEFAULT',
-    'SpectralDistribution', 'SpectralShape', 'TVS_ILLUMINANT_HUNTERLAB',
+    'SpectralDistribution', 'SpectralShape', 'TVS_ILLUMINANTS_HUNTERLAB',
     'WHITENESS_METHODS', 'YELLOWNESS_METHODS', 'bandpass_correction',
     'colorimetric_purity', 'complementary_wavelength', 'dominant_wavelength',
     'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
@@ -557,7 +557,7 @@ API_CHANGES = {
         ],
         [
             'colour.D_ILLUMINANTS_S_SPDS',
-            'colour.colorimetry.SDS_ILLUMINANTS_D_SERIES',
+            'colour.colorimetry.SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES',
         ],
         [
             'colour.ECI_RGB_V2_COLOURSPACE',
@@ -1861,7 +1861,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.HUNTERLAB_ILLUMINANTS',
-        'colour.TVS_ILLUMINANT_HUNTERLAB',
+        'colour.TVS_ILLUMINANTS_HUNTERLAB',
     ],
     [
         'colour.ILLUMINANTS',
