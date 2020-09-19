@@ -197,7 +197,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('read', )
+        required_methods = ('__init__', 'read', 'write')
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralDistribution_IESTM2714))

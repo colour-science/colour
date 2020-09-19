@@ -68,7 +68,8 @@ class Extrapolator(object):
 
     Methods
     -------
-    __class__
+    -   :meth:`~colour.Extrapolator.__init__`
+    -   :meth:`~colour.Extrapolator.__class__`
 
     Notes
     -----

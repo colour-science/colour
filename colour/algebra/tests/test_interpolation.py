@@ -330,7 +330,7 @@ class TestKernelInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', '__call__')
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(KernelInterpolator))
@@ -559,7 +559,7 @@ class TestNearestNeighbourInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', )
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(NearestNeighbourInterpolator))
@@ -598,7 +598,7 @@ class TestLinearInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', '__call__')
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(LinearInterpolator))
@@ -688,7 +688,7 @@ class TestSpragueInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', '__call__')
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(SpragueInterpolator))
@@ -803,7 +803,7 @@ class TestPchipInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', )
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(PchipInterpolator))
@@ -830,7 +830,7 @@ class TestNullInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', '__call__')
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(NullInterpolator))

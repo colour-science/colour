@@ -87,32 +87,33 @@ dict_like, optional
 
     Attributes
     ----------
-    dtype
-    domain
-    range
-    interpolator
-    interpolator_kwargs
-    extrapolator
-    extrapolator_kwargs
-    function
-    signals
-    labels
-    signal_type
+    -   :attr:`~colour.continuous.MultiSignals.dtype`
+    -   :attr:`~colour.continuous.MultiSignals.domain`
+    -   :attr:`~colour.continuous.MultiSignals.range`
+    -   :attr:`~colour.continuous.MultiSignals.interpolator`
+    -   :attr:`~colour.continuous.MultiSignals.interpolator_kwargs`
+    -   :attr:`~colour.continuous.MultiSignals.extrapolator`
+    -   :attr:`~colour.continuous.MultiSignals.extrapolator_kwargs`
+    -   :attr:`~colour.continuous.MultiSignals.function`
+    -   :attr:`~colour.continuous.MultiSignals.signals`
+    -   :attr:`~colour.continuous.MultiSignals.labels`
+    -   :attr:`~colour.continuous.MultiSignals.signal_type`
 
     Methods
     -------
-    __str__
-    __repr__
-    __hash__
-    __getitem__
-    __setitem__
-    __contains__
-    __eq__
-    __ne__
-    arithmetical_operation
-    multi_signals_unpack_data
-    fill_nan
-    to_dataframe
+    -   :meth:`~colour.continuous.MultiSignals.__init__`
+    -   :meth:`~colour.continuous.MultiSignals.__str__`
+    -   :meth:`~colour.continuous.MultiSignals.__repr__`
+    -   :meth:`~colour.continuous.MultiSignals.__hash__`
+    -   :meth:`~colour.continuous.MultiSignals.__getitem__`
+    -   :meth:`~colour.continuous.MultiSignals.__setitem__`
+    -   :meth:`~colour.continuous.MultiSignals.__contains__`
+    -   :meth:`~colour.continuous.MultiSignals.__eq__`
+    -   :meth:`~colour.continuous.MultiSignals.__ne__`
+    -   :meth:`~colour.continuous.MultiSignals.arithmetical_operation`
+    -   :meth:`~colour.continuous.MultiSignals.multi_signals_unpack_data`
+    -   :meth:`~colour.continuous.MultiSignals.fill_nan`
+    -   :meth:`~colour.continuous.MultiSignals.to_dataframe`
 
     Examples
     --------

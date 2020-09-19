@@ -74,10 +74,8 @@ class StopMinimizationEarly(Exception):
 
     Attributes
     ----------
-    coefficients : ndarray, (3,)
-        Coefficients (function arguments) when this exception was raised.
-    error : float
-        Error (function value) when this exception was raised.
+    -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarly.coefficients`
+    -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarly.error`
     """
 
     def __init__(self, coefficients, error):
@@ -581,18 +579,19 @@ class LUT3D_Jakob2019(object):
 
     Attributes
     ----------
-    size
-    lightness_scale
-    coefficients
-    interpolator
+    -   :attr:`~colour.recovery.LUT3D_Jakob2019.size`
+    -   :attr:`~colour.recovery.LUT3D_Jakob2019.lightness_scale`
+    -   :attr:`~colour.recovery.LUT3D_Jakob2019.coefficients`
+    -   :attr:`~colour.recovery.LUT3D_Jakob2019.interpolator`
 
     Methods
     -------
-    generate
-    RGB_to_coefficients
-    RGB_to_sd
-    read
-    write
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.__init__`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.generate`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.RGB_to_coefficients`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.RGB_to_sd`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.read`
+    -   :meth:`~colour.recovery.LUT3D_Jakob2019.write`
 
     Examples
     --------

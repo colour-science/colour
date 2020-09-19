@@ -58,12 +58,12 @@ class TestAbstractLUT(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', '__repr__', '__eq__', '__ne__',
-                            '__add__', '__iadd__', '__sub__', '__isub__',
-                            '__mul__', '__imul__', '__div__', '__idiv__',
-                            '__pow__', '__ipow__', 'arithmetical_operation',
-                            'is_domain_explicit', 'linear_table', 'apply',
-                            'copy', 'as_LUT')
+        required_methods = ('__init__', '__str__', '__repr__', '__eq__',
+                            '__ne__', '__add__', '__iadd__', '__sub__',
+                            '__isub__', '__mul__', '__imul__', '__div__',
+                            '__idiv__', '__pow__', '__ipow__',
+                            'arithmetical_operation', 'is_domain_explicit',
+                            'linear_table', 'apply', 'copy', 'as_LUT')
 
         for method in required_methods:
             self.assertIn(method, dir(AbstractLUT))
@@ -111,11 +111,12 @@ class TestLUT(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('is_domain_explicit', 'linear_table', 'apply',
-                            'as_LUT')
+        required_methods = ('__init__', 'is_domain_explicit', 'linear_table',
+                            'apply', 'as_LUT')
 
-        for method in required_methods:
-            self.assertIn(method, dir(LUT1D))
+        for class_ in (LUT1D, LUT3x1D, LUT3D):
+            for method in required_methods:
+                self.assertIn(method, dir(class_))
 
     def test__init__(self):
         """
@@ -827,9 +828,9 @@ class TestLUTSequence(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__getitem__', '__setitem__', '__delitem__',
-                            '__len__', '__str__', '__repr__', '__eq__',
-                            '__ne__', 'insert', 'apply', 'copy')
+        required_methods = ('__init__', '__getitem__', '__setitem__',
+                            '__delitem__', '__len__', '__str__', '__repr__',
+                            '__eq__', '__ne__', 'insert', 'apply', 'copy')
 
         for method in required_methods:
             self.assertIn(method, dir(LUTSequence))

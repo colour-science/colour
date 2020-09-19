@@ -86,29 +86,30 @@ class Signal(AbstractContinuousFunction):
 
     Attributes
     ----------
-    dtype
-    domain
-    range
-    interpolator
-    interpolator_kwargs
-    extrapolator
-    extrapolator_kwargs
-    function
+    -   :attr:`~colour.continuous.Signal.dtype`
+    -   :attr:`~colour.continuous.Signal.domain`
+    -   :attr:`~colour.continuous.Signal.range`
+    -   :attr:`~colour.continuous.Signal.interpolator`
+    -   :attr:`~colour.continuous.Signal.interpolator_kwargs`
+    -   :attr:`~colour.continuous.Signal.extrapolator`
+    -   :attr:`~colour.continuous.Signal.extrapolator_kwargs`
+    -   :attr:`~colour.continuous.Signal.function`
 
     Methods
     -------
-    __str__
-    __repr__
-    __hash__
-    __getitem__
-    __setitem__
-    __contains__
-    __eq__
-    __ne__
-    arithmetical_operation
-    signal_unpack_data
-    fill_nan
-    to_series
+    -   :meth:`~colour.continuous.Signal.__init__`
+    -   :meth:`~colour.continuous.Signal.__str__`
+    -   :meth:`~colour.continuous.Signal.__repr__`
+    -   :meth:`~colour.continuous.Signal.__hash__`
+    -   :meth:`~colour.continuous.Signal.__getitem__`
+    -   :meth:`~colour.continuous.Signal.__setitem__`
+    -   :meth:`~colour.continuous.Signal.__contains__`
+    -   :meth:`~colour.continuous.Signal.__eq__`
+    -   :meth:`~colour.continuous.Signal.__ne__`
+    -   :meth:`~colour.continuous.Signal.arithmetical_operation`
+    -   :meth:`~colour.continuous.Signal.signal_unpack_data`
+    -   :meth:`~colour.continuous.Signal.fill_nan`
+    -   :meth:`~colour.continuous.Signal.to_series`
 
     Examples
     --------

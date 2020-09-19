@@ -63,41 +63,45 @@ class AbstractContinuousFunction:
 
     Attributes
     ----------
-    name
-    domain
-    range
-    interpolator
-    interpolator_kwargs
-    extrapolator
-    extrapolator_kwargs
-    function
+    -   :attr:`~colour.continuous.AbstractContinuousFunction.name`
+    -   :attr:`~colour.continuous.AbstractContinuousFunction.domain`
+    -   :attr:`~colour.continuous.AbstractContinuousFunction.range`
+    -   :attr:`~colour.continuous.AbstractContinuousFunction.interpolator`
+    -   :attr:`~colour.continuous.\
+AbstractContinuousFunction.interpolator_kwargs`
+    -   :attr:`~colour.continuous.AbstractContinuousFunction.extrapolator`
+    -   :attr:`~colour.continuous.\
+AbstractContinuousFunction.extrapolator_kwargs`
+    -   :attr:`~colour.continuous.AbstractContinuousFunction.function`
 
     Methods
     -------
-    __str__
-    __repr__
-    __hash__
-    __getitem__
-    __setitem__
-    __contains__
-    __len__
-    __eq__
-    __ne__
-    __iadd__
-    __add__
-    __isub__
-    __sub__
-    __imul__
-    __mul__
-    __idiv__
-    __div__
-    __ipow__
-    __pow__
-    arithmetical_operation
-    fill_nan
-    domain_distance
-    is_uniform
-    copy
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__init__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__str__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__repr__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__hash__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__getitem__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__setitem__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__contains__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__len__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__eq__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__ne__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__iadd__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__add__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__isub__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__sub__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__imul__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__mul__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__idiv__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__div__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__ipow__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.__pow__`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.\
+arithmetical_operation`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.fill_nan`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.domain_distance`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.is_uniform`
+    -   :meth:`~colour.continuous.AbstractContinuousFunction.copy`
     """
 
     def __init__(self, name=None):

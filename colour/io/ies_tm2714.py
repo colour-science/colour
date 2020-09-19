@@ -122,18 +122,22 @@ class Header_IESTM2714(object):
 
     Attributes
     ----------
-    mapping
-    manufacturer
-    catalog_number
-    description
-    document_creator
-    unique_identifier
-    measurement_equipment
-    laboratory
-    report_number
-    report_date
-    document_creation_date
-    comments
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.mapping`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.manufacturer`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.catalog_number`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.description`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.document_creator`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.unique_identifier`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.measurement_equipment`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.laboratory`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.report_number`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.report_date`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.document_creation_date`
+    -   :attr:`~colour.io.ies_tm2714.Header_IESTM2714.comments`
+
+    Methods
+    -------
+    -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__init__`
 
     Examples
     --------
@@ -613,19 +617,20 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     Attributes
     ----------
-    mapping
-    path
-    header
-    spectral_quantity
-    reflection_geometry
-    transmission_geometry
-    bandwidth_FWHM
-    bandwidth_corrected
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.mapping`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.path`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.header`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.spectral_quantity`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.reflection_geometry`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.transmission_geometry`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.bandwidth_FWHM`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.bandwidth_corrected`
 
     Methods
     -------
-    read
-    write
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.__init__`
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.read`
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.write`
 
     References
     ----------

@@ -56,7 +56,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('select', 'cluster', 'read', 'write')
+        required_methods = ('__init__', 'select', 'cluster', 'read', 'write')
 
         for method in required_methods:
             self.assertIn(method, dir(Dataset_Otsu2018))
@@ -148,7 +148,7 @@ class TestColourData(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', '__len__', 'partition')
+        required_methods = ('__init__', '__str__', '__len__', 'partition')
 
         for method in required_methods:
             self.assertIn(method, dir(ColourData))
@@ -177,8 +177,9 @@ class TestNode(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', '__len__', 'is_leaf', 'split', 'PCA',
-                            'reconstruct', 'leaf_reconstruction_error',
+        required_methods = ('__init__', '__str__', '__len__', 'is_leaf',
+                            'split', 'PCA', 'reconstruct',
+                            'leaf_reconstruction_error',
                             'branch_reconstruction_error',
                             'partition_reconstruction_error',
                             'find_best_partition')
@@ -231,7 +232,8 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', 'msds_to_XYZ', 'optimise', 'to_dataset')
+        required_methods = ('__init__', '__str__', 'msds_to_XYZ', 'optimise',
+                            'to_dataset')
 
         for method in required_methods:
             self.assertIn(method, dir(NodeTree_Otsu2018))

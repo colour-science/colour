@@ -304,16 +304,17 @@ class KernelInterpolator(object):
 
     Attributes
     ----------
-    x
-    y
-    window
-    kernel
-    kernel_kwargs
-    padding_kwargs
+    -   :attr:`~colour.KernelInterpolator.x`
+    -   :attr:`~colour.KernelInterpolator.y`
+    -   :attr:`~colour.KernelInterpolator.window`
+    -   :attr:`~colour.KernelInterpolator.kernel`
+    -   :attr:`~colour.KernelInterpolator.kernel_kwargs`
+    -   :attr:`~colour.KernelInterpolator.padding_kwargs`
 
     Methods
     -------
-    __call__
+    -   :meth:`~colour.KernelInterpolator.__init__`
+    -   :meth:`~colour.KernelInterpolator.__call__`
 
     References
     ----------
@@ -751,6 +752,10 @@ class NearestNeighbourInterpolator(KernelInterpolator):
          :func:`np.pad` definition.
     dtype : type
         Data type used for internal conversions.
+
+    Methods
+    -------
+    -   :meth:`~colour.NearestNeighbourInterpolator.__init__`
     """
 
     def __init__(self, *args, **kwargs):
@@ -778,12 +783,13 @@ class LinearInterpolator(object):
 
     Attributes
     ----------
-    x
-    y
+    -   :attr:`~colour.LinearInterpolator.x`
+    -   :attr:`~colour.LinearInterpolator.y`
 
     Methods
     -------
-    __call__
+    -   :meth:`~colour.LinearInterpolator.__init__`
+    -   :meth:`~colour.LinearInterpolator.__call__`
 
     Notes
     -----
@@ -975,12 +981,13 @@ class SpragueInterpolator(object):
 
     Attributes
     ----------
-    x
-    y
+    -   :attr:`~colour.SpragueInterpolator.x`
+    -   :attr:`~colour.SpragueInterpolator.y`
 
     Methods
     -------
-    __call__
+    -   :meth:`~colour.SpragueInterpolator.__init__`
+    -   :meth:`~colour.SpragueInterpolator.__call__`
 
     Notes
     -----
@@ -1224,6 +1231,10 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
     Interpolates a 1-D function using cubic spline interpolation.
 
+    Methods
+    -------
+    -   :meth:`~colour.CubicSplineInterpolator.__init__`
+
     Notes
     -----
     -   This class is a wrapper around *scipy.interpolate.interp1d* class.
@@ -1241,7 +1252,11 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
 
     Attributes
     ----------
-    y
+    -   :attr:`~colour.PchipInterpolator.y`
+
+    Methods
+    -------
+    -   :meth:`~colour.PchipInterpolator.__init__`
 
     Notes
     -----
@@ -1294,15 +1309,16 @@ class NullInterpolator(object):
 
     Attributes
     ----------
-    x
-    y
-    relative_tolerance
-    absolute_tolerance
-    default
+    -   :attr:`~colour.NullInterpolator.x`
+    -   :attr:`~colour.NullInterpolator.y`
+    -   :attr:`~colour.NullInterpolator.relative_tolerance`
+    -   :attr:`~colour.NullInterpolator.absolute_tolerance`
+    -   :attr:`~colour.NullInterpolator.default`
 
     Methods
     -------
-    __call__
+    -   :meth:`~colour.NullInterpolator.__init__`
+    -   :meth:`~colour.NullInterpolator.__call__`
 
     Examples
     --------

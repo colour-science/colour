@@ -83,35 +83,36 @@ class AbstractLUT:
 
     Attributes
     ----------
-    table
-    name
-    dimensions
-    domain
-    size
-    comments
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.table`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.name`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.dimensions`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.domain`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.size`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.comments`
 
     Methods
     -------
-    __str__
-    __repr__
-    __eq__
-    __ne__
-    __add__
-    __iadd__
-    __sub__
-    __isub__
-    __mul__
-    __imul__
-    __div__
-    __idiv__
-    __pow__
-    __ipow__
-    arithmetical_operation
-    is_domain_explicit
-    linear_table
-    apply
-    copy
-    as_LUT
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__init__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__str__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__repr__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__eq__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__ne__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__add__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__iadd__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__sub__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__isub__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__mul__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__imul__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__div__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__idiv__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__pow__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__ipow__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.arithmetical_operation`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.is_domain_explicit`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.linear_table`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.apply`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.copy`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.as_LUT`
     """
 
     def __init__(self,
@@ -788,10 +789,11 @@ class LUT1D(AbstractLUT):
 
     Methods
     -------
-    is_domain_explicit
-    linear_table
-    apply
-    as_LUT
+    -   :meth:`~colour.LUT1D.__init__`
+    -   :meth:`~colour.LUT1D.is_domain_explicit`
+    -   :meth:`~colour.LUT1D.linear_table`
+    -   :meth:`~colour.LUT1D.apply`
+    -   :meth:`~colour.LUT1D.as_LUT`
 
     Examples
     --------
@@ -1096,10 +1098,11 @@ class LUT3x1D(AbstractLUT):
 
     Methods
     -------
-    is_domain_explicit
-    linear_table
-    apply
-    as_LUT
+    -   :meth:`~colour.LUT3x1D.__init__`
+    -   :meth:`~colour.LUT3x1D.is_domain_explicit`
+    -   :meth:`~colour.LUT3x1D.linear_table`
+    -   :meth:`~colour.LUT3x1D.apply`
+    -   :meth:`~colour.LUT3x1D.as_LUT`
 
     Examples
     --------
@@ -1502,10 +1505,11 @@ class LUT3D(AbstractLUT):
 
     Methods
     -------
-    is_domain_explicit
-    linear_table
-    apply
-    as_LUT
+    -   :meth:`~colour.LUT3D.__init__`
+    -   :meth:`~colour.LUT3D.is_domain_explicit`
+    -   :meth:`~colour.LUT3D.linear_table`
+    -   :meth:`~colour.LUT3D.apply`
+    -   :meth:`~colour.LUT3D.as_LUT`
 
     Examples
     --------
@@ -2083,7 +2087,7 @@ class AbstractLUTSequenceOperator:
 
     Methods
     -------
-    apply
+    -   :meth:`~colour.io.luts.lut.AbstractLUTSequenceOperator.apply`
     """
 
     @abstractmethod
@@ -2120,21 +2124,22 @@ class LUTSequence(MutableSequence):
 
     Attributes
     ----------
-    sequence
+    -   :attr:`~colour.LUTSequence.sequence`
 
     Methods
     -------
-    __getitem__
-    __setitem__
-    __delitem__
-    __len__
-    __str__
-    __repr__
-    __eq__
-    __ne__
-    insert
-    apply
-    copy
+    -   :meth:`~colour.LUTSequence.__init__`
+    -   :meth:`~colour.LUTSequence.__getitem__`
+    -   :meth:`~colour.LUTSequence.__setitem__`
+    -   :meth:`~colour.LUTSequence.__delitem__`
+    -   :meth:`~colour.LUTSequence.__len__`
+    -   :meth:`~colour.LUTSequence.__str__`
+    -   :meth:`~colour.LUTSequence.__repr__`
+    -   :meth:`~colour.LUTSequence.__eq__`
+    -   :meth:`~colour.LUTSequence.__ne__`
+    -   :meth:`~colour.LUTSequence.insert`
+    -   :meth:`~colour.LUTSequence.apply`
+    -   :meth:`~colour.LUTSequence.copy`
 
     Examples
     --------

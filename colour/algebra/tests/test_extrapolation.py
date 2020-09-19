@@ -44,7 +44,7 @@ class TestExtrapolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', )
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(Extrapolator))
