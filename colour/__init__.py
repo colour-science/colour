@@ -557,7 +557,7 @@ API_CHANGES = {
         ],
         [
             'colour.D_ILLUMINANTS_S_SPDS',
-            'colour.colorimetry.SDS_ILLUMINANTS_D_SERIES',
+            'colour.colorimetry.SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES',
         ],
         [
             'colour.ECI_RGB_V2_COLOURSPACE',

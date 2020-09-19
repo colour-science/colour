@@ -210,7 +210,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.colorimetry.D_ILLUMINANTS_S_SDS',
-        'colour.colorimetry.SDS_ILLUMINANTS_D_SERIES',
+        'colour.colorimetry.SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES',
     ],
     [
         'colour.colorimetry.DEFAULT_SPECTRAL_SHAPE',
