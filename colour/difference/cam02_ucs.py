@@ -86,7 +86,7 @@ def delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
     >>> delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
     ...                 COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
     ... # doctest: +ELLIPSIS
-    0.0001034...
+    14.0555464...
     """
 
     J_p_1, a_p_1, b_p_1 = tsplit(Jpapbp_1)
