@@ -222,9 +222,10 @@ If you'd like to join them, please consider
                     <p><a href="https://twitter.com/hdc_digital" target="_blank">Howard Colin</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://chrisbrejon.com/" target="_blank">
+                        <img width="176px" src="https://i.imgur.com/Zhs53S9.png">
                     </a>
+                    <p><a href="https://chrisbrejon.com/" target="_blank">Christophe Brejon</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
