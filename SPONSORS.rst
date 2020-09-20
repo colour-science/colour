@@ -309,9 +309,10 @@ If you'd like to join them, please consider
                     <p><a href="https://twitter.com/fredsavoir" target="_blank">Frederic Savoir</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/hdc_digital" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1276879673536937985/W56dpzI1.jpg">
                     </a>
+                    <p><a href="https://twitter.com/hdc_digital" target="_blank">Howard Colin</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
