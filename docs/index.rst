@@ -960,7 +960,7 @@ Academy Spectral Similarity Index (SSI)
     >>> colour.spectral_similarity_index(colour.SDS_ILLUMINANTS['C'], colour.SDS_ILLUMINANTS['D65'])
     94.0
 
-Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
+Spectral Up-Sampling & Reflectance Recovery - ``colour.recovery``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
