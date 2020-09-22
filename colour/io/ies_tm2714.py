@@ -58,8 +58,6 @@ class Element_Specification_IESTM2714(
         Element name.
     type_ : unicode
         Element type.
-    attribute : object
-        Element type.
     required : bool
         Is element required.
     read_conversion : object
