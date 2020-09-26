@@ -586,8 +586,11 @@ class LUT3D_Jakob2019(object):
     time savings by performing the expensive numerical optimization ahead of
     time and storing the results in a file.
 
-    The file format is compatible with the code and *\\*.coeff* files in
-    supplemental material published alongside the article.
+    The file format is compatible with the code and *\\*.coeff* files in the
+    supplemental material published alongside the article. They are directly
+    available from
+    `Colour - Datasets <https://github.com/colour-science/colour-datasets>`__
+    under the record *4050598*.
 
     Attributes
     ----------
