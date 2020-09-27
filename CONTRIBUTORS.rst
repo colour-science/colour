@@ -125,6 +125,10 @@ Development & Technical Support
 
     Technical support.
 
+-   **Joseph Goldstone**, *Image Science Engineer @ ARRI*
+
+    Technical support and documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -150,10 +154,6 @@ Acknowledgements
 -   **Alex Forsythe**, *Image Engineering Manager @ Academy of Motion Picture Arts and Sciences*
 
     *ACES RGB IDT* technical support.
-
--   **Joseph Goldstone**, *Image Science Engineer @ ARRI*
-
-    Technical support.
 
 -   **Yoshi Ohno**, *Mathematician & Colour Scientist*
 
