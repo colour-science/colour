@@ -30,33 +30,33 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SMITS1999_PRIMARIES', 'SMITS1999_WHITEPOINT',
-    'SMITS1999_XYZ_TO_RGB_MATRIX', 'XYZ_to_RGB_Smits1999',
+    'PRIMARIES_SMITS1999', 'CCS_WHITEPOINT_SMITS1999',
+    'MATRIX_XYZ_TO_RGB_SMITS1999', 'XYZ_to_RGB_Smits1999',
     'RGB_to_sd_Smits1999'
 ]
 
-SMITS1999_PRIMARIES = RGB_COLOURSPACE_sRGB.primaries
+PRIMARIES_SMITS1999 = RGB_COLOURSPACE_sRGB.primaries
 """
 Current *Smits (1999)* method implementation colourspace primaries.
 
-SMITS1999_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_SMITS1999 : ndarray, (3, 2)
 """
 
-SMITS1999_WHITEPOINT = (
+CCS_WHITEPOINT_SMITS1999 = (
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
 """
 Current *Smits (1999)* method implementation colourspace whitepoint.
 
-SMITS1999_WHITEPOINT : ndarray
+CCS_WHITEPOINT_SMITS1999 : ndarray
 """
 
-SMITS1999_XYZ_TO_RGB_MATRIX = np.linalg.inv(
-    normalised_primary_matrix(SMITS1999_PRIMARIES, SMITS1999_WHITEPOINT))
+MATRIX_XYZ_TO_RGB_SMITS1999 = np.linalg.inv(
+    normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999))
 """
 Current *Smits (1999)* method implementation *RGB* colourspace to
 *CIE XYZ* tristimulus values matrix.
 
-SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_RGB_SMITS1999 : array_like, (3, 3)
 """
 
 
@@ -85,9 +85,9 @@ def XYZ_to_RGB_Smits1999(XYZ):
 
     return XYZ_to_RGB(
         XYZ,
-        SMITS1999_WHITEPOINT,
-        SMITS1999_WHITEPOINT,
-        SMITS1999_XYZ_TO_RGB_MATRIX,
+        CCS_WHITEPOINT_SMITS1999,
+        CCS_WHITEPOINT_SMITS1999,
+        MATRIX_XYZ_TO_RGB_SMITS1999,
     )
 
 

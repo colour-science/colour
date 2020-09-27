@@ -1,8 +1,6 @@
 Contributors
 ============
 
-
-
 The Colour Developers
 ---------------------
 
@@ -47,6 +45,10 @@ Google Summer of Code
 -   **Nishant Joywardhan**, *Student @ Cluster Innovation Centre, University of Delhi*
 
     LUT IO Improvements.
+
+-   **Pawel Redman**, *Student @ Wrocław University of Science and Technology*
+
+    New Spectral Upsampling Methods.
 
 -   **Omar Wagih**, *Student @ Faculty of Engineering, Cairo University*
 
@@ -123,6 +125,10 @@ Development & Technical Support
 
     Technical support.
 
+-   **Joseph Goldstone**, *Image Science Engineer @ ARRI*
+
+    Technical support and documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -148,10 +154,6 @@ Acknowledgements
 -   **Alex Forsythe**, *Image Engineering Manager @ Academy of Motion Picture Arts and Sciences*
 
     *ACES RGB IDT* technical support.
-
--   **Joseph Goldstone**, *Image Science Engineer @ ARRI*
-
-    Technical support.
 
 -   **Yoshi Ohno**, *Mathematician & Colour Scientist*
 

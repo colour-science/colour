@@ -228,9 +228,10 @@ If you'd like to join them, please consider
                     <p><a href="https://chrisbrejon.com/" target="_blank">Christophe Brejon</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/JRGoldstone" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/2984918964/cfa02927f1c709e689b5a87ac5487c09.jpeg">
                     </a>
+                    <p><a href="https://twitter.com/JRGoldstone" target="_blank">Joseph Goldstone</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
@@ -1166,7 +1167,7 @@ Academy Spectral Similarity Index (SSI)
     >>> colour.spectral_similarity_index(colour.SDS_ILLUMINANTS['C'], colour.SDS_ILLUMINANTS['D65'])
     94.0
 
-Spectral Up-sampling & Reflectance Recovery - ``colour.recovery``
+Spectral Up-Sampling & Reflectance Recovery - ``colour.recovery``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
