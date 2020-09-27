@@ -1,8 +1,6 @@
 Contributors
 ============
 
-
-
 The Colour Developers
 ---------------------
 
@@ -47,6 +45,10 @@ Google Summer of Code
 -   **Nishant Joywardhan**, *Student @ Cluster Innovation Centre, University of Delhi*
 
     LUT IO Improvements.
+
+-   **Pawel Redman**, *Student @ Wrocław University of Science and Technology*
+
+    New Spectral Upsampling Methods.
 
 -   **Omar Wagih**, *Student @ Faculty of Engineering, Cairo University*
 
