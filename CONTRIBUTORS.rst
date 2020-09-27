@@ -198,6 +198,7 @@ Issues & Discussions
 -   @cclauss
 -   @Chandler
 -   @chesschi
+-   @ChunHsinWang
 -   @codycuellar
 -   @dtbulmerJRs
 -   @Edwardlin-zlt
@@ -230,10 +231,12 @@ Issues & Discussions
 -   @nschloe
 -   @peteroupc
 -   @pfk-beta
+-   @priikone
 -   @Queuecumber
 -   @Rob-Welch
 -   @robbuckley
 -   @Ron024
+-   @rsnitsch
 -   @senyai
 -   @shanest
 -   @spicymatt
