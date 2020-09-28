@@ -132,52 +132,186 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
     if terms == 3:
         return RGB
     elif terms == 5:
-        return tstack([R, G, B, R * G * B, tail])
+        return tstack([
+            R,
+            G,
+            B,
+            R * G * B,
+            tail,
+        ])
     elif terms == 7:
-        return tstack([R, G, B, R * G, R * B, G * B, tail])
+        return tstack([
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            tail,
+        ])
     elif terms == 8:
-        return tstack([R, G, B, R * G, R * B, G * B, R * G * B, tail])
+        return tstack([
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            R * G * B,
+            tail,
+        ])
     elif terms == 10:
-        return tstack(
-            [R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, tail])
+        return tstack([
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            R ** 2,
+            G ** 2,
+            B ** 2,
+            tail,
+        ])
     elif terms == 11:
         return tstack([
-            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            tail
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            R ** 2,
+            G ** 2,
+            B ** 2,
+            R * G * B,
+            tail,
         ])
     elif terms == 14:
         return tstack([
-            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B, R
-            ** 3, G ** 3, B ** 3, tail
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            R ** 2,
+            G ** 2,
+            B ** 2,
+            R * G * B,
+            R ** 3,
+            G ** 3,
+            B ** 3,
+            tail,
         ])
     elif terms == 16:
         return tstack([
-            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 3, G ** 3, B ** 3
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            R ** 2,
+            G ** 2,
+            B ** 2,
+            R * G * B,
+            R ** 2 * G,
+            G ** 2 * B,
+            B ** 2 * R,
+            R ** 3,
+            G ** 3,
+            B ** 3,
         ])
     elif terms == 17:
         return tstack([
-            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 3, G ** 3, B ** 3, tail
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            R ** 2,
+            G ** 2,
+            B ** 2,
+            R * G * B,
+            R ** 2 * G,
+            G ** 2 * B,
+            B ** 2 * R,
+            R ** 3,
+            G ** 3,
+            B ** 3,
+            tail,
         ])
     elif terms == 19:
         return tstack([
-            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 2 * B, G ** 2 * R,
-            B ** 2 * G, R ** 3, G ** 3, B ** 3
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            R ** 2,
+            G ** 2,
+            B ** 2,
+            R * G * B,
+            R ** 2 * G,
+            G ** 2 * B,
+            B ** 2 * R,
+            R ** 2 * B,
+            G ** 2 * R,
+            B ** 2 * G,
+            R ** 3,
+            G ** 3,
+            B ** 3,
         ])
     elif terms == 20:
         return tstack([
-            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 2 * B, G ** 2 * R,
-            B ** 2 * G, R ** 3, G ** 3, B ** 3, tail
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            R ** 2,
+            G ** 2,
+            B ** 2,
+            R * G * B,
+            R ** 2 * G,
+            G ** 2 * B,
+            B ** 2 * R,
+            R ** 2 * B,
+            G ** 2 * R,
+            B ** 2 * G,
+            R ** 3,
+            G ** 3,
+            B ** 3,
+            tail,
         ])
     elif terms == 22:
         return tstack([
-            R, G, B, R * G, R * B, G * B, R ** 2, G ** 2, B ** 2, R * G * B,
-            R ** 2 * G, G ** 2 * B, B ** 2 * R, R ** 2 * B, G ** 2 * R,
-            B ** 2 * G, R ** 3, G ** 3, B ** 3, R ** 2 * G * B, R * G ** 2 * B,
-            R * G * B ** 2
+            R,
+            G,
+            B,
+            R * G,
+            R * B,
+            G * B,
+            R ** 2,
+            G ** 2,
+            B ** 2,
+            R * G * B,
+            R ** 2 * G,
+            G ** 2 * B,
+            B ** 2 * R,
+            R ** 2 * B,
+            G ** 2 * R,
+            B ** 2 * G,
+            R ** 3,
+            G ** 3,
+            B ** 3,
+            R ** 2 * G * B,
+            R * G ** 2 * B,
+            R * G * B ** 2,
         ])
 
 
@@ -240,8 +374,17 @@ def polynomial_expansion_Finlayson2015(RGB,
             ])
 
         else:
-            return tstack(
-                [R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B])
+            return tstack([
+                R,
+                G,
+                B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G,
+                G * B,
+                R * B,
+            ])
     elif degree == 3:
         if root_polynomial_expansion:
             return tstack([
@@ -261,9 +404,25 @@ def polynomial_expansion_Finlayson2015(RGB,
             ])
         else:
             return tstack([
-                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3, G
-                ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
-                B * G ** 2, B * R ** 2, R * G * B
+                R,
+                G,
+                B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G,
+                G * B,
+                R * B,
+                R ** 3,
+                G ** 3,
+                B ** 3,
+                R * G ** 2,
+                G * B ** 2,
+                R * B ** 2,
+                G * R ** 2,
+                B * G ** 2,
+                B * R ** 2,
+                R * G * B,
             ])
     elif degree == 4:
         if root_polynomial_expansion:
@@ -293,12 +452,40 @@ def polynomial_expansion_Finlayson2015(RGB,
             ])
         else:
             return tstack([
-                R, G, B, R ** 2, G ** 2, B ** 2, R * G, G * B, R * B, R ** 3, G
-                ** 3, B ** 3, R * G ** 2, G * B ** 2, R * B ** 2, G * R ** 2,
-                B * G ** 2, B * R ** 2, R * G * B, R ** 4, G ** 4, B ** 4,
-                R ** 3 * G, R ** 3 * B, G ** 3 * R, G ** 3 * B, B ** 3 * R,
-                B ** 3 * G, R ** 2 * G ** 2, G ** 2 * B ** 2, R ** 2 * B ** 2,
-                R ** 2 * G * B, G ** 2 * R * B, B ** 2 * R * G
+                R,
+                G,
+                B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G,
+                G * B,
+                R * B,
+                R ** 3,
+                G ** 3,
+                B ** 3,
+                R * G ** 2,
+                G * B ** 2,
+                R * B ** 2,
+                G * R ** 2,
+                B * G ** 2,
+                B * R ** 2,
+                R * G * B,
+                R ** 4,
+                G ** 4,
+                B ** 4,
+                R ** 3 * G,
+                R ** 3 * B,
+                G ** 3 * R,
+                G ** 3 * B,
+                B ** 3 * R,
+                B ** 3 * G,
+                R ** 2 * G ** 2,
+                G ** 2 * B ** 2,
+                R ** 2 * B ** 2,
+                R ** 2 * G * B,
+                G ** 2 * R * B,
+                B ** 2 * R * G,
             ])
 
 
