@@ -61,7 +61,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import least_square_mapping_MoorePenrose
+from colour.algebra import least_square_mapping_MoorePenrose, spow
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_int,
                               closest, filter_kwargs, ones, tsplit, tstack)
 
@@ -231,8 +231,12 @@ def polynomial_expansion_Finlayson2015(RGB,
     elif degree == 2:
         if root_polynomial_expansion:
             return tstack([
-                R, G, B, (R * G) ** (1 / 2), (G * B) ** (1 / 2), (R * B)
-                ** (1 / 2)
+                R,
+                G,
+                B,
+                spow(R * G, 1 / 2),
+                spow(G * B, 1 / 2),
+                spow(R * B, 1 / 2),
             ])
 
         else:
@@ -241,10 +245,19 @@ def polynomial_expansion_Finlayson2015(RGB,
     elif degree == 3:
         if root_polynomial_expansion:
             return tstack([
-                R, G, B, (R * G) ** (1 / 2), (G * B) ** (1 / 2), (R * B)
-                ** (1 / 2), (R * G ** 2) ** (1 / 3), (G * B ** 2) ** (1 / 3),
-                (R * B ** 2) ** (1 / 3), (G * R ** 2) ** (1 / 3), (B * G ** 2)
-                ** (1 / 3), (B * R ** 2) ** (1 / 3), (R * G * B) ** (1 / 3)
+                R,
+                G,
+                B,
+                spow(R * G, 1 / 2),
+                spow(G * B, 1 / 2),
+                spow(R * B, 1 / 2),
+                spow(R * G ** 2, 1 / 3),
+                spow(G * B ** 2, 1 / 3),
+                spow(R * B ** 2, 1 / 3),
+                spow(G * R ** 2, 1 / 3),
+                spow(B * G ** 2, 1 / 3),
+                spow(B * R ** 2, 1 / 3),
+                spow(R * G * B, 1 / 3),
             ])
         else:
             return tstack([
@@ -255,14 +268,28 @@ def polynomial_expansion_Finlayson2015(RGB,
     elif degree == 4:
         if root_polynomial_expansion:
             return tstack([
-                R, G, B, (R * G) ** (1 / 2), (G * B) ** (1 / 2), (R * B)
-                ** (1 / 2), (R * G ** 2) ** (1 / 3), (G * B ** 2) ** (1 / 3),
-                (R * B ** 2) ** (1 / 3), (G * R ** 2) ** (1 / 3), (B * G ** 2)
-                ** (1 / 3), (B * R ** 2) ** (1 / 3), (R * G * B) ** (1 / 3),
-                (R ** 3 * G) ** (1 / 4), (R ** 3 * B) ** (1 / 4), (G ** 3 * R)
-                ** (1 / 4), (G ** 3 * B) ** (1 / 4), (B ** 3 * R) ** (1 / 4),
-                (B ** 3 * G) ** (1 / 4), (R ** 2 * G * B) ** (1 / 4),
-                (G ** 2 * R * B) ** (1 / 4), (B ** 2 * R * G) ** (1 / 4)
+                R,
+                G,
+                B,
+                spow(R * G, 1 / 2),
+                spow(G * B, 1 / 2),
+                spow(R * B, 1 / 2),
+                spow(R * G ** 2, 1 / 3),
+                spow(G * B ** 2, 1 / 3),
+                spow(R * B ** 2, 1 / 3),
+                spow(G * R ** 2, 1 / 3),
+                spow(B * G ** 2, 1 / 3),
+                spow(B * R ** 2, 1 / 3),
+                spow(R * G * B, 1 / 3),
+                spow(R ** 3 * G, 1 / 4),
+                spow(R ** 3 * B, 1 / 4),
+                spow(G ** 3 * R, 1 / 4),
+                spow(G ** 3 * B, 1 / 4),
+                spow(B ** 3 * R, 1 / 4),
+                spow(B ** 3 * G, 1 / 4),
+                spow(R ** 2 * G * B, 1 / 4),
+                spow(G ** 2 * R * B, 1 / 4),
+                spow(B ** 2 * R * G, 1 / 4),
             ])
         else:
             return tstack([
