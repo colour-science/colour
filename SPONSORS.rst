@@ -25,6 +25,7 @@ If you'd like to join them, please consider
                     <a href="https://makeup.land/" target="_blank">
                         <img width="288px" src="https://images.opencollective.com/makeup-land/28c2133/logo/512.png">
                     </a>
+                    <p><a href="https://makeup.land/" target="_blank">makeup.land</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://twitter.com/JRGoldstone" target="_blank">
