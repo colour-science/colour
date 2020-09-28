@@ -72,11 +72,13 @@ If you'd like to join them, please consider
                     <a href="https://makeup.land/" target="_blank">
                         <img width="288px"" src="https://images.opencollective.com/makeup-land/28c2133/logo/512.png">
                     </a>
+                    <p><a href="https://makeup.land/" target="_blank">makeup.land</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="288px"" src="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/JRGoldstone" target="_blank">
+                        <img width="288px" src="https://pbs.twimg.com/profile_images/1310212058672103425/3tPPvC6m.jpg">
                     </a>
+                    <p><a href="https://twitter.com/JRGoldstone" target="_blank">Joseph Goldstone</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/288x288/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
@@ -228,10 +230,9 @@ If you'd like to join them, please consider
                     <p><a href="https://chrisbrejon.com/" target="_blank">Christophe Brejon</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://twitter.com/JRGoldstone" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/2984918964/cfa02927f1c709e689b5a87ac5487c09.jpeg">
+                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
-                    <p><a href="https://twitter.com/JRGoldstone" target="_blank">Joseph Goldstone</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
