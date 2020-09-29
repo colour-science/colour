@@ -52,13 +52,11 @@ class Element_Specification_IESTM2714(
 
     Parameters
     ----------
-    attribute : unicode
-        Associated attribute name.
     element : unicode
         Element name.
+    attribute : unicode
+        Associated attribute name.
     type_ : unicode
-        Element type.
-    attribute : object
         Element type.
     required : bool
         Is element required.
