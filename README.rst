@@ -311,7 +311,7 @@ Automatic Colour Conversion Graph - ``colour.graph``
 Starting with version *0.3.14*, **Colour** implements an automatic colour
 conversion graph enabling easier colour conversions.
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Colour_Automatic_Conversion_Graph.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Colour_Automatic_Conversion_Graph.png
 
 .. code-block:: python
 
@@ -1257,7 +1257,7 @@ Visible Spectrum
 
     >>> plot_visible_spectrum('CIE 1931 2 Degree Standard Observer')
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_Visible_Spectrum.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Visible_Spectrum.png
 
 Spectral Distribution
 *********************
@@ -1266,7 +1266,7 @@ Spectral Distribution
 
     >>> plot_single_illuminant_sd('FL1')
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_Illuminant_F1_SD.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Illuminant_F1_SD.png
 
 Blackbody
 *********
@@ -1287,7 +1287,7 @@ Blackbody
     ...     legend_location='upper right',
     ...     bounding_box=(0, 1250, 0, 2.5e15))
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_Blackbodies.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Blackbodies.png
 
 Colour Matching Functions
 *************************
@@ -1299,7 +1299,7 @@ Colour Matching Functions
     ...     y_label='Sensitivity',
     ...     bounding_box=(390, 870, 0, 1.1))
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_Cone_Fundamentals.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Cone_Fundamentals.png
 
 Luminous Efficiency
 *******************
@@ -1317,7 +1317,7 @@ Luminous Efficiency
     ...     y_tighten=True,
     ...     margins=(0, 0, 0, .1))
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_Luminous_Efficiency.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Luminous_Efficiency.png
 
 Colour Checker
 **************
@@ -1338,14 +1338,14 @@ Colour Checker
     ...     title=('BabelColor Average - '
     ...            'Spectral Distributions'))
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_BabelColor_Average.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_BabelColor_Average.png
 
 .. code-block:: python
 
     >>> plot_single_colour_checker(
     ...     'ColorChecker 2005', text_kwargs={'visible': False})
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_ColorChecker_2005.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_ColorChecker_2005.png
 
 Chromaticities Prediction
 *************************
@@ -1355,7 +1355,7 @@ Chromaticities Prediction
     >>> plot_corresponding_chromaticities_prediction(
     ...     2, 'Von Kries', 'Bianco 2010')
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_Chromaticities_Prediction.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Chromaticities_Prediction.png
 
 Colour Temperature
 ******************
@@ -1364,7 +1364,7 @@ Colour Temperature
 
     >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'])
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png
 
 
 Chromaticities
@@ -1378,7 +1378,7 @@ Chromaticities
     ...     RGB, 'ITU-R BT.709',
     ...     colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png
 
 Colour Rendering Index
 **********************
@@ -1388,7 +1388,7 @@ Colour Rendering Index
     >>> plot_single_sd_colour_rendering_index_bars(
     ...     colour.SDS_ILLUMINANTS['FL2'])
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Plotting_CRI.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_CRI.png
 
 Contributing
 ------------
