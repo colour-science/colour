@@ -103,7 +103,7 @@ Automatic Colour Conversion Graph - ``colour.graph``
 Starting with version *0.3.14*, **Colour** implements an automatic colour
 conversion graph enabling easier colour conversions.
 
-..  image:: https://colour.readthedocs.io/en/develop/_images/Examples_Colour_Automatic_Conversion_Graph.png
+..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Colour_Automatic_Conversion_Graph.png
 
 .. code-block:: python
 
