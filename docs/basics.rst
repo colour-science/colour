@@ -1,6 +1,9 @@
 Basics
 ======
 
+This page puts an emphasis on basic but important to understand concepts of
+**Colour**.
+
 Abbreviations
 -------------
 
@@ -39,22 +42,18 @@ as input for the API objects, it is possible to use tuples or lists:
     xyY = (0.4316, 0.3777, 0.1008)
     colour.xyY_to_XYZ(xyY)
 
-
 .. code-block:: text
 
     array([ 0.11518475,  0.1008    ,  0.05089373])
-
 
 .. code:: python
 
     xyY = [0.4316, 0.3777, 0.1008]
     colour.xyY_to_XYZ(xyY)
 
-
 .. code-block:: text
 
     array([ 0.11518475,  0.1008    ,  0.05089373])
-
 
 .. code:: python
 
@@ -65,13 +64,11 @@ as input for the API objects, it is possible to use tuples or lists:
     ]
     colour.xyY_to_XYZ(xyY)
 
-
 .. code-block:: text
 
     array([[ 0.11518475,  0.1008    ,  0.05089373],
            [ 0.11518475,  0.1008    ,  0.05089373],
            [ 0.11518475,  0.1008    ,  0.05089373]])
-
 
 As shown in the above example, there is widespread support for n-dimensional
 arrays:
@@ -84,7 +81,6 @@ arrays:
     xyY = np.tile(xyY, (6, 1))
     colour.xyY_to_XYZ(xyY)
 
-
 .. code-block:: text
 
     array([[ 0.11518475,  0.1008    ,  0.05089373],
@@ -94,11 +90,9 @@ arrays:
            [ 0.11518475,  0.1008    ,  0.05089373],
            [ 0.11518475,  0.1008    ,  0.05089373]])
 
-
 .. code:: python
 
     colour.xyY_to_XYZ(xyY.reshape([2, 3, 3]))
-
 
 .. code-block:: text
 
@@ -109,7 +103,6 @@ arrays:
            [[ 0.11518475,  0.1008    ,  0.05089373],
             [ 0.11518475,  0.1008    ,  0.05089373],
             [ 0.11518475,  0.1008    ,  0.05089373]]])
-
 
 Which enables image processing:
 
@@ -230,11 +223,9 @@ The current domain-range scale is returned with the
 
     colour.get_domain_range_scale()
 
-
 .. code-block:: text
 
     u'reference'
-
 
 Changing from the **'Reference'** default domain-range scale to **'1'** is done
 with the :func:`colour.set_domain_range_scale` definition:
@@ -249,11 +240,9 @@ with the :func:`colour.set_domain_range_scale` definition:
     E_o2 = 1000
     colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
-
 .. code-block:: text
 
     array([ 24.03379521,  21.15621214,  17.64301199])
-
 
 .. code:: python
 
@@ -263,11 +252,9 @@ with the :func:`colour.set_domain_range_scale` definition:
     Y_o = 0.2
     colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
-
 .. code-block:: text
 
     array([ 0.24033795,  0.21156212,  0.17643012])
-
 
 The output tristimulus values with the **'1'** domain-range scale are equal to
 those from **'Reference'** default domain-range scale divided by *100*.
@@ -282,7 +269,6 @@ would result in unexpected values and a warning in that case:
 
     colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
-
 .. code-block:: text
 
     File "<ipython-input-...>", line 4, in <module>
@@ -292,7 +278,6 @@ would result in unexpected values and a warning in that case:
     /colour-science/colour/colour/utilities/verbose.py:207: ColourWarning: "Y_o" luminance factor must be in [18, 100] domain, unpredictable results may occur!
       warn(*args, **kwargs)
     array([ 0.17171825,  0.13731098,  0.09972054])
-
 
 Setting the **'1'** domain-range scale has the following effect on the
 :func:`colour.adaptation.chromatic_adaptation_CIE1994` definition:
@@ -313,7 +298,6 @@ scale value:
 
     with colour.domain_range_scale('1'):
         colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
-
 
 .. code-block:: text
 
