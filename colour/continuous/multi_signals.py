@@ -747,20 +747,34 @@ or dict_like
         array([[ 10.,  20.,  30.],
                [ 20.,  30.,  40.],
                [ 30.,  40.,  50.]])
-        >>> multi_signals[0:3]
-        array([[ 10.,  20.,  30.],
-               [ 20.,  30.,  40.],
-               [ 30.,  40.,  50.]])
         >>> multi_signals[np.linspace(0, 5, 5)]  # doctest: +ELLIPSIS
         array([[ 10.       ...,  20.       ...,  30.       ...],
                [ 22.8348902...,  32.8046056...,  42.774321 ...],
                [ 34.8004492...,  44.7434347...,  54.6864201...],
                [ 47.5535392...,  57.5232546...,  67.4929700...],
                [ 60.       ...,  70.       ...,  80.       ...]])
+        >>> multi_signals[0:3]
+        array([[ 10.,  20.,  30.],
+               [ 20.,  30.,  40.],
+               [ 30.,  40.,  50.]])
+        >>> multi_signals[:, 0:2]
+        array([[  10.,   20.],
+               [  20.,   30.],
+               [  30.,   40.],
+               [  40.,   50.],
+               [  50.,   60.],
+               [  60.,   70.],
+               [  70.,   80.],
+               [  80.,   90.],
+               [  90.,  100.],
+               [ 100.,  110.]])
         """
 
+        x_r, x_c = (x[0], x[1]) if isinstance(x, tuple) else (x, slice(None))
+
         if self._signals:
-            return tstack([signal[x] for signal in self._signals.values()])
+            return tstack(
+                [signal[x_r] for signal in self._signals.values()])[..., x_c]
         else:
             raise RuntimeError('No underlying "Signal" defined!')
 
@@ -801,17 +815,12 @@ or dict_like
         array([[ 30.,  30.,  30.],
                [ 30.,  30.,  30.],
                [ 30.,  30.,  30.]])
-        >>> multi_signals[0:3] = 40
-        >>> multi_signals[0:3]
-        array([[ 40.,  40.,  40.],
-               [ 40.,  40.,  40.],
-               [ 40.,  40.,  40.]])
         >>> multi_signals[np.linspace(0, 5, 5)] = 50
         >>> print(multi_signals)
         [[   0.     50.     50.     50.  ]
-         [   1.     40.     40.     40.  ]
+         [   1.     30.     30.     30.  ]
          [   1.25   50.     50.     50.  ]
-         [   2.     40.     40.     40.  ]
+         [   2.     30.     30.     30.  ]
          [   2.5    50.     50.     50.  ]
          [   3.     40.     50.     60.  ]
          [   3.75   50.     50.     50.  ]
@@ -852,9 +861,31 @@ or dict_like
          [   7.     80.     90.    100.  ]
          [   8.     90.    100.    110.  ]
          [   9.    100.    110.    120.  ]]
+        >>> multi_signals[0:3] = 40
+        >>> multi_signals[0:3]
+        array([[ 40.,  40.,  40.],
+               [ 40.,  40.,  40.],
+               [ 40.,  40.,  40.]])
+        >>> multi_signals[:, 0:2] = 50
+        >>> print(multi_signals)
+        [[   0.     50.     50.     40.  ]
+         [   1.     50.     50.     40.  ]
+         [   1.25   50.     50.     40.  ]
+         [   2.     50.     50.      9.  ]
+         [   2.5    50.     50.     50.  ]
+         [   3.     50.     50.     60.  ]
+         [   3.75   50.     50.     50.  ]
+         [   4.     50.     50.     70.  ]
+         [   5.     50.     50.     50.  ]
+         [   6.     50.     50.     90.  ]
+         [   7.     50.     50.    100.  ]
+         [   8.     50.     50.    110.  ]
+         [   9.     50.     50.    120.  ]]
         """
 
         y = as_float_array(y)
+
+        x_r, x_c = (x[0], x[1]) if isinstance(x, tuple) else (x, slice(None))
 
         assert y.ndim in range(3), (
             'Corresponding "y" variable must be a numeric or a 1-dimensional '
@@ -869,8 +900,8 @@ or dict_like
             'Corresponding "y" variable columns must have same count than '
             'underlying "Signal" components!')
 
-        for signal, y in zip(self._signals.values(), tsplit(y)):
-            signal[x] = y
+        for signal, y in list(zip(self._signals.values(), tsplit(y)))[x_c]:
+            signal[x_r] = y
 
     def __contains__(self, x):
         """
