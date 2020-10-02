@@ -1,9 +1,8 @@
 Basics
 ======
 
-
-This page puts an emphasis on basic but important to understand concepts of
-**Colour**.
+This page puts an emphasis on basic concepts of **Colour**, those are important
+to understand.
 
 .. contents:: Table of Contents
     :local:
@@ -70,14 +69,14 @@ The following abbreviations are in use in `Colour <https://github.com/colour-sci
 - **SD** : Spectral Distribution
 - **TVS** : Tristimulus Values
 
-N-Dimensional Arrays Support
-----------------------------
+N-Dimensional Array Support
+---------------------------
 
 Most of **Colour** definitions are fully vectorised and support n-dimensional
-arrays by leveraging `Numpy <http://www.numpy.org/>`__.
+array by leveraging `Numpy <http://www.numpy.org/>`__.
 
 While it is recommended to use
-`ndarrays <https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.ndarray.html>`__
+`ndarray <https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.ndarray.html>`__
 as input for the API objects, it is possible to use tuples or lists:
 
 .. code:: python
@@ -304,7 +303,7 @@ setting the values of the data.
 
 Getting the value(s) for a single (or multiple wavelengths) is done by indexing
 the :class:`colour.SpectralDistribution` (or
-:class:`colour.MultiSpectralDistributions`) classe with the a single numeric
+:class:`colour.MultiSpectralDistributions`) class with the a single numeric
 or array of numeric wavelengths, e.g. ``sd[555.5]`` or
 ``sd[555.25, 555.25, 555.75]``.
 
