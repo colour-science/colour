@@ -3,6 +3,10 @@ Advanced
 
 This page describes some advanced usage scenarios of **Colour**.
 
+.. contents:: Table of Contents
+    :local:
+    :depth: 3
+
 Environment
 -----------
 

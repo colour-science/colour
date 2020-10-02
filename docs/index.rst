@@ -10,8 +10,8 @@ It is freely available under the
 **Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`__, a
 501(c)(3) nonprofit in the United States.
 
-.. contents:: **Table of Contents**
-    :backlinks: none
+.. contents:: Table of Contents
+    :local:
     :depth: 3
 
 .. sectnum::
