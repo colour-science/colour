@@ -1,8 +1,13 @@
 Basics
 ======
 
+
 This page puts an emphasis on basic but important to understand concepts of
 **Colour**.
+
+.. contents:: Table of Contents
+    :local:
+    :depth: 3
 
 Abbreviations
 -------------
@@ -326,6 +331,13 @@ A *copy* of the underlying :class:`colour.SpectralDistribution` and
 :class:`colour.MultiSpectralDistributions` classes discretized data can be
 accessed via the ``wavelengths`` and ``values`` properties. However, it cannot
 be changed directly via the properties or slicing:
+
+.. attention::
+
+    The data returned by the ``wavelengths`` and ``values`` properties is a
+    *copy* of the underlying :class:`colour.SpectralDistribution` and
+    :class:`colour.MultiSpectralDistributions` classes discretized data: It
+    can only be changed indirectly.
 
 .. code:: python
 
