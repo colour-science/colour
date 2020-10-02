@@ -1,13 +1,52 @@
 Basics
 ======
 
-
-This page puts an emphasis on basic but important to understand concepts of
-**Colour**.
+This page puts an emphasis on basic concepts of **Colour**, those are important
+to understand.
 
 .. contents:: Table of Contents
     :local:
     :depth: 3
+
+Object Name Categorisation
+--------------------------
+
+The API tries to bundle the objects by categories by naming them with common
+prefixes which makes introspection and auto-completion easier.
+
+For example, in `IPython <https://ipython.org/>`__ or `Jupyter Notebook <https://jupyter.org/>`__,
+most of the definitions pertaining to the spectral distribution handling can
+be found as follows:
+
+.. code:: python
+
+    In [1]: import colour
+
+    In [2]: colour.sd_
+     sd_blackbody()                            sd_gaussian()                             sd_rayleigh_scattering()                  sd_zeros
+     sd_CIE_illuminant_D_series()              sd_mesopic_luminous_efficiency_function() sd_single_led()
+     sd_CIE_standard_illuminant_A()            sd_multi_leds()                           sd_to_aces_relative_exposure_values()
+     sd_constant()                             sd_ones()                                 sd_to_XYZ
+
+Likewise, for the spectral distribution handling related attributes:
+
+.. code:: python
+
+    In [2]: colour.SD
+                      SD_GAUSSIAN_METHODS   SD_TO_XYZ_METHODS     SDS_ILLUMINANTS       SDS_LIGHT_SOURCES
+                      SD_MULTI_LEDS_METHODS SDS_COLOURCHECKERS    SDS_LEFS
+                      SD_SINGLE_LED_METHODS SDS_FILTERS           SDS_LENSES
+
+Similarly, all the RGB colourspaces can be individually accessed from the
+``colour.models`` namespace:
+
+.. code:: python
+
+    In [2]: colour.models.RGB_COLOURSPACE
+                             RGB_COLOURSPACE_ACES2065_1           RGB_COLOURSPACE_ACESPROXY            RGB_COLOURSPACE_APPLE_RGB            RGB_COLOURSPACE_BT470_525
+                             RGB_COLOURSPACE_ACESCC               RGB_COLOURSPACE_ADOBE_RGB1998        RGB_COLOURSPACE_BEST_RGB             RGB_COLOURSPACE_BT470_625
+                             RGB_COLOURSPACE_ACESCCT              RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB RGB_COLOURSPACE_BETA_RGB             RGB_COLOURSPACE_BT709                >
+                             RGB_COLOURSPACE_ACESCG               RGB_COLOURSPACE_ALEXA_WIDE_GAMUT     RGB_COLOURSPACE_BT2020               RGB_COLOURSPACE_CIE_RGB
 
 Abbreviations
 -------------
@@ -30,14 +69,14 @@ The following abbreviations are in use in `Colour <https://github.com/colour-sci
 - **SD** : Spectral Distribution
 - **TVS** : Tristimulus Values
 
-N-Dimensional Arrays Support
-----------------------------
+N-Dimensional Array Support
+---------------------------
 
 Most of **Colour** definitions are fully vectorised and support n-dimensional
-arrays by leveraging `Numpy <http://www.numpy.org/>`__.
+array by leveraging `Numpy <http://www.numpy.org/>`__.
 
 While it is recommended to use
-`ndarrays <https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.ndarray.html>`__
+`ndarray <https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.ndarray.html>`__
 as input for the API objects, it is possible to use tuples or lists:
 
 .. code:: python
@@ -264,7 +303,7 @@ setting the values of the data.
 
 Getting the value(s) for a single (or multiple wavelengths) is done by indexing
 the :class:`colour.SpectralDistribution` (or
-:class:`colour.MultiSpectralDistributions`) classe with the a single numeric
+:class:`colour.MultiSpectralDistributions`) class with the a single numeric
 or array of numeric wavelengths, e.g. ``sd[555.5]`` or
 ``sd[555.25, 555.25, 555.75]``.
 
