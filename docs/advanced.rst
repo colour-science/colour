@@ -1,6 +1,8 @@
 Advanced
 ========
 
+This page describes some advanced usage scenarios of **Colour**.
+
 Environment
 -----------
 

@@ -417,20 +417,56 @@ extrapolator_kwargs` property.
 
         np.testing.assert_almost_equal(
             self._multi_signals[np.array([0, 1, 2])],
-            np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0],
-                      [30.0, 40.0, 50.0]]),
+            np.array([
+                [10.0, 20.0, 30.0],
+                [20.0, 30.0, 40.0],
+                [30.0, 40.0, 50.0],
+            ]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             self._multi_signals[np.linspace(0, 5, 5)],
-            np.array([[10.00000000, 20.00000000,
-                       30.00000000], [22.83489024, 32.80460562, 42.77432100],
-                      [34.80044921, 44.74343470,
-                       54.68642018], [47.55353925, 57.52325463, 67.49297001],
-                      [60.00000000, 70.00000000, 80.00000000]]),
+            np.array([
+                [10.00000000, 20.00000000, 30.00000000],
+                [22.83489024, 32.80460562, 42.77432100],
+                [34.80044921, 44.74343470, 54.68642018],
+                [47.55353925, 57.52325463, 67.49297001],
+                [60.00000000, 70.00000000, 80.00000000],
+            ]),
             decimal=7)
 
         assert np.all(np.isnan(self._multi_signals[np.array([-1000, 1000])]))
+
+        np.testing.assert_almost_equal(
+            self._multi_signals[:], self._multi_signals.range, decimal=7)
+
+        np.testing.assert_almost_equal(
+            self._multi_signals[:, :], self._multi_signals.range, decimal=7)
+
+        np.testing.assert_almost_equal(
+            self._multi_signals[0:3],
+            np.array([
+                [10.0, 20.0, 30.0],
+                [20.0, 30.0, 40.0],
+                [30.0, 40.0, 50.0],
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            self._multi_signals[:, 0:2],
+            np.array([
+                [10.0, 20.0],
+                [20.0, 30.0],
+                [30.0, 40.0],
+                [40.0, 50.0],
+                [50.0, 60.0],
+                [60.0, 70.0],
+                [70.0, 80.0],
+                [80.0, 90.0],
+                [90.0, 100.0],
+                [100.0, 110.0],
+            ]),
+            decimal=7)
 
         multi_signals = self._multi_signals.copy()
         multi_signals.extrapolator_kwargs = {
@@ -438,8 +474,10 @@ extrapolator_kwargs` property.
         }
         np.testing.assert_array_equal(
             multi_signals[np.array([-1000, 1000])],
-            np.array([[-9990.0, -9980.0, -9970.0], [10010.0, 10020.0,
-                                                    10030.0]]))
+            np.array([
+                [-9990.0, -9980.0, -9970.0],
+                [10010.0, 10020.0, 10030.0],
+            ]))
 
         multi_signals.extrapolator_kwargs = {
             'method': 'Constant',
@@ -473,15 +511,11 @@ extrapolator_kwargs` property.
         multi_signals[np.array([0, 1, 2])] = 30
         np.testing.assert_almost_equal(
             multi_signals[np.array([0, 1, 2])],
-            np.array([[30.0, 30.0, 30.0], [30.0, 30.0, 30.0],
-                      [30.0, 30.0, 30.0]]),
-            decimal=7)
-
-        multi_signals[0:3] = 40
-        np.testing.assert_almost_equal(
-            multi_signals[0:3],
-            np.array([[40.0, 40.0, 40.0], [40.0, 40.0, 40.0],
-                      [40.0, 40.0, 40.0]]),
+            np.array([
+                [30.0, 30.0, 30.0],
+                [30.0, 30.0, 30.0],
+                [30.0, 30.0, 30.0],
+            ]),
             decimal=7)
 
         multi_signals[np.linspace(0, 5, 5)] = 50
@@ -496,9 +530,9 @@ extrapolator_kwargs` property.
             multi_signals.range,
             np.array([
                 [50.0, 50.0, 50.0],
-                [40.0, 40.0, 40.0],
+                [30.0, 30.0, 30.0],
                 [50.0, 50.0, 50.0],
-                [40.0, 40.0, 40.0],
+                [30.0, 30.0, 30.0],
                 [50.0, 50.0, 50.0],
                 [40.0, 50.0, 60.0],
                 [50.0, 50.0, 50.0],
@@ -548,6 +582,40 @@ extrapolator_kwargs` property.
                 [80.0, 90.0, 100.0],
                 [90.0, 100.0, 110.0],
                 [100.0, 110.0, 120.0],
+            ]),
+            decimal=7)
+
+        multi_signals[:] = 40
+        np.testing.assert_almost_equal(multi_signals.range, 40, decimal=7)
+
+        multi_signals[:, :] = 50
+        np.testing.assert_almost_equal(multi_signals.range, 50, decimal=7)
+
+        multi_signals = self._multi_signals.copy()
+        multi_signals[0:3] = 40
+        np.testing.assert_almost_equal(
+            multi_signals[0:3],
+            np.array([
+                [40.0, 40.0, 40.0],
+                [40.0, 40.0, 40.0],
+                [40.0, 40.0, 40.0],
+            ]),
+            decimal=7)
+
+        multi_signals[:, 0:2] = 50
+        np.testing.assert_almost_equal(
+            multi_signals.range,
+            np.array([
+                [50.0, 50.0, 40.0],
+                [50.0, 50.0, 40.0],
+                [50.0, 50.0, 40.0],
+                [50.0, 50.0, 60.0],
+                [50.0, 50.0, 70.0],
+                [50.0, 50.0, 80.0],
+                [50.0, 50.0, 90.0],
+                [50.0, 50.0, 100.0],
+                [50.0, 50.0, 110.0],
+                [50.0, 50.0, 120.0],
             ]),
             decimal=7)
 

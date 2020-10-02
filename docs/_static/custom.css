@@ -20,7 +20,7 @@ table.longtable.docutils {
 
 div.highlight-text {
     background-color: rgb(252, 252, 252) !important;
-    border: 0 !important;
     font-family: monospace;
+    font-style: italic;
     margin: -24px 0 24px 0;
 }

@@ -503,6 +503,12 @@ class SpectralDistribution(Signal):
     the *Cubic Spline* method for non-uniformly spaced independent variable.
     Extrapolation is performed according to *CIE 167:2005* recommendation.
 
+    .. important::
+
+        Specific documentation about getting, setting, indexing and slicing the
+        spectral power distribution values is available in the
+        :ref:`spectral-representation-and-continuous-signal` section.
+
     Parameters
     ----------
     data : Series or Signal, SpectralDistribution or array_like or \
@@ -1594,6 +1600,12 @@ class MultiSpectralDistributions(MultiSignals):
     variable and the *Cubic Spline* method for non-uniformly spaced independent
     variable. Extrapolation is performed according to *CIE 167:2005*
     recommendation.
+
+    .. important::
+
+        Specific documentation about getting, setting, indexing and slicing the
+        multi-spectral power distributions values is available in the
+        :ref:`spectral-representation-and-continuous-signal` section.
 
     Parameters
     ----------
