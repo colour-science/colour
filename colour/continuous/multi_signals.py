@@ -47,6 +47,12 @@ class MultiSignals(AbstractContinuousFunction):
     Defines the base class for multi-continuous signals, a container for
     multiple :class:`colour.continuous.Signal` sub-class instances.
 
+    .. important::
+
+        Specific documentation about getting, setting, indexing and slicing the
+        multi-continuous signals values is available in the
+        :ref:`spectral-representation-and-continuous-signal` section.
+
     Parameters
     ----------
     data : Series or Dataframe or Signal or MultiSignals or array_like or \

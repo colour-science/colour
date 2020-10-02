@@ -58,6 +58,12 @@ class Signal(AbstractContinuousFunction):
     with the function dependent and already known range stored in the
     :attr:`colour.continuous.Signal.range` attribute.
 
+    .. important::
+
+        Specific documentation about getting, setting, indexing and slicing the
+        continuous signal values is available in the
+        :ref:`spectral-representation-and-continuous-signal` section.
+
     Parameters
     ----------
     data : Series or Signal or array_like or dict_like, optional
