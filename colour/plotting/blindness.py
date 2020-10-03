@@ -10,7 +10,7 @@ Defines the colour blindness plotting objects:
 
 from __future__ import division
 
-from colour.blindness import cvd_matrix_Machado2009
+from colour.blindness import matrix_cvd_Machado2009
 from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
 from colour.utilities import dot_vector
 
@@ -76,7 +76,7 @@ def plot_cvd_simulation_Machado2009(RGB,
     """
 
     if M_a is None:
-        M_a = cvd_matrix_Machado2009(deficiency, severity)
+        M_a = matrix_cvd_Machado2009(deficiency, severity)
 
     text = 'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
 

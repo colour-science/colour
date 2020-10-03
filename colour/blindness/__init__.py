@@ -11,14 +11,14 @@ from colour.utilities.documentation import is_documentation_building
 from .datasets import *  # noqa
 from . import datasets
 from .machado2009 import (msds_cmfs_anomalous_trichromacy_Machado2009,
-                          anomalous_trichromacy_matrix_Machado2009,
-                          cvd_matrix_Machado2009)
+                          matrix_anomalous_trichromacy_Machado2009,
+                          matrix_cvd_Machado2009)
 
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
     'msds_cmfs_anomalous_trichromacy_Machado2009',
-    'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
+    'matrix_anomalous_trichromacy_Machado2009', 'matrix_cvd_Machado2009'
 ]
 
 
@@ -32,10 +32,20 @@ class blindness(ModuleAPI):
 
 # v0.3.16
 API_CHANGES = {
-    'ObjectRenamed': [[
-        'colour.blindness.anomalous_trichromacy_cmfs_Machado2009',
-        'colour.blindness.msds_cmfs_anomalous_trichromacy_Machado2009',
-    ], ]
+    'ObjectRenamed': [
+        [
+            'colour.blindness.anomalous_trichromacy_cmfs_Machado2009',
+            'colour.blindness.msds_cmfs_anomalous_trichromacy_Machado2009',
+        ],
+        [
+            'colour.blindness.anomalous_trichromacy_matrix_Machado2009',
+            'colour.blindness.matrix_anomalous_trichromacy_Machado2009',
+        ],
+        [
+            'colour.blindness.cvd_matrix_Machado2009',
+            'colour.blindness.matrix_cvd_Machado2009',
+        ],
+    ]
 }
 """
 Defines *colour.blindness* sub-package API changes.

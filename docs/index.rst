@@ -187,7 +187,7 @@ Colour Blindness - ``colour.blindness``
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
     >>> primaries = colour.MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
     >>> d_LMS = (15, 0, 0)
-    >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
+    >>> colour.matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS)
     array([[-0.27774652,  2.65150084, -1.37375432],
            [ 0.27189369,  0.20047862,  0.52762768],
            [ 0.00644047,  0.25921579,  0.73434374]])

@@ -81,8 +81,8 @@ from .colorimetry import (
     sd_single_led, sd_to_XYZ, sd_zeros, wavelength_to_XYZ, whiteness,
     yellowness)
 from .blindness import (
-    CVD_MATRICES_MACHADO2010, msds_cmfs_anomalous_trichromacy_Machado2009,
-    anomalous_trichromacy_matrix_Machado2009, cvd_matrix_Machado2009)
+    CVD_MATRICES_MACHADO2010, matrix_anomalous_trichromacy_Machado2009,
+    matrix_cvd_Machado2009, msds_cmfs_anomalous_trichromacy_Machado2009)
 from .appearance import (
     CAM_Specification_ATD95, CAM_Specification_CAM16,
     CAM_Specification_CIECAM02, CAM_Specification_Hunt, CAM_Specification_LLAB,
@@ -219,8 +219,8 @@ __all__ += [
     'whiteness', 'yellowness'
 ]
 __all__ += [
-    'CVD_MATRICES_MACHADO2010', 'msds_cmfs_anomalous_trichromacy_Machado2009',
-    'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
+    'CVD_MATRICES_MACHADO2010', 'matrix_anomalous_trichromacy_Machado2009',
+    'matrix_cvd_Machado2009', 'msds_cmfs_anomalous_trichromacy_Machado2009'
 ]
 __all__ += [
     'CAM_Specification_ATD95', 'CAM_Specification_CAM16',

@@ -7,8 +7,8 @@ Defines *Machado et al. (2009)* objects for simulation of colour vision
 deficiency:
 
 -   :func:`colour.msds_cmfs_anomalous_trichromacy_Machado2009`
--   :func:`colour.anomalous_trichromacy_matrix_Machado2009`
--   :func:`colour.cvd_matrix_Machado2009`
+-   :func:`colour.matrix_anomalous_trichromacy_Machado2009`
+-   :func:`colour.matrix_cvd_Machado2009`
 
 References
 ----------
@@ -44,9 +44,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_LMS_TO_WSYBRG', 'RGB_to_WSYBRG_matrix',
+    'MATRIX_LMS_TO_WSYBRG', 'matrix_RGB_to_WSYBRG',
     'msds_cmfs_anomalous_trichromacy_Machado2009',
-    'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
+    'matrix_anomalous_trichromacy_Machado2009', 'matrix_cvd_Machado2009'
 ]
 
 MATRIX_LMS_TO_WSYBRG = np.array([
@@ -62,7 +62,7 @@ MATRIX_LMS_TO_WSYBRG : array_like, (3, 3)
 """
 
 
-def RGB_to_WSYBRG_matrix(cmfs, primaries):
+def matrix_RGB_to_WSYBRG(cmfs, primaries):
     """
     Computes the matrix transforming from *RGB* colourspace to opponent-colour
     space using *Machado et al. (2009)* method.
@@ -86,7 +86,7 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
     >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
     >>> primaries = MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
-    >>> RGB_to_WSYBRG_matrix(  # doctest: +ELLIPSIS
+    >>> matrix_RGB_to_WSYBRG(  # doctest: +ELLIPSIS
     ...     cmfs, primaries)
     array([[  0.2126535...,   0.6704626...,   0.1168838...],
            [  4.7095295...,  12.4862869..., -16.1958165...],
@@ -227,7 +227,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS):
     return cmfs
 
 
-def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
+def matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS):
     """
     Computes *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
     fundamentals colour matching functions and display primaries tri-spectral
@@ -267,7 +267,7 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
     >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
     >>> primaries = MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
-    >>> anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
+    >>> matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS)
     ... # doctest: +ELLIPSIS
     array([[-0.2777465...,  2.6515008..., -1.3737543...],
            [ 0.2718936...,  0.2004786...,  0.5276276...],
@@ -277,14 +277,14 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
     if cmfs.shape.interval != 1:
         cmfs = cmfs.copy().interpolate(SpectralShape(interval=1))
 
-    M_n = RGB_to_WSYBRG_matrix(cmfs, primaries)
+    M_n = matrix_RGB_to_WSYBRG(cmfs, primaries)
     cmfs_a = msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS)
-    M_a = RGB_to_WSYBRG_matrix(cmfs_a, primaries)
+    M_a = matrix_RGB_to_WSYBRG(cmfs_a, primaries)
 
     return dot_matrix(np.linalg.inv(M_n), M_a)
 
 
-def cvd_matrix_Machado2009(deficiency, severity):
+def matrix_cvd_Machado2009(deficiency, severity):
     """
     Computes *Machado et al. (2009)* *CVD* matrix for given deficiency and
     severity using the pre-computed matrices dataset.
@@ -318,7 +318,7 @@ def cvd_matrix_Machado2009(deficiency, severity):
 
     Examples
     --------
-    >>> cvd_matrix_Machado2009('Protanomaly', 0.15)  # doctest: +ELLIPSIS
+    >>> matrix_cvd_Machado2009('Protanomaly', 0.15)  # doctest: +ELLIPSIS
     array([[ 0.7869875...,  0.2694875..., -0.0564735...],
            [ 0.0431695...,  0.933774 ...,  0.023058 ...],
            [-0.004238 ..., -0.0024515...,  1.0066895...]])
