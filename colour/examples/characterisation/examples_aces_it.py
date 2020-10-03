@@ -48,4 +48,4 @@ sensitivities = colour.colorimetry.sds_and_msds_to_msds(
     colour.io.read_sds_from_csv_file(path).values())
 illuminant = colour.SDS_ILLUMINANTS['D55']
 
-print(colour.idt_matrix(sensitivities, illuminant))
+print(colour.matrix_idt(sensitivities, illuminant))

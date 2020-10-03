@@ -15,7 +15,7 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 -   :func:`colour.characterisation.training_data_sds_to_XYZ`
 -   :func:`colour.characterisation.optimisation_factory_rawtoaces_v1`
 -   :func:`colour.characterisation.optimisation_factory_JzAzBz`
--   :func:`colour.idt_matrix`
+-   :func:`colour.matrix_idt`
 
 References
 ----------
@@ -83,7 +83,7 @@ __all__ = [
     'generate_illuminants_rawtoaces_v1', 'white_balance_multipliers',
     'best_illuminant', 'normalise_illuminant', 'training_data_sds_to_RGB',
     'training_data_sds_to_XYZ', 'optimisation_factory_rawtoaces_v1',
-    'optimisation_factory_JzAzBz', 'idt_matrix'
+    'optimisation_factory_JzAzBz', 'matrix_idt'
 ]
 
 FLARE_PERCENTAGE = 0.00500
@@ -708,7 +708,7 @@ def optimisation_factory_JzAzBz():
     return objective_function, XYZ_to_optimization_colour_model
 
 
-def idt_matrix(sensitivities,
+def matrix_idt(sensitivities,
                illuminant,
                training_data=None,
                cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].copy()
@@ -760,7 +760,7 @@ def idt_matrix(sensitivities,
     ...     read_sds_from_csv_file(path).values())
     >>> illuminant = SDS_ILLUMINANTS['D55']
     >>> np.around(
-    ...     idt_matrix(sensitivities, illuminant), 3)
+    ...     matrix_idt(sensitivities, illuminant), 3)
     array([[ 0.85 , -0.016,  0.151],
            [ 0.051,  1.126, -0.185],
            [ 0.02 , -0.194,  1.162]])
@@ -772,7 +772,7 @@ def idt_matrix(sensitivities,
     0.056527 1.122997 -0.179524
     0.023683 -0.202547 1.178864
 
-    >>> np.around(idt_matrix(
+    >>> np.around(matrix_idt(
     ...     sensitivities, illuminant,
     ...     optimisation_factory=optimisation_factory_JzAzBz), 3)
     array([[ 0.848, -0.016,  0.158],

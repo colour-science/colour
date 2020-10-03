@@ -229,7 +229,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS):
 
 def matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS):
     """
-    Computes *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
+    Computes the *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
     fundamentals colour matching functions and display primaries tri-spectral
     distributions with given :math:`\\Delta_{LMS}` shift amount in nanometers
     to simulate anomalous trichromacy.

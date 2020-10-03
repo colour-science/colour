@@ -146,11 +146,11 @@ from .temperature import (CCT_TO_UV_METHODS, CCT_TO_XY_METHODS, CCT_to_uv,
                           CCT_to_xy, UV_TO_CCT_METHODS, XY_TO_CCT_METHODS,
                           uv_to_CCT, xy_to_CCT)
 from .characterisation import (
-    CCS_COLOURCHECKERS, COLOUR_CORRECTION_MATRIX_METHODS,
+    CCS_COLOURCHECKERS, MATRIX_COLOUR_CORRECTION_METHODS,
     COLOUR_CORRECTION_METHODS, MSDS_CAMERA_SENSITIVITIES,
     MSDS_DISPLAY_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, SDS_COLOURCHECKERS,
-    SDS_FILTERS, SDS_LENSES, colour_correction, colour_correction_matrix,
-    idt_matrix, polynomial_expansion, sd_to_aces_relative_exposure_values)
+    SDS_FILTERS, SDS_LENSES, colour_correction, matrix_colour_correction,
+    matrix_idt, polynomial_expansion, sd_to_aces_relative_exposure_values)
 from .volume import (
     OPTIMAL_COLOUR_STIMULI_ILLUMINANTS, RGB_colourspace_limits,
     RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
@@ -302,11 +302,11 @@ __all__ += [
     'UV_TO_CCT_METHODS', 'XY_TO_CCT_METHODS', 'uv_to_CCT', 'xy_to_CCT'
 ]
 __all__ += [
-    'CCS_COLOURCHECKERS', 'COLOUR_CORRECTION_MATRIX_METHODS',
+    'CCS_COLOURCHECKERS', 'MATRIX_COLOUR_CORRECTION_METHODS',
     'COLOUR_CORRECTION_METHODS', 'MSDS_CAMERA_SENSITIVITIES',
     'MSDS_DISPLAY_PRIMARIES', 'POLYNOMIAL_EXPANSION_METHODS',
     'SDS_COLOURCHECKERS', 'SDS_FILTERS', 'SDS_LENSES', 'colour_correction',
-    'colour_correction_matrix', 'idt_matrix', 'polynomial_expansion',
+    'matrix_colour_correction', 'matrix_idt', 'polynomial_expansion',
     'sd_to_aces_relative_exposure_values'
 ]
 __all__ += [
@@ -1673,7 +1673,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.first_order_colour_fit',
-        'colour.colour_correction_matrix',
+        'colour.matrix_colour_correction',
     ],
     [
         'colour.IES_TM2714_Spd',
@@ -1848,6 +1848,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.SDS_COLOURCHECKERS',
     ],
     [
+        'colour.COLOUR_CORRECTION_MATRIX_METHODS',
+        'colour.MATRIX_COLOUR_CORRECTION_METHODS',
+    ],
+    [
         'colour.DEFAULT_SPECTRAL_SHAPE',
         'colour.SPECTRAL_SHAPE_DEFAULT',
     ],
@@ -1946,6 +1950,15 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.YCBCR_WEIGHTS',
         'colour.WEIGHTS_YCBCR',
+    ],
+    [
+        'colour.characterisation.colour_correction_matrix',
+        'colour.characterisation.matrix_colour_correction',
+    ],
+    # Not strictly needed but in use by A.M.P.A.S.
+    [
+        'colour.characterisation.idt_matrix',
+        'colour.characterisation.matrix_idt',
     ],
 ]
 

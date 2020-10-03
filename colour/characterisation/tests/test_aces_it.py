@@ -15,7 +15,7 @@ from colour.characterisation import (
     generate_illuminants_rawtoaces_v1, white_balance_multipliers,
     best_illuminant, normalise_illuminant, training_data_sds_to_RGB,
     training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
-    optimisation_factory_JzAzBz, idt_matrix)
+    optimisation_factory_JzAzBz, matrix_idt)
 from colour.characterisation.aces_it import RAWTOACES_RESOURCES_DIRECTORY
 from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
                                 sds_and_msds_to_msds, sd_constant, sd_ones)
@@ -36,7 +36,7 @@ __all__ = [
     'TestWhiteBalanceMultipliers', 'TestBestIlluminant',
     'TestNormaliseIlluminant', 'TestTrainingDataSdsToRGB',
     'TestTrainingDataSdsToXYZ', 'TestOptimizationFactoryRawtoacesV1',
-    'TestOptimizationFactoryJzAzBz', 'TestIdtMatrix'
+    'TestOptimizationFactoryJzAzBz', 'TestMatrixIdt'
 ]
 
 MSDS_CANON_EOS_5DMARK_II = sds_and_msds_to_msds(
@@ -759,15 +759,15 @@ optimisation_factory_JzAzBz` definition.
         self.assertEqual(len(optimisation_factory_JzAzBz()), 2)
 
 
-class TestIdtMatrix(unittest.TestCase):
+class TestMatrixIdt(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.idt_matrix`
+    Defines :func:`colour.characterisation.aces_it.matrix_idt`
     definition unit tests methods.
     """
 
-    def test_idt_matrix(self):
+    def test_matrix_idt(self):
         """
-        Tests :func:`colour.characterisation.aces_it.idt_matrix`
+        Tests :func:`colour.characterisation.aces_it.matrix_idt`
         definition.
         """
 
@@ -778,7 +778,7 @@ class TestIdtMatrix(unittest.TestCase):
         # 0.056527 1.122997 -0.179524
         # 0.023683 -0.202547 1.178864
         np.testing.assert_allclose(
-            idt_matrix(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS['D55']),
+            matrix_idt(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.84993207, -0.01605594, 0.15143504],
                 [0.05090392, 1.12559930, -0.18498249],
@@ -794,7 +794,7 @@ class TestIdtMatrix(unittest.TestCase):
         # 0.021805 1.066614 -0.088418
         # -0.019718 -0.206664 1.226381
         np.testing.assert_allclose(
-            idt_matrix(MSDS_CANON_EOS_5DMARK_II,
+            matrix_idt(MSDS_CANON_EOS_5DMARK_II,
                        SD_AMPAS_ISO7589_STUDIO_TUNGSTEN),
             np.array([
                 [0.85895300, -0.04381920, 0.15978620],
@@ -805,7 +805,7 @@ class TestIdtMatrix(unittest.TestCase):
             atol=0.0001)
 
         np.testing.assert_allclose(
-            idt_matrix(
+            matrix_idt(
                 MSDS_CANON_EOS_5DMARK_II,
                 SDS_ILLUMINANTS['D55'],
                 optimisation_factory=optimisation_factory_JzAzBz),
@@ -818,7 +818,7 @@ class TestIdtMatrix(unittest.TestCase):
             atol=0.0001)
 
         np.testing.assert_allclose(
-            idt_matrix(
+            matrix_idt(
                 MSDS_CANON_EOS_5DMARK_II,
                 SDS_ILLUMINANTS['D55'],
                 optimisation_kwargs={'method': 'Nelder-Mead'}),
@@ -834,7 +834,7 @@ class TestIdtMatrix(unittest.TestCase):
             SDS_COLOURCHECKERS['BabelColor Average'].values())
 
         np.testing.assert_allclose(
-            idt_matrix(
+            matrix_idt(
                 MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)'].copy().align(
                     SpectralShape(400, 700, 10)),
                 SD_AMPAS_ISO7589_STUDIO_TUNGSTEN,

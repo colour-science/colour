@@ -16,14 +16,14 @@ from .aces_it import (
     generate_illuminants_rawtoaces_v1, white_balance_multipliers,
     best_illuminant, normalise_illuminant, training_data_sds_to_RGB,
     training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
-    optimisation_factory_JzAzBz, idt_matrix)
+    optimisation_factory_JzAzBz, matrix_idt)
 from .correction import (
-    augmented_matrix_Cheung2004, polynomial_expansion_Finlayson2015,
+    matrix_augmented_Cheung2004, polynomial_expansion_Finlayson2015,
     polynomial_expansion_Vandermonde, POLYNOMIAL_EXPANSION_METHODS,
-    polynomial_expansion, colour_correction_matrix_Cheung2004,
-    colour_correction_matrix_Finlayson2015,
-    colour_correction_matrix_Vandermonde, COLOUR_CORRECTION_MATRIX_METHODS,
-    colour_correction_matrix, colour_correction_Cheung2004,
+    polynomial_expansion, matrix_colour_correction_Cheung2004,
+    matrix_colour_correction_Finlayson2015,
+    matrix_colour_correction_Vandermonde, MATRIX_COLOUR_CORRECTION_METHODS,
+    matrix_colour_correction, colour_correction_Cheung2004,
     colour_correction_Finlayson2015, colour_correction_Vandermonde,
     COLOUR_CORRECTION_METHODS, colour_correction)
 
@@ -35,15 +35,15 @@ __all__ += [
     'generate_illuminants_rawtoaces_v1', 'white_balance_multipliers',
     'best_illuminant', 'normalise_illuminant', 'training_data_sds_to_RGB',
     'training_data_sds_to_XYZ', 'optimisation_factory_rawtoaces_v1',
-    'optimisation_factory_JzAzBz', 'idt_matrix'
+    'optimisation_factory_JzAzBz', 'matrix_idt'
 ]
 __all__ += [
-    'augmented_matrix_Cheung2004', 'polynomial_expansion_Finlayson2015',
+    'matrix_augmented_Cheung2004', 'polynomial_expansion_Finlayson2015',
     'polynomial_expansion_Vandermonde', 'POLYNOMIAL_EXPANSION_METHODS',
-    'polynomial_expansion', 'colour_correction_matrix_Cheung2004',
-    'colour_correction_matrix_Finlayson2015',
-    'colour_correction_matrix_Vandermonde', 'COLOUR_CORRECTION_MATRIX_METHODS',
-    'colour_correction_matrix', 'colour_correction_Cheung2004',
+    'polynomial_expansion', 'matrix_colour_correction_Cheung2004',
+    'matrix_colour_correction_Finlayson2015',
+    'matrix_colour_correction_Vandermonde', 'MATRIX_COLOUR_CORRECTION_METHODS',
+    'matrix_colour_correction', 'colour_correction_Cheung2004',
     'colour_correction_Finlayson2015', 'colour_correction_Vandermonde',
     'COLOUR_CORRECTION_METHODS', 'colour_correction'
 ]
@@ -77,8 +77,37 @@ API_CHANGES = {
             'colour.characterisation.SDS_COLOURCHECKERS',
         ],
         [
+            'colour.characterisation.COLOUR_CORRECTION_MATRIX_METHODS',
+            'colour.characterisation.MATRIX_COLOUR_CORRECTION_METHODS',
+        ],
+        [
             'colour.characterisation.DISPLAY_RGB_PRIMARIES',
             'colour.characterisation.MSDS_DISPLAY_PRIMARIES',
+        ],
+        [
+            'colour.characterisation.augmented_matrix_Cheung2004',
+            'colour.characterisation.matrix_augmented_Cheung2004',
+        ],
+        [
+            'colour.characterisation.colour_correction_matrix',
+            'colour.characterisation.matrix_colour_correction',
+        ],
+        [
+            'colour.characterisation.colour_correction_matrix_Cheung2004',
+            'colour.characterisation.matrix_colour_correction_Cheung2004',
+        ],
+        [
+            'colour.characterisation.colour_correction_matrix_Finlayson2015',
+            'colour.characterisation.matrix_colour_correction_Finlayson2015',
+        ],
+        [
+            'colour.characterisation.colour_correction_matrix_Vandermonde',
+            'colour.characterisation.matrix_colour_correction_Vandermonde',
+        ],
+        # Not strictly needed but in use by A.M.P.A.S.
+        [
+            'colour.characterisation.idt_matrix',
+            'colour.characterisation.matrix_idt',
         ],
     ]
 }

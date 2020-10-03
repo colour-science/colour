@@ -11,10 +11,10 @@ from itertools import permutations
 from numpy.linalg import LinAlgError
 
 from colour.characterisation.correction import (
-    augmented_matrix_Cheung2004, polynomial_expansion_Finlayson2015,
-    polynomial_expansion_Vandermonde, colour_correction_matrix_Cheung2004,
-    colour_correction_matrix_Finlayson2015,
-    colour_correction_matrix_Vandermonde, colour_correction_Cheung2004,
+    matrix_augmented_Cheung2004, polynomial_expansion_Finlayson2015,
+    polynomial_expansion_Vandermonde, matrix_colour_correction_Cheung2004,
+    matrix_colour_correction_Finlayson2015,
+    matrix_colour_correction_Vandermonde, colour_correction_Cheung2004,
     colour_correction_Finlayson2015, colour_correction_Vandermonde)
 from colour.utilities import ignore_numpy_errors
 
@@ -26,12 +26,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_TEST', 'MATRIX_REFERENCE', 'TestAugmentedMatrixCheung2004',
+    'MATRIX_TEST', 'MATRIX_REFERENCE', 'TestMatrixAugmentedCheung2004',
     'TestPolynomialExpansionFinlayson2015',
     'TestPolynomialExpansionVandermonde',
-    'TestColourCorrectionMatrixCheung2004',
-    'TestColourCorrectionMatrixFinlayson2015',
-    'TestColourCorrectionMatrixVandermonde', 'TestColourCorrectionCheung2004',
+    'TestMatrixColourCorrectionCheung2004',
+    'TestMatrixColourCorrectionFinlayson2015',
+    'TestMatrixColourCorrectionVandermonde', 'TestColourCorrectionCheung2004',
     'TestColourCorrectionFinlayson2015', 'TestColourCorrectionVandermonde'
 ]
 
@@ -90,16 +90,16 @@ MATRIX_REFERENCE = np.array([
 ])
 
 
-class TestAugmentedMatrixCheung2004(unittest.TestCase):
+class TestMatrixAugmentedCheung2004(unittest.TestCase):
     """
     Defines :func:`colour.characterisation.correction.\
-augmented_matrix_Cheung2004` definition unit tests methods.
+matrix_augmented_Cheung2004` definition unit tests methods.
     """
 
-    def test_augmented_matrix_Cheung2004(self):
+    def test_matrix_augmented_Cheung2004(self):
         """
         Tests :func:`colour.characterisation.correction.\
-augmented_matrix_Cheung2004` definition.
+matrix_augmented_Cheung2004` definition.
         """
 
         RGB = np.array([0.17224810, 0.09170660, 0.06416938])
@@ -166,30 +166,30 @@ augmented_matrix_Cheung2004` definition.
         for i, terms in enumerate([3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20,
                                    22]):
             np.testing.assert_almost_equal(
-                augmented_matrix_Cheung2004(RGB, terms),
+                matrix_augmented_Cheung2004(RGB, terms),
                 polynomials[i],
                 decimal=7)
 
-    def test_raise_exception_augmented_matrix_Cheung2004(self):
+    def test_raise_exception_matrix_augmented_Cheung2004(self):
         """
         Tests :func:`colour.characterisation.correction.\
-augmented_matrix_Cheung2004` definition raised exception.
+matrix_augmented_Cheung2004` definition raised exception.
         """
 
-        self.assertRaises(ValueError, augmented_matrix_Cheung2004,
+        self.assertRaises(ValueError, matrix_augmented_Cheung2004,
                           np.array([0.17224810, 0.09170660, 0.06416938]), 4)
 
     @ignore_numpy_errors
-    def test_nan_augmented_matrix_Cheung2004(self):
+    def test_nan_matrix_augmented_Cheung2004(self):
         """
         Tests :func:`colour.characterisation.correction.\
-augmented_matrix_Cheung2004` definition nan support.
+matrix_augmented_Cheung2004` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            augmented_matrix_Cheung2004(case)
+            matrix_augmented_Cheung2004(case)
 
 
 class TestPolynomialExpansionFinlayson2015(unittest.TestCase):
@@ -336,20 +336,20 @@ polynomial_expansion_Vandermonde` definition nan support.
             polynomial_expansion_Vandermonde(case)
 
 
-class TestColourCorrectionMatrixCheung2004(unittest.TestCase):
+class TestMatrixColourCorrectionCheung2004(unittest.TestCase):
     """
     Defines :func:`colour.characterisation.correction.\
-colour_correction_matrix_Cheung2004` definition unit tests methods.
+matrix_colour_correction_Cheung2004` definition unit tests methods.
     """
 
-    def test_colour_correction_matrix_Cheung2004(self):
+    def test_matrix_colour_correction_Cheung2004(self):
         """
         Tests :func:`colour.characterisation.correction.\
-colour_correction_matrix_Cheung2004` definition.
+matrix_colour_correction_Cheung2004` definition.
         """
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Cheung2004(MATRIX_TEST, MATRIX_REFERENCE),
+            matrix_colour_correction_Cheung2004(MATRIX_TEST, MATRIX_REFERENCE),
             np.array([
                 [0.69822661, 0.03071629, 0.16210422],
                 [0.06893498, 0.67579611, 0.16430385],
@@ -358,7 +358,7 @@ colour_correction_matrix_Cheung2004` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Cheung2004(
+            matrix_colour_correction_Cheung2004(
                 MATRIX_TEST, MATRIX_REFERENCE, terms=7),
             np.array([
                 [
@@ -377,37 +377,37 @@ colour_correction_matrix_Cheung2004` definition.
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_colour_correction_matrix_Cheung2004(self):
+    def test_nan_matrix_colour_correction_Cheung2004(self):
         """
         Tests :func:`colour.characterisation.correction.
-    colour_correction_matrix_Cheung2004` definition nan support.
+    matrix_colour_correction_Cheung2004` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = list(set(permutations(cases * 3, r=3)))[0:4]
         for case in cases:
             try:
-                colour_correction_matrix_Cheung2004(
+                matrix_colour_correction_Cheung2004(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])))
             except LinAlgError:
                 pass
 
 
-class TestColourCorrectionMatrixFinlayson2015(unittest.TestCase):
+class TestMatrixColourCorrectionFinlayson2015(unittest.TestCase):
     """
     Defines :func:`colour.characterisation.correction.\
-colour_correction_matrix_Finlayson2015` definition unit tests methods.
+matrix_colour_correction_Finlayson2015` definition unit tests methods.
     """
 
-    def test_colour_correction_matrix_Finlayson2015(self):
+    def test_matrix_colour_correction_Finlayson2015(self):
         """
         Tests :func:`colour.characterisation.correction.\
-colour_correction_matrix_Finlayson2015` definition.
+matrix_colour_correction_Finlayson2015` definition.
         """
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Finlayson2015(MATRIX_TEST,
+            matrix_colour_correction_Finlayson2015(MATRIX_TEST,
                                                    MATRIX_REFERENCE),
             np.array([
                 [0.69822661, 0.03071629, 0.16210422],
@@ -417,7 +417,7 @@ colour_correction_matrix_Finlayson2015` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Finlayson2015(
+            matrix_colour_correction_Finlayson2015(
                 MATRIX_TEST, MATRIX_REFERENCE, degree=3),
             np.array([
                 [
@@ -442,37 +442,37 @@ colour_correction_matrix_Finlayson2015` definition.
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_colour_correction_matrix_Finlayson2015(self):
+    def test_nan_matrix_colour_correction_Finlayson2015(self):
         """
         Tests :func:`colour.characterisation.correction.
-    colour_correction_matrix_Finlayson2015` definition nan support.
+    matrix_colour_correction_Finlayson2015` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = list(set(permutations(cases * 3, r=3)))[0:4]
         for case in cases:
             try:
-                colour_correction_matrix_Finlayson2015(
+                matrix_colour_correction_Finlayson2015(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])))
             except LinAlgError:
                 pass
 
 
-class TestColourCorrectionMatrixVandermonde(unittest.TestCase):
+class TestMatrixColourCorrectionVandermonde(unittest.TestCase):
     """
     Defines :func:`colour.characterisation.correction.\
-colour_correction_matrix_Vandermonde` definition unit tests methods.
+matrix_colour_correction_Vandermonde` definition unit tests methods.
     """
 
-    def test_colour_correction_matrix_Vandermonde(self):
+    def test_matrix_colour_correction_Vandermonde(self):
         """
         Tests :func:`colour.characterisation.correction.\
-colour_correction_matrix_Vandermonde` definition.
+matrix_colour_correction_Vandermonde` definition.
         """
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Vandermonde(MATRIX_TEST,
+            matrix_colour_correction_Vandermonde(MATRIX_TEST,
                                                  MATRIX_REFERENCE),
             np.array([
                 [0.66770040, 0.02514036, 0.12745797, 0.02485425],
@@ -482,7 +482,7 @@ colour_correction_matrix_Vandermonde` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour_correction_matrix_Vandermonde(
+            matrix_colour_correction_Vandermonde(
                 MATRIX_TEST, MATRIX_REFERENCE, degree=3),
             np.array([
                 [
@@ -504,17 +504,17 @@ colour_correction_matrix_Vandermonde` definition.
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_colour_correction_matrix_Vandermonde(self):
+    def test_nan_matrix_colour_correction_Vandermonde(self):
         """
         Tests :func:`colour.characterisation.correction.
-    colour_correction_matrix_Vandermonde` definition nan support.
+    matrix_colour_correction_Vandermonde` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = list(set(permutations(cases * 3, r=3)))[0:4]
         for case in cases:
             try:
-                colour_correction_matrix_Vandermonde(
+                matrix_colour_correction_Vandermonde(
                     np.vstack([case, case, case]),
                     np.transpose(np.vstack([case, case, case])))
             except LinAlgError:
