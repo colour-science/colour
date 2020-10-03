@@ -48,7 +48,7 @@ by issuing this command in a shell:
 
 .. code-block:: bash
 
-    $ pip install colour-science
+    $ pip install --user colour-science
 
 The detailed installation procedure for the secondary dependencies is
 described in the `Installation Guide <https://www.colour-science.org/installation-guide/>`__.
