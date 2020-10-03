@@ -498,6 +498,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.models.YCBCR_WEIGHTS',
         'colour.models.WEIGHTS_YCBCR',
     ],
+    [
+        'colour.models.RGB_to_RGB_matrix',
+        'colour.models.matrix_RGB_to_RGB',
+    ],
 ]
 
 if not is_documentation_building():

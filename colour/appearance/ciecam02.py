@@ -38,7 +38,7 @@ from colour.appearance.hunt import (MATRIX_HPE_TO_XYZ, MATRIX_XYZ_TO_HPE,
 from colour.constants import EPSILON
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
-    as_float, from_range_degrees, dot_matrix, dot_vector, from_range_100, ones,
+    as_float, from_range_degrees, matrix_dot, vector_dot, from_range_100, ones,
     to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
 
 __author__ = 'Colour Developers'
@@ -65,7 +65,7 @@ __all__ = [
     'temporary_magnitude_quantity_forward',
     'temporary_magnitude_quantity_inverse', 'chroma_correlate',
     'colourfulness_correlate', 'saturation_correlate', 'P',
-    'post_adaptation_non_linear_response_compression_matrix'
+    'matrix_post_adaptation_non_linear_response_compression'
 ]
 
 CAT02_INVERSE_CAT = np.linalg.inv(CAT_CAT02)
@@ -278,8 +278,8 @@ H=278.0607358..., HC=None)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB = dot_vector(CAT_CAT02, XYZ)
-    RGB_w = dot_vector(CAT_CAT02, XYZ_w)
+    RGB = vector_dot(CAT_CAT02, XYZ)
+    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (degree_of_adaptation(surround.F, L_A)
@@ -470,7 +470,7 @@ def CIECAM02_to_XYZ(specification,
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB_w = dot_vector(CAT_CAT02, XYZ_w)
+    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (degree_of_adaptation(surround.F, L_A)
@@ -506,7 +506,7 @@ def CIECAM02_to_XYZ(specification,
     a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
 
     # Computing post-adaptation non linear response compression matrix.
-    RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
 
     # Applying inverse post-adaptation non linear response compression.
     RGB_p = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
@@ -519,7 +519,7 @@ def CIECAM02_to_XYZ(specification,
 
     # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ*
     # tristimulus values.
-    XYZ = dot_vector(CAT02_INVERSE_CAT, RGB)
+    XYZ = vector_dot(CAT02_INVERSE_CAT, RGB)
 
     return from_range_100(XYZ)
 
@@ -757,7 +757,7 @@ def RGB_to_rgb(RGB):
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = dot_vector(dot_matrix(MATRIX_XYZ_TO_HPE, CAT02_INVERSE_CAT), RGB)
+    rgb = vector_dot(matrix_dot(MATRIX_XYZ_TO_HPE, CAT02_INVERSE_CAT), RGB)
 
     return rgb
 
@@ -784,7 +784,7 @@ def rgb_to_RGB(rgb):
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = dot_vector(dot_matrix(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
+    RGB = vector_dot(matrix_dot(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
 
     return RGB
 
@@ -1500,9 +1500,9 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     return P_n
 
 
-def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
+def matrix_post_adaptation_non_linear_response_compression(P_2, a, b):
     """
-    Returns the post adaptation non linear response compression matrix.
+    Returns the post-adaptation non-linear-response compression matrix.
 
     Parameters
     ----------
@@ -1523,7 +1523,7 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     >>> P_2 = 24.2372054671
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    >>> matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
     ... # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """

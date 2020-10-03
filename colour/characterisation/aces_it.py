@@ -15,7 +15,7 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 -   :func:`colour.characterisation.training_data_sds_to_XYZ`
 -   :func:`colour.characterisation.optimisation_factory_rawtoaces_v1`
 -   :func:`colour.characterisation.optimisation_factory_JzAzBz`
--   :func:`colour.idt_matrix`
+-   :func:`colour.matrix_idt`
 
 References
 ----------
@@ -53,7 +53,7 @@ import numpy as np
 import os
 from scipy.optimize import minimize
 
-from colour.adaptation import chromatic_adaptation_matrix_VonKries
+from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape, sds_and_msds_to_msds,
@@ -66,7 +66,7 @@ from colour.models.rgb import (RGB_COLOURSPACE_ACES2065_1, RGB_to_XYZ,
                                XYZ_to_RGB, normalised_primary_matrix)
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              dot_vector, from_range_1, runtime_warning,
+                              vector_dot, from_range_1, runtime_warning,
                               tsplit, suppress_warnings)
 
 __author__ = 'Colour Developers'
@@ -83,7 +83,7 @@ __all__ = [
     'generate_illuminants_rawtoaces_v1', 'white_balance_multipliers',
     'best_illuminant', 'normalise_illuminant', 'training_data_sds_to_RGB',
     'training_data_sds_to_XYZ', 'optimisation_factory_rawtoaces_v1',
-    'optimisation_factory_JzAzBz', 'idt_matrix'
+    'optimisation_factory_JzAzBz', 'matrix_idt'
 ]
 
 FLARE_PERCENTAGE = 0.00500
@@ -202,7 +202,7 @@ def sd_to_aces_relative_exposure_values(
                          chromatic_adaptation_transform)
         E_rgb = XYZ_to_RGB(XYZ, RGB_COLOURSPACE_ACES2065_1.whitepoint,
                            RGB_COLOURSPACE_ACES2065_1.whitepoint,
-                           RGB_COLOURSPACE_ACES2065_1.XYZ_to_RGB_matrix)
+                           RGB_COLOURSPACE_ACES2065_1.matrix_XYZ_to_RGB)
 
     return from_range_1(E_rgb)
 
@@ -602,10 +602,10 @@ def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
     XYZ_w = np.dot(np.transpose(cmfs.values), illuminant.values)
     XYZ_w *= 1 / XYZ_w[1]
 
-    M_CAT = chromatic_adaptation_matrix_VonKries(
+    M_CAT = matrix_chromatic_adaptation_VonKries(
         XYZ_w, xy_to_XYZ(RGB_COLOURSPACE_ACES2065_1.whitepoint))
 
-    XYZ = dot_vector(M_CAT, XYZ)
+    XYZ = vector_dot(M_CAT, XYZ)
 
     return XYZ
 
@@ -643,8 +643,8 @@ def optimisation_factory_rawtoaces_v1():
 
         M = np.reshape(M, [3, 3])
 
-        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.RGB_to_XYZ_matrix,
-                           dot_vector(M, RGB))
+        XYZ_t = vector_dot(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
+                           vector_dot(M, RGB))
         Lab_t = XYZ_to_Lab(XYZ_t, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
         return np.linalg.norm(Lab_t - Lab)
@@ -692,8 +692,8 @@ def optimisation_factory_JzAzBz():
 
         M = np.reshape(M, [3, 3])
 
-        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.RGB_to_XYZ_matrix,
-                           dot_vector(M, RGB))
+        XYZ_t = vector_dot(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
+                           vector_dot(M, RGB))
         Jab_t = XYZ_to_JzAzBz(XYZ_t)
 
         return np.sum(euclidean_distance(Jab, Jab_t))
@@ -708,7 +708,7 @@ def optimisation_factory_JzAzBz():
     return objective_function, XYZ_to_optimization_colour_model
 
 
-def idt_matrix(sensitivities,
+def matrix_idt(sensitivities,
                illuminant,
                training_data=None,
                cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].copy()
@@ -760,7 +760,7 @@ def idt_matrix(sensitivities,
     ...     read_sds_from_csv_file(path).values())
     >>> illuminant = SDS_ILLUMINANTS['D55']
     >>> np.around(
-    ...     idt_matrix(sensitivities, illuminant), 3)
+    ...     matrix_idt(sensitivities, illuminant), 3)
     array([[ 0.85 , -0.016,  0.151],
            [ 0.051,  1.126, -0.185],
            [ 0.02 , -0.194,  1.162]])
@@ -772,7 +772,7 @@ def idt_matrix(sensitivities,
     0.056527 1.122997 -0.179524
     0.023683 -0.202547 1.178864
 
-    >>> np.around(idt_matrix(
+    >>> np.around(matrix_idt(
     ...     sensitivities, illuminant,
     ...     optimisation_factory=optimisation_factory_JzAzBz), 3)
     array([[ 0.848, -0.016,  0.158],

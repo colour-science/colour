@@ -36,7 +36,7 @@ ACES Input Transform Computation
 .. autosummary::
     :toctree: generated/
 
-    idt_matrix
+    matrix_idt
 
 **Ancillary Objects**
 
@@ -69,8 +69,8 @@ Colour Fitting
 
     POLYNOMIAL_EXPANSION_METHODS
     polynomial_expansion
-    COLOUR_CORRECTION_MATRIX_METHODS
-    colour_correction_matrix
+    MATRIX_COLOUR_CORRECTION_METHODS
+    matrix_colour_correction
     COLOUR_CORRECTION_METHODS
     colour_correction
 
@@ -83,12 +83,12 @@ Colour Fitting
 .. autosummary::
     :toctree: generated/
 
-    augmented_matrix_Cheung2004
+    matrix_augmented_Cheung2004
     polynomial_expansion_Finlayson2015
     polynomial_expansion_Vandermonde
-    colour_correction_matrix_Cheung2004
-    colour_correction_matrix_Finlayson2015
-    colour_correction_matrix_Vandermonde
+    matrix_colour_correction_Cheung2004
+    matrix_colour_correction_Finlayson2015
+    matrix_colour_correction_Vandermonde
     colour_correction_Cheung2004
     colour_correction_Finlayson2015
     colour_correction_Vandermonde

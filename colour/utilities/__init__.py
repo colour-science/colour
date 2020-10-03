@@ -19,7 +19,7 @@ from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
                     as_float, set_float_precision, set_int_precision,
                     as_namedtuple, closest_indexes, closest, normalise_maximum,
                     interval, is_uniform, in_array, tstack, tsplit,
-                    row_as_diagonal, dot_vector, dot_matrix, orient, centroid,
+                    row_as_diagonal, vector_dot, matrix_dot, orient, centroid,
                     linear_conversion, lerp, fill_nan, ndarray_write, zeros,
                     ones, full, index_along_last_axis)
 from .metrics import metric_mse, metric_psnr
@@ -52,7 +52,7 @@ __all__ += [
     'as_float', 'set_float_precision', 'set_int_precision', 'as_namedtuple',
     'closest_indexes', 'closest', 'normalise_maximum', 'interval',
     'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
-    'dot_vector', 'dot_matrix', 'orient', 'centroid', 'linear_conversion',
+    'vector_dot', 'matrix_dot', 'orient', 'centroid', 'linear_conversion',
     'fill_nan', 'lerp', 'ndarray_write', 'zeros', 'ones', 'full',
     'index_along_last_axis'
 ]

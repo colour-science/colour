@@ -28,7 +28,7 @@ from collections import namedtuple
 
 from colour.adaptation import CAT_CMCCAT2000
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              dot_vector, from_range_100, to_domain_100)
+                              vector_dot, from_range_100, to_domain_100)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -159,9 +159,9 @@ def chromatic_adaptation_forward_CMCCAT2000(
     L_A1 = as_float_array(L_A1)
     L_A2 = as_float_array(L_A2)
 
-    RGB = dot_vector(CAT_CMCCAT2000, XYZ)
-    RGB_w = dot_vector(CAT_CMCCAT2000, XYZ_w)
-    RGB_wr = dot_vector(CAT_CMCCAT2000, XYZ_wr)
+    RGB = vector_dot(CAT_CMCCAT2000, XYZ)
+    RGB_w = vector_dot(CAT_CMCCAT2000, XYZ_w)
+    RGB_wr = vector_dot(CAT_CMCCAT2000, XYZ_wr)
 
     D = (surround.F * (0.08 * np.log10(0.5 * (L_A1 + L_A2)) + 0.76 - 0.45 *
                        (L_A1 - L_A2) / (L_A1 + L_A2)))
@@ -171,7 +171,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
 
     RGB_c = (
         RGB * (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
-    XYZ_c = dot_vector(CAT_INVERSE_CMCCAT2000, RGB_c)
+    XYZ_c = vector_dot(CAT_INVERSE_CMCCAT2000, RGB_c)
 
     return from_range_100(XYZ_c)
 
@@ -251,9 +251,9 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     L_A1 = as_float_array(L_A1)
     L_A2 = as_float_array(L_A2)
 
-    RGB_c = dot_vector(CAT_CMCCAT2000, XYZ_c)
-    RGB_w = dot_vector(CAT_CMCCAT2000, XYZ_w)
-    RGB_wr = dot_vector(CAT_CMCCAT2000, XYZ_wr)
+    RGB_c = vector_dot(CAT_CMCCAT2000, XYZ_c)
+    RGB_w = vector_dot(CAT_CMCCAT2000, XYZ_w)
+    RGB_wr = vector_dot(CAT_CMCCAT2000, XYZ_wr)
 
     D = (surround.F * (0.08 * np.log10(0.5 * (L_A1 + L_A2)) + 0.76 - 0.45 *
                        (L_A1 - L_A2) / (L_A1 + L_A2)))
@@ -263,7 +263,7 @@ def chromatic_adaptation_inverse_CMCCAT2000(
 
     RGB = (RGB_c / (a[..., np.newaxis] *
                     (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
-    XYZ = dot_vector(CAT_INVERSE_CMCCAT2000, RGB)
+    XYZ = vector_dot(CAT_INVERSE_CMCCAT2000, RGB)
 
     return from_range_100(XYZ)
 

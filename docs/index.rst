@@ -183,11 +183,11 @@ Colour Blindness - ``colour.blindness``
 
     >>> import numpy as np
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
-    >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
+    >>> colour.msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
     >>> primaries = colour.MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
     >>> d_LMS = (15, 0, 0)
-    >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
+    >>> colour.matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS)
     array([[-0.27774652,  2.65150084, -1.37375432],
            [ 0.27189369,  0.20047862,  0.52762768],
            [ 0.00644047,  0.25921579,  0.73434374]])
@@ -213,7 +213,7 @@ ACES Input Transform - ``colour characterisation``
 
     >>> sensitivities = colour.MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)']
     >>> illuminant = colour.SDS_ILLUMINANTS['D55']
-    >>> colour.idt_matrix(sensitivities, illuminant)
+    >>> colour.matrix_idt(sensitivities, illuminant)
     array([[ 0.46579991,  0.13409239,  0.01935141],
            [ 0.01786094,  0.77557292, -0.16775555],
            [ 0.03458652, -0.16152926,  0.74270359]])
@@ -637,7 +637,7 @@ RGB Colourspace and Transformations
     >>> illuminant_XYZ = [0.34570, 0.35850]
     >>> illuminant_RGB = [0.31270, 0.32900]
     >>> chromatic_adaptation_transform = 'Bradford'
-    >>> XYZ_to_RGB_matrix = [
+    >>> matrix_XYZ_to_RGB = [
              [3.24062548, -1.53720797, -0.49862860],
              [-0.96893071, 1.87575606, 0.04151752],
              [0.05571012, -0.20402105, 1.05699594]]
@@ -645,7 +645,7 @@ RGB Colourspace and Transformations
              XYZ,
              illuminant_XYZ,
              illuminant_RGB,
-             XYZ_to_RGB_matrix,
+             matrix_XYZ_to_RGB,
              chromatic_adaptation_transform)
     array([ 0.45595571,  0.03039702,  0.04087245])
 

@@ -14,7 +14,7 @@ from colour.utilities import (
     as_array, as_int_array, as_float_array, as_numeric, as_int, as_float,
     set_float_precision, set_int_precision, as_namedtuple, closest_indexes,
     closest, normalise_maximum, interval, is_uniform, in_array, tstack, tsplit,
-    row_as_diagonal, dot_vector, dot_matrix, orient, centroid,
+    row_as_diagonal, vector_dot, matrix_dot, orient, centroid,
     linear_conversion, lerp, fill_nan, ndarray_write, zeros, ones, full,
     index_along_last_axis)
 from colour.utilities import is_networkx_installed
@@ -686,13 +686,13 @@ class TestRowAsDiagonal(unittest.TestCase):
 
 class TestDotVector(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.dot_vector` definition unit tests
+    Defines :func:`colour.utilities.array.vector_dot` definition unit tests
     methods.
     """
 
-    def test_dot_vector(self):
+    def test_vector_dot(self):
         """
-        Tests :func:`colour.utilities.array.dot_vector` definition.
+        Tests :func:`colour.utilities.array.vector_dot` definition.
         """
 
         m = np.array([
@@ -706,7 +706,7 @@ class TestDotVector(unittest.TestCase):
         v = np.tile(v, (6, 1))
 
         np.testing.assert_almost_equal(
-            dot_vector(m, v),
+            vector_dot(m, v),
             np.array([
                 [0.19540944, 0.06203965, 0.05279523],
                 [0.19540944, 0.06203965, 0.05279523],
@@ -720,13 +720,13 @@ class TestDotVector(unittest.TestCase):
 
 class TestDotMatrix(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.dot_matrix` definition unit tests
+    Defines :func:`colour.utilities.array.matrix_dot` definition unit tests
     methods.
     """
 
-    def test_dot_matrix(self):
+    def test_matrix_dot(self):
         """
-        Tests :func:`colour.utilities.array.dot_matrix` definition.
+        Tests :func:`colour.utilities.array.matrix_dot` definition.
         """
 
         a = np.array([
@@ -739,7 +739,7 @@ class TestDotMatrix(unittest.TestCase):
         b = a
 
         np.testing.assert_almost_equal(
-            dot_matrix(a, b),
+            matrix_dot(a, b),
             np.array(
                 [[[0.23424208, 1.04184824, -0.27609032],
                   [-1.70994078, 2.57932265, 0.13061813],

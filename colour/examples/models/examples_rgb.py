@@ -21,9 +21,9 @@ colourspace = colour.RGB_COLOURSPACES['ACES2065-1']
 print('Name:\n"{0}"'.format(colourspace.name))
 print('\nPrimaries:\n{0}'.format(colourspace.primaries))
 print(('\nNormalised primary matrix to "CIE XYZ" '
-       'tristimulus values:\n{0}').format(colourspace.RGB_to_XYZ_matrix))
+       'tristimulus values:\n{0}').format(colourspace.matrix_RGB_to_XYZ))
 print('\nNormalised primary matrix to "ACES2065-1":\n{0}'.format(
-    colourspace.XYZ_to_RGB_matrix))
+    colourspace.matrix_XYZ_to_RGB))
 print('\nOpto-electronic transfer function from '
       'linear to colourspace:\n{0}'.format(colourspace.cctf_encoding))
 print('\nElectro-optical transfer function from '
@@ -34,12 +34,12 @@ print('\n')
 message_box(
     ('Computing "ACES2065-1" colourspace to "ITU-R BT.709" colourspace '
      'matrix.'))
-cat = colour.adaptation.chromatic_adaptation_matrix_VonKries(
+cat = colour.adaptation.matrix_chromatic_adaptation_VonKries(
     colour.xy_to_XYZ(colourspace.whitepoint),
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['ITU-R BT.709'].whitepoint))
 print(
-    np.dot(colour.RGB_COLOURSPACES['ITU-R BT.709'].XYZ_to_RGB_matrix,
-           np.dot(cat, colourspace.RGB_to_XYZ_matrix)))
+    np.dot(colour.RGB_COLOURSPACES['ITU-R BT.709'].matrix_XYZ_to_RGB,
+           np.dot(cat, colourspace.matrix_RGB_to_XYZ)))
 
 print('\n')
 

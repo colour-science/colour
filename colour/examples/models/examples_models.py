@@ -65,7 +65,7 @@ print(
         XYZ,
         D65,
         colour.RGB_COLOURSPACES['sRGB'].whitepoint,
-        colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix,
+        colour.RGB_COLOURSPACES['sRGB'].matrix_XYZ_to_RGB,
         'Bradford',
         colour.RGB_COLOURSPACES['sRGB'].cctf_encoding,
     ))
@@ -81,7 +81,7 @@ print(
         RGB,
         colour.RGB_COLOURSPACES['sRGB'].whitepoint,
         D65,
-        colour.RGB_COLOURSPACES['sRGB'].RGB_to_XYZ_matrix,
+        colour.RGB_COLOURSPACES['sRGB'].matrix_RGB_to_XYZ,
         'Bradford',
         colour.RGB_COLOURSPACES['sRGB'].cctf_decoding,
     ))

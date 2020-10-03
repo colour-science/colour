@@ -129,7 +129,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
         Lab_to_XYZ(Lab, illuminant_Lab),
         illuminant_Lab,
         colourspace.whitepoint,
-        colourspace.XYZ_to_RGB_matrix,
+        colourspace.matrix_XYZ_to_RGB,
         chromatic_adaptation_transform=chromatic_adaptation_method)
     RGB_w = RGB[np.logical_and(
         np.min(RGB, axis=-1) >= 0,
@@ -170,7 +170,7 @@ def RGB_colourspace_limits(colourspace,
         Lab.append(
             XYZ_to_Lab(
                 RGB_to_XYZ(combination, colourspace.whitepoint, illuminant,
-                           colourspace.RGB_to_XYZ_matrix)))
+                           colourspace.matrix_RGB_to_XYZ)))
     Lab = np.array(Lab)
 
     limits = []
@@ -304,7 +304,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     XYZ_vs = XYZ[coverage_sampler(XYZ)]
 
     RGB = XYZ_to_RGB(XYZ_vs, colourspace.whitepoint, colourspace.whitepoint,
-                     colourspace.XYZ_to_RGB_matrix)
+                     colourspace.matrix_XYZ_to_RGB)
 
     RGB_c = RGB[np.logical_and(
         np.min(RGB, axis=-1) >= 0,

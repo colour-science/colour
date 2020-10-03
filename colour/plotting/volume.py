@@ -497,7 +497,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
             quads_c,
             colourspace.whitepoint,
             colourspace.whitepoint,
-            colourspace.RGB_to_XYZ_matrix,
+            colourspace.matrix_RGB_to_XYZ,
         )
 
         quads.extend(
@@ -670,7 +670,7 @@ def plot_RGB_scatter(RGB,
         **settings)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
-                     colourspace.RGB_to_XYZ_matrix)
+                     colourspace.matrix_RGB_to_XYZ)
 
     points = common_colourspace_model_axis_reorder(
         XYZ_to_colourspace_model(XYZ, colourspace.whitepoint,

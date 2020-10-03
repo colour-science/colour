@@ -29,7 +29,7 @@ from colour.adaptation.cie1994 import (MATRIX_XYZ_TO_RGB_CIE1994, beta_1,
                                        exponential_factors,
                                        intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import (as_float_array, dot_vector, from_range_degrees,
+from colour.utilities import (as_float_array, vector_dot, from_range_degrees,
                               to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -335,7 +335,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     array([ 20.0005206...,  19.999783 ...,  19.9988316...])
     """
 
-    return dot_vector(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
+    return vector_dot(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
 
 
 def scaling_coefficient(x, y):

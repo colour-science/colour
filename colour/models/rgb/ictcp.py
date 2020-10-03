@@ -24,7 +24,7 @@ import numpy as np
 
 from colour.models.rgb.transfer_functions import (eotf_inverse_ST2084,
                                                   eotf_ST2084)
-from colour.utilities import (domain_range_scale, dot_vector, from_range_1,
+from colour.utilities import (domain_range_scale, vector_dot, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -130,12 +130,12 @@ def RGB_to_ICTCP(RGB, L_p=10000):
 
     RGB = to_domain_1(RGB)
 
-    LMS = dot_vector(MATRIX_ICTCP_RGB_TO_LMS, RGB)
+    LMS = vector_dot(MATRIX_ICTCP_RGB_TO_LMS, RGB)
 
     with domain_range_scale('ignore'):
         LMS_p = eotf_inverse_ST2084(LMS, L_p)
 
-    ICTCP = dot_vector(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
+    ICTCP = vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
 
     return from_range_1(ICTCP)
 
@@ -190,11 +190,11 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
 
     ICTCP = to_domain_1(ICTCP)
 
-    LMS_p = dot_vector(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICTCP)
+    LMS_p = vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICTCP)
 
     with domain_range_scale('ignore'):
         LMS = eotf_ST2084(LMS_p, L_p)
 
-    RGB = dot_vector(MATRIX_ICTCP_LMS_TO_RGB, LMS)
+    RGB = vector_dot(MATRIX_ICTCP_LMS_TO_RGB, LMS)
 
     return from_range_1(RGB)

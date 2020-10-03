@@ -33,11 +33,11 @@ from colour.appearance.ciecam02 import (
     opponent_colour_dimensions_forward, opponent_colour_dimensions_inverse,
     post_adaptation_non_linear_response_compression_forward,
     post_adaptation_non_linear_response_compression_inverse,
-    post_adaptation_non_linear_response_compression_matrix,
+    matrix_post_adaptation_non_linear_response_compression,
     saturation_correlate, temporary_magnitude_quantity_inverse,
     viewing_condition_dependent_parameters)
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              as_namedtuple, dot_vector, from_range_100,
+                              as_namedtuple, vector_dot, from_range_100,
                               from_range_degrees, ones, to_domain_100,
                               to_domain_degrees, tsplit)
 
@@ -241,7 +241,7 @@ H=275.5949861..., HC=None)
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB_w = dot_vector(MATRIX_16, XYZ_w)
+    RGB_w = vector_dot(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
@@ -263,7 +263,7 @@ H=275.5949861..., HC=None)
 
     # Step 1
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB = dot_vector(MATRIX_16, XYZ)
+    RGB = vector_dot(MATRIX_16, XYZ)
 
     # Step 2
     RGB_c = D_RGB * RGB
@@ -416,7 +416,7 @@ def CAM16_to_XYZ(specification,
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB_w = dot_vector(MATRIX_16, XYZ_w)
+    RGB_w = vector_dot(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
@@ -463,7 +463,7 @@ def CAM16_to_XYZ(specification,
 
     # Step 4
     # Computing post-adaptation non linear response compression matrix.
-    RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
 
     # Step 5
     # Applying inverse post-adaptation non linear response compression.
@@ -473,6 +473,6 @@ def CAM16_to_XYZ(specification,
     RGB = RGB_c / D_RGB
 
     # Step 7
-    XYZ = dot_vector(MATRIX_INVERSE_16, RGB)
+    XYZ = vector_dot(MATRIX_INVERSE_16, RGB)
 
     return from_range_100(XYZ)

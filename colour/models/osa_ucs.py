@@ -26,7 +26,7 @@ from scipy.optimize import fmin
 
 from colour.algebra import spow
 from colour.models import XYZ_to_xyY
-from colour.utilities import (as_float_array, domain_range_scale, dot_vector,
+from colour.utilities import (as_float_array, domain_range_scale, vector_dot,
                               from_range_100, to_domain_100, tsplit, tstack)
 from colour.utilities.deprecation import handle_arguments_deprecation
 
@@ -117,7 +117,7 @@ def XYZ_to_OSA_UCS(XYZ):
     Y_0_s = Y_0 - 30
     Lambda = 5.9 * (Y_0_es + 0.042 * spow(Y_0_s, o_3))
 
-    RGB = dot_vector(MATRIX_XYZ_TO_RGB_OSA_UCS, XYZ)
+    RGB = vector_dot(MATRIX_XYZ_TO_RGB_OSA_UCS, XYZ)
     RGB_3 = spow(RGB, 1 / 3)
 
     C = Lambda / (5.9 * Y_0_es)

@@ -21,7 +21,7 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.adaptation import CAT_VON_KRIES
-from colour.utilities import (as_float_array, dot_vector, from_range_100,
+from colour.utilities import (as_float_array, vector_dot, from_range_100,
                               to_domain_100, tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
@@ -170,7 +170,7 @@ def XYZ_to_RGB_CIE1994(XYZ):
     array([ 25.8244273...,  18.6791422...,   4.8390194...])
     """
 
-    return dot_vector(MATRIX_XYZ_TO_RGB_CIE1994, XYZ)
+    return vector_dot(MATRIX_XYZ_TO_RGB_CIE1994, XYZ)
 
 
 def RGB_to_XYZ_CIE1994(RGB):
@@ -194,7 +194,7 @@ def RGB_to_XYZ_CIE1994(RGB):
     array([ 28.  ,  21.26,   5.27])
     """
 
-    return dot_vector(MATRIX_RGB_TO_XYZ_CIE1994, RGB)
+    return vector_dot(MATRIX_RGB_TO_XYZ_CIE1994, RGB)
 
 
 def intermediate_values(xy_o):

@@ -851,7 +851,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
                 apply_cctf_encoding=True).reshape(-1, 3), 0, 1)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
-                     colourspace.RGB_to_XYZ_matrix)
+                     colourspace.matrix_RGB_to_XYZ)
 
     if method == 'CIE 1931':
         ij = XYZ_to_xy(XYZ, colourspace.whitepoint)
@@ -1780,7 +1780,7 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
                     XYZ,
                     xy_r,
                     colourspace.whitepoint,
-                    colourspace.XYZ_to_RGB_matrix,
+                    colourspace.matrix_XYZ_to_RGB,
                     cctf_encoding=colourspace.cctf_encoding)
 
             RGB_ct = _XYZ_to_RGB(XYZ_ct)

@@ -27,7 +27,7 @@ from collections import namedtuple
 from colour.algebra import spow
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              dot_matrix, dot_vector, from_range_degrees,
+                              matrix_dot, vector_dot, from_range_degrees,
                               to_domain_100, tsplit, row_as_diagonal)
 
 __author__ = 'Colour Developers'
@@ -248,8 +248,8 @@ h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
     aR = row_as_diagonal(LMS_a_L)
-    M = dot_matrix(dot_matrix(MATRIX_R, aR), MATRIX_XYZ_TO_HPE)
-    XYZ_ref = dot_vector(M, XYZ)
+    M = matrix_dot(matrix_dot(MATRIX_R, aR), MATRIX_XYZ_TO_HPE)
+    XYZ_ref = vector_dot(M, XYZ)
 
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
 

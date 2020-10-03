@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import dot_vector
+from colour.utilities import vector_dot
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -86,7 +86,7 @@ def RGB_to_YCoCg(RGB):
     array([ 0.5625,  0.125 , -0.0625])
     """
 
-    return dot_vector(MATRIX_RGB_TO_YCOCG, RGB)
+    return vector_dot(MATRIX_RGB_TO_YCOCG, RGB)
 
 
 def YCoCg_to_RGB(YCoCg):
@@ -116,4 +116,4 @@ def YCoCg_to_RGB(YCoCg):
     array([ 0.75,  0.5 ,  0.5 ])
     """
 
-    return dot_vector(MATRIX_YCOCG_TO_RGB, YCoCg)
+    return vector_dot(MATRIX_YCOCG_TO_RGB, YCoCg)

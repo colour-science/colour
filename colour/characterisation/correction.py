@@ -5,7 +5,7 @@ Colour Correction
 
 Defines various objects for colour correction, like colour matching two images:
 
--   :func:`colour.characterisation.augmented_matrix_Cheung2004` : Polynomial
+-   :func:`colour.characterisation.matrix_augmented_Cheung2004` : Polynomial
     expansion using *Cheung, Westland, Connah and Ripamonti (2004)* method.
 -   :func:`colour.characterisation.polynomial_expansion_Finlayson2015` :
     Polynomial expansion using *Finlayson, MacKiewicz and Hurlbert (2015)*
@@ -16,16 +16,16 @@ Defines various objects for colour correction, like colour matching two images:
     methods.
 -   :func:`colour.polynomial_expansion`: Polynomial expansion of given
     :math:`a` array.
--   :func:`colour.characterisation.colour_correction_matrix_Cheung2004` :
+-   :func:`colour.characterisation.matrix_colour_correction_Cheung2004` :
     Colour correction matrix computation using *Cheung et al. (2004)* method.
--   :func:`colour.characterisation.colour_correction_matrix_Finlayson2015` :
+-   :func:`colour.characterisation.matrix_colour_correction_Finlayson2015` :
     Colour correction matrix computation using *Finlayson et al. (2015)*
     method.
--   :func:`colour.characterisation.colour_correction_matrix_Vandermonde`
+-   :func:`colour.characterisation.matrix_colour_correction_Vandermonde`
     Colour correction matrix computation using *Vandermonde* method.
--   :attr:`colour.COLOUR_CORRECTION_MATRIX_METHODS`: Supported colour
+-   :attr:`colour.MATRIX_COLOUR_CORRECTION_METHODS`: Supported colour
     correction matrix methods.
--   :func:`colour.colour_correction_matrix`: Colour correction matrix
+-   :func:`colour.matrix_colour_correction`: Colour correction matrix
     computation from given :math:`M_T` colour array to :math:`M_R` colour
     array.
 -   :func:`colour.characterisation.colour_correction_Cheung2004` :
@@ -73,18 +73,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'augmented_matrix_Cheung2004', 'polynomial_expansion_Finlayson2015',
+    'matrix_augmented_Cheung2004', 'polynomial_expansion_Finlayson2015',
     'polynomial_expansion_Vandermonde', 'POLYNOMIAL_EXPANSION_METHODS',
-    'polynomial_expansion', 'colour_correction_matrix_Cheung2004',
-    'colour_correction_matrix_Finlayson2015',
-    'colour_correction_matrix_Vandermonde', 'COLOUR_CORRECTION_MATRIX_METHODS',
-    'colour_correction_matrix', 'colour_correction_Cheung2004',
+    'polynomial_expansion', 'matrix_colour_correction_Cheung2004',
+    'matrix_colour_correction_Finlayson2015',
+    'matrix_colour_correction_Vandermonde', 'MATRIX_COLOUR_CORRECTION_METHODS',
+    'matrix_colour_correction', 'colour_correction_Cheung2004',
     'colour_correction_Finlayson2015', 'colour_correction_Vandermonde',
     'COLOUR_CORRECTION_METHODS', 'colour_correction'
 ]
 
 
-def augmented_matrix_Cheung2004(RGB, terms=3):
+def matrix_augmented_Cheung2004(RGB, terms=3):
     """
     Performs polynomial expansion of given *RGB* colourspace array using
     *Cheung et al. (2004)* method.
@@ -114,7 +114,7 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
     Examples
     --------
     >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
-    >>> augmented_matrix_Cheung2004(RGB, terms=5)  # doctest: +ELLIPSIS
+    >>> matrix_augmented_Cheung2004(RGB, terms=5)  # doctest: +ELLIPSIS
     array([ 0.1722481...,  0.0917066...,  0.0641693...,  0.0010136...,  1...])
     """
 
@@ -526,7 +526,7 @@ def polynomial_expansion_Vandermonde(a, degree=1):
 
 
 POLYNOMIAL_EXPANSION_METHODS = CaseInsensitiveMapping({
-    'Cheung 2004': augmented_matrix_Cheung2004,
+    'Cheung 2004': matrix_augmented_Cheung2004,
     'Finlayson 2015': polynomial_expansion_Finlayson2015,
     'Vandermonde': polynomial_expansion_Vandermonde,
 })
@@ -564,7 +564,7 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
     terms : int
-        {:func:`colour.characterisation.augmented_matrix_Cheung2004`},
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
         Number of terms of the expanded polynomial, must be one of
         *[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]*.
     root_polynomial_expansion : bool
@@ -595,9 +595,9 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
     return function(a, **filter_kwargs(function, **kwargs))
 
 
-def colour_correction_matrix_Cheung2004(M_T, M_R, terms=3):
+def matrix_colour_correction_Cheung2004(M_T, M_R, terms=3):
     """
-    Computes a colour correction from given :math:`M_T` colour array to
+    Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
     Parameters
@@ -624,17 +624,17 @@ def colour_correction_matrix_Cheung2004(M_T, M_R, terms=3):
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> colour_correction_matrix_Cheung2004(M_T, M_R)  # doctest: +ELLIPSIS
+    >>> matrix_colour_correction_Cheung2004(M_T, M_R)  # doctest: +ELLIPSIS
     array([[ 1.0526376...,  0.1378078..., -0.2276339...],
            [ 0.0739584...,  1.0293994..., -0.1060115...],
            [ 0.0572550..., -0.2052633...,  1.1015194...]])
     """
 
     return least_square_mapping_MoorePenrose(
-        augmented_matrix_Cheung2004(M_T, terms), M_R)
+        matrix_augmented_Cheung2004(M_T, terms), M_R)
 
 
-def colour_correction_matrix_Finlayson2015(M_T,
+def matrix_colour_correction_Finlayson2015(M_T,
                                            M_R,
                                            degree=1,
                                            root_polynomial_expansion=True):
@@ -667,7 +667,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> colour_correction_matrix_Finlayson2015(M_T, M_R)  # doctest: +ELLIPSIS
+    >>> matrix_colour_correction_Finlayson2015(M_T, M_R)  # doctest: +ELLIPSIS
     array([[ 1.0526376...,  0.1378078..., -0.2276339...],
            [ 0.0739584...,  1.0293994..., -0.1060115...],
            [ 0.0572550..., -0.2052633...,  1.1015194...]])
@@ -678,7 +678,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
                                            root_polynomial_expansion), M_R)
 
 
-def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
+def matrix_colour_correction_Vandermonde(M_T, M_R, degree=1):
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Vandermonde* method.
@@ -706,7 +706,7 @@ def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
     >>> prng = np.random.RandomState(2)
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
-    >>> colour_correction_matrix_Vandermonde(M_T, M_R)  # doctest: +ELLIPSIS
+    >>> matrix_colour_correction_Vandermonde(M_T, M_R)  # doctest: +ELLIPSIS
     array([[ 1.0300256...,  0.1141770..., -0.2621816...,  0.0418022...],
            [ 0.0670209...,  1.0221494..., -0.1166108...,  0.0128250...],
            [ 0.0744612..., -0.1872819...,  1.1278078..., -0.0318085...]])
@@ -716,12 +716,12 @@ def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
         polynomial_expansion_Vandermonde(M_T, degree), M_R)
 
 
-COLOUR_CORRECTION_MATRIX_METHODS = CaseInsensitiveMapping({
-    'Cheung 2004': colour_correction_matrix_Cheung2004,
-    'Finlayson 2015': colour_correction_matrix_Finlayson2015,
-    'Vandermonde': colour_correction_matrix_Vandermonde,
+MATRIX_COLOUR_CORRECTION_METHODS = CaseInsensitiveMapping({
+    'Cheung 2004': matrix_colour_correction_Cheung2004,
+    'Finlayson 2015': matrix_colour_correction_Finlayson2015,
+    'Vandermonde': matrix_colour_correction_Vandermonde,
 })
-COLOUR_CORRECTION_MATRIX_METHODS.__doc__ = """
+MATRIX_COLOUR_CORRECTION_METHODS.__doc__ = """
 Supported colour correction matrix methods.
 
 References
@@ -734,7 +734,7 @@ POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
 """
 
 
-def colour_correction_matrix(M_T, M_R, method='Cheung 2004', **kwargs):
+def matrix_colour_correction(M_T, M_R, method='Cheung 2004', **kwargs):
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array.
@@ -763,7 +763,7 @@ def colour_correction_matrix(M_T, M_R, method='Cheung 2004', **kwargs):
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
     terms : int
-        {:func:`colour.characterisation.augmented_matrix_Cheung2004`},
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
         Number of terms of the expanded polynomial, must be one of
         *[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]*.
     root_polynomial_expansion : bool
@@ -834,13 +834,13 @@ def colour_correction_matrix(M_T, M_R, method='Cheung 2004', **kwargs):
     ...      [0.10283975, 0.10424680, 0.10384975],
     ...      [0.04742204, 0.04772203, 0.04914226]]
     ... )
-    >>> colour_correction_matrix(M_T, M_R)  # doctest: +ELLIPSIS
+    >>> matrix_colour_correction(M_T, M_R)  # doctest: +ELLIPSIS
     array([[ 0.6982266...,  0.0307162...,  0.1621042...],
            [ 0.0689349...,  0.6757961...,  0.1643038...],
            [-0.0631495...,  0.0921247...,  0.9713415...]])
     """
 
-    function = COLOUR_CORRECTION_MATRIX_METHODS[method]
+    function = MATRIX_COLOUR_CORRECTION_METHODS[method]
 
     return function(M_T, M_R, **filter_kwargs(function, **kwargs))
 
@@ -887,9 +887,9 @@ def colour_correction_Cheung2004(RGB, M_T, M_R, terms=3):
 
     RGB = np.reshape(RGB, (-1, 3))
 
-    RGB_e = augmented_matrix_Cheung2004(RGB, terms)
+    RGB_e = matrix_augmented_Cheung2004(RGB, terms)
 
-    CCM = colour_correction_matrix_Cheung2004(M_T, M_R, terms)
+    CCM = matrix_colour_correction_Cheung2004(M_T, M_R, terms)
 
     return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
@@ -944,7 +944,7 @@ def colour_correction_Finlayson2015(RGB,
     RGB_e = polynomial_expansion_Finlayson2015(RGB, degree,
                                                root_polynomial_expansion)
 
-    CCM = colour_correction_matrix_Finlayson2015(M_T, M_R, degree,
+    CCM = matrix_colour_correction_Finlayson2015(M_T, M_R, degree,
                                                  root_polynomial_expansion)
 
     return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
@@ -993,7 +993,7 @@ def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
 
     RGB_e = polynomial_expansion_Vandermonde(RGB, degree)
 
-    CCM = colour_correction_matrix_Vandermonde(M_T, M_R, degree)
+    CCM = matrix_colour_correction_Vandermonde(M_T, M_R, degree)
 
     return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
@@ -1043,7 +1043,7 @@ def colour_correction(RGB, M_T, M_R, method='Cheung 2004', **kwargs):
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
     terms : int
-        {:func:`colour.characterisation.augmented_matrix_Cheung2004`},
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
         Number of terms of the expanded polynomial, must be one of
         *[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]*.
     root_polynomial_expansion : bool

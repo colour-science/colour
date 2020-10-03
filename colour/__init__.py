@@ -81,8 +81,8 @@ from .colorimetry import (
     sd_single_led, sd_to_XYZ, sd_zeros, wavelength_to_XYZ, whiteness,
     yellowness)
 from .blindness import (
-    CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
-    anomalous_trichromacy_matrix_Machado2009, cvd_matrix_Machado2009)
+    CVD_MATRICES_MACHADO2010, matrix_anomalous_trichromacy_Machado2009,
+    matrix_cvd_Machado2009, msds_cmfs_anomalous_trichromacy_Machado2009)
 from .appearance import (
     CAM_Specification_ATD95, CAM_Specification_CAM16,
     CAM_Specification_CIECAM02, CAM_Specification_Hunt, CAM_Specification_LLAB,
@@ -114,19 +114,19 @@ from .models import (
     Luv_uv_to_xy, OETFS, OETF_INVERSES, OOTFS, OOTF_INVERSES, OSA_UCS_to_XYZ,
     Prismatic_to_RGB, RGB_COLOURSPACES, RGB_Colourspace, RGB_luminance,
     RGB_luminance_equation, RGB_to_CMY, RGB_to_HSL, RGB_to_HSV, RGB_to_ICTCP,
-    RGB_to_Prismatic, RGB_to_RGB, RGB_to_RGB_matrix, RGB_to_XYZ, RGB_to_YCbCr,
-    RGB_to_YCoCg, RGB_to_YcCbcCrc, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy,
-    UVW_to_XYZ, WEIGHTS_YCBCR, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab,
-    XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_K_ab_HunterLab1966, XYZ_to_Lab,
-    XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW,
-    XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY,
-    YCbCr_to_RGB, YCoCg_to_RGB, YcCbcCrc_to_RGB, cctf_decoding, cctf_encoding,
+    RGB_to_Prismatic, RGB_to_RGB, RGB_to_XYZ, RGB_to_YCbCr, RGB_to_YCoCg,
+    RGB_to_YcCbcCrc, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy, UVW_to_XYZ,
+    WEIGHTS_YCBCR, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_IPT,
+    XYZ_to_JzAzBz, XYZ_to_K_ab_HunterLab1966, XYZ_to_Lab, XYZ_to_Luv,
+    XYZ_to_OSA_UCS, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW, XYZ_to_hdr_CIELab,
+    XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY, YCbCr_to_RGB,
+    YCoCg_to_RGB, YcCbcCrc_to_RGB, cctf_decoding, cctf_encoding,
     chromatically_adapted_primaries, eotf, eotf_inverse, full_to_legal,
     gamma_function, hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, legal_to_full,
-    linear_function, log_decoding, log_encoding, normalised_primary_matrix,
-    oetf, oetf_inverse, ootf, ootf_inverse, primaries_whitepoint, sRGB_to_XYZ,
-    uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv,
-    xy_to_XYZ, xy_to_xyY)
+    linear_function, log_decoding, log_encoding, matrix_RGB_to_RGB,
+    normalised_primary_matrix, oetf, oetf_inverse, ootf, ootf_inverse,
+    primaries_whitepoint, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ,
+    xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
 from .corresponding import (
     BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
@@ -146,11 +146,11 @@ from .temperature import (CCT_TO_UV_METHODS, CCT_TO_XY_METHODS, CCT_to_uv,
                           CCT_to_xy, UV_TO_CCT_METHODS, XY_TO_CCT_METHODS,
                           uv_to_CCT, xy_to_CCT)
 from .characterisation import (
-    CCS_COLOURCHECKERS, COLOUR_CORRECTION_MATRIX_METHODS,
+    CCS_COLOURCHECKERS, MATRIX_COLOUR_CORRECTION_METHODS,
     COLOUR_CORRECTION_METHODS, MSDS_CAMERA_SENSITIVITIES,
     MSDS_DISPLAY_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, SDS_COLOURCHECKERS,
-    SDS_FILTERS, SDS_LENSES, colour_correction, colour_correction_matrix,
-    idt_matrix, polynomial_expansion, sd_to_aces_relative_exposure_values)
+    SDS_FILTERS, SDS_LENSES, colour_correction, matrix_colour_correction,
+    matrix_idt, polynomial_expansion, sd_to_aces_relative_exposure_values)
 from .volume import (
     OPTIMAL_COLOUR_STIMULI_ILLUMINANTS, RGB_colourspace_limits,
     RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
@@ -219,8 +219,8 @@ __all__ += [
     'whiteness', 'yellowness'
 ]
 __all__ += [
-    'CVD_MATRICES_MACHADO2010', 'anomalous_trichromacy_cmfs_Machado2009',
-    'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
+    'CVD_MATRICES_MACHADO2010', 'matrix_anomalous_trichromacy_Machado2009',
+    'matrix_cvd_Machado2009', 'msds_cmfs_anomalous_trichromacy_Machado2009'
 ]
 __all__ += [
     'CAM_Specification_ATD95', 'CAM_Specification_CAM16',
@@ -262,17 +262,17 @@ __all__ += [
     'OOTF_INVERSES', 'OSA_UCS_to_XYZ', 'Prismatic_to_RGB', 'RGB_COLOURSPACES',
     'RGB_Colourspace', 'RGB_luminance', 'RGB_luminance_equation', 'RGB_to_CMY',
     'RGB_to_HSL', 'RGB_to_HSV', 'RGB_to_ICTCP', 'RGB_to_Prismatic',
-    'RGB_to_RGB', 'RGB_to_RGB_matrix', 'RGB_to_XYZ', 'RGB_to_YCbCr',
-    'RGB_to_YCoCg', 'RGB_to_YcCbcCrc', 'UCS_to_XYZ', 'UCS_to_uv',
-    'UCS_uv_to_xy', 'UVW_to_XYZ', 'WEIGHTS_YCBCR', 'XYZ_to_Hunter_Lab',
-    'XYZ_to_Hunter_Rdab', 'XYZ_to_IPT', 'XYZ_to_JzAzBz',
-    'XYZ_to_K_ab_HunterLab1966', 'XYZ_to_Lab', 'XYZ_to_Luv', 'XYZ_to_OSA_UCS',
-    'XYZ_to_RGB', 'XYZ_to_UCS', 'XYZ_to_UVW', 'XYZ_to_hdr_CIELab',
-    'XYZ_to_hdr_IPT', 'XYZ_to_sRGB', 'XYZ_to_xy', 'XYZ_to_xyY', 'YCbCr_to_RGB',
-    'YCoCg_to_RGB', 'YcCbcCrc_to_RGB', 'cctf_decoding', 'cctf_encoding',
-    'chromatically_adapted_primaries', 'eotf', 'eotf_inverse', 'full_to_legal',
-    'gamma_function', 'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full',
-    'linear_function', 'log_decoding', 'log_encoding',
+    'RGB_to_RGB', 'RGB_to_XYZ', 'RGB_to_YCbCr', 'RGB_to_YCoCg',
+    'RGB_to_YcCbcCrc', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy', 'UVW_to_XYZ',
+    'WEIGHTS_YCBCR', 'XYZ_to_Hunter_Lab', 'XYZ_to_Hunter_Rdab', 'XYZ_to_IPT',
+    'XYZ_to_JzAzBz', 'XYZ_to_K_ab_HunterLab1966', 'XYZ_to_Lab', 'XYZ_to_Luv',
+    'XYZ_to_OSA_UCS', 'XYZ_to_RGB', 'XYZ_to_UCS', 'XYZ_to_UVW',
+    'XYZ_to_hdr_CIELab', 'XYZ_to_hdr_IPT', 'XYZ_to_sRGB', 'XYZ_to_xy',
+    'XYZ_to_xyY', 'YCbCr_to_RGB', 'YCoCg_to_RGB', 'YcCbcCrc_to_RGB',
+    'cctf_decoding', 'cctf_encoding', 'chromatically_adapted_primaries',
+    'eotf', 'eotf_inverse', 'full_to_legal', 'gamma_function',
+    'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full', 'linear_function',
+    'log_decoding', 'log_encoding', 'matrix_RGB_to_RGB',
     'normalised_primary_matrix', 'oetf', 'oetf_inverse', 'ootf',
     'ootf_inverse', 'primaries_whitepoint', 'sRGB_to_XYZ', 'uv_to_Luv',
     'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv',
@@ -302,11 +302,11 @@ __all__ += [
     'UV_TO_CCT_METHODS', 'XY_TO_CCT_METHODS', 'uv_to_CCT', 'xy_to_CCT'
 ]
 __all__ += [
-    'CCS_COLOURCHECKERS', 'COLOUR_CORRECTION_MATRIX_METHODS',
+    'CCS_COLOURCHECKERS', 'MATRIX_COLOUR_CORRECTION_METHODS',
     'COLOUR_CORRECTION_METHODS', 'MSDS_CAMERA_SENSITIVITIES',
     'MSDS_DISPLAY_PRIMARIES', 'POLYNOMIAL_EXPANSION_METHODS',
     'SDS_COLOURCHECKERS', 'SDS_FILTERS', 'SDS_LENSES', 'colour_correction',
-    'colour_correction_matrix', 'idt_matrix', 'polynomial_expansion',
+    'matrix_colour_correction', 'matrix_idt', 'polynomial_expansion',
     'sd_to_aces_relative_exposure_values'
 ]
 __all__ += [
@@ -856,8 +856,8 @@ API_CHANGES = {
             'colour.adaptation.chromatic_adaptation_forward_CMCCAT2000',
         ],
         [
-            'colour.chromatic_adaptation_matrix_VonKries',
-            'colour.adaptation.chromatic_adaptation_matrix_VonKries',
+            'colour.matrix_chromatic_adaptation_VonKries',
+            'colour.adaptation.matrix_chromatic_adaptation_VonKries',
         ],
         [
             'colour.chromatic_adaptation_reverse_CMCCAT2000',
@@ -933,11 +933,11 @@ API_CHANGES = {
         ],
         [
             'colour.dot_matrix',
-            'colour.utilities.dot_matrix',
+            'colour.utilities.matrix_dot',
         ],
         [
             'colour.dot_vector',
-            'colour.utilities.dot_vector',
+            'colour.utilities.vector_dot',
         ],
         [
             'colour.eotf_BT1886',
@@ -1673,7 +1673,7 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     ],
     [
         'colour.first_order_colour_fit',
-        'colour.colour_correction_matrix',
+        'colour.matrix_colour_correction',
     ],
     [
         'colour.IES_TM2714_Spd',
@@ -1848,6 +1848,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.SDS_COLOURCHECKERS',
     ],
     [
+        'colour.COLOUR_CORRECTION_MATRIX_METHODS',
+        'colour.MATRIX_COLOUR_CORRECTION_METHODS',
+    ],
+    [
         'colour.DEFAULT_SPECTRAL_SHAPE',
         'colour.SPECTRAL_SHAPE_DEFAULT',
     ],
@@ -1928,6 +1932,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
         'colour.colorimetry.MSDS_CMFS_RGB',
     ],
     [
+        'colour.RGB_to_RGB_matrix',
+        'colour.matrix_RGB_to_RGB',
+    ],
+    [
         'colour.RLAB_D_FACTOR',
         'colour.appearance.D_FACTOR_RLAB',
     ],
@@ -1946,6 +1954,15 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.YCBCR_WEIGHTS',
         'colour.WEIGHTS_YCBCR',
+    ],
+    [
+        'colour.characterisation.colour_correction_matrix',
+        'colour.characterisation.matrix_colour_correction',
+    ],
+    # Not strictly needed but in use by A.M.P.A.S.
+    [
+        'colour.characterisation.idt_matrix',
+        'colour.characterisation.matrix_idt',
     ],
 ]
 

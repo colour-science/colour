@@ -254,7 +254,7 @@ RGB Colourspace and Transformations
     XYZ_to_RGB
     RGB_to_XYZ
     RGB_to_RGB
-    RGB_to_RGB_matrix
+    matrix_RGB_to_RGB
 
 **Ancillary Objects**
 

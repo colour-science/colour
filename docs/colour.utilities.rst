@@ -88,8 +88,8 @@ Array
     tstack
     tsplit
     row_as_diagonal
-    dot_vector
-    dot_matrix
+    vector_dot
+    matrix_dot
     orient
     centroid
     linear_conversion

@@ -13,7 +13,7 @@ from colour.utilities.verbose import message_box
 
 message_box('Simulation of CVD - Machado (2009)')
 
-M_a = colour.anomalous_trichromacy_matrix_Machado2009(
+M_a = colour.matrix_anomalous_trichromacy_Machado2009(
     colour.MSDS_CMFS_LMS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
     colour.MSDS_DISPLAY_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([10, 0, 0]))
@@ -25,14 +25,14 @@ message_box(('Computing a "Protanomaly" matrix using '
 
 print('\n')
 
-M_a = colour.cvd_matrix_Machado2009('Protanomaly', 0.5)
+M_a = colour.matrix_cvd_Machado2009('Protanomaly', 0.5)
 message_box(('Retrieving a "Protanomaly" pre-computed matrix for a 50% '
              'severity:\n\n'
              '{0}'.format(M_a)))
 
 print('\n')
 
-M_a = colour.anomalous_trichromacy_matrix_Machado2009(
+M_a = colour.matrix_anomalous_trichromacy_Machado2009(
     colour.MSDS_CMFS_LMS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
     colour.MSDS_DISPLAY_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([0, 10, 0]))
@@ -44,14 +44,14 @@ message_box(('Computing a "Deuteranomaly" matrix using '
 
 print('\n')
 
-M_a = colour.cvd_matrix_Machado2009('Deuteranomaly', 0.5)
+M_a = colour.matrix_cvd_Machado2009('Deuteranomaly', 0.5)
 message_box(('Retrieving a "Deuteranomaly" pre-computed matrix for a 50% '
              'severity:\n\n'
              '{0}'.format(M_a)))
 
 print('\n')
 
-M_a = colour.anomalous_trichromacy_matrix_Machado2009(
+M_a = colour.matrix_anomalous_trichromacy_Machado2009(
     colour.MSDS_CMFS_LMS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
     colour.MSDS_DISPLAY_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([0, 0, 27]))
@@ -63,7 +63,7 @@ message_box(('Computing a "Tritanomaly" matrix using '
 
 print('\n')
 
-M_a = colour.cvd_matrix_Machado2009('Tritanomaly', 0.5)
+M_a = colour.matrix_cvd_Machado2009('Tritanomaly', 0.5)
 message_box(('Retrieving a "Tritanomaly" pre-computed matrix for a 50% '
              'severity:\n\n'
              '{0}'.format(M_a)))

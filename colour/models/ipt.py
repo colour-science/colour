@@ -24,7 +24,7 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.utilities import (from_range_1, from_range_degrees, to_domain_1,
-                              dot_vector, tsplit)
+                              vector_dot, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -124,9 +124,9 @@ def XYZ_to_IPT(XYZ):
 
     XYZ = to_domain_1(XYZ)
 
-    LMS = dot_vector(MATRIX_IPT_XYZ_TO_LMS, XYZ)
+    LMS = vector_dot(MATRIX_IPT_XYZ_TO_LMS, XYZ)
     LMS_prime = spow(LMS, 0.43)
-    IPT = dot_vector(MATRIX_IPT_LMS_TO_IPT, LMS_prime)
+    IPT = vector_dot(MATRIX_IPT_LMS_TO_IPT, LMS_prime)
 
     return from_range_1(IPT)
 
@@ -177,9 +177,9 @@ def IPT_to_XYZ(IPT):
 
     IPT = to_domain_1(IPT)
 
-    LMS = dot_vector(MATRIX_IPT_IPT_TO_LMS, IPT)
+    LMS = vector_dot(MATRIX_IPT_IPT_TO_LMS, IPT)
     LMS_prime = spow(LMS, 1 / 0.43)
-    XYZ = dot_vector(MATRIX_IPT_LMS_TO_XYZ, LMS_prime)
+    XYZ = vector_dot(MATRIX_IPT_LMS_TO_XYZ, LMS_prime)
 
     return from_range_1(XYZ)
 
