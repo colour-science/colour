@@ -75,8 +75,8 @@ def xy_to_z(xy):
 def normalised_primary_matrix(primaries, whitepoint):
     """
     Computes the *Normalised Primary Matrix* (NPM) converting a *RGB*
-    colourspace array to *CIE XYZ* tristimus values using given *primaries* and
-    *whitepoint* :math:`xy` chromaticity coordinates.
+    colourspace array to *CIE XYZ* tristimulus values using given *primaries*
+    and *whitepoint* :math:`xy` chromaticity coordinates.
 
     Parameters
     ----------
