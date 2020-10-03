@@ -856,8 +856,8 @@ API_CHANGES = {
             'colour.adaptation.chromatic_adaptation_forward_CMCCAT2000',
         ],
         [
-            'colour.chromatic_adaptation_matrix_VonKries',
-            'colour.adaptation.chromatic_adaptation_matrix_VonKries',
+            'colour.matrix_chromatic_adaptation_VonKries',
+            'colour.adaptation.matrix_chromatic_adaptation_VonKries',
         ],
         [
             'colour.chromatic_adaptation_reverse_CMCCAT2000',

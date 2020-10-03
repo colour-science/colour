@@ -34,7 +34,7 @@ print('\n')
 message_box(
     ('Computing "ACES2065-1" colourspace to "ITU-R BT.709" colourspace '
      'matrix.'))
-cat = colour.adaptation.chromatic_adaptation_matrix_VonKries(
+cat = colour.adaptation.matrix_chromatic_adaptation_VonKries(
     colour.xy_to_XYZ(colourspace.whitepoint),
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['ITU-R BT.709'].whitepoint))
 print(

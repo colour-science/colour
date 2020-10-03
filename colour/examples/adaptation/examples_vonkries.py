@@ -16,13 +16,13 @@ message_box(('Computing the chromatic adaptation matrix from two source '
              '"CIE XYZ" tristimulus values arrays, default CAT is "CAT02".\n'
              '\n\t"XYZ_w":\n\t\t{0}\n\t"XYZ_wr":\n\t\t{1}'.format(
                  XYZ_w, XYZ_wr)))
-print(colour.adaptation.chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr))
+print(colour.adaptation.matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr))
 
 print('\n')
 
 message_box('Using "Bradford" CAT.')
 print(
-    colour.adaptation.chromatic_adaptation_matrix_VonKries(
+    colour.adaptation.matrix_chromatic_adaptation_VonKries(
         XYZ_w, XYZ_wr, transform='Bradford'))
 
 print('\n')
@@ -33,7 +33,7 @@ message_box(('Computing the chromatic adaptation matrix from '
 A = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
 D65 = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 print(
-    colour.adaptation.chromatic_adaptation_matrix_VonKries(
+    colour.adaptation.matrix_chromatic_adaptation_VonKries(
         colour.xy_to_XYZ(A), colour.xy_to_XYZ(D65), transform='Von Kries'))
 
 print('\n')

@@ -113,4 +113,4 @@ Von Kries
 .. autosummary::
     :toctree: generated/
 
-    chromatic_adaptation_matrix_VonKries
+    matrix_chromatic_adaptation_VonKries

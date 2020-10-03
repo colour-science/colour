@@ -32,7 +32,7 @@ from copy import deepcopy
 from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
 from colour.models.rgb import (chromatically_adapted_primaries,
                                normalised_primary_matrix)
-from colour.adaptation import chromatic_adaptation_matrix_VonKries
+from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.utilities import (as_float_array, domain_range_scale, dot_matrix,
                               dot_vector, filter_kwargs, from_range_1,
                               to_domain_1, is_string, usage_warning)
@@ -985,7 +985,7 @@ def XYZ_to_RGB(XYZ,
     XYZ = to_domain_1(XYZ)
 
     if chromatic_adaptation_transform is not None:
-        M_CAT = chromatic_adaptation_matrix_VonKries(
+        M_CAT = matrix_chromatic_adaptation_VonKries(
             xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
             xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
             transform=chromatic_adaptation_transform)
@@ -1091,7 +1091,7 @@ def RGB_to_XYZ(RGB,
     XYZ = dot_vector(RGB_to_XYZ_matrix, RGB)
 
     if chromatic_adaptation_transform is not None:
-        M_CAT = chromatic_adaptation_matrix_VonKries(
+        M_CAT = matrix_chromatic_adaptation_VonKries(
             xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
             xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
             transform=chromatic_adaptation_transform)
@@ -1141,7 +1141,7 @@ def RGB_to_RGB_matrix(input_colourspace,
     M = input_colourspace.RGB_to_XYZ_matrix
 
     if chromatic_adaptation_transform is not None:
-        M_CAT = chromatic_adaptation_matrix_VonKries(
+        M_CAT = matrix_chromatic_adaptation_VonKries(
             xy_to_XYZ(input_colourspace.whitepoint),
             xy_to_XYZ(output_colourspace.whitepoint),
             chromatic_adaptation_transform)

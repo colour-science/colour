@@ -53,7 +53,7 @@ import numpy as np
 import os
 from scipy.optimize import minimize
 
-from colour.adaptation import chromatic_adaptation_matrix_VonKries
+from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape, sds_and_msds_to_msds,
@@ -602,7 +602,7 @@ def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
     XYZ_w = np.dot(np.transpose(cmfs.values), illuminant.values)
     XYZ_w *= 1 / XYZ_w[1]
 
-    M_CAT = chromatic_adaptation_matrix_VonKries(
+    M_CAT = matrix_chromatic_adaptation_VonKries(
         XYZ_w, xy_to_XYZ(RGB_COLOURSPACE_ACES2065_1.whitepoint))
 
     XYZ = dot_vector(M_CAT, XYZ)

@@ -34,7 +34,7 @@ from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
 
 from .datasets import *  # noqa
 from . import datasets
-from .vonkries import (chromatic_adaptation_matrix_VonKries,
+from .vonkries import (matrix_chromatic_adaptation_VonKries,
                        chromatic_adaptation_VonKries)
 from .fairchild1990 import chromatic_adaptation_Fairchild1990
 from .cmccat2000 import (
@@ -46,7 +46,7 @@ from .cie1994 import chromatic_adaptation_CIE1994
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
-    'chromatic_adaptation_matrix_VonKries', 'chromatic_adaptation_VonKries'
+    'matrix_chromatic_adaptation_VonKries', 'chromatic_adaptation_VonKries'
 ]
 __all__ += ['chromatic_adaptation_Fairchild1990']
 __all__ += [
@@ -321,6 +321,10 @@ API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
     [
         'colour.adaptation.XYZ_SCALING_CAT',
         'colour.adaptation.CAT_XYZ_SCALING',
+    ],
+    [
+        'colour.adaptation.chromatic_adaptation_matrix_VonKries',
+        'colour.adaptation.matrix_chromatic_adaptation_VonKries)',
     ],
 ]
 
