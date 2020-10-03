@@ -167,7 +167,7 @@ def spectral_primary_decomposition_Mallett2019(
     R_to_XYZ = np.transpose(
         np.expand_dims(illuminant.values, axis=1) * cmfs.values / (np.sum(
             cmfs.values[:, 1] * illuminant.values)))
-    R_to_RGB = np.dot(colourspace.XYZ_to_RGB_matrix, R_to_XYZ)
+    R_to_RGB = np.dot(colourspace.matrix_XYZ_to_RGB, R_to_XYZ)
     basis_to_RGB = block_diag(R_to_RGB, R_to_RGB, R_to_RGB)
 
     primaries = np.identity(3).reshape(9)

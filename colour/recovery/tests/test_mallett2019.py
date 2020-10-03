@@ -75,7 +75,7 @@ class TestMixinMallett2019(object):
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
             RGB = XYZ_to_RGB(XYZ, self._RGB_colourspace.whitepoint,
                              self._xy_D65,
-                             self._RGB_colourspace.XYZ_to_RGB_matrix)
+                             self._RGB_colourspace.matrix_XYZ_to_RGB)
 
             recovered_sd = RGB_to_sd_Mallett2019(RGB, self._basis)
             recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs,

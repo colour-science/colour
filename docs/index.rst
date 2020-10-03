@@ -637,7 +637,7 @@ RGB Colourspace and Transformations
     >>> illuminant_XYZ = [0.34570, 0.35850]
     >>> illuminant_RGB = [0.31270, 0.32900]
     >>> chromatic_adaptation_transform = 'Bradford'
-    >>> XYZ_to_RGB_matrix = [
+    >>> matrix_XYZ_to_RGB = [
              [3.24062548, -1.53720797, -0.49862860],
              [-0.96893071, 1.87575606, 0.04151752],
              [0.05571012, -0.20402105, 1.05699594]]
@@ -645,7 +645,7 @@ RGB Colourspace and Transformations
              XYZ,
              illuminant_XYZ,
              illuminant_RGB,
-             XYZ_to_RGB_matrix,
+             matrix_XYZ_to_RGB,
              chromatic_adaptation_transform)
     array([ 0.45595571,  0.03039702,  0.04087245])
 

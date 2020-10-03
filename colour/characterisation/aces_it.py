@@ -202,7 +202,7 @@ def sd_to_aces_relative_exposure_values(
                          chromatic_adaptation_transform)
         E_rgb = XYZ_to_RGB(XYZ, RGB_COLOURSPACE_ACES2065_1.whitepoint,
                            RGB_COLOURSPACE_ACES2065_1.whitepoint,
-                           RGB_COLOURSPACE_ACES2065_1.XYZ_to_RGB_matrix)
+                           RGB_COLOURSPACE_ACES2065_1.matrix_XYZ_to_RGB)
 
     return from_range_1(E_rgb)
 
@@ -643,7 +643,7 @@ def optimisation_factory_rawtoaces_v1():
 
         M = np.reshape(M, [3, 3])
 
-        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.RGB_to_XYZ_matrix,
+        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
                            dot_vector(M, RGB))
         Lab_t = XYZ_to_Lab(XYZ_t, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
@@ -692,7 +692,7 @@ def optimisation_factory_JzAzBz():
 
         M = np.reshape(M, [3, 3])
 
-        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.RGB_to_XYZ_matrix,
+        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
                            dot_vector(M, RGB))
         Jab_t = XYZ_to_JzAzBz(XYZ_t)
 

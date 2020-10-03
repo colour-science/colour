@@ -388,13 +388,13 @@ CONVERSION_SPECIFICATIONS_DATA = [
          XYZ_to_RGB,
          illuminant_XYZ=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
          illuminant_RGB=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
-         XYZ_to_RGB_matrix=RGB_COLOURSPACE__DEFAULT_RGB.XYZ_to_RGB_matrix)),
+         matrix_XYZ_to_RGB=RGB_COLOURSPACE__DEFAULT_RGB.matrix_XYZ_to_RGB)),
     ('RGB', 'CIE XYZ',
      partial(
          RGB_to_XYZ,
          illuminant_RGB=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
          illuminant_XYZ=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
-         RGB_to_XYZ_matrix=RGB_COLOURSPACE__DEFAULT_RGB.RGB_to_XYZ_matrix)),
+         matrix_RGB_to_XYZ=RGB_COLOURSPACE__DEFAULT_RGB.matrix_RGB_to_XYZ)),
     ('RGB', 'Scene-Referred RGB',
      partial(
          RGB_to_RGB,

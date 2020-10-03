@@ -862,7 +862,7 @@ class LUT3D_Jakob2019(object):
             RGB = self._lightness_scale[L] * chroma
 
             XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, xy_n,
-                             colourspace.RGB_to_XYZ_matrix)
+                             colourspace.matrix_RGB_to_XYZ)
 
             coefficients, error = find_coefficients_Jakob2019(
                 XYZ, cmfs, illuminant, coefficients_0, dimensionalise=False)

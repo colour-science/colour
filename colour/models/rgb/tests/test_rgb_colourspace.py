@@ -16,7 +16,7 @@ from itertools import permutations
 
 from colour.models import (
     RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB, RGB_to_XYZ,
-    RGB_to_RGB_matrix, RGB_to_RGB, chromatically_adapted_primaries,
+    matrix_RGB_to_RGB, RGB_to_RGB, chromatically_adapted_primaries,
     normalised_primary_matrix, eotf_inverse_sRGB, eotf_sRGB)
 from colour.utilities import as_int, domain_range_scale, ignore_numpy_errors
 
@@ -29,7 +29,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestRGB_COLOURSPACES', 'TestRGB_Colourspace', 'TestXYZ_to_RGB',
-    'TestRGB_to_XYZ', 'TestRGB_to_RGB_matrix', 'TestRGB_to_RGB'
+    'TestRGB_to_XYZ', 'TestMatrix_RGB_to_RGB', 'TestRGB_to_RGB'
 ]
 
 
@@ -65,22 +65,22 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
             tolerance = tolerances.get(colourspace.name, 1e-7)
             np.testing.assert_allclose(
-                colourspace.RGB_to_XYZ_matrix,
+                colourspace.matrix_RGB_to_XYZ,
                 M,
                 rtol=tolerance,
                 atol=tolerance,
                 verbose=False)
 
-            RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
-            XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
+            RGB = np.dot(colourspace.matrix_XYZ_to_RGB, XYZ_r)
+            XYZ = np.dot(colourspace.matrix_RGB_to_XYZ, RGB)
             np.testing.assert_allclose(
                 XYZ_r, XYZ, rtol=tolerance, atol=tolerance, verbose=False)
 
             # Derived transformation matrices.
             colourspace = deepcopy(colourspace)
             colourspace.use_derived_transformation_matrices(True)
-            RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
-            XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
+            RGB = np.dot(colourspace.matrix_XYZ_to_RGB, XYZ_r)
+            XYZ = np.dot(colourspace.matrix_RGB_to_XYZ, RGB)
             np.testing.assert_almost_equal(XYZ_r, XYZ, decimal=7)
 
     def test_cctf(self):
@@ -186,11 +186,11 @@ class TestRGB_Colourspace(unittest.TestCase):
 
         p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         whitepoint = np.array([0.32168, 0.33767])
-        RGB_to_XYZ_matrix = np.identity(3)
-        XYZ_to_RGB_matrix = np.identity(3)
+        matrix_RGB_to_XYZ = np.identity(3)
+        matrix_XYZ_to_RGB = np.identity(3)
         self._colourspace = RGB_Colourspace(
-            'RGB Colourspace', p, whitepoint, 'ACES', RGB_to_XYZ_matrix,
-            XYZ_to_RGB_matrix, lambda x: x, lambda x: x)
+            'RGB Colourspace', p, whitepoint, 'ACES', matrix_RGB_to_XYZ,
+            matrix_XYZ_to_RGB, lambda x: x, lambda x: x)
 
     def test_required_attributes(self):
         """
@@ -198,11 +198,11 @@ class TestRGB_Colourspace(unittest.TestCase):
         """
 
         required_attributes = ('name', 'primaries', 'whitepoint',
-                               'whitepoint_name', 'RGB_to_XYZ_matrix',
-                               'XYZ_to_RGB_matrix', 'cctf_encoding',
+                               'whitepoint_name', 'matrix_RGB_to_XYZ',
+                               'matrix_XYZ_to_RGB', 'cctf_encoding',
                                'cctf_decoding',
-                               'use_derived_RGB_to_XYZ_matrix',
-                               'use_derived_XYZ_to_RGB_matrix')
+                               'use_derived_matrix_RGB_to_XYZ',
+                               'use_derived_matrix_XYZ_to_RGB')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(RGB_Colourspace))
@@ -293,16 +293,16 @@ __repr__` method.
 use_derived_transformation_matrices` method.
         """
 
-        np.testing.assert_array_equal(self._colourspace.RGB_to_XYZ_matrix,
+        np.testing.assert_array_equal(self._colourspace.matrix_RGB_to_XYZ,
                                       np.identity(3))
-        np.testing.assert_array_equal(self._colourspace.XYZ_to_RGB_matrix,
+        np.testing.assert_array_equal(self._colourspace.matrix_XYZ_to_RGB,
                                       np.identity(3))
 
         self.assertTrue(
             self._colourspace.use_derived_transformation_matrices())
 
         np.testing.assert_almost_equal(
-            self._colourspace.RGB_to_XYZ_matrix,
+            self._colourspace.matrix_RGB_to_XYZ,
             np.array([
                 [0.95255240, 0.00000000, 0.00009368],
                 [0.34396645, 0.72816610, -0.07213255],
@@ -310,7 +310,7 @@ use_derived_transformation_matrices` method.
             ]),
             decimal=7)
         np.testing.assert_almost_equal(
-            self._colourspace.XYZ_to_RGB_matrix,
+            self._colourspace.matrix_XYZ_to_RGB,
             np.array([
                 [1.04981102, 0.00000000, -0.00009748],
                 [-0.49590302, 1.37331305, 0.09824004],
@@ -318,11 +318,11 @@ use_derived_transformation_matrices` method.
             ]),
             decimal=7)
 
-        self._colourspace.use_derived_RGB_to_XYZ_matrix = False
-        np.testing.assert_array_equal(self._colourspace.RGB_to_XYZ_matrix,
+        self._colourspace.use_derived_matrix_RGB_to_XYZ = False
+        np.testing.assert_array_equal(self._colourspace.matrix_RGB_to_XYZ,
                                       np.identity(3))
-        self._colourspace.use_derived_XYZ_to_RGB_matrix = False
-        np.testing.assert_array_equal(self._colourspace.XYZ_to_RGB_matrix,
+        self._colourspace.use_derived_matrix_XYZ_to_RGB = False
+        np.testing.assert_array_equal(self._colourspace.matrix_XYZ_to_RGB,
                                       np.identity(3))
 
     def test_chromatically_adapt(self):
@@ -356,13 +356,13 @@ chromatically_adapt` method.
             decimal=7)
 
         np.testing.assert_array_almost_equal(
-            colourspace.RGB_to_XYZ_matrix,
+            colourspace.matrix_RGB_to_XYZ,
             normalised_primary_matrix(colourspace.primaries,
                                       colourspace.whitepoint),
             decimal=7)
 
         np.testing.assert_array_almost_equal(
-            colourspace.XYZ_to_RGB_matrix,
+            colourspace.matrix_XYZ_to_RGB,
             np.linalg.inv(
                 normalised_primary_matrix(colourspace.primaries,
                                           colourspace.whitepoint)),
@@ -657,15 +657,15 @@ class TestRGB_to_XYZ(unittest.TestCase):
             RGB_to_XYZ(RGB, W_R, W_T, M)
 
 
-class TestRGB_to_RGB_matrix(unittest.TestCase):
+class TestMatrix_RGB_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB_matrix`
+    Defines :func:`colour.models.rgb.rgb_colourspace.matrix_RGB_to_RGB`
     definition unit tests methods.
     """
 
-    def test_RGB_to_RGB_matrix(self):
+    def test_matrix_RGB_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB_matrix`
+        Tests :func:`colour.models.rgb.rgb_colourspace.matrix_RGB_to_RGB`
         definition.
         """
 
@@ -674,7 +674,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
         sRGB_colourspace = RGB_COLOURSPACES['sRGB']
 
         np.testing.assert_almost_equal(
-            RGB_to_RGB_matrix(aces_2065_1_colourspace, sRGB_colourspace),
+            matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace),
             np.array([
                 [2.52164943, -1.13688855, -0.38491759],
                 [-0.27521355, 1.36970515, -0.09439245],
@@ -683,7 +683,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_to_RGB_matrix(sRGB_colourspace, aces_2065_1_colourspace),
+            matrix_RGB_to_RGB(sRGB_colourspace, aces_2065_1_colourspace),
             np.array([
                 [0.43958564, 0.38392940, 0.17653274],
                 [0.08953957, 0.81474984, 0.09568361],
@@ -692,7 +692,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_to_RGB_matrix(aces_2065_1_colourspace, aces_cg_colourspace,
+            matrix_RGB_to_RGB(aces_2065_1_colourspace, aces_cg_colourspace,
                               'Bradford'),
             np.array([
                 [1.45143932, -0.23651075, -0.21492857],
@@ -702,7 +702,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_to_RGB_matrix(aces_2065_1_colourspace, sRGB_colourspace,
+            matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace,
                               'Bradford'),
             np.array([
                 [2.52140089, -1.13399575, -0.38756186],
@@ -712,7 +712,7 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_to_RGB_matrix(aces_2065_1_colourspace, sRGB_colourspace, None),
+            matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace, None),
             np.array([
                 [2.55809607, -1.11933692, -0.39181451],
                 [-0.27771575, 1.36589396, -0.09353075],
