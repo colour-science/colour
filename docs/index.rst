@@ -183,7 +183,7 @@ Colour Blindness - ``colour.blindness``
 
     >>> import numpy as np
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
-    >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
+    >>> colour.msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
     >>> primaries = colour.MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
     >>> d_LMS = (15, 0, 0)

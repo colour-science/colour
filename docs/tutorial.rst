@@ -128,7 +128,7 @@ The various sub-packages also expose their public API:
 
     Blindness
     ['CVD_MATRICES_MACHADO2010',
-     'anomalous_trichromacy_cmfs_Machado2009',
+     'msds_cmfs_anomalous_trichromacy_Machado2009',
      'anomalous_trichromacy_matrix_Machado2009',
      'cvd_matrix_Machado2009',
      '...']

@@ -6,7 +6,7 @@ Simulation of CVD - Machado, Oliveira and Fernandes (2009)
 Defines *Machado et al. (2009)* objects for simulation of colour vision
 deficiency:
 
--   :func:`colour.anomalous_trichromacy_cmfs_Machado2009`
+-   :func:`colour.msds_cmfs_anomalous_trichromacy_Machado2009`
 -   :func:`colour.anomalous_trichromacy_matrix_Machado2009`
 -   :func:`colour.cvd_matrix_Machado2009`
 
@@ -45,7 +45,7 @@ __status__ = 'Production'
 
 __all__ = [
     'MATRIX_LMS_TO_WSYBRG', 'RGB_to_WSYBRG_matrix',
-    'anomalous_trichromacy_cmfs_Machado2009',
+    'msds_cmfs_anomalous_trichromacy_Machado2009',
     'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
 ]
 
@@ -130,7 +130,7 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
     return M_G
 
 
-def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
+def msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS):
     """
     Shifts given *LMS* cone fundamentals colour matching functions with given
     :math:`\\Delta_{LMS}` shift amount in nanometers to simulate anomalous
@@ -176,8 +176,8 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> cmfs[450]
     array([ 0.0498639,  0.0870524,  0.955393 ])
-    >>> anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
-    ... # doctest: +ELLIPSIS
+    >>> msds_cmfs_anomalous_trichromacy_Machado2009(
+    ...     cmfs, np.array([15, 0, 0]))[450]  # doctest: +ELLIPSIS
     array([ 0.0891288...,  0.0870524 ,  0.955393  ])
     """
 
@@ -278,7 +278,7 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
         cmfs = cmfs.copy().interpolate(SpectralShape(interval=1))
 
     M_n = RGB_to_WSYBRG_matrix(cmfs, primaries)
-    cmfs_a = anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS)
+    cmfs_a = msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS)
     M_a = RGB_to_WSYBRG_matrix(cmfs_a, primaries)
 
     return dot_matrix(np.linalg.inv(M_n), M_a)

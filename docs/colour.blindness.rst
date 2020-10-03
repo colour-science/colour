@@ -13,7 +13,7 @@ Machado, Oliveira and Fernandes (2009)
 .. autosummary::
     :toctree: generated/
 
-    anomalous_trichromacy_cmfs_Machado2009
+    msds_cmfs_anomalous_trichromacy_Machado2009
     anomalous_trichromacy_matrix_Machado2009
     cvd_matrix_Machado2009
 
