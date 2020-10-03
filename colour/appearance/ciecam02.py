@@ -65,7 +65,7 @@ __all__ = [
     'temporary_magnitude_quantity_forward',
     'temporary_magnitude_quantity_inverse', 'chroma_correlate',
     'colourfulness_correlate', 'saturation_correlate', 'P',
-    'post_adaptation_non_linear_response_compression_matrix'
+    'matrix_post_adaptation_non_linear_response_compression'
 ]
 
 CAT02_INVERSE_CAT = np.linalg.inv(CAT_CAT02)
@@ -506,7 +506,7 @@ def CIECAM02_to_XYZ(specification,
     a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
 
     # Computing post-adaptation non linear response compression matrix.
-    RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
 
     # Applying inverse post-adaptation non linear response compression.
     RGB_p = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
@@ -1500,9 +1500,9 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     return P_n
 
 
-def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
+def matrix_post_adaptation_non_linear_response_compression(P_2, a, b):
     """
-    Returns the post adaptation non linear response compression matrix.
+    Returns the post-adaptation non-linear-response compression matrix.
 
     Parameters
     ----------
@@ -1523,7 +1523,7 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     >>> P_2 = 24.2372054671
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    >>> matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
     ... # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """

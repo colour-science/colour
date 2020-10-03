@@ -33,7 +33,7 @@ from colour.appearance.ciecam02 import (
     opponent_colour_dimensions_forward, opponent_colour_dimensions_inverse,
     post_adaptation_non_linear_response_compression_forward,
     post_adaptation_non_linear_response_compression_inverse,
-    post_adaptation_non_linear_response_compression_matrix,
+    matrix_post_adaptation_non_linear_response_compression,
     saturation_correlate, temporary_magnitude_quantity_inverse,
     viewing_condition_dependent_parameters)
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
@@ -463,7 +463,7 @@ def CAM16_to_XYZ(specification,
 
     # Step 4
     # Computing post-adaptation non linear response compression matrix.
-    RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
 
     # Step 5
     # Applying inverse post-adaptation non linear response compression.
