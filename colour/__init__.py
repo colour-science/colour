@@ -933,11 +933,11 @@ API_CHANGES = {
         ],
         [
             'colour.dot_matrix',
-            'colour.utilities.dot_matrix',
+            'colour.utilities.matrix_dot',
         ],
         [
             'colour.dot_vector',
-            'colour.utilities.dot_vector',
+            'colour.utilities.vector_dot',
         ],
         [
             'colour.eotf_BT1886',

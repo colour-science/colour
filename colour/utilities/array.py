@@ -41,7 +41,7 @@ __all__ = [
     'as_float', 'set_float_precision', 'set_int_precision', 'as_namedtuple',
     'closest_indexes', 'closest', 'normalise_maximum', 'interval',
     'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
-    'dot_vector', 'dot_matrix', 'orient', 'centroid', 'linear_conversion',
+    'vector_dot', 'matrix_dot', 'orient', 'centroid', 'linear_conversion',
     'lerp', 'fill_nan', 'ndarray_write', 'zeros', 'ones', 'full',
     'index_along_last_axis'
 ]
@@ -802,7 +802,7 @@ def row_as_diagonal(a):
     return np.eye(a.shape[-1]) * a
 
 
-def dot_vector(m, v):
+def vector_dot(m, v):
     """
     Convenient wrapper around :func:`np.einsum` with the following subscripts:
     *'...ij,...j->...i'*.
@@ -831,7 +831,7 @@ def dot_vector(m, v):
     >>> m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
     >>> v = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> v = np.tile(v, (6, 1))
-    >>> dot_vector(m, v)  # doctest: +ELLIPSIS
+    >>> vector_dot(m, v)  # doctest: +ELLIPSIS
     array([[ 0.1954094...,  0.0620396...,  0.0527952...],
            [ 0.1954094...,  0.0620396...,  0.0527952...],
            [ 0.1954094...,  0.0620396...,  0.0527952...],
@@ -846,7 +846,7 @@ def dot_vector(m, v):
     return np.einsum('...ij,...j->...i', m, v)
 
 
-def dot_matrix(a, b):
+def matrix_dot(a, b):
     """
     Convenient wrapper around :func:`np.einsum` with the following subscripts:
     *'...ij,...jk->...ik'*.
@@ -878,7 +878,7 @@ def dot_matrix(a, b):
     ... )
     >>> a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
     >>> b = a
-    >>> dot_matrix(a, b)  # doctest: +ELLIPSIS
+    >>> matrix_dot(a, b)  # doctest: +ELLIPSIS
     array([[[ 0.2342420...,  1.0418482..., -0.2760903...],
             [-1.7099407...,  2.5793226...,  0.1306181...],
             [-0.0044203...,  0.0377490...,  0.9666713...]],

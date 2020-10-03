@@ -33,7 +33,7 @@ import numpy as np
 
 from colour.blindness import CVD_MATRICES_MACHADO2010
 from colour.colorimetry import SpectralShape
-from colour.utilities import (dot_matrix, dot_vector, tsplit, tstack,
+from colour.utilities import (matrix_dot, vector_dot, tsplit, tstack,
                               usage_warning)
 
 __author__ = 'Colour Developers'
@@ -94,7 +94,7 @@ def matrix_RGB_to_WSYBRG(cmfs, primaries):
     """
 
     wavelengths = cmfs.wavelengths
-    WSYBRG = dot_vector(MATRIX_LMS_TO_WSYBRG, cmfs.values)
+    WSYBRG = vector_dot(MATRIX_LMS_TO_WSYBRG, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
     extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
@@ -281,7 +281,7 @@ def matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS):
     cmfs_a = msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS)
     M_a = matrix_RGB_to_WSYBRG(cmfs_a, primaries)
 
-    return dot_matrix(np.linalg.inv(M_n), M_a)
+    return matrix_dot(np.linalg.inv(M_n), M_a)
 
 
 def matrix_cvd_Machado2009(deficiency, severity):

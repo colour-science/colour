@@ -36,7 +36,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import MSDS_CMFS_LMS, MSDS_CMFS_RGB, SDS_LEFS_PHOTOPIC
-from colour.utilities import dot_vector, tstack
+from colour.utilities import vector_dot, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -104,8 +104,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
         [0.66697, 1.13240, 1.20063],
     ])
 
-    xyz = dot_vector(M1, rgb)
-    xyz /= dot_vector(M2, rgb)
+    xyz = vector_dot(M1, rgb)
+    xyz /= vector_dot(M2, rgb)
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
@@ -165,7 +165,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
         [0.000000, 0.039553, 2.026200],
     ])
 
-    xyz_bar = dot_vector(M, rgb_bar)
+    xyz_bar = vector_dot(M, rgb_bar)
 
     return xyz_bar
 
@@ -214,7 +214,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
         [0.0000000000, 0.0105107859, 0.991427669],
     ])
 
-    lms_bar = dot_vector(M, rgb_bar)
+    lms_bar = vector_dot(M, rgb_bar)
     lms_bar[..., -1][np.asarray(np.asarray(wavelength) > 505)] = 0
 
     return lms_bar
@@ -263,7 +263,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
         [0.00000000, 0.00000000, 1.93485343],
     ])
 
-    xyz_bar = dot_vector(M, lms_bar)
+    xyz_bar = vector_dot(M, lms_bar)
 
     return xyz_bar
 
@@ -311,6 +311,6 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
         [0.00000000, 0.00000000, 2.14687945],
     ])
 
-    xyz_bar = dot_vector(M, lms_bar)
+    xyz_bar = vector_dot(M, lms_bar)
 
     return xyz_bar

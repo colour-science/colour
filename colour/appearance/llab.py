@@ -33,7 +33,7 @@ from collections import namedtuple
 
 from colour.algebra import polar_to_cartesian, spow
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              dot_vector, from_range_degrees, to_domain_100,
+                              vector_dot, from_range_degrees, to_domain_100,
                               tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -355,7 +355,7 @@ def XYZ_to_RGB_LLAB(XYZ):
     Y = tstack([Y, Y, Y])
     XYZ_n = XYZ / Y
 
-    return dot_vector(MATRIX_XYZ_TO_RGB_LLAB, XYZ_n)
+    return vector_dot(MATRIX_XYZ_TO_RGB_LLAB, XYZ_n)
 
 
 def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
@@ -407,7 +407,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
     Y = tstack([Y, Y, Y])
 
-    XYZ_r = dot_vector(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
+    XYZ_r = vector_dot(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
 
     return XYZ_r
 

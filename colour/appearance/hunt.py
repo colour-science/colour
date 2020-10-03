@@ -25,7 +25,7 @@ from collections import namedtuple
 
 from colour.algebra import spow
 from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, dot_vector, from_range_degrees,
+    CaseInsensitiveMapping, as_float_array, vector_dot, from_range_degrees,
     ones, to_domain_100, tsplit, tstack, usage_warning, zeros)
 
 __author__ = 'Colour Developers'
@@ -546,7 +546,7 @@ def XYZ_to_rgb(XYZ):
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return dot_vector(MATRIX_XYZ_TO_HPE, XYZ)
+    return vector_dot(MATRIX_XYZ_TO_HPE, XYZ)
 
 
 def f_n(x):

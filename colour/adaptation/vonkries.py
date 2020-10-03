@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.utilities import (dot_matrix, dot_vector, from_range_1,
+from colour.utilities import (matrix_dot, vector_dot, from_range_1,
                               row_as_diagonal, to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -117,8 +117,8 @@ def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     D = row_as_diagonal(D)
 
-    M_CAT = dot_matrix(np.linalg.inv(M), D)
-    M_CAT = dot_matrix(M_CAT, M)
+    M_CAT = matrix_dot(np.linalg.inv(M), D)
+    M_CAT = matrix_dot(M_CAT, M)
 
     return M_CAT
 
@@ -192,6 +192,6 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     XYZ = to_domain_1(XYZ)
 
     M_CAT = matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform)
-    XYZ_a = dot_vector(M_CAT, XYZ)
+    XYZ_a = vector_dot(M_CAT, XYZ)
 
     return from_range_1(XYZ_a)

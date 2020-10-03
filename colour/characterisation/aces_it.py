@@ -66,7 +66,7 @@ from colour.models.rgb import (RGB_COLOURSPACE_ACES2065_1, RGB_to_XYZ,
                                XYZ_to_RGB, normalised_primary_matrix)
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              dot_vector, from_range_1, runtime_warning,
+                              vector_dot, from_range_1, runtime_warning,
                               tsplit, suppress_warnings)
 
 __author__ = 'Colour Developers'
@@ -605,7 +605,7 @@ def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
     M_CAT = matrix_chromatic_adaptation_VonKries(
         XYZ_w, xy_to_XYZ(RGB_COLOURSPACE_ACES2065_1.whitepoint))
 
-    XYZ = dot_vector(M_CAT, XYZ)
+    XYZ = vector_dot(M_CAT, XYZ)
 
     return XYZ
 
@@ -643,8 +643,8 @@ def optimisation_factory_rawtoaces_v1():
 
         M = np.reshape(M, [3, 3])
 
-        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
-                           dot_vector(M, RGB))
+        XYZ_t = vector_dot(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
+                           vector_dot(M, RGB))
         Lab_t = XYZ_to_Lab(XYZ_t, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
         return np.linalg.norm(Lab_t - Lab)
@@ -692,8 +692,8 @@ def optimisation_factory_JzAzBz():
 
         M = np.reshape(M, [3, 3])
 
-        XYZ_t = dot_vector(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
-                           dot_vector(M, RGB))
+        XYZ_t = vector_dot(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
+                           vector_dot(M, RGB))
         Jab_t = XYZ_to_JzAzBz(XYZ_t)
 
         return np.sum(euclidean_distance(Jab, Jab_t))

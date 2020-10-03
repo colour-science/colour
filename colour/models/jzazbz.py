@@ -23,7 +23,7 @@ import numpy as np
 from colour.models.rgb.transfer_functions import (eotf_inverse_ST2084,
                                                   eotf_ST2084)
 from colour.models.rgb.transfer_functions.st_2084 import CONSTANTS_ST2084
-from colour.utilities import (Structure, domain_range_scale, dot_vector,
+from colour.utilities import (Structure, domain_range_scale, vector_dot,
                               from_range_1, to_domain_1, tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -153,12 +153,12 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=CONSTANTS_JZAZBZ):
 
     XYZ_p_D65 = tstack([X_p_D65, Y_p_D65, Z_D65])
 
-    LMS = dot_vector(MATRIX_JZAZBZ_XYZ_TO_LMS, XYZ_p_D65)
+    LMS = vector_dot(MATRIX_JZAZBZ_XYZ_TO_LMS, XYZ_p_D65)
 
     with domain_range_scale('ignore'):
         LMS_p = eotf_inverse_ST2084(LMS, 10000, constants)
 
-    I_z, A_z, B_z = tsplit(dot_vector(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ, LMS_p))
+    I_z, A_z, B_z = tsplit(vector_dot(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ, LMS_p))
 
     J_z = ((1 + constants.d) * I_z) / (1 + constants.d * I_z) - constants.d_0
 
@@ -221,13 +221,13 @@ def JzAzBz_to_XYZ(JzAzBz, constants=CONSTANTS_JZAZBZ):
 
     I_z = ((J_z + constants.d_0) / (1 + constants.d - constants.d *
                                     (J_z + constants.d_0)))
-    LMS_p = dot_vector(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P, tstack([I_z, A_z, B_z]))
+    LMS_p = vector_dot(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P, tstack([I_z, A_z, B_z]))
 
     with domain_range_scale('ignore'):
         LMS = eotf_ST2084(LMS_p, 10000, constants)
 
     X_p_D65, Y_p_D65, Z_p_D65 = tsplit(
-        dot_vector(MATRIX_JZAZBZ_LMS_TO_XYZ, LMS))
+        vector_dot(MATRIX_JZAZBZ_LMS_TO_XYZ, LMS))
 
     X_D65 = (X_p_D65 + (constants.b - 1) * Z_p_D65) / constants.b
     Y_D65 = (Y_p_D65 + (constants.g - 1) * X_D65) / constants.g

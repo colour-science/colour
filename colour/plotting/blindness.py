@@ -12,7 +12,7 @@ from __future__ import division
 
 from colour.blindness import matrix_cvd_Machado2009
 from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
-from colour.utilities import dot_vector
+from colour.utilities import vector_dot
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -85,4 +85,4 @@ def plot_cvd_simulation_Machado2009(RGB,
 
     return plot_image(
         CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
-            dot_vector(M_a, RGB)), **settings)
+            vector_dot(M_a, RGB)), **settings)

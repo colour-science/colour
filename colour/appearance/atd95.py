@@ -31,7 +31,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.utilities import (as_float_array, dot_vector, from_range_degrees,
+from colour.utilities import (as_float_array, vector_dot, from_range_degrees,
                               to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -282,7 +282,7 @@ def XYZ_to_LMS_ATD95(XYZ):
     array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """
 
-    LMS = dot_vector([
+    LMS = vector_dot([
         [0.2435, 0.8524, -0.0516],
         [-0.3954, 1.1642, 0.0837],
         [0.0000, 0.0400, 0.6225],
