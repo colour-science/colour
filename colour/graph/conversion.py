@@ -269,41 +269,41 @@ Default automatic colour conversion graph illuminant name.
 _DEFAULT_ILLUMINANT : unicode
 """
 
-_DEFAULT_ILLUMINANT_SD = SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT]
+_SD_DEFAULT_ILLUMINANT = SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT]
 """
 Default automatic colour conversion graph illuminant spectral distribution.
 
-_DEFAULT_ILLUMINANT_SD : SpectralDistribution
+_SD_DEFAULT_ILLUMINANT : SpectralDistribution
 """
 
-_DEFAULT_ILLUMINANT_XY = CCS_ILLUMINANTS[
+_CCS_DEFAULT_ILLUMINANT = CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][_DEFAULT_ILLUMINANT]
 """
 Default automatic colour conversion graph illuminant *CIE xy* chromaticity
 coordinates.
 
-_DEFAULT_ILLUMINANT_XY : ndarray
+_CCS_DEFAULT_ILLUMINANT : ndarray
 """
 
-_DEFAULT_ILLUMINANT_XYZ = xy_to_XYZ(_DEFAULT_ILLUMINANT_XY)
+_TVS_DEFAULT_ILLUMINANT = xy_to_XYZ(_CCS_DEFAULT_ILLUMINANT)
 """
 Default automatic colour conversion graph illuminant *CIE XYZ* tristimulus
 values.
 
-_DEFAULT_ILLUMINANT_XYZ : ndarray
+_TVS_DEFAULT_ILLUMINANT : ndarray
 """
 
-RGB_COLOURSPACE__DEFAULT_RGB = RGB_COLOURSPACE_sRGB
+_RGB_COLOURSPACE_DEFAULT = RGB_COLOURSPACE_sRGB
 """
 Default automatic colour conversion graph *RGB* colourspace.
 
-RGB_COLOURSPACE__DEFAULT_RGB : RGB_COLOURSPACE_RGB
+_RGB_COLOURSPACE_DEFAULT : RGB_COLOURSPACE_RGB
 """
 
 CONVERSION_SPECIFICATIONS_DATA = [
     # Colorimetry
     ('Spectral Distribution', 'CIE XYZ',
-     partial(sd_to_XYZ, illuminant=_DEFAULT_ILLUMINANT_SD)),
+     partial(sd_to_XYZ, illuminant=_SD_DEFAULT_ILLUMINANT)),
     ('CIE XYZ', 'Spectral Distribution', XYZ_to_sd),
     ('Spectral Distribution', 'Luminous Flux', luminous_flux),
     ('Spectral Distribution', 'Luminous Efficiency', luminous_efficiency),
@@ -312,16 +312,16 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('Luminance', 'Lightness', lightness),
     ('Lightness', 'Luminance', luminance),
     ('CIE XYZ', 'Whiteness', partial(whiteness,
-                                     XYZ_0=_DEFAULT_ILLUMINANT_XYZ)),
+                                     XYZ_0=_TVS_DEFAULT_ILLUMINANT)),
     ('CIE XYZ', 'Yellowness', yellowness),
     ('CIE xy', 'Colorimetric Purity',
-     partial(colorimetric_purity, xy_n=_DEFAULT_ILLUMINANT_XY)),
+     partial(colorimetric_purity, xy_n=_CCS_DEFAULT_ILLUMINANT)),
     ('CIE xy', 'Complementary Wavelength',
-     partial(complementary_wavelength, xy_n=_DEFAULT_ILLUMINANT_XY)),
+     partial(complementary_wavelength, xy_n=_CCS_DEFAULT_ILLUMINANT)),
     ('CIE xy', 'Dominant Wavelength',
-     partial(dominant_wavelength, xy_n=_DEFAULT_ILLUMINANT_XY)),
+     partial(dominant_wavelength, xy_n=_CCS_DEFAULT_ILLUMINANT)),
     ('CIE xy', 'Excitation Purity',
-     partial(excitation_purity, xy_n=_DEFAULT_ILLUMINANT_XY)),
+     partial(excitation_purity, xy_n=_CCS_DEFAULT_ILLUMINANT)),
     ('Wavelength', 'CIE XYZ', wavelength_to_XYZ),
     # Colour Models
     ('CIE XYZ', 'CIE xyY', XYZ_to_xyY),
@@ -386,25 +386,25 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'RGB',
      partial(
          XYZ_to_RGB,
-         illuminant_XYZ=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
-         illuminant_RGB=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
-         matrix_XYZ_to_RGB=RGB_COLOURSPACE__DEFAULT_RGB.matrix_XYZ_to_RGB)),
+         illuminant_XYZ=_RGB_COLOURSPACE_DEFAULT.whitepoint,
+         illuminant_RGB=_RGB_COLOURSPACE_DEFAULT.whitepoint,
+         matrix_XYZ_to_RGB=_RGB_COLOURSPACE_DEFAULT.matrix_XYZ_to_RGB)),
     ('RGB', 'CIE XYZ',
      partial(
          RGB_to_XYZ,
-         illuminant_RGB=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
-         illuminant_XYZ=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint,
-         matrix_RGB_to_XYZ=RGB_COLOURSPACE__DEFAULT_RGB.matrix_RGB_to_XYZ)),
+         illuminant_RGB=_RGB_COLOURSPACE_DEFAULT.whitepoint,
+         illuminant_XYZ=_RGB_COLOURSPACE_DEFAULT.whitepoint,
+         matrix_RGB_to_XYZ=_RGB_COLOURSPACE_DEFAULT.matrix_RGB_to_XYZ)),
     ('RGB', 'Scene-Referred RGB',
      partial(
          RGB_to_RGB,
-         input_colourspace=RGB_COLOURSPACE__DEFAULT_RGB,
-         output_colourspace=RGB_COLOURSPACE__DEFAULT_RGB)),
+         input_colourspace=_RGB_COLOURSPACE_DEFAULT,
+         output_colourspace=_RGB_COLOURSPACE_DEFAULT)),
     ('Scene-Referred RGB', 'RGB',
      partial(
          RGB_to_RGB,
-         input_colourspace=RGB_COLOURSPACE__DEFAULT_RGB,
-         output_colourspace=RGB_COLOURSPACE__DEFAULT_RGB)),
+         input_colourspace=_RGB_COLOURSPACE_DEFAULT,
+         output_colourspace=_RGB_COLOURSPACE_DEFAULT)),
     ('RGB', 'HSV', RGB_to_HSV),
     ('HSV', 'RGB', HSV_to_RGB),
     ('RGB', 'HSL', RGB_to_HSL),
@@ -416,8 +416,8 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('RGB', 'RGB Luminance',
      partial(
          RGB_luminance,
-         primaries=RGB_COLOURSPACE__DEFAULT_RGB.primaries,
-         whitepoint=RGB_COLOURSPACE__DEFAULT_RGB.whitepoint)),
+         primaries=_RGB_COLOURSPACE_DEFAULT.primaries,
+         whitepoint=_RGB_COLOURSPACE_DEFAULT.whitepoint)),
     ('RGB Luminance', 'RGB', RGB_luminance_to_RGB),
     ('RGB', 'ICTCP', RGB_to_ICTCP),
     ('ICTCP', 'RGB', ICTCP_to_RGB),
@@ -454,27 +454,27 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'Hunt',
      partial(
          XYZ_to_Hunt,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
-         XYZ_b=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
+         XYZ_b=_TVS_DEFAULT_ILLUMINANT,
          L_A=80 * 0.2,
          CCT_w=6504)),
     ('CIE XYZ', 'ATD95',
      partial(
          XYZ_to_ATD95,
-         XYZ_0=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_0=_TVS_DEFAULT_ILLUMINANT,
          Y_0=80 * 0.2,
          k_1=0,
          k_2=(15 + 50) / 2)),
     ('CIE XYZ', 'CIECAM02',
      partial(
          XYZ_to_CIECAM02,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
          L_A=64 / np.pi * 0.2,
          Y_b=20)),
     ('CIECAM02', 'CIE XYZ',
      partial(
          CIECAM02_to_XYZ,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
          L_A=64 / np.pi * 0.2,
          Y_b=20)),
     ('CIECAM02', 'CIECAM02 JMh', CIECAM02_to_JMh_CIECAM02),
@@ -482,28 +482,28 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'CAM16',
      partial(
          XYZ_to_CAM16,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
          L_A=64 / np.pi * 0.2,
          Y_b=20)),
     ('CAM16', 'CIE XYZ',
      partial(
          CAM16_to_XYZ,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
          L_A=64 / np.pi * 0.2,
          Y_b=20)),
     ('CAM16', 'CAM16 JMh', CAM16_to_JMh_CAM16),
     ('CAM16 JMh', 'CAM16', JMh_CAM16_to_CAM16),
     ('CIE XYZ', 'LLAB',
-     partial(XYZ_to_LLAB, XYZ_0=_DEFAULT_ILLUMINANT_XYZ, Y_b=80 * 0.2, L=80)),
+     partial(XYZ_to_LLAB, XYZ_0=_TVS_DEFAULT_ILLUMINANT, Y_b=80 * 0.2, L=80)),
     ('CIE XYZ', 'Nayatani95',
      partial(
          XYZ_to_Nayatani95,
-         XYZ_n=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_n=_TVS_DEFAULT_ILLUMINANT,
          Y_o=0.2,
          E_o=1000,
          E_or=1000)),
     ('CIE XYZ', 'RLAB',
-     partial(XYZ_to_RLAB, XYZ_n=_DEFAULT_ILLUMINANT_XYZ, Y_n=20)),
+     partial(XYZ_to_RLAB, XYZ_n=_TVS_DEFAULT_ILLUMINANT, Y_n=20)),
     ('CIECAM02 JMh', 'CAM02LCD', JMh_CIECAM02_to_CAM02LCD),
     ('CAM02LCD', 'CIECAM02 JMh', CAM02LCD_to_JMh_CIECAM02),
     ('CIECAM02 JMh', 'CAM02SCD', JMh_CIECAM02_to_CAM02SCD),
