@@ -8,7 +8,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.quality import CRI_Specification, colour_rendering_index
+from colour.quality import (ColourRendering_Specification_CRI,
+                            colour_rendering_index)
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
 from colour.quality.cri import TCS_ColorimetryData, TCS_ColourQualityScaleData
 
@@ -137,7 +138,7 @@ class TestColourRenderingIndex(unittest.TestCase):
             70.815265381660197,
             places=7)
 
-        specification_r = CRI_Specification(
+        specification_r = ColourRendering_Specification_CRI(
             name='FL1',
             Q_a=75.852827992149358,
             Q_as={

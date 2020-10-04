@@ -5,7 +5,7 @@ Colour Quality Scale
 
 Defines *Colour Quality Scale* (CQS) computation objects:
 
--   :class:`colour.quality.CQS_Specification`
+-   :class:`colour.quality.ColourRendering_Specification_CQS`
 -   :func:`colour.colour_quality_scale`
 
 References
@@ -49,7 +49,7 @@ __status__ = 'Production'
 
 __all__ = [
     'GAMUT_AREA_D65', 'VS_ColorimetryData', 'VS_ColourQualityScaleData',
-    'CQS_Specification', 'COLOUR_QUALITY_SCALE_METHODS',
+    'ColourRendering_Specification_CQS', 'COLOUR_QUALITY_SCALE_METHODS',
     'colour_quality_scale', 'gamut_area', 'vs_colorimetry_data', 'CCT_factor',
     'scale_conversion', 'delta_E_RMS', 'colour_quality_scales'
 ]
@@ -78,11 +78,13 @@ class VS_ColourQualityScaleData(
     """
 
 
-class CQS_Specification(
-        namedtuple('CQS_Specification', ('name', 'Q_a', 'Q_f', 'Q_p', 'Q_g',
-                                         'Q_d', 'Q_as', 'colorimetry_data'))):
+class ColourRendering_Specification_CQS(
+        namedtuple('ColourRendering_Specification_CQS',
+                   ('name', 'Q_a', 'Q_f', 'Q_p', 'Q_g', 'Q_d', 'Q_as',
+                    'colorimetry_data'))):
     """
-    Defines the *Colour Quality Scale* (CQS) colour quality specification.
+    Defines the *Colour Quality Scale* (CQS) colour rendering (quality)
+    specification.
 
     Parameters
     ----------
@@ -152,7 +154,7 @@ def colour_quality_scale(sd_test, additional_data=False,
 
     Returns
     -------
-    numeric or CQS_Specification
+    numeric or ColourRendering_Specification_CQS
         Color quality scale.
 
     References
@@ -246,7 +248,7 @@ def colour_quality_scale(sd_test, additional_data=False,
         Q_d = G_t / G_r * CCT_f * 100
 
     if additional_data:
-        return CQS_Specification(
+        return ColourRendering_Specification_CQS(
             sd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
             (test_vs_colorimetry_data, reference_vs_colorimetry_data))
     else:

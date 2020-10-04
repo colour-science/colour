@@ -517,11 +517,11 @@ API_CHANGES = {
         ],
         [
             'colour.CQS_Specification',
-            'colour.quality.CQS_Specification',
+            'colour.quality.ColourRendering_Specification_CQS',
         ],
         [
             'colour.CRI_Specification',
-            'colour.quality.CRI_Specification',
+            'colour.quality.ColourRendering_Specification_CRI',
         ],
         [
             'colour.CaseInsensitiveMapping',

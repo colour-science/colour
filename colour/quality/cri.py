@@ -5,7 +5,7 @@ Colour Rendering Index
 
 Defines *Colour Rendering Index* (CRI) computation objects:
 
--   :class:`colour.quality.CRI_Specification`
+-   :class:`colour.quality.ColourRendering_Specification_CRI`
 -   :func:`colour.colour_rendering_index`
 
 References
@@ -38,9 +38,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TCS_ColorimetryData', 'TCS_ColourQualityScaleData', 'CRI_Specification',
-    'colour_rendering_index', 'tcs_colorimetry_data',
-    'colour_rendering_indexes'
+    'TCS_ColorimetryData', 'TCS_ColourQualityScaleData',
+    'ColourRendering_Specification_CRI', 'colour_rendering_index',
+    'tcs_colorimetry_data', 'colour_rendering_indexes'
 ]
 
 
@@ -59,8 +59,8 @@ class TCS_ColourQualityScaleData(
     """
 
 
-class CRI_Specification(
-        namedtuple('CRI_Specification',
+class ColourRendering_Specification_CRI(
+        namedtuple('ColourRendering_Specification_CRI',
                    ('name', 'Q_a', 'Q_as', 'colorimetry_data'))):
     """
     Defines the *Colour Rendering Index* (CRI) colour quality specification.
@@ -96,7 +96,7 @@ def colour_rendering_index(sd_test, additional_data=False):
 
     Returns
     -------
-    numeric or CRI_Specification
+    numeric or ColourRendering_Specification_CRI
         *Colour Rendering Index* (CRI).
 
     References
@@ -145,7 +145,7 @@ def colour_rendering_index(sd_test, additional_data=False):
         [v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)])
 
     if additional_data:
-        return CRI_Specification(
+        return ColourRendering_Specification_CRI(
             sd_test.name, Q_a, Q_as,
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data))
     else:

@@ -8,7 +8,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.quality import CQS_Specification, colour_quality_scale
+from colour.quality import (ColourRendering_Specification_CQS,
+                            colour_quality_scale)
 from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.quality.cqs import VS_ColorimetryData, VS_ColourQualityScaleData
 
@@ -103,7 +104,7 @@ class TestColourQualityScale(unittest.TestCase):
             84.887918431764191,
             places=7)
 
-        specification_r = CQS_Specification(
+        specification_r = ColourRendering_Specification_CQS(
             name='FL1',
             Q_a=75.37708974049329,
             Q_f=76.387614864939863,
@@ -388,7 +389,7 @@ class TestColourQualityScale(unittest.TestCase):
             decimal=7,
         )
 
-        specification_r = CQS_Specification(
+        specification_r = ColourRendering_Specification_CQS(
             name='FL1',
             Q_a=74.982585798279871,
             Q_f=75.945236961962692,

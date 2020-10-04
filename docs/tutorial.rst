@@ -241,9 +241,9 @@ The various sub-packages also expose their public API:
     Quality
     ['SDS_TCS',
      'SDS_VS',
-     'CRI_Specification',
+     'ColourRendering_Specification_CRI',
      'colour_rendering_index',
-     'CQS_Specification',
+     'ColourRendering_Specification_CQS',
      '...']
 
     Recovery
