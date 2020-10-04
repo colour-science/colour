@@ -48,13 +48,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'D65_GAMUT_AREA', 'VS_ColorimetryData', 'VS_ColourQualityScaleData',
+    'GAMUT_AREA_D65', 'VS_ColorimetryData', 'VS_ColourQualityScaleData',
     'CQS_Specification', 'COLOUR_QUALITY_SCALE_METHODS',
     'colour_quality_scale', 'gamut_area', 'vs_colorimetry_data', 'CCT_factor',
     'scale_conversion', 'delta_E_RMS', 'colour_quality_scales'
 ]
 
-D65_GAMUT_AREA = 8210
+GAMUT_AREA_D65 = 8210
+"""
+Gamut area for *CIE Illuminant D Series D65*.
+
+GAMUT_AREA_D65 : int
+"""
 
 
 class VS_ColorimetryData(
@@ -228,7 +233,7 @@ def colour_quality_scale(sd_test, additional_data=False,
     G_r = gamut_area(
         [vs_CQS_data.Lab for vs_CQS_data in reference_vs_colorimetry_data])
 
-    Q_g = G_t / D65_GAMUT_AREA * 100
+    Q_g = G_t / GAMUT_AREA_D65 * 100
 
     if method == 'nist cqs 9.0':
         Q_d = Q_p = None
@@ -383,7 +388,7 @@ def CCT_factor(reference_data, XYZ_r):
         Lab = XYZ_to_Lab(XYZ_a, illuminant=xy_w)
         Labs.append(Lab)
 
-    G_r = gamut_area(Labs) / D65_GAMUT_AREA
+    G_r = gamut_area(Labs) / GAMUT_AREA_D65
     CCT_f = 1 if G_r > 1 else G_r
 
     return CCT_f
