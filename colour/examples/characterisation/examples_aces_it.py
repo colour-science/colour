@@ -42,7 +42,7 @@ message_box('Computing an "ACES" input device transform for a '
             '"CANON EOS 5DMark II" and and *CIE Illuminant D Series* *D55*:')
 
 path = os.path.join(
-    colour.characterisation.aces_it.RAWTOACES_RESOURCES_DIRECTORY,
+    colour.characterisation.aces_it.RESOURCES_DIRECTORY_RAWTOACES,
     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
 sensitivities = colour.colorimetry.sds_and_msds_to_msds(
     colour.io.read_sds_from_csv_file(path).values())
