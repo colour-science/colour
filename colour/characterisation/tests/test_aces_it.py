@@ -16,7 +16,7 @@ from colour.characterisation import (
     best_illuminant, normalise_illuminant, training_data_sds_to_RGB,
     training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
     optimisation_factory_JzAzBz, matrix_idt)
-from colour.characterisation.aces_it import RAWTOACES_RESOURCES_DIRECTORY
+from colour.characterisation.aces_it import RESOURCES_DIRECTORY_RAWTOACES
 from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
                                 sds_and_msds_to_msds, sd_constant, sd_ones)
 from colour.io import read_sds_from_csv_file
@@ -41,11 +41,11 @@ __all__ = [
 
 MSDS_CANON_EOS_5DMARK_II = sds_and_msds_to_msds(
     read_sds_from_csv_file(
-        os.path.join(RAWTOACES_RESOURCES_DIRECTORY,
+        os.path.join(RESOURCES_DIRECTORY_RAWTOACES,
                      'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')).values())
 
 SD_AMPAS_ISO7589_STUDIO_TUNGSTEN = read_sds_from_csv_file(
-    os.path.join(RAWTOACES_RESOURCES_DIRECTORY,
+    os.path.join(RESOURCES_DIRECTORY_RAWTOACES,
                  'AMPAS_ISO_7589_Tungsten.csv'))['iso7589']
 
 

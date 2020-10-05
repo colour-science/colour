@@ -9,16 +9,17 @@ from colour.utilities.documentation import is_documentation_building
 
 from .datasets import *  # noqa
 from . import datasets
-from .cri import CRI_Specification, colour_rendering_index
-from .cqs import (CQS_Specification, COLOUR_QUALITY_SCALE_METHODS,
-                  colour_quality_scale)
+from .cri import ColourRendering_Specification_CRI, colour_rendering_index
+from .cqs import (COLOUR_QUALITY_SCALE_METHODS,
+                  ColourRendering_Specification_CQS, colour_quality_scale)
 from .ssi import spectral_similarity_index
 
 __all__ = []
 __all__ += datasets.__all__
-__all__ += ['CRI_Specification', 'colour_rendering_index']
+__all__ += ['ColourRendering_Specification_CRI', 'colour_rendering_index']
 __all__ += [
-    'CQS_Specification', 'COLOUR_QUALITY_SCALE_METHODS', 'colour_quality_scale'
+    'ColourRendering_Specification_CQS', 'COLOUR_QUALITY_SCALE_METHODS',
+    'colour_quality_scale'
 ]
 __all__ += ['spectral_similarity_index']
 
@@ -34,6 +35,14 @@ class quality(ModuleAPI):
 # v0.3.16
 API_CHANGES = {
     'ObjectRenamed': [
+        [
+            'colour.quality.CQS_Specification',
+            'colour.quality.ColourRendering_Specification_CQS',
+        ],
+        [
+            'colour.quality.CRI_Specification',
+            'colour.quality.ColourRendering_Specification_CRI',
+        ],
         [
             'colour.quality.TCS_SDS',
             'colour.quality.SDS_TCS',

@@ -22,7 +22,7 @@ Colour Rendering Index
 .. autosummary::
     :toctree: generated/
 
-    CRI_Specification
+    ColourRendering_Specification_CRI
 
 
 Colour Quality Scale
@@ -45,7 +45,7 @@ Colour Quality Scale
 .. autosummary::
     :toctree: generated/
 
-    CQS_Specification
+    ColourRendering_Specification_CQS
 
 Academy Spectral Similarity Index (SSI)
 ---------------------------------------
