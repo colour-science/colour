@@ -91,15 +91,29 @@ def RGB_to_ICTCP(RGB, L_p=10000):
         *ITU-R BT.2020* colourspace array.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding.
+        non-linear encoding. This parameter should stay at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed so
+        that the definition can be used as a fitting function.
 
     Returns
     -------
     ndarray
         :math:`IC_TC_P` colour encoding array.
 
+    Warnings
+    --------
+    The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+    transfer function.
+
     Notes
     -----
+
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function, thus the domain and range values for the *Reference*
+        and *1* scales are only indicative that the data is not affected by
+        scale transformations. The effective domain of *SMPTE ST 2084:2014*
+        inverse electro-optical transfer function (EOTF / EOCF) is
+        [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -151,15 +165,27 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
         :math:`IC_TC_P` colour encoding array.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding.
+        non-linear encoding. This parameter should stay at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed so
+        that the definition can be used as a fitting function.
 
     Returns
     -------
     ndarray
         *ITU-R BT.2020* colourspace array.
 
+    Warnings
+    --------
+    The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+    transfer function.
+
     Notes
     -----
+
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function, thus the domain and range values for the *Reference*
+        and *1* scales are only indicative that the data is not affected by
+        scale transformations.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
