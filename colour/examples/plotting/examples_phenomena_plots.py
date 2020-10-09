@@ -9,7 +9,7 @@ from colour.plotting import (colour_style, plot_multi_sds,
                              plot_the_blue_sky)
 from colour.utilities import message_box
 
-message_box('Optical Phenomenons Plots')
+message_box('Optical Phenomena Plots')
 
 colour_style()
 

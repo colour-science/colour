@@ -2,6 +2,8 @@
 
 from __future__ import absolute_import
 
+import sys
+
 from .data_structures import (Lookup, Structure, CaseInsensitiveMapping,
                               LazyCaseInsensitiveMapping)
 from .common import (
@@ -29,6 +31,9 @@ from .verbose import (
     suppress_warnings, numpy_print_options, ANCILLARY_COLOUR_SCIENCE_PACKAGES,
     ANCILLARY_RUNTIME_PACKAGES, ANCILLARY_DEVELOPMENT_PACKAGES,
     ANCILLARY_EXTRAS_PACKAGES, describe_environment)
+
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
+from colour.utilities.documentation import is_documentation_building
 
 __all__ = [
     'Lookup', 'Structure', 'CaseInsensitiveMapping',
@@ -65,3 +70,37 @@ __all__ += [
     'ANCILLARY_RUNTIME_PACKAGES', 'ANCILLARY_DEVELOPMENT_PACKAGES',
     'ANCILLARY_EXTRAS_PACKAGES', 'describe_environment'
 ]
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class utilities(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(utilities, self).__getattr__(attribute)
+
+
+# v0.3.16
+API_CHANGES = {
+    'ObjectRenamed': [
+        [
+            'colour.utilities.dot_vector',
+            'colour.utilities.vector_dot',
+        ],
+        [
+            'colour.utilities.dot_matrix',
+            'colour.utilities.matrix_dot',
+        ],
+    ]
+}
+"""
+Defines *colour.utilities* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+if not is_documentation_building():
+    sys.modules['colour.utilities'] = utilities(
+        sys.modules['colour.utilities'], build_API_changes(API_CHANGES))
+
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

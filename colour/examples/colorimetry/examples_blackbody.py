@@ -11,8 +11,7 @@ message_box('Blackbody / Planckian Radiator Computations')
 message_box(('Computing the spectral distribution of a blackbody at '
              'temperature 5500 kelvin degrees and converting to "CIE XYZ" '
              'tristimulus values.'))
-cmfs = colour.MSDS_CMFS_STANDARD_OBSERVER[
-    'CIE 1931 2 Degree Standard Observer']
+cmfs = colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
 sd_blackbody = colour.sd_blackbody(5500, cmfs.shape)
 print(sd_blackbody)
 XYZ = colour.sd_to_XYZ(sd_blackbody, cmfs)

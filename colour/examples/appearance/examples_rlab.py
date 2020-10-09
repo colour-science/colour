@@ -15,7 +15,7 @@ XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_n = np.array([109.85, 100, 35.58])
 Y_n = 31.83
 sigma = colour.VIEWING_CONDITIONS_RLAB['Average']
-D = colour.D_FACTOR_RLAB['Hard Copy Images']
+D = colour.appearance.D_FACTOR_RLAB['Hard Copy Images']
 message_box(
     ('Converting to "RLAB" colour appearance model '
      'specification using given parameters:\n'
