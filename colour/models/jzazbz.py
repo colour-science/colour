@@ -116,8 +116,20 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=CONSTANTS_JZAZBZ):
         :math:`A_z` is redness-greenness and :math:`B_z` is
         yellowness-blueness.
 
+    Warnings
+    --------
+    The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+    transfer function.
+
     Notes
     -----
+
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function, thus the domain and range values for the *Reference*
+        and *1* scales are only indicative that the data is not affected by
+        scale transformations. The effective domain of *SMPTE ST 2084:2014*
+        inverse electro-optical transfer function (EOTF / EOCF) is
+        [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -187,8 +199,18 @@ def JzAzBz_to_XYZ(JzAzBz, constants=CONSTANTS_JZAZBZ):
         *CIE XYZ* tristimulus values under
         *CIE Standard Illuminant D Series D65*.
 
+    Warnings
+    --------
+    The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+    transfer function.
+
     Notes
     -----
+
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function, thus the domain and range values for the *Reference*
+        and *1* scales are only indicative that the data is not affected by
+        scale transformations.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |

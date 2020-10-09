@@ -85,6 +85,8 @@ def eotf_inverse_ST2084(C, L_p=10000, constants=CONSTANTS_ST2084):
     -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.
+        The effective domain of *SMPTE ST 2084:2014* inverse electro-optical
+        transfer function (EOTF / EOCF) is [0.0001, 10000].
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
