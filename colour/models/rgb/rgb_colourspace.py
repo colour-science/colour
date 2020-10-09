@@ -136,6 +136,11 @@ class RGB_Colourspace(object):
         Whether to use the instantiation time inverse normalised primary
         matrix or to use a computed derived inverse normalised primary matrix.
 
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
+
     Attributes
     ----------
     -   :attr:`~colour.RGB_Colourspace.name`
@@ -221,9 +226,26 @@ class RGB_Colourspace(object):
                  cctf_encoding=None,
                  cctf_decoding=None,
                  use_derived_matrix_RGB_to_XYZ=False,
-                 use_derived_matrix_XYZ_to_RGB=False):
+                 use_derived_matrix_XYZ_to_RGB=False,
+                 **kwargs):
         self._derived_matrix_RGB_to_XYZ = None
         self._derived_matrix_XYZ_to_RGB = None
+
+        use_derived_matrix_RGB_to_XYZ = handle_arguments_deprecation({
+            'ArgumentRenamed': [[
+                'use_derived_RGB_to_XYZ_matrix',
+                'use_derived_matrix_RGB_to_XYZ'
+            ]],
+        }, **kwargs).get('use_derived_matrix_RGB_to_XYZ',
+                         use_derived_matrix_RGB_to_XYZ)
+
+        use_derived_matrix_XYZ_to_RGB = handle_arguments_deprecation({
+            'ArgumentRenamed': [[
+                'use_derived_XYZ_to_RGB_matrix',
+                'use_derived_matrix_XYZ_to_RGB'
+            ]],
+        }, **kwargs).get('use_derived_matrix_XYZ_to_RGB',
+                         use_derived_matrix_XYZ_to_RGB)
 
         self._name = None
         self.name = name
