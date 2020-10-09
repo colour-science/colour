@@ -27,9 +27,8 @@ print('\n')
 
 message_box('Generating the "Mallett et al. (2019)" basis functions for the '
             '*Pal/Secam* colourspace:')
-cmfs = (colour.colorimetry.MSDS_CMFS_STANDARD_OBSERVER[
-    'CIE 1931 2 Degree Standard Observer'].copy().align(
-        colour.SpectralShape(360, 780, 10)))
+cmfs = (colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].copy().align(
+    colour.SpectralShape(360, 780, 10)))
 illuminant = colour.SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
 
 print(

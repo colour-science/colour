@@ -882,16 +882,17 @@ print('\n')
 
 message_box('Plotting photopic luminous efficiency functions.')
 plot_multi_sds(
-    colour.SDS_LEFS_PHOTOPIC.values(),
+    colour.colorimetry.SDS_LEFS_PHOTOPIC.values(),
     title='Luminous Efficiency Functions',
     y_label='Luminous Efficiency')
 
 print('\n')
 
 message_box('Comparing photopic and scotopic luminous efficiency functions.')
-LEF_PHOTOPIC = colour.SDS_LEFS_PHOTOPIC[
+LEF_PHOTOPIC = colour.colorimetry.SDS_LEFS_PHOTOPIC[
     'CIE 2008 2 Degree Physiologically Relevant LEF']
-LEF_SCOTOPIC = colour.SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']
+LEF_SCOTOPIC = colour.colorimetry.SDS_LEFS_SCOTOPIC[
+    'CIE 1951 Scotopic Standard Observer']
 plot_multi_sds(
     (LEF_PHOTOPIC, LEF_SCOTOPIC),
     title='Photopic & Scotopic Luminous Efficiency Functions',
@@ -906,9 +907,9 @@ sd_mesopic_luminous_efficiency_function = (
     colour.sd_mesopic_luminous_efficiency_function(0.2))
 
 plot_multi_sds(
-    (sd_mesopic_luminous_efficiency_function,
-     colour.SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
-     colour.SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']),
+    (sd_mesopic_luminous_efficiency_function, colour.colorimetry.
+     SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'], colour.
+     colorimetry.SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']),
     y_label='Luminous Efficiency')
 
 print('\n')
@@ -932,34 +933,34 @@ plot_blackbody_spectral_radiance(temperature=12130, blackbody='Rigel')
 print('\n')
 
 message_box('Comparing theoretical and measured "Sun" spectral distributions.')
-# Arbitrary SD_ASTMG173_ETR scaling factor calculated with
-# :func:`colour.sd_to_XYZ` definition.
-ASTMG173_sd = SD_ASTMG173_ETR.copy() * 1.37905559e+13
+sd_ASTMG173 = SD_ASTMG173_ETR.copy()
 
-ASTMG173_sd.interpolate(
+sd_ASTMG173.interpolate(
     colour.SpectralShape(interval=5), interpolator=colour.LinearInterpolator)
 
-blackbody_sd = colour.sd_blackbody(5778, ASTMG173_sd.shape)
-blackbody_sd.name = 'The Sun - 5778K'
+sd_blackbody = colour.sd_blackbody(5778, sd_ASTMG173.shape)
+sd_blackbody.name = 'The Sun - 5778K'
 
-plot_multi_sds((ASTMG173_sd, blackbody_sd), y_label='W / (sr m$^2$) / m')
+sd_blackbody /= colour.sd_to_XYZ(sd_blackbody)[1]
+sd_blackbody *= colour.sd_to_XYZ(sd_ASTMG173)[1]
+
+plot_multi_sds([sd_ASTMG173, sd_blackbody], y_label='W / (sr m$^2$) / m')
 
 print('\n')
 
 message_box('Plotting various "blackbody" spectral distributions.')
-blackbody_sds = [
-    colour.sd_blackbody(i, colour.SpectralShape(0, 10000, 10))
-    for i in range(1000, 15000, 1000)
+sds_blackbody = [
+    colour.sd_blackbody(i, colour.SpectralShape(100, 1500, 10))
+    for i in range(1000, 11000, 1000)
 ]
 
 plot_multi_sds(
-    blackbody_sds,
+    sds_blackbody,
     y_label='W / (sr m$^2$) / m',
     plot_kwargs={
         'use_sd_colours': True,
         'normalise_sd_colours': True
-    },
-    bounding_box=(0, 1250, 0, 2.5e15))
+    })
 
 print('\n')
 
