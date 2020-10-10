@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.quality.CFI2017` module.
+Defines unit tests for :mod:`colour.quality.CIE2017` module.
 
-Reference data was created using the official Excel spreadsheet, published by
-CIE, available at http://files.cie.co.at/933_TC1-90.zip.
+Notes
+-----
+-   Reference data was created using the official Excel spreadsheet, published
+    by the CIE at this URL: http://files.cie.co.at/933_TC1-90.zip.
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
+import six
 import unittest
 
 from colour.colorimetry import (SpectralShape, SpectralDistribution,
                                 sd_blackbody, SDS_ILLUMINANTS)
-from colour.quality.cfi2017 import (reference_illuminant_CFI2017,
-                                    colour_fidelity_index_CFI2017)
+from colour.quality.cfi2017 import (CCT_reference_illuminant,
+                                    sd_reference_illuminant,
+                                    colour_fidelity_index_CIE2017)
 from colour.utilities import ColourUsageWarning
 
 __author__ = 'Colour Developers'
@@ -24,9 +28,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestColourFidelityIndexCFI2017']
+__all__ = [
+    'DATA_SD_SAMPLE_5NM', 'SD_SAMPLE_5NM', 'DATA_SD_SAMPLE_1NM',
+    'SD_SAMPLE_1NM', 'TestColourFidelityIndexCIE2017',
+    'TestCctReferenceIlluminant', 'TestSdReferenceIlluminant'
+]
 
-SAMPLE_SD_DATA_5_NM = {
+DATA_SD_SAMPLE_5NM = {
     380: 0.000,
     385: 0.000,
     390: 0.001,
@@ -110,7 +118,9 @@ SAMPLE_SD_DATA_5_NM = {
     780: 0.027
 }
 
-SAMPLE_SD_DATA_1_NM = {
+SD_SAMPLE_5NM = SpectralDistribution(DATA_SD_SAMPLE_5NM)
+
+DATA_SD_SAMPLE_1NM = {
     380: 0.000,
     381: 0.000,
     382: 0.000,
@@ -514,43 +524,26 @@ SAMPLE_SD_DATA_1_NM = {
     780: 0.027
 }
 
-SAMPLE_SD_5_NM = SpectralDistribution(SAMPLE_SD_DATA_5_NM)
-SAMPLE_SHAPE_5_NM = SpectralShape(380, 780, 5)
-SAMPLE_SD_1_NM = SpectralDistribution(SAMPLE_SD_DATA_1_NM)
-SAMPLE_SHAPE_1_NM = SpectralShape(380, 780, 1)
+SD_SAMPLE_1NM = SpectralDistribution(DATA_SD_SAMPLE_1NM)
 
 
-class TestColourFidelityIndexCFI2017(unittest.TestCase):
+class TestColourFidelityIndexCIE2017(unittest.TestCase):
     """
-    Defines :func:`colour.quality.CFI2017.colour_fidelity_index_CFI2017`
+    Defines :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
     definition unit tests methods.
     """
 
-    def test_reference_illuminant_CFI2017(self):
+    def test_colour_fidelity_index_CIE2017(self):
         """
-        Tests :func:`colour.quality.CFI2017.reference_illuminant_CFI2017`
+        Tests :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
         definition.
         """
 
-        for sd, shape in [[SAMPLE_SD_5_NM, SAMPLE_SHAPE_5_NM],
-                          [SAMPLE_SD_1_NM, SAMPLE_SHAPE_1_NM]]:
-            sd_ref, CCT, D_uv = reference_illuminant_CFI2017(sd, shape)
-
-            np.testing.assert_almost_equal(CCT, 3288, 0)
-            np.testing.assert_almost_equal(D_uv, -0.0003, 4)
-            np.testing.assert_allclose(
-                sd_ref.values, sd_blackbody(3288, shape).values, rtol=0.005)
-
-    def test_colour_fidelity_index_CFI2017(self):
-        """
-        Tests :func:`colour.quality.CFI2017.colour_fidelity_index_CFI2017`
-        definition.
-        """
-
-        for sd in [SAMPLE_SD_5_NM, SAMPLE_SD_1_NM]:
-            spec = colour_fidelity_index_CFI2017(sd, additional_data=True)
-            np.testing.assert_almost_equal(spec.R_f, 81.6, 1)
-            np.testing.assert_almost_equal(spec.Rs, [
+        for sd in [SD_SAMPLE_5NM, SD_SAMPLE_1NM]:
+            specification = colour_fidelity_index_CIE2017(
+                sd, additional_data=True)
+            np.testing.assert_almost_equal(specification.R_f, 81.6, 1)
+            np.testing.assert_almost_equal(specification.R_s, [
                 89.5, 80.5, 81.5, 79.4, 65.9, 79.4, 73.2, 68.5, 95.9, 76.3,
                 71.9, 71.8, 83.3, 93.0, 89.2, 72.9, 75.1, 85.8, 75.1, 63.4,
                 69.4, 71.4, 89.7, 76.8, 67.6, 75.5, 92.7, 87.7, 81.1, 95.0,
@@ -563,10 +556,10 @@ class TestColourFidelityIndexCFI2017(unittest.TestCase):
                 76.2, 68.5, 80.1, 65.3, 74.9, 83.9, 88.6, 84.2, 77.4
             ], 1)
 
-        spec = colour_fidelity_index_CFI2017(
+        specification = colour_fidelity_index_CIE2017(
             SDS_ILLUMINANTS['FL1'], additional_data=True)
-        np.testing.assert_almost_equal(spec.R_f, 80.6, 1)
-        np.testing.assert_almost_equal(spec.Rs, [
+        np.testing.assert_almost_equal(specification.R_f, 80.6, 1)
+        np.testing.assert_almost_equal(specification.R_s, [
             85.1, 68.9, 73.9, 79.7, 51.6, 77.8, 52.1, 47.8, 95.3, 68.9, 67.3,
             63.6, 71.3, 91.1, 79.0, 63.2, 72.8, 78.4, 75.2, 60.4, 68.0, 67.3,
             88.6, 78.4, 68.7, 75.7, 91.0, 91.5, 78.3, 83.0, 82.3, 78.7, 85.8,
@@ -578,10 +571,10 @@ class TestColourFidelityIndexCFI2017(unittest.TestCase):
             74.4, 75.3, 91.4, 58.2, 74.6, 52.6, 67.0, 76.2, 88.9, 75.2, 55.5
         ], 1)
 
-        spec = colour_fidelity_index_CFI2017(
+        specification = colour_fidelity_index_CIE2017(
             SDS_ILLUMINANTS['FL2'], additional_data=True)
-        np.testing.assert_almost_equal(spec.R_f, 70.1, 1)
-        np.testing.assert_almost_equal(spec.Rs, [
+        np.testing.assert_almost_equal(specification.R_f, 70.1, 1)
+        np.testing.assert_almost_equal(specification.R_s, [
             78.9, 59.0, 66.9, 65.7, 35.8, 66.1, 40.4, 34.7, 95.1, 53.5, 47.4,
             44.6, 64.1, 86.6, 71.6, 48.8, 56.1, 68.9, 56.8, 43.9, 46.9, 46.5,
             80.0, 62.6, 48.1, 58.4, 82.0, 84.6, 61.5, 69.6, 67.5, 62.3, 73.9,
@@ -593,21 +586,63 @@ class TestColourFidelityIndexCFI2017(unittest.TestCase):
             66.1, 67.5, 92.6, 51.3, 69.5, 40.7, 61.5, 70.2, 80.0, 67.0, 45.0
         ], 1)
 
-    def test_bad_shapes(self):
+    def test_raise_exception_colour_fidelity_index_CFI2017(self):
         """
-        Tests :func:`colour.quality.CFI2017.colour_fidelity_index_CFI201`
-        definition for behaviour in case of bad test illuminant spectral
-        shapes.
+        Tests :func:`colour.quality.CIE2017.colour_fidelity_index_CFI2017`
+        definition raised exception.
         """
 
-        sd = SDS_ILLUMINANTS['FL2'].copy().align(SpectralShape(400, 700, 5))
-        with self.assertWarnsRegex(ColourUsageWarning,
-                                   'does not cover the 380-780 nm range'):
-            colour_fidelity_index_CFI2017(sd)
+        if six.PY3:  # pragma: no cover
+            sd = SDS_ILLUMINANTS['FL2'].copy().align(
+                SpectralShape(400, 700, 5))
+            self.assertWarns(ColourUsageWarning, colour_fidelity_index_CIE2017,
+                             sd)
 
         sd = SDS_ILLUMINANTS['FL2'].copy().align(SpectralShape(380, 780, 10))
-        with self.assertRaises(ValueError):
-            colour_fidelity_index_CFI2017(sd)
+        self.assertRaises(ValueError, colour_fidelity_index_CIE2017, sd)
+
+
+class TestCctReferenceIlluminant(unittest.TestCase):
+    """
+    Defines :func:`colour.quality.CIE2017.CCT_reference_illuminant`
+    definition unit tests methods.
+    """
+
+    def test_CCT_reference_illuminant(self):
+        """
+        Tests :func:`colour.quality.CIE2017.CCT_reference_illuminant`
+        definition.
+        """
+
+        for sd in [SD_SAMPLE_5NM, SD_SAMPLE_1NM]:
+            CCT, D_uv = CCT_reference_illuminant(sd)
+            np.testing.assert_allclose(CCT, 3287.5, rtol=0.25)
+            np.testing.assert_allclose(D_uv, -0.000300000000000, atol=0.0005)
+
+
+class TestSdReferenceIlluminant(unittest.TestCase):
+    """
+    Defines :func:`colour.quality.CIE2017.sd_reference_illuminant`
+    definition unit tests methods.
+    """
+
+    def test_sd_reference_illuminant(self):
+        """
+        Tests :func:`colour.quality.CIE2017.sd_reference_illuminant`
+        definition.
+        """
+
+        for sd, shape in [
+            (SD_SAMPLE_5NM, SD_SAMPLE_5NM.shape),
+            (SD_SAMPLE_1NM, SD_SAMPLE_1NM.shape),
+        ]:
+            CCT, _D_uv = CCT_reference_illuminant(sd)
+            sd_reference = sd_reference_illuminant(CCT, shape)
+
+            np.testing.assert_allclose(
+                sd_reference.values,
+                sd_blackbody(3288, shape).values,
+                rtol=0.005)
 
 
 if __name__ == '__main__':

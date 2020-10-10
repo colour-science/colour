@@ -3,6 +3,31 @@ Colour Quality
 
 .. contents:: :local:
 
+Colour Fidelity Index
+---------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    COLOUR_FIDELITY_INDEX_METHODS
+    colour_fidelity_index
+
+``colour.quality``
+
+.. currentmodule:: colour.quality
+
+.. autosummary::
+    :toctree: generated/
+
+    ColourRendering_Specification_CIE2017
+    colour_fidelity_index_CIE2017
+    ColourQuality_Specification_ANSIIESTM3018
+    colour_fidelity_index_ANSIIESTM3018
+
 Colour Rendering Index
 ----------------------
 
@@ -23,7 +48,6 @@ Colour Rendering Index
     :toctree: generated/
 
     ColourRendering_Specification_CRI
-
 
 Colour Quality Scale
 --------------------

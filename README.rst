@@ -1143,6 +1143,16 @@ Optical Phenomena - ``colour.phenomena``
 Light Quality - ``colour.quality``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Colour Fidelity Index
+*********************
+
+.. code-block:: python
+
+    >>> colour.colour_fidelity_index(colour.SDS_ILLUMINANTS['FL2'])
+    70.120825477833037
+    >>> tuple(colour.COLOUR_FIDELITY_INDEX_METHODS.keys())
+    ('CIE 2017', 'ANSI/IES TM-30-18')
+
 Colour Rendering Index
 **********************
 
