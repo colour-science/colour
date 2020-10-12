@@ -316,7 +316,7 @@ def todo(ctx):
 @task
 def requirements(ctx):
     """
-    Export the *requirements.txt* file.
+    Exports the *requirements.txt* file.
 
     Parameters
     ----------
