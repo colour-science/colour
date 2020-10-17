@@ -169,7 +169,7 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     |             | ``T_hdr`` : [-100, 100] | ``T_hdr`` : [-1, 1] |
     +-------------+-------------------------+---------------------+
 
-    -   Input *CIE XYZ* tristimulus values needs to be adapted for
+    -   Input *CIE XYZ* tristimulus values must be adapted to
         *CIE Standard Illuminant D Series* *D65*.
 
     References

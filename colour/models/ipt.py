@@ -108,7 +108,7 @@ def XYZ_to_IPT(XYZ):
     |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
     +------------+-----------------------+-----------------+
 
-    -   Input *CIE XYZ* tristimulus values needs to be adapted for
+    -   Input *CIE XYZ* tristimulus values must be adapted to
         *CIE Standard Illuminant D Series* *D65*.
 
     References
