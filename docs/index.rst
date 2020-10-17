@@ -538,6 +538,14 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     >>> colour.JMh_CAM16_to_CAM16UCS(JMh)
     array([ 46.55542238,  40.22460974,  14.25288392]
 
+IGPGTG Colourspace
+******************
+
+.. code-block:: python
+
+    >>> colour.XYZ_to_IGPGTG([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.42421258,  0.18632491,  0.10689223])
+
 IPT Colourspace
 ***************
 

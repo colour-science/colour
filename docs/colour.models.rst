@@ -173,6 +173,19 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     JMh_CAM16_to_CAM16UCS
     CAM16UCS_to_JMh_CAM16
 
+:math:`I_GP_GT_G` Colourspace
+-----------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_IGPGTG
+    IGPGTG_to_XYZ
+
 IPT Colourspace
 ---------------
 
