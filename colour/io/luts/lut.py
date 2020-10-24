@@ -3031,6 +3031,7 @@ class Log(AbstractLUTSequenceOperator):
                 if self.comments else '')
 
     def __repr__(self):
+        #TODO: show only the used parameters (see __str__ method)
         return ("{0}("
                 "base={1}, "
                 "logSideSlope={2}, "
@@ -3039,9 +3040,9 @@ class Log(AbstractLUTSequenceOperator):
                 "linSideOffset={5}, "
                 "linearSlope={6}, "
                 "linSideBreak={7}, "
-                'style="{8}{9}")').format(
+                'style="{8}"{9})').format(
                     self.__class__.__name__, self.base, self.log_side_slope,
                     self.log_side_offset, self.lin_side_slope,
                     self.lin_side_offset, self.linear_slope,
                     self.lin_side_break, self.style,
-                    'name={0}'.format(self.name) if self.name else "")
+                    ' name={0}'.format(self.name) if self.name else "")
