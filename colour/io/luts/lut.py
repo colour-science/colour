@@ -319,8 +319,8 @@ class AbstractLUT:
                     self.__class__.__name__, self.name,
                     '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
                     self.dimensions, _indent_array(self.domain),
-                    str(self.table.shape).replace("L", ""), '\n{0}'.format(
-                        '\n'.join(comments)) if comments else '')
+                    str(self.table.shape).replace("L", ""),
+                    '\n{0}'.format('\n'.join(comments)) if comments else '')
 
     def __repr__(self):
         """
@@ -998,9 +998,11 @@ class LUT1D(AbstractLUT):
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
         """
 
-        interpolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
-        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+        interpolator_kwargs = handle_arguments_deprecation(
+            {
+                'ArgumentRenamed':
+                    [['interpolator_args', 'interpolator_kwargs']],
+            }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
 
         if interpolator_kwargs is None:
             interpolator_kwargs = {}
@@ -1325,9 +1327,8 @@ class LUT3x1D(AbstractLUT):
                                 'padded with "NaNs" accordingly!')
 
                 samples = [
-                    np.pad(
-                        mode='constant',
-                        constant_values=np.nan) for axis in samples
+                    np.pad(mode='constant', constant_values=np.nan)
+                    for axis in samples
                 ]
 
             return tstack(samples)
@@ -1384,9 +1385,11 @@ class LUT3x1D(AbstractLUT):
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
 
-        interpolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
-        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+        interpolator_kwargs = handle_arguments_deprecation(
+            {
+                'ArgumentRenamed':
+                    [['interpolator_args', 'interpolator_kwargs']],
+            }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
 
         if interpolator_kwargs is None:
             interpolator_kwargs = {}
@@ -1855,9 +1858,11 @@ class LUT3D(AbstractLUT):
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
 
-        interpolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
-        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+        interpolator_kwargs = handle_arguments_deprecation(
+            {
+                'ArgumentRenamed':
+                    [['interpolator_args', 'interpolator_kwargs']],
+            }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
 
         if interpolator_kwargs is None:
             interpolator_kwargs = {}
@@ -1873,8 +1878,8 @@ class LUT3D(AbstractLUT):
             usage_warning(
                 '"LUT" was defined with an explicit domain but requires '
                 'an implicit domain to be applied. The following domain '
-                'will be used: {0}'.format(
-                    np.vstack([domain_min, domain_max])))
+                'will be used: {0}'.format(np.vstack([domain_min,
+                                                      domain_max])))
         else:
             domain_min, domain_max = self.domain
 
@@ -2288,10 +2293,9 @@ class LUTSequence(MutableSequence):
             Formatted string representation.
         """
 
-        operations = re.sub(
-            ' ' * 4,
-            '\n\n'.join([str(a) for a in self._sequence]),
-            flags=re.MULTILINE)
+        operations = re.sub(' ' * 4,
+                            '\n\n'.join([str(a) for a in self._sequence]),
+                            flags=re.MULTILINE)
         operations = re.sub('^\\s+$', '', operations, flags=re.MULTILINE)
 
         return ('LUT Sequence\n'
@@ -2314,10 +2318,9 @@ class LUTSequence(MutableSequence):
             Evaluable string representation.
         """
 
-        operations = re.sub(
-            ' ' * 4,
-            ',\n'.join([repr(a) for a in self._sequence]),
-            flags=re.MULTILINE)
+        operations = re.sub(' ' * 4,
+                            ',\n'.join([repr(a) for a in self._sequence]),
+                            flags=re.MULTILINE)
         operations = re.sub('^\\s+$', '', operations, flags=re.MULTILINE)
 
         return '{0}(\n{1}\n)'.format(self.__class__.__name__, operations)
@@ -2445,17 +2448,17 @@ class LUTSequence(MutableSequence):
                [ 0.75     ...,  0.75     ...,  0.75     ...]])
         """
 
-        interpolator_1D_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [[
-                'interpolator_1D_args', 'interpolator_1D_kwargs'
-            ]],
-        }, **kwargs).get('interpolator_1D_kwargs', interpolator_1D_kwargs)
+        interpolator_1D_kwargs = handle_arguments_deprecation(
+            {
+                'ArgumentRenamed':
+                    [['interpolator_1D_args', 'interpolator_1D_kwargs']],
+            }, **kwargs).get('interpolator_1D_kwargs', interpolator_1D_kwargs)
 
-        interpolator_3D_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [[
-                'interpolator_3D_args', 'interpolator_3D_kwargs'
-            ]],
-        }, **kwargs).get('interpolator_3D_kwargs', interpolator_3D_kwargs)
+        interpolator_3D_kwargs = handle_arguments_deprecation(
+            {
+                'ArgumentRenamed':
+                    [['interpolator_3D_args', 'interpolator_3D_kwargs']],
+            }, **kwargs).get('interpolator_3D_kwargs', interpolator_3D_kwargs)
 
         for operation in self:
             if clip_input_to_domain:
@@ -2732,13 +2735,15 @@ class Matrix(AbstractLUTSequenceOperator):
                         self.array), '\n\n{0}'.format('\n'.join(self.comments))
                     if self.comments else ''))
 
+
 class Exponent(AbstractLUTSequenceOperator):
-    def __init__(self,
-                 exponent=[1, 1, 1],
-                 offset=[0, 0, 0], # ignored for basic
-                 style='basicFwd',
-                 name='',
-                 comments=None):
+    def __init__(
+            self,
+            exponent=[1, 1, 1],
+            offset=[0, 0, 0],  # ignored for basic
+            style='basicFwd',
+            name='',
+            comments=None):
         self.exponent = exponent
         self.offset = offset
         self.style = style
@@ -2746,8 +2751,9 @@ class Exponent(AbstractLUTSequenceOperator):
         self.comments = comments
 
     def apply(self, RGB):
-        if as_float_array(RGB).size == 3 or (isinstance(RGB, np.ndarray) and RGB.shape[-1] == 3):
-                r, g, b = tsplit(np.asarray(RGB))
+        if as_float_array(RGB).size == 3 or (isinstance(RGB, np.ndarray) and
+                                             RGB.shape[-1] == 3):
+            r, g, b = tsplit(np.asarray(RGB))
 
         else:
             r = g = b = np.asarray(RGB)
@@ -2758,11 +2764,14 @@ class Exponent(AbstractLUTSequenceOperator):
             b = exponent_function_basic(b, self.exponent[2], self.style)
 
             return tstack((r, g, b))
-    
+
         if self.style.lower()[:8] == 'moncurve':
-            r = exponent_function_monitor_curve(r, self.exponent[0], self.offset[0], self.style)
-            g = exponent_function_monitor_curve(g, self.exponent[1], self.offset[1], self.style)
-            b = exponent_function_monitor_curve(b, self.exponent[2], self.offset[2], self.style)
+            r = exponent_function_monitor_curve(r, self.exponent[0],
+                                                self.offset[0], self.style)
+            g = exponent_function_monitor_curve(g, self.exponent[1],
+                                                self.offset[1], self.style)
+            b = exponent_function_monitor_curve(b, self.exponent[2],
+                                                self.offset[2], self.style)
 
             return tstack((r, g, b))
 
@@ -2775,11 +2784,13 @@ class Exponent(AbstractLUTSequenceOperator):
                 '{6}'
                 'Style : {7}\n'
                 '{8}'.format(
-                    self.__class__.__name__, self.name, 
+                    self.__class__.__name__, self.name,
                     '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
-                     self.exponent[0], self.exponent[1], self.exponent[2],
-                     'Offset.r : {}\nOffset.g : {}\nOffset.b : {}\n'.format(self.offset[0], self.offset[1], self.offset[2]) if self.style.lower()[:8] == 'moncurve' else '', self.style,
-                    '\n\n{0}'.format('\n'.join(self.comments))
+                    self.exponent[0], self.exponent[1], self.exponent[2],
+                    'Offset.r : {}\nOffset.g : {}\nOffset.b : {}\n'.format(
+                        self.offset[0], self.offset[1], self.offset[2])
+                    if self.style.lower()[:8] == 'moncurve' else '',
+                    self.style, '\n\n{0}'.format('\n'.join(self.comments))
                     if self.comments else ''))
 
 
@@ -3028,7 +3039,7 @@ class Log(AbstractLUTSequenceOperator):
                 '\nlinSideBreak   : {0}'.format(self.lin_side_break)
                 if not basic_style and self.lin_side_break is not None else '',
                 '\n\n{0}'.format('\n'.join(self.comments))
-                if self.comments else '')
+                if self.comments else '',)
 
     def __repr__(self):
         #TODO: show only the used parameters (see __str__ method)
