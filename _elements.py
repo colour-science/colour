@@ -201,7 +201,7 @@ def plot_colour_fidelity_indexes(ax, spec):
     ax.set_axisbelow(True)  # Draw the grid behind the bars
     ax.grid(axis='y')
 
-    ax.bar(np.arange(99) + 1, spec.Rs, color=_TCS_BAR_COLOURS)
+    ax.bar(np.arange(99) + 1, spec.R_s, color=_TCS_BAR_COLOURS)
     ax.set_xlim(0.5, 99.5)
     ax.set_ylim(0, 100)
     ax.set_yticks(np.arange(0, 101, 10))

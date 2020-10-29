@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import colour
 from colour.colorimetry import SDS_ILLUMINANTS, sd_to_XYZ
 from colour.models import XYZ_to_xy, XYZ_to_Luv, Luv_to_uv
-from colour.quality import (colour_fidelity_index_TM_30_18,
+from colour.quality import (colour_fidelity_index_ANSIIESTM3018,
                             colour_rendering_index)
 
 from _elements import (plot_spectra_TM_30_18, plot_color_vector_graphic,
@@ -129,9 +129,9 @@ def plot_color_rendition_report(spec, size='full', **kwargs):
 if __name__ == '__main__':
     lamp = SDS_ILLUMINANTS['FL2']
 
-    spec = colour_fidelity_index_TM_30_18(lamp, True)
+    spec = colour_fidelity_index_ANSIIESTM3018(lamp, True)
     plot_color_rendition_report(spec,
-                                'simple',
+                                'intermediate',
                                 source='CIE FL2',
                                 date='Aug 23 2020',
                                 manufacturer='N/A',
