@@ -2318,9 +2318,10 @@ class LUTSequence(MutableSequence):
             Evaluable string representation.
         """
 
-        operations = re.sub(' ' * 4,
-                            ',\n'.join([repr(a) for a in self._sequence]),
-                            flags=re.MULTILINE)
+        operations = re.sub(
+            '^',
+            ' ' * 4,
+            ',\n'.join([repr(a) for a in self._sequence]), flags=re.MULTILINE)
         operations = re.sub('^\\s+$', '', operations, flags=re.MULTILINE)
 
         return '{0}(\n{1}\n)'.format(self.__class__.__name__, operations)
