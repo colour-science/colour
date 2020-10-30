@@ -95,7 +95,7 @@ from .appearance import (
 from .difference import DELTA_E_METHODS, delta_E
 from .geometry import (PRIMITIVE_METHODS, primitive,
                        PRIMITIVE_VERTICES_METHODS, primitive_vertices)
-from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence, READ_IMAGE_METHODS,
+from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence, Log, READ_IMAGE_METHODS,
                  SpectralDistribution_IESTM2714, WRITE_IMAGE_METHODS,
                  read_image, read_LUT, read_sds_from_csv_file,
                  read_sds_from_xrite_file, read_spectral_data_from_csv_file,
