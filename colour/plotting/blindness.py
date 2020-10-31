@@ -5,7 +5,7 @@ Colour Blindness Plotting
 
 Defines the colour blindness plotting objects:
 
--   :func:`plot_cvd_simulation_Machado2009`
+-   :func:`colour.plotting.plot_cvd_simulation_Machado2009`
 """
 
 from __future__ import division
