@@ -665,8 +665,10 @@ dict_like, optional
     >>> directory = join(dirname(__file__), 'tests', 'resources')
     >>> sd = SpectralDistribution_IESTM2714(
     ...     join(directory, 'Fluorescent.spdx')).read()
-    >>> sd.header.manufacturer
-    'Unknown'
+    >>> sd.name  # doctest: +SKIP
+    'Unknown - N/A - Rare earth fluorescent lamp'
+    >>> sd.header.comments
+    'Ambient temperature 25 degrees C.'
     >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> sd[501.7]  # doctest: +ELLIPSIS
     0.0950000...
@@ -968,7 +970,7 @@ dict_like, optional
         >>> directory = join(dirname(__file__), 'tests', 'resources')
         >>> sd = SpectralDistribution_IESTM2714(
         ...     join(directory, 'Fluorescent.spdx')).read()
-        >>> sd.name
+        >>> sd.name  # doctest: +SKIP
         'Unknown - N/A - Rare earth fluorescent lamp'
         >>> sd.header.comments
         'Ambient temperature 25 degrees C.'
