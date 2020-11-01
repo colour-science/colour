@@ -586,6 +586,31 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Specifies if bandwidth correction has been applied to the measured
         data.
 
+    Other Parameters
+    ----------------
+    data : Series or Signal, SpectralDistribution or array_like or \
+dict_like, optional
+        Data to be stored in the spectral distribution.
+    domain : array_like, optional
+        Values to initialise the
+        :attr:`colour.SpectralDistribution.wavelength` attribute with.
+        If both ``data`` and ``domain`` arguments are defined, the latter will
+        be used to initialise the
+        :attr:`colour.SpectralDistribution.wavelength` attribute.
+    name : unicode, optional
+        Spectral distribution name.
+    interpolator : object, optional
+        Interpolator class type to use as interpolating function.
+    interpolator_kwargs : dict_like, optional
+        Arguments to use when instantiating the interpolating function.
+    extrapolator : object, optional
+        Extrapolator class type to use as extrapolating function.
+    extrapolator_kwargs : dict_like, optional
+        Arguments to use when instantiating the extrapolating function.
+    strict_name : unicode, optional
+        Spectral distribution name for figures, default to
+        :attr:`colour.SpectralDistribution.name` attribute value.
+
     Notes
     -----
     *Reflection Geometry*
@@ -654,10 +679,10 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                  reflection_geometry=None,
                  transmission_geometry=None,
                  bandwidth_FWHM=None,
-                 bandwidth_corrected=None):
+                 bandwidth_corrected=None,
+                 **kwargs):
 
-        super(SpectralDistribution_IESTM2714, self).__init__(
-            data=None, domain=None)
+        super(SpectralDistribution_IESTM2714, self).__init__(**kwargs)
 
         self._mapping = Structure(
             **{
@@ -943,8 +968,10 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> directory = join(dirname(__file__), 'tests', 'resources')
         >>> sd = SpectralDistribution_IESTM2714(
         ...     join(directory, 'Fluorescent.spdx')).read()
-        >>> sd.header.description
-        'Rare earth fluorescent lamp'
+        >>> sd.name
+        'Unknown - N/A - Rare earth fluorescent lamp'
+        >>> sd.header.comments
+        'Ambient temperature 25 degrees C.'
         >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> sd[400]  # doctest: +ELLIPSIS
         0.0339999...
@@ -981,6 +1008,11 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     spectral_data.attrib[self.mapping.data.attribute]))
             values.append(DEFAULT_FLOAT_DTYPE(spectral_data.text))
 
+        self.name = ' - '.join([
+            self.header.manufacturer,
+            self.header.catalog_number,
+            self.header.description,
+        ])
         self.wavelengths = wavelengths
         self.values = values
 
