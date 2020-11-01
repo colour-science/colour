@@ -235,6 +235,31 @@ Colour Temperature & Correlated Colour Temperature
     plot_planckian_locus_CIE1960UCS
     plot_planckian_locus_in_chromaticity_diagram
 
+ANSI/IES TM-30-18 Colour Rendition Report
+-----------------------------------------
+
+``colour.plotting``
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_single_sd_colour_rendition_report
+
+**Ancillary Objects**
+
+``colour.plotting.tm3018``
+
+.. currentmodule:: colour.plotting.tm3018
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_single_sd_colour_rendition_report_full
+    plot_single_sd_colour_rendition_report_intermediate
+    plot_single_sd_colour_rendition_report_simple
+
 Colour Models Volume
 --------------------
 

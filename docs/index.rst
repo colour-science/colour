@@ -1200,6 +1200,16 @@ Colour Rendering Index
 
 ..  image:: _static/Examples_Plotting_CRI.png
 
+ANSI/IES TM-30-18 Colour Rendition Report
+*****************************************
+
+.. code-block:: python
+
+    >>> plot_single_sd_colour_rendition_report(
+    ...     colour.SDS_ILLUMINANTS['FL2'])
+
+..  image:: _static/Examples_Plotting_Colour_Rendition_Report.png
+
 Contributing
 ------------
 

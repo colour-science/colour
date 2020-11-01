@@ -58,8 +58,8 @@ from colour.plotting import (  # noqa
     plot_single_munsell_value_function,
     plot_single_sd_colour_quality_scale_bars,
     plot_single_sd_colour_rendering_index_bars,
-    plot_single_sd_rayleigh_scattering, plot_single_sd, plot_the_blue_sky,
-    plot_visible_spectrum, render)
+    plot_single_sd_colour_rendition_report, plot_single_sd_rayleigh_scattering,
+    plot_single_sd, plot_the_blue_sky, plot_visible_spectrum, render)
 from colour.plotting.diagrams import (  # noqa
     plot_spectral_locus, plot_chromaticity_diagram_colours,
     plot_chromaticity_diagram, plot_sds_in_chromaticity_diagram)
@@ -209,6 +209,12 @@ def generate_documentation_plots(output_directory):
     plt.close(
         plot_single_sd_colour_rendering_index_bars(SDS_ILLUMINANTS['FL2'],
                                                    **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Examples_Plotting_Colour_Rendition_Report.png')
+    plt.close(
+        plot_single_sd_colour_rendition_report(SDS_ILLUMINANTS['FL2'],
+                                               **arguments)[0])
 
     # *************************************************************************
     # Documentation
@@ -656,6 +662,27 @@ def generate_documentation_plots(output_directory):
     plt.close(
         plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
             ['A', 'B', 'C'], **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory,
+        'Plotting_Plot_Single_SD_Colour_Rendition_Report_Full.png')
+    plt.close(
+        plot_single_sd_colour_rendition_report(SDS_ILLUMINANTS['FL2'],
+                                               **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory,
+        'Plotting_Plot_Single_SD_Colour_Rendition_Report_Intermediate.png')
+    plt.close(
+        plot_single_sd_colour_rendition_report(SDS_ILLUMINANTS['FL2'],
+                                               'Intermediate', **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory,
+        'Plotting_Plot_Single_SD_Colour_Rendition_Report_Simple.png')
+    plt.close(
+        plot_single_sd_colour_rendition_report(SDS_ILLUMINANTS['FL2'],
+                                               'Simple', **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Colourspaces_Gamuts.png')
