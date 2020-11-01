@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.io.iestm2714` module.
+Defines unit tests for :mod:`colour.io.tm2714` module.
 """
 
 from __future__ import division, unicode_literals
@@ -12,8 +12,7 @@ import unittest
 import tempfile
 
 from colour.colorimetry import SpectralDistribution
-from colour.io.ies_tm2714 import (Header_IESTM2714,
-                                  SpectralDistribution_IESTM2714)
+from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -140,7 +139,7 @@ FLUORESCENT_FILE_SPECTRAL_DATA = {
 
 class TestIES_TM2714_Header(unittest.TestCase):
     """
-    Defines :class:`colour.io.iestm2714.Header_IESTM2714` class unit tests
+    Defines :class:`colour.io.tm2714.Header_IESTM2714` class unit tests
     methods.
     """
 
@@ -161,8 +160,8 @@ class TestIES_TM2714_Header(unittest.TestCase):
 
 class TestIES_TM2714_Sd(unittest.TestCase):
     """
-    Defines :class:`colour.io.iestm2714.SpectralDistribution_IESTM2714` class
-    unit tests methods.
+    Defines :class:`colour.io.tm2714.SpectralDistribution_IESTM2714` class unit
+    tests methods.
     """
 
     def setUp(self):
@@ -204,7 +203,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_read(self, sd=None):
         """
-        Tests :attr:`colour.io.iestm2714.SpectralDistribution_IESTM2714.read`
+        Tests :attr:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method.
 _temporary_directory_temporary_directory
         Parameters
@@ -232,7 +231,7 @@ _temporary_directory_temporary_directory
 
     def test_write(self):
         """
-        Tests :attr:`colour.io.iestm2714.SpectralDistribution_IESTM2714.write`
+        Tests :attr:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
         method.
         """
 
