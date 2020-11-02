@@ -63,6 +63,7 @@ from .quality import (  # noqa
 from .temperature import (  # noqa
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS)
+from .tm3018 import plot_single_sd_colour_rendition_report  # noqa
 from .volume import plot_RGB_colourspaces_gamuts, plot_RGB_scatter  # noqa
 
 __all__ = []
@@ -124,6 +125,7 @@ __all__ += [
     'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
     'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS'
 ]
+__all__ += ['plot_single_sd_colour_rendition_report']
 __all__ += ['plot_RGB_colourspaces_gamuts', 'plot_RGB_scatter']
 
 
