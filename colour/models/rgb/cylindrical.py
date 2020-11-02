@@ -331,9 +331,9 @@ def HSL_to_RGB(HSL):
     G = H_to_RGB(i, j, H)
     B = H_to_RGB(i, j, H - (1 / 3))
 
-    R = np.where(S == 1, L, R)
-    G = np.where(S == 1, L, G)
-    B = np.where(S == 1, L, B)
+    R = np.where(S == 0, L, R)
+    G = np.where(S == 0, L, G)
+    B = np.where(S == 0, L, B)
 
     RGB = tstack([R, G, B])
 
