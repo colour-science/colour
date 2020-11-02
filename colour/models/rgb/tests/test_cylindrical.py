@@ -51,6 +51,11 @@ class TestRGB_to_HSV(unittest.TestCase):
             np.array([0.00000000, 0.00000000, 1.00000000]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            RGB_to_HSV(np.array([0.00000000, 1.00000000, 1.00000000])),
+            np.array([0.50000000, 1.00000000, 1.00000000]),
+            decimal=7)
+
     def test_n_dimensional_RGB_to_HSV(self):
         """
         Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition
@@ -121,6 +126,11 @@ class TestHSV_to_RGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             HSV_to_RGB(np.array([0.00000000, 0.00000000, 1.00000000])),
             np.array([1.00000000, 1.00000000, 1.00000000]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            HSV_to_RGB(np.array([0.50000000, 1.00000000, 1.00000000])),
+            np.array([0.00000000, 1.00000000, 1.00000000]),
             decimal=7)
 
     def test_n_dimensional_HSV_to_RGB(self):
@@ -195,6 +205,11 @@ class TestRGB_to_HSL(unittest.TestCase):
             np.array([0.00000000, 0.00000000, 1.00000000]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            RGB_to_HSL(np.array([1.00000000, 0.00000000, 0.00000000])),
+            np.array([0.00000000, 1.00000000, 0.50000000]),
+            decimal=7)
+
     def test_n_dimensional_RGB_to_HSL(self):
         """
         Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition
@@ -265,6 +280,11 @@ class TestHSL_to_RGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             HSL_to_RGB(np.array([0.00000000, 0.00000000, 1.00000000])),
             np.array([1.00000000, 1.00000000, 1.00000000]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            HSL_to_RGB(np.array([0.00000000, 1.00000000, 0.50000000])),
+            np.array([1.00000000, 0.00000000, 0.00000000]),
             decimal=7)
 
     def test_n_dimensional_HSL_to_RGB(self):
