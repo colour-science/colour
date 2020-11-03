@@ -28,7 +28,7 @@ from colour.plotting.tm3018.components import (
 from colour.quality import (colour_fidelity_index_ANSIIESTM3018,
                             colour_rendering_index)
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
-from colour.utilities import describe_environment, usage_warning
+from colour.utilities import describe_environment, runtime_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -306,7 +306,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     """
 
     if six.PY2:
-        usage_warning(
+        runtime_warning(
             'The "ANSI/IES TM-30-18 Colour Rendition Report" uses advanced '
             '"Matplotlib" layout capabilities only available for Python 3!')
 
@@ -589,7 +589,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
     """
 
     if six.PY2:
-        usage_warning(
+        runtime_warning(
             'The "ANSI/IES TM-30-18 Colour Rendition Report" uses advanced '
             '"Matplotlib" layout capabilities only available for Python 3!')
 
@@ -689,7 +689,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     """
 
     if six.PY2:
-        usage_warning(
+        runtime_warning(
             'The "ANSI/IES TM-30-18 Colour Rendition Report" uses advanced '
             '"Matplotlib" layout capabilities only available for Python 3!')
 
