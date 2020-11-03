@@ -227,6 +227,7 @@ Issues & Discussions
 -   @monkeywithacupcake
 -   @Myndex
 -   @naavis
+-   @nadersadoughi
 -   @NoRoKr
 -   @nschloe
 -   @peteroupc
@@ -250,6 +251,7 @@ Issues & Discussions
 -   @vidakDK
 -   @Wagyx
 -   @Willingo
+-   @xjossy
 -   @zachlewis
 
 About
