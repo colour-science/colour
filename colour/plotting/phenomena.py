@@ -16,8 +16,8 @@ import matplotlib.pyplot as plt
 from colour.colorimetry import sd_to_XYZ
 from colour.phenomena import sd_rayleigh_scattering
 from colour.phenomena.rayleigh import (
-    CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL, DEFAULT_ALTITUDE,
-    DEFAULT_LATITUDE, CONSTANT_STANDARD_AIR_TEMPERATURE,
+    CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL, CONSTANT_DEFAULT_ALTITUDE,
+    CONSTANT_DEFAULT_LATITUDE, CONSTANT_STANDARD_AIR_TEMPERATURE,
     CONSTANT_STANDARD_CO2_CONCENTRATION)
 from colour.plotting import (SD_ASTMG173_ETR, CONSTANTS_COLOUR_STYLE,
                              ColourSwatch, XYZ_to_plotting_colourspace,
@@ -40,8 +40,8 @@ def plot_single_sd_rayleigh_scattering(
         CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
         temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
         pressure=CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-        latitude=DEFAULT_LATITUDE,
-        altitude=DEFAULT_ALTITUDE,
+        latitude=CONSTANT_DEFAULT_LATITUDE,
+        altitude=CONSTANT_DEFAULT_ALTITUDE,
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """

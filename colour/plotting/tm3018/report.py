@@ -28,7 +28,7 @@ from colour.plotting.tm3018.components import (
 from colour.quality import (colour_fidelity_index_ANSIIESTM3018,
                             colour_rendering_index)
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
-from colour.utilities import describe_environment, usage_warning
+from colour.utilities import describe_environment, runtime_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -306,7 +306,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     """
 
     if six.PY2:
-        usage_warning(
+        runtime_warning(
             'The "ANSI/IES TM-30-18 Colour Rendition Report" uses advanced '
             '"Matplotlib" layout capabilities only available for Python 3!')
 
@@ -332,8 +332,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
-    settings = {}
-    settings.update(**kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
     settings['tight_layout'] = False
 
@@ -531,8 +530,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 
     figure.set_constrained_layout_pads(**report_box_padding)
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['tight_layout'] = False
 
     return render(**settings)
@@ -589,7 +587,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
     """
 
     if six.PY2:
-        usage_warning(
+        runtime_warning(
             'The "ANSI/IES TM-30-18 Colour Rendition Report" uses advanced '
             '"Matplotlib" layout capabilities only available for Python 3!')
 
@@ -599,8 +597,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
-    settings = {}
-    settings.update(**kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
     settings['tight_layout'] = False
 
@@ -633,8 +630,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
 
     figure.set_constrained_layout_pads(**report_box_padding)
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['tight_layout'] = False
 
     return render(**settings)
@@ -689,7 +685,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     """
 
     if six.PY2:
-        usage_warning(
+        runtime_warning(
             'The "ANSI/IES TM-30-18 Colour Rendition Report" uses advanced '
             '"Matplotlib" layout capabilities only available for Python 3!')
 
@@ -699,8 +695,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
-    settings = {}
-    settings.update(**kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
     settings['tight_layout'] = False
 
@@ -725,8 +720,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
     figure.set_constrained_layout_pads(**report_box_padding)
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['tight_layout'] = False
 
     return render(**settings)
@@ -751,6 +745,55 @@ def plot_single_sd_colour_rendition_report(sd, method='Full', **kwargs):
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
+    source : unicode, optional
+        {:func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_full`},
+        Emission source name, defaults to
+        `colour.SpectralDistribution_IESTM2714.header.description` or
+        `colour.SpectralDistribution_IESTM2714.name` properties value.
+    date : unicode, optional
+        {:func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_full`},
+        Emission source measurement date, defaults to
+        `colour.SpectralDistribution_IESTM2714.header.report_date` property
+        value.
+    manufacturer : unicode, optional
+        {:func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_full`},
+        Emission source manufacturer, defaults to
+        `colour.SpectralDistribution_IESTM2714.header.manufacturer` property
+        value.
+    model : unicode, optional
+        {:func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_full`},
+        Emission source model, defaults to
+        `colour.SpectralDistribution_IESTM2714.header.catalog_number` property
+        value.
+    notes : unicode, optional
+        {:func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_full`},
+        Notes pertaining to the emission source, defaults to
+        `colour.SpectralDistribution_IESTM2714.header.comments` property
+        value.
+    report_size : array_like, optional
+        {:func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_intermediate`, \
+:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple},
+        Report size, default to A4 paper size in inches.
+    report_row_height_ratios : array_like, optional
+        {:func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_intermediate`, \
+:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple},
+        Report size row height ratios.
+    report_box_padding : array_like, optional
+        {:func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_intermediate`, \
+:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple},
+        Report box padding, tries to define the padding around the figure and
+        in-between the axes.
 
     Returns
     -------

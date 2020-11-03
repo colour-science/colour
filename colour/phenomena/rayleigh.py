@@ -36,8 +36,8 @@ __status__ = 'Production'
 
 __all__ = [
     'CONSTANT_STANDARD_AIR_TEMPERATURE', 'CONSTANT_STANDARD_CO2_CONCENTRATION',
-    'CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL', 'DEFAULT_LATITUDE',
-    'DEFAULT_ALTITUDE', 'air_refraction_index_Penndorf1957',
+    'CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL', 'CONSTANT_DEFAULT_LATITUDE',
+    'CONSTANT_DEFAULT_ALTITUDE', 'air_refraction_index_Penndorf1957',
     'air_refraction_index_Edlen1966', 'air_refraction_index_Peck1972',
     'air_refraction_index_Bodhaine1999', 'N2_depolarisation',
     'O2_depolarisation', 'F_air_Penndorf1957', 'F_air_Young1981',
@@ -67,18 +67,18 @@ CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL = 101325
 CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL : numeric
 """
 
-DEFAULT_LATITUDE = 0
+CONSTANT_DEFAULT_LATITUDE = 0
 """
 Default latitude in degrees (equator).
 
-DEFAULT_LATITUDE : numeric
+CONSTANT_DEFAULT_LATITUDE : numeric
 """
 
-DEFAULT_ALTITUDE = 0
+CONSTANT_DEFAULT_ALTITUDE = 0
 """
 Default altitude in meters (sea level).
 
-DEFAULT_ALTITUDE : numeric
+CONSTANT_DEFAULT_ALTITUDE : numeric
 """
 
 
@@ -468,7 +468,8 @@ def mean_molecular_weights(
     return m_a
 
 
-def gravity_List1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
+def gravity_List1968(latitude=CONSTANT_DEFAULT_LATITUDE,
+                     altitude=CONSTANT_DEFAULT_ALTITUDE):
     """
     Returns the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
     mass-weighted column of air molecules above the site of given latitude and
@@ -589,8 +590,8 @@ def rayleigh_optical_depth(
         CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
         temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
         pressure=CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-        latitude=DEFAULT_LATITUDE,
-        altitude=DEFAULT_ALTITUDE,
+        latitude=CONSTANT_DEFAULT_LATITUDE,
+        altitude=CONSTANT_DEFAULT_ALTITUDE,
         avogadro_constant=CONSTANT_AVOGADRO,
         n_s=air_refraction_index_Bodhaine1999,
         F_air=F_air_Bodhaine1999):
@@ -667,8 +668,8 @@ def sd_rayleigh_scattering(
         CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
         temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
         pressure=CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-        latitude=DEFAULT_LATITUDE,
-        altitude=DEFAULT_ALTITUDE,
+        latitude=CONSTANT_DEFAULT_LATITUDE,
+        altitude=CONSTANT_DEFAULT_ALTITUDE,
         avogadro_constant=CONSTANT_AVOGADRO,
         n_s=air_refraction_index_Bodhaine1999,
         F_air=F_air_Bodhaine1999):
