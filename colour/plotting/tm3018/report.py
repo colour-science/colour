@@ -165,10 +165,15 @@ Report header content, i.e. the report title.
 REPORT_HEADER_CONTENT : unicode
 """
 
+try:
+    _COLOUR_VERSION = ' {0}.'.format(
+        describe_environment(
+            print_callable=lambda x: x)['colour-science.org']['colour'])
+except Exception:  # noqa
+    _COLOUR_VERSION = '.'
+
 REPORT_FOOTER_CONTENT = ('Colours are for visual orientation purposes only. '
-                         'Created with Colour {0}').format(
-                             describe_environment(print_callable=lambda x: x)[
-                                 'colour-science.org']['colour'])
+                         'Created with Colour{0}').format(_COLOUR_VERSION)
 """
 Report footer content.
 
