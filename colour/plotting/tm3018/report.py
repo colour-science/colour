@@ -332,8 +332,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
-    settings = {}
-    settings.update(**kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
     settings['tight_layout'] = False
 
@@ -531,8 +530,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 
     figure.set_constrained_layout_pads(**report_box_padding)
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['tight_layout'] = False
 
     return render(**settings)
@@ -599,8 +597,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
-    settings = {}
-    settings.update(**kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
     settings['tight_layout'] = False
 
@@ -633,8 +630,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
 
     figure.set_constrained_layout_pads(**report_box_padding)
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['tight_layout'] = False
 
     return render(**settings)
@@ -699,8 +695,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
-    settings = {}
-    settings.update(**kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
     settings['tight_layout'] = False
 
@@ -725,8 +720,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
     figure.set_constrained_layout_pads(**report_box_padding)
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['tight_layout'] = False
 
     return render(**settings)

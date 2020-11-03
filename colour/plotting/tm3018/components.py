@@ -113,8 +113,7 @@ def plot_spectra_ANSIIESTM3018(specification, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
 
     _figure, axes = artist(**settings)
 
@@ -178,8 +177,7 @@ def plot_colour_vector_graphic(specification, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
 
     # Background
@@ -415,8 +413,7 @@ def plot_local_chroma_shifts(specification, x_ticker=False, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
 
     _figure, axes = plot_16_bin_bars(specification.R_cs, '{0:.0f}%', x_ticker,
@@ -469,8 +466,7 @@ def plot_local_hue_shifts(specification, x_ticker=False, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
 
     _figure, axes = plot_16_bin_bars(specification.R_hs, '{0:.2f}', x_ticker,
@@ -519,8 +515,7 @@ def plot_local_colour_fidelities(specification, x_ticker=False, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
     settings['standalone'] = False
 
     _figure, axes = plot_16_bin_bars(specification.R_fs, '{0:.0f}', x_ticker,

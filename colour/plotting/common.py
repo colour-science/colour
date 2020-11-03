@@ -1379,8 +1379,7 @@ def plot_multi_functions(functions,
         :alt: plot_multi_functions
     """
 
-    settings = {}
-    settings.update(kwargs)
+    settings = kwargs.copy()
 
     _figure, axes = artist(**settings)
 
