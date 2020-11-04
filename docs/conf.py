@@ -228,9 +228,20 @@ latex_elements = {
     # Additional stuff for the LaTeX preamble.
     'preamble':
         """
-        \\usepackage{charter}
-        \\usepackage[defaultsans]{lato}
-        \\usepackage{inconsolata}
+\\usepackage{charter}
+\\usepackage[defaultsans]{lato}
+\\usepackage{inconsolata}
+
+% Ignoring unicode errors.
+\\makeatletter
+\\def\\UTFviii@defined#1{%
+    \\ifx#1\\relax
+        ?%
+    \\else\\expandafter
+        #1%
+    \\fi
+}
+\\makeatother
         """,
 }
 
