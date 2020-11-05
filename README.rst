@@ -347,7 +347,7 @@ Chromatic Adaptation - ``colour.adaptation``
     >>> colour.chromatic_adaptation(
     ...     XYZ, colour.xy_to_XYZ(D65), colour.xy_to_XYZ(A))
     array([ 0.2533053 ,  0.13765138,  0.01543307])
-    >>> sorted(colour.CHROMATIC_ADAPTATION_METHODS.keys())
+    >>> sorted(colour.CHROMATIC_ADAPTATION_METHODS)
     ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries']
 
 Algebra - ``colour.algebra``
@@ -412,7 +412,7 @@ Colour Correction - ``colour characterisation``
     >>> M_R = M_T + (np.random.random((24, 3)) - 0.5) * 0.5
     >>> colour.colour_correction(RGB, M_T, M_R)
     array([ 0.1806237 ,  0.07234791,  0.07848845])
-    >>> sorted(colour.COLOUR_CORRECTION_METHODS.keys())
+    >>> sorted(colour.COLOUR_CORRECTION_METHODS)
     ['Cheung 2004', 'Finlayson 2015', 'Vandermonde']
 
 ACES Input Transform - ``colour characterisation``
@@ -437,7 +437,7 @@ Spectral Computations
 
     >>> colour.sd_to_XYZ(colour.SDS_LIGHT_SOURCES['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
-    >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
+    >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS)
     ['ASTM E308', 'Integration', 'astm2015']
 
 
@@ -474,7 +474,7 @@ Multi-Spectral Computations
            [[ 80.00969553,  80.39810464,  76.08184429],
             [ 33.27611427,  24.38947838,  39.34919287],
             [  8.89425686,  11.05185138,  10.86767594]]])
-    >>> sorted(colour.MSDS_TO_XYZ_METHODS.keys())
+    >>> sorted(colour.MSDS_TO_XYZ_METHODS)
     ['ASTM E308', 'Integration', 'astm2015']
 
 Blackbody Spectral Radiance Computation
@@ -514,7 +514,7 @@ Lightness Computation
 
     >>> colour.lightness(12.19722535)
     41.527875844653451
-    >>> sorted(colour.LIGHTNESS_METHODS.keys())
+    >>> sorted(colour.LIGHTNESS_METHODS)
     ['CIE 1976',
      'Fairchild 2010',
      'Fairchild 2011',
@@ -529,7 +529,7 @@ Luminance Computation
 
     >>> colour.luminance(41.52787585)
     12.197225353400775
-    >>> sorted(colour.LUMINANCE_METHODS.keys())
+    >>> sorted(colour.LUMINANCE_METHODS)
     ['ASTM D1535',
      'CIE 1976',
      'Fairchild 2010',
@@ -547,7 +547,7 @@ Whiteness Computation
     >>> XYZ_0 = [94.80966767, 100.00000000, 107.30513595]
     >>> colour.whiteness(XYZ, XYZ_0)
     array([ 93.756     ,  -1.33000001])
-    >>> sorted(colour.WHITENESS_METHODS.keys())
+    >>> sorted(colour.WHITENESS_METHODS)
     ['ASTM E313',
      'Berger 1959',
      'CIE 2004',
@@ -564,7 +564,7 @@ Yellowness Computation
     >>> XYZ = [95.00000000, 100.00000000, 105.00000000]
     >>> colour.yellowness(XYZ)
     11.065000000000003
-    >>> sorted(colour.YELLOWNESS_METHODS.keys())
+    >>> sorted(colour.YELLOWNESS_METHODS)
     ['ASTM D1925', 'ASTM E313']
 
 Luminous Flux, Efficiency & Efficacy Computation
@@ -589,7 +589,7 @@ Contrast Sensitivity Function - ``colour.contrast``
 
     >>> colour.contrast_sensitivity_function(u=4, X_0=60, E=65)
     358.51180789884984
-    >>> sorted(colour.CONTRAST_SENSITIVITY_METHODS.keys())
+    >>> sorted(colour.CONTRAST_SENSITIVITY_METHODS)
     ['Barten 1999']
 
 
@@ -602,7 +602,7 @@ Colour Difference - ``colour.difference``
     >>> Lab_2 = [100.00000000, 426.67945353, 72.39590835]
     >>> colour.delta_E(Lab_1, Lab_2)
     94.035649026659485
-    >>> sorted(colour.DELTA_E_METHODS.keys())
+    >>> sorted(colour.DELTA_E_METHODS)
     ['CAM02-LCD',
      'CAM02-SCD',
      'CAM02-UCS',
@@ -883,7 +883,7 @@ RGB Colourspaces
 
 .. code-block:: python
 
-    >>> sorted(colour.RGB_COLOURSPACES.keys())
+    >>> sorted(colour.RGB_COLOURSPACES)
     ['ACES2065-1',
      'ACEScc',
      'ACEScct',
@@ -949,7 +949,7 @@ OETFs
 
 .. code-block:: python
 
-    >>> sorted(colour.OETFS.keys())
+    >>> sorted(colour.OETFS)
     ['ARIB STD-B67',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
@@ -962,7 +962,7 @@ OETFs Inverse
 
 .. code-block:: python
 
-    >>> sorted(colour.OETF_INVERSES.keys())
+    >>> sorted(colour.OETF_INVERSES)
     ['ARIB STD-B67',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',
@@ -974,7 +974,7 @@ EOTFs
 
 .. code-block:: python
 
-    >>> sorted(colour.EOTFS.keys())
+    >>> sorted(colour.EOTFS)
     ['DCDM',
      'DICOM GSDF',
      'ITU-R BT.1886',
@@ -990,7 +990,7 @@ EOTFs Inverse
 
 .. code-block:: python
 
-    >>> sorted(colour.EOTF_INVERSES.keys())
+    >>> sorted(colour.EOTF_INVERSES)
     ['DCDM',
      'DICOM GSDF',
      'ITU-R BT.1886',
@@ -1005,7 +1005,7 @@ OOTFs
 
 .. code-block:: python
 
-    >>> sorted(colour.OOTFS.keys())
+    >>> sorted(colour.OOTFS)
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
 OOTFs Inverse
@@ -1013,7 +1013,7 @@ OOTFs Inverse
 
 .. code-block:: python
 
-    >>> sorted(colour.OOTF_INVERSES.keys())
+    >>> sorted(colour.OOTF_INVERSES)
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
 Log Encoding / Decoding
@@ -1021,7 +1021,7 @@ Log Encoding / Decoding
 
 .. code-block:: python
 
-    >>> sorted(colour.LOG_ENCODINGS.keys())
+    >>> sorted(colour.LOG_ENCODINGS)
     ['ACEScc',
      'ACEScct',
      'ACESproxy',
@@ -1054,7 +1054,7 @@ CCTFs Encoding / Decoding
 
 .. code-block:: python
 
-    >>> sorted(colour.CCTF_ENCODINGS.keys())
+    >>> sorted(colour.CCTF_ENCODINGS)
     ['ACEScc',
      'ACEScct',
      'ACESproxy',
@@ -1110,7 +1110,7 @@ Munsell Value
 
     >>> colour.munsell_value(12.23634268)
     4.0824437076525664
-    >>> sorted(colour.MUNSELL_VALUE_METHODS.keys())
+    >>> sorted(colour.MUNSELL_VALUE_METHODS)
     ['ASTM D1535',
      'Ladd 1955',
      'McCamy 1987',
@@ -1158,8 +1158,8 @@ Colour Fidelity Index
 
     >>> colour.colour_fidelity_index(colour.SDS_ILLUMINANTS['FL2'])
     70.120825477833037
-    >>> tuple(colour.COLOUR_FIDELITY_INDEX_METHODS.keys())
-    ('CIE 2017', 'ANSI/IES TM-30-18')
+    >>> sorted(colour.COLOUR_FIDELITY_INDEX_METHODS)
+    ['ANSI/IES TM-30-18', 'CIE 2017']
 
 Colour Rendering Index
 **********************
@@ -1168,8 +1168,8 @@ Colour Rendering Index
 
     >>> colour.colour_quality_scale(colour.SDS_ILLUMINANTS['FL2'])
     64.111703163816699
-    >>> colour.COLOUR_QUALITY_SCALE_METHODS
-    ('NIST CQS 7.4', 'NIST CQS 9.0')
+    >>> sorted(colour.COLOUR_QUALITY_SCALE_METHODS)
+    ['NIST CQS 7.4', 'NIST CQS 9.0']
 
 Colour Quality Scale
 ********************
@@ -1204,7 +1204,7 @@ Spectral Up-Sampling & Reflectance Recovery - ``colour.recovery``
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={'method': 'Constant', 'left': None, 'right': None})
 
-    >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS.keys())
+    >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS)
     ['Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999']
 
 Correlated Colour Temperature Computation Methods - ``colour.temperature``
@@ -1214,9 +1214,9 @@ Correlated Colour Temperature Computation Methods - ``colour.temperature``
 
     >>> colour.uv_to_CCT([0.1978, 0.3122])
     array([  6.50751282e+03,   3.22335875e-03])
-    >>> sorted(colour.UV_TO_CCT_METHODS.keys())
+    >>> sorted(colour.UV_TO_CCT_METHODS)
     ['Krystek 1985', 'Ohno 2013', 'Robertson 1968', 'ohno2013', 'robertson1968']
-    >>> sorted(colour.XY_TO_CCT_METHODS.keys())
+    >>> sorted(colour.XY_TO_CCT_METHODS)
     ['CIE Illuminant D Series',
      'Hernandez 1999',
      'Kang 2002',
@@ -1249,14 +1249,14 @@ Geometry Primitives Generation - ``colour.geometry``
            [2, 3],
            [3, 1],
            [1, 0]], dtype=uint32))
-    >>> sorted(colour.PRIMITIVE_METHODS.keys())
+    >>> sorted(colour.PRIMITIVE_METHODS)
     ['Cube', 'Grid']
     >>> colour.primitive_vertices('Quad MPL')
     array([[ 0.,  0.,  0.],
            [ 1.,  0.,  0.],
            [ 1.,  1.,  0.],
            [ 0.,  1.,  0.]])
-    >>> sorted(colour.PRIMITIVE_VERTICES_METHODS.keys())
+    >>> sorted(colour.PRIMITIVE_VERTICES_METHODS)
     ['Cube MPL', 'Grid MPL', 'Quad MPL', 'Sphere']
 
 Plotting - ``colour.plotting``
