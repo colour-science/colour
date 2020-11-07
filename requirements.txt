@@ -59,7 +59,7 @@ pandocfilters==1.4.2
 parso==0.5.2
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==7.0.0
+Pillow==7.1.0
 pkginfo==1.5.0.1
 pluggy==0.13.1
 pre-commit==1.21.0
