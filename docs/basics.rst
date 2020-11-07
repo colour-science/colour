@@ -467,6 +467,8 @@ Scale - 1
 -   *Degrees* in domain-range `[0, 360]` are scaled by *360*.
 -   *Integers* in domain-range `[0, 2**n -1]` where `n` is the bit
     depth are scaled by *2**n -1*.
+-   *Dimensionless* values are unaffected and are indicated with `DN`.
+-   *Unaffected* values are unaffected and are indicated with `UN`.
 
 .. warning::
 
@@ -475,7 +477,8 @@ Scale - 1
     encounter values exceeding *1*, e.g. High Dynamic Range Imagery (HDRI) or
     negative values, e.g. out-of-gamut RGB colourspace values. Some definitions
     such as :func:`colour.models.eotf_ST2084` which decodes absolute luminance
-    values are not affected by any domain-range scales.
+    values are not affected by any domain-range scales and are indicated with
+    `UN`.
 
 Understanding the Domain-Range Scale of an Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
