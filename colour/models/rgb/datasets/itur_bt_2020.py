@@ -91,6 +91,12 @@ RGB_COLOURSPACE_BT2020 = RGB_Colourspace(
 RGB_COLOURSPACE_BT2020.__doc__ = """
 *ITU-R BT.2020* colourspace.
 
+The wavelength of the *ITU-R BT.2020* primary colours are:
+
+-   630nm for the red primary colour
+-   532nm for the green primary colour
+-   467nm for the blue primary colour.
+
 References
 ----------
 :cite:`InternationalTelecommunicationUnion2015h`
