@@ -192,7 +192,12 @@ def XYZ_to_CIECAM02(XYZ,
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
-        Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
+        Luminous factor of background :math:`Y_b` such as
+        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
+        light source and :math:`L_b` is the luminance of the background. For
+        viewing images, :math:`L_w` can be the average :math:`Y` value for the
+        pixels in the entire image, or frequently, a :math:`Y` value of 20,
+        approximate an :math:`L^*` of 50 is used.
     surround : InductionFactors_CIECAM02, optional
         Surround viewing conditions induction factors.
     discount_illuminant : bool, optional
@@ -360,7 +365,12 @@ def CIECAM02_to_XYZ(specification,
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
-        Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
+        Luminous factor of background :math:`Y_b` such as
+        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
+        light source and :math:`L_b` is the luminance of the background. For
+        viewing images, :math:`L_w` can be the average :math:`Y` value for the
+        pixels in the entire image, or frequently, a :math:`Y` value of 20,
+        approximate an :math:`L^*` of 50 is used.
     surround : InductionFactors_CIECAM02, optional
         Surround viewing conditions.
     discount_illuminant : bool, optional
