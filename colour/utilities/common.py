@@ -1297,6 +1297,11 @@ def from_range_1(a, scale_factor=100):
     ndarray
         :math:`a` scaled from range **'1'**.
 
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
+
     Examples
     --------
     With *Colour* domain-range scale set to **'Reference'**:
@@ -1349,6 +1354,11 @@ def from_range_10(a, scale_factor=10):
     -------
     ndarray
         :math:`a` scaled from range **'10'**.
+
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
 
     Examples
     --------
@@ -1404,6 +1414,11 @@ def from_range_100(a, scale_factor=100):
     ndarray
         :math:`a` scaled from range **'100'**.
 
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
+
     Examples
     --------
     With *Colour* domain-range scale set to **'Reference'**:
@@ -1451,6 +1466,11 @@ def from_range_degrees(a, scale_factor=360):
     scale_factor : numeric or array_like, optional
         Scale factor, usually *numeric* but can be an *array_like* if some
         axis need different scaling to be brought from degrees range.
+
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
 
     Returns
     -------
@@ -1513,6 +1533,11 @@ def from_range_int(a, bit_depth=8, dtype=None):
     -------
     ndarray
         :math:`a` scaled from int range.
+
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
 
     Notes
     -----
