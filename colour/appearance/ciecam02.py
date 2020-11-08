@@ -195,7 +195,7 @@ def XYZ_to_CIECAM02(XYZ,
         Luminous factor of background :math:`Y_b` such as
         :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
         light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`L_w` can be the average :math:`Y` value for the
+        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
         pixels in the entire image, or frequently, a :math:`Y` value of 20,
         approximate an :math:`L^*` of 50 is used.
     surround : InductionFactors_CIECAM02, optional
@@ -368,7 +368,7 @@ def CIECAM02_to_XYZ(specification,
         Luminous factor of background :math:`Y_b` such as
         :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
         light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`L_w` can be the average :math:`Y` value for the
+        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
         pixels in the entire image, or frequently, a :math:`Y` value of 20,
         approximate an :math:`L^*` of 50 is used.
     surround : InductionFactors_CIECAM02, optional
