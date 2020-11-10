@@ -923,6 +923,35 @@ class domain_range_scale(object):
     scale : unicode
         **{'Reference', '1'}**,
         *Colour* domain-range scale to set.
+
+    Examples
+    --------
+    With *Colour* domain-range scale set to **'Reference'**:
+
+    >>> with domain_range_scale('1'):
+    ...     to_domain_1(1)
+    array(1.0)
+    >>> with domain_range_scale('Reference'):
+    ...     from_range_1(1)
+    1
+
+    With *Colour* domain-range scale set to **'1'**:
+
+    >>> with domain_range_scale('1'):
+    ...     to_domain_1(1)
+    array(1.0)
+    >>> with domain_range_scale('1'):
+    ...     from_range_1(1)
+    1
+
+    With *Colour* domain-range scale set to **'100'** (unsupported):
+
+    >>> with domain_range_scale('100'):
+    ...     to_domain_1(1)
+    array(0.01)
+    >>> with domain_range_scale('100'):
+    ...     from_range_1(1)
+    100
     """
 
     def __init__(self, scale):
