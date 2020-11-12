@@ -18,6 +18,13 @@ SDS_BABELCOLOR_AVERAGE`: Average data derived from measurements
     of 30 *ColorChecker Classic* charts.
 -   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
 SDS_COLORCHECKER_N_OHTA`: Measured by Ohta (1997).
+-   :attr:`colour.characterisation.datasets.colour_checkers.sds.\
+SDS_ISO17321_1`: Reflectance values for spectral curves of a set of 24 patches.
+
+Notes
+-----
+-   Data from :cite:`InternationalOrganizationforStandardization2012` and
+    :cite:`Ohta1997a` has been verified to be the same.
 
 References
 ----------
@@ -27,6 +34,11 @@ References
 -   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and
     spectra.
     http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
+-   :cite:`InternationalOrganizationforStandardization2012` : International
+    Organization for Standardization. (2012). INTERNATIONAL STANDARD ISO
+    17321-1 - Graphic technology and photography - Colour characterisation of
+    digital still cameras (DSCs) - Part 1: Stimuli, metrology and test
+    procedures.
 -   :cite:`MunsellColorScienceb` : Munsell Color Science. (n.d.). Macbeth
     Colorchecker. http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
 -   :cite:`Ohta1997a` : Ohta, N. (1997). The basis of color reproduction
@@ -2994,7 +3006,7 @@ SDS_COLORCHECKER_N_OHTA : dict
 
 SDS_COLOURCHECKERS = CaseInsensitiveMapping({
     'BabelColor Average': SDS_BABELCOLOR_AVERAGE,
-    'ColorChecker N Ohta': SDS_COLORCHECKER_N_OHTA
+    'ColorChecker N Ohta': SDS_COLORCHECKER_N_OHTA,
 })
 SDS_COLOURCHECKERS.__doc__ = """
 Spectral distributions of the colour checkers.
@@ -3002,15 +3014,23 @@ Spectral distributions of the colour checkers.
 References
 ----------
 :cite:`Ohta1997a`, :cite:`BabelColor2012b`, :cite:`BabelColor2012c`,
-:cite:`MunsellColorScienceb`
+:cite:`MunsellColorScienceb`,
+:cite:`InternationalOrganizationforStandardization2012`
 
 SDS_COLOURCHECKERS : CaseInsensitiveMapping
-    **{'BabelColor Average', 'ColorChecker N Ohta'}**
+    **{'BabelColor Average', 'ColorChecker N Ohta', 'ISO 17321-1'}**
+
+Notes
+-----
+-   Data from :cite:`InternationalOrganizationforStandardization2012` and
+    :cite:`Ohta1997a` has been verified to be the same.
 
 Aliases:
 
 -   'babel_average': 'BabelColor Average'
 -   'cc_ohta': 'ColorChecker N Ohta'
+-   'ISO 17321-1': 'ColorChecker N Ohta'
 """
 SDS_COLOURCHECKERS['babel_average'] = SDS_COLOURCHECKERS['BabelColor Average']
 SDS_COLOURCHECKERS['cc_ohta'] = SDS_COLOURCHECKERS['ColorChecker N Ohta']
+SDS_COLOURCHECKERS['ISO 17321-1'] = SDS_COLOURCHECKERS['ColorChecker N Ohta']
