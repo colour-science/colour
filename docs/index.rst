@@ -689,6 +689,7 @@ RGB Colourspaces
      'CIE RGB',
      'Cinema Gamut',
      'ColorMatch RGB',
+     'DaVinci Wide Gamut',
      'DCDM XYZ',
      'DCI-P3',
      'DCI-P3+',
