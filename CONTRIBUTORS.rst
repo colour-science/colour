@@ -204,6 +204,7 @@ Issues & Discussions
 -   @chesschi
 -   @ChunHsinWang
 -   @codycuellar
+-   @dfoxfranke
 -   @dtbulmerJRs
 -   @Edwardlin-zlt
 -   @eyeforcolor
