@@ -129,6 +129,10 @@ Development & Technical Support
 
     Technical support and documentation improvements.
 
+-   **Stephen Hill**, *Principal Rendering Engineer @ Lucasfilm*
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -249,6 +253,7 @@ Issues & Discussions
 -   @totyped
 -   @ValZapod
 -   @vidakDK
+-   @vvclin-git
 -   @Wagyx
 -   @Willingo
 -   @xjossy
