@@ -47,7 +47,7 @@ classifiers = [
 python = "~2.7 || ^3.6"
 imageio = "*"
 six = "*"
-scipy = "*"
+scipy = "^1.1.0"
 
 "backports.functools_lru_cache" = { version = "*", optional = true }
 biblib-simple = { version = "*", optional = true }  # Development dependency.
