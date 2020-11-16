@@ -21,7 +21,6 @@ References
 from __future__ import division, print_function, unicode_literals
 
 import numpy as np
-import six
 import struct
 from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator
@@ -36,9 +35,9 @@ from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (as_float_array, domain_range_scale, full,
                               index_along_last_axis, is_tqdm_installed,
                               message_box, to_domain_1, runtime_warning, zeros)
-if six.PY3:
+try:
     from unittest import mock
-else:
+except ImportError:  # pragma: no cover
     import mock
 if is_tqdm_installed():
     from tqdm import tqdm

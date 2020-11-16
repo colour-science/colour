@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Chromaticity Coordinates of the Light Sources
-============================================
+=============================================
 
 Defines the chromaticity coordinates of the light sources.
 
