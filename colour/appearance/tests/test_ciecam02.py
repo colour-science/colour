@@ -90,9 +90,9 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
             ('reference', 1, 1),
             (1, 0.01,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
              ])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
@@ -242,9 +242,9 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
             ('reference', 1, 1, 1),
             (1,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
              ]), 0.01, 0.01),
-            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360]), 1, 1),
+            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400]), 1, 1),
         )
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):

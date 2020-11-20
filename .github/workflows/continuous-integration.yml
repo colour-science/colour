@@ -45,7 +45,7 @@ jobs:
     - name: Update pyproject.toml file (Windows, Python 2.7)
       if: matrix.os == 'windows-latest' && matrix.python-version == '2.7'
       run: |
-        sed -i.bak '/scipy = "\*"/ a pywin32 = "228"' pyproject.toml
+        sed -i.bak '/scipy = "\^1\.1\.0"/ a pywin32 = "228"' pyproject.toml
       shell: bash
     - name: Update pyproject.toml file (Python 3.x)
       if: matrix.python-version != '2.7'
