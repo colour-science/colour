@@ -27,7 +27,9 @@ except ImportError:  # pragma: no cover
     from collections.abc import Mapping
 
 from contextlib import contextmanager
+
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
+from colour.utilities import suppress_warnings
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -310,14 +312,15 @@ def set_float_precision(dtype=DEFAULT_FLOAT_DTYPE):
     dtype('float64')
     """
 
-    for name, module in sys.modules.items():
-        if not name.startswith(name):
-            continue
+    with suppress_warnings(colour_usage_warnings=True):
+        for name, module in sys.modules.items():
+            if not name.startswith(name):
+                continue
 
-        if not hasattr(module, 'DEFAULT_FLOAT_DTYPE'):
-            continue
+            if not hasattr(module, 'DEFAULT_FLOAT_DTYPE'):
+                continue
 
-        setattr(module, 'DEFAULT_FLOAT_DTYPE', dtype)
+            setattr(module, 'DEFAULT_FLOAT_DTYPE', dtype)
 
 
 def set_int_precision(dtype=DEFAULT_INT_DTYPE):
@@ -357,14 +360,15 @@ def set_int_precision(dtype=DEFAULT_INT_DTYPE):
     """
 
     # TODO: Investigate behaviour on Windows.
-    for name, module in sys.modules.items():
-        if not name.startswith(name):
-            continue
+    with suppress_warnings(colour_usage_warnings=True):
+        for name, module in sys.modules.items():
+            if not name.startswith(name):
+                continue
 
-        if not hasattr(module, 'DEFAULT_INT_DTYPE'):
-            continue
+            if not hasattr(module, 'DEFAULT_INT_DTYPE'):
+                continue
 
-        setattr(module, 'DEFAULT_INT_DTYPE', dtype)
+            setattr(module, 'DEFAULT_INT_DTYPE', dtype)
 
 
 def as_namedtuple(a, named_tuple):
