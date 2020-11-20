@@ -249,7 +249,7 @@ def XYZ_to_CIECAM02(XYZ,
 | [0, 1]        |
     +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.H`` | [0, 360]              \
+    | ``CAM_Specification_CIECAM02.H`` | [0, 400]              \
 | [0, 1]        |
     +----------------------------------+-----------------------\
 +---------------+
@@ -338,7 +338,7 @@ H=278.0607358..., HC=None)
     return CAM_Specification_CIECAM02(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
         from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H), None)
+        from_range_degrees(H, 400), None)
 
 
 def CIECAM02_to_XYZ(specification,

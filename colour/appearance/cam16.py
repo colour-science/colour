@@ -218,7 +218,7 @@ def XYZ_to_CAM16(XYZ,
     +-------------------------------+-----------------------+---------------+
     | ``CAM_Specification_CAM16.M`` | [0, 100]              | [0, 1]        |
     +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.H`` | [0, 360]              | [0, 1]        |
+    | ``CAM_Specification_CAM16.H`` | [0, 400]              | [0, 1]        |
     +-------------------------------+-----------------------+---------------+
 
     References
@@ -317,7 +317,7 @@ H=275.5949861..., HC=None)
     return CAM_Specification_CAM16(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
         from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H), None)
+        from_range_degrees(H, 400), None)
 
 
 def CAM16_to_XYZ(specification,
