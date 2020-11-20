@@ -6,6 +6,7 @@ Defines unit tests for :mod:`colour.utilities.array` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import six
 import unittest
 from collections import namedtuple
 
@@ -57,6 +58,11 @@ class TestAsArray(unittest.TestCase):
 
         self.assertEqual(
             as_array([1, 2, 3], DEFAULT_INT_DTYPE).dtype, DEFAULT_INT_DTYPE)
+
+        if six.PY3:  # pragma: no cover
+            np.testing.assert_equal(
+                as_array(dict(zip('abc', [1, 2, 3])).values()),
+                np.array([1, 2, 3]))
 
 
 class TestAsIntArray(unittest.TestCase):

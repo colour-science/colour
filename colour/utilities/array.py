@@ -20,6 +20,7 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 from __future__ import division, unicode_literals
 
 import numpy as np
+import six
 import sys
 try:  # pragma: no cover
     from collections import Mapping
@@ -76,6 +77,14 @@ def as_array(a, dtype=None):
 
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
+
+    if six.PY3:  # pragma: no cover
+        # TODO: Remove when https://github.com/numpy/numpy/issues/5718 is
+        # addressed.
+        from collections.abc import ValuesView
+
+        if isinstance(a, ValuesView):
+            a = list(a)
 
     return np.asarray(a, dtype)
 
