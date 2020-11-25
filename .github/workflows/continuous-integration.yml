@@ -31,6 +31,12 @@ jobs:
       if: matrix.os == 'ubuntu-18.04'
       run: |
         sudo apt-get --yes install libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
+    - name: Update OS & Install APT Dependencies (macOs)
+      if: matrix.os == 'macOS-latest'
+      run: |
+        brew install gnu-sed
+        ln -s /usr/local/bin/gsed /usr/local/bin/sed
+      shell: bash
     - name: Install Poetry
       run: |
         curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
@@ -41,6 +47,7 @@ jobs:
       if: matrix.python-version == '2.7'
       run: |
         sed -i.bak 's/python = "~2.7 || ^3.6"/python = "~2.7"/g' pyproject.toml
+        sed -i.bak '/scipy = "\^1\.1\.0"/ a qtconsole = "4.7.7"' pyproject.toml
       shell: bash
     - name: Update pyproject.toml file (Windows, Python 2.7)
       if: matrix.os == 'windows-latest' && matrix.python-version == '2.7'
