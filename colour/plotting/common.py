@@ -33,6 +33,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
 import re
+import six
 from collections import OrderedDict, namedtuple
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
@@ -1395,7 +1396,14 @@ def plot_multi_functions(functions,
         assert log_x >= 2 and log_y >= 2, (
             'Log base must be equal or greater than 2.')
 
-        plotting_function = partial(axes.loglog, basex=log_x, basey=log_y)
+        plotting_function = axes.loglog
+
+        if six.PY3:  # pragma: no cover
+            axes.set_xscale('log', base=log_x)
+            axes.set_yscale('log', base=log_y)
+        else:  # pragma: no cover
+            axes.set_xscale('log', basex=log_x)
+            axes.set_yscale('log', basey=log_y)
     elif log_x is not None:
         assert log_x >= 2, 'Log base must be equal or greater than 2.'
 
