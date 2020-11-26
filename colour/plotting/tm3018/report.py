@@ -246,7 +246,7 @@ def plot_single_sd_colour_rendition_report_full(
         notes=None,
         report_size=CONSTANT_REPORT_SIZE_FULL,
         report_row_height_ratios=CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL,
-        report_box_padding=CONSTANT_REPORT_PADDING_FULL,
+        report_box_padding=None,
         **kwargs):
     """
     Generates the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
@@ -316,6 +316,9 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
             '"Matplotlib" layout capabilities only available for Python 3!')
 
         return render()
+
+    if report_box_padding is None:
+        report_box_padding = CONSTANT_REPORT_PADDING_FULL
 
     specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
 
@@ -547,7 +550,7 @@ def plot_single_sd_colour_rendition_report_intermediate(
         report_size=CONSTANT_REPORT_SIZE_INTERMEDIATE,
         report_row_height_ratios=(
             CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE),
-        report_box_padding=CONSTANT_REPORT_PADDING_INTERMEDIATE,
+        report_box_padding=None,
         **kwargs):
     """
     Generates the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
@@ -598,6 +601,9 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
 
         return render()
 
+    if report_box_padding is None:
+        report_box_padding = CONSTANT_REPORT_PADDING_INTERMEDIATE
+
     specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
@@ -645,7 +651,7 @@ def plot_single_sd_colour_rendition_report_simple(
         sd,
         report_size=CONSTANT_REPORT_SIZE_SIMPLE,
         report_row_height_ratios=CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE,
-        report_box_padding=CONSTANT_REPORT_PADDING_SIMPLE,
+        report_box_padding=None,
         **kwargs):
     """
     Generates the simple *ANSI/IES TM-30-18 Colour Rendition Report* for given
@@ -695,6 +701,9 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
             '"Matplotlib" layout capabilities only available for Python 3!')
 
         return render()
+
+    if report_box_padding is None:
+        report_box_padding = CONSTANT_REPORT_PADDING_SIMPLE
 
     specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
 

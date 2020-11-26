@@ -225,11 +225,6 @@ def examples(ctx, plots=False):
                               'examples_contrast' in filename):
                 continue
 
-            if plots and ('plotting' not in root and
-                          'examples_interpolation' not in filename and
-                          'examples_contrast' not in filename):
-                continue
-
             ctx.run('python {0}'.format(os.path.join(root, filename)))
 
 

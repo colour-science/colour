@@ -147,15 +147,16 @@ def plot_colour_quality_bars(specifications,
 
     axes.set_xticks((np.arange(
         0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-        dtype=DEFAULT_FLOAT_DTYPE) * bar_width + (count_s * bar_width / 2)),
-                    ['Qa'] + [
-                        'Q{0}'.format(index + 1)
-                        for index in range(0, count_Q_as + 1, 1)
-                    ])
+        dtype=DEFAULT_FLOAT_DTYPE) - bar_width) * bar_width +
+                    (count_s * bar_width / 2))
+    axes.set_xticklabels(
+        ['Qa'] +
+        ['Q{0}'.format(index + 1) for index in range(0, count_Q_as, 1)])
     axes.set_yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
     aspect = 1 / (120 / (bar_width + len(Q_as) + bar_width * 2))
-    bounding_box = (-bar_width, ((count_Q_as + 1) * (count_s + 1)) / 2, 0, 120)
+    bounding_box = (-bar_width,
+                    ((count_Q_as + 1) * (count_s + 1)) / 2 - bar_width, 0, 120)
 
     settings = {
         'axes': axes,

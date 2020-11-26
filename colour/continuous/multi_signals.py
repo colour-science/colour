@@ -708,8 +708,8 @@ or dict_like
         """
 
         return hash((
-            self.domain.tostring(),
-            self.range.tostring(),
+            self.domain.tobytes(),
+            self.range.tobytes(),
             self.interpolator.__name__,
             repr(self.interpolator_kwargs),
             self.extrapolator.__name__,
