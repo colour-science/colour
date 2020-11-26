@@ -6,28 +6,33 @@ TODO
 
 -   colour/__init__.py
 
-    -   Line 312 : # TODO: Remove legacy printing support when deemed appropriate.
+    -   Line 337 : # TODO: Remove legacy printing support when deemed appropriate.
 
 
 -   colour/colorimetry/spectrum.py
 
-    -   Line 1131 : # TODO: Provide support for fractional interval like 0.1, etc...
+    -   Line 1093 : # TODO: Provide support for fractional interval like 0.1, etc...
 
 
 -   colour/colorimetry/tristimulus.py
 
-    -   Line 769 : # TODO: Investigate code vectorisation.
+    -   Line 757 : # TODO: Investigate code vectorisation.
+
+
+-   colour/colorimetry/blackbody.py
+
+    -   Line 580 : # TODO: Remove warning when deemed appropriate.
 
 
 -   colour/colorimetry/tests/test_spectrum.py
 
-    -   Line 1486 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-    -   Line 1695 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+    -   Line 1459 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+    -   Line 1665 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
 
 
 -   colour/appearance/ciecam02.py
 
-    -   Line 298 : # TODO: Compute hue composition.
+    -   Line 313 : # TODO: Compute hue composition.
 
 
 -   colour/appearance/cam16.py
@@ -37,29 +42,39 @@ TODO
 
 -   colour/appearance/hunt.py
 
-    -   Line 420 : # TODO: Implement hue quadrature & composition computation.
-    -   Line 451 : # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
+    -   Line 414 : # TODO: Implement hue quadrature & composition computation.
+    -   Line 445 : # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
 
 -   colour/appearance/rlab.py
 
-    -   Line 265 : # TODO: Implement hue composition computation.
+    -   Line 264 : # TODO: Implement hue composition computation.
 
 
 -   colour/appearance/nayatani95.py
 
-    -   Line 267 : # TODO: Implement hue quadrature & composition computation.
-    -   Line 279 : # TODO: Investigate components usage. M_RG, M_YB = tsplit(colourfulness_components(C_RG, C_YB, brightness_ideal_white))
+    -   Line 266 : # TODO: Implement hue quadrature & composition computation.
+    -   Line 278 : # TODO: Investigate components usage. M_RG, M_YB = tsplit(colourfulness_components(C_RG, C_YB, brightness_ideal_white))
 
 
 -   colour/appearance/llab.py
 
-    -   Line 325 : # TODO: Implement hue composition computation.
+    -   Line 320 : # TODO: Implement hue composition computation.
 
 
 -   colour/appearance/tests/test_cam16.py
 
     -   Line 37 : # TODO: The current fixture data is generated from direct computations using our model implementation. We have asked ground truth data to Li et al. (2016) and will update the "cam16.csv" file accordingly whenever we receive it.
+
+
+-   colour/recovery/otsu2018.py
+
+    -   Line 849 : # TODO: Python 3 "yield from child.leaves".
+
+
+-   colour/io/image.py
+
+    -   Line 64 : # TODO: Overhaul by using "np.sctypeDict".
 
 
 -   colour/io/tests/test_image.py
@@ -69,24 +84,23 @@ TODO
 
 -   colour/io/luts/lut.py
 
-    -   Line 129 : # TODO: Re-enable when dropping Python 2.7. pylint: disable=E1121
-    -   Line 2012 : # TODO: Implement support for non-uniform domain, e.g. "cinespace" LUTs.
+    -   Line 131 : # TODO: Re-enable when dropping Python 2.7. pylint: disable=E1121
 
 
 -   colour/graph/conversion.py
 
-    -   Line 927 : # TODO: Remove the following warning whenever the automatic colour conversion graph implementation is considered stable.
+    -   Line 953 : # TODO: Remove the following warning whenever the automatic colour conversion graph implementation is considered stable.
 
 
 -   colour/models/rgb/derivation.py
 
-    -   Line 217 : # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
+    -   Line 211 : # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
 
 
 -   colour/models/rgb/rgb_colourspace.py
 
-    -   Line 541 : # TODO: Revisit for potential behaviour / type checking.
-    -   Line 574 : # TODO: Revisit for potential behaviour / type checking.
+    -   Line 559 : # TODO: Revisit for potential behaviour / type checking.
+    -   Line 592 : # TODO: Revisit for potential behaviour / type checking.
 
 
 -   colour/models/rgb/tests/test_derivation.py
@@ -102,17 +116,19 @@ TODO
 
 -   colour/utilities/verbose.py
 
-    -   Line 572 : # TODO: Implement support for "pyproject.toml" file whenever "TOML" is supported in the standard library.
+    -   Line 609 : # TODO: Implement support for "pyproject.toml" file whenever "TOML" is supported in the standard library.
 
 
 -   colour/utilities/common.py
 
-    -   Line 601 : # TODO: Remove when dropping Python 2.7.
+    -   Line 709 : # TODO: Remove when dropping Python 2.7.
 
 
 -   colour/utilities/array.py
 
-    -   Line 186 : # TODO: Change to "DEFAULT_INT_DTYPE" when and if https://github.com/numpy/numpy/issues/11956 is addressed.
+    -   Line 81 : # TODO: Remove when https://github.com/numpy/numpy/issues/5718 is addressed.
+    -   Line 234 : # TODO: Change to "DEFAULT_INT_DTYPE" when and if https://github.com/numpy/numpy/issues/11956 is addressed.
+    -   Line 370 : # TODO: Investigate behaviour on Windows.
 
 
 -   colour/utilities/tests/test_deprecation.py
@@ -122,34 +138,44 @@ TODO
 
 -   colour/plotting/models.py
 
-    -   Line 1569 : # TODO: Filter appropriate colour models.
+    -   Line 1725 : # TODO: Filter appropriate colour models.
+
+
+-   colour/plotting/graph.py
+
+    -   Line 72 : # TODO: Investigate API to trigger the conversion graph build.
 
 
 -   colour/plotting/common.py
 
     -   Line 666 : # TODO: Reassess according to https://github.com/matplotlib/matplotlib/issues/1077
-    -   Line 783 : # TODO: Consider using "MutableMapping" here.
+    -   Line 791 : # TODO: Consider using "MutableMapping" here.
+
+
+-   colour/characterisation/aces_it.py
+
+    -   Line 322 : # TODO: Remove when removing the "colour.sd_blackbody" definition warning.
 
 
 -   colour/characterisation/correction.py
 
-    -   Line 225 : # TODO: Generalise polynomial expansion.
+    -   Line 353 : # TODO: Generalise polynomial expansion.
 
 
 -   colour/notation/munsell.py
 
-    -   Line 1081 : # TODO: Consider refactoring implementation.
+    -   Line 1078 : # TODO: Consider refactoring implementation.
 
 
 -   colour/continuous/signal.py
 
-    -   Line 384 : # TODO: Check for interpolator capabilities.
-    -   Line 449 : # TODO: Check for extrapolator capabilities.
+    -   Line 389 : # TODO: Check for interpolator capabilities.
+    -   Line 454 : # TODO: Check for extrapolator capabilities.
 
 
 -   colour/continuous/multi_signals.py
 
-    -   Line 1322 : # TODO: Implement support for Signal class passing.
+    -   Line 1354 : # TODO: Implement support for Signal class passing.
 
 
 -   colour/continuous/tests/test_multi_signal.py
@@ -159,22 +185,22 @@ TODO
 
 -   colour/continuous/tests/test_signal.py
 
-    -   Line 101 : # TODO: Use "assertWarns" when dropping Python 2.7.
+    -   Line 102 : # TODO: Use "assertWarns" when dropping Python 2.7.
 
 
 -   colour/volume/rgb.py
 
-    -   Line 306 : # TODO: Investigate for generator yielding directly a ndarray.
+    -   Line 300 : # TODO: Investigate for generator yielding directly a ndarray.
 
 
 -   colour/algebra/tests/test_interpolation.py
 
-    -   Line 532 : # TODO: Revisit if the interpolator can be applied on non-uniform "x" independent variable.
+    -   Line 534 : # TODO: Revisit if the interpolator can be applied on non-uniform "x" independent variable.
 
 
 -   colour/algebra/tests/test_random.py
 
-    -   Line 61 : # TODO: Use "assertWarns" when dropping Python 2.7.
+    -   Line 68 : # TODO: Use "assertWarns" when dropping Python 2.7.
 
 About
 -----
