@@ -67,7 +67,7 @@ pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
 pytest = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
-sphinx = { version = "*", optional = true }  # Development dependency.
+sphinx = { version = "<=3.1.2", optional = true }  # Development dependency.
 sphinx_rtd_theme = { version = "*", optional = true }  # Development dependency.
 sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
 toml = { version = "*", optional = true }  # Development dependency.
@@ -88,7 +88,7 @@ nose = "*"
 pre-commit = "*"
 pytest = "*"
 restructuredtext-lint = "*"
-sphinx = "*"
+sphinx = "<=3.1.2"
 sphinx_rtd_theme = "*"
 sphinxcontrib-bibtex = "*"
 toml = "*"
