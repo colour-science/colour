@@ -9,7 +9,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from itertools import permutations
 
-from colour.appearance import (HUNT_VIEWING_CONDITIONS, Hunt_InductionFactors,
+from colour.appearance import (VIEWING_CONDITIONS_HUNT, InductionFactors_Hunt,
                                XYZ_to_Hunt)
 from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
@@ -53,7 +53,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
 
         Returns
         -------
-        Hunt_Specification
+        CAM_Specification_Hunt
             Hunt colour appearance model specification.
         """
 
@@ -66,7 +66,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
             XYZ_w,
             XYZ_b,
             data['L_A'],
-            Hunt_InductionFactors(data['N_c'], data['N_b']),
+            InductionFactors_Hunt(data['N_c'], data['N_b']),
             CCT_w=data['T'])
 
         return specification
@@ -81,7 +81,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         XYZ_b = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
-        surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
+        surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
         CCT_w = 6504.0
         specification = XYZ_to_Hunt(
             XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)[:-2]
@@ -115,7 +115,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         XYZ_b = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
-        surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
+        surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
         CCT_w = 6504.0
         S = S_w = 0.5
 
@@ -145,7 +145,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         XYZ_b = XYZ_p = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
-        surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
+        surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
         CCT_w = 6504.0
 
         np.testing.assert_almost_equal(
@@ -182,6 +182,6 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
             XYZ_w = np.array(case)
             XYZ_b = np.array(case)
             L_A = case[0]
-            surround = Hunt_InductionFactors(case[0], case[0])
+            surround = InductionFactors_Hunt(case[0], case[0])
             CCT_w = case[0]
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)

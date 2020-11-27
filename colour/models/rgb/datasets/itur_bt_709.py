@@ -5,20 +5,14 @@ ITU-R BT.709 Colourspace
 
 Defines the *ITU-R BT.709* colourspace:
 
--   :attr:`colour.models.BT709_COLOURSPACE`.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
+-   :attr:`colour.models.RGB_COLOURSPACE_BT709`.
 
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2015i` : International
     Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
     values for the HDTV standards for production and international programme
-    exchange BT Series Broadcasting service. Retrieved from
+    exchange BT Series Broadcasting service (pp. 1-32).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
@@ -27,7 +21,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, oetf_BT709, oetf_inverse_BT709,
                                normalised_primary_matrix)
 
@@ -39,11 +33,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'BT709_PRIMARIES', 'BT709_WHITEPOINT', 'BT709_WHITEPOINT_NAME',
-    'BT709_TO_XYZ_MATRIX', 'XYZ_TO_BT709_MATRIX', 'BT709_COLOURSPACE'
+    'PRIMARIES_BT709', 'CCS_WHITEPOINT_BT709', 'WHITEPOINT_NAME_BT709',
+    'MATRIX_BT709_TO_XYZ', 'MATRIX_XYZ_TO_BT709', 'RGB_COLOURSPACE_BT709'
 ]
 
-BT709_PRIMARIES = np.array([
+PRIMARIES_BT709 = np.array([
     [0.6400, 0.3300],
     [0.3000, 0.6000],
     [0.1500, 0.0600],
@@ -51,55 +45,55 @@ BT709_PRIMARIES = np.array([
 """
 *ITU-R BT.709* colourspace primaries.
 
-BT709_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_BT709 : ndarray, (3, 2)
 """
 
-BT709_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_BT709 = 'D65'
 """
 *ITU-R BT.709* colourspace whitepoint name.
 
-BT709_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_BT709 : unicode
 """
 
-BT709_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT709_WHITEPOINT_NAME])
+CCS_WHITEPOINT_BT709 = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    WHITEPOINT_NAME_BT709])
 """
-*ITU-R BT.709* colourspace whitepoint.
+*ITU-R BT.709* colourspace whitepoint chromaticity coordinates.
 
-BT709_WHITEPOINT : ndarray
+CCS_WHITEPOINT_BT709 : ndarray
 """
 
-BT709_TO_XYZ_MATRIX = normalised_primary_matrix(BT709_PRIMARIES,
-                                                BT709_WHITEPOINT)
+MATRIX_BT709_TO_XYZ = normalised_primary_matrix(PRIMARIES_BT709,
+                                                CCS_WHITEPOINT_BT709)
 """
 *ITU-R BT.709* colourspace to *CIE XYZ* tristimulus values matrix.
 
-BT709_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_BT709_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_BT709_MATRIX = np.linalg.inv(BT709_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_BT709 = np.linalg.inv(MATRIX_BT709_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *ITU-R BT.709* colourspace matrix.
 
-XYZ_TO_BT709_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_BT709 : array_like, (3, 3)
 """
 
-BT709_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_BT709 = RGB_Colourspace(
     'ITU-R BT.709',
-    BT709_PRIMARIES,
-    BT709_WHITEPOINT,
-    BT709_WHITEPOINT_NAME,
-    BT709_TO_XYZ_MATRIX,
-    XYZ_TO_BT709_MATRIX,
+    PRIMARIES_BT709,
+    CCS_WHITEPOINT_BT709,
+    WHITEPOINT_NAME_BT709,
+    MATRIX_BT709_TO_XYZ,
+    MATRIX_XYZ_TO_BT709,
     oetf_BT709,
     oetf_inverse_BT709,
 )
-BT709_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_BT709.__doc__ = """
 *ITU-R BT.709* colourspace.
 
 References
 ----------
 :cite:`InternationalTelecommunicationUnion2015i`
 
-BT709_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_BT709 : RGB_Colourspace
 """

@@ -6,7 +6,7 @@ Showcases *Nayatani (1995)* colour appearance model computations.
 import numpy as np
 
 import colour
-from colour.appearance.nayatani95 import Nayatani95_ReferenceSpecification
+from colour.appearance.nayatani95 import CAM_ReferenceSpecification_Nayatani95
 from colour.utilities import message_box
 
 message_box('"Nayatani (1995)" Colour Appearance Model Computations')
@@ -36,4 +36,4 @@ message_box(('Broadcasting current output "Nayatani (1995)" colour appearance '
              'the other colour appearance model specification by using same '
              'argument names for consistency wherever possible.'))
 
-print(Nayatani95_ReferenceSpecification(*specification))
+print(CAM_ReferenceSpecification_Nayatani95(*specification))

@@ -7,12 +7,6 @@ Defines the automatic colour conversion graph objects:
 
 -   :func:`colour.describe_conversion_path`
 -   :func:`colour.convert`
-
-See Also
---------
-`Automatic Colour Conversion Graph Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/graph/conversion.ipynb>`_
 """
 
 from __future__ import division, print_function, unicode_literals
@@ -25,48 +19,45 @@ from copy import copy
 from functools import partial
 from pprint import pformat
 
-from colour.colorimetry import (ILLUMINANTS, ILLUMINANTS_SDS,
-                                HUNTERLAB_ILLUMINANTS)
+from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
+                                TVS_ILLUMINANTS_HUNTERLAB)
 from colour.colorimetry import (colorimetric_purity, complementary_wavelength,
                                 dominant_wavelength, excitation_purity,
                                 lightness, luminance, luminous_efficacy,
                                 luminous_efficiency, luminous_flux, sd_to_XYZ,
                                 whiteness, yellowness, wavelength_to_XYZ)
 from colour.recovery import XYZ_to_sd
-from colour.models import sRGB_COLOURSPACE
+from colour.models import RGB_COLOURSPACE_sRGB
 from colour.models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM16LCD_to_JMh_CAM16, CAM16SCD_to_JMh_CAM16,
     CAM16UCS_to_JMh_CAM16, CMYK_to_CMY, CMY_to_CMYK, CMY_to_RGB, DIN99_to_Lab,
     HSL_to_RGB, HSV_to_RGB, Hunter_Lab_to_XYZ, Hunter_Rdab_to_XYZ,
-    ICTCP_to_RGB, IPT_to_XYZ, JMh_CAM16_to_CAM16LCD, JMh_CAM16_to_CAM16SCD,
-    JMh_CAM16_to_CAM16UCS, JMh_CIECAM02_to_CAM02LCD, JMh_CIECAM02_to_CAM02SCD,
-    JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ, LCHab_to_Lab, LCHuv_to_Luv,
-    Lab_to_DIN99, Lab_to_LCHab, Lab_to_XYZ, Luv_to_LCHuv, Luv_to_XYZ,
-    Luv_to_uv, Luv_uv_to_xy, OSA_UCS_to_XYZ, Prismatic_to_RGB, RGB_luminance,
-    RGB_to_CMY, RGB_to_HSL, RGB_to_HSV, RGB_to_ICTCP, RGB_to_Prismatic,
-    RGB_to_RGB, RGB_to_XYZ, RGB_to_YCbCr, RGB_to_YCoCg, RGB_to_YcCbcCrc,
-    UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy, UVW_to_XYZ, XYZ_to_Hunter_Lab,
-    XYZ_to_Hunter_Rdab, XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_Lab, XYZ_to_Luv,
-    XYZ_to_OSA_UCS, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW, XYZ_to_hdr_CIELab,
-    XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY, YCbCr_to_RGB,
-    YCoCg_to_RGB, YcCbcCrc_to_RGB, cctf_decoding, cctf_encoding,
-    hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS,
-    xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
+    ICTCP_to_RGB, IGPGTG_to_XYZ, IPT_to_XYZ, JMh_CAM16_to_CAM16LCD,
+    JMh_CAM16_to_CAM16SCD, JMh_CAM16_to_CAM16UCS, JMh_CIECAM02_to_CAM02LCD,
+    JMh_CIECAM02_to_CAM02SCD, JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ,
+    LCHab_to_Lab, LCHuv_to_Luv, Lab_to_DIN99, Lab_to_LCHab, Lab_to_XYZ,
+    Luv_to_LCHuv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy, OSA_UCS_to_XYZ,
+    Prismatic_to_RGB, RGB_luminance, RGB_to_CMY, RGB_to_HSL, RGB_to_HSV,
+    RGB_to_ICTCP, RGB_to_Prismatic, RGB_to_RGB, RGB_to_XYZ, RGB_to_YCbCr,
+    RGB_to_YCoCg, RGB_to_YcCbcCrc, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy,
+    UVW_to_XYZ, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_IGPGTG,
+    XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_Lab, XYZ_to_Luv, XYZ_to_OSA_UCS,
+    XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW, XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT,
+    XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY, YCbCr_to_RGB, YCoCg_to_RGB,
+    YcCbcCrc_to_RGB, cctf_decoding, cctf_encoding, hdr_CIELab_to_XYZ,
+    hdr_IPT_to_XYZ, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy,
+    xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
 from colour.notation import (HEX_to_RGB, RGB_to_HEX, munsell_value,
                              munsell_colour_to_xyY, xyY_to_munsell_colour)
 from colour.quality import colour_quality_scale, colour_rendering_index
 from colour.appearance import (
-    CAM16_Specification, CAM16_to_XYZ, CIECAM02_Specification, CIECAM02_to_XYZ,
-    XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB,
-    XYZ_to_Nayatani95, XYZ_to_RLAB)
+    CAM_Specification_CAM16, CAM16_to_XYZ, CAM_Specification_CIECAM02,
+    CIECAM02_to_XYZ, XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt,
+    XYZ_to_LLAB, XYZ_to_Nayatani95, XYZ_to_RLAB)
 from colour.temperature import CCT_to_uv, CCT_to_xy, uv_to_CCT, xy_to_CCT
-from colour.utilities import (domain_range_scale, filter_kwargs,
-                              is_networkx_installed, message_box, tsplit,
-                              tstack, usage_warning)
-
-if is_networkx_installed():  # pragma: no cover
-    import networkx as nx
+from colour.utilities import (domain_range_scale, filter_kwargs, message_box,
+                              required, tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -76,7 +67,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ConversionSpecification', 'CIECAM02_to_JMh_CIECAM02',
+    'Conversion_Specification', 'CIECAM02_to_JMh_CIECAM02',
     'JMh_CIECAM02_to_CIECAM02', 'CAM16_to_JMh_CAM16', 'JMh_CAM16_to_CAM16',
     'XYZ_to_luminance', 'RGB_luminance_to_RGB',
     'CONVERSION_SPECIFICATIONS_DATA', 'CONVERSION_GRAPH_NODE_LABELS',
@@ -85,8 +76,8 @@ __all__ = [
 ]
 
 
-class ConversionSpecification(
-        namedtuple('ConversionSpecification',
+class Conversion_Specification(
+        namedtuple('Conversion_Specification',
                    ('source', 'target', 'conversion_function'))):
     """
     Conversion specification for *Colour* graph for automatic colour
@@ -103,18 +94,18 @@ class ConversionSpecification(
     """
 
     def __new__(cls, source=None, target=None, conversion_function=None):
-        return super(ConversionSpecification, cls).__new__(
+        return super(Conversion_Specification, cls).__new__(
             cls, source.lower(), target.lower(), conversion_function)
 
 
-def CIECAM02_to_JMh_CIECAM02(CIECAM02_specification):
+def CIECAM02_to_JMh_CIECAM02(CAM_Specification_CIECAM02):
     """
     Converts from *CIECAM02* specification to *CIECAM02* :math:`JMh`
     correlates.
 
     Parameters
     ----------
-    CIECAM02_specification : CIECAM02_Specification
+    CAM_Specification_CIECAM02 : CAM_Specification_CIECAM02
         *CIECAM02* colour appearance model specification.
 
     Returns
@@ -124,7 +115,7 @@ def CIECAM02_to_JMh_CIECAM02(CIECAM02_specification):
 
     Examples
     --------
-    >>> specification = CIECAM02_Specification(J=41.731091132513917,
+    >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
     ...                                        M=0.108842175669226,
     ...                                        h=219.048432658311780)
     >>> CIECAM02_to_JMh_CIECAM02(specification)  # doctest: +ELLIPSIS
@@ -132,9 +123,9 @@ def CIECAM02_to_JMh_CIECAM02(CIECAM02_specification):
     """
 
     return tstack([
-        CIECAM02_specification.J,
-        CIECAM02_specification.M,
-        CIECAM02_specification.h,
+        CAM_Specification_CIECAM02.J,
+        CAM_Specification_CIECAM02.M,
+        CAM_Specification_CIECAM02.h,
     ])
 
 
@@ -150,29 +141,29 @@ def JMh_CIECAM02_to_CIECAM02(JMh):
 
     Returns
     -------
-    CIECAM02_Specification
+    CAM_Specification_CIECAM02
         *CIECAM02* colour appearance model specification.
 
     Examples
     --------
     >>> JMh = np.array([4.17310911e+01, 1.08842176e-01, 2.19048433e+02])
     >>> JMh_CIECAM02_to_CIECAM02(JMh)  # doctest: +ELLIPSIS
-    CIECAM02_Specification(J=41.7310911..., C=None, h=219.0484329..., s=None, \
-Q=None, M=0.1088421..., H=None, HC=None)
+    CAM_Specification_CIECAM02(J=41.7310911..., C=None, h=219.0484329..., \
+s=None, Q=None, M=0.1088421..., H=None, HC=None)
     """
 
     J, M, h = tsplit(JMh)
 
-    return CIECAM02_Specification(J=J, M=M, h=h)
+    return CAM_Specification_CIECAM02(J=J, M=M, h=h)
 
 
-def CAM16_to_JMh_CAM16(CAM16_specification):
+def CAM16_to_JMh_CAM16(CAM_Specification_CAM16):
     """
     Converts from *CAM16* specification to *CAM16* :math:`JMh` correlates.
 
     Parameters
     ----------
-    CAM16_specification : CAM16_Specification
+    CAM_Specification_CAM16 : CAM_Specification_CAM16
         *CAM16* colour appearance model specification.
 
     Returns
@@ -182,7 +173,7 @@ def CAM16_to_JMh_CAM16(CAM16_specification):
 
     Examples
     --------
-    >>> specification = CAM16_Specification(J=41.731207905126638,
+    >>> specification = CAM_Specification_CAM16(J=41.731207905126638,
     ...                                     M=0.107436772335905,
     ...                                     h=217.067959767393010)
     >>> CAM16_to_JMh_CAM16(specification)  # doctest: +ELLIPSIS
@@ -190,9 +181,9 @@ def CAM16_to_JMh_CAM16(CAM16_specification):
     """
 
     return tstack([
-        CAM16_specification.J,
-        CAM16_specification.M,
-        CAM16_specification.h,
+        CAM_Specification_CAM16.J,
+        CAM_Specification_CAM16.M,
+        CAM_Specification_CAM16.h,
     ])
 
 
@@ -214,13 +205,13 @@ def JMh_CAM16_to_CAM16(JMh):
     --------
     >>> JMh = np.array([4.17312079e+01, 1.07436772e-01, 2.17067960e+02])
     >>> JMh_CAM16_to_CAM16(JMh)  # doctest: +ELLIPSIS
-    CAM16_Specification(J=41.7312079..., C=None, h=217.06796..., s=None, \
+    CAM_Specification_CAM16(J=41.7312079..., C=None, h=217.06796..., s=None, \
 Q=None, M=0.1074367..., H=None, HC=None)
     """
 
     J, M, h = tsplit(JMh)
 
-    return CAM16_Specification(J=J, M=M, h=h)
+    return CAM_Specification_CAM16(J=J, M=M, h=h)
 
 
 def XYZ_to_luminance(XYZ):
@@ -279,41 +270,41 @@ Default automatic colour conversion graph illuminant name.
 _DEFAULT_ILLUMINANT : unicode
 """
 
-_DEFAULT_ILLUMINANT_SD = ILLUMINANTS_SDS[_DEFAULT_ILLUMINANT]
+_SD_DEFAULT_ILLUMINANT = SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT]
 """
 Default automatic colour conversion graph illuminant spectral distribution.
 
-_DEFAULT_ILLUMINANT_SD : SpectralDistribution
+_SD_DEFAULT_ILLUMINANT : SpectralDistribution
 """
 
-_DEFAULT_ILLUMINANT_XY = ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    _DEFAULT_ILLUMINANT]
+_CCS_DEFAULT_ILLUMINANT = CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][_DEFAULT_ILLUMINANT]
 """
 Default automatic colour conversion graph illuminant *CIE xy* chromaticity
 coordinates.
 
-_DEFAULT_ILLUMINANT_XY : ndarray
+_CCS_DEFAULT_ILLUMINANT : ndarray
 """
 
-_DEFAULT_ILLUMINANT_XYZ = xy_to_XYZ(_DEFAULT_ILLUMINANT_XY)
+_TVS_DEFAULT_ILLUMINANT = xy_to_XYZ(_CCS_DEFAULT_ILLUMINANT)
 """
 Default automatic colour conversion graph illuminant *CIE XYZ* tristimulus
 values.
 
-_DEFAULT_ILLUMINANT_XYZ : ndarray
+_TVS_DEFAULT_ILLUMINANT : ndarray
 """
 
-_DEFAULT_RGB_COLOURSPACE = sRGB_COLOURSPACE
+_RGB_COLOURSPACE_DEFAULT = RGB_COLOURSPACE_sRGB
 """
 Default automatic colour conversion graph *RGB* colourspace.
 
-_DEFAULT_RGB_COLOURSPACE : RGB_COLOURSPACE
+_RGB_COLOURSPACE_DEFAULT : RGB_COLOURSPACE_RGB
 """
 
 CONVERSION_SPECIFICATIONS_DATA = [
     # Colorimetry
     ('Spectral Distribution', 'CIE XYZ',
-     partial(sd_to_XYZ, illuminant=_DEFAULT_ILLUMINANT_SD)),
+     partial(sd_to_XYZ, illuminant=_SD_DEFAULT_ILLUMINANT)),
     ('CIE XYZ', 'Spectral Distribution', XYZ_to_sd),
     ('Spectral Distribution', 'Luminous Flux', luminous_flux),
     ('Spectral Distribution', 'Luminous Efficiency', luminous_efficiency),
@@ -322,16 +313,16 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('Luminance', 'Lightness', lightness),
     ('Lightness', 'Luminance', luminance),
     ('CIE XYZ', 'Whiteness', partial(whiteness,
-                                     XYZ_0=_DEFAULT_ILLUMINANT_XYZ)),
+                                     XYZ_0=_TVS_DEFAULT_ILLUMINANT)),
     ('CIE XYZ', 'Yellowness', yellowness),
     ('CIE xy', 'Colorimetric Purity',
-     partial(colorimetric_purity, xy_n=_DEFAULT_ILLUMINANT_XY)),
+     partial(colorimetric_purity, xy_n=_CCS_DEFAULT_ILLUMINANT)),
     ('CIE xy', 'Complementary Wavelength',
-     partial(complementary_wavelength, xy_n=_DEFAULT_ILLUMINANT_XY)),
+     partial(complementary_wavelength, xy_n=_CCS_DEFAULT_ILLUMINANT)),
     ('CIE xy', 'Dominant Wavelength',
-     partial(dominant_wavelength, xy_n=_DEFAULT_ILLUMINANT_XY)),
+     partial(dominant_wavelength, xy_n=_CCS_DEFAULT_ILLUMINANT)),
     ('CIE xy', 'Excitation Purity',
-     partial(excitation_purity, xy_n=_DEFAULT_ILLUMINANT_XY)),
+     partial(excitation_purity, xy_n=_CCS_DEFAULT_ILLUMINANT)),
     ('Wavelength', 'CIE XYZ', wavelength_to_XYZ),
     # Colour Models
     ('CIE XYZ', 'CIE xyY', XYZ_to_xyY),
@@ -367,23 +358,25 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'Hunter Lab',
      partial(
          XYZ_to_Hunter_Lab,
-         XYZ_n=HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('Hunter Lab', 'CIE XYZ',
      partial(
          Hunter_Lab_to_XYZ,
-         XYZ_n=HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('CIE XYZ', 'Hunter Rdab',
      partial(
          XYZ_to_Hunter_Rdab,
-         XYZ_n=HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
     ('Hunter Rdab', 'CIE XYZ',
      partial(
          Hunter_Rdab_to_XYZ,
-         XYZ_n=HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+         XYZ_n=TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
+    ('CIE XYZ', 'IGPGTG', XYZ_to_IGPGTG),
+    ('IGPGTG', 'CIE XYZ', IGPGTG_to_XYZ),
     ('CIE XYZ', 'IPT', XYZ_to_IPT),
     ('IPT', 'CIE XYZ', IPT_to_XYZ),
     ('CIE XYZ', 'JzAzBz', XYZ_to_JzAzBz),
@@ -396,20 +389,25 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'RGB',
      partial(
          XYZ_to_RGB,
-         illuminant_XYZ=_DEFAULT_RGB_COLOURSPACE.whitepoint,
-         illuminant_RGB=_DEFAULT_RGB_COLOURSPACE.whitepoint,
-         XYZ_to_RGB_matrix=_DEFAULT_RGB_COLOURSPACE.XYZ_to_RGB_matrix)),
+         illuminant_XYZ=_RGB_COLOURSPACE_DEFAULT.whitepoint,
+         illuminant_RGB=_RGB_COLOURSPACE_DEFAULT.whitepoint,
+         matrix_XYZ_to_RGB=_RGB_COLOURSPACE_DEFAULT.matrix_XYZ_to_RGB)),
     ('RGB', 'CIE XYZ',
      partial(
          RGB_to_XYZ,
-         illuminant_RGB=_DEFAULT_RGB_COLOURSPACE.whitepoint,
-         illuminant_XYZ=_DEFAULT_RGB_COLOURSPACE.whitepoint,
-         RGB_to_XYZ_matrix=_DEFAULT_RGB_COLOURSPACE.RGB_to_XYZ_matrix)),
-    ('RGB', 'RGB',
+         illuminant_RGB=_RGB_COLOURSPACE_DEFAULT.whitepoint,
+         illuminant_XYZ=_RGB_COLOURSPACE_DEFAULT.whitepoint,
+         matrix_RGB_to_XYZ=_RGB_COLOURSPACE_DEFAULT.matrix_RGB_to_XYZ)),
+    ('RGB', 'Scene-Referred RGB',
      partial(
          RGB_to_RGB,
-         input_colourspace=_DEFAULT_RGB_COLOURSPACE,
-         output_colourspace=_DEFAULT_RGB_COLOURSPACE)),
+         input_colourspace=_RGB_COLOURSPACE_DEFAULT,
+         output_colourspace=_RGB_COLOURSPACE_DEFAULT)),
+    ('Scene-Referred RGB', 'RGB',
+     partial(
+         RGB_to_RGB,
+         input_colourspace=_RGB_COLOURSPACE_DEFAULT,
+         output_colourspace=_RGB_COLOURSPACE_DEFAULT)),
     ('RGB', 'HSV', RGB_to_HSV),
     ('HSV', 'RGB', HSV_to_RGB),
     ('RGB', 'HSL', RGB_to_HSL),
@@ -421,8 +419,8 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('RGB', 'RGB Luminance',
      partial(
          RGB_luminance,
-         primaries=_DEFAULT_RGB_COLOURSPACE.primaries,
-         whitepoint=_DEFAULT_RGB_COLOURSPACE.whitepoint)),
+         primaries=_RGB_COLOURSPACE_DEFAULT.primaries,
+         whitepoint=_RGB_COLOURSPACE_DEFAULT.whitepoint)),
     ('RGB Luminance', 'RGB', RGB_luminance_to_RGB),
     ('RGB', 'ICTCP', RGB_to_ICTCP),
     ('ICTCP', 'RGB', ICTCP_to_RGB),
@@ -459,26 +457,27 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'Hunt',
      partial(
          XYZ_to_Hunt,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
-         XYZ_b=_DEFAULT_ILLUMINANT_XYZ,
-         L_A=80 * 0.2)),
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
+         XYZ_b=_TVS_DEFAULT_ILLUMINANT,
+         L_A=80 * 0.2,
+         CCT_w=6504)),
     ('CIE XYZ', 'ATD95',
      partial(
          XYZ_to_ATD95,
-         XYZ_0=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_0=_TVS_DEFAULT_ILLUMINANT,
          Y_0=80 * 0.2,
          k_1=0,
          k_2=(15 + 50) / 2)),
     ('CIE XYZ', 'CIECAM02',
      partial(
          XYZ_to_CIECAM02,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
          L_A=64 / np.pi * 0.2,
          Y_b=20)),
     ('CIECAM02', 'CIE XYZ',
      partial(
          CIECAM02_to_XYZ,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
          L_A=64 / np.pi * 0.2,
          Y_b=20)),
     ('CIECAM02', 'CIECAM02 JMh', CIECAM02_to_JMh_CIECAM02),
@@ -486,27 +485,28 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'CAM16',
      partial(
          XYZ_to_CAM16,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
          L_A=64 / np.pi * 0.2,
          Y_b=20)),
     ('CAM16', 'CIE XYZ',
      partial(
          CAM16_to_XYZ,
-         XYZ_w=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
          L_A=64 / np.pi * 0.2,
          Y_b=20)),
     ('CAM16', 'CAM16 JMh', CAM16_to_JMh_CAM16),
     ('CAM16 JMh', 'CAM16', JMh_CAM16_to_CAM16),
     ('CIE XYZ', 'LLAB',
-     partial(XYZ_to_LLAB, XYZ_0=_DEFAULT_ILLUMINANT_XYZ, Y_b=80 * 0.2, L=80)),
+     partial(XYZ_to_LLAB, XYZ_0=_TVS_DEFAULT_ILLUMINANT, Y_b=80 * 0.2, L=80)),
     ('CIE XYZ', 'Nayatani95',
      partial(
          XYZ_to_Nayatani95,
-         XYZ_n=_DEFAULT_ILLUMINANT_XYZ,
+         XYZ_n=_TVS_DEFAULT_ILLUMINANT,
          Y_o=0.2,
          E_o=1000,
          E_or=1000)),
-    ('CIE XYZ', 'RLAB', XYZ_to_RLAB),
+    ('CIE XYZ', 'RLAB',
+     partial(XYZ_to_RLAB, XYZ_n=_TVS_DEFAULT_ILLUMINANT, Y_n=20)),
     ('CIECAM02 JMh', 'CAM02LCD', JMh_CIECAM02_to_CAM02LCD),
     ('CAM02LCD', 'CIECAM02 JMh', CAM02LCD_to_JMh_CIECAM02),
     ('CIECAM02 JMh', 'CAM02SCD', JMh_CIECAM02_to_CAM02SCD),
@@ -528,7 +528,7 @@ CONVERSION_SPECIFICATIONS_DATA : list
 """
 
 CONVERSION_SPECIFICATIONS = [
-    ConversionSpecification(*specification)
+    Conversion_Specification(*specification)
     for specification in CONVERSION_SPECIFICATIONS_DATA
 ]
 """
@@ -554,6 +554,7 @@ CONVERSION_GRAPH_NODE_LABELS.update({
 })
 
 
+@required('NetworkX')
 def _build_graph():
     """
     Builds the automatic colour conversion graph.
@@ -563,6 +564,8 @@ def _build_graph():
     DiGraph
          Automatic colour conversion graph.
     """
+
+    import networkx as nx
 
     graph = nx.DiGraph()
 
@@ -575,7 +578,7 @@ def _build_graph():
     return graph
 
 
-CONVERSION_GRAPH = _build_graph() if is_networkx_installed() else None
+CONVERSION_GRAPH = None
 """
 Automatic colour conversion graph.
 
@@ -583,6 +586,7 @@ CONVERSION_GRAPH : DiGraph
 """
 
 
+@required('NetworkX')
 def _conversion_path(source, target):
     """
     Returns the conversion path from the source node to the target node in the
@@ -608,13 +612,22 @@ def _conversion_path(source, target):
     [<function Lab_to_XYZ at 0x...>, <function XYZ_to_xy at 0x...>, \
 <function xy_to_CCT at 0x...>]
     """
-    if is_networkx_installed(raise_exception=True):  # pragma: no cover
-        path = nx.shortest_path(CONVERSION_GRAPH, source, target)
 
-        return [
-            CONVERSION_GRAPH.get_edge_data(a, b)['conversion_function']
-            for a, b in zip(path[:-1], path[1:])
-        ]
+    import colour
+    import networkx as nx
+
+    global CONVERSION_GRAPH
+
+    if CONVERSION_GRAPH is None:
+        # Updating the :attr:`CONVERSION_GRAPH` attributes.
+        colour.graph.CONVERSION_GRAPH = CONVERSION_GRAPH = _build_graph()
+
+    path = nx.shortest_path(CONVERSION_GRAPH, source, target)
+
+    return [
+        CONVERSION_GRAPH.get_edge_data(a, b)['conversion_function']
+        for a, b in zip(path[:-1], path[1:])
+    ]
 
 
 def _lower_order_function(callable_):
@@ -751,7 +764,7 @@ def convert(a, source, target, **kwargs):
     colour representation using the automatic colour conversion graph.
 
     The conversion is performed by finding the shortest path in a
-    `NetworkX <https://networkx.github.io/>`_ :class:`DiGraph` class instance.
+    `NetworkX <https://networkx.github.io/>`__ :class:`DiGraph` class instance.
 
     The conversion path adopts the **'1'** domain-range scale and the object
     :math:`a` is expected to be *soft* normalised accordingly. For example,
@@ -767,7 +780,7 @@ def convert(a, source, target, **kwargs):
     -   *Integers* in domain-range `[0, 2**n -1]` where `n` is the bit
         depth are scaled by *2**n -1*.
 
-    See the `Domain-Range Scales <../basics.html#domain-range-scales>`_ page
+    See the `Domain-Range Scales <../basics.html#domain-range-scales>`__ page
     for more information.
 
     Parameters
@@ -798,7 +811,7 @@ def convert(a, source, target, **kwargs):
         :func:`colour.sd_to_XYZ` definition is done as follows::
 
             convert(sd, 'Spectral Distribution', 'sRGB', sd_to_XYZ={\
-'illuminant': ILLUMINANTS_SDS['FL2']})
+'illuminant': SDS_ILLUMINANTS['FL2']})
 
         It is also possible to pass keyword arguments directly to the various
         conversion definitions irrespective of their name. This is
@@ -810,11 +823,11 @@ def convert(a, source, target, **kwargs):
         definition. Consider the following conversion::
 
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-ILLUMINANTS_SDS['FL2'])
+SDS_ILLUMINANTS['FL2'])
 
         Because both the :func:`colour.sd_to_XYZ` and
         :func:`colour.XYZ_to_sRGB` definitions have an *illuminant* argument,
-        `ILLUMINANTS_SDS['FL2']` will be passed to both of them and will raise
+        `SDS_ILLUMINANTS['FL2']` will be passed to both of them and will raise
         an exception in the :func:`colour.XYZ_to_sRGB` definition. This will
         be addressed in the future by either catching the exception and trying
         a new time without the keyword argument or more elegantly via type
@@ -827,8 +840,8 @@ ILLUMINANTS_SDS['FL2'])
         definition arguments::
 
             a = np.array([0.20654008, 0.12197225, 0.05136952])
-            illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']\
-['D65']
+            illuminant = CCS_ILLUMINANTS[\
+'CIE 1931 2 Degree Standard Observer']['D65']
             for model in ('CIE xyY', 'CIE Lab'):
                 convert(a, 'CIE XYZ', model, illuminant=illuminant)
 
@@ -843,10 +856,10 @@ illuminant}, XYZ_to_Lab={'illuminant': illuminant})
         first and then the resulting dict is updated with the explicit
         conversion definition arguments::
 
-            illuminant = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']\
-['D65']
+            illuminant = CCS_ILLUMINANTS[\
+'CIE 1931 2 Degree Standard Observer']['D65']
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
-ILLUMINANTS_SDS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
+SDS_ILLUMINANTS['FL2'], XYZ_to_sRGB={'illuminant': illuminant})
 
         For inspection purposes, verbose is enabled by passing arguments to the
         :func:`colour.describe_conversion_path` definition via the ``verbose``
@@ -866,31 +879,44 @@ verbose={'mode': 'Long'})
 
     Notes
     -----
-    -   Various defaults have been systematically adopted compared to the
-        low-level *Colour* API:
+    -   The **RGB** colour representation is assumed to be linear and
+        representing *scene-referred* imagery, i.e. **Scene-Referred RGB**
+        representation. To encode such *RGB* values as *output-referred*
+        (*display-referred*) imagery, i.e. encode the *RGB* values using an
+        encoding colour component transfer function (Encoding CCTF) /
+        opto-electronic transfer function (OETF / OECF), the
+        **Output-Referred RGB** representation must be used::
+
+             convert(RGB, 'Scene-Referred RGB', 'Output-Referred RGB')
+
+        Likewise, encoded *output-referred* *RGB* values can be decoded with
+        the **Scene-Referred RGB** representation::
+
+            convert(RGB, 'Output-Referred RGB', 'Scene-Referred RGB')
+
+    -   Various defaults have been adopted compared to the low-level *Colour*
+        API:
 
         -   The default illuminant for the computation is
             *CIE Standard Illuminant D Series* *D65*. It can be changed on a
             per definition basis along the conversion path.
-        -   The default *RGB* colourspace is the *sRGB* colourspace. It can
-            also be changed on a per definition basis along the conversion
-            path.
+        -   The default *RGB* colourspace primaries and whitepoint are that of
+            the *BT.709*/*sRGB* colourspace. They can be changed on a per
+            definition basis along the conversion path.
+        -   When using **sRGB** as a source or target colour representation,
+            the convenient :func:`colour.sRGB_to_XYZ` and
+            :func:`colour.XYZ_to_sRGB` definitions are used, respectively.
+            Thus, decoding and encoding using the sRGB electro-optical transfer
+            function (EOTF) and its inverse will be applied by default.
         -   Most of the colour appearance models have defaults set according to
             *IEC 61966-2-1:1999* viewing conditions, i.e. *sRGB* 64 Lux ambiant
             illumination, 80 :math:`cd/m^2`, adapting field luminance about
             20% of a white object in the scene.
 
-    -   The **RGB** colour representation is assumed to be linear and
-        representing *scene-referred* imagery. To convert such *RGB* values to
-        *output-referred* (*display-referred*) imagery, i.e. encode the *RGB*
-        values using an encoding colour component transfer function
-        (Encoding CCTF) / opto-electronic transfer function (OETF / OECF), the
-        **Output-Referred RGB** representation must be used.
-
     Examples
     --------
-    >>> from colour import COLOURCHECKERS_SDS
-    >>> sd = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> from colour import SDS_COLOURCHECKERS
+    >>> sd = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
     ...     verbose={'mode': 'Short', 'width': 75})
     ... # doctest: +ELLIPSIS
@@ -902,7 +928,7 @@ verbose={'mode': 'Long'})
     *                                                                         *
     ===========================================================================
     array([ 0.4567579...,  0.3098698...,  0.2486192...])
-    >>> illuminant = ILLUMINANTS_SDS['FL2']
+    >>> illuminant = SDS_ILLUMINANTS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
     ...     sd_to_XYZ={'illuminant': illuminant})
     ... # doctest: +ELLIPSIS
@@ -918,7 +944,7 @@ verbose={'mode': 'Long'})
     *                                                                         *
     *   [ Conversion Path ]                                                   *
     *                                                                         *
-    *   "UCS_Luo2006_to_JMh_CIECAM02" --> "JMh_CAM16_to_CAM16" -->            *
+    *   "UCS_Li2017_to_JMh_CAM16" --> "JMh_CAM16_to_CAM16" -->                *
     *   "CAM16_to_XYZ" --> "XYZ_to_sRGB"                                      *
     *                                                                         *
     ===========================================================================

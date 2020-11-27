@@ -14,7 +14,7 @@ Optimal Colour Stimuli - MacAdam Limits
     :toctree: generated/
 
     is_within_macadam_limits
-    ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
+    OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 
 Mesh Volume
 -----------

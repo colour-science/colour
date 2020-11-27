@@ -16,18 +16,12 @@ Defines *yellowness* index :math:`Y` computation objects:
 -   :func:`colour.whiteness`: *Yellowness* :math:`YI` computation using given
     method.
 
-See Also
---------
-`Yellowness Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/yellowness.ipynb>`_
-
 References
 ----------
--   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color
-    iMatch Color Calculations Guide. Retrieved from
-    https://www.xrite.com/-/media/xrite/files/\
-apps_engineering_techdocuments/c/09_color_calculations_en.pdf
+-   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color iMatch
+    Color Calculations Guide.
+    https://www.xrite.com/-/media/xrite/files/apps_engineering_techdocuments/\
+c/09_color_calculations_en.pdf
 """
 
 from __future__ import division, unicode_literals

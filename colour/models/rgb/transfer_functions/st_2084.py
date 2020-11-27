@@ -9,21 +9,16 @@ and electro-optical transfer function (EOTF / EOCF):
 -   :func:`colour.models.eotf_ST2084`
 -   :func:`colour.models.eotf_inverse_ST2084`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`Miller2014a` : Miller, S. (2014). A Perceptual EOTF for Extended
-    Dynamic Range Imagery. Retrieved from https://www.smpte.org/sites/default/\
-files/2014-05-06-EOTF-Miller-1-2-handout.pdf
+    Dynamic Range Imagery (pp. 1-17).
+    https://www.smpte.org/sites/default/files/\
+2014-05-06-EOTF-Miller-1-2-handout.pdf
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers2014a` : Society of
     Motion Picture and Television Engineers. (2014). SMPTE ST 2084:2014 -
     Dynamic Range Electro-Optical Transfer Function of Mastering Reference
-    Displays. doi:10.5594/SMPTE.ST2084.2014
+    Displays (pp. 1-14). doi:10.5594/SMPTE.ST2084.2014
 """
 
 from __future__ import division, unicode_literals
@@ -40,9 +35,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['ST2084_CONSTANTS', 'eotf_inverse_ST2084', 'eotf_ST2084']
+__all__ = ['CONSTANTS_ST2084', 'eotf_inverse_ST2084', 'eotf_ST2084']
 
-ST2084_CONSTANTS = Structure(
+CONSTANTS_ST2084 = Structure(
     m_1=2610 / 4096 * (1 / 4),
     m_2=2523 / 4096 * 128,
     c_1=3424 / 4096,
@@ -52,11 +47,11 @@ ST2084_CONSTANTS = Structure(
 Constants for *SMPTE ST 2084:2014* inverse electro-optical transfer function
 (EOTF / EOCF) and electro-optical transfer function (EOTF / EOCF).
 
-ST2084_CONSTANTS : Structure
+CONSTANTS_ST2084 : Structure
 """
 
 
-def eotf_inverse_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
+def eotf_inverse_ST2084(C, L_p=10000, constants=CONSTANTS_ST2084):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
     transfer function (EOTF / EOCF).
@@ -90,17 +85,19 @@ def eotf_inverse_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.
+        The effective domain of *SMPTE ST 2084:2014* inverse electro-optical
+        transfer function (EOTF / EOCF) is [0.0001, 10000].
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``C``      | [0, 1]                | [0, 1]        |
+    | ``C``      | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``N``      | [0, 1]                | [0, 1]        |
+    | ``N``      | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     References
@@ -124,7 +121,7 @@ def eotf_inverse_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     return from_range_1(N)
 
 
-def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
+def eotf_ST2084(N, L_p=10000, constants=CONSTANTS_ST2084):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF / EOCF).
@@ -165,13 +162,13 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``N``      | [0, 1]                | [0, 1]        |
+    | ``N``      | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``C``      | [0, 1]                | [0, 1]        |
+    | ``C``      | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     References

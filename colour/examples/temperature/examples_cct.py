@@ -8,8 +8,8 @@ from colour.utilities import message_box
 
 message_box('Correlated Colour Temperature Computations')
 
-cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
-illuminant = colour.ILLUMINANTS_SDS['D65']
+cmfs = colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+illuminant = colour.SDS_ILLUMINANTS['D65']
 xy = colour.XYZ_to_xy(colour.sd_to_XYZ(illuminant, cmfs) / 100)
 uv = colour.UCS_to_uv(colour.XYZ_to_UCS(colour.xy_to_XYZ(xy)))
 message_box(('Converting to "CCT" and "D_uv" from given "CIE UCS" colourspace '
@@ -62,7 +62,7 @@ print(colour.temperature.CCT_to_uv_Krystek1985(CCT))
 
 print('\n')
 
-xy = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
+xy = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 message_box(('Converting to "CCT" from given "CIE xy" chromaticity '
              'coordinates using "McCamy (1992)" method:\n'
              '\n\t{0}'.format(xy)))

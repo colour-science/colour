@@ -36,6 +36,24 @@ The Colour Developers
 
     Technical support.
 
+Google Summer of Code
+---------------------
+
+2020
+~~~~
+
+-   **Nishant Joywardhan**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    LUT IO Improvements.
+
+-   **Pawel Redman**, *Student @ Wrocław University of Science and Technology*
+
+    New Spectral Upsampling Methods.
+
+-   **Omar Wagih**, *Student @ Faculty of Engineering, Cairo University*
+
+    The Need for Speed.
+
 Development & Technical Support
 -------------------------------
 
@@ -99,6 +117,22 @@ Development & Technical Support
 
     Python 3.8 compatibility.
 
+-   **Sianyi Huang**, *Display Tuning Engineer*
+
+    Examples fixes.
+
+-   **Mike Wei**, *Display Tuning Engineer*
+
+    Technical support.
+
+-   **Joseph Goldstone**, *Image Science Engineer @ ARRI*
+
+    Technical support and documentation improvements.
+
+-   **Stephen Hill**, *Principal Rendering Engineer @ Lucasfilm*
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -124,10 +158,6 @@ Acknowledgements
 -   **Alex Forsythe**, *Image Engineering Manager @ Academy of Motion Picture Arts and Sciences*
 
     *ACES RGB IDT* technical support.
-
--   **Joseph Goldstone**, *Image Science Engineer @ ARRI*
-
-    Technical support.
 
 -   **Yoshi Ohno**, *Mathematician & Colour Scientist*
 
@@ -162,14 +192,19 @@ Issues & Discussions
 -   @AndersAtEndian
 -   @anshulxyz
 -   @Apoorva-13
+-   @aurelienbl
 -   @awehring
+-   @beckstev
 -   @bersbersbers
 -   @brandondube
 -   @briend
+-   @bsdis
 -   @cclauss
 -   @Chandler
 -   @chesschi
+-   @ChunHsinWang
 -   @codycuellar
+-   @dfoxfranke
 -   @dtbulmerJRs
 -   @Edwardlin-zlt
 -   @eyeforcolor
@@ -179,11 +214,14 @@ Issues & Discussions
 -   @habemus-papadum
 -   @hajimen
 -   @henczati
+-   @hminle
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
 -   @KOLANICH
 -   @Kunkka1988
+-   @lavrovd
+-   @LeCyberDucky
 -   @Legendin
 -   @leklbk
 -   @lensz
@@ -194,24 +232,32 @@ Issues & Discussions
 -   @monkeywithacupcake
 -   @Myndex
 -   @naavis
+-   @nadersadoughi
 -   @NoRoKr
 -   @nschloe
 -   @peteroupc
 -   @pfk-beta
+-   @priikone
 -   @Queuecumber
 -   @Rob-Welch
 -   @robbuckley
 -   @Ron024
+-   @rsnitsch
 -   @senyai
 -   @shanest
+-   @spicymatt
 -   @stakemura
 -   @tashdor
 -   @TFiFiE
 -   @thunders82
 -   @tingeman
 -   @totyped
+-   @ValZapod
 -   @vidakDK
+-   @vvclin-git
+-   @Wagyx
 -   @Willingo
+-   @xjossy
 -   @zachlewis
 
 About

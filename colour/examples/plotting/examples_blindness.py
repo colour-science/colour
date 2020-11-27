@@ -27,7 +27,7 @@ message_box('Colour Blindness Plots')
 message_box('Displaying "Ishihara Colour Blindness Test - Plate 3".')
 plot_image(
     colour.cctf_encoding(ISHIHARA_CBT_3_IMAGE),
-    text_parameters={
+    text_kwargs={
         'text': 'Normal Trichromat',
         'color': 'black'
     })
@@ -41,16 +41,16 @@ plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE,
     'Protanomaly',
     0.5,
-    text_parameters={
+    text_kwargs={
         'text': 'Protanomaly - 50%',
         'color': 'black'
     })
 
 print('\n')
 
-M_a = colour.anomalous_trichromacy_matrix_Machado2009(
-    colour.LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
-    colour.DISPLAYS_RGB_PRIMARIES['Typical CRT Brainard 1997'],
+M_a = colour.matrix_anomalous_trichromacy_Machado2009(
+    colour.MSDS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals'],
+    colour.MSDS_DISPLAY_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([10, 0, 0]))
 message_box('Simulating average "Protanomaly" on '
             '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
@@ -59,16 +59,16 @@ message_box('Simulating average "Protanomaly" on '
 plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE,
     M_a=M_a,
-    text_parameters={
+    text_kwargs={
         'text': 'Average Protanomaly - 10nm',
         'color': 'black'
     })
 
 print('\n')
 
-M_a = colour.anomalous_trichromacy_matrix_Machado2009(
-    colour.LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
-    colour.DISPLAYS_RGB_PRIMARIES['Typical CRT Brainard 1997'],
+M_a = colour.matrix_anomalous_trichromacy_Machado2009(
+    colour.MSDS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals'],
+    colour.MSDS_DISPLAY_PRIMARIES['Typical CRT Brainard 1997'],
     np.array([20, 0, 0]))
 message_box('Simulating "Protanopia" on '
             '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
@@ -77,7 +77,7 @@ message_box('Simulating "Protanopia" on '
 plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE,
     M_a=M_a,
-    text_parameters={
+    text_kwargs={
         'text': 'Protanopia - 20nm',
         'color': 'black'
     })

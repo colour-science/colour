@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import HUNTERLAB_ILLUMINANTS
+from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
 from colour.models import XYZ_to_Hunter_Rdab, Hunter_Rdab_to_XYZ
 
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -53,7 +53,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
             np.array([6.15720100, 18.13400284, -67.14408607]),
             decimal=7)
 
-        h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+        h_i = TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
         A = h_i['A']
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
@@ -84,7 +84,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         n-dimensional support.
         """
 
-        h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+        h_i = TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
         D65 = h_i['D65']
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
@@ -115,7 +115,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         domain and range scale support.
         """
 
-        h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+        h_i = TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
         D65 = h_i['D65']
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
@@ -176,7 +176,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
             np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
             decimal=7)
 
-        h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+        h_i = TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
         A = h_i['A']
         np.testing.assert_almost_equal(
             Hunter_Rdab_to_XYZ(
@@ -207,7 +207,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         n-dimensional support.
         """
 
-        h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+        h_i = TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
         D65 = h_i['D65']
 
         R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])
@@ -238,7 +238,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         domain and range scale support.
         """
 
-        h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+        h_i = TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
         D65 = h_i['D65']
 
         R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])

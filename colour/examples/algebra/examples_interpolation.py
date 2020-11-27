@@ -16,7 +16,7 @@ message_box('Interpolation Computations')
 message_box(('Comparing "Sprague (1880)" and "Cubic Spline" recommended '
              'interpolation methods to "Pchip" method.'))
 
-uniform_sd_data = {
+data_uniform = {
     340: 0.0000,
     360: 0.0000,
     380: 0.0000,
@@ -44,7 +44,7 @@ uniform_sd_data = {
     820: 0.0000
 }
 
-non_uniform_sd_data = {
+data_non_uniform = {
     340.1: 0.0000,
     360: 0.0000,
     380: 0.0000,
@@ -72,27 +72,27 @@ non_uniform_sd_data = {
     820.9: 0.0000
 }
 
-base_sd = colour.SpectralDistribution(uniform_sd_data, name='Reference')
+sd_base = colour.SpectralDistribution(data_uniform, name='Reference')
 uniform_interpolated_sd = colour.SpectralDistribution(
-    uniform_sd_data, name='Uniform - Sprague Interpolation')
+    data_uniform, name='Uniform - Sprague Interpolation')
 uniform_pchip_interpolated_sd = colour.SpectralDistribution(
-    uniform_sd_data, name='Uniform - Pchip Interpolation')
+    data_uniform, name='Uniform - Pchip Interpolation')
 non_uniform_interpolated_sd = colour.SpectralDistribution(
-    non_uniform_sd_data, name='Non Uniform - Cubic Spline Interpolation')
+    data_non_uniform, name='Non Uniform - Cubic Spline Interpolation')
 
 uniform_interpolated_sd.interpolate(colour.SpectralShape(interval=1))
 uniform_pchip_interpolated_sd.interpolate(
     colour.SpectralShape(interval=1), interpolator=colour.PchipInterpolator)
 non_uniform_interpolated_sd.interpolate(colour.SpectralShape(interval=1))
 
-shape = base_sd.shape
+shape = sd_base.shape
 x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
 
 plt.plot(
-    base_sd.wavelengths,
-    base_sd.values,
+    sd_base.wavelengths,
+    sd_base.values,
     'ro-',
-    label=base_sd.name,
+    label=sd_base.name,
     linewidth=1)
 plt.plot(
     uniform_interpolated_sd.wavelengths,
@@ -112,8 +112,8 @@ plt.plot(
 
 x_limit_min.append(shape.start)
 x_limit_max.append(shape.end)
-y_limit_min.append(min(base_sd.values))
-y_limit_max.append(max(base_sd.values))
+y_limit_min.append(min(sd_base.values))
+y_limit_max.append(max(sd_base.values))
 
 settings = {
     'x_label':

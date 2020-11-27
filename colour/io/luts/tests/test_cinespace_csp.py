@@ -183,7 +183,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
             os.path.join(LUTS_DIRECTORY,
                          'Three_Dimensional_Table_With_Shaper.csp'))
         LUT_5_r.sequence[0] = LUT_5_r.sequence[0].as_LUT(
-            LUT1D, force_conversion=True)
+            LUT3x1D, force_conversion=True)
         write_LUT_Cinespace(
             LUT_5_r,
             os.path.join(self._temporary_directory,

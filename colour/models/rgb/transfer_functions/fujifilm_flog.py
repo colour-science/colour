@@ -8,17 +8,11 @@ Defines the *Fujifilm F-Log* log encoding:
 -   :func:`colour.models.log_encoding_FLog`
 -   :func:`colour.models.log_decoding_FLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0.
-    Retrieved from https://www.fujifilm.com/support/digital_cameras/\
-software/lut/pdf/F-Log_DataSheet_E_Ver.1.0.pdf
+-   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0 (pp.
+    1-4). https://www.fujifilm.com/support/digital_cameras/software/lut/pdf/\
+F-Log_DataSheet_E_Ver.1.0.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -35,9 +29,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['FLOG_CONSTANTS', 'log_encoding_FLog', 'log_decoding_FLog']
+__all__ = ['CONSTANTS_FLOG', 'log_encoding_FLog', 'log_decoding_FLog']
 
-FLOG_CONSTANTS = Structure(
+CONSTANTS_FLOG = Structure(
     cut1=0.00089,
     cut2=0.100537775223865,
     a=0.555556,
@@ -49,7 +43,7 @@ FLOG_CONSTANTS = Structure(
 """
 *Fujifilm F-Log* colourspace constants.
 
-FLOG_CONSTANTS : Structure
+CONSTANTS_FLOG : Structure
 """
 
 
@@ -57,7 +51,7 @@ def log_encoding_FLog(in_r,
                       bit_depth=10,
                       out_normalised_code_value=True,
                       in_reflection=True,
-                      constants=FLOG_CONSTANTS):
+                      constants=CONSTANTS_FLOG):
     """
     Defines the *Fujifilm F-Log* log encoding curve / opto-electronic transfer
     function.
@@ -144,7 +138,7 @@ def log_decoding_FLog(out_r,
                       bit_depth=10,
                       in_normalised_code_value=True,
                       out_reflection=True,
-                      constants=FLOG_CONSTANTS):
+                      constants=CONSTANTS_FLOG):
     """
     Defines the *Fujifilm F-Log* log decoding curve / electro-optical transfer
     function.

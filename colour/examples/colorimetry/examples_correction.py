@@ -14,7 +14,7 @@ message_box(('Applying spectral bandpass dependence correction on a sample '
              'spectral distribution using "Stearns and Stearns (1988)" '
              'method:\n'
              '\n\t("Measured Values", "Corrected Values")'))
-sample_sd_data = {
+data_sample = {
     380: 0.048,
     385: 0.051,
     390: 0.055,
@@ -98,6 +98,9 @@ sample_sd_data = {
     780: 0.421
 }
 
-sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
-uncorrected_values = sd.values
-print(np.dstack([uncorrected_values, colour.bandpass_correction(sd).values]))
+sd_sample = colour.SpectralDistribution(data_sample, name='Sample')
+uncorrected_values = sd_sample.values
+print(
+    np.dstack(
+        [uncorrected_values,
+         colour.bandpass_correction(sd_sample).values]))

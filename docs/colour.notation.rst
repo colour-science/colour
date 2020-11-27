@@ -124,8 +124,8 @@ ASTM D1535-08e1
 
     munsell_value_ASTMD1535
 
-Hexadecimal Triplet Notation
-----------------------------
+Hexadecimal Representation
+--------------------------
 
 ``colour.notation``
 

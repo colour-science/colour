@@ -2,12 +2,13 @@
 
 from __future__ import absolute_import
 
-from .macadam_ellipses import MACADAM_1942_ELLIPSES_DATA
-from .pointer_gamut import (POINTER_GAMUT_ILLUMINANT, POINTER_GAMUT_DATA,
-                            POINTER_GAMUT_BOUNDARIES)
+from .macadam_ellipses import DATA_MACADAM_1942_ELLIPSES
+from .pointer_gamut import (CCS_ILLUMINANT_POINTER_GAMUT,
+                            DATA_POINTER_GAMUT_VOLUME,
+                            CCS_POINTER_GAMUT_BOUNDARY)
 
-__all__ = ['MACADAM_1942_ELLIPSES_DATA']
+__all__ = ['DATA_MACADAM_1942_ELLIPSES']
 __all__ += [
-    'POINTER_GAMUT_ILLUMINANT', 'POINTER_GAMUT_DATA',
-    'POINTER_GAMUT_BOUNDARIES'
+    'CCS_ILLUMINANT_POINTER_GAMUT', 'DATA_POINTER_GAMUT_VOLUME',
+    'CCS_POINTER_GAMUT_BOUNDARY'
 ]

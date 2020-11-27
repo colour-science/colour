@@ -30,14 +30,16 @@ __all__ = [
 
 
 @override_style()
-def plot_single_munsell_value_function(function='ASTM D1535', **kwargs):
+def plot_single_munsell_value_function(function, **kwargs):
     """
     Plots given *Lightness* function.
 
     Parameters
     ----------
-    function : unicode, optional
-        *Munsell* value function to plot.
+    function : unicode or object
+        *Munsell* value function to plot. ``function`` can be of any type or
+        form supported by the :func:`colour.plotting.filter_passthrough`
+        definition.
 
     Other Parameters
     ----------------
@@ -55,8 +57,7 @@ def plot_single_munsell_value_function(function='ASTM D1535', **kwargs):
     Examples
     --------
     >>> plot_single_munsell_value_function('ASTM D1535')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Munsell_Value_Function.png
         :align: center
@@ -70,14 +71,16 @@ def plot_single_munsell_value_function(function='ASTM D1535', **kwargs):
 
 
 @override_style()
-def plot_multi_munsell_value_functions(functions=None, **kwargs):
+def plot_multi_munsell_value_functions(functions, **kwargs):
     """
     Plots given *Munsell* value functions.
 
     Parameters
     ----------
-    functions : array_like, optional
-        *Munsell* value functions to plot.
+    functions : unicode or object or array_like
+        *Munsell* value functions to plot. ``functions`` elements can be of any
+        type or form supported by the
+        :func:`colour.plotting.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -96,16 +99,12 @@ def plot_multi_munsell_value_functions(functions=None, **kwargs):
     --------
     >>> plot_multi_munsell_value_functions(['ASTM D1535', 'McCamy 1987'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Munsell_Value_Functions.png
         :align: center
         :alt: plot_multi_munsell_value_functions
     """
-
-    if functions is None:
-        functions = ('ASTM D1535', 'McCamy 1987')
 
     functions = filter_passthrough(MUNSELL_VALUE_METHODS, functions)
 

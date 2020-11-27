@@ -11,16 +11,19 @@ Defines various data structures classes:
     retrieve keys by values.
 -   :class:`colour.utilities.CaseInsensitiveMapping`: A case insensitive
     mapping allowing values retrieving from keys while ignoring the key case.
+-   :class:`colour.utilities.LazyCaseInsensitiveMapping`: Another case
+    insensitive mapping allowing lazy values retrieving from keys while
+    ignoring the key case.
 
 References
 ----------
--   :cite:`Mansencalc` : Mansencal, T. (n.d.). Lookup. Retrieved from
+-   :cite:`Mansencalc` : Mansencal, T. (n.d.). Lookup.
     https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
 data_structures.py
--   :cite:`Mansencald` : Mansencal, T. (n.d.). Structure. Retrieved from
+-   :cite:`Mansencald` : Mansencal, T. (n.d.). Structure.
     https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
 data_structures.py
--   :cite:`Reitza` : Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from
+-   :cite:`Reitza` : Reitz, K. (n.d.). CaseInsensitiveDict.
     https://github.com/kennethreitz/requests/blob/v1.2.3/requests/\
 structures.py#L37
 """
@@ -39,7 +42,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['Structure', 'Lookup', 'CaseInsensitiveMapping']
+__all__ = [
+    'Structure', 'Lookup', 'CaseInsensitiveMapping',
+    'LazyCaseInsensitiveMapping'
+]
 
 
 class Structure(dict):
@@ -53,6 +59,9 @@ class Structure(dict):
     \\**kwargs : dict, optional
         Key / Value pairs.
 
+    Methods
+    -------
+    -   :meth:`~colour.utilities.Structure.__init__`
 
     References
     ----------
@@ -82,8 +91,8 @@ class Lookup(dict):
 
     Methods
     -------
-    keys_from_value
-    first_key_from_value
+    -   :meth:`~colour.utilities.Lookup.keys_from_value`
+    -   :meth:`~colour.utilities.Lookup.first_key_from_value`
 
     References
     ----------
@@ -162,22 +171,27 @@ class CaseInsensitiveMapping(MutableMapping):
     \\**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
+    Attributes
+    ----------
+    -   :attr:`~colour.utilities.CaseInsensitiveMapping.data`
+
     Methods
     -------
-    __setitem__
-    __getitem__
-    __delitem__
-    __contains__
-    __iter__
-    __len__
-    __eq__
-    __ne__
-    __repr__
-    copy
-    lower_items
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__init__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__setitem__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__getitem__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__delitem__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__contains__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__iter__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__len__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__eq__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__ne__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__repr__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.copy`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_items`
 
-    Warning
-    -------
+    Warnings
+    --------
     The keys are expected to be unicode or string-like objects.
 
     References
@@ -199,12 +213,7 @@ class CaseInsensitiveMapping(MutableMapping):
     @property
     def data(self):
         """
-        Getter and setter property for the data.
-
-        Parameters
-        ----------
-        value : dict
-            Value to set the data with.
+        Getter property for the data.
 
         Returns
         -------
@@ -390,3 +399,74 @@ class CaseInsensitiveMapping(MutableMapping):
         """
 
         return ((item, value[1]) for (item, value) in self._data.items())
+
+
+class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
+    """
+    Implements a lazy case-insensitive mutable mapping / *dict* object by
+    inheriting from :class:`colour.utilities.CaseInsensitiveMapping` class.
+
+    Allows lazy values retrieving from keys while ignoring the key case.
+    The keys are expected to be unicode or string-like objects supporting the
+    :meth:`str.lower` method. The lazy retrieval is performed as follows:
+    If the value is a callable, then it is evaluated and its return value is
+    stored in place of the current value.
+
+    Parameters
+    ----------
+    data : dict
+        *dict* of data to store into the mapping at initialisation.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Key / Value pairs to store into the mapping at initialisation.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.LazyCaseInsensitiveMapping.__getitem__`
+
+    Warnings
+    --------
+    The keys are expected to be unicode or string-like objects.
+
+    Examples
+    --------
+    >>> def callable_a():
+    ...     print(2)
+    ...     return 2
+    >>> methods = LazyCaseInsensitiveMapping(
+    ...     {'McCamy': 1, 'Hernandez': callable_a})
+    >>> methods['mccamy']
+    1
+    >>> methods['hernandez']
+    2
+    2
+    """
+
+    def __getitem__(self, item):
+        """
+        Returns the value of given item.
+
+        The item value is retrieved using its lower name in the mapping. If
+        the value is a callable, then it is evaluated and its return value is
+        stored in place of the current value.
+
+        Parameters
+        ----------
+        item : unicode
+            Item name.
+
+        Returns
+        -------
+        object
+            Item value.
+        """
+
+        value = super(LazyCaseInsensitiveMapping, self).__getitem__(item)
+
+        if callable(value):
+            value = value()
+            super(LazyCaseInsensitiveMapping, self).__setitem__(item, value)
+
+        return value

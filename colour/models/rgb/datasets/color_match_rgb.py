@@ -5,13 +5,7 @@ ColorMatch RGB Colourspace
 
 Defines the *ColorMatch RGB* colourspace:
 
--   :attr:`colour.models.COLOR_MATCH_RGB_COLOURSPACE`.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
+-   :attr:`colour.models.RGB_COLOURSPACE_COLOR_MATCH_RGB`.
 
 References
 ----------
@@ -25,7 +19,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
@@ -37,12 +31,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'COLOR_MATCH_RGB_PRIMARIES', 'COLOR_MATCH_RGB_WHITEPOINT_NAME',
-    'COLOR_MATCH_RGB_WHITEPOINT', 'COLOR_MATCH_RGB_TO_XYZ_MATRIX',
-    'XYZ_TO_COLOR_MATCH_RGB_MATRIX', 'COLOR_MATCH_RGB_COLOURSPACE'
+    'PRIMARIES_COLOR_MATCH_RGB', 'WHITEPOINT_NAME_COLOR_MATCH_RGB',
+    'CCS_WHITEPOINT_COLOR_MATCH_RGB', 'MATRIX_COLOR_MATCH_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_COLOR_MATCH_RGB', 'RGB_COLOURSPACE_COLOR_MATCH_RGB'
 ]
 
-COLOR_MATCH_RGB_PRIMARIES = np.array([
+PRIMARIES_COLOR_MATCH_RGB = np.array([
     [0.6300, 0.3400],
     [0.2950, 0.6050],
     [0.1500, 0.0750],
@@ -50,55 +44,55 @@ COLOR_MATCH_RGB_PRIMARIES = np.array([
 """
 *ColorMatch RGB* colourspace primaries.
 
-COLOR_MATCH_RGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_COLOR_MATCH_RGB : ndarray, (3, 2)
 """
 
-COLOR_MATCH_RGB_WHITEPOINT_NAME = 'D50'
+WHITEPOINT_NAME_COLOR_MATCH_RGB = 'D50'
 """
 *ColorMatch RGB* colourspace whitepoint name.
 
-COLOR_MATCH_RGB_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_COLOR_MATCH_RGB : unicode
 """
 
-COLOR_MATCH_RGB_WHITEPOINT = (ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][COLOR_MATCH_RGB_WHITEPOINT_NAME])
+CCS_WHITEPOINT_COLOR_MATCH_RGB = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_COLOR_MATCH_RGB])
 """
-*ColorMatch RGB* colourspace whitepoint.
+*ColorMatch RGB* colourspace whitepoint chromaticity coordinates.
 
-COLOR_MATCH_RGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_COLOR_MATCH_RGB : ndarray
 """
 
-COLOR_MATCH_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    COLOR_MATCH_RGB_PRIMARIES, COLOR_MATCH_RGB_WHITEPOINT)
+MATRIX_COLOR_MATCH_RGB_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_COLOR_MATCH_RGB, CCS_WHITEPOINT_COLOR_MATCH_RGB)
 """
 *ColorMatch RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-COLOR_MATCH_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_COLOR_MATCH_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_COLOR_MATCH_RGB_MATRIX = np.linalg.inv(COLOR_MATCH_RGB_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_COLOR_MATCH_RGB = np.linalg.inv(MATRIX_COLOR_MATCH_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *ColorMatch RGB* colourspace matrix.
 
-XYZ_TO_COLOR_MATCH_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_COLOR_MATCH_RGB : array_like, (3, 3)
 """
 
-COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_COLOR_MATCH_RGB = RGB_Colourspace(
     'ColorMatch RGB',
-    COLOR_MATCH_RGB_PRIMARIES,
-    COLOR_MATCH_RGB_WHITEPOINT,
-    COLOR_MATCH_RGB_WHITEPOINT_NAME,
-    COLOR_MATCH_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_COLOR_MATCH_RGB_MATRIX,
+    PRIMARIES_COLOR_MATCH_RGB,
+    CCS_WHITEPOINT_COLOR_MATCH_RGB,
+    WHITEPOINT_NAME_COLOR_MATCH_RGB,
+    MATRIX_COLOR_MATCH_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_COLOR_MATCH_RGB,
     partial(gamma_function, exponent=1 / 1.8),
     partial(gamma_function, exponent=1.8),
 )
-COLOR_MATCH_RGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_COLOR_MATCH_RGB.__doc__ = """
 *ColorMatch RGB* colourspace.
 
 References
 ----------
 :cite:`Lindbloom2014a`
 
-COLOR_MATCH_RGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_COLOR_MATCH_RGB : RGB_Colourspace
 """

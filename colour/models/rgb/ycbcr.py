@@ -14,37 +14,31 @@ Notes
 -----
 -   *Y'CbCr* is not an absolute colourspace.
 
-See Also
---------
-`YCbCr Colours Encoding Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ycbcr.ipynb>`_
-
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2011e` : International
     Telecommunication Union. (2011). Recommendation ITU-T T.871 - Information
     technology - Digital compression and coding of continuous-tone still
-    images: JPEG File Interchange Format (JFIF). Retrieved from
+    images: JPEG File Interchange Format (JFIF).
     https://www.itu.int/rec/dologin_pub.asp?lang=e&\
 id=T-REC-T.871-201105-I!!PDF-E&type=items
 -   :cite:`InternationalTelecommunicationUnion2015h` : International
     Telecommunication Union. (2015). Recommendation ITU-R BT.2020 - Parameter
     values for ultra-high definition television systems for production and
-    international programme exchange. Retrieved from
+    international programme exchange (pp. 1-8).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 -   :cite:`InternationalTelecommunicationUnion2015i` : International
     Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
     values for the HDTV standards for production and international programme
-    exchange BT Series Broadcasting service. Retrieved from
+    exchange BT Series Broadcasting service (pp. 1-32).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of
     Motion Picture and Television Engineers. (1999). ANSI/SMPTE 240M-1995 -
-    Signal Parameters - 1125-Line High-Definition Production Systems. Retrieved
-    from http://car.france3.mars.free.fr/HD/INA- 26 jan 06/\
-SMPTE normes et confs/s240m.pdf
+    Signal Parameters - 1125-Line High-Definition Production Systems (pp. 1-7).
+    http://car.france3.mars.free.fr/HD/\
+INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
 -   :cite:`Wikipedia2004d` : Wikipedia. (2004). YCbCr. Retrieved February 29,
     2016, from https://en.wikipedia.org/wiki/YCbCr
 """
@@ -54,8 +48,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.models.rgb.transfer_functions import (CV_range, oetf_BT2020,
-                                                  eotf_BT2020)
+from colour.models.rgb.transfer_functions import (
+    CV_range, eotf_inverse_BT2020, eotf_BT2020)
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               domain_range_scale, from_range_1, to_domain_1,
                               tsplit, tstack)
@@ -68,11 +62,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'YCBCR_WEIGHTS', 'YCbCr_ranges', 'RGB_to_YCbCr', 'YCbCr_to_RGB',
+    'WEIGHTS_YCBCR', 'YCbCr_ranges', 'RGB_to_YCbCr', 'YCbCr_to_RGB',
     'RGB_to_YcCbcCrc', 'YcCbcCrc_to_RGB'
 ]
 
-YCBCR_WEIGHTS = CaseInsensitiveMapping({
+WEIGHTS_YCBCR = CaseInsensitiveMapping({
     'ITU-R BT.601': np.array([0.2990, 0.1140]),
     'ITU-R BT.709': np.array([0.2126, 0.0722]),
     'ITU-R BT.2020': np.array([0.2627, 0.0593]),
@@ -89,7 +83,7 @@ References
 :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
 :cite:`Wikipedia2004d`
 
-YCBCR_WEIGHTS : dict
+WEIGHTS_YCBCR : dict
     **{'ITU-R BT.601', 'ITU-R BT.709', 'ITU-R BT.2020', 'SMPTE-240M}**
 """
 
@@ -144,7 +138,7 @@ def YCbCr_ranges(bits, is_legal, is_int):
 
 
 def RGB_to_YCbCr(RGB,
-                 K=YCBCR_WEIGHTS['ITU-R BT.709'],
+                 K=WEIGHTS_YCBCR['ITU-R BT.709'],
                  in_bits=10,
                  in_legal=False,
                  in_int=False,
@@ -162,7 +156,7 @@ def RGB_to_YCbCr(RGB,
         Input *R'G'B'* array of floats or integer values.
     K : array_like, optional
         Luma weighting coefficients of red and blue. See
-        :attr:`colour.YCBCR_WEIGHTS` for presets. Default is
+        :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
@@ -202,8 +196,8 @@ def RGB_to_YCbCr(RGB,
     ndarray
         *Y'CbCr* colour encoding array of integer or float values.
 
-    Warning
-    -------
+    Warnings
+    --------
     For *Recommendation ITU-R BT.2020*, :func:`colour.RGB_to_YCbCr` definition
     is only applicable to the non-constant luminance implementation.
     :func:`colour.RGB_to_YcCbcCrc` definition should be used for the constant
@@ -265,15 +259,17 @@ def RGB_to_YCbCr(RGB,
     Creating integer code values as per standard 10-bit SDI:
 
     >>> RGB_to_YCbCr(RGB, out_legal=True, out_bits=10, out_int=True)
-    array([940, 512, 512])
+    ... # doctest: +ELLIPSIS
+    array([940, 512, 512]...)
 
     For JFIF JPEG conversion as per ITU-T T.871
     :cite:`InternationalTelecommunicationUnion2011e`:
 
     >>> RGB = np.array([102, 0, 51])
-    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['ITU-R BT.601'], in_range=(0, 255),
+    >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_range=(0, 255),
     ...              out_range=(0, 255, 0, 256), out_int=True)
-    array([ 36, 136, 175])
+    ... # doctest: +ELLIPSIS
+    array([ 36, 136, 175]...)
 
     Note the use of 256 for the max *Cb / Cr* value, which is required so that
     the *Cb* and *Cr* output is centered about 128. Using 255 centres it
@@ -285,9 +281,10 @@ def RGB_to_YCbCr(RGB,
 
     These JFIF JPEG ranges are also obtained as follows:
 
-    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['ITU-R BT.601'], in_bits=8,
+    >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_bits=8,
     ...              in_int=True, out_legal=False, out_int=True)
-    array([ 36, 136, 175])
+    ... # doctest: +ELLIPSIS
+    array([ 36, 136, 175]...)
     """
 
     if in_int:
@@ -323,7 +320,7 @@ def RGB_to_YCbCr(RGB,
 
 
 def YCbCr_to_RGB(YCbCr,
-                 K=YCBCR_WEIGHTS['ITU-R BT.709'],
+                 K=WEIGHTS_YCBCR['ITU-R BT.709'],
                  in_bits=8,
                  in_legal=True,
                  in_int=False,
@@ -341,7 +338,7 @@ def YCbCr_to_RGB(YCbCr,
         Input *Y'CbCr* colour encoding array of integer or float values.
     K : array_like, optional
         Luma weighting coefficients of red and blue. See
-        :attr:`colour.YCBCR_WEIGHTS` for presets. Default is
+        :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
@@ -399,8 +396,8 @@ def YCbCr_to_RGB(YCbCr,
     \\* This definition has input and output integer switches, thus the
     domain-range scale information is only given for the floating point mode.
 
-    Warning
-    -------
+    Warnings
+    --------
     For *Recommendation ITU-R BT.2020*, :func:`colour.YCbCr_to_RGB`
     definition is only applicable to the non-constant luminance implementation.
     :func:`colour.YcCbcCrc_to_RGB` definition should be used for the constant
@@ -510,8 +507,8 @@ def RGB_to_YcCbcCrc(RGB,
     \\* This definition has input and output integer switches, thus the
     domain-range scale information is only given for the floating point mode.
 
-    Warning
-    -------
+    Warnings
+    --------
     This definition is specifically for usage with
     *Recommendation ITU-R BT.2020* when adopting the constant luminance
     implementation.
@@ -525,7 +522,8 @@ def RGB_to_YcCbcCrc(RGB,
     >>> RGB = np.array([0.18, 0.18, 0.18])
     >>> RGB_to_YcCbcCrc(RGB, out_legal=True, out_bits=10, out_int=True,
     ...                 is_12_bits_system=False)
-    array([422, 512, 512])
+    ... # doctest: +ELLIPSIS
+    array([422, 512, 512]...)
     """
 
     R, G, B = tsplit(to_domain_1(RGB))
@@ -535,9 +533,9 @@ def RGB_to_YcCbcCrc(RGB,
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
 
     with domain_range_scale('ignore'):
-        Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
-        R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
-        B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
+        Yc = eotf_inverse_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+        R = eotf_inverse_BT2020(R, is_12_bits_system=is_12_bits_system)
+        B = eotf_inverse_BT2020(B, is_12_bits_system=is_12_bits_system)
 
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
@@ -613,8 +611,8 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     \\* This definition has input and output integer switches, thus the
     domain-range scale information is only given for the floating point mode.
 
-    Warning
-    -------
+    Warnings
+    --------
     This definition is specifically for usage with
     *Recommendation ITU-R BT.2020* when adopting the constant luminance
     implementation.

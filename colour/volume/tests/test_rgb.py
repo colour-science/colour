@@ -14,7 +14,8 @@ References
 ----------
 -   :cite:`Laurent2012a` : Laurent. (2012). Reproducibility of python
     pseudo-random numbers across systems and versions? Retrieved January 20,
-    2015, from http://stackoverflow.com/questions/8786084/\
+    2015, from
+    http://stackoverflow.com/questions/8786084/\
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
@@ -23,8 +24,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models import (ACES_2065_1_COLOURSPACE, BT2020_COLOURSPACE,
-                           BT709_COLOURSPACE)
+from colour.models import (RGB_COLOURSPACE_ACES2065_1, RGB_COLOURSPACE_BT2020,
+                           RGB_COLOURSPACE_BT709)
 from colour.volume import (
     RGB_colourspace_limits, RGB_colourspace_volume_MonteCarlo,
     RGB_colourspace_volume_coverage_MonteCarlo,
@@ -60,7 +61,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            RGB_colourspace_limits(BT709_COLOURSPACE),
+            RGB_colourspace_limits(RGB_COLOURSPACE_BT709),
             np.array([
                 [0.00000000, 100.00000000],
                 [-86.18159689, 98.23744381],
@@ -69,7 +70,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_colourspace_limits(BT2020_COLOURSPACE),
+            RGB_colourspace_limits(RGB_COLOURSPACE_BT2020),
             np.array([
                 [0.00000000, 100.00000000],
                 [-172.32005590, 130.52657313],
@@ -78,7 +79,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_colourspace_limits(ACES_2065_1_COLOURSPACE),
+            RGB_colourspace_limits(RGB_COLOURSPACE_ACES2065_1),
             np.array([
                 [-58.9920208, 102.4721629],
                 [-404.1883039, 317.5082799],
@@ -106,8 +107,9 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
 
         self.assertAlmostEqual(
             RGB_colourspace_volume_MonteCarlo(
-                BT709_COLOURSPACE, 10e3, random_state=np.random.RandomState(2))
-            * 1e-6,
+                RGB_COLOURSPACE_BT709,
+                10e3,
+                random_state=np.random.RandomState(2)) * 1e-6,
             821700.0 * 1e-6,
             places=1)
 
@@ -130,7 +132,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition.
 
         np.testing.assert_almost_equal(
             RGB_colourspace_volume_coverage_MonteCarlo(
-                BT709_COLOURSPACE,
+                RGB_COLOURSPACE_BT709,
                 is_within_pointer_gamut,
                 10e3,
                 random_state=np.random.RandomState(2)),
@@ -157,7 +159,8 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
 
         np.testing.assert_almost_equal(
             RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
-                BT709_COLOURSPACE, 10e3,
+                RGB_COLOURSPACE_BT709,
+                10e3,
                 random_state=np.random.RandomState(2)),
             81.044349070100140,
             decimal=7)
@@ -182,7 +185,8 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
 
         np.testing.assert_almost_equal(
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
-                BT709_COLOURSPACE, 10e3,
+                RGB_COLOURSPACE_BT709,
+                10e3,
                 random_state=np.random.RandomState(2)),
             46.931407942238266,
             decimal=7)

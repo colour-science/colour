@@ -302,9 +302,9 @@ class ModuleAPI(object):
 
     Methods
     -------
-    __init__
-    __getattr__
-    __dir__
+    -   :meth:`~colour.utilities.ModuleAPI.__init__`
+    -   :meth:`~colour.utilities.ModuleAPI.__getattr__`
+    -   :meth:`~colour.utilities.ModuleAPI.__dir__`
 
     Examples
     --------
@@ -525,6 +525,6 @@ def handle_arguments_deprecation(changes, **kwargs):
             else:
                 kwargs[change[1]] = kwargs.pop(kwarg)
         else:
-            raise ValueError(str(change))
+            usage_warning(str(change))
 
     return kwargs

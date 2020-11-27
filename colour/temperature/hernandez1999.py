@@ -13,15 +13,9 @@ Defines *Hernandez-Andres et al. (1999)* correlated colour temperature
     coordinates computation of given correlated colour temperature
     :math:`T_{cp}` using *Hernandez-Andres, Lee and Romero (1999)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
--   :cite:`Hernandez-Andres1999a` : Hernandez-Andres, J., Lee, R. L., &
+-   :cite:`Hernandez-Andres1999a` : Hernández-Andrés, J., Lee, R. L., &
     Romero, J. (1999). Calculating correlated color temperatures across the
     entire gamut of daylight and skylight chromaticities. Applied Optics,
     38(27), 5703. doi:10.1364/AO.38.005703
@@ -32,8 +26,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.utilities import as_float_array, as_numeric, tsplit, usage_warning
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -90,7 +85,7 @@ def xy_to_CCT_Hernandez1999(xy):
     return as_numeric(CCT)
 
 
-def CCT_to_xy_Hernandez1999(CCT, optimisation_parameters=None):
+def CCT_to_xy_Hernandez1999(CCT, optimisation_kwargs=None, **kwargs):
     """
     Returns the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *Hernandez-Andres et al. (1999)* method.
@@ -99,8 +94,13 @@ def CCT_to_xy_Hernandez1999(CCT, optimisation_parameters=None):
     ----------
     CCT : numeric or array_like
         Correlated colour temperature :math:`T_{cp}`.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -126,6 +126,11 @@ def CCT_to_xy_Hernandez1999(CCT, optimisation_parameters=None):
     >>> CCT_to_xy_Hernandez1999(6500.7420431786531)  # doctest: +ELLIPSIS
     array([ 0.3127...,  0.329...])
     """
+
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     usage_warning('"Hernandez-Andres et al. (1999)" method for computing '
                   '"CIE xy" chromaticity coordinates from given correlated '
@@ -154,13 +159,13 @@ def CCT_to_xy_Hernandez1999(CCT, optimisation_parameters=None):
             'fatol': 1e-10,
         },
     }
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     CCT = as_float_array([
         minimize(
             objective_function,
-            x0=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+            x0=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
             args=(CCT_i, ),
             **optimisation_settings).x for CCT_i in CCT
     ])

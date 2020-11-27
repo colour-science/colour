@@ -173,6 +173,19 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     JMh_CAM16_to_CAM16UCS
     CAM16UCS_to_JMh_CAM16
 
+:math:`I_GP_GT_G` Colourspace
+-----------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_IGPGTG
+    IGPGTG_to_XYZ
+
 IPT Colourspace
 ---------------
 
@@ -254,7 +267,7 @@ RGB Colourspace and Transformations
     XYZ_to_RGB
     RGB_to_XYZ
     RGB_to_RGB
-    RGB_to_RGB_matrix
+    matrix_RGB_to_RGB
 
 **Ancillary Objects**
 
@@ -308,58 +321,61 @@ RGB Colourspaces
 .. autosummary::
     :toctree: generated/
 
-    ACES_2065_1_COLOURSPACE
-    ACES_CC_COLOURSPACE
-    ACES_CCT_COLOURSPACE
-    ACES_PROXY_COLOURSPACE
-    ACES_CG_COLOURSPACE
-    ADOBE_RGB_1998_COLOURSPACE
-    ADOBE_WIDE_GAMUT_RGB_COLOURSPACE
-    ALEXA_WIDE_GAMUT_COLOURSPACE
-    APPLE_RGB_COLOURSPACE
-    BEST_RGB_COLOURSPACE
-    BETA_RGB_COLOURSPACE
-    BT470_525_COLOURSPACE
-    BT470_625_COLOURSPACE
-    BT709_COLOURSPACE
-    BT2020_COLOURSPACE
-    CIE_RGB_COLOURSPACE
-    CINEMA_GAMUT_COLOURSPACE
-    COLOR_MATCH_RGB_COLOURSPACE
-    DCDM_XYZ_COLOURSPACE
-    DCI_P3_COLOURSPACE
-    DCI_P3_P_COLOURSPACE
-    DISPLAY_P3_COLOURSPACE
-    DON_RGB_4_COLOURSPACE
-    ECI_RGB_V2_COLOURSPACE
-    EKTA_SPACE_PS_5_COLOURSPACE
-    F_GAMUT_COLOURSPACE
-    PROTUNE_NATIVE_COLOURSPACE
-    MAX_RGB_COLOURSPACE
-    NTSC_1953_COLOURSPACE
-    NTSC_1987_COLOURSPACE
-    P3_D65_COLOURSPACE
-    PAL_SECAM_COLOURSPACE
-    RED_COLOR_COLOURSPACE
-    RED_COLOR_2_COLOURSPACE
-    RED_COLOR_3_COLOURSPACE
-    RED_COLOR_4_COLOURSPACE
-    RED_WIDE_GAMUT_RGB_COLOURSPACE
-    DRAGON_COLOR_COLOURSPACE
-    DRAGON_COLOR_2_COLOURSPACE
-    ROMM_RGB_COLOURSPACE
-    RIMM_RGB_COLOURSPACE
-    ERIMM_RGB_COLOURSPACE
-    PROPHOTO_RGB_COLOURSPACE
-    RUSSELL_RGB_COLOURSPACE
-    SMPTE_240M_COLOURSPACE
-    SMPTE_C_COLOURSPACE
-    S_GAMUT_COLOURSPACE
-    S_GAMUT3_COLOURSPACE
-    S_GAMUT3_CINE_COLOURSPACE
-    sRGB_COLOURSPACE
-    V_GAMUT_COLOURSPACE
-    XTREME_RGB_COLOURSPACE
+    RGB_COLOURSPACE_ACES2065_1
+    RGB_COLOURSPACE_ACESCC
+    RGB_COLOURSPACE_ACESCCT
+    RGB_COLOURSPACE_ACESPROXY
+    RGB_COLOURSPACE_ACESCG
+    RGB_COLOURSPACE_ADOBE_RGB1998
+    RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB
+    RGB_COLOURSPACE_ALEXA_WIDE_GAMUT
+    RGB_COLOURSPACE_APPLE_RGB
+    RGB_COLOURSPACE_BEST_RGB
+    RGB_COLOURSPACE_BETA_RGB
+    RGB_COLOURSPACE_BT470_525
+    RGB_COLOURSPACE_BT470_625
+    RGB_COLOURSPACE_BT709
+    RGB_COLOURSPACE_BT2020
+    RGB_COLOURSPACE_CIE_RGB
+    RGB_COLOURSPACE_CINEMA_GAMUT
+    RGB_COLOURSPACE_COLOR_MATCH_RGB
+    RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT
+    RGB_COLOURSPACE_DCDM_XYZ
+    RGB_COLOURSPACE_DCI_P3
+    RGB_COLOURSPACE_DCI_P3_P
+    RGB_COLOURSPACE_DISPLAY_P3
+    RGB_COLOURSPACE_DON_RGB_4
+    RGB_COLOURSPACE_ECI_RGB_V2
+    RGB_COLOURSPACE_EKTA_SPACE_PS_5
+    RGB_COLOURSPACE_F_GAMUT
+    RGB_COLOURSPACE_PROTUNE_NATIVE
+    RGB_COLOURSPACE_MAX_RGB
+    RGB_COLOURSPACE_NTSC1953
+    RGB_COLOURSPACE_NTSC1987
+    RGB_COLOURSPACE_P3_D65
+    RGB_COLOURSPACE_PAL_SECAM
+    RGB_COLOURSPACE_RED_COLOR
+    RGB_COLOURSPACE_RED_COLOR_2
+    RGB_COLOURSPACE_RED_COLOR_3
+    RGB_COLOURSPACE_RED_COLOR_4
+    RGB_COLOURSPACE_RED_WIDE_GAMUT_RGB
+    RGB_COLOURSPACE_DRAGON_COLOR
+    RGB_COLOURSPACE_DRAGON_COLOR_2
+    RGB_COLOURSPACE_ROMM_RGB
+    RGB_COLOURSPACE_RIMM_RGB
+    RGB_COLOURSPACE_ERIMM_RGB
+    RGB_COLOURSPACE_PROPHOTO_RGB
+    RGB_COLOURSPACE_RUSSELL_RGB
+    RGB_COLOURSPACE_SMPTE_240M
+    RGB_COLOURSPACE_SMPTE_C
+    RGB_COLOURSPACE_S_GAMUT
+    RGB_COLOURSPACE_S_GAMUT3
+    RGB_COLOURSPACE_S_GAMUT3_CINE
+    RGB_COLOURSPACE_VENICE_S_GAMUT3
+    RGB_COLOURSPACE_VENICE_S_GAMUT3_CINE
+    RGB_COLOURSPACE_sRGB
+    RGB_COLOURSPACE_V_GAMUT
+    RGB_COLOURSPACE_XTREME_RGB
 
 Colour Component Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -375,6 +391,8 @@ Colour Component Transfer Functions
     CCTF_ENCODINGS
     cctf_decoding
     CCTF_DECODINGS
+    gamma_function
+    linear_function
 
 ``colour.models``
 
@@ -400,6 +418,21 @@ Colour Component Transfer Functions
     cctf_encoding_ProPhotoRGB
     cctf_decoding_ProPhotoRGB
 
+**Ancillary Objects**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    exponent_function_basic
+    exponent_function_monitor_curve
+    logarithmic_function_basic
+    logarithmic_function_quasilog
+    logarithmic_function_camera
+
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -424,7 +457,6 @@ Opto-Electronic Transfer Functions
 
     oetf_ARIBSTDB67
     oetf_inverse_ARIBSTDB67
-    oetf_BT2020
     oetf_HLG_BT2100
     oetf_inverse_HLG_BT2100
     oetf_PQ_BT2100
@@ -434,18 +466,6 @@ Opto-Electronic Transfer Functions
     oetf_BT709
     oetf_inverse_BT709
     oetf_SMPTE240M
-
-**Ancillary Objects**
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    gamma_function
-    linear_function
 
 Electro-Optical Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -476,6 +496,7 @@ Electro-Optical Transfer Functions
     eotf_BT1886
     eotf_inverse_BT1886
     eotf_BT2020
+    eotf_inverse_BT2020
     BT2100_HLG_EOTF_METHODS
     eotf_HLG_BT2100
     BT2100_HLG_EOTF_INVERSE_METHODS
@@ -560,6 +581,8 @@ Log Encoding and Decoding
     log_decoding_ERIMMRGB
     log_encoding_FLog
     log_decoding_FLog
+    log_encoding_Log2
+    log_decoding_Log2
     LOG3G10_ENCODING_METHODS
     log_encoding_Log3G10
     LOG3G10_DECODING_METHODS
@@ -587,29 +610,6 @@ Log Encoding and Decoding
     log_encoding_ViperLog
     log_decoding_ViperLog
 
-ACES Spectral Conversion
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    sd_to_aces_relative_exposure_values
-
-**Ancillary Objects**
-
-``colour.models``
-
-.. currentmodule:: colour.models
-
-.. autosummary::
-    :toctree: generated/
-
-    ACES_RICD
-
 Colour Encodings
 ~~~~~~~~~~~~~~~~
 
@@ -625,7 +625,7 @@ Y'CbCr Colour Encoding
 
     RGB_to_YCbCr
     YCbCr_to_RGB
-    YCBCR_WEIGHTS
+    WEIGHTS_YCBCR
     RGB_to_YcCbcCrc
     YcCbcCrc_to_RGB
 
@@ -730,11 +730,11 @@ Pointer's Gamut
 
 ``colour``
 
-.. currentmodule:: colour
+.. currentmodule:: colour.models
 
 .. autosummary::
     :toctree: generated/
 
-    POINTER_GAMUT_BOUNDARIES
-    POINTER_GAMUT_DATA
-    POINTER_GAMUT_ILLUMINANT
+    CCS_ILLUMINANT_POINTER_GAMUT
+    DATA_POINTER_GAMUT_VOLUME
+    CCS_POINTER_GAMUT_BOUNDARY

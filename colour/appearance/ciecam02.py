@@ -5,33 +5,25 @@ CIECAM02 Colour Appearance Model
 
 Defines *CIECAM02* colour appearance model objects:
 
--   :class:`colour.appearance.CIECAM02_InductionFactors`
--   :attr:`colour.CIECAM02_VIEWING_CONDITIONS`
--   :class:`colour.CIECAM02_Specification`
+-   :class:`colour.appearance.InductionFactors_CIECAM02`
+-   :attr:`colour.VIEWING_CONDITIONS_CIECAM02`
+-   :class:`colour.CAM_Specification_CIECAM02`
 -   :func:`colour.XYZ_to_CIECAM02`
 -   :func:`colour.CIECAM02_to_XYZ`
-
-See Also
---------
-`CIECAM02 Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/ciecam02.ipynb>`_
 
 References
 ----------
 -   :cite:`Fairchild2004c` : Fairchild, M. D. (2004). CIECAM02. In Color
-    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0470012161
--   :cite:`Luo2013` : Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent
-    Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
-    Processing and Analysis (pp. 19-58). New York, NY: Springer New York.
+    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0-470-01216-1
+-   :cite:`Luo2013` : Luo, Ming Ronnier, & Li, C. (2013). CIECAM02 and Its
+    Recent Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
+    Processing and Analysis (pp. 19-58). Springer New York.
     doi:10.1007/978-1-4419-6190-7
 -   :cite:`Moroneya` : Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C.,
-    Luo, M. R., & Newman, T. (2002). The CIECAM02 Color Appearance Model.
-    Color and Imaging Conference, (1), 23-27. Retrieved from
-    http://www.ingentaconnect.com/\
-content/ist/cic/2002/00002002/00000001/art00006
--   :cite:`Wikipedia2007a` : Wikipedia. (2007). CIECAM02. Retrieved August 14,
-    2014, from http://en.wikipedia.org/wiki/CIECAM02
+    Luo, M. R., & Newman, T. (2002). The CIECAM02 color appearance model. Color
+    and Imaging Conference, 1, 23-27.
+-   :cite:`Wikipedia2007a` : Fairchild, M. D. (2004). CIECAM02. In Color
+    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0-470-01216-1
 """
 
 from __future__ import division, unicode_literals
@@ -40,14 +32,14 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.adaptation import CAT02_CAT
-from colour.appearance.hunt import (HPE_TO_XYZ_MATRIX, XYZ_TO_HPE_MATRIX,
+from colour.adaptation import CAT_CAT02
+from colour.appearance.hunt import (MATRIX_HPE_TO_XYZ, MATRIX_XYZ_TO_HPE,
                                     luminance_level_adaptation_factor)
 from colour.constants import EPSILON
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
-    as_float, from_range_degrees, dot_matrix, dot_vector, from_range_100,
-    to_domain_100, to_domain_degrees, tsplit, tstack)
+    as_float, from_range_degrees, matrix_dot, vector_dot, from_range_100, ones,
+    to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -57,9 +49,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CAT02_INVERSE_CAT', 'CIECAM02_InductionFactors',
-    'CIECAM02_VIEWING_CONDITIONS', 'HUE_DATA_FOR_HUE_QUADRATURE',
-    'CIECAM02_Specification', 'XYZ_to_CIECAM02', 'CIECAM02_to_XYZ',
+    'CAT02_INVERSE_CAT', 'InductionFactors_CIECAM02',
+    'VIEWING_CONDITIONS_CIECAM02', 'HUE_DATA_FOR_HUE_QUADRATURE',
+    'CAM_Specification_CIECAM02', 'XYZ_to_CIECAM02', 'CIECAM02_to_XYZ',
     'chromatic_induction_factors', 'base_exponential_non_linearity',
     'viewing_condition_dependent_parameters', 'degree_of_adaptation',
     'full_chromatic_adaptation_forward', 'full_chromatic_adaptation_inverse',
@@ -73,10 +65,10 @@ __all__ = [
     'temporary_magnitude_quantity_forward',
     'temporary_magnitude_quantity_inverse', 'chroma_correlate',
     'colourfulness_correlate', 'saturation_correlate', 'P',
-    'post_adaptation_non_linear_response_compression_matrix'
+    'matrix_post_adaptation_non_linear_response_compression'
 ]
 
-CAT02_INVERSE_CAT = np.linalg.inv(CAT02_CAT)
+CAT02_INVERSE_CAT = np.linalg.inv(CAT_CAT02)
 """
 Inverse CAT02 chromatic adaptation transform.
 
@@ -84,8 +76,8 @@ CAT02_INVERSE_CAT : array_like, (3, 3)
 """
 
 
-class CIECAM02_InductionFactors(
-        namedtuple('CIECAM02_InductionFactors', ('F', 'c', 'N_c'))):
+class InductionFactors_CIECAM02(
+        namedtuple('InductionFactors_CIECAM02', ('F', 'c', 'N_c'))):
     """
     *CIECAM02* colour appearance model induction factors.
 
@@ -105,12 +97,12 @@ class CIECAM02_InductionFactors(
     """
 
 
-CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping({
-    'Average': CIECAM02_InductionFactors(1, 0.69, 1),
-    'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.9),
-    'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)
+VIEWING_CONDITIONS_CIECAM02 = CaseInsensitiveMapping({
+    'Average': InductionFactors_CIECAM02(1, 0.69, 1),
+    'Dim': InductionFactors_CIECAM02(0.9, 0.59, 0.9),
+    'Dark': InductionFactors_CIECAM02(0.8, 0.525, 0.8)
 })
-CIECAM02_VIEWING_CONDITIONS.__doc__ = """
+VIEWING_CONDITIONS_CIECAM02.__doc__ = """
 Reference *CIECAM02* colour appearance model viewing conditions.
 
 References
@@ -118,7 +110,7 @@ References
 :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
 :cite:`Wikipedia2007a`
 
-CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
+VIEWING_CONDITIONS_CIECAM02 : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
 """
 
@@ -129,8 +121,8 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
 }
 
 
-class CIECAM02_Specification(
-        namedtuple('CIECAM02_Specification',
+class CAM_Specification_CIECAM02(
+        namedtuple('CAM_Specification_CIECAM02',
                    ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
     Defines the *CIECAM02* colour appearance model specification.
@@ -170,11 +162,11 @@ class CIECAM02_Specification(
                 H=None,
                 HC=None):
         """
-        Returns a new instance of the :class:`colour.CIECAM02_Specification`
-        class.
+        Returns a new instance of the :class:`colour.\
+CAM_Specification_CIECAM02` class.
         """
 
-        return super(CIECAM02_Specification, cls).__new__(
+        return super(CAM_Specification_CIECAM02, cls).__new__(
             cls, J, C, h, s, Q, M, H, HC)
 
 
@@ -182,7 +174,7 @@ def XYZ_to_CIECAM02(XYZ,
                     XYZ_w,
                     L_A,
                     Y_b,
-                    surround=CIECAM02_VIEWING_CONDITIONS['Average'],
+                    surround=VIEWING_CONDITIONS_CIECAM02['Average'],
                     discount_illuminant=False):
     """
     Computes the *CIECAM02* colour appearance model correlates from given
@@ -200,15 +192,20 @@ def XYZ_to_CIECAM02(XYZ,
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
-        Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
-    surround : CIECAM02_InductionFactors, optional
+        Luminous factor of background :math:`Y_b` such as
+        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
+        light source and :math:`L_b` is the luminance of the background. For
+        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
+        pixels in the entire image, or frequently, a :math:`Y` value of 20,
+        approximate an :math:`L^*` of 50 is used.
+    surround : InductionFactors_CIECAM02, optional
         Surround viewing conditions induction factors.
     discount_illuminant : bool, optional
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
-    CIECAM02_Specification
+    CAM_Specification_CIECAM02
         *CIECAM02* colour appearance model specification.
 
     Notes
@@ -222,23 +219,40 @@ def XYZ_to_CIECAM02(XYZ,
     | ``XYZ_w``                    | [0, 100]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
 
-    +------------------------------+-----------------------+---------------+
-    | **Range**                    | **Scale - Reference** | **Scale - 1** |
-    +==============================+=======================+===============+
-    | ``CIECAM02_specification.J`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.C`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.h`` | [0, 360]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.s`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.Q`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.M`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.H`` | [0, 360]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
+    +----------------------------------+-----------------------\
++---------------+
+    | **Range**                        | **Scale - Reference** \
+| **Scale - 1** |
+    +==================================+=======================\
++===============+
+    | ``CAM_Specification_CIECAM02.J`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.C`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.h`` | [0, 360]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.s`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.Q`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.M`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.H`` | [0, 400]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
 
     References
     ----------
@@ -251,10 +265,11 @@ def XYZ_to_CIECAM02(XYZ,
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
+    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
-    CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., \
-s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
+    CAM_Specification_CIECAM02(J=41.7310911..., C=0.1047077..., \
+h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., \
+H=278.0607358..., HC=None)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -268,12 +283,12 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB = dot_vector(CAT02_CAT, XYZ)
-    RGB_w = dot_vector(CAT02_CAT, XYZ_w)
+    RGB = vector_dot(CAT_CAT02, XYZ)
+    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (degree_of_adaptation(surround.F, L_A)
-         if not discount_illuminant else np.ones(L_A.shape))
+         if not discount_illuminant else ones(L_A.shape))
 
     # Computing full chromatic adaptation.
     RGB_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
@@ -320,17 +335,17 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
-    return CIECAM02_Specification(
+    return CAM_Specification_CIECAM02(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
         from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H), None)
+        from_range_degrees(H, 400), None)
 
 
-def CIECAM02_to_XYZ(CIECAM02_specification,
+def CIECAM02_to_XYZ(specification,
                     XYZ_w,
                     L_A,
                     Y_b,
-                    surround=CIECAM02_VIEWING_CONDITIONS['Average'],
+                    surround=VIEWING_CONDITIONS_CIECAM02['Average'],
                     discount_illuminant=False):
     """
     Converts from *CIECAM02* specification to *CIE XYZ* tristimulus values.
@@ -339,7 +354,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     Parameters
     ----------
-    CIECAM02_specification : CIECAM02_Specification
+    specification : CAM_Specification_CIECAM02
         *CIECAM02* colour appearance model specification. Correlate of
         *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
         *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
@@ -350,8 +365,13 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
-        Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
-    surround : CIECAM02_InductionFactors, optional
+        Luminous factor of background :math:`Y_b` such as
+        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
+        light source and :math:`L_b` is the luminance of the background. For
+        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
+        pixels in the entire image, or frequently, a :math:`Y` value of 20,
+        approximate an :math:`L^*` of 50 is used.
+    surround : InductionFactors_CIECAM02, optional
         Surround viewing conditions.
     discount_illuminant : bool, optional
         Discount the illuminant.
@@ -365,34 +385,53 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     ------
     ValueError
         If neither *C* or *M* correlates have been defined in the
-        ``CIECAM02_specification`` argument.
+        ``CAM_Specification_CIECAM02`` argument.
 
-    Warning
-    -------
+    Warnings
+    --------
     The output range of that definition is non standard!
 
     Notes
     -----
 
-    +------------------------------+-----------------------+---------------+
-    | **Domain**                   | **Scale - Reference** | **Scale - 1** |
-    +==============================+=======================+===============+
-    | ``CIECAM02_specification.J`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.C`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.h`` | [0, 360]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.s`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.Q`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.M`` | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``CIECAM02_specification.H`` | [0, 360]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
-    | ``XYZ_w``                    | [0, 100]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
+    +----------------------------------+-----------------------\
++---------------+
+    | **Domain**                       | **Scale - Reference** \
+| **Scale - 1** |
+    +==================================+=======================\
++===============+
+    | ``CAM_Specification_CIECAM02.J`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.C`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.h`` | [0, 360]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.s`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.Q`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.M`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_CIECAM02.H`` | [0, 360]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
+    | ``XYZ_w``                        | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------+-----------------------\
++---------------+
 
     +------------------------------+-----------------------+---------------+
     | **Range**                    | **Scale - Reference** | **Scale - 1** |
@@ -400,8 +439,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     | ``XYZ``                      | [0, 100]              | [0, 1]        |
     +------------------------------+-----------------------+---------------+
 
-    -   ``CIECAM02_specification`` can also be passed as a compatible argument
-        to :func:`colour.utilities.as_namedtuple` definition.
+    -   ``CAM_Specification_CIECAM02`` can also be passed as a compatible
+        argument to :func:`colour.utilities.as_namedtuple` definition.
 
     References
     ----------
@@ -410,7 +449,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     Examples
     --------
-    >>> specification = CIECAM02_Specification(J=41.731091132513917,
+    >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
     ...                                        C=0.104707757171031,
     ...                                        h=219.048432658311780)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
@@ -420,8 +459,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     array([ 19.01...,  20...  ,  21.78...])
     """
 
-    J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CIECAM02_specification,
-                                                CIECAM02_Specification)
+    J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(specification,
+                                                CAM_Specification_CIECAM02)
     J = to_domain_100(J)
     C = to_domain_100(C) if C is not None else C
     h = to_domain_degrees(h)
@@ -437,15 +476,15 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
         C = M / spow(F_L, 0.25)
     elif C is None:
         raise ValueError('Either "C" or "M" correlate must be defined in '
-                         'the "CIECAM02_specification" argument!')
+                         'the "CAM_Specification_CIECAM02" argument!')
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
-    RGB_w = dot_vector(CAT02_CAT, XYZ_w)
+    RGB_w = vector_dot(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = (degree_of_adaptation(surround.F, L_A)
-         if not discount_illuminant else np.ones(L_A.shape))
+         if not discount_illuminant else ones(L_A.shape))
 
     # Computing full chromatic adaptation.
     RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
@@ -477,7 +516,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
 
     # Computing post-adaptation non linear response compression matrix.
-    RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
 
     # Applying inverse post-adaptation non linear response compression.
     RGB_p = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
@@ -490,7 +529,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ*
     # tristimulus values.
-    XYZ = dot_vector(CAT02_INVERSE_CAT, RGB)
+    XYZ = vector_dot(CAT02_INVERSE_CAT, RGB)
 
     return from_range_100(XYZ)
 
@@ -728,7 +767,7 @@ def RGB_to_rgb(RGB):
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = dot_vector(dot_matrix(XYZ_TO_HPE_MATRIX, CAT02_INVERSE_CAT), RGB)
+    rgb = vector_dot(matrix_dot(MATRIX_XYZ_TO_HPE, CAT02_INVERSE_CAT), RGB)
 
     return rgb
 
@@ -755,7 +794,7 @@ def rgb_to_RGB(rgb):
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = dot_vector(dot_matrix(CAT02_CAT, HPE_TO_XYZ_MATRIX), rgb)
+    RGB = vector_dot(matrix_dot(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
 
     return RGB
 
@@ -908,8 +947,8 @@ def opponent_colour_dimensions_inverse(P_n, h):
     P_5 = P_1 / cos_hr
     n = P_2 * (2 + P_3) * (460 / 1403)
 
-    a = np.zeros(hr.shape)
-    b = np.zeros(hr.shape)
+    a = zeros(hr.shape)
+    b = zeros(hr.shape)
 
     b = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
@@ -1464,16 +1503,16 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
 
     P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
     P_2 = A / N_bb + 0.305
-    P_3 = np.ones(P_1.shape) * (21 / 20)
+    P_3 = ones(P_1.shape) * (21 / 20)
 
     P_n = tstack([P_1, P_2, P_3])
 
     return P_n
 
 
-def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
+def matrix_post_adaptation_non_linear_response_compression(P_2, a, b):
     """
-    Returns the post adaptation non linear response compression matrix.
+    Returns the post-adaptation non-linear-response compression matrix.
 
     Parameters
     ----------
@@ -1494,7 +1533,7 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     >>> P_2 = 24.2372054671
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    >>> matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
     ... # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """

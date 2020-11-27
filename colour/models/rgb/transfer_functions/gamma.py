@@ -7,12 +7,6 @@ Defines gamma encoding / decoding colour component transfer function related
 objects:
 
 - :func:`colour.gamma_function`
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

@@ -10,21 +10,15 @@ Defines the *hdr-CIELAB* colourspace transformations:
 -   :func:`colour.XYZ_to_hdr_CIELab`
 -   :func:`colour.hdr_CIELab_to_XYZ`
 
-See Also
---------
-`hdr-CIELAB Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/hdr_cie_lab.ipynb>`_
-
 References
 ----------
--   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).
-    hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of
-    High-Dynamic-Range and Wide-Color-Gamut Images. In Proc. of Color and
-    Imaging Conference (pp. 322-326). ISBN:9781629932156
+-   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB
+    and hdr-IPT: Simple Models for Describing the Color of High-Dynamic-Range
+    and Wide-Color-Gamut Images. Proc. of Color and Imaging Conference,
+    322-326. ISBN:978-1-62993-215-6
 -   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
-    lightness, and specifying color in high-dynamic-range scenes and images.
-    In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
+    lightness, and specifying color in high-dynamic-range scenes and images. In
+    S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
     System Performance VIII (p. 78670O). doi:10.1117/12.872075
 """
 
@@ -33,13 +27,14 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import (
-    ILLUMINANTS, lightness_Fairchild2010, lightness_Fairchild2011,
+    CCS_ILLUMINANTS, lightness_Fairchild2010, lightness_Fairchild2011,
     luminance_Fairchild2010, luminance_Fairchild2011)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
                               from_range_100, to_domain_1, to_domain_100,
                               tsplit, tstack)
-from colour.utilities.documentation import DocstringTuple
+from colour.utilities.documentation import (DocstringTuple,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -53,8 +48,10 @@ __all__ = [
     'hdr_CIELab_to_XYZ'
 ]
 
-HDR_CIELAB_METHODS = DocstringTuple(('Fairchild 2010', 'Fairchild 2011'))
-HDR_CIELAB_METHODS.__doc__ = """
+HDR_CIELAB_METHODS = ('Fairchild 2010', 'Fairchild 2011')
+if is_documentation_building():  # pragma: no cover
+    HDR_CIELAB_METHODS = DocstringTuple(HDR_CIELAB_METHODS)
+    HDR_CIELAB_METHODS.__doc__ = """
 Supported *hdr-CIELAB* colourspace computation methods.
 
 References
@@ -129,12 +126,12 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
     return epsilon
 
 
-def XYZ_to_hdr_CIELab(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
-        Y_s=0.2,
-        Y_abs=100,
-        method='Fairchild 2011'):
+def XYZ_to_hdr_CIELab(XYZ,
+                      illuminant=CCS_ILLUMINANTS[
+                          'CIE 1931 2 Degree Standard Observer']['D65'],
+                      Y_s=0.2,
+                      Y_abs=100,
+                      method='Fairchild 2011'):
     """
     Converts from *CIE XYZ* tristimulus values to *hdr-CIELAB* colourspace.
 
@@ -231,12 +228,12 @@ def XYZ_to_hdr_CIELab(
     return from_range_100(Lab_hdr)
 
 
-def hdr_CIELab_to_XYZ(
-        Lab_hdr,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
-        Y_s=0.2,
-        Y_abs=100,
-        method='Fairchild 2011'):
+def hdr_CIELab_to_XYZ(Lab_hdr,
+                      illuminant=CCS_ILLUMINANTS[
+                          'CIE 1931 2 Degree Standard Observer']['D65'],
+                      Y_s=0.2,
+                      Y_abs=100,
+                      method='Fairchild 2011'):
     """
     Converts from *hdr-CIELAB* colourspace to *CIE XYZ* tristimulus values.
 

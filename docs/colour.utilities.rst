@@ -38,6 +38,8 @@ Common
     is_networkx_installed
     is_openimageio_installed
     is_pandas_installed
+    is_tqdm_installed
+    required
     is_iterable
     is_string
     is_numeric
@@ -56,6 +58,7 @@ Common
     from_range_100
     from_range_degrees
     from_range_int
+    copy_definition
 
 Array
 -----
@@ -73,6 +76,8 @@ Array
     as_numeric
     as_int
     as_float
+    set_float_precision
+    set_int_precision
     as_namedtuple
     closest_indexes
     closest
@@ -83,14 +88,17 @@ Array
     tstack
     tsplit
     row_as_diagonal
-    dot_vector
-    dot_matrix
+    vector_dot
+    matrix_dot
     orient
     centroid
     linear_conversion
     lerp
     fill_nan
     ndarray_write
+    zeros
+    ones
+    full
 
 Metrics
 -------
@@ -117,6 +125,7 @@ Data Structures
     :template: class.rst
 
     CaseInsensitiveMapping
+    LazyCaseInsensitiveMapping
     Lookup
     Structure
 

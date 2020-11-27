@@ -7,26 +7,26 @@ Defines objects to apply transformations on coordinates systems.
 
 The following transformations are available:
 
--   :func:`colour.algebra.cartesian_to_spherical`: Cartesian to Spherical
+-   :func:`colour.algebra.cartesian_to_spherical`: Cartesian to spherical
     transformation.
--   :func:`colour.algebra.spherical_to_cartesian`: Spherical to Cartesian
+-   :func:`colour.algebra.spherical_to_cartesian`: Spherical to cartesian
     transformation.
--   :func:`colour.algebra.cartesian_to_polar`: Cartesian to Polar
+-   :func:`colour.algebra.cartesian_to_polar`: Cartesian to polar
     transformation.
--   :func:`colour.algebra.polar_to_cartesian`: Polar to Cartesian
+-   :func:`colour.algebra.polar_to_cartesian`: Polar to cartesian
     transformation.
--   :func:`colour.algebra.cartesian_to_cylindrical`: Cartesian to Cylindrical
+-   :func:`colour.algebra.cartesian_to_cylindrical`: Cartesian to cylindrical
     transformation.
--   :func:`colour.algebra.cylindrical_to_cartesian`: Cylindrical to Cartesian
+-   :func:`colour.algebra.cylindrical_to_cartesian`: Cylindrical to cartesian
     transformation.
 
 References
 ----------
--   :cite:`Wikipedia2006` : Wikipedia. (2006). List of common coordinate
-    transformations. Retrieved July 18, 2014, from http://en.wikipedia.org/\
-wiki/List_of_common_coordinate_transformations
 -   :cite:`Wikipedia2005a` : Wikipedia. (2005). ISO 31-11. Retrieved July 31,
     2016, from https://en.wikipedia.org/wiki/ISO_31-11
+-   :cite:`Wikipedia2006` : Wikipedia. (2006). List of common coordinate
+    transformations. Retrieved July 18, 2014, from
+    http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """
 
 from __future__ import division, unicode_literals
@@ -51,7 +51,7 @@ __all__ = [
 
 def cartesian_to_spherical(a):
     """
-    Transforms given Cartesian coordinates array :math:`xyz` to Spherical
+    Transforms given cartesian coordinates array :math:`xyz` to spherical
     coordinates array :math:`\\rho\\theta\\phi` (radial distance, inclination
     or elevation and azimuth).
 
@@ -63,7 +63,10 @@ def cartesian_to_spherical(a):
     Returns
     -------
     ndarray
-        Spherical coordinates array :math:`\\rho\\theta\\phi`.
+        Spherical coordinates array :math:`\\rho\\theta\\phi`, :math:`\\rho` is
+        in range [0, +inf], :math:`\\theta` is in range [0, pi] radians, i.e.
+        [0, 180] degrees, and :math:`\\phi` is in range [-pi, pi] radians, i.e.
+        [-180, 180] degrees.
 
     References
     ----------
@@ -73,13 +76,13 @@ def cartesian_to_spherical(a):
     --------
     >>> a = np.array([3, 1, 6])
     >>> cartesian_to_spherical(a)  # doctest: +ELLIPSIS
-    array([ 6.7823299...,  1.0857465...,  0.3217505...])
+    array([ 6.7823299...,  0.4850497...,  0.3217505...])
     """
 
     x, y, z = tsplit(a)
 
     rho = np.linalg.norm(a, axis=-1)
-    theta = np.arctan2(z, np.linalg.norm(tstack([x, y]), axis=-1))
+    theta = np.arccos(z / rho)
     phi = np.arctan2(y, x)
 
     rtp = tstack([rho, theta, phi])
@@ -89,14 +92,17 @@ def cartesian_to_spherical(a):
 
 def spherical_to_cartesian(a):
     """
-    Transforms given Spherical coordinates array :math:`\\rho\\theta\\phi`
-    (radial distance, inclination or elevation and azimuth) to Cartesian
+    Transforms given spherical coordinates array :math:`\\rho\\theta\\phi`
+    (radial distance, inclination or elevation and azimuth) to cartesian
     coordinates array :math:`xyz`.
 
     Parameters
     ----------
     a : array_like
-        Spherical coordinates array :math:`\\rho\\theta\\phi` to transform.
+        Spherical coordinates array :math:`\\rho\\theta\\phi` to transform,
+        :math:`\\rho` is in range [0, +inf], :math:`\\theta` is in range
+        [0, pi] radians, i.e. [0, 180] degrees, and :math:`\\phi` is in range
+        [-pi, pi] radians, i.e. [-180, 180] degrees.
 
     Returns
     -------
@@ -109,16 +115,16 @@ def spherical_to_cartesian(a):
 
     Examples
     --------
-    >>> a = np.array([6.78232998, 1.08574654, 0.32175055])
+    >>> a = np.array([6.78232998, 0.48504979, 0.32175055])
     >>> spherical_to_cartesian(a)  # doctest: +ELLIPSIS
-    array([ 3.        ,  0.9999999...,  6.        ])
+    array([ 3.0000000...,  0.9999999...,  5.9999999...])
     """
 
     rho, theta, phi = tsplit(a)
 
-    x = rho * np.cos(theta) * np.cos(phi)
-    y = rho * np.cos(theta) * np.sin(phi)
-    z = rho * np.sin(theta)
+    x = rho * np.sin(theta) * np.cos(phi)
+    y = rho * np.sin(theta) * np.sin(phi)
+    z = rho * np.cos(theta)
 
     xyz = tstack([x, y, z])
 
@@ -127,7 +133,7 @@ def spherical_to_cartesian(a):
 
 def cartesian_to_polar(a):
     """
-    Transforms given Cartesian coordinates array :math:`xy` to Polar
+    Transforms given cartesian coordinates array :math:`xy` to polar
     coordinates array :math:`\\rho\\phi` (radial coordinate, angular
     coordinate).
 
@@ -139,7 +145,9 @@ def cartesian_to_polar(a):
     Returns
     -------
     ndarray
-        Polar coordinates array :math:`\\rho\\phi`.
+        Polar coordinates array :math:`\\rho\\phi`, :math:`\\rho` is
+        in range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians, i.e.
+        [-180, 180] degrees.
 
     References
     ----------
@@ -162,13 +170,15 @@ def cartesian_to_polar(a):
 
 def polar_to_cartesian(a):
     """
-    Transforms given Polar coordinates array :math:`\\rho\\phi` (radial
-    coordinate, angular coordinate) to Cartesian coordinates array :math:`xy`.
+    Transforms given polar coordinates array :math:`\\rho\\phi` (radial
+    coordinate, angular coordinate) to cartesian coordinates array :math:`xy`.
 
     Parameters
     ----------
     a : array_like
-        Polar coordinates array :math:`\\rho\\phi` to transform.
+        Polar coordinates array :math:`\\rho\\phi` to transform, :math:`\\rho`
+        is in range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians
+        i.e. [-180, 180] degrees.
 
     Returns
     -------
@@ -196,8 +206,8 @@ def polar_to_cartesian(a):
 
 def cartesian_to_cylindrical(a):
     """
-    Transforms given Cartesian coordinates array :math:`xyz` to Cylindrical
-    coordinates array :math:`\\rho\\phi z` (azimuth, radial distance and
+    Transforms given cartesian coordinates array :math:`xyz` to cylindrical
+    coordinates array :math:`\\rho\\phi z` (radial distance, azimuth and
     height).
 
     Parameters
@@ -208,7 +218,9 @@ def cartesian_to_cylindrical(a):
     Returns
     -------
     ndarray
-        Cylindrical coordinates array :math:`\\rho\\phi z`.
+        Cylindrical coordinates array :math:`\\rho\\phi z`, :math:`\\rho` is in
+        range [0, +inf], :math:`\\phi` is in range [-pi, pi] radians i.e.
+        [-180, 180] degrees, :math:`z` is in range [0, +inf].
 
     References
     ----------
@@ -230,14 +242,17 @@ def cartesian_to_cylindrical(a):
 
 def cylindrical_to_cartesian(a):
     """
-    Transforms given Cylindrical coordinates array :math:`\\rho\\phi z`
-    (azimuth, radial distance and height) to Cartesian coordinates array
+    Transforms given cylindrical coordinates array :math:`\\rho\\phi z`
+    (radial distance, azimuth and height) to cartesian coordinates array
     :math:`xyz`.
 
     Parameters
     ----------
     a : array_like
-        Cylindrical coordinates array :math:`\\rho\\phi z` to transform.
+        Cylindrical coordinates array :math:`\\rho\\phi z` to transform,
+        :math:`\\rho` is in range [0, +inf], :math:`\\phi` is in range
+        [-pi, pi] radians i.e. [-180, 180] degrees, :math:`z` is in range
+        [0, +inf].
 
     Returns
     -------

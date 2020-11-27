@@ -8,17 +8,11 @@ Defines the *Panasonic V-Log* log encoding:
 -   :func:`colour.models.log_encoding_VLog`
 -   :func:`colour.models.log_decoding_VLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.
-    Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/\
-VARICAM_V-Log_V-Gamut.pdf
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut (pp.
+    1-7).
+    http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -36,14 +30,14 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['VLOG_CONSTANTS', 'log_encoding_VLog', 'log_decoding_VLog']
+__all__ = ['CONSTANTS_VLOG', 'log_encoding_VLog', 'log_decoding_VLog']
 
-VLOG_CONSTANTS = Structure(
+CONSTANTS_VLOG = Structure(
     cut1=0.01, cut2=0.181, b=0.00873, c=0.241514, d=0.598206)
 """
 *Panasonic V-Log* colourspace constants.
 
-VLOG_CONSTANTS : Structure
+CONSTANTS_VLOG : Structure
 """
 
 
@@ -51,7 +45,7 @@ def log_encoding_VLog(L_in,
                       bit_depth=10,
                       out_normalised_code_value=True,
                       in_reflection=True,
-                      constants=VLOG_CONSTANTS,
+                      constants=CONSTANTS_VLOG,
                       **kwargs):
     """
     Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
@@ -151,7 +145,7 @@ def log_decoding_VLog(V_out,
                       bit_depth=10,
                       in_normalised_code_value=True,
                       out_reflection=True,
-                      constants=VLOG_CONSTANTS,
+                      constants=CONSTANTS_VLOG,
                       **kwargs):
     """
     Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer

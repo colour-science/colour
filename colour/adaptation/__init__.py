@@ -4,7 +4,8 @@ References
 ----------
 -   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
     Predicting Corresponding Colours under Different Chromatic and Illuminance
-    Adaptations. ISBN:978-3-900734-51-0
+    Adaptations. Commission Internationale de l'Eclairage.
+    ISBN:978-3-900734-51-0
 -   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
     of an incomplete-chromatic-adaptation model. Color Research & Application,
     16(4), 243-250. doi:10.1002/col.5080160406
@@ -17,8 +18,8 @@ References
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
     Application, 27(1), 49-58. doi:10.1002/col.10005
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    CMCCAT2000. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
+    CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
+    83-86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import absolute_import
@@ -33,11 +34,11 @@ from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
 
 from .datasets import *  # noqa
 from . import datasets
-from .vonkries import (chromatic_adaptation_matrix_VonKries,
+from .vonkries import (matrix_chromatic_adaptation_VonKries,
                        chromatic_adaptation_VonKries)
 from .fairchild1990 import chromatic_adaptation_Fairchild1990
 from .cmccat2000 import (
-    CMCCAT2000_InductionFactors, CMCCAT2000_VIEWING_CONDITIONS,
+    InductionFactors_CMCCAT2000, VIEWING_CONDITIONS_CMCCAT2000,
     chromatic_adaptation_forward_CMCCAT2000,
     chromatic_adaptation_inverse_CMCCAT2000, chromatic_adaptation_CMCCAT2000)
 from .cie1994 import chromatic_adaptation_CIE1994
@@ -45,11 +46,11 @@ from .cie1994 import chromatic_adaptation_CIE1994
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
-    'chromatic_adaptation_matrix_VonKries', 'chromatic_adaptation_VonKries'
+    'matrix_chromatic_adaptation_VonKries', 'chromatic_adaptation_VonKries'
 ]
 __all__ += ['chromatic_adaptation_Fairchild1990']
 __all__ += [
-    'CMCCAT2000_InductionFactors', 'CMCCAT2000_VIEWING_CONDITIONS',
+    'InductionFactors_CMCCAT2000', 'VIEWING_CONDITIONS_CMCCAT2000',
     'chromatic_adaptation_forward_CMCCAT2000',
     'chromatic_adaptation_inverse_CMCCAT2000',
     'chromatic_adaptation_CMCCAT2000'
@@ -124,14 +125,14 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     n : numeric, optional
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Noise component in fundamental primary system.
-    surround : CMCCAT2000_InductionFactors, optional
+    surround : InductionFactors_CMCCAT2000, optional
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Surround viewing conditions induction factors.
     transform : unicode, optional
         {:func:`colour.adaptation.chromatic_adaptation_VonKries`},
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         Chromatic adaptation transform.
 
     Returns
@@ -266,6 +267,66 @@ Defines *colour.adaptation* sub-package API changes.
 
 API_CHANGES : dict
 """
+
+# v0.3.16
+API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
+    [
+        'colour.adaptation.BRADFORD_CAT',
+        'colour.adaptation.CAT_BRADFORD',
+    ],
+    [
+        'colour.adaptation.BS_CAT',
+        'colour.adaptation.CAT_BIANCO2010',
+    ],
+    [
+        'colour.adaptation.BS_PC_CAT',
+        'colour.adaptation.CAT_PC_BIANCO2010)',
+    ],
+    [
+        'colour.adaptation.CAT02_BRILL_CAT',
+        'colour.adaptation.CAT_CAT02_BRILL2008',
+    ],
+    [
+        'colour.adaptation.CAT02_CAT',
+        'colour.adaptation.CAT_CAT02',
+    ],
+    [
+        'colour.adaptation.CMCCAT97_CAT',
+        'colour.adaptation.CAT_CMCCAT97',
+    ],
+    [
+        'colour.adaptation.CMCCAT2000_CAT',
+        'colour.adaptation.CAT_CMCCAT2000',
+    ],
+    [
+        'colour.adaptation.CMCCAT2000_InductionFactors',
+        'colour.adaptation.InductionFactors_CMCCAT2000',
+    ],
+    [
+        'colour.adaptation.CMCCAT2000_VIEWING_CONDITIONS',
+        'colour.adaptation.VIEWING_CONDITIONS_CMCCAT2000',
+    ],
+    [
+        'colour.adaptation.FAIRCHILD_CAT',
+        'colour.adaptation.CAT_FAIRCHILD',
+    ],
+    [
+        'colour.adaptation.SHARP_CAT',
+        'colour.adaptation.CAT_SHARP',
+    ],
+    [
+        'colour.adaptation.VON_KRIES_CAT',
+        'colour.adaptation.CAT_VON_KRIES',
+    ],
+    [
+        'colour.adaptation.XYZ_SCALING_CAT',
+        'colour.adaptation.CAT_XYZ_SCALING',
+    ],
+    [
+        'colour.adaptation.chromatic_adaptation_matrix_VonKries',
+        'colour.adaptation.matrix_chromatic_adaptation_VonKries)',
+    ],
+]
 
 if not is_documentation_building():
     sys.modules['colour.adaptation'] = adaptation(

@@ -10,22 +10,16 @@ Defines the *CIE L\\*a\\*b\\** colourspace transformations:
 -   :func:`colour.Lab_to_LCHab`
 -   :func:`colour.LCHab_to_Lab`
 
-See Also
---------
-`CIE L*a*b* Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cie_lab.ipynb>`_
-
 References
 ----------
 -   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
     spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
-    ISBN:978-3-901-90633-6
+    ISBN:978-3-901906-33-6
 """
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import (ILLUMINANTS,
+from colour.colorimetry import (CCS_ILLUMINANTS,
                                 intermediate_lightness_function_CIE1976,
                                 intermediate_luminance_function_CIE1976)
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
@@ -42,9 +36,9 @@ __status__ = 'Production'
 __all__ = ['XYZ_to_Lab', 'Lab_to_XYZ', 'Lab_to_LCHab', 'LCHab_to_Lab']
 
 
-def XYZ_to_Lab(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_Lab(XYZ,
+               illuminant=CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
@@ -112,9 +106,9 @@ def XYZ_to_Lab(
     return from_range_100(Lab)
 
 
-def Lab_to_XYZ(
-        Lab,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
+def Lab_to_XYZ(Lab,
+               illuminant=CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.

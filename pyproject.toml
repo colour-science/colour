@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "colour"
-version = "0.3.15"
+version = "0.3.16"
 description = "Colour Science for Python"
 license = "BSD-3-Clause"
 authors = [ "Colour Developers <colour-developers@colour-science.org>" ]
@@ -44,10 +44,10 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "~2.7 || ^3.5"
+python = "~2.7 || ^3.6"
 imageio = "*"
 six = "*"
-scipy = "*"
+scipy = "^1.1.0"
 
 "backports.functools_lru_cache" = { version = "*", optional = true }
 biblib-simple = { version = "*", optional = true }  # Development dependency.
@@ -67,10 +67,11 @@ pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
 pytest = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
-sphinx = { version = "*", optional = true }  # Development dependency.
+sphinx = { version = "<=3.1.2", optional = true }  # Development dependency.
 sphinx_rtd_theme = { version = "*", optional = true }  # Development dependency.
 sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
 toml = { version = "*", optional = true }  # Development dependency.
+tqdm = { version = "*", optional = true }
 twine = { version = "*", optional = true }  # Development dependency.
 yapf = { version = "0.23", optional = true }  # Development dependency.
 
@@ -87,10 +88,11 @@ nose = "*"
 pre-commit = "*"
 pytest = "*"
 restructuredtext-lint = "*"
-sphinx = "*"
+sphinx = "<=3.1.2"
 sphinx_rtd_theme = "*"
 sphinxcontrib-bibtex = "*"
 toml = "*"
+tqdm = "*"
 twine = "*"
 yapf = "0.23"
 
@@ -116,7 +118,7 @@ development = [
     "yapf"
 ]
 graphviz = [ "pygraphviz" ]
-optional = [ "networkx", "pandas" ]
+optional = [ "networkx", "pandas", "tqdm" ]
 plotting = [ "backports.functools_lru_cache", "matplotlib" ]
 read-the-docs = [
     "mock",

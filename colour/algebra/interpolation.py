@@ -31,32 +31,31 @@ Defines classes and definitions for interpolating variables.
 References
 ----------
 -   :cite:`Bourkeb` : Bourke, P. (n.d.). Trilinear Interpolation. Retrieved
-    from http://paulbourke.net/miscellaneous/interpolation/
+    January 13, 2018, from http://paulbourke.net/miscellaneous/interpolation/
 -   :cite:`Burger2009b` : Burger, W., & Burge, M. J. (2009). Principles of
-    Digital Image Processing. London: Springer London.
-    doi:10.1007/978-1-84800-195-4
+    Digital Image Processing. Springer London. doi:10.1007/978-1-84800-195-4
 -   :cite:`CIETC1-382005f` : CIE TC 1-38. (2005). 9.2.4 Method of
     interpolation for uniformly spaced independent variable. In CIE 167:2005
     Recommended Practice for Tabulating Spectral Data for Use in Colour
-    Computations (pp. 1-27). ISBN:978-3-901-90641-1
+    Computations (pp. 1-27). ISBN:978-3-901906-41-1
 -   :cite:`CIETC1-382005h` : CIE TC 1-38. (2005). Table V. Values of the
     c-coefficients of Equ.s 6 and 7. In CIE 167:2005 Recommended Practice for
     Tabulating Spectral Data for Use in Colour Computations (p. 19).
-    ISBN:978-3-901-90641-1
+    ISBN:978-3-901906-41-1
 -   :cite:`Fairman1985b` : Fairman, H. S. (1985). The calculation of weight
     factors for tristimulus integration. Color Research & Application, 10(4),
     199-203. doi:10.1002/col.5080100407
 -   :cite:`Kirk2006` : Kirk, R. (2006). Truelight Software Library 2.0.
-    Retrieved from https://www.filmlight.ltd.uk/pdf/whitepapers/\
-FL-TL-TN-0057-SoftwareLib.pdf
+    Retrieved July 8, 2017, from
+    https://www.filmlight.ltd.uk/pdf/whitepapers/FL-TL-TN-0057-SoftwareLib.pdf
 -   :cite:`Westland2012h` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
-    Interpolation Methods. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 29-37). ISBN:978-0-470-66569-5
+    Interpolation Methods. In Computational Colour Science Using MATLAB (2nd
+    ed., pp. 29-37). ISBN:978-0-470-66569-5
+-   :cite:`Wikipedia2003a` : Wikipedia. (2003). Lagrange polynomial -
+    Definition. Retrieved January 20, 2016, from
+    https://en.wikipedia.org/wiki/Lagrange_polynomial#Definition
 -   :cite:`Wikipedia2005b` : Wikipedia. (2005). Lanczos resampling. Retrieved
     October 14, 2017, from https://en.wikipedia.org/wiki/Lanczos_resampling
--   :cite:`Wikipedia2003a` : Wikipedia. (2003). Lagrange polynomial -
-    Definition. Retrieved January 20, 2016, from https://en.wikipedia.org/\
-wiki/Lagrange_polynomial#Definition
 """
 
 from __future__ import division, unicode_literals
@@ -75,6 +74,7 @@ from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               closest_indexes, interval, is_integer,
                               is_numeric, runtime_warning, tsplit)
+from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -294,9 +294,9 @@ class KernelInterpolator(object):
         Width of the window in samples on each side.
     kernel : callable, optional
         Kernel to use for interpolation.
-    kernel_args : dict, optional
+    kernel_kwargs : dict, optional
          Arguments to use when calling the kernel.
-    padding_args : dict, optional
+    padding_kwargs : dict, optional
          Arguments to use when padding :math:`y` variable values with the
          :func:`np.pad` definition.
     dtype : type
@@ -304,16 +304,17 @@ class KernelInterpolator(object):
 
     Attributes
     ----------
-    x
-    y
-    window
-    kernel
-    kernel_args
-    padding_args
+    -   :attr:`~colour.KernelInterpolator.x`
+    -   :attr:`~colour.KernelInterpolator.y`
+    -   :attr:`~colour.KernelInterpolator.window`
+    -   :attr:`~colour.KernelInterpolator.kernel`
+    -   :attr:`~colour.KernelInterpolator.kernel_kwargs`
+    -   :attr:`~colour.KernelInterpolator.padding_kwargs`
 
     Methods
     -------
-    __call__
+    -   :meth:`~colour.KernelInterpolator.__init__`
+    -   :meth:`~colour.KernelInterpolator.__call__`
 
     References
     ----------
@@ -348,7 +349,7 @@ class KernelInterpolator(object):
     ...     y,
     ...     window=16,
     ...     kernel=kernel_lanczos,
-    ...     kernel_args={'a': 16})
+    ...     kernel_kwargs={'a': 16})
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
     array([ 5.3961792...,  5.6521093...])
     """
@@ -358,27 +359,33 @@ class KernelInterpolator(object):
                  y,
                  window=3,
                  kernel=kernel_lanczos,
-                 kernel_args=None,
-                 padding_args=None,
-                 dtype=DEFAULT_FLOAT_DTYPE):
+                 kernel_kwargs=None,
+                 padding_kwargs=None,
+                 dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
+
         self._x_p = None
         self._y_p = None
 
         self._x = None
         self._y = None
         self._window = None
-        self._padding_args = {'pad_width': (window, window), 'mode': 'reflect'}
+        self._padding_kwargs = {
+            'pad_width': (window, window),
+            'mode': 'reflect'
+        }
         self._dtype = dtype
 
         self.x = x
         self.y = y
         self.window = window
-        self.padding_args = padding_args
+        self.padding_kwargs = padding_kwargs
 
         self._kernel = None
         self.kernel = kernel
-        self._kernel_args = {}
-        self.kernel_args = kernel_args
+        self._kernel_kwargs = {}
+        self.kernel_kwargs = kernel_kwargs
 
         self._validate_dimensions()
 
@@ -463,7 +470,7 @@ class KernelInterpolator(object):
             self._y = value
 
             if self._window is not None:
-                self._y_p = np.pad(self._y, **self._padding_args)
+                self._y_p = np.pad(self._y, **self._padding_kwargs)
 
     @property
     def window(self):
@@ -537,7 +544,7 @@ class KernelInterpolator(object):
             self._kernel = value
 
     @property
-    def kernel_args(self):
+    def kernel_kwargs(self):
         """
         Getter and setter property for the kernel call time arguments.
 
@@ -552,23 +559,23 @@ class KernelInterpolator(object):
             Kernel call time arguments.
         """
 
-        return self._kernel_args
+        return self._kernel_kwargs
 
-    @kernel_args.setter
-    def kernel_args(self, value):
+    @kernel_kwargs.setter
+    def kernel_kwargs(self, value):
         """
-        Setter for the **self.kernel_args** property.
+        Setter for the **self.kernel_kwargs** property.
         """
 
         if value is not None:
             assert isinstance(value, (dict, OrderedDict)), (
                 '"{0}" attribute: "{1}" type is not "dict" or "OrderedDict"!'
-            ).format('kernel_args', value)
+            ).format('kernel_kwargs', value)
 
-            self._kernel_args = value
+            self._kernel_kwargs = value
 
     @property
-    def padding_args(self):
+    def padding_kwargs(self):
         """
         Getter and setter property for the kernel call time arguments.
 
@@ -583,20 +590,20 @@ class KernelInterpolator(object):
             Kernel call time arguments.
         """
 
-        return self._padding_args
+        return self._padding_kwargs
 
-    @padding_args.setter
-    def padding_args(self, value):
+    @padding_kwargs.setter
+    def padding_kwargs(self, value):
         """
-        Setter for the **self.padding_args** property.
+        Setter for the **self.padding_kwargs** property.
         """
 
         if value is not None:
             assert isinstance(value, Mapping), (
                 '"{0}" attribute: "{1}" type is not a "Mapping" instance!'
-            ).format('padding_args', value)
+            ).format('padding_kwargs', value)
 
-            self._padding_args = value
+            self._padding_kwargs = value
 
             # Triggering "self._y_p" update.
             if self._y is not None:
@@ -654,7 +661,7 @@ class KernelInterpolator(object):
         return np.sum(
             self._y_p[windows] * self._kernel(
                 x[:, np.newaxis] / x_interval - windows -
-                min(self._x_p) / x_interval, **self._kernel_args),
+                min(self._x_p) / x_interval, **self._kernel_kwargs),
             axis=-1)
 
     def _validate_dimensions(self):
@@ -682,6 +689,49 @@ class KernelInterpolator(object):
         if above_interpolation_range.any():
             raise ValueError('"{0}" is above interpolation range.'.format(x))
 
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    @property
+    def kernel_args(self):
+        # Docstrings are omitted for documentation purposes.
+        runtime_warning(
+            str(
+                ObjectRenamed('KernelInterpolator.kernel_args',
+                              'KernelInterpolator.kernel_kwargs')))
+
+        return self.kernel_kwargs
+
+    @kernel_args.setter
+    def kernel_args(self, value):
+        # Docstrings are omitted for documentation purposes.
+        runtime_warning(
+            str(
+                ObjectRenamed('KernelInterpolator.kernel_args',
+                              'KernelInterpolator.kernel_kwargs')))
+
+        self.kernel_kwargs = value
+
+    @property
+    def padding_args(self):
+        # Docstrings are omitted for documentation purposes.
+        runtime_warning(
+            str(
+                ObjectRenamed('KernelInterpolator.padding_args',
+                              'KernelInterpolator.padding_kwargs')))
+
+        return self.padding_kwargs
+
+    @padding_args.setter
+    def padding_args(self, value):
+        # Docstrings are omitted for documentation purposes.
+        runtime_warning(
+            str(
+                ObjectRenamed('KernelInterpolator.padding_args',
+                              'KernelInterpolator.padding_kwargs')))
+
+        self.padding_kwargs = value
+
 
 class NearestNeighbourInterpolator(KernelInterpolator):
     """
@@ -697,17 +747,21 @@ class NearestNeighbourInterpolator(KernelInterpolator):
         interpolate.
     window : int, optional
         Width of the window in samples on each side.
-    padding_args : dict, optional
+    padding_kwargs : dict, optional
          Arguments to use when padding :math:`y` variable values with the
          :func:`np.pad` definition.
     dtype : type
         Data type used for internal conversions.
+
+    Methods
+    -------
+    -   :meth:`~colour.NearestNeighbourInterpolator.__init__`
     """
 
     def __init__(self, *args, **kwargs):
         kwargs['kernel'] = kernel_nearest_neighbour
-        if 'kernel_args' in kwargs:
-            del kwargs['kernel_args']
+        if 'kernel_kwargs' in kwargs:
+            del kwargs['kernel_kwargs']
 
         super(NearestNeighbourInterpolator, self).__init__(*args, **kwargs)
 
@@ -729,12 +783,13 @@ class LinearInterpolator(object):
 
     Attributes
     ----------
-    x
-    y
+    -   :attr:`~colour.LinearInterpolator.x`
+    -   :attr:`~colour.LinearInterpolator.y`
 
     Methods
     -------
-    __call__
+    -   :meth:`~colour.LinearInterpolator.__init__`
+    -   :meth:`~colour.LinearInterpolator.__call__`
 
     Notes
     -----
@@ -758,7 +813,10 @@ class LinearInterpolator(object):
     array([ 6.7825,  8.5075])
     """
 
-    def __init__(self, x, y, dtype=DEFAULT_FLOAT_DTYPE):
+    def __init__(self, x, y, dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
+
         self._x = None
         self._y = None
         self._dtype = dtype
@@ -923,12 +981,13 @@ class SpragueInterpolator(object):
 
     Attributes
     ----------
-    x
-    y
+    -   :attr:`~colour.SpragueInterpolator.x`
+    -   :attr:`~colour.SpragueInterpolator.y`
 
     Methods
     -------
-    __call__
+    -   :meth:`~colour.SpragueInterpolator.__init__`
+    -   :meth:`~colour.SpragueInterpolator.__call__`
 
     Notes
     -----
@@ -973,7 +1032,10 @@ class SpragueInterpolator(object):
     :cite:`CIETC1-382005h`
     """
 
-    def __init__(self, x, y, dtype=DEFAULT_FLOAT_DTYPE):
+    def __init__(self, x, y, dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
+
         self._xp = None
         self._yp = None
 
@@ -1063,18 +1125,18 @@ class SpragueInterpolator(object):
                 '"y" dependent variable values count must be normalised to'
                 'domain [6:]!')
 
-            yp1 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
-                                   np.array(value[0:6]).reshape(
-                                       (6, 1)))) / 209)[0]
-            yp2 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[1],
-                                   np.array(value[0:6]).reshape(
-                                       (6, 1)))) / 209)[0]
-            yp3 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[2],
-                                   np.array(value[-6:]).reshape(
-                                       (6, 1)))) / 209)[0]
-            yp4 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[3],
-                                   np.array(value[-6:]).reshape(
-                                       (6, 1)))) / 209)[0]
+            yp1 = np.ravel(
+                (np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
+                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
+            yp2 = np.ravel(
+                (np.dot(self.SPRAGUE_C_COEFFICIENTS[1],
+                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
+            yp3 = np.ravel(
+                (np.dot(self.SPRAGUE_C_COEFFICIENTS[2],
+                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
+            yp4 = np.ravel(
+                (np.dot(self.SPRAGUE_C_COEFFICIENTS[3],
+                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
 
             self._yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
@@ -1169,6 +1231,10 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
     Interpolates a 1-D function using cubic spline interpolation.
 
+    Methods
+    -------
+    -   :meth:`~colour.CubicSplineInterpolator.__init__`
+
     Notes
     -----
     -   This class is a wrapper around *scipy.interpolate.interp1d* class.
@@ -1186,7 +1252,11 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
 
     Attributes
     ----------
-    y
+    -   :attr:`~colour.PchipInterpolator.y`
+
+    Methods
+    -------
+    -   :meth:`~colour.PchipInterpolator.__init__`
 
     Notes
     -----
@@ -1202,14 +1272,8 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     @property
     def y(self):
         """
-        Getter and setter property for the dependent and already known
-        :math:`y` variable.
-
-        Parameters
-        ----------
-        value : array_like
-            Value to set the dependent and already known :math:`y` variable
-            with.
+        Getter property for the dependent and already known :math:`y`
+        variable.
 
         Returns
         -------
@@ -1245,15 +1309,16 @@ class NullInterpolator(object):
 
     Attributes
     ----------
-    x
-    y
-    relative_tolerance
-    absolute_tolerance
-    default
+    -   :attr:`~colour.NullInterpolator.x`
+    -   :attr:`~colour.NullInterpolator.y`
+    -   :attr:`~colour.NullInterpolator.relative_tolerance`
+    -   :attr:`~colour.NullInterpolator.absolute_tolerance`
+    -   :attr:`~colour.NullInterpolator.default`
 
     Methods
     -------
-    __call__
+    -   :meth:`~colour.NullInterpolator.__init__`
+    -   :meth:`~colour.NullInterpolator.__call__`
 
     Examples
     --------
@@ -1276,7 +1341,10 @@ class NullInterpolator(object):
                  absolute_tolerance=10e-7,
                  relative_tolerance=10e-7,
                  default=np.nan,
-                 dtype=DEFAULT_FLOAT_DTYPE):
+                 dtype=None):
+        if dtype is None:
+            dtype = DEFAULT_FLOAT_DTYPE
+
         self._x = None
         self._y = None
         self._absolute_tolerance = None

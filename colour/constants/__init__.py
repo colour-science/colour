@@ -2,15 +2,16 @@
 
 from __future__ import absolute_import
 
-from .cie import K_M, KP_M
-from .codata import (AVOGADRO_CONSTANT, BOLTZMANN_CONSTANT, LIGHT_SPEED,
-                     PLANCK_CONSTANT)
+from .cie import CONSTANT_K_M, CONSTANT_KP_M
+from .codata import (CONSTANT_AVOGADRO, CONSTANT_BOLTZMANN,
+                     CONSTANT_LIGHT_SPEED, CONSTANT_PLANCK)
 from .common import (FLOATING_POINT_NUMBER_PATTERN, INTEGER_THRESHOLD, EPSILON,
                      DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE)
 
-__all__ = ['K_M', 'KP_M']
+__all__ = ['CONSTANT_K_M', 'CONSTANT_KP_M']
 __all__ += [
-    'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', 'PLANCK_CONSTANT'
+    'CONSTANT_AVOGADRO', 'CONSTANT_BOLTZMANN', 'CONSTANT_LIGHT_SPEED',
+    'CONSTANT_PLANCK'
 ]
 __all__ += [
     'FLOATING_POINT_NUMBER_PATTERN', 'INTEGER_THRESHOLD', 'EPSILON',

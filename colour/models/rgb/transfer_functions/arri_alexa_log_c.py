@@ -8,17 +8,10 @@ Defines the *ARRI ALEXA Log C* log encoding:
 -   :func:`colour.models.log_encoding_ALEXALogC`
 -   :func:`colour.models.log_decoding_ALEXALogC`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
-    Retrieved from https://drive.google.com/\
-open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
+    https://drive.google.com/open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
 """
 
 from __future__ import division, unicode_literals
@@ -36,11 +29,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ALEXA_LOG_C_CURVE_BCL_DATA', 'ALEXA_LOG_C_CURVE_CONVERSION_DATA',
+    'DATA_ALEXA_LOG_C_CURVE_BCL', 'DATA_ALEXA_LOG_C_CURVE_CONVERSION',
     'log_encoding_ALEXALogC', 'log_decoding_ALEXALogC'
 ]
 
-ALEXA_LOG_C_CURVE_BCL_DATA = CaseInsensitiveMapping({
+DATA_ALEXA_LOG_C_CURVE_BCL = CaseInsensitiveMapping({
     'SUP 3.x': {
         160: (0.0928, 0.8128),
         200: (0.0928, 0.8341),
@@ -74,11 +67,11 @@ ALEXA_LOG_C_CURVE_BCL_DATA = CaseInsensitiveMapping({
 """
 *ARRI ALEXA Log C* curve *Ei, Black, Clipping Level* data.
 
-ALEXA_LOG_C_CURVE_BCL_DATA : CaseInsensitiveMapping
+DATA_ALEXA_LOG_C_CURVE_BCL : CaseInsensitiveMapping
     **{'SUP 3.x', 'SUP 2.x'}**
 """
 
-ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping({
+DATA_ALEXA_LOG_C_CURVE_CONVERSION = CaseInsensitiveMapping({
     'SUP 3.x': CaseInsensitiveMapping({
         'Normalised Sensor Signal': {
             160: (0.004680, 40.0, -0.076072, 0.269036,
@@ -184,7 +177,7 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping({
 exposure factor for *SUP 3.x* and signal and normalised sensor signal for
 *SUP 2.x*.
 
-ALEXA_LOG_C_CURVE_CONVERSION_DATA : CaseInsensitiveMapping
+DATA_ALEXA_LOG_C_CURVE_CONVERSION : CaseInsensitiveMapping
     **{'SUP 3.x', 'SUP 2.x'}**
 """
 
@@ -243,7 +236,7 @@ def log_encoding_ALEXALogC(x,
     x = to_domain_1(x)
 
     cut, a, b, c, d, e, f, _e_cut_f = (
-        ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
+        DATA_ALEXA_LOG_C_CURVE_CONVERSION[firmware][method][EI])
 
     t = np.where(x > cut, c * np.log10(a * x + b) + d, e * x + f)
 
@@ -304,7 +297,7 @@ def log_decoding_ALEXALogC(t,
     t = to_domain_1(t)
 
     cut, a, b, c, d, e, f, _e_cut_f = (
-        ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
+        DATA_ALEXA_LOG_C_CURVE_CONVERSION[firmware][method][EI])
 
     x = np.where(t > e * cut + f, (10 ** ((t - d) / c) - b) / a, (t - f) / e)
 

@@ -10,7 +10,7 @@ from colour.utilities import message_box
 
 message_box('Spectrum Computations')
 
-sample_sd_data = {
+data_sample = {
     380: 0.048,
     385: 0.051,
     390: 0.055,
@@ -94,15 +94,15 @@ sample_sd_data = {
     780: 0.421
 }
 
-sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
+sd_sample = colour.SpectralDistribution(data_sample, name='Sample')
 
 message_box('Sample spectral distribution shape.')
-print(sd.shape)
+print(sd_sample.shape)
 
 print('\n')
 
 message_box('Sample spectral distribution uniformity.')
-print(sd.is_uniform())
+print(sd_sample.is_uniform())
 
 print('\n')
 
@@ -111,63 +111,63 @@ message_box(('Sample spectral distribution cloning:\n'
              '\nCloning is a convenient way to get a copy of the spectral '
              'distribution, this an important feature because some '
              'operations happen in place.'))
-clone_sd = sd.copy()
-print(id(sd), id(clone_sd))
+sd_clone = sd_sample.copy()
+print(id(sd_sample), id(sd_clone))
 
 print('\n')
 
 message_box('Sample spectral distribution arithmetical operations.')
 message_box('Regular arithmetical operation: adding a constant.')
-clone_sd_alternate = clone_sd + 10
-print(clone_sd[380], clone_sd_alternate[380])
+sd_clone_alternate = sd_clone + 10
+print(sd_clone[380], sd_clone_alternate[380])
 
 print('\n')
 
 message_box('Regular arithmetical operation: adding an array.')
-print((clone_sd + np.linspace(0, 1, len(clone_sd.wavelengths))).values)
+print((sd_clone + np.linspace(0, 1, len(sd_clone.wavelengths))).values)
 
 print('\n')
 
 message_box('Regular arithmetical operation: adding a spectral '
             'distribution.')
-print((clone_sd + clone_sd).values)
+print((sd_clone + sd_clone).values)
 
 print('\n')
 
 message_box('In-place arithmetical operation: adding a constant.')
-clone_sd += 10
-print(clone_sd[380])
+sd_clone += 10
+print(sd_clone[380])
 
 print('\n')
 
 message_box('In-place arithmetical operation: adding an array.')
-clone_sd += np.linspace(0, 1, len(clone_sd.wavelengths))
-print(clone_sd.values)
+sd_clone += np.linspace(0, 1, len(sd_clone.wavelengths))
+print(sd_clone.values)
 
 print('\n')
 
 message_box('In-place arithmetical operation: adding a spectral '
             'distribution.')
-clone_sd += clone_sd
-print(clone_sd.values)
+sd_clone += sd_clone
+print(sd_clone.values)
 
 print('\n')
 
 message_box('Sample spectral distribution interpolation.')
-clone_sd.interpolate(colour.SpectralShape(360, 780, 1))
-print(clone_sd[666])
+sd_clone.interpolate(colour.SpectralShape(360, 780, 1))
+print(sd_clone[666])
 
 print('\n')
 
 message_box('Sample spectral distribution extrapolation.')
-clone_sd.extrapolate(colour.SpectralShape(340, 830))
-print(clone_sd[340], clone_sd[360])
+sd_clone.extrapolate(colour.SpectralShape(340, 830))
+print(sd_clone[340], sd_clone[360])
 
 print('\n')
 
 message_box('Sample spectral distribution align.')
-clone_sd.align(colour.SpectralShape(400, 700, 5))
-print(clone_sd[400], clone_sd[700])
+sd_clone.align(colour.SpectralShape(400, 700, 5))
+print(sd_clone[400], sd_clone[700])
 
 print('\n')
 

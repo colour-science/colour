@@ -5,26 +5,20 @@ Fujifilm F-Gamut Colourspace
 
 Defines the *Fujifilm F-Gamut* colourspace:
 
--   :attr:`colour.models.F_GAMUT_COLOURSPACE`.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
+-   :attr:`colour.models.RGB_COLOURSPACE_F_GAMUT`.
 
 References
 ----------
--   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0. \
-Retrieved from https://www.fujifilm.com/support/digital_cameras/\
-software/lut/pdf/F-Log_DataSheet_E_Ver.1.0.pdf
+-   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0 (pp.
+    1-4). https://www.fujifilm.com/support/digital_cameras/software/lut/pdf/\
+F-Log_DataSheet_E_Ver.1.0.pdf
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_FLog,
                                normalised_primary_matrix, log_decoding_FLog)
 
@@ -36,11 +30,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'F_GAMUT_PRIMARIES', 'F_GAMUT_WHITEPOINT_NAME', 'F_GAMUT_WHITEPOINT',
-    'F_GAMUT_TO_XYZ_MATRIX', 'XYZ_TO_F_GAMUT_MATRIX', 'F_GAMUT_COLOURSPACE'
+    'PRIMARIES_F_GAMUT', 'WHITEPOINT_NAME_F_GAMUT', 'CCS_WHITEPOINT_F_GAMUT',
+    'MATRIX_F_GAMUT_TO_XYZ', 'MATRIX_XYZ_TO_F_GAMUT', 'RGB_COLOURSPACE_F_GAMUT'
 ]
 
-F_GAMUT_PRIMARIES = np.array([
+PRIMARIES_F_GAMUT = np.array([
     [0.70800, 0.29200],
     [0.17000, 0.79700],
     [0.13100, 0.04600],
@@ -48,55 +42,55 @@ F_GAMUT_PRIMARIES = np.array([
 """
 *Fujifilm F-Gamut* colourspace primaries.
 
-F_GAMUT_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_F_GAMUT : ndarray, (3, 2)
 """
 
-F_GAMUT_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_F_GAMUT = 'D65'
 """
 *Fujifilm F-Gamut* colourspace whitepoint name.
 
-F_GAMUT_WHITEPOINT : unicode
+CCS_WHITEPOINT_F_GAMUT : unicode
 """
 
-F_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    F_GAMUT_WHITEPOINT_NAME])
+CCS_WHITEPOINT_F_GAMUT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_F_GAMUT])
 """
-*Fujifilm F-Gamut* colourspace whitepoint.
+*Fujifilm F-Gamut* colourspace whitepoint chromaticity coordinates.
 
-F_GAMUT_WHITEPOINT : ndarray
+CCS_WHITEPOINT_F_GAMUT : ndarray
 """
 
-F_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(F_GAMUT_PRIMARIES,
-                                                  F_GAMUT_WHITEPOINT)
+MATRIX_F_GAMUT_TO_XYZ = normalised_primary_matrix(PRIMARIES_F_GAMUT,
+                                                  CCS_WHITEPOINT_F_GAMUT)
 """
 *Fujifilm F-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
-F_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_F_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_F_GAMUT_MATRIX = np.linalg.inv(F_GAMUT_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_F_GAMUT = np.linalg.inv(MATRIX_F_GAMUT_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Fujifilm F-Gamut* colourspace matrix.
 
-XYZ_TO_F_GAMUT_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_F_GAMUT : array_like, (3, 3)
 """
 
-F_GAMUT_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_F_GAMUT = RGB_Colourspace(
     'F-Gamut',
-    F_GAMUT_PRIMARIES,
-    F_GAMUT_WHITEPOINT,
-    F_GAMUT_WHITEPOINT_NAME,
-    F_GAMUT_TO_XYZ_MATRIX,
-    XYZ_TO_F_GAMUT_MATRIX,
+    PRIMARIES_F_GAMUT,
+    CCS_WHITEPOINT_F_GAMUT,
+    WHITEPOINT_NAME_F_GAMUT,
+    MATRIX_F_GAMUT_TO_XYZ,
+    MATRIX_XYZ_TO_F_GAMUT,
     log_encoding_FLog,
     log_decoding_FLog,
 )
-F_GAMUT_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_F_GAMUT.__doc__ = """
 *Fujifilm F-Gamut* colourspace.
 
 References
 ----------
 :cite:`Fujifilm2016`
 
-F_GAMUT_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_F_GAMUT : RGB_Colourspace
 """

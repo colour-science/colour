@@ -25,16 +25,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CORRESPONDING_COLOUR_DATASET_1', 'FAIRCHILD1990_PREDICTION_DATA',
-    'CIE1994_PREDICTION_DATA', 'CMCCAT2000_PREDICTION_DATA',
-    'VONKRIES_PREDICTION_DATA',
+    'DATASET_CORRESPONDING_COLOUR_1', 'DATA_PREDICTION_FAIRCHILD1990',
+    'DATA_PREDICTION_CIE1994', 'DATA_PREDICTION_CMCCAT2000',
+    'DATA_PREDICTION_VONKRIES',
     'TestCorrespondingChromaticitiesPredictionFairchild1990',
     'TestCorrespondingChromaticitiesPredictionCIE1994',
     'TestCorrespondingChromaticitiesPredictionCMCCAT2000',
     'TestCorrespondingChromaticitiesPredictionVonKries'
 ]
 
-CORRESPONDING_COLOUR_DATASET_1 = CorrespondingColourDataset(
+DATASET_CORRESPONDING_COLOUR_1 = CorrespondingColourDataset(
     name=1,
     XYZ_r=np.array([0.947368421052632, 1.000000000000000, 1.000000000000000]),
     XYZ_t=np.array([1.107889733840304, 1.000000000000000, 0.334125475285171]),
@@ -72,7 +72,7 @@ CORRESPONDING_COLOUR_DATASET_1 = CorrespondingColourDataset(
     B_t=0.3,
     metadata={})
 
-FAIRCHILD1990_PREDICTION_DATA = np.array([
+DATA_PREDICTION_FAIRCHILD1990 = np.array([
     [(0.199, 0.487), (0.200554934448681, 0.470155699619516)],
     [(0.420, 0.509), (0.389214449896027, 0.514002881379267)],
     [(0.249, 0.497), (0.241570029196649, 0.486033850388237)],
@@ -87,7 +87,7 @@ FAIRCHILD1990_PREDICTION_DATA = np.array([
     [(0.231, 0.365), (0.229252692804442, 0.338033995795458)],
 ])
 
-CIE1994_PREDICTION_DATA = np.array([
+DATA_PREDICTION_CIE1994 = np.array([
     [(0.199, 0.487), (0.261386136420622, 0.533662817418878)],
     [(0.420, 0.509), (0.451546322781523, 0.521730655299867)],
     [(0.249, 0.497), (0.310170032403198, 0.532080871352910)],
@@ -102,7 +102,7 @@ CIE1994_PREDICTION_DATA = np.array([
     [(0.231, 0.365), (0.272300292824155, 0.482318190580811)],
 ])
 
-CMCCAT2000_PREDICTION_DATA = np.array([
+DATA_PREDICTION_CMCCAT2000 = np.array([
     [(0.199, 0.487), (0.200011273633451, 0.470539230354398)],
     [(0.420, 0.509), (0.407637147823942, 0.504672206472439)],
     [(0.249, 0.497), (0.243303933122086, 0.483443483088972)],
@@ -117,7 +117,7 @@ CMCCAT2000_PREDICTION_DATA = np.array([
     [(0.231, 0.365), (0.213770919959778, 0.348685954116193)],
 ])
 
-VONKRIES_PREDICTION_DATA = np.array([
+DATA_PREDICTION_VONKRIES = np.array([
     [(0.199, 0.487), (0.199994235295863, 0.470596132542110)],
     [(0.420, 0.509), (0.414913855668385, 0.503766204685646)],
     [(0.249, 0.497), (0.244202332779817, 0.483154861151019)],
@@ -151,32 +151,32 @@ convert_experiment_results_Breneman1987` definition.
 
         np.testing.assert_almost_equal(
             corresponding_colour_dataset.XYZ_r,
-            CORRESPONDING_COLOUR_DATASET_1.XYZ_r,
+            DATASET_CORRESPONDING_COLOUR_1.XYZ_r,
             decimal=7)
 
         np.testing.assert_almost_equal(
             corresponding_colour_dataset.XYZ_t,
-            CORRESPONDING_COLOUR_DATASET_1.XYZ_t,
+            DATASET_CORRESPONDING_COLOUR_1.XYZ_t,
             decimal=7)
 
         np.testing.assert_almost_equal(
             corresponding_colour_dataset.XYZ_cr,
-            CORRESPONDING_COLOUR_DATASET_1.XYZ_cr,
+            DATASET_CORRESPONDING_COLOUR_1.XYZ_cr,
             decimal=7)
 
         np.testing.assert_almost_equal(
             corresponding_colour_dataset.XYZ_ct,
-            CORRESPONDING_COLOUR_DATASET_1.XYZ_ct,
+            DATASET_CORRESPONDING_COLOUR_1.XYZ_ct,
             decimal=7)
 
         np.testing.assert_almost_equal(
             corresponding_colour_dataset.Y_r,
-            CORRESPONDING_COLOUR_DATASET_1.Y_r,
+            DATASET_CORRESPONDING_COLOUR_1.Y_r,
             decimal=7)
 
         np.testing.assert_almost_equal(
             corresponding_colour_dataset.Y_t,
-            CORRESPONDING_COLOUR_DATASET_1.Y_t,
+            DATASET_CORRESPONDING_COLOUR_1.Y_t,
             decimal=7)
 
 
@@ -198,7 +198,7 @@ corresponding_chromaticities_prediction_Fairchild1990` definition.
             np.array(
                 [(p.uv_m, p.uv_p) for p in
                  corresponding_chromaticities_prediction_Fairchild1990()]),
-            FAIRCHILD1990_PREDICTION_DATA,
+            DATA_PREDICTION_FAIRCHILD1990,
             decimal=7)
 
 
@@ -218,7 +218,7 @@ corresponding_chromaticities_prediction_CIE1994` definition.
             np.array(
                 [(p.uv_m, p.uv_p)
                  for p in corresponding_chromaticities_prediction_CIE1994()]),
-            CIE1994_PREDICTION_DATA,
+            DATA_PREDICTION_CIE1994,
             decimal=7)
 
 
@@ -240,7 +240,7 @@ corresponding_chromaticities_prediction_CMCCAT2000` definition.
                 (p.uv_m, p.uv_p)
                 for p in corresponding_chromaticities_prediction_CMCCAT2000()
             ]),
-            CMCCAT2000_PREDICTION_DATA,
+            DATA_PREDICTION_CMCCAT2000,
             decimal=7)
 
 
@@ -261,5 +261,5 @@ corresponding_chromaticities_prediction_VonKries` definition.
             np.array(
                 [(p.uv_m, p.uv_p)
                  for p in corresponding_chromaticities_prediction_VonKries()]),
-            VONKRIES_PREDICTION_DATA,
+            DATA_PREDICTION_VONKRIES,
             decimal=7)

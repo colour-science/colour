@@ -5,14 +5,8 @@ Von Kries Chromatic Adaptation Model
 
 Defines *Von Kries* chromatic adaptation model objects:
 
--   :func:`colour.adaptation.chromatic_adaptation_matrix_VonKries`
+-   :func:`colour.adaptation.matrix_chromatic_adaptation_VonKries`
 -   :func:`colour.adaptation.chromatic_adaptation_VonKries`
-
-See Also
---------
-`Chromatic Adaptation Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/adaptation/vonkries.ipynb>`_
 
 References
 ----------
@@ -26,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.utilities import (dot_matrix, dot_vector, from_range_1,
+from colour.utilities import (matrix_dot, vector_dot, from_range_1,
                               row_as_diagonal, to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -37,11 +31,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'chromatic_adaptation_matrix_VonKries', 'chromatic_adaptation_VonKries'
+    'matrix_chromatic_adaptation_VonKries', 'chromatic_adaptation_VonKries'
 ]
 
 
-def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
+def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     """
     Computes the *chromatic adaptation* matrix from test viewing conditions
     to reference viewing conditions.
@@ -54,8 +48,8 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
         Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
     transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         Chromatic adaptation transform.
 
     Returns
@@ -87,7 +81,7 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     --------
     >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-    >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)
+    >>> matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr)
     ... # doctest: +ELLIPSIS
     array([[ 1.0425738...,  0.0308910..., -0.0528125...],
            [ 0.0221934...,  1.0018566..., -0.0210737...],
@@ -98,7 +92,7 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> method = 'Bradford'
-    >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, method)
+    >>> matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, method)
     ... # doctest: +ELLIPSIS
     array([[ 1.0479297...,  0.0229468..., -0.0501922...],
            [ 0.0296278...,  0.9904344..., -0.0170738...],
@@ -123,8 +117,8 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     D = row_as_diagonal(D)
 
-    M_CAT = dot_matrix(np.linalg.inv(M), D)
-    M_CAT = dot_matrix(M_CAT, M)
+    M_CAT = matrix_dot(np.linalg.inv(M), D)
+    M_CAT = matrix_dot(M_CAT, M)
 
     return M_CAT
 
@@ -144,8 +138,8 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
         Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
     transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
         Chromatic adaptation transform.
 
     Returns
@@ -197,7 +191,7 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
 
     XYZ = to_domain_1(XYZ)
 
-    M_CAT = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
-    XYZ_a = dot_vector(M_CAT, XYZ)
+    M_CAT = matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform)
+    XYZ_a = vector_dot(M_CAT, XYZ)
 
     return from_range_1(XYZ_a)

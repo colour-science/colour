@@ -27,7 +27,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RAYLEIGH_SCATTERING_SD_DATA', 'TestAirRefractionIndexPenndorf1957',
+    'DATA_SD_RAYLEIGH_SCATTERING', 'TestAirRefractionIndexPenndorf1957',
     'TestAirRefractionIndexEdlen1966', 'TestAirRefractionIndexPeck1972',
     'TestAirRefractionIndexBodhaine1999', 'TestN2Depolarisation',
     'TestO2Depolarisation', 'TestF_airPenndorf1957', 'TestF_airYoung1981',
@@ -37,7 +37,7 @@ __all__ = [
     'TestSdRayleighScattering'
 ]
 
-RAYLEIGH_SCATTERING_SD_DATA = (
+DATA_SD_RAYLEIGH_SCATTERING = (
     0.59910134,
     0.59217069,
     0.58534101,
@@ -1422,7 +1422,7 @@ class TestSdRayleighScattering(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sd_rayleigh_scattering().values,
-            RAYLEIGH_SCATTERING_SD_DATA,
+            DATA_SD_RAYLEIGH_SCATTERING,
             decimal=7)
 
 

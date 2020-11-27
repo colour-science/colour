@@ -5,14 +5,8 @@ Nayatani (1995) Colour Appearance Model
 
 Defines *Nayatani (1995)* colour appearance model objects:
 
--   :class:`colour.Nayatani95_Specification`
+-   :class:`colour.CAM_Specification_Nayatani95`
 -   :func:`colour.XYZ_to_Nayatani95`
-
-See Also
---------
-`Nayatani (1995) Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/nayatani95.ipynb>`_
 
 References
 ----------
@@ -31,11 +25,11 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.adaptation.cie1994 import (CIE1994_XYZ_TO_RGB_MATRIX, beta_1,
+from colour.adaptation.cie1994 import (MATRIX_XYZ_TO_RGB_CIE1994, beta_1,
                                        exponential_factors,
                                        intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import (as_float_array, dot_vector, from_range_degrees,
+from colour.utilities import (as_float_array, vector_dot, from_range_degrees,
                               to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -46,8 +40,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'NAYATANI95_XYZ_TO_RGB_MATRIX', 'Nayatani95_ReferenceSpecification',
-    'Nayatani95_Specification', 'XYZ_to_Nayatani95',
+    'MATRIX_XYZ_TO_RGB_NAYATANI95', 'CAM_ReferenceSpecification_Nayatani95',
+    'CAM_Specification_Nayatani95', 'XYZ_to_Nayatani95',
     'illuminance_to_luminance', 'XYZ_to_RGB_Nayatani95', 'scaling_coefficient',
     'achromatic_response', 'tritanopic_response', 'protanopic_response',
     'brightness_correlate', 'ideal_white_brightness_correlate',
@@ -58,17 +52,17 @@ __all__ = [
     'chromatic_strength_function'
 ]
 
-NAYATANI95_XYZ_TO_RGB_MATRIX = CIE1994_XYZ_TO_RGB_MATRIX
+MATRIX_XYZ_TO_RGB_NAYATANI95 = MATRIX_XYZ_TO_RGB_CIE1994
 """
 *Nayatani (1995)* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
-NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_RGB_NAYATANI95 : array_like, (3, 3)
 """
 
 
-class Nayatani95_ReferenceSpecification(
-        namedtuple('Nayatani95_ReferenceSpecification',
+class CAM_ReferenceSpecification_Nayatani95(
+        namedtuple('CAM_ReferenceSpecification_Nayatani95',
                    ('L_star_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C',
                     'L_star_N'))):
     """
@@ -105,9 +99,9 @@ class Nayatani95_ReferenceSpecification(
     """
 
 
-class Nayatani95_Specification(
+class CAM_Specification_Nayatani95(
         namedtuple(
-            'Nayatani95_Specification',
+            'CAM_Specification_Nayatani95',
             ('L_star_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'L_star_N'))):
     """
     Defines the *Nayatani (1995)* colour appearance model specification.
@@ -170,7 +164,7 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
 
     Returns
     -------
-    Nayatani95_Specification
+    CAM_Specification_Nayatani95
         *Nayatani (1995)* colour appearance model specification.
 
     Notes
@@ -184,11 +178,16 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
     | ``XYZ_n``                      | [0, 100]              | [0, 1]        |
     +--------------------------------+-----------------------+---------------+
 
-    +--------------------------------+-----------------------+---------------+
-    | **Range**                      | **Scale - Reference** | **Scale - 1** |
-    +================================+=======================+===============+
-    | ``Nayatani95_Specification.h`` | [0, 360]              | [0, 1]        |
-    +--------------------------------+-----------------------+---------------+
+    +------------------------------------+-----------------------\
++---------------+
+    | **Range**                          | **Scale - Reference** \
+| **Scale - 1** |
+    +====================================+=======================\
++===============+
+    | ``CAM_Specification_Nayatani95.h`` | [0, 360]              \
+| [0, 1]        |
+    +------------------------------------+-----------------------\
++---------------+
 
     References
     ----------
@@ -202,7 +201,7 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
     >>> E_o = 5000.0
     >>> E_or = 1000.0
     >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)  # doctest: +ELLIPSIS
-    Nayatani95_Specification(L_star_P=49.9998829..., C=0.0133550..., \
+    CAM_Specification_Nayatani95(L_star_P=49.9998829..., C=0.0133550..., \
 h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, \
 HC=None, L_star_N=50.0039154...)
     """
@@ -282,8 +281,8 @@ HC=None, L_star_N=50.0039154...)
     # brightness_ideal_white))
     M = colourfulness_correlate(C, brightness_ideal_white)
 
-    return Nayatani95_Specification(L_star_P, C, from_range_degrees(theta), S,
-                                    B_r, M, None, None, L_star_N)
+    return CAM_Specification_Nayatani95(L_star_P, C, from_range_degrees(theta),
+                                        S, B_r, M, None, None, L_star_N)
 
 
 def illuminance_to_luminance(E, Y_f):
@@ -336,7 +335,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     array([ 20.0005206...,  19.999783 ...,  19.9988316...])
     """
 
-    return dot_vector(NAYATANI95_XYZ_TO_RGB_MATRIX, XYZ)
+    return vector_dot(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
 
 
 def scaling_coefficient(x, y):

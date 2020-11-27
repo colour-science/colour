@@ -32,12 +32,6 @@ Defines various objects for *Munsell Renotation System* computations:
 -   :func:`colour.munsell_colour_to_xyY`
 -   :func:`colour.xyY_to_munsell_colour`
 
-See Also
---------
-`Munsell Renotation System Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/notation/munsell.ipynb>`_
-
 Notes
 -----
 -   The Munsell Renotation data commonly available within the all.dat,
@@ -60,62 +54,64 @@ Notes
 References
 ----------
 -   :cite:`ASTMInternational1989a` : ASTM International. (1989). ASTM D1535-89
-    - Standard Practice for Specifying Color by the Munsell System. Retrieved
-    from http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
+    - Standard Practice for Specifying Color by the Munsell System (pp. 1-29).
+    Retrieved September 25, 2014, from
+    http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
 -   :cite:`Centore2012a` : Centore, P. (2012). An open-source inversion
     algorithm for the Munsell renotation. Color Research & Application, 37(6),
     455-464. doi:10.1002/col.20715
 -   :cite:`Centore2014k` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MunsellHueToASTMHue.m. Retrieved from
+    MunsellRenotationRoutines/MunsellHueToASTMHue.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014l` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m.
-    Retrieved from
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014m` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MunsellToxyY.m. Retrieved from
+    MunsellRenotationRoutines/MunsellToxyY.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014n` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/FindHueOnRenotationOvoid.m. Retrieved from
+    MunsellRenotationRoutines/FindHueOnRenotationOvoid.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014o` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellSystemRoutines/BoundingRenotationHues.m. Retrieved from
+    MunsellSystemRoutines/BoundingRenotationHues.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014p` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/xyYtoMunsell.m. Retrieved from
+    MunsellRenotationRoutines/xyYtoMunsell.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014q` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m. Retrieved
-    from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m.
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014r` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m. Retrieved
-    from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m.
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014s` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m. Retrieved from
+    MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014t` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m. Retrieved from
+    MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centore2014u` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
-    GeneralRoutines/CIELABtoApproxMunsellSpec.m. Retrieved from
+    GeneralRoutines/CIELABtoApproxMunsellSpec.m.
     https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   :cite:`Centorea` : Centore, P. (n.d.). The Munsell and Kubelka-Munk
     Toolbox. Retrieved January 23, 2018, from
     http://www.munsellcolourscienceforpainters.com/\
 MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
--   :cite:`Wikipedia2007c` : Wikipedia. (2007). Lightness. Retrieved April
-    13, 2014, from http://en.wikipedia.org/wiki/Lightness
+-   :cite:`Wikipedia2007c` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.
+    (1995). Lightness dependency of chroma scales of a nonlinear
+    color-appearance model and its latest formulation. Color Research &
+    Application, 20(3), 156-167. doi:10.1002/col.5080200305
 """
 
 from __future__ import division, unicode_literals
@@ -127,7 +123,7 @@ from collections import OrderedDict
 from colour.algebra import (Extrapolator, LinearInterpolator,
                             cartesian_to_cylindrical, euclidean_distance,
                             polar_to_cartesian, spow)
-from colour.colorimetry import ILLUMINANTS, luminance_ASTMD1535
+from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE,
                               INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
@@ -154,8 +150,7 @@ __all__ = [
     'MUNSELL_GRAY_PATTERN', 'MUNSELL_COLOUR_PATTERN', 'MUNSELL_GRAY_FORMAT',
     'MUNSELL_COLOUR_FORMAT', 'MUNSELL_GRAY_EXTENDED_FORMAT',
     'MUNSELL_COLOUR_EXTENDED_FORMAT', 'MUNSELL_HUE_LETTER_CODES',
-    'MUNSELL_DEFAULT_ILLUMINANT',
-    'MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES',
+    'ILLUMINANT_NAME_MUNSELL', 'CCS_ILLUMINANT_MUNSELL',
     'munsell_value_Priest1920', 'munsell_value_Munsell1933',
     'munsell_value_Moon1943', 'munsell_value_Saunderson1944',
     'munsell_value_Ladd1955', 'munsell_value_McCamy1987',
@@ -197,9 +192,9 @@ MUNSELL_HUE_LETTER_CODES = Lookup({
     'P': 9
 })
 
-MUNSELL_DEFAULT_ILLUMINANT = 'C'
-MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = (ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][MUNSELL_DEFAULT_ILLUMINANT])
+ILLUMINANT_NAME_MUNSELL = 'C'
+CCS_ILLUMINANT_MUNSELL = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][ILLUMINANT_NAME_MUNSELL])
 
 _MUNSELL_SPECIFICATIONS_CACHE = None
 _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = None
@@ -795,8 +790,10 @@ def _munsell_specification_to_xyY(specification):
             Y_minus = luminance_ASTMD1535(value_minus)
             Y_plus = luminance_ASTMD1535(value_plus)
 
-        x = LinearInterpolator((Y_minus, Y_plus), (x_minus, x_plus))(Y)
-        y = LinearInterpolator((Y_minus, Y_plus), (y_minus, y_plus))(Y)
+        x = LinearInterpolator(
+            np.ravel([Y_minus, Y_plus]), np.ravel([x_minus, x_plus]))(Y)
+        y = LinearInterpolator(
+            np.ravel([Y_minus, Y_plus]), np.ravel([y_minus, y_plus]))(Y)
 
     return np.array([x, y, from_range_1(Y / 100)])
 
@@ -938,9 +935,9 @@ def _xyY_to_munsell_specification(xyY):
     x, y, Y = tsplit(xyY)
     Y = to_domain_1(Y)
 
-    if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
+    if not is_within_macadam_limits(xyY, ILLUMINANT_NAME_MUNSELL):
         usage_warning('"{0}" is not within "MacAdam" limits for illuminant '
-                      '"{1}"!'.format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
+                      '"{1}"!'.format(xyY, ILLUMINANT_NAME_MUNSELL))
 
     with domain_range_scale('ignore'):
         value = munsell_value_ASTMD1535(Y * 100)
@@ -960,7 +957,7 @@ def _xyY_to_munsell_specification(xyY):
         return from_range_10(normalize_munsell_specification(value))
 
     X, Y, Z = xyY_to_XYZ([x, y, Y])
-    xi, yi = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+    xi, yi = CCS_ILLUMINANT_MUNSELL
     Xr, Yr, Zr = xyY_to_XYZ([xi, yi, Y])
 
     XYZ = np.array([X, Y, Z])
@@ -2091,7 +2088,7 @@ def xy_from_renotation_ovoid(specification):
     specification = normalize_munsell_specification(specification)
 
     if is_grey_munsell_colour(specification):
-        return MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+        return CCS_ILLUMINANT_MUNSELL
     else:
         hue, value, chroma, code = specification
 
@@ -2130,7 +2127,7 @@ def xy_from_renotation_ovoid(specification):
         hue_minus, code_minus = hue_cw
         hue_plus, code_plus = hue_ccw
 
-        x_grey, y_grey = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+        x_grey, y_grey = CCS_ILLUMINANT_MUNSELL
 
         specification_minus = (hue_minus, value, chroma, code_minus)
         x_minus, y_minus, Y_minus = xyY_from_renotation(specification_minus)
@@ -2169,19 +2166,23 @@ def xy_from_renotation_ovoid(specification):
                 ['Linear', 'radial'])))
 
         if interpolation_method == 'linear':
-            x = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                   (x_minus, x_plus))(hue_angle)
-            y = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                   (y_minus, y_plus))(hue_angle)
+            x = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([x_minus, x_plus]))(hue_angle)
+            y = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([y_minus, y_plus]))(hue_angle)
         elif interpolation_method == 'radial':
-            theta = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                       (phi_minus, phi_plus))(hue_angle)
-            rho = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                     (rho_minus, rho_plus))(hue_angle)
+            theta = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([phi_minus, phi_plus]))(hue_angle)
+            rho = LinearInterpolator(
+                np.ravel([lower_hue_angle, upper_hue_angle]),
+                np.ravel([rho_minus, rho_plus]))(hue_angle)
 
             x, y = tsplit(
-                polar_to_cartesian((rho, np.radians(theta))) +
-                as_float_array((x_grey, y_grey)))
+                polar_to_cartesian(np.ravel([rho, np.radians(theta)])) +
+                as_float_array([x_grey, y_grey]))
 
         return as_float_array([x, y])
 
@@ -2354,7 +2355,7 @@ def munsell_specification_to_xy(specification):
     specification = normalize_munsell_specification(specification)
 
     if is_grey_munsell_colour(specification):
-        return MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+        return CCS_ILLUMINANT_MUNSELL
     else:
         hue, value, chroma, code = specification
 
@@ -2376,8 +2377,7 @@ def munsell_specification_to_xy(specification):
         if chroma_minus == 0:
             # Smallest chroma ovoid collapses to illuminant chromaticity
             # coordinates.
-            x_minus, y_minus = (
-                MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES)
+            x_minus, y_minus = (CCS_ILLUMINANT_MUNSELL)
         else:
             x_minus, y_minus = xy_from_renotation_ovoid((hue, value,
                                                          chroma_minus, code))

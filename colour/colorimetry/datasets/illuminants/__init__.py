@@ -2,12 +2,13 @@
 
 from __future__ import absolute_import
 
-from .chromaticity_coordinates import ILLUMINANTS
-from .d_illuminants_s_sds import D_ILLUMINANTS_S_SDS
-from .hunterlab import HUNTERLAB_ILLUMINANTS
-from .sds import ILLUMINANTS_SDS
+from .chromaticity_coordinates import CCS_ILLUMINANTS
+from .sds_d_illuminant_series import (
+    SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES)
+from .hunterlab import TVS_ILLUMINANTS_HUNTERLAB
+from .sds import SDS_ILLUMINANTS
 
 __all__ = [
-    'ILLUMINANTS', 'D_ILLUMINANTS_S_SDS', 'HUNTERLAB_ILLUMINANTS',
-    'ILLUMINANTS_SDS'
+    'CCS_ILLUMINANTS', 'SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES',
+    'TVS_ILLUMINANTS_HUNTERLAB', 'SDS_ILLUMINANTS'
 ]

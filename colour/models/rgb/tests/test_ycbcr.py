@@ -11,7 +11,7 @@ from itertools import permutations
 
 from colour.models.rgb.ycbcr import (RGB_to_YCbCr, YCbCr_to_RGB,
                                      RGB_to_YcCbcCrc, YcCbcCrc_to_RGB,
-                                     YCBCR_WEIGHTS)
+                                     WEIGHTS_YCBCR)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -46,7 +46,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_to_YCbCr(
                 np.array([0.25, 0.5, 0.75]),
-                K=YCBCR_WEIGHTS['ITU-R BT.601'],
+                K=WEIGHTS_YCBCR['ITU-R BT.601'],
                 out_int=True,
                 out_legal=True,
                 out_bits=10),
@@ -56,7 +56,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_to_YCbCr(
                 np.array([0.0, 0.75, 0.75]),
-                K=YCBCR_WEIGHTS['ITU-R BT.2020'],
+                K=WEIGHTS_YCBCR['ITU-R BT.2020'],
                 out_int=False,
                 out_legal=False),
             np.array([0.55297500, 0.10472255, -0.37500000]),
@@ -65,7 +65,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_to_YCbCr(
                 np.array([0.75, 0.0, 0.75]),
-                K=YCBCR_WEIGHTS['ITU-R BT.709'],
+                K=WEIGHTS_YCBCR['ITU-R BT.709'],
                 out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255)),
             np.array([0.24618980, 0.75392897, 0.79920662]),
             decimal=7)

@@ -15,7 +15,7 @@ except ImportError:  # pragma: no cover
     import mock
 from itertools import permutations
 
-from colour.appearance import (LLAB_VIEWING_CONDITIONS, LLAB_InductionFactors,
+from colour.appearance import (VIEWING_CONDITIONS_LLAB, InductionFactors_LLAB,
                                XYZ_to_LLAB, llab)
 from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -60,7 +60,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
         Returns
         -------
-        LLAB_Specification
+        CAM_Specification_LLAB
             *LLAB(l:c)* colour appearance model specification.
         """
 
@@ -69,7 +69,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
         specification = XYZ_to_LLAB(
             XYZ, XYZ_0, data['Y_b'], data['L'],
-            LLAB_InductionFactors(1, data['F_S'], data['F_L'], data['F_C']))
+            InductionFactors_LLAB(1, data['F_S'], data['F_L'], data['F_C']))
 
         return specification
 
@@ -84,14 +84,14 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         Notes
         -----
         -   Reference data was computed using a rounded
-            :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
+            :attr:`colour.appearance.llab.MATRIX_RGB_TO_XYZ_LLAB`, therefore a
             patched version is used for unit tests.
         """
 
         with mock.patch(
-                'colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
+                'colour.appearance.llab.MATRIX_RGB_TO_XYZ_LLAB',
                 np.around(
-                    np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX), decimals=4)):
+                    np.linalg.inv(llab.MATRIX_XYZ_TO_RGB_LLAB), decimals=4)):
             super(TestLLABColourAppearanceModel, self).test_examples()
 
     def test_n_dimensional_examples(self):
@@ -106,14 +106,14 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         Notes
         -----
         -   Reference data was computed using a rounded
-            :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
+            :attr:`colour.appearance.llab.MATRIX_RGB_TO_XYZ_LLAB`, therefore a
             patched version is used for unit tests.
         """
 
         with mock.patch(
-                'colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
+                'colour.appearance.llab.MATRIX_RGB_TO_XYZ_LLAB',
                 np.around(
-                    np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX), decimals=4)):
+                    np.linalg.inv(llab.MATRIX_XYZ_TO_RGB_LLAB), decimals=4)):
             super(TestLLABColourAppearanceModel,
                   self).test_n_dimensional_examples()
 
@@ -127,8 +127,8 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         start = np.array([1, 1, 1])
         result = np.array(start)
         for _ in range(100000):
-            result = llab.LLAB_RGB_TO_XYZ_MATRIX.dot(result)
-            result = llab.LLAB_XYZ_TO_RGB_MATRIX.dot(result)
+            result = llab.MATRIX_RGB_TO_XYZ_LLAB.dot(result)
+            result = llab.MATRIX_XYZ_TO_RGB_LLAB.dot(result)
         np.testing.assert_almost_equal(start, result, decimal=7)
 
     def test_domain_range_scale_XYZ_to_LLAB(self):
@@ -141,7 +141,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         XYZ_0 = np.array([95.05, 100.00, 108.88])
         Y_b = 20.0
         L = 318.31
-        surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
+        surround = VIEWING_CONDITIONS_LLAB['ref_average_4_minus']
         specification = XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)[:5]
 
         d_r = (
@@ -171,5 +171,5 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
             XYZ_0 = np.array(case)
             Y_b = case[0]
             L = case[0]
-            surround = LLAB_InductionFactors(1, case[0], case[0], case[0])
+            surround = InductionFactors_LLAB(1, case[0], case[0], case[0])
             XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)

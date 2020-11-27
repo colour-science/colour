@@ -9,8 +9,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from itertools import permutations
 
-from colour.appearance import (CAM16_VIEWING_CONDITIONS,
-                               CAM16_InductionFactors, CAM16_Specification,
+from colour.appearance import (VIEWING_CONDITIONS_CAM16,
+                               InductionFactors_CAM16, CAM_Specification_CAM16,
                                XYZ_to_CAM16, CAM16_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import (as_namedtuple, domain_range_scale,
@@ -63,7 +63,7 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
 
         Returns
         -------
-        CAM16_Specification
+        CAM_Specification_CAM16
             *CAM16* colour appearance model specification.
         """
 
@@ -72,7 +72,7 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
 
         specification = XYZ_to_CAM16(
             XYZ, XYZ_w, data['L_A'], data['Y_b'],
-            CAM16_InductionFactors(data['F'], data['c'], data['N_c']))
+            InductionFactors_CAM16(data['F'], data['c'], data['N_c']))
 
         return specification
 
@@ -87,16 +87,16 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20.0
-        surround = CAM16_VIEWING_CONDITIONS['Average']
+        surround = VIEWING_CONDITIONS_CAM16['Average']
         specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)[:-1]
 
         d_r = (
             ('reference', 1, 1),
             (1, 0.01,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
              ])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
@@ -120,7 +120,7 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
             XYZ_w = np.array(case)
             L_A = case[0]
             Y_b = case[0]
-            surround = CAM16_InductionFactors(case[0], case[0], case[0])
+            surround = InductionFactors_CAM16(case[0], case[0], case[0])
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
@@ -173,15 +173,15 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
         XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
 
         i, j, k = correlates
-        CAM16_specification = as_namedtuple({
+        specification = as_namedtuple({
             i: data[i],
             j: data[j],
             k: data[k]
-        }, CAM16_Specification)
+        }, CAM_Specification_CAM16)
 
         XYZ = CAM16_to_XYZ(
-            CAM16_specification, XYZ_w, data['L_A'], data['Y_b'],
-            CAM16_InductionFactors(data['F'], data['c'], data['N_c']))
+            specification, XYZ_w, data['L_A'], data['Y_b'],
+            InductionFactors_CAM16(data['F'], data['c'], data['N_c']))
 
         return XYZ
 
@@ -201,8 +201,8 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
         expected : float.
             Expected attribute value.
 
-        Warning
-        -------
+        Warnings
+        --------
         The method name does not reflect the underlying implementation.
         """
 
@@ -238,7 +238,7 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20.0
-        surround = CAM16_VIEWING_CONDITIONS['Average']
+        surround = VIEWING_CONDITIONS_CAM16['Average']
         specification = XYZ_to_CAM16(XYZ_i, XYZ_w, L_A, Y_b, surround)
         XYZ = CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
@@ -246,9 +246,9 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
             ('reference', 1, 1, 1),
             (1,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
              ]), 0.01, 0.01),
-            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360]), 1, 1),
+            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400]), 1, 1),
         )
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
@@ -267,7 +267,7 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
 
         try:
             CAM16_to_XYZ(
-                CAM16_Specification(
+                CAM_Specification_CAM16(
                     41.731207905126638,
                     None,
                     217.06795976739301,
@@ -275,7 +275,7 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
                 np.array([95.05, 100.00, 108.88]),
                 318.31,
                 20.0,
-                CAM16_VIEWING_CONDITIONS['Average'],
+                VIEWING_CONDITIONS_CAM16['Average'],
             )
         except ValueError:
             pass
@@ -296,6 +296,6 @@ class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
             XYZ_w = np.array(case)
             L_A = case[0]
             Y_b = case[0]
-            surround = CAM16_InductionFactors(case[0], case[0], case[0])
+            surround = InductionFactors_CAM16(case[0], case[0], case[0])
             CAM16_to_XYZ(
-                CAM16_Specification(J, C, h), XYZ_w, L_A, Y_b, surround)
+                CAM_Specification_CAM16(J, C, h), XYZ_w, L_A, Y_b, surround)

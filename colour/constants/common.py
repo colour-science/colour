@@ -8,9 +8,11 @@ Defines common constants objects that don't belong to any specific category.
 
 from __future__ import division, unicode_literals
 
+import os
 import numpy as np
 
-from colour.utilities.documentation import DocstringFloat
+from colour.utilities.documentation import (DocstringFloat,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -31,9 +33,12 @@ Floating point number regex matching pattern.
 FLOATING_POINT_NUMBER_PATTERN : unicode
 """
 
-INTEGER_THRESHOLD = DocstringFloat(1e-3)
-INTEGER_THRESHOLD.__doc__ = """
-Integer threshold value.
+INTEGER_THRESHOLD = 1e-3
+if is_documentation_building():  # pragma: no cover
+    INTEGER_THRESHOLD = DocstringFloat(INTEGER_THRESHOLD)
+    INTEGER_THRESHOLD.__doc__ = """
+Integer threshold value when checking if a floating point number is almost an
+integer.
 
 INTEGER_THRESHOLD : numeric
 """
@@ -46,14 +51,16 @@ computations.
 EPSILON : numeric
 """
 
-DEFAULT_FLOAT_DTYPE = np.float_
+DEFAULT_FLOAT_DTYPE = np.sctypeDict.get(
+    os.environ.get('COLOUR_SCIENCE__FLOAT_PRECISION', 'float64'), 'float64')
 """
 Default floating point number dtype.
 
 DEFAULT_FLOAT_DTYPE : type
 """
 
-DEFAULT_INT_DTYPE = np.int_
+DEFAULT_INT_DTYPE = np.sctypeDict.get(
+    os.environ.get('COLOUR_SCIENCE__INT_PRECISION', 'int64'), 'int64')
 """
 Default integer number dtype.
 

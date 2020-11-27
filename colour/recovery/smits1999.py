@@ -5,12 +5,6 @@ Smits (1999) - Reflectance Recovery
 
 Defines objects for reflectance recovery using *Smits (1999)* method.
 
-See Also
---------
-`Smits (1999) - Reflectance Recovery Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/recovery/smits1999.ipynb>`_
-
 References
 ----------
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
@@ -22,10 +16,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
-                           sRGB_COLOURSPACE)
-from colour.recovery import SMITS_1999_SDS
+                           RGB_COLOURSPACE_sRGB)
+from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1
 
 __author__ = 'Colour Developers'
@@ -36,33 +30,33 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SMITS1999_PRIMARIES', 'SMITS1999_WHITEPOINT',
-    'SMITS1999_XYZ_TO_RGB_MATRIX', 'XYZ_to_RGB_Smits1999',
+    'PRIMARIES_SMITS1999', 'CCS_WHITEPOINT_SMITS1999',
+    'MATRIX_XYZ_TO_RGB_SMITS1999', 'XYZ_to_RGB_Smits1999',
     'RGB_to_sd_Smits1999'
 ]
 
-SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
+PRIMARIES_SMITS1999 = RGB_COLOURSPACE_sRGB.primaries
 """
 Current *Smits (1999)* method implementation colourspace primaries.
 
-SMITS1999_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_SMITS1999 : ndarray, (3, 2)
 """
 
-SMITS1999_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
+CCS_WHITEPOINT_SMITS1999 = (
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
 """
 Current *Smits (1999)* method implementation colourspace whitepoint.
 
-SMITS1999_WHITEPOINT : ndarray
+CCS_WHITEPOINT_SMITS1999 : ndarray
 """
 
-SMITS1999_XYZ_TO_RGB_MATRIX = np.linalg.inv(
-    normalised_primary_matrix(SMITS1999_PRIMARIES, SMITS1999_WHITEPOINT))
+MATRIX_XYZ_TO_RGB_SMITS1999 = np.linalg.inv(
+    normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999))
 """
 Current *Smits (1999)* method implementation *RGB* colourspace to
 *CIE XYZ* tristimulus values matrix.
 
-SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_RGB_SMITS1999 : array_like, (3, 3)
 """
 
 
@@ -91,10 +85,10 @@ def XYZ_to_RGB_Smits1999(XYZ):
 
     return XYZ_to_RGB(
         XYZ,
-        SMITS1999_WHITEPOINT,
-        SMITS1999_WHITEPOINT,
-        SMITS1999_XYZ_TO_RGB_MATRIX,
-        cctf_encoding=None)
+        CCS_WHITEPOINT_SMITS1999,
+        CCS_WHITEPOINT_SMITS1999,
+        MATRIX_XYZ_TO_RGB_SMITS1999,
+    )
 
 
 def RGB_to_sd_Smits1999(RGB):
@@ -127,33 +121,46 @@ def RGB_to_sd_Smits1999(RGB):
 
     Examples
     --------
+    >>> from colour.colorimetry import (
+    ...     MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
+    ...     SpectralShape, sd_to_XYZ_integration
+    ... )
     >>> from colour.utilities import numpy_print_options
-    >>> RGB = np.array([0.40639599, 0.02752894, 0.03982193])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> RGB = XYZ_to_RGB_Smits1999(XYZ)
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(SpectralShape(360, 780, 10))
+    ... )
+    >>> illuminant = SDS_ILLUMINANTS['E'].copy().align(cmfs.shape)
+    >>> sd = RGB_to_sd_Smits1999(RGB)
     >>> with numpy_print_options(suppress=True):
-    ...     RGB_to_sd_Smits1999(RGB)  # doctest: +ELLIPSIS
-    SpectralDistribution([[ 380.        ,    0.0769192...],
-                          [ 417.7778    ,    0.0587004...],
-                          [ 455.5556    ,    0.0394319...],
-                          [ 493.3333    ,    0.0302497...],
-                          [ 531.1111    ,    0.0275069...],
-                          [ 568.8889    ,    0.0280864...],
-                          [ 606.6667    ,    0.3429898...],
-                          [ 644.4444    ,    0.4118579...],
-                          [ 682.2222    ,    0.4118579...],
-                          [ 720.        ,    0.4118075...]],
+    ...     sd # doctest: +ELLIPSIS
+    SpectralDistribution([[ 380.        ,    0.0787830...],
+                          [ 417.7778    ,    0.0622018...],
+                          [ 455.5556    ,    0.0446206...],
+                          [ 493.3333    ,    0.0352220...],
+                          [ 531.1111    ,    0.0324149...],
+                          [ 568.8889    ,    0.0330105...],
+                          [ 606.6667    ,    0.3207115...],
+                          [ 644.4444    ,    0.3836164...],
+                          [ 682.2222    ,    0.3836164...],
+                          [ 720.        ,    0.3835649...]],
                          interpolator=LinearInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
+    >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
+    array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """
 
-    white_sd = SMITS_1999_SDS['white'].copy()
-    cyan_sd = SMITS_1999_SDS['cyan'].copy()
-    magenta_sd = SMITS_1999_SDS['magenta'].copy()
-    yellow_sd = SMITS_1999_SDS['yellow'].copy()
-    red_sd = SMITS_1999_SDS['red'].copy()
-    green_sd = SMITS_1999_SDS['green'].copy()
-    blue_sd = SMITS_1999_SDS['blue'].copy()
+    white_sd = SDS_SMITS1999['white'].copy()
+    cyan_sd = SDS_SMITS1999['cyan'].copy()
+    magenta_sd = SDS_SMITS1999['magenta'].copy()
+    yellow_sd = SDS_SMITS1999['yellow'].copy()
+    red_sd = SDS_SMITS1999['red'].copy()
+    green_sd = SDS_SMITS1999['green'].copy()
+    blue_sd = SDS_SMITS1999['blue'].copy()
 
     R, G, B = to_domain_1(RGB)
     sd = white_sd.copy() * 0

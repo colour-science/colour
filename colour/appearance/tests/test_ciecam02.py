@@ -10,8 +10,8 @@ import numpy as np
 from itertools import permutations
 
 from colour.appearance import (
-    CIECAM02_VIEWING_CONDITIONS, CIECAM02_InductionFactors,
-    CIECAM02_Specification, XYZ_to_CIECAM02, CIECAM02_to_XYZ)
+    VIEWING_CONDITIONS_CIECAM02, InductionFactors_CIECAM02,
+    CAM_Specification_CIECAM02, XYZ_to_CIECAM02, CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import (as_namedtuple, domain_range_scale,
                               ignore_numpy_errors, tsplit, tstack)
@@ -59,7 +59,7 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
 
         Returns
         -------
-        CIECAM02_Specification
+        CAM_Specification_CIECAM02
             *CIECAM02* colour appearance model specification.
         """
 
@@ -68,7 +68,7 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
 
         specification = XYZ_to_CIECAM02(
             XYZ, XYZ_w, data['L_A'], data['Y_b'],
-            CIECAM02_InductionFactors(data['F'], data['c'], data['N_c']))
+            InductionFactors_CIECAM02(data['F'], data['c'], data['N_c']))
 
         return specification
 
@@ -83,16 +83,16 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20.0
-        surround = CIECAM02_VIEWING_CONDITIONS['Average']
+        surround = VIEWING_CONDITIONS_CIECAM02['Average']
         specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)[:-1]
 
         d_r = (
             ('reference', 1, 1),
             (1, 0.01,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
              ])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
@@ -116,7 +116,7 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
             XYZ_w = np.array(case)
             L_A = case[0]
             Y_b = case[0]
-            surround = CIECAM02_InductionFactors(case[0], case[0], case[0])
+            surround = InductionFactors_CIECAM02(case[0], case[0], case[0])
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
@@ -169,15 +169,15 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
         XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
 
         i, j, k = correlates
-        CIECAM02_specification = as_namedtuple({
+        specification = as_namedtuple({
             i: data[i],
             j: data[j],
             k: data[k]
-        }, CIECAM02_Specification)
+        }, CAM_Specification_CIECAM02)
 
         XYZ = CIECAM02_to_XYZ(
-            CIECAM02_specification, XYZ_w, data['L_A'], data['Y_b'],
-            CIECAM02_InductionFactors(data['F'], data['c'], data['N_c']))
+            specification, XYZ_w, data['L_A'], data['Y_b'],
+            InductionFactors_CIECAM02(data['F'], data['c'], data['N_c']))
 
         return XYZ
 
@@ -197,8 +197,8 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
         expected : float.
             Expected attribute value.
 
-        Warning
-        -------
+        Warnings
+        --------
         The method name does not reflect the underlying implementation.
         """
 
@@ -234,7 +234,7 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20.0
-        surround = CIECAM02_VIEWING_CONDITIONS['Average']
+        surround = VIEWING_CONDITIONS_CIECAM02['Average']
         specification = XYZ_to_CIECAM02(XYZ_i, XYZ_w, L_A, Y_b, surround)
         XYZ = CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
@@ -242,9 +242,9 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
             ('reference', 1, 1, 1),
             (1,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 360
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
              ]), 0.01, 0.01),
-            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360]), 1, 1),
+            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400]), 1, 1),
         )
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
@@ -263,7 +263,7 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
 
         try:
             CIECAM02_to_XYZ(
-                CIECAM02_Specification(
+                CAM_Specification_CIECAM02(
                     41.731091132513917,
                     None,
                     219.04843265831178,
@@ -271,7 +271,7 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
                 np.array([95.05, 100.00, 108.88]),
                 318.31,
                 20.0,
-                CIECAM02_VIEWING_CONDITIONS['Average'],
+                VIEWING_CONDITIONS_CIECAM02['Average'],
             )
         except ValueError:
             pass
@@ -292,6 +292,6 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
             XYZ_w = np.array(case)
             L_A = case[0]
             Y_b = case[0]
-            surround = CIECAM02_InductionFactors(case[0], case[0], case[0])
+            surround = InductionFactors_CIECAM02(case[0], case[0], case[0])
             CIECAM02_to_XYZ(
-                CIECAM02_Specification(J, C, h), XYZ_w, L_A, Y_b, surround)
+                CAM_Specification_CIECAM02(J, C, h), XYZ_w, L_A, Y_b, surround)

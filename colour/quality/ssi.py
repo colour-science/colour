@@ -5,19 +5,13 @@ Academy Spectral Similarity Index (SSI)
 
 Defines the *Academy Spectral Similarity Index* (SSI) computation objects:
 
--   :func:`colour.colour_quality_scale`
-
-See Also
---------
-`Academy Spectral Similarity Index Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/ssi.ipynb>`_
+-   :func:`colour.spectral_similarity_index`
 
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2019` : The Academy of
-    Motion Picture Arts and Sciences. (2019). Academy Spectral Similarity
-    Index (SSI): Overview.
+    Motion Picture Arts and Sciences. (2019). Academy Spectral Similarity Index
+    (SSI): Overview (pp. 1-7).
 """
 
 from __future__ import division, unicode_literals
@@ -27,6 +21,7 @@ from scipy.ndimage.filters import convolve1d
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import SpectralShape
+from colour.utilities import zeros
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -35,18 +30,18 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['SSI_SPECTRAL_SHAPE', 'spectral_similarity_index']
+__all__ = ['SPECTRAL_SHAPE_SSI', 'spectral_similarity_index']
 
-SSI_SPECTRAL_SHAPE = SpectralShape(375, 675, 1)
+SPECTRAL_SHAPE_SSI = SpectralShape(375, 675, 1)
 """
 *Academy Spectral Similarity Index* (SSI) spectral shape.
 
-SSI_SPECTRAL_SHAPE : SpectralShape
+SPECTRAL_SHAPE_SSI : SpectralShape
 """
 
-_SSI_LARGE_SPECTRAL_SHAPE = SpectralShape(380, 670, 10)
+_SPECTRAL_SHAPE_SSI_LARGE = SpectralShape(380, 670, 10)
 
-_INTEGRATION_MATRIX = None
+_MATRIX_INTEGRATION = None
 
 
 def spectral_similarity_index(sd_test, sd_reference):
@@ -72,39 +67,39 @@ def spectral_similarity_index(sd_test, sd_reference):
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> sd_test = ILLUMINANTS_SDS['C']
-    >>> sd_reference = ILLUMINANTS_SDS['D65']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> sd_test = SDS_ILLUMINANTS['C']
+    >>> sd_reference = SDS_ILLUMINANTS['D65']
     >>> spectral_similarity_index(sd_test, sd_reference)
     94.0
     """
 
-    global _INTEGRATION_MATRIX
+    global _MATRIX_INTEGRATION
 
-    if _INTEGRATION_MATRIX is None:
-        _INTEGRATION_MATRIX = np.zeros([
-            len(_SSI_LARGE_SPECTRAL_SHAPE.range()),
-            len(SSI_SPECTRAL_SHAPE.range())
+    if _MATRIX_INTEGRATION is None:
+        _MATRIX_INTEGRATION = zeros([
+            len(_SPECTRAL_SHAPE_SSI_LARGE.range()),
+            len(SPECTRAL_SHAPE_SSI.range())
         ])
 
         weights = np.array([0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5])
 
-        for i in range(_INTEGRATION_MATRIX.shape[0]):
-            _INTEGRATION_MATRIX[i, (10 * i):(10 * i + 11)] = weights
+        for i in range(_MATRIX_INTEGRATION.shape[0]):
+            _MATRIX_INTEGRATION[i, (10 * i):(10 * i + 11)] = weights
 
     settings = {
         'interpolator': LinearInterpolator,
-        'extrapolator_args': {
+        'extrapolator_kwargs': {
             'left': 0,
             'right': 0
         }
     }
 
-    sd_test = sd_test.copy().align(SSI_SPECTRAL_SHAPE, **settings)
-    sd_reference = sd_reference.copy().align(SSI_SPECTRAL_SHAPE, **settings)
+    sd_test = sd_test.copy().align(SPECTRAL_SHAPE_SSI, **settings)
+    sd_reference = sd_reference.copy().align(SPECTRAL_SHAPE_SSI, **settings)
 
-    test_i = np.dot(_INTEGRATION_MATRIX, sd_test.values)
-    reference_i = np.dot(_INTEGRATION_MATRIX, sd_reference.values)
+    test_i = np.dot(_MATRIX_INTEGRATION, sd_test.values)
+    reference_i = np.dot(_MATRIX_INTEGRATION, sd_reference.values)
 
     test_i /= np.sum(test_i)
     reference_i /= np.sum(reference_i)

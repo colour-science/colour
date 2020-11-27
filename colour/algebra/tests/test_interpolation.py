@@ -35,9 +35,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'POINTS_DATA_A', 'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
-    'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
-    'CUBIC_SPLINE_INTERPOLATED_POINTS_DATA_A_X2_SAMPLES',
+    'DATA_POINTS_A', 'DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES',
+    'DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES',
+    'DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES',
     'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B', 'LUT_TABLE',
     'TestKernelNearestNeighbour', 'TestKernelLinear', 'TestKernelSinc',
     'TestKernelLanczos', 'TestKernelCardinalSpline', 'TestKernelInterpolator',
@@ -48,11 +48,11 @@ __all__ = [
     'TestTableInterpolationTetrahedral'
 ]
 
-POINTS_DATA_A = (9.3700, 12.3200, 12.4600, 9.5100, 5.9200, 4.3300, 4.2900,
+DATA_POINTS_A = (9.3700, 12.3200, 12.4600, 9.5100, 5.9200, 4.3300, 4.2900,
                  3.8800, 4.5100, 10.9200, 27.5000, 49.6700, 69.5900, 81.7300,
                  88.1900, 86.0500)
 
-LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
+DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES = (
     9.370, 9.665, 9.960, 10.255, 10.550, 10.845, 11.140, 11.435, 11.730,
     12.025, 12.320, 12.334, 12.348, 12.362, 12.376, 12.390, 12.404, 12.418,
     12.432, 12.446, 12.460, 12.165, 11.870, 11.575, 11.280, 10.985, 10.690,
@@ -71,7 +71,7 @@ LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     87.976, 87.762, 87.548, 87.334, 87.120, 86.906, 86.692, 86.478, 86.264,
     86.050)
 
-SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
+DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES = (
     9.37000000, 9.72075073, 10.06936191, 10.41147570, 10.74302270, 11.06022653,
     11.35960827, 11.63799100, 11.89250427, 12.12058860, 12.32000000,
     12.48873542, 12.62489669, 12.72706530, 12.79433478, 12.82623598,
@@ -101,7 +101,7 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     88.37111372, 88.30221714, 88.13600972, 87.88846516, 87.57902706,
     87.22734720, 86.85002373, 86.45733945, 86.05000000)
 
-CUBIC_SPLINE_INTERPOLATED_POINTS_DATA_A_X2_SAMPLES = (
+DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES = (
     9.37000000, 11.08838189, 12.26359953, 12.78808025, 12.55425139,
     11.50391691, 9.87473603, 8.01707329, 6.30369624, 5.08664365, 4.43550284,
     4.25438019, 4.29206798, 4.21753374, 3.98875865, 3.79691327, 4.02534907,
@@ -319,8 +319,8 @@ class TestKernelInterpolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('x', 'y', 'window', 'kernel', 'kernel_args',
-                               'padding_args')
+        required_attributes = ('x', 'y', 'window', 'kernel', 'kernel_kwargs',
+                               'padding_kwargs')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(KernelInterpolator))
@@ -330,7 +330,7 @@ class TestKernelInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', '__call__')
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(KernelInterpolator))
@@ -379,30 +379,32 @@ class TestKernelInterpolator(unittest.TestCase):
 
         self.assertIs(kernel_interpolator.kernel, kernel_linear)
 
-    def test_kernel_args(self):
+    def test_kernel_kwargs(self):
         """
         Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
-kernel_args` property.
+kernel_kwargs` property.
         """
 
         x = y = np.linspace(0, 1, 10)
-        kernel_args = {'a': 1}
-        kernel_interpolator = KernelInterpolator(x, y, kernel_args=kernel_args)
-
-        self.assertDictEqual(kernel_interpolator.kernel_args, kernel_args)
-
-    def test_padding_args(self):
-        """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
-padding_args` property.
-        """
-
-        x = y = np.linspace(0, 1, 10)
-        padding_args = {'pad_width': (3, 3), 'mode': 'mean'}
+        kernel_kwargs = {'a': 1}
         kernel_interpolator = KernelInterpolator(
-            x, y, padding_args=padding_args)
+            x, y, kernel_kwargs=kernel_kwargs)
 
-        self.assertDictEqual(kernel_interpolator.padding_args, padding_args)
+        self.assertDictEqual(kernel_interpolator.kernel_kwargs, kernel_kwargs)
+
+    def test_padding_kwargs(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
+padding_kwargs` property.
+        """
+
+        x = y = np.linspace(0, 1, 10)
+        padding_kwargs = {'pad_width': (3, 3), 'mode': 'mean'}
+        kernel_interpolator = KernelInterpolator(
+            x, y, padding_kwargs=padding_kwargs)
+
+        self.assertDictEqual(kernel_interpolator.padding_kwargs,
+                             padding_kwargs)
 
     def test_raise_exception___init__(self):
         """
@@ -464,7 +466,7 @@ padding_args` property.
             decimal=7)
 
         kernel_interpolator = KernelInterpolator(
-            x, y, window=1, kernel_args={'a': 1})
+            x, y, window=1, kernel_kwargs={'a': 1})
         np.testing.assert_almost_equal(
             kernel_interpolator(x_i),
             np.array([
@@ -477,7 +479,7 @@ padding_args` property.
             decimal=7)
 
         kernel_interpolator = KernelInterpolator(
-            x, y, padding_args={
+            x, y, padding_kwargs={
                 'pad_width': (3, 3),
                 'mode': 'mean'
             })
@@ -557,7 +559,7 @@ class TestNearestNeighbourInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', )
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(NearestNeighbourInterpolator))
@@ -570,9 +572,9 @@ class TestNearestNeighbourInterpolator(unittest.TestCase):
 
         x = y = np.linspace(0, 1, 10)
         nearest_neighbour_interpolator = NearestNeighbourInterpolator(
-            x, y, kernel_args={'a': 1})
+            x, y, kernel_kwargs={'a': 1})
 
-        self.assertDictEqual(nearest_neighbour_interpolator.kernel_args, {})
+        self.assertDictEqual(nearest_neighbour_interpolator.kernel_kwargs, {})
 
 
 class TestLinearInterpolator(unittest.TestCase):
@@ -596,7 +598,7 @@ class TestLinearInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', '__call__')
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(LinearInterpolator))
@@ -617,22 +619,22 @@ class TestLinearInterpolator(unittest.TestCase):
         """
 
         interval = 0.1
-        x = np.arange(len(POINTS_DATA_A))
-        linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
+        x = np.arange(len(DATA_POINTS_A))
+        linear_interpolator = LinearInterpolator(x, DATA_POINTS_A)
 
         for i, value in enumerate(
                 np.arange(0,
-                          len(POINTS_DATA_A) - 1 + interval, interval)):
+                          len(DATA_POINTS_A) - 1 + interval, interval)):
             self.assertAlmostEqual(
-                LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
+                DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES[i],
                 linear_interpolator(value),
                 places=7)
 
         np.testing.assert_almost_equal(
             linear_interpolator(
                 np.arange(0,
-                          len(POINTS_DATA_A) - 1 + interval, interval)),
-            LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+                          len(DATA_POINTS_A) - 1 + interval, interval)),
+            DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES)
 
     def test_raise_exception___call__(self):
         """
@@ -686,7 +688,7 @@ class TestSpragueInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', '__call__')
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(SpragueInterpolator))
@@ -707,22 +709,22 @@ class TestSpragueInterpolator(unittest.TestCase):
         """
 
         interval = 0.1
-        x = np.arange(len(POINTS_DATA_A))
-        sprague_interpolator = SpragueInterpolator(x, POINTS_DATA_A)
+        x = np.arange(len(DATA_POINTS_A))
+        sprague_interpolator = SpragueInterpolator(x, DATA_POINTS_A)
 
         for i, value in enumerate(
                 np.arange(0,
-                          len(POINTS_DATA_A) - 1 + interval, interval)):
+                          len(DATA_POINTS_A) - 1 + interval, interval)):
             self.assertAlmostEqual(
-                SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
+                DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES[i],
                 sprague_interpolator(value),
                 places=7)
 
         np.testing.assert_almost_equal(
             sprague_interpolator(
                 np.arange(0,
-                          len(POINTS_DATA_A) - 1 + interval, interval)),
-            SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+                          len(DATA_POINTS_A) - 1 + interval, interval)),
+            DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES)
 
     def test_raise_exception___call__(self):
         """
@@ -774,10 +776,10 @@ CubicSplineInterpolator.__call__` method.
 
         np.testing.assert_almost_equal(
             CubicSplineInterpolator(
-                np.linspace(0, 1, len(POINTS_DATA_A)),
-                POINTS_DATA_A)(np.linspace(0, 1,
-                                           len(POINTS_DATA_A) * 2)),
-            CUBIC_SPLINE_INTERPOLATED_POINTS_DATA_A_X2_SAMPLES)
+                np.linspace(0, 1, len(DATA_POINTS_A)),
+                DATA_POINTS_A)(np.linspace(0, 1,
+                                           len(DATA_POINTS_A) * 2)),
+            DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES)
 
 
 class TestPchipInterpolator(unittest.TestCase):
@@ -801,7 +803,7 @@ class TestPchipInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', )
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(PchipInterpolator))
@@ -828,7 +830,7 @@ class TestNullInterpolator(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ()
+        required_methods = ('__init__', '__call__')
 
         for method in required_methods:  # pragma: no cover
             self.assertIn(method, dir(NullInterpolator))
@@ -858,7 +860,7 @@ class TestNullInterpolator(unittest.TestCase):
     def test_absolute_tolerance(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.\
-    absolute_tolerance` property.
+absolute_tolerance` property.
         """
 
         x = y = np.linspace(0, 1, 10)
@@ -869,7 +871,7 @@ class TestNullInterpolator(unittest.TestCase):
     def test_relative_tolerance(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.\
-    relative_tolerance` property.
+relative_tolerance` property.
         """
 
         x = y = np.linspace(0, 1, 10)
@@ -880,7 +882,7 @@ class TestNullInterpolator(unittest.TestCase):
     def test_default(self):
         """
         Tests :func:`colour.algebra.interpolation.NullInterpolator.\
-    default` property.
+default` property.
         """
 
         x = y = np.linspace(0, 1, 10)
@@ -903,13 +905,13 @@ class TestNullInterpolator(unittest.TestCase):
         method.
         """
 
-        x = np.arange(len(POINTS_DATA_A))
-        null_interpolator = NullInterpolator(x, POINTS_DATA_A)
+        x = np.arange(len(DATA_POINTS_A))
+        null_interpolator = NullInterpolator(x, DATA_POINTS_A)
         np.testing.assert_almost_equal(
             null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),
             np.array([np.nan, 12.46, 9.51, np.nan]))
 
-        null_interpolator = NullInterpolator(x, POINTS_DATA_A, 0.25, 0.25)
+        null_interpolator = NullInterpolator(x, DATA_POINTS_A, 0.25, 0.25)
         np.testing.assert_almost_equal(
             null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),
             np.array([12.32, 12.46, 9.51, 4.33]))

@@ -11,8 +11,8 @@ objects.
 
 References
 ----------
--   :cite:`Chamberlain2015`: Chamberlain, P. (2015). LUT documentation
-    (to create from another program). Retrieved August 23, 2018, from
+-   :cite:`Chamberlain2015` : Chamberlain, P. (2015). LUT documentation (to
+    create from another program). Retrieved August 23, 2018, from
     https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=40284#p232952
 """
 
@@ -21,7 +21,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
-from colour.io.luts.common import parse_array, path_to_title
+from colour.io.luts.common import path_to_title
 from colour.utilities import as_float_array, tstack
 
 __author__ = 'Colour Developers'
@@ -158,10 +158,10 @@ def read_LUT_ResolveCube(path):
             if tokens[0] == 'TITLE':
                 title = ' '.join(tokens[1:])[1:-1]
             elif tokens[0] == 'LUT_1D_INPUT_RANGE':
-                domain = parse_array(tokens[1:])
+                domain = as_float_array(tokens[1:])
                 LUT[0].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_3D_INPUT_RANGE':
-                domain = parse_array(tokens[1:])
+                domain = as_float_array(tokens[1:])
                 LUT[1].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_1D_SIZE':
                 has_3x1D = True
@@ -170,7 +170,7 @@ def read_LUT_ResolveCube(path):
                 has_3D = True
                 size_3D = np.int_(tokens[1])
             else:
-                table.append(parse_array(tokens))
+                table.append(tokens)
 
     table = as_float_array(table)
     if has_3x1D and has_3D:

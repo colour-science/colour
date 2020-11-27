@@ -5,16 +5,10 @@ RLAB Colour Appearance Model
 
 Defines *RLAB* colour appearance model objects:
 
--   :attr:`colour.RLAB_VIEWING_CONDITIONS`
--   :attr:`colour.RLAB_D_FACTOR`
--   :class:`colour.RLAB_Specification`
+-   :attr:`colour.VIEWING_CONDITIONS_RLAB`
+-   :attr:`colour.D_FACTOR_RLAB`
+-   :class:`colour.CAM_Specification_RLAB`
 -   :func:`colour.XYZ_to_RLAB`
-
-See Also
---------
-`RLAB Colour Appearance Model Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/appearance/rlab.ipynb>`_
 
 References
 ----------
@@ -31,9 +25,9 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.appearance.hunt import XYZ_TO_HPE_MATRIX, XYZ_to_rgb
+from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              dot_matrix, dot_vector, from_range_degrees,
+                              matrix_dot, vector_dot, from_range_degrees,
                               to_domain_100, tsplit, row_as_diagonal)
 
 __author__ = 'Colour Developers'
@@ -44,11 +38,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'R_MATRIX', 'RLAB_VIEWING_CONDITIONS', 'RLAB_D_FACTOR',
-    'RLAB_ReferenceSpecification', 'RLAB_Specification', 'XYZ_to_RLAB'
+    'MATRIX_R', 'VIEWING_CONDITIONS_RLAB', 'D_FACTOR_RLAB',
+    'CAM_ReferenceSpecification_RLAB', 'CAM_Specification_RLAB', 'XYZ_to_RLAB'
 ]
 
-R_MATRIX = np.array([
+MATRIX_R = np.array([
     [1.9569, -1.1882, 0.2313],
     [0.3612, 0.6388, 0.0000],
     [0.0000, 0.0000, 1.0000],
@@ -56,38 +50,38 @@ R_MATRIX = np.array([
 """
 *RLAB* colour appearance model precomputed helper matrix.
 
-R_MATRIX : array_like, (3, 3)
+MATRIX_R : array_like, (3, 3)
 """
 
-RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
+VIEWING_CONDITIONS_RLAB = CaseInsensitiveMapping({
     'Average': 1 / 2.3,
     'Dim': 1 / 2.9,
     'Dark': 1 / 3.5
 })
-RLAB_VIEWING_CONDITIONS.__doc__ = """
+VIEWING_CONDITIONS_RLAB.__doc__ = """
 Reference *RLAB* colour appearance model viewing conditions.
 
 References
 ----------
 :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
 
-RLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
+VIEWING_CONDITIONS_RLAB : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
 """
 
-RLAB_D_FACTOR = CaseInsensitiveMapping({
+D_FACTOR_RLAB = CaseInsensitiveMapping({
     'Hard Copy Images': 1,
     'Soft Copy Images': 0,
     'Projected Transparencies, Dark Room': 0.5
 })
-RLAB_D_FACTOR.__doc__ = """
+D_FACTOR_RLAB.__doc__ = """
 *RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
 
 References
 ----------
 :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
 
-RLAB_D_FACTOR : CaseInsensitiveMapping
+D_FACTOR_RLAB : CaseInsensitiveMapping
     **{'Hard Copy Images',
     'Soft Copy Images',
     'Projected Transparencies, Dark Room'}**
@@ -98,14 +92,14 @@ Aliases:
 -   'soft_cp_img': 'Soft Copy Images'
 -   'projected_dark': 'Projected Transparencies, Dark Room'
 """
-RLAB_D_FACTOR['hard_cp_img'] = RLAB_D_FACTOR['Hard Copy Images']
-RLAB_D_FACTOR['soft_cp_img'] = RLAB_D_FACTOR['Soft Copy Images']
-RLAB_D_FACTOR['projected_dark'] = (
-    RLAB_D_FACTOR['Projected Transparencies, Dark Room'])
+D_FACTOR_RLAB['hard_cp_img'] = D_FACTOR_RLAB['Hard Copy Images']
+D_FACTOR_RLAB['soft_cp_img'] = D_FACTOR_RLAB['Soft Copy Images']
+D_FACTOR_RLAB['projected_dark'] = (
+    D_FACTOR_RLAB['Projected Transparencies, Dark Room'])
 
 
-class RLAB_ReferenceSpecification(
-        namedtuple('RLAB_ReferenceSpecification',
+class CAM_ReferenceSpecification_RLAB(
+        namedtuple('CAM_ReferenceSpecification_RLAB',
                    ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))):
     """
     Defines the *RLAB* colour appearance model reference specification.
@@ -136,8 +130,8 @@ class RLAB_ReferenceSpecification(
     """
 
 
-class RLAB_Specification(
-        namedtuple('RLAB_Specification',
+class CAM_Specification_RLAB(
+        namedtuple('CAM_Specification_RLAB',
                    ('J', 'C', 'h', 's', 'HC', 'a', 'b'))):
     """
     Defines the *RLAB* colour appearance model specification.
@@ -176,8 +170,8 @@ class RLAB_Specification(
 def XYZ_to_RLAB(XYZ,
                 XYZ_n,
                 Y_n,
-                sigma=RLAB_VIEWING_CONDITIONS['Average'],
-                D=RLAB_D_FACTOR['Hard Copy Images']):
+                sigma=VIEWING_CONDITIONS_RLAB['Average'],
+                D=D_FACTOR_RLAB['Hard Copy Images']):
     """
     Computes the *RLAB* model color appearance correlates.
 
@@ -191,13 +185,13 @@ def XYZ_to_RLAB(XYZ,
         Absolute adapting luminance in :math:`cd/m^2`.
     sigma : numeric or array_like, optional
         Relative luminance of the surround, see
-        :attr:`colour.RLAB_VIEWING_CONDITIONS` for reference.
+        :attr:`colour.VIEWING_CONDITIONS_RLAB` for reference.
     D : numeric or array_like, optional
         *Discounting-the-Illuminant* factor normalised to domain [0, 1].
 
     Returns
     -------
-    RLAB_Specification
+    CAM_Specification_RLAB
         *RLAB* colour appearance model specification.
 
     Notes
@@ -211,11 +205,16 @@ def XYZ_to_RLAB(XYZ,
     | ``XYZ_n``                | [0, 100]              | [0, 1]        |
     +--------------------------+-----------------------+---------------+
 
-    +--------------------------+-----------------------+---------------+
-    | **Range**                | **Scale - Reference** | **Scale - 1** |
-    +==========================+=======================+===============+
-    | ``RLAB_Specification.h`` | [0, 360]              | [0, 1]        |
-    +--------------------------+-----------------------+---------------+
+    +------------------------------+-----------------------\
++---------------+
+    | **Range**                    | **Scale - Reference** \
+| **Scale - 1** |
+    +==============================+=======================\
++===============+
+    | ``CAM_Specification_RLAB.h`` | [0, 360]              \
+| [0, 1]        |
+    +------------------------------+-----------------------\
++---------------+
 
     References
     ----------
@@ -226,11 +225,11 @@ def XYZ_to_RLAB(XYZ,
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_n = np.array([109.85, 100, 35.58])
     >>> Y_n = 31.83
-    >>> sigma = RLAB_VIEWING_CONDITIONS['Average']
-    >>> D = RLAB_D_FACTOR['Hard Copy Images']
+    >>> sigma = VIEWING_CONDITIONS_RLAB['Average']
+    >>> D = D_FACTOR_RLAB['Hard Copy Images']
     >>> XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)  # doctest: +ELLIPSIS
-    RLAB_Specification(J=49.8347069..., C=54.8700585..., h=286.4860208..., \
-s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
+    CAM_Specification_RLAB(J=49.8347069..., C=54.8700585..., \
+h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -249,8 +248,8 @@ s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
     aR = row_as_diagonal(LMS_a_L)
-    M = dot_matrix(dot_matrix(R_MATRIX, aR), XYZ_TO_HPE_MATRIX)
-    XYZ_ref = dot_vector(M, XYZ)
+    M = matrix_dot(matrix_dot(MATRIX_R, aR), MATRIX_XYZ_TO_HPE)
+    XYZ_ref = vector_dot(M, XYZ)
 
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
 
@@ -271,4 +270,5 @@ s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     # Computing the correlate of *saturation* :math:`s^R`.
     sR = CR / LR
 
-    return RLAB_Specification(LR, CR, from_range_degrees(hR), sR, None, aR, bR)
+    return CAM_Specification_RLAB(LR, CR, from_range_degrees(hR), sR, None, aR,
+                                  bR)

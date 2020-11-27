@@ -256,7 +256,7 @@ class TestArgumentFutureRename(unittest.TestCase):
     def test__str__(self):
         """
         Tests :meth:`colour.utilities.deprecation.\
-    ArgumentFutureRename.__str__` method.
+ArgumentFutureRename.__str__` method.
         """
 
         self.assertIn('name', str(ArgumentFutureRename('name', 'new_name')))
@@ -456,12 +456,6 @@ class TestHandleArgumentsDeprecation(unittest.TestCase):
                     'argument_2_new_name': True,
                     'argument_4_name': True
                 })
-
-        self.assertRaises(
-            ValueError,
-            lambda: handle_arguments_deprecation(
-                changes, argument_3_name=True),
-            )
 
 
 if __name__ == '__main__':

@@ -25,7 +25,7 @@ message_box(('Converting to "Y\'CbCr" colour encoding from given'
 print(
     colour.RGB_to_YCbCr(
         RGB,
-        colour.YCBCR_WEIGHTS['ITU-R BT.601'],
+        colour.WEIGHTS_YCBCR['ITU-R BT.601'],
         out_legal=True,
         out_int=True))
 

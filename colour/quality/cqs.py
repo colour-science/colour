@@ -5,25 +5,21 @@ Colour Quality Scale
 
 Defines *Colour Quality Scale* (CQS) computation objects:
 
--   :class:`colour.quality.CQS_Specification`
+-   :class:`colour.quality.ColourRendering_Specification_CQS`
 -   :func:`colour.colour_quality_scale`
-
-See Also
---------
-`Colour Quality Scale Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/cqs.ipynb>`_
 
 References
 ----------
 -   :cite:`Davis2010a` : Davis, W., & Ohno, Y. (2010). Color quality scale.
-    Optical Engineering, 49(3), 33602. doi:10.1117/1.3360335
--   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
-    Retrieved from https://drive.google.com/file/d/\
-1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
--   :cite:`Ohno2013` : Ohno, Y., & Davis, W. (2013). NIST CQS simulation 9.0.
-    Retrieved from https://www.researchgate.net/file.PostFileLoader.html?\
-id=5541c498f15bc7cc2c8b4578&assetKey=AS%3A273582771376136%401442238623549
+    Optical Engineering, 49(3), 033602. doi:10.1117/1.3360335
+-   :cite:`Ohno2008a` : Ohno, Yoshiro, & Davis, W. (2008). NIST CQS simulation
+    (Version 7.4) [Computer software].
+    https://drive.google.com/file/d/1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?\
+usp=sharing
+-   :cite:`Ohno2013` : Ohno, Yoshiro, & Davis, W. (2008). NIST CQS simulation
+    (Version 7.4) [Computer software].
+    https://drive.google.com/file/d/1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?\
+usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -33,15 +29,16 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series, ILLUMINANTS,
-    STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
-from colour.quality.datasets.vs import VS_INDEXES_TO_NAMES, VS_SDS
+    SPECTRAL_SHAPE_DEFAULT, sd_CIE_illuminant_D_series, CCS_ILLUMINANTS,
+    MSDS_CMFS_STANDARD_OBSERVER, sd_blackbody, sd_to_XYZ)
+from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import as_float_array, domain_range_scale, tsplit
-from colour.utilities.documentation import DocstringTuple
+from colour.utilities.documentation import (DocstringTuple,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -51,13 +48,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'D65_GAMUT_AREA', 'VS_ColorimetryData', 'VS_ColourQualityScaleData',
-    'CQS_Specification', 'COLOUR_QUALITY_SCALE_METHODS',
+    'GAMUT_AREA_D65', 'VS_ColorimetryData', 'VS_ColourQualityScaleData',
+    'ColourRendering_Specification_CQS', 'COLOUR_QUALITY_SCALE_METHODS',
     'colour_quality_scale', 'gamut_area', 'vs_colorimetry_data', 'CCT_factor',
     'scale_conversion', 'delta_E_RMS', 'colour_quality_scales'
 ]
 
-D65_GAMUT_AREA = 8210
+GAMUT_AREA_D65 = 8210
+"""
+Gamut area for *CIE Illuminant D Series D65*.
+
+GAMUT_AREA_D65 : int
+"""
 
 
 class VS_ColorimetryData(
@@ -76,11 +78,13 @@ class VS_ColourQualityScaleData(
     """
 
 
-class CQS_Specification(
-        namedtuple('CQS_Specification', ('name', 'Q_a', 'Q_f', 'Q_p', 'Q_g',
-                                         'Q_d', 'Q_as', 'colorimetry_data'))):
+class ColourRendering_Specification_CQS(
+        namedtuple('ColourRendering_Specification_CQS',
+                   ('name', 'Q_a', 'Q_f', 'Q_p', 'Q_g', 'Q_d', 'Q_as',
+                    'colorimetry_data'))):
     """
-    Defines the *Colour Quality Scale* (CQS) colour quality specification.
+    Defines the *Colour Quality Scale* (CQS) colour rendering (quality)
+    specification.
 
     Parameters
     ----------
@@ -117,8 +121,10 @@ class CQS_Specification(
     """
 
 
-COLOUR_QUALITY_SCALE_METHODS = DocstringTuple(['NIST CQS 7.4', 'NIST CQS 9.0'])
-COLOUR_QUALITY_SCALE_METHODS.__doc__ = """
+COLOUR_QUALITY_SCALE_METHODS = ('NIST CQS 7.4', 'NIST CQS 9.0')
+if is_documentation_building():  # pragma: no cover
+    COLOUR_QUALITY_SCALE_METHODS = DocstringTuple(COLOUR_QUALITY_SCALE_METHODS)
+    COLOUR_QUALITY_SCALE_METHODS.__doc__ = """
 Supported  *Colour Quality Scale* (CQS) computation methods.
 
 References
@@ -148,7 +154,7 @@ def colour_quality_scale(sd_test, additional_data=False,
 
     Returns
     -------
-    numeric or CQS_Specification
+    numeric or ColourRendering_Specification_CQS
         Color quality scale.
 
     References
@@ -157,10 +163,10 @@ def colour_quality_scale(sd_test, additional_data=False,
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> sd = ILLUMINANTS_SDS['FL2']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> sd = SDS_ILLUMINANTS['FL2']
     >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
-    64.0172835...
+    64.1117031...
     """
 
     method = method.lower()
@@ -169,14 +175,15 @@ def colour_quality_scale(sd_test, additional_data=False,
     ], ('"{0}" method is invalid, must be one of {1}!'.format(
         method, COLOUR_QUALITY_SCALE_METHODS))
 
-    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
-    ).trim(DEFAULT_SPECTRAL_SHAPE)
+    cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+        'CIE 1931 2 Degree Standard Observer'].copy().trim(
+            SPECTRAL_SHAPE_DEFAULT)
 
     shape = cmfs.shape
     sd_test = sd_test.copy().align(shape)
     vs_sds = {
         sd.name: sd.copy().align(shape)
-        for sd in VS_SDS[method].values()
+        for sd in SDS_VS[method].values()
     }
 
     with domain_range_scale('1'):
@@ -228,7 +235,7 @@ def colour_quality_scale(sd_test, additional_data=False,
     G_r = gamut_area(
         [vs_CQS_data.Lab for vs_CQS_data in reference_vs_colorimetry_data])
 
-    Q_g = G_t / D65_GAMUT_AREA * 100
+    Q_g = G_t / GAMUT_AREA_D65 * 100
 
     if method == 'nist cqs 9.0':
         Q_d = Q_p = None
@@ -241,7 +248,7 @@ def colour_quality_scale(sd_test, additional_data=False,
         Q_d = G_t / G_r * CCT_f * 100
 
     if additional_data:
-        return CQS_Specification(
+        return ColourRendering_Specification_CQS(
             sd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
             (test_vs_colorimetry_data, reference_vs_colorimetry_data))
     else:
@@ -336,7 +343,7 @@ def vs_colorimetry_data(sd_test,
     xy_r = XYZ_to_xy(XYZ_r)
 
     vs_data = []
-    for _key, value in sorted(VS_INDEXES_TO_NAMES.items()):
+    for _key, value in sorted(INDEXES_TO_NAMES_VS.items()):
         sd_vs = sds_vs[value]
 
         with domain_range_scale('1'):
@@ -371,7 +378,7 @@ def CCT_factor(reference_data, XYZ_r):
         Correlated colour temperature factor.
     """
 
-    xy_w = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
+    xy_w = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
     XYZ_w = xy_to_XYZ(xy_w)
 
     Labs = []
@@ -383,7 +390,7 @@ def CCT_factor(reference_data, XYZ_r):
         Lab = XYZ_to_Lab(XYZ_a, illuminant=xy_w)
         Labs.append(Lab)
 
-    G_r = gamut_area(Labs) / D65_GAMUT_AREA
+    G_r = gamut_area(Labs) / GAMUT_AREA_D65
     CCT_f = 1 if G_r > 1 else G_r
 
     return CCT_f

@@ -1,22 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-:math:`\\Delta E_{ab}` - Delta E Colour Difference
-=================================================
+:math:`\\Delta E^*_{ab}` - Delta E Colour Difference
+====================================================
 
-Defines :math:`\\Delta E_{ab}` colour difference computation objects:
+Defines :math:`\\Delta E^*_{ab}` colour difference computation objects:
 
-The following methods are available:
+The following attributes and methods are available:
 
+-   :attr:`colour.difference.JND_CIE1976`
 -   :func:`colour.difference.delta_E_CIE1976`
 -   :func:`colour.difference.delta_E_CIE1994`
 -   :func:`colour.difference.delta_E_CIE2000`
 -   :func:`colour.difference.delta_E_CMC`
-
-See Also
---------
-`Delta E - Colour Difference Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/difference/delta_e.ipynb>`_
 
 References
 ----------
@@ -32,8 +27,10 @@ References
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
 -   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
-    CIEDE2000. Retrieved from http://www.color.org/events/colorimetry/\
+    CIEDE2000. http://www.color.org/events/colorimetry/\
 Melgosa_CIEDE2000_Workshop-July4.pdf
+-   :cite:`Mokrzycki2011` : Mokrzycki, W., & Tatol, M. (2011). Color difference
+    Delta E - A survey. Machine Graphics and Vision, 20, 383-411.
 """
 
 from __future__ import division, unicode_literals
@@ -42,7 +39,8 @@ import numpy as np
 
 from colour.algebra import euclidean_distance
 from colour.utilities import to_domain_100, tsplit
-
+from colour.utilities.documentation import (DocstringFloat,
+                                            is_documentation_building)
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -51,8 +49,35 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000', 'delta_E_CMC'
+    'JND_CIE1976', 'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000',
+    'delta_E_CMC'
 ]
+
+JND_CIE1976 = 2.3
+if is_documentation_building():  # pragma: no cover
+    JND_CIE1976 = DocstringFloat(JND_CIE1976)
+    JND_CIE1976.__doc__ = """
+Just Noticeable Difference (JND) according to *CIE 1976* colour difference
+formula, i.e. Euclidean distance in *CIE L\\*a\\*b\\** colourspace.
+
+Notes
+-----
+A standard observer sees the difference in colour as follows:
+
+-   0 < :math:`\\Delta E^*_{ab}` < 1 : Observer does not notice the difference.
+-   1 < :math:`\\Delta E^*_{ab}` < 2 : Only experienced observer can notice the
+    difference.
+-   2 < :math:`\\Delta E^*_{ab}` < 3:5 : Unexperienced observer also notices
+    the difference.
+-   3:5 < :math:`\\Delta E^*_{ab}` < 5 : Clear difference in colour is noticed.
+-   5 < :math:`\\Delta E^*_{ab}` : Observer notices two different colours.
+
+References
+----------
+:cite:`Mokrzycki2011`
+
+JND_CIE1976 : numeric
+"""
 
 
 def delta_E_CIE1976(Lab_1, Lab_2):
@@ -239,10 +264,6 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
     +------------+-----------------------+-------------------+
 
-    -   *CIE 2000* colour differences are not symmetrical: difference between
-        ``Lab_1`` and ``Lab_2`` may not be the same as difference between
-        ``Lab_2`` and ``Lab_1`` thus one colour must be understood to be the
-        reference against which a sample colour is compared.
     -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
         *reference conditions*:
 

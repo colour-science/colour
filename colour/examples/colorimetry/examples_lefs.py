@@ -11,7 +11,7 @@ from colour.utilities import message_box
 message_box('Luminous Efficiency Functions Computations')
 
 message_box('Luminous efficiency functions dataset.')
-pprint(sorted(colour.LEFS))
+pprint(sorted(colour.SDS_LEFS))
 
 print('\n')
 

@@ -22,6 +22,7 @@ from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dcdm import eotf_inverse_DCDM, eotf_DCDM
 from .dicom_gsdf import eotf_inverse_DICOMGSDF, eotf_DICOMGSDF
 from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
+from .exponent import exponent_function_basic, exponent_function_monitor_curve
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
 from .filmlight_tlog import (log_encoding_FilmLightTLog,
                              log_decoding_FilmLightTLog)
@@ -29,7 +30,7 @@ from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_inverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_inverse_BT709
 from .itur_bt_1886 import eotf_inverse_BT1886, eotf_BT1886
-from .itur_bt_2020 import oetf_BT2020, eotf_BT2020
+from .itur_bt_2020 import eotf_inverse_BT2020, eotf_BT2020
 from .st_2084 import eotf_inverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
     oetf_PQ_BT2100, oetf_inverse_PQ_BT2100, eotf_PQ_BT2100,
@@ -39,6 +40,9 @@ from .itur_bt_2100 import (
     BT2100_HLG_OOTF_METHODS, ootf_HLG_BT2100, BT2100_HLG_OOTF_INVERSE_METHODS,
     ootf_inverse_HLG_BT2100)
 from .linear import linear_function
+from .log import (logarithmic_function_basic, logarithmic_function_quasilog,
+                  logarithmic_function_camera, log_encoding_Log2,
+                  log_decoding_Log2)
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .fujifilm_flog import log_encoding_FLog, log_decoding_FLog
@@ -76,13 +80,14 @@ __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['eotf_inverse_DCDM', 'eotf_DCDM']
 __all__ += ['eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
+__all__ += ['exponent_function_basic', 'exponent_function_monitor_curve']
 __all__ += ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']
 __all__ += ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
 __all__ += ['oetf_BT601', 'oetf_inverse_BT601']
 __all__ += ['oetf_BT709', 'oetf_inverse_BT709']
 __all__ += ['eotf_inverse_BT1886', 'eotf_BT1886']
-__all__ += ['oetf_BT2020', 'eotf_BT2020']
+__all__ += ['eotf_inverse_BT2020', 'eotf_BT2020']
 __all__ += ['eotf_inverse_ST2084', 'eotf_ST2084']
 __all__ += [
     'oetf_PQ_BT2100', 'oetf_inverse_PQ_BT2100', 'eotf_PQ_BT2100',
@@ -93,6 +98,10 @@ __all__ += [
     'BT2100_HLG_OOTF_INVERSE_METHODS', 'ootf_inverse_HLG_BT2100'
 ]
 __all__ += ['linear_function']
+__all__ += [
+    'logarithmic_function_basic', 'logarithmic_function_quasilog',
+    'logarithmic_function_camera', 'log_encoding_Log2', 'log_decoding_Log2'
+]
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_FLog', 'log_decoding_FLog']
@@ -130,6 +139,7 @@ LOG_ENCODINGS = CaseInsensitiveMapping({
     'ERIMM RGB': log_encoding_ERIMMRGB,
     'F-Log': log_encoding_FLog,
     'Filmic Pro 6': log_encoding_FilmicPro6,
+    'Log2': log_encoding_Log2,
     'Log3G10': log_encoding_Log3G10,
     'Log3G12': log_encoding_Log3G12,
     'Panalog': log_encoding_Panalog,
@@ -150,9 +160,9 @@ Supported *log* encoding functions.
 LOG_ENCODINGS : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
-    'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log',
-    'ViperLog'}**
+    'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
+    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+    'T-Log', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -167,10 +177,10 @@ def log_encoding(value, function='Cineon', **kwargs):
         Value.
     function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
-        'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
-        'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-        'V-Log', 'ViperLog'}**,
+        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
+        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
+        'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+        'T-Log', 'V-Log', 'ViperLog'}**,
         Computation function.
 
     Other Parameters
@@ -274,6 +284,7 @@ LOG_DECODINGS = CaseInsensitiveMapping({
     'ERIMM RGB': log_decoding_ERIMMRGB,
     'F-Log': log_decoding_FLog,
     'Filmic Pro 6': log_decoding_FilmicPro6,
+    'Log2': log_decoding_Log2,
     'Log3G10': log_decoding_Log3G10,
     'Log3G12': log_decoding_Log3G12,
     'Panalog': log_decoding_Panalog,
@@ -294,9 +305,9 @@ Supported *log* decoding functions.
 LOG_DECODINGS : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
-    'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log',
-    'ViperLog'}**
+    'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
+    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+    'T-Log', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -311,10 +322,10 @@ def log_decoding(value, function='Cineon', **kwargs):
         Value.
     function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
-        'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
-        'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-        'V-Log', 'ViperLog'}**,
+        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
+        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
+        'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+        'T-Log', 'V-Log', 'ViperLog'}**,
         Computation function.
 
     Other Parameters
@@ -412,7 +423,6 @@ __all__ += ['log_encoding', 'log_decoding']
 
 OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
-    'ITU-R BT.2020': oetf_BT2020,
     'ITU-R BT.2100 HLG': oetf_HLG_BT2100,
     'ITU-R BT.2100 PQ': oetf_PQ_BT2100,
     'ITU-R BT.601': oetf_BT601,
@@ -423,9 +433,8 @@ OETFS.__doc__ = """
 Supported opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS : CaseInsensitiveMapping
-    **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2020', 'ITU-R BT.2100 HLG',
-    'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'ITU-R BT.709', 'SMPTE 240M',
-    'ST 2084'}**
+    **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+    'ITU-R BT.601', 'ITU-R BT.709', 'SMPTE 240M', 'ST 2084'}**
 """
 
 
@@ -440,9 +449,8 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2020',
-        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M',
-        'ST 2084'}**,
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2100 HLG',
+        'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M', 'ST 2084'}**,
         Opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
@@ -455,11 +463,6 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
         :func:`colour.models.cctf_encoding_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
-    is_12_bits_system : bool, optional
-        {:func:`colour.models.oetf_BT2020`},
-        *ITU-R BT.2020* *alpha* and *beta* constants are used
-        if system is not
-        12-bit.
     r : numeric, optional
         {:func:`colour.models.oetf_ARIBSTDB67`},
         Video level corresponding to reference white level.
@@ -484,7 +487,7 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
 
 OETF_INVERSES = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_inverse_ARIBSTDB67,
-    'ITU-R BT.2100 HLD': oetf_inverse_HLG_BT2100,
+    'ITU-R BT.2100 HLG': oetf_inverse_HLG_BT2100,
     'ITU-R BT.2100 PQ': oetf_inverse_PQ_BT2100,
     'ITU-R BT.601': oetf_inverse_BT601,
     'ITU-R BT.709': oetf_inverse_BT709,
@@ -493,7 +496,7 @@ OETF_INVERSES.__doc__ = """
 Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 
 OETF_INVERSES : CaseInsensitiveMapping
-    **{'ARIB STD-B67', 'ITU-R BT.2100 HLD', 'ITU-R BT.2100 PQ',
+    **{'ARIB STD-B67', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
     'ITU-R BT.601', 'ITU-R BT.709'}**
 """
 
@@ -509,7 +512,7 @@ def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2100 HLD',
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2100 HLG',
         'ITU-R BT.2100 PQ', 'ITU-R BT.601', }**,
         Inverse opto-electronic transfer function (OETF / OECF).
 
@@ -637,6 +640,7 @@ EOTF_INVERSES = CaseInsensitiveMapping({
     'DCDM': eotf_inverse_DCDM,
     'DICOM GSDF': eotf_inverse_DICOMGSDF,
     'ITU-R BT.1886': eotf_inverse_BT1886,
+    'ITU-R BT.2020': eotf_inverse_BT2020,
     'ITU-R BT.2100 HLG': eotf_inverse_HLG_BT2100,
     'ITU-R BT.2100 PQ': eotf_inverse_PQ_BT2100,
     'ST 2084': eotf_inverse_ST2084,
@@ -646,8 +650,8 @@ EOTF_INVERSES.__doc__ = """
 Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTF_INVERSES : CaseInsensitiveMapping
-    **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2100 HLG',
-    'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**
+    **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
+    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**
 """
 
 
@@ -662,8 +666,8 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2100 HLG',
-        'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**,
+        **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
+        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**,
         Inverse electro-optical transfer function (EOTF / EOCF).
 
     Other Parameters
@@ -680,6 +684,11 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
         {:func:`colour.models.eotf_HLG_BT2100`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    is_12_bits_system : bool, optional
+        {:func:`colour.models.eotf_inverse_BT2020`},
+        *ITU-R BT.2020* *alpha* and *beta* constants are used
+        if system is not
+        12-bit.
     L_p : numeric, optional
         {:func:`colour.models.eotf_inverse_ST2084`},
         Display peak luminance :math:`cd/m^2`.
@@ -734,8 +743,8 @@ collection of the functions defined by :attr:`colour.LOG_ENCODINGS`,
 :func:`colour.models.cctf_encoding_ROMMRGB` definitions and 3 gamma encoding
 functions (1 / 2.2, 1 / 2.4, 1 / 2.6).
 
-Warning
--------
+Warnings
+--------
 For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 (EOTFs / EOCFs) are exposed by this attribute, please refer to the
 :attr:`colour.OETFS` attribute for the opto-electronic transfer functions
@@ -766,8 +775,8 @@ def cctf_encoding(value, function='sRGB', **kwargs):
         Keywords arguments for the relevant encoding CCTF of the
         :attr:`colour.CCTF_ENCODINGS` attribute collection.
 
-    Warning
-    -------
+    Warnings
+    --------
     For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
     (EOTFs / EOCFs) are exposed by this definition, please refer to the
     :func:`colour.oetf` definition for the opto-electronic transfer functions
@@ -823,8 +832,8 @@ collection of the functions defined by :attr:`colour.LOG_DECODINGS`,
 :func:`colour.models.cctf_decoding_ROMMRGB` definitions and 3 gamma decoding
 functions (2.2, 2.4, 2.6).
 
-Warning
--------
+Warnings
+--------
 For *ITU-R BT.2100*, only the electro-optical transfer functions
 (EOTFs / EOCFs) are exposed by this attribute, please refer to the
 :attr:`colour.OETF_INVERSES` attribute for the inverse opto-electronic
@@ -860,8 +869,8 @@ def cctf_decoding(value, function='sRGB', **kwargs):
         Keywords arguments for the relevant decoding CCTF of the
         :attr:`colour.CCTF_DECODINGS` attribute collection.
 
-    Warning
-    -------
+    Warnings
+    --------
     For *ITU-R BT.2100*, only the electro-optical transfer functions
     (EOTFs / EOCFs) are exposed by this definition, please refer to the
     :func:`colour.oetf_inverse` definition for the inverse opto-electronic

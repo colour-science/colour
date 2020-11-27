@@ -3,46 +3,55 @@
 Sony Colourspaces
 =================
 
-Defines the *S-Gamut*, *S-Gamut3* and *S-Gamut3.Cine* colourspaces:
+Defines the *Sony* colourspaces:
 
--   :attr:`colour.models.S_GAMUT_COLOURSPACE`.
--   :attr:`colour.models.S_GAMUT3_COLOURSPACE`.
--   :attr:`colour.models.S_GAMUT3_CINE_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_S_GAMUT`.
+-   :attr:`colour.models.RGB_COLOURSPACE_S_GAMUT3`.
+-   :attr:`colour.models.RGB_COLOURSPACE_S_GAMUT3_CINE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_VENICE_S_GAMUT3`.
+-   :attr:`colour.models.RGB_COLOURSPACE_VENICE_S_GAMUT3_CINE`.
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
+Notes
+-----
+-   The *Venice S-Gamut3* and *Venice S-Gamut3.Cine* primaries and whitepoint
+    were derived with the following `Google Colab Notebook \
+<https://colab.research.google.com/drive/1ZGTij7jT8eZRMPUkyWlv_x5ix5Q5twMB>`__.
 
 References
 ----------
 -   :cite:`Gaggioni` : Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N.,
     Endo, K., & Clark, C. (n.d.). S-Log: A new LUT for digital production
-    mastering and interchange applications. Retrieved from
-    http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/\
-slog_manual.pdf
--   :cite:`SonyCorporation` : Sony Corporation. (n.d.). S-Log Whitepaper.
-Retrieved from http://www.theodoropoulos.info/attachments/076_on S-Log.pdf
--   :cite:`SonyCorporationd` : Sony Corporation. (n.d.). Technical Summary for
-S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from
-    http://community.sony.com/sony/attachments/sony/
+    mastering and interchange applications (Vol. 709, pp. 1-13).
+    http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
+-   :cite:`SonyCorporation` : Sony Corporation. (n.d.). S-Log Whitepaper (pp.
+    1-17). http://www.theodoropoulos.info/attachments/076_on%20S-Log.pdf
+-   :cite:`SonyCorporationd` : Sony Corporation. (n.d.). Technical Summary
+    for S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3 (pp. 1-7).
+    http://community.sony.com/sony/attachments/sony/\
 large-sensor-camera-F5-F55/12359/2/\
 TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
 -   :cite:`SonyCorporatione` : Sony Corporation. (n.d.).
-    S-Gamut3_S-Gamut3Cine_Matrix.xlsx. Retrieved from
+    S-Gamut3_S-Gamut3Cine_Matrix.xlsx.
     https://community.sony.com/sony/attachments/sony/\
 large-sensor-camera-F5-F55/12359/3/S-Gamut3_S-Gamut3Cine_Matrix.xlsx
+-   :cite:`SonyElectronicsCorporation2020` : Sony Electronics Corporation.
+    (2020). IDT.Sony.Venice_SLog3_SGamut3.ctl. https://github.com/ampas/\
+aces-dev/blob/710ecbe52c87ce9f4a1e02c8ddf7ea0d6b611cc8/transforms/ctl/idt/\
+vendorSupplied/sony/IDT.Sony.Venice_SLog3_SGamut3.ctl
+-   :cite:`SonyElectronicsCorporation2020a` : Sony Electronics Corporation.
+    (2020). IDT.Sony.Venice_SLog3_SGamut3Cine.ctl. https://github.com/ampas/\
+aces-dev/blob/710ecbe52c87ce9f4a1e02c8ddf7ea0d6b611cc8/transforms/ctl/idt/\
+vendorSupplied/sony/IDT.Sony.Venice_SLog3_SGamut3Cine.ctl
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_SLog2,
                                log_decoding_SLog2, log_encoding_SLog3,
-                               log_decoding_SLog3)
+                               log_decoding_SLog3, normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -52,15 +61,25 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'S_GAMUT_PRIMARIES', 'S_GAMUT_WHITEPOINT_NAME', 'S_GAMUT_WHITEPOINT',
-    'S_GAMUT_TO_XYZ_MATRIX', 'XYZ_TO_S_GAMUT_MATRIX', 'S_GAMUT_COLOURSPACE',
-    'S_GAMUT3_COLOURSPACE', 'S_GAMUT3_CINE_PRIMARIES',
-    'S_GAMUT3_CINE_WHITEPOINT_NAME', 'S_GAMUT3_CINE_WHITEPOINT',
-    'S_GAMUT3_CINE_TO_XYZ_MATRIX', 'XYZ_TO_S_GAMUT3_CINE_MATRIX',
-    'S_GAMUT3_CINE_COLOURSPACE'
+    'PRIMARIES_S_GAMUT', 'WHITEPOINT_NAME_S_GAMUT', 'CCS_WHITEPOINT_S_GAMUT',
+    'MATRIX_S_GAMUT_TO_XYZ', 'MATRIX_XYZ_TO_S_GAMUT',
+    'RGB_COLOURSPACE_S_GAMUT', 'PRIMARIES_S_GAMUT3',
+    'WHITEPOINT_NAME_S_GAMUT3', 'CCS_WHITEPOINT_S_GAMUT3',
+    'MATRIX_S_GAMUT3_TO_XYZ', 'MATRIX_XYZ_TO_S_GAMUT3',
+    'RGB_COLOURSPACE_S_GAMUT3', 'PRIMARIES_S_GAMUT3_CINE',
+    'WHITEPOINT_NAME_S_GAMUT3_CINE', 'CCS_WHITEPOINT_S_GAMUT3_CINE',
+    'MATRIX_S_GAMUT3_CINE_TO_XYZ', 'MATRIX_XYZ_TO_S_GAMUT3_CINE',
+    'RGB_COLOURSPACE_S_GAMUT3_CINE', 'PRIMARIES_VENICE_S_GAMUT3',
+    'WHITEPOINT_NAME_VENICE_S_GAMUT3', 'CCS_WHITEPOINT_VENICE_S_GAMUT3',
+    'MATRIX_VENICE_S_GAMUT3_TO_XYZ', 'MATRIX_XYZ_TO_VENICE_S_GAMUT3',
+    'RGB_COLOURSPACE_VENICE_S_GAMUT3', 'PRIMARIES_VENICE_S_GAMUT3_CINE',
+    'WHITEPOINT_NAME_VENICE_S_GAMUT3_CINE',
+    'CCS_WHITEPOINT_VENICE_S_GAMUT3_CINE',
+    'MATRIX_VENICE_S_GAMUT3_CINE_TO_XYZ', 'MATRIX_XYZ_TO_VENICE_S_GAMUT3_CINE',
+    'RGB_COLOURSPACE_VENICE_S_GAMUT3_CINE'
 ]
 
-S_GAMUT_PRIMARIES = np.array([
+PRIMARIES_S_GAMUT = np.array([
     [0.7300, 0.2800],
     [0.1400, 0.8550],
     [0.1000, -0.0500],
@@ -68,25 +87,25 @@ S_GAMUT_PRIMARIES = np.array([
 """
 *S-Gamut* colourspace primaries.
 
-S_GAMUT_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_S_GAMUT : ndarray, (3, 2)
 """
 
-S_GAMUT_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_S_GAMUT = 'D65'
 """
 *S-Gamut* colourspace whitepoint name.
 
-S_GAMUT_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_S_GAMUT : unicode
 """
 
-S_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    S_GAMUT_WHITEPOINT_NAME])
+CCS_WHITEPOINT_S_GAMUT = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_S_GAMUT])
 """
-*S-Gamut* colourspace whitepoint.
+*S-Gamut* colourspace whitepoint chromaticity coordinates.
 
-S_GAMUT_WHITEPOINT : ndarray
+CCS_WHITEPOINT_S_GAMUT : ndarray
 """
 
-S_GAMUT_TO_XYZ_MATRIX = np.array([
+MATRIX_S_GAMUT_TO_XYZ = np.array([
     [0.7064827132, 0.1288010498, 0.1151721641],
     [0.2709796708, 0.7866064112, -0.0575860820],
     [-0.0096778454, 0.0046000375, 1.0941355587],
@@ -94,10 +113,10 @@ S_GAMUT_TO_XYZ_MATRIX = np.array([
 """
 *S-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
-S_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_S_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_S_GAMUT_MATRIX = np.array([
+MATRIX_XYZ_TO_S_GAMUT = np.array([
     [1.5073998991, -0.2458221374, -0.1716116808],
     [-0.5181517271, 1.3553912409, 0.1258786682],
     [0.0155116982, -0.0078727714, 0.9119163656],
@@ -105,50 +124,85 @@ XYZ_TO_S_GAMUT_MATRIX = np.array([
 """
 *CIE XYZ* tristimulus values to *S-Gamut* colourspace matrix.
 
-XYZ_TO_S_GAMUT_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_S_GAMUT : array_like, (3, 3)
 """
 
-S_GAMUT_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_S_GAMUT = RGB_Colourspace(
     'S-Gamut',
-    S_GAMUT_PRIMARIES,
-    S_GAMUT_WHITEPOINT,
-    S_GAMUT_WHITEPOINT_NAME,
-    S_GAMUT_TO_XYZ_MATRIX,
-    XYZ_TO_S_GAMUT_MATRIX,
+    PRIMARIES_S_GAMUT,
+    CCS_WHITEPOINT_S_GAMUT,
+    WHITEPOINT_NAME_S_GAMUT,
+    MATRIX_S_GAMUT_TO_XYZ,
+    MATRIX_XYZ_TO_S_GAMUT,
     log_encoding_SLog2,
     log_decoding_SLog2,
 )
-S_GAMUT_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_S_GAMUT.__doc__ = """
 *S-Gamut* colourspace.
 
 References
 ----------
 :cite:`Gaggioni`, :cite:`SonyCorporation`
 
-S_GAMUT_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_S_GAMUT : RGB_Colourspace
 """
 
-S_GAMUT3_COLOURSPACE = RGB_Colourspace(
+PRIMARIES_S_GAMUT3 = PRIMARIES_S_GAMUT
+"""
+*S-Gamut3* colourspace primaries.
+
+PRIMARIES_S_GAMUT3 : ndarray, (3, 2)
+"""
+
+WHITEPOINT_NAME_S_GAMUT3 = WHITEPOINT_NAME_S_GAMUT
+"""
+*S-Gamut3* colourspace whitepoint name.
+
+WHITEPOINT_NAME_S_GAMUT3 : unicode
+"""
+
+CCS_WHITEPOINT_S_GAMUT3 = CCS_WHITEPOINT_S_GAMUT
+"""
+*S-Gamut3* colourspace whitepoint chromaticity coordinates.
+
+CCS_WHITEPOINT_S_GAMUT3 : ndarray
+"""
+
+MATRIX_S_GAMUT3_TO_XYZ = MATRIX_S_GAMUT_TO_XYZ
+"""
+*S-Gamut3* colourspace to *CIE XYZ* tristimulus values matrix.
+
+MATRIX_S_GAMUT3_TO_XYZ : array_like, (3, 3)
+"""
+
+MATRIX_XYZ_TO_S_GAMUT3 = MATRIX_XYZ_TO_S_GAMUT
+"""
+*CIE XYZ* tristimulus values to *S-Gamut3* colourspace matrix.
+
+MATRIX_XYZ_TO_S_GAMUT3 : array_like, (3, 3)
+"""
+
+RGB_COLOURSPACE_S_GAMUT3 = RGB_Colourspace(
     'S-Gamut3',
-    S_GAMUT_PRIMARIES,
-    S_GAMUT_WHITEPOINT,
-    S_GAMUT_WHITEPOINT_NAME,
-    S_GAMUT_TO_XYZ_MATRIX,
-    XYZ_TO_S_GAMUT_MATRIX,
+    PRIMARIES_S_GAMUT3,
+    CCS_WHITEPOINT_S_GAMUT3,
+    WHITEPOINT_NAME_S_GAMUT3,
+    MATRIX_S_GAMUT3_TO_XYZ,
+    MATRIX_XYZ_TO_S_GAMUT3,
     log_encoding_SLog3,
     log_decoding_SLog3,
 )
-S_GAMUT3_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_S_GAMUT3.__doc__ = """
 *S-Gamut3* colourspace.
 
 References
 ----------
 :cite:`SonyCorporationd`
 
-S_GAMUT3_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_S_GAMUT3 : RGB_Colourspace
 """
 
-S_GAMUT3_CINE_PRIMARIES = np.array([
+PRIMARIES_S_GAMUT3_CINE = np.array([
     [0.76600, 0.27500],
     [0.22500, 0.80000],
     [0.08900, -0.08700],
@@ -156,24 +210,24 @@ S_GAMUT3_CINE_PRIMARIES = np.array([
 """
 *S-Gamut3.Cine* colourspace primaries.
 
-S_GAMUT_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_S_GAMUT3_CINE : ndarray, (3, 2)
 """
 
-S_GAMUT3_CINE_WHITEPOINT_NAME = S_GAMUT_WHITEPOINT_NAME
+WHITEPOINT_NAME_S_GAMUT3_CINE = WHITEPOINT_NAME_S_GAMUT
 """
 *S-Gamut3.Cine* colourspace whitepoint name.
 
-S_GAMUT3_CINE_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_S_GAMUT3_CINE : unicode
 """
 
-S_GAMUT3_CINE_WHITEPOINT = S_GAMUT_WHITEPOINT
+CCS_WHITEPOINT_S_GAMUT3_CINE = CCS_WHITEPOINT_S_GAMUT
 """
-*S-Gamut3.Cine* colourspace whitepoint.
+*S-Gamut3.Cine* colourspace whitepoint chromaticity coordinates.
 
-S_GAMUT3_CINE_WHITEPOINT : ndarray
+CCS_WHITEPOINT_S_GAMUT3_CINE : ndarray
 """
 
-S_GAMUT3_CINE_TO_XYZ_MATRIX = np.array([
+MATRIX_S_GAMUT3_CINE_TO_XYZ = np.array([
     [0.5990839208, 0.2489255161, 0.1024464902],
     [0.2150758201, 0.8850685017, -0.1001443219],
     [-0.0320658495, -0.0276583907, 1.1487819910],
@@ -181,10 +235,10 @@ S_GAMUT3_CINE_TO_XYZ_MATRIX = np.array([
 """
 *S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix.
 
-S_GAMUT3_CINE_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_S_GAMUT3_CINE_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_S_GAMUT3_CINE_MATRIX = np.array([
+MATRIX_XYZ_TO_S_GAMUT3_CINE = np.array([
     [1.8467789693, -0.5259861230, -0.2105452114],
     [-0.4441532629, 1.2594429028, 0.1493999729],
     [0.0408554212, 0.0156408893, 0.8682072487],
@@ -192,25 +246,146 @@ XYZ_TO_S_GAMUT3_CINE_MATRIX = np.array([
 """
 *CIE XYZ* tristimulus values to *S-Gamut3.Cine* colourspace matrix.
 
-XYZ_TO_S_GAMUT3_CINE_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_S_GAMUT3_CINE : array_like, (3, 3)
 """
 
-S_GAMUT3_CINE_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_S_GAMUT3_CINE = RGB_Colourspace(
     'S-Gamut3.Cine',
-    S_GAMUT3_CINE_PRIMARIES,
-    S_GAMUT3_CINE_WHITEPOINT,
-    S_GAMUT3_CINE_WHITEPOINT_NAME,
-    S_GAMUT3_CINE_TO_XYZ_MATRIX,
-    XYZ_TO_S_GAMUT3_CINE_MATRIX,
+    PRIMARIES_S_GAMUT3_CINE,
+    CCS_WHITEPOINT_S_GAMUT3_CINE,
+    WHITEPOINT_NAME_S_GAMUT3_CINE,
+    MATRIX_S_GAMUT3_CINE_TO_XYZ,
+    MATRIX_XYZ_TO_S_GAMUT3_CINE,
     log_encoding_SLog3,
     log_decoding_SLog3,
 )
-S_GAMUT3_CINE_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_S_GAMUT3_CINE.__doc__ = """
 *S-Gamut3.Cine* colourspace.
 
 References
 ----------
 :cite:`SonyCorporatione`
 
-S_GAMUT3_CINE_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_S_GAMUT3_CINE : RGB_Colourspace
+"""
+
+PRIMARIES_VENICE_S_GAMUT3 = np.array([
+    [0.740464264304292, 0.279364374750660],
+    [0.089241145423286, 0.893809528608105],
+    [0.110488236673827, -0.052579333080476],
+])
+"""
+*Venice S-Gamut3* colourspace primaries.
+
+PRIMARIES_VENICE_S_GAMUT3 : ndarray, (3, 2)
+"""
+
+WHITEPOINT_NAME_VENICE_S_GAMUT3 = WHITEPOINT_NAME_S_GAMUT
+"""
+*Venice S-Gamut3* colourspace whitepoint name.
+
+WHITEPOINT_NAME_VENICE_S_GAMUT3 : unicode
+"""
+
+CCS_WHITEPOINT_VENICE_S_GAMUT3 = CCS_WHITEPOINT_S_GAMUT
+"""
+*Venice S-Gamut3* colourspace whitepoint chromaticity coordinates.
+
+CCS_WHITEPOINT_VENICE_S_GAMUT3 : ndarray
+"""
+
+MATRIX_VENICE_S_GAMUT3_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_VENICE_S_GAMUT3, CCS_WHITEPOINT_VENICE_S_GAMUT3)
+"""
+*Venice S-Gamut3* colourspace to *CIE XYZ* tristimulus values matrix.
+
+MATRIX_VENICE_S_GAMUT3_TO_XYZ : array_like, (3, 3)
+"""
+
+MATRIX_XYZ_TO_VENICE_S_GAMUT3 = np.linalg.inv(MATRIX_VENICE_S_GAMUT3_TO_XYZ)
+"""
+*CIE XYZ* tristimulus values to *Venice S-Gamut3* colourspace matrix.
+
+MATRIX_XYZ_TO_VENICE_S_GAMUT3 : array_like, (3, 3)
+"""
+
+RGB_COLOURSPACE_VENICE_S_GAMUT3 = RGB_Colourspace(
+    'Venice S-Gamut3',
+    PRIMARIES_VENICE_S_GAMUT3,
+    CCS_WHITEPOINT_VENICE_S_GAMUT3,
+    WHITEPOINT_NAME_VENICE_S_GAMUT3,
+    MATRIX_VENICE_S_GAMUT3_TO_XYZ,
+    MATRIX_XYZ_TO_VENICE_S_GAMUT3,
+    log_encoding_SLog3,
+    log_decoding_SLog3,
+)
+RGB_COLOURSPACE_VENICE_S_GAMUT3.__doc__ = """
+*Venice S-Gamut3* colourspace.
+
+References
+----------
+:cite:`SonyElectronicsCorporation2020`
+
+RGB_COLOURSPACE_VENICE_S_GAMUT3 : RGB_Colourspace
+"""
+
+PRIMARIES_VENICE_S_GAMUT3_CINE = np.array([
+    [0.775901871567345, 0.274502392854799],
+    [0.188682902773355, 0.828684937020288],
+    [0.101337382499301, -0.089187517306263],
+])
+"""
+*Venice S-Gamut3.Cine* colourspace primaries.
+
+PRIMARIES_VENICE_S_GAMUT3_CINE : ndarray, (3, 2)
+"""
+
+WHITEPOINT_NAME_VENICE_S_GAMUT3_CINE = WHITEPOINT_NAME_S_GAMUT
+"""
+*Venice S-Gamut3.Cine* colourspace whitepoint name.
+
+WHITEPOINT_NAME_VENICE_S_GAMUT3_CINE : unicode
+"""
+
+CCS_WHITEPOINT_VENICE_S_GAMUT3_CINE = CCS_WHITEPOINT_S_GAMUT
+"""
+*Venice S-Gamut3.Cine* colourspace whitepoint chromaticity coordinates.
+
+CCS_WHITEPOINT_VENICE_S_GAMUT3_CINE : ndarray
+"""
+
+MATRIX_VENICE_S_GAMUT3_CINE_TO_XYZ = normalised_primary_matrix(
+    PRIMARIES_VENICE_S_GAMUT3_CINE, CCS_WHITEPOINT_VENICE_S_GAMUT3_CINE)
+"""
+*Venice S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix.
+
+MATRIX_VENICE_S_GAMUT3_CINE_TO_XYZ : array_like, (3, 3)
+"""
+
+MATRIX_XYZ_TO_VENICE_S_GAMUT3_CINE = np.linalg.inv(
+    MATRIX_VENICE_S_GAMUT3_CINE_TO_XYZ)
+"""
+*CIE XYZ* tristimulus values to *Venice S-Gamut3.Cine* colourspace matrix.
+
+MATRIX_XYZ_TO_VENICE_S_GAMUT3_CINE : array_like, (3, 3)
+"""
+
+RGB_COLOURSPACE_VENICE_S_GAMUT3_CINE = RGB_Colourspace(
+    'Venice S-Gamut3.Cine',
+    PRIMARIES_VENICE_S_GAMUT3_CINE,
+    CCS_WHITEPOINT_VENICE_S_GAMUT3_CINE,
+    WHITEPOINT_NAME_VENICE_S_GAMUT3_CINE,
+    MATRIX_VENICE_S_GAMUT3_CINE_TO_XYZ,
+    MATRIX_XYZ_TO_VENICE_S_GAMUT3_CINE,
+    log_encoding_SLog3,
+    log_decoding_SLog3,
+)
+RGB_COLOURSPACE_VENICE_S_GAMUT3_CINE.__doc__ = """
+*Venice S-Gamut3.Cine* colourspace.
+
+References
+----------
+:cite:`SonyElectronicsCorporation2020a`
+
+RGB_COLOURSPACE_VENICE_S_GAMUT3_CINE : RGB_Colourspace
 """

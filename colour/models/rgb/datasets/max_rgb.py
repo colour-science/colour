@@ -5,17 +5,11 @@ Max RGB Colourspace
 
 Defines the *Max RGB* colourspace:
 
--   :attr:`colour.models.MAX_RGB_COLOURSPACE`.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
+-   :attr:`colour.models.RGB_COLOURSPACE_MAX_RGB`.
 
 References
 ----------
--   :cite:`HutchColorf` : HutchColor. (n.d.). MaxRGB (4 K). Retrieved from
+-   :cite:`HutchColorf` : HutchColor. (n.d.). MaxRGB (4 K).
     http://www.hutchcolor.com/profiles/MaxRGB.zip
 """
 
@@ -24,7 +18,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, gamma_function,
                                normalised_primary_matrix)
 
@@ -36,11 +30,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MAX_RGB_PRIMARIES', 'MAX_RGB_WHITEPOINT_NAME', 'MAX_RGB_WHITEPOINT',
-    'MAX_RGB_TO_XYZ_MATRIX', 'XYZ_TO_MAX_RGB_MATRIX', 'MAX_RGB_COLOURSPACE'
+    'PRIMARIES_MAX_RGB', 'WHITEPOINT_NAME_MAX_RGB', 'CCS_WHITEPOINT_MAX_RGB',
+    'MATRIX_MAX_RGB_TO_XYZ', 'MATRIX_XYZ_TO_MAX_RGB', 'RGB_COLOURSPACE_MAX_RGB'
 ]
 
-MAX_RGB_PRIMARIES = np.array([
+PRIMARIES_MAX_RGB = np.array([
     [0.73413379, 0.26586621],
     [0.10039113, 0.89960887],
     [0.03621495, 0.00000000],
@@ -48,55 +42,55 @@ MAX_RGB_PRIMARIES = np.array([
 """
 *Max RGB* colourspace primaries.
 
-MAX_RGB_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_MAX_RGB : ndarray, (3, 2)
 """
 
-MAX_RGB_WHITEPOINT_NAME = 'D50'
+WHITEPOINT_NAME_MAX_RGB = 'D50'
 """
 *Max RGB* colourspace whitepoint name.
 
-MAX_RGB_WHITEPOINT_NAME : unicode
+WHITEPOINT_NAME_MAX_RGB : unicode
 """
 
-MAX_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    MAX_RGB_WHITEPOINT_NAME])
+CCS_WHITEPOINT_MAX_RGB = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_MAX_RGB])
 """
-*Max RGB* colourspace whitepoint.
+*Max RGB* colourspace whitepoint chromaticity coordinates.
 
-MAX_RGB_WHITEPOINT : ndarray
+CCS_WHITEPOINT_MAX_RGB : ndarray
 """
 
-MAX_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(MAX_RGB_PRIMARIES,
-                                                  MAX_RGB_WHITEPOINT)
+MATRIX_MAX_RGB_TO_XYZ = normalised_primary_matrix(PRIMARIES_MAX_RGB,
+                                                  CCS_WHITEPOINT_MAX_RGB)
 """
 *Max RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
-MAX_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_MAX_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_MAX_RGB_MATRIX = np.linalg.inv(MAX_RGB_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_MAX_RGB = np.linalg.inv(MATRIX_MAX_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Max RGB* colourspace matrix.
 
-XYZ_TO_MAX_RGB_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_MAX_RGB : array_like, (3, 3)
 """
 
-MAX_RGB_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_MAX_RGB = RGB_Colourspace(
     'Max RGB',
-    MAX_RGB_PRIMARIES,
-    MAX_RGB_WHITEPOINT,
-    MAX_RGB_WHITEPOINT_NAME,
-    MAX_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_MAX_RGB_MATRIX,
+    PRIMARIES_MAX_RGB,
+    CCS_WHITEPOINT_MAX_RGB,
+    WHITEPOINT_NAME_MAX_RGB,
+    MATRIX_MAX_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_MAX_RGB,
     partial(gamma_function, exponent=1 / 2.2),
     partial(gamma_function, exponent=2.2),
 )
-MAX_RGB_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_MAX_RGB.__doc__ = """
 *Max RGB* colourspace.
 
 References
 ----------
 :cite:`HutchColorf`
 
-MAX_RGB_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_MAX_RGB : RGB_Colourspace
 """

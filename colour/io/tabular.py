@@ -36,20 +36,20 @@ def read_spectral_data_from_csv_file(path,
                                      fields=None,
                                      default=0):
     """
-    Reads the spectral data from given *CSV* file in the following form:
+    Reads the spectral data from given *CSV* file in the following form::
 
-    390,  4.15003E-04,  3.68349E-04,  9.54729E-03
-    395,  1.05192E-03,  9.58658E-04,  2.38250E-02
-    400,  2.40836E-03,  2.26991E-03,  5.66498E-02
-    ...
-    830,  9.74306E-07,  9.53411E-08,  0.00000
+        390,  4.15003E-04,  3.68349E-04,  9.54729E-03
+        395,  1.05192E-03,  9.58658E-04,  2.38250E-02
+        400,  2.40836E-03,  2.26991E-03,  5.66498E-02
+        ...
+        830,  9.74306E-07,  9.53411E-08,  0.00000
 
-    and returns it as an *OrderedDict* of *dict* as follows:
+    and returns it as an *OrderedDict* of *dict* as follows::
 
-    OrderedDict([
-    ('field', {'wavelength': 'value', ..., 'wavelength': 'value'}),
-    ...,
-    ('field', {'wavelength': 'value', ..., 'wavelength': 'value'})])
+        OrderedDict([
+        ('field', {'wavelength': 'value', ..., 'wavelength': 'value'}),
+        ...,
+        ('field', {'wavelength': 'value', ..., 'wavelength': 'value'})])
 
     Parameters
     ----------
@@ -254,9 +254,9 @@ def read_sds_from_csv_file(path, delimiter=',', fields=None, default=0):
                           [ 775.   ,    0.432],
                           [ 780.   ,    0.421]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     data = read_spectral_data_from_csv_file(path, delimiter, fields, default)

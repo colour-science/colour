@@ -1,6 +1,11 @@
 Tutorial
 ========
 
+.. note::
+
+    An interactive version of the tutorial is available via
+    `Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
+
 `Colour <https://github.com/colour-science/Colour/>`__ spreads over
 various domains of Colour Science, from colour models to optical
 phenomena, this tutorial does not give a complete overview of the
@@ -37,8 +42,8 @@ Overview
     representation.
 -   :doc:`contrast <colour.contrast>`: Objects for contrast sensitivity
     computation.
--   :doc:`characterisation <colour.characterisation>`: Colour fitting and
-    camera characterisation.
+-   :doc:`characterisation <colour.characterisation>`: Colour correction,
+    camera and display characterisation.
 -   :doc:`colorimetry <colour.colorimetry>`: Core objects for colour
     computations.
 -   :doc:`constants <colour.constants>`: *CIE* and *CODATA* constants.
@@ -46,6 +51,7 @@ Overview
     chromaticities computations.
 -   :doc:`difference <colour.difference>`: Colour difference computations.
 -  *examples*: Examples for the sub-packages.
+-   :doc:`geometry <colour.geometry>`: Geometry primitives generation.
 -   :doc:`graph <colour.graph>`: Graph for automatic colour conversions.
 -   :doc:`io <colour.io>`: Input / output objects for reading and writing data.
 -   :doc:`models <colour.models>`: Colour models.
@@ -82,9 +88,9 @@ The various sub-packages also expose their public API:
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
                         'blindness', 'characterisation', 'colorimetry',
                         'constants', 'continuous', 'contrast', 'corresponding',
-                        'difference', 'graph', 'io', 'models', 'notation',
-                        'phenomena', 'plotting', 'quality', 'recovery',
-                        'temperature', 'utilities', 'volume'):
+                        'difference', 'geometry', 'graph', 'io', 'models',
+                        'notation', 'phenomena', 'plotting', 'quality',
+                        'recovery', 'temperature', 'utilities', 'volume'):
         print(sub_package.title())
         pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
         print('\n')
@@ -93,12 +99,11 @@ The various sub-packages also expose their public API:
 
     Adaptation
     ['CHROMATIC_ADAPTATION_TRANSFORMS',
-     'XYZ_SCALING_CAT',
-     'VON_KRIES_CAT',
-     'BRADFORD_CAT',
-     'SHARP_CAT',
+     'CAT_XYZ_SCALING',
+     'CAT_VON_KRIES',
+     'CAT_BRADFORD',
+     'CAT_SHARP',
      '...']
-
 
     Algebra
     ['cartesian_to_spherical',
@@ -108,60 +113,52 @@ The various sub-packages also expose their public API:
      'cartesian_to_cylindrical',
      '...']
 
-
     Appearance
-    ['Hunt_InductionFactors',
-     'HUNT_VIEWING_CONDITIONS',
-     'Hunt_Specification',
+    ['InductionFactors_Hunt',
+     'VIEWING_CONDITIONS_HUNT',
+     'CAM_Specification_Hunt',
      'XYZ_to_Hunt',
-     'ATD95_Specification',
+     'CAM_Specification_ATD95',
      '...']
-
 
     Biochemistry
     ['reaction_rate_MichealisMenten',
      'substrate_concentration_MichealisMenten',
      '...']
 
-
     Blindness
     ['CVD_MATRICES_MACHADO2010',
-     'anomalous_trichromacy_cmfs_Machado2009',
-     'anomalous_trichromacy_matrix_Machado2009',
-     'cvd_matrix_Machado2009',
+     'msds_cmfs_anomalous_trichromacy_Machado2009',
+     'matrix_anomalous_trichromacy_Machado2009',
+     'matrix_cvd_Machado2009',
      '...']
-
 
     Characterisation
-    ['RGB_SpectralSensitivities',
+    ['RGB_CameraSensitivities',
      'RGB_DisplayPrimaries',
-     'CAMERAS_RGB_SPECTRAL_SENSITIVITIES',
-     'COLOURCHECKERS',
-     'ColourChecker',
+     'MSDS_ACES_RICD',
+     'MSDS_CAMERA_SENSITIVITIES',
+     'CCS_COLOURCHECKERS',
      '...']
-
 
     Colorimetry
     ['SpectralShape',
-     'DEFAULT_SPECTRAL_SHAPE',
+     'SPECTRAL_SHAPE_DEFAULT',
      'SpectralDistribution',
      'MultiSpectralDistributions',
-     'sds_and_multi_sds_to_sds',
+     'sds_and_msds_to_sds',
      '...']
-
 
     Constants
-    ['K_M',
-     'KP_M',
-     'AVOGADRO_CONSTANT',
-     'BOLTZMANN_CONSTANT',
-     'LIGHT_SPEED',
+    ['CONSTANT_K_M',
+     'CONSTANT_KP_M',
+     'CONSTANT_AVOGADRO',
+     'CONSTANT_BOLTZMANN',
+     'CONSTANT_LIGHT_SPEED',
      '...']
-
 
     Continuous
     ['AbstractContinuousFunction', 'Signal', 'MultiSignals', '...']
-
 
     Contrast
     ['optical_MTF_Barten1999',
@@ -171,15 +168,13 @@ The various sub-packages also expose their public API:
      'maximum_angular_size_Barten1999',
      '...']
 
-
     Corresponding
     ['BRENEMAN_EXPERIMENTS',
-     'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
+     'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
      'CorrespondingColourDataset',
      'CorrespondingChromaticitiesPrediction',
      'corresponding_chromaticities_prediction_CIE1994',
      '...']
-
 
     Difference
     ['delta_E_CAM02LCD',
@@ -189,6 +184,13 @@ The various sub-packages also expose their public API:
      'delta_E_CAM16SCD',
      '...']
 
+    Geometry
+    ['PLANE_TO_AXIS_MAPPING',
+     'primitive_grid',
+     'primitive_cube',
+     'PRIMITIVE_METHODS',
+     'primitive',
+     '...']
 
     Graph
     ['CONVERSION_GRAPH',
@@ -196,7 +198,6 @@ The various sub-packages also expose their public API:
      'describe_conversion_path',
      'convert',
      '...']
-
 
     Io
     ['SpectralDistribution_IESTM2714',
@@ -206,15 +207,13 @@ The various sub-packages also expose their public API:
      'LUT3D',
      '...']
 
-
     Models
-    ['JMh_CIECAM02_to_CAM02LCD',
-     'CAM02LCD_to_JMh_CIECAM02',
-     'JMh_CIECAM02_to_CAM02SCD',
-     'CAM02SCD_to_JMh_CIECAM02',
-     'JMh_CIECAM02_to_CAM02UCS',
+    ['Jab_to_JCh',
+     'JCh_to_Jab',
+     'COLOURSPACE_MODELS',
+     'COLOURSPACE_MODELS_AXIS_LABELS',
+     'XYZ_to_colourspace_model',
      '...']
-
 
     Notation
     ['MUNSELL_COLOURS_ALL',
@@ -224,7 +223,6 @@ The various sub-packages also expose their public API:
      'munsell_value',
      '...']
 
-
     Phenomena
     ['scattering_cross_section',
      'rayleigh_optical_depth',
@@ -232,33 +230,29 @@ The various sub-packages also expose their public API:
      'sd_rayleigh_scattering',
      '...']
 
-
     Plotting
-    ['ASTMG173_ETR',
-     'ASTMG173_GLOBAL_TILT',
-     'ASTMG173_DIRECT_CIRCUMSOLAR',
-     'COLOUR_STYLE_CONSTANTS',
-     'COLOUR_ARROW_STYLE',
+    ['SD_ASTMG173_ETR',
+     'SD_ASTMG173_GLOBAL_TILT',
+     'SD_ASTMG173_DIRECT_CIRCUMSOLAR',
+     'CONSTANTS_COLOUR_STYLE',
+     'CONSTANTS_ARROW_STYLE',
      '...']
-
 
     Quality
-    ['TCS_SDS',
-     'VS_SDS',
-     'CRI_Specification',
+    ['SDS_TCS',
+     'SDS_VS',
+     'ColourRendering_Specification_CRI',
      'colour_rendering_index',
-     'CQS_Specification',
+     'ColourRendering_Specification_CQS',
      '...']
-
 
     Recovery
-    ['SMITS_1999_SDS',
-     'XYZ_to_sd_Meng2015',
-     'RGB_to_sd_Smits1999',
-     'XYZ_TO_SD_METHODS',
-     'XYZ_to_sd',
+    ['SPECTRAL_SHAPE_sRGB_MALLETT2019',
+     'MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019',
+     'SPECTRAL_SHAPE_OTSU2018',
+     'BASIS_FUNCTIONS_OTSU2018',
+     'CLUSTER_MEANS_OTSU2018',
      '...']
-
 
     Temperature
     ['xy_to_CCT_CIE_D',
@@ -268,18 +262,16 @@ The various sub-packages also expose their public API:
      'xy_to_CCT_Kang2002',
      '...']
 
-
     Utilities
     ['Lookup',
      'Structure',
      'CaseInsensitiveMapping',
+     'LazyCaseInsensitiveMapping',
      'handle_numpy_errors',
-     'ignore_numpy_errors',
      '...']
 
-
     Volume
-    ['ILLUMINANTS_OPTIMAL_COLOUR_STIMULI',
+    ['OPTIMAL_COLOUR_STIMULI_ILLUMINANTS',
      'is_within_macadam_limits',
      'is_within_mesh_volume',
      'is_within_pointer_gamut',
@@ -297,29 +289,26 @@ The codebase is documented and most docstrings have usage examples:
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
     colour matching functions using *Ohno (2013)* method.
-
     Parameters
     ----------
     CCT_D_uv : ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
-
     Returns
     -------
     ndarray
         *CIE UCS* colourspace *uv* chromaticity coordinates.
-
     References
     ----------
     :cite:`Ohno2014a`
-
     Examples
     --------
-    >>> from colour import DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS
+    >>> from colour.colorimetry import (
+    ...     SPECTRAL_SHAPE_DEFAULT, MSDS_CMFS_STANDARD_OBSERVER)
     >>> cmfs = (
-    ...     STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(DEFAULT_SPECTRAL_SHAPE)
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
     >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
@@ -330,39 +319,41 @@ the objects needed for spectral computations and many others:
 
 .. code:: python
 
-    import colour.colorimetry as colorimetry
-
-    pprint(colorimetry.__all__)
+    pprint(colour.colorimetry.__all__)
 
 .. code-block:: text
 
     ['SpectralShape',
-     'DEFAULT_SPECTRAL_SHAPE',
+     'SPECTRAL_SHAPE_DEFAULT',
      'SpectralDistribution',
      'MultiSpectralDistributions',
-     'sds_and_multi_sds_to_sds',
+     'sds_and_msds_to_sds',
+     'sds_and_msds_to_msds',
      'sd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
      'LMS_ConeFundamentals',
      'RGB_ColourMatchingFunctions',
      'XYZ_ColourMatchingFunctions',
-     'CMFS',
-     'LMS_CMFS',
-     'RGB_CMFS',
-     'STANDARD_OBSERVERS_CMFS',
-     'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SDS',
-     'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SDS',
-     'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SDS',
-     'LEFS',
-     'PHOTOPIC_LEFS',
-     'SCOTOPIC_LEFS',
+     'MSDS_CMFS',
+     'MSDS_CMFS_LMS',
+     'MSDS_CMFS_RGB',
+     'MSDS_CMFS_STANDARD_OBSERVER',
+     'CCS_ILLUMINANTS',
+     'SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES',
+     'TVS_ILLUMINANTS_HUNTERLAB',
+     'SDS_ILLUMINANTS',
+     'CCS_LIGHT_SOURCES',
+     'SDS_LIGHT_SOURCES',
+     'SDS_LEFS',
+     'SDS_LEFS_PHOTOPIC',
+     'SDS_LEFS_SCOTOPIC',
      'sd_constant',
      'sd_zeros',
      'sd_ones',
+     'msds_constant',
+     'msds_zeros',
+     'msds_ones',
      'SD_GAUSSIAN_METHODS',
      'sd_gaussian',
      'sd_gaussian_normal',
@@ -374,18 +365,18 @@ the objects needed for spectral computations and many others:
      'sd_multi_leds',
      'sd_multi_leds_Ohno2005',
      'SD_TO_XYZ_METHODS',
-     'MULTI_SD_TO_XYZ_METHODS',
+     'MSDS_TO_XYZ_METHODS',
      'sd_to_XYZ',
-     'multi_sds_to_XYZ',
-     'ASTME308_PRACTISE_SHAPE',
+     'msds_to_XYZ',
+     'SPECTRAL_SHAPE_ASTME308',
      'lagrange_coefficients_ASTME2022',
      'tristimulus_weighting_factors_ASTME2022',
      'adjust_tristimulus_weighting_factors_ASTME308',
      'sd_to_XYZ_integration',
      'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
      'sd_to_XYZ_ASTME308',
-     'multi_sds_to_XYZ_integration',
-     'multi_sds_to_XYZ_ASTME308',
+     'msds_to_XYZ_integration',
+     'msds_to_XYZ_ASTME308',
      'wavelength_to_XYZ',
      'BANDPASS_CORRECTION_METHODS',
      'bandpass_correction',
@@ -436,31 +427,30 @@ the objects needed for spectral computations and many others:
      'yellowness_ASTMD1925',
      'yellowness_ASTME313']
 
+
 **Colour** computations leverage a comprehensive quantity of datasets available
 in most sub-packages, for example the ``colour.colorimetry.datasets`` defines
 the following components:
 
 .. code:: python
 
-    import colour.colorimetry.datasets as datasets
-
-    pprint(datasets.__all__)
+    pprint(colour.colorimetry.datasets.__all__)
 
 .. code-block:: text
 
-    ['CMFS',
-     'LMS_CMFS',
-     'RGB_CMFS',
-     'STANDARD_OBSERVERS_CMFS',
-     'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SDS',
-     'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SDS',
-     'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SDS',
-     'LEFS',
-     'PHOTOPIC_LEFS',
-     'SCOTOPIC_LEFS']
+    ['MSDS_CMFS',
+     'MSDS_CMFS_LMS',
+     'MSDS_CMFS_RGB',
+     'MSDS_CMFS_STANDARD_OBSERVER',
+     'CCS_ILLUMINANTS',
+     'SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES',
+     'TVS_ILLUMINANTS_HUNTERLAB',
+     'SDS_ILLUMINANTS',
+     'CCS_LIGHT_SOURCES',
+     'SDS_LIGHT_SOURCES',
+     'SDS_LEFS',
+     'SDS_LEFS_PHOTOPIC',
+     'SDS_LEFS_SCOTOPIC']
 
 From Spectral Distribution
 --------------------------
@@ -472,7 +462,7 @@ illuminants, spectral data is manipulated using an object built with the
 .. code:: python
 
     # Defining a sample spectral distribution data.
-    sample_sd_data = {
+    data_sample = {
         380: 0.048,
         385: 0.051,
         390: 0.055,
@@ -555,7 +545,7 @@ illuminants, spectral data is manipulated using an object built with the
         775: 0.432,
         780: 0.421}
 
-    sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
+    sd = colour.SpectralDistribution(data_sample, name='Sample')
     print(repr(sd))
 
 .. code-block:: text
@@ -780,11 +770,11 @@ with user defined dimensions:
 The ``colour.SpectralDistribution`` class supports the following
 arithmetical operations:
 
--  *addition*
--  *subtraction*
--  *multiplication*
--  *division*
--  *exponentiation*
+-   *addition*
+-   *subtraction*
+-   *multiplication*
+-   *division*
+-   *exponentiation*
 
 .. code:: python
 
@@ -1070,9 +1060,9 @@ calculated:
 
 .. code:: python
 
-    sd = colour.SpectralDistribution(sample_sd_data)
-    cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_SDS['D65']
+    sd = colour.SpectralDistribution(data_sample)
+    cmfs = colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    illuminant = colour.SDS_ILLUMINANTS['D65']
 
     # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.
     XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
@@ -1120,6 +1110,7 @@ computations are available, expanding to even more computations:
      'XYZ_to_xyY',
      'XYZ_to_sd']
 
+
 Convert to Display Colours
 --------------------------
 
@@ -1143,7 +1134,7 @@ values in order to display them on screen:
     # Plotting the *sRGB* colourspace colour of the *Sample* spectral distribution.
     plot_single_colour_swatch(
         ColourSwatch('Sample', RGB),
-        text_parameters={'size': 'x-large'})
+        text_kwargs={'size': 'x-large'})
 
 .. image:: _static/Tutorial_Sample_Swatch.png
 
@@ -1164,15 +1155,15 @@ various colour rendition charts:
 .. code:: python
 
     # Colour rendition charts chromaticity coordinates.
-    print(sorted(colour.characterisation.COLOURCHECKERS.keys()))
+    print(sorted(colour.characterisation.CCS_COLOURCHECKERS.keys()))
 
     # Colour rendition charts spectral distributions.
-    print(sorted(colour.characterisation.COLOURCHECKERS_SDS.keys()))
+    print(sorted(colour.characterisation.SDS_COLOURCHECKERS.keys()))
 
 .. code-block:: text
 
-    [u'BabelColor Average', u'ColorChecker 1976', u'ColorChecker 2005', u'ColorChecker24 - After November 2014', u'ColorChecker24 - Before November 2014', u'babel_average', u'cc2005', u'cca2014', u'ccb2014']
-    [u'BabelColor Average', u'ColorChecker N Ohta', u'babel_average', u'cc_ohta']
+    ['BabelColor Average', 'ColorChecker 1976', 'ColorChecker 2005', 'ColorChecker24 - After November 2014', 'ColorChecker24 - Before November 2014', 'babel_average', 'cc2005', 'cca2014', 'ccb2014']
+    ['BabelColor Average', 'ColorChecker N Ohta', 'babel_average', 'cc_ohta']
 
 .. note::
 
@@ -1184,13 +1175,13 @@ various colour rendition charts:
 
     # Plotting the *sRGB* colourspace colour of *neutral 5 (.70 D)* patch.
     patch_name = 'neutral 5 (.70 D)'
-    patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
+    patch_sd = colour.SDS_COLOURCHECKERS['ColorChecker N Ohta'][patch_name]
     XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 
     plot_single_colour_swatch(
         ColourSwatch(patch_name.title(), RGB),
-        text_parameters={'size': 'x-large'})
+        text_kwargs={'size': 'x-large'})
 
 .. image:: _static/Tutorial_Neutral5.png
 
@@ -1200,7 +1191,7 @@ rendition charts figures:
 .. code:: python
 
     plot_single_colour_checker(
-        colour_checker='ColorChecker 2005', text_parameters={'visible': False})
+        colour_checker='ColorChecker 2005', text_kwargs={'visible': False})
 
 .. image:: _static/Tutorial_Colour_Checker.png
 
@@ -1251,10 +1242,13 @@ Chromaticity coordinates *CIE xy* can be plotted into the *CIE 1931 Chromaticity
 
 .. image:: _static/Tutorial_CIE_1931_Chromaticity_Diagram.png
 
-And More...
------------
+See More
+--------
 
-With the hope that this small introduction was useful and gave envy to see more,
-a good place to explore the API further is the
-`Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
-page.
+-   The :doc:`basics` page puts an emphasis on basic but important to
+    understand concepts of **Colour**.
+-   The :doc:`advanced` page describes some advanced usage scenarios of
+    **Colour**.
+-   The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
+    guide for **Colour** shows various techniques to solve specific problems
+    and highlights some interesting use cases.

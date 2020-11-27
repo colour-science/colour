@@ -9,7 +9,8 @@ Science and Technology (CODATA).
 
 from __future__ import division, unicode_literals
 
-from colour.utilities.documentation import DocstringFloat
+from colour.utilities.documentation import (DocstringFloat,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -19,33 +20,42 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', 'PLANCK_CONSTANT'
+    'CONSTANT_AVOGADRO', 'CONSTANT_BOLTZMANN', 'CONSTANT_LIGHT_SPEED',
+    'CONSTANT_PLANCK'
 ]
 
-AVOGADRO_CONSTANT = DocstringFloat(6.02214179e23)
-AVOGADRO_CONSTANT.__doc__ = """
+CONSTANT_AVOGADRO = 6.02214179e23
+if is_documentation_building():  # pragma: no cover
+    CONSTANT_AVOGADRO = DocstringFloat(CONSTANT_AVOGADRO)
+    CONSTANT_AVOGADRO.__doc__ = """
 Avogadro constant.
 
-AVOGADRO_CONSTANT : numeric
+CONSTANT_AVOGADRO : numeric
 """
 
-BOLTZMANN_CONSTANT = DocstringFloat(1.38065e-23)
-BOLTZMANN_CONSTANT.__doc__ = """
+CONSTANT_BOLTZMANN = 1.38065e-23
+if is_documentation_building():  # pragma: no cover
+    CONSTANT_BOLTZMANN = DocstringFloat(CONSTANT_BOLTZMANN)
+    CONSTANT_BOLTZMANN.__doc__ = """
 Boltzmann constant.
 
-BOLTZMANN_CONSTANT : numeric
+CONSTANT_BOLTZMANN : numeric
 """
 
-LIGHT_SPEED = DocstringFloat(299792458)
-LIGHT_SPEED.__doc__ = """
+CONSTANT_LIGHT_SPEED = 299792458
+if is_documentation_building():  # pragma: no cover
+    CONSTANT_LIGHT_SPEED = DocstringFloat(CONSTANT_LIGHT_SPEED)
+    CONSTANT_LIGHT_SPEED.__doc__ = """
 Speed of light in vacuum.
 
-LIGHT_SPEED : numeric
+CONSTANT_LIGHT_SPEED : numeric
 """
 
-PLANCK_CONSTANT = DocstringFloat(6.62607e-34)
-PLANCK_CONSTANT.__doc__ = """
+CONSTANT_PLANCK = 6.62607e-34
+if is_documentation_building():  # pragma: no cover
+    CONSTANT_PLANCK = DocstringFloat(CONSTANT_PLANCK)
+    CONSTANT_PLANCK.__doc__ = """
 Planck constant.
 
-PLANCK_CONSTANT : numeric
+CONSTANT_PLANCK : numeric
 """

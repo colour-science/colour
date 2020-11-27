@@ -9,18 +9,12 @@ Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
 -   :func:`colour.models.oetf_ARIBSTDB67`
 -   :func:`colour.models.oetf_inverse_ARIBSTDB67`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`AssociationofRadioIndustriesandBusinesses2015a` : Association of
     Radio Industries and Businesses. (2015). Essential Parameter Values for the
     Extended Image Dynamic Range Television (EIDRTV) System for Programme
-    Production. Retrieved from
+    Production.
     https://www.arib.or.jp/english/std_tr/broadcasting/desc/std-b67.html
 """
 
@@ -40,18 +34,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ARIBSTDB67_CONSTANTS', 'oetf_ARIBSTDB67', 'oetf_inverse_ARIBSTDB67'
+    'CONSTANTS_ARIBSTDB67', 'oetf_ARIBSTDB67', 'oetf_inverse_ARIBSTDB67'
 ]
 
-ARIBSTDB67_CONSTANTS = Structure(a=0.17883277, b=0.28466892, c=0.55991073)
+CONSTANTS_ARIBSTDB67 = Structure(a=0.17883277, b=0.28466892, c=0.55991073)
 """
 *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
 
-ARIBSTDB67_CONSTANTS : Structure
+CONSTANTS_ARIBSTDB67 : Structure
 """
 
 
-def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
+def oetf_ARIBSTDB67(E, r=0.5, constants=CONSTANTS_ARIBSTDB67):
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
     function (OETF / OECF).
@@ -113,7 +107,7 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     return as_float(from_range_1(E_p))
 
 
-def oetf_inverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
+def oetf_inverse_ARIBSTDB67(E_p, r=0.5, constants=CONSTANTS_ARIBSTDB67):
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
     function (OETF / OECF).

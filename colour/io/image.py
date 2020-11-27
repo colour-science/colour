@@ -15,7 +15,7 @@ from six import string_types
 
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               is_openimageio_installed, filter_kwargs,
-                              usage_warning)
+                              required, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -62,6 +62,7 @@ class ImageAttribute_Specification(
             cls, name, value, type_)
 
 
+# TODO: Overhaul by using "np.sctypeDict".
 if is_openimageio_installed():  # pragma: no cover
     from OpenImageIO import UINT8, UINT16, HALF, FLOAT
 
@@ -168,6 +169,7 @@ def convert_bit_depth(a, bit_depth='float32'):
             return a.astype(target_dtype)
 
 
+@required('OpenImageIO')
 def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
     """
     Reads the image at given path using *OpenImageIO*.
@@ -202,35 +204,34 @@ def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
     >>> image = read_image(path)  # doctest: +SKIP
     """
 
-    if is_openimageio_installed(raise_exception=True):  # pragma: no cover
-        from OpenImageIO import ImageInput
+    from OpenImageIO import ImageInput
 
-        path = str(path)
+    path = str(path)
 
-        bit_depth = BIT_DEPTH_MAPPING[bit_depth]
+    bit_depth = BIT_DEPTH_MAPPING[bit_depth]
 
-        image = ImageInput.open(path)
-        specification = image.spec()
+    image = ImageInput.open(path)
+    specification = image.spec()
 
-        shape = (specification.height, specification.width,
-                 specification.nchannels)
+    shape = (specification.height, specification.width,
+             specification.nchannels)
 
-        image_data = image.read_image(bit_depth.openimageio)
-        image.close()
-        image = np.squeeze(
-            np.array(image_data, dtype=bit_depth.numpy).reshape(shape))
+    image_data = image.read_image(bit_depth.openimageio)
+    image.close()
+    image = np.squeeze(
+        np.array(image_data, dtype=bit_depth.numpy).reshape(shape))
 
-        if attributes:
-            extra_attributes = []
-            for i in range(len(specification.extra_attribs)):
-                attribute = specification.extra_attribs[i]
-                extra_attributes.append(
-                    ImageAttribute_Specification(
-                        attribute.name, attribute.value, attribute.type))
+    if attributes:
+        extra_attributes = []
+        for i in range(len(specification.extra_attribs)):
+            attribute = specification.extra_attribs[i]
+            extra_attributes.append(
+                ImageAttribute_Specification(attribute.name, attribute.value,
+                                             attribute.type))
 
-            return image, extra_attributes
-        else:
-            return image
+        return image, extra_attributes
+    else:
+        return image
 
 
 def read_image_Imageio(path, bit_depth='float32', **kwargs):
@@ -359,6 +360,7 @@ def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
     return function(path, bit_depth, **kwargs)
 
 
+@required('OpenImageIO')
 def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     """
     Writes given image at given path using *OpenImageIO*.
@@ -403,54 +405,54 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     True
     """
 
-    if is_openimageio_installed(raise_exception=True):  # pragma: no cover
-        from OpenImageIO import VERSION_MAJOR, ImageOutput, ImageSpec
+    from OpenImageIO import VERSION_MAJOR, ImageOutput, ImageSpec
 
-        path = str(path)
+    path = str(path)
 
-        if attributes is None:
-            attributes = []
+    if attributes is None:
+        attributes = []
 
-        bit_depth_specification = BIT_DEPTH_MAPPING[bit_depth]
-        bit_depth = bit_depth_specification.openimageio
+    bit_depth_specification = BIT_DEPTH_MAPPING[bit_depth]
+    bit_depth = bit_depth_specification.openimageio
 
-        image = as_float_array(image)
-        image = image * bit_depth_specification.domain
-        if bit_depth_specification.clip:
-            image = np.clip(image, 0, bit_depth_specification.domain)
-        image = image.astype(bit_depth_specification.numpy)
+    image = as_float_array(image)
+    image = image * bit_depth_specification.domain
+    if bit_depth_specification.clip:
+        image = np.clip(image, 0, bit_depth_specification.domain)
+    image = image.astype(bit_depth_specification.numpy)
 
-        if image.ndim == 2:
-            height, width = image.shape
-            channels = 1
+    if image.ndim == 2:
+        height, width = image.shape
+        channels = 1
+    else:
+        height, width, channels = image.shape
+
+    specification = ImageSpec(width, height, channels, bit_depth)
+    for attribute in attributes:
+        name = str(attribute.name)
+        value = (str(attribute.value)
+                 if isinstance(attribute.value, string_types) else
+                 attribute.value)
+        type_ = attribute.type_
+        if attribute.type_ is None:
+            specification.attribute(name, value)
         else:
-            height, width, channels = image.shape
+            specification.attribute(name, type_, value)
 
-        specification = ImageSpec(width, height, channels, bit_depth)
-        for attribute in attributes:
-            name = str(attribute.name)
-            value = (str(attribute.value) if isinstance(
-                attribute.value, string_types) else attribute.value)
-            type_ = attribute.type_
-            if attribute.type_ is None:
-                specification.attribute(name, value)
-            else:
-                specification.attribute(name, type_, value)
+    image_output = ImageOutput.create(path)
 
-        image_output = ImageOutput.create(path)
+    if VERSION_MAJOR == 1:
+        from OpenImageIO import ImageOutputOpenMode
 
-        if VERSION_MAJOR == 1:
-            from OpenImageIO import ImageOutputOpenMode
+        image_output.open(path, specification, ImageOutputOpenMode.Create)
+        image_output.write_image(bit_depth, image.tostring())
+    else:
+        image_output.open(path, specification)
+        image_output.write_image(image)
 
-            image_output.open(path, specification, ImageOutputOpenMode.Create)
-            image_output.write_image(bit_depth, image.tostring())
-        else:
-            image_output.open(path, specification)
-            image_output.write_image(image)
+    image_output.close()
 
-        image_output.close()
-
-        return True
+    return True
 
 
 def write_image_Imageio(image, path, bit_depth='float32', **kwargs):

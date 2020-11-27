@@ -38,8 +38,9 @@ from six import add_metaclass
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (as_float_array, is_numeric, is_iterable,
-                              is_string, linear_conversion, runtime_warning,
-                              tsplit, tstack, usage_warning)
+                              is_string, full, linear_conversion,
+                              runtime_warning, tsplit, tstack, usage_warning)
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -82,35 +83,36 @@ class AbstractLUT:
 
     Attributes
     ----------
-    table
-    name
-    dimensions
-    domain
-    size
-    comments
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.table`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.name`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.dimensions`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.domain`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.size`
+    -   :attr:`~colour.io.luts.lut.AbstractLUT.comments`
 
     Methods
     -------
-    __str__
-    __repr__
-    __eq__
-    __ne__
-    __add__
-    __iadd__
-    __sub__
-    __isub__
-    __mul__
-    __imul__
-    __div__
-    __idiv__
-    __pow__
-    __ipow__
-    arithmetical_operation
-    is_domain_explicit
-    linear_table
-    apply
-    copy
-    as_LUT
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__init__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__str__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__repr__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__eq__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__ne__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__add__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__iadd__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__sub__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__isub__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__mul__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__imul__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__div__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__idiv__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__pow__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.__ipow__`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.arithmetical_operation`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.is_domain_explicit`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.linear_table`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.apply`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.copy`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.as_LUT`
     """
 
     def __init__(self,
@@ -226,7 +228,7 @@ class AbstractLUT:
     @property
     def dimensions(self):
         """
-        Getter and setter property for the *LUT* dimensions.
+        Getter property for the *LUT* dimensions.
 
         Returns
         -------
@@ -692,7 +694,7 @@ class AbstractLUT:
         pass
 
     @abstractmethod
-    def apply(self, RGB, interpolator, interpolator_args):
+    def apply(self, RGB, interpolator, interpolator_kwargs):
         """
         Applies the *LUT* to given *RGB* colourspace array using given method.
 
@@ -702,7 +704,7 @@ class AbstractLUT:
             *RGB* colourspace array to apply the *LUT* onto.
         interpolator : object, optional
             Interpolator class type or object to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating or calling the interpolating
             function.
 
@@ -742,7 +744,7 @@ class AbstractLUT:
         ----------------
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         size : int, optional
             Expected table size in case of an upcast to or a downcast from a
@@ -753,8 +755,8 @@ class AbstractLUT:
         LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
-        Warning
-        -------
+        Warnings
+        --------
         Some conversions are destructive and raise a :class:`ValueError`
         exception by default.
 
@@ -787,10 +789,11 @@ class LUT1D(AbstractLUT):
 
     Methods
     -------
-    is_domain_explicit
-    linear_table
-    apply
-    as_LUT
+    -   :meth:`~colour.LUT1D.__init__`
+    -   :meth:`~colour.LUT1D.is_domain_explicit`
+    -   :meth:`~colour.LUT1D.linear_table`
+    -   :meth:`~colour.LUT1D.apply`
+    -   :meth:`~colour.LUT1D.as_LUT`
 
     Examples
     --------
@@ -957,7 +960,8 @@ class LUT1D(AbstractLUT):
     def apply(self,
               RGB,
               interpolator=LinearInterpolator,
-              interpolator_args=None):
+              interpolator_kwargs=None,
+              **kwargs):
         """
         Applies the *LUT* to given *RGB* colourspace array using given method.
 
@@ -967,8 +971,13 @@ class LUT1D(AbstractLUT):
             *RGB* colourspace array to apply the *LUT* onto.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -983,8 +992,12 @@ class LUT1D(AbstractLUT):
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
         """
 
-        if interpolator_args is None:
-            interpolator_args = {}
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
+        if interpolator_kwargs is None:
+            interpolator_kwargs = {}
 
         if self.is_domain_explicit():
             samples = self.domain
@@ -994,7 +1007,7 @@ class LUT1D(AbstractLUT):
             samples = np.linspace(domain_min, domain_max, self._table.size)
 
         RGB_interpolator = interpolator(samples, self._table,
-                                        **interpolator_args)
+                                        **interpolator_kwargs)
 
         return RGB_interpolator(RGB)
 
@@ -1013,7 +1026,7 @@ class LUT1D(AbstractLUT):
         ----------------
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         size : int, optional
             Expected table size in case of an upcast to a :class:`LUT3D` class
@@ -1024,8 +1037,8 @@ class LUT1D(AbstractLUT):
         LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
-        Warning
-        -------
+        Warnings
+        --------
         Some conversions are destructive and raise a :class:`ValueError`
         exception by default.
 
@@ -1085,10 +1098,11 @@ class LUT3x1D(AbstractLUT):
 
     Methods
     -------
-    is_domain_explicit
-    linear_table
-    apply
-    as_LUT
+    -   :meth:`~colour.LUT3x1D.__init__`
+    -   :meth:`~colour.LUT3x1D.is_domain_explicit`
+    -   :meth:`~colour.LUT3x1D.linear_table`
+    -   :meth:`~colour.LUT3x1D.apply`
+    -   :meth:`~colour.LUT3x1D.as_LUT`
 
     Examples
     --------
@@ -1318,7 +1332,8 @@ class LUT3x1D(AbstractLUT):
     def apply(self,
               RGB,
               interpolator=LinearInterpolator,
-              interpolator_args=None):
+              interpolator_kwargs=None,
+              **kwargs):
         """
         Applies the *LUT* to given *RGB* colourspace array using given method.
 
@@ -1328,8 +1343,13 @@ class LUT3x1D(AbstractLUT):
             *RGB* colourspace array to apply the *LUT* onto.
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1361,8 +1381,12 @@ class LUT3x1D(AbstractLUT):
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
 
-        if interpolator_args is None:
-            interpolator_args = {}
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
+        if interpolator_kwargs is None:
+            interpolator_kwargs = {}
 
         R, G, B = tsplit(RGB)
 
@@ -1388,7 +1412,7 @@ class LUT3x1D(AbstractLUT):
         s_R, s_G, s_B = samples
 
         RGB_i = [
-            interpolator(a[0], a[1], **interpolator_args)(a[2])
+            interpolator(a[0], a[1], **interpolator_kwargs)(a[2])
             for a in zip((s_R, s_G, s_B), (R_t, G_t, B_t), (R, G, B))
         ]
 
@@ -1409,7 +1433,7 @@ class LUT3x1D(AbstractLUT):
         ----------------
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         size : int, optional
             Expected table size in case of an upcast to a :class:`LUT3D` class
@@ -1420,8 +1444,8 @@ class LUT3x1D(AbstractLUT):
         LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
-        Warning
-        -------
+        Warnings
+        --------
         Some conversions are destructive and raise a :class:`ValueError`
         exception by default.
 
@@ -1481,10 +1505,11 @@ class LUT3D(AbstractLUT):
 
     Methods
     -------
-    is_domain_explicit
-    linear_table
-    apply
-    as_LUT
+    -   :meth:`~colour.LUT3D.__init__`
+    -   :meth:`~colour.LUT3D.is_domain_explicit`
+    -   :meth:`~colour.LUT3D.linear_table`
+    -   :meth:`~colour.LUT3D.apply`
+    -   :meth:`~colour.LUT3D.as_LUT`
 
     Examples
     --------
@@ -1786,7 +1811,8 @@ class LUT3D(AbstractLUT):
     def apply(self,
               RGB,
               interpolator=table_interpolation_trilinear,
-              interpolator_args=None):
+              interpolator_kwargs=None,
+              **kwargs):
         """
         Applies the *LUT* to given *RGB* colourspace array using given method.
 
@@ -1796,8 +1822,13 @@ class LUT3D(AbstractLUT):
             *RGB* colourspace array to apply the *LUT* onto.
         interpolator : object, optional
             Interpolator object to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when calling the interpolating function.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1823,8 +1854,12 @@ class LUT3D(AbstractLUT):
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
 
-        if interpolator_args is None:
-            interpolator_args = {}
+        interpolator_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
+        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
+
+        if interpolator_kwargs is None:
+            interpolator_kwargs = {}
 
         R, G, B = tsplit(RGB)
 
@@ -1847,7 +1882,7 @@ class LUT3D(AbstractLUT):
             for i, j in enumerate((R, G, B))
         ]
 
-        return interpolator(tstack(RGB_l), self._table, **interpolator_args)
+        return interpolator(tstack(RGB_l), self._table, **interpolator_kwargs)
 
     def as_LUT(self, cls, force_conversion=False, **kwargs):
         """
@@ -1864,7 +1899,7 @@ class LUT3D(AbstractLUT):
         ----------------
         interpolator : object, optional
             Interpolator class type to use as interpolating function.
-        interpolator_args : dict_like, optional
+        interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
         size : int, optional
             Expected table size in case of a downcast from a :class:`LUT3D`
@@ -1875,8 +1910,8 @@ class LUT3D(AbstractLUT):
         LUT1D or LUT3x1D or LUT3D
             Converted *LUT* class instance.
 
-        Warning
-        -------
+        Warnings
+        --------
         Some conversions are destructive and raise a :class:`ValueError`
         exception by default.
 
@@ -1925,13 +1960,13 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     cls : LUT1D or LUT3x1D or LUT3D
         *LUT* class instance.
     force_conversion : bool, optional
-        Whether to force the conversion as it might be destructive.
+        Whether to force the conversion if destructive.
 
     Other Parameters
     ----------------
     interpolator : object, optional
         Interpolator class type to use as interpolating function.
-    interpolator_args : dict_like, optional
+    interpolator_kwargs : dict_like, optional
         Arguments to use when instantiating the interpolating function.
     size : int, optional
         Expected table size in case of an upcast to or a downcast from a
@@ -1945,8 +1980,8 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     LUT1D or LUT3x1D or LUT3D
         Converted *LUT* class instance.
 
-    Warning
-    -------
+    Warnings
+    --------
     Some conversions are destructive and raise a :class:`ValueError` exception
     by default.
 
@@ -2006,12 +2041,10 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
             del kwargs['size']
 
         channel_weights = as_float_array(
-            kwargs.get('channel_weights', np.full(3, 1 / 3)))
+            kwargs.get('channel_weights', full(3, 1 / 3)))
         if 'channel_weights' in kwargs:
             del kwargs['channel_weights']
 
-        # TODO: Implement support for non-uniform domain, e.g. "cinespace"
-        #  LUTs.
         if isinstance(LUT, LUT1D):
             if cls is LUT3x1D:
                 domain = tstack([LUT.domain, LUT.domain, LUT.domain])
@@ -2022,10 +2055,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
                 table = LUT.apply(table, **kwargs)
         elif isinstance(LUT, LUT3x1D):
             if cls is LUT1D:
-                domain = np.array([
-                    np.sum(LUT.domain[0, ...] * channel_weights),
-                    np.sum(LUT.domain[-1, ...] * channel_weights)
-                ])
+                domain = np.sum(LUT.domain * channel_weights, axis=-1)
                 table = np.sum(LUT.table * channel_weights, axis=-1)
             elif cls is LUT3D:
                 domain = LUT.domain
@@ -2033,10 +2063,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
                 table = LUT.apply(table, **kwargs)
         elif isinstance(LUT, LUT3D):
             if cls is LUT1D:
-                domain = np.array([
-                    np.sum(LUT.domain[0, ...] * channel_weights),
-                    np.sum(LUT.domain[-1, ...] * channel_weights)
-                ])
+                domain = np.sum(LUT.domain * channel_weights, axis=-1)
                 table = LUT1D.linear_table(size, domain)
                 table = LUT.apply(tstack([table, table, table]), **kwargs)
                 table = np.sum(table * channel_weights, axis=-1)
@@ -2060,7 +2087,7 @@ class AbstractLUTSequenceOperator:
 
     Methods
     -------
-    apply
+    -   :meth:`~colour.io.luts.lut.AbstractLUTSequenceOperator.apply`
     """
 
     @abstractmethod
@@ -2097,21 +2124,22 @@ class LUTSequence(MutableSequence):
 
     Attributes
     ----------
-    sequence
+    -   :attr:`~colour.LUTSequence.sequence`
 
     Methods
     -------
-    __getitem__
-    __setitem__
-    __delitem__
-    __len__
-    __str__
-    __repr__
-    __eq__
-    __ne__
-    insert
-    apply
-    copy
+    -   :meth:`~colour.LUTSequence.__init__`
+    -   :meth:`~colour.LUTSequence.__getitem__`
+    -   :meth:`~colour.LUTSequence.__setitem__`
+    -   :meth:`~colour.LUTSequence.__delitem__`
+    -   :meth:`~colour.LUTSequence.__len__`
+    -   :meth:`~colour.LUTSequence.__str__`
+    -   :meth:`~colour.LUTSequence.__repr__`
+    -   :meth:`~colour.LUTSequence.__eq__`
+    -   :meth:`~colour.LUTSequence.__ne__`
+    -   :meth:`~colour.LUTSequence.insert`
+    -   :meth:`~colour.LUTSequence.apply`
+    -   :meth:`~colour.LUTSequence.copy`
 
     Examples
     --------
@@ -2357,9 +2385,10 @@ class LUTSequence(MutableSequence):
     def apply(self,
               RGB,
               interpolator_1D=LinearInterpolator,
-              interpolator_1D_args=None,
+              interpolator_1D_kwargs=None,
               interpolator_3D=table_interpolation_trilinear,
-              interpolator_3D_args=None):
+              interpolator_3D_kwargs=None,
+              **kwargs):
         """
         Applies the *LUT* sequence sequentially to given *RGB* colourspace
         array.
@@ -2373,16 +2402,21 @@ class LUTSequence(MutableSequence):
             Interpolator object to use as interpolating function for
             :class:`colour.LUT1D` (and :class:`colour.LUT3x1D`) class
             instances.
-        interpolator_1D_args : dict_like, optional
+        interpolator_1D_kwargs : dict_like, optional
             Arguments to use when calling the interpolating function for
             :class:`colour.LUT1D` (and :class:`colour.LUT3x1D`) class
             instances.
         interpolator_3D : object, optional
             Interpolator object to use as interpolating function for
             :class:`colour.LUT3D` class instances.
-        interpolator_3D_args : dict_like, optional
+        interpolator_3D_kwargs : dict_like, optional
             Arguments to use when calling the interpolating function for
             :class:`colour.LUT3D` class instances.
+
+        Other Parameters
+        ----------------
+        \\**kwargs : dict, optional
+            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -2405,13 +2439,25 @@ class LUTSequence(MutableSequence):
                [ 0.75     ...,  0.75     ...,  0.75     ...]])
         """
 
+        interpolator_1D_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [[
+                'interpolator_1D_args', 'interpolator_1D_kwargs'
+            ]],
+        }, **kwargs).get('interpolator_1D_kwargs', interpolator_1D_kwargs)
+
+        interpolator_3D_kwargs = handle_arguments_deprecation({
+            'ArgumentRenamed': [[
+                'interpolator_3D_args', 'interpolator_3D_kwargs'
+            ]],
+        }, **kwargs).get('interpolator_3D_kwargs', interpolator_3D_kwargs)
+
         for operation in self:
             if isinstance(operation, (LUT1D, LUT3x1D)):
                 RGB = operation.apply(RGB, interpolator_1D,
-                                      interpolator_1D_args)
+                                      interpolator_1D_kwargs)
             elif isinstance(operation, LUT3D):
                 RGB = operation.apply(RGB, interpolator_3D,
-                                      interpolator_3D_args)
+                                      interpolator_3D_kwargs)
             else:
                 RGB = operation.apply(RGB)
 

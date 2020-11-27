@@ -5,14 +5,14 @@ Colour Blindness Plotting
 
 Defines the colour blindness plotting objects:
 
--   :func:`plot_cvd_simulation_Machado2009`
+-   :func:`colour.plotting.plot_cvd_simulation_Machado2009`
 """
 
 from __future__ import division
 
-from colour.blindness import cvd_matrix_Machado2009
-from colour.plotting import COLOUR_STYLE_CONSTANTS, plot_image, override_style
-from colour.utilities import dot_vector
+from colour.blindness import matrix_cvd_Machado2009
+from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
+from colour.utilities import vector_dot
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -68,8 +68,7 @@ def plot_cvd_simulation_Machado2009(RGB,
     >>> import numpy as np
     >>> RGB = np.random.rand(32, 32, 3)
     >>> plot_cvd_simulation_Machado2009(RGB)  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_CVD_Simulation_Machado2009.png
         :align: center
@@ -77,13 +76,13 @@ def plot_cvd_simulation_Machado2009(RGB,
     """
 
     if M_a is None:
-        M_a = cvd_matrix_Machado2009(deficiency, severity)
+        M_a = matrix_cvd_Machado2009(deficiency, severity)
 
     text = 'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
 
-    settings = {'text_parameters': {'text': None if M_a is None else text}}
+    settings = {'text_kwargs': {'text': None if M_a is None else text}}
     settings.update(kwargs)
 
     return plot_image(
-        COLOUR_STYLE_CONSTANTS.colour.colourspace.cctf_encoding(
-            dot_vector(M_a, RGB)), **settings)
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
+            vector_dot(M_a, RGB)), **settings)

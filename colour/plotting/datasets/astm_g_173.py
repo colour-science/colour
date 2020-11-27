@@ -27,13 +27,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ASTMG173_ETR_DATA', 'ASTMG173_GLOBAL_TILT_DATA',
-    'ASTMG173_DIRECT_CIRCUMSOLAR_DATA', 'ASTMG173_ETR', 'ASTMG173_GLOBAL_TILT',
-    'ASTMG173_DIRECT_CIRCUMSOLAR'
+    'DATA_ASTMG173_ETR', 'DATA_ASTMG173_GLOBAL_TILT',
+    'DATA_ASTMG173_DIRECT_CIRCUMSOLAR', 'SD_ASTMG173_ETR',
+    'SD_ASTMG173_GLOBAL_TILT', 'SD_ASTMG173_DIRECT_CIRCUMSOLAR'
 ]
 
 # yapf: disable
-ASTMG173_ETR_DATA = {
+DATA_ASTMG173_ETR = {
     280.0: 8.2000e-02,
     280.5: 9.9000e-02,
     281.0: 1.5000e-01,
@@ -2038,7 +2038,7 @@ ASTMG173_ETR_DATA = {
     4000.0: 8.6800e-03,
 }
 
-ASTMG173_GLOBAL_TILT_DATA = {
+DATA_ASTMG173_GLOBAL_TILT = {
     280.0: 4.7309e-23,
     280.5: 1.2307e-21,
     281.0: 5.6895e-21,
@@ -4043,7 +4043,7 @@ ASTMG173_GLOBAL_TILT_DATA = {
     4000.0: 7.1043e-03,
 }
 
-ASTMG173_DIRECT_CIRCUMSOLAR_DATA = {
+DATA_ASTMG173_DIRECT_CIRCUMSOLAR = {
     280.0: 2.5361e-26,
     280.5: 1.0917e-24,
     281.0: 6.1253e-24,
@@ -6049,8 +6049,8 @@ ASTMG173_DIRECT_CIRCUMSOLAR_DATA = {
 }
 # yapf: enable
 
-ASTMG173_ETR = SpectralDistribution(
-    ASTMG173_ETR_DATA, name='ASTM G-173 ETR', interpolator=LinearInterpolator)
+SD_ASTMG173_ETR = SpectralDistribution(
+    DATA_ASTMG173_ETR, name='ASTM G-173 ETR', interpolator=LinearInterpolator)
 """
 Extraterrestrial Radiation (solar spectrum at top of atmosphere) at mean
 Earth-Sun distance.
@@ -6059,11 +6059,11 @@ References
 ----------
 :cite:`RenewableResourceDataCenter2003a`
 
-ASTMG173_ETR : SpectralDistribution
+SD_ASTMG173_ETR : SpectralDistribution
 """
 
-ASTMG173_GLOBAL_TILT = SpectralDistribution(
-    ASTMG173_GLOBAL_TILT_DATA,
+SD_ASTMG173_GLOBAL_TILT = SpectralDistribution(
+    DATA_ASTMG173_GLOBAL_TILT,
     name='ASTM G-173 Global Tilt',
     interpolator=LinearInterpolator)
 """
@@ -6074,11 +6074,11 @@ References
 ----------
 :cite:`RenewableResourceDataCenter2003a`
 
-ASTMG173_GLOBAL_TILT : SpectralDistribution
+SD_ASTMG173_GLOBAL_TILT : SpectralDistribution
 """
 
-ASTMG173_DIRECT_CIRCUMSOLAR = SpectralDistribution(
-    ASTMG173_DIRECT_CIRCUMSOLAR_DATA,
+SD_ASTMG173_DIRECT_CIRCUMSOLAR = SpectralDistribution(
+    DATA_ASTMG173_DIRECT_CIRCUMSOLAR,
     name='ASTM G-173 Direct + Circumsolar',
     interpolator=LinearInterpolator)
 """
@@ -6093,5 +6093,5 @@ References
 ----------
 :cite:`RenewableResourceDataCenter2003a`
 
-ASTMG173_DIRECT_CIRCUMSOLAR : SpectralDistribution
+SD_ASTMG173_DIRECT_CIRCUMSOLAR : SpectralDistribution
 """

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import codecs
 from setuptools import setup
 
 package_dir = \
@@ -28,6 +29,8 @@ packages = \
  'colour.characterisation.datasets.displays',
  'colour.characterisation.datasets.displays.crt',
  'colour.characterisation.datasets.displays.lcd',
+ 'colour.characterisation.datasets.filters',
+ 'colour.characterisation.datasets.lenses',
  'colour.characterisation.tests',
  'colour.colorimetry',
  'colour.colorimetry.datasets',
@@ -54,6 +57,7 @@ packages = \
  'colour.examples.contrast',
  'colour.examples.corresponding',
  'colour.examples.difference',
+ 'colour.examples.geometry',
  'colour.examples.graph',
  'colour.examples.io',
  'colour.examples.models',
@@ -64,6 +68,8 @@ packages = \
  'colour.examples.recovery',
  'colour.examples.temperature',
  'colour.examples.volume',
+ 'colour.geometry',
+ 'colour.geometry.tests',
  'colour.graph',
  'colour.graph.tests',
  'colour.io',
@@ -87,6 +93,8 @@ packages = \
  'colour.plotting',
  'colour.plotting.datasets',
  'colour.plotting.tests',
+ 'colour.plotting.tm3018',
+ 'colour.plotting.tm3018.tests',
  'colour.quality',
  'colour.quality.datasets',
  'colour.quality.tests',
@@ -104,6 +112,7 @@ packages = \
 package_data = \
 {'': ['*'],
  'colour.appearance.tests': ['fixtures/*'],
+ 'colour.characterisation.datasets': ['rawtoaces/*'],
  'colour.examples.io': ['resources/*'],
  'colour.examples.plotting': ['resources/*'],
  'colour.io.luts.tests': ['resources/cinespace/*',
@@ -111,10 +120,11 @@ package_data = \
                           'resources/resolve_cube/*',
                           'resources/sony_spi1d/*',
                           'resources/sony_spi3d/*'],
- 'colour.io.tests': ['resources/*']}
+ 'colour.io.tests': ['resources/*'],
+ 'colour.plotting.tm3018': ['resources/*']}
 
 install_requires = \
-['imageio', 'scipy', 'six']
+['imageio', 'scipy>=1.1.0,<2.0.0', 'six']
 
 extras_require = \
 {'development': ['biblib-simple',
@@ -129,14 +139,14 @@ extras_require = \
                  'pre-commit',
                  'pytest',
                  'restructuredtext-lint',
-                 'sphinx',
+                 'sphinx<=3.1.2',
                  'sphinx_rtd_theme',
                  'sphinxcontrib-bibtex',
                  'toml',
                  'twine',
                  'yapf==0.23'],
  'graphviz': ['pygraphviz'],
- 'optional': ['networkx', 'pandas'],
+ 'optional': ['networkx', 'pandas', 'tqdm'],
  'plotting': ['backports.functools_lru_cache', 'matplotlib'],
  'read-the-docs': ['mock',
                    'networkx',
@@ -146,9 +156,9 @@ extras_require = \
 
 setup(
     name='colour-science',
-    version='0.3.15',
+    version='0.3.16',
     description='Colour Science for Python',
-    long_description=open('README.rst').read(),
+    long_description=codecs.open('README.rst', encoding='utf8').read(),
     author='Colour Developers',
     author_email='colour-developers@colour-science.org',
     maintainer='Colour Developers',
@@ -159,5 +169,5 @@ setup(
     package_data=package_data,
     install_requires=install_requires,
     extras_require=extras_require,
-    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
+    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*',
 )

@@ -48,8 +48,8 @@ class TestSignal(unittest.TestCase):
         """
 
         required_attributes = ('dtype', 'domain', 'range', 'interpolator',
-                               'interpolator_args', 'extrapolator',
-                               'extrapolator_args', 'function')
+                               'interpolator_kwargs', 'extrapolator',
+                               'extrapolator_kwargs', 'function')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Signal))
@@ -59,10 +59,11 @@ class TestSignal(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', '__repr__', '__hash__', '__getitem__',
-                            '__setitem__', '__contains__', '__eq__', '__ne__',
-                            'arithmetical_operation', 'signal_unpack_data',
-                            'fill_nan', 'domain_distance', 'to_series')
+        required_methods = ('__init__', '__str__', '__repr__', '__hash__',
+                            '__getitem__', '__setitem__', '__contains__',
+                            '__eq__', '__ne__', 'arithmetical_operation',
+                            'signal_unpack_data', 'fill_nan',
+                            'domain_distance', 'to_series')
 
         for method in required_methods:
             self.assertIn(method, dir(Signal))
@@ -72,11 +73,11 @@ class TestSignal(unittest.TestCase):
         Tests :func:`colour.continuous.signal.Signal.dtype` property.
         """
 
-        self.assertEqual(self._signal.dtype, None)
+        self.assertEqual(self._signal.dtype, DEFAULT_FLOAT_DTYPE)
 
         signal = self._signal.copy()
-        signal.dtype = DEFAULT_FLOAT_DTYPE
-        self.assertEqual(signal.dtype, DEFAULT_FLOAT_DTYPE)
+        signal.dtype = np.float32
+        self.assertEqual(signal.dtype, np.float32)
 
     def test_domain(self):
         """
@@ -146,9 +147,9 @@ class TestSignal(unittest.TestCase):
             np.array([10.0, 22.5, 35.0, 47.5, 60.0]),
             decimal=7)
 
-    def test_interpolator_args(self):
+    def test_interpolator_kwargs(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.interpolator_args`
+        Tests :func:`colour.continuous.signal.Signal.interpolator_kwargs`
         property.
         """
 
@@ -161,7 +162,7 @@ class TestSignal(unittest.TestCase):
             ]),
             decimal=7)
 
-        signal.interpolator_args = {'window': 1, 'kernel_args': {'a': 1}}
+        signal.interpolator_kwargs = {'window': 1, 'kernel_kwargs': {'a': 1}}
 
         np.testing.assert_almost_equal(
             signal[np.linspace(0, 5, 5)],
@@ -177,9 +178,9 @@ class TestSignal(unittest.TestCase):
 
         self.assertIsInstance(self._signal.extrapolator(), Extrapolator)
 
-    def test_extrapolator_args(self):
+    def test_extrapolator_kwargs(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.extrapolator_args`
+        Tests :func:`colour.continuous.signal.Signal.extrapolator_kwargs`
         property.
         """
 
@@ -187,7 +188,7 @@ class TestSignal(unittest.TestCase):
 
         assert np.all(np.isnan(signal[np.array([-1000, 1000])]))
 
-        signal.extrapolator_args = {
+        signal.extrapolator_kwargs = {
             'method': 'Linear',
         }
 
@@ -273,7 +274,7 @@ class TestSignal(unittest.TestCase):
         """
 
         self.assertEqual(
-            re.sub(r'extrapolator_args={.*}', 'extrapolator_args={...}',
+            re.sub(r'extrapolator_kwargs={.*}', 'extrapolator_kwargs={...}',
                    repr(self._signal)),
             textwrap.dedent("""
                 Signal([[   0.,   10.],
@@ -287,9 +288,9 @@ class TestSignal(unittest.TestCase):
                         [   8.,   90.],
                         [   9.,  100.]],
                        interpolator=KernelInterpolator,
-                       interpolator_args={},
+                       interpolator_kwargs={},
                        extrapolator=Extrapolator,
-                       extrapolator_args={...})""")[1:])
+                       extrapolator_kwargs={...})""")[1:])
 
         self.assertIsInstance(repr(Signal()), string_types)
 
@@ -315,13 +316,13 @@ class TestSignal(unittest.TestCase):
         assert np.all(np.isnan(self._signal[np.array([-1000, 1000])]))
 
         signal = self._signal.copy()
-        signal.extrapolator_args = {
+        signal.extrapolator_kwargs = {
             'method': 'Linear',
         }
         np.testing.assert_array_equal(signal[np.array([-1000, 1000])],
                                       np.array([-9990.0, 10010.0]))
 
-        signal.extrapolator_args = {
+        signal.extrapolator_kwargs = {
             'method': 'Constant',
             'left': 0,
             'right': 1
@@ -427,10 +428,10 @@ class TestSignal(unittest.TestCase):
         signal_2.interpolator = KernelInterpolator
         self.assertEqual(signal_1, signal_2)
 
-        signal_2.interpolator_args = {'window': 1}
+        signal_2.interpolator_kwargs = {'window': 1}
         self.assertNotEqual(signal_1, signal_2)
 
-        signal_2.interpolator_args = {}
+        signal_2.interpolator_kwargs = {}
         self.assertEqual(signal_1, signal_2)
 
         class NotExtrapolator(Extrapolator):
@@ -446,10 +447,10 @@ class TestSignal(unittest.TestCase):
         signal_2.extrapolator = Extrapolator
         self.assertEqual(signal_1, signal_2)
 
-        signal_2.extrapolator_args = {}
+        signal_2.extrapolator_kwargs = {}
         self.assertNotEqual(signal_1, signal_2)
 
-        signal_2.extrapolator_args = {
+        signal_2.extrapolator_kwargs = {
             'method': 'Constant',
             'left': np.nan,
             'right': np.nan

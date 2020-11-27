@@ -3,23 +3,17 @@
 :math:`\\Delta E'` - Delta E Colour Difference - Luo, Cui and Li (2006)
 ======================================================================
 
-Defines :math:`\\Delta E'` colour difference computation objects based on
-*Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
+Defines :math:`\\Delta E'` colour difference computation objects based on *Luo
+et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
 
 -   :func:`colour.difference.delta_E_CAM02LCD`
 -   :func:`colour.difference.delta_E_CAM02SCD`
 -   :func:`colour.difference.delta_E_CAM02UCS`
 
-See Also
---------
-`CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ucs_luo2006.ipynb>`_
-
 References
 ----------
--   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
-    spaces based on CIECAM02 colour appearance model. Color Research &
+-   :cite:`Luo2006b` : Luo, M. Ronnier, Cui, G., & Li, C. (2006). Uniform
+    colour spaces based on CIECAM02 colour appearance model. Color Research &
     Application, 31(4), 320-330. doi:10.1002/col.20227
 """
 
@@ -92,7 +86,7 @@ def delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
     >>> delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
     ...                 COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
     ... # doctest: +ELLIPSIS
-    0.0001034...
+    14.0555464...
     """
 
     J_p_1, a_p_1, b_p_1 = tsplit(Jpapbp_1)
@@ -153,6 +147,7 @@ def delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2):
     >>> delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     14.0555464...
     """
+
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
                            COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
@@ -206,6 +201,7 @@ def delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2):
     >>> delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     14.0551718...
     """
+
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
                            COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
 
@@ -259,5 +255,6 @@ def delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2):
     >>> delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     14.0552982...
     """
+
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
                            COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])

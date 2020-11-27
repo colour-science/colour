@@ -10,9 +10,9 @@ message_box('"Rayleigh" Optical Depth Computations')
 
 message_box(('Creating a "Rayleigh" spectral distribution with default '
              'spectral shape:\n'
-             '\n\t{0}'.format(colour.DEFAULT_SPECTRAL_SHAPE)))
-sd = colour.sd_rayleigh_scattering()
-print(sd[555])
+             '\n\t{0}'.format(colour.SPECTRAL_SHAPE_DEFAULT)))
+sd_rayleigh = colour.sd_rayleigh_scattering()
+print(sd_rayleigh[555])
 
 print('\n')
 

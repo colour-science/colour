@@ -78,7 +78,7 @@ print('\n')
 
 message_box(('Plotting a single custom "RGB" colourspace in '
              '"CIE 1931 Chromaticity Diagram".'))
-colour.RGB_COLOURSPACES['Awful RGB'] = colour.RGB_Colourspace(
+AWFUL_RGB = colour.RGB_Colourspace(
     'Awful RGB',
     primaries=np.array([
         [0.10, 0.20],
@@ -88,7 +88,7 @@ colour.RGB_COLOURSPACES['Awful RGB'] = colour.RGB_Colourspace(
     whitepoint=np.array([1.0 / 3.0, 1.0 / 3.0]))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
-    ['ITU-R BT.709', 'Awful RGB'])
+    ['ITU-R BT.709', AWFUL_RGB])
 
 print('\n')
 

@@ -53,7 +53,7 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
 
         Returns
         -------
-        Nayatani95_Specification
+        CAM_Specification_Nayatani95
             *Nayatani (1995)* colour appearance model specification.
         """
 

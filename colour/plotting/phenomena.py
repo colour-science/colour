@@ -16,9 +16,10 @@ import matplotlib.pyplot as plt
 from colour.colorimetry import sd_to_XYZ
 from colour.phenomena import sd_rayleigh_scattering
 from colour.phenomena.rayleigh import (
-    AVERAGE_PRESSURE_MEAN_SEA_LEVEL, DEFAULT_ALTITUDE, DEFAULT_LATITUDE,
-    STANDARD_AIR_TEMPERATURE, STANDARD_CO2_CONCENTRATION)
-from colour.plotting import (ASTMG173_ETR, COLOUR_STYLE_CONSTANTS,
+    CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL, CONSTANT_DEFAULT_ALTITUDE,
+    CONSTANT_DEFAULT_LATITUDE, CONSTANT_STANDARD_AIR_TEMPERATURE,
+    CONSTANT_STANDARD_CO2_CONCENTRATION)
+from colour.plotting import (SD_ASTMG173_ETR, CONSTANTS_COLOUR_STYLE,
                              ColourSwatch, XYZ_to_plotting_colourspace,
                              filter_cmfs, override_style, render,
                              plot_single_colour_swatch, plot_single_sd)
@@ -36,11 +37,11 @@ __all__ = ['plot_single_sd_rayleigh_scattering', 'plot_the_blue_sky']
 
 @override_style()
 def plot_single_sd_rayleigh_scattering(
-        CO2_concentration=STANDARD_CO2_CONCENTRATION,
-        temperature=STANDARD_AIR_TEMPERATURE,
-        pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-        latitude=DEFAULT_LATITUDE,
-        altitude=DEFAULT_ALTITUDE,
+        CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
+        temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
+        pressure=CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+        latitude=CONSTANT_DEFAULT_LATITUDE,
+        altitude=CONSTANT_DEFAULT_ALTITUDE,
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
@@ -58,8 +59,10 @@ def plot_single_sd_rayleigh_scattering(
         Latitude of the site in degrees.
     altitude : numeric, optional
         Altitude of the site in meters.
-    cmfs : unicode, optional
-        Standard observer colour matching functions.
+    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions used for computing the
+        spectrum domain and colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -82,8 +85,7 @@ def plot_single_sd_rayleigh_scattering(
     Examples
     --------
     >>> plot_single_sd_rayleigh_scattering()  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_SD_Rayleigh_Scattering.png
         :align: center
@@ -110,8 +112,10 @@ def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Parameters
     ----------
-    cmfs : unicode, optional
-        Standard observer colour matching functions.
+    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions used for computing the
+        spectrum domain and colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -130,8 +134,7 @@ def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Examples
     --------
     >>> plot_the_blue_sky()  # doctest: +ELLIPSIS
-    (<Figure size ... with 2 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 2 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_The_Blue_Sky.png
         :align: center
@@ -140,11 +143,11 @@ def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     figure = plt.figure()
 
-    figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
+    figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    ASTMG173_sd = ASTMG173_ETR.copy()
+    ASTMG173_sd = SD_ASTMG173_ETR.copy()
     rayleigh_sd = sd_rayleigh_scattering()
     ASTMG173_sd.align(rayleigh_sd.shape)
 

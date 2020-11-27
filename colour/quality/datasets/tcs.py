@@ -10,17 +10,12 @@ The *CIE 1995* test colour samples data is in the form of a *dict* of
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
-See Also
---------
-`Colour Rendering Index Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/cri.ipynb>`_
-
 References
 ----------
--   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
-    Retrieved from https://drive.google.com/file/d/\
-1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
+-   :cite:`Ohno2008a` : Ohno, Yoshiro, & Davis, W. (2008). NIST CQS simulation
+    (Version 7.4) [Computer software].
+    https://drive.google.com/file/d/1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?\
+usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -36,11 +31,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TCS_INDEXES_TO_NAMES', 'TCS_APPROXIMATE_MUNSELL_NOTATIONS',
-    'TCS_SDS_DATA', 'TCS_SDS'
+    'INDEXES_TO_NAMES_TCS', 'APPROXIMATE_MUNSELL_NOTATIONS_TCS', 'DATA_TCS',
+    'SDS_TCS'
 ]
 
-TCS_INDEXES_TO_NAMES = {
+INDEXES_TO_NAMES_TCS = {
     1: 'TCS01',
     2: 'TCS02',
     3: 'TCS03',
@@ -59,10 +54,10 @@ TCS_INDEXES_TO_NAMES = {
 """
 Test colour samples indexes to names mapping.
 
-TCS_INDEXES_TO_NAMES : dict
+INDEXES_TO_NAMES_TCS : dict
 """
 
-TCS_APPROXIMATE_MUNSELL_NOTATIONS = CaseInsensitiveMapping({
+APPROXIMATE_MUNSELL_NOTATIONS_TCS = CaseInsensitiveMapping({
     'TCS01': '7.5 R 6/4',
     'TCS02': '5 Y 6/4',
     'TCS03': '5 GY 6/8',
@@ -81,10 +76,10 @@ TCS_APPROXIMATE_MUNSELL_NOTATIONS = CaseInsensitiveMapping({
 """
 Test colour samples *Munsell* colour approximations.
 
-TCS_APPROXIMATE_MUNSELL_NOTATIONS : CaseInsensitiveMapping
+APPROXIMATE_MUNSELL_NOTATIONS_TCS : CaseInsensitiveMapping
 """
 
-TCS_SDS_DATA = {
+DATA_TCS = {
     'TCS01': {
         360: 0.116,
         365: 0.136,
@@ -1445,9 +1440,9 @@ TCS_SDS_DATA = {
     }
 }
 
-TCS_SDS = CaseInsensitiveMapping(
+SDS_TCS = CaseInsensitiveMapping(
     dict((key, SpectralDistribution(value, name=key))
-         for key, value in TCS_SDS_DATA.items()))
+         for key, value in DATA_TCS.items()))
 """
 Test colour samples spectral distributions.
 
@@ -1455,5 +1450,5 @@ References
 ----------
 :cite:`Ohno2008a`
 
-TCS_SDS : CaseInsensitiveMapping
+SDS_TCS : CaseInsensitiveMapping
 """

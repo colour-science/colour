@@ -13,12 +13,6 @@ computations objects:
     coordinates computation of given correlated colour temperature
     :math:`T_{cp}` using *McCamy (1992)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2001` : Wikipedia. (2001). Approximation. Retrieved June
@@ -30,8 +24,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.utilities import as_float_array, as_numeric, tsplit, usage_warning
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -78,7 +73,7 @@ def xy_to_CCT_McCamy1992(xy):
     return CCT
 
 
-def CCT_to_xy_McCamy1992(CCT, optimisation_parameters=None):
+def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None, **kwargs):
     """
     Returns the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *McCamy (1992)* method.
@@ -87,8 +82,13 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_parameters=None):
     ----------
     CCT : numeric or array_like
         Correlated colour temperature :math:`T_{cp}`.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -98,10 +98,10 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_parameters=None):
     Warnings
     --------
     *McCamy (1992)* method for computing *CIE xy* chromaticity coordinates
-    from given correlated colour temperature is a bijective function and might
-    produce unexpected results. It is given for consistency with other
+    from given correlated colour temperature is not a bijective function and
+    might produce unexpected results. It is given for consistency with other
     correlated colour temperature computation methods but should be avoided
-    for practical applications.The current implementation relies on
+    for practical applications. The current implementation relies on
     optimization using :func:`scipy.optimize.minimize` definition and thus has
     reduced precision and poor performance.
 
@@ -114,6 +114,11 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_parameters=None):
     >>> CCT_to_xy_McCamy1992(6505.0805913074782)  # doctest: +ELLIPSIS
     array([ 0.3127...,  0.329...])
     """
+
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     usage_warning('"*McCamy (1992)" method for computing "CIE xy" '
                   'chromaticity coordinates from given correlated colour '
@@ -141,13 +146,13 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_parameters=None):
             'fatol': 1e-10,
         },
     }
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     CCT = as_float_array([
         minimize(
             objective_function,
-            x0=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+            x0=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
             args=(CCT_i, ),
             **optimisation_settings).x for CCT_i in CCT
     ])

@@ -1,13 +1,29 @@
 Advanced
 ========
 
+This page describes some advanced usage scenarios of **Colour**.
+
+.. contents:: Table of Contents
+    :local:
+    :depth: 3
+
 Environment
 -----------
 
 Various environment variables can be used to modify **Colour** behaviour at
 runtime:
 
--   `COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK`: result in the
+-   `COLOUR_SCIENCE__FLOAT_PRECISION`: Sets the float precision for most of
+    **Colour** computations. Possible values are `float16`, `float32` and
+    `float64` (default). Changing float precision might result in various
+    **Colour** `functionality breaking entirely <https://github.com/numpy/numpy/issues/6860>`__.
+    *With great power comes great responsibility*.
+-   `COLOUR_SCIENCE__INT_PRECISION`: Sets the integer precision for most of
+    **Colour** computations. Possible values are `int8`, `int16`, `int32`,
+    and `int64` (default). Changing integer precision
+    *will almost certainly break* **Colour**!
+    *With great power comes great responsibility*.
+-   `COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK`: results in the
     :func:`warnings.showwarning` definition to be replaced with the
     :func:`colour.utilities.show_warning` definition and thus providing
     complete traceback from the point where the warning occurred.

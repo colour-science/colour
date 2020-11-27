@@ -9,25 +9,19 @@ transfer function (EOTF / EOCF) and its inverse:
 -   :func:`colour.models.eotf_inverse_DICOMGSDF`
 -   :func:`colour.models.eotf_DICOMGSDF`
 
-The Grayscale Standard Display Function is defined for the Luminance Range
-from :math:`0.05` to :math:`4000 cd/m^2`. The minimum Luminance corresponds
-to the lowest practically useful Luminance of cathode-ray-tube (CRT) monitors
-and the maximum exceeds the unattenuated Luminance of very bright light-boxes
-used for interpreting X-Ray mammography. The Grayscale Standard Display
-Function explicitly includes the effects of the diffused ambient Illuminance.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
+The Grayscale Standard Display Function is defined for the Luminance Range from
+:math:`0.05` to :math:`4000 cd/m^2`. The minimum Luminance corresponds to the
+lowest practically useful Luminance of cathode-ray-tube (CRT) monitors and the
+maximum exceeds the unattenuated Luminance of very bright light-boxes used for
+interpreting X-Ray mammography. The Grayscale Standard Display Function
+explicitly includes the effects of the diffused ambient Illuminance.
 
 References
 ----------
 -   :cite:`NationalElectricalManufacturersAssociation2004b` : National
     Electrical Manufacturers Association. (2004). Digital Imaging and
     Communications in Medicine (DICOM) Part 14: Grayscale Standard Display
-    Function. Retrieved from http://medical.nema.org/dicom/2004/04_14PU.PDF
+    Function. http://medical.nema.org/dicom/2004/04_14PU.PDF
 """
 
 from __future__ import division, unicode_literals
@@ -44,9 +38,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DICOMGSDF_CONSTANTS', 'eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
+__all__ = ['CONSTANTS_DICOMGSDF', 'eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
 
-DICOMGSDF_CONSTANTS = Structure(
+CONSTANTS_DICOMGSDF = Structure(
     a=-1.3011877,
     b=-2.5840191e-2,
     c=8.0242636e-2,
@@ -69,7 +63,7 @@ DICOMGSDF_CONSTANTS = Structure(
 """
 *DICOM Grayscale Standard Display Function* constants.
 
-DICOMGSDF_CONSTANTS : Structure
+CONSTANTS_DICOMGSDF : Structure
 """
 
 
@@ -122,15 +116,15 @@ def eotf_inverse_DICOMGSDF(L, out_int=False):
 
     L_lg = np.log10(L)
 
-    A = DICOMGSDF_CONSTANTS.A
-    B = DICOMGSDF_CONSTANTS.B
-    C = DICOMGSDF_CONSTANTS.C
-    D = DICOMGSDF_CONSTANTS.D
-    E = DICOMGSDF_CONSTANTS.E
-    F = DICOMGSDF_CONSTANTS.F
-    G = DICOMGSDF_CONSTANTS.G
-    H = DICOMGSDF_CONSTANTS.H
-    I = DICOMGSDF_CONSTANTS.I  # noqa
+    A = CONSTANTS_DICOMGSDF.A
+    B = CONSTANTS_DICOMGSDF.B
+    C = CONSTANTS_DICOMGSDF.C
+    D = CONSTANTS_DICOMGSDF.D
+    E = CONSTANTS_DICOMGSDF.E
+    F = CONSTANTS_DICOMGSDF.F
+    G = CONSTANTS_DICOMGSDF.G
+    H = CONSTANTS_DICOMGSDF.H
+    I = CONSTANTS_DICOMGSDF.I  # noqa
 
     J = (A + B * L_lg + C * L_lg ** 2 + D * L_lg ** 3 + E * L_lg ** 4 +
          F * L_lg ** 5 + G * L_lg ** 6 + H * L_lg ** 7 + I * L_lg ** 8)
@@ -191,16 +185,16 @@ def eotf_DICOMGSDF(J, in_int=False):
     if not in_int:
         J = J * 1023
 
-    a = DICOMGSDF_CONSTANTS.a
-    b = DICOMGSDF_CONSTANTS.b
-    c = DICOMGSDF_CONSTANTS.c
-    d = DICOMGSDF_CONSTANTS.d
-    e = DICOMGSDF_CONSTANTS.e
-    f = DICOMGSDF_CONSTANTS.f
-    g = DICOMGSDF_CONSTANTS.g
-    h = DICOMGSDF_CONSTANTS.h
-    k = DICOMGSDF_CONSTANTS.k
-    m = DICOMGSDF_CONSTANTS.m
+    a = CONSTANTS_DICOMGSDF.a
+    b = CONSTANTS_DICOMGSDF.b
+    c = CONSTANTS_DICOMGSDF.c
+    d = CONSTANTS_DICOMGSDF.d
+    e = CONSTANTS_DICOMGSDF.e
+    f = CONSTANTS_DICOMGSDF.f
+    g = CONSTANTS_DICOMGSDF.g
+    h = CONSTANTS_DICOMGSDF.h
+    k = CONSTANTS_DICOMGSDF.k
+    m = CONSTANTS_DICOMGSDF.m
 
     J_ln = np.log(J)
     J_ln2 = J_ln ** 2

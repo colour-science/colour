@@ -13,16 +13,10 @@ colourspaces transformations:
 -   :func:`colour.JMh_CIECAM02_to_CAM02UCS`
 -   :func:`colour.CAM02UCS_to_JMh_CIECAM02`
 
-See Also
---------
-`CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/cam02_ucs.ipynb>`_
-
 References
 ----------
--   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
-    spaces based on CIECAM02 colour appearance model. Color Research &
+-   :cite:`Luo2006b` : Luo, M. Ronnier, Cui, G., & Li, C. (2006). Uniform
+    colour spaces based on CIECAM02 colour appearance model. Color Research &
     Application, 31(4), 320-330. doi:10.1002/col.20227
 """
 
@@ -125,13 +119,13 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     Examples
     --------
     >>> from colour.appearance import (
-    ...     CIECAM02_VIEWING_CONDITIONS,
+    ...     VIEWING_CONDITIONS_CIECAM02,
     ...     XYZ_to_CIECAM02)
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
+    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
     >>> specification = XYZ_to_CIECAM02(
     ...     XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
@@ -272,13 +266,13 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
     Examples
     --------
     >>> from colour.appearance import (
-    ...     CIECAM02_VIEWING_CONDITIONS,
+    ...     VIEWING_CONDITIONS_CIECAM02,
     ...     XYZ_to_CIECAM02)
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
+    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
     >>> specification = XYZ_to_CIECAM02(
     ...     XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
@@ -388,13 +382,13 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
     Examples
     --------
     >>> from colour.appearance import (
-    ...     CIECAM02_VIEWING_CONDITIONS,
+    ...     VIEWING_CONDITIONS_CIECAM02,
     ...     XYZ_to_CIECAM02)
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
+    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
     >>> specification = XYZ_to_CIECAM02(
     ...     XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
@@ -504,13 +498,13 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
     Examples
     --------
     >>> from colour.appearance import (
-    ...     CIECAM02_VIEWING_CONDITIONS,
+    ...     VIEWING_CONDITIONS_CIECAM02,
     ...     XYZ_to_CIECAM02)
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
+    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
     >>> specification = XYZ_to_CIECAM02(
     ...     XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)

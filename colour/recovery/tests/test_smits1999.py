@@ -98,8 +98,8 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        RGB_i = XYZ_to_RGB_Smits1999(
-            np.array([0.21781186, 0.12541048, 0.04697113]))
+        XYZ_i = np.array([0.20654008, 0.12197225, 0.05136952])
+        RGB_i = XYZ_to_RGB_Smits1999(XYZ_i)
         XYZ_o = sd_to_XYZ_integration(RGB_to_sd_Smits1999(RGB_i))
 
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))

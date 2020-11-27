@@ -10,11 +10,10 @@ Defines the automatic colour conversion graph plotting objects:
 
 from __future__ import division
 
-from colour.graph import CONVERSION_GRAPH, CONVERSION_GRAPH_NODE_LABELS
-from colour.utilities import is_networkx_installed
-
-if is_networkx_installed():  # pragma: no cover
-    import networkx as nx
+import colour
+from colour.graph import (CONVERSION_GRAPH_NODE_LABELS,
+                          describe_conversion_path)
+from colour.utilities import required
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -26,11 +25,12 @@ __status__ = 'Production'
 __all__ = ['plot_automatic_colour_conversion_graph']
 
 
+@required('NetworkX')
 def plot_automatic_colour_conversion_graph(filename, prog='fdp', args=''):
     """
     Plots *Colour* automatic colour conversion graph using
-    `Graphviz <https://www.graphviz.org/>`_ and
-    `pyraphviz <https://pygraphviz.github.io>`_.
+    `Graphviz <https://www.graphviz.org/>`__ and
+    `pyraphviz <https://pygraphviz.github.io>`__.
 
     Parameters
     ----------
@@ -68,31 +68,35 @@ def plot_automatic_colour_conversion_graph(filename, prog='fdp', args=''):
         :alt: plot_automatic_colour_conversion_graph
     """
 
-    if is_networkx_installed(raise_exception=True):  # pragma: no cover
-        agraph = nx.nx_agraph.to_agraph(CONVERSION_GRAPH)
+    import networkx as nx
 
-        for node in agraph.nodes():
-            node.attr.update(label=CONVERSION_GRAPH_NODE_LABELS[node.name])
+    # TODO: Investigate API to trigger the conversion graph build.
+    describe_conversion_path('RGB', 'RGB', print_callable=lambda x: x)
 
-        agraph.node_attr.update(
-            style='filled',
-            shape='circle',
-            color='#2196F3FF',
-            fillcolor='#2196F370',
-            fontname='Helvetica',
-            fontcolor="#263238")
-        agraph.edge_attr.update(color='#26323870')
-        for node in ('CIE XYZ', 'RGB', 'Spectral Distribution'):
-            agraph.get_node(node.lower()).attr.update(
-                shape='doublecircle',
-                color='#673AB7FF',
-                fillcolor='#673AB770',
-                fontsize=30)
-        for node in ('ATD95', 'CAM16', 'CIECAM02', 'Hunt', 'LLAB',
-                     'Nayatani95', 'RLAB'):
-            agraph.get_node(node.lower()).attr.update(
-                color='#00BCD4FF', fillcolor='#00BCD470')
+    agraph = nx.nx_agraph.to_agraph(colour.graph.CONVERSION_GRAPH)
 
-        agraph.draw(filename, prog=prog, args=args)
+    for node in agraph.nodes():
+        node.attr.update(label=CONVERSION_GRAPH_NODE_LABELS[node.name])
 
-        return agraph
+    agraph.node_attr.update(
+        style='filled',
+        shape='circle',
+        color='#2196F3FF',
+        fillcolor='#2196F370',
+        fontname='Helvetica',
+        fontcolor='#263238')
+    agraph.edge_attr.update(color='#26323870')
+    for node in ('CIE XYZ', 'RGB', 'Spectral Distribution'):
+        agraph.get_node(node.lower()).attr.update(
+            shape='doublecircle',
+            color='#673AB7FF',
+            fillcolor='#673AB770',
+            fontsize=30)
+    for node in ('ATD95', 'CAM16', 'CIECAM02', 'Hunt', 'LLAB', 'Nayatani95',
+                 'RLAB'):
+        agraph.get_node(node.lower()).attr.update(
+            color='#00BCD4FF', fillcolor='#00BCD470')
+
+    agraph.draw(filename, prog=prog, args=args)
+
+    return agraph

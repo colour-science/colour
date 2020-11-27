@@ -21,8 +21,8 @@ Spectral Data Structure
 .. autosummary::
     :toctree: generated/
 
-    DEFAULT_SPECTRAL_SHAPE
-    ASTME308_PRACTISE_SHAPE
+    SPECTRAL_SHAPE_ASTME308
+    SPECTRAL_SHAPE_DEFAULT
 
 Spectral Data Generation
 ------------------------
@@ -40,6 +40,9 @@ Spectral Data Generation
     sd_constant
     sd_ones
     sd_zeros
+    msds_constant
+    msds_ones
+    msds_zeros
     SD_GAUSSIAN_METHODS
     sd_gaussian
     SD_SINGLE_LED_METHODS
@@ -61,8 +64,8 @@ Spectral Data Generation
     sd_gaussian_fwhm
     sd_single_led_Ohno2005
     sd_multi_leds_Ohno2005
-    sds_and_multi_sds_to_sds
-    sds_and_multi_sds_to_multi_sds
+    sds_and_msds_to_sds
+    sds_and_msds_to_msds
 
 **Aliases**
 
@@ -87,8 +90,8 @@ Conversion to Tristimulus Values
 
     sd_to_XYZ
     SD_TO_XYZ_METHODS
-    multi_sds_to_XYZ
-    MULTI_SD_TO_XYZ_METHODS
+    msds_to_XYZ
+    MSDS_TO_XYZ_METHODS
     wavelength_to_XYZ
 
 ASTM E308-15
@@ -102,7 +105,7 @@ ASTM E308-15
     :toctree: generated/
 
     sd_to_XYZ_ASTME308
-    multi_sds_to_XYZ_ASTME308
+    msds_to_XYZ_ASTME308
 
 **Ancillary Objects**
 
@@ -129,7 +132,7 @@ Integration
     :toctree: generated/
 
     sd_to_XYZ_integration
-    multi_sds_to_XYZ_integration
+    msds_to_XYZ_integration
 
 Spectral Bandpass Dependence Correction
 ---------------------------------------
@@ -180,13 +183,25 @@ Colour Matching Functions
 .. autosummary::
     :toctree: generated/
 
-    CMFS
-    LMS_CMFS
-    RGB_CMFS
-    STANDARD_OBSERVERS_CMFS
+    MSDS_CMFS
+
+
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    MSDS_CMFS_LMS
+    MSDS_CMFS_RGB
+    MSDS_CMFS_STANDARD_OBSERVER
 
 Colour Matching Functions Transformations
 -----------------------------------------
+
 **Ancillary Objects**
 
 ``colour.colorimetry``
@@ -214,11 +229,22 @@ Illuminants and Light Sources
 .. autosummary::
     :toctree: generated/
 
-    ILLUMINANTS
-    ILLUMINANTS_SDS
-    HUNTERLAB_ILLUMINANTS
-    LIGHT_SOURCES
-    LIGHT_SOURCES_SDS
+    CCS_ILLUMINANTS
+    SDS_ILLUMINANTS
+    CCS_LIGHT_SOURCES
+    SDS_LIGHT_SOURCES
+    TVS_ILLUMINANTS_HUNTERLAB
+
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES
 
 Dominant Wavelength and Purity
 ------------------------------
@@ -257,9 +283,20 @@ Luminous Efficiency Functions
 .. autosummary::
     :toctree: generated/
 
-    LEFS
-    PHOTOPIC_LEFS
-    SCOTOPIC_LEFS
+    SDS_LEFS
+
+
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    SDS_LEFS_PHOTOPIC
+    SDS_LEFS_SCOTOPIC
 
 Lightness Computation
 ---------------------

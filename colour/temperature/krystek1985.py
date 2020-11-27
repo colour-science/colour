@@ -13,17 +13,11 @@ computations objects:
     *uv* chromaticity coordinates computation of given correlated colour
     temperature :math:`T_{cp}` using *Krystek (1985)* method.
 
-See Also
---------
-`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/temperature/cct.ipynb>`_
-
 References
 ----------
 -   :cite:`Krystek1985b` : Krystek, M. (1985). An algorithm to calculate
-    correlated colour temperature. Color Research & Application, 10(1),
-    38-40. doi:10.1002/col.5080100109
+    correlated colour temperature. Color Research & Application, 10(1), 38-40.
+    doi:10.1002/col.5080100109
 """
 
 from __future__ import division, unicode_literals
@@ -32,6 +26,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.utilities import as_float_array, as_numeric, tstack
+from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -43,7 +38,7 @@ __status__ = 'Production'
 __all__ = ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
 
 
-def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
+def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE UCS* colourspace *uv* chromaticity coordinates using *Krystek (1985)*
@@ -53,8 +48,13 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
     ----------
     uv : array_like
          *CIE UCS* colourspace *uv* chromaticity coordinates.
-    optimisation_parameters : dict_like, optional
+    optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -85,6 +85,11 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
     6504.3894290...
     """
 
+    optimisation_kwargs = handle_arguments_deprecation({
+        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
+                            ],
+    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
+
     uv = as_float_array(uv)
     shape = uv.shape
     uv = np.atleast_1d(uv.reshape([-1, 2]))
@@ -104,8 +109,8 @@ def uv_to_CCT_Krystek1985(uv, optimisation_parameters=None):
             'fatol': 1e-10,
         },
     }
-    if optimisation_parameters is not None:
-        optimisation_settings.update(optimisation_parameters)
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
 
     CCT = as_float_array([
         minimize(
@@ -150,11 +155,13 @@ def CCT_to_uv_Krystek1985(CCT):
 
     T = as_float_array(CCT)
 
-    u = ((0.860117757 + 1.54118254 * 10 ** -4 * T +
-          1.28641212 * 10 ** -7 * T ** 2) /
-         (1 + 8.42420235 * 10 ** -4 * T + 7.08145163 * 10 ** -7 * T ** 2))
-    v = ((0.317398726 + 4.22806245 * 10 ** -5 * T +
-          4.20481691 * 10 ** -8 * T ** 2) /
-         (1 - 2.89741816 * 10 ** -5 * T + 1.61456053 * 10 ** -7 * T ** 2))
+    T_2 = T ** 2
+
+    u = (
+        (0.860117757 + 1.54118254 * 10 ** -4 * T + 1.28641212 * 10 ** -7 * T_2)
+        / (1 + 8.42420235 * 10 ** -4 * T + 7.08145163 * 10 ** -7 * T_2))
+    v = (
+        (0.317398726 + 4.22806245 * 10 ** -5 * T + 4.20481691 * 10 ** -8 * T_2)
+        / (1 - 2.89741816 * 10 ** -5 * T + 1.61456053 * 10 ** -7 * T_2))
 
     return tstack([u, v])

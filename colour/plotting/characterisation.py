@@ -15,7 +15,7 @@ import numpy as np
 
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
-    COLOUR_STYLE_CONSTANTS, ColourSwatch, XYZ_to_plotting_colourspace, artist,
+    CONSTANTS_COLOUR_STYLE, ColourSwatch, XYZ_to_plotting_colourspace, artist,
     filter_colour_checkers, plot_multi_colour_swatches, override_style, render)
 
 __author__ = 'Colour Developers'
@@ -36,14 +36,17 @@ __all__ = ['plot_single_colour_checker', 'plot_multi_colour_checkers']
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
+def plot_single_colour_checker(
+        colour_checker='ColorChecker24 - After November 2014', **kwargs):
     """
     Plots given colour checker.
 
     Parameters
     ----------
-    colour_checker : unicode, optional
-        Color checker name.
+    colour_checker : unicode or ColourChecker, optional
+        Color checker to plot. ``colour_checker`` can be of any type or form
+        supported by the
+        :func:`colour.plotting.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------
@@ -61,8 +64,7 @@ def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
     Examples
     --------
     >>> plot_single_colour_checker('ColorChecker 2005')  # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Checker.png
         :align: center
@@ -80,14 +82,16 @@ def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
+def plot_multi_colour_checkers(colour_checkers, **kwargs):
     """
     Plots and compares given colour checkers.
 
     Parameters
     ----------
-    colour_checkers : array_like, optional
-        Color checker names, must be less than or equal to 2 names.
+    colour_checkers : unicode or ColourChecker or array_like
+        Color checker to plot, count must be less than or equal to 2.
+        ``colour_checkers`` elements can be of any type or form supported by
+        the :func:`colour.plotting.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------
@@ -106,19 +110,15 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
     --------
     >>> plot_multi_colour_checkers(['ColorChecker 1976', 'ColorChecker 2005'])
     ... # doctest: +ELLIPSIS
-    (<Figure size ... with 1 Axes>, \
-<matplotlib.axes._subplots.AxesSubplot object at 0x...>)
+    (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Colour_Checkers.png
         :align: center
         :alt: plot_multi_colour_checkers
     """
 
-    if colour_checkers is None:
-        colour_checkers = ['ColorChecker 1976', 'ColorChecker 2005']
-    else:
-        assert len(colour_checkers) <= 2, (
-            'Only two colour checkers can be compared at a time!')
+    assert len(colour_checkers) <= 2, (
+        'Only two colour checkers can be compared at a time!')
 
     colour_checkers = filter_colour_checkers(colour_checkers).values()
 
@@ -155,7 +155,8 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
         'height': height,
         'spacing': spacing,
         'columns': columns,
-        'text_parameters': {
+        'direction': '-y',
+        'text_kwargs': {
             'size': 8
         },
         'background_colour': background_colour,
@@ -171,9 +172,9 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
         0.005,
         '{0} - {1} - Colour Rendition Chart'.format(
             ', '.join(colour_checker_names),
-            COLOUR_STYLE_CONSTANTS.colour.colourspace.name),
+            CONSTANTS_COLOUR_STYLE.colour.colourspace.name),
         transform=axes.transAxes,
-        color=COLOUR_STYLE_CONSTANTS.colour.bright,
+        color=CONSTANTS_COLOUR_STYLE.colour.bright,
         ha='center',
         va='bottom')
 

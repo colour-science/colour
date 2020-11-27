@@ -2,6 +2,6 @@
 
 from __future__ import absolute_import
 
-from .rgb_primaries import CRT_DISPLAYS_RGB_PRIMARIES
+from .primaries import MSDS_DISPLAY_PRIMARIES_CRT
 
-__all__ = ['CRT_DISPLAYS_RGB_PRIMARIES']
+__all__ = ['MSDS_DISPLAY_PRIMARIES_CRT']

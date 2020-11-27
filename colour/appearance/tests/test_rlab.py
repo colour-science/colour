@@ -9,7 +9,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from itertools import permutations
 
-from colour.appearance import (RLAB_D_FACTOR, RLAB_VIEWING_CONDITIONS,
+from colour.appearance import (D_FACTOR_RLAB, VIEWING_CONDITIONS_RLAB,
                                XYZ_to_RLAB)
 from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
@@ -53,7 +53,7 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
 
         Returns
         -------
-        RLAB_Specification
+        CAM_Specification_RLAB
             *RLAB* colour appearance model specification.
         """
 
@@ -74,8 +74,8 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_n = np.array([109.85, 100, 35.58])
         Y_n = 31.83
-        sigma = RLAB_VIEWING_CONDITIONS['Average']
-        D = RLAB_D_FACTOR['Hard Copy Images']
+        sigma = VIEWING_CONDITIONS_RLAB['Average']
+        D = D_FACTOR_RLAB['Hard Copy Images']
         specification = XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)[:4]
 
         d_r = (

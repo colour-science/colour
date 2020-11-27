@@ -15,12 +15,6 @@ The following correction methods are available:
 -   :func:`colour.bandpass_correction`: Spectral bandpass dependence
     correction using given method.
 
-See Also
---------
-`Spectral Bandpass Dependence Correction Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/correction.ipynb>`_
-
 References
 ----------
 -   :cite:`Stearns1988a` : Stearns, E. I., & Stearns, R. E. (1988). An example
@@ -49,7 +43,7 @@ __all__ = [
     'bandpass_correction'
 ]
 
-ALPHA_STEARNS = 0.083
+CONSTANT_ALPHA_STEARNS = 0.083
 
 
 def bandpass_correction_Stearns1988(sd):
@@ -93,18 +87,20 @@ def bandpass_correction_Stearns1988(sd):
                           [ 580.        ,    0.1129644...],
                           [ 600.        ,    0.1379256...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     values = np.copy(sd.values)
-    values[0] = (1 + ALPHA_STEARNS) * values[0] - ALPHA_STEARNS * values[1]
-    values[-1] = (1 + ALPHA_STEARNS) * values[-1] - ALPHA_STEARNS * values[-2]
+    values[0] = (1 + CONSTANT_ALPHA_STEARNS
+                 ) * values[0] - CONSTANT_ALPHA_STEARNS * values[1]
+    values[-1] = (1 + CONSTANT_ALPHA_STEARNS
+                  ) * values[-1] - CONSTANT_ALPHA_STEARNS * values[-2]
     for i in range(1, len(values) - 1):
-        values[i] = (-ALPHA_STEARNS * values[i - 1] +
-                     (1 + 2 * ALPHA_STEARNS) * values[i] -
-                     ALPHA_STEARNS * values[i + 1])
+        values[i] = (-CONSTANT_ALPHA_STEARNS * values[i - 1] +
+                     (1 + 2 * CONSTANT_ALPHA_STEARNS) * values[i] -
+                     CONSTANT_ALPHA_STEARNS * values[i + 1])
 
     sd.values = values
 
@@ -166,9 +162,9 @@ def bandpass_correction(sd, method='Stearns 1988'):
                           [ 580.        ,    0.1129644...],
                           [ 600.        ,    0.1379256...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     return BANDPASS_CORRECTION_METHODS.get(method)(sd)

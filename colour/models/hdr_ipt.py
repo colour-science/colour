@@ -10,21 +10,15 @@ Defines the *hdr-IPT* colourspace transformations:
 -   :func:`colour.XYZ_to_hdr_IPT`
 -   :func:`colour.hdr_IPT_to_XYZ`
 
-See Also
---------
-`hdr-IPT Colourspace Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/hdr_ipt.ipynb>`_
-
 References
 ----------
--   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).
-    hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of
-    High-Dynamic-Range and Wide-Color-Gamut Images. In Proc. of Color and
-    Imaging Conference (pp. 322-326). ISBN:9781629932156
+-   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB
+    and hdr-IPT: Simple Models for Describing the Color of High-Dynamic-Range
+    and Wide-Color-Gamut Images. Proc. of Color and Imaging Conference,
+    322-326. ISBN:978-1-62993-215-6
 -   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
-    lightness, and specifying color in high-dynamic-range scenes and images.
-    In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
+    lightness, and specifying color in high-dynamic-range scenes and images. In
+    S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
     System Performance VIII (p. 78670O). doi:10.1117/12.872075
 """
 
@@ -35,12 +29,13 @@ import numpy as np
 from colour.colorimetry import (
     lightness_Fairchild2010, lightness_Fairchild2011, luminance_Fairchild2010,
     luminance_Fairchild2011)
-from colour.models.ipt import (IPT_XYZ_TO_LMS_MATRIX, IPT_LMS_TO_XYZ_MATRIX,
-                               IPT_LMS_TO_IPT_MATRIX, IPT_IPT_TO_LMS_MATRIX)
+from colour.models.ipt import (MATRIX_IPT_XYZ_TO_LMS, MATRIX_IPT_LMS_TO_XYZ,
+                               MATRIX_IPT_LMS_TO_IPT, MATRIX_IPT_IPT_TO_LMS)
 from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
                               from_range_100, to_domain_1, to_domain_100,
-                              dot_vector)
-from colour.utilities.documentation import DocstringTuple
+                              vector_dot)
+from colour.utilities.documentation import (DocstringTuple,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -53,8 +48,10 @@ __all__ = [
     'HDR_IPT_METHODS', 'exponent_hdr_IPT', 'XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ'
 ]
 
-HDR_IPT_METHODS = DocstringTuple(('Fairchild 2010', 'Fairchild 2011'))
-HDR_IPT_METHODS.__doc__ = """
+HDR_IPT_METHODS = ('Fairchild 2010', 'Fairchild 2011')
+if is_documentation_building():  # pragma: no cover
+    HDR_IPT_METHODS = DocstringTuple(HDR_IPT_METHODS)
+    HDR_IPT_METHODS.__doc__ = """
 Supported *hdr-IPT* colourspace computation methods.
 
 References
@@ -172,7 +169,7 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     |             | ``T_hdr`` : [-100, 100] | ``T_hdr`` : [-1, 1] |
     +-------------+-------------------------+---------------------+
 
-    -   Input *CIE XYZ* tristimulus values needs to be adapted for
+    -   Input *CIE XYZ* tristimulus values must be adapted to
         *CIE Standard Illuminant D Series* *D65*.
 
     References
@@ -203,13 +200,13 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
 
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
 
-    LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
+    LMS = vector_dot(MATRIX_IPT_XYZ_TO_LMS, XYZ)
 
     # Domain and range scaling has already be handled.
     with domain_range_scale('ignore'):
         LMS_prime = np.sign(LMS) * np.abs(lightness_callable(LMS, e))
 
-    IPT_hdr = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
+    IPT_hdr = vector_dot(MATRIX_IPT_LMS_TO_IPT, LMS_prime)
 
     return from_range_100(IPT_hdr)
 
@@ -287,12 +284,12 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
 
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
 
-    LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT_hdr)
+    LMS = vector_dot(MATRIX_IPT_IPT_TO_LMS, IPT_hdr)
 
     # Domain and range scaling has already be handled.
     with domain_range_scale('ignore'):
         LMS_prime = np.sign(LMS) * np.abs(luminance_callable(LMS, e))
 
-    XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
+    XYZ = vector_dot(MATRIX_IPT_LMS_TO_XYZ, LMS_prime)
 
     return from_range_1(XYZ)

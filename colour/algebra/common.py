@@ -7,6 +7,8 @@ Defines common algebra utilities objects that don't fall in any specific
 category:
 
 -   :func:`colour.algebra.spow`: Safe (symmetrical) power.
+-   :func:`colour.algebra.smoothstep_function`: *Smoothstep* sigmoid-like
+    function.
 """
 
 from __future__ import division, unicode_literals
@@ -23,7 +25,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow']
+__all__ = [
+    'is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow',
+    'smoothstep_function'
+]
 
 _SPOW_ENABLED = True
 """
@@ -168,3 +173,37 @@ def spow(a, p):
     a_p[np.isnan(a_p)] = 0
 
     return as_float(a_p)
+
+
+def smoothstep_function(x, a=0, b=1, clip=False):
+    """
+    Evaluates the *smoothstep* sigmoid-like function on array :math:`x`.
+
+    Parameters
+    ----------
+    x : numeric or array_like
+        Array :math:`x`.
+    a : numeric, optional
+        Low input domain limit, i.e. the left edge.
+    b : numeric, optional
+        High input domain limit, i.e. the right edge.
+    clip : bool, optional
+        Whether to scale, bias and clip input values to domain [0, 1].
+
+    Returns
+    -------
+    array_like
+        Array :math:`x` after *smoothstep* sigmoid-like function evaluation.
+
+    Examples
+    --------
+    >>> x = np.linspace(-2, 2, 5)
+    >>> smoothstep_function(x, -2, 2, clip=True)
+    array([ 0.     ,  0.15625,  0.5    ,  0.84375,  1.     ])
+    """
+
+    x = as_float_array(x)
+
+    i = np.clip((x - a) / (b - a), 0, 1) if clip else x
+
+    return (i ** 2) * (3 - 2 * i)

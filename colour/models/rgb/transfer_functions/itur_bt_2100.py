@@ -34,27 +34,21 @@ functions (EOTF / EOCF) and their inverse:
 -   :attr:`colour.models.BT2100_HLG_OOTF_INVERSE_METHODS`
 -   :func:`colour.models.ootf_inverse_HLG_BT2100`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`Borer2017a` : Borer, T. (2017). Private Discussion with
-    Mansencal, T. and Shaw, N.
+-   :cite:`Borer2017a` : Borer, T. (2017). Private Discussion with Mansencal,
+    T. and Shaw, N.
 -   :cite:`InternationalTelecommunicationUnion2017` : International
     Telecommunication Union. (2017). Recommendation ITU-R BT.2100-1 - Image
     parameter values for high dynamic range television for use in production
-    and international programme exchange. Retrieved from
+    and international programme exchange.
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2100-1-201706-I!!PDF-E.pdf
 -   :cite:`InternationalTelecommunicationUnion2018` : International
     Telecommunication Union. (2018). Recommendation ITU-R BT.2100-2 - Image
     parameter values for high dynamic range television for use in production
-    and international programme exchange. Retrieved from
-https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+    and international programme exchange.
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 """
 
@@ -67,7 +61,7 @@ from colour.models.rgb.transfer_functions import (
     eotf_BT1886, eotf_ST2084, eotf_inverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
     eotf_inverse_ST2084, oetf_inverse_ARIBSTDB67, oetf_inverse_BT709)
 from colour.models.rgb.transfer_functions.arib_std_b67 import (
-    ARIBSTDB67_CONSTANTS)
+    CONSTANTS_ARIBSTDB67)
 from colour.utilities import (
     CaseInsensitiveMapping, Structure, as_float_array, as_float, filter_kwargs,
     from_range_1, to_domain_1, tsplit, tstack, usage_warning)
@@ -82,7 +76,7 @@ __status__ = 'Production'
 __all__ = [
     'oetf_PQ_BT2100', 'oetf_inverse_PQ_BT2100', 'eotf_PQ_BT2100',
     'eotf_inverse_PQ_BT2100', 'ootf_PQ_BT2100', 'ootf_inverse_PQ_BT2100',
-    'BT2100_HLG_WEIGHTS', 'BT2100_HLG_CONSTANTS', 'gamma_function_HLG_BT2100',
+    'WEIGHTS_BT2100_HLG', 'CONSTANTS_BT2100_HLG', 'gamma_function_HLG_BT2100',
     'oetf_HLG_BT2100', 'oetf_inverse_HLG_BT2100',
     'black_level_lift_HLG_BT2100', 'eotf_HLG_BT2100_1', 'eotf_HLG_BT2100_2',
     'BT2100_HLG_EOTF_METHODS', 'eotf_HLG_BT2100', 'eotf_inverse_HLG_BT2100_1',
@@ -377,17 +371,17 @@ def ootf_inverse_PQ_BT2100(F_D):
     return oetf_inverse_BT709(eotf_inverse_BT1886(F_D / 100)) / 59.5208
 
 
-BT2100_HLG_WEIGHTS = np.array([0.2627, 0.6780, 0.0593])
+WEIGHTS_BT2100_HLG = np.array([0.2627, 0.6780, 0.0593])
 """
 Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*.
 
-BT2100_HLG_WEIGHTS : ndarray
+WEIGHTS_BT2100_HLG : ndarray
 """
 
-BT2100_HLG_CONSTANTS = Structure(
-    a=ARIBSTDB67_CONSTANTS.a,
-    b=1 - 4 * ARIBSTDB67_CONSTANTS.a,
-    c=0.5 - ARIBSTDB67_CONSTANTS.a * np.log(4 * ARIBSTDB67_CONSTANTS.a))
+CONSTANTS_BT2100_HLG = Structure(
+    a=CONSTANTS_ARIBSTDB67.a,
+    b=1 - 4 * CONSTANTS_ARIBSTDB67.a,
+    c=0.5 - CONSTANTS_ARIBSTDB67.a * np.log(4 * CONSTANTS_ARIBSTDB67.a))
 """
 *Recommendation ITU-R BT.2100* *Reference HLG* constants expressed in their
 analytical form in contrast to the *ARIB STD-B67 (Hybrid Log-Gamma)* numerical
@@ -397,7 +391,7 @@ References
 ----------
 :cite:`InternationalTelecommunicationUnion2017`
 
-BT2100_HLG_CONSTANTS : Structure
+CONSTANTS_BT2100_HLG : Structure
 """
 
 
@@ -432,7 +426,7 @@ def gamma_function_HLG_BT2100(L_W=1000):
     return gamma
 
 
-def oetf_HLG_BT2100(E, constants=BT2100_HLG_CONSTANTS):
+def oetf_HLG_BT2100(E, constants=CONSTANTS_BT2100_HLG):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
     transfer function (OETF / OECF).
@@ -482,7 +476,7 @@ def oetf_HLG_BT2100(E, constants=BT2100_HLG_CONSTANTS):
     return oetf_ARIBSTDB67(12 * E, constants=constants)
 
 
-def oetf_inverse_HLG_BT2100(E_p, constants=BT2100_HLG_CONSTANTS):
+def oetf_inverse_HLG_BT2100(E_p, constants=CONSTANTS_BT2100_HLG):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     opto-electrical transfer function (OETF / OECF).
@@ -574,7 +568,7 @@ def eotf_HLG_BT2100_1(E_p,
                       L_B=0,
                       L_W=1000,
                       gamma=None,
-                      constants=BT2100_HLG_CONSTANTS):
+                      constants=CONSTANTS_BT2100_HLG):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF / EOCF) as given in *ITU-R BT.2100-1*.
@@ -640,7 +634,7 @@ def eotf_HLG_BT2100_2(E_p,
                       L_B=0,
                       L_W=1000,
                       gamma=None,
-                      constants=BT2100_HLG_CONSTANTS):
+                      constants=CONSTANTS_BT2100_HLG):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF / EOCF) as given in *ITU-R BT.2100-2* with the
@@ -727,7 +721,7 @@ def eotf_HLG_BT2100(E_p,
                     L_B=0,
                     L_W=1000,
                     gamma=None,
-                    constants=BT2100_HLG_CONSTANTS,
+                    constants=CONSTANTS_BT2100_HLG,
                     method='ITU-R BT.2100-2'):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
@@ -800,7 +794,7 @@ def eotf_inverse_HLG_BT2100_1(F_D,
                               L_B=0,
                               L_W=1000,
                               gamma=None,
-                              constants=BT2100_HLG_CONSTANTS):
+                              constants=CONSTANTS_BT2100_HLG):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF / EOCF) as given in
@@ -866,7 +860,7 @@ def eotf_inverse_HLG_BT2100_2(F_D,
                               L_B=0,
                               L_W=1000,
                               gamma=None,
-                              constants=BT2100_HLG_CONSTANTS):
+                              constants=CONSTANTS_BT2100_HLG):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF / EOCF) as given in
@@ -952,7 +946,7 @@ def eotf_inverse_HLG_BT2100(F_D,
                             L_B=0,
                             L_W=1000,
                             gamma=None,
-                            constants=BT2100_HLG_CONSTANTS,
+                            constants=CONSTANTS_BT2100_HLG,
                             method='ITU-R BT.2100-2'):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
@@ -1090,7 +1084,7 @@ def ootf_HLG_BT2100_1(E, L_B=0, L_W=1000, gamma=None):
     alpha = L_W - L_B
     beta = L_B
 
-    Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack([R_S, G_S, B_S]), axis=-1)
+    Y_S = np.sum(WEIGHTS_BT2100_HLG * tstack([R_S, G_S, B_S]), axis=-1)
 
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
@@ -1172,7 +1166,7 @@ def ootf_HLG_BT2100_2(E, L_W=1000, gamma=None):
 
     alpha = L_W
 
-    Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack([R_S, G_S, B_S]), axis=-1)
+    Y_S = np.sum(WEIGHTS_BT2100_HLG * tstack([R_S, G_S, B_S]), axis=-1)
 
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
@@ -1342,7 +1336,7 @@ def ootf_inverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     else:
         R_D, G_D, B_D = tsplit(F_D)
 
-    Y_D = np.sum(BT2100_HLG_WEIGHTS * tstack([R_D, G_D, B_D]), axis=-1)
+    Y_D = np.sum(WEIGHTS_BT2100_HLG * tstack([R_D, G_D, B_D]), axis=-1)
 
     alpha = L_W - L_B
     beta = L_B
@@ -1350,23 +1344,22 @@ def ootf_inverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
 
+    Y_D_beta = (np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma))
+
     R_S = np.where(
         Y_D == beta,
         0.0,
-        (np.abs((Y_D - beta) / alpha) **
-         ((1 - gamma) / gamma)) * (R_D - beta) / alpha,
+        Y_D_beta * (R_D - beta) / alpha,
     )
     G_S = np.where(
         Y_D == beta,
         0.0,
-        (np.abs((Y_D - beta) / alpha) **
-         ((1 - gamma) / gamma)) * (G_D - beta) / alpha,
+        Y_D_beta * (G_D - beta) / alpha,
     )
     B_S = np.where(
         Y_D == beta,
         0.0,
-        (np.abs((Y_D - beta) / alpha) **
-         ((1 - gamma) / gamma)) * (B_D - beta) / alpha,
+        Y_D_beta * (B_D - beta) / alpha,
     )
 
     if F_D.shape[-1] != 3:
@@ -1438,27 +1431,29 @@ def ootf_inverse_HLG_BT2100_2(F_D, L_W=1000, gamma=None):
     else:
         R_D, G_D, B_D = tsplit(F_D)
 
-    Y_D = np.sum(BT2100_HLG_WEIGHTS * tstack([R_D, G_D, B_D]), axis=-1)
+    Y_D = np.sum(WEIGHTS_BT2100_HLG * tstack([R_D, G_D, B_D]), axis=-1)
 
     alpha = L_W
 
     if gamma is None:
         gamma = gamma_function_HLG_BT2100(L_W)
 
+    Y_D_alpha = (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma))
+
     R_S = np.where(
         Y_D == 0,
         0.0,
-        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * R_D / alpha,
+        Y_D_alpha * R_D / alpha,
     )
     G_S = np.where(
         Y_D == 0,
         0.0,
-        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * G_D / alpha,
+        Y_D_alpha * G_D / alpha,
     )
     B_S = np.where(
         Y_D == 0,
         0.0,
-        (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)) * B_D / alpha,
+        Y_D_alpha * B_D / alpha,
     )
 
     if F_D.shape[-1] != 3:

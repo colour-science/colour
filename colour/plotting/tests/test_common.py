@@ -15,7 +15,7 @@ from functools import partial
 from matplotlib.pyplot import Axes, Figure
 
 import colour
-from colour.colorimetry import ILLUMINANTS_SDS
+from colour.colorimetry import SDS_ILLUMINANTS
 from colour.io import read_image
 from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
 from colour.plotting import ColourSwatch
@@ -23,9 +23,9 @@ from colour.plotting import (
     colour_style, override_style, XYZ_to_plotting_colourspace, colour_cycle,
     artist, camera, render, label_rectangles, uniform_axes3d,
     filter_passthrough, filter_RGB_colourspaces, filter_cmfs,
-    filter_illuminants, filter_colour_checkers, plot_single_colour_swatch,
-    plot_multi_colour_swatches, plot_single_function, plot_multi_functions,
-    plot_image)
+    filter_illuminants, filter_colour_checkers, update_settings_collection,
+    plot_single_colour_swatch, plot_multi_colour_swatches,
+    plot_single_function, plot_multi_functions, plot_image)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -39,9 +39,9 @@ __all__ = [
     'TestColourCycle', 'TestArtist', 'TestCamera', 'TestRender',
     'TestLabelRectangles', 'TestUniformAxes3d', 'TestFilterPassthrough',
     'TestFilterRgbColourspaces', 'TestFilterCmfs', 'TestFilterIlluminants',
-    'TestFilterColourCheckers', 'TestPlotSingleColourSwatch',
-    'TestPlotMultiColourSwatches', 'TestPlotSingleFunction',
-    'TestPlotMultiFunctions', 'TestPlotImage'
+    'TestFilterColourCheckers', 'TestUpdateSettingsCollection',
+    'TestPlotSingleColourSwatch', 'TestPlotMultiColourSwatches',
+    'TestPlotSingleFunction', 'TestPlotMultiFunctions', 'TestPlotImage'
 ]
 
 
@@ -303,18 +303,18 @@ class TestFilterPassthrough(unittest.TestCase):
 
         self.assertDictEqual(
             filter_passthrough(
-                ILLUMINANTS_SDS, [ILLUMINANTS_SDS['D65'], {
+                SDS_ILLUMINANTS, [SDS_ILLUMINANTS['D65'], {
                     'Is': 'Excluded'
                 }],
-                allow_non_siblings=False), {'D65': ILLUMINANTS_SDS['D65']})
+                allow_non_siblings=False), {'D65': SDS_ILLUMINANTS['D65']})
 
         self.assertDictEqual(
             filter_passthrough(
-                ILLUMINANTS_SDS, [ILLUMINANTS_SDS['D65'], {
+                SDS_ILLUMINANTS, [SDS_ILLUMINANTS['D65'], {
                     'Is': 'Included'
                 }],
                 allow_non_siblings=True), {
-                    'D65': ILLUMINANTS_SDS['D65'],
+                    'D65': SDS_ILLUMINANTS['D65'],
                     'Is': 'Included'
                 })
 
@@ -406,6 +406,29 @@ class TestFilterColourCheckers(unittest.TestCase):
             ])
 
 
+class TestUpdateSettingsCollection(unittest.TestCase):
+    """
+    Defines :func:`colour.plotting.common.update_settings_collection`
+    definition unit tests methods.
+    """
+
+    def test_update_settings_collection(self):
+        """
+        Tests :func:`colour.plotting.common.update_settings_collection`
+        definition.
+        """
+
+        settings_collection = [{1: 2}, {3: 4}]
+        keyword_arguments = {5: 6}
+        update_settings_collection(settings_collection, keyword_arguments, 2)
+        self.assertListEqual(settings_collection, [{1: 2, 5: 6}, {3: 4, 5: 6}])
+
+        settings_collection = [{1: 2}, {3: 4}]
+        keyword_arguments = [{5: 6}, {7: 8}]
+        update_settings_collection(settings_collection, keyword_arguments, 2)
+        self.assertListEqual(settings_collection, [{1: 2, 5: 6}, {3: 4, 7: 8}])
+
+
 class TestPlotSingleColourSwatch(unittest.TestCase):
     """
     Defines :func:`colour.plotting.common.plot_single_colour_swatch` definition
@@ -420,6 +443,12 @@ class TestPlotSingleColourSwatch(unittest.TestCase):
 
         figure, axes = plot_single_colour_swatch(
             ColourSwatch(RGB=(0.45620519, 0.03081071, 0.04091952)))
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_single_colour_swatch(
+            np.array([0.45620519, 0.03081071, 0.04091952]))
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -441,6 +470,14 @@ class TestPlotMultiColourSwatches(unittest.TestCase):
             ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773)),
             ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
         ])
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_multi_colour_swatches(
+            np.array([[0.45293517, 0.31732158, 0.26414773],
+                      [0.77875824, 0.57726450, 0.50453169]]),
+            direction='-y')
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -475,17 +512,20 @@ class TestPlotMultiFunctions(unittest.TestCase):
         Tests :func:`colour.plotting.common.plot_multi_functions` definition.
         """
 
-        functions = functions = {
+        functions = {
             'Gamma 2.2': lambda x: x ** (1 / 2.2),
             'Gamma 2.4': lambda x: x ** (1 / 2.4),
             'Gamma 2.6': lambda x: x ** (1 / 2.6),
         }
-        figure, axes = plot_multi_functions(functions)
+        plot_kwargs = {'c': 'r'}
+        figure, axes = plot_multi_functions(functions, plot_kwargs=plot_kwargs)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_multi_functions(functions, log_x=10, log_y=10)
+        plot_kwargs = [{'c': 'r'}, {'c': 'g'}, {'c': 'b'}]
+        figure, axes = plot_multi_functions(
+            functions, log_x=10, log_y=10, plot_kwargs=plot_kwargs)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

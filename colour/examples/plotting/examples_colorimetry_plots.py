@@ -7,7 +7,7 @@ from pprint import pprint
 
 import colour
 from colour.plotting import (
-    ASTMG173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
+    SD_ASTMG173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
     colour_style, plot_multi_cmfs, plot_multi_illuminant_sds,
     plot_multi_lightness_functions, plot_multi_sds, plot_single_cmfs,
     plot_single_illuminant_sd, plot_single_lightness_function, plot_single_sd,
@@ -23,8 +23,8 @@ plot_single_illuminant_sd('FL1')
 
 print('\n')
 
-message_box(('Plotting multiple illuminants spectral ' 'distributions.'))
-pprint(sorted(colour.ILLUMINANTS_SDS.keys()))
+message_box('Plotting multiple illuminants spectral distributions.')
+pprint(sorted(colour.SDS_ILLUMINANTS.keys()))
 plot_multi_illuminant_sds(
     ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'FL1'])
 
@@ -33,7 +33,11 @@ print('\n')
 message_box(('Plotting "CIE Standard Illuminant "A", "B", and "C" with their '
              'normalised colours.'))
 plot_multi_illuminant_sds(
-    ['A', 'B', 'C'], use_sds_colours=True, normalise_sds_colours=True)
+    ['A', 'B', 'C'],
+    plot_kwargs={
+        'use_sd_colours': True,
+        'normalise_sd_colours': True
+    })
 
 print('\n')
 
@@ -41,14 +45,15 @@ message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral '
              'distributions.'))
 plot_multi_sds(
     [
-        value for key, value in sorted(
-            colour.colorimetry.D_ILLUMINANTS_S_SDS.items())
+        value for key, value in
+        sorted(colour.colorimetry.SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES.
+               items())
     ],
     title='CIE Standard Illuminant D Series - S Distributions')
 
 print('\n')
 
-sample_sd_data = {
+data_sample = {
     380: 0.048,
     385: 0.051,
     390: 0.055,
@@ -134,7 +139,7 @@ sample_sd_data = {
 
 # http://speclib.jpl.nasa.gov/speclibdata/
 # jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt  # noqa
-galvanized_steel_metal_sd_data = {
+data_galvanized_steel_metal = {
     360: 2.24,
     362: 2.25,
     364: 2.26,
@@ -361,7 +366,7 @@ galvanized_steel_metal_sd_data = {
 
 # http://speclib.jpl.nasa.gov/speclibdata/
 # jhu.becknic.manmade.construction.marble.solid.0722uuu.spectrum.txt
-white_marble_sd_data = {
+data_white_marble = {
     360: 40.93,
     362: 41.58,
     364: 42.25,
@@ -587,23 +592,23 @@ white_marble_sd_data = {
 }
 
 message_box('Plotting various single spectral distributions.')
-plot_single_sd(colour.SpectralDistribution(sample_sd_data, name='Custom'))
+plot_single_sd(colour.SpectralDistribution(data_sample, name='Custom'))
 plot_single_sd(
     colour.SpectralDistribution(
-        galvanized_steel_metal_sd_data, name='Galvanized Steel Metal'))
+        data_galvanized_steel_metal, name='Galvanized Steel Metal'))
 
 print('\n')
 
 message_box('Plotting multiple spectral distributions.')
 plot_multi_sds((colour.SpectralDistribution(
-    galvanized_steel_metal_sd_data, name='Galvanized Steel Metal'),
+    data_galvanized_steel_metal, name='Galvanized Steel Metal'),
                 colour.SpectralDistribution(
-                    white_marble_sd_data, name='White Marble')))
+                    data_white_marble, name='White Marble')))
 
 print('\n')
 
 message_box('Plotting spectral bandpass dependence correction.')
-street_light_sd_data = {
+data_street_light = {
     380: 8.9770000e-003,
     382: 5.8380000e-003,
     384: 8.3290000e-003,
@@ -807,16 +812,16 @@ street_light_sd_data = {
     780: 8.8190000e-002
 }
 
-street_light_sd = colour.SpectralDistribution(
-    street_light_sd_data, name='Street Light')
+sd_street_light = colour.SpectralDistribution(
+    data_street_light, name='Street Light')
 
-bandpass_corrected_street_light_sd = street_light_sd.copy()
-bandpass_corrected_street_light_sd.name = 'Street Light (Bandpass Corrected)'
-bandpass_corrected_street_light_sd = colour.bandpass_correction(
-    bandpass_corrected_street_light_sd, method='Stearns 1988')
+sd_bandpass_corrected_street_light = sd_street_light.copy()
+sd_bandpass_corrected_street_light.name = 'Street Light (Bandpass Corrected)'
+sd_bandpass_corrected_street_light = colour.bandpass_correction(
+    sd_bandpass_corrected_street_light, method='Stearns 1988')
 
 plot_multi_sds(
-    (street_light_sd, bandpass_corrected_street_light_sd),
+    (sd_street_light, sd_bandpass_corrected_street_light),
     title='Stearns Bandpass Correction')
 
 print('\n')
@@ -841,7 +846,7 @@ plot_multi_cmfs(
 print('\n')
 
 message_box('Plotting various single colour matching functions.')
-pprint(sorted(colour.CMFS.keys()))
+pprint(sorted(colour.MSDS_CMFS.keys()))
 plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
 plot_single_cmfs('CIE 1964 10 Degree Standard Observer')
 plot_single_cmfs(
@@ -877,16 +882,19 @@ print('\n')
 
 message_box('Plotting photopic luminous efficiency functions.')
 plot_multi_sds(
-    colour.PHOTOPIC_LEFS.values(),
+    colour.colorimetry.SDS_LEFS_PHOTOPIC.values(),
     title='Luminous Efficiency Functions',
     y_label='Luminous Efficiency')
 
 print('\n')
 
 message_box('Comparing photopic and scotopic luminous efficiency functions.')
+LEF_PHOTOPIC = colour.colorimetry.SDS_LEFS_PHOTOPIC[
+    'CIE 2008 2 Degree Physiologically Relevant LEF']
+LEF_SCOTOPIC = colour.colorimetry.SDS_LEFS_SCOTOPIC[
+    'CIE 1951 Scotopic Standard Observer']
 plot_multi_sds(
-    (colour.PHOTOPIC_LEFS['CIE 2008 2 Degree Physiologically Relevant LEF'],
-     colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
+    (LEF_PHOTOPIC, LEF_SCOTOPIC),
     title='Photopic & Scotopic Luminous Efficiency Functions',
     y_label='Luminous Efficiency')
 
@@ -899,9 +907,9 @@ sd_mesopic_luminous_efficiency_function = (
     colour.sd_mesopic_luminous_efficiency_function(0.2))
 
 plot_multi_sds(
-    (sd_mesopic_luminous_efficiency_function,
-     colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-     colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
+    (sd_mesopic_luminous_efficiency_function, colour.colorimetry.
+     SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'], colour.
+     colorimetry.SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']),
     y_label='Luminous Efficiency')
 
 print('\n')
@@ -925,32 +933,34 @@ plot_blackbody_spectral_radiance(temperature=12130, blackbody='Rigel')
 print('\n')
 
 message_box('Comparing theoretical and measured "Sun" spectral distributions.')
-# Arbitrary ASTMG173_ETR scaling factor calculated with
-# :func:`colour.sd_to_XYZ` definition.
-ASTMG173_sd = ASTMG173_ETR.copy() * 1.37905559e+13
+sd_ASTMG173 = SD_ASTMG173_ETR.copy()
 
-ASTMG173_sd.interpolate(
+sd_ASTMG173.interpolate(
     colour.SpectralShape(interval=5), interpolator=colour.LinearInterpolator)
 
-blackbody_sd = colour.sd_blackbody(5778, ASTMG173_sd.shape)
-blackbody_sd.name = 'The Sun - 5778K'
+sd_blackbody = colour.sd_blackbody(5778, sd_ASTMG173.shape)
+sd_blackbody.name = 'The Sun - 5778K'
 
-plot_multi_sds((ASTMG173_sd, blackbody_sd), y_label='W / (sr m$^2$) / m')
+sd_blackbody /= colour.sd_to_XYZ(sd_blackbody)[1]
+sd_blackbody *= colour.sd_to_XYZ(sd_ASTMG173)[1]
+
+plot_multi_sds([sd_ASTMG173, sd_blackbody], y_label='W / (sr m$^2$) / m')
 
 print('\n')
 
 message_box('Plotting various "blackbody" spectral distributions.')
-blackbody_sds = [
-    colour.sd_blackbody(i, colour.SpectralShape(0, 10000, 10))
-    for i in range(1000, 15000, 1000)
+sds_blackbody = [
+    colour.sd_blackbody(i, colour.SpectralShape(100, 1500, 10))
+    for i in range(1000, 11000, 1000)
 ]
 
 plot_multi_sds(
-    blackbody_sds,
+    sds_blackbody,
     y_label='W / (sr m$^2$) / m',
-    use_sds_colours=True,
-    normalise_sds_colours=True,
-    bounding_box=(0, 1250, 0, 2.5e15))
+    plot_kwargs={
+        'use_sd_colours': True,
+        'normalise_sd_colours': True
+    })
 
 print('\n')
 

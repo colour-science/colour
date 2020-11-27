@@ -5,13 +5,7 @@ Display P3 Colourspace
 
 Defines the *Display P3* colourspace:
 
--   :attr:`colour.models.DISPLAY_P3_COLOURSPACE`.
-
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
+-   :attr:`colour.models.RGB_COLOURSPACE_DISPLAY_P3`.
 
 References
 ----------
@@ -24,10 +18,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB,
                                normalised_primary_matrix)
-from colour.models.rgb.datasets import DCI_P3_COLOURSPACE
+from colour.models.rgb.datasets import RGB_COLOURSPACE_DCI_P3
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -37,64 +31,64 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'DISPLAY_P3_PRIMARIES', 'DISPLAY_P3_WHITEPOINT_NAME',
-    'DISPLAY_P3_WHITEPOINT', 'DISPLAY_P3_TO_XYZ_MATRIX',
-    'XYZ_TO_DISPLAY_P3_MATRIX', 'DISPLAY_P3_COLOURSPACE'
+    'PRIMARIES_DISPLAY_P3', 'WHITEPOINT_NAME_DISPLAY_P3',
+    'CCS_WHITEPOINT_DISPLAY_P3', 'MATRIX_DISPLAY_P3_TO_XYZ',
+    'MATRIX_XYZ_TO_DISPLAY_P3', 'RGB_COLOURSPACE_DISPLAY_P3'
 ]
 
-DISPLAY_P3_PRIMARIES = DCI_P3_COLOURSPACE.primaries
+PRIMARIES_DISPLAY_P3 = RGB_COLOURSPACE_DCI_P3.primaries
 """
 *Display P3* colourspace primaries.
 
-DISPLAY_P3_PRIMARIES : ndarray, (3, 2)
+PRIMARIES_DISPLAY_P3 : ndarray, (3, 2)
 """
 
-DISPLAY_P3_WHITEPOINT_NAME = 'D65'
+WHITEPOINT_NAME_DISPLAY_P3 = 'D65'
 """
 *Display P3* colourspace whitepoint name.
 
-DISPLAY_P3_WHITEPOINT : unicode
+CCS_WHITEPOINT_DISPLAY_P3 : unicode
 """
 
-DISPLAY_P3_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    DISPLAY_P3_WHITEPOINT_NAME])
+CCS_WHITEPOINT_DISPLAY_P3 = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DISPLAY_P3])
 """
-*Display P3* colourspace whitepoint.
+*Display P3* colourspace whitepoint chromaticity coordinates.
 
-DISPLAY_P3_WHITEPOINT : ndarray
+CCS_WHITEPOINT_DISPLAY_P3 : ndarray
 """
 
-DISPLAY_P3_TO_XYZ_MATRIX = (normalised_primary_matrix(DISPLAY_P3_PRIMARIES,
-                                                      DISPLAY_P3_WHITEPOINT))
+MATRIX_DISPLAY_P3_TO_XYZ = (normalised_primary_matrix(
+    PRIMARIES_DISPLAY_P3, CCS_WHITEPOINT_DISPLAY_P3))
 """
 *Display P3* colourspace to *CIE XYZ* tristimulus values matrix.
 
-DISPLAY_P3_TO_XYZ_MATRIX : array_like, (3, 3)
+MATRIX_DISPLAY_P3_TO_XYZ : array_like, (3, 3)
 """
 
-XYZ_TO_DISPLAY_P3_MATRIX = np.linalg.inv(DISPLAY_P3_TO_XYZ_MATRIX)
+MATRIX_XYZ_TO_DISPLAY_P3 = np.linalg.inv(MATRIX_DISPLAY_P3_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Display P3* colourspace matrix.
 
-XYZ_TO_DISPLAY_P3_MATRIX : array_like, (3, 3)
+MATRIX_XYZ_TO_DISPLAY_P3 : array_like, (3, 3)
 """
 
-DISPLAY_P3_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_DISPLAY_P3 = RGB_Colourspace(
     'Display P3',
-    DISPLAY_P3_PRIMARIES,
-    DISPLAY_P3_WHITEPOINT,
-    DISPLAY_P3_WHITEPOINT_NAME,
-    DISPLAY_P3_TO_XYZ_MATRIX,
-    XYZ_TO_DISPLAY_P3_MATRIX,
+    PRIMARIES_DISPLAY_P3,
+    CCS_WHITEPOINT_DISPLAY_P3,
+    WHITEPOINT_NAME_DISPLAY_P3,
+    MATRIX_DISPLAY_P3_TO_XYZ,
+    MATRIX_XYZ_TO_DISPLAY_P3,
     eotf_inverse_sRGB,
     eotf_sRGB,
 )
-DISPLAY_P3_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_DISPLAY_P3.__doc__ = """
 *Display P3* colourspace.
 
 References
 ----------
 :cite:`AppleInc.2019`
 
-DISPLAY_P3_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_DISPLAY_P3 : RGB_Colourspace
 """

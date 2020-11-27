@@ -5,24 +5,18 @@ Luminous Efficiency Functions Spectral Distributions
 
 Defines luminous efficiency functions computation related objects.
 
-See Also
---------
-`Luminous Efficiency Functions Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/lefs.ipynb>`_
-
 References
 ----------
 -   :cite:`Wikipedia2005d` : Wikipedia. (2005). Mesopic weighting function.
-    Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/\
-Mesopic_vision#Mesopic_weighting_function
+    Retrieved June 20, 2014, from
+    http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import (PHOTOPIC_LEFS, SCOTOPIC_LEFS,
+from colour.colorimetry import (SDS_LEFS_PHOTOPIC, SDS_LEFS_SCOTOPIC,
                                 SpectralDistribution, SpectralShape)
-from colour.colorimetry.datasets.lefs import MESOPIC_X_DATA
+from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
 from colour.utilities import closest
 
 __author__ = 'Colour Developers'
@@ -42,8 +36,8 @@ def mesopic_weighting_function(
         Lp,
         source='Blue Heavy',
         method='MOVE',
-        photopic_lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-        scotopic_lef=SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']):
+        photopic_lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
+        scotopic_lef=SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']):
     """
     Calculates the mesopic weighting function factor at given wavelength
     :math:`\\lambda` using the photopic luminance :math:`L_p`.
@@ -81,10 +75,10 @@ def mesopic_weighting_function(
     0.7052200...
     """
 
-    mesopic_x_luminance_values = sorted(MESOPIC_X_DATA.keys())
+    mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
     index = mesopic_x_luminance_values.index(
         closest(mesopic_x_luminance_values, Lp))
-    x = MESOPIC_X_DATA[mesopic_x_luminance_values[index]][source][method]
+    x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
 
     Vm = (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
 
@@ -95,8 +89,8 @@ def sd_mesopic_luminous_efficiency_function(
         Lp,
         source='Blue Heavy',
         method='MOVE',
-        photopic_lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-        scotopic_lef=SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']):
+        photopic_lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
+        scotopic_lef=SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']):
     """
     Returns the mesopic luminous efficiency function :math:`V_m(\\lambda)` for
     given photopic luminance :math:`L_p`.
@@ -532,9 +526,9 @@ def sd_mesopic_luminous_efficiency_function(
                           [ 779.        ,    0.0000080...],
                           [ 780.        ,    0.0000075...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     photopic_lef_shape = photopic_lef.shape

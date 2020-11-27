@@ -69,8 +69,8 @@ message_box(
      '"Cheung, Westland, Connah and Ripamonti (2004)" method '
      'with 3 terms polynomial.'))
 
-print(colour.characterisation.colour_correction_matrix_Cheung2004(M_T, M_R))
-print(colour.colour_correction_matrix(M_T, M_R, method='Cheung 2004'))
+print(colour.characterisation.matrix_colour_correction_Cheung2004(M_T, M_R))
+print(colour.matrix_colour_correction(M_T, M_R, method='Cheung 2004'))
 
 print('\n')
 
@@ -80,8 +80,8 @@ message_box(
      '"Cheung, Westland, Connah and Ripamonti (2004)" method '
      'with 7 terms polynomial.'))
 
-print(colour.characterisation.colour_correction_matrix_Cheung2004(M_T, M_R, 7))
-print(colour.colour_correction_matrix(M_T, M_R, method='Cheung 2004', terms=7))
+print(colour.characterisation.matrix_colour_correction_Cheung2004(M_T, M_R, 7))
+print(colour.matrix_colour_correction(M_T, M_R, method='Cheung 2004', terms=7))
 
 print('\n')
 
@@ -91,8 +91,8 @@ message_box(
      '"Finlayson, MacKiewicz and Hurlbert (2015)" method '
      'with polynomial of degree 1.'))
 
-print(colour.characterisation.colour_correction_matrix_Finlayson2015(M_T, M_R))
-print(colour.colour_correction_matrix(M_T, M_R, method='Finlayson 2015'))
+print(colour.characterisation.matrix_colour_correction_Finlayson2015(M_T, M_R))
+print(colour.matrix_colour_correction(M_T, M_R, method='Finlayson 2015'))
 
 print('\n')
 
@@ -103,10 +103,10 @@ message_box(
      'with polynomial of degree 3.'))
 
 print(
-    colour.characterisation.colour_correction_matrix_Finlayson2015(
+    colour.characterisation.matrix_colour_correction_Finlayson2015(
         M_T, M_R, 3))
 print(
-    colour.colour_correction_matrix(
+    colour.matrix_colour_correction(
         M_T, M_R, method='Finlayson 2015', degree=3))
 
 print('\n')
@@ -116,8 +116,8 @@ message_box(
      'colour rendition chart to a "M_R" one using '
      '"Vandermonde" method with polynomial of degree 1.'))
 
-print(colour.characterisation.colour_correction_matrix_Vandermonde(M_T, M_R))
-print(colour.colour_correction_matrix(M_T, M_R, method='Vandermonde'))
+print(colour.characterisation.matrix_colour_correction_Vandermonde(M_T, M_R))
+print(colour.matrix_colour_correction(M_T, M_R, method='Vandermonde'))
 
 print('\n')
 
@@ -127,9 +127,9 @@ message_box(
      '"Vandermonde" method with polynomial of degree 3.'))
 
 print(
-    colour.characterisation.colour_correction_matrix_Vandermonde(M_T, M_R, 3))
+    colour.characterisation.matrix_colour_correction_Vandermonde(M_T, M_R, 3))
 print(
-    colour.colour_correction_matrix(M_T, M_R, method='Vandermonde', degree=3))
+    colour.matrix_colour_correction(M_T, M_R, method='Vandermonde', degree=3))
 
 print('\n')
 

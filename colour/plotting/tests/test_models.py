@@ -174,7 +174,19 @@ plot_RGB_colourspaces_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_RGB_colourspaces_in_chromaticity_diagram(
-            show_pointer_gamut=True)
+            ['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
+            show_pointer_gamut=True,
+            chromatically_adapt=True,
+            plot_kwargs={'linestyle': 'dashed'})
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
+        figure, axes = plot_RGB_colourspaces_in_chromaticity_diagram(
+            ['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
+            plot_kwargs=[{
+                'linestyle': 'dashed'
+            }] * 3)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -182,6 +194,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram` definition.
         self.assertRaises(
             ValueError,
             lambda: plot_RGB_colourspaces_in_chromaticity_diagram(
+                ['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
                 chromaticity_diagram_callable=lambda **x: x,
                 method='Undefined')
         )
@@ -200,7 +213,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931` definition unit tests
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931` definition.
         """
 
-        figure, axes = plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931()
+        figure, axes = plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
+            ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -221,7 +235,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 
         figure, axes = (
-            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS())
+            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
+                ['ITU-R BT.709', 'ACEScg', 'S-Gamut']))
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -242,7 +257,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS` definition.
         """
 
         figure, axes = (
-            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS())
+            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
+                ['ITU-R BT.709', 'ACEScg', 'S-Gamut']))
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -261,8 +277,7 @@ plot_RGB_chromaticities_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_RGB_chromaticities_in_chromaticity_diagram(
-            np.random.random((128, 128, 3)),
-            scatter_parameters={'marker': 'v'})
+            np.random.random((128, 128, 3)), scatter_kwargs={'marker': 'v'})
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -363,15 +378,14 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_ellipses_MacAdam1942_in_chromaticity_diagram(
-            chromaticity_diagram_clipping=True,
-            ellipse_parameters={'color': 'k'})
+            chromaticity_diagram_clipping=True, ellipse_kwargs={'color': 'k'})
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_ellipses_MacAdam1942_in_chromaticity_diagram(
             chromaticity_diagram_clipping=True,
-            ellipse_parameters=[{
+            ellipse_kwargs=[{
                 'color': 'k'
             }] * 25)
 
@@ -455,7 +469,7 @@ class TestPlotSingleCctf(unittest.TestCase):
         Tests :func:`colour.plotting.models.plot_single_cctf` definition.
         """
 
-        figure, axes = plot_single_cctf()
+        figure, axes = plot_single_cctf('ITU-R BT.709')
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -472,7 +486,7 @@ class TestPlotMultiCctfs(unittest.TestCase):
         Tests :func:`colour.plotting.models.plot_multi_cctfs` definition.
         """
 
-        figure, axes = plot_multi_cctfs()
+        figure, axes = plot_multi_cctfs(['ITU-R BT.709', 'sRGB'])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -554,7 +568,7 @@ class TestPlotConstantHueLoci(unittest.TestCase):
         ])
 
         figure, axes = plot_constant_hue_loci(
-            data, 'IPT', scatter_parameters={'marker': 'v'})
+            data, 'IPT', scatter_kwargs={'marker': 'v'})
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

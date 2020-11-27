@@ -6,28 +6,22 @@ Simulation of CVD - Machado, Oliveira and Fernandes (2009)
 Defines *Machado et al. (2009)* objects for simulation of colour vision
 deficiency:
 
--   :func:`colour.anomalous_trichromacy_cmfs_Machado2009`
--   :func:`colour.anomalous_trichromacy_matrix_Machado2009`
--   :func:`colour.cvd_matrix_Machado2009`
-
-See Also
---------
-`Machado et al. (2009) - CVD IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/cvd/Machado2009.ipynb>`_
+-   :func:`colour.msds_cmfs_anomalous_trichromacy_Machado2009`
+-   :func:`colour.matrix_anomalous_trichromacy_Machado2009`
+-   :func:`colour.matrix_cvd_Machado2009`
 
 References
 ----------
--   :cite:`Colblindorb` : Colblindor. (n.d.). Protanopia - Red-Green Color
-    Blindness. Retrieved July 4, 2015, from http://www.color-blindness.com/\
-protanopia-red-green-color-blindness/
 -   :cite:`Colblindora` : Colblindor. (n.d.). Deuteranopia - Red-Green Color
-    Blindness. Retrieved July 4, 2015, from http://www.color-blindness.com/\
-deuteranopia-red-green-color-blindness/
+    Blindness. Retrieved July 4, 2015, from
+    http://www.color-blindness.com/deuteranopia-red-green-color-blindness/
+-   :cite:`Colblindorb` : Colblindor. (n.d.). Protanopia - Red-Green Color
+    Blindness. Retrieved July 4, 2015, from
+    http://www.color-blindness.com/protanopia-red-green-color-blindness/
 -   :cite:`Colblindorc` : Colblindor. (n.d.). Tritanopia - Blue-Yellow Color
-    Blindness. Retrieved July 4, 2015, from http://www.color-blindness.com/\
-tritanopia-blue-yellow-color-blindness/
--   :cite:`Machado2009` : Machado, G. M., Oliveira, M. M., & Fernandes, L.
+    Blindness. Retrieved July 4, 2015, from
+    http://www.color-blindness.com/tritanopia-blue-yellow-color-blindness/
+-   :cite:`Machado2009` : Machado, G.M., Oliveira, M. M., & Fernandes, L.
     (2009). A Physiologically-based Model for Simulation of Color Vision
     Deficiency. IEEE Transactions on Visualization and Computer Graphics,
     15(6), 1291-1298. doi:10.1109/TVCG.2009.113
@@ -39,7 +33,7 @@ import numpy as np
 
 from colour.blindness import CVD_MATRICES_MACHADO2010
 from colour.colorimetry import SpectralShape
-from colour.utilities import (dot_matrix, dot_vector, tsplit, tstack,
+from colour.utilities import (matrix_dot, vector_dot, tsplit, tstack,
                               usage_warning)
 
 __author__ = 'Colour Developers'
@@ -50,12 +44,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'LMS_TO_WSYBRG_MATRIX', 'RGB_to_WSYBRG_matrix',
-    'anomalous_trichromacy_cmfs_Machado2009',
-    'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
+    'MATRIX_LMS_TO_WSYBRG', 'matrix_RGB_to_WSYBRG',
+    'msds_cmfs_anomalous_trichromacy_Machado2009',
+    'matrix_anomalous_trichromacy_Machado2009', 'matrix_cvd_Machado2009'
 ]
 
-LMS_TO_WSYBRG_MATRIX = np.array([
+MATRIX_LMS_TO_WSYBRG = np.array([
     [0.600, 0.400, 0.000],
     [0.240, 0.105, -0.700],
     [1.200, -1.600, 0.400],
@@ -64,11 +58,11 @@ LMS_TO_WSYBRG_MATRIX = np.array([
 Ingling and Tsou (1977) matrix converting from cones responses to
 opponent-colour space.
 
-LMS_TO_WSYBRG_MATRIX : array_like, (3, 3)
+MATRIX_LMS_TO_WSYBRG : array_like, (3, 3)
 """
 
 
-def RGB_to_WSYBRG_matrix(cmfs, primaries):
+def matrix_RGB_to_WSYBRG(cmfs, primaries):
     """
     Computes the matrix transforming from *RGB* colourspace to opponent-colour
     space using *Machado et al. (2009)* method.
@@ -87,11 +81,12 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
 
     Examples
     --------
-    >>> from colour import DISPLAYS_RGB_PRIMARIES, LMS_CMFS
-    >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> from colour.characterisation import MSDS_DISPLAY_PRIMARIES
+    >>> from colour.colorimetry import MSDS_CMFS_LMS
+    >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
-    >>> RGB_to_WSYBRG_matrix(  # doctest: +ELLIPSIS
+    >>> primaries = MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
+    >>> matrix_RGB_to_WSYBRG(  # doctest: +ELLIPSIS
     ...     cmfs, primaries)
     array([[  0.2126535...,   0.6704626...,   0.1168838...],
            [  4.7095295...,  12.4862869..., -16.1958165...],
@@ -99,12 +94,12 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
     """
 
     wavelengths = cmfs.wavelengths
-    WSYBRG = dot_vector(LMS_TO_WSYBRG_MATRIX, cmfs.values)
+    WSYBRG = vector_dot(MATRIX_LMS_TO_WSYBRG, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
-    extrapolator_args = {'method': 'Constant', 'left': 0, 'right': 0}
+    extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
     primaries = primaries.copy().align(
-        cmfs.shape, extrapolator_args=extrapolator_args)
+        cmfs.shape, extrapolator_kwargs=extrapolator_kwargs)
 
     R, G, B = tsplit(primaries.values)
 
@@ -135,7 +130,7 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
     return M_G
 
 
-def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
+def msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS):
     """
     Shifts given *LMS* cone fundamentals colour matching functions with given
     :math:`\\Delta_{LMS}` shift amount in nanometers to simulate anomalous
@@ -161,8 +156,8 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
         Anomalous trichromacy *LMS* cone fundamentals colour matching
         functions.
 
-    Warning
-    -------
+    Warnings
+    --------
     *Machado et al. (2009)* simulation of tritanomaly is based on the shift
     paradigm as an approximation to the actual phenomenon and restrain the
     model from trying to model tritanopia.
@@ -177,12 +172,12 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
 
     Examples
     --------
-    >>> from colour import LMS_CMFS
-    >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> from colour.colorimetry import MSDS_CMFS_LMS
+    >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> cmfs[450]
     array([ 0.0498639,  0.0870524,  0.955393 ])
-    >>> anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
-    ... # doctest: +ELLIPSIS
+    >>> msds_cmfs_anomalous_trichromacy_Machado2009(
+    ...     cmfs, np.array([15, 0, 0]))[450]  # doctest: +ELLIPSIS
     array([ 0.0891288...,  0.0870524 ,  0.955393  ])
     """
 
@@ -190,7 +185,7 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     if cmfs.shape.interval != 1:
         cmfs.interpolate(SpectralShape(interval=1))
 
-    cmfs.extrapolator_args = {'method': 'Constant', 'left': 0, 'right': 0}
+    cmfs.extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
 
     L, M, _S = tsplit(cmfs.values)
     d_L, d_M, d_S = tsplit(d_LMS)
@@ -232,9 +227,9 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     return cmfs
 
 
-def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
+def matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS):
     """
-    Computes *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
+    Computes the *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
     fundamentals colour matching functions and display primaries tri-spectral
     distributions with given :math:`\\Delta_{LMS}` shift amount in nanometers
     to simulate anomalous trichromacy.
@@ -267,11 +262,12 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
 
     Examples
     --------
-    >>> from colour import DISPLAYS_RGB_PRIMARIES, LMS_CMFS
-    >>> cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> from colour.characterisation import MSDS_DISPLAY_PRIMARIES
+    >>> from colour.colorimetry import MSDS_CMFS_LMS
+    >>> cmfs = MSDS_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> d_LMS = np.array([15, 0, 0])
-    >>> primaries = DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
-    >>> anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
+    >>> primaries = MSDS_DISPLAY_PRIMARIES['Apple Studio Display']
+    >>> matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS)
     ... # doctest: +ELLIPSIS
     array([[-0.2777465...,  2.6515008..., -1.3737543...],
            [ 0.2718936...,  0.2004786...,  0.5276276...],
@@ -281,14 +277,14 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
     if cmfs.shape.interval != 1:
         cmfs = cmfs.copy().interpolate(SpectralShape(interval=1))
 
-    M_n = RGB_to_WSYBRG_matrix(cmfs, primaries)
-    cmfs_a = anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS)
-    M_a = RGB_to_WSYBRG_matrix(cmfs_a, primaries)
+    M_n = matrix_RGB_to_WSYBRG(cmfs, primaries)
+    cmfs_a = msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS)
+    M_a = matrix_RGB_to_WSYBRG(cmfs_a, primaries)
 
-    return dot_matrix(np.linalg.inv(M_n), M_a)
+    return matrix_dot(np.linalg.inv(M_n), M_a)
 
 
-def cvd_matrix_Machado2009(deficiency, severity):
+def matrix_cvd_Machado2009(deficiency, severity):
     """
     Computes *Machado et al. (2009)* *CVD* matrix for given deficiency and
     severity using the pre-computed matrices dataset.
@@ -322,7 +318,7 @@ def cvd_matrix_Machado2009(deficiency, severity):
 
     Examples
     --------
-    >>> cvd_matrix_Machado2009('Protanomaly', 0.15)  # doctest: +ELLIPSIS
+    >>> matrix_cvd_Machado2009('Protanomaly', 0.15)  # doctest: +ELLIPSIS
     array([[ 0.7869875...,  0.2694875..., -0.0564735...],
            [ 0.0431695...,  0.933774 ...,  0.023058 ...],
            [-0.004238 ..., -0.0024515...,  1.0066895...]])

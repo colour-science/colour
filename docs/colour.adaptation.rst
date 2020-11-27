@@ -15,7 +15,7 @@ Chromatic Adaptation
 
     chromatic_adaptation
     CHROMATIC_ADAPTATION_METHODS
-    CMCCAT2000_VIEWING_CONDITIONS
+    VIEWING_CONDITIONS_CMCCAT2000
 
 **Dataset**
 
@@ -61,7 +61,7 @@ CMCCAT2000
     :toctree: generated/
 
     chromatic_adaptation_CMCCAT2000
-    CMCCAT2000_VIEWING_CONDITIONS
+    VIEWING_CONDITIONS_CMCCAT2000
 
 **Ancillary Objects**
 
@@ -72,7 +72,7 @@ CMCCAT2000
 
     chromatic_adaptation_forward_CMCCAT2000
     chromatic_adaptation_inverse_CMCCAT2000
-    CMCCAT2000_InductionFactors
+    InductionFactors_CMCCAT2000
 
 Von Kries
 ---------
@@ -94,17 +94,17 @@ Von Kries
 .. autosummary::
     :toctree: generated/
 
-    BRADFORD_CAT
-    BS_CAT
-    BS_PC_CAT
-    CAT02_BRILL_CAT
-    CAT02_CAT
-    CMCCAT2000_CAT
-    CMCCAT97_CAT
-    FAIRCHILD_CAT
-    SHARP_CAT
-    VON_KRIES_CAT
-    XYZ_SCALING_CAT
+    CAT_BRADFORD
+    CAT_BIANCO2010
+    CAT_PC_BIANCO2010
+    CAT_CAT02_BRILL2008
+    CAT_CAT02
+    CAT_CMCCAT2000
+    CAT_CMCCAT97
+    CAT_FAIRCHILD
+    CAT_SHARP
+    CAT_VON_KRIES
+    CAT_XYZ_SCALING
 
 **Ancillary Objects**
 
@@ -113,4 +113,4 @@ Von Kries
 .. autosummary::
     :toctree: generated/
 
-    chromatic_adaptation_matrix_VonKries
+    matrix_chromatic_adaptation_VonKries

@@ -12,43 +12,35 @@ Defines the *Academy Color Encoding System* (ACES) log encodings:
 -   :func:`colour.models.log_encoding_ACEScct`
 -   :func:`colour.models.log_decoding_ACEScct`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
-    Encoding Specification (ACES). Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Encoding Specification (ACES) (pp. 1-40). Retrieved December 19, 2014, from
+    http://j.mp/TB-2014-004
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
     Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component
-    Names. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Names (pp. 1-8). Retrieved December 19, 2014, from http://j.mp/TB-2014-012
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
-    Color Encoding System (ACES) Project Subcommittee. (2014). Specification
+    Color Encoding System (ACES) Project Subcommittee. (2013). Specification
     S-2013-001 - ACESproxy, an Integer Log Encoding of ACES Image Data.
-    Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
+    Retrieved December 19, 2014, from http://j.mp/S-2013-001
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Specification
     S-2014-003 - ACEScc, A Logarithmic Encoding of ACES Data for use within
-    Color Grading Systems. Retrieved from
-    https://github.com/ampas/aces-dev/tree/master/documents
+    Color Grading Systems (pp. 1-12). Retrieved December 19, 2014, from
+    http://j.mp/S-2014-003
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project. (2016). Specification S-2016-001 -
     ACEScct, A Quasi-Logarithmic Encoding of ACES Data for use within Color
-    Grading Systems. Retrieved October 10, 2016, from
-    https://github.com/ampas/aces-dev/tree/v1.0.3/documents
+    Grading Systems. Retrieved October 10, 2016, from http://j.mp/S-2016-001
 -   :cite:`TheAcademyofMotionPictureArtsandSciencese` : The Academy of Motion
     Picture Arts and Sciences, Science and Technology Council, & Academy Color
     Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding
@@ -71,13 +63,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ACES_PROXY_10_CONSTANTS', 'ACES_PROXY_12_CONSTANTS',
-    'ACES_PROXY_CONSTANTS', 'ACES_CCT_CONSTANTS', 'log_encoding_ACESproxy',
+    'CONSTANTS_ACES_PROXY_10', 'CONSTANTS_ACES_PROXY_12',
+    'CONSTANTS_ACES_PROXY', 'CONSTANTS_ACES_CCT', 'log_encoding_ACESproxy',
     'log_decoding_ACESproxy', 'log_encoding_ACEScc', 'log_decoding_ACEScc',
     'log_encoding_ACEScct', 'log_decoding_ACEScct'
 ]
 
-ACES_PROXY_10_CONSTANTS = Structure(
+CONSTANTS_ACES_PROXY_10 = Structure(
     CV_min=64,
     CV_max=940,
     steps_per_stop=50,
@@ -86,10 +78,10 @@ ACES_PROXY_10_CONSTANTS = Structure(
 """
 *ACESproxy* 10 bit colourspace constants.
 
-ACES_PROXY_10_CONSTANTS : Structure
+CONSTANTS_ACES_PROXY_10 : Structure
 """
 
-ACES_PROXY_12_CONSTANTS = Structure(
+CONSTANTS_ACES_PROXY_12 = Structure(
     CV_min=256,
     CV_max=3760,
     steps_per_stop=200,
@@ -98,21 +90,21 @@ ACES_PROXY_12_CONSTANTS = Structure(
 """
 *ACESproxy* 12 bit colourspace constants.
 
-ACES_PROXY_12_CONSTANTS : Structure
+CONSTANTS_ACES_PROXY_12 : Structure
 """
 
-ACES_PROXY_CONSTANTS = {
-    10: ACES_PROXY_10_CONSTANTS,
-    12: ACES_PROXY_12_CONSTANTS
+CONSTANTS_ACES_PROXY = {
+    10: CONSTANTS_ACES_PROXY_10,
+    12: CONSTANTS_ACES_PROXY_12
 }
 """
 Aggregated *ACESproxy* colourspace constants.
 
-ACES_PROXY_CONSTANTS : dict
+CONSTANTS_ACES_PROXY : dict
     **{10, 12}**
 """
 
-ACES_CCT_CONSTANTS = Structure(
+CONSTANTS_ACES_CCT = Structure(
     X_BRK=0.0078125,
     Y_BRK=0.155251141552511,
     A=10.5402377416545,
@@ -120,7 +112,7 @@ ACES_CCT_CONSTANTS = Structure(
 """
 *ACEScct* colourspace constants.
 
-ACES_CCT_CONSTANTS : Structure
+CONSTANTS_ACES_CCT : Structure
 """
 
 
@@ -128,7 +120,7 @@ ACES_CCT_CONSTANTS : Structure
 def log_encoding_ACESproxy(lin_AP1,
                            bit_depth=10,
                            out_int=False,
-                           constants=ACES_PROXY_CONSTANTS):
+                           constants=CONSTANTS_ACES_PROXY):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
@@ -188,8 +180,8 @@ def log_encoding_ACESproxy(lin_AP1,
 
     constants = constants[bit_depth]
 
-    CV_min = np.resize(constants.CV_min, lin_AP1.shape)
-    CV_max = np.resize(constants.CV_max, lin_AP1.shape)
+    CV_min = constants.CV_min
+    CV_max = constants.CV_max
 
     def float_2_cv(x):
         """
@@ -215,7 +207,7 @@ def log_encoding_ACESproxy(lin_AP1,
 def log_decoding_ACESproxy(ACESproxy,
                            bit_depth=10,
                            in_int=False,
-                           constants=ACES_PROXY_CONSTANTS):
+                           constants=CONSTANTS_ACES_PROXY):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
@@ -404,7 +396,7 @@ def log_decoding_ACEScc(ACEScc):
 
 
 # pylint: disable=W0102
-def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
+def log_encoding_ACEScct(lin_AP1, constants=CONSTANTS_ACES_CCT):
     """
     Defines the *ACEScct* colourspace log encoding / opto-electronic transfer
     function.
@@ -461,7 +453,7 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
 
 
 # pylint: disable=W0102
-def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
+def log_decoding_ACEScct(ACEScct, constants=CONSTANTS_ACES_CCT):
     """
     Defines the *ACEScct* colourspace log decoding / electro-optical transfer
     function.

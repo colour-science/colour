@@ -5,20 +5,15 @@ Colour Rendering Index
 
 Defines *Colour Rendering Index* (CRI) computation objects:
 
--   :class:`colour.quality.CRI_Specification`
+-   :class:`colour.quality.ColourRendering_Specification_CRI`
 -   :func:`colour.colour_rendering_index`
-
-See Also
---------
-`Colour Rendering Index Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/quality/cri.ipynb>`_
 
 References
 ----------
--   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
-    Retrieved from https://drive.google.com/file/d/\
-1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
+-   :cite:`Ohno2008a` : Ohno, Yoshiro, & Davis, W. (2008). NIST CQS simulation
+    (Version 7.4) [Computer software].
+    https://drive.google.com/file/d/1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?\
+usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -28,9 +23,9 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
 from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE, sd_CIE_illuminant_D_series,
-    STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
-from colour.quality.datasets.tcs import TCS_INDEXES_TO_NAMES, TCS_SDS
+    SPECTRAL_SHAPE_DEFAULT, sd_CIE_illuminant_D_series,
+    MSDS_CMFS_STANDARD_OBSERVER, sd_blackbody, sd_to_XYZ)
+from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
 from colour.utilities import domain_range_scale
@@ -43,9 +38,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TCS_ColorimetryData', 'TCS_ColourQualityScaleData', 'CRI_Specification',
-    'colour_rendering_index', 'tcs_colorimetry_data',
-    'colour_rendering_indexes'
+    'TCS_ColorimetryData', 'TCS_ColourQualityScaleData',
+    'ColourRendering_Specification_CRI', 'colour_rendering_index',
+    'tcs_colorimetry_data', 'colour_rendering_indexes'
 ]
 
 
@@ -64,8 +59,8 @@ class TCS_ColourQualityScaleData(
     """
 
 
-class CRI_Specification(
-        namedtuple('CRI_Specification',
+class ColourRendering_Specification_CRI(
+        namedtuple('ColourRendering_Specification_CRI',
                    ('name', 'Q_a', 'Q_as', 'colorimetry_data'))):
     """
     Defines the *Colour Rendering Index* (CRI) colour quality specification.
@@ -101,7 +96,7 @@ def colour_rendering_index(sd_test, additional_data=False):
 
     Returns
     -------
-    numeric or CRI_Specification
+    numeric or ColourRendering_Specification_CRI
         *Colour Rendering Index* (CRI).
 
     References
@@ -110,18 +105,19 @@ def colour_rendering_index(sd_test, additional_data=False):
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SDS
-    >>> sd = ILLUMINANTS_SDS['FL2']
+    >>> from colour import SDS_ILLUMINANTS
+    >>> sd = SDS_ILLUMINANTS['FL2']
     >>> colour_rendering_index(sd)  # doctest: +ELLIPSIS
-    64.1515202...
+    64.2337241...
     """
 
-    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
-    ).trim(DEFAULT_SPECTRAL_SHAPE)
+    cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+        'CIE 1931 2 Degree Standard Observer'].copy().trim(
+            SPECTRAL_SHAPE_DEFAULT)
 
     shape = cmfs.shape
     sd_test = sd_test.copy().align(shape)
-    tcs_sds = {sd.name: sd.copy().align(shape) for sd in TCS_SDS.values()}
+    tcs_sds = {sd.name: sd.copy().align(shape) for sd in SDS_TCS.values()}
 
     with domain_range_scale('1'):
         XYZ = sd_to_XYZ(sd_test, cmfs)
@@ -149,7 +145,7 @@ def colour_rendering_index(sd_test, additional_data=False):
         [v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)])
 
     if additional_data:
-        return CRI_Specification(
+        return ColourRendering_Specification_CRI(
             sd_test.name, Q_a, Q_as,
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data))
     else:
@@ -189,7 +185,7 @@ def tcs_colorimetry_data(sd_t, sd_r, sds_tcs, cmfs,
     u_r, v_r = uv_r[0], uv_r[1]
 
     tcs_data = []
-    for _key, value in sorted(TCS_INDEXES_TO_NAMES.items()):
+    for _key, value in sorted(INDEXES_TO_NAMES_TCS.items()):
         sd_tcs = sds_tcs[value]
         XYZ_tcs = sd_to_XYZ(sd_tcs, cmfs, sd_t)
         xyY_tcs = XYZ_to_xyY(XYZ_tcs)

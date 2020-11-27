@@ -16,12 +16,6 @@ as follows::
 
      [np.array(['x', 'y', 'Y']], ..., np.array(['x', 'y', 'Y']))
 
-See Also
---------
-`Optimal Colour Stimuli - MacAdam Limits Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/volume/macadam_limits.ipynb>`_
-
 References
 ----------
 -   :cite:`MacAdam1935a` : MacAdam, D. L. (1935). Maximum Visual Efficiency of
@@ -29,12 +23,12 @@ References
     361-367. doi:10.1364/JOSA.25.000361
 -   :cite:`Wikipedia2004a` : Wikipedia. (2004). Surfaces. Retrieved September
     10, 2014, from http://en.wikipedia.org/wiki/Gamut#Surfaces
--   :cite:`Wyszecki2000bb` : Wyszecki, G., & Stiles, W. S. (2000).
-    Table I(3.7). In Color Science: Concepts and Methods, Quantitative Data and
-    Formulae (pp. 776-777). Wiley. ISBN:978-0471399186
--   :cite:`Wyszecki2000bh` : Wyszecki, G., & Stiles, W. S. (2000).
-    Table II(3.7). In Color Science: Concepts and Methods, Quantitative Data
-    and Formulae (pp. 778-779). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000bb` : Wyszecki, Günther, & Stiles, W. S. (2000). Table
+    I(3.7). In Color Science: Concepts and Methods, Quantitative Data and
+    Formulae (pp. 776-777). Wiley. ISBN:978-0-471-39918-6
+-   :cite:`Wyszecki2000bh` : Wyszecki, Günther, & Stiles, W. S. (2000). Table
+    II(3.7). In Color Science: Concepts and Methods, Quantitative Data and
+    Formulae (pp. 778-779). Wiley. ISBN:978-0-471-39918-6
 """
 
 from __future__ import division, unicode_literals
@@ -51,11 +45,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'A_OPTIMAL_COLOUR_STIMULI', 'C_OPTIMAL_COLOUR_STIMULI',
-    'D65_OPTIMAL_COLOUR_STIMULI', 'ILLUMINANTS_OPTIMAL_COLOUR_STIMULI'
+    'OPTIMAL_COLOUR_STIMULI_A', 'OPTIMAL_COLOUR_STIMULI_C',
+    'OPTIMAL_COLOUR_STIMULI_D65', 'OPTIMAL_COLOUR_STIMULI_ILLUMINANTS'
 ]
 
-A_OPTIMAL_COLOUR_STIMULI = np.array([
+OPTIMAL_COLOUR_STIMULI_A = np.array([
     [0.1120, 0.1985, 10],
     [0.0859, 0.2957, 10],
     [0.0549, 0.4593, 10],
@@ -280,14 +274,14 @@ A_OPTIMAL_COLOUR_STIMULI = np.array([
 """
 *CIE Standard Illuminant A* *Optimal Colour Stimuli*.
 
-A_OPTIMAL_COLOUR_STIMULI : ndarray
+OPTIMAL_COLOUR_STIMULI_A : ndarray
 
 References
 ----------
 :cite:`Wyszecki2000bb`
 """
 
-C_OPTIMAL_COLOUR_STIMULI = np.array([
+OPTIMAL_COLOUR_STIMULI_C = np.array([
     [0.1363, 0.0692, 10],
     [0.1308, 0.0792, 10],
     [0.0808, 0.2132, 10],
@@ -489,14 +483,14 @@ C_OPTIMAL_COLOUR_STIMULI = np.array([
 """
 *CIE Illuminant C* *Optimal Colour Stimuli*.
 
-C_OPTIMAL_COLOUR_STIMULI : ndarray
+OPTIMAL_COLOUR_STIMULI_C : ndarray
 
 References
 ----------
 :cite:`MacAdam1935a`
 """
 
-D65_OPTIMAL_COLOUR_STIMULI = np.array([
+OPTIMAL_COLOUR_STIMULI_D65 = np.array([
     [0.1346, 0.0747, 10],
     [0.0990, 0.1607, 10],
     [0.0751, 0.2403, 10],
@@ -741,25 +735,25 @@ D65_OPTIMAL_COLOUR_STIMULI = np.array([
 """
 *CIE Standard Illuminant D Series D65* *Optimal Colour Stimuli*.
 
-D65_OPTIMAL_COLOUR_STIMULI : ndarray
+OPTIMAL_COLOUR_STIMULI_D65 : ndarray
 
 References
 ----------
 :cite:`Wyszecki2000bh`
 """
 
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping({
-    'A': A_OPTIMAL_COLOUR_STIMULI,
-    'C': C_OPTIMAL_COLOUR_STIMULI,
-    'D65': D65_OPTIMAL_COLOUR_STIMULI
+OPTIMAL_COLOUR_STIMULI_ILLUMINANTS = CaseInsensitiveMapping({
+    'A': OPTIMAL_COLOUR_STIMULI_A,
+    'C': OPTIMAL_COLOUR_STIMULI_C,
+    'D65': OPTIMAL_COLOUR_STIMULI_D65
 })
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.__doc__ = """
+OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.__doc__ = """
 Illuminants *Optimal Colour Stimuli*.
 
 References
 ----------
 :cite:`Wikipedia2004a`
 
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
+OPTIMAL_COLOUR_STIMULI_ILLUMINANTS : CaseInsensitiveMapping
     **{'A', 'C', 'D65'}**
 """

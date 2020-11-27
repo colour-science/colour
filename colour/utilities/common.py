@@ -9,8 +9,9 @@ References
 ----------
 -   :cite:`Kienzle2011a` : Kienzle, P., Patel, N., & Krycka, J. (2011).
     refl1d.numpyerrors - Refl1D v0.6.19 documentation. Retrieved January 30,
-    2015, from http://www.reflectometry.org/danse/docs/refl1d/_modules/\
-refl1d/numpyerrors.html
+    2015, from
+    http://www.reflectometry.org/danse/docs/refl1d/_modules/refl1d/\
+numpyerrors.html
 """
 
 from __future__ import division, unicode_literals
@@ -22,6 +23,7 @@ import functools
 import numpy as np
 import re
 import six
+import types
 import warnings
 from contextlib import contextmanager
 from collections import OrderedDict
@@ -29,7 +31,7 @@ from copy import copy
 from six import integer_types, string_types
 
 from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
-from colour.utilities import Lookup
+from colour.utilities import CaseInsensitiveMapping, Lookup
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -43,13 +45,13 @@ __all__ = [
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
     'batch', 'disable_multiprocessing', 'multiprocessing_pool',
     'is_matplotlib_installed', 'is_networkx_installed',
-    'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
-    'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
-    'filter_mapping', 'first_item', 'get_domain_range_scale',
-    'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
-    'to_domain_10', 'to_domain_100', 'to_domain_degrees', 'to_domain_int',
-    'from_range_1', 'from_range_10', 'from_range_100', 'from_range_degrees',
-    'from_range_int'
+    'is_openimageio_installed', 'is_pandas_installed', 'is_tqdm_installed',
+    'required', 'is_iterable', 'is_string', 'is_numeric', 'is_integer',
+    'is_sibling', 'filter_kwargs', 'filter_mapping', 'first_item',
+    'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
+    'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
+    'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
+    'from_range_degrees', 'from_range_int', 'copy_definition'
 ]
 
 
@@ -322,13 +324,18 @@ def is_matplotlib_installed(raise_exception=False):
     """
 
     try:  # pragma: no cover
+        # pylint: disable=W0612
         import matplotlib  # noqa
 
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"Matplotlib" related API features '
-                               'are not available: "{0}".').format(error))
+            raise ImportError(
+                ('"Matplotlib" related API features are not available: '
+                 '"{0}".\nPlease refer to the installation guide for more '
+                 'information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
         return False
 
 
@@ -353,14 +360,18 @@ def is_networkx_installed(raise_exception=False):
     """
 
     try:  # pragma: no cover
+        # pylint: disable=W0612
         import networkx  # noqa
 
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"NetworkX" related API features, e.g. '
-                               'the automatic colour conversion graph, '
-                               'are not available: "{0}".').format(error))
+            raise ImportError(
+                ('"NetworkX" related API features, e.g. the automatic colour '
+                 'conversion graph, are not available: "{0}".\nPlease refer '
+                 'to the installation guide for more information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
         return False
 
 
@@ -385,13 +396,18 @@ def is_openimageio_installed(raise_exception=False):
     """
 
     try:  # pragma: no cover
+        # pylint: disable=W0612
         import OpenImageIO  # noqa
 
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"OpenImageIO" related API features '
-                               'are not available: "{0}".').format(error))
+            raise ImportError(
+                ('"OpenImageIO" related API features are not available: '
+                 '"{0}".\nPlease refer to the installation guide for more '
+                 'information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
         return False
 
 
@@ -416,14 +432,106 @@ def is_pandas_installed(raise_exception=False):
     """
 
     try:  # pragma: no cover
+        # pylint: disable=W0612
         import pandas  # noqa
 
         return True
     except ImportError as error:  # pragma: no cover
         if raise_exception:
-            raise ImportError(('"Pandas" related API features '
-                               'are not available: "{0}".').format(error))
+            raise ImportError(
+                ('"Pandas" related API features are not available: "{0}".\n'
+                 'Please refer to the installation guide for more '
+                 'information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
         return False
+
+
+def is_tqdm_installed(raise_exception=False):
+    """
+    Returns if *tqdm* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *tqdm* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *tqdm* installed.
+
+    Raises
+    ------
+    ImportError
+        If *tqdm* is not installed.
+    """
+
+    try:  # pragma: no cover
+        # pylint: disable=W0612
+        import tqdm  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(
+                ('"tqdm" related API features are not available: "{0}".\n'
+                 'Please refer to the installation guide for more '
+                 'information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
+        return False
+
+
+_REQUIREMENTS_TO_CALLABLE = CaseInsensitiveMapping({
+    'Matplotlib': is_matplotlib_installed,
+    'NetworkX': is_networkx_installed,
+    'OpenImageIO': is_openimageio_installed,
+    'Pandas': is_pandas_installed,
+    'tqdm': is_tqdm_installed,
+})
+"""
+Mapping of requirements to their respective callables.
+
+_REQUIREMENTS_TO_CALLABLE : CaseInsensitiveMapping
+    **{'Matplotlib', 'NetworkX', 'OpenImageIO', 'Pandas', 'tqdm'}**
+"""
+
+
+def required(*requirements):
+    """
+    A decorator checking if various requirements are satisfied.
+
+    Other Parameters
+    ----------------
+    \\*requirements : list, optional
+        **{'Matplotlib', 'NetworkX', 'OpenImageIO', 'Pandas', 'tqdm'}**,
+        Requirements to check whether they are satisfied.
+
+    Returns
+    -------
+    object
+    """
+
+    def wrapper(function):
+        """
+        Wrapper for given function.
+        """
+
+        @functools.wraps(function)
+        def wrapped(*args, **kwargs):
+            """
+            Wrapped function.
+            """
+
+            for requirement in requirements:
+                _REQUIREMENTS_TO_CALLABLE[requirement](raise_exception=True)
+
+            return function(*args, **kwargs)
+
+        return wrapped
+
+    return wrapper
 
 
 def is_iterable(a):
@@ -532,7 +640,7 @@ def is_integer(a):
     False
     """
 
-    return abs(a - round(a)) <= INTEGER_THRESHOLD
+    return abs(a - np.around(a)) <= INTEGER_THRESHOLD
 
 
 def is_sibling(element, mapping):
@@ -815,6 +923,35 @@ class domain_range_scale(object):
     scale : unicode
         **{'Reference', '1'}**,
         *Colour* domain-range scale to set.
+
+    Examples
+    --------
+    With *Colour* domain-range scale set to **'Reference'**:
+
+    >>> with domain_range_scale('1'):
+    ...     to_domain_1(1)
+    array(1.0)
+    >>> with domain_range_scale('Reference'):
+    ...     from_range_1(1)
+    1
+
+    With *Colour* domain-range scale set to **'1'**:
+
+    >>> with domain_range_scale('1'):
+    ...     to_domain_1(1)
+    array(1.0)
+    >>> with domain_range_scale('1'):
+    ...     from_range_1(1)
+    1
+
+    With *Colour* domain-range scale set to **'100'** (unsupported):
+
+    >>> with domain_range_scale('100'):
+    ...     to_domain_1(1)
+    array(0.01)
+    >>> with domain_range_scale('100'):
+    ...     from_range_1(1)
+    100
     """
 
     def __init__(self, scale):
@@ -850,7 +987,7 @@ class domain_range_scale(object):
         return wrapper
 
 
-def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_1(a, scale_factor=100, dtype=None):
     """
     Scales given array :math:`a` to domain **'1'**. The behaviour is as
     follows:
@@ -898,6 +1035,9 @@ def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     array(0.01)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '100':
@@ -906,7 +1046,7 @@ def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_10(a, scale_factor=10, dtype=None):
     """
     Scales given array :math:`a` to domain **'10'**, used by
     *Munsell Renotation System*. The behaviour is as follows:
@@ -956,6 +1096,9 @@ def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
     array(0.1)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
@@ -967,7 +1110,7 @@ def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_100(a, scale_factor=100, dtype=None):
     """
     Scales given array :math:`a` to domain **'100'**. The behaviour is as
     follows:
@@ -1015,6 +1158,9 @@ def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     array(1.0)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
@@ -1023,7 +1169,7 @@ def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_degrees(a, scale_factor=360, dtype=None):
     """
     Scales given array :math:`a` to degrees domain. The behaviour is as
     follows:
@@ -1073,6 +1219,9 @@ def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
     array(3.6)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
@@ -1084,7 +1233,7 @@ def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
     return a
 
 
-def to_domain_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
+def to_domain_int(a, bit_depth=8, dtype=None):
     """
     Scales given array :math:`a` to int domain. The behaviour is as follows:
 
@@ -1138,6 +1287,9 @@ def to_domain_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
     array(2.55)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     a = np.asarray(a, dtype).copy()
 
     maximum_code_value = 2 ** bit_depth - 1
@@ -1173,6 +1325,11 @@ def from_range_1(a, scale_factor=100):
     -------
     ndarray
         :math:`a` scaled from range **'1'**.
+
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
 
     Examples
     --------
@@ -1226,6 +1383,11 @@ def from_range_10(a, scale_factor=10):
     -------
     ndarray
         :math:`a` scaled from range **'10'**.
+
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
 
     Examples
     --------
@@ -1281,6 +1443,11 @@ def from_range_100(a, scale_factor=100):
     ndarray
         :math:`a` scaled from range **'100'**.
 
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
+
     Examples
     --------
     With *Colour* domain-range scale set to **'Reference'**:
@@ -1329,6 +1496,11 @@ def from_range_degrees(a, scale_factor=360):
         Scale factor, usually *numeric* but can be an *array_like* if some
         axis need different scaling to be brought from degrees range.
 
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
+
     Returns
     -------
     ndarray
@@ -1364,7 +1536,7 @@ def from_range_degrees(a, scale_factor=360):
     return a
 
 
-def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
+def from_range_int(a, bit_depth=8, dtype=None):
     """
     Scales given array :math:`a` from int range. The behaviour is as follows:
 
@@ -1390,6 +1562,11 @@ def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
     -------
     ndarray
         :math:`a` scaled from int range.
+
+    Warnings
+    --------
+    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
+    will be mutated!
 
     Notes
     -----
@@ -1417,6 +1594,9 @@ def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
     array(0.3921568...)
     """
 
+    if dtype is None:
+        dtype = DEFAULT_FLOAT_DTYPE
+
     maximum_code_value = 2 ** bit_depth - 1
     if _DOMAIN_RANGE_SCALE == '1':
         a = np.asarray(a, dtype)
@@ -1427,3 +1607,29 @@ def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
         a /= maximum_code_value / 100
 
     return a
+
+
+def copy_definition(definition, name=None):
+    """
+    Copies a definition with same code, globals, defaults, closure, and
+    name.
+
+    Parameters
+    ----------
+    definition : callable
+        Definition to be copied.
+    name : unicode, optional
+        Optional definition copy name.
+
+    Returns
+    -------
+    callable
+        Definition copy.
+    """
+
+    copy = types.FunctionType(definition.__code__, definition.__globals__,
+                              str(name or definition.__name__),
+                              definition.__defaults__, definition.__closure__)
+    copy.__dict__.update(definition.__dict__)
+
+    return copy

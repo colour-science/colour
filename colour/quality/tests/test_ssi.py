@@ -8,7 +8,7 @@ from __future__ import division, unicode_literals
 import unittest
 
 from colour.quality import spectral_similarity_index
-from colour.colorimetry import ILLUMINANTS_SDS, SpectralDistribution
+from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -19,7 +19,7 @@ __status__ = 'Production'
 
 __all__ = ['TestSpectralSimilarityIndex']
 
-HMI_DATA = {
+DATA_HMI = {
     300: 0.000000000000000,
     301: 0.000000000000000,
     302: 0.000000000000000,
@@ -566,11 +566,11 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
         """
 
         self.assertEqual(
-            spectral_similarity_index(ILLUMINANTS_SDS['C'],
-                                      ILLUMINANTS_SDS['D65']), 94.0)
+            spectral_similarity_index(SDS_ILLUMINANTS['C'],
+                                      SDS_ILLUMINANTS['D65']), 94.0)
         self.assertEqual(
             spectral_similarity_index(
-                SpectralDistribution(HMI_DATA), ILLUMINANTS_SDS['D50']), 72.0)
+                SpectralDistribution(DATA_HMI), SDS_ILLUMINANTS['D50']), 72.0)
 
 
 if __name__ == '__main__':

@@ -9,12 +9,6 @@ Implements *Rayleigh* scattering / optical depth in the atmosphere computation:
 -   :func:`colour.phenomena.rayleigh_optical_depth`
 -   :func:`colour.rayleigh_scattering`
 
-See Also
---------
-`Rayleigh Optical Depth - Scattering in the Atmosphere Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/phenomena/rayleigh.ipynb>`_
-
 References
 ----------
 -   :cite:`Bodhaine1999a` : Bodhaine, B. A., Wood, N. B., Dutton, E. G., &
@@ -29,8 +23,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralDistribution)
-from colour.constants import AVOGADRO_CONSTANT
+from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
+from colour.constants import CONSTANT_AVOGADRO
 from colour.utilities import as_float_array, filter_kwargs
 
 __author__ = 'Colour Developers'
@@ -41,49 +35,50 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'STANDARD_AIR_TEMPERATURE', 'STANDARD_CO2_CONCENTRATION',
-    'AVERAGE_PRESSURE_MEAN_SEA_LEVEL', 'DEFAULT_LATITUDE', 'DEFAULT_ALTITUDE',
-    'air_refraction_index_Penndorf1957', 'air_refraction_index_Edlen1966',
-    'air_refraction_index_Peck1972', 'air_refraction_index_Bodhaine1999',
-    'N2_depolarisation', 'O2_depolarisation', 'F_air_Penndorf1957',
-    'F_air_Young1981', 'F_air_Bates1984', 'F_air_Bodhaine1999',
-    'molecular_density', 'mean_molecular_weights', 'gravity_List1968',
-    'scattering_cross_section', 'rayleigh_optical_depth', 'rayleigh_scattering'
+    'CONSTANT_STANDARD_AIR_TEMPERATURE', 'CONSTANT_STANDARD_CO2_CONCENTRATION',
+    'CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL', 'CONSTANT_DEFAULT_LATITUDE',
+    'CONSTANT_DEFAULT_ALTITUDE', 'air_refraction_index_Penndorf1957',
+    'air_refraction_index_Edlen1966', 'air_refraction_index_Peck1972',
+    'air_refraction_index_Bodhaine1999', 'N2_depolarisation',
+    'O2_depolarisation', 'F_air_Penndorf1957', 'F_air_Young1981',
+    'F_air_Bates1984', 'F_air_Bodhaine1999', 'molecular_density',
+    'mean_molecular_weights', 'gravity_List1968', 'scattering_cross_section',
+    'rayleigh_optical_depth', 'rayleigh_scattering'
 ]
 
-STANDARD_AIR_TEMPERATURE = 288.15
+CONSTANT_STANDARD_AIR_TEMPERATURE = 288.15
 """
 *Standard air* temperature :math:`T[K]` in kelvin degrees (:math:`15\\circ C`).
 
-STANDARD_AIR_TEMPERATURE : numeric
+CONSTANT_STANDARD_AIR_TEMPERATURE : numeric
 """
 
-STANDARD_CO2_CONCENTRATION = 300
+CONSTANT_STANDARD_CO2_CONCENTRATION = 300
 """
 *Standard air* :math:`CO_2` concentration in parts per million (ppm).
 
-STANDARD_CO2_CONCENTRATION : numeric
+CONSTANT_STANDARD_CO2_CONCENTRATION : numeric
 """
 
-AVERAGE_PRESSURE_MEAN_SEA_LEVEL = 101325
+CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL = 101325
 """
 *Standard air* average pressure :math:`Hg` at mean sea-level in pascal (Pa).
 
-AVERAGE_PRESSURE_MEAN_SEA_LEVEL : numeric
+CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL : numeric
 """
 
-DEFAULT_LATITUDE = 0
+CONSTANT_DEFAULT_LATITUDE = 0
 """
 Default latitude in degrees (equator).
 
-DEFAULT_LATITUDE : numeric
+CONSTANT_DEFAULT_LATITUDE : numeric
 """
 
-DEFAULT_ALTITUDE = 0
+CONSTANT_DEFAULT_ALTITUDE = 0
 """
 Default altitude in meters (sea level).
 
-DEFAULT_ALTITUDE : numeric
+CONSTANT_DEFAULT_ALTITUDE : numeric
 """
 
 
@@ -182,7 +177,7 @@ def air_refraction_index_Peck1972(wavelength):
 
 
 def air_refraction_index_Bodhaine1999(
-        wavelength, CO2_concentration=STANDARD_CO2_CONCENTRATION):
+        wavelength, CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
@@ -370,7 +365,7 @@ def F_air_Bates1984(wavelength):
 
 
 def F_air_Bodhaine1999(wavelength,
-                       CO2_concentration=STANDARD_CO2_CONCENTRATION):
+                       CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
@@ -405,8 +400,8 @@ def F_air_Bodhaine1999(wavelength,
     return F_air
 
 
-def molecular_density(temperature=STANDARD_AIR_TEMPERATURE,
-                      avogadro_constant=AVOGADRO_CONSTANT):
+def molecular_density(temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
+                      avogadro_constant=CONSTANT_AVOGADRO):
     """
     Returns the molecular density :math:`N_s` (molecules :math:`cm^{-3}`)
     as function of air temperature :math:`T[K]` in kelvin degrees.
@@ -445,7 +440,8 @@ def molecular_density(temperature=STANDARD_AIR_TEMPERATURE,
     return N_s
 
 
-def mean_molecular_weights(CO2_concentration=STANDARD_CO2_CONCENTRATION):
+def mean_molecular_weights(
+        CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION):
     """
     Returns the mean molecular weights :math:`m_a` for dry air as function of
     :math:`CO_2` concentration in parts per million (ppm).
@@ -472,7 +468,8 @@ def mean_molecular_weights(CO2_concentration=STANDARD_CO2_CONCENTRATION):
     return m_a
 
 
-def gravity_List1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
+def gravity_List1968(latitude=CONSTANT_DEFAULT_LATITUDE,
+                     altitude=CONSTANT_DEFAULT_ALTITUDE):
     """
     Returns the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
     mass-weighted column of air molecules above the site of given latitude and
@@ -518,12 +515,13 @@ def gravity_List1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
     return g
 
 
-def scattering_cross_section(wavelength,
-                             CO2_concentration=STANDARD_CO2_CONCENTRATION,
-                             temperature=STANDARD_AIR_TEMPERATURE,
-                             avogadro_constant=AVOGADRO_CONSTANT,
-                             n_s=air_refraction_index_Bodhaine1999,
-                             F_air=F_air_Bodhaine1999):
+def scattering_cross_section(
+        wavelength,
+        CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
+        temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
+        avogadro_constant=CONSTANT_AVOGADRO,
+        n_s=air_refraction_index_Bodhaine1999,
+        F_air=F_air_Bodhaine1999):
     """
     Returns the scattering cross section per molecule :math:`\\sigma` of dry
     air as function of wavelength :math:`\\lambda` in centimeters (cm) using
@@ -551,8 +549,8 @@ def scattering_cross_section(wavelength,
     numeric or ndarray
         Scattering cross section per molecule :math:`\\sigma` of dry air.
 
-    Warning
-    -------
+    Warnings
+    --------
     Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
     :func:`colour.scattering_cross_section` expects wavelength :math:`\\lambda`
     to be expressed in centimeters (cm).
@@ -587,15 +585,16 @@ def scattering_cross_section(wavelength,
     return sigma
 
 
-def rayleigh_optical_depth(wavelength,
-                           CO2_concentration=STANDARD_CO2_CONCENTRATION,
-                           temperature=STANDARD_AIR_TEMPERATURE,
-                           pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-                           latitude=DEFAULT_LATITUDE,
-                           altitude=DEFAULT_ALTITUDE,
-                           avogadro_constant=AVOGADRO_CONSTANT,
-                           n_s=air_refraction_index_Bodhaine1999,
-                           F_air=F_air_Bodhaine1999):
+def rayleigh_optical_depth(
+        wavelength,
+        CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
+        temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
+        pressure=CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+        latitude=CONSTANT_DEFAULT_LATITUDE,
+        altitude=CONSTANT_DEFAULT_ALTITUDE,
+        avogadro_constant=CONSTANT_AVOGADRO,
+        n_s=air_refraction_index_Bodhaine1999,
+        F_air=F_air_Bodhaine1999):
     """
     Returns the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
     wavelength :math:`\\lambda` in centimeters (cm).
@@ -627,8 +626,8 @@ def rayleigh_optical_depth(wavelength,
     numeric or ndarray
         *Rayleigh* optical depth :math:`T_r(\\lambda)`.
 
-    Warning
-    -------
+    Warnings
+    --------
     Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
     :func:`colour.phenomena.rayleigh_optical_depth` expects wavelength
     :math:`\\lambda` to be expressed in centimeters (cm).
@@ -664,15 +663,16 @@ def rayleigh_optical_depth(wavelength,
 rayleigh_scattering = rayleigh_optical_depth
 
 
-def sd_rayleigh_scattering(shape=DEFAULT_SPECTRAL_SHAPE,
-                           CO2_concentration=STANDARD_CO2_CONCENTRATION,
-                           temperature=STANDARD_AIR_TEMPERATURE,
-                           pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-                           latitude=DEFAULT_LATITUDE,
-                           altitude=DEFAULT_ALTITUDE,
-                           avogadro_constant=AVOGADRO_CONSTANT,
-                           n_s=air_refraction_index_Bodhaine1999,
-                           F_air=F_air_Bodhaine1999):
+def sd_rayleigh_scattering(
+        shape=SPECTRAL_SHAPE_DEFAULT,
+        CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
+        temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
+        pressure=CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+        latitude=CONSTANT_DEFAULT_LATITUDE,
+        altitude=CONSTANT_DEFAULT_ALTITUDE,
+        avogadro_constant=CONSTANT_AVOGADRO,
+        n_s=air_refraction_index_Bodhaine1999,
+        F_air=F_air_Bodhaine1999):
     """
     Returns the *Rayleigh* spectral distribution for given spectral shape.
 
@@ -1135,9 +1135,9 @@ def sd_rayleigh_scattering(shape=DEFAULT_SPECTRAL_SHAPE,
                           [ 779.        ,    0.0253888...],
                           [ 780.        ,    0.0252576...]],
                          interpolator=SpragueInterpolator,
-                         interpolator_args={},
+                         interpolator_kwargs={},
                          extrapolator=Extrapolator,
-                         extrapolator_args={...})
+                         extrapolator_kwargs={...})
     """
 
     wavelengths = shape.range()

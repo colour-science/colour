@@ -10,9 +10,9 @@ import numpy as np
 import unittest
 from six.moves import zip
 
-from colour.colorimetry import STANDARD_OBSERVERS_CMFS, sd_to_XYZ_integration
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
+                                SpectralShape, sd_to_XYZ_integration)
 from colour.recovery import XYZ_to_sd
-from colour.recovery.meng2015 import DEFAULT_SPECTRAL_SHAPE_MENG_2015
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -31,19 +31,31 @@ class TestXYZ_to_sd(unittest.TestCase):
     methods.
     """
 
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
+            'CIE 1931 2 Degree Standard Observer'].copy().align(
+                SpectralShape(360, 780, 10))
+
+        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._cmfs.shape)
+
     def test_domain_range_scale_XYZ_to_sd(self):
         """
         Tests :func:`colour.recovery.XYZ_to_sd` definition domain
         and range scale support.
         """
 
-        cmfs = (STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-                .copy().align(DEFAULT_SPECTRAL_SHAPE_MENG_2015))
-
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        m = ('Smits 1999', 'Meng 2015')
+        m = ('Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018',
+             'Smits 1999')
         v = [
-            sd_to_XYZ_integration(XYZ_to_sd(XYZ, method), cmfs) for method in m
+            sd_to_XYZ_integration(
+                XYZ_to_sd(
+                    XYZ, method, cmfs=self._cmfs, illuminant=self._sd_D65),
+                self._cmfs, self._sd_D65) for method in m
         ]
 
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
@@ -52,7 +64,12 @@ class TestXYZ_to_sd(unittest.TestCase):
                 with domain_range_scale(scale):
                     np.testing.assert_almost_equal(
                         sd_to_XYZ_integration(
-                            XYZ_to_sd(XYZ * factor_a, method), cmfs),
+                            XYZ_to_sd(
+                                XYZ * factor_a,
+                                method,
+                                cmfs=self._cmfs,
+                                illuminant=self._sd_D65), self._cmfs,
+                            self._sd_D65),
                         value * factor_b,
                         decimal=7)
 
