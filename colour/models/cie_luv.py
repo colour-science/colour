@@ -29,8 +29,6 @@ References
     http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import (CCS_ILLUMINANTS, lightness_CIE1976,
                                 luminance_CIE1976)
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab

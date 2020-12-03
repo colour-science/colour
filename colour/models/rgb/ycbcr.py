@@ -43,8 +43,6 @@ INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
     2016, from https://en.wikipedia.org/wiki/YCbCr
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE

@@ -19,8 +19,6 @@ References
     28, 2014, from http://en.wikipedia.org/wiki/Color_temperature#Approximation
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from scipy.optimize import minimize
 

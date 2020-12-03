@@ -16,8 +16,6 @@ References
     https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=40284#p232952
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence

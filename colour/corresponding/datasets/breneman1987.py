@@ -13,8 +13,6 @@ References
     doi:10.1364/JOSAA.4.001115
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from collections import namedtuple

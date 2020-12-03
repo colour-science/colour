@@ -12,8 +12,6 @@ References
     doi:10.1080/10867651.1999.10487511
 """
 
-from __future__ import division, unicode_literals
-
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
 from colour.utilities import CaseInsensitiveMapping

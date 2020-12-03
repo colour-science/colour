@@ -16,8 +16,6 @@ References
     In Color Appearance Models (3rd ed., pp. 4418-4495). Wiley. ISBN:B00DAYO8E2
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import spow

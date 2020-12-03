@@ -14,8 +14,6 @@ References
     for accurate scientific use. CIE Central Bureau. ISBN:978-3-902842-61-9
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import os
 from collections import namedtuple

@@ -5,15 +5,9 @@ Unicode to ASCII Utility
 ========================
 """
 
-import sys
-if sys.version_info[0] < 3:
-    # Smelly hack for Python 2.x: https://stackoverflow.com/q/3828723/931625
-    reload(sys)  # noqa
-    sys.setdefaultencoding('utf-8')
-
-import codecs  # noqa
-import os  # noqa
-import unicodedata  # noqa
+import codecs
+import os
+import unicodedata
 
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'

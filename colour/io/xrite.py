@@ -8,8 +8,6 @@ Defines input object for *X-Rite* spectral data files:
 -   :func:`colour.read_sds_from_xrite_file`
 """
 
-from __future__ import division, unicode_literals
-
 import codecs
 import re
 from collections import OrderedDict

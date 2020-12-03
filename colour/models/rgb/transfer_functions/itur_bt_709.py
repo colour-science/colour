@@ -19,8 +19,6 @@ References
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
-from __future__ import division, unicode_literals
-
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
 
 __author__ = 'Colour Developers'

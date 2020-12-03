@@ -41,14 +41,9 @@ References
     doi:10.5281/zenodo.3362520
 """
 
-from __future__ import division
-
 import numpy as np
 import scipy.optimize
-try:  # pragma: no cover
-    from collections import Mapping
-except ImportError:  # pragma: no cover
-    from collections.abc import Mapping
+from collections.abc import Mapping
 
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path

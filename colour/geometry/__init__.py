@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .primitives import PLANE_TO_AXIS_MAPPING, primitive_grid, primitive_cube
 from .primitives import PRIMITIVE_METHODS, primitive
 

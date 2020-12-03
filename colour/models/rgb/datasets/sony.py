@@ -44,8 +44,6 @@ aces-dev/blob/710ecbe52c87ce9f4a1e02c8ddf7ea0d6b611cc8/transforms/ctl/idt/\
 vendorSupplied/sony/IDT.Sony.Venice_SLog3_SGamut3Cine.ctl
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS

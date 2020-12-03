@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .all import MUNSELL_COLOURS_ALL
 from .experimental import MUNSELL_COLOURS_1929
 from .real import MUNSELL_COLOURS_REAL

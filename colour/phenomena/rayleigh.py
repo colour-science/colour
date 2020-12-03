@@ -19,8 +19,6 @@ References
     September 23, 2014, from http://en.wikipedia.org/wiki/Rayleigh_scattering
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)

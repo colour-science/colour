@@ -9,8 +9,6 @@ Defines the automatic colour conversion graph objects:
 -   :func:`colour.convert`
 """
 
-from __future__ import division, print_function, unicode_literals
-
 import inspect
 import numpy as np
 import textwrap

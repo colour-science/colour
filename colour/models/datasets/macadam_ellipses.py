@@ -17,8 +17,6 @@ References
     Quantitative Data and Formulae (p. 309). Wiley. ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 __author__ = 'Colour Developers'

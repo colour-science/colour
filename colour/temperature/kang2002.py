@@ -20,8 +20,6 @@ References
     applications. Journal of the Korean Physical Society, 41(6), 865-871.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from scipy.optimize import minimize
 

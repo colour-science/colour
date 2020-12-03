@@ -15,8 +15,6 @@ References
     http://en.wikipedia.org/wiki/CIE_1964_color_space
 """
 
-from __future__ import division, unicode_literals
-
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import (UCS_to_uv, UCS_uv_to_xy, XYZ_to_UCS, XYZ_to_xyY,

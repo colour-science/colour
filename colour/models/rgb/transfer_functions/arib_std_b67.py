@@ -18,8 +18,6 @@ References
     https://www.arib.or.jp/english/std_tr/broadcasting/desc/std-b67.html
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.models.rgb.transfer_functions import gamma_function

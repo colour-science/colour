@@ -18,8 +18,6 @@ References
     https://github.com/mrdoob/three.js/blob/dev/src/geometries/PlaneGeometry.js
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.constants import DEFAULT_INT_DTYPE, DEFAULT_FLOAT_DTYPE

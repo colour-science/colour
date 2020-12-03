@@ -21,8 +21,6 @@ References
     incandescent tungsten and printer.
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import SpectralDistribution
 from colour.utilities import CaseInsensitiveMapping
 

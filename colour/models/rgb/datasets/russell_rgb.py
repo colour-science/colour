@@ -13,8 +13,6 @@ References
     space. http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from functools import partial
 

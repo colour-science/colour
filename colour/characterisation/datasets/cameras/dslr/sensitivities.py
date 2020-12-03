@@ -25,8 +25,6 @@ References
     doi:10.1364/JOSAA.32.000381
 """
 
-from __future__ import division, unicode_literals
-
 from colour.characterisation import RGB_CameraSensitivities
 from colour.utilities import CaseInsensitiveMapping
 

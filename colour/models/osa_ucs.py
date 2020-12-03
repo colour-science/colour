@@ -19,8 +19,6 @@ References
     ISSN:2166-9635
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from scipy.optimize import fmin
 

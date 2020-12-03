@@ -22,8 +22,6 @@ References
 whitepaper_howtocalculateluminositywavelengthandpurity.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import scipy.spatial.distance
 

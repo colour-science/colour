@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.utilities.deprecation` module.
 """
 
-from __future__ import division, unicode_literals
-
 import sys
 import unittest
 

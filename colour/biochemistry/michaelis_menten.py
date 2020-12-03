@@ -15,8 +15,6 @@ References
     https://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics
 """
 
-from __future__ import division, unicode_literals
-
 from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'

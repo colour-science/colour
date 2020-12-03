@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .luts import *  # noqa
 from . import luts
 from .image import ImageAttribute_Specification, convert_bit_depth

@@ -15,8 +15,6 @@ References
     Imaging. doi:10.2352/J.Percept.Imaging.2020.3.2.020401
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import spow

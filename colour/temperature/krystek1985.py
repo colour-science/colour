@@ -20,8 +20,6 @@ References
     doi:10.1002/col.5080100109
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from scipy.optimize import minimize
 

@@ -57,8 +57,6 @@ References
     May 2, 2018, from https://en.wikipedia.org/wiki/Vandermonde_matrix
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow

@@ -12,8 +12,6 @@ Defines various RGB colourspace volume computation objects:
 -   :func:`colour.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`
 """
 
-from __future__ import division, unicode_literals
-
 import itertools
 import multiprocessing
 import numpy as np

@@ -52,8 +52,6 @@ R-REC-BT.2100-1-201706-I!!PDF-E.pdf
 R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import spow

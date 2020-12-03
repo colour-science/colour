@@ -35,8 +35,6 @@ extend-a-line-segment-a-specific-distance
     2018, from https://en.wikipedia.org/wiki/Ellipse
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from collections import namedtuple
 

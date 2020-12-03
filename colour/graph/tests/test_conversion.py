@@ -3,10 +3,7 @@
 Defines unit tests for :mod:`colour.graph.conversion` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
-import six
 import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
@@ -120,14 +117,13 @@ class TestConvert(unittest.TestCase):
             convert(a, 'CIE XYZ', 'CIE xyY', illuminant=illuminant),
             decimal=7)
 
-        if six.PY3:  # pragma: no cover
-            # Illuminant "ndarray" is converted to tuple here so that it can
-            # be hashed by the "sd_to_XYZ" definition, this should never occur
-            # in practical application.
-            self.assertRaises(AttributeError, lambda: convert(
-                SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin'],
-                'Spectral Distribution', 'sRGB',
-                illuminant=tuple(illuminant)))
+        # Illuminant "ndarray" is converted to tuple here so that it can
+        # be hashed by the "sd_to_XYZ" definition, this should never occur
+        # in practical application.
+        self.assertRaises(AttributeError, lambda: convert(
+            SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin'],
+            'Spectral Distribution', 'sRGB',
+            illuminant=tuple(illuminant)))
 
 
 if __name__ == '__main__':

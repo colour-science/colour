@@ -17,8 +17,6 @@ References
     https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import as_float_array

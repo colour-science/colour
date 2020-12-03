@@ -14,8 +14,6 @@ References
     April 3, 2016, from https://en.wikipedia.org/wiki/Luminous_efficacy
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import SDS_LEFS_PHOTOPIC

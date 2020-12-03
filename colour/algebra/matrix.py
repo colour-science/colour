@@ -6,8 +6,6 @@ Matrix Helpers
 Defines matrices computation helpers objects.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 __author__ = 'Colour Developers'

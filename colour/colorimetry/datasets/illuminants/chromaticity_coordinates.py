@@ -73,8 +73,6 @@ DCI_DCinema_System_Spec_v1_1.pdf
 White_points_of_standard_illuminants
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import CaseInsensitiveMapping

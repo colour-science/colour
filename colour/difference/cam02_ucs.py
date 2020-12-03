@@ -17,8 +17,6 @@ References
     Application, 31(4), 320-330. doi:10.1002/col.20227
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import tsplit

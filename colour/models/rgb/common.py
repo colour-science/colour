@@ -6,8 +6,6 @@ Common RGB Colour Models Utilities
 Defines various RGB colour models common utilities.
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.utilities.deprecation import handle_arguments_deprecation

@@ -25,8 +25,6 @@ DCI_DCinema_System_Spec_v1_1.pdf
 lp2480zx-dci--p3-emulation.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from functools import partial
 

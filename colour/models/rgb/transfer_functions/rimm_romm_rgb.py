@@ -24,8 +24,6 @@ References
     (RIMM/ROMM RGB) (pp. 1-8). http://www.photo-lovers.org/pdf/color/romm.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import spow

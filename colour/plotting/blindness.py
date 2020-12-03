@@ -8,8 +8,6 @@ Defines the colour blindness plotting objects:
 -   :func:`colour.plotting.plot_cvd_simulation_Machado2009`
 """
 
-from __future__ import division
-
 from colour.blindness import matrix_cvd_Machado2009
 from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
 from colour.utilities import vector_dot

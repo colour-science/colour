@@ -13,8 +13,6 @@ References
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
@@ -89,7 +87,6 @@ def planck_law(wavelength,
 
     Examples
     --------
-    >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> planck_law(500 * 1e-9, 5500)  # doctest: +ELLIPSIS
     20472701909806.5...
     """

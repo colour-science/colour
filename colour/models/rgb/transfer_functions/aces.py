@@ -48,8 +48,6 @@ References
     http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import (Structure, as_float, as_int, from_range_1,

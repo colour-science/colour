@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.recovery.meng2015` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import unittest
 

@@ -29,8 +29,6 @@ References
     http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import as_float_array, tsplit, tstack

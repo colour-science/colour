@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.colorimetry.photometry` module.
 """
 
-from __future__ import division, unicode_literals
-
 import unittest
 
 from colour.colorimetry import (SDS_ILLUMINANTS, SDS_LIGHT_SOURCES,

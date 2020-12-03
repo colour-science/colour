@@ -9,8 +9,6 @@ References
     199-203. doi:10.1002/col.5080100407
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import os
 import unittest

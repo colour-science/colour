@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .derivation import (normalised_primary_matrix,
                          chromatically_adapted_primaries, primaries_whitepoint,
                          RGB_luminance_equation, RGB_luminance)

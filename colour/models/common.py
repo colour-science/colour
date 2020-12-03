@@ -15,8 +15,6 @@ References
     ISBN:978-3-901906-33-6
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian

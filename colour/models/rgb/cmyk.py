@@ -22,8 +22,6 @@ References
     from http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import (as_float_array, from_range_1, to_domain_1,

@@ -16,8 +16,6 @@ References
 aces_ocio/colorspaces/gopro.py
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import from_range_1, to_domain_1

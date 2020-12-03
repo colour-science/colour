@@ -17,11 +17,9 @@ References
     Graphics Forum, 37(6), 370-381. doi:10.1111/cgf.13332
 """
 
-from __future__ import division, print_function, unicode_literals
-
 import numpy as np
-import six
 from collections import namedtuple
+from unittest import mock
 
 from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
                                 SpectralDistribution, SpectralShape,
@@ -33,10 +31,6 @@ from colour.utilities import (as_float_array, domain_range_scale,
                               is_tqdm_installed, message_box, runtime_warning,
                               to_domain_1, zeros)
 
-if six.PY3:
-    from unittest import mock
-else:
-    import mock
 if is_tqdm_installed():
     from tqdm import tqdm
 else:
@@ -397,8 +391,7 @@ def XYZ_to_sd_Otsu2018(
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd_Otsu2018(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
-    ...     sd  # doctest: +SKIP
+    ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 380.        ,    0.0601939...],
                           [ 390.        ,    0.0568063...],
                           [ 400.        ,    0.0517429...],
@@ -1199,10 +1192,8 @@ class NodeTree_Otsu2018(Node):
     >>> dataset = Dataset_Otsu2018() # doctest: +SKIP
     >>> dataset.read(path) # doctest: +SKIP
     >>> sd = XYZ_to_sd_Otsu2018(XYZ, cmfs, illuminant, dataset)
-    ... # doctest: +SKIP
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
-    ...     sd  # doctest: +SKIP
+    ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 360.        ,    0.0651341...],
                           [ 370.        ,    0.0651341...],
                           [ 380.        ,    0.0651341...],

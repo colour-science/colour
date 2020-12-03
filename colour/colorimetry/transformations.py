@@ -31,8 +31,6 @@ References
     Formulae (pp. 138-139). Wiley. ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import MSDS_CMFS_LMS, MSDS_CMFS_RGB, SDS_LEFS_PHOTOPIC

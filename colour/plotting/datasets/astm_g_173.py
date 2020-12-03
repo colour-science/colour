@@ -14,8 +14,6 @@ References
     http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
 """
 
-from __future__ import division, unicode_literals
-
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import SpectralDistribution
 

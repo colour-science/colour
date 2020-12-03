@@ -49,8 +49,6 @@ usp=sharing
     http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
-from __future__ import division, unicode_literals
-
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
 from colour.utilities import CaseInsensitiveMapping

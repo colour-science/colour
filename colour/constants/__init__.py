@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .cie import CONSTANT_K_M, CONSTANT_KP_M
 from .codata import (CONSTANT_AVOGADRO, CONSTANT_BOLTZMANN,
                      CONSTANT_LIGHT_SPEED, CONSTANT_PLANCK)

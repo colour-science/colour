@@ -8,24 +8,11 @@ Defines the class implementing support for continuous signal:
 -   :class:`colour.continuous.Signal`
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
-from operator import add, mul, pow, sub, iadd, imul, ipow, isub
-
-# Python 3 compatibility.
-try:
-    from operator import div, idiv
-except ImportError:
-    from operator import truediv, itruediv
-
-    div = truediv
-    idiv = itruediv
+from operator import (add, mul, pow, sub, truediv, iadd, imul, ipow, isub,
+                      itruediv)
 from collections import OrderedDict
-try:  # pragma: no cover
-    from collections import Iterator, Mapping, Sequence
-except ImportError:  # pragma: no cover
-    from collections.abc import Iterator, Mapping, Sequence
+from collections.abc import Iterator, Mapping, Sequence
 
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -1022,7 +1009,7 @@ class Signal(AbstractContinuousFunction):
             '+': (add, iadd),
             '-': (sub, isub),
             '*': (mul, imul),
-            '/': (div, idiv),
+            '/': (truediv, itruediv),
             '**': (pow, ipow)
         }[operation]
 

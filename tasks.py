@@ -4,13 +4,7 @@ Invoke - Tasks
 ==============
 """
 
-from __future__ import unicode_literals
-
-import sys
-try:
-    import biblib.bib
-except ImportError:
-    pass
+import biblib.bib
 import fnmatch
 import os
 import re
@@ -112,26 +106,24 @@ def formatting(ctx, yapf=False, asciify=True, bibtex=True):
         with ctx.cd('utilities'):
             ctx.run('./unicode_to_ascii.py')
 
-    if bibtex and sys.version_info[:2] >= (3, 2):
-        message_box('Cleaning up "BibTeX" file...')
-        bibtex_path = BIBLIOGRAPHY_NAME
-        with open(bibtex_path) as bibtex_file:
-            bibtex = biblib.bib.Parser().parse(
-                bibtex_file.read()).get_entries()
+    message_box('Cleaning up "BibTeX" file...')
+    bibtex_path = BIBLIOGRAPHY_NAME
+    with open(bibtex_path) as bibtex_file:
+        bibtex = biblib.bib.Parser().parse(bibtex_file.read()).get_entries()
 
+    for entry in sorted(bibtex.values(), key=lambda x: x.key):
+        try:
+            del entry['file']
+        except KeyError:
+            pass
+
+        for key, value in entry.items():
+            entry[key] = re.sub('(?<!\\\\)\\&', '\\&', value)
+
+    with open(bibtex_path, 'w') as bibtex_file:
         for entry in sorted(bibtex.values(), key=lambda x: x.key):
-            try:
-                del entry['file']
-            except KeyError:
-                pass
-
-            for key, value in entry.items():
-                entry[key] = re.sub('(?<!\\\\)\\&', '\\&', value)
-
-        with open(bibtex_path, 'w') as bibtex_file:
-            for entry in sorted(bibtex.values(), key=lambda x: x.key):
-                bibtex_file.write(entry.to_bib())
-                bibtex_file.write('\n')
+            bibtex_file.write(entry.to_bib())
+            bibtex_file.write('\n')
 
 
 @task

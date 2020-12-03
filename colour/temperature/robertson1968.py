@@ -34,8 +34,6 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
     Formulae (pp. 224-229). Wiley. ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from collections import namedtuple
 

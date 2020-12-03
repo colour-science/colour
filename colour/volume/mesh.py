@@ -6,8 +6,6 @@ Mesh Volume Computation Helpers
 Defines helpers objects related to volume computations.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from scipy.spatial import Delaunay
 

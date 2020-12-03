@@ -24,8 +24,6 @@ References
 c/09_color_calculations_en.pdf
 """
 
-from __future__ import division, unicode_literals
-
 from colour.utilities import (CaseInsensitiveMapping, from_range_100,
                               to_domain_100, tsplit)
 

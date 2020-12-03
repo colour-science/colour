@@ -5,8 +5,6 @@ Generate Plots
 ==============
 """
 
-from __future__ import division, unicode_literals
-
 import matplotlib
 
 matplotlib.use('AGG')

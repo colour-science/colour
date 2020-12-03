@@ -25,8 +25,6 @@ References
     MATLAB (2nd ed., p. 38). ISBN:978-0-470-66569-5
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import CaseInsensitiveMapping

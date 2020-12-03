@@ -3,13 +3,10 @@
 Defines unit tests for :mod:`colour.models.rgb.derivation` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import re
 import unittest
 from itertools import permutations
-from six import text_type
 
 from colour.models import (
     normalised_primary_matrix, chromatically_adapted_primaries,
@@ -275,7 +272,7 @@ class TestRGBLuminanceEquation(unittest.TestCase):
             RGB_luminance_equation(
                 np.array(
                     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-                np.array([0.32168, 0.33767])), text_type)
+                np.array([0.32168, 0.33767])), str)
 
         # TODO: Simplify that monster.
         pattern = (

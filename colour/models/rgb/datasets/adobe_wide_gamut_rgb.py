@@ -14,8 +14,6 @@ References
     http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from functools import partial
 

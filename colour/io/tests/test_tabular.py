@@ -3,14 +3,10 @@
 Defines unit tests for :mod:`colour.io.tabular` module.
 """
 
-from __future__ import division, unicode_literals
-
-import numpy as np
 import os
 import shutil
 import unittest
 import tempfile
-from six import PY2, text_type
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
 from colour.io import (read_spectral_data_from_csv_file,
@@ -132,7 +128,7 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
                                              'colorchecker_n_ohta.csv')
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(
-            sorted(data), sorted([text_type(x) for x in range(1, 25)]))
+            sorted(data), sorted([str(x) for x in range(1, 25)]))
         self.assertDictEqual(data['1'], COLOURCHECKER_N_OHTA_1)
 
         linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY, 'linss2_10e_5.csv')
@@ -210,16 +206,6 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test)
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in sds.items():
-            if PY2:  # pragma: no cover
-                # Running into precision issues with Python 2.x, applying
-                # conservative rounding.
-                value.wavelengths = np.around(value.wavelengths, decimals=7)
-                value.values = np.around(value.values, decimals=7)
-                sds_test[key].wavelengths = np.around(
-                    sds_test[key].wavelengths, decimals=7)
-                sds_test[key].values = np.around(
-                    sds_test[key].values, decimals=7)
-
             self.assertEqual(value, sds_test[key])
 
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test, fields=['1'])

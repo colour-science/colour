@@ -42,8 +42,6 @@ References
     http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import SpectralDistribution
 from colour.utilities import CaseInsensitiveMapping
 

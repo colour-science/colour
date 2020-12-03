@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.plotting.graph` module.
 """
 
-from __future__ import division, unicode_literals
-
 import tempfile
 import unittest
 

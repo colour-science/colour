@@ -9,8 +9,6 @@ References
     System (pp. 1-47). doi:10.1520/E0308-15
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import unittest
 

@@ -27,8 +27,6 @@ References
     15(6), 1291-1298. doi:10.1109/TVCG.2009.113
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.blindness import CVD_MATRICES_MACHADO2010

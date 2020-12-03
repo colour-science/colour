@@ -17,8 +17,6 @@ References
     ISBN:978-3-901906-33-6
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import (CCS_ILLUMINANTS,
                                 intermediate_lightness_function_CIE1976,
                                 intermediate_luminance_function_CIE1976)

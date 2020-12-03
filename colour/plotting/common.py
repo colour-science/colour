@@ -23,8 +23,6 @@ Defines the common plotting objects:
 -   :func:`colour.plotting.plot_image`
 """
 
-from __future__ import division
-
 import functools
 import itertools
 import matplotlib
@@ -33,7 +31,6 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
 import re
-import six
 from collections import OrderedDict, namedtuple
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
@@ -1398,12 +1395,8 @@ def plot_multi_functions(functions,
 
         plotting_function = axes.loglog
 
-        if six.PY3:  # pragma: no cover
-            axes.set_xscale('log', base=log_x)
-            axes.set_yscale('log', base=log_y)
-        else:  # pragma: no cover
-            axes.set_xscale('log', basex=log_x)
-            axes.set_yscale('log', basey=log_y)
+        axes.set_xscale('log', base=log_x)
+        axes.set_yscale('log', base=log_y)
     elif log_x is not None:
         assert log_x >= 2, 'Log base must be equal or greater than 2.'
 

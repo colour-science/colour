@@ -15,8 +15,6 @@ References
 F-Log_DataSheet_E_Ver.1.0.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full

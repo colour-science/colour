@@ -17,8 +17,6 @@ References
     Tables. Retrieved June 24, 2020, from http://j.mp/S-2014-006
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import as_float, as_float_array, suppress_warnings

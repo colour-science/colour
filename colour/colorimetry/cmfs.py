@@ -15,8 +15,6 @@ Defines colour matching functions classes for the datasets from
     for the *CIE Standard Observers* *XYZ* colour matching functions.
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import MultiSpectralDistributions
 
 __author__ = 'Colour Developers'

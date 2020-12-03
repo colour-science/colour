@@ -12,8 +12,6 @@ References
     https://sourceforge.net/projects/cinespacelutlib/
 """
 
-from __future__ import absolute_import
-
 import os
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs

@@ -21,8 +21,6 @@ References
     Displays (pp. 1-14). doi:10.5594/SMPTE.ST2084.2014
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import spow

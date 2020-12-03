@@ -24,10 +24,7 @@ References
     015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901906-33-6
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
-from six.moves import zip
 
 from colour.algebra import (Extrapolator, CubicSplineInterpolator,
                             SpragueInterpolator)

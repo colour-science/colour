@@ -25,12 +25,10 @@ References
     T. and Shaw, N.
 """
 
-from __future__ import division
-
 import matplotlib.pyplot as plt
 import numpy as np
+from functools import reduce
 from matplotlib.patches import Polygon
-from six.moves import reduce
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (

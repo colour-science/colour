@@ -13,8 +13,6 @@ References
     Image Encoding. http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from functools import partial
 

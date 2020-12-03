@@ -8,8 +8,6 @@ Defines corresponding chromaticities prediction plotting objects:
 -   :func:`colour.plotting.plot_corresponding_chromaticities_prediction`
 """
 
-from __future__ import division
-
 from colour.corresponding import corresponding_chromaticities_prediction
 from colour.plotting import (CONSTANTS_COLOUR_STYLE, artist,
                              plot_chromaticity_diagram_CIE1976UCS,

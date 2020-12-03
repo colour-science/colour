@@ -4,11 +4,8 @@
 Defines unit tests for :mod:`colour.adaptation` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import unittest
-from six.moves import zip
 
 from colour.adaptation import chromatic_adaptation
 from colour.utilities import domain_range_scale

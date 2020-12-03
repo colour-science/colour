@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .astm_g_173 import (SD_ASTMG173_ETR, SD_ASTMG173_GLOBAL_TILT,
                          SD_ASTMG173_DIRECT_CIRCUMSOLAR)
 

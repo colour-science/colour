@@ -6,12 +6,9 @@ Image Input / Output Utilities
 Defines image related input / output utilities objects.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import platform
 from collections import namedtuple
-from six import string_types
 
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               is_openimageio_installed, filter_kwargs,
@@ -431,8 +428,7 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     for attribute in attributes:
         name = str(attribute.name)
         value = (str(attribute.value)
-                 if isinstance(attribute.value, string_types) else
-                 attribute.value)
+                 if isinstance(attribute.value, str) else attribute.value)
         type_ = attribute.type_
         if attribute.type_ is None:
             specification.attribute(name, value)

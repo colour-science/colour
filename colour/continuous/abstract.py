@@ -9,21 +9,9 @@ function:
 -   :class:`colour.continuous.AbstractContinuousFunction`.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
-from abc import ABCMeta, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod, abstractproperty
 from copy import deepcopy
-
-# Python 3 compatibility.
-try:
-    from operator import div, idiv
-except ImportError:
-    from operator import truediv, itruediv
-
-    div = truediv
-    idiv = itruediv
-from six import add_metaclass
 
 from colour.utilities import as_float, closest, is_uniform, is_string
 
@@ -37,8 +25,7 @@ __status__ = 'Production'
 __all__ = ['AbstractContinuousFunction']
 
 
-@add_metaclass(ABCMeta)
-class AbstractContinuousFunction:
+class AbstractContinuousFunction(ABC):
     """
     Defines the base class for abstract continuous function.
 

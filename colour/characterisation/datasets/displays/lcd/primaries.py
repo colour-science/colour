@@ -28,8 +28,6 @@ context=article
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
-from __future__ import division, unicode_literals
-
 from colour.characterisation import RGB_DisplayPrimaries
 from colour.utilities import CaseInsensitiveMapping
 

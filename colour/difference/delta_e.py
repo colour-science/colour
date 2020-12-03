@@ -33,8 +33,6 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     Delta E - A survey. Machine Graphics and Vision, 20, 383-411.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import euclidean_distance

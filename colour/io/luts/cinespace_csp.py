@@ -16,8 +16,6 @@ References
     https://sourceforge.net/projects/cinespacelutlib/
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence

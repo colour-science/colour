@@ -21,8 +21,6 @@ References
     38(27), 5703. doi:10.1364/AO.38.005703
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from scipy.optimize import minimize
 

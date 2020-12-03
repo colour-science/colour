@@ -25,8 +25,6 @@ aces_ocio/colorspaces/gopro.py
     https://www.colour-science.org/posts/red-colourspaces-derivation
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS

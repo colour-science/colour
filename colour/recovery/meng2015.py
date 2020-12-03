@@ -15,8 +15,6 @@ References
     Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from scipy.optimize import minimize
 
@@ -110,8 +108,7 @@ def XYZ_to_sd_Meng2015(
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd_Meng2015(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
-    ...     sd  # doctest: +SKIP
+    ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 360.        ,    0.0765153...],
                           [ 370.        ,    0.0764771...],
                           [ 380.        ,    0.0764286...],

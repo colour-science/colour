@@ -29,8 +29,6 @@ References
     http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full

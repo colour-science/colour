@@ -62,8 +62,6 @@ References
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import (LMS_ConeFundamentals,
                                 RGB_ColourMatchingFunctions,
                                 XYZ_ColourMatchingFunctions)

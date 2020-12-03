@@ -114,8 +114,6 @@ MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
     Application, 20(3), 156-167. doi:10.1002/col.5080200305
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import re
 from collections import OrderedDict
@@ -1260,8 +1258,7 @@ def xyY_to_munsell_colour(xyY,
     Examples
     --------
     >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> xyY_to_munsell_colour(xyY)  # doctest: +SKIP
+    >>> xyY_to_munsell_colour(xyY)
     '4.2YR 8.1/5.3'
     """
 
@@ -1457,13 +1454,11 @@ def munsell_specification_to_munsell_colour(specification,
 
     Examples
     --------
-    >>> # Doctests skip for Python 2.x compatibility.
     >>> munsell_specification_to_munsell_colour(
-    ...     np.array([np.nan, 5.2, np.nan, np.nan]))  # doctest: +SKIP
+    ...     np.array([np.nan, 5.2, np.nan, np.nan]))
     'N5.2'
-    >>> # Doctests skip for Python 2.x compatibility.
     >>> munsell_specification_to_munsell_colour(
-    ...     np.array([10, 2.0, 4.0, 7]))  # doctest: +SKIP
+    ...     np.array([10, 2.0, 4.0, 7]))
     '10.0R 2.0/4.0'
     """
 
@@ -1785,9 +1780,7 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> # Doctests skip for Python 2.x compatibility.
     >>> interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
-    ... # doctest: +SKIP
     'Radial'
     """
 
@@ -2343,7 +2336,6 @@ def munsell_specification_to_xy(specification):
 
     Examples
     --------
-    >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4))
     ... # doctest: +ELLIPSIS
     array([ 0.4400632...,  0.5522428...])

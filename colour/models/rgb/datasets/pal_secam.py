@@ -16,8 +16,6 @@ References
 R-REC-BT.470-6-199811-S!!PDF-E.pdf
 """
 
-from __future__ import division, unicode_literals
-
 from colour.models.rgb import RGB_Colourspace
 from colour.models.rgb.datasets.itur_bt_470 import (
     PRIMARIES_BT470_625, CCS_WHITEPOINT_BT470_625, WHITEPOINT_NAME_BT470_625,

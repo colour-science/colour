@@ -14,8 +14,6 @@ References
     space for rgb computations (pp. 2-7).
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack

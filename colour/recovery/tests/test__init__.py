@@ -4,11 +4,8 @@
 Defines unit tests for :mod:`colour.recovery` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import unittest
-from six.moves import zip
 
 from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
                                 SpectralShape, sd_to_XYZ_integration)

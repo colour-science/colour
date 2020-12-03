@@ -32,8 +32,6 @@ References
     http://www.cis.rit.edu/research/mcsl2/online/munsell.php
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 __author__ = 'Colour Developers'

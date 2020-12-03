@@ -13,8 +13,6 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 -   :func:`colour.plotting.plot_sds_in_chromaticity_diagram_CIE1976UCS`
 """
 
-from __future__ import division
-
 import bisect
 import numpy as np
 from matplotlib.collections import LineCollection
