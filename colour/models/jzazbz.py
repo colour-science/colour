@@ -16,8 +16,6 @@ References
     doi:10.1364/OE.25.015131
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.models.rgb.transfer_functions import (eotf_inverse_ST2084,

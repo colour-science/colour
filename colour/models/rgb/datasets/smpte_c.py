@@ -15,8 +15,6 @@ References
     Picture and Television Engineers. doi:10.5594/S9781614821649
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from functools import partial
 

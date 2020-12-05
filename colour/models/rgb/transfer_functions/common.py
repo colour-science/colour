@@ -6,8 +6,6 @@ Common Transfer Functions Utilities
 Defines various transfer functions common utilities.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE

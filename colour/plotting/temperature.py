@@ -12,8 +12,6 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931`
 plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS`
 """
 
-from __future__ import division
-
 import numpy as np
 
 from colour.colorimetry import MSDS_CMFS, CCS_ILLUMINANTS

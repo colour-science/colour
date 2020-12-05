@@ -56,8 +56,6 @@ References
     ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.biochemistry import substrate_concentration_MichealisMenten

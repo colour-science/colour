@@ -14,8 +14,6 @@ References
     Revision 1 (pp. 1-46). http://www.filmicpro.com/FilmicProUserManualv6.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import Extrapolator, LinearInterpolator

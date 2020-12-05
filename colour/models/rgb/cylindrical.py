@@ -33,8 +33,6 @@ References
     September 10, 2014, from http://en.wikipedia.org/wiki/HSL_and_HSV
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import (as_float_array, from_range_1, to_domain_1,

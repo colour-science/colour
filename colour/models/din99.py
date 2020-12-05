@@ -16,8 +16,6 @@ References
     doi:10.1520/D2244-16
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import spow

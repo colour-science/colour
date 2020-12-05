@@ -15,8 +15,6 @@ References
     ISBN:B00DAYO8E2
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS

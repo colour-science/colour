@@ -13,10 +13,7 @@ tm3018.plot_single_sd_colour_rendition_report_simple`
 -   :func:`colour.plotting.plot_single_sd_colour_rendition_report`
 """
 
-from __future__ import division
-
 import matplotlib.pyplot as plt
-import six
 
 from colour.colorimetry import sd_to_XYZ
 from colour.io import SpectralDistribution_IESTM2714
@@ -28,7 +25,7 @@ from colour.plotting.tm3018.components import (
 from colour.quality import (colour_fidelity_index_ANSIIESTM3018,
                             colour_rendering_index)
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
-from colour.utilities import describe_environment, runtime_warning
+from colour.utilities import describe_environment
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -310,13 +307,6 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
         :alt: plot_single_sd_colour_rendition_report_full
     """
 
-    if six.PY2:
-        runtime_warning(
-            'The "ANSI/IES TM-30-18 Colour Rendition Report" uses advanced '
-            '"Matplotlib" layout capabilities only available for Python 3!')
-
-        return render()
-
     if report_box_padding is None:
         report_box_padding = CONSTANT_REPORT_PADDING_FULL
 
@@ -594,13 +584,6 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
         :alt: plot_single_sd_colour_rendition_report_intermediate
     """
 
-    if six.PY2:
-        runtime_warning(
-            'The "ANSI/IES TM-30-18 Colour Rendition Report" uses advanced '
-            '"Matplotlib" layout capabilities only available for Python 3!')
-
-        return render()
-
     if report_box_padding is None:
         report_box_padding = CONSTANT_REPORT_PADDING_INTERMEDIATE
 
@@ -694,13 +677,6 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
         :align: center
         :alt: plot_single_sd_colour_rendition_report_simple
     """
-
-    if six.PY2:
-        runtime_warning(
-            'The "ANSI/IES TM-30-18 Colour Rendition Report" uses advanced '
-            '"Matplotlib" layout capabilities only available for Python 3!')
-
-        return render()
 
     if report_box_padding is None:
         report_box_padding = CONSTANT_REPORT_PADDING_SIMPLE

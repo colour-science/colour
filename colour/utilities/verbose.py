@@ -6,8 +6,6 @@ Verbose
 Defines verbose related objects.
 """
 
-from __future__ import division, print_function, unicode_literals
-
 import numpy as np
 import os
 import sys
@@ -535,21 +533,21 @@ def describe_environment(runtime_packages=True,
     ===========================================================================
     *                                                                         *
     *   Interpreter :                                                         *
-    *       python : 3.7.4 (default, Sep  7 2019, 18:27:02)                   *
-    *                [Clang 10.0.1 (clang-1001.0.46.4)]                       *
+    *       python : 3.8.6 (default, Nov 20 2020, 18:29:40)                   *
+    *                [Clang 12.0.0 (clang-1200.0.32.27)]                      *
     *                                                                         *
     *   colour-science.org :                                                  *
-    *       colour : v0.3.13-293-gecf1dc8a                                    *
+    *       colour : v0.3.16-3-gd8bac475                                      *
     *                                                                         *
     *   Runtime :                                                             *
-    *       imageio : 2.6.1                                                   *
-    *       numpy : 1.17.2                                                    *
-    *       scipy : 1.3.1                                                     *
-    *       six : 1.12.0                                                      *
-    *       pandas : 0.24.2                                                   *
-    *       matplotlib : 3.0.3                                                *
-    *       networkx : 2.3                                                    *
-    *       pygraphviz : 1.5                                                  *
+    *       imageio : 2.9.0                                                   *
+    *       matplotlib : 3.3.3                                                *
+    *       networkx : 2.5                                                    *
+    *       numpy : 1.19.4                                                    *
+    *       pandas : 0.25.3                                                   *
+    *       pygraphviz : 1.6                                                  *
+    *       scipy : 1.5.4                                                     *
+    *       tqdm : 4.54.0                                                     *
     *                                                                         *
     ===========================================================================
     >>> environment = describe_environment(True, True, True, width=75)
@@ -557,44 +555,44 @@ def describe_environment(runtime_packages=True,
     ===========================================================================
     *                                                                         *
     *   Interpreter :                                                         *
-    *       python : 3.7.4 (default, Sep  7 2019, 18:27:02)                   *
-    *                [Clang 10.0.1 (clang-1001.0.46.4)]                       *
+    *       python : 3.8.6 (default, Nov 20 2020, 18:29:40)                   *
+    *                [Clang 12.0.0 (clang-1200.0.32.27)]                      *
     *                                                                         *
     *   colour-science.org :                                                  *
-    *       colour : v0.3.13-293-gecf1dc8a                                    *
+    *       colour : v0.3.16-3-gd8bac475                                      *
     *                                                                         *
     *   Runtime :                                                             *
-    *       imageio : 2.6.1                                                   *
-    *       numpy : 1.17.2                                                    *
-    *       scipy : 1.3.1                                                     *
-    *       six : 1.12.0                                                      *
-    *       pandas : 0.24.2                                                   *
-    *       matplotlib : 3.0.3                                                *
-    *       networkx : 2.3                                                    *
-    *       pygraphviz : 1.5                                                  *
+    *       imageio : 2.9.0                                                   *
+    *       matplotlib : 3.3.3                                                *
+    *       networkx : 2.5                                                    *
+    *       numpy : 1.19.4                                                    *
+    *       pandas : 0.25.3                                                   *
+    *       pygraphviz : 1.6                                                  *
+    *       scipy : 1.5.4                                                     *
+    *       tqdm : 4.54.0                                                     *
     *                                                                         *
     *   Development :                                                         *
     *       biblib-simple : 0.1.1                                             *
-    *       coverage : 4.5.4                                                  *
-    *       coveralls : 1.8.2                                                 *
-    *       flake8 : 3.7.8                                                    *
-    *       invoke : 1.3.0                                                    *
+    *       coverage : 5.3                                                    *
+    *       coveralls : 2.2.0                                                 *
+    *       flake8 : 3.8.4                                                    *
+    *       invoke : 1.4.1                                                    *
     *       jupyter : 1.0.0                                                   *
-    *       mock : 3.0.5                                                      *
+    *       mock : 4.0.2                                                      *
     *       nose : 1.3.7                                                      *
-    *       pre-commit : 1.18.3                                               *
-    *       pytest : 5.2.1                                                    *
-    *       restructuredtext-lint : 1.3.0                                     *
-    *       sphinx : 2.2.0                                                    *
-    *       sphinx_rtd_theme : 0.4.3                                          *
+    *       pre-commit : 2.1.1                                                *
+    *       pytest : 6.1.2                                                    *
+    *       restructuredtext-lint : 1.3.2                                     *
+    *       sphinx : 3.1.2                                                    *
+    *       sphinx_rtd_theme : 0.5.0                                          *
     *       sphinxcontrib-bibtex : 1.0.0                                      *
-    *       toml : 0.10.0                                                     *
-    *       twine : 1.15.0                                                    *
+    *       toml : 0.10.2                                                     *
+    *       twine : 3.2.0                                                     *
     *       yapf : 0.23.0                                                     *
     *                                                                         *
     *   Extras :                                                              *
     *       ipywidgets : 7.5.1                                                *
-    *       notebook : 6.0.1                                                  *
+    *       notebook : 6.1.5                                                  *
     *                                                                         *
     ===========================================================================
     """
@@ -627,7 +625,7 @@ def describe_environment(runtime_packages=True,
     if runtime_packages:
         for package in [
                 'imageio', 'matplotlib', 'networkx', 'numpy', 'pandas',
-                'pygraphviz', 'scipy', 'six'
+                'pygraphviz', 'scipy', 'tqdm'
         ]:
             try:
                 namespace = __import__(package)

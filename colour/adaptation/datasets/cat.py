@@ -66,8 +66,6 @@ References
     2014, from http://en.wikipedia.org/wiki/CIECAM02#CAT02
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import CaseInsensitiveMapping

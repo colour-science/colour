@@ -1,11 +1,10 @@
 alabaster==0.7.12
 appdirs==1.4.4
-appnope==0.1.0
+appnope==0.1.2
 argon2-cffi==20.1.0
 attrs==20.3.0
 Babel==2.9.0
 backcall==0.2.0
-backports.functools-lru-cache==1.6.1
 biblib-simple==0.1.1
 bleach==3.2.1
 certifi==2020.11.8
@@ -57,7 +56,7 @@ nose==1.3.7
 notebook==6.1.5
 numpy==1.19.4
 oset==0.1.3
-packaging==20.4
+packaging==20.7
 pandas==0.25.3
 pandocfilters==1.4.3
 parso==0.7.1
@@ -109,7 +108,7 @@ terminado==0.9.1
 testpath==0.4.4
 toml==0.10.2
 tornado==6.1
-tqdm==4.53.0
+tqdm==4.54.0
 traitlets==4.3.3
 twine==3.2.0
 urllib3==1.26.2

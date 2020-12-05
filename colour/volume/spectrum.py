@@ -15,10 +15,7 @@ References
     https://stackoverflow.com/a/48396021/931625
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
-import six
 
 from colour.colorimetry import (MSDS_CMFS, msds_to_XYZ, SpectralShape, sd_ones)
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -210,7 +207,7 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     settings = {'method': 'Integration', 'shape': cmfs.shape}
     settings.update(kwargs)
 
-    key = (hash(cmfs), hash(illuminant), six.text_type(settings))
+    key = (hash(cmfs), hash(illuminant), str(settings))
     XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
     if XYZ is None:
@@ -275,7 +272,7 @@ def is_within_visible_spectrum(
     array([ True, False], dtype=bool)
     """
 
-    key = (hash(cmfs), hash(illuminant), six.text_type(kwargs))
+    key = (hash(cmfs), hash(illuminant), str(kwargs))
     vertices = _CACHE_OUTER_SURFACE_XYZ_POINTS.get(key)
 
     if vertices is None:

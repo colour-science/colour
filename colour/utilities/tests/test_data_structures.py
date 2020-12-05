@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.utilities.data_structures` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import operator
 import pickle

@@ -6,10 +6,7 @@ Documentation
 Defines documentation related objects.
 """
 
-from __future__ import division, unicode_literals
-
 import os
-from six import text_type
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -51,7 +48,7 @@ class DocstringInt(int):
     pass
 
 
-class DocstringText(text_type):
+class DocstringText(str):
     """
     A :class:`unicode` sub-class that allows settings a docstring to
     :class:`unicode` instances.

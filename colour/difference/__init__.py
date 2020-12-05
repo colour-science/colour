@@ -31,8 +31,6 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
 """
 
-from __future__ import absolute_import
-
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 from .cam02_ucs import delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS

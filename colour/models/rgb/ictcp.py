@@ -18,8 +18,6 @@ References
     Distribution. ZTE Communications, 14(1), 32-38.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.models.rgb.transfer_functions import (eotf_inverse_ST2084,

@@ -13,8 +13,6 @@ References
     DaVinci Wide Gamut - DaVinci Resolve Studio 17 Public Beta 1.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS

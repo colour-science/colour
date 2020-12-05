@@ -9,8 +9,6 @@ Defines objects for hexadecimal notation:
 -   :func:`colour.notation.HEX_to_RGB`
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
@@ -53,8 +51,7 @@ def RGB_to_HEX(RGB):
     Examples
     --------
     >>> RGB = np.array([0.66666667, 0.86666667, 1.00000000])
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> RGB_to_HEX(RGB)  # doctest: +SKIP
+    >>> RGB_to_HEX(RGB)
     '#aaddff'
     """
 

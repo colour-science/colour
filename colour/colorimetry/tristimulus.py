@@ -34,8 +34,6 @@ References
     Quantitative Data and Formulae (pp. 158-163). Wiley. ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import lagrange_coefficients

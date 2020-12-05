@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .report import (plot_single_sd_colour_rendition_report_full,
                      plot_single_sd_colour_rendition_report_intermediate,
                      plot_single_sd_colour_rendition_report_simple)

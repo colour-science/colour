@@ -22,8 +22,6 @@ References
     February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1931_color_space
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS

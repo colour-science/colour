@@ -15,8 +15,6 @@ References
     doi:10.1002/(SICI)1520-6378(199702)22:1<11::AID-COL4>3.0.CO;2-7
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from functools import partial
 

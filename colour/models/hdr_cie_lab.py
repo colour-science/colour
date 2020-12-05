@@ -22,8 +22,6 @@ References
     System Performance VIII (p. 78670O). doi:10.1117/12.872075
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import (

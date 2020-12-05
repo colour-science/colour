@@ -8,10 +8,7 @@ Notes
     by the CIE at this URL: http://files.cie.co.at/933_TC1-90.zip.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
-import six
 import unittest
 
 from colour.colorimetry import (SpectralShape, SpectralDistribution,
@@ -592,11 +589,8 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
         definition raised exception.
         """
 
-        if six.PY3:  # pragma: no cover
-            sd = SDS_ILLUMINANTS['FL2'].copy().align(
-                SpectralShape(400, 700, 5))
-            self.assertWarns(ColourUsageWarning, colour_fidelity_index_CIE2017,
-                             sd)
+        sd = SDS_ILLUMINANTS['FL2'].copy().align(SpectralShape(400, 700, 5))
+        self.assertWarns(ColourUsageWarning, colour_fidelity_index_CIE2017, sd)
 
         sd = SDS_ILLUMINANTS['FL2'].copy().align(SpectralShape(380, 780, 10))
         self.assertRaises(ValueError, colour_fidelity_index_CIE2017, sd)

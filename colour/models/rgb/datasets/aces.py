@@ -52,8 +52,6 @@ References
     http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS

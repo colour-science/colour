@@ -3,12 +3,9 @@
 Defines unit tests for :mod:`colour.models.rgb.rgb_colourspace` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import pickle
 import re
-import six
 import textwrap
 import unittest
 from copy import deepcopy
@@ -225,10 +222,6 @@ class TestRGB_Colourspace(unittest.TestCase):
         method.
         """
 
-        # Skipping unit test on Python 2.7.
-        if six.PY2:  # pragma: no cover
-            return
-
         self.assertEqual(
             re.sub(' at 0x\\w+>', '', str(self._colourspace)),
             textwrap.dedent("""
@@ -262,10 +255,6 @@ class TestRGB_Colourspace(unittest.TestCase):
         Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
 __repr__` method.
         """
-
-        # Skipping unit test on Python 2.7.
-        if six.PY2:  # pragma: no cover
-            return
 
         self.assertEqual(
             re.sub(' at 0x\\w+>', '', repr(self._colourspace)),

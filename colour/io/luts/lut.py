@@ -12,28 +12,13 @@ Defines the classes and definitions handling *LUT* processing:
 -   :class:`colour.io.LUT_to_LUT`
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import re
-from abc import ABCMeta, abstractmethod
-try:
-    from collections import MutableSequence
-except ImportError:
-    from collections.abc import MutableSequence
+from abc import ABC, abstractmethod
+from collections.abc import MutableSequence
 from copy import deepcopy
-# pylint: disable=W0622
-from operator import add, mul, pow, sub, iadd, imul, ipow, isub
-
-# Python 3 compatibility.
-try:
-    from operator import div, idiv
-except ImportError:
-    from operator import truediv, itruediv
-
-    div = truediv
-    idiv = itruediv
-from six import add_metaclass
+from operator import (add, mul, pow, sub, truediv, iadd, imul, ipow, isub,
+                      itruediv)
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
@@ -55,8 +40,7 @@ __all__ = [
 ]
 
 
-@add_metaclass(ABCMeta)
-class AbstractLUT:
+class AbstractLUT(ABC):
     """
     Defines the base class for *LUT*.
 
@@ -129,7 +113,6 @@ class AbstractLUT:
 
         self._dimensions = dimensions
 
-        # TODO: Re-enable when dropping Python 2.7.
         # pylint: disable=E1121
         self._table = self.linear_table(size, domain)
         self.table = table
@@ -586,7 +569,7 @@ class AbstractLUT:
             '+': (add, iadd),
             '-': (sub, isub),
             '*': (mul, imul),
-            '/': (div, idiv),
+            '/': (truediv, itruediv),
             '**': (pow, ipow)
         }[operation]
 
@@ -2077,8 +2060,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     return LUT
 
 
-@add_metaclass(ABCMeta)
-class AbstractLUTSequenceOperator:
+class AbstractLUTSequenceOperator(ABC):
     """
     Defines the base class for *LUT* sequence operators.
 

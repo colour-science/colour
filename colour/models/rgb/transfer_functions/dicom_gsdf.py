@@ -24,8 +24,6 @@ References
     Function. http://medical.nema.org/dicom/2004/04_14PU.PDF
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import (Structure, as_float, as_int, from_range_1,

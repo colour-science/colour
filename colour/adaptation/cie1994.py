@@ -15,8 +15,6 @@ References
     ISBN:978-3-900734-51-0
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import spow

@@ -15,8 +15,6 @@ References
 product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS

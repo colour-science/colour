@@ -3,14 +3,11 @@
 Defines unit tests for :mod:`colour.continuous.multi_signals` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import operator
 import unittest
 import re
 import textwrap
-from six import string_types
 
 from colour.algebra import (CubicSplineInterpolator, Extrapolator,
                             KernelInterpolator)
@@ -376,7 +373,7 @@ extrapolator_kwargs` property.
                  [   8.   90.  100.  110.]
                  [   9.  100.  110.  120.]]""")[1:])
 
-        self.assertIsInstance(str(MultiSignals()), string_types)
+        self.assertIsInstance(str(MultiSignals()), str)
 
     def test__repr__(self):
         """
@@ -404,7 +401,7 @@ extrapolator_kwargs` property.
                              extrapolator=Extrapolator,
                              extrapolator_kwargs={...})""")[1:])
 
-        self.assertIsInstance(repr(MultiSignals()), string_types)
+        self.assertIsInstance(repr(MultiSignals()), str)
 
     def test__getitem__(self):
         """

@@ -25,8 +25,6 @@ References
     http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
-from __future__ import division, unicode_literals
-
 from colour.characterisation import RGB_CameraSensitivities
 
 __author__ = 'Colour Developers'

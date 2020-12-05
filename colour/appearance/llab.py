@@ -26,8 +26,6 @@ References
 Colour_Appearance_and_Gamut_Mapping
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from collections import namedtuple
 

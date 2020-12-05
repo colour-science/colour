@@ -24,8 +24,6 @@ References
     T. and Shaw, N.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
@@ -234,8 +232,7 @@ def RGB_luminance_equation(primaries, whitepoint):
     --------
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> RGB_luminance_equation(p, whitepoint)  # doctest: +SKIP
+    >>> RGB_luminance_equation(p, whitepoint)  # doctest: +ELLIPSIS
     'Y = 0.3439664...(R) + 0.7281660...(G) + -0.0721325...(B)'
     """
 

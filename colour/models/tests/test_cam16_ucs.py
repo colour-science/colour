@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.models.cam16_ucs` module.
 """
 
-from __future__ import division, unicode_literals
-
 import unittest
 
 from colour.models.tests.test_cam02_ucs import (

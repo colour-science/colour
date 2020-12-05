@@ -11,8 +11,6 @@ Defines the colour quality plotting objects:
 -   :func:`colour.plotting.plot_multi_sds_colour_quality_scales_bars`
 """
 
-from __future__ import division
-
 import numpy as np
 from itertools import cycle
 

@@ -13,8 +13,6 @@ References
     on Rendering - DL-Only and Industry Track, 7 pages. doi:10.2312/SR.20191216
 """
 
-from __future__ import unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import MultiSpectralDistributions, SpectralShape

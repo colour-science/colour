@@ -4,8 +4,6 @@
 Showcases Machado (2009) simulation of colour vision deficiency.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 import colour

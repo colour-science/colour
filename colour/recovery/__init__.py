@@ -19,8 +19,6 @@ References
     doi:10.1080/10867651.1999.10487511
 """
 
-from __future__ import absolute_import
-
 import sys
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
@@ -170,8 +168,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     >>> sd = XYZ_to_sd(
     ...     XYZ, method='Jakob 2019', cmfs=cmfs, illuminant=illuminant)
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
-    ...     sd  # doctest: +SKIP
+    ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 360.        ,    0.4853113...],
                           [ 370.        ,    0.3229161...],
                           [ 380.        ,    0.2131016...],
@@ -231,8 +228,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd(XYZ, method='Mallett 2019')
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
-    ...     sd  # doctest: +SKIP
+    ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 380.        ,    0.1735531...],
                           [ 385.        ,    0.1720357...],
                           [ 390.        ,    0.1677721...],
@@ -332,8 +328,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     >>> sd = XYZ_to_sd(
     ...     XYZ, method='Meng 2015', cmfs=cmfs, illuminant=illuminant)
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
-    ...     sd  # doctest: +SKIP
+    ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 360.        ,    0.0765153...],
                           [ 370.        ,    0.0764771...],
                           [ 380.        ,    0.0764286...],
@@ -394,8 +389,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     >>> sd = XYZ_to_sd(
     ...     XYZ, method='Otsu 2018', cmfs=cmfs, illuminant=illuminant)
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
-    ...     sd  # doctest: +SKIP
+    ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 380.        ,    0.0601939...],
                           [ 390.        ,    0.0568063...],
                           [ 400.        ,    0.0517429...],

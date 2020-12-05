@@ -47,8 +47,6 @@ References
     http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import os
 from scipy.optimize import minimize
@@ -293,9 +291,7 @@ def generate_illuminants_rawtoaces_v1():
 
     Examples
     --------
-    >>> # Doctests skip for Python 2.x compatibility.
     >>> list(sorted(generate_illuminants_rawtoaces_v1().keys()))
-    ... # doctest: +SKIP
     ['1000K Blackbody', '1500K Blackbody', '2000K Blackbody', \
 '2500K Blackbody', '3000K Blackbody', '3500K Blackbody', 'D100', 'D105', \
 'D110', 'D115', 'D120', 'D125', 'D130', 'D135', 'D140', 'D145', 'D150', \
@@ -415,9 +411,7 @@ def best_illuminant(RGB_w, sensitivities, illuminants):
     >>> illuminants = generate_illuminants_rawtoaces_v1()
     >>> RGB_w = white_balance_multipliers(
     ...     sensitivities, SDS_ILLUMINANTS['FL2'])
-    >>> # Doctests skip for Python 2.x compatibility.
     >>> best_illuminant(RGB_w, sensitivities, illuminants).name
-    ... # doctest: +SKIP
     'D40'
     """
 
@@ -628,7 +622,6 @@ def optimisation_factory_rawtoaces_v1():
 
     Examples
     --------
-    >>> # Doctests skip for Python 2.x compatibility.
     >>> optimisation_factory_rawtoaces_v1()  # doctest: +SKIP
     (<function optimisation_factory_rawtoaces_v1.<locals>\
 .objective_function at 0x...>, \
@@ -677,7 +670,6 @@ def optimisation_factory_JzAzBz():
 
     Examples
     --------
-    >>> # Doctests skip for Python 2.x compatibility.
     >>> optimisation_factory_JzAzBz()  # doctest: +SKIP
     (<function optimisation_factory_JzAzBz.<locals>\
 .objective_function at 0x...>, \

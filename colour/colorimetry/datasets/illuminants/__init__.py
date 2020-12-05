@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .chromaticity_coordinates import CCS_ILLUMINANTS
 from .sds_d_illuminant_series import (
     SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES)

@@ -3,13 +3,10 @@
 Defines unit tests for :mod:`colour.continuous.signal` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import unittest
 import re
 import textwrap
-from six import string_types
 
 from colour.algebra import (CubicSplineInterpolator, Extrapolator,
                             KernelInterpolator)
@@ -266,7 +263,7 @@ class TestSignal(unittest.TestCase):
                  [   8.   90.]
                  [   9.  100.]]""")[1:])
 
-        self.assertIsInstance(str(Signal()), string_types)
+        self.assertIsInstance(str(Signal()), str)
 
     def test__repr__(self):
         """
@@ -292,7 +289,7 @@ class TestSignal(unittest.TestCase):
                        extrapolator=Extrapolator,
                        extrapolator_kwargs={...})""")[1:])
 
-        self.assertIsInstance(repr(Signal()), string_types)
+        self.assertIsInstance(repr(Signal()), str)
 
     def test__getitem__(self):
         """

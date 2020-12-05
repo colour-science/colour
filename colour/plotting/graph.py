@@ -8,8 +8,6 @@ Defines the automatic colour conversion graph plotting objects:
 -   :func:`colour.plotting.plot_automatic_colour_conversion_graph`
 """
 
-from __future__ import division
-
 import colour
 from colour.graph import (CONVERSION_GRAPH_NODE_LABELS,
                           describe_conversion_path)

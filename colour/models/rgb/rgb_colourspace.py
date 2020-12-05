@@ -24,8 +24,6 @@ References
     http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from copy import deepcopy
 

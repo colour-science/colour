@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from colour.utilities import CaseInsensitiveMapping
 from .aces import (RGB_COLOURSPACE_ACES2065_1, RGB_COLOURSPACE_ACESCC,
                    RGB_COLOURSPACE_ACESCCT, RGB_COLOURSPACE_ACESCG,

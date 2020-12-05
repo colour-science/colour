@@ -16,8 +16,6 @@ References
 SMPTE%20normes%20et%20confs/s240m.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS

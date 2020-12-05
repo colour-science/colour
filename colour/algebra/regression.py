@@ -16,8 +16,6 @@ References
     doi:10.1109/TIP.2015.2405336
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 __author__ = 'Colour Developers'

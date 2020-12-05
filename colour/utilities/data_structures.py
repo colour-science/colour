@@ -28,12 +28,7 @@ data_structures.py
 structures.py#L37
 """
 
-from __future__ import division, unicode_literals
-
-try:  # pragma: no cover
-    from collections import Mapping, MutableMapping
-except ImportError:  # pragma: no cover
-    from collections.abc import Mapping, MutableMapping
+from collections.abc import Mapping, MutableMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -70,13 +65,11 @@ class Structure(dict):
     Examples
     --------
     >>> person = Structure(first_name='John', last_name='Doe', gender='male')
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> person.first_name  # doctest: +SKIP
+    >>> person.first_name
     'John'
     >>> sorted(person.keys())
     ['first_name', 'gender', 'last_name']
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> person['gender']  # doctest: +SKIP
+    >>> person['gender']
     'male'
     """
 

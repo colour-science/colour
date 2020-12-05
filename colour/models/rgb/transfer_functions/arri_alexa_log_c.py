@@ -14,8 +14,6 @@ References
     https://drive.google.com/open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.utilities import (CaseInsensitiveMapping, as_float, from_range_1,

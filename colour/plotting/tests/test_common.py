@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.plotting.common` module.
 """
 
-from __future__ import division, unicode_literals
-
 import matplotlib.pyplot as plt
 import numpy as np
 import os

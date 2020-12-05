@@ -13,8 +13,6 @@ Defines various geometry primitive vertices generation methods:
 -   :func:`colour.primitive_vertices`
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import spherical_to_cartesian

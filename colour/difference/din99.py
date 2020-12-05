@@ -15,8 +15,6 @@ References
     doi:10.1520/D2244-16
 """
 
-from __future__ import division, unicode_literals
-
 from colour.algebra import euclidean_distance
 from colour.models import Lab_to_DIN99
 from colour.utilities import get_domain_range_scale

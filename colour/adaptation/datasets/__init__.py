@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .cat import CHROMATIC_ADAPTATION_TRANSFORMS
 from .cat import (CAT_XYZ_SCALING, CAT_VON_KRIES, CAT_BRADFORD, CAT_SHARP,
                   CAT_FAIRCHILD, CAT_CMCCAT97, CAT_CMCCAT2000, CAT_CAT02,

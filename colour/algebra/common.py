@@ -11,8 +11,6 @@ category:
     function.
 """
 
-from __future__ import division, unicode_literals
-
 import functools
 import numpy as np
 

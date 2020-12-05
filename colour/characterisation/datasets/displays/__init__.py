@@ -12,8 +12,6 @@ context=article
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
-from __future__ import absolute_import
-
 from .crt import MSDS_DISPLAY_PRIMARIES_CRT
 from .lcd import MSDS_DISPLAY_PRIMARIES_LCD
 from colour.utilities import CaseInsensitiveMapping

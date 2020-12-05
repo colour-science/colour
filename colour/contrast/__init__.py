@@ -17,8 +17,6 @@ References
     https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-BT.2246-4-2015-PDF-E.pdf
 """
 
-from __future__ import absolute_import
-
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 from .barten1999 import (optical_MTF_Barten1999, pupil_diameter_Barten1999,
                          sigma_Barten1999, retinal_illuminance_Barten1999,

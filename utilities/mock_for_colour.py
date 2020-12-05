@@ -13,8 +13,6 @@ References
 master/sphinx/ext/autodoc/mock.py
 """
 
-from __future__ import division, unicode_literals
-
 import os
 
 from types import FunctionType, MethodType, ModuleType

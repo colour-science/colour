@@ -13,8 +13,6 @@ References
     Graphics Forum, 37(6), 370-381. doi:10.1111/cgf.13332
 """
 
-from __future__ import unicode_literals
-
 import numpy as np
 from colour.colorimetry import SpectralShape
 

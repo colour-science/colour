@@ -19,8 +19,6 @@ References
     Application, 20(3), 156-167. doi:10.1002/col.5080200305
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from collections import namedtuple
 

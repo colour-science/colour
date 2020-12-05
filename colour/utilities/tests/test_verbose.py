@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.utilities.verbose` module.
 """
 
-from __future__ import division, unicode_literals
-
 import os
 import sys
 import unittest

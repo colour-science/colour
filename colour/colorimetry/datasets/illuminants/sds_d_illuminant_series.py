@@ -18,8 +18,6 @@ References
     ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import SpectralDistribution
 from colour.utilities import CaseInsensitiveMapping
 

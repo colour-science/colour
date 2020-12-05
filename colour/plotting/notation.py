@@ -9,8 +9,6 @@ Defines the colour notation systems plotting objects:
 -   :func:`colour.plotting.plot_multi_munsell_value_functions`
 """
 
-from __future__ import division
-
 import numpy as np
 
 from colour.notation import MUNSELL_VALUE_METHODS

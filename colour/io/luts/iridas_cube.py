@@ -14,8 +14,6 @@ References
     https://drive.google.com/open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.constants import DEFAULT_INT_DTYPE

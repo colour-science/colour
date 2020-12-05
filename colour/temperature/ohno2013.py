@@ -20,8 +20,6 @@ References
     CCT and Duv. LEUKOS, 10(1), 47-55. doi:10.1080/15502724.2014.839020
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from collections import namedtuple
 
@@ -307,8 +305,7 @@ def uv_to_CCT_Ohno2013(uv,
     ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
-    >>> # Doctests skipping for Python 2.x compatibility.
-    >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +SKIP
+    >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
     array([  6.5074738...e+03,   3.2233460...e-03])
     """
 

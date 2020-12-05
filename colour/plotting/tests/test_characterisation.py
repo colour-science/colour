@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.plotting.characterisation` module.
 """
 
-from __future__ import division, unicode_literals
-
 import unittest
 from matplotlib.pyplot import Axes, Figure
 

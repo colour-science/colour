@@ -10,8 +10,6 @@ References
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import unittest
 

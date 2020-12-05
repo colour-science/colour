@@ -44,8 +44,6 @@ Sub-packages
 -   volume: Colourspace volumes computation and optimal colour stimuli.
 """
 
-from __future__ import absolute_import
-
 import numpy as np
 import sys
 

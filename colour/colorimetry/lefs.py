@@ -12,8 +12,6 @@ References
     http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import (SDS_LEFS_PHOTOPIC, SDS_LEFS_SCOTOPIC,
                                 SpectralDistribution, SpectralShape)
 from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X

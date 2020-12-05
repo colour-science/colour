@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .chromaticity_coordinates import CCS_COLOURCHECKERS, ColourChecker
 from .sds import SDS_COLOURCHECKERS
 

@@ -14,8 +14,6 @@ References
     http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from functools import partial
 

@@ -14,8 +14,6 @@ References
     Engineering Society. ISBN:978-0-87995-295-2
 """
 
-from __future__ import division, unicode_literals
-
 import os
 import re
 from collections import namedtuple
@@ -669,7 +667,6 @@ dict_like, optional
     'Unknown - N/A - Rare earth fluorescent lamp'
     >>> sd.header.comments
     'Ambient temperature 25 degrees C.'
-    >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> sd[501.7]  # doctest: +ELLIPSIS
     0.0950000...
     """
@@ -974,7 +971,6 @@ dict_like, optional
         'Unknown - N/A - Rare earth fluorescent lamp'
         >>> sd.header.comments
         'Ambient temperature 25 degrees C.'
-        >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> sd[400]  # doctest: +ELLIPSIS
         0.0339999...
         """

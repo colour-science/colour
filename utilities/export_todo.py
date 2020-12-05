@@ -5,8 +5,6 @@ Export TODOs
 ============
 """
 
-from __future__ import division, unicode_literals
-
 import codecs
 import os
 from collections import OrderedDict

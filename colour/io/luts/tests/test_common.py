@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.io.luts.common` module.
 """
 
-from __future__ import division, unicode_literals
-
 import unittest
 
 from colour.io.luts.common import path_to_title

@@ -21,8 +21,6 @@ R-REC-BT.470-6-199811-S!!PDF-E.pdf
     Picture and Television Engineers. doi:10.5594/S9781614821649
 """
 
-from __future__ import division, unicode_literals
-
 from colour.models.rgb import RGB_Colourspace
 from colour.models.rgb.datasets.itur_bt_470 import (
     PRIMARIES_BT470_525, CCS_WHITEPOINT_BT470_525, WHITEPOINT_NAME_BT470_525,

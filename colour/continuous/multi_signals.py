@@ -8,8 +8,6 @@ Defines the class implementing support for multi-continuous signals:
 -   :class:`colour.continuous.MultiSignals`
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 # Python 3 compatibility.
@@ -21,10 +19,7 @@ except ImportError:
     div = truediv
     idiv = itruediv
 from collections import OrderedDict
-try:  # pragma: no cover
-    from collections import Iterator, Mapping, Sequence
-except ImportError:  # pragma: no cover
-    from collections.abc import Iterator, Mapping, Sequence
+from collections.abc import Iterator, Mapping, Sequence
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal

@@ -4,8 +4,6 @@ Defines unit tests for
 :mod:`colour.models.rgb.transfer_functions.arri_alexa_log_c` module.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import unittest
 

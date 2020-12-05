@@ -21,8 +21,6 @@ References
     http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ
 """
 
-from __future__ import division, unicode_literals
-
 from colour.utilities import (from_range_1, full, to_domain_1, tsplit, tstack)
 
 __author__ = 'Colour Developers'

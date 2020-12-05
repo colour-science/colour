@@ -8,8 +8,6 @@ References
     doi:10.1364/JOSAA.32.000381
 """
 
-from __future__ import absolute_import
-
 from .dslr import MSDS_CAMERA_SENSITIVITIES_DSLR
 from colour.utilities import CaseInsensitiveMapping
 

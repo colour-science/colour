@@ -8,8 +8,6 @@ Defines the *P3-D65* colourspace:
 -   :attr:`colour.models.RGB_COLOURSPACE_P3_D65`.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from functools import partial
 

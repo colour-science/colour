@@ -9,8 +9,6 @@ Defines colour models volume and gamut plotting objects:
 -   :func:`colour.plotting.plot_RGB_scatter`
 """
 
-from __future__ import division
-
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection

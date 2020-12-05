@@ -4,7 +4,6 @@
 Defines unit tests for :mod:`colour.appearance.llab` module.
 """
 
-from __future__ import division, unicode_literals
 from colour.utilities.array import tstack
 
 import numpy as np

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .coordinates import *  # noqa
 from . import coordinates
 from .common import (is_spow_enabled, set_spow_enable, spow_enable, spow,

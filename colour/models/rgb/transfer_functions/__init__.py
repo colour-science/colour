@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from functools import partial
 
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,

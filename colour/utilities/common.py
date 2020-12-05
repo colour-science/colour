@@ -14,21 +14,17 @@ References
 numpyerrors.html
 """
 
-from __future__ import division, unicode_literals
-
 import inspect
 import multiprocessing
 import multiprocessing.pool
 import functools
 import numpy as np
 import re
-import six
 import types
 import warnings
 from contextlib import contextmanager
 from collections import OrderedDict
 from copy import copy
-from six import integer_types, string_types
 
 from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
 from colour.utilities import CaseInsensitiveMapping, Lookup
@@ -581,7 +577,7 @@ def is_string(a):
     False
     """
 
-    return True if isinstance(a, string_types) else False
+    return True if isinstance(a, str) else False
 
 
 def is_numeric(a):
@@ -607,10 +603,7 @@ def is_numeric(a):
     """
 
     return isinstance(
-        a,
-        tuple(
-            list(integer_types) +
-            [float, complex, np.integer, np.floating, np.complex]))
+        a, (int, float, complex, np.integer, np.floating, np.complex))
 
 
 def is_integer(a):
@@ -707,17 +700,10 @@ def filter_kwargs(function, **kwargs):
 
     kwargs = copy(kwargs)
 
-    # TODO: Remove when dropping Python 2.7.
-    if six.PY2:  # pragma: no cover
-        try:
-            args, _varargs, _keywords, _defaults = inspect.getargspec(function)
-        except (TypeError, ValueError):
-            return {}
-    else:  # pragma: no cover
-        try:
-            args = list(inspect.signature(function).parameters.keys())
-        except ValueError:
-            return {}
+    try:
+        args = list(inspect.signature(function).parameters.keys())
+    except ValueError:
+        return {}
 
     args = set(kwargs.keys()) - set(args)
     for key in args:
@@ -762,12 +748,10 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     ...     'Element C': Element(),
     ...     'Not Element C': Element(),
     ... }
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> filter_mapping(mapping, '\\w+\\s+A')  # doctest: +SKIP
-    {u'Element A': <colour.utilities.common.Element object at 0x...>}
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> sorted(filter_mapping(mapping, 'Element.*'))  # doctest: +SKIP
-    [u'Element A', u'Element B', u'Element C']
+    >>> filter_mapping(mapping, '\\w+\\s+A')  # doctest: +ELLIPSIS
+    OrderedDict([('Element A', <....Element object at 0x...>)])
+    >>> sorted(filter_mapping(mapping, 'Element.*'))
+    ['Element A', 'Element B', 'Element C']
     """
 
     def filter_mapping_with_filter(mapping, filterer, anchors, flags):

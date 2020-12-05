@@ -9,8 +9,6 @@ Defines the optical phenomena plotting objects:
 -   :func:`colour.plotting.plot_the_blue_sky`
 """
 
-from __future__ import division
-
 import matplotlib.pyplot as plt
 
 from colour.colorimetry import sd_to_XYZ

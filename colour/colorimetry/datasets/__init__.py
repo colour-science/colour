@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 from .cmfs import (MSDS_CMFS, MSDS_CMFS_LMS, MSDS_CMFS_RGB,
                    MSDS_CMFS_STANDARD_OBSERVER)
 from .illuminants import *  # noqa

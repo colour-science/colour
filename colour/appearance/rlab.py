@@ -19,8 +19,6 @@ References
     Appearance Models (3rd ed., pp. 5563-5824). Wiley. ISBN:B00DAYO8E2
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from collections import namedtuple
 

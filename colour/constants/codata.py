@@ -7,8 +7,6 @@ Defines various constants from recommended values by the Committee on Data for
 Science and Technology (CODATA).
 """
 
-from __future__ import division, unicode_literals
-
 from colour.utilities.documentation import (DocstringFloat,
                                             is_documentation_building)
 

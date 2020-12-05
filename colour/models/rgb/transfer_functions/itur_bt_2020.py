@@ -19,8 +19,6 @@ References
 R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.algebra import spow

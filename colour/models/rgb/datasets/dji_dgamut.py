@@ -15,8 +15,6 @@ References
 D-Log_D-Gamut_Whitepaper.pdf
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS

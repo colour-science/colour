@@ -9,8 +9,6 @@ Notes
     http://media.ies.org/docs/errata/TM-30-18_tools_etc.zip.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 import unittest
 

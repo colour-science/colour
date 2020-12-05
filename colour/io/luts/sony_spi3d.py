@@ -9,8 +9,6 @@ Defines *Sony* *.spi3d* *LUT* Format related input / output utilities objects.
 -   :func:`colour.io.write_LUT_SonySPI3D`
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 from colour.constants import DEFAULT_INT_DTYPE

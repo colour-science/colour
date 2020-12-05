@@ -6,8 +6,6 @@ Deprecation Utilities
 Defines various deprecation management related objects.
 """
 
-from __future__ import division, unicode_literals
-
 import sys
 from importlib import import_module
 from collections import namedtuple

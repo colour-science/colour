@@ -58,17 +58,12 @@ References
     October 14, 2017, from https://en.wikipedia.org/wiki/Lanczos_resampling
 """
 
-from __future__ import division, unicode_literals
-
 import itertools
 import numpy as np
 import scipy.interpolate
-from six.moves import reduce
 from collections import OrderedDict
-try:  # pragma: no cover
-    from collections import Mapping
-except ImportError:  # pragma: no cover
-    from collections.abc import Mapping
+from collections.abc import Mapping
+from functools import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
@@ -803,7 +798,6 @@ class LinearInterpolator(object):
     ...               69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator(x, y)
-    >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> f(0.5)  # doctest: +ELLIPSIS
     7.64...
 

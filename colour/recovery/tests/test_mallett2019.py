@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.recovery.mallett2019` module.
 """
 
-from __future__ import division, unicode_literals
-
 import unittest
 import numpy as np
 

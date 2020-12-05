@@ -3,8 +3,6 @@
 Defines unit tests for :mod:`colour.continuous.abstract` module.
 """
 
-from __future__ import division, unicode_literals
-
 import unittest
 
 from colour.continuous import AbstractContinuousFunction

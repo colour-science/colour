@@ -7,8 +7,6 @@ Defines input / output common utilities objects that don't fall in any specific
 category.
 """
 
-from __future__ import division, unicode_literals
-
 from pprint import pformat
 
 __author__ = 'Colour Developers'

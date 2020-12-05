@@ -9,8 +9,6 @@ Defines the characterisation plotting objects:
 -   :func:`colour.plotting.plot_multi_colour_checkers`
 """
 
-from __future__ import division
-
 import numpy as np
 
 from colour.models import xyY_to_XYZ

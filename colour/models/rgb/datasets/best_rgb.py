@@ -13,8 +13,6 @@ References
     http://www.hutchcolor.com/profiles/BestRGB.zip
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from functools import partial
 

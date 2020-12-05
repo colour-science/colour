@@ -7,8 +7,6 @@ Defines LUT Processing common utilities objects that don't fall in any specific
 category.
 """
 
-from __future__ import division, unicode_literals
-
 import os
 import re
 
@@ -38,11 +36,10 @@ def path_to_title(path):
 
     Examples
     --------
-    >>> # Doctests skip for Python 2.x compatibility.
     >>> path_to_title(
     ...     'colour/io/luts/tests/resources/sony_spi3d/Colour_Correct.spi3d'
-    ... )  # doctest: +SKIP
-    u'ColourCorrect'
+    ... )
+    'Colour Correct'
     """
 
     return re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])

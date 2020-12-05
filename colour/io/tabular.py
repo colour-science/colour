@@ -10,8 +10,6 @@ Defines various input / output objects for *CSV* tabular data files:
 -   :func:`colour.write_sds_to_csv_file`
 """
 
-from __future__ import division, unicode_literals
-
 from collections import OrderedDict
 import csv
 

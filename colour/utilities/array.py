@@ -17,15 +17,9 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
     http://stackoverflow.com/a/23521245/931625
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
-import six
 import sys
-try:  # pragma: no cover
-    from collections import Mapping
-except ImportError:  # pragma: no cover
-    from collections.abc import Mapping
+from collections.abc import Mapping, ValuesView
 
 from contextlib import contextmanager
 
@@ -78,13 +72,10 @@ def as_array(a, dtype=None):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
-    if six.PY3:  # pragma: no cover
-        # TODO: Remove when https://github.com/numpy/numpy/issues/5718 is
-        # addressed.
-        from collections.abc import ValuesView
-
-        if isinstance(a, ValuesView):
-            a = list(a)
+    # TODO: Remove when https://github.com/numpy/numpy/issues/5718 is
+    # addressed.
+    if isinstance(a, ValuesView):
+        a = list(a)
 
     return np.asarray(a, dtype)
 

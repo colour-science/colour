@@ -44,8 +44,6 @@ References
 SupportID=5884#
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from collections import OrderedDict, namedtuple
 

@@ -14,8 +14,6 @@ References
     (SSI): Overview (pp. 1-7).
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from scipy.ndimage.filters import convolve1d
 

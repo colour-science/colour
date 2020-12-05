@@ -10,8 +10,6 @@ Defines spectral distributions classes for the datasets from
     support for a camera *RGB* sensitivities.
 """
 
-from __future__ import division, unicode_literals
-
 from colour.colorimetry import MultiSpectralDistributions
 
 __author__ = 'Colour Developers'

@@ -18,8 +18,6 @@ References
     ed.). John Wiley & Sons, Ltd. doi:10.1002/0470024275
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from collections import namedtuple
 
