@@ -9,15 +9,6 @@ Defines the class implementing support for multi-continuous signals:
 """
 
 import numpy as np
-
-# Python 3 compatibility.
-try:
-    from operator import div, idiv
-except ImportError:
-    from operator import truediv, itruediv
-
-    div = truediv
-    idiv = itruediv
 from collections import OrderedDict
 from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 
