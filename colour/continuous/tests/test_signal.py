@@ -573,6 +573,11 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_array_equal(domain, self._domain)
 
         domain, range_ = Signal.signal_unpack_data(
+            self._range,
+            dict(zip(self._domain, self._range)).keys())
+        np.testing.assert_array_equal(domain, self._domain)
+
+        domain, range_ = Signal.signal_unpack_data(
             dict(zip(self._domain, self._range)))
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)

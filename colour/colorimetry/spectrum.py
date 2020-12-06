@@ -615,6 +615,8 @@ dict_like, optional
     """
 
     def __init__(self, data=None, domain=None, **kwargs):
+        domain = (domain.range()
+                  if isinstance(domain, SpectralShape) else domain)
         domain, range_ = self.signal_unpack_data(data, domain)
 
         uniform = is_uniform(domain) if domain is not None else True
@@ -1744,6 +1746,8 @@ MultiSpectralDistributions or array_like or dict_like, optional
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
+        domain = (domain.range()
+                  if isinstance(domain, SpectralShape) else domain)
         signals = self.multi_signals_unpack_data(data, domain, labels)
 
         domain = signals[list(signals.keys())[0]].domain if signals else None

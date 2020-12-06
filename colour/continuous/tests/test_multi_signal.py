@@ -827,6 +827,11 @@ multi_signals_unpack_data` method.
         np.testing.assert_array_equal(signals[0].range, self._range_1)
 
         signals = MultiSignals.multi_signals_unpack_data(
+            self._range_1,
+            dict(zip(self._domain_2, self._range_1)).keys())
+        np.testing.assert_array_equal(signals[0].domain, self._domain_2)
+
+        signals = MultiSignals.multi_signals_unpack_data(
             self._range_2, self._domain_2)
         self.assertListEqual(list(signals.keys()), [0, 1, 2])
         np.testing.assert_array_equal(signals[0].range, self._range_1)
