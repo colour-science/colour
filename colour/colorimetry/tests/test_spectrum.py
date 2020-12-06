@@ -1444,6 +1444,19 @@ SpectralDistribution.shape` attribute.
 
         self.assertEqual(self._sd.shape, SpectralShape(340, 820, 20))
 
+    def test__init__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.SpectralDistribution.__init__`
+        method.
+        """
+
+        np.testing.assert_almost_equal(
+            SpectralDistribution(DATA_SAMPLE).wavelengths,
+            SpectralDistribution(
+                DATA_SAMPLE.values(),
+                SpectralShape(340, 820, 20),
+            ).wavelengths)
+
     def test_interpolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -1647,6 +1660,19 @@ MultiSpectralDistributions.shape` attribute.
         """
 
         self.assertEqual(self._msds.shape, SpectralShape(380, 780, 5))
+
+    def test__init__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+MultiSpectralDistributions.__init__` method.
+        """
+
+        np.testing.assert_almost_equal(
+            MultiSpectralDistributions(DATA_CMFS).wavelengths,
+            MultiSpectralDistributions(
+                DATA_CMFS.values(),
+                SpectralShape(380, 780, 5),
+            ).wavelengths)
 
     def test_interpolate(self):
         """

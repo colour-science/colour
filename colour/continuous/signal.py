@@ -12,7 +12,7 @@ import numpy as np
 from operator import (add, mul, pow, sub, truediv, iadd, imul, ipow, isub,
                       itruediv)
 from collections import OrderedDict
-from collections.abc import Iterator, Mapping, Sequence
+from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -1106,12 +1106,18 @@ class Signal(AbstractContinuousFunction):
             dtype = DEFAULT_FLOAT_DTYPE
 
         domain_u, range_u = None, None
+
+        domain = list(domain) if isinstance(domain, KeysView) else domain
+
         if isinstance(data, Signal):
             domain_u = data.domain
             range_u = data.range
         elif (issubclass(type(data), Sequence) or
-              isinstance(data, (tuple, list, np.ndarray, Iterator))):
-            data = tsplit(list(data) if isinstance(data, Iterator) else data)
+              isinstance(data,
+                         (tuple, list, np.ndarray, Iterator, ValuesView))):
+            data = tsplit(
+                list(data) if isinstance(data, (Iterator,
+                                                ValuesView)) else data)
             assert data.ndim == 1, 'User "data" must be 1-dimensional!'
             domain_u, range_u = np.arange(0, data.size, dtype=dtype), data
         elif (issubclass(type(data), Mapping) or

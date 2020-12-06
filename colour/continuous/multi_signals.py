@@ -19,7 +19,7 @@ except ImportError:
     div = truediv
     idiv = itruediv
 from collections import OrderedDict
-from collections.abc import Iterator, Mapping, Sequence
+from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
@@ -1345,20 +1345,28 @@ dict_like, optional
         if dtype is None:
             dtype = DEFAULT_FLOAT_DTYPE
 
-        domain_u, range_u, signals = None, None, None
+        # domain_u, range_u, signals = None, None, None
+
         signals = OrderedDict()
+
+        domain = list(domain) if isinstance(domain, KeysView) else domain
+
         # TODO: Implement support for Signal class passing.
         if isinstance(data, MultiSignals):
             signals = data.signals
         elif (issubclass(type(data), Sequence) or
-              isinstance(data, (tuple, list, np.ndarray, Iterator))):
-            data = tsplit(list(data) if isinstance(data, Iterator) else data)
+              isinstance(data,
+                         (tuple, list, np.ndarray, Iterator, ValuesView))):
+            data = tsplit(
+                list(data) if isinstance(data, (Iterator,
+                                                ValuesView)) else data)
             assert data.ndim in (1, 2), (
                 'User "data" must be 1-dimensional or 2-dimensional!')
             if data.ndim == 1:
                 data = data[np.newaxis, :]
             for i, range_u in enumerate(data):
-                signals[i] = signal_type(range_u, domain, **kwargs)
+                signals[i] = signal_type(
+                    range_u, domain, dtype=dtype, **kwargs)
         elif (issubclass(type(data), Mapping) or
               isinstance(data, (dict, OrderedDict))):
 
@@ -1372,17 +1380,18 @@ dict_like, optional
 
             if is_signal:
                 for label, signal in data.items():
-                    signals[label] = signal_type(signal.range, signal.domain,
-                                                 **kwargs)
+                    signals[label] = signal_type(
+                        signal.range, signal.domain, dtype=dtype, **kwargs)
             else:
                 domain_u, range_u = zip(*sorted(data.items()))
                 for i, range_u in enumerate(tsplit(range_u)):
-                    signals[i] = signal_type(range_u, domain_u, **kwargs)
+                    signals[i] = signal_type(
+                        range_u, domain_u, dtype=dtype, **kwargs)
         elif is_pandas_installed():
             from pandas import DataFrame, Series
 
             if isinstance(data, Series):
-                signals[0] = signal_type(data, **kwargs)
+                signals[0] = signal_type(data, dtype=dtype, **kwargs)
             elif isinstance(data, DataFrame):
                 domain_u = data.index.values
                 signals = OrderedDict(((label,
@@ -1390,6 +1399,7 @@ dict_like, optional
                                             data[label],
                                             domain_u,
                                             name=label,
+                                            dtype=dtype,
                                             **kwargs)) for label in data))
 
         if domain is not None and signals is not None:
