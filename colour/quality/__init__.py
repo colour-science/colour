@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import sys
-
-from colour.utilities.deprecation import ModuleAPI, build_API_changes
-from colour.utilities.documentation import is_documentation_building
-
 from .datasets import *  # noqa
 from . import datasets
 from .cfi2017 import (ColourRendering_Specification_CIE2017,
@@ -88,45 +83,3 @@ ColourQuality_Specification_ANSIIESTM3018
 
 
 __all__ += ['COLOUR_FIDELITY_INDEX_METHODS', 'colour_fidelity_index']
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-class quality(ModuleAPI):
-    def __getattr__(self, attribute):
-        return super(quality, self).__getattr__(attribute)
-
-
-# v0.3.16
-API_CHANGES = {
-    'ObjectRenamed': [
-        [
-            'colour.quality.CQS_Specification',
-            'colour.quality.ColourRendering_Specification_CQS',
-        ],
-        [
-            'colour.quality.CRI_Specification',
-            'colour.quality.ColourRendering_Specification_CRI',
-        ],
-        [
-            'colour.quality.TCS_SDS',
-            'colour.quality.SDS_TCS',
-        ],
-        [
-            'colour.quality.VS_SDS',
-            'colour.quality.SDS_VS',
-        ],
-    ]
-}
-"""
-Defines *colour.quality* sub-package API changes.
-
-API_CHANGES : dict
-"""
-
-if not is_documentation_building():
-    sys.modules['colour.quality'] = quality(sys.modules['colour.quality'],
-                                            build_API_changes(API_CHANGES))
-
-    del ModuleAPI, is_documentation_building, build_API_changes, sys

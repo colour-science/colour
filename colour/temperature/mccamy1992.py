@@ -24,7 +24,6 @@ from scipy.optimize import minimize
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.utilities import as_float_array, as_numeric, tsplit, usage_warning
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -113,12 +112,7 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None, **kwargs):
     array([ 0.3127...,  0.329...])
     """
 
-    optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
-                            ],
-    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
-
-    usage_warning('"*McCamy (1992)" method for computing "CIE xy" '
+    usage_warning('"McCamy (1992)" method for computing "CIE xy" '
                   'chromaticity coordinates from given correlated colour '
                   'temperature is not a bijective function and might produce '
                   'unexpected results. It is given for consistency with other '

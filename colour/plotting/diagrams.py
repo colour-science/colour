@@ -28,7 +28,6 @@ from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
                              update_settings_collection)
 from colour.utilities import (domain_range_scale, first_item, is_string,
                               normalise_maximum, tstack, suppress_warnings)
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -674,10 +673,6 @@ def plot_sds_in_chromaticity_diagram(
         :alt: plot_sds_in_chromaticity_diagram
     """
 
-    annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
-    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
-
     sds = sds_and_msds_to_sds(sds)
 
     settings = {'uniform': True}
@@ -902,10 +897,6 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
         :alt: plot_sds_in_chromaticity_diagram_CIE1931
     """
 
-    annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
-    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
-
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
@@ -1009,10 +1000,6 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
         :alt: plot_sds_in_chromaticity_diagram_CIE1960UCS
     """
 
-    annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
-    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
-
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
@@ -1115,10 +1102,6 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
         :alt: plot_sds_in_chromaticity_diagram_CIE1976UCS
     """
-
-    annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
-    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})

@@ -4,7 +4,6 @@ from functools import partial
 
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               usage_warning)
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 from .common import CV_range, legal_to_full, full_to_legal
 from .gamma import gamma_function
@@ -260,10 +259,6 @@ def log_encoding(value, function='Cineon', **kwargs):
     0.3849708...
     """
 
-    function = handle_arguments_deprecation({
-        'ArgumentRenamed': [['curve', 'function']],
-    }, **kwargs).get('function', function)
-
     function = LOG_ENCODINGS[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
@@ -406,10 +401,6 @@ def log_decoding(value, function='Cineon', **kwargs):
     ... # doctest: +ELLIPSIS
     0.1...
     """
-
-    function = handle_arguments_deprecation({
-        'ArgumentRenamed': [['curve', 'function']],
-    }, **kwargs).get('function', function)
 
     function = LOG_DECODINGS[function]
 

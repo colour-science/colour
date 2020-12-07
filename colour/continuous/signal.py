@@ -18,9 +18,7 @@ from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
 from colour.utilities import (as_array, fill_nan, full, is_pandas_installed,
-                              required, runtime_warning, tsplit, tstack,
-                              usage_warning)
-from colour.utilities.deprecation import ObjectRenamed
+                              required, runtime_warning, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -1238,46 +1236,3 @@ class Signal(AbstractContinuousFunction):
         from pandas import Series
 
         return Series(data=self._range, index=self._domain, name=self.name)
-
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    @property
-    def interpolator_args(self):
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('Signal.interpolator_args',
-                              'Signal.interpolator_kwargs')))
-
-        return self.interpolator_kwargs
-
-    @interpolator_args.setter
-    def interpolator_args(self, value):
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('Signal.interpolator_args',
-                              'Signal.interpolator_kwargs')))
-
-        self.interpolator_kwargs = value
-
-    @property
-    def extrapolator_args(self):
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('Signal.extrapolator_args',
-                              'Signal.extrapolator_kwargs')))
-
-        return self.extrapolator_kwargs
-
-    @extrapolator_args.setter
-    def extrapolator_args(self, value):
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('Signal.extrapolator_args',
-                              'Signal.extrapolator_kwargs')))
-
-        self.extrapolator_kwargs = value

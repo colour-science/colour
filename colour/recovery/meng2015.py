@@ -22,7 +22,6 @@ from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
                                 SpectralDistribution, SpectralShape, sd_ones,
                                 sd_to_XYZ_integration)
 from colour.utilities import to_domain_1, from_range_100, runtime_warning
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -159,11 +158,6 @@ def XYZ_to_sd_Meng2015(
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
-
-    optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
-                            ],
-    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     XYZ = to_domain_1(XYZ)
 

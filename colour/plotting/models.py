@@ -68,7 +68,6 @@ from colour.plotting import (
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
                               first_item, tsplit, tstack)
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -804,10 +803,6 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram
     """
 
-    scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
-    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
-
     RGB = as_float_array(RGB).reshape(-1, 3)
 
     settings = {'uniform': True}
@@ -923,10 +918,6 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931
     """
 
-    scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
-    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
-
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
@@ -998,10 +989,6 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1960UCS.png
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS
     """
 
-    scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
-    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
-
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
@@ -1072,10 +1059,6 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS
     """
-
-    scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
-    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
@@ -1217,10 +1200,6 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
         :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram
     """
 
-    ellipse_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['ellipse_parameters', 'ellipse_kwargs']],
-    }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
-
     settings = {'uniform': True}
     settings.update(kwargs)
 
@@ -1330,10 +1309,6 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1931.png
         :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931
     """
 
-    ellipse_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['ellipse_parameters', 'ellipse_kwargs']],
-    }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
-
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
@@ -1397,10 +1372,6 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1960UCS.png
         :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS
     """
 
-    ellipse_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['ellipse_parameters', 'ellipse_kwargs']],
-    }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
-
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
@@ -1463,10 +1434,6 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
         :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS
     """
-
-    ellipse_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['ellipse_parameters', 'ellipse_kwargs']],
-    }, **kwargs).get('ellipse_kwargs', ellipse_kwargs)
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
@@ -1713,10 +1680,6 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
         :align: center
         :alt: plot_constant_hue_loci
     """
-
-    scatter_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['scatter_parameters', 'scatter_kwargs']],
-    }, **kwargs).get('scatter_kwargs', scatter_kwargs)
 
     # TODO: Filter appropriate colour models.
 

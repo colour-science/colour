@@ -28,7 +28,6 @@ import numpy as np
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -109,10 +108,6 @@ def log_encoding_SLog(x,
     array([ 90, 394, 636])
     """
 
-    out_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
-    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
-
     x = to_domain_1(x)
 
     if in_reflection:
@@ -185,10 +180,6 @@ def log_decoding_SLog(y,
     >>> log_decoding_SLog(0.384970815928670)  # doctest: +ELLIPSIS
     0.1...
     """
-
-    in_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
-    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
 
     y = to_domain_1(y)
 
@@ -273,10 +264,6 @@ def log_encoding_SLog2(x,
     array([ 90, 347, 582])
     """
 
-    out_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
-    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
-
     return log_encoding_SLog(x * 155 / 219, bit_depth,
                              out_normalised_code_value, in_reflection)
 
@@ -337,10 +324,6 @@ def log_decoding_SLog2(y,
     >>> log_decoding_SLog2(0.339532524633774)  # doctest: +ELLIPSIS
     0.1...
     """
-
-    in_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
-    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
 
     return 219 * log_decoding_SLog(y, bit_depth, in_normalised_code_value,
                                    out_reflection) / 155
@@ -411,10 +394,6 @@ def log_encoding_SLog3(x,
     >>> np.around(log_encoding_SLog3(x) * (2 ** 10 - 1)).astype(np.int)
     array([ 95, 420, 598])
     """
-
-    out_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
-    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
 
     x = to_domain_1(x)
 
@@ -488,10 +467,6 @@ def log_decoding_SLog3(y,
     >>> log_decoding_SLog3(0.410557184750733)  # doctest: +ELLIPSIS
     0.1...
     """
-
-    in_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
-    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
 
     y = to_domain_1(y)
 

@@ -41,7 +41,6 @@ from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (CaseInsensitiveMapping, Structure,
                               as_float_array, is_sibling, is_string,
                               filter_mapping, runtime_warning)
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -1142,10 +1141,6 @@ def plot_multi_colour_swatches(colour_swatches,
         assert compare_swatches in ('diagonal', 'stacked'), (
             '"compare_swatches" must be one of *[\'diagonal\', \'stacked\']*!')
 
-    text_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['text_args', 'text_kwargs']],
-    }, **kwargs).get('text_kwargs', text_kwargs)
-
     _figure, axes = artist(**kwargs)
 
     # Handling case where `colour_swatches` is a regular array.
@@ -1473,10 +1468,6 @@ def plot_image(image, imshow_kwargs=None, text_kwargs=None, **kwargs):
         :align: center
         :alt: plot_image
     """
-
-    text_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['text_parameters', 'text_kwargs']],
-    }, **kwargs).get('text_kwargs', text_kwargs)
 
     _figure, axes = artist(**kwargs)
 

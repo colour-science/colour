@@ -32,9 +32,7 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
 from colour.utilities import (as_float, as_int, first_item, is_iterable,
                               is_numeric, is_string, is_uniform, interval,
-                              runtime_warning, tstack, usage_warning)
-from colour.utilities.deprecation import (ObjectRemoved, ObjectRenamed,
-                                          handle_arguments_deprecation)
+                              runtime_warning, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -1080,10 +1078,6 @@ dict_like, optional
          [ 600.            0.136    ...]]
         """
 
-        interpolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
-        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
-
         self_shape = self.shape
         s_e_i = zip((shape.start, shape.end, shape.interval),
                     (self_shape.start, self_shape.end, self_shape.interval))
@@ -1193,10 +1187,6 @@ dict_like, optional
          [ 680.        0.136 ]
          [ 700.        0.136 ]]
         """
-
-        extrapolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['extrapolator_args', 'extrapolator_kwargs']],
-        }, **kwargs).get('extrapolator_kwargs', extrapolator_kwargs)
 
         self_shape = self.shape
         wavelengths = np.hstack([
@@ -1521,70 +1511,6 @@ dict_like, optional
         self *= 1 / max(self.values) * factor
 
         return self
-
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    @property
-    def title(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('SpectralPowerDistribution.title',
-                              'SpectralDistribution.strict_name')))
-
-        return self.strict_name
-
-    @title.setter
-    def title(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('SpectralPowerDistribution.title',
-                              'SpectralDistribution.strict_name')))
-
-        self.strict_name = value
-
-    @property
-    def data(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(ObjectRemoved('SpectralDistribution.data')))
-
-    @property
-    def items(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(ObjectRemoved('SpectralDistribution.items')))
-
-    def __iter__(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('SpectralDistribution.__iter__')))
-
-    def get(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(ObjectRemoved('SpectralDistribution.get')))
-
-    def zeros(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(str(ObjectRemoved('SpectralDistribution.zeros')))
-
-    def trim_wavelengths(self, shape):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('SpectralPowerDistribution.trim_wavelengths',
-                              'SpectralDistribution.trim')))
-
-        return self.trim(shape)
-
-    def clone(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('SpectralPowerDistribution.clone',
-                              'SpectralDistribution.copy')))
-
-        return self.copy()
 
 
 class MultiSpectralDistributions(MultiSignals):
@@ -2167,10 +2093,6 @@ MultiSpectralDistributions or array_like or dict_like, optional
          [ 560.            0.5945   ...    0.995    ...    0.0039   ...]]
         """
 
-        interpolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
-        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
-
         for signal in self.signals.values():
             signal.interpolate(shape, interpolator, interpolator_kwargs)
 
@@ -2258,10 +2180,6 @@ MultiSpectralDistributions or array_like or dict_like, optional
          [ 690.         0.5945     0.995      0.0039 ]
          [ 700.         0.5945     0.995      0.0039 ]]
         """
-
-        extrapolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['extrapolator_args', 'extrapolator_kwargs']],
-        }, **kwargs).get('extrapolator_kwargs', extrapolator_kwargs)
 
         for signal in self.signals.values():
             signal.extrapolate(shape, extrapolator, extrapolator_kwargs)
@@ -2408,14 +2326,6 @@ MultiSpectralDistributions or array_like or dict_like, optional
          [ 564.            0.5945   ...    0.995    ...    0.0039   ...]
          [ 565.            0.5945   ...    0.995    ...    0.0039   ...]]
         """
-
-        interpolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
-        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
-
-        extrapolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['extrapolator_args', 'extrapolator_kwargs']],
-        }, **kwargs).get('extrapolator_kwargs', extrapolator_kwargs)
 
         for signal in self.signals.values():
             signal.align(shape, interpolator, interpolator_kwargs,
@@ -2611,98 +2521,6 @@ MultiSpectralDistributions or array_like or dict_like, optional
             sds.append(signal)
 
         return sds
-
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    @property
-    def title(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('TriSpectralPowerDistribution.title',
-                              'SpectralDistribution.strict_name')))
-
-        return self.strict_name
-
-    @title.setter
-    def title(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('TriSpectralPowerDistribution.title',
-                              'SpectralDistribution.strict_name')))
-
-        self.strict_name = value
-
-    @property
-    def data(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('MultiSpectralDistributions.data')))
-
-    @property
-    def items(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('MultiSpectralDistributions.items')))
-
-    @property
-    def mapping(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('MultiSpectralDistributions.mapping')))
-
-    @property
-    def x(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('MultiSpectralDistributions.x')))
-
-    @property
-    def y(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('MultiSpectralDistributions.y')))
-
-    @property
-    def z(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('MultiSpectralDistributions.z')))
-
-    def __iter__(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('MultiSpectralDistributions.__iter__')))
-
-    def get(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('MultiSpectralDistributions.get')))
-
-    def zeros(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        raise AttributeError(
-            str(ObjectRemoved('MultiSpectralDistributions.zeros')))
-
-    def trim_wavelengths(self, shape):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('TriSpectralPowerDistribution.trim_wavelengths',
-                              'MultiSpectralDistributions.trim')))
-
-        return self.trim(shape)
-
-    def clone(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('TriSpectralPowerDistribution.clone',
-                              'MultiSpectralDistributions.copy')))
-
-        return self.copy()
 
 
 def sds_and_msds_to_sds(sds):
