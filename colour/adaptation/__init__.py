@@ -22,11 +22,6 @@ References
     83-86). ISBN:978-0-470-66569-5
 """
 
-import sys
-
-from colour.utilities.deprecation import ModuleAPI, build_API_changes
-from colour.utilities.documentation import is_documentation_building
-
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               get_domain_range_scale, as_float_array)
 
@@ -243,91 +238,3 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
 
 
 __all__ += ['CHROMATIC_ADAPTATION_METHODS', 'chromatic_adaptation']
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-class adaptation(ModuleAPI):
-    def __getattr__(self, attribute):
-        return super(adaptation, self).__getattr__(attribute)
-
-
-# v0.3.14
-API_CHANGES = {
-    'ObjectRenamed': [[
-        'colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000',
-        'colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000',
-    ], ]
-}
-"""
-Defines *colour.adaptation* sub-package API changes.
-
-API_CHANGES : dict
-"""
-
-# v0.3.16
-API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
-    [
-        'colour.adaptation.BRADFORD_CAT',
-        'colour.adaptation.CAT_BRADFORD',
-    ],
-    [
-        'colour.adaptation.BS_CAT',
-        'colour.adaptation.CAT_BIANCO2010',
-    ],
-    [
-        'colour.adaptation.BS_PC_CAT',
-        'colour.adaptation.CAT_PC_BIANCO2010)',
-    ],
-    [
-        'colour.adaptation.CAT02_BRILL_CAT',
-        'colour.adaptation.CAT_CAT02_BRILL2008',
-    ],
-    [
-        'colour.adaptation.CAT02_CAT',
-        'colour.adaptation.CAT_CAT02',
-    ],
-    [
-        'colour.adaptation.CMCCAT97_CAT',
-        'colour.adaptation.CAT_CMCCAT97',
-    ],
-    [
-        'colour.adaptation.CMCCAT2000_CAT',
-        'colour.adaptation.CAT_CMCCAT2000',
-    ],
-    [
-        'colour.adaptation.CMCCAT2000_InductionFactors',
-        'colour.adaptation.InductionFactors_CMCCAT2000',
-    ],
-    [
-        'colour.adaptation.CMCCAT2000_VIEWING_CONDITIONS',
-        'colour.adaptation.VIEWING_CONDITIONS_CMCCAT2000',
-    ],
-    [
-        'colour.adaptation.FAIRCHILD_CAT',
-        'colour.adaptation.CAT_FAIRCHILD',
-    ],
-    [
-        'colour.adaptation.SHARP_CAT',
-        'colour.adaptation.CAT_SHARP',
-    ],
-    [
-        'colour.adaptation.VON_KRIES_CAT',
-        'colour.adaptation.CAT_VON_KRIES',
-    ],
-    [
-        'colour.adaptation.XYZ_SCALING_CAT',
-        'colour.adaptation.CAT_XYZ_SCALING',
-    ],
-    [
-        'colour.adaptation.chromatic_adaptation_matrix_VonKries',
-        'colour.adaptation.matrix_chromatic_adaptation_VonKries)',
-    ],
-]
-
-if not is_documentation_building():
-    sys.modules['colour.adaptation'] = adaptation(
-        sys.modules['colour.adaptation'], build_API_changes(API_CHANGES))
-
-    del ModuleAPI, is_documentation_building, build_API_changes, sys

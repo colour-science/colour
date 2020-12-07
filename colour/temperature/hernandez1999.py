@@ -26,7 +26,6 @@ from scipy.optimize import minimize
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.utilities import as_float_array, as_numeric, tsplit, usage_warning
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -124,11 +123,6 @@ def CCT_to_xy_Hernandez1999(CCT, optimisation_kwargs=None, **kwargs):
     >>> CCT_to_xy_Hernandez1999(6500.7420431786531)  # doctest: +ELLIPSIS
     array([ 0.3127...,  0.329...])
     """
-
-    optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
-                            ],
-    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     usage_warning('"Hernandez-Andres et al. (1999)" method for computing '
                   '"CIE xy" chromaticity coordinates from given correlated '

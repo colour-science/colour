@@ -15,8 +15,7 @@ from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.utilities import (as_float_array, first_item, is_pandas_installed,
-                              required, tsplit, tstack, usage_warning)
-from colour.utilities.deprecation import ObjectRenamed
+                              required, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -1509,46 +1508,3 @@ dict_like, optional
 
         return DataFrame(
             data=self.range, index=self.domain, columns=self.labels)
-
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    @property
-    def interpolator_args(self):
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('MultiSignals.interpolator_args',
-                              'MultiSignals.interpolator_kwargs')))
-
-        return self.interpolator_kwargs
-
-    @interpolator_args.setter
-    def interpolator_args(self, value):
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('MultiSignals.interpolator_args',
-                              'MultiSignals.interpolator_kwargs')))
-
-        self.interpolator_kwargs = value
-
-    @property
-    def extrapolator_args(self):
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('MultiSignals.extrapolator_args',
-                              'MultiSignals.extrapolator_kwargs')))
-
-        return self.extrapolator_kwargs
-
-    @extrapolator_args.setter
-    def extrapolator_args(self, value):
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('MultiSignals.extrapolator_args',
-                              'MultiSignals.extrapolator_kwargs')))
-
-        self.extrapolator_kwargs = value

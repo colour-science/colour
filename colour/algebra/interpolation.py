@@ -69,7 +69,6 @@ from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               closest_indexes, interval, is_integer,
                               is_numeric, runtime_warning, tsplit)
-from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -683,49 +682,6 @@ class KernelInterpolator(object):
 
         if above_interpolation_range.any():
             raise ValueError('"{0}" is above interpolation range.'.format(x))
-
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    @property
-    def kernel_args(self):
-        # Docstrings are omitted for documentation purposes.
-        runtime_warning(
-            str(
-                ObjectRenamed('KernelInterpolator.kernel_args',
-                              'KernelInterpolator.kernel_kwargs')))
-
-        return self.kernel_kwargs
-
-    @kernel_args.setter
-    def kernel_args(self, value):
-        # Docstrings are omitted for documentation purposes.
-        runtime_warning(
-            str(
-                ObjectRenamed('KernelInterpolator.kernel_args',
-                              'KernelInterpolator.kernel_kwargs')))
-
-        self.kernel_kwargs = value
-
-    @property
-    def padding_args(self):
-        # Docstrings are omitted for documentation purposes.
-        runtime_warning(
-            str(
-                ObjectRenamed('KernelInterpolator.padding_args',
-                              'KernelInterpolator.padding_kwargs')))
-
-        return self.padding_kwargs
-
-    @padding_args.setter
-    def padding_args(self, value):
-        # Docstrings are omitted for documentation purposes.
-        runtime_warning(
-            str(
-                ObjectRenamed('KernelInterpolator.padding_args',
-                              'KernelInterpolator.padding_kwargs')))
-
-        self.padding_kwargs = value
 
 
 class NearestNeighbourInterpolator(KernelInterpolator):

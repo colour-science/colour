@@ -8,7 +8,6 @@ Defines various RGB colour models common utilities.
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -76,10 +75,6 @@ def XYZ_to_sRGB(XYZ,
     >>> XYZ_to_sRGB(XYZ)  # doctest: +ELLIPSIS
     array([ 0.7057393...,  0.1924826...,  0.2235416...])
     """
-
-    apply_cctf_encoding = handle_arguments_deprecation({
-        'ArgumentRenamed': [['apply_encoding_cctf', 'apply_cctf_encoding']],
-    }, **kwargs).get('apply_cctf_encoding', apply_cctf_encoding)
 
     sRGB = RGB_COLOURSPACES['sRGB']
 
@@ -149,10 +144,6 @@ def sRGB_to_XYZ(RGB,
     >>> sRGB_to_XYZ(RGB)  # doctest: +ELLIPSIS
     array([ 0.2065429...,  0.1219794...,  0.0513714...])
     """
-
-    apply_cctf_decoding = handle_arguments_deprecation({
-        'ArgumentRenamed': [['apply_decoding_cctf', 'apply_cctf_decoding']],
-    }, **kwargs).get('apply_cctf_decoding', apply_cctf_decoding)
 
     sRGB = RGB_COLOURSPACES['sRGB']
 

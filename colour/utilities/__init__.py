@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import sys
-
 from .data_structures import (Lookup, Structure, CaseInsensitiveMapping,
                               LazyCaseInsensitiveMapping)
 from .common import (
@@ -29,9 +27,6 @@ from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
                     linear_conversion, lerp, fill_nan, ndarray_write, zeros,
                     ones, full, index_along_last_axis)
 from .metrics import metric_mse, metric_psnr
-
-from colour.utilities.deprecation import ModuleAPI, build_API_changes
-from colour.utilities.documentation import is_documentation_building
 
 __all__ = [
     'Lookup', 'Structure', 'CaseInsensitiveMapping',
@@ -68,37 +63,3 @@ __all__ += [
     'index_along_last_axis'
 ]
 __all__ += ['metric_mse', 'metric_psnr']
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-class utilities(ModuleAPI):
-    def __getattr__(self, attribute):
-        return super(utilities, self).__getattr__(attribute)
-
-
-# v0.3.16
-API_CHANGES = {
-    'ObjectRenamed': [
-        [
-            'colour.utilities.dot_vector',
-            'colour.utilities.vector_dot',
-        ],
-        [
-            'colour.utilities.dot_matrix',
-            'colour.utilities.matrix_dot',
-        ],
-    ]
-}
-"""
-Defines *colour.utilities* sub-package API changes.
-
-API_CHANGES : dict
-"""
-
-if not is_documentation_building():
-    sys.modules['colour.utilities'] = utilities(
-        sys.modules['colour.utilities'], build_API_changes(API_CHANGES))
-
-    del ModuleAPI, is_documentation_building, build_API_changes, sys

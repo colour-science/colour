@@ -42,7 +42,6 @@ from colour.plotting import (
     update_settings_collection)
 from colour.utilities import (domain_range_scale, first_item,
                               normalise_maximum, ones, tstack)
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -282,10 +281,6 @@ def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
         :align: center
         :alt: plot_multi_sds
     """
-
-    handle_arguments_deprecation({
-        'ArgumentRemoved': ['normalise_sd_colours', 'use_sds_colours']
-    }, **kwargs)
 
     _figure, axes = artist(**kwargs)
 

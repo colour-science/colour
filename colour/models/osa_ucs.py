@@ -26,7 +26,6 @@ from colour.algebra import spow
 from colour.models import XYZ_to_xyY
 from colour.utilities import (as_float_array, domain_range_scale, vector_dot,
                               from_range_100, to_domain_100, tsplit, tstack)
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -191,11 +190,6 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
     >>> OSA_UCS_to_XYZ(Ljg)  # doctest: +ELLIPSIS
     array([ 20.6540240...,  12.1972369...,   5.1369372...])
     """
-
-    optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
-                            ],
-    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     Ljg = to_domain_100(Ljg)
     shape = Ljg.shape

@@ -34,7 +34,6 @@ import numpy as np
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -115,10 +114,6 @@ def log_encoding_CanonLog(x,
     array([   7.3,   12. ,   32.8,   62.7,  108.7])
     """
 
-    out_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
-    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
-
     x = to_domain_1(x)
 
     if in_reflection:
@@ -193,10 +188,6 @@ def log_decoding_CanonLog(clog,
     0.17999999...
     """
 
-    in_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
-    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
-
     clog = to_domain_1(clog)
 
     clog = (legal_to_full(clog, bit_depth)
@@ -269,10 +260,6 @@ def log_encoding_CanonLog2(x,
     >>> log_encoding_CanonLog2(0.18) * 100  # doctest: +ELLIPSIS
     39.8254694...
     """
-
-    out_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
-    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
 
     x = to_domain_1(x)
 
@@ -347,10 +334,6 @@ def log_decoding_CanonLog2(clog2,
     >>> log_decoding_CanonLog2(39.825469498316735 / 100)  # doctest: +ELLIPSIS
     0.1799999...
     """
-
-    in_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
-    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
 
     clog2 = to_domain_1(clog2)
 
@@ -435,10 +418,6 @@ def log_encoding_CanonLog3(x,
     34.3389369...
     """
 
-    out_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
-    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
-
     x = to_domain_1(x)
 
     if in_reflection:
@@ -514,10 +493,6 @@ def log_decoding_CanonLog3(clog3,
     >>> log_decoding_CanonLog3(34.338936938868677 / 100)  # doctest: +ELLIPSIS
     0.1800000...
     """
-
-    in_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
-    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
 
     clog3 = to_domain_1(clog3)
 

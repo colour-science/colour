@@ -36,7 +36,6 @@ from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
                                                   log_decoding_Cineon)
 
 from colour.utilities import CaseInsensitiveMapping, from_range_1, to_domain_1
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -529,11 +528,6 @@ def log_encoding_Log3G10(x, method='v2', **kwargs):
     0.3333336...
     """
 
-    method = handle_arguments_deprecation({
-        'ArgumentRenamed': [['legacy_curve', 'method']],
-    }, **kwargs).get('method', method)
-    method = {True: 'v1', False: 'v2'}.get(method, method)
-
     return LOG3G10_ENCODING_METHODS[method](x)
 
 
@@ -603,11 +597,6 @@ def log_decoding_Log3G10(y, method='v2', **kwargs):
     >>> log_decoding_Log3G10(1.0 / 3, method='v1')  # doctest: +ELLIPSIS
     0.1799994...
     """
-
-    method = handle_arguments_deprecation({
-        'ArgumentRenamed': [['legacy_curve', 'method']],
-    }, **kwargs).get('method', method)
-    method = {True: 'v1', False: 'v2'}.get(method, method)
 
     return LOG3G10_DECODING_METHODS[method](y)
 

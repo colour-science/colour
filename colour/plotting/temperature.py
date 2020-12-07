@@ -23,7 +23,6 @@ from colour.plotting import (
     filter_passthrough, override_style, render, update_settings_collection)
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import tstack, zeros
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -293,10 +292,6 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :alt: plot_planckian_locus_in_chromaticity_diagram
     """
 
-    annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
-    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
-
     cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
 
     illuminants = filter_passthrough(
@@ -473,10 +468,6 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
         :alt: plot_planckian_locus_in_chromaticity_diagram_CIE1931
     """
 
-    annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
-    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
-
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
@@ -558,10 +549,6 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
         :alt: plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS
     """
-
-    annotate_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['annotate_parameters', 'annotate_kwargs']],
-    }, **kwargs).get('annotate_kwargs', annotate_kwargs)
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})

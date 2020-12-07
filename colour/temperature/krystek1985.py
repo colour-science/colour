@@ -24,7 +24,6 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.utilities import as_float_array, as_numeric, tstack
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -82,11 +81,6 @@ def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
     ... # doctest: +ELLIPSIS
     6504.3894290...
     """
-
-    optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
-                            ],
-    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
 
     uv = as_float_array(uv)
     shape = uv.shape

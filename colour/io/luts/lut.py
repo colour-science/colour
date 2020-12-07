@@ -25,7 +25,6 @@ from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (as_float_array, is_numeric, is_iterable,
                               is_string, full, linear_conversion,
                               runtime_warning, tsplit, tstack, usage_warning)
-from colour.utilities.deprecation import handle_arguments_deprecation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -975,10 +974,6 @@ class LUT1D(AbstractLUT):
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
         """
 
-        interpolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
-        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
-
         if interpolator_kwargs is None:
             interpolator_kwargs = {}
 
@@ -1363,10 +1358,6 @@ class LUT3x1D(AbstractLUT):
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
-
-        interpolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
-        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
 
         if interpolator_kwargs is None:
             interpolator_kwargs = {}
@@ -1836,10 +1827,6 @@ class LUT3D(AbstractLUT):
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
-
-        interpolator_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [['interpolator_args', 'interpolator_kwargs']],
-        }, **kwargs).get('interpolator_kwargs', interpolator_kwargs)
 
         if interpolator_kwargs is None:
             interpolator_kwargs = {}
@@ -2420,18 +2407,6 @@ class LUTSequence(MutableSequence):
                [ 0.7057779...,  0.7057779...,  0.7057779...],
                [ 0.75     ...,  0.75     ...,  0.75     ...]])
         """
-
-        interpolator_1D_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [[
-                'interpolator_1D_args', 'interpolator_1D_kwargs'
-            ]],
-        }, **kwargs).get('interpolator_1D_kwargs', interpolator_1D_kwargs)
-
-        interpolator_3D_kwargs = handle_arguments_deprecation({
-            'ArgumentRenamed': [[
-                'interpolator_3D_args', 'interpolator_3D_kwargs'
-            ]],
-        }, **kwargs).get('interpolator_3D_kwargs', interpolator_3D_kwargs)
 
         for operation in self:
             if isinstance(operation, (LUT1D, LUT3x1D)):

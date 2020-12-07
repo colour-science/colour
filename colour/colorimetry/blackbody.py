@@ -16,7 +16,7 @@ References
 import numpy as np
 
 from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
-from colour.utilities import as_float_array, usage_warning
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -574,15 +574,6 @@ def sd_blackbody(temperature,
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
     """
-
-    # TODO: Remove warning when deemed appropriate.
-    usage_warning(
-        'For consistency reasons, the unit of the planckian radiator spectral '
-        'distribution values has been changed from "W/sr/m^2/m" to '
-        '"W/sr/m^2/nm".\nThey are now multiplied by 1e-9. Note that this only '
-        'affects computations requiring absolute quantities.\n'
-        'See https://github.com/colour-science/colour/issues/559 for more '
-        'background information.')
 
     wavelengths = shape.range()
     return SpectralDistribution(

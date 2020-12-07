@@ -33,9 +33,7 @@ from colour.models.rgb import (chromatically_adapted_primaries,
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.utilities import (as_float_array, domain_range_scale, matrix_dot,
                               vector_dot, filter_kwargs, from_range_1,
-                              to_domain_1, is_string, usage_warning)
-from colour.utilities.deprecation import (ObjectRenamed,
-                                          handle_arguments_deprecation)
+                              to_domain_1, is_string)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -228,22 +226,6 @@ class RGB_Colourspace(object):
                  **kwargs):
         self._derived_matrix_RGB_to_XYZ = None
         self._derived_matrix_XYZ_to_RGB = None
-
-        use_derived_matrix_RGB_to_XYZ = handle_arguments_deprecation({
-            'ArgumentRenamed': [[
-                'use_derived_RGB_to_XYZ_matrix',
-                'use_derived_matrix_RGB_to_XYZ'
-            ]],
-        }, **kwargs).get('use_derived_matrix_RGB_to_XYZ',
-                         use_derived_matrix_RGB_to_XYZ)
-
-        use_derived_matrix_XYZ_to_RGB = handle_arguments_deprecation({
-            'ArgumentRenamed': [[
-                'use_derived_XYZ_to_RGB_matrix',
-                'use_derived_matrix_XYZ_to_RGB'
-            ]],
-        }, **kwargs).get('use_derived_matrix_XYZ_to_RGB',
-                         use_derived_matrix_XYZ_to_RGB)
 
         self._name = None
         self.name = name
@@ -877,153 +859,6 @@ class RGB_Colourspace(object):
 
         return deepcopy(self)
 
-    # ------------------------------------------------------------------------#
-    # ---              API Changes and Deprecation Management              ---#
-    # ------------------------------------------------------------------------#
-    @property
-    def illuminant(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.illuminant',
-                              'RGB_Colourspace.whitepoint_name')))
-
-        return self.whitepoint_name
-
-    @illuminant.setter
-    def illuminant(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.illuminant',
-                              'RGB_Colourspace.whitepoint_name')))
-
-        self.whitepoint_name = value
-
-    @property
-    def encoding_cctf(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.encoding_cctf',
-                              'RGB_Colourspace.cctf_encoding')))
-
-        return self.cctf_encoding
-
-    @encoding_cctf.setter
-    def encoding_cctf(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.encoding_cctf',
-                              'RGB_Colourspace.cctf_encoding')))
-
-        self.cctf_encoding = value
-
-    @property
-    def decoding_cctf(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.decoding_cctf',
-                              'RGB_Colourspace.cctf_decoding')))
-
-        return self.cctf_decoding
-
-    @decoding_cctf.setter
-    def decoding_cctf(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.decoding_cctf',
-                              'RGB_Colourspace.cctf_decoding')))
-
-        self.cctf_decoding = value
-
-    @property
-    def RGB_to_XYZ_matrix(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.RGB_to_XYZ_matrix',
-                              'RGB_Colourspace.matrix_RGB_to_XYZ')))
-
-        return self.matrix_RGB_to_XYZ
-
-    @RGB_to_XYZ_matrix.setter
-    def RGB_to_XYZ_matrix(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.RGB_to_XYZ_matrix',
-                              'RGB_Colourspace.matrix_RGB_to_XYZ')))
-
-        self.matrix_RGB_to_XYZ = value
-
-    @property
-    def XYZ_to_RGB_matrix(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.XYZ_to_RGB_matrix',
-                              'RGB_Colourspace.matrix_XYZ_to_RGB')))
-
-        return self.matrix_XYZ_to_RGB
-
-    @XYZ_to_RGB_matrix.setter
-    def XYZ_to_RGB_matrix(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed('RGB_Colourspace.XYZ_to_RGB_matrix',
-                              'RGB_Colourspace.matrix_XYZ_to_RGB')))
-
-        self.XYZ_to_RGB_matrix = value
-
-    @property
-    def use_derived_RGB_to_XYZ_matrix(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    'RGB_Colourspace.use_derived_RGB_to_XYZ_matrix',
-                    'RGB_Colourspace.use_derived_matrix_RGB_to_XYZ')))
-
-        return self.use_derived_matrix_RGB_to_XYZ
-
-    @use_derived_RGB_to_XYZ_matrix.setter
-    def use_derived_RGB_to_XYZ_matrix(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    'RGB_Colourspace.use_derived_RGB_to_XYZ_matrix',
-                    'RGB_Colourspace.use_derived_matrix_RGB_to_XYZ')))
-
-        self.use_derived_matrix_RGB_to_XYZ = value
-
-    @property
-    def use_derived_XYZ_to_RGB_matrix(self):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    'RGB_Colourspace.use_derived_XYZ_to_RGB_matrix',
-                    'RGB_Colourspace.use_derived_matrix_XYZ_to_RGB')))
-
-        return self.use_derived_matrix_XYZ_to_RGB
-
-    @use_derived_XYZ_to_RGB_matrix.setter
-    def use_derived_XYZ_to_RGB_matrix(self, value):  # pragma: no cover
-        # Docstrings are omitted for documentation purposes.
-        usage_warning(
-            str(
-                ObjectRenamed(
-                    'RGB_Colourspace.use_derived_XYZ_to_RGB_matrix',
-                    'RGB_Colourspace.use_derived_matrix_XYZ_to_RGB')))
-
-        self.use_derived_XYZ_to_RGB_matrix = value
-
 
 def XYZ_to_RGB(XYZ,
                illuminant_XYZ,
@@ -1102,14 +937,6 @@ def XYZ_to_RGB(XYZ,
     ...            chromatic_adaptation_transform)  # doctest: +ELLIPSIS
     array([ 0.4559557...,  0.0303970...,  0.0408724...])
     """
-
-    matrix_XYZ_to_RGB = handle_arguments_deprecation({
-        'ArgumentRenamed': [['XYZ_to_RGB_matrix', 'matrix_XYZ_to_RGB']],
-    }, **kwargs).get('matrix_XYZ_to_RGB', matrix_XYZ_to_RGB)
-
-    cctf_encoding = handle_arguments_deprecation({
-        'ArgumentRenamed': [['encoding_cctf', 'cctf_encoding']],
-    }, **kwargs).get('cctf_encoding', cctf_encoding)
 
     XYZ = to_domain_1(XYZ)
 
@@ -1207,14 +1034,6 @@ def RGB_to_XYZ(RGB,
     ...            chromatic_adaptation_transform)  # doctest: +ELLIPSIS
     array([ 0.2163881...,  0.1257    ,  0.0384749...])
     """
-
-    matrix_RGB_to_XYZ = handle_arguments_deprecation({
-        'ArgumentRenamed': [['RGB_to_XYZ_matrix', 'matrix_RGB_to_XYZ']],
-    }, **kwargs).get('matrix_RGB_to_XYZ', matrix_RGB_to_XYZ)
-
-    cctf_decoding = handle_arguments_deprecation({
-        'ArgumentRenamed': [['decoding_cctf', 'cctf_decoding']],
-    }, **kwargs).get('cctf_decoding', cctf_decoding)
 
     RGB = to_domain_1(RGB)
 
@@ -1353,14 +1172,6 @@ def RGB_to_RGB(RGB,
     ... # doctest: +ELLIPSIS
     array([ 0.2568891...,  0.0721446...,  0.0465553...])
     """
-
-    apply_cctf_decoding = handle_arguments_deprecation({
-        'ArgumentRenamed': [['apply_decoding_cctf', 'apply_cctf_decoding']],
-    }, **kwargs).get('apply_cctf_decoding', apply_cctf_decoding)
-
-    apply_cctf_encoding = handle_arguments_deprecation({
-        'ArgumentRenamed': [['apply_encoding_cctf', 'apply_cctf_encoding']],
-    }, **kwargs).get('apply_cctf_encoding', apply_cctf_encoding)
 
     RGB = to_domain_1(RGB)
 
