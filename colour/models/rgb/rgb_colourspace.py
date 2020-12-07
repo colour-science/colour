@@ -390,10 +390,10 @@ class RGB_Colourspace(object):
             values.
         """
 
-        if not self._use_derived_matrix_RGB_to_XYZ:
-            return self._matrix_RGB_to_XYZ
-        else:
+        if self._use_derived_matrix_RGB_to_XYZ:
             return self._derived_matrix_RGB_to_XYZ
+        else:
+            return self._matrix_RGB_to_XYZ
 
     @matrix_RGB_to_XYZ.setter
     def matrix_RGB_to_XYZ(self, value):
@@ -403,6 +403,7 @@ class RGB_Colourspace(object):
 
         if value is not None:
             value = as_float_array(value)
+
         self._matrix_RGB_to_XYZ = value
 
     @property
@@ -424,10 +425,10 @@ class RGB_Colourspace(object):
             colourspace.
         """
 
-        if not self._use_derived_matrix_XYZ_to_RGB:
-            return self._matrix_XYZ_to_RGB
-        else:
+        if self._use_derived_matrix_XYZ_to_RGB:
             return self._derived_matrix_XYZ_to_RGB
+        else:
+            return self._matrix_XYZ_to_RGB
 
     @matrix_XYZ_to_RGB.setter
     def matrix_XYZ_to_RGB(self, value):
@@ -437,6 +438,7 @@ class RGB_Colourspace(object):
 
         if value is not None:
             value = as_float_array(value)
+
         self._matrix_XYZ_to_RGB = value
 
     @property
