@@ -202,7 +202,7 @@ def primaries_whitepoint(npm):
     array([ 0.32168,  0.33767])
     """
 
-    npm = npm.reshape([3, 3])
+    npm = np.reshape(npm, (3, 3))
 
     primaries = XYZ_to_xy(np.transpose(np.dot(npm, np.identity(3))))
     whitepoint = np.squeeze(XYZ_to_xy(np.transpose(np.dot(npm, ones([3, 1])))))
