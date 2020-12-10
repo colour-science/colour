@@ -288,7 +288,7 @@ class ArgumentFutureRemove(namedtuple('ArgumentFutureRemove', ('name', ))):
                 'in a future release.'.format(self.name))
 
 
-class ModuleAPI(object):
+class ModuleAPI:
     """
     Define a class that allows customisation of module attributes access with
     deprecation management.

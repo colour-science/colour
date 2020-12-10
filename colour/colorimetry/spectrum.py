@@ -47,7 +47,7 @@ __all__ = [
 ]
 
 
-class SpectralShape(object):
+class SpectralShape:
     """
     Defines the base object for spectral distribution shape.
 

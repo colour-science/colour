@@ -264,7 +264,7 @@ def kernel_cardinal_spline(x, a=0.5, b=0.0):
     return 1 / 6 * y
 
 
-class KernelInterpolator(object):
+class KernelInterpolator:
     """
     Kernel based interpolation of a 1-D function.
 
@@ -717,7 +717,7 @@ class NearestNeighbourInterpolator(KernelInterpolator):
         super(NearestNeighbourInterpolator, self).__init__(*args, **kwargs)
 
 
-class LinearInterpolator(object):
+class LinearInterpolator:
     """
     Linearly interpolates a 1-D function.
 
@@ -910,7 +910,7 @@ class LinearInterpolator(object):
             raise ValueError('"{0}" is above interpolation range.'.format(x))
 
 
-class SpragueInterpolator(object):
+class SpragueInterpolator:
     """
     Constructs a fifth-order polynomial that passes through :math:`y` dependent
     variable.
@@ -1234,7 +1234,7 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         return self._y
 
 
-class NullInterpolator(object):
+class NullInterpolator:
     """
     Performs 1-D function null interpolation, i.e. a call within given
     tolerances will return existing :math:`y` variable values and ``default``

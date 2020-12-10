@@ -22,7 +22,7 @@ __status__ = 'Production'
 __all__ = ['ColourAppearanceModelTest']
 
 
-class ColourAppearanceModelTest(object):
+class ColourAppearanceModelTest:
     """
     Defines the base class for tests of: mod:`colour.appearance` package.
 

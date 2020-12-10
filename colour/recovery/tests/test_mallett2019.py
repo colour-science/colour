@@ -29,7 +29,7 @@ __all__ = [
 ]
 
 
-class TestMixinMallett2019(object):
+class TestMixinMallett2019:
     """
     A mixin for testing the :mod:`colour.recovery.mallett2019` module.
     """

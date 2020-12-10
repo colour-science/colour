@@ -165,7 +165,7 @@ if is_matplotlib_installed():
     import colour.plotting as plotting  # noqa
 else:
 
-    class MockPlotting(object):
+    class MockPlotting:
         """
         Mock object for :mod:`colour.plotting` sub-package raising an exception
         if the sub-package is accessed but *Matplotlib* is not installed.
