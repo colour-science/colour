@@ -29,7 +29,7 @@ __status__ = 'Production'
 __all__ = ['MockObject', 'MockModule', 'mock_scipy_for_colour']
 
 
-class MockObject(object):
+class MockObject:
     """
     A generic mock object used for helping to mock tricky *Colour* requirements
     such as *Scipy*.

@@ -82,7 +82,7 @@ class Element_Specification_IESTM2714(
             write_conversion)
 
 
-class Header_IESTM2714(object):
+class Header_IESTM2714:
     """
     Defines the header object for a *IES TM-27-14* spectral distribution.
 

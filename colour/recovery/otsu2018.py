@@ -49,7 +49,7 @@ __all__ = [
 ]
 
 
-class Dataset_Otsu2018(object):
+class Dataset_Otsu2018:
     """
     Stores all the information needed for the *Otsu et al. (2018)* spectral
     upsampling method.
@@ -497,7 +497,7 @@ class PartitionAxis(namedtuple('PartitionAxis', ('origin', 'direction'))):
             if self.direction else 'x', self.origin)
 
 
-class ColourData(object):
+class ColourData:
     """
     Represents the data for multiple colours: their spectral reflectance
     distributions, *CIE XYZ* tristimulus values and *CIE xy* coordinates. The
@@ -670,7 +670,7 @@ class ColourData(object):
         return lesser, greater
 
 
-class Node(object):
+class Node:
     """
     Represents a node in a :meth:`colour.recovery.NodeTree_Otsu2018` class
     instance node tree.

@@ -207,7 +207,7 @@ class TestIsSibling(unittest.TestCase):
         Tests :func:`colour.utilities.common.is_sibling` definition.
         """
 
-        class Element(object):
+        class Element:
             """
             :func:`is_sibling` unit tests :class:`Element` class.
             """
@@ -215,7 +215,7 @@ class TestIsSibling(unittest.TestCase):
             def __init__(self, name):
                 self.name = name
 
-        class NotElement(object):
+        class NotElement:
             """
             :func:`is_sibling` unit tests :class:`NotElement` class.
             """
@@ -286,7 +286,7 @@ class TestFilterMapping(unittest.TestCase):
         Tests :func:`colour.utilities.common.filter_mapping` definition.
         """
 
-        class Element(object):
+        class Element:
             """
             :func:`filter_mapping` unit tests :class:`Element` class.
             """

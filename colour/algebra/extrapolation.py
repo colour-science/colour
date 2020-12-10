@@ -32,7 +32,7 @@ __status__ = 'Production'
 __all__ = ['Extrapolator']
 
 
-class Extrapolator(object):
+class Extrapolator:
     """
     Extrapolates the 1-D function of given interpolator.
 

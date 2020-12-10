@@ -83,7 +83,7 @@ def set_spow_enable(enable):
     _SPOW_ENABLED = enable
 
 
-class spow_enable(object):
+class spow_enable:
     """
     A context manager and decorator temporarily setting *Colour* safe /
     symmetrical power function enabled state.

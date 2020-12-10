@@ -173,7 +173,7 @@ _MULTIPROCESSING_ENABLED : bool
 """
 
 
-class disable_multiprocessing(object):
+class disable_multiprocessing:
     """
     A context manager and decorator temporarily disabling *Colour*
     multiprocessing.
@@ -254,7 +254,7 @@ def multiprocessing_pool(*args, **kwargs):
     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     """
 
-    class _DummyPool(object):
+    class _DummyPool:
         """
         A dummy multiprocessing pool that does not perform multiprocessing.
 
@@ -740,7 +740,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
 
     Examples
     --------
-    >>> class Element(object):
+    >>> class Element:
     ...     pass
     >>> mapping = {
     ...     'Element A': Element(),
@@ -889,7 +889,7 @@ def set_domain_range_scale(scale='Reference'):
     _DOMAIN_RANGE_SCALE = scale
 
 
-class domain_range_scale(object):
+class domain_range_scale:
     """
     A context manager and decorator temporarily setting *Colour* domain-range
     scale. The following scales are available:

@@ -48,7 +48,7 @@ __all__ = [
 ]
 
 
-class RGB_Colourspace(object):
+class RGB_Colourspace:
     """
     Implements support for the *RGB* colourspaces datasets from
     :mod:`colour.models.datasets.aces_rgb`, etc....
