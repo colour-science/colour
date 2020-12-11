@@ -16,6 +16,8 @@ from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
                         log_encoding_CanonLog3, log_decoding_CanonLog3)
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
+from .davinci_intermediate import (log_encoding_DaVinciIntermediate,
+                                   log_decoding_DaVinciIntermediate)
 from .dcdm import eotf_inverse_DCDM, eotf_DCDM
 from .dicom_gsdf import eotf_inverse_DICOMGSDF, eotf_DICOMGSDF
 from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
@@ -74,6 +76,9 @@ __all__ += [
     'log_decoding_CanonLog3'
 ]
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
+__all__ += [
+    'log_encoding_DaVinciIntermediate', 'log_decoding_DaVinciIntermediate'
+]
 __all__ += ['eotf_inverse_DCDM', 'eotf_DCDM']
 __all__ += ['eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
@@ -132,6 +137,7 @@ LOG_ENCODINGS = CaseInsensitiveMapping({
     'Canon Log 3': log_encoding_CanonLog3,
     'Canon Log': log_encoding_CanonLog,
     'Cineon': log_encoding_Cineon,
+    'DaVIntermediate': log_encoding_DaVinciIntermediate,
     'D-Log': log_encoding_DJIDLog,
     'ERIMM RGB': log_encoding_ERIMMRGB,
     'F-Log': log_encoding_FLog,
@@ -273,6 +279,7 @@ LOG_DECODINGS = CaseInsensitiveMapping({
     'Canon Log 3': log_decoding_CanonLog3,
     'Canon Log': log_decoding_CanonLog,
     'Cineon': log_decoding_Cineon,
+    'DaVIntermediate': log_decoding_DaVinciIntermediate,
     'D-Log': log_decoding_DJIDLog,
     'ERIMM RGB': log_decoding_ERIMMRGB,
     'F-Log': log_decoding_FLog,
