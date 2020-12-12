@@ -100,16 +100,7 @@ def log_encoding_NLog(in_r,
     Examples
     --------
     >>> log_encoding_NLog(0.18)  # doctest: +ELLIPSIS
-    0.4593184...
-
-    The values of *2-2. N-Log Code Value* table in :cite:`NikonCorp2018` are
-    obtained as follows:
-
-    >>> x = np.array([0, 18, 90]) / 100
-    >>> np.around(log_encoding_NLog(x, 10, False) * 100, 1)
-    array([  3.5,  46.3,  73.2])
-    >>> np.around(log_encoding_NLog(x) * (2 ** 10 - 1)).astype(np.int)
-    array([ 95, 470, 705])
+    0.3636677...
     """
 
     in_r = to_domain_1(in_r)
@@ -184,8 +175,8 @@ def log_decoding_NLog(out_r,
 
     Examples
     --------
-    >>> log_decoding_NLog(0.45931845866162124)  # doctest: +ELLIPSIS
-    0.1800000...
+    >>> log_decoding_NLog(0.36366777011713869)  # doctest: +ELLIPSIS
+    0.1799999...
     """
 
     out_r = to_domain_1(out_r)
