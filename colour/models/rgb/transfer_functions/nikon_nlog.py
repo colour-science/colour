@@ -24,6 +24,7 @@ References
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
@@ -116,8 +117,8 @@ def log_encoding_NLog(in_r,
 
     out_r = np.where(
         in_r < cut1,
-        a * (in_r + b) ** (1 / 3),
-        c * np.log10(in_r) + d,
+        a * spow(in_r + b, 1 / 3),
+        c * np.log(in_r) + d,
     )
 
     out_r = (out_r
@@ -192,7 +193,7 @@ def log_decoding_NLog(out_r,
 
     in_r = np.where(
         out_r < cut2,
-        (out_r / a) ** 3.0 - b,
+        spow(out_r / a, 3) - b,
         np.exp((out_r - d) / c),
     )
 

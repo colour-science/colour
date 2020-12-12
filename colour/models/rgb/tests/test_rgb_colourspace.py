@@ -89,7 +89,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         ignored_colourspaces = ('ACESproxy', )
 
-        decimals = {'DJI D-Gamut': 1, 'F-Gamut': 4}
+        decimals = {'DJI D-Gamut': 1, 'F-Gamut': 4, 'N-Gamut': 3}
 
         samples = np.hstack([
             np.linspace(0, 1, as_int(1e5)),
