@@ -18,10 +18,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestLogEncoding_VLog', 'TestLogDecoding_VLog']
+__all__ = ['TestLogEncoding_FLog', 'TestLogDecoding_FLog']
 
 
-class TestLogEncoding_VLog(unittest.TestCase):
+class TestLogEncoding_FLog(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog` definition unit tests methods.
@@ -104,7 +104,7 @@ log_encoding_FLog` definition nan support.
         log_encoding_FLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_VLog(unittest.TestCase):
+class TestLogDecoding_FLog(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog` definition unit tests methods.
