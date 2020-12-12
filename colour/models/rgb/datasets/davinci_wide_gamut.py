@@ -11,12 +11,17 @@ References
 ----------
 -   :cite:`BlackmagicDesign2020` : Blackmagic Design. (2020).
     DaVinci Wide Gamut - DaVinci Resolve Studio 17 Public Beta 1.
+-   :cite:`BlackmagicDesign2020a` : Blackmagic Design. (2020). Wide Gamut
+    Intermediate DaVinci Resolve. Retrieved December 12, 2020, from
+    https://documents.blackmagicdesign.com/InformationNotes/\
+DaVinci_Resolve_17_Wide_Gamut_Intermediate.pdf?_v=1607414410000
 """
 
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, linear_function,
+from colour.models.rgb import (RGB_Colourspace, oetf_DaVinciIntermediate,
+                               oetf_inverse_DaVinciIntermediate,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -81,15 +86,15 @@ RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT = RGB_Colourspace(
     WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT,
     MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ,
     MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT,
-    linear_function,
-    linear_function,
+    oetf_DaVinciIntermediate,
+    oetf_inverse_DaVinciIntermediate,
 )
 RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT.__doc__ = """
 *DaVinci Wide Gamut* colourspace.
 
 References
 ----------
-:cite:`BlackmagicDesign2020`
+:cite:`BlackmagicDesign2020`, :cite:`BlackmagicDesign2020a`
 
 RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT : RGB_Colourspace
 """
