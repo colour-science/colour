@@ -8,18 +8,12 @@ Defines the *Nikon N-Log* log encoding:
 -   :func:`colour.models.log_encoding_NLog`
 -   :func:`colour.models.log_decoding_NLog`
 
-See Also
---------
-`RGB Colourspaces Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/rgb.ipynb>`_
-
 References
 ----------
--   :cite:`NikonCorp2018` : Nikon. (2018). N-Log Specification \
-    Document Ver.1.0.0 \
-    Retrieved from http://download.nikonimglib.com/archive3/\
-    hDCmK00m9JDI03RPruD74xpoU905/N-Log_Specification_(En)01.pdf
+-   :cite:`Nikon2018` : Nikon. (2018). N-Log Specification Document - Version
+    1.0.0 (pp. 1–5). Retrieved September 9, 2019, from
+    http://download.nikonimglib.com/archive3/hDCmK00m9JDI03RPruD74xpoU905/\
+N-Log_Specification_(En)01.pdf
 """
 
 import numpy as np
@@ -96,7 +90,7 @@ def log_encoding_NLog(in_r,
 
     References
     ----------
-    :cite:`NikonCorp2018`
+    :cite:`Nikon2018`
 
     Examples
     --------
@@ -172,7 +166,7 @@ def log_decoding_NLog(out_r,
 
     References
     ----------
-    :cite:`NikonCorp2018`
+    :cite:`Nikon2018`
 
     Examples
     --------
