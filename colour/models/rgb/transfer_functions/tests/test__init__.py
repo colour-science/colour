@@ -11,7 +11,7 @@ from colour.models.rgb.transfer_functions import (
     CCTF_DECODINGS, CCTF_ENCODINGS, EOTFS, EOTF_INVERSES, LOG_DECODINGS,
     LOG_ENCODINGS, OETFS, OETF_INVERSES, OOTFS, OOTF_INVERSES, cctf_encoding,
     cctf_decoding)
-from colour.utilities import as_int
+from colour.utilities import ColourUsageWarning, as_int
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -35,9 +35,16 @@ class TestCctfEncoding(unittest.TestCase):
 log_encoding_ACESproxy` definition raised exception.
         """
 
-        # TODO: Use "assertWarns" when dropping Python 2.7.
-        cctf_encoding(0.18, 'ITU-R BT.2100 HLG')
-        cctf_encoding(0.18, 'ITU-R BT.2100 PQ')
+        self.assertWarns(
+            ColourUsageWarning,
+            cctf_encoding,
+            0.18,
+            function='ITU-R BT.2100 HLG')
+        self.assertWarns(
+            ColourUsageWarning,
+            cctf_encoding,
+            0.18,
+            function='ITU-R BT.2100 PQ')
 
 
 class TestCctfDecoding(unittest.TestCase):
@@ -52,9 +59,16 @@ class TestCctfDecoding(unittest.TestCase):
 log_encoding_ACESproxy` definition raised exception.
         """
 
-        # TODO: Use "assertWarns" when dropping Python 2.7.
-        cctf_decoding(0.18, 'ITU-R BT.2100 HLG')
-        cctf_decoding(0.18, 'ITU-R BT.2100 PQ')
+        self.assertWarns(
+            ColourUsageWarning,
+            cctf_decoding,
+            0.18,
+            function='ITU-R BT.2100 HLG')
+        self.assertWarns(
+            ColourUsageWarning,
+            cctf_decoding,
+            0.18,
+            function='ITU-R BT.2100 PQ')
 
 
 class TestTransferFunctions(unittest.TestCase):

@@ -13,7 +13,8 @@ from colour.algebra import (CubicSplineInterpolator, Extrapolator,
                             KernelInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import MultiSignals, Signal
-from colour.utilities import is_pandas_installed, tsplit, tstack
+from colour.utilities import (ColourRuntimeWarning, is_pandas_installed,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -107,10 +108,17 @@ class TestMultiSignals(unittest.TestCase):
                       [30.0, 40.0, 50.0]]),
             decimal=7)
 
-        # TODO: Use "assertWarns" when dropping Python 2.7.
         domain = np.linspace(0, 1, 10)
         domain[0] = -np.inf
-        multi_signals.domain = domain
+
+        def _assert_warns():
+            """
+            Helper definition to test the runtime warning.
+            """
+
+            multi_signals.domain = domain
+
+        self.assertWarns(ColourRuntimeWarning, _assert_warns)
 
     def test_range(self):
         """

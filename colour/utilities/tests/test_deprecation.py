@@ -6,6 +6,7 @@ Defines unit tests for :mod:`colour.utilities.deprecation` module.
 import sys
 import unittest
 
+from colour.utilities import ColourUsageWarning
 from colour.utilities.deprecation import (
     ObjectRenamed, ObjectRemoved, ObjectFutureRename, ObjectFutureRemove,
     ObjectFutureAccessChange, ObjectFutureAccessRemove, ArgumentRenamed,
@@ -313,8 +314,14 @@ class TestModuleAPI(unittest.TestCase):
 
         self.assertIsNone(colour.utilities.tests.test_deprecated.NAME)
 
-        # TODO: Use "assertWarns" when dropping Python 2.7.
-        getattr(colour.utilities.tests.test_deprecated, 'OLD_NAME')
+        def _assert_warns():
+            """
+            Helper definition to test the runtime warning.
+            """
+
+            getattr(colour.utilities.tests.test_deprecated, 'OLD_NAME')
+
+        self.assertWarns(ColourUsageWarning, _assert_warns)
 
         del sys.modules['colour.utilities.tests.test_deprecated']
 

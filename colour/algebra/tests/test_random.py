@@ -14,6 +14,7 @@ import numpy as np
 import unittest
 
 from colour.algebra import random_triplet_generator
+from colour.utilities import ColourRuntimeWarning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -64,8 +65,7 @@ class TestRandomTripletGenerator(unittest.TestCase):
             random_triplet_generator(10, random_state=prng),
             decimal=7)
 
-        # TODO: Use "assertWarns" when dropping Python 2.7.
-        random_triplet_generator(5.5, random_state=prng)
+        self.assertWarns(ColourRuntimeWarning, random_triplet_generator, 5.5)
 
 
 if __name__ == '__main__':
