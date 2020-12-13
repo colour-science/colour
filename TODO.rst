@@ -6,12 +6,12 @@ TODO
 
 -   colour/__init__.py
 
-    -   Line 335 : # TODO: Remove legacy printing support when deemed appropriate.
+    -   Line 332 : # TODO: Remove legacy printing support when deemed appropriate.
 
 
 -   colour/colorimetry/spectrum.py
 
-    -   Line 1090 : # TODO: Provide support for fractional interval like 0.1, etc...
+    -   Line 1086 : # TODO: Provide support for fractional interval like 0.1, etc...
 
 
 -   colour/colorimetry/tristimulus.py
@@ -19,15 +19,10 @@ TODO
     -   Line 755 : # TODO: Investigate code vectorisation.
 
 
--   colour/colorimetry/blackbody.py
-
-    -   Line 577 : # TODO: Remove warning when deemed appropriate.
-
-
 -   colour/colorimetry/tests/test_spectrum.py
 
-    -   Line 1457 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-    -   Line 1663 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+    -   Line 1470 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+    -   Line 1689 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
 
 
 -   colour/appearance/ciecam02.py
@@ -84,7 +79,7 @@ TODO
 
 -   colour/graph/conversion.py
 
-    -   Line 951 : # TODO: Remove the following warning whenever the automatic colour conversion graph implementation is considered stable.
+    -   Line 947 : # TODO: Remove the following warning whenever the automatic colour conversion graph implementation is considered stable.
 
 
 -   colour/models/rgb/derivation.py
@@ -94,19 +89,13 @@ TODO
 
 -   colour/models/rgb/rgb_colourspace.py
 
-    -   Line 557 : # TODO: Revisit for potential behaviour / type checking.
-    -   Line 590 : # TODO: Revisit for potential behaviour / type checking.
+    -   Line 541 : # TODO: Revisit for potential behaviour / type checking.
+    -   Line 574 : # TODO: Revisit for potential behaviour / type checking.
 
 
 -   colour/models/rgb/tests/test_derivation.py
 
     -   Line 276 : # TODO: Simplify that monster.
-
-
--   colour/models/rgb/transfer_functions/tests/test__init__.py
-
-    -   Line 37 : # TODO: Use "assertWarns" when dropping Python 2.7.
-    -   Line 54 : # TODO: Use "assertWarns" when dropping Python 2.7.
 
 
 -   colour/utilities/verbose.py
@@ -121,14 +110,9 @@ TODO
     -   Line 361 : # TODO: Investigate behaviour on Windows.
 
 
--   colour/utilities/tests/test_deprecation.py
-
-    -   Line 315 : # TODO: Use "assertWarns" when dropping Python 2.7.
-
-
 -   colour/plotting/models.py
 
-    -   Line 1720 : # TODO: Filter appropriate colour models.
+    -   Line 1683 : # TODO: Filter appropriate colour models.
 
 
 -   colour/plotting/graph.py
@@ -138,8 +122,8 @@ TODO
 
 -   colour/plotting/common.py
 
-    -   Line 664 : # TODO: Reassess according to https://github.com/matplotlib/matplotlib/issues/1077
-    -   Line 789 : # TODO: Consider using "MutableMapping" here.
+    -   Line 663 : # TODO: Reassess according to https://github.com/matplotlib/matplotlib/issues/1077
+    -   Line 788 : # TODO: Consider using "MutableMapping" here.
 
 
 -   colour/characterisation/aces_it.py
@@ -159,23 +143,13 @@ TODO
 
 -   colour/continuous/signal.py
 
-    -   Line 376 : # TODO: Check for interpolator capabilities.
-    -   Line 441 : # TODO: Check for extrapolator capabilities.
+    -   Line 374 : # TODO: Check for interpolator capabilities.
+    -   Line 439 : # TODO: Check for extrapolator capabilities.
 
 
 -   colour/continuous/multi_signals.py
 
-    -   Line 1349 : # TODO: Implement support for Signal class passing.
-
-
--   colour/continuous/tests/test_multi_signal.py
-
-    -   Line 109 : # TODO: Use "assertWarns" when dropping Python 2.7.
-
-
--   colour/continuous/tests/test_signal.py
-
-    -   Line 99 : # TODO: Use "assertWarns" when dropping Python 2.7.
+    -   Line 1343 : # TODO: Implement support for Signal class passing.
 
 
 -   colour/volume/rgb.py
@@ -186,11 +160,6 @@ TODO
 -   colour/algebra/tests/test_interpolation.py
 
     -   Line 532 : # TODO: Revisit if the interpolator can be applied on non-uniform "x" independent variable.
-
-
--   colour/algebra/tests/test_random.py
-
-    -   Line 66 : # TODO: Use "assertWarns" when dropping Python 2.7.
 
 About
 -----

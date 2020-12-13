@@ -12,7 +12,7 @@ from colour.algebra import (CubicSplineInterpolator, Extrapolator,
                             KernelInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal
-from colour.utilities import is_pandas_installed
+from colour.utilities import ColourRuntimeWarning, is_pandas_installed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -97,10 +97,17 @@ class TestSignal(unittest.TestCase):
             np.array([10.0, 20.0, 30.0]),
             decimal=7)
 
-        # TODO: Use "assertWarns" when dropping Python 2.7.
         domain = np.linspace(0, 1, 10)
         domain[0] = -np.inf
-        signal.domain = domain
+
+        def _assert_warns():
+            """
+            Helper definition to test the runtime warning.
+            """
+
+            signal.domain = domain
+
+        self.assertWarns(ColourRuntimeWarning, _assert_warns)
 
     def test_range(self):
         """

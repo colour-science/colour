@@ -813,12 +813,8 @@ def convert(a, source, target, **kwargs):
 
         It is also possible to pass keyword arguments directly to the various
         conversion definitions irrespective of their name. This is
-        ``dangerous`` and could cause unexpected behaviour because of
-        unavoidable discrepancies with the underlying
-        :func:`colour.utilities.filter_kwargs` definition between Python 2.7
-        and 3.x. Using this direct keyword arguments passing mechanism might
-        also ends up passing incompatible arguments to a given conversion
-        definition. Consider the following conversion::
+        ``dangerous`` and could cause unexpected behaviour, consider the
+        following conversion::
 
              convert(sd, 'Spectral Distribution', 'sRGB', 'illuminant': \
 SDS_ILLUMINANTS['FL2'])

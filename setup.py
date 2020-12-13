@@ -134,7 +134,6 @@ extras_require = \
                  'invoke',
                  'jupyter',
                  'mock',
-                 'nbformat>=4,<5',
                  'nose',
                  'pre-commit',
                  'pytest',
@@ -147,7 +146,7 @@ extras_require = \
                  'yapf==0.23'],
  'graphviz': ['pygraphviz'],
  'optional': ['networkx', 'pandas', 'tqdm'],
- 'plotting': ['backports.functools_lru_cache', 'matplotlib'],
+ 'plotting': ['matplotlib'],
  'read-the-docs': ['mock',
                    'networkx',
                    'numpy',
@@ -169,5 +168,5 @@ setup(
     package_data=package_data,
     install_requires=install_requires,
     extras_require=extras_require,
-    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*',
+    python_requires='>=3.6,<4.0',
 )

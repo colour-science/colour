@@ -676,12 +676,6 @@ def filter_kwargs(function, **kwargs):
     dict
         Filtered keyword arguments.
 
-    Warnings
-    --------
-    Python 2.7 does not support inspecting the signature of *partial*
-    functions, this could cause unexpected behaviour when using this
-    definition.
-
     Examples
     --------
     >>> def fn_a(a):
