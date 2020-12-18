@@ -318,7 +318,7 @@ def XYZ_to_plotting_colourspace(XYZ,
         'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
     apply_cctf_encoding : bool, optional
-        Apply the default ploting colourspace encoding colour component
+        Apply the default plotting colourspace encoding colour component
         transfer function / opto-electronic transfer function.
 
     Returns
