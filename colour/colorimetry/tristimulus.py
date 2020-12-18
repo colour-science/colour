@@ -135,7 +135,7 @@ def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
 
     hash_key = tuple([hash(arg) for arg in (interval, interval_type)])
     if hash_key in _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS:
-        return _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS[hash_key]
+        return np.copy(_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS[hash_key])
 
     r_n = np.linspace(1 / interval, 1 - (1 / interval), interval - 1)
     d = 3
@@ -143,8 +143,9 @@ def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
         r_n += 1
         d = 4
 
-    lica = _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS[hash_key] = (
-        as_float_array([lagrange_coefficients(r, d) for r in r_n]))
+    lica = (as_float_array([lagrange_coefficients(r, d) for r in r_n]))
+
+    _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS[hash_key] = np.copy(lica)
 
     return lica
 
@@ -259,7 +260,7 @@ def tristimulus_weighting_factors_ASTME2022(cmfs, illuminant, shape, k=None):
                               get_domain_range_scale())
     ])
     if hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS:
-        return _CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key]
+        return np.copy(_CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key])
 
     Y = cmfs.values
     S = illuminant.values
@@ -314,7 +315,7 @@ def tristimulus_weighting_factors_ASTME2022(cmfs, illuminant, shape, k=None):
 
     W *= 100 / np.sum(W, axis=0)[1] if k_n is None else k_n
 
-    _CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key] = W
+    _CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key] = np.copy(W)
 
     return W
 
@@ -911,12 +912,14 @@ def sd_to_XYZ(
                               tuple(kwargs.items()), get_domain_range_scale())
     ])
     if hash_key in _CACHE_SD_TO_XYZ:
-        return _CACHE_SD_TO_XYZ[hash_key]
+        return np.copy(_CACHE_SD_TO_XYZ[hash_key])
 
     function = SD_TO_XYZ_METHODS[method]
 
-    XYZ = _CACHE_SD_TO_XYZ[hash_key] = function(
+    XYZ = function(
         sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
+
+    _CACHE_SD_TO_XYZ[hash_key] = np.copy(XYZ)
 
     return XYZ
 
