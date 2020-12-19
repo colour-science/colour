@@ -20,7 +20,8 @@ from colour.colorimetry import (
     lagrange_coefficients_ASTME2022, tristimulus_weighting_factors_ASTME2022,
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
-    msds_to_XYZ_integration, msds_to_XYZ_ASTME308, wavelength_to_XYZ)
+    sd_to_XYZ, msds_to_XYZ_integration, msds_to_XYZ_ASTME308,
+    wavelength_to_XYZ)
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -39,7 +40,7 @@ __all__ = [
     'TVS_D65_ASTME308_K1_MSDS', 'TestLagrangeCoefficientsASTME2022',
     'TestTristimulusWeightingFactorsASTME2022',
     'TestAdjustTristimulusWeightingFactorsASTME308',
-    'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME308',
+    'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME308', 'TestSd_to_XYZ',
     'TestMsds_to_XYZ_integration', 'TestMsds_to_XYZ_ASTME308',
     'TestWavelength_to_XYZ'
 ]
@@ -446,6 +447,19 @@ lagrange_coefficients_ASTME2022` definition.
             LAGRANGE_COEFFICIENTS_B,
             decimal=7)
 
+        # Testing that the cache returns a copy of the data.
+        lagrange_coefficients = lagrange_coefficients_ASTME2022(10)
+
+        np.testing.assert_almost_equal(
+            lagrange_coefficients, LAGRANGE_COEFFICIENTS_A, decimal=7)
+
+        lagrange_coefficients *= 10
+
+        np.testing.assert_almost_equal(
+            lagrange_coefficients_ASTME2022(10),
+            LAGRANGE_COEFFICIENTS_A,
+            decimal=7)
+
 
 class TestTristimulusWeightingFactorsASTME2022(unittest.TestCase):
     """
@@ -494,6 +508,22 @@ tristimulus_weighting_factors_ASTME2022` definition.
             cmfs, D65, SpectralShape(360, 830, 20), k=1)
         np.testing.assert_almost_equal(
             twf, TWF_D65_CIE_1931_2_20_K1, decimal=7)
+
+        # Testing that the cache returns a copy of the data.
+        cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
+        twf = tristimulus_weighting_factors_ASTME2022(
+            cmfs, A, SpectralShape(360, 830, 10))
+        np.testing.assert_almost_equal(
+            np.round(twf, 3), TWF_A_CIE_1964_10_10, decimal=3)
+
+        twf * 10
+
+        np.testing.assert_almost_equal(
+            np.round(
+                tristimulus_weighting_factors_ASTME2022(
+                    cmfs, A, SpectralShape(360, 830, 10)), 3),
+            TWF_A_CIE_1964_10_10,
+            decimal=3)
 
     def test_raise_exception_tristimulus_weighting_factors_ASTME2022(self):
         """
@@ -959,6 +989,40 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
 
         self.assertRaises(ValueError, sd_to_XYZ_ASTME308,
                           self._sd.copy().align(SpectralShape(360, 820, 2)))
+
+
+class TestSd_to_XYZ(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.tristimulus.sd_to_XYZ` definition unit
+    tests methods.
+    """
+
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        self._cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+        self._A = sd_CIE_standard_illuminant_A(self._cmfs.shape)
+        self._sd = SD_SAMPLE.copy().align(self._cmfs.shape)
+
+    def test_sd_to_XYZ(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.sd_to_XYZ` definition.
+        """
+
+        # Testing that the cache returns a copy of the data.
+        XYZ = sd_to_XYZ(self._sd, self._cmfs, self._A)
+
+        np.testing.assert_almost_equal(
+            XYZ, np.array([14.46372680, 10.85832950, 2.04663200]), decimal=7)
+
+        XYZ *= 10
+
+        np.testing.assert_almost_equal(
+            sd_to_XYZ(self._sd, self._cmfs, self._A),
+            np.array([14.46372680, 10.85832950, 2.04663200]),
+            decimal=7)
 
 
 class TestMsds_to_XYZ_integration(unittest.TestCase):

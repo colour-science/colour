@@ -224,7 +224,11 @@ def load_TCS_CIE2017(shape):
         delimiter=',')
     labels = ['TCS{0} (CIE 2017)'.format(i) for i in range(99)]
 
-    return MultiSpectralDistributions(data[:, 1:], data[:, 0], labels)
+    tcs = MultiSpectralDistributions(data[:, 1:], data[:, 0], labels)
+
+    _CACHE_TCS_CIE2017[filename] = tcs
+
+    return tcs
 
 
 def CCT_reference_illuminant(sd):

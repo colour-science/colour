@@ -42,6 +42,7 @@ def _XYZ_optimal_colour_stimuli(illuminant):
     """
 
     optimal_colour_stimuli = OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.get(illuminant)
+
     if optimal_colour_stimuli is None:
         raise KeyError('"{0}" not found in factory '
                        '"Optimal Colour Stimuli": "{1}".'.format(
@@ -49,9 +50,11 @@ def _XYZ_optimal_colour_stimuli(illuminant):
                            sorted(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys())))
 
     vertices = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ.get(illuminant)
+
     if vertices is None:
         _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ[illuminant] = vertices = (
             xyY_to_XYZ(optimal_colour_stimuli) / 100)
+
     return vertices
 
 
@@ -96,6 +99,7 @@ def is_within_macadam_limits(xyY, illuminant, tolerance=None):
     optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
     triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(
         illuminant)
+
     if triangulation is None:
         _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[illuminant] = \
             triangulation = Delaunay(optimal_colour_stimuli)
