@@ -7,7 +7,6 @@ Defines image related input / output utilities objects.
 """
 
 import numpy as np
-import platform
 from collections import namedtuple
 
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
@@ -75,7 +74,7 @@ if is_openimageio_installed():  # pragma: no cover
         'float64':
             BitDepth_Specification('float64', np.float64, FLOAT, 1, False),
     })
-    if platform.system() not in ('Windows', 'Microsoft'):  # pragma: no cover
+    if hasattr(np, 'float128'):  # pragma: no cover
         BIT_DEPTH_MAPPING['float128'] = BitDepth_Specification(
             'float128', np.float128, FLOAT, 1, False)
 else:  # pragma: no cover
@@ -91,7 +90,7 @@ else:  # pragma: no cover
         'float64':
             BitDepth_Specification('float64', np.float64, None, 1, False),
     })
-    if platform.system() not in ('Windows', 'Microsoft'):  # pragma: no cover
+    if hasattr(np, 'float128'):  # pragma: no cover
         BIT_DEPTH_MAPPING['float128'] = BitDepth_Specification(
             'float128', np.float128, None, 1, False)
 
