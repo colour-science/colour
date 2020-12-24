@@ -26,6 +26,7 @@ from .igpgtg import XYZ_to_IGPGTG, IGPGTG_to_XYZ
 from .ipt import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
 from .jzazbz import XYZ_to_JzAzBz, JzAzBz_to_XYZ
 from .hdr_ipt import HDR_IPT_METHODS, XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
+from .oklab import XYZ_to_Oklab, Oklab_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
 from .datasets import *  # noqa
 from . import datasets
@@ -70,6 +71,7 @@ __all__ += ['XYZ_to_IGPGTG', 'IGPGTG_to_XYZ']
 __all__ += ['XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle']
 __all__ += ['XYZ_to_JzAzBz', 'JzAzBz_to_XYZ']
 __all__ += ['HDR_IPT_METHODS', 'XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ']
+__all__ += ['XYZ_to_Oklab', 'Oklab_to_XYZ']
 __all__ += ['XYZ_to_OSA_UCS', 'OSA_UCS_to_XYZ']
 __all__ += datasets.__all__
 __all__ += rgb.__all__

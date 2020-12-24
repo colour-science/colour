@@ -36,16 +36,16 @@ from colour.models import (
     JMh_CIECAM02_to_CAM02SCD, JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ,
     LCHab_to_Lab, LCHuv_to_Luv, Lab_to_DIN99, Lab_to_LCHab, Lab_to_XYZ,
     Luv_to_LCHuv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy, OSA_UCS_to_XYZ,
-    Prismatic_to_RGB, RGB_luminance, RGB_to_CMY, RGB_to_HSL, RGB_to_HSV,
-    RGB_to_ICTCP, RGB_to_Prismatic, RGB_to_RGB, RGB_to_XYZ, RGB_to_YCbCr,
-    RGB_to_YCoCg, RGB_to_YcCbcCrc, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy,
-    UVW_to_XYZ, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_IGPGTG,
-    XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_Lab, XYZ_to_Luv, XYZ_to_OSA_UCS,
-    XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW, XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT,
-    XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY, YCbCr_to_RGB, YCoCg_to_RGB,
-    YcCbcCrc_to_RGB, cctf_decoding, cctf_encoding, hdr_CIELab_to_XYZ,
-    hdr_IPT_to_XYZ, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ, xyY_to_xy,
-    xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
+    Oklab_to_XYZ, Prismatic_to_RGB, RGB_luminance, RGB_to_CMY, RGB_to_HSL,
+    RGB_to_HSV, RGB_to_ICTCP, RGB_to_Prismatic, RGB_to_RGB, RGB_to_XYZ,
+    RGB_to_YCbCr, RGB_to_YCoCg, RGB_to_YcCbcCrc, UCS_to_XYZ, UCS_to_uv,
+    UCS_uv_to_xy, UVW_to_XYZ, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab,
+    XYZ_to_IGPGTG, XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_Lab, XYZ_to_Luv,
+    XYZ_to_OSA_UCS, XYZ_to_Oklab, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_UVW,
+    XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY,
+    YCbCr_to_RGB, YCoCg_to_RGB, YcCbcCrc_to_RGB, cctf_decoding, cctf_encoding,
+    hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS,
+    xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
 from colour.notation import (HEX_to_RGB, RGB_to_HEX, munsell_value,
                              munsell_colour_to_xyY, xyY_to_munsell_colour)
 from colour.quality import colour_quality_scale, colour_rendering_index
@@ -383,6 +383,8 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('hdr IPT', 'CIE XYZ', hdr_IPT_to_XYZ),
     ('CIE XYZ', 'OSA UCS', XYZ_to_OSA_UCS),
     ('OSA UCS', 'CIE XYZ', OSA_UCS_to_XYZ),
+    ('CIE XYZ', 'Oklab', XYZ_to_Oklab),
+    ('Oklab', 'CIE XYZ', Oklab_to_XYZ),
     # RGB Colour Models
     ('CIE XYZ', 'RGB',
      partial(
