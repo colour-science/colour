@@ -108,7 +108,7 @@ def common_colourspace_model_axis_reorder(a, model=None):
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
         'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
-        'hdr-CIELAB', 'hdr-IPT'}**,
+        'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**,
         Colourspace model.
 
     Returns
@@ -141,6 +141,8 @@ def common_colourspace_model_axis_reorder(a, model=None):
     array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'OSA UCS')
     array([ 1.,  2.,  0.])
+    >>> common_colourspace_model_axis_reorder(a, 'Oklab')
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'hdr-CIELAB')
     array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'hdr-IPT')
@@ -149,7 +151,7 @@ def common_colourspace_model_axis_reorder(a, model=None):
 
     if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'DIN 99',
                  'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
-                 'hdr-CIELAB', 'hdr-IPT'):
+                 'Oklab', 'hdr-CIELAB', 'hdr-IPT'):
         i, j, k = tsplit(a)
         a = tstack([j, k, i])
 

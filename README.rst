@@ -788,6 +788,14 @@ hdr-IPT Colourspace
     >>> colour.XYZ_to_hdr_IPT([0.20654008, 0.12197225, 0.05136952])
     array([ 25.18261761, -22.62111297,   3.18511729])
 
+Oklab Colourspace
+*****************
+
+.. code-block:: python
+
+    >>> colour.XYZ_to_Oklab([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.51634019,  0.154695  ,  0.06289579])
+
 OSA UCS Colourspace
 *******************
 

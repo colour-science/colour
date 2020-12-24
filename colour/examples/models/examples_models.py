@@ -340,6 +340,21 @@ print(colour.OSA_UCS_to_XYZ(Ljg))
 
 print('\n')
 
+message_box(('Converting to "Oklab" colourspace from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_Oklab(XYZ))
+
+print('\n')
+
+Lab = np.array([0.51634019, 0.15469500, 0.06289579])
+message_box(('Converting to "CIE XYZ" tristimulus values from "Oklab" '
+             'colourspace:\n'
+             '\n\t{0}'.format(Lab)))
+print(colour.Oklab_to_XYZ(Lab))
+
+print('\n')
+
 XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
 L_A = 318.31

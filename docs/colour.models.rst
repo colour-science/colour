@@ -228,6 +228,19 @@ hdr-IPT Colourspace
     hdr_IPT_to_XYZ
     HDR_IPT_METHODS
 
+Oklab Colourspace
+-----------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Oklab
+    Oklab_to_XYZ
+
 OSA UCS Colourspace
 -------------------
 
