@@ -7,9 +7,9 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models.rgb.ycbcr import (RGB_to_YCbCr, YCbCr_to_RGB,
-                                     RGB_to_YcCbcCrc, YcCbcCrc_to_RGB,
-                                     WEIGHTS_YCBCR)
+from colour.models.rgb.ycbcr import (matrix_YCbCr, offset_YCbCr, RGB_to_YCbCr,
+                                     YCbCr_to_RGB, RGB_to_YcCbcCrc,
+                                     YcCbcCrc_to_RGB, WEIGHTS_YCBCR)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -20,9 +20,98 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'TestRGB_to_YCbCr', 'TestYCbCr_to_RGB', 'TestRGB_to_YcCbcCrc',
-    'TestYcCbcCrc_to_RGB'
+    'TestMatrixYCbCr', 'TestOffsetYCbCr', 'TestRGB_to_YCbCr',
+    'TestYCbCr_to_RGB', 'TestRGB_to_YcCbcCrc', 'TestYcCbcCrc_to_RGB'
 ]
+
+
+class TestMatrixYCbCr(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.ycbcr.matrix_YCbCr` definition unit tests
+    methods.
+    """
+
+    def test_matrix_YCbCr(self):
+        """
+        Tests :func:`colour.models.rgb.ycbcr.matrix_YCbCr` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            matrix_YCbCr(),
+            np.array([
+                [1.00000000, 0.00000000, 1.57480000],
+                [1.00000000, -0.18732427, -0.46812427],
+                [1.00000000, 1.85560000, 0.00000000],
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            matrix_YCbCr(K=WEIGHTS_YCBCR['ITU-R BT.601']),
+            np.array([
+                [1.00000000, 0.00000000, 1.40200000],
+                [1.00000000, -0.34413629, -0.71413629],
+                [1.00000000, 1.77200000, -0.00000000],
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            matrix_YCbCr(is_legal=True),
+            np.array([
+                [1.16438356, 0.00000000, 1.79274107],
+                [1.16438356, -0.21324861, -0.53290933],
+                [1.16438356, 2.11240179, -0.00000000],
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            matrix_YCbCr(bits=10),
+            np.array([
+                [1.00000000, 0.00000000, 1.57480000],
+                [1.00000000, -0.18732427, -0.46812427],
+                [1.00000000, 1.85560000, 0.00000000],
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            matrix_YCbCr(bits=10, is_int=True),
+            np.array([
+                [0.00097752, 0.00000000, 0.00153789],
+                [0.00097752, -0.00018293, -0.00045715],
+                [0.00097752, 0.00181211, 0.00000000],
+            ]),
+            decimal=7)
+
+
+class TestOffsetYCbCr(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.ycbcr.offset_YCbCr` definition unit tests
+    methods.
+    """
+
+    def test_offset_YCbCr(self):
+        """
+        Tests :func:`colour.models.rgb.ycbcr.offset_YCbCr` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            offset_YCbCr(),
+            np.array([0.00000000, 0.00000000, 0.00000000]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            offset_YCbCr(is_legal=True),
+            np.array([0.06274510, 0.50196078, 0.50196078]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            offset_YCbCr(bits=10),
+            np.array([0.00000000, 0.00000000, 0.00000000]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            offset_YCbCr(bits=10, is_int=True),
+            np.array([0.00000000, 512.00000000, 512.00000000]),
+            decimal=7)
 
 
 class TestRGB_to_YCbCr(unittest.TestCase):
