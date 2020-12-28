@@ -776,11 +776,7 @@ dict_like, optional
             min(self.wavelengths), max(self.wavelengths),
             as_float(min(wavelengths_interval)))
 
-    def interpolate(self,
-                    shape,
-                    interpolator=None,
-                    interpolator_kwargs=None,
-                    **kwargs):
+    def interpolate(self, shape, interpolator=None, interpolator_kwargs=None):
         """
         Interpolates the spectral distribution in-place according to
         *CIE 167:2005* recommendation (if the interpolator has not been changed
@@ -818,11 +814,6 @@ dict_like, optional
             Interpolator class type to use as interpolating function.
         interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
-
-        Other Parameters
-        ----------------
-        \\**kwargs : dict, optional
-            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1121,11 +1112,7 @@ dict_like, optional
 
         return self
 
-    def extrapolate(self,
-                    shape,
-                    extrapolator=None,
-                    extrapolator_kwargs=None,
-                    **kwargs):
+    def extrapolate(self, shape, extrapolator=None, extrapolator_kwargs=None):
         """
         Extrapolates the spectral distribution in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
@@ -1139,11 +1126,6 @@ dict_like, optional
             Extrapolator class type to use as extrapolating function.
         extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
-
-        Other Parameters
-        ----------------
-        \\**kwargs : dict, optional
-            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1225,8 +1207,7 @@ dict_like, optional
               interpolator=None,
               interpolator_kwargs=None,
               extrapolator=None,
-              extrapolator_kwargs=None,
-              **kwargs):
+              extrapolator_kwargs=None):
         """
         Aligns the spectral distribution in-place to given spectral shape:
         Interpolates first then extrapolates to fit the given range.
@@ -1271,11 +1252,6 @@ dict_like, optional
             Extrapolator class type to use as extrapolating function.
         extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
-
-        Other Parameters
-        ----------------
-        \\**kwargs : dict, optional
-            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -1874,11 +1850,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
         if self.signals:
             return first_item(self._signals.values()).shape
 
-    def interpolate(self,
-                    shape,
-                    interpolator=None,
-                    interpolator_kwargs=None,
-                    **kwargs):
+    def interpolate(self, shape, interpolator=None, interpolator_kwargs=None):
         """
         Interpolates the multi-spectral distributions in-place according to
         *CIE 167:2005* recommendation (if the interpolator has not been changed
@@ -1916,11 +1888,6 @@ MultiSpectralDistributions or array_like or dict_like, optional
             Interpolator class type to use as interpolating function.
         interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
-
-        Other Parameters
-        ----------------
-        \\**kwargs : dict, optional
-            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -2098,11 +2065,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
         return self
 
-    def extrapolate(self,
-                    shape,
-                    extrapolator=None,
-                    extrapolator_kwargs=None,
-                    **kwargs):
+    def extrapolate(self, shape, extrapolator=None, extrapolator_kwargs=None):
         """
         Extrapolates the multi-spectral distributions in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
@@ -2116,11 +2079,6 @@ MultiSpectralDistributions or array_like or dict_like, optional
             Extrapolator class type to use as extrapolating function.
         extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
-
-        Other Parameters
-        ----------------
-        \\**kwargs : dict, optional
-            Keywords arguments for deprecation management.
 
         Returns
         -------
@@ -2191,8 +2149,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
               interpolator=None,
               interpolator_kwargs=None,
               extrapolator=None,
-              extrapolator_kwargs=None,
-              **kwargs):
+              extrapolator_kwargs=None):
         """
         Aligns the multi-spectral distributions in-place to given spectral
         shape: Interpolates first then extrapolates to fit the given range.
@@ -2237,11 +2194,6 @@ MultiSpectralDistributions or array_like or dict_like, optional
             Extrapolator class type to use as extrapolating function.
         extrapolator_kwargs : dict_like, optional
             Arguments to use when instantiating the extrapolating function.
-
-        Other Parameters
-        ----------------
-        \\**kwargs : dict, optional
-            Keywords arguments for deprecation management.
 
         Returns
         -------

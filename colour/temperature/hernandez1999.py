@@ -82,7 +82,7 @@ def xy_to_CCT_Hernandez1999(xy):
     return as_numeric(CCT)
 
 
-def CCT_to_xy_Hernandez1999(CCT, optimisation_kwargs=None, **kwargs):
+def CCT_to_xy_Hernandez1999(CCT, optimisation_kwargs=None):
     """
     Returns the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *Hernandez-Andres et al. (1999)* method.
@@ -93,11 +93,6 @@ def CCT_to_xy_Hernandez1999(CCT, optimisation_kwargs=None, **kwargs):
         Correlated colour temperature :math:`T_{cp}`.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------

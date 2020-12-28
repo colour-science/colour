@@ -45,8 +45,7 @@ __all__ = [
 def log_encoding_SLog(x,
                       bit_depth=10,
                       out_normalised_code_value=True,
-                      in_reflection=True,
-                      **kwargs):
+                      in_reflection=True):
     """
     Defines the *Sony S-Log* log encoding curve / opto-electronic transfer
     function.
@@ -63,11 +62,6 @@ def log_encoding_SLog(x,
         normalised code values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -127,8 +121,7 @@ def log_encoding_SLog(x,
 def log_decoding_SLog(y,
                       bit_depth=10,
                       in_normalised_code_value=True,
-                      out_reflection=True,
-                      **kwargs):
+                      out_reflection=True):
     """
     Defines the *Sony S-Log* log decoding curve / electro-optical transfer
     function.
@@ -144,11 +137,6 @@ def log_decoding_SLog(y,
         normalised code values.
     out_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -201,8 +189,7 @@ def log_decoding_SLog(y,
 def log_encoding_SLog2(x,
                        bit_depth=10,
                        out_normalised_code_value=True,
-                       in_reflection=True,
-                       **kwargs):
+                       in_reflection=True):
     """
     Defines the *Sony S-Log2* log encoding curve / opto-electronic transfer
     function.
@@ -219,11 +206,6 @@ def log_encoding_SLog2(x,
         normalised code values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -271,8 +253,7 @@ def log_encoding_SLog2(x,
 def log_decoding_SLog2(y,
                        bit_depth=10,
                        in_normalised_code_value=True,
-                       out_reflection=True,
-                       **kwargs):
+                       out_reflection=True):
     """
     Defines the *Sony S-Log2* log decoding curve / electro-optical transfer
     function.
@@ -288,11 +269,6 @@ def log_decoding_SLog2(y,
         normalised code values.
     out_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -332,8 +308,7 @@ def log_decoding_SLog2(y,
 def log_encoding_SLog3(x,
                        bit_depth=10,
                        out_normalised_code_value=True,
-                       in_reflection=True,
-                       **kwargs):
+                       in_reflection=True):
     """
     Defines the *Sony S-Log3* log encoding curve / opto-electronic transfer
     function.
@@ -350,11 +325,6 @@ def log_encoding_SLog3(x,
         normalised code values.
     in_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -414,8 +384,7 @@ def log_encoding_SLog3(x,
 def log_decoding_SLog3(y,
                        bit_depth=10,
                        in_normalised_code_value=True,
-                       out_reflection=True,
-                       **kwargs):
+                       out_reflection=True):
     """
     Defines the *Sony S-Log3* log decoding curve / electro-optical transfer
     function.
@@ -431,11 +400,6 @@ def log_decoding_SLog3(y,
         normalised code values.
     out_reflection : bool, optional
         Whether the light level :math:`x` to a camera is reflection.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------

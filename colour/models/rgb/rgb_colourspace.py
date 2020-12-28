@@ -132,11 +132,6 @@ class RGB_Colourspace:
         Whether to use the instantiation time inverse normalised primary
         matrix or to use a computed derived inverse normalised primary matrix.
 
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
-
     Attributes
     ----------
     -   :attr:`~colour.RGB_Colourspace.name`
@@ -222,8 +217,7 @@ class RGB_Colourspace:
                  cctf_encoding=None,
                  cctf_decoding=None,
                  use_derived_matrix_RGB_to_XYZ=False,
-                 use_derived_matrix_XYZ_to_RGB=False,
-                 **kwargs):
+                 use_derived_matrix_XYZ_to_RGB=False):
         self._derived_matrix_RGB_to_XYZ = None
         self._derived_matrix_XYZ_to_RGB = None
 
@@ -867,8 +861,7 @@ def XYZ_to_RGB(XYZ,
                illuminant_RGB,
                matrix_XYZ_to_RGB,
                chromatic_adaptation_transform='CAT02',
-               cctf_encoding=None,
-               **kwargs):
+               cctf_encoding=None):
     """
     Converts from *CIE XYZ* tristimulus values to *RGB* colourspace array.
 
@@ -894,11 +887,6 @@ def XYZ_to_RGB(XYZ,
     cctf_encoding : object, optional
         Encoding colour component transfer function (Encoding CCTF) or
         opto-electronic transfer function (OETF / OECF).
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -964,8 +952,7 @@ def RGB_to_XYZ(RGB,
                illuminant_XYZ,
                matrix_RGB_to_XYZ,
                chromatic_adaptation_transform='CAT02',
-               cctf_decoding=None,
-               **kwargs):
+               cctf_decoding=None):
     """
     Converts given *RGB* colourspace array to *CIE XYZ* tristimulus values.
 
@@ -991,11 +978,6 @@ def RGB_to_XYZ(RGB,
     cctf_decoding : object, optional
         Decoding colour component transfer function (Decoding CCTF) or
         electro-optical transfer function (EOTF / EOCF).
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------

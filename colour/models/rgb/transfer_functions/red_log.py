@@ -448,7 +448,7 @@ LOG3G10_ENCODING_METHODS : CaseInsensitiveMapping
 """
 
 
-def log_encoding_Log3G10(x, method='v2', **kwargs):
+def log_encoding_Log3G10(x, method='v2'):
     """
     Defines the *Log3G10* log encoding curve / opto-electronic transfer
     function.
@@ -460,11 +460,6 @@ def log_encoding_Log3G10(x, method='v2', **kwargs):
     method : unicode, optional
         **{'v1', 'v2'}**,
         Computation method.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -548,7 +543,7 @@ LOG3G10_DECODING_METHODS : CaseInsensitiveMapping
 """
 
 
-def log_decoding_Log3G10(y, method='v2', **kwargs):
+def log_decoding_Log3G10(y, method='v2'):
     """
     Defines the *Log3G10* log decoding curve / electro-optical transfer
     function.
@@ -560,11 +555,6 @@ def log_decoding_Log3G10(y, method='v2', **kwargs):
     method : unicode, optional
         **{'v1', 'v2'}**,
         Computation method.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------

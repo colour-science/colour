@@ -127,7 +127,7 @@ def XYZ_to_OSA_UCS(XYZ):
     return from_range_100(Ljg)
 
 
-def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
+def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None):
     """
     Converts from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.
@@ -138,11 +138,6 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None, **kwargs):
         *OSA UCS* :math:`Ljg` lightness, jaune (yellowness), and greenness.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.fmin` definition.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------

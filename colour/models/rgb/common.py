@@ -23,8 +23,7 @@ def XYZ_to_sRGB(XYZ,
                 illuminant=CCS_ILLUMINANTS[
                     'CIE 1931 2 Degree Standard Observer']['D65'],
                 chromatic_adaptation_transform='CAT02',
-                apply_cctf_encoding=True,
-                **kwargs):
+                apply_cctf_encoding=True):
     """
     Converts from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -42,11 +41,6 @@ def XYZ_to_sRGB(XYZ,
     apply_cctf_encoding : bool, optional
         Apply *sRGB* encoding colour component transfer function /
         opto-electronic transfer function.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -92,8 +86,7 @@ def sRGB_to_XYZ(RGB,
                 illuminant=CCS_ILLUMINANTS[
                     'CIE 1931 2 Degree Standard Observer']['D65'],
                 chromatic_adaptation_method='CAT02',
-                apply_cctf_decoding=True,
-                **kwargs):
+                apply_cctf_decoding=True):
     """
     Converts from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -111,11 +104,6 @@ def sRGB_to_XYZ(RGB,
     apply_cctf_decoding : bool, optional
         Apply *sRGB* decoding colour component transfer function  /
         electro-optical transfer function.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
