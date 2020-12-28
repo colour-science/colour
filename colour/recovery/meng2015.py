@@ -47,8 +47,7 @@ def XYZ_to_sd_Meng2015(
         .copy().align(SPECTRAL_SHAPE_MENG2015),
         illuminant=SDS_ILLUMINANTS['D65'].copy().align(
             SPECTRAL_SHAPE_MENG2015),
-        optimisation_kwargs=None,
-        **kwargs):
+        optimisation_kwargs=None):
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus values
     using *Meng et al. (2015)* method.
@@ -66,11 +65,6 @@ def XYZ_to_sd_Meng2015(
         Illuminant spectral distribution.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------

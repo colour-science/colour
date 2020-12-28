@@ -639,7 +639,6 @@ def plot_sds_in_chromaticity_diagram(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -876,7 +875,6 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -979,7 +977,6 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Also handles keywords arguments for deprecation management.
 
     Returns
     -------
@@ -1082,7 +1079,6 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-        Also handles keywords arguments for deprecation management.
 
     Returns
     -------

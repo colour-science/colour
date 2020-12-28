@@ -35,7 +35,7 @@ __status__ = 'Production'
 __all__ = ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
 
 
-def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
+def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE UCS* colourspace *uv* chromaticity coordinates using *Krystek (1985)*
@@ -47,11 +47,6 @@ def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
          *CIE UCS* colourspace *uv* chromaticity coordinates.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------

@@ -70,7 +70,7 @@ def xy_to_CCT_McCamy1992(xy):
     return CCT
 
 
-def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None, **kwargs):
+def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None):
     """
     Returns the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *McCamy (1992)* method.
@@ -81,11 +81,6 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None, **kwargs):
         Correlated colour temperature :math:`T_{cp}`.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------

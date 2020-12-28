@@ -42,8 +42,7 @@ def log_encoding_VLog(L_in,
                       bit_depth=10,
                       out_normalised_code_value=True,
                       in_reflection=True,
-                      constants=CONSTANTS_VLOG,
-                      **kwargs):
+                      constants=CONSTANTS_VLOG):
     """
     Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
     function.
@@ -61,11 +60,6 @@ def log_encoding_VLog(L_in,
         Whether the light level :math`L_{in}` to a camera is reflection.
     constants : Structure, optional
         *Panasonic V-Log* constants.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
@@ -138,8 +132,7 @@ def log_decoding_VLog(V_out,
                       bit_depth=10,
                       in_normalised_code_value=True,
                       out_reflection=True,
-                      constants=CONSTANTS_VLOG,
-                      **kwargs):
+                      constants=CONSTANTS_VLOG):
     """
     Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer
     function.
@@ -157,11 +150,6 @@ def log_decoding_VLog(V_out,
         Whether the light level :math`L_{in}` to a camera is reflection.
     constants : Structure, optional
         *Panasonic V-Log* constants.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------

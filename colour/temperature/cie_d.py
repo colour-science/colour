@@ -37,7 +37,7 @@ __status__ = 'Production'
 __all__ = ['xy_to_CCT_CIE_D', 'CCT_to_xy_CIE_D']
 
 
-def xy_to_CCT_CIE_D(xy, optimisation_kwargs=None, **kwargs):
+def xy_to_CCT_CIE_D(xy, optimisation_kwargs=None):
     """
     Returns the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* from its *CIE xy* chromaticity coordinates.
@@ -48,11 +48,6 @@ def xy_to_CCT_CIE_D(xy, optimisation_kwargs=None, **kwargs):
         *CIE xy* chromaticity coordinates.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
