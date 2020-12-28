@@ -56,8 +56,9 @@ class TestXYZ_to_sRGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
+                np.array([0.44757, 0.40745]),
                 chromatic_adaptation_transform='Bradford'),
-            np.array([0.70573936, 0.19248266, 0.22354169]),
+            np.array([0.60873814, 0.23259548, 0.43714892]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -105,9 +106,10 @@ class TestsRGB_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(
-                np.array([0.17498172, 0.38818743, 0.32159978]),
-                chromatic_adaptation_method='Bradford'),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.60873814, 0.23259548, 0.43714892]),
+                np.array([0.44757, 0.40745]),
+                chromatic_adaptation_transform='Bradford'),
+            np.array([0.20654449, 0.12197792, 0.05137030]),
             decimal=7)
 
         np.testing.assert_almost_equal(

@@ -85,7 +85,7 @@ def XYZ_to_sRGB(XYZ,
 def sRGB_to_XYZ(RGB,
                 illuminant=CCS_ILLUMINANTS[
                     'CIE 1931 2 Degree Standard Observer']['D65'],
-                chromatic_adaptation_method='CAT02',
+                chromatic_adaptation_transform='CAT02',
                 apply_cctf_decoding=True):
     """
     Converts from *sRGB* colourspace to *CIE XYZ* tristimulus values.
@@ -96,11 +96,11 @@ def sRGB_to_XYZ(RGB,
         *sRGB* colourspace array.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
-    chromatic_adaptation_method : unicode, optional
+    chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
         'Bianco 2010', 'Bianco PC 2010'}**,
-        *Chromatic adaptation* method.
+        *Chromatic adaptation* transform.
     apply_cctf_decoding : bool, optional
         Apply *sRGB* decoding colour component transfer function  /
         electro-optical transfer function.
@@ -140,6 +140,6 @@ def sRGB_to_XYZ(RGB,
         sRGB.whitepoint,
         illuminant,
         sRGB.matrix_RGB_to_XYZ,
-        chromatic_adaptation_method,
+        chromatic_adaptation_transform,
         sRGB.cctf_decoding if apply_cctf_decoding else None,
     )
