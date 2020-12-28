@@ -7,6 +7,8 @@ Defines the :math:`IC_TC_P` colour encoding related transformations:
 
 -   :func:`colour.RGB_to_ICTCP`
 -   :func:`colour.ICTCP_to_RGB`
+-   :func:`colour.XYZ_to_ICTCP`
+-   :func:`colour.ICTCP_to_XYZ`
 
 References
 ----------
@@ -20,6 +22,8 @@ References
 
 import numpy as np
 
+from colour.colorimetry import CCS_ILLUMINANTS
+from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (eotf_inverse_ST2084,
                                                   eotf_ST2084)
 from colour.utilities import (domain_range_scale, vector_dot, from_range_1,
@@ -222,3 +226,175 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
     RGB = vector_dot(MATRIX_ICTCP_LMS_TO_RGB, LMS)
 
     return from_range_1(RGB)
+
+
+def XYZ_to_ICTCP(XYZ,
+                 illuminant=CCS_ILLUMINANTS[
+                     'CIE 1931 2 Degree Standard Observer']['D65'],
+                 chromatic_adaptation_transform='CAT02',
+                 L_p=10000):
+    """
+    Converts from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
+    encoding.
+
+    Parameters
+    ----------
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
+    illuminant : array_like, optional
+        Source illuminant chromaticity coordinates.
+    chromatic_adaptation_transform : unicode, optional
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
+        *Chromatic adaptation* transform.
+    L_p : numeric, optional
+        Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
+        non-linear encoding. This parameter should stay at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed so
+        that the definition can be used as a fitting function.
+
+    Returns
+    -------
+    ndarray
+        :math:`IC_TC_P` colour encoding array.
+
+    Warnings
+    --------
+    The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+    transfer function.
+
+    Notes
+    -----
+
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function, thus the domain and range values for the *Reference*
+        and *1* scales are only indicative that the data is not affected by
+        scale transformations. The effective domain of *SMPTE ST 2084:2014*
+        inverse electro-optical transfer function (EOTF / EOCF) is
+        [0.0001, 10000].
+
+    +------------+-----------------------+------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``XYZ``    | ``UN``                | ``UN``           |
+    +------------+-----------------------+------------------+
+
+    +------------+-----------------------+------------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``ICTCP``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
+    |            |                       |                  |
+    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
+    |            |                       |                  |
+    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    +------------+-----------------------+------------------+
+
+    References
+    ----------
+    :cite:`Dolby2016a`, :cite:`Lu2016c`
+
+    Examples
+    --------
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_to_ICTCP(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.0685809..., -0.0028384...,  0.0602098...])
+    """
+
+    BT2020 = RGB_COLOURSPACES['ITU-R BT.2020']
+
+    RGB = XYZ_to_RGB(
+        XYZ,
+        illuminant,
+        BT2020.whitepoint,
+        BT2020.matrix_XYZ_to_RGB,
+        chromatic_adaptation_transform,
+    )
+
+    return RGB_to_ICTCP(RGB, L_p)
+
+
+def ICTCP_to_XYZ(ICTCP,
+                 illuminant=CCS_ILLUMINANTS[
+                     'CIE 1931 2 Degree Standard Observer']['D65'],
+                 chromatic_adaptation_transform='CAT02',
+                 L_p=10000):
+    """
+    Converts from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
+    values.
+
+    Parameters
+    ----------
+    ICTCP : array_like
+        :math:`IC_TC_P` colour encoding array.
+    illuminant : array_like, optional
+        Source illuminant chromaticity coordinates.
+    chromatic_adaptation_transform : unicode, optional
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010'}**,
+        *Chromatic adaptation* transform.
+    L_p : numeric, optional
+        Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
+        non-linear encoding. This parameter should stay at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed so
+        that the definition can be used as a fitting function.
+
+    Returns
+    -------
+    ndarray
+        *CIE XYZ* tristimulus values.
+
+    Warnings
+    --------
+    The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+    transfer function.
+
+    Notes
+    -----
+
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function, thus the domain and range values for the *Reference*
+        and *1* scales are only indicative that the data is not affected by
+        scale transformations.
+
+    +------------+-----------------------+------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``ICTCP``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
+    |            |                       |                  |
+    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
+    |            |                       |                  |
+    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    +------------+-----------------------+------------------+
+
+    +------------+-----------------------+------------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**    |
+    +============+=======================+==================+
+    | ``XYZ``    | ``UN``                | ``UN``           |
+    +------------+-----------------------+------------------+
+
+    References
+    ----------
+    :cite:`Dolby2016a`, :cite:`Lu2016c`
+
+    Examples
+    --------
+    >>> ICTCP = np.array([0.06858097, -0.00283842, 0.06020983])
+    >>> ICTCP_to_XYZ(ICTCP)  # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    """
+
+    RGB = ICTCP_to_RGB(ICTCP, L_p)
+
+    BT2020 = RGB_COLOURSPACES['ITU-R BT.2020']
+
+    XYZ = RGB_to_XYZ(
+        RGB,
+        BT2020.whitepoint,
+        illuminant,
+        BT2020.matrix_RGB_to_XYZ,
+        chromatic_adaptation_transform,
+    )
+
+    return XYZ
