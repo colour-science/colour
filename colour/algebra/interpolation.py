@@ -416,8 +416,8 @@ class KernelInterpolator:
             value_interval = interval(value)
 
             if value_interval.size != 1:
-                runtime_warning(('"x" independent variable is not uniform, '
-                                 'unpredictable results may occur!'))
+                runtime_warning('"x" independent variable is not uniform, '
+                                'unpredictable results may occur!')
 
             self._x = value
 
@@ -493,7 +493,8 @@ class KernelInterpolator:
         if value is not None:
             assert is_integer(value), '"window" must be an integer!'
 
-            assert value >= 1, '"window" must be equal or superior to 1!'
+            assert value >= 1, (
+                '"window" must be equal to or or greater than 1!')
 
             self._window = value
 
@@ -1072,8 +1073,8 @@ class SpragueInterpolator:
                 '"y" dependent variable must have exactly one dimension!')
 
             assert len(value) >= 6, (
-                '"y" dependent variable values count must be normalised to'
-                'domain [6:]!')
+                '"y" dependent variable values count must be equal to or '
+                'greater than 6!')
 
             yp1 = np.ravel(
                 (np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
