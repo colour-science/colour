@@ -680,6 +680,8 @@ YCoCg Colour Encoding
 
     RGB_to_ICTCP
     ICTCP_to_RGB
+    XYZ_to_ICTCP
+    ICTCP_to_XYZ
 
 RGB Representations
 ~~~~~~~~~~~~~~~~~~~
