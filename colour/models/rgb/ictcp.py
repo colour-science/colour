@@ -5,14 +5,14 @@
 
 Defines the :math:`IC_TC_P` colour encoding related transformations:
 
--   :func:`colour.RGB_to_ICTCP`
--   :func:`colour.ICTCP_to_RGB`
--   :func:`colour.XYZ_to_ICTCP`
--   :func:`colour.ICTCP_to_XYZ`
+-   :func:`colour.RGB_to_ICtCp`
+-   :func:`colour.ICtCp_to_RGB`
+-   :func:`colour.XYZ_to_ICtCp`
+-   :func:`colour.ICtCp_to_XYZ`
 
 References
 ----------
--   :cite:`Dolby2016a` : Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION.
+-   :cite:`Dolby2016a` : Dolby. (2016). WHAT IS ICtCp? - INTRODUCTION.
     https://www.dolby.com/us/en/technologies/dolby-vision/ICtCp-white-paper.pdf
 -   :cite:`Lu2016c` : Lu, T., Pu, F., Yin, P., Chen, T., Husak, W., Pytlarz,
     J., Atkins, R., Froehlich, J., & Su, G.-M. (2016). ITP Colour Space and Its
@@ -39,7 +39,7 @@ __status__ = 'Production'
 __all__ = [
     'MATRIX_ICTCP_RGB_TO_LMS', 'MATRIX_ICTCP_LMS_TO_RGB',
     'MATRIX_ICTCP_LMS_P_TO_ICTCP', 'MATRIX_ICTCP_ICTCP_TO_LMS_P',
-    'RGB_to_ICTCP', 'ICTCP_to_RGB'
+    'RGB_to_ICtCp', 'ICtCp_to_RGB'
 ]
 
 MATRIX_ICTCP_RGB_TO_LMS = np.array([
@@ -82,7 +82,7 @@ MATRIX_ICTCP_ICTCP_TO_LMS_P : array_like, (3, 3)
 """
 
 
-def RGB_to_ICTCP(RGB, L_p=10000):
+def RGB_to_ICtCp(RGB, L_p=10000):
     """
     Converts from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
@@ -126,7 +126,7 @@ def RGB_to_ICTCP(RGB, L_p=10000):
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICTCP``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
+    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
     |            |                       |                  |
     |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
     |            |                       |                  |
@@ -140,7 +140,7 @@ def RGB_to_ICTCP(RGB, L_p=10000):
     Examples
     --------
     >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-    >>> RGB_to_ICTCP(RGB)  # doctest: +ELLIPSIS
+    >>> RGB_to_ICtCp(RGB)  # doctest: +ELLIPSIS
     array([ 0.0735136...,  0.0047525...,  0.0935159...])
     """
 
@@ -151,19 +151,19 @@ def RGB_to_ICTCP(RGB, L_p=10000):
     with domain_range_scale('ignore'):
         LMS_p = eotf_inverse_ST2084(LMS, L_p)
 
-    ICTCP = vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
+    ICtCp = vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
 
-    return from_range_1(ICTCP)
+    return from_range_1(ICtCp)
 
 
-def ICTCP_to_RGB(ICTCP, L_p=10000):
+def ICtCp_to_RGB(ICtCp, L_p=10000):
     """
     Converts from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
     colourspace.
 
     Parameters
     ----------
-    ICTCP : array_like
+    ICtCp : array_like
         :math:`IC_TC_P` colour encoding array.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
@@ -192,7 +192,7 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICTCP``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
+    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
     |            |                       |                  |
     |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
     |            |                       |                  |
@@ -211,14 +211,14 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
 
     Examples
     --------
-    >>> ICTCP = np.array([0.07351364, 0.00475253, 0.09351596])
-    >>> ICTCP_to_RGB(ICTCP)  # doctest: +ELLIPSIS
+    >>> ICtCp = np.array([0.07351364, 0.00475253, 0.09351596])
+    >>> ICtCp_to_RGB(ICtCp)  # doctest: +ELLIPSIS
     array([ 0.4562052...,  0.0308107...,  0.0409195...])
     """
 
-    ICTCP = to_domain_1(ICTCP)
+    ICtCp = to_domain_1(ICtCp)
 
-    LMS_p = vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICTCP)
+    LMS_p = vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICtCp)
 
     with domain_range_scale('ignore'):
         LMS = eotf_ST2084(LMS_p, L_p)
@@ -228,7 +228,7 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
     return from_range_1(RGB)
 
 
-def XYZ_to_ICTCP(XYZ,
+def XYZ_to_ICtCp(XYZ,
                  illuminant=CCS_ILLUMINANTS[
                      'CIE 1931 2 Degree Standard Observer']['D65'],
                  chromatic_adaptation_transform='CAT02',
@@ -283,7 +283,7 @@ def XYZ_to_ICTCP(XYZ,
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICTCP``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
+    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
     |            |                       |                  |
     |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
     |            |                       |                  |
@@ -297,7 +297,7 @@ def XYZ_to_ICTCP(XYZ,
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_ICTCP(XYZ)  # doctest: +ELLIPSIS
+    >>> XYZ_to_ICtCp(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0685809..., -0.0028384...,  0.0602098...])
     """
 
@@ -311,10 +311,10 @@ def XYZ_to_ICTCP(XYZ,
         chromatic_adaptation_transform,
     )
 
-    return RGB_to_ICTCP(RGB, L_p)
+    return RGB_to_ICtCp(RGB, L_p)
 
 
-def ICTCP_to_XYZ(ICTCP,
+def ICtCp_to_XYZ(ICtCp,
                  illuminant=CCS_ILLUMINANTS[
                      'CIE 1931 2 Degree Standard Observer']['D65'],
                  chromatic_adaptation_transform='CAT02',
@@ -325,7 +325,7 @@ def ICTCP_to_XYZ(ICTCP,
 
     Parameters
     ----------
-    ICTCP : array_like
+    ICtCp : array_like
         :math:`IC_TC_P` colour encoding array.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
@@ -361,7 +361,7 @@ def ICTCP_to_XYZ(ICTCP,
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICTCP``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
+    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
     |            |                       |                  |
     |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
     |            |                       |                  |
@@ -380,12 +380,12 @@ def ICTCP_to_XYZ(ICTCP,
 
     Examples
     --------
-    >>> ICTCP = np.array([0.06858097, -0.00283842, 0.06020983])
-    >>> ICTCP_to_XYZ(ICTCP)  # doctest: +ELLIPSIS
+    >>> ICtCp = np.array([0.06858097, -0.00283842, 0.06020983])
+    >>> ICtCp_to_XYZ(ICtCp)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    RGB = ICTCP_to_RGB(ICTCP, L_p)
+    RGB = ICtCp_to_RGB(ICtCp, L_p)
 
     BT2020 = RGB_COLOURSPACES['ITU-R BT.2020']
 

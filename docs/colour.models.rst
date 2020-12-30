@@ -183,8 +183,8 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_IGPGTG
-    IGPGTG_to_XYZ
+    XYZ_to_IgPgTg
+    IgPgTg_to_XYZ
 
 IPT Colourspace
 ---------------
@@ -678,10 +678,10 @@ YCoCg Colour Encoding
 .. autosummary::
     :toctree: generated/
 
-    RGB_to_ICTCP
-    ICTCP_to_RGB
-    XYZ_to_ICTCP
-    ICTCP_to_XYZ
+    RGB_to_ICtCp
+    ICtCp_to_RGB
+    XYZ_to_ICtCp
+    ICtCp_to_XYZ
 
 RGB Representations
 ~~~~~~~~~~~~~~~~~~~

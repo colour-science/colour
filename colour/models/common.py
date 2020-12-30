@@ -181,7 +181,7 @@ COLOURSPACE_MODELS_AXIS_LABELS = {
     'DIN 99': ('L99', 'a99', 'b99'),
     'Hunter Lab': ('$L^*$', '$a^*$', '$b^*$'),
     'Hunter Rdab': ('Rd', 'a', 'b'),
-    'IGPGTG': ('$I_G$', '$P_G$', '$T_G$'),
+    'IgPgTg': ('$I_G$', '$P_G$', '$T_G$'),
     'IPT': ('I', 'P', 'T'),
     'JzAzBz': ('$J_z$', '$A_z$', '$B_z$'),
     'OSA UCS': ('L', 'j', 'g'),
@@ -195,7 +195,7 @@ Colourspace models labels mapping.
 COLOURSPACE_MODELS_AXIS_LABELS : dict
     **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
     'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN 99', 'Hunter Lab',
-    'Hunter Rdab', 'IGPGTG', 'IPT', 'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB',
+    'Hunter Rdab', 'IgPgTg', 'IPT', 'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB',
     'hdr-IPT'}**
 """
 
@@ -214,7 +214,7 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     model : unicode
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IGPGTG', 'IPT', 'JzAzBz,
+        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IgPgTg', 'IPT', 'JzAzBz,
         'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**,
         Colourspace model to convert the *CIE XYZ* tristimulus values to.
 
@@ -281,7 +281,7 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     ... XYZ, W, 'Hunter Rdab')
     array([ 0.1219722...,  0.5709032...,  0.1747109...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'IGPGTG')
+    ... XYZ, W, 'IgPgTg')
     array([ 0.4242125...,  0.1863249...,  0.1068922...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'IPT')
@@ -313,7 +313,7 @@ hdr-IPT".
 
     from colour.models import (
         Lab_to_DIN99, Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv,
-        XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_IGPGTG, XYZ_to_IPT,
+        XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_IgPgTg, XYZ_to_IPT,
         XYZ_to_Lab, XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_Oklab, XYZ_to_UCS,
         XYZ_to_UVW, XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_JzAzBz,
         XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
@@ -348,8 +348,8 @@ hdr-IPT".
             values = XYZ_to_Hunter_Lab(XYZ, xy_to_XYZ(illuminant))
         elif model == 'Hunter Rdab':
             values = XYZ_to_Hunter_Rdab(XYZ, xy_to_XYZ(illuminant))
-        elif model == 'IGPGTG':
-            values = XYZ_to_IGPGTG(XYZ)
+        elif model == 'IgPgTg':
+            values = XYZ_to_IgPgTg(XYZ)
         elif model == 'IPT':
             values = XYZ_to_IPT(XYZ)
         elif model == 'JzAzBz':

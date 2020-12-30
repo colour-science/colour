@@ -5,8 +5,8 @@
 
 Defines the :math:`I_GP_GT_G` colourspace transformations:
 
--   :func:`colour.XYZ_to_IGPGTG`
--   :func:`colour.IGPGTG_to_XYZ`
+-   :func:`colour.XYZ_to_IgPgTg`
+-   :func:`colour.IgPgTg_to_XYZ`
 
 References
 ----------
@@ -30,7 +30,7 @@ __status__ = 'Production'
 __all__ = [
     'MATRIX_IGPGTG_XYZ_TO_LMS', 'MATRIX_IGPGTG_LMS_TO_XYZ',
     'MATRIX_IGPGTG_LMS_TO_IGPGTG', 'MATRIX_IGPGTG_IGPGTG_TO_LMS',
-    'XYZ_to_IGPGTG', 'IGPGTG_to_XYZ'
+    'XYZ_to_IgPgTg', 'IgPgTg_to_XYZ'
 ]
 
 MATRIX_IGPGTG_XYZ_TO_LMS = np.array([
@@ -70,7 +70,7 @@ MATRIX_IGPGTG_IGPGTG_TO_LMS : array_like, (3, 3)
 """
 
 
-def XYZ_to_IGPGTG(XYZ):
+def XYZ_to_IgPgTg(XYZ):
     """
     Converts from *CIE XYZ* tristimulus values to :math:`I_GP_GT_G`
     colourspace.
@@ -97,7 +97,7 @@ def XYZ_to_IGPGTG(XYZ):
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``IGPGTG`` | ``IG`` : [0, 1]       | ``IG`` : [0, 1] |
+    | ``IgPgTg`` | ``IG`` : [0, 1]       | ``IG`` : [0, 1] |
     |            |                       |                 |
     |            | ``PG`` : [-1, 1]      | ``PG`` : [-1, 1]|
     |            |                       |                 |
@@ -114,7 +114,7 @@ def XYZ_to_IGPGTG(XYZ):
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_IGPGTG(XYZ)  # doctest: +ELLIPSIS
+    >>> XYZ_to_IgPgTg(XYZ)  # doctest: +ELLIPSIS
     array([ 0.4242125...,  0.1863249...,  0.1068922...])
     """
 
@@ -122,19 +122,19 @@ def XYZ_to_IGPGTG(XYZ):
 
     LMS = vector_dot(MATRIX_IGPGTG_XYZ_TO_LMS, XYZ)
     LMS_prime = spow(LMS / np.array([18.36, 21.46, 19435]), 0.427)
-    IGPGTG = vector_dot(MATRIX_IGPGTG_LMS_TO_IGPGTG, LMS_prime)
+    IgPgTg = vector_dot(MATRIX_IGPGTG_LMS_TO_IGPGTG, LMS_prime)
 
-    return from_range_1(IGPGTG)
+    return from_range_1(IgPgTg)
 
 
-def IGPGTG_to_XYZ(IGPGTG):
+def IgPgTg_to_XYZ(IgPgTg):
     """
     Converts from :math:`I_GP_GT_G` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
     ----------
-    IGPGTG : array_like
+    IgPgTg : array_like
         :math:`I_GP_GT_G` colourspace array.
 
     Returns
@@ -148,7 +148,7 @@ def IGPGTG_to_XYZ(IGPGTG):
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``IGPGTG`` | ``IG`` : [0, 1]       | ``IG`` : [0, 1] |
+    | ``IgPgTg`` | ``IG`` : [0, 1]       | ``IG`` : [0, 1] |
     |            |                       |                 |
     |            | ``PG`` : [-1, 1]      | ``PG`` : [-1, 1]|
     |            |                       |                 |
@@ -167,14 +167,14 @@ def IGPGTG_to_XYZ(IGPGTG):
 
     Examples
     --------
-    >>> IGPGTG = np.array([0.42421258, 0.18632491, 0.10689223])
-    >>> IGPGTG_to_XYZ(IGPGTG)  # doctest: +ELLIPSIS
+    >>> IgPgTg = np.array([0.42421258, 0.18632491, 0.10689223])
+    >>> IgPgTg_to_XYZ(IgPgTg)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    IGPGTG = to_domain_1(IGPGTG)
+    IgPgTg = to_domain_1(IgPgTg)
 
-    LMS = vector_dot(MATRIX_IGPGTG_IGPGTG_TO_LMS, IGPGTG)
+    LMS = vector_dot(MATRIX_IGPGTG_IGPGTG_TO_LMS, IgPgTg)
     LMS_prime = spow(LMS, 1 / 0.427) * np.array([18.36, 21.46, 19435])
     XYZ = vector_dot(MATRIX_IGPGTG_LMS_TO_XYZ, LMS_prime)
 
