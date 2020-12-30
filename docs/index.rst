@@ -538,12 +538,12 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     >>> colour.JMh_CAM16_to_CAM16UCS(JMh)
     array([ 46.55542238,  40.22460974,  14.25288392]
 
-IGPGTG Colourspace
+IgPgTg Colourspace
 ******************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_IGPGTG([0.20654008, 0.12197225, 0.05136952])
+    >>> colour.XYZ_to_IgPgTg([0.20654008, 0.12197225, 0.05136952])
     array([ 0.42421258,  0.18632491,  0.10689223])
 
 IPT Colourspace
@@ -620,12 +620,12 @@ YCoCg Colour Encoding
     >>> colour.RGB_to_YCoCg([0.75, 0.75, 0.0])
     array([ 0.5625,  0.375 ,  0.1875])
 
-ICTCP Colour Encoding
+ICtCp Colour Encoding
 *********************
 
 .. code-block:: python
 
-    >>> colour.RGB_to_ICTCP([0.45620519, 0.03081071, 0.04091952])
+    >>> colour.RGB_to_ICtCp([0.45620519, 0.03081071, 0.04091952])
     array([ 0.07351364,  0.00475253,  0.09351596])
 
 HSV Colourspace

@@ -17,7 +17,7 @@ from .prismatic import RGB_to_Prismatic, Prismatic_to_RGB
 from .ycbcr import (WEIGHTS_YCBCR, RGB_to_YCbCr, YCbCr_to_RGB, RGB_to_YcCbcCrc,
                     YcCbcCrc_to_RGB)
 from .ycocg import RGB_to_YCoCg, YCoCg_to_RGB
-from .ictcp import RGB_to_ICTCP, ICTCP_to_RGB, XYZ_to_ICTCP, ICTCP_to_XYZ
+from .ictcp import RGB_to_ICtCp, ICtCp_to_RGB, XYZ_to_ICtCp, ICtCp_to_XYZ
 
 __all__ = [
     'normalised_primary_matrix', 'chromatically_adapted_primaries',
@@ -37,4 +37,4 @@ __all__ += [
     'YcCbcCrc_to_RGB'
 ]
 __all__ += ['RGB_to_YCoCg', 'YCoCg_to_RGB']
-__all__ += ['RGB_to_ICTCP', 'ICTCP_to_RGB', 'XYZ_to_ICTCP', 'ICTCP_to_XYZ']
+__all__ += ['RGB_to_ICtCp', 'ICtCp_to_RGB', 'XYZ_to_ICtCp', 'ICtCp_to_XYZ']

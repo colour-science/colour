@@ -107,7 +107,7 @@ def common_colourspace_model_axis_reorder(a, model=None):
     model : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IGPGTG', 'IPT', 'JzAzBz',
+        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IgPgTg', 'IPT', 'JzAzBz',
         'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**,
         Colourspace model.
 
@@ -135,7 +135,7 @@ def common_colourspace_model_axis_reorder(a, model=None):
     array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'Hunter Rdab')
     array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'IGPGTG')
+    >>> common_colourspace_model_axis_reorder(a, 'IgPgTg')
     array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'IPT')
     array([ 1.,  2.,  0.])
@@ -152,7 +152,7 @@ def common_colourspace_model_axis_reorder(a, model=None):
     """
 
     if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'DIN 99',
-                 'Hunter Lab', 'Hunter Rdab', 'IGPGTG', 'IPT', 'JzAzBz',
+                 'Hunter Lab', 'Hunter Rdab', 'IgPgTg', 'IPT', 'JzAzBz',
                  'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'):
         i, j, k = tsplit(a)
         a = tstack([j, k, i])

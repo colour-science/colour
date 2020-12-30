@@ -45,7 +45,10 @@ Sub-packages
 """
 
 import numpy as np
+import sys
 
+from .utilities.deprecation import ModuleAPI, build_API_changes
+from .utilities.documentation import is_documentation_building
 from .utilities.common import (domain_range_scale, get_domain_range_scale,
                                set_domain_range_scale)
 
@@ -101,7 +104,7 @@ from .models import (
     CMY_to_CMYK, CMY_to_RGB, CV_range, DATA_MACADAM_1942_ELLIPSES,
     DIN99_to_Lab, EOTFS, EOTF_INVERSES, HDR_CIELAB_METHODS, HDR_IPT_METHODS,
     HSL_to_RGB, HSV_to_RGB, Hunter_Lab_to_XYZ, Hunter_Rdab_to_XYZ,
-    ICTCP_to_RGB, ICTCP_to_XYZ, IGPGTG_to_XYZ, IPT_hue_angle, IPT_to_XYZ,
+    ICtCp_to_RGB, ICtCp_to_XYZ, IgPgTg_to_XYZ, IPT_hue_angle, IPT_to_XYZ,
     JMh_CAM16_to_CAM16LCD, JMh_CAM16_to_CAM16SCD, JMh_CAM16_to_CAM16UCS,
     JMh_CIECAM02_to_CAM02LCD, JMh_CIECAM02_to_CAM02SCD,
     JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ, LCHab_to_Lab, LCHuv_to_Luv,
@@ -109,10 +112,10 @@ from .models import (
     Luv_to_LCHuv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy, OETFS, OETF_INVERSES,
     OOTFS, OOTF_INVERSES, OSA_UCS_to_XYZ, Oklab_to_XYZ, Prismatic_to_RGB,
     RGB_COLOURSPACES, RGB_Colourspace, RGB_luminance, RGB_luminance_equation,
-    RGB_to_CMY, RGB_to_HSL, RGB_to_HSV, RGB_to_ICTCP, RGB_to_Prismatic,
+    RGB_to_CMY, RGB_to_HSL, RGB_to_HSV, RGB_to_ICtCp, RGB_to_Prismatic,
     RGB_to_RGB, RGB_to_XYZ, RGB_to_YCbCr, RGB_to_YCoCg, RGB_to_YcCbcCrc,
     UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy, UVW_to_XYZ, WEIGHTS_YCBCR,
-    XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_ICTCP, XYZ_to_IGPGTG,
+    XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_ICtCp, XYZ_to_IgPgTg,
     XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_K_ab_HunterLab1966, XYZ_to_Lab,
     XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_Oklab, XYZ_to_RGB, XYZ_to_UCS,
     XYZ_to_UVW, XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy,
@@ -250,8 +253,8 @@ __all__ += [
     'CCTF_ENCODINGS', 'CMYK_to_CMY', 'CMY_to_CMYK', 'CMY_to_RGB', 'CV_range',
     'DATA_MACADAM_1942_ELLIPSES', 'DIN99_to_Lab', 'EOTFS', 'EOTF_INVERSES',
     'HDR_CIELAB_METHODS', 'HDR_IPT_METHODS', 'HSL_to_RGB', 'HSV_to_RGB',
-    'Hunter_Lab_to_XYZ', 'Hunter_Rdab_to_XYZ', 'ICTCP_to_RGB', 'ICTCP_to_XYZ',
-    'IGPGTG_to_XYZ', 'IPT_hue_angle', 'IPT_to_XYZ', 'JMh_CAM16_to_CAM16LCD',
+    'Hunter_Lab_to_XYZ', 'Hunter_Rdab_to_XYZ', 'ICtCp_to_RGB', 'ICtCp_to_XYZ',
+    'IgPgTg_to_XYZ', 'IPT_hue_angle', 'IPT_to_XYZ', 'JMh_CAM16_to_CAM16LCD',
     'JMh_CAM16_to_CAM16SCD', 'JMh_CAM16_to_CAM16UCS',
     'JMh_CIECAM02_to_CAM02LCD', 'JMh_CIECAM02_to_CAM02SCD',
     'JMh_CIECAM02_to_CAM02UCS', 'JzAzBz_to_XYZ', 'LCHab_to_Lab',
@@ -260,11 +263,11 @@ __all__ += [
     'Luv_uv_to_xy', 'OETFS', 'OETF_INVERSES', 'OOTFS', 'OOTF_INVERSES',
     'OSA_UCS_to_XYZ', 'Oklab_to_XYZ', 'Prismatic_to_RGB', 'RGB_COLOURSPACES',
     'RGB_Colourspace', 'RGB_luminance', 'RGB_luminance_equation', 'RGB_to_CMY',
-    'RGB_to_HSL', 'RGB_to_HSV', 'RGB_to_ICTCP', 'RGB_to_Prismatic',
+    'RGB_to_HSL', 'RGB_to_HSV', 'RGB_to_ICtCp', 'RGB_to_Prismatic',
     'RGB_to_RGB', 'RGB_to_XYZ', 'RGB_to_YCbCr', 'RGB_to_YCoCg',
     'RGB_to_YcCbcCrc', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy', 'UVW_to_XYZ',
-    'WEIGHTS_YCBCR', 'XYZ_to_Hunter_Lab', 'XYZ_to_Hunter_Rdab', 'XYZ_to_ICTCP',
-    'XYZ_to_IGPGTG', 'XYZ_to_IPT', 'XYZ_to_JzAzBz',
+    'WEIGHTS_YCBCR', 'XYZ_to_Hunter_Lab', 'XYZ_to_Hunter_Rdab', 'XYZ_to_ICtCp',
+    'XYZ_to_IgPgTg', 'XYZ_to_IPT', 'XYZ_to_JzAzBz',
     'XYZ_to_K_ab_HunterLab1966', 'XYZ_to_Lab', 'XYZ_to_Luv', 'XYZ_to_OSA_UCS',
     'XYZ_to_Oklab', 'XYZ_to_RGB', 'XYZ_to_UCS', 'XYZ_to_UVW',
     'XYZ_to_hdr_CIELab', 'XYZ_to_hdr_IPT', 'XYZ_to_sRGB', 'XYZ_to_xy',
@@ -336,3 +339,52 @@ try:
     np.set_printoptions(legacy='1.13')
 except TypeError:  # pragma: no cover
     pass
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class colour(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(colour, self).__getattr__(attribute)
+
+
+colour.__application_name__ = __application_name__
+
+colour.__major_version__ = __major_version__
+colour.__minor_version__ = __minor_version__
+colour.__change_version__ = __change_version__
+colour.__version__ = __version__
+
+# v0.4.0
+API_CHANGES = {
+    'ObjectRenamed': [
+        [
+            'colour.RGB_to_ICTCP',
+            'colour.RGB_to_ICtCp',
+        ],
+        [
+            'colour.ICTCP_to_RGB',
+            'colour.ICtCp_to_RGB',
+        ],
+        [
+            'colour.RGB_to_IGPGTG',
+            'colour.RGB_to_IgPgTg',
+        ],
+        [
+            'colour.IGPGTG_to_RGB',
+            'colour.IgPgTg_to_RGB',
+        ],
+    ]
+}
+"""
+Defines *colour.models* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+if not is_documentation_building():
+    sys.modules['colour'] = colour(sys.modules['colour'],
+                                   build_API_changes(API_CHANGES))
+
+    del ModuleAPI, is_documentation_building, build_API_changes, sys
