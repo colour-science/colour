@@ -134,7 +134,7 @@ from colour.utilities import (
     is_integer, is_numeric, tsplit, usage_warning)
 
 __author__ = 'Colour Developers, Paul Centore'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __copyright__ += ', '
 __copyright__ += (
     'The Munsell and Kubelka-Munk Toolbox: Copyright  2010-2018 Paul Centore '

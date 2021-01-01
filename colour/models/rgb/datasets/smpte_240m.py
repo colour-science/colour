@@ -23,7 +23,7 @@ from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
                                oetf_SMPTE240M, eotf_SMPTE240M)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
