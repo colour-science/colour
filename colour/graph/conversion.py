@@ -53,7 +53,7 @@ from colour.appearance import (
     CAM_Specification_CAM16, CAM16_to_XYZ, CAM_Specification_CIECAM02,
     CIECAM02_to_XYZ, XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt,
     XYZ_to_LLAB, XYZ_to_Nayatani95, XYZ_to_RLAB)
-from colour.temperature import CCT_to_uv, CCT_to_xy, uv_to_CCT, xy_to_CCT
+from colour.temperature import CCT_to_uv, uv_to_CCT
 from colour.utilities import (domain_range_scale, filter_kwargs, message_box,
                               required, tsplit, tstack, usage_warning)
 
@@ -450,9 +450,7 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('Spectral Distribution', 'CQS', colour_quality_scale),
     # Colour Temperature
     ('CCT', 'CIE UCS uv', CCT_to_uv),
-    ('CCT', 'CIE xy', CCT_to_xy),
     ('CIE UCS uv', 'CCT', uv_to_CCT),
-    ('CIE xy', 'CCT', xy_to_CCT),
     # Advanced Colorimetry
     ('CIE XYZ', 'Hunt',
      partial(
