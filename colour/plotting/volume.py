@@ -16,11 +16,11 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.geometry import (primitive_vertices_cube_mpl,
                              primitive_vertices_grid_mpl)
+from colour.graph import convert
 from colour.models import RGB_to_XYZ
-from colour.models.common import (COLOURSPACE_MODELS_AXIS_LABELS,
-                                  XYZ_to_colourspace_model)
+from colour.models.common import COLOURSPACE_MODELS_AXIS_LABELS
 from colour.plotting import (
-    CONSTANTS_COLOUR_STYLE, common_colourspace_model_axis_reorder,
+    CONSTANTS_COLOUR_STYLE, colourspace_model_axis_reorder,
     filter_RGB_colourspaces, filter_cmfs, override_style, render)
 from colour.utilities import (Structure, as_float_array, as_int_array,
                               first_item, full, ones, zeros)
@@ -375,11 +375,9 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
     reference_colourspace : unicode, optional
-        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
-        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
-        'hdr-CIELAB', 'hdr-IPT'}**,
-        Reference colourspace to plot the gamuts into.
+        Reference colourspace model to plot the gamuts into, see
+        :attr:`colour.COLOURSPACE_MODELS` attribute for the list of supported
+        colourspace models.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
     show_grid : bool, optional
@@ -458,8 +456,9 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
         cmfs = first_item(filter_cmfs(cmfs).values())
         XYZ = cmfs.values
 
-        points = common_colourspace_model_axis_reorder(
-            XYZ_to_colourspace_model(XYZ, illuminant, reference_colourspace),
+        points = colourspace_model_axis_reorder(
+            convert(
+                XYZ, 'CIE XYZ', reference_colourspace, illuminant=illuminant),
             reference_colourspace)
 
         points[np.isnan(points)] = 0
@@ -499,12 +498,12 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
         )
 
         quads.extend(
-            common_colourspace_model_axis_reorder(
-                XYZ_to_colourspace_model(
+            colourspace_model_axis_reorder(
+                convert(
                     XYZ,
-                    colourspace.whitepoint,
+                    'CIE XYZ',
                     reference_colourspace,
-                ), reference_colourspace))
+                    illuminant=colourspace.whitepoint), reference_colourspace))
 
         if settings.face_colours[i] is not None:
             RGB = ones(RGB.shape) * settings.face_colours[i]
@@ -531,8 +530,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
 
     labels = np.array(
         COLOURSPACE_MODELS_AXIS_LABELS[reference_colourspace])[as_int_array(
-            common_colourspace_model_axis_reorder([0, 1, 2],
-                                                  reference_colourspace))]
+            colourspace_model_axis_reorder([0, 1, 2], reference_colourspace))]
     for i, axis in enumerate('xyz'):
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
@@ -587,11 +585,9 @@ def plot_RGB_scatter(RGB,
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
     reference_colourspace : unicode, optional
-        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
-        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
-        'hdr-CIELAB', 'hdr-IPT'}**,
-        Reference colourspace for colour conversion.
+        Reference colourspace model to plot the gamuts into, see
+        :attr:`colour.COLOURSPACE_MODELS` attribute for the list of supported
+        colourspace models.
     colourspaces : unicode or RGB_Colourspace or array_like
         *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
         can be of any type or form supported by the
@@ -670,9 +666,12 @@ def plot_RGB_scatter(RGB,
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.matrix_RGB_to_XYZ)
 
-    points = common_colourspace_model_axis_reorder(
-        XYZ_to_colourspace_model(XYZ, colourspace.whitepoint,
-                                 reference_colourspace), reference_colourspace)
+    points = colourspace_model_axis_reorder(
+        convert(
+            XYZ,
+            'CIE XYZ',
+            reference_colourspace,
+            illuminant=colourspace.whitepoint), reference_colourspace)
 
     axes = plt.gca()
     axes.scatter(

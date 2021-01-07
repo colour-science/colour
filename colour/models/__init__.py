@@ -6,7 +6,7 @@ from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
 from .common import (Jab_to_JCh, JCh_to_Jab, COLOURSPACE_MODELS,
-                     COLOURSPACE_MODELS_AXIS_LABELS, XYZ_to_colourspace_model)
+                     COLOURSPACE_MODELS_AXIS_LABELS)
 from .cam02_ucs import (JMh_CIECAM02_to_CAM02LCD, CAM02LCD_to_JMh_CIECAM02,
                         JMh_CIECAM02_to_CAM02SCD, CAM02SCD_to_JMh_CIECAM02,
                         JMh_CIECAM02_to_CAM02UCS, CAM02UCS_to_JMh_CIECAM02)
@@ -40,7 +40,7 @@ from . import rgb
 
 __all__ = [
     'Jab_to_JCh', 'JCh_to_Jab', 'COLOURSPACE_MODELS',
-    'COLOURSPACE_MODELS_AXIS_LABELS', 'XYZ_to_colourspace_model'
+    'COLOURSPACE_MODELS_AXIS_LABELS'
 ]
 __all__ += [
     'JMh_CIECAM02_to_CAM02LCD', 'CAM02LCD_to_JMh_CIECAM02',

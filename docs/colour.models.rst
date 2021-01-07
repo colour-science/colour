@@ -25,6 +25,15 @@ Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
 Common Models
 -------------
 
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    COLOURSPACE_MODELS
+
 ``colour.models``
 
 .. currentmodule:: colour.models
