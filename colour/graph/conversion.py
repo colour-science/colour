@@ -607,8 +607,8 @@ def _conversion_path(source, target):
     --------
     >>> _conversion_path('cie lab', 'cct')
     ... # doctest: +ELLIPSIS
-    [<function Lab_to_XYZ at 0x...>, <function XYZ_to_xy at 0x...>, \
-<function xy_to_CCT at 0x...>]
+    [<function Lab_to_XYZ at 0x...>, <function XYZ_to_UCS at 0x...>, \
+<function UCS_to_uv at 0x...>, <function uv_to_CCT at 0x...>]
     """
 
     import colour
