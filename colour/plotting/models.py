@@ -77,8 +77,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'colourspace_model_axis_reorder', 'plot_pointer_gamut',
-    'plot_RGB_colourspaces_in_chromaticity_diagram',
+    'COLOURSPACE_MODELS_AXIS_ORDER', 'colourspace_model_axis_reorder',
+    'plot_pointer_gamut', 'plot_RGB_colourspaces_in_chromaticity_diagram',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
@@ -93,6 +93,36 @@ __all__ = [
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS',
     'plot_single_cctf', 'plot_multi_cctfs', 'plot_constant_hue_loci'
 ]
+
+COLOURSPACE_MODELS_AXIS_ORDER = {
+    'CIE XYZ': (0, 1, 2),
+    'CIE xyY': (0, 1, 2),
+    'CIE Lab': (1, 2, 0),
+    'CIE LCHab': (1, 2, 0),
+    'CIE Luv': (1, 2, 0),
+    'CIE LCHuv': (1, 2, 0),
+    'CIE UCS': (0, 1, 2),
+    'CIE UVW': (1, 2, 0),
+    'DIN 99': (1, 2, 0),
+    'Hunter Lab': (1, 2, 0),
+    'Hunter Rdab': (1, 2, 0),
+    'ICtCp': (1, 2, 0),
+    'IPT': (1, 2, 0),
+    'IgPgTg': (1, 2, 0),
+    'JzAzBz': (1, 2, 0),
+    'OSA UCS': (1, 2, 0),
+    'Oklab': (1, 2, 0),
+    'hdr-CIELAB': (1, 2, 0),
+    'hdr-IPT': (1, 2, 0),
+}
+"""
+Colourspace models axis order.
+
+COLOURSPACE_MODELS_AXIS_ORDER : dict
+    **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE LCHuv',
+    'CIE UCS', 'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'ICtCp',
+    'IPT', 'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
+"""
 
 
 def colourspace_model_axis_reorder(a, model=None):
@@ -117,44 +147,21 @@ def colourspace_model_axis_reorder(a, model=None):
     --------
     >>> a = np.array([0, 1, 2])
     >>> colourspace_model_axis_reorder(a)
-    array([0, 1, 2])
+    array([ 0.,  1.,  2.])
     >>> colourspace_model_axis_reorder(a, 'CIE Lab')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'CIE LCHab')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'CIE Luv')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'CIE LCHab')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'DIN 99')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'Hunter Lab')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'Hunter Rdab')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'ICtCp')
     array([ 1.,  2.,  0.])
     >>> colourspace_model_axis_reorder(a, 'IPT')
     array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'IgPgTg')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'JzAzBz')
-    array([ 1.,  2.,  0.])
     >>> colourspace_model_axis_reorder(a, 'OSA UCS')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'Oklab')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'hdr-CIELAB')
-    array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'hdr-IPT')
     array([ 1.,  2.,  0.])
     """
 
-    if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'DIN 99',
-                 'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg',
-                 'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'):
-        i, j, k = tsplit(a)
-        a = tstack([j, k, i])
+    a = as_float_array(a)
+
+    axis_order = COLOURSPACE_MODELS_AXIS_ORDER.get(model, (0, 1, 2))
+
+    a = tstack(
+        [a[..., axis_order[0]], a[..., axis_order[1]], a[..., axis_order[2]]])
 
     return a
 

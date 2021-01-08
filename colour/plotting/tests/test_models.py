@@ -72,57 +72,12 @@ colourspace_model_axis_reorder` definition.
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a, 'CIE LCHab'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a, 'CIE Luv'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a, 'CIE LCHab'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a, 'DIN 99'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a, 'Hunter Lab'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a, 'Hunter Rdab'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
             colourspace_model_axis_reorder(a, 'IPT'),
             np.array([1, 2, 0]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a, 'JzAzBz'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
             colourspace_model_axis_reorder(a, 'OSA UCS'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a, 'hdr-CIELAB'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a, 'hdr-IPT'),
             np.array([1, 2, 0]),
             decimal=7)
 
