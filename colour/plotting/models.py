@@ -77,8 +77,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'common_colourspace_model_axis_reorder', 'plot_pointer_gamut',
-    'plot_RGB_colourspaces_in_chromaticity_diagram',
+    'COLOURSPACE_MODELS_AXIS_ORDER', 'colourspace_model_axis_reorder',
+    'plot_pointer_gamut', 'plot_RGB_colourspaces_in_chromaticity_diagram',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
@@ -94,8 +94,38 @@ __all__ = [
     'plot_single_cctf', 'plot_multi_cctfs', 'plot_constant_hue_loci'
 ]
 
+COLOURSPACE_MODELS_AXIS_ORDER = {
+    'CIE XYZ': (0, 1, 2),
+    'CIE xyY': (0, 1, 2),
+    'CIE Lab': (1, 2, 0),
+    'CIE LCHab': (1, 2, 0),
+    'CIE Luv': (1, 2, 0),
+    'CIE LCHuv': (1, 2, 0),
+    'CIE UCS': (0, 1, 2),
+    'CIE UVW': (1, 2, 0),
+    'DIN 99': (1, 2, 0),
+    'Hunter Lab': (1, 2, 0),
+    'Hunter Rdab': (1, 2, 0),
+    'ICtCp': (1, 2, 0),
+    'IPT': (1, 2, 0),
+    'IgPgTg': (1, 2, 0),
+    'JzAzBz': (1, 2, 0),
+    'OSA UCS': (1, 2, 0),
+    'Oklab': (1, 2, 0),
+    'hdr-CIELAB': (1, 2, 0),
+    'hdr-IPT': (1, 2, 0),
+}
+"""
+Colourspace models axis order.
 
-def common_colourspace_model_axis_reorder(a, model=None):
+COLOURSPACE_MODELS_AXIS_ORDER : dict
+    **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE LCHuv',
+    'CIE UCS', 'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'ICtCp',
+    'IPT', 'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
+"""
+
+
+def colourspace_model_axis_reorder(a, model=None):
     """
     Reorder the axes of given colourspace model :math:`a` array according to
     the most common volume plotting axes order.
@@ -105,11 +135,8 @@ def common_colourspace_model_axis_reorder(a, model=None):
     a : array_like
         Colourspace model :math:`a` array.
     model : unicode, optional
-        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
-        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg',
-        'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**,
-        Colourspace model.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
+        the list of supported colourspace models.
 
     Returns
     -------
@@ -119,45 +146,22 @@ def common_colourspace_model_axis_reorder(a, model=None):
     Examples
     --------
     >>> a = np.array([0, 1, 2])
-    >>> common_colourspace_model_axis_reorder(a)
-    array([0, 1, 2])
-    >>> common_colourspace_model_axis_reorder(a, 'CIE Lab')
+    >>> colourspace_model_axis_reorder(a)
+    array([ 0.,  1.,  2.])
+    >>> colourspace_model_axis_reorder(a, 'CIE Lab')
     array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
+    >>> colourspace_model_axis_reorder(a, 'IPT')
     array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'CIE Luv')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'DIN 99')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'Hunter Lab')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'Hunter Rdab')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'ICtCp')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'IPT')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'IgPgTg')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'JzAzBz')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'OSA UCS')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'Oklab')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'hdr-CIELAB')
-    array([ 1.,  2.,  0.])
-    >>> common_colourspace_model_axis_reorder(a, 'hdr-IPT')
+    >>> colourspace_model_axis_reorder(a, 'OSA UCS')
     array([ 1.,  2.,  0.])
     """
 
-    if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'DIN 99',
-                 'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg',
-                 'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'):
-        i, j, k = tsplit(a)
-        a = tstack([j, k, i])
+    a = as_float_array(a)
+
+    axis_order = COLOURSPACE_MODELS_AXIS_ORDER.get(model, (0, 1, 2))
+
+    a = tstack(
+        [a[..., axis_order[0]], a[..., axis_order[1]], a[..., axis_order[2]]])
 
     return a
 
@@ -1576,11 +1580,8 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
         the colour matches under the reference illuminant and ``metadata`` the
         dataset metadata.
     model : unicode, optional
-        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
-        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
-        'hdr-CIELAB', 'hdr-IPT'}**,
-        Colourspace model.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
+        the list of supported colourspace models.
     scatter_kwargs : dict, optional
         Keyword arguments for the :func:`plt.scatter` definition. The following
         special keyword arguments can also be used:
@@ -1679,7 +1680,6 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
     """
 
     # TODO: Filter appropriate colour models.
-
     data = data.values() if isinstance(data, Mapping) else data
 
     settings = {'uniform': True}
@@ -1703,9 +1703,9 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
         _name, XYZ_r, XYZ_cr, XYZ_ct, _metadata = hue_data
 
         xy_r = XYZ_to_xy(XYZ_r)
-        ijk_ct = common_colourspace_model_axis_reorder(
+        ijk_ct = colourspace_model_axis_reorder(
             convert(XYZ_ct, 'CIE XYZ', model, illuminant=xy_r), model)
-        ijk_cr = common_colourspace_model_axis_reorder(
+        ijk_cr = colourspace_model_axis_reorder(
             convert(XYZ_cr, 'CIE XYZ', model, illuminant=xy_r), model)
 
         def _linear_equation(x, a, b):
@@ -1755,7 +1755,7 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
             markersize=CONSTANTS_COLOUR_STYLE.geometry.short * 8)
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[as_int_array(
-        common_colourspace_model_axis_reorder([0, 1, 2], model))]
+        colourspace_model_axis_reorder([0, 1, 2], model))]
 
     settings = {
         'axes': axes,

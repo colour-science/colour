@@ -8,7 +8,7 @@ import unittest
 from matplotlib.pyplot import Axes, Figure
 
 from colour.plotting import (
-    common_colourspace_model_axis_reorder, plot_pointer_gamut,
+    colourspace_model_axis_reorder, plot_pointer_gamut,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
@@ -52,79 +52,32 @@ __all__ = [
 class TestCommonColourspaceModelAxisReorder(unittest.TestCase):
     """
     Defines :func:`colour.plotting.models.\
-common_colourspace_model_axis_reorder` definition unit tests methods.
+colourspace_model_axis_reorder` definition unit tests methods.
     """
 
-    def test_common_colourspace_model_axis_reorder(self):
+    def test_colourspace_model_axis_reorder(self):
         """
         Tests :func:`colour.plotting.models.\
-common_colourspace_model_axis_reorder` definition.
+colourspace_model_axis_reorder` definition.
         """
 
         a = np.array([0, 1, 2])
 
         np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a),
-            np.array([0, 1, 2]),
-            decimal=7)
+            colourspace_model_axis_reorder(a), np.array([0, 1, 2]), decimal=7)
 
         np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'CIE Lab'),
+            colourspace_model_axis_reorder(a, 'CIE Lab'),
             np.array([1, 2, 0]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'CIE LCHab'),
+            colourspace_model_axis_reorder(a, 'IPT'),
             np.array([1, 2, 0]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'CIE Luv'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'CIE LCHab'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'DIN 99'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'Hunter Lab'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'Hunter Rdab'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'IPT'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'JzAzBz'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'OSA UCS'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'hdr-CIELAB'),
-            np.array([1, 2, 0]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            common_colourspace_model_axis_reorder(a, 'hdr-IPT'),
+            colourspace_model_axis_reorder(a, 'OSA UCS'),
             np.array([1, 2, 0]),
             decimal=7)
 

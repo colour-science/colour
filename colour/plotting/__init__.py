@@ -33,7 +33,7 @@ from .diagrams import (  # noqa
 from .corresponding import plot_corresponding_chromaticities_prediction  # noqa
 from .graph import plot_automatic_colour_conversion_graph  # noqa
 from .models import (  # noqa
-    common_colourspace_model_axis_reorder, plot_pointer_gamut,
+    colourspace_model_axis_reorder, plot_pointer_gamut,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
@@ -92,7 +92,7 @@ __all__ += [
 __all__ += ['plot_corresponding_chromaticities_prediction']
 __all__ += ['plot_automatic_colour_conversion_graph']
 __all__ += [
-    'common_colourspace_model_axis_reorder', 'plot_pointer_gamut',
+    'colourspace_model_axis_reorder', 'plot_pointer_gamut',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
