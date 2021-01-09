@@ -21,7 +21,8 @@ import numpy as np
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.utilities import (from_range_degrees, to_domain_degrees, tsplit,
                               tstack)
-from colour.utilities.documentation import DocstringTuple
+from colour.utilities.documentation import (DocstringTuple,
+                                            is_documentation_building)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -164,12 +165,15 @@ def JCh_to_Jab(JCh):
     return Jab
 
 
-COLOURSPACE_MODELS = DocstringTuple(
-    ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE Luv uv',
-     'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN 99', 'Hunter Lab',
-     'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz', 'OSA UCS', 'Oklab',
-     'hdr-CIELAB', 'hdr-IPT'))
-"""
+COLOURSPACE_MODELS = ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
+                      'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv',
+                      'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab',
+                      'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz', 'OSA UCS', 'Oklab',
+                      'hdr-CIELAB', 'hdr-IPT')
+
+if is_documentation_building():  # pragma: no cover
+    COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
+    COLOURSPACE_MODELS.__doc__ = """
 Colourspace models supporting a direct conversion to *CIE XYZ* tristimulus
 values.
 
