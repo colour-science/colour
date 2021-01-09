@@ -47,7 +47,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CAT02_INVERSE_CAT', 'InductionFactors_CIECAM02',
+    'CAT_INVERSE_CAT02', 'InductionFactors_CIECAM02',
     'VIEWING_CONDITIONS_CIECAM02', 'HUE_DATA_FOR_HUE_QUADRATURE',
     'CAM_Specification_CIECAM02', 'XYZ_to_CIECAM02', 'CIECAM02_to_XYZ',
     'chromatic_induction_factors', 'base_exponential_non_linearity',
@@ -66,11 +66,11 @@ __all__ = [
     'matrix_post_adaptation_non_linear_response_compression'
 ]
 
-CAT02_INVERSE_CAT = np.linalg.inv(CAT_CAT02)
+CAT_INVERSE_CAT02 = np.linalg.inv(CAT_CAT02)
 """
 Inverse CAT02 chromatic adaptation transform.
 
-CAT02_INVERSE_CAT : array_like, (3, 3)
+CAT_INVERSE_CAT02 : array_like, (3, 3)
 """
 
 
@@ -527,7 +527,7 @@ def CIECAM02_to_XYZ(specification,
 
     # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ*
     # tristimulus values.
-    XYZ = vector_dot(CAT02_INVERSE_CAT, RGB)
+    XYZ = vector_dot(CAT_INVERSE_CAT02, RGB)
 
     return from_range_100(XYZ)
 
@@ -765,7 +765,7 @@ def RGB_to_rgb(RGB):
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = vector_dot(matrix_dot(MATRIX_XYZ_TO_HPE, CAT02_INVERSE_CAT), RGB)
+    rgb = vector_dot(matrix_dot(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
 
     return rgb
 
