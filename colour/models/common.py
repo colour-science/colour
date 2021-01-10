@@ -165,12 +165,12 @@ def JCh_to_Jab(JCh):
     return Jab
 
 
-COLOURSPACE_MODELS = ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
-                      'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv',
-                      'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab',
-                      'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz', 'OSA UCS', 'Oklab',
-                      'hdr-CIELAB', 'hdr-IPT')
-
+COLOURSPACE_MODELS = ('CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CIE XYZ', 'CIE xyY',
+                      'CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE Luv uv',
+                      'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
+                      'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT',
+                      'IgPgTg', 'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB',
+                      'hdr-IPT')
 if is_documentation_building():  # pragma: no cover
     COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
     COLOURSPACE_MODELS.__doc__ = """
@@ -181,6 +181,9 @@ COLOURSPACE_MODELS : Tuple
 """
 
 COLOURSPACE_MODELS_AXIS_LABELS = {
+    'CAM02LCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
+    'CAM02SCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
+    'CAM02UCS': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
     'CIE XYZ': ('X', 'Y', 'Z'),
     'CIE xyY': ('x', 'y', 'Y'),
     'CIE Lab': ('$L^*$', '$a^*$', '$b^*$'),
@@ -207,8 +210,8 @@ COLOURSPACE_MODELS_AXIS_LABELS = {
 Colourspace models labels mapping.
 
 COLOURSPACE_MODELS_AXIS_LABELS : dict
-    **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
-    'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN 99', 'Hunter Lab',
-    'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab',
-    'hdr-CIELAB', 'hdr-IPT'}**
+    **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CIE XYZ', 'CIE xyY', 'CIE Lab',
+    'CIE LCHab, 'CIE Luv', 'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv',
+    'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT',
+    'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """

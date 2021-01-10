@@ -12,6 +12,12 @@ colourspaces transformations:
 -   :func:`colour.CAM02SCD_to_JMh_CIECAM02`
 -   :func:`colour.JMh_CIECAM02_to_CAM02UCS`
 -   :func:`colour.CAM02UCS_to_JMh_CIECAM02`
+-   :func:`colour.XYZ_to_CAM02LCD`
+-   :func:`colour.CAM02LCD_to_XYZ`
+-   :func:`colour.XYZ_to_CAM02SCD`
+-   :func:`colour.CAM02SCD_to_XYZ`
+-   :func:`colour.XYZ_to_CAM02UCS`
+-   :func:`colour.CAM02UCS_to_XYZ`
 
 References
 ----------
@@ -24,9 +30,9 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.utilities import (CaseInsensitiveMapping, from_range_100,
-                              from_range_degrees, to_domain_100,
-                              to_domain_degrees, tsplit, tstack)
+from colour.utilities import (
+    CaseInsensitiveMapping, as_float_array, domain_range_scale, from_range_100,
+    from_range_degrees, to_domain_100, to_domain_degrees, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -40,7 +46,10 @@ __all__ = [
     'JMh_CIECAM02_to_UCS_Luo2006', 'UCS_Luo2006_to_JMh_CIECAM02',
     'JMh_CIECAM02_to_CAM02LCD', 'CAM02LCD_to_JMh_CIECAM02',
     'JMh_CIECAM02_to_CAM02SCD', 'CAM02SCD_to_JMh_CIECAM02',
-    'JMh_CIECAM02_to_CAM02UCS', 'CAM02UCS_to_JMh_CIECAM02'
+    'JMh_CIECAM02_to_CAM02UCS', 'CAM02UCS_to_JMh_CIECAM02',
+    'XYZ_to_UCS_Luo2006', 'UCS_Luo2006_to_XYZ', 'XYZ_to_CAM02LCD',
+    'CAM02LCD_to_XYZ', 'XYZ_to_CAM02SCD', 'CAM02SCD_to_XYZ', 'XYZ_to_CAM02UCS',
+    'CAM02UCS_to_XYZ'
 ]
 
 
@@ -94,25 +103,25 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     Notes
     -----
 
-    +------------+------------------------+--------------------+
-    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]   |
+    +------------+------------------------+------------------+
 
-    +------------+------------------------+--------------------+
-    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
 
     Examples
     --------
@@ -172,25 +181,25 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     Notes
     -----
 
-    +------------+------------------------+--------------------+
-    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
 
-    +------------+------------------------+--------------------+
-    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]   |
+    +------------+------------------------+------------------+
 
     Examples
     --------
@@ -237,25 +246,25 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
     Notes
     -----
 
-    +------------+------------------------+--------------------+
-    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]   |
+    +------------+------------------------+------------------+
 
-    +------------+------------------------+--------------------+
-    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
 
     References
     ----------
@@ -300,25 +309,25 @@ def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
     Notes
     -----
 
-    +------------+------------------------+--------------------+
-    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
 
-    +------------+------------------------+--------------------+
-    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]   |
+    +------------+------------------------+------------------+
 
     References
     ----------
@@ -353,25 +362,25 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
     Notes
     -----
 
-    +------------+------------------------+--------------------+
-    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]   |
+    +------------+------------------------+------------------+
 
-    +------------+------------------------+--------------------+
-    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
 
     References
     ----------
@@ -416,25 +425,25 @@ def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
     Notes
     -----
 
-    +------------+------------------------+--------------------+
-    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
 
-    +------------+------------------------+--------------------+
-    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]   |
+    +------------+------------------------+------------------+
 
     References
     ----------
@@ -469,25 +478,25 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
     Notes
     -----
 
-    +------------+------------------------+--------------------+
-    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]   |
+    +------------+------------------------+------------------+
 
-    +------------+------------------------+--------------------+
-    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
 
     References
     ----------
@@ -532,25 +541,25 @@ def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
     Notes
     -----
 
-    +------------+------------------------+--------------------+
-    | **Domain** |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``Jpapbp`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
 
-    +------------+------------------------+--------------------+
-    | **Range**  |  **Scale - Reference** | **Scale - 1**      |
-    +============+========================+====================+
-    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]     |
-    +------------+------------------------+--------------------+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``JMh``    | ``J`` : [0, 100]       | ``J`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``M`` : [0, 100]       | ``M`` : [0, 1]   |
+    |            |                        |                  |
+    |            | ``h`` : [0, 360]       | ``h`` : [0, 1]   |
+    +------------+------------------------+------------------+
 
     References
     ----------
@@ -565,3 +574,522 @@ def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
 
     return UCS_Luo2006_to_JMh_CIECAM02(
         Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
+
+
+@domain_range_scale('1')
+def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
+    """
+    Converts from *CIE XYZ* tristimulus values to one of the
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
+    :math:`J'a'b'` array.
+
+    Parameters
+    ----------
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
+    coefficients : array_like
+        Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
+        *CAM02-SCD*, or *CAM02-UCS* colourspaces.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.XYZ_to_CIECAM02`},
+        Please refer to the documentation of the previously listed definition.
+        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
+        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        luminance about 20% of a white object in the scene.
+
+    Returns
+    -------
+    ndarray
+        *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+        colourspaces :math:`J'a'b'` array.
+
+    Warnings
+    --------
+    The domain-range scale is **'1'** and cannot be changed.
+
+    Notes
+    -----
+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    +------------+------------------------+------------------+
+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
+
+    Examples
+    --------
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    ... # doctest: +ELLIPSIS
+    array([ 0.4661386...,  0.3935760...,  0.1596730...])
+    """
+
+    from colour.appearance import CAM_KWARGS_CIECAM02_sRGB, XYZ_to_CIECAM02
+
+    settings = CAM_KWARGS_CIECAM02_sRGB.copy()
+    settings.update(**kwargs)
+
+    specification = XYZ_to_CIECAM02(XYZ, **settings)
+    JMh = as_float_array([specification.J, specification.M, specification.h])
+
+    return JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients)
+
+
+@domain_range_scale('1')
+def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
+    """
+    Converts from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
+    *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIE XYZ* tristimulus
+    values.
+
+    Parameters
+    ----------
+    Jpapbp : array_like
+        *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+        colourspaces :math:`J'a'b'` array.
+    coefficients : array_like
+        Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
+        *CAM02-SCD*, or *CAM02-UCS* colourspaces.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.CIECAM02_to_XYZ`},
+        Please refer to the documentation of the previously listed definition.
+        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
+        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        luminance about 20% of a white object in the scene.
+
+    Returns
+    -------
+    ndarray
+        *CIE XYZ* tristimulus values.
+
+    Warnings
+    --------
+    The domain-range scale is **'1'** and cannot be changed.
+
+    Notes
+    -----
+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    +------------+------------------------+------------------+
+
+    Examples
+    --------
+    >>> Jpapbp = np.array([0.46613862, 0.39357602, 0.15967304])
+    >>> UCS_Luo2006_to_XYZ(
+    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    ... # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    """
+
+    from colour.appearance import (CAM_KWARGS_CIECAM02_sRGB,
+                                   CAM_Specification_CIECAM02, CIECAM02_to_XYZ)
+
+    settings = CAM_KWARGS_CIECAM02_sRGB.copy()
+    settings.update(**kwargs)
+
+    J, M, h = tsplit(UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients))
+
+    specification = CAM_Specification_CIECAM02(J=J, M=M, h=h)
+
+    return CIECAM02_to_XYZ(specification, **settings)
+
+
+def XYZ_to_CAM02LCD(XYZ, **kwargs):
+    """
+    Converts from *CIE XYZ* tristimulus values to *Luo et al. (2006)*
+    *CAM02-LCD* colourspace :math:`J'a'b'` array.
+
+    Parameters
+    ----------
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.XYZ_to_CIECAM02`},
+        Please refer to the documentation of the previously listed definition.
+        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
+        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        luminance about 20% of a white object in the scene.
+
+    Returns
+    -------
+    ndarray
+        *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+
+    Warnings
+    --------
+    The domain-range scale is **'1'** and cannot be changed.
+
+    Notes
+    -----
+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    +------------+------------------------+------------------+
+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
+
+    References
+    ----------
+    :cite:`Luo2006b`
+
+    Examples
+    --------
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_to_CAM02LCD(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.4661386...,  0.3935760...,  0.1596730...])
+    """
+
+    return XYZ_to_UCS_Luo2006(
+        XYZ, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-LCD'], **kwargs)
+
+
+def CAM02LCD_to_XYZ(Jpapbp, **kwargs):
+    """
+    Converts from *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
+    array to *CIE XYZ* tristimulus values.
+
+    Parameters
+    ----------
+    Jpapbp : array_like
+        *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.CIECAM02_to_XYZ`},
+        Please refer to the documentation of the previously listed definition.
+        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
+        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        luminance about 20% of a white object in the scene.
+
+    Returns
+    -------
+    ndarray
+        *CIE XYZ* tristimulus values.
+
+    Warnings
+    --------
+    The domain-range scale is **'1'** and cannot be changed.
+
+    Notes
+    -----
+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    +------------+------------------------+------------------+
+
+    References
+    ----------
+    :cite:`Luo2006b`
+
+    Examples
+    --------
+    >>> Jpapbp = np.array([0.46613862, 0.39357602, 0.15967304])
+    >>> CAM02LCD_to_XYZ(Jpapbp)  # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    """
+
+    return UCS_Luo2006_to_XYZ(
+        Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-LCD'], **kwargs)
+
+
+def XYZ_to_CAM02SCD(XYZ, **kwargs):
+    """
+    Converts from *CIE XYZ* tristimulus values to *Luo et al. (2006)*
+    *CAM02-SCD* colourspace :math:`J'a'b'` array.
+
+    Parameters
+    ----------
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.XYZ_to_CIECAM02`},
+        Please refer to the documentation of the previously listed definition.
+        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
+        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        luminance about 20% of a white object in the scene.
+
+    Returns
+    -------
+    ndarray
+        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+
+    Warnings
+    --------
+    The domain-range scale is **'1'** and cannot be changed.
+
+    Notes
+    -----
+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    +------------+------------------------+------------------+
+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
+
+    References
+    ----------
+    :cite:`Luo2006b`
+
+    Examples
+    --------
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_to_CAM02SCD(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.4661386...,  0.2562879...,  0.1039755...])
+    """
+
+    return XYZ_to_UCS_Luo2006(
+        XYZ, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-SCD'], **kwargs)
+
+
+def CAM02SCD_to_XYZ(Jpapbp, **kwargs):
+    """
+    Converts from *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
+    array to *CIE XYZ* tristimulus values.
+
+    Parameters
+    ----------
+    Jpapbp : array_like
+        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.CIECAM02_to_XYZ`},
+        Please refer to the documentation of the previously listed definition.
+        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
+        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        luminance about 20% of a white object in the scene.
+
+    Returns
+    -------
+    ndarray
+        *CIE XYZ* tristimulus values.
+
+    Warnings
+    --------
+    The domain-range scale is **'1'** and cannot be changed.
+
+    Notes
+    -----
+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    +------------+------------------------+------------------+
+
+    References
+    ----------
+    :cite:`Luo2006b`
+
+    Examples
+    --------
+    >>> Jpapbp = np.array([0.46613862, 0.25628799, 0.10397555])
+    >>> CAM02SCD_to_XYZ(Jpapbp)  # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    """
+
+    return UCS_Luo2006_to_XYZ(
+        Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-SCD'], **kwargs)
+
+
+def XYZ_to_CAM02UCS(XYZ, **kwargs):
+    """
+    Converts from *CIE XYZ* tristimulus values to *Luo et al. (2006)*
+    *CAM02-UCS* colourspace :math:`J'a'b'` array.
+
+    Parameters
+    ----------
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.XYZ_to_CIECAM02`},
+        Please refer to the documentation of the previously listed definition.
+        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
+        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        luminance about 20% of a white object in the scene.
+
+    Returns
+    -------
+    ndarray
+        *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+
+    Warnings
+    --------
+    The domain-range scale is **'1'** and cannot be changed.
+
+    Notes
+    -----
+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    +------------+------------------------+------------------+
+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
+
+    References
+    ----------
+    :cite:`Luo2006b`
+
+    Examples
+    --------
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_to_CAM02UCS(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.4661386...,  0.298831 ...,  0.1212351...])
+    """
+
+    return XYZ_to_UCS_Luo2006(
+        XYZ, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'], **kwargs)
+
+
+def CAM02UCS_to_XYZ(Jpapbp, **kwargs):
+    """
+    Converts from *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
+    array to *CIE XYZ* tristimulus values.
+
+    Parameters
+    ----------
+    Jpapbp : array_like
+        *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.CIECAM02_to_XYZ`},
+        Please refer to the documentation of the previously listed definition.
+        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
+        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        luminance about 20% of a white object in the scene.
+
+    Returns
+    -------
+    ndarray
+        *CIE XYZ* tristimulus values.
+
+    Warnings
+    --------
+    The domain-range scale is **'1'** and cannot be changed.
+
+    Notes
+    -----
+
+    +------------+------------------------+------------------+
+    | **Domain** |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    |            |                        |                  |
+    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            |                        |                  |
+    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    +------------+------------------------+------------------+
+
+    +------------+------------------------+------------------+
+    | **Range**  |  **Scale - Reference** | **Scale - 1**    |
+    +============+========================+==================+
+    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    +------------+------------------------+------------------+
+
+    References
+    ----------
+    :cite:`Luo2006b`
+
+    Examples
+    --------
+    >>> Jpapbp = np.array([0.46613862, 0.29883100, 0.12123517])
+    >>> CAM02UCS_to_XYZ(Jpapbp)  # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    """
+
+    return UCS_Luo2006_to_XYZ(
+        Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'], **kwargs)

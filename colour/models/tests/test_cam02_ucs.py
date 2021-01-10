@@ -8,12 +8,14 @@ import unittest
 from itertools import permutations
 
 from colour.appearance import (VIEWING_CONDITIONS_CIECAM02, XYZ_to_CIECAM02)
-from colour.models.cam02_ucs import (COEFFICIENTS_UCS_LUO2006,
-                                     JMh_CIECAM02_to_UCS_Luo2006,
-                                     UCS_Luo2006_to_JMh_CIECAM02)
+from colour.models.cam02_ucs import (
+    COEFFICIENTS_UCS_LUO2006, JMh_CIECAM02_to_UCS_Luo2006,
+    UCS_Luo2006_to_JMh_CIECAM02, XYZ_to_UCS_Luo2006, UCS_Luo2006_to_XYZ)
 from colour.models import (JMh_CIECAM02_to_CAM02LCD, CAM02LCD_to_JMh_CIECAM02,
                            JMh_CIECAM02_to_CAM02SCD, CAM02SCD_to_JMh_CIECAM02,
-                           JMh_CIECAM02_to_CAM02UCS, CAM02UCS_to_JMh_CIECAM02)
+                           JMh_CIECAM02_to_CAM02UCS, CAM02UCS_to_JMh_CIECAM02,
+                           XYZ_to_CAM02LCD, CAM02LCD_to_XYZ, XYZ_to_CAM02SCD,
+                           CAM02SCD_to_XYZ, XYZ_to_CAM02UCS, CAM02UCS_to_XYZ)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -24,7 +26,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestJMh_CIECAM02_to_UCS_Luo2006', 'TestUCS_Luo2006_to_JMh_CIECAM02'
+    'TestJMh_CIECAM02_to_UCS_Luo2006', 'TestUCS_Luo2006_to_JMh_CIECAM02',
+    'TestXYZ_to_UCS_Luo2006', 'TestUCS_Luo2006_to_XYZ'
 ]
 
 
@@ -269,6 +272,115 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
             Jpapbp = np.array(case)
             UCS_Luo2006_to_JMh_CIECAM02(Jpapbp,
                                         COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+
+
+class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
+    """
+    Defines :func:`colour.models.cam02_ucs.TestXYZ_to_UCS_Luo2006` definition
+    unit tests methods.
+    """
+
+    def test_XYZ_to_UCS_Luo2006(self):
+        """
+        Tests :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            XYZ_to_UCS_Luo2006(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
+            np.array([0.46613862, 0.39357602, 0.15967304]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_UCS_Luo2006(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
+            XYZ_to_CAM02LCD(np.array([0.20654008, 0.12197225, 0.05136952])),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_UCS_Luo2006(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-SCD']),
+            np.array([0.46613862, 0.25628799, 0.10397555]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_UCS_Luo2006(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-SCD']),
+            XYZ_to_CAM02SCD(np.array([0.20654008, 0.12197225, 0.05136952])),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_UCS_Luo2006(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-UCS']),
+            np.array([0.46613862, 0.29883100, 0.12123517]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_UCS_Luo2006(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-UCS']),
+            XYZ_to_CAM02UCS(np.array([0.20654008, 0.12197225, 0.05136952])),
+            decimal=7)
+
+
+class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
+    """
+    Defines :func:`colour.models.cam02_ucs.TestUCS_Luo2006_to_XYZ`
+    definition unit tests methods.
+    """
+
+    def test_UCS_Luo2006_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ`
+        definition.
+        """
+
+        np.testing.assert_almost_equal(
+            UCS_Luo2006_to_XYZ(
+                np.array([0.46613862, 0.39357602, 0.15967304]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            UCS_Luo2006_to_XYZ(
+                np.array([0.46613862, 0.39357602, 0.15967304]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
+            CAM02LCD_to_XYZ(np.array([0.46613862, 0.39357602, 0.15967304])),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            UCS_Luo2006_to_XYZ(
+                np.array([0.46613862, 0.39357602, 0.15967304]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-SCD']),
+            np.array([0.28264475, 0.11036927, 0.00824593]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            UCS_Luo2006_to_XYZ(
+                np.array([0.46613862, 0.39357602, 0.15967304]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-SCD']),
+            CAM02SCD_to_XYZ(np.array([0.46613862, 0.39357602, 0.15967304])),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            UCS_Luo2006_to_XYZ(
+                np.array([0.46613862, 0.39357602, 0.15967304]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-UCS']),
+            np.array([0.24229809, 0.11573005, 0.02517649]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            UCS_Luo2006_to_XYZ(
+                np.array([0.46613862, 0.39357602, 0.15967304]),
+                COEFFICIENTS_UCS_LUO2006['CAM02-UCS']),
+            CAM02UCS_to_XYZ(np.array([0.46613862, 0.39357602, 0.15967304])),
+            decimal=7)
 
 
 if __name__ == '__main__':

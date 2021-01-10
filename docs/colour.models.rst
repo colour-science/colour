@@ -164,6 +164,12 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
     CAM02SCD_to_JMh_CIECAM02
     JMh_CIECAM02_to_CAM02UCS
     CAM02UCS_to_JMh_CIECAM02
+    XYZ_to_CAM02LCD
+    CAM02LCD_to_XYZ
+    XYZ_to_CAM02SCD
+    CAM02SCD_to_XYZ
+    XYZ_to_CAM02UCS
+    CAM02UCS_to_XYZ
 
 CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 -------------------------------------------------------------------
