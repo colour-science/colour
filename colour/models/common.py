@@ -184,6 +184,9 @@ COLOURSPACE_MODELS_AXIS_LABELS = {
     'CAM02LCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
     'CAM02SCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
     'CAM02UCS': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
+    'CAM16LCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
+    'CAM16SCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
+    'CAM16UCS': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
     'CIE XYZ': ('X', 'Y', 'Z'),
     'CIE xyY': ('x', 'y', 'Y'),
     'CIE Lab': ('$L^*$', '$a^*$', '$b^*$'),
@@ -210,8 +213,9 @@ COLOURSPACE_MODELS_AXIS_LABELS = {
 Colourspace models labels mapping.
 
 COLOURSPACE_MODELS_AXIS_LABELS : dict
-    **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CIE XYZ', 'CIE xyY', 'CIE Lab',
-    'CIE LCHab, 'CIE Luv', 'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv',
-    'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT',
-    'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
+    **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
+    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
+    'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN 99', 'Hunter Lab',
+    'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab',
+    'hdr-CIELAB', 'hdr-IPT'}**
 """

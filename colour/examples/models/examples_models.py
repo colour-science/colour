@@ -398,3 +398,8 @@ message_box(('Converting to "CAM16-UCS" colourspace from given '
              '"CAM16" colour appearance model "JMh" correlates:\n'
              '\n\t{0}'.format(JMh)))
 print(colour.JMh_CAM16_to_CAM16UCS(JMh))
+
+message_box(('Converting to "CAM16-UCS" colourspace from given '
+             '"CIE XYZ" tristimulus values:\n'
+             '\n\t{0}'.format(JMh)))
+print(colour.XYZ_to_CAM16UCS(XYZ / 100, XYZ_w=XYZ_w / 100, L_A=L_A, Y_b=Y_b))

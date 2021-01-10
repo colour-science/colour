@@ -187,6 +187,12 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     CAM16SCD_to_JMh_CAM16
     JMh_CAM16_to_CAM16UCS
     CAM16UCS_to_JMh_CAM16
+    XYZ_to_CAM16LCD
+    CAM16LCD_to_XYZ
+    XYZ_to_CAM16SCD
+    CAM16SCD_to_XYZ
+    XYZ_to_CAM16UCS
+    CAM16UCS_to_XYZ
 
 :math:`I_GP_GT_G` Colourspace
 -----------------------------
