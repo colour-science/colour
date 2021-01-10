@@ -10,7 +10,6 @@ Defines the automatic colour conversion graph objects:
 """
 
 import inspect
-import numpy as np
 import textwrap
 from collections import namedtuple
 from copy import copy
@@ -53,6 +52,7 @@ from colour.appearance import (
     CAM_Specification_CAM16, CAM16_to_XYZ, CAM_Specification_CIECAM02,
     CIECAM02_to_XYZ, XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt,
     XYZ_to_LLAB, XYZ_to_Nayatani95, XYZ_to_RLAB)
+from colour.appearance.ciecam02 import CAM_KWARGS_CIECAM02_sRGB
 from colour.temperature import CCT_to_uv, uv_to_CCT
 from colour.utilities import (domain_range_scale, filter_kwargs, message_box,
                               required, tsplit, tstack, usage_warning)
@@ -144,6 +144,7 @@ def JMh_CIECAM02_to_CIECAM02(JMh):
 
     Examples
     --------
+    >>> import numpy as np
     >>> JMh = np.array([4.17310911e+01, 1.08842176e-01, 2.19048433e+02])
     >>> JMh_CIECAM02_to_CIECAM02(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=41.7310911..., C=None, h=219.0484329..., \
@@ -201,6 +202,7 @@ def JMh_CAM16_to_CAM16(JMh):
 
     Examples
     --------
+    >>> import numpy as np
     >>> JMh = np.array([4.17312079e+01, 1.07436772e-01, 2.17067960e+02])
     >>> JMh_CAM16_to_CAM16(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_CAM16(J=41.7312079..., C=None, h=217.06796..., s=None, \
@@ -228,6 +230,7 @@ def XYZ_to_luminance(XYZ):
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_luminance(XYZ)  # doctest: +ELLIPSIS
     0.1219722...
@@ -466,32 +469,14 @@ CONVERSION_SPECIFICATIONS_DATA = [
          Y_0=80 * 0.2,
          k_1=0,
          k_2=(15 + 50) / 2)),
-    ('CIE XYZ', 'CIECAM02',
-     partial(
-         XYZ_to_CIECAM02,
-         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
-         L_A=64 / np.pi * 0.2,
-         Y_b=20)),
-    ('CIECAM02', 'CIE XYZ',
-     partial(
-         CIECAM02_to_XYZ,
-         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
-         L_A=64 / np.pi * 0.2,
-         Y_b=20)),
+    ('CIE XYZ', 'CIECAM02', partial(XYZ_to_CIECAM02,
+                                    **CAM_KWARGS_CIECAM02_sRGB)),
+    ('CIECAM02', 'CIE XYZ', partial(CIECAM02_to_XYZ,
+                                    **CAM_KWARGS_CIECAM02_sRGB)),
     ('CIECAM02', 'CIECAM02 JMh', CIECAM02_to_JMh_CIECAM02),
     ('CIECAM02 JMh', 'CIECAM02', JMh_CIECAM02_to_CIECAM02),
-    ('CIE XYZ', 'CAM16',
-     partial(
-         XYZ_to_CAM16,
-         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
-         L_A=64 / np.pi * 0.2,
-         Y_b=20)),
-    ('CAM16', 'CIE XYZ',
-     partial(
-         CAM16_to_XYZ,
-         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
-         L_A=64 / np.pi * 0.2,
-         Y_b=20)),
+    ('CIE XYZ', 'CAM16', partial(XYZ_to_CAM16, **CAM_KWARGS_CIECAM02_sRGB)),
+    ('CAM16', 'CIE XYZ', partial(CAM16_to_XYZ, **CAM_KWARGS_CIECAM02_sRGB)),
     ('CAM16', 'CAM16 JMh', CAM16_to_JMh_CAM16),
     ('CAM16 JMh', 'CAM16', JMh_CAM16_to_CAM16),
     ('CIE XYZ', 'LLAB',
@@ -909,6 +894,7 @@ verbose={'mode': 'Long'})
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour import SDS_COLOURCHECKERS
     >>> sd = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',

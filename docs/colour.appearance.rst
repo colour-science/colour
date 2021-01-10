@@ -40,6 +40,7 @@ CIECAM02
 .. autosummary::
     :toctree: generated/
 
+    CAM_KWARGS_CIECAM02_sRGB
     InductionFactors_CIECAM02
 
 CAM16

@@ -15,6 +15,11 @@ References
 ----------
 -   :cite:`Fairchild2004c` : Fairchild, M. D. (2004). CIECAM02. In Color
     Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0-470-01216-1
+-   :cite:`InternationalElectrotechnicalCommission1999a` : International
+    Electrotechnical Commission. (1999). IEC 61966-2-1:1999 - Multimedia
+    systems and equipment - Colour measurement and management - Part 2-1:
+    Colour management - Default RGB colour space - sRGB (p. 51).
+    https://webstore.iec.ch/publication/6169
 -   :cite:`Luo2013` : Luo, Ming Ronnier, & Li, C. (2013). CIECAM02 and Its
     Recent Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
     Processing and Analysis (pp. 19-58). Springer New York.
@@ -33,12 +38,15 @@ from colour.algebra import spow
 from colour.adaptation import CAT_CAT02
 from colour.appearance.hunt import (MATRIX_HPE_TO_XYZ, MATRIX_XYZ_TO_HPE,
                                     luminance_level_adaptation_factor)
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
+from colour.models import xy_to_XYZ
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
     as_float, from_range_degrees, matrix_dot, vector_dot, from_range_100, ones,
     to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
-
+from colour.utilities.documentation import (DocstringDict,
+                                            is_documentation_building)
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -49,11 +57,11 @@ __status__ = 'Production'
 __all__ = [
     'CAT_INVERSE_CAT02', 'InductionFactors_CIECAM02',
     'VIEWING_CONDITIONS_CIECAM02', 'HUE_DATA_FOR_HUE_QUADRATURE',
-    'CAM_Specification_CIECAM02', 'XYZ_to_CIECAM02', 'CIECAM02_to_XYZ',
-    'chromatic_induction_factors', 'base_exponential_non_linearity',
-    'viewing_condition_dependent_parameters', 'degree_of_adaptation',
-    'full_chromatic_adaptation_forward', 'full_chromatic_adaptation_inverse',
-    'RGB_to_rgb', 'rgb_to_RGB',
+    'CAM_KWARGS_CIECAM02_sRGB', 'CAM_Specification_CIECAM02',
+    'XYZ_to_CIECAM02', 'CIECAM02_to_XYZ', 'chromatic_induction_factors',
+    'base_exponential_non_linearity', 'viewing_condition_dependent_parameters',
+    'degree_of_adaptation', 'full_chromatic_adaptation_forward',
+    'full_chromatic_adaptation_inverse', 'RGB_to_rgb', 'rgb_to_RGB',
     'post_adaptation_non_linear_response_compression_forward',
     'post_adaptation_non_linear_response_compression_inverse',
     'opponent_colour_dimensions_forward', 'opponent_colour_dimensions_inverse',
@@ -117,6 +125,36 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'e_i': np.array([0.8, 0.7, 1.0, 1.2, 0.8]),
     'H_i': np.array([0.0, 100.0, 200.0, 300.0, 400.0])
 }
+
+CAM_KWARGS_CIECAM02_sRGB = {
+    'XYZ_w':
+        xy_to_XYZ(
+            CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']),
+    'L_A':
+        64 / np.pi * 0.2,
+    'Y_b':
+        20,
+    'surround':
+        VIEWING_CONDITIONS_CIECAM02['Average']
+}
+if is_documentation_building():  # pragma: no cover
+    CAM_KWARGS_CIECAM02_sRGB = DocstringDict(CAM_KWARGS_CIECAM02_sRGB)
+    CAM_KWARGS_CIECAM02_sRGB.__doc__ = """
+Default parameter values for the *CIECAM02* colour appearance model usage in
+the context of *sRGB*.
+
+Warnings
+--------
+The *CIE XYZ* tristimulus values of reference white :math:`XYZ_w` is given for
+the domain-range scale **'1'**.
+
+References
+----------
+:cite:`Fairchild2004c`, :cite:`InternationalElectrotechnicalCommission1999a`,
+:cite:`Luo2013`, :cite:`Moroneya`, :cite:`Wikipedia2007a`
+
+CAM_KWARGS_CIECAM02_sRGB : dict
+"""
 
 
 class CAM_Specification_CIECAM02(
