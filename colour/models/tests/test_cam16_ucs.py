@@ -6,7 +6,8 @@ Defines unit tests for :mod:`colour.models.cam16_ucs` module.
 import unittest
 
 from colour.models.tests.test_cam02_ucs import (
-    TestJMh_CIECAM02_to_UCS_Luo2006, TestUCS_Luo2006_to_JMh_CIECAM02)
+    TestJMh_CIECAM02_to_UCS_Luo2006, TestUCS_Luo2006_to_JMh_CIECAM02,
+    TestXYZ_to_UCS_Luo2006, TestUCS_Luo2006_to_XYZ)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -15,7 +16,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestJMh_CAM16_to_UCS_Li2017', 'TestUCS_Li2017_to_JMh_CAM16']
+__all__ = [
+    'TestJMh_CAM16_to_UCS_Li2017', 'TestUCS_Li2017_to_JMh_CAM16',
+    'TestXYZ_to_UCS_Li2017', 'TestUCS_Li2017_to_XYZ'
+]
 
 
 class TestJMh_CAM16_to_UCS_Li2017(TestJMh_CIECAM02_to_UCS_Luo2006):
@@ -42,6 +46,24 @@ class TestUCS_Li2017_to_JMh_CAM16(TestUCS_Luo2006_to_JMh_CIECAM02):
         of :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02` and thus
         currently adopts the same unittests.
     """
+
+
+class TestXYZ_to_UCS_Li2017(TestXYZ_to_UCS_Luo2006):
+    """
+    Defines :func:`colour.models.cam16_ucs.XYZ_to_UCS_Li2017`
+    definition unit tests methods.
+    """
+
+    pass
+
+
+class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
+    """
+    Defines :func:`colour.models.cam16_ucs.UCS_Li2017_to_XYZ`
+    definition unit tests methods.
+    """
+
+    pass
 
 
 if __name__ == '__main__':

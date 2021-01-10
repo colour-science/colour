@@ -95,6 +95,12 @@ __all__ = [
 ]
 
 COLOURSPACE_MODELS_AXIS_ORDER = {
+    'CAM02LCD': (1, 2, 0),
+    'CAM02SCD': (1, 2, 0),
+    'CAM02UCS': (1, 2, 0),
+    'CAM16LCD': (1, 2, 0),
+    'CAM16SCD': (1, 2, 0),
+    'CAM16UCS': (1, 2, 0),
     'CIE XYZ': (0, 1, 2),
     'CIE xyY': (0, 1, 2),
     'CIE Lab': (1, 2, 0),
@@ -119,7 +125,8 @@ COLOURSPACE_MODELS_AXIS_ORDER = {
 Colourspace models axis order.
 
 COLOURSPACE_MODELS_AXIS_ORDER : dict
-    **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE LCHuv',
+    **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM02LCD', 'CAM02SCD', 'CAM02UCS',
+    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE LCHuv',
     'CIE UCS', 'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'ICtCp',
     'IPT', 'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """

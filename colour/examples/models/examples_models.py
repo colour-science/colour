@@ -385,9 +385,21 @@ print(colour.JMh_CIECAM02_to_CAM02UCS(JMh))
 
 print('\n')
 
+message_box(('Converting to "CAM02-UCS" colourspace from given '
+             '"CIE XYZ" tristimulus values:\n'
+             '\n\t{0}'.format(JMh)))
+print(colour.XYZ_to_CAM02UCS(XYZ / 100, XYZ_w=XYZ_w / 100, L_A=L_A, Y_b=Y_b))
+
+print('\n')
+
 specification = colour.XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 JMh = (specification.J, specification.M, specification.h)
 message_box(('Converting to "CAM16-UCS" colourspace from given '
              '"CAM16" colour appearance model "JMh" correlates:\n'
              '\n\t{0}'.format(JMh)))
 print(colour.JMh_CAM16_to_CAM16UCS(JMh))
+
+message_box(('Converting to "CAM16-UCS" colourspace from given '
+             '"CIE XYZ" tristimulus values:\n'
+             '\n\t{0}'.format(JMh)))
+print(colour.XYZ_to_CAM16UCS(XYZ / 100, XYZ_w=XYZ_w / 100, L_A=L_A, Y_b=Y_b))

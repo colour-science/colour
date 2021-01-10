@@ -521,6 +521,10 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> colour.JMh_CIECAM02_to_CAM02UCS(JMh)
     array([ 47.16899898,  38.72623785,  15.8663383 ])
+    >>> XYZ = [0.20654008, 0.12197225, 0.05136952]
+    >>> XYZ_w = [95.05 / 100, 100.00 / 100, 108.88 / 100]
+    >>> colour.XYZ_to_CAM02UCS(XYZ, XYZ_w=XYZ_w, L_A=L_A, Y_b=Y_b) * 100
+    array([ 47.16899898,  38.72623785,  15.8663383 ])
 
 CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 *******************************************************************
@@ -537,6 +541,10 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> colour.JMh_CAM16_to_CAM16UCS(JMh)
     array([ 46.55542238,  40.22460974,  14.25288392]
+    >>> XYZ = [0.20654008, 0.12197225, 0.05136952]
+    >>> XYZ_w = [95.05 / 100, 100.00 / 100, 108.88 / 100]
+    >>> colour.XYZ_to_CAM16UCS(XYZ, XYZ_w=XYZ_w, L_A=L_A, Y_b=Y_b) * 100
+    array([ 46.55542238,  40.22460974,  14.25288392])
 
 IgPgTg Colourspace
 ******************
