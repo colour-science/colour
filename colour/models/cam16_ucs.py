@@ -38,7 +38,7 @@ from colour.models.cam02_ucs import (
     CAM02UCS_to_JMh_CIECAM02, XYZ_to_CAM02LCD, CAM02LCD_to_XYZ,
     XYZ_to_CAM02SCD, CAM02SCD_to_XYZ, XYZ_to_CAM02UCS, CAM02UCS_to_XYZ)
 from colour.utilities import (as_float_array, copy_definition,
-                              domain_range_scale, tsplit)
+                              get_domain_range_scale, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -131,7 +131,6 @@ CAM16UCS_to_JMh_CAM16.__doc__ = (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring(CAM02UCS_to_JMh_CIECAM02))
 
 
-@domain_range_scale('1')
 def XYZ_to_UCS_Li2017(XYZ, coefficients, **kwargs):
     """
     Converts from *CIE XYZ* tristimulus values to one of the *Li et al. (2017)*
@@ -162,7 +161,8 @@ def XYZ_to_UCS_Li2017(XYZ, coefficients, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -176,11 +176,11 @@ def XYZ_to_UCS_Li2017(XYZ, coefficients, **kwargs):
     +------------+------------------------+------------------+
     | **Range**  |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     Examples
@@ -189,21 +189,28 @@ def XYZ_to_UCS_Li2017(XYZ, coefficients, **kwargs):
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS_Li2017(XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
     ... # doctest: +ELLIPSIS
-    array([ 0.4606586...,  0.4107586...,  0.1451025...])
+    array([ 46.0658603...,  41.0758649...,  14.5102582...])
     """
 
     from colour.appearance import (CAM_KWARGS_CIECAM02_sRGB, XYZ_to_CAM16)
 
+    domain_range_reference = get_domain_range_scale() == 'reference'
+
     settings = CAM_KWARGS_CIECAM02_sRGB.copy()
     settings.update(**kwargs)
+    XYZ_w = kwargs.get('XYZ_w')
+    if XYZ_w is not None and domain_range_reference:
+        settings['XYZ_w'] = XYZ_w * 100
+
+    if domain_range_reference:
+        XYZ = as_float_array(XYZ) * 100
 
     specification = XYZ_to_CAM16(XYZ, **settings)
-    JMh = as_float_array([specification.J, specification.M, specification.h])
+    JMh = tstack([specification.J, specification.M, specification.h])
 
     return JMh_CAM16_to_UCS_Li2017(JMh, coefficients)
 
 
-@domain_range_scale('1')
 def UCS_Li2017_to_XYZ(Jpapbp, coefficients, **kwargs):
     """
     Converts from one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or
@@ -235,7 +242,8 @@ def UCS_Li2017_to_XYZ(Jpapbp, coefficients, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -243,11 +251,11 @@ def UCS_Li2017_to_XYZ(Jpapbp, coefficients, **kwargs):
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     +------------+------------------------+------------------+
@@ -259,7 +267,7 @@ def UCS_Li2017_to_XYZ(Jpapbp, coefficients, **kwargs):
     Examples
     --------
     >>> import numpy as np
-    >>> Jpapbp = np.array([0.4606586, 0.41075865, 0.14510258])
+    >>> Jpapbp = np.array([46.06586037, 41.07586491, 14.51025828])
     >>> UCS_Li2017_to_XYZ(
     ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
     ... # doctest: +ELLIPSIS
@@ -269,14 +277,25 @@ def UCS_Li2017_to_XYZ(Jpapbp, coefficients, **kwargs):
     from colour.appearance import (CAM_KWARGS_CIECAM02_sRGB,
                                    CAM_Specification_CAM16, CAM16_to_XYZ)
 
+    domain_range_reference = get_domain_range_scale() == 'reference'
+
     settings = CAM_KWARGS_CIECAM02_sRGB.copy()
     settings.update(**kwargs)
+    XYZ_w = kwargs.get('XYZ_w')
+
+    if XYZ_w is not None and domain_range_reference:
+        settings['XYZ_w'] = XYZ_w * 100
 
     J, M, h = tsplit(UCS_Li2017_to_JMh_CAM16(Jpapbp, coefficients))
 
     specification = CAM_Specification_CAM16(J=J, M=M, h=h)
 
-    return CAM16_to_XYZ(specification, **settings)
+    XYZ = CAM16_to_XYZ(specification, **settings)
+
+    if domain_range_reference:
+        XYZ /= 100
+
+    return XYZ
 
 
 XYZ_to_CAM16LCD = partial(
