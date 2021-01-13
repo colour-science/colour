@@ -1558,7 +1558,11 @@ def plot_multi_cctfs(cctfs, cctf_decoding=False, **kwargs):
 
 
 @override_style()
-def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
+def plot_constant_hue_loci(data,
+                           model,
+                           scatter_kwargs=None,
+                           convert_kwargs=None,
+                           **kwargs):
     """
     Plots given constant hue loci colour matches data such as that from
     :cite:`Hung1995` or :cite:`Ebner1998` that are easily loaded with
@@ -1595,6 +1599,8 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
 
         -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
             will use the colours as given by the ``RGB`` argument.
+    convert_kwargs : dict, optional
+        Keyword arguments for the :func:`colour.convert` definition.
 
     Other Parameters
     ----------------
@@ -1703,6 +1709,9 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
     if scatter_kwargs is not None:
         scatter_settings.update(scatter_kwargs)
 
+    if convert_kwargs is None:
+        convert_kwargs = {}
+
     use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
 
     colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
@@ -1710,10 +1719,14 @@ def plot_constant_hue_loci(data, model, scatter_kwargs=None, **kwargs):
         _name, XYZ_r, XYZ_cr, XYZ_ct, _metadata = hue_data
 
         xy_r = XYZ_to_xy(XYZ_r)
+
+        convert_settings = {'illuminant': xy_r}
+        convert_settings.update(convert_kwargs)
+
         ijk_ct = colourspace_model_axis_reorder(
-            convert(XYZ_ct, 'CIE XYZ', model, illuminant=xy_r), model)
+            convert(XYZ_ct, 'CIE XYZ', model, **convert_settings), model)
         ijk_cr = colourspace_model_axis_reorder(
-            convert(XYZ_cr, 'CIE XYZ', model, illuminant=xy_r), model)
+            convert(XYZ_cr, 'CIE XYZ', model, **convert_settings), model)
 
         def _linear_equation(x, a, b):
             """

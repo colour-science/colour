@@ -364,6 +364,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
                                  spectral_locus_colour=None,
                                  cmfs='CIE 1931 2 Degree Standard Observer',
                                  chromatically_adapt=False,
+                                 convert_kwargs=None,
                                  **kwargs):
     """
     Plots given *RGB* colourspaces gamuts in given reference colourspace.
@@ -395,6 +396,8 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
     chromatically_adapt : bool, optional
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
+    convert_kwargs : dict, optional
+        Keyword arguments for the :func:`colour.convert` definition.
 
     Other Parameters
     ----------------
@@ -436,6 +439,11 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
         reference_colourspace,
     )
 
+    illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
+
+    convert_settings = {'illuminant': illuminant}
+    convert_settings.update(convert_kwargs)
+
     settings = Structure(
         **{
             'face_colours': [None] * count_c,
@@ -449,16 +457,13 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
     figure = plt.figure()
     axes = figure.add_subplot(111, projection='3d')
 
-    illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
-
     points = zeros([4, 3])
     if show_spectral_locus:
         cmfs = first_item(filter_cmfs(cmfs).values())
         XYZ = cmfs.values
 
         points = colourspace_model_axis_reorder(
-            convert(
-                XYZ, 'CIE XYZ', reference_colourspace, illuminant=illuminant),
+            convert(XYZ, 'CIE XYZ', reference_colourspace, **convert_settings),
             reference_colourspace)
 
         points[np.isnan(points)] = 0
@@ -497,13 +502,13 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
             colourspace.matrix_RGB_to_XYZ,
         )
 
+        convert_settings = {'illuminant': colourspace.whitepoint}
+        convert_settings.update(convert_kwargs)
+
         quads.extend(
             colourspace_model_axis_reorder(
-                convert(
-                    XYZ,
-                    'CIE XYZ',
-                    reference_colourspace,
-                    illuminant=colourspace.whitepoint), reference_colourspace))
+                convert(XYZ, 'CIE XYZ', reference_colourspace,
+                        **convert_settings), reference_colourspace))
 
         if settings.face_colours[i] is not None:
             RGB = ones(RGB.shape) * settings.face_colours[i]
@@ -572,6 +577,7 @@ def plot_RGB_scatter(RGB,
                      points_size=12,
                      cmfs='CIE 1931 2 Degree Standard Observer',
                      chromatically_adapt=False,
+                     convert_kwargs=None,
                      **kwargs):
     """
     Plots given *RGB* colourspace array in a scatter plot.
@@ -611,6 +617,8 @@ def plot_RGB_scatter(RGB,
     chromatically_adapt : bool, optional
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
+    convert_kwargs : dict, optional
+        Keyword arguments for the :func:`colour.convert` definition.
 
     Other Parameters
     ----------------
@@ -666,12 +674,12 @@ def plot_RGB_scatter(RGB,
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.matrix_RGB_to_XYZ)
 
+    convert_settings = {'illuminant': colourspace.whitepoint}
+    convert_settings.copy(convert_kwargs)
+
     points = colourspace_model_axis_reorder(
-        convert(
-            XYZ,
-            'CIE XYZ',
-            reference_colourspace,
-            illuminant=colourspace.whitepoint), reference_colourspace)
+        convert(XYZ, 'CIE XYZ', reference_colourspace, **convert_settings),
+        reference_colourspace)
 
     axes = plt.gca()
     axes.scatter(
