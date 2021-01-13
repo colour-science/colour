@@ -13,6 +13,8 @@ Defines the *RED* log encodings:
 -   :func:`colour.models.log_decoding_Log3G10_v1`
 -   :func:`colour.models.log_encoding_Log3G10_v2`
 -   :func:`colour.models.log_decoding_Log3G10_v2`
+-   :func:`colour.models.log_encoding_Log3G10_v3`
+-   :func:`colour.models.log_decoding_Log3G10_v3`
 -   :attr:`colour.models.LOG3G10_ENCODING_METHODS`
 -   :func:`colour.models.log_encoding_Log3G10`
 -   :attr:`colour.models.LOG3G10_DECODING_METHODS`
@@ -24,6 +26,9 @@ References
 ----------
 -   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with Shaw,
     N.
+    :cite:`Red2017` : Red. (2017). White Paper On REDWIDEGAMUTRGB And LOG3G10
+    Ver.0.0.0 (pp. 4).
+    https://www.red.com/download/white-paper-on-redwidegamutrgb-and-log3g10
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
     November 27, 2014, from
     https://github.com/imageworks/OpenColorIO-Configs/blob/master/\
@@ -48,7 +53,8 @@ __all__ = [
     'log_encoding_REDLog', 'log_decoding_REDLog', 'log_encoding_REDLogFilm',
     'log_decoding_REDLogFilm', 'log_encoding_Log3G10_v1',
     'log_decoding_Log3G10_v1', 'log_encoding_Log3G10_v2',
-    'log_decoding_Log3G10_v2', 'LOG3G10_ENCODING_METHODS',
+    'log_decoding_Log3G10_v2', 'log_encoding_Log3G10_v3',
+    'log_decoding_Log3G10_v3', 'LOG3G10_ENCODING_METHODS',
     'log_encoding_Log3G10', 'LOG3G10_DECODING_METHODS', 'log_decoding_Log3G10',
     'log_encoding_Log3G12', 'log_decoding_Log3G12'
 ]
@@ -431,9 +437,118 @@ def log_decoding_Log3G10_v2(y):
     return from_range_1(x)
 
 
+def log_encoding_Log3G10_v3(x):
+    """
+    Defines the *Log3G10* *v3* log encoding curve / opto-electronic transfer
+    function, the curve described in the RedLog3G10 Whitepaper.
+
+    Parameters
+    ----------
+    x : numeric or array_like
+        Linear data :math:`x`.
+
+    Returns
+    -------
+    numeric or ndarray
+        Non-linear data :math:`y`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Red2017`
+
+    Examples
+    --------
+    >>> log_encoding_Log3G10_v3(0.0)  # doctest: +ELLIPSIS
+    0.0915515...
+    >>> log_encoding_Log3G10_v3(-0.01)  # doctest: +ELLIPSIS
+    -0.151927...
+    """
+
+    a = 0.224282
+    b = 155.975327
+    c = 0.01
+    g = 15.1927
+
+    x = to_domain_1(x)
+
+    x = x + c
+
+    y = np.where(x < 0.0, x * g, a * np.log10((x * b) + 1.0))
+
+    return from_range_1(y)
+
+
+def log_decoding_Log3G10_v3(y):
+    """
+    Defines the *Log3G10* *v3* log decoding curve / electro-optical transfer
+    function, the curve described in the RedLog3G10 whitepaper.
+
+    Parameters
+    ----------
+    y : numeric or array_like
+        Non-linear data :math:`y`.
+
+    Returns
+    -------
+    numeric or ndarray
+        Linear data :math:`x`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Red2017`
+
+    Examples
+    --------
+    >>> log_decoding_Log3G10_v3(1.0)  # doctest: +ELLIPSIS
+    184.32234764...
+    """
+
+    a = 0.224282
+    b = 155.975327
+    c = 0.01
+    g = 15.1927
+
+    y = to_domain_1(y)
+
+    x = np.where(y < 0.0, (y / g) - c, (10 ** (y / a) - 1.0) / b - c)
+
+    return from_range_1(x)
+
+
 LOG3G10_ENCODING_METHODS = CaseInsensitiveMapping({
     'v1': log_encoding_Log3G10_v1,
     'v2': log_encoding_Log3G10_v2,
+    'v3': log_encoding_Log3G10_v3,
 })
 LOG3G10_ENCODING_METHODS.__doc__ = """
 Supported *Log3G10* log encoding curve / opto-electronic transfer function
@@ -444,11 +559,11 @@ References
 :cite:`Nattress2016a`
 
 LOG3G10_ENCODING_METHODS : CaseInsensitiveMapping
-    **{'v1', 'v2'}**
+    **{'v1', 'v2', 'v3'}**
 """
 
 
-def log_encoding_Log3G10(x, method='v2'):
+def log_encoding_Log3G10(x, method='v3'):
     """
     Defines the *Log3G10* log encoding curve / opto-electronic transfer
     function.
@@ -458,7 +573,7 @@ def log_encoding_Log3G10(x, method='v2'):
     x : numeric or array_like
         Linear data :math:`x`.
     method : unicode, optional
-        **{'v1', 'v2'}**,
+        **{'v1', 'v2', 'v3'}**,
         Computation method.
 
     Returns
@@ -518,7 +633,7 @@ def log_encoding_Log3G10(x, method='v2'):
     Examples
     --------
     >>> log_encoding_Log3G10(0.0)  # doctest: +ELLIPSIS
-    0.0915514...
+    0.0915515...
     >>> log_encoding_Log3G10(0.18, method='v1')  # doctest: +ELLIPSIS
     0.3333336...
     """
@@ -529,6 +644,7 @@ def log_encoding_Log3G10(x, method='v2'):
 LOG3G10_DECODING_METHODS = CaseInsensitiveMapping({
     'v1': log_decoding_Log3G10_v1,
     'v2': log_decoding_Log3G10_v2,
+    'v3': log_decoding_Log3G10_v3,
 })
 LOG3G10_DECODING_METHODS.__doc__ = """
 Supported *Log3G10* log decoding curve / electro-optical transfer function
@@ -539,11 +655,11 @@ References
 :cite:`Nattress2016a`
 
 LOG3G10_DECODING_METHODS : CaseInsensitiveMapping
-    **{'v1', 'v2'}**
+    **{'v1', 'v2', 'v3'}**
 """
 
 
-def log_decoding_Log3G10(y, method='v2'):
+def log_decoding_Log3G10(y, method='v3'):
     """
     Defines the *Log3G10* log decoding curve / electro-optical transfer
     function.
@@ -553,7 +669,7 @@ def log_decoding_Log3G10(y, method='v2'):
     y : numeric or array_like
         Non-linear data :math:`y`.
     method : unicode, optional
-        **{'v1', 'v2'}**,
+        **{'v1', 'v2', 'v3'}**,
         Computation method.
 
     Returns
