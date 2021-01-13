@@ -432,6 +432,9 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
 
     colourspaces = filter_RGB_colourspaces(colourspaces).values()
 
+    if convert_kwargs is None:
+        convert_kwargs = {}
+
     count_c = len(colourspaces)
 
     title = '{0} - {1} Reference Colourspace'.format(
@@ -648,6 +651,9 @@ def plot_RGB_scatter(RGB,
     if colourspaces is None:
         colourspaces = (colourspace.name, )
 
+    if convert_kwargs is None:
+        convert_kwargs = {}
+
     count_c = len(colourspaces)
     settings = Structure(
         **{
@@ -675,7 +681,7 @@ def plot_RGB_scatter(RGB,
                      colourspace.matrix_RGB_to_XYZ)
 
     convert_settings = {'illuminant': colourspace.whitepoint}
-    convert_settings.copy(convert_kwargs)
+    convert_settings.update(convert_kwargs)
 
     points = colourspace_model_axis_reorder(
         convert(XYZ, 'CIE XYZ', reference_colourspace, **convert_settings),
