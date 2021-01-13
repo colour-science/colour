@@ -302,6 +302,21 @@ Default automatic colour conversion graph *RGB* colourspace.
 _RGB_COLOURSPACE_DEFAULT : RGB_COLOURSPACE_RGB
 """
 
+_CAM_KWARGS_CIECAM02_sRGB = CAM_KWARGS_CIECAM02_sRGB.copy()
+"""
+Default parameter values for the *CIECAM02* colour appearance model usage in
+the context of *sRGB*.
+
+Warnings
+--------
+The *CIE XYZ* tristimulus values of reference white :math:`XYZ_w` is adjusted
+for the domain-range scale **'1'**.
+
+CAM_KWARGS_CIECAM02_sRGB : dict
+"""
+
+_CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] = _CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] / 100
+
 CONVERSION_SPECIFICATIONS_DATA = [
     # Colorimetry
     ('Spectral Distribution', 'CIE XYZ',
@@ -469,14 +484,14 @@ CONVERSION_SPECIFICATIONS_DATA = [
          Y_0=80 * 0.2,
          k_1=0,
          k_2=(15 + 50) / 2)),
-    ('CIE XYZ', 'CIECAM02', partial(XYZ_to_CIECAM02,
-                                    **CAM_KWARGS_CIECAM02_sRGB)),
-    ('CIECAM02', 'CIE XYZ', partial(CIECAM02_to_XYZ,
-                                    **CAM_KWARGS_CIECAM02_sRGB)),
+    ('CIE XYZ', 'CIECAM02',
+     partial(XYZ_to_CIECAM02, **_CAM_KWARGS_CIECAM02_sRGB)),
+    ('CIECAM02', 'CIE XYZ',
+     partial(CIECAM02_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
     ('CIECAM02', 'CIECAM02 JMh', CIECAM02_to_JMh_CIECAM02),
     ('CIECAM02 JMh', 'CIECAM02', JMh_CIECAM02_to_CIECAM02),
-    ('CIE XYZ', 'CAM16', partial(XYZ_to_CAM16, **CAM_KWARGS_CIECAM02_sRGB)),
-    ('CAM16', 'CIE XYZ', partial(CAM16_to_XYZ, **CAM_KWARGS_CIECAM02_sRGB)),
+    ('CIE XYZ', 'CAM16', partial(XYZ_to_CAM16, **_CAM_KWARGS_CIECAM02_sRGB)),
+    ('CAM16', 'CIE XYZ', partial(CAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
     ('CAM16', 'CAM16 JMh', CAM16_to_JMh_CAM16),
     ('CAM16 JMh', 'CAM16', JMh_CAM16_to_CAM16),
     ('CIE XYZ', 'LLAB',

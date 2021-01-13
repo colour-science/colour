@@ -129,7 +129,8 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
 CAM_KWARGS_CIECAM02_sRGB = {
     'XYZ_w':
         xy_to_XYZ(
-            CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']),
+            CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']) *
+        100,
     'L_A':
         64 / np.pi * 0.2,
     'Y_b':
@@ -142,11 +143,6 @@ if is_documentation_building():  # pragma: no cover
     CAM_KWARGS_CIECAM02_sRGB.__doc__ = """
 Default parameter values for the *CIECAM02* colour appearance model usage in
 the context of *sRGB*.
-
-Warnings
---------
-The *CIE XYZ* tristimulus values of reference white :math:`XYZ_w` is given for
-the domain-range scale **'1'**.
 
 References
 ----------

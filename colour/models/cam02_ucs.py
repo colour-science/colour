@@ -31,8 +31,8 @@ from collections import namedtuple
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, domain_range_scale, from_range_100,
-    from_range_degrees, to_domain_100, to_domain_degrees, tsplit, tstack)
+    CaseInsensitiveMapping, as_float_array, from_range_100, from_range_degrees,
+    get_domain_range_scale, to_domain_100, to_domain_degrees, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -576,7 +576,6 @@ def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
         Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
 
 
-@domain_range_scale('1')
 def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
     """
     Converts from *CIE XYZ* tristimulus values to one of the
@@ -608,7 +607,8 @@ def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -622,11 +622,11 @@ def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
     +------------+------------------------+------------------+
     | **Range**  |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     Examples
@@ -634,21 +634,28 @@ def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
     ... # doctest: +ELLIPSIS
-    array([ 0.4661386...,  0.3935760...,  0.1596730...])
+    array([ 46.6138615...,  39.3576023...,  15.9673043...])
     """
 
     from colour.appearance import CAM_KWARGS_CIECAM02_sRGB, XYZ_to_CIECAM02
 
+    domain_range_reference = get_domain_range_scale() == 'reference'
+
     settings = CAM_KWARGS_CIECAM02_sRGB.copy()
     settings.update(**kwargs)
+    XYZ_w = kwargs.get('XYZ_w')
+    if XYZ_w is not None and domain_range_reference:
+        settings['XYZ_w'] = XYZ_w * 100
+
+    if domain_range_reference:
+        XYZ = as_float_array(XYZ) * 100
 
     specification = XYZ_to_CIECAM02(XYZ, **settings)
-    JMh = as_float_array([specification.J, specification.M, specification.h])
+    JMh = tstack([specification.J, specification.M, specification.h])
 
     return JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients)
 
 
-@domain_range_scale('1')
 def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
     """
     Converts from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
@@ -680,7 +687,8 @@ def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -688,11 +696,11 @@ def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     +------------+------------------------+------------------+
@@ -703,7 +711,7 @@ def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
 
     Examples
     --------
-    >>> Jpapbp = np.array([0.46613862, 0.39357602, 0.15967304])
+    >>> Jpapbp = np.array([46.61386154, 39.35760236, 15.96730435])
     >>> UCS_Luo2006_to_XYZ(
     ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
     ... # doctest: +ELLIPSIS
@@ -713,14 +721,25 @@ def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
     from colour.appearance import (CAM_KWARGS_CIECAM02_sRGB,
                                    CAM_Specification_CIECAM02, CIECAM02_to_XYZ)
 
+    domain_range_reference = get_domain_range_scale() == 'reference'
+
     settings = CAM_KWARGS_CIECAM02_sRGB.copy()
     settings.update(**kwargs)
+    XYZ_w = kwargs.get('XYZ_w')
+
+    if XYZ_w is not None and domain_range_reference:
+        settings['XYZ_w'] = XYZ_w * 100
 
     J, M, h = tsplit(UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients))
 
     specification = CAM_Specification_CIECAM02(J=J, M=M, h=h)
 
-    return CIECAM02_to_XYZ(specification, **settings)
+    XYZ = CIECAM02_to_XYZ(specification, **settings)
+
+    if domain_range_reference:
+        XYZ /= 100
+
+    return XYZ
 
 
 def XYZ_to_CAM02LCD(XYZ, **kwargs):
@@ -749,7 +768,8 @@ def XYZ_to_CAM02LCD(XYZ, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -763,11 +783,11 @@ def XYZ_to_CAM02LCD(XYZ, **kwargs):
     +------------+------------------------+------------------+
     | **Range**  |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     References
@@ -778,7 +798,7 @@ def XYZ_to_CAM02LCD(XYZ, **kwargs):
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_CAM02LCD(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.4661386...,  0.3935760...,  0.1596730...])
+    array([ 46.6138615...,  39.3576023...,  15.9673043...])
     """
 
     return XYZ_to_UCS_Luo2006(
@@ -811,7 +831,8 @@ def CAM02LCD_to_XYZ(Jpapbp, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -819,11 +840,11 @@ def CAM02LCD_to_XYZ(Jpapbp, **kwargs):
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     +------------+------------------------+------------------+
@@ -838,7 +859,7 @@ def CAM02LCD_to_XYZ(Jpapbp, **kwargs):
 
     Examples
     --------
-    >>> Jpapbp = np.array([0.46613862, 0.39357602, 0.15967304])
+    >>> Jpapbp = np.array([46.61386154, 39.35760236, 15.96730435])
     >>> CAM02LCD_to_XYZ(Jpapbp)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
@@ -873,7 +894,8 @@ def XYZ_to_CAM02SCD(XYZ, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -887,11 +909,11 @@ def XYZ_to_CAM02SCD(XYZ, **kwargs):
     +------------+------------------------+------------------+
     | **Range**  |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     References
@@ -902,7 +924,7 @@ def XYZ_to_CAM02SCD(XYZ, **kwargs):
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_CAM02SCD(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.4661386...,  0.2562879...,  0.1039755...])
+    array([ 46.6138615...,  25.6287988...,  10.3975548...])
     """
 
     return XYZ_to_UCS_Luo2006(
@@ -935,7 +957,8 @@ def CAM02SCD_to_XYZ(Jpapbp, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -943,11 +966,11 @@ def CAM02SCD_to_XYZ(Jpapbp, **kwargs):
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     +------------+------------------------+------------------+
@@ -962,7 +985,7 @@ def CAM02SCD_to_XYZ(Jpapbp, **kwargs):
 
     Examples
     --------
-    >>> Jpapbp = np.array([0.46613862, 0.25628799, 0.10397555])
+    >>> Jpapbp = np.array([46.61386154, 25.62879882, 10.39755489])
     >>> CAM02SCD_to_XYZ(Jpapbp)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
@@ -997,7 +1020,8 @@ def XYZ_to_CAM02UCS(XYZ, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -1011,11 +1035,11 @@ def XYZ_to_CAM02UCS(XYZ, **kwargs):
     +------------+------------------------+------------------+
     | **Range**  |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     References
@@ -1026,7 +1050,7 @@ def XYZ_to_CAM02UCS(XYZ, **kwargs):
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_CAM02UCS(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.4661386...,  0.298831 ...,  0.1212351...])
+    array([ 46.6138615...,  29.8831001...,  12.1235168...])
     """
 
     return XYZ_to_UCS_Luo2006(
@@ -1059,7 +1083,8 @@ def CAM02UCS_to_XYZ(Jpapbp, **kwargs):
 
     Warnings
     --------
-    The domain-range scale is **'1'** and cannot be changed.
+    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the sane domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -1067,11 +1092,11 @@ def CAM02UCS_to_XYZ(Jpapbp, **kwargs):
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 1]        | ``Jp`` : [0, 1]  |
+    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
     |            |                        |                  |
-    |            | ``ap`` : [-1, 1]       | ``ap`` : [-1, 1] |
+    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
     |            |                        |                  |
-    |            | ``bp`` : [-1, 1]       | ``bp`` : [-1, 1] |
+    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
     +------------+------------------------+------------------+
 
     +------------+------------------------+------------------+
@@ -1086,7 +1111,7 @@ def CAM02UCS_to_XYZ(Jpapbp, **kwargs):
 
     Examples
     --------
-    >>> Jpapbp = np.array([0.46613862, 0.29883100, 0.12123517])
+    >>> Jpapbp = np.array([46.61386154, 29.88310013, 12.12351683])
     >>> CAM02UCS_to_XYZ(Jpapbp)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
