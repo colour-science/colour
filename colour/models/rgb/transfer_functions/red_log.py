@@ -40,7 +40,8 @@ import numpy as np
 from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
                                                   log_decoding_Cineon)
 
-from colour.utilities import CaseInsensitiveMapping, from_range_1, to_domain_1
+from colour.utilities import (CaseInsensitiveMapping, from_range_1,
+                              to_domain_1, as_numeric)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -474,9 +475,7 @@ def log_encoding_Log3G10_v3(x):
     Examples
     --------
     >>> log_encoding_Log3G10_v3(0.0)  # doctest: +ELLIPSIS
-    0.0915515...
-    >>> log_encoding_Log3G10_v3(-0.01)  # doctest: +ELLIPSIS
-    -0.151927...
+    0.09155148...
     """
 
     a = 0.224282
@@ -488,9 +487,9 @@ def log_encoding_Log3G10_v3(x):
 
     x = x + c
 
-    y = np.where(x < 0.0, x * g, a * np.log10((x * b) + 1.0))
+    y = np.where(x < 0.0, x * g, a * np.log10((np.abs(x) * b) + 1.0))
 
-    return from_range_1(y)
+    return as_numeric(from_range_1(y))
 
 
 def log_decoding_Log3G10_v3(y):
@@ -542,7 +541,7 @@ def log_decoding_Log3G10_v3(y):
 
     x = np.where(y < 0.0, (y / g) - c, (10 ** (y / a) - 1.0) / b - c)
 
-    return from_range_1(x)
+    return as_numeric(from_range_1(x))
 
 
 LOG3G10_ENCODING_METHODS = CaseInsensitiveMapping({
@@ -633,7 +632,7 @@ def log_encoding_Log3G10(x, method='v3'):
     Examples
     --------
     >>> log_encoding_Log3G10(0.0)  # doctest: +ELLIPSIS
-    0.0915515...
+    0.09155148...
     >>> log_encoding_Log3G10(0.18, method='v1')  # doctest: +ELLIPSIS
     0.3333336...
     """
