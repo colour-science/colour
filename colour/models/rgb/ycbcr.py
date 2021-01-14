@@ -3,8 +3,11 @@
 Y'CbCr Colour Encoding
 ======================
 
-Defines the *Y'CbCr* colour encoding related transformations:
+Defines the *Y'CbCr* colour encoding related attributes and objects:
 
+-   :attr:`colour.WEIGHTS_YCBCR`
+-   :func:`colour.matrix_YCbCr`
+-   :func:`colour.offset_YCbCr`
 -   :func:`colour.RGB_to_YCbCr`
 -   :func:`colour.YCbCr_to_RGB`
 -   :func:`colour.RGB_to_YcCbcCrc`
@@ -60,8 +63,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'WEIGHTS_YCBCR', 'YCbCr_ranges', 'RGB_to_YCbCr', 'YCbCr_to_RGB',
-    'RGB_to_YcCbcCrc', 'YcCbcCrc_to_RGB'
+    'WEIGHTS_YCBCR', 'ranges_YCbCr', 'matrix_YCbCr', 'offset_YCbCr',
+    'RGB_to_YCbCr', 'YCbCr_to_RGB', 'RGB_to_YcCbcCrc', 'YcCbcCrc_to_RGB'
 ]
 
 WEIGHTS_YCBCR = CaseInsensitiveMapping({
@@ -86,7 +89,7 @@ WEIGHTS_YCBCR : dict
 """
 
 
-def YCbCr_ranges(bits, is_legal, is_int):
+def ranges_YCbCr(bits, is_legal, is_int):
     """"
     Returns the *Y'CbCr* colour encoding ranges array for given bit depth,
     range legality and representation.
@@ -108,11 +111,11 @@ def YCbCr_ranges(bits, is_legal, is_int):
 
     Examples
     --------
-    >>> YCbCr_ranges(8, True, True)
+    >>> ranges_YCbCr(8, True, True)
     array([ 16, 235,  16, 240])
-    >>> YCbCr_ranges(8, True, False)  # doctest: +ELLIPSIS
+    >>> ranges_YCbCr(8, True, False)  # doctest: +ELLIPSIS
     array([ 0.0627451...,  0.9215686...,  0.0627451...,  0.9411764...])
-    >>> YCbCr_ranges(10, False, False)
+    >>> ranges_YCbCr(10, False, False)
     array([ 0. ,  1. , -0.5,  0.5])
     """
 
@@ -133,6 +136,129 @@ def YCbCr_ranges(bits, is_legal, is_int):
         ranges[3] = 0.5
 
     return ranges
+
+
+def matrix_YCbCr(K=WEIGHTS_YCBCR['ITU-R BT.709'],
+                 bits=8,
+                 is_legal=False,
+                 is_int=False):
+    """
+    Computes the *R'G'B'* to *Y'CbCr* matrix for given weights, bit depth,
+    range legality and representation.
+
+    The related offset for the *R'G'B'* to *Y'CbCr* matrix can be computed with
+    the :func:`colour.offset_YCbCr` definition.
+
+    Parameters
+    ----------
+    K : array_like, optional
+        Luma weighting coefficients of red and blue. See
+        :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
+        *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
+    bits : int
+        Bit depth of the *Y'CbCr* colour encoding ranges array.
+    is_legal : bool
+        Whether the *Y'CbCr* colour encoding ranges array is legal.
+    is_int : bool
+        Whether the *Y'CbCr* colour encoding ranges array represents integer
+        code values.
+
+    Returns
+    -------
+    ndarray
+        *Y'CbCr* matrix.
+
+    Examples
+    --------
+    >>> matrix_YCbCr()  # doctest: +ELLIPSIS
+    array([[  1.0000000...e+00,  ...,   1.5748000...e+00],
+           [  1.0000000...e+00,  -1.8732427...e-01,  -4.6812427...e-01],
+           [  1.0000000...e+00,   1.8556000...e+00,  ...]])
+    >>> matrix_YCbCr(K=WEIGHTS_YCBCR['ITU-R BT.601'])  # doctest: +ELLIPSIS
+    array([[  1.0000000...e+00,  ...,   1.4020000...e+00],
+           [  1.0000000...e+00,  -3.4413628...e-01,  -7.1413628...e-01],
+           [  1.0000000...e+00,   1.7720000...e+00,  ...]])
+    >>> matrix_YCbCr(is_legal=True)  # doctest: +ELLIPSIS
+    array([[  1.1643835...e+00,  ...,   1.7927410...e+00],
+           [  1.1643835...e+00,  -2.1324861...e-01,  -5.3290932...e-01],
+           [  1.1643835...e+00,   2.1124017...e+00,  ...]])
+
+    Matching the default output of the :func:`colour.RGB_to_YCbCr` is done as
+    follows:
+
+    >>> from colour.utilities import as_int_array, vector_dot
+    >>> RGB = np.array([1.0, 1.0, 1.0])
+    >>> RGB_to_YCbCr(RGB)  # doctest: +ELLIPSIS
+    array([ 0.9215686...,  0.5019607...,  0.5019607...])
+    >>> YCbCr = vector_dot(np.linalg.inv(matrix_YCbCr(is_legal=True)), RGB)
+    >>> YCbCr += offset_YCbCr(is_legal=True)
+    >>> YCbCr  # doctest: +ELLIPSIS
+    array([ 0.9215686...,  0.5019607...,  0.5019607...])
+
+    Matching the int output of the :func:`colour.RGB_to_YCbCr` is done as
+    follows:
+
+    >>> RGB = np.array([102, 0, 51])
+    >>> RGB_to_YCbCr(RGB, in_bits=8, in_int=True, out_bits=8, out_int=True)
+    ... # doctest: +SKIP
+    array([ 38, 140, 171])
+    >>> YCbCr = vector_dot(np.linalg.inv(matrix_YCbCr(is_legal=True)), RGB)
+    >>> YCbCr += offset_YCbCr(is_legal=True, is_int=True)
+    >>> as_int_array(np.around(YCbCr))
+    ... # doctest: +SKIP
+    array([ 38, 140, 171])
+    """
+
+    Kr, Kb = K
+    Y_min, Y_max, C_min, C_max = ranges_YCbCr(bits, is_legal, is_int)
+
+    Y = np.array([Kr, (1 - Kr - Kb), Kb])
+    Cb = 0.5 * (np.array([0, 0, 1]) - Y) / (1 - Kb)
+    Cr = 0.5 * (np.array([1, 0, 0]) - Y) / (1 - Kr)
+    Y *= Y_max - Y_min
+    Cb *= C_max - C_min
+    Cr *= C_max - C_min
+
+    return np.linalg.inv(np.vstack([Y, Cb, Cr]))
+
+
+def offset_YCbCr(bits=8, is_legal=False, is_int=False):
+    """
+    Computes the *R'G'B'* to *Y'CbCr* offsets for given bit depth, range
+    legality and representation.
+
+    The related *R'G'B'* to *Y'CbCr* matrix can be computed with the
+    :func:`colour.matrix_YCbCr` definition.
+
+    Parameters
+    ----------
+    bits : int
+        Bit depth of the *Y'CbCr* colour encoding ranges array.
+    is_legal : bool
+        Whether the *Y'CbCr* colour encoding ranges array is legal.
+    is_int : bool
+        Whether the *Y'CbCr* colour encoding ranges array represents integer
+        code values.
+
+    Returns
+    -------
+    ndarray
+        *Y'CbCr* matrix.
+
+    Examples
+    --------
+    >>> offset_YCbCr()
+    array([ 0.,  0.,  0.])
+    >>> offset_YCbCr(is_legal=True)  # doctest: +ELLIPSIS
+    array([ 0.0627451...,  0.5019607...,  0.5019607...])
+    """
+
+    Y_min, _Y_max, C_min, C_max = ranges_YCbCr(bits, is_legal, is_int)
+
+    Y_offset = Y_min
+    C_offset = (C_min + C_max) / 2
+
+    return np.array([Y_offset, C_offset, C_offset])
 
 
 def RGB_to_YCbCr(RGB,
@@ -187,7 +313,7 @@ def RGB_to_YCbCr(RGB,
         Array overriding the computed range such as
         *out_range = (Y_min, Y_max, C_min, C_max)`. If ``out_range`` is
         undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed
-        using :func:`colour.models.rgb.ycbcr.YCbCr_ranges` definition.
+        using :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition.
 
     Returns
     -------
@@ -241,27 +367,28 @@ def RGB_to_YCbCr(RGB,
     >>> RGB_to_YCbCr(RGB)  # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5019607...,  0.5019607...])
 
-    Matching float output of The Foundry Nuke's Colorspace node set to YCbCr:
+    Matching the float output of *The Foundry Nuke*'s *Colorspace* node set to
+    *YCbCr*:
 
     >>> RGB_to_YCbCr(RGB,
     ...              out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255))
     ... # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5       ,  0.5       ])
 
-    Matching float output of The Foundry Nuke's Colorspace node set to YPbPr:
+    Matching the float output of *The Foundry Nuke*'s *Colorspace* node set to
+    *YPbPr*:
 
     >>> RGB_to_YCbCr(RGB, out_legal=False, out_int=False)
     ... # doctest: +ELLIPSIS
     array([ 1.,  0.,  0.])
 
-    Creating integer code values as per standard 10-bit SDI:
+    Creating integer code values as per standard *10-bit SDI*:
 
     >>> RGB_to_YCbCr(RGB, out_legal=True, out_bits=10, out_int=True)
     ... # doctest: +ELLIPSIS
     array([940, 512, 512]...)
 
-    For JFIF JPEG conversion as per ITU-T T.871
-    :cite:`InternationalTelecommunicationUnion2011e`:
+    For *JFIF JPEG* conversion as per *Recommendation ITU-T T.871*
 
     >>> RGB = np.array([102, 0, 51])
     >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_range=(0, 255),
@@ -274,10 +401,10 @@ def RGB_to_YCbCr(RGB,
     about 127.5, meaning that there is no integer code value to represent
     achromatic colours. This does however create the possibility of output
     integer codes with value of 256, which cannot be stored in 8-bit integer
-    representation. Recommendation ITU-T T.871 specifies these should be
+    representation. *Recommendation ITU-T T.871* specifies these should be
     clamped to 255.
 
-    These JFIF JPEG ranges are also obtained as follows:
+    These *JFIF JPEG* ranges are also obtained as follows:
 
     >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_bits=8,
     ...              in_int=True, out_legal=False, out_int=True)
@@ -294,7 +421,7 @@ def RGB_to_YCbCr(RGB,
     RGB_min, RGB_max = kwargs.get('in_range',
                                   CV_range(in_bits, in_legal, in_int))
     Y_min, Y_max, C_min, C_max = kwargs.get(
-        'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
+        'out_range', ranges_YCbCr(out_bits, out_legal, out_int))
 
     RGB_float = RGB.astype(DEFAULT_FLOAT_DTYPE) - RGB_min
     RGB_float *= 1 / (RGB_max - RGB_min)
@@ -364,7 +491,7 @@ def YCbCr_to_RGB(YCbCr,
         Array overriding the computed range such as
         *in_range = (Y_min, Y_max, C_min, C_max)*. If ``in_range`` is
         undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed using
-        :func:`colour.models.rgb.ycbcr.YCbCr_ranges` definition.
+        :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition.
     out_range : array_like, optional
         Array overriding the computed range such as
         *out_range = (RGB_min, RGB_max)*. If ``out_range`` is undefined,
@@ -423,7 +550,7 @@ def YCbCr_to_RGB(YCbCr,
     Y, Cb, Cr = tsplit(YCbCr.astype(DEFAULT_FLOAT_DTYPE))
     Kr, Kb = K
     Y_min, Y_max, C_min, C_max = kwargs.get(
-        'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
+        'in_range', ranges_YCbCr(in_bits, in_legal, in_int))
     RGB_min, RGB_max = kwargs.get('out_range',
                                   CV_range(out_bits, out_legal, out_int))
 
@@ -480,7 +607,7 @@ def RGB_to_YcCbcCrc(RGB,
         Array overriding the computed range such as
         *out_range = (Y_min, Y_max, C_min, C_max)*. If ``out_range`` is
         undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed
-        using :func:`colour.models.rgb.ycbcr.YCbCr_ranges` definition.
+        using :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition.
 
     Returns
     -------
@@ -526,7 +653,7 @@ def RGB_to_YcCbcCrc(RGB,
 
     R, G, B = tsplit(to_domain_1(RGB))
     Y_min, Y_max, C_min, C_max = kwargs.get(
-        'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
+        'out_range', ranges_YCbCr(out_bits, out_legal, out_int))
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
 
@@ -584,7 +711,7 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
         Array overriding the computed range such as
         *in_range = (Y_min, Y_max, C_min, C_max)*. If ``in_range`` is
         undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed using
-        :func:`colour.models.rgb.ycbcr.YCbCr_ranges` definition.
+        :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition.
 
     Returns
     -------
@@ -636,7 +763,7 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
 
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(DEFAULT_FLOAT_DTYPE))
     Y_min, Y_max, C_min, C_max = kwargs.get(
-        'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
+        'in_range', ranges_YCbCr(in_bits, in_legal, in_int))
 
     Yc -= Y_min
     Cbc -= (C_max + C_min) / 2

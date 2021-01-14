@@ -127,9 +127,10 @@ from .models import (
     chromatically_adapted_primaries, eotf, eotf_inverse, full_to_legal,
     gamma_function, hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, legal_to_full,
     linear_function, log_decoding, log_encoding, matrix_RGB_to_RGB,
-    normalised_primary_matrix, oetf, oetf_inverse, ootf, ootf_inverse,
-    primaries_whitepoint, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS, xyY_to_XYZ,
-    xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
+    matrix_YCbCr, normalised_primary_matrix, oetf, oetf_inverse, offset_YCbCr,
+    ootf, ootf_inverse, primaries_whitepoint, sRGB_to_XYZ, uv_to_Luv,
+    uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ,
+    xy_to_xyY)
 from .corresponding import (
     BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
@@ -283,10 +284,10 @@ __all__ += [
     'chromatically_adapted_primaries', 'eotf', 'eotf_inverse', 'full_to_legal',
     'gamma_function', 'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full',
     'linear_function', 'log_decoding', 'log_encoding', 'matrix_RGB_to_RGB',
-    'normalised_primary_matrix', 'oetf', 'oetf_inverse', 'ootf',
-    'ootf_inverse', 'primaries_whitepoint', 'sRGB_to_XYZ', 'uv_to_Luv',
-    'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv',
-    'xy_to_XYZ', 'xy_to_xyY'
+    'matrix_YCbCr', 'normalised_primary_matrix', 'oetf', 'oetf_inverse',
+    'offset_YCbCr', 'ootf', 'ootf_inverse', 'primaries_whitepoint',
+    'sRGB_to_XYZ', 'uv_to_Luv', 'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy',
+    'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ', 'xy_to_xyY'
 ]
 __all__ += [
     'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
