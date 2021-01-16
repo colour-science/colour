@@ -18,7 +18,7 @@ The Colour Developers
 
 -   **Nick Shaw**, *Workflow Consultant @ Antler Post*
 
-    YCbCr Colour Encoding, RED Colourspaces Derivation.
+    Y'CbCr Colour Encoding, RED Colourspaces Derivation.
 
 -   **Luke Canavan**
 
@@ -132,6 +132,10 @@ Development & Technical Support
 -   **Stephen Hill**, *Principal Rendering Engineer @ Lucasfilm*
 
     Documentation improvements.
+
+-   **Jedediah Smith**, *VFX Supervisor @ Method Studios*
+
+    RED Log3G10 improvements.
 
 Acknowledgements
 ----------------
