@@ -12,7 +12,7 @@ from colour.models.rgb.transfer_functions import (
     log_decoding_REDLogFilm, log_encoding_Log3G12, log_decoding_Log3G12)
 from colour.models.rgb.transfer_functions.red_log import (
     log_encoding_Log3G10_v1, log_decoding_Log3G10_v1, log_encoding_Log3G10_v2,
-    log_decoding_Log3G10_v2)
+    log_decoding_Log3G10_v2, log_encoding_Log3G10_v3, log_decoding_Log3G10_v3)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -27,6 +27,7 @@ __all__ = [
     'TestLogEncoding_REDLogFilm', 'TestLogDecoding_REDLogFilm',
     'TestLogEncoding_Log3G10_v1', 'TestLogDecoding_Log3G10_v1',
     'TestLogEncoding_Log3G10_v2', 'TestLogDecoding_Log3G10_v2',
+    'TestLogEncoding_Log3G10_v3', 'TestLogDecoding_Log3G10_v3',
     'TestLogEncoding_Log3G12', 'TestLogDecoding_Log3G12'
 ]
 
@@ -584,6 +585,148 @@ log_decoding_Log3G10_v2` definition nan support.
         """
 
         log_decoding_Log3G10_v2(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestLogEncoding_Log3G10_v3(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+log_encoding_Log3G10_v3` definition unit tests methods.
+    """
+
+    def test_log_encoding_Log3G10_v3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+log_encoding_Log3G10_v3` definition.
+        """
+
+        self.assertAlmostEqual(
+            log_encoding_Log3G10_v3(-1.0), -15.040773, places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_Log3G10_v3(0.0), 0.091551487714745, places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_Log3G10_v3(0.18), 0.333332912025992, places=7)
+
+    def test_n_dimensional_log_encoding_Log3G10_v3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+log_encoding_Log3G10_v3` definition n-dimensional arrays support.
+        """
+
+        x = 0.18
+        y = log_encoding_Log3G10_v3(x)
+
+        x = np.tile(x, 6)
+        y = np.tile(y, 6)
+        np.testing.assert_almost_equal(
+            log_encoding_Log3G10_v3(x), y, decimal=7)
+
+        x = np.reshape(x, (2, 3))
+        y = np.reshape(y, (2, 3))
+        np.testing.assert_almost_equal(
+            log_encoding_Log3G10_v3(x), y, decimal=7)
+
+        x = np.reshape(x, (2, 3, 1))
+        y = np.reshape(y, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            log_encoding_Log3G10_v3(x), y, decimal=7)
+
+    def test_domain_range_scale_log_encoding_Log3G10_v3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+log_encoding_Log3G10_v3` definition domain and range scale support.
+        """
+
+        x = 0.18
+        y = log_encoding_Log3G10_v3(x)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_encoding_Log3G10_v3(x * factor), y * factor, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_log_encoding_Log3G10_v3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+log_encoding_Log3G10_v3` definition nan support.
+        """
+
+        log_encoding_Log3G10_v3(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestLogDecoding_Log3G10_v3(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+log_decoding_Log3G10_v3` definition unit tests methods.
+    """
+
+    def test_log_decoding_Log3G10_v3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+log_decoding_Log3G10_v3` definition.
+        """
+
+        self.assertAlmostEqual(
+            log_decoding_Log3G10_v3(-15.040773), -1.0, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_Log3G10_v3(0.091551487714745), 0.0, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_Log3G10_v3(0.333332912025992), 0.18, places=7)
+
+    def test_n_dimensional_log_decoding_Log3G10_v3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+log_decoding_Log3G10_v3` definition n-dimensional arrays support.
+        """
+
+        y = 0.333332912025992
+        x = log_decoding_Log3G10_v3(y)
+
+        y = np.tile(y, 6)
+        x = np.tile(x, 6)
+        np.testing.assert_almost_equal(
+            log_decoding_Log3G10_v3(y), x, decimal=7)
+
+        y = np.reshape(y, (2, 3))
+        x = np.reshape(x, (2, 3))
+        np.testing.assert_almost_equal(
+            log_decoding_Log3G10_v3(y), x, decimal=7)
+
+        y = np.reshape(y, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            log_decoding_Log3G10_v3(y), x, decimal=7)
+
+    def test_domain_range_scale_log_decoding_Log3G10_v3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+log_decoding_Log3G10_v3` definition domain and range scale support.
+        """
+
+        y = 0.333333644207707
+        x = log_decoding_Log3G10_v3(y)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_decoding_Log3G10_v3(y * factor), x * factor, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_log_decoding_Log3G10_v3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+log_decoding_Log3G10_v3` definition nan support.
+        """
+
+        log_decoding_Log3G10_v3(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
