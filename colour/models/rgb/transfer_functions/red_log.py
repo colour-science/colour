@@ -26,8 +26,8 @@ References
 ----------
 -   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with Shaw,
     N.
-    :cite:`Red2017` : Red. (2017). White Paper On REDWIDEGAMUTRGB And LOG3G10
-    Ver.0.0.0 (pp. 4).
+    :cite:`REDDigitalCinema2017` : RED Digital Cinema. (2017). White Paper on
+    REDWideGamutRGB and Log3G10. Retrieved January 16, 2021, from
     https://www.red.com/download/white-paper-on-redwidegamutrgb-and-log3g10
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
     November 27, 2014, from
@@ -470,7 +470,7 @@ def log_encoding_Log3G10_v3(x):
 
     References
     ----------
-    :cite:`Red2017`
+    :cite:`REDDigitalCinema2017`
 
     Examples
     --------
@@ -487,7 +487,8 @@ def log_encoding_Log3G10_v3(x):
 
     x = x + c
 
-    y = np.where(x < 0.0, x * g, a * np.log10((np.abs(x) * b) + 1.0))
+    y = np.where(x < 0.0, x * g,
+                 np.sign(x) * a * np.log10((np.abs(x) * b) + 1.0))
 
     return as_numeric(from_range_1(y))
 
@@ -524,7 +525,7 @@ def log_decoding_Log3G10_v3(y):
 
     References
     ----------
-    :cite:`Red2017`
+    :cite:`REDDigitalCinema2017`
 
     Examples
     --------
@@ -539,7 +540,8 @@ def log_decoding_Log3G10_v3(y):
 
     y = to_domain_1(y)
 
-    x = np.where(y < 0.0, (y / g) - c, (10 ** (y / a) - 1.0) / b - c)
+    x = np.where(y < 0.0, (y / g) - c,
+                 np.sign(y) * (10 ** (np.abs(y) / a) - 1.0) / b - c)
 
     return as_numeric(from_range_1(x))
 
