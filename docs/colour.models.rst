@@ -657,9 +657,11 @@ Y'CbCr Colour Encoding
 .. autosummary::
     :toctree: generated/
 
+    WEIGHTS_YCBCR
+    matrix_YCbCr
+    offset_YCbCr
     RGB_to_YCbCr
     YCbCr_to_RGB
-    WEIGHTS_YCBCR
     RGB_to_YcCbcCrc
     YcCbcCrc_to_RGB
 
