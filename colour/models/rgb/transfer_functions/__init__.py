@@ -444,14 +444,6 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
 
     Other Parameters
     ----------------
-    E_clip : numeric, optional
-        {:func:`colour.models.cctf_encoding_RIMMRGB`},
-        Maximum exposure level.
-    I_max : numeric, optional
-        {:func:`colour.models.cctf_encoding_ROMMRGB`,
-        :func:`colour.models.cctf_encoding_RIMMRGB`},
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
     r : numeric, optional
         {:func:`colour.models.oetf_ARIBSTDB67`},
         Video level corresponding to reference white level.
@@ -567,14 +559,6 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
 
     Other Parameters
     ----------------
-    E_clip : numeric, optional
-        {:func:`colour.models.cctf_decoding_RIMMRGB`},
-        Maximum exposure level.
-    I_max : numeric, optional
-        {:func:`colour.models.cctf_decoding_ROMMRGB`,
-        :func:`colour.models.cctf_decoding_RIMMRGB`},
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
     L_B : numeric, optional
         {:func:`colour.models.eotf_BT1886`,
         :func:`colour.models.eotf_HLG_BT2100`},
