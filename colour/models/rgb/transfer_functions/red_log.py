@@ -26,7 +26,7 @@ References
 ----------
 -   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with Shaw,
     N.
-    :cite:`REDDigitalCinema2017` : RED Digital Cinema. (2017). White Paper on
+-   :cite:`REDDigitalCinema2017` : RED Digital Cinema. (2017). White Paper on
     REDWideGamutRGB and Log3G10. Retrieved January 16, 2021, from
     https://www.red.com/download/white-paper-on-redwidegamutrgb-and-log3g10
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
