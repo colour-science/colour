@@ -765,18 +765,6 @@ OETFs
      'ITU-R BT.709',
      'SMPTE 240M']
 
-OETFs Inverse
-*************
-
-.. code-block:: python
-
-    >>> sorted(colour.OETF_INVERSES)
-    ['ARIB STD-B67',
-     'ITU-R BT.2100 HLG',
-     'ITU-R BT.2100 PQ',
-     'ITU-R BT.601',
-     'ITU-R BT.709']
-
 EOTFs
 *****
 
@@ -793,21 +781,6 @@ EOTFs
      'ST 2084',
      'sRGB']
 
-EOTFs Inverse
-*************
-
-.. code-block:: python
-
-    >>> sorted(colour.EOTF_INVERSES)
-    ['DCDM',
-     'DICOM GSDF',
-     'ITU-R BT.1886',
-     'ITU-R BT.2020',
-     'ITU-R BT.2100 HLG',
-     'ITU-R BT.2100 PQ',
-     'ST 2084',
-     'sRGB']
-
 OOTFs
 *****
 
@@ -816,13 +789,6 @@ OOTFs
     >>> sorted(colour.OOTFS)
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
-OOTFs Inverse
-*************
-
-.. code-block:: python
-
-    >>> sorted(colour.OOTF_INVERSES)
-    ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
 Log Encoding / Decoding
 ***********************
@@ -1282,6 +1248,18 @@ Code of Conduct
 
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
 is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
+
+Contact & Social
+----------------
+
+The *Colour Developers* can be reached via different means:
+
+- `Email <mailto:colour-developers@colour-science.org>`__
+- `Discourse <https://colour-science.discourse.group/>`__
+- `Facebook <https://www.facebook.com/python.colour.science>`__
+- `Github Discussions <https://github.com/colour-science/colour/discussions>`__
+- `Gitter <https://gitter.im/colour-science/colour>`__
+- `Twitter <https://twitter.com/colour_science>`__
 
 About
 -----
