@@ -83,8 +83,11 @@ def normalise_vector(a):
 
 def euclidean_distance(a, b):
     """
-    Returns the euclidean distance between point arrays :math:`a` and
+    Returns the *Euclidean* distance between point arrays :math:`a` and
     :math:`b`.
+
+    For a two-dimensional space, the metric is as follows: \
+    :math:`E_D = [(x_a - x_b)^2 + (y_a - y_b)^2]^^{1/2}`
 
     Parameters
     ----------
@@ -96,7 +99,7 @@ def euclidean_distance(a, b):
     Returns
     -------
     numeric or ndarray
-        Euclidean distance.
+        *Euclidean* distance.
 
     Examples
     --------
