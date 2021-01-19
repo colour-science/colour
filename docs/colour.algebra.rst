@@ -95,6 +95,7 @@ Geometry
 
     normalise_vector
     euclidean_distance
+    manhattan_distance
     extend_line_segment
     intersect_line_segments
     ellipse_coefficients_general_form

@@ -8,10 +8,10 @@ import unittest
 from itertools import permutations
 
 from colour.algebra import (
-    normalise_vector, euclidean_distance, extend_line_segment,
-    intersect_line_segments, ellipse_coefficients_general_form,
-    ellipse_coefficients_canonical_form, point_at_angle_on_ellipse,
-    ellipse_fitting_Halir1998)
+    normalise_vector, euclidean_distance, manhattan_distance,
+    extend_line_segment, intersect_line_segments,
+    ellipse_coefficients_general_form, ellipse_coefficients_canonical_form,
+    point_at_angle_on_ellipse, ellipse_fitting_Halir1998)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -22,8 +22,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestNormaliseVector', 'TestEuclideanDistance', 'TestExtendLineSegment',
-    'TestIntersectLineSegments', 'TestEllipseCoefficientsCanonicalForm',
+    'TestNormaliseVector', 'TestEuclideanDistance', 'TestManhattanDistance',
+    'TestExtendLineSegment', 'TestIntersectLineSegments',
+    'TestEllipseCoefficientsCanonicalForm',
     'TestEllipseCoefficientsGeneralForm', 'TestPointAtAngleOnEllipse',
     'TestEllipseFittingHalir1998'
 ]
@@ -123,6 +124,75 @@ class TestEuclideanDistance(unittest.TestCase):
             a = np.array(case)
             b = np.array(case)
             euclidean_distance(a, b)
+
+
+class TestManhattanDistance(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.geometry.manhattan_distance` definition unit
+    tests methods.
+    """
+
+    def test_manhattan_distance(self):
+        """
+        Tests :func:`colour.algebra.geometry.manhattan_distance` definition.
+        """
+
+        self.assertAlmostEqual(
+            manhattan_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 426.67945353, 72.39590835])),
+            604.93963510999993,
+            places=7)
+
+        self.assertAlmostEqual(
+            manhattan_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 74.05216981, 276.45318193])),
+            56.705054670000052,
+            places=7)
+
+        self.assertAlmostEqual(
+            manhattan_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 8.32281957, -73.58297716])),
+            359.06045465999995,
+            places=7)
+
+    def test_n_dimensional_manhattan_distance(self):
+        """
+        Tests :func:`colour.algebra.geometry.manhattan_distance` definition
+        n-dimensional arrays support.
+        """
+
+        a = np.array([100.00000000, 21.57210357, 272.22819350])
+        b = np.array([100.00000000, 426.67945353, 72.39590835])
+        distance = manhattan_distance(a, b)
+
+        a = np.tile(a, (6, 1))
+        b = np.tile(b, (6, 1))
+        distance = np.tile(distance, 6)
+        np.testing.assert_almost_equal(
+            manhattan_distance(a, b), distance, decimal=7)
+
+        a = np.reshape(a, (2, 3, 3))
+        b = np.reshape(b, (2, 3, 3))
+        distance = np.reshape(distance, (2, 3))
+        np.testing.assert_almost_equal(
+            manhattan_distance(a, b), distance, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_manhattan_distance(self):
+        """
+        Tests :func:`colour.algebra.geometry.manhattan_distance` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            a = np.array(case)
+            b = np.array(case)
+            manhattan_distance(a, b)
 
 
 class TestExtendLineSegment(unittest.TestCase):
