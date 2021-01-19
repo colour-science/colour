@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 :math:`\\Delta E'` - Delta E Colour Difference - Li et al. (2017)
-================================================================
+=================================================================
 
 Defines :math:`\\Delta E'` colour difference computation objects based on *Li,
 Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)* *CAM16-LCD*,
