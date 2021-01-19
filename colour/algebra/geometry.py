@@ -7,6 +7,7 @@ Defines objects related to geometrical computations:
 
 -   :func:`colour.algebra.normalise_vector`
 -   :func:`colour.algebra.euclidean_distance`
+-   :func:`colour.algebra.manhattan_distance`
 -   :func:`colour.algebra.extend_line_segment`
 -   :func:`colour.algebra.intersect_line_segments`
 -   :func:`colour.algebra.ellipse_coefficients_general_form`
@@ -110,6 +111,37 @@ def euclidean_distance(a, b):
     """
 
     return np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)
+
+
+def manhattan_distance(a, b):
+    """
+    Returns the *Manhattan* (or *City-Block*) distance between point arrays
+    :math:`a` and :math:`b`.
+
+    For a two-dimensional space, the metric is as follows: \
+    :math:`M_D = |x_a - x_b| + |y_a - y_b|`
+
+    Parameters
+    ----------
+    a : array_like
+        Point array :math:`a`.
+    b : array_like
+        Point array :math:`b`.
+
+    Returns
+    -------
+    numeric or ndarray
+        *Manhattan* distance.
+
+    Examples
+    --------
+    >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> manhattan_distance(a, b)  # doctest: +ELLIPSIS
+    604.9396351...
+    """
+
+    return np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1)
 
 
 def extend_line_segment(a, b, distance=1):
