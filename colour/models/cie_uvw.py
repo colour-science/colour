@@ -94,7 +94,7 @@ def XYZ_to_UVW(XYZ,
     xyY = XYZ_to_xyY(XYZ, xy)
     _x, _y, Y = tsplit(xyY)
 
-    u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
+    u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ / 100)))
     u_0, v_0 = tsplit(xy_to_UCS_uv(xy))
 
     W = 25 * spow(Y, 1 / 3) - 17
