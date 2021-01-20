@@ -8,7 +8,7 @@ import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS
-from colour.models import RGB_COLOURSPACE_ACES2065_1
+from colour.models import COLOURSPACE_MODELS, RGB_COLOURSPACE_ACES2065_1
 from colour.graph import describe_conversion_path, convert
 
 __author__ = 'Colour Developers'
@@ -100,6 +100,13 @@ class TestConvert(unittest.TestCase):
                 RGB_to_RGB={'output_colourspace': RGB_COLOURSPACE_ACES2065_1}),
             np.array([0.36364180, 0.31715308, 0.25888531]),
             decimal=7)
+
+        # Consistency check to verify that all the colour models are properly
+        # named in the graph:
+        for model in COLOURSPACE_MODELS:
+            convert(
+                np.array([0.20654008, 0.12197225, 0.05136952]), 'CIE XYZ',
+                model)
 
     def test_convert_direct_keyword_argument_passing(self):
         """
