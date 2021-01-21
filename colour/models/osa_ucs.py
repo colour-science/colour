@@ -14,6 +14,8 @@ References
     of the performance of inverse transformation methods from OSA-UCS to
     CIEXYZ. Journal of the Optical Society of America A, 30(8), 1508.
     doi:10.1364/JOSAA.30.001508
+-   :cite:`MacAdam1974` : MacAdam, D. L. (1974). Uniform color scales*. Journal
+    of the Optical Society of America, 64(12), 1691. doi:10.1364/JOSA.64.001691
 -   :cite:`Moroney2003` : Moroney, N. (2003). A Radial Sampling of the OSA
     Uniform Color Scales. Color and Imaging Conference, 2003(1), 175-180.
     ISSN:2166-9635
@@ -22,7 +24,6 @@ References
 import numpy as np
 from scipy.optimize import fmin
 
-from colour.algebra import spow
 from colour.models import XYZ_to_xyY
 from colour.utilities import (as_float_array, domain_range_scale, vector_dot,
                               from_range_100, to_domain_100, tsplit, tstack)
@@ -92,7 +93,7 @@ def XYZ_to_OSA_UCS(XYZ):
 
     References
     ----------
-    :cite:`Cao2013`, :cite:`Moroney2003`
+    :cite:`Cao2013`, :cite:`MacAdam1974`, :cite:`Moroney2003`
 
     Examples
     --------
@@ -105,24 +106,21 @@ def XYZ_to_OSA_UCS(XYZ):
     XYZ = to_domain_100(XYZ)
     x, y, Y = tsplit(XYZ_to_xyY(XYZ))
 
+    # NOTE: Cao et al. (2013) uses 4.27 instead of 4.276.
     Y_0 = Y * (4.4934 * x ** 2 + 4.3034 * y ** 2 - 4.276 * x * y - 1.3744 * x -
                2.5643 * y + 1.8103)
 
-    o_3 = 1 / 3
-    Y_0_es = spow(Y_0, o_3) - 2 / 3
-    # Gracefully handles Y_0 < 30.
-    Y_0_s = Y_0 - 30
-    Lambda = 5.9 * (Y_0_es + 0.042 * spow(Y_0_s, o_3))
+    Y_0_es = np.cbrt(Y_0) - 2 / 3
+    L = 5.9 * (Y_0_es + 0.042 * np.cbrt(Y_0 - 30))
 
-    RGB = vector_dot(MATRIX_XYZ_TO_RGB_OSA_UCS, XYZ)
-    RGB_3 = spow(RGB, 1 / 3)
+    RGB = np.cbrt(vector_dot(MATRIX_XYZ_TO_RGB_OSA_UCS, XYZ))
+    C = L / (5.9 * Y_0_es)
+    j = C * np.dot(RGB, np.array([1.7, 8, -9.7]))
+    g = C * np.dot(RGB, np.array([-13.7, 17.7, -4]))
 
-    C = Lambda / (5.9 * Y_0_es)
-    L = (Lambda - 14.4) / spow(2, 1 / 2)
-    j = C * np.dot(RGB_3, np.array([1.7, 8, -9.7]))
-    g = C * np.dot(RGB_3, np.array([-13.7, 17.7, -4]))
-
-    Ljg = tstack([L, j, g])
+    # NOTE: MacAdam (1974), Cao et al. (2013) and Moroney (2003) use 14.4,
+    # 14.3993 has been seen in the wild, e.g. Wikipedia.
+    Ljg = tstack([(L - 14.4) / np.sqrt(2), j, g])
 
     return from_range_100(Ljg)
 
