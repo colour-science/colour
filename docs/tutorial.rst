@@ -200,11 +200,11 @@ The various sub-packages also expose their public API:
      '...']
 
     Io
-    ['SpectralDistribution_IESTM2714',
-     'AbstractLUTSequenceOperator',
+    ['AbstractLUTSequenceOperator',
      'LUT1D',
      'LUT3x1D',
      'LUT3D',
+     'LUTSequence',
      '...']
 
     Models
@@ -212,7 +212,7 @@ The various sub-packages also expose their public API:
      'JCh_to_Jab',
      'COLOURSPACE_MODELS',
      'COLOURSPACE_MODELS_AXIS_LABELS',
-     'XYZ_to_colourspace_model',
+     'JMh_CIECAM02_to_CAM02LCD',
      '...']
 
     Notation
@@ -241,9 +241,9 @@ The various sub-packages also expose their public API:
     Quality
     ['SDS_TCS',
      'SDS_VS',
-     'ColourRendering_Specification_CRI',
-     'colour_rendering_index',
-     'ColourRendering_Specification_CQS',
+     'ColourRendering_Specification_CIE2017',
+     'colour_fidelity_index_CIE2017',
+     'ColourQuality_Specification_ANSIIESTM3018',
      '...']
 
     Recovery
@@ -289,19 +289,23 @@ The codebase is documented and most docstrings have usage examples:
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
     colour matching functions using *Ohno (2013)* method.
+
     Parameters
     ----------
     CCT_D_uv : ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
+
     Returns
     -------
     ndarray
         *CIE UCS* colourspace *uv* chromaticity coordinates.
+
     References
     ----------
     :cite:`Ohno2014a`
+
     Examples
     --------
     >>> from colour.colorimetry import (
@@ -426,7 +430,6 @@ the objects needed for spectral computations and many others:
      'yellowness',
      'yellowness_ASTMD1925',
      'yellowness_ASTME313']
-
 
 **Colour** computations leverage a comprehensive quantity of datasets available
 in most sub-packages, for example the ``colour.colorimetry.datasets`` defines
@@ -745,12 +748,12 @@ distributions:
 
 By default the shape used by ``colour.sd_constant``,
 ``colour.sd_zeros`` and ``colour.sd_ones`` is the one defined by the
-``colour.DEFAULT_SPECTRAL_SHAPE`` attribute and based on *ASTM E308-15*
+``colour.SPECTRAL_SHAPE_DEFAULT`` attribute and based on *ASTM E308-15*
 practise shape.
 
 .. code:: python
 
-    print(repr(colour.DEFAULT_SPECTRAL_SHAPE))
+    print(repr(colour.SPECTRAL_SHAPE_DEFAULT))
 
 .. code-block:: text
 
@@ -934,8 +937,10 @@ and ``right`` values:
     # Extrapolating the copied sample spectral distribution with *Linear* method.
     sd_copy.extrapolate(
         colour.SpectralShape(340, 830),
-        extrapolator_args={'method': 'Linear',
-                           'right': 0})
+        extrapolator_kwargs={
+            'method': 'Linear',
+            'right': 0
+        })
     sd_copy[340], sd_copy[830]
 
 .. code-block:: text
@@ -1037,9 +1042,9 @@ this tutorial but the core capability can be described.
             [   8.,   90.],
             [   9.,  100.]],
            interpolator=KernelInterpolator,
-           interpolator_args={},
+           interpolator_kwargs={},
            extrapolator=Extrapolator,
-           extrapolator_args={u'right': nan, u'method': u'Constant', u'left': nan})
+           extrapolator_kwargs={u'right': nan, u'method': u'Constant', u'left': nan})
 
 .. code:: python
 
@@ -1081,34 +1086,37 @@ computations are available, expanding to even more computations:
 .. code:: python
 
     # Displaying objects interacting directly with the *CIE XYZ* colourspace.
-    pprint([name for name in colour.__all__ if name.startswith('XYZ_to')])
+    pprint(colour.COLOURSPACE_MODELS)
 
 .. code-block:: text
 
-    ['XYZ_to_ATD95',
-     'XYZ_to_CAM16',
-     'XYZ_to_CIECAM02',
-     'XYZ_to_Hunt',
-     'XYZ_to_LLAB',
-     'XYZ_to_Nayatani95',
-     'XYZ_to_RLAB',
-     'XYZ_to_Hunter_Lab',
-     'XYZ_to_Hunter_Rdab',
-     'XYZ_to_IPT',
-     'XYZ_to_JzAzBz',
-     'XYZ_to_K_ab_HunterLab1966',
-     'XYZ_to_Lab',
-     'XYZ_to_Luv',
-     'XYZ_to_OSA_UCS',
-     'XYZ_to_RGB',
-     'XYZ_to_UCS',
-     'XYZ_to_UVW',
-     'XYZ_to_hdr_CIELab',
-     'XYZ_to_hdr_IPT',
-     'XYZ_to_sRGB',
-     'XYZ_to_xy',
-     'XYZ_to_xyY',
-     'XYZ_to_sd']
+    ('CAM02LCD',
+     'CAM02SCD',
+     'CAM02UCS',
+     'CAM16LCD',
+     'CAM16SCD',
+     'CAM16UCS',
+     'CIE XYZ',
+     'CIE xyY',
+     'CIE Lab',
+     'CIE LCHab',
+     'CIE Luv',
+     'CIE Luv uv',
+     'CIE LCHuv',
+     'CIE UCS',
+     'CIE UCS uv',
+     'CIE UVW',
+     'DIN99',
+     'Hunter Lab',
+     'Hunter Rdab',
+     'ICtCp',
+     'IPT',
+     'IgPgTg',
+     'JzAzBz',
+     'OSA UCS',
+     'Oklab',
+     'hdr-CIELAB',
+     'hdr-IPT')
 
 
 Convert to Display Colours
