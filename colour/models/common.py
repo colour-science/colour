@@ -165,9 +165,10 @@ def JCh_to_Jab(JCh):
     return Jab
 
 
-COLOURSPACE_MODELS = ('CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CIE XYZ', 'CIE xyY',
-                      'CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE Luv uv',
-                      'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN99',
+COLOURSPACE_MODELS = ('CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD',
+                      'CAM16SCD', 'CAM16UCS', 'CIE XYZ', 'CIE xyY', 'CIE Lab',
+                      'CIE LCHab', 'CIE Luv', 'CIE Luv uv', 'CIE LCHuv',
+                      'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN99',
                       'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg',
                       'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT')
 if is_documentation_building():  # pragma: no cover
@@ -177,6 +178,11 @@ Colourspace models supporting a direct conversion to *CIE XYZ* tristimulus
 values.
 
 COLOURSPACE_MODELS : Tuple
+    **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
+    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
+    'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN99', 'Hunter Lab',
+    'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab',
+    'hdr-CIELAB', 'hdr-IPT'}**
 """
 
 COLOURSPACE_MODELS_AXIS_LABELS = {
