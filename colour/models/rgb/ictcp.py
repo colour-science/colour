@@ -121,7 +121,7 @@ def RGB_to_ICtCp(RGB, method='Dolby 2016', L_p=10000):
     RGB : array_like
         *ITU-R BT.2020* colourspace array.
     method : unicode, optional
-        **{'Dolby 2016', 'ITU-R BT.2100-2 HLG'}**,
+        **{'Dolby 2016', 'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
         Computation method.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
@@ -150,6 +150,8 @@ def RGB_to_ICtCp(RGB, method='Dolby 2016', L_p=10000):
         [0.0001, 10000].
     -   The *ITU-R BT.2100-2 HLG* method uses a different :math:`LMS_p` encoded
         normalised cone responses to :math:`IC_TC_P` matrix.
+    -   The *ITU-R BT.2100-2 PQ* method is an alias for the *Dolby 2016*
+        method.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -182,7 +184,7 @@ def RGB_to_ICtCp(RGB, method='Dolby 2016', L_p=10000):
 
     RGB = to_domain_1(RGB)
 
-    is_dolby_method = method.lower() == 'dolby 2016'
+    is_dolby_method = method.lower() in ('dolby 2016', 'ITU-R BT.2100-2 PQ')
 
     LMS = vector_dot(MATRIX_ICTCP_RGB_TO_LMS, RGB)
 
@@ -206,7 +208,7 @@ def ICtCp_to_RGB(ICtCp, method='Dolby 2016', L_p=10000):
     ICtCp : array_like
         :math:`IC_TC_P` colour encoding array.
     method : unicode, optional
-        **{'Dolby 2016', 'ITU-R BT.2100-2 HLG'}**,
+        **{'Dolby 2016', 'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
         Computation method.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
@@ -233,6 +235,8 @@ def ICtCp_to_RGB(ICtCp, method='Dolby 2016', L_p=10000):
         scale transformations.
     -   The *ITU-R BT.2100-2 HLG* method uses a different :math:`IC_TC_P` to
         :math:`LMS_p` encoded normalised cone responses matrix.
+    -   The *ITU-R BT.2100-2 PQ* method is an alias for the *Dolby 2016*
+        method.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -266,7 +270,7 @@ def ICtCp_to_RGB(ICtCp, method='Dolby 2016', L_p=10000):
 
     ICtCp = to_domain_1(ICtCp)
 
-    is_dolby_method = method.lower() == 'dolby 2016'
+    is_dolby_method = method.lower() in ('dolby 2016', 'ITU-R BT.2100-2 PQ')
 
     LMS_p = (vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICtCp)
              if is_dolby_method else vector_dot(
@@ -302,7 +306,7 @@ def XYZ_to_ICtCp(XYZ,
         'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
     method : unicode, optional
-        **{'Dolby 2016', 'ITU-R BT.2100-2 HLG'}**,
+        **{'Dolby 2016', 'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
         Computation method.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
@@ -331,6 +335,8 @@ def XYZ_to_ICtCp(XYZ,
         [0.0001, 10000].
     -   The *ITU-R BT.2100-2 HLG* method uses a different :math:`LMS_p` encoded
         normalised cone responses to :math:`IC_TC_P` matrix.
+    -   The *ITU-R BT.2100-2 PQ* method is an alias for the *Dolby 2016*
+        method.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -396,7 +402,7 @@ def ICtCp_to_XYZ(ICtCp,
         'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
     method : unicode, optional
-        **{'Dolby 2016', 'ITU-R BT.2100-2 HLG'}**,
+        **{'Dolby 2016', 'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
         Computation method.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
@@ -423,6 +429,8 @@ def ICtCp_to_XYZ(ICtCp,
         scale transformations.
     -   The *ITU-R BT.2100-2 HLG* method uses a different :math:`IC_TC_P` to
         :math:`LMS_p` encoded normalised cone responses matrix.
+    -   The *ITU-R BT.2100-2 PQ* method is an alias for the *Dolby 2016*
+        method.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
