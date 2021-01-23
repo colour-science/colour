@@ -16,6 +16,8 @@ from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
                         log_encoding_CanonLog3, log_decoding_CanonLog3)
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
+from .davinci_intermediate import (oetf_DaVinciIntermediate,
+                                   oetf_inverse_DaVinciIntermediate)
 from .dcdm import eotf_inverse_DCDM, eotf_DCDM
 from .dicom_gsdf import eotf_inverse_DICOMGSDF, eotf_DICOMGSDF
 from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
@@ -75,6 +77,7 @@ __all__ += [
     'log_decoding_CanonLog3'
 ]
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
+__all__ += ['oetf_DaVinciIntermediate', 'oetf_inverse_DaVinciIntermediate']
 __all__ += ['eotf_inverse_DCDM', 'eotf_DCDM']
 __all__ += ['eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
@@ -422,6 +425,7 @@ __all__ += ['log_encoding', 'log_decoding']
 
 OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
+    'DaVinci Intermediate': oetf_DaVinciIntermediate,
     'ITU-R BT.2100 HLG': oetf_HLG_BT2100,
     'ITU-R BT.2100 PQ': oetf_PQ_BT2100,
     'ITU-R BT.601': oetf_BT601,
@@ -432,8 +436,8 @@ OETFS.__doc__ = """
 Supported opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS : CaseInsensitiveMapping
-    **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-    'ITU-R BT.601', 'ITU-R BT.709', 'SMPTE 240M', 'ST 2084'}**
+    **{'ITU-R BT.709', 'ARIB STD-B67', 'DaVinci Intermediate',
+    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M'}**
 """
 
 
@@ -448,8 +452,9 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2100 HLG',
-        'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M', 'ST 2084'}**,
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'DaVinci Intermediate',
+        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601',
+        'SMPTE 240M'}**,
         Opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
@@ -478,6 +483,7 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
 
 OETF_INVERSES = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_inverse_ARIBSTDB67,
+    'DaVinci Intermediate': oetf_inverse_DaVinciIntermediate,
     'ITU-R BT.2100 HLG': oetf_inverse_HLG_BT2100,
     'ITU-R BT.2100 PQ': oetf_inverse_PQ_BT2100,
     'ITU-R BT.601': oetf_inverse_BT601,
@@ -487,8 +493,8 @@ OETF_INVERSES.__doc__ = """
 Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 
 OETF_INVERSES : CaseInsensitiveMapping
-    **{'ARIB STD-B67', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-    'ITU-R BT.601', 'ITU-R BT.709'}**
+    **{'ITU-R BT.709', 'ARIB STD-B67', 'DaVinci Intermediate',
+    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M'}**
 """
 
 
@@ -503,8 +509,9 @@ def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'ITU-R BT.2100 HLG',
-        'ITU-R BT.2100 PQ', 'ITU-R BT.601', }**,
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'DaVinci Intermediate',
+        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601',
+        'SMPTE 240M'}**,
         Inverse opto-electronic transfer function (OETF / OECF).
 
     Other Parameters

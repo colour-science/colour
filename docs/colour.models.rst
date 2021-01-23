@@ -491,6 +491,8 @@ Opto-Electronic Transfer Functions
 
     oetf_ARIBSTDB67
     oetf_inverse_ARIBSTDB67
+    oetf_DaVinciIntermediate
+    oetf_inverse_DaVinciIntermediate
     oetf_HLG_BT2100
     oetf_inverse_HLG_BT2100
     oetf_PQ_BT2100
