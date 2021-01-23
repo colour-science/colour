@@ -1019,6 +1019,7 @@ Log Encoding / Decoding
      'Log2',
      'Log3G10',
      'Log3G12',
+     'N-Log',
      'PLog',
      'Panalog',
      'Protune',

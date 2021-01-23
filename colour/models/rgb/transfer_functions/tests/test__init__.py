@@ -84,7 +84,7 @@ class TestTransferFunctions(unittest.TestCase):
         ignored_transfer_functions = ('ACESproxy', 'DICOM GSDF',
                                       'Filmic Pro 6')
 
-        decimals = {'D-Log': 1, 'F-Log': 4}
+        decimals = {'D-Log': 1, 'F-Log': 4, 'N-Log': 3}
 
         reciprocal_mappings = [
             (LOG_ENCODINGS, LOG_DECODINGS),

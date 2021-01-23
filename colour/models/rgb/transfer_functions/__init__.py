@@ -43,6 +43,7 @@ from .log import (logarithmic_function_basic, logarithmic_function_quasilog,
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .fujifilm_flog import log_encoding_FLog, log_decoding_FLog
+from .nikon_nlog import log_encoding_NLog, log_decoding_NLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
 from .red_log import (log_encoding_REDLog, log_decoding_REDLog,
                       log_encoding_REDLogFilm, log_decoding_REDLogFilm,
@@ -102,6 +103,7 @@ __all__ += [
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_FLog', 'log_decoding_FLog']
+__all__ += ['log_encoding_NLog', 'log_decoding_NLog']
 __all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
 __all__ += [
     'log_encoding_REDLog', 'log_decoding_REDLog', 'log_encoding_REDLogFilm',
@@ -139,6 +141,7 @@ LOG_ENCODINGS = CaseInsensitiveMapping({
     'Log2': log_encoding_Log2,
     'Log3G10': log_encoding_Log3G10,
     'Log3G12': log_encoding_Log3G12,
+    'N-Log': log_encoding_NLog,
     'Panalog': log_encoding_Panalog,
     'PLog': log_encoding_PivotedLog,
     'Protune': log_encoding_Protune,
@@ -157,9 +160,9 @@ Supported *log* encoding functions.
 LOG_ENCODINGS : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
-    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
-    'T-Log', 'V-Log', 'ViperLog'}**
+    'Filmic Pro 6', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog', 'PLog',
+    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
+    'V-Log', 'ViperLog'}**
 """
 
 
@@ -175,8 +178,8 @@ def log_encoding(value, function='Cineon', **kwargs):
     function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
-        'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog',
+        'PLog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
         'T-Log', 'V-Log', 'ViperLog'}**,
         Computation function.
 
@@ -197,6 +200,7 @@ def log_encoding(value, function='Cineon', **kwargs):
         12-bit and 16-bit per channel.
     bit_depth : unicode, optional
         {:func:`colour.models.log_encoding_ACESproxy`,
+        :func:`colour.models.log_encoding_NLog`,
         :func:`colour.models.log_encoding_SLog`,
         :func:`colour.models.log_encoding_SLog2`},
         **{8, 10, 12}**,
@@ -215,7 +219,8 @@ def log_encoding(value, function='Cineon', **kwargs):
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
     in_reflection : bool, optional
-        {:func:`colour.models.log_encoding_SLog`,
+        {:func:`colour.models.log_encoding_NLog`,
+        :func:`colour.models.log_encoding_SLog`,
         :func:`colour.models.log_encoding_SLog2`},
         Whether the light level :math:`x` to a camera is reflection.
     linear_reference : numeric or array_like
@@ -229,6 +234,7 @@ def log_encoding(value, function='Cineon', **kwargs):
         Whether to use the *Log3G10* *v1* or *v2* log encoding curve.
     out_normalised_code_value : bool, optional
         {:func:`colour.models.log_encoding_SLog`,
+        :func:`colour.models.log_encoding_NLog`,
         :func:`colour.models.log_encoding_SLog2`,
         :func:`colour.models.log_encoding_SLog3`},
         Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
@@ -280,6 +286,7 @@ LOG_DECODINGS = CaseInsensitiveMapping({
     'Log2': log_decoding_Log2,
     'Log3G10': log_decoding_Log3G10,
     'Log3G12': log_decoding_Log3G12,
+    'N-Log': log_decoding_NLog,
     'Panalog': log_decoding_Panalog,
     'PLog': log_decoding_PivotedLog,
     'Protune': log_decoding_Protune,
@@ -298,9 +305,9 @@ Supported *log* decoding functions.
 LOG_DECODINGS : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
     'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
-    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
-    'T-Log', 'V-Log', 'ViperLog'}**
+    'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog', 'PLog',
+    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
+    'V-Log', 'ViperLog'}**
 """
 
 
@@ -316,8 +323,8 @@ def log_decoding(value, function='Cineon', **kwargs):
     function : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'Panalog', 'PLog',
-        'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', Panalog',
+        'PLog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
         'T-Log', 'V-Log', 'ViperLog'}**,
         Computation function.
 
@@ -338,6 +345,7 @@ def log_decoding(value, function='Cineon', **kwargs):
         12-bit and 16-bit per channel.
     bit_depth : int, optional
         {:func:`colour.models.log_decoding_ACESproxy`,
+        :func:`colour.models.log_decoding_NLog`,
         :func:`colour.models.log_decoding_SLog`,
         :func:`colour.models.log_decoding_SLog2`},
         **{8, 10, 12}**,
@@ -357,6 +365,7 @@ def log_decoding(value, function='Cineon', **kwargs):
         Alexa firmware version.
     in_normalised_code_value : bool, optional
         {:func:`colour.models.log_decoding_SLog`,
+        :func:`colour.models.log_decoding_NLog`,
         :func:`colour.models.log_decoding_SLog2`,
         :func:`colour.models.log_decoding_SLog3`},
         Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
@@ -374,7 +383,8 @@ def log_decoding(value, function='Cineon', **kwargs):
         {:func:`colour.models.log_decoding_PivotedLog`},
         Negative gamma.
     out_reflection : bool, optional
-        {:func:`colour.models.log_decoding_SLog`,
+        {:func:`colour.models.log_decoding_NLog`,
+        :func:`colour.models.log_decoding_SLog`,
         :func:`colour.models.log_decoding_SLog2`},
         Whether the light level :math:`x` to a camera is reflection.
     method : unicode, optional
