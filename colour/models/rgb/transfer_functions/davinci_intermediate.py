@@ -161,6 +161,6 @@ def oetf_inverse_DaVinciIntermediate(V,
     L_out = np.where(
         V <= DI_LOG_CUT,
         V / DI_M,
-        (2 ** ((V / DI_C) - DI_B)) - DI_A,
+        2 ** ((V / DI_C) - DI_B) - DI_A,
     )
     return as_float(from_range_1(L_out))
