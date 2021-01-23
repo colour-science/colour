@@ -137,6 +137,10 @@ Development & Technical Support
 
     RED Log3G10 improvements.
 
+-   **Frederic Savoir**, *Technology Director @ Amazing Digital Studios*
+
+    DaVinci Intermediate OETF implementation.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
