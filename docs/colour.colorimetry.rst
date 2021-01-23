@@ -233,6 +233,7 @@ Illuminants and Light Sources
     SDS_ILLUMINANTS
     CCS_LIGHT_SOURCES
     SDS_LIGHT_SOURCES
+    TVS_ILLUMINANTS
     TVS_ILLUMINANTS_HUNTERLAB
 
 **Ancillary Objects**

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Tristimulus Values of the Hunter L,a,b Illuminants
-==================================================
+CIE XYZ Tristimulus Values of the Hunter L,a,b Illuminants
+==========================================================
 
-Defines the tristimulus values of the *Hunter L,a,b* illuminants dataset for
-the *CIE 1931 2 Degree Standard Observer* and
+Defines the *CIE XYZ* tristimulus values of the *Hunter L,a,b* illuminants
+dataset for the *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 
 The currently implemented data has been extracted from :cite:`HunterLab2008b`,
@@ -63,7 +63,7 @@ TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
         for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931
     }))
 """
-Tristimulus values of the *Hunter L,a,b* illuminants for the
+*CIE XYZ* tristimulus values of the *Hunter L,a,b* illuminants for the
 *CIE 1931 2 Degree Standard Observer*.
 
 References
@@ -92,7 +92,7 @@ TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
         for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
     }))
 """
-Tristimulus values of the *Hunter L,a,b* illuminants for the
+*CIE XYZ* tristimulus values of the *Hunter L,a,b* illuminants for the
 *CIE 1964 10 Degree Standard Observer*.
 
 References
@@ -110,7 +110,7 @@ TVS_ILLUMINANTS_HUNTERLAB = CaseInsensitiveMapping({
         TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
 })
 TVS_ILLUMINANTS_HUNTERLAB.__doc__ = """
-Tristimulus values of the *HunterLab* illuminants.
+*CIE XYZ* tristimulus values of the *HunterLab* illuminants.
 
 References
 ----------
