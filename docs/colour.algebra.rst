@@ -126,6 +126,18 @@ Matrix
 
     is_identity
 
+Optimize
+--------
+
+``colour.algebra``
+
+.. currentmodule:: colour.algebra
+
+.. autosummary::
+    :toctree: generated/
+
+    minimize_NewtonRaphson
+
 Random
 ------
 

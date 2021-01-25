@@ -19,6 +19,7 @@ from .interpolation import (
     table_interpolation_trilinear, table_interpolation_tetrahedral,
     TABLE_INTERPOLATION_METHODS, table_interpolation)
 from .matrix import is_identity
+from .optimize import minimize_NewtonRaphson
 from .random import random_triplet_generator
 from .regression import least_square_mapping_MoorePenrose
 
@@ -46,5 +47,6 @@ __all__ += [
     'TABLE_INTERPOLATION_METHODS', 'table_interpolation'
 ]
 __all__ += ['is_identity']
+__all__ += ['minimize_NewtonRaphson']
 __all__ += ['random_triplet_generator']
 __all__ += ['least_square_mapping_MoorePenrose']

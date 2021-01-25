@@ -22,11 +22,11 @@ References
 """
 
 import numpy as np
-from scipy.optimize import fmin
 
+from colour.algebra import minimize_NewtonRaphson
 from colour.models import XYZ_to_xyY
-from colour.utilities import (as_float_array, domain_range_scale, vector_dot,
-                              from_range_100, to_domain_100, tsplit, tstack)
+from colour.utilities import (from_range_100, to_domain_100, tsplit, tstack,
+                              vector_dot)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -185,28 +185,26 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None):
     """
 
     Ljg = to_domain_100(Ljg)
-    shape = Ljg.shape
-    Ljg = np.atleast_1d(Ljg.reshape([-1, 3]))
 
-    optimisation_settings = {'disp': False}
-    if optimisation_kwargs is not None:
-        optimisation_settings.update(optimisation_kwargs)
+    XYZ = minimize_NewtonRaphson(Ljg, 1, 0.01, XYZ_to_OSA_UCS)
 
-    def error_function(XYZ, Ljg):
-        """
-        Error function.
-        """
+    return from_range_100(XYZ)
 
-        # Error must be computed in "reference" domain and range.
-        with domain_range_scale('ignore'):
-            error = np.linalg.norm(XYZ_to_OSA_UCS(XYZ) - Ljg)
 
-        return error
+if __name__ == '__main__':
 
-    x_0 = np.array([30, 30, 30])
-    XYZ = as_float_array([
-        fmin(error_function, x_0, (Ljg_i, ), **optimisation_settings)
-        for Ljg_i in Ljg
-    ])
+    a = [1, 2, 3]
+    np.testing.assert_allclose(
+        OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
 
-    return from_range_100(XYZ.reshape(shape))
+    a = [[1, 2, 3]]
+    np.testing.assert_allclose(
+        OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
+
+    a = [[1, 2, 3], [3, 1.04, 0.05]]
+    np.testing.assert_allclose(
+        OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
+
+    a = [[[1, 2, 3], [3, 4, 5]], [[6, 7, 8], [9, 10, 11]]]
+    np.testing.assert_allclose(
+        OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
