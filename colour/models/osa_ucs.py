@@ -25,8 +25,8 @@ import numpy as np
 
 from colour.algebra import minimize_NewtonRaphson
 from colour.models import XYZ_to_xyY
-from colour.utilities import (from_range_100, to_domain_100, tsplit, tstack,
-                              vector_dot)
+from colour.utilities import (domain_range_scale, from_range_100,
+                              to_domain_100, tsplit, tstack, vector_dot)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -186,7 +186,8 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None):
 
     Ljg = to_domain_100(Ljg)
 
-    XYZ = minimize_NewtonRaphson(Ljg, 1, 0.01, XYZ_to_OSA_UCS)
+    with domain_range_scale('ignore'):
+        XYZ = minimize_NewtonRaphson(Ljg, 1, 0.01, XYZ_to_OSA_UCS)
 
     return from_range_100(XYZ)
 
