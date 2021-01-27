@@ -187,25 +187,60 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None):
     Ljg = to_domain_100(Ljg)
 
     with domain_range_scale('ignore'):
-        XYZ = minimize_NewtonRaphson(Ljg, 1, 0.01, XYZ_to_OSA_UCS)
+        XYZ = minimize_NewtonRaphson(Ljg, [1, 1, 1], 0.001, XYZ_to_OSA_UCS)
 
     return from_range_100(XYZ)
 
 
 if __name__ == '__main__':
+    import colour
+    import numpy as np
 
-    a = [1, 2, 3]
-    np.testing.assert_allclose(
-        OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
+    colour.utilities.filter_warnings(*[True] * 4)
 
-    a = [[1, 2, 3]]
-    np.testing.assert_allclose(
-        OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
+    samples = 256
 
-    a = [[1, 2, 3], [3, 1.04, 0.05]]
-    np.testing.assert_allclose(
-        OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
+    permutations = colour.utilities.as_float_array([
+        ([1, 0, 0], [0, 0, 0]),
+        ([0, 1, 0], [0, 0, 0]),
+        ([0, 0, 1], [0, 0, 0]),
+        ([1, 0, 0], [1, 1, 1]),
+        ([0, 1, 0], [1, 1, 1]),
+        ([0, 0, 1], [1, 1, 1]),
+        ([1, 0, 0], [0, 1, 0]),
+        ([0, 1, 0], [0, 0, 1]),
+        ([0, 0, 1], [1, 0, 0]),
+    ])
 
-    a = [[[1, 2, 3], [3, 4, 5]], [[6, 7, 8], [9, 10, 11]]]
-    np.testing.assert_allclose(
-        OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
+    model = 'OSA UCS'
+
+    for permutation in permutations:
+        Jab = np.nan_to_num(colour.convert(permutation, 'sRGB', model))
+
+        gradient = colour.utilities.lerp(
+            Jab[0][np.newaxis], Jab[1][np.newaxis],
+            np.linspace(0, 1, samples)[..., np.newaxis])
+
+        display = 'Output-Referred RGB'
+        RGB = colour.convert(gradient, model, display)
+
+        figure, axes = colour.plotting.plot_multi_colour_swatches(
+            np.clip(RGB, 0, 1), height=50, standalone=False)
+        axes.text(1, 1.5, model)
+        colour.plotting.render()
+
+    # a = [1, 2, 3]
+    # np.testing.assert_allclose(
+    #     OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
+    #
+    # a = [[1, 2, 3]]
+    # np.testing.assert_allclose(
+    #     OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
+    #
+    # a = [[1, 2, 3], [0.5, 1.04, 0.05]]
+    # np.testing.assert_allclose(
+    #     OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
+    #
+    # a = [[[1, 2, 3], [3, 4, 5]], [[6, 7, 8], [9, 10, 11]]]
+    # np.testing.assert_allclose(
+    #     OSA_UCS_to_XYZ(XYZ_to_OSA_UCS(a)), a, rtol=0.0001, atol=0.0001)
