@@ -7,7 +7,7 @@ attrs==20.3.0
 Babel==2.9.0
 backcall==0.2.0
 biblib-simple==0.1.1
-bleach==3.2.1
+bleach==3.3.0
 certifi==2020.12.5
 cffi==1.14.4
 cfgv==3.0.0
