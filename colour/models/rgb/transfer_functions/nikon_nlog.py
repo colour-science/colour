@@ -11,7 +11,7 @@ Defines the *Nikon N-Log* log encoding:
 References
 ----------
 -   :cite:`Nikon2018` : Nikon. (2018). N-Log Specification Document - Version
-    1.0.0 (pp. 1–5). Retrieved September 9, 2019, from
+    1.0.0 (pp. 1-5). Retrieved September 9, 2019, from
     http://download.nikonimglib.com/archive3/hDCmK00m9JDI03RPruD74xpoU905/\
 N-Log_Specification_(En)01.pdf
 """
