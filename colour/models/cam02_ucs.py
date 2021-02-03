@@ -245,6 +245,7 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
 
     Notes
     -----
+    -   *LCD* in *CAM02-LCD* stands for *Large Colour Differences*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -308,6 +309,7 @@ def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
 
     Notes
     -----
+    -   *LCD* in *CAM02-LCD* stands for *Large Colour Differences*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -361,6 +363,7 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
 
     Notes
     -----
+    -   *SCD* in *CAM02-SCD* stands for *Small Colour Differences*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -424,6 +427,7 @@ def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
 
     Notes
     -----
+    -   *SCD* in *CAM02-SCD* stands for *Small Colour Differences*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -477,6 +481,7 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
 
     Notes
     -----
+    -   *UCS* in *CAM02-UCS* stands for *Uniform Colour Colourspace*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -540,6 +545,7 @@ def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
 
     Notes
     -----
+    -   *UCS* in *CAM02-UCS* stands for *Uniform Colour Colourspace*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -773,6 +779,7 @@ def XYZ_to_CAM02LCD(XYZ, **kwargs):
 
     Notes
     -----
+    -   *LCD* in *CAM02-LCD* stands for *Large Colour Differences*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -836,6 +843,7 @@ def CAM02LCD_to_XYZ(Jpapbp, **kwargs):
 
     Notes
     -----
+    -   *LCD* in *CAM02-LCD* stands for *Large Colour Differences*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -899,6 +907,7 @@ def XYZ_to_CAM02SCD(XYZ, **kwargs):
 
     Notes
     -----
+    -   *SCD* in *CAM02-SCD* stands for *Small Colour Differences*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -960,8 +969,9 @@ def CAM02SCD_to_XYZ(Jpapbp, **kwargs):
     The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
     given in the sane domain-range scale than the ``XYZ`` parameter.
 
-    Notes
+     Notes
     -----
+    -   *SCD* in *CAM02-SCD* stands for *Small Colour Differences*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -1025,6 +1035,7 @@ def XYZ_to_CAM02UCS(XYZ, **kwargs):
 
     Notes
     -----
+    -   *UCS* in *CAM02-UCS* stands for *Uniform Colour Space*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -1088,6 +1099,7 @@ def CAM02UCS_to_XYZ(Jpapbp, **kwargs):
 
     Notes
     -----
+    -   *UCS* in *CAM02-UCS* stands for *Uniform Colour Space*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
