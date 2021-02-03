@@ -58,6 +58,12 @@ def delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
     numeric or ndarray
         Colour difference :math:`\\Delta E'`.
 
+    Warnings
+    --------
+    The :math:`J'a'b'` array should have been computed with a
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
+    and not with the *CIE L\\*a\\*b\\** colourspace.
+
     Notes
     -----
 
@@ -115,6 +121,12 @@ def delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2):
     numeric or ndarray
         Colour difference :math:`\\Delta E'`.
 
+    Warnings
+    --------
+    The :math:`J'a'b'` array should have been computed with a
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
+    and not with the *CIE L\\*a\\*b\\** colourspace.
+
     Notes
     -----
 
@@ -169,6 +181,12 @@ def delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2):
     numeric or ndarray
         Colour difference :math:`\\Delta E'`.
 
+    Warnings
+    --------
+    The :math:`J'a'b'` array should have been computed with a
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
+    and not with the *CIE L\\*a\\*b\\** colourspace.
+
     Notes
     -----
 
@@ -222,6 +240,12 @@ def delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2):
     -------
     numeric or ndarray
         Colour difference :math:`\\Delta E'`.
+
+    Warnings
+    --------
+    The :math:`J'a'b'` array should have been computed with a
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
+    and not with the *CIE L\\*a\\*b\\** colourspace.
 
     Notes
     -----
