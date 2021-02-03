@@ -38,6 +38,7 @@ from .cam16_ucs import delta_E_CAM16LCD, delta_E_CAM16SCD, delta_E_CAM16UCS
 from .delta_e import (JND_CIE1976, delta_E_CIE1976, delta_E_CIE1994,
                       delta_E_CIE2000, delta_E_CMC)
 from .din99 import delta_E_DIN99
+from .huang2015 import power_function_Huang2015
 from .stress import index_stress_Garcia2007, INDEX_STRESS_METHODS, index_stress
 
 __all__ = ['delta_E_CAM02LCD', 'delta_E_CAM02SCD', 'delta_E_CAM02UCS']
@@ -47,6 +48,7 @@ __all__ += [
     'delta_E_CMC'
 ]
 __all__ += ['delta_E_DIN99']
+__all__ += ['power_function_Huang2015']
 __all__ += ['index_stress_Garcia2007', 'INDEX_STRESS_METHODS', 'index_stress']
 
 DELTA_E_METHODS = CaseInsensitiveMapping({
