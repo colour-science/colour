@@ -104,3 +104,25 @@ DIN99
     :toctree: generated/
 
     delta_E_DIN99
+
+Standardized Residual Sum of Squares (STRESS) Index
+---------------------------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    index_stress
+    INDEX_STRESS_METHODS
+
+``colour.difference``
+
+.. currentmodule:: colour.difference
+
+.. autosummary::
+    :toctree: generated/
+
+    index_stress_Garcia2017
