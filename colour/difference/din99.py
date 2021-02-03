@@ -40,6 +40,10 @@ def delta_E_DIN99(Lab_1, Lab_2, textiles=False):
         *CIE L\\*a\\*b\\** colourspace array 1.
     Lab_2 : array_like
         *CIE L\\*a\\*b\\** colourspace array 2.
+    textiles : bool, optional
+        Textiles application specific parametric factors,
+        :math:`k_E=2,\\ k_{CH}=0.5` weights are used instead of
+        :math:`k_E=1,\\ k_{CH}=1`.
 
     Returns
     -------

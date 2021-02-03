@@ -143,7 +143,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     Lab_2 : array_like
         *CIE L\\*a\\*b\\** colourspace array 2.
     textiles : bool, optional
-        Textiles application specific parametric factors
+        Textiles application specific parametric factors,
         :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014` weights are used
         instead of :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015`.
 
@@ -234,7 +234,7 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     Lab_2 : array_like
         *CIE L\\*a\\*b\\** colourspace array 2.
     textiles : bool, optional
-        Textiles application specific parametric factors
+        Textiles application specific parametric factors.
         :math:`k_L=2,\\ k_C=k_H=1` weights are used instead of
         :math:`k_L=k_C=k_H=1`.
 
