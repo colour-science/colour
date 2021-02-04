@@ -384,7 +384,7 @@ def RGB_to_HCL(RGB, gamma=3, Y_0=100):
     --------
     >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_HCL(RGB)  # doctest: +ELLIPSIS
-    array([ -0.0316785..., 0.284171..., 0.2285964... ])
+    array([ -0.0316785..., 0.284171..., 0.2285964...])
     """
 
     R, G, B = colour.utilities.tsplit(RGB)
@@ -462,7 +462,7 @@ def HCL_to_RGB(HCL, gamma=3, Y_0=100):
     --------
     >>> HCL = np.array([0.99603944, 0.87347144, 0.24350795])
     >>> HCL_to_RGB(HCL)  # doctest: +ELLIPSIS
-    array([ 0.4648304...,  0.3664177..., -0.9135283... ])
+    array([ 0.4648304...,  0.3664177..., -0.9135283...])
     """
 
     H, C, L = colour.utilities.tsplit(HCL)
