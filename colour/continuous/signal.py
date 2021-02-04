@@ -1117,6 +1117,7 @@ class Signal(AbstractContinuousFunction):
                 list(data) if isinstance(data, (Iterator,
                                                 ValuesView)) else data)
             assert data.ndim == 1, 'User "data" must be 1-dimensional!'
+
             domain_u, range_u = np.arange(0, data.size, dtype=dtype), data
         elif (issubclass(type(data), Mapping) or
               isinstance(data, (dict, OrderedDict))):

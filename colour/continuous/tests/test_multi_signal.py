@@ -933,6 +933,7 @@ domain_distance` method.
             from pandas import DataFrame
 
             data = dict(zip(['a', 'b', 'c'], tsplit(self._range_2)))
+
             assert MultiSignals(
                 self._range_2, self._domain_2,
                 labels=['a', 'b', 'c']).to_dataframe().equals(

@@ -162,6 +162,7 @@ class Extrapolator:
         if value is not None:
             assert hasattr(value, 'x'), (
                 '"{0}" interpolator has no "x" attribute!'.format(value))
+
             assert hasattr(value, 'y'), (
                 '"{0}" interpolator has no "y" attribute!'.format(value))
 
@@ -195,6 +196,7 @@ class Extrapolator:
             assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a "string" like object!'
                  ).format('method', value))
+
             value = value.lower()
 
         self._method = value
@@ -227,6 +229,7 @@ class Extrapolator:
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" is not a "numeric"!').format(
                     'left', value)
+
         self._left = value
 
     @property
@@ -257,6 +260,7 @@ class Extrapolator:
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" is not a "numeric"!').format(
                     'right', value)
+
         self._right = value
 
     def __call__(self, x):

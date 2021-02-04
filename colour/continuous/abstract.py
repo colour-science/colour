@@ -123,6 +123,7 @@ arithmetical_operation`
             assert is_string(value), (
                 ('"{0}" attribute: "{1}" type is not "str" or "unicode"!'
                  ).format('name', value))
+
             self._name = value
 
     def _get_dtype(self):

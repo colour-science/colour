@@ -251,6 +251,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'manufacturer', value))
+
         self._manufacturer = value
 
     @property
@@ -281,6 +282,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'catalog_number', value))
+
         self._catalog_number = value
 
     @property
@@ -311,6 +313,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'description', value))
+
         self._description = value
 
     @property
@@ -341,6 +344,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'document_creator', value))
+
         self._document_creator = value
 
     @property
@@ -371,6 +375,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'unique_identifier', value))
+
         self._unique_identifier = value
 
     @property
@@ -401,6 +406,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'measurement_equipment', value))
+
         self._measurement_equipment = value
 
     @property
@@ -431,6 +437,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'laboratory', value))
+
         self._laboratory = value
 
     @property
@@ -461,6 +468,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'report_number', value))
+
         self._report_number = value
 
     @property
@@ -491,6 +499,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'report_date', value))
+
         self._report_date = value
 
     @property
@@ -521,6 +530,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'document_creation_date', value))
+
         self._document_creation_date = value
 
     @property
@@ -551,6 +561,7 @@ class Header_IESTM2714:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'comments', value))
+
         self._comments = value
 
 
@@ -767,6 +778,7 @@ dict_like, optional
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'path', value))
+
         self._path = value
 
     @property
@@ -797,6 +809,7 @@ dict_like, optional
             assert isinstance(value, Header_IESTM2714), (
                 '"{0}" attribute: "{1}" is not a "Header_IESTM2714" '
                 'instance!'.format('header', value))
+
         self._header = value
 
     @property
@@ -827,6 +840,7 @@ dict_like, optional
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'spectral_quantity', value))
+
         self._spectral_quantity = value
 
     @property
@@ -857,6 +871,7 @@ dict_like, optional
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'reflection_geometry', value))
+
         self._reflection_geometry = value
 
     @property
@@ -887,6 +902,7 @@ dict_like, optional
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'transmission_geometry', value))
+
         self._transmission_geometry = value
 
     @property

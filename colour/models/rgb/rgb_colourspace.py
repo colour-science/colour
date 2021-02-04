@@ -270,6 +270,7 @@ class RGB_Colourspace:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'name', value))
+
         self._name = value
 
     @property
@@ -331,6 +332,7 @@ class RGB_Colourspace:
                 '"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
                 'or "matrix" instance!'.format('whitepoint', value))
             value = as_float_array(value)
+
         self._whitepoint = value
 
         self._derive_transformation_matrices()
@@ -363,6 +365,7 @@ class RGB_Colourspace:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'whitepoint_name', value))
+
         self._whitepoint_name = value
 
     @property
@@ -468,6 +471,7 @@ class RGB_Colourspace:
                 value,
                 '__call__'), ('"{0}" attribute: "{1}" is not callable!'.format(
                     'cctf_encoding', value))
+
         self._cctf_encoding = value
 
     @property
@@ -503,6 +507,7 @@ class RGB_Colourspace:
                 value,
                 '__call__'), ('"{0}" attribute: "{1}" is not callable!'.format(
                     'cctf_decoding', value))
+
         self._cctf_decoding = value
 
     @property
