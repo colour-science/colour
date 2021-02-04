@@ -1750,6 +1750,10 @@ MultiSpectralDistributions or array_like or dict_like, optional
                 self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
                     'strict_labels', len(self.labels)))
 
+            assert len(set(value)) == len(value), (
+                '"{0}" attribute: values must be unique!'.format(
+                    'strict_labels', len(self._signals)))
+
             self._strict_labels = value
 
     @property

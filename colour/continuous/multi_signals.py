@@ -575,6 +575,10 @@ or dict_like
                 self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
                     'labels', len(self._signals)))
 
+            assert len(set(value)) == len(value), (
+                '"{0}" attribute: values must be unique!'.format(
+                    'labels', len(self._signals)))
+
             self._signals = OrderedDict(
                 [(value[i], signal)
                  for i, (_key, signal) in enumerate(self._signals.items())])
