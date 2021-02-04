@@ -571,12 +571,12 @@ or dict_like
                 '"{0}" attribute: "{1}" is not an "iterable" like object!'.
                 format('labels', value))
 
-            assert len(value) == len(
-                self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
-                    'labels', len(self._signals)))
-
             assert len(set(value)) == len(value), (
                 '"{0}" attribute: values must be unique!'.format(
+                    'labels', len(self._signals)))
+
+            assert len(value) == len(
+                self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
                     'labels', len(self._signals)))
 
             self._signals = OrderedDict(
