@@ -14,8 +14,8 @@ from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
-from colour.utilities import (as_float_array, first_item, is_pandas_installed,
-                              required, tsplit, tstack)
+from colour.utilities import (as_float_array, first_item, is_iterable,
+                              is_pandas_installed, required, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -567,8 +567,14 @@ or dict_like
         """
 
         if value is not None:
-            assert len(value) == len(self._signals), (
-                '"labels" length does not match "signals" length!')
+            assert is_iterable(value), (
+                '"{0}" attribute: "{1}" is not an "iterable" like object!'.
+                format('labels', value))
+
+            assert len(value) == len(
+                self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
+                    'labels', len(self._signals)))
+
             self._signals = OrderedDict(
                 [(value[i], signal)
                  for i, (_key, signal) in enumerate(self._signals.items())])
@@ -1126,6 +1132,7 @@ or dict_like
             assert len(self.signals) == len(a.signals), (
                 '"MultiSignals" operands must have same count than '
                 'underlying "Signal" components!')
+
             for signal_a, signal_b in zip(multi_signals.signals.values(),
                                           a.signals.values()):
                 signal_a.arithmetical_operation(signal_b, operation, True)
@@ -1352,6 +1359,7 @@ dict_like, optional
                                                 ValuesView)) else data)
             assert data.ndim in (1, 2), (
                 'User "data" must be 1-dimensional or 2-dimensional!')
+
             if data.ndim == 1:
                 data = data[np.newaxis, :]
             for i, range_u in enumerate(data):
@@ -1396,11 +1404,13 @@ dict_like, optional
             for signal in signals.values():
                 assert len(domain) == len(signal.domain), (
                     'User "domain" is not compatible with unpacked signals!')
+
                 signal.domain = domain
 
         if labels is not None and signals is not None:
             assert len(labels) == len(signals), (
                 'User "labels" is not compatible with unpacked signals!')
+
             signals = OrderedDict(
                 [(labels[i], signal)
                  for i, (_key, signal) in enumerate(signals.items())])

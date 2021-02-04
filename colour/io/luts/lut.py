@@ -261,6 +261,7 @@ class AbstractLUT(ABC):
             assert is_iterable(value), ((
                 '"{0}" attribute: "{1}" must be an array like!').format(
                     'comments', value))
+
             self._comments = value
 
     def __str__(self):

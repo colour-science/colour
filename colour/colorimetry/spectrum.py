@@ -669,6 +669,7 @@ dict_like, optional
             assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a "string" like object!'
                  ).format('strict_name', value))
+
             self._strict_name = value
 
     @property
@@ -1709,6 +1710,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
             assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a "string" like object!'
                  ).format('strict_name', value))
+
             self._strict_name = value
 
     @property
@@ -1747,6 +1749,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
             assert len(value) == len(
                 self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
                     'strict_labels', len(self.labels)))
+
             self._strict_labels = value
 
     @property
