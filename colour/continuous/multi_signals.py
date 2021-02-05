@@ -572,8 +572,7 @@ or dict_like
                 format('labels', value))
 
             assert len(set(value)) == len(value), (
-                '"{0}" attribute: values must be unique!'.format(
-                    'labels', len(self._signals)))
+                '"{0}" attribute: values must be unique!'.format('labels'))
 
             assert len(value) == len(
                 self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
