@@ -96,6 +96,23 @@ class TestGeneratePulseWaves(unittest.TestCase):
         np.sort(generate_pulse_waves(5), axis=0),
         np.sort(generate_pulse_waves(5, 'Pulse Wave Width'), axis=0))
 
+    np.testing.assert_array_equal(
+        generate_pulse_waves(5, 'Pulse Wave Width', True),
+        np.array([
+            [0.0, 0.0, 0.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0, 0.0, 0.0],
+            [1.0, 1.0, 0.0, 0.0, 1.0],
+            [0.0, 1.0, 0.0, 0.0, 0.0],
+            [1.0, 1.0, 1.0, 0.0, 0.0],
+            [0.0, 0.0, 1.0, 0.0, 0.0],
+            [0.0, 1.0, 1.0, 1.0, 0.0],
+            [0.0, 0.0, 0.0, 1.0, 0.0],
+            [0.0, 0.0, 1.0, 1.0, 1.0],
+            [0.0, 0.0, 0.0, 0.0, 1.0],
+            [1.0, 0.0, 0.0, 1.0, 1.0],
+            [1.0, 1.0, 1.0, 1.0, 1.0],
+        ]))
+
 
 class TestXYZOuterSurface(unittest.TestCase):
     """

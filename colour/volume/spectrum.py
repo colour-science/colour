@@ -52,7 +52,7 @@ _CACHE_OUTER_SURFACE_XYZ = {}
 _CACHE_OUTER_SURFACE_XYZ_POINTS = {}
 
 
-def generate_pulse_waves(bins, pulse_order='Bins'):
+def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):
     """
     Generates the pulse waves of given number of bins necessary to totally
     stimulate the colour matching functions and produce the *Rösch-MacAdam*
@@ -94,6 +94,23 @@ def generate_pulse_waves(bins, pulse_order='Bins'):
         *Pulse Wave Width* ordering, instead of iterating over the pulse wave
         widths first, iteration occurs over the bins, producing blocks of pulse
         waves with increasing width.
+    filter_jagged_pulses : bool, optional
+        Whether to filter jagged pulses. When ``pulse_order`` is set to
+        *Pulse Wave Width*, the pulses are ordered by increasing width. Because
+        of the discrete nature of the underlying signal, the resulting pulses
+        will be jagged. For example assuming 5 bins, the center block with
+        the two extreme values added would be as follows::
+
+            0 0 0 0 0
+            0 0 1 0 0
+            0 0 1 1 0 <--
+            0 1 1 1 0
+            0 1 1 1 1 <--
+            1 1 1 1 1
+
+        Setting the ``filter_jagged_pulses`` parameter to `True` will result
+        in the removal of the two marked pulses above which avoid jagged lines
+        when plotting and having to resort to excessive ``bins`` values.
 
     Returns
     -------
@@ -152,6 +169,19 @@ def generate_pulse_waves(bins, pulse_order='Bins'):
            [ 1.,  0.,  0.,  1.,  1.],
            [ 1.,  1.,  0.,  1.,  1.],
            [ 1.,  1.,  1.,  1.,  1.]])
+    >>> generate_pulse_waves(5, 'Pulse Wave Width', True)
+    array([[ 0.,  0.,  0.,  0.,  0.],
+           [ 1.,  0.,  0.,  0.,  0.],
+           [ 1.,  1.,  0.,  0.,  1.],
+           [ 0.,  1.,  0.,  0.,  0.],
+           [ 1.,  1.,  1.,  0.,  0.],
+           [ 0.,  0.,  1.,  0.,  0.],
+           [ 0.,  1.,  1.,  1.,  0.],
+           [ 0.,  0.,  0.,  1.,  0.],
+           [ 0.,  0.,  1.,  1.,  1.],
+           [ 0.,  0.,  0.,  0.,  1.],
+           [ 1.,  0.,  0.,  1.,  1.],
+           [ 1.,  1.,  1.,  1.,  1.]])
     """
 
     square_waves = []
@@ -167,6 +197,9 @@ def generate_pulse_waves(bins, pulse_order='Bins'):
             for j, square_wave_basis in enumerate(square_waves_basis):
                 square_waves.append(np.roll(square_wave_basis, i - j // 2))
 
+        if filter_jagged_pulses:
+            square_waves = square_waves[::2]
+
     return np.vstack([
         zeros(bins),
         np.vstack(square_waves),
@@ -178,6 +211,7 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
                       .copy().align(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
                       illuminant=sd_ones(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
                       point_order='Bins',
+                      filter_jagged_points=False,
                       **kwargs):
     """
     Generates the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
@@ -192,10 +226,28 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         Illuminant spectral distribution.
     point_order : unicode, optional
         **{'Bins', 'Pulse Wave Width'}**,
-        Method for ordering the pulse waves. *Bins* is the default order, with
+        Method for ordering the underlying pulse waves used to generate the
+        *Rösch-MacAdam* colour solid. *Bins* is the default order, with
         *Pulse Wave Width* ordering, instead of iterating over the pulse wave
         widths first, iteration occurs over the bins, producing blocks of pulse
         waves with increasing width.
+    filter_jagged_points : bool, optional
+        Whether to filter the underlying jagged pulses. When ``point_order`` is
+        set to *Pulse Wave Width*, the pulses are ordered by increasing width.
+        Because of the discrete nature of the underlying signal, the resulting
+        pulses will be jagged. For example assuming 5 bins, the center block
+        with the two extreme values added would be as follows::
+
+            0 0 0 0 0
+            0 0 1 0 0
+            0 0 1 1 0 <--
+            0 1 1 1 0
+            0 1 1 1 1 <--
+            1 1 1 1 1
+
+        Setting the ``filter_jagged_points`` parameter to `True` will result
+        in the removal of the two marked pulses above which avoid jagged lines
+        when plotting and having to resort to excessive ``bins`` values.
 
     Other Parameters
     ----------------
@@ -257,11 +309,13 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     settings = {'method': 'Integration', 'shape': cmfs.shape}
     settings.update(kwargs)
 
-    key = (hash(cmfs), hash(illuminant), point_order, str(settings))
+    key = (hash(cmfs), hash(illuminant), point_order, filter_jagged_points,
+           str(settings))
     XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
     if XYZ is None:
-        pulse_waves = generate_pulse_waves(len(cmfs.wavelengths), point_order)
+        pulse_waves = generate_pulse_waves(
+            len(cmfs.wavelengths), point_order, filter_jagged_points)
         XYZ = msds_to_XYZ(pulse_waves, cmfs, illuminant, **settings) / 100
 
         _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
