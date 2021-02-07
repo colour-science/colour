@@ -114,18 +114,6 @@ Geometry
     LineSegmentsIntersections_Specification
     ellipse_fitting_Halir1998
 
-Matrix
-------
-
-``colour.algebra``
-
-.. currentmodule:: colour.algebra
-
-.. autosummary::
-    :toctree: generated/
-
-    is_identity
-
 Random
 ------
 
@@ -170,3 +158,4 @@ Common
     matrix_dot
     linear_conversion
     lerp
+    is_identity

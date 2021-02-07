@@ -22,7 +22,7 @@ __status__ = 'Production'
 __all__ = [
     'is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow',
     'smoothstep_function', 'normalise_maximum', 'vector_dot', 'matrix_dot',
-    'linear_conversion', 'lerp'
+    'linear_conversion', 'lerp', 'is_identity'
 ]
 
 _SPOW_ENABLED = True
@@ -414,3 +414,30 @@ def lerp(a, b, c):
     c = as_float_array(c)
 
     return (1 - c) * a + c * b
+
+
+def is_identity(a, n=3):
+    """
+    Returns if :math:`a` array is an identity matrix.
+
+    Parameters
+    ----------
+    a : array_like, (N)
+        Variable :math:`a` to test.
+    n : int, optional
+        Matrix dimension.
+
+    Returns
+    -------
+    bool
+        Is identity matrix.
+
+    Examples
+    --------
+    >>> is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+    True
+    >>> is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+    False
+    """
+
+    return np.array_equal(np.identity(n), a)

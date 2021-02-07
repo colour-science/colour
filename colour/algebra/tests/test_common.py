@@ -8,7 +8,8 @@ import unittest
 
 from colour.algebra import (is_spow_enabled, set_spow_enable, spow_enable,
                             spow, smoothstep_function, normalise_maximum,
-                            vector_dot, matrix_dot, linear_conversion, lerp)
+                            vector_dot, matrix_dot, linear_conversion, lerp,
+                            is_identity)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -20,7 +21,7 @@ __status__ = 'Production'
 __all__ = [
     'TestIsSpowEnabled', 'TestSetSpowEnabled', 'TestSpowEnable', 'TestSpow',
     'TestSmoothstepFunction', 'TestNormaliseMaximum', 'TestVectorDot',
-    'TestMatrixDot', 'TestLinearConversion', 'TestLerp'
+    'TestMatrixDot', 'TestLinearConversion', 'TestLerp', 'TestIsIdentity'
 ]
 
 
@@ -346,6 +347,30 @@ class TestLerp(unittest.TestCase):
                 2.00000000,
             ]),
             decimal=8)
+
+
+class TestIsIdentity(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.matrix.is_identity` definition unit tests
+    methods.
+    """
+
+    def test_is_identity(self):
+        """
+        Tests :func:`colour.algebra.matrix.is_identity` definition.
+        """
+
+        self.assertTrue(
+            is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3])))
+
+        self.assertFalse(
+            is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3])))
+
+        self.assertTrue(
+            is_identity(np.array([1, 0, 0, 1]).reshape([2, 2]), n=2))
+
+        self.assertFalse(
+            is_identity(np.array([1, 2, 0, 1]).reshape([2, 2]), n=2))
 
 
 if __name__ == '__main__':

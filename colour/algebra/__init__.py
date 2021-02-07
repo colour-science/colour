@@ -4,7 +4,7 @@ from .coordinates import *  # noqa
 from . import coordinates
 from .common import (is_spow_enabled, set_spow_enable, spow_enable, spow,
                      smoothstep_function, normalise_maximum, vector_dot,
-                     matrix_dot, linear_conversion, lerp)
+                     matrix_dot, linear_conversion, lerp, is_identity)
 from .extrapolation import Extrapolator
 from .geometry import (
     normalise_vector, euclidean_distance, manhattan_distance,
@@ -19,7 +19,6 @@ from .interpolation import (
     PchipInterpolator, NullInterpolator, lagrange_coefficients,
     table_interpolation_trilinear, table_interpolation_tetrahedral,
     TABLE_INTERPOLATION_METHODS, table_interpolation)
-from .matrix import is_identity
 from .random import random_triplet_generator
 from .regression import least_square_mapping_MoorePenrose
 
@@ -28,7 +27,7 @@ __all__ += coordinates.__all__
 __all__ += [
     'is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow',
     'smoothstep_function', 'normalise_maximum', 'vector_dot', 'matrix_dot',
-    'linear_conversion', 'lerp'
+    'linear_conversion', 'lerp', 'is_identity'
 ]
 __all__ += ['Extrapolator']
 __all__ += [
@@ -47,6 +46,5 @@ __all__ += [
     'table_interpolation_trilinear', 'table_interpolation_tetrahedral',
     'TABLE_INTERPOLATION_METHODS', 'table_interpolation'
 ]
-__all__ += ['is_identity']
 __all__ += ['random_triplet_generator']
 __all__ += ['least_square_mapping_MoorePenrose']
