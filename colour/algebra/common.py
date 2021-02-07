@@ -22,7 +22,7 @@ __status__ = 'Production'
 __all__ = [
     'is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow',
     'smoothstep_function', 'normalise_maximum', 'vector_dot', 'matrix_dot',
-    'linear_conversion', 'lerp', 'is_identity'
+    'linear_conversion', 'linstep_function', 'is_identity'
 ]
 
 _SPOW_ENABLED = True
@@ -168,40 +168,6 @@ def spow(a, p):
     a_p[np.isnan(a_p)] = 0
 
     return as_float(a_p)
-
-
-def smoothstep_function(x, a=0, b=1, clip=False):
-    """
-    Evaluates the *smoothstep* sigmoid-like function on array :math:`x`.
-
-    Parameters
-    ----------
-    x : numeric or array_like
-        Array :math:`x`.
-    a : numeric, optional
-        Low input domain limit, i.e. the left edge.
-    b : numeric, optional
-        High input domain limit, i.e. the right edge.
-    clip : bool, optional
-        Whether to scale, bias and clip input values to domain [0, 1].
-
-    Returns
-    -------
-    array_like
-        Array :math:`x` after *smoothstep* sigmoid-like function evaluation.
-
-    Examples
-    --------
-    >>> x = np.linspace(-2, 2, 5)
-    >>> smoothstep_function(x, -2, 2, clip=True)
-    array([ 0.     ,  0.15625,  0.5    ,  0.84375,  1.     ])
-    """
-
-    x = as_float_array(x)
-
-    i = np.clip((x - a) / (b - a), 0, 1) if clip else x
-
-    return (i ** 2) * (3 - 2 * i)
 
 
 def normalise_maximum(a, axis=None, factor=1, clip=True):
@@ -382,38 +348,83 @@ def linear_conversion(a, old_range, new_range):
     return ((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min
 
 
-def lerp(a, b, c):
+def linstep_function(x, a=0, b=1, clip=False):
     """
     Performs a simple linear interpolation between given array :math:`a` and
-    array :math:`b` using :math:`c` value.
+    array :math:`b` using :math:`x` array.
 
     Parameters
     ----------
+    x : array_like
+        Array :math:`x` value to use to interpolate between array :math:`a` and
+        array :math:`b`.
     a : array_like
         Array :math:`a`, the start of the range in which to interpolate.
     b : array_like
         Array :math:`b`, the end of the range in which to interpolate.
-    c : array_like
-        Array :math:`c` value to use to interpolate between array :math:`a` and
-        array :math:`b`.
+    clip : bool, optional
+        Whether to clip the output values to range [a, b].
 
     Returns
     -------
     ndarray
         Linear interpolation result.
+
     Examples
     --------
     >>> a = 0
     >>> b = 2
-    >>> lerp(a, b, 0.5)
+    >>> linstep_function(0.5, a, b)
     1.0
     """
 
+    x = as_float_array(x)
     a = as_float_array(a)
     b = as_float_array(b)
-    c = as_float_array(c)
 
-    return (1 - c) * a + c * b
+    y = (1 - x) * a + x * b
+
+    return np.clip(y, a, b) if clip else y
+
+
+lerp = linstep_function
+
+
+def smoothstep_function(x, a=0, b=1, clip=False):
+    """
+    Evaluates the *smoothstep* sigmoid-like function on array :math:`x`.
+
+    Parameters
+    ----------
+    x : numeric or array_like
+        Array :math:`x`.
+    a : numeric, optional
+        Low input domain limit, i.e. the left edge.
+    b : numeric, optional
+        High input domain limit, i.e. the right edge.
+    clip : bool, optional
+        Whether to scale, bias and clip input values to domain [0, 1].
+
+    Returns
+    -------
+    array_like
+        Array :math:`x` after *smoothstep* sigmoid-like function evaluation.
+
+    Examples
+    --------
+    >>> x = np.linspace(-2, 2, 5)
+    >>> smoothstep_function(x, -2, 2, clip=True)
+    array([ 0.     ,  0.15625,  0.5    ,  0.84375,  1.     ])
+    """
+
+    x = as_float_array(x)
+
+    i = np.clip((x - a) / (b - a), 0, 1) if clip else x
+
+    return (i ** 2) * (3 - 2 * i)
+
+
+smooth = smoothstep_function
 
 
 def is_identity(a, n=3):

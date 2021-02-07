@@ -18,7 +18,7 @@ import numpy as np
 import os
 from collections import namedtuple
 
-from colour.algebra import Extrapolator, euclidean_distance, lerp
+from colour.algebra import Extrapolator, euclidean_distance, linstep_function
 from colour.appearance import XYZ_to_CIECAM02, VIEWING_CONDITIONS_CIECAM02
 from colour.colorimetry import (
     SpectralShape, SpectralDistribution, MultiSpectralDistributions, sd_to_XYZ,
@@ -331,7 +331,7 @@ def sd_reference_illuminant(CCT, shape):
 
         # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
         m = (CCT - 4000) / 1000
-        values = lerp(sd_planckian.values, sd_daylight.values, m)
+        values = linstep_function(m, sd_planckian.values, sd_daylight.values)
         name = ('{0}K Blackbody & CIE Illuminant D Series Mixture - {1:.1f}%'
                 .format(as_int(CCT), 100 * m))
         sd_reference = SpectralDistribution(values, shape.range(), name=name)

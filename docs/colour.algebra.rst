@@ -152,10 +152,12 @@ Common
     set_spow_enable
     spow_enable
     spow
-    smoothstep_function
     normalise_maximum
     vector_dot
     matrix_dot
     linear_conversion
+    linstep_function
     lerp
+    smoothstep_function
+    smooth
     is_identity

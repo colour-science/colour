@@ -8,8 +8,8 @@ import unittest
 
 from colour.algebra import (is_spow_enabled, set_spow_enable, spow_enable,
                             spow, smoothstep_function, normalise_maximum,
-                            vector_dot, matrix_dot, linear_conversion, lerp,
-                            is_identity)
+                            vector_dot, matrix_dot, linear_conversion,
+                            linstep_function, is_identity)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -21,7 +21,8 @@ __status__ = 'Production'
 __all__ = [
     'TestIsSpowEnabled', 'TestSetSpowEnabled', 'TestSpowEnable', 'TestSpow',
     'TestSmoothstepFunction', 'TestNormaliseMaximum', 'TestVectorDot',
-    'TestMatrixDot', 'TestLinearConversion', 'TestLerp', 'TestIsIdentity'
+    'TestMatrixDot', 'TestLinearConversion', 'TestLinstepFunction',
+    'TestIsIdentity'
 ]
 
 
@@ -127,30 +128,6 @@ class TestSpow(unittest.TestCase):
 
         with spow_enable(False):
             np.testing.assert_equal(spow(-2, 0.15), np.nan)
-
-
-class TestSmoothstepFunction(unittest.TestCase):
-    """
-    Defines :func:`colour.algebra.common.smoothstep_function` definition unit
-    tests methods.
-    """
-
-    def test_smoothstep_function(self):
-        """
-        Tests :func:`colour.algebra.common.smoothstep_function` definition.
-        """
-
-        self.assertEqual(smoothstep_function(0.5), 0.5)
-        self.assertEqual(smoothstep_function(0.25), 0.15625)
-        self.assertEqual(smoothstep_function(0.75), 0.84375)
-
-        x = np.linspace(-2, 2, 5)
-        np.testing.assert_almost_equal(
-            smoothstep_function(x),
-            np.array([28.00000, 5.00000, 0.00000, 1.00000, -4.00000]))
-        np.testing.assert_almost_equal(
-            smoothstep_function(x, -2, 2, clip=True),
-            np.array([0.00000, 0.15625, 0.50000, 0.84375, 1.00000]))
 
 
 class TestNormaliseMaximum(unittest.TestCase):
@@ -317,22 +294,22 @@ class TestLinearConversion(unittest.TestCase):
             decimal=8)
 
 
-class TestLerp(unittest.TestCase):
+class TestLinstepFunction(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.lerp` definition unit
+    Defines :func:`colour.utilities.array.linstep_function` definition unit
     tests methods.
     """
 
-    def test_lerp(self):
+    def test_linstep_function(self):
         """
-        Tests :func:`colour.utilities.array.lerp` definition.
+        Tests :func:`colour.utilities.array.linstep_function` definition.
         """
 
         np.testing.assert_almost_equal(
-            lerp(
+            linstep_function(
+                np.linspace(0, 1, 10),
                 np.linspace(0, 1, 10),
                 np.linspace(0, 2, 10),
-                np.linspace(0, 1, 10),
             ),
             np.array([
                 0.00000000,
@@ -347,6 +324,50 @@ class TestLerp(unittest.TestCase):
                 2.00000000,
             ]),
             decimal=8)
+
+        np.testing.assert_almost_equal(
+            linstep_function(
+                np.linspace(0, 2, 10),
+                np.linspace(0.25, 0.5, 10),
+                np.linspace(0.5, 0.75, 10),
+                clip=True),
+            np.array([
+                0.25000000,
+                0.33333333,
+                0.41666667,
+                0.50000000,
+                0.58333333,
+                0.63888889,
+                0.66666667,
+                0.69444444,
+                0.72222222,
+                0.75000000,
+            ]),
+            decimal=8)
+
+
+class TestSmoothstepFunction(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.common.smoothstep_function` definition unit
+    tests methods.
+    """
+
+    def test_smoothstep_function(self):
+        """
+        Tests :func:`colour.algebra.common.smoothstep_function` definition.
+        """
+
+        self.assertEqual(smoothstep_function(0.5), 0.5)
+        self.assertEqual(smoothstep_function(0.25), 0.15625)
+        self.assertEqual(smoothstep_function(0.75), 0.84375)
+
+        x = np.linspace(-2, 2, 5)
+        np.testing.assert_almost_equal(
+            smoothstep_function(x),
+            np.array([28.00000, 5.00000, 0.00000, 1.00000, -4.00000]))
+        np.testing.assert_almost_equal(
+            smoothstep_function(x, -2, 2, clip=True),
+            np.array([0.00000, 0.15625, 0.50000, 0.84375, 1.00000]))
 
 
 class TestIsIdentity(unittest.TestCase):

@@ -28,7 +28,7 @@ from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
                     orient, centroid, fill_nan, ndarray_write, zeros, ones,
                     full, index_along_last_axis)
 from ..algebra.common import normalise_maximum, vector_dot, matrix_dot, \
-    linear_conversion, lerp
+    linear_conversion, linstep_function
 from .metrics import metric_mse, metric_psnr
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
@@ -65,7 +65,7 @@ __all__ += [
     'closest_indexes', 'closest', 'normalise_maximum', 'interval',
     'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
     'vector_dot', 'matrix_dot', 'orient', 'centroid', 'linear_conversion',
-    'fill_nan', 'lerp', 'ndarray_write', 'zeros', 'ones', 'full',
+    'fill_nan', 'linstep_function', 'ndarray_write', 'zeros', 'ones', 'full',
     'index_along_last_axis'
 ]
 __all__ += ['metric_mse', 'metric_psnr']
@@ -83,8 +83,8 @@ class utilities(ModuleAPI):
 API_CHANGES = {
     'ObjectFutureAccessChange': [
         [
-            'colour.utilities.lerp',
-            'colour.algebra.lerp',
+            'colour.utilities.linstep_function',
+            'colour.algebra.linstep_function',
         ],
         [
             'colour.utilities.linear_conversion',
