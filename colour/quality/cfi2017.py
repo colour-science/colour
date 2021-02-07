@@ -18,14 +18,14 @@ import numpy as np
 import os
 from collections import namedtuple
 
-from colour.algebra import euclidean_distance, Extrapolator
+from colour.algebra import Extrapolator, euclidean_distance, lerp
 from colour.appearance import XYZ_to_CIECAM02, VIEWING_CONDITIONS_CIECAM02
 from colour.colorimetry import (
     SpectralShape, SpectralDistribution, MultiSpectralDistributions, sd_to_XYZ,
     sd_blackbody, MSDS_CMFS, sd_ones, sd_CIE_illuminant_D_series)
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
-from colour.utilities import as_int, lerp, usage_warning
+from colour.utilities import as_int, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

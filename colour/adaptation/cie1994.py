@@ -17,10 +17,10 @@ References
 
 import numpy as np
 
-from colour.algebra import spow
+from colour.algebra import spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
-from colour.utilities import (as_float_array, vector_dot, from_range_100,
-                              to_domain_100, tsplit, tstack, usage_warning)
+from colour.utilities import (as_float_array, from_range_100, to_domain_100,
+                              tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

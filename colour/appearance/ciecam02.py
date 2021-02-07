@@ -34,7 +34,7 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.algebra import spow
+from colour.algebra import matrix_dot, spow, vector_dot
 from colour.adaptation import CAT_CAT02
 from colour.appearance.hunt import (MATRIX_HPE_TO_XYZ, MATRIX_XYZ_TO_HPE,
                                     luminance_level_adaptation_factor)
@@ -43,8 +43,8 @@ from colour.constants import EPSILON
 from colour.models import xy_to_XYZ
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
-    as_float, from_range_degrees, matrix_dot, vector_dot, from_range_100, ones,
-    to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
+    as_float, from_range_degrees, from_range_100, ones, to_domain_100,
+    to_domain_degrees, tsplit, tstack, zeros)
 from colour.utilities.documentation import (DocstringDict,
                                             is_documentation_building)
 __author__ = 'Colour Developers'

@@ -165,3 +165,8 @@ Common
     spow_enable
     spow
     smoothstep_function
+    normalise_maximum
+    vector_dot
+    matrix_dot
+    linear_conversion
+    lerp

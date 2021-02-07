@@ -27,13 +27,14 @@ References
 import numpy as np
 from copy import deepcopy
 
+from colour.adaptation import matrix_chromatic_adaptation_VonKries
+from colour.algebra import matrix_dot, vector_dot
 from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
 from colour.models.rgb import (chromatically_adapted_primaries,
                                normalised_primary_matrix)
-from colour.adaptation import matrix_chromatic_adaptation_VonKries
-from colour.utilities import (as_float_array, domain_range_scale, matrix_dot,
-                              vector_dot, filter_kwargs, from_range_1,
-                              to_domain_1, is_string)
+from colour.utilities import (as_float_array, domain_range_scale,
+                              filter_kwargs, from_range_1, to_domain_1,
+                              is_string)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

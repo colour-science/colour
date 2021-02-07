@@ -18,9 +18,9 @@ References
 
 import numpy as np
 
-from colour.algebra import spow
+from colour.algebra import spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
-from colour.utilities import (as_float_array, vector_dot, from_range_100, ones,
+from colour.utilities import (as_float_array, from_range_100, ones,
                               row_as_diagonal, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'

@@ -36,11 +36,9 @@ __status__ = 'Production'
 __all__ = [
     'as_array', 'as_int_array', 'as_float_array', 'as_numeric', 'as_int',
     'as_float', 'set_float_precision', 'set_int_precision', 'as_namedtuple',
-    'closest_indexes', 'closest', 'normalise_maximum', 'interval',
-    'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
-    'vector_dot', 'matrix_dot', 'orient', 'centroid', 'linear_conversion',
-    'lerp', 'fill_nan', 'ndarray_write', 'zeros', 'ones', 'full',
-    'index_along_last_axis'
+    'closest_indexes', 'closest', 'interval', 'is_uniform', 'in_array',
+    'tstack', 'tsplit', 'row_as_diagonal', 'orient', 'centroid', 'fill_nan',
+    'ndarray_write', 'zeros', 'ones', 'full', 'index_along_last_axis'
 ]
 
 
@@ -483,42 +481,6 @@ def closest(a, b):
     return a[closest_indexes(a, b)]
 
 
-def normalise_maximum(a, axis=None, factor=1, clip=True):
-    """
-    Normalises given *array_like* :math:`a` variable values by :math:`a`
-    variable maximum value and optionally clip them between.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` variable to normalise.
-    axis : numeric, optional
-        Normalization axis.
-    factor : numeric, optional
-        Normalization factor.
-    clip : bool, optional
-        Clip values to domain [0, 'factor'].
-
-    Returns
-    -------
-    ndarray
-        Maximum normalised :math:`a` variable.
-
-    Examples
-    --------
-    >>> a = np.array([0.48222001, 0.31654775, 0.22070353])
-    >>> normalise_maximum(a)  # doctest: +ELLIPSIS
-    array([ 1.        ,  0.6564384...,  0.4576822...])
-    """
-
-    a = as_float_array(a)
-
-    maximum = np.max(a, axis=axis)
-    a = a * (1 / maximum[..., np.newaxis]) * factor
-
-    return np.clip(a, 0, factor) if clip else a
-
-
 def interval(distribution, unique=True):
     """
     Returns the interval size of given distribution.
@@ -806,114 +768,6 @@ def row_as_diagonal(a):
     return np.eye(a.shape[-1]) * a
 
 
-def vector_dot(m, v):
-    """
-    Convenient wrapper around :func:`np.einsum` with the following subscripts:
-    *'...ij,...j->...i'*.
-
-    It performs the dot product of two arrays where *m* parameter is expected
-    to be an array of 3x3 matrices and parameter *v* an array of vectors.
-
-    Parameters
-    ----------
-    m : array_like
-        Array of 3x3 matrices.
-    v : array_like
-        Array of vectors.
-
-    Returns
-    -------
-    ndarray
-
-    Examples
-    --------
-    >>> m = np.array(
-    ...     [[0.7328, 0.4296, -0.1624],
-    ...      [-0.7036, 1.6975, 0.0061],
-    ...      [0.0030, 0.0136, 0.9834]]
-    ... )
-    >>> m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
-    >>> v = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> v = np.tile(v, (6, 1))
-    >>> vector_dot(m, v)  # doctest: +ELLIPSIS
-    array([[ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...]])
-    """
-
-    m = as_float_array(m)
-    v = as_float_array(v)
-
-    return np.einsum('...ij,...j->...i', m, v)
-
-
-def matrix_dot(a, b):
-    """
-    Convenient wrapper around :func:`np.einsum` with the following subscripts:
-    *'...ij,...jk->...ik'*.
-
-    It performs the dot product of two arrays where *a* parameter is expected
-    to be an array of 3x3 matrices and parameter *b* another array of of 3x3
-    matrices.
-
-    Parameters
-    ----------
-    a : array_like
-        Array of 3x3 matrices.
-    b : array_like
-        Array of 3x3 matrices.
-    dtype : object
-        Type to use for conversion, default to the type defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
-
-    Returns
-    -------
-    ndarray
-
-    Examples
-    --------
-    >>> a = np.array(
-    ...     [[0.7328, 0.4296, -0.1624],
-    ...      [-0.7036, 1.6975, 0.0061],
-    ...      [0.0030, 0.0136, 0.9834]]
-    ... )
-    >>> a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
-    >>> b = a
-    >>> matrix_dot(a, b)  # doctest: +ELLIPSIS
-    array([[[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]],
-    <BLANKLINE>
-           [[ 0.2342420...,  1.0418482..., -0.2760903...],
-            [-1.7099407...,  2.5793226...,  0.1306181...],
-            [-0.0044203...,  0.0377490...,  0.9666713...]]])
-    """
-
-    a = as_float_array(a)
-    b = as_float_array(b)
-
-    return np.einsum('...ij,...jk->...ik', a, b)
-
-
 def orient(a, orientation):
     """
     Orient given array according to given ``orientation`` value.
@@ -1007,74 +861,6 @@ def centroid(a):
         a_ci.append(np.sum(axis * a) // a_s)
 
     return np.array(a_ci).astype(DEFAULT_INT_DTYPE)
-
-
-def linear_conversion(a, old_range, new_range):
-    """
-    Performs a simple linear conversion of given array between the old and new
-    ranges.
-
-    Parameters
-    ----------
-    a : array_like
-        Array to perform the linear conversion onto.
-    old_range : array_like
-        Old range.
-    new_range : array_like
-        New range.
-
-    Returns
-    -------
-    ndarray
-        Linear conversion result.
-
-    Examples
-    --------
-    >>> a = np.linspace(0, 1, 10)
-    >>> linear_conversion(a, np.array([0, 1]), np.array([1, 10]))
-    array([  1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.,  10.])
-    """
-
-    a = as_float_array(a)
-
-    in_min, in_max = tsplit(old_range)
-    out_min, out_max = tsplit(new_range)
-
-    return ((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min
-
-
-def lerp(a, b, c):
-    """
-    Performs a simple linear interpolation between given array :math:`a` and
-    array :math:`b` using :math:`c` value.
-
-    Parameters
-    ----------
-    a : array_like
-        Array :math:`a`, the start of the range in which to interpolate.
-    b : array_like
-        Array :math:`b`, the end of the range in which to interpolate.
-    c : array_like
-        Array :math:`c` value to use to interpolate between array :math:`a` and
-        array :math:`b`.
-
-    Returns
-    -------
-    ndarray
-        Linear interpolation result.
-    Examples
-    --------
-    >>> a = 0
-    >>> b = 2
-    >>> lerp(a, b, 0.5)
-    1.0
-    """
-
-    a = as_float_array(a)
-    b = as_float_array(b)
-    c = as_float_array(c)
-
-    return (1 - c) * a + c * b
 
 
 def fill_nan(a, method='Interpolation', default=0):

@@ -29,10 +29,10 @@ Colour_Appearance_and_Gamut_Mapping
 import numpy as np
 from collections import namedtuple
 
-from colour.algebra import polar_to_cartesian, spow
+from colour.algebra import polar_to_cartesian, spow, vector_dot
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              vector_dot, from_range_degrees, to_domain_100,
-                              tsplit, tstack)
+                              from_range_degrees, to_domain_100, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

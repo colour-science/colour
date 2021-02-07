@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import sys
+
 from .data_structures import (Lookup, Structure, CaseInsensitiveMapping,
                               LazyCaseInsensitiveMapping)
 from .common import (
@@ -21,12 +23,16 @@ from .verbose import (
     ANCILLARY_EXTRAS_PACKAGES, describe_environment)
 from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
                     as_float, set_float_precision, set_int_precision,
-                    as_namedtuple, closest_indexes, closest, normalise_maximum,
-                    interval, is_uniform, in_array, tstack, tsplit,
-                    row_as_diagonal, vector_dot, matrix_dot, orient, centroid,
-                    linear_conversion, lerp, fill_nan, ndarray_write, zeros,
-                    ones, full, index_along_last_axis)
+                    as_namedtuple, closest_indexes, closest, interval,
+                    is_uniform, in_array, tstack, tsplit, row_as_diagonal,
+                    orient, centroid, fill_nan, ndarray_write, zeros, ones,
+                    full, index_along_last_axis)
+from ..algebra.common import normalise_maximum, vector_dot, matrix_dot, \
+    linear_conversion, lerp
 from .metrics import metric_mse, metric_psnr
+
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
+from colour.utilities.documentation import is_documentation_building
 
 __all__ = [
     'Lookup', 'Structure', 'CaseInsensitiveMapping',
@@ -63,3 +69,49 @@ __all__ += [
     'index_along_last_axis'
 ]
 __all__ += ['metric_mse', 'metric_psnr']
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class utilities(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(utilities, self).__getattr__(attribute)
+
+
+# v0.4.0
+API_CHANGES = {
+    'ObjectFutureAccessChange': [
+        [
+            'colour.utilities.lerp',
+            'colour.algebra.lerp',
+        ],
+        [
+            'colour.utilities.linear_conversion',
+            'colour.algebra.linear_conversion',
+        ],
+        [
+            'colour.utilities.matrix_dot',
+            'colour.algebra.matrix_dot',
+        ],
+        [
+            'colour.utilities.normalise_maximum',
+            'colour.algebra.normalise_maximum',
+        ],
+        [
+            'colour.utilities.vector_dot',
+            'colour.algebra.vector_dot',
+        ],
+    ]
+}
+"""
+Defines *colour.utilities* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+if not is_documentation_building():
+    sys.modules['colour.utilities'] = utilities(
+        sys.modules['colour.utilities'], build_API_changes(API_CHANGES))
+
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

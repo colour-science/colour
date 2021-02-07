@@ -30,7 +30,7 @@ import numpy as np
 from functools import reduce
 from matplotlib.patches import Polygon
 
-from colour.algebra import LinearInterpolator
+from colour.algebra import LinearInterpolator, normalise_maximum
 from colour.colorimetry import (
     CCS_ILLUMINANTS, SDS_ILLUMINANTS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
     SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ, sds_and_msds_to_sds,
@@ -40,8 +40,7 @@ from colour.plotting import (
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
     render, plot_single_colour_swatch, plot_multi_functions,
     update_settings_collection)
-from colour.utilities import (domain_range_scale, first_item,
-                              normalise_maximum, ones, tstack)
+from colour.utilities import (domain_range_scale, first_item, ones, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

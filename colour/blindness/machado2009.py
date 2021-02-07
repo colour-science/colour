@@ -29,10 +29,10 @@ References
 
 import numpy as np
 
+from colour.algebra import matrix_dot, vector_dot
 from colour.blindness import CVD_MATRICES_MACHADO2010
 from colour.colorimetry import SpectralShape
-from colour.utilities import (matrix_dot, vector_dot, tsplit, tstack,
-                              usage_warning)
+from colour.utilities import tsplit, tstack, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

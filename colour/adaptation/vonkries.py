@@ -18,8 +18,8 @@ References
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.utilities import (matrix_dot, vector_dot, from_range_1,
-                              row_as_diagonal, to_domain_1)
+from colour.algebra import matrix_dot, vector_dot
+from colour.utilities import (from_range_1, row_as_diagonal, to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

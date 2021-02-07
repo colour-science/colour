@@ -186,7 +186,8 @@ def matrix_YCbCr(K=WEIGHTS_YCBCR['ITU-R BT.709'],
     Matching the default output of the :func:`colour.RGB_to_YCbCr` is done as
     follows:
 
-    >>> from colour.utilities import as_int_array, vector_dot
+    >>> from colour.algebra import vector_dot
+    >>> from colour.utilities import as_int_array
     >>> RGB = np.array([1.0, 1.0, 1.0])
     >>> RGB_to_YCbCr(RGB)  # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5019607...,  0.5019607...])

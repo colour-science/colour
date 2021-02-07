@@ -81,19 +81,14 @@ Array
     as_namedtuple
     closest_indexes
     closest
-    normalise_maximum
     interval
     is_uniform
     in_array
     tstack
     tsplit
     row_as_diagonal
-    vector_dot
-    matrix_dot
     orient
     centroid
-    linear_conversion
-    lerp
     fill_nan
     ndarray_write
     zeros

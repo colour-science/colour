@@ -11,9 +11,8 @@ from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (
     as_array, as_int_array, as_float_array, as_numeric, as_int, as_float,
     set_float_precision, set_int_precision, as_namedtuple, closest_indexes,
-    closest, normalise_maximum, interval, is_uniform, in_array, tstack, tsplit,
-    row_as_diagonal, vector_dot, matrix_dot, orient, centroid,
-    linear_conversion, lerp, fill_nan, ndarray_write, zeros, ones, full,
+    closest, interval, is_uniform, in_array, tstack, tsplit, row_as_diagonal,
+    orient, centroid, fill_nan, ndarray_write, zeros, ones, full,
     index_along_last_axis)
 from colour.utilities import is_networkx_installed
 
@@ -27,12 +26,11 @@ __status__ = 'Production'
 __all__ = [
     'TestAsArray', 'TestAsIntArray', 'TestAsFloatArray', 'TestAsNumeric',
     'TestAsInt', 'TestAsFloat', 'TestSetFloatPrecision', 'TestSetIntPrecision',
-    'TestAsNametuple', 'TestClosestIndexes', 'TestClosest',
-    'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform', 'TestInArray',
-    'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestDotVector',
-    'TestDotMatrix', 'TestOrient', 'TestCentroid', 'TestLinearConversion',
-    'TestLerp', 'TestFillNan', 'TestNdarrayWrite', 'TestZeros', 'TestOnes',
-    'TestFull', 'TestIndexAlongLastAxis'
+    'TestAsNametuple', 'TestClosestIndexes', 'TestClosest', 'TestInterval',
+    'TestIsUniform', 'TestInArray', 'TestTstack', 'TestTsplit',
+    'TestRowAsDiagonal', 'TestOrient', 'TestCentroid', 'TestFillNan',
+    'TestNdarrayWrite', 'TestZeros', 'TestOnes', 'TestFull',
+    'TestIndexAlongLastAxis'
 ]
 
 
@@ -396,70 +394,6 @@ class TestClosest(unittest.TestCase):
             decimal=7)
 
 
-class TestNormaliseMaximum(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.normalise_maximum` definition units
-    tests methods.
-    """
-
-    def test_normalise_maximum(self):
-        """
-        Tests :func:`colour.utilities.array.normalise_maximum` definition.
-        """
-
-        np.testing.assert_almost_equal(
-            normalise_maximum(np.array([0.20654008, 0.12197225, 0.05136952])),
-            np.array([1.00000000, 0.59055003, 0.24871454]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            normalise_maximum(
-                np.array([
-                    [0.20654008, 0.12197225, 0.05136952],
-                    [0.14222010, 0.23042768, 0.10495772],
-                    [0.07818780, 0.06157201, 0.28099326],
-                ])),
-            np.array([
-                [0.73503571, 0.43407536, 0.18281406],
-                [0.50613349, 0.82004700, 0.37352398],
-                [0.27825507, 0.21912273, 1.00000000],
-            ]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            normalise_maximum(
-                np.array([
-                    [0.20654008, 0.12197225, 0.05136952],
-                    [0.14222010, 0.23042768, 0.10495772],
-                    [0.07818780, 0.06157201, 0.28099326],
-                ]),
-                axis=-1),
-            np.array([
-                [1.00000000, 0.59055003, 0.24871454],
-                [0.61720059, 1.00000000, 0.45549094],
-                [0.27825507, 0.21912273, 1.00000000],
-            ]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            normalise_maximum(
-                np.array([0.20654008, 0.12197225, 0.05136952]), factor=10),
-            np.array([10.00000000, 5.90550028, 2.48714535]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            normalise_maximum(
-                np.array([-0.11518475, -0.10080000, 0.05089373])),
-            np.array([0.00000000, 0.00000000, 1.00000000]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            normalise_maximum(
-                np.array([-0.20654008, -0.12197225, 0.05136952]), clip=False),
-            np.array([-4.02067374, -2.37440899, 1.00000000]),
-            decimal=7)
-
-
 class TestInterval(unittest.TestCase):
     """
     Defines :func:`colour.utilities.array.interval` definition unit tests
@@ -686,85 +620,6 @@ class TestRowAsDiagonal(unittest.TestCase):
         )  # yapf: disable
 
 
-class TestDotVector(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.vector_dot` definition unit tests
-    methods.
-    """
-
-    def test_vector_dot(self):
-        """
-        Tests :func:`colour.utilities.array.vector_dot` definition.
-        """
-
-        m = np.array([
-            [0.7328, 0.4296, -0.1624],
-            [-0.7036, 1.6975, 0.0061],
-            [0.0030, 0.0136, 0.9834],
-        ])
-        m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
-
-        v = np.array([0.20654008, 0.12197225, 0.05136952])
-        v = np.tile(v, (6, 1))
-
-        np.testing.assert_almost_equal(
-            vector_dot(m, v),
-            np.array([
-                [0.19540944, 0.06203965, 0.05279523],
-                [0.19540944, 0.06203965, 0.05279523],
-                [0.19540944, 0.06203965, 0.05279523],
-                [0.19540944, 0.06203965, 0.05279523],
-                [0.19540944, 0.06203965, 0.05279523],
-                [0.19540944, 0.06203965, 0.05279523],
-            ]),
-            decimal=7)
-
-
-class TestDotMatrix(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.matrix_dot` definition unit tests
-    methods.
-    """
-
-    def test_matrix_dot(self):
-        """
-        Tests :func:`colour.utilities.array.matrix_dot` definition.
-        """
-
-        a = np.array([
-            [0.7328, 0.4296, -0.1624],
-            [-0.7036, 1.6975, 0.0061],
-            [0.0030, 0.0136, 0.9834],
-        ])
-        a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
-
-        b = a
-
-        np.testing.assert_almost_equal(
-            matrix_dot(a, b),
-            np.array(
-                [[[0.23424208, 1.04184824, -0.27609032],
-                  [-1.70994078, 2.57932265, 0.13061813],
-                  [-0.00442036, 0.03774904, 0.96667132]],
-                 [[0.23424208, 1.04184824, -0.27609032],
-                  [-1.70994078, 2.57932265, 0.13061813],
-                  [-0.00442036, 0.03774904, 0.96667132]],
-                 [[0.23424208, 1.04184824, -0.27609032],
-                  [-1.70994078, 2.57932265, 0.13061813],
-                  [-0.00442036, 0.03774904, 0.96667132]],
-                 [[0.23424208, 1.04184824, -0.27609032],
-                  [-1.70994078, 2.57932265, 0.13061813],
-                  [-0.00442036, 0.03774904, 0.96667132]],
-                 [[0.23424208, 1.04184824, -0.27609032],
-                  [-1.70994078, 2.57932265, 0.13061813],
-                  [-0.00442036, 0.03774904, 0.96667132]],
-                 [[0.23424208, 1.04184824, -0.27609032],
-                  [-1.70994078, 2.57932265, 0.13061813],
-                  [-0.00442036, 0.03774904, 0.96667132]]]
-            ),
-            decimal=7)  # yapf: disable
-
-
 class TestOrient(unittest.TestCase):
     """
     Defines :func:`colour.utilities.array.orient` definition unit tests
@@ -858,59 +713,6 @@ class TestCentroid(unittest.TestCase):
 
         a = tstack([a, a, a])
         np.testing.assert_array_equal(centroid(a), np.array([4, 6, 1]))
-
-
-class TestLinearConversion(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.linear_conversion` definition unit
-    tests methods.
-    """
-
-    def test_linear_conversion(self):
-        """
-        Tests :func:`colour.utilities.array.linear_conversion` definition.
-        """
-
-        np.testing.assert_almost_equal(
-            linear_conversion(
-                np.linspace(0, 1, 10), np.array([0, 1]), np.array([1, np.pi])),
-            np.array([
-                1.00000000, 1.23795474, 1.47590948, 1.71386422, 1.95181896,
-                2.18977370, 2.42772844, 2.66568318, 2.90363791, 3.14159265
-            ]),
-            decimal=8)
-
-
-class TestLerp(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.lerp` definition unit
-    tests methods.
-    """
-
-    def test_lerp(self):
-        """
-        Tests :func:`colour.utilities.array.lerp` definition.
-        """
-
-        np.testing.assert_almost_equal(
-            lerp(
-                np.linspace(0, 1, 10),
-                np.linspace(0, 2, 10),
-                np.linspace(0, 1, 10),
-            ),
-            np.array([
-                0.00000000,
-                0.12345679,
-                0.27160494,
-                0.44444444,
-                0.64197531,
-                0.86419753,
-                1.11111111,
-                1.38271605,
-                1.67901235,
-                2.00000000,
-            ]),
-            decimal=8)
 
 
 class TestFillNan(unittest.TestCase):
