@@ -24,7 +24,7 @@ from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator
 
 from colour import SDS_ILLUMINANTS
-from colour.algebra import spow, smoothstep_function
+from colour.algebra import smoothstep_function, spow
 from colour.colorimetry import (
     MSDS_CMFS_STANDARD_OBSERVER, SpectralDistribution, SpectralShape,
     intermediate_lightness_function_CIE1976, sd_to_XYZ)
