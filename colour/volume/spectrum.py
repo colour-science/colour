@@ -23,7 +23,7 @@ References
 
 import numpy as np
 
-from colour.colorimetry import (MSDS_CMFS, msds_to_XYZ, SpectralShape, sd_ones)
+from colour.colorimetry import MSDS_CMFS, msds_to_XYZ, SpectralShape, sd_ones
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
 from colour.utilities import zeros
