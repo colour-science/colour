@@ -109,8 +109,8 @@ def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):
             1 1 1 1 1
 
         Setting the ``filter_jagged_pulses`` parameter to `True` will result
-        in the removal of the two marked pulses above which avoid jagged lines
-        when plotting and having to resort to excessive ``bins`` values.
+        in the removal of the two marked pulse waves above thus avoiding jagged
+        lines when plotting and having to resort to excessive ``bins`` values.
 
     Returns
     -------
@@ -246,8 +246,8 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
             1 1 1 1 1
 
         Setting the ``filter_jagged_points`` parameter to `True` will result
-        in the removal of the two marked pulses above which avoid jagged lines
-        when plotting and having to resort to excessive ``bins`` values.
+        in the removal of the two marked pulse waves above thus avoiding jagged
+        lines when plotting and having to resort to excessive ``bins`` values.
 
     Other Parameters
     ----------------
