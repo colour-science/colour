@@ -52,7 +52,7 @@ import os
 from scipy.optimize import minimize
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
-from colour.algebra import euclidean_distance
+from colour.algebra import euclidean_distance, vector_dot
 from colour.colorimetry import (
     MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape, sds_and_msds_to_msds,
     sd_CIE_illuminant_D_series, sd_blackbody, sd_to_XYZ)
@@ -64,8 +64,8 @@ from colour.models.rgb import (RGB_COLOURSPACE_ACES2065_1, RGB_to_XYZ,
                                XYZ_to_RGB, normalised_primary_matrix)
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              vector_dot, from_range_1, runtime_warning,
-                              tsplit, suppress_warnings)
+                              from_range_1, runtime_warning, tsplit,
+                              suppress_warnings)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

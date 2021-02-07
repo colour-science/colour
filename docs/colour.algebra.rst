@@ -114,18 +114,6 @@ Geometry
     LineSegmentsIntersections_Specification
     ellipse_fitting_Halir1998
 
-Matrix
-------
-
-``colour.algebra``
-
-.. currentmodule:: colour.algebra
-
-.. autosummary::
-    :toctree: generated/
-
-    is_identity
-
 Random
 ------
 
@@ -164,4 +152,12 @@ Common
     set_spow_enable
     spow_enable
     spow
+    normalise_maximum
+    vector_dot
+    matrix_dot
+    linear_conversion
+    linstep_function
+    lerp
     smoothstep_function
+    smooth
+    is_identity

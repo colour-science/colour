@@ -20,11 +20,12 @@ from copy import deepcopy
 from operator import (add, mul, pow, sub, truediv, iadd, imul, ipow, isub,
                       itruediv)
 
-from colour.algebra import LinearInterpolator, table_interpolation_trilinear
+from colour.algebra import (LinearInterpolator, linear_conversion,
+                            table_interpolation_trilinear)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (as_float_array, is_numeric, is_iterable,
-                              is_string, full, linear_conversion,
-                              runtime_warning, tsplit, tstack, usage_warning)
+                              is_string, full, runtime_warning, tsplit, tstack,
+                              usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

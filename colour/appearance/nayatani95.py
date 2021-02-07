@@ -22,12 +22,12 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.algebra import spow
+from colour.algebra import spow, vector_dot
 from colour.adaptation.cie1994 import (MATRIX_XYZ_TO_RGB_CIE1994, beta_1,
                                        exponential_factors,
                                        intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import (as_float_array, vector_dot, from_range_degrees,
+from colour.utilities import (as_float_array, from_range_degrees,
                               to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'

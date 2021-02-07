@@ -33,8 +33,9 @@ References
 
 import numpy as np
 
+from colour.algebra import vector_dot
 from colour.colorimetry import MSDS_CMFS_LMS, MSDS_CMFS_RGB, SDS_LEFS_PHOTOPIC
-from colour.utilities import vector_dot, tstack
+from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

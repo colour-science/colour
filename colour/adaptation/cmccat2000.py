@@ -25,8 +25,9 @@ import numpy as np
 from collections import namedtuple
 
 from colour.adaptation import CAT_CMCCAT2000
+from colour.algebra import vector_dot
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              vector_dot, from_range_100, to_domain_100)
+                              from_range_100, to_domain_100)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

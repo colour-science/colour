@@ -18,7 +18,7 @@ import numpy as np
 from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
-from colour.algebra import normalise_vector
+from colour.algebra import normalise_maximum, normalise_vector
 from colour.colorimetry import SDS_ILLUMINANTS, sd_to_XYZ, sds_and_msds_to_sds
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
@@ -27,7 +27,7 @@ from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
                              filter_illuminants, override_style, render,
                              update_settings_collection)
 from colour.utilities import (domain_range_scale, first_item, is_string,
-                              normalise_maximum, tstack, suppress_warnings)
+                              tstack, suppress_warnings)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

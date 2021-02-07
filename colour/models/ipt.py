@@ -20,9 +20,9 @@ References
 
 import numpy as np
 
-from colour.algebra import spow
+from colour.algebra import spow, vector_dot
 from colour.utilities import (from_range_1, from_range_degrees, to_domain_1,
-                              vector_dot, tsplit)
+                              tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

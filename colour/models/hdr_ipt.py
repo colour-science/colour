@@ -24,14 +24,14 @@ References
 
 import numpy as np
 
+from colour.algebra import vector_dot
 from colour.colorimetry import (
     lightness_Fairchild2010, lightness_Fairchild2011, luminance_Fairchild2010,
     luminance_Fairchild2011)
 from colour.models.ipt import (MATRIX_IPT_XYZ_TO_LMS, MATRIX_IPT_LMS_TO_XYZ,
                                MATRIX_IPT_LMS_TO_IPT, MATRIX_IPT_IPT_TO_LMS)
 from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
-                              from_range_100, to_domain_1, to_domain_100,
-                              vector_dot)
+                              from_range_100, to_domain_1, to_domain_100)
 from colour.utilities.documentation import (DocstringTuple,
                                             is_documentation_building)
 

@@ -18,7 +18,7 @@ Malvar_Sullivan_YCoCg-R_JVT-I014r3-2.pdf
 
 import numpy as np
 
-from colour.utilities import vector_dot
+from colour.algebra import vector_dot
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -22,11 +22,11 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.algebra import spow
+from colour.algebra import matrix_dot, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              matrix_dot, vector_dot, from_range_degrees,
-                              to_domain_100, tsplit, row_as_diagonal)
+                              from_range_degrees, to_domain_100, tsplit,
+                              row_as_diagonal)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

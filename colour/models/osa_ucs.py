@@ -22,9 +22,9 @@ References
 import numpy as np
 from scipy.optimize import fmin
 
-from colour.algebra import spow
+from colour.algebra import spow, vector_dot
 from colour.models import XYZ_to_xyY
-from colour.utilities import (as_float_array, domain_range_scale, vector_dot,
+from colour.utilities import (as_float_array, domain_range_scale,
                               from_range_100, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'

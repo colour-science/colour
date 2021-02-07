@@ -11,6 +11,7 @@ Defines the optical phenomena plotting objects:
 
 import matplotlib.pyplot as plt
 
+from colour.algebra import normalise_maximum
 from colour.colorimetry import sd_to_XYZ
 from colour.phenomena import sd_rayleigh_scattering
 from colour.phenomena.rayleigh import (
@@ -21,7 +22,7 @@ from colour.plotting import (SD_ASTMG173_ETR, CONSTANTS_COLOUR_STYLE,
                              ColourSwatch, XYZ_to_plotting_colourspace,
                              filter_cmfs, override_style, render,
                              plot_single_colour_swatch, plot_single_sd)
-from colour.utilities import first_item, normalise_maximum
+from colour.utilities import first_item
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

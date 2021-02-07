@@ -22,7 +22,7 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.algebra import spow
+from colour.algebra import spow, vector_dot
 from colour.appearance.ciecam02 import (
     VIEWING_CONDITIONS_CIECAM02, P, achromatic_response_forward,
     achromatic_response_inverse, brightness_correlate, chroma_correlate,
@@ -34,10 +34,9 @@ from colour.appearance.ciecam02 import (
     matrix_post_adaptation_non_linear_response_compression,
     saturation_correlate, temporary_magnitude_quantity_inverse,
     viewing_condition_dependent_parameters)
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              as_namedtuple, vector_dot, from_range_100,
-                              from_range_degrees, ones, to_domain_100,
-                              to_domain_degrees, tsplit)
+from colour.utilities import (
+    CaseInsensitiveMapping, as_float_array, as_namedtuple, from_range_100,
+    from_range_degrees, ones, to_domain_100, to_domain_degrees, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
