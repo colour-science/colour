@@ -56,8 +56,8 @@ RGB Volume
     RGB_colourspace_volume_MonteCarlo
     RGB_colourspace_volume_coverage_MonteCarlo
 
-Visible Spectrum
-----------------
+Rösch-MacAdam Colour solid - Visible Spectrum
+---------------------------------------------
 
 ``colour``
 
@@ -79,3 +79,4 @@ Visible Spectrum
 
     generate_pulse_waves
     XYZ_outer_surface
+    solid_RoschMacAdam
