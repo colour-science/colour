@@ -1212,7 +1212,7 @@ dict_like, optional
 
         Examples
         --------
-        Unpacking using implicit *domain* and a single signal:
+        Unpacking using implicit *domain* and data for a single signal:
 
         >>> range_ = np.linspace(10, 100, 10)
         >>> signals = MultiSignals.multi_signals_unpack_data(range_)
@@ -1230,7 +1230,7 @@ dict_like, optional
          [   8.   90.]
          [   9.  100.]]
 
-        Unpacking using explicit *domain* and a single signal:
+        Unpacking using explicit *domain* and data for a single signal:
 
         >>> domain = np.arange(100, 1100, 100)
         >>> signals = MultiSignals.multi_signals_unpack_data(range_, domain)
@@ -1248,7 +1248,7 @@ dict_like, optional
          [  900.    90.]
          [ 1000.   100.]]
 
-        Unpacking using multiple signals:
+        Unpacking using data for multiple signals:
 
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
@@ -1271,6 +1271,25 @@ dict_like, optional
 
         >>> signals = MultiSignals.multi_signals_unpack_data(
         ...     dict(zip(domain, range_)))
+        >>> list(signals.keys())
+        [0, 1, 2]
+        >>> print(signals[2])
+        [[  100.    30.]
+         [  200.    40.]
+         [  300.    50.]
+         [  400.    60.]
+         [  500.    70.]
+         [  600.    80.]
+         [  700.    90.]
+         [  800.   100.]
+         [  900.   110.]
+         [ 1000.   120.]]
+
+        Unpacking using a sequence of *Signal* instances:
+
+        >>> signals = MultiSignals.multi_signals_unpack_data(
+        ...     dict(zip(domain, range_))).values()
+        >>> signals = MultiSignals.multi_signals_unpack_data(signals)
         >>> list(signals.keys())
         [0, 1, 2]
         >>> print(signals[2])
@@ -1357,23 +1376,29 @@ dict_like, optional
         elif (issubclass(type(data), Sequence) or
               isinstance(data,
                          (tuple, list, np.ndarray, Iterator, ValuesView))):
-            data = tsplit(
-                list(data) if isinstance(data, (Iterator,
-                                                ValuesView)) else data)
-            assert data.ndim in (1, 2), (
-                'User "data" must be 1-dimensional or 2-dimensional!')
 
-            if data.ndim == 1:
-                data = data[np.newaxis, :]
-            for i, range_u in enumerate(data):
-                signals[i] = signal_type(
-                    range_u, domain, dtype=dtype, **kwargs)
+            is_signal = all(
+                [True if isinstance(i, Signal) else False for i in data])
+
+            if is_signal:
+                for i, signal in enumerate(data):
+                    signals[i] = signal_type(
+                        signal.range, signal.domain, dtype=dtype, **kwargs)
+            else:
+                data = tsplit(
+                    list(data) if isinstance(data, (Iterator,
+                                                    ValuesView)) else data)
+                assert data.ndim in (1, 2), (
+                    'User "data" must be 1-dimensional or 2-dimensional!')
+
+                if data.ndim == 1:
+                    data = data[np.newaxis, :]
+                for i, range_u in enumerate(data):
+                    signals[i] = signal_type(
+                        range_u, domain, dtype=dtype, **kwargs)
         elif (issubclass(type(data), Mapping) or
               isinstance(data, (dict, OrderedDict))):
 
-            # Handling `MultiSignals.multi_signals_unpack_data` method output
-            # used as argument to `MultiSignals.multi_signals_unpack_data`
-            # method.
             is_signal = all([
                 True if isinstance(i, Signal) else False
                 for i in data.values()
