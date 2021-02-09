@@ -849,9 +849,9 @@ multi_signals_unpack_data` method.
         signals = MultiSignals.multi_signals_unpack_data(
             MultiSignals.multi_signals_unpack_data(
                 dict(zip(self._domain_2, self._range_2))).values())
-        np.testing.assert_array_equal(signals[0].range, self._range_1)
-        np.testing.assert_array_equal(signals[1].range, self._range_1 + 10)
-        np.testing.assert_array_equal(signals[2].range, self._range_1 + 20)
+        np.testing.assert_array_equal(signals['0'].range, self._range_1)
+        np.testing.assert_array_equal(signals['1'].range, self._range_1 + 10)
+        np.testing.assert_array_equal(signals['2'].range, self._range_1 + 20)
 
         signals = MultiSignals.multi_signals_unpack_data(
             dict(zip(self._domain_2, self._range_2)))

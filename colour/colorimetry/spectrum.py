@@ -2473,10 +2473,8 @@ MultiSpectralDistributions or array_like or dict_like, optional
         sds = []
         for i, signal in enumerate(self.signals.values()):
             signal = signal.copy()
-            signal.name = '{0} - {1}'.format(self.labels[i], signal.name)
-            signal.strict_name = '{0} - {1}'.format(self.strict_labels[i],
-                                                    signal.strict_name)
-
+            signal.strict_name = (None if self.strict_labels is None else
+                                  str(self.strict_labels[i]))
             sds.append(signal)
 
         return sds
@@ -2646,11 +2644,16 @@ def sds_and_msds_to_msds(sds):
         values = []
         labels = []
         strict_labels = []
-        for sd_u in sds_u:
-            sd_u.align(shape)
+        for i, sd_u in enumerate(sds_u):
+            sd_u = sd_u.align(shape)
             values.append(sd_u.values)
-            labels.append(sd_u.name)
-            strict_labels.append(sd_u.strict_name)
+            labels.append(sd_u.name if sd_u.name not in labels else
+                          '{0} ({1})'.format(sd_u.name, id(sd_u)))
+            strict_labels.append(sd_u.strict_name if sd_u.strict_name not in
+                                 labels else '{0} ({1})'.format(
+                                     sd_u.strict_name, id(sd_u)))
+
+        strict_labels = None if strict_labels == labels else strict_labels
 
         msds = MultiSpectralDistributions(
             tstack(values), shape.range(), labels, strict_labels=strict_labels)

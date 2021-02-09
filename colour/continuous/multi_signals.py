@@ -1285,14 +1285,15 @@ dict_like, optional
          [  900.   110.]
          [ 1000.   120.]]
 
-        Unpacking using a sequence of *Signal* instances:
+        Unpacking using a sequence of *Signal* instances, note how the keys
+        are :class:`str` instances because the *Signal* names are used:
 
         >>> signals = MultiSignals.multi_signals_unpack_data(
         ...     dict(zip(domain, range_))).values()
         >>> signals = MultiSignals.multi_signals_unpack_data(signals)
         >>> list(signals.keys())
-        [0, 1, 2]
-        >>> print(signals[2])
+        ['0', '1', '2']
+        >>> print(signals['2'])
         [[  100.    30.]
          [  200.    40.]
          [  300.    50.]
@@ -1364,6 +1365,13 @@ dict_like, optional
         if dtype is None:
             dtype = DEFAULT_FLOAT_DTYPE
 
+        settings = {}
+        settings.update(kwargs)
+        settings.update({
+            'dtype': dtype,
+            'strict_name': None,
+        })
+
         # domain_u, range_u, signals = None, None, None
 
         signals = OrderedDict()
@@ -1381,9 +1389,9 @@ dict_like, optional
                 [True if isinstance(i, Signal) else False for i in data])
 
             if is_signal:
-                for i, signal in enumerate(data):
-                    signals[i] = signal_type(
-                        signal.range, signal.domain, dtype=dtype, **kwargs)
+                for signal in data:
+                    signals[signal.name] = signal_type(
+                        signal.range, signal.domain, **settings)
             else:
                 data = tsplit(
                     list(data) if isinstance(data, (Iterator,
@@ -1393,9 +1401,9 @@ dict_like, optional
 
                 if data.ndim == 1:
                     data = data[np.newaxis, :]
+
                 for i, range_u in enumerate(data):
-                    signals[i] = signal_type(
-                        range_u, domain, dtype=dtype, **kwargs)
+                    signals[i] = signal_type(range_u, domain, **settings)
         elif (issubclass(type(data), Mapping) or
               isinstance(data, (dict, OrderedDict))):
 
@@ -1406,27 +1414,26 @@ dict_like, optional
 
             if is_signal:
                 for label, signal in data.items():
-                    signals[label] = signal_type(
-                        signal.range, signal.domain, dtype=dtype, **kwargs)
+                    signals[label] = signal_type(signal.range, signal.domain,
+                                                 **settings)
             else:
                 domain_u, range_u = zip(*sorted(data.items()))
                 for i, range_u in enumerate(tsplit(range_u)):
-                    signals[i] = signal_type(
-                        range_u, domain_u, dtype=dtype, **kwargs)
+                    signals[i] = signal_type(range_u, domain_u, **settings)
         elif is_pandas_installed():
             from pandas import DataFrame, Series
 
             if isinstance(data, Series):
-                signals[0] = signal_type(data, dtype=dtype, **kwargs)
+                signals[0] = signal_type(data, **settings)
             elif isinstance(data, DataFrame):
                 domain_u = data.index.values
-                signals = OrderedDict(((label,
-                                        signal_type(
-                                            data[label],
-                                            domain_u,
-                                            name=label,
-                                            dtype=dtype,
-                                            **kwargs)) for label in data))
+                signals = OrderedDict([(label,
+                                        signal_type(data[label], domain_u,
+                                                    **settings))
+                                       for label in data])
+
+                for label in data:
+                    signals[label].name = label
 
         if domain is not None and signals is not None:
             for signal in signals.values():
@@ -1442,6 +1449,9 @@ dict_like, optional
             signals = OrderedDict(
                 [(labels[i], signal)
                  for i, (_key, signal) in enumerate(signals.items())])
+
+        for label in signals:
+            signals[label].name = str(label)
 
         return signals
 
