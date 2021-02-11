@@ -147,8 +147,9 @@ def tests(ctx, nose=True):
     if nose:
         message_box('Running "Nosetests"...')
         ctx.run(
-            'nosetests --with-doctest --with-coverage --cover-package={0} {0}'.
-            format(PYTHON_PACKAGE_NAME),
+            ("nosetests --with-doctest --with-coverage "
+             "--traverse-namespace --cover-package={0} {0}"
+             ).format(PYTHON_PACKAGE_NAME),
             env={'MPLBACKEND': 'AGG'})
     else:
         message_box('Running "Pytest"...')
