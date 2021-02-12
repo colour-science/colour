@@ -21,8 +21,7 @@ import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, oetf_DaVinciIntermediate,
-                               oetf_inverse_DaVinciIntermediate,
-                               normalised_primary_matrix)
+                               oetf_inverse_DaVinciIntermediate)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -63,16 +62,22 @@ CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT = (CCS_ILLUMINANTS[
 CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT : ndarray
 """
 
-MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ = normalised_primary_matrix(
-    PRIMARIES_DAVINCI_WIDE_GAMUT, CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT)
+MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ = np.array([
+    [0.70062239, 0.14877482, 0.10105872],
+    [0.27411851, 0.87363190, -0.14775041],
+    [-0.09896291, -0.13789533, 1.32591599],
+])
 """
 *DaVinci Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT = np.linalg.inv(
-    MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ)
+MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT = np.array([
+    [1.51667204, -0.28147805, -0.14696363],
+    [-0.46491710, 1.25142378, 0.17488461],
+    [0.06484905, 0.10913934, 0.76141462],
+])
 """
 *CIE XYZ* tristimulus values to *DaVinci Wide Gamut* colourspace matrix.
 
@@ -88,6 +93,8 @@ RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT = RGB_Colourspace(
     MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT,
     oetf_DaVinciIntermediate,
     oetf_inverse_DaVinciIntermediate,
+    use_derived_matrix_RGB_to_XYZ=True,
+    use_derived_matrix_XYZ_to_RGB=True,
 )
 RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT.__doc__ = """
 *DaVinci Wide Gamut* colourspace.
