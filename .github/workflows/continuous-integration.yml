@@ -64,7 +64,7 @@ jobs:
       shell: bash
     - name: Test with nosetests
       run: |
-        poetry run python -W ignore -m nose -q -v --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=$CI_PACKAGE $CI_PACKAGE
+        poetry run python -W ignore -m nose -q -v --with-doctest --doctest-options=+ELLIPSIS --with-coverage --traverse-namespace --cover-package=$CI_PACKAGE $CI_PACKAGE
       shell: bash
     - name: Upload Coverage to coveralls.io
       run: |
