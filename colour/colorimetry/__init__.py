@@ -16,9 +16,9 @@ from .generation import SD_SINGLE_LED_METHODS
 from .generation import sd_single_led, sd_single_led_Ohno2005
 from .generation import SD_MULTI_LEDS_METHODS
 from .generation import sd_multi_leds, sd_multi_leds_Ohno2005
-from .tristimulus import SD_TO_XYZ_METHODS, MSDS_TO_XYZ_METHODS
-from .tristimulus import sd_to_XYZ, msds_to_XYZ
-from .tristimulus import (
+from .tristimulus_values import SD_TO_XYZ_METHODS, MSDS_TO_XYZ_METHODS
+from .tristimulus_values import sd_to_XYZ, msds_to_XYZ
+from .tristimulus_values import (
     SPECTRAL_SHAPE_ASTME308, lagrange_coefficients_ASTME2022,
     tristimulus_weighting_factors_ASTME2022,
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
