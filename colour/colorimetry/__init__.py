@@ -58,7 +58,8 @@ from .whiteness import (whiteness_Berger1959, whiteness_Taube1960,
                         whiteness_Ganz1979, whiteness_CIE2004)
 from .yellowness import YELLOWNESS_METHODS
 from .yellowness import yellowness
-from .yellowness import yellowness_ASTMD1925, yellowness_ASTME313
+from .yellowness import (yellowness_ASTMD1925, yellowness_ASTME313_alternative,
+                         YELLOWNESS_COEFFICIENTS_ASTME313, yellowness_ASTME313)
 
 __all__ = [
     'SpectralShape', 'SPECTRAL_SHAPE_DEFAULT', 'SpectralDistribution',
@@ -129,4 +130,7 @@ __all__ += [
 ]
 __all__ += ['YELLOWNESS_METHODS']
 __all__ += ['yellowness']
-__all__ += ['yellowness_ASTMD1925', 'yellowness_ASTME313']
+__all__ += [
+    'yellowness_ASTMD1925', 'yellowness_ASTME313_alternative',
+    'YELLOWNESS_COEFFICIENTS_ASTME313', 'yellowness_ASTME313'
+]

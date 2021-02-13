@@ -563,9 +563,9 @@ Yellowness Computation
 
     >>> XYZ = [95.00000000, 100.00000000, 105.00000000]
     >>> colour.yellowness(XYZ)
-    11.065000000000003
+    4.3400000000000034
     >>> sorted(colour.YELLOWNESS_METHODS)
-    ['ASTM D1925', 'ASTM E313']
+    ['ASTM D1925', 'ASTM E313', 'ASTM E313 Alternative']
 
 Luminous Flux, Efficiency & Efficacy Computation
 ************************************************
