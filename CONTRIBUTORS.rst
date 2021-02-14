@@ -141,6 +141,10 @@ Development & Technical Support
 
     DaVinci Intermediate OETF implementation.
 
+-   **Geetansh Saxena**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    Technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -195,6 +199,7 @@ Issues & Discussions
 -   Ryan Bass
 -   Vishal Vashistha
 -   Vlad Enache
+-   @aarondemolder
 -   @alban-sol
 -   @Ampersandme
 -   @AndersAtEndian
@@ -219,6 +224,7 @@ Issues & Discussions
 -   @fangjy88
 -   @Floschoe
 -   @foutoucour
+-   @goofy2k
 -   @habemus-papadum
 -   @hajimen
 -   @henczati
@@ -241,6 +247,7 @@ Issues & Discussions
 -   @Myndex
 -   @naavis
 -   @nadersadoughi
+-   @NekoAlosama
 -   @NoRoKr
 -   @nschloe
 -   @peteroupc
@@ -249,10 +256,12 @@ Issues & Discussions
 -   @Queuecumber
 -   @Rob-Welch
 -   @robbuckley
+-   @romanovar
 -   @Ron024
 -   @rsnitsch
 -   @senyai
 -   @shanest
+-   @shirubana
 -   @spicymatt
 -   @stakemura
 -   @tashdor
