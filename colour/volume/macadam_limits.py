@@ -320,7 +320,7 @@ def macadam_limits(target_brightness, illuminant=()):
                                     whavelength - middle_opti_colour)
         else:
             final_optimum = rough_optimum / brightness * target_bright
-            
+
         out_X = np.sum(final_optimum * X_illuminated)
         out_Y = target_bright * maximum_brightness
         out_Z = np.sum(final_optimum * Z_illuminated)
