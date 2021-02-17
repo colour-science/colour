@@ -301,20 +301,26 @@ def macadam_limits(target_brightness, illuminant=()):
         # in the following, the both borders of the found rough_optimum
         # are reduced to get more exact results
         bright_difference = (brightness - target_bright) * maximum_brightness
-        opti_colour = np.zeros(471)
-        opti_colour[middle_opti_colour - width:middle_opti_colour + width +
-                    1] = 1
-        # instead rolling foreward the opti_colour, light is rolled backward
-        rolled_light = np.roll(Y_illuminated, middle_opti_colour - whavelength)
-        opti_colour_light = opti_colour * rolled_light
-        left_opti = opti_colour_light[middle_opti_colour - width]
-        right_opti = opti_colour_light[middle_opti_colour + width]
-        interpolation = 1 - (bright_difference / (left_opti + right_opti))
-        opti_colour[middle_opti_colour - width] = interpolation
-        opti_colour[middle_opti_colour + width] = interpolation
-        # opti_colour is rolled to right possition
-        final_optimum = np.roll(opti_colour, whavelength - middle_opti_colour)
-
+        # discrimination for single-whavelenght-spectra
+        if width > 0:
+            opti_colour = np.zeros(471)
+            opti_colour[middle_opti_colour - width:middle_opti_colour + width +
+                        1] = 1
+            # instead rolling foreward opti_colour, light is rolled backward
+            rolled_light = np.roll(Y_illuminated,
+                                   middle_opti_colour - whavelength)
+            opti_colour_light = opti_colour * rolled_light
+            left_opti = opti_colour_light[middle_opti_colour - width]
+            right_opti = opti_colour_light[middle_opti_colour + width]
+            interpolation = 1 - (bright_difference / (left_opti + right_opti))
+            opti_colour[middle_opti_colour - width] = interpolation
+            opti_colour[middle_opti_colour + width] = interpolation
+            # opti_colour is rolled to right possition
+            final_optimum = np.roll(opti_colour,
+                                    whavelength - middle_opti_colour)
+        else:
+            final_optimum = rough_optimum / brightness * target_bright
+            
         out_X = np.sum(final_optimum * X_illuminated)
         out_Y = target_bright * maximum_brightness
         out_Z = np.sum(final_optimum * Z_illuminated)
