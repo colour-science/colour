@@ -292,7 +292,6 @@ def macadam_limits(target_brightness, illuminant=()):
         brightness = bright_opti_colour(width, wavelength, Y_illuminated)
         if brightness < target_bright:
             width += 1
-            brightness = bright_opti_colour(width, wavelength, Y_illuminated)
 
         rough_optimum = optimum_colour(width, wavelength)
         brightness = np.sum(rough_optimum * Y_illuminated) / maximum_brightness
