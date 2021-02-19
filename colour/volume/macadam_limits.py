@@ -319,9 +319,9 @@ def macadam_limits(target_brightness, illuminant=()):
         else:
             final_optimum = rough_optimum / brightness * target_bright
 
-        out_X = np.sum(final_optimum * X_illuminated)
-        out_Y = target_bright * maximum_brightness
-        out_Z = np.sum(final_optimum * Z_illuminated)
+        out_X = np.sum(final_optimum * X_illuminated) / maximum_brightness
+        out_Y = target_bright
+        out_Z = np.sum(final_optimum * Z_illuminated) / maximum_brightness
         triple = np.array([out_X, out_Y, out_Z])
         out_limits[wavelength] = triple
     return (out_limits)
