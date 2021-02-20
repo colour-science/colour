@@ -89,7 +89,8 @@ from .appearance import (
     VIEWING_CONDITIONS_HUNT, VIEWING_CONDITIONS_LLAB, VIEWING_CONDITIONS_RLAB,
     XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB,
     XYZ_to_Nayatani95, XYZ_to_RLAB)
-from .difference import DELTA_E_METHODS, delta_E
+from .difference import (DELTA_E_METHODS, delta_E, INDEX_STRESS_METHODS,
+                         index_stress)
 from .geometry import (PRIMITIVE_METHODS, primitive,
                        PRIMITIVE_VERTICES_METHODS, primitive_vertices)
 from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence, READ_IMAGE_METHODS,
@@ -240,7 +241,9 @@ __all__ += [
     'XYZ_to_CIECAM02', 'XYZ_to_Hunt', 'XYZ_to_LLAB', 'XYZ_to_Nayatani95',
     'XYZ_to_RLAB'
 ]
-__all__ += ['DELTA_E_METHODS', 'delta_E']
+__all__ += [
+    'DELTA_E_METHODS', 'delta_E', 'INDEX_STRESS_METHODS', 'index_stress'
+]
 __all__ += [
     'PRIMITIVE_METHODS', 'primitive', 'PRIMITIVE_VERTICES_METHODS',
     'primitive_vertices'
