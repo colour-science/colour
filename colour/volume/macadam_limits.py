@@ -215,7 +215,7 @@ def macadam_limits(target_brightness, illuminant=()):
 
     for n in range(1, 20):
         Yxy_Narrowband_Spectra = colour.XYZ_to_xy(
-        colour.macadam_limits(n/20, illuminant) / 100)
+        colour.macadam_limits(n/20, illuminant))
         plot_Narrowband_Spectra (Yxy_Narrowband_Spectra)
 
     plt.show()
