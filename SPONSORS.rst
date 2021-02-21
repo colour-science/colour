@@ -141,9 +141,10 @@ If you'd like to join them, please consider
         <tbody>
             <tr>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/Pablo_g_soriano" target="_blank">
+                        <img width="98px" src="https://images.opencollective.com/cromorama-sp-z-oo/67460ce/avatar/256.png">
                     </a>
+                    <p><a href="https://twitter.com/Pablo_g_soriano" target="_blank">Pablo Garcia Soriano</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
