@@ -20,7 +20,7 @@ References
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import as_float, is_numeric, is_string
+from colour.utilities import as_float, is_numeric, is_string, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -197,7 +197,7 @@ class Extrapolator:
                 ('"{0}" attribute: "{1}" is not a "string" like object!'
                  ).format('method', value))
 
-            value = value.lower()
+            value = validate_method(value, ['Linear', 'Constant'])
 
         self._method = value
 

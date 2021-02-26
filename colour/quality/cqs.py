@@ -34,7 +34,8 @@ from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.utilities import as_float_array, domain_range_scale, tsplit
+from colour.utilities import (as_float_array, domain_range_scale, tsplit,
+                              validate_method)
 from colour.utilities.documentation import (DocstringTuple,
                                             is_documentation_building)
 
@@ -167,11 +168,7 @@ def colour_quality_scale(sd_test, additional_data=False,
     64.1117031...
     """
 
-    method = method.lower()
-    assert method.lower() in [
-        m.lower() for m in COLOUR_QUALITY_SCALE_METHODS
-    ], ('"{0}" method is invalid, must be one of {1}!'.format(
-        method, COLOUR_QUALITY_SCALE_METHODS))
+    method = validate_method(method, COLOUR_QUALITY_SCALE_METHODS)
 
     cmfs = MSDS_CMFS_STANDARD_OBSERVER[
         'CIE 1931 2 Degree Standard Observer'].copy().trim(

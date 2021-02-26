@@ -15,7 +15,8 @@ from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
 from colour.utilities import (as_float_array, first_item, is_iterable,
-                              is_pandas_installed, required, tsplit, tstack)
+                              is_pandas_installed, required, tsplit, tstack,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -1514,6 +1515,8 @@ dict_like, optional
          [   8.   90.  100.  110.]
          [   9.  100.  110.  120.]]
         """
+
+        method = validate_method(method, ['Interpolation', 'Constant'])
 
         for signal in self._signals.values():
             signal.fill_nan(method, default)

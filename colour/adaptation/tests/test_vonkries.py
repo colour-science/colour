@@ -7,7 +7,6 @@ Defines unit tests for :mod:`colour.adaptation.vonkries` module.
 import numpy as np
 import unittest
 from itertools import permutations
-from functools import partial
 
 from colour.adaptation import (matrix_chromatic_adaptation_VonKries,
                                chromatic_adaptation_VonKries)
@@ -104,19 +103,6 @@ matrix_chromatic_adaptation_VonKries` definition.
                 [0.00000000, 0.00000000, 0.75763163],
             ]),
             decimal=7)
-
-    def test_raise_exception_matrix_chromatic_adaptation_VonKries(self):
-        """
-        Tests :func:`colour.adaptation.vonkries.\
-matrix_chromatic_adaptation_VonKries` definition raised exception.
-        """
-
-        self.assertRaises(
-            KeyError,
-            partial(matrix_chromatic_adaptation_VonKries,
-                    np.array([0.95045593, 1.00000000, 1.08905775]),
-                    np.array([0.96429568, 1.00000000, 0.82510460]),
-                    'Undefined'))
 
     def test_n_dimensional_matrix_chromatic_adaptation_VonKries(self):
         """

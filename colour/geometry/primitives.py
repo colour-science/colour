@@ -21,7 +21,8 @@ References
 import numpy as np
 
 from colour.constants import DEFAULT_INT_DTYPE, DEFAULT_FLOAT_DTYPE
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs, ones, zeros
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs, ones,
+                              zeros, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -501,6 +502,8 @@ def primitive(method='Cube', **kwargs):
      [3 1]
      [1 0]]
     """
+
+    method = validate_method(method, PRIMITIVE_METHODS)
 
     function = PRIMITIVE_METHODS[method]
 

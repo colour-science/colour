@@ -31,7 +31,8 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
 """
 
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
+                              validate_method)
 
 from .cam02_ucs import delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS
 from .cam16_ucs import delta_E_CAM16LCD, delta_E_CAM16SCD, delta_E_CAM16UCS
@@ -157,6 +158,8 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
     >>> delta_E(a, b, method='CAM16-LCD')  # doctest: +ELLIPSIS
     0.0001034...
     """
+
+    method = validate_method(method, DELTA_E_METHODS)
 
     function = DELTA_E_METHODS[method]
 

@@ -26,7 +26,7 @@ import numpy as np
 from colour.colorimetry import MSDS_CMFS, msds_to_XYZ, SpectralShape, sd_ones
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
-from colour.utilities import zeros
+from colour.utilities import zeros, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -183,6 +183,10 @@ def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):
            [ 1.,  0.,  0.,  1.,  1.],
            [ 1.,  1.,  1.,  1.,  1.]])
     """
+
+    pulse_order = validate_method(
+        pulse_order, ['Bins', 'Pulse Wave Width'],
+        '"{0}" pulse order is invalid, it must be one of {1}!')
 
     square_waves = []
     square_waves_basis = np.tril(

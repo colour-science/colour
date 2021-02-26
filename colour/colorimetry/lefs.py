@@ -15,7 +15,7 @@ References
 from colour.colorimetry import (SDS_LEFS_PHOTOPIC, SDS_LEFS_SCOTOPIC,
                                 SpectralDistribution, SpectralShape)
 from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
-from colour.utilities import closest
+from colour.utilities import closest, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -72,6 +72,12 @@ def mesopic_weighting_function(
     >>> mesopic_weighting_function(500, 0.2)  # doctest: +ELLIPSIS
     0.7052200...
     """
+
+    source = validate_method(
+        source, ['Blue Heavy', 'Red Heavy'],
+        '"{0}" light source colour temperature is invalid, '
+        'it must be one of {1}!')
+    method = validate_method(method, ['MOVE', 'LRC'])
 
     mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
     index = mesopic_x_luminance_values.index(

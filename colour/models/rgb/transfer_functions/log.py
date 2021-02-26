@@ -39,7 +39,7 @@ ACESutil.Log2_to_Lin_param.ctl
 import numpy as np
 
 from colour.utilities import (as_float, as_float_array, from_range_1,
-                              to_domain_1)
+                              to_domain_1, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -111,8 +111,10 @@ def logarithmic_function_basic(x, style='log2', base=2):
     """
 
     x = as_float_array(x)
+    style = validate_method(
+        style, ['log10', 'antiLog10', 'log2', 'antiLog2', 'logB', 'antiLogB'],
+        '"{0}" style is invalid, it must be one of {1}!')
 
-    style = style.lower()
     if style == 'log10':
         return as_float(np.where(x >= FLT_MIN, np.log10(x), np.log10(FLT_MIN)))
     elif style == 'antilog10':
@@ -125,14 +127,6 @@ def logarithmic_function_basic(x, style='log2', base=2):
         return as_float(np.log(x) / np.log(base))
     elif style == 'antilogb':
         return as_float(base ** x)
-    else:
-        raise ValueError(
-            'Undefined style used: "{0}", must be one of the following: '
-            '"{1}".'.format(
-                style, ', '.join([
-                    'log10', 'antiLog10', 'log2', 'antiLog2', 'logB',
-                    'antiLogB'
-                ])))
 
 
 def logarithmic_function_quasilog(x,
@@ -193,8 +187,9 @@ def logarithmic_function_quasilog(x,
     """
 
     x = as_float_array(x)
+    style = validate_method(style, ['lintolog', 'logtolin'],
+                            '"{0}" style is invalid, it must be one of {1}!')
 
-    style = style.lower()
     if style == 'lintolog':
         return as_float((
             log_side_slope *
@@ -205,10 +200,6 @@ def logarithmic_function_quasilog(x,
             ((base **
               ((x - log_side_offset) / log_side_slope) - lin_side_offset) /
              lin_side_slope))
-    else:
-        raise ValueError(
-            'Undefined style used: "{0}", must be one of the following: '
-            '"{1}".'.format(style, ', '.join(['linToLog', 'logToLin'])))
 
 
 def logarithmic_function_camera(x,
@@ -278,6 +269,8 @@ def logarithmic_function_camera(x,
     """
 
     x = as_float_array(x)
+    style = validate_method(style, ['cameraLinToLog', 'cameraLogToLin'],
+                            '"{0}" style is invalid, it must be one of {1}!')
 
     log_side_break = (
         log_side_slope *
@@ -291,7 +284,6 @@ def logarithmic_function_camera(x,
 
     linear_offset = log_side_break - linear_slope * lin_side_break
 
-    style = style.lower()
     if style == 'cameralintolog':
         return as_float(
             np.where(
@@ -308,11 +300,6 @@ def logarithmic_function_camera(x,
                     x, 'logToLin', base, log_side_slope, lin_side_slope,
                     log_side_offset, lin_side_offset),
             ))
-    else:
-        raise ValueError(
-            'Undefined style used: "{0}", must be one of the following: '
-            '"{1}".'.format(style,
-                            ', '.join(['cameraLinToLog', 'cameraLogToLin'])))
 
 
 def log_encoding_Log2(lin,

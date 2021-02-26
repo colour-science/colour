@@ -14,7 +14,9 @@ References
 
 import os
 
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
+                              validate_method)
+
 from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D,
                   LUTSequence, LUT_to_LUT)
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
@@ -139,6 +141,8 @@ def read_LUT(path, method=None, **kwargs):
     if method is None:
         method = EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
 
+    method = validate_method(method, LUT_READ_METHODS)
+
     function = LUT_READ_METHODS[method]
 
     try:
@@ -146,7 +150,7 @@ def read_LUT(path, method=None, **kwargs):
     except ValueError as error:
         # Case where a "Resolve Cube" with "LUT3x1D" shaper was read as an
         # "Iridas Cube" "LUT".
-        if method == 'Iridas Cube':
+        if method == 'iridas cube':
             function = LUT_READ_METHODS['Resolve Cube']
             return function(path, **filter_kwargs(function, **kwargs))
         else:
@@ -237,8 +241,11 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     if method is None:
         method = EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
-        if method == 'Iridas Cube' and isinstance(LUT, LUTSequence):
-            method = 'Resolve Cube'
+
+    method = validate_method(method, LUT_WRITE_METHODS)
+
+    if method == 'iridas cube' and isinstance(LUT, LUTSequence):
+        method = 'resolve cube'
 
     function = LUT_WRITE_METHODS[method]
 

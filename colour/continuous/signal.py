@@ -18,7 +18,8 @@ from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
 from colour.utilities import (as_array, fill_nan, full, is_pandas_installed,
-                              required, runtime_warning, tsplit, tstack)
+                              required, runtime_warning, tsplit, tstack,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -1198,6 +1199,8 @@ class Signal(AbstractContinuousFunction):
          [   8.   90.]
          [   9.  100.]]
         """
+
+        method = validate_method(method, ['Interpolation', 'Constant'])
 
         self._fill_domain_nan(method, default)
         self._fill_range_nan(method, default)

@@ -157,15 +157,6 @@ exponent_function_basic` definition n-dimensional arrays support.
             a_p,
             decimal=7)
 
-    def test_raise_exception_exponent_function_basic(self):
-        """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
-exponent_function_basic` definition raised exception.
-        """
-
-        self.assertRaises(ValueError, exponent_function_basic, 0.18, 1,
-                          'Undefined')
-
     @ignore_numpy_errors
     def test_nan_exponent_function_basic(self):
         """
@@ -316,15 +307,6 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
                                             'monCurveMirrorRev'),
             a_p,
             decimal=7)
-
-    def test_raise_exception_exponent_function_monitor_curve(self):
-        """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
-exponent_function_monitor_curve` definition raised exception.
-        """
-
-        self.assertRaises(ValueError, exponent_function_monitor_curve, 0.18, 1,
-                          'Undefined')
 
     @ignore_numpy_errors
     def test_nan_exponent_function_monitor_curve(self):

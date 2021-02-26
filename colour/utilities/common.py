@@ -47,7 +47,8 @@ __all__ = [
     'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
     'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
     'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
-    'from_range_degrees', 'from_range_int', 'copy_definition'
+    'from_range_degrees', 'from_range_int', 'copy_definition',
+    'validate_method'
 ]
 
 
@@ -1611,3 +1612,42 @@ def copy_definition(definition, name=None):
     copy.__dict__.update(definition.__dict__)
 
     return copy
+
+
+def validate_method(method,
+                    valid_methods,
+                    message='"{0}" method is invalid, it must be one of {1}!'):
+    """
+    Validates whether given method exists in the given valid methods and
+    returns the method lower cased. If the method does not exist a
+    :class:`ValueError` exception is raised.
+
+    Parameters
+    ----------
+    method : unicode
+        Method to validate.
+    valid_methods : array_like
+        Valid methods.
+    message : unicode, optional
+        Message for the exception.
+
+    Returns
+    -------
+    unicode
+        Method lower cased.
+
+    Examples
+    --------
+    >>> validate_method('Valid', ['Valid', 'Yes', 'Ok'])
+    'valid'
+    """
+
+    valid_methods = [valid_method for valid_method in valid_methods]
+
+    method_lower = method.lower()
+    if method_lower not in [
+            valid_method.lower() for valid_method in valid_methods
+    ]:
+        raise ValueError(message.format(method, valid_methods))
+
+    return method_lower

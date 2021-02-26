@@ -92,15 +92,6 @@ logarithmic_function_basic` definition n-dimensional arrays support.
             np.testing.assert_almost_equal(
                 logarithmic_function_basic(a, style), a_p, decimal=7)
 
-    def test_raise_exception_logarithmic_function_basic(self):
-        """
-        Tests :func:`colour.models.rgb.transfer_functions.log.\
-logarithmic_function_basic` definition raised exception.
-        """
-
-        self.assertRaises(ValueError, logarithmic_function_basic, 0.18,
-                          'Undefined')
-
     @ignore_numpy_errors
     def test_nan_logarithmic_function_basic(self):
         """
@@ -218,15 +209,6 @@ logarithmic_function_quasilog` definition n-dimensional arrays support.
             a_p = np.reshape(a_p, (2, 3, 1))
             np.testing.assert_almost_equal(
                 logarithmic_function_quasilog(a, style), a_p, decimal=7)
-
-    def test_raise_exception_logarithmic_function_quasilog(self):
-        """
-        Tests :func:`colour.models.rgb.transfer_functions.log.\
-logarithmic_function_quasilog` definition raised exception.
-        """
-
-        self.assertRaises(ValueError, logarithmic_function_quasilog, 0.18,
-                          'Undefined')
 
     @ignore_numpy_errors
     def test_nan_logarithmic_function_quasilog(self):
@@ -393,15 +375,6 @@ logarithmic_function_camera` definition n-dimensional arrays support.
             a_p = np.reshape(a_p, (2, 3, 1))
             np.testing.assert_almost_equal(
                 logarithmic_function_camera(a, style), a_p, decimal=7)
-
-    def test_raise_exception_logarithmic_function_camera(self):
-        """
-        Tests :func:`colour.models.rgb.transfer_functions.log.\
-logarithmic_function_camera` definition raised exception.
-        """
-
-        self.assertRaises(ValueError, logarithmic_function_camera, 0.18,
-                          'Undefined')
 
     @ignore_numpy_errors
     def test_nan_logarithmic_function_camera(self):

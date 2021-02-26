@@ -45,7 +45,7 @@ c/09_color_calculations_en.pdf
 
 from colour.utilities import (CaseInsensitiveMapping, get_domain_range_scale,
                               filter_kwargs, from_range_100, to_domain_100,
-                              tsplit, tstack)
+                              tsplit, tstack, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -521,9 +521,11 @@ def whiteness(XYZ, XYZ_0, method='CIE 2004', **kwargs):
     91.4071738...
     """
 
+    method = validate_method(method, WHITENESS_METHODS)
+
     kwargs.update({'XYZ': XYZ, 'XYZ_0': XYZ_0})
 
-    function = WHITENESS_METHODS.get(method)
+    function = WHITENESS_METHODS[method]
 
     if function is whiteness_Stensby1968:
         from colour.models import XYZ_to_Lab, XYZ_to_xy

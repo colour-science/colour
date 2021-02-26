@@ -62,7 +62,7 @@ from colour.biochemistry import reaction_rate_MichealisMenten
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, from_range_100,
                               get_domain_range_scale, to_domain_1,
-                              to_domain_100, usage_warning)
+                              to_domain_100, usage_warning, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -398,8 +398,9 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
     """
 
     Y = to_domain_1(Y)
+    method = validate_method(method, ['hdr-CIELAB', 'hdr-IPT'])
 
-    if method.lower() == 'hdr-cielab':
+    if method == 'hdr-cielab':
         maximum_perception = 247
     else:
         maximum_perception = 246
@@ -504,6 +505,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     """
 
     Y = as_float_array(Y)
+    method = validate_method(method, LIGHTNESS_METHODS)
 
     function = LIGHTNESS_METHODS[method]
 

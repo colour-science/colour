@@ -27,7 +27,7 @@ from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
                              filter_illuminants, override_style, render,
                              update_settings_collection)
 from colour.utilities import (domain_range_scale, first_item, is_string,
-                              tstack, suppress_warnings)
+                              tstack, suppress_warnings, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -95,6 +95,9 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
         :alt: plot_spectral_locus
     """
 
+    method = validate_method(method,
+                             ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
+
     if spectral_locus_colours is None:
         spectral_locus_colours = CONSTANTS_COLOUR_STYLE.colour.dark
 
@@ -103,8 +106,6 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
 
     _figure, axes = artist(**settings)
 
-    method = method.upper()
-
     cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
@@ -112,26 +113,21 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
-    if method == 'CIE 1931':
+    if method == 'cie 1931':
         ij = XYZ_to_xy(cmfs.values, illuminant)
         labels = ((390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600,
                    620, 700)
                   if spectral_locus_labels is None else spectral_locus_labels)
-    elif method == 'CIE 1960 UCS':
+    elif method == 'cie 1960 ucs':
         ij = UCS_to_uv(XYZ_to_UCS(cmfs.values))
         labels = ((420, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
                    550, 560, 570, 580, 590, 600, 610, 620, 630, 645, 680)
                   if spectral_locus_labels is None else spectral_locus_labels)
-    elif method == 'CIE 1976 UCS':
+    elif method == 'cie 1976 ucs':
         ij = Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant)
         labels = ((420, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
                    550, 560, 570, 580, 590, 600, 610, 620, 630, 645, 680)
                   if spectral_locus_labels is None else spectral_locus_labels)
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
-                method))
 
     pl_ij = tstack([
         np.linspace(ij[0][0], ij[-1][0], 20),
@@ -143,12 +139,13 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
         spectral_locus_colours = normalise_maximum(
             XYZ_to_plotting_colourspace(cmfs.values), axis=-1)
 
-        if method == 'CIE 1931':
+        if method == 'cie 1931':
             XYZ = xy_to_XYZ(pl_ij)
-        elif method == 'CIE 1960 UCS':
+        elif method == 'cie 1960 ucs':
             XYZ = xy_to_XYZ(UCS_uv_to_xy(pl_ij))
-        elif method == 'CIE 1976 UCS':
+        elif method == 'cie 1976 ucs':
             XYZ = xy_to_XYZ(Luv_uv_to_xy(pl_ij))
+
         purple_line_colours = normalise_maximum(
             XYZ_to_plotting_colourspace(XYZ.reshape(-1, 3)), axis=-1)
     else:
@@ -258,12 +255,13 @@ def plot_chromaticity_diagram_colours(
         :alt: plot_chromaticity_diagram_colours
     """
 
+    method = validate_method(method,
+                             ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
+
     settings = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
-
-    method = method.upper()
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
@@ -277,21 +275,16 @@ def plot_chromaticity_diagram_colours(
     # zero-divisions, they could be avoided by perturbing the grid, e.g. adding
     # a small epsilon. It was decided instead to disable warnings.
     with suppress_warnings(python_warnings=True):
-        if method == 'CIE 1931':
+        if method == 'cie 1931':
             XYZ = xy_to_XYZ(ij)
             spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
-        elif method == 'CIE 1960 UCS':
+        elif method == 'cie 1960 ucs':
             XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
             spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-        elif method == 'CIE 1976 UCS':
+        elif method == 'cie 1976 ucs':
             XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
             spectral_locus = Luv_to_uv(
                 XYZ_to_Luv(cmfs.values, illuminant), illuminant)
-        else:
-            raise ValueError(
-                'Invalid method: "{0}", must be one of '
-                '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
-                    method))
 
     RGB = normalise_maximum(
         XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1)
@@ -365,12 +358,13 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
         :alt: plot_chromaticity_diagram
     """
 
+    method = validate_method(method,
+                             ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
+
     settings = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
-
-    method = method.upper()
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
@@ -390,17 +384,12 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
 
         plot_spectral_locus(**settings)
 
-    if method == 'CIE 1931':
+    if method == 'cie 1931':
         x_label, y_label = 'CIE x', 'CIE y'
-    elif method == 'CIE 1960 UCS':
+    elif method == 'cie 1960 ucs':
         x_label, y_label = 'CIE u', 'CIE v'
-    elif method == 'CIE 1976 UCS':
+    elif method == 'cie 1976 ucs':
         x_label, y_label = 'CIE u\'', 'CIE v\'',
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
-                method))
 
     title = '{0} Chromaticity Diagram - {1}'.format(method, cmfs.strict_name)
 
@@ -672,14 +661,15 @@ def plot_sds_in_chromaticity_diagram(
         :alt: plot_sds_in_chromaticity_diagram
     """
 
+    method = validate_method(method,
+                             ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
+
     sds = sds_and_msds_to_sds(sds)
 
     settings = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
-
-    method = method.upper()
 
     settings.update({
         'axes': axes,
@@ -690,7 +680,7 @@ def plot_sds_in_chromaticity_diagram(
 
     chromaticity_diagram_callable(**settings)
 
-    if method == 'CIE 1931':
+    if method == 'cie 1931':
 
         def XYZ_to_ij(XYZ):
             """
@@ -701,7 +691,7 @@ def plot_sds_in_chromaticity_diagram(
             return XYZ_to_xy(XYZ)
 
         bounding_box = (-0.1, 0.9, -0.1, 0.9)
-    elif method == 'CIE 1960 UCS':
+    elif method == 'cie 1960 ucs':
 
         def XYZ_to_ij(XYZ):
             """
@@ -713,7 +703,7 @@ def plot_sds_in_chromaticity_diagram(
 
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
 
-    elif method == 'CIE 1976 UCS':
+    elif method == 'cie 1976 ucs':
 
         def XYZ_to_ij(XYZ):
             """
@@ -724,11 +714,6 @@ def plot_sds_in_chromaticity_diagram(
             return Luv_to_uv(XYZ_to_Luv(XYZ))
 
         bounding_box = (-0.1, 0.7, -0.1, 0.7)
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
-                method))
 
     annotate_settings_collection = [{
         'annotate': True,

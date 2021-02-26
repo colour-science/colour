@@ -40,7 +40,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, ones,
-                              tsplit, tstack)
+                              tsplit, tstack, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -609,6 +609,8 @@ def ellipse_fitting(a, method='Halir 1998'):
     >>> ellipse_coefficients_canonical_form(ellipse_fitting(a))
     array([-0., -0.,  2.,  1.,  0.])
     """
+
+    method = validate_method(method, ELLIPSE_FITTING_METHODS)
 
     function = ELLIPSE_FITTING_METHODS[method]
 

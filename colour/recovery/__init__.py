@@ -20,7 +20,7 @@ References
 """
 
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs)
+                              filter_kwargs, validate_method)
 
 from .datasets import *  # noqa
 from . import datasets
@@ -457,6 +457,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     """
 
     a = as_float_array(XYZ)
+    method = validate_method(method, XYZ_TO_SD_METHODS)
 
     function = XYZ_TO_SD_METHODS[method]
 

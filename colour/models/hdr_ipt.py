@@ -31,7 +31,8 @@ from colour.colorimetry import (
 from colour.models.ipt import (MATRIX_IPT_XYZ_TO_LMS, MATRIX_IPT_LMS_TO_XYZ,
                                MATRIX_IPT_LMS_TO_IPT, MATRIX_IPT_IPT_TO_LMS)
 from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
-                              from_range_100, to_domain_1, to_domain_100)
+                              from_range_100, to_domain_1, to_domain_100,
+                              validate_method)
 from colour.utilities.documentation import (DocstringTuple,
                                             is_documentation_building)
 
@@ -102,21 +103,16 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
 
     Y_s = to_domain_1(Y_s)
     Y_abs = as_float_array(Y_abs)
+    method = validate_method(method, HDR_IPT_METHODS)
 
-    method_l = method.lower()
-    assert method.lower() in [
-        m.lower() for m in HDR_IPT_METHODS
-    ], ('"{0}" method is invalid, must be one of {1}!'.format(
-        method, HDR_IPT_METHODS))
-
-    if method_l == 'fairchild 2010':
+    if method == 'fairchild 2010':
         epsilon = 1.38
     else:
         epsilon = 0.59
 
     lf = np.log(318) / np.log(Y_abs)
     sf = 1.25 - 0.25 * (Y_s / 0.184)
-    if method_l == 'fairchild 2010':
+    if method == 'fairchild 2010':
         epsilon *= sf * lf
     else:
         epsilon /= sf * lf
@@ -184,14 +180,9 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     """
 
     XYZ = to_domain_1(XYZ)
+    method = validate_method(method, HDR_IPT_METHODS)
 
-    method_l = method.lower()
-    assert method.lower() in [
-        m.lower() for m in HDR_IPT_METHODS
-    ], ('"{0}" method is invalid, must be one of {1}!'.format(
-        method, HDR_IPT_METHODS))
-
-    if method_l == 'fairchild 2010':
+    if method == 'fairchild 2010':
         lightness_callable = lightness_Fairchild2010
     else:
         lightness_callable = lightness_Fairchild2011
@@ -268,14 +259,9 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     """
 
     IPT_hdr = to_domain_100(IPT_hdr)
+    method = validate_method(method, HDR_IPT_METHODS)
 
-    method_l = method.lower()
-    assert method.lower() in [
-        m.lower() for m in HDR_IPT_METHODS
-    ], ('"{0}" method is invalid, must be one of {1}!'.format(
-        method, HDR_IPT_METHODS))
-
-    if method_l == 'fairchild 2010':
+    if method == 'fairchild 2010':
         luminance_callable = luminance_Fairchild2010
     else:
         luminance_callable = luminance_Fairchild2011
