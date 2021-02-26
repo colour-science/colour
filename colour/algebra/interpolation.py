@@ -66,9 +66,9 @@ from collections.abc import Mapping
 from functools import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
-                              closest_indexes, interval, is_integer,
-                              is_numeric, runtime_warning, tsplit)
+from colour.utilities import (
+    CaseInsensitiveMapping, as_float_array, as_float, closest_indexes,
+    interval, is_integer, is_numeric, runtime_warning, tsplit, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -1877,4 +1877,6 @@ def table_interpolation(V_xyz, table, method='Trilinear'):
            [ 1.1178206...,  0.1762039...,  0.2209534...]])
     """
 
-    return TABLE_INTERPOLATION_METHODS.get(method)(V_xyz, table)
+    method = validate_method(method, TABLE_INTERPOLATION_METHODS)
+
+    return TABLE_INTERPOLATION_METHODS[method](V_xyz, table)

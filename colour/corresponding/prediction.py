@@ -184,10 +184,10 @@ def convert_experiment_results_Breneman1987(experiment):
      {})
     """
 
-    valid_experiment_results = (1, 2, 3, 4, 6, 8, 9, 11, 12)
+    valid_experiment_results = [1, 2, 3, 4, 6, 8, 9, 11, 12]
     assert experiment in valid_experiment_results, (
-        '"Breneman (1987)" experiment result must be one of "{0}"!'.format(
-            valid_experiment_results))
+        '"Breneman (1987)" experiment result is invalid, '
+        'it must be one of "{0}"!'.format(valid_experiment_results))
 
     samples_luminance = [
         0.270,

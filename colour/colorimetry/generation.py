@@ -37,7 +37,8 @@ import numpy as np
 
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT, MultiSpectralDistributions, SpectralDistribution)
-from colour.utilities import CaseInsensitiveMapping, as_float_array, full, ones
+from colour.utilities import (CaseInsensitiveMapping, as_float_array, full,
+                              ones, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -495,6 +496,8 @@ def sd_gaussian(mu_peak_wavelength,
     0.3678794...
     """
 
+    method = validate_method(method, SD_GAUSSIAN_METHODS)
+
     return SD_GAUSSIAN_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape,
                                        **kwargs)
 
@@ -624,6 +627,8 @@ def sd_single_led(peak_wavelength,
     >>> sd[555]  # doctest: +ELLIPSIS
     1.0000000...
     """
+
+    method = validate_method(method, SD_SINGLE_LED_METHODS)
 
     return SD_SINGLE_LED_METHODS[method](peak_wavelength, fwhm, shape,
                                          **kwargs)
@@ -805,6 +810,8 @@ def sd_multi_leds(peak_wavelengths,
     >>> sd[500]  # doctest: +ELLIPSIS
     0.1295132...
     """
+
+    method = validate_method(method, SD_MULTI_LEDS_METHODS)
 
     return SD_MULTI_LEDS_METHODS[method](peak_wavelengths, fwhm,
                                          peak_power_ratios, shape, **kwargs)

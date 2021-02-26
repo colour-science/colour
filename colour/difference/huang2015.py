@@ -22,7 +22,7 @@ References
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, tsplit
+from colour.utilities import CaseInsensitiveMapping, tsplit, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -106,6 +106,11 @@ def power_function_Huang2015(d_E, coefficients='CIE 2000'):
     >>> power_function_Huang2015(d_E)  # doctest: +ELLIPSIS
     array([ 2.3574879...,  2.9850503...,  3.3965106...])
     """
+
+    coefficients = validate_method(
+        coefficients, COEFFICIENTS_HUANG2015,
+        '"{0}" coefficients are invalid, '
+        'they must be one of {1}!')
 
     a, b = tsplit(COEFFICIENTS_HUANG2015[coefficients])
 

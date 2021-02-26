@@ -17,7 +17,9 @@ References
     https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-BT.2246-4-2015-PDF-E.pdf
 """
 
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
+                              validate_method)
+
 from .barten1999 import (optical_MTF_Barten1999, pupil_diameter_Barten1999,
                          sigma_Barten1999, retinal_illuminance_Barten1999,
                          maximum_angular_size_Barten1999,
@@ -127,6 +129,8 @@ def contrast_sensitivity_function(method='Barten 1999', **kwargs):
     >>> contrast_sensitivity_function('Barten 1999', u=4)  # doctest: +ELLIPSIS
     360.8691122...
     """
+
+    method = validate_method(method, CONTRAST_SENSITIVITY_METHODS)
 
     function = CONTRAST_SENSITIVITY_METHODS[method]
 

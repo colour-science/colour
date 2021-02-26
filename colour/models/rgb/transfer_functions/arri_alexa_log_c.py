@@ -17,7 +17,7 @@ References
 import numpy as np
 
 from colour.utilities import (CaseInsensitiveMapping, as_float, from_range_1,
-                              to_domain_1)
+                              to_domain_1, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -232,6 +232,8 @@ def log_encoding_ALEXALogC(x,
     """
 
     x = to_domain_1(x)
+    method = validate_method(
+        method, ['Linear Scene Exposure Factor', 'Normalised Sensor Signal'])
 
     cut, a, b, c, d, e, f, _e_cut_f = (
         DATA_ALEXA_LOG_C_CURVE_CONVERSION[firmware][method][EI])
@@ -293,6 +295,8 @@ def log_decoding_ALEXALogC(t,
     """
 
     t = to_domain_1(t)
+    method = validate_method(
+        method, ['Linear Scene Exposure Factor', 'Normalised Sensor Signal'])
 
     cut, a, b, c, d, e, f, _e_cut_f = (
         DATA_ALEXA_LOG_C_CURVE_CONVERSION[firmware][method][EI])

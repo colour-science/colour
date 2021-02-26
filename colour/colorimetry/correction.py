@@ -27,7 +27,7 @@ References
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -165,4 +165,6 @@ def bandpass_correction(sd, method='Stearns 1988'):
                          extrapolator_kwargs={...})
     """
 
-    return BANDPASS_CORRECTION_METHODS.get(method)(sd)
+    method = validate_method(method, BANDPASS_CORRECTION_METHODS)
+
+    return BANDPASS_CORRECTION_METHODS[method](sd)

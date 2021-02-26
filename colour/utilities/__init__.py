@@ -14,7 +14,7 @@ from .common import (
     get_domain_range_scale, set_domain_range_scale, domain_range_scale,
     to_domain_1, to_domain_10, to_domain_100, to_domain_degrees, to_domain_int,
     from_range_1, from_range_10, from_range_100, from_range_degrees,
-    from_range_int, copy_definition)
+    from_range_int, copy_definition, validate_method)
 from .verbose import (
     ColourWarning, ColourUsageWarning, ColourRuntimeWarning, message_box,
     show_warning, warning, runtime_warning, usage_warning, filter_warnings,
@@ -49,7 +49,8 @@ __all__ += [
     'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
     'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
     'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
-    'from_range_degrees', 'from_range_int', 'copy_definition'
+    'from_range_degrees', 'from_range_int', 'copy_definition',
+    'validate_method'
 ]
 __all__ += [
     'ColourWarning', 'ColourUsageWarning', 'ColourRuntimeWarning',

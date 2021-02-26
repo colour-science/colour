@@ -35,6 +35,7 @@ from .cmccat2000 import (
     chromatic_adaptation_forward_CMCCAT2000,
     chromatic_adaptation_inverse_CMCCAT2000, chromatic_adaptation_CMCCAT2000)
 from .cie1994 import chromatic_adaptation_CIE1994
+from colour.utilities import validate_method
 
 __all__ = []
 __all__ += datasets.__all__
@@ -204,6 +205,8 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     ... # doctest: +ELLIPSIS
     array([ 0.2332526...,  0.2332455...,  0.7611593...])
     """
+
+    method = validate_method(method, CHROMATIC_ADAPTATION_METHODS)
 
     function = CHROMATIC_ADAPTATION_METHODS[method]
 

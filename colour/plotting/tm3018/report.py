@@ -25,7 +25,7 @@ from colour.plotting.tm3018.components import (
 from colour.quality import (colour_fidelity_index_ANSIIESTM3018,
                             colour_rendering_index)
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
-from colour.utilities import describe_environment
+from colour.utilities import describe_environment, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -822,7 +822,8 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
         :alt: plot_single_sd_colour_rendition_report_simple
     """
 
-    method = method.lower()
+    method = validate_method(method, ['Full', 'Intermediate', 'Simple'])
+
     if method == 'full':
         return plot_single_sd_colour_rendition_report_full(sd, **kwargs)
     elif method == 'intermediate':

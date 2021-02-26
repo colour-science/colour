@@ -41,9 +41,9 @@ from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
                                 MultiSpectralDistributions, SpectralShape,
                                 MSDS_CMFS_STANDARD_OBSERVER, sd_ones)
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, from_range_100,
-                              get_domain_range_scale, runtime_warning, tsplit)
+from colour.utilities import (
+    CaseInsensitiveMapping, as_float_array, filter_kwargs, from_range_100,
+    get_domain_range_scale, runtime_warning, tsplit, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -903,6 +903,8 @@ def sd_to_XYZ(
     array([ 10.8404805...,   9.6838697...,   6.2115722...])
     """
 
+    method = validate_method(method, SD_TO_XYZ_METHODS)
+
     global _CACHE_SD_TO_XYZ
     if _CACHE_SD_TO_XYZ is None:
         _CACHE_SD_TO_XYZ = {}
@@ -1413,6 +1415,8 @@ def msds_to_XYZ(
             [  8.9327884...,  19.4008147...,  17.1534186...],
             [ 24.6610235...,  26.1093760...,  30.7298791...]]])
     """
+
+    method = validate_method(method, MSDS_TO_XYZ_METHODS)
 
     function = MSDS_TO_XYZ_METHODS[method]
 

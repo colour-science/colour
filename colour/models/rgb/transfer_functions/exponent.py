@@ -19,7 +19,8 @@ References
 
 import numpy as np
 
-from colour.utilities import as_float, as_float_array, suppress_warnings
+from colour.utilities import (as_float, as_float_array, suppress_warnings,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -119,6 +120,10 @@ def exponent_function_basic(x, exponent=1, style='basicFwd'):
 
     x = as_float_array(x)
     exponent = as_float_array(exponent)
+    style = validate_method(style, [
+        'basicFwd', 'basicRev', 'basicMirrorFwd', 'basicMirrorRev',
+        'basicPassThruFwd', 'basicPassThruRev'
+    ], '"{0}" style is invalid, it must be one of {1}!')
 
     def exponent_forward(x):
         """
@@ -134,7 +139,6 @@ def exponent_function_basic(x, exponent=1, style='basicFwd'):
 
         return y ** (1 / exponent)
 
-    style = style.lower()
     if style == 'basicfwd':
         return as_float(np.where(x >= 0, exponent_forward(x), 0))
     elif style == 'basicrev':
@@ -235,6 +239,9 @@ def exponent_function_monitor_curve(x,
     x = as_float_array(x)
     exponent = as_float_array(exponent)
     offset = as_float_array(offset)
+    style = validate_method(style, [
+        'monCurveFwd', 'monCurveRev', 'monCurveMirrorFwd', 'monCurveMirrorRev'
+    ], '"{0}" style is invalid, it must be one of {1}!')
 
     with suppress_warnings(python_warnings=True):
         s = as_float_array(((exponent - 1) / offset) * ((exponent * offset) / (
@@ -269,7 +276,6 @@ def exponent_function_monitor_curve(x,
             y / s,
         )
 
-    style = style.lower()
     if style == 'moncurvefwd':
         return as_float(monitor_curve_forward(x))
     elif style == 'moncurverev':

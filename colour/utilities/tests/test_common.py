@@ -14,7 +14,7 @@ from colour.utilities import (
     get_domain_range_scale, set_domain_range_scale, domain_range_scale,
     to_domain_1, to_domain_10, to_domain_100, to_domain_int, to_domain_degrees,
     from_range_1, from_range_10, from_range_100, from_range_int,
-    from_range_degrees)
+    from_range_degrees, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -743,6 +743,30 @@ class TestFromRangeInt(unittest.TestCase):
         with domain_range_scale('100'):
             self.assertEqual(
                 from_range_int(1, dtype=np.float16).dtype, np.float16)
+
+
+class TestValidateMethod(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.validate_method` definition unit
+    tests methods.
+    """
+
+    def test_validate_method(self):
+        """
+        Tests :func:`colour.utilities.common.validate_method` definition.
+        """
+
+        self.assertEqual(
+            validate_method('Valid', ['Valid', 'Yes', 'Ok']), 'valid')
+
+    def test_raise_exception_validate_method(self):
+        """
+        Tests :func:`colour.utilities.common.validate_method` definition raised
+        exception.
+        """
+
+        self.assertRaises(ValueError, validate_method, 'Invalid',
+                          ['Valid', 'Yes', 'Ok'])
 
 
 if __name__ == '__main__':

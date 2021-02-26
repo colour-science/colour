@@ -61,7 +61,8 @@ import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_int,
-                              closest, filter_kwargs, ones, tsplit, tstack)
+                              closest, filter_kwargs, ones, tsplit, tstack,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -588,6 +589,8 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
     array([ 0.1722481...,  0.0917066...,  0.0641693...,  0.0010136...,  1...])
     """
 
+    method = validate_method(method, POLYNOMIAL_EXPANSION_METHODS)
+
     function = POLYNOMIAL_EXPANSION_METHODS[method]
 
     return function(a, **filter_kwargs(function, **kwargs))
@@ -837,6 +840,8 @@ def matrix_colour_correction(M_T, M_R, method='Cheung 2004', **kwargs):
            [ 0.0689349...,  0.6757961...,  0.1643038...],
            [-0.0631495...,  0.0921247...,  0.9713415...]])
     """
+
+    method = validate_method(method, MATRIX_COLOUR_CORRECTION_METHODS)
 
     function = MATRIX_COLOUR_CORRECTION_METHODS[method]
 
@@ -1116,6 +1121,8 @@ def colour_correction(RGB, M_T, M_R, method='Cheung 2004', **kwargs):
     >>> colour_correction(RGB, M_T, M_R)  # doctest: +ELLIPSIS
     array([ 0.1334872...,  0.0843921...,  0.0599014...])
     """
+
+    method = validate_method(method, COLOUR_CORRECTION_METHODS)
 
     function = COLOUR_CORRECTION_METHODS[method]
 

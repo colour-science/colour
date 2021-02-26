@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
+                              validate_method)
 
 from .cie_d import xy_to_CCT_CIE_D, CCT_to_xy_CIE_D
 from .hernandez1999 import xy_to_CCT_Hernandez1999, CCT_to_xy_Hernandez1999
@@ -97,6 +98,8 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     array([  6.5074738...e+03,   3.2233461...e-03])
     """
 
+    method = validate_method(method, UV_TO_CCT_METHODS)
+
     function = UV_TO_CCT_METHODS[method]
 
     return function(uv, **filter_kwargs(function, **kwargs))
@@ -188,6 +191,8 @@ def CCT_to_uv(CCT_D_uv, method='Ohno 2013', **kwargs):
     array([ 0.1977999...,  0.3121999...])
     """
 
+    method = validate_method(method, CCT_TO_UV_METHODS)
+
     function = CCT_TO_UV_METHODS[method]
 
     return function(CCT_D_uv, **filter_kwargs(function, **kwargs))
@@ -270,7 +275,9 @@ def xy_to_CCT(xy, method='CIE Illuminant D Series'):
     6500.7420431...
     """
 
-    return XY_TO_CCT_METHODS.get(method)(xy)
+    method = validate_method(method, XY_TO_CCT_METHODS)
+
+    return XY_TO_CCT_METHODS[method](xy)
 
 
 CCT_TO_XY_METHODS = CaseInsensitiveMapping({
@@ -345,7 +352,9 @@ def CCT_to_xy(CCT, method='CIE Illuminant D Series'):
     array([ 0.313426 ...,  0.3235959...])
     """
 
-    return CCT_TO_XY_METHODS.get(method)(CCT)
+    method = validate_method(method, CCT_TO_XY_METHODS)
+
+    return CCT_TO_XY_METHODS[method](CCT)
 
 
 __all__ += ['XY_TO_CCT_METHODS', 'xy_to_CCT']

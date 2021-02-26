@@ -25,7 +25,7 @@ c/09_color_calculations_en.pdf
 """
 
 from colour.utilities import (CaseInsensitiveMapping, from_range_100,
-                              to_domain_100, tsplit)
+                              to_domain_100, tsplit, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -210,4 +210,6 @@ def yellowness(XYZ, method='ASTM E313'):
     10.2999999...
     """
 
-    return YELLOWNESS_METHODS.get(method)(XYZ)
+    method = validate_method(method, YELLOWNESS_METHODS)
+
+    return YELLOWNESS_METHODS[method](XYZ)

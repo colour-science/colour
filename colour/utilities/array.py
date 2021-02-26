@@ -24,7 +24,7 @@ from collections.abc import Mapping, ValuesView
 from contextlib import contextmanager
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
-from colour.utilities import suppress_warnings
+from colour.utilities import suppress_warnings, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -893,13 +893,14 @@ def fill_nan(a, method='Interpolation', default=0):
     """
 
     a = np.copy(a)
+    method = validate_method(method, ['Interpolation', 'Constant'])
 
     mask = np.isnan(a)
 
-    if method.lower() == 'interpolation':
+    if method == 'interpolation':
         a[mask] = np.interp(
             np.flatnonzero(mask), np.flatnonzero(~mask), a[~mask])
-    elif method.lower() == 'constant':
+    elif method == 'constant':
         a[mask] = default
 
     return a

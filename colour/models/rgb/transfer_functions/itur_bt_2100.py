@@ -62,7 +62,7 @@ from colour.models.rgb.transfer_functions.arib_std_b67 import (
     CONSTANTS_ARIBSTDB67)
 from colour.utilities import (
     CaseInsensitiveMapping, Structure, as_float_array, as_float, filter_kwargs,
-    from_range_1, to_domain_1, tsplit, tstack, usage_warning)
+    from_range_1, to_domain_1, tsplit, tstack, usage_warning, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -785,6 +785,8 @@ def eotf_HLG_BT2100(E_p,
     7.3321975...
     """
 
+    method = validate_method(method, BT2100_HLG_EOTF_METHODS)
+
     return BT2100_HLG_EOTF_METHODS[method](E_p, L_B, L_W, gamma, constants)
 
 
@@ -1006,6 +1008,8 @@ def eotf_inverse_HLG_BT2100(F_D,
     >>> eotf_inverse_HLG_BT2100(7.332197528353875, 0.01)  # doctest: +ELLIPSIS
     0.2121320...
     """
+
+    method = validate_method(method, BT2100_HLG_EOTF_INVERSE_METHODS)
 
     return BT2100_HLG_EOTF_INVERSE_METHODS[method](F_D, L_B, L_W, gamma,
                                                    constants)
@@ -1257,6 +1261,8 @@ def ootf_HLG_BT2100(E, L_B=0, L_W=1000, gamma=None, method='ITU-R BT.2100-2'):
     ... # doctest: +ELLIPSIS
     63.1051034...
     """
+
+    method = validate_method(method, BT2100_HLG_OOTF_METHODS)
 
     function = BT2100_HLG_OOTF_METHODS[method]
 
@@ -1542,6 +1548,8 @@ def ootf_inverse_HLG_BT2100(F_D,
     ... # doctest: +ELLIPSIS
     0.0999999...
     """
+
+    method = validate_method(method, BT2100_HLG_OOTF_INVERSE_METHODS)
 
     function = BT2100_HLG_OOTF_INVERSE_METHODS[method]
 

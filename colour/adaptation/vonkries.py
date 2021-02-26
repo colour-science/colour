@@ -19,7 +19,8 @@ import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import matrix_dot, vector_dot
-from colour.utilities import (from_range_1, row_as_diagonal, to_domain_1)
+from colour.utilities import (from_range_1, row_as_diagonal, to_domain_1,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -100,13 +101,12 @@ def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     XYZ_w = to_domain_1(XYZ_w)
     XYZ_wr = to_domain_1(XYZ_wr)
 
-    M = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
+    transform = validate_method(
+        transform, CHROMATIC_ADAPTATION_TRANSFORMS,
+        '"{0}" chromatic adaptation transform is invalid, '
+        'it must be one of {1}!')
 
-    if M is None:
-        raise KeyError(
-            '"{0}" chromatic adaptation transform is not defined! Supported '
-            'methods: "{1}".'.format(transform,
-                                     CHROMATIC_ADAPTATION_TRANSFORMS.keys()))
+    M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
     rgb_w = np.einsum('...i,...ij->...j', XYZ_w, np.transpose(M))
     rgb_wr = np.einsum('...i,...ij->...j', XYZ_wr, np.transpose(M))

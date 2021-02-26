@@ -18,7 +18,8 @@ import numpy as np
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import PLANE_TO_AXIS_MAPPING
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, full, ones, tsplit, tstack, zeros)
+                              filter_kwargs, full, ones, tsplit, tstack, zeros,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -73,6 +74,8 @@ def primitive_vertices_quad_mpl(width=1,
     """
 
     axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
+    axis = validate_method(axis, ['+x', '+y', '+z'],
+                           '"{0}" axis invalid, it must be one of {1}!')
 
     u, v = tsplit(origin)
 
@@ -85,9 +88,6 @@ def primitive_vertices_quad_mpl(width=1,
     elif axis == '+x':
         vertices = ((depth, u, v), (depth, u + width, v),
                     (depth, u + width, v + height), (depth, u, v + height))
-    else:
-        raise ValueError('Axis must be one of "{0}"!'.format(
-            ['+x', '+y', '+z']))
 
     return as_float_array(vertices)
 
@@ -344,6 +344,8 @@ def primitive_vertices_sphere(radius=0.5,
     """
 
     axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
+    axis = validate_method(axis, ['+x', '+y', '+z'],
+                           '"{0}" axis invalid, it must be one of {1}!')
 
     if not intermediate:
         theta = np.tile(
@@ -380,9 +382,6 @@ def primitive_vertices_sphere(radius=0.5,
         vertices = np.roll(vertices, 2, -1)
     elif axis == '+x':
         vertices = np.roll(vertices, 1, -1)
-    else:
-        raise ValueError('Axis must be one of "{0}"!'.format(
-            ['+x', '+y', '+z']))
 
     vertices += origin
 
@@ -541,6 +540,8 @@ def primitive_vertices(method='Cube MPL', **kwargs):
             [  2.1648901...e-17,   3.5355339...e-01,  -3.5355339...e-01],
             [  3.7493994...e-33,   6.1232340...e-17,  -5.0000000...e-01]]])
     """
+
+    method = validate_method(method, PRIMITIVE_VERTICES_METHODS)
 
     function = PRIMITIVE_VERTICES_METHODS[method]
 

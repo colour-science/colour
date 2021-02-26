@@ -131,7 +131,7 @@ from colour.utilities import (
     CaseInsensitiveMapping, Lookup, as_float_array, as_float, as_int,
     as_numeric, domain_range_scale, from_range_1, from_range_10,
     get_domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
-    is_integer, is_numeric, tsplit, usage_warning)
+    is_integer, is_numeric, tsplit, usage_warning, validate_method)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -710,6 +710,8 @@ def munsell_value(Y, method='ASTM D1535'):
     >>> munsell_value(12.23634268, method='McCamy 1987') # doctest: +ELLIPSIS
     array(4.0814348...)
     """
+
+    method = validate_method(method, MUNSELL_VALUE_METHODS)
 
     return MUNSELL_VALUE_METHODS.get(method)(Y)
 

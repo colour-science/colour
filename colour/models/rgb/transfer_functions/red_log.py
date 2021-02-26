@@ -41,7 +41,7 @@ from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
                                                   log_decoding_Cineon)
 
 from colour.utilities import (CaseInsensitiveMapping, from_range_1,
-                              to_domain_1, as_numeric)
+                              to_domain_1, as_numeric, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -639,6 +639,8 @@ def log_encoding_Log3G10(x, method='v3'):
     0.3333336...
     """
 
+    method = validate_method(method, LOG3G10_ENCODING_METHODS)
+
     return LOG3G10_ENCODING_METHODS[method](x)
 
 
@@ -704,6 +706,8 @@ def log_decoding_Log3G10(y, method='v3'):
     >>> log_decoding_Log3G10(1.0 / 3, method='v1')  # doctest: +ELLIPSIS
     0.1799994...
     """
+
+    method = validate_method(method, LOG3G10_DECODING_METHODS)
 
     return LOG3G10_DECODING_METHODS[method](y)
 

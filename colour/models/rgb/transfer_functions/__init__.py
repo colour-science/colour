@@ -3,7 +3,7 @@
 from functools import partial
 
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              usage_warning)
+                              usage_warning, validate_method)
 
 from .common import CV_range, legal_to_full, full_to_legal
 from .gamma import gamma_function
@@ -268,6 +268,10 @@ def log_encoding(value, function='Cineon', **kwargs):
     0.3849708...
     """
 
+    function = validate_method(
+        function, LOG_ENCODINGS,
+        '"{0}" function is invalid, it must be one of {1}!')
+
     function = LOG_ENCODINGS[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
@@ -415,6 +419,10 @@ def log_decoding(value, function='Cineon', **kwargs):
     0.1...
     """
 
+    function = validate_method(
+        function, LOG_DECODINGS,
+        '"{0}" function is invalid, it must be one of {1}!')
+
     function = LOG_DECODINGS[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
@@ -476,6 +484,9 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     0.4090077...
     """
 
+    function = validate_method(
+        function, OETFS, '"{0}" function is invalid, it must be one of {1}!')
+
     function = OETFS[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
@@ -533,6 +544,10 @@ def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
     ...     0.409007728864150, function='ITU-R BT.601')
     0.1...
     """
+
+    function = validate_method(
+        function, OETF_INVERSES,
+        '"{0}" function is invalid, it must be one of {1}!')
 
     function = OETF_INVERSES[function]
 
@@ -621,6 +636,9 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
     0.1...
     """
 
+    function = validate_method(
+        function, EOTFS, '"{0}" function is invalid, it must be one of {1}!')
+
     function = EOTFS[function]
 
     return function(value, **filter_kwargs(function, **kwargs))
@@ -704,6 +722,10 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
     ...     0.11699185725296059, function='ITU-R BT.1886')
     0.4090077...
     """
+
+    function = validate_method(
+        function, EOTF_INVERSES,
+        '"{0}" function is invalid, it must be one of {1}!')
 
     function = EOTF_INVERSES[function]
 
@@ -790,7 +812,11 @@ def cctf_encoding(value, function='sRGB', **kwargs):
     0.4090077...
     """
 
-    if 'itu-r bt.2100' in function.lower():
+    function = validate_method(
+        function, CCTF_ENCODINGS,
+        '"{0}" function is invalid, it must be one of {1}!')
+
+    if 'itu-r bt.2100' in function:
         usage_warning(
             'With the "ITU-R BT.2100" method, only the inverse '
             'electro-optical transfer functions (EOTFs / EOCFs) are exposed '
@@ -884,7 +910,11 @@ def cctf_decoding(value, function='sRGB', **kwargs):
     0.1...
     """
 
-    if 'itu-r bt.2100' in function.lower():
+    function = validate_method(
+        function, CCTF_DECODINGS,
+        '"{0}" function is invalid, it must be one of {1}!')
+
+    if 'itu-r bt.2100' in function:
         usage_warning(
             'With the "ITU-R BT.2100" method, only the electro-optical '
             'transfer functions (EOTFs / EOCFs) are exposed by this '
@@ -937,6 +967,9 @@ def ootf(value, function='ITU-R BT.2100 PQ', **kwargs):
     >>> ootf(0.1, function='ITU-R BT.2100 HLG')  # doctest: +ELLIPSIS
     63.0957344...
     """
+
+    function = validate_method(
+        function, OOTFS, '"{0}" function is invalid, it must be one of {1}!')
 
     function = OOTFS[function]
 
@@ -995,6 +1028,10 @@ def ootf_inverse(value, function='ITU-R BT.2100 PQ', **kwargs):
     ...     63.095734448019336, function='ITU-R BT.2100 HLG')
     0.1000000...
     """
+
+    function = validate_method(
+        function, OOTF_INVERSES,
+        '"{0}" function is invalid, it must be one of {1}!')
 
     function = OOTF_INVERSES[function]
 

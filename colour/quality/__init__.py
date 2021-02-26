@@ -10,7 +10,7 @@ from .cqs import (COLOUR_QUALITY_SCALE_METHODS,
 from .ssi import spectral_similarity_index
 from .tm3018 import (ColourQuality_Specification_ANSIIESTM3018,
                      colour_fidelity_index_ANSIIESTM3018)
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, validate_method
 
 __all__ = []
 __all__ += datasets.__all__
@@ -76,6 +76,8 @@ ColourQuality_Specification_ANSIIESTM3018
     >>> colour_fidelity_index(sd)  # doctest: +ELLIPSIS
     70.1208254...
     """
+
+    method = validate_method(method, COLOUR_FIDELITY_INDEX_METHODS)
 
     function = COLOUR_FIDELITY_INDEX_METHODS[method]
 

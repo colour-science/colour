@@ -19,8 +19,10 @@ from colour.colorimetry import sds_and_msds_to_sds
 from colour.plotting import (CONSTANTS_COLOUR_STYLE,
                              XYZ_to_plotting_colourspace, artist,
                              label_rectangles, override_style, render)
-from colour.quality import (colour_quality_scale, colour_rendering_index)
+from colour.quality import (COLOUR_QUALITY_SCALE_METHODS, colour_quality_scale,
+                            colour_rendering_index)
 from colour.quality.cri import TCS_ColorimetryData
+from colour.utilities import validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -317,7 +319,7 @@ def plot_single_sd_colour_quality_scale_bars(sd,
         Illuminant or light source spectral distribution to plot the
         *Colour Quality Scale* (CQS).
     method : unicode, optional
-        **{NIST CQS 7.4'}**,
+        **{'NIST CQS 9.0', 'NIST CQS 7.4'}**,
         *Colour Quality Scale* (CQS) computation method.
 
     Other Parameters
@@ -356,6 +358,8 @@ Plot_Single_SD_Colour_Quality_Scale_Bars.png
         :alt: plot_single_sd_colour_quality_scale_bars
     """
 
+    method = validate_method(method, COLOUR_QUALITY_SCALE_METHODS)
+
     return plot_multi_sds_colour_quality_scales_bars([sd], method, **kwargs)
 
 
@@ -376,7 +380,7 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
         of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
     method : unicode, optional
-        **{NIST CQS 7.4'}**,
+        **{'NIST CQS 9.0', 'NIST CQS 7.4'}**,
         *Colour Quality Scale* (CQS) computation method.
 
     Other Parameters
@@ -418,6 +422,7 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
     """
 
     sds = sds_and_msds_to_sds(sds)
+    method = validate_method(method, COLOUR_QUALITY_SCALE_METHODS)
 
     settings = dict(kwargs)
     settings.update({'standalone': False})

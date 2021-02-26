@@ -11,7 +11,7 @@ from collections import namedtuple
 
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               is_openimageio_installed, filter_kwargs,
-                              required, usage_warning)
+                              required, usage_warning, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -341,7 +341,9 @@ def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
     dtype('float32')
     """
 
-    if method.lower() == 'openimageio':  # pragma: no cover
+    method = validate_method(method, READ_IMAGE_METHODS)
+
+    if method == 'openimageio':  # pragma: no cover
         if not is_openimageio_installed():
             usage_warning(
                 '"OpenImageIO" related API features are not available, '
@@ -350,7 +352,7 @@ def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
 
     function = READ_IMAGE_METHODS[method]
 
-    if method.lower() == 'openimageio':  # pragma: no cover
+    if method == 'openimageio':  # pragma: no cover
         kwargs = filter_kwargs(function, **kwargs)
 
     return function(path, bit_depth, **kwargs)
@@ -572,7 +574,9 @@ def write_image(image,
     True
     """
 
-    if method.lower() == 'openimageio':  # pragma: no cover
+    method = validate_method(method, WRITE_IMAGE_METHODS)
+
+    if method == 'openimageio':  # pragma: no cover
         if not is_openimageio_installed():
             usage_warning(
                 '"OpenImageIO" related API features are not available, '
@@ -581,7 +585,7 @@ def write_image(image,
 
     function = WRITE_IMAGE_METHODS[method]
 
-    if method.lower() == 'openimageio':  # pragma: no cover
+    if method == 'openimageio':  # pragma: no cover
         kwargs = filter_kwargs(function, **kwargs)
 
     return function(image, path, bit_depth, **kwargs)

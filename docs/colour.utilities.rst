@@ -59,6 +59,7 @@ Common
     from_range_degrees
     from_range_int
     copy_definition
+    validate_method
 
 Array
 -----

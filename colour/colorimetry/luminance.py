@@ -62,7 +62,7 @@ from colour.biochemistry import substrate_concentration_MichealisMenten
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, from_range_1, from_range_100,
                               get_domain_range_scale, to_domain_10,
-                              to_domain_100)
+                              to_domain_100, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -397,8 +397,9 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
     """
 
     L_hdr = to_domain_100(L_hdr)
+    method = validate_method(method, ['hdr-CIELAB', 'hdr-IPT'])
 
-    if method.lower() == 'hdr-cielab':
+    if method == 'hdr-cielab':
         maximum_perception = 247
     else:
         maximum_perception = 246
@@ -506,6 +507,8 @@ def luminance(LV, method='CIE 1976', **kwargs):
     ... # doctest: +ELLIPSIS
     12.1972253...
     """
+
+    method = validate_method(method, LUMINANCE_METHODS)
 
     function = LUMINANCE_METHODS[method]
 

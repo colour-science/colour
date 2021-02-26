@@ -67,7 +67,7 @@ from colour.plotting import (
     update_settings_collection)
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
-                              first_item, tsplit, tstack)
+                              first_item, tsplit, tstack, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -205,14 +205,15 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
         :alt: plot_pointer_gamut
     """
 
+    method = validate_method(method,
+                             ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
+
     settings = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    method = method.upper()
-
-    if method == 'CIE 1931':
+    if method == 'cie 1931':
 
         def XYZ_to_ij(XYZ, *args):
             """
@@ -230,7 +231,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
 
             return xy
 
-    elif method == 'CIE 1960 UCS':
+    elif method == 'cie 1960 ucs':
 
         def XYZ_to_ij(XYZ, *args):
             """
@@ -248,7 +249,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
 
             return xy_to_UCS_uv(xy)
 
-    elif method == 'CIE 1976 UCS':
+    elif method == 'cie 1976 ucs':
 
         def XYZ_to_ij(XYZ, *args):
             """
@@ -265,12 +266,6 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
             """
 
             return xy_to_Luv_uv(xy)
-
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
-                method))
 
     ij = xy_to_ij(as_float_array(CCS_POINTER_GAMUT_BOUNDARY))
     alpha_p = CONSTANTS_COLOUR_STYLE.opacity.high
@@ -375,13 +370,13 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
     """
 
     colourspaces = filter_RGB_colourspaces(colourspaces).values()
+    method = validate_method(method,
+                             ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
 
     settings = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
-
-    method = method.upper()
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
@@ -402,7 +397,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         plot_pointer_gamut(**settings)
 
-    if method == 'CIE 1931':
+    if method == 'cie 1931':
 
         def xy_to_ij(xy):
             """
@@ -414,7 +409,8 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         x_limit_min, x_limit_max = [-0.1], [0.9]
         y_limit_min, y_limit_max = [-0.1], [0.9]
-    elif method == 'CIE 1960 UCS':
+
+    elif method == 'cie 1960 ucs':
 
         def xy_to_ij(xy):
             """
@@ -427,7 +423,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.2], [0.6]
 
-    elif method == 'CIE 1976 UCS':
+    elif method == 'cie 1976 ucs':
 
         def xy_to_ij(xy):
             """
@@ -439,11 +435,6 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.1], [0.7]
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
-                method))
 
     settings = {'colour_cycle_count': len(colourspaces)}
     settings.update(kwargs)
@@ -820,13 +811,13 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     """
 
     RGB = as_float_array(RGB).reshape(-1, 3)
+    method = validate_method(method,
+                             ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
 
     settings = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
-
-    method = method.upper()
 
     scatter_settings = {
         's': 40,
@@ -859,12 +850,13 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.matrix_RGB_to_XYZ)
 
-    if method == 'CIE 1931':
+    if method == 'cie 1931':
         ij = XYZ_to_xy(XYZ, colourspace.whitepoint)
-    elif method == 'CIE 1960 UCS':
+
+    elif method == 'cie 1960 ucs':
         ij = UCS_to_uv(XYZ_to_UCS(XYZ))
 
-    elif method == 'CIE 1976 UCS':
+    elif method == 'cie 1976 ucs':
         ij = Luv_to_uv(
             XYZ_to_Luv(XYZ, colourspace.whitepoint), colourspace.whitepoint)
 
@@ -1107,9 +1099,10 @@ def ellipses_MacAdam1942(method='CIE 1931'):
              1.56666660e-02,  -2.77000015e+01])
     """
 
-    method = method.upper()
+    method = validate_method(method,
+                             ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
 
-    if method == 'CIE 1931':
+    if method == 'cie 1931':
 
         def xy_to_ij(xy):
             """
@@ -1119,7 +1112,7 @@ def ellipses_MacAdam1942(method='CIE 1931'):
 
             return xy
 
-    elif method == 'CIE 1960 UCS':
+    elif method == 'cie 1960 ucs':
 
         def xy_to_ij(xy):
             """
@@ -1129,7 +1122,7 @@ def ellipses_MacAdam1942(method='CIE 1931'):
 
             return xy_to_UCS_uv(xy)
 
-    elif method == 'CIE 1976 UCS':
+    elif method == 'cie 1976 ucs':
 
         def xy_to_ij(xy):
             """
@@ -1138,12 +1131,6 @@ def ellipses_MacAdam1942(method='CIE 1931'):
             """
 
             return xy_to_Luv_uv(xy)
-
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '[\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\']'.format(
-                method))
 
     x, y, _a, _b, _theta, a, b, theta = tsplit(DATA_MACADAM_1942_ELLIPSES)
 

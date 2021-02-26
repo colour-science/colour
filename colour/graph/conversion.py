@@ -55,7 +55,8 @@ from colour.appearance import (
 from colour.appearance.ciecam02 import CAM_KWARGS_CIECAM02_sRGB
 from colour.temperature import CCT_to_uv, uv_to_CCT
 from colour.utilities import (domain_range_scale, filter_kwargs, message_box,
-                              required, tsplit, tstack, usage_warning)
+                              required, tsplit, tstack, usage_warning,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -702,7 +703,10 @@ def describe_conversion_path(source,
     except AttributeError:  # pragma: no cover
         signature_inspection = inspect.getargspec
 
-    source, target, mode = source.lower(), target.lower(), mode.lower()
+    source, target = source.lower(), target.lower()
+    mode = validate_method(mode, ['Short', 'Long', 'Extended'],
+                           '"{0}" mode is invalid, it must be one of {1}!')
+
     width = (79 + 2 + 2 * 3 - 4) if mode == 'extended' else width
 
     conversion_path = _conversion_path(source, target)

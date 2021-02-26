@@ -33,7 +33,8 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084, eotf_inverse_ST2084, oetf_HLG_BT2100, oetf_inverse_HLG_BT2100)
-from colour.utilities import domain_range_scale, from_range_1, to_domain_1
+from colour.utilities import (domain_range_scale, from_range_1, to_domain_1,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -204,8 +205,11 @@ def RGB_to_ICtCp(RGB, method='Dolby 2016', L_p=10000):
     """
 
     RGB = to_domain_1(RGB)
+    method = validate_method(method, [
+        'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
+        'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'
+    ])
 
-    method = method.lower()
     is_hlg_method = 'hlg' in method
     is_BT2100_2_method = '2100-2' in method
 
@@ -315,8 +319,11 @@ def ICtCp_to_RGB(ICtCp, method='Dolby 2016', L_p=10000):
     """
 
     ICtCp = to_domain_1(ICtCp)
+    method = validate_method(method, [
+        'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
+        'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'
+    ])
 
-    method = method.lower()
     is_hlg_method = 'hlg' in method
     is_BT2100_2_method = '2100-2' in method
 

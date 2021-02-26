@@ -22,7 +22,7 @@ from colour.plotting import (
     plot_chromaticity_diagram_CIE1931, plot_chromaticity_diagram_CIE1960UCS,
     filter_passthrough, override_style, render, update_settings_collection)
 from colour.plotting.diagrams import plot_chromaticity_diagram
-from colour.utilities import tstack, zeros
+from colour.utilities import tstack, zeros, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -52,7 +52,7 @@ def plot_planckian_locus(planckian_locus_colours=None,
     planckian_locus_colours : array_like or unicode, optional
         *Planckian Locus* colours.
     method : unicode, optional
-        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+        **{'CIE 1931', 'CIE 1960 UCS'}**,
         *Chromaticity Diagram* method.
 
     Other Parameters
@@ -76,6 +76,8 @@ def plot_planckian_locus(planckian_locus_colours=None,
         :alt: plot_planckian_locus
     """
 
+    method = validate_method(method, ['CIE 1931', 'CIE 1960 UCS'])
+
     if planckian_locus_colours is None:
         planckian_locus_colours = CONSTANTS_COLOUR_STYLE.colour.dark
 
@@ -84,7 +86,7 @@ def plot_planckian_locus(planckian_locus_colours=None,
 
     _figure, axes = artist(**settings)
 
-    if method == 'CIE 1931':
+    if method == 'cie 1931':
 
         def uv_to_ij(uv):
             """
@@ -95,7 +97,8 @@ def plot_planckian_locus(planckian_locus_colours=None,
             return UCS_uv_to_xy(uv)
 
         D_uv = 0.025
-    elif method == 'CIE 1960 UCS':
+
+    elif method == 'cie 1960 ucs':
 
         def uv_to_ij(uv):
             """
@@ -106,9 +109,6 @@ def plot_planckian_locus(planckian_locus_colours=None,
             return uv
 
         D_uv = 0.025
-    else:
-        raise ValueError('Invalid method: "{0}", must be one of '
-                         '[\'CIE 1931\', \'CIE 1960 UCS\']'.format(method))
 
     start, end = 1667, 100000
     CCT = np.arange(start, end + 250, 250)
@@ -232,7 +232,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
     planckian_locus_callable : callable, optional
         Callable responsible for drawing the *Planckian Locus*.
     method : unicode, optional
-        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+        **{'CIE 1931', 'CIE 1960 UCS'}**,
         *Chromaticity Diagram* method.
     annotate_kwargs : dict or array_like, optional
         Keyword arguments for the :func:`plt.annotate` definition, used to

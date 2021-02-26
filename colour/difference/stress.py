@@ -21,7 +21,7 @@ References
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -118,6 +118,8 @@ def index_stress(d_E, d_V, method='Garcia 2007'):
     >>> index_stress(d_E, d_V)  # doctest: +ELLIPSIS
     0.1211709...
     """
+
+    method = validate_method(method, INDEX_STRESS_METHODS)
 
     function = INDEX_STRESS_METHODS[method]
 
