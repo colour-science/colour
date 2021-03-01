@@ -567,4 +567,6 @@ ASTM E313
 .. autosummary::
     :toctree: generated/
 
+    yellowness_ASTME313_alternative
+    YELLOWNESS_COEFFICIENTS_ASTME313
     yellowness_ASTME313

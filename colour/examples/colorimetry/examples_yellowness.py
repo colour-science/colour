@@ -30,3 +30,12 @@ message_box(
          XYZ)))
 print(colour.yellowness(XYZ=XYZ, method='ASTM E313'))
 print(colour.colorimetry.yellowness_ASTME313(XYZ))
+
+message_box(
+    ('Computing "yellowness" using the alternative "ASTM E313" method for '
+     'given sample "CIE XYZ" tristimulus values:\n'
+     '\n\t{0}\n\n'
+     'Warning: The input domain of that definition is non standard!'.format(
+         XYZ)))
+print(colour.yellowness(XYZ=XYZ, method='ASTM E313 Alternative'))
+print(colour.colorimetry.yellowness_ASTME313_alternative(XYZ))

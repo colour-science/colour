@@ -7,7 +7,9 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import yellowness_ASTMD1925, yellowness_ASTME313
+from colour.colorimetry import (
+    yellowness_ASTMD1925, yellowness_ASTME313_alternative, yellowness_ASTME313)
+from colour.colorimetry.yellowness import YELLOWNESS_COEFFICIENTS_ASTME313
 from colour.colorimetry.yellowness import yellowness
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -19,7 +21,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestYellownessASTMD1925', 'TestYellownessASTM313', 'TestYellowness'
+    'TestYellownessASTMD1925', 'TestYellownessASTM313Alternative',
+    'TestYellownessASTM313', 'TestYellowness'
 ]
 
 
@@ -101,6 +104,86 @@ class TestYellownessASTMD1925(unittest.TestCase):
             yellowness_ASTMD1925(XYZ)
 
 
+class TestYellownessASTM313Alternative(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.yellowness.\
+yellowness_ASTME313_alternative` definition unit tests methods.
+    """
+
+    def test_yellowness_ASTME313_alternative(self):
+        """
+        Tests :func:`colour.colorimetry.yellowness.\
+yellowness_ASTME313_alternative` definition.
+        """
+
+        self.assertAlmostEqual(
+            yellowness_ASTME313_alternative(
+                np.array([95.00000000, 100.00000000, 105.00000000])),
+            11.065000000000003,
+            places=7)
+
+        self.assertAlmostEqual(
+            yellowness_ASTME313_alternative(
+                np.array([105.00000000, 100.00000000, 95.00000000])),
+            19.534999999999989,
+            places=7)
+
+        self.assertAlmostEqual(
+            yellowness_ASTME313_alternative(
+                np.array([100.00000000, 100.00000000, 100.00000000])),
+            15.300000000000002,
+            places=7)
+
+    def test_n_dimensional_yellowness_ASTME313_alternative(self):
+        """
+        Tests :func:`colour.colorimetry.yellowness.\
+yellowness_ASTME313_alternative` definition n_dimensional arrays support.
+        """
+
+        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+        YI = yellowness_ASTME313_alternative(XYZ)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        YI = np.tile(YI, 6)
+        np.testing.assert_almost_equal(
+            yellowness_ASTME313_alternative(XYZ), YI, decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        YI = np.reshape(YI, (2, 3))
+        np.testing.assert_almost_equal(
+            yellowness_ASTME313_alternative(XYZ), YI, decimal=7)
+
+    def test_domain_range_scale_yellowness_ASTME313_alternative(self):
+        """
+        Tests :func:`colour.colorimetry.yellowness.\
+yellowness_ASTME313_alternative` definition domain and range scale support.
+        """
+
+        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+        YI = 11.065000000000003
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    yellowness_ASTME313_alternative(XYZ * factor),
+                    YI * factor,
+                    decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_yellowness_ASTME313_alternative(self):
+        """
+        Tests :func:`colour.colorimetry.yellowness.\
+yellowness_ASTME313_alternative` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            yellowness_ASTME313_alternative(XYZ)
+
+
 class TestYellownessASTM313(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.yellowness.yellowness_ASTME313`
@@ -116,19 +199,27 @@ class TestYellownessASTM313(unittest.TestCase):
         self.assertAlmostEqual(
             yellowness_ASTME313(
                 np.array([95.00000000, 100.00000000, 105.00000000])),
-            11.065000000000003,
+            4.340000000000003,
             places=7)
 
         self.assertAlmostEqual(
             yellowness_ASTME313(
                 np.array([105.00000000, 100.00000000, 95.00000000])),
-            19.534999999999989,
+            28.660000000000011,
             places=7)
 
         self.assertAlmostEqual(
             yellowness_ASTME313(
                 np.array([100.00000000, 100.00000000, 100.00000000])),
-            15.300000000000002,
+            16.500000000000000,
+            places=7)
+
+        self.assertAlmostEqual(
+            yellowness_ASTME313(
+                np.array([95.00000000, 100.00000000, 105.00000000]),
+                YELLOWNESS_COEFFICIENTS_ASTME313[
+                    'CIE 1931 2 Degree Standard Observer']['C']),
+            10.089500000000001,
             places=7)
 
     def test_n_dimensional_yellowness_ASTME313(self):
@@ -155,7 +246,7 @@ class TestYellownessASTM313(unittest.TestCase):
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        YI = 11.065000000000003
+        YI = 4.340000000000003
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
