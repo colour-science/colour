@@ -536,7 +536,10 @@ def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
     return RGB
 
 
-def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
+def training_data_sds_to_XYZ(training_data,
+                             cmfs,
+                             illuminant,
+                             chromatic_adaptation_transform='CAT02'):
     """
     Converts given training data to *CIE XYZ* tristimulus values using given
     illuminant and given standard observer colour matching functions.
@@ -549,6 +552,12 @@ def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
         Standard observer colour matching functions.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
+    chromatic_adaptation_transform : unicode, optional
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010', None}**,
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
+        performed.
 
     Returns
     -------
@@ -597,7 +606,8 @@ def training_data_sds_to_XYZ(training_data, cmfs, illuminant):
     XYZ_w *= 1 / XYZ_w[1]
 
     M_CAT = matrix_chromatic_adaptation_VonKries(
-        XYZ_w, xy_to_XYZ(RGB_COLOURSPACE_ACES2065_1.whitepoint))
+        XYZ_w, xy_to_XYZ(RGB_COLOURSPACE_ACES2065_1.whitepoint),
+        chromatic_adaptation_transform)
 
     XYZ = vector_dot(M_CAT, XYZ)
 
@@ -706,7 +716,8 @@ def matrix_idt(sensitivities,
                cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].copy()
                .align(SPECTRAL_SHAPE_RAWTOACES),
                optimisation_factory=optimisation_factory_rawtoaces_v1,
-               optimisation_kwargs=None):
+               optimisation_kwargs=None,
+               chromatic_adaptation_transform='CAT02'):
     """
     Computes an *Input Device Transform* (IDT) matrix for given camera *RGB*
     spectral sensitivities, illuminant, training data, standard observer colour
@@ -729,6 +740,12 @@ def matrix_idt(sensitivities,
         optimisation colour model function.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
+    chromatic_adaptation_transform : unicode, optional
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Bianco 2010', 'Bianco PC 2010', None}**,
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
+        performed.
 
     Returns
     -------
@@ -794,7 +811,8 @@ def matrix_idt(sensitivities,
     illuminant = normalise_illuminant(illuminant, sensitivities)
 
     RGB = training_data_sds_to_RGB(training_data, sensitivities, illuminant)
-    XYZ = training_data_sds_to_XYZ(training_data, cmfs, illuminant)
+    XYZ = training_data_sds_to_XYZ(training_data, cmfs, illuminant,
+                                   chromatic_adaptation_transform)
 
     objective_function, XYZ_to_optimization_colour_model = (
         optimisation_factory())
