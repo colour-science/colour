@@ -478,6 +478,15 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
             ]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            training_data_sds_to_RGB(
+                training_data,
+                MSDS_CANON_EOS_5DMARK_II,
+                SDS_ILLUMINANTS['D55'],
+                additional_data=True)[-1],
+            np.array([2.34141541, 1.00000000, 1.51633759]),
+            decimal=7)
+
 
 class TestTrainingDataSdsToXYZ(unittest.TestCase):
     """
@@ -891,6 +900,34 @@ class TestMatrixIdt(unittest.TestCase):
             ]),
             rtol=0.0001,
             atol=0.0001)
+
+        _M, XYZ, RGB, RGB_w = matrix_idt(
+            MSDS_CANON_EOS_5DMARK_II,
+            SDS_ILLUMINANTS['D55'],
+            additional_data=True)
+
+        np.testing.assert_almost_equal(
+            XYZ[:5, ...],
+            np.array([
+                [0.01743160, 0.01794927, 0.01960625],
+                [0.08556139, 0.08957352, 0.09017387],
+                [0.74560311, 0.78175547, 0.78350814],
+                [0.19005289, 0.19950000, 0.20126062],
+                [0.56264334, 0.59145486, 0.58950505],
+            ]))
+
+        np.testing.assert_almost_equal(
+            RGB[:5, ...],
+            np.array([
+                [0.02075823, 0.01968577, 0.02139352],
+                [0.08957758, 0.08919227, 0.08910910],
+                [0.78102307, 0.78019384, 0.77643020],
+                [0.19950000, 0.19950000, 0.19950000],
+                [0.58984787, 0.59040152, 0.58510766],
+            ]))
+
+        np.testing.assert_almost_equal(
+            RGB_w, np.array([2.34141541, 1.00000000, 1.51633759]))
 
 
 if __name__ == '__main__':

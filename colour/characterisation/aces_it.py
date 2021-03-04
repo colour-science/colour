@@ -476,7 +476,10 @@ def normalise_illuminant(illuminant, sensitivities):
     return illuminant * k
 
 
-def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
+def training_data_sds_to_RGB(training_data,
+                             sensitivities,
+                             illuminant,
+                             additional_data=False):
     """
     Converts given training data to *RGB* tristimulus values using given
     illuminant and given camera *RGB* spectral sensitivities.
@@ -489,11 +492,14 @@ def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
          Camera *RGB* spectral sensitivities.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
+    additional_data : bool, optional
+        If *True*, the white balance multipliers are returned.
 
     Returns
     -------
-    ndarray
-        Training data *RGB* tristimulus values.
+    ndarray or tuple
+        Training data *RGB* tristimulus values or tuple of training data *RGB*
+        tristimulus values and white balance multipliers.
 
     Examples
     --------
@@ -533,7 +539,10 @@ def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
         sensitivities.values)
     RGB *= RGB_w
 
-    return RGB
+    if additional_data:
+        return RGB, RGB_w
+    else:
+        return RGB
 
 
 def training_data_sds_to_XYZ(training_data,
@@ -717,7 +726,8 @@ def matrix_idt(sensitivities,
                .align(SPECTRAL_SHAPE_RAWTOACES),
                optimisation_factory=optimisation_factory_rawtoaces_v1,
                optimisation_kwargs=None,
-               chromatic_adaptation_transform='CAT02'):
+               chromatic_adaptation_transform='CAT02',
+               additional_data=False):
     """
     Computes an *Input Device Transform* (IDT) matrix for given camera *RGB*
     spectral sensitivities, illuminant, training data, standard observer colour
@@ -746,11 +756,16 @@ def matrix_idt(sensitivities,
         'Bianco 2010', 'Bianco PC 2010', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
+    additional_data : bool, optional
+        If *True*, the *XYZ* and *RGB* tristimulus values and the white balance
+        multipliers are returned.
 
     Returns
     -------
-    ndarray
-        *Input Device Transform* (IDT) matrix.
+    ndarray or tuple
+        *Input Device Transform* (IDT) matrix or tuple of
+        *Input Device Transform* (IDT) matrix, *XYZ* and *RGB* tristimulus
+        values and white balance multipliers.
 
     References
     ----------
@@ -810,7 +825,13 @@ def matrix_idt(sensitivities,
 
     illuminant = normalise_illuminant(illuminant, sensitivities)
 
-    RGB = training_data_sds_to_RGB(training_data, sensitivities, illuminant)
+    if additional_data:
+        RGB, RGB_w = training_data_sds_to_RGB(training_data, sensitivities,
+                                              illuminant, additional_data)
+    else:
+        RGB = training_data_sds_to_RGB(training_data, sensitivities,
+                                       illuminant)
+
     XYZ = training_data_sds_to_XYZ(training_data, cmfs, illuminant,
                                    chromatic_adaptation_transform)
 
@@ -827,4 +848,7 @@ def matrix_idt(sensitivities,
                  (RGB, XYZ_to_optimization_colour_model(XYZ)),
                  **optimisation_settings).x.reshape([3, 3])
 
-    return M
+    if additional_data:
+        return M, XYZ, RGB, RGB_w
+    else:
+        return M
