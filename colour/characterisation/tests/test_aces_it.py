@@ -478,6 +478,15 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
             ]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            training_data_sds_to_RGB(
+                training_data,
+                MSDS_CANON_EOS_5DMARK_II,
+                SDS_ILLUMINANTS['D55'],
+                additional_data=True)[-1],
+            np.array([2.34141541, 1.00000000, 1.51633759]),
+            decimal=7)
+
 
 class TestTrainingDataSdsToXYZ(unittest.TestCase):
     """
@@ -726,6 +735,40 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
             ]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            training_data_sds_to_XYZ(
+                training_data,
+                MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
+                SDS_ILLUMINANTS['D55'],
+                chromatic_adaptation_transform='Bradford'),
+            np.array([
+                [0.11386557, 0.10185906, 0.06306965],
+                [0.38044920, 0.34846911, 0.23548776],
+                [0.17349711, 0.18690409, 0.31901794],
+                [0.10656174, 0.13314825, 0.06450454],
+                [0.24642109, 0.23388536, 0.40625776],
+                [0.30564803, 0.42194543, 0.41894818],
+                [0.38414010, 0.30337780, 0.05881558],
+                [0.13128440, 0.11682332, 0.35780551],
+                [0.28707604, 0.19200780, 0.12518610],
+                [0.08392779, 0.06409174, 0.12816180],
+                [0.34028525, 0.44190577, 0.10665985],
+                [0.46462806, 0.42722924, 0.07207641],
+                [0.07631823, 0.06018898, 0.26258457],
+                [0.14620929, 0.23222248, 0.09296807],
+                [0.20635082, 0.12152088, 0.04669974],
+                [0.57410962, 0.59968182, 0.08713069],
+                [0.30185180, 0.19675858, 0.28565273],
+                [0.14177898, 0.19541060, 0.36711242],
+                [0.86550834, 0.91247072, 0.88567193],
+                [0.55803077, 0.58853268, 0.59040518],
+                [0.34102300, 0.35952246, 0.36250826],
+                [0.18104563, 0.19123690, 0.19353274],
+                [0.08461039, 0.08944568, 0.09150425],
+                [0.03058222, 0.03200864, 0.03278183],
+            ]),
+            decimal=7)
+
 
 class TestOptimizationFactoryRawtoacesV1(unittest.TestCase):
     """
@@ -844,6 +887,47 @@ class TestMatrixIdt(unittest.TestCase):
             ]),
             rtol=0.0001,
             atol=0.0001)
+
+        np.testing.assert_allclose(
+            matrix_idt(
+                MSDS_CANON_EOS_5DMARK_II,
+                SDS_ILLUMINANTS['D55'],
+                chromatic_adaptation_transform='Bradford'),
+            np.array([
+                [0.85020607, -0.01371074, 0.14907913],
+                [0.05074081, 1.12898863, -0.18800656],
+                [0.02095822, -0.20110079, 1.16769711],
+            ]),
+            rtol=0.0001,
+            atol=0.0001)
+
+        _M, XYZ, RGB, RGB_w = matrix_idt(
+            MSDS_CANON_EOS_5DMARK_II,
+            SDS_ILLUMINANTS['D55'],
+            additional_data=True)
+
+        np.testing.assert_almost_equal(
+            XYZ[:5, ...],
+            np.array([
+                [0.01743160, 0.01794927, 0.01960625],
+                [0.08556139, 0.08957352, 0.09017387],
+                [0.74560311, 0.78175547, 0.78350814],
+                [0.19005289, 0.19950000, 0.20126062],
+                [0.56264334, 0.59145486, 0.58950505],
+            ]))
+
+        np.testing.assert_almost_equal(
+            RGB[:5, ...],
+            np.array([
+                [0.02075823, 0.01968577, 0.02139352],
+                [0.08957758, 0.08919227, 0.08910910],
+                [0.78102307, 0.78019384, 0.77643020],
+                [0.19950000, 0.19950000, 0.19950000],
+                [0.58984787, 0.59040152, 0.58510766],
+            ]))
+
+        np.testing.assert_almost_equal(
+            RGB_w, np.array([2.34141541, 1.00000000, 1.51633759]))
 
 
 if __name__ == '__main__':
