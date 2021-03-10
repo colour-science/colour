@@ -423,9 +423,9 @@ ACES Input Transform - ``colour characterisation``
     >>> sensitivities = colour.MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)']
     >>> illuminant = colour.SDS_ILLUMINANTS['D55']
     >>> colour.matrix_idt(sensitivities, illuminant)
-    array([[ 0.46579991,  0.13409239,  0.01935141],
-           [ 0.01786094,  0.77557292, -0.16775555],
-           [ 0.03458652, -0.16152926,  0.74270359]])
+    (array([[ 0.46579986,  0.13409221,  0.01935163],
+           [ 0.01786092,  0.77557268, -0.16775531],
+           [ 0.03458647, -0.16152923,  0.74270363]]), array([ 1.58214188,  1.        ,  1.28910346]))
 
 Colorimetry - ``colour.colorimetry``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

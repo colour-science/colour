@@ -476,10 +476,7 @@ def normalise_illuminant(illuminant, sensitivities):
     return illuminant * k
 
 
-def training_data_sds_to_RGB(training_data,
-                             sensitivities,
-                             illuminant,
-                             additional_data=False):
+def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
     """
     Converts given training data to *RGB* tristimulus values using given
     illuminant and given camera *RGB* spectral sensitivities.
@@ -492,14 +489,12 @@ def training_data_sds_to_RGB(training_data,
          Camera *RGB* spectral sensitivities.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
-    additional_data : bool, optional
-        If *True*, the white balance multipliers are returned.
 
     Returns
     -------
-    ndarray or tuple
-        Training data *RGB* tristimulus values or tuple of training data *RGB*
-        tristimulus values and white balance multipliers.
+    tuple
+        Tuple of training data *RGB* tristimulus values and white balance
+        multipliers.
 
     Examples
     --------
@@ -511,13 +506,16 @@ def training_data_sds_to_RGB(training_data,
     >>> illuminant = normalise_illuminant(
     ...     SDS_ILLUMINANTS['D55'], sensitivities)
     >>> training_data = read_training_data_rawtoaces_v1()
-    >>> training_data_sds_to_RGB(training_data, sensitivities, illuminant)[:5]
-    ... # doctest: +ELLIPSIS
+    >>> RGB, RGB_w = training_data_sds_to_RGB(
+    ...     training_data, sensitivities, illuminant)
+    >>> RGB[:5]  # doctest: +ELLIPSIS
     array([[ 0.0207582...,  0.0196857...,  0.0213935...],
            [ 0.0895775...,  0.0891922...,  0.0891091...],
            [ 0.7810230...,  0.7801938...,  0.7764302...],
            [ 0.1995   ...,  0.1995   ...,  0.1995   ...],
            [ 0.5898478...,  0.5904015...,  0.5851076...]])
+    >>> RGB_w  # doctest: +ELLIPSIS
+    array([ 2.3414154...,  1.        ,  1.5163375...])
     """
 
     shape = sensitivities.shape
@@ -537,12 +535,10 @@ def training_data_sds_to_RGB(training_data,
         np.transpose(
             illuminant.values[..., np.newaxis] * training_data.values),
         sensitivities.values)
+
     RGB *= RGB_w
 
-    if additional_data:
-        return RGB, RGB_w
-    else:
-        return RGB
+    return RGB, RGB_w
 
 
 def training_data_sds_to_XYZ(training_data,
@@ -757,15 +753,15 @@ def matrix_idt(sensitivities,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
     additional_data : bool, optional
-        If *True*, the *XYZ* and *RGB* tristimulus values and the white balance
-        multipliers are returned.
+        If *True*, the *XYZ* and *RGB* tristimulus values are also returned.
 
     Returns
     -------
-    ndarray or tuple
-        *Input Device Transform* (IDT) matrix or tuple of
-        *Input Device Transform* (IDT) matrix, *XYZ* and *RGB* tristimulus
-        values and white balance multipliers.
+    tuple
+        tuple of *Input Device Transform* (IDT) matrix and
+        white balance multipliers or tuple of *Input Device Transform* (IDT)
+        matrix, white balance multipliers, *XYZ* and *RGB* tristimulus
+        values.
 
     References
     ----------
@@ -783,11 +779,13 @@ def matrix_idt(sensitivities,
     >>> sensitivities = sds_and_msds_to_msds(
     ...     read_sds_from_csv_file(path).values())
     >>> illuminant = SDS_ILLUMINANTS['D55']
-    >>> np.around(
-    ...     matrix_idt(sensitivities, illuminant), 3)
+    >>> M, RGB_w = matrix_idt(sensitivities, illuminant)
+    >>> np.around(M, 3)
     array([[ 0.85 , -0.016,  0.151],
            [ 0.051,  1.126, -0.185],
            [ 0.02 , -0.194,  1.162]])
+    >>> RGB_w  # doctest: +ELLIPSIS
+    array([ 2.3414154...,  1.        ,  1.5163375...])
 
     The *RAW to ACES* v1 matrix for the same camera and optimized by
     `Ceres Solver <http://ceres-solver.org/>`__ is as follows:
@@ -796,12 +794,15 @@ def matrix_idt(sensitivities,
     0.056527 1.122997 -0.179524
     0.023683 -0.202547 1.178864
 
-    >>> np.around(matrix_idt(
+    >>> M, RGB_w = matrix_idt(
     ...     sensitivities, illuminant,
-    ...     optimisation_factory=optimisation_factory_JzAzBz), 3)
+    ...     optimisation_factory=optimisation_factory_JzAzBz)
+    >>> np.around(M, 3)
     array([[ 0.848, -0.016,  0.158],
            [ 0.053,  1.114, -0.175],
            [ 0.023, -0.225,  1.196]])
+    >>> RGB_w  # doctest: +ELLIPSIS
+    array([ 2.3414154...,  1.        ,  1.5163375...])
     """
 
     if training_data is None:
@@ -825,12 +826,8 @@ def matrix_idt(sensitivities,
 
     illuminant = normalise_illuminant(illuminant, sensitivities)
 
-    if additional_data:
-        RGB, RGB_w = training_data_sds_to_RGB(training_data, sensitivities,
-                                              illuminant, additional_data)
-    else:
-        RGB = training_data_sds_to_RGB(training_data, sensitivities,
-                                       illuminant)
+    RGB, RGB_w = training_data_sds_to_RGB(training_data, sensitivities,
+                                          illuminant)
 
     XYZ = training_data_sds_to_XYZ(training_data, cmfs, illuminant,
                                    chromatic_adaptation_transform)
@@ -849,6 +846,6 @@ def matrix_idt(sensitivities,
                  **optimisation_settings).x.reshape([3, 3])
 
     if additional_data:
-        return M, XYZ, RGB, RGB_w
+        return M, RGB_w, XYZ, RGB
     else:
-        return M
+        return M, RGB_w
