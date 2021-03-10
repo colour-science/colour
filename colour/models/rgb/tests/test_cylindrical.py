@@ -8,7 +8,7 @@ import unittest
 from itertools import permutations
 
 from colour.models.rgb.cylindrical import (RGB_to_HSV, HSV_to_RGB, RGB_to_HSL,
-                                           HSL_to_RGB)
+                                           HSL_to_RGB, RGB_to_HCL)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -19,7 +19,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestRGB_to_HSV', 'TestHSV_to_RGB', 'TestRGB_to_HSL', 'TestHSL_to_RGB'
+    'TestRGB_to_HSV', 'TestHSV_to_RGB', 'TestRGB_to_HSL', 'TestHSL_to_RGB',
+    'TestRGB_to_HCL'
 ]
 
 
@@ -329,6 +330,83 @@ class TestHSL_to_RGB(unittest.TestCase):
         for case in cases:
             HSL = np.array(case)
             HSL_to_RGB(HSL)
+
+
+class TestRGB_to_HCL(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition unit
+    tests methods.
+    """
+
+    def test_RGB_to_HCL(self):
+        """
+        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            RGB_to_HCL(np.array([0.45620519, 0.03081071, 0.04091952])),
+            np.array([-0.03167854, 0.2841715, 0.22859647]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_HCL(np.array([1.00000000, 2.00000000, 0.50000000])),
+            np.array([1.83120102, 1.0075282, 1.00941024]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_HCL(np.array([2.00000000, 1.00000000, 0.50000000])),
+            np.array([0.30909841, 1.0075282, 1.00941024]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_HCL(np.array([0.50000000, 1.00000000, 2.00000000])),
+            np.array([-2.40349351, 1.0075282, 1.00941024]),
+            decimal=7)
+
+    def test_n_dimensional_RGB_to_HCL(self):
+        """
+        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
+        n-dimensional arrays support.
+        """
+
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
+        HCL = RGB_to_HCL(RGB)
+
+        RGB = np.tile(RGB, (6, 1))
+        HCL = np.tile(HCL, (6, 1))
+        np.testing.assert_almost_equal(RGB_to_HCL(RGB), HCL, decimal=7)
+
+        RGB = np.reshape(RGB, (2, 3, 3))
+        HCL = np.reshape(HCL, (2, 3, 3))
+        np.testing.assert_almost_equal(RGB_to_HCL(RGB), HCL, decimal=7)
+
+    def test_domain_range_scale_RGB_to_HCL(self):
+        """
+        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
+        domain and range scale support.
+        """
+
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
+        HCL = RGB_to_HCL(RGB)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    RGB_to_HCL(RGB * factor), HCL * factor, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_RGB_to_HCL(self):
+        """
+        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            RGB_to_HCL(RGB)
 
 
 if __name__ == '__main__':
