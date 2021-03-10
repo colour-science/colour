@@ -6,6 +6,7 @@ Academy Color Encoding System - Input Transform
 Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 
 -   :func:`colour.sd_to_aces_relative_exposure_values`
+-   :func:`colour.sd_to_ACES2065_1`
 -   :func:`colour.characterisation.read_training_data_rawtoaces_v1`
 -   :func:`colour.characterisation.generate_illuminants_rawtoaces_v1`
 -   :func:`colour.characterisation.white_balance_multipliers`
@@ -76,12 +77,13 @@ __status__ = 'Production'
 
 __all__ = [
     'FLARE_PERCENTAGE', 'S_FLARE_FACTOR',
-    'sd_to_aces_relative_exposure_values', 'SPECTRAL_SHAPE_RAWTOACES',
-    'RESOURCES_DIRECTORY_RAWTOACES', 'read_training_data_rawtoaces_v1',
-    'generate_illuminants_rawtoaces_v1', 'white_balance_multipliers',
-    'best_illuminant', 'normalise_illuminant', 'training_data_sds_to_RGB',
-    'training_data_sds_to_XYZ', 'optimisation_factory_rawtoaces_v1',
-    'optimisation_factory_JzAzBz', 'matrix_idt'
+    'sd_to_aces_relative_exposure_values', 'sd_to_ACES2065_1',
+    'SPECTRAL_SHAPE_RAWTOACES', 'RESOURCES_DIRECTORY_RAWTOACES',
+    'read_training_data_rawtoaces_v1', 'generate_illuminants_rawtoaces_v1',
+    'white_balance_multipliers', 'best_illuminant', 'normalise_illuminant',
+    'training_data_sds_to_RGB', 'training_data_sds_to_XYZ',
+    'optimisation_factory_rawtoaces_v1', 'optimisation_factory_JzAzBz',
+    'matrix_idt'
 ]
 
 FLARE_PERCENTAGE = 0.00500
@@ -204,6 +206,8 @@ def sd_to_aces_relative_exposure_values(
 
     return from_range_1(E_rgb)
 
+
+sd_to_ACES2065_1 = sd_to_aces_relative_exposure_values
 
 SPECTRAL_SHAPE_RAWTOACES = SpectralShape(380, 780, 5)
 """

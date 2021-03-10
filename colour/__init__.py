@@ -157,7 +157,8 @@ from .characterisation import (
     COLOUR_CORRECTION_METHODS, MSDS_CAMERA_SENSITIVITIES,
     MSDS_DISPLAY_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, SDS_COLOURCHECKERS,
     SDS_FILTERS, SDS_LENSES, colour_correction, matrix_colour_correction,
-    matrix_idt, polynomial_expansion, sd_to_aces_relative_exposure_values)
+    matrix_idt, polynomial_expansion, sd_to_ACES2065_1,
+    sd_to_aces_relative_exposure_values)
 from .volume import (
     OPTIMAL_COLOUR_STIMULI_ILLUMINANTS, RGB_colourspace_limits,
     RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
@@ -323,7 +324,7 @@ __all__ += [
     'MSDS_DISPLAY_PRIMARIES', 'POLYNOMIAL_EXPANSION_METHODS',
     'SDS_COLOURCHECKERS', 'SDS_FILTERS', 'SDS_LENSES', 'colour_correction',
     'matrix_colour_correction', 'matrix_idt', 'polynomial_expansion',
-    'sd_to_aces_relative_exposure_values'
+    'sd_to_ACES2065_1', 'sd_to_aces_relative_exposure_values'
 ]
 __all__ += [
     'OPTIMAL_COLOUR_STIMULI_ILLUMINANTS', 'RGB_colourspace_limits',
