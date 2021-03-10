@@ -38,6 +38,7 @@ ACES Input Transform Computation
     :toctree: generated/
 
     matrix_idt
+    camera_RGB_to_ACES2065_1
 
 **Ancillary Objects**
 

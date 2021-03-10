@@ -13,7 +13,7 @@ from colour.characterisation import (
     generate_illuminants_rawtoaces_v1, white_balance_multipliers,
     best_illuminant, normalise_illuminant, training_data_sds_to_RGB,
     training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
-    optimisation_factory_JzAzBz, matrix_idt)
+    optimisation_factory_JzAzBz, matrix_idt, camera_RGB_to_ACES2065_1)
 from colour.characterisation.aces_it import RESOURCES_DIRECTORY_RAWTOACES
 from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
                                 sds_and_msds_to_msds, sd_constant, sd_ones)
@@ -34,7 +34,8 @@ __all__ = [
     'TestWhiteBalanceMultipliers', 'TestBestIlluminant',
     'TestNormaliseIlluminant', 'TestTrainingDataSdsToRGB',
     'TestTrainingDataSdsToXYZ', 'TestOptimizationFactoryRawtoacesV1',
-    'TestOptimizationFactoryJzAzBz', 'TestMatrixIdt'
+    'TestOptimizationFactoryJzAzBz', 'TestMatrixIdt',
+    'TestCamera_RGB_to_ACES2065_1'
 ]
 
 MSDS_CANON_EOS_5DMARK_II = sds_and_msds_to_msds(
@@ -939,6 +940,32 @@ class TestMatrixIdt(unittest.TestCase):
                 [0.19950000, 0.19950000, 0.19950000],
                 [0.58984787, 0.59040152, 0.58510766],
             ]))
+
+
+class TestCamera_RGB_to_ACES2065_1(unittest.TestCase):
+    """
+    Defines :func:`colour.characterisation.aces_it.\
+camera_RGB_to_ACES2065_1` definition unit tests methods.
+    """
+
+    def test_camera_RGB_to_ACES2065_1(self):
+        """
+        Tests :func:`colour.characterisation.aces_it.\
+camera_RGB_to_ACES2065_1` definition.
+        """
+
+        B, b = matrix_idt(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS['D55'])
+        np.testing.assert_almost_equal(
+            camera_RGB_to_ACES2065_1(np.array([0.1, 0.2, 0.3]), B, b),
+            np.array([0.26468115, 0.15288980, 0.49443355]))
+
+        np.testing.assert_almost_equal(
+            camera_RGB_to_ACES2065_1(np.array([1.5, 1.5, 1.5]), B, b),
+            np.array([3.30542136, 1.44643555, 2.42192985]))
+
+        np.testing.assert_almost_equal(
+            camera_RGB_to_ACES2065_1(np.array([1.0, 1.0, 1.0]), B, b, True),
+            np.array([2.20361424, 0.96429036, 1.61461990]))
 
 
 if __name__ == '__main__':

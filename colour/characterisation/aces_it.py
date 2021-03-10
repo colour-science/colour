@@ -17,6 +17,7 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 -   :func:`colour.characterisation.optimisation_factory_rawtoaces_v1`
 -   :func:`colour.characterisation.optimisation_factory_JzAzBz`
 -   :func:`colour.matrix_idt`
+-   :func:`colour.camera_RGB_to_ACES2065_1`
 
 References
 ----------
@@ -853,3 +854,61 @@ def matrix_idt(sensitivities,
         return M, RGB_w, XYZ, RGB
     else:
         return M, RGB_w
+
+
+def camera_RGB_to_ACES2065_1(RGB, B, b, k=np.ones(3), clip=False):
+    """
+    Converts given camera *RGB* colourspace array to *ACES2065-1* colourspace
+    using the *Input Device Transform* (IDT) matrix :math:`B`, the white
+    balance multipliers :math:`b` and the exposure factor :math:`k` according
+    to *P-2013-001* procedure.
+
+    Parameters
+    ----------
+    RGB : array_like
+        Camera *RGB* colourspace array.
+    B : array_like
+         *Input Device Transform* (IDT) matrix :math:`B`.
+    b : array_like
+         White balance multipliers :math:`b`.
+    k : array_like, optional
+        Exposure factor :math:`k` that results in a nominally "18% gray" object
+        in the scene producing ACES values [0.18, 0.18, 0.18].
+    clip : bool, optional
+        Whether to clip the white balanced camera *RGB* colourspace array
+        between :math:`-\\infty` and 1. The intent is to keep sensor saturated
+        values achromatic after white balancing.
+
+    Returns
+    -------
+    ndarray
+        *ACES2065-1* colourspace relative exposure values array.
+
+    References
+    ----------
+    :cite:`TheAcademyofMotionPictureArtsandSciences2015c`
+
+    Examples
+    --------
+    >>> path = os.path.join(
+    ...     RESOURCES_DIRECTORY_RAWTOACES,
+    ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
+    >>> sensitivities = sds_and_msds_to_msds(
+    ...     read_sds_from_csv_file(path).values())
+    >>> illuminant = SDS_ILLUMINANTS['D55']
+    >>> B, b = matrix_idt(sensitivities, illuminant)
+    >>> camera_RGB_to_ACES2065_1(np.array([0.1, 0.2, 0.3]), B, b)
+    ... # doctest: +ELLIPSIS
+    array([ 0.2646811...,  0.1528898...,  0.4944335...])
+    """
+
+    RGB = as_float_array(RGB)
+    B = as_float_array(B)
+    b = as_float_array(b)
+    k = as_float_array(k)
+
+    RGB_r = b * RGB / np.min(b)
+
+    RGB_r = np.clip(RGB_r, -np.inf, 1) if clip else RGB_r
+
+    return k * vector_dot(B, RGB_r)
