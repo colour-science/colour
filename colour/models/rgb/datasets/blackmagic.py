@@ -5,12 +5,12 @@ Blackmagic Colourspaces
 
 Defines the *Blackmagic* colourspaces:
 
--   :attr:`colour.models.BMD_FILM_V1_COLOURSPACE`.
--   :attr:`colour.models.BMD_4K_FILM_V1_COLOURSPACE`.
--   :attr:`colour.models.BMD_4K_FILM_V3_COLOURSPACE`.
--   :attr:`colour.models.BMD_46K_FILM_V1_COLOURSPACE`.
--   :attr:`colour.models.BMD_46K_FILM_V3_COLOURSPACE`.
--   :attr:`colour.models.BMD_WIDE_GAMUT_V4_COLOURSPACE`.
+-   :attr:`colour.models.RGB_COLOURSPACE_BMD_FILM_V1`.
+-   :attr:`colour.models.RGB_COLOURSPACE_BMD_4K_FILM_V1`.
+-   :attr:`colour.models.RGB_COLOURSPACE_BMD_4K_FILM_V3`.
+-   :attr:`colour.models.RGB_COLOURSPACE_BMD_46K_FILM_V1`.
+-   :attr:`colour.models.RGB_COLOURSPACE_BMD_46K_FILM_V3`.
+-   :attr:`colour.models.RGB_COLOURSPACE_BMD_WIDE_GAMUT_V4`.
 
 References
 ----------
@@ -22,7 +22,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace, log_encoding_BMDFilm,
                                log_decoding_BMDFilm, log_encoding_BMD4KFilm,
                                log_decoding_BMD4KFilm, log_encoding_BMD46KFilm,
@@ -34,7 +34,7 @@ from colour.models.rgb import (RGB_Colourspace, log_encoding_BMDFilm,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
@@ -43,22 +43,22 @@ __status__ = 'Production'
 __all__ = [
     'BMD_FILM_V1_PRIMARIES', 'BMD_FILM_V1_WHITEPOINT_NAME',
     'BMD_FILM_V1_WHITEPOINT', 'BMD_FILM_V1_TO_XYZ_MATRIX',
-    'XYZ_TO_BMD_FILM_V1_MATRIX', 'BMD_FILM_V1_COLOURSPACE',
+    'XYZ_TO_BMD_FILM_V1_MATRIX', 'RGB_COLOURSPACE_BMD_FILM_V1',
     'BMD_4K_FILM_V1_PRIMARIES', 'BMD_4K_FILM_V1_WHITEPOINT_NAME',
     'BMD_4K_FILM_V1_WHITEPOINT', 'BMD_4K_FILM_V1_TO_XYZ_MATRIX',
-    'XYZ_TO_BMD_4K_FILM_V1_MATRIX', 'BMD_4K_FILM_V1_COLOURSPACE',
+    'XYZ_TO_BMD_4K_FILM_V1_MATRIX', 'RGB_COLOURSPACE_BMD_4K_FILM_V1',
     'BMD_4K_FILM_V3_PRIMARIES', 'BMD_4K_FILM_V3_WHITEPOINT_NAME',
     'BMD_4K_FILM_V3_WHITEPOINT', 'BMD_4K_FILM_V3_TO_XYZ_MATRIX',
-    'XYZ_TO_BMD_4K_FILM_V3_MATRIX', 'BMD_4K_FILM_V3_COLOURSPACE',
+    'XYZ_TO_BMD_4K_FILM_V3_MATRIX', 'RGB_COLOURSPACE_BMD_4K_FILM_V3',
     'BMD_46K_FILM_V1_PRIMARIES', 'BMD_46K_FILM_V1_WHITEPOINT_NAME',
     'BMD_46K_FILM_V1_WHITEPOINT', 'BMD_46K_FILM_V1_TO_XYZ_MATRIX',
-    'XYZ_TO_BMD_46K_FILM_V1_MATRIX', 'BMD_46K_FILM_V1_COLOURSPACE',
+    'XYZ_TO_BMD_46K_FILM_V1_MATRIX', 'RGB_COLOURSPACE_BMD_46K_FILM_V1',
     'BMD_46K_FILM_V3_PRIMARIES', 'BMD_46K_FILM_V3_WHITEPOINT_NAME',
     'BMD_46K_FILM_V3_WHITEPOINT', 'BMD_46K_FILM_V3_TO_XYZ_MATRIX',
-    'XYZ_TO_BMD_46K_FILM_V3_MATRIX', 'BMD_46K_FILM_V3_COLOURSPACE',
+    'XYZ_TO_BMD_46K_FILM_V3_MATRIX', 'RGB_COLOURSPACE_BMD_46K_FILM_V3',
     'BMD_WIDE_GAMUT_V4_PRIMARIES', 'BMD_WIDE_GAMUT_V4_WHITEPOINT_NAME',
     'BMD_WIDE_GAMUT_V4_WHITEPOINT', 'BMD_WIDE_GAMUT_V4_TO_XYZ_MATRIX',
-    'XYZ_TO_BMD_WIDE_GAMUT_V4_MATRIX', 'BMD_WIDE_GAMUT_V4_COLOURSPACE'
+    'XYZ_TO_BMD_WIDE_GAMUT_V4_MATRIX', 'RGB_COLOURSPACE_BMD_WIDE_GAMUT_V4'
 ]
 
 BMD_FILM_V1_PRIMARIES = np.array([
@@ -102,7 +102,7 @@ XYZ_TO_BMD_FILM_V1_MATRIX = (
 XYZ_TO_BMD_FILM_V1_MATRIX : array_like, (3, 3)
 """
 
-BMD_FILM_V1_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_BMD_FILM_V1 = RGB_Colourspace(
     'BMD Film V1',
     BMD_FILM_V1_PRIMARIES,
     BMD_FILM_V1_WHITEPOINT,
@@ -112,14 +112,14 @@ BMD_FILM_V1_COLOURSPACE = RGB_Colourspace(
     log_encoding_BMDFilm,
     log_decoding_BMDFilm,
 )
-BMD_FILM_V1_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_BMD_FILM_V1.__doc__ = """
 *BMD Film V1* colourspace.
 
     References
     ----------
     :cite:`Blackmagic2020a`
 
-BMD_FILM_V1_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_BMD_FILM_V1 : RGB_Colourspace
 """
 
 
@@ -164,7 +164,7 @@ XYZ_TO_BMD_4K_FILM_V1_MATRIX = (
 XYZ_TO_BMD_4K_FILM_V1_MATRIX : array_like, (3, 3)
 """
 
-BMD_4K_FILM_V1_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_BMD_4K_FILM_V1 = RGB_Colourspace(
     'BMD 4K Film V1',
     BMD_4K_FILM_V1_PRIMARIES,
     BMD_4K_FILM_V1_WHITEPOINT,
@@ -174,14 +174,14 @@ BMD_4K_FILM_V1_COLOURSPACE = RGB_Colourspace(
     log_encoding_BMD4KFilm,
     log_decoding_BMD4KFilm,
 )
-BMD_4K_FILM_V1_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_BMD_4K_FILM_V1.__doc__ = """
 *BMD 4K Film V1* colourspace.
 
     References
     ----------
     :cite:`Blackmagic2020a`
 
-BMD_4K_FILM_V1_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_BMD_4K_FILM_V1 : RGB_Colourspace
 """
 
 
@@ -226,7 +226,7 @@ XYZ_TO_BMD_4K_FILM_V3_MATRIX = (
 XYZ_TO_BMD_4K_FILM_V3_MATRIX : array_like, (3, 3)
 """
 
-BMD_4K_FILM_V3_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_BMD_4K_FILM_V3 = RGB_Colourspace(
     'BMD 4K Film V3',
     BMD_4K_FILM_V3_PRIMARIES,
     BMD_4K_FILM_V3_WHITEPOINT,
@@ -236,14 +236,14 @@ BMD_4K_FILM_V3_COLOURSPACE = RGB_Colourspace(
     log_encoding_BMD4KFilm,
     log_decoding_BMD4KFilm,
 )
-BMD_4K_FILM_V3_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_BMD_4K_FILM_V3.__doc__ = """
 *BMD 4K Film V3* colourspace.
 
     References
     ----------
     :cite:`Blackmagic2020a`
 
-BMD_4K_FILM_V3_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_BMD_4K_FILM_V3 : RGB_Colourspace
 """
 
 
@@ -266,7 +266,7 @@ BMD_46K_FILM_V1_WHITEPOINT : unicode
 """
 
 BMD_46K_FILM_V1_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
     [BMD_46K_FILM_V1_WHITEPOINT_NAME])
 """
 *BMD 46K Film V1* colourspace whitepoint.
@@ -290,7 +290,7 @@ XYZ_TO_BMD_46K_FILM_V1_MATRIX = (
 XYZ_TO_BMD_46K_FILM_V1_MATRIX : array_like, (3, 3)
 """
 
-BMD_46K_FILM_V1_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_BMD_46K_FILM_V1 = RGB_Colourspace(
     'BMD 46K Film V1',
     BMD_46K_FILM_V1_PRIMARIES,
     BMD_46K_FILM_V1_WHITEPOINT,
@@ -300,14 +300,14 @@ BMD_46K_FILM_V1_COLOURSPACE = RGB_Colourspace(
     log_encoding_BMD46KFilm,
     log_decoding_BMD46KFilm,
 )
-BMD_46K_FILM_V1_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_BMD_46K_FILM_V1.__doc__ = """
 *BMD 46K Film V1* colourspace.
 
     References
     ----------
     :cite:`Blackmagic2020a`
 
-BMD_46K_FILM_V1_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_BMD_46K_FILM_V1 : RGB_Colourspace
 """
 
 
@@ -330,7 +330,7 @@ BMD_46K_FILM_V3_WHITEPOINT : unicode
 """
 
 BMD_46K_FILM_V3_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
     [BMD_46K_FILM_V3_WHITEPOINT_NAME])
 """
 *BMD 46K Film V3* colourspace whitepoint.
@@ -354,7 +354,7 @@ XYZ_TO_BMD_46K_FILM_V3_MATRIX = (
 XYZ_TO_BMD_46K_FILM_V3_MATRIX : array_like, (3, 3)
 """
 
-BMD_46K_FILM_V3_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_BMD_46K_FILM_V3 = RGB_Colourspace(
     'BMD 46K Film V3',
     BMD_46K_FILM_V3_PRIMARIES,
     BMD_46K_FILM_V3_WHITEPOINT,
@@ -364,14 +364,14 @@ BMD_46K_FILM_V3_COLOURSPACE = RGB_Colourspace(
     log_encoding_BMD46KFilm,
     log_decoding_BMD46KFilm,
 )
-BMD_46K_FILM_V3_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_BMD_46K_FILM_V3.__doc__ = """
 *BMD 46K Film V3* colourspace.
 
     References
     ----------
     :cite:`Blackmagic2020a`
 
-BMD_46K_FILM_V3_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_BMD_46K_FILM_V3 : RGB_Colourspace
 """
 
 
@@ -393,7 +393,7 @@ BMD_WIDE_GAMUT_V4_WHITEPOINT_NAME = 'D65'
 BMD_WIDE_GAMUT_V4_WHITEPOINT : unicode
 """
 
-BMD_WIDE_GAMUT_V4_WHITEPOINT = (ILLUMINANTS[
+BMD_WIDE_GAMUT_V4_WHITEPOINT = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][BMD_WIDE_GAMUT_V4_WHITEPOINT_NAME])
 """
 *BMD Wide Gamut V4* colourspace whitepoint.
@@ -417,7 +417,7 @@ XYZ_TO_BMD_WIDE_GAMUT_V4_MATRIX = (
 XYZ_TO_BMD_WIDE_GAMUT_V4_MATRIX : array_like, (3, 3)
 """
 
-BMD_WIDE_GAMUT_V4_COLOURSPACE = RGB_Colourspace(
+RGB_COLOURSPACE_BMD_WIDE_GAMUT_V4 = RGB_Colourspace(
     'BMD Wide Gamut V4',
     BMD_WIDE_GAMUT_V4_PRIMARIES,
     BMD_WIDE_GAMUT_V4_WHITEPOINT,
@@ -427,12 +427,12 @@ BMD_WIDE_GAMUT_V4_COLOURSPACE = RGB_Colourspace(
     log_encoding_BMDPocket4KFilmV4,
     log_decoding_BMDPocket4KFilmV4,
 )
-BMD_WIDE_GAMUT_V4_COLOURSPACE.__doc__ = """
+RGB_COLOURSPACE_BMD_WIDE_GAMUT_V4.__doc__ = """
 *BMD Wide Gamut V4* colourspace.
 
     References
     ----------
     :cite:`Blackmagic2020a`
 
-BMD_WIDE_GAMUT_V4_COLOURSPACE : RGB_Colourspace
+RGB_COLOURSPACE_BMD_WIDE_GAMUT_V4 : RGB_Colourspace
 """
