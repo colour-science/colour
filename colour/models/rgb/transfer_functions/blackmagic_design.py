@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Blackmagic Log Encodings
-========================
+Blackmagic Design Log Encodings
+===============================
 
-Defines the *Blackmagic Log* encodings:
+Defines the *Blackmagic Design Log* encodings:
 
 -   :func:`colour.models.log_encoding_BMDFilm`
 -   :func:`colour.models.log_decoding_BMDFilm`

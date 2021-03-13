@@ -10,12 +10,10 @@ from .apple_rgb import RGB_COLOURSPACE_APPLE_RGB
 from .arri_alexa_wide_gamut import RGB_COLOURSPACE_ALEXA_WIDE_GAMUT
 from .best_rgb import RGB_COLOURSPACE_BEST_RGB
 from .beta_rgb import RGB_COLOURSPACE_BETA_RGB
-from .blackmagic import (RGB_COLOURSPACE_BMD_FILM_V1,
-                         RGB_COLOURSPACE_BMD_4K_FILM_V1,
-                         RGB_COLOURSPACE_BMD_4K_FILM_V3,
-                         RGB_COLOURSPACE_BMD_46K_FILM_V1,
-                         RGB_COLOURSPACE_BMD_46K_FILM_V3,
-                         RGB_COLOURSPACE_BMD_WIDE_GAMUT_V4)
+from .blackmagic_design import (
+    RGB_COLOURSPACE_BMD_FILM_V1, RGB_COLOURSPACE_BMD_4K_FILM_V1,
+    RGB_COLOURSPACE_BMD_4K_FILM_V3, RGB_COLOURSPACE_BMD_46K_FILM_V1,
+    RGB_COLOURSPACE_BMD_46K_FILM_V3, RGB_COLOURSPACE_BMD_WIDE_GAMUT_V4)
 from .cie_rgb import RGB_COLOURSPACE_CIE_RGB
 from .canon_cinema_gamut import RGB_COLOURSPACE_CINEMA_GAMUT
 from .color_match_rgb import RGB_COLOURSPACE_COLOR_MATCH_RGB
