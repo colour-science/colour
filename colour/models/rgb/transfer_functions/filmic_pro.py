@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 FiLMiC Pro 6 Encoding
-=============--======
+=====================
 
 Defines the *FiLMiC Pro 6* encoding:
 

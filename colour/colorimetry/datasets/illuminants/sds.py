@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Spectral Distributions of the Illuminants
-=================================
+=========================================
 
 Defines the spectral distributions of the illuminants.
 

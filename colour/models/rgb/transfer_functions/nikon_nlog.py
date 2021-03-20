@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Nikon N-Log Log Encoding
-===========================
+========================
 
 Defines the *Nikon N-Log* log encoding:
 
