@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Test Colour Samples Spectral Distributions
-================================================
+==========================================
 
 Defines the *CIE 1995* test colour samples spectral distributions.
 
