@@ -7,7 +7,6 @@ import os
 from pprint import pprint
 
 import colour
-from colour.io.common import format_spectral_data
 from colour.utilities import message_box
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
@@ -18,11 +17,6 @@ message_box('Reading tabular data from "CSV" file.')
 data_babelcolor_average = colour.read_spectral_data_from_csv_file(
     os.path.join(RESOURCES_DIRECTORY, 'babelcolor_average.csv'))
 pprint(sorted(data_babelcolor_average.keys()))
-
-print('\n')
-
-message_box('Format spectral data for pretty printing.')
-print(format_spectral_data(data_babelcolor_average))
 
 print('\n')
 
