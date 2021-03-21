@@ -125,7 +125,7 @@ Standardized Residual Sum of Squares (STRESS) Index
 .. autosummary::
     :toctree: generated/
 
-    index_stress_Garcia2017
+    index_stress_Garcia2007
 
 Huang et al. (2015) Power-Functions
 -----------------------------------

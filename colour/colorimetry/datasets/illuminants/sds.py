@@ -51,9 +51,10 @@ References
     S., Luo, M. R., Melgosa, M., Ohno, Y., Pointer, M. R., Rich, D. C., Vienot,
     F., Whitehead, L., & Wold, J. H. (2018). CIE 015:2018 Colorimetry, 4th
     Edition. International Commission on Illumination. doi:10.25039/TR.015.2018
--   :cite:`ISO2002` : ISO. (2002). INTERNATIONAL STANDARD 7589-2002 -
-    Photography - Illuminants for sensitometry - Specifications for daylight,
-    incandescent tungsten and printer.
+-   :cite:`InternationalOrganizationforStandardization2002` : International
+    Organization for Standardization. (2002). INTERNATIONAL STANDARD ISO
+    7589-2002 - Photography - Illuminants for sensitometry - Specifications for
+    daylight, incandescent tungsten and printer.
 """
 
 from colour.algebra import LinearInterpolator
@@ -5002,7 +5003,7 @@ ISO 7589 Studio Tungsten * ISO Standard Lens * ISO 7589 Diffuser
 
 References
 ----------
-:cite:`ISO2002`
+:cite:`InternationalOrganizationforStandardization2002`
 
 SDS_ILLUMINANTS_ISO : CaseInsensitiveMapping
 """
@@ -5013,7 +5014,8 @@ Spectral distributions of the illuminants.
 
 References
 ----------
-:cite:`Carter2018`, :cite:`CIEce`, :cite:`CIEcf`, :cite:`ISO2002`
+:cite:`Carter2018`, :cite:`CIEce`, :cite:`CIEcf`,
+:cite:`InternationalOrganizationforStandardization2002`
 
 SDS_ILLUMINANTS : CaseInsensitiveMapping
 """

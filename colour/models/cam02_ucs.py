@@ -613,8 +613,8 @@ def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -693,8 +693,8 @@ def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -774,8 +774,8 @@ def XYZ_to_CAM02LCD(XYZ, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -838,8 +838,8 @@ def CAM02LCD_to_XYZ(Jpapbp, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -902,8 +902,8 @@ def XYZ_to_CAM02SCD(XYZ, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -966,10 +966,10 @@ def CAM02SCD_to_XYZ(Jpapbp, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
-     Notes
+    Notes
     -----
     -   *SCD* in *CAM02-SCD* stands for *Small Colour Differences*.
 
@@ -1030,8 +1030,8 @@ def XYZ_to_CAM02UCS(XYZ, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -1094,8 +1094,8 @@ def CAM02UCS_to_XYZ(Jpapbp, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----

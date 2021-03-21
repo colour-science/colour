@@ -205,12 +205,14 @@ def _munsell_specifications():
     not existing.
 
     The *Munsell Renotation System* data is stored in
-    :attr:`colour.notation.MUNSELL_COLOURS` attribute in a 2 columns form:
+    :attr:`colour.notation.MUNSELL_COLOURS` attribute in a 2 columns form::
 
-    (('2.5GY', 0.2, 2.0), (0.713, 1.414, 0.237)),
-    (('5GY', 0.2, 2.0), (0.449, 1.145, 0.237)),
-    (('7.5GY', 0.2, 2.0), (0.262, 0.837, 0.237)),
-    ...,)
+        (
+            (('2.5GY', 0.2, 2.0), (0.713, 1.414, 0.237)),
+            (('5GY', 0.2, 2.0), (0.449, 1.145, 0.237)),
+            ...,
+            (('7.5GY', 0.2, 2.0), (0.262, 0.837, 0.237)),
+        )
 
     The first column is converted from *Munsell* colour to specification using
     :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`

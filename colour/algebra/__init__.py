@@ -3,9 +3,9 @@
 from .coordinates import *  # noqa
 from . import coordinates
 from .common import (is_spow_enabled, set_spow_enable, spow_enable, spow,
-                     smoothstep_function, normalise_maximum, vector_dot,
-                     matrix_dot, linear_conversion, linstep_function,
-                     is_identity)
+                     normalise_maximum, vector_dot, matrix_dot,
+                     linear_conversion, linstep_function, lerp,
+                     smoothstep_function, smooth, is_identity)
 from .extrapolation import Extrapolator
 from .geometry import (
     normalise_vector, euclidean_distance, manhattan_distance,
@@ -27,8 +27,8 @@ __all__ = []
 __all__ += coordinates.__all__
 __all__ += [
     'is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow',
-    'smoothstep_function', 'normalise_maximum', 'vector_dot', 'matrix_dot',
-    'linear_conversion', 'linstep_function', 'is_identity'
+    'normalise_maximum', 'vector_dot', 'matrix_dot', 'linear_conversion',
+    'linstep_function', 'lerp', 'smoothstep_function', 'smooth', 'is_identity'
 ]
 __all__ += ['Extrapolator']
 __all__ += [

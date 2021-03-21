@@ -128,28 +128,23 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
                                              'colorchecker_n_ohta.csv')
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(
-            sorted(data), sorted([str(x) for x in range(1, 25)]))
-        self.assertDictEqual(data['1'], COLOURCHECKER_N_OHTA_1)
+            list(data.keys()), ['wavelength'] + [str(x) for x in range(1, 25)])
+        self.assertDictEqual(
+            dict(zip(data['wavelength'], data['1'])), COLOURCHECKER_N_OHTA_1)
 
         linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY, 'linss2_10e_5.csv')
         data = read_spectral_data_from_csv_file(
-            linss2_10e_5, fields=['wavelength', 'l_bar', 'm_bar', 's_bar'])
-        self.assertListEqual(sorted(data), ['l_bar', 'm_bar', 's_bar'])
-        self.assertEqual(data['s_bar'][760], 0)
+            linss2_10e_5,
+            names=['wavelength', 'l_bar', 'm_bar', 's_bar'],
+            filling_values=0)
+        self.assertListEqual(
+            list(data.keys()), ['wavelength', 'l_bar', 'm_bar', 's_bar'])
+        self.assertEqual(data['s_bar'][77], 0)
         data = read_spectral_data_from_csv_file(
             linss2_10e_5,
-            fields=['wavelength', 'l_bar', 'm_bar', 's_bar'],
-            default=-1)
-        self.assertEqual(data['s_bar'][760], -1)
-
-    def test_raise_exception_read_spectral_data_from_csv_file(self):
-        """
-        Tests :attr:`colour.io.tabular.read_spectral_data_from_csv_file`
-        definition raised exception.
-        """
-
-        self.assertRaises(RuntimeError, read_spectral_data_from_csv_file,
-                          os.path.join(RESOURCES_DIRECTORY, 'Invalid.csv'))
+            names=['wavelength', 'l_bar', 'm_bar', 's_bar'],
+            filling_values=-1)
+        self.assertEqual(data['s_bar'][77], -1)
 
 
 class TestReadSdsFromCsvFile(unittest.TestCase):
@@ -207,10 +202,6 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in sds.items():
             self.assertEqual(value, sds_test[key])
-
-        write_sds_to_csv_file(sds, colour_checker_n_ohta_test, fields=['1'])
-        sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
-        self.assertEqual(len(sds_test), 1)
 
     def test_raise_exception_write_sds_to_csv_file(self):
         """

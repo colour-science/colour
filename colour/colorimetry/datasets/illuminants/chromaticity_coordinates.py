@@ -55,9 +55,10 @@ References
     Digital Cinema System Specification - Version 1.1.
     http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
--   :cite:`ISO2002` : ISO. (2002). INTERNATIONAL STANDARD 7589-2002 -
-    Photography - Illuminants for sensitometry - Specifications for daylight,
-    incandescent tungsten and printer.
+-   :cite:`InternationalOrganizationforStandardization2002` : International
+    Organization for Standardization. (2002). INTERNATIONAL STANDARD ISO
+    7589-2002 - Photography - Illuminants for sensitometry - Specifications for
+    daylight, incandescent tungsten and printer.
 -   :cite:`InternationalColorConsortium2010` : International Color Consortium.
     (2010). Specification ICC.1:2010 (Profile version 4.3.0.0) (pp. 1-130).
     http://www.color.org/specification/ICC1v43_2010-12.pdf
@@ -229,7 +230,7 @@ Chromaticity coordinates of the *ISO* illuminants for the
 
 References
 ----------
-:cite:`ISO2002`
+:cite:`InternationalOrganizationforStandardization2002`
 
 CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_2_DEGREE_CIE1931 : CaseInsensitiveMapping
 """
@@ -324,7 +325,7 @@ Chromaticity coordinates of the *ISO* illuminants for the
 
 References
 ----------
-:cite:`ISO2002`
+:cite:`InternationalOrganizationforStandardization2002`
 
 CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
 CaseInsensitiveMapping
@@ -379,7 +380,8 @@ computed as follows::
 
 References
 ----------
-:cite:`CIETC1-482004h`, :cite:`DigitalCinemaInitiatives2007b`, :cite:`ISO2002`,
+:cite:`CIETC1-482004h`, :cite:`DigitalCinemaInitiatives2007b`,
+:cite:`InternationalOrganizationforStandardization2002`,
 :cite:`InternationalColorConsortium2010`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`, :cite:`Wikipedia2006a`
 

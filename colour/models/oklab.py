@@ -10,7 +10,7 @@ Defines the *Oklab* colourspace transformations:
 
 References
 ----------
--   :cite:`Ottosson2020` : Ottosson, B. (n.d.). A perceptual color space for
+-   :cite:`Ottosson2020` : Ottosson, B. (2020). A perceptual color space for
     image processing. Retrieved December 24, 2020, from
     https://bottosson.github.io/posts/oklab/
 """

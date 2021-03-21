@@ -10,11 +10,15 @@ Defines various input / output objects for *CSV* tabular data files:
 -   :func:`colour.write_sds_to_csv_file`
 """
 
-from collections import OrderedDict
 import csv
+import numpy as np
+import os
+import tempfile
+from collections import OrderedDict
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.utilities import filter_kwargs
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -29,10 +33,7 @@ __all__ = [
 ]
 
 
-def read_spectral_data_from_csv_file(path,
-                                     delimiter=',',
-                                     fields=None,
-                                     default=0):
+def read_spectral_data_from_csv_file(path, **kwargs):
     """
     Reads the spectral data from given *CSV* file in the following form::
 
@@ -42,42 +43,36 @@ def read_spectral_data_from_csv_file(path,
         ...
         830,  9.74306E-07,  9.53411E-08,  0.00000
 
-    and returns it as an *OrderedDict* of *dict* as follows::
+    and returns it as an *OrderedDict* as follows::
 
-        OrderedDict([
-        ('field', {'wavelength': 'value', ..., 'wavelength': 'value'}),
-        ...,
-        ('field', {'wavelength': 'value', ..., 'wavelength': 'value'})])
+        {
+            'wavelength': ndarray,
+            'field 1': ndarray,
+            'field 2': ndarray,
+            ...,
+            'field n': ndarray
+        }
 
     Parameters
     ----------
     path : unicode
-        Absolute *CSV* file path.
-    delimiter : unicode, optional
-        *CSV* file content delimiter.
-    fields : array_like, optional
-        *CSV* file spectral data fields names. If no value is provided the
-        first line of the file will be used as spectral data fields names.
-    default : numeric, optional
-        Default value for fields row with missing value.
+        *CSV* file path.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments passed to :func:`np.recfromcsv` definition.
 
     Returns
     -------
     OrderedDict
         *CSV* file content.
 
-    Raises
-    ------
-    RuntimeError
-        If the *CSV* spectral data file doesn't define the appropriate fields.
-
     Notes
     -----
     -   A *CSV* spectral data file should define at least define two fields:
         one for the wavelengths and one for the associated values of one
         spectral distribution.
-    -   If no value is provided for the fields names, the first line of the
-        file will be used as spectral data fields names.
 
     Examples
     --------
@@ -87,7 +82,8 @@ def read_spectral_data_from_csv_file(path,
     ...                         'resources', 'colorchecker_n_ohta.csv')
     >>> sds_data = read_spectral_data_from_csv_file(csv_file)
     >>> pprint(list(sds_data.keys()))
-    ['1',
+    ['wavelength',
+     '1',
      '2',
      '3',
      '4',
@@ -113,45 +109,45 @@ def read_spectral_data_from_csv_file(path,
      '24']
     """
 
-    with open(path, 'rU') as csv_file:
-        reader = csv.DictReader(
-            csv_file, delimiter=str(delimiter), fieldnames=fields)
-        if len(reader.fieldnames) == 1:
-            raise RuntimeError(('A "CSV" spectral data file should define '
-                                'the following fields: '
-                                '("wavelength", "field 1", ..., "field n")!'))
+    settings = {'dtype': DEFAULT_FLOAT_DTYPE}
+    settings.update(**kwargs)
 
-        wavelength = reader.fieldnames[0]
-        fields = reader.fieldnames[1:]
+    transpose = settings.get('transpose')
+    if transpose:
+        delimiter = settings.get('delimiter')
+        if delimiter is not None:
+            del settings['delimiter']
 
-        data = OrderedDict(zip(fields, ({} for _ in range(len(fields)))))
-        for line in reader:
-            for field in fields:
-                try:
-                    value = DEFAULT_FLOAT_DTYPE(line[field])
-                except ValueError:
-                    value = default
+        with open(path, 'r') as csv_file:
+            content = zip(*csv.reader(csv_file, delimiter=delimiter))
 
-                data[field][DEFAULT_FLOAT_DTYPE(line[wavelength])] = value
-        return data
+        transposed_csv_file = tempfile.NamedTemporaryFile(
+            mode='w', delete=False)
+        csv.writer(transposed_csv_file).writerows(content)
+        path = transposed_csv_file.name
+
+    data = np.recfromcsv(path, **filter_kwargs(np.genfromtxt, **settings))
+
+    if transpose:
+        os.unlink(transposed_csv_file.name)
+
+    return OrderedDict([(name, data[name]) for name in data.dtype.names])
 
 
-def read_sds_from_csv_file(path, delimiter=',', fields=None, default=0):
+def read_sds_from_csv_file(path, **kwargs):
     """
-    Reads the spectral data from given *CSV* file and return its content as an
+    Reads the spectral data from given *CSV* file and returns its content as an
     *OrderedDict* of :class:`colour.SpectralDistribution` classes.
 
     Parameters
     ----------
     path : unicode
-        Absolute *CSV* file path.
-    delimiter : unicode, optional
-        *CSV* file content delimiter.
-    fields : array_like, optional
-        *CSV* file spectral data fields names. If no value is provided the
-        first line of the file will be used for as spectral data fields names.
-    default : numeric
-        Default value for fields row with missing value.
+        *CSV* file path.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        Keywords arguments passed to :func:`np.recfromcsv` definition.
 
     Returns
     -------
@@ -257,14 +253,21 @@ def read_sds_from_csv_file(path, delimiter=',', fields=None, default=0):
                          extrapolator_kwargs={...})
     """
 
-    data = read_spectral_data_from_csv_file(path, delimiter, fields, default)
+    data = read_spectral_data_from_csv_file(path, **kwargs)
 
-    sds = OrderedDict(((key, SpectralDistribution(value, name=key))
-                       for key, value in data.items()))
+    fields = list(data.keys())
+    wavelength_field, sd_fields = fields[0], fields[1:]
+
+    sds = OrderedDict(((sd_field,
+                        SpectralDistribution(
+                            data[sd_field],
+                            data[wavelength_field],
+                            name=sd_field)) for sd_field in sd_fields))
+
     return sds
 
 
-def write_sds_to_csv_file(sds, path, delimiter=',', fields=None):
+def write_sds_to_csv_file(sds, path):
     """
     Writes the given spectral distributions to given *CSV* file.
 
@@ -273,13 +276,7 @@ def write_sds_to_csv_file(sds, path, delimiter=',', fields=None):
     sds : dict
         Spectral distributions to write.
     path : unicode
-        Absolute *CSV* file path.
-    delimiter : unicode, optional
-        *CSV* file content delimiter.
-    fields : array_like, optional
-        *CSV* file spectral data fields names. If no value is provided the
-        order of fields will be the one defined by the sorted spectral
-        distributions *dict*.
+        *CSV* file path.
 
     Returns
     -------
@@ -300,10 +297,10 @@ def write_sds_to_csv_file(sds, path, delimiter=',', fields=None):
 
     wavelengths = tuple(sds.values())[0].wavelengths
     with open(path, 'w') as csv_file:
-        fields = list(fields) if fields is not None else sorted(sds.keys())
+        fields = sorted(sds.keys())
         writer = csv.DictWriter(
             csv_file,
-            delimiter=str(delimiter),
+            delimiter=',',
             fieldnames=['wavelength'] + fields,
             lineterminator='\n')
 

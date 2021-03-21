@@ -21,8 +21,8 @@ __status__ = 'Production'
 
 __all__ = [
     'is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow',
-    'smoothstep_function', 'normalise_maximum', 'vector_dot', 'matrix_dot',
-    'linear_conversion', 'linstep_function', 'is_identity'
+    'normalise_maximum', 'vector_dot', 'matrix_dot', 'linear_conversion',
+    'linstep_function', 'lerp', 'smoothstep_function', 'smooth', 'is_identity'
 ]
 
 _SPOW_ENABLED = True

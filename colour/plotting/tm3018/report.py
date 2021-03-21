@@ -769,19 +769,19 @@ plot_single_sd_colour_rendition_report_full`},
         {:func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_intermediate`, \
-:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple},
+:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple`},
         Report size, default to A4 paper size in inches.
     report_row_height_ratios : array_like, optional
         {:func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_intermediate`, \
-:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple},
+:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple`},
         Report size row height ratios.
     report_box_padding : array_like, optional
         {:func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_intermediate`, \
-:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple},
+:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple`},
         Report box padding, tries to define the padding around the figure and
         in-between the axes.
 
