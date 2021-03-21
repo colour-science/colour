@@ -557,7 +557,7 @@ methods.
 
 References
 ----------
-:cite:`Nattress2016a`
+:cite:`Nattress2016a`, :cite:`REDDigitalCinema2017`
 
 LOG3G10_ENCODING_METHODS : CaseInsensitiveMapping
     **{'v1', 'v2', 'v3'}**
@@ -629,7 +629,7 @@ def log_encoding_Log3G10(x, method='v3'):
 
     References
     ----------
-    :cite:`Nattress2016a`
+    :cite:`Nattress2016a`, :cite:`REDDigitalCinema2017`
 
     Examples
     --------
@@ -655,7 +655,7 @@ methods.
 
 References
 ----------
-:cite:`Nattress2016a`
+:cite:`Nattress2016a`, :cite:`REDDigitalCinema2017`
 
 LOG3G10_DECODING_METHODS : CaseInsensitiveMapping
     **{'v1', 'v2', 'v3'}**
@@ -697,7 +697,7 @@ def log_decoding_Log3G10(y, method='v3'):
 
     References
     ----------
-    :cite:`Nattress2016a`
+    :cite:`Nattress2016a`, :cite:`REDDigitalCinema2017`
 
     Examples
     --------
@@ -744,7 +744,7 @@ def log_encoding_Log3G12(x):
 
     References
     ----------
-    :cite:`Nattress2016a`
+    :cite:`Nattress2016a`, :cite:`REDDigitalCinema2017`
 
     Examples
     --------
@@ -791,7 +791,7 @@ def log_decoding_Log3G12(y):
 
     References
     ----------
-    :cite:`Nattress2016a`
+    :cite:`Nattress2016a`, :cite:`REDDigitalCinema2017`
 
     Examples
     --------

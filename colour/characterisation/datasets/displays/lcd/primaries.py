@@ -8,9 +8,11 @@ Defines the primaries multi-spectral distributions of *LCD* displays.
 Each *LCD* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
 
-    {'name': RGB_DisplayPrimaries,
-    ...,
-    'name': RGB_DisplayPrimaries}
+    {
+        'name': RGB_DisplayPrimaries,
+        ...,
+        'name': RGB_DisplayPrimaries
+    }
 
 The following *LCD* displays are available:
 

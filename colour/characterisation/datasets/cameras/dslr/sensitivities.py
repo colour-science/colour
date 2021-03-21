@@ -8,9 +8,11 @@ Defines the sensitivities of *DSLR* cameras.
 Each *DSLR* camera data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_CameraSensitivities` classes as follows::
 
-    {'name': RGB_CameraSensitivities,
-    ...,
-    'name': RGB_CameraSensitivities}
+    {
+        'name': RGB_CameraSensitivities,
+        ...,
+        'name': RGB_CameraSensitivities
+    }
 
 The following *DSLR* cameras are available:
 

@@ -9,10 +9,12 @@ distributions.
 The *NIST CQS* test colour samples data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::
 
-    {'method': {
-        'name': SpectralDistribution,
-        ...,
-        'name': SpectralDistribution}
+    {
+        'method': {
+            'name': SpectralDistribution,
+            ...,
+            'name': SpectralDistribution
+        }
     }
 
 References

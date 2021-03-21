@@ -11,11 +11,6 @@ The *Optimal Colour Stimuli* data is in the form of a *dict* of
 
     {'name': ndarray, ..., 'name': ndarray}
 
-where each *ndarray* contains a collection of optimal colour stimulus *ndarray*
-as follows::
-
-     [np.array(['x', 'y', 'Y']], ..., np.array(['x', 'y', 'Y']))
-
 References
 ----------
 -   :cite:`MacAdam1935a` : MacAdam, D. L. (1935). Maximum Visual Efficiency of

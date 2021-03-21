@@ -161,8 +161,8 @@ def XYZ_to_UCS_Li2017(XYZ, coefficients, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -242,8 +242,8 @@ def UCS_Li2017_to_XYZ(Jpapbp, coefficients, **kwargs):
 
     Warnings
     --------
-    The `XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the sane domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
+    given in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----

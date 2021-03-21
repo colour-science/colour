@@ -45,10 +45,13 @@ def read_spectral_data_from_csv_file(path, **kwargs):
 
     and returns it as an *OrderedDict* as follows::
 
-        `OrderedDict`([
-        ('wavelength', `ndarray`([numeric, numeric, numeric, ..., numeric])),
-        ...,
-        ('field', `ndarray`([numeric, numeric, numeric, ..., numeric]))])
+        {
+            'wavelength': ndarray,
+            'field 1': ndarray,
+            'field 2': ndarray,
+            ...,
+            'field n': ndarray
+        }
 
     Parameters
     ----------

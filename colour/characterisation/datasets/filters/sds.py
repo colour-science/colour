@@ -16,9 +16,10 @@ The following filters are available:
 
 References
 ----------
--   :cite:`ISO2002` : ISO. (2002). INTERNATIONAL STANDARD 7589-2002 -
-    Photography - Illuminants for sensitometry - Specifications for daylight,
-    incandescent tungsten and printer.
+-   :cite:`InternationalOrganizationforStandardization2002` : International
+    Organization for Standardization. (2002). INTERNATIONAL STANDARD ISO
+    7589-2002 - Photography - Illuminants for sensitometry - Specifications for
+    daylight, incandescent tungsten and printer.
 """
 
 from colour.colorimetry import SpectralDistribution
@@ -70,7 +71,7 @@ Spectral distributions of *ISO* filters.
 
 References
 ----------
-:cite:`ISO2002`
+:cite:`InternationalOrganizationforStandardization2002`
 
 SDS_FILTERS_ISO : CaseInsensitiveMapping
 """
@@ -81,7 +82,7 @@ Spectral distributions of filters.
 
 References
 ----------
-:cite:`ISO2002`
+:cite:`InternationalOrganizationforStandardization2002`
 
 SDS_FILTERS : CaseInsensitiveMapping
 """
