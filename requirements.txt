@@ -87,7 +87,7 @@ pyrsistent==0.17.3
 pytest==6.2.1
 python-dateutil==2.8.1
 pytz==2020.5
-PyYAML==5.3.1
+PyYAML==5.4
 pyzmq==20.0.0
 qtconsole==5.0.1
 QtPy==1.9.0
