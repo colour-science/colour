@@ -109,7 +109,12 @@ def read_spectral_data_from_csv_file(path, **kwargs):
      '24']
     """
 
-    settings = {'dtype': DEFAULT_FLOAT_DTYPE}
+    settings = {
+        'case_sensitive': True,
+        'deletechars': '',
+        'replace_space': ' ',
+        'dtype': DEFAULT_FLOAT_DTYPE,
+    }
     settings.update(**kwargs)
 
     transpose = settings.get('transpose')
