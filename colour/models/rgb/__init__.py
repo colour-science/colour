@@ -11,7 +11,8 @@ from . import transfer_functions
 from .datasets import *  # noqa
 from . import datasets
 from .common import XYZ_to_sRGB, sRGB_to_XYZ
-from .cylindrical import RGB_to_HSV, HSV_to_RGB, RGB_to_HSL, HSL_to_RGB
+from .cylindrical import (RGB_to_HSV, HSV_to_RGB, RGB_to_HSL, HSL_to_RGB,
+                          RGB_to_HCL, HCL_to_RGB)
 from .cmyk import RGB_to_CMY, CMY_to_RGB, CMY_to_CMYK, CMYK_to_CMY
 from .prismatic import RGB_to_Prismatic, Prismatic_to_RGB
 from .ycbcr import (WEIGHTS_YCBCR, matrix_YCbCr, offset_YCbCr, RGB_to_YCbCr,
@@ -29,7 +30,10 @@ __all__ += ['matrix_RGB_to_RGB', 'RGB_to_RGB']
 __all__ += transfer_functions.__all__
 __all__ += datasets.__all__
 __all__ += ['XYZ_to_sRGB', 'sRGB_to_XYZ']
-__all__ += ['RGB_to_HSV', 'HSV_to_RGB', 'RGB_to_HSL', 'HSL_to_RGB']
+__all__ += [
+    'RGB_to_HSV', 'HSV_to_RGB', 'RGB_to_HSL', 'HSL_to_RGB', 'RGB_to_HCL',
+    'HCL_to_RGB'
+]
 __all__ += ['RGB_to_CMY', 'CMY_to_RGB', 'CMY_to_CMYK', 'CMYK_to_CMY']
 __all__ += ['RGB_to_Prismatic', 'Prismatic_to_RGB']
 __all__ += [

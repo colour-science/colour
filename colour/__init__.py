@@ -131,7 +131,7 @@ from .models import (
     matrix_YCbCr, normalised_primary_matrix, oetf, oetf_inverse, offset_YCbCr,
     ootf, ootf_inverse, primaries_whitepoint, sRGB_to_XYZ, uv_to_Luv,
     uv_to_UCS, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ,
-    xy_to_xyY)
+    xy_to_xyY, RGB_to_HCL, HCL_to_RGB)
 from .corresponding import (
     BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS, CorrespondingColourDataset,
@@ -292,7 +292,8 @@ __all__ += [
     'matrix_YCbCr', 'normalised_primary_matrix', 'oetf', 'oetf_inverse',
     'offset_YCbCr', 'ootf', 'ootf_inverse', 'primaries_whitepoint',
     'sRGB_to_XYZ', 'uv_to_Luv', 'uv_to_UCS', 'xyY_to_XYZ', 'xyY_to_xy',
-    'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ', 'xy_to_xyY'
+    'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ', 'xy_to_xyY', 'RGB_to_HCL',
+    'HCL_to_RGB'
 ]
 __all__ += [
     'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
