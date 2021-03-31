@@ -44,7 +44,8 @@ from colour.models import (
     XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy, XYZ_to_xyY,
     YCbCr_to_RGB, YCoCg_to_RGB, YcCbcCrc_to_RGB, cctf_decoding, cctf_encoding,
     hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, sRGB_to_XYZ, uv_to_Luv, uv_to_UCS,
-    xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
+    xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY,
+    RGB_to_HCL, HCL_to_RGB)
 from colour.notation import (HEX_to_RGB, RGB_to_HEX, munsell_value,
                              munsell_colour_to_xyY, xyY_to_munsell_colour)
 from colour.quality import colour_quality_scale, colour_rendering_index
@@ -433,6 +434,8 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('HSV', 'RGB', HSV_to_RGB),
     ('RGB', 'HSL', RGB_to_HSL),
     ('HSL', 'RGB', HSL_to_RGB),
+    ('RGB', 'HCL', RGB_to_HCL),
+    ('HCL', 'RGB', HCL_to_RGB),
     ('CMY', 'RGB', CMY_to_RGB),
     ('RGB', 'CMY', RGB_to_CMY),
     ('CMY', 'CMYK', CMY_to_CMYK),
