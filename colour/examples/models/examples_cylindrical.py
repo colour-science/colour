@@ -40,3 +40,18 @@ message_box(('Converting to "RGB" colourspace from given "HSL" colourspace '
 print(colour.HSL_to_RGB(HSL))
 
 print('\n')
+
+message_box(('Converting to "HCL" colourspace from given "RGB" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(RGB)))
+print(colour.RGB_to_HCL(RGB))
+
+print('\n')
+
+HCL = np.array([0.99603944, 0.87347144, 0.24350795])
+message_box(('Converting to "RGB" colourspace from given "HCL" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(HCL)))
+print(colour.HCL_to_RGB(HCL))
+
+print('\n')
