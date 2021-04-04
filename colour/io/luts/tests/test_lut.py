@@ -8,7 +8,10 @@ import os
 import textwrap
 import unittest
 
-from colour.algebra import random_triplet_generator, spow
+from colour.algebra import (CubicSplineInterpolator, Extrapolator,
+                            LinearInterpolator, random_triplet_generator, spow,
+                            table_interpolation_trilinear,
+                            table_interpolation_tetrahedral)
 from colour.io.luts.lut import AbstractLUT
 from colour.io.luts import (AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D,
                             LUTSequence, LUT_to_LUT)
@@ -61,8 +64,8 @@ class TestAbstractLUT(unittest.TestCase):
                             '__isub__', '__mul__', '__imul__', '__div__',
                             '__idiv__', '__pow__', '__ipow__',
                             'arithmetical_operation', 'is_domain_explicit',
-                            'linear_table', 'apply', 'copy', 'as_LUT',
-                            'invert')
+                            'linear_table', 'copy', 'invert', 'apply',
+                            'as_LUT')
 
         for method in required_methods:
             self.assertIn(method, dir(AbstractLUT))
@@ -111,7 +114,7 @@ class AbstractLUTTest(unittest.TestCase):
         """
 
         required_methods = ('__init__', 'is_domain_explicit', 'linear_table',
-                            'apply', 'as_LUT', 'invert')
+                            'invert', 'apply', 'as_LUT')
 
         for class_ in (LUT1D, LUT3x1D, LUT3D):
             for method in required_methods:
@@ -461,13 +464,51 @@ class AbstractLUTTest(unittest.TestCase):
             self._table_3,
             decimal=7)
 
+    def test_copy(self):
+        """
+        Tests :class:`colour.io.luts.lut.LUT1D.copy`,
+        :class:`colour.io.luts.lut.LUT3x1D.copy` and
+        :class:`colour.io.luts.lut.LUT3D.copy` methods.
+        """
+
+        if self._LUT_factory is None:
+            return
+
+        # pylint: disable=E1102
+        LUT_1 = self._LUT_factory()
+
+        self.assertIsNot(LUT_1, LUT_1.copy())
+        self.assertEqual(LUT_1, LUT_1.copy())
+
     def test_invert(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.invert`,
         :class:`colour.io.luts.lut.LUT3x1D.invert` and
         :class:`colour.io.luts.lut.LUT3D.invert` methods.
         """
-        pass
+
+        if self._LUT_factory is None:
+            return
+
+        # pylint: disable=E1102
+        LUT_i = self._LUT_factory(self._table_2).invert(
+            self._interpolator_1,
+            self._interpolator_kwargs_1,
+            extrapolator=self._extrapolator_1,
+            extrapolator_kwargs=self._extrapolator_kwargs_1)
+
+        np.testing.assert_almost_equal(
+            LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_1, decimal=7)
+
+        # pylint: disable=E1102
+        LUT_i = self._LUT_factory(self._table_2).invert(
+            self._interpolator_2,
+            self._interpolator_kwargs_2,
+            extrapolator=self._extrapolator_1,
+            extrapolator_kwargs=self._extrapolator_kwargs_1)
+
+        np.testing.assert_almost_equal(
+            LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7)
 
     def test_apply(self):
         """
@@ -498,21 +539,20 @@ class AbstractLUTTest(unittest.TestCase):
         np.testing.assert_almost_equal(
             LUT_3.apply(RANDOM_TRIPLETS), self._applied_3, decimal=7)
 
-    def test_copy(self):
-        """
-        Tests :class:`colour.io.luts.lut.LUT1D.copy`,
-        :class:`colour.io.luts.lut.LUT3x1D.copy` and
-        :class:`colour.io.luts.lut.LUT3D.copy` methods.
-        """
-
-        if self._LUT_factory is None:
-            return
-
         # pylint: disable=E1102
-        LUT_1 = self._LUT_factory()
+        LUT_4 = self._LUT_factory(self._table_2)
 
-        self.assertIsNot(LUT_1, LUT_1.copy())
-        self.assertEqual(LUT_1, LUT_1.copy())
+        np.testing.assert_almost_equal(
+            LUT_4.apply(
+                RANDOM_TRIPLETS,
+                self._interpolator_1,
+                self._interpolator_kwargs_1,
+                'Inverse',
+                extrapolator=self._extrapolator_1,
+                extrapolator_kwargs=self._extrapolator_kwargs_1,
+            ),
+            self._applied_4,
+            decimal=7)
 
 
 class TestLUT1D(AbstractLUTTest):
@@ -544,6 +584,12 @@ class TestLUT1D(AbstractLUTTest):
         self._table_2_kwargs = {'size': 10, 'domain': self._domain_2}
         self._table_3_kwargs = {'size': 10, 'domain': self._domain_3}
         self._dimensions = 1
+        self._interpolator_1 = LinearInterpolator
+        self._interpolator_kwargs_1 = {}
+        self._interpolator_2 = CubicSplineInterpolator
+        self._interpolator_kwargs_2 = {}
+        self._extrapolator_1 = Extrapolator
+        self._extrapolator_kwargs_1 = {}
         self._str = textwrap.dedent("""
             LUT1D - Nemo
             ------------
@@ -556,6 +602,26 @@ class TestLUT1D(AbstractLUTTest):
             0.55555556,  0.66666667,  0.77777778,  0.88888889,  1.        ],
           name='Nemo',
           domain=[ 0.,  1.])""")[1:]
+        self._inverted_apply_1 = np.array([
+            [[0.93233350, 0.07631226, 0.00271066],
+             [0.26965297, 0.16679257, 0.13530941]],
+            [[0.94393859, 0.57894420, 0.01332090],
+             [0.48291415, 0.05963181, 0.91103647]],
+            [[0.45762043, 0.72631655, 0.16767733],
+             [0.06518351, 0.96593228, 0.89528328]],
+            [[0.95130674, 0.04942310, 0.59114686],
+             [0.00187936, 0.32791974, 0.73212622]],
+        ])
+        self._inverted_apply_2 = np.array([
+            [[0.93226462, 0.05075322, 0.00056233],
+             [0.26643378, 0.16113233, 0.12691317]],
+            [[0.94388152, 0.57812177, 0.00276345],
+             [0.48152640, 0.02963259, 0.91094591]],
+            [[0.45608161, 0.72594482, 0.16209398],
+             [0.03445393, 0.96589761, 0.89517669]],
+            [[0.95125717, 0.02076690, 0.59036175],
+             [0.00038988, 0.32532478, 0.73177226]],
+        ])
         self._applied_1 = np.array([
             [[0.98453144, 0.53304051, 0.02978976],
              [0.76000720, 0.68433298, 0.64753760]],
@@ -576,7 +642,6 @@ class TestLUT1D(AbstractLUTTest):
             [[0.98895283, 0.42197234, 0.89639002],
              [0.04585089, 0.79047033, 0.93564890]],
         ])
-
         self._applied_3 = np.array([
             [[0.98718085, 0.58856660, 0.06995805],
              [0.79062078, 0.72580416, 0.68991332]],
@@ -587,6 +652,7 @@ class TestLUT1D(AbstractLUTTest):
             [[0.99062417, 0.47963425, 0.91159110],
              [0.05775947, 0.81950198, 0.94514273]],
         ])
+        self._applied_4 = self._inverted_apply_1
 
 
 class TestLUT3x1D(AbstractLUTTest):
@@ -633,6 +699,12 @@ class TestLUT3x1D(AbstractLUTTest):
             'domain': self._domain_3
         }
         self._dimensions = 2
+        self._interpolator_1 = LinearInterpolator
+        self._interpolator_kwargs_1 = {}
+        self._interpolator_2 = CubicSplineInterpolator
+        self._interpolator_kwargs_2 = {}
+        self._extrapolator_1 = Extrapolator
+        self._extrapolator_kwargs_1 = {}
         self._str = textwrap.dedent("""
             LUT3x1D - Nemo
             --------------
@@ -655,6 +727,26 @@ class TestLUT3x1D(AbstractLUTTest):
                     name='Nemo',
                     domain=[[ 0.,  0.,  0.],
                             [ 1.,  1.,  1.]])""")[1:]
+        self._inverted_apply_1 = np.array([
+            [[0.93233350, 0.07631226, 0.00271066],
+             [0.26965297, 0.16679257, 0.13530941]],
+            [[0.94393859, 0.57894420, 0.01332090],
+             [0.48291415, 0.05963181, 0.91103647]],
+            [[0.45762043, 0.72631655, 0.16767733],
+             [0.06518351, 0.96593228, 0.89528328]],
+            [[0.95130674, 0.04942310, 0.59114686],
+             [0.00187936, 0.32791974, 0.73212622]],
+        ])
+        self._inverted_apply_2 = np.array([
+            [[0.93226462, 0.05075322, 0.00056233],
+             [0.26643378, 0.16113233, 0.12691317]],
+            [[0.94388152, 0.57812177, 0.00276345],
+             [0.48152640, 0.02963259, 0.91094591]],
+            [[0.45608161, 0.72594482, 0.16209398],
+             [0.03445393, 0.96589761, 0.89517669]],
+            [[0.95125717, 0.02076690, 0.59036175],
+             [0.00038988, 0.32532478, 0.73177226]],
+        ])
         self._applied_1 = np.array([
             [[0.98453144, 0.53304051, 0.02978976],
              [0.76000720, 0.68433298, 0.64753760]],
@@ -685,6 +777,7 @@ class TestLUT3x1D(AbstractLUTTest):
             [[0.99054268, 0.49317779, 0.91055390],
              [0.02408419, 0.81991814, 0.94597809]],
         ])
+        self._applied_4 = self._inverted_apply_1
 
 
 class TestLUT3D(AbstractLUTTest):
@@ -741,6 +834,12 @@ class TestLUT3D(AbstractLUTTest):
             'domain': self._domain_3
         }
         self._dimensions = 3
+        self._interpolator_1 = table_interpolation_trilinear
+        self._interpolator_kwargs_1 = {}
+        self._interpolator_2 = table_interpolation_tetrahedral
+        self._interpolator_kwargs_2 = {}
+        self._extrapolator_1 = None
+        self._extrapolator_kwargs_1 = {}
         self._str = textwrap.dedent("""
             LUT3D - Nemo
             ------------
@@ -750,6 +849,26 @@ class TestLUT3D(AbstractLUTTest):
                           [ 1.  1.  1.]]
             Size       : (33, 33, 33, 3)""")[1:]
         self._repr = None
+        self._inverted_apply_1 = np.array([
+            [[0.93259940, 0.04818925, -0.00146028],
+             [0.26593731, 0.15743488, 0.12472549]],
+            [[0.94081323, 0.57648311, 0.00846963],
+             [0.48024921, 0.02887666, 0.90683979]],
+            [[0.45415635, 0.72121622, 0.15810926],
+             [0.03825935, 0.96203111, 0.88987440]],
+            [[0.94880272, 0.02832944, 0.58872560],
+             [-0.00146028, 0.32119161, 0.72922327]],
+        ])
+        self._inverted_apply_2 = np.array([
+            [[0.93259940, 0.04818925, -0.00146028],
+             [0.26593731, 0.15743488, 0.12472549]],
+            [[0.94081323, 0.57648311, 0.00846963],
+             [0.48024921, 0.02887666, 0.90683979]],
+            [[0.45415635, 0.72121622, 0.15810926],
+             [0.03825935, 0.96203111, 0.88987440]],
+            [[0.94880272, 0.02832944, 0.58872560],
+             [-0.00146028, 0.32119161, 0.72922327]],
+        ])
         self._applied_1 = np.array([
             [[0.98486974, 0.53531556, 0.05950617],
              [0.76022687, 0.68479344, 0.64907649]],
@@ -771,7 +890,6 @@ class TestLUT3D(AbstractLUTTest):
             [[0.98912224, 0.43850620, 0.89625878],
              [0.04125691, 0.79115345, 0.93648599]],
         ])
-
         self._applied_3 = np.array([
             [[0.98685765, 0.58844468, 0.09393531],
              [0.79274650, 0.72453018, 0.69347904]],
@@ -782,6 +900,7 @@ class TestLUT3D(AbstractLUTTest):
             [[0.99054268, 0.49317779, 0.91055390],
              [0.02408419, 0.81991814, 0.94597809]],
         ])
+        self._applied_4 = self._inverted_apply_1
 
 
 class TestAbstractLUTSequenceOperator(unittest.TestCase):
