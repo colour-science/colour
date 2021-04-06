@@ -33,11 +33,11 @@ References
     Interactive Techniques - SIGGRAPH "78, 12-19. doi:10.1145/800248.807361
 -   :cite:`Wikipedia2003` : Wikipedia. (2003). HSL and HSV. Retrieved
     September 10, 2014, from http://en.wikipedia.org/wiki/HSL_and_HSV
--   :cite:`Sarifuddin2005ANP` : M. SarifuddinA (2005) New Perceptually Uniform
-    Color Space with Associated Color Similarity Measure for Content-Based
-    Image and Video Retrieval
--   :cite:`Wikipedia2015`, Wikipedia. (created 2015). HCL color space,
-    from https://en.wikipedia.org/wiki/HCL_color_space
+-   :cite:`Sarifuddin2005` : Sarifuddin, M., & Missaoui, R. (2005). A New
+    Perceptually Uniform Color Space with Associated Color Similarity Measure
+    for ContentBased Image and Video Retrieval.
+-   :cite:`Wikipedia2015` : Wikipedia. (2015). HCL color space. Retrieved
+    April 4, 2021, from https://en.wikipedia.org/wiki/HCL_color_space
 """
 
 import numpy as np
@@ -353,7 +353,8 @@ def RGB_to_HCL(RGB, gamma=3, Y_0=100):
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    gamma : double, optional
+    gamma : numeric, optional
+    Y_0 : numeric, optional
 
     Returns
     -------
@@ -377,7 +378,7 @@ def RGB_to_HCL(RGB, gamma=3, Y_0=100):
 
     References
     ----------
-    :cite:`Sarifuddin2005ANP`, :cite:`Wikipedia2015`
+    :cite:`Sarifuddin2005`, :cite:`Wikipedia2015`
 
     Examples
     --------
@@ -432,7 +433,8 @@ def HCL_to_RGB(HCL, gamma=3, Y_0=100):
     ----------
     HCL : array_like
         *HCL* colourspace array.
-    gamma : double, optional
+    gamma : numeric, optional
+    Y_0 : numeric, optional
 
     Returns
     -------
@@ -456,7 +458,7 @@ def HCL_to_RGB(HCL, gamma=3, Y_0=100):
 
     References
     ----------
-    :cite:`Sarifuddin2005ANP`, :cite:`Wikipedia2015`
+    :cite:`Sarifuddin2005`, :cite:`Wikipedia2015`
 
     Examples
     --------
