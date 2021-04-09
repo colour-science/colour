@@ -752,6 +752,19 @@ HSL Colourspace
     RGB_to_HSL
     HSL_to_RGB
 
+HCL Colourspace
+^^^^^^^^^^^^^^^
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_to_HCL
+    HCL_to_RGB
+
 CMY Colourspace
 ^^^^^^^^^^^^^^^
 

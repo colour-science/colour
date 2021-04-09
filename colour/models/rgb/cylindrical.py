@@ -9,6 +9,8 @@ Defines various cylindrical and spherical colour models:
 -   :func:`colour.HSV_to_RGB`
 -   :func:`colour.RGB_to_HSL`
 -   :func:`colour.HSL_to_RGB`
+-   :func:`colour.RGB_to_HCL`
+-   :func:`colour.HCL_to_RGB`
 
 These colour models trade off perceptual relevance for computation speed.
 They should not be used in the colour science domain although they are useful
@@ -31,6 +33,11 @@ References
     Interactive Techniques - SIGGRAPH "78, 12-19. doi:10.1145/800248.807361
 -   :cite:`Wikipedia2003` : Wikipedia. (2003). HSL and HSV. Retrieved
     September 10, 2014, from http://en.wikipedia.org/wiki/HSL_and_HSV
+-   :cite:`Sarifuddin2005` : Sarifuddin, M., & Missaoui, R. (2005). A New
+    Perceptually Uniform Color Space with Associated Color Similarity Measure
+    for ContentBased Image and Video Retrieval.
+-   :cite:`Wikipedia2015` : Wikipedia. (2015). HCL color space. Retrieved
+    April 4, 2021, from https://en.wikipedia.org/wiki/HCL_color_space
 """
 
 import numpy as np
@@ -334,5 +341,188 @@ def HSL_to_RGB(HSL):
     B = np.where(S == 0, L, B)
 
     RGB = tstack([R, G, B])
+
+    return from_range_1(RGB)
+
+
+def RGB_to_HCL(RGB, gamma=3, Y_0=100):
+    """
+    Converts from *RGB* colourspace to *HCL* colourspace.
+
+    Parameters
+    ----------
+    RGB : array_like
+        *RGB* colourspace array.
+    gamma : numeric, optional
+    Y_0 : numeric, optional
+
+    Returns
+    -------
+    ndarray
+        *HCL* array.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``HCL``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Sarifuddin2005`, :cite:`Wikipedia2015`
+
+    Examples
+    --------
+    >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
+    >>> RGB_to_HCL(RGB)  # doctest: +ELLIPSIS
+    array([-0.0316785...,  0.2841715...,  0.2285964...])
+    """
+
+    R, G, B = tsplit(to_domain_1(RGB))
+
+    Min = np.minimum(np.minimum(R, G), B)
+    Max = np.maximum(np.maximum(R, G), B)
+
+    alpha = (Min / Max) / Y_0
+
+    Q = np.exp(alpha * gamma)
+
+    L = (Q * Max + (Q - 1) * Min) / 2
+
+    R_G = R - G
+    G_B = G - B
+    B_R = B - R
+
+    C = Q * (np.abs(R_G) + np.abs(G_B) + np.abs(B_R)) / 3
+
+    H = np.arctan(G_B / R_G)
+
+    _2_3_H = 2 / 3 * H
+    _4_3_H = 4 / 3 * H
+
+    H = np.select([
+        np.logical_and(R_G >= 0, G_B >= 0),
+        np.logical_and(R_G >= 0, G_B < 0),
+        np.logical_and(R_G < 0, G_B >= 0),
+        np.logical_and(R_G < 0, G_B < 0),
+    ], [
+        _2_3_H,
+        _4_3_H,
+        np.pi + _4_3_H,
+        _2_3_H - np.pi,
+    ])
+
+    HCL = tstack([H, C, L])
+    return from_range_1(HCL)
+
+
+def HCL_to_RGB(HCL, gamma=3, Y_0=100):
+    """
+    Converts from *HCL* colourspace to *RGB* colourspace.
+
+    Parameters
+    ----------
+    HCL : array_like
+        *HCL* colourspace array.
+    gamma : numeric, optional
+    Y_0 : numeric, optional
+
+    Returns
+    -------
+    ndarray
+        *RGB* colourspace array.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``HCL``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Sarifuddin2005`, :cite:`Wikipedia2015`
+
+    Examples
+    --------
+    >>> HCL = np.array([-0.03167854, 0.28417150, 0.22859647])
+    >>> HCL_to_RGB(HCL)  # doctest: +ELLIPSIS
+    array([ 0.4562033...,  0.0308104...,  0.0409192...])
+    """
+
+    H, C, L = tsplit(to_domain_1(HCL))
+
+    Q = np.exp((1 - (3 * C) / (4 * L)) * (gamma / Y_0))
+
+    Min = (4 * L - 3 * C) / (4 * Q - 2)
+    Max = Min + (3 * C) / (2 * Q)
+
+    def _1_2_3(a):
+        return tstack([a, a, a], dtype=np.bool_)
+
+    tan_3_2_H = np.tan(3 / 2 * H)
+    tan_3_4_H_MP = np.tan(3 / 4 * (H - np.pi))
+    tan_3_4_H = np.tan(3 / 4 * H)
+    tan_3_2_H_PP = np.tan(3 / 2 * (H + np.pi))
+
+    RGB = np.select(
+        [
+            _1_2_3(np.logical_and(0 <= H, H <= np.radians(60))),
+            _1_2_3(np.logical_and(np.radians(60) < H, H <= np.radians(120))),
+            _1_2_3(np.logical_and(np.radians(120) < H, H <= np.pi)),
+            _1_2_3(np.logical_and(np.radians(-60) <= H, H < 0)),
+            _1_2_3(np.logical_and(np.radians(-120) <= H, H < np.radians(-60))),
+            _1_2_3(np.logical_and(-np.pi < H, H < np.radians(-120))),
+        ],
+        [
+            tstack([
+                Max,
+                (Max * tan_3_2_H + Min) / (1 + tan_3_2_H),
+                Min,
+            ]),
+            tstack([
+                (Max * (1 + tan_3_4_H_MP) - Min) / tan_3_4_H_MP,
+                Max,
+                Min,
+            ]),
+            tstack([
+                Min,
+                Max,
+                Max * (1 + tan_3_4_H_MP) - Min * tan_3_4_H_MP,
+            ]),
+            tstack([
+                Max,
+                Min,
+                Min * (1 + tan_3_4_H) - Max * tan_3_4_H,
+            ]),
+            tstack([
+                (Min * (1 + tan_3_4_H) - Max) / (tan_3_4_H),
+                Min,
+                Max,
+            ]),
+            tstack([
+                Min,
+                (Min * tan_3_2_H_PP + Max) / (1 + tan_3_2_H_PP),
+                Max,
+            ]),
+        ],
+    )
 
     return from_range_1(RGB)
