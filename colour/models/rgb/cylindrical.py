@@ -52,7 +52,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_HSV', 'HSV_to_RGB', 'RGB_to_HSL', 'HSL_to_RGB']
+__all__ = [
+    'RGB_to_HSV', 'HSV_to_RGB', 'RGB_to_HSL', 'HSL_to_RGB', 'RGB_to_HCL',
+    'HCL_to_RGB'
+]
 
 
 def RGB_to_HSV(RGB):
@@ -347,14 +350,17 @@ def HSL_to_RGB(HSL):
 
 def RGB_to_HCL(RGB, gamma=3, Y_0=100):
     """
-    Converts from *RGB* colourspace to *HCL* colourspace.
+    Converts from *RGB* colourspace to *HCL* colourspace according to
+    *Sarifuddin and Missaoui (2005)* method.
 
     Parameters
     ----------
     RGB : array_like
         *RGB* colourspace array.
     gamma : numeric, optional
+        Non-linear lightness exponent matching *Lightness* :math:`L^*`.
     Y_0 : numeric, optional
+        White reference luminance :math:`Y_0`.
 
     Returns
     -------
@@ -422,19 +428,23 @@ def RGB_to_HCL(RGB, gamma=3, Y_0=100):
     ])
 
     HCL = tstack([H, C, L])
+
     return from_range_1(HCL)
 
 
 def HCL_to_RGB(HCL, gamma=3, Y_0=100):
     """
-    Converts from *HCL* colourspace to *RGB* colourspace.
+    Converts from *HCL* colourspace to *RGB* colourspace according to
+    *Sarifuddin and Missaoui (2005)* method.
 
     Parameters
     ----------
     HCL : array_like
         *HCL* colourspace array.
     gamma : numeric, optional
+        Non-linear lightness exponent matching *Lightness* :math:`L^*`.
     Y_0 : numeric, optional
+        White reference luminance :math:`Y_0`.
 
     Returns
     -------
@@ -475,6 +485,10 @@ def HCL_to_RGB(HCL, gamma=3, Y_0=100):
     Max = Min + (3 * C) / (2 * Q)
 
     def _1_2_3(a):
+        """
+        Tail-stack given :math:`a` array as a *bool* dtype.
+        """
+
         return tstack([a, a, a], dtype=np.bool_)
 
     tan_3_2_H = np.tan(3 / 2 * H)
@@ -513,7 +527,7 @@ def HCL_to_RGB(HCL, gamma=3, Y_0=100):
                 Min * (1 + tan_3_4_H) - Max * tan_3_4_H,
             ]),
             tstack([
-                (Min * (1 + tan_3_4_H) - Max) / (tan_3_4_H),
+                (Min * (1 + tan_3_4_H) - Max) / tan_3_4_H,
                 Min,
                 Max,
             ]),
