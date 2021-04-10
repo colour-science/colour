@@ -231,9 +231,10 @@ If you'd like to join them, please consider
                     <p><a href="https://chrisbrejon.com/" target="_blank">Christophe Brejon</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/MarioRokicki" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1801891382/mario_pi_sq_400x400.jpg">
                     </a>
+                    <p><a href="https://twitter.com/MarioRokicki" target="_blank">Mario Rokicki</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
