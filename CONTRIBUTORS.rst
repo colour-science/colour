@@ -145,6 +145,10 @@ Development & Technical Support
 
     Technical support.
 
+-   **Saransh Chopra**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    HCL colourspace implementation.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -207,6 +211,7 @@ Issues & Discussions
 -   @Apoorva-13
 -   @aurelienbl
 -   @awehring
+-   @baileyji
 -   @beckstev
 -   @bersbersbers
 -   @brandondube
@@ -232,7 +237,9 @@ Issues & Discussions
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
+-   @JoshuaEbenezer
 -   @KOLANICH
+-   @kunal9922
 -   @Kunkka1988
 -   @lavrovd
 -   @LeCyberDucky
@@ -271,9 +278,11 @@ Issues & Discussions
 -   @totyped
 -   @ValZapod
 -   @vidakDK
+-   @volkerjaenisch
 -   @vvclin-git
 -   @Wagyx
 -   @Willingo
+-   @willSmallHD
 -   @xjossy
 -   @zachlewis
 
