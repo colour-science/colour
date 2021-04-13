@@ -615,11 +615,12 @@ def training_data_sds_to_XYZ(training_data,
     XYZ_w = np.dot(np.transpose(cmfs.values), illuminant.values)
     XYZ_w *= 1 / XYZ_w[1]
 
-    M_CAT = matrix_chromatic_adaptation_VonKries(
-        XYZ_w, xy_to_XYZ(RGB_COLOURSPACE_ACES2065_1.whitepoint),
-        chromatic_adaptation_transform)
+    if chromatic_adaptation_transform is not None:
+        M_CAT = matrix_chromatic_adaptation_VonKries(
+            XYZ_w, xy_to_XYZ(RGB_COLOURSPACE_ACES2065_1.whitepoint),
+            chromatic_adaptation_transform)
 
-    XYZ = vector_dot(M_CAT, XYZ)
+        XYZ = vector_dot(M_CAT, XYZ)
 
     return XYZ
 
