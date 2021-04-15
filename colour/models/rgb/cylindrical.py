@@ -179,7 +179,8 @@ def HSV_to_RGB(HSV):
     i = tstack([i, i, i]).astype(np.uint8)
 
     RGB = np.choose(
-        i, [
+        i,
+        [
             tstack([V, l, j]),
             tstack([k, V, j]),
             tstack([j, V, l]),
@@ -187,7 +188,8 @@ def HSV_to_RGB(HSV):
             tstack([l, j, V]),
             tstack([V, j, k]),
         ],
-        mode='clip')
+        mode='clip',
+    )
 
     return from_range_1(RGB)
 
@@ -415,17 +417,20 @@ def RGB_to_HCL(RGB, gamma=3, Y_0=100):
     _2_3_H = 2 / 3 * H
     _4_3_H = 4 / 3 * H
 
-    H = np.select([
-        np.logical_and(R_G >= 0, G_B >= 0),
-        np.logical_and(R_G >= 0, G_B < 0),
-        np.logical_and(R_G < 0, G_B >= 0),
-        np.logical_and(R_G < 0, G_B < 0),
-    ], [
-        _2_3_H,
-        _4_3_H,
-        np.pi + _4_3_H,
-        _2_3_H - np.pi,
-    ])
+    H = np.select(
+        [
+            np.logical_and(R_G >= 0, G_B >= 0),
+            np.logical_and(R_G >= 0, G_B < 0),
+            np.logical_and(R_G < 0, G_B >= 0),
+            np.logical_and(R_G < 0, G_B < 0),
+        ],
+        [
+            _2_3_H,
+            _4_3_H,
+            np.pi + _4_3_H,
+            _2_3_H - np.pi,
+        ],
+    )
 
     HCL = tstack([H, C, L])
 
