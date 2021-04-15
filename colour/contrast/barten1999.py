@@ -410,7 +410,7 @@ def contrast_sensitivity_function_Barten1999(u,
     ...                         E=E,
     ...                         **settings_BT2246)
     ...                 ), 0, disp=False)[0])
-    ...         return as_float(np.array(maximised_spatial_frequency))
+    ...     return as_float(np.array(maximised_spatial_frequency))
     >>>
     >>> L = np.logspace(np.log10(0.01), np.log10(100), 10)
     >>> X_0 = Y_0 = 60
@@ -422,10 +422,10 @@ def contrast_sensitivity_function_Barten1999(u,
     ...     u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246)
     ...  * 2 * (1/ 1.27))
     ... # doctest: +ELLIPSIS
-    array([ 0.0207396...,  0.0134885...,  0.0096063...,  0.0077299...,  \
-0.0068983...,
-            0.0065057...,  0.0062712...,  0.0061198...,  0.0060365...,  \
-0.0059984...])
+    array([ 0.0207396...,  0.0133019...,  0.0089256...,  0.0064202...,  \
+0.0050275...,
+            0.0041933...,  0.0035573...,  0.0030095...,  0.0025803...,  \
+0.0022897...])
     """
 
     u = as_float_array(u)
