@@ -1122,12 +1122,8 @@ class LUT1D(AbstractLUT):
 
         direction = validate_method(direction, ['Forward', 'Inverse'])
 
-        LUT = (self.invert(
-            interpolator,
-            interpolator_kwargs,
-            extrapolator=extrapolator,
-            extrapolator_kwargs=extrapolator_kwargs,
-        ) if direction == 'inverse' else self)
+        LUT = (self.invert(interpolator, interpolator_kwargs, **kwargs)
+               if direction == 'inverse' else self)
 
         if LUT.is_domain_explicit():
             samples = LUT.domain
@@ -1636,12 +1632,8 @@ class LUT3x1D(AbstractLUT):
 
         R, G, B = tsplit(RGB)
 
-        LUT = (self.invert(
-            interpolator,
-            interpolator_kwargs,
-            extrapolator=extrapolator,
-            extrapolator_kwargs=extrapolator_kwargs,
-        ) if direction == 'inverse' else self)
+        LUT = (self.invert(interpolator, interpolator_kwargs, **kwargs)
+               if direction == 'inverse' else self)
 
         if LUT.is_domain_explicit():
             samples = [
@@ -2229,19 +2221,12 @@ class LUT3D(AbstractLUT):
         if interpolator_kwargs is None:
             interpolator_kwargs = {}
 
-        extrapolator = kwargs.get('extrapolator', Extrapolator)
-        extrapolator_kwargs = kwargs.get('extrapolator_kwargs', {})
-
         direction = validate_method(direction, ['Forward', 'Inverse'])
 
         R, G, B = tsplit(RGB)
 
-        LUT = (self.invert(
-            interpolator,
-            interpolator_kwargs,
-            extrapolator=extrapolator,
-            extrapolator_kwargs=extrapolator_kwargs,
-        ) if direction == 'inverse' else self)
+        LUT = (self.invert(interpolator, interpolator_kwargs, **kwargs)
+               if direction == 'inverse' else self)
 
         if LUT.is_domain_explicit():
             domain_min = LUT.domain[0, ...]
