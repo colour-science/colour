@@ -2185,11 +2185,18 @@ class LUT3D(AbstractLUT):
 
         Other Parameters
         ----------------
-        extrapolator : object, optional
-            Extrapolator class type or object to use as extrapolating function.
-        extrapolator_kwargs : dict_like, optional
-            Arguments to use when instantiating or calling the extrapolating
-            function.
+        size : int, optional
+            Size of the inverse *LUT*. With the given implementation, it is
+            good practise to double the size of the inverse *LUT* to provide a
+            smoother result. If ``size`` is not given,
+            :math:`2^{\\sqrt{size_{LUT}} + 1} + 1` will be used instead.
+        extrapolate : bool, optional
+            Whether to extrapolate the *LUT* when computing its inverse.
+            Extrapolation is performed by reflecting the *LUT* cube along its 8
+            faces.
+        query_size : bool, optional
+            Number of points to query in the KDTree, their mean is computed,
+            resulting in a smoother result.
 
         Returns
         -------
