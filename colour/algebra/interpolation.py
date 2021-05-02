@@ -1662,6 +1662,7 @@ def vertices_and_relative_coordinates(V_xyz, table):
     # indexes encompassing a given V_xyz value.
     i_m = np.array(table.shape[0:-1]) - 1
     i_f = np.floor(V_xyz * i_m).astype(DEFAULT_INT_DTYPE)
+    i_f = np.clip(i_f, 0, i_m)
     i_c = np.clip(i_f + 1, 0, i_m)
 
     # Relative to indexes ``V_xyz`` values.
