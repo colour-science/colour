@@ -39,7 +39,7 @@ __all__ = [
 
 def Jab_to_JCh(Jab):
     """
-    Converts from *Jab** colour representation to *JCh* colour representation.
+    Converts from *Jab* colour representation to *JCh* colour representation.
 
     This definition is used to perform conversion from *CIE L\\*a\\*b\\**
     colourspace to *CIE L\\*C\\*Hab* colourspace and for other similar
@@ -51,7 +51,7 @@ def Jab_to_JCh(Jab):
     Parameters
     ----------
     Jab : array_like
-        *Jab** colour representation array.
+        *Jab* colour representation array.
 
     Returns
     -------
@@ -103,7 +103,7 @@ def Jab_to_JCh(Jab):
 
 def JCh_to_Jab(JCh):
     """
-    Converts from *JCh* colour representation to *Jab** colour representation.
+    Converts from *JCh* colour representation to *Jab* colour representation.
 
     This definition is used to perform conversion from *CIE L\\*C\\*Hab*
     colourspace to *CIE L\\*a\\*b\\** colourspace and for other similar
@@ -119,7 +119,7 @@ def JCh_to_Jab(JCh):
     Returns
     -------
     ndarray
-        *Jab** colour representation array.
+        *Jab* colour representation array.
 
     Notes
     -----
@@ -167,10 +167,9 @@ def JCh_to_Jab(JCh):
 
 COLOURSPACE_MODELS = ('CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD',
                       'CAM16SCD', 'CAM16UCS', 'CIE XYZ', 'CIE xyY', 'CIE Lab',
-                      'CIE LCHab', 'CIE Luv', 'CIE Luv uv', 'CIE LCHuv',
-                      'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN99',
-                      'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg',
-                      'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT')
+                      'CIE Luv', 'CIE UCS', 'CIE UVW', 'Hunter Lab',
+                      'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz',
+                      'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT')
 if is_documentation_building():  # pragma: no cover
     COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
     COLOURSPACE_MODELS.__doc__ = """
@@ -179,10 +178,9 @@ values.
 
 COLOURSPACE_MODELS : Tuple
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
-    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
-    'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN99', 'Hunter Lab',
-    'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab',
-    'hdr-CIELAB', 'hdr-IPT'}**
+    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
+    'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz', 'OSA UCS',
+    'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """
 
 COLOURSPACE_MODELS_AXIS_LABELS = {
@@ -195,14 +193,9 @@ COLOURSPACE_MODELS_AXIS_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
     'CIE xyY': ('x', 'y', 'Y'),
     'CIE Lab': ('$L^*$', '$a^*$', '$b^*$'),
-    'CIE LCHab': ('$L^*$', 'CH', 'ab'),
     'CIE Luv': ('$L^*$', '$u^\\prime$', '$v^\\prime$'),
-    'CIE Luv uv': ('$u^\\prime$', '$v^\\prime$'),
-    'CIE LCHuv': ('$L^*$', 'CH', 'uv'),
     'CIE UCS': ('U', 'V', 'W'),
-    'CIE UCS uv': ('u', 'v'),
     'CIE UVW': ('U', 'V', 'W'),
-    'DIN99': ('L99', 'a99', 'b99'),
     'Hunter Lab': ('$L^*$', '$a^*$', '$b^*$'),
     'Hunter Rdab': ('Rd', 'a', 'b'),
     'ICtCp': ('$I$', '$C_T$', '$C_P$'),
@@ -219,8 +212,7 @@ Colourspace models labels mapping.
 
 COLOURSPACE_MODELS_AXIS_LABELS : dict
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
-    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
-    'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN99', 'Hunter Lab',
-    'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg','JzAzBz', 'OSA UCS', 'Oklab',
-    'hdr-CIELAB', 'hdr-IPT'}**
+    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
+    'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz', 'OSA UCS',
+    'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """

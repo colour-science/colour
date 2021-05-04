@@ -361,7 +361,7 @@ def sd_gaussian_normal(mu, sigma, shape=SPECTRAL_SHAPE_DEFAULT, **kwargs):
 
     wavelengths = shape.range()
 
-    values = np.exp(-(wavelengths - mu) ** 2 / (2 * sigma ** 2.))
+    values = np.exp(-(wavelengths - mu) ** 2 / (2 * sigma ** 2))
 
     return SpectralDistribution(values, wavelengths, **settings)
 
