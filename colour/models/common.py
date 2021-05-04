@@ -39,7 +39,7 @@ __all__ = [
 
 def Jab_to_JCh(Jab):
     """
-    Converts from *Jab** colour representation to *JCh* colour representation.
+    Converts from *Jab* colour representation to *JCh* colour representation.
 
     This definition is used to perform conversion from *CIE L\\*a\\*b\\**
     colourspace to *CIE L\\*C\\*Hab* colourspace and for other similar
@@ -51,7 +51,7 @@ def Jab_to_JCh(Jab):
     Parameters
     ----------
     Jab : array_like
-        *Jab** colour representation array.
+        *Jab* colour representation array.
 
     Returns
     -------
@@ -103,7 +103,7 @@ def Jab_to_JCh(Jab):
 
 def JCh_to_Jab(JCh):
     """
-    Converts from *JCh* colour representation to *Jab** colour representation.
+    Converts from *JCh* colour representation to *Jab* colour representation.
 
     This definition is used to perform conversion from *CIE L\\*C\\*Hab*
     colourspace to *CIE L\\*a\\*b\\** colourspace and for other similar
@@ -119,7 +119,7 @@ def JCh_to_Jab(JCh):
     Returns
     -------
     ndarray
-        *Jab** colour representation array.
+        *Jab* colour representation array.
 
     Notes
     -----
