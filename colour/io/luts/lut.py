@@ -2103,8 +2103,8 @@ class LUT3D(AbstractLUT):
                       [ 1.  1.  1.]]
         Size       : (33, 33, 33, 3)
         >>> print(LUT.invert())
-        LUT3D - Unity 108
-        -----------------
+        LUT3D - Unity 33 - Inverse
+        --------------------------
         <BLANKLINE>
         Dimensions : 3
         Domain     : [[-0.03125 -0.03125 -0.03125]
@@ -2158,6 +2158,8 @@ class LUT3D(AbstractLUT):
         # an identity LUT at the target size.
         LUT_i = LUT3D(size=target_size, domain=LUT.domain)
         LUT_i.table = LUT_q.apply(LUT_i.table)
+
+        LUT_i.name = '{0} - Inverse'.format(self.name)
 
         return LUT_i
 
