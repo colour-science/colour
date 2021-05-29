@@ -3,7 +3,7 @@
 Optimal Colour Stimuli - MacAdam Limits
 =======================================
 
-Defines objects related to *Optimal Colour Stimuli* computations.
+Defines the objects related to *Optimal Colour Stimuli* computations.
 """
 
 import numpy as np

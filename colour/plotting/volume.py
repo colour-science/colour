@@ -3,7 +3,7 @@
 Colour Models Volume Plotting
 =============================
 
-Defines colour models volume and gamut plotting objects:
+Defines the colour models volume and gamut plotting objects:
 
 -   :func:`colour.plotting.plot_RGB_colourspaces_gamuts`
 -   :func:`colour.plotting.plot_RGB_scatter`

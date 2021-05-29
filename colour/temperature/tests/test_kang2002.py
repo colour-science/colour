@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.temperature.kang2002` module.
+Defines the unit tests for the :mod:`colour.temperature.kang2002` module.
 """
 
 import numpy as np

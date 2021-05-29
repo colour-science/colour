@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.arib_std_b67`
-module.
+Defines the unit tests for the
+:mod:`colour.models.rgb.transfer_functions.arib_std_b67` module.
 """
 
 import numpy as np

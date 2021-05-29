@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.gamma`
-module.
+Defines the unit tests for the
+:mod:`colour.models.rgb.transfer_functions.gamma` module.
 """
 
 import numpy as np

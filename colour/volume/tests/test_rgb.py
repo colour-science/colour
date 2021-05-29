@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.volume.rgb` module.
+Defines the unit tests for the :mod:`colour.volume.rgb` module.
 
 Notes
 -----

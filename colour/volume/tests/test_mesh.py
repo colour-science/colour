@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.volume.mesh` module.
+Defines the unit tests for the :mod:`colour.volume.mesh` module.
 """
 
 import numpy as np

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.quality.cqs` module.
+Defines the unit tests for the :mod:`colour.quality.cqs` module.
 """
 
 import numpy as np

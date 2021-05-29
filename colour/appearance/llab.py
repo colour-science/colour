@@ -3,7 +3,7 @@
 :math:`LLAB(l:c)` Colour Appearance Model
 =========================================
 
-Defines *:math:`LLAB(l:c)`* colour appearance model objects:
+Defines the *:math:`LLAB(l:c)`* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_LLAB`
 -   :attr:`colour.VIEWING_CONDITIONS_LLAB`

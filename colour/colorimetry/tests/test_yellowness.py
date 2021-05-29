@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.colorimetry.yellowness` module.
+Defines the unit tests for the :mod:`colour.colorimetry.yellowness` module.
 """
 
 import numpy as np

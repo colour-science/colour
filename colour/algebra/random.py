@@ -3,7 +3,7 @@
 Random Numbers Utilities
 ========================
 
-Defines random numbers generator objects:
+Defines the random numbers generator objects:
 
 -   :func:`colour.algebra.random_triplet_generator`
 References

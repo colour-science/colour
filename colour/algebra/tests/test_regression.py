@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.algebra.regression` module.
+Defines the unit tests for the :mod:`colour.algebra.regression` module.
 """
 
 import numpy as np

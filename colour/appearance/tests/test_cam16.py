@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.appearance.cam16` module.
+Defines the unit tests for the :mod:`colour.appearance.cam16` module.
 """
 
 import numpy as np

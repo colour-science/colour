@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.plotting.tm3018.report` module.
+Defines the unit tests for the :mod:`colour.plotting.tm3018.report` module.
 """
 
 import unittest

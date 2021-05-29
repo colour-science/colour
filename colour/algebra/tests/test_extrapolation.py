@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.algebra.extrapolation` module.
+Defines the unit tests for the :mod:`colour.algebra.extrapolation` module.
 """
 
 import numpy as np

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.algebra.random` module.
+Defines the unit tests for the :mod:`colour.algebra.random` module.
 References
 ----------
 -   :cite:`Laurent2012a` : Laurent. (2012). Reproducibility of python

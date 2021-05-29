@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.temperature.ohno2013` module.
+Defines the unit tests for the :mod:`colour.temperature.ohno2013` module.
 """
 
 import numpy as np

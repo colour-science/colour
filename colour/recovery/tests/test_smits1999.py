@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.recovery.smits1999` module.
+Defines the unit tests for the :mod:`colour.recovery.smits1999` module.
 """
 
 import numpy as np

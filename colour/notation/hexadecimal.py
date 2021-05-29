@@ -3,7 +3,7 @@
 Hexadecimal Notation
 ====================
 
-Defines objects for hexadecimal notation:
+Defines the objects for hexadecimal notation:
 
 -   :func:`colour.notation.RGB_to_HEX`
 -   :func:`colour.notation.HEX_to_RGB`

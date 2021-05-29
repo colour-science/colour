@@ -3,7 +3,7 @@
 Whiteness Index :math:`W`
 =========================
 
-Defines *whiteness* index :math:`W` computation objects:
+Defines the *whiteness* index :math:`W` computation objects:
 
 -   :func:`colour.colorimetry.whiteness_Berger1959`: *Whiteness* index
     :math:`WI` computation of given sample *CIE XYZ* tristimulus values using

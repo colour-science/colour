@@ -3,7 +3,7 @@
 Barten (1999) Contrast Sensitivity Function
 ===========================================
 
-Defines *Barten (1999)* contrast sensitivity function:
+Defines the *Barten (1999)* contrast sensitivity function:
 
 -   :func:`colour.contrast.contrast_sensitivity_function_Barten1999`
 

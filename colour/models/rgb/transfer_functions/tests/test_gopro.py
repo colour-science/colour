@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.gopro`
-module.
+Defines the unit tests for the
+:mod:`colour.models.rgb.transfer_functions.gopro` module.
 """
 
 import numpy as np

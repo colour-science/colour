@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.notation.hexadecimal` module.
+Defines the unit tests for the :mod:`colour.notation.hexadecimal` module.
 """
 
 import numpy as np

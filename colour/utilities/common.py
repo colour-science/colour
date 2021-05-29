@@ -3,7 +3,7 @@
 Common Utilities
 ================
 
-Defines common utilities objects that don't fall in any specific category.
+Defines the common utilities objects that don't fall in any specific category.
 
 References
 ----------

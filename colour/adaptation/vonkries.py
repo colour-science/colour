@@ -3,7 +3,7 @@
 Von Kries Chromatic Adaptation Model
 ====================================
 
-Defines *Von Kries* chromatic adaptation model objects:
+Defines the *Von Kries* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.matrix_chromatic_adaptation_VonKries`
 -   :func:`colour.adaptation.chromatic_adaptation_VonKries`

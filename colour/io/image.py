@@ -3,7 +3,7 @@
 Image Input / Output Utilities
 ==============================
 
-Defines image related input / output utilities objects.
+Defines the image related input / output utilities objects.
 """
 
 import numpy as np

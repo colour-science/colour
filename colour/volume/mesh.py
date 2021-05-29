@@ -3,7 +3,7 @@
 Mesh Volume Computation Helpers
 ===============================
 
-Defines helpers objects related to volume computations.
+Defines the helpers objects related to volume computations.
 """
 
 import numpy as np

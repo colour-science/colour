@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.difference.cam02_ucs` module.
+Defines the unit tests for the :mod:`colour.difference.cam02_ucs` module.
 """
 
 import numpy as np

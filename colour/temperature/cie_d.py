@@ -3,8 +3,8 @@
 CIE Illuminant D Series Correlated Colour Temperature
 =====================================================
 
-Defines *CIE Illuminant D Series* correlated colour temperature :math:`T_{cp}
-computations objects:
+Defines the *CIE Illuminant D Series* correlated colour temperature
+:math:`T_{cp} computations objects:
 
 -   :func:`colour.temperature.xy_to_CCT_CIE_D`: Correlated colour temperature
     :math:`T_{cp}` computation of a *CIE Illuminant D Series* from its *CIE xy*

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.continuous.signal` module.
+Defines the unit tests for the :mod:`colour.continuous.signal` module.
 """
 
 import numpy as np

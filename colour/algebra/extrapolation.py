@@ -3,7 +3,7 @@
 Extrapolation
 =============
 
-Defines classes for extrapolating variables:
+Defines the classes for extrapolating variables:
 
 -   :class:`colour.Extrapolator`: 1-D function extrapolation.
 

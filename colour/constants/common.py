@@ -3,7 +3,8 @@
 Common Constants
 ================
 
-Defines common constants objects that don't belong to any specific category.
+Defines the common constants objects that don't belong to any specific
+category.
 """
 
 import os

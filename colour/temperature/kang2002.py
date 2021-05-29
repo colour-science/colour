@@ -3,7 +3,7 @@
 Kang, Moon, Hong, Lee, Cho and Kim (2002) Correlated Colour Temperature
 =======================================================================
 
-Defines *Kang et al. (2002)* correlated colour temperature :math:`T_{cp}`
+Defines the *Kang et al. (2002)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.xy_to_CCT_Kang2002`: Correlated colour

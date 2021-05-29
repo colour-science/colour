@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.colorimetry.whiteness` module.
+Defines the unit tests for the :mod:`colour.colorimetry.whiteness` module.
 """
 
 import numpy as np

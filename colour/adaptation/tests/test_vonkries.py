@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.adaptation.vonkries` module.
+Defines the unit tests for the :mod:`colour.adaptation.vonkries` module.
 """
 
 import numpy as np

@@ -3,7 +3,7 @@
 Hunt Colour Appearance Model
 ============================
 
-Defines *Hunt* colour appearance model objects:
+Defines the *Hunt* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_Hunt`
 -   :attr:`colour.VIEWING_CONDITIONS_HUNT`

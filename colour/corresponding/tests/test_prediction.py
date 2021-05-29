@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.corresponding.prediction` module.
+Defines the unit tests for the :mod:`colour.corresponding.prediction` module.
 """
 
 import numpy as np

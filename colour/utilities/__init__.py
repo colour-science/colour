@@ -106,7 +106,7 @@ API_CHANGES = {
     ]
 }
 """
-Defines *colour.utilities* sub-package API changes.
+Defines the *colour.utilities* sub-package API changes.
 
 API_CHANGES : dict
 """

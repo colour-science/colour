@@ -3,8 +3,8 @@
 LUT Processing Common Utilities
 ===============================
 
-Defines LUT Processing common utilities objects that don't fall in any specific
-category.
+Defines the *LUT* processing common utilities objects that don't fall in any
+specific category.
 """
 
 import os

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.cmyk` module.
+Defines the unit tests for the :mod:`colour.models.rgb.cmyk` module.
 """
 
 import numpy as np

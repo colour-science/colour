@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.io.luts.sony_spi1d` module.
+Defines the unit tests for the :mod:`colour.io.luts.sony_spi1d` module.
 """
 
 import numpy as np

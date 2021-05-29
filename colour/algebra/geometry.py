@@ -3,7 +3,7 @@
 Geometry
 ========
 
-Defines objects related to geometrical computations:
+Defines the objects related to geometrical computations:
 
 -   :func:`colour.algebra.normalise_vector`
 -   :func:`colour.algebra.euclidean_distance`

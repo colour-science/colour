@@ -3,7 +3,7 @@
 Verbose
 =======
 
-Defines verbose related objects.
+Defines the verbose related objects.
 """
 
 import numpy as np

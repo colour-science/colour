@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.difference.stress` module.
+Defines the unit tests for the :mod:`colour.difference.stress` module.
 """
 
 import numpy as np

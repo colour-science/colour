@@ -3,8 +3,8 @@
 ITU-R BT.1886
 =============
 
-Defines *Recommendation ITU-R BT.1886* electro-optical transfer function (EOTF
-/ EOCF) and its inverse:
+Defines the *Recommendation ITU-R BT.1886* electro-optical transfer function
+(EOTF / EOCF) and its inverse:
 
 -   :func:`colour.models.eotf_inverse_BT1886`
 -   :func:`colour.models.eotf_BT1886`
