@@ -3,7 +3,7 @@
 Luminous Efficiency Functions Spectral Distributions
 ====================================================
 
-Defines luminous efficiency functions computation related objects.
+Defines the luminous efficiency functions computation related objects.
 
 References
 ----------

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.quality.cri` module.
+Defines the unit tests for the :mod:`colour.quality.cri` module.
 """
 
 import numpy as np

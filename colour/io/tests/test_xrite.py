@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.io.xrite` module.
+Defines the unit tests for the :mod:`colour.io.xrite` module.
 """
 
 import os

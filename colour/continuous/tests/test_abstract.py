@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.continuous.abstract` module.
+Defines the unit tests for the :mod:`colour.continuous.abstract` module.
 """
 
 import unittest

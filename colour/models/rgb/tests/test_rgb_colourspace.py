@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.rgb_colourspace` module.
+Defines the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module.
 """
 
 import numpy as np

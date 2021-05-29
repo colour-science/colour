@@ -3,7 +3,7 @@
 CMCCAT2000 Chromatic Adaptation Model
 =====================================
 
-Defines *CMCCAT2000* chromatic adaptation model objects:
+Defines the *CMCCAT2000* chromatic adaptation model objects:
 
 -   :class:`colour.adaptation.InductionFactors_CMCCAT2000`
 -   :class:`colour.VIEWING_CONDITIONS_CMCCAT2000`

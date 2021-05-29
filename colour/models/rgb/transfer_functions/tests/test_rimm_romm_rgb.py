@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for
+Defines the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.rimm_romm_rgb` module.
 """
 

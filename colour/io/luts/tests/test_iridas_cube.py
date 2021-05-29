@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.io.luts.iridas_cube` module.
+Defines the unit tests for the :mod:`colour.io.luts.iridas_cube` module.
 """
 
 import numpy as np

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.temperature.cie_d` module.
+Defines the unit tests for the :mod:`colour.temperature.cie_d` module.
 """
 
 import numpy as np

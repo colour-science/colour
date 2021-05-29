@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.oklab` module.
+Defines the unit tests for the :mod:`colour.models.oklab` module.
 """
 
 import numpy as np

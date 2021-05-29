@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.recovery.jakob2019` module.
+Defines the unit tests for the :mod:`colour.recovery.jakob2019` module.
 """
 
 import numpy as np

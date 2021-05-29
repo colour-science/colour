@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.colorimetry.transformations` module.
+Defines the unit tests for the :mod:`colour.colorimetry.transformations`
+module.
 """
 
 import numpy as np

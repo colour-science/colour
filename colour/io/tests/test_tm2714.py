@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.io.tm2714` module.
+Defines the unit tests for the :mod:`colour.io.tm2714` module.
 """
 
 import numpy as np

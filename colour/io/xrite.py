@@ -3,7 +3,7 @@
 X-Rite Data Input
 =================
 
-Defines input object for *X-Rite* spectral data files:
+Defines the input object for *X-Rite* spectral data files:
 
 -   :func:`colour.read_sds_from_xrite_file`
 """

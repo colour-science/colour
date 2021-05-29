@@ -3,8 +3,8 @@
 SMPTE ST 2084:2014
 ==================
 
-Defines *SMPTE ST 2084:2014* opto-electrical transfer function (OETF / OECF)
-and electro-optical transfer function (EOTF / EOCF):
+Defines the *SMPTE ST 2084:2014* opto-electrical transfer function
+(OETF / OECF) and electro-optical transfer function (EOTF / EOCF):
 
 -   :func:`colour.models.eotf_ST2084`
 -   :func:`colour.models.eotf_inverse_ST2084`

@@ -3,7 +3,7 @@
 Hernandez-Andres, Lee and Romero (1999) Correlated Colour Temperature
 =====================================================================
 
-Defines *Hernandez-Andres et al. (1999)* correlated colour temperature
+Defines the *Hernandez-Andres et al. (1999)* correlated colour temperature
 :math:`T_{cp}` computations objects:
 
 -   :func:`colour.temperature.xy_to_CCT_Hernandez1999`: Correlated colour

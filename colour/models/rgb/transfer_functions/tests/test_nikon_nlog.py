@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.\
+Defines the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 nikon_nlog` module.
 """
 

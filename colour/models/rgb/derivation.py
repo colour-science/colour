@@ -3,7 +3,7 @@
 RGB Colourspace Derivation
 ==========================
 
-Defines objects related to *RGB* colourspace derivation, essentially
+Defines the objects related to *RGB* colourspace derivation, essentially
 calculating the normalised primary matrix for given *RGB* colourspace primaries
 and whitepoint:
 

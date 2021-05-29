@@ -120,7 +120,7 @@ API_CHANGES = {
     ]
 }
 """
-Defines *colour.models* sub-package API changes.
+Defines the *colour.models* sub-package API changes.
 
 API_CHANGES : dict
 """

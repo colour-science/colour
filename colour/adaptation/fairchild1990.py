@@ -3,7 +3,7 @@
 Fairchild (1990) Chromatic Adaptation Model
 ===========================================
 
-Defines *Fairchild (1990)* chromatic adaptation model objects:
+Defines the *Fairchild (1990)* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.chromatic_adaptation_Fairchild1990`
 

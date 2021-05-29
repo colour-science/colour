@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.continuous.multi_signals` module.
+Defines the unit tests for the :mod:`colour.continuous.multi_signals` module.
 """
 
 import numpy as np

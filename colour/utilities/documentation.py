@@ -3,7 +3,7 @@
 Documentation
 =============
 
-Defines documentation related objects.
+Defines the documentation related objects.
 """
 
 import os

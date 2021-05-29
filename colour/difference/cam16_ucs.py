@@ -3,8 +3,8 @@
 :math:`\\Delta E'` - Delta E Colour Difference - Li et al. (2017)
 =================================================================
 
-Defines :math:`\\Delta E'` colour difference computation objects based on *Li,
-Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)* *CAM16-LCD*,
+Defines the :math:`\\Delta E'` colour difference computation objects based on
+*Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)* *CAM16-LCD*,
 *CAM16-SCD*, and *CAM16-UCS* colourspaces:
 
 -   :func:`colour.difference.delta_E_CAM16LCD`

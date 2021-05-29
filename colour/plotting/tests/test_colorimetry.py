@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.plotting.colorimetry` module.
+Defines the unit tests for the :mod:`colour.plotting.colorimetry` module.
 """
 
 import unittest

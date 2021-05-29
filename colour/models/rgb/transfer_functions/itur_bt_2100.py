@@ -3,7 +3,7 @@
 ITU-R BT.2100
 =============
 
-Defines *ITU-R BT.2100* opto-electrical transfer functions (OETF / OECF),
+Defines the *ITU-R BT.2100* opto-electrical transfer functions (OETF / OECF),
 opto-optical transfer functions (OOTF / OOCF) and electro-optical transfer
 functions (EOTF / EOCF) and their inverse:
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.recovery.mallett2019` module.
+Defines the unit tests for the :mod:`colour.recovery.mallett2019` module.
 """
 
 import unittest

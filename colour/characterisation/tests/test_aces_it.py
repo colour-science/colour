@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.characterisation.aces_it` module.
+Defines the unit tests for the :mod:`colour.characterisation.aces_it` module.
 """
 
 import numpy as np

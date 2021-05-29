@@ -3,7 +3,7 @@
 Otsu, Yamamoto and Hachisuka (2018) - Reflectance Recovery
 ==========================================================
 
-Defines objects for reflectance recovery, i.e. spectral upsampling, using
+Defines the objects for reflectance recovery, i.e. spectral upsampling, using
 *Otsu et al. (2018)* method:
 
 -   :class:`colour.recovery.Dataset_Otsu2018`

@@ -3,7 +3,8 @@
 Iridas .cube LUT Format Input / Output Utilities
 ================================================
 
-Defines *Iridas* *.cube* *LUT* Format related input / output utilities objects.
+Defines the *Iridas* *.cube* *LUT* format related input / output utilities
+objects:
 
 -   :func:`colour.io.read_LUT_IridasCube`
 -   :func:`colour.io.write_LUT_IridasCube`

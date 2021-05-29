@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.appearance.llab` module.
+Defines the unit tests for the :mod:`colour.appearance.llab` module.
 """
 
 from colour.utilities.array import tstack

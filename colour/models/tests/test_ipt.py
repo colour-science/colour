@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.ipt` module.
+Defines the unit tests for the :mod:`colour.models.ipt` module.
 """
 
 import numpy as np

@@ -3,7 +3,7 @@
 McCamy (1992) Correlated Colour Temperature
 ===========================================
 
-Defines *McCamy (1992)* correlated colour temperature :math:`T_{cp}`
+Defines the *McCamy (1992)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.xy_to_CCT_McCamy1992`: Correlated colour

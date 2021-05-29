@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.geometry.primitives` module.
+Defines the unit tests for the :mod:`colour.geometry.primitives` module.
 """
 
 import numpy as np

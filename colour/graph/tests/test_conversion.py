@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.graph.conversion` module.
+Defines the unit tests for the :mod:`colour.graph.conversion` module.
 """
 
 import numpy as np

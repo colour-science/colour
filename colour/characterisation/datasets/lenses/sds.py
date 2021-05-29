@@ -3,7 +3,7 @@
 Spectral Distributions of Lenses
 ================================
 
-Defines spectral distributions of lenses.
+Defines the spectral distributions of lenses.
 
 Each lens data is in the form of :class:`OrderedDict` class instance of
 :class:`colour.SpectralDistribution` classes as follows::

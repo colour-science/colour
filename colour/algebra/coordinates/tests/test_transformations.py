@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.algebra.coordinates.transformations`
-module.
+Defines the unit tests for the
+:mod:`colour.algebra.coordinates.transformations` module.
 """
 
 import numpy as np

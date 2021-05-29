@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.phenomena.rayleigh` module.
+Defines the unit tests for the :mod:`colour.phenomena.rayleigh` module.
 """
 
 import numpy as np

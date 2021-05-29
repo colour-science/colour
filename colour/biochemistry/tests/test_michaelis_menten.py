@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.biochemistry.michaelis_menten` module.
+Defines the unit tests for the :mod:`colour.biochemistry.michaelis_menten`
+module.
 """
 
 import numpy as np

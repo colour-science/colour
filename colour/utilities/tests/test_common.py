@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.utilities.common` module.
+Defines the unit tests for the :mod:`colour.utilities.common` module.
 """
 
 import numpy as np

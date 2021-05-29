@@ -3,7 +3,7 @@
 Jakob and Hanika (2019) - Reflectance Recovery
 ==============================================
 
-Defines objects for reflectance recovery, i.e. spectral upsampling, using
+Defines the objects for reflectance recovery, i.e. spectral upsampling, using
 *Jakob and Hanika (2019)* method:
 
 -   :func:`colour.recovery.sd_Jakob2019`

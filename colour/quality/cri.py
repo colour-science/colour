@@ -3,7 +3,7 @@
 Colour Rendering Index
 ======================
 
-Defines *Colour Rendering Index* (CRI) computation objects:
+Defines the *Colour Rendering Index* (CRI) computation objects:
 
 -   :class:`colour.quality.ColourRendering_Specification_CRI`
 -   :func:`colour.colour_rendering_index`

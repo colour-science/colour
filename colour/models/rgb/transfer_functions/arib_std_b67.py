@@ -3,7 +3,7 @@
 ARIB STD-B67 (Hybrid Log-Gamma)
 ===============================
 
-Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
+Defines the *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
 (OETF / OECF) and its inverse:
 
 -   :func:`colour.models.oetf_ARIBSTDB67`

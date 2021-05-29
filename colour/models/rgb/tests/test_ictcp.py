@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.ictcp` module.
+Defines the unit tests for the :mod:`colour.models.rgb.ictcp` module.
 """
 
 import numpy as np

@@ -3,7 +3,7 @@
 Lightness :math:`L`
 ===================
 
-Defines *Lightness* :math:`L` computation objects.
+Defines the *Lightness* :math:`L` computation objects.
 
 The following methods are available:
 

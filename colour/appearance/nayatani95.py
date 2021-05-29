@@ -3,7 +3,7 @@
 Nayatani (1995) Colour Appearance Model
 =======================================
 
-Defines *Nayatani (1995)* colour appearance model objects:
+Defines the *Nayatani (1995)* colour appearance model objects:
 
 -   :class:`colour.CAM_Specification_Nayatani95`
 -   :func:`colour.XYZ_to_Nayatani95`

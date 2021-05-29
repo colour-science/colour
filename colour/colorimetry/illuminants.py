@@ -3,7 +3,7 @@
 Illuminants
 ===========
 
-Defines *CIE* illuminants computation related objects:
+Defines the *CIE* illuminants computation related objects:
 
 -   :func:`colour.sd_CIE_standard_illuminant_A`
 -   :func:`colour.sd_CIE_illuminant_D_series`

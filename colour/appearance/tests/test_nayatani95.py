@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.appearance.nayatani95` module.
+Defines the unit tests for the :mod:`colour.appearance.nayatani95` module.
 """
 
 import numpy as np

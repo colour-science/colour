@@ -3,7 +3,7 @@
 Colour Quality Scale
 ====================
 
-Defines *Colour Quality Scale* (CQS) computation objects:
+Defines the *Colour Quality Scale* (CQS) computation objects:
 
 -   :class:`colour.quality.ColourRendering_Specification_CQS`
 -   :func:`colour.colour_quality_scale`
