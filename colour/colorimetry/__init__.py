@@ -24,6 +24,7 @@ from .tristimulus_values import (
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
     msds_to_XYZ_integration, msds_to_XYZ_ASTME308, wavelength_to_XYZ)
+from .uniformity import spectral_uniformity
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_Stearns1988
@@ -88,6 +89,7 @@ __all__ += [
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_ASTME308',
     'msds_to_XYZ_integration', 'msds_to_XYZ_ASTME308', 'wavelength_to_XYZ'
 ]
+__all__ += ['spectral_uniformity']
 __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']
 __all__ += ['bandpass_correction_Stearns1988']
