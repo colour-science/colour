@@ -15,7 +15,7 @@ References
 
 import numpy as np
 
-from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
+from colour.colorimetry import SPECTRAL_SHAPE_DEFAULT, SpectralDistribution
 from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
