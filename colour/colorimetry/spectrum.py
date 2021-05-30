@@ -2487,7 +2487,7 @@ def sds_and_msds_to_sds(sds):
 
     Parameters
     ----------
-    sds : array_like
+    sds : array_like or MultiSpectralDistributions
         Spectral and multi-spectral distributions to convert to a flat list of
         spectral distributions.
 
@@ -2548,7 +2548,7 @@ def sds_and_msds_to_msds(sds):
 
     Parameters
     ----------
-    sds : array_like
+    sds : array_like or MultiSpectralDistributions
         Spectral and multi-spectral distributions to convert to
         multi-spectral distributions.
 
