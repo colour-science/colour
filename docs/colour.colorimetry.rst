@@ -299,6 +299,18 @@ Luminous Efficiency Functions
     SDS_LEFS_PHOTOPIC
     SDS_LEFS_SCOTOPIC
 
+Spectral Uniformity
+-------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+spectral_uniformity
+
 Lightness Computation
 ---------------------
 
