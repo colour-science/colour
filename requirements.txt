@@ -120,7 +120,7 @@ tornado==6.1
 tqdm==4.60.0
 traitlets==4.3.3
 twine==3.4.1
-urllib3==1.26.4
+urllib3==1.26.5
 virtualenv==20.4.3
 wcwidth==0.2.5
 webencodings==0.5.1
