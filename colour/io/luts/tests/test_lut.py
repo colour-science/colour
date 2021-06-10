@@ -492,20 +492,16 @@ class AbstractLUTTest(unittest.TestCase):
 
         # pylint: disable=E1102
         LUT_i = self._LUT_factory(self._table_2).invert(
-            self._interpolator_1,
-            self._interpolator_kwargs_1,
-            extrapolator=self._extrapolator_1,
-            extrapolator_kwargs=self._extrapolator_kwargs_1)
+            self._interpolator_1, self._interpolator_kwargs_1,
+            **self._invert_kwargs_1)
 
         np.testing.assert_almost_equal(
             LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_1, decimal=7)
 
         # pylint: disable=E1102
         LUT_i = self._LUT_factory(self._table_2).invert(
-            self._interpolator_2,
-            self._interpolator_kwargs_2,
-            extrapolator=self._extrapolator_1,
-            extrapolator_kwargs=self._extrapolator_kwargs_1)
+            self._interpolator_2, self._interpolator_kwargs_2,
+            **self._invert_kwargs_2)
 
         np.testing.assert_almost_equal(
             LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7)
@@ -548,8 +544,7 @@ class AbstractLUTTest(unittest.TestCase):
                 self._interpolator_1,
                 self._interpolator_kwargs_1,
                 'Inverse',
-                extrapolator=self._extrapolator_1,
-                extrapolator_kwargs=self._extrapolator_kwargs_1,
+                **self._invert_kwargs_1,
             ),
             self._applied_4,
             decimal=7)
@@ -588,8 +583,14 @@ class TestLUT1D(AbstractLUTTest):
         self._interpolator_kwargs_1 = {}
         self._interpolator_2 = CubicSplineInterpolator
         self._interpolator_kwargs_2 = {}
-        self._extrapolator_1 = Extrapolator
-        self._extrapolator_kwargs_1 = {}
+        self._invert_kwargs_1 = {
+            'extrapolator': Extrapolator,
+            'extrapolator_kwargs': {}
+        }
+        self._invert_kwargs_2 = {
+            'extrapolator': Extrapolator,
+            'extrapolator_kwargs': {}
+        }
         self._str = textwrap.dedent("""
             LUT1D - Nemo
             ------------
@@ -703,8 +704,14 @@ class TestLUT3x1D(AbstractLUTTest):
         self._interpolator_kwargs_1 = {}
         self._interpolator_2 = CubicSplineInterpolator
         self._interpolator_kwargs_2 = {}
-        self._extrapolator_1 = Extrapolator
-        self._extrapolator_kwargs_1 = {}
+        self._invert_kwargs_1 = {
+            'extrapolator': Extrapolator,
+            'extrapolator_kwargs': {}
+        }
+        self._invert_kwargs_2 = {
+            'extrapolator': Extrapolator,
+            'extrapolator_kwargs': {}
+        }
         self._str = textwrap.dedent("""
             LUT3x1D - Nemo
             --------------
@@ -838,8 +845,8 @@ class TestLUT3D(AbstractLUTTest):
         self._interpolator_kwargs_1 = {}
         self._interpolator_2 = table_interpolation_tetrahedral
         self._interpolator_kwargs_2 = {}
-        self._extrapolator_1 = None
-        self._extrapolator_kwargs_1 = {}
+        self._invert_kwargs_1 = {'extrapolate': False, 'query_size': 1}
+        self._invert_kwargs_2 = {'extrapolate': True, 'query_size': 3}
         self._str = textwrap.dedent("""
             LUT3D - Nemo
             ------------
@@ -850,15 +857,16 @@ class TestLUT3D(AbstractLUTTest):
             Size       : (33, 33, 33, 3)""")[1:]
         self._repr = None
         self._inverted_apply_1 = np.array([
-            [[0.93259940, 0.04818925, -0.00146028],
-             [0.26593731, 0.15743488, 0.12472549]],
-            [[0.94081323, 0.57648311, 0.00846963],
-             [0.48024921, 0.02887666, 0.90683979]],
-            [[0.45415635, 0.72121622, 0.15810926],
-             [0.03825935, 0.96203111, 0.88987440]],
-            [[0.94880272, 0.02832944, 0.58872560],
-             [-0.00146028, 0.32119161, 0.72922327]],
+            [[0.92912690, 0.04737489, 0.00000000],
+             [0.26685842, 0.16376350, 0.12488904]],
+            [[0.94536872, 0.57745743, 0.00934579],
+             [0.47636096, 0.02946078, 0.90396014]],
+            [[0.45473817, 0.72598647, 0.16511861],
+             [0.03738318, 0.96680135, 0.88860882]],
+            [[0.95254891, 0.02803738, 0.59004430],
+             [0.00000000, 0.32550901, 0.73257860]],
         ])
+
         self._inverted_apply_2 = np.array([
             [[0.93259940, 0.04818925, -0.00146028],
              [0.26593731, 0.15743488, 0.12472549]],

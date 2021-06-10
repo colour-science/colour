@@ -2107,12 +2107,12 @@ class LUT3D(AbstractLUT):
         --------------------------
         <BLANKLINE>
         Dimensions : 3
-        Domain     : [[-0.03125 -0.03125 -0.03125]
-                      [ 1.03125  1.03125  1.03125]]
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
         Size       : (108, 108, 108, 3)
         """
 
-        extrapolate = kwargs.get('extrapolate', True)
+        extrapolate = kwargs.get('extrapolate', False)
         query_size = kwargs.get('query_size', 3)
 
         LUT = self.copy()
