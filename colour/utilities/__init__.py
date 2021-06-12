@@ -27,8 +27,8 @@ from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
                     is_uniform, in_array, tstack, tsplit, row_as_diagonal,
                     orient, centroid, fill_nan, ndarray_write, zeros, ones,
                     full, index_along_last_axis)
-from ..algebra.common import normalise_maximum, vector_dot, matrix_dot, \
-    linear_conversion, linstep_function
+from ..algebra.common import (normalise_maximum, vector_dot, matrix_dot,
+                              linear_conversion, linstep_function)
 from .metrics import metric_mse, metric_psnr
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
