@@ -9,7 +9,7 @@ from itertools import permutations
 
 from colour.appearance import (VIEWING_CONDITIONS_HUNT, InductionFactors_Hunt,
                                XYZ_to_Hunt)
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
@@ -22,7 +22,7 @@ __status__ = 'Production'
 __all__ = ['TestHuntColourAppearanceModel']
 
 
-class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
+class TestHuntColourAppearanceModel(AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.hunt` module unit tests methods for
     *Hunt* colour appearance model.

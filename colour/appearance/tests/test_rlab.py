@@ -9,7 +9,7 @@ from itertools import permutations
 
 from colour.appearance import (D_FACTOR_RLAB, VIEWING_CONDITIONS_RLAB,
                                XYZ_to_RLAB)
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
@@ -22,7 +22,7 @@ __status__ = 'Production'
 __all__ = ['TestRLABColourAppearanceModel']
 
 
-class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
+class TestRLABColourAppearanceModel(AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.rlab` module unit tests methods for
     *RLAB* colour appearance model.

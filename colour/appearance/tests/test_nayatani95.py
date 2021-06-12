@@ -8,7 +8,7 @@ import numpy as np
 from itertools import permutations
 
 from colour.appearance import XYZ_to_Nayatani95
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
@@ -21,7 +21,7 @@ __status__ = 'Production'
 __all__ = ['TestNayatani95ColourAppearanceModel']
 
 
-class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
+class TestNayatani95ColourAppearanceModel(AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.nayatani95` module unit tests methods for
     *Nayatani (1995)* colour appearance model.

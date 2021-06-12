@@ -10,7 +10,7 @@ from itertools import permutations
 from colour.appearance import (VIEWING_CONDITIONS_CAM16,
                                InductionFactors_CAM16, CAM_Specification_CAM16,
                                XYZ_to_CAM16, CAM16_to_XYZ)
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import (as_namedtuple, domain_range_scale,
                               ignore_numpy_errors, tsplit, tstack)
 
@@ -27,7 +27,7 @@ __all__ = [
 ]
 
 
-class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
+class TestCAM16ColourAppearanceModelForward(AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.cam16` module units tests methods for
     *CAM16* colour appearance model forward implementation.
@@ -122,7 +122,7 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
-class TestCAM16ColourAppearanceModelInverse(ColourAppearanceModelTest):
+class TestCAM16ColourAppearanceModelInverse(AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.cam16` module units tests methods for
     *CAM16* colour appearance model inverse implementation.

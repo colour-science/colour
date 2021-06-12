@@ -10,7 +10,7 @@ from itertools import permutations
 from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM02, InductionFactors_CIECAM02,
     CAM_Specification_CIECAM02, XYZ_to_CIECAM02, CIECAM02_to_XYZ)
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import (as_namedtuple, domain_range_scale,
                               ignore_numpy_errors, tsplit, tstack)
 
@@ -27,7 +27,8 @@ __all__ = [
 ]
 
 
-class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
+class TestCIECAM02ColourAppearanceModelForward(
+        AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.ciecam02` module unit tests methods for
     *CIECAM02* colour appearance model forward implementation.
@@ -118,7 +119,8 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
-class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
+class TestCIECAM02ColourAppearanceModelInverse(
+        AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.ciecam02` module unit tests methods for
     *CIECAM02* colour appearance model inverse implementation.

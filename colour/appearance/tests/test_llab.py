@@ -16,7 +16,7 @@ from itertools import permutations
 
 from colour.appearance import (VIEWING_CONDITIONS_LLAB, InductionFactors_LLAB,
                                XYZ_to_LLAB, llab)
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -29,7 +29,7 @@ __status__ = 'Production'
 __all__ = ['TestLLABColourAppearanceModel']
 
 
-class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
+class TestLLABColourAppearanceModel(AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.llab` module unit tests methods for
     *LLAB(l:c)* colour appearance model.

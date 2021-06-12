@@ -8,7 +8,7 @@ import numpy as np
 from itertools import permutations
 
 from colour.appearance import XYZ_to_ATD95
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
@@ -21,7 +21,7 @@ __status__ = 'Production'
 __all__ = ['TestATD95ColourAppearanceModel']
 
 
-class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
+class TestATD95ColourAppearanceModel(AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.atd95` module unit tests methods for
     *ATD (1995)* colour vision model.
