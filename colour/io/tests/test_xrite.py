@@ -64,7 +64,7 @@ COLOURCHECKER_XRITE_1 = {
 
 class TestReadSdsFromXRiteFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.xrite.read_sds_from_xrite_file` definition units
+    Defines :func:`colour.io.xrite.read_sds_from_xrite_file` definition unit
     tests methods.
     """
 

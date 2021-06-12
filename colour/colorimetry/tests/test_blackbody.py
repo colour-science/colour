@@ -4505,7 +4505,7 @@ DATA_BLACKBODY = np.array([
 
 class TestPlanckLaw(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.planck_law` definition units
+    Defines :func:`colour.colorimetry.blackbody.planck_law` definition unit
     tests methods.
     """
 

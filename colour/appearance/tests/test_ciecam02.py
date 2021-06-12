@@ -29,7 +29,7 @@ __all__ = [
 
 class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
     """
-    Defines :mod:`colour.appearance.ciecam02` module units tests methods for
+    Defines :mod:`colour.appearance.ciecam02` module unit tests methods for
     *CIECAM02* colour appearance model forward implementation.
     """
 
@@ -120,7 +120,7 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
 
 class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
     """
-    Defines :mod:`colour.appearance.ciecam02` module units tests methods for
+    Defines :mod:`colour.appearance.ciecam02` module unit tests methods for
     *CIECAM02* colour appearance model inverse implementation.
     """
 

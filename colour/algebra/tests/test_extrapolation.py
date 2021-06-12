@@ -23,7 +23,7 @@ __all__ = ['TestExtrapolator']
 
 class TestExtrapolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.extrapolation.Extrapolator` class units
+    Defines :func:`colour.algebra.extrapolation.Extrapolator` class unit
     tests methods.
     """
 

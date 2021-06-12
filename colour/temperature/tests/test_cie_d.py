@@ -22,7 +22,7 @@ __all__ = ['TestXy_to_CCT_CIE_D', 'TestCCT_to_xy_CIE_D']
 
 class TestXy_to_CCT_CIE_D(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition units
+    Defines :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition unit
     tests methods.
     """
 

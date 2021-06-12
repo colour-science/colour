@@ -83,7 +83,7 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
 class TestCCT_to_xy_Hernandez1999(unittest.TestCase):
     """
     Defines :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_CCT_to_xy_Hernandez1999(self):

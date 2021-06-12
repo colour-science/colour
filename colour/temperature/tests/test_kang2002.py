@@ -23,7 +23,7 @@ __all__ = ['TestXy_to_CCT_Kang2002', 'TestCCT_to_xy_Kang2002']
 class TestXy_to_CCT_Kang2002(unittest.TestCase):
     """
     Defines :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_xy_to_CCT_Kang2002(self):
@@ -89,7 +89,7 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
 class TestCCT_to_xy_Kang2002(unittest.TestCase):
     """
     Defines :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_CCT_to_xy_Kang2002(self):

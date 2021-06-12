@@ -32,14 +32,15 @@ class ColourAppearanceModelTest:
 
     Methods
     -------
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.load_fixtures`
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+    -   :meth:`~colour.appearance.tests.ColourAppearanceModelTest.\
+load_fixtures`
+    -   :meth:`~colour.appearance.tests.ColourAppearanceModelTest.\
 output_specification_from_data`
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+    -   :meth:`~colour.appearance.tests.ColourAppearanceModelTest.\
 check_specification_attribute`
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+    -   :meth:`~colour.appearance.tests.ColourAppearanceModelTest.\
 check_model_consistency`
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+    -   :meth:`~colour.appearance.tests.ColourAppearanceModelTest.\
 test_forward_examples`
     """
 
