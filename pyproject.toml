@@ -88,7 +88,6 @@ sphinx = "<=3.1.2"
 sphinx_rtd_theme = "*"
 sphinxcontrib-bibtex = "<2.0.0"
 toml = "*"
-tqdm = "*"
 twine = "*"
 yapf = "0.23"
 
