@@ -74,18 +74,18 @@ class TestNayatani95ColourAppearanceModel(AbstractColourAppearanceModelTest):
         Y_o = 20.0
         E_o = 5000.0
         E_or = 1000.0
-        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)[:6]
+        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
 
         d_r = (
             ('reference', 1, 1),
-            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1])),
+            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1, np.nan, np.nan, 1])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, np.nan, np.nan, 1])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     XYZ_to_Nayatani95(XYZ * factor_a, XYZ_n * factor_a, Y_o,
-                                      E_o, E_or)[:6],
+                                      E_o, E_or),
                     specification * factor_b,
                     decimal=7)
 

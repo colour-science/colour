@@ -141,18 +141,18 @@ class TestLLABColourAppearanceModel(AbstractColourAppearanceModelTest):
         Y_b = 20.0
         L = 318.31
         surround = VIEWING_CONDITIONS_LLAB['ref_average_4_minus']
-        specification = XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)[:5]
+        specification = XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)
 
         d_r = (
             ('reference', 1, 1),
-            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1])),
+            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, np.nan, 1, 1])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, np.nan, 1, 1])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     XYZ_to_LLAB(XYZ * factor_a, XYZ_0 * factor_a, Y_b, L,
-                                surround)[:5],
+                                surround),
                     specification * factor_b,
                     decimal=7)
 

@@ -43,7 +43,7 @@ from colour.constants import EPSILON
 from colour.models import xy_to_XYZ
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
-    as_float, from_range_degrees, from_range_100, ones, to_domain_100,
+    as_float, from_range_degrees, from_range_100, full, ones, to_domain_100,
     to_domain_degrees, tsplit, tstack, zeros)
 from colour.utilities.documentation import (DocstringDict,
                                             is_documentation_building)
@@ -301,7 +301,7 @@ def XYZ_to_CIECAM02(XYZ,
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=41.7310911..., C=0.1047077..., \
 h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., \
-H=278.0607358..., HC=None)
+H=278.0607358..., HC=array(nan))
     """
 
     XYZ = to_domain_100(XYZ)
@@ -370,7 +370,7 @@ H=278.0607358..., HC=None)
     return CAM_Specification_CIECAM02(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
         from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H, 400), None)
+        from_range_degrees(H, 400), full(J.shape, np.nan))
 
 
 def CIECAM02_to_XYZ(specification,

@@ -31,7 +31,7 @@ from collections import namedtuple
 
 from colour.algebra import polar_to_cartesian, spow, vector_dot
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              from_range_degrees, to_domain_100, tsplit,
+                              from_range_degrees, full, to_domain_100, tsplit,
                               tstack)
 
 __author__ = 'Colour Developers'
@@ -275,7 +275,7 @@ def XYZ_to_LLAB(
     >>> surround = VIEWING_CONDITIONS_LLAB['ref_average_4_minus']
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
     CAM_Specification_LLAB(J=37.3668650..., C=0.0089496..., h=270..., \
-s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
+s=0.0002395..., M=0.0190185..., HC=array(nan), a=..., b=-0.0190185...)
     """
 
     _X, Y, _Z = tsplit(to_domain_100(XYZ))
@@ -324,7 +324,7 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
     return CAM_Specification_LLAB(L_L, Ch_L, from_range_degrees(h_L), s_L, C_L,
-                                  None, A_L, B_L)
+                                  full(L_L.shape, np.nan), A_L, B_L)
 
 
 def XYZ_to_RGB_LLAB(XYZ):

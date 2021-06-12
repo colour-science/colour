@@ -86,21 +86,22 @@ class TestCAM16ColourAppearanceModelForward(AbstractColourAppearanceModelTest):
         L_A = 318.31
         Y_b = 20.0
         surround = VIEWING_CONDITIONS_CAM16['Average']
-        specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)[:-1]
+        specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 
         d_r = (
             ('reference', 1, 1),
             (1, 0.01,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400,
+                 np.nan
              ])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     XYZ_to_CAM16(XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b,
-                                 surround)[:-1],
+                                 surround),
                     specification * factor_b,
                     decimal=7)
 
@@ -244,15 +245,17 @@ class TestCAM16ColourAppearanceModelInverse(AbstractColourAppearanceModelTest):
             ('reference', 1, 1, 1),
             (1,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400,
+                 np.nan
              ]), 0.01, 0.01),
-            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400]), 1, 1),
+            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]), 1,
+             1),
         )
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    CAM16_to_XYZ(specification[:-1] * factor_a,
-                                 XYZ_w * factor_b, L_A, Y_b, surround),
+                    CAM16_to_XYZ(specification * factor_a, XYZ_w * factor_b,
+                                 L_A, Y_b, surround),
                     XYZ * factor_c,
                     decimal=7)
 

@@ -82,12 +82,12 @@ class TestHuntColourAppearanceModel(AbstractColourAppearanceModelTest):
         surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
         CCT_w = 6504.0
         specification = XYZ_to_Hunt(
-            XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)[:-2]
+            XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
 
         d_r = (
             ('reference', 1, 1),
-            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1])),
+            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1, np.nan, np.nan])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, np.nan, np.nan])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
@@ -98,7 +98,7 @@ class TestHuntColourAppearanceModel(AbstractColourAppearanceModelTest):
                         XYZ_b * factor_a,
                         L_A,
                         surround,
-                        CCT_w=CCT_w)[:-2],
+                        CCT_w=CCT_w),
                     specification * factor_b,
                     decimal=7)
 
@@ -155,14 +155,11 @@ class TestHuntColourAppearanceModel(AbstractColourAppearanceModelTest):
                 surround,
                 XYZ_p=XYZ_p,
                 CCT_w=CCT_w,
-            )[:-2],
+            ),
             np.array([
-                30.046267861960700,
-                0.121050839936350,
-                269.273759446144600,
-                0.019909320692942,
-                22.209765491265024,
-                0.123896438259997,
+                30.046267861960700, 0.121050839936350, 269.273759446144600,
+                0.019909320692942, 22.209765491265024, 0.123896438259997,
+                np.nan, np.nan
             ]),
             decimal=7)
 
