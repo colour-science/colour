@@ -84,7 +84,7 @@ def _add(a, b):
 class TestMultiprocessingPool(unittest.TestCase):
     """
     Defines :func:`colour.utilities.common.multiprocessing_pool` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_multiprocessing_pool(self):
@@ -180,7 +180,7 @@ class TestIsNumeric(unittest.TestCase):
 
 class TestIsInteger(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_integer` definition units
+    Defines :func:`colour.utilities.common.is_integer` definition unit
     tests methods.
     """
 
@@ -198,7 +198,7 @@ class TestIsInteger(unittest.TestCase):
 
 class TestIsSibling(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_sibling` definition units tests
+    Defines :func:`colour.utilities.common.is_sibling` definition unit tests
     methods.
     """
 
@@ -236,7 +236,7 @@ class TestIsSibling(unittest.TestCase):
 
 class TestFilterKwargs(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.filter_kwargs` definition units
+    Defines :func:`colour.utilities.common.filter_kwargs` definition unit
     tests methods.
     """
 
@@ -277,7 +277,7 @@ class TestFilterKwargs(unittest.TestCase):
 
 class TestFilterMapping(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.filter_mapping` definition units
+    Defines :func:`colour.utilities.common.filter_mapping` definition unit
     tests methods.
     """
 
@@ -341,7 +341,7 @@ class TestFilterMapping(unittest.TestCase):
 
 class TestFirstItem(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.first_item` definition units
+    Defines :func:`colour.utilities.common.first_item` definition unit
     tests methods.
     """
 
@@ -361,7 +361,7 @@ class TestFirstItem(unittest.TestCase):
 class TestGetDomainRangeScale(unittest.TestCase):
     """
     Defines :func:`colour.utilities.common.get_domain_range_scale` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_get_domain_range_scale(self):
@@ -383,7 +383,7 @@ class TestGetDomainRangeScale(unittest.TestCase):
 class TestSetDomainRangeScale(unittest.TestCase):
     """
     Defines :func:`colour.utilities.common.set_domain_range_scale` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_set_domain_range_scale(self):
@@ -411,7 +411,7 @@ class TestSetDomainRangeScale(unittest.TestCase):
 class TestDomainRangeScale(unittest.TestCase):
     """
     Defines :func:`colour.utilities.common.domain_range_scale` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_domain_range_scale(self):
@@ -483,7 +483,7 @@ class TestDomainRangeScale(unittest.TestCase):
 
 class TestToDomain1(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_1` definition units
+    Defines :func:`colour.utilities.common.to_domain_1` definition unit
     tests methods.
     """
 
@@ -511,7 +511,7 @@ class TestToDomain1(unittest.TestCase):
 
 class TestToDomain10(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_10` definition units
+    Defines :func:`colour.utilities.common.to_domain_10` definition unit
     tests methods.
     """
 
@@ -539,7 +539,7 @@ class TestToDomain10(unittest.TestCase):
 
 class TestToDomain100(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_100` definition units
+    Defines :func:`colour.utilities.common.to_domain_100` definition unit
     tests methods.
     """
 
@@ -567,7 +567,7 @@ class TestToDomain100(unittest.TestCase):
 
 class TestToDomainDegrees(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_degrees` definition units
+    Defines :func:`colour.utilities.common.to_domain_degrees` definition unit
     tests methods.
     """
 
@@ -595,7 +595,7 @@ class TestToDomainDegrees(unittest.TestCase):
 
 class TestToDomainInt(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_int` definition units
+    Defines :func:`colour.utilities.common.to_domain_int` definition unit
     tests methods.
     """
 
@@ -623,7 +623,7 @@ class TestToDomainInt(unittest.TestCase):
 
 class TestFromRange1(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_1` definition units
+    Defines :func:`colour.utilities.common.from_range_1` definition unit
     tests methods.
     """
 
@@ -647,7 +647,7 @@ class TestFromRange1(unittest.TestCase):
 
 class TestFromRange10(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_10` definition units
+    Defines :func:`colour.utilities.common.from_range_10` definition unit
     tests methods.
     """
 
@@ -671,7 +671,7 @@ class TestFromRange10(unittest.TestCase):
 
 class TestFromRange100(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_100` definition units
+    Defines :func:`colour.utilities.common.from_range_100` definition unit
     tests methods.
     """
 
@@ -695,7 +695,7 @@ class TestFromRange100(unittest.TestCase):
 
 class TestFromRangeDegrees(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_degrees` definition units
+    Defines :func:`colour.utilities.common.from_range_degrees` definition unit
     tests methods.
     """
 
@@ -719,7 +719,7 @@ class TestFromRangeDegrees(unittest.TestCase):
 
 class TestFromRangeInt(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_int` definition units
+    Defines :func:`colour.utilities.common.from_range_int` definition unit
     tests methods.
     """
 

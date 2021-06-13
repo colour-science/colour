@@ -160,7 +160,7 @@ LUT_TABLE = read_LUT(
 class TestKernelNearestNeighbour(unittest.TestCase):
     """
     Defines :func:`colour.algebra.interpolation.kernel_nearest_neighbour`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_kernel_nearest(self):
@@ -181,7 +181,7 @@ class TestKernelNearestNeighbour(unittest.TestCase):
 class TestKernelLinear(unittest.TestCase):
     """
     Defines :func:`colour.algebra.interpolation.kernel_linear` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_kernel_linear(self):
@@ -204,7 +204,7 @@ class TestKernelLinear(unittest.TestCase):
 class TestKernelSinc(unittest.TestCase):
     """
     Defines :func:`colour.algebra.interpolation.kernel_sinc` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_kernel_sinc(self):
@@ -238,7 +238,7 @@ class TestKernelSinc(unittest.TestCase):
 class TestKernelLanczos(unittest.TestCase):
     """
     Defines :func:`colour.algebra.interpolation.kernel_lanczos` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_kernel_lanczos(self):
@@ -274,7 +274,7 @@ class TestKernelLanczos(unittest.TestCase):
 class TestKernelCardinalSpline(unittest.TestCase):
     """
     Defines :func:`colour.algebra.interpolation.kernel_cardinal_spline`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_kernel_cardinal_spline(self):
@@ -308,7 +308,7 @@ class TestKernelCardinalSpline(unittest.TestCase):
 
 class TestKernelInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.KernelInterpolator` class units
+    Defines :func:`colour.algebra.interpolation.KernelInterpolator` class unit
     tests methods.
     """
 
@@ -539,7 +539,7 @@ padding_kwargs` property.
 class TestNearestNeighbourInterpolator(unittest.TestCase):
     """
     Defines :func:`colour.algebra.interpolation.NearestNeighbourInterpolator`
-    class units tests methods.
+    class unit tests methods.
     """
 
     def test_required_attributes(self):
@@ -577,7 +577,7 @@ class TestNearestNeighbourInterpolator(unittest.TestCase):
 
 class TestLinearInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class units
+    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class unit
     tests methods.
     """
 

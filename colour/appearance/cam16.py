@@ -36,7 +36,7 @@ from colour.appearance.ciecam02 import (
     viewing_condition_dependent_parameters)
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_namedtuple, from_range_100,
-    from_range_degrees, ones, to_domain_100, to_domain_degrees, tsplit)
+    from_range_degrees, full, ones, to_domain_100, to_domain_degrees, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -232,7 +232,7 @@ def XYZ_to_CAM16(XYZ,
     >>> XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_CAM16(J=41.7312079..., C=0.1033557..., \
 h=217.0679597..., s=2.3450150..., Q=195.3717089..., M=0.1074367..., \
-H=275.5949861..., HC=None)
+H=275.5949861..., HC=array(nan))
     """
 
     XYZ = to_domain_100(XYZ)
@@ -314,7 +314,7 @@ H=275.5949861..., HC=None)
     return CAM_Specification_CAM16(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
         from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H, 400), None)
+        from_range_degrees(H, 400), full(J.shape, np.nan))
 
 
 def CAM16_to_XYZ(specification,

@@ -23,7 +23,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RESOURCES_DIRECTORY', 'TestAbstractLUT', 'TestLUT', 'TestLUT1D',
+    'RESOURCES_DIRECTORY', 'TestAbstractLUT', 'AbstractLUTTest', 'TestLUT1D',
     'TestLUT3x1D', 'TestLUT3D', 'TestAbstractLUTSequenceOperator',
     'TestLUTSequence'
 ]
@@ -67,7 +67,7 @@ class TestAbstractLUT(unittest.TestCase):
             self.assertIn(method, dir(AbstractLUT))
 
 
-class TestLUT(unittest.TestCase):
+class AbstractLUTTest(unittest.TestCase):
     """
     Defines :class:`colour.io.luts.lut.LUT1D`,
     :class:`colour.io.luts.lut.LUT3x1D` and
@@ -84,7 +84,7 @@ class TestLUT(unittest.TestCase):
             Arguments.
         """
 
-        super(TestLUT, self).__init__(*args)
+        super(AbstractLUTTest, self).__init__(*args)
 
         self._LUT_factory = None
 
@@ -506,7 +506,7 @@ class TestLUT(unittest.TestCase):
         self.assertEqual(LUT_1, LUT_1.copy())
 
 
-class TestLUT1D(TestLUT):
+class TestLUT1D(AbstractLUTTest):
     """
     Defines :class:`colour.io.luts.lut.LUT1D` class unit tests methods.
     """
@@ -580,7 +580,7 @@ class TestLUT1D(TestLUT):
         ])
 
 
-class TestLUT3x1D(TestLUT):
+class TestLUT3x1D(AbstractLUTTest):
     """
     Defines :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods.
     """
@@ -678,7 +678,7 @@ class TestLUT3x1D(TestLUT):
         ])
 
 
-class TestLUT3D(TestLUT):
+class TestLUT3D(AbstractLUTTest):
     """
     Defines :class:`colour.io.luts.lut.LUT3D` class unit tests methods.
     """

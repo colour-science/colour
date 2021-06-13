@@ -36,7 +36,7 @@ CCS_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 class TestClosestSpectralLocusWavelength(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.dominant.\
-closest_spectral_locus_wavelength` definition units tests methods.
+closest_spectral_locus_wavelength` definition unit tests methods.
     """
 
     def setUp(self):
@@ -115,7 +115,7 @@ closest_spectral_locus_wavelength` definition nan support.
 class TestDominantWavelength(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.dominant.dominant_wavelength` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_dominant_wavelength(self):
@@ -204,7 +204,7 @@ class TestDominantWavelength(unittest.TestCase):
 class TestComplementaryWavelength(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.dominant.complementary_wavelength`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_complementary_wavelength(self):
@@ -293,7 +293,7 @@ class TestComplementaryWavelength(unittest.TestCase):
 class TestExcitationPurity(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.dominant.excitation_purity` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_excitation_purity(self):
@@ -366,7 +366,7 @@ class TestExcitationPurity(unittest.TestCase):
 class TestColorimetricPurity(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.dominant.colorimetric_purity` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_colorimetric_purity(self):

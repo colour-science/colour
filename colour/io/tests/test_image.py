@@ -35,7 +35,7 @@ RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 
 class TestConvertBitDepth(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.convert_bit_depth` definition units tests
+    Defines :func:`colour.io.image.convert_bit_depth` definition unit tests
     methods.
     """
 
@@ -159,7 +159,7 @@ class TestConvertBitDepth(unittest.TestCase):
 
 class TestReadImageOpenImageIO(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.read_image_OpenImageIO` definition units
+    Defines :func:`colour.io.image.read_image_OpenImageIO` definition unit
     tests methods.
     """
 
@@ -222,7 +222,7 @@ class TestReadImageOpenImageIO(unittest.TestCase):
 
 class TestWriteImageOpenImageIO(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.write_image_OpenImageIO` definition units
+    Defines :func:`colour.io.image.write_image_OpenImageIO` definition unit
     tests methods.
     """
 
@@ -271,7 +271,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
 
 class TestReadImageImageio(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.read_image_Imageio` definition units tests
+    Defines :func:`colour.io.image.read_image_Imageio` definition unit tests
     methods.
     """
 
@@ -324,7 +324,7 @@ class TestReadImageImageio(unittest.TestCase):
 
 class TestWriteImageImageio(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.write_image_Imageio` definition units
+    Defines :func:`colour.io.image.write_image_Imageio` definition unit
     tests methods.
     """
 
@@ -360,7 +360,7 @@ class TestWriteImageImageio(unittest.TestCase):
 
 class TestReadImage(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.read_image` definition units tests
+    Defines :func:`colour.io.image.read_image` definition unit tests
     methods.
     """
 
@@ -381,7 +381,7 @@ class TestReadImage(unittest.TestCase):
 
 class TestWriteImage(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.write_image` definition units tests methods.
+    Defines :func:`colour.io.image.write_image` definition unit tests methods.
     """
 
     def setUp(self):

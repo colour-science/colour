@@ -132,7 +132,7 @@ class TestSpow(unittest.TestCase):
 
 class TestNormaliseMaximum(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.normalise_maximum` definition units
+    Defines :func:`colour.utilities.array.normalise_maximum` definition unit
     tests methods.
     """
 

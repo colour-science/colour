@@ -19,10 +19,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['ColourAppearanceModelTest']
+__all__ = ['AbstractColourAppearanceModelTest']
 
 
-class ColourAppearanceModelTest:
+class AbstractColourAppearanceModelTest:
     """
     Defines the base class for tests of: mod:`colour.appearance` package.
 
@@ -32,14 +32,15 @@ class ColourAppearanceModelTest:
 
     Methods
     -------
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.load_fixtures`
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+    -   :meth:`~colour.appearance.tests.AbstractColourAppearanceModelTest.\
+load_fixtures`
+    -   :meth:`~colour.appearance.tests.AbstractColourAppearanceModelTest.\
 output_specification_from_data`
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+    -   :meth:`~colour.appearance.tests.AbstractColourAppearanceModelTest.\
 check_specification_attribute`
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+    -   :meth:`~colour.appearance.tests.AbstractColourAppearanceModelTest.\
 check_model_consistency`
-    -   :meth:`~colour.apperance.tests.ColourAppearanceModelTest.\
+    -   :meth:`~colour.appearance.tests.AbstractColourAppearanceModelTest.\
 test_forward_examples`
     """
 

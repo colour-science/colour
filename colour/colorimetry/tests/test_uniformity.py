@@ -48,7 +48,7 @@ DATA_UNIFORMITY = np.array([
 class TestSpectralUniformity(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.uniformity.spectral_uniformity`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_spectral_uniformity(self):

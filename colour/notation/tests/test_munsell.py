@@ -1840,7 +1840,7 @@ class TestBoundingHuesFromRenotation(unittest.TestCase):
 
 class TestHueToHueAngle(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.hue_to_hue_angle` definition units
+    Defines :func:`colour.notation.munsell.hue_to_hue_angle` definition unit
     tests methods.
     """
 
@@ -1855,7 +1855,7 @@ class TestHueToHueAngle(unittest.TestCase):
 
 class TestHueAngleToHue(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.hue_angle_to_hue` definition units
+    Defines :func:`colour.notation.munsell.hue_angle_to_hue` definition unit
     tests methods.
     """
 
@@ -1870,7 +1870,7 @@ class TestHueAngleToHue(unittest.TestCase):
 
 class TestHueTo_ASTM_hue(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.hue_to_ASTM_hue` definition units
+    Defines :func:`colour.notation.munsell.hue_to_ASTM_hue` definition unit
     tests methods.
     """
 

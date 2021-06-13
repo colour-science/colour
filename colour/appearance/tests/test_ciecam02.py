@@ -10,7 +10,7 @@ from itertools import permutations
 from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM02, InductionFactors_CIECAM02,
     CAM_Specification_CIECAM02, XYZ_to_CIECAM02, CIECAM02_to_XYZ)
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import (as_namedtuple, domain_range_scale,
                               ignore_numpy_errors, tsplit, tstack)
 
@@ -27,9 +27,10 @@ __all__ = [
 ]
 
 
-class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
+class TestCIECAM02ColourAppearanceModelForward(
+        AbstractColourAppearanceModelTest):
     """
-    Defines :mod:`colour.appearance.ciecam02` module units tests methods for
+    Defines :mod:`colour.appearance.ciecam02` module unit tests methods for
     *CIECAM02* colour appearance model forward implementation.
     """
 
@@ -82,21 +83,22 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
         L_A = 318.31
         Y_b = 20.0
         surround = VIEWING_CONDITIONS_CIECAM02['Average']
-        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)[:-1]
+        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 
         d_r = (
             ('reference', 1, 1),
             (1, 0.01,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400,
+                 np.nan
              ])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     XYZ_to_CIECAM02(XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b,
-                                    surround)[:-1],
+                                    surround),
                     specification * factor_b,
                     decimal=7)
 
@@ -118,9 +120,10 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
-class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
+class TestCIECAM02ColourAppearanceModelInverse(
+        AbstractColourAppearanceModelTest):
     """
-    Defines :mod:`colour.appearance.ciecam02` module units tests methods for
+    Defines :mod:`colour.appearance.ciecam02` module unit tests methods for
     *CIECAM02* colour appearance model inverse implementation.
     """
 
@@ -240,15 +243,17 @@ class TestCIECAM02ColourAppearanceModelInverse(ColourAppearanceModelTest):
             ('reference', 1, 1, 1),
             (1,
              np.array([
-                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400
+                 1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400,
+                 np.nan
              ]), 0.01, 0.01),
-            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400]), 1, 1),
+            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]), 1,
+             1),
         )
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    CIECAM02_to_XYZ(specification[:-1] * factor_a,
-                                    XYZ_w * factor_b, L_A, Y_b, surround),
+                    CIECAM02_to_XYZ(specification * factor_a, XYZ_w * factor_b,
+                                    L_A, Y_b, surround),
                     XYZ * factor_c,
                     decimal=7)
 

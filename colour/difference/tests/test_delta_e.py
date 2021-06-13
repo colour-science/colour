@@ -414,7 +414,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
 class TestDelta_E_CMC(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CMC` definition units
+    Defines :func:`colour.difference.delta_e.delta_E_CMC` definition unit
     tests methods.
     """
 

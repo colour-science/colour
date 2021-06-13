@@ -149,7 +149,7 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
 
 class TestReadSdsFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.read_sds_from_csv_file` definition units
+    Defines :func:`colour.io.tabular.read_sds_from_csv_file` definition unit
     tests methods.
     """
 
@@ -170,7 +170,7 @@ class TestReadSdsFromCsvFile(unittest.TestCase):
 
 class TestWriteSdsToCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.write_sds_to_csv_file` definition units
+    Defines :func:`colour.io.tabular.write_sds_to_csv_file` definition unit
     tests methods.
     """
 

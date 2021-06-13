@@ -169,7 +169,7 @@ class TestAsFloat(unittest.TestCase):
 
 class TestSetFloatPrecision(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.set_float_precision` definition units
+    Defines :func:`colour.utilities.array.set_float_precision` definition unit
     tests methods.
     """
 
@@ -263,7 +263,7 @@ class TestSetFloatPrecision(unittest.TestCase):
 
 class TestSetIntPrecision(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.set_int_precision` definition units
+    Defines :func:`colour.utilities.array.set_int_precision` definition unit
     tests methods.
     """
 

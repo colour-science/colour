@@ -42,7 +42,7 @@ PLANCKIAN_TABLE = np.array([
 class TestPlanckianTable(unittest.TestCase):
     """
     Defines :func:`colour.temperature.ohno2013.planckian_table` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_planckian_table(self):
@@ -82,7 +82,7 @@ planckian_table_minimal_distance_index` definition.
 class Testuv_to_CCT_Ohno2013(unittest.TestCase):
     """
     Defines :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_uv_to_CCT_Ohno2013(self):
@@ -144,7 +144,7 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
 class TestCCT_to_uv_Ohno2013(unittest.TestCase):
     """
     Defines :func:`colour.temperature.ohno2013.CCT_to_uv_Ohno2013` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_CCT_to_uv_Ohno2013(self):

@@ -9,7 +9,7 @@ from itertools import permutations
 
 from colour.appearance import (D_FACTOR_RLAB, VIEWING_CONDITIONS_RLAB,
                                XYZ_to_RLAB)
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
@@ -22,7 +22,7 @@ __status__ = 'Production'
 __all__ = ['TestRLABColourAppearanceModel']
 
 
-class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
+class TestRLABColourAppearanceModel(AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.rlab` module unit tests methods for
     *RLAB* colour appearance model.
@@ -74,18 +74,18 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
         Y_n = 31.83
         sigma = VIEWING_CONDITIONS_RLAB['Average']
         D = D_FACTOR_RLAB['Hard Copy Images']
-        specification = XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)[:4]
+        specification = XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)
 
         d_r = (
             ('reference', 1, 1),
-            (1, 0.01, np.array([1, 1, 1 / 360, 1])),
-            (100, 1, np.array([1, 1, 100 / 360, 1])),
+            (1, 0.01, np.array([1, 1, 1 / 360, 1, np.nan, 1, 1])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, np.nan, 1, 1])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     XYZ_to_RLAB(XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma,
-                                D)[:4],
+                                D),
                     specification * factor_b,
                     decimal=7)
 

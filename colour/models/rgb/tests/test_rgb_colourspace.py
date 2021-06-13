@@ -172,7 +172,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
 class TestRGB_Colourspace(unittest.TestCase):
     """
-    Defines :class:`colour.colour.models.RGB_Colourspace` class units
+    Defines :class:`colour.colour.models.RGB_Colourspace` class unit
     tests methods.
     """
 

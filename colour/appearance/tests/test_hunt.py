@@ -9,7 +9,7 @@ from itertools import permutations
 
 from colour.appearance import (VIEWING_CONDITIONS_HUNT, InductionFactors_Hunt,
                                XYZ_to_Hunt)
-from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
@@ -22,7 +22,7 @@ __status__ = 'Production'
 __all__ = ['TestHuntColourAppearanceModel']
 
 
-class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
+class TestHuntColourAppearanceModel(AbstractColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.hunt` module unit tests methods for
     *Hunt* colour appearance model.
@@ -82,12 +82,12 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
         CCT_w = 6504.0
         specification = XYZ_to_Hunt(
-            XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)[:-2]
+            XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
 
         d_r = (
             ('reference', 1, 1),
-            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1])),
+            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1, np.nan, np.nan])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, np.nan, np.nan])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
@@ -98,7 +98,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
                         XYZ_b * factor_a,
                         L_A,
                         surround,
-                        CCT_w=CCT_w)[:-2],
+                        CCT_w=CCT_w),
                     specification * factor_b,
                     decimal=7)
 
@@ -155,14 +155,11 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
                 surround,
                 XYZ_p=XYZ_p,
                 CCT_w=CCT_w,
-            )[:-2],
+            ),
             np.array([
-                30.046267861960700,
-                0.121050839936350,
-                269.273759446144600,
-                0.019909320692942,
-                22.209765491265024,
-                0.123896438259997,
+                30.046267861960700, 0.121050839936350, 269.273759446144600,
+                0.019909320692942, 22.209765491265024, 0.123896438259997,
+                np.nan, np.nan
             ]),
             decimal=7)
 

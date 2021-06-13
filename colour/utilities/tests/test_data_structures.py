@@ -26,7 +26,7 @@ __all__ = [
 
 class TestStructure(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.data_structures.Structure` class units
+    Defines :class:`colour.utilities.data_structures.Structure` class unit
     tests methods.
     """
 
