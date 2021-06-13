@@ -5,14 +5,13 @@ Defines the unit tests for the :mod:`colour.appearance.cam16` module.
 """
 
 import numpy as np
+import unittest
 from itertools import permutations
 
 from colour.appearance import (VIEWING_CONDITIONS_CAM16,
                                InductionFactors_CAM16, CAM_Specification_CAM16,
                                XYZ_to_CAM16, CAM16_to_XYZ)
-from colour.appearance.tests.common import AbstractColourAppearanceModelTest
-from colour.utilities import (as_namedtuple, domain_range_scale,
-                              ignore_numpy_errors, tsplit, tstack)
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -21,58 +20,74 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = [
-    'TestCAM16ColourAppearanceModelForward',
-    'TestCAM16ColourAppearanceModelInverse'
-]
+__all__ = ['TestXYZ_to_CAM16', 'TestCAM16_to_XYZ']
 
 
-class TestCAM16ColourAppearanceModelForward(AbstractColourAppearanceModelTest):
+class TestXYZ_to_CAM16(unittest.TestCase):
     """
-    Defines :mod:`colour.appearance.cam16` module units tests methods for
-    *CAM16* colour appearance model forward implementation.
+    Defines :func:`colour.appearance.cam16.XYZ_to_CAM16` definition unit
+    tests methods.
     """
 
-    # TODO: The current fixture data is generated from direct computations
-    # using our model implementation. We have asked ground truth data to
-    # Li et al. (2016) and will update the "cam16.csv" file accordingly
-    # whenever we receive it.
-    FIXTURE_BASENAME = 'cam16.csv'
-
-    OUTPUT_ATTRIBUTES = {
-        'J': 'J',
-        'C': 'C',
-        'h': 'h',
-        's': 's',
-        'Q': 'Q',
-        'M': 'M',
-        'H': 'H'
-    }
-
-    def output_specification_from_data(self, data):
+    def test_XYZ_to_CAM16(self):
         """
-        Returns the *CAM16* colour appearance model output specification from
-        given data.
-
-        Parameters
-        ----------
-        data : list
-            Fixture data.
-
-        Returns
-        -------
-        CAM_Specification_CAM16
-            *CAM16* colour appearance model specification.
+        Tests :func:`colour.appearance.cam16.XYZ_to_CAM16` definition.
         """
 
-        XYZ = tstack([data['X'], data['Y'], data['Z']])
-        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20.0
+        surround = VIEWING_CONDITIONS_CAM16['Average']
+        np.testing.assert_almost_equal(
+            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array([
+                41.73120791, 0.10335574, 217.06795977, 2.34501507,
+                195.37170899, 0.10743677, 275.59498615, np.nan
+            ]),
+            decimal=7)
 
-        specification = XYZ_to_CAM16(
-            XYZ, XYZ_w, data['L_A'], data['Y_b'],
-            InductionFactors_CAM16(data['F'], data['c'], data['N_c']))
+        XYZ = np.array([57.06, 43.06, 31.96])
+        L_A = 31.83
+        np.testing.assert_almost_equal(
+            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array([
+                65.42828069, 49.67956420, 17.48659243, 52.94308868,
+                152.06985268, 42.62473321, 398.03047943, np.nan
+            ]),
+            decimal=7)
 
-        return specification
+        XYZ = np.array([3.53, 6.56, 2.14])
+        XYZ_w = np.array([109.85, 100, 35.58])
+        L_A = 318.31
+        np.testing.assert_almost_equal(
+            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array([
+                21.36052893, 50.99381895, 178.86724266, 61.57953092,
+                139.78582768, 53.00732582, 223.01823806, np.nan
+            ]),
+            decimal=7)
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        L_A = 318.31
+        np.testing.assert_almost_equal(
+            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array([
+                41.36326063, 52.81154022, 258.88676291, 53.12406914,
+                194.52011798, 54.89682038, 311.24768647, np.nan
+            ]),
+            decimal=7)
+
+        XYZ = np.array([61.45276998, 7.00421901, 82.2406738])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 4.074366543152521
+        np.testing.assert_almost_equal(
+            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array([
+                21.03801957, 457.78881613, 350.06445098, 241.50642846,
+                56.74143988, 330.94646237, 376.43915877, np.nan
+            ]),
+            decimal=7)
 
     @ignore_numpy_errors
     def test_domain_range_scale_XYZ_to_CAM16(self):
@@ -123,108 +138,61 @@ class TestCAM16ColourAppearanceModelForward(AbstractColourAppearanceModelTest):
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
-class TestCAM16ColourAppearanceModelInverse(AbstractColourAppearanceModelTest):
+class TestCAM16_to_XYZ(unittest.TestCase):
     """
-    Defines :mod:`colour.appearance.cam16` module units tests methods for
-    *CAM16* colour appearance model inverse implementation.
+    Defines :func:`colour.appearance.cam16.CAM16_to_XYZ` definition unit tests
+    methods.
     """
 
-    FIXTURE_BASENAME = 'cam16.csv'
-
-    OUTPUT_ATTRIBUTES = {'X': 0, 'Y': 1, 'Z': 2}
-
-    def output_specification_from_data(self, data):
+    def test_CAM16_to_XYZ(self):
         """
-        Returns the colour appearance model output specification from given
-        fixture data.
-
-        Parameters
-        ----------
-        data : list
-            Tested colour appearance model fixture data.
-
-        Notes
-        -----
-        -   This method is a dummy object.
+        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition.
         """
 
-        pass
+        specification = CAM_Specification_CAM16(41.73120791, 0.10335574,
+                                                217.06795977)
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20.0
+        surround = VIEWING_CONDITIONS_CAM16['Average']
+        np.testing.assert_almost_equal(
+            CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([19.01, 20.00, 21.78]),
+            decimal=7)
 
-    def _XYZ_from_data(self, data, correlates):
-        """
-        Returns the *CIE XYZ* tristimulus values from given *CAM16* colour
-        appearance model input data.
+        specification = CAM_Specification_CAM16(65.42828069, 49.67956420,
+                                                17.48659243)
+        L_A = 31.83
+        np.testing.assert_almost_equal(
+            CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([57.06, 43.06, 31.96]),
+            decimal=7)
 
-        Parameters
-        ----------
-        data : list
-            Fixture data.
-        correlates : array_like
-            Correlates used to build the input *CAM16* colour appearance
-            model specification.
+        specification = CAM_Specification_CAM16(21.36052893, 50.99381895,
+                                                178.86724266)
+        XYZ_w = np.array([109.85, 100, 35.58])
+        L_A = 318.31
+        np.testing.assert_almost_equal(
+            CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([3.53, 6.56, 2.14]),
+            decimal=7)
 
-        Returns
-        -------
-        array_like
-            *CIE XYZ* tristimulus values
-        """
+        specification = CAM_Specification_CAM16(41.36326063, 52.81154022,
+                                                258.88676291)
+        L_A = 318.31
+        np.testing.assert_almost_equal(
+            CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([19.01, 20.00, 21.78]),
+            decimal=7)
 
-        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
-
-        i, j, k = correlates
-        specification = as_namedtuple({
-            i: data[i],
-            j: data[j],
-            k: data[k]
-        }, CAM_Specification_CAM16)
-
-        XYZ = CAM16_to_XYZ(
-            specification, XYZ_w, data['L_A'], data['Y_b'],
-            InductionFactors_CAM16(data['F'], data['c'], data['N_c']))
-
-        return XYZ
-
-    def check_specification_attribute(self, case, data, attribute, expected):
-        """
-        Tests *CIE XYZ* tristimulus values output from *CAM16* colour
-        appearance model input data.
-
-        Parameters
-        ----------
-        case : int
-            Fixture case number.
-        data : dict.
-            Fixture case data.
-        attribute : unicode.
-            Tested attribute name.
-        expected : float.
-            Expected attribute value.
-
-        Warnings
-        --------
-        The method name does not reflect the underlying implementation.
-        """
-
-        for correlates in (('J', 'C', 'h'), ('J', 'M', 'h')):
-            XYZ = self._XYZ_from_data(data, correlates)
-            value = tsplit(XYZ)[attribute]
-
-            error_message = ('Parameter "{0}" in test case "{1}" '
-                             'does not match target value.\n'
-                             'Expected: "{2}" \n'
-                             'Received "{3}"').format(attribute, case,
-                                                      expected, value)
-
-            np.testing.assert_allclose(
-                value,
-                expected,
-                err_msg=error_message,
-                rtol=0.01,
-                atol=0.01,
-                verbose=False)
-
-            np.testing.assert_almost_equal(
-                value, expected, decimal=1, err_msg=error_message)
+        specification = CAM_Specification_CAM16(21.03801957, 457.78881613,
+                                                350.06445098)
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 4.074366543152521
+        np.testing.assert_almost_equal(
+            CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([61.45276998, 7.00421901, 82.2406738]),
+            decimal=7)
 
     @ignore_numpy_errors
     def test_domain_range_scale_CAM16_to_XYZ(self):
