@@ -58,7 +58,7 @@ References
 import numpy as np
 
 from colour.algebra import spow
-from colour.biochemistry import reaction_rate_MichealisMenten
+from colour.biochemistry import reaction_rate_MichaelisMenten_Michaelis1913
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, from_range_100,
                               get_domain_range_scale, to_domain_1,
@@ -294,7 +294,7 @@ def lightness_CIE1976(Y, Y_n=100):
 def lightness_Fairchild2010(Y, epsilon=1.836):
     """
     Computes *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
-    *Fairchild and Wyble (2010)* method according to *Michealis-Menten*
+    *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
     kinetics.
 
     Parameters
@@ -342,7 +342,7 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
 
     maximum_perception = 100
 
-    L_hdr = reaction_rate_MichealisMenten(
+    L_hdr = reaction_rate_MichaelisMenten_Michaelis1913(
         spow(Y, epsilon), maximum_perception, 0.184 ** epsilon) + 0.02
 
     return from_range_100(L_hdr)
@@ -351,7 +351,7 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
 def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
     """
     Computes *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
-    *Fairchild and Chen (2011)* method according to *Michealis-Menten*
+    *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
     kinetics.
 
     Parameters
@@ -405,7 +405,7 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
     else:
         maximum_perception = 246
 
-    L_hdr = reaction_rate_MichealisMenten(
+    L_hdr = reaction_rate_MichaelisMenten_Michaelis1913(
         spow(Y, epsilon), maximum_perception, 2 ** epsilon) + 0.02
 
     return from_range_100(L_hdr)

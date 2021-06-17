@@ -58,7 +58,8 @@ References
 
 import numpy as np
 
-from colour.biochemistry import substrate_concentration_MichealisMenten
+from colour.biochemistry import (
+    substrate_concentration_MichaelisMenten_Michaelis1913)
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, from_range_1, from_range_100,
                               get_domain_range_scale, to_domain_10,
@@ -292,7 +293,7 @@ def luminance_CIE1976(L_star, Y_n=100):
 def luminance_Fairchild2010(L_hdr, epsilon=1.836):
     """
     Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
-    *Fairchild and Wyble (2010)* method according to *Michealis-Menten*
+    *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
     kinetics.
 
     Parameters
@@ -341,8 +342,8 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
 
     Y = np.exp(
         np.log(
-            substrate_concentration_MichealisMenten(L_hdr - 0.02, 100, 0.184 **
-                                                    epsilon)) / epsilon)
+            substrate_concentration_MichaelisMenten_Michaelis1913(
+                L_hdr - 0.02, 100, 0.184 ** epsilon)) / epsilon)
 
     return from_range_1(Y)
 
@@ -350,7 +351,7 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
 def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
     """
     Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
-    *Fairchild and Chen (2011)* method according to *Michealis-Menten*
+    *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
     kinetics.
 
     Parameters
@@ -406,7 +407,7 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
 
     Y = np.exp(
         np.log(
-            substrate_concentration_MichealisMenten(
+            substrate_concentration_MichaelisMenten_Michaelis1913(
                 L_hdr - 0.02, maximum_perception, 2 ** epsilon)) / epsilon)
 
     return from_range_1(Y)
