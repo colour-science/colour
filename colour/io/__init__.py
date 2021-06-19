@@ -12,7 +12,8 @@ from .tabular import (read_spectral_data_from_csv_file, read_sds_from_csv_file,
 from .tm2714 import SpectralDistribution_IESTM2714
 from .xrite import read_sds_from_xrite_file
 from .sekonic import sekonic_parser
-from .uprtek import uprtek_parser
+from .uprtek_sekonic import SpectralDistribution_UPRTek
+from .uprtek_sekonic import SpectralDistribution_Sekonic
 
 __all__ = []
 __all__ += luts.__all__
@@ -28,4 +29,5 @@ __all__ += [
 __all__ += ['SpectralDistribution_IESTM2714']
 __all__ += ['read_sds_from_xrite_file']
 __all__ += ['sekonic_parser']
-__all__ += ['uprtek_parser']
+__all__ += ['SpectralDistribution_UPRTek']
+__all__ += ['SpectralDistribution_Sekonic']

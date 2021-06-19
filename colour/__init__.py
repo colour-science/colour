@@ -98,7 +98,7 @@ from .io import (LUT1D, LUT3x1D, LUT3D, LUTSequence, READ_IMAGE_METHODS,
                  read_image, read_LUT, read_sds_from_csv_file,
                  read_sds_from_xrite_file, read_spectral_data_from_csv_file,
                  write_image, write_LUT, write_sds_to_csv_file, sekonic_parser,
-                 uprtek_parser)
+                 SpectralDistribution_UPRTek, SpectralDistribution_Sekonic)
 from .models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM02LCD_to_XYZ, CAM02SCD_to_XYZ,
@@ -255,7 +255,8 @@ __all__ += [
     'SpectralDistribution_IESTM2714', 'WRITE_IMAGE_METHODS', 'read_image',
     'read_LUT', 'read_sds_from_csv_file', 'read_sds_from_xrite_file',
     'read_spectral_data_from_csv_file', 'write_image', 'write_LUT',
-    'write_sds_to_csv_file', 'sekonic_parser', 'uprtek_parser'
+    'write_sds_to_csv_file', 'sekonic_parser', 'SpectralDistribution_UPRTek',
+    'SpectralDistribution_Sekonic'
 ]
 __all__ += [
     'CAM02LCD_to_JMh_CIECAM02', 'CAM02SCD_to_JMh_CIECAM02',
