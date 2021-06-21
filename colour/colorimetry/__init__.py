@@ -62,7 +62,7 @@ from .yellowness import yellowness
 from .yellowness import (yellowness_ASTMD1925, yellowness_ASTME313_alternative,
                          YELLOWNESS_COEFFICIENTS_ASTME313, yellowness_ASTME313)
 from .hke import hke_object_Nayatani1997, hke_luminous_Nayatani1997
-from .hke import (coefficient_q_Nayatani1997, coefficient_K_Br_Nayatani1997,
+from .hke import (coefficient_q_Nayatani1997, coefficient_K_B_r_Nayatani1997,
                   HKE_NAYATANI1997_METHODS)
 
 __all__ = [
@@ -141,6 +141,6 @@ __all__ += [
 ]
 __all__ += ['hke_object_Nayatani1997', 'hke_luminous_Nayatani1997']
 __all__ += [
-    'coefficient_q_Nayatani1997', 'coefficient_K_Br_Nayatani1997',
+    'coefficient_q_Nayatani1997', 'coefficient_K_B_r_Nayatani1997',
     'HKE_NAYATANI1997_METHODS'
 ]
