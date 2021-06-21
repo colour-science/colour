@@ -195,6 +195,11 @@ def coefficient_K_B_r_Nayatani1997(L_a):
     numeric or ndarray
         :math:`K_B_r` coefficient for *Nayatani (1997)* HKE methods.
 
+    Notes
+    -----
+    The :math:`K_B_r` coefficient is normalised to unity around
+    :math:`63.66cd/m^2`.
+
     References
     ----------
     :cite:`nayatani1997`
