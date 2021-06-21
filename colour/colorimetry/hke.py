@@ -141,15 +141,8 @@ def hke_luminous_Nayatani1997(uv, uv_c, L_a, method='VCC'):
     array([ 7.44604715,  2.4767159 ,  1.47234223,  0.79386959,  4.1828629 ])
     """
 
-    u, v = tsplit(uv)
-    u_c, v_c = tsplit(uv_c)
-
-    K_B_r = coefficient_K_B_r_Nayatani1997(L_a)
-    q = coefficient_q_Nayatani1997(np.arctan2(v-v_c, u-u_c))
-    s = np.sqrt((u-u_c) ** 2 + (v-v_c) ** 2) * 13
-
-    return 0.4462 * (1 + (HKE_NAYATANI1997_METHODS[method] * q + 0.0872 * K_B_r)
-            * s + 0.3086) ** 3
+    return (0.4462 * (hke_object_Nayatani1997(uv, uv_c, L_a, method) + 0.3086)
+            ** 3)
 
 def coefficient_q_Nayatani1997(theta):
     """
@@ -215,6 +208,5 @@ def coefficient_K_B_r_Nayatani1997(L_a):
     >>> colour.colorimetry.coefficient_K_B_r_Nayatani1997(63.66)
     1.0001284555840311
     """
-    # L_a = as_float_array(L_a)
     L_a_4495 = np.power(L_a, 0.4495)
     return 0.2717 * (6.469 + 6.362 * L_a_4495) / (6.469 + L_a_4495)
