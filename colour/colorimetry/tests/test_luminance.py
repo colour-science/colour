@@ -9,7 +9,7 @@ import unittest
 from colour.colorimetry import (
     luminance_Newhall1943, intermediate_luminance_function_CIE1976,
     luminance_CIE1976, luminance_ASTMD1535, luminance_Fairchild2010,
-    luminance_Fairchild2011)
+    luminance_Fairchild2011, luminance_Abebe2017)
 from colour.colorimetry.luminance import luminance
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -23,7 +23,8 @@ __status__ = 'Production'
 __all__ = [
     'TestLuminanceNewhall1943', 'TestLuminanceASTMD1535',
     'TestIntermediateLuminanceFunctionCIE1976', 'TestLuminanceCIE1976',
-    'TestLuminanceFairchild2010', 'TestLuminanceFairchild2011', 'TestLuminance'
+    'TestLuminanceFairchild2010', 'TestLuminanceFairchild2011',
+    'TestLuminanceAbebe2017', 'TestLuminance'
 ]
 
 
@@ -518,6 +519,92 @@ class TestLuminanceFairchild2011(unittest.TestCase):
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
+class TestLuminanceAbebe2017(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+    definition unit tests methods.
+    """
+
+    def test_luminance_Abebe2017(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+        definition.
+        """
+
+        self.assertAlmostEqual(
+            luminance_Abebe2017(0.486955571109229),
+            12.197225350000004,
+            places=7)
+
+        self.assertAlmostEqual(
+            luminance_Abebe2017(0.474544792145434, method='Stevens'),
+            12.197225350000025,
+            places=7)
+
+        self.assertAlmostEqual(
+            luminance_Abebe2017(0.286847428534793, 1000),
+            12.197225350000046,
+            places=7)
+
+        self.assertAlmostEqual(
+            luminance_Abebe2017(0.192145492588158, 4000),
+            12.197225350000121,
+            places=7)
+
+        self.assertAlmostEqual(
+            luminance_Abebe2017(0.170365211220992, 4000, method='Stevens'),
+            12.197225349999933,
+            places=7)
+
+    def test_n_dimensional_luminance_Abebe2017(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+        definition n-dimensional arrays support.
+        """
+
+        L = 0.486955571109229
+        Y = luminance_Abebe2017(L)
+
+        L = np.tile(L, 6)
+        Y = np.tile(Y, 6)
+        np.testing.assert_almost_equal(luminance_Abebe2017(L), Y, decimal=7)
+
+        L = np.reshape(L, (2, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(luminance_Abebe2017(L), Y, decimal=7)
+
+        L = np.reshape(L, (2, 3, 1))
+        Y = np.reshape(Y, (2, 3, 1))
+        np.testing.assert_almost_equal(luminance_Abebe2017(L), Y, decimal=7)
+
+    def test_domain_range_scale_luminance_Abebe2017(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+        definition domain and range scale support.
+        """
+
+        L = luminance_Abebe2017(0.486955571109229)
+
+        d_r = (('reference', 1), (1, 1), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    luminance_Abebe2017(0.486955571109229 * factor,
+                                        100 * factor),
+                    L * factor,
+                    decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_luminance_Abebe2017(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+        definition nan support.
+        """
+
+        luminance_Abebe2017(
+            *[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2)
+
+
 class TestLuminance(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.luminance.luminance` definition unit
@@ -531,7 +618,7 @@ class TestLuminance(unittest.TestCase):
         """
 
         m = ('Newhall 1943', 'ASTM D1535', 'CIE 1976', 'Fairchild 2010',
-             'Fairchild 2011')
+             'Fairchild 2011', 'Abebe 2017')
         v = [luminance(41.527875844653451, method, Y_n=100) for method in m]
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))

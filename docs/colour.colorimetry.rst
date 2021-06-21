@@ -385,6 +385,18 @@ Fairchild and Chen (2011)
 
     lightness_Fairchild2011
 
+Abebe, Pouli, Larabi and Reinhard (2017)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    lightness_Abebe2017
+
 Luminance Computation
 ---------------------
 

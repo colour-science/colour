@@ -516,7 +516,8 @@ Lightness Computation
     >>> colour.lightness(12.19722535)
     41.527875844653451
     >>> sorted(colour.LIGHTNESS_METHODS)
-    ['CIE 1976',
+    ['Abebe 2017'
+     'CIE 1976',
      'Fairchild 2010',
      'Fairchild 2011',
      'Glasser 1958',

@@ -92,7 +92,7 @@ def reaction_rate_MichaelisMenten_Abebe2017(S, V_max, K_m, b_m):
     Describes the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S` according to the
     modified *Michaelis-Menten* kinetics equation as given by
-    *Abebe et al. (2017)*.
+    *Abebe, Pouli, Larabi and Reinhard (2017)*.
 
     Parameters
     ----------
@@ -251,7 +251,8 @@ def substrate_concentration_MichaelisMenten_Abebe2017(v, V_max, K_m, b_m):
     """
     Describes the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v` according to the modified
-    *Michaelis-Menten* kinetics equation as given by *Abebe et al. (2017)*.
+    *Michaelis-Menten* kinetics equation as given by
+    *Abebe, Pouli, Larabi and Reinhard (2017)*.
 
     Parameters
     ----------
