@@ -78,7 +78,8 @@ from .colorimetry import (
     sd_CIE_standard_illuminant_A, sd_blackbody, sd_constant, sd_gaussian,
     sd_mesopic_luminous_efficiency_function, sd_multi_leds, sd_ones,
     sd_single_led, sd_to_XYZ, sd_zeros, spectral_uniformity, wavelength_to_XYZ,
-    whiteness, yellowness, hke_object_Nayatani1997, hke_luminous_Nayatani1997)
+    whiteness, yellowness, HelmholtzKohlrausch_effect_object_Nayatani1997,
+    HelmholtzKohlrausch_effect_luminous_Nayatani1997)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, matrix_anomalous_trichromacy_Machado2009,
     matrix_cvd_Machado2009, msds_cmfs_anomalous_trichromacy_Machado2009)
@@ -227,8 +228,8 @@ __all__ += [
     'sd_blackbody', 'sd_constant', 'sd_gaussian',
     'sd_mesopic_luminous_efficiency_function', 'sd_multi_leds', 'sd_ones',
     'sd_single_led', 'sd_to_XYZ', 'sd_zeros', 'spectral_uniformity',
-    'wavelength_to_XYZ', 'whiteness', 'yellowness', 'hke_object_Nayatani1997',
-    'hke_luminous_Nayatani1997'
+    'wavelength_to_XYZ', 'whiteness', 'yellowness', 'HelmholtzKohlrausch_effect_object_Nayatani1997',
+    'HelmholtzKohlrausch_effect_luminous_Nayatani1997'
 ]
 __all__ += [
     'CVD_MATRICES_MACHADO2010', 'matrix_anomalous_trichromacy_Machado2009',
