@@ -70,7 +70,6 @@ from .colorimetry import (
     SD_TO_XYZ_METHODS, SPECTRAL_SHAPE_ASTME308, SPECTRAL_SHAPE_DEFAULT,
     SpectralDistribution, SpectralShape, TVS_ILLUMINANTS,
     TVS_ILLUMINANTS_HUNTERLAB, WHITENESS_METHODS, YELLOWNESS_METHODS,
-    HKE_NAYATANI1997_METHODS,
     bandpass_correction, colorimetric_purity, complementary_wavelength,
     dominant_wavelength, excitation_purity, lightness, luminance,
     luminous_efficacy, luminous_efficiency, luminous_flux, msds_constant,
@@ -78,8 +77,7 @@ from .colorimetry import (
     sd_CIE_standard_illuminant_A, sd_blackbody, sd_constant, sd_gaussian,
     sd_mesopic_luminous_efficiency_function, sd_multi_leds, sd_ones,
     sd_single_led, sd_to_XYZ, sd_zeros, spectral_uniformity, wavelength_to_XYZ,
-    whiteness, yellowness, HelmholtzKohlrausch_effect_object_Nayatani1997,
-    HelmholtzKohlrausch_effect_luminous_Nayatani1997)
+    whiteness, yellowness)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, matrix_anomalous_trichromacy_Machado2009,
     matrix_cvd_Machado2009, msds_cmfs_anomalous_trichromacy_Machado2009)
@@ -90,7 +88,10 @@ from .appearance import (
     CIECAM02_to_XYZ, VIEWING_CONDITIONS_CAM16, VIEWING_CONDITIONS_CIECAM02,
     VIEWING_CONDITIONS_HUNT, VIEWING_CONDITIONS_LLAB, VIEWING_CONDITIONS_RLAB,
     XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB,
-    XYZ_to_Nayatani95, XYZ_to_RLAB)
+    XYZ_to_Nayatani95, XYZ_to_RLAB,
+    HelmholtzKohlrausch_effect_object_Nayatani1997,
+    HelmholtzKohlrausch_effect_luminous_Nayatani1997,
+    HKE_NAYATANI1997_METHODS)
 from .difference import (DELTA_E_METHODS, delta_E, INDEX_STRESS_METHODS,
                          index_stress)
 from .geometry import (PRIMITIVE_METHODS, primitive,
@@ -228,8 +229,7 @@ __all__ += [
     'sd_blackbody', 'sd_constant', 'sd_gaussian',
     'sd_mesopic_luminous_efficiency_function', 'sd_multi_leds', 'sd_ones',
     'sd_single_led', 'sd_to_XYZ', 'sd_zeros', 'spectral_uniformity',
-    'wavelength_to_XYZ', 'whiteness', 'yellowness', 'HelmholtzKohlrausch_effect_object_Nayatani1997',
-    'HelmholtzKohlrausch_effect_luminous_Nayatani1997'
+    'wavelength_to_XYZ', 'whiteness', 'yellowness'
 ]
 __all__ += [
     'CVD_MATRICES_MACHADO2010', 'matrix_anomalous_trichromacy_Machado2009',
@@ -244,7 +244,8 @@ __all__ += [
     'VIEWING_CONDITIONS_HUNT', 'VIEWING_CONDITIONS_LLAB',
     'VIEWING_CONDITIONS_RLAB', 'XYZ_to_ATD95', 'XYZ_to_CAM16',
     'XYZ_to_CIECAM02', 'XYZ_to_Hunt', 'XYZ_to_LLAB', 'XYZ_to_Nayatani95',
-    'XYZ_to_RLAB'
+    'XYZ_to_RLAB', 'HelmholtzKohlrausch_effect_object_Nayatani1997',
+    'HelmholtzKohlrausch_effect_luminous_Nayatani1997'
 ]
 __all__ += [
     'DELTA_E_METHODS', 'delta_E', 'INDEX_STRESS_METHODS', 'index_stress'

@@ -11,9 +11,9 @@ Defines the following methods for estimating helmholtz-Kohlrausch effect:
 -   :func:`colour.hke_luminous_VAC_Nayatani1997`:
     *Nayatani (1997)* Helmholtz-Kohlrausch effect estimation for luminous
     colours.
--   :func:`colour.colorimetry.coefficient_q_Nayatani1997`:
+-   :func:`colour.appearance.coefficient_q_Nayatani1997`:
     Calculates :math:`WI` coefficient for *Nayatani 1997* HKE estimation.
--   :func:`colour.colorimetry.coefficient_K_B_r_Nayatani1997`:
+-   :func:`colour.appearance.coefficient_K_B_r_Nayatani1997`:
     Calculates :math:`K_B_r` coefficient for *Nayatani 1997* HKE estimation.
 -   :attr:`colour.HKE_NAYATANI1997_METHODS`: Nayatani HKE computation methods,
     choice between variable achromatic colour ('VAC') and variable chromatic
@@ -170,7 +170,7 @@ def coefficient_q_Nayatani1997(theta):
     >>> import numpy as np
     >>> import matplotlib.pyplot as plt
     >>> angles = [(np.pi*2/100 * i) for i in range(100)]
-    >>> q_values = colour.colorimetry.coefficient_q_Nayatani1997(angles)
+    >>> q_values = colour.appearance.coefficient_q_Nayatani1997(angles)
     >>> plt.plot(np.array(angles), q_values/(np.pi*2)*180)
     >>> plt.show()
     """
@@ -209,9 +209,9 @@ def coefficient_K_B_r_Nayatani1997(L_a):
     --------
     >>> import colour
     >>> L_a_values = [10+i*20 for i in range(5)]
-    >>> colour.colorimetry.coefficient_K_B_r_Nayatani1997(L_a_values)
+    >>> colour.appearance.coefficient_K_B_r_Nayatani1997(L_a_values)
     array([ 0.71344818,  0.87811728,  0.96062482,  1.01566892,  1.05670084])
-    >>> colour.colorimetry.coefficient_K_B_r_Nayatani1997(63.66)
+    >>> colour.appearance.coefficient_K_B_r_Nayatani1997(63.66)
     1.0001284555840311
     """
     L_a_4495 = np.power(L_a, 0.4495)
