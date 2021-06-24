@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Helmholtz-Kohlrausch effect
+Helmholtz—Kohlrausch effect
 ===========================
 
 Defines the following methods for estimating helmholtz-Kohlrausch effect:
@@ -13,8 +13,8 @@ Defines the following methods for estimating helmholtz-Kohlrausch effect:
     colours.
 -   :func:`colour.appearance.coefficient_q_Nayatani1997`:
     Calculates :math:`WI` coefficient for *Nayatani 1997* HKE estimation.
--   :func:`colour.appearance.coefficient_K_B_r_Nayatani1997`:
-    Calculates :math:`K_B_r` coefficient for *Nayatani 1997* HKE estimation.
+-   :func:`colour.appearance.coefficient_K_Br_Nayatani1997`:
+    Calculates :math:`K_{Br}` coefficient for *Nayatani 1997* HKE estimation.
 -   :attr:`colour.HKE_NAYATANI1997_METHODS`: Nayatani HKE computation methods,
     choice between variable achromatic colour ('VAC') and variable chromatic
     colour ('VCC').
@@ -40,7 +40,7 @@ __status__ = 'Production'
 __all__ = [
     'HelmholtzKohlrausch_effect_object_Nayatani1997',
     'HelmholtzKohlrausch_effect_luminous_Nayatani1997',
-    'coefficient_q_Nayatani1997', 'coefficient_K_B_r_Nayatani1997',
+    'coefficient_q_Nayatani1997', 'coefficient_K_Br_Nayatani1997',
     'HKE_METHODS_NAYATANI'
 ]
 
@@ -99,11 +99,11 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(uv, uv_c, L_a, method='VCC'):
     u, v = tsplit(uv)
     u_c, v_c = tsplit(uv_c)
 
-    K_B_r = coefficient_K_B_r_Nayatani1997(L_a)
+    K_Br = coefficient_K_Br_Nayatani1997(L_a)
     q = coefficient_q_Nayatani1997(np.arctan2(v-v_c, u-u_c))
     s = np.sqrt((u-u_c) ** 2 + (v-v_c) ** 2) * 13
 
-    return 1 + (HKE_NAYATANI1997_METHODS[method] * q + 0.0872 * K_B_r) * s
+    return 1 + (HKE_NAYATANI1997_METHODS[method] * q + 0.0872 * K_Br) * s
 
 def HelmholtzKohlrausch_effect_luminous_Nayatani1997(uv, uv_c, L_a, method='VCC'):
     """
@@ -182,9 +182,9 @@ def coefficient_q_Nayatani1997(theta):
            + 0.14592 * np.sin(theta)     + 0.05084 * np.sin(2 * theta)
            - 0.01900 * np.sin(3 * theta) - 0.00764 * np.sin(4 * theta))
 
-def coefficient_K_B_r_Nayatani1997(L_a):
+def coefficient_K_Br_Nayatani1997(L_a):
     """
-    Returns K_B_r coefficient for *Nayatani (1997)* HKE computations.
+    Returns K_Br coefficient for *Nayatani (1997)* HKE computations.
 
     Parameters
     ----------
@@ -194,11 +194,11 @@ def coefficient_K_B_r_Nayatani1997(L_a):
     Returns
     -------
     numeric or ndarray
-        :math:`K_B_r` coefficient for *Nayatani (1997)* HKE methods.
+        :math:`K_{Br}` coefficient for *Nayatani (1997)* HKE methods.
 
     Notes
     -----
-    The :math:`K_B_r` coefficient is normalised to unity around
+    The :math:`K_{Br}` coefficient is normalised to unity around
     :math:`63.66cd/m^2`.
 
     References
@@ -209,9 +209,9 @@ def coefficient_K_B_r_Nayatani1997(L_a):
     --------
     >>> import colour
     >>> L_a_values = [10+i*20 for i in range(5)]
-    >>> colour.appearance.coefficient_K_B_r_Nayatani1997(L_a_values)
+    >>> colour.appearance.coefficient_K_Br_Nayatani1997(L_a_values)
     array([ 0.71344818,  0.87811728,  0.96062482,  1.01566892,  1.05670084])
-    >>> colour.appearance.coefficient_K_B_r_Nayatani1997(63.66)
+    >>> colour.appearance.coefficient_K_Br_Nayatani1997(63.66)
     1.0001284555840311
     """
     L_a_4495 = np.power(L_a, 0.4495)
