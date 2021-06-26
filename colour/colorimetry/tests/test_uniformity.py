@@ -15,9 +15,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DATA_UNIFORMITY', 'TestSpectralUniformity']
+__all__ = ['DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES', 'TestSpectralUniformity']
 
-DATA_UNIFORMITY = np.array([
+DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES = np.array([
     9.55142857e-06, 1.14821429e-05, 1.87842857e-05, 2.87114286e-05,
     3.19714286e-05, 3.23428571e-05, 3.38500000e-05, 3.99257143e-05,
     4.13335714e-05, 2.40021429e-05, 5.76214286e-06, 1.47571429e-06,
@@ -44,6 +44,33 @@ DATA_UNIFORMITY = np.array([
     8.27142857e-07, 7.17142857e-07, 6.60000000e-07
 ])
 
+DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES = np.array([
+    7.97142857e-09, 3.69285714e-08, 9.21500000e-08, 6.66714286e-08,
+    6.75428571e-08, 1.30571429e-07, 1.83300000e-07, 8.26071429e-08,
+    4.10357143e-08, 1.64628571e-07, 1.47007143e-07, 4.51000000e-08,
+    2.17285714e-08, 1.48071429e-08, 1.10071429e-08, 7.44285714e-09,
+    2.18571429e-09, 6.13571429e-09, 1.97571429e-08, 2.90714286e-08,
+    2.38642857e-08, 1.47428571e-08, 1.36000000e-08, 1.38214286e-08,
+    1.03000000e-08, 1.15142857e-08, 1.10000000e-08, 1.16500000e-08,
+    2.53071429e-08, 2.91571429e-08, 1.73857143e-08, 1.17571429e-08,
+    1.42714286e-08, 1.35642857e-08, 6.82142857e-09, 1.81571429e-08,
+    2.31285714e-08, 1.85857143e-08, 1.46142857e-08, 9.45714286e-09,
+    5.62142857e-09, 4.75000000e-09, 4.68571429e-09, 8.71428571e-09,
+    1.58500000e-08, 2.12142857e-08, 3.20785714e-08, 4.23357143e-08,
+    3.73000000e-08, 2.26357143e-08, 6.57857143e-09, 3.39285714e-09,
+    1.18071429e-08, 3.26500000e-08, 3.33500000e-08, 1.87428571e-08,
+    1.10214286e-08, 7.07142857e-09, 4.00000000e-09, 2.15714286e-09,
+    1.74285714e-09, 1.77857143e-09, 2.10714286e-09, 3.57857143e-09,
+    4.47142857e-09, 5.59285714e-09, 6.45000000e-09, 6.65000000e-09,
+    8.52142857e-09, 7.58571429e-09, 4.87857143e-09, 2.58571429e-09,
+    2.62857143e-09, 1.84285714e-09, 1.41428571e-09, 2.24285714e-09,
+    3.65714286e-09, 3.47142857e-09, 3.28571429e-09, 2.60000000e-09,
+    2.27857143e-09, 1.84285714e-09, 2.57142857e-09, 1.32142857e-09,
+    5.57142857e-10, 6.85714286e-10, 1.10000000e-09, 6.42857143e-10,
+    2.21428571e-10, 4.50000000e-10, 7.07142857e-10, 2.50000000e-10,
+    1.85714286e-10, 2.14285714e-10, 2.28571429e-10
+])
+
 
 class TestSpectralUniformity(unittest.TestCase):
     """
@@ -60,7 +87,15 @@ class TestSpectralUniformity(unittest.TestCase):
         from colour.quality.datasets import SDS_TCS
 
         np.testing.assert_almost_equal(
-            spectral_uniformity(SDS_TCS.values()), DATA_UNIFORMITY, decimal=7)
+            spectral_uniformity(SDS_TCS.values()),
+            DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            spectral_uniformity(
+                SDS_TCS.values(), use_second_order_derivatives=True),
+            DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES,
+            decimal=7)
 
 
 if __name__ == '__main__':

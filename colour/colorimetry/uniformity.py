@@ -28,10 +28,15 @@ __status__ = 'Production'
 __all__ = ['spectral_uniformity']
 
 
-def spectral_uniformity(sds):
+def spectral_uniformity(sds, use_second_order_derivatives=False):
     """
     Computes the *spectral uniformity* (or *spectral flatness*) of given
     spectral distributions.
+
+    Spectral uniformity :math:`(r')^2` is computed as follows:
+    :math:`mean((r'_1)^2, (r'_2)^2, ..., (r'_n)^2)` where :math:`(r'_i)^2` is
+    the first-order derivative, squared, of the reflectance :math:`r_i` of a
+    test sample.
 
     Parameters
     ----------
@@ -41,6 +46,8 @@ def spectral_uniformity(sds):
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
+    use_second_order_derivatives : bool, optional
+        Whether to use the second-order derivatives in the computations.
 
     Returns
     -------
@@ -98,5 +105,8 @@ def spectral_uniformity(sds):
     interval = msds.shape.interval
 
     r_i = np.gradient(np.transpose(msds.values), axis=1) / interval
+
+    if use_second_order_derivatives:
+        r_i = np.gradient(r_i, axis=1) / interval
 
     return np.mean(r_i ** 2, axis=0)
