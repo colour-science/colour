@@ -146,3 +146,29 @@ RLAB
     :toctree: generated/
 
     D_FACTOR_RLAB
+
+Helmholtz-Kohlrausch Effect Estimation
+--------------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    HKE_NAYATANI1997_METHODS
+    HelmholtzKohlrausch_effect_object_Nayatani1997
+    HelmholtzKohlrausch_effect_luminous_Nayatani1997
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    coefficient_q_Nayatani1997
+    coefficient_K_Br_Nayatani1997

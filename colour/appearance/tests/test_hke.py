@@ -10,8 +10,7 @@ import unittest
 from colour.appearance.hke import (
     HelmholtzKohlrausch_effect_object_Nayatani1997,
     HelmholtzKohlrausch_effect_luminous_Nayatani1997,
-    coefficient_K_Br_Nayatani1997,
-    coefficient_q_Nayatani1997)
+    coefficient_K_Br_Nayatani1997, coefficient_q_Nayatani1997)
 
 __author__ = 'Ilia Sibiryakov'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -21,13 +20,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestHelmholtzKohlrausch_effect_object_Nayatani1997',
-    'TestHelmholtzKohlrausch_effect_luminous_Nayatani1997',
-    'TestCoefficient_K_Br_Nayatani1997',
-    'TestCoefficient_q_Nayatani1997'
+    'TestHelmholtzKohlrauschEffectObjectNayatani1997',
+    'TestHelmholtzKohlrauschEffectLuminousNayatani1997',
+    'TestCoefficient_K_Br_Nayatani1997', 'TestCoefficient_q_Nayatani1997'
 ]
 
-class TestHelmholtzKohlrausch_effect_object_Nayatani1997(unittest.TestCase):
+
+class TestHelmholtzKohlrauschEffectObjectNayatani1997(unittest.TestCase):
     """
     Defines :func:`colour.HelmholtzKohlrausch_effect_object_Nayatani1997`
     definition unit tests methods.
@@ -41,20 +40,22 @@ class TestHelmholtzKohlrausch_effect_object_Nayatani1997(unittest.TestCase):
 
         self.assertAlmostEqual(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
-                [0.40351010,  0.53933673], [0.19783001,  0.46831999], 63.66,
+                [0.40351010, 0.53933673], [0.19783001, 0.46831999],
+                63.66,
                 method='VCC'),
             1.344152435497761,
             places=7)
 
         self.assertAlmostEqual(
             HelmholtzKohlrausch_effect_object_Nayatani1997(
-                [0.40351010,  0.53933673], [0.19783001,  0.46831999], 63.66,
+                [0.40351010, 0.53933673], [0.19783001, 0.46831999],
+                63.66,
                 method='VAC'),
             1.261777232837009,
             places=7)
 
-
-    def test_n_dimensional_HelmholtzKohlrausch_effect_object_Nayatani1997(self):
+    def test_n_dimensional_HelmholtzKohlrausch_effect_object_Nayatani1997(
+            self):
         """
         Tests :func:`colour.HelmholtzKohlrausch_effect_object_Nayatani1997`
         definition n_dimensional arrays support.
@@ -64,8 +65,10 @@ class TestHelmholtzKohlrausch_effect_object_Nayatani1997(unittest.TestCase):
         uv = [0.40351010, 0.53933673]
         L_a = 63.66
 
-        result_vcc = HelmholtzKohlrausch_effect_object_Nayatani1997(uv, uv_d65, L_a, method='VCC')
-        result_vac = HelmholtzKohlrausch_effect_object_Nayatani1997(uv, uv_d65, L_a, method='VAC')
+        result_vcc = HelmholtzKohlrausch_effect_object_Nayatani1997(
+            uv, uv_d65, L_a, method='VCC')
+        result_vac = HelmholtzKohlrausch_effect_object_Nayatani1997(
+            uv, uv_d65, L_a, method='VAC')
 
         uv_d65 = np.tile(uv_d65, (6, 1))
         uv = np.tile(uv, (6, 1))
@@ -85,7 +88,7 @@ class TestHelmholtzKohlrausch_effect_object_Nayatani1997(unittest.TestCase):
             decimal=7)
 
 
-class TestHelmholtzKohlrausch_effect_luminous_Nayatani1997(unittest.TestCase):
+class TestHelmholtzKohlrauschEffectLuminousNayatani1997(unittest.TestCase):
     """
     Defines :func:`colour.HelmholtzKohlrausch_effect_luminous_Nayatani1997`
     definition unit tests methods.
@@ -99,20 +102,22 @@ class TestHelmholtzKohlrausch_effect_luminous_Nayatani1997(unittest.TestCase):
 
         self.assertAlmostEqual(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-                [0.40351010,  0.53933673], [0.19783001,  0.46831999], 63.66,
+                [0.40351010, 0.53933673], [0.19783001, 0.46831999],
+                63.66,
                 method='VCC'),
             2.014433723774654,
             places=7)
 
         self.assertAlmostEqual(
             HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-                [0.40351010,  0.53933673], [0.19783001,  0.46831999], 63.66,
+                [0.40351010, 0.53933673], [0.19783001, 0.46831999],
+                63.66,
                 method='VAC'),
             1.727991241148628,
             places=7)
 
-
-    def test_n_dimensional_HelmholtzKohlrausch_effect_luminous_Nayatani1997(self):
+    def test_n_dimensional_HelmholtzKohlrausch_effect_luminous_Nayatani1997(
+            self):
         """
         Tests :func:`colour.HelmholtzKohlrausch_effect_luminous_Nayatani1997`
         definition n_dimensional arrays support.
@@ -122,8 +127,10 @@ class TestHelmholtzKohlrausch_effect_luminous_Nayatani1997(unittest.TestCase):
         uv = [0.40351010, 0.53933673]
         L_a = 63.66
 
-        result_vcc = HelmholtzKohlrausch_effect_luminous_Nayatani1997(uv, uv_d65, L_a, method='VCC')
-        result_vac = HelmholtzKohlrausch_effect_luminous_Nayatani1997(uv, uv_d65, L_a, method='VAC')
+        result_vcc = HelmholtzKohlrausch_effect_luminous_Nayatani1997(
+            uv, uv_d65, L_a, method='VCC')
+        result_vac = HelmholtzKohlrausch_effect_luminous_Nayatani1997(
+            uv, uv_d65, L_a, method='VAC')
 
         uv_d65 = np.tile(uv_d65, (6, 1))
         uv = np.tile(uv, (6, 1))
@@ -182,16 +189,13 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
         """
 
         L_a = 63.66
-
-        result = Coefficient_K_Br_Nayatani1997(L_a)
+        K_Br = coefficient_K_Br_Nayatani1997(L_a)
 
         L_a = np.tile(L_a, 6)
-        result = np.tile(result, 6)
+        K_Br = np.tile(K_Br, 6)
 
         np.testing.assert_almost_equal(
-            Coefficient_K_Br_Nayatani1997(L_a),
-            result,
-            decimal=7)
+            coefficient_K_Br_Nayatani1997(L_a), K_Br, decimal=7)
 
 
 class TestCoefficient_q_Nayatani1997(unittest.TestCase):
@@ -232,14 +236,12 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
         definition n_dimensional arrays support.
         """
 
+        L_a = 63.66
         theta = 1.50000000
-
-        result = Coefficient_q_Nayatani1997(L_a)
+        q = coefficient_q_Nayatani1997(L_a)
 
         theta = np.tile(theta, 6)
-        result = np.tile(result, 6)
+        q = np.tile(q, 6)
 
         np.testing.assert_almost_equal(
-            Coefficient_q_Nayatani1997(theta),
-            result,
-            decimal=7)
+            coefficient_q_Nayatani1997(theta), q, decimal=7)

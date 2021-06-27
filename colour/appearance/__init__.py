@@ -13,10 +13,10 @@ from .llab import (InductionFactors_LLAB, VIEWING_CONDITIONS_LLAB,
 from .nayatani95 import CAM_Specification_Nayatani95, XYZ_to_Nayatani95
 from .rlab import (VIEWING_CONDITIONS_RLAB, D_FACTOR_RLAB,
                    CAM_Specification_RLAB, XYZ_to_RLAB)
-from .hke import (HelmholtzKohlrausch_effect_object_Nayatani1997,
+from .hke import (HKE_NAYATANI1997_METHODS,
+                  HelmholtzKohlrausch_effect_object_Nayatani1997,
                   HelmholtzKohlrausch_effect_luminous_Nayatani1997)
-from .hke import (coefficient_q_Nayatani1997, coefficient_K_Br_Nayatani1997,
-                  HKE_NAYATANI1997_METHODS)
+from .hke import coefficient_q_Nayatani1997, coefficient_K_Br_Nayatani1997
 
 __all__ = [
     'InductionFactors_Hunt', 'VIEWING_CONDITIONS_HUNT',
@@ -42,10 +42,8 @@ __all__ += [
     'XYZ_to_RLAB'
 ]
 __all__ += [
+    'HKE_NAYATANI1997_METHODS',
     'HelmholtzKohlrausch_effect_object_Nayatani1997',
     'HelmholtzKohlrausch_effect_luminous_Nayatani1997'
 ]
-__all__ += [
-    'coefficient_q_Nayatani1997', 'coefficient_K_Br_Nayatani1997',
-    'HKE_NAYATANI1997_METHODS'
-]
+__all__ += ['coefficient_q_Nayatani1997', 'coefficient_K_Br_Nayatani1997']
