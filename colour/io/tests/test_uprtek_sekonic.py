@@ -7,6 +7,7 @@ import os
 import shutil
 import tempfile
 import numpy as np
+import json
 
 from colour.colorimetry import SpectralDistribution
 from colour.io import SpectralDistribution_UPRTek
@@ -21,70 +22,60 @@ __status__ = 'Production'
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 
 FILE_HEADER = {
-    'Manufacturer':
-        'UPRTek',
-    'CatalogNumber':
-        'N/A',
-    'Description':
-        'N/A',
-    'DocumentCreator':
-        'N/A',
-    'UniqueIdentifier':
-        'N/A',
-    'MeasurementEquipment':
-        'N/A',
-    'Laboratory':
-        'N/A',
-    'ReportNumber':
-        'N/A',
-    'ReportDate':
-        'N/A',
-    'DocumentCreationDate':
-        'N/A',
-    'Comments':
-        str({
-            "Model Name": "CV600",
-            "Serial Number": "19J00789",
-            "Time": "2021/01/04_23:14:46",
-            "Memo": [],
-            "LUX": 695.154907,
-            "fc": 64.605476,
-            "CCT": 5198.0,
-            "Duv": -0.00062,
-            "I-Time": 12000.0,
-            "X": 682.470886,
-            "Y": 695.154907,
-            "Z": 631.635071,
-            "x": 0.339663,
-            "y": 0.345975,
-            "u'": 0.209915,
-            "v'": 0.481087,
-            "LambdaP": 456.0,
-            "LambdaPValue": 18.404581,
-            "CRI": 92.956993,
-            "R1": 91.651062,
-            "R2": 93.014732,
-            "R3": 97.032013,
-            "R4": 93.513229,
-            "R5": 92.48259,
-            "R6": 91.48687,
-            "R7": 93.016129,
-            "R8": 91.459312,
-            "R9": 77.613075,
-            "R10": 86.981613,
-            "R11": 94.841324,
-            "R12": 74.139542,
-            "R13": 91.073837,
-            "R14": 97.064323,
-            "R15": 88.615669,
-            "TLCI": 97.495056,
-            "TLMF-A": 1.270032,
-            "SSI-A": 44.881924,
-            "Rf": 87.234917,
-            "Rg": 98.510712,
-            "IRR": 2.607891
-        })
+    'Manufacturer': 'UPRTek',
+    'CatalogNumber': None,
+    'Description': None,
+    'DocumentCreator': None,
+    'UniqueIdentifier': None,
+    'MeasurementEquipment': 'CV600',
+    'Laboratory': None,
+    'ReportNumber': None,
+    'ReportDate': '2021/01/04',
+    'DocumentCreationDate': None,
+    'Comments': {
+        'Model Name': 'CV600',
+        'Serial Number': '19J00789',
+        'Time': '2021/01/04_23:14:46',
+        'Memo': [],
+        'LUX': 695.154907,
+        'fc': 64.605476,
+        'CCT': 5198.0,
+        'Duv': -0.00062,
+        'I-Time': 12000.0,
+        'X': 682.470886,
+        'Y': 695.154907,
+        'Z': 631.635071,
+        'x': 0.339663,
+        'y': 0.345975,
+        "u'": 0.209915,
+        "v'": 0.481087,
+        'LambdaP': 456.0,
+        'LambdaPValue': 18.404581,
+        'CRI': 92.956993,
+        'R1': 91.651062,
+        'R2': 93.014732,
+        'R3': 97.032013,
+        'R4': 93.513229,
+        'R5': 92.48259,
+        'R6': 91.48687,
+        'R7': 93.016129,
+        'R8': 91.459312,
+        'R9': 77.613075,
+        'R10': 86.981613,
+        'R11': 94.841324,
+        'R12': 74.139542,
+        'R13': 91.073837,
+        'R14': 97.064323,
+        'R15': 88.615669,
+        'TLCI': 97.495056,
+        'TLMF-A': 1.270032,
+        'SSI-A': 44.881924,
+        'Rf': 87.234917,
+        'Rg': 98.510712,
+        'IRR': 2.607891
+    }
 }
+
 SPECTRAL_DESCRIPTION = {'SpectralQuantity': 'Irradiance'}
 
 UPRTEK_SPECTRAL_DATA = {
@@ -498,6 +489,8 @@ class TestSpectralDistribution_UPRTek(unittest.TestCase):
     class unit tests methods.
     """
 
+    # maxDiff = None
+
     def setUp(self):
         """
         Initialises common tests attributes.
@@ -554,24 +547,13 @@ class TestSpectralDistribution_UPRTek(unittest.TestCase):
                 for key, value in test.items():
                     for specification in read.mapping.elements:
                         if key == specification.element:
-                            self.assertEqual(
-                                getattr(read, specification.attribute), value)
-
-    def test_write(self):
-        """
-        Tests :attr:`colour.io.uprtek_sekonic.
-                    SpectralDistribution_IESTM2714.write` method.
-        """
-
-        sd_r = SpectralDistribution_UPRTek(
-            os.path.join(RESOURCES_DIRECTORY, 'uprtek.xls.txt')).read()
-
-        sd_r.path = os.path.join(self._temporary_directory, 'uprtek.spdx')
-        self.assertTrue(sd_r.write())
-        sd_t = SpectralDistribution_UPRTek(sd_r.path).read()
-
-        self.test_read(sd_t)
-        self.assertEquals(sd_r, sd_t)
+                            if key == 'Comments':
+                                self.assertDictEqual(
+                                    json.loads(read.comments), value)
+                            else:
+                                self.assertEqual(
+                                    getattr(read, specification.attribute),
+                                    value)
 
 
 if __name__ == '__main__':
