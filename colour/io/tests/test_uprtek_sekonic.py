@@ -2,12 +2,13 @@
 """
 Defines unit tests for :mod:`colour.io.uprtek_sekonic` module.
 """
-import unittest
+
+import json
+import numpy as np
 import os
 import shutil
 import tempfile
-import numpy as np
-import json
+import unittest
 
 from colour.colorimetry import SpectralDistribution
 from colour.io import SpectralDistribution_UPRTek
@@ -18,6 +19,10 @@ __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
+__all__ = [
+    'RESOURCES_DIRECTORY', 'FILE_HEADER', 'SPECTRAL_DESCRIPTION',
+    'UPRTEK_SPECTRAL_DATA', 'TestSpectralDistribution_UPRTek'
+]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 
@@ -489,8 +494,6 @@ class TestSpectralDistribution_UPRTek(unittest.TestCase):
     class unit tests methods.
     """
 
-    # maxDiff = None
-
     def setUp(self):
         """
         Initialises common tests attributes.
@@ -533,6 +536,7 @@ class TestSpectralDistribution_UPRTek(unittest.TestCase):
         Tests :attr:`colour.io.uprtek_sekonic.SpectralDistribution_UPRTek.read`
         method.
         """
+
         if sd is None:
             sd = SpectralDistribution_UPRTek(
                 os.path.join(RESOURCES_DIRECTORY, 'uprtek.xls.txt')).read()
@@ -554,6 +558,8 @@ class TestSpectralDistribution_UPRTek(unittest.TestCase):
                                 self.assertEqual(
                                     getattr(read, specification.attribute),
                                     value)
+            self.assertEqual(sd.spectral_quantity,
+                             SPECTRAL_DESCRIPTION['SpectralQuantity'])
 
 
 if __name__ == '__main__':
