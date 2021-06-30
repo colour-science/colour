@@ -2214,7 +2214,7 @@ class LUT3D(AbstractLUT):
         array([ 0.4583277...,  0.4583277...,  0.4583277...])
         >>> LUT.apply(LUT.apply(RGB), direction='Inverse')
         ... # doctest: +ELLIPSIS
-        array([ 0.1809850...,  0.1804053...,  0.1802608...])
+        array([ 0.1781995...,  0.1809414...,  0.1809513...])
         >>> from colour.algebra import spow
         >>> domain = np.array([[-0.1, -0.2, -0.4],
         ...                    [0.3, 1.4, 6.0],
