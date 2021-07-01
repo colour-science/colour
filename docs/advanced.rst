@@ -42,8 +42,8 @@ compiled with versions of
 Those are incompatible with the Python Wheels commonly built with
 `Visual Studio 2008 (Python 2.7) or Visual Studio 2017 (Python 3.6) <https://devguide.python.org/setup/?highlight=windows#windows>`__.
 
-It is however possible to use **Colour** in a partially broken and mock **Scipy**
-by using the `mock_for_colour.py <https://github.com/colour-science/colour/tree/develop/utilities>`__
+It is however possible to use **Colour** in a partially broken state and mock
+**Scipy** by using the `mock_for_colour.py <https://github.com/colour-science/colour/tree/develop/utilities>`__
 module.
 
 Assuming it is available for import, a typical usage would be as follows:
@@ -53,7 +53,8 @@ Assuming it is available for import, a typical usage would be as follows:
     import sys
     from mock_for_colour import MockModule
 
-    for module in ('scipy', 'scipy.interpolate', 'scipy.spatial',
+    for module in ('scipy', 'scipy.interpolate', 'scipy.linalg',
+                   'scipy.ndimage', 'scipy.ndimage.filters', 'scipy.spatial',
                    'scipy.spatial.distance', 'scipy.optimize'):
         sys.modules[str(module)] = MockModule(str(module))
 
