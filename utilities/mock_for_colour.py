@@ -234,7 +234,8 @@ def mock_scipy_for_colour():
 
     import sys
 
-    for module in ('scipy', 'scipy.interpolate', 'scipy.spatial',
+    for module in ('scipy', 'scipy.interpolate', 'scipy.linalg',
+                   'scipy.ndimage', 'scipy.ndimage.filters', 'scipy.spatial',
                    'scipy.spatial.distance', 'scipy.optimize'):
         sys.modules[str(module)] = MockModule(str(module))
 
@@ -242,7 +243,8 @@ def mock_scipy_for_colour():
 if __name__ == '__main__':
     import sys
 
-    for module in ('scipy', 'scipy.interpolate', 'scipy.spatial',
+    for module in ('scipy', 'scipy.interpolate', 'scipy.linalg',
+                   'scipy.ndimage', 'scipy.ndimage.filters', 'scipy.spatial',
                    'scipy.spatial.distance', 'scipy.optimize'):
         sys.modules[str(module)] = MockModule(str(module))
 
