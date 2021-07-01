@@ -31,6 +31,7 @@ from .hdr_cie_lab import (HDR_CIELAB_METHODS, XYZ_to_hdr_CIELab,
 from .hunter_lab import (XYZ_to_K_ab_HunterLab1966, XYZ_to_Hunter_Lab,
                          Hunter_Lab_to_XYZ)
 from .hunter_rdab import XYZ_to_Hunter_Rdab, Hunter_Rdab_to_XYZ
+from .icacb import XYZ_to_ICaCb, ICaCb_to_XYZ
 from .igpgtg import XYZ_to_IgPgTg, IgPgTg_to_XYZ
 from .ipt import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
 from .jzazbz import XYZ_to_JzAzBz, JzAzBz_to_XYZ
@@ -80,6 +81,7 @@ __all__ += [
     'XYZ_to_Hunter_Rdab'
 ]
 __all__ += ['XYZ_to_Hunter_Rdab', 'Hunter_Rdab_to_XYZ']
+__all__ += ['XYZ_to_ICaCb', 'ICaCb_to_XYZ']
 __all__ += ['XYZ_to_IgPgTg', 'IgPgTg_to_XYZ']
 __all__ += ['XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle']
 __all__ += ['XYZ_to_JzAzBz', 'JzAzBz_to_XYZ']
