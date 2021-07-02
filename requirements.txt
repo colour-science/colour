@@ -13,7 +13,6 @@ cffi==1.14.5
 cfgv==3.0.0
 chardet==4.0.0
 colorama==0.4.4
-colour==0.3.16
 coverage==5.5
 coveralls==3.0.1
 cycler==0.10.0
