@@ -16,7 +16,7 @@ from colour.difference import delta_E_CIE1976
 from colour.models import XYZ_to_Lab
 from colour.recovery import (XYZ_to_sd_Otsu2018, SPECTRAL_SHAPE_OTSU2018,
                              Dataset_Otsu2018, NodeTree_Otsu2018)
-from colour.recovery.otsu2018 import ColourData, Node
+from colour.recovery.otsu2018 import Data, Node
 from colour.utilities import domain_range_scale, metric_mse
 
 __author__ = 'Colour Developers'
@@ -27,8 +27,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestDataset_Otsu2018', 'TestXYZ_to_sd_Otsu2018', 'TestColourData',
-    'TestNode', 'TestNodeTree_Otsu2018'
+    'TestDataset_Otsu2018', 'TestXYZ_to_sd_Otsu2018', 'TestData', 'TestNode',
+    'TestNodeTree_Otsu2018'
 ]
 
 
@@ -125,9 +125,9 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
                     decimal=7)
 
 
-class TestColourData(unittest.TestCase):
+class TestData(unittest.TestCase):
     """
-    Defines :class:`colour.recovery.otsu2018.ColourData` definition unit tests
+    Defines :class:`colour.recovery.otsu2018.Data` definition unit tests
     methods.
     """
 
@@ -139,7 +139,7 @@ class TestColourData(unittest.TestCase):
         required_attributes = ('tree', 'reflectances', 'XYZ', 'xy')
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(ColourData))
+            self.assertIn(attribute, dir(Data))
 
     def test_required_methods(self):
         """
@@ -149,7 +149,7 @@ class TestColourData(unittest.TestCase):
         required_methods = ('__init__', '__str__', '__len__', 'partition')
 
         for method in required_methods:
-            self.assertIn(method, dir(ColourData))
+            self.assertIn(method, dir(Data))
 
 
 class TestNode(unittest.TestCase):
@@ -163,7 +163,7 @@ class TestNode(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('id', 'tree', 'colour_data', 'children',
+        required_attributes = ('id', 'tree', 'data', 'children',
                                'partition_axis', 'basis_functions', 'mean',
                                'leaves')
 

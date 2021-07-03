@@ -45,7 +45,7 @@ __status__ = 'Production'
 
 __all__ = [
     'Dataset_Otsu2018', 'DATASET_REFERENCE_OTSU2018', 'XYZ_to_sd_Otsu2018',
-    'PartitionAxis', 'ColourData', 'Node', 'NodeTree_Otsu2018'
+    'PartitionAxis', 'Data', 'Node', 'NodeTree_Otsu2018'
 ]
 
 
@@ -497,7 +497,7 @@ class PartitionAxis(namedtuple('PartitionAxis', ('origin', 'direction'))):
             if self.direction else 'x', self.origin)
 
 
-class ColourData:
+class Data:
     """
     Represents the data for multiple colours: their spectral reflectance
     distributions, *CIE XYZ* tristimulus values and *CIE xy* coordinates. The
@@ -505,7 +505,7 @@ class ColourData:
     the parent tree.
 
     This class also supports partitioning: Creating two smaller instances of
-    :class:`colour.recovery.otsu2018.ColourData` class by splitting along a
+    :class:`colour.recovery.otsu2018.Data` class by splitting along a
     horizontal or a vertical axis on the *CIE xy* plane.
 
     Parameters
@@ -519,17 +519,17 @@ class ColourData:
 
     Attributes
     ----------
-    -   :attr:`~colour.recovery.otsu2018.ColourData.tree`
-    -   :attr:`~colour.recovery.otsu2018.ColourData.reflectances`
-    -   :attr:`~colour.recovery.otsu2018.ColourData.XYZ`
-    -   :attr:`~colour.recovery.otsu2018.ColourData.xy`
+    -   :attr:`~colour.recovery.otsu2018.Data.tree`
+    -   :attr:`~colour.recovery.otsu2018.Data.reflectances`
+    -   :attr:`~colour.recovery.otsu2018.Data.XYZ`
+    -   :attr:`~colour.recovery.otsu2018.Data.xy`
 
     Methods
     -------
-    -   :meth:`~colour.recovery.otsu2018.ColourData.__init__`
-    -   :meth:`~colour.recovery.otsu2018.ColourData.__str__`
-    -   :meth:`~colour.recovery.otsu2018.ColourData.__len__`
-    -   :meth:`~colour.recovery.otsu2018.ColourData.partition`
+    -   :meth:`~colour.recovery.otsu2018.Data.__init__`
+    -   :meth:`~colour.recovery.otsu2018.Data.__str__`
+    -   :meth:`~colour.recovery.otsu2018.Data.__len__`
+    -   :meth:`~colour.recovery.otsu2018.Data.partition`
     """
 
     def __init__(self, tree, reflectances):
@@ -647,14 +647,14 @@ class ColourData:
 
         Returns
         -------
-        lesser : ColourData
+        lesser : Data
             The left or lower part.
-        greater : ColourData
+        greater : Data
             The right or upper part.
         """
 
-        lesser = ColourData(self.tree, None)
-        greater = ColourData(self.tree, None)
+        lesser = Data(self.tree, None)
+        greater = Data(self.tree, None)
 
         mask = self.xy[:, axis.direction] <= axis.origin
 
@@ -680,14 +680,14 @@ class Node:
     tree : NodeTree_Otsu2018
         The parent tree which determines the standard observer colour matching
         functions and illuminant used in colourimetric calculations.
-    colour_data : ColourData
+    data : Data
         The colour data belonging to this node.
 
     Attributes
     ----------
     -   :attr:`~colour.recovery.otsu2018.Node.id`
     -   :attr:`~colour.recovery.otsu2018.Node.tree`
-    -   :attr:`~colour.recovery.otsu2018.Node.colour_data`
+    -   :attr:`~colour.recovery.otsu2018.Node.data`
     -   :attr:`~colour.recovery.otsu2018.Node.children`
     -   :attr:`~colour.recovery.otsu2018.Node.partition_axis`
     -   :attr:`~colour.recovery.otsu2018.Node.basis_functions`
@@ -716,12 +716,12 @@ class Node:
     _NODE_COUNT : int
     """
 
-    def __init__(self, tree, colour_data):
+    def __init__(self, tree, data):
         self._id = Node._NODE_COUNT
         Node._NODE_COUNT += 1
 
         self._tree = tree
-        self._colour_data = colour_data
+        self._data = data
         self._children = []
         self._partition_axis = None
         self._mean = None
@@ -761,17 +761,17 @@ class Node:
         return self._tree
 
     @property
-    def colour_data(self):
+    def data(self):
         """
         Getter property for the node colour data.
 
         Returns
         -------
-        ColourData
+        Data
             Node colour data.
         """
 
-        return self._colour_data
+        return self._data
 
     @property
     def children(self):
@@ -855,7 +855,7 @@ class Node:
         """
 
         return '{0}#{1}({2})'.format(self.__class__.__name__, self._id,
-                                     self._colour_data)
+                                     self._data)
 
     def __len__(self):
         """
@@ -874,7 +874,7 @@ class Node:
         Returns whether the node is a leaf.
         :class:`colour.recovery.NodeTree_Otsu2018` class instance tree leaves
         do not have any children and store instances of
-        :class:`colour.recovery.otsu2018.ColourData` class.
+        :class:`colour.recovery.otsu2018.Data` class.
 
         Returns
         -------
@@ -898,7 +898,7 @@ class Node:
             Partition axis.
         """
 
-        self._colour_data = None
+        self._data = None
         self._children = children
         self._partition_axis = partition_axis
 
@@ -933,10 +933,10 @@ class Node:
         if self._M is not None:
             return
 
-        self._mean = np.mean(self._colour_data.reflectances, axis=0)
+        self._mean = np.mean(self._data.reflectances, axis=0)
         self._XYZ_mu = self._tree.msds_to_XYZ(self._mean)
 
-        matrix_data = self._colour_data.reflectances - self._mean
+        matrix_data = self._data.reflectances - self._mean
         matrix_covariance = np.dot(np.transpose(matrix_data), matrix_data)
         _eigenvalues, eigenvectors = np.linalg.eigh(matrix_covariance)
         self._basis_functions = np.transpose(eigenvectors[:, -3:])
@@ -1016,9 +1016,9 @@ class Node:
             self.PCA()
 
         error = 0
-        for i in range(len(self.colour_data)):
-            sd = self.colour_data.reflectances[i, :]
-            XYZ = self.colour_data.XYZ[i, :]
+        for i in range(len(self.data)):
+            sd = self.data.reflectances[i, :]
+            XYZ = self.data.XYZ[i, :]
             recovered_sd = self.reconstruct(XYZ)
             error += np.sum((sd - recovered_sd.values) ** 2)
 
@@ -1064,7 +1064,7 @@ class Node:
             Nodes created by splitting the node with the given partition.
         """
 
-        partition = self.colour_data.partition(axis)
+        partition = self.data.partition(axis)
 
         if (len(partition[0]) < self._tree.minimum_cluster_size or
                 len(partition[1]) < self._tree.minimum_cluster_size):
@@ -1103,11 +1103,11 @@ class Node:
         leaf_error = self.leaf_reconstruction_error()
         best_error = None
 
-        with tqdm(total=2 * len(self.colour_data)) as progress:
+        with tqdm(total=2 * len(self.data)) as progress:
             for direction in [0, 1]:
-                for i in range(len(self.colour_data)):
+                for i in range(len(self.data)):
                     progress.update()
-                    origin = self.colour_data.xy[i, direction]
+                    origin = self.data.xy[i, direction]
                     axis = PartitionAxis(origin, direction)
 
                     try:
@@ -1273,8 +1273,8 @@ class NodeTree_Otsu2018(Node):
 
         self._minimum_cluster_size = None
 
-        super(NodeTree_Otsu2018, self).__init__(
-            self, ColourData(self, self._reflectances))
+        super(NodeTree_Otsu2018, self).__init__(self,
+                                                Data(self, self._reflectances))
 
     @property
     def reflectances(self):
@@ -1464,21 +1464,21 @@ class NodeTree_Otsu2018(Node):
         Optimising "NodeTree_Otsu2018(1 Node)"...
         <BLANKLINE>
         Split "NodeTree_Otsu2018(1 Node)" into \
-"Node#...(ColourData(10 Reflectances))" and \
-"Node#...(ColourData(14 Reflectances))" along "\
+"Node#...(Data(10 Reflectances))" and \
+"Node#...(Data(14 Reflectances))" along "\
 PartitionAxis(horizontal partition at y = 0.3240945...)".
         Error is reduced by 0.0054840... and is now 4.8650513..., \
 99.9% of the initial error.
         <BLANKLINE>
         Iteration 2 of 2:
         <BLANKLINE>
-        Optimising "Node#...(ColourData(10 Reflectances))"...
+        Optimising "Node#...(Data(10 Reflectances))"...
         Optimisation failed: Could not find a best partition!
-        Optimising "Node#...(ColourData(14 Reflectances))"...
+        Optimising "Node#...(Data(14 Reflectances))"...
         <BLANKLINE>
-        Split "Node#...(ColourData(14 Reflectances))" into \
-"Node#...(ColourData(7 Reflectances))" and \
-"Node#...(ColourData(7 Reflectances))" along \
+        Split "Node#...(Data(14 Reflectances))" into \
+"Node#...(Data(7 Reflectances))" and \
+"Node#...(Data(7 Reflectances))" along \
 "PartitionAxis(horizontal partition at y = 0.3600663...)".
         Error is reduced by 0.9681059... and is now 3.8969453..., \
 80.0% of the initial error.
@@ -1489,7 +1489,7 @@ PartitionAxis(horizontal partition at y = 0.3240945...)".
 
         self._minimum_cluster_size = (minimum_cluster_size
                                       if minimum_cluster_size is not None else
-                                      len(self.colour_data) / iterations // 2)
+                                      len(self.data) / iterations // 2)
         self._minimum_cluster_size = max(self._minimum_cluster_size, 3)
 
         initial_branch_error = self.branch_reconstruction_error()
