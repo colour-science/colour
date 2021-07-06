@@ -79,9 +79,9 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(RGB_COLOURSPACE_ACES2065_1),
             np.array([
-                [-58.9920208, 102.4721629],
-                [-404.1883039, 317.5082799],
-                [-274.0297625, 174.4716296],
+                [-65.15706201, 102.72462756],
+                [-380.86283223, 281.23227495],
+                [-284.75355519, 177.11142683],
             ]),
             decimal=7)
 

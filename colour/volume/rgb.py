@@ -135,9 +135,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     return len(RGB_w)
 
 
-def RGB_colourspace_limits(colourspace,
-                           illuminant=CCS_ILLUMINANTS[
-                               'CIE 1931 2 Degree Standard Observer']['D65']):
+def RGB_colourspace_limits(colourspace):
     """
     Computes given *RGB* colourspace volume limits in *CIE L\\*a\\*b\\**
     colourspace.
@@ -146,13 +144,20 @@ def RGB_colourspace_limits(colourspace,
     ----------
     colourspace : RGB_Colourspace
         *RGB* colourspace to compute the volume of.
-    illuminant : array_like, optional
-        *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity coordinates.
 
     Returns
     -------
     ndarray
         *RGB* colourspace volume limits.
+
+    Notes
+    -----
+    The limits are computed for the given *RGB* colourspace illuminant. This is
+    important to account for, if the intent is to compare various *RGB*
+    colourspaces together. In this instance, they must be chromatically adapted
+    to the same illuminant before-hand.
+    See :meth:`colour.RGB_Colourspace.chromatically_adapt` method for more
+    information.
 
     Examples
     --------
@@ -167,8 +172,10 @@ def RGB_colourspace_limits(colourspace,
     for combination in list(itertools.product([0, 1], repeat=3)):
         Lab.append(
             XYZ_to_Lab(
-                RGB_to_XYZ(combination, colourspace.whitepoint, illuminant,
-                           colourspace.matrix_RGB_to_XYZ)))
+                RGB_to_XYZ(combination, colourspace.whitepoint,
+                           colourspace.whitepoint,
+                           colourspace.matrix_RGB_to_XYZ),
+                colourspace.whitepoint))
     Lab = np.array(Lab)
 
     limits = []
