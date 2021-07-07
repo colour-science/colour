@@ -201,9 +201,9 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_read(self, sd=None):
         """
-        Tests :attr:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
+        Tests :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method.
-_temporary_directory_temporary_directory
+
         Parameters
         ----------
         sd : SpectralDistribution_IESTM2714, optional
@@ -229,7 +229,7 @@ _temporary_directory_temporary_directory
 
     def test_write(self):
         """
-        Tests :attr:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
+        Tests :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
         method.
         """
 

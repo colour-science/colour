@@ -218,7 +218,7 @@ class TestRGB_Colourspace(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.__str__`
+        Tests :meth:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.__str__`
         method.
         """
 
@@ -359,7 +359,7 @@ chromatically_adapt` method.
 
     def test_copy(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.copy`
+        Tests :meth:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.copy`
         method.
         """
 

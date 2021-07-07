@@ -300,7 +300,7 @@ extrapolator_kwargs` property.
 
     def test__init__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__init__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__init__`
         method.
         """
 
@@ -355,7 +355,7 @@ extrapolator_kwargs` property.
 
     def test__hash__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__hash__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__hash__`
         method.
         """
 
@@ -363,7 +363,7 @@ extrapolator_kwargs` property.
 
     def test__str__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__str__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__str__`
         method.
         """
 
@@ -385,7 +385,7 @@ extrapolator_kwargs` property.
 
     def test__repr__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__repr__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__repr__`
         method.
         """
 
@@ -413,7 +413,7 @@ extrapolator_kwargs` property.
 
     def test__getitem__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__getitem__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__getitem__`
         method.
         """
 
@@ -503,7 +503,7 @@ extrapolator_kwargs` property.
 
     def test__setitem__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__setitem__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__setitem__`
         method.
         """
 
@@ -626,7 +626,7 @@ extrapolator_kwargs` property.
 
     def test__contains__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__contains__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__contains__`
         method.
         """
 
@@ -644,7 +644,7 @@ extrapolator_kwargs` property.
 
     def test__len__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__len__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__len__`
         method.
         """
 
@@ -652,7 +652,7 @@ extrapolator_kwargs` property.
 
     def test__eq__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__eq__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__eq__`
         method.
         """
 
@@ -663,7 +663,7 @@ extrapolator_kwargs` property.
 
     def test__ne__(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.__ne__`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__ne__`
         method.
         """
 
@@ -799,7 +799,7 @@ arithmetical_operation` method.
 
     def test_is_uniform(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.is_uniform`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.is_uniform`
         method.
         """
 
@@ -889,7 +889,7 @@ multi_signals_unpack_data` method.
 
     def test_fill_nan(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.fill_nan`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.fill_nan`
         method.
         """
 
@@ -932,7 +932,7 @@ domain_distance` method.
 
     def test_to_dataframe(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.to_dataframe`
+        Tests :meth:`colour.continuous.multi_signals.MultiSignals.to_dataframe`
         method.
         """
 

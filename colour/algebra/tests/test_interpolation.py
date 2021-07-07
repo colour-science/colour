@@ -419,7 +419,7 @@ padding_kwargs` property.
 
     def test__call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.KernelInterpolator.__call__`
         method.
         """
 
@@ -564,7 +564,7 @@ class TestNearestNeighbourInterpolator(unittest.TestCase):
 
     def test___init__(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__init__`
+        Tests :meth:`colour.algebra.interpolation.KernelInterpolator.__init__`
         method.
         """
 
@@ -612,7 +612,7 @@ class TestLinearInterpolator(unittest.TestCase):
 
     def test__call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method.
         """
 
@@ -702,7 +702,7 @@ class TestSpragueInterpolator(unittest.TestCase):
 
     def test__call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method.
         """
 
@@ -899,7 +899,7 @@ default` property.
 
     def test__call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.NullInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.NullInterpolator.__call__`
         method.
         """
 

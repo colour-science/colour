@@ -96,7 +96,7 @@ class TestExtrapolator(unittest.TestCase):
 
     def test__call__(self):
         """
-        Tests :func:`colour.algebra.extrapolation.Extrapolator.__call__`
+        Tests :meth:`colour.algebra.extrapolation.Extrapolator.__call__`
         method.
         """
 

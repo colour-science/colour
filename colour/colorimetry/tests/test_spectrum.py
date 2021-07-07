@@ -1288,7 +1288,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__hash__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralShape.__hash__`
+        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__hash__`
         method.
         """
 
@@ -1296,7 +1296,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__iter__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralShape.__iter__`
+        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__iter__`
         method.
         """
 
@@ -1306,7 +1306,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__contains__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralShape.__contains__`
+        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__contains__`
         method.
         """
 
@@ -1320,7 +1320,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__len__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralShape.__len__`
+        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__len__`
         method.
         """
 
@@ -1328,7 +1328,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__eq__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralShape.__eq__`
+        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__eq__`
         method.
         """
 
@@ -1336,7 +1336,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__ne__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralShape.__ne__`
+        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__ne__`
         method.
         """
 
@@ -1446,7 +1446,7 @@ SpectralDistribution.shape` attribute.
 
     def test__init__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralDistribution.__init__`
+        Tests :meth:`colour.colorimetry.spectrum.SpectralDistribution.__init__`
         method.
         """
 
