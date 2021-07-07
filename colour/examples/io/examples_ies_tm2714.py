@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Showcases input / output *IES TM-27-14* spectral data XML files related
-examples.
+Showcases *IES TM-27-14* spectral data *XML* files input / output examples.
 """
 
 import os
