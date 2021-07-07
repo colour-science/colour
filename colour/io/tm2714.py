@@ -4,7 +4,7 @@ IES TM-27-14 Data Input / Output
 ================================
 
 Defines the :class:`colour.SpectralDistribution_IESTM2714` class handling *IES
-TM-27-14* spectral data XML files.
+TM-27-14* spectral data *XML* files.
 
 References
 ----------
@@ -46,7 +46,7 @@ class Element_Specification_IESTM2714(
                    ('element', 'attribute', 'type', 'required',
                     'read_conversion', 'write_conversion'))):
     """
-    *IES TM-27-14* spectral data XML file element specification.
+    *IES TM-27-14* spectral data *XML* file element specification.
 
     Parameters
     ----------
@@ -59,9 +59,9 @@ class Element_Specification_IESTM2714(
     required : bool
         Is element required.
     read_conversion : object
-        Method to convert from XML to type on reading.
+        Method to convert from *XML* to type on reading.
     write_conversion : object
-        Method to convert from type to XML on writing.
+        Method to convert from type to *XML* on writing.
     """
 
     def __new__(cls,
@@ -93,9 +93,9 @@ class Header_IESTM2714:
     catalog_number : unicode, optional
         Manufacturer's product catalog number.
     description : unicode, optional
-        Description of the spectral data in the spectral data XML file.
+        Description of the spectral data in the spectral data *XML* file.
     document_creator : unicode, optional
-        Creator of the spectral data XML file, which may be a
+        Creator of the spectral data *XML* file, which may be a
         test lab, a research group, a standard body, a company or an
         individual.
     unique_identifier : unicode, optional
@@ -111,7 +111,7 @@ class Header_IESTM2714:
         Testing laboratory report date using the *XML DateTime Data Type*,
         *YYYY-MM-DDThh:mm:ss*.
     document_creation_date : unicode, optional
-        Spectral data XML file creation date using the
+        Spectral data *XML* file creation date using the
         *XML DateTime Data Type*, *YYYY-MM-DDThh:mm:ss*.
     comments : unicode, optional
         Additional information relating to the tested and reported data.
@@ -569,12 +569,12 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     """
     Defines a *IES TM-27-14* spectral distribution.
 
-    This class can read and write *IES TM-27-14* spectral data XML files.
+    This class can read and write *IES TM-27-14* spectral data *XML* files.
 
     Parameters
     ----------
     path : unicode, optional
-        Spectral data XML file path.
+        Spectral data *XML* file path.
     header : Header_IESTM2714, optional
         *IES TM-27-14* spectral distribution header.
     spectral_quantity : unicode, optional
@@ -970,7 +970,7 @@ dict_like, optional
 
     def read(self):
         """
-        Reads and parses the spectral data XML file path.
+        Reads and parses the spectral data *XML* file path.
 
         Returns
         -------
@@ -1034,7 +1034,7 @@ dict_like, optional
 
     def write(self):
         """
-        Write the spectral distribution spectral data to XML file path.
+        Write the spectral distribution spectral data to *XML* file path.
 
         Returns
         -------
