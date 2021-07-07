@@ -974,8 +974,8 @@ dict_like, optional
 
         Returns
         -------
-        bool
-            Definition success.
+        SpectralDistribution_IESTM2714
+            *IES TM-27-14* spectral distribution.
 
         Examples
         --------
