@@ -306,7 +306,7 @@ class TestModuleAPI(unittest.TestCase):
 
     def test__getattr__(self):
         """
-        Tests :func:`colour.utilities.deprecation.ModuleAPI.__getattr__`
+        Tests :meth:`colour.utilities.deprecation.ModuleAPI.__getattr__`
         method.
         """
 

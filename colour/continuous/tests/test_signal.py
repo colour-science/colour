@@ -463,7 +463,7 @@ class TestSignal(unittest.TestCase):
 
     def test_arithmetical_operation(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.arithmetical_operation`
+        Tests :meth:`colour.continuous.signal.Signal.arithmetical_operation`
         method.
         """
 
@@ -567,7 +567,7 @@ class TestSignal(unittest.TestCase):
 
     def test_signal_unpack_data(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.signal_unpack_data`
+        Tests :meth:`colour.continuous.signal.Signal.signal_unpack_data`
         method.
         """
 
