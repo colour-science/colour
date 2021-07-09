@@ -9,7 +9,7 @@ import unittest
 from colour.colorimetry import (lightness_Glasser1958, lightness_Wyszecki1963,
                                 intermediate_lightness_function_CIE1976,
                                 lightness_CIE1976, lightness_Fairchild2010,
-                                lightness_Fairchild2011)
+                                lightness_Fairchild2011, lightness_Abebe2017)
 from colour.colorimetry.lightness import lightness
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -23,7 +23,8 @@ __status__ = 'Production'
 __all__ = [
     'TestLightnessGlasser1958', 'TestLightnessWyszecki1963',
     'TestIntermediateLightnessFunctionCIE1976', 'TestLightnessCIE1976',
-    'TestLightnessFairchild2010', 'TestLightnessFairchild2011', 'TestLightness'
+    'TestLightnessFairchild2010', 'TestLightnessFairchild2011',
+    'TestLightnessAbebe2017', 'TestLightness'
 ]
 
 
@@ -499,6 +500,89 @@ class TestLightnessFairchild2011(unittest.TestCase):
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
+class TestLightnessAbebe2017(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.lightness.lightness_Abebe2017`
+    definition unit tests methods.
+    """
+
+    def test_lightness_Abebe2017(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_Abebe2017`
+        definition.
+        """
+
+        self.assertAlmostEqual(
+            lightness_Abebe2017(12.19722535), 0.486955571109229, places=7)
+
+        self.assertAlmostEqual(
+            lightness_Abebe2017(12.19722535, method='Stevens'),
+            0.474544792145434,
+            places=7)
+
+        self.assertAlmostEqual(
+            lightness_Abebe2017(12.19722535, 1000),
+            0.286847428534793,
+            places=7)
+
+        self.assertAlmostEqual(
+            lightness_Abebe2017(12.19722535, 4000),
+            0.192145492588158,
+            places=7)
+
+        self.assertAlmostEqual(
+            lightness_Abebe2017(12.19722535, 4000, method='Stevens'),
+            0.170365211220992,
+            places=7)
+
+    def test_n_dimensional_lightness_Abebe2017(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_Abebe2017`
+        definition n-dimensional arrays support.
+        """
+
+        Y = 12.19722535
+        L = lightness_Abebe2017(Y)
+
+        Y = np.tile(Y, 6)
+        L = np.tile(L, 6)
+        np.testing.assert_almost_equal(lightness_Abebe2017(Y), L, decimal=7)
+
+        Y = np.reshape(Y, (2, 3))
+        L = np.reshape(L, (2, 3))
+        np.testing.assert_almost_equal(lightness_Abebe2017(Y), L, decimal=7)
+
+        Y = np.reshape(Y, (2, 3, 1))
+        L = np.reshape(L, (2, 3, 1))
+        np.testing.assert_almost_equal(lightness_Abebe2017(Y), L, decimal=7)
+
+    def test_domain_range_scale_lightness_Abebe2017(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_Abebe2017`
+        definition domain and range scale support.
+        """
+
+        L = lightness_Abebe2017(12.19722535)
+
+        d_r = (('reference', 1), (1, 1), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    lightness_Abebe2017(12.19722535 * factor, 100 * factor),
+                    L * factor,
+                    decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_lightness_Abebe2017(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_Abebe2017`
+        definition nan support.
+        """
+
+        lightness_Abebe2017(
+            *[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2)
+
+
 class TestLightness(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.lightness.lightness` definition unit
@@ -512,7 +596,7 @@ class TestLightness(unittest.TestCase):
         """
 
         m = ('Glasser 1958', 'Wyszecki 1963', 'CIE 1976', 'Fairchild 2010',
-             'Fairchild 2011')
+             'Fairchild 2011', 'Abebe 2017')
         v = [lightness(12.19722535, method, Y_n=100) for method in m]
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
