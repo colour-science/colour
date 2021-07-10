@@ -237,11 +237,10 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
         """
 
         L_a = 63.66
-        theta = 1.50000000
         q = coefficient_q_Nayatani1997(L_a)
 
-        theta = np.tile(theta, 6)
+        L_a = np.tile(L_a, 6)
         q = np.tile(q, 6)
 
         np.testing.assert_almost_equal(
-            coefficient_q_Nayatani1997(theta), q, decimal=7)
+            coefficient_q_Nayatani1997(L_a), q, decimal=7)
