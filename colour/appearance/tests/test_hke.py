@@ -70,22 +70,23 @@ class TestHelmholtzKohlrauschEffectObjectNayatani1997(unittest.TestCase):
         result_vac = HelmholtzKohlrausch_effect_object_Nayatani1997(
             uv, uv_d65, L_a, method='VAC')
 
-        uv_d65 = np.tile(uv_d65, (6, 1))
-        uv = np.tile(uv, (6, 1))
-        result_vcc = np.tile(result_vcc, 6)
-        result_vac = np.tile(result_vac, 6)
+        for i in range(2):
+            uv_d65 = np.tile(uv_d65, (6, 1))
+            uv = np.tile(uv, (6, 1))
+            result_vcc = np.tile(result_vcc, 6)
+            result_vac = np.tile(result_vac, 6)
 
-        np.testing.assert_almost_equal(
-            HelmholtzKohlrausch_effect_object_Nayatani1997(
-                uv, uv_d65, L_a, method='VCC'),
-            result_vcc,
-            decimal=7)
+            np.testing.assert_almost_equal(
+                HelmholtzKohlrausch_effect_object_Nayatani1997(
+                    uv, uv_d65, L_a, method='VCC'),
+                result_vcc,
+                decimal=7)
 
-        np.testing.assert_almost_equal(
-            HelmholtzKohlrausch_effect_object_Nayatani1997(
-                uv, uv_d65, L_a, method='VAC'),
-            result_vac,
-            decimal=7)
+            np.testing.assert_almost_equal(
+                HelmholtzKohlrausch_effect_object_Nayatani1997(
+                    uv, uv_d65, L_a, method='VAC'),
+                result_vac,
+                decimal=7)
 
 
 class TestHelmholtzKohlrauschEffectLuminousNayatani1997(unittest.TestCase):
@@ -132,22 +133,23 @@ class TestHelmholtzKohlrauschEffectLuminousNayatani1997(unittest.TestCase):
         result_vac = HelmholtzKohlrausch_effect_luminous_Nayatani1997(
             uv, uv_d65, L_a, method='VAC')
 
-        uv_d65 = np.tile(uv_d65, (6, 1))
-        uv = np.tile(uv, (6, 1))
-        result_vcc = np.tile(result_vcc, 6)
-        result_vac = np.tile(result_vac, 6)
+        for i in range(2):
+            uv_d65 = np.tile(uv_d65, (6, 1))
+            uv = np.tile(uv, (6, 1))
+            result_vcc = np.tile(result_vcc, 6)
+            result_vac = np.tile(result_vac, 6)
 
-        np.testing.assert_almost_equal(
-            HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-                uv, uv_d65, L_a, method='VCC'),
-            result_vcc,
-            decimal=7)
+            np.testing.assert_almost_equal(
+                HelmholtzKohlrausch_effect_luminous_Nayatani1997(
+                    uv, uv_d65, L_a, method='VCC'),
+                result_vcc,
+                decimal=7)
 
-        np.testing.assert_almost_equal(
-            HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-                uv, uv_d65, L_a, method='VAC'),
-            result_vac,
-            decimal=7)
+            np.testing.assert_almost_equal(
+                HelmholtzKohlrausch_effect_luminous_Nayatani1997(
+                    uv, uv_d65, L_a, method='VAC'),
+                result_vac,
+                decimal=7)
 
 
 class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
@@ -191,11 +193,12 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
         L_a = 63.66
         K_Br = coefficient_K_Br_Nayatani1997(L_a)
 
-        L_a = np.tile(L_a, 6)
-        K_Br = np.tile(K_Br, 6)
+        for i in range(2):
+            L_a = np.tile(L_a, 6)
+            K_Br = np.tile(K_Br, 6)
 
-        np.testing.assert_almost_equal(
-            coefficient_K_Br_Nayatani1997(L_a), K_Br, decimal=7)
+            np.testing.assert_almost_equal(
+                coefficient_K_Br_Nayatani1997(L_a), K_Br, decimal=7)
 
 
 class TestCoefficient_q_Nayatani1997(unittest.TestCase):
@@ -239,8 +242,9 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
         L_a = 63.66
         q = coefficient_q_Nayatani1997(L_a)
 
-        L_a = np.tile(L_a, 6)
-        q = np.tile(q, 6)
+        for i in range(2):
+            L_a = np.tile(L_a, 6)
+            q = np.tile(q, 6)
 
-        np.testing.assert_almost_equal(
-            coefficient_q_Nayatani1997(L_a), q, decimal=7)
+            np.testing.assert_almost_equal(
+                coefficient_q_Nayatani1997(L_a), q, decimal=7)
