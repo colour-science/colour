@@ -3,10 +3,12 @@
 Defines the unit tests for the :mod:`colour.models.icacb` module.
 """
 
+from itertools import permutations
 import numpy as np
 import unittest
 
 from colour.models import XYZ_to_ICaCb, ICaCb_to_XYZ
+from colour.utilities import ignore_numpy_errors
 
 
 class TestXYZ_to_ICaCb(unittest.TestCase):
@@ -44,8 +46,20 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
             XYZ_to_ICaCb(ICaCb_to_XYZ([0.20654008, 0.12197225, 0.05136952])),
             [0.20654008, 0.12197225, 0.05136952])
 
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_ICaCb(self):
+        """
+        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
+        """
 
-class TestICaCb_to_XYZC(unittest.TestCase):
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_to_ICaCb(XYZ)
+
+
+class TestICaCb_to_XYZ(unittest.TestCase):
     """
     Tests :func:`colour.models.icacb.ICaCb_to_XYZ` definition.
     """
@@ -72,6 +86,18 @@ class TestICaCb_to_XYZC(unittest.TestCase):
                 np.array([1702.0656419, 14738.00583456, 1239.66837927])),
             np.array([0.00000000, 0.00000000, 1.00000000]),
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_ICaCb_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            ICaCb = np.array(case)
+            ICaCb_to_XYZ(ICaCb)
 
 
 if __name__ == '__main__':
