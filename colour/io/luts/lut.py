@@ -23,7 +23,6 @@ from operator import (add, mul, pow, sub, truediv, iadd, imul, ipow, isub,
 
 from colour.algebra import (Extrapolator, LinearInterpolator,
                             linear_conversion, table_interpolation_trilinear)
-from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (as_float_array, as_int, is_numeric, is_iterable,
                               is_string, full, runtime_warning, tsplit, tstack,
                               usage_warning, validate_method)
@@ -692,28 +691,14 @@ class AbstractLUT(ABC):
         return deepcopy(self)
 
     @abstractmethod
-    def invert(self,
-               interpolator=LinearInterpolator,
-               interpolator_kwargs=None,
-               **kwargs):
+    def invert(self, **kwargs):
         """
         Computes and returns an inverse copy of the *LUT*.
 
-        Parameters
-        ----------
-        interpolator : object, optional
-            Interpolator class type or object to use as interpolating function.
-        interpolator_kwargs : dict_like, optional
-            Arguments to use when instantiating or calling the interpolating
-            function.
-
         Other Parameters
         ----------------
-        extrapolator : object, optional
-            Extrapolator class type or object to use as extrapolating function.
-        extrapolator_kwargs : dict_like, optional
-            Arguments to use when instantiating or calling the extrapolating
-            function.
+        \\**kwargs : dict, optional
+            Keywords arguments.
 
         Returns
         -------
@@ -993,28 +978,15 @@ class LUT1D(AbstractLUT):
 
             return np.linspace(domain[0], domain[1], size)
 
-    def invert(self,
-               interpolator=LinearInterpolator,
-               interpolator_kwargs=None,
-               **kwargs):
+    def invert(self, **kwargs):
         """
         Computes and returns an inverse copy of the *LUT*.
 
-        Parameters
-        ----------
-        interpolator : object, optional
-            Interpolator class type or object to use as interpolating function.
-        interpolator_kwargs : dict_like, optional
-            Arguments to use when instantiating or calling the interpolating
-            function.
-
         Other Parameters
         ----------------
-        extrapolator : object, optional
-            Extrapolator class type or object to use as extrapolating function.
-        extrapolator_kwargs : dict_like, optional
-            Arguments to use when instantiating or calling the extrapolating
-            function.
+        \\**kwargs : dict, optional
+            Keywords arguments, only given for signature compatibility with
+            the :meth:`AbstractLUT.invert` method.
 
         Returns
         -------
@@ -1024,40 +996,35 @@ class LUT1D(AbstractLUT):
         Examples
         --------
         >>> LUT = LUT1D(LUT1D.linear_table() ** (1 / 2.2))
-        >>> print(LUT.table.reshape(-1, 5))
-        [[ 0.          0.36834383  0.50476034  0.60691337  0.69169882]
-         [ 0.76553851  0.83168433  0.89204934  0.94787016  1.        ]]
+        >>> print(LUT.table)  # doctest: +ELLIPSIS
+        [ 0.       ...  0.3683438...  0.5047603...  0.6069133...  \
+0.6916988...  0.7655385...
+          0.8316843...  0.8920493...  0.9478701...  1.        ]
         >>> print(LUT.invert())  # doctest: +ELLIPSIS
         LUT1D - ... - Inverse
         --------...----------
         <BLANKLINE>
         Dimensions : 1
-        Domain     : [ 0.  1.]
+        Domain     : [ 0.          0.3683438...  0.5047603...  0.6069133...  \
+0.6916988...  0.7655385...
+          0.8316843...  0.8920493...  0.9478701...  1.        ]
         Size       : (10,)
-        >>> print(LUT.invert().table.reshape(-1, 5))
-        [[ 0.          0.03351673  0.06703345  0.10055018  0.17309499]
-         [ 0.27747181  0.41163987  0.57611496  0.77196048  1.        ]]
+        >>> print(LUT.invert().table)  # doctest: +ELLIPSIS
+        [ 0.       ...  0.1111111...  0.2222222...  0.3333333...  \
+0.4444444...  0.5555555...
+          0.6666666...  0.7777777...  0.8888888...  1.        ]
         """
 
-        if interpolator_kwargs is None:
-            interpolator_kwargs = {}
-
-        extrapolator = kwargs.get('extrapolator', Extrapolator)
-        extrapolator_kwargs = kwargs.get('extrapolator_kwargs', {})
-
         if self.is_domain_explicit():
-            samples = self.domain
+            domain = self.domain
         else:
             domain_min, domain_max = self.domain
+            domain = np.linspace(domain_min, domain_max, self.size)
 
-            samples = np.linspace(domain_min, domain_max, self.size)
-
-        RGB_i = extrapolator(
-            interpolator(self.table, samples, **interpolator_kwargs),
-            **extrapolator_kwargs,
-        )(samples)
-
-        LUT_i = LUT1D(table=RGB_i, name='{0} - Inverse'.format(self.name))
+        LUT_i = LUT1D(
+            table=domain,
+            name='{0} - Inverse'.format(self.name),
+            domain=self.table)
 
         return LUT_i
 
@@ -1122,14 +1089,12 @@ class LUT1D(AbstractLUT):
 
         direction = validate_method(direction, ['Forward', 'Inverse'])
 
-        LUT = (self.invert(interpolator, interpolator_kwargs, **kwargs)
-               if direction == 'inverse' else self)
+        LUT = self.invert() if direction == 'inverse' else self
 
         if LUT.is_domain_explicit():
             samples = LUT.domain
         else:
             domain_min, domain_max = LUT.domain
-
             samples = np.linspace(domain_min, domain_max, LUT.size)
 
         RGB_interpolator = extrapolator(
@@ -1457,28 +1422,15 @@ class LUT3x1D(AbstractLUT):
 
             return tstack(samples)
 
-    def invert(self,
-               interpolator=LinearInterpolator,
-               interpolator_kwargs=None,
-               **kwargs):
+    def invert(self, **kwargs):
         """
         Computes and returns an inverse copy of the *LUT*.
 
-        Parameters
-        ----------
-        interpolator : object, optional
-            Interpolator class type or object to use as interpolating function.
-        interpolator_kwargs : dict_like, optional
-            Arguments to use when instantiating or calling the interpolating
-            function.
-
         Other Parameters
         ----------------
-        extrapolator : object, optional
-            Extrapolator class type or object to use as extrapolating function.
-        extrapolator_kwargs : dict_like, optional
-            Arguments to use when instantiating or calling the extrapolating
-            function.
+        \\**kwargs : dict, optional
+            Keywords arguments, only given for signature compatibility with
+            the :meth:`AbstractLUT.invert` method.
 
         Returns
         -------
@@ -1504,58 +1456,47 @@ class LUT3x1D(AbstractLUT):
         ----------...----------
         <BLANKLINE>
         Dimensions : 2
-        Domain     : [[ 0.  0.  0.]
-                      [ 1.  1.  1.]]
+        Domain     : [[ 0.       ...  0.       ...  0.       ...]
+                      [ 0.3683438...  0.3683438...  0.3683438...]
+                      [ 0.5047603...  0.5047603...  0.5047603...]
+                      [ 0.6069133...  0.6069133...  0.6069133...]
+                      [ 0.6916988...  0.6916988...  0.6916988...]
+                      [ 0.7655385...  0.7655385...  0.7655385...]
+                      [ 0.8316843...  0.8316843...  0.8316843...]
+                      [ 0.8920493...  0.8920493...  0.8920493...]
+                      [ 0.9478701...  0.9478701...  0.9478701...]
+                      [ 1.       ...  1.       ...  1.       ...]]
         Size       : (10, 3)
-        >>> print(LUT.invert().table)
-        [[ 0.          0.          0.        ]
-         [ 0.03351673  0.03351673  0.03351673]
-         [ 0.06703345  0.06703345  0.06703345]
-         [ 0.10055018  0.10055018  0.10055018]
-         [ 0.17309499  0.17309499  0.17309499]
-         [ 0.27747181  0.27747181  0.27747181]
-         [ 0.41163987  0.41163987  0.41163987]
-         [ 0.57611496  0.57611496  0.57611496]
-         [ 0.77196048  0.77196048  0.77196048]
-         [ 1.          1.          1.        ]]
+        >>> print(LUT.invert().table)  # doctest: +ELLIPSIS
+        [[ 0.       ...  0.       ...  0.       ...]
+         [ 0.1111111...  0.1111111...  0.1111111...]
+         [ 0.2222222...  0.2222222...  0.2222222...]
+         [ 0.3333333...  0.3333333...  0.3333333...]
+         [ 0.4444444...  0.4444444...  0.4444444...]
+         [ 0.5555555...  0.5555555...  0.5555555...]
+         [ 0.6666666...  0.6666666...  0.6666666...]
+         [ 0.7777777...  0.7777777...  0.7777777...]
+         [ 0.8888888...  0.8888888...  0.8888888...]
+         [ 1.       ...  1.       ...  1.       ...]]
         """
 
-        if interpolator_kwargs is None:
-            interpolator_kwargs = {}
-
-        extrapolator = kwargs.get('extrapolator', Extrapolator)
-        extrapolator_kwargs = kwargs.get('extrapolator_kwargs', {})
-
+        size = self.table.size // 3
         if self.is_domain_explicit():
-            samples = [
+            domain = [
                 axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
                 for axes in np.transpose(self.domain)
             ]
-            R_t, G_t, B_t = [
-                axes[:len(samples[i])]
-                for i, axes in enumerate(np.transpose(self.table))
-            ]
-
         else:
             domain_min, domain_max = self.domain
-            size = DEFAULT_INT_DTYPE(self.table.size / 3)
-            samples = [
+            domain = [
                 np.linspace(domain_min[i], domain_max[i], size)
                 for i in range(3)
             ]
 
-            R_t, G_t, B_t = tsplit(self.table)
-
-        s_R, s_G, s_B = samples
-
-        RGB_i = np.transpose([
-            extrapolator(
-                interpolator(a[0], a[1], **interpolator_kwargs),
-                **extrapolator_kwargs)(a[1])
-            for a in zip((R_t, G_t, B_t), (s_R, s_G, s_B))
-        ])
-
-        LUT_i = LUT3x1D(table=RGB_i, name='{0} - Inverse'.format(self.name))
+        LUT_i = LUT3x1D(
+            table=tstack(domain),
+            name='{0} - Inverse'.format(self.name),
+            domain=self.table)
 
         return LUT_i
 
@@ -1632,9 +1573,9 @@ class LUT3x1D(AbstractLUT):
 
         R, G, B = tsplit(RGB)
 
-        LUT = (self.invert(interpolator, interpolator_kwargs, **kwargs)
-               if direction == 'inverse' else self)
+        LUT = self.invert() if direction == 'inverse' else self
 
+        size = LUT.table.size // 3
         if LUT.is_domain_explicit():
             samples = [
                 axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
@@ -1646,12 +1587,10 @@ class LUT3x1D(AbstractLUT):
             ]
         else:
             domain_min, domain_max = LUT.domain
-            size = DEFAULT_INT_DTYPE(LUT.table.size / 3)
             samples = [
                 np.linspace(domain_min[i], domain_max[i], size)
                 for i in range(3)
             ]
-
             R_t, G_t, B_t = tsplit(LUT.table)
 
         s_R, s_G, s_B = samples
@@ -2056,23 +1995,14 @@ class LUT3D(AbstractLUT):
 
         return table
 
-    def invert(self,
-               interpolator=table_interpolation_trilinear,
-               interpolator_kwargs=None,
-               **kwargs):
+    def invert(self, **kwargs):
         """
         Computes and returns an inverse copy of the *LUT*.
 
-        Parameters
-        ----------
-        interpolator : object, optional
-            Interpolator class type or object to use as interpolating function.
-        interpolator_kwargs : dict_like, optional
-            Arguments to use when instantiating or calling the interpolating
-            function.
-
         Other Parameters
         ----------------
+        interpolator : object, optional
+            Interpolator class type or object to use as interpolating function.
         size : int, optional
             Size of the inverse *LUT*. With the given implementation, it is
             good practise to double the size of the inverse *LUT* to provide a
@@ -2112,6 +2042,8 @@ class LUT3D(AbstractLUT):
         Size       : (108, 108, 108, 3)
         """
 
+        interpolator = kwargs.get('interpolator',
+                                  table_interpolation_trilinear)
         extrapolate = kwargs.get('extrapolate', False)
         query_size = kwargs.get('query_size', 3)
 
@@ -2138,7 +2070,7 @@ class LUT3D(AbstractLUT):
         # resolution of the KDTree.
         LUT_t = LUT3D(size=target_size, domain=LUT.domain)
         table = LUT_t.table
-        LUT_t.table = LUT.apply(LUT_t.table, interpolator, interpolator_kwargs)
+        LUT_t.table = LUT.apply(LUT_t.table, interpolator)
 
         tree = cKDTree(LUT_t.table.reshape(-1, 3))
 
@@ -2157,8 +2089,7 @@ class LUT3D(AbstractLUT):
         # "LUT_i" is the final inverse LUT generated by applying "LUT_q" on
         # an identity LUT at the target size.
         LUT_i = LUT3D(size=target_size, domain=LUT.domain)
-        LUT_i.table = LUT_q.apply(LUT_i.table, interpolator,
-                                  interpolator_kwargs)
+        LUT_i.table = LUT_q.apply(LUT_i.table, interpolator)
 
         LUT_i.name = '{0} - Inverse'.format(self.name)
 
@@ -2235,8 +2166,9 @@ class LUT3D(AbstractLUT):
 
         R, G, B = tsplit(RGB)
 
-        LUT = (self.invert(interpolator, interpolator_kwargs, **kwargs)
-               if direction == 'inverse' else self)
+        settings = {'interpolator': interpolator}
+        settings.update(**kwargs)
+        LUT = self.invert(**settings) if direction == 'inverse' else self
 
         if LUT.is_domain_explicit():
             domain_min = LUT.domain[0, ...]
