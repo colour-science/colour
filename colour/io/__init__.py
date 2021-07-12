@@ -10,6 +10,8 @@ from .image import read_image, write_image
 from .tabular import (read_spectral_data_from_csv_file, read_sds_from_csv_file,
                       write_sds_to_csv_file)
 from .tm2714 import SpectralDistribution_IESTM2714
+from .uprtek_sekonic import (SpectralDistribution_UPRTek,
+                             SpectralDistribution_Sekonic)
 from .xrite import read_sds_from_xrite_file
 
 __all__ = []
@@ -23,5 +25,6 @@ __all__ += [
     'read_spectral_data_from_csv_file', 'read_sds_from_csv_file',
     'write_sds_to_csv_file'
 ]
+__all__ += ['SpectralDistribution_UPRTek', 'SpectralDistribution_Sekonic']
 __all__ += ['SpectralDistribution_IESTM2714']
 __all__ += ['read_sds_from_xrite_file']
