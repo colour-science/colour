@@ -174,7 +174,7 @@ If you'd like to join them, please consider
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://www.richardlackey.com/" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/555774739629633536/JjxFzBHy.jpeg">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1384145243096829962/CoUQPhrP.jpg">
                     </a>
                     <p><a href="https://www.richardlackey.com/" target="_blank">Richard Lackey</a></p>
                 </td>
@@ -188,7 +188,7 @@ If you'd like to join them, please consider
                 </td>
                 <td align="center" valign="middle">
                     <a href="http://antlerpost.com/" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1175674352/NS_Portrait_1k.jpg">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1394284009329504257/CZxrhA6x.jpg">
                     </a>
                     <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
                 </td>
