@@ -5,17 +5,17 @@ Helmholtz—Kohlrausch Effect
 
 Defines the following methods for estimating Helmholtz-Kohlrausch effect (HKE):
 
+-   :attr:`colour.HKE_NAYATANI1997_METHODS`: Nayatani HKE computation methods,
+    choice between variable achromatic colour ('VAC') and variable chromatic
+    colour ('VCC').
 -   :func:`colour.HelmholtzKohlrausch_effect_object_Nayatani1997`:
     *Nayatani (1997)* HKE estimation for object colours.
--   :func:`colour.hke_luminous_VAC_Nayatani1997`:
+-   :func:`colour.HelmholtzKohlrausch_effect_luminous_Nayatani1997`:
     *Nayatani (1997)* HKE estimation for luminous colours.
 -   :func:`colour.appearance.coefficient_q_Nayatani1997`:
     Calculates :math:`WI` coefficient for *Nayatani 1997* HKE estimation.
 -   :func:`colour.appearance.coefficient_K_Br_Nayatani1997`:
     Calculates :math:`K_{Br}` coefficient for *Nayatani 1997* HKE estimation.
--   :attr:`colour.HKE_NAYATANI1997_METHODS`: Nayatani HKE computation methods,
-    choice between variable achromatic colour ('VAC') and variable chromatic
-    colour ('VCC').
 
 References
 ----------
