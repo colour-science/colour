@@ -85,10 +85,13 @@ from .appearance import (
     CAM_Specification_ATD95, CAM_Specification_CAM16,
     CAM_Specification_CIECAM02, CAM_Specification_Hunt, CAM_Specification_LLAB,
     CAM_Specification_Nayatani95, CAM_Specification_RLAB, CAM16_to_XYZ,
-    CIECAM02_to_XYZ, VIEWING_CONDITIONS_CAM16, VIEWING_CONDITIONS_CIECAM02,
-    VIEWING_CONDITIONS_HUNT, VIEWING_CONDITIONS_LLAB, VIEWING_CONDITIONS_RLAB,
-    XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB,
-    XYZ_to_Nayatani95, XYZ_to_RLAB)
+    CIECAM02_to_XYZ, HKE_NAYATANI1997_METHODS,
+    HelmholtzKohlrausch_effect_object_Nayatani1997,
+    HelmholtzKohlrausch_effect_luminous_Nayatani1997, VIEWING_CONDITIONS_CAM16,
+    VIEWING_CONDITIONS_CIECAM02, VIEWING_CONDITIONS_HUNT,
+    VIEWING_CONDITIONS_LLAB, VIEWING_CONDITIONS_RLAB, XYZ_to_ATD95,
+    XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB, XYZ_to_Nayatani95,
+    XYZ_to_RLAB)
 from .difference import (DELTA_E_METHODS, delta_E, INDEX_STRESS_METHODS,
                          index_stress)
 from .geometry import (PRIMITIVE_METHODS, primitive,
@@ -237,6 +240,9 @@ __all__ += [
     'CAM_Specification_CIECAM02', 'CAM_Specification_Hunt',
     'CAM_Specification_LLAB', 'CAM_Specification_Nayatani95',
     'CAM_Specification_RLAB', 'CAM16_to_XYZ', 'CIECAM02_to_XYZ',
+    'HKE_NAYATANI1997_METHODS',
+    'HelmholtzKohlrausch_effect_object_Nayatani1997',
+    'HelmholtzKohlrausch_effect_luminous_Nayatani1997',
     'VIEWING_CONDITIONS_CAM16', 'VIEWING_CONDITIONS_CIECAM02',
     'VIEWING_CONDITIONS_HUNT', 'VIEWING_CONDITIONS_LLAB',
     'VIEWING_CONDITIONS_RLAB', 'XYZ_to_ATD95', 'XYZ_to_CAM16',
