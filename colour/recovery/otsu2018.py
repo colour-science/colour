@@ -19,7 +19,6 @@ References
 
 import numpy as np
 from collections import namedtuple
-from unittest import mock
 
 from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
                                 SpectralDistribution, SpectralShape,
@@ -34,6 +33,8 @@ from colour.utilities import (as_float_array, domain_range_scale,
 if is_tqdm_installed():
     from tqdm import tqdm
 else:
+    from unittest import mock
+
     tqdm = mock.MagicMock()
 
 __author__ = 'Colour Developers'
