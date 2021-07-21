@@ -197,7 +197,7 @@ def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
     >>> import colour
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
     ...                     'CMS_Test_Pattern.exr')
-    >>> image = read_image(path)  # doctest: +SKIP
+    >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
     """
 
     from OpenImageIO import ImageInput
@@ -393,13 +393,14 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     >>> image = read_image(path)  # doctest: +SKIP
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
     ...                     'CMSTestPattern.tif')
-    >>> write_image(image, path)  # doctest: +SKIP
+    >>> write_image_OpenImageIO(image, path)  # doctest: +SKIP
     True
 
     Advanced image writing while setting attributes:
 
     >>> compression = ImageAttribute_Specification('Compression', 'none')
-    >>> write_image(image, path, 'uint8', [compression])  # doctest: +SKIP
+    >>> write_image_OpenImageIO(image, path, 'uint8', [compression])
+    ... # doctest: +SKIP
     True
     """
 
@@ -487,7 +488,7 @@ def write_image_Imageio(image, path, bit_depth='float32', **kwargs):
     >>> image = read_image(path)  # doctest: +SKIP
     >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
     ...                     'CMSTestPattern.tif')
-    >>> write_image(image, path)  # doctest: +SKIP
+    >>> write_image_Imageio(image, path)  # doctest: +SKIP
     True
     """
 
