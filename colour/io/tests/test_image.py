@@ -248,6 +248,8 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
         if not is_openimageio_installed():
             return
 
+        from OpenImageIO import TypeDesc
+
         source_image_path = os.path.join(RESOURCES_DIRECTORY,
                                          'CMS_Test_Pattern.exr')
         target_image_path = os.path.join(self._temporary_directory,
@@ -258,15 +260,43 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype('float32'))
 
+        chromaticities = (
+            0.73470,
+            0.26530,
+            0.00000,
+            1.00000,
+            0.00010,
+            -0.07700,
+            0.32168,
+            0.33767,
+        )
+        write_attributes = [
+            ImageAttribute_Specification('acesImageContainerFlag', True),
+            ImageAttribute_Specification('chromaticities', chromaticities,
+                                         TypeDesc('float[8]')),
+            ImageAttribute_Specification('compression', 'none')
+        ]
         write_image_OpenImageIO(
-            image,
-            target_image_path,
-            attributes=[ImageAttribute_Specification('John', 'Doe')])
-        image, attributes = read_image_OpenImageIO(
+            image, target_image_path, attributes=write_attributes)
+        image, read_attributes = read_image_OpenImageIO(
             target_image_path, attributes=True)
-        for attribute in attributes:
-            if attribute.name == 'John':
-                self.assertEqual(attribute.value, 'Doe')
+        for write_attribute in write_attributes:
+            attribute_exists = False
+            for read_attribute in read_attributes:
+                if write_attribute.name == read_attribute.name:
+                    attribute_exists = True
+                    if isinstance(write_attribute.value, tuple):
+                        np.testing.assert_almost_equal(
+                            write_attribute.value,
+                            read_attribute.value,
+                            decimal=5)
+                    else:
+                        self.assertEqual(write_attribute.value,
+                                         read_attribute.value)
+
+            assert attribute_exists, (
+                '"{0}" attribute was not found on image!'.format(
+                    write_attribute.name))
 
 
 class TestReadImageImageio(unittest.TestCase):

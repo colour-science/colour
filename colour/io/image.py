@@ -402,6 +402,19 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     >>> write_image_OpenImageIO(image, path, 'uint8', [compression])
     ... # doctest: +SKIP
     True
+
+    Writing an "ACES" compliant "EXR" file:
+
+    >>> if is_openimageio_installed():  # doctest: +SKIP
+    ...     from OpenImageIO import TypeDesc
+    ...     chromaticities = (
+    ...         0.7347, 0.2653, 0.0, 1.0, 0.0001, -0.077, 0.32168, 0.33767)
+    ...     attributes = [
+    ...         ImageAttribute_Specification('acesImageContainerFlag', True),
+    ...         ImageAttribute_Specification(
+    ...             'chromaticities', chromaticities, TypeDesc('float[8]')),
+    ...         ImageAttribute_Specification('compression', 'none')]
+    ...     write_image_OpenImageIO(image, path, attributes=attributes)
     """
 
     from OpenImageIO import VERSION_MAJOR, ImageOutput, ImageSpec
