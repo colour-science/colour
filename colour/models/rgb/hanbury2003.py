@@ -3,7 +3,7 @@
 IHLS Colour Encoding
 ====================
 
-Defines the :math:`IHLS` colour encoding related transformations:
+Defines the :math:`IHLS` (Improved HLS) colourspace related transformations:
 
 -   :func:`colour.RGB_to_IHLS`
 -   :func:`colour.IHLS_to_RGB`
@@ -16,15 +16,13 @@ References
     ISBN:978-3-540-45103-7
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
-from colour.utilities import (dot_vector, from_range_1, to_domain_1, tstack,
-                              tsplit)
+from colour.algebra import vector_dot
+from colour.utilities import (from_range_1, to_domain_1, tstack, tsplit, zeros)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
@@ -32,20 +30,38 @@ __status__ = 'Production'
 
 __all__ = ['RGB_to_IHLS', 'IHLS_to_RGB']
 
+MATRIX_RGB_TO_YC_1_C_2 = np.array([
+    [0.2126, 0.7152, 0.0722],
+    [1, -0.5, -0.5],
+    [0, -np.sqrt(3) / 2, np.sqrt(3) / 2],
+])
+"""
+*RGB* colourspace to *YC_1C_2* colourspace matrix.
+
+MATRIX_RGB_TO_YC_1_C_2 : array_like, (3, 3)
+"""
+
+MATRIX_YC_1_C_2_TO_RGB = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
+"""
+*YC_1C_2* colourspace to *RGB* colourspace matrix.
+
+MATRIX_YC_1_C_2_TO_RGB : array_like, (3, 3)
+"""
+
 
 def RGB_to_IHLS(RGB):
     """
-    Converts from *RGB* colourspace to *IHLS* colourspace.
+    Converts from *RGB* colourspace to *IHLS* (Improved HLS) colourspace.
 
     Parameters
     ----------
-    RGB : (..., 3) array-like
+    RGB : array-like
        *RGB* colourspace array.
 
     Returns
     -------
-     HLS : array_like (..., 3) ndarray
-        *HLS* colourspace array.
+    ndarray
+        *HYS* colourspace array.
 
     Notes
     -----
@@ -59,7 +75,7 @@ def RGB_to_IHLS(RGB):
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HLS``    | [0, 1]                | [0, 1]        |
+    | ``HYS``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     References
@@ -70,60 +86,39 @@ def RGB_to_IHLS(RGB):
     --------
     >>> RGB = np.array([0.45595571, 0.03039702, 0.04087245])
     >>> RGB_to_IHLS(RGB)  # doctest: +ELLIPSIS
-    array([  3.5997842...e+02,   1.2162712...e-01,  -1.5791520...e-01])
+    array([ 6.2616051...,  0.1216271...,  0.4255586...])
     """
 
     RGB = to_domain_1(RGB)
+    R, G, B = tsplit(RGB)
 
-    Y, C_1, C_2 = tsplit(
-        dot_vector([
-            [0.2125, 0.7154, 0.0721],
-            [1, -0.5, -0.5],
-            [0, -np.sqrt(3) / 2, -np.sqrt(3) / 2],
-        ], RGB))
+    Y, C_1, C_2 = tsplit(vector_dot(MATRIX_RGB_TO_YC_1_C_2, RGB))
 
     C = np.sqrt(C_1 ** 2 + C_2 ** 2)
 
-    acos_C_1_C_2 = np.arccos(C_1 / C)
+    acos_C_1_C_2 = zeros(C.shape)
+    acos_C_1_C_2[C != 0] = np.arccos(C_1[C != 0] / C[C != 0])
     H = np.where(C_2 <= 0, acos_C_1_C_2, (np.pi * 2) - acos_C_1_C_2)
 
-    k = np.arange(6).reshape([1] * H.ndim + [6])
-    H_s = H[..., np.newaxis] - k * (np.pi / 3)
-    H_s = H_s[np.logical_and(H_s >= 0, H_s <= np.pi / 3)].reshape(H.shape)
-    S = (2 * C * np.sin(2 / 3 * np.pi - H_s)) / np.sqrt(3)
-
-    IHLS = tstack([H, Y, S])
-
-    return from_range_1(IHLS)
-
-
-def RGB_to_IHLS2(RGB):
-
-    R, G, B = tsplit(to_domain_1(RGB))
-
-    Y = 0.2125 * R + 0.7154 * G + 0.0721 * B
     S = np.maximum(np.maximum(R, G), B) - np.minimum(np.minimum(R, G), B)
-    H_p = np.arccos((R - 0.5 * G - 0.5 * B) /
-                    (R ** 2 + G ** 2 + B ** 2 - R * G - R * B - B * G) ** 0.5)
-    H = np.where(B > G, 2 * np.pi - H_p, H_p)
 
-    IHLS = tstack([H, Y, S])
+    HYS = tstack([H, Y, S])
 
-    return from_range_1(IHLS)
+    return from_range_1(HYS)
 
 
-def IHLS_to_RGB(IHLS):
+def IHLS_to_RGB(HYS):
     """
-    Converts from *RGB* colourspace to *IHLS* colourspace.
+    Converts from *IHLS* (Improved HLS) colourspace to *RGB* colourspace.
 
     Parameters
     ----------
-    IHLS : (..., 3) array-like
-        *HLS* colourspace array.
+    HYS : array-like
+        *IHLS* colourspace array.
 
     Returns
     -------
-     RGB : (..., 3) ndarray
+    ndarray
         *RGB* colourspace array.
 
     Notes
@@ -132,7 +127,7 @@ def IHLS_to_RGB(IHLS):
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HLS``    | [0, 1]                | [0, 1]        |
+    | ``HYS``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
@@ -147,30 +142,22 @@ def IHLS_to_RGB(IHLS):
 
     Examples
     --------
+    >>> HYS = np.array([6.26160518, 0.12162712, 0.42555869])
+    >>> IHLS_to_RGB(HYS)  # doctest: +ELLIPSIS
+    array([ 0.4559557...,  0.0303970...,  0.0408724...])
     """
 
-    H, Y, S = tsplit(to_domain_1(IHLS))
+    H, Y, S = tsplit(to_domain_1(HYS))
 
-    k = np.arange(6).reshape([1] * H.ndim + [6])
-    H_s = H[..., np.newaxis] - k * (np.pi / 3)
-    H_s = H_s[np.logical_and(H_s >= 0, H_s <= np.pi / 3)].reshape(H.shape)
+    pi_3 = np.pi / 3
 
-    C = (np.sqrt(3) * S) / (2 * np.sin(2 / 3 * np.pi - H_s))
+    k = np.floor(H / (pi_3))
+    H_s = H - k * (pi_3)
+    C = (np.sqrt(3) * S) / (2 * np.sin((2 * pi_3) - H_s))
+
     C_1 = C * np.cos(H)
     C_2 = -C * np.sin(H)
 
-    RGB = dot_vector(
-        np.array([
-            [1, 0.7875, 0.3714],
-            [1, -0.2125, -0.2059],
-            [1, -0.2125, 0.9488],
-        ]), tstack([Y, C_1, C_2]))
+    RGB = vector_dot(MATRIX_YC_1_C_2_TO_RGB, tstack([Y, C_1, C_2]))
 
     return from_range_1(RGB)
-
-
-RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-print(RGB_to_IHLS(RGB))
-print(RGB_to_IHLS2(RGB))
-# np.testing.assert_almost_equal(IHLS_to_RGB(RGB_to_IHLS(RGB)), RGB)
-np.testing.assert_almost_equal(IHLS_to_RGB(RGB_to_IHLS2(RGB)), RGB)

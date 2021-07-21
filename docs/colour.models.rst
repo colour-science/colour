@@ -780,6 +780,19 @@ CMY Colourspace
     CMY_to_CMYK
     CMYK_to_CMY
 
+IHLS - Hanbury (2003)
+^^^^^^^^^^^^^^^^^^^^^
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_to_IHLS
+    IHLS_to_RGB
+
 Pointer's Gamut
 ---------------
 
