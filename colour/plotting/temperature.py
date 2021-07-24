@@ -383,9 +383,9 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     title = (('{0} Illuminants - Planckian Locus\n'
               '{1} Chromaticity Diagram - '
               'CIE 1931 2 Degree Standard Observer').format(
-                  ', '.join(illuminants), method) if illuminants else
+                  ', '.join(illuminants), method.upper()) if illuminants else
              ('Planckian Locus\n{0} Chromaticity Diagram - '
-              'CIE 1931 2 Degree Standard Observer'.format(method)))
+              'CIE 1931 2 Degree Standard Observer'.format(method.upper())))
 
     settings.update({
         'axes': axes,
