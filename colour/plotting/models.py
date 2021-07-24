@@ -382,7 +382,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
     title = '{0}\n{1} - {2} Chromaticity Diagram'.format(
         ', '.join([colourspace.name for colourspace in colourspaces]),
-        cmfs.name, method)
+        cmfs.name, method.upper())
 
     settings = {'axes': axes, 'title': title, 'method': method}
     settings.update(kwargs)

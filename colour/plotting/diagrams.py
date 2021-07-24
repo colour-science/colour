@@ -391,7 +391,8 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
     elif method == 'cie 1976 ucs':
         x_label, y_label = 'CIE u\'', 'CIE v\'',
 
-    title = '{0} Chromaticity Diagram - {1}'.format(method, cmfs.strict_name)
+    title = '{0} Chromaticity Diagram - {1}'.format(method.upper(),
+                                                    cmfs.strict_name)
 
     settings.update({
         'axes': axes,
