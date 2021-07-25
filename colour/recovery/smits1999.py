@@ -119,15 +119,13 @@ def RGB_to_sd_Smits1999(RGB):
 
     Examples
     --------
-    >>> from colour.colorimetry import (
-    ...     MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-    ...     SpectralShape, sd_to_XYZ_integration
-    ... )
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
+    >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> RGB = XYZ_to_RGB_Smits1999(XYZ)
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['E'].copy().align(cmfs.shape)

@@ -2,15 +2,17 @@
 """
 Defines the unit tests for the :mod:`colour.colorimetry.spectrum` module.
 """
-
+import colour
 import numpy as np
 import unittest
 import scipy
 from distutils.version import LooseVersion
 
+from colour.algebra import CubicSplineInterpolator
 from colour.colorimetry.spectrum import (
-    SpectralShape, SpectralDistribution, MultiSpectralDistributions,
-    sds_and_msds_to_sds, sds_and_msds_to_msds)
+    SPECTRAL_SHAPE_DEFAULT, SpectralShape, SpectralDistribution,
+    MultiSpectralDistributions, reshape_msds, reshape_sd, sds_and_msds_to_sds,
+    sds_and_msds_to_msds)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -26,7 +28,7 @@ __all__ = [
     'DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931', 'DATA_CMFS',
     'DATA_SAMPLE_ABRIDGED', 'DATA_MULTI_SAMPLE_ABRIDGED', 'TestSpectralShape',
     'TestSpectralDistribution', 'TestMultiSpectralDistributions',
-    'TestSdsAndMdsToSds', 'TestSdsAndMsdsToMsds'
+    'TestSdsAndMdsToSds', 'TestSdsAndMsdsToMsds', 'TestReshapeSd'
 ]
 
 DATA_SAMPLE = {
@@ -1464,7 +1466,8 @@ SpectralDistribution.interpolate` method.
         """
 
         np.testing.assert_almost_equal(
-            self._sd.copy().interpolate(SpectralShape(interval=1)).values,
+            reshape_sd(self._sd, SpectralShape(interval=1),
+                       'Interpolate').values,
             DATA_SAMPLE_INTERPOLATED,
             decimal=7)
 
@@ -1475,8 +1478,9 @@ SpectralDistribution.interpolate` method.
             return  # pragma: no cover
 
         np.testing.assert_allclose(
-            self._non_uniform_sd.copy().interpolate(
-                SpectralShape(interval=1)).values,
+            reshape_sd(
+                self._non_uniform_sd, SpectralShape(interval=1),
+                'Interpolate').values,
             DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
             rtol=0.0000001,
             atol=0.0000001)
@@ -1680,9 +1684,8 @@ MultiSpectralDistributions.__init__` method.
 MultiSpectralDistributions.interpolate` method.
         """
 
-        msds = self._sample_msds.copy()
-
-        msds.interpolate(SpectralShape(interval=1))
+        msds = reshape_msds(
+            self._sample_msds, SpectralShape(interval=1), 'Interpolate')
         for signal in msds.signals.values():
             np.testing.assert_almost_equal(
                 signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7)
@@ -1693,8 +1696,10 @@ MultiSpectralDistributions.interpolate` method.
         if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
             return  # pragma: no cover
 
-        msds = self._non_uniform_sample_msds.copy()
-        msds.interpolate(SpectralShape(interval=1))
+        msds = reshape_msds(
+            self._non_uniform_sample_msds,
+            SpectralShape(interval=1),
+            'Interpolate')
         for signal in msds.signals.values():
             np.testing.assert_allclose(
                 signal.values,
@@ -1858,6 +1863,59 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
                        for sd in sds_and_msds_to_sds(multi_sds_2.align(shape))
                    ]),
             decimal=7)
+
+
+class TestReshapeSd(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.spectrum.reshape_sd` definition unit
+    tests methods.
+    """
+
+    def test_reshape_sd(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.reshape_sd` definition.
+        """
+
+        sd = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
+        sd_reshaped = reshape_sd(sd)
+        self.assertEqual(sd_reshaped, sd.copy().align(SPECTRAL_SHAPE_DEFAULT))
+        self.assertEqual(reshape_sd(sd), sd_reshaped)
+
+        shape = colour.SpectralShape(100, 900, 1)
+        extrapolator_kwargs = {
+            'method': 'Constant',
+            'left': 0.05,
+            'right': 0.15
+        }
+        sd_reshaped = reshape_sd(
+            sd,
+            shape,
+            method='Extrapolate',
+            extrapolator_kwargs=extrapolator_kwargs)
+        self.assertEqual(
+            sd_reshaped,
+            sd.copy().extrapolate(
+                shape, extrapolator_kwargs=extrapolator_kwargs))
+
+        shape = colour.SpectralShape(400, 700, 1)
+        interpolator_kwargs = {'fill_value': 0}
+        sd_reshaped = reshape_sd(
+            sd,
+            shape,
+            method='Interpolate',
+            interpolator=CubicSplineInterpolator,
+            interpolator_kwargs=interpolator_kwargs)
+        self.assertEqual(
+            sd_reshaped,
+            sd.copy().interpolate(
+                shape,
+                interpolator=CubicSplineInterpolator,
+                interpolator_kwargs=interpolator_kwargs))
+
+        sd = SpectralDistribution(DATA_SAMPLE)
+        shape = colour.SpectralShape(500, 600, 1)
+        sd_reshaped = reshape_sd(sd, shape, method='Trim')
+        self.assertEqual(sd_reshaped, sd.copy().trim(shape))
 
 
 if __name__ == '__main__':

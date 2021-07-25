@@ -31,7 +31,7 @@ import numpy as np
 
 from colour.algebra import matrix_dot, vector_dot
 from colour.blindness import CVD_MATRICES_MACHADO2010
-from colour.colorimetry import SpectralShape
+from colour.colorimetry import SpectralShape, reshape_msds
 from colour.utilities import tsplit, tstack, usage_warning
 
 __author__ = 'Colour Developers'
@@ -95,9 +95,14 @@ def matrix_RGB_to_WSYBRG(cmfs, primaries):
     WSYBRG = vector_dot(MATRIX_LMS_TO_WSYBRG, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
-    extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
-    primaries = primaries.copy().align(
-        cmfs.shape, extrapolator_kwargs=extrapolator_kwargs)
+    primaries = reshape_msds(
+        primaries,
+        cmfs.shape,
+        extrapolator_kwargs={
+            'method': 'Constant',
+            'left': 0,
+            'right': 0
+        })
 
     R, G, B = tsplit(primaries.values)
 
@@ -273,7 +278,7 @@ def matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS):
     """
 
     if cmfs.shape.interval != 1:
-        cmfs = cmfs.copy().interpolate(SpectralShape(interval=1))
+        cmfs = reshape_msds(cmfs, SpectralShape(interval=1), 'Interpolate')
 
     M_n = matrix_RGB_to_WSYBRG(cmfs, primaries)
     cmfs_a = msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS)

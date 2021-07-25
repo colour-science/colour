@@ -14,9 +14,9 @@ context=article
 
 from .crt import MSDS_DISPLAY_PRIMARIES_CRT
 from .lcd import MSDS_DISPLAY_PRIMARIES_LCD
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
-MSDS_DISPLAY_PRIMARIES = CaseInsensitiveMapping(MSDS_DISPLAY_PRIMARIES_CRT)
+MSDS_DISPLAY_PRIMARIES = LazyCaseInsensitiveMapping(MSDS_DISPLAY_PRIMARIES_CRT)
 MSDS_DISPLAY_PRIMARIES.update(MSDS_DISPLAY_PRIMARIES_LCD)
 MSDS_DISPLAY_PRIMARIES.__doc__ = """
 Primaries multi-spectral distributions of displays.
@@ -25,7 +25,7 @@ References
 ----------
 :cite:`Fairchild1998b`, :cite:`Machado2010a`
 
-MSDS_DISPLAY_PRIMARIES : CaseInsensitiveMapping
+MSDS_DISPLAY_PRIMARIES : LazyCaseInsensitiveMapping
     **{Apple Studio Display, Typical CRT Brainard 1997}**
 """
 

@@ -18,9 +18,9 @@ References
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-                                SpectralDistribution, SpectralShape, sd_ones,
-                                sd_to_XYZ_integration)
+from colour.colorimetry import (
+    MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, SpectralDistribution,
+    SpectralShape, reshape_msds, reshape_sd, sd_ones, sd_to_XYZ_integration)
 from colour.utilities import to_domain_1, from_range_100, runtime_warning
 
 __author__ = 'Colour Developers'
@@ -41,13 +41,10 @@ SPECTRAL_SHAPE_MENG2015 : SpectralShape
 """
 
 
-def XYZ_to_sd_Meng2015(
-        XYZ,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().align(SPECTRAL_SHAPE_MENG2015),
-        illuminant=SDS_ILLUMINANTS['D65'].copy().align(
-            SPECTRAL_SHAPE_MENG2015),
-        optimisation_kwargs=None):
+def XYZ_to_sd_Meng2015(XYZ,
+                       cmfs=None,
+                       illuminant=None,
+                       optimisation_kwargs=None):
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus values
     using *Meng et al. (2015)* method.
@@ -56,13 +53,15 @@ def XYZ_to_sd_Meng2015(
     ----------
     XYZ : array_like, (3,)
         *CIE XYZ* tristimulus values to recover the spectral distribution from.
-    cmfs : XYZ_ColourMatchingFunctions
+    cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions. The wavelength
         :math:`\\lambda_{i}` range interval of the colour matching functions
         affects directly the time the computations take. The current default
-        interval of 5 is a good compromise between precision and time spent.
+        interval of 5 is a good compromise between precision and time spent,
+        default to the *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
 
@@ -92,10 +91,11 @@ def XYZ_to_sd_Meng2015(
 
     Examples
     --------
+    >>> from colour import MSDS_CMFS
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -153,13 +153,22 @@ def XYZ_to_sd_Meng2015(
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
+    if cmfs is None:
+        cmfs = reshape_msds(
+            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
+            SPECTRAL_SHAPE_MENG2015, 'Trim')
+
+    if illuminant is None:
+        illuminant = reshape_sd(SDS_ILLUMINANTS['D65'],
+                                SPECTRAL_SHAPE_MENG2015)
+
     XYZ = to_domain_1(XYZ)
 
     if illuminant.shape != cmfs.shape:
         runtime_warning(
             'Aligning "{0}" illuminant shape to "{1}" colour matching '
             'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = illuminant.copy().align(cmfs.shape)
+        illuminant = reshape_sd(illuminant, cmfs.shape)
 
     sd = sd_ones(cmfs.shape)
 

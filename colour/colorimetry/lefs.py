@@ -29,13 +29,12 @@ __all__ = [
 ]
 
 
-def mesopic_weighting_function(
-        wavelength,
-        Lp,
-        source='Blue Heavy',
-        method='MOVE',
-        photopic_lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
-        scotopic_lef=SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']):
+def mesopic_weighting_function(wavelength,
+                               Lp,
+                               source='Blue Heavy',
+                               method='MOVE',
+                               photopic_lef=None,
+                               scotopic_lef=None):
     """
     Calculates the mesopic weighting function factor at given wavelength
     :math:`\\lambda` using the photopic luminance :math:`L_p`.
@@ -54,9 +53,11 @@ def mesopic_weighting_function(
         **{'MOVE', 'LRC'}**,
         Method to calculate the weighting factor.
     photopic_lef : SpectralDistribution, optional
-        :math:`V(\\lambda)` photopic luminous efficiency function.
+        :math:`V(\\lambda)` photopic luminous efficiency function, default to
+        the *CIE 1924 Photopic Standard Observer*.
     scotopic_lef : SpectralDistribution, optional
-        :math:`V^\\prime(\\lambda)` scotopic luminous efficiency function.
+        :math:`V^\\prime(\\lambda)` scotopic luminous efficiency function,
+        default to the *CIE 1951 Scotopic Standard Observer*.
 
     Returns
     -------
@@ -72,6 +73,12 @@ def mesopic_weighting_function(
     >>> mesopic_weighting_function(500, 0.2)  # doctest: +ELLIPSIS
     0.7052200...
     """
+
+    if photopic_lef is None:
+        photopic_lef = SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']
+
+    if scotopic_lef is None:
+        scotopic_lef = SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']
 
     source = validate_method(
         source, ['Blue Heavy', 'Red Heavy'],
@@ -89,12 +96,11 @@ def mesopic_weighting_function(
     return Vm
 
 
-def sd_mesopic_luminous_efficiency_function(
-        Lp,
-        source='Blue Heavy',
-        method='MOVE',
-        photopic_lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
-        scotopic_lef=SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']):
+def sd_mesopic_luminous_efficiency_function(Lp,
+                                            source='Blue Heavy',
+                                            method='MOVE',
+                                            photopic_lef=None,
+                                            scotopic_lef=None):
     """
     Returns the mesopic luminous efficiency function :math:`V_m(\\lambda)` for
     given photopic luminance :math:`L_p`.
@@ -110,9 +116,11 @@ def sd_mesopic_luminous_efficiency_function(
         **{'MOVE', 'LRC'}**,
         Method to calculate the weighting factor.
     photopic_lef : SpectralDistribution, optional
-        :math:`V(\\lambda)` photopic luminous efficiency function.
+        :math:`V(\\lambda)` photopic luminous efficiency function, default to
+        the *CIE 1924 Photopic Standard Observer*.
     scotopic_lef : SpectralDistribution, optional
-        :math:`V^\\prime(\\lambda)` scotopic luminous efficiency function.
+        :math:`V^\\prime(\\lambda)` scotopic luminous efficiency function,
+        default to the *CIE 1951 Scotopic Standard Observer*.
 
     Returns
     -------
@@ -534,6 +542,12 @@ def sd_mesopic_luminous_efficiency_function(
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
     """
+
+    if photopic_lef is None:
+        photopic_lef = SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']
+
+    if scotopic_lef is None:
+        scotopic_lef = SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']
 
     photopic_lef_shape = photopic_lef.shape
     scotopic_lef_shape = scotopic_lef.shape

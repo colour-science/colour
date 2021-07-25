@@ -37,9 +37,10 @@ References
 import numpy as np
 
 from colour.algebra import lagrange_coefficients
-from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
+                                SPECTRAL_SHAPE_DEFAULT,
                                 MultiSpectralDistributions, SpectralShape,
-                                MSDS_CMFS_STANDARD_OBSERVER, sd_ones)
+                                reshape_msds, reshape_sd, sd_ones)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, filter_kwargs, from_range_100,
@@ -72,6 +73,8 @@ References
 
 SPECTRAL_SHAPE_ASTME308 : SpectralShape
 """
+
+_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
 
 _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS = None
 
@@ -209,8 +212,8 @@ def tristimulus_weighting_factors_ASTME2022(cmfs, illuminant, shape, k=None):
 
     Examples
     --------
-    >>> from colour import (MSDS_CMFS, sd_CIE_standard_illuminant_A,
-    ...     SpectralDistribution, SpectralShape)
+    >>> from colour import (MSDS_CMFS, SpectralDistribution, SpectralShape,
+    ...     sd_CIE_standard_illuminant_A)
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
     >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
@@ -349,8 +352,8 @@ def adjust_tristimulus_weighting_factors_ASTME308(W, shape_r, shape_t):
 
     Examples
     --------
-    >>> from colour import (MSDS_CMFS, sd_CIE_standard_illuminant_A,
-    ...     SpectralDistribution, SpectralShape)
+    >>> from colour import (MSDS_CMFS, SpectralDistribution, SpectralShape,
+    ...     sd_CIE_standard_illuminant_A)
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
     >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
@@ -393,12 +396,7 @@ def adjust_tristimulus_weighting_factors_ASTME308(W, shape_r, shape_t):
     return W[start_index:-end_index or None, ...]
 
 
-def sd_to_XYZ_integration(
-        sd,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().trim(SPECTRAL_SHAPE_DEFAULT),
-        illuminant=sd_ones(),
-        k=None):
+def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None):
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant according to classical
@@ -408,8 +406,9 @@ def sd_to_XYZ_integration(
     ----------
     sd : SpectralDistribution
         Spectral distribution.
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     k : numeric, optional
@@ -448,8 +447,7 @@ def sd_to_XYZ_integration(
 
     Examples
     --------
-    >>> from colour import (
-    ...     MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution)
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -476,17 +474,24 @@ def sd_to_XYZ_integration(
     array([ 10.8404805...,   9.6838697...,   6.2115722...])
     """
 
+    if cmfs is None:
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+                            SPECTRAL_SHAPE_DEFAULT)
+
+    if illuminant is None:
+        illuminant = sd_ones()
+
     if illuminant.shape != cmfs.shape:
         runtime_warning(
             'Aligning "{0}" illuminant shape to "{1}" colour matching '
             'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = illuminant.copy().align(cmfs.shape)
+        illuminant = reshape_sd(illuminant, cmfs.shape)
 
     if sd.shape != cmfs.shape:
         runtime_warning('Aligning "{0}" spectral distribution shape to "{1}" '
                         'colour matching functions shape.'.format(
                             sd.name, cmfs.name))
-        sd = sd.copy().align(cmfs.shape)
+        sd = reshape_sd(sd, cmfs.shape)
 
     S = illuminant.values
     x_bar, y_bar, z_bar = tsplit(cmfs.values)
@@ -505,12 +510,10 @@ def sd_to_XYZ_integration(
     return from_range_100(XYZ)
 
 
-def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-        sd,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().trim(SPECTRAL_SHAPE_ASTME308),
-        illuminant=sd_ones(SPECTRAL_SHAPE_ASTME308),
-        k=None):
+def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
+                                                     cmfs=None,
+                                                     illuminant=None,
+                                                     k=None):
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table of
@@ -520,8 +523,9 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     ----------
     sd : SpectralDistribution
         Spectral distribution.
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     k : numeric, optional
@@ -560,8 +564,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
     Examples
     --------
-    >>> from colour import (
-    ...     MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution)
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -588,22 +591,29 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     array([ 10.8405832...,   9.6844909...,   6.2155622...])
     """
 
+    if cmfs is None:
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+                            SPECTRAL_SHAPE_ASTME308, 'Trim')
+
+    if illuminant is None:
+        illuminant = sd_ones(SPECTRAL_SHAPE_ASTME308)
+
     if cmfs.shape.interval != 1:
         runtime_warning('Interpolating "{0}" cmfs to 1nm interval.'.format(
             cmfs.name))
-        cmfs = cmfs.copy().interpolate(SpectralShape(interval=1))
+        cmfs = reshape_msds(cmfs, SpectralShape(interval=1), 'Interpolate')
 
     if illuminant.shape != cmfs.shape:
         runtime_warning(
             'Aligning "{0}" illuminant shape to "{1}" colour matching '
             'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = illuminant.copy().align(cmfs.shape)
+        illuminant = reshape_sd(illuminant, cmfs.shape)
 
     if sd.shape.boundaries != cmfs.shape.boundaries:
         runtime_warning('Trimming "{0}" spectral distribution shape to "{1}" '
                         'colour matching functions shape.'.format(
                             illuminant.name, cmfs.name))
-        sd = sd.copy().trim(cmfs.shape)
+        sd = reshape_sd(sd, cmfs.shape, 'Trim')
 
     W = tristimulus_weighting_factors_ASTME2022(
         cmfs, illuminant,
@@ -619,15 +629,13 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     return from_range_100(XYZ)
 
 
-def sd_to_XYZ_ASTME308(
-        sd,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().trim(SPECTRAL_SHAPE_ASTME308),
-        illuminant=sd_ones(SPECTRAL_SHAPE_ASTME308),
-        use_practice_range=True,
-        mi_5nm_omission_method=True,
-        mi_20nm_interpolation_method=True,
-        k=None):
+def sd_to_XYZ_ASTME308(sd,
+                       cmfs=None,
+                       illuminant=None,
+                       use_practice_range=True,
+                       mi_5nm_omission_method=True,
+                       mi_20nm_interpolation_method=True,
+                       k=None):
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values using
     given colour matching functions and illuminant according to practise
@@ -637,8 +645,9 @@ def sd_to_XYZ_ASTME308(
     ----------
     sd : SpectralDistribution
         Spectral distribution.
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     use_practice_range : bool, optional
@@ -689,8 +698,7 @@ def sd_to_XYZ_ASTME308(
 
     Examples
     --------
-    >>> from colour import (
-    ...     MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution)
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -717,6 +725,13 @@ def sd_to_XYZ_ASTME308(
     array([ 10.8401953...,   9.6841740...,   6.2158913...])
     """
 
+    if cmfs is None:
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+                            SPECTRAL_SHAPE_ASTME308, 'Trim')
+
+    if illuminant is None:
+        illuminant = sd_ones(SPECTRAL_SHAPE_ASTME308)
+
     if sd.shape.interval not in (1, 5, 10, 20):
         raise ValueError(
             'Tristimulus values conversion from spectral data according to '
@@ -724,14 +739,14 @@ def sd_to_XYZ_ASTME308(
             'with measurement interval of 1, 5, 10 or 20nm!')
 
     if use_practice_range:
-        cmfs = cmfs.copy().trim(SPECTRAL_SHAPE_ASTME308)
+        cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_ASTME308, 'Trim')
 
     method = sd_to_XYZ_tristimulus_weighting_factors_ASTME308
     if sd.shape.interval == 1:
         method = sd_to_XYZ_integration
     elif sd.shape.interval == 5 and mi_5nm_omission_method:
         if cmfs.shape.interval != 5:
-            cmfs = cmfs.copy().interpolate(SpectralShape(interval=5))
+            cmfs = reshape_msds(cmfs, SpectralShape(interval=5), 'Interpolate')
         method = sd_to_XYZ_integration
     elif sd.shape.interval == 20 and mi_20nm_interpolation_method:
         sd = sd.copy()
@@ -791,14 +806,12 @@ Aliases:
 SD_TO_XYZ_METHODS['astm2015'] = SD_TO_XYZ_METHODS['ASTM E308']
 
 
-def sd_to_XYZ(
-        sd,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().trim(SPECTRAL_SHAPE_DEFAULT),
-        illuminant=sd_ones(),
-        k=None,
-        method='ASTM E308',
-        **kwargs):
+def sd_to_XYZ(sd,
+              cmfs=None,
+              illuminant=None,
+              k=None,
+              method='ASTM E308',
+              **kwargs):
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values using
     given colour matching functions, illuminant and method.
@@ -807,8 +820,9 @@ def sd_to_XYZ(
     ----------
     sd : SpectralDistribution
         Spectral distribution.
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     k : numeric, optional
@@ -869,8 +883,7 @@ def sd_to_XYZ(
 
     Examples
     --------
-    >>> from colour import (
-    ...     MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution)
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -903,6 +916,13 @@ def sd_to_XYZ(
     array([ 10.8404805...,   9.6838697...,   6.2115722...])
     """
 
+    if cmfs is None:
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+                            SPECTRAL_SHAPE_DEFAULT)
+
+    if illuminant is None:
+        illuminant = sd_ones()
+
     method = validate_method(method, SD_TO_XYZ_METHODS)
 
     global _CACHE_SD_TO_XYZ
@@ -926,13 +946,11 @@ def sd_to_XYZ(
     return XYZ
 
 
-def msds_to_XYZ_integration(
-        msds,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().trim(SPECTRAL_SHAPE_DEFAULT),
-        illuminant=sd_ones(),
-        k=None,
-        shape=SPECTRAL_SHAPE_DEFAULT):
+def msds_to_XYZ_integration(msds,
+                            cmfs=None,
+                            illuminant=None,
+                            k=None,
+                            shape=SPECTRAL_SHAPE_DEFAULT):
     """
     Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant. The multi-spectral
@@ -946,8 +964,9 @@ def msds_to_XYZ_integration(
         Multi-spectral distributions, if an *array_like* the wavelengths are
         expected to be in the last axis, e.g. for a 512x384 multi-spectral
         image with 77 bins, ``msds`` shape should be (384, 512, 77).
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     k : numeric, optional
@@ -1065,6 +1084,13 @@ def msds_to_XYZ_integration(
             [ 24.7830551...,  26.2221584...,  36.4430633...]]])
     """
 
+    if cmfs is None:
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+                            SPECTRAL_SHAPE_DEFAULT)
+
+    if illuminant is None:
+        illuminant = sd_ones()
+
     if isinstance(msds, MultiSpectralDistributions):
         return as_float_array([
             sd_to_XYZ_integration(sd, cmfs, illuminant, k)
@@ -1082,12 +1108,12 @@ def msds_to_XYZ_integration(
         if cmfs.shape != shape:
             runtime_warning('Aligning "{0}" cmfs shape to "{1}".'.format(
                 cmfs.name, shape))
-            cmfs = cmfs.copy().align(shape)
+            cmfs = reshape_msds(cmfs, shape)
 
         if illuminant.shape != shape:
             runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
                 illuminant.name, shape))
-            illuminant = illuminant.copy().align(shape)
+            illuminant = reshape_sd(illuminant, shape)
 
         S = illuminant.values
         x_bar, y_bar, z_bar = tsplit(cmfs.values)
@@ -1104,15 +1130,13 @@ def msds_to_XYZ_integration(
         return from_range_100(np.rollaxis(XYZ, 0, msds.ndim))
 
 
-def msds_to_XYZ_ASTME308(
-        msds,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().trim(SPECTRAL_SHAPE_ASTME308),
-        illuminant=sd_ones(SPECTRAL_SHAPE_ASTME308),
-        use_practice_range=True,
-        mi_5nm_omission_method=True,
-        mi_20nm_interpolation_method=True,
-        k=None):
+def msds_to_XYZ_ASTME308(msds,
+                         cmfs=None,
+                         illuminant=None,
+                         use_practice_range=True,
+                         mi_5nm_omission_method=True,
+                         mi_20nm_interpolation_method=True,
+                         k=None):
     """
     Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant according to practise
@@ -1122,8 +1146,9 @@ def msds_to_XYZ_ASTME308(
     ----------
     msds : MultiSpectralDistributions or array_like
         Multi-spectral distributions.
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     use_practice_range : bool, optional
@@ -1220,6 +1245,13 @@ def msds_to_XYZ_ASTME308(
            [ 23.8866733...,  26.2147704...,  30.6297684...]])
     """
 
+    if cmfs is None:
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+                            SPECTRAL_SHAPE_ASTME308, 'Trim')
+
+    if illuminant is None:
+        illuminant = sd_ones(SPECTRAL_SHAPE_ASTME308)
+
     if isinstance(msds, MultiSpectralDistributions):
         return as_float_array([
             sd_to_XYZ_ASTME308(sd, cmfs, illuminant, use_practice_range,
@@ -1255,14 +1287,12 @@ Aliases:
 MSDS_TO_XYZ_METHODS['astm2015'] = MSDS_TO_XYZ_METHODS['ASTM E308']
 
 
-def msds_to_XYZ(
-        msds,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().trim(SPECTRAL_SHAPE_DEFAULT),
-        illuminant=sd_ones(),
-        k=None,
-        method='ASTM E308',
-        **kwargs):
+def msds_to_XYZ(msds,
+                cmfs=None,
+                illuminant=None,
+                k=None,
+                method='ASTM E308',
+                **kwargs):
     """
     Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant. For the *Integration*
@@ -1276,8 +1306,9 @@ def msds_to_XYZ(
         Multi-spectral distributions, if an *array_like* the wavelengths are
         expected to be in the last axis, e.g. for a 512x384 multi-spectral
         image with 77 bins, ``msds`` shape should be (384, 512, 77).
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     k : numeric, optional
@@ -1416,6 +1447,13 @@ def msds_to_XYZ(
             [ 24.6610235...,  26.1093760...,  30.7298791...]]])
     """
 
+    if cmfs is None:
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+                            SPECTRAL_SHAPE_DEFAULT)
+
+    if illuminant is None:
+        illuminant = sd_ones()
+
     method = validate_method(method, MSDS_TO_XYZ_METHODS)
 
     function = MSDS_TO_XYZ_METHODS[method]
@@ -1424,9 +1462,7 @@ def msds_to_XYZ(
                     **filter_kwargs(function, **kwargs))
 
 
-def wavelength_to_XYZ(wavelength,
-                      cmfs=MSDS_CMFS_STANDARD_OBSERVER[
-                          'CIE 1931 2 Degree Standard Observer']):
+def wavelength_to_XYZ(wavelength, cmfs=None):
     """
     Converts given wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
     using given colour matching functions.
@@ -1442,7 +1478,8 @@ def wavelength_to_XYZ(wavelength,
     wavelength : numeric or array_like
         Wavelength :math:`\\lambda` in nm.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
@@ -1473,6 +1510,9 @@ def wavelength_to_XYZ(wavelength,
     >>> wavelength_to_XYZ(480.5, cmfs)  # doctest: +ELLIPSIS
     array([ 0.0914287...,  0.1418350...,  0.7915726...])
     """
+
+    if cmfs is None:
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
 
     cmfs_shape = cmfs.shape
     if (np.min(wavelength) < cmfs_shape.start or

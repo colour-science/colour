@@ -26,9 +26,10 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import euclidean_distance
-from colour.colorimetry import (
-    SPECTRAL_SHAPE_DEFAULT, sd_CIE_illuminant_D_series, CCS_ILLUMINANTS,
-    MSDS_CMFS_STANDARD_OBSERVER, sd_blackbody, sd_to_XYZ)
+from colour.colorimetry import (CCS_ILLUMINANTS, MSDS_CMFS_STANDARD_OBSERVER,
+                                SPECTRAL_SHAPE_DEFAULT, reshape_msds,
+                                reshape_sd, sd_CIE_illuminant_D_series,
+                                sd_blackbody, sd_to_XYZ)
 from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
@@ -170,16 +171,13 @@ def colour_quality_scale(sd_test, additional_data=False,
 
     method = validate_method(method, COLOUR_QUALITY_SCALE_METHODS)
 
-    cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-        'CIE 1931 2 Degree Standard Observer'].copy().trim(
-            SPECTRAL_SHAPE_DEFAULT)
+    cmfs = reshape_msds(
+        MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
+        SPECTRAL_SHAPE_DEFAULT)
 
     shape = cmfs.shape
-    sd_test = sd_test.copy().align(shape)
-    vs_sds = {
-        sd.name: sd.copy().align(shape)
-        for sd in SDS_VS[method].values()
-    }
+    sd_test = reshape_sd(sd_test, shape)
+    vs_sds = {sd.name: reshape_sd(sd, shape) for sd in SDS_VS[method].values()}
 
     with domain_range_scale('1'):
         XYZ = sd_to_XYZ(sd_test, cmfs)

@@ -7,8 +7,9 @@ import unittest
 import numpy as np
 
 from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import (SpectralShape, MSDS_CMFS_STANDARD_OBSERVER,
-                                SDS_ILLUMINANTS, CCS_ILLUMINANTS, sd_to_XYZ)
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, CCS_ILLUMINANTS,
+                                SDS_ILLUMINANTS, SpectralShape, reshape_msds,
+                                reshape_sd, sd_to_XYZ)
 from colour.difference import JND_CIE1976, delta_E_CIE1976
 from colour.models import (RGB_COLOURSPACE_PAL_SECAM, RGB_COLOURSPACE_sRGB,
                            XYZ_to_RGB, XYZ_to_Lab)
@@ -39,10 +40,10 @@ class TestMixinMallett2019:
         Initialises common tests attributes for the mixin.
         """
 
-        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer'].copy().align(
-                SpectralShape(360, 780, 10))
-        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._cmfs.shape)
+        self._cmfs = reshape_msds(
+            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
+            SpectralShape(360, 780, 10))
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS['D65'], self._cmfs.shape)
         self._xy_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
             'D65']
 

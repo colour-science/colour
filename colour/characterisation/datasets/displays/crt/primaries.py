@@ -26,8 +26,10 @@ References
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
+from functools import partial
+
 from colour.characterisation import RGB_DisplayPrimaries
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -124,9 +126,10 @@ DATA_DISPLAY_PRIMARIES_CRT = {
     }
 }
 
-MSDS_DISPLAY_PRIMARIES_CRT = CaseInsensitiveMapping({
+MSDS_DISPLAY_PRIMARIES_CRT = LazyCaseInsensitiveMapping({
     'Typical CRT Brainard 1997':
-        RGB_DisplayPrimaries(
+        partial(
+            RGB_DisplayPrimaries,
             DATA_DISPLAY_PRIMARIES_CRT['Typical CRT Brainard 1997'],
             name='Typical CRT Brainard 1997')
 })
@@ -137,6 +140,6 @@ References
 ----------
 :cite:`Machado2010a`
 
-MSDS_DISPLAY_PRIMARIES_CRT : CaseInsensitiveMapping
+MSDS_DISPLAY_PRIMARIES_CRT : LazyCaseInsensitiveMapping
     **{'Typical CRT Brainard 1997'}**
 """

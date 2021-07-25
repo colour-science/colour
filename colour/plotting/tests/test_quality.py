@@ -7,7 +7,7 @@ import unittest
 from matplotlib.pyplot import Axes, Figure
 
 from colour.colorimetry import (SDS_ILLUMINANTS, SDS_LIGHT_SOURCES,
-                                SpectralShape)
+                                SpectralShape, reshape_sd)
 from colour.plotting import (plot_single_sd_colour_rendering_index_bars,
                              plot_multi_sds_colour_rendering_indexes_bars,
                              plot_single_sd_colour_quality_scale_bars,
@@ -44,7 +44,7 @@ class TestPlotColourQualityBars(unittest.TestCase):
 
         illuminant = SDS_ILLUMINANTS['FL2']
         light_source = SDS_LIGHT_SOURCES['Kinoton 75P']
-        light_source = light_source.copy().align(SpectralShape(360, 830, 1))
+        light_source = reshape_sd(light_source, SpectralShape(360, 830, 1))
         cqs_i = colour_quality_scale(illuminant, additional_data=True)
         cqs_l = colour_quality_scale(light_source, additional_data=True)
 

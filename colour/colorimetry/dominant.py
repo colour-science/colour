@@ -27,7 +27,7 @@ import scipy.spatial.distance
 
 from colour.algebra import (euclidean_distance, extend_line_segment,
                             intersect_line_segments)
-from colour.colorimetry import MSDS_CMFS
+from colour.colorimetry import MSDS_CMFS_STANDARD_OBSERVER
 from colour.models import XYZ_to_xy
 from colour.utilities import as_float_array
 
@@ -42,6 +42,8 @@ __all__ = [
     'closest_spectral_locus_wavelength', 'dominant_wavelength',
     'complementary_wavelength', 'excitation_purity', 'colorimetric_purity'
 ]
+
+_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
 
 
 def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
@@ -76,7 +78,9 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
 
     Examples
     --------
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
+    ... )
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> xy_s = XYZ_to_xy(cmfs.values)
@@ -115,10 +119,7 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
     return i_wl, xy_wl
 
 
-def dominant_wavelength(xy,
-                        xy_n,
-                        cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
-                        inverse=False):
+def dominant_wavelength(xy, xy_n, cmfs=None, inverse=False):
     """
     Returns the *dominant wavelength* :math:`\\lambda_d` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
@@ -141,7 +142,8 @@ def dominant_wavelength(xy,
     xy_n : array_like
         Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     inverse : bool, optional
         Inverse the computation direction to retrieve the
         *complementary wavelength*.
@@ -164,7 +166,9 @@ def dominant_wavelength(xy,
     >>> from pprint import pprint
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
+    ... )
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
     (array(616...),
      array([ 0.6835474...,  0.3162840...]),
@@ -179,6 +183,9 @@ def dominant_wavelength(xy,
      array([ 0.4572314...,  0.1362814...]),
      array([ 0.0104096...,  0.7320745...]))
     """
+
+    if cmfs is None:
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
 
     xy = as_float_array(xy)
     xy_n = np.resize(xy_n, xy.shape)
@@ -206,8 +213,7 @@ def dominant_wavelength(xy,
     return wl, np.squeeze(xy_wl), np.squeeze(xy_cwl)
 
 
-def complementary_wavelength(
-        xy, xy_n, cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']):
+def complementary_wavelength(xy, xy_n, cmfs=None):
     """
     Returns the *complementary wavelength* :math:`\\lambda_c` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
@@ -230,7 +236,8 @@ def complementary_wavelength(
     xy_n : array_like
         Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
@@ -250,7 +257,9 @@ def complementary_wavelength(
     >>> from pprint import pprint
     >>> xy = np.array([0.37605506, 0.24452225])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
+    ... )
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
     (array(509.0),
      array([ 0.0104096...,  0.7320745...]),
@@ -266,12 +275,13 @@ def complementary_wavelength(
      array([ 0.0364795 ,  0.3384712...]))
     """
 
+    if cmfs is None:
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
+
     return dominant_wavelength(xy, xy_n, cmfs, True)
 
 
-def excitation_purity(xy,
-                      xy_n,
-                      cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']):
+def excitation_purity(xy, xy_n, cmfs=None):
     """
     Returns the *excitation purity* :math:`P_e` for given colour stimulus
     :math:`xy`.
@@ -283,7 +293,8 @@ def excitation_purity(xy,
     xy_n : array_like
         Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
@@ -298,10 +309,15 @@ def excitation_purity(xy,
     --------
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
+    ... )
     >>> excitation_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
     0.6228856...
     """
+
+    if cmfs is None:
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
 
@@ -310,9 +326,7 @@ def excitation_purity(xy,
     return P_e
 
 
-def colorimetric_purity(xy,
-                        xy_n,
-                        cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']):
+def colorimetric_purity(xy, xy_n, cmfs=None):
     """
     Returns the *colorimetric purity* :math:`P_c` for given colour stimulus
     :math:`xy`.
@@ -324,7 +338,8 @@ def colorimetric_purity(xy,
     xy_n : array_like
         Achromatic stimulus *CIE xy* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
@@ -339,10 +354,15 @@ def colorimetric_purity(xy,
     --------
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
+    ... )
     >>> colorimetric_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
     0.6135828...
     """
+
+    if cmfs is None:
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
 
     xy = as_float_array(xy)
 

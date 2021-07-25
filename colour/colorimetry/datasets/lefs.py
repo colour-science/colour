@@ -42,8 +42,10 @@ References
     http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
+from functools import partial
+
 from colour.colorimetry import SpectralDistribution
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -2338,35 +2340,41 @@ DATA_LEFS_PHOTOPIC = {
     }
 }
 
-SDS_LEFS_PHOTOPIC = CaseInsensitiveMapping({
+SDS_LEFS_PHOTOPIC = LazyCaseInsensitiveMapping({
     'CIE 1924 Photopic Standard Observer':
-        SpectralDistribution(
+        partial(
+            SpectralDistribution,
             DATA_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
             name='CIE 1924 Photopic Standard Observer'),
     'Judd Modified CIE 1951 Photopic Standard Observer':
-        SpectralDistribution(
+        partial(
+            SpectralDistribution,
             DATA_LEFS_PHOTOPIC[
                 'Judd Modified CIE 1951 Photopic Standard Observer'],
             name='Judd Modified CIE 1951 Photopic Standard Observer'),
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer':
-        SpectralDistribution(
+        partial(
+            SpectralDistribution,
             DATA_LEFS_PHOTOPIC[
                 'Judd-Vos Modified CIE 1978 Photopic Standard Observer'],
             name='Judd-Vos Modified CIE 1978 Photopic Standard Observer'),
     'CIE 1964 Photopic 10 Degree Standard Observer':
-        SpectralDistribution(
+        partial(
+            SpectralDistribution,
             DATA_LEFS_PHOTOPIC[
                 'CIE 1964 Photopic 10 Degree Standard Observer'],
             name='CIE 1964 Photopic 10 Degree Standard Observer',
             strict_name='CIE 1964 Photopic 10$^\\circ$ Standard Observer'),
     'CIE 2008 2 Degree Physiologically Relevant LEF':
-        SpectralDistribution(
+        partial(
+            SpectralDistribution,
             DATA_LEFS_PHOTOPIC[
                 'CIE 2008 2 Degree Physiologically Relevant LEF'],
             name='CIE 2008 2 Degree Physiologically Relevant LEF',
             strict_name='CIE 2008 2$^\\circ$ Physiologically Relevant LEF'),
     'CIE 2008 10 Degree Physiologically Relevant LEF':
-        SpectralDistribution(
+        partial(
+            SpectralDistribution,
             DATA_LEFS_PHOTOPIC[
                 'CIE 2008 10 Degree Physiologically Relevant LEF'],
             name='CIE 2008 10 Degree Physiologically Relevant LEF',
@@ -2379,7 +2387,7 @@ References
 ----------
 :cite:`CVRLq`, :cite:`CVRLs`
 
-SDS_LEFS_PHOTOPIC : CaseInsensitiveMapping
+SDS_LEFS_PHOTOPIC : LazyCaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
@@ -2803,9 +2811,10 @@ DATA_LEFS_SCOTOPIC = {
     }
 }
 
-SDS_LEFS_SCOTOPIC = CaseInsensitiveMapping({
+SDS_LEFS_SCOTOPIC = LazyCaseInsensitiveMapping({
     'CIE 1951 Scotopic Standard Observer':
-        SpectralDistribution(
+        partial(
+            SpectralDistribution,
             DATA_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer'],
             name='CIE 1951 Scotopic Standard Observer')
 })
@@ -2816,7 +2825,7 @@ References
 ----------
 :cite:`CVRLs`
 
-SDS_LEFS_SCOTOPIC : CaseInsensitiveMapping
+SDS_LEFS_SCOTOPIC : LazyCaseInsensitiveMapping
     **{'CIE 1951 Scotopic Standard Observer', }**
 
 Aliases:
@@ -2826,7 +2835,7 @@ Aliases:
 SDS_LEFS_SCOTOPIC['cie_1951'] = (
     SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer'])
 
-SDS_LEFS = CaseInsensitiveMapping(SDS_LEFS_PHOTOPIC)
+SDS_LEFS = LazyCaseInsensitiveMapping(SDS_LEFS_PHOTOPIC)
 SDS_LEFS.__doc__ = """
 Spectral distributions of the luminous efficiency functions.
 
@@ -2834,7 +2843,7 @@ References
 ----------
 :cite:`CVRLq`, :cite:`CVRLs`, :cite:`Wikipedia2005d`
 
-SDS_LEFS : CaseInsensitiveMapping
+SDS_LEFS : LazyCaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',

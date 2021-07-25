@@ -62,10 +62,12 @@ References
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
+from functools import partial
+
 from colour.colorimetry import (LMS_ConeFundamentals,
                                 RGB_ColourMatchingFunctions,
                                 XYZ_ColourMatchingFunctions)
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -1053,19 +1055,22 @@ DATA_CMFS_LMS = {
     }
 }
 
-MSDS_CMFS_LMS = CaseInsensitiveMapping({
+MSDS_CMFS_LMS = LazyCaseInsensitiveMapping({
     'Stockman & Sharpe 2 Degree Cone Fundamentals':
-        LMS_ConeFundamentals(
+        partial(
+            LMS_ConeFundamentals,
             DATA_CMFS_LMS['Stockman & Sharpe 2 Degree Cone Fundamentals'],
             name='Stockman & Sharpe 2 Degree Cone Fundamentals',
             strict_name='Stockman & Sharpe 2$^\\circ$ Cone Fundamentals'),
     'Stockman & Sharpe 10 Degree Cone Fundamentals':
-        LMS_ConeFundamentals(
+        partial(
+            LMS_ConeFundamentals,
             DATA_CMFS_LMS['Stockman & Sharpe 10 Degree Cone Fundamentals'],
             name='Stockman & Sharpe 10 Degree Cone Fundamentals',
             strict_name='Stockman & Sharpe 10$^\\circ$ Cone Fundamentals'),
     'Smith & Pokorny 1975 Normal Trichromats':
-        LMS_ConeFundamentals(
+        partial(
+            LMS_ConeFundamentals,
             DATA_CMFS_LMS['Smith & Pokorny 1975 Normal Trichromats'],
             name='Smith & Pokorny 1975 Normal Trichromats',
             strict_name='Smith & Pokorny (1975) Normal Trichromats')
@@ -1077,7 +1082,7 @@ References
 ----------
 :cite:`CVRLu`, :cite:`Machado2010a`
 
-MSDS_CMFS_LMS : CaseInsensitiveMapping
+MSDS_CMFS_LMS : LazyCaseInsensitiveMapping
     {'Stockman & Sharpe 2 Degree Cone Fundamentals',
     'Stockman & Sharpe 10 Degree Cone Fundamentals',
     'Smith & Pokorny 1975 Normal Trichromats'}
@@ -1331,20 +1336,23 @@ DATA_CMFS_RGB = {
     }
 }
 
-MSDS_CMFS_RGB = CaseInsensitiveMapping({
+MSDS_CMFS_RGB = LazyCaseInsensitiveMapping({
     'Wright & Guild 1931 2 Degree RGB CMFs':
-        RGB_ColourMatchingFunctions(
+        partial(
+            RGB_ColourMatchingFunctions,
             DATA_CMFS_RGB['Wright & Guild 1931 2 Degree RGB CMFs'],
             name='Wright & Guild 1931 2 Degree RGB CMFs',
             strict_name='Wright & Guild (1931) 2$^\\circ$ RGB CMFs',
         ),
     'Stiles & Burch 1955 2 Degree RGB CMFs':
-        RGB_ColourMatchingFunctions(
+        partial(
+            RGB_ColourMatchingFunctions,
             DATA_CMFS_RGB['Stiles & Burch 1955 2 Degree RGB CMFs'],
             name='Stiles & Burch 1955 2 Degree RGB CMFs',
             strict_name='Stiles & Burch (1955) 2$^\\circ$ RGB CMFs'),
     'Stiles & Burch 1959 10 Degree RGB CMFs':
-        RGB_ColourMatchingFunctions(
+        partial(
+            RGB_ColourMatchingFunctions,
             DATA_CMFS_RGB['Stiles & Burch 1959 10 Degree RGB CMFs'],
             name='Stiles & Burch 1959 10 Degree RGB CMFs',
             strict_name='Stiles & Burch (1959) 10$^\\circ$ RGB CMFs')
@@ -1356,7 +1364,7 @@ References
 ----------
 :cite:`Broadbent2009a`, :cite:`CVRLt`, :cite:`CVRLw`
 
-MSDS_CMFS_RGB : CaseInsensitiveMapping
+MSDS_CMFS_RGB : LazyCaseInsensitiveMapping
     **{'Wright & Guild 1931 2 Degree RGB CMFs',
     'Stiles & Burch 1955 2 Degree RGB CMFs',
     'Stiles & Burch 1959 10 Degree RGB CMFs'}**
@@ -3197,25 +3205,29 @@ DATA_CMFS_STANDARD_OBSERVER = {
     }
 }
 
-MSDS_CMFS_STANDARD_OBSERVER = CaseInsensitiveMapping({
+MSDS_CMFS_STANDARD_OBSERVER = LazyCaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
-        XYZ_ColourMatchingFunctions(
+        partial(
+            XYZ_ColourMatchingFunctions,
             DATA_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
             name='CIE 1931 2 Degree Standard Observer',
             strict_name='CIE 1931 2$^\\circ$ Standard Observer'),
     'CIE 1964 10 Degree Standard Observer':
-        XYZ_ColourMatchingFunctions(
+        partial(
+            XYZ_ColourMatchingFunctions,
             DATA_CMFS_STANDARD_OBSERVER[
                 'CIE 1964 10 Degree Standard Observer'],
             name='CIE 1964 10 Degree Standard Observer',
             strict_name='CIE 1964 10$^\\circ$ Standard Observer'),
     'CIE 2012 2 Degree Standard Observer':
-        XYZ_ColourMatchingFunctions(
+        partial(
+            XYZ_ColourMatchingFunctions,
             DATA_CMFS_STANDARD_OBSERVER['CIE 2012 2 Degree Standard Observer'],
             name='CIE 2012 2 Degree Standard Observer',
             strict_name='CIE 2012 2$^\\circ$ Standard Observer'),
     'CIE 2012 10 Degree Standard Observer':
-        XYZ_ColourMatchingFunctions(
+        partial(
+            XYZ_ColourMatchingFunctions,
             DATA_CMFS_STANDARD_OBSERVER[
                 'CIE 2012 10 Degree Standard Observer'],
             name='CIE 2012 10 Degree Standard Observer',
@@ -3229,7 +3241,7 @@ References
 ----------
 :cite:`CVRLr`, :cite:`CVRLs`
 
-MSDS_CMFS_STANDARD_OBSERVER : CaseInsensitiveMapping
+MSDS_CMFS_STANDARD_OBSERVER : LazyCaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer',
     'CIE 2012 2 Degree Standard Observer',
@@ -3245,7 +3257,7 @@ MSDS_CMFS_STANDARD_OBSERVER['cie_2_1931'] = (
 MSDS_CMFS_STANDARD_OBSERVER['cie_10_1964'] = (
     MSDS_CMFS_STANDARD_OBSERVER['CIE 1964 10 Degree Standard Observer'])
 
-MSDS_CMFS = CaseInsensitiveMapping(MSDS_CMFS_LMS)
+MSDS_CMFS = LazyCaseInsensitiveMapping(MSDS_CMFS_LMS)
 MSDS_CMFS.__doc__ = """
 Multi-spectral distributions of the colour matching functions.
 
@@ -3254,7 +3266,7 @@ References
 :cite:`Broadbent2009a`, :cite:`CVRLr`, :cite:`CVRLs`, :cite:`CVRLt`,
 :cite:`CVRLu`, :cite:`CVRLw`, :cite:`Machado2010a`
 
-MSDS_CMFS : CaseInsensitiveMapping
+MSDS_CMFS : LazyCaseInsensitiveMapping
     **{'Stockman & Sharpe 10 Degree Cone Fundamentals',
     'Stockman & Sharpe 2 Degree Cone Fundamentals',
     'Wright & Guild 1931 2 Degree RGB CMFs',

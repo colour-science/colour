@@ -23,7 +23,8 @@ References
 
 import numpy as np
 
-from colour.colorimetry import MSDS_CMFS, msds_to_XYZ, SpectralShape, sd_ones
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SpectralShape,
+                                msds_to_XYZ, reshape_msds, sd_ones)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
 from colour.utilities import zeros, validate_method
@@ -211,9 +212,8 @@ def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):
     ])
 
 
-def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-                      .copy().align(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
-                      illuminant=sd_ones(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
+def XYZ_outer_surface(cmfs=None,
+                      illuminant=None,
                       point_order='Bins',
                       filter_jagged_points=False,
                       **kwargs):
@@ -225,7 +225,8 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     Parameters
     ----------
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     point_order : unicode, optional
@@ -271,9 +272,10 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
 
     Examples
     --------
-    >>> from colour.colorimetry import SPECTRAL_SHAPE_DEFAULT
+    >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> shape = SpectralShape(
-    ...     SPECTRAL_SHAPE_DEFAULT.start, SPECTRAL_SHAPE_DEFAULT.end, 84)
+    ...     SPECTRAL_SHAPE_DEFAULT.start, SPECTRAL_SHAPE_DEFAULT.end, 84
+    ... )
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> XYZ_outer_surface(cmfs.copy().align(shape))  # doctest: +ELLIPSIS
     array([[  0.0000000...e+00,   0.0000000...e+00,   0.0000000...e+00],
@@ -310,6 +312,14 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
            [  1.1022943...e+00,   1.0000000...e+00,   1.3568301...e+00]])
     """
 
+    if cmfs is None:
+        cmfs = reshape_msds(
+            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
+            SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
+
+    if illuminant is None:
+        illuminant = sd_ones(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
+
     settings = {'method': 'Integration', 'shape': cmfs.shape}
     settings.update(kwargs)
 
@@ -330,13 +340,11 @@ def XYZ_outer_surface(cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
 solid_RoschMacAdam = XYZ_outer_surface
 
 
-def is_within_visible_spectrum(
-        XYZ,
-        cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-        .copy().align(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
-        illuminant=sd_ones(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ),
-        tolerance=None,
-        **kwargs):
+def is_within_visible_spectrum(XYZ,
+                               cmfs=None,
+                               illuminant=None,
+                               tolerance=None,
+                               **kwargs):
     """
     Returns if given *CIE XYZ* tristimulus values are within the visible
     spectrum volume, i.e. *Rösch-MacAdam* colour solid, for given colour
@@ -347,7 +355,8 @@ def is_within_visible_spectrum(
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution.
     tolerance : numeric, optional
@@ -384,6 +393,14 @@ def is_within_visible_spectrum(
     >>> is_within_visible_spectrum(a)
     array([ True, False], dtype=bool)
     """
+
+    if cmfs is None:
+        cmfs = reshape_msds(
+            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
+            SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
+
+    if illuminant is None:
+        illuminant = sd_ones(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
 
     key = (hash(cmfs), hash(illuminant), str(kwargs))
     vertices = _CACHE_OUTER_SURFACE_XYZ_POINTS.get(key)

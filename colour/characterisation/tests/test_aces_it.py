@@ -15,7 +15,8 @@ from colour.characterisation import (
     training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
     optimisation_factory_JzAzBz, matrix_idt, camera_RGB_to_ACES2065_1)
 from colour.characterisation.aces_it import RESOURCES_DIRECTORY_RAWTOACES
-from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
+                                SpectralShape, reshape_msds,
                                 sds_and_msds_to_msds, sd_constant, sd_ones)
 from colour.io import read_sds_from_csv_file
 from colour.utilities import domain_range_scale
@@ -37,6 +38,8 @@ __all__ = [
     'TestOptimizationFactoryJzAzBz', 'TestMatrixIdt',
     'TestCamera_RGB_to_ACES2065_1'
 ]
+
+_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
 
 MSDS_CANON_EOS_5DMARK_II = sds_and_msds_to_msds(
     read_sds_from_csv_file(
@@ -503,7 +506,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
                 read_training_data_rawtoaces_v1(),
-                MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
+                MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
                 SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.01743541, 0.01795040, 0.01961110],
@@ -704,8 +707,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
-                training_data,
-                MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
+                training_data, MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
                 SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.11386016, 0.10184316, 0.06318332],
@@ -738,7 +740,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
                 training_data,
-                MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
+                MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
                 SDS_ILLUMINANTS['D55'],
                 chromatic_adaptation_transform='Bradford'),
             np.array([
@@ -888,8 +890,8 @@ class TestMatrixIdt(unittest.TestCase):
 
         np.testing.assert_allclose(
             matrix_idt(
-                MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)'].copy().align(
-                    SpectralShape(400, 700, 10)),
+                reshape_msds(MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)'],
+                             SpectralShape(400, 700, 10)),
                 SD_AMPAS_ISO7589_STUDIO_TUNGSTEN,
                 training_data=training_data)[0],
             np.array([

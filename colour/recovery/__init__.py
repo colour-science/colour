@@ -149,14 +149,12 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     *Jakob and Hanika (2009)* reflectance recovery:
 
     >>> import numpy as np
-    >>> from colour.colorimetry import (
-    ...     MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, SpectralShape,
-    ...     sd_to_XYZ_integration
-    ... )
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
+    >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -217,7 +215,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     *Mallett and Yuksel (2019)* reflectance recovery:
 
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SPECTRAL_SHAPE_sRGB_MALLETT2019)
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -316,7 +314,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     *Meng (2015)* reflectance recovery:
 
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -377,7 +375,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     *Otsu, Yamamoto and Hachisuka (2018)* reflectance recovery:
 
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SPECTRAL_SHAPE_OTSU2018)
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -431,7 +429,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     *Smits (1999)* reflectance recovery:
 
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['E'].copy().align(cmfs.shape)

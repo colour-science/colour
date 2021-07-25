@@ -34,7 +34,8 @@ References
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.colorimetry import MSDS_CMFS_LMS, MSDS_CMFS_RGB, SDS_LEFS_PHOTOPIC
+from colour.colorimetry import (MSDS_CMFS_LMS, MSDS_CMFS_RGB,
+                                SDS_LEFS_PHOTOPIC, reshape_sd)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -108,8 +109,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
-    V = SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'].copy()
-    V.align(cmfs.shape)
+    V = reshape_sd(SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
+                   cmfs.shape)
     L = V[wavelength]
 
     x_bar = x / y * L

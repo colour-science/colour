@@ -6,8 +6,8 @@ Defines the unit tests for the :mod:`colour.plotting.diagrams` module.
 import unittest
 from matplotlib.pyplot import Axes, Figure
 
-from colour.colorimetry import (SDS_ILLUMINANTS, SpectralShape,
-                                MSDS_CMFS_STANDARD_OBSERVER)
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
+                                SpectralShape, reshape_msds)
 from colour.plotting import (plot_chromaticity_diagram_CIE1931,
                              plot_chromaticity_diagram_CIE1960UCS,
                              plot_chromaticity_diagram_CIE1976UCS,
@@ -70,8 +70,10 @@ class TestPlotSpectralLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_spectral_locus(MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer'].copy().align(
+        figure, axes = plot_spectral_locus(
+            reshape_msds(
+                MSDS_CMFS_STANDARD_OBSERVER[
+                    'CIE 1931 2 Degree Standard Observer'],
                 SpectralShape(400, 700, 10)))
 
         self.assertIsInstance(figure, Figure)

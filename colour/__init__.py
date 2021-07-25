@@ -431,3 +431,9 @@ if not is_documentation_building():
                                    build_API_changes(API_CHANGES))
 
     del ModuleAPI, is_documentation_building, build_API_changes, sys
+
+colour.__disable_lazy_load__ = True
+"""
+Ensures that the lazy loaded datasets are not transformed during import.
+See :class:`colour.utilities.LazyCaseInsensitiveMapping` for more information.
+"""

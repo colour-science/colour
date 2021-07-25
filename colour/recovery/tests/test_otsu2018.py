@@ -10,8 +10,9 @@ import tempfile
 import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
-                                MSDS_CMFS_STANDARD_OBSERVER, sd_to_XYZ)
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, CCS_ILLUMINANTS,
+                                SDS_ILLUMINANTS, reshape_msds, reshape_sd,
+                                sd_to_XYZ)
 from colour.difference import delta_E_CIE1976
 from colour.models import XYZ_to_Lab
 from colour.recovery import (XYZ_to_sd_Otsu2018, SPECTRAL_SHAPE_OTSU2018,
@@ -30,6 +31,10 @@ __all__ = [
     'TestDataset_Otsu2018', 'TestXYZ_to_sd_Otsu2018', 'TestData', 'TestNode',
     'TestNodeTree_Otsu2018'
 ]
+
+_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
+
+_DEFAULT_ILLUMINANT = 'D65'
 
 
 class TestDataset_Otsu2018(unittest.TestCase):
@@ -72,12 +77,12 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
-        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer'].copy().align(self._shape)
+        self._cmfs = reshape_msds(
+            MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS], self._shape)
 
-        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._shape)
-        self._xy_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-            'D65']
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+                                  self._shape)
+        self._xy_D65 = CCS_ILLUMINANTS[_DEFAULT_MSDS_CMFS][_DEFAULT_ILLUMINANT]
 
     def test_XYZ_to_sd_Otsu2018(self):
         """
@@ -95,8 +100,9 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
                                       self._sd_D65) / 100
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
-            error = metric_mse(sd.copy().align(SPECTRAL_SHAPE_OTSU2018).values,
-                               recovered_sd.values)
+            error = metric_mse(
+                reshape_sd(sd, SPECTRAL_SHAPE_OTSU2018).values,
+                recovered_sd.values)
             self.assertLess(error, 0.02)
 
             delta_E = delta_E_CIE1976(Lab, recovered_Lab)
@@ -198,12 +204,12 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
-        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer'].copy().align(self._shape)
+        self._cmfs = reshape_msds(
+            MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS], self._shape)
 
-        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._shape)
-        self._xy_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-            'D65']
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+                                  self._shape)
+        self._xy_D65 = CCS_ILLUMINANTS[_DEFAULT_MSDS_CMFS][_DEFAULT_ILLUMINANT]
 
         self._temporary_directory = tempfile.mkdtemp()
 
@@ -247,7 +253,7 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         reflectances = []
         for colourchecker in ['ColorChecker N Ohta', 'BabelColor Average']:
             for sd in SDS_COLOURCHECKERS[colourchecker].values():
-                reflectances.append(sd.copy().align(self._shape).values)
+                reflectances.append(reshape_sd(sd, self._shape).values)
 
         node_tree = NodeTree_Otsu2018(reflectances, self._cmfs, self._sd_D65)
         node_tree.optimise(iterations=2)
@@ -269,8 +275,9 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
                                       self._sd_D65) / 100
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
-            error = metric_mse(sd.copy().align(SPECTRAL_SHAPE_OTSU2018).values,
-                               recovered_sd.values)
+            error = metric_mse(
+                reshape_sd(sd, SPECTRAL_SHAPE_OTSU2018).values,
+                recovered_sd.values)
             self.assertLess(error, 0.075)
 
             delta_E = delta_E_CIE1976(Lab, recovered_Lab)

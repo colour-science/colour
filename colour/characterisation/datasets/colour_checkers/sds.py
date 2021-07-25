@@ -45,10 +45,11 @@ References
     engineering.
 """
 
-from colour.colorimetry import SpectralDistribution
-from colour.utilities import CaseInsensitiveMapping
-
 from collections import OrderedDict
+from functools import partial
+
+from colour.colorimetry import SpectralDistribution
+from colour.utilities import CaseInsensitiveMapping, LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -981,8 +982,8 @@ DATA_BABELCOLOR_AVERAGE = OrderedDict((
     }),
 ))
 
-SDS_BABELCOLOR_AVERAGE = OrderedDict(
-    (key, SpectralDistribution(value, name=key))
+SDS_BABELCOLOR_AVERAGE = LazyCaseInsensitiveMapping(
+    (key, partial(SpectralDistribution, value, name=key))
     for key, value in DATA_BABELCOLOR_AVERAGE.items())
 """
 Average data derived from measurements of 30 *ColorChecker Classic* charts.
@@ -2989,8 +2990,8 @@ DATA_COLORCHECKER_N_OHTA = OrderedDict((
     }),
 ))
 
-SDS_COLORCHECKER_N_OHTA = OrderedDict(
-    (key, SpectralDistribution(value, name=key))
+SDS_COLORCHECKER_N_OHTA = LazyCaseInsensitiveMapping(
+    (key, partial(SpectralDistribution, value, name=key))
     for key, value in DATA_COLORCHECKER_N_OHTA.items())
 """
 *ColorChecker Classic* data Measured by *Ohta (1997)*.

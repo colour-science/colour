@@ -16,7 +16,7 @@ References
 
 import numpy as np
 
-from colour.colorimetry import SDS_LEFS_PHOTOPIC
+from colour.colorimetry import SDS_LEFS_PHOTOPIC, reshape_sd
 from colour.constants import CONSTANT_K_M
 from colour.utilities import as_float
 
@@ -30,9 +30,7 @@ __status__ = 'Production'
 __all__ = ['luminous_flux', 'luminous_efficiency', 'luminous_efficacy']
 
 
-def luminous_flux(sd,
-                  lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'],
-                  K_m=CONSTANT_K_M):
+def luminous_flux(sd, lef=None, K_m=CONSTANT_K_M):
     """
     Returns the *luminous flux* for given spectral distribution using given
     luminous efficiency function.
@@ -42,7 +40,8 @@ def luminous_flux(sd,
     sd : SpectralDistribution
         test spectral distribution
     lef : SpectralDistribution, optional
-        :math:`V(\\lambda)` luminous efficiency function.
+        :math:`V(\\lambda)` luminous efficiency function, default to the
+        *CIE 1924 Photopic Standard Observer*.
     K_m : numeric, optional
         :math:`lm\\cdot W^{-1}` maximum photopic luminous efficiency
 
@@ -63,7 +62,11 @@ def luminous_flux(sd,
     23807.6555273...
     """
 
-    lef = lef.copy().align(
+    if lef is None:
+        lef = SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']
+
+    lef = reshape_sd(
+        lef,
         sd.shape,
         extrapolator_kwargs={
             'method': 'Constant',
@@ -77,8 +80,7 @@ def luminous_flux(sd,
     return as_float(flux)
 
 
-def luminous_efficiency(
-        sd, lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']):
+def luminous_efficiency(sd, lef=None):
     """
     Returns the *luminous efficiency* of given spectral distribution using
     given luminous efficiency function.
@@ -88,7 +90,8 @@ def luminous_efficiency(
     sd : SpectralDistribution
         test spectral distribution
     lef : SpectralDistribution, optional
-        :math:`V(\\lambda)` luminous efficiency function.
+        :math:`V(\\lambda)` luminous efficiency function, default to the
+        *CIE 1924 Photopic Standard Observer*.
 
     Returns
     -------
@@ -107,7 +110,11 @@ def luminous_efficiency(
     0.1994393...
     """
 
-    lef = lef.copy().align(
+    if lef is None:
+        lef = SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']
+
+    lef = reshape_sd(
+        lef,
         sd.shape,
         extrapolator_kwargs={
             'method': 'Constant',
@@ -122,8 +129,7 @@ def luminous_efficiency(
     return efficiency
 
 
-def luminous_efficacy(
-        sd, lef=SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']):
+def luminous_efficacy(sd, lef=None):
     """
     Returns the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of given
     spectral distribution using given luminous efficiency function.
@@ -133,7 +139,8 @@ def luminous_efficacy(
     sd : SpectralDistribution
         test spectral distribution
     lef : SpectralDistribution, optional
-        :math:`V(\\lambda)` luminous efficiency function.
+        :math:`V(\\lambda)` luminous efficiency function, default to the
+        *CIE 1924 Photopic Standard Observer*.
 
     Returns
     -------
@@ -151,6 +158,9 @@ def luminous_efficacy(
     >>> luminous_efficacy(sd)  # doctest: +ELLIPSIS
     136.2170803...
     """
+
+    if lef is None:
+        lef = SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']
 
     efficacy = CONSTANT_K_M * luminous_efficiency(sd, lef)
 

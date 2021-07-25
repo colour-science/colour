@@ -25,6 +25,8 @@ __all__ = [
     'Testuv_to_CCT_Ohno2013', 'TestCCT_to_uv_Ohno2013'
 ]
 
+_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
+
 PLANCKIAN_TABLE = np.array([
     [1000.00000000, 0.44796288, 0.35462962, 0.25373557],
     [1001.11111111, 0.44770303, 0.35465214, 0.25348315],
@@ -50,8 +52,7 @@ class TestPlanckianTable(unittest.TestCase):
         Tests :func:`colour.temperature.ohno2013.planckian_table` definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
 
         np.testing.assert_almost_equal(
             [(x.Ti, x.ui, x.vi, x.di) for x in planckian_table(
@@ -71,8 +72,7 @@ planckian_table_minimal_distance_index` definition unit tests methods.
 planckian_table_minimal_distance_index` definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
         self.assertEqual(
             planckian_table_minimal_distance_index(
                 planckian_table(
@@ -91,8 +91,7 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
         np.testing.assert_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122]), cmfs),
             np.array([6507.47380460, 0.00322335]),
@@ -153,8 +152,7 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
         np.testing.assert_almost_equal(
             CCT_to_uv_Ohno2013(np.array([6507.47380460, 0.00322335]), cmfs),
             np.array([0.19779997, 0.31219997]),
@@ -176,8 +174,7 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
         CCT_D_uv = np.array([6507.47380460, 0.00322335])
         uv = CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)
 

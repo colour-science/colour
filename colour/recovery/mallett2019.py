@@ -20,9 +20,9 @@ import numpy as np
 from scipy.linalg import block_diag
 from scipy.optimize import Bounds, LinearConstraint, minimize
 
-from colour.colorimetry import (SpectralDistribution,
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
                                 MultiSpectralDistributions,
-                                MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS)
+                                SpectralDistribution, reshape_sd)
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1, runtime_warning
 
@@ -39,14 +39,12 @@ __all__ = [
 ]
 
 
-def spectral_primary_decomposition_Mallett2019(
-        colourspace,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer'],
-        illuminant=SDS_ILLUMINANTS['D65'],
-        metric=np.linalg.norm,
-        metric_args=tuple(),
-        optimisation_kwargs=None):
+def spectral_primary_decomposition_Mallett2019(colourspace,
+                                               cmfs=None,
+                                               illuminant=None,
+                                               metric=np.linalg.norm,
+                                               metric_args=tuple(),
+                                               optimisation_kwargs=None):
     """
     Performs the spectral primary decomposition as described in *Mallett and
     Yuksel (2019)* for given *RGB* colourspace.
@@ -56,9 +54,11 @@ def spectral_primary_decomposition_Mallett2019(
     colourspace: RGB_Colourspace
         *RGB* colourspace.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
     metric : unicode, optional
         Function to be minimised, i.e. the objective function.
 
@@ -93,11 +93,11 @@ def spectral_primary_decomposition_Mallett2019(
 
     Examples
     --------
-    >>> from colour.colorimetry import SpectralShape
+    >>> from colour import MSDS_CMFS, SpectralShape
     >>> from colour.models import RGB_COLOURSPACE_PAL_SECAM
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -153,11 +153,18 @@ def spectral_primary_decomposition_Mallett2019(
      [ 780.            0.3475263...    0.3262331...    0.3262404...]]
     """
 
+    if cmfs is None:
+        cmfs = (
+            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'])
+
+    if illuminant is None:
+        illuminant = SDS_ILLUMINANTS['D65']
+
     if illuminant.shape != cmfs.shape:
         runtime_warning(
             'Aligning "{0}" illuminant shape to "{1}" colour matching '
             'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = illuminant.copy().align(cmfs.shape)
+        illuminant = reshape_sd(illuminant, cmfs.shape)
 
     N = len(cmfs.shape)
 
@@ -240,14 +247,14 @@ def RGB_to_sd_Mallett2019(
 
     Examples
     --------
-    >>> from colour.colorimetry import SDS_ILLUMINANTS, sd_to_XYZ_integration
-    >>> from colour.models import XYZ_to_sRGB
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, XYZ_to_sRGB
+    >>> from colour.colorimetry import  sd_to_XYZ_integration
     >>> from colour.recovery import SPECTRAL_SHAPE_sRGB_MALLETT2019
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> RGB = XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SPECTRAL_SHAPE_sRGB_MALLETT2019)
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)

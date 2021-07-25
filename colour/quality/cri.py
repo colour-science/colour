@@ -20,9 +20,10 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
-from colour.colorimetry import (
-    SPECTRAL_SHAPE_DEFAULT, sd_CIE_illuminant_D_series,
-    MSDS_CMFS_STANDARD_OBSERVER, sd_blackbody, sd_to_XYZ)
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
+                                SPECTRAL_SHAPE_DEFAULT,
+                                sd_CIE_illuminant_D_series, reshape_msds,
+                                reshape_sd, sd_blackbody, sd_to_XYZ)
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
@@ -109,13 +110,13 @@ def colour_rendering_index(sd_test, additional_data=False):
     64.2337241...
     """
 
-    cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-        'CIE 1931 2 Degree Standard Observer'].copy().trim(
-            SPECTRAL_SHAPE_DEFAULT)
+    cmfs = reshape_msds(
+        MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
+        SPECTRAL_SHAPE_DEFAULT)
 
     shape = cmfs.shape
-    sd_test = sd_test.copy().align(shape)
-    tcs_sds = {sd.name: sd.copy().align(shape) for sd in SDS_TCS.values()}
+    sd_test = reshape_sd(sd_test, shape)
+    tcs_sds = {sd.name: reshape_sd(sd, shape) for sd in SDS_TCS.values()}
 
     with domain_range_scale('1'):
         XYZ = sd_to_XYZ(sd_test, cmfs)

@@ -16,13 +16,14 @@ from copy import copy
 from functools import partial
 from pprint import pformat
 
+import colour
 from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
                                 TVS_ILLUMINANTS_HUNTERLAB)
 from colour.colorimetry import (colorimetric_purity, complementary_wavelength,
                                 dominant_wavelength, excitation_purity,
                                 lightness, luminance, luminous_efficacy,
-                                luminous_efficiency, luminous_flux, sd_to_XYZ,
-                                whiteness, yellowness, wavelength_to_XYZ)
+                                luminous_efficiency, luminous_flux, whiteness,
+                                yellowness, wavelength_to_XYZ)
 from colour.recovery import XYZ_to_sd
 from colour.models import RGB_COLOURSPACE_sRGB
 from colour.models import (
@@ -67,7 +68,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'Conversion_Specification', 'CIECAM02_to_JMh_CIECAM02',
+    'Conversion_Specification', 'sd_to_XYZ', 'CIECAM02_to_JMh_CIECAM02',
     'JMh_CIECAM02_to_CIECAM02', 'CAM16_to_JMh_CAM16', 'JMh_CAM16_to_CAM16',
     'XYZ_to_luminance', 'RGB_luminance_to_RGB',
     'CONVERSION_SPECIFICATIONS_DATA', 'CONVERSION_GRAPH_NODE_LABELS',
@@ -96,6 +97,23 @@ class Conversion_Specification(
     def __new__(cls, source=None, target=None, conversion_function=None):
         return super(Conversion_Specification, cls).__new__(
             cls, source.lower(), target.lower(), conversion_function)
+
+
+def sd_to_XYZ(sd,
+              cmfs=None,
+              illuminant=None,
+              k=None,
+              method='ASTM E308',
+              **kwargs):
+    if illuminant is None:
+        illuminant = SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT]
+
+    return colour.sd_to_XYZ(sd, cmfs, illuminant, k, method, **kwargs)
+
+
+sd_to_XYZ.__doc__ = colour.sd_to_XYZ.__doc__.replace(
+    'Illuminant spectral distribution.', 'Illuminant spectral distribution, '
+    'default to *CIE Standard Illuminant D65*.')
 
 
 def CIECAM02_to_JMh_CIECAM02(CAM_Specification_CIECAM02):
@@ -273,13 +291,6 @@ Default automatic colour conversion graph illuminant name.
 _DEFAULT_ILLUMINANT : unicode
 """
 
-_SD_DEFAULT_ILLUMINANT = SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT]
-"""
-Default automatic colour conversion graph illuminant spectral distribution.
-
-_SD_DEFAULT_ILLUMINANT : SpectralDistribution
-"""
-
 _CCS_DEFAULT_ILLUMINANT = CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][_DEFAULT_ILLUMINANT]
 """
@@ -321,8 +332,7 @@ _CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] = _CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] / 100
 
 CONVERSION_SPECIFICATIONS_DATA = [
     # Colorimetry
-    ('Spectral Distribution', 'CIE XYZ',
-     partial(sd_to_XYZ, illuminant=_SD_DEFAULT_ILLUMINANT)),
+    ('Spectral Distribution', 'CIE XYZ', sd_to_XYZ),
     ('CIE XYZ', 'Spectral Distribution', XYZ_to_sd),
     ('Spectral Distribution', 'Luminous Flux', luminous_flux),
     ('Spectral Distribution', 'Luminous Efficiency', luminous_efficiency),

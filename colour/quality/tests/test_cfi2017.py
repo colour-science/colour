@@ -11,8 +11,8 @@ Notes
 import numpy as np
 import unittest
 
-from colour.colorimetry import (SpectralShape, SpectralDistribution,
-                                sd_blackbody, SDS_ILLUMINANTS)
+from colour.colorimetry import (SDS_ILLUMINANTS, SpectralShape,
+                                SpectralDistribution, reshape_sd, sd_blackbody)
 from colour.quality.cfi2017 import (CCT_reference_illuminant,
                                     sd_reference_illuminant,
                                     colour_fidelity_index_CIE2017)
@@ -589,10 +589,10 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
         definition raised exception.
         """
 
-        sd = SDS_ILLUMINANTS['FL2'].copy().align(SpectralShape(400, 700, 5))
+        sd = reshape_sd(SDS_ILLUMINANTS['FL2'], SpectralShape(400, 700, 5))
         self.assertWarns(ColourUsageWarning, colour_fidelity_index_CIE2017, sd)
 
-        sd = SDS_ILLUMINANTS['FL2'].copy().align(SpectralShape(380, 780, 10))
+        sd = reshape_sd(SDS_ILLUMINANTS['FL2'], SpectralShape(380, 780, 10))
         self.assertRaises(ValueError, colour_fidelity_index_CIE2017, sd)
 
 

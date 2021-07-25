@@ -57,9 +57,11 @@ References
     daylight, incandescent tungsten and printer.
 """
 
+from functools import partial
+
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -4574,113 +4576,11 @@ DATA_ILLUMINANTS_CIE = {
     }
 }
 
-SDS_ILLUMINANTS_CIE = CaseInsensitiveMapping({
-    'A':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['A'], name='A'),
-    'B':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['B'], name='B'),
-    'C':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['C'], name='C'),
-    'D50':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['D50'], name='D50'),
-    'D55':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['D55'], name='D55'),
-    'D60':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['D60'], name='D60'),
-    'D65':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['D65'], name='D65'),
-    'D75':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['D75'], name='D75'),
-    'E':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['E'], name='E'),
-    'FL1':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL1'], name='FL1'),
-    'FL2':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL2'], name='FL2'),
-    'FL3':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3'], name='FL3'),
-    'FL4':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL4'], name='FL4'),
-    'FL5':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL5'], name='FL5'),
-    'FL6':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL6'], name='FL6'),
-    'FL7':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL7'], name='FL7'),
-    'FL8':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL8'], name='FL8'),
-    'FL9':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL9'], name='FL9'),
-    'FL10':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL10'], name='FL10'),
-    'FL11':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL11'], name='FL11'),
-    'FL12':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL12'], name='FL12'),
-    'FL3.1':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.1'], name='FL3.1'),
-    'FL3.2':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.2'], name='FL3.2'),
-    'FL3.3':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.3'], name='FL3.3'),
-    'FL3.4':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.4'], name='FL3.4'),
-    'FL3.5':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.5'], name='FL3.5'),
-    'FL3.6':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.6'], name='FL3.6'),
-    'FL3.7':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.7'], name='FL3.7'),
-    'FL3.8':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.8'], name='FL3.8'),
-    'FL3.9':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.9'], name='FL3.9'),
-    'FL3.10':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.10'], name='FL3.10'),
-    'FL3.11':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.11'], name='FL3.11'),
-    'FL3.12':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.12'], name='FL3.12'),
-    'FL3.13':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.13'], name='FL3.13'),
-    'FL3.14':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.14'], name='FL3.14'),
-    'FL3.15':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['FL3.15'], name='FL3.15'),
-    'HP1':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP1'], name='HP1'),
-    'HP2':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP2'], name='HP2'),
-    'HP3':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP3'], name='HP3'),
-    'HP4':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP4'], name='HP4'),
-    'HP5':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['HP5'], name='HP5'),
-    'LED-B1':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B1'], name='LED-B1'),
-    'LED-B2':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B2'], name='LED-B2'),
-    'LED-B3':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B3'], name='LED-B3'),
-    'LED-B4':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B4'], name='LED-B4'),
-    'LED-B5':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-B5'], name='LED-B5'),
-    'LED-BH1':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-BH1'], name='LED-BH1'),
-    'LED-RGB1':
-        SpectralDistribution(
-            DATA_ILLUMINANTS_CIE['LED-RGB1'], name='LED-RGB1'),
-    'LED-V1':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-V1'], name='LED-V1'),
-    'LED-V2':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['LED-V2'], name='LED-V2'),
-    'ID65':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['ID65'], name='ID65'),
-    'ID50':
-        SpectralDistribution(DATA_ILLUMINANTS_CIE['ID50'], name='ID50'),
-})
+SDS_ILLUMINANTS_CIE = LazyCaseInsensitiveMapping((
+    key,
+    partial(
+        SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
+) for key, value in DATA_ILLUMINANTS_CIE.items())
 SDS_ILLUMINANTS_CIE.__doc__ = """
 Spectral distributions of the *CIE* illuminants.
 
@@ -4699,7 +4599,7 @@ References
 ----------
 :cite:`Carter2018`, :cite:`CIEce`, :cite:`CIEcf`
 
-SDS_ILLUMINANTS_CIE : CaseInsensitiveMapping
+SDS_ILLUMINANTS_CIE : LazyCaseInsensitiveMapping
 """
 
 DATA_ILLUMINANTS_ISO = {
@@ -4951,36 +4851,11 @@ DATA_ILLUMINANTS_ISO = {
     }
 }
 
-SDS_ILLUMINANTS_ISO = CaseInsensitiveMapping({
-    'ISO 7589 Photographic Daylight':
-        SpectralDistribution(
-            DATA_ILLUMINANTS_ISO['ISO 7589 Photographic Daylight'],
-            name='ISO 7589 Photographic Daylight'),
-    'ISO 7589 Sensitometric Daylight':
-        SpectralDistribution(
-            DATA_ILLUMINANTS_ISO['ISO 7589 Sensitometric Daylight'],
-            name='ISO 7589 Sensitometric Daylight'),
-    'ISO 7589 Studio Tungsten':
-        SpectralDistribution(
-            DATA_ILLUMINANTS_ISO['ISO 7589 Studio Tungsten'],
-            name='ISO 7589 Studio Tungsten'),
-    'ISO 7589 Sensitometric Studio Tungsten':
-        SpectralDistribution(
-            DATA_ILLUMINANTS_ISO['ISO 7589 Sensitometric Studio Tungsten'],
-            name='ISO 7589 Sensitometric Studio Tungsten'),
-    'ISO 7589 Photoflood':
-        SpectralDistribution(
-            DATA_ILLUMINANTS_ISO['ISO 7589 Photoflood'],
-            name='ISO 7589 Photoflood'),
-    'ISO 7589 Sensitometric Photoflood':
-        SpectralDistribution(
-            DATA_ILLUMINANTS_ISO['ISO 7589 Sensitometric Photoflood'],
-            name='ISO 7589 Sensitometric Photoflood'),
-    'ISO 7589 Sensitometric Printer':
-        SpectralDistribution(
-            DATA_ILLUMINANTS_ISO['ISO 7589 Sensitometric Printer'],
-            name='ISO 7589 Sensitometric Printer'),
-})
+SDS_ILLUMINANTS_ISO = LazyCaseInsensitiveMapping((
+    key,
+    partial(
+        SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
+) for key, value in DATA_ILLUMINANTS_ISO.items())
 SDS_ILLUMINANTS_ISO.__doc__ = """
 Spectral distributions of the *ISO* illuminants.
 
@@ -5005,25 +4880,25 @@ References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
 
-SDS_ILLUMINANTS_ISO : CaseInsensitiveMapping
+SDS_ILLUMINANTS_ISO : LazyCaseInsensitiveMapping
 """
 
-SDS_ILLUMINANTS = CaseInsensitiveMapping(SDS_ILLUMINANTS_CIE)
+SDS_ILLUMINANTS = LazyCaseInsensitiveMapping(SDS_ILLUMINANTS_CIE)
 SDS_ILLUMINANTS.__doc__ = """
 Spectral distributions of the illuminants.
+
+Notes
+-----
+-   *CIE 15:2004* recommends using linear interpolation for
+    *CIE Standard Illuminant D Series*, for consistency all the illuminants are
+    using a linear interpolator.
 
 References
 ----------
 :cite:`Carter2018`, :cite:`CIEce`, :cite:`CIEcf`,
 :cite:`InternationalOrganizationforStandardization2002`
 
-SDS_ILLUMINANTS : CaseInsensitiveMapping
+SDS_ILLUMINANTS : LazyCaseInsensitiveMapping
 """
 
 SDS_ILLUMINANTS.update(SDS_ILLUMINANTS_ISO)
-
-# *CIE 15:2004* recommends using linear interpolation for
-# *CIE Standard Illuminant D Series*, for consistency all the illuminants are
-# using a linear interpolator.
-for _sd in SDS_ILLUMINANTS.values():
-    _sd.interpolator = LinearInterpolator

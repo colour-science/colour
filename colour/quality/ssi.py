@@ -18,7 +18,7 @@ import numpy as np
 from scipy.ndimage.filters import convolve1d
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import SpectralShape
+from colour.colorimetry import SpectralShape, reshape_sd
 from colour.utilities import zeros
 
 __author__ = 'Colour Developers'
@@ -93,8 +93,8 @@ def spectral_similarity_index(sd_test, sd_reference):
         }
     }
 
-    sd_test = sd_test.copy().align(SPECTRAL_SHAPE_SSI, **settings)
-    sd_reference = sd_reference.copy().align(SPECTRAL_SHAPE_SSI, **settings)
+    sd_test = reshape_sd(sd_test, SPECTRAL_SHAPE_SSI, **settings)
+    sd_reference = reshape_sd(sd_reference, SPECTRAL_SHAPE_SSI, **settings)
 
     test_i = np.dot(_MATRIX_INTEGRATION, sd_test.values)
     reference_i = np.dot(_MATRIX_INTEGRATION, sd_reference.values)

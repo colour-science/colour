@@ -21,8 +21,9 @@ from collections import namedtuple
 from colour.algebra import Extrapolator, euclidean_distance, linstep_function
 from colour.appearance import XYZ_to_CIECAM02, VIEWING_CONDITIONS_CIECAM02
 from colour.colorimetry import (
-    SpectralShape, SpectralDistribution, MultiSpectralDistributions, sd_to_XYZ,
-    sd_blackbody, MSDS_CMFS, sd_ones, sd_CIE_illuminant_D_series)
+    MSDS_CMFS_STANDARD_OBSERVER, MultiSpectralDistributions, SpectralShape,
+    SpectralDistribution, sd_to_XYZ, sd_blackbody, reshape_msds, sd_ones,
+    sd_CIE_illuminant_D_series)
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
 from colour.utilities import as_int, usage_warning
@@ -155,10 +156,11 @@ def colour_fidelity_index_CIE2017(sd_test, additional_data=False):
 
     # NOTE: All computations except CCT calculation use the
     # "CIE 1964 10 Degree Standard Observer".
-    cmfs_10 = MSDS_CMFS['CIE 1964 10 Degree Standard Observer'].copy().align(
+    cmfs_10 = reshape_msds(
+        MSDS_CMFS_STANDARD_OBSERVER['CIE 1964 10 Degree Standard Observer'],
         shape)
 
-    sds_tcs = load_TCS_CIE2017(shape).align(shape)
+    sds_tcs = reshape_msds(load_TCS_CIE2017(shape), shape)
 
     test_tcs_colorimetry_data = tcs_colorimetry_data(sd_test, sds_tcs, cmfs_10)
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
