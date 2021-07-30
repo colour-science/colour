@@ -1065,7 +1065,7 @@ def index_along_last_axis(a, indexes):
         Array to be indexed.
     indexes : ndarray, (Ni...)
         Integer array with the same shape as `a` but with one dimension fewer,
-        containing indixes to the last dimension of `a`. All elements must be
+        containing indices to the last dimension of `a`. All elements must be
         numbers between `0` and `m` - 1.
 
     Returns

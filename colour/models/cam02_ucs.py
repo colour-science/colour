@@ -602,7 +602,7 @@ def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
         {:func:`colour.XYZ_to_CIECAM02`},
         Please refer to the documentation of the previously listed definition.
         The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
         luminance about 20% of a white object in the scene.
 
     Returns
@@ -683,7 +683,7 @@ def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
         {:func:`colour.CIECAM02_to_XYZ`},
         Please refer to the documentation of the previously listed definition.
         The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
         luminance about 20% of a white object in the scene.
 
     Returns
@@ -764,7 +764,7 @@ def XYZ_to_CAM02LCD(XYZ, **kwargs):
         {:func:`colour.XYZ_to_CIECAM02`},
         Please refer to the documentation of the previously listed definition.
         The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
         luminance about 20% of a white object in the scene.
 
     Returns
@@ -828,7 +828,7 @@ def CAM02LCD_to_XYZ(Jpapbp, **kwargs):
         {:func:`colour.CIECAM02_to_XYZ`},
         Please refer to the documentation of the previously listed definition.
         The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
         luminance about 20% of a white object in the scene.
 
     Returns
@@ -892,7 +892,7 @@ def XYZ_to_CAM02SCD(XYZ, **kwargs):
         {:func:`colour.XYZ_to_CIECAM02`},
         Please refer to the documentation of the previously listed definition.
         The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
         luminance about 20% of a white object in the scene.
 
     Returns
@@ -956,7 +956,7 @@ def CAM02SCD_to_XYZ(Jpapbp, **kwargs):
         {:func:`colour.CIECAM02_to_XYZ`},
         Please refer to the documentation of the previously listed definition.
         The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
         luminance about 20% of a white object in the scene.
 
     Returns
@@ -1020,7 +1020,7 @@ def XYZ_to_CAM02UCS(XYZ, **kwargs):
         {:func:`colour.XYZ_to_CIECAM02`},
         Please refer to the documentation of the previously listed definition.
         The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
         luminance about 20% of a white object in the scene.
 
     Returns
@@ -1084,7 +1084,7 @@ def CAM02UCS_to_XYZ(Jpapbp, **kwargs):
         {:func:`colour.CIECAM02_to_XYZ`},
         Please refer to the documentation of the previously listed definition.
         The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambiant illumination, 80 :math:`cd/m^2`, adapting field
+        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
         luminance about 20% of a white object in the scene.
 
     Returns
