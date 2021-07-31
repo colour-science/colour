@@ -909,7 +909,7 @@ verbose={'mode': 'Long'})
             Thus, decoding and encoding using the sRGB electro-optical transfer
             function (EOTF) and its inverse will be applied by default.
         -   Most of the colour appearance models have defaults set according to
-            *IEC 61966-2-1:1999* viewing conditions, i.e. *sRGB* 64 Lux ambiant
+            *IEC 61966-2-1:1999* viewing conditions, i.e. *sRGB* 64 Lux ambient
             illumination, 80 :math:`cd/m^2`, adapting field luminance about
             20% of a white object in the scene.
 
