@@ -74,7 +74,7 @@ References
 SPECTRAL_SHAPE_ASTME308 : SpectralShape
 """
 
-_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
 _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS = None
 
@@ -475,7 +475,7 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None):
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT)
 
     if illuminant is None:
@@ -592,7 +592,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_ASTME308, 'Trim')
 
     if illuminant is None:
@@ -726,7 +726,7 @@ def sd_to_XYZ_ASTME308(sd,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_ASTME308, 'Trim')
 
     if illuminant is None:
@@ -917,7 +917,7 @@ def sd_to_XYZ(sd,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT)
 
     if illuminant is None:
@@ -1085,7 +1085,7 @@ def msds_to_XYZ_integration(msds,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT)
 
     if illuminant is None:
@@ -1246,7 +1246,7 @@ def msds_to_XYZ_ASTME308(msds,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_ASTME308, 'Trim')
 
     if illuminant is None:
@@ -1448,7 +1448,7 @@ def msds_to_XYZ(msds,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT)
 
     if illuminant is None:
@@ -1512,7 +1512,7 @@ def wavelength_to_XYZ(wavelength, cmfs=None):
     """
 
     if cmfs is None:
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
 
     cmfs_shape = cmfs.shape
     if (np.min(wavelength) < cmfs_shape.start or

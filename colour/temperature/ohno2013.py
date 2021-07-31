@@ -43,7 +43,7 @@ __all__ = [
     'CCT_to_uv_Ohno2013'
 ]
 
-_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
 PLANCKIAN_TABLE_TUVD = namedtuple('PlanckianTable_Tuvdi',
                                   ('Ti', 'ui', 'vi', 'di'))
@@ -202,7 +202,7 @@ def _uv_to_CCT_Ohno2013(uv,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     # Ensuring we do at least one iteration to initialise variables.
@@ -314,7 +314,7 @@ def uv_to_CCT_Ohno2013(uv,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     uv = as_float_array(uv)
@@ -348,7 +348,7 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     CCT, D_uv = tsplit(CCT_D_uv)
@@ -420,7 +420,7 @@ def CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     CCT_D_uv = as_float_array(CCT_D_uv)

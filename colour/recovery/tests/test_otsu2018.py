@@ -32,9 +32,9 @@ __all__ = [
     'TestNodeTree_Otsu2018'
 ]
 
-_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
-_DEFAULT_ILLUMINANT = 'D65'
+_ILLUMINANT_DEFAULT = 'D65'
 
 
 class TestDataset_Otsu2018(unittest.TestCase):
@@ -78,11 +78,11 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
         self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS], self._shape)
+            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
 
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                   self._shape)
-        self._xy_D65 = CCS_ILLUMINANTS[_DEFAULT_MSDS_CMFS][_DEFAULT_ILLUMINANT]
+        self._xy_D65 = CCS_ILLUMINANTS[_MSDS_CMFS_DEFAULT][_ILLUMINANT_DEFAULT]
 
     def test_XYZ_to_sd_Otsu2018(self):
         """
@@ -205,11 +205,11 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
         self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS], self._shape)
+            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
 
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                   self._shape)
-        self._xy_D65 = CCS_ILLUMINANTS[_DEFAULT_MSDS_CMFS][_DEFAULT_ILLUMINANT]
+        self._xy_D65 = CCS_ILLUMINANTS[_MSDS_CMFS_DEFAULT][_ILLUMINANT_DEFAULT]
 
         self._temporary_directory = tempfile.mkdtemp()
 

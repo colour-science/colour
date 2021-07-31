@@ -49,9 +49,9 @@ __all__ = [
     'PartitionAxis', 'Data', 'Node', 'NodeTree_Otsu2018'
 ]
 
-_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
-_DEFAULT_ILLUMINANT = 'D65'
+_ILLUMINANT_DEFAULT = 'D65'
 
 
 class Dataset_Otsu2018:
@@ -441,11 +441,11 @@ def XYZ_to_sd_Otsu2018(XYZ,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_OTSU2018)
 
     if illuminant is None:
-        illuminant = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+        illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                 SPECTRAL_SHAPE_OTSU2018)
 
     XYZ = to_domain_1(XYZ)
@@ -1262,11 +1262,11 @@ class NodeTree_Otsu2018(Node):
 
         if cmfs is None:
             cmfs = reshape_msds(
-                MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                 SPECTRAL_SHAPE_OTSU2018)
 
         if illuminant is None:
-            illuminant = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+            illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                     SPECTRAL_SHAPE_OTSU2018)
 
         self._cmfs = cmfs

@@ -61,9 +61,9 @@ Spectral shape for *Jakob and Hanika (2019)* method.
 SPECTRAL_SHAPE_JAKOB2019 : SpectralShape
 """
 
-_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
-_DEFAULT_ILLUMINANT = 'D65'
+_ILLUMINANT_DEFAULT = 'D65'
 
 
 class StopMinimizationEarly(Exception):
@@ -394,11 +394,11 @@ def find_coefficients_Jakob2019(XYZ,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_JAKOB2019)
 
     if illuminant is None:
-        illuminant = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+        illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                 SPECTRAL_SHAPE_JAKOB2019)
 
     shape = cmfs.shape
@@ -567,11 +567,11 @@ def XYZ_to_sd_Jakob2019(XYZ,
     """
 
     if cmfs is None:
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_JAKOB2019)
 
     if illuminant is None:
-        illuminant = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+        illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                 SPECTRAL_SHAPE_JAKOB2019)
 
     XYZ = to_domain_1(XYZ)
@@ -830,11 +830,11 @@ class LUT3D_Jakob2019:
 
         if cmfs is None:
             cmfs = reshape_msds(
-                MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS],
+                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                 SPECTRAL_SHAPE_JAKOB2019)
 
         if illuminant is None:
-            illuminant = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+            illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                     SPECTRAL_SHAPE_JAKOB2019)
 
         shape = cmfs.shape

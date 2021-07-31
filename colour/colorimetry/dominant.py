@@ -43,7 +43,7 @@ __all__ = [
     'complementary_wavelength', 'excitation_purity', 'colorimetric_purity'
 ]
 
-_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
 
 def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
@@ -185,7 +185,7 @@ def dominant_wavelength(xy, xy_n, cmfs=None, inverse=False):
     """
 
     if cmfs is None:
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
 
     xy = as_float_array(xy)
     xy_n = np.resize(xy_n, xy.shape)
@@ -276,7 +276,7 @@ def complementary_wavelength(xy, xy_n, cmfs=None):
     """
 
     if cmfs is None:
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
 
     return dominant_wavelength(xy, xy_n, cmfs, True)
 
@@ -317,7 +317,7 @@ def excitation_purity(xy, xy_n, cmfs=None):
     """
 
     if cmfs is None:
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
 
@@ -362,7 +362,7 @@ def colorimetric_purity(xy, xy_n, cmfs=None):
     """
 
     if cmfs is None:
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS]
+        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
 
     xy = as_float_array(xy)
 

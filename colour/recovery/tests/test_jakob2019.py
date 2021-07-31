@@ -31,9 +31,9 @@ __all__ = [
     'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestLUT3D_Jakob2019'
 ]
 
-_DEFAULT_MSDS_CMFS = 'CIE 1931 2 Degree Standard Observer'
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
-_DEFAULT_ILLUMINANT = 'D65'
+_ILLUMINANT_DEFAULT = 'D65'
 
 
 class TestErrorFunction(unittest.TestCase):
@@ -49,13 +49,13 @@ class TestErrorFunction(unittest.TestCase):
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS], self._shape)
+            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
 
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                   self._shape)
         self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
         self._XYZ_D65 /= self._XYZ_D65[1]
-        self._xy_D65 = CCS_ILLUMINANTS[_DEFAULT_MSDS_CMFS][_DEFAULT_ILLUMINANT]
+        self._xy_D65 = CCS_ILLUMINANTS[_MSDS_CMFS_DEFAULT][_ILLUMINANT_DEFAULT]
 
         self._Lab_e = np.array([72, -20, 61])
 
@@ -150,8 +150,8 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS], self._shape)
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                   self._shape)
 
     def test_XYZ_to_sd_Jakob2019(self):
@@ -207,11 +207,11 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_DEFAULT_MSDS_CMFS], self._shape)
+            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
 
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT],
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
                                   self._shape)
-        self._xy_D65 = CCS_ILLUMINANTS[_DEFAULT_MSDS_CMFS][_DEFAULT_ILLUMINANT]
+        self._xy_D65 = CCS_ILLUMINANTS[_MSDS_CMFS_DEFAULT][_ILLUMINANT_DEFAULT]
 
         self._temporary_directory = tempfile.mkdtemp()
 
