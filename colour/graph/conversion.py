@@ -762,7 +762,6 @@ def describe_conversion_path(source,
             message_box(message, width, padding, print_callable)
 
 
-@domain_range_scale('1')
 def convert(a, source, target, **kwargs):
     """
     Converts given object :math:`a` from source colour representation to target
@@ -981,7 +980,8 @@ verbose={'mode': 'Long'})
         # conversion function name.
         filtered_kwargs.update(kwargs.get(conversion_function_name, {}))
 
-        a = conversion_function(a, **filtered_kwargs)
+        with domain_range_scale('1'):
+            a = conversion_function(a, **filtered_kwargs)
 
         if conversion_function_name in verbose_kwargs:
             verbose_kwargs[conversion_function_name]['return'] = a
