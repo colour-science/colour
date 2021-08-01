@@ -95,6 +95,7 @@ def matrix_RGB_to_WSYBRG(cmfs, primaries):
     WSYBRG = vector_dot(MATRIX_LMS_TO_WSYBRG, cmfs.values)
     WS, YB, RG = tsplit(WSYBRG)
 
+    # pylint: disable=E1102
     primaries = reshape_msds(
         primaries,
         cmfs.shape,
@@ -278,6 +279,7 @@ def matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS):
     """
 
     if cmfs.shape.interval != 1:
+        # pylint: disable=E1102
         cmfs = reshape_msds(cmfs, SpectralShape(interval=1), 'Interpolate')
 
     M_n = matrix_RGB_to_WSYBRG(cmfs, primaries)

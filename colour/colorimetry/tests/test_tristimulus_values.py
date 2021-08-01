@@ -541,6 +541,7 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
         shape = SpectralShape(360, 830, 10)
         cmfs_1 = MSDS_CMFS_STANDARD_OBSERVER[
             'CIE 1964 10 Degree Standard Observer']
+        # pylint: disable=E1102
         cmfs_2 = reshape_msds(cmfs_1, shape)
         A_1 = sd_CIE_standard_illuminant_A(cmfs_1.shape)
         A_2 = sd_CIE_standard_illuminant_A(cmfs_2.shape)
@@ -1116,6 +1117,7 @@ msds_to_XYZ_ASTME308` definition.
 
         cmfs = MSDS_CMFS_STANDARD_OBSERVER[
             'CIE 1931 2 Degree Standard Observer']
+        # pylint: disable=E1102
         msds = reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20))
         np.testing.assert_almost_equal(
             msds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS['D65']),
@@ -1138,6 +1140,7 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
+                # pylint: disable=E1102
                 np.testing.assert_almost_equal(
                     msds_to_XYZ_ASTME308(
                         reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20)),

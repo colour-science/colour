@@ -888,6 +888,7 @@ class TestMatrixIdt(unittest.TestCase):
         training_data = sds_and_msds_to_msds(
             SDS_COLOURCHECKERS['BabelColor Average'].values())
 
+        # pylint: disable=E1102
         np.testing.assert_allclose(
             matrix_idt(
                 reshape_msds(MSDS_CAMERA_SENSITIVITIES['Nikon 5100 (NPL)'],

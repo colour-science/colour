@@ -394,6 +394,7 @@ def find_coefficients_Jakob2019(XYZ,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_JAKOB2019)
 
@@ -567,6 +568,7 @@ def XYZ_to_sd_Jakob2019(XYZ,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_JAKOB2019)
 
@@ -829,6 +831,7 @@ class LUT3D_Jakob2019:
         """
 
         if cmfs is None:
+            # pylint: disable=E1102
             cmfs = reshape_msds(
                 MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                 SPECTRAL_SHAPE_JAKOB2019)

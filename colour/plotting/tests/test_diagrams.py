@@ -70,6 +70,7 @@ class TestPlotSpectralLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
+        # pylint: disable=E1102
         figure, axes = plot_spectral_locus(
             reshape_msds(
                 MSDS_CMFS_STANDARD_OBSERVER[

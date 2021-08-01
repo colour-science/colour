@@ -34,6 +34,7 @@ class TestXYZ_to_sd(unittest.TestCase):
         Initialises common tests attributes.
         """
 
+        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
             SpectralShape(360, 780, 10))

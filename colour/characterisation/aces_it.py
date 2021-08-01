@@ -537,6 +537,7 @@ def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
     if training_data.shape != shape:
         runtime_warning('Aligning "{0}" training data shape to "{1}".'.format(
             training_data.name, shape))
+        # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape)
 
     RGB_w = white_balance_multipliers(sensitivities, illuminant)
@@ -610,6 +611,7 @@ def training_data_sds_to_XYZ(training_data,
     if training_data.shape != shape:
         runtime_warning('Aligning "{0}" training data shape to "{1}".'.format(
             training_data.name, shape))
+        # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape)
 
     XYZ = np.dot(
@@ -822,6 +824,7 @@ def matrix_idt(sensitivities,
         training_data = read_training_data_rawtoaces_v1()
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(
             MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
             SPECTRAL_SHAPE_RAWTOACES)
@@ -830,6 +833,7 @@ def matrix_idt(sensitivities,
     if sensitivities.shape != shape:
         runtime_warning('Aligning "{0}" sensitivities shape to "{1}".'.format(
             sensitivities.name, shape))
+        # pylint: disable=E1102
         sensitivities = reshape_msds(sensitivities, shape)
 
     if illuminant.shape != shape:
@@ -840,6 +844,7 @@ def matrix_idt(sensitivities,
     if training_data.shape != shape:
         runtime_warning('Aligning "{0}" training data shape to "{1}".'.format(
             training_data.name, shape))
+        # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape)
 
     illuminant = normalise_illuminant(illuminant, sensitivities)

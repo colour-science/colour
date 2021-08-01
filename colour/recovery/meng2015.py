@@ -154,6 +154,7 @@ def XYZ_to_sd_Meng2015(XYZ,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(
             MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
             SPECTRAL_SHAPE_MENG2015, 'Trim')

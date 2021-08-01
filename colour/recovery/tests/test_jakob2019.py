@@ -48,6 +48,7 @@ class TestErrorFunction(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
+        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
 
@@ -149,6 +150,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
+        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
@@ -206,6 +208,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         self._RGB_colourspace = RGB_COLOURSPACE_sRGB
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
+        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
 

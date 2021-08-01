@@ -441,6 +441,7 @@ def XYZ_to_sd_Otsu2018(XYZ,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_OTSU2018)
 
@@ -1261,6 +1262,7 @@ class NodeTree_Otsu2018(Node):
         self._reflectances = as_float_array(reflectances)
 
         if cmfs is None:
+            # pylint: disable=E1102
             cmfs = reshape_msds(
                 MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                 SPECTRAL_SHAPE_OTSU2018)

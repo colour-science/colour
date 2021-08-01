@@ -156,10 +156,12 @@ def colour_fidelity_index_CIE2017(sd_test, additional_data=False):
 
     # NOTE: All computations except CCT calculation use the
     # "CIE 1964 10 Degree Standard Observer".
+    # pylint: disable=E1102
     cmfs_10 = reshape_msds(
         MSDS_CMFS_STANDARD_OBSERVER['CIE 1964 10 Degree Standard Observer'],
         shape)
 
+    # pylint: disable=E1102
     sds_tcs = reshape_msds(load_TCS_CIE2017(shape), shape)
 
     test_tcs_colorimetry_data = tcs_colorimetry_data(sd_test, sds_tcs, cmfs_10)

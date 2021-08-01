@@ -77,6 +77,7 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
+        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
 
@@ -204,6 +205,7 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
+        # pylint: disable=E1102
         self._cmfs = reshape_msds(
             MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
 

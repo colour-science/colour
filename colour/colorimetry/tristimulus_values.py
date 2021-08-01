@@ -475,6 +475,7 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None):
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT)
 
@@ -592,6 +593,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_ASTME308, 'Trim')
 
@@ -601,6 +603,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
     if cmfs.shape.interval != 1:
         runtime_warning('Interpolating "{0}" cmfs to 1nm interval.'.format(
             cmfs.name))
+        # pylint: disable=E1102
         cmfs = reshape_msds(cmfs, SpectralShape(interval=1), 'Interpolate')
 
     if illuminant.shape != cmfs.shape:
@@ -726,6 +729,7 @@ def sd_to_XYZ_ASTME308(sd,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_ASTME308, 'Trim')
 
@@ -739,6 +743,7 @@ def sd_to_XYZ_ASTME308(sd,
             'with measurement interval of 1, 5, 10 or 20nm!')
 
     if use_practice_range:
+        # pylint: disable=E1102
         cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_ASTME308, 'Trim')
 
     method = sd_to_XYZ_tristimulus_weighting_factors_ASTME308
@@ -746,6 +751,7 @@ def sd_to_XYZ_ASTME308(sd,
         method = sd_to_XYZ_integration
     elif sd.shape.interval == 5 and mi_5nm_omission_method:
         if cmfs.shape.interval != 5:
+            # pylint: disable=E1102
             cmfs = reshape_msds(cmfs, SpectralShape(interval=5), 'Interpolate')
         method = sd_to_XYZ_integration
     elif sd.shape.interval == 20 and mi_20nm_interpolation_method:
@@ -917,6 +923,7 @@ def sd_to_XYZ(sd,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT)
 
@@ -1085,6 +1092,7 @@ def msds_to_XYZ_integration(msds,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT)
 
@@ -1108,6 +1116,7 @@ def msds_to_XYZ_integration(msds,
         if cmfs.shape != shape:
             runtime_warning('Aligning "{0}" cmfs shape to "{1}".'.format(
                 cmfs.name, shape))
+            # pylint: disable=E1102
             cmfs = reshape_msds(cmfs, shape)
 
         if illuminant.shape != shape:
@@ -1246,6 +1255,7 @@ def msds_to_XYZ_ASTME308(msds,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_ASTME308, 'Trim')
 
@@ -1448,6 +1458,7 @@ def msds_to_XYZ(msds,
     """
 
     if cmfs is None:
+        # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
                             SPECTRAL_SHAPE_DEFAULT)
 

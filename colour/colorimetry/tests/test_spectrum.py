@@ -1684,6 +1684,7 @@ MultiSpectralDistributions.__init__` method.
 MultiSpectralDistributions.interpolate` method.
         """
 
+        # pylint: disable=E1102
         msds = reshape_msds(
             self._sample_msds, SpectralShape(interval=1), 'Interpolate')
         for signal in msds.signals.values():
@@ -1696,6 +1697,7 @@ MultiSpectralDistributions.interpolate` method.
         if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
             return  # pragma: no cover
 
+        # pylint: disable=E1102
         msds = reshape_msds(
             self._non_uniform_sample_msds,
             SpectralShape(interval=1),
