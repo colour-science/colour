@@ -1139,4 +1139,4 @@ def index_along_last_axis(a, indexes):
             a.shape, indexes.shape))
 
     return np.take_along_axis(
-        a, np.expand_dims(indexes, axis=-1), axis=-1).squeeze(axis=-1)
+        a, indexes[..., np.newaxis], axis=-1).squeeze(axis=-1)

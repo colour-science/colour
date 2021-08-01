@@ -927,7 +927,7 @@ class LUT3D_Jakob2019:
         RGB = as_float_array(RGB)
 
         value_max = np.max(RGB, axis=-1)
-        chroma = RGB / (np.expand_dims(value_max, -1) + 1e-10)
+        chroma = RGB / (value_max[..., np.newaxis] + 1e-10)
 
         i_m = np.argmax(RGB, axis=-1)
         i_1 = index_along_last_axis(RGB, i_m)
