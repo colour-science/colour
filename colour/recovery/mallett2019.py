@@ -169,13 +169,13 @@ def spectral_primary_decomposition_Mallett2019(
 
     primaries = np.identity(3).reshape(9)
 
-    # Ensure the reflectances correspond to the correct RGB colours.
+    # Ensure that the reflectances correspond to the correct RGB colours.
     colour_match = LinearConstraint(basis_to_RGB, primaries, primaries)
 
-    # Ensure the reflectances are bounded by [0, 1].
+    # Ensure that the reflectances are bounded by [0, 1].
     energy_conservation = Bounds(np.zeros(3 * N), np.ones(3 * N))
 
-    # Ensure the sum of the three bases is bounded by [0, 1].
+    # Ensure that the sum of the three bases is bounded by [0, 1].
     sum_matrix = np.transpose(np.tile(np.identity(N), (3, 1)))
     sum_constraint = LinearConstraint(sum_matrix, np.zeros(N), np.ones(N))
 
