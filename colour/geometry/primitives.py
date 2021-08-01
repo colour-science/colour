@@ -61,7 +61,7 @@ def primitive_grid(width=1,
                    height_segments=1,
                    axis='+z'):
     """
-    Generates vertices and indices for a filled and outlined grid primitive.
+    Generates vertices and indexes for a filled and outlined grid primitive.
 
     Parameters
     ----------
@@ -82,8 +82,8 @@ def primitive_grid(width=1,
     Returns
     -------
     tuple
-        Tuple of grid vertices, face indices to produce a filled grid and
-        outline indices to produce an outline of the faces of the grid.
+        Tuple of grid vertices, face indexes to produce a filled grid and
+        outline indexes to produce an outline of the faces of the grid.
 
     References
     ----------
@@ -194,7 +194,7 @@ def primitive_cube(width=1,
                    depth_segments=1,
                    planes=None):
     """
-    Generates vertices and indices for a filled and outlined cube primitive.
+    Generates vertices and indexes for a filled and outlined cube primitive.
 
     Parameters
     ----------
@@ -218,8 +218,8 @@ def primitive_cube(width=1,
     Returns
     -------
     tuple
-        Tuple of cube vertices, face indices to produce a filled cube and
-        outline indices to produce an outline of the faces of the cube.
+        Tuple of cube vertices, face indexes to produce a filled cube and
+        outline indexes to produce an outline of the faces of the cube.
 
     Examples
     --------

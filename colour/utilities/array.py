@@ -1123,7 +1123,7 @@ def index_along_last_axis(a, indexes):
     ... )
     True
 
-    In particular, this can be used to manipulate the indices given by
+    In particular, this can be used to manipulate the indexes given by
     functions like :func:`np.min` before indexing the array. For example, to
     get elements directly following the smallest elements:
 
