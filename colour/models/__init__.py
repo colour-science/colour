@@ -38,6 +38,7 @@ from .jzazbz import XYZ_to_JzAzBz, JzAzBz_to_XYZ
 from .hdr_ipt import HDR_IPT_METHODS, XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from .oklab import XYZ_to_Oklab, Oklab_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
+from .prolab import ProLab_to_XYZ, XYZ_to_ProLab
 from .datasets import *  # noqa
 from . import datasets
 from .rgb import *  # noqa
@@ -88,6 +89,7 @@ __all__ += ['XYZ_to_JzAzBz', 'JzAzBz_to_XYZ']
 __all__ += ['HDR_IPT_METHODS', 'XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ']
 __all__ += ['XYZ_to_Oklab', 'Oklab_to_XYZ']
 __all__ += ['XYZ_to_OSA_UCS', 'OSA_UCS_to_XYZ']
+__all__ += ['ProLab_to_XYZ', 'XYZ_to_ProLab']
 __all__ += datasets.__all__
 __all__ += rgb.__all__
 
