@@ -93,6 +93,7 @@ from .jzazbz import (
 from .hdr_ipt import HDR_IPT_METHODS, XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from .oklab import XYZ_to_Oklab, Oklab_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
+from .prolab import XYZ_to_ProLab, ProLab_to_XYZ
 from .datasets import (
     DATA_MACADAM_1942_ELLIPSES,
     CCS_ILLUMINANT_POINTER_GAMUT,
@@ -457,6 +458,10 @@ __all__ += [
 __all__ += [
     "XYZ_to_OSA_UCS",
     "OSA_UCS_to_XYZ",
+]
+__all__ += [
+    "XYZ_to_ProLab",
+    "ProLab_to_XYZ",
 ]
 __all__ += [
     "DATA_MACADAM_1942_ELLIPSES",
