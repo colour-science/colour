@@ -29,7 +29,7 @@ __status__ = 'Production'
 
 __all__ = [
     'MATRIX_IGPGTG_XYZ_TO_LMS', 'MATRIX_IGPGTG_LMS_TO_XYZ',
-    'MATRIX_IGPGTG_LMS_TO_IGPGTG', 'MATRIX_IGPGTG_IGPGTG_TO_LMS',
+    'MATRIX_IGPGTG_LMS_P_TO_IGPGTG', 'MATRIX_IGPGTG_IGPGTG_TO_LMS_P',
     'XYZ_to_IgPgTg', 'IgPgTg_to_XYZ'
 ]
 
@@ -51,22 +51,22 @@ Normalised cone responses to *CIE XYZ* tristimulus values matrix.
 MATRIX_IGPGTG_LMS_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_IGPGTG_LMS_TO_IGPGTG = np.array([
+MATRIX_IGPGTG_LMS_P_TO_IGPGTG = np.array([
     [0.117, 1.464, 0.130],
     [8.285, -8.361, 21.400],
     [-1.208, 2.412, -36.530],
 ])
 """
-Normalised cone responses to :math:`I_GP_GT_G` colourspace matrix.
+Normalised non-linear cone responses to :math:`I_GP_GT_G` colourspace matrix.
 
-MATRIX_IGPGTG_LMS_TO_IGPGTG : array_like, (3, 3)
+MATRIX_IGPGTG_LMS_P_TO_IGPGTG : array_like, (3, 3)
 """
 
-MATRIX_IGPGTG_IGPGTG_TO_LMS = np.linalg.inv(MATRIX_IGPGTG_LMS_TO_IGPGTG)
+MATRIX_IGPGTG_IGPGTG_TO_LMS_P = np.linalg.inv(MATRIX_IGPGTG_LMS_P_TO_IGPGTG)
 """
-:math:`I_GP_GT_G` colourspace to normalised cone responses matrix.
+:math:`I_GP_GT_G` colourspace to normalised non-linear cone responses matrix.
 
-MATRIX_IGPGTG_IGPGTG_TO_LMS : array_like, (3, 3)
+MATRIX_IGPGTG_IGPGTG_TO_LMS_P : array_like, (3, 3)
 """
 
 
@@ -122,7 +122,7 @@ def XYZ_to_IgPgTg(XYZ):
 
     LMS = vector_dot(MATRIX_IGPGTG_XYZ_TO_LMS, XYZ)
     LMS_prime = spow(LMS / np.array([18.36, 21.46, 19435]), 0.427)
-    IgPgTg = vector_dot(MATRIX_IGPGTG_LMS_TO_IGPGTG, LMS_prime)
+    IgPgTg = vector_dot(MATRIX_IGPGTG_LMS_P_TO_IGPGTG, LMS_prime)
 
     return from_range_1(IgPgTg)
 
@@ -174,7 +174,7 @@ def IgPgTg_to_XYZ(IgPgTg):
 
     IgPgTg = to_domain_1(IgPgTg)
 
-    LMS = vector_dot(MATRIX_IGPGTG_IGPGTG_TO_LMS, IgPgTg)
+    LMS = vector_dot(MATRIX_IGPGTG_IGPGTG_TO_LMS_P, IgPgTg)
     LMS_prime = spow(LMS, 1 / 0.427) * np.array([18.36, 21.46, 19435])
     XYZ = vector_dot(MATRIX_IGPGTG_LMS_TO_XYZ, LMS_prime)
 
