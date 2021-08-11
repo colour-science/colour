@@ -109,7 +109,7 @@ def oetf_DaVinciIntermediate(L, constants=CONSTANTS_DAVINCI_INTERMEDIATE):
 def oetf_inverse_DaVinciIntermediate(V,
                                      constants=CONSTANTS_DAVINCI_INTERMEDIATE):
     """
-    Defines the *DaVinci Intermediate*  inverse opto-electronic transfer
+    Defines the *DaVinci Intermediate* inverse opto-electronic transfer
     function (OETF / OECF).
 
     Parameters
