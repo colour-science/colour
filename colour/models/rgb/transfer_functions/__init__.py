@@ -12,6 +12,8 @@ from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScct, log_decoding_ACEScct)
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_inverse_ARIBSTDB67
 from .arri_alexa_log_c import log_encoding_ALEXALogC, log_decoding_ALEXALogC
+from .blackmagic_design import (oetf_BlackmagicFilmGeneration5,
+                                oetf_inverse_BlackmagicFilmGeneration5)
 from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
                         log_encoding_CanonLog3, log_decoding_CanonLog3)
@@ -71,6 +73,9 @@ __all__ += [
 ]
 __all__ += ['oetf_ARIBSTDB67', 'oetf_inverse_ARIBSTDB67']
 __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
+__all__ += [
+    'oetf_BlackmagicFilmGeneration5', 'oetf_inverse_BlackmagicFilmGeneration5'
+]
 __all__ += [
     'log_encoding_CanonLog', 'log_decoding_CanonLog', 'log_encoding_CanonLog2',
     'log_decoding_CanonLog2', 'log_encoding_CanonLog3',
@@ -433,6 +438,7 @@ __all__ += ['log_encoding', 'log_decoding']
 
 OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
+    'Blackmagic Film Generation 5': oetf_BlackmagicFilmGeneration5,
     'DaVinci Intermediate': oetf_DaVinciIntermediate,
     'ITU-R BT.2100 HLG': oetf_HLG_BT2100,
     'ITU-R BT.2100 PQ': oetf_PQ_BT2100,
@@ -444,8 +450,9 @@ OETFS.__doc__ = """
 Supported opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS : CaseInsensitiveMapping
-    **{'ITU-R BT.709', 'ARIB STD-B67', 'DaVinci Intermediate',
-    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M'}**
+    **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
+    'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+    'ITU-R BT.601', 'SMPTE 240M'}**
 """
 
 
@@ -460,13 +467,17 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'DaVinci Intermediate',
-        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601',
-        'SMPTE 240M'}**,
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
+        'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+        'ITU-R BT.601', 'SMPTE 240M'}**,
         Opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
     ----------------
+    contants : Structure, optional
+        {:func:`colour.models.oetf_BlackmagicFilmGeneration5`,
+        :func:`colour.models.oetf_DaVinciIntermediate`},
+        Colour component transfer function constants.
     r : numeric, optional
         {:func:`colour.models.oetf_ARIBSTDB67`},
         Video level corresponding to reference white level.
@@ -494,6 +505,7 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
 
 OETF_INVERSES = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_inverse_ARIBSTDB67,
+    'Blackmagic Film Generation 5': oetf_inverse_BlackmagicFilmGeneration5,
     'DaVinci Intermediate': oetf_inverse_DaVinciIntermediate,
     'ITU-R BT.2100 HLG': oetf_inverse_HLG_BT2100,
     'ITU-R BT.2100 PQ': oetf_inverse_PQ_BT2100,
@@ -504,8 +516,9 @@ OETF_INVERSES.__doc__ = """
 Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 
 OETF_INVERSES : CaseInsensitiveMapping
-    **{'ITU-R BT.709', 'ARIB STD-B67', 'DaVinci Intermediate',
-    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'SMPTE 240M'}**
+    **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
+    'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+    'ITU-R BT.601', 'SMPTE 240M'}**
 """
 
 
@@ -520,13 +533,17 @@ def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'DaVinci Intermediate',
-        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601',
-        'SMPTE 240M'}**,
+        **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
+        'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+        'ITU-R BT.601', 'SMPTE 240M'}**,
         Inverse opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
     ----------------
+    contants : Structure, optional
+        {:func:`colour.models.oetf_BlackmagicFilmGeneration5`,
+        :func:`colour.models.oetf_DaVinciIntermediate`},
+        Colour component transfer function constants.
     r : numeric, optional
         {:func:`colour.models.oetf_inverse_ARIBSTDB67`},
         Video level corresponding to reference white level.

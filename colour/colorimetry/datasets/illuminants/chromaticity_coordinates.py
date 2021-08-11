@@ -36,6 +36,7 @@ The following other illuminants are available for the
 *CIE 1931 2 Degree Standard Observer* only:
 
 - ACES
+- Blackmagic Wide Gamut
 - DCI-P3
 - ICC D50
 
@@ -44,6 +45,9 @@ have been computed according to practise *ASTM E308-15* method.
 
 References
 ----------
+-   :cite:`BlackmagicDesign2021` : Blackmagic Design. (2021). Blackmagic
+    Generation 5 Color Science. https://drive.google.com/file/d/\
+1FF5WO2nvI9GEWb4_EntrBoV9ZIuFToZd/view
 -   :cite:`CIETC1-482004h` : CIE TC 1-48. (2004). CIE 015:2004 Colorimetry,
     3rd Edition. In CIE 015:2004 Colorimetry, 3rd Edition. Commission
     Internationale de l'Eclairage. ISBN:978-3-901906-33-6
@@ -88,6 +92,7 @@ __status__ = 'Production'
 __all__ = [
     'CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931',
     'CCS_ILLUMINANTS_ACES_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931',
     'CCS_ILLUMINANTS_DCI_STANDARD_OBSERVER_2_DEGREE_CIE1931',
     'CCS_ILLUMINANTS_ICC_STANDARD_OBSERVER_2_DEGREE_CIE1931',
     'CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_2_DEGREE_CIE1931',
@@ -175,6 +180,22 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
 
 CCS_ILLUMINANTS_ICC_STANDARD_OBSERVER_2_DEGREE_CIE1931 : CaseInsensitiveMapping
+"""
+
+CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
+    CaseInsensitiveMapping({
+        'Blackmagic Wide Gamut': np.array([0.3127170, 0.3290312]),
+    }))
+"""
+Chromaticity coordinates of the *Blackmagic Design* illuminants for the
+*CIE 1931 2 Degree Standard Observer*.
+
+References
+----------
+:cite:`BlackmagicDesign2021`
+
+CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931 : \
+CaseInsensitiveMapping
 """
 
 CCS_ILLUMINANTS_DCI_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
@@ -401,6 +422,9 @@ CCS_ILLUMINANTS['cie_10_1964'] = (
 
 CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
     CCS_ILLUMINANTS_ACES_STANDARD_OBSERVER_2_DEGREE_CIE1931)
+
+CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
+    CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931)
 
 CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'].update(
     CCS_ILLUMINANTS_DCI_STANDARD_OBSERVER_2_DEGREE_CIE1931)
