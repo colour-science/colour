@@ -528,7 +528,7 @@ def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
     Other Parameters
     ----------------
     r : numeric, optional
-        {:func:`colour.models.oetf_ARIBSTDB67`},
+        {:func:`colour.models.oetf_inverse_ARIBSTDB67`},
         Video level corresponding to reference white level.
 
     Returns
