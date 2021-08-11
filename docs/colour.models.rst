@@ -366,6 +366,12 @@ RGB Colourspaces
     RGB_COLOURSPACE_APPLE_RGB
     RGB_COLOURSPACE_BEST_RGB
     RGB_COLOURSPACE_BETA_RGB
+    RGB_COLOURSPACE_BMD_FILM_V1
+    RGB_COLOURSPACE_BMD_4K_FILM_V1
+    RGB_COLOURSPACE_BMD_4K_FILM_V3
+    RGB_COLOURSPACE_BMD_46K_FILM_V1
+    RGB_COLOURSPACE_BMD_46K_FILM_V3
+    RGB_COLOURSPACE_BMD_WIDE_GAMUT_V4
     RGB_COLOURSPACE_BT470_525
     RGB_COLOURSPACE_BT470_625
     RGB_COLOURSPACE_BT709
@@ -605,6 +611,16 @@ Log Encoding and Decoding
     log_decoding_ACESproxy
     log_encoding_ALEXALogC
     log_decoding_ALEXALogC
+    log_encoding_BMDFilm
+    log_decoding_BMDFilm
+    log_encoding_BMD4KFilm
+    log_decoding_BMD4KFilm
+    log_encoding_BMD46KFilm
+    log_decoding_BMD46KFilm
+    log_encoding_BMDPocket4KFilmV4
+    log_decoding_BMDPocket4KFilmV4
+    log_encoding_BMDPocket6KFilmV4
+    log_decoding_BMDPocket6KFilmV4
     log_encoding_CanonLog2
     log_decoding_CanonLog2
     log_encoding_CanonLog3

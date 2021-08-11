@@ -12,6 +12,11 @@ from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScct, log_decoding_ACEScct)
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_inverse_ARIBSTDB67
 from .arri_alexa_log_c import log_encoding_ALEXALogC, log_decoding_ALEXALogC
+from .blackmagic_design import (
+    log_encoding_BMDFilm, log_decoding_BMDFilm, log_encoding_BMD4KFilm,
+    log_decoding_BMD4KFilm, log_encoding_BMD46KFilm, log_decoding_BMD46KFilm,
+    log_encoding_BMDPocket4KFilmV4, log_decoding_BMDPocket4KFilmV4,
+    log_encoding_BMDPocket6KFilmV4, log_decoding_BMDPocket6KFilmV4)
 from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
                         log_encoding_CanonLog3, log_decoding_CanonLog3)
@@ -71,6 +76,13 @@ __all__ += [
 ]
 __all__ += ['oetf_ARIBSTDB67', 'oetf_inverse_ARIBSTDB67']
 __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
+__all__ += [
+    'log_encoding_BMDFilm', 'log_decoding_BMDFilm', 'log_encoding_BMD4KFilm',
+    'log_decoding_BMD4KFilm', 'log_encoding_BMD46KFilm',
+    'log_decoding_BMD46KFilm', 'log_encoding_BMDPocket4KFilmV4',
+    'log_decoding_BMDPocket4KFilmV4', 'log_encoding_BMDPocket6KFilmV4',
+    'log_decoding_BMDPocket6KFilmV4'
+]
 __all__ += [
     'log_encoding_CanonLog', 'log_decoding_CanonLog', 'log_encoding_CanonLog2',
     'log_decoding_CanonLog2', 'log_encoding_CanonLog3',
@@ -133,6 +145,11 @@ LOG_ENCODINGS = CaseInsensitiveMapping({
     'ACEScct': log_encoding_ACEScct,
     'ACESproxy': log_encoding_ACESproxy,
     'ALEXA Log C': log_encoding_ALEXALogC,
+    'Blackmagic Film': log_encoding_BMDFilm,
+    'Blackmagic 4K Film': log_encoding_BMD4KFilm,
+    'Blackmagic 4.6K Film': log_encoding_BMD46KFilm,
+    'Blackmagic Pocket 4K Film': log_encoding_BMDPocket4KFilmV4,
+    'Blackmagic Pocket 6K Film': log_encoding_BMDPocket6KFilmV4,
     'Canon Log 2': log_encoding_CanonLog2,
     'Canon Log 3': log_encoding_CanonLog3,
     'Canon Log': log_encoding_CanonLog,
@@ -161,11 +178,12 @@ LOG_ENCODINGS.__doc__ = """
 Supported *log* encoding functions.
 
 LOG_ENCODINGS : CaseInsensitiveMapping
-    **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog', 'PLog',
-    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-    'V-Log', 'ViperLog'}**
+    **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Blackmagic Film',
+    'Blackmagic 4K Film', 'Blackmagic 4.6K Film', 'Blackmagic Pocket 4K Film',
+    'Blackmagic Pocket 6K Film', 'Canon Log 2', 'Canon Log 3', 'Canon Log',
+    'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log', 'Filmic Pro 6', 'Log3G10',
+    'Log3G12', 'N-Log', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
+    'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -179,7 +197,9 @@ def log_encoding(value, function='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
+        **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Blackmagic Film',
+        'Blackmagic 4K Film', 'Blackmagic 4.6K Film',
+        'Blackmagic Pocket 4K Film', 'Blackmagic Pocket 6K Film','Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
         'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog',
         'PLog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
@@ -282,6 +302,11 @@ LOG_DECODINGS = CaseInsensitiveMapping({
     'ACEScct': log_decoding_ACEScct,
     'ACESproxy': log_decoding_ACESproxy,
     'ALEXA Log C': log_decoding_ALEXALogC,
+    'Blackmagic Film': log_decoding_BMDFilm,
+    'Blackmagic 4K Film': log_decoding_BMD4KFilm,
+    'Blackmagic 4.6K Film': log_decoding_BMD46KFilm,
+    'Blackmagic Pocket 4K Film': log_decoding_BMDPocket4KFilmV4,
+    'Blackmagic Pocket 6K Film': log_decoding_BMDPocket6KFilmV4,
     'Canon Log 2': log_decoding_CanonLog2,
     'Canon Log 3': log_decoding_CanonLog3,
     'Canon Log': log_decoding_CanonLog,
@@ -310,11 +335,12 @@ LOG_DECODINGS.__doc__ = """
 Supported *log* decoding functions.
 
 LOG_DECODINGS : CaseInsensitiveMapping
-    **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog', 'PLog',
-    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-    'V-Log', 'ViperLog'}**
+    **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Blackmagic Film',
+    'Blackmagic 4K Film', 'Blackmagic 4.6K Film', 'Blackmagic Pocket 4K Film',
+    'Blackmagic Pocket 6K Film', 'Canon Log 2', 'Canon Log 3', 'Canon Log',
+    'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log', 'Filmic Pro 6', 'Log2', 'Log3G10',
+    'Log3G12', 'N-Log', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
+    'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -328,7 +354,9 @@ def log_decoding(value, function='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
+        **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Blackmagic Film',
+        'Blackmagic 4K Film', 'Blackmagic 4.6K Film',
+        'Blackmagic Pocket 4K Film', 'Blackmagic Pocket 6K Film','Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
         'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', Panalog',
         'PLog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
