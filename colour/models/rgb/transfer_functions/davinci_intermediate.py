@@ -49,8 +49,7 @@ CONSTANTS_DAVINCI_INTERMEDIATE : Structure
 
 def oetf_DaVinciIntermediate(L, constants=CONSTANTS_DAVINCI_INTERMEDIATE):
     """
-    Defines the *DaVinci Intermediate* log encoding curve / opto-electronic
-    transfer function.
+    Defines the *DaVinci Intermediate* opto-electronic transfer function.
 
     Parameters
     ----------
