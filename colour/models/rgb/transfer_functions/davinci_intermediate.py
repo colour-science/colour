@@ -41,7 +41,7 @@ CONSTANTS_DAVINCI_INTERMEDIATE = Structure(
     DI_LIN_CUT=0.00262409,
     DI_LOG_CUT=0.02740668)
 """
-*DaVinci Intermediate* colourspace constants.
+*DaVinci Intermediate* colour component transfer functions constants.
 
 CONSTANTS_DAVINCI_INTERMEDIATE : Structure
 """
@@ -56,7 +56,7 @@ def oetf_DaVinciIntermediate(L, constants=CONSTANTS_DAVINCI_INTERMEDIATE):
     L : numeric or array_like
         Linear light value :math`L`.
     constants : Structure, optional
-        *DaVinci Intermediate* constants.
+        *DaVinci Intermediate* colour component transfer function constants.
 
     Returns
     -------
@@ -116,7 +116,7 @@ def oetf_inverse_DaVinciIntermediate(V,
     V : numeric or ndarray
         Ecoded value :math:`V`.
     constants : Structure, optional
-        *DaVinci Intermediate* constants.
+        *DaVinci Intermediate* colour component transfer function constants.
 
     Returns
     -------
