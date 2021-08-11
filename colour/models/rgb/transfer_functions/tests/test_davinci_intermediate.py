@@ -130,6 +130,9 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition.
             places=7)
 
         self.assertAlmostEqual(
+            oetf_inverse_DaVinciIntermediate(0.513837441116225), 1.0, places=7)
+
+        self.assertAlmostEqual(
             oetf_inverse_DaVinciIntermediate(0.999999987016872),
             100.0,
             places=7)
