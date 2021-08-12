@@ -407,6 +407,8 @@ CONVERSION_SPECIFICATIONS_DATA = [
          Hunter_Rdab_to_XYZ,
          XYZ_n=TVS_ILLUMINANTS_HUNTERLAB['CIE 1931 2 Degree Standard Observer']
          ['D65'].XYZ_n / 100)),
+    ('CIE XYZ', 'ICaCb', XYZ_to_ICaCb),
+    ('ICaCb', 'CIE XYZ', ICaCb_to_XYZ),
     ('CIE XYZ', 'ICtCp', XYZ_to_ICtCp),
     ('ICtCp', 'CIE XYZ', ICtCp_to_XYZ),
     ('CIE XYZ', 'IgPgTg', XYZ_to_IgPgTg),

@@ -194,6 +194,19 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     XYZ_to_CAM16UCS
     CAM16UCS_to_XYZ
 
+:math:``IC_AC_B` Colourspace
+-----------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_ICaCb
+    ICaCb_to_XYZ
+
 :math:`I_GP_GT_G` Colourspace
 -----------------------------
 

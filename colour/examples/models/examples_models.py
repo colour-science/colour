@@ -263,6 +263,18 @@ print(colour.Hunter_Rdab_to_XYZ(R_d_ab))
 print('\n')
 
 XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+message_box(('Converting to "ICaCb" colourspace from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_ICaCb(XYZ))
+
+ICaCb = np.array([0.06875297, 0.05753352, 0.02081548])
+message_box(('Converting to "CIE XYZ" tristimulus values from given "ICaCb" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(ICaCb)))
+print(colour.ICaCb_to_XYZ(ICaCb))
+
+XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 message_box(('Converting to "IgPgTg" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
