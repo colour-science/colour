@@ -19,7 +19,8 @@ References
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import from_range_100, tsplit, tstack, to_domain_100
+from colour.utilities import CaseInsensitiveMapping, from_range_100, \
+    tsplit, tstack, to_domain_100
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,10 +29,21 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['Lab_to_DIN99', 'DIN99_to_Lab']
+__all__ = ['Lab_to_DIN99', 'DIN99_to_Lab', 'DIN99_METHODS']
+
+DIN99_METHODS = CaseInsensitiveMapping({
+    'ASTMD2244-07':
+        np.array([105.51, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]),
+    'b':
+        np.array([303.67, 0.0039, 26.0, 0.83, 23.0, 0.075, 26.0, 1]),
+    'c':
+        np.array([317.65, 0.0037, 0.0, 0.94, 23.0, 0.066, 0.0, 1]),
+    'd':
+        np.array([325.22, 0.0036, 50.0, 1.14, 22.5, 0.06, 50.0, 1]),
+})
 
 
-def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
+def Lab_to_DIN99(Lab, method='ASTMD2244-07', k_E=1, k_CH=1):
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace.
 
@@ -39,6 +51,9 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
     ----------
     Lab : array_like
         *CIE L\\*a\\*b\\** colourspace array.
+    method : string, optional
+        Parametric factor `method` to choose the required DIN99 variant from
+        b, c, or d.
     k_E : numeric, optional
         Parametric factor :math:`K_E` used to compensate for texture and other
         specimen presentation effects.
@@ -85,30 +100,31 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
     >>> Lab_to_DIN99(Lab)  # doctest: +ELLIPSIS
     array([ 53.2282198...,  28.4163465...,   3.8983955...])
     """
+    p = DIN99_METHODS[str(method)]
 
     L, a, b = tsplit(to_domain_100(Lab))
 
-    cos_16 = np.cos(np.radians(16))
-    sin_16 = np.sin(np.radians(16))
+    cos = np.cos(np.radians(p[2]))
+    sin = np.sin(np.radians(p[2]))
 
-    e = cos_16 * a + sin_16 * b
-    f = 0.7 * (-sin_16 * a + cos_16 * b)
+    e = cos * a + sin * b
+    f = p[3] * (-sin * a + cos * b)
     G = spow(e ** 2 + f ** 2, 0.5)
-    h_ef = np.arctan2(f, e)
+    h_ef = np.arctan2(f, e) + np.radians(p[6])
 
-    C_99 = (np.log(1 + 0.045 * G)) / (0.045 * k_CH * k_E)
+    C_99 = p[4] * (np.log(1 + p[5] * G)) / (p[7] * k_CH * k_E)
     # Hue angle is unused currently.
     # h_99 = np.degrees(h_ef)
     a_99 = C_99 * np.cos(h_ef)
     b_99 = C_99 * np.sin(h_ef)
-    L_99 = 105.509 * (np.log(1 + 0.0158 * L)) * k_E
+    L_99 = p[0] * (np.log(1 + p[1] * L)) * k_E
 
     Lab_99 = tstack([L_99, a_99, b_99])
 
     return from_range_100(Lab_99)
 
 
-def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1):
+def DIN99_to_Lab(Lab_99, method='ASTMD2244-07', k_E=1, k_CH=1):
     """
     Converts from *DIN99* colourspace to *CIE L\\*a\\*b\\** colourspace.
 
@@ -116,6 +132,9 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1):
     ----------
     Lab_99 : array_like
         *DIN99* colourspace array.
+    method : string, optional
+        Parametric factor `method` to choose the required DIN99 variant from
+        b, c, or d.
     k_E : numeric, optional
         Parametric factor :math:`K_E` used to compensate for texture and other
         specimen presentation effects.
@@ -162,23 +181,24 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1):
     >>> DIN99_to_Lab(Lab_99)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
+    p = DIN99_METHODS[str(method)]
 
     L_99, a_99, b_99 = tsplit(to_domain_100(Lab_99))
 
-    cos_16 = np.cos(np.radians(16))
-    sin_16 = np.sin(np.radians(16))
+    cos = np.cos(np.radians(p[2]))
+    sin = np.sin(np.radians(p[2]))
 
-    h_99 = np.arctan2(b_99, a_99)
+    h_99 = np.arctan2(b_99, a_99) - np.radians(p[6])
 
     C_99 = np.sqrt(a_99 ** 2 + b_99 ** 2)
-    G = (np.exp(0.045 * C_99 * k_CH * k_E) - 1) / 0.045
+    G = (np.exp((p[7] / p[4]) * (C_99) * k_CH * k_E) - 1) / p[5]
 
     e = G * np.cos(h_99)
     f = G * np.sin(h_99)
 
-    a = e * cos_16 - (f / 0.7) * sin_16
-    b = e * sin_16 + (f / 0.7) * cos_16
-    L = (np.exp(L_99 * k_E / 105.509) - 1) / 0.0158
+    a = e * cos - (f / p[3]) * sin
+    b = e * sin + (f / p[3]) * cos
+    L = (np.exp(L_99 * k_E / p[0]) - 1) / p[1]
 
     Lab = tstack([L, a, b])
 
