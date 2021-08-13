@@ -14,6 +14,7 @@ from .common import XYZ_to_sRGB, sRGB_to_XYZ
 from .cylindrical import (RGB_to_HSV, HSV_to_RGB, RGB_to_HSL, HSL_to_RGB,
                           RGB_to_HCL, HCL_to_RGB)
 from .cmyk import RGB_to_CMY, CMY_to_RGB, CMY_to_CMYK, CMYK_to_CMY
+from .hanbury2003 import RGB_to_IHLS, IHLS_to_RGB
 from .prismatic import RGB_to_Prismatic, Prismatic_to_RGB
 from .ycbcr import (WEIGHTS_YCBCR, matrix_YCbCr, offset_YCbCr, RGB_to_YCbCr,
                     YCbCr_to_RGB, RGB_to_YcCbcCrc, YcCbcCrc_to_RGB)
@@ -35,6 +36,7 @@ __all__ += [
     'HCL_to_RGB'
 ]
 __all__ += ['RGB_to_CMY', 'CMY_to_RGB', 'CMY_to_CMYK', 'CMYK_to_CMY']
+__all__ += ['RGB_to_IHLS', 'IHLS_to_RGB']
 __all__ += ['RGB_to_Prismatic', 'Prismatic_to_RGB']
 __all__ += [
     'WEIGHTS_YCBCR', 'matrix_YCbCr', 'offset_YCbCr', 'RGB_to_YCbCr',

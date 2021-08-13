@@ -645,6 +645,14 @@ HSV Colourspace
     >>> colour.RGB_to_HSV([0.45620519, 0.03081071, 0.04091952])
     array([ 0.99603944,  0.93246304,  0.45620519])
 
+IHLS Colourspace
+****************
+
+.. code-block:: python
+
+    >>> colour.RGB_to_IHLS([0.45620519, 0.03081071, 0.04091952])
+    array([ 6.26236117,  0.12197943,  0.42539448])
+
 Prismatic Colourspace
 *********************
 
