@@ -9,12 +9,12 @@ from collections import OrderedDict
 from functools import partial
 
 from colour.utilities import (
-    batch, multiprocessing_pool, is_iterable, is_string, is_numeric,
-    is_integer, is_sibling, filter_kwargs, filter_mapping, first_item,
-    get_domain_range_scale, set_domain_range_scale, domain_range_scale,
-    to_domain_1, to_domain_10, to_domain_100, to_domain_int, to_domain_degrees,
-    from_range_1, from_range_10, from_range_100, from_range_int,
-    from_range_degrees, validate_method)
+    CacheRegistry, batch, multiprocessing_pool, is_iterable, is_string,
+    is_numeric, is_integer, is_sibling, filter_kwargs, filter_mapping,
+    first_item, get_domain_range_scale, set_domain_range_scale,
+    domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
+    to_domain_int, to_domain_degrees, from_range_1, from_range_10,
+    from_range_100, from_range_int, from_range_degrees, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -32,6 +32,115 @@ __all__ = [
     'TestToDomainInt', 'TestFromRange1', 'TestFromRange10', 'TestFromRange100',
     'TestFromRangeDegrees', 'TestFromRangeInt'
 ]
+
+
+class TestCacheRegistry(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.common.CacheRegistry` class unit
+    tests methods.
+    """
+
+    @staticmethod
+    def _default_test_cache_registry():
+        """
+        Creates a default test cache registry.
+        """
+
+        cache_registry = CacheRegistry()
+        cache_a = cache_registry.register_cache('Cache A')
+        cache_a['Foo'] = 'Bar'
+        cache_b = cache_registry.register_cache('Cache B')
+        cache_b['John'] = 'Doe'
+        cache_b['Luke'] = 'Skywalker'
+
+        return cache_registry
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('registry', )
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(CacheRegistry))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('__init__', '__str__', 'register_cache',
+                            'unregister_cache', 'clear_cache',
+                            'clear_all_caches')
+
+        for method in required_methods:
+            self.assertIn(method, dir(CacheRegistry))
+
+    def test__str__(self):
+        """
+        Tests :class:`colour.utilities.common.CacheRegistry.__str__` method.
+        """
+
+        cache_registry = self._default_test_cache_registry()
+        self.assertEqual(
+            str(cache_registry),
+            "{'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}")
+
+    def test_register_cache(self):
+        """
+        Tests :class:`colour.utilities.common.CacheRegistry.register_cache`
+        method.
+        """
+
+        cache_registry = CacheRegistry()
+        cache_a = cache_registry.register_cache('Cache A')
+        self.assertDictEqual(cache_registry.registry, {'Cache A': cache_a})
+        cache_b = cache_registry.register_cache('Cache B')
+        self.assertDictEqual(cache_registry.registry, {
+            'Cache A': cache_a,
+            'Cache B': cache_b
+        })
+
+    def test_unregister_cache(self):
+        """
+        Tests :class:`colour.utilities.common.CacheRegistry.unregister_cache`
+        method.
+        """
+
+        cache_registry = self._default_test_cache_registry()
+        cache_registry.unregister_cache('Cache A')
+        self.assertNotIn('Cache A', cache_registry.registry)
+        self.assertIn('Cache B', cache_registry.registry)
+
+    def test_clear_cache(self):
+        """
+        Tests :class:`colour.utilities.common.CacheRegistry.clear_cache`
+        method.
+        """
+
+        cache_registry = self._default_test_cache_registry()
+        cache_registry.clear_cache('Cache A')
+        self.assertDictEqual(cache_registry.registry, {
+            'Cache A': {},
+            'Cache B': {
+                'John': 'Doe',
+                'Luke': 'Skywalker'
+            }
+        })
+
+    def test_clear_all_caches(self):
+        """
+        Tests :class:`colour.utilities.common.CacheRegistry.clear_all_caches`
+        method.
+        """
+
+        cache_registry = self._default_test_cache_registry()
+        cache_registry.clear_all_caches()
+        self.assertDictEqual(cache_registry.registry, {
+            'Cache A': {},
+            'Cache B': {}
+        })
 
 
 class TestBatch(unittest.TestCase):

@@ -28,6 +28,39 @@ runtime:
     :func:`colour.utilities.show_warning` definition and thus providing
     complete traceback from the point where the warning occurred.
 
+Caching
+-------
+
+**Colour** uses various internal caches to improve speed and prevent redundant
+processes, notably for spectral related computations.
+
+The internal caches are managed with the `colour.utilities.CACHE_REGISTRY`
+cache registry object:
+
+.. code-block:: python
+
+    import colour
+
+    print(colour.utilities.CACHE_REGISTRY)
+
+.. code-block:: text
+
+    {'colour.colorimetry.spectrum._CACHE_RESHAPED_SDS_AND_MSDS': '0 item(s)',
+     'colour.colorimetry.tristimulus_values._CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS': '0 '
+                                                                                         'item(s)',
+     'colour.colorimetry.tristimulus_values._CACHE_SD_TO_XYZ': '0 item(s)',
+     'colour.colorimetry.tristimulus_values._CACHE_TRISTIMULUS_WEIGHTING_FACTORS': '0 '
+                                                                                   'item(s)',
+     'colour.quality.cfi2017._CACHE_TCS_CIE2017': '0 item(s)',
+     'colour.volume.macadam_limits._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ': '0 item(s)',
+     'colour.volume.macadam_limits._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS': '0 '
+                                                                                      'item(s)',
+     'colour.volume.spectrum._CACHE_OUTER_SURFACE_XYZ': '0 item(s)',
+     'colour.volume.spectrum._CACHE_OUTER_SURFACE_XYZ_POINTS': '0 item(s)'}
+
+See `colour.utilities.CacheRegistry` class documentation for more information
+on how to manage the cache registry.
+
 Using Colour without Scipy
 --------------------------
 

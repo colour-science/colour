@@ -25,6 +25,7 @@ import warnings
 from contextlib import contextmanager
 from collections import OrderedDict
 from copy import copy
+from pprint import pformat
 
 from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
 from colour.utilities import CaseInsensitiveMapping, Lookup
@@ -37,9 +38,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
-    'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
-    'batch', 'disable_multiprocessing', 'multiprocessing_pool',
+    'CacheRegistry', 'CACHE_REGISTRY', 'handle_numpy_errors',
+    'ignore_numpy_errors', 'raise_numpy_errors', 'print_numpy_errors',
+    'warn_numpy_errors', 'ignore_python_warnings', 'batch',
+    'disable_multiprocessing', 'multiprocessing_pool',
     'is_matplotlib_installed', 'is_networkx_installed',
     'is_openimageio_installed', 'is_pandas_installed', 'is_tqdm_installed',
     'required', 'is_iterable', 'is_string', 'is_numeric', 'is_integer',
@@ -50,6 +52,195 @@ __all__ = [
     'from_range_degrees', 'from_range_int', 'copy_definition',
     'validate_method'
 ]
+
+
+class CacheRegistry:
+    """
+    A registry for  mapping-based caches.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.utilities.CacheRegistry.registry`
+
+    Methods
+    -------
+    -   :meth:`~colour.SpectralShape.__init__`
+    -   :meth:`~colour.SpectralShape.__str__`
+    -   :meth:`~colour.SpectralShape.register_cache`
+    -   :meth:`~colour.SpectralShape.unregister_cache`
+    -   :meth:`~colour.SpectralShape.clear_cache`
+    -   :meth:`~colour.SpectralShape.clear_all_caches`
+
+    Examples
+    --------
+    >>> cache_registry = CacheRegistry()
+    >>> cache_a = cache_registry.register_cache('Cache A')
+    >>> cache_a['Foo'] = 'Bar'
+    >>> cache_b = cache_registry.register_cache('Cache B')
+    >>> cache_b['John'] = 'Doe'
+    >>> cache_b['Luke'] = 'Skywalker'
+    >>> print(cache_registry)
+    {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
+    >>> cache_registry.clear_cache('Cache A')
+    >>> print(cache_registry)
+    {'Cache A': '0 item(s)', 'Cache B': '2 item(s)'}
+    >>> cache_registry.unregister_cache('Cache B')
+    >>> print(cache_registry)
+    {'Cache A': '0 item(s)'}
+    >>> print(cache_b)
+    {}
+    """
+
+    def __init__(self):
+        self._registry = {}
+
+    @property
+    def registry(self):
+        """
+        Getter and setter property for the cache registry.
+
+        Returns
+        -------
+        numeric
+            Cache registry.
+        """
+
+        return self._registry
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the cache registry.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        return pformat({
+            name: '{0} item(s)'.format(len(self._registry[name]))
+            for name in sorted(self._registry)
+        })
+
+    def register_cache(self, name):
+        """
+        Registers a new cache with given name in the registry.
+
+        Parameters
+        ----------
+        name : unicode
+            Cache name for the registry.
+
+        Returns
+        -------
+        dict
+            Registered cache.
+
+        Examples
+        --------
+        >>> cache_registry = CacheRegistry()
+        >>> cache_a = cache_registry.register_cache('Cache A')
+        >>> cache_a['Foo'] = 'Bar'
+        >>> cache_b = cache_registry.register_cache('Cache B')
+        >>> cache_b['John'] = 'Doe'
+        >>> cache_b['Luke'] = 'Skywalker'
+        >>> print(cache_registry)
+        {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
+        """
+
+        cache = {}
+
+        self._registry[name] = cache
+
+        return cache
+
+    def unregister_cache(self, name):
+        """
+        Unregisters cache with given name in the registry.
+
+        Parameters
+        ----------
+        name : unicode
+            Cache name in the registry.
+
+        Notes
+        -----
+        -   The cache is cleared before being unregistered.
+
+        Examples
+        --------
+        >>> cache_registry = CacheRegistry()
+        >>> cache_a = cache_registry.register_cache('Cache A')
+        >>> cache_a['Foo'] = 'Bar'
+        >>> cache_b = cache_registry.register_cache('Cache B')
+        >>> cache_b['John'] = 'Doe'
+        >>> cache_b['Luke'] = 'Skywalker'
+        >>> print(cache_registry)
+        {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
+        >>> cache_registry.unregister_cache('Cache B')
+        >>> print(cache_registry)
+        {'Cache A': '1 item(s)'}
+        >>> print(cache_b)
+        {}
+        """
+
+        self.clear_cache(name)
+
+        del self._registry[name]
+
+    def clear_cache(self, name):
+        """
+        Clears the cache with given name.
+
+        Parameters
+        ----------
+        name : unicode
+            Cache name in the registry.
+
+        Examples
+        --------
+        >>> cache_registry = CacheRegistry()
+        >>> cache_a = cache_registry.register_cache('Cache A')
+        >>> cache_a['Foo'] = 'Bar'
+        >>> print(cache_registry)
+        {'Cache A': '1 item(s)'}
+        >>> cache_registry.clear_cache('Cache A')
+        >>> print(cache_registry)
+        {'Cache A': '0 item(s)'}
+        """
+
+        self._registry[name].clear()
+
+    def clear_all_caches(self):
+        """
+        Clears all the caches in the registry.
+
+        Examples
+        --------
+        >>> cache_registry = CacheRegistry()
+        >>> cache_a = cache_registry.register_cache('Cache A')
+        >>> cache_a['Foo'] = 'Bar'
+        >>> cache_b = cache_registry.register_cache('Cache B')
+        >>> cache_b['John'] = 'Doe'
+        >>> cache_b['Luke'] = 'Skywalker'
+        >>> print(cache_registry)
+        {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
+        >>> cache_registry.clear_all_caches()
+        >>> print(cache_registry)
+        {'Cache A': '0 item(s)', 'Cache B': '0 item(s)'}
+        """
+
+        for key in self._registry:
+            self.clear_cache(key)
+
+
+CACHE_REGISTRY = CacheRegistry()
+"""
+*Colour* cache registry referencing all the caches used for repetitive or long
+processes.
+
+CACHE_REGISTRY : CacheRegistry
+"""
 
 
 def handle_numpy_errors(**kwargs):

@@ -42,9 +42,10 @@ from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
                                 MultiSpectralDistributions, SpectralShape,
                                 reshape_msds, reshape_sd, sd_ones)
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, filter_kwargs, from_range_100,
-    get_domain_range_scale, runtime_warning, tsplit, validate_method)
+from colour.utilities import (CACHE_REGISTRY, CaseInsensitiveMapping,
+                              as_float_array, filter_kwargs, from_range_100,
+                              get_domain_range_scale, runtime_warning, tsplit,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -76,11 +77,16 @@ SPECTRAL_SHAPE_ASTME308 : SpectralShape
 
 _MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
-_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS = None
+_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS = {}
 
-_CACHE_TRISTIMULUS_WEIGHTING_FACTORS = None
+_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS'.format(__name__))
 
-_CACHE_SD_TO_XYZ = None
+_CACHE_TRISTIMULUS_WEIGHTING_FACTORS = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_TRISTIMULUS_WEIGHTING_FACTORS'.format(__name__))
+
+_CACHE_SD_TO_XYZ = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_SD_TO_XYZ'.format(__name__))
 
 
 def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
@@ -133,8 +139,6 @@ def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
     """
 
     global _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS
-    if _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS is None:
-        _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS = {}
 
     hash_key = tuple([hash(arg) for arg in (interval, interval_type)])
     if hash_key in _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS:
@@ -255,8 +259,6 @@ def tristimulus_weighting_factors_ASTME2022(cmfs, illuminant, shape, k=None):
             '"{0}" shape "interval" must be 1!'.format(illuminant))
 
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS
-    if _CACHE_TRISTIMULUS_WEIGHTING_FACTORS is None:
-        _CACHE_TRISTIMULUS_WEIGHTING_FACTORS = {}
 
     hash_key = tuple([
         hash(arg) for arg in (cmfs, illuminant, shape, k,
@@ -933,8 +935,6 @@ def sd_to_XYZ(sd,
     method = validate_method(method, SD_TO_XYZ_METHODS)
 
     global _CACHE_SD_TO_XYZ
-    if _CACHE_SD_TO_XYZ is None:
-        _CACHE_SD_TO_XYZ = {}
 
     hash_key = tuple([
         hash(arg) for arg in (sd, cmfs, illuminant, k, method,

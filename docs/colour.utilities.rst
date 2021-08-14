@@ -24,7 +24,16 @@ Common
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
+    CacheRegistry
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+
+    CACHE_REGISTRY
     handle_numpy_errors
     ignore_numpy_errors
     raise_numpy_errors
