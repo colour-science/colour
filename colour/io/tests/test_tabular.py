@@ -132,6 +132,15 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         self.assertDictEqual(
             dict(zip(data['wavelength'], data['1'])), COLOURCHECKER_N_OHTA_1)
 
+        colour_checker_n_ohta_transposed = os.path.join(
+            RESOURCES_DIRECTORY, 'colorchecker_n_ohta_transposed.csv')
+        data = read_spectral_data_from_csv_file(
+            colour_checker_n_ohta_transposed, transpose=True, delimiter='\t')
+        self.assertListEqual(
+            list(data.keys()), ['wavelength'] + [str(x) for x in range(1, 25)])
+        self.assertDictEqual(
+            dict(zip(data['wavelength'], data['1'])), COLOURCHECKER_N_OHTA_1)
+
         linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY, 'linss2_10e_5.csv')
         data = read_spectral_data_from_csv_file(
             linss2_10e_5,
