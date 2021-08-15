@@ -215,8 +215,8 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     if isinstance(LUT, LUT1D):
         LUT = LUT.as_LUT(LUT3x1D)
 
-    assert (isinstance(LUT, LUT3x1D) or
-            isinstance(LUT, LUT3D)), '"LUT" must be a 1D, 3x1D or 3D "LUT"!'
+    assert isinstance(
+        LUT, (LUT3x1D, LUT3D)), '"LUT" must be a 1D, 3x1D or 3D "LUT"!'
 
     is_3x1D = isinstance(LUT, LUT3x1D)
 

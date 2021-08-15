@@ -216,9 +216,6 @@ class TestWriteLUTSonySPI3D(unittest.TestCase):
             lines = filter(None,
                            (line.strip() for line in spi3d_file.readlines()))
             for line in lines:
-                if line.startswith('#'):
-                    continue
-
                 tokens = line.split()
                 if len(tokens) == 6:
                     indexes.append(as_int_array(tokens[:3]))
