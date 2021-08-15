@@ -921,6 +921,7 @@ RGB Colourspaces
      'Apple RGB',
      'Best RGB',
      'Beta RGB',
+     'Blackmagic Wide Gamut',
      'CIE RGB',
      'Cinema Gamut',
      'ColorMatch RGB',
@@ -978,6 +979,7 @@ OETFs
 
     >>> sorted(colour.OETFS)
     ['ARIB STD-B67',
+     'Blackmagic Film Generation 5',
      'DaVinci Intermediate',
      'ITU-R BT.2100 HLG',
      'ITU-R BT.2100 PQ',

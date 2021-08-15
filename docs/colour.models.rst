@@ -366,6 +366,7 @@ RGB Colourspaces
     RGB_COLOURSPACE_APPLE_RGB
     RGB_COLOURSPACE_BEST_RGB
     RGB_COLOURSPACE_BETA_RGB
+    RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT
     RGB_COLOURSPACE_BT470_525
     RGB_COLOURSPACE_BT470_625
     RGB_COLOURSPACE_BT709
@@ -491,6 +492,8 @@ Opto-Electronic Transfer Functions
 
     oetf_ARIBSTDB67
     oetf_inverse_ARIBSTDB67
+    oetf_BlackmagicFilmGeneration5
+    oetf_inverse_BlackmagicFilmGeneration5
     oetf_DaVinciIntermediate
     oetf_inverse_DaVinciIntermediate
     oetf_HLG_BT2100
