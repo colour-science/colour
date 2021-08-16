@@ -15,6 +15,7 @@ References
 """
 import numpy as np
 
+from colour.algebra import vector_dot
 from colour.models.rgb.transfer_functions import (eotf_ST2084,
                                                   eotf_inverse_ST2084)
 from colour.utilities.common import from_range_1, to_domain_1
@@ -118,10 +119,10 @@ def XYZ_to_ICaCb(XYZ):
     """
 
     XYZ = to_domain_1(XYZ)
-    LMS = np.dot(MATRIX_ICACB_XYZ_TO_LMS, XYZ)
+    LMS = vector_dot(MATRIX_ICACB_XYZ_TO_LMS, XYZ)
     LMS_prime = eotf_inverse_ST2084(LMS)
 
-    return from_range_1(np.dot(MATRIX_ICACB_XYZ_TO_LMS_2, LMS_prime))
+    return from_range_1(vector_dot(MATRIX_ICACB_XYZ_TO_LMS_2, LMS_prime))
 
 
 def ICaCb_to_XYZ(ICaCb):
@@ -169,7 +170,7 @@ def ICaCb_to_XYZ(ICaCb):
     """
 
     ICaCb = to_domain_1(ICaCb)
-    LMS_prime = np.dot(MATRIX_ICACB_LMS_TO_XYZ_2, ICaCb)
+    LMS_prime = vector_dot(MATRIX_ICACB_LMS_TO_XYZ_2, ICaCb)
     LMS = eotf_ST2084(LMS_prime)
 
-    return from_range_1(np.dot(MATRIX_ICACB_LMS_TO_XYZ, LMS))
+    return from_range_1(vector_dot(MATRIX_ICACB_LMS_TO_XYZ, LMS))
