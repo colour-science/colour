@@ -290,6 +290,19 @@ OSA UCS Colourspace
     XYZ_to_OSA_UCS
     OSA_UCS_to_XYZ
 
+ProLab Colourspace
+-------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_ProLab
+    ProLab_to_XYZ
+
 :math:`JzAzBz` Colourspace
 --------------------------
 
