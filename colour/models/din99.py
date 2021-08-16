@@ -33,7 +33,7 @@ __all__ = ['Lab_to_DIN99', 'DIN99_to_Lab', 'DIN99_METHODS']
 
 DIN99_METHODS = CaseInsensitiveMapping({
     'ASTMD2244-07':
-        np.array([105.51, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]),
+        np.array([105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]),
     'b':
         np.array([303.67, 0.0039, 26.0, 0.83, 23.0, 0.075, 26.0, 1]),
     'c':
