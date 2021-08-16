@@ -8,7 +8,7 @@ import unittest
 from itertools import permutations
 
 from colour.models import XYZ_to_ProLab, ProLab_to_XYZ
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -45,6 +45,33 @@ class TestXYZ_to_ProLab(unittest.TestCase):
             XYZ_to_ProLab(np.array([0.96907232, 1.00000000, 1.12179215])),
             np.array([6.92102743, 0.10732891, -0.0603479]),
             decimal=7)
+
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        ProLab = XYZ_to_ProLab(XYZ)
+
+        d_r = (('reference', 1), (1, 1), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_ProLab(XYZ * factor), ProLab * factor, decimal=7)
+
+    # def test_n_dimensional_XYZ_to_ProLab(self):
+    #     """
+    #     Tests :func:`colour.models.ipt.XYZ_to_IPT` definition n-dimensional
+    #     support.
+    #     """
+
+    #     XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    #     ProLab = XYZ_to_ProLab(XYZ)
+
+    #     XYZ = np.tile(XYZ, (6, 1))
+    #     print(XYZ)
+    #     ProLab = np.tile(ProLab, (6, 1))
+    #     np.testing.assert_almost_equal(XYZ_to_ProLab(XYZ), ProLab, decimal=7)
+
+    # XYZ = np.reshape(XYZ, (2, 3, 3))
+    # IPT = np.reshape(IPT, (2, 3, 3))
+    # np.testing.assert_almost_equal(XYZ_to_IPT(XYZ), IPT, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_ProLab(self):
