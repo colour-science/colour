@@ -49,13 +49,15 @@ MATRIX_2_ProLab_to_XYZ : array_like, (3, 3)
 """
 
 MATRIX_3 = np.array([0.7554, 3.8666, 1.6739])
+"""
+MATRIX_2_ProLab_to_XYZ : array_like, (3, 3)
+"""
 
 D_65 = np.array([95.047, 100, 108.883])
 """
 *CIE Standard Illuminant D Series* *D65*
 
 D_65: array_like, (1, 3)
-
 """
 
 
@@ -95,6 +97,12 @@ def XYZ_to_ProLab(XYZ):
     References
     ----------
     :cite:`Ivan2021`
+
+    Examples
+    --------
+    >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
+    >>> XYZ_to_ProLab(Lab)
+    array([1.24610688, 2.39525236, 0.41902126])
     """
 
     XYZ = np.asarray(XYZ)
@@ -139,6 +147,13 @@ def ProLab_to_XYZ(ProLab):
     References
     ----------
     :cite:`Ivan2021`
+
+    Examples
+    --------
+    >>> Lab = np.array([1.24610688, 2.39525236, 0.41902126])
+    >>> ProLab_to_XYZ(Lab)
+    array([0.51634019, 0.154695  , 0.06289579])
+
     """
 
     XYZ_ = np.dot(MATRIX_2_ProLab_to_XYZ, ProLab)
