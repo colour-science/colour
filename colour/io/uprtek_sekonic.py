@@ -17,7 +17,7 @@ import re
 from collections import defaultdict
 
 from colour.io import SpectralDistribution_IESTM2714
-from colour.utilities import as_float_array, is_string
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -38,6 +38,10 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     ----------
     path : unicode
         Path for *UPRTek* *Pseudo-XLS* file.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.SpectralDistribution_UPRTek.metadata`
 
     Methods
     -------
@@ -106,84 +110,24 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 "R10": 86.981613, "R11": 94.841324, "R12": 74.139542, "R13": 91.073837, \
 "R14": 97.064323, "R15": 88.615669, "TLCI": 97.495056, "TLMF-A": 1.270032, \
 "SSI-A": 44.881924, "Rf": 87.234917, "Rg": 98.510712, "IRR": 2.607891}'
+    >>> sd.metadata.keys()
+    dict_keys(['Model Name', 'Serial Number', 'Time', 'Memo', 'LUX', 'fc', \
+'CCT', 'Duv', 'I-Time', 'X', 'Y', 'Z', 'x', 'y', "u'", "v'", 'LambdaP', \
+'LambdaPValue', 'CRI', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', \
+'R10', 'R11', 'R12', 'R13', 'R14', 'R15', 'TLCI', 'TLMF-A', 'SSI-A', 'Rf', \
+'Rg', 'IRR'])
     >>> sd.write(join(directory, 'ESPD2021_0104_231446.spdx'))
     ... # doctest: +SKIP
     """
 
-    def __init__(self, path, delimiter='\t', spectra_section='380', **kwargs):
+    def __init__(self, path, **kwargs):
         super(SpectralDistribution_UPRTek, self).__init__(path, **kwargs)
 
         self._delimiter = '\t'
-        self.delimiter = delimiter
-
-        self._spectra_section = '380'
-        self.spectra_section = spectra_section
+        self._spectral_section = '380'
+        self._spectral_data_pattern = '(\\d{3})nm'
 
         self._metadata = {}
-
-    @property
-    def delimiter(self):
-        """
-        Getter and setter property for the delimiter.
-
-        Parameters
-        ----------
-        value : unicode
-            Value to set the delimiter with.
-
-        Returns
-        -------
-        unicode
-            Delimiter.
-        """
-
-        return self._delimiter
-
-    @delimiter.setter
-    def delimiter(self, value):
-        """
-        Setter for the **self.delimiter** property.
-        """
-
-        if value is not None:
-            assert is_string(
-                value
-            ), '"{0}" attribute: "{1}" is not a "string" like object!'.format(
-                'delimiter', value)
-
-        self._delimiter = value
-
-    @property
-    def spectra_section(self):
-        """
-        Getter and setter property for the spectral section.
-
-        Parameters
-        ----------
-        value : unicode
-            Value to set the spectral section with.
-
-        Returns
-        -------
-        unicode
-            Spectra section.
-        """
-
-        return self._spectra_section
-
-    @spectra_section.setter
-    def spectra_section(self, value):
-        """
-        Setter for the **self.spectra_section** property.
-        """
-
-        if value is not None:
-            assert is_string(
-                value
-            ), '"{0}" attribute: "{1}" is not a "string" like object!'.format(
-                'spectra_section', value)
-
-        self._spectra_section = value
 
     @property
     def metadata(self):
@@ -283,11 +227,11 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                 key, value = row[0], row[1:]
                 value = value[0] if len(value) == 1 else value
 
-                search = re.search('(\\d{3})\\[?nm\\]?', key)
+                search = re.match(self._spectral_data_pattern, key)
                 if search:
                     wavelength = search.group(1)
 
-                    if wavelength == self._spectra_section:
+                    if wavelength == self._spectral_section:
                         spectral_section += 1
 
                     spectral_sections[spectral_section].append(
@@ -326,6 +270,10 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     ----------
     path : unicode
         Path for *Sekonic* *CSV* file.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.SpectralDistribution_UPRTek.metadata`
 
     Methods
     -------
@@ -383,13 +331,17 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
      [  7.70000000e+02   3.63058860e-05]
      [  7.80000000e+02   3.55755470e-05]]
     >>> sd.header.comments # doctest: +SKIP
+    >>> sd.metadata.keys() # doctest: +SKIP
     >>> sd.write(join(directory, 'RANDOM_001_02._3262K.spdx')
     ... # doctest: +SKIP
     """
 
-    def __init__(self, path, delimiter=',', spectra_section='380', **kwargs):
-        super(SpectralDistribution_Sekonic, self).__init__(
-            path, delimiter, spectra_section, **kwargs)
+    def __init__(self, path, **kwargs):
+        super(SpectralDistribution_Sekonic, self).__init__(path, **kwargs)
+
+        self._delimiter = ','
+        self._spectral_section = '380'
+        self._spectral_data_pattern = 'Spectral Data (\\d{3})\\[nm\\]'
 
     def read(self):
         """
