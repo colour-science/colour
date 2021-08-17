@@ -273,7 +273,7 @@ def read_image_Imageio(path, bit_depth='float32', **kwargs):
 
     from imageio import imread
 
-    image = imread(path, **kwargs)
+    image = np.squeeze(imread(path, **kwargs))
 
     return convert_bit_depth(image, bit_depth)
 
@@ -452,7 +452,7 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
 
     image_output = ImageOutput.create(path)
 
-    if VERSION_MAJOR == 1:
+    if VERSION_MAJOR == 1:  # pragma: no cover
         from OpenImageIO import ImageOutputOpenMode
 
         image_output.open(path, specification, ImageOutputOpenMode.Create)
