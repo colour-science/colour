@@ -190,9 +190,16 @@ def XYZ_to_UCS_Li2017(XYZ, coefficients, **kwargs):
     >>> XYZ_to_UCS_Li2017(XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
     ... # doctest: +ELLIPSIS
     array([ 46.0658603...,  41.0758649...,  14.5102582...])
+
+    >>> from colour.appearance import CAM_KWARGS_CIECAM02_sRGB
+    >>> XYZ_w = CAM_KWARGS_CIECAM02_sRGB['XYZ_w']
+    >>> XYZ_to_UCS_Li2017(
+    ...     XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'], XYZ_w=XYZ_w / 100)
+    ... # doctest: +ELLIPSIS
+    array([ 46.0658603...,  41.0758649...,  14.5102582...])
     """
 
-    from colour.appearance import (CAM_KWARGS_CIECAM02_sRGB, XYZ_to_CAM16)
+    from colour.appearance import CAM_KWARGS_CIECAM02_sRGB, XYZ_to_CAM16
 
     domain_range_reference = get_domain_range_scale() == 'reference'
 
@@ -270,6 +277,13 @@ def UCS_Li2017_to_XYZ(Jpapbp, coefficients, **kwargs):
     >>> Jpapbp = np.array([46.06586037, 41.07586491, 14.51025828])
     >>> UCS_Li2017_to_XYZ(
     ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    ... # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+
+    >>> from colour.appearance import CAM_KWARGS_CIECAM02_sRGB
+    >>> XYZ_w = CAM_KWARGS_CIECAM02_sRGB['XYZ_w']
+    >>> UCS_Li2017_to_XYZ(
+    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'], XYZ_w=XYZ_w / 100)
     ... # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
