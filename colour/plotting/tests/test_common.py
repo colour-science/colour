@@ -555,7 +555,7 @@ class TestPlotImage(unittest.TestCase):
 
         # Distribution does not ship the documentation thus we are skipping
         # this unit test if the image does not exist.
-        if not os.path.exists(path):  # noqa
+        if not os.path.exists(path):  # pragma: no cover
             return
 
         figure, axes = plot_image(read_image(path))

@@ -2,7 +2,7 @@
 """
 Defines the unit tests for the :mod:`colour.plotting.graph` module.
 """
-
+import platform
 import tempfile
 import unittest
 
@@ -31,7 +31,8 @@ plot_automatic_colour_conversion_graph` definition unit tests methods.
 plot_automatic_colour_conversion_graph` definition.
         """
 
-        if is_networkx_installed(raise_exception=True):  # pragma: no cover
+        if not is_networkx_installed() or platform.system() in (
+                'Windows', 'Microsoft'):  # pragma: no cover
             return
 
         plot_automatic_colour_conversion_graph(  # pragma: no cover
