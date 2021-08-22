@@ -101,7 +101,7 @@ def XYZ_to_sd_Meng2015(XYZ,
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd_Meng2015(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
-    ...     sd  # doctest: +ELLIPSIS
+    ...     sd  # doctest: +SKIP
     SpectralDistribution([[ 360.        ,    0.0762005...],
                           [ 370.        ,    0.0761792...],
                           [ 380.        ,    0.0761363...],
