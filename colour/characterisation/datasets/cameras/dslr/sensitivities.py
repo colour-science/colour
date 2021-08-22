@@ -27,8 +27,10 @@ References
     doi:10.1364/JOSAA.32.000381
 """
 
+from functools import partial
+
 from colour.characterisation import RGB_CameraSensitivities
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -487,13 +489,15 @@ DATA_CAMERA_SENSITIVITIES_DSLR = {
     }
 }  # yapf: disable
 
-MSDS_CAMERA_SENSITIVITIES_DSLR = CaseInsensitiveMapping({
+MSDS_CAMERA_SENSITIVITIES_DSLR = LazyCaseInsensitiveMapping({
     'Nikon 5100 (NPL)':
-        RGB_CameraSensitivities(
+        partial(
+            RGB_CameraSensitivities,
             DATA_CAMERA_SENSITIVITIES_DSLR['Nikon 5100 (NPL)'],
             name='Nikon 5100 (NPL)'),
     'Sigma SDMerill (NPL)':
-        RGB_CameraSensitivities(
+        partial(
+            RGB_CameraSensitivities,
             DATA_CAMERA_SENSITIVITIES_DSLR['Sigma SDMerill (NPL)'],
             name='Sigma SDMerill (NPL)')
 })
@@ -504,6 +508,6 @@ References
 ----------
 :cite:`Darrodi2015a`
 
-MSDS_CAMERA_SENSITIVITIES_DSLR : CaseInsensitiveMapping
+MSDS_CAMERA_SENSITIVITIES_DSLR : LazyCaseInsensitiveMapping
     **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**
 """

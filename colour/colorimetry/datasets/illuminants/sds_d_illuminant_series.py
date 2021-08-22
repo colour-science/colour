@@ -18,8 +18,10 @@ References
     ISBN:978-0-471-39918-6
 """
 
+from functools import partial
+
 from colour.colorimetry import SpectralDistribution
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -363,16 +365,22 @@ DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = {
     }
 }
 
-SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = CaseInsensitiveMapping({
+SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = LazyCaseInsensitiveMapping({
     'S0':
-        SpectralDistribution(
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S0'], name='S0'),
+        partial(
+            SpectralDistribution,
+            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S0'],
+            name='S0'),
     'S1':
-        SpectralDistribution(
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S1'], name='S1'),
+        partial(
+            SpectralDistribution,
+            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S1'],
+            name='S1'),
     'S2':
-        SpectralDistribution(
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S2'], name='S2')
+        partial(
+            SpectralDistribution,
+            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S2'],
+            name='S2')
 })
 SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES.__doc__ = """
 *CIE Illuminant D Series* :math:`S_n(\\lambda)` spectral distributions.
@@ -381,6 +389,6 @@ References
 ----------
 :cite:`Lindbloom2007a`, :cite:`Wyszecki2000z`
 
-SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES : CaseInsensitiveMapping
+SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES : LazyCaseInsensitiveMapping
    **{'S0', 'S1', 'S1'}**
 """

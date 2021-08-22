@@ -20,9 +20,9 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-                                SpectralDistribution, SpectralShape,
-                                msds_to_XYZ, sd_to_XYZ)
+from colour.colorimetry import (
+    MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, SpectralDistribution,
+    SpectralShape, msds_to_XYZ, sd_to_XYZ, reshape_msds, reshape_sd)
 from colour.models import XYZ_to_xy
 from colour.recovery import (SPECTRAL_SHAPE_OTSU2018, BASIS_FUNCTIONS_OTSU2018,
                              CLUSTER_MEANS_OTSU2018, SELECTOR_ARRAY_OTSU2018)
@@ -48,6 +48,10 @@ __all__ = [
     'Dataset_Otsu2018', 'DATASET_REFERENCE_OTSU2018', 'XYZ_to_sd_Otsu2018',
     'PartitionAxis', 'Data', 'Node', 'NodeTree_Otsu2018'
 ]
+
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
+
+_ILLUMINANT_DEFAULT = 'D65'
 
 
 class Dataset_Otsu2018:
@@ -340,14 +344,11 @@ Builtin *Otsu et al. (2018)* dataset as a
 """
 
 
-def XYZ_to_sd_Otsu2018(
-        XYZ,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().align(SPECTRAL_SHAPE_OTSU2018),
-        illuminant=SDS_ILLUMINANTS['D65'].copy().align(
-            SPECTRAL_SHAPE_OTSU2018),
-        dataset=DATASET_REFERENCE_OTSU2018,
-        clip=True):
+def XYZ_to_sd_Otsu2018(XYZ,
+                       cmfs=None,
+                       illuminant=None,
+                       dataset=DATASET_REFERENCE_OTSU2018,
+                       clip=True):
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus values
     using *Otsu et al. (2018)* method.
@@ -357,9 +358,11 @@ def XYZ_to_sd_Otsu2018(
     XYZ : array_like, (3,)
         *CIE XYZ* tristimulus values to recover the spectral distribution from.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
     dataset : Dataset_Otsu2018, optional
         Dataset to use for reconstruction. The default is to use the published
         data.
@@ -381,12 +384,12 @@ def XYZ_to_sd_Otsu2018(
 
     Examples
     --------
-    >>> from colour.colorimetry import CCS_ILLUMINANTS, sd_to_XYZ_integration
-    >>> from colour.models import XYZ_to_sRGB
+    >>> from colour import CCS_ILLUMINANTS, MSDS_CMFS, XYZ_to_sRGB
+    >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SPECTRAL_SHAPE_OTSU2018)
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -436,6 +439,15 @@ def XYZ_to_sd_Otsu2018(
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2065494...,  0.1219712...,  0.0514002...])
     """
+
+    if cmfs is None:
+        # pylint: disable=E1102
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                            SPECTRAL_SHAPE_OTSU2018)
+
+    if illuminant is None:
+        illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
+                                SPECTRAL_SHAPE_OTSU2018)
 
     XYZ = to_domain_1(XYZ)
     xy = XYZ_to_xy(XYZ)
@@ -1145,9 +1157,11 @@ class NodeTree_Otsu2018(Node):
     reflectances : ndarray, (n, m)
         Reflectances of the *n* reference colours to use for optimisation.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
 
     Attributes
     ----------
@@ -1172,11 +1186,11 @@ class NodeTree_Otsu2018(Node):
     --------
     >>> import os
     >>> import colour
-    >>> from colour.characterisation import SDS_COLOURCHECKERS
+    >>> from colour import MSDS_CMFS, SDS_COLOURCHECKERS
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -1244,14 +1258,18 @@ class NodeTree_Otsu2018(Node):
                          extrapolator_kwargs={...})
     """
 
-    def __init__(self,
-                 reflectances,
-                 cmfs=MSDS_CMFS_STANDARD_OBSERVER[
-                     'CIE 1931 2 Degree Standard Observer'].copy().align(
-                         SPECTRAL_SHAPE_OTSU2018),
-                 illuminant=SDS_ILLUMINANTS['D65'].copy().align(
-                     SPECTRAL_SHAPE_OTSU2018)):
+    def __init__(self, reflectances, cmfs=None, illuminant=None):
         self._reflectances = as_float_array(reflectances)
+
+        if cmfs is None:
+            # pylint: disable=E1102
+            cmfs = reshape_msds(
+                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                SPECTRAL_SHAPE_OTSU2018)
+
+        if illuminant is None:
+            illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
+                                    SPECTRAL_SHAPE_OTSU2018)
 
         self._cmfs = cmfs
 
@@ -1261,7 +1279,7 @@ class NodeTree_Otsu2018(Node):
             runtime_warning(
                 'Aligning "{0}" illuminant shape to "{1}" colour matching '
                 'functions shape.'.format(illuminant.name, cmfs.name))
-            illuminant = illuminant.copy().align(cmfs.shape)
+            illuminant = reshape_sd(illuminant, cmfs.shape)
 
         self._illuminant = illuminant
 
@@ -1437,10 +1455,11 @@ class NodeTree_Otsu2018(Node):
         --------
         >>> import os
         >>> import colour
-        >>> from colour.characterisation import SDS_COLOURCHECKERS
-        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
-        ...             SpectralShape(360, 780, 10))
+        >>> from colour import MSDS_CMFS, SDS_COLOURCHECKERS
+        >>> cmfs = (
+        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+        ...     .copy().align(SpectralShape(360, 780, 10))
+        ... )
         >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
         >>> reflectances = [
         ...     sd.copy().align(cmfs.shape).values

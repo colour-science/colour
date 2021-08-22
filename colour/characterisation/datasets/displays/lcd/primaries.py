@@ -30,8 +30,10 @@ context=article
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
+from functools import partial
+
 from colour.characterisation import RGB_DisplayPrimaries
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -128,9 +130,10 @@ DATA_DISPLAY_PRIMARIES_LCD = {
     }
 }
 
-MSDS_DISPLAY_PRIMARIES_LCD = CaseInsensitiveMapping({
+MSDS_DISPLAY_PRIMARIES_LCD = LazyCaseInsensitiveMapping({
     'Apple Studio Display':
-        RGB_DisplayPrimaries(
+        partial(
+            RGB_DisplayPrimaries,
             DATA_DISPLAY_PRIMARIES_LCD['Apple Studio Display'],
             name='Apple Studio Display')
 })
@@ -141,6 +144,6 @@ References
 ----------
 :cite:`Fairchild1998b`, :cite:`Machado2010a`
 
-MSDS_DISPLAY_PRIMARIES_LCD : CaseInsensitiveMapping
+MSDS_DISPLAY_PRIMARIES_LCD : LazyCaseInsensitiveMapping
     **{'Apple Studio Display'}**
 """

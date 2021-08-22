@@ -23,9 +23,9 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
-                                MSDS_CMFS_STANDARD_OBSERVER, sd_blackbody,
-                                sd_to_XYZ)
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
+                                SPECTRAL_SHAPE_DEFAULT, reshape_msds,
+                                sd_blackbody, sd_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float_array, runtime_warning, tsplit
 
@@ -42,6 +42,8 @@ __all__ = [
     'planckian_table_minimal_distance_index', 'uv_to_CCT_Ohno2013',
     'CCT_to_uv_Ohno2013'
 ]
+
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
 PLANCKIAN_TABLE_TUVD = namedtuple('PlanckianTable_Tuvdi',
                                   ('Ti', 'ui', 'vi', 'di'))
@@ -78,11 +80,10 @@ def planckian_table(uv, cmfs, start, end, count):
 
     Examples
     --------
-    >>> from colour.colorimetry import (
-    ...     SPECTRAL_SHAPE_DEFAULT, MSDS_CMFS_STANDARD_OBSERVER)
     >>> from pprint import pprint
+    >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
@@ -112,7 +113,8 @@ ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
 
     ux, vx = uv
 
-    cmfs = cmfs.copy().trim(SPECTRAL_SHAPE_DEFAULT)
+    # pylint: disable=E1102
+    cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     shape = cmfs.shape
 
@@ -146,10 +148,10 @@ def planckian_table_minimal_distance_index(planckian_table_):
 
     Examples
     --------
-    >>> from colour.colorimetry import (
-    ...     SPECTRAL_SHAPE_DEFAULT, MSDS_CMFS_STANDARD_OBSERVER)
+    >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
+    >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
@@ -162,14 +164,12 @@ def planckian_table_minimal_distance_index(planckian_table_):
     return distances.index(min(distances))
 
 
-def _uv_to_CCT_Ohno2013(
-        uv,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().trim(SPECTRAL_SHAPE_DEFAULT),
-        start=CCT_MINIMAL,
-        end=CCT_MAXIMAL,
-        count=CCT_SAMPLES,
-        iterations=CCT_CALCULATION_ITERATIONS):
+def _uv_to_CCT_Ohno2013(uv,
+                        cmfs=None,
+                        start=CCT_MINIMAL,
+                        end=CCT_MAXIMAL,
+                        count=CCT_SAMPLES,
+                        iterations=CCT_CALCULATION_ITERATIONS):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -185,7 +185,8 @@ def _uv_to_CCT_Ohno2013(
     uv : array_like
         *CIE UCS* colourspace *uv* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     start : numeric, optional
         Temperature range start in kelvins.
     end : numeric, optional
@@ -200,6 +201,11 @@ def _uv_to_CCT_Ohno2013(
     ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
     """
+
+    if cmfs is None:
+        # pylint: disable=E1102
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     # Ensuring we do at least one iteration to initialise variables.
     iterations = max(iterations, 1)
@@ -256,8 +262,7 @@ def _uv_to_CCT_Ohno2013(
 
 
 def uv_to_CCT_Ohno2013(uv,
-                       cmfs=MSDS_CMFS_STANDARD_OBSERVER[
-                           'CIE 1931 2 Degree Standard Observer'],
+                       cmfs=None,
                        start=CCT_MINIMAL,
                        end=CCT_MAXIMAL,
                        count=CCT_SAMPLES,
@@ -277,7 +282,8 @@ def uv_to_CCT_Ohno2013(uv,
     uv : array_like
         *CIE UCS* colourspace *uv* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     start : numeric, optional
         Temperature range start in kelvins.
     end : numeric, optional
@@ -298,16 +304,21 @@ def uv_to_CCT_Ohno2013(uv,
 
     Examples
     --------
-    >>> from colour.colorimetry import (
-    ...     SPECTRAL_SHAPE_DEFAULT, MSDS_CMFS_STANDARD_OBSERVER)
+    >>> from pprint import pprint
+    >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
     array([  6.5074738...e+03,   3.2233460...e-03])
     """
+
+    if cmfs is None:
+        # pylint: disable=E1102
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     uv = as_float_array(uv)
 
@@ -319,9 +330,7 @@ def uv_to_CCT_Ohno2013(uv,
     return as_float_array(CCT_D_uv).reshape(uv.shape)
 
 
-def _CCT_to_uv_Ohno2013(CCT_D_uv,
-                        cmfs=MSDS_CMFS_STANDARD_OBSERVER[
-                            'CIE 1931 2 Degree Standard Observer']):
+def _CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -332,7 +341,8 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv,
     CCT_D_uv : ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
@@ -340,9 +350,15 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv,
         *CIE UCS* colourspace *uv* chromaticity coordinates.
     """
 
+    if cmfs is None:
+        # pylint: disable=E1102
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
+
     CCT, D_uv = tsplit(CCT_D_uv)
 
-    cmfs = cmfs.copy().trim(SPECTRAL_SHAPE_DEFAULT)
+    # pylint: disable=E1102
+    cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     shape = cmfs.shape
 
@@ -372,9 +388,7 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv,
         return np.array([u, v])
 
 
-def CCT_to_uv_Ohno2013(CCT_D_uv,
-                       cmfs=MSDS_CMFS_STANDARD_OBSERVER[
-                           'CIE 1931 2 Degree Standard Observer']):
+def CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -385,7 +399,8 @@ def CCT_to_uv_Ohno2013(CCT_D_uv,
     CCT_D_uv : ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
@@ -398,16 +413,21 @@ def CCT_to_uv_Ohno2013(CCT_D_uv,
 
     Examples
     --------
-    >>> from colour.colorimetry import (
-    ...     SPECTRAL_SHAPE_DEFAULT, MSDS_CMFS_STANDARD_OBSERVER)
+    >>> from pprint import pprint
+    >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
     >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3122004...])
     """
+
+    if cmfs is None:
+        # pylint: disable=E1102
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     CCT_D_uv = as_float_array(CCT_D_uv)
 

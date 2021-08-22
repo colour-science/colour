@@ -8,7 +8,8 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-                                SpectralShape, sd_to_XYZ_integration)
+                                SpectralShape, reshape_msds, reshape_sd,
+                                sd_to_XYZ_integration)
 from colour.recovery import XYZ_to_sd
 from colour.utilities import domain_range_scale
 
@@ -33,11 +34,12 @@ class TestXYZ_to_sd(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer'].copy().align(
-                SpectralShape(360, 780, 10))
+        # pylint: disable=E1102
+        self._cmfs = reshape_msds(
+            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
+            SpectralShape(360, 780, 10))
 
-        self._sd_D65 = SDS_ILLUMINANTS['D65'].copy().align(self._cmfs.shape)
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS['D65'], self._cmfs.shape)
 
     def test_domain_range_scale_XYZ_to_sd(self):
         """

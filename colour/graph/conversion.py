@@ -16,13 +16,14 @@ from copy import copy
 from functools import partial
 from pprint import pformat
 
+import colour
 from colour.colorimetry import (CCS_ILLUMINANTS, SDS_ILLUMINANTS,
                                 TVS_ILLUMINANTS_HUNTERLAB)
 from colour.colorimetry import (colorimetric_purity, complementary_wavelength,
                                 dominant_wavelength, excitation_purity,
                                 lightness, luminance, luminous_efficacy,
-                                luminous_efficiency, luminous_flux, sd_to_XYZ,
-                                whiteness, yellowness, wavelength_to_XYZ)
+                                luminous_efficiency, luminous_flux, whiteness,
+                                yellowness, wavelength_to_XYZ)
 from colour.recovery import XYZ_to_sd
 from colour.models import RGB_COLOURSPACE_sRGB
 from colour.models import (
@@ -67,7 +68,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'Conversion_Specification', 'CIECAM02_to_JMh_CIECAM02',
+    'Conversion_Specification', 'sd_to_XYZ', 'CIECAM02_to_JMh_CIECAM02',
     'JMh_CIECAM02_to_CIECAM02', 'CAM16_to_JMh_CAM16', 'JMh_CAM16_to_CAM16',
     'XYZ_to_luminance', 'RGB_luminance_to_RGB',
     'CONVERSION_SPECIFICATIONS_DATA', 'CONVERSION_GRAPH_NODE_LABELS',
@@ -96,6 +97,23 @@ class Conversion_Specification(
     def __new__(cls, source=None, target=None, conversion_function=None):
         return super(Conversion_Specification, cls).__new__(
             cls, source.lower(), target.lower(), conversion_function)
+
+
+def sd_to_XYZ(sd,
+              cmfs=None,
+              illuminant=None,
+              k=None,
+              method='ASTM E308',
+              **kwargs):
+    if illuminant is None:
+        illuminant = SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT]
+
+    return colour.sd_to_XYZ(sd, cmfs, illuminant, k, method, **kwargs)
+
+
+sd_to_XYZ.__doc__ = colour.sd_to_XYZ.__doc__.replace(
+    'Illuminant spectral distribution.', 'Illuminant spectral distribution, '
+    'default to *CIE Standard Illuminant D65*.')
 
 
 def CIECAM02_to_JMh_CIECAM02(CAM_Specification_CIECAM02):
@@ -266,35 +284,28 @@ def RGB_luminance_to_RGB(Y):
     return tstack([Y, Y, Y])
 
 
-_DEFAULT_ILLUMINANT = 'D65'
+_ILLUMINANT_DEFAULT = 'D65'
 """
 Default automatic colour conversion graph illuminant name.
 
-_DEFAULT_ILLUMINANT : unicode
+_ILLUMINANT_DEFAULT : unicode
 """
 
-_SD_DEFAULT_ILLUMINANT = SDS_ILLUMINANTS[_DEFAULT_ILLUMINANT]
-"""
-Default automatic colour conversion graph illuminant spectral distribution.
-
-_SD_DEFAULT_ILLUMINANT : SpectralDistribution
-"""
-
-_CCS_DEFAULT_ILLUMINANT = CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][_DEFAULT_ILLUMINANT]
+_CCS_ILLUMINANT_DEFAULT = CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][_ILLUMINANT_DEFAULT]
 """
 Default automatic colour conversion graph illuminant *CIE xy* chromaticity
 coordinates.
 
-_CCS_DEFAULT_ILLUMINANT : ndarray
+_CCS_ILLUMINANT_DEFAULT : ndarray
 """
 
-_TVS_DEFAULT_ILLUMINANT = xy_to_XYZ(_CCS_DEFAULT_ILLUMINANT)
+_TVS_ILLUMINANT_DEFAULT = xy_to_XYZ(_CCS_ILLUMINANT_DEFAULT)
 """
 Default automatic colour conversion graph illuminant *CIE XYZ* tristimulus
 values.
 
-_TVS_DEFAULT_ILLUMINANT : ndarray
+_TVS_ILLUMINANT_DEFAULT : ndarray
 """
 
 _RGB_COLOURSPACE_DEFAULT = RGB_COLOURSPACE_sRGB
@@ -321,8 +332,7 @@ _CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] = _CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] / 100
 
 CONVERSION_SPECIFICATIONS_DATA = [
     # Colorimetry
-    ('Spectral Distribution', 'CIE XYZ',
-     partial(sd_to_XYZ, illuminant=_SD_DEFAULT_ILLUMINANT)),
+    ('Spectral Distribution', 'CIE XYZ', sd_to_XYZ),
     ('CIE XYZ', 'Spectral Distribution', XYZ_to_sd),
     ('Spectral Distribution', 'Luminous Flux', luminous_flux),
     ('Spectral Distribution', 'Luminous Efficiency', luminous_efficiency),
@@ -331,16 +341,16 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('Luminance', 'Lightness', lightness),
     ('Lightness', 'Luminance', luminance),
     ('CIE XYZ', 'Whiteness', partial(whiteness,
-                                     XYZ_0=_TVS_DEFAULT_ILLUMINANT)),
+                                     XYZ_0=_TVS_ILLUMINANT_DEFAULT)),
     ('CIE XYZ', 'Yellowness', yellowness),
     ('CIE xy', 'Colorimetric Purity',
-     partial(colorimetric_purity, xy_n=_CCS_DEFAULT_ILLUMINANT)),
+     partial(colorimetric_purity, xy_n=_CCS_ILLUMINANT_DEFAULT)),
     ('CIE xy', 'Complementary Wavelength',
-     partial(complementary_wavelength, xy_n=_CCS_DEFAULT_ILLUMINANT)),
+     partial(complementary_wavelength, xy_n=_CCS_ILLUMINANT_DEFAULT)),
     ('CIE xy', 'Dominant Wavelength',
-     partial(dominant_wavelength, xy_n=_CCS_DEFAULT_ILLUMINANT)),
+     partial(dominant_wavelength, xy_n=_CCS_ILLUMINANT_DEFAULT)),
     ('CIE xy', 'Excitation Purity',
-     partial(excitation_purity, xy_n=_CCS_DEFAULT_ILLUMINANT)),
+     partial(excitation_purity, xy_n=_CCS_ILLUMINANT_DEFAULT)),
     ('Wavelength', 'CIE XYZ', wavelength_to_XYZ),
     # Colour Models
     ('CIE XYZ', 'CIE xyY', XYZ_to_xyY),
@@ -479,14 +489,14 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CIE XYZ', 'Hunt',
      partial(
          XYZ_to_Hunt,
-         XYZ_w=_TVS_DEFAULT_ILLUMINANT,
-         XYZ_b=_TVS_DEFAULT_ILLUMINANT,
+         XYZ_w=_TVS_ILLUMINANT_DEFAULT,
+         XYZ_b=_TVS_ILLUMINANT_DEFAULT,
          L_A=80 * 0.2,
          CCT_w=6504)),
     ('CIE XYZ', 'ATD95',
      partial(
          XYZ_to_ATD95,
-         XYZ_0=_TVS_DEFAULT_ILLUMINANT,
+         XYZ_0=_TVS_ILLUMINANT_DEFAULT,
          Y_0=80 * 0.2,
          k_1=0,
          k_2=(15 + 50) / 2)),
@@ -501,16 +511,16 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CAM16', 'CAM16 JMh', CAM16_to_JMh_CAM16),
     ('CAM16 JMh', 'CAM16', JMh_CAM16_to_CAM16),
     ('CIE XYZ', 'LLAB',
-     partial(XYZ_to_LLAB, XYZ_0=_TVS_DEFAULT_ILLUMINANT, Y_b=80 * 0.2, L=80)),
+     partial(XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80)),
     ('CIE XYZ', 'Nayatani95',
      partial(
          XYZ_to_Nayatani95,
-         XYZ_n=_TVS_DEFAULT_ILLUMINANT,
+         XYZ_n=_TVS_ILLUMINANT_DEFAULT,
          Y_o=0.2,
          E_o=1000,
          E_or=1000)),
     ('CIE XYZ', 'RLAB',
-     partial(XYZ_to_RLAB, XYZ_n=_TVS_DEFAULT_ILLUMINANT, Y_n=20)),
+     partial(XYZ_to_RLAB, XYZ_n=_TVS_ILLUMINANT_DEFAULT, Y_n=20)),
     ('CIECAM02 JMh', 'CAM02LCD', JMh_CIECAM02_to_CAM02LCD),
     ('CAM02LCD', 'CIECAM02 JMh', CAM02LCD_to_JMh_CIECAM02),
     ('CIECAM02 JMh', 'CAM02SCD', JMh_CIECAM02_to_CAM02SCD),

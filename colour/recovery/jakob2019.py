@@ -23,11 +23,11 @@ import struct
 from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator
 
-from colour import SDS_ILLUMINANTS
 from colour.algebra import smoothstep_function, spow
-from colour.colorimetry import (
-    MSDS_CMFS_STANDARD_OBSERVER, SpectralDistribution, SpectralShape,
-    intermediate_lightness_function_CIE1976, sd_to_XYZ)
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
+                                SpectralDistribution, SpectralShape,
+                                intermediate_lightness_function_CIE1976,
+                                reshape_msds, reshape_sd, sd_to_XYZ)
 from colour.difference import JND_CIE1976
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (as_float_array, domain_range_scale, full,
@@ -60,6 +60,10 @@ Spectral shape for *Jakob and Hanika (2019)* method.
 
 SPECTRAL_SHAPE_JAKOB2019 : SpectralShape
 """
+
+_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
+
+_ILLUMINANT_DEFAULT = 'D65'
 
 
 class StopMinimizationEarly(Exception):
@@ -339,15 +343,12 @@ def lightness_scale(steps):
     return smoothstep_function(smoothstep_function(linear))
 
 
-def find_coefficients_Jakob2019(
-        XYZ,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().align(SPECTRAL_SHAPE_JAKOB2019),
-        illuminant=SDS_ILLUMINANTS['D65'].copy().align(
-            SPECTRAL_SHAPE_JAKOB2019),
-        coefficients_0=zeros(3),
-        max_error=JND_CIE1976 / 100,
-        dimensionalise=True):
+def find_coefficients_Jakob2019(XYZ,
+                                cmfs=None,
+                                illuminant=None,
+                                coefficients_0=zeros(3),
+                                max_error=JND_CIE1976 / 100,
+                                dimensionalise=True):
     """
     Computes the coefficients for *Jakob and Hanika (2019)* reflectance
     spectral model.
@@ -356,10 +357,12 @@ def find_coefficients_Jakob2019(
     ----------
     XYZ : array_like, (3,)
         *CIE XYZ* tristimulus values to find the coefficients for.
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
-    illuminant : SpectralDistribution
-        Illuminant spectral distribution.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
     coefficients_0 : array_like, (3,), optional
         Starting coefficients for the solver.
     max_error : float, optional
@@ -390,13 +393,22 @@ def find_coefficients_Jakob2019(
 0.0141941...)
     """
 
+    if cmfs is None:
+        # pylint: disable=E1102
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                            SPECTRAL_SHAPE_JAKOB2019)
+
+    if illuminant is None:
+        illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
+                                SPECTRAL_SHAPE_JAKOB2019)
+
     shape = cmfs.shape
 
     if illuminant.shape != shape:
         runtime_warning(
             'Aligning "{0}" illuminant shape to "{1}" colour matching '
             'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = illuminant.copy().align(cmfs.shape)
+        illuminant = reshape_sd(illuminant, cmfs.shape)
 
     def optimize(target_o, coefficients_0_o):
         """
@@ -453,14 +465,11 @@ def find_coefficients_Jakob2019(
     return coefficients, error
 
 
-def XYZ_to_sd_Jakob2019(
-        XYZ,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().align(SPECTRAL_SHAPE_JAKOB2019),
-        illuminant=SDS_ILLUMINANTS['D65'].copy().align(
-            SPECTRAL_SHAPE_JAKOB2019),
-        optimisation_kwargs=None,
-        additional_data=False):
+def XYZ_to_sd_Jakob2019(XYZ,
+                        cmfs=None,
+                        illuminant=None,
+                        optimisation_kwargs=None,
+                        additional_data=False):
     """
     Recovers the spectral distribution of given RGB colourspace array
     using *Jakob and Hanika (2019)* method.
@@ -469,10 +478,12 @@ def XYZ_to_sd_Jakob2019(
     ----------
     XYZ : array_like, (3,)
         *CIE XYZ* tristimulus values to recover the spectral distribution from.
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
-    illuminant : SpectralDistribution
-        Illuminant spectral distribution.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`colour.recovery.find_coefficients_Jakob2019`
         definition.
@@ -493,12 +504,12 @@ def XYZ_to_sd_Jakob2019(
 
     Examples
     --------
-    >>> from colour.colorimetry import CCS_ILLUMINANTS, sd_to_XYZ_integration
-    >>> from colour.models import XYZ_to_sRGB
+    >>> from colour import MSDS_CMFS, CCS_ILLUMINANTS, XYZ_to_sRGB
+    >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -556,6 +567,15 @@ def XYZ_to_sd_Jakob2019(
     array([ 0.2065841...,  0.1220125...,  0.0514023...])
     """
 
+    if cmfs is None:
+        # pylint: disable=E1102
+        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                            SPECTRAL_SHAPE_JAKOB2019)
+
+    if illuminant is None:
+        illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
+                                SPECTRAL_SHAPE_JAKOB2019)
+
     XYZ = to_domain_1(XYZ)
 
     if optimisation_kwargs is None:
@@ -611,10 +631,12 @@ class LUT3D_Jakob2019:
     --------
     >>> import os
     >>> import colour
+    >>> from colour import MSDS_CMFS, CCS_ILLUMINANTS
+    >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.models import RGB_COLOURSPACE_sRGB
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -751,11 +773,8 @@ class LUT3D_Jakob2019:
 
     def generate(self,
                  colourspace,
-                 cmfs=MSDS_CMFS_STANDARD_OBSERVER[
-                     'CIE 1931 2 Degree Standard Observer']
-                 .copy().align(SPECTRAL_SHAPE_JAKOB2019),
-                 illuminant=SDS_ILLUMINANTS['D65'].copy().align(
-                     SPECTRAL_SHAPE_JAKOB2019),
+                 cmfs=None,
+                 illuminant=None,
                  size=64,
                  print_callable=print):
         """
@@ -767,9 +786,11 @@ class LUT3D_Jakob2019:
         colourspace: RGB_Colourspace
             The *RGB* colourspace to create a lookup table for.
         cmfs : XYZ_ColourMatchingFunctions, optional
-            Standard observer colour matching functions.
+            Standard observer colour matching functions, default to the
+            *CIE 1931 2 Degree Standard Observer*.
         illuminant : SpectralDistribution, optional
-            Illuminant spectral distribution.
+            Illuminant spectral distribution, default to
+            *CIE Standard Illuminant D65*.
         size : int, optional
             The resolution of the lookup table. Higher values will decrease
             errors but at the cost of a much longer run time. The published
@@ -779,11 +800,13 @@ class LUT3D_Jakob2019:
 
         Examples
         --------
-        >>> from colour.utilities import numpy_print_options
+        >>> from colour import MSDS_CMFS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
-        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
-        ...             SpectralShape(360, 780, 10))
+        >>> from colour.utilities import numpy_print_options
+        >>> cmfs = (
+        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        ...     copy().align(SpectralShape(360, 780, 10))
+        ... )
         >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> print(LUT.interpolator)
@@ -807,13 +830,23 @@ class LUT3D_Jakob2019:
         <scipy.interpolate.interpolate.RegularGridInterpolator object at 0x...>
         """
 
+        if cmfs is None:
+            # pylint: disable=E1102
+            cmfs = reshape_msds(
+                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                SPECTRAL_SHAPE_JAKOB2019)
+
+        if illuminant is None:
+            illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
+                                    SPECTRAL_SHAPE_JAKOB2019)
+
         shape = cmfs.shape
 
         if illuminant.shape != shape:
             runtime_warning(
                 'Aligning "{0}" illuminant shape to "{1}" colour matching '
                 'functions shape.'.format(illuminant.name, cmfs.name))
-            illuminant = illuminant.copy().align(cmfs.shape)
+            illuminant = reshape_sd(illuminant, cmfs.shape)
 
         xy_n = XYZ_to_xy(sd_to_XYZ(illuminant, cmfs))
 
@@ -911,10 +944,12 @@ class LUT3D_Jakob2019:
 
         Examples
         --------
+        >>> from colour import MSDS_CMFS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
-        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
-        ...             SpectralShape(360, 780, 10))
+        >>> cmfs = (
+        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        ...     copy().align(SpectralShape(360, 780, 10))
+        ... )
         >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> LUT.generate(
@@ -958,11 +993,13 @@ class LUT3D_Jakob2019:
 
         Examples
         --------
-        >>> from colour.utilities import numpy_print_options
+        >>> from colour import MSDS_CMFS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
-        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
-        ...             SpectralShape(360, 780, 10))
+        >>> from colour.utilities import numpy_print_options
+        >>> cmfs = (
+        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        ...     copy().align(SpectralShape(360, 780, 10))
+        ... )
         >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> LUT.generate(
@@ -1037,11 +1074,13 @@ class LUT3D_Jakob2019:
         --------
         >>> import os
         >>> import colour
-        >>> from colour.utilities import numpy_print_options
+        >>> from colour import MSDS_CMFS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
-        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
-        ...             SpectralShape(360, 780, 10))
+        >>> from colour.utilities import numpy_print_options
+        >>> cmfs = (
+        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        ...     copy().align(SpectralShape(360, 780, 10))
+        ... )
         >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> LUT.generate(
@@ -1081,11 +1120,13 @@ class LUT3D_Jakob2019:
         --------
         >>> import os
         >>> import colour
-        >>> from colour.utilities import numpy_print_options
+        >>> from colour import MSDS_CMFS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
-        >>> cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-        ...         'CIE 1931 2 Degree Standard Observer'].copy().align(
-        ...             SpectralShape(360, 780, 10))
+        >>> from colour.utilities import numpy_print_options
+        >>> cmfs = (
+        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
+        ...     copy().align(SpectralShape(360, 780, 10))
+        ... )
         >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> LUT.generate(

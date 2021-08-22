@@ -24,6 +24,20 @@ Spectral Data Structure
     SPECTRAL_SHAPE_ASTME308
     SPECTRAL_SHAPE_DEFAULT
 
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    sds_and_msds_to_sds
+    sds_and_msds_to_msds
+    reshape_sd
+    reshape_msds
+
 Spectral Data Generation
 ------------------------
 
@@ -59,13 +73,11 @@ Spectral Data Generation
 
     blackbody_spectral_radiance
     daylight_locus_function
-
     sd_gaussian_normal
     sd_gaussian_fwhm
     sd_single_led_Ohno2005
     sd_multi_leds_Ohno2005
-    sds_and_msds_to_sds
-    sds_and_msds_to_msds
+
 
 **Aliases**
 

@@ -22,8 +22,10 @@ References
     daylight, incandescent tungsten and printer.
 """
 
+from functools import partial
+
 from colour.colorimetry import SpectralDistribution
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -61,10 +63,12 @@ DATA_FILTERS_ISO = {
     }
 }
 
-SDS_FILTERS_ISO = CaseInsensitiveMapping({
+SDS_FILTERS_ISO = LazyCaseInsensitiveMapping({
     'ISO 7589 Diffuser':
-        SpectralDistribution(
-            DATA_FILTERS_ISO['ISO 7589 Diffuser'], name='ISO 7589 Diffuser'),
+        partial(
+            SpectralDistribution,
+            DATA_FILTERS_ISO['ISO 7589 Diffuser'],
+            name='ISO 7589 Diffuser'),
 })
 SDS_FILTERS_ISO.__doc__ = """
 Spectral distributions of *ISO* filters.
@@ -76,7 +80,7 @@ References
 SDS_FILTERS_ISO : CaseInsensitiveMapping
 """
 
-SDS_FILTERS = CaseInsensitiveMapping(SDS_FILTERS_ISO)
+SDS_FILTERS = LazyCaseInsensitiveMapping(SDS_FILTERS_ISO)
 SDS_FILTERS.__doc__ = """
 Spectral distributions of filters.
 
@@ -84,5 +88,5 @@ References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
 
-SDS_FILTERS : CaseInsensitiveMapping
+SDS_FILTERS : LazyCaseInsensitiveMapping
 """

@@ -456,9 +456,11 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
             Item value.
         """
 
+        import colour
+
         value = super(LazyCaseInsensitiveMapping, self).__getitem__(item)
 
-        if callable(value):
+        if callable(value) and hasattr(colour, '__disable_lazy_load__'):
             value = value()
             super(LazyCaseInsensitiveMapping, self).__setitem__(item, value)
 

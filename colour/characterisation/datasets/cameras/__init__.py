@@ -9,9 +9,9 @@ References
 """
 
 from .dslr import MSDS_CAMERA_SENSITIVITIES_DSLR
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
-MSDS_CAMERA_SENSITIVITIES = CaseInsensitiveMapping(
+MSDS_CAMERA_SENSITIVITIES = LazyCaseInsensitiveMapping(
     MSDS_CAMERA_SENSITIVITIES_DSLR)
 MSDS_CAMERA_SENSITIVITIES.__doc__ = """
 Multi-spectral distributions of camera sensitivities.
@@ -20,7 +20,7 @@ References
 ----------
 :cite:`Darrodi2015a`
 
-MSDS_CAMERA_SENSITIVITIES : CaseInsensitiveMapping
+MSDS_CAMERA_SENSITIVITIES : LazyCaseInsensitiveMapping
     **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**
 """
 

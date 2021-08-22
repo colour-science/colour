@@ -56,8 +56,9 @@ from scipy.optimize import minimize
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance, vector_dot
 from colour.colorimetry import (
-    MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape, sds_and_msds_to_msds,
-    sd_CIE_illuminant_D_series, sd_blackbody, sd_to_XYZ)
+    MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, SpectralShape, reshape_msds,
+    reshape_sd, sds_and_msds_to_msds, sd_CIE_illuminant_D_series, sd_blackbody,
+    sd_to_XYZ)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.characterisation import MSDS_ACES_RICD
 from colour.io import read_sds_from_csv_file
@@ -66,8 +67,8 @@ from colour.models.rgb import (RGB_COLOURSPACE_ACES2065_1, RGB_to_XYZ,
                                XYZ_to_RGB, normalised_primary_matrix)
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              from_range_1, runtime_warning, tsplit,
-                              suppress_warnings)
+                              from_range_1, runtime_warning, suppress_warnings,
+                              tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -104,7 +105,7 @@ S_FLARE_FACTOR : float
 
 def sd_to_aces_relative_exposure_values(
         sd,
-        illuminant=SDS_ILLUMINANTS['D65'],
+        illuminant=None,
         apply_chromatic_adaptation=False,
         chromatic_adaptation_transform='CAT02'):
     """
@@ -116,7 +117,8 @@ def sd_to_aces_relative_exposure_values(
     sd : SpectralDistribution
         Spectral distribution.
     illuminant : SpectralDistribution, optional
-        *Illuminant* spectral distribution.
+        *Illuminant* spectral distribution, default to
+        *CIE Standard Illuminant D65*.
     apply_chromatic_adaptation : bool, optional
         Whether to apply chromatic adaptation using given transform.
     chromatic_adaptation_transform : unicode, optional
@@ -162,12 +164,15 @@ def sd_to_aces_relative_exposure_values(
     array([ 0.1180779...,  0.0869031...,  0.0589125...])
     """
 
+    if illuminant is None:
+        illuminant = SDS_ILLUMINANTS['D65']
+
     shape = MSDS_ACES_RICD.shape
     if sd.shape != MSDS_ACES_RICD.shape:
-        sd = sd.copy().align(shape)
+        sd = reshape_sd(sd, shape)
 
     if illuminant.shape != MSDS_ACES_RICD.shape:
-        illuminant = illuminant.copy().align(shape)
+        illuminant = reshape_sd(illuminant, shape)
 
     s_v = sd.values
     i_v = illuminant.values
@@ -378,7 +383,7 @@ def white_balance_multipliers(sensitivities, illuminant):
     if illuminant.shape != shape:
         runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
             illuminant.name, shape))
-        illuminant = illuminant.copy().align(shape)
+        illuminant = reshape_sd(illuminant, shape)
 
     RGB_w = 1 / np.sum(
         sensitivities.values * illuminant.values[..., np.newaxis], axis=0)
@@ -473,7 +478,7 @@ def normalise_illuminant(illuminant, sensitivities):
     if illuminant.shape != shape:
         runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
             illuminant.name, shape))
-        illuminant = illuminant.copy().align(shape)
+        illuminant = reshape_sd(illuminant, shape)
 
     c_i = np.argmax(np.max(sensitivities.values, axis=0))
     k = 1 / np.sum(illuminant.values * sensitivities.values[..., c_i])
@@ -527,12 +532,13 @@ def training_data_sds_to_RGB(training_data, sensitivities, illuminant):
     if illuminant.shape != shape:
         runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
             illuminant.name, shape))
-        illuminant = illuminant.copy().align(shape)
+        illuminant = reshape_sd(illuminant, shape)
 
     if training_data.shape != shape:
         runtime_warning('Aligning "{0}" training data shape to "{1}".'.format(
             training_data.name, shape))
-        training_data = training_data.copy().align(shape)
+        # pylint: disable=E1102
+        training_data = reshape_msds(training_data, shape)
 
     RGB_w = white_balance_multipliers(sensitivities, illuminant)
 
@@ -579,7 +585,9 @@ def training_data_sds_to_XYZ(training_data,
     >>> path = os.path.join(
     ...     RESOURCES_DIRECTORY_RAWTOACES,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = (
+    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
+    ... )
     >>> sensitivities = sds_and_msds_to_msds(
     ...     read_sds_from_csv_file(path).values())
     >>> illuminant = normalise_illuminant(
@@ -598,12 +606,13 @@ def training_data_sds_to_XYZ(training_data,
     if illuminant.shape != shape:
         runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
             illuminant.name, shape))
-        illuminant = illuminant.copy().align(shape)
+        illuminant = reshape_sd(illuminant, shape)
 
     if training_data.shape != shape:
         runtime_warning('Aligning "{0}" training data shape to "{1}".'.format(
             training_data.name, shape))
-        training_data = training_data.copy().align(shape)
+        # pylint: disable=E1102
+        training_data = reshape_msds(training_data, shape)
 
     XYZ = np.dot(
         np.transpose(
@@ -724,8 +733,7 @@ def optimisation_factory_JzAzBz():
 def matrix_idt(sensitivities,
                illuminant,
                training_data=None,
-               cmfs=MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].copy()
-               .align(SPECTRAL_SHAPE_RAWTOACES),
+               cmfs=None,
                optimisation_factory=optimisation_factory_rawtoaces_v1,
                optimisation_kwargs=None,
                chromatic_adaptation_transform='CAT02',
@@ -745,8 +753,9 @@ def matrix_idt(sensitivities,
     training_data : MultiSpectralDistributions, optional
         Training data multi-spectral distributions, defaults to using the
         *RAW to ACES* v1 190 patches.
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
     optimisation_factory : callable, optional
         Callable producing the objective function and the *CIE XYZ* to
         optimisation colour model function.
@@ -814,21 +823,29 @@ def matrix_idt(sensitivities,
     if training_data is None:
         training_data = read_training_data_rawtoaces_v1()
 
+    if cmfs is None:
+        # pylint: disable=E1102
+        cmfs = reshape_msds(
+            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
+            SPECTRAL_SHAPE_RAWTOACES)
+
     shape = cmfs.shape
     if sensitivities.shape != shape:
         runtime_warning('Aligning "{0}" sensitivities shape to "{1}".'.format(
             sensitivities.name, shape))
-        sensitivities = sensitivities.copy().align(shape)
+        # pylint: disable=E1102
+        sensitivities = reshape_msds(sensitivities, shape)
 
     if illuminant.shape != shape:
         runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
             illuminant.name, shape))
-        illuminant = illuminant.copy().align(shape)
+        illuminant = reshape_sd(illuminant, shape)
 
     if training_data.shape != shape:
         runtime_warning('Aligning "{0}" training data shape to "{1}".'.format(
             training_data.name, shape))
-        training_data = training_data.copy().align(shape)
+        # pylint: disable=E1102
+        training_data = reshape_msds(training_data, shape)
 
     illuminant = normalise_illuminant(illuminant, sensitivities)
 
