@@ -37,15 +37,14 @@ References
 import numpy as np
 
 from colour.algebra import lagrange_coefficients
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
-                                SPECTRAL_SHAPE_DEFAULT,
-                                MultiSpectralDistributions, SpectralShape,
-                                reshape_msds, reshape_sd, sd_ones)
+from colour.colorimetry import (
+    MSDS_CMFS_STANDARD_OBSERVER, SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions, SpectralDistribution, SpectralShape,
+    reshape_msds, reshape_sd, sd_ones)
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (CACHE_REGISTRY, CaseInsensitiveMapping,
-                              as_float_array, filter_kwargs, from_range_100,
-                              get_domain_range_scale, runtime_warning, tsplit,
-                              validate_method)
+from colour.utilities import (
+    CACHE_REGISTRY, CaseInsensitiveMapping, as_float_array, filter_kwargs,
+    from_range_100, get_domain_range_scale, runtime_warning, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -76,6 +75,9 @@ SPECTRAL_SHAPE_ASTME308 : SpectralShape
 """
 
 _MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
+
+_SD_ONES_DEFAULT = sd_ones()
+_SD_ONES_ASTME308 = sd_ones(SPECTRAL_SHAPE_ASTME308)
 
 _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS = {}
 
@@ -398,16 +400,22 @@ def adjust_tristimulus_weighting_factors_ASTME308(W, shape_r, shape_t):
     return W[start_index:-end_index or None, ...]
 
 
-def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None):
+def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None, shape=None):
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant according to classical
     integration method.
 
+    The spectral distribution can be either a
+    :class:`colour.SpectralDistribution` class instance or an *array_like* in
+    which case the ``shape`` must be passed.
+
     Parameters
     ----------
-    sd : SpectralDistribution
-        Spectral distribution.
+    sd : SpectralDistribution or array_like
+        Spectral distribution, if an *array_like* the wavelengths are
+        expected to be in the last axis, e.g. for a spectral array with
+        77 bins, ``sd`` shape could be (77, ) or (1, 77).
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
@@ -428,10 +436,13 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None):
         683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
         be the spectral concentration of the radiometric quantity corresponding
         to the photometric quantity required.
+    shape : SpectralShape, optional
+        Spectral shape of the spectral distribution, ``cmfs`` and
+        ``illuminant`` will be aligned to it if ``sd`` is an  *array_like*.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE XYZ* tristimulus values.
 
     Notes
@@ -443,6 +454,14 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None):
     | ``XYZ``   | [0, 100]              | [0, 1]        |
     +-----------+-----------------------+---------------+
 
+    -   The code path using the *array_like* spectral distribution produces
+        results different to the code path using a
+        :class:`colour.SpectralDistribution` class instance: the former
+        favours execution speed by aligning the colour matching functions and
+        illuminant to the given spectral shape while the latter favours
+        precision by aligning the spectral distribution to the colour matching
+        functions.
+
     References
     ----------
     :cite:`Wyszecki2000bf`
@@ -451,29 +470,19 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None):
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> data = {
-    ...     400: 0.0641,
-    ...     420: 0.0645,
-    ...     440: 0.0562,
-    ...     460: 0.0537,
-    ...     480: 0.0559,
-    ...     500: 0.0651,
-    ...     520: 0.0705,
-    ...     540: 0.0772,
-    ...     560: 0.0870,
-    ...     580: 0.1128,
-    ...     600: 0.1360,
-    ...     620: 0.1511,
-    ...     640: 0.1688,
-    ...     660: 0.1996,
-    ...     680: 0.2397,
-    ...     700: 0.2852
-    ... }
-    >>> sd = SpectralDistribution(data)
     >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> shape = SpectralShape(400, 700, 20)
+    >>> data = np.array([
+    ...     0.0641, 0.0645, 0.0562, 0.0537, 0.0559, 0.0651, 0.0705, 0.0772,
+    ...     0.0870, 0.1128, 0.1360, 0.1511, 0.1688, 0.1996, 0.2397, 0.2852
+    ... ])
+    >>> sd = SpectralDistribution(data, shape)
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8404805...,   9.6838697...,   6.2115722...])
+    >>> sd_to_XYZ_integration(data, cmfs, illuminant, shape=shape)
+    ... # doctest: +ELLIPSIS
+    array([ 10.8993917...,   9.6986145...,   6.2540301...])
     """
 
     if cmfs is None:
@@ -482,35 +491,55 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None):
                             SPECTRAL_SHAPE_DEFAULT)
 
     if illuminant is None:
-        illuminant = sd_ones()
+        illuminant = _SD_ONES_DEFAULT
 
-    if illuminant.shape != cmfs.shape:
-        runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}" colour matching '
-            'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = reshape_sd(illuminant, cmfs.shape)
+    if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions)):
+        shape = cmfs.shape
 
-    if sd.shape != cmfs.shape:
-        runtime_warning('Aligning "{0}" spectral distribution shape to "{1}" '
-                        'colour matching functions shape.'.format(
-                            sd.name, cmfs.name))
-        sd = reshape_sd(sd, cmfs.shape)
+        if sd.shape != shape:
+            runtime_warning(
+                'Aligning "{0}" spectral data shape to "{1}".'.format(
+                    sd.name, shape))
+            sd = reshape_sd(sd, shape)
 
+        R = np.transpose(sd.values)
+        shape_R = R.shape
+        wl_c_r = R.shape[-1]
+    else:
+        assert shape is not None, (
+            'A spectral shape must be explicitly passed with a spectral data '
+            'array!')
+
+        R = as_float_array(sd)
+        shape_R = R.shape
+        wl_c_r, wl_c = R.shape[-1], len(shape.range())
+
+        assert wl_c_r == wl_c, (
+            'Spectral data array with {0} wavelengths is not compatible with '
+            'spectral shape with {1} wavelengths!'.format(wl_c_r, wl_c))
+
+        if cmfs.shape != shape:
+            runtime_warning('Aligning "{0}" cmfs shape to "{1}".'.format(
+                cmfs.name, shape))
+            # pylint: disable=E1102
+            cmfs = reshape_msds(cmfs, shape)
+
+    if illuminant.shape != shape:
+        runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
+            illuminant.name, shape))
+        illuminant = reshape_sd(illuminant, shape)
+
+    XYZ_b = cmfs.values
     S = illuminant.values
-    x_bar, y_bar, z_bar = tsplit(cmfs.values)
-    R = sd.values
+    R = np.reshape(R, (-1, wl_c_r))
 
-    dw = cmfs.shape.interval
+    d_w = cmfs.shape.interval
 
-    k = 100 / (np.sum(y_bar * S) * dw) if k is None else k
+    k = 100 / (np.sum(XYZ_b[..., 1] * S) * d_w) if k is None else k
 
-    X_p = R * x_bar * S * dw
-    Y_p = R * y_bar * S * dw
-    Z_p = R * z_bar * S * dw
+    XYZ = k * np.dot(R * S, XYZ_b) * d_w
 
-    XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
-
-    return from_range_100(XYZ)
+    return from_range_100(np.reshape(XYZ, list(shape_R[:-1]) + [3]))
 
 
 def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
@@ -600,7 +629,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
                             SPECTRAL_SHAPE_ASTME308, 'Trim')
 
     if illuminant is None:
-        illuminant = sd_ones(SPECTRAL_SHAPE_ASTME308)
+        illuminant = _SD_ONES_ASTME308
 
     if cmfs.shape.interval != 1:
         runtime_warning('Interpolating "{0}" cmfs to 1nm interval.'.format(
@@ -705,26 +734,13 @@ def sd_to_XYZ_ASTME308(sd,
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> data = {
-    ...     400: 0.0641,
-    ...     420: 0.0645,
-    ...     440: 0.0562,
-    ...     460: 0.0537,
-    ...     480: 0.0559,
-    ...     500: 0.0651,
-    ...     520: 0.0705,
-    ...     540: 0.0772,
-    ...     560: 0.0870,
-    ...     580: 0.1128,
-    ...     600: 0.1360,
-    ...     620: 0.1511,
-    ...     640: 0.1688,
-    ...     660: 0.1996,
-    ...     680: 0.2397,
-    ...     700: 0.2852
-    ... }
-    >>> sd = SpectralDistribution(data)
     >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> shape = SpectralShape(400, 700, 20)
+    >>> data = np.array([
+    ...     0.0641, 0.0645, 0.0562, 0.0537, 0.0559, 0.0651, 0.0705, 0.0772,
+    ...     0.0870, 0.1128, 0.1360, 0.1511, 0.1688, 0.1996, 0.2397, 0.2852
+    ... ])
+    >>> sd = SpectralDistribution(data, shape)
     >>> sd_to_XYZ_ASTME308(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8401953...,   9.6841740...,   6.2158913...])
@@ -736,7 +752,7 @@ def sd_to_XYZ_ASTME308(sd,
                             SPECTRAL_SHAPE_ASTME308, 'Trim')
 
     if illuminant is None:
-        illuminant = sd_ones(SPECTRAL_SHAPE_ASTME308)
+        illuminant = _SD_ONES_ASTME308
 
     if sd.shape.interval not in (1, 5, 10, 20):
         raise ValueError(
@@ -824,10 +840,17 @@ def sd_to_XYZ(sd,
     Converts given spectral distribution to *CIE XYZ* tristimulus values using
     given colour matching functions, illuminant and method.
 
+    If ``method`` is *Integration*, the spectral distribution can be either a
+    :class:`colour.SpectralDistribution` class instance or an *array_like* in
+    which case the ``shape`` must be passed.
+
     Parameters
     ----------
-    sd : SpectralDistribution
-        Spectral distribution.
+    sd : SpectralDistribution or array_like
+        Spectral distribution, if an *array_like* and ``method`` is
+        *Integration* the wavelengths are expected to be in the last axis, e.g.
+        for a spectral array with 77 bins, ``sd`` shape could be (77, ) or
+        (1, 77).
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
@@ -869,10 +892,13 @@ def sd_to_XYZ(sd,
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
         appropriately.
+    shape : SpectralShape, optional
+        Spectral shape of the spectral distribution, ``cmfs`` and
+        ``illuminant`` will be aligned to it if ``sd`` is an  *array_like*.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE XYZ* tristimulus values.
 
     Notes
@@ -884,6 +910,14 @@ def sd_to_XYZ(sd,
     | ``XYZ``   | [0, 100]              | [0, 1]        |
     +-----------+-----------------------+---------------+
 
+    -   The code path using the *array_like* spectral distribution produces
+        results different to the code path using a
+        :class:`colour.SpectralDistribution` class instance: the former
+        favours execution speed by aligning the colour matching functions and
+        illuminant to the given spectral shape while the latter favours
+        precision by aligning the spectral distribution to the colour matching
+        functions.
+
     References
     ----------
     :cite:`ASTMInternational2011a`, :cite:`ASTMInternational2015b`,
@@ -891,28 +925,17 @@ def sd_to_XYZ(sd,
 
     Examples
     --------
-    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
+    >>> import numpy as np
+    >>> from colour import (
+    ...     MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution, SpectralShape)
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> data = {
-    ...     400: 0.0641,
-    ...     420: 0.0645,
-    ...     440: 0.0562,
-    ...     460: 0.0537,
-    ...     480: 0.0559,
-    ...     500: 0.0651,
-    ...     520: 0.0705,
-    ...     540: 0.0772,
-    ...     560: 0.0870,
-    ...     580: 0.1128,
-    ...     600: 0.1360,
-    ...     620: 0.1511,
-    ...     640: 0.1688,
-    ...     660: 0.1996,
-    ...     680: 0.2397,
-    ...     700: 0.2852
-    ... }
-    >>> sd = SpectralDistribution(data)
     >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> shape = SpectralShape(400, 700, 20)
+    >>> data = np.array([
+    ...     0.0641, 0.0645, 0.0562, 0.0537, 0.0559, 0.0651, 0.0705, 0.0772,
+    ...     0.0870, 0.1128, 0.1360, 0.1511, 0.1688, 0.1996, 0.2397, 0.2852
+    ... ])
+    >>> sd = SpectralDistribution(data, shape)
     >>> sd_to_XYZ(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8401953...,   9.6841740...,   6.2158913...])
@@ -922,6 +945,9 @@ def sd_to_XYZ(sd,
     >>> sd_to_XYZ(sd, cmfs, illuminant, method='Integration')
     ... # doctest: +ELLIPSIS
     array([ 10.8404805...,   9.6838697...,   6.2115722...])
+    >>> sd_to_XYZ(data, cmfs, illuminant, method='Integration', shape=shape)
+    ... # doctest: +ELLIPSIS
+    array([ 10.8993917...,   9.6986145...,   6.2540301...])
     """
 
     if cmfs is None:
@@ -930,15 +956,17 @@ def sd_to_XYZ(sd,
                             SPECTRAL_SHAPE_DEFAULT)
 
     if illuminant is None:
-        illuminant = sd_ones()
+        illuminant = _SD_ONES_DEFAULT
 
     method = validate_method(method, SD_TO_XYZ_METHODS)
 
     global _CACHE_SD_TO_XYZ
 
     hash_key = tuple([
-        hash(arg) for arg in (sd, cmfs, illuminant, k, method,
-                              tuple(kwargs.items()), get_domain_range_scale())
+        hash(arg) for arg in (
+            sd if isinstance(sd, SpectralDistribution) else sd.tobytes(), cmfs,
+            illuminant, k, method, tuple(kwargs.items()),
+            get_domain_range_scale())
     ])
     if hash_key in _CACHE_SD_TO_XYZ:
         return np.copy(_CACHE_SD_TO_XYZ[hash_key])
@@ -957,13 +985,14 @@ def msds_to_XYZ_integration(msds,
                             cmfs=None,
                             illuminant=None,
                             k=None,
-                            shape=SPECTRAL_SHAPE_DEFAULT):
+                            shape=None):
     """
     Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant. The multi-spectral
-    distribution can be either a :class:`colour.MultiSpectralDistributions`
-    class instance or an *array_like* in which case the ``shape`` must be
-    passed.
+    using given colour matching functions and illuminant.
+
+    The multi-spectral distributions can be either a
+    :class:`colour.MultiSpectralDistributions` class instance or an
+    *array_like* in which case the ``shape`` must be passed.
 
     Parameters
     ----------
@@ -993,7 +1022,7 @@ def msds_to_XYZ_integration(msds,
         to the photometric quantity required.
     shape : SpectralShape, optional
         Spectral shape of the multi-spectral distributions, ``cmfs`` and
-        ``illuminant`` will be aligned to it.
+        ``illuminant`` will be aligned to it if ``msds`` is an  *array_like*.
 
     Returns
     -------
@@ -1024,9 +1053,10 @@ def msds_to_XYZ_integration(msds,
 
     Examples
     --------
-    >>> from colour import SDS_ILLUMINANTS
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> illuminant = SDS_ILLUMINANTS['D65']
     >>> shape = SpectralShape(400, 700, 60)
-    >>> D65 = SDS_ILLUMINANTS['D65']
     >>> data = np.array([
     ...     [0.0137, 0.0159, 0.0096, 0.0111, 0.0179, 0.1057, 0.0433,
     ...      0.0258, 0.0248, 0.0186, 0.0310, 0.0473],
@@ -1041,102 +1071,40 @@ def msds_to_XYZ_integration(msds,
     ...     [0.0430, 0.0437, 0.3744, 0.0020, 0.5819, 0.0027, 0.0823,
     ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
     ... ])
-    >>> msds = MultiSpectralDistributions(data, shape.range())
-    >>> msds_to_XYZ_integration(msds, illuminant=D65, shape=shape)
+    >>> msds = MultiSpectralDistributions(data, shape)
+    >>> msds_to_XYZ_integration(msds, cmfs, illuminant, shape=shape)
     ... # doctest: +ELLIPSIS
-    array([[  7.5029651...,   3.9487840...,   8.4034770...],
-           [ 26.925986 ...,  15.0724738...,  28.7058153...],
-           [ 16.7031140...,  28.2172235...,  25.6456293...],
-           [ 11.5767146...,   8.6401095...,   6.5768486...],
-           [ 18.7313077...,  35.0750086...,  30.1457629...],
-           [ 45.1657291...,  39.6137391...,  43.6784025...],
-           [  8.1755520...,  13.0934236...,  25.9421257...],
-           [ 22.4676530...,  19.3099303...,   7.9637645...],
-           [  6.5780111...,   2.5254943...,  11.0930902...],
-           [ 43.9146821...,  27.9803874...,  11.7292796...],
-           [  8.5363407...,  19.7029458...,  17.7051147...],
-           [ 23.9088530...,  26.2129842...,  30.6763518...]])
-    >>> msds = np.array([
-    ...     [
-    ...         [0.0137, 0.0913, 0.0152, 0.0281, 0.1918, 0.0430],
-    ...         [0.0159, 0.3145, 0.0842, 0.0907, 0.7103, 0.0437],
-    ...         [0.0096, 0.2582, 0.4139, 0.2228, 0.0041, 0.3744],
-    ...         [0.0111, 0.0709, 0.0220, 0.1249, 0.1817, 0.0020],
-    ...         [0.0179, 0.2971, 0.5630, 0.2375, 0.0024, 0.5819],
-    ...         [0.1057, 0.4620, 0.1918, 0.5625, 0.4209, 0.0027],
-    ...     ],
-    ...     [
-    ...         [0.0433, 0.2683, 0.2373, 0.0518, 0.0118, 0.0823],
-    ...         [0.0258, 0.0831, 0.0430, 0.3230, 0.2302, 0.0081],
-    ...         [0.0248, 0.1203, 0.0054, 0.0065, 0.1860, 0.3625],
-    ...         [0.0186, 0.1292, 0.0079, 0.4006, 0.9404, 0.3213],
-    ...         [0.0310, 0.1682, 0.3719, 0.0861, 0.0041, 0.7849],
-    ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
-    ...     ],
-    ... ])
-    >>> msds_to_XYZ_integration(msds, illuminant=D65, shape=shape)
+    array([[  7.5029704...,   3.9487844...,   8.4034669...],
+           [ 26.9259681...,  15.0724609...,  28.7057807...],
+           [ 16.7032188...,  28.2172346...,  25.6455984...],
+           [ 11.5767013...,   8.6400993...,   6.5768406...],
+           [ 18.7314793...,  35.0750364...,  30.1457266...],
+           [ 45.1656756...,  39.6136917...,  43.6783499...],
+           [  8.1755696...,  13.0934177...,  25.9420944...],
+           [ 22.4676286...,  19.3099080...,   7.9637549...],
+           [  6.5781241...,   2.5255349...,  11.0930768...],
+           [ 43.9147364...,  27.9803924...,  11.7292655...],
+           [  8.5365923...,  19.7030166...,  17.7050933...],
+           [ 23.9088250...,  26.2129529...,  30.6763148...]])
+    >>> data = np.reshape(data, (2, 6, 6))
+    >>> msds_to_XYZ_integration(data, cmfs, illuminant, shape=shape)
     ... # doctest: +ELLIPSIS
-    array([[[  7.1958378...,   3.8605390...,  10.1016398...],
-            [ 25.5738615...,  14.7200581...,  34.8440007...],
-            [ 17.5854414...,  28.5668344...,  30.1806687...],
-            [ 11.3271912...,   8.4598177...,   7.9015758...],
-            [ 19.6581831...,  35.5918480...,  35.1430220...],
-            [ 45.8212491...,  39.2600939...,  51.7907710...]],
+    array([[[  1.3104332...,   1.1377026...,   1.8267926...],
+            [  2.1875548...,   2.2510619...,   3.0721540...],
+            [ 16.8714661...,  17.7063715...,  35.8709902...],
+            [ 12.1648722...,  12.7222194...,  10.4880888...],
+            [ 16.0419431...,  23.0985768...,  11.1479902...],
+            [  9.2391014...,   3.8301575...,   5.4703803...]],
     <BLANKLINE>
-           [[  8.8287837...,  13.3870357...,  30.5702050...],
-            [ 22.3324362...,  18.9560919...,   9.3952305...],
-            [  6.6887212...,   2.5728891...,  13.2618778...],
-            [ 41.8166227...,  27.1191979...,  14.2627944...],
-            [  9.2414098...,  20.2056200...,  20.1992502...],
-            [ 24.7830551...,  26.2221584...,  36.4430633...]]])
+           [[ 13.8734231...,  17.3942194...,  11.0364103...],
+            [ 27.7096381...,  20.8626722...,  35.5581690...],
+            [ 22.7886687...,  11.4769218...,  78.3300659...],
+            [ 51.1284864...,  52.2463568...,  26.1483754...],
+            [ 14.4749229...,  20.5011495...,   6.6228107...],
+            [ 33.6001365...,  36.3242617...,   2.8254217...]]])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT)
-
-    if illuminant is None:
-        illuminant = sd_ones()
-
-    if isinstance(msds, MultiSpectralDistributions):
-        return as_float_array([
-            sd_to_XYZ_integration(sd, cmfs, illuminant, k)
-            for sd in msds.to_sds()
-        ])
-    else:
-        msds = as_float_array(msds)
-
-        msd_shape_m_1, shape_wl_count = msds.shape[-1], len(shape.range())
-        assert msd_shape_m_1 == shape_wl_count, (
-            'Multi-spectral distributions array with {0} wavelengths '
-            'is not compatible with spectral shape with {1} wavelengths!'.
-            format(msd_shape_m_1, shape_wl_count))
-
-        if cmfs.shape != shape:
-            runtime_warning('Aligning "{0}" cmfs shape to "{1}".'.format(
-                cmfs.name, shape))
-            # pylint: disable=E1102
-            cmfs = reshape_msds(cmfs, shape)
-
-        if illuminant.shape != shape:
-            runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
-                illuminant.name, shape))
-            illuminant = reshape_sd(illuminant, shape)
-
-        S = illuminant.values
-        x_bar, y_bar, z_bar = tsplit(cmfs.values)
-        dw = cmfs.shape.interval
-
-        k = 100 / (np.sum(y_bar * S) * dw) if k is None else k
-
-        X_p = msds * x_bar * S * dw
-        Y_p = msds * y_bar * S * dw
-        Z_p = msds * z_bar * S * dw
-
-        XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
-
-        return from_range_100(np.rollaxis(XYZ, 0, msds.ndim))
+    return sd_to_XYZ_integration(msds, cmfs, illuminant, k, shape)
 
 
 def msds_to_XYZ_ASTME308(msds,
@@ -1187,9 +1155,6 @@ def msds_to_XYZ_ASTME308(msds,
         683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
         be the spectral concentration of the radiometric quantity corresponding
         to the photometric quantity required.
-    shape : SpectralShape, optional
-        Spectral shape of the multi-spectral distributions, ``cmfs`` and
-        ``illuminant`` will be aligned to it.
 
     Returns
     -------
@@ -1219,9 +1184,10 @@ def msds_to_XYZ_ASTME308(msds,
 
     Examples
     --------
-    >>> from colour import SDS_ILLUMINANTS
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> illuminant = SDS_ILLUMINANTS['D65']
     >>> shape = SpectralShape(400, 700, 60)
-    >>> D65 = SDS_ILLUMINANTS['D65']
     >>> data = np.array([
     ...     [0.0137, 0.0159, 0.0096, 0.0111, 0.0179, 0.1057, 0.0433,
     ...      0.0258, 0.0248, 0.0186, 0.0310, 0.0473],
@@ -1236,9 +1202,9 @@ def msds_to_XYZ_ASTME308(msds,
     ...     [0.0430, 0.0437, 0.3744, 0.0020, 0.5819, 0.0027, 0.0823,
     ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
     ... ])
-    >>> msds = MultiSpectralDistributions(data, shape.range())
+    >>> msds = MultiSpectralDistributions(data, shape)
     >>> msds = msds.align(SpectralShape(400, 700, 20))
-    >>> msds_to_XYZ_ASTME308(msds, illuminant=D65)
+    >>> msds_to_XYZ_ASTME308(msds, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([[  7.5052758...,   3.9557516...,   8.38929  ...],
            [ 26.9408494...,  15.0987746...,  28.6631260...],
@@ -1260,7 +1226,7 @@ def msds_to_XYZ_ASTME308(msds,
                             SPECTRAL_SHAPE_ASTME308, 'Trim')
 
     if illuminant is None:
-        illuminant = sd_ones(SPECTRAL_SHAPE_ASTME308)
+        illuminant = _SD_ONES_ASTME308
 
     if isinstance(msds, MultiSpectralDistributions):
         return as_float_array([
@@ -1392,6 +1358,9 @@ def msds_to_XYZ(msds,
 
     Examples
     --------
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> illuminant = SDS_ILLUMINANTS['D65']
     >>> shape = SpectralShape(400, 700, 60)
     >>> data = np.array([
     ...     [0.0137, 0.0159, 0.0096, 0.0111, 0.0179, 0.1057, 0.0433,
@@ -1407,54 +1376,37 @@ def msds_to_XYZ(msds,
     ...     [0.0430, 0.0437, 0.3744, 0.0020, 0.5819, 0.0027, 0.0823,
     ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
     ... ])
-    >>> msds = MultiSpectralDistributions(data, shape.range())
-    >>> msds_to_XYZ(msds, method='Integration', shape=shape)
+    >>> msds = MultiSpectralDistributions(data, shape)
+    >>> msds_to_XYZ(msds, cmfs, illuminant, method='Integration', shape=shape)
     ... # doctest: +ELLIPSIS
-    array([[  8.2415862...,   4.2543993...,   7.6100842...],
-           [ 29.6144619...,  16.1158465...,  25.9015472...],
-           [ 16.6799560...,  27.2350547...,  22.9413337...],
-           [ 12.5597688...,   9.0667136...,   5.9670327...],
-           [ 18.5804689...,  33.6618109...,  26.9249733...],
-           [ 47.7113308...,  40.4573249...,  39.6439145...],
-           [  7.830207 ...,  12.3689624...,  23.3742655...],
-           [ 24.1695370...,  20.0629815...,   7.2718670...],
-           [  7.2333751...,   2.7982097...,  10.0688374...],
-           [ 48.7358074...,  30.2417164...,  10.6753233...],
-           [  8.3231013...,  18.6791507...,  15.8228184...],
-           [ 24.6452277...,  26.0809382...,  27.7106399...]])
-    >>> msds = np.array([
-    ...     [
-    ...         [0.0137, 0.0913, 0.0152, 0.0281, 0.1918, 0.0430],
-    ...         [0.0159, 0.3145, 0.0842, 0.0907, 0.7103, 0.0437],
-    ...         [0.0096, 0.2582, 0.4139, 0.2228, 0.0041, 0.3744],
-    ...         [0.0111, 0.0709, 0.0220, 0.1249, 0.1817, 0.0020],
-    ...         [0.0179, 0.2971, 0.5630, 0.2375, 0.0024, 0.5819],
-    ...         [0.1057, 0.4620, 0.1918, 0.5625, 0.4209, 0.0027],
-    ...     ],
-    ...     [
-    ...         [0.0433, 0.2683, 0.2373, 0.0518, 0.0118, 0.0823],
-    ...         [0.0258, 0.0831, 0.0430, 0.3230, 0.2302, 0.0081],
-    ...         [0.0248, 0.1203, 0.0054, 0.0065, 0.1860, 0.3625],
-    ...         [0.0186, 0.1292, 0.0079, 0.4006, 0.9404, 0.3213],
-    ...         [0.0310, 0.1682, 0.3719, 0.0861, 0.0041, 0.7849],
-    ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
-    ...     ],
-    ... ])
-    >>> msds_to_XYZ(msds, method='Integration', shape=shape)
+    array([[  7.5029704...,   3.9487844...,   8.4034669...],
+           [ 26.9259681...,  15.0724609...,  28.7057807...],
+           [ 16.7032188...,  28.2172346...,  25.6455984...],
+           [ 11.5767013...,   8.6400993...,   6.5768406...],
+           [ 18.7314793...,  35.0750364...,  30.1457266...],
+           [ 45.1656756...,  39.6136917...,  43.6783499...],
+           [  8.1755696...,  13.0934177...,  25.9420944...],
+           [ 22.4676286...,  19.3099080...,   7.9637549...],
+           [  6.5781241...,   2.5255349...,  11.0930768...],
+           [ 43.9147364...,  27.9803924...,  11.7292655...],
+           [  8.5365923...,  19.7030166...,  17.7050933...],
+           [ 23.9088250...,  26.2129529...,  30.6763148...]])
+    >>> data = np.reshape(data, (2, 6, 6))
+    >>> msds_to_XYZ(data, cmfs, illuminant, method='Integration', shape=shape)
     ... # doctest: +ELLIPSIS
-    array([[[  7.6862675...,   4.0925470...,   8.4950412...],
-            [ 27.4119366...,  15.5014764...,  29.2825122...],
-            [ 17.1283666...,  27.7798651...,  25.5232032...],
-            [ 11.9824544...,   8.8127109...,   6.6518695...],
-            [ 19.1030682...,  34.4597818...,  29.7653804...],
-            [ 46.8243374...,  39.9551652...,  43.6541858...]],
+    array([[[  1.3104332...,   1.1377026...,   1.8267926...],
+            [  2.1875548...,   2.2510619...,   3.0721540...],
+            [ 16.8714661...,  17.7063715...,  35.8709902...],
+            [ 12.1648722...,  12.7222194...,  10.4880888...],
+            [ 16.0419431...,  23.0985768...,  11.1479902...],
+            [  9.2391014...,   3.8301575...,   5.4703803...]],
     <BLANKLINE>
-           [[  8.0978189...,  12.7544378...,  25.8004512...],
-            [ 23.4360673...,  19.6127966...,   7.9342408...],
-            [  7.0933208...,   2.7894394...,  11.1527704...],
-            [ 45.6313772...,  29.0068105...,  11.9934522...],
-            [  8.9327884...,  19.4008147...,  17.1534186...],
-            [ 24.6610235...,  26.1093760...,  30.7298791...]]])
+           [[ 13.8734231...,  17.3942194...,  11.0364103...],
+            [ 27.7096381...,  20.8626722...,  35.5581690...],
+            [ 22.7886687...,  11.4769218...,  78.3300659...],
+            [ 51.1284864...,  52.2463568...,  26.1483754...],
+            [ 14.4749229...,  20.5011495...,   6.6228107...],
+            [ 33.6001365...,  36.3242617...,   2.8254217...]]])
     """
 
     if cmfs is None:
@@ -1463,7 +1415,7 @@ def msds_to_XYZ(msds,
                             SPECTRAL_SHAPE_DEFAULT)
 
     if illuminant is None:
-        illuminant = sd_ones()
+        illuminant = _SD_ONES_DEFAULT
 
     method = validate_method(method, MSDS_TO_XYZ_METHODS)
 

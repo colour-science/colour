@@ -592,6 +592,15 @@ sd_to_XYZ_integration` definition.
             np.array([14.46341147, 10.85819624, 2.04695585]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            sd_to_XYZ_integration(
+                SD_SAMPLE.values,
+                cmfs,
+                SDS_ILLUMINANTS['A'],
+                shape=SD_SAMPLE.shape),
+            np.array([14.46365947, 10.85828084, 2.04663993]),
+            decimal=7)
+
         cmfs = MSDS_CMFS_STANDARD_OBSERVER[
             'CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
