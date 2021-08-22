@@ -26,7 +26,7 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series)
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
-from colour.utilities import as_int, usage_warning
+from colour.utilities import CACHE_REGISTRY, as_int, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -59,7 +59,8 @@ RESOURCES_DIRECTORY_CIE2017 = os.path.join(
 RESOURCES_DIRECTORY_CIE2017 : unicode
 """
 
-_CACHE_TCS_CIE2017 = {}
+_CACHE_TCS_CIE2017 = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_TCS_CIE2017'.format(__name__))
 
 
 class TCS_ColorimetryData_CIE2017(

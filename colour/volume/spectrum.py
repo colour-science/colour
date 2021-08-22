@@ -27,7 +27,7 @@ from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SpectralShape,
                                 msds_to_XYZ, reshape_msds, sd_ones)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
-from colour.utilities import zeros, validate_method
+from colour.utilities import CACHE_REGISTRY, zeros, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -49,8 +49,11 @@ interval of 5.
 SPECTRAL_SHAPE_OUTER_SURFACE_XYZ : SpectralShape
 """
 
-_CACHE_OUTER_SURFACE_XYZ = {}
-_CACHE_OUTER_SURFACE_XYZ_POINTS = {}
+_CACHE_OUTER_SURFACE_XYZ = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_OUTER_SURFACE_XYZ'.format(__name__))
+
+_CACHE_OUTER_SURFACE_XYZ_POINTS = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_OUTER_SURFACE_XYZ_POINTS'.format(__name__))
 
 
 def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):

@@ -33,10 +33,10 @@ from colour.algebra import (Extrapolator, CubicSplineInterpolator,
                             SpragueInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
-from colour.utilities import (as_float, as_int, copy_definition, filter_kwargs,
-                              first_item, is_iterable, is_numeric, is_string,
-                              is_uniform, interval, runtime_warning, tstack,
-                              validate_method)
+from colour.utilities import (
+    CACHE_REGISTRY, as_float, as_int, copy_definition, filter_kwargs,
+    first_item, is_iterable, is_numeric, is_string, is_uniform, interval,
+    runtime_warning, tstack, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -2666,7 +2666,8 @@ def sds_and_msds_to_msds(sds):
     return msds
 
 
-_CACHE_RESHAPED_SDS_AND_MSDS = {}
+_CACHE_RESHAPED_SDS_AND_MSDS = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_RESHAPED_SDS_AND_MSDS'.format(__name__))
 
 
 def reshape_sd(sd, shape=SPECTRAL_SHAPE_DEFAULT, method='Align', **kwargs):

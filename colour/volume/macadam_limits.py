@@ -11,6 +11,7 @@ from scipy.spatial import Delaunay
 
 from colour.models import xyY_to_XYZ
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
+from colour.utilities import CACHE_REGISTRY
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -21,8 +22,13 @@ __status__ = 'Production'
 
 __all__ = ['is_within_macadam_limits']
 
-_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ = {}
-_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS = {}
+_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ'.format(__name__))
+
+_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS = (
+    CACHE_REGISTRY.register_cache(
+        '{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS'.format(
+            __name__)))
 
 
 def _XYZ_optimal_colour_stimuli(illuminant):
