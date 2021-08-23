@@ -20,9 +20,10 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (
-    MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, SpectralDistribution,
-    SpectralShape, msds_to_XYZ, sd_to_XYZ, reshape_msds, reshape_sd)
+from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
+                                SpectralDistribution, SpectralShape,
+                                msds_to_XYZ_integration, sd_to_XYZ,
+                                reshape_msds, reshape_sd)
 from colour.models import XYZ_to_xy
 from colour.recovery import (SPECTRAL_SHAPE_OTSU2018, BASIS_FUNCTIONS_OTSU2018,
                              CLUSTER_MEANS_OTSU2018, SELECTOR_ARRAY_OTSU2018)
@@ -592,11 +593,10 @@ class Data:
         if value is not None:
             self._reflectances = as_float_array(value)
 
-            self._XYZ = msds_to_XYZ(
+            self._XYZ = msds_to_XYZ_integration(
                 self._reflectances,
                 self.tree.cmfs,
                 self.tree.illuminant,
-                method='Integration',
                 shape=self.tree.cmfs.shape) / 100
             self._xy = XYZ_to_xy(self._XYZ)
 
@@ -946,15 +946,21 @@ class Node:
         if self._M is not None:
             return
 
+        settings = {
+            'cmfs': self._tree.cmfs,
+            'illuminant': self._tree.illuminant,
+            'shape': self._tree.cmfs.shape
+        }
         self._mean = np.mean(self._data.reflectances, axis=0)
-        self._XYZ_mu = self._tree.msds_to_XYZ(self._mean)
+        self._XYZ_mu = msds_to_XYZ_integration(self._mean, **settings) / 100
 
         matrix_data = self._data.reflectances - self._mean
         matrix_covariance = np.dot(np.transpose(matrix_data), matrix_data)
         _eigenvalues, eigenvectors = np.linalg.eigh(matrix_covariance)
         self._basis_functions = np.transpose(eigenvectors[:, -3:])
 
-        self._M = np.transpose(self._tree.msds_to_XYZ(self._basis_functions))
+        self._M = np.transpose(
+            msds_to_XYZ_integration(self._basis_functions, **settings) / 100)
         self._M_inverse = np.linalg.inv(self._M)
 
     def reconstruct(self, XYZ):
@@ -1174,7 +1180,6 @@ class NodeTree_Otsu2018(Node):
     -------
     -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.__init__`
     -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.__str__`
-    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.msds_to_XYZ`
     -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.optimise`
     -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.to_dataset`
 
@@ -1282,13 +1287,6 @@ class NodeTree_Otsu2018(Node):
             illuminant = reshape_sd(illuminant, cmfs.shape)
 
         self._illuminant = illuminant
-
-        self._dw = shape.interval
-
-        # Normalising constant :math:`k`, see :func:`colour.msds_to_XYZ`
-        # definition.
-        self._k = 1 / (np.sum(
-            self._cmfs.values[:, 1] * self._illuminant.values) * self._dw)
 
         self._minimum_cluster_size = None
 
@@ -1405,29 +1403,6 @@ class NodeTree_Otsu2018(Node):
             rows[i][3] = symbol_table[symbol_2]
 
         return as_float_array(rows)
-
-    def msds_to_XYZ(self, reflectances):
-        """
-        Computes the XYZ tristimulus values of a given reflectance. Faster for
-        humans, by using cmfs and the illuminant stored in the ''tree'',
-        thus avoiding unnecessary repetition. Faster for computers, by using
-        a very simple and direct method.
-
-        Parameters
-        ----------
-        reflectances : ndarray
-            Reflectance with shape matching the one used to construct this
-            ``tree``.
-
-        Returns
-        -------
-        ndarray (3,)
-            XYZ tristimulus values, normalised to 1.
-        """
-
-        E = self._illuminant.values * reflectances
-
-        return self._k * np.dot(E, self._cmfs.values) * self._dw
 
     def optimise(self,
                  iterations=8,

@@ -51,6 +51,9 @@ __all__ = [
     'sds_and_msds_to_msds', 'reshape_sd', 'reshape_msds'
 ]
 
+_CACHE_SHAPE_RANGE = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_SHAPE_RANGE'.format(__name__))
+
 
 class SpectralShape:
     """
@@ -92,8 +95,6 @@ class SpectralShape:
     """
 
     def __init__(self, start=None, end=None, interval=None):
-        self._range = None
-
         self._start = None
         self._end = None
         self._interval = None
@@ -135,10 +136,6 @@ class SpectralShape:
                     '"{0}" attribute value must be strictly less than '
                     '"{1}"!'.format('start', self._end))
 
-        # Invalidating the *range* cache.
-        if value != self._start:
-            self._range = None
-
         self._start = value
 
     @property
@@ -175,10 +172,6 @@ class SpectralShape:
                     '"{0}" attribute value must be strictly greater than '
                     '"{1}"!'.format('end', self._start))
 
-        # Invalidating the *range* cache.
-        if value != self._end:
-            self._range = None
-
         self._end = value
 
     @property
@@ -209,10 +202,6 @@ class SpectralShape:
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'interval', value))
-
-        # Invalidating the *range* cache.
-        if value != self._interval:
-            self._range = None
 
         self._interval = value
 
@@ -465,23 +454,25 @@ class SpectralShape:
             raise RuntimeError(('One of the spectral shape "start", "end" or '
                                 '"interval" attributes is not defined!'))
 
-        if self._range is None:
-            samples = as_int(
-                round((self._interval + self._end - self._start) /
-                      self._interval))
-            range_, current_interval = np.linspace(
-                self._start, self._end, samples, retstep=True, dtype=dtype)
+        hash_key = tuple([hash(arg) for arg in (self, dtype)])
+        if hash_key in _CACHE_SHAPE_RANGE:
+            return _CACHE_SHAPE_RANGE[hash_key].copy()
 
-            self._range = range_
+        samples = as_int(
+            round((self._interval + self._end - self._start) / self._interval))
+        range_, current_interval = np.linspace(
+            self._start, self._end, samples, retstep=True, dtype=dtype)
 
-            if current_interval != self._interval:
-                self._interval = current_interval
-                runtime_warning(
-                    ('"{0}" shape could not be honoured, using '
-                     '"{1}"!').format((self._start, self._end, self._interval),
-                                      self))
+        _CACHE_SHAPE_RANGE[hash_key] = range_
 
-        return self._range
+        if current_interval != self._interval:
+            self._interval = current_interval
+            runtime_warning(
+                ('"{0}" shape could not be honoured, using '
+                 '"{1}"!').format((self._start, self._end, self._interval),
+                                  self))
+
+        return range_
 
 
 SPECTRAL_SHAPE_DEFAULT = SpectralShape(360, 780, 1)

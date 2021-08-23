@@ -238,8 +238,7 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__str__', 'msds_to_XYZ', 'optimise',
-                            'to_dataset')
+        required_methods = ('__init__', '__str__', 'optimise', 'to_dataset')
 
         for method in required_methods:
             self.assertIn(method, dir(NodeTree_Otsu2018))
