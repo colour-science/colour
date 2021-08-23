@@ -31,6 +31,7 @@ from .mallett2019 import (spectral_primary_decomposition_Mallett2019,
 from .meng2015 import XYZ_to_sd_Meng2015
 from .otsu2018 import Dataset_Otsu2018, NodeTree_Otsu2018, XYZ_to_sd_Otsu2018
 from .smits1999 import RGB_to_sd_Smits1999
+from .dyer2017 import DATA_BASIS_FUNCTIONS_DYER2017
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
@@ -43,6 +44,7 @@ __all__ += [
 __all__ += ['XYZ_to_sd_Meng2015']
 __all__ += ['Dataset_Otsu2018', 'NodeTree_Otsu2018', 'XYZ_to_sd_Otsu2018']
 __all__ += ['RGB_to_sd_Smits1999']
+__all__ += ['DATA_BASIS_FUNCTIONS_DYER2017']
 
 XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
     'Jakob 2019': XYZ_to_sd_Jakob2019,
