@@ -110,7 +110,8 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     illuminant : SpectralDistribution, optional
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
         :func:`colour.recovery.XYZ_to_sd_Meng2015`},
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
     interval : numeric, optional
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller

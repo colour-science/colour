@@ -112,8 +112,12 @@ def sd_to_XYZ(sd,
 
 
 sd_to_XYZ.__doc__ = colour.sd_to_XYZ.__doc__.replace(
-    'Illuminant spectral distribution.', 'Illuminant spectral distribution, '
-    'default to *CIE Standard Illuminant D65*.')
+    'CIE Illuminant E',
+    'CIE Standard Illuminant D65',
+).replace(
+    'sd_to_XYZ(sd)',
+    'sd_to_XYZ(sd)  # doctest: +SKIP',
+)
 
 
 def CIECAM02_to_JMh_CIECAM02(CAM_Specification_CIECAM02):
