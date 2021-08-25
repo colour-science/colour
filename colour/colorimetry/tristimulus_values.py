@@ -420,7 +420,7 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None, shape=None):
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
     k : numeric, optional
         Normalisation constant :math:`k`. For reflecting or transmitting object
         colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
@@ -438,7 +438,7 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None, shape=None):
         to the photometric quantity required.
     shape : SpectralShape, optional
         Spectral shape of the spectral distribution, ``cmfs`` and
-        ``illuminant`` will be aligned to it if ``sd`` is an  *array_like*.
+        ``illuminant`` will be aligned to it if ``sd`` is an *array_like*.
 
     Returns
     -------
@@ -483,6 +483,13 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None, shape=None):
     >>> sd_to_XYZ_integration(data, cmfs, illuminant, shape=shape)
     ... # doctest: +ELLIPSIS
     array([ 10.8993917...,   9.6986145...,   6.2540301...])
+
+    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
+    # default illuminant is "CIE Illuminant E":
+
+    >>> sd_to_XYZ_integration(sd)
+    ... # doctest: +ELLIPSIS
+    array([ 11.7786939...,   9.9583972...,   5.7371816...])
     """
 
     if cmfs is None:
@@ -559,7 +566,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
     k : numeric, optional
         Normalisation constant :math:`k`. For reflecting or transmitting object
         colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
@@ -683,7 +690,7 @@ def sd_to_XYZ_ASTME308(sd,
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
     use_practice_range : bool, optional
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
@@ -744,6 +751,13 @@ def sd_to_XYZ_ASTME308(sd,
     >>> sd_to_XYZ_ASTME308(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8401953...,   9.6841740...,   6.2158913...])
+
+    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
+    # default illuminant is "CIE Illuminant E":
+
+    >>> sd_to_XYZ_ASTME308(sd)
+    ... # doctest: +ELLIPSIS
+    array([ 11.7781589...,   9.9585580...,   5.7408602...])
     """
 
     if cmfs is None:
@@ -855,7 +869,7 @@ def sd_to_XYZ(sd,
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
     k : numeric, optional
         Normalisation constant :math:`k`. For reflecting or transmitting object
         colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
@@ -894,7 +908,7 @@ def sd_to_XYZ(sd,
         appropriately.
     shape : SpectralShape, optional
         Spectral shape of the spectral distribution, ``cmfs`` and
-        ``illuminant`` will be aligned to it if ``sd`` is an  *array_like*.
+        ``illuminant`` will be aligned to it if ``sd`` is an *array_like*.
 
     Returns
     -------
@@ -948,6 +962,13 @@ def sd_to_XYZ(sd,
     >>> sd_to_XYZ(data, cmfs, illuminant, method='Integration', shape=shape)
     ... # doctest: +ELLIPSIS
     array([ 10.8993917...,   9.6986145...,   6.2540301...])
+
+    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
+    # default illuminant is "CIE Illuminant E":
+
+    >>> sd_to_XYZ(sd)
+    ... # doctest: +ELLIPSIS
+    array([ 11.7781589...,   9.9585580...,   5.7408602...])
     """
 
     if cmfs is None:
@@ -1004,7 +1025,7 @@ def msds_to_XYZ_integration(msds,
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
     k : numeric, optional
         Normalisation constant :math:`k`. For reflecting or transmitting object
         colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
@@ -1022,7 +1043,7 @@ def msds_to_XYZ_integration(msds,
         to the photometric quantity required.
     shape : SpectralShape, optional
         Spectral shape of the multi-spectral distributions, ``cmfs`` and
-        ``illuminant`` will be aligned to it if ``msds`` is an  *array_like*.
+        ``illuminant`` will be aligned to it if ``msds`` is an *array_like*.
 
     Returns
     -------
@@ -1072,7 +1093,7 @@ def msds_to_XYZ_integration(msds,
     ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
     ... ])
     >>> msds = MultiSpectralDistributions(data, shape)
-    >>> msds_to_XYZ_integration(msds, cmfs, illuminant, shape=shape)
+    >>> msds_to_XYZ_integration(msds, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([[  7.5029704...,   3.9487844...,   8.4034669...],
            [ 26.9259681...,  15.0724609...,  28.7057807...],
@@ -1102,6 +1123,24 @@ def msds_to_XYZ_integration(msds,
             [ 51.1284864...,  52.2463568...,  26.1483754...],
             [ 14.4749229...,  20.5011495...,   6.6228107...],
             [ 33.6001365...,  36.3242617...,   2.8254217...]]])
+
+    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
+    # default illuminant is "CIE Illuminant E":
+
+    >>> msds_to_XYZ_integration(msds)
+    ... # doctest: +ELLIPSIS
+    array([[  8.2415862...,   4.2543993...,   7.6100842...],
+           [ 29.6144619...,  16.1158465...,  25.9015472...],
+           [ 16.6799560...,  27.2350547...,  22.9413337...],
+           [ 12.5597688...,   9.0667136...,   5.9670327...],
+           [ 18.5804689...,  33.6618109...,  26.9249733...],
+           [ 47.7113308...,  40.4573249...,  39.6439145...],
+           [  7.830207 ...,  12.3689624...,  23.3742655...],
+           [ 24.1695370...,  20.0629815...,   7.2718670...],
+           [  7.2333751...,   2.7982097...,  10.0688374...],
+           [ 48.7358074...,  30.2417164...,  10.6753233...],
+           [  8.3231013...,  18.6791507...,  15.8228184...],
+           [ 24.6452277...,  26.0809382...,  27.7106399...]])
     """
 
     return sd_to_XYZ_integration(msds, cmfs, illuminant, k, shape)
@@ -1127,7 +1166,7 @@ def msds_to_XYZ_ASTME308(msds,
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
     use_practice_range : bool, optional
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
@@ -1218,6 +1257,24 @@ def msds_to_XYZ_ASTME308(msds,
            [ 43.9113380...,  28.0003541...,  11.6852531...],
            [  8.5496209...,  19.6913570...,  17.7400079...],
            [ 23.8866733...,  26.2147704...,  30.6297684...]])
+
+    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
+    # default illuminant is "CIE Illuminant E":
+
+    >>> msds_to_XYZ_ASTME308(msds)
+    ... # doctest: +ELLIPSIS
+    array([[  8.2439318...,   4.2617641...,   7.5977409...],
+           [ 29.6290771...,  16.1443076...,  25.8640484...],
+           [ 16.6819067...,  27.2271403...,  22.9490590...],
+           [ 12.5543694...,   9.0705685...,   5.9516323...],
+           [ 18.5921357...,  33.6508573...,  26.9511144...],
+           [ 47.6698072...,  40.4630866...,  39.5612904...],
+           [  7.8336896...,  12.3711768...,  23.3654245...],
+           [ 24.1486630...,  20.0621956...,   7.2438655...],
+           [  7.2323703...,   2.8033217...,  10.0510790...],
+           [ 48.7322793...,  30.2614779...,  10.6377135...],
+           [  8.3365770...,  18.6690888...,  15.8517212...],
+           [ 24.6240657...,  26.0805317...,  27.6706915...]])
     """
 
     if cmfs is None:
@@ -1286,7 +1343,7 @@ def msds_to_XYZ(msds,
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
     k : numeric, optional
         Normalisation constant :math:`k`. For reflecting or transmitting object
         colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
@@ -1377,7 +1434,7 @@ def msds_to_XYZ(msds,
     ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
     ... ])
     >>> msds = MultiSpectralDistributions(data, shape)
-    >>> msds_to_XYZ(msds, cmfs, illuminant, method='Integration', shape=shape)
+    >>> msds_to_XYZ(msds, cmfs, illuminant, method='Integration')
     ... # doctest: +ELLIPSIS
     array([[  7.5029704...,   3.9487844...,   8.4034669...],
            [ 26.9259681...,  15.0724609...,  28.7057807...],
@@ -1407,6 +1464,24 @@ def msds_to_XYZ(msds,
             [ 51.1284864...,  52.2463568...,  26.1483754...],
             [ 14.4749229...,  20.5011495...,   6.6228107...],
             [ 33.6001365...,  36.3242617...,   2.8254217...]]])
+
+    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
+    # default illuminant is "CIE Illuminant E":
+
+    >>> msds_to_XYZ(msds, method='Integration')
+    ... # doctest: +ELLIPSIS
+    array([[  8.2415862...,   4.2543993...,   7.6100842...],
+           [ 29.6144619...,  16.1158465...,  25.9015472...],
+           [ 16.6799560...,  27.2350547...,  22.9413337...],
+           [ 12.5597688...,   9.0667136...,   5.9670327...],
+           [ 18.5804689...,  33.6618109...,  26.9249733...],
+           [ 47.7113308...,  40.4573249...,  39.6439145...],
+           [  7.830207 ...,  12.3689624...,  23.3742655...],
+           [ 24.1695370...,  20.0629815...,   7.2718670...],
+           [  7.2333751...,   2.7982097...,  10.0688374...],
+           [ 48.7358074...,  30.2417164...,  10.6753233...],
+           [  8.3231013...,  18.6791507...,  15.8228184...],
+           [ 24.6452277...,  26.0809382...,  27.7106399...]])
     """
 
     if cmfs is None:

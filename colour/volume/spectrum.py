@@ -231,7 +231,7 @@ def XYZ_outer_surface(cmfs=None,
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
     point_order : unicode, optional
         **{'Bins', 'Pulse Wave Width'}**,
         Method for ordering the underlying pulse waves used to generate the
@@ -362,7 +362,7 @@ def is_within_visible_spectrum(XYZ,
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
+        Illuminant spectral distribution, default to *CIE Illuminant E*.
     tolerance : numeric, optional
         Tolerance allowed in the inside-triangle check.
 
