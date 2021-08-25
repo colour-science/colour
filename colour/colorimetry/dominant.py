@@ -174,7 +174,7 @@ def dominant_wavelength(xy, xy_n, cmfs=None, inverse=False):
     is located on the line of purples:
 
     >>> xy = np.array([0.37605506, 0.24452225])
-    >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
+    >>> pprint(dominant_wavelength(xy, xy_n))  # doctest: +ELLIPSIS
     (array(-509.0),
      array([ 0.4572314...,  0.1362814...]),
      array([ 0.0104096...,  0.7320745...]))
@@ -263,7 +263,7 @@ def complementary_wavelength(xy, xy_n, cmfs=None):
     the line of purples:
 
     >>> xy = np.array([0.54369557, 0.32107944])
-    >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
+    >>> pprint(complementary_wavelength(xy, xy_n))  # doctest: +ELLIPSIS
     (array(492.0),
      array([ 0.0364795 ,  0.3384712...]),
      array([ 0.0364795 ,  0.3384712...]))

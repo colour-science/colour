@@ -679,29 +679,23 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> data = {
-    ...     400: 0.0641,
-    ...     420: 0.0645,
-    ...     440: 0.0562,
-    ...     460: 0.0537,
-    ...     480: 0.0559,
-    ...     500: 0.0651,
-    ...     520: 0.0705,
-    ...     540: 0.0772,
-    ...     560: 0.0870,
-    ...     580: 0.1128,
-    ...     600: 0.1360,
-    ...     620: 0.1511,
-    ...     640: 0.1688,
-    ...     660: 0.1996,
-    ...     680: 0.2397,
-    ...     700: 0.2852
-    ... }
-    >>> sd = SpectralDistribution(data)
     >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> shape = SpectralShape(400, 700, 20)
+    >>> data = np.array([
+    ...     0.0641, 0.0645, 0.0562, 0.0537, 0.0559, 0.0651, 0.0705, 0.0772,
+    ...     0.0870, 0.1128, 0.1360, 0.1511, 0.1688, 0.1996, 0.2397, 0.2852
+    ... ])
+    >>> sd = SpectralDistribution(data, shape)
     >>> sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     ...     sd, cmfs, illuminant)  # doctest: +ELLIPSIS
     array([ 10.8405832...,   9.6844909...,   6.2155622...])
+
+    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
+    # default illuminant is "CIE Illuminant E":
+
+    >>> sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd)
+    ... # doctest: +ELLIPSIS
+    array([ 11.7786111...,   9.9589055...,   5.7403205...])
     """
 
     cmfs, illuminant = handle_spectral_arguments(
