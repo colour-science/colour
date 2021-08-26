@@ -114,7 +114,7 @@ ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
     ux, vx = uv
 
     # pylint: disable=E1102
-    cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_DEFAULT, 'Trim')
+    cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_DEFAULT)
 
     shape = cmfs.shape
 
@@ -205,7 +205,7 @@ def _uv_to_CCT_Ohno2013(uv,
     if cmfs is None:
         # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
+                            SPECTRAL_SHAPE_DEFAULT)
 
     # Ensuring we do at least one iteration to initialise variables.
     iterations = max(iterations, 1)
@@ -318,7 +318,7 @@ def uv_to_CCT_Ohno2013(uv,
     if cmfs is None:
         # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
+                            SPECTRAL_SHAPE_DEFAULT)
 
     uv = as_float_array(uv)
 
@@ -353,12 +353,12 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
     if cmfs is None:
         # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
+                            SPECTRAL_SHAPE_DEFAULT)
 
     CCT, D_uv = tsplit(CCT_D_uv)
 
     # pylint: disable=E1102
-    cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_DEFAULT, 'Trim')
+    cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_DEFAULT)
 
     shape = cmfs.shape
 
@@ -427,7 +427,7 @@ def CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
     if cmfs is None:
         # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
+                            SPECTRAL_SHAPE_DEFAULT)
 
     CCT_D_uv = as_float_array(CCT_D_uv)
 

@@ -633,7 +633,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
     if cmfs is None:
         # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_ASTME308, 'Trim')
+                            SPECTRAL_SHAPE_ASTME308)
 
     if illuminant is None:
         illuminant = _SD_ONES_ASTME308
@@ -763,7 +763,7 @@ def sd_to_XYZ_ASTME308(sd,
     if cmfs is None:
         # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_ASTME308, 'Trim')
+                            SPECTRAL_SHAPE_ASTME308)
 
     if illuminant is None:
         illuminant = _SD_ONES_ASTME308
@@ -1280,7 +1280,7 @@ def msds_to_XYZ_ASTME308(msds,
     if cmfs is None:
         # pylint: disable=E1102
         cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_ASTME308, 'Trim')
+                            SPECTRAL_SHAPE_ASTME308)
 
     if illuminant is None:
         illuminant = _SD_ONES_ASTME308

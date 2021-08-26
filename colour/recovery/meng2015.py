@@ -157,7 +157,7 @@ def XYZ_to_sd_Meng2015(XYZ,
         # pylint: disable=E1102
         cmfs = reshape_msds(
             MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
-            SPECTRAL_SHAPE_MENG2015, 'Trim')
+            SPECTRAL_SHAPE_MENG2015)
 
     if illuminant is None:
         illuminant = reshape_sd(SDS_ILLUMINANTS['D65'],
