@@ -773,8 +773,8 @@ IPT Colourspace
     >>> colour.XYZ_to_IPT([0.20654008, 0.12197225, 0.05136952])
     array([ 0.38426191,  0.38487306,  0.18886838])
 
-DIN99 Colourspace
-*****************
+DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
+*************************************************************
 
 .. code-block:: python
 

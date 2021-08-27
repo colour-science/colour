@@ -135,8 +135,8 @@ Hunter Rd,a,b Colour Scale
     XYZ_to_Hunter_Rdab
     Hunter_Rdab_to_XYZ
 
-DIN99 Colourspace
------------------
+DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
+-------------------------------------------------------------
 
 ``colour``
 
