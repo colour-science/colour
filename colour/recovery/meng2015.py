@@ -18,10 +18,10 @@ References
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import (
-    MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, SpectralDistribution,
-    SpectralShape, reshape_msds, reshape_sd, sd_ones, sd_to_XYZ_integration)
-from colour.utilities import to_domain_1, from_range_100, runtime_warning
+from colour.colorimetry import (SpectralDistribution, SpectralShape,
+                                handle_spectral_arguments, sd_ones,
+                                sd_to_XYZ_integration)
+from colour.utilities import to_domain_1, from_range_100
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -91,7 +91,7 @@ def XYZ_to_sd_Meng2015(XYZ,
 
     Examples
     --------
-    >>> from colour import MSDS_CMFS
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
@@ -153,23 +153,10 @@ def XYZ_to_sd_Meng2015(XYZ,
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
-            SPECTRAL_SHAPE_MENG2015, 'Trim')
-
-    if illuminant is None:
-        illuminant = reshape_sd(SDS_ILLUMINANTS['D65'],
-                                SPECTRAL_SHAPE_MENG2015)
-
     XYZ = to_domain_1(XYZ)
 
-    if illuminant.shape != cmfs.shape:
-        runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}" colour matching '
-            'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = reshape_sd(illuminant, cmfs.shape)
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_MENG2015)
 
     sd = sd_ones(cmfs.shape)
 

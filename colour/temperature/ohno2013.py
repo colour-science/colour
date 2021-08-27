@@ -23,9 +23,8 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
-                                SPECTRAL_SHAPE_DEFAULT, reshape_msds,
-                                sd_blackbody, sd_to_XYZ)
+from colour.colorimetry import (handle_spectral_arguments, sd_blackbody,
+                                sd_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float_array, runtime_warning, tsplit
 
@@ -42,8 +41,6 @@ __all__ = [
     'planckian_table_minimal_distance_index', 'uv_to_CCT_Ohno2013',
     'CCT_to_uv_Ohno2013'
 ]
-
-_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
 PLANCKIAN_TABLE_TUVD = namedtuple('PlanckianTable_Tuvdi',
                                   ('Ti', 'ui', 'vi', 'di'))
@@ -113,14 +110,11 @@ ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
 
     ux, vx = uv
 
-    # pylint: disable=E1102
-    cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_DEFAULT, 'Trim')
-
-    shape = cmfs.shape
+    cmfs, _illuminant = handle_spectral_arguments(cmfs)
 
     table = []
     for Ti in np.linspace(start, end, count):
-        sd = sd_blackbody(Ti, shape)
+        sd = sd_blackbody(Ti, cmfs.shape)
         XYZ = sd_to_XYZ(sd, cmfs)
         XYZ /= np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
@@ -176,9 +170,9 @@ def _uv_to_CCT_Ohno2013(uv,
     coordinates, colour matching functions and temperature range using
     *Ohno (2013)* method.
 
-    The iterations parameter defines the calculations precision: The higher its
-    value, the more planckian tables will be generated through cascade
-    expansion in order to converge to the exact solution.
+    ``iterations`` defines the computations precision: The higher its value,
+    the more planckian tables are generated through cascade expansion in order
+    to converge to the exact solution.
 
     Parameters
     ----------
@@ -202,12 +196,7 @@ def _uv_to_CCT_Ohno2013(uv,
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
-
-    # Ensuring we do at least one iteration to initialise variables.
+    # Ensuring that we do at least one iteration to initialise variables.
     iterations = max(iterations, 1)
 
     # Planckian table creation through cascade expansion.
@@ -312,13 +301,8 @@ def uv_to_CCT_Ohno2013(uv,
     ... )
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
-    array([  6.5074738...e+03,   3.2233461...e-03])
+    array([  6.50747...e+03,   3.22334...e-03])
     """
-
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     uv = as_float_array(uv)
 
@@ -350,21 +334,13 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
         *CIE UCS* colourspace *uv* chromaticity coordinates.
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
-
     CCT, D_uv = tsplit(CCT_D_uv)
 
-    # pylint: disable=E1102
-    cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_DEFAULT, 'Trim')
-
-    shape = cmfs.shape
+    cmfs, _illuminant = handle_spectral_arguments(cmfs)
 
     delta = 0.01
 
-    sd = sd_blackbody(CCT, shape)
+    sd = sd_blackbody(CCT, cmfs.shape)
     XYZ = sd_to_XYZ(sd, cmfs)
     XYZ *= 1 / np.max(XYZ)
     UVW = XYZ_to_UCS(XYZ)
@@ -373,7 +349,7 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
     if D_uv == 0:
         return np.array([u0, v0])
     else:
-        sd = sd_blackbody(CCT + delta, shape)
+        sd = sd_blackbody(CCT + delta, cmfs.shape)
         XYZ = sd_to_XYZ(sd, cmfs)
         XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
@@ -423,11 +399,6 @@ def CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
     >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3122004...])
     """
-
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT, 'Trim')
 
     CCT_D_uv = as_float_array(CCT_D_uv)
 

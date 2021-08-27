@@ -20,16 +20,15 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-                                SpectralDistribution, SpectralShape,
-                                msds_to_XYZ_integration, sd_to_XYZ,
-                                reshape_msds, reshape_sd)
+from colour.colorimetry import (SpectralDistribution, SpectralShape,
+                                handle_spectral_arguments,
+                                msds_to_XYZ_integration, sd_to_XYZ)
 from colour.models import XYZ_to_xy
 from colour.recovery import (SPECTRAL_SHAPE_OTSU2018, BASIS_FUNCTIONS_OTSU2018,
                              CLUSTER_MEANS_OTSU2018, SELECTOR_ARRAY_OTSU2018)
 from colour.utilities import (as_float_array, domain_range_scale,
-                              is_tqdm_installed, message_box, runtime_warning,
-                              to_domain_1, zeros)
+                              is_tqdm_installed, message_box, to_domain_1,
+                              zeros)
 
 if is_tqdm_installed():
     from tqdm import tqdm
@@ -49,10 +48,6 @@ __all__ = [
     'Dataset_Otsu2018', 'DATASET_REFERENCE_OTSU2018', 'XYZ_to_sd_Otsu2018',
     'PartitionAxis', 'Data', 'Node', 'NodeTree_Otsu2018'
 ]
-
-_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
-
-_ILLUMINANT_DEFAULT = 'D65'
 
 
 class Dataset_Otsu2018:
@@ -385,7 +380,8 @@ def XYZ_to_sd_Otsu2018(XYZ,
 
     Examples
     --------
-    >>> from colour import CCS_ILLUMINANTS, MSDS_CMFS, XYZ_to_sRGB
+    >>> from colour import (
+    ...     CCS_ILLUMINANTS, SDS_ILLUMINANTS, MSDS_CMFS, XYZ_to_sRGB)
     >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -441,16 +437,11 @@ def XYZ_to_sd_Otsu2018(XYZ,
     array([ 0.2065494...,  0.1219712...,  0.0514002...])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_OTSU2018)
-
-    if illuminant is None:
-        illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                SPECTRAL_SHAPE_OTSU2018)
-
     XYZ = to_domain_1(XYZ)
+
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_OTSU2018)
+
     xy = XYZ_to_xy(XYZ)
 
     basis_functions, mean = dataset.cluster(xy)
@@ -1191,7 +1182,7 @@ class NodeTree_Otsu2018(Node):
     --------
     >>> import os
     >>> import colour
-    >>> from colour import MSDS_CMFS, SDS_COLOURCHECKERS
+    >>> from colour import MSDS_CMFS, SDS_COLOURCHECKERS, SDS_ILLUMINANTS
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
@@ -1266,27 +1257,8 @@ class NodeTree_Otsu2018(Node):
     def __init__(self, reflectances, cmfs=None, illuminant=None):
         self._reflectances = as_float_array(reflectances)
 
-        if cmfs is None:
-            # pylint: disable=E1102
-            cmfs = reshape_msds(
-                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                SPECTRAL_SHAPE_OTSU2018)
-
-        if illuminant is None:
-            illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                    SPECTRAL_SHAPE_OTSU2018)
-
-        self._cmfs = cmfs
-
-        shape = cmfs.shape
-
-        if illuminant.shape != shape:
-            runtime_warning(
-                'Aligning "{0}" illuminant shape to "{1}" colour matching '
-                'functions shape.'.format(illuminant.name, cmfs.name))
-            illuminant = reshape_sd(illuminant, cmfs.shape)
-
-        self._illuminant = illuminant
+        self._cmfs, self._illuminant = handle_spectral_arguments(
+            cmfs, illuminant, shape_default=SPECTRAL_SHAPE_OTSU2018)
 
         self._minimum_cluster_size = None
 
@@ -1430,7 +1402,7 @@ class NodeTree_Otsu2018(Node):
         --------
         >>> import os
         >>> import colour
-        >>> from colour import MSDS_CMFS, SDS_COLOURCHECKERS
+        >>> from colour import MSDS_CMFS, SDS_COLOURCHECKERS, SDS_ILLUMINANTS
         >>> cmfs = (
         ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         ...     .copy().align(SpectralShape(360, 780, 10))

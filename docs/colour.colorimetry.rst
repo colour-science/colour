@@ -33,10 +33,10 @@ Spectral Data Structure
 .. autosummary::
     :toctree: generated/
 
-    sds_and_msds_to_sds
-    sds_and_msds_to_msds
     reshape_sd
     reshape_msds
+    sds_and_msds_to_sds
+    sds_and_msds_to_msds
 
 Spectral Data Generation
 ------------------------
@@ -105,6 +105,17 @@ Conversion to Tristimulus Values
     msds_to_XYZ
     MSDS_TO_XYZ_METHODS
     wavelength_to_XYZ
+
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    handle_spectral_arguments
 
 ASTM E308-15
 ~~~~~~~~~~~~

@@ -23,8 +23,8 @@ References
 
 import numpy as np
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SpectralShape,
-                                msds_to_XYZ, reshape_msds, sd_ones)
+from colour.colorimetry import (SpectralShape, handle_spectral_arguments,
+                                msds_to_XYZ)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
 from colour.utilities import CACHE_REGISTRY, zeros, validate_method
@@ -315,14 +315,9 @@ def XYZ_outer_surface(cmfs=None,
            [  1.1022943...e+00,   1.0000000...e+00,   1.3568301...e+00]])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
-            SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
-
-    if illuminant is None:
-        illuminant = sd_ones(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
+        SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
 
     settings = {'method': 'Integration', 'shape': cmfs.shape}
     settings.update(kwargs)
@@ -398,14 +393,9 @@ def is_within_visible_spectrum(XYZ,
     array([ True, False], dtype=bool)
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
-            SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
-
-    if illuminant is None:
-        illuminant = sd_ones(SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
+        SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
 
     key = (hash(cmfs), hash(illuminant), str(kwargs))
     vertices = _CACHE_OUTER_SURFACE_XYZ_POINTS.get(key)

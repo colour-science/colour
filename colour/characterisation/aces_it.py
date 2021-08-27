@@ -56,7 +56,7 @@ from scipy.optimize import minimize
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance, vector_dot
 from colour.colorimetry import (
-    MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, SpectralShape, reshape_msds,
+    SDS_ILLUMINANTS, SpectralShape, handle_spectral_arguments, reshape_msds,
     reshape_sd, sds_and_msds_to_msds, sd_CIE_illuminant_D_series, sd_blackbody,
     sd_to_XYZ)
 from colour.constants import DEFAULT_INT_DTYPE
@@ -582,12 +582,11 @@ def training_data_sds_to_XYZ(training_data,
 
     Examples
     --------
+    >>> from colour import MSDS_CMFS
     >>> path = os.path.join(
     ...     RESOURCES_DIRECTORY_RAWTOACES,
     ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-    ... )
+    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> sensitivities = sds_and_msds_to_msds(
     ...     read_sds_from_csv_file(path).values())
     >>> illuminant = normalise_illuminant(
@@ -823,11 +822,8 @@ def matrix_idt(sensitivities,
     if training_data is None:
         training_data = read_training_data_rawtoaces_v1()
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
-            SPECTRAL_SHAPE_RAWTOACES)
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_RAWTOACES)
 
     shape = cmfs.shape
     if sensitivities.shape != shape:
@@ -835,11 +831,6 @@ def matrix_idt(sensitivities,
             sensitivities.name, shape))
         # pylint: disable=E1102
         sensitivities = reshape_msds(sensitivities, shape)
-
-    if illuminant.shape != shape:
-        runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
-            illuminant.name, shape))
-        illuminant = reshape_sd(illuminant, shape)
 
     if training_data.shape != shape:
         runtime_warning('Aligning "{0}" training data shape to "{1}".'.format(
