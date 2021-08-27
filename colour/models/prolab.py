@@ -101,8 +101,8 @@ def XYZ_to_ProLab(XYZ):
     Examples
     --------
     >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
-    >>> XYZ_to_ProLab(Lab)
-    array([1.24610688, 2.39525236, 0.41902126])
+    >>> XYZ_to_ProLab(Lab) # doctest: +ELLIPSIS
+    array([1.2461068..., 2.3952523..., 0.4190212...])
     """
 
     XYZ = np.asarray(XYZ)
@@ -151,9 +151,8 @@ def ProLab_to_XYZ(ProLab):
     Examples
     --------
     >>> Lab = np.array([1.24610688, 2.39525236, 0.41902126])
-    >>> ProLab_to_XYZ(Lab)
-    array([0.51634019, 0.154695  , 0.06289579])
-
+    >>> ProLab_to_XYZ(Lab) # doctest: +ELLIPSIS
+    array([0.5163401..., 0.154695..., 0.0628957...])
     """
 
     XYZ_ = np.dot(MATRIX_2_ProLab_to_XYZ, ProLab)
