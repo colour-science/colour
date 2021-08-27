@@ -1552,12 +1552,11 @@ def wavelength_to_XYZ(wavelength, cmfs=None):
     if cmfs is None:
         cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
 
-    cmfs_shape = cmfs.shape
-    if (np.min(wavelength) < cmfs_shape.start or
-            np.max(wavelength) > cmfs_shape.end):
+    shape = cmfs.shape
+    if np.min(wavelength) < shape.start or np.max(wavelength) > shape.end:
         raise ValueError(
             '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
-                wavelength, cmfs_shape.start, cmfs_shape.end))
+                wavelength, shape.start, shape.end))
 
     XYZ = np.reshape(cmfs[np.ravel(wavelength)],
                      as_float_array(wavelength).shape + (3, ))
