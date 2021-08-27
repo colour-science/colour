@@ -15,7 +15,7 @@ import unittest
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
-    MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, MultiSpectralDistributions,
+    MSDS_CMFS, SDS_ILLUMINANTS, MultiSpectralDistributions,
     SpectralDistribution, SpectralShape, reshape_msds, reshape_sd,
     sd_CIE_standard_illuminant_A, sd_ones)
 from colour.colorimetry import (
@@ -445,8 +445,7 @@ handle_spectral_arguments` definition.
         # pylint: disable=E1102
         self.assertEqual(
             cmfs,
-            reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[
-                'CIE 1931 2 Degree Standard Observer']))
+            reshape_msds(MSDS_CMFS['CIE 1931 2 Degree Standard Observer']))
         self.assertEqual(illuminant, reshape_sd(SDS_ILLUMINANTS['D65']))
 
         shape = SpectralShape(400, 700, 20)
@@ -461,9 +460,7 @@ handle_spectral_arguments` definition.
         self.assertEqual(
             cmfs,
             reshape_msds(
-                MSDS_CMFS_STANDARD_OBSERVER[
-                    'CIE 2012 2 Degree Standard Observer'],
-                shape=shape))
+                MSDS_CMFS['CIE 2012 2 Degree Standard Observer'], shape=shape))
         self.assertEqual(illuminant,
                          sd_ones(shape, interpolator=LinearInterpolator) * 100)
 
@@ -526,8 +523,7 @@ tristimulus_weighting_factors_ASTME2022` definition.
         :cite:`ASTMInternational2015b`
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1964 10 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
         A = sd_CIE_standard_illuminant_A(cmfs.shape)
 
         twf = tristimulus_weighting_factors_ASTME2022(
@@ -540,8 +536,7 @@ tristimulus_weighting_factors_ASTME2022` definition.
         np.testing.assert_almost_equal(
             np.round(twf, 3), TWF_A_CIE_1964_10_20, decimal=3)
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         D65 = reshape_sd(
             SDS_ILLUMINANTS['D65'],
             cmfs.shape,
@@ -557,8 +552,7 @@ tristimulus_weighting_factors_ASTME2022` definition.
             twf, TWF_D65_CIE_1931_2_20_K1, decimal=7)
 
         # Testing that the cache returns a copy of the data.
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1964 10 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 10))
         np.testing.assert_almost_equal(
@@ -580,8 +574,7 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
         """
 
         shape = SpectralShape(360, 830, 10)
-        cmfs_1 = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1964 10 Degree Standard Observer']
+        cmfs_1 = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
         # pylint: disable=E1102
         cmfs_2 = reshape_msds(cmfs_1, shape)
         A_1 = sd_CIE_standard_illuminant_A(cmfs_1.shape)
@@ -626,8 +619,7 @@ class TestSd_to_XYZ_integration(unittest.TestCase):
 sd_to_XYZ_integration` definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS['A']),
             np.array([14.46341147, 10.85819624, 2.04695585]),
@@ -642,8 +634,7 @@ sd_to_XYZ_integration` definition.
             np.array([14.46365947, 10.85828084, 2.04663993]),
             decimal=7)
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1964 10 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
             sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS['C']),
             np.array([10.77002699, 9.44876636, 6.62415290]),
@@ -666,8 +657,7 @@ sd_to_XYZ_integration` definition.
 sd_to_XYZ_integration` definition domain and range scale support.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         XYZ = sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS['A'])
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
@@ -694,16 +684,14 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
         definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS['A']),
             np.array([14.46341867, 10.85820227, 2.04697034]),
             decimal=7)
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1964 10 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS['C']),
@@ -754,8 +742,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
 range scale support.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         XYZ = sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
             SD_SAMPLE, cmfs, SDS_ILLUMINANTS['A'])
 
@@ -781,8 +768,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
         """
 
         self._sd = SD_SAMPLE.copy()
-        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        self._cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         self._A = sd_CIE_standard_illuminant_A(self._cmfs.shape)
 
     def test_sd_to_XYZ_ASTME308_mi_1nm(self):
@@ -1069,8 +1055,7 @@ class TestSd_to_XYZ(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        self._cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         self._A = sd_CIE_standard_illuminant_A(self._cmfs.shape)
         self._sd = reshape_sd(SD_SAMPLE, self._cmfs.shape)
 
@@ -1106,8 +1091,7 @@ msds_to_XYZ_integration` definition unit tests methods.
 msds_to_XYZ_integration` definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             msds_to_XYZ_integration(MSDS_TWO, cmfs, SDS_ILLUMINANTS['D65']),
             TVS_D65_INTEGRATION_MSDS,
@@ -1138,8 +1122,7 @@ msds_to_XYZ_integration` definition.
 msds_to_XYZ_integration` definition domain and range scale support.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
@@ -1165,8 +1148,7 @@ class TestMsds_to_XYZ_ASTME308(unittest.TestCase):
 msds_to_XYZ_ASTME308` definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         # pylint: disable=E1102
         msds = reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20))
         np.testing.assert_almost_equal(
@@ -1185,8 +1167,7 @@ msds_to_XYZ_ASTME308` definition.
 msds_to_XYZ_ASTME308` definition domain and range scale support.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
@@ -1221,22 +1202,19 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
-                480, MSDS_CMFS_STANDARD_OBSERVER[
-                    'CIE 1931 2 Degree Standard Observer']),
+                480, MSDS_CMFS['CIE 1931 2 Degree Standard Observer']),
             np.array([0.09564, 0.13902, 0.81295]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
-                480, MSDS_CMFS_STANDARD_OBSERVER[
-                    'CIE 2012 2 Degree Standard Observer']),
+                480, MSDS_CMFS['CIE 2012 2 Degree Standard Observer']),
             np.array([0.08182895, 0.17880480, 0.75523790]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
-                641.5, MSDS_CMFS_STANDARD_OBSERVER[
-                    'CIE 2012 2 Degree Standard Observer']),
+                641.5, MSDS_CMFS['CIE 2012 2 Degree Standard Observer']),
             np.array([0.44575583, 0.18184213, 0.00000000]),
             decimal=7)
 
@@ -1256,8 +1234,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer']
+        cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         wl = 480
         XYZ = wavelength_to_XYZ(wl, cmfs)
 

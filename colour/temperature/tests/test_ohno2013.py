@@ -7,7 +7,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import MSDS_CMFS_STANDARD_OBSERVER
+from colour.colorimetry import MSDS_CMFS
 from colour.temperature import CCT_to_uv_Ohno2013, uv_to_CCT_Ohno2013
 from colour.temperature.ohno2013 import (
     planckian_table, planckian_table_minimal_distance_index)
@@ -50,12 +50,11 @@ class TestPlanckianTable(unittest.TestCase):
         Tests :func:`colour.temperature.ohno2013.planckian_table` definition.
         """
 
-        np.testing.assert_almost_equal([(
-            x.Ti, x.ui, x.vi, x.di
-        ) for x in planckian_table(
-            np.array([0.1978, 0.3122]),
-            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
-            1000, 1010, 10)], PLANCKIAN_TABLE)
+        np.testing.assert_almost_equal(
+            [(x.Ti, x.ui, x.vi, x.di) for x in planckian_table(
+                np.array([0.1978, 0.3122
+                          ]), MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
+                1000, 1010, 10)], PLANCKIAN_TABLE)
 
 
 class TestPlanckianTableMinimalDistanceIndex(unittest.TestCase):
@@ -73,9 +72,9 @@ planckian_table_minimal_distance_index` definition.
         self.assertEqual(
             planckian_table_minimal_distance_index(
                 planckian_table(
-                    np.array([0.1978, 0.3122]), MSDS_CMFS_STANDARD_OBSERVER[
-                        'CIE 1931 2 Degree Standard Observer'], 1000, 1010,
-                    10)), 9)
+                    np.array([0.1978, 0.3122]),
+                    MSDS_CMFS['CIE 1931 2 Degree Standard Observer'], 1000,
+                    1010, 10)), 9)
 
 
 class Testuv_to_CCT_Ohno2013(unittest.TestCase):

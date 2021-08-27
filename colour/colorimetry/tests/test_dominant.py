@@ -7,7 +7,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, CCS_ILLUMINANTS,
+from colour.colorimetry import (MSDS_CMFS, CCS_ILLUMINANTS,
                                 dominant_wavelength, complementary_wavelength,
                                 excitation_purity, colorimetric_purity)
 from colour.colorimetry.dominant import (closest_spectral_locus_wavelength)
@@ -39,8 +39,8 @@ closest_spectral_locus_wavelength` definition unit tests methods.
         Initialises common tests attributes.
         """
 
-        self._xy_s = XYZ_to_xy(MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer'].values)
+        self._xy_s = XYZ_to_xy(
+            MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].values)
 
         self._xy_D65 = (
             CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'])

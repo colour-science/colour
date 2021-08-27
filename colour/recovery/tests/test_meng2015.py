@@ -6,8 +6,8 @@ Defines the unit tests for the :mod:`colour.recovery.meng2015` module.
 import numpy as np
 import unittest
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-                                SpectralShape, reshape_msds, reshape_sd,
+from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
+                                reshape_msds, reshape_sd,
                                 sd_to_XYZ_integration)
 from colour.recovery import XYZ_to_sd_Meng2015
 from colour.utilities import domain_range_scale
@@ -35,7 +35,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
         # pylint: disable=E1102
         self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
+            MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
             SpectralShape(360, 780, 10))
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS['D65'], self._cmfs.shape)
         self._sd_E = reshape_sd(SDS_ILLUMINANTS['E'], self._cmfs.shape)
