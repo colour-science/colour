@@ -15,7 +15,6 @@ References
     Standard Practice for Calculation of Color Tolerances and Color Differences
     from Instrumentally Measured Color Coordinates: Vol. i (pp. 1-10).
     doi:10.1520/D2244-16
-
 -   :cite:`Cui2020` :  Cui, G., Luo, M. R., Rigg, B., Roesler, G., & Witt, K.
     (2002). Uniform colour spaces based on the DIN99 colour-difference formula.
     Color Research & Application, 27(4), 282–290. doi:10.1002/col.10066
@@ -110,6 +109,7 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1, method='DIN99'):
     >>> Lab_to_DIN99(Lab)  # doctest: +ELLIPSIS
     array([ 53.2282198...,  28.4163465...,   3.8983955...])
     """
+
     c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[validate_method(
         str(method), DIN99_METHODS)]
 
@@ -195,6 +195,7 @@ def DIN99_to_Lab(Lab_99, method='DIN99', k_E=1, k_CH=1):
     >>> DIN99_to_Lab(Lab_99)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
+
     c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[validate_method(
         str(method), DIN99_METHODS)]
 
