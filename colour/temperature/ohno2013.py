@@ -170,9 +170,9 @@ def _uv_to_CCT_Ohno2013(uv,
     coordinates, colour matching functions and temperature range using
     *Ohno (2013)* method.
 
-    The iterations parameter defines the calculations precision: The higher its
-    value, the more planckian tables will be generated through cascade
-    expansion in order to converge to the exact solution.
+    ``iterations`` defines the computations precision: The higher its value,
+    the more planckian tables are generated through cascade expansion in order
+    to converge to the exact solution.
 
     Parameters
     ----------
