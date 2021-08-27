@@ -6,6 +6,7 @@ Tristimulus Values
 Defines the objects for tristimulus values computation from spectral data:
 
 -   :attr:`colour.SPECTRAL_SHAPE_ASTME308`
+-   :func:`colour.colorimetry.handle_spectral_arguments`
 -   :func:`colour.colorimetry.tristimulus_weighting_factors_ASTME2022`
 -   :func:`colour.colorimetry.sd_to_XYZ_integration`
 -   :func:`colour.colorimetry.\
@@ -38,9 +39,8 @@ import numpy as np
 
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (
-    MSDS_CMFS_STANDARD_OBSERVER, SPECTRAL_SHAPE_DEFAULT,
-    MultiSpectralDistributions, SpectralDistribution, SpectralShape,
-    reshape_msds, reshape_sd, sd_ones)
+    SPECTRAL_SHAPE_DEFAULT, MultiSpectralDistributions, SpectralDistribution,
+    SpectralShape, reshape_msds, reshape_sd)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (
     CACHE_REGISTRY, CaseInsensitiveMapping, as_float_array, filter_kwargs,
@@ -54,7 +54,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SPECTRAL_SHAPE_ASTME308', 'lagrange_coefficients_ASTME2022',
+    'SPECTRAL_SHAPE_ASTME308', 'handle_spectral_arguments',
+    'lagrange_coefficients_ASTME2022',
     'tristimulus_weighting_factors_ASTME2022',
     'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_ASTME308',
@@ -74,11 +75,6 @@ References
 SPECTRAL_SHAPE_ASTME308 : SpectralShape
 """
 
-_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
-
-_SD_ONES_DEFAULT = sd_ones()
-_SD_ONES_ASTME308 = sd_ones(SPECTRAL_SHAPE_ASTME308)
-
 _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS = {}
 
 _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS = CACHE_REGISTRY.register_cache(
@@ -89,6 +85,82 @@ _CACHE_TRISTIMULUS_WEIGHTING_FACTORS = CACHE_REGISTRY.register_cache(
 
 _CACHE_SD_TO_XYZ = CACHE_REGISTRY.register_cache(
     '{0}._CACHE_SD_TO_XYZ'.format(__name__))
+
+
+def handle_spectral_arguments(
+        cmfs=None,
+        illuminant=None,
+        cmfs_default='CIE 1931 2 Degree Standard Observer',
+        illuminant_default='D65',
+        shape_default=SPECTRAL_SHAPE_DEFAULT,
+        issue_runtime_warnings=True):
+    """
+    Handles the spectral arguments of various *Colour* definitions performing
+    spectral computations.
+
+    -   If ``cmfs`` is not given, one is chosen according to ``cmfs_default``.
+        The returned colour matching functions adopt the spectral shape given
+        by ``shape_default``.
+    -   If ``illuminant`` is not given, one is chosen according to
+        ``illuminant_default``. The returned illuminant adopts the spectral
+        shape of the returned colour matching functions.
+    -   If ``illuminant`` is given, the returned illuminant spectral shape is
+        aligned to that of the returned colour matching functions.
+
+    Parameters
+    ----------
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
+    cmfs_default : unicode, optional
+        The default colour matching functions to use if ``cmfs`` is not given.
+    illuminant_default : unicode , optional
+        The default illuminant to use if ``illuminant`` is not given.
+    shape_default : SpectralShape , optional
+        The default spectral shape to align the final colour matching functions
+        and illuminant.
+    issue_runtime_warnings : bool, optional
+        Whether to issue the runtime warnings.
+
+    Returns
+    -------
+    tuple
+        Colour matching functions and illuminant.
+
+    Examples
+    --------
+    >>> cmfs, illuminant = handle_spectral_arguments()
+    >>> cmfs.name, cmfs.shape, illuminant.name, illuminant.shape
+    ('CIE 1931 2 Degree Standard Observer', SpectralShape(360.0, 780.0, 1.0), \
+'D65', SpectralShape(360.0, 780.0, 1.0))
+    >>> cmfs, illuminant = handle_spectral_arguments(
+    ...     shape_default=SpectralShape(400, 700, 20))
+    >>> cmfs.name, cmfs.shape, illuminant.name, illuminant.shape
+    ('CIE 1931 2 Degree Standard Observer', \
+SpectralShape(400.0, 700.0, 20.0), 'D65', SpectralShape(400.0, 700.0, 20.0))
+    """
+
+    from colour import MSDS_CMFS, SDS_ILLUMINANTS
+
+    if cmfs is None:
+        # pylint: disable=E1102
+        cmfs = reshape_msds(MSDS_CMFS[cmfs_default], shape_default)
+
+    if illuminant is None:
+        illuminant = reshape_sd(SDS_ILLUMINANTS[illuminant_default],
+                                cmfs.shape)
+
+    if illuminant.shape != cmfs.shape:
+        issue_runtime_warnings and runtime_warning(
+            'Aligning "{0}" illuminant shape to "{1}" colour matching '
+            'functions shape.'.format(illuminant.name, cmfs.name))
+
+        illuminant = reshape_sd(illuminant, cmfs.shape)
+
+    return cmfs, illuminant
 
 
 def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
@@ -492,13 +564,15 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None, shape=None):
     array([ 11.7786939...,   9.9583972...,   5.7371816...])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT)
+    cmfs, S = handle_spectral_arguments(
+        cmfs, illuminant, illuminant_default='E')
 
-    if illuminant is None:
-        illuminant = _SD_ONES_DEFAULT
+    # NOTE: The "illuminant" argument is reshaped by the
+    # `handle_spectral_arguments` definition, but, in this case, it is not
+    # desirable as we want to reshape it according to the final "shape" which
+    # is only available after the subsequent if/else block thus we do not
+    # unpack over it here.
+    illuminant = S if illuminant is None else illuminant
 
     if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions)):
         shape = cmfs.shape
@@ -630,13 +704,9 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd,
     array([ 10.8405832...,   9.6844909...,   6.2155622...])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_ASTME308)
-
-    if illuminant is None:
-        illuminant = _SD_ONES_ASTME308
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
+        SPECTRAL_SHAPE_ASTME308)
 
     if cmfs.shape.interval != 1:
         runtime_warning('Interpolating "{0}" cmfs to 1nm interval.'.format(
@@ -760,13 +830,9 @@ def sd_to_XYZ_ASTME308(sd,
     array([ 11.7781589...,   9.9585580...,   5.7408602...])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_ASTME308)
-
-    if illuminant is None:
-        illuminant = _SD_ONES_ASTME308
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
+        SPECTRAL_SHAPE_ASTME308)
 
     if sd.shape.interval not in (1, 5, 10, 20):
         raise ValueError(
@@ -971,13 +1037,8 @@ def sd_to_XYZ(sd,
     array([ 11.7781589...,   9.9585580...,   5.7408602...])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT)
-
-    if illuminant is None:
-        illuminant = _SD_ONES_DEFAULT
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, illuminant_default='E')
 
     method = validate_method(method, SD_TO_XYZ_METHODS)
 
@@ -1277,13 +1338,9 @@ def msds_to_XYZ_ASTME308(msds,
            [ 24.6240657...,  26.0805317...,  27.6706915...]])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_ASTME308)
-
-    if illuminant is None:
-        illuminant = _SD_ONES_ASTME308
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
+        SPECTRAL_SHAPE_ASTME308)
 
     if isinstance(msds, MultiSpectralDistributions):
         return as_float_array([
@@ -1484,14 +1541,6 @@ def msds_to_XYZ(msds,
            [ 24.6452277...,  26.0809382...,  27.7106399...]])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_DEFAULT)
-
-    if illuminant is None:
-        illuminant = _SD_ONES_DEFAULT
-
     method = validate_method(method, MSDS_TO_XYZ_METHODS)
 
     function = MSDS_TO_XYZ_METHODS[method]
@@ -1549,8 +1598,7 @@ def wavelength_to_XYZ(wavelength, cmfs=None):
     array([ 0.0914287...,  0.1418350...,  0.7915726...])
     """
 
-    if cmfs is None:
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
+    cmfs, _illuminant = handle_spectral_arguments(cmfs)
 
     shape = cmfs.shape
     if np.min(wavelength) < shape.start or np.max(wavelength) > shape.end:

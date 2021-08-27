@@ -20,11 +20,11 @@ import numpy as np
 from scipy.linalg import block_diag
 from scipy.optimize import Bounds, LinearConstraint, minimize
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-                                MultiSpectralDistributions,
-                                SpectralDistribution, reshape_sd)
+from colour.colorimetry import (MultiSpectralDistributions,
+                                SpectralDistribution,
+                                handle_spectral_arguments)
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
-from colour.utilities import to_domain_1, runtime_warning
+from colour.utilities import to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -93,7 +93,7 @@ def spectral_primary_decomposition_Mallett2019(colourspace,
 
     Examples
     --------
-    >>> from colour import MSDS_CMFS, SpectralShape
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
     >>> from colour.models import RGB_COLOURSPACE_PAL_SECAM
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = (
@@ -153,18 +153,7 @@ def spectral_primary_decomposition_Mallett2019(colourspace,
      [ 780.            0.3475263...    0.3262331...    0.3262404...]]
     """
 
-    if cmfs is None:
-        cmfs = (
-            MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'])
-
-    if illuminant is None:
-        illuminant = SDS_ILLUMINANTS['D65']
-
-    if illuminant.shape != cmfs.shape:
-        runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}" colour matching '
-            'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = reshape_sd(illuminant, cmfs.shape)
+    cmfs, illuminant = handle_spectral_arguments(cmfs, illuminant)
 
     N = len(cmfs.shape)
 

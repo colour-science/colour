@@ -2,8 +2,8 @@
 
 from .spectrum import (SpectralShape, SPECTRAL_SHAPE_DEFAULT,
                        SpectralDistribution, MultiSpectralDistributions,
-                       sds_and_msds_to_sds, sds_and_msds_to_msds, reshape_sd,
-                       reshape_msds)
+                       reshape_sd, reshape_msds, sds_and_msds_to_sds,
+                       sds_and_msds_to_msds)
 from .blackbody import sd_blackbody, blackbody_spectral_radiance, planck_law
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
@@ -20,8 +20,8 @@ from .generation import sd_multi_leds, sd_multi_leds_Ohno2005
 from .tristimulus_values import SD_TO_XYZ_METHODS, MSDS_TO_XYZ_METHODS
 from .tristimulus_values import sd_to_XYZ, msds_to_XYZ
 from .tristimulus_values import (
-    SPECTRAL_SHAPE_ASTME308, lagrange_coefficients_ASTME2022,
-    tristimulus_weighting_factors_ASTME2022,
+    SPECTRAL_SHAPE_ASTME308, handle_spectral_arguments,
+    lagrange_coefficients_ASTME2022, tristimulus_weighting_factors_ASTME2022,
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
     msds_to_XYZ_integration, msds_to_XYZ_ASTME308, wavelength_to_XYZ)
@@ -65,8 +65,8 @@ from .yellowness import (yellowness_ASTMD1925, yellowness_ASTME313_alternative,
 
 __all__ = [
     'SpectralShape', 'SPECTRAL_SHAPE_DEFAULT', 'SpectralDistribution',
-    'MultiSpectralDistributions', 'sds_and_msds_to_sds',
-    'sds_and_msds_to_msds', 'reshape_sd', 'reshape_msds'
+    'MultiSpectralDistributions', 'reshape_sd', 'reshape_msds',
+    'sds_and_msds_to_sds', 'sds_and_msds_to_msds'
 ]
 __all__ += ['sd_blackbody', 'blackbody_spectral_radiance', 'planck_law']
 __all__ += [
@@ -85,7 +85,8 @@ __all__ += ['sd_multi_leds', 'sd_multi_leds_Ohno2005']
 __all__ += ['SD_TO_XYZ_METHODS', 'MSDS_TO_XYZ_METHODS']
 __all__ += ['sd_to_XYZ', 'msds_to_XYZ']
 __all__ += [
-    'SPECTRAL_SHAPE_ASTME308', 'lagrange_coefficients_ASTME2022',
+    'SPECTRAL_SHAPE_ASTME308', 'handle_spectral_arguments',
+    'lagrange_coefficients_ASTME2022',
     'tristimulus_weighting_factors_ASTME2022',
     'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_ASTME308',

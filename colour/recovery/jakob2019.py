@@ -25,14 +25,13 @@ from scipy.interpolate import RegularGridInterpolator
 
 from colour.algebra import smoothstep_function, spow
 from colour.colorimetry import (
-    MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, SpectralDistribution,
-    SpectralShape, intermediate_lightness_function_CIE1976, reshape_msds,
-    reshape_sd, sd_to_XYZ_integration)
+    SpectralDistribution, SpectralShape, handle_spectral_arguments,
+    intermediate_lightness_function_CIE1976, sd_to_XYZ_integration)
 from colour.difference import JND_CIE1976
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (as_float_array, domain_range_scale, full,
                               index_along_last_axis, is_tqdm_installed,
-                              message_box, to_domain_1, runtime_warning, zeros)
+                              message_box, to_domain_1, zeros)
 
 if is_tqdm_installed():
     from tqdm import tqdm
@@ -60,10 +59,6 @@ Spectral shape for *Jakob and Hanika (2019)* method.
 
 SPECTRAL_SHAPE_JAKOB2019 : SpectralShape
 """
-
-_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
-
-_ILLUMINANT_DEFAULT = 'D65'
 
 
 class StopMinimizationEarly(Exception):
@@ -389,22 +384,8 @@ def find_coefficients_Jakob2019(XYZ,
 0.0141941...)
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_JAKOB2019)
-
-    if illuminant is None:
-        illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                SPECTRAL_SHAPE_JAKOB2019)
-
-    shape = cmfs.shape
-
-    if illuminant.shape != shape:
-        runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}" colour matching '
-            'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = reshape_sd(illuminant, cmfs.shape)
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019)
 
     def optimize(target_o, coefficients_0_o):
         """
@@ -456,7 +437,7 @@ def find_coefficients_Jakob2019(XYZ,
     coefficients, error = optimize(target, coefficients_0)
 
     if dimensionalise:
-        coefficients = dimensionalise_coefficients(coefficients, shape)
+        coefficients = dimensionalise_coefficients(coefficients, cmfs.shape)
 
     return coefficients, error
 
@@ -500,7 +481,8 @@ def XYZ_to_sd_Jakob2019(XYZ,
 
     Examples
     --------
-    >>> from colour import MSDS_CMFS, CCS_ILLUMINANTS, XYZ_to_sRGB
+    >>> from colour import (
+    ...     CCS_ILLUMINANTS, MSDS_CMFS, SDS_ILLUMINANTS, XYZ_to_sRGB)
     >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -563,16 +545,10 @@ def XYZ_to_sd_Jakob2019(XYZ,
     array([ 0.2066217...,  0.1220128...,  0.0513958...])
     """
 
-    if cmfs is None:
-        # pylint: disable=E1102
-        cmfs = reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                            SPECTRAL_SHAPE_JAKOB2019)
-
-    if illuminant is None:
-        illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                SPECTRAL_SHAPE_JAKOB2019)
-
     XYZ = to_domain_1(XYZ)
+
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019)
 
     if optimisation_kwargs is None:
         optimisation_kwargs = {}
@@ -627,7 +603,7 @@ class LUT3D_Jakob2019:
     --------
     >>> import os
     >>> import colour
-    >>> from colour import MSDS_CMFS, CCS_ILLUMINANTS
+    >>> from colour import CCS_ILLUMINANTS, SDS_ILLUMINANTS, MSDS_CMFS
     >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.models import RGB_COLOURSPACE_sRGB
     >>> from colour.utilities import numpy_print_options
@@ -796,7 +772,7 @@ class LUT3D_Jakob2019:
 
         Examples
         --------
-        >>> from colour import MSDS_CMFS
+        >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> from colour.utilities import numpy_print_options
         >>> cmfs = (
@@ -826,23 +802,8 @@ class LUT3D_Jakob2019:
         <scipy.interpolate.interpolate.RegularGridInterpolator object at 0x...>
         """
 
-        if cmfs is None:
-            # pylint: disable=E1102
-            cmfs = reshape_msds(
-                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
-                SPECTRAL_SHAPE_JAKOB2019)
-
-        if illuminant is None:
-            illuminant = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                    SPECTRAL_SHAPE_JAKOB2019)
-
-        shape = cmfs.shape
-
-        if illuminant.shape != shape:
-            runtime_warning(
-                'Aligning "{0}" illuminant shape to "{1}" colour matching '
-                'functions shape.'.format(illuminant.name, cmfs.name))
-            illuminant = reshape_sd(illuminant, cmfs.shape)
+        cmfs, illuminant = handle_spectral_arguments(
+            cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019)
 
         xy_n = XYZ_to_xy(sd_to_XYZ_integration(illuminant, cmfs))
 
@@ -891,7 +852,7 @@ class LUT3D_Jakob2019:
                 XYZ, cmfs, illuminant, coefficients_0, dimensionalise=False)
 
             self._coefficients[i, L, j, k, :] = dimensionalise_coefficients(
-                coefficients, shape)
+                coefficients, cmfs.shape)
 
             return coefficients
 
@@ -940,7 +901,7 @@ class LUT3D_Jakob2019:
 
         Examples
         --------
-        >>> from colour import MSDS_CMFS
+        >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> cmfs = (
         ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
@@ -989,7 +950,7 @@ class LUT3D_Jakob2019:
 
         Examples
         --------
-        >>> from colour import MSDS_CMFS
+        >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> from colour.utilities import numpy_print_options
         >>> cmfs = (
@@ -1070,7 +1031,7 @@ class LUT3D_Jakob2019:
         --------
         >>> import os
         >>> import colour
-        >>> from colour import MSDS_CMFS
+        >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> from colour.utilities import numpy_print_options
         >>> cmfs = (
@@ -1116,7 +1077,7 @@ class LUT3D_Jakob2019:
         --------
         >>> import os
         >>> import colour
-        >>> from colour import MSDS_CMFS
+        >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> from colour.utilities import numpy_print_options
         >>> cmfs = (

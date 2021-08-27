@@ -17,9 +17,10 @@ from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS, MultiSpectralDistributions,
     SpectralDistribution, SpectralShape, reshape_msds, reshape_sd,
-    sd_CIE_standard_illuminant_A)
+    sd_CIE_standard_illuminant_A, sd_ones)
 from colour.colorimetry import (
-    lagrange_coefficients_ASTME2022, tristimulus_weighting_factors_ASTME2022,
+    handle_spectral_arguments, lagrange_coefficients_ASTME2022,
+    tristimulus_weighting_factors_ASTME2022,
     adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
     sd_to_XYZ, msds_to_XYZ_integration, msds_to_XYZ_ASTME308,
@@ -39,7 +40,8 @@ __all__ = [
     'TWF_D65_CIE_1931_2_20_K1', 'TWF_D65_CIE_1931_2_20_A', 'DATA_TWO',
     'MSDS_TWO', 'TVS_D65_INTEGRATION_MSDS', 'TVS_D65_ARRAY_INTEGRATION',
     'TVS_D65_ARRAY_K1_INTEGRATION', 'TVS_D65_ASTME308_MSDS',
-    'TVS_D65_ASTME308_K1_MSDS', 'TestLagrangeCoefficientsASTME2022',
+    'TVS_D65_ASTME308_K1_MSDS', 'TestHandleSpectralArguments',
+    'TestLagrangeCoefficientsASTME2022',
     'TestTristimulusWeightingFactorsASTME2022',
     'TestAdjustTristimulusWeightingFactorsASTME308',
     'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME308', 'TestSd_to_XYZ',
@@ -425,6 +427,45 @@ TVS_D65_ASTME308_K1_MSDS = np.array([
     [903.48033348, 2080.68644330, 1874.17671434],
     [2524.36530136, 2770.31818974, 3236.64797963],
 ])
+
+
+class TestHandleSpectralArguments(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.tristimulus_values.\
+handle_spectral_arguments` definition unit tests methods.
+    """
+
+    def test_handle_spectral_arguments(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus_values.\
+handle_spectral_arguments` definition.
+        """
+
+        cmfs, illuminant = handle_spectral_arguments()
+        # pylint: disable=E1102
+        self.assertEqual(
+            cmfs,
+            reshape_msds(MSDS_CMFS_STANDARD_OBSERVER[
+                'CIE 1931 2 Degree Standard Observer']))
+        self.assertEqual(illuminant, reshape_sd(SDS_ILLUMINANTS['D65']))
+
+        shape = SpectralShape(400, 700, 20)
+        cmfs, illuminant = handle_spectral_arguments(shape_default=shape)
+        self.assertEqual(cmfs.shape, shape)
+        self.assertEqual(illuminant.shape, shape)
+
+        cmfs, illuminant = handle_spectral_arguments(
+            cmfs_default='CIE 2012 2 Degree Standard Observer',
+            illuminant_default='E',
+            shape_default=shape)
+        self.assertEqual(
+            cmfs,
+            reshape_msds(
+                MSDS_CMFS_STANDARD_OBSERVER[
+                    'CIE 2012 2 Degree Standard Observer'],
+                shape=shape))
+        self.assertEqual(illuminant,
+                         sd_ones(shape, interpolator=LinearInterpolator) * 100)
 
 
 class TestLagrangeCoefficientsASTME2022(unittest.TestCase):

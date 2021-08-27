@@ -47,8 +47,8 @@ __status__ = 'Production'
 
 __all__ = [
     'SpectralShape', 'SPECTRAL_SHAPE_DEFAULT', 'SpectralDistribution',
-    'MultiSpectralDistributions', 'sds_and_msds_to_sds',
-    'sds_and_msds_to_msds', 'reshape_sd', 'reshape_msds'
+    'MultiSpectralDistributions', 'reshape_sd', 'reshape_msds',
+    'sds_and_msds_to_sds', 'sds_and_msds_to_msds'
 ]
 
 _CACHE_SHAPE_RANGE = CACHE_REGISTRY.register_cache(
@@ -2476,6 +2476,79 @@ MultiSpectralDistributions or array_like or dict_like, optional
         return sds
 
 
+_CACHE_RESHAPED_SDS_AND_MSDS = CACHE_REGISTRY.register_cache(
+    '{0}._CACHE_RESHAPED_SDS_AND_MSDS'.format(__name__))
+
+
+def reshape_sd(sd, shape=SPECTRAL_SHAPE_DEFAULT, method='Align', **kwargs):
+    """
+    Reshape given spectral distribution with given spectral shape.
+
+    The reshaped object is cached, thus another call to the definition with the
+    same arguments will yield the cached object immediately.
+
+    Parameters
+    ----------
+    sd : SpectralDistribution
+        Spectral distribution to reshape.
+    shape : SpectralShape, optional
+        Spectral shape to reshape the spectral distribution with.
+    method : unicode, optional
+        {'Align', 'Extrapolate', 'Interpolate', 'Trim'}
+        Correction method.
+        Reshape method.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.SpectralDistribution.align`,
+        :func:`colour.SpectralDistribution.extrapolate`,
+        :func:`colour.SpectralDistribution.interpolate`,
+        :func:`colour.SpectralDistribution.trim`},
+        Please refer to the documentation of the previously listed methods.
+
+    Returns
+    -------
+    SpectralDistribution
+
+    Warnings
+    --------
+    Contrary to *Numpy*, reshaping a spectral distribution alters its data!
+    """
+
+    method = validate_method(
+        method, valid_methods=['Align', 'Extrapolate', 'Interpolate', 'Trim'])
+
+    # Handling dict-like keyword arguments.
+    kwargs_items = list(kwargs.items())
+    for i, (keyword, value) in enumerate(kwargs_items):
+        if isinstance(value, Mapping):
+            kwargs_items[i] = (keyword, tuple(value.items()))
+
+    hash_key = tuple(
+        [hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))])
+    if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
+        return _CACHE_RESHAPED_SDS_AND_MSDS[hash_key].copy()
+
+    function = getattr(sd, method)
+
+    reshaped_sd = getattr(sd.copy(), method)(shape, **filter_kwargs(
+        function, **kwargs))
+
+    _CACHE_RESHAPED_SDS_AND_MSDS[hash_key] = reshaped_sd
+
+    return reshaped_sd
+
+
+reshape_msds = copy_definition(reshape_sd, 'reshape_msds')
+reshape_msds.__doc__ = reshape_msds.__doc__.replace(
+    'SpectralDistribution', 'MultiSpectralDistributions')
+reshape_msds.__doc__ = reshape_msds.__doc__.replace(
+    'spectral distribution', 'multi-spectral distributions')
+reshape_msds.__doc__ = reshape_msds.__doc__.replace(
+    'Spectral distribution', 'Multi-spectral distributions')
+
+
 def sds_and_msds_to_sds(sds):
     """
     Converts given spectral and multi-spectral distributions to a flat list of
@@ -2655,76 +2728,3 @@ def sds_and_msds_to_msds(sds):
             tstack(values), shape.range(), labels, strict_labels=strict_labels)
 
     return msds
-
-
-_CACHE_RESHAPED_SDS_AND_MSDS = CACHE_REGISTRY.register_cache(
-    '{0}._CACHE_RESHAPED_SDS_AND_MSDS'.format(__name__))
-
-
-def reshape_sd(sd, shape=SPECTRAL_SHAPE_DEFAULT, method='Align', **kwargs):
-    """
-    Reshape given spectral distribution with given spectral shape.
-
-    The reshaped object is cached, thus another call to the definition with the
-    same arguments will yield the cached object immediately.
-
-    Parameters
-    ----------
-    sd : SpectralDistribution
-        Spectral distribution to reshape.
-    shape : SpectralShape, optional
-        Spectral shape to reshape the spectral distribution with.
-    method : unicode, optional
-        {'Align', 'Extrapolate', 'Interpolate', 'Trim'}
-        Correction method.
-        Reshape method.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        {:func:`colour.SpectralDistribution.align`,
-        :func:`colour.SpectralDistribution.extrapolate`,
-        :func:`colour.SpectralDistribution.interpolate`,
-        :func:`colour.SpectralDistribution.trim`},
-        Please refer to the documentation of the previously listed methods.
-
-    Returns
-    -------
-    SpectralDistribution
-
-    Warnings
-    --------
-    Contrary to *Numpy*, reshaping a spectral distribution alters its data!
-    """
-
-    method = validate_method(
-        method, valid_methods=['Align', 'Extrapolate', 'Interpolate', 'Trim'])
-
-    # Handling dict-like keyword arguments.
-    kwargs_items = list(kwargs.items())
-    for i, (keyword, value) in enumerate(kwargs_items):
-        if isinstance(value, Mapping):
-            kwargs_items[i] = (keyword, tuple(value.items()))
-
-    hash_key = tuple(
-        [hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))])
-    if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
-        return _CACHE_RESHAPED_SDS_AND_MSDS[hash_key].copy()
-
-    function = getattr(sd, method)
-
-    reshaped_sd = getattr(sd.copy(), method)(shape, **filter_kwargs(
-        function, **kwargs))
-
-    _CACHE_RESHAPED_SDS_AND_MSDS[hash_key] = reshaped_sd
-
-    return reshaped_sd
-
-
-reshape_msds = copy_definition(reshape_sd, 'reshape_msds')
-reshape_msds.__doc__ = reshape_msds.__doc__.replace(
-    'SpectralDistribution', 'MultiSpectralDistributions')
-reshape_msds.__doc__ = reshape_msds.__doc__.replace(
-    'spectral distribution', 'multi-spectral distributions')
-reshape_msds.__doc__ = reshape_msds.__doc__.replace(
-    'Spectral distribution', 'Multi-spectral distributions')
