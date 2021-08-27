@@ -10,11 +10,10 @@ import tempfile
 import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, CCS_ILLUMINANTS,
-                                SDS_ILLUMINANTS, reshape_msds, reshape_sd,
+from colour.colorimetry import (handle_spectral_arguments, reshape_sd,
                                 sd_to_XYZ)
 from colour.difference import delta_E_CIE1976
-from colour.models import XYZ_to_Lab
+from colour.models import XYZ_to_Lab, XYZ_to_xy
 from colour.recovery import (XYZ_to_sd_Otsu2018, SPECTRAL_SHAPE_OTSU2018,
                              Dataset_Otsu2018, NodeTree_Otsu2018)
 from colour.recovery.otsu2018 import Data, Node
@@ -31,10 +30,6 @@ __all__ = [
     'TestDataset_Otsu2018', 'TestXYZ_to_sd_Otsu2018', 'TestData', 'TestNode',
     'TestNodeTree_Otsu2018'
 ]
-
-_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
-
-_ILLUMINANT_DEFAULT = 'D65'
 
 
 class TestDataset_Otsu2018(unittest.TestCase):
@@ -77,13 +72,10 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
-        # pylint: disable=E1102
-        self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
-
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                  self._shape)
-        self._xy_D65 = CCS_ILLUMINANTS[_MSDS_CMFS_DEFAULT][_ILLUMINANT_DEFAULT]
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape)
+        self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
+        self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
     def test_XYZ_to_sd_Otsu2018(self):
         """
@@ -205,13 +197,10 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
-        # pylint: disable=E1102
-        self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
-
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                  self._shape)
-        self._xy_D65 = CCS_ILLUMINANTS[_MSDS_CMFS_DEFAULT][_ILLUMINANT_DEFAULT]
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape)
+        self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
+        self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
         self._temporary_directory = tempfile.mkdtemp()
 

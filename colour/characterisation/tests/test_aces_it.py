@@ -39,8 +39,6 @@ __all__ = [
     'TestCamera_RGB_to_ACES2065_1'
 ]
 
-_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
-
 MSDS_CANON_EOS_5DMARK_II = sds_and_msds_to_msds(
     read_sds_from_csv_file(
         os.path.join(RESOURCES_DIRECTORY_RAWTOACES,
@@ -505,8 +503,8 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
-                read_training_data_rawtoaces_v1(),
-                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                read_training_data_rawtoaces_v1(), MSDS_CMFS_STANDARD_OBSERVER[
+                    'CIE 1931 2 Degree Standard Observer'],
                 SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.01743541, 0.01795040, 0.01961110],
@@ -707,7 +705,8 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
-                training_data, MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                training_data, MSDS_CMFS_STANDARD_OBSERVER[
+                    'CIE 1931 2 Degree Standard Observer'],
                 SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.11386016, 0.10184316, 0.06318332],
@@ -740,7 +739,8 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
                 training_data,
-                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                MSDS_CMFS_STANDARD_OBSERVER[
+                    'CIE 1931 2 Degree Standard Observer'],
                 SDS_ILLUMINANTS['D55'],
                 chromatic_adaptation_transform='Bradford'),
             np.array([
