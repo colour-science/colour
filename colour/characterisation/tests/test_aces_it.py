@@ -15,9 +15,9 @@ from colour.characterisation import (
     training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
     optimisation_factory_JzAzBz, matrix_idt, camera_RGB_to_ACES2065_1)
 from colour.characterisation.aces_it import RESOURCES_DIRECTORY_RAWTOACES
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-                                SpectralShape, reshape_msds,
-                                sds_and_msds_to_msds, sd_constant, sd_ones)
+from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
+                                reshape_msds, sds_and_msds_to_msds,
+                                sd_constant, sd_ones)
 from colour.io import read_sds_from_csv_file
 from colour.utilities import domain_range_scale
 
@@ -38,8 +38,6 @@ __all__ = [
     'TestOptimizationFactoryJzAzBz', 'TestMatrixIdt',
     'TestCamera_RGB_to_ACES2065_1'
 ]
-
-_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
 MSDS_CANON_EOS_5DMARK_II = sds_and_msds_to_msds(
     read_sds_from_csv_file(
@@ -506,7 +504,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
                 read_training_data_rawtoaces_v1(),
-                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
                 SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.01743541, 0.01795040, 0.01961110],
@@ -707,7 +705,8 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
-                training_data, MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                training_data,
+                MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
                 SDS_ILLUMINANTS['D55']),
             np.array([
                 [0.11386016, 0.10184316, 0.06318332],
@@ -740,7 +739,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             training_data_sds_to_XYZ(
                 training_data,
-                MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT],
+                MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
                 SDS_ILLUMINANTS['D55'],
                 chromatic_adaptation_transform='Bradford'),
             np.array([

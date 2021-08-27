@@ -10,11 +10,10 @@ import tempfile
 import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, CCS_ILLUMINANTS,
-                                SDS_ILLUMINANTS, reshape_msds, reshape_sd,
-                                sd_to_XYZ)
+from colour.colorimetry import handle_spectral_arguments, sd_to_XYZ
 from colour.difference import JND_CIE1976, delta_E_CIE1976
-from colour.models import RGB_COLOURSPACE_sRGB, RGB_to_XYZ, XYZ_to_Lab
+from colour.models import (RGB_COLOURSPACE_sRGB, RGB_to_XYZ, XYZ_to_Lab,
+                           XYZ_to_xy)
 from colour.recovery.jakob2019 import (
     XYZ_to_sd_Jakob2019, sd_Jakob2019, error_function,
     dimensionalise_coefficients, SPECTRAL_SHAPE_JAKOB2019, LUT3D_Jakob2019)
@@ -31,10 +30,6 @@ __all__ = [
     'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestLUT3D_Jakob2019'
 ]
 
-_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
-
-_ILLUMINANT_DEFAULT = 'D65'
-
 
 class TestErrorFunction(unittest.TestCase):
     """
@@ -48,15 +43,10 @@ class TestErrorFunction(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        # pylint: disable=E1102
-        self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
-
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                  self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape)
         self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
-        self._XYZ_D65 /= self._XYZ_D65[1]
-        self._xy_D65 = CCS_ILLUMINANTS[_MSDS_CMFS_DEFAULT][_ILLUMINANT_DEFAULT]
+        self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
         self._Lab_e = np.array([72, -20, 61])
 
@@ -150,11 +140,8 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        # pylint: disable=E1102
-        self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                  self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape)
 
     def test_XYZ_to_sd_Jakob2019(self):
         """
@@ -205,16 +192,13 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._RGB_colourspace = RGB_COLOURSPACE_sRGB
-
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        # pylint: disable=E1102
-        self._cmfs = reshape_msds(
-            MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT], self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape)
+        self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
+        self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT],
-                                  self._shape)
-        self._xy_D65 = CCS_ILLUMINANTS[_MSDS_CMFS_DEFAULT][_ILLUMINANT_DEFAULT]
+        self._RGB_colourspace = RGB_COLOURSPACE_sRGB
 
         self._temporary_directory = tempfile.mkdtemp()
 

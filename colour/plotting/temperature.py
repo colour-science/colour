@@ -14,7 +14,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS`
 
 import numpy as np
 
-from colour.colorimetry import MSDS_CMFS_STANDARD_OBSERVER, CCS_ILLUMINANTS
+from colour.colorimetry import MSDS_CMFS, CCS_ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
 from colour.plotting import (
@@ -291,7 +291,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :alt: plot_planckian_locus_in_chromaticity_diagram
     """
 
-    cmfs = MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
+    cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
 
     illuminants = filter_passthrough(
         CCS_ILLUMINANTS.get(cmfs.name), illuminants)

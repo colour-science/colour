@@ -7,7 +7,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import MSDS_CMFS_STANDARD_OBSERVER
+from colour.colorimetry import MSDS_CMFS
 from colour.temperature import CCT_to_uv_Ohno2013, uv_to_CCT_Ohno2013
 from colour.temperature.ohno2013 import (
     planckian_table, planckian_table_minimal_distance_index)
@@ -24,8 +24,6 @@ __all__ = [
     'TestPlanckianTable', 'TestPlanckianTableMinimalDistanceIndex',
     'Testuv_to_CCT_Ohno2013', 'TestCCT_to_uv_Ohno2013'
 ]
-
-_MSDS_CMFS_DEFAULT = 'CIE 1931 2 Degree Standard Observer'
 
 PLANCKIAN_TABLE = np.array([
     [1000.00000000, 0.44796288, 0.35462962, 0.25373557],
@@ -52,12 +50,11 @@ class TestPlanckianTable(unittest.TestCase):
         Tests :func:`colour.temperature.ohno2013.planckian_table` definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
-
         np.testing.assert_almost_equal(
             [(x.Ti, x.ui, x.vi, x.di) for x in planckian_table(
-                np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)],
-            PLANCKIAN_TABLE)
+                np.array([0.1978, 0.3122
+                          ]), MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
+                1000, 1010, 10)], PLANCKIAN_TABLE)
 
 
 class TestPlanckianTableMinimalDistanceIndex(unittest.TestCase):
@@ -72,11 +69,12 @@ planckian_table_minimal_distance_index` definition unit tests methods.
 planckian_table_minimal_distance_index` definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
         self.assertEqual(
             planckian_table_minimal_distance_index(
                 planckian_table(
-                    np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)), 9)
+                    np.array([0.1978, 0.3122]),
+                    MSDS_CMFS['CIE 1931 2 Degree Standard Observer'], 1000,
+                    1010, 10)), 9)
 
 
 class Testuv_to_CCT_Ohno2013(unittest.TestCase):
@@ -91,19 +89,18 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
         np.testing.assert_almost_equal(
-            uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122]), cmfs),
+            uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122])),
             np.array([6507.47380460, 0.00322335]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            uv_to_CCT_Ohno2013(np.array([0.4328, 0.2883]), cmfs),
+            uv_to_CCT_Ohno2013(np.array([0.4328, 0.2883])),
             np.array([1041.68315360, -0.06737802]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722]), cmfs, iterations=4),
+            uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722]), iterations=4),
             np.array([2452.15316417, -0.08437064]),
             decimal=7)
 
@@ -152,19 +149,18 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(np.array([6507.47380460, 0.00322335]), cmfs),
+            CCT_to_uv_Ohno2013(np.array([6507.47380460, 0.00322335])),
             np.array([0.19779997, 0.31219997]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(np.array([1041.68315360, -0.06737802]), cmfs),
+            CCT_to_uv_Ohno2013(np.array([1041.68315360, -0.06737802])),
             np.array([0.43279885, 0.28830013]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(np.array([2452.15316417, -0.08437064]), cmfs),
+            CCT_to_uv_Ohno2013(np.array([2452.15316417, -0.08437064])),
             np.array([0.29247364, 0.27215157]),
             decimal=7)
 
@@ -174,19 +170,18 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        cmfs = MSDS_CMFS_STANDARD_OBSERVER[_MSDS_CMFS_DEFAULT]
         CCT_D_uv = np.array([6507.47380460, 0.00322335])
-        uv = CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)
+        uv = CCT_to_uv_Ohno2013(CCT_D_uv)
 
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         uv = np.tile(uv, (6, 1))
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(CCT_D_uv, cmfs), uv, decimal=7)
+            CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7)
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(CCT_D_uv, cmfs), uv, decimal=7)
+            CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_CCT_to_uv_Ohno2013(self):

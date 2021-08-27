@@ -20,8 +20,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER,
-                                SPECTRAL_SHAPE_DEFAULT,
+from colour.colorimetry import (MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT,
                                 sd_CIE_illuminant_D_series, reshape_msds,
                                 reshape_sd, sd_blackbody, sd_to_XYZ)
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
@@ -111,9 +110,8 @@ def colour_rendering_index(sd_test, additional_data=False):
     """
 
     # pylint: disable=E1102
-    cmfs = reshape_msds(
-        MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'],
-        SPECTRAL_SHAPE_DEFAULT)
+    cmfs = reshape_msds(MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
+                        SPECTRAL_SHAPE_DEFAULT)
 
     shape = cmfs.shape
     sd_test = reshape_sd(sd_test, shape)
