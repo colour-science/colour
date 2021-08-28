@@ -88,16 +88,19 @@ def XYZ_to_xyY(XYZ,
 
     XYZ = to_domain_1(XYZ)
     X, Y, Z = tsplit(XYZ)
+    aX, aY, aZ = tsplit(abs(XYZ))
     xy_w = as_float_array(illuminant)
 
     XYZ_n = zeros(XYZ.shape)
     XYZ_n[..., 0:2] = xy_w
 
     xyY = np.where(
-        np.all(XYZ == 0, axis=-1)[..., np.newaxis],
-        XYZ_n,
-        tstack([X / (X + Y + Z), Y / (X + Y + Z),
-                from_range_1(Y)]),
+        [
+            negative(aX / (aX + aY + aZ), where=(X < 0.0),
+                     out=aX / (aX + aY + aZ)),
+            negative(aY / (aX + aY + aZ), where=(Y < 0.0),
+                     out=aY / (aX + aY + aZ)),
+            from_range_1(Y)]),
     )
 
     return xyY
@@ -144,12 +147,16 @@ def xyY_to_XYZ(xyY):
     """
 
     x, y, Y = tsplit(xyY)
+    ax, ay, aY = tsplit(abs(xyY))
     Y = to_domain_1(Y)
 
     XYZ = np.where(
         (y == 0)[..., np.newaxis],
         tstack([y, y, y]),
-        tstack([x * Y / y, Y, (1 - x - y) * Y / y]),
+        tstack(
+            negative(ax * aY / ay, where=(x < 0.0), out=(ax * aY / ay)),
+            Y,
+            (1 - ax - ay) * aY / ay])
     )
 
     return from_range_1(XYZ)
