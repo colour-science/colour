@@ -135,7 +135,7 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1, method='DIN99'):
     return from_range_100(Lab_99)
 
 
-def DIN99_to_Lab(Lab_99, method='DIN99', k_E=1, k_CH=1):
+def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1, method='DIN99'):
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according

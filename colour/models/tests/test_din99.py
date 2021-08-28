@@ -157,19 +157,22 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             DIN99_to_Lab(
-                np.array([66.08943912, -17.35290106, 16.09690691]), 'DIN99b'),
+                np.array([66.08943912, -17.35290106, 16.09690691]),
+                method='DIN99b'),
             np.array([62.34208624, -19.58921167, 20.42580918]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             DIN99_to_Lab(
-                np.array([66.08943912, -17.35290106, 16.09690691]), 'DIN99c'),
+                np.array([66.08943912, -17.35290106, 16.09690691]),
+                method='DIN99c'),
             np.array([62.50915311, -19.97854178, 19.71543094]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             DIN99_to_Lab(
-                np.array([66.08943912, -17.35290106, 16.09690691]), 'DIN99d'),
+                np.array([66.08943912, -17.35290106, 16.09690691]),
+                method='DIN99d'),
             np.array([62.59315213, -19.84954543, 18.67113788]),
             decimal=7)
 
@@ -198,9 +201,9 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
         Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
         Lab = DIN99_to_Lab(Lab_99)
-        Lab_b = DIN99_to_Lab(Lab_99, 'DIN99b')
-        Lab_c = DIN99_to_Lab(Lab_99, 'DIN99c')
-        Lab_d = DIN99_to_Lab(Lab_99, 'DIN99d')
+        Lab_b = DIN99_to_Lab(Lab_99, method='DIN99b')
+        Lab_c = DIN99_to_Lab(Lab_99, method='DIN99c')
+        Lab_d = DIN99_to_Lab(Lab_99, method='DIN99d')
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
@@ -208,15 +211,15 @@ class TestDIN99_to_Lab(unittest.TestCase):
                 np.testing.assert_almost_equal(
                     DIN99_to_Lab(Lab_99 * factor), Lab * factor, decimal=7)
                 np.testing.assert_almost_equal(
-                    DIN99_to_Lab((Lab_99 * factor), 'DIN99b'),
+                    DIN99_to_Lab((Lab_99 * factor), method='DIN99b'),
                     Lab_b * factor,
                     decimal=7)
                 np.testing.assert_almost_equal(
-                    DIN99_to_Lab((Lab_99 * factor), 'DIN99c'),
+                    DIN99_to_Lab((Lab_99 * factor), method='DIN99c'),
                     Lab_c * factor,
                     decimal=7)
                 np.testing.assert_almost_equal(
-                    DIN99_to_Lab((Lab_99 * factor), 'DIN99d'),
+                    DIN99_to_Lab((Lab_99 * factor), method='DIN99d'),
                     Lab_d * factor,
                     decimal=7)
 
@@ -230,9 +233,9 @@ class TestDIN99_to_Lab(unittest.TestCase):
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             DIN99_to_Lab(np.array(case))
-            DIN99_to_Lab(np.array(case), 'DIN99b')
-            DIN99_to_Lab(np.array(case), 'DIN99c')
-            DIN99_to_Lab(np.array(case), 'DIN99d')
+            DIN99_to_Lab(np.array(case), method='DIN99b')
+            DIN99_to_Lab(np.array(case), method='DIN99c')
+            DIN99_to_Lab(np.array(case), method='DIN99d')
 
 
 if __name__ == '__main__':
