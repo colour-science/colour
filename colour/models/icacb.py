@@ -18,7 +18,8 @@ import numpy as np
 from colour.algebra import vector_dot
 from colour.models.rgb.transfer_functions import (eotf_ST2084,
                                                   eotf_inverse_ST2084)
-from colour.utilities.common import from_range_1, to_domain_1
+from colour.utilities.common import (domain_range_scale, from_range_1,
+                                     to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,12 +29,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_ICACB_XYZ_TO_LMS',
-    'MATRIX_ICACB_XYZ_TO_LMS_2',
-    'MATRIX_ICACB_LMS_TO_XYZ',
-    'MATRIX_ICACB_LMS_TO_XYZ_2',
-    'XYZ_to_ICaCb',
-    'ICaCb_to_XYZ',
+    'MATRIX_ICACB_XYZ_TO_LMS', 'MATRIX_ICACB_XYZ_TO_LMS_2',
+    'MATRIX_ICACB_LMS_TO_XYZ', 'MATRIX_ICACB_LMS_TO_XYZ_2', 'XYZ_to_ICaCb',
+    'ICaCb_to_XYZ'
 ]
 
 MATRIX_ICACB_XYZ_TO_LMS = np.array([
@@ -97,7 +95,7 @@ def XYZ_to_ICaCb(XYZ):
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
+    | ``ICaCb``  | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
     |            |                       |                 |
     |            | ``Ca`` : [-1, 1]      | ``Ca``: [-1, 1] |
     |            |                       |                 |
@@ -120,7 +118,9 @@ def XYZ_to_ICaCb(XYZ):
 
     XYZ = to_domain_1(XYZ)
     LMS = vector_dot(MATRIX_ICACB_XYZ_TO_LMS, XYZ)
-    LMS_prime = eotf_inverse_ST2084(LMS)
+
+    with domain_range_scale('ignore'):
+        LMS_prime = eotf_inverse_ST2084(LMS)
 
     return from_range_1(vector_dot(MATRIX_ICACB_XYZ_TO_LMS_2, LMS_prime))
 
@@ -143,9 +143,9 @@ def ICaCb_to_XYZ(ICaCb):
     -----
 
     +------------+-----------------------+-----------------+
-    | **Domain**  | **Scale - Reference** | **Scale - 1**   |
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
+    | ``ICaCb``  | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
     |            |                       |                 |
     |            | ``Ca`` : [-1, 1]      | ``Ca``: [-1, 1] |
     |            |                       |                 |
@@ -153,7 +153,7 @@ def ICaCb_to_XYZ(ICaCb):
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
-    | **** | **Scale - Reference** | **Scale - 1**   |
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
     | ``XYZ``    | [0, 1]                | [0, 1]          |
     +------------+-----------------------+-----------------+
@@ -171,6 +171,8 @@ def ICaCb_to_XYZ(ICaCb):
 
     ICaCb = to_domain_1(ICaCb)
     LMS_prime = vector_dot(MATRIX_ICACB_LMS_TO_XYZ_2, ICaCb)
-    LMS = eotf_ST2084(LMS_prime)
+
+    with domain_range_scale('ignore'):
+        LMS = eotf_ST2084(LMS_prime)
 
     return from_range_1(vector_dot(MATRIX_ICACB_LMS_TO_XYZ, LMS))
