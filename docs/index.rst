@@ -547,6 +547,14 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     >>> colour.XYZ_to_CAM16UCS(XYZ, XYZ_w=XYZ_w, L_A=L_A, Y_b=Y_b)
     array([ 46.55542238,  40.22460974,  14.25288392])
 
+ICaCb Colourspace
+******************
+
+.. code-block:: python
+
+    >>> XYZ_to_ICaCb(np.array([0.20654008, 0.12197225, 0.05136952]))
+    array([ 0.06875297,  0.05753352,  0.02081548])
+
 IgPgTg Colourspace
 ******************
 
