@@ -96,8 +96,11 @@ def XYZ_to_xyY(XYZ,
     xyY = np.where(
         np.all(XYZ == 0, axis=-1)[..., np.newaxis],
         XYZ_n,
-        tstack([X / (X + Y + Z), Y / (X + Y + Z),
-                from_range_1(Y)]),
+        tstack([
+            X / (X + Y + Z),
+            Y / (X + Y + Z),
+            from_range_1(Y),
+        ]),
     )
 
     return xyY
