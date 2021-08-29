@@ -808,18 +808,19 @@ def orient(a, orientation):
            [4, 3, 2, 1, 0]])
     """
 
-    if orientation.lower() == 'flip':
+    orientation = validate_method(orientation,
+                                  ['Flip', 'Flop', '90 CW', '90 CCW', '180'])
+
+    if orientation == 'flip':
         return np.fliplr(a)
-    elif orientation.lower() == 'flop':
+    elif orientation == 'flop':
         return np.flipud(a)
-    elif orientation.lower() == '90 cw':
+    elif orientation == '90 cw':
         return np.rot90(a, 3)
-    elif orientation.lower() == '90 ccw':
+    elif orientation == '90 ccw':
         return np.rot90(a)
-    elif orientation.lower() == '180':
+    elif orientation == '180':
         return np.rot90(a, 2)
-    else:
-        return a
 
 
 def centroid(a):
