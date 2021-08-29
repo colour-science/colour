@@ -633,8 +633,6 @@ class TestOrient(unittest.TestCase):
 
         a = np.tile(np.arange(5), (5, 1))
 
-        np.testing.assert_almost_equal(orient(a, 'Null'), a, decimal=7)
-
         np.testing.assert_almost_equal(
             orient(a, 'Flip'),
             np.array([
