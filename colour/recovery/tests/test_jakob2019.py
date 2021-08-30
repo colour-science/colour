@@ -155,7 +155,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             _recovered_sd, error = XYZ_to_sd_Jakob2019(
                 XYZ, self._cmfs, self._sd_D65, additional_data=True)
 
-            if error > JND_CIE1976 / 100:
+            if error > JND_CIE1976 / 100:  # pragma: no cover
                 self.fail('Delta E for \'{0}\' is {1}!'.format(name, error))
 
     def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
@@ -202,6 +202,13 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
         self._temporary_directory = tempfile.mkdtemp()
 
+        self._LUT = LUT3D_Jakob2019()
+        self._LUT.generate(self._RGB_colourspace, self._cmfs, self._sd_D65, 5)
+
+        self._path = os.path.join(self._temporary_directory,
+                                  'Test_Jakob2019.coeff')
+        self._LUT.write(self._path)
+
     def tearDown(self):
         """
         After tests actions.
@@ -214,7 +221,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('lightness_scale', 'coefficients', 'size',
+        required_attributes = ('size', 'lightness_scale', 'coefficients',
                                'interpolator')
 
         for attribute in required_attributes:
@@ -231,6 +238,33 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(LUT3D_Jakob2019))
 
+    def test_size(self):
+        """
+        Tests :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property.
+        """
+
+        self.assertEqual(self._LUT.size, 5)
+
+    def test_lightness_scale(self):
+        """
+        Tests :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.lightness_scale`
+        property.
+        """
+
+        np.testing.assert_almost_equal(
+            self._LUT.lightness_scale,
+            np.array(
+                [0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]),
+            decimal=7)
+
+    def test_coefficients(self):
+        """
+        Tests :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.coefficients`
+        property.
+        """
+
+        self.assertTupleEqual(self._LUT.coefficients.shape, (3, 5, 5, 5, 3))
+
     def test_LUT3D_Jakob2019(self):
         """
         Tests the entirety of the
@@ -238,12 +272,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         """
 
         LUT = LUT3D_Jakob2019()
-        LUT.generate(self._RGB_colourspace, self._cmfs, self._sd_D65, 5)
-
-        path = os.path.join(self._temporary_directory, 'Test_Jakob2019.coeff')
-
-        LUT.write(path)
-        LUT.read(path)
+        LUT.read(self._path)
 
         for RGB in [
                 np.array([1, 0, 0]),
@@ -265,9 +294,17 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
 
-            if error > 2 * JND_CIE1976 / 100:
+            if error > 2 * JND_CIE1976 / 100:  # pragma: no cover
                 self.fail('Delta E for RGB={0} in colourspace {1} is {2}!'
                           .format(RGB, self._RGB_colourspace.name, error))
+
+    def test_raise_exception_read(self):
+        """
+        Tests :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.read` method
+        raised exception.
+        """
+
+        self.assertRaises(ValueError, self._LUT.read, __file__)
 
 
 if __name__ == '__main__':

@@ -35,7 +35,7 @@ from colour.utilities import (as_float_array, domain_range_scale, full,
 
 if is_tqdm_installed():
     from tqdm import tqdm
-else:
+else:  # pragma: no cover
     from unittest import mock
 
     tqdm = mock.MagicMock()

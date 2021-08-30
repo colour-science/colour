@@ -84,7 +84,7 @@ class TestMixinMallett2019:
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
 
-            if error > 4 * JND_CIE1976 / 100:
+            if error > 4 * JND_CIE1976 / 100:  # pragma: no cover
                 self.fail('Delta E for "{0}" is {1}!'.format(name, error))
 
 
