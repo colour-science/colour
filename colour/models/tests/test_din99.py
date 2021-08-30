@@ -48,23 +48,23 @@ class TestLab_to_DIN99(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             Lab_to_DIN99(
-                np.array([55.11636304, -41.08791787, 30.91825778]),
+                np.array([41.52787529, 52.63858304, 26.92317922]),
                 method='DIN99b'),
-            np.array([59.12639059, -28.53302263, 18.11595447]),
+            np.array([45.58303137, 34.71824493, 17.61622149]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Lab_to_DIN99(
-                np.array([55.11636304, -41.08791787, 30.91825778]),
+                np.array([41.52787529, 52.63858304, 26.92317922]),
                 method='DIN99c'),
-            np.array([58.95318981, -27.48315361, 19.43995694]),
+            np.array([45.40284208, 32.75074741, 15.74603532]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Lab_to_DIN99(
-                np.array([55.11636304, -41.08791787, 30.91825778]),
+                np.array([41.52787529, 52.63858304, 26.92317922]),
                 method='DIN99d'),
-            np.array([58.86583159, -26.97194924, 20.57222052]),
+            np.array([45.31204747, 31.42106716, 14.17004652]),
             decimal=7)
 
     def test_n_dimensional_Lab_to_DIN99(self):
@@ -157,23 +157,23 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             DIN99_to_Lab(
-                np.array([66.08943912, -17.35290106, 16.09690691]),
+                np.array([45.58303137, 34.71824493, 17.61622149]),
                 method='DIN99b'),
-            np.array([62.34208624, -19.58921167, 20.42580918]),
+            np.array([41.52787529, 52.63858304, 26.92317922]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             DIN99_to_Lab(
-                np.array([66.08943912, -17.35290106, 16.09690691]),
+                np.array([45.40284208, 32.75074741, 15.74603532]),
                 method='DIN99c'),
-            np.array([62.50915311, -19.97854178, 19.71543094]),
+            np.array([41.52787529, 52.63858304, 26.92317922]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             DIN99_to_Lab(
-                np.array([66.08943912, -17.35290106, 16.09690691]),
+                np.array([45.31204747, 31.42106716, 14.17004652]),
                 method='DIN99d'),
-            np.array([62.59315213, -19.84954543, 18.67113788]),
+            np.array([41.52787529, 52.63858304, 26.92317922]),
             decimal=7)
 
     def test_n_dimensional_DIN99_to_Lab(self):
