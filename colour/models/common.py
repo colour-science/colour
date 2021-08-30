@@ -168,8 +168,8 @@ def JCh_to_Jab(JCh):
 COLOURSPACE_MODELS = ('CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD',
                       'CAM16SCD', 'CAM16UCS', 'CIE XYZ', 'CIE xyY', 'CIE Lab',
                       'CIE Luv', 'CIE UCS', 'CIE UVW', 'Hunter Lab',
-                      'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz',
-                      'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT')
+                      'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT', 'IgPgTg',
+                      'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT')
 if is_documentation_building():  # pragma: no cover
     COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
     COLOURSPACE_MODELS.__doc__ = """
@@ -179,8 +179,8 @@ values.
 COLOURSPACE_MODELS : Tuple
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
     'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-    'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz', 'OSA UCS',
-    'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
+    'Hunter Lab', 'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz',
+    'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """
 
 COLOURSPACE_MODELS_AXIS_LABELS = {
@@ -198,6 +198,7 @@ COLOURSPACE_MODELS_AXIS_LABELS = {
     'CIE UVW': ('U', 'V', 'W'),
     'Hunter Lab': ('$L^*$', '$a^*$', '$b^*$'),
     'Hunter Rdab': ('Rd', 'a', 'b'),
+    'ICaCb': ('$I$', '$C_a$', '$C_b$'),
     'ICtCp': ('$I$', '$C_T$', '$C_P$'),
     'IPT': ('I', 'P', 'T'),
     'IgPgTg': ('$I_G$', '$P_G$', '$T_G$'),
@@ -213,6 +214,6 @@ Colourspace models labels mapping.
 COLOURSPACE_MODELS_AXIS_LABELS : dict
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
     'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-    'Hunter Lab', 'Hunter Rdab', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz', 'OSA UCS',
-    'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
+    'Hunter Lab', 'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz',
+    'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """
