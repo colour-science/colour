@@ -167,7 +167,7 @@ def JCh_to_Jab(JCh):
 
 COLOURSPACE_MODELS = ('CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD',
                       'CAM16SCD', 'CAM16UCS', 'CIE XYZ', 'CIE xyY', 'CIE Lab',
-                      'CIE Luv', 'CIE UCS', 'CIE UVW', 'Hunter Lab',
+                      'CIE Luv', 'CIE UCS', 'CIE UVW', 'DIN99', 'Hunter Lab',
                       'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT', 'IgPgTg',
                       'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT')
 if is_documentation_building():  # pragma: no cover
@@ -178,7 +178,7 @@ values.
 
 COLOURSPACE_MODELS : Tuple
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
-    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
+    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW', 'DIN99',
     'Hunter Lab', 'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz',
     'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """
@@ -196,6 +196,7 @@ COLOURSPACE_MODELS_AXIS_LABELS = {
     'CIE Luv': ('$L^*$', '$u^\\prime$', '$v^\\prime$'),
     'CIE UCS': ('U', 'V', 'W'),
     'CIE UVW': ('U', 'V', 'W'),
+    'DIN99': ('$L_{99}$', '$a_{99}$', '$b_{99}$'),
     'Hunter Lab': ('$L^*$', '$a^*$', '$b^*$'),
     'Hunter Rdab': ('Rd', 'a', 'b'),
     'ICaCb': ('$I$', '$C_a$', '$C_b$'),
@@ -213,7 +214,7 @@ Colourspace models labels mapping.
 
 COLOURSPACE_MODELS_AXIS_LABELS : dict
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
-    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
+    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW', 'DIN99',
     'Hunter Lab', 'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz',
     'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """

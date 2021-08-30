@@ -147,6 +147,8 @@ DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
 
     Lab_to_DIN99
     DIN99_to_Lab
+    XYZ_to_DIN99
+    DIN99_to_XYZ
 
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 -------------------------------------------------------------------------
