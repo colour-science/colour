@@ -128,8 +128,9 @@ Colourspace models axis order.
 COLOURSPACE_MODELS_AXIS_ORDER : dict
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
     'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv',
-    'CIE UCS', 'CIE UVW', 'Hunter Lab', 'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT',
-    'IgPgTg', 'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
+    'CIE UCS', 'CIE UVW', 'DIN99', 'Hunter Lab', 'Hunter Rdab', 'ICaCb',
+    'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB',
+    'hdr-IPT'}**
 """
 
 

@@ -8,6 +8,8 @@ formulas transformations:
 
 -   :func:`colour.Lab_to_DIN99`
 -   :func:`colour.DIN99_to_Lab`
+-   :func:`colour.XYZ_to_DIN99`
+-   :func:`colour.DIN99_to_XYZ`
 
 References
 ----------
@@ -23,6 +25,8 @@ References
 import numpy as np
 
 from colour.algebra import spow
+from colour.colorimetry import CCS_ILLUMINANTS
+from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (CaseInsensitiveMapping, from_range_100, tsplit,
                               tstack, to_domain_100, validate_method)
 
@@ -137,9 +141,9 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1, method='DIN99'):
 
 def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1, method='DIN99'):
     """
-    Converts from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
-    one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
-    to *Cui et al. (2002)*.
+    Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
+    *DIN99d* refined formulas according to *Cui et al. (2002)* to
+    *CIE L\\*a\\*b\\** colourspace.
 
     Parameters
     ----------
@@ -219,3 +223,147 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1, method='DIN99'):
     Lab = tstack([L, a, b])
 
     return from_range_100(Lab)
+
+
+def XYZ_to_DIN99(XYZ,
+                 illuminant=CCS_ILLUMINANTS[
+                     'CIE 1931 2 Degree Standard Observer']['D65'],
+                 k_E=1,
+                 k_CH=1,
+                 method='DIN99'):
+    """
+    Converts from *CIE XYZ* tristimulus values to *DIN99* colourspace or
+    one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
+    to *Cui et al. (2002)*.
+
+    Parameters
+    ----------
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
+    illuminant : array_like, optional
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
+    k_E : numeric, optional
+        Parametric factor :math:`K_E` used to compensate for texture and other
+        specimen presentation effects.
+    k_CH : numeric, optional
+        Parametric factor :math:`K_{CH}` used to compensate for texture and
+        other specimen presentation effects.
+    method : unicode, optional
+        **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
+        Computation method to choose between the :cite:`ASTMInternational2007`
+        formula and the refined formulas according to *Cui et al. (2002)*.
+
+    Returns
+    -------
+    ndarray
+        *DIN99* colourspace array.
+
+    Notes
+    -----
+
+    +----------------+-----------------------+-----------------+
+    | **Domain**     | **Scale - Reference** | **Scale - 1**   |
+    +================+=======================+=================+
+    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    +----------------+-----------------------+-----------------+
+
+    +------------+------------------------+--------------------+
+    | **Range**  | **Scale - Reference**  | **Scale - 1**      |
+    +============+========================+====================+
+    | ``Lab_99`` | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
+    |            |                        |                    |
+    |            | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
+    |            |                        |                    |
+    |            | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    +------------+------------------------+--------------------+
+
+    References
+    ----------
+    :cite:`ASTMInternational2007`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_to_DIN99(XYZ)  # doctest: +ELLIPSIS
+    array([ 53.2282198...,  28.4163465...,   3.8983955...])
+    """
+
+    Lab = XYZ_to_Lab(XYZ, illuminant)
+
+    return Lab_to_DIN99(Lab, k_E, k_CH, method)
+
+
+def DIN99_to_XYZ(Lab_99,
+                 illuminant=CCS_ILLUMINANTS[
+                     'CIE 1931 2 Degree Standard Observer']['D65'],
+                 k_E=1,
+                 k_CH=1,
+                 method='DIN99'):
+    """
+    Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
+    *DIN99d* refined formulas according to *Cui et al. (2002)* to *CIE XYZ*
+    tristimulus values.
+
+    Parameters
+    ----------
+    Lab_99 : array_like
+        *DIN99* colourspace array.
+    illuminant : array_like, optional
+        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
+    k_E : numeric, optional
+        Parametric factor :math:`K_E` used to compensate for texture and other
+        specimen presentation effects.
+    k_CH : numeric, optional
+        Parametric factor :math:`K_{CH}` used to compensate for texture and
+        other specimen presentation effects.
+    method : unicode, optional
+        **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
+        Computation method to choose between the :cite:`ASTMInternational2007`
+        formula and the refined formulas according to *Cui et al. (2002)*.
+
+    Returns
+    -------
+    ndarray
+        *CIE XYZ* tristimulus values.
+
+    Notes
+    -----
+
+    +----------------+------------------------+--------------------+
+    | **Domain**     | **Scale - Reference**  | **Scale - 1**      |
+    +================+========================+====================+
+    | ``Lab_99``     | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
+    |                |                        |                    |
+    |                | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
+    |                |                        |                    |
+    |                | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    +----------------+------------------------+--------------------+
+    | ``illuminant`` | [0, 1]                 | [0, 1]             |
+    +----------------+------------------------+--------------------+
+
+    +----------------+-----------------------+---------------------+
+    | **Range**      | **Scale - Reference** | **Scale - 1**       |
+    +================+=======================+=====================+
+    | ``XYZ``        | [0, 1]                | [0, 1]              |
+    +----------------+-----------------------+---------------------+
+
+    References
+    ----------
+    :cite:`ASTMInternational2007`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> Lab_99 = np.array([53.22821989, 28.41634656, 3.89839552])
+    >>> DIN99_to_XYZ(Lab_99)  # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    """
+
+    Lab = DIN99_to_Lab(Lab_99, k_E, k_CH, method)
+
+    return Lab_to_XYZ(Lab, illuminant)
