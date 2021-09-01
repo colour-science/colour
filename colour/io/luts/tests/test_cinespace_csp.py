@@ -96,7 +96,7 @@ class TestReadLUTCinespace(unittest.TestCase):
         self.assertEqual(LUT_3.size, 2)
 
         LUT_4 = read_LUT_Cinespace(
-            os.path.join(LUTS_DIRECTORY, 'Non_Uniform.csp'))
+            os.path.join(LUTS_DIRECTORY, 'Explicit_Domain.csp'))
         self.assertEqual(LUT_4[0].is_domain_explicit(), True)
         self.assertEqual(LUT_4[1].table.shape, (2, 3, 4, 3))
 
@@ -168,12 +168,13 @@ class TestWriteLUTCinespace(unittest.TestCase):
             np.array([-0.1, 0.5, 1.0, np.nan, np.nan, np.nan]),
             np.array([-1.0, -0.5, 0.0, 0.5, 1.0, np.nan]),
         ))
-        LUT_4_t = LUT3x1D(domain=domain, table=domain * 2)
+        LUT_4_t = LUT3x1D(
+            domain=domain, table=domain * 2, name='Ragged Domain')
         write_LUT_Cinespace(
-            LUT_4_t, os.path.join(self._temporary_directory,
-                                  'RaggedDomain.csp'))
+            LUT_4_t,
+            os.path.join(self._temporary_directory, 'Ragged_Domain.csp'))
         LUT_4_r = read_LUT_Cinespace(
-            os.path.join(self._temporary_directory, 'RaggedDomain.csp'))
+            os.path.join(LUTS_DIRECTORY, 'Ragged_Domain.csp'))
         np.testing.assert_almost_equal(LUT_4_t.domain, LUT_4_r.domain)
         np.testing.assert_almost_equal(LUT_4_t.table, LUT_4_r.table, decimal=6)
 
@@ -181,29 +182,46 @@ class TestWriteLUTCinespace(unittest.TestCase):
             os.path.join(LUTS_DIRECTORY,
                          'Three_Dimensional_Table_With_Shaper.csp'))
         LUT_5_r.sequence[0] = LUT_5_r.sequence[0].as_LUT(
-            LUT3x1D, force_conversion=True)
+            LUT1D, force_conversion=True)
         write_LUT_Cinespace(
             LUT_5_r,
-            os.path.join(self._temporary_directory,
-                         'Three_Dimensional_Table_With_Shaper.csp'))
-        LUT_5_t = read_LUT_Cinespace(
             os.path.join(self._temporary_directory,
                          'Three_Dimensional_Table_With_Shaper.csp'))
         LUT_5_r = read_LUT_Cinespace(
             os.path.join(LUTS_DIRECTORY,
                          'Three_Dimensional_Table_With_Shaper.csp'))
+        LUT_5_t = read_LUT_Cinespace(
+            os.path.join(self._temporary_directory,
+                         'Three_Dimensional_Table_With_Shaper.csp'))
         self.assertEqual(LUT_5_r, LUT_5_t)
 
         LUT_6_r = read_LUT_Cinespace(
-            os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.csp'))
+            os.path.join(LUTS_DIRECTORY,
+                         'Three_Dimensional_Table_With_Shaper.csp'))
+        LUT_6_r.sequence[0] = LUT_6_r.sequence[0].as_LUT(
+            LUT3x1D, force_conversion=True)
         write_LUT_Cinespace(
-            LUT_6_r.as_LUT(LUT1D, force_conversion=True),
+            LUT_6_r,
             os.path.join(self._temporary_directory,
-                         'ACES_Proxy_10_to_ACES.csp'))
+                         'Three_Dimensional_Table_With_Shaper.csp'))
+        LUT_6_r = read_LUT_Cinespace(
+            os.path.join(LUTS_DIRECTORY,
+                         'Three_Dimensional_Table_With_Shaper.csp'))
         LUT_6_t = read_LUT_Cinespace(
             os.path.join(self._temporary_directory,
-                         'ACES_Proxy_10_to_ACES.csp'))
+                         'Three_Dimensional_Table_With_Shaper.csp'))
         self.assertEqual(LUT_6_r, LUT_6_t)
+
+        LUT_7_r = read_LUT_Cinespace(
+            os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.csp'))
+        write_LUT_Cinespace(
+            LUT_7_r.as_LUT(LUT1D, force_conversion=True),
+            os.path.join(self._temporary_directory,
+                         'ACES_Proxy_10_to_ACES.csp'))
+        LUT_7_t = read_LUT_Cinespace(
+            os.path.join(self._temporary_directory,
+                         'ACES_Proxy_10_to_ACES.csp'))
+        self.assertEqual(LUT_7_r, LUT_7_t)
 
     def test_raise_exception_write_LUT_Cinespace(self):
         """

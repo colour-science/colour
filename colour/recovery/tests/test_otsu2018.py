@@ -16,7 +16,7 @@ from colour.difference import delta_E_CIE1976
 from colour.models import XYZ_to_Lab, XYZ_to_xy
 from colour.recovery import (XYZ_to_sd_Otsu2018, SPECTRAL_SHAPE_OTSU2018,
                              Dataset_Otsu2018, NodeTree_Otsu2018)
-from colour.recovery.otsu2018 import Data, Node
+from colour.recovery.otsu2018 import DATASET_REFERENCE_OTSU2018, Data, Node
 from colour.utilities import domain_range_scale, metric_mse
 
 __author__ = 'Colour Developers'
@@ -38,6 +38,27 @@ class TestDataset_Otsu2018(unittest.TestCase):
     tests methods.
     """
 
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        self._dataset = DATASET_REFERENCE_OTSU2018
+        self._xy = np.array([0.54369557, 0.32107944])
+
+        self._temporary_directory = tempfile.mkdtemp()
+
+        self._path = os.path.join(self._temporary_directory,
+                                  'Test_Otsu2018.npz')
+        self._dataset.write(self._path)
+
+    def tearDown(self):
+        """
+        After tests actions.
+        """
+
+        shutil.rmtree(self._temporary_directory)
+
     def test_required_attributes(self):
         """
         Tests presence of required attributes.
@@ -54,10 +75,94 @@ class TestDataset_Otsu2018(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'select', 'cluster', 'read', 'write')
+        required_methods = ('__init__', '__str__', 'select', 'cluster', 'read',
+                            'write')
 
         for method in required_methods:
             self.assertIn(method, dir(Dataset_Otsu2018))
+
+    def test_shape(self):
+        """
+        Tests :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.shape` property.
+        """
+
+        self.assertEqual(self._dataset.shape, SPECTRAL_SHAPE_OTSU2018)
+
+    def test_basis_functions(self):
+        """
+        Tests :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.basis_functions`
+        property.
+        """
+
+        self.assertTupleEqual(self._dataset.basis_functions.shape, (8, 3, 36))
+
+    def test_means(self):
+        """
+        Tests :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.means`
+        property.
+        """
+
+        self.assertTupleEqual(self._dataset.means.shape, (8, 36))
+
+    def test_selector_array(self):
+        """
+        Tests :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.selector_array`
+        property.
+        """
+
+        self.assertTupleEqual(self._dataset.selector_array.shape, (7, 4))
+
+    def test__str__(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.__str__` method.
+        """
+
+        self.assertEqual(
+            str(self._dataset), 'Dataset_Otsu2018(8 basis functions)')
+
+    def test_select(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method.
+        """
+
+        self.assertEqual(self._dataset.select(self._xy), 6)
+
+    def test_cluster(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method.
+        """
+
+        basis_functions, means = self._dataset.cluster(self._xy)
+        self.assertTupleEqual(basis_functions.shape, (3, 36))
+        self.assertTupleEqual(means.shape, (36, ))
+
+    def test_read(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.read` method.
+        """
+
+        dataset = Dataset_Otsu2018()
+        dataset.read(self._path)
+
+        self.assertEqual(dataset.shape, SPECTRAL_SHAPE_OTSU2018)
+        self.assertTupleEqual(dataset.basis_functions.shape, (8, 3, 36))
+        self.assertTupleEqual(dataset.means.shape, (8, 36))
+        self.assertTupleEqual(dataset.selector_array.shape, (7, 4))
+
+    def test_write(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method.
+        """
+
+        self._dataset.write(self._path)
+
+        dataset = Dataset_Otsu2018()
+        dataset.read(self._path)
+
+        self.assertEqual(dataset.shape, SPECTRAL_SHAPE_OTSU2018)
+        self.assertTupleEqual(dataset.basis_functions.shape, (8, 3, 36))
+        self.assertTupleEqual(dataset.means.shape, (8, 36))
+        self.assertTupleEqual(dataset.selector_array.shape, (7, 4))
 
 
 class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
@@ -135,7 +240,8 @@ class TestData(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('tree', 'reflectances', 'XYZ', 'xy')
+        required_attributes = ('tree', 'reflectances', 'reflectances',
+                               'basis_functions', 'mean')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Data))
@@ -145,7 +251,9 @@ class TestData(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__str__', '__len__', 'partition')
+        required_methods = ('__init__', '__str__', '__len__', 'PCA',
+                            'reconstruct', 'reconstruction_error', 'origin',
+                            'partition')
 
         for method in required_methods:
             self.assertIn(method, dir(Data))
@@ -162,9 +270,8 @@ class TestNode(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('id', 'tree', 'data', 'children',
-                               'partition_axis', 'basis_functions', 'mean',
-                               'leaves')
+        required_attributes = ('id', 'tree', 'data', 'children', 'leaves',
+                               'partition_axis')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Node))
@@ -175,11 +282,9 @@ class TestNode(unittest.TestCase):
         """
 
         required_methods = ('__init__', '__str__', '__len__', 'is_leaf',
-                            'split', 'PCA', 'reconstruct',
+                            'split', 'find_best_partition',
                             'leaf_reconstruction_error',
-                            'branch_reconstruction_error',
-                            'partition_reconstruction_error',
-                            'find_best_partition')
+                            'branch_reconstruction_error')
 
         for method in required_methods:
             self.assertIn(method, dir(Node))
@@ -246,7 +351,7 @@ class TestNodeTree_Otsu2018(unittest.TestCase):
                 reflectances.append(reshape_sd(sd, self._shape).values)
 
         node_tree = NodeTree_Otsu2018(reflectances, self._cmfs, self._sd_D65)
-        node_tree.optimise(iterations=2)
+        node_tree.optimise(iterations=5)
 
         path = os.path.join(self._temporary_directory, 'Test_Otsu2018.npz')
         dataset = node_tree.to_dataset()

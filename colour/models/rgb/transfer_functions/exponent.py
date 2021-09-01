@@ -153,14 +153,6 @@ def exponent_function_basic(x, exponent=1, style='basicFwd'):
         return as_float(np.where(x >= 0, exponent_forward(x), x))
     elif style == 'basicpassthrurev':
         return as_float(np.where(x >= 0, exponent_reverse(x), x))
-    else:
-        raise ValueError(
-            'Undefined style used: "{0}", must be one of the following: '
-            '"{1}".'.format(
-                style, ', '.join([
-                    'basicFwd', 'basicRev', 'basicMirrorFwd', 'basicMirrorRev',
-                    'basicPassThruFwd', 'basicPassThruRev'
-                ])))
 
 
 def exponent_function_monitor_curve(x,
@@ -294,11 +286,3 @@ def exponent_function_monitor_curve(x,
                 monitor_curve_reverse(x),
                 -monitor_curve_reverse(-x),
             ))
-    else:
-        raise ValueError(
-            'Undefined style used: "{0}", must be one of the following: '
-            '"{1}".'.format(
-                style, ', '.join([
-                    'monCurveFwd', 'monCurveRev', 'monCurveMirrorFwd',
-                    'monCurveMirrorRev'
-                ])))

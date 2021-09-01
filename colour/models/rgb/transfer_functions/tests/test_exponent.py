@@ -18,10 +18,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestBasicExponentFunction', 'TestMonitorCurveExponentFunction']
+__all__ = ['TestExponentFunctionBasic', 'TestExponentFunctionMonitorCurve']
 
 
-class TestBasicExponentFunction(unittest.TestCase):
+class TestExponentFunctionBasic(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition unit tests methods.
@@ -170,7 +170,7 @@ exponent_function_basic` definition nan support.
             exponent_function_basic(case, case)
 
 
-class TestMonitorCurveExponentFunction(unittest.TestCase):
+class TestExponentFunctionMonitorCurve(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition unit tests methods.

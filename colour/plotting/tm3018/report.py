@@ -220,7 +220,7 @@ def _plot_report_footer(axes):
         version = ' {0}.'.format(
             describe_environment(
                 print_callable=lambda x: x)['colour-science.org']['colour'])
-    except Exception:  # noqa
+    except Exception:  # pragma: no cover
         version = '.'
 
     axes.set_axis_off()
@@ -831,7 +831,3 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
             sd, **kwargs)
     elif method == 'simple':
         return plot_single_sd_colour_rendition_report_simple(sd, **kwargs)
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '[\'Full\', \'Intermediate\', \'simple\']'.format(method))

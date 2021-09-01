@@ -57,7 +57,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         required_attributes = ('mapping', 'path', 'header',
                                'spectral_quantity', 'reflection_geometry',
                                'transmission_geometry', 'bandwidth_FWHM',
-                               'bandwidth_corrected')
+                               'bandwidth_corrected', 'metadata')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralDistribution_UPRTek))

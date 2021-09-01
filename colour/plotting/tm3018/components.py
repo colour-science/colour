@@ -367,11 +367,11 @@ def plot_16_bin_bars(values,
                 ha='center',
                 va=va)
         elif label_orientation == 'horizontal':
-            va, vo = (('bottom', value_max * 0.1)
-                      if value < 90 else ('top', -value_max * 0.1))
+            va, vo = (('bottom', value_max * 0.025)
+                      if value < 90 else ('top', -value_max * 0.025))
             axes.annotate(
-                label_template.format(value + vo),
-                xy=(i + 1, value),
+                label_template.format(value),
+                xy=(i + 1, value + vo),
                 fontsize='xx-small',
                 ha='center',
                 va=va)

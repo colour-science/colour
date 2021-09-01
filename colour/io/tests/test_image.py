@@ -251,6 +251,15 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
         from OpenImageIO import TypeDesc
 
         source_image_path = os.path.join(RESOURCES_DIRECTORY,
+                                         'Overflowing_Gradient.png')
+        target_image_path = os.path.join(self._temporary_directory,
+                                         'Overflowing_Gradient.png')
+        RGB = np.arange(0, 256, 1, dtype=np.uint8)[np.newaxis] * 2
+        write_image_OpenImageIO(RGB, target_image_path, bit_depth='uint8')
+        image = read_image_OpenImageIO(source_image_path, bit_depth='uint8')
+        np.testing.assert_equal(np.squeeze(RGB), image)
+
+        source_image_path = os.path.join(RESOURCES_DIRECTORY,
                                          'CMS_Test_Pattern.exr')
         target_image_path = os.path.join(self._temporary_directory,
                                          'CMS_Test_Pattern.exr')
@@ -376,6 +385,15 @@ class TestWriteImageImageio(unittest.TestCase):
         """
         Tests :func:`colour.io.image.write_image_Imageio` definition.
         """
+
+        source_image_path = os.path.join(RESOURCES_DIRECTORY,
+                                         'Overflowing_Gradient.png')
+        target_image_path = os.path.join(self._temporary_directory,
+                                         'Overflowing_Gradient.png')
+        RGB = np.arange(0, 256, 1, dtype=np.uint8)[np.newaxis] * 2
+        write_image_Imageio(RGB, target_image_path, bit_depth='uint8')
+        image = read_image_Imageio(source_image_path, bit_depth='uint8')
+        np.testing.assert_equal(np.squeeze(RGB), image)
 
         source_image_path = os.path.join(RESOURCES_DIRECTORY,
                                          'CMS_Test_Pattern.exr')

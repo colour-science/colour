@@ -282,7 +282,7 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
 
         has_3x1D = True
         has_3D = True
-        name = LUT[1].name
+        name = '{0} - {1}'.format(LUT[0].name, LUT[1].name)
     elif isinstance(LUT, LUT1D):
         name = LUT.name
         LUT = LUTSequence(LUT.as_LUT(LUT3x1D), LUT3D())
