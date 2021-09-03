@@ -3,7 +3,7 @@
 import sys
 
 from .data_structures import (Lookup, Structure, CaseInsensitiveMapping,
-                              LazyCaseInsensitiveMapping)
+                              LazyCaseInsensitiveMapping, Node)
 from .common import (
     CacheRegistry, CACHE_REGISTRY, handle_numpy_errors, ignore_numpy_errors,
     raise_numpy_errors, print_numpy_errors, warn_numpy_errors,
@@ -37,7 +37,7 @@ from colour.utilities.documentation import is_documentation_building
 
 __all__ = [
     'Lookup', 'Structure', 'CaseInsensitiveMapping',
-    'LazyCaseInsensitiveMapping'
+    'LazyCaseInsensitiveMapping', 'Node'
 ]
 __all__ += [
     'CacheRegistry', 'CACHE_REGISTRY', 'handle_numpy_errors',

@@ -9,7 +9,7 @@ import pickle
 import unittest
 
 from colour.utilities import (Structure, Lookup, CaseInsensitiveMapping,
-                              LazyCaseInsensitiveMapping)
+                              LazyCaseInsensitiveMapping, Node)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -20,7 +20,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestStructure', 'TestLookup', 'TestCaseInsensitiveMapping',
-    'TestLazyCaseInsensitiveMapping'
+    'TestLazyCaseInsensitiveMapping', 'TestNode'
 ]
 
 
@@ -376,6 +376,188 @@ LazyCaseInsensitiveMapping.__getitem__` method.
         self.assertEqual(mapping['Jane'], 'Doe')
 
         self.assertEqual(mapping['jane'], 'Doe')
+
+
+class TestNode(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.data_structures.Node` class unit tests
+    methods.
+    """
+
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        self._data = {'John': 'Doe'}
+
+        self._node_a = Node('Node A', data=self._data)
+        self._node_b = Node('Node B', self._node_a)
+        self._node_c = Node('Node C', self._node_a)
+        self._node_d = Node('Node D', self._node_b)
+        self._node_e = Node('Node E', self._node_b)
+        self._node_f = Node('Node F', self._node_d)
+        self._node_g = Node('Node G', self._node_f)
+        self._node_h = Node('Node H', self._node_g)
+
+        self._tree = self._node_a
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('name', 'parent', 'children', 'id', 'root',
+                               'leaves', 'siblings', 'data')
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(Node))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('__new__', '__init__', '__str__', '__len__',
+                            'is_root', 'is_inner', 'is_leaf', 'walk', 'render')
+
+        for method in required_methods:
+            self.assertIn(method, dir(Node))
+
+    def test_name(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.name` property.
+        """
+
+        self.assertEqual(self._tree.name, 'Node A')
+        self.assertIn('Node#', Node().name)
+
+    def test_parent(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.parent` property.
+        """
+
+        self.assertIs(self._node_b.parent, self._node_a)
+        self.assertIs(self._node_h.parent, self._node_g)
+
+    def test_children(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.children` property.
+        """
+
+        self.assertListEqual(self._node_a.children,
+                             [self._node_b, self._node_c])
+
+    def test_id(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.id` property.
+        """
+
+        self.assertIsInstance(self._node_a.id, int)
+
+    def test_root(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.root` property.
+        """
+
+        self.assertIs(self._node_a.root, self._node_a)
+        self.assertIs(self._node_f.root, self._node_a)
+        self.assertIs(self._node_g.root, self._node_a)
+        self.assertIs(self._node_h.root, self._node_a)
+
+    def test_leaves(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.leaves` property.
+        """
+
+        self.assertListEqual(list(self._node_h.leaves), [self._node_h])
+
+        self.assertListEqual(
+            list(self._node_a.leaves),
+            [self._node_h, self._node_e, self._node_c])
+
+    def test_siblings(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.siblings` property.
+        """
+
+        self.assertListEqual(list(self._node_b.siblings), [self._node_c])
+
+    def test_data(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.data` property.
+        """
+
+        self.assertIs(self._node_a.data, self._data)
+
+    def test__str__(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.__str__` method.
+        """
+
+        self.assertIn('Node#', str(self._node_a))
+        self.assertIn("{'John': 'Doe'})", str(self._node_a))
+
+    def test__len__(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.__len__` method.
+        """
+
+        self.assertEqual(len(self._node_a), 7)
+
+    def test_is_root(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.is_root` method.
+        """
+
+        self.assertTrue(self._node_a.is_root())
+        self.assertFalse(self._node_b.is_root())
+        self.assertFalse(self._node_c.is_root())
+        self.assertFalse(self._node_h.is_root())
+
+    def test_is_inner(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.is_inner` method.
+        """
+
+        self.assertFalse(self._node_a.is_inner())
+        self.assertTrue(self._node_b.is_inner())
+        self.assertFalse(self._node_c.is_inner())
+        self.assertFalse(self._node_h.is_inner())
+
+    def test_is_leaf(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.is_leaf` method.
+        """
+
+        self.assertFalse(self._node_a.is_leaf())
+        self.assertFalse(self._node_b.is_leaf())
+        self.assertTrue(self._node_c.is_leaf())
+        self.assertTrue(self._node_h.is_leaf())
+
+    def test_walk(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.walk` method.
+        """
+
+        self.assertListEqual(
+            list(self._node_a.walk()), [
+                self._node_b, self._node_d, self._node_f, self._node_g,
+                self._node_h, self._node_e, self._node_c
+            ])
+
+        self.assertListEqual(
+            list(self._node_h.walk(ascendants=True)), [
+                self._node_g, self._node_f, self._node_d, self._node_b,
+                self._node_a
+            ])
+
+    def test_render(self):
+        """
+        Tests :attr:`colour.utilities.data_structures.Node.render` method.
+        """
+
+        self.assertIsInstance(self._node_a.render(), str)
 
 
 if __name__ == '__main__':

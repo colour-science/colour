@@ -14,6 +14,8 @@ Defines various data structures classes:
 -   :class:`colour.utilities.LazyCaseInsensitiveMapping`: Another case
     insensitive mapping allowing lazy values retrieving from keys while
     ignoring the key case.
+-   :class:`colour.utilities.Node`: A basic node object supporting creation of
+    basic node trees.
 
 References
 ----------
@@ -28,7 +30,7 @@ data_structures.py
 structures.py#L37
 """
 
-from collections.abc import Mapping, MutableMapping
+from collections.abc import Mapping, MutableMapping, Sequence
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -465,3 +467,472 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
             super(LazyCaseInsensitiveMapping, self).__setitem__(item, value)
 
         return value
+
+
+class Node:
+    """
+    Represents a basic node supporting the creation of basic node trees.
+
+    Parameters
+    ----------
+    parent : Node, optional
+        Parent of the node.
+    children : Node, optional
+        Children of the node.
+    data : object
+        The data belonging to this node.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.utilities.Node.name`
+    -   :attr:`~colour.utilities.Node.parent`
+    -   :attr:`~colour.utilities.Node.children`
+    -   :attr:`~colour.utilities.Node.id`
+    -   :attr:`~colour.utilities.Node.root`
+    -   :attr:`~colour.utilities.Node.leaves`
+    -   :attr:`~colour.utilities.Node.siblings`
+    -   :attr:`~colour.utilities.Node.data`
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.Node.__new__`
+    -   :meth:`~colour.utilities.Node.__init__`
+    -   :meth:`~colour.utilities.Node.__str__`
+    -   :meth:`~colour.utilities.Node.__len__`
+    -   :meth:`~colour.utilities.Node.is_root`
+    -   :meth:`~colour.utilities.Node.is_inner`
+    -   :meth:`~colour.utilities.Node.is_leaf`
+    -   :meth:`~colour.utilities.Node.walk`
+    -   :meth:`~colour.utilities.Node.render`
+
+    Examples
+    --------
+    >>> node_a = Node('Node A')
+    >>> node_b = Node('Node B', node_a)
+    >>> node_c = Node('Node C', node_a)
+    >>> node_d = Node('Node D', node_b)
+    >>> node_e = Node('Node E', node_b)
+    >>> node_f = Node('Node F', node_d)
+    >>> node_g = Node('Node G', node_f)
+    >>> node_h = Node('Node H', node_g)
+    >>> [node.name for node in node_a.leaves]
+    ['Node H', 'Node E', 'Node C']
+    >>> print(node_h.root.name)
+    Node A
+    >>> len(node_a)
+    7
+    """
+
+    _INSTANCE_ID = 1
+    """
+    Node id counter.
+
+    _INSTANCE_ID : int
+    """
+
+    def __new__(cls, *args, **kwargs):
+        """
+        Constructor of the class.
+
+        Other Parameters
+        ----------
+        \\*args : list, optional
+            Arguments.
+        \\**kwargs : dict, optional
+            Keywords arguments.
+
+        Returns
+        -------
+        Node
+            Class instance.
+        """
+
+        instance = super(Node, cls).__new__(cls)
+
+        instance._id = Node._INSTANCE_ID
+        Node._INSTANCE_ID += 1
+
+        return instance
+
+    def __init__(self, name=None, parent=None, children=None, data=None):
+        self._name = '{0}#{1}'.format(self.__class__.__name__, self._id)
+        self.name = name
+
+        self._parent = None
+        self.parent = parent
+
+        self._children = None
+        self._children = [] if children is None else children
+
+        self._data = data
+
+    @property
+    def name(self):
+        """
+        Getter and setter property for the name.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the name with.
+
+        Returns
+        -------
+        unicode
+            Node name.
+        """
+
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        """
+        Setter for the **self.name** property.
+        """
+
+        if value is not None:
+            assert isinstance(value, str), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'name', value))
+
+            self._name = value
+
+    @property
+    def parent(self):
+        """
+        Getter and setter property for the node parent.
+
+        Parameters
+        ----------
+        value : Node
+            Parent to set the node with.
+
+        Returns
+        -------
+        Node
+            Node parent.
+        """
+
+        return self._parent
+
+    @parent.setter
+    def parent(self, value):
+        """
+        Setter for the **self.parent** property.
+        """
+
+        if value is not None:
+            assert issubclass(
+                value.__class__, Node
+            ), '"{0}" attribute: "{1}" is not a "{2}" subclass!'.format(
+                'parent', value, Node.__class__.__name__)
+
+            value.children.append(self)
+
+            self._parent = value
+
+    @property
+    def children(self):
+        """
+        Getter and setter property for the node children.
+
+        Parameters
+        ----------
+        value : list
+            Children to set the node with.
+
+        Returns
+        -------
+        list
+            Node children.
+        """
+
+        return self._children
+
+    @children.setter
+    def children(self, value):
+        """
+        Setter for the **self.children** property.
+        """
+
+        if value is not None:
+            assert isinstance(
+                value, Sequence) and not isinstance(value, str), (
+                    '"{0}" attribute: "{1}" type is not a "Sequence" instance!'
+                ).format('children', value)
+
+            for element in value:
+                assert issubclass(element.__class__, Node), (
+                    '"{0}" attribute: A "{1}" element is not a "{2}" subclass!'
+                ).format('children', element, Node.__class__.__name__)
+
+            for node in value:
+                node.parent = self
+
+            self._children = list(value)
+
+    @property
+    def id(self):
+        """
+        Getter property for the node id.
+
+        Returns
+        -------
+        int
+            Node id.
+        """
+
+        return self._id
+
+    @property
+    def root(self):
+        """
+        Getter property for the node tree.
+
+        Returns
+        -------
+        Node
+            Node root.
+        """
+
+        if self.is_root():
+            return self
+        else:
+            return list(self.walk(ascendants=True))[-1]
+
+    @property
+    def leaves(self):
+        """
+        Getter property for the node leaves.
+
+        Returns
+        -------
+        generator
+            Node leaves.
+        """
+
+        if self.is_leaf():
+            return (node for node in (self, ))
+        else:
+            return (node for node in self.walk() if node.is_leaf())
+
+    @property
+    def siblings(self):
+        """
+        Getter property for the node siblings.
+
+        Returns
+        -------
+        list
+            Node siblings.
+        """
+
+        if self.parent is None:
+            return (sibling for sibling in ())
+        else:
+            return (sibling for sibling in self.parent.children
+                    if sibling is not self)
+
+    @property
+    def data(self):
+        """
+        Getter property for the node data.
+
+        Returns
+        -------
+        Data
+            Node data.
+        """
+
+        return self._data
+
+    @data.setter
+    def data(self, value):
+        """
+        Setter for the **self.data** property.
+        """
+
+        self._data = value
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the node.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        return '{0}#{1}({2})'.format(self.__class__.__name__, self._id,
+                                     self._data)
+
+    def __len__(self):
+        """
+        Returns the number of children of the node.
+
+        Returns
+        -------
+        int
+            Number of children of the node.
+        """
+
+        return len(list(self.walk()))
+
+    def is_root(self):
+        """
+        Returns whether the node is a root node.
+
+        Returns
+        -------
+        bool
+            Whether the node is a root node.
+
+        Examples
+        --------
+        >>> node_a = Node('Node A')
+        >>> node_b = Node('Node B', node_a)
+        >>> node_c = Node('Node C', node_b)
+        >>> node_a.is_root()
+        True
+        >>> node_b.is_root()
+        False
+        """
+
+        return self.parent is None
+
+    def is_inner(self):
+        """
+        Returns whether the node is an inner node.
+
+        Returns
+        -------
+        bool
+            Whether the node is an inner node.
+
+        Examples
+        --------
+        >>> node_a = Node('Node A')
+        >>> node_b = Node('Node B', node_a)
+        >>> node_c = Node('Node C', node_b)
+        >>> node_a.is_inner()
+        False
+        >>> node_b.is_inner()
+        True
+        """
+
+        return all([not self.is_root(), not self.is_leaf()])
+
+    def is_leaf(self):
+        """
+        Returns whether the node is a leaf node.
+
+        Returns
+        -------
+        bool
+            Whether the node is a leaf node.
+
+        Examples
+        --------
+        >>> node_a = Node('Node A')
+        >>> node_b = Node('Node B', node_a)
+        >>> node_c = Node('Node C', node_b)
+        >>> node_a.is_leaf()
+        False
+        >>> node_c.is_leaf()
+        True
+        """
+
+        return len(self._children) == 0
+
+    def walk(self, ascendants=False):
+        """
+        Returns a generator used to walk into :class:`colour.utilities.Node`
+        trees.
+
+        Parameters
+        ----------
+        ascendants : bool, optional
+            Whether to walk up the node tree.
+
+        Returns
+        -------
+        generator
+            Node tree walker
+
+        Examples
+        --------
+        >>> node_a = Node('Node A')
+        >>> node_b = Node('Node B', node_a)
+        >>> node_c = Node('Node C', node_a)
+        >>> node_d = Node('Node D', node_b)
+        >>> node_e = Node('Node E', node_b)
+        >>> node_f = Node('Node F', node_d)
+        >>> node_g = Node('Node G', node_f)
+        >>> node_h = Node('Node H', node_g)
+        >>> for node in node_a.walk():
+        ...     print(node.name)
+        Node B
+        Node D
+        Node F
+        Node G
+        Node H
+        Node E
+        Node C
+        """
+
+        attribute = 'children' if not ascendants else 'parent'
+
+        nodes = getattr(self, attribute)
+        nodes = nodes if isinstance(nodes, list) else [nodes]
+
+        for node in nodes:
+            yield node
+
+            if not getattr(node, attribute):
+                continue
+
+            for relative in node.walk(ascendants=ascendants):
+                yield relative
+
+    def render(self, tab_level=0):
+        """
+        Renders the current node and its children as a string.
+
+        Parameters
+        ----------
+        tab_level : int, optional
+            Initial indentation level
+
+        Returns
+        ------
+        str
+            Rendered node tree.
+
+        Examples
+        --------
+        >>> node_a = Node('Node A')
+        >>> node_b = Node('Node B', node_a)
+        >>> node_c = Node('Node C', node_a)
+        >>> print(node_a.render())
+        |----"Node A"
+            |----"Node B"
+            |----"Node C"
+        <BLANKLINE>
+        """
+
+        output = ''
+
+        for i in range(tab_level):
+            output += '    '
+
+        tab_level += 1
+
+        output += '|----"{0}"\n'.format(self.name)
+
+        for child in self._children:
+            output += child.render(tab_level)
+
+        tab_level -= 1
+
+        return output
