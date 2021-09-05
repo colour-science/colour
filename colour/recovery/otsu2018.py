@@ -8,7 +8,7 @@ Defines the objects for reflectance recovery, i.e. spectral upsampling, using
 
 -   :class:`colour.recovery.Dataset_Otsu2018`
 -   :func:`colour.recovery.XYZ_to_sd_Otsu2018`
--   :func:`colour.recovery.NodeTree_Otsu2018`
+-   :func:`colour.recovery.Tree_Otsu2018`
 
 References
 ----------
@@ -20,13 +20,13 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (SpectralDistribution, SpectralShape,
-                                handle_spectral_arguments,
-                                msds_to_XYZ_integration, sd_to_XYZ)
+from colour.colorimetry import (
+    SpectralDistribution, SpectralShape, handle_spectral_arguments,
+    msds_to_XYZ_integration, reshape_msds, sd_to_XYZ)
 from colour.models import XYZ_to_xy
 from colour.recovery import (SPECTRAL_SHAPE_OTSU2018, BASIS_FUNCTIONS_OTSU2018,
                              CLUSTER_MEANS_OTSU2018, SELECTOR_ARRAY_OTSU2018)
-from colour.utilities import (as_float_array, domain_range_scale,
+from colour.utilities import (Node, as_float_array, domain_range_scale,
                               is_tqdm_installed, message_box, to_domain_1,
                               zeros)
 
@@ -46,7 +46,7 @@ __status__ = 'Production'
 
 __all__ = [
     'Dataset_Otsu2018', 'DATASET_REFERENCE_OTSU2018', 'XYZ_to_sd_Otsu2018',
-    'PartitionAxis', 'Data', 'Node', 'NodeTree_Otsu2018'
+    'PartitionAxis', 'Data_Otsu2018', 'Node_Otsu2018', 'Tree_Otsu2018'
 ]
 
 
@@ -57,7 +57,7 @@ class Dataset_Otsu2018:
 
     Datasets can be either generated and converted as a
     :class:`colour.recovery.Dataset_Otsu2018` class instance using the
-    :meth:`colour.recovery.NodeTree_Otsu2018.to_dataset` method or
+    :meth:`colour.recovery.Tree_Otsu2018.to_dataset` method or
     alternatively, loaded from disk with the
     :meth:`colour.recovery.Dataset_Otsu2018.read` method.
 
@@ -97,11 +97,11 @@ class Dataset_Otsu2018:
     >>> import os
     >>> import colour
     >>> from colour.characterisation import SDS_COLOURCHECKERS
-    >>> reflectances = [
-    ...     sd.copy().align(SPECTRAL_SHAPE_OTSU2018).values
-    ...     for sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
-    ... ]
-    >>> node_tree = NodeTree_Otsu2018(reflectances)
+    >>> from colour.colorimetry import sds_and_msds_to_msds
+    >>> reflectances = sds_and_msds_to_msds(
+    ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+    ... )
+    >>> node_tree = Tree_Otsu2018(reflectances)
     >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)
     >>> dataset = node_tree.to_dataset()
     >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
@@ -255,11 +255,11 @@ class Dataset_Otsu2018:
         >>> import os
         >>> import colour
         >>> from colour.characterisation import SDS_COLOURCHECKERS
-        >>> reflectances = [
-        ...     sd.copy().align(SPECTRAL_SHAPE_OTSU2018).values
-        ...     for sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
-        ... ]
-        >>> node_tree = NodeTree_Otsu2018(reflectances)
+        >>> from colour.colorimetry import sds_and_msds_to_msds
+        >>> reflectances = sds_and_msds_to_msds(
+        ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+        ... )
+        >>> node_tree = Tree_Otsu2018(reflectances)
         >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)
         >>> dataset = node_tree.to_dataset()
         >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
@@ -291,11 +291,11 @@ class Dataset_Otsu2018:
         >>> import os
         >>> import colour
         >>> from colour.characterisation import SDS_COLOURCHECKERS
-        >>> reflectances = [
-        ...     sd.copy().align(SPECTRAL_SHAPE_OTSU2018).values
-        ...     for sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
-        ... ]
-        >>> node_tree = NodeTree_Otsu2018(reflectances)
+        >>> from colour.colorimetry import sds_and_msds_to_msds
+        >>> reflectances = sds_and_msds_to_msds(
+        ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+        ... )
+        >>> node_tree = Tree_Otsu2018(reflectances)
         >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)
         >>> dataset = node_tree.to_dataset()
         >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
@@ -486,31 +486,31 @@ class PartitionAxis(namedtuple('PartitionAxis', ('origin', 'direction'))):
             if self.direction else 'x', self.origin)
 
 
-class Data:
+class Data_Otsu2018:
     """
-    Represents the data for multiple colours: their spectral reflectance
-    distributions, *CIE XYZ* tristimulus values and *CIE xy* coordinates. The
-    standard observer colour matching functions and illuminant are accessed via
-    the parent tree.
+    Stores the reference reflectances and derived information along with the
+    methods to process them for a leaf :class:`colour.recovery.otsu2018.Node`
+    class instance.
 
     This class also supports partitioning: Creating two smaller instances of
-    :class:`colour.recovery.otsu2018.Data` class by splitting along a
+    :class:`colour.recovery.otsu2018.Data` class by splitting along an
     horizontal or a vertical axis on the *CIE xy* plane.
 
     Parameters
     ----------
-    tree : NodeTree_Otsu2018, optional
-        The parent tree which determines the standard observer colour matching
-        functions and illuminant used in colourimetric calculations.
     reflectances : ndarray, (n, m), optional
-        Reflectances of the *n* colours to be stored in this class. The shape
-        must match ``tree.shape`` with *m* points for each colour.
+        Reference reflectances of the *n* colours to be stored.
+        The shape must match ``tree.shape`` with *m* points for each colour.
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        Standard observer colour matching functions.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
 
     Attributes
     ----------
-    -   :attr:`~colour.recovery.otsu2018.Data.tree`
     -   :attr:`~colour.recovery.otsu2018.Data.reflectances`
-    -   :attr:`~colour.recovery.otsu2018.Data.reflectances`
+    -   :attr:`~colour.recovery.otsu2018.Data.cmfs`
+    -   :attr:`~colour.recovery.otsu2018.Data.illuminant`
     -   :attr:`~colour.recovery.otsu2018.Data.basis_functions`
     -   :attr:`~colour.recovery.otsu2018.Data.mean`
 
@@ -518,56 +518,44 @@ class Data:
     -------
     -   :meth:`~colour.recovery.otsu2018.Data.__str__`
     -   :meth:`~colour.recovery.otsu2018.Data.__len__`
+    -   :meth:`~colour.recovery.otsu2018.Data.origin`
+    -   :meth:`~colour.recovery.otsu2018.Data.partition`
     -   :meth:`~colour.recovery.otsu2018.Data.PCA`
     -   :meth:`~colour.recovery.otsu2018.Data.reconstruct`
     -   :meth:`~colour.recovery.otsu2018.Data.reconstruction_error`
-    -   :meth:`~colour.recovery.otsu2018.Data.origin`
-    -   :meth:`~colour.recovery.otsu2018.Data.partition`
     """
 
-    def __init__(self, tree, reflectances):
-        self._tree = tree
+    def __init__(self, reflectances, cmfs, illuminant):
+        self._cmfs = cmfs
+        self._illuminant = illuminant
+
         self._XYZ = None
         self._xy = None
-
-        self._M = None
-        self._XYZ_mu = None
-
-        self._mean = None
-        self._basis_functions = None
 
         self._reflectances = None
         self.reflectances = reflectances
 
+        self._mean = None
+        self._basis_functions = None
+        self._M = None
+        self._XYZ_mu = None
+
         self._reconstruction_error = None
-
-    @property
-    def tree(self):
-        """
-        Getter property for the colour data tree.
-
-        Returns
-        -------
-        NodeTree_Otsu2018
-            Colour data tree.
-        """
-
-        return self._tree
 
     @property
     def reflectances(self):
         """
-        Getter and setter property for the colour data reflectances.
+        Getter and setter property for the reference reflectances.
 
         Parameters
         ----------
         value : array_like
-            Value to set the colour data reflectances with.
+            Value to set the reference reflectances with.
 
         Returns
         -------
         ndarray
-            Colour data reflectances.
+            Reference reflectances.
         """
 
         return self._reflectances
@@ -583,21 +571,47 @@ class Data:
 
             self._XYZ = msds_to_XYZ_integration(
                 self._reflectances,
-                self.tree.cmfs,
-                self.tree.illuminant,
-                shape=self.tree.cmfs.shape) / 100
+                self._cmfs,
+                self._illuminant,
+                shape=self._cmfs.shape) / 100
 
             self._xy = XYZ_to_xy(self._XYZ)
 
     @property
+    def cmfs(self):
+        """
+        Getter property for the standard observer colour matching functions.
+
+        Returns
+        -------
+        XYZ_ColourMatchingFunctions
+            Standard observer colour matching functions.
+        """
+
+        return self._cmfs
+
+    @property
+    def illuminant(self):
+        """
+        Getter property for the illuminant.
+
+        Returns
+        -------
+        SpectralDistribution
+            Illuminant.
+        """
+
+        return self._illuminant
+
+    @property
     def basis_functions(self):
         """
-        Getter property for the node basis functions.
+        Getter property for the basis functions.
 
         Returns
         -------
         array_like
-            Node basis functions.
+            Basis functions.
         """
 
         return self._basis_functions
@@ -605,19 +619,19 @@ class Data:
     @property
     def mean(self):
         """
-        Getter property for the node mean distribution.
+        Getter property for the mean distribution.
 
         Returns
         -------
         array_like
-            Node mean distribution.
+            Mean distribution.
         """
 
         return self._mean
 
     def __str__(self):
         """
-        Returns a formatted string representation of the colour data.
+        Returns a formatted string representation of the data.
 
         Returns
         -------
@@ -630,35 +644,84 @@ class Data:
 
     def __len__(self):
         """
-        Returns the number of colours in the colour data.
+        Returns the number of colours in the data.
 
         Returns
         -------
         int
-            Number of colours in the colour data.
+            Number of colours in the data.
         """
 
         return self._reflectances.shape[0]
 
+    def origin(self, i, direction):
+        """
+        Returns the origin *CIE x* or *CIE y* chromaticity coordinate for given
+        index and direction.
+
+        Parameters
+        ----------
+        i : int
+            Origin index.
+        direction : int
+            Origin direction.
+
+        Returns
+        -------
+        float
+            Origin *CIE x* or *CIE y* chromaticity coordinate.
+        """
+
+        return self._xy[i, direction]
+
+    def partition(self, axis):
+        """
+        Partitions the data using given partition axis.
+
+        Parameters
+        ----------
+        axis : PartitionAxis
+            Partition axis used to partition the data.
+
+        Returns
+        -------
+        lesser : Data_Otsu2018
+            The left or lower part.
+        greater : Data_Otsu2018
+            The right or upper part.
+        """
+
+        lesser = Data_Otsu2018(None, self._cmfs, self._illuminant)
+        greater = Data_Otsu2018(None, self._cmfs, self._illuminant)
+
+        mask = self._xy[:, axis.direction] <= axis.origin
+
+        lesser._reflectances = self._reflectances[mask, :]
+        greater._reflectances = self._reflectances[~mask, :]
+
+        lesser._XYZ = self._XYZ[mask, :]
+        greater._XYZ = self._XYZ[~mask, :]
+
+        lesser._xy = self._xy[mask, :]
+        greater._xy = self._xy[~mask, :]
+
+        return lesser, greater
+
     def PCA(self):
         """
-        Performs the *Principal Component Analysis* (PCA) on the colours data
-        of the node and sets the relevant private attributes accordingly.
-
-        Raises
-        ------
-        RuntimeError
-            If the node is not a leaf node.
+        Performs the *Principal Component Analysis* (PCA) on the data and sets
+        the relevant attributes accordingly.
         """
 
         if self._M is not None:
             return
 
         settings = {
-            'cmfs': self._tree.cmfs,
-            'illuminant': self._tree.illuminant,
-            'shape': self._tree.cmfs.shape
+            'cmfs': self._cmfs,
+            'illuminant': self._illuminant,
+            'shape': self._cmfs.shape
         }
+
         self._mean = np.mean(self.reflectances, axis=0)
         self._XYZ_mu = msds_to_XYZ_integration(self._mean, **settings) / 100
 
@@ -674,9 +737,6 @@ class Data:
         """
         Reconstructs the reflectance for the given *CIE XYZ* tristimulus
         values.
-
-        If the node is a leaf, the colour data from the node is used, otherwise
-        the branch is traversed recursively to find the leaves.
 
         Parameters
         ----------
@@ -694,225 +754,77 @@ class Data:
         reflectance = np.dot(weights, self._basis_functions) + self._mean
         reflectance = np.clip(reflectance, 0, 1)
 
-        return SpectralDistribution(reflectance, self._tree.cmfs.wavelengths)
+        return SpectralDistribution(reflectance, self._cmfs.wavelengths)
 
     def reconstruction_error(self):
         """
-        Reconstructs the reflectance of the *CIE XYZ* tristimulus values in
-        the colour data of this node using PCA and compares the reconstructed
-        spectrum against the measured spectrum. The reconstruction errors are
-        then summed up and returned.
+        Returns the reconstruction error of the data. The error is computed by
+        reconstructing the reflectances for the reference *CIE XYZ* tristimulus
+        values using PCA and, comparing the reconstructed reflectances against
+        the reference reflectances.
 
         Returns
         -------
         error : float
-            The reconstruction errors summation for the node.
+            The reconstruction error for the data.
 
         Notes
         -----
-        The reconstruction error is cached upon being computed and thus is only
-        computed once per node.
-
-        Raises
-        ------
-        RuntimeError
-            If the node is not a leaf node.
+        -   The reconstruction error is cached upon being computed and thus is
+            only computed once per node.
         """
 
         if self._reconstruction_error is not None:
             return self._reconstruction_error
-        else:
 
-            self.PCA()
+        self.PCA()
 
-            error = 0
-            for i in range(len(self)):
-                sd = self._reflectances[i, :]
-                XYZ = self._XYZ[i, :]
-                recovered_sd = self.reconstruct(XYZ)
-                error += np.sum((sd - recovered_sd.values) ** 2)
+        error = 0
+        for i in range(len(self)):
+            sd = self._reflectances[i, :]
+            XYZ = self._XYZ[i, :]
+            recovered_sd = self.reconstruct(XYZ)
+            error += np.sum((sd - recovered_sd.values) ** 2)
 
-            self._reconstruction_error = error
+        self._reconstruction_error = error
 
-            return error
-
-    def origin(self, i, direction):
-        """
-        Returns the origin *CIE xy* chromaticity coordinates for given index
-        and direction.
-
-        Parameters
-        ----------
-        i : int
-            Origin index.
-        direction : int
-            Origin direction.
-
-        Returns
-        -------
-        ndarray
-            Origin.
-        """
-
-        return self._xy[i, direction]
-
-    def partition(self, axis):
-        """
-        Parameters
-        ----------
-        axis : PartitionAxis
-            Partition axis used to partition the colour data.
-
-        Returns
-        -------
-        lesser : Data
-            The left or lower part.
-        greater : Data
-            The right or upper part.
-        """
-
-        lesser = Data(self.tree, None)
-        greater = Data(self.tree, None)
-
-        mask = self._xy[:, axis.direction] <= axis.origin
-
-        lesser._reflectances = self._reflectances[mask, :]
-        greater._reflectances = self._reflectances[~mask, :]
-
-        lesser._XYZ = self._XYZ[mask, :]
-        greater._XYZ = self._XYZ[~mask, :]
-
-        lesser._xy = self._xy[mask, :]
-        greater._xy = self._xy[~mask, :]
-
-        return lesser, greater
+        return error
 
 
-class Node:
+class Node_Otsu2018(Node):
     """
-    Represents a node in a :meth:`colour.recovery.NodeTree_Otsu2018` class
-    instance node tree.
+    Represents a node in a :meth:`colour.recovery.Tree_Otsu2018` class instance
+    node tree.
 
     Parameters
     ----------
-    tree : NodeTree_Otsu2018
-        The parent tree which determines the standard observer colour matching
-        functions and illuminant used in colourimetric calculations.
-    data : Data
+    parent : Node, optional
+        Parent of the node.
+    children : Node, optional
+        Children of the node.
+    data : Data_Otsu2018
         The colour data belonging to this node.
 
     Attributes
     ----------
-    -   :attr:`~colour.recovery.otsu2018.Node.id`
-    -   :attr:`~colour.recovery.otsu2018.Node.tree`
-    -   :attr:`~colour.recovery.otsu2018.Node.data`
-    -   :attr:`~colour.recovery.otsu2018.Node.children`
     -   :attr:`~colour.recovery.otsu2018.Node.partition_axis`
-    -   :attr:`~colour.recovery.otsu2018.Node.basis_functions`
-    -   :attr:`~colour.recovery.otsu2018.Node.mean`
-    -   :attr:`~colour.recovery.otsu2018.Node.leaves`
+    -   :attr:`~colour.recovery.otsu2018.Node.row`
 
     Methods
     -------
     -   :meth:`~colour.recovery.otsu2018.Node.__init__`
-    -   :meth:`~colour.recovery.otsu2018.Node.__str__`
-    -   :meth:`~colour.recovery.otsu2018.Node.__len__`
-    -   :meth:`~colour.recovery.otsu2018.Node.is_leaf`
     -   :meth:`~colour.recovery.otsu2018.Node.split`
-    -   :meth:`~colour.recovery.otsu2018.Node.PCA`
-    -   :meth:`~colour.recovery.otsu2018.Node.reconstruct`
+    -   :meth:`~colour.recovery.otsu2018.Node.minimise`
     -   :meth:`~colour.recovery.otsu2018.Node.leaf_reconstruction_error`
     -   :meth:`~colour.recovery.otsu2018.Node.branch_reconstruction_error`
-    -   :meth:`~colour.recovery.otsu2018.Node.partition_reconstruction_error`
-    -   :meth:`~colour.recovery.otsu2018.Node.find_best_partition`
     """
 
-    _NODE_COUNT = 1
-    """
-    Total node count.
+    def __init__(self, parent=None, children=None, data=None):
+        super(Node_Otsu2018, self).__init__(
+            parent=parent, children=children, data=data)
 
-    _NODE_COUNT : int
-    """
-
-    def __init__(self, tree, data):
-        self._id = Node._NODE_COUNT
-        Node._NODE_COUNT += 1
-
-        self._tree = tree
-        self._data = data
-        self._children = []
         self._partition_axis = None
-
         self._best_partition = None
-
-    @property
-    def id(self):
-        """
-        Getter property for the node id.
-
-        Returns
-        -------
-        int
-            Node id.
-        """
-
-        return self._id
-
-    @property
-    def tree(self):
-        """
-        Getter property for the node tree.
-
-        Returns
-        -------
-        NodeTree_Otsu2018
-            Node tree.
-        """
-
-        return self._tree
-
-    @property
-    def data(self):
-        """
-        Getter property for the node colour data.
-
-        Returns
-        -------
-        Data
-            Node colour data.
-        """
-
-        return self._data
-
-    @property
-    def children(self):
-        """
-        Getter property for the node children.
-
-        Returns
-        -------
-        tuple
-            Node children.
-        """
-
-        return self._children
-
-    @property
-    def leaves(self):
-        """
-        Getter property for the node leaves.
-
-        Returns
-        -------
-        generator
-            Generator of all the leaves connected to this node.
-        """
-
-        if self.is_leaf():
-            yield self
-        else:
-            for child in self._children:
-                yield from child.leaves
 
     @property
     def partition_axis(self):
@@ -927,79 +839,62 @@ class Node:
 
         return self._partition_axis
 
-    def __str__(self):
+    @property
+    def row(self):
         """
-        Returns a formatted string representation of the node.
+        Getter property for the node row for the selector array.
 
         Returns
         -------
-        unicode
-            Formatted string representation.
+        list
+            Node row for the selector array.
         """
 
-        return '{0}#{1}({2})'.format(self.__class__.__name__, self._id,
-                                     self._data)
+        return [
+            self._partition_axis.direction,
+            self._partition_axis.origin,
+        ] + self._children
 
-    def __len__(self):
+    def split(self, children, axis):
         """
-        Returns the number of children of the node.
-
-        Returns
-        -------
-        int
-            Number of children of the node.
-        """
-
-        return len(list(self.leaves))
-
-    def is_leaf(self):
-        """
-        Returns whether the node is a leaf.
-        :class:`colour.recovery.NodeTree_Otsu2018` class instance tree leaves
-        do not have any children and store instances of
-        :class:`colour.recovery.otsu2018.Data` class.
-
-        Returns
-        -------
-        bool
-            Whether the node is a leaf.
-        """
-
-        return len(self._children) == 0
-
-    def split(self, children, partition_axis):
-        """
-        Converts the leaf node into a non-leaf node using given children and
+        Converts the leaf node into an inner node using given children and
         partition axis.
 
         Parameters
         ----------
         children : tuple
-            Tuple of two :class:`colour.recovery.otsu2018.Node` classes
+            Tuple of two :class:`colour.recovery.otsu2018.Node` class
             instances.
-        partition_axis : PartitionAxis
+        axis : PartitionAxis
             Partition axis.
         """
 
-        self._data = None
+        self.data = None
+        self.children = children
+
         self._best_partition = None
+        self._partition_axis = axis
 
-        self._children = children
-        self._partition_axis = partition_axis
-
-    def find_best_partition(self):
+    def minimise(self, minimum_cluster_size):
         """
-        Finds the best partition for the node.
+        Finds the best partition for the node that minimises the leaf
+        reconstruction error.
+
+        Parameters
+        ----------
+        minimum_cluster_size : int
+            Smallest acceptable cluster size. It must be at least 3 or the
+            *Principal Component Analysis* (PCA) is not be possible.
 
         Returns
         -------
-        partition_error : float
-            Partition error
+        partition : tuple
+            Nodes created by splitting a node with a given partition.
         axis : PartitionAxis
             Horizontal or vertical line, partitioning the 2D space in
             two half-planes.
-        partition : tuple
-            Nodes created by splitting a node with a given partition.
+        partition_error : float
+            Partition error
         """
 
         if self._best_partition is not None:
@@ -1008,39 +903,39 @@ class Node:
         leaf_error = self.leaf_reconstruction_error()
         best_error = None
 
-        with tqdm(total=2 * len(self._data)) as progress:
+        with tqdm(total=2 * len(self.data)) as progress:
             for direction in [0, 1]:
-                for i in range(len(self._data)):
+                for i in range(len(self.data)):
                     progress.update()
 
                     axis = PartitionAxis(
-                        self._data.origin(i, direction), direction)
-                    data_lesser, data_greater = self._data.partition(axis)
+                        self.data.origin(i, direction), direction)
+                    data_lesser, data_greater = self.data.partition(axis)
 
                     if np.any(
                             np.array([
                                 len(data_lesser),
                                 len(data_greater),
-                            ]) < self._tree.minimum_cluster_size):
+                            ]) < minimum_cluster_size):
                         continue
 
-                    lesser = Node(self._tree, data_lesser)
-                    lesser._data.PCA()
+                    lesser = Node_Otsu2018(data=data_lesser)
+                    lesser.data.PCA()
 
-                    greater = Node(self._tree, data_greater)
-                    greater._data.PCA()
+                    greater = Node_Otsu2018(data=data_greater)
+                    greater.data.PCA()
 
                     partition_error = (lesser.leaf_reconstruction_error() +
                                        greater.leaf_reconstruction_error())
 
-                    partition = (lesser, greater)
+                    partition = [lesser, greater]
 
                     if partition_error >= leaf_error:
                         continue
 
                     if best_error is None or partition_error < best_error:
-                        self._best_partition = (partition_error, axis,
-                                                partition)
+                        self._best_partition = (partition, axis,
+                                                partition_error)
 
         if self._best_partition is None:
             raise RuntimeError('Could not find the best partition!')
@@ -1049,50 +944,41 @@ class Node:
 
     def leaf_reconstruction_error(self):
         """
-        Reconstructs the reflectance of the *CIE XYZ* tristimulus values in
-        the colour data of this node using PCA and compares the reconstructed
-        spectrum against the measured spectrum. The reconstruction errors are
-        then summed up and returned.
+        Returns the reconstruction error of the node data. The error is
+        computed by reconstructing the reflectances for the data reference
+        *CIE XYZ* tristimulus values using PCA and, comparing the reconstructed
+        reflectances against the data reference reflectances.
 
         Returns
         -------
         error : float
-            The reconstruction errors summation for the node.
-
-        Notes
-        -----
-        The reconstruction error is cached upon being computed and thus is only
-        computed once per node.
-
-        Raises
-        ------
-        RuntimeError
-            If the node is not a leaf node.
+            The reconstruction errors summation for the node data.
         """
 
-        return self._data.reconstruction_error()
+        return self.data.reconstruction_error()
 
     def branch_reconstruction_error(self):
         """
-        Computes the reconstruction error for an entire branch of the tree,
-        starting from the node, i.e. the reconstruction errors summation for
+        Computes the reconstruction error for all the leaves data connected to
+        the node or its children, i.e. the reconstruction errors summation for
         all the leaves in the branch.
 
         Returns
         -------
         error : float
-            Reconstruction errors summation for all the leaves in the branch.
+            Reconstruction errors summation for all the leaves data in the
+            branch.
         """
 
         if self.is_leaf():
             return self.leaf_reconstruction_error()
         else:
-            return sum([
-                child.branch_reconstruction_error() for child in self._children
+            return np.sum([
+                child.branch_reconstruction_error() for child in self.children
             ])
 
 
-class NodeTree_Otsu2018(Node):
+class Tree_Otsu2018(Node_Otsu2018):
     """
     A sub-class of :class:`colour.recovery.otsu2018.Node` class representing
     the root node of a tree containing information shared with all the nodes,
@@ -1100,12 +986,13 @@ class NodeTree_Otsu2018(Node):
     if any is used.
 
     Global operations involving the entire tree, such as optimisation and
-    reconstruction, are implemented in this sub-class.
+    conversion to dataset, are implemented in this sub-class.
 
     Parameters
     ----------
-    reflectances : ndarray, (n, m)
-        Reflectances of the *n* reference colours to use for optimisation.
+    reflectances : MultiSpectralDistributions
+        Reference reflectances of the *n* reference colours to use for
+        optimisation.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
@@ -1115,17 +1002,16 @@ class NodeTree_Otsu2018(Node):
 
     Attributes
     ----------
-    -   :attr:`~colour.recovery.NodeTree_Otsu2018.reflectances`
-    -   :attr:`~colour.recovery.NodeTree_Otsu2018.cmfs`
-    -   :attr:`~colour.recovery.NodeTree_Otsu2018.illuminant`
-    -   :attr:`~colour.recovery.NodeTree_Otsu2018.minimum_cluster_size`
+    -   :attr:`~colour.recovery.Tree_Otsu2018.reflectances`
+    -   :attr:`~colour.recovery.Tree_Otsu2018.cmfs`
+    -   :attr:`~colour.recovery.Tree_Otsu2018.illuminant`
 
     Methods
     -------
-    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.__init__`
-    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.__str__`
-    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.optimise`
-    -   :meth:`~colour.recovery.otsu2018.NodeTree_Otsu2018.to_dataset`
+    -   :meth:`~colour.recovery.otsu2018.Tree_Otsu2018.__init__`
+    -   :meth:`~colour.recovery.otsu2018.Tree_Otsu2018.__str__`
+    -   :meth:`~colour.recovery.otsu2018.Tree_Otsu2018.optimise`
+    -   :meth:`~colour.recovery.otsu2018.Tree_Otsu2018.to_dataset`
 
     References
     ----------
@@ -1136,6 +1022,7 @@ class NodeTree_Otsu2018(Node):
     >>> import os
     >>> import colour
     >>> from colour import MSDS_CMFS, SDS_COLOURCHECKERS, SDS_ILLUMINANTS
+    >>> from colour.colorimetry import sds_and_msds_to_msds
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
@@ -1143,11 +1030,10 @@ class NodeTree_Otsu2018(Node):
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
-    >>> reflectances = [
-    ...     sd.copy().align(cmfs.shape).values
-    ...     for sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
-    ... ]
-    >>> node_tree = NodeTree_Otsu2018(reflectances, cmfs, illuminant)
+    >>> reflectances = sds_and_msds_to_msds(
+    ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+    ... )
+    >>> node_tree = Tree_Otsu2018(reflectances, cmfs, illuminant)
     >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)
     >>> dataset = node_tree.to_dataset()
     >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
@@ -1208,25 +1094,26 @@ class NodeTree_Otsu2018(Node):
     """
 
     def __init__(self, reflectances, cmfs=None, illuminant=None):
-        self._reflectances = reflectances
+        super(Tree_Otsu2018, self).__init__()
 
         self._cmfs, self._illuminant = handle_spectral_arguments(
             cmfs, illuminant, shape_default=SPECTRAL_SHAPE_OTSU2018)
 
-        self._minimum_cluster_size = None
+        self._reflectances = np.transpose(
+            reshape_msds(reflectances, self._cmfs.shape).values)
 
-        super(NodeTree_Otsu2018, self).__init__(self,
-                                                Data(self, self._reflectances))
+        self.data = Data_Otsu2018(self._reflectances, self._cmfs,
+                                  self._illuminant)
 
     @property
     def reflectances(self):
         """
-        Getter property for the reflectances.
+        Getter property for the reference reflectances.
 
         Returns
         -------
         ndarray
-            Reflectances.
+            Reference reflectances.
         """
 
         return self._reflectances
@@ -1257,41 +1144,13 @@ class NodeTree_Otsu2018(Node):
 
         return self._illuminant
 
-    @property
-    def minimum_cluster_size(self):
-        """
-        Getter property for the minimum cluster size.
-
-        Returns
-        -------
-        int
-            Minimum cluster size.
-        """
-
-        return self._minimum_cluster_size
-
-    def __str__(self):
-        """
-        Returns a formatted string representation of the tree.
-
-        Returns
-        -------
-        unicode
-            Formatted string representation.
-        """
-
-        child_count = len(self)
-
-        return '{0}({1} {2})'.format(self.__class__.__name__, child_count,
-                                     'Node' if child_count == 1 else 'Nodes')
-
     def optimise(self,
                  iterations=8,
                  minimum_cluster_size=None,
                  print_callable=print):
         """
         Optimises the tree by repeatedly performing optimal partitioning of the
-        nodes, creating a tree that minimizes the total reconstruction error.
+        nodes, creating a tree that minimises the total reconstruction error.
 
         Parameters
         ----------
@@ -1300,34 +1159,32 @@ class NodeTree_Otsu2018(Node):
             might not be reached. The default is to create 8 clusters, like in
             :cite:`Otsu2018`.
         minimum_cluster_size : int, optional
-            Smallest acceptable cluster size. By default it is chosen
+            Smallest acceptable cluster size. By default, it is chosen
             automatically, based on the size of the dataset and desired number
             of clusters. It must be at least 3 or the
-            *Principal Component Analysis* (PCA) will not be possible.
+            *Principal Component Analysis* (PCA) is not be possible.
         print_callable : callable, optional
             Callable used to print progress and diagnostic information.
 
         Examples
         --------
-        >>> import os
-        >>> import colour
+        >>> from colour.colorimetry import sds_and_msds_to_msds
         >>> from colour import MSDS_CMFS, SDS_COLOURCHECKERS, SDS_ILLUMINANTS
         >>> cmfs = (
         ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         ...     .copy().align(SpectralShape(360, 780, 10))
         ... )
         >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
-        >>> reflectances = [
-        ...     sd.copy().align(cmfs.shape).values
-        ...     for sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
-        ... ]
-        >>> node_tree = NodeTree_Otsu2018(reflectances, cmfs, illuminant)
+        >>> reflectances = sds_and_msds_to_msds(
+        ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+        ... )
+        >>> node_tree = Tree_Otsu2018(reflectances, cmfs, illuminant)
         >>> node_tree.optimise(iterations=2)  # doctest: +ELLIPSIS
         ======================================================================\
 =========
         *                                                                     \
         *
-        *   "Otsu et al. (2018)" Node Tree Optimisation                       \
+        *   "Otsu et al. (2018)" Tree Optimisation                            \
         *
         *                                                                     \
         *
@@ -1337,41 +1194,48 @@ class NodeTree_Otsu2018(Node):
         <BLANKLINE>
         Iteration 1 of 2:
         <BLANKLINE>
-        Optimising "NodeTree_Otsu2018(1 Node)"...
+        Optimising "Tree_Otsu2018#...(Data_Otsu2018(24 Reflectances))"...
         <BLANKLINE>
-        Split "NodeTree_Otsu2018(1 Node)" into \
-"Node#...(Data(10 Reflectances))" and \
-"Node#...(Data(14 Reflectances))" along "\
-PartitionAxis(horizontal partition at y = 0.3240945...)".
-        Error is reduced by 0.0054840... and is now 4.8650513..., \
-99.9% of the initial error.
+        Splitting "Tree_Otsu2018#...(Data_Otsu2018(24 Reflectances))" into \
+"Node_Otsu2018#...(Data_Otsu2018(10 Reflectances))" and \
+"Node_Otsu2018#...(Data_Otsu2018(14 Reflectances))" along \
+"PartitionAxis(horizontal partition at y = 0.3240945...)".
+        Error is reduced by 0.0054840... and is now 4.8650513..., 99.9% of \
+the initial error.
         <BLANKLINE>
         Iteration 2 of 2:
         <BLANKLINE>
-        Optimising "Node#...(Data(10 Reflectances))"...
+        Optimising "Node_Otsu2018#...(Data_Otsu2018(10 Reflectances))"...
         Optimisation failed: Could not find the best partition!
-        Optimising "Node#...(Data(14 Reflectances))"...
+        Optimising "Node_Otsu2018#...(Data_Otsu2018(14 Reflectances))"...
         <BLANKLINE>
-        Split "Node#...(Data(14 Reflectances))" into \
-"Node#...(Data(7 Reflectances))" and \
-"Node#...(Data(7 Reflectances))" along \
+        Splitting "Node_Otsu2018#...(Data_Otsu2018(14 Reflectances))" into \
+"Node_Otsu2018#...(Data_Otsu2018(7 Reflectances))" and \
+"Node_Otsu2018#...(Data_Otsu2018(7 Reflectances))" along \
 "PartitionAxis(horizontal partition at y = 0.3600663...)".
-        Error is reduced by 0.9681059... and is now 3.8969453..., \
-80.0% of the initial error.
-        Node tree optimisation is complete!
+        Error is reduced by 0.9681059... and is now 3.8969453..., 80.0% of \
+the initial error.
+        Tree optimisation is complete!
+        >>> print(node_tree.render())  # doctest: +ELLIPSIS
+        |----"Tree_Otsu2018#..."
+            |----"Node_Otsu2018#..."
+            |----"Node_Otsu2018#..."
+                |----"Node_Otsu2018#..."
+                |----"Node_Otsu2018#..."
+        <BLANKLINE>
         >>> len(node_tree)
-        3
+        4
         """
 
-        self._minimum_cluster_size = (minimum_cluster_size
-                                      if minimum_cluster_size is not None else
-                                      len(self.data) / iterations // 2)
-        self._minimum_cluster_size = max(self._minimum_cluster_size, 3)
+        default_cluster_size = len(self.data) / iterations // 2
+        minimum_cluster_size = max(
+            (minimum_cluster_size
+             if minimum_cluster_size is not None else default_cluster_size), 3)
 
         initial_branch_error = self.branch_reconstruction_error()
 
         message_box(
-            '"Otsu et al. (2018)" Node Tree Optimisation',
+            '"Otsu et al. (2018)" Tree Optimisation',
             print_callable=print_callable)
 
         print_callable(
@@ -1390,8 +1254,8 @@ PartitionAxis(horizontal partition at y = 0.3240945...)".
                 print_callable('Optimising "{0}"...'.format(leaf))
 
                 try:
-                    partition_error, axis, partition = (
-                        leaf.find_best_partition())
+                    partition, axis, partition_error = leaf.minimise(
+                        minimum_cluster_size)
                 except RuntimeError as error:
                     print_callable('Optimisation failed: {0}'.format(error))
                     continue
@@ -1413,7 +1277,7 @@ PartitionAxis(horizontal partition at y = 0.3240945...)".
                 break
 
             print_callable(
-                '\nSplit "{0}" into "{1}" and "{2}" along "{3}".'.format(
+                '\nSplitting "{0}" into "{1}" and "{2}" along "{3}".'.format(
                     best_leaf, best_partition[0], best_partition[1],
                     best_axis))
 
@@ -1426,7 +1290,7 @@ PartitionAxis(horizontal partition at y = 0.3240945...)".
 
             best_leaf.split(best_partition, best_axis)
 
-        print_callable('Node tree optimisation is complete!')
+        print_callable('Tree optimisation is complete!')
 
     def to_dataset(self):
         """
@@ -1443,14 +1307,12 @@ PartitionAxis(horizontal partition at y = 0.3240945...)".
 
         Examples
         --------
-        >>> import os
-        >>> import colour
+        >>> from colour.colorimetry import sds_and_msds_to_msds
         >>> from colour.characterisation import SDS_COLOURCHECKERS
-        >>> reflectances = [
-        ...     sd.copy().align(SPECTRAL_SHAPE_OTSU2018).values
-        ...     for sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
-        ... ]
-        >>> node_tree = NodeTree_Otsu2018(reflectances)
+        >>> reflectances = sds_and_msds_to_msds(
+        ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+        ... )
+        >>> node_tree = Tree_Otsu2018(reflectances)
         >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)
         >>> node_tree.to_dataset()  # doctest: +ELLIPSIS
         <colour.recovery.otsu2018.Dataset_Otsu2018 object at 0x...>
@@ -1479,12 +1341,7 @@ PartitionAxis(horizontal partition at y = 0.3240945...)".
                     return
 
                 data['node_to_leaf_id'][node] = -len(data['rows'])
-                data['rows'].append([
-                    node.partition_axis.direction,
-                    node.partition_axis.origin,
-                    node.children[0],
-                    node.children[1],
-                ])
+                data['rows'].append(node.row)
 
                 for child in node.children:
                     add_rows(child, data)

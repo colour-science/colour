@@ -31,7 +31,7 @@ reflectances = [
     for reflectance in colour.SDS_COLOURCHECKERS['ColorChecker N Ohta']
     .values()
 ]
-node_tree = colour.recovery.NodeTree_Otsu2018(reflectances)
+node_tree = colour.recovery.Tree_Otsu2018(reflectances)
 node_tree.optimise()
 dataset = node_tree.to_dataset()
 print(colour.recovery.XYZ_to_sd_Otsu2018(XYZ, dataset=dataset))
