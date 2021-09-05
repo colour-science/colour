@@ -132,6 +132,7 @@ Data Structures
     CaseInsensitiveMapping
     LazyCaseInsensitiveMapping
     Lookup
+    Node
     Structure
 
 Verbose

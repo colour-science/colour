@@ -100,7 +100,7 @@ Otsu, Yamamoto and Hachisuka (2018)
     :toctree: generated/
 
     Dataset_Otsu2018
-    NodeTree_Otsu2018
+    Tree_Otsu2018
 
 Smits (1999)
 ------------
