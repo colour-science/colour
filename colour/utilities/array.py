@@ -311,10 +311,7 @@ def set_float_precision(dtype=DEFAULT_FLOAT_DTYPE):
     """
 
     with suppress_warnings(colour_usage_warnings=True):
-        for name, module in sys.modules.items():
-            if not name.startswith(name):
-                continue
-
+        for module in sys.modules.values():
             if not hasattr(module, 'DEFAULT_FLOAT_DTYPE'):
                 continue
 
@@ -360,9 +357,6 @@ def set_int_precision(dtype=DEFAULT_INT_DTYPE):
     # TODO: Investigate behaviour on Windows.
     with suppress_warnings(colour_usage_warnings=True):
         for name, module in sys.modules.items():
-            if not name.startswith(name):
-                continue
-
             if not hasattr(module, 'DEFAULT_INT_DTYPE'):
                 continue
 

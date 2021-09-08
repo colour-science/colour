@@ -161,9 +161,9 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__setitem__', '__getitem__',
-                            '__delitem__', '__contains__', '__iter__',
-                            '__len__', '__eq__', '__ne__', '__repr__', 'copy',
+        required_methods = ('__init__', '__repr__', '__setitem__',
+                            '__getitem__', '__delitem__', '__contains__',
+                            '__iter__', '__len__', '__eq__', '__ne__', 'copy',
                             'lower_items')
 
         for method in required_methods:
@@ -183,6 +183,18 @@ CaseInsensitiveMapping.data` property.
                 'jane': ('Jane', 'Doe'),
                 'john': ('John', 'Doe')
             })
+
+    def test__repr__(self):
+        """
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__repr__` method.
+        """
+
+        mapping = CaseInsensitiveMapping()
+
+        mapping['John'] = 'Doe'
+        self.assertEqual(
+            repr(mapping), "CaseInsensitiveMapping({'John': 'Doe'})")
 
     def test__setitem__(self):
         """
@@ -348,7 +360,7 @@ LazyCaseInsensitiveMapping` class unit tests methods.
 
         required_attributes = ()
 
-        for attribute in required_attributes:
+        for attribute in required_attributes:  # pragma: no cover
             self.assertIn(attribute, dir(LazyCaseInsensitiveMapping))
 
     def test_required_methods(self):
@@ -480,6 +492,8 @@ class TestNode(unittest.TestCase):
         """
         Tests :attr:`colour.utilities.data_structures.Node.siblings` property.
         """
+
+        self.assertListEqual(list(self._node_a.siblings), [])
 
         self.assertListEqual(list(self._node_b.siblings), [self._node_c])
 

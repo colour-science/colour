@@ -456,11 +456,16 @@ class TestHandleArgumentsDeprecation(unittest.TestCase):
                 changes,
                 argument_1_name=True,
                 argument_2_name=True,
-                argument_4_name=True), {
-                    'argument_1_new_name': True,
-                    'argument_2_new_name': True,
-                    'argument_4_name': True
-                })
+                argument_3_name=True,
+                argument_4_name=True,
+                argument_5_name=True),
+            {
+                'argument_1_new_name': True,
+                'argument_2_new_name': True,
+                'argument_4_name': True,
+                'argument_5_name': True
+            },
+        )
 
 
 if __name__ == '__main__':
