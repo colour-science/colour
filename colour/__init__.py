@@ -180,7 +180,7 @@ if is_matplotlib_installed():
     import colour.plotting as plotting  # noqa
 else:
 
-    class MockPlotting:
+    class MockPlotting:  # pragma: no cover
         """
         Mock object for :mod:`colour.plotting` sub-package raising an exception
         if the sub-package is accessed but *Matplotlib* is not installed.
@@ -189,7 +189,7 @@ else:
         def __getattr__(self, attribute):
             is_matplotlib_installed(raise_exception=True)
 
-    globals()['plotting'] = MockPlotting()
+    globals()['plotting'] = MockPlotting()  # pragma: no cover
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
