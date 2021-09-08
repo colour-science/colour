@@ -206,7 +206,7 @@ def show_warning(message,
 
 if os.environ.get(  # pragma: no cover
         'COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK'):
-    warnings.showwarning = show_warning
+    warnings.showwarning = show_warning  # pragma: no cover
 
 
 def warning(*args, **kwargs):
@@ -680,7 +680,7 @@ def describe_environment(runtime_packages=True,
                 package = mapping.get(package, package)
 
                 environment['Development'][package] = version
-            except Exception:
+            except Exception:  # pragma: no cover
                 # pylint: disable=B112
                 continue
 
@@ -694,7 +694,7 @@ def describe_environment(runtime_packages=True,
                 package = mapping.get(package, package)
 
                 environment['Extras'][package] = version
-            except Exception:
+            except Exception:  # pragma: no cover
                 # pylint: disable=B112
                 continue
 

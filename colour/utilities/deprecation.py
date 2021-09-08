@@ -523,6 +523,7 @@ def handle_arguments_deprecation(changes, **kwargs):
             else:
                 kwargs[change[1]] = kwargs.pop(kwarg)
         else:
+            kwargs.pop(kwarg)
             usage_warning(str(change))
 
     return kwargs

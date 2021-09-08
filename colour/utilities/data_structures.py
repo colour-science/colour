@@ -173,6 +173,7 @@ class CaseInsensitiveMapping(MutableMapping):
     Methods
     -------
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__init__`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__repr__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__setitem__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__getitem__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__delitem__`
@@ -181,7 +182,6 @@ class CaseInsensitiveMapping(MutableMapping):
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__len__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__eq__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__ne__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__repr__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.copy`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_items`
 
@@ -217,6 +217,18 @@ class CaseInsensitiveMapping(MutableMapping):
         """
 
         return self._data
+
+    def __repr__(self):
+        """
+        Returns the mapping representation with the original item names.
+
+        Returns
+        -------
+        unicode
+            Mapping representation.
+        """
+
+        return '{0}({1})'.format(self.__class__.__name__, dict(self.items()))
 
     def __setitem__(self, item, value):
         """
@@ -353,18 +365,6 @@ class CaseInsensitiveMapping(MutableMapping):
         """
 
         return not (self == item)
-
-    def __repr__(self):
-        """
-        Returns the mapping representation with the original item names.
-
-        Returns
-        -------
-        unicode
-            Mapping representation.
-        """
-
-        return '{0}({1})'.format(self.__class__.__name__, dict(self.items()))
 
     def copy(self):
         """

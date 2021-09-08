@@ -194,7 +194,7 @@ class TestSetFloatPrecision(unittest.TestCase):
         is applied through most of *Colour* public API.
         """
 
-        if not is_networkx_installed():
+        if not is_networkx_installed():  # pragma: no cover
             return
 
         from colour.appearance import (CAM_Specification_CAM16,

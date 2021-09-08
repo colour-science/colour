@@ -888,7 +888,7 @@ def filter_kwargs(function, **kwargs):
 
     try:
         args = list(inspect.signature(function).parameters.keys())
-    except ValueError:
+    except ValueError:  # pragma: no cover
         return {}
 
     args = set(kwargs.keys()) - set(args)

@@ -608,6 +608,9 @@ class TestTree_Otsu2018(unittest.TestCase):
 
         self._temporary_directory = tempfile.mkdtemp()
 
+        self._path = os.path.join(self._temporary_directory,
+                                  'Test_Otsu2018.npz')
+
     def tearDown(self):
         """
         After tests actions.
@@ -664,23 +667,19 @@ class TestTree_Otsu2018(unittest.TestCase):
 
         self.assertIs(self._tree.illuminant, self._sd_D65)
 
-    def test_Tree_Otsu2018(self):
+    def test_optimise(self):
         """
-        Tests :class:`colour.recovery.otsu2018.Tree_Otsu2018` dataset
-        generation and :class:`colour.recovery.otsu2018.Dataset_Otsu2018`
-        input and output. The generated dataset is also tested for
-        reconstruction errors.
+        Tests :class:`colour.recovery.otsu2018.Tree_Otsu2018.optimise` method.
         """
 
         node_tree = Tree_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
         node_tree.optimise(iterations=5)
 
-        path = os.path.join(self._temporary_directory, 'Test_Otsu2018.npz')
         dataset = node_tree.to_dataset()
-        dataset.write(path)
+        dataset.write(self._path)
 
         dataset = Dataset_Otsu2018()
-        dataset.read(path)
+        dataset.read(self._path)
 
         for sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].values():
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
@@ -699,6 +698,16 @@ class TestTree_Otsu2018(unittest.TestCase):
 
             delta_E = delta_E_CIE1976(Lab, recovered_Lab)
             self.assertLess(delta_E, 1e-12)
+
+    def test_to_dataset(self):
+        """
+        Tests :attr:`colour.recovery.otsu2018.Tree_Otsu2018.to_dataset`
+        method.
+        """
+
+        node_tree = Tree_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
+        dataset = node_tree.to_dataset()
+        dataset.write(self._path)
 
 
 if __name__ == '__main__':
