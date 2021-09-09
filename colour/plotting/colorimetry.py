@@ -484,8 +484,7 @@ def plot_single_illuminant_sd(illuminant,
 
     Parameters
     ----------
-    illuminant : unicode or LMS_ConeFundamentals or \
-RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
+    illuminant : unicode or SpectralDistribution, optional
         Illuminant to plot. ``illuminant`` can be of any type or form supported
         by the :func:`colour.plotting.filter_illuminants` definition.
     cmfs : unicode or XYZ_ColourMatchingFunctions, optional
