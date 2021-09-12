@@ -81,6 +81,13 @@ colourspace_model_axis_reorder` definition.
             np.array([1, 2, 0]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            colourspace_model_axis_reorder(
+                colourspace_model_axis_reorder(a, 'OSA UCS'), 'OSA UCS',
+                'Inverse'),
+            np.array([0, 1, 2]),
+            decimal=7)
+
 
 class TestPlotPointerGamut(unittest.TestCase):
     """
