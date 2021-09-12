@@ -27,7 +27,7 @@ from collections import namedtuple
 from colour.adaptation import CAT_CMCCAT2000
 from colour.algebra import vector_dot
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              from_range_100, to_domain_100)
+                              from_range_100, to_domain_100, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -356,7 +356,11 @@ def chromatic_adaptation_CMCCAT2000(
     array([ 22.48,  22.74,   8.54])
     """
 
-    if direction.lower() == 'forward':
+    direction = validate_method(
+        direction, ['Forward', 'Inverse'],
+        '"{0}" direction is invalid, it must be one of {1}!')
+
+    if direction == 'forward':
         return chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
                                                        L_A1, L_A2, surround)
     else:
