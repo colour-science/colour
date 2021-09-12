@@ -67,7 +67,7 @@ from colour.plotting import (
     update_settings_collection)
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
-                              first_item, tsplit, tstack, validate_method)
+                              first_item, tsplit, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -134,7 +134,7 @@ COLOURSPACE_MODELS_AXIS_ORDER : dict
 """
 
 
-def colourspace_model_axis_reorder(a, model=None):
+def colourspace_model_axis_reorder(a, model=None, direction='Forward'):
     """
     Reorder the axes of given colourspace model :math:`a` array according to
     the most common volume plotting axes order.
@@ -163,16 +163,25 @@ def colourspace_model_axis_reorder(a, model=None):
     array([ 1.,  2.,  0.])
     >>> colourspace_model_axis_reorder(a, 'OSA UCS')
     array([ 1.,  2.,  0.])
+    >>> b = np.array([1, 2, 0])
+    >>> colourspace_model_axis_reorder(b, 'OSA UCS', 'Inverse')
+    array([ 0.,  1.,  2.])
     """
 
     a = as_float_array(a)
 
-    axis_order = COLOURSPACE_MODELS_AXIS_ORDER.get(model, (0, 1, 2))
+    direction = validate_method(
+        direction, ['Forward', 'Inverse'],
+        '"{0}" direction is invalid, it must be one of {1}!')
 
-    a = tstack(
-        [a[..., axis_order[0]], a[..., axis_order[1]], a[..., axis_order[2]]])
+    order = COLOURSPACE_MODELS_AXIS_ORDER.get(model, (0, 1, 2))
 
-    return a
+    if direction == 'forward':
+        indexes = (order[0], order[1], order[2])
+    else:
+        indexes = (order.index(0), order.index(1), order.index(2))
+
+    return a[..., indexes]
 
 
 @override_style()
