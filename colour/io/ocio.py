@@ -1,0 +1,110 @@
+# -*- coding: utf-8 -*-
+"""
+OpenColorIO Processing
+======================
+
+Defines the object for *OpenColorIO* processing:
+
+-   :func:`colour.io.process_image_OpenColorIO`
+"""
+
+import numpy as np
+
+from colour.utilities import as_float_array, required
+
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-developers@colour-science.org'
+__status__ = 'Production'
+
+__all__ = ['process_image_OpenColorIO']
+
+
+@required('OpenColorIO')
+def process_image_OpenColorIO(a, *args, **kwargs):
+    """
+    Processes given image with *OpenColorIO*.
+
+    Parameters
+    ----------
+    a : array_like
+        Image to process with *OpenColorIO*.
+
+    Other Parameters
+    ----------------
+    \\*args : list, optional
+        Arguments for `Config.getProcessor` method.
+        See https://opencolorio.readthedocs.io/en/latest/api/config.html for
+        more information.
+    config : unicode, optional
+        *OpenColorIO* config to use for processing.
+    use_cpu : bool, optional
+        Whether to use the *CPU* or *GPU* processor.
+
+    Returns
+    -------
+    ndarray
+        Processed image.
+
+    Examples
+    --------
+    >>> import os
+    >>> import PyOpenColorIO as ocio
+    >>> from colour.utilities import full
+    >>> config = os.path.join(
+    ...     os.path.dirname(__file__), 'tests', 'resources',
+    ...     'config-aces-reference.ocio.yaml')
+    >>> a = full([4, 2, 3], 0.18)
+    >>> process_image_OpenColorIO(  # doctest: +ELLIPSIS
+    ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
+    array([[[ 0.4135878...,  0.4135878...,  0.4135878...],
+            [ 0.4135878...,  0.4135878...,  0.4135878...]],
+    <BLANKLINE>
+           [[ 0.4135878...,  0.4135878...,  0.4135878...],
+            [ 0.4135878...,  0.4135878...,  0.4135878...]],
+    <BLANKLINE>
+           [[ 0.4135878...,  0.4135878...,  0.4135878...],
+            [ 0.4135878...,  0.4135878...,  0.4135878...]],
+    <BLANKLINE>
+           [[ 0.4135878...,  0.4135878...,  0.4135878...],
+            [ 0.4135878...,  0.4135878...,  0.4135878...]]], dtype=float32)
+    >>> process_image_OpenColorIO(  # doctest: +ELLIPSIS
+    ...     a, 'ACES - ACES2065-1', 'Display - sRGB',
+    ...     'Output - SDR Video - ACES 1.0', ocio.TRANSFORM_DIR_FORWARD,
+    ...     config=config)
+    array([[[ 0.3559523...,  0.3559525...,  0.3559525...],
+            [ 0.3559523...,  0.3559525...,  0.3559525...]],
+    <BLANKLINE>
+           [[ 0.3559523...,  0.3559525...,  0.3559525...],
+            [ 0.3559523...,  0.3559525...,  0.3559525...]],
+    <BLANKLINE>
+           [[ 0.3559523...,  0.3559525...,  0.3559525...],
+            [ 0.3559523...,  0.3559525...,  0.3559525...]],
+    <BLANKLINE>
+           [[ 0.3559523...,  0.3559525...,  0.3559525...],
+            [ 0.3559523...,  0.3559525...,  0.3559525...]]], dtype=float32)
+    """
+
+    import PyOpenColorIO as ocio
+
+    use_cpu = kwargs.get('use_cpu', True)
+
+    config = kwargs.get('config')
+    config = (ocio.Config.CreateFromEnv()
+              if config is None else ocio.Config.CreateFromFile(config))
+
+    a = np.atleast_3d(as_float_array(a, dtype=np.float32))
+    height, width, channels = a.shape
+
+    processor = config.getProcessor(*args)
+
+    processor = (processor.getDefaultCPUProcessor()
+                 if use_cpu else processor.getDefaultGPUProcessor())
+
+    image_desc = ocio.PackedImageDesc(a, width, height, channels)
+
+    processor.apply(image_desc)
+
+    return image_desc.getData().reshape([height, width, channels])

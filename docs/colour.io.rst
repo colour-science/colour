@@ -34,6 +34,18 @@ Image Data
     read_image_Imageio
     write_image_Imageio
 
+OpenColorIO Processing
+----------------------
+
+``colour.io``
+
+.. currentmodule:: colour.io
+
+.. autosummary::
+    :toctree: generated/
+
+    process_image_OpenColorIO
+
 Look Up Table (LUT) Data
 ------------------------
 
