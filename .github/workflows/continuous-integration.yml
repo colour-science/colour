@@ -46,12 +46,14 @@ jobs:
     - name: Install Package Dependencies (macOS & Ubuntu)
       if: matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-18.04'
       run: |
+        python3 -m pip install --upgrade pip
         poetry install --extras "graphviz optional plotting"
         poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
       shell: bash
     - name: Install Package Dependencies (Windows)
       if: matrix.os == 'windows-latest'
       run: |
+        python3 -m pip install --upgrade pip
         poetry install --extras "optional plotting"
         poetry run python -c "import imageio;imageio.plugins.freeimage.download()"
       shell: bash

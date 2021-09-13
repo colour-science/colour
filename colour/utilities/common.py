@@ -43,14 +43,14 @@ __all__ = [
     'warn_numpy_errors', 'ignore_python_warnings', 'batch',
     'disable_multiprocessing', 'multiprocessing_pool',
     'is_matplotlib_installed', 'is_networkx_installed',
-    'is_openimageio_installed', 'is_pandas_installed', 'is_tqdm_installed',
-    'required', 'is_iterable', 'is_string', 'is_numeric', 'is_integer',
-    'is_sibling', 'filter_kwargs', 'filter_mapping', 'first_item',
-    'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
-    'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
-    'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
-    'from_range_degrees', 'from_range_int', 'copy_definition',
-    'validate_method'
+    'is_opencolorio_installed', 'is_openimageio_installed',
+    'is_pandas_installed', 'is_tqdm_installed', 'required', 'is_iterable',
+    'is_string', 'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
+    'filter_mapping', 'first_item', 'get_domain_range_scale',
+    'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
+    'to_domain_10', 'to_domain_100', 'to_domain_degrees', 'to_domain_int',
+    'from_range_1', 'from_range_10', 'from_range_100', 'from_range_degrees',
+    'from_range_int', 'copy_definition', 'validate_method'
 ]
 
 
@@ -563,6 +563,42 @@ def is_networkx_installed(raise_exception=False):
         return False
 
 
+def is_opencolorio_installed(raise_exception=False):
+    """
+    Returns if *OpenColorIO* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *OpenColorIO* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *OpenColorIO* installed.
+
+    Raises
+    ------
+    ImportError
+        If *OpenColorIO* is not installed.
+    """
+
+    try:  # pragma: no cover
+        # pylint: disable=W0612
+        import PyOpenColorIO  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(
+                ('"OpenColorIO" related API features are not available: '
+                 '"{0}".\nPlease refer to the installation guide for more '
+                 'information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
+        return False
+
+
 def is_openimageio_installed(raise_exception=False):
     """
     Returns if *OpenImageIO* is installed and available.
@@ -674,6 +710,7 @@ def is_tqdm_installed(raise_exception=False):
 _REQUIREMENTS_TO_CALLABLE = CaseInsensitiveMapping({
     'Matplotlib': is_matplotlib_installed,
     'NetworkX': is_networkx_installed,
+    'OpenColorIO': is_opencolorio_installed,
     'OpenImageIO': is_openimageio_installed,
     'Pandas': is_pandas_installed,
     'tqdm': is_tqdm_installed,
@@ -682,7 +719,8 @@ _REQUIREMENTS_TO_CALLABLE = CaseInsensitiveMapping({
 Mapping of requirements to their respective callables.
 
 _REQUIREMENTS_TO_CALLABLE : CaseInsensitiveMapping
-    **{'Matplotlib', 'NetworkX', 'OpenImageIO', 'Pandas', 'tqdm'}**
+    **{'Matplotlib', 'NetworkX', 'OpenColorIO', 'OpenImageIO', 'Pandas',
+    'tqdm'}**
 """
 
 
@@ -693,7 +731,8 @@ def required(*requirements):
     Other Parameters
     ----------------
     \\*requirements : list, optional
-        **{'Matplotlib', 'NetworkX', 'OpenImageIO', 'Pandas', 'tqdm'}**,
+        **{'Matplotlib', 'NetworkX', 'OpenColorIO', 'OpenImageIO', 'Pandas',
+        'tqdm'}**,
         Requirements to check whether they are satisfied.
 
     Returns
