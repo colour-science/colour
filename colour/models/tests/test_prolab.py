@@ -33,17 +33,17 @@ class TestXYZ_to_ProLab(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_ProLab(np.array([0.20654008, 0.12197225, 0.05136952])),
-            np.array([0.83076696, 0.60122873, 0.22642636]),
+            np.array([48.7948929, 35.31503175, 13.30044932]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_ProLab(np.array([0.14222010, 0.23042768, 0.10495772])),
-            np.array([1.37970163, -0.46384071, 0.28371029]),
+            np.array([64.45929636, -21.67007419, 13.25749056]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_ProLab(np.array([0.96907232, 1.00000000, 1.12179215])),
-            np.array([6.92102743, 0.10732891, -0.0603479]),
+            XYZ_to_ProLab(np.array([0.96907232, 1.00000000, 0.12179215])),
+            np.array([100., 5.47367608, 37.26313098]),
             decimal=7)
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -55,29 +55,28 @@ class TestXYZ_to_ProLab(unittest.TestCase):
                 np.testing.assert_almost_equal(
                     XYZ_to_ProLab(XYZ * factor), ProLab * factor, decimal=7)
 
-    # def test_n_dimensional_XYZ_to_ProLab(self):
-    #     """
-    #     Tests :func:`colour.models.ipt.XYZ_to_IPT` definition n-dimensional
-    #     support.
-    #     """
+    def test_n_dimensional_XYZ_to_ProLab(self):
+        """
+        Tests :func:`colour.models.prolab.XYZ_to_ProLab` definition
+        n-dimensional support.
+        """
 
-    #     XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    #     ProLab = XYZ_to_ProLab(XYZ)
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        ProLab = XYZ_to_ProLab(XYZ)
 
-    #     XYZ = np.tile(XYZ, (6, 1))
-    #     print(XYZ)
-    #     ProLab = np.tile(ProLab, (6, 1))
-    #     np.testing.assert_almost_equal(XYZ_to_ProLab(XYZ), ProLab, decimal=7)
+        XYZ = np.tile(XYZ, (6, 1))
+        ProLab = np.tile(ProLab, (6, 1))
+        np.testing.assert_almost_equal(XYZ_to_ProLab(XYZ), ProLab, decimal=7)
 
-    # XYZ = np.reshape(XYZ, (2, 3, 3))
-    # IPT = np.reshape(IPT, (2, 3, 3))
-    # np.testing.assert_almost_equal(XYZ_to_IPT(XYZ), IPT, decimal=7)
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        ProLab = np.reshape(ProLab, (2, 3, 3))
+        np.testing.assert_almost_equal(XYZ_to_ProLab(XYZ), ProLab, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_ProLab(self):
         """
-        Tests :func:`colour.models.ProLab.XYZ_to_ProLab` definition nan
-        support.
+        Tests :func:`colour.models.ProLab.XYZ_to_ProLab` definition
+        nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -98,17 +97,34 @@ class TestProLab_to_XYZ(unittest.TestCase):
         Tests :func:`colour.models.ProLab.ProLab_to_XYZ` definition.
         """
 
-        np.testing.assert_allclose(
+        np.testing.assert_almost_equal(
             ProLab_to_XYZ(np.array([0.83076696, 0.60122873, 0.22642636])),
-            np.array([0.20654008, 0.12197225, 0.05136952]))
+            np.array([0.00206535, 0.00121972, 0.00051378]))
 
-        np.testing.assert_allclose(
-            ProLab_to_XYZ(np.array([1.37970163, -0.46384071, 0.28371029])),
-            np.array([0.14222010, 0.23042768, 0.10495772]))
+        np.testing.assert_almost_equal(
+            ProLab_to_XYZ(np.array([0.37970163, -0.46384071, 0.28371029])),
+            np.array([0.00010336, 0.00090972, -0.00045632]))
 
-        np.testing.assert_allclose(
+        np.testing.assert_almost_equal(
             ProLab_to_XYZ(np.array([6.92102743, 0.10732891, -0.0603479])),
-            np.array([0.96907232, 1.00000000, 1.12179215]))
+            np.array([0.0096905, 0.00999991, 0.01122017]))
+
+    def test_n_dimensional_XYZ_to_ProLab(self):
+        """
+        Tests :func:`colour.models.prolab.XYZ_to_ProLab` definition
+        n-dimensional support.
+        """
+
+        ProLab = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ = ProLab_to_XYZ(ProLab)
+
+        ProLab = np.tile(ProLab, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(ProLab_to_XYZ(ProLab), XYZ, decimal=7)
+
+        ProLab = np.reshape(ProLab, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(ProLab_to_XYZ(ProLab), XYZ, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_ProLab_to_XYZ(self):

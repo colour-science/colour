@@ -17,6 +17,9 @@ References
 """
 
 import numpy as np
+from colour.colorimetry import CCS_ILLUMINANTS
+from colour.models import xy_to_xyY, xyY_to_XYZ
+from colour.utilities import as_float_array, ones
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -25,43 +28,46 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = [
-    'D_65', 'MATRIX_1_XYZ_to_ProLab', 'MATRIX_2_ProLab_to_XYZ', 'MATRIX_3',
-    'ProLab_to_XYZ', 'XYZ_to_ProLab'
-]
+__all__ = ['MATRIX_Q', 'MATRIX_INVERSE_Q', 'ProLab_to_XYZ', 'XYZ_to_ProLab']
 
-MATRIX_1_XYZ_to_ProLab = np.array([
-    [75.5362, 486.661, 167.387],
-    [617.7141, -595.4477, -22.2664],
-    [48.3433, 194.9377, -243.281],
+MATRIX_Q = np.array([
+    [75.54, 486.66, 167.39, 0],
+    [617.72, -595.45, -22.27, 0],
+    [48.34, 194.94, -243.28, 0],
+    [0.7554, 3.8666, 1.6739, 1],
 ])
 """
 Normalised cone responses to *CIE XYZ* tristimulus values matrix.
 
-MATRIX_1_XYZ_to_ProLab : array_like, (3, 3)
+MATRIX_Q : array_like, (3, 3)
 """
 
-MATRIX_2_ProLab_to_XYZ = np.linalg.inv(MATRIX_1_XYZ_to_ProLab)
+MATRIX_INVERSE_Q = np.linalg.inv(MATRIX_Q)
 """
 Normalised cone responses to *ProLab* colourspace matrix.
 
-MATRIX_2_ProLab_to_XYZ : array_like, (3, 3)
-"""
-
-MATRIX_3 = np.array([0.7554, 3.8666, 1.6739])
-"""
-MATRIX_2_ProLab_to_XYZ : array_like, (3, 3)
-"""
-
-D_65 = np.array([95.047, 100, 108.883])
-"""
-*CIE Standard Illuminant D Series* *D65*
-
-D_65: array_like, (1, 3)
+MATRIX_INVERSE_Q : array_like, (3, 3)
 """
 
 
-def XYZ_to_ProLab(XYZ):
+def projective_transformation(a, Q):
+    a = as_float_array(a)
+
+    shape = list(a.shape)
+    shape[-1] = shape[-1] + 1
+
+    M = ones(shape)
+    M[..., :-1] = a
+
+    homography = np.dot(M, np.transpose(Q))
+    homography[..., 0:-1] /= homography[..., -1][..., np.newaxis]
+
+    return homography[..., 0:-1]
+
+
+def XYZ_to_ProLab(XYZ,
+                  illuminant=CCS_ILLUMINANTS[
+                      'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *ProLab* colourspace.
 
@@ -102,16 +108,20 @@ def XYZ_to_ProLab(XYZ):
     --------
     >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
     >>> XYZ_to_ProLab(Lab) # doctest: +ELLIPSIS
-    array([1.2461068..., 2.3952523..., 0.4190212...])
+    array([  59.846628... ,  115.039635... ,   20.1251035...])
     """
 
     XYZ = np.asarray(XYZ)
-    XYZ_ = (XYZ.T / D_65).T
+    XYZ_n = xyY_to_XYZ(xy_to_xyY(illuminant))
 
-    return np.dot(MATRIX_1_XYZ_to_ProLab, XYZ_) / (np.dot(MATRIX_3, XYZ_) + 1)
+    ProLab = projective_transformation(XYZ / XYZ_n, MATRIX_Q)
+
+    return ProLab
 
 
-def ProLab_to_XYZ(ProLab):
+def ProLab_to_XYZ(ProLab,
+                  illuminant=CCS_ILLUMINANTS[
+                      'CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *ProLab* colourspace to *CIE XYZ* tristimulus values.
 
@@ -150,12 +160,16 @@ def ProLab_to_XYZ(ProLab):
 
     Examples
     --------
-    >>> Lab = np.array([1.24610688, 2.39525236, 0.41902126])
+    >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
     >>> ProLab_to_XYZ(Lab) # doctest: +ELLIPSIS
-    array([0.5163401..., 0.154695..., 0.0628957...])
+    array([ 0.00092954,  0.00073407,  0.00056942])
     """
 
-    XYZ_ = np.dot(MATRIX_2_ProLab_to_XYZ, ProLab)
-    XYZ_ = XYZ_ / (1 - np.dot(MATRIX_3, XYZ_))
+    ProLab = np.asarray(ProLab)
+    XYZ_n = xyY_to_XYZ(xy_to_xyY(illuminant))
 
-    return (XYZ_.T * D_65).T
+    XYZ = projective_transformation(ProLab, MATRIX_INVERSE_Q)
+
+    XYZ *= XYZ_n
+
+    return XYZ
