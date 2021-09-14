@@ -97,6 +97,7 @@ from colour.models import (
     OSA_UCS_to_XYZ,
     Oklab_to_XYZ,
     Prismatic_to_RGB,
+    ProLab_to_XYZ,
     RGB_Colourspace,
     RGB_luminance,
     RGB_to_CMY,
@@ -126,6 +127,7 @@ from colour.models import (
     XYZ_to_Luv,
     XYZ_to_OSA_UCS,
     XYZ_to_Oklab,
+    XYZ_to_ProLab,
     XYZ_to_RGB,
     XYZ_to_UCS,
     XYZ_to_UVW,
@@ -598,6 +600,8 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     ("OSA UCS", "CIE XYZ", OSA_UCS_to_XYZ),
     ("CIE XYZ", "Oklab", XYZ_to_Oklab),
     ("Oklab", "CIE XYZ", Oklab_to_XYZ),
+    ("CIE XYZ", "ProLab", XYZ_to_ProLab),
+    ("ProLab", "CIE XYZ", ProLab_to_XYZ),
     # RGB Colour Models
     (
         "CIE XYZ",
