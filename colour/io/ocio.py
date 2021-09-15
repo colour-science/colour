@@ -40,8 +40,6 @@ def process_image_OpenColorIO(a, *args, **kwargs):
         more information.
     config : unicode, optional
         *OpenColorIO* config to use for processing.
-    use_cpu : bool, optional
-        Whether to use the *CPU* or *GPU* processor.
 
     Returns
     -------
@@ -89,8 +87,6 @@ def process_image_OpenColorIO(a, *args, **kwargs):
 
     import PyOpenColorIO as ocio
 
-    use_cpu = kwargs.get('use_cpu', True)
-
     config = kwargs.get('config')
     config = (ocio.Config.CreateFromEnv()
               if config is None else ocio.Config.CreateFromFile(config))
@@ -98,10 +94,7 @@ def process_image_OpenColorIO(a, *args, **kwargs):
     a = np.atleast_3d(as_float_array(a, dtype=np.float32))
     height, width, channels = a.shape
 
-    processor = config.getProcessor(*args)
-
-    processor = (processor.getDefaultCPUProcessor()
-                 if use_cpu else processor.getDefaultGPUProcessor())
+    processor = config.getProcessor(*args).getDefaultCPUProcessor()
 
     image_desc = ocio.PackedImageDesc(a, width, height, channels)
 
