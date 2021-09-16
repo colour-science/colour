@@ -1304,11 +1304,11 @@ Blackbody
     ...     blackbody_sds,
     ...     y_label='W / (sr m$^2$) / m',
     ...     plot_kwargs={
-    ...         use_sd_colours=True,
-    ...         normalise_sd_colours=True,
+    ...         'use_sd_colours': True,
+    ...         'normalise_sd_colours': True,
     ...     },
     ...     legend_location='upper right',
-    ...     bounding_box=(0, 1250, 0, 2.5e15))
+    ...     bounding_box=(0, 1250, 0, 2.5e6))
 
 ..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Blackbodies.png
 
