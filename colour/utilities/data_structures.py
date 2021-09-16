@@ -41,7 +41,7 @@ __status__ = 'Production'
 
 __all__ = [
     'Structure', 'Lookup', 'CaseInsensitiveMapping',
-    'LazyCaseInsensitiveMapping'
+    'LazyCaseInsensitiveMapping', 'Node'
 ]
 
 
