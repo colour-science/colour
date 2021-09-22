@@ -135,7 +135,7 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
     ]).reshape(-1, 1, 2)
     sl_ij = np.copy(ij).reshape(-1, 1, 2)
 
-    if spectral_locus_colours.upper() == 'RGB':
+    if str(spectral_locus_colours).upper() == 'RGB':
         spectral_locus_colours = normalise_maximum(
             XYZ_to_plotting_colourspace(cmfs.values), axis=-1)
 

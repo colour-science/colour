@@ -848,7 +848,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
 
     chromaticity_diagram_callable(**settings)
 
-    use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
+    use_RGB_colours = str(scatter_settings['c']).upper() == 'RGB'
     if use_RGB_colours:
         RGB = RGB[RGB[:, 1].argsort()]
         scatter_settings['c'] = np.clip(
@@ -1710,7 +1710,7 @@ def plot_constant_hue_loci(data,
     if convert_kwargs is None:
         convert_kwargs = {}
 
-    use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
+    use_RGB_colours = str(scatter_settings['c']).upper() == 'RGB'
 
     colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
     for hue_data in data:
