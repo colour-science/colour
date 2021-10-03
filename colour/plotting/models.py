@@ -54,11 +54,13 @@ from colour.algebra import (point_at_angle_on_ellipse,
                             ellipse_fitting)
 from colour.graph import convert
 from colour.models import (
-    COLOURSPACE_MODELS_AXIS_LABELS, CCTF_ENCODINGS, CCTF_DECODINGS,
-    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, DATA_MACADAM_1942_ELLIPSES,
-    CCS_POINTER_GAMUT_BOUNDARY, DATA_POINTER_GAMUT_VOLUME,
-    CCS_ILLUMINANT_POINTER_GAMUT, RGB_to_RGB, RGB_to_XYZ, UCS_to_uv,
-    XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
+    COLOURSPACE_MODELS_AXIS_LABELS,
+    COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE, CCTF_ENCODINGS,
+    CCTF_DECODINGS, LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
+    DATA_MACADAM_1942_ELLIPSES, CCS_POINTER_GAMUT_BOUNDARY,
+    DATA_POINTER_GAMUT_VOLUME, CCS_ILLUMINANT_POINTER_GAMUT, RGB_to_RGB,
+    RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_xy,
+    xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE, plot_chromaticity_diagram_CIE1931, artist,
     plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
@@ -1682,7 +1684,7 @@ def plot_constant_hue_loci(data,
     ...         None,
     ...     ],
     ... ])
-    >>> plot_constant_hue_loci(data, 'IPT')  # doctest: +ELLIPSIS
+    >>> plot_constant_hue_loci(data, 'CIE Lab')  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Constant_Hue_Loci.png
@@ -1725,6 +1727,9 @@ def plot_constant_hue_loci(data,
             convert(XYZ_ct, 'CIE XYZ', model, **convert_settings), model)
         ijk_cr = colourspace_model_axis_reorder(
             convert(XYZ_cr, 'CIE XYZ', model, **convert_settings), model)
+
+        ijk_ct *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_cr *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
 
         def _linear_equation(x, a, b):
             """
@@ -1777,8 +1782,7 @@ def plot_constant_hue_loci(data,
 
     settings = {
         'axes': axes,
-        'title': 'Constant Hue Loci - '
-                 '{0} (Domain-Range Scale: 1)'.format(model),
+        'title': 'Constant Hue Loci - {0}'.format(model),
         'x_label': labels[0],
         'y_label': labels[1],
     }
