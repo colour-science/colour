@@ -59,6 +59,7 @@ mock = { version = "*", optional = true }  # Development dependency.
 networkx = { version = "*", optional = true }
 nose = { version = "*", optional = true }  # Development dependency.
 numpy = { version = "*", optional = true }
+opencolorio = { version = "*", optional = true }
 pandas = { version = "*", optional = true }
 pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
@@ -112,7 +113,7 @@ development = [
     "yapf"
 ]
 graphviz = [ "pygraphviz" ]
-optional = [ "networkx", "pandas", "tqdm" ]
+optional = [ "networkx", "opencolorio", "pandas", "tqdm" ]
 plotting = [ "matplotlib" ]
 read-the-docs = [
     "mock",

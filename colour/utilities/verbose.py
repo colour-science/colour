@@ -625,7 +625,7 @@ def describe_environment(runtime_packages=True,
     if runtime_packages:
         for package in [
                 'imageio', 'matplotlib', 'networkx', 'numpy', 'pandas',
-                'pygraphviz', 'scipy', 'tqdm'
+                'pygraphviz', 'PyOpenColorIO', 'scipy', 'tqdm'
         ]:
             try:
                 namespace = __import__(package)
