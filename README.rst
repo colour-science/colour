@@ -1338,7 +1338,7 @@ Luminous Efficiency
     ...     y_label='Luminous Efficiency',
     ...     legend_location='upper right',
     ...     y_tighten=True,
-    ...     margins=(0, 0, 0, .1))
+    ...     margins=(0, 0, 0, 0.1))
 
 ..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_Luminous_Efficiency.png
 

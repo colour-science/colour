@@ -159,7 +159,7 @@ def generate_documentation_plots(output_directory):
             y_label='Luminous Efficiency',
             legend_location='upper right',
             y_tighten=True,
-            margins=(0, 0, 0, .1),
+            margins=(0, 0, 0, 0.1),
             **arguments)[0])
 
     arguments['filename'] = os.path.join(
