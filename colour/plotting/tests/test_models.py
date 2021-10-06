@@ -51,20 +51,17 @@ __all__ = [
 
 class TestCommonColourspaceModelAxisReorder(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.models.\
-colourspace_model_axis_reorder` definition unit tests methods.
+    Defines :func:`colour.plotting.models.colourspace_model_axis_reorder`
+    definition unit tests methods.
     """
 
     def test_colourspace_model_axis_reorder(self):
         """
-        Tests :func:`colour.plotting.models.\
-colourspace_model_axis_reorder` definition.
+        Tests :func:`colour.plotting.models.colourspace_model_axis_reorder`
+        definition.
         """
 
         a = np.array([0, 1, 2])
-
-        np.testing.assert_almost_equal(
-            colourspace_model_axis_reorder(a), np.array([0, 1, 2]), decimal=7)
 
         np.testing.assert_almost_equal(
             colourspace_model_axis_reorder(a, 'CIE Lab'),

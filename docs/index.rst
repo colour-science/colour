@@ -1170,16 +1170,6 @@ Chromaticities Prediction
 
 ..  image:: _static/Examples_Plotting_Chromaticities_Prediction.png
 
-Colour Temperature
-******************
-
-.. code-block:: python
-
-    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'])
-
-..  image:: _static/Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png
-
-
 Chromaticities
 **************
 
@@ -1212,6 +1202,30 @@ ANSI/IES TM-30-18 Colour Rendition Report
     ...     colour.SDS_ILLUMINANTS['FL2'])
 
 ..  image:: _static/Examples_Plotting_Colour_Rendition_Report.png
+
+Gamut Section
+*************
+
+.. code-block:: python
+
+    >>> plot_visible_spectrum_section(section_colours='RGB', section_opacity=0.15)
+
+..  image:: _static/Examples_Plotting_Plot_Visible_Spectrum_Section.png
+
+.. code-block:: python
+
+    >>> plot_RGB_colourspace_section('sRGB', section_colours='RGB', section_opacity=0.15)
+
+..  image:: _static/Examples_Plotting_Plot_RGB_Colourspace_Section.png
+
+Colour Temperature
+******************
+
+.. code-block:: python
+
+    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'])
+
+..  image:: _static/Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png
 
 Contributing
 ------------

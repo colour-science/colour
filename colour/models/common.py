@@ -19,8 +19,8 @@ References
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.utilities import (from_range_degrees, to_domain_degrees, tsplit,
-                              tstack)
+from colour.utilities import (CaseInsensitiveMapping, from_range_degrees,
+                              to_domain_degrees, tsplit, tstack)
 from colour.utilities.documentation import (DocstringTuple,
                                             is_documentation_building)
 
@@ -184,7 +184,7 @@ COLOURSPACE_MODELS : Tuple
     'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """
 
-COLOURSPACE_MODELS_AXIS_LABELS = {
+COLOURSPACE_MODELS_AXIS_LABELS = CaseInsensitiveMapping({
     'CAM02LCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
     'CAM02SCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
     'CAM02UCS': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
@@ -209,7 +209,7 @@ COLOURSPACE_MODELS_AXIS_LABELS = {
     'Oklab': ('$L$', '$a$', '$b$'),
     'hdr-CIELAB': ('L hdr', 'a hdr', 'b hdr'),
     'hdr-IPT': ('I hdr', 'P hdr', 'T hdr'),
-}
+})
 """
 Colourspace models labels mapping.
 

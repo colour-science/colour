@@ -53,6 +53,8 @@ from .quality import (  # noqa
     plot_multi_sds_colour_rendering_indexes_bars,
     plot_single_sd_colour_quality_scale_bars,
     plot_multi_sds_colour_quality_scales_bars)
+from .section import (  # noqa
+    plot_visible_spectrum_section, plot_RGB_colourspace_section)
 from .temperature import (  # noqa
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS)
@@ -114,6 +116,7 @@ __all__ += [
     'plot_single_sd_colour_quality_scale_bars',
     'plot_multi_sds_colour_quality_scales_bars'
 ]
+__all__ += ['plot_visible_spectrum_section', 'plot_RGB_colourspace_section']
 __all__ += [
     'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
     'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS'

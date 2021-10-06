@@ -208,6 +208,30 @@ Colour Quality
 
     plot_colour_quality_bars
 
+Gamut Section Plotting
+----------------------
+
+``colour.plotting``
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_visible_spectrum_section
+    plot_RGB_colourspace_section
+
+**Ancillary Objects**
+
+``colour.plotting.section``
+
+.. currentmodule:: colour.plotting.section
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_hull_section_colours
+    plot_hull_section_contour
 
 Colour Temperature & Correlated Colour Temperature
 --------------------------------------------------
