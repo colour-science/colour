@@ -54,11 +54,13 @@ from colour.algebra import (point_at_angle_on_ellipse,
                             ellipse_fitting)
 from colour.graph import convert
 from colour.models import (
-    COLOURSPACE_MODELS_AXIS_LABELS, CCTF_ENCODINGS, CCTF_DECODINGS,
-    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, DATA_MACADAM_1942_ELLIPSES,
-    CCS_POINTER_GAMUT_BOUNDARY, DATA_POINTER_GAMUT_VOLUME,
-    CCS_ILLUMINANT_POINTER_GAMUT, RGB_to_RGB, RGB_to_XYZ, UCS_to_uv,
-    XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
+    COLOURSPACE_MODELS_AXIS_LABELS,
+    COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE, CCTF_ENCODINGS,
+    CCTF_DECODINGS, LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
+    DATA_MACADAM_1942_ELLIPSES, CCS_POINTER_GAMUT_BOUNDARY,
+    DATA_POINTER_GAMUT_VOLUME, CCS_ILLUMINANT_POINTER_GAMUT, RGB_to_RGB,
+    RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_xy,
+    xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE, plot_chromaticity_diagram_CIE1931, artist,
     plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
@@ -66,8 +68,9 @@ from colour.plotting import (
     filter_cmfs, plot_multi_functions, override_style, render,
     update_settings_collection)
 from colour.plotting.diagrams import plot_chromaticity_diagram
-from colour.utilities import (as_float_array, as_int_array, domain_range_scale,
-                              first_item, tsplit, validate_method)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              as_int_array, domain_range_scale, first_item,
+                              tsplit, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -94,7 +97,7 @@ __all__ = [
     'plot_single_cctf', 'plot_multi_cctfs', 'plot_constant_hue_loci'
 ]
 
-COLOURSPACE_MODELS_AXIS_ORDER = {
+COLOURSPACE_MODELS_AXIS_ORDER = CaseInsensitiveMapping({
     'CAM02LCD': (1, 2, 0),
     'CAM02SCD': (1, 2, 0),
     'CAM02UCS': (1, 2, 0),
@@ -121,11 +124,11 @@ COLOURSPACE_MODELS_AXIS_ORDER = {
     'Oklab': (1, 2, 0),
     'hdr-CIELAB': (1, 2, 0),
     'hdr-IPT': (1, 2, 0),
-}
+})
 """
 Colourspace models axis order.
 
-COLOURSPACE_MODELS_AXIS_ORDER : dict
+COLOURSPACE_MODELS_AXIS_ORDER : CaseInsensitiveMapping
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
     'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv',
     'CIE UCS', 'CIE UVW', 'DIN99', 'Hunter Lab', 'Hunter Rdab', 'ICaCb',
@@ -134,7 +137,7 @@ COLOURSPACE_MODELS_AXIS_ORDER : dict
 """
 
 
-def colourspace_model_axis_reorder(a, model=None, direction='Forward'):
+def colourspace_model_axis_reorder(a, model, direction='Forward'):
     """
     Reorder the axes of given colourspace model :math:`a` array according to
     the most common volume plotting axes order.
@@ -143,7 +146,7 @@ def colourspace_model_axis_reorder(a, model=None, direction='Forward'):
     ----------
     a : array_like
         Colourspace model :math:`a` array.
-    model : unicode, optional
+    model : unicode
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
 
@@ -155,8 +158,6 @@ def colourspace_model_axis_reorder(a, model=None, direction='Forward'):
     Examples
     --------
     >>> a = np.array([0, 1, 2])
-    >>> colourspace_model_axis_reorder(a)
-    array([ 0.,  1.,  2.])
     >>> colourspace_model_axis_reorder(a, 'CIE Lab')
     array([ 1.,  2.,  0.])
     >>> colourspace_model_axis_reorder(a, 'IPT')
@@ -169,6 +170,9 @@ def colourspace_model_axis_reorder(a, model=None, direction='Forward'):
     """
 
     a = as_float_array(a)
+
+    model = validate_method(model, list(COLOURSPACE_MODELS_AXIS_ORDER.keys()),
+                            '"{0}" model is invalid, it must be one of {1}!')
 
     direction = validate_method(
         direction, ['Forward', 'Inverse'],
@@ -848,7 +852,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
 
     chromaticity_diagram_callable(**settings)
 
-    use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
+    use_RGB_colours = str(scatter_settings['c']).upper() == 'RGB'
     if use_RGB_colours:
         RGB = RGB[RGB[:, 1].argsort()]
         scatter_settings['c'] = np.clip(
@@ -1682,7 +1686,7 @@ def plot_constant_hue_loci(data,
     ...         None,
     ...     ],
     ... ])
-    >>> plot_constant_hue_loci(data, 'IPT')  # doctest: +ELLIPSIS
+    >>> plot_constant_hue_loci(data, 'CIE Lab')  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Constant_Hue_Loci.png
@@ -1710,7 +1714,7 @@ def plot_constant_hue_loci(data,
     if convert_kwargs is None:
         convert_kwargs = {}
 
-    use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
+    use_RGB_colours = str(scatter_settings['c']).upper() == 'RGB'
 
     colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
     for hue_data in data:
@@ -1725,6 +1729,9 @@ def plot_constant_hue_loci(data,
             convert(XYZ_ct, 'CIE XYZ', model, **convert_settings), model)
         ijk_cr = colourspace_model_axis_reorder(
             convert(XYZ_cr, 'CIE XYZ', model, **convert_settings), model)
+
+        ijk_ct *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_cr *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
 
         def _linear_equation(x, a, b):
             """
@@ -1777,8 +1784,7 @@ def plot_constant_hue_loci(data,
 
     settings = {
         'axes': axes,
-        'title': 'Constant Hue Loci - '
-                 '{0} (Domain-Range Scale: 1)'.format(model),
+        'title': 'Constant Hue Loci - {0}'.format(model),
         'x_label': labels[0],
         'y_label': labels[1],
     }

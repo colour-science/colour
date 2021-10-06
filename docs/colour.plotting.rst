@@ -208,6 +208,31 @@ Colour Quality
 
     plot_colour_quality_bars
 
+Gamut Section Plotting
+----------------------
+
+``colour.plotting``
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_visible_spectrum_section
+    plot_RGB_colourspace_section
+
+**Ancillary Objects**
+
+``colour.plotting.section``
+
+.. currentmodule:: colour.plotting.section
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_hull_section_colours
+    plot_hull_section_contour
+
 Colour Temperature & Correlated Colour Temperature
 --------------------------------------------------
 
@@ -235,6 +260,19 @@ Colour Temperature & Correlated Colour Temperature
     plot_planckian_locus_CIE1960UCS
     plot_planckian_locus_in_chromaticity_diagram
 
+Colour Models Volume
+--------------------
+
+``colour.plotting``
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_RGB_colourspaces_gamuts
+    plot_RGB_scatter
+
 ANSI/IES TM-30-18 Colour Rendition Report
 -----------------------------------------
 
@@ -259,19 +297,6 @@ ANSI/IES TM-30-18 Colour Rendition Report
     plot_single_sd_colour_rendition_report_full
     plot_single_sd_colour_rendition_report_intermediate
     plot_single_sd_colour_rendition_report_simple
-
-Colour Models Volume
---------------------
-
-``colour.plotting``
-
-.. currentmodule:: colour.plotting
-
-.. autosummary::
-    :toctree: generated/
-
-    plot_RGB_colourspaces_gamuts
-    plot_RGB_scatter
 
 Automatic Colour Conversion Graph
 ---------------------------------

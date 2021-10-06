@@ -19,8 +19,8 @@ References
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.utilities import (from_range_degrees, to_domain_degrees, tsplit,
-                              tstack)
+from colour.utilities import (CaseInsensitiveMapping, from_range_degrees,
+                              to_domain_degrees, tsplit, tstack)
 from colour.utilities.documentation import (DocstringTuple,
                                             is_documentation_building)
 
@@ -33,7 +33,8 @@ __status__ = 'Production'
 
 __all__ = [
     'Jab_to_JCh', 'JCh_to_Jab', 'COLOURSPACE_MODELS',
-    'COLOURSPACE_MODELS_AXIS_LABELS'
+    'COLOURSPACE_MODELS_AXIS_LABELS',
+    'COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE'
 ]
 
 
@@ -183,7 +184,7 @@ COLOURSPACE_MODELS : Tuple
     'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """
 
-COLOURSPACE_MODELS_AXIS_LABELS = {
+COLOURSPACE_MODELS_AXIS_LABELS = CaseInsensitiveMapping({
     'CAM02LCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
     'CAM02SCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
     'CAM02UCS': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
@@ -208,11 +209,49 @@ COLOURSPACE_MODELS_AXIS_LABELS = {
     'Oklab': ('$L$', '$a$', '$b$'),
     'hdr-CIELAB': ('L hdr', 'a hdr', 'b hdr'),
     'hdr-IPT': ('I hdr', 'P hdr', 'T hdr'),
-}
+})
 """
 Colourspace models labels mapping.
 
 COLOURSPACE_MODELS_AXIS_LABELS : dict
+    **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
+    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW', 'DIN99',
+    'Hunter Lab', 'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz',
+    'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
+"""
+
+assert COLOURSPACE_MODELS == tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys())
+
+COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE = CaseInsensitiveMapping({
+    'CAM02LCD': np.array([100, 100, 100]),
+    'CAM02SCD': np.array([100, 100, 100]),
+    'CAM02UCS': np.array([100, 100, 100]),
+    'CAM16LCD': np.array([100, 100, 100]),
+    'CAM16SCD': np.array([100, 100, 100]),
+    'CAM16UCS': np.array([100, 100, 100]),
+    'CIE XYZ': np.array([1, 1, 1]),
+    'CIE xyY': np.array([1, 1, 1]),
+    'CIE Lab': np.array([100, 100, 100]),
+    'CIE Luv': np.array([100, 100, 100]),
+    'CIE UCS': np.array([1, 1, 1]),
+    'CIE UVW': np.array([100, 100, 100]),
+    'DIN99': np.array([100, 100, 100]),
+    'Hunter Lab': np.array([100, 100, 100]),
+    'Hunter Rdab': np.array([100, 100, 100]),
+    'ICaCb': np.array([1, 1, 1]),
+    'ICtCp': np.array([1, 1, 1]),
+    'IPT': np.array([1, 1, 1]),
+    'IgPgTg': np.array([1, 1, 1]),
+    'JzAzBz': np.array([1, 1, 1]),
+    'OSA UCS': np.array([100, 100, 100]),
+    'Oklab': np.array([1, 1, 1]),
+    'hdr-CIELAB': np.array([100, 100, 100]),
+    'hdr-IPT': np.array([100, 100, 100]),
+})
+"""
+Colourspace models domain-range scale **'1'** to **'Reference'** mapping.
+
+COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE : dict
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
     'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW', 'DIN99',
     'Hunter Lab', 'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz',

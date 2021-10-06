@@ -53,3 +53,15 @@ Primitive Vertices
     primitive_vertices_grid_mpl
     primitive_vertices_cube_mpl
     primitive_vertices_sphere
+
+Hull Section
+------------
+
+``colour.geometry``
+
+.. currentmodule:: colour.geometry
+
+.. autosummary::
+    :toctree: generated/
+
+    hull_section

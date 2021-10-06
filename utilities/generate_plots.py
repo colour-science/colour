@@ -12,6 +12,7 @@ matplotlib.use('AGG')
 import matplotlib.pyplot as plt  # noqa
 import numpy as np  # noqa
 import os  # noqa
+import trimesh  # noqa
 
 import colour  # noqa
 from colour.characterisation import SDS_COLOURCHECKERS  # noqa
@@ -19,8 +20,10 @@ from colour.colorimetry import (  # noqa
     SDS_ILLUMINANTS, SDS_LIGHT_SOURCES, SDS_LEFS_PHOTOPIC, SDS_LEFS_SCOTOPIC,
     MSDS_CMFS_STANDARD_OBSERVER, SpectralDistribution, SpectralShape,
     sd_blackbody, sd_mesopic_luminous_efficiency_function, sd_to_XYZ)
+from colour.geometry import primitive_cube  # noqa
 from colour.io import read_image  # noqa
-from colour.models import sRGB_to_XYZ, XYZ_to_sRGB, XYZ_to_xy  # noqa
+from colour.models import (RGB_COLOURSPACE_sRGB, RGB_to_XYZ, sRGB_to_XYZ,
+                           XYZ_to_sRGB, XYZ_to_xy)  # noqa
 from colour.plotting import (  # noqa
     colour_style, ColourSwatch, plot_automatic_colour_conversion_graph,
     plot_blackbody_colours, plot_blackbody_spectral_radiance,
@@ -43,7 +46,7 @@ from colour.plotting import (  # noqa
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS,
-    plot_RGB_colourspaces_gamuts,
+    plot_RGB_colourspace_section, plot_RGB_colourspaces_gamuts,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS, plot_RGB_scatter,
@@ -57,7 +60,8 @@ from colour.plotting import (  # noqa
     plot_single_sd_colour_quality_scale_bars,
     plot_single_sd_colour_rendering_index_bars,
     plot_single_sd_colour_rendition_report, plot_single_sd_rayleigh_scattering,
-    plot_single_sd, plot_the_blue_sky, plot_visible_spectrum, render)
+    plot_single_sd, plot_the_blue_sky, plot_visible_spectrum,
+    plot_visible_spectrum_section, render)
 from colour.plotting.diagrams import (  # noqa
     plot_spectral_locus, plot_chromaticity_diagram_colours,
     plot_chromaticity_diagram, plot_sds_in_chromaticity_diagram)
@@ -66,6 +70,8 @@ from colour.plotting.models import (  # noqa
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram)
 from colour.plotting.quality import plot_colour_quality_bars  # noqa
+from colour.plotting.section import (plot_hull_section_colours,
+                                     plot_hull_section_contour)  # noqa
 from colour.plotting.temperature import (  # noqa
     plot_planckian_locus, plot_planckian_locus_CIE1931,
     plot_planckian_locus_CIE1960UCS,
@@ -187,13 +193,6 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png')
-    plt.close(
-        plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-            ['A', 'B', 'C'], **arguments)[0])
-
-    arguments['filename'] = os.path.join(
-        output_directory,
         'Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png')
     RGB = np.random.random((32, 32, 3))
     plt.close(
@@ -215,6 +214,27 @@ def generate_documentation_plots(output_directory):
     plt.close(
         plot_single_sd_colour_rendition_report(SDS_ILLUMINANTS['FL2'],
                                                **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory,
+        'Examples_Plotting_Plot_Visible_Spectrum_Section.png')
+    plt.close(
+        plot_visible_spectrum_section(
+            section_colours='RGB', section_opacity=0.15, **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Examples_Plotting_Plot_RGB_Colourspace_Section.png')
+    plt.close(
+        plot_RGB_colourspace_section(
+            'sRGB', section_colours='RGB', section_opacity=0.15,
+            **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory,
+        'Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png')
+    plt.close(
+        plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
+            ['A', 'B', 'C'], **arguments)[0])
 
     # *************************************************************************
     # Documentation
@@ -629,6 +649,37 @@ def generate_documentation_plots(output_directory):
     plt.close(
         plot_multi_sds_colour_quality_scales_bars([illuminant, light_source],
                                                   **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_Hull_Section_Colours.png')
+    vertices, faces, outline = primitive_cube(1, 1, 1, 64, 64, 64)
+    XYZ_vertices = RGB_to_XYZ(
+        vertices['position'] + 0.5,
+        RGB_COLOURSPACE_sRGB.whitepoint,
+        RGB_COLOURSPACE_sRGB.whitepoint,
+        RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
+    )
+    hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
+    plt.close(
+        plot_hull_section_colours(hull, section_colours='RGB', **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_Hull_Section_Contour.png')
+    plt.close(
+        plot_hull_section_contour(hull, section_colours='RGB', **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_Visible_Spectrum_Section.png')
+    plt.close(
+        plot_visible_spectrum_section(
+            section_colours='RGB', section_opacity=0.15, **arguments)[0])
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Plot_RGB_Colourspace_Section.png')
+    plt.close(
+        plot_RGB_colourspace_section(
+            'sRGB', section_colours='RGB', section_opacity=0.15,
+            **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Planckian_Locus.png')

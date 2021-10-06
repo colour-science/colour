@@ -2,13 +2,14 @@
 
 from .primitives import PLANE_TO_AXIS_MAPPING, primitive_grid, primitive_cube
 from .primitives import PRIMITIVE_METHODS, primitive
-
+from .section import hull_section
 from .vertices import (primitive_vertices_quad_mpl,
                        primitive_vertices_grid_mpl,
                        primitive_vertices_cube_mpl, primitive_vertices_sphere)
 from .vertices import PRIMITIVE_VERTICES_METHODS, primitive_vertices
 
 __all__ = ['PLANE_TO_AXIS_MAPPING', 'primitive_grid', 'primitive_cube']
+__all__ += ['hull_section']
 __all__ += ['PRIMITIVE_METHODS', 'primitive']
 __all__ += [
     'primitive_vertices_quad_mpl', 'primitive_vertices_grid_mpl',
