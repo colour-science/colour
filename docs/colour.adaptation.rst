@@ -115,3 +115,15 @@ Von Kries
     :toctree: generated/
 
     matrix_chromatic_adaptation_VonKries
+
+Zhai and Luo (2018)
+-------------------
+
+``colour.adaptation``
+
+.. currentmodule:: colour.adaptation
+
+.. autosummary::
+    :toctree: generated/
+
+    chromatic_adaptation_Zhai2018
