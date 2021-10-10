@@ -33,5 +33,5 @@ print(
         E_o1=E_o1,
         E_o2=E_o2))
 print(
-    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1 * 100.0, xy_o1, xy_o2,
-                                                   Y_o, E_o1, E_o2) / 100.0)
+    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1 * 100, xy_o1, xy_o2,
+                                                   Y_o, E_o1, E_o2) / 100)

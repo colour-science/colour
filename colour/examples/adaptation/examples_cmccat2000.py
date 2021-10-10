@@ -25,8 +25,8 @@ print(
     colour.chromatic_adaptation(
         XYZ, XYZ_w, XYZ_wr, method='CMCCAT2000', L_A1=L_A1, L_A2=L_A2))
 print(
-    colour.adaptation.chromatic_adaptation_CMCCAT2000(
-        XYZ * 100.0, XYZ_w, XYZ_wr, L_A1, L_A2) / 100.0)
+    colour.adaptation.chromatic_adaptation_CMCCAT2000(XYZ * 100, XYZ_w, XYZ_wr,
+                                                      L_A1, L_A2) / 100)
 
 print('\n')
 
@@ -48,4 +48,4 @@ print(
         direction='Inverse'))
 print(
     colour.adaptation.chromatic_adaptation_CMCCAT2000(
-        XYZ_c * 100.0, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Inverse') / 100.0)
+        XYZ_c * 100, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Inverse') / 100)
