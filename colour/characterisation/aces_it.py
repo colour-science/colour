@@ -123,7 +123,7 @@ def sd_to_aces_relative_exposure_values(
         Whether to apply chromatic adaptation using given transform.
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
 
@@ -570,7 +570,7 @@ def training_data_sds_to_XYZ(training_data,
         Illuminant spectral distribution.
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
@@ -762,7 +762,7 @@ def matrix_idt(sensitivities,
         Parameters for :func:`scipy.optimize.minimize` definition.
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.

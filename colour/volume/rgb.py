@@ -84,7 +84,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* method.
     random_generator : generator, optional
@@ -210,7 +210,7 @@ def RGB_colourspace_volume_MonteCarlo(
         *CIE L\\*a\\*b\\** colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* method.
     random_generator : generator, optional
