@@ -23,6 +23,8 @@ Defines various chromatic adaptation transforms (CAT):
     transform.
 -   :attr:`colour.adaptation.CAT_CAT02_BRILL2008`: *Brill and Susstrunk (2008)*
     corrected CAT02 chromatic adaptation transform.
+-   :attr:`colour.adaptation.CAT_CAT16`: *CAT16* chromatic adaptation
+    transform.
 -   :attr:`colour.adaptation.CAT_BIANCO2010`: *Bianco and Schettini (2010)*
     chromatic adaptation transform.
 -   :attr:`colour.adaptation.CAT_PC_BIANCO2010`:
@@ -49,6 +51,10 @@ References
     (2007). The Problem with CAT02 and Its Correction.
     https://pdfs.semanticscholar.org/b5a9/\
 0215ad9a1fb6b01f310b3d64305f7c9feb3a.pdf
+-   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
+    Melgosa, M., Brill, M. H., & Pointer, M. (2017). Comprehensive color
+    solutions: CAM16, CAT16, and CAM16-UCS. Color Research & Application,
+    42(6), 703-718. doi:10.1002/col.22131
 -   :cite:`Lindbloom2009g` : Fairchild, M. D. (2013). Chromatic Adaptation
     Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
     ISBN:B00DAYO8E2
@@ -80,7 +86,7 @@ __status__ = 'Production'
 __all__ = [
     'CAT_XYZ_SCALING', 'CAT_VON_KRIES', 'CAT_BRADFORD', 'CAT_SHARP',
     'CAT_FAIRCHILD', 'CAT_CMCCAT97', 'CAT_CMCCAT2000', 'CAT_CAT02',
-    'CAT_CAT02_BRILL2008', 'CAT_BIANCO2010', 'CAT_PC_BIANCO2010',
+    'CAT_CAT02_BRILL2008', 'CAT_CAT16', 'CAT_BIANCO2010', 'CAT_PC_BIANCO2010',
     'CHROMATIC_ADAPTATION_TRANSFORMS'
 ]
 
@@ -217,6 +223,21 @@ References
 CAT_CAT02_BRILL2008 : array_like, (3, 3)
 """
 
+CAT_CAT16 = np.array([
+    [0.401288, 0.650173, -0.051461],
+    [-0.250268, 1.204414, 0.045854],
+    [-0.002079, 0.048952, 0.953127],
+])
+"""
+*CAT16* chromatic adaptation transform.
+
+References
+----------
+:cite:`Li2017`
+
+CAT_CAT16 : array_like, (3, 3)
+"""
+
 CAT_BIANCO2010 = np.array([
     [0.8752, 0.2787, -0.1539],
     [-0.8904, 1.8709, 0.0195],
@@ -261,6 +282,7 @@ CHROMATIC_ADAPTATION_TRANSFORMS = CaseInsensitiveMapping({
     'CMCCAT2000': CAT_CMCCAT2000,
     'CAT02': CAT_CAT02,
     'CAT02 Brill 2008': CAT_CAT02_BRILL2008,
+    'CAT16': CAT_CAT16,
     'Bianco 2010': CAT_BIANCO2010,
     'Bianco PC 2010': CAT_PC_BIANCO2010
 })
@@ -270,11 +292,11 @@ Chromatic adaptation transforms.
 References
 ----------
 :cite:`Bianco2010a`, :cite:`Brill2008a`, :cite:`Fairchildb`, :cite:`Li2007e`,
-:cite:`Lindbloom2009g`, :cite:`Westland2012g`, :cite:`Westland2012k`,
-:cite:`Wikipedia2007`
+:cite:`Li2017`, :cite:`Lindbloom2009g`, :cite:`Westland2012g`,
+:cite:`Westland2012k`, :cite:`Wikipedia2007`
 
 CHROMATIC_ADAPTATION_TRANSFORMS : CaseInsensitiveMapping
     **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-    'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'Bianco 2010',
+    'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16', 'Bianco 2010',
     'Bianco PC 2010'}**
 """

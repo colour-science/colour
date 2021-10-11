@@ -23,6 +23,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import spow, vector_dot
+from colour.adaptation import CAT_CAT16
 from colour.appearance.ciecam02 import (
     VIEWING_CONDITIONS_CIECAM02, P, achromatic_response_forward,
     achromatic_response_inverse, brightness_correlate, chroma_correlate,
@@ -51,11 +52,7 @@ __all__ = [
     'CAM16_to_XYZ'
 ]
 
-MATRIX_16 = np.array([
-    [0.401288, 0.650173, -0.051461],
-    [-0.250268, 1.204414, 0.045854],
-    [-0.002079, 0.048952, 0.953127],
-])
+MATRIX_16 = CAT_CAT16
 """
 Adaptation matrix :math:`M_{16}`.
 

@@ -139,7 +139,7 @@ Chromatic Adaptation - ``colour.adaptation``
     ...     XYZ, colour.xy_to_XYZ(D65), colour.xy_to_XYZ(A))
     array([ 0.2533053 ,  0.13765138,  0.01543307])
     >>> sorted(colour.CHROMATIC_ADAPTATION_METHODS)
-    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries']
+    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018']
 
 Algebra - ``colour.algebra``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

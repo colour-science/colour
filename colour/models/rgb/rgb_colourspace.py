@@ -791,7 +791,7 @@ class RGB_Colourspace:
             Reference illuminant / whitepoint name.
         chromatic_adaptation_transform : unicode, optional
             **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-            'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+            'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
             'Bianco 2010', 'Bianco PC 2010'}**,
             *Chromatic adaptation* transform.
 
@@ -886,7 +886,7 @@ def XYZ_to_RGB(XYZ,
         array, i.e. the inverse *Normalised Primary Matrix* (NPM).
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
@@ -977,7 +977,7 @@ def RGB_to_XYZ(RGB,
         values, i.e. the *Normalised Primary Matrix* (NPM).
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
@@ -1060,7 +1060,7 @@ def matrix_RGB_to_RGB(input_colourspace,
         *RGB* output colourspace.
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
@@ -1117,7 +1117,7 @@ def RGB_to_RGB(RGB,
         *RGB* output colourspace.
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
