@@ -253,7 +253,7 @@ H=275.5949861..., HC=array(nan))
              D[..., np.newaxis])
     RGB_wc = D_RGB * RGB_w
 
-    # Applying forward post-adaptation non linear response compression.
+    # Applying forward post-adaptation non-linear response compression.
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
         RGB_wc, F_L)
 
@@ -268,7 +268,7 @@ H=275.5949861..., HC=array(nan))
     RGB_c = D_RGB * RGB
 
     # Step 3
-    # Applying forward post-adaptation non linear response compression.
+    # Applying forward post-adaptation non-linear response compression.
     RGB_a = post_adaptation_non_linear_response_compression_forward(RGB_c, F_L)
 
     # Step 4
@@ -433,7 +433,7 @@ def CAM16_to_XYZ(specification,
              D[..., np.newaxis])
     RGB_wc = D_RGB * RGB_w
 
-    # Applying forward post-adaptation non linear response compression.
+    # Applying forward post-adaptation non-linear response compression.
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
         RGB_wc, F_L)
 
@@ -466,11 +466,11 @@ def CAM16_to_XYZ(specification,
     a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
 
     # Step 4
-    # Computing post-adaptation non linear response compression matrix.
+    # Computing post-adaptation non-linear response compression matrix.
     RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
 
     # Step 5
-    # Applying inverse post-adaptation non linear response compression.
+    # Applying inverse post-adaptation non-linear response compression.
     RGB_c = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
 
     # Step 6

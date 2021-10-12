@@ -330,7 +330,7 @@ H=278.0607358..., HC=array(nan))
     RGB_p = RGB_to_rgb(RGB_c)
     RGB_pw = RGB_to_rgb(RGB_wc)
 
-    # Applying forward post-adaptation non linear response compression.
+    # Applying forward post-adaptation non-linear response compression.
     RGB_a = post_adaptation_non_linear_response_compression_forward(RGB_p, F_L)
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
         RGB_pw, F_L)
@@ -524,7 +524,7 @@ def CIECAM02_to_XYZ(specification,
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_pw = RGB_to_rgb(RGB_wc)
 
-    # Applying post-adaptation non linear response compression.
+    # Applying post-adaptation non-linear response compression.
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
         RGB_pw, F_L)
 
@@ -547,10 +547,10 @@ def CIECAM02_to_XYZ(specification,
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
     a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
 
-    # Computing post-adaptation non linear response compression matrix.
+    # Computing post-adaptation non-linear response compression matrix.
     RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
 
-    # Applying inverse post-adaptation non linear response compression.
+    # Applying inverse post-adaptation non-linear response compression.
     RGB_p = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
@@ -834,7 +834,7 @@ def rgb_to_RGB(rgb):
 def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     """
     Returns given *CMCCAT2000* transform sharpened *RGB* array with post
-    adaptation non linear response compression.
+    adaptation non-linear response compression.
 
     Parameters
     ----------
@@ -874,7 +874,7 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
 def post_adaptation_non_linear_response_compression_inverse(RGB, F_L):
     """
     Returns given *CMCCAT2000* transform sharpened *RGB* array without post
-    adaptation non linear response compression.
+    adaptation non-linear response compression.
 
     Parameters
     ----------

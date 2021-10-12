@@ -329,6 +329,7 @@ def XYZ_to_Hunt(XYZ,
     CAM_Specification_Hunt(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
 s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=array(nan), HC=array(nan))
     """
+
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
     XYZ_b = to_domain_100(XYZ_b)

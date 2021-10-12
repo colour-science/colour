@@ -158,7 +158,7 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
         Normalising illuminance :math:`E_{or}` in lux usually normalised to
         domain [1000, 3000].
     n : numeric or array_like, optional
-        Noise term used in the non linear chromatic adaptation model.
+        Noise term used in the non-linear chromatic adaptation model.
 
     Returns
     -------
@@ -390,7 +390,7 @@ def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
     eG: numeric or array_like
          Scaling coefficient :math:`e(G)`.
     n : numeric or array_like, optional
-        Noise term used in the non linear chromatic adaptation model.
+        Noise term used in the non-linear chromatic adaptation model.
 
     Returns
     -------
@@ -440,7 +440,7 @@ def tritanopic_response(RGB, bRGB_o, xez, n):
     xez: ndarray
         Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     n : numeric or array_like, optional
-        Noise term used in the non linear chromatic adaptation model.
+        Noise term used in the non-linear chromatic adaptation model.
 
     Returns
     -------
@@ -483,7 +483,7 @@ def protanopic_response(RGB, bRGB_o, xez, n):
     xez: ndarray
         Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     n : numeric or array_like, optional
-        Noise term used in the non linear chromatic adaptation model.
+        Noise term used in the non-linear chromatic adaptation model.
 
     Returns
     -------
@@ -563,7 +563,7 @@ def ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n):
          Normalising chromatic adaptation exponential factor
          :math:`\\beta_1(B_or)`.
     n : numeric or array_like, optional
-        Noise term used in the non linear chromatic adaptation model.
+        Noise term used in the non-linear chromatic adaptation model.
 
     Returns
     -------

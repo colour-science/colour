@@ -205,7 +205,7 @@ def log_encoding(value, function='Cineon', **kwargs):
     I_max : numeric, optional
         {:func:`colour.models.log_encoding_ERIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
+        12-bit and 16-bit per-channel.
     bit_depth : unicode, optional
         {:func:`colour.models.log_encoding_ACESproxy`,
         :func:`colour.models.log_encoding_NLog`,
@@ -354,7 +354,7 @@ def log_decoding(value, function='Cineon', **kwargs):
     I_max : numeric, optional
         {:func:`colour.models.log_decoding_ERIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per channel.
+        12-bit and 16-bit per-channel.
     bit_depth : int, optional
         {:func:`colour.models.log_decoding_ACESproxy`,
         :func:`colour.models.log_decoding_NLog`,
@@ -787,7 +787,7 @@ CCTF_ENCODINGS : CaseInsensitiveMapping
 
 def cctf_encoding(value, function='sRGB', **kwargs):
     """
-    Encodes linear :math:`RGB` values to non linear :math:`R'G'B'` values using
+    Encodes linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
     given encoding colour component transfer function (Encoding CCTF).
 
     Parameters
@@ -814,7 +814,7 @@ def cctf_encoding(value, function='sRGB', **kwargs):
     Returns
     -------
     numeric or ndarray
-        Non linear :math:`R'G'B'` values.
+        Non-linear :math:`R'G'B'` values.
 
     Examples
     --------
