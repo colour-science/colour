@@ -84,6 +84,34 @@ Hunt
     CAM_Specification_Hunt
     VIEWING_CONDITIONS_HUNT
 
+Kim, Weyrich and Kautz (2009)
+-----------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Kim2009
+    Kim2009_to_XYZ
+    CAM_Specification_Kim2009
+    MEDIA_PARAMETERS_KIM2009
+    VIEWING_CONDITIONS_KIM2009
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    InductionFactors_Kim2009
+    MediaParameters_Kim2009
+
 :math:`LLAB(l:c)`
 -----------------
 
