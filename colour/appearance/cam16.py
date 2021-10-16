@@ -77,7 +77,7 @@ class InductionFactors_CAM16(
     F : numeric or array_like
         Maximum degree of adaptation :math:`F`.
     c : numeric or array_like
-        Exponential non linearity :math:`c`.
+        Exponential non-linearity :math:`c`.
     N_c : numeric or array_like
         Chromatic induction factor :math:`N_c`.
 

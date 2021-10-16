@@ -92,7 +92,7 @@ class InductionFactors_CIECAM02(
     F : numeric or array_like
         Maximum degree of adaptation :math:`F`.
     c : numeric or array_like
-        Exponential non linearity :math:`c`.
+        Exponential non-linearity :math:`c`.
     N_c : numeric or array_like
         Chromatic induction factor :math:`N_c`.
 
@@ -596,7 +596,7 @@ def chromatic_induction_factors(n):
 
 def base_exponential_non_linearity(n):
     """
-    Returns the base exponential non linearity :math:`n`.
+    Returns the base exponential non-linearity :math:`n`.
 
     Parameters
     ----------
@@ -606,7 +606,7 @@ def base_exponential_non_linearity(n):
     Returns
     -------
     numeric or ndarray
-        Base exponential non linearity :math:`z`.
+        Base exponential non-linearity :math:`z`.
 
     Examples
     --------
@@ -1162,7 +1162,7 @@ def achromatic_response_inverse(A_w, J, c, z):
     """
     Returns the achromatic response :math:`A` from given achromatic response
     :math:`A_w` for the whitepoint, *Lightness* correlate :math:`J`, surround
-    exponential non linearity :math:`c` and base exponential non linearity
+    exponential non-linearity :math:`c` and base exponential non-linearity
     :math:`z` for inverse *CIECAM02* implementation.
 
     Parameters
@@ -1172,9 +1172,9 @@ def achromatic_response_inverse(A_w, J, c, z):
     J : numeric or array_like
         *Lightness* correlate :math:`J`.
     c : numeric or array_like
-        Surround exponential non linearity :math:`c`.
+        Surround exponential non-linearity :math:`c`.
     z : numeric or array_like
-        Base exponential non linearity :math:`z`.
+        Base exponential non-linearity :math:`z`.
 
     Returns
     -------
@@ -1212,9 +1212,9 @@ def lightness_correlate(A, A_w, c, z):
     A_w : numeric or array_like
         Achromatic response :math:`A_w` for the whitepoint.
     c : numeric or array_like
-        Surround exponential non linearity :math:`c`.
+        Surround exponential non-linearity :math:`c`.
     z : numeric or array_like
-        Base exponential non linearity :math:`z`.
+        Base exponential non-linearity :math:`z`.
 
     Returns
     -------
@@ -1248,7 +1248,7 @@ def brightness_correlate(c, J, A_w, F_L):
     Parameters
     ----------
     c : numeric or array_like
-        Surround exponential non linearity :math:`c`.
+        Surround exponential non-linearity :math:`c`.
     J : numeric or array_like
         *Lightness* correlate :math:`J`.
     A_w : numeric or array_like
