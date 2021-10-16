@@ -20,13 +20,14 @@ References
 """
 
 import numpy as np
-from collections import namedtuple
+from dataclasses import dataclass, field
+from typing import Union
 
 from colour.algebra import matrix_dot, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              from_range_degrees, full, to_domain_100, tsplit,
-                              row_as_diagonal)
+from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
+                              as_float_array, from_range_degrees, full,
+                              row_as_diagonal, to_domain_100, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -96,9 +97,8 @@ D_FACTOR_RLAB['projected_dark'] = (
     D_FACTOR_RLAB['Projected Transparencies, Dark Room'])
 
 
-class CAM_ReferenceSpecification_RLAB(
-        namedtuple('CAM_ReferenceSpecification_RLAB',
-                   ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))):
+@dataclass
+class CAM_ReferenceSpecification_RLAB(MixinDataclassArray):
     """
     Defines the *RLAB* colour appearance model reference specification.
 
@@ -127,10 +127,24 @@ class CAM_ReferenceSpecification_RLAB(
     :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
 
+    LR: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    CR: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    hR: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    sR: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    HR: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    aR: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    bR: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
-class CAM_Specification_RLAB(
-        namedtuple('CAM_Specification_RLAB',
-                   ('J', 'C', 'h', 's', 'HC', 'a', 'b'))):
+
+@dataclass
+class CAM_Specification_RLAB(MixinDataclassArray):
     """
     Defines the *RLAB* colour appearance model specification.
 
@@ -163,6 +177,21 @@ class CAM_Specification_RLAB(
     ----------
     :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
+
+    J: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    h: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    s: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    HC: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    a: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    b: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
 
 def XYZ_to_RLAB(XYZ,

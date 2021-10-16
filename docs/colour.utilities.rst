@@ -82,6 +82,7 @@ Array
 .. autosummary::
     :toctree: generated/
 
+    MixinDataclassArray
     as_array
     as_int_array
     as_float_array
@@ -90,7 +91,6 @@ Array
     as_float
     set_float_precision
     set_int_precision
-    as_namedtuple
     closest_indexes
     closest
     interval

@@ -20,11 +20,14 @@ References
 
 import numpy as np
 from collections import namedtuple
+from dataclasses import dataclass, field
+from typing import Union
 
 from colour.algebra import spow, vector_dot
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              from_range_degrees, full, ones, to_domain_100,
-                              tsplit, tstack, usage_warning, zeros)
+from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
+                              as_float_array, from_range_degrees, full, ones,
+                              to_domain_100, tsplit, tstack, usage_warning,
+                              zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -154,9 +157,8 @@ MATRIX_HPE_TO_XYZ : array_like, (3, 3)
 """
 
 
-class CAM_ReferenceSpecification_Hunt(
-        namedtuple('CAM_ReferenceSpecification_Hunt',
-                   ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))):
+@dataclass
+class CAM_ReferenceSpecification_Hunt(MixinDataclassArray):
     """
     Defines the *Hunt* colour appearance model reference specification.
 
@@ -187,10 +189,26 @@ class CAM_ReferenceSpecification_Hunt(
     :cite:`Fairchild2013u`, :cite:`Hunt2004b`
     """
 
+    J: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C_94: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    h_S: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    s: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    Q: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    M_94: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    H: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    H_C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
-class CAM_Specification_Hunt(
-        namedtuple('CAM_Specification_Hunt',
-                   ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+
+@dataclass
+class CAM_Specification_Hunt(MixinDataclassArray):
     """
     Defines the *Hunt* colour appearance model specification.
 
@@ -225,6 +243,23 @@ class CAM_Specification_Hunt(
     ----------
     :cite:`Fairchild2013u`, :cite:`Hunt2004b`
     """
+
+    J: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    h: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    s: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    Q: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    M: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    H: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    HC: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
 
 def XYZ_to_Hunt(XYZ,

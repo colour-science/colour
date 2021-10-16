@@ -11,7 +11,8 @@ from itertools import permutations
 from colour.appearance import (VIEWING_CONDITIONS_CAM16,
                                InductionFactors_CAM16, CAM_Specification_CAM16,
                                XYZ_to_CAM16, CAM16_to_XYZ)
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (as_float_array, domain_range_scale,
+                              ignore_numpy_errors)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -117,7 +118,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
                 np.testing.assert_almost_equal(
                     XYZ_to_CAM16(XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b,
                                  surround),
-                    specification * factor_b,
+                    as_float_array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

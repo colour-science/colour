@@ -33,6 +33,8 @@ References
 
 import numpy as np
 from collections import namedtuple
+from dataclasses import astuple, dataclass, field
+from typing import Union
 
 from colour.algebra import matrix_dot, spow, vector_dot
 from colour.adaptation import CAT_CAT02
@@ -42,8 +44,8 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
 from colour.models import xy_to_XYZ
 from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
-    as_float, from_range_degrees, from_range_100, full, ones, to_domain_100,
+    CaseInsensitiveMapping, MixinDataclassArray, as_float_array, as_int_array,
+    as_float, from_range_degrees, from_range_100, ones, to_domain_100,
     to_domain_degrees, tsplit, tstack, zeros)
 from colour.utilities.documentation import (DocstringDict,
                                             is_documentation_building)
@@ -153,9 +155,8 @@ CAM_KWARGS_CIECAM02_sRGB : dict
 """
 
 
-class CAM_Specification_CIECAM02(
-        namedtuple('CAM_Specification_CIECAM02',
-                   ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+@dataclass
+class CAM_Specification_CIECAM02(MixinDataclassArray):
     """
     Defines the *CIECAM02* colour appearance model specification.
 
@@ -184,22 +185,22 @@ class CAM_Specification_CIECAM02(
     :cite:`Wikipedia2007a`
     """
 
-    def __new__(cls,
-                J=None,
-                C=None,
-                h=None,
-                s=None,
-                Q=None,
-                M=None,
-                H=None,
-                HC=None):
-        """
-        Returns a new instance of the :class:`colour.\
-CAM_Specification_CIECAM02` class.
-        """
-
-        return super(CAM_Specification_CIECAM02, cls).__new__(
-            cls, J, C, h, s, Q, M, H, HC)
+    J: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    h: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    s: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    Q: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    M: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    H: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    HC: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
 
 def XYZ_to_CIECAM02(XYZ,
@@ -301,7 +302,7 @@ def XYZ_to_CIECAM02(XYZ,
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=41.7310911..., C=0.1047077..., \
 h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., \
-H=278.0607358..., HC=array(nan))
+H=278.0607358..., HC=None)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -370,7 +371,7 @@ H=278.0607358..., HC=array(nan))
     return CAM_Specification_CIECAM02(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
         from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H, 400), full(J.shape, np.nan))
+        from_range_degrees(H, 400), None)
 
 
 def CIECAM02_to_XYZ(specification,
@@ -482,8 +483,8 @@ def CIECAM02_to_XYZ(specification,
     Examples
     --------
     >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
-    ...                                        C=0.104707757171031,
-    ...                                        h=219.048432658311780)
+    ...                                            C=0.104707757171031,
+    ...                                            h=219.048432658311780)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -491,8 +492,8 @@ def CIECAM02_to_XYZ(specification,
     array([ 19.01...,  20...  ,  21.78...])
     """
 
-    J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(specification,
-                                                CAM_Specification_CIECAM02)
+    J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
+
     J = to_domain_100(J)
     C = to_domain_100(C) if C is not None else C
     h = to_domain_degrees(h)

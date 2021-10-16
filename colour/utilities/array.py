@@ -19,9 +19,10 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 
 import numpy as np
 import sys
-from collections.abc import Mapping, ValuesView
-
+from collections.abc import ValuesView
 from contextlib import contextmanager
+from dataclasses import fields, is_dataclass, replace
+from operator import add, mul, pow, sub, truediv
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
 from colour.utilities import suppress_warnings, validate_method
@@ -34,12 +35,295 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'as_array', 'as_int_array', 'as_float_array', 'as_numeric', 'as_int',
-    'as_float', 'set_float_precision', 'set_int_precision', 'as_namedtuple',
-    'closest_indexes', 'closest', 'interval', 'is_uniform', 'in_array',
-    'tstack', 'tsplit', 'row_as_diagonal', 'orient', 'centroid', 'fill_nan',
-    'ndarray_write', 'zeros', 'ones', 'full', 'index_along_last_axis'
+    'MixinDataclassArray', 'as_array', 'as_int_array', 'as_float_array',
+    'as_numeric', 'as_int', 'as_float', 'set_float_precision',
+    'set_int_precision', 'closest_indexes', 'closest', 'interval',
+    'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal', 'orient',
+    'centroid', 'fill_nan', 'ndarray_write', 'zeros', 'ones', 'full',
+    'index_along_last_axis'
 ]
+
+
+class MixinDataclassArray:
+    """
+    A mixin providing conversion methods for :class:`dataclass` conversion to
+    :class:`ndarray` class and mathematical operations.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.MixinDataclassArray.__array__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__iadd__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__add__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__isub__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__sub__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__imul__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__mul__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__idiv__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__div__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__ipow__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__pow__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.arithmetical_operation`
+
+    """
+
+    def __array__(self, *args, **kwargs):
+        """
+        Implements support for *dataclass_like* conversion to :class:`ndarray`
+        class.
+
+        A field set to *None* will be filled with `np.nan` according to the
+        shape of the first field not set with *None*.
+
+        Other Parameters
+        ----------------
+        \\*args : list, optional
+            Arguments.
+        \\**kwargs : dict, optional
+            Keywords arguments.
+
+        Returns
+        -------
+        ndarray
+            *dataclass_like* converted to `ndarray`.
+        """
+
+        field_values = {
+            field.name: getattr(self, field.name)
+            for field in fields(self)
+        }
+
+        default = None
+        for field, value in field_values.items():
+            if value is not None:
+                default = full(as_float_array(value).shape, np.nan)
+                break
+
+        return tstack([
+            value if value is not None else default
+            for value in field_values.values()
+        ], *args, **kwargs)
+
+    def __add__(self, a):
+        """
+        Implements support for addition.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to add.
+
+        Returns
+        -------
+        dataclass_like
+            Variable added *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '+')
+
+    def __iadd__(self, a):
+        """
+        Implements support for in-place addition.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to add in-place.
+
+        Returns
+        -------
+        dataclass_like
+            In-place variable added *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '+', True)
+
+    def __sub__(self, a):
+        """
+        Implements support for subtraction.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to subtract.
+
+        Returns
+        -------
+        dataclass_like
+            Variable subtracted *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '-')
+
+    def __isub__(self, a):
+        """
+        Implements support for in-place subtraction.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to subtract in-place.
+
+        Returns
+        -------
+        dataclass_like
+            In-place variable subtracted *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '-', True)
+
+    def __mul__(self, a):
+        """
+        Implements support for multiplication.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to multiply by.
+
+        Returns
+        -------
+        dataclass_like
+            Variable multiplied *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '*')
+
+    def __imul__(self, a):
+        """
+        Implements support for in-place multiplication.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to multiply by in-place.
+
+        Returns
+        -------
+        dataclass_like
+            In-place variable multiplied *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '*', True)
+
+    def __div__(self, a):
+        """
+        Implements support for division.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to divide by.
+
+        Returns
+        -------
+        dataclass_like
+            Variable divided *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '/')
+
+    def __idiv__(self, a):
+        """
+        Implements support for in-place division.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to divide by in-place.
+
+        Returns
+        -------
+        dataclass_like
+            In-place variable divided *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '/', True)
+
+    __itruediv__ = __idiv__
+    __truediv__ = __div__
+
+    def __pow__(self, a):
+        """
+        Implements support for exponentiation.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to exponentiate by.
+
+        Returns
+        -------
+        dataclass_like
+            Variable exponentiated *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '**')
+
+    def __ipow__(self, a):
+        """
+        Implements support for in-place exponentiation.
+
+        Parameters
+        ----------
+        a : numeric or array_like or dataclass_like
+            :math:`a` variable to exponentiate by in-place.
+
+        Returns
+        -------
+        dataclass_like
+            In-place variable exponentiated *dataclass_like*.
+        """
+
+        return self.arithmetical_operation(a, '**', True)
+
+    def arithmetical_operation(self, a, operation, in_place=False):
+        """
+        Performs given arithmetical operation with :math:`a` operand on the
+        *dataclass_like*.
+
+        Parameters
+        ----------
+        a : numeric or ndarray or dataclass_like
+            Operand.
+        operation : object
+            Operation to perform.
+        in_place : bool, optional
+            Operation happens in place.
+
+        Returns
+        -------
+        dataclass_like
+            *Dataclass_like* with arithmetical operation performed.
+        """
+
+        operation = {
+            '+': add,
+            '-': sub,
+            '*': mul,
+            '/': truediv,
+            '**': pow,
+        }[operation]
+
+        if is_dataclass(a):
+            a = as_float_array(a)
+
+        field_values = tsplit(operation(as_float_array(self), a))
+        field_values = {
+            field.name: field_values[i]
+            for i, field in enumerate(fields(self))
+        }
+        field_values.update(
+            {field.name: None
+             for field in fields(self) if field is None})
+
+        dataclass = replace(self, **field_values)
+
+        if in_place:
+            for field in fields(self):
+                setattr(self, field.name, getattr(dataclass, field.name))
+            return self
+        else:
+            return dataclass
 
 
 def as_array(a, dtype=None):
@@ -361,53 +645,6 @@ def set_int_precision(dtype=DEFAULT_INT_DTYPE):
                 continue
 
             setattr(module, 'DEFAULT_INT_DTYPE', dtype)
-
-
-def as_namedtuple(a, named_tuple):
-    """
-    Converts given :math:`a` variable to given *namedtuple* class instance.
-
-    :math:`a` can be either a *Numpy* structured array, a *namedtuple*,
-    a *mapping*, or an *array_like* object. The definition will attempt to
-    convert it to given *namedtuple*.
-
-    Parameters
-    ----------
-    a : object
-        Variable to convert.
-    named_tuple : namedtuple
-        *namedtuple* class.
-
-    Returns
-    -------
-    namedtuple
-        math:`a` variable converted to *namedtuple*.
-
-    Examples
-    --------
-    >>> from collections import namedtuple
-    >>> a_a = 1
-    >>> a_b = 2
-    >>> a_c = 3
-    >>> NamedTuple = namedtuple('NamedTuple', 'a b c')
-    >>> as_namedtuple(NamedTuple(a=1, b=2, c=3), NamedTuple)
-    NamedTuple(a=1, b=2, c=3)
-    >>> as_namedtuple({'a': a_a, 'b': a_b, 'c': a_c}, NamedTuple)
-    NamedTuple(a=1, b=2, c=3)
-    >>> as_namedtuple([a_a, a_b, a_c], NamedTuple)
-    NamedTuple(a=1, b=2, c=3)
-    """
-
-    if isinstance(a, np.ndarray):
-        if a.dtype.fields is not None:
-            a = {field: a[field] for field in a.dtype.fields}
-
-    if isinstance(a, named_tuple):
-        return a
-    elif isinstance(a, Mapping):
-        return named_tuple(**a)
-    else:
-        return named_tuple(*a)
 
 
 def closest_indexes(a, b):

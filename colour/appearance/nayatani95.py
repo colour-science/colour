@@ -20,15 +20,17 @@ References
 """
 
 import numpy as np
-from collections import namedtuple
+from dataclasses import dataclass, field
+from typing import Union
 
 from colour.algebra import spow, vector_dot
 from colour.adaptation.cie1994 import (MATRIX_XYZ_TO_RGB_CIE1994, beta_1,
                                        exponential_factors,
                                        intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import (as_float_array, from_range_degrees, full,
-                              to_domain_100, tsplit, tstack)
+from colour.utilities import (MixinDataclassArray, as_float_array,
+                              from_range_degrees, full, to_domain_100, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -59,10 +61,8 @@ MATRIX_XYZ_TO_RGB_NAYATANI95 : array_like, (3, 3)
 """
 
 
-class CAM_ReferenceSpecification_Nayatani95(
-        namedtuple('CAM_ReferenceSpecification_Nayatani95',
-                   ('L_star_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C',
-                    'L_star_N'))):
+@dataclass
+class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArray):
     """
     Defines the *Nayatani (1995)* colour appearance model reference
     specification.
@@ -96,11 +96,28 @@ class CAM_ReferenceSpecification_Nayatani95(
     :cite:`Fairchild2013ba`, :cite:`Nayatani1995a`
     """
 
+    L_star_P: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    theta: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    S: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    B_r: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    M: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    H: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    H_C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    L_star_N: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
-class CAM_Specification_Nayatani95(
-        namedtuple(
-            'CAM_Specification_Nayatani95',
-            ('L_star_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'L_star_N'))):
+
+@dataclass
+class CAM_Specification_Nayatani95(MixinDataclassArray):
     """
     Defines the *Nayatani (1995)* colour appearance model specification.
 
@@ -137,6 +154,25 @@ class CAM_Specification_Nayatani95(
     ----------
     :cite:`Fairchild2013ba`, :cite:`Nayatani1995a`
     """
+
+    L_star_P: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    h: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    s: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    Q: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    M: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    H: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    HC: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    L_star_N: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
 
 def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
