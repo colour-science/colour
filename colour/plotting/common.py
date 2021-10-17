@@ -31,7 +31,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
 import re
-from collections import OrderedDict, namedtuple
+from collections import namedtuple
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
 
@@ -787,7 +787,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
     for filterer in object_filterers:
         # TODO: Consider using "MutableMapping" here.
-        if isinstance(filterer, (dict, OrderedDict, CaseInsensitiveMapping)):
+        if isinstance(filterer, (dict, CaseInsensitiveMapping)):
             for key, value in filterer.items():
                 filtered_mapping[key] = value
         else:
@@ -902,7 +902,7 @@ def filter_illuminants(filterers,
         Filtered illuminants.
     """
 
-    illuminants = OrderedDict()
+    illuminants = {}
 
     illuminants.update(
         filter_passthrough(SDS_ILLUMINANTS, filterers, anchors,

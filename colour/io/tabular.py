@@ -14,7 +14,6 @@ import csv
 import numpy as np
 import os
 import tempfile
-from collections import OrderedDict
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -137,7 +136,7 @@ def read_spectral_data_from_csv_file(path, **kwargs):
     if transpose:
         os.unlink(transposed_csv_file.name)
 
-    return OrderedDict([(name, data[name]) for name in data.dtype.names])
+    return {name: data[name] for name in data.dtype.names}
 
 
 def read_sds_from_csv_file(path, **kwargs):
@@ -264,11 +263,11 @@ def read_sds_from_csv_file(path, **kwargs):
     fields = list(data.keys())
     wavelength_field, sd_fields = fields[0], fields[1:]
 
-    sds = OrderedDict(((sd_field,
-                        SpectralDistribution(
-                            data[sd_field],
-                            data[wavelength_field],
-                            name=sd_field)) for sd_field in sd_fields))
+    sds = {
+        sd_field: SpectralDistribution(
+            data[sd_field], data[wavelength_field], name=sd_field)
+        for sd_field in sd_fields
+    }
 
     return sds
 

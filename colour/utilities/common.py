@@ -23,7 +23,6 @@ import re
 import types
 import warnings
 from contextlib import contextmanager
-from collections import OrderedDict
 from copy import copy
 from pprint import pformat
 
@@ -1014,7 +1013,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     ...     'Not Element C': Element(),
     ... }
     >>> filter_mapping(mapping, '\\w+\\s+A')  # doctest: +ELLIPSIS
-    OrderedDict([('Element A', <....Element object at 0x...>)])
+    {'Element A': <colour.utilities.common.Element object at 0x...>}
     >>> sorted(filter_mapping(mapping, 'Element.*'))
     ['Element A', 'Element B', 'Element C']
     """
@@ -1052,13 +1051,15 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
 
         lookup = Lookup(mapping)
 
-        return OrderedDict((lookup.first_key_from_value(element), element)
-                           for element in elements)
+        return {
+            lookup.first_key_from_value(element): element
+            for element in elements
+        }
 
     if is_string(filterers):
         filterers = [filterers]
 
-    filtered_mapping = OrderedDict()
+    filtered_mapping = {}
 
     for filterer in filterers:
         filtered_mapping.update(

@@ -241,6 +241,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     >>> chromatic_adaptation(
     ...     XYZ, XYZ_w, XYZ_wr, method='Zhai 2018', D_b=0.9,
     ...     XYZ_wo=np.array([100, 100, 100]))
+    ... # doctest: +ELLIPSIS
     array([ 0.2152436...,  0.1253522...,  0.0388406...])
     """
 

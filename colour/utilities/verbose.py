@@ -11,7 +11,7 @@ import os
 import sys
 import traceback
 import warnings
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 from contextlib import contextmanager
 from itertools import chain
 from textwrap import TextWrapper
@@ -461,28 +461,28 @@ def numpy_print_options(*args, **kwargs):
         np.set_printoptions(**options)
 
 
-ANCILLARY_COLOUR_SCIENCE_PACKAGES = OrderedDict()
+ANCILLARY_COLOUR_SCIENCE_PACKAGES = {}
 """
 Ancillary *colour-science.org* packages to describe.
 
 ANCILLARY_COLOUR_SCIENCE_PACKAGES : OrderedDict
 """
 
-ANCILLARY_RUNTIME_PACKAGES = OrderedDict()
+ANCILLARY_RUNTIME_PACKAGES = {}
 """
 Ancillary runtime packages to describe.
 
 ANCILLARY_RUNTIME_PACKAGES : OrderedDict
 """
 
-ANCILLARY_DEVELOPMENT_PACKAGES = OrderedDict()
+ANCILLARY_DEVELOPMENT_PACKAGES = {}
 """
 Ancillary development packages to describe.
 
 ANCILLARY_DEVELOPMENT_PACKAGES : OrderedDict
 """
 
-ANCILLARY_EXTRAS_PACKAGES = OrderedDict()
+ANCILLARY_EXTRAS_PACKAGES = {}
 """
 Ancillary extras packages to describe.
 
@@ -597,7 +597,7 @@ def describe_environment(runtime_packages=True,
     ===========================================================================
     """
 
-    environment = defaultdict(OrderedDict)
+    environment = defaultdict(dict)
 
     environment['Interpreter']['python'] = sys.version
 

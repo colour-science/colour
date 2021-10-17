@@ -9,7 +9,6 @@ Defines the class implementing support for multi-continuous signals:
 """
 
 import numpy as np
-from collections import OrderedDict
 from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -579,9 +578,10 @@ or dict_like
                 self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
                     'labels', len(self._signals)))
 
-            self._signals = OrderedDict(
-                [(value[i], signal)
-                 for i, (_key, signal) in enumerate(self._signals.items())])
+            self._signals = {
+                value[i]: signal
+                for i, (_key, signal) in enumerate(self._signals.items())
+            }
 
     @property
     def signal_type(self):
@@ -1375,7 +1375,7 @@ dict_like, optional
 
         # domain_u, range_u, signals = None, None, None
 
-        signals = OrderedDict()
+        signals = {}
 
         domain = list(domain) if isinstance(domain, KeysView) else domain
 
@@ -1405,8 +1405,7 @@ dict_like, optional
 
                 for i, range_u in enumerate(data):
                     signals[i] = signal_type(range_u, domain, **settings)
-        elif (issubclass(type(data), Mapping) or
-              isinstance(data, (dict, OrderedDict))):
+        elif issubclass(type(data), Mapping) or isinstance(data, dict):
 
             is_signal = all([
                 True if isinstance(i, Signal) else False
@@ -1428,10 +1427,10 @@ dict_like, optional
                 signals[0] = signal_type(data, **settings)
             elif isinstance(data, DataFrame):
                 domain_u = data.index.values
-                signals = OrderedDict([(label,
-                                        signal_type(data[label], domain_u,
-                                                    **settings))
-                                       for label in data])
+                signals = {
+                    label: signal_type(data[label], domain_u, **settings)
+                    for label in data
+                }
 
                 for label in data:
                     signals[label].name = label
@@ -1447,9 +1446,10 @@ dict_like, optional
             assert len(labels) == len(signals), (
                 'User "labels" is not compatible with unpacked signals!')
 
-            signals = OrderedDict(
-                [(labels[i], signal)
-                 for i, (_key, signal) in enumerate(signals.items())])
+            signals = {
+                labels[i]: signal
+                for i, (_key, signal) in enumerate(signals.items())
+            }
 
         for label in signals:
             signals[label].name = str(label)

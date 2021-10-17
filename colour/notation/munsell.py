@@ -116,7 +116,6 @@ MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
 
 import numpy as np
 import re
-from collections import OrderedDict
 
 from colour.algebra import (Extrapolator, LinearInterpolator,
                             cartesian_to_cylindrical, euclidean_distance,
@@ -273,7 +272,7 @@ def _munsell_maximum_chromas_from_renotation():
     global _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE
 
     if _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE is None:
-        chromas = OrderedDict()
+        chromas = {}
         for munsell_colour in MUNSELL_COLOURS_ALL:
             hue, value, chroma, code = munsell_colour_to_munsell_specification(
                 MUNSELL_COLOUR_FORMAT.format(*munsell_colour[0]))

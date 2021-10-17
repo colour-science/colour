@@ -11,7 +11,6 @@ Defines the class implementing support for continuous signal:
 import numpy as np
 from operator import (add, mul, pow, sub, truediv, iadd, imul, ipow, isub,
                       itruediv)
-from collections import OrderedDict
 from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 
 from colour.algebra import Extrapolator, KernelInterpolator
@@ -405,9 +404,10 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            assert isinstance(value, (dict, OrderedDict)), (
-                '"{0}" attribute: "{1}" type is not "dict" or "OrderedDict"!'
-            ).format('interpolator_kwargs', value)
+            assert isinstance(
+                value,
+                dict), '"{0}" attribute: "{1}" type is not "dict"!'.format(
+                    'interpolator_kwargs', value)
 
             self._interpolator_kwargs = value
             self._create_function()
@@ -470,9 +470,10 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            assert isinstance(value, (dict, OrderedDict)), (
-                '"{0}" attribute: "{1}" type is not "dict" or "OrderedDict"!'.
-                format('extrapolator_kwargs', value))
+            assert isinstance(
+                value,
+                dict), ('"{0}" attribute: "{1}" type is not "dict"!'.format(
+                    'extrapolator_kwargs', value))
 
             self._extrapolator_kwargs = value
             self._create_function()
@@ -1120,8 +1121,7 @@ class Signal(AbstractContinuousFunction):
             assert data.ndim == 1, 'User "data" must be 1-dimensional!'
 
             domain_u, range_u = np.arange(0, data.size, dtype=dtype), data
-        elif (issubclass(type(data), Mapping) or
-              isinstance(data, (dict, OrderedDict))):
+        elif issubclass(type(data), Mapping) or isinstance(data, dict):
             domain_u, range_u = tsplit(sorted(data.items()))
         elif is_pandas_installed():
             from pandas import Series
