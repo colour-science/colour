@@ -10,7 +10,6 @@ Defines the input object for *X-Rite* spectral data files:
 
 import codecs
 import re
-from collections import OrderedDict
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -62,7 +61,7 @@ def read_sds_from_xrite_file(path):
     with codecs.open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
         lines = xrite_file.read().strip().split('\n')
 
-        xrite_sds = OrderedDict()
+        xrite_sds = {}
         is_spectral_data_format, is_spectral_data = False, False
         for line in lines:
             line = line.strip()

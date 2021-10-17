@@ -5,7 +5,6 @@ Defines the unit tests for the :mod:`colour.utilities.common` module.
 
 import numpy as np
 import unittest
-from collections import OrderedDict
 from functools import partial
 
 from colour.utilities import (
@@ -443,10 +442,6 @@ class TestFilterMapping(unittest.TestCase):
         self.assertIsInstance(
             filter_mapping(mapping, '^Element.*', False), type(mapping))
 
-        self.assertIsInstance(
-            filter_mapping(OrderedDict(mapping), '^Element.*', False),
-            OrderedDict)
-
 
 class TestFirstItem(unittest.TestCase):
     """
@@ -461,7 +456,7 @@ class TestFirstItem(unittest.TestCase):
 
         self.assertEqual(first_item(range(10)), 0)
 
-        dictionary = OrderedDict([(0, 'a'), (1, 'b'), (2, 'c')])
+        dictionary = {0: 'a', 1: 'b', 2: 'c'}
         self.assertEqual(first_item(dictionary.items()), (0, 'a'))
 
         self.assertEqual(first_item(dictionary.values()), 'a')

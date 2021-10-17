@@ -5,9 +5,8 @@ Spectral Distributions of the Colour Checkers
 
 Defines the spectral distributions of the colour checkers.
 
-Each colour checker data is in the form of :class:`OrderedDict`
-class instance of :class:`colour.SpectralDistribution` classes as
-follows::
+Each colour checker data is in the form of :class:`dict` class instance of
+:class:`colour.SpectralDistribution` classes as follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
@@ -45,7 +44,6 @@ References
     engineering.
 """
 
-from collections import OrderedDict
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
@@ -67,7 +65,7 @@ __all__ = [
     'DATA_COLORCHECKER_N_OHTA', 'SDS_COLORCHECKER_N_OHTA', 'SDS_COLOURCHECKERS'
 ]
 
-DATA_BABELCOLOR_AVERAGE = OrderedDict((
+DATA_BABELCOLOR_AVERAGE = dict([
     ('dark skin', {
         380: 0.055,
         390: 0.058,
@@ -980,7 +978,7 @@ DATA_BABELCOLOR_AVERAGE = OrderedDict((
         720: 0.032,
         730: 0.033
     }),
-))
+])
 
 SDS_BABELCOLOR_AVERAGE = LazyCaseInsensitiveMapping(
     (key, partial(SpectralDistribution, value, name=key))
@@ -995,7 +993,7 @@ References
 SDS_BABELCOLOR_AVERAGE : dict
 """
 
-DATA_COLORCHECKER_N_OHTA = OrderedDict((
+DATA_COLORCHECKER_N_OHTA = dict([
     ('dark skin', {
         380: 0.048,
         385: 0.051,
@@ -2988,7 +2986,7 @@ DATA_COLORCHECKER_N_OHTA = OrderedDict((
         775: 0.032,
         780: 0.032
     }),
-))
+])
 
 SDS_COLORCHECKER_N_OHTA = LazyCaseInsensitiveMapping(
     (key, partial(SpectralDistribution, value, name=key))

@@ -5,8 +5,8 @@ Chromaticity Coordinates of the Colour Checkers
 
 Defines the chromaticity coordinates of the colour checkers.
 
-Each colour checker data is in the form of an :class:`OrderedDict` class
-instance of 24 samples as follows::
+Each colour checker data is in the form of an :class:`dict` class instance of
+24 samples as follows::
 
     {'name': 'xyY', ..., 'name': 'xyY'}
 
@@ -45,7 +45,7 @@ SupportID=5884#
 """
 
 import numpy as np
-from collections import OrderedDict, namedtuple
+from collections import namedtuple
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import Lab_to_XYZ, XYZ_to_xyY
@@ -126,7 +126,7 @@ SAMPLE_LABELS_COLORCHECKER_CLASSIC = (
 SAMPLE_LABELS_COLORCHECKER_CLASSIC : tuple
 """
 
-DATA_COLORCHECKER1976 = OrderedDict(
+DATA_COLORCHECKER1976 = dict(
     zip(SAMPLE_LABELS_COLORCHECKER_CLASSIC, [
         np.array([0.4002, 0.3504, 0.1005]),
         np.array([0.3773, 0.3446, 0.3582]),
@@ -172,7 +172,7 @@ Division of Kollmorgen.
 CCS_COLORCHECKER1976 : ColourChecker
 """
 
-DATA_COLORCHECKER2005 = OrderedDict(
+DATA_COLORCHECKER2005 = dict(
     zip(SAMPLE_LABELS_COLORCHECKER_CLASSIC, [
         np.array([0.4316, 0.3777, 0.1008]),
         np.array([0.4197, 0.3744, 0.3495]),
@@ -216,7 +216,7 @@ CCS_COLORCHECKER2005 = ColourChecker('ColorChecker 2005',
 
 CCS_COLORCHECKER2005 : ColourChecker
 """
-DATA_BABELCOLOR_AVERAGE = OrderedDict(
+DATA_BABELCOLOR_AVERAGE = dict(
     zip(SAMPLE_LABELS_COLORCHECKER_CLASSIC, [
         np.array([0.4325, 0.3788, 0.1034]),
         np.array([0.4191, 0.3748, 0.3525]),
@@ -261,7 +261,7 @@ Average data derived from measurements of 30 *ColorChecker Classic* charts.
 CCS_BABELCOLOR_AVERAGE : ColourChecker
 """
 
-DATA_COLORCHECKER24_BEFORE_NOV2014 = OrderedDict(
+DATA_COLORCHECKER24_BEFORE_NOV2014 = dict(
     zip(SAMPLE_LABELS_COLORCHECKER_CLASSIC, [
         np.array([37.986, 13.555, 14.059]),
         np.array([65.711, 18.13, 17.81]),
@@ -300,7 +300,7 @@ Notes
 DATA_COLORCHECKER24_BEFORE_NOV2014 : ndarray
 """
 
-DATA_COLORCHECKER24_BEFORE_NOV2014 = OrderedDict(
+DATA_COLORCHECKER24_BEFORE_NOV2014 = dict(
     zip(
         SAMPLE_LABELS_COLORCHECKER_CLASSIC,
         XYZ_to_xyY(
@@ -333,7 +333,7 @@ Notes
 CCS_COLORCHECKER24_BEFORE_NOV2014 : ColourChecker
 """
 
-DATA_COLORCHECKER24_AFTER_NOV2014 = OrderedDict((
+DATA_COLORCHECKER24_AFTER_NOV2014 = dict([
     ('dark skin', np.array([37.54, 14.37, 14.92])),
     ('light skin', np.array([64.66, 19.27, 17.5])),
     ('blue sky', np.array([49.32, -3.82, -22.54])),
@@ -358,7 +358,7 @@ DATA_COLORCHECKER24_AFTER_NOV2014 = OrderedDict((
     ('neutral 5 (.70 D)', np.array([50.76, -0.13, 0.14])),
     ('neutral 3.5 (1.05 D)', np.array([35.63, -0.46, -0.48])),
     ('black 2 (1.5 D)', np.array([20.64, 0.07, -0.46])),
-))
+])
 """
 *ColorChecker24 - After November 2014* illuminant.
 
@@ -371,7 +371,7 @@ Notes
 DATA_COLORCHECKER24_AFTER_NOV2014 : ndarray
 """
 
-DATA_COLORCHECKER24_AFTER_NOV2014 = OrderedDict(
+DATA_COLORCHECKER24_AFTER_NOV2014 = dict(
     zip(
         DATA_COLORCHECKER24_AFTER_NOV2014.keys(),
         XYZ_to_xyY(

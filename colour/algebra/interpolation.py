@@ -61,7 +61,6 @@ References
 import itertools
 import numpy as np
 import scipy.interpolate
-from collections import OrderedDict
 from collections.abc import Mapping
 from functools import reduce
 
@@ -563,9 +562,10 @@ class KernelInterpolator:
         """
 
         if value is not None:
-            assert isinstance(value, (dict, OrderedDict)), (
-                '"{0}" attribute: "{1}" type is not "dict" or "OrderedDict"!'
-            ).format('kernel_kwargs', value)
+            assert isinstance(
+                value,
+                dict), ('"{0}" attribute: "{1}" type is not "dict"!').format(
+                    'kernel_kwargs', value)
 
             self._kernel_kwargs = value
 
