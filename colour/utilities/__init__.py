@@ -27,8 +27,8 @@ from .array import (MixinDataclassArray, as_array, as_int_array,
                     as_float_array, as_numeric, as_int, as_float,
                     set_float_precision, set_int_precision, closest_indexes,
                     closest, interval, is_uniform, in_array, tstack, tsplit,
-                    row_as_diagonal, orient, centroid, fill_nan, ndarray_write,
-                    zeros, ones, full, index_along_last_axis)
+                    row_as_diagonal, orient, centroid, fill_nan, has_only_nan,
+                    ndarray_write, zeros, ones, full, index_along_last_axis)
 from ..algebra.common import (normalise_maximum, vector_dot, matrix_dot,
                               linear_conversion, linstep_function)
 from .metrics import metric_mse, metric_psnr
@@ -70,8 +70,8 @@ __all__ += [
     'set_int_precision', 'closest_indexes', 'closest', 'normalise_maximum',
     'interval', 'is_uniform', 'in_array', 'tstack', 'tsplit',
     'row_as_diagonal', 'vector_dot', 'matrix_dot', 'orient', 'centroid',
-    'linear_conversion', 'fill_nan', 'linstep_function', 'ndarray_write',
-    'zeros', 'ones', 'full', 'index_along_last_axis'
+    'linear_conversion', 'fill_nan', 'has_only_nan', 'linstep_function',
+    'ndarray_write', 'zeros', 'ones', 'full', 'index_along_last_axis'
 ]
 __all__ += ['metric_mse', 'metric_psnr']
 

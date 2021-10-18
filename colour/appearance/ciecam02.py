@@ -45,8 +45,8 @@ from colour.constants import EPSILON
 from colour.models import xy_to_XYZ
 from colour.utilities import (
     CaseInsensitiveMapping, MixinDataclassArray, as_float_array, as_int_array,
-    as_float, from_range_degrees, from_range_100, ones, to_domain_100,
-    to_domain_degrees, tsplit, tstack, zeros)
+    as_float, from_range_degrees, from_range_100, has_only_nan, ones,
+    to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
 from colour.utilities.documentation import (DocstringDict,
                                             is_documentation_building)
 __author__ = 'Colour Developers'
@@ -495,9 +495,9 @@ def CIECAM02_to_XYZ(specification,
     J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
 
     J = to_domain_100(J)
-    C = to_domain_100(C) if C is not None else C
+    C = to_domain_100(C)
     h = to_domain_degrees(h)
-    M = to_domain_100(M) if M is not None else M
+    M = to_domain_100(M)
     L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
@@ -505,9 +505,9 @@ def CIECAM02_to_XYZ(specification,
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
 
-    if C is None and M is not None:
+    if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
-    elif C is None:
+    elif has_only_nan(C):
         raise ValueError('Either "C" or "M" correlate must be defined in '
                          'the "CAM_Specification_CIECAM02" argument!')
 

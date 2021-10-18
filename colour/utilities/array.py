@@ -39,8 +39,8 @@ __all__ = [
     'as_numeric', 'as_int', 'as_float', 'set_float_precision',
     'set_int_precision', 'closest_indexes', 'closest', 'interval',
     'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal', 'orient',
-    'centroid', 'fill_nan', 'ndarray_write', 'zeros', 'ones', 'full',
-    'index_along_last_axis'
+    'centroid', 'fill_nan', 'has_only_nan', 'ndarray_write', 'zeros', 'ones',
+    'full', 'index_along_last_axis'
 ]
 
 
@@ -1136,6 +1136,35 @@ def fill_nan(a, method='Interpolation', default=0):
         a[mask] = default
 
     return a
+
+
+def has_only_nan(a):
+    """
+    Returns whether given array :math:`a` contains only nan values.
+
+    Parameters
+    ----------
+    a : array_like
+        :math:`a` array to check whether it contains only nan values.
+
+    Returns
+    -------
+    bool
+        Whether array :math:`a` contains only nan values.
+
+    Examples
+    --------
+    >>> has_only_nan(None)
+    True
+    >>> has_only_nan([None, None])
+    True
+    >>> has_only_nan([True, None])
+    False
+    >>> has_only_nan([0.1, np.nan, 0.3])
+    False
+    """
+
+    return np.all(np.isnan(as_float_array(a)))
 
 
 @contextmanager

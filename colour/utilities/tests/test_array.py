@@ -14,7 +14,7 @@ from colour.utilities import (
     MixinDataclassArray, as_array, as_int_array, as_float_array, as_numeric,
     as_int, as_float, set_float_precision, set_int_precision, closest_indexes,
     closest, interval, is_uniform, in_array, tstack, tsplit, row_as_diagonal,
-    orient, centroid, fill_nan, ndarray_write, zeros, ones, full,
+    orient, centroid, fill_nan, has_only_nan, ndarray_write, zeros, ones, full,
     index_along_last_axis)
 from colour.utilities import is_networkx_installed
 
@@ -31,8 +31,8 @@ __all__ = [
     'TestSetFloatPrecision', 'TestSetIntPrecision', 'TestClosestIndexes',
     'TestClosest', 'TestInterval', 'TestIsUniform', 'TestInArray',
     'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestOrient',
-    'TestCentroid', 'TestFillNan', 'TestNdarrayWrite', 'TestZeros', 'TestOnes',
-    'TestFull', 'TestIndexAlongLastAxis'
+    'TestCentroid', 'TestFillNan', 'TestHasNanOnly', 'TestNdarrayWrite',
+    'TestZeros', 'TestOnes', 'TestFull', 'TestIndexAlongLastAxis'
 ]
 
 
@@ -834,6 +834,26 @@ class TestFillNan(unittest.TestCase):
             fill_nan(a, method='Constant', default=8.0),
             np.array([0.1, 0.2, 8.0, 0.4, 0.5]),
             decimal=7)
+
+
+class TestHasNanOnly(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.has_only_nan` definition unit tests
+    methods.
+    """
+
+    def test_has_only_nan(self):
+        """
+        Tests :func:`colour.utilities.array.has_only_nan` definition.
+        """
+
+        self.assertTrue(has_only_nan(None))
+
+        self.assertTrue(has_only_nan([None, None]))
+
+        self.assertFalse(has_only_nan([True, None]))
+
+        self.assertFalse(has_only_nan([0.1, np.nan, 0.3]))
 
 
 class TestNdarrayWrite(unittest.TestCase):

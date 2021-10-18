@@ -39,8 +39,8 @@ from colour.appearance.ciecam02 import (
     viewing_condition_dependent_parameters)
 from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
                               as_float_array, from_range_100,
-                              from_range_degrees, ones, to_domain_100,
-                              to_domain_degrees, tsplit)
+                              from_range_degrees, has_only_nan, ones,
+                              to_domain_100, to_domain_degrees, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -410,9 +410,9 @@ def CAM16_to_XYZ(specification,
     J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
 
     J = to_domain_100(J)
-    C = to_domain_100(C) if C is not None else C
+    C = to_domain_100(C)
     h = to_domain_degrees(h)
-    M = to_domain_100(M) if M is not None else M
+    M = to_domain_100(M)
     L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
@@ -440,9 +440,9 @@ def CAM16_to_XYZ(specification,
     A_w = achromatic_response_forward(RGB_aw, N_bb)
 
     # Step 1
-    if C is None and M is not None:
+    if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
-    elif C is None:
+    elif has_only_nan(C):
         raise ValueError('Either "C" or "M" correlate must be defined in '
                          'the "CAM_Specification_CAM16" argument!')
 

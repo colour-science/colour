@@ -95,6 +95,7 @@ Array
     closest
     interval
     is_uniform
+    has_only_nan
     in_array
     tstack
     tsplit

@@ -268,4 +268,5 @@ class TestCAM16_to_XYZ(unittest.TestCase):
             Y_b = case[0]
             surround = InductionFactors_CAM16(case[0], case[0], case[0])
             CAM16_to_XYZ(
-                CAM_Specification_CAM16(J, C, h), XYZ_w, L_A, Y_b, surround)
+                CAM_Specification_CAM16(J, C, h, M=50), XYZ_w, L_A, Y_b,
+                surround)
