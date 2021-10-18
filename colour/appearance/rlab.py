@@ -26,7 +26,7 @@ from typing import Union
 from colour.algebra import matrix_dot, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
 from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
-                              as_float_array, from_range_degrees, full,
+                              as_float_array, from_range_degrees,
                               row_as_diagonal, to_domain_100, tsplit)
 
 __author__ = 'Colour Developers'
@@ -256,7 +256,7 @@ def XYZ_to_RLAB(XYZ,
     >>> D = D_FACTOR_RLAB['Hard Copy Images']
     >>> XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)  # doctest: +ELLIPSIS
     CAM_Specification_RLAB(J=49.8347069..., C=54.8700585..., \
-h=286.4860208..., s=1.1010410..., HC=array(nan), a=15.5711021..., \
+h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., \
 b=-52.6142956...)
     """
 
@@ -298,5 +298,5 @@ b=-52.6142956...)
     # Computing the correlate of *saturation* :math:`s^R`.
     sR = CR / LR
 
-    return CAM_Specification_RLAB(LR, CR, from_range_degrees(hR), sR,
-                                  full(LR.shape, np.nan), aR, bR)
+    return CAM_Specification_RLAB(LR, CR, from_range_degrees(hR), sR, None, aR,
+                                  bR)

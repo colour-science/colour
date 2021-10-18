@@ -29,7 +29,7 @@ from colour.adaptation.cie1994 import (MATRIX_XYZ_TO_RGB_CIE1994, beta_1,
                                        intermediate_values)
 from colour.models import XYZ_to_xy
 from colour.utilities import (MixinDataclassArray, as_float_array,
-                              from_range_degrees, full, to_domain_100, tsplit,
+                              from_range_degrees, to_domain_100, tsplit,
                               tstack)
 
 __author__ = 'Colour Developers'
@@ -237,7 +237,7 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
     >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)  # doctest: +ELLIPSIS
     CAM_Specification_Nayatani95(L_star_P=49.9998829..., C=0.0133550..., \
 h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., \
-H=array(nan), HC=array(nan), L_star_N=50.0039154...)
+H=None, HC=None, L_star_N=50.0039154...)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -315,10 +315,8 @@ H=array(nan), HC=array(nan), L_star_N=50.0039154...)
     # brightness_ideal_white))
     M = colourfulness_correlate(C, brightness_ideal_white)
 
-    return CAM_Specification_Nayatani95(L_star_P, C,
-                                        from_range_degrees(theta), S, B_r, M,
-                                        full(L_star_P.shape, np.nan),
-                                        full(L_star_P.shape, np.nan), L_star_N)
+    return CAM_Specification_Nayatani95(L_star_P, C, from_range_degrees(theta),
+                                        S, B_r, M, None, None, L_star_N)
 
 
 def illuminance_to_luminance(E, Y_f):

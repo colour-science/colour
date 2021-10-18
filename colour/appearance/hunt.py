@@ -25,7 +25,7 @@ from typing import Union
 
 from colour.algebra import spow, vector_dot
 from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
-                              as_float_array, from_range_degrees, full, ones,
+                              as_float_array, from_range_degrees, ones,
                               to_domain_100, tsplit, tstack, usage_warning,
                               zeros)
 
@@ -362,7 +362,7 @@ def XYZ_to_Hunt(XYZ,
     >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
     ... # doctest: +ELLIPSIS
     CAM_Specification_Hunt(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
-s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=array(nan), HC=array(nan))
+s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -495,7 +495,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=array(nan), HC=array(nan))
     M_94 = colourfulness_correlate(F_L, C_94)
 
     return CAM_Specification_Hunt(J, C_94, from_range_degrees(h), s, Q, M_94,
-                                  full(J.shape, np.nan), full(J.shape, np.nan))
+                                  None, None)
 
 
 def luminance_level_adaptation_factor(L_A):
