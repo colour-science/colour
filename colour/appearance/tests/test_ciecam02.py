@@ -11,7 +11,7 @@ from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM02, InductionFactors_CIECAM02,
     CAM_Specification_CIECAM02, XYZ_to_CIECAM02, CIECAM02_to_XYZ)
 from colour.appearance.tests.common import AbstractColourAppearanceModelTest
-from colour.utilities import (as_namedtuple, domain_range_scale,
+from colour.utilities import (as_float_array, domain_range_scale,
                               ignore_numpy_errors, tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -99,7 +99,7 @@ class TestCIECAM02ColourAppearanceModelForward(
                 np.testing.assert_almost_equal(
                     XYZ_to_CIECAM02(XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b,
                                     surround),
-                    specification * factor_b,
+                    as_float_array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors
@@ -170,11 +170,11 @@ class TestCIECAM02ColourAppearanceModelInverse(
         XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
 
         i, j, k = correlates
-        specification = as_namedtuple({
+        specification = CAM_Specification_CIECAM02(**{
             i: data[i],
             j: data[j],
             k: data[k]
-        }, CAM_Specification_CIECAM02)
+        })
 
         XYZ = CIECAM02_to_XYZ(
             specification, XYZ_w, data['L_A'], data['Y_b'],
@@ -297,4 +297,5 @@ class TestCIECAM02ColourAppearanceModelInverse(
             Y_b = case[0]
             surround = InductionFactors_CIECAM02(case[0], case[0], case[0])
             CIECAM02_to_XYZ(
-                CAM_Specification_CIECAM02(J, C, h), XYZ_w, L_A, Y_b, surround)
+                CAM_Specification_CIECAM02(J, C, h, M=50), XYZ_w, L_A, Y_b,
+                surround)

@@ -33,6 +33,8 @@ References
 
 import numpy as np
 from collections import namedtuple
+from dataclasses import astuple, dataclass, field
+from typing import Union
 
 from colour.algebra import matrix_dot, spow, vector_dot
 from colour.adaptation import CAT_CAT02
@@ -42,9 +44,9 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
 from colour.models import xy_to_XYZ
 from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
-    as_float, from_range_degrees, from_range_100, full, ones, to_domain_100,
-    to_domain_degrees, tsplit, tstack, zeros)
+    CaseInsensitiveMapping, MixinDataclassArray, as_float_array, as_int_array,
+    as_float, from_range_degrees, from_range_100, has_only_nan, ones,
+    to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
 from colour.utilities.documentation import (DocstringDict,
                                             is_documentation_building)
 __author__ = 'Colour Developers'
@@ -92,7 +94,7 @@ class InductionFactors_CIECAM02(
     F : numeric or array_like
         Maximum degree of adaptation :math:`F`.
     c : numeric or array_like
-        Exponential non linearity :math:`c`.
+        Exponential non-linearity :math:`c`.
     N_c : numeric or array_like
         Chromatic induction factor :math:`N_c`.
 
@@ -153,9 +155,8 @@ CAM_KWARGS_CIECAM02_sRGB : dict
 """
 
 
-class CAM_Specification_CIECAM02(
-        namedtuple('CAM_Specification_CIECAM02',
-                   ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+@dataclass
+class CAM_Specification_CIECAM02(MixinDataclassArray):
     """
     Defines the *CIECAM02* colour appearance model specification.
 
@@ -184,22 +185,22 @@ class CAM_Specification_CIECAM02(
     :cite:`Wikipedia2007a`
     """
 
-    def __new__(cls,
-                J=None,
-                C=None,
-                h=None,
-                s=None,
-                Q=None,
-                M=None,
-                H=None,
-                HC=None):
-        """
-        Returns a new instance of the :class:`colour.\
-CAM_Specification_CIECAM02` class.
-        """
-
-        return super(CAM_Specification_CIECAM02, cls).__new__(
-            cls, J, C, h, s, Q, M, H, HC)
+    J: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    h: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    s: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    Q: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    M: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    H: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    HC: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
 
 def XYZ_to_CIECAM02(XYZ,
@@ -301,7 +302,7 @@ def XYZ_to_CIECAM02(XYZ,
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=41.7310911..., C=0.1047077..., \
 h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., \
-H=278.0607358..., HC=array(nan))
+H=278.0607358..., HC=None)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -370,7 +371,7 @@ H=278.0607358..., HC=array(nan))
     return CAM_Specification_CIECAM02(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
         from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H, 400), full(J.shape, np.nan))
+        from_range_degrees(H, 400), None)
 
 
 def CIECAM02_to_XYZ(specification,
@@ -482,8 +483,8 @@ def CIECAM02_to_XYZ(specification,
     Examples
     --------
     >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
-    ...                                        C=0.104707757171031,
-    ...                                        h=219.048432658311780)
+    ...                                            C=0.104707757171031,
+    ...                                            h=219.048432658311780)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -491,12 +492,12 @@ def CIECAM02_to_XYZ(specification,
     array([ 19.01...,  20...  ,  21.78...])
     """
 
-    J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(specification,
-                                                CAM_Specification_CIECAM02)
+    J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
+
     J = to_domain_100(J)
-    C = to_domain_100(C) if C is not None else C
+    C = to_domain_100(C)
     h = to_domain_degrees(h)
-    M = to_domain_100(M) if M is not None else M
+    M = to_domain_100(M)
     L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
@@ -504,9 +505,9 @@ def CIECAM02_to_XYZ(specification,
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
 
-    if C is None and M is not None:
+    if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
-    elif C is None:
+    elif has_only_nan(C):
         raise ValueError('Either "C" or "M" correlate must be defined in '
                          'the "CAM_Specification_CIECAM02" argument!')
 
@@ -596,7 +597,7 @@ def chromatic_induction_factors(n):
 
 def base_exponential_non_linearity(n):
     """
-    Returns the base exponential non linearity :math:`n`.
+    Returns the base exponential non-linearity :math:`n`.
 
     Parameters
     ----------
@@ -606,7 +607,7 @@ def base_exponential_non_linearity(n):
     Returns
     -------
     numeric or ndarray
-        Base exponential non linearity :math:`z`.
+        Base exponential non-linearity :math:`z`.
 
     Examples
     --------
@@ -1162,7 +1163,7 @@ def achromatic_response_inverse(A_w, J, c, z):
     """
     Returns the achromatic response :math:`A` from given achromatic response
     :math:`A_w` for the whitepoint, *Lightness* correlate :math:`J`, surround
-    exponential non linearity :math:`c` and base exponential non linearity
+    exponential non-linearity :math:`c` and base exponential non-linearity
     :math:`z` for inverse *CIECAM02* implementation.
 
     Parameters
@@ -1172,9 +1173,9 @@ def achromatic_response_inverse(A_w, J, c, z):
     J : numeric or array_like
         *Lightness* correlate :math:`J`.
     c : numeric or array_like
-        Surround exponential non linearity :math:`c`.
+        Surround exponential non-linearity :math:`c`.
     z : numeric or array_like
-        Base exponential non linearity :math:`z`.
+        Base exponential non-linearity :math:`z`.
 
     Returns
     -------
@@ -1212,9 +1213,9 @@ def lightness_correlate(A, A_w, c, z):
     A_w : numeric or array_like
         Achromatic response :math:`A_w` for the whitepoint.
     c : numeric or array_like
-        Surround exponential non linearity :math:`c`.
+        Surround exponential non-linearity :math:`c`.
     z : numeric or array_like
-        Base exponential non linearity :math:`z`.
+        Base exponential non-linearity :math:`z`.
 
     Returns
     -------
@@ -1248,7 +1249,7 @@ def brightness_correlate(c, J, A_w, F_L):
     Parameters
     ----------
     c : numeric or array_like
-        Surround exponential non linearity :math:`c`.
+        Surround exponential non-linearity :math:`c`.
     J : numeric or array_like
         *Lightness* correlate :math:`J`.
     A_w : numeric or array_like

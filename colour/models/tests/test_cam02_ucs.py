@@ -494,7 +494,11 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             Jpapbp = np.array(case)
-            UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+            try:
+                UCS_Luo2006_to_XYZ(Jpapbp,
+                                   COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+            except ValueError as error:
+                assert 'CAM_Specification_CIECAM02' in str(error)
 
 
 if __name__ == '__main__':

@@ -5,14 +5,16 @@ Defines the unit tests for the :mod:`colour.utilities.array` module.
 
 import numpy as np
 import unittest
-from collections import namedtuple
+from dataclasses import dataclass, field, fields
+from copy import deepcopy
+from typing import Union
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (
-    as_array, as_int_array, as_float_array, as_numeric, as_int, as_float,
-    set_float_precision, set_int_precision, as_namedtuple, closest_indexes,
+    MixinDataclassArray, as_array, as_int_array, as_float_array, as_numeric,
+    as_int, as_float, set_float_precision, set_int_precision, closest_indexes,
     closest, interval, is_uniform, in_array, tstack, tsplit, row_as_diagonal,
-    orient, centroid, fill_nan, ndarray_write, zeros, ones, full,
+    orient, centroid, fill_nan, has_only_nan, ndarray_write, zeros, ones, full,
     index_along_last_axis)
 from colour.utilities import is_networkx_installed
 
@@ -24,14 +26,155 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestAsArray', 'TestAsIntArray', 'TestAsFloatArray', 'TestAsNumeric',
-    'TestAsInt', 'TestAsFloat', 'TestSetFloatPrecision', 'TestSetIntPrecision',
-    'TestAsNametuple', 'TestClosestIndexes', 'TestClosest', 'TestInterval',
-    'TestIsUniform', 'TestInArray', 'TestTstack', 'TestTsplit',
-    'TestRowAsDiagonal', 'TestOrient', 'TestCentroid', 'TestFillNan',
-    'TestNdarrayWrite', 'TestZeros', 'TestOnes', 'TestFull',
-    'TestIndexAlongLastAxis'
+    'TestMixinDataclassArray', 'TestAsArray', 'TestAsIntArray',
+    'TestAsFloatArray', 'TestAsNumeric', 'TestAsInt', 'TestAsFloat',
+    'TestSetFloatPrecision', 'TestSetIntPrecision', 'TestClosestIndexes',
+    'TestClosest', 'TestInterval', 'TestIsUniform', 'TestInArray',
+    'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestOrient',
+    'TestCentroid', 'TestFillNan', 'TestHasNanOnly', 'TestNdarrayWrite',
+    'TestZeros', 'TestOnes', 'TestFull', 'TestIndexAlongLastAxis'
 ]
+
+
+class TestMixinDataclassArray(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.array.MixinDataclassArray` class
+    unit tests methods.
+    """
+
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        @dataclass
+        class Data(MixinDataclassArray):
+            a: Union[float, list, tuple, np.ndarray] = field(
+                default_factory=lambda: None)
+
+            b: Union[float, list, tuple, np.ndarray] = field(
+                default_factory=lambda: None)
+
+            c: Union[float, list, tuple, np.ndarray] = field(
+                default_factory=lambda: None)
+
+        self._data = Data(
+            b=np.array([0.1, 0.2, 0.3]), c=np.array([0.4, 0.5, 0.6]))
+        self._array = np.array([
+            [np.nan, 0.1, 0.4],
+            [np.nan, 0.2, 0.5],
+            [np.nan, 0.3, 0.6],
+        ])
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('__array__', '__iadd__', '__add__', '__isub__',
+                            '__sub__', '__imul__', '__mul__', '__idiv__',
+                            '__div__', '__ipow__', '__pow__',
+                            'arithmetical_operation')
+
+        for method in required_methods:
+            self.assertIn(method, dir(MixinDataclassArray))
+
+    def test__array__(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassArray.__array__`
+        method.
+        """
+
+        np.testing.assert_array_equal(np.array(self._data), self._array)
+
+        self.assertEqual(
+            np.array(self._data, dtype=DEFAULT_INT_DTYPE).dtype,
+            DEFAULT_INT_DTYPE)
+
+    def test_arithmetical_operation(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassArray.\
+arithmetical_operation` method.
+        """
+
+        np.testing.assert_almost_equal(
+            np.array(self._data.arithmetical_operation(10, '+', False)),
+            self._array + 10,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(self._data.arithmetical_operation(10, '-', False)),
+            self._array - 10,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(self._data.arithmetical_operation(10, '*', False)),
+            self._array * 10,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(self._data.arithmetical_operation(10, '/', False)),
+            self._array / 10,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(self._data.arithmetical_operation(10, '**', False)),
+            self._array ** 10,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(self._data + 10), self._array + 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(self._data - 10), self._array - 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(self._data * 10), self._array * 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(self._data / 10), self._array / 10, decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(self._data ** 10), self._array ** 10, decimal=7)
+
+        data = deepcopy(self._data)
+
+        np.testing.assert_almost_equal(
+            np.array(data.arithmetical_operation(10, '+', True)),
+            self._array + 10,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(data.arithmetical_operation(10, '-', True)),
+            self._array,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(data.arithmetical_operation(10, '*', True)),
+            self._array * 10,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(data.arithmetical_operation(10, '/', True)),
+            self._array,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(data.arithmetical_operation(10, '**', True)),
+            self._array ** 10,
+            decimal=7)
+
+        data = deepcopy(self._data)
+
+        np.testing.assert_almost_equal(
+            np.array(data.arithmetical_operation(self._array, '+', False)),
+            data + self._array,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            np.array(data.arithmetical_operation(data, '+', False)),
+            data + data,
+            decimal=7)
 
 
 class TestAsArray(unittest.TestCase):
@@ -247,7 +390,7 @@ class TestSetFloatPrecision(unittest.TestCase):
                 for specification in ('ATD95', 'CIECAM02', 'CAM16', 'Hunt',
                                       'LLAB', 'Nayatani95', 'RLAB'):
                     if target.endswith(specification):
-                        return x[0].dtype
+                        return getattr(x, fields(x)[0].name).dtype
 
                 return x.dtype
 
@@ -288,47 +431,6 @@ class TestSetIntPrecision(unittest.TestCase):
         """
 
         set_int_precision(np.int64)
-
-
-class TestAsNametuple(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.as_namedtuple` definition unit tests
-    methods.
-    """
-
-    def test_as_namedtuple(self):
-        """
-        Tests :func:`colour.utilities.array.as_namedtuple` definition.
-        """
-
-        NamedTuple = namedtuple('NamedTuple', 'a b c')
-
-        a_a = np.ones(3)
-        a_b = np.ones(3) + 1
-        a_c = np.ones(3) + 2
-
-        named_tuple = NamedTuple(a_a, a_b, a_c)
-
-        self.assertEqual(named_tuple, as_namedtuple(named_tuple, NamedTuple))
-
-        self.assertEqual(
-            named_tuple,
-            as_namedtuple({
-                'a': a_a,
-                'b': a_b,
-                'c': a_c
-            }, NamedTuple))
-
-        self.assertEqual(named_tuple, as_namedtuple([a_a, a_b, a_c],
-                                                    NamedTuple))
-
-        a_r = np.array(
-            [tuple(a) for a in np.transpose((a_a, a_b, a_c)).tolist()],
-            dtype=[(str('a'), str('f8')),
-                   (str('b'), str('f8')),
-                   (str('c'), str('f8'))])  # yapf: disable
-        np.testing.assert_array_equal(
-            np.array(named_tuple), np.array(as_namedtuple(a_r, NamedTuple)))
 
 
 class TestClosestIndexes(unittest.TestCase):
@@ -732,6 +834,26 @@ class TestFillNan(unittest.TestCase):
             fill_nan(a, method='Constant', default=8.0),
             np.array([0.1, 0.2, 8.0, 0.4, 0.5]),
             decimal=7)
+
+
+class TestHasNanOnly(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.has_only_nan` definition unit tests
+    methods.
+    """
+
+    def test_has_only_nan(self):
+        """
+        Tests :func:`colour.utilities.array.has_only_nan` definition.
+        """
+
+        self.assertTrue(has_only_nan(None))
+
+        self.assertTrue(has_only_nan([None, None]))
+
+        self.assertFalse(has_only_nan([True, None]))
+
+        self.assertFalse(has_only_nan([0.1, np.nan, 0.3]))
 
 
 class TestNdarrayWrite(unittest.TestCase):

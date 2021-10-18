@@ -28,11 +28,13 @@ Colour_Appearance_and_Gamut_Mapping
 
 import numpy as np
 from collections import namedtuple
+from dataclasses import dataclass, field
+from typing import Union
 
 from colour.algebra import polar_to_cartesian, spow, vector_dot
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              from_range_degrees, full, to_domain_100, tsplit,
-                              tstack)
+from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
+                              as_float_array, from_range_degrees, full,
+                              to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -143,9 +145,8 @@ MATRIX_RGB_TO_XYZ_LLAB : array_like, (3, 3)
 """
 
 
-class CAM_ReferenceSpecification_LLAB(
-        namedtuple('CAM_ReferenceSpecification_LLAB',
-                   ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
+@dataclass
+class CAM_ReferenceSpecification_LLAB(MixinDataclassArray):
     """
     Defines the *:math:`LLAB(l:c)`* colour appearance model reference
     specification.
@@ -177,10 +178,26 @@ class CAM_ReferenceSpecification_LLAB(
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
+    L_L: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    Ch_L: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    h_L: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    s_L: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C_L: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    HC: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    A_L: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    B_L: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
-class CAM_Specification_LLAB(
-        namedtuple('CAM_Specification_LLAB',
-                   ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
+
+@dataclass
+class CAM_Specification_LLAB(MixinDataclassArray):
     """
     Defines the *:math:`LLAB(l:c)`* colour appearance model specification.
 
@@ -215,6 +232,23 @@ class CAM_Specification_LLAB(
     ----------
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
+
+    J: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    h: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    s: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    M: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    HC: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    a: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    b: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
 
 def XYZ_to_LLAB(

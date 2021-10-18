@@ -21,6 +21,8 @@ References
 
 import numpy as np
 from collections import namedtuple
+from dataclasses import astuple, dataclass, field
+from typing import Union
 
 from colour.algebra import spow, vector_dot
 from colour.adaptation import CAT_CAT16
@@ -35,9 +37,10 @@ from colour.appearance.ciecam02 import (
     matrix_post_adaptation_non_linear_response_compression,
     saturation_correlate, temporary_magnitude_quantity_inverse,
     viewing_condition_dependent_parameters)
-from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, as_namedtuple, from_range_100,
-    from_range_degrees, full, ones, to_domain_100, to_domain_degrees, tsplit)
+from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
+                              as_float_array, from_range_100,
+                              from_range_degrees, has_only_nan, ones,
+                              to_domain_100, to_domain_degrees, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -77,7 +80,7 @@ class InductionFactors_CAM16(
     F : numeric or array_like
         Maximum degree of adaptation :math:`F`.
     c : numeric or array_like
-        Exponential non linearity :math:`c`.
+        Exponential non-linearity :math:`c`.
     N_c : numeric or array_like
         Chromatic induction factor :math:`N_c`.
 
@@ -100,9 +103,8 @@ VIEWING_CONDITIONS_CAM16 : CaseInsensitiveMapping
 """
 
 
-class CAM_Specification_CAM16(
-        namedtuple('CAM_Specification_CAM16',
-                   ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+@dataclass
+class CAM_Specification_CAM16(MixinDataclassArray):
     """
     Defines the *CAM16* colour appearance model specification.
 
@@ -130,22 +132,22 @@ class CAM_Specification_CAM16(
     :cite:`Li2017`
     """
 
-    def __new__(cls,
-                J=None,
-                C=None,
-                h=None,
-                s=None,
-                Q=None,
-                M=None,
-                H=None,
-                HC=None):
-        """
-        Returns a new instance of the :class:`colour.CAM_Specification_CAM16`
-        class.
-        """
-
-        return super(CAM_Specification_CAM16, cls).__new__(
-            cls, J, C, h, s, Q, M, H, HC)
+    J: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    h: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    s: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    Q: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    M: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    H: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    HC: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
 
 def XYZ_to_CAM16(XYZ,
@@ -229,7 +231,7 @@ def XYZ_to_CAM16(XYZ,
     >>> XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_CAM16(J=41.7312079..., C=0.1033557..., \
 h=217.0679597..., s=2.3450150..., Q=195.3717089..., M=0.1074367..., \
-H=275.5949861..., HC=array(nan))
+H=275.5949861..., HC=None)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -311,7 +313,7 @@ H=275.5949861..., HC=array(nan))
     return CAM_Specification_CAM16(
         from_range_100(J), from_range_100(C), from_range_degrees(h),
         from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H, 400), full(J.shape, np.nan))
+        from_range_degrees(H, 400), None)
 
 
 def CAM16_to_XYZ(specification,
@@ -389,9 +391,6 @@ def CAM16_to_XYZ(specification,
     | ``XYZ``                   | [0, 100]              | [0, 1]        |
     +---------------------------+-----------------------+---------------+
 
-    -   ``CAM_Specification_CAM16`` can also be passed as a compatible argument
-        to :func:`colour.utilities.as_namedtuple` definition.
-
     References
     ----------
     :cite:`Li2017`
@@ -399,8 +398,8 @@ def CAM16_to_XYZ(specification,
     Examples
     --------
     >>> specification = CAM_Specification_CAM16(J=41.731207905126638,
-    ...                                     C=0.103355738709070,
-    ...                                     h=217.067959767393010)
+    ...                                         C=0.103355738709070,
+    ...                                         h=217.067959767393010)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -408,12 +407,12 @@ def CAM16_to_XYZ(specification,
     array([ 19.01...,  20...  ,  21.78...])
     """
 
-    J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(specification,
-                                                CAM_Specification_CAM16)
+    J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
+
     J = to_domain_100(J)
-    C = to_domain_100(C) if C is not None else C
+    C = to_domain_100(C)
     h = to_domain_degrees(h)
-    M = to_domain_100(M) if M is not None else M
+    M = to_domain_100(M)
     L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
@@ -441,9 +440,9 @@ def CAM16_to_XYZ(specification,
     A_w = achromatic_response_forward(RGB_aw, N_bb)
 
     # Step 1
-    if C is None and M is not None:
+    if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
-    elif C is None:
+    elif has_only_nan(C):
         raise ValueError('Either "C" or "M" correlate must be defined in '
                          'the "CAM_Specification_CAM16" argument!')
 

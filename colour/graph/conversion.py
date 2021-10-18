@@ -139,8 +139,8 @@ def CIECAM02_to_JMh_CIECAM02(CAM_Specification_CIECAM02):
     Examples
     --------
     >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
-    ...                                        M=0.108842175669226,
-    ...                                        h=219.048432658311780)
+    ...                                            M=0.108842175669226,
+    ...                                            h=219.048432658311780)
     >>> CIECAM02_to_JMh_CIECAM02(specification)  # doctest: +ELLIPSIS
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
@@ -198,8 +198,8 @@ def CAM16_to_JMh_CAM16(CAM_Specification_CAM16):
     Examples
     --------
     >>> specification = CAM_Specification_CAM16(J=41.731207905126638,
-    ...                                     M=0.107436772335905,
-    ...                                     h=217.067959767393010)
+    ...                                         M=0.107436772335905,
+    ...                                         h=217.067959767393010)
     >>> CAM16_to_JMh_CAM16(specification)  # doctest: +ELLIPSIS
     array([  4.1731207...e+01,   1.0743677...e-01,   2.1706796...e+02])
     """

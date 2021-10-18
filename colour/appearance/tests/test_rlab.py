@@ -10,7 +10,8 @@ from itertools import permutations
 from colour.appearance import (D_FACTOR_RLAB, VIEWING_CONDITIONS_RLAB,
                                XYZ_to_RLAB)
 from colour.appearance.tests.common import AbstractColourAppearanceModelTest
-from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
+from colour.utilities import (as_float_array, domain_range_scale,
+                              ignore_numpy_errors, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -86,7 +87,7 @@ class TestRLABColourAppearanceModel(AbstractColourAppearanceModelTest):
                 np.testing.assert_almost_equal(
                     XYZ_to_RLAB(XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma,
                                 D),
-                    specification * factor_b,
+                    as_float_array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

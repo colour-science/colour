@@ -17,7 +17,8 @@ from itertools import permutations
 from colour.appearance import (VIEWING_CONDITIONS_LLAB, InductionFactors_LLAB,
                                XYZ_to_LLAB, llab)
 from colour.appearance.tests.common import AbstractColourAppearanceModelTest
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (as_float_array, domain_range_scale,
+                              ignore_numpy_errors)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -153,7 +154,7 @@ class TestLLABColourAppearanceModel(AbstractColourAppearanceModelTest):
                 np.testing.assert_almost_equal(
                     XYZ_to_LLAB(XYZ * factor_a, XYZ_0 * factor_a, Y_b, L,
                                 surround),
-                    specification * factor_b,
+                    as_float_array(specification) * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

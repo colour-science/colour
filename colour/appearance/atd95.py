@@ -26,11 +26,13 @@ References
 """
 
 import numpy as np
-from collections import namedtuple
+from dataclasses import dataclass, field
+from typing import Union
 
 from colour.algebra import spow, vector_dot
-from colour.utilities import (as_float_array, from_range_degrees,
-                              to_domain_100, tsplit, tstack)
+from colour.utilities import (MixinDataclassArray, as_float_array,
+                              from_range_degrees, to_domain_100, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -46,10 +48,8 @@ __all__ = [
 ]
 
 
-class CAM_ReferenceSpecification_ATD95(
-        namedtuple(
-            'CAM_ReferenceSpecification_ATD95',
-            ('H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
+@dataclass
+class CAM_ReferenceSpecification_ATD95(MixinDataclassArray):
     """
     Defines the *ATD (1995)* colour vision model reference specification.
 
@@ -86,10 +86,28 @@ class CAM_ReferenceSpecification_ATD95(
     :cite:`Fairchild2013v`, :cite:`Guth1995a`
     """
 
+    H: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    Br: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    A_1: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    T_1: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    D_1: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    A_2: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    T_2: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    D_2: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
-class CAM_Specification_ATD95(
-        namedtuple('CAM_Specification_ATD95',
-                   ('h', 'C', 'Q', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
+
+@dataclass
+class CAM_Specification_ATD95(MixinDataclassArray):
     """
     Defines the *ATD (1995)* colour vision model specification.
 
@@ -130,6 +148,25 @@ class CAM_Specification_ATD95(
     ----------
     :cite:`Fairchild2013v`, :cite:`Guth1995a`
     """
+
+    h: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    C: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    Q: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    A_1: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    T_1: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    D_1: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    A_2: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    T_2: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
+    D_2: Union[float, list, tuple, np.ndarray] = field(
+        default_factory=lambda: None)
 
 
 def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
