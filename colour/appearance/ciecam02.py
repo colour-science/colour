@@ -548,7 +548,7 @@ def CIECAM02_to_XYZ(specification,
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
     a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
 
-    # Computing post-adaptation non-linear response compression matrix.
+    # Applying post-adaptation non-linear response compression matrix.
     RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
 
     # Applying inverse post-adaptation non-linear response compression.
@@ -637,14 +637,14 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
 
     Returns
     -------
-    ndarray
+    tuple
         Viewing condition dependent parameters.
 
     Examples
     --------
     >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
     ... # doctest: +ELLIPSIS
-    array([ 0.2...,  1.1675444...,  1.000304  ,  1.000304  ,  1.9272136...])
+    (0.2000000..., 1.1675444..., 1.0003040..., 1.0003040..., 1.9272135...)
     """
 
     Y_b = as_float_array(Y_b)
@@ -656,7 +656,7 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
     N_bb, N_cb = tsplit(chromatic_induction_factors(n))
     z = base_exponential_non_linearity(n)
 
-    return tstack([n, F_L, N_bb, N_cb, z])
+    return n, F_L, N_bb, N_cb, z
 
 
 def degree_of_adaptation(F, L_A):
@@ -1545,7 +1545,7 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
 
 def matrix_post_adaptation_non_linear_response_compression(P_2, a, b):
     """
-    Returns the post-adaptation non-linear-response compression matrix.
+    Applies the post-adaptation non-linear-response compression matrix.
 
     Parameters
     ----------
@@ -1571,14 +1571,13 @@ def matrix_post_adaptation_non_linear_response_compression(P_2, a, b):
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
-    P_2 = as_float_array(P_2)
-    a = as_float_array(a)
-    b = as_float_array(b)
-
-    R_a = (460 * P_2 + 451 * a + 288 * b) / 1403
-    G_a = (460 * P_2 - 891 * a - 261 * b) / 1403
-    B_a = (460 * P_2 - 220 * a - 6300 * b) / 1403
-
-    RGB_a = tstack([R_a, G_a, B_a])
+    RGB_a = vector_dot(
+        [
+            [460, 451, 288],
+            [460, -891, -261],
+            [460, -220, -6300],
+        ],
+        tstack([P_2, a, b]),
+    ) / 1403
 
     return RGB_a
