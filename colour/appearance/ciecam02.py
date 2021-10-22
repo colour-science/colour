@@ -311,8 +311,8 @@ H=278.0607358..., HC=None)
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    n, F_L, N_bb, N_cb, z = tsplit(
-        viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
@@ -502,8 +502,8 @@ def CIECAM02_to_XYZ(specification,
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = tsplit(
-        viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A)
 
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)

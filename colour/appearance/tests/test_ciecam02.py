@@ -5,14 +5,14 @@ Defines the unit tests for the :mod:`colour.appearance.ciecam02` module.
 """
 
 import numpy as np
+import unittest
 from itertools import permutations
 
 from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM02, InductionFactors_CIECAM02,
     CAM_Specification_CIECAM02, XYZ_to_CIECAM02, CIECAM02_to_XYZ)
-from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import (as_float_array, domain_range_scale,
-                              ignore_numpy_errors, tsplit, tstack)
+                              ignore_numpy_errors, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -21,55 +21,111 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = [
-    'TestCIECAM02ColourAppearanceModelForward',
-    'TestCIECAM02ColourAppearanceModelInverse'
-]
+__all__ = ['TestXYZ_to_CIECAM02', 'TestCIECAM02_to_XYZ']
 
 
-class TestCIECAM02ColourAppearanceModelForward(
-        AbstractColourAppearanceModelTest):
+class TestXYZ_to_CIECAM02(unittest.TestCase):
     """
-    Defines :mod:`colour.appearance.ciecam02` module unit tests methods for
-    *CIECAM02* colour appearance model forward implementation.
+    Defines :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition unit
+    tests methods.
     """
 
-    FIXTURE_BASENAME = 'ciecam02.csv'
-
-    OUTPUT_ATTRIBUTES = {
-        'J': 'J',
-        'C': 'C',
-        'h': 'h',
-        's': 's',
-        'Q': 'Q',
-        'M': 'M',
-        'H': 'H'
-    }
-
-    def output_specification_from_data(self, data):
+    def test_XYZ_to_CIECAM02(self):
         """
-        Returns the *CIECAM02* colour appearance model output specification
-        from given data.
+        Tests :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition.
 
-        Parameters
-        ----------
-        data : list
-            Fixture data.
-
-        Returns
-        -------
-        CAM_Specification_CIECAM02
-            *CIECAM02* colour appearance model specification.
+        Notes
+        -----
+        -   The test values have been generated from data of the following file
+            by *Fairchild (2013)*:
+            http://rit-mcsl.org/fairchild//files/AppModEx.xls
         """
 
-        XYZ = tstack([data['X'], data['Y'], data['Z']])
-        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20
+        surround = InductionFactors_CIECAM02(1, 0.69, 1)
+        np.testing.assert_allclose(
+            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array([41.73, 0.1, 219, 2.36, 195.37, 0.11, 278.1, np.nan]),
+            rtol=0.01,
+            atol=0.01)
 
-        specification = XYZ_to_CIECAM02(
-            XYZ, XYZ_w, data['L_A'], data['Y_b'],
-            InductionFactors_CIECAM02(data['F'], data['c'], data['N_c']))
+        XYZ = np.array([57.06, 43.06, 31.96])
+        L_A = 31.83
+        np.testing.assert_allclose(
+            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array([65.96, 48.57, 19.6, 52.25, 152.67, 41.67, 399.6,
+                      np.nan]),
+            rtol=0.01,
+            atol=0.01)
 
-        return specification
+        XYZ = np.array([3.53, 6.56, 2.14])
+        XYZ_w = np.array([109.85, 100.00, 35.58])
+        L_A = 318.31
+        np.testing.assert_allclose(
+            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array([21.79, 46.94, 177.1, 58.79, 141.17, 48.8, 220.4,
+                      np.nan]),
+            rtol=0.01,
+            atol=0.01)
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        L_A = 31.83
+        np.testing.assert_allclose(
+            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array(
+                [42.53, 51.92, 248.9, 60.22, 122.83, 44.54, 305.8, np.nan]),
+            rtol=0.01,
+            atol=0.01)
+
+        XYZ = np.array([61.45276998, 7.00421901, 82.24067384])
+        XYZ_w = np.array([95.05, 100, 108.88])
+        L_A = 4.074366543152521
+        np.testing.assert_allclose(
+            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
+            np.array([
+                21.72630603341673, 411.5190338631848, 349.12875710099053,
+                227.15081998415593, 57.657243286322725, 297.49693233026602,
+                375.5788601911363, np.nan
+            ]),
+            rtol=0.01,
+            atol=0.01)
+
+    def test_n_dimensional_XYZ_to_CIECAM02(self):
+        """
+        Tests :func:`colour.appearance.cam16.XYZ_to_CIECAM02` definition
+        n-dimensional support.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20.0
+        surround = VIEWING_CONDITIONS_CIECAM02['Average']
+        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        specification = np.tile(specification, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
+            specification,
+            decimal=7)
+
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
+            specification,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+        specification = np.reshape(specification, (2, 3, 8))
+        np.testing.assert_almost_equal(
+            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
+            specification,
+            decimal=7)
 
     @ignore_numpy_errors
     def test_domain_range_scale_XYZ_to_CIECAM02(self):
@@ -120,109 +176,105 @@ class TestCIECAM02ColourAppearanceModelForward(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
 
 
-class TestCIECAM02ColourAppearanceModelInverse(
-        AbstractColourAppearanceModelTest):
+class TestCIECAM02_to_XYZ(unittest.TestCase):
     """
-    Defines :mod:`colour.appearance.ciecam02` module unit tests methods for
-    *CIECAM02* colour appearance model inverse implementation.
+    Defines :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition unit
+    tests methods.
     """
 
-    FIXTURE_BASENAME = 'ciecam02.csv'
-
-    OUTPUT_ATTRIBUTES = {'X': 0, 'Y': 1, 'Z': 2}
-
-    def output_specification_from_data(self, data):
+    def test_CIECAM02_to_XYZ(self):
         """
-        Returns the colour appearance model output specification from given
-        fixture data.
-
-        Parameters
-        ----------
-        data : list
-            Tested colour appearance model fixture data.
-
-        Notes
-        -----
-        -   This method is a dummy object.
+        Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition.
         """
 
-        pass
+        specification = CAM_Specification_CIECAM02(41.73, 0.1, 219, 2.36,
+                                                   195.37, 0.11, 278.1)
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20
+        surround = InductionFactors_CIECAM02(1, 0.69, 1)
+        np.testing.assert_allclose(
+            CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([19.01, 20.00, 21.78]),
+            rtol=0.01,
+            atol=0.01)
 
-    def _XYZ_from_data(self, data, correlates):
+        specification = CAM_Specification_CIECAM02(
+            65.96, 48.57, 19.6, 52.25, 152.67, 41.67, 399.6, np.nan)
+        L_A = 31.83
+        np.testing.assert_allclose(
+            CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([57.06, 43.06, 31.96]),
+            rtol=0.01,
+            atol=0.01)
+
+        specification = CAM_Specification_CIECAM02(21.79, 46.94, 177.1, 58.79,
+                                                   141.17, 48.8, 220.4, np.nan)
+        XYZ_w = np.array([109.85, 100.00, 35.58])
+        L_A = 318.31
+        np.testing.assert_allclose(
+            CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([3.53, 6.56, 2.14]),
+            rtol=0.01,
+            atol=0.01)
+
+        specification = CAM_Specification_CIECAM02(
+            42.53, 51.92, 248.9, 60.22, 122.83, 44.54, 305.8, np.nan)
+        L_A = 31.83
+        np.testing.assert_allclose(
+            CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([19.01, 20.00, 21.78]),
+            rtol=0.01,
+            atol=0.01)
+
+        specification = CAM_Specification_CIECAM02(
+            21.72630603341673, 411.5190338631848, 349.12875710099053,
+            227.15081998415593, 57.657243286322725, 297.49693233026602,
+            375.5788601911363, np.nan)
+        XYZ_w = np.array([95.05, 100, 108.88])
+        L_A = 4.074366543152521
+        np.testing.assert_allclose(
+            CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([61.45276998, 7.00421901, 82.24067384]),
+            rtol=0.01,
+            atol=0.01)
+
+    def test_n_dimensional_CIECAM02_to_XYZ(self):
         """
-        Returns the *CIE XYZ* tristimulus values from given *CIECAM02* colour
-        appearance model input data.
-
-        Parameters
-        ----------
-        data : list
-            Fixture data.
-        correlates : array_like
-            Correlates used to build the input *CIECAM02* colour appearance
-            model specification.
-
-        Returns
-        -------
-        array_like
-            *CIE XYZ* tristimulus values
+        Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
+        n-dimensional support.
         """
 
-        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20.0
+        surround = VIEWING_CONDITIONS_CIECAM02['Average']
+        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
+        XYZ = CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
-        i, j, k = correlates
-        specification = CAM_Specification_CIECAM02(**{
-            i: data[i],
-            j: data[j],
-            k: data[k]
-        })
+        specification = CAM_Specification_CIECAM02(
+            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist())
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            XYZ,
+            decimal=7)
 
-        XYZ = CIECAM02_to_XYZ(
-            specification, XYZ_w, data['L_A'], data['Y_b'],
-            InductionFactors_CIECAM02(data['F'], data['c'], data['N_c']))
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        np.testing.assert_almost_equal(
+            CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            XYZ,
+            decimal=7)
 
-        return XYZ
-
-    def check_specification_attribute(self, case, data, attribute, expected):
-        """
-        Tests *CIE XYZ* tristimulus values output from *CIECAM02* colour
-        appearance model input data.
-
-        Parameters
-        ----------
-        case : int
-            Fixture case number.
-        data : dict.
-            Fixture case data.
-        attribute : unicode.
-            Tested attribute name.
-        expected : float.
-            Expected attribute value.
-
-        Warnings
-        --------
-        The method name does not reflect the underlying implementation.
-        """
-
-        for correlates in (('J', 'C', 'h'), ('J', 'M', 'h')):
-            XYZ = self._XYZ_from_data(data, correlates)
-            value = tsplit(XYZ)[attribute]
-
-            error_message = ('Parameter "{0}" in test case "{1}" '
-                             'does not match target value.\n'
-                             'Expected: "{2}" \n'
-                             'Received "{3}"').format(attribute, case,
-                                                      expected, value)
-
-            np.testing.assert_allclose(
-                value,
-                expected,
-                err_msg=error_message,
-                rtol=0.01,
-                atol=0.01,
-                verbose=False)
-
-            np.testing.assert_almost_equal(
-                value, expected, decimal=1, err_msg=error_message)
+        specification = CAM_Specification_CIECAM02(
+            *tsplit(np.reshape(specification, (2, 3, 8))).tolist())
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            XYZ,
+            decimal=7)
 
     @ignore_numpy_errors
     def test_domain_range_scale_CIECAM02_to_XYZ(self):
