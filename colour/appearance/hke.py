@@ -224,8 +224,8 @@ def coefficient_K_Br_Nayatani1997(L_a):
 
     Notes
     -----
-    The :math:`K_{Br}` coefficient is normalised to unity around
-    :math:`63.66cd/m^2`.
+    -   The :math:`K_{Br}` coefficient is normalised to unity around
+        :math:`63.66cd/m^2`.
 
     References
     ----------

@@ -84,6 +84,11 @@ class InductionFactors_CAM16(
     N_c : numeric or array_like
         Chromatic induction factor :math:`N_c`.
 
+    Notes
+    -----
+    -   The *CAM16* colour appearance model induction factors are the same as
+        *CIECAM02* colour appearance model.
+
     References
     ----------
     :cite:`Li2017`
