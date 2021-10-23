@@ -472,9 +472,6 @@ def CIECAM02_to_XYZ(specification,
     | ``XYZ``   | [0, 100]              | [0, 1]        |
     +-----------+-----------------------+---------------+
 
-    -   ``CAM_Specification_CIECAM02`` can also be passed as a compatible
-        argument to :func:`colour.utilities.as_namedtuple` definition.
-
     References
     ----------
     :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
