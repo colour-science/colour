@@ -270,7 +270,7 @@ b=-52.6142956...)
     LMS_n = XYZ_to_rgb(XYZ_n)
 
     # Computing the :math:`A` matrix.
-    LMS_l_E = (3 * LMS_n) / (LMS_n[0] + LMS_n[1] + LMS_n[2])
+    LMS_l_E = (3 * LMS_n) / np.sum(LMS_n, axis=-1)[..., np.newaxis]
     LMS_p_L = ((1 + spow(Y_n[..., np.newaxis], 1 / 3) + LMS_l_E) /
                (1 + spow(Y_n[..., np.newaxis], 1 / 3) + (1 / LMS_l_E)))
     LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
