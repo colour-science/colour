@@ -248,8 +248,8 @@ H=275.5949861..., HC=None)
     D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
          if not discount_illuminant else ones(L_A.shape))
 
-    n, F_L, N_bb, N_cb, z = tsplit(
-        viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A)
 
     D_RGB = (D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 -
              D[..., np.newaxis])
@@ -425,8 +425,8 @@ def CAM16_to_XYZ(specification,
     D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
          if not discount_illuminant else ones(L_A.shape))
 
-    n, F_L, N_bb, N_cb, z = tsplit(
-        viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A)
 
     D_RGB = (D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 -
              D[..., np.newaxis])
@@ -465,7 +465,7 @@ def CAM16_to_XYZ(specification,
     a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
 
     # Step 4
-    # Computing post-adaptation non-linear response compression matrix.
+    # Applying post-adaptation non-linear response compression matrix.
     RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
 
     # Step 5

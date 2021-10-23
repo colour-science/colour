@@ -12,7 +12,7 @@ from colour.appearance import (VIEWING_CONDITIONS_CAM16,
                                InductionFactors_CAM16, CAM_Specification_CAM16,
                                XYZ_to_CAM16, CAM16_to_XYZ)
 from colour.utilities import (as_float_array, domain_range_scale,
-                              ignore_numpy_errors)
+                              ignore_numpy_errors, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -88,6 +88,40 @@ class TestXYZ_to_CAM16(unittest.TestCase):
                 21.03801957, 457.78881613, 350.06445098, 241.50642846,
                 56.74143988, 330.94646237, 376.43915877, np.nan
             ]),
+            decimal=7)
+
+    def test_n_dimensional_XYZ_to_CAM16(self):
+        """
+        Tests :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
+        n-dimensional support.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20.0
+        surround = VIEWING_CONDITIONS_CAM16['Average']
+        specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        specification = np.tile(specification, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
+            specification,
+            decimal=7)
+
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
+            specification,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+        specification = np.reshape(specification, (2, 3, 8))
+        np.testing.assert_almost_equal(
+            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
+            specification,
             decimal=7)
 
     @ignore_numpy_errors
@@ -195,6 +229,43 @@ class TestCAM16_to_XYZ(unittest.TestCase):
             np.array([61.45276998, 7.00421901, 82.2406738]),
             decimal=7)
 
+    def test_n_dimensional_CAM16_to_XYZ(self):
+        """
+        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition
+        n-dimensional support.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20.0
+        surround = VIEWING_CONDITIONS_CAM16['Average']
+        specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
+        XYZ = CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
+
+        specification = CAM_Specification_CAM16(
+            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist())
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            XYZ,
+            decimal=7)
+
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        np.testing.assert_almost_equal(
+            CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            XYZ,
+            decimal=7)
+
+        specification = CAM_Specification_CAM16(
+            *tsplit(np.reshape(specification, (2, 3, 8))).tolist())
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            XYZ,
+            decimal=7)
+
     @ignore_numpy_errors
     def test_domain_range_scale_CAM16_to_XYZ(self):
         """
@@ -202,12 +273,12 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         and range scale support.
         """
 
-        XYZ_i = np.array([19.01, 20.00, 21.78])
+        XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20.0
         surround = VIEWING_CONDITIONS_CAM16['Average']
-        specification = XYZ_to_CAM16(XYZ_i, XYZ_w, L_A, Y_b, surround)
+        specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
         XYZ = CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
         d_r = (

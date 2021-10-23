@@ -5,13 +5,13 @@ Defines the unit tests for the :mod:`colour.appearance.hunt` module.
 """
 
 import numpy as np
+import unittest
 from itertools import permutations
 
 from colour.appearance import (VIEWING_CONDITIONS_HUNT, InductionFactors_Hunt,
                                XYZ_to_Hunt)
-from colour.appearance.tests.common import AbstractColourAppearanceModelTest
 from colour.utilities import (as_float_array, domain_range_scale,
-                              ignore_numpy_errors, tstack)
+                              ignore_numpy_errors)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -20,55 +20,104 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestHuntColourAppearanceModel']
+__all__ = ['TestXYZ_to_Hunt']
 
 
-class TestHuntColourAppearanceModel(AbstractColourAppearanceModelTest):
+class TestXYZ_to_Hunt(unittest.TestCase):
     """
-    Defines :mod:`colour.appearance.hunt` module unit tests methods for
-    *Hunt* colour appearance model.
+    Defines :func:`colour.appearance.hunt.XYZ_to_Hunt` definition unit tests
+    methods.
     """
 
-    FIXTURE_BASENAME = 'hunt.csv'
-
-    OUTPUT_ATTRIBUTES = {
-        'J': 'J',
-        'C_94': 'C',
-        'h_S': 'h',
-        's': 's',
-        'Q': 'Q',
-        'M94': 'M'
-    }
-
-    def output_specification_from_data(self, data):
+    def test_XYZ_to_Hunt(self):
         """
-        Returns the *Hunt* colour appearance model output specification from
-        given data.
+        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition.
 
-        Parameters
-        ----------
-        data : list
-            Fixture data.
-
-        Returns
-        -------
-        CAM_Specification_Hunt
-            Hunt colour appearance model specification.
+        Notes
+        -----
+        -   The test values have been generated from data of the following file
+            by *Fairchild (2013)*:
+            http://rit-mcsl.org/fairchild//files/AppModEx.xls
         """
 
-        XYZ = tstack([data['X'], data['Y'], data['Z']])
-        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
-        XYZ_b = tstack([data['X_w'], 0.2 * data['Y_w'], data['Z_w']])
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        XYZ_b = XYZ_w * np.array([1, 0.2, 1])
+        L_A = 318.31
+        surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
+        CCT_w = 6504.0
+        np.testing.assert_allclose(
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
+            np.array([42.12, 0.16, 269.3, 0.03, 31.92, 0.16, np.nan, np.nan]),
+            rtol=0.01,
+            atol=0.01)
 
+        XYZ = np.array([57.06, 43.06, 31.96])
+        L_A = 31.83
+        np.testing.assert_allclose(
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
+            np.array(
+                [66.76, 63.89, 18.6, 153.36, 31.22, 58.28, np.nan, np.nan]),
+            rtol=0.01,
+            atol=0.01)
+
+        XYZ = np.array([3.53, 6.56, 2.14])
+        XYZ_w = np.array([109.85, 100.00, 35.58])
+        L_A = 318.31
+        CCT_w = 2856
+        np.testing.assert_allclose(
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
+            np.array([19.56, 74.58, 178.3, 245.4, 18.9, 76.33, np.nan,
+                      np.nan]),
+            rtol=0.01,
+            atol=0.01)
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        L_A = 31.83
+        np.testing.assert_allclose(
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
+            np.array(
+                [40.27, 73.84, 262.8, 209.29, 22.15, 67.35, np.nan, np.nan]),
+            rtol=0.01,
+            atol=0.01)
+
+    def test_n_dimensional_XYZ_to_Hunt(self):
+        """
+        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition
+        n-dimensional support.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        XYZ_b = XYZ_w * np.array([1, 0.2, 1])
+        L_A = 318.31
+        surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
+        CCT_w = 6504.0
         specification = XYZ_to_Hunt(
-            XYZ,
-            XYZ_w,
-            XYZ_b,
-            data['L_A'],
-            InductionFactors_Hunt(data['N_c'], data['N_b']),
-            CCT_w=data['T'])
+            XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
 
-        return specification
+        XYZ = np.tile(XYZ, (6, 1))
+        specification = np.tile(specification, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
+            specification,
+            decimal=7)
+
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        XYZ_b = np.tile(XYZ_b, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
+            specification,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+        XYZ_b = np.reshape(XYZ_b, (2, 3, 3))
+        specification = np.reshape(specification, (2, 3, 8))
+        np.testing.assert_almost_equal(
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
+            specification,
+            decimal=7)
 
     def test_domain_range_scale_XYZ_to_Hunt(self):
         """
@@ -104,7 +153,7 @@ class TestHuntColourAppearanceModel(AbstractColourAppearanceModelTest):
                     decimal=7)
 
     @ignore_numpy_errors
-    def test_raise_exception_CIECAM02_to_XYZ(self):
+    def test_raise_exception_XYZ_to_Hunt(self):
         """
         Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition raised
         exception.
@@ -134,7 +183,7 @@ class TestHuntColourAppearanceModel(AbstractColourAppearanceModelTest):
             pass
 
     @ignore_numpy_errors
-    def test_XYZ_p_CIECAM02_to_XYZ(self):
+    def test_XYZ_p_XYZ_to_Hunt(self):
         """
         Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition *XYZ_p*
         argument handling.
