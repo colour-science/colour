@@ -16,7 +16,6 @@ XYZ_0 = np.array([95.05, 100.00, 108.88])
 Y_0 = 318.31
 k_1 = 0.0
 k_2 = 50.0
-surround = colour.VIEWING_CONDITIONS_CIECAM02['Average']
 message_box(
     ('Converting to "ATD (1995)" colour appearance model '
      'specification using given parameters:\n'
