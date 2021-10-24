@@ -58,7 +58,6 @@ CAM16
     CAM_Specification_CAM16
     VIEWING_CONDITIONS_CAM16
 
-
 **Ancillary Objects**
 
 ``colour.appearance``
