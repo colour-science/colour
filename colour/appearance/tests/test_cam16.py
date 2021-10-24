@@ -38,7 +38,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
-        Y_b = 20.0
+        Y_b = 20
         surround = VIEWING_CONDITIONS_CAM16['Average']
         np.testing.assert_almost_equal(
             XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround),
@@ -99,7 +99,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
-        Y_b = 20.0
+        Y_b = 20
         surround = VIEWING_CONDITIONS_CAM16['Average']
         specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 
@@ -134,7 +134,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
-        Y_b = 20.0
+        Y_b = 20
         surround = VIEWING_CONDITIONS_CAM16['Average']
         specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 
@@ -188,7 +188,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
                                                 217.06795977)
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
-        Y_b = 20.0
+        Y_b = 20
         surround = VIEWING_CONDITIONS_CAM16['Average']
         np.testing.assert_almost_equal(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
@@ -238,7 +238,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
-        Y_b = 20.0
+        Y_b = 20
         surround = VIEWING_CONDITIONS_CAM16['Average']
         specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
         XYZ = CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
@@ -276,7 +276,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
-        Y_b = 20.0
+        Y_b = 20
         surround = VIEWING_CONDITIONS_CAM16['Average']
         specification = XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
         XYZ = CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)

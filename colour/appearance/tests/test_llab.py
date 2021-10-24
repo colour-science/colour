@@ -94,7 +94,7 @@ class TestXYZ_to_LLAB(unittest.TestCase):
 
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_0 = np.array([95.05, 100.00, 108.88])
-        Y_b = 20.0
+        Y_b = 20
         L = 318.31
         surround = surround = VIEWING_CONDITIONS_LLAB[
             'Reference Samples & Images, Average Surround, Subtending < 4']
@@ -143,7 +143,7 @@ class TestXYZ_to_LLAB(unittest.TestCase):
 
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_0 = np.array([95.05, 100.00, 108.88])
-        Y_b = 20.0
+        Y_b = 20
         L = 318.31
         surround = VIEWING_CONDITIONS_LLAB['ref_average_4_minus']
         specification = XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)

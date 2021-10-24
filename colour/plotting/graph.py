@@ -90,8 +90,8 @@ def plot_automatic_colour_conversion_graph(filename, prog='fdp', args=''):
             color='#673AB7FF',
             fillcolor='#673AB770',
             fontsize=30)
-    for node in ('ATD95', 'CAM16', 'CIECAM02', 'Hunt', 'LLAB', 'Nayatani95',
-                 'RLAB'):
+    for node in ('ATD95', 'CAM16', 'CIECAM02', 'Hunt', 'Kim 2009', 'LLAB',
+                 'Nayatani95', 'RLAB'):
         agraph.get_node(node.lower()).attr.update(
             color='#00BCD4FF', fillcolor='#00BCD470')
 

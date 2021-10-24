@@ -51,10 +51,11 @@ from colour.models import (
 from colour.notation import (HEX_to_RGB, RGB_to_HEX, munsell_value,
                              munsell_colour_to_xyY, xyY_to_munsell_colour)
 from colour.quality import colour_quality_scale, colour_rendering_index
-from colour.appearance import (
-    CAM_Specification_CAM16, CAM16_to_XYZ, CAM_Specification_CIECAM02,
-    CIECAM02_to_XYZ, XYZ_to_ATD95, XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt,
-    XYZ_to_LLAB, XYZ_to_Nayatani95, XYZ_to_RLAB)
+from colour.appearance import (CAM_Specification_CAM16, CAM16_to_XYZ,
+                               CAM_Specification_CIECAM02, CIECAM02_to_XYZ,
+                               Kim2009_to_XYZ, XYZ_to_ATD95, XYZ_to_CAM16,
+                               XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_Kim2009,
+                               XYZ_to_LLAB, XYZ_to_Nayatani95, XYZ_to_RLAB)
 from colour.appearance.ciecam02 import CAM_KWARGS_CIECAM02_sRGB
 from colour.temperature import CCT_to_uv, uv_to_CCT
 from colour.utilities import (domain_range_scale, filter_kwargs, message_box,
@@ -493,13 +494,6 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CCT', 'CIE UCS uv', CCT_to_uv),
     ('CIE UCS uv', 'CCT', uv_to_CCT),
     # Advanced Colorimetry
-    ('CIE XYZ', 'Hunt',
-     partial(
-         XYZ_to_Hunt,
-         XYZ_w=_TVS_ILLUMINANT_DEFAULT,
-         XYZ_b=_TVS_ILLUMINANT_DEFAULT,
-         L_A=80 * 0.2,
-         CCT_w=6504)),
     ('CIE XYZ', 'ATD95',
      partial(
          XYZ_to_ATD95,
@@ -517,6 +511,17 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CAM16', 'CIE XYZ', partial(CAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
     ('CAM16', 'CAM16 JMh', CAM16_to_JMh_CAM16),
     ('CAM16 JMh', 'CAM16', JMh_CAM16_to_CAM16),
+    ('CIE XYZ', 'Kim 2009',
+     partial(XYZ_to_Kim2009, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_a=80 * 0.2)),
+    ('Kim 2009', 'CIE XYZ',
+     partial(Kim2009_to_XYZ, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_a=80 * 0.2)),
+    ('CIE XYZ', 'Hunt',
+     partial(
+         XYZ_to_Hunt,
+         XYZ_w=_TVS_ILLUMINANT_DEFAULT,
+         XYZ_b=_TVS_ILLUMINANT_DEFAULT,
+         L_A=80 * 0.2,
+         CCT_w=6504)),
     ('CIE XYZ', 'LLAB',
      partial(XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80)),
     ('CIE XYZ', 'Nayatani95',
