@@ -330,22 +330,13 @@ __all__ += [
     'UV_TO_CCT_METHODS', 'XY_TO_CCT_METHODS', 'uv_to_CCT', 'xy_to_CCT'
 ]
 __all__ += [
-    'CCS_COLOURCHECKERS',
-    'MATRIX_COLOUR_CORRECTION_METHODS',
-    'COLOUR_CORRECTION_METHODS',
-    'MSDS_CAMERA_SENSITIVITIES',
-    'MSDS_DISPLAY_PRIMARIES',
-    'POLYNOMIAL_EXPANSION_METHODS',
-    'SDS_COLOURCHECKERS',
-    'SDS_FILTERS',
-    'SDS_LENSES',
-    'camera_RGB_to_ACES2065_1',
-    'colour_correction',
-    'matrix_colour_correction',
-    'matrix_idt',
-    'polynomial_expansion',
-    'sd_to_ACES2065_1',
-    'sd_to_aces_relative_exposure_values',
+    'CCS_COLOURCHECKERS', 'MATRIX_COLOUR_CORRECTION_METHODS',
+    'COLOUR_CORRECTION_METHODS', 'MSDS_CAMERA_SENSITIVITIES',
+    'MSDS_DISPLAY_PRIMARIES', 'POLYNOMIAL_EXPANSION_METHODS',
+    'SDS_COLOURCHECKERS', 'SDS_FILTERS', 'SDS_LENSES',
+    'camera_RGB_to_ACES2065_1', 'colour_correction',
+    'matrix_colour_correction', 'matrix_idt', 'polynomial_expansion',
+    'sd_to_ACES2065_1', 'sd_to_aces_relative_exposure_values'
 ]
 __all__ += [
     'OPTIMAL_COLOUR_STIMULI_ILLUMINANTS', 'RGB_colourspace_limits',
