@@ -21,7 +21,7 @@ References
 ----------
 -   :cite:`Nayatani1997` : Nayatani, Y. (1997). Simple estimation methods for
     the Helmholtz—Kohlrausch effect. Color Research & Application, 22(6),
-    385–401. doi:10.1002/(SICI)1520-6378(199712)22:6<385::AID-COL6>3.0.CO;2-R
+    385-401. doi:10.1002/(SICI)1520-6378(199712)22:6<385::AID-COL6>3.0.CO;2-R
 """
 
 import numpy as np

@@ -332,7 +332,7 @@ Spectral Uniformity
 .. autosummary::
     :toctree: generated/
 
-spectral_uniformity
+    spectral_uniformity
 
 Lightness Computation
 ---------------------

@@ -35,7 +35,7 @@ References
 ----------
 -   :cite:`Abebe2017a` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
     E. (2017). Perceptual Lightness Modeling for High-Dynamic-Range Imaging.
-    ACM Transactions on Applied Perception, 15(1), 1–19. doi:10.1145/3086577
+    ACM Transactions on Applied Perception, 15(1), 1-19. doi:10.1145/3086577
 -   :cite:`ASTMInternational2008a` : ASTM International. (2008). ASTM
     D1535-08e1 - Standard Practice for Specifying Color by the Munsell System.
     doi:10.1520/D1535-08E01
