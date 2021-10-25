@@ -20,7 +20,7 @@ References
 ----------
 -   :cite:`Abebe2017a` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
     E. (2017). Perceptual Lightness Modeling for High-Dynamic-Range Imaging.
-    ACM Transactions on Applied Perception, 15(1), 1–19. doi:10.1145/3086577
+    ACM Transactions on Applied Perception, 15(1), 1-19. doi:10.1145/3086577
 -   :cite:`Wikipedia2003d` : Wikipedia. (2003). Michaelis-Menten kinetics.
     Retrieved April 29, 2017, from
     https://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics

@@ -306,20 +306,12 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         exception.
         """
 
-        try:
-            CAM16_to_XYZ(
-                CAM_Specification_CAM16(
-                    41.731207905126638,
-                    None,
-                    217.06795976739301,
-                ),
-                np.array([95.05, 100.00, 108.88]),
-                318.31,
-                20.0,
-                VIEWING_CONDITIONS_CAM16['Average'],
-            )
-        except ValueError:
-            pass
+        self.assertRaises(
+            ValueError, CAM16_to_XYZ,
+            CAM_Specification_CAM16(41.731207905126638, None,
+                                    217.06795976739301),
+            np.array([95.05, 100.00, 108.88]), 318.31, 20.0,
+            VIEWING_CONDITIONS_CAM16['Average'])
 
     @ignore_numpy_errors
     def test_nan_CAM16_to_XYZ(self):

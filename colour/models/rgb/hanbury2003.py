@@ -12,7 +12,7 @@ References
 ----------
 -   :cite:`Hanbury2003` : Hanbury, A. (2003). A 3D-Polar Coordinate Colour
     Representation Well Adapted to Image Analysis. In J. Bigun & T. Gustavsson
-    (Eds.), Image Analysis (pp. 804–811). Springer Berlin Heidelberg.
+    (Eds.), Image Analysis (pp. 804-811). Springer Berlin Heidelberg.
     ISBN:978-3-540-45103-7
 """
 

@@ -17,9 +17,9 @@ References
     Standard Practice for Calculation of Color Tolerances and Color Differences
     from Instrumentally Measured Color Coordinates: Vol. i (pp. 1-10).
     doi:10.1520/D2244-16
--   :cite:`Cui2020` :  Cui, G., Luo, M. R., Rigg, B., Roesler, G., & Witt, K.
+-   :cite:`Cui2002` :  Cui, G., Luo, M. R., Rigg, B., Roesler, G., & Witt, K.
     (2002). Uniform colour spaces based on the DIN99 colour-difference formula.
-    Color Research & Application, 27(4), 282–290. doi:10.1002/col.10066
+    Color Research & Application, 27(4), 282-290. doi:10.1002/col.10066
 """
 
 import numpy as np
@@ -104,7 +104,7 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1, method='DIN99'):
 
     References
     ----------
-    :cite:`ASTMInternational2007`
+    :cite:`ASTMInternational2007`, :cite:`Cui2002`
 
     Examples
     --------
@@ -190,7 +190,7 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1, method='DIN99'):
 
     References
     ----------
-    :cite:`ASTMInternational2007`
+    :cite:`ASTMInternational2007`, :cite:`Cui2002`
 
     Examples
     --------

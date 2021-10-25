@@ -33,7 +33,7 @@ References
 ----------
 -   :cite:`Abebe2017a` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
     E. (2017). Perceptual Lightness Modeling for High-Dynamic-Range Imaging.
-    ACM Transactions on Applied Perception, 15(1), 1–19. doi:10.1145/3086577
+    ACM Transactions on Applied Perception, 15(1), 1-19. doi:10.1145/3086577
 -   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
     spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
     ISBN:978-3-901906-33-6
@@ -571,7 +571,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
 
     References
     ----------
-    :cite:`Abebe 2017`, :cite:`CIETC1-482004m`, :cite:`Fairchild2010`,
+    :cite:`Abebe2017a`, :cite:`CIETC1-482004m`, :cite:`Fairchild2010`,
     :cite:`Fairchild2011`, :cite:`Glasser1958a`, :cite:`Wikipedia2007c`,
     :cite:`Wyszecki1963b`, :cite:`Wyszecki2000bd`
 

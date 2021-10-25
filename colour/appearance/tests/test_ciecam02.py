@@ -95,7 +95,7 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_CIECAM02(self):
         """
-        Tests :func:`colour.appearance.cam16.XYZ_to_CIECAM02` definition
+        Tests :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition
         n-dimensional support.
         """
 
@@ -130,8 +130,8 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
     @ignore_numpy_errors
     def test_domain_range_scale_XYZ_to_CIECAM02(self):
         """
-        Tests :func:`colour.appearance.cam16.XYZ_to_CIECAM02` definition domain
-        and range scale support.
+        Tests :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition
+        domain and range scale support.
         """
 
         XYZ = np.array([19.01, 20.00, 21.78])
@@ -279,8 +279,8 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_domain_range_scale_CIECAM02_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.cam16.CIECAM02_to_XYZ` definition domain
-        and range scale support.
+        Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
+        domain and range scale support.
         """
 
         XYZ_i = np.array([19.01, 20.00, 21.78])
@@ -312,24 +312,16 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_raise_exception_CIECAM02_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.cam16.CIECAM02_to_XYZ` definition raised
-        exception.
+        Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
+        raised exception.
         """
 
-        try:
-            CIECAM02_to_XYZ(
-                CAM_Specification_CIECAM02(
-                    41.731091132513917,
-                    None,
-                    219.04843265831178,
-                ),
-                np.array([95.05, 100.00, 108.88]),
-                318.31,
-                20.0,
-                VIEWING_CONDITIONS_CIECAM02['Average'],
-            )
-        except ValueError:
-            pass
+        self.assertRaises(
+            ValueError, CIECAM02_to_XYZ,
+            CAM_Specification_CIECAM02(41.731091132513917, None,
+                                       219.04843265831178),
+            np.array([95.05, 100.00, 108.88]), 318.31, 20.0,
+            VIEWING_CONDITIONS_CIECAM02['Average'])
 
     @ignore_numpy_errors
     def test_nan_CIECAM02_to_XYZ(self):
