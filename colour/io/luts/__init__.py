@@ -18,7 +18,7 @@ from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               validate_method)
 
 from .lut import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
-from .operator import AbstractLUTSequenceOperator
+from .operator import AbstractLUTSequenceOperator, Matrix
 from .sequence import LUTSequence
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
@@ -27,7 +27,7 @@ from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
 
 __all__ = ['LUT1D', 'LUT3x1D', 'LUT3D', 'LUT_to_LUT']
-__all__ += ['AbstractLUTSequenceOperator']
+__all__ += ['AbstractLUTSequenceOperator', 'Matrix']
 __all__ += ['LUTSequence']
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
 __all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']
