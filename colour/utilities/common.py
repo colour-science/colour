@@ -43,14 +43,14 @@ __all__ = [
     'disable_multiprocessing', 'multiprocessing_pool',
     'is_matplotlib_installed', 'is_networkx_installed',
     'is_opencolorio_installed', 'is_openimageio_installed',
-    'is_pandas_installed', 'is_tqdm_installed', 'is_trimesh_installed',
-    'required', 'is_iterable', 'is_string', 'is_numeric', 'is_integer',
-    'is_sibling', 'filter_kwargs', 'filter_mapping', 'first_item',
-    'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
-    'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
-    'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
-    'from_range_degrees', 'from_range_int', 'copy_definition',
-    'validate_method'
+    'is_pandas_installed', 'is_sklearn_installed', 'is_tqdm_installed',
+    'is_trimesh_installed', 'required', 'is_iterable', 'is_string',
+    'is_numeric', 'is_integer', 'is_sibling', 'filter_kwargs',
+    'filter_mapping', 'first_item', 'get_domain_range_scale',
+    'set_domain_range_scale', 'domain_range_scale', 'to_domain_1',
+    'to_domain_10', 'to_domain_100', 'to_domain_degrees', 'to_domain_int',
+    'from_range_1', 'from_range_10', 'from_range_100', 'from_range_degrees',
+    'from_range_int', 'copy_definition', 'validate_method'
 ]
 
 
@@ -671,6 +671,43 @@ def is_pandas_installed(raise_exception=False):
         return False
 
 
+def is_sklearn_installed(raise_exception=False):
+    """
+    Returns if *Scikit-Learn* (sklearn) is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *Scikit-Learn* (sklearn) is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *Scikit-Learn* (sklearn) installed.
+
+    Raises
+    ------
+    ImportError
+        If *Scikit-Learn* (sklearn) is not installed.
+    """
+
+    try:  # pragma: no cover
+        # pylint: disable=W0612
+        import sklearn  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(
+                ('"Scikit-Learn" related API features are not available: '
+                 '"{0}".\n'
+                 'Please refer to the installation guide for more '
+                 'information: '
+                 'https://www.colour-science.org/installation-guide/'
+                 ).format(error))
+        return False
+
+
 def is_tqdm_installed(raise_exception=False):
     """
     Returns if *tqdm* is installed and available.
@@ -749,6 +786,7 @@ _REQUIREMENTS_TO_CALLABLE = CaseInsensitiveMapping({
     'OpenColorIO': is_opencolorio_installed,
     'OpenImageIO': is_openimageio_installed,
     'Pandas': is_pandas_installed,
+    'Scikit-Learn': is_sklearn_installed,
     'tqdm': is_tqdm_installed,
     'trimesh': is_trimesh_installed,
 })
@@ -757,7 +795,7 @@ Mapping of requirements to their respective callables.
 
 _REQUIREMENTS_TO_CALLABLE : CaseInsensitiveMapping
     **{'Matplotlib', 'NetworkX', 'OpenColorIO', 'OpenImageIO', 'Pandas',
-    'tqdm', 'trimesh'}**
+    'Scikit-Learn', 'tqdm', 'trimesh'}**
 """
 
 

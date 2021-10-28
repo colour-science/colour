@@ -65,6 +65,7 @@ pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
 pytest = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
+scikit-learn = { version = "*", optional = true }
 sphinx = { version = "<=3.1.2", optional = true }  # Development dependency.
 sphinx_rtd_theme = { version = "*", optional = true }  # Development dependency.
 sphinxcontrib-bibtex = { version = "<2.0.0", optional = true }  # Development dependency.
@@ -115,7 +116,7 @@ development = [
 ]
 graphviz = [ "pygraphviz" ]
 meshing = [ "trimesh" ]
-optional = [ "networkx", "opencolorio", "pandas", "tqdm" ]
+optional = [ "networkx", "opencolorio", "pandas", "scikit-learn",   "tqdm" ]
 plotting = [ "matplotlib" ]
 read-the-docs = [
     "mock",

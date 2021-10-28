@@ -1662,6 +1662,7 @@ def vertices_and_relative_coordinates(V_xyz, table):
     # indexes encompassing a given V_xyz value.
     i_m = np.array(table.shape[0:-1]) - 1
     i_f = np.floor(V_xyz * i_m).astype(DEFAULT_INT_DTYPE)
+    i_f = np.clip(i_f, 0, i_m)
     i_c = np.clip(i_f + 1, 0, i_m)
 
     # Relative to indexes ``V_xyz`` values.
@@ -1730,10 +1731,16 @@ def table_interpolation_trilinear(V_xyz, table):
     x, y, z = [f[:, np.newaxis] for f in tsplit(V_xyzr)]
 
     weights = np.moveaxis(
-        np.transpose(
-            [(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
-             (1 - x) * y * (1 - z), (1 - x) * y * z, x * (1 - y) * (1 - z),
-             x * (1 - y) * z, x * y * (1 - z), x * y * z]), 0, -1)
+        np.transpose([
+            (1 - x) * (1 - y) * (1 - z),
+            (1 - x) * (1 - y) * z,
+            (1 - x) * y * (1 - z),
+            (1 - x) * y * z,
+            x * (1 - y) * (1 - z),
+            x * (1 - y) * z,
+            x * y * (1 - z),
+            x * y * z,
+        ]), 0, -1)
 
     xyz_o = np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
 
@@ -1790,21 +1797,24 @@ def table_interpolation_tetrahedral(V_xyz, table):
     V000, V001, V010, V011, V100, V101, V110, V111 = tsplit(vertices)
     x, y, z = [r[:, np.newaxis] for r in tsplit(V_xyzr)]
 
-    xyz_o = np.select([
-        np.logical_and(x > y, y > z),
-        np.logical_and(x > y, x > z),
-        np.logical_and(x > y, np.logical_and(y <= z, x <= z)),
-        np.logical_and(x <= y, z > y),
-        np.logical_and(x <= y, z > x),
-        np.logical_and(x <= y, np.logical_and(z <= y, z <= x)),
-    ], [
-        (1 - x) * V000 + (x - y) * V100 + (y - z) * V110 + z * V111,
-        (1 - x) * V000 + (x - z) * V100 + (z - y) * V101 + y * V111,
-        (1 - z) * V000 + (z - x) * V001 + (x - y) * V101 + y * V111,
-        (1 - z) * V000 + (z - y) * V001 + (y - x) * V011 + x * V111,
-        (1 - y) * V000 + (y - z) * V010 + (z - x) * V011 + x * V111,
-        (1 - y) * V000 + (y - x) * V010 + (x - z) * V110 + z * V111,
-    ])
+    xyz_o = np.select(
+        [
+            np.logical_and(x > y, y > z),
+            np.logical_and(x > y, x > z),
+            np.logical_and(x > y, np.logical_and(y <= z, x <= z)),
+            np.logical_and(x <= y, z > y),
+            np.logical_and(x <= y, z > x),
+            np.logical_and(x <= y, np.logical_and(z <= y, z <= x)),
+        ],
+        [
+            (1 - x) * V000 + (x - y) * V100 + (y - z) * V110 + z * V111,
+            (1 - x) * V000 + (x - z) * V100 + (z - y) * V101 + y * V111,
+            (1 - z) * V000 + (z - x) * V001 + (x - y) * V101 + y * V111,
+            (1 - z) * V000 + (z - y) * V001 + (y - x) * V011 + x * V111,
+            (1 - y) * V000 + (y - z) * V010 + (z - x) * V011 + x * V111,
+            (1 - y) * V000 + (y - x) * V010 + (x - z) * V110 + z * V111,
+        ],
+    )
 
     xyz_o = np.reshape(xyz_o, V_xyz.shape)
 
