@@ -17,18 +17,18 @@ import os
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               validate_method)
 
-from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D,
-                  LUTSequence, LUT_to_LUT)
+from .lut import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
+from .operator import AbstractLUTSequenceOperator
+from .sequence import LUTSequence
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
 from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
 from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
 
-__all__ = [
-    'AbstractLUTSequenceOperator', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUTSequence',
-    'LUT_to_LUT'
-]
+__all__ = ['LUT1D', 'LUT3x1D', 'LUT3D', 'LUT_to_LUT']
+__all__ += ['AbstractLUTSequenceOperator']
+__all__ += ['LUTSequence']
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
 __all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']
 __all__ += ['read_LUT_SonySPI1D', 'write_LUT_SonySPI1D']
