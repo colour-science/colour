@@ -6,7 +6,7 @@ LUT Operator
 Defines the *LUT* operator classes:
 
 -   :class:`colour.io.AbstractLUTSequenceOperator`
--   :class:`colour.io.LUTOperatorMatrix`
+-   :class:`colour.LUTOperatorMatrix`
 """
 
 import numpy as np
@@ -162,16 +162,16 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     Attributes
     ----------
-     -   :meth:`~colour.io.LUTOperatorMatrix.matrix`
-     -   :meth:`~colour.io.LUTOperatorMatrix.offset`
+     -   :meth:`~colour.LUTOperatorMatrix.matrix`
+     -   :meth:`~colour.LUTOperatorMatrix.offset`
 
     Methods
     -------
-     -   :meth:`~colour.io.LUTOperatorMatrix.__str__`
-     -   :meth:`~colour.io.LUTOperatorMatrix.__repr__`
-     -   :meth:`~colour.io.LUTOperatorMatrix.__eq__`
-     -   :meth:`~colour.io.LUTOperatorMatrix.__ne__`
-     -   :meth:`~colour.io.LUTOperatorMatrix.apply`
+     -   :meth:`~colour.LUTOperatorMatrix.__str__`
+     -   :meth:`~colour.LUTOperatorMatrix.__repr__`
+     -   :meth:`~colour.LUTOperatorMatrix.__eq__`
+     -   :meth:`~colour.LUTOperatorMatrix.__ne__`
+     -   :meth:`~colour.LUTOperatorMatrix.apply`
 
     Notes
     -----

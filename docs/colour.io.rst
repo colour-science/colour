@@ -60,6 +60,7 @@ Look Up Table (LUT) Data
     LUT1D
     LUT3x1D
     LUT3D
+    LUTOperatorMatrix
     LUTSequence
 
 .. autosummary::
@@ -79,7 +80,6 @@ Look Up Table (LUT) Data
     :template: class.rst
 
     AbstractLUTSequenceOperator
-    Matrix
 
 .. autosummary::
     :toctree: generated/

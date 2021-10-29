@@ -73,7 +73,7 @@ def write_LUT_SonySPImtx(LUT, path, decimals=7):
     Parameters
     ----------
     LUT : LUTOperatorMatrix
-        :class:`colour.io.LUTOperatorMatrix` class instance to write at given
+        :class:`colour.LUTOperatorMatrix` class instance to write at given
         path.
     path : unicode
         *LUT* path.
