@@ -18,7 +18,7 @@ from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               validate_method)
 
 from .lut import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
-from .operator import AbstractLUTSequenceOperator, Matrix
+from .operator import AbstractLUTSequenceOperator, LUTOperatorMatrix
 from .sequence import LUTSequence
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
@@ -28,7 +28,7 @@ from .sony_spimtx import read_LUT_SonySPImtx, write_LUT_SonySPImtx
 from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
 
 __all__ = ['LUT1D', 'LUT3x1D', 'LUT3D', 'LUT_to_LUT']
-__all__ += ['AbstractLUTSequenceOperator', 'Matrix']
+__all__ += ['AbstractLUTSequenceOperator', 'LUTOperatorMatrix']
 __all__ += ['LUTSequence']
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
 __all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']
@@ -88,7 +88,7 @@ def read_LUT(path, method=None, **kwargs):
 
     Returns
     -------
-    LUT1D or LUT3x1D or LUT3D or Matrix
+    LUT1D or LUT3x1D or LUT3D or LUTOperatorMatrix
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or :class:`Matrix`
         class instance.
 
@@ -149,14 +149,14 @@ def read_LUT(path, method=None, **kwargs):
     ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spimtx',
     ...     'dt.spimtx')
     >>> print(read_LUT(path))
-    Matrix - dt
-    -----------
+    LUTOperatorMatrix - dt
+    ----------------------
     <BLANKLINE>
-    Dimensions : (3, 4)
     Matrix     : [[ 0.864274  0.        0.        0.      ]
                   [ 0.        0.864274  0.        0.      ]
-                  [ 0.        0.        0.864274  0.      ]]
-    Offset     : [ 0.  0.  0.]
+                  [ 0.        0.        0.864274  0.      ]
+                  [ 0.        0.        0.        1.      ]]
+    Offset     : [ 0.  0.  0.  0.]
     """
 
     if method is None:
@@ -205,7 +205,7 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     Parameters
     ----------
-    LUT : LUT1D or LUT3x1D or LUT3D or Matrix
+    LUT : LUT1D or LUT3x1D or LUT3D or LUTOperatorMatrix
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or :class:`Matrix`
         class instance to write at given path.
     path : unicode

@@ -13,7 +13,7 @@ import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.io.luts.common import path_to_title
-from colour.io.luts import Matrix
+from colour.io.luts import LUTOperatorMatrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -36,7 +36,7 @@ def read_LUT_SonySPImtx(path):
 
     Returns
     -------
-    Matrix
+    LUTOperatorMatrix
         :class:`colour.io.Matrix` class instance.
 
     Examples
@@ -46,32 +46,35 @@ def read_LUT_SonySPImtx(path):
     ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spimtx',
     ...     'dt.spimtx')
     >>> print(read_LUT_SonySPImtx(path))
-    Matrix - dt
-    -----------
+    LUTOperatorMatrix - dt
+    ----------------------
     <BLANKLINE>
-    Dimensions : (3, 4)
     Matrix     : [[ 0.864274  0.        0.        0.      ]
                   [ 0.        0.864274  0.        0.      ]
-                  [ 0.        0.        0.864274  0.      ]]
-    Offset     : [ 0.  0.  0.]
+                  [ 0.        0.        0.864274  0.      ]
+                  [ 0.        0.        0.        1.      ]]
+    Offset     : [ 0.  0.  0.  0.]
     """
 
     matrix = np.loadtxt(path, dtype=DEFAULT_FLOAT_DTYPE)
     matrix = matrix.reshape(3, 4)
+    offset = matrix[:, 3] / 65535
+    matrix = matrix[:3, :3]
 
     title = path_to_title(path)
 
-    return Matrix(matrix, name=title)
+    return LUTOperatorMatrix(matrix, offset, name=title)
 
 
-def write_LUT_SonySPImtx(matrix, path, decimals=7):
+def write_LUT_SonySPImtx(LUT, path, decimals=7):
     """
     Writes given *LUT* to given *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------
-    matrix : Matrix
-        :class:`Matrix` class instance to write at given path.
+    LUT : LUTOperatorMatrix
+        :class:`colour.io.LUTOperatorMatrix` class instance to write at given
+        path.
     path : unicode
         *LUT* path.
     decimals : int, optional
@@ -87,15 +90,18 @@ def write_LUT_SonySPImtx(matrix, path, decimals=7):
     >>> matrix = np.array([[ 1.45143932, -0.23651075, -0.21492857],
     ...                    [-0.07655377,  1.1762297 , -0.09967593],
     ...                    [ 0.00831615, -0.00603245,  0.9977163 ]])
-    >>> M = Matrix(matrix)
+    >>> M = LUTOperatorMatrix(matrix)
     >>> write_LUT_SonySPI1D(M, 'My_LUT.spimtx')  # doctest: +SKIP
     """
 
-    if matrix.matrix.shape == (3, 4):
-        matrix = matrix.matrix
-    else:
-        matrix = np.hstack([matrix.matrix, np.zeros((3, 1))])
+    matrix, offset = LUT.matrix, LUT.offset
+    offset *= 65535
 
-    np.savetxt(path, matrix, fmt='%.{0}f'.format(decimals).encode('ascii'))
+    array = np.hstack([
+        np.reshape(matrix, (4, 4))[:3, :3],
+        np.transpose(np.array([offset[:3]]))
+    ])
+
+    np.savetxt(path, array, fmt='%.{0}f'.format(decimals).encode('utf-8'))
 
     return True
