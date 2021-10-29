@@ -59,6 +59,7 @@ class TestMatrix(unittest.TestCase):
 
         self._matrix = Matrix(
             np.linspace(0, 1, 12).reshape([3, 4]),
+            offset=np.array([0.25, 0.5, 0.75]),
             name='Nemo Matrix',
             comments=['A first comment.', 'A second comment.'])
 
@@ -67,7 +68,7 @@ class TestMatrix(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('array', )
+        required_attributes = ('matrix', 'offset')
 
         for method in required_attributes:
             self.assertIn(method, dir(Matrix))
@@ -97,6 +98,7 @@ class TestMatrix(unittest.TestCase):
             Matrix     : [[ 0.          0.09090909  0.18181818  0.27272727]
                           [ 0.36363636  0.45454545  0.54545455  0.63636364]
                           [ 0.72727273  0.81818182  0.90909091  1.        ]]
+            Offset     : [ 0.25  0.5   0.75]
 
             A first comment.
             A second comment.""")[1:])
@@ -112,6 +114,7 @@ class TestMatrix(unittest.TestCase):
         Matrix([[ 0.        ,  0.09090909,  0.18181818,  0.27272727],
                 [ 0.36363636,  0.45454545,  0.54545455,  0.63636364],
                 [ 0.72727273,  0.81818182,  0.90909091,  1.        ]],
+               offset=[ 0.25,  0.5 ,  0.75],
                name='Nemo Matrix',
                comments=['A first comment.', 'A second comment.'])""" [1:]))
 
@@ -120,7 +123,8 @@ class TestMatrix(unittest.TestCase):
         Tests :class:`colour.io.luts.operator.Matrix.__eq__` method.
         """
 
-        matrix = Matrix(np.linspace(0, 1, 12).reshape([3, 4]))
+        matrix = Matrix(
+            np.linspace(0, 1, 12).reshape([3, 4]), np.array([0.25, 0.5, 0.75]))
 
         self.assertEqual(self._matrix, matrix)
 
@@ -144,11 +148,11 @@ class TestMatrix(unittest.TestCase):
         np.testing.assert_almost_equal(
             self._matrix.apply(RGB),
             np.array([
-                [0.27272727, 0.63636364, 1.00000000],
-                [0.34090909, 0.97727273, 1.61363636],
-                [0.40909091, 1.31818182, 2.22727273],
-                [0.47727273, 1.65909091, 2.84090909],
-                [0.54545455, 2.00000000, 3.45454545],
+                [0.52272727, 1.13636364, 1.75000000],
+                [0.59090909, 1.47727273, 2.36363636],
+                [0.65909091, 1.81818182, 2.97727273],
+                [0.72727273, 2.15909091, 3.59090909],
+                [0.79545455, 2.50000000, 4.20454545],
             ]))
 
 

@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 
 from colour.algebra import vector_dot
 from colour.utilities import (as_float_array, is_iterable, is_string, ones,
-                              tsplit, tstack)
+                              runtime_warning, tsplit, tstack, zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -139,16 +139,19 @@ class AbstractLUTSequenceOperator(ABC):
 
 class Matrix(AbstractLUTSequenceOperator):
     """
-    Defines the base class for a *Matrix* transform.
+    Defines the *Matrix* operato surpporting a 3x3 or 3x4 matrix and an offset
+    vector.
 
     Parameters
     ----------
-    array : array_like, optional
-        3x3 or 3x4 matrix for the transform.
+    matrix : array_like, optional
+        3x3 or 3x4 matrix for the operator.
+    offset : array_like, optional
+        Offset for the operator.
     name : unicode, optional
         *Matrix* name.
     comments : array_like, optional
-        Comments to add to the *Matrix*.
+        Comments to add to the *Matrix* operator.
 
     Methods
     -------
@@ -170,14 +173,15 @@ class Matrix(AbstractLUTSequenceOperator):
     Matrix     : [[ 1.  0.  0.]
                   [ 0.  1.  0.]
                   [ 0.  0.  1.]]
+    Offset     : [ 0.  0.  0.]
 
     Instantiating a matrix with comments:
 
-    >>> array = np.array([[ 1.45143932, -0.23651075, -0.21492857],
-    ...                   [-0.07655377,  1.1762297 , -0.09967593],
-    ...                   [ 0.00831615, -0.00603245,  0.9977163 ]])
+    >>> matrix = np.array([[ 1.45143932, -0.23651075, -0.21492857],
+    ...                    [-0.07655377,  1.1762297 , -0.09967593],
+    ...                    [ 0.00831615, -0.00603245,  0.9977163 ]])
     >>> print(Matrix(
-    ...         array,
+    ...         matrix,
     ...         name='AP0 to AP1',
     ...         comments=['A first comment.', 'A second comment.']))
     Matrix - AP0 to AP1
@@ -187,39 +191,43 @@ class Matrix(AbstractLUTSequenceOperator):
     Matrix     : [[ 1.45143932 -0.23651075 -0.21492857]
                   [-0.07655377  1.1762297  -0.09967593]
                   [ 0.00831615 -0.00603245  0.9977163 ]]
+    Offset     : [ 0.  0.  0.]
     <BLANKLINE>
     A first comment.
     A second comment.
     """
 
-    def __init__(self, array=None, *args, **kwargs):
+    def __init__(self, matrix=None, offset=None, *args, **kwargs):
         super(Matrix, self).__init__(*args, **kwargs)
 
-        self._array = np.identity(3)
-        self.array = array
+        self._matrix = np.diag(ones(3))
+        self.matrix = matrix
+
+        self._offset = zeros(3)
+        self.offset = offset
 
     @property
-    def array(self):
+    def matrix(self):
         """
-        Getter and setter property for the *Matrix* array.
+        Getter and setter property for the operator matrix.
 
         Parameters
         ----------
         value : unicode
-            Value to set the *Matrix* array with.
+            Value to set the operator matrix with.
 
         Returns
         -------
         unicode
-            *Matrix* array.
+            Operator matrix.
         """
 
-        return self._array
+        return self._matrix
 
-    @array.setter
-    def array(self, value):
+    @matrix.setter
+    def matrix(self, value):
         """
-        Setter for **self.array** property.
+        Setter for **self.matrix** property.
         """
 
         if value is not None:
@@ -228,9 +236,43 @@ class Matrix(AbstractLUTSequenceOperator):
             assert value.shape in [
                 (3, 3), (3, 4)
             ], (('"{0}" attribute: "{1}" shape is not (3, 3) or (3, 4)!'
-                 ).format('array', value))
+                 ).format('matrix', value))
 
-            self._array = value
+            self._matrix = value
+
+    @property
+    def offset(self):
+        """
+        Getter and setter property for the operator offset.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the operator offset with.
+
+        Returns
+        -------
+        unicode
+            Operator offset.
+        """
+
+        return self._offset
+
+    @offset.setter
+    def offset(self, value):
+        """
+        Setter for **self.offset** property.
+        """
+
+        if value is not None:
+            value = as_float_array(value)
+
+            assert value.shape in [
+                (3, ), (4, )
+            ], ('"{0}" attribute: "{1}" shape is not (3, ) or (4, )!'.format(
+                'offset', value))
+
+            self._offset = value
 
     def __str__(self):
         """
@@ -245,12 +287,13 @@ class Matrix(AbstractLUTSequenceOperator):
         --------
         >>> print(Matrix())  # doctest: +ELLIPSIS
         Matrix - LUT Sequence Operator ...
-        -----------------------------------------
+        -------------------------------...
         <BLANKLINE>
         Dimensions : (3, 3)
         Matrix     : [[ 1.  0.  0.]
                       [ 0.  1.  0.]
                       [ 0.  0.  1.]]
+        Offset     : [ 0.  0.  0.]
         """
 
         def _indent_array(a):
@@ -263,13 +306,14 @@ class Matrix(AbstractLUTSequenceOperator):
         return ('{0} - {1}\n'
                 '{2}\n\n'
                 'Dimensions : {3}\n'
-                'Matrix     : {4}'
-                '{5}'.format(
-                    self.__class__.__name__, self.name,
-                    '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
-                    self.array.shape, _indent_array(
-                        self.array), '\n\n{0}'.format('\n'.join(self.comments))
-                    if self.comments else ''))
+                'Matrix     : {4}\n'
+                'Offset     : {5}'
+                '{6}'.format(
+                    self.__class__.__name__, self._name,
+                    '-' * (len(self.__class__.__name__) + 3 + len(self._name)),
+                    self._matrix.shape, _indent_array(self._matrix),
+                    _indent_array(self._offset), '\n\n{0}'.format('\n'.join(
+                        self._comments)) if self._comments else ''))
 
     def __repr__(self):
         """
@@ -287,11 +331,12 @@ class Matrix(AbstractLUTSequenceOperator):
         Matrix([[ 1.,  0.,  0.],
                 [ 0.,  1.,  0.],
                 [ 0.,  0.,  1.]],
+               offset=[ 0.,  0.,  0.],
                name='LUT Sequence Operator ...',
                comments=['A first comment.', 'A second comment.'])
         """
 
-        representation = repr(self.array)
+        representation = repr(self._matrix)
         representation = representation.replace('array',
                                                 self.__class__.__name__)
         representation = representation.replace(
@@ -300,12 +345,15 @@ class Matrix(AbstractLUTSequenceOperator):
 
         indentation = ' ' * (len(self.__class__.__name__) + 1)
         representation = ('{0},\n'
-                          '{1}name=\'{2}\''
-                          '{3})').format(
-                              representation[:-1], indentation, self.name,
+                          '{1}offset={2},\n'
+                          '{1}name=\'{3}\''
+                          '{4})').format(
+                              representation[:-1], indentation,
+                              repr(self._offset).replace('array(', '').replace(
+                                  ')', ''), self._name,
                               ',\n{0}comments={1}'.format(
-                                  indentation, repr(self.comments))
-                              if self.comments else '')
+                                  indentation, repr(self._comments))
+                              if self._comments else '')
 
         return representation
 
@@ -330,7 +378,10 @@ class Matrix(AbstractLUTSequenceOperator):
         """
 
         if isinstance(other, Matrix):
-            if np.array_equal(self.array, other.array):
+            if all([
+                    np.array_equal(self._matrix, other._matrix),
+                    np.array_equal(self._offset, other._offset)
+            ]):
                 return True
 
         return False
@@ -373,10 +424,10 @@ class Matrix(AbstractLUTSequenceOperator):
 
         Examples
         --------
-        >>> array = np.array([[ 1.45143932, -0.23651075, -0.21492857],
-        ...                   [-0.07655377,  1.1762297 , -0.09967593],
-        ...                   [ 0.00831615, -0.00603245,  0.9977163 ]])
-        >>> M = Matrix(array)
+        >>> matrix = np.array([[ 1.45143932, -0.23651075, -0.21492857],
+        ...                    [-0.07655377,  1.1762297 , -0.09967593],
+        ...                    [ 0.00831615, -0.00603245,  0.9977163 ]])
+        >>> M = Matrix(matrix)
         >>> RGB = np.array([0.3, 0.4, 0.5])
         >>> M.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.2333632...,  0.3976877...,  0.4989400...])
@@ -384,8 +435,21 @@ class Matrix(AbstractLUTSequenceOperator):
 
         RGB = as_float_array(RGB)
 
-        if self.array.shape == (3, 4):
+        M = self._matrix
+        offset = self._offset
+
+        if M.shape == (3, 4):
+            runtime_warning(
+                'Matrix "{0}" requires an alpha channel, '
+                'concatenating the RGB data with ones accordingly!'.format(
+                    self._matrix))
             R, G, B = tsplit(RGB)
             RGB = tstack((R, G, B, ones(R.shape)))
 
-        return vector_dot(self.array, RGB)
+        if RGB.shape[-1] == (4, ):
+            offset = np.hstack([offset, [0]])
+
+        RGB = vector_dot(M, RGB)
+        RGB += offset
+
+        return RGB
