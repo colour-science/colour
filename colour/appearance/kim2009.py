@@ -211,8 +211,6 @@ def XYZ_to_Kim2009(XYZ,
     Computes the *Kim, Weyrich and Kautz (2009)* colour appearance model
     correlates from given *CIE XYZ* tristimulus values.
 
-    This is the *forward* implementation.
-
     Parameters
     ----------
     XYZ : array_like
@@ -367,8 +365,6 @@ def Kim2009_to_XYZ(specification,
     """
     Converts from  *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
     tristimulus values.
-
-    This is the *inverse* implementation.
 
     Parameters
     ----------

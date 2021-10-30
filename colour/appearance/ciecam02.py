@@ -213,8 +213,6 @@ def XYZ_to_CIECAM02(XYZ,
     Computes the *CIECAM02* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
 
-    This is the *forward* implementation.
-
     Parameters
     ----------
     XYZ : array_like
@@ -382,8 +380,6 @@ def CIECAM02_to_XYZ(specification,
                     discount_illuminant=False):
     """
     Converts from *CIECAM02* specification to *CIE XYZ* tristimulus values.
-
-    This is the *inverse* implementation.
 
     Parameters
     ----------
