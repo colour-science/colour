@@ -165,8 +165,6 @@ def XYZ_to_CAM16(XYZ,
     Computes the *CAM16* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
 
-    This is the *forward* implementation.
-
     Parameters
     ----------
     XYZ : array_like
@@ -329,8 +327,6 @@ def CAM16_to_XYZ(specification,
                  discount_illuminant=False):
     """
     Converts from *CAM16* specification to *CIE XYZ* tristimulus values.
-
-    This is the *inverse* implementation.
 
     Parameters
     ----------
