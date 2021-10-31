@@ -33,7 +33,7 @@ COLOUR_FIDELITY_INDEX_METHODS = CaseInsensitiveMapping({
     'ANSI/IES TM-30-18': colour_fidelity_index_ANSIIESTM3018,
 })
 COLOUR_FIDELITY_INDEX_METHODS.__doc__ = """
-Supported  *Colour Fidelity Index* (CFI) computation methods.
+Supported *Colour Fidelity Index* (CFI) computation methods.
 
 References
 ----------

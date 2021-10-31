@@ -124,14 +124,14 @@ COLOUR_QUALITY_SCALE_METHODS = ('NIST CQS 7.4', 'NIST CQS 9.0')
 if is_documentation_building():  # pragma: no cover
     COLOUR_QUALITY_SCALE_METHODS = DocstringTuple(COLOUR_QUALITY_SCALE_METHODS)
     COLOUR_QUALITY_SCALE_METHODS.__doc__ = """
-Supported  *Colour Quality Scale* (CQS) computation methods.
+Supported *Colour Quality Scale* (CQS) computation methods.
 
 References
 ----------
 :cite:`Davis2010a`, :cite:`Ohno2008a`, :cite:`Ohno2013`
 
 COLOUR_QUALITY_SCALE_METHODS : tuple
-    **{ 'NIST CQS 9.0', 'NIST CQS 7.4'}**
+    **{'NIST CQS 9.0', 'NIST CQS 7.4'}**
 """
 
 
