@@ -224,15 +224,6 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             np.array([0.21394049, 0.12262315, 0.03891917]),
             decimal=7)
 
-        np.testing.assert_almost_equal(
-            chromatic_adaptation_VonKries(
-                np.array([0.20654008, 0.12197225, 0.05136952]),
-                np.array([0.95045593, 1.00000000, 1.08905775]),
-                np.array([0.96429568, 1.00000000, 0.82510460]),
-                D=0.75),
-            np.array([0.21392616, 0.12476806, 0.04169858]),
-            decimal=7)
-
     def test_n_dimensional_chromatic_adaptation_VonKries(self):
         """
         Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
