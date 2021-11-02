@@ -18,7 +18,7 @@ References
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.algebra import matrix_dot, vector_dot
+from colour.algebra import lerp, matrix_dot, vector_dot
 from colour.utilities import (from_range_1, row_as_diagonal, to_domain_1,
                               validate_method)
 
@@ -42,9 +42,10 @@ def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     Parameters
     ----------
     XYZ_w : array_like
-        Test viewing condition *CIE XYZ* tristimulus values of whitepoint.
+        Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
     XYZ_wr : array_like
-        Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
+        Reference viewing conditions *CIE XYZ* tristimulus values of
+        whitepoint.
     transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
@@ -108,10 +109,10 @@ def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    rgb_w = np.einsum('...i,...ij->...j', XYZ_w, np.transpose(M))
-    rgb_wr = np.einsum('...i,...ij->...j', XYZ_wr, np.transpose(M))
+    RGB_w = np.einsum('...i,...ij->...j', XYZ_w, np.transpose(M))
+    RGB_wr = np.einsum('...i,...ij->...j', XYZ_wr, np.transpose(M))
 
-    D = rgb_wr / rgb_w
+    D = RGB_wr / RGB_w
 
     D = row_as_diagonal(D)
 
@@ -121,7 +122,7 @@ def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     return M_CAT
 
 
-def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
+def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02', D=1):
     """
     Adapts given stimulus from test viewing conditions to reference viewing
     conditions.
@@ -131,14 +132,18 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     XYZ : array_like
         *CIE XYZ* tristimulus values of stimulus to adapt.
     XYZ_w : array_like
-        Test viewing condition *CIE XYZ* tristimulus values of whitepoint.
+        Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
     XYZ_wr : array_like
-        Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
+        Reference viewing conditions *CIE XYZ* tristimulus values of
+        whitepoint.
     transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
         Chromatic adaptation transform.
+    D : numeric, optional
+        Degree of adaptation :math:`D`, a value of 1 being full adaptation to
+        the reference viewing conditions.
 
     Returns
     -------
@@ -176,13 +181,15 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)  # doctest: +ELLIPSIS
     array([ 0.2163881...,  0.1257    ,  0.0384749...])
 
+    Using incomplete adaptation:
+
+    >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, D=0.75)
+    ... # doctest: +ELLIPSIS
+    array([ 0.2139261...,  0.1247680...,  0.0416985...])
+
     Using Bradford method:
 
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
-    >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
-    >>> transform = 'Bradford'
-    >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform)
+    >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, 'Bradford')
     ... # doctest: +ELLIPSIS
     array([ 0.2166600...,  0.1260477...,  0.0385506...])
     """
@@ -191,5 +198,7 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
 
     M_CAT = matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform)
     XYZ_a = vector_dot(M_CAT, XYZ)
+
+    XYZ_a = lerp(D, XYZ, XYZ_a)
 
     return from_range_1(XYZ_a)

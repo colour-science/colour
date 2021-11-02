@@ -66,9 +66,9 @@ class InductionFactors_Kim2009(
 
     Notes
     -----
-    -   The  *Kim, Weyrich and Kautz (2009)* colour appearance model induction
+    -   The *Kim, Weyrich and Kautz (2009)* colour appearance model induction
         factors are the same as *CIECAM02* colour appearance model.
-    -   The  *Kim, Weyrich and Kautz (2009)* colour appearance model separates
+    -   The *Kim, Weyrich and Kautz (2009)* colour appearance model separates
         the surround modelled by the
         :class:`colour.appearance.InductionFactors_Kim2009` class instance from
         the media, modeled with the
@@ -292,7 +292,7 @@ H=278.0602824..., HC=None)
     RGB_w = vector_dot(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = (degree_of_adaptation(surround.F, L_a)
+    D = (degree_of_adaptation(surround.F, L_A)
          if not discount_illuminant else ones(L_A.shape))
 
     # Computing full chromatic adaptation.
@@ -464,7 +464,7 @@ def Kim2009_to_XYZ(specification,
     RGB_w = vector_dot(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = (degree_of_adaptation(surround.F, L_a)
+    D = (degree_of_adaptation(surround.F, L_A)
          if not discount_illuminant else ones(L_A.shape))
 
     # Computing full chromatic adaptation.
