@@ -109,10 +109,10 @@ def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    rgb_w = np.einsum('...i,...ij->...j', XYZ_w, np.transpose(M))
-    rgb_wr = np.einsum('...i,...ij->...j', XYZ_wr, np.transpose(M))
+    RGB_w = np.einsum('...i,...ij->...j', XYZ_w, np.transpose(M))
+    RGB_wr = np.einsum('...i,...ij->...j', XYZ_wr, np.transpose(M))
 
-    D = rgb_wr / rgb_w
+    D = RGB_wr / RGB_w
 
     D = row_as_diagonal(D)
 
