@@ -19,8 +19,9 @@ References
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.utilities import (CaseInsensitiveMapping, from_range_degrees,
-                              to_domain_degrees, tsplit, tstack)
+from colour.utilities import (CaseInsensitiveMapping, attest,
+                              from_range_degrees, to_domain_degrees, tsplit,
+                              tstack)
 from colour.utilities.documentation import (DocstringTuple,
                                             is_documentation_building)
 
@@ -220,7 +221,7 @@ COLOURSPACE_MODELS_AXIS_LABELS : dict
     'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'}**
 """
 
-assert COLOURSPACE_MODELS == tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys())
+attest(COLOURSPACE_MODELS == tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys()))
 
 COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE = CaseInsensitiveMapping({
     'CAM02LCD': np.array([100, 100, 100]),

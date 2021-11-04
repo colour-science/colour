@@ -15,7 +15,7 @@ from colour.io import read_image_OpenImageIO, write_image_OpenImageIO
 from colour.io import read_image_Imageio, write_image_Imageio
 from colour.io import read_image, write_image
 from colour.io import ImageAttribute_Specification
-from colour.utilities import is_openimageio_installed
+from colour.utilities import attest, is_openimageio_installed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -303,7 +303,8 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
                         self.assertEqual(write_attribute.value,
                                          read_attribute.value)
 
-            assert attribute_exists, (
+            attest(
+                attribute_exists,
                 '"{0}" attribute was not found on image!'.format(
                     write_attribute.name))
 

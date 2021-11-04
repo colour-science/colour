@@ -20,7 +20,8 @@ References
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import as_float, is_numeric, is_string, validate_method
+from colour.utilities import (as_float, attest, is_numeric, is_string,
+                              validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -160,10 +161,12 @@ class Extrapolator:
         """
 
         if value is not None:
-            assert hasattr(value, 'x'), (
+            attest(
+                hasattr(value, 'x'),
                 '"{0}" interpolator has no "x" attribute!'.format(value))
 
-            assert hasattr(value, 'y'), (
+            attest(
+                hasattr(value, 'y'),
                 '"{0}" interpolator has no "y" attribute!'.format(value))
 
         self._interpolator = value
@@ -193,9 +196,10 @@ class Extrapolator:
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a "string" like object!'
-                 ).format('method', value))
+            attest(
+                is_string(value),
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'method', value))
 
             value = validate_method(value, ['Linear', 'Constant'])
 
@@ -226,9 +230,10 @@ class Extrapolator:
         """
 
         if value is not None:
-            assert is_numeric(value), (
-                '"{0}" attribute: "{1}" is not a "numeric"!').format(
-                    'left', value)
+            attest(
+                is_numeric(value),
+                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
+                    'left', value))
 
         self._left = value
 
@@ -257,9 +262,10 @@ class Extrapolator:
         """
 
         if value is not None:
-            assert is_numeric(value), (
-                '"{0}" attribute: "{1}" is not a "numeric"!').format(
-                    'right', value)
+            attest(
+                is_numeric(value),
+                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
+                    'right', value))
 
         self._right = value
 

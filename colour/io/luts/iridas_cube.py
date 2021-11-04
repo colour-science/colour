@@ -20,7 +20,7 @@ import numpy as np
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.utilities import as_float_array, usage_warning
+from colour.utilities import as_float_array, attest, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -210,21 +210,22 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
                       'using first sequence "LUT":\n'
                       '{0}'.format(LUT))
 
-    assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
+    attest(not LUT.is_domain_explicit(), '"LUT" domain must be implicit!')
 
     if isinstance(LUT, LUT1D):
         LUT = LUT.as_LUT(LUT3x1D)
 
-    assert isinstance(
-        LUT, (LUT3x1D, LUT3D)), '"LUT" must be a 1D, 3x1D or 3D "LUT"!'
+    attest(
+        isinstance(LUT, (LUT3x1D, LUT3D)),
+        '"LUT" must be a 1D, 3x1D or 3D "LUT"!')
 
     is_3x1D = isinstance(LUT, LUT3x1D)
 
     size = LUT.size
     if is_3x1D:
-        assert 2 <= size <= 65536, '"LUT" size must be in domain [2, 65536]!'
+        attest(2 <= size <= 65536, '"LUT" size must be in domain [2, 65536]!')
     else:
-        assert 2 <= size <= 256, '"LUT" size must be in domain [2, 256]!'
+        attest(2 <= size <= 256, '"LUT" size must be in domain [2, 256]!')
 
     def _format_array(array):
         """

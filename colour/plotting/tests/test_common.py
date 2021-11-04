@@ -24,6 +24,7 @@ from colour.plotting import (
     filter_illuminants, filter_colour_checkers, update_settings_collection,
     plot_single_colour_swatch, plot_multi_colour_swatches,
     plot_single_function, plot_multi_functions, plot_image)
+from colour.utilities import attest
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -77,7 +78,7 @@ class TestOverrideStyle(unittest.TestCase):
                 Tests :func:`colour.plotting.common.override_style` definition.
                 """
 
-                assert plt.rcParams['text.color'] == 'red'
+                attest(plt.rcParams['text.color'] == 'red')
 
             test_text_color_override()
         finally:

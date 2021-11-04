@@ -11,7 +11,7 @@ from importlib import import_module
 from collections import namedtuple
 from operator import attrgetter
 
-from colour.utilities import usage_warning
+from colour.utilities import attest, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -388,7 +388,7 @@ def get_attribute(attribute):
     <function eotf_BT2020 at 0x...>
     """
 
-    assert '.' in attribute, '"{0}" attribute has no namespace!'
+    attest('.' in attribute, '"{0}" attribute has no namespace!')
 
     module_name, attribute = attribute.rsplit('.', 1)
 
@@ -396,7 +396,8 @@ def get_attribute(attribute):
     if module is None:
         module = import_module(module_name)
 
-    assert module is not None, (
+    attest(
+        module is not None,
         '"{0}" module does not exists or cannot be imported!'.format(
             module_name))
 

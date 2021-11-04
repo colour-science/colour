@@ -42,9 +42,10 @@ from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT, MultiSpectralDistributions, SpectralDistribution,
     SpectralShape, reshape_msds, reshape_sd)
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (
-    CACHE_REGISTRY, CaseInsensitiveMapping, as_float_array, filter_kwargs,
-    from_range_100, get_domain_range_scale, runtime_warning, validate_method)
+from colour.utilities import (CACHE_REGISTRY, CaseInsensitiveMapping,
+                              as_float_array, attest, filter_kwargs,
+                              from_range_100, get_domain_range_scale,
+                              runtime_warning, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -587,7 +588,8 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None, shape=None):
         shape_R = R.shape
         wl_c_r = R.shape[-1]
     else:
-        assert shape is not None, (
+        attest(
+            shape is not None,
             'A spectral shape must be explicitly passed with a spectral data '
             'array!')
 
@@ -595,7 +597,8 @@ def sd_to_XYZ_integration(sd, cmfs=None, illuminant=None, k=None, shape=None):
         shape_R = R.shape
         wl_c_r, wl_c = R.shape[-1], len(shape.range())
 
-        assert wl_c_r == wl_c, (
+        attest(
+            wl_c_r == wl_c,
             'Spectral data array with {0} wavelengths is not compatible with '
             'spectral shape with {1} wavelengths!'.format(wl_c_r, wl_c))
 

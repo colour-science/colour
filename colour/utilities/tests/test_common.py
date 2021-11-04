@@ -8,7 +8,7 @@ import unittest
 from functools import partial
 
 from colour.utilities import (
-    CacheRegistry, batch, multiprocessing_pool, is_iterable, is_string,
+    CacheRegistry, attest, batch, multiprocessing_pool, is_iterable, is_string,
     is_numeric, is_integer, is_sibling, filter_kwargs, filter_mapping,
     first_item, get_domain_range_scale, set_domain_range_scale,
     domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
@@ -23,13 +23,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestBatch', 'TestMultiprocessingPool', 'TestIsIterable', 'TestIsString',
-    'TestIsNumeric', 'TestIsInteger', 'TestIsSibling', 'TestFilterKwargs',
-    'TestFilterMapping', 'TestFirstItem', 'TestGetDomainRangeScale',
-    'TestSetDomainRangeScale', 'TestDomainRangeScale', 'TestToDomain1',
-    'TestToDomain10', 'TestToDomain100', 'TestToDomainDegrees',
-    'TestToDomainInt', 'TestFromRange1', 'TestFromRange10', 'TestFromRange100',
-    'TestFromRangeDegrees', 'TestFromRangeInt'
+    'TestCacheRegistry', 'TestAttest', 'TestBatch', 'TestMultiprocessingPool',
+    'TestIsIterable', 'TestIsString', 'TestIsNumeric', 'TestIsInteger',
+    'TestIsSibling', 'TestFilterKwargs', 'TestFilterMapping', 'TestFirstItem',
+    'TestGetDomainRangeScale', 'TestSetDomainRangeScale',
+    'TestDomainRangeScale', 'TestToDomain1', 'TestToDomain10',
+    'TestToDomain100', 'TestToDomainDegrees', 'TestToDomainInt',
+    'TestFromRange1', 'TestFromRange10', 'TestFromRange100',
+    'TestFromRangeDegrees', 'TestFromRangeInt', 'TestValidateMethod'
 ]
 
 
@@ -140,6 +141,22 @@ class TestCacheRegistry(unittest.TestCase):
             'Cache A': {},
             'Cache B': {}
         })
+
+
+class TestAttest(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.attest` definition unit
+    tests methods.
+    """
+
+    def test_attest(self):
+        """
+        Tests :func:`colour.utilities.common.attest` definition.
+        """
+
+        self.assertIsNone(attest(True, ''))
+
+        self.assertRaises(AssertionError, attest, False)
 
 
 class TestBatch(unittest.TestCase):

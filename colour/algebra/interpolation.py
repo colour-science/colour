@@ -66,7 +66,7 @@ from functools import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, as_float, closest_indexes,
+    CaseInsensitiveMapping, as_float_array, as_float, attest, closest_indexes,
     interval, is_integer, is_numeric, runtime_warning, tsplit, validate_method)
 
 __author__ = 'Colour Developers'
@@ -174,7 +174,7 @@ def kernel_sinc(x, a=3):
              3.8981718...e-17])
     """
 
-    assert a >= 1, '"a" must be equal or superior to 1!'
+    attest(a >= 1, '"a" must be equal or superior to 1!')
 
     return np.where(np.abs(x) < a, np.sinc(x), 0)
 
@@ -208,7 +208,7 @@ def kernel_lanczos(x, a=3):
              3.2237621...e-17])
     """
 
-    assert a >= 1, '"a" must be equal or superior to 1!'
+    attest(a >= 1, '"a" must be equal or superior to 1!')
 
     return np.where(np.abs(x) < a, np.sinc(x) * np.sinc(x / a), 0)
 
@@ -409,7 +409,8 @@ class KernelInterpolator:
         if value is not None:
             value = np.atleast_1d(value).astype(self._dtype)
 
-            assert value.ndim == 1, (
+            attest(
+                value.ndim == 1,
                 '"x" independent variable must have exactly one dimension!')
 
             value_interval = interval(value)
@@ -457,8 +458,8 @@ class KernelInterpolator:
         if value is not None:
             value = np.atleast_1d(value).astype(self._dtype)
 
-            assert value.ndim == 1, (
-                '"y" dependent variable must have exactly one dimension!')
+            attest(value.ndim == 1,
+                   '"y" dependent variable must have exactly one dimension!')
 
             self._y = value
 
@@ -490,10 +491,10 @@ class KernelInterpolator:
         """
 
         if value is not None:
-            assert is_integer(value), '"window" must be an integer!'
+            attest(is_integer(value), '"window" must be an integer!')
 
-            assert value >= 1, (
-                '"window" must be equal to or or greater than 1!')
+            attest(value >= 1,
+                   '"window" must be equal to or or greater than 1!')
 
             self._window = value
 
@@ -530,9 +531,9 @@ class KernelInterpolator:
         """
 
         if value is not None:
-            assert hasattr(
-                value,
-                '__call__'), ('"{0}" attribute: "{1}" is not callable!'.format(
+            attest(
+                hasattr(value, '__call__'),
+                '"{0}" attribute: "{1}" is not callable!'.format(
                     'kernel', value))
 
             self._kernel = value
@@ -562,10 +563,10 @@ class KernelInterpolator:
         """
 
         if value is not None:
-            assert isinstance(
-                value,
-                dict), ('"{0}" attribute: "{1}" type is not "dict"!').format(
-                    'kernel_kwargs', value)
+            attest(
+                isinstance(value, dict),
+                '"{0}" attribute: "{1}" type is not "dict"!'.format(
+                    'kernel_kwargs', value))
 
             self._kernel_kwargs = value
 
@@ -594,9 +595,10 @@ class KernelInterpolator:
         """
 
         if value is not None:
-            assert isinstance(value, Mapping), (
+            attest(
+                isinstance(value, Mapping),
                 '"{0}" attribute: "{1}" type is not a "Mapping" instance!'
-            ).format('padding_kwargs', value)
+                .format('padding_kwargs', value))
 
             self._padding_kwargs = value
 
@@ -804,7 +806,8 @@ class LinearInterpolator:
         if value is not None:
             value = np.atleast_1d(value).astype(self._dtype)
 
-            assert value.ndim == 1, (
+            attest(
+                value.ndim == 1,
                 '"x" independent variable must have exactly one dimension!')
 
         self._x = value
@@ -838,8 +841,8 @@ class LinearInterpolator:
         if value is not None:
             value = np.atleast_1d(value).astype(self._dtype)
 
-            assert value.ndim == 1, (
-                '"y" dependent variable must have exactly one dimension!')
+            attest(value.ndim == 1,
+                   '"y" dependent variable must have exactly one dimension!')
 
         self._y = value
 
@@ -1026,7 +1029,8 @@ class SpragueInterpolator:
         if value is not None:
             value = np.atleast_1d(value).astype(self._dtype)
 
-            assert value.ndim == 1, (
+            attest(
+                value.ndim == 1,
                 '"x" independent variable must have exactly one dimension!')
 
             value_interval = interval(value)[0]
@@ -1069,10 +1073,11 @@ class SpragueInterpolator:
         if value is not None:
             value = np.atleast_1d(value).astype(self._dtype)
 
-            assert value.ndim == 1, (
-                '"y" dependent variable must have exactly one dimension!')
+            attest(value.ndim == 1,
+                   '"y" dependent variable must have exactly one dimension!')
 
-            assert len(value) >= 6, (
+            attest(
+                len(value) >= 6,
                 '"y" dependent variable values count must be equal to or '
                 'greater than 6!')
 
@@ -1338,7 +1343,8 @@ class NullInterpolator:
         if value is not None:
             value = np.atleast_1d(value).astype(self._dtype)
 
-            assert value.ndim == 1, (
+            attest(
+                value.ndim == 1,
                 '"x" independent variable must have exactly one dimension!')
 
         self._x = value
@@ -1372,8 +1378,8 @@ class NullInterpolator:
         if value is not None:
             value = np.atleast_1d(value).astype(self._dtype)
 
-            assert value.ndim == 1, (
-                '"y" dependent variable must have exactly one dimension!')
+            attest(value.ndim == 1,
+                   '"y" dependent variable must have exactly one dimension!')
 
         self._y = value
 
@@ -1402,7 +1408,8 @@ class NullInterpolator:
         """
 
         if value is not None:
-            assert is_numeric(value), (
+            attest(
+                is_numeric(value),
                 '"relative_tolerance" variable must be a "numeric"!')
 
         self._relative_tolerance = value
@@ -1432,7 +1439,8 @@ class NullInterpolator:
         """
 
         if value is not None:
-            assert is_numeric(value), (
+            attest(
+                is_numeric(value),
                 '"absolute_tolerance" variable must be a "numeric"!')
 
         self._absolute_tolerance = value
@@ -1463,8 +1471,8 @@ class NullInterpolator:
         """
 
         if value is not None:
-            assert is_numeric(value), (
-                '"default" variable must be a "numeric"!')
+            attest(
+                is_numeric(value), '"default" variable must be a "numeric"!')
 
         self._default = value
 

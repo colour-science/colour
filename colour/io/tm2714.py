@@ -22,7 +22,7 @@ from xml.dom import minidom  # nosec
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import Structure, is_numeric, is_string, tstack
+from colour.utilities import Structure, attest, is_numeric, is_string, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -248,7 +248,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'manufacturer', value))
 
@@ -279,7 +280,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'catalog_number', value))
 
@@ -310,7 +312,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'description', value))
 
@@ -341,7 +344,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'document_creator', value))
 
@@ -372,7 +376,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'unique_identifier', value))
 
@@ -403,7 +408,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'measurement_equipment', value))
 
@@ -434,7 +440,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'laboratory', value))
 
@@ -465,7 +472,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'report_number', value))
 
@@ -496,7 +504,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'report_date', value))
 
@@ -527,7 +536,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'document_creation_date', value))
 
@@ -558,7 +568,8 @@ class Header_IESTM2714:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'comments', value))
 
@@ -775,7 +786,8 @@ dict_like, optional
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'path', value))
 
@@ -806,7 +818,8 @@ dict_like, optional
         """
 
         if value is not None:
-            assert isinstance(value, Header_IESTM2714), (
+            attest(
+                isinstance(value, Header_IESTM2714),
                 '"{0}" attribute: "{1}" is not a "Header_IESTM2714" '
                 'instance!'.format('header', value))
 
@@ -837,7 +850,8 @@ dict_like, optional
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'spectral_quantity', value))
 
@@ -868,7 +882,8 @@ dict_like, optional
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'reflection_geometry', value))
 
@@ -899,7 +914,8 @@ dict_like, optional
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'transmission_geometry', value))
 
@@ -930,7 +946,8 @@ dict_like, optional
         """
 
         if value is not None:
-            assert is_numeric(value), (
+            attest(
+                is_numeric(value),
                 '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'bandwidth_FWHM', value))
 
@@ -962,7 +979,8 @@ dict_like, optional
         """
 
         if value is not None:
-            assert isinstance(value, bool), (
+            attest(
+                isinstance(value, bool),
                 '"{0}" attribute: "{1}" is not a "bool" instance!'.format(
                     'bandwidth_corrected', value))
 

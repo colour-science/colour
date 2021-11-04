@@ -7,7 +7,7 @@ from .data_structures import (Lookup, Structure, CaseInsensitiveMapping,
 from .common import (
     CacheRegistry, CACHE_REGISTRY, handle_numpy_errors, ignore_numpy_errors,
     raise_numpy_errors, print_numpy_errors, warn_numpy_errors,
-    ignore_python_warnings, batch, disable_multiprocessing,
+    ignore_python_warnings, attest, batch, disable_multiprocessing,
     multiprocessing_pool, is_matplotlib_installed, is_networkx_installed,
     is_opencolorio_installed, is_openimageio_installed, is_pandas_installed,
     is_sklearn_installed, is_tqdm_installed, is_trimesh_installed, required,
@@ -43,7 +43,7 @@ __all__ = [
 __all__ += [
     'CacheRegistry', 'CACHE_REGISTRY', 'handle_numpy_errors',
     'ignore_numpy_errors', 'raise_numpy_errors', 'print_numpy_errors',
-    'warn_numpy_errors', 'ignore_python_warnings', 'batch',
+    'warn_numpy_errors', 'ignore_python_warnings', 'attest', 'batch',
     'disable_multiprocessing', 'multiprocessing_pool',
     'is_matplotlib_installed', 'is_networkx_installed',
     'is_opencolorio_installed', 'is_openimageio_installed',

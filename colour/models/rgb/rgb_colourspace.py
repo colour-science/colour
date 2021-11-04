@@ -32,7 +32,7 @@ from colour.algebra import matrix_dot, vector_dot
 from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
 from colour.models.rgb import (chromatically_adapted_primaries,
                                normalised_primary_matrix)
-from colour.utilities import (as_float_array, domain_range_scale,
+from colour.utilities import (as_float_array, attest, domain_range_scale,
                               filter_kwargs, from_range_1, to_domain_1,
                               is_string)
 
@@ -268,7 +268,8 @@ class RGB_Colourspace:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'name', value))
 
@@ -329,7 +330,8 @@ class RGB_Colourspace:
         """
 
         if value is not None:
-            assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), (
+            attest(
+                isinstance(value, (tuple, list, np.ndarray, np.matrix)),
                 '"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
                 'or "matrix" instance!'.format('whitepoint', value))
             value = as_float_array(value)
@@ -363,7 +365,8 @@ class RGB_Colourspace:
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'whitepoint_name', value))
 
@@ -468,9 +471,9 @@ class RGB_Colourspace:
         """
 
         if value is not None:
-            assert hasattr(
-                value,
-                '__call__'), ('"{0}" attribute: "{1}" is not callable!'.format(
+            attest(
+                hasattr(value, '__call__'),
+                '"{0}" attribute: "{1}" is not callable!'.format(
                     'cctf_encoding', value))
 
         self._cctf_encoding = value
@@ -504,9 +507,9 @@ class RGB_Colourspace:
         """
 
         if value is not None:
-            assert hasattr(
-                value,
-                '__call__'), ('"{0}" attribute: "{1}" is not callable!'.format(
+            attest(
+                hasattr(value, '__call__'),
+                '"{0}" attribute: "{1}" is not callable!'.format(
                     'cctf_decoding', value))
 
         self._cctf_decoding = value

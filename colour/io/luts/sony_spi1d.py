@@ -15,7 +15,7 @@ import numpy as np
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.utilities import as_float_array, usage_warning
+from colour.utilities import as_float_array, attest, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -99,7 +99,8 @@ def read_LUT_SonySPI1D(path):
                 continue
             elif tokens[0] == 'Components':
                 component = DEFAULT_INT_DTYPE(tokens[1])
-                assert component in (1, 3), (
+                attest(
+                    component in (1, 3),
                     'Only 1 or 3 components are supported!')
 
                 dimensions = 1 if component == 1 else 2
@@ -178,10 +179,11 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
                       'using first sequence "LUT":\n'
                       '{0}'.format(LUT))
 
-    assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
+    attest(not LUT.is_domain_explicit(), '"LUT" domain must be implicit!')
 
-    assert (isinstance(LUT, LUT1D) or isinstance(
-        LUT, LUT3x1D)), ('"LUT" must be either a 1D or 3x1D "LUT"!')
+    attest(
+        isinstance(LUT, LUT1D) or isinstance(LUT, LUT3x1D),
+        '"LUT" must be either a 1D or 3x1D "LUT"!')
 
     is_1D = isinstance(LUT, LUT1D)
 
@@ -190,7 +192,7 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
     else:
         domain = np.unique(LUT.domain)
 
-        assert len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!'
+        attest(len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!')
 
     def _format_array(array):
         """

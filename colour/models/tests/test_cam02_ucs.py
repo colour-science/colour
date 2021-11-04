@@ -17,7 +17,7 @@ from colour.models import (JMh_CIECAM02_to_CAM02LCD, CAM02LCD_to_JMh_CIECAM02,
                            JMh_CIECAM02_to_CAM02UCS, CAM02UCS_to_JMh_CIECAM02,
                            XYZ_to_CAM02LCD, CAM02LCD_to_XYZ, XYZ_to_CAM02SCD,
                            CAM02SCD_to_XYZ, XYZ_to_CAM02UCS, CAM02UCS_to_XYZ)
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import attest, domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -498,7 +498,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
                 UCS_Luo2006_to_XYZ(Jpapbp,
                                    COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
             except ValueError as error:
-                assert 'CAM_Specification_CIECAM02' in str(error)
+                attest('CAM_Specification_CIECAM02' in str(error))
 
 
 if __name__ == '__main__':
