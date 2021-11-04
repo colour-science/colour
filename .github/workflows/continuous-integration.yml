@@ -71,6 +71,10 @@ jobs:
       run: |
         poetry run flake8 $CI_PACKAGE --count --show-source --statistics
       shell: bash
+    - name: Test Optimised Python Execution
+      run: |
+        poetry run python -OO -c "import $CI_PACKAGE"
+      shell: bash
     - name: Test with nosetests
       run: |
         poetry run python -W ignore -m nose -q -v --with-doctest --doctest-options=+ELLIPSIS --with-coverage --traverse-namespace --cover-package=$CI_PACKAGE $CI_PACKAGE

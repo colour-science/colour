@@ -2541,12 +2541,14 @@ def reshape_sd(sd, shape=SPECTRAL_SHAPE_DEFAULT, method='Align', **kwargs):
 
 
 reshape_msds = copy_definition(reshape_sd, 'reshape_msds')
-reshape_msds.__doc__ = reshape_msds.__doc__.replace(
-    'SpectralDistribution', 'MultiSpectralDistributions')
-reshape_msds.__doc__ = reshape_msds.__doc__.replace(
-    'spectral distribution', 'multi-spectral distributions')
-reshape_msds.__doc__ = reshape_msds.__doc__.replace(
-    'Spectral distribution', 'Multi-spectral distributions')
+# If-clause required for optimised python launch.
+if reshape_msds.__doc__ is not None:
+    reshape_msds.__doc__ = reshape_msds.__doc__.replace(
+        'SpectralDistribution', 'MultiSpectralDistributions')
+    reshape_msds.__doc__ = reshape_msds.__doc__.replace(
+        'spectral distribution', 'multi-spectral distributions')
+    reshape_msds.__doc__ = reshape_msds.__doc__.replace(
+        'Spectral distribution', 'Multi-spectral distributions')
 
 
 def sds_and_msds_to_sds(sds):

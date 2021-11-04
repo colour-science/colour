@@ -74,6 +74,10 @@ def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_):
     """
 
     docstring = callable_.__doc__
+    # If-clause required for optimised python launch.
+    if docstring is None:  # pragma: no cover
+        return
+
     docstring = docstring.replace('Luo et al. (2006)', 'Li et al. (2017)')
     docstring = docstring.replace('CIECAM02', 'CAM16')
     docstring = docstring.replace('CAM02', 'CAM16')
