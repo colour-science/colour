@@ -14,6 +14,7 @@ from copy import deepcopy
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.io.luts import AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D
+from colour.utilities import attest
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -98,10 +99,11 @@ class LUTSequence(MutableSequence):
 
     def __init__(self, *args):
         for arg in args:
-            assert isinstance(
-                arg, (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)), (
-                    '"args" elements must be instances of "LUT1D", '
-                    '"LUT3x1D", "LUT3D" or "AbstractLUTSequenceOperator"!')
+            attest(
+                isinstance(
+                    arg, (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)),
+                '"args" elements must be instances of "LUT1D", '
+                '"LUT3x1D", "LUT3D" or "AbstractLUTSequenceOperator"!')
 
         self._sequence = list(args)
 
@@ -291,10 +293,11 @@ class LUTSequence(MutableSequence):
             *LUT* to insert into the *LUT* sequence.
         """
 
-        assert isinstance(
-            LUT, (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)), (
-                '"LUT" must be an instance of "LUT1D", "LUT3x1D", "LUT3D" or '
-                '"AbstractLUTSequenceOperator"!')
+        attest(
+            isinstance(LUT,
+                       (LUT1D, LUT3x1D, LUT3D, AbstractLUTSequenceOperator)),
+            '"LUT" must be an instance of "LUT1D", "LUT3x1D", "LUT3D" or '
+            '"AbstractLUTSequenceOperator"!')
 
         self._sequence.insert(index, LUT)
 

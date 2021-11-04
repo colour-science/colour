@@ -16,9 +16,9 @@ from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
-from colour.utilities import (as_array, fill_nan, full, is_pandas_installed,
-                              required, runtime_warning, tsplit, tstack,
-                              validate_method)
+from colour.utilities import (as_array, attest, fill_nan, full,
+                              is_pandas_installed, required, runtime_warning,
+                              tsplit, tstack, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -244,7 +244,8 @@ class Signal(AbstractContinuousFunction):
 
         if value is not None:
 
-            assert value in np.sctypes['float'], (
+            attest(
+                value in np.sctypes['float'],
                 '"dtype" must be one of the following types: {0}'.format(
                     np.sctypes['float']))
 
@@ -340,7 +341,8 @@ class Signal(AbstractContinuousFunction):
                 value = np.copy(value).astype(self.dtype)
 
                 if self._domain is not None:
-                    assert value.size == self._domain.size, (
+                    attest(
+                        value.size == self._domain.size,
                         '"domain" and "range" variables must have same size!')
 
                 self._range = value
@@ -404,10 +406,10 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            assert isinstance(
-                value,
-                dict), '"{0}" attribute: "{1}" type is not "dict"!'.format(
-                    'interpolator_kwargs', value)
+            attest(
+                isinstance(value, dict),
+                '"{0}" attribute: "{1}" type is not "dict"!'.format(
+                    'interpolator_kwargs', value))
 
             self._interpolator_kwargs = value
             self._create_function()
@@ -470,9 +472,9 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            assert isinstance(
-                value,
-                dict), ('"{0}" attribute: "{1}" type is not "dict"!'.format(
+            attest(
+                isinstance(value, dict),
+                '"{0}" attribute: "{1}" type is not "dict"!'.format(
                     'extrapolator_kwargs', value))
 
             self._extrapolator_kwargs = value
@@ -1118,7 +1120,7 @@ class Signal(AbstractContinuousFunction):
             data = tsplit(
                 list(data) if isinstance(data, (Iterator,
                                                 ValuesView)) else data)
-            assert data.ndim == 1, 'User "data" must be 1-dimensional!'
+            attest(data.ndim == 1, 'User "data" must be 1-dimensional!')
 
             domain_u, range_u = np.arange(0, data.size, dtype=dtype), data
         elif issubclass(type(data), Mapping) or isinstance(data, dict):
@@ -1131,7 +1133,8 @@ class Signal(AbstractContinuousFunction):
                 range_u = data.values
 
         if domain is not None and range_u is not None:
-            assert len(domain) == len(range_u), (
+            attest(
+                len(domain) == len(range_u),
                 'User "domain" is not compatible with unpacked range!')
             domain_u = as_array(domain, dtype)
 

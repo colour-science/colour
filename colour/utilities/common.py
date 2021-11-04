@@ -39,7 +39,7 @@ __status__ = 'Production'
 __all__ = [
     'CacheRegistry', 'CACHE_REGISTRY', 'handle_numpy_errors',
     'ignore_numpy_errors', 'raise_numpy_errors', 'print_numpy_errors',
-    'warn_numpy_errors', 'ignore_python_warnings', 'batch',
+    'warn_numpy_errors', 'ignore_python_warnings', 'attest', 'batch',
     'disable_multiprocessing', 'multiprocessing_pool',
     'is_matplotlib_installed', 'is_networkx_installed',
     'is_opencolorio_installed', 'is_openimageio_installed',
@@ -329,6 +329,23 @@ def ignore_python_warnings(function):
             return function(*args, **kwargs)
 
     return wrapped
+
+
+def attest(condition, message=str()):
+    """
+    A replacement for `assert` that is not removed by optimised Python
+    execution.
+
+    Parameters
+    ----------
+    condition : bool
+        Condition to attest/assert.
+    message : unicode, optional
+        Message to display when the assertion fails.
+    """
+
+    if not condition:
+        raise AssertionError(message)
 
 
 def batch(iterable, k=3):
@@ -1188,7 +1205,7 @@ def set_domain_range_scale(scale='Reference'):
 
     scale = str(scale).lower()
     valid = ('1', '100', 'reference', 'ignore')
-    assert scale in valid, 'Scale must be one of "{0}".'.format(valid)
+    attest(scale in valid, 'Scale must be one of "{0}".'.format(valid))
 
     _DOMAIN_RANGE_SCALE = scale
 

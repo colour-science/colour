@@ -19,7 +19,8 @@ References
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
-from colour.utilities import tsplit, tstack, as_float_array, as_int_array
+from colour.utilities import (attest, tsplit, tstack, as_float_array,
+                              as_int_array)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -127,14 +128,14 @@ def read_LUT_Cinespace(path):
 
     with open(path) as csp_file:
         lines = csp_file.readlines()
-        assert len(lines) > 0, 'LUT file empty!'
+        attest(len(lines) > 0, '"LUT" is empty!')
         lines = [line.strip() for line in lines if line.strip()]
 
         header = lines[0]
-        assert header == 'CSPLUTV100', 'Invalid header!'
+        attest(header == 'CSPLUTV100', '"LUT" header is invalid!')
 
         kind = lines[1]
-        assert kind in ('1D', '3D'), 'Invalid kind!'
+        attest(kind in ('1D', '3D'), '"LUT" type must be "1D" or "3D"!')
 
         is_3D = kind == '3D'
 
@@ -161,7 +162,7 @@ def read_LUT_Cinespace(path):
         seek += 9
         size, table = _parse_table_section(lines[seek:])
 
-        assert np.product(size) == len(table), 'Invalid table size!'
+        attest(np.product(size) == len(table), '"LUT" table size is invalid!')
 
         if (is_3D and pre_LUT.shape == (6, 2) and np.array_equal(
                 pre_LUT.reshape(3, 4).transpose()[2:4], unity_range)):
@@ -264,9 +265,10 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
     has_3D, has_3x1D = False, False
 
     if isinstance(LUT, LUTSequence):
-        assert (len(LUT) == 2 and
-                isinstance(LUT[0], (LUT1D, LUT3x1D)) and isinstance(
-                    LUT[1], LUT3D)), 'LUTSequence must be 1D+3D or 3x1D+3D!'
+        attest(
+            len(LUT) == 2 and isinstance(LUT[0], (LUT1D, LUT3x1D)) and
+            isinstance(LUT[1], LUT3D),
+            '"LUTSequence" must be "1D + 3D" or "3x1D + 3D"!')
         has_3x1D = True
         has_3D = True
         LUT[0] = (LUT[0].as_LUT(LUT3x1D)
@@ -292,10 +294,11 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
         raise ValueError('LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!')
 
     if has_3x1D:
-        assert 2 <= LUT[0].size <= 65536, (
-            'Shaper size must be in domain [2, 65536]!')
+        attest(2 <= LUT[0].size <= 65536,
+               'Shaper size must be in domain [2, 65536]!')
     if has_3D:
-        assert 2 <= LUT[1].size <= 256, 'Cube size must be in domain [2, 256]!'
+        attest(2 <= LUT[1].size <= 256,
+               'Cube size must be in domain [2, 256]!')
 
     def _ragged_size(table):
         """

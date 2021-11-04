@@ -128,7 +128,7 @@ from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (
     CaseInsensitiveMapping, Lookup, as_float_array, as_float, as_int,
-    as_numeric, domain_range_scale, from_range_1, from_range_10,
+    as_numeric, attest, domain_range_scale, from_range_1, from_range_10,
     get_domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
     is_integer, is_numeric, tsplit, usage_warning, validate_method)
 
@@ -757,12 +757,15 @@ def _munsell_specification_to_xyY(specification):
         hue, value, chroma, code = ([as_float(i) for i in specification[0:3]] +
                                     [DEFAULT_INT_DTYPE(specification[-1])])
 
-        assert 0 <= hue <= 10, (
-            '"{0}" specification hue must be normalised to domain '
-            '[0, 10]!'.format(specification))
-        assert 0 <= value <= 10, (
-            '"{0}" specification value must be normalised to domain '
-            '[0, 10]!'.format(specification))
+        attest(
+            0 <= hue <= 10,
+            '"{0}" specification hue must be normalised to domain [0, 10]!'.
+            format(specification))
+
+        attest(
+            0 <= value <= 10,
+            '"{0}" specification value must be normalised to domain [0, 10]!'.
+            format(specification))
 
     with domain_range_scale('ignore'):
         Y = luminance_ASTMD1535(value)
@@ -1478,16 +1481,23 @@ def munsell_specification_to_munsell_colour(specification,
         ]
         code_values = MUNSELL_HUE_LETTER_CODES.values()
 
-        assert 0 <= hue <= 10, (
-            '"{0}" specification hue must be normalised to domain '
-            '[0, 10]!'.format(specification))
-        assert 0 <= value <= 10, (
-            '"{0}" specification value must be normalised to domain '
-            '[0, 10]!'.format(specification))
-        assert 2 <= chroma <= 50, (
-            '"{0}" specification chroma must be normalised to domain '
-            '[2, 50]!'.format(specification))
-        assert code in code_values, (
+        attest(
+            0 <= hue <= 10,
+            '"{0}" specification hue must be normalised to domain [0, 10]!'.
+            format(specification))
+
+        attest(
+            0 <= value <= 10,
+            '"{0}" specification value must be normalised to domain [0, 10]!'.
+            format(specification))
+
+        attest(
+            2 <= chroma <= 50,
+            '"{0}" specification chroma must be normalised to domain [2, 50]!'.
+            format(specification))
+
+        attest(
+            code in code_values,
             '"{0}" specification code must one of "{1}"!'.format(
                 specification, code_values))
 
@@ -1797,10 +1807,13 @@ def interpolation_method_from_renotation_ovoid(specification):
     else:
         hue, value, chroma, code = specification
 
-        assert 0 <= value <= 10, (
-            '"{0}" specification value must be normalised to domain '
-            '[0, 10]!'.format(specification))
-        assert is_integer(value), (
+        attest(
+            0 <= value <= 10,
+            '"{0}" specification value must be normalised to domain [0, 10]!'.
+            format(specification))
+
+        attest(
+            is_integer(value),
             '"{0}" specification value must be an integer!'.format(
                 specification))
 
@@ -1810,13 +1823,15 @@ def interpolation_method_from_renotation_ovoid(specification):
         if value == 10:
             interpolation_method = 0
 
-        assert 2 <= chroma <= 50, (
-            '"{0}" specification chroma must be normalised to domain '
-            '[2, 50]!'.format(specification))
-        assert abs(
-            2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
-                '"{0}" specification chroma must be an integer and '
-                'multiple of 2!').format(specification))
+        attest(
+            2 <= chroma <= 50,
+            '"{0}" specification chroma must be normalised to domain [2, 50]!'.
+            format(specification))
+
+        attest(
+            abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
+            '"{0}" specification chroma must be an integer and multiple of 2!'.
+            format(specification))
 
         chroma = 2 * round(chroma / 2)
 
@@ -2088,22 +2103,27 @@ def xy_from_renotation_ovoid(specification):
     else:
         hue, value, chroma, code = specification
 
-        assert 1 <= value <= 9, (
-            '"{0}" specification value must be normalised to domain '
-            '[1, 9]!'.format(specification))
-        assert is_integer(value), (
+        attest(
+            1 <= value <= 9,
+            '"{0}" specification value must be normalised to domain [1, 9]!'.
+            format(specification))
+
+        attest(
+            is_integer(value),
             '"{0}" specification value must be an integer!'.format(
                 specification))
 
         value = round(value)
 
-        assert 2 <= chroma <= 50, (
-            '"{0}" specification chroma must be normalised to domain '
-            '[2, 50]!'.format(specification))
-        assert abs(
-            2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
-                '"{0}" specification chroma must be an integer and '
-                'multiple of 2!').format(specification))
+        attest(
+            2 <= chroma <= 50,
+            '"{0}" specification chroma must be normalised to domain [2, 50]!'.
+            format(specification))
+
+        attest(
+            abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
+            '"{0}" specification chroma must be an integer and multiple of 2!'.
+            format(specification))
 
         chroma = 2 * round(chroma / 2)
 
@@ -2157,7 +2177,8 @@ def xy_from_renotation_ovoid(specification):
         interpolation_method = interpolation_method_from_renotation_ovoid(
             specification).lower()
 
-        assert interpolation_method is not None, (
+        attest(
+            interpolation_method is not None,
             'Interpolation method must be one of : "{0}"'.format(', '.join(
                 ['Linear', 'radial'])))
 
@@ -2278,8 +2299,8 @@ def maximum_chroma_from_renotation(hue, value, code):
     if value >= 9.99:
         return 0
 
-    assert 1 <= value <= 10, (
-        '"{0}" value must be normalised to domain [1, 10]!'.format(value))
+    attest(1 <= value <= 10,
+           '"{0}" value must be normalised to domain [1, 10]!'.format(value))
 
     if value % 1 == 0:
         value_minus = value
@@ -2354,10 +2375,13 @@ def munsell_specification_to_xy(specification):
     else:
         hue, value, chroma, code = specification
 
-        assert 0 <= value <= 10, (
-            '"{0}" specification value must be normalised to domain '
-            '[0, 10]!'.format(specification))
-        assert is_integer(value), (
+        attest(
+            0 <= value <= 10,
+            '"{0}" specification value must be normalised to domain [0, 10]!'.
+            format(specification))
+
+        attest(
+            is_integer(value),
             '"{0}" specification value must be an integer!'.format(
                 specification))
 

@@ -9,7 +9,7 @@ Defines the image related input / output utilities objects.
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+from colour.utilities import (CaseInsensitiveMapping, as_float_array, attest,
                               is_openimageio_installed, filter_kwargs,
                               required, usage_warning, validate_method)
 
@@ -132,11 +132,13 @@ def convert_bit_depth(a, bit_depth='float32'):
 
     bit_depths = ', '.join(sorted(BIT_DEPTH_MAPPING.keys()))
 
-    assert bit_depth in bit_depths, (
+    attest(
+        bit_depth in bit_depths,
         'Incorrect bit depth was specified, it must be one of: "{0}"!'.format(
             bit_depths))
 
-    assert str(a.dtype) in bit_depths, (
+    attest(
+        str(a.dtype) in bit_depths,
         'Image bit depth must be one of: "{0}"!'.format(bit_depths))
 
     source_dtype = str(a.dtype)

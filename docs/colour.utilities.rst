@@ -40,6 +40,7 @@ Common
     print_numpy_errors
     warn_numpy_errors
     ignore_python_warnings
+    attest
     batch
     disable_multiprocessing
     multiprocessing_pool

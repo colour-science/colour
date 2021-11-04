@@ -15,7 +15,8 @@ import numpy as np
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.utilities import as_int_array, usage_warning, as_float_array
+from colour.utilities import (as_float_array, as_int_array, attest,
+                              usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -88,7 +89,8 @@ def read_LUT_SonySPI3D(path):
 
             tokens = line.split()
             if len(tokens) == 3:
-                assert len(set(tokens)) == 1, (
+                attest(
+                    len(set(tokens)) == 1,
                     'Non-uniform "LUT" shape is unsupported!')
 
                 size = DEFAULT_INT_DTYPE(tokens[0])
@@ -99,11 +101,13 @@ def read_LUT_SonySPI3D(path):
     indexes = as_int_array(indexes)
     sorting_indexes = np.lexsort((indexes[:, 2], indexes[:, 1], indexes[:, 0]))
 
-    assert np.array_equal(
-        indexes[sorting_indexes],
-        DEFAULT_INT_DTYPE(np.around(
-            LUT3D.linear_table(size) * (size - 1))).reshape(
-                (-1, 3))), 'Indexes do not match expected "LUT3D" indexes!'
+    attest(
+        np.array_equal(
+            indexes[sorting_indexes],
+            DEFAULT_INT_DTYPE(
+                np.around(LUT3D.linear_table(size) * (size - 1))).reshape(
+                    (-1, 3))),
+        'Indexes do not match expected "LUT3D" indexes!')
 
     table = as_float_array(table)[sorting_indexes].reshape(
         [size, size, size, 3])
@@ -154,14 +158,15 @@ def write_LUT_SonySPI3D(LUT, path, decimals=7):
                       'using first sequence "LUT":\n'
                       '{0}'.format(LUT))
 
-    assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
+    attest(not LUT.is_domain_explicit(), '"LUT" domain must be implicit!')
 
-    assert isinstance(LUT, LUT3D), '"LUT" must be either a 3D "LUT"!'
+    attest(isinstance(LUT, LUT3D), '"LUT" must be either a 3D "LUT"!')
 
-    assert np.array_equal(LUT.domain, np.array([
-        [0, 0, 0],
-        [1, 1, 1],
-    ])), '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!'
+    attest(
+        np.array_equal(LUT.domain, np.array([
+            [0, 0, 0],
+            [1, 1, 1],
+        ])), '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!')
 
     def _format_array(array):
         """

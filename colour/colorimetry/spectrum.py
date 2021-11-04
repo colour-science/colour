@@ -34,7 +34,7 @@ from colour.algebra import (Extrapolator, CubicSplineInterpolator,
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
 from colour.utilities import (
-    CACHE_REGISTRY, as_float, as_int, copy_definition, filter_kwargs,
+    CACHE_REGISTRY, as_float, as_int, attest, copy_definition, filter_kwargs,
     first_item, is_iterable, is_numeric, is_string, is_uniform, interval,
     runtime_warning, tstack, validate_method)
 
@@ -127,12 +127,14 @@ class SpectralShape:
         """
 
         if value is not None:
-            assert is_numeric(value), (
+            attest(
+                is_numeric(value),
                 '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'start', value))
 
             if self._end is not None:
-                assert value < self._end, (
+                attest(
+                    value < self._end,
                     '"{0}" attribute value must be strictly less than '
                     '"{1}"!'.format('start', self._end))
 
@@ -163,12 +165,14 @@ class SpectralShape:
         """
 
         if value is not None:
-            assert is_numeric(value), (
+            attest(
+                is_numeric(value),
                 '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'end', value))
 
             if self._start is not None:
-                assert value > self._start, (
+                attest(
+                    value > self._start,
                     '"{0}" attribute value must be strictly greater than '
                     '"{1}"!'.format('end', self._start))
 
@@ -199,7 +203,8 @@ class SpectralShape:
         """
 
         if value is not None:
-            assert is_numeric(value), (
+            attest(
+                is_numeric(value),
                 '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'interval', value))
 
@@ -230,12 +235,13 @@ class SpectralShape:
         """
 
         if value is not None:
-            assert is_iterable(value), (
+            attest(
+                is_iterable(value),
                 '"{0}" attribute: "{1}" is not an "iterable"!'.format(
                     'boundaries', value))
 
-            assert len(value) == 2, (
-                '"{0}" attribute: "{1}" must have exactly '
+            attest(
+                len(value) == 2, '"{0}" attribute: "{1}" must have exactly '
                 'two elements!'.format('boundaries', value))
 
             start, end = value
@@ -662,9 +668,10 @@ dict_like, optional
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a "string" like object!'
-                 ).format('strict_name', value))
+            attest(
+                is_string(value),
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'strict_name', value))
 
             self._strict_name = value
 
@@ -1703,9 +1710,10 @@ MultiSpectralDistributions or array_like or dict_like, optional
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a "string" like object!'
-                 ).format('strict_name', value))
+            attest(
+                is_string(value),
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'strict_name', value))
 
             self._strict_name = value
 
@@ -1738,16 +1746,19 @@ MultiSpectralDistributions or array_like or dict_like, optional
         """
 
         if value is not None:
-            assert is_iterable(value), (
+            attest(
+                is_iterable(value),
                 '"{0}" attribute: "{1}" is not an "iterable" like object!'.
                 format('strict_labels', value))
 
-            assert len(set(value)) == len(value), (
+            attest(
+                len(set(value)) == len(value),
                 '"{0}" attribute: values must be unique!'.format(
                     'strict_labels'))
 
-            assert len(value) == len(
-                self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
+            attest(
+                len(value) == len(self.labels),
+                '"{0}" attribute: length must be "{1}"!'.format(
                     'strict_labels', len(self.labels)))
 
             self._strict_labels = value
@@ -2541,12 +2552,14 @@ def reshape_sd(sd, shape=SPECTRAL_SHAPE_DEFAULT, method='Align', **kwargs):
 
 
 reshape_msds = copy_definition(reshape_sd, 'reshape_msds')
-reshape_msds.__doc__ = reshape_msds.__doc__.replace(
-    'SpectralDistribution', 'MultiSpectralDistributions')
-reshape_msds.__doc__ = reshape_msds.__doc__.replace(
-    'spectral distribution', 'multi-spectral distributions')
-reshape_msds.__doc__ = reshape_msds.__doc__.replace(
-    'Spectral distribution', 'Multi-spectral distributions')
+# If-clause required for optimised python launch.
+if reshape_msds.__doc__ is not None:
+    reshape_msds.__doc__ = reshape_msds.__doc__.replace(
+        'SpectralDistribution', 'MultiSpectralDistributions')
+    reshape_msds.__doc__ = reshape_msds.__doc__.replace(
+        'spectral distribution', 'multi-spectral distributions')
+    reshape_msds.__doc__ = reshape_msds.__doc__.replace(
+        'Spectral distribution', 'Multi-spectral distributions')
 
 
 def sds_and_msds_to_sds(sds):

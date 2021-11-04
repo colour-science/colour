@@ -13,7 +13,7 @@ from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
-from colour.utilities import (as_float_array, first_item, is_iterable,
+from colour.utilities import (as_float_array, attest, first_item, is_iterable,
                               is_pandas_installed, required, tsplit, tstack,
                               validate_method)
 
@@ -359,7 +359,8 @@ dict_like, optional
                 for signal in self._signals.values():
                     signal.range = value
             else:
-                assert value.shape[-1] == len(self._signals), (
+                attest(
+                    value.shape[-1] == len(self._signals),
                     'Corresponding "y" variable columns must have '
                     'same count than underlying "Signal" components!')
 
@@ -567,15 +568,18 @@ or dict_like
         """
 
         if value is not None:
-            assert is_iterable(value), (
+            attest(
+                is_iterable(value),
                 '"{0}" attribute: "{1}" is not an "iterable" like object!'.
                 format('labels', value))
 
-            assert len(set(value)) == len(value), (
+            attest(
+                len(set(value)) == len(value),
                 '"{0}" attribute: values must be unique!'.format('labels'))
 
-            assert len(value) == len(
-                self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
+            attest(
+                len(value) == len(self.labels),
+                '"{0}" attribute: length must be "{1}"!'.format(
                     'labels', len(self._signals)))
 
             self._signals = {
@@ -888,7 +892,8 @@ or dict_like
 
         x_r, x_c = (x[0], x[1]) if isinstance(x, tuple) else (x, slice(None))
 
-        assert y.ndim in range(3), (
+        attest(
+            y.ndim in range(3),
             'Corresponding "y" variable must be a numeric or a 1-dimensional '
             'or 2-dimensional array!')
 
@@ -897,7 +902,8 @@ or dict_like
         elif y.ndim == 1:
             y = y[np.newaxis, :]
 
-        assert y.shape[-1] == len(self._signals), (
+        attest(
+            y.shape[-1] == len(self._signals),
             'Corresponding "y" variable columns must have same count than '
             'underlying "Signal" components!')
 
@@ -1133,7 +1139,8 @@ or dict_like
         multi_signals = self if in_place else self.copy()
 
         if isinstance(a, MultiSignals):
-            assert len(self.signals) == len(a.signals), (
+            attest(
+                len(self.signals) == len(a.signals),
                 '"MultiSignals" operands must have same count than '
                 'underlying "Signal" components!')
 
@@ -1143,7 +1150,8 @@ or dict_like
         else:
             a = as_float_array(a)
 
-            assert a.ndim in range(3), (
+            attest(
+                a.ndim in range(3),
                 'Operand "a" variable must be a numeric or a 1-dimensional or '
                 '2-dimensional array!')
 
@@ -1151,7 +1159,8 @@ or dict_like
                 for signal in multi_signals.signals.values():
                     signal.arithmetical_operation(a, operation, True)
             else:
-                assert a.shape[-1] == len(multi_signals.signals), (
+                attest(
+                    a.shape[-1] == len(multi_signals.signals),
                     'Operand "a" variable columns must have same count than '
                     'underlying "Signal" components!')
 
@@ -1397,7 +1406,8 @@ dict_like, optional
                 data = tsplit(
                     list(data) if isinstance(data, (Iterator,
                                                     ValuesView)) else data)
-                assert data.ndim in (1, 2), (
+                attest(
+                    data.ndim in (1, 2),
                     'User "data" must be 1-dimensional or 2-dimensional!')
 
                 if data.ndim == 1:
@@ -1437,13 +1447,15 @@ dict_like, optional
 
         if domain is not None and signals is not None:
             for signal in signals.values():
-                assert len(domain) == len(signal.domain), (
+                attest(
+                    len(domain) == len(signal.domain),
                     'User "domain" is not compatible with unpacked signals!')
 
                 signal.domain = domain
 
         if labels is not None and signals is not None:
-            assert len(labels) == len(signals), (
+            attest(
+                len(labels) == len(signals),
                 'User "labels" is not compatible with unpacked signals!')
 
             signals = {

@@ -13,7 +13,7 @@ import numpy as np
 from abc import ABC, abstractmethod, abstractproperty
 from copy import deepcopy
 
-from colour.utilities import as_float, closest, is_uniform, is_string
+from colour.utilities import as_float, attest, closest, is_uniform, is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -120,9 +120,10 @@ arithmetical_operation`
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" type is not "str" or "unicode"!'
-                 ).format('name', value))
+            attest(
+                is_string(value),
+                '"{0}" attribute: "{1}" type is not "str" or "unicode"!'
+                .format('name', value))
 
             self._name = value
 

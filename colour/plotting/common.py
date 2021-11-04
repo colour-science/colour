@@ -39,7 +39,7 @@ from colour.characterisation import CCS_COLOURCHECKERS
 from colour.colorimetry import MSDS_CMFS, SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (CaseInsensitiveMapping, Structure,
-                              as_float_array, is_sibling, is_string,
+                              as_float_array, attest, is_sibling, is_string,
                               filter_mapping, runtime_warning)
 
 __author__ = 'Colour Developers'
@@ -978,7 +978,8 @@ def update_settings_collection(settings_collection, keyword_arguments,
     """
 
     if not isinstance(keyword_arguments, dict):
-        assert len(keyword_arguments) == expected_count, (
+        attest(
+            len(keyword_arguments) == expected_count,
             'Multiple keyword arguments defined, but they do not '
             'match the expected count!')
 
@@ -1131,13 +1132,15 @@ def plot_multi_colour_swatches(colour_swatches,
     """
 
     direction = direction.lower()
-    assert direction in ('+y', '-y'), (
+    attest(
+        direction in ('+y', '-y'),
         '"direction" must be one of *[\'+y\', \'-y\']*!')
 
     if compare_swatches is not None:
         compare_swatches = compare_swatches.lower()
 
-        assert compare_swatches in ('diagonal', 'stacked'), (
+        attest(
+            compare_swatches in ('diagonal', 'stacked'),
             '"compare_swatches" must be one of *[\'diagonal\', \'stacked\']*!')
 
     _figure, axes = artist(**kwargs)
@@ -1151,7 +1154,8 @@ def plot_multi_colour_swatches(colour_swatches,
                 colour_swatches[i] = ColourSwatch(RGB=colour_swatch)
 
     if compare_swatches is not None:
-        assert len(colour_swatches) % 2 == 0, (
+        attest(
+            len(colour_swatches) % 2 == 0,
             'Cannot compare an odd number of colour swatches!')
 
         reference_colour_swatches = colour_swatches[0::2]
@@ -1384,19 +1388,19 @@ def plot_multi_functions(functions,
                                    len(functions))
 
     if log_x is not None and log_y is not None:
-        assert log_x >= 2 and log_y >= 2, (
-            'Log base must be equal or greater than 2.')
+        attest(log_x >= 2 and log_y >= 2,
+               'Log base must be equal or greater than 2.')
 
         plotting_function = axes.loglog
 
         axes.set_xscale('log', base=log_x)
         axes.set_yscale('log', base=log_y)
     elif log_x is not None:
-        assert log_x >= 2, 'Log base must be equal or greater than 2.'
+        attest(log_x >= 2, 'Log base must be equal or greater than 2.')
 
         plotting_function = partial(axes.semilogx, basex=log_x)
     elif log_y is not None:
-        assert log_y >= 2, 'Log base must be equal or greater than 2.'
+        attest(log_y >= 2, 'Log base must be equal or greater than 2.')
 
         plotting_function = partial(axes.semilogy, basey=log_y)
     else:

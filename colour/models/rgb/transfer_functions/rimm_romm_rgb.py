@@ -27,8 +27,8 @@ References
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (as_float, as_int, domain_range_scale,
-                              from_range_1, to_domain_1)
+from colour.utilities import (as_float, as_int, copy_definition,
+                              domain_range_scale, from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -177,12 +177,20 @@ def cctf_decoding_ROMMRGB(X_p, bit_depth=8, in_int=False):
     return as_float(from_range_1(X))
 
 
-cctf_encoding_ProPhotoRGB = cctf_encoding_ROMMRGB
-cctf_encoding_ProPhotoRGB.__doc__ = cctf_encoding_ProPhotoRGB.__doc__.replace(
-    '*ROMM RGB*', '*ProPhoto RGB*')
-cctf_decoding_ProPhotoRGB = cctf_decoding_ROMMRGB
-cctf_decoding_ProPhotoRGB.__doc__ = cctf_decoding_ROMMRGB.__doc__.replace(
-    '*ROMM RGB*', '*ProPhoto RGB*')
+cctf_encoding_ProPhotoRGB = copy_definition(cctf_encoding_ROMMRGB,
+                                            'cctf_encoding_ProPhotoRGB')
+# If-clause required for optimised python launch.
+if cctf_encoding_ProPhotoRGB.__doc__ is not None:
+    cctf_encoding_ProPhotoRGB.__doc__ = (
+        cctf_encoding_ProPhotoRGB.__doc__.replace('*ROMM RGB*',
+                                                  '*ProPhoto RGB*'))
+cctf_decoding_ProPhotoRGB = copy_definition(cctf_decoding_ROMMRGB,
+                                            'cctf_decoding_ProPhotoRGB')
+# If-clause required for optimised python launch.
+if cctf_decoding_ProPhotoRGB.__doc__ is not None:
+    cctf_decoding_ProPhotoRGB.__doc__ = (
+        cctf_decoding_ProPhotoRGB.__doc__.replace('*ROMM RGB*',
+                                                  '*ProPhoto RGB*'))
 
 
 def cctf_encoding_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):

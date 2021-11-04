@@ -13,8 +13,8 @@ from colour.algebra import (CubicSplineInterpolator, Extrapolator,
                             KernelInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import MultiSignals, Signal
-from colour.utilities import (ColourRuntimeWarning, is_pandas_installed,
-                              tsplit, tstack)
+from colour.utilities import (ColourRuntimeWarning, attest,
+                              is_pandas_installed, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -232,7 +232,7 @@ extrapolator_kwargs` property.
 
         multi_signals = self._multi_signals.copy()
 
-        assert np.all(np.isnan(multi_signals[np.array([-1000, 1000])]))
+        attest(np.all(np.isnan(multi_signals[np.array([-1000, 1000])])))
 
         multi_signals.extrapolator_kwargs = {
             'method': 'Linear',
@@ -250,7 +250,7 @@ extrapolator_kwargs` property.
         property.
         """
 
-        assert hasattr(self._multi_signals.function, '__call__')
+        attest(hasattr(self._multi_signals.function, '__call__'))
 
     def test_raise_exception_function(self):
         """
@@ -440,7 +440,7 @@ extrapolator_kwargs` property.
             ]),
             decimal=7)
 
-        assert np.all(np.isnan(self._multi_signals[np.array([-1000, 1000])]))
+        attest(np.all(np.isnan(self._multi_signals[np.array([-1000, 1000])])))
 
         np.testing.assert_almost_equal(
             self._multi_signals[:], self._multi_signals.range, decimal=7)
@@ -941,10 +941,11 @@ domain_distance` method.
 
             data = dict(zip(['a', 'b', 'c'], tsplit(self._range_2)))
 
-            assert MultiSignals(
-                self._range_2, self._domain_2,
-                labels=['a', 'b', 'c']).to_dataframe().equals(
-                    DataFrame(data, self._domain_2))
+            attest(
+                MultiSignals(
+                    self._range_2, self._domain_2,
+                    labels=['a', 'b', 'c']).to_dataframe().equals(
+                        DataFrame(data, self._domain_2)))
 
 
 if __name__ == '__main__':

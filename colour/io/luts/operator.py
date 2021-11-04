@@ -13,8 +13,8 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 from colour.algebra import vector_dot
-from colour.utilities import (as_float_array, is_iterable, is_string, ones,
-                              zeros)
+from colour.utilities import (as_float_array, attest, is_iterable, is_string,
+                              ones, zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -81,7 +81,8 @@ class AbstractLUTSequenceOperator(ABC):
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 ('"{0}" attribute: "{1}" type is not "str" or "unicode"!'
                  ).format('name', value))
 
@@ -112,8 +113,9 @@ class AbstractLUTSequenceOperator(ABC):
         """
 
         if value is not None:
-            assert is_iterable(value), ((
-                '"{0}" attribute: "{1}" must be an array like!').format(
+            attest(
+                is_iterable(value),
+                '"{0}" attribute: "{1}" must be an array like!'.format(
                     'comments', value))
 
             self._comments = value
@@ -255,10 +257,10 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
             value = value.reshape([shape_t, shape_t])
 
-            assert value.shape in [
-                (3, 3), (4, 4)
-            ], (('"{0}" attribute: "{1}" shape is not (3, 3) or (4, 4)!'
-                 ).format('matrix', value))
+            attest(
+                value.shape in [(3, 3), (4, 4)],
+                '"{0}" attribute: "{1}" shape is not (3, 3) or (4, 4)!'.format(
+                    'matrix', value))
 
             M = np.identity(4)
             M[:shape_t, :shape_t] = value
@@ -294,10 +296,10 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
             shape_t = value.shape[-1]
 
-            assert value.shape in [
-                (3, ), (4, )
-            ], ('"{0}" attribute: "{1}" shape is not (3, ) or (4, )!'.format(
-                'offset', value))
+            attest(
+                value.shape in [(3, ), (4, )],
+                '"{0}" attribute: "{1}" shape is not (3, ) or (4, )!'.format(
+                    'offset', value))
 
             offset = zeros(4)
             offset[:shape_t] = value

@@ -12,7 +12,7 @@ from colour.algebra import (CubicSplineInterpolator, Extrapolator,
                             KernelInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal
-from colour.utilities import ColourRuntimeWarning, is_pandas_installed
+from colour.utilities import ColourRuntimeWarning, attest, is_pandas_installed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -190,7 +190,7 @@ class TestSignal(unittest.TestCase):
 
         signal = self._signal.copy()
 
-        assert np.all(np.isnan(signal[np.array([-1000, 1000])]))
+        attest(np.all(np.isnan(signal[np.array([-1000, 1000])])))
 
         signal.extrapolator_kwargs = {
             'method': 'Linear',
@@ -206,7 +206,7 @@ class TestSignal(unittest.TestCase):
         Tests :func:`colour.continuous.signal.Signal.function` property.
         """
 
-        assert hasattr(self._signal.function, '__call__')
+        attest(hasattr(self._signal.function, '__call__'))
 
     def test_raise_exception_function(self):
         """
@@ -317,7 +317,7 @@ class TestSignal(unittest.TestCase):
             ]),
             decimal=7)
 
-        assert np.all(np.isnan(self._signal[np.array([-1000, 1000])]))
+        attest(np.all(np.isnan(self._signal[np.array([-1000, 1000])])))
 
         signal = self._signal.copy()
         signal.extrapolator_kwargs = {

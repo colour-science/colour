@@ -25,7 +25,7 @@ from colour.colorimetry import (
     sd_to_XYZ, sd_blackbody, reshape_msds, sd_ones, sd_CIE_illuminant_D_series)
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
-from colour.utilities import CACHE_REGISTRY, as_int, usage_warning
+from colour.utilities import CACHE_REGISTRY, as_int, attest, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -214,7 +214,8 @@ def load_TCS_CIE2017(shape):
 
     interval = shape.interval
 
-    assert interval in (1, 5), (
+    attest(
+        interval in (1, 5),
         'Spectral shape interval must be either 1nm or 5nm!')
 
     filename = 'tcs_cfi2017_{0}_nm.csv.gz'.format(as_int(interval))

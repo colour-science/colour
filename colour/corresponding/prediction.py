@@ -44,8 +44,9 @@ from colour.corresponding import (BRENEMAN_EXPERIMENTS,
                                   BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES)
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, XYZ_to_Luv, XYZ_to_xy,
                            xy_to_XYZ, xyY_to_XYZ)
-from colour.utilities import (CaseInsensitiveMapping, domain_range_scale,
-                              filter_kwargs, full, is_numeric)
+from colour.utilities import (CaseInsensitiveMapping, attest,
+                              domain_range_scale, filter_kwargs, full,
+                              is_numeric)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -185,7 +186,8 @@ def convert_experiment_results_Breneman1987(experiment):
     """
 
     valid_experiment_results = [1, 2, 3, 4, 6, 8, 9, 11, 12]
-    assert experiment in valid_experiment_results, (
+    attest(
+        experiment in valid_experiment_results,
         '"Breneman (1987)" experiment result is invalid, '
         'it must be one of "{0}"!'.format(valid_experiment_results))
 

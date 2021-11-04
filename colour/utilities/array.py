@@ -25,7 +25,7 @@ from dataclasses import fields, is_dataclass, replace
 from operator import add, mul, pow, sub, truediv
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
-from colour.utilities import suppress_warnings, validate_method
+from colour.utilities import attest, suppress_warnings, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -388,7 +388,8 @@ def as_int_array(a, dtype=None):
     if dtype is None:
         dtype = DEFAULT_INT_DTYPE
 
-    assert dtype in np.sctypes['int'], (
+    attest(
+        dtype in np.sctypes['int'],
         '"dtype" must be one of the following types: {0}'.format(
             np.sctypes['int']))
 
@@ -421,7 +422,8 @@ def as_float_array(a, dtype=None):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
-    assert dtype in np.sctypes['float'], (
+    attest(
+        dtype in np.sctypes['float'],
         '"dtype" must be one of the following types: {0}'.format(
             np.sctypes['float']))
 
@@ -501,7 +503,8 @@ def as_int(a, dtype=None):
     if dtype is None:
         dtype = DEFAULT_INT_DTYPE
 
-    assert dtype in np.sctypes['int'], (
+    attest(
+        dtype in np.sctypes['int'],
         '"dtype" must be one of the following types: {0}'.format(
             np.sctypes['int']))
     try:
@@ -550,7 +553,8 @@ def as_float(a, dtype=None):
     if dtype is None:
         dtype = DEFAULT_FLOAT_DTYPE
 
-    assert dtype in np.sctypes['float'], (
+    attest(
+        dtype in np.sctypes['float'],
         '"dtype" must be one of the following types: {0}'.format(
             np.sctypes['float']))
 

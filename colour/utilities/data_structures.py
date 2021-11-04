@@ -40,9 +40,27 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'Structure', 'Lookup', 'CaseInsensitiveMapping',
+    'attest', 'Structure', 'Lookup', 'CaseInsensitiveMapping',
     'LazyCaseInsensitiveMapping', 'Node'
 ]
+
+
+def attest(condition, message=str()):
+    """
+    A replacement for `assert` that is not removed by optimised Python
+    execution.
+
+    See :func:`colour.utilities.assert` for more information.
+
+    Notes
+    -----
+    -   This definition name is duplicated to avoid import circular dependency.
+    """
+
+    # Avoiding circular dependency.
+    import colour.utilities
+
+    colour.utilities.attest(condition, message)
 
 
 class Structure(dict):
@@ -591,7 +609,8 @@ class Node:
         """
 
         if value is not None:
-            assert isinstance(value, str), (
+            attest(
+                isinstance(value, str),
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
                     'name', value))
 
@@ -622,10 +641,10 @@ class Node:
         """
 
         if value is not None:
-            assert issubclass(
-                value.__class__, Node
-            ), '"{0}" attribute: "{1}" is not a "{2}" subclass!'.format(
-                'parent', value, Node.__class__.__name__)
+            attest(
+                issubclass(value.__class__, Node),
+                '"{0}" attribute: "{1}" is not a "{2}" subclass!'.format(
+                    'parent', value, Node.__class__.__name__))
 
             value.children.append(self)
 
@@ -656,15 +675,16 @@ class Node:
         """
 
         if value is not None:
-            assert isinstance(
-                value, Sequence) and not isinstance(value, str), (
-                    '"{0}" attribute: "{1}" type is not a "Sequence" instance!'
-                ).format('children', value)
+            attest(
+                isinstance(value, Sequence) and not isinstance(value, str),
+                '"{0}" attribute: "{1}" type is not a "Sequence" instance!'
+                .format('children', value))
 
             for element in value:
-                assert issubclass(element.__class__, Node), (
+                attest(
+                    issubclass(element.__class__, Node),
                     '"{0}" attribute: A "{1}" element is not a "{2}" subclass!'
-                ).format('children', element, Node.__class__.__name__)
+                    .format('children', element, Node.__class__.__name__))
 
             for node in value:
                 node.parent = self

@@ -19,9 +19,9 @@ from operator import (add, mul, pow, sub, truediv, iadd, imul, ipow, isub,
 
 from colour.algebra import (Extrapolator, LinearInterpolator,
                             linear_conversion, table_interpolation_trilinear)
-from colour.utilities import (as_float_array, as_int, is_numeric, is_iterable,
-                              is_string, full, required, runtime_warning,
-                              tsplit, tstack, usage_warning, validate_method)
+from colour.utilities import (
+    as_float_array, as_int, attest, is_numeric, is_iterable, is_string, full,
+    required, runtime_warning, tsplit, tstack, usage_warning, validate_method)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -168,7 +168,8 @@ class AbstractLUT(ABC):
         """
 
         if value is not None:
-            assert is_string(value), (
+            attest(
+                is_string(value),
                 ('"{0}" attribute: "{1}" type is not "str" or "unicode"!'
                  ).format('name', value))
 
@@ -253,8 +254,9 @@ class AbstractLUT(ABC):
         """
 
         if value is not None:
-            assert is_iterable(value), ((
-                '"{0}" attribute: "{1}" must be an array like!').format(
+            attest(
+                is_iterable(value),
+                '"{0}" attribute: "{1}" must be an array like!'.format(
                     'comments', value))
 
             self._comments = value
@@ -879,7 +881,7 @@ class LUT1D(AbstractLUT):
 
         table = as_float_array(table)
 
-        assert len(table.shape) == 1, 'The table must be a 1D array!'
+        attest(len(table.shape) == 1, 'The table must be a 1D array!')
 
         return table
 
@@ -900,10 +902,10 @@ class LUT1D(AbstractLUT):
 
         domain = as_float_array(domain)
 
-        assert len(domain.shape) == 1, 'The domain must be a 1D array!'
+        attest(len(domain.shape) == 1, 'The domain must be a 1D array!')
 
-        assert domain.shape[0] >= 2, (
-            'The domain column count must be equal or greater than 2!')
+        attest(domain.shape[0] >= 2,
+               'The domain column count must be equal or greater than 2!')
 
         return domain
 
@@ -967,7 +969,7 @@ class LUT1D(AbstractLUT):
         if len(domain) != 2:
             return domain
         else:
-            assert is_numeric(size), 'Linear table size must be a numeric!'
+            attest(is_numeric(size), 'Linear table size must be a numeric!')
 
             return np.linspace(domain[0], domain[1], size)
 
@@ -1264,7 +1266,7 @@ class LUT3x1D(AbstractLUT):
 
         table = as_float_array(table)
 
-        assert len(table.shape) == 2, 'The table must be a 2D array!'
+        attest(len(table.shape) == 2, 'The table must be a 2D array!')
 
         return table
 
@@ -1285,13 +1287,13 @@ class LUT3x1D(AbstractLUT):
 
         domain = as_float_array(domain)
 
-        assert len(domain.shape) == 2, 'The domain must be a 2D array!'
+        attest(len(domain.shape) == 2, 'The domain must be a 2D array!')
 
-        assert domain.shape[0] >= 2, (
-            'The domain row count must be equal or greater than 2!')
+        attest(domain.shape[0] >= 2,
+               'The domain row count must be equal or greater than 2!')
 
-        assert domain.shape[1] == 3, (
-            'The domain column count must be equal to 3!')
+        attest(domain.shape[1] == 3,
+               'The domain column count must be equal to 3!')
 
         return domain
 
@@ -1764,7 +1766,7 @@ class LUT3D(AbstractLUT):
 
         table = as_float_array(table)
 
-        assert len(table.shape) == 4, 'The table must be a 4D array!'
+        attest(len(table.shape) == 4, 'The table must be a 4D array!')
 
         return table
 
@@ -1789,13 +1791,13 @@ class LUT3D(AbstractLUT):
 
         domain = as_float_array(domain)
 
-        assert len(domain.shape) == 2, 'The domain must be a 2D array!'
+        attest(len(domain.shape) == 2, 'The domain must be a 2D array!')
 
-        assert domain.shape[0] >= 2, (
-            'The domain row count must be equal or greater than 2!')
+        attest(domain.shape[0] >= 2,
+               'The domain row count must be equal or greater than 2!')
 
-        assert domain.shape[1] == 3, (
-            'The domain column count must be equal to 3!')
+        attest(domain.shape[1] == 3,
+               'The domain column count must be equal to 3!')
 
         return domain
 
