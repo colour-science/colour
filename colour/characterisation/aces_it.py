@@ -85,7 +85,7 @@ __all__ = [
     'white_balance_multipliers', 'best_illuminant', 'normalise_illuminant',
     'training_data_sds_to_RGB', 'training_data_sds_to_XYZ',
     'optimisation_factory_rawtoaces_v1', 'optimisation_factory_JzAzBz',
-    'matrix_idt'
+    'matrix_idt', 'camera_RGB_to_ACES2065_1'
 ]
 
 FLARE_PERCENTAGE = 0.00500
