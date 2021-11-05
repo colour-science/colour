@@ -13,7 +13,7 @@ from colour.characterisation import (
     generate_illuminants_rawtoaces_v1, white_balance_multipliers,
     best_illuminant, normalise_illuminant, training_data_sds_to_RGB,
     training_data_sds_to_XYZ, optimisation_factory_rawtoaces_v1,
-    optimisation_factory_JzAzBz, matrix_idt, camera_RGB_to_ACES2065_1)
+    optimisation_factory_Jzazbz, matrix_idt, camera_RGB_to_ACES2065_1)
 from colour.characterisation.aces_it import RESOURCES_DIRECTORY_RAWTOACES
 from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
                                 reshape_msds, sds_and_msds_to_msds,
@@ -35,7 +35,7 @@ __all__ = [
     'TestWhiteBalanceMultipliers', 'TestBestIlluminant',
     'TestNormaliseIlluminant', 'TestTrainingDataSdsToRGB',
     'TestTrainingDataSdsToXYZ', 'TestOptimizationFactoryRawtoacesV1',
-    'TestOptimizationFactoryJzAzBz', 'TestMatrixIdt',
+    'TestOptimizationFactoryJzazbz', 'TestMatrixIdt',
     'TestCamera_RGB_to_ACES2065_1'
 ]
 
@@ -786,19 +786,19 @@ optimisation_factory_rawtoaces_v1` definition.
         self.assertEqual(len(optimisation_factory_rawtoaces_v1()), 2)
 
 
-class TestOptimizationFactoryJzAzBz(unittest.TestCase):
+class TestOptimizationFactoryJzazbz(unittest.TestCase):
     """
     Defines :func:`colour.characterisation.aces_it.\
-optimisation_factory_JzAzBz` definition unit tests methods.
+optimisation_factory_Jzazbz` definition unit tests methods.
     """
 
-    def test_optimisation_factory_JzAzBz(self):
+    def test_optimisation_factory_Jzazbz(self):
         """
         Tests :func:`colour.characterisation.aces_it.\
-optimisation_factory_JzAzBz` definition.
+optimisation_factory_Jzazbz` definition.
         """
 
-        self.assertEqual(len(optimisation_factory_JzAzBz()), 2)
+        self.assertEqual(len(optimisation_factory_Jzazbz()), 2)
 
 
 class TestMatrixIdt(unittest.TestCase):
@@ -849,7 +849,7 @@ class TestMatrixIdt(unittest.TestCase):
         M, RGB_w = matrix_idt(
             MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS['D55'],
-            optimisation_factory=optimisation_factory_JzAzBz)
+            optimisation_factory=optimisation_factory_Jzazbz)
         np.testing.assert_allclose(
             M,
             np.array([

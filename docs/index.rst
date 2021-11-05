@@ -613,12 +613,12 @@ OSA UCS Colourspace
     >>> colour.XYZ_to_OSA_UCS(XYZ)
     array([-3.0049979 ,  2.99713697, -9.66784231])
 
-JzAzBz Colourspace
+Jzazbz Colourspace
 ******************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_JzAzBz([0.20654008, 0.12197225, 0.05136952])
+    >>> colour.XYZ_to_Jzazbz([0.20654008, 0.12197225, 0.05136952])
     array([ 0.00535048,  0.00924302,  0.00526007])
 
 Y'CbCr Colour Encoding

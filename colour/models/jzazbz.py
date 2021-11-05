@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-:math:`J_zA_zB_z` Colourspace
+:math:`J_za_zb_z` Colourspace
 =============================
 
-Defines the :math:`J_zA_zB_z` colourspace:
+Defines the :math:`J_za_zb_z` colourspace:
 
--   :func:`colour.XYZ_to_JzAzBz`
--   :func:`colour.JzAzBz_to_XYZ`
+-   :func:`colour.XYZ_to_Jzazbz`
+-   :func:`colour.Jzazbz_to_XYZ`
 
 References
 ----------
@@ -35,7 +35,7 @@ __status__ = 'Production'
 __all__ = [
     'CONSTANTS_JZAZBZ', 'MATRIX_JZAZBZ_XYZ_TO_LMS', 'MATRIX_JZAZBZ_LMS_TO_XYZ',
     'MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ', 'MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P',
-    'XYZ_to_JzAzBz', 'JzAzBz_to_XYZ'
+    'XYZ_to_Jzazbz', 'Jzazbz_to_XYZ'
 ]
 
 CONSTANTS_JZAZBZ = Structure(
@@ -43,13 +43,13 @@ CONSTANTS_JZAZBZ = Structure(
 CONSTANTS_JZAZBZ.update(CONSTANTS_ST2084)
 CONSTANTS_JZAZBZ.m_2 = 1.7 * 2523 / 2 ** 5
 """
-Constants for :math:`J_zA_zB_z` colourspace and its variant of the perceptual
+Constants for :math:`J_za_zb_z` colourspace and its variant of the perceptual
 quantizer (PQ) from Dolby Laboratories.
 
 Notes
 -----
 -   The :math:`m2` constant, i.e. the power factor has been re-optimized during
-    the development of the :math:`J_zA_zB_z` colourspace.
+    the development of the :math:`J_za_zb_z` colourspace.
 
 CONSTANTS_JZAZBZ : Structure
 """
@@ -60,7 +60,7 @@ MATRIX_JZAZBZ_XYZ_TO_LMS = np.array([
     [-0.0166008, 0.264800, 0.6684799],
 ])
 """
-:math:`J_zA_zB_z` *CIE XYZ* tristimulus values to normalised cone responses
+:math:`J_za_zb_z` *CIE XYZ* tristimulus values to normalised cone responses
 matrix.
 
 MATRIX_JZAZBZ_XYZ_TO_LMS : array_like, (3, 3)
@@ -68,7 +68,7 @@ MATRIX_JZAZBZ_XYZ_TO_LMS : array_like, (3, 3)
 
 MATRIX_JZAZBZ_LMS_TO_XYZ = np.linalg.inv(MATRIX_JZAZBZ_XYZ_TO_LMS)
 """
-:math:`J_zA_zB_z` normalised cone responses to *CIE XYZ* tristimulus values
+:math:`J_za_zb_z` normalised cone responses to *CIE XYZ* tristimulus values
 matrix.
 
 MATRIX_JZAZBZ_LMS_TO_XYZ : array_like, (3, 3)
@@ -95,9 +95,9 @@ MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P : array_like, (3, 3)
 """
 
 
-def XYZ_to_JzAzBz(XYZ_D65, constants=CONSTANTS_JZAZBZ):
+def XYZ_to_Jzazbz(XYZ_D65, constants=CONSTANTS_JZAZBZ):
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`J_zA_zB_z`
+    Converts from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
     colourspace.
 
     Parameters
@@ -106,13 +106,13 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=CONSTANTS_JZAZBZ):
         *CIE XYZ* tristimulus values under
         *CIE Standard Illuminant D Series D65*.
     constants : Structure, optional
-        :math:`J_zA_zB_z` colourspace constants.
+        :math:`J_za_zb_z` colourspace constants.
 
     Returns
     -------
     ndarray
-        :math:`J_zA_zB_z` colourspace array where :math:`J_z` is Lightness,
-        :math:`A_z` is redness-greenness and :math:`B_z` is
+        :math:`J_za_zb_z` colourspace array where :math:`J_z` is Lightness,
+        :math:`a_z` is redness-greenness and :math:`b_z` is
         yellowness-blueness.
 
     Warnings
@@ -139,11 +139,11 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=CONSTANTS_JZAZBZ):
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``JzAzBz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
+    | ``Jzazbz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
     |            |                       |                  |
-    |            | ``Az`` : [-1, 1]      | ``Az`` : [-1, 1] |
+    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
     |            |                       |                  |
-    |            | ``Bz`` : [-1, 1]      | ``Bz`` : [-1, 1] |
+    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
     +------------+-----------------------+------------------+
 
     References
@@ -153,7 +153,7 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=CONSTANTS_JZAZBZ):
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_JzAzBz(XYZ)  # doctest: +ELLIPSIS
+    >>> XYZ_to_Jzazbz(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0053504...,  0.0092430...,  0.0052600...])
     """
 
@@ -169,28 +169,28 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=CONSTANTS_JZAZBZ):
     with domain_range_scale('ignore'):
         LMS_p = eotf_inverse_ST2084(LMS, 10000, constants)
 
-    I_z, A_z, B_z = tsplit(vector_dot(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ, LMS_p))
+    I_z, a_z, b_z = tsplit(vector_dot(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ, LMS_p))
 
     J_z = ((1 + constants.d) * I_z) / (1 + constants.d * I_z) - constants.d_0
 
-    JzAzBz = tstack([J_z, A_z, B_z])
+    Jzazbz = tstack([J_z, a_z, b_z])
 
-    return from_range_1(JzAzBz)
+    return from_range_1(Jzazbz)
 
 
-def JzAzBz_to_XYZ(JzAzBz, constants=CONSTANTS_JZAZBZ):
+def Jzazbz_to_XYZ(Jzazbz, constants=CONSTANTS_JZAZBZ):
     """
-    Converts from :math:`J_zA_zB_z` colourspace to *CIE XYZ* tristimulus
+    Converts from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
     ----------
-    JzAzBz : array_like
-        :math:`J_zA_zB_z` colourspace array  where :math:`J_z` is Lightness,
-        :math:`A_z` is redness-greenness and :math:`B_z` is
+    Jzazbz : array_like
+        :math:`J_za_zb_z` colourspace array  where :math:`J_z` is Lightness,
+        :math:`a_z` is redness-greenness and :math:`b_z` is
         yellowness-blueness.
     constants : Structure, optional
-        :math:`J_zA_zB_z` colourspace constants.
+        :math:`J_za_zb_z` colourspace constants.
 
     Returns
     -------
@@ -214,11 +214,11 @@ def JzAzBz_to_XYZ(JzAzBz, constants=CONSTANTS_JZAZBZ):
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``JzAzBz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
+    | ``Jzazbz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
     |            |                       |                  |
-    |            | ``Az`` : [-1, 1]      | ``Az`` : [-1, 1] |
+    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
     |            |                       |                  |
-    |            | ``Bz`` : [-1, 1]      | ``Bz`` : [-1, 1] |
+    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+
@@ -233,16 +233,16 @@ def JzAzBz_to_XYZ(JzAzBz, constants=CONSTANTS_JZAZBZ):
 
     Examples
     --------
-    >>> JzAzBz = np.array([0.00535048, 0.00924302, 0.00526007])
-    >>> JzAzBz_to_XYZ(JzAzBz)  # doctest: +ELLIPSIS
+    >>> Jzazbz = np.array([0.00535048, 0.00924302, 0.00526007])
+    >>> Jzazbz_to_XYZ(Jzazbz)  # doctest: +ELLIPSIS
     array([ 0.2065402...,  0.1219723...,  0.0513696...])
     """
 
-    J_z, A_z, B_z = tsplit(to_domain_1(JzAzBz))
+    J_z, a_z, b_z = tsplit(to_domain_1(Jzazbz))
 
     I_z = ((J_z + constants.d_0) / (1 + constants.d - constants.d *
                                     (J_z + constants.d_0)))
-    LMS_p = vector_dot(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P, tstack([I_z, A_z, B_z]))
+    LMS_p = vector_dot(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P, tstack([I_z, a_z, b_z]))
 
     with domain_range_scale('ignore'):
         LMS = eotf_ST2084(LMS_p, 10000, constants)

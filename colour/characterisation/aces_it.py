@@ -15,7 +15,7 @@ Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 -   :func:`colour.characterisation.training_data_sds_to_RGB`
 -   :func:`colour.characterisation.training_data_sds_to_XYZ`
 -   :func:`colour.characterisation.optimisation_factory_rawtoaces_v1`
--   :func:`colour.characterisation.optimisation_factory_JzAzBz`
+-   :func:`colour.characterisation.optimisation_factory_Jzazbz`
 -   :func:`colour.matrix_idt`
 -   :func:`colour.camera_RGB_to_ACES2065_1`
 
@@ -62,7 +62,7 @@ from colour.colorimetry import (
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.characterisation import MSDS_ACES_RICD
 from colour.io import read_sds_from_csv_file
-from colour.models import XYZ_to_JzAzBz, XYZ_to_Lab, XYZ_to_xy, xy_to_XYZ
+from colour.models import XYZ_to_Jzazbz, XYZ_to_Lab, XYZ_to_xy, xy_to_XYZ
 from colour.models.rgb import (RGB_COLOURSPACE_ACES2065_1, RGB_to_XYZ,
                                XYZ_to_RGB, normalised_primary_matrix)
 from colour.temperature import CCT_to_xy_CIE_D
@@ -84,7 +84,7 @@ __all__ = [
     'read_training_data_rawtoaces_v1', 'generate_illuminants_rawtoaces_v1',
     'white_balance_multipliers', 'best_illuminant', 'normalise_illuminant',
     'training_data_sds_to_RGB', 'training_data_sds_to_XYZ',
-    'optimisation_factory_rawtoaces_v1', 'optimisation_factory_JzAzBz',
+    'optimisation_factory_rawtoaces_v1', 'optimisation_factory_Jzazbz',
     'matrix_idt', 'camera_RGB_to_ACES2065_1'
 ]
 
@@ -681,50 +681,50 @@ def optimisation_factory_rawtoaces_v1():
     return objective_function, XYZ_to_optimization_colour_model
 
 
-def optimisation_factory_JzAzBz():
+def optimisation_factory_Jzazbz():
     """
     Factory that returns the objective function and *CIE XYZ* colourspace to
     optimisation colourspace/colour model function based on the
-    :math:`J_zA_zB_z` colourspace.
+    :math:`J_za_zb_z` colourspace.
 
     The objective function returns the euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
-    values** in the :math:`J_zA_zB_z` colourspace.
+    values** in the :math:`J_za_zb_z` colourspace.
 
     Returns
     -------
     tuple
-        Objective function and *CIE XYZ* colourspace to :math:`J_zA_zB_z`
+        Objective function and *CIE XYZ* colourspace to :math:`J_za_zb_z`
         colourspace function.
 
     Examples
     --------
-    >>> optimisation_factory_JzAzBz()  # doctest: +SKIP
-    (<function optimisation_factory_JzAzBz.<locals>\
+    >>> optimisation_factory_Jzazbz()  # doctest: +SKIP
+    (<function optimisation_factory_Jzazbz.<locals>\
 .objective_function at 0x...>, \
-<function optimisation_factory_JzAzBz.<locals>\
+<function optimisation_factory_Jzazbz.<locals>\
 .XYZ_to_optimization_colour_model at 0x...>)
     """
 
     def objective_function(M, RGB, Jab):
         """
-        :math:`J_zA_zB_z` colourspace based objective function.
+        :math:`J_za_zb_z` colourspace based objective function.
         """
 
         M = np.reshape(M, [3, 3])
 
         XYZ_t = vector_dot(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
                            vector_dot(M, RGB))
-        Jab_t = XYZ_to_JzAzBz(XYZ_t)
+        Jab_t = XYZ_to_Jzazbz(XYZ_t)
 
         return np.sum(euclidean_distance(Jab, Jab_t))
 
     def XYZ_to_optimization_colour_model(XYZ):
         """
-        *CIE XYZ* colourspace to :math:`J_zA_zB_z` colourspace function.
+        *CIE XYZ* colourspace to :math:`J_za_zb_z` colourspace function.
         """
 
-        return XYZ_to_JzAzBz(XYZ)
+        return XYZ_to_Jzazbz(XYZ)
 
     return objective_function, XYZ_to_optimization_colour_model
 
@@ -810,7 +810,7 @@ def matrix_idt(sensitivities,
 
     >>> M, RGB_w = matrix_idt(
     ...     sensitivities, illuminant,
-    ...     optimisation_factory=optimisation_factory_JzAzBz)
+    ...     optimisation_factory=optimisation_factory_Jzazbz)
     >>> np.around(M, 3)
     array([[ 0.848, -0.016,  0.158],
            [ 0.053,  1.114, -0.175],

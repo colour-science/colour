@@ -290,7 +290,7 @@ OSA UCS Colourspace
     XYZ_to_OSA_UCS
     OSA_UCS_to_XYZ
 
-:math:`JzAzBz` Colourspace
+:math:`Jzazbz` Colourspace
 --------------------------
 
 ``colour``
@@ -300,8 +300,8 @@ OSA UCS Colourspace
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_JzAzBz
-    JzAzBz_to_XYZ
+    XYZ_to_Jzazbz
+    Jzazbz_to_XYZ
 
 RGB Colourspace and Transformations
 -----------------------------------

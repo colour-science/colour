@@ -119,7 +119,7 @@ COLOURSPACE_MODELS_AXIS_ORDER = CaseInsensitiveMapping({
     'ICtCp': (1, 2, 0),
     'IPT': (1, 2, 0),
     'IgPgTg': (1, 2, 0),
-    'JzAzBz': (1, 2, 0),
+    'Jzazbz': (1, 2, 0),
     'OSA UCS': (1, 2, 0),
     'Oklab': (1, 2, 0),
     'hdr-CIELAB': (1, 2, 0),
@@ -132,7 +132,7 @@ COLOURSPACE_MODELS_AXIS_ORDER : CaseInsensitiveMapping
     **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
     'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv',
     'CIE UCS', 'CIE UVW', 'DIN99', 'Hunter Lab', 'Hunter Rdab', 'ICaCb',
-    'ICtCp', 'IPT', 'IgPgTg', 'JzAzBz', 'OSA UCS', 'Oklab', 'hdr-CIELAB',
+    'ICtCp', 'IPT', 'IgPgTg', 'Jzazbz', 'OSA UCS', 'Oklab', 'hdr-CIELAB',
     'hdr-IPT'}**
 """
 
