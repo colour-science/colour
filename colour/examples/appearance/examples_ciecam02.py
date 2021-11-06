@@ -35,7 +35,7 @@ message_box(
     ('Converting to "CIE XYZ" tristimulus values using given '
      'parameters:\n'
      '\n\tJ: {0}\n\tC: {1}\n\th: {2}\n\tXYZ_w: {3}\n\tL_A: {4}'
-     '\n\tY_b: {5}\n\n'
+     '\n\tY_b: {5}\n\tSurround: {6}\n\n'
      'Warning: The output range of that definition is non standard!').format(
-         J, C, h, XYZ_w, L_A, Y_b))
+         J, C, h, XYZ_w, L_A, Y_b, surround))
 print(colour.CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b))
