@@ -33,4 +33,4 @@ message_box(('Converting to "CIE XYZ" tristimulus values using given '
              '\n\tJ: {0}\n\tC: {1}\n\th: {2}\n\tXYZ_w: {3}\n\tL_A: {4}'
              '\n\tY_b: {5}\n\tSurround: {6}').format(J, C, h, XYZ_w, L_A, Y_b,
                                                      surround))
-print(colour.CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b))
+print(colour.CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround))
