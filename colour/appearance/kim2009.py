@@ -398,10 +398,6 @@ def Kim2009_to_XYZ(specification,
         If neither *C* or *M* correlates have been defined in the
         ``CAM_Specification_Kim2009`` argument.
 
-    Warnings
-    --------
-    The output range of that definition is non standard!
-
     Notes
     -----
 

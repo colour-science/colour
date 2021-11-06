@@ -416,10 +416,6 @@ def CIECAM02_to_XYZ(specification,
         If neither *C* or *M* correlates have been defined in the
         ``CAM_Specification_CIECAM02`` argument.
 
-    Warnings
-    --------
-    The output range of that definition is non standard!
-
     Notes
     -----
 

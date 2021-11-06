@@ -17,13 +17,11 @@ XYZ_b = np.array([95.05, 100.00, 108.88])
 L_A = 318.31
 surround = colour.VIEWING_CONDITIONS_HUNT['Normal Scenes']
 CCT_w = 6504.0
-message_box(
-    ('Converting to "Hunt" colour appearance model '
-     'specification using given parameters:\n'
-     '\n\tXYZ: {0}\n\tXYZ_w: {1}\n\tXYZ_b: {2}\n\tL_A: {3}'
-     '\n\tsurround: {4}\n\tCCT_w: {5}\n\n'
-     'Warning: The input domain of that definition is non standard!'.format(
-         XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w)))
+message_box(('Converting to "Hunt" colour appearance model '
+             'specification using given parameters:\n'
+             '\n\tXYZ: {0}\n\tXYZ_w: {1}\n\tXYZ_b: {2}\n\tL_A: {3}'
+             '\n\tsurround: {4}\n\tCCT_w: {5}'.format(XYZ, XYZ_w, XYZ_b, L_A,
+                                                      surround, CCT_w)))
 
 specification = colour.XYZ_to_Hunt(
     XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
