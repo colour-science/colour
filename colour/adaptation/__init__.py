@@ -136,10 +136,6 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
         Chromatic adaptation transform.
-    D : numeric, optional
-        {:func:`colour.adaptation.chromatic_adaptation_VonKries`},
-         Degree of adaptation :math:`D`, a value of 1 being full adaptation to
-        the reference viewing conditions.
     D_b : numeric, optional
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Degree of adaptation :math:`D_\\Beta` of input illuminant
