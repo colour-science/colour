@@ -282,21 +282,20 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         XYZ = CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
         d_r = (
-            ('reference', 1, 1, 1),
+            ('reference', 1, 1),
             (1,
              np.array([
                  1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400,
                  np.nan
-             ]), 0.01, 0.01),
-            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]), 1,
-             1),
+             ]), 0.01),
+            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]), 1),
         )
-        for scale, factor_a, factor_b, factor_c in d_r:
+        for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     CAM16_to_XYZ(specification * factor_a, XYZ_w * factor_b,
                                  L_A, Y_b, surround),
-                    XYZ * factor_c,
+                    XYZ * factor_b,
                     decimal=7)
 
     @ignore_numpy_errors

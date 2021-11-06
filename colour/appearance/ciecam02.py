@@ -1077,6 +1077,7 @@ def hue_quadrature(h):
 
     H = H_ii + ((100 * (h - h_ii) / e_ii) / (
         (h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
+
     H = np.where(
         h < 20.14,
         385.9 + (14.1 * h / 0.856) / (h / 0.856 + (20.14 - h) / 0.8),
