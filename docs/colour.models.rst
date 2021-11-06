@@ -303,6 +303,19 @@ OSA UCS Colourspace
     XYZ_to_Jzazbz
     Jzazbz_to_XYZ
 
+**Ancillary Objects**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    IZAZBZ_METHODS
+    XYZ_to_IzAzBz
+    IzAzBz_to_XYZ
+
 RGB Colourspace and Transformations
 -----------------------------------
 
