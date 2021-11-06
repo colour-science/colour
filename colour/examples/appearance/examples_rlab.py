@@ -16,13 +16,10 @@ XYZ_n = np.array([109.85, 100, 35.58])
 Y_n = 31.83
 sigma = colour.VIEWING_CONDITIONS_RLAB['Average']
 D = colour.appearance.D_FACTOR_RLAB['Hard Copy Images']
-message_box(
-    ('Converting to "RLAB" colour appearance model '
-     'specification using given parameters:\n'
-     '\n\tXYZ: {0}\n\tXYZ_n: {1}\n\tY_n: {2}\n\tsigma: {3}'
-     '\n\tD: {4}\n\n'
-     'Warning: The input domain of that definition is non standard!'.format(
-         XYZ, XYZ_n, Y_n, sigma, D)))
+message_box(('Converting to "RLAB" colour appearance model '
+             'specification using given parameters:\n'
+             '\n\tXYZ: {0}\n\tXYZ_n: {1}\n\tY_n: {2}\n\tsigma: {3}'
+             '\n\tD: {4}'.format(XYZ, XYZ_n, Y_n, sigma, D)))
 specification = colour.XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)
 print(specification)
 

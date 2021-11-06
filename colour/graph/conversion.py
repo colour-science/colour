@@ -514,9 +514,9 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('CAM16', 'CAM16 JMh', CAM16_to_JMh_CAM16),
     ('CAM16 JMh', 'CAM16', JMh_CAM16_to_CAM16),
     ('CIE XYZ', 'Kim 2009',
-     partial(XYZ_to_Kim2009, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_a=80 * 0.2)),
+     partial(XYZ_to_Kim2009, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=80 * 0.2)),
     ('Kim 2009', 'CIE XYZ',
-     partial(Kim2009_to_XYZ, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_a=80 * 0.2)),
+     partial(Kim2009_to_XYZ, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=80 * 0.2)),
     ('CIE XYZ', 'Hunt',
      partial(
          XYZ_to_Hunt,

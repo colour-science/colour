@@ -316,10 +316,6 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
     array_like
         *Lightness* :math:`L_{hdr}`.
 
-    Warnings
-    --------
-    The input domain of that definition is non standard!
-
     Notes
     -----
 
