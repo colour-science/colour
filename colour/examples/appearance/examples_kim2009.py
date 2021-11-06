@@ -19,7 +19,7 @@ surround = colour.VIEWING_CONDITIONS_KIM2009['Average']
 message_box(
     ('Converting to "Kim, Weyrich and Kautz (2009)" colour appearance model '
      'specification using given parameters:\n'
-     '\n\tXYZ: {0}\n\tXYZ_w: {1}\n\tL_A: {2}\n\tmedia: {3}'
+     '\n\tXYZ: {0}\n\tXYZ_w: {1}\n\tL_A: {2}\n\tMedia: {3}'
      '\n\tSurround: {4}\n\n'
      'Warning: The input domain of that definition is non standard!').format(
          XYZ, XYZ_w, L_A, media, surround))
@@ -35,7 +35,8 @@ specification = colour.CAM_Specification_Kim2009(J, C, h)
 message_box(
     ('Converting to "CIE XYZ" tristimulus values using given '
      'parameters:\n'
-     '\n\tJ: {0}\n\tC: {1}\n\th: {2}\n\tXYZ_w: {3}\n\tL_A: {4}\n\n'
+     '\n\tJ: {0}\n\tC: {1}\n\th: {2}\n\tXYZ_w: {3}\n\tL_A: {4}\n\tMedia: {5}'
+     '\n\tSurround: {6}\n\n'
      'Warning: The output range of that definition is non standard!').format(
-         J, C, h, XYZ_w, L_A))
-print(colour.Kim2009_to_XYZ(specification, XYZ_w, L_A, media))
+         J, C, h, XYZ_w, L_A, media, surround))
+print(colour.Kim2009_to_XYZ(specification, XYZ_w, L_A, media, surround))

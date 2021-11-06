@@ -202,7 +202,7 @@ class CAM_Specification_Kim2009(MixinDataclassArray):
 
 def XYZ_to_Kim2009(XYZ,
                    XYZ_w,
-                   L_a,
+                   L_A,
                    media=MEDIA_PARAMETERS_KIM2009['CRT Displays'],
                    surround=VIEWING_CONDITIONS_KIM2009['Average'],
                    discount_illuminant=False,
@@ -217,8 +217,8 @@ def XYZ_to_Kim2009(XYZ,
         *CIE XYZ* tristimulus values of test sample / stimulus.
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white.
-    L_a : numeric or array_like
-        Adapting field *luminance* :math:`L_a` in :math:`cd/m^2`, (often taken
+    L_A : numeric or array_like
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
     media : MediaParameters_Kim2009, optional
         Media parameters.
@@ -271,10 +271,10 @@ def XYZ_to_Kim2009(XYZ,
     --------
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
-    >>> L_a = 318.31
+    >>> L_A = 318.31
     >>> media = MEDIA_PARAMETERS_KIM2009['CRT Displays']
     >>> surround = VIEWING_CONDITIONS_KIM2009['Average']
-    >>> XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround)
+    >>> XYZ_to_Kim2009(XYZ, XYZ_w, L_A, media, surround)
     ... # doctest: +ELLIPSIS
     CAM_Specification_Kim2009(J=28.8619089..., C=0.5592455..., \
 h=219.0480667..., s=9.3837797..., Q=52.7138883..., M=0.4641738..., \
@@ -284,7 +284,7 @@ H=278.0602824..., HC=None)
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    L_A = as_float_array(L_a)
+    L_A = as_float_array(L_A)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
@@ -306,9 +306,9 @@ H=278.0602824..., HC=None)
     # Cones absolute response.
     LMS_n_c = spow(LMS, n_c)
     LMS_w_n_c = spow(LMS_w, n_c)
-    L_a_n_c = spow(L_a, n_c)
-    LMS_p = LMS_n_c / (LMS_n_c + L_a_n_c)
-    LMS_wp = LMS_w_n_c / (LMS_w_n_c + L_a_n_c)
+    L_A_n_c = spow(L_A, n_c)
+    LMS_p = LMS_n_c / (LMS_n_c + L_A_n_c)
+    LMS_wp = LMS_w_n_c / (LMS_w_n_c + L_A_n_c)
 
     # Achromatic signal :math:`A` and :math:`A_w`.
     v_A = np.array([40, 20, 1])
@@ -357,7 +357,7 @@ H=278.0602824..., HC=None)
 
 def Kim2009_to_XYZ(specification,
                    XYZ_w,
-                   L_a,
+                   L_A,
                    media=MEDIA_PARAMETERS_KIM2009['CRT Displays'],
                    surround=VIEWING_CONDITIONS_KIM2009['Average'],
                    discount_illuminant=False,
@@ -375,8 +375,8 @@ def Kim2009_to_XYZ(specification,
          degrees must be specified, e.g. :math:`JCh` or :math:`JMh`.
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white.
-    L_a : numeric or array_like
-        Adapting field *luminance* :math:`L_a` in :math:`cd/m^2`, (often taken
+    L_A : numeric or array_like
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
     media : MediaParameters_Kim2009, optional
         Media parameters.
@@ -441,10 +441,10 @@ def Kim2009_to_XYZ(specification,
     ...                                           C=0.5592455924373706,
     ...                                           h=219.04806677662953)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
-    >>> L_a = 318.31
+    >>> L_A = 318.31
     >>> media = MEDIA_PARAMETERS_KIM2009['CRT Displays']
     >>> surround = VIEWING_CONDITIONS_KIM2009['Average']
-    >>> Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround)
+    >>> Kim2009_to_XYZ(specification, XYZ_w, L_A, media, surround)
     ... # doctest: +ELLIPSIS
     array([ 19.0099995...,  19.9999999...,  21.7800000...])
     """
@@ -455,7 +455,7 @@ def Kim2009_to_XYZ(specification,
     C = to_domain_100(C)
     h = to_domain_degrees(h)
     M = to_domain_100(M)
-    L_A = as_float_array(L_a)
+    L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
@@ -484,8 +484,8 @@ def Kim2009_to_XYZ(specification,
 
     # Cones absolute response.
     LMS_w_n_c = spow(LMS_w, n_c)
-    L_a_n_c = spow(L_a, n_c)
-    LMS_wp = LMS_w_n_c / (LMS_w_n_c + L_a_n_c)
+    L_A_n_c = spow(L_A, n_c)
+    LMS_wp = LMS_w_n_c / (LMS_w_n_c + L_A_n_c)
 
     # Achromatic signal :math:`A_w`
     v_A = np.array([40, 20, 1])
@@ -512,7 +512,7 @@ def Kim2009_to_XYZ(specification,
         [1.0000, -0.1568, -4.4904],
     ])
     LMS_p = vector_dot(M, tstack([A, a, b]))
-    LMS = ((-(L_a ** n_c) * LMS_p) / (LMS_p - 1)) ** (1 / n_c)
+    LMS = ((-(L_A ** n_c) * LMS_p) / (LMS_p - 1)) ** (1 / n_c)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_c = rgb_to_RGB(LMS)
