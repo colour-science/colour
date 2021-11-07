@@ -524,7 +524,7 @@ or dict_like
 
         Returns
         -------
-        OrderedDict
+        dict
             :class:`colour.continuous.Signal` sub-class instances.
         """
 

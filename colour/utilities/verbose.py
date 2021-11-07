@@ -465,28 +465,28 @@ ANCILLARY_COLOUR_SCIENCE_PACKAGES = {}
 """
 Ancillary *colour-science.org* packages to describe.
 
-ANCILLARY_COLOUR_SCIENCE_PACKAGES : OrderedDict
+ANCILLARY_COLOUR_SCIENCE_PACKAGES : dict
 """
 
 ANCILLARY_RUNTIME_PACKAGES = {}
 """
 Ancillary runtime packages to describe.
 
-ANCILLARY_RUNTIME_PACKAGES : OrderedDict
+ANCILLARY_RUNTIME_PACKAGES : dict
 """
 
 ANCILLARY_DEVELOPMENT_PACKAGES = {}
 """
 Ancillary development packages to describe.
 
-ANCILLARY_DEVELOPMENT_PACKAGES : OrderedDict
+ANCILLARY_DEVELOPMENT_PACKAGES : dict
 """
 
 ANCILLARY_EXTRAS_PACKAGES = {}
 """
 Ancillary extras packages to describe.
 
-ANCILLARY_EXTRAS_PACKAGES : OrderedDict
+ANCILLARY_EXTRAS_PACKAGES : dict
 """
 
 

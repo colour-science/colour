@@ -29,7 +29,7 @@ XRITE_FILE_ENCODING = 'utf-8'
 def read_sds_from_xrite_file(path):
     """
     Reads the spectral data from given *X-Rite* file and returns it as an
-    *OrderedDict* of :class:`colour.SpectralDistribution` classes.
+    *dict* of :class:`colour.SpectralDistribution` classes.
 
     Parameters
     ----------
@@ -38,7 +38,7 @@ def read_sds_from_xrite_file(path):
 
     Returns
     -------
-    OrderedDict
+    dict
         :class:`colour.SpectralDistribution` classes of given *X-Rite*
         file.
 

@@ -42,7 +42,7 @@ def read_spectral_data_from_csv_file(path, **kwargs):
         ...
         830,  9.74306E-07,  9.53411E-08,  0.00000
 
-    and returns it as an *OrderedDict* as follows::
+    and returns it as an *dict* as follows::
 
         {
             'wavelength': ndarray,
@@ -64,7 +64,7 @@ def read_spectral_data_from_csv_file(path, **kwargs):
 
     Returns
     -------
-    OrderedDict
+    dict
         *CSV* file content.
 
     Notes
@@ -142,7 +142,7 @@ def read_spectral_data_from_csv_file(path, **kwargs):
 def read_sds_from_csv_file(path, **kwargs):
     """
     Reads the spectral data from given *CSV* file and returns its content as an
-    *OrderedDict* of :class:`colour.SpectralDistribution` classes.
+    *dict* of :class:`colour.SpectralDistribution` classes.
 
     Parameters
     ----------
@@ -156,7 +156,7 @@ def read_sds_from_csv_file(path, **kwargs):
 
     Returns
     -------
-    OrderedDict
+    dict
         :class:`colour.SpectralDistribution` classes of given *CSV* file.
 
     Examples
