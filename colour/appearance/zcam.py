@@ -676,7 +676,7 @@ def ZCAM_to_XYZ(specification,
     # Step 4 (Inverse) - Computing redness-greenness (:math:`a_z`), and
     # yellowness-blueness (:math:`b_z`).
     # C_z_p_e = 1.3514
-    C_z_p_e = 1.351351351351351351
+    C_z_p_e = 50 / 37
     C_z_p = spow((M_z * spow(I_z_w, 0.78) * F_b ** 0.1) /
                  (100 * e_z ** 0.068 * spow(F_L, 0.2)), C_z_p_e)
     a_z = C_z_p * np.cos(h_z_r)
