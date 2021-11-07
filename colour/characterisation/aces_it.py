@@ -121,7 +121,7 @@ def sd_to_aces_relative_exposure_values(
         *CIE Standard Illuminant D65*.
     apply_chromatic_adaptation : bool, optional
         Whether to apply chromatic adaptation using given transform.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
@@ -233,7 +233,7 @@ Notes
     `Colour - Datasets <https://github.com/colour-science/colour-datasets>`_
     for the complete *RAW to ACES* v1 dataset, i.e. *3372171*.
 
-RESOURCES_DIRECTORY_RAWTOACES : unicode
+RESOURCES_DIRECTORY_RAWTOACES : str
 """
 
 _TRAINING_DATA_RAWTOACES_V1 = None
@@ -568,7 +568,7 @@ def training_data_sds_to_XYZ(training_data,
         Standard observer colour matching functions.
     illuminant : SpectralDistribution
         Illuminant spectral distribution.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
@@ -760,7 +760,7 @@ def matrix_idt(sensitivities,
         optimisation colour model function.
     optimisation_kwargs : dict_like, optional
         Parameters for :func:`scipy.optimize.minimize` definition.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,

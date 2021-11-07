@@ -76,17 +76,17 @@ def plot_hull_section_colours(hull,
     ----------
     hull : Trimesh
         *Trimesh* hull.
-    model : unicode, optional
+    model : str, optional
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
-    axis : unicode, optional
+    axis : str, optional
         **{'+z', '+x', '+y'}**,
         Axis the hull section will be normal to.
     origin : numeric, optional
         Coordinate along ``axis`` at which to plot the hull section.
     normalise : bool, optional
         Whether to normalise ``axis`` to the extent of the hull along it.
-    section_colours : array_like or unicode, optional
+    section_colours : array_like or str, optional
         Colours of the hull section, if ``section_colours`` is set to *RGB*,
         the colours will be computed according to the corresponding
         coordinates.
@@ -232,17 +232,17 @@ def plot_hull_section_contour(hull,
     ----------
     hull : Trimesh
         *Trimesh* hull.
-    model : unicode, optional
+    model : str, optional
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
-    axis : unicode, optional
+    axis : str, optional
         **{'+z', '+x', '+y'}**,
         Axis the hull section will be normal to.
     origin : numeric, optional
         Coordinate along ``axis`` at which to plot the hull section.
     normalise : bool, optional
         Whether to normalise ``axis`` to the extent of the hull along it.
-    contour_colours : array_like or unicode, optional
+    contour_colours : array_like or str, optional
         Colours of the hull section contour, if ``contour_colours`` is set to
         *RGB*, the colours will be computed according to the corresponding
         coordinates.
@@ -368,10 +368,10 @@ def plot_visible_spectrum_section(cmfs='CIE 1931 2 Degree Standard Observer',
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution, default to *CIE Illuminant D65*.
-    model : unicode, optional
+    model : str, optional
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
-    axis : unicode, optional
+    axis : str, optional
         **{'+z', '+x', '+y'}**,
         Axis the hull section will be normal to.
     origin : numeric, optional
@@ -485,14 +485,14 @@ def plot_RGB_colourspace_section(colourspace,
 
     Parameters
     ----------
-    colourspace : unicode or RGB_Colourspace, optional
+    colourspace : str or RGB_Colourspace, optional
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    model : unicode, optional
+    model : str, optional
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
-    axis : unicode, optional
+    axis : str, optional
         **{'+z', '+x', '+y'}**,
         Axis the hull section will be normal to.
     origin : numeric, optional

@@ -73,7 +73,7 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         **{'Fairchild 2011', 'Fairchild 2010'}**,
         Computation method.
 
@@ -140,7 +140,7 @@ def XYZ_to_hdr_CIELab(XYZ,
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         **{'Fairchild 2011', 'Fairchild 2010'}**,
         Computation method.
 
@@ -237,7 +237,7 @@ def hdr_CIELab_to_XYZ(Lab_hdr,
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         **{'Fairchild 2011', 'Fairchild 2010'}**,
         Computation method.
 

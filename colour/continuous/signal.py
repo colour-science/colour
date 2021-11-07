@@ -61,7 +61,7 @@ class Signal(AbstractContinuousFunction):
 
     Other Parameters
     ----------------
-    name : unicode, optional
+    name : str, optional
         Continuous signal name.
     dtype : type, optional
         **{np.float16, np.float32, np.float64, np.float128}**,
@@ -499,7 +499,7 @@ class Signal(AbstractContinuousFunction):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
 
         Examples
@@ -529,7 +529,7 @@ class Signal(AbstractContinuousFunction):
 
         Returns
         -------
-        unicode
+        str
             Evaluable string representation.
 
         Examples
@@ -888,7 +888,7 @@ class Signal(AbstractContinuousFunction):
 
         Parameters
         ----------
-        method : unicode, optional
+        method : str, optional
             **{'Interpolation', 'Constant'}**,
             *Interpolation* method linearly interpolates through the NaNs,
             *Constant* method replaces NaNs with ``default``.
@@ -911,7 +911,7 @@ class Signal(AbstractContinuousFunction):
 
         Parameters
         ----------
-        method : unicode, optional
+        method : str, optional
             **{'Interpolation', 'Constant'}**,
             *Interpolation* method linearly interpolates through the NaNs,
             *Constant* method replaces NaNs with ``default``.
@@ -1150,7 +1150,7 @@ class Signal(AbstractContinuousFunction):
 
         Parameters
         ----------
-        method : unicode, optional
+        method : str, optional
             **{'Interpolation', 'Constant'}**,
             *Interpolation* method linearly interpolates through the NaNs,
             *Constant* method replaces NaNs with ``default``.

@@ -88,7 +88,7 @@ class Conversion_Specification(
 
     Parameters
     ----------
-    source : unicode
+    source : str
         Source node in the graph.
     target : array_like
         Target node in the graph.
@@ -296,7 +296,7 @@ _ILLUMINANT_DEFAULT = 'D65'
 """
 Default automatic colour conversion graph illuminant name.
 
-_ILLUMINANT_DEFAULT : unicode
+_ILLUMINANT_DEFAULT : str
 """
 
 _CCS_ILLUMINANT_DEFAULT = CCS_ILLUMINANTS[
@@ -622,9 +622,9 @@ def _conversion_path(source, target):
 
     Parameters
     ----------
-    source : unicode
+    source : str
         Source node.
-    target : unicode
+    target : str
         Target node.
 
     Returns
@@ -691,20 +691,20 @@ def describe_conversion_path(source,
 
     Parameters
     ----------
-    source : unicode
+    source : str
         Source colour representation, i.e. the source node in the automatic
         colour conversion graph.
-    target : unicode
+    target : str
         Target colour representation, i.e. the target node in the automatic
         colour conversion graph.
-    mode : unicode, optional
+    mode : str, optional
         **{'Short', 'Long', 'Extended'}**,
         Verbose mode: *Short* describes the conversion path, *Long* provides
         details about the arguments, definitions signatures and output values,
         *Extended* appends the definitions documentation.
     width : int, optional
         Message box width.
-    padding : unicode, optional
+    padding : str, optional
         Padding on each sides of the message.
     print_callable : callable, optional
         Callable used to print the message box.
@@ -820,10 +820,10 @@ def convert(a, source, target, **kwargs):
         transmittance or absorptance value, the expectation is that it is
         viewed under *CIE Standard Illuminant D Series* *D65*. The illuminant
         can be changed on a per definition basis along the conversion path.
-    source : unicode
+    source : str
         Source colour representation, i.e. the source node in the automatic
         colour conversion graph.
-    target : unicode
+    target : str
         Target colour representation, i.e. the target node in the automatic
         colour conversion graph.
 

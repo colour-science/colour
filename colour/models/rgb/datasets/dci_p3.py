@@ -72,7 +72,7 @@ WHITEPOINT_NAME_DCI_P3 = 'DCI-P3'
 """
 *DCI-P3* colourspace whitepoint name.
 
-WHITEPOINT_NAME_DCI_P3 : unicode
+WHITEPOINT_NAME_DCI_P3 : str
 
 Warnings
 --------

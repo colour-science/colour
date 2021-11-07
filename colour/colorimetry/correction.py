@@ -125,7 +125,7 @@ def bandpass_correction(sd, method='Stearns 1988'):
     ----------
     sd : SpectralDistribution
         Spectral distribution.
-    method : unicode, optional
+    method : str, optional
         {'Stearns 1988', }
         Correction method.
 

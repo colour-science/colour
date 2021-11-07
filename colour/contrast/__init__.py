@@ -54,7 +54,7 @@ def contrast_sensitivity_function(method='Barten 1999', **kwargs):
 
     Parameters
     ----------
-    method : unicode, optional
+    method : str, optional
         **{'Barten 1999'}**,
         Computation method.
 

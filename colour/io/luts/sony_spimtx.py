@@ -31,7 +31,7 @@ def read_LUT_SonySPImtx(path):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         *LUT* path.
 
     Returns
@@ -75,7 +75,7 @@ def write_LUT_SonySPImtx(LUT, path, decimals=7):
     LUT : LUTOperatorMatrix
         :class:`colour.LUTOperatorMatrix` class instance to write at given
         path.
-    path : unicode
+    path : str
         *LUT* path.
     decimals : int, optional
         Formatting decimals.

@@ -35,9 +35,9 @@ class ObjectRenamed(namedtuple('ObjectRenamed', ('name', 'new_name'))):
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Object name that changed.
-    new_name : unicode
+    new_name : str
         Object new name.
     """
 
@@ -47,7 +47,7 @@ class ObjectRenamed(namedtuple('ObjectRenamed', ('name', 'new_name'))):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -61,7 +61,7 @@ class ObjectRemoved(namedtuple('ObjectRemoved', ('name', ))):
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Object name that has been removed.
     """
 
@@ -71,7 +71,7 @@ class ObjectRemoved(namedtuple('ObjectRemoved', ('name', ))):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -86,9 +86,9 @@ class ObjectFutureRename(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Object name that will change in a future release.
-    new_name : unicode
+    new_name : str
         Object future release name.
     """
 
@@ -98,7 +98,7 @@ class ObjectFutureRename(
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -112,7 +112,7 @@ class ObjectFutureRemove(namedtuple('ObjectFutureRemove', ('name', ))):
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Object name that will be removed in a future release.
     """
 
@@ -122,7 +122,7 @@ class ObjectFutureRemove(namedtuple('ObjectFutureRemove', ('name', ))):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -138,9 +138,9 @@ class ObjectFutureAccessChange(
 
     Parameters
     ----------
-    access : unicode
+    access : str
         Object access that will change in a future release.
-    new_access : unicode
+    new_access : str
         Object future release access.
     """
 
@@ -150,7 +150,7 @@ class ObjectFutureAccessChange(
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -167,7 +167,7 @@ class ObjectFutureAccessRemove(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Object name whose access will removed in a future release.
     """
 
@@ -177,7 +177,7 @@ class ObjectFutureAccessRemove(
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -192,9 +192,9 @@ class ArgumentRenamed(namedtuple('ArgumentRenamed', ('name', 'new_name'))):
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Argument name that changed.
-    new_name : unicode
+    new_name : str
         Argument new name.
     """
 
@@ -204,7 +204,7 @@ class ArgumentRenamed(namedtuple('ArgumentRenamed', ('name', 'new_name'))):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -218,7 +218,7 @@ class ArgumentRemoved(namedtuple('ArgumentRemoved', ('name', ))):
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Argument name that has been removed.
     """
 
@@ -228,7 +228,7 @@ class ArgumentRemoved(namedtuple('ArgumentRemoved', ('name', ))):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -244,9 +244,9 @@ class ArgumentFutureRename(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Argument name that will change in a future release.
-    new_name : unicode
+    new_name : str
         Argument future release name.
     """
 
@@ -256,7 +256,7 @@ class ArgumentFutureRename(
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -270,7 +270,7 @@ class ArgumentFutureRemove(namedtuple('ArgumentFutureRemove', ('name', ))):
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Argument name that will be removed in a future release.
     """
 
@@ -280,7 +280,7 @@ class ArgumentFutureRemove(namedtuple('ArgumentFutureRemove', ('name', ))):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -321,7 +321,7 @@ class ModuleAPI:
 
         Parameters
         ----------
-        attribute : unicode
+        attribute : str
             Attribute name.
 
         Returns
@@ -373,7 +373,7 @@ def get_attribute(attribute):
 
     Parameters
     ----------
-    attribute : unicode
+    attribute : str
         Attribute to retrieve, ``attribute`` must have a namespace module, e.g.
         *colour.models.eotf_BT2020*.
 

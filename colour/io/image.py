@@ -40,7 +40,7 @@ class ImageAttribute_Specification(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Attribute name.
     value : object
         Attribute value.
@@ -104,7 +104,7 @@ def convert_bit_depth(a, bit_depth='float32'):
     ----------
     a : array_like
         Array to convert to given bit depth.
-    bit_depth : unicode
+    bit_depth : str
         Bit depth.
 
     Returns
@@ -174,9 +174,9 @@ def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         Image path.
-    bit_depth : unicode, optional
+    bit_depth : str, optional
         **{'float32', 'uint8', 'uint16', 'float16'}**,
         Returned image bit depth, the bit depth conversion behaviour is driven
         directly by *OpenImageIO*, this definition only converts to the
@@ -238,9 +238,9 @@ def read_image_Imageio(path, bit_depth='float32', **kwargs):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         Image path.
-    bit_depth : unicode, optional
+    bit_depth : str, optional
         **{'float32', 'uint8', 'uint16', 'float16'}**,
         Returned image bit depth, the image data is converted with
         :func:`colour.io.convert_bit_depth` definition after reading the
@@ -298,16 +298,16 @@ def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         Image path.
-    bit_depth : unicode, optional
+    bit_depth : str, optional
         **{'float32', 'uint8', 'uint16', 'float16'}**,
         Returned image bit depth, for the *Imageio* method, the image data is
         converted with :func:`colour.io.convert_bit_depth` definition after
         reading the image, for the *OpenImageIO* method, the bit depth
         conversion behaviour is driven directly by the library, this definition
         only converts to the relevant data type after reading.
-    method : unicode, optional
+    method : str, optional
         **{'OpenImageIO', 'Imageio'}**,
         Read method, i.e. the image library used for reading images.
 
@@ -369,9 +369,9 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     ----------
     image : array_like
         Image data.
-    path : unicode
+    path : str
         Image path.
-    bit_depth : unicode, optional
+    bit_depth : str, optional
         **{'float32', 'uint8', 'uint16', 'float16'}**,
         Bit depth to write the image at, the bit depth conversion behaviour is
         ruled directly by *OpenImageIO*.
@@ -476,9 +476,9 @@ def write_image_Imageio(image, path, bit_depth='float32', **kwargs):
     ----------
     image : array_like
         Image data.
-    path : unicode
+    path : str
         Image path.
-    bit_depth : unicode, optional
+    bit_depth : str, optional
         **{'float32', 'uint8', 'uint16', 'float16'}**,
         Bit depth to write the image at, the image data is converted with
         :func:`colour.io.convert_bit_depth` definition prior to writing the
@@ -538,14 +538,14 @@ def write_image(image,
     ----------
     image : array_like
         Image data.
-    path : unicode
+    path : str
         Image path.
-    bit_depth : unicode, optional
+    bit_depth : str, optional
         **{'float32', 'uint8', 'uint16', 'float16'}**,
         Bit depth to write the image at, for the *Imageio* method, the image
         data is converted with :func:`colour.io.convert_bit_depth` definition
         prior to writing the image.
-    method : unicode, optional
+    method : str, optional
         **{'OpenImageIO', 'Imageio'}**,
         Write method, i.e. the image library used for writing images.
 

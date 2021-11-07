@@ -69,7 +69,7 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1, method='DIN99'):
     k_CH : numeric, optional
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
-    method : unicode, optional
+    method : str, optional
         **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
         Computation method to choose between the :cite:`ASTMInternational2007`
         formula and the refined formulas according to *Cui et al. (2002)*.
@@ -155,7 +155,7 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1, method='DIN99'):
     k_CH : numeric, optional
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
-    method : unicode, optional
+    method : str, optional
         **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
         Computation method to choose between the :cite:`ASTMInternational2007`
         formula and the refined formulas according to *Cui et al. (2002)*.
@@ -249,7 +249,7 @@ def XYZ_to_DIN99(XYZ,
     k_CH : numeric, optional
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
-    method : unicode, optional
+    method : str, optional
         **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
         Computation method to choose between the :cite:`ASTMInternational2007`
         formula and the refined formulas according to *Cui et al. (2002)*.
@@ -321,7 +321,7 @@ def DIN99_to_XYZ(Lab_99,
     k_CH : numeric, optional
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
-    method : unicode, optional
+    method : str, optional
         **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
         Computation method to choose between the :cite:`ASTMInternational2007`
         formula and the refined formulas according to *Cui et al. (2002)*.

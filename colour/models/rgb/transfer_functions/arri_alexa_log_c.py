@@ -192,10 +192,10 @@ def log_encoding_ALEXALogC(x,
     ----------
     x : numeric or array_like
         Linear data :math:`x`.
-    firmware : unicode, optional
+    firmware : str, optional
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
-    method : unicode, optional
+    method : str, optional
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
     EI : int,  optional
@@ -255,10 +255,10 @@ def log_decoding_ALEXALogC(t,
     ----------
     t : numeric or array_like
         *ARRI ALEXA Log C* encoded data :math:`t`.
-    firmware : unicode, optional
+    firmware : str, optional
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
-    method : unicode,  optional
+    method : str,  optional
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
     EI : int,  optional

@@ -33,7 +33,7 @@ def read_LUT_SonySPI1D(path):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         *LUT* path.
 
     Returns
@@ -134,7 +134,7 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
     LUT : LUT1D or LUT2d
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUTSequence` class instance
         to write at given path.
-    path : unicode
+    path : str
         *LUT* path.
     decimals : int, optional
         Formatting decimals.

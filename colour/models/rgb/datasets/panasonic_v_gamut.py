@@ -47,7 +47,7 @@ WHITEPOINT_NAME_V_GAMUT = 'D65'
 """
 *Panasonic V-Gamut* colourspace whitepoint name.
 
-CCS_WHITEPOINT_V_GAMUT : unicode
+CCS_WHITEPOINT_V_GAMUT : str
 """
 
 CCS_WHITEPOINT_V_GAMUT = (CCS_ILLUMINANTS[

@@ -104,13 +104,13 @@ class RGB_Colourspace:
 
     Parameters
     ----------
-    name : unicode
+    name : str
         *RGB* colourspace name.
     primaries : array_like
         *RGB* colourspace primaries.
     whitepoint : array_like
         *RGB* colourspace whitepoint.
-    whitepoint_name : unicode, optional
+    whitepoint_name : str, optional
         *RGB* colourspace whitepoint name.
     matrix_RGB_to_XYZ : array_like, optional
         Transformation matrix from colourspace to *CIE XYZ* tristimulus values.
@@ -250,12 +250,12 @@ class RGB_Colourspace:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the name with.
 
         Returns
         -------
-        unicode
+        str
             *RGB* colourspace name.
         """
 
@@ -347,12 +347,12 @@ class RGB_Colourspace:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the whitepoint_name with.
 
         Returns
         -------
-        unicode
+        str
             *RGB* colourspace whitepoint name.
         """
 
@@ -584,7 +584,7 @@ class RGB_Colourspace:
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
 
         Examples
@@ -674,7 +674,7 @@ class RGB_Colourspace:
 
         Returns
         -------
-        unicode
+        str
             (Almost) evaluable string representation.
 
         Examples
@@ -790,9 +790,9 @@ class RGB_Colourspace:
         whitepoint : array_like
             Reference illuminant / whitepoint :math:`xy` chromaticity
             coordinates.
-        whitepoint_name : unicode, optional
+        whitepoint_name : str, optional
             Reference illuminant / whitepoint name.
-        chromatic_adaptation_transform : unicode, optional
+        chromatic_adaptation_transform : str, optional
             **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
             'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
             'Bianco 2010', 'Bianco PC 2010'}**,
@@ -887,7 +887,7 @@ def XYZ_to_RGB(XYZ,
     matrix_XYZ_to_RGB : array_like
         Matrix converting the *CIE XYZ* tristimulus values to *RGB* colourspace
         array, i.e. the inverse *Normalised Primary Matrix* (NPM).
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
@@ -978,7 +978,7 @@ def RGB_to_XYZ(RGB,
     matrix_RGB_to_XYZ : array_like
         Matrix converting the *RGB* colourspace array to *CIE XYZ* tristimulus
         values, i.e. the *Normalised Primary Matrix* (NPM).
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
@@ -1061,7 +1061,7 @@ def matrix_RGB_to_RGB(input_colourspace,
         *RGB* input colourspace.
     output_colourspace : RGB_Colourspace
         *RGB* output colourspace.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,
@@ -1118,7 +1118,7 @@ def RGB_to_RGB(RGB,
         *RGB* input colourspace.
     output_colourspace : RGB_Colourspace
         *RGB* output colourspace.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010', None}**,

@@ -58,11 +58,11 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Parameters
     ----------
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    spectral_locus_colours : array_like or unicode, optional
+    spectral_locus_colours : array_like or str, optional
         *Spectral Locus* colours, if ``spectral_locus_colours`` is set to
         *RGB*, the colours will be computed according to the corresponding
         chromaticity coordinates.
@@ -70,7 +70,7 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
         Array of wavelength labels used to customise which labels will be drawn
         around the spectral locus. Passing an empty array will result in no
         wavelength labels being drawn.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
 
@@ -226,11 +226,11 @@ def plot_chromaticity_diagram_colours(
         Opacity of the *Chromaticity Diagram* colours.
     diagram_clipping_path : array_like, optional
         Path of points used to clip the *Chromaticity Diagram* colours.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
 
@@ -322,7 +322,7 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Parameters
     ----------
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -330,7 +330,7 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
         Whether to display the *Chromaticity Diagram* background colours.
     show_spectral_locus : bool, optional
         Whether to display the *Spectral Locus*.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
 
@@ -418,7 +418,7 @@ def plot_chromaticity_diagram_CIE1931(
 
     Parameters
     ----------
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -468,7 +468,7 @@ def plot_chromaticity_diagram_CIE1960UCS(
 
     Parameters
     ----------
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -518,7 +518,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
 
     Parameters
     ----------
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -578,13 +578,13 @@ def plot_sds_in_chromaticity_diagram(
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
     annotate_kwargs : dict or array_like, optional
@@ -604,13 +604,13 @@ def plot_sds_in_chromaticity_diagram(
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
+        -   *illuminant* : str or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or
             form supported by the :func:`colour.plotting.filter_cmfs`
             definition.
-        -   *cmfs* : unicode, the standard observer colour matching functions
+        -   *cmfs* : str, the standard observer colour matching functions
             used for computing the spectral distributions colours. ``cmfs`` can
             be of any type or form supported by the
             :func:`colour.plotting.filter_cmfs` definition.
@@ -813,7 +813,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
         class instance, a list of :class:`colour.MultiSpectralDistributions`
         class instances or a list of :class:`colour.SpectralDistribution` class
         instances.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -836,13 +836,13 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
+        -   *illuminant* : str or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or
             form supported by the :func:`colour.plotting.filter_cmfs`
             definition.
-        -   *cmfs* : unicode, the standard observer colour matching functions
+        -   *cmfs* : str, the standard observer colour matching functions
             used for computing the spectral distributions colours. ``cmfs`` can
             be of any type or form supported by the
             :func:`colour.plotting.filter_cmfs` definition.
@@ -914,7 +914,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         class instance, a list of :class:`colour.MultiSpectralDistributions`
         class instances or a list of :class:`colour.SpectralDistribution` class
         instances.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -938,13 +938,13 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
+        -   *illuminant* : str or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or
             form supported by the :func:`colour.plotting.filter_cmfs`
             definition.
-        -   *cmfs* : unicode, the standard observer colour matching functions
+        -   *cmfs* : str, the standard observer colour matching functions
             used for computing the spectral distributions colours. ``cmfs`` can
             be of any type or form supported by the
             :func:`colour.plotting.filter_cmfs` definition.
@@ -1016,7 +1016,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         class instance, a list of :class:`colour.MultiSpectralDistributions`
         class instances or a list of :class:`colour.SpectralDistribution` class
         instances.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -1040,13 +1040,13 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
+        -   *illuminant* : str or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or
             form supported by the :func:`colour.plotting.filter_cmfs`
             definition.
-        -   *cmfs* : unicode, the standard observer colour matching functions
+        -   *cmfs* : str, the standard observer colour matching functions
             used for computing the spectral distributions colours. ``cmfs`` can
             be of any type or form supported by the
             :func:`colour.plotting.filter_cmfs` definition.

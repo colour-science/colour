@@ -32,12 +32,12 @@ def plot_automatic_colour_conversion_graph(filename, prog='fdp', args=''):
 
     Parameters
     ----------
-    filename : unicode
+    filename : str
         Filename to use to save the image.
-    prog : unicode, optional
+    prog : str, optional
         {'neato', 'dot', 'twopi', 'circo', 'fdp', 'nop'},
         *Graphviz* layout method.
-    args : unicode, optional
+    args : str, optional
          Additional arguments for *Graphviz*.
 
     Returns

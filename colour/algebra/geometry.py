@@ -586,7 +586,7 @@ def ellipse_fitting(a, method='Halir 1998'):
     ----------
     a : array_like
         Point array :math:`a` to be fitted.
-    method : unicode, optional
+    method : str, optional
         **{'Halir 1998'}**,
         Computation method.
 

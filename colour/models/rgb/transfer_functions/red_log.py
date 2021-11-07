@@ -573,7 +573,7 @@ def log_encoding_Log3G10(x, method='v3'):
     ----------
     x : numeric or array_like
         Linear data :math:`x`.
-    method : unicode, optional
+    method : str, optional
         **{'v1', 'v2', 'v3'}**,
         Computation method.
 
@@ -671,7 +671,7 @@ def log_decoding_Log3G10(y, method='v3'):
     ----------
     y : numeric or array_like
         Non-linear data :math:`y`.
-    method : unicode, optional
+    method : str, optional
         **{'v1', 'v2', 'v3'}**,
         Computation method.
 

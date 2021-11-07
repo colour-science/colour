@@ -86,7 +86,7 @@ def power_function_Huang2015(d_E, coefficients='CIE 2000'):
     ----------
     d_E : array_like
         Computed colour difference array :math:`\\Delta E`.
-    coefficients : unicode, optional
+    coefficients : str, optional
         **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
         'CAM16-UCS', 'DIN99d', 'OSA', 'OSA-GP-Euclidean', 'ULAB'}**,
         Coefficients for the power-function.

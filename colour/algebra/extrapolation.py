@@ -55,7 +55,7 @@ class Extrapolator:
     ----------
     interpolator : object
         Interpolator object.
-    method : unicode, optional
+    method : str, optional
         **{'Linear', 'Constant'}**,
         Extrapolation method.
     left : numeric, optional
@@ -178,12 +178,12 @@ class Extrapolator:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the extrapolation method. with.
 
         Returns
         -------
-        unicode
+        str
             Extrapolation method.
         """
 

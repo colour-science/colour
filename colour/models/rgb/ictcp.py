@@ -121,7 +121,7 @@ def RGB_to_ICtCp(RGB, method='Dolby 2016', L_p=10000):
     ----------
     RGB : array_like
         *ITU-R BT.2020* colourspace array.
-    method : unicode, optional
+    method : str, optional
         **{'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
         'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
         Computation method. *Recommendation ITU-R BT.2100* defines multiple
@@ -235,7 +235,7 @@ def ICtCp_to_RGB(ICtCp, method='Dolby 2016', L_p=10000):
     ----------
     ICtCp : array_like
         :math:`IC_TC_P` colour encoding array.
-    method : unicode, optional
+    method : str, optional
         **{'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
         'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
         Computation method. *Recommendation ITU-R BT.2100* defines multiple
@@ -356,12 +356,12 @@ def XYZ_to_ICtCp(XYZ,
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
-    method : unicode, optional
+    method : str, optional
         **{'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
         'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
         Computation method. *Recommendation ITU-R BT.2100* defines multiple
@@ -474,12 +474,12 @@ def ICtCp_to_XYZ(ICtCp,
         :math:`IC_TC_P` colour encoding array.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
         *Chromatic adaptation* transform.
-    method : unicode, optional
+    method : str, optional
         **{'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
         'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
         Computation method. *Recommendation ITU-R BT.2100* defines multiple

@@ -48,7 +48,7 @@ WHITEPOINT_NAME_DON_RGB_4 = 'D50'
 """
 *Don RGB 4* colourspace whitepoint name.
 
-WHITEPOINT_NAME_DON_RGB_4 : unicode
+WHITEPOINT_NAME_DON_RGB_4 : str
 """
 
 CCS_WHITEPOINT_DON_RGB_4 = (CCS_ILLUMINANTS[

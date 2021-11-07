@@ -1011,7 +1011,7 @@ def orient(a, orientation):
     ----------
     a : array_like
         Array to perform the orientation onto.
-    orientation : unicode, optional
+    orientation : str, optional
         **{'Flip', 'Flop', '90 CW', '90 CCW', '180'}**
         Orientation to perform.
 
@@ -1107,7 +1107,7 @@ def fill_nan(a, method='Interpolation', default=0):
     ----------
     a : array_like
         Array to fill the NaNs of.
-    method : unicode
+    method : str
         **{'Interpolation', 'Constant'}**,
         *Interpolation* method linearly interpolates through the NaNs,
         *Constant* method replaces NaNs with ``default``.
@@ -1222,7 +1222,7 @@ def zeros(shape, dtype=None, order='C'):
     dtype : object
         Type to use for conversion, default to the type defined by the
         :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
-    order : unicode, optional
+    order : str, optional
         {'C', 'F'},
         Whether to store multi-dimensional data in row-major
         (C-style) or column-major (Fortran-style) order in
@@ -1258,7 +1258,7 @@ def ones(shape, dtype=None, order='C'):
     dtype : object
         Type to use for conversion, default to the type defined by the
         :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
-    order : unicode, optional
+    order : str, optional
         {'C', 'F'},
         Whether to store multi-dimensional data in row-major
         (C-style) or column-major (Fortran-style) order in
@@ -1296,7 +1296,7 @@ def full(shape, fill_value, dtype=None, order='C'):
     dtype : object
         Type to use for conversion, default to the type defined by the
         :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
-    order : unicode, optional
+    order : str, optional
         {'C', 'F'},
         Whether to store multi-dimensional data in row-major
         (C-style) or column-major (Fortran-style) order in

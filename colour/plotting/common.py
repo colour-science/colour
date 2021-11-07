@@ -312,7 +312,7 @@ def XYZ_to_plotting_colourspace(XYZ,
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
@@ -348,7 +348,7 @@ class ColourSwatch(namedtuple('ColourSwatch', ('name', 'RGB'))):
 
     Parameters
     ----------
-    name : unicode, optional
+    name : str, optional
         Colour name.
     RGB : array_like, optional
         RGB Colour.
@@ -369,7 +369,7 @@ def colour_cycle(**kwargs):
 
     Other Parameters
     ----------------
-    colour_cycle_map : unicode or LinearSegmentedColormap, optional
+    colour_cycle_map : str or LinearSegmentedColormap, optional
         Matplotlib colourmap name.
     colour_cycle_count : int, optional
         Colours count to pick in the colourmap.
@@ -404,7 +404,7 @@ def artist(**kwargs):
     ----------------
     axes : Axes, optional
         Axes that will be passed through without creating a new figure.
-    uniform : unicode, optional
+    uniform : str, optional
         Whether to create the figure with an equal aspect ratio.
 
     Returns
@@ -438,7 +438,7 @@ def camera(**kwargs):
         Axes to apply the render elements onto.
     azimuth : numeric, optional
         Camera azimuth.
-    camera_aspect : unicode, optional
+    camera_aspect : str, optional
         Matplotlib axes aspect. Default is *equal*.
     elevation : numeric, optional
         Camera elevation.
@@ -478,11 +478,11 @@ def render(**kwargs):
         Figure to apply the render elements onto.
     axes : Axes, optional
         Axes to apply the render elements onto.
-    filename : unicode, optional
+    filename : str, optional
         Figure will be saved using given ``filename`` argument.
     standalone : bool, optional
         Whether to show the figure and call :func:`plt.show` definition.
-    aspect : unicode, optional
+    aspect : str, optional
         Matplotlib axes aspect.
     axes_visible : bool, optional
         Whether the axes are visible. Default is *True*.
@@ -497,13 +497,13 @@ def render(**kwargs):
         Number of columns in the legend. Default is *1*.
     transparent_background : bool, optional
         Whether to turn off the background patch. Default is *True*.
-    title : unicode, optional
+    title : str, optional
         Figure title.
-    wrap_title : unicode, optional
+    wrap_title : str, optional
         Whether to wrap the figure title. Default is *True*.
-    x_label : unicode, optional
+    x_label : str, optional
         *X* axis label.
-    y_label : unicode, optional
+    y_label : str, optional
         *Y* axis label.
     x_ticker : bool, optional
         Whether to display the *X* axis ticker. Default is *True*.
@@ -589,7 +589,7 @@ def label_rectangles(labels,
         Labels to display.
     rectangles : object
         Rectangles to used to set the labels value and position.
-    rotation : unicode, optional
+    rotation : str, optional
         **{'horizontal', 'vertical'}**,
         Labels orientation.
     text_size : numeric, optional
@@ -737,7 +737,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
     ----------
     mapping : dict_like
         Mapping to filter.
-    filterers : unicode or object or array_like
+    filterers : str or object or array_like
         Filterer or object class instance (which is passed through directly if
         its type is one of the mapping element types) or list
         of filterers.
@@ -813,7 +813,7 @@ def filter_RGB_colourspaces(filterers,
 
     Parameters
     ----------
-    filterers : unicode or RGB_Colourspace or array_like
+    filterers : str or RGB_Colourspace or array_like
         Filterer or :class:`colour.RGB_Colourspace` class instance (which is
         passed through directly if its type is one of the mapping element
         types) or list of filterers. ``filterers`` elements can also be of any
@@ -846,7 +846,7 @@ def filter_cmfs(filterers,
 
     Parameters
     ----------
-    filterers : unicode or LMS_ConeFundamentals or \
+    filterers : str or LMS_ConeFundamentals or \
 RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
         Filterer or :class:`colour.LMS_ConeFundamentals`,
         :class:`colour.RGB_ColourMatchingFunctions` or
@@ -882,7 +882,7 @@ def filter_illuminants(filterers,
 
     Parameters
     ----------
-    filterers : unicode or SpectralDistribution or array_like
+    filterers : str or SpectralDistribution or array_like
         Filterer or :class:`colour.SpectralDistribution` class instance
         (which is passed through directly if its type is one of the mapping
         element types) or list of filterers. ``filterers`` elements can also be
@@ -924,7 +924,7 @@ def filter_colour_checkers(filterers,
 
     Parameters
     ----------
-    filterers : unicode or ColourChecker or array_like
+    filterers : str or ColourChecker or array_like
         Filterer or :class:`colour.characterisation.ColourChecker` class
         instance (which is passed through directly if its type is one of the
         mapping element types) or list of filterers. ``filterers`` elements
@@ -1088,7 +1088,7 @@ def plot_multi_colour_swatches(colour_swatches,
     columns : int, optional
         Colour swatches columns count, defaults to the colour swatch count or
         half of it if comparing.
-    direction : unicode, optional
+    direction : str, optional
         {'+y', '-y'}
         Row stacking direction.
     text_kwargs : dict, optional
@@ -1097,9 +1097,9 @@ def plot_multi_colour_swatches(colour_swatches,
 
         -   *offset*: Sets the text offset.
         -   *visible*: Makes the text visible.
-    background_colour : array_like or unicode, optional
+    background_colour : array_like or str, optional
         Background colour.
-    compare_swatches : unicode, optional
+    compare_swatches : str, optional
         **{None, 'Diagonal', 'Stacked'}**,
         Whether to compare the swatches, in which case the colour swatch
         count must be an even number with alternating reference colour swatches

@@ -65,7 +65,7 @@ class ColourRendering_Specification_CRI(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Name of the test spectral distribution.
     Q_a : numeric
         *Colour Rendering Index* (CRI) :math:`Q_a`.

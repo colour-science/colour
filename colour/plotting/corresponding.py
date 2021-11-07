@@ -39,9 +39,9 @@ def plot_corresponding_chromaticities_prediction(experiment=1,
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Breneman (1987)* experiment number or
         :class:`colour.CorrespondingColourDataset` class instance.
-    model : unicode, optional
+    model : str, optional
         Corresponding chromaticities prediction model name.
-    transform : unicode, optional
+    transform : str, optional
         Transformation to use with *Von Kries* chromatic adaptation model.
 
     Other Parameters

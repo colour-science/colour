@@ -171,7 +171,7 @@ class CaseInsensitiveMapping(MutableMapping):
     Implements a case-insensitive mutable mapping / *dict* object.
 
     Allows values retrieving from keys while ignoring the key case.
-    The keys are expected to be unicode or string-like objects supporting the
+    The keys are expected to be str or string-like objects supporting the
     :meth:`str.lower` method.
 
     Parameters
@@ -205,7 +205,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     Warnings
     --------
-    The keys are expected to be unicode or string-like objects.
+    The keys are expected to be str or string-like objects.
 
     References
     ----------
@@ -242,7 +242,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
         Returns
         -------
-        unicode
+        str
             Mapping representation.
         """
 
@@ -275,7 +275,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
         Parameters
         ----------
-        item : unicode
+        item : str
             Item name.
 
         Returns
@@ -294,7 +294,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
         Parameters
         ----------
-        item : unicode
+        item : str
             Item name.
         """
 
@@ -306,7 +306,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
         Parameters
         ----------
-        item : unicode
+        item : str
             Item name.
 
         Returns
@@ -420,7 +420,7 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     inheriting from :class:`colour.utilities.CaseInsensitiveMapping` class.
 
     Allows lazy values retrieving from keys while ignoring the key case.
-    The keys are expected to be unicode or string-like objects supporting the
+    The keys are expected to be str or string-like objects supporting the
     :meth:`str.lower` method. The lazy retrieval is performed as follows:
     If the value is a callable, then it is evaluated and its return value is
     stored in place of the current value.
@@ -441,7 +441,7 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
 
     Warnings
     --------
-    The keys are expected to be unicode or string-like objects.
+    The keys are expected to be str or string-like objects.
 
     Examples
     --------
@@ -467,7 +467,7 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
 
         Parameters
         ----------
-        item : unicode
+        item : str
             Item name.
 
         Returns
@@ -591,12 +591,12 @@ class Node:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the name with.
 
         Returns
         -------
-        unicode
+        str
             Node name.
         """
 
@@ -780,7 +780,7 @@ class Node:
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 

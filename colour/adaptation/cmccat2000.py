@@ -299,7 +299,7 @@ def chromatic_adaptation_CMCCAT2000(
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
     surround : InductionFactors_CMCCAT2000, optional
         Surround viewing conditions induction factors.
-    direction : unicode, optional
+    direction : str, optional
         **{'Forward', 'Inverse'}**,
         Chromatic adaptation direction.
 

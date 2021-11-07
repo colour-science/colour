@@ -33,7 +33,7 @@ def XYZ_to_sRGB(XYZ,
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
@@ -96,7 +96,7 @@ def sRGB_to_XYZ(RGB,
         *sRGB* colourspace array.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,

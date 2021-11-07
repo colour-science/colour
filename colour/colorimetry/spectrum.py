@@ -254,7 +254,7 @@ class SpectralShape:
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -266,7 +266,7 @@ class SpectralShape:
 
         Returns
         -------
-        unicode
+        str
             Evaluable string representation.
         """
 
@@ -520,7 +520,7 @@ dict_like, optional
 
     Other Parameters
     ----------------
-    name : unicode, optional
+    name : str, optional
         Spectral distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function.
@@ -530,7 +530,7 @@ dict_like, optional
         Extrapolator class type to use as extrapolating function.
     extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function.
-    strict_name : unicode, optional
+    strict_name : str, optional
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` attribute value.
 
@@ -647,12 +647,12 @@ dict_like, optional
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the spectral distribution strict name with.
 
         Returns
         -------
-        unicode
+        str
             Spectral distribution strict name.
         """
 
@@ -1529,7 +1529,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     Other Parameters
     ----------------
-    name : unicode, optional
+    name : str, optional
        Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
@@ -1689,12 +1689,12 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the multi-spectral distributions strict name with.
 
         Returns
         -------
-        unicode
+        str
             Multi-spectral distributions strict name.
         """
 
@@ -2504,7 +2504,7 @@ def reshape_sd(sd, shape=SPECTRAL_SHAPE_DEFAULT, method='Align', **kwargs):
         Spectral distribution to reshape.
     shape : SpectralShape, optional
         Spectral shape to reshape the spectral distribution with.
-    method : unicode, optional
+    method : str, optional
         {'Align', 'Extrapolate', 'Interpolate', 'Trim'}
         Correction method.
         Reshape method.

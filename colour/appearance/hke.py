@@ -74,7 +74,7 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(uv, uv_c, L_a,
         *CIE uv* chromaticity coordinates of reference white.
     L_a : numeric
         Adapting luminance in :math:`cd/m^2`.
-    method: unicode, optional
+    method: str, optional
         **{'VAC', 'VCC'}**
         Which estimation method to use, *VCC* or *VAC*.
 
@@ -128,7 +128,7 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(uv,
         *CIE uv* chromaticity coordinates of reference white.
     L_a : numeric or array_like
         Adapting luminance in :math:`cd/m^2`.
-    method: unicode, optional
+    method: str, optional
         **{'VAC', 'VCC'}**
         Which estimation method to use, *VCC* or *VAC*.
 

@@ -318,7 +318,7 @@ def plot_single_sd_colour_quality_scale_bars(sd,
     sd : SpectralDistribution
         Illuminant or light source spectral distribution to plot the
         *Colour Quality Scale* (CQS).
-    method : unicode, optional
+    method : str, optional
         **{'NIST CQS 9.0', 'NIST CQS 7.4'}**,
         *Colour Quality Scale* (CQS) computation method.
 
@@ -379,7 +379,7 @@ def plot_multi_sds_colour_quality_scales_bars(sds,
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
-    method : unicode, optional
+    method : str, optional
         **{'NIST CQS 9.0', 'NIST CQS 7.4'}**,
         *Colour Quality Scale* (CQS) computation method.
 

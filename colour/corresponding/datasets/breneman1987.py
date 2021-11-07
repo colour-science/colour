@@ -48,7 +48,7 @@ class BrenemanExperimentResult(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Test colour name.
     uv_t : numeric
         Chromaticity coordinates :math:`uv_t^p` of test colour.

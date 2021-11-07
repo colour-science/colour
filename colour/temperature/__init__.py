@@ -55,7 +55,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     ----------
     uv : array_like
         *CIE UCS* colourspace *uv* chromaticity coordinates.
-    method : unicode, optional
+    method : str, optional
         **{'Ohno 2013', 'Krystek 1985, 'Robertson 1968'}**,
         Computation method.
 
@@ -163,7 +163,7 @@ def CCT_to_uv(CCT_D_uv, method='Ohno 2013', **kwargs):
     ----------
     CCT_D_uv : ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-    method : unicode, optional
+    method : str, optional
         **{'Ohno 2013', 'Robertson 1968', 'Krystek 1985}**,
         Computation method.
 
@@ -243,7 +243,7 @@ def xy_to_CCT(xy, method='CIE Illuminant D Series'):
     ----------
     xy : array_like
         *CIE xy* chromaticity coordinates.
-    method : unicode, optional
+    method : str, optional
         **{'CIE Illuminant D Series', 'Kang 2002', 'Hernandez 1999',
         'McCamy 1992'}**,
         Computation method.
@@ -321,7 +321,7 @@ def CCT_to_xy(CCT, method='CIE Illuminant D Series'):
     ----------
     CCT : numeric or array_like
         Correlated colour temperature :math:`T_{cp}`.
-    method : unicode, optional
+    method : str, optional
         **{'CIE Illuminant D Series', 'Hernandez 1999', 'Kang 2002',
         'McCamy 1992'}**,
         Computation method.

@@ -42,7 +42,7 @@ def exponent_function_basic(x, exponent=1, style='basicFwd'):
         Data to undergo the basic exponent conversion.
     exponent : numeric or array_like, optional
         Exponent value used for the conversion.
-    style : unicode, optional
+    style : str, optional
         **{'basicFwd', 'basicRev', 'basicMirrorFwd', 'basicMirrorRev',
         'basicPassThruFwd', 'basicPassThruRev'}**,
         Defines the behaviour for the transfer function to operate:
@@ -170,7 +170,7 @@ def exponent_function_monitor_curve(x,
         Exponent value used for the conversion.
     offset: numeric or array_like, optional
         Offset value used for the conversion.
-    style : unicode, optional
+    style : str, optional
         **{'monCurveFwd', 'monCurveRev', 'monCurveMirrorFwd',
         'monCurveMirrorRev'}**,
         Defines the behaviour for the transfer function to operate:

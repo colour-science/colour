@@ -146,7 +146,7 @@ def colourspace_model_axis_reorder(a, model, direction='Forward'):
     ----------
     a : array_like
         Colourspace model :math:`a` array.
-    model : unicode
+    model : str
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
 
@@ -195,7 +195,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
 
     Parameters
     ----------
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         Plotting method.
 
@@ -325,17 +325,17 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
 
     Parameters
     ----------
-    colourspaces : unicode or RGB_Colourspace or array_like
+    colourspaces : str or RGB_Colourspace or array_like
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
     show_whitepoints : bool, optional
@@ -536,11 +536,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
 
     Parameters
     ----------
-    colourspaces : unicode or RGB_Colourspace or array_like
+    colourspaces : str or RGB_Colourspace or array_like
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -616,11 +616,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
 
     Parameters
     ----------
-    colourspaces : unicode or RGB_Colourspace or array_like
+    colourspaces : str or RGB_Colourspace or array_like
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -697,11 +697,11 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
 
     Parameters
     ----------
-    colourspaces : unicode or RGB_Colourspace or array_like
+    colourspaces : str or RGB_Colourspace or array_like
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -779,20 +779,20 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode or RGB_Colourspace, optional
+    colourspace : str or RGB_Colourspace, optional
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
     scatter_kwargs : dict, optional
         Keyword arguments for the :func:`plt.scatter` definition. The following
         special keyword arguments can also be used:
 
-        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
             will use the colours as given by the ``RGB`` argument.
 
 
@@ -898,7 +898,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode or RGB_Colourspace, optional
+    colourspace : str or RGB_Colourspace, optional
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -908,7 +908,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         Keyword arguments for the :func:`plt.scatter` definition. The following
         special keyword arguments can also be used:
 
-        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
             will use the colours as given by the ``RGB`` argument.
 
     Other Parameters
@@ -967,7 +967,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode or RGB_Colourspace, optional
+    colourspace : str or RGB_Colourspace, optional
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -978,7 +978,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
         Keyword arguments for the :func:`plt.scatter` definition. The following
         special keyword arguments can also be used:
 
-        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
             will use the colours as given by the ``RGB`` argument.
 
     Other Parameters
@@ -1037,7 +1037,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode or RGB_Colourspace, optional
+    colourspace : str or RGB_Colourspace, optional
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -1048,7 +1048,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
         Keyword arguments for the :func:`plt.scatter` definition. The following
         special keyword arguments can also be used:
 
-        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
             will use the colours as given by the ``RGB`` argument.
 
     Other Parameters
@@ -1098,7 +1098,7 @@ def ellipses_MacAdam1942(method='CIE 1931'):
 
     Parameters
     ----------
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         Computation method.
 
@@ -1178,7 +1178,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
     ----------
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
     chromaticity_diagram_clipping : bool, optional,
@@ -1463,7 +1463,7 @@ def plot_single_cctf(cctf, cctf_decoding=False, **kwargs):
 
     Parameters
     ----------
-    cctf : unicode or object
+    cctf : str or object
         Colour component transfer function to plot. ``function`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -1510,7 +1510,7 @@ def plot_multi_cctfs(cctfs, cctf_decoding=False, **kwargs):
 
     Parameters
     ----------
-    cctfs : unicode or object or array_like, optional
+    cctfs : str or object or array_like, optional
         Colour component transfer function to plot. ``cctfs`` elements can be
         of any type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -1592,14 +1592,14 @@ def plot_constant_hue_loci(data,
         reference illuminant, ``XYZ_ct`` the *CIE XYZ* tristimulus values of
         the colour matches under the reference illuminant and ``metadata`` the
         dataset metadata.
-    model : unicode, optional
+    model : str, optional
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
     scatter_kwargs : dict, optional
         Keyword arguments for the :func:`plt.scatter` definition. The following
         special keyword arguments can also be used:
 
-        -   *c* : unicode or array_like, if ``c`` is set to *RGB*, the scatter
+        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
             will use the colours as given by the ``RGB`` argument.
     convert_kwargs : dict, optional
         Keyword arguments for the :func:`colour.convert` definition.

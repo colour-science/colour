@@ -164,7 +164,7 @@ def hull_section(hull, axis='+z', origin=0.5, normalise=False):
     ----------
     hull : Trimesh
         *Trimesh* hull.
-    axis : unicode, optional
+    axis : str, optional
         **{'+z', '+x', '+y'}**,
         Axis the hull section will be normal to.
     origin : numeric, optional

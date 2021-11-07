@@ -171,7 +171,7 @@ def reaction_rate_MichaelisMenten(S,
     K_m : array_like
         Substrate concentration :math:`K_m` at which the reaction rate is
         half of :math:`V_{max}`.
-    method : unicode, optional
+    method : str, optional
         **{'Michaelis 1913', 'Abebe 2017'}**,
         Computation method.
 
@@ -330,7 +330,7 @@ def substrate_concentration_MichaelisMenten(S,
     K_m : array_like
         Substrate concentration :math:`K_m` at which the reaction rate is
         half of :math:`V_{max}`.
-    method : unicode, optional
+    method : str, optional
         **{'Michaelis 1913', 'Abebe 2017'}**,
         Computation method.
 

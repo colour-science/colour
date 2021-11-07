@@ -36,7 +36,7 @@ def plot_cvd_simulation_Machado2009(RGB,
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    deficiency : unicode, optional
+    deficiency : str, optional
         {'Protanomaly', 'Deuteranomaly', 'Tritanomaly'}
         Colour blindness / vision deficiency type.
     severity : numeric, optional

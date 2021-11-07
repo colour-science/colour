@@ -365,7 +365,7 @@ def whiteness_CIE2004(xy,
         Tristimulus :math:`Y` value of sample.
     xy_n : array_like
         Chromaticity coordinates *xy_n* of perfect diffuser.
-    observer : unicode, optional
+    observer : str, optional
         **{'CIE 1931 2 Degree Standard Observer',
         'CIE 1964 10 Degree Standard Observer'}**,
         *CIE Standard Observer* used for computations, *tint* :math:`T` or
@@ -465,14 +465,14 @@ def whiteness(XYZ, XYZ_0, method='CIE 2004', **kwargs):
         *CIE XYZ* tristimulus values of sample.
     XYZ_0 : array_like
         *CIE XYZ* tristimulus values of reference white.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968',
         'ASTM E313', 'Ganz 1979'}**,
         Computation method.
 
     Other Parameters
     ----------------
-    observer : unicode, optional
+    observer : str, optional
         {:func:`colour.colorimetry.whiteness_CIE2004`},
         **{'CIE 1931 2 Degree Standard Observer',
         'CIE 1964 10 Degree Standard Observer'}**,

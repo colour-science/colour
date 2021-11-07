@@ -33,7 +33,7 @@ def read_sds_from_xrite_file(path):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         Absolute *X-Rite* file path.
 
     Returns

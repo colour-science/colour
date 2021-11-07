@@ -457,7 +457,7 @@ def sd_gaussian(mu_peak_wavelength,
         half the maximum amplitude.
     shape : SpectralShape, optional
         Spectral shape used to create the spectral distribution.
-    method : unicode, optional
+    method : str, optional
         **{'Normal', 'FWHM'}**,
         Computation method.
 
@@ -595,7 +595,7 @@ def sd_single_led(peak_wavelength,
         axis which are half the maximum amplitude.
     shape : SpectralShape, optional
         Spectral shape used to create the spectral distribution.
-    method : unicode, optional
+    method : str, optional
         **{'Ohno 2005'}**,
         Computation method.
 
@@ -722,7 +722,7 @@ def sd_multi_leds_Ohno2005(peak_wavelengths,
 
         Returns
         -------
-        unicode
+        str
             Formatted array :math:`a`.
         """
 
@@ -774,7 +774,7 @@ def sd_multi_leds(peak_wavelengths,
         distributions.
     shape : SpectralShape, optional
         Spectral shape used to create the spectral distribution.
-    method : unicode, optional
+    method : str, optional
         **{'Ohno 2005'}**,
         Computation method.
 

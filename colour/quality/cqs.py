@@ -87,7 +87,7 @@ class ColourRendering_Specification_CQS(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Name of the test spectral distribution.
     Q_a : numeric
         Colour quality scale :math:`Q_a`.
@@ -147,7 +147,7 @@ def colour_quality_scale(sd_test, additional_data=False,
         Test spectral distribution.
     additional_data : bool, optional
         Whether to output additional data.
-    method : unicode, optional
+    method : str, optional
         **{'NIST CQS 9.0', 'NIST CQS 7.4'}**,
         Computation method.
 
@@ -422,7 +422,7 @@ def delta_E_RMS(cqs_data, attribute):
     ----------
     cqs_data : VS_ColourQualityScaleData
         *Colour Quality Scale* (CQS) data.
-    attribute : unicode
+    attribute : str
         Colorimetry data attribute to use to compute the root-mean-square
         average.
 

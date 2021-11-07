@@ -37,7 +37,7 @@ def RGB_to_HEX(RGB):
 
     Returns
     -------
-    unicode
+    str
         Hexadecimal representation.
 
     Notes
@@ -86,7 +86,7 @@ def HEX_to_RGB(HEX):
 
     Parameters
     ----------
-    HEX : unicode or array_like
+    HEX : str or array_like
         Hexadecimal representation.
 
     Returns

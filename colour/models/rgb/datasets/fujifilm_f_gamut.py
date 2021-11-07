@@ -47,7 +47,7 @@ WHITEPOINT_NAME_F_GAMUT = 'D65'
 """
 *Fujifilm F-Gamut* colourspace whitepoint name.
 
-CCS_WHITEPOINT_F_GAMUT : unicode
+CCS_WHITEPOINT_F_GAMUT : str
 """
 
 CCS_WHITEPOINT_F_GAMUT = (CCS_ILLUMINANTS[

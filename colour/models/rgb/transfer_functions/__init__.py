@@ -183,7 +183,7 @@ def log_encoding(value, function='Cineon', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    function : unicode, optional
+    function : str, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
         'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog',
@@ -206,7 +206,7 @@ def log_encoding(value, function='Cineon', **kwargs):
         {:func:`colour.models.log_encoding_ERIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per-channel.
-    bit_depth : unicode, optional
+    bit_depth : str, optional
         {:func:`colour.models.log_encoding_ACESproxy`,
         :func:`colour.models.log_encoding_NLog`,
         :func:`colour.models.log_encoding_SLog`,
@@ -222,7 +222,7 @@ def log_encoding(value, function='Cineon', **kwargs):
     density_per_code_value : numeric or array_like
         {:func:`colour.models.log_encoding_PivotedLog`},
         Density per code value.
-    firmware : unicode, optional
+    firmware : str, optional
         {:func:`colour.models.log_encoding_ALEXALogC`},
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
@@ -237,7 +237,7 @@ def log_encoding(value, function='Cineon', **kwargs):
     log_reference : numeric or array_like
         {:func:`colour.models.log_encoding_PivotedLog`},
         Log reference.
-    method : unicode, optional
+    method : str, optional
         {:func:`colour.models.log_encoding_Log3G10`},
         Whether to use the *Log3G10* *v1* or *v2* log encoding curve.
     out_normalised_code_value : bool, optional
@@ -250,7 +250,7 @@ def log_encoding(value, function='Cineon', **kwargs):
     negative_gamma : numeric or array_like
         {:func:`colour.models.log_encoding_PivotedLog`},
         Negative gamma.
-    method : unicode, optional
+    method : str, optional
         {:func:`colour.models.log_encoding_ALEXALogC`},
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
@@ -332,7 +332,7 @@ def log_decoding(value, function='Cineon', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    function : unicode, optional
+    function : str, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
         'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
         'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', Panalog',
@@ -371,7 +371,7 @@ def log_decoding(value, function='Cineon', **kwargs):
     density_per_code_value : numeric or array_like
         {:func:`colour.models.log_decoding_PivotedLog`},
         Density per code value.
-    firmware : unicode, optional
+    firmware : str, optional
         {:func:`colour.models.log_decoding_ALEXALogC`},
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
@@ -388,7 +388,7 @@ def log_decoding(value, function='Cineon', **kwargs):
     log_reference : numeric or array_like
         {:func:`colour.models.log_decoding_PivotedLog`},
         Log reference.
-    method : unicode, optional
+    method : str, optional
         {:func:`colour.models.log_decoding_Log3G10`},
         Whether to use the *Log3G10* *v1* or *v2* log encoding curve.
     negative_gamma : numeric or array_like
@@ -399,7 +399,7 @@ def log_decoding(value, function='Cineon', **kwargs):
         :func:`colour.models.log_decoding_SLog`,
         :func:`colour.models.log_decoding_SLog2`},
         Whether the light level :math:`x` to a camera is reflection.
-    method : unicode, optional
+    method : str, optional
         {:func:`colour.models.log_decoding_ALEXALogC`},
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
@@ -466,7 +466,7 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    function : unicode, optional
+    function : str, optional
         **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
         'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
         'ITU-R BT.601', 'SMPTE 240M'}**,
@@ -532,7 +532,7 @@ def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    function : unicode, optional
+    function : str, optional
         **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
         'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
         'ITU-R BT.601', 'SMPTE 240M'}**,
@@ -600,7 +600,7 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    function : unicode, optional
+    function : str, optional
         **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
         'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'SMPTE 240M', 'ST 2084',
         'sRGB'}**,
@@ -627,7 +627,7 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
         {:func:`colour.models.eotf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used if system is not
         12-bit.
-    method : unicode, optional
+    method : str, optional
         {:func:`colour.models.eotf_HLG_BT2100`},
         **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
     out_int : bool, optional
@@ -690,7 +690,7 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    function : unicode, optional
+    function : str, optional
         **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
         'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**,
         Inverse electro-optical transfer function (EOTF / EOCF).
@@ -717,7 +717,7 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
     L_p : numeric, optional
         {:func:`colour.models.eotf_inverse_ST2084`},
         Display peak luminance :math:`cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         {:func:`colour.models.eotf_inverse_HLG_BT2100`},
         **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
     out_int : bool, optional
@@ -794,7 +794,7 @@ def cctf_encoding(value, function='sRGB', **kwargs):
     ----------
     value : numeric or array_like
         Linear :math:`RGB` values.
-    function : unicode, optional
+    function : str, optional
         {:attr:`colour.CCTF_ENCODINGS`},
         Computation function.
 
@@ -892,7 +892,7 @@ def cctf_decoding(value, function='sRGB', **kwargs):
     ----------
     value : numeric or array_like
         Non-linear :math:`R'G'B'` values.
-    function : unicode, optional
+    function : str, optional
         {:attr:`colour.CCTF_DECODINGS`},
         Computation function.
 
@@ -968,7 +968,7 @@ def ootf(value, function='ITU-R BT.2100 PQ', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    function : unicode, optional
+    function : str, optional
         **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
         Opto-optical transfer function (OOTF / OOCF).
 
@@ -1014,7 +1014,7 @@ def ootf_inverse(value, function='ITU-R BT.2100 PQ', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    function : unicode, optional
+    function : str, optional
         **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
         Inverse opto-optical transfer function (OOTF / OOCF).
 

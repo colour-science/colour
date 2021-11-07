@@ -54,7 +54,7 @@ WHITEPOINT_NAME_sRGB = 'D65'
 """
 *sRGB* colourspace whitepoint name.
 
-CCS_WHITEPOINT_sRGB : unicode
+CCS_WHITEPOINT_sRGB : str
 """
 
 CCS_WHITEPOINT_sRGB = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][

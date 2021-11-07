@@ -35,7 +35,7 @@ class AbstractLUTSequenceOperator(ABC):
 
     Parameters
     ----------
-    name : unicode, optional
+    name : str, optional
         *LUT* sequence operator name.
     comments : array_like, optional
         Comments to add to the *LUT* sequence operator.
@@ -63,12 +63,12 @@ class AbstractLUTSequenceOperator(ABC):
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the *LUT* name with.
 
         Returns
         -------
-        unicode
+        str
             *LUT* name.
         """
 
@@ -83,8 +83,8 @@ class AbstractLUTSequenceOperator(ABC):
         if value is not None:
             attest(
                 is_string(value),
-                ('"{0}" attribute: "{1}" type is not "str" or "unicode"!'
-                 ).format('name', value))
+                ('"{0}" attribute: "{1}" type is not "str" or "str"!').format(
+                    'name', value))
 
             self._name = value
 
@@ -95,12 +95,12 @@ class AbstractLUTSequenceOperator(ABC):
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the *LUT* comments with.
 
         Returns
         -------
-        unicode
+        str
             *LUT* comments.
         """
 
@@ -157,7 +157,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         3x3 or 4x4 matrix for the operator.
     offset : array_like, optional
         Offset for the operator.
-    name : unicode, optional
+    name : str, optional
         *LUT* operator name.
     comments : array_like, optional
         Comments to add to the *LUT* operator.
@@ -233,12 +233,12 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the *LUT* operator matrix with.
 
         Returns
         -------
-        unicode
+        str
             Operator matrix.
         """
 
@@ -274,12 +274,12 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the *LUT* operator offset with.
 
         Returns
         -------
-        unicode
+        str
             Operator offset.
         """
 
@@ -312,7 +312,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
 
         Examples
@@ -352,7 +352,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         Returns
         -------
-        unicode
+        str
             Evaluable string representation.
 
         Examples

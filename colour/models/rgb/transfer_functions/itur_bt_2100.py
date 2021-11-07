@@ -742,7 +742,7 @@ def eotf_HLG_BT2100(E_p,
         :math:`1000 cd/m^2`.
     constants : Structure, optional
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
-    method : unicode, optional
+    method : str, optional
         **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
         Computation method.
 
@@ -968,7 +968,7 @@ def eotf_inverse_HLG_BT2100(F_D,
         :math:`1000 cd/m^2`.
     constants : Structure, optional
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
-    method : unicode, optional
+    method : str, optional
         **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
         Computation method.
 
@@ -1224,7 +1224,7 @@ def ootf_HLG_BT2100(E, L_B=0, L_W=1000, gamma=None, method='ITU-R BT.2100-2'):
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
         Computation method.
 
@@ -1508,7 +1508,7 @@ def ootf_inverse_HLG_BT2100(F_D,
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
         Computation method.
 

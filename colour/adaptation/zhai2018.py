@@ -78,7 +78,7 @@ def chromatic_adaptation_Zhai2018(XYZ_b,
         :math:`\\delta`.
     XYZ_wo : array_like, optional
         Baseline illuminant (:math:`BI`) :math:`o`.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'CAT16'}**,
         Chromatic adaptation transform.
 

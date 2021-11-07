@@ -59,7 +59,7 @@ def spectral_primary_decomposition_Mallett2019(colourspace,
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    metric : unicode, optional
+    metric : str, optional
         Function to be minimised, i.e. the objective function.
 
             ``metric(basis, *metric_args) -> float``

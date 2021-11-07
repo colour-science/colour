@@ -408,13 +408,13 @@ def primitive_vertices(method='Cube MPL', **kwargs):
 
     Parameters
     ----------
-    method : unicode, optional
+    method : str, optional
         **{'Cube MPL', 'Quad MPL', 'Grid MPL', 'Sphere'}**,
         Vertices generation method.
 
     Other Parameters
     ----------------
-    origin : unicode, optional
+    origin : str, optional
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`,

@@ -159,7 +159,7 @@ REPORT_HEADER_CONTENT = 'IES TM-30-18 Colour Rendition Report'
 """
 Report header content, i.e. the report title.
 
-REPORT_HEADER_CONTENT : unicode
+REPORT_HEADER_CONTENT : str
 """
 
 REPORT_FOOTER_CONTENT = ('Colours are for visual orientation purposes only. '
@@ -167,7 +167,7 @@ REPORT_FOOTER_CONTENT = ('Colours are for visual orientation purposes only. '
 """
 Report footer content.
 
-REPORT_FOOTER_CONTENT : unicode
+REPORT_FOOTER_CONTENT : str
 """
 
 _NOT_APPLICABLE_VALUE = 'N/A'
@@ -254,23 +254,23 @@ def plot_single_sd_colour_rendition_report_full(
     sd : SpectralDistribution or SpectralDistribution_IESTM2714
         Spectral distribution of the emission source to generate the report
         for.
-    source : unicode, optional
+    source : str, optional
         Emission source name, defaults to
         `colour.SpectralDistribution_IESTM2714.header.description` or
         `colour.SpectralDistribution_IESTM2714.name` properties value.
-    date : unicode, optional
+    date : str, optional
         Emission source measurement date, defaults to
         `colour.SpectralDistribution_IESTM2714.header.report_date` property
         value.
-    manufacturer : unicode, optional
+    manufacturer : str, optional
         Emission source manufacturer, defaults to
         `colour.SpectralDistribution_IESTM2714.header.manufacturer` property
         value.
-    model : unicode, optional
+    model : str, optional
         Emission source model, defaults to
         `colour.SpectralDistribution_IESTM2714.header.catalog_number` property
         value.
-    notes : unicode, optional
+    notes : str, optional
         Notes pertaining to the emission source, defaults to
         `colour.SpectralDistribution_IESTM2714.header.comments` property
         value.
@@ -726,7 +726,7 @@ def plot_single_sd_colour_rendition_report(sd, method='Full', **kwargs):
     sd : SpectralDistribution or SpectralDistribution_IESTM2714
         Spectral distribution of the emission source to generate the report
         for.
-    method : unicode, optional
+    method : str, optional
         **{'Full', 'Intermediate', 'Simple'}**,
         Report plotting method.
 
@@ -735,31 +735,31 @@ def plot_single_sd_colour_rendition_report(sd, method='Full', **kwargs):
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-    source : unicode, optional
+    source : str, optional
         {:func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_full`},
         Emission source name, defaults to
         `colour.SpectralDistribution_IESTM2714.header.description` or
         `colour.SpectralDistribution_IESTM2714.name` properties value.
-    date : unicode, optional
+    date : str, optional
         {:func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_full`},
         Emission source measurement date, defaults to
         `colour.SpectralDistribution_IESTM2714.header.report_date` property
         value.
-    manufacturer : unicode, optional
+    manufacturer : str, optional
         {:func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_full`},
         Emission source manufacturer, defaults to
         `colour.SpectralDistribution_IESTM2714.header.manufacturer` property
         value.
-    model : unicode, optional
+    model : str, optional
         {:func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_full`},
         Emission source model, defaults to
         `colour.SpectralDistribution_IESTM2714.header.catalog_number` property
         value.
-    notes : unicode, optional
+    notes : str, optional
         {:func:`colour.plotting.tm3018.\
 plot_single_sd_colour_rendition_report_full`},
         Notes pertaining to the emission source, defaults to

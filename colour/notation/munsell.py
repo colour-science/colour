@@ -664,7 +664,7 @@ def munsell_value(Y, method='ASTM D1535'):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    method : unicode, optional
+    method : str, optional
         **{'ASTM D1535', 'Priest 1920', 'Munsell 1933', 'Moon 1943',
         'Saunderson 1944', 'Ladd 1955', 'McCamy 1987'}**,
         Computation method.
@@ -870,7 +870,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Parameters
     ----------
-    munsell_colour : unicode or array_like
+    munsell_colour : str or array_like
         *Munsell* colour.
 
     Returns
@@ -1245,7 +1245,7 @@ def xyY_to_munsell_colour(xyY,
 
     Returns
     -------
-    unicode
+    str
         *Munsell* colour.
 
     Notes
@@ -1290,7 +1290,7 @@ def parse_munsell_colour(munsell_colour):
 
     Parameters
     ----------
-    munsell_colour : unicode
+    munsell_colour : str
         *Munsell* colour.
 
     Returns
@@ -1415,7 +1415,7 @@ def munsell_colour_to_munsell_specification(munsell_colour):
 
     Parameters
     ----------
-    munsell_colour : unicode
+    munsell_colour : str
         *Munsell* colour.
 
     Returns
@@ -1455,7 +1455,7 @@ def munsell_specification_to_munsell_colour(specification,
 
     Returns
     -------
-    unicode
+    str
         *Munsell* colour.
 
     Examples
@@ -1784,7 +1784,7 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     Returns
     -------
-    unicode or None ('Linear', 'Radial', None)
+    str or None ('Linear', 'Radial', None)
         Interpolation method.
 
     References

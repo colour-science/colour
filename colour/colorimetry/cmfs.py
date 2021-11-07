@@ -52,7 +52,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     Other Parameters
     ----------------
-    name : unicode, optional
+    name : str, optional
        Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
@@ -101,7 +101,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     Other Parameters
     ----------------
-    name : unicode, optional
+    name : str, optional
        Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
@@ -152,7 +152,7 @@ MultiSpectralDistributions or array_like or dict_like, optional
 
     Other Parameters
     ----------------
-    name : unicode, optional
+    name : str, optional
        Multi-spectral distributions name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the

@@ -34,7 +34,7 @@ def gamma_function(a, exponent=1, negative_number_handling='Indeterminate'):
         Array to encode / decode.
     exponent : numeric or array_like, optional
         Encoding / decoding exponent.
-    negative_number_handling : unicode, optional
+    negative_number_handling : str, optional
         **{'Indeterminate', 'Mirror', 'Preserve', 'Clamp'}**,
         Defines the behaviour for ``a`` negative numbers and / or the
         definition return value:

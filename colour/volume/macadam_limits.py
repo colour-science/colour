@@ -38,7 +38,7 @@ def _XYZ_optimal_colour_stimuli(illuminant):
 
     Parameters
     ----------
-    illuminant : unicode
+    illuminant : str
         Illuminant.
 
     Returns
@@ -73,7 +73,7 @@ def is_within_macadam_limits(xyY, illuminant, tolerance=None):
     ----------
     xyY : array_like
         *CIE xyY* colourspace array.
-    illuminant : unicode
+    illuminant : str
         Illuminant.
     tolerance : numeric, optional
         Tolerance allowed in the inside-triangle check.

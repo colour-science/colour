@@ -46,10 +46,10 @@ def mesopic_weighting_function(wavelength,
         factor.
     Lp : numeric
         Photopic luminance :math:`L_p`.
-    source : unicode, optional
+    source : str, optional
         **{'Blue Heavy', 'Red Heavy'}**,
         Light source colour temperature.
-    method : unicode, optional
+    method : str, optional
         **{'MOVE', 'LRC'}**,
         Method to calculate the weighting factor.
     photopic_lef : SpectralDistribution, optional
@@ -109,10 +109,10 @@ def sd_mesopic_luminous_efficiency_function(Lp,
     ----------
     Lp : numeric
         Photopic luminance :math:`L_p`.
-    source : unicode, optional
+    source : str, optional
         **{'Blue Heavy', 'Red Heavy'}**,
         Light source colour temperature.
-    method : unicode, optional
+    method : str, optional
         **{'MOVE', 'LRC'}**,
         Method to calculate the weighting factor.
     photopic_lef : SpectralDistribution, optional

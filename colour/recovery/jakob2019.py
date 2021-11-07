@@ -1024,7 +1024,7 @@ class LUT3D_Jakob2019:
 
         Parameters
         ----------
-        path : unicode
+        path : str
             Path to the file.
 
         Examples
@@ -1070,7 +1070,7 @@ class LUT3D_Jakob2019:
 
         Parameters
         ----------
-        path : unicode
+        path : str
             Path to the file.
 
         Examples

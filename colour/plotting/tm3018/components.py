@@ -44,7 +44,7 @@ RESOURCES_DIRECTORY_ANSIIESTM3018 = os.path.join(
 """
 Resources directory.
 
-RESOURCES_DIRECTORY_ANSIIESTM3018 : unicode
+RESOURCES_DIRECTORY_ANSIIESTM3018 : str
 """
 
 _BIN_BAR_COLOURS = [
@@ -310,11 +310,11 @@ def plot_16_bin_bars(values,
     ----------
     values : array_like
         Values to generate the bin bars for.
-    label_template : unicode
+    label_template : str
         Template to format the labels.
     x_ticker : bool, optional
         Whether to show the *X* axis ticker and the associated label.
-    label_orientation : unicode, optional
+    label_orientation : str, optional
         **{'Vertical', 'Horizonal'}**,
         Orientation of the labels.
 

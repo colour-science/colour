@@ -102,7 +102,7 @@ WHITEPOINT_NAME_ACES = 'ACES'
 """
 *ACES2065-1* colourspace whitepoint name.
 
-WHITEPOINT_NAME_ACES : unicode
+WHITEPOINT_NAME_ACES : str
 """
 
 CCS_WHITEPOINT_ACES = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][

@@ -55,7 +55,7 @@ RESOURCES_DIRECTORY_CIE2017 = os.path.join(
 """
 *CIE 2017 Colour Fidelity Index* resources directory.
 
-RESOURCES_DIRECTORY_CIE2017 : unicode
+RESOURCES_DIRECTORY_CIE2017 : str
 """
 
 _CACHE_TCS_CIE2017 = CACHE_REGISTRY.register_cache(
@@ -80,7 +80,7 @@ class ColourRendering_Specification_CIE2017(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Name of the test spectral distribution.
     sd_reference : SpectralDistribution
         Spectral distribution of the reference illuminant.
