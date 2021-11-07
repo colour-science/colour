@@ -35,9 +35,9 @@ autosummary_generate = True
 napoleon_custom_sections = ['Attributes', 'Methods']
 
 if os.environ.get('READTHEDOCS') == 'True':
-    utilities_directory = os.path.abspath(
-        os.path.join(os.getcwd(), '..', 'utilities'))
-    static_directory = os.path.abspath(os.path.join(os.getcwd(), '_static'))
+    utilities_directory = os.path.join(
+        os.path.dirname(os.path.abspath('.')), 'utilities')
+    static_directory = os.path.join(os.path.abspath('.'), '_static')
     sys.path.append(utilities_directory)
 
     from generate_plots import generate_documentation_plots
@@ -63,6 +63,9 @@ extensions = [
     'sphinx.ext.intersphinx', 'sphinx.ext.mathjax', 'sphinx.ext.napoleon',
     'sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinxcontrib.bibtex'
 ]
+
+bibtex_bibfiles = ['bibliography.bib']
+bibtex_encoding = 'utf8'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
