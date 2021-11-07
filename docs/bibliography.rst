@@ -3,7 +3,6 @@ Bibliography
 
 .. bibliography:: bibliography.bib
     :all:
-    :encoding: utf8
 
 Indirect References
 -------------------

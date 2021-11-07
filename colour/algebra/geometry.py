@@ -88,7 +88,7 @@ def euclidean_distance(a, b):
     :math:`b`.
 
     For a two-dimensional space, the metric is as follows: \
-    :math:`E_D = [(x_a - x_b)^2 + (y_a - y_b)^2]^^{1/2}`
+    :math:`E_D = [(x_a - x_b)^2 + (y_a - y_b)^2]^{1/2}`
 
     Parameters
     ----------

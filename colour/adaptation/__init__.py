@@ -138,8 +138,8 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
         Chromatic adaptation transform.
     D_b : numeric, optional
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
-        Degree of adaptation :math:`D_\\Beta` of input illuminant
-        :math:`\\Beta`.
+        Degree of adaptation :math:`D_\\beta` of input illuminant
+        :math:`\\beta`.
     D_d : numeric, optional
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Degree of adaptation :math:`D_\\Delta` of output illuminant

@@ -39,9 +39,9 @@ def chromatic_adaptation_Zhai2018(XYZ_b,
                                   XYZ_wo=np.array([100, 100, 100]),
                                   chromatic_adaptation_transform='CAT02'):
     """
-    Adapts given sample colour :math:`XYZ_\\Beta` tristimulus values from input
-    viewing conditions under :math:`\\Beta` illuminant to output viewing
-    conditions under :math:`\\Delta` illuminant using *Zhai and Luo (2018)*
+    Adapts given sample colour :math:`XYZ_{\\beta}` tristimulus values from
+    input viewing conditions under :math:`\\beta` illuminant to output viewing
+    conditions under :math:`\\delta` illuminant using *Zhai and Luo (2018)*
     chromatic adaptation model.
 
     According to the definition of :math:`D`, a one-step CAT such as CAT02 can
@@ -64,17 +64,18 @@ def chromatic_adaptation_Zhai2018(XYZ_b,
     Parameters
     ----------
     XYZ_b : array_like
-        Sample colour :math:`XYZ_\\Beta` under input illuminant :math:`\\Beta`.
+        Sample colour :math:`XYZ_{\\beta}` under input illuminant
+        :math:`\\beta`.
     XYZ_wb : array_like
-        Input illuminant :math:`\\Beta`.
+        Input illuminant :math:`\\beta`.
     XYZ_wd : array_like
-        Output illuminant :math:`\\Delta`.
+        Output illuminant :math:`\\delta`.
     D_b : numeric, optional
-        Degree of adaptation :math:`D_\\Beta` of input illuminant
-        :math:`\\Beta`.
+        Degree of adaptation :math:`D_{\\beta}` of input illuminant
+        :math:`\\beta`.
     D_d : numeric, optional
-        Degree of adaptation :math:`D_\\Delta` of output illuminant
-        :math:`\\Delta`.
+        Degree of adaptation :math:`D_{\\delta}` of output illuminant
+        :math:`\\delta`.
     XYZ_wo : array_like, optional
         Baseline illuminant (:math:`BI`) :math:`o`.
     chromatic_adaptation_transform : unicode, optional
@@ -84,8 +85,8 @@ def chromatic_adaptation_Zhai2018(XYZ_b,
     Returns
     -------
     ndarray
-        Sample corresponding colour :math:`XYZ_\\Delta` tristimulus values
-        under output illuminant :math:`D_\\Delta`.
+        Sample corresponding colour :math:`XYZ_{\\delta}` tristimulus values
+        under output illuminant :math:`D_{\\delta}`.
 
     Examples
     --------
