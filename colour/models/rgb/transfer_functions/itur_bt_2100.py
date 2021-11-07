@@ -523,7 +523,7 @@ def oetf_inverse_HLG_BT2100(E_p, constants=CONSTANTS_BT2100_HLG):
 
 def black_level_lift_HLG_BT2100(L_B=0, L_W=1000, gamma=None):
     """
-    Returns the *Reference HLG* black level lift :math:`\\Beta` for given
+    Returns the *Reference HLG* black level lift :math:`\\beta` for given
     display luminance for black, nominal peak luminance and system gamma value.
 
     Parameters
@@ -540,7 +540,7 @@ def black_level_lift_HLG_BT2100(L_B=0, L_W=1000, gamma=None):
     Returns
     -------
     numeric
-        *Reference HLG* black level lift :math:`\\Beta`.
+        *Reference HLG* black level lift :math:`\\beta`.
 
     Examples
     --------

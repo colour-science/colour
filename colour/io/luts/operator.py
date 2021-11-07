@@ -164,20 +164,20 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     Attributes
     ----------
-     -   :meth:`~colour.LUTOperatorMatrix.matrix`
-     -   :meth:`~colour.LUTOperatorMatrix.offset`
+    -   :meth:`~colour.LUTOperatorMatrix.matrix`
+    -   :meth:`~colour.LUTOperatorMatrix.offset`
 
     Methods
     -------
-     -   :meth:`~colour.LUTOperatorMatrix.__str__`
-     -   :meth:`~colour.LUTOperatorMatrix.__repr__`
-     -   :meth:`~colour.LUTOperatorMatrix.__eq__`
-     -   :meth:`~colour.LUTOperatorMatrix.__ne__`
-     -   :meth:`~colour.LUTOperatorMatrix.apply`
+    -   :meth:`~colour.LUTOperatorMatrix.__str__`
+    -   :meth:`~colour.LUTOperatorMatrix.__repr__`
+    -   :meth:`~colour.LUTOperatorMatrix.__eq__`
+    -   :meth:`~colour.LUTOperatorMatrix.__ne__`
+    -   :meth:`~colour.LUTOperatorMatrix.apply`
 
     Notes
     -----
-    -    The internal :attr:`colour.io.Matrix.matrix` and
+    -   The internal :attr:`colour.io.Matrix.matrix` and
         :attr:`colour.io.Matrix.offset` attributes are reshaped to (4, 4) and
         (4, ) respectively.
 

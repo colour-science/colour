@@ -80,7 +80,7 @@ def power_function_Huang2015(d_E, coefficients='CIE 2000'):
     Improves the performance of the :math:`\\Delta E` value for given
     coefficients using
     *Huang, Cui, Melgosa, Sanchez-Maranon, Li, Luo and Liu (2015)*
-    power-function: :math:`d_E^'=a*d_E^b`.
+    power-function: :math:`d_E^{\\prime}=a*d_{E^b}`.
 
     Parameters
     ----------
