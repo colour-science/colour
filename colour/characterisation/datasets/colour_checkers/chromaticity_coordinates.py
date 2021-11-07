@@ -87,7 +87,7 @@ class ColourChecker(
     ----------
     name : unicode
         *Colour Checker* name.
-    data : OrderedDict
+    data : dict_like
         Chromaticity coordinates in *CIE xyY* colourspace.
     illuminant : array_like
         *Colour Checker* illuminant chromaticity coordinates.

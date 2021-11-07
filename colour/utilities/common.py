@@ -1049,13 +1049,13 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
 
     Returns
     -------
-    OrderedDict
+    dict
         Filtered mapping elements.
 
     Notes
     -----
     -   To honour the filterers ordering, the return value is an
-        :class:`OrderedDict` class instance.
+        :class:`dict` class instance.
 
     Examples
     --------
@@ -1091,7 +1091,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
 
         Returns
         -------
-        OrderedDict
+        dict
             Filtered mapping elements.
         """
 
