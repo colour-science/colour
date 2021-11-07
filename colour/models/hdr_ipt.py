@@ -75,7 +75,7 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         **{'Fairchild 2011', 'Fairchild 2010'}**,
         Computation method.
 
@@ -134,7 +134,7 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         **{'Fairchild 2011', 'Fairchild 2010'}**,
         Computation method.
 
@@ -214,7 +214,7 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         **{'Fairchild 2011', 'Fairchild 2010'}**,
         Computation method.
 

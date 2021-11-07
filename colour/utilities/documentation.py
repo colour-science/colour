@@ -50,8 +50,8 @@ class DocstringInt(int):
 
 class DocstringText(str):
     """
-    A :class:`unicode` sub-class that allows settings a docstring to
-    :class:`unicode` instances.
+    A :class:`str` sub-class that allows settings a docstring to
+    :class:`str` instances.
     """
 
     pass

@@ -550,7 +550,7 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
     ----------
     a : array_like, (3, n)
         :math:`a` array to expand.
-    method : unicode, optional
+    method : str, optional
         **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**,
         Computation method.
 
@@ -751,7 +751,7 @@ def matrix_colour_correction(M_T, M_R, method='Cheung 2004', **kwargs):
         Test array :math:`M_T` to fit onto array :math:`M_R`.
     M_R : array_like, (n, 3)
         Reference array the array :math:`M_T` will be colour fitted against.
-    method : unicode, optional
+    method : str, optional
         **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**,
         Computation method.
 
@@ -1033,7 +1033,7 @@ def colour_correction(RGB, M_T, M_R, method='Cheung 2004', **kwargs):
         Test array :math:`M_T` to fit onto array :math:`M_R`.
     M_R : array_like, (n, 3)
         Reference array the array :math:`M_T` will be colour fitted against.
-    method : unicode, optional
+    method : str, optional
         **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**,
         Computation method.
 

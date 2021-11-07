@@ -91,7 +91,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     XYZ_wr : array_like
         Reference viewing condition *CIE XYZ* tristimulus values of the
         whitepoint.
-    method : unicode, optional
+    method : str, optional
         **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990',
         'Zhai 2018'}**,
         Computation method.
@@ -117,7 +117,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     L_A2 : numeric or array_like
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
-    direction : unicode, optional
+    direction : str, optional
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         **{'Forward', 'Inverse'}**,
         Chromatic adaptation direction.
@@ -130,7 +130,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     discount_illuminant : bool, optional
         {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
         Truth value indicating if the illuminant should be discounted.
-    transform : unicode, optional
+    transform : str, optional
         {:func:`colour.adaptation.chromatic_adaptation_VonKries`},
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
@@ -147,7 +147,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     XYZ_wo : array_like, optional
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Baseline illuminant (:math:`BI`) :math:`o`.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         **{'CAT02', 'CAT16'}**,
         Chromatic adaptation transform.

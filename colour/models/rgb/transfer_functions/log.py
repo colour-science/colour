@@ -64,7 +64,7 @@ def logarithmic_function_basic(x, style='log2', base=2):
     ----------
     x : numeric
         The data to undergo basic logarithmic conversion.
-    style : unicode, optional
+    style : str, optional
         **{'log10', 'antiLog10', 'log2', 'antiLog2', 'logB', 'antiLogB'}**,
         Defines the behaviour for the logarithmic function to operate:
 
@@ -143,7 +143,7 @@ def logarithmic_function_quasilog(x,
     ----------
     x : numeric
         Linear/non-linear data to undergo encoding/decoding.
-    style : unicode, optional
+    style : str, optional
         **{'linToLog', 'logToLin'}**,
         Defines the behaviour for the logarithmic function to operate:
 
@@ -218,7 +218,7 @@ def logarithmic_function_camera(x,
     ----------
     x : numeric
         Linear/non-linear data to undergo encoding/decoding.
-    style : unicode, optional
+    style : str, optional
         **{'cameraLinToLog', 'cameraLogToLin'}**,
         Defines the behaviour for the logarithmic function to operate:
 

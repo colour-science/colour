@@ -296,7 +296,7 @@ def matrix_cvd_Machado2009(deficiency, severity):
 
     Parameters
     ----------
-    deficiency : unicode
+    deficiency : str
         {'Protanomaly', 'Deuteranomaly', 'Tritanomaly'}
         Colour blindness / vision deficiency types :
         - *Protanomaly* : defective long-wavelength cones (L-cones). The

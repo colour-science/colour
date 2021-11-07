@@ -73,7 +73,7 @@ def plot_single_sd(sd,
     ----------
     sd : SpectralDistribution
         Spectral distribution to plot.
-    cmfs : unicode or LMS_ConeFundamentals or \
+    cmfs : str or LMS_ConeFundamentals or \
 RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
@@ -216,13 +216,13 @@ def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
         different settings for each plotted spectral distributions.
         The following special keyword arguments can also be used:
 
-        -   *illuminant* : unicode or :class:`colour.SpectralDistribution`, the
+        -   *illuminant* : str or :class:`colour.SpectralDistribution`, the
             illuminant used to compute the spectral distributions colours. The
             default is the illuminant associated with the whitepoint of the
             default plotting colourspace. ``illuminant`` can be of any type or
             form supported by the :func:`colour.plotting.filter_cmfs`
             definition.
-        -   *cmfs* : unicode, the standard observer colour matching functions
+        -   *cmfs* : str, the standard observer colour matching functions
             used for computing the spectral distributions colours. ``cmfs`` can
             be of any type or form supported by the
             :func:`colour.plotting.filter_cmfs` definition.
@@ -355,7 +355,7 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Parameters
     ----------
-    cmfs : unicode or LMS_ConeFundamentals or \
+    cmfs : str or LMS_ConeFundamentals or \
 RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         Colour matching functions to plot. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -400,7 +400,7 @@ def plot_multi_cmfs(cmfs, **kwargs):
 
     Parameters
     ----------
-    cmfs : unicode or LMS_ConeFundamentals or \
+    cmfs : str or LMS_ConeFundamentals or \
 RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
         Colour matching functions to plot. ``cmfs`` elements can be of any
         type or form supported by the :func:`colour.plotting.filter_cmfs`
@@ -484,10 +484,10 @@ def plot_single_illuminant_sd(illuminant,
 
     Parameters
     ----------
-    illuminant : unicode or SpectralDistribution, optional
+    illuminant : str or SpectralDistribution, optional
         Illuminant to plot. ``illuminant`` can be of any type or form supported
         by the :func:`colour.plotting.filter_illuminants` definition.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -542,7 +542,7 @@ def plot_multi_illuminant_sds(illuminants, **kwargs):
 
     Parameters
     ----------
-    illuminants : unicode or SpectralDistribution or array_like
+    illuminants : str or SpectralDistribution or array_like
         Illuminants to plot. ``illuminants`` elements can be of any type or
         form supported by the :func:`colour.plotting.filter_illuminants`
         definition.
@@ -604,7 +604,7 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Parameters
     ----------
-    cmfs : unicode or LMS_ConeFundamentals or \
+    cmfs : str or LMS_ConeFundamentals or \
 RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
@@ -676,7 +676,7 @@ def plot_single_lightness_function(function, **kwargs):
 
     Parameters
     ----------
-    function : unicode or object
+    function : str or object
         *Lightness* function to plot. ``function`` can be of any type or form
         supported by the :func:`colour.plotting.filter_passthrough` definition.
 
@@ -716,7 +716,7 @@ def plot_multi_lightness_functions(functions, **kwargs):
 
     Parameters
     ----------
-    functions : unicode or object or array_like
+    functions : str or object or array_like
         *Lightness* functions to plot. ``functions`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -767,7 +767,7 @@ def plot_single_luminance_function(function, **kwargs):
 
     Parameters
     ----------
-    function : unicode or object, optional
+    function : str or object, optional
         *Luminance* function to plot.
 
     Other Parameters
@@ -806,7 +806,7 @@ def plot_multi_luminance_functions(functions, **kwargs):
 
     Parameters
     ----------
-    functions : unicode or object or array_like
+    functions : str or object or array_like
         *Luminance* functions to plot. ``functions`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -863,11 +863,11 @@ def plot_blackbody_spectral_radiance(
     ----------
     temperature : numeric, optional
         Blackbody temperature.
-    cmfs : unicode, optional
+    cmfs : str, optional
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    blackbody : unicode, optional
+    blackbody : str, optional
         Blackbody name.
 
     Other Parameters
@@ -956,7 +956,7 @@ def plot_blackbody_colours(
     ----------
     shape : SpectralShape, optional
         Spectral shape to use as plot boundaries.
-    cmfs : unicode, optional
+    cmfs : str, optional
         Standard observer colour matching functions used for computing the
         blackbody colours. ``cmfs`` can be of any type or form supported by the
         :func:`colour.plotting.filter_cmfs` definition.

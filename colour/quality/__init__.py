@@ -55,7 +55,7 @@ def colour_fidelity_index(sd_test, additional_data=False, method='CIE 2017'):
         Test spectral distribution.
     additional_data : bool, optional
         Whether to output additional data.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 2017', 'ANSI/IES TM-30-18'}**,
         Computation method.
 

@@ -195,7 +195,7 @@ class LUTSequence(MutableSequence):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -222,7 +222,7 @@ class LUTSequence(MutableSequence):
 
         Returns
         -------
-        unicode
+        str
             Evaluable string representation.
         """
 

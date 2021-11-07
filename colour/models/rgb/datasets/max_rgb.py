@@ -47,7 +47,7 @@ WHITEPOINT_NAME_MAX_RGB = 'D50'
 """
 *Max RGB* colourspace whitepoint name.
 
-WHITEPOINT_NAME_MAX_RGB : unicode
+WHITEPOINT_NAME_MAX_RGB : str
 """
 
 CCS_WHITEPOINT_MAX_RGB = (CCS_ILLUMINANTS[

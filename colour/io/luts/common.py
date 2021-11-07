@@ -26,12 +26,12 @@ def path_to_title(path):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         File path to convert to title.
 
     Returns
     -------
-    unicode
+    str
         File path converted to title.
 
     Examples

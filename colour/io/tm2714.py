@@ -50,11 +50,11 @@ class Element_Specification_IESTM2714(
 
     Parameters
     ----------
-    element : unicode
+    element : str
         Element name.
-    attribute : unicode
+    attribute : str
         Associated attribute name.
-    type_ : unicode
+    type_ : str
         Element type.
     required : bool
         Is element required.
@@ -88,32 +88,32 @@ class Header_IESTM2714:
 
     Parameters
     ----------
-    manufacturer : unicode, optional
+    manufacturer : str, optional
         Manufacturer of the device under test.
-    catalog_number : unicode, optional
+    catalog_number : str, optional
         Manufacturer's product catalog number.
-    description : unicode, optional
+    description : str, optional
         Description of the spectral data in the spectral data *XML* file.
-    document_creator : unicode, optional
+    document_creator : str, optional
         Creator of the spectral data *XML* file, which may be a
         test lab, a research group, a standard body, a company or an
         individual.
-    unique_identifier : unicode, optional
+    unique_identifier : str, optional
         Unique identifier to the product under test or the spectral data in the
         document.
-    measurement_equipment : unicode, optional
+    measurement_equipment : str, optional
         Description of the equipment used to measure the spectral data.
-    laboratory : unicode, optional
+    laboratory : str, optional
         Testing laboratory name that performed the spectral data measurements.
-    report_number : unicode, optional
+    report_number : str, optional
         Testing laboratory report number.
-    report_date : unicode, optional
+    report_date : str, optional
         Testing laboratory report date using the *XML DateTime Data Type*,
         *YYYY-MM-DDThh:mm:ss*.
-    document_creation_date : unicode, optional
+    document_creation_date : str, optional
         Spectral data *XML* file creation date using the
         *XML DateTime Data Type*, *YYYY-MM-DDThh:mm:ss*.
-    comments : unicode, optional
+    comments : str, optional
         Additional information relating to the tested and reported data.
 
     Attributes
@@ -230,12 +230,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the manufacturer with.
 
         Returns
         -------
-        unicode
+        str
             Manufacturer.
         """
 
@@ -262,12 +262,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the catalog number with.
 
         Returns
         -------
-        unicode
+        str
             Catalog number.
         """
 
@@ -294,12 +294,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the description with.
 
         Returns
         -------
-        unicode
+        str
             Description.
         """
 
@@ -326,12 +326,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the document creator with.
 
         Returns
         -------
-        unicode
+        str
             Document creator.
         """
 
@@ -358,12 +358,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the unique identifier with.
 
         Returns
         -------
-        unicode
+        str
             Unique identifier.
         """
 
@@ -390,12 +390,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the measurement equipment with.
 
         Returns
         -------
-        unicode
+        str
             Measurement equipment.
         """
 
@@ -422,12 +422,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the laboratory with.
 
         Returns
         -------
-        unicode
+        str
             Laboratory.
         """
 
@@ -454,12 +454,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the report number with.
 
         Returns
         -------
-        unicode
+        str
             Report number.
         """
 
@@ -486,12 +486,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the report date with.
 
         Returns
         -------
-        unicode
+        str
             Report date.
         """
 
@@ -518,12 +518,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the document creation date with.
 
         Returns
         -------
-        unicode
+        str
             Document creation date.
         """
 
@@ -550,12 +550,12 @@ class Header_IESTM2714:
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the comments with.
 
         Returns
         -------
-        unicode
+        str
             Comments.
         """
 
@@ -584,20 +584,20 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     Parameters
     ----------
-    path : unicode, optional
+    path : str, optional
         Spectral data *XML* file path.
     header : Header_IESTM2714, optional
         *IES TM-27-14* spectral distribution header.
-    spectral_quantity : unicode, optional
+    spectral_quantity : str, optional
         **{'flux', 'absorptance', 'transmittance', 'reflectance', 'intensity',
         'irradiance', 'radiance', 'exitance', 'R-Factor', 'T-Factor',
         'relative', 'other'}**,
         Quantity of measurement for each element of the spectral data.
-    reflection_geometry : unicode, optional
+    reflection_geometry : str, optional
         **{'di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0', '45c:0',
         '0:45a', '45x:0', '0:45x', 'other'}**,
         Spectral reflectance factors geometric conditions.
-    transmission_geometry : unicode, optional
+    transmission_geometry : str, optional
         **{'0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other'}**,
         Spectral transmittance factors geometric conditions.
     bandwidth_FWHM : numeric, optional
@@ -617,7 +617,7 @@ dict_like, optional
         If both ``data`` and ``domain`` arguments are defined, the latter will
         be used to initialise the
         :attr:`colour.SpectralDistribution.wavelength` attribute.
-    name : unicode, optional
+    name : str, optional
         Spectral distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function.
@@ -627,7 +627,7 @@ dict_like, optional
         Extrapolator class type to use as extrapolating function.
     extrapolator_kwargs : dict_like, optional
         Arguments to use when instantiating the extrapolating function.
-    strict_name : unicode, optional
+    strict_name : str, optional
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` attribute value.
 
@@ -768,12 +768,12 @@ dict_like, optional
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the path with.
 
         Returns
         -------
-        unicode
+        str
             Path.
         """
 
@@ -832,12 +832,12 @@ dict_like, optional
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the spectral quantity with.
 
         Returns
         -------
-        unicode
+        str
             Spectral quantity.
         """
 
@@ -864,12 +864,12 @@ dict_like, optional
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the reflection geometry with.
 
         Returns
         -------
-        unicode
+        str
             Reflection geometry.
         """
 
@@ -896,12 +896,12 @@ dict_like, optional
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the transmission geometry with.
 
         Returns
         -------
-        unicode
+        str
             Transmission geometry.
         """
 

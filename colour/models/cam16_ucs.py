@@ -69,7 +69,7 @@ def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_):
 
     Returns
     -------
-    unicode
+    str
         Docstring.
     """
 

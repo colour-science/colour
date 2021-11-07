@@ -92,7 +92,7 @@ def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):
     ----------
     bins : int
         Number of bins of the pulse waves.
-    pulse_order : unicode, optional
+    pulse_order : str, optional
         **{'Bins', 'Pulse Wave Width'}**,
         Method for ordering the pulse waves. *Bins* is the default order, with
         *Pulse Wave Width* ordering, instead of iterating over the pulse wave
@@ -232,7 +232,7 @@ def XYZ_outer_surface(cmfs=None,
         *CIE 1931 2 Degree Standard Observer*.
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution, default to *CIE Illuminant E*.
-    point_order : unicode, optional
+    point_order : str, optional
         **{'Bins', 'Pulse Wave Width'}**,
         Method for ordering the underlying pulse waves used to generate the
         *Rösch-MacAdam* colour solid. *Bins* is the default order, with

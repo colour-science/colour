@@ -100,7 +100,7 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
         *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace array :math:`a`.
     b : array_like
         *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace array :math:`b`.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 2000', 'CIE 1976', 'CIE 1994', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
         'CAM02-UCS', 'CAM16-LCD', 'CAM16-SCD', 'CAM16-UCS', 'DIN99'}**
         Computation method.

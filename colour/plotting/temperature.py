@@ -49,9 +49,9 @@ def plot_planckian_locus(planckian_locus_colours=None,
 
     Parameters
     ----------
-    planckian_locus_colours : array_like or unicode, optional
+    planckian_locus_colours : array_like or str, optional
         *Planckian Locus* colours.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS'}**,
         *Chromaticity Diagram* method.
 
@@ -141,7 +141,7 @@ def plot_planckian_locus_CIE1931(planckian_locus_colours=None, **kwargs):
 
     Parameters
     ----------
-    planckian_locus_colours : array_like or unicode, optional
+    planckian_locus_colours : array_like or str, optional
         *Planckian Locus* colours.
 
     Other Parameters
@@ -178,7 +178,7 @@ def plot_planckian_locus_CIE1960UCS(planckian_locus_colours=None, **kwargs):
 
     Parameters
     ----------
-    planckian_locus_colours : array_like or unicode, optional
+    planckian_locus_colours : array_like or str, optional
         *Planckian Locus* colours.
 
     Other Parameters
@@ -223,7 +223,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
 
     Parameters
     ----------
-    illuminants : unicode or object or array_like
+    illuminants : str or object or array_like
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -231,7 +231,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
         Callable responsible for drawing the *Chromaticity Diagram*.
     planckian_locus_callable : callable, optional
         Callable responsible for drawing the *Planckian Locus*.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1931', 'CIE 1960 UCS'}**,
         *Chromaticity Diagram* method.
     annotate_kwargs : dict or array_like, optional
@@ -413,7 +413,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
 
     Parameters
     ----------
-    illuminants : unicode or object or array_like
+    illuminants : str or object or array_like
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
@@ -493,7 +493,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
 
     Parameters
     ----------
-    illuminants : unicode or object or array_like
+    illuminants : str or object or array_like
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.

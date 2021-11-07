@@ -371,11 +371,11 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
 
     Parameters
     ----------
-    colourspaces : unicode or RGB_Colourspace or array_like
+    colourspaces : str or RGB_Colourspace or array_like
         *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    reference_colourspace : unicode, optional
+    reference_colourspace : str, optional
         Reference colourspace model to plot the gamuts into, see
         :attr:`colour.COLOURSPACE_MODELS` attribute for the list of supported
         colourspace models.
@@ -389,7 +389,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces,
         Whether to show the spectral locus.
     spectral_locus_colour : array_like, optional
         Spectral locus colour.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
@@ -589,15 +589,15 @@ def plot_RGB_scatter(RGB,
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode or RGB_Colourspace
+    colourspace : str or RGB_Colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    reference_colourspace : unicode, optional
+    reference_colourspace : str, optional
         Reference colourspace model to plot the gamuts into, see
         :attr:`colour.COLOURSPACE_MODELS` attribute for the list of supported
         colourspace models.
-    colourspaces : unicode or RGB_Colourspace or array_like
+    colourspaces : str or RGB_Colourspace or array_like
         *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
@@ -613,7 +613,7 @@ def plot_RGB_scatter(RGB,
         Spectral locus colour.
     points_size : numeric, optional
         Scatter points size.
-    cmfs : unicode or XYZ_ColourMatchingFunctions, optional
+    cmfs : str or XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.

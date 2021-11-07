@@ -50,7 +50,7 @@ WHITEPOINT_NAME_BT2020 = 'D65'
 """
 *ITU-R BT.2020* colourspace whitepoint name.
 
-WHITEPOINT_NAME_BT2020 : unicode
+WHITEPOINT_NAME_BT2020 : str
 """
 
 CCS_WHITEPOINT_BT2020 = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']

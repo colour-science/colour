@@ -98,7 +98,7 @@ def index_stress(d_E, d_V, method='Garcia 2007'):
         Computed colour difference array :math:`\\Delta E`.
     d_V : array_like
         Computed colour difference array :math:`\\Delta V`.
-    method : unicode, optional
+    method : str, optional
         **{'Garcia 2007'}**,
         Computation method.
 

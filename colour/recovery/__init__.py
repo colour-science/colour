@@ -80,7 +80,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     XYZ : array_like
         *CIE XYZ* tristimulus values to recover the spectral distribution
         from.
-    method : unicode, optional
+    method : str, optional
         **{'Meng 2015', 'Jakob 2019', 'Mallett 2019', 'Otsu 2018',
         'Smits 1999'}**
         Computation method.

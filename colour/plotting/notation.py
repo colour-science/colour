@@ -34,7 +34,7 @@ def plot_single_munsell_value_function(function, **kwargs):
 
     Parameters
     ----------
-    function : unicode or object
+    function : str or object
         *Munsell* value function to plot. ``function`` can be of any type or
         form supported by the :func:`colour.plotting.filter_passthrough`
         definition.
@@ -75,7 +75,7 @@ def plot_multi_munsell_value_functions(functions, **kwargs):
 
     Parameters
     ----------
-    functions : unicode or object or array_like
+    functions : str or object or array_like
         *Munsell* value functions to plot. ``functions`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.

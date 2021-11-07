@@ -45,7 +45,7 @@ class AbstractContinuousFunction(ABC):
 
     Parameters
     ----------
-    name : unicode, optional
+    name : str, optional
         Continuous function name.
 
     Attributes
@@ -102,12 +102,12 @@ arithmetical_operation`
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the abstract continuous function name with.
 
         Returns
         -------
-        unicode
+        str
             Abstract continuous function name.
         """
 
@@ -122,8 +122,8 @@ arithmetical_operation`
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" attribute: "{1}" type is not "str" or "unicode"!'
-                .format('name', value))
+                '"{0}" attribute: "{1}" type is not "str" or "str"!'.format(
+                    'name', value))
 
             self._name = value
 
@@ -375,7 +375,7 @@ arithmetical_operation`
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -389,7 +389,7 @@ arithmetical_operation`
 
         Returns
         -------
-        unicode
+        str
             Evaluable string representation.
         """
 
@@ -723,7 +723,7 @@ arithmetical_operation`
 
         Parameters
         ----------
-        method : unicode, optional
+        method : str, optional
             **{'Interpolation', 'Constant'}**,
             *Interpolation* method linearly interpolates through the NaNs,
             *Constant* method replaces NaNs with ``default``.

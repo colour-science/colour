@@ -85,7 +85,7 @@ class ColourChecker(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         *Colour Checker* name.
     data : dict_like
         Chromaticity coordinates in *CIE xyY* colourspace.

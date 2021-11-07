@@ -54,7 +54,7 @@ WHITEPOINT_NAME_CIE_RGB = 'E'
 """
 *CIE RGB* colourspace whitepoint name.
 
-WHITEPOINT_NAME_CIE_RGB : unicode
+WHITEPOINT_NAME_CIE_RGB : str
 """
 
 CCS_WHITEPOINT_CIE_RGB = (CCS_ILLUMINANTS[

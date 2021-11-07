@@ -50,7 +50,7 @@ WHITEPOINT_NAME_BT709 = 'D65'
 """
 *ITU-R BT.709* colourspace whitepoint name.
 
-WHITEPOINT_NAME_BT709 : unicode
+WHITEPOINT_NAME_BT709 : str
 """
 
 CCS_WHITEPOINT_BT709 = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][

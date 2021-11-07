@@ -1856,7 +1856,7 @@ def table_interpolation(V_xyz, table, method='Trilinear'):
         :math:`V_{xyz}` values to interpolate.
     table : array_like
         4-Dimensional (NxNxNx3) interpolation table.
-    method : unicode, optional
+    method : str, optional
         **{'Trilinear', 'Tetrahedral'}**,
         Interpolation method.
 

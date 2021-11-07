@@ -44,12 +44,12 @@ class AbstractLUT(ABC):
     ----------
     table : array_like, optional
         Underlying *LUT* table.
-    name : unicode, optional
+    name : str, optional
         *LUT* name.
     dimensions : int, optional
         *LUT* dimensions, typically, 1 for a 1D *LUT*, 2 for a 3x1D *LUT* and 3
         for a 3D *LUT*.
-    domain : unicode, optional
+    domain : str, optional
         *LUT* domain, also used to define the instantiation time default table
         domain.
     size : int, optional
@@ -122,12 +122,12 @@ class AbstractLUT(ABC):
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the the underlying *LUT* table with.
 
         Returns
         -------
-        unicode
+        str
             Underlying *LUT* table.
         """
 
@@ -150,12 +150,12 @@ class AbstractLUT(ABC):
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the *LUT* name with.
 
         Returns
         -------
-        unicode
+        str
             *LUT* name.
         """
 
@@ -170,8 +170,8 @@ class AbstractLUT(ABC):
         if value is not None:
             attest(
                 is_string(value),
-                ('"{0}" attribute: "{1}" type is not "str" or "unicode"!'
-                 ).format('name', value))
+                ('"{0}" attribute: "{1}" type is not "str" or "str"!').format(
+                    'name', value))
 
             self._name = value
 
@@ -182,12 +182,12 @@ class AbstractLUT(ABC):
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the *LUT* domain with.
 
         Returns
         -------
-        unicode
+        str
             *LUT* domain.
         """
 
@@ -210,7 +210,7 @@ class AbstractLUT(ABC):
 
         Returns
         -------
-        unicode
+        str
             *LUT* dimensions.
         """
 
@@ -223,7 +223,7 @@ class AbstractLUT(ABC):
 
         Returns
         -------
-        unicode
+        str
             *LUT* size.
         """
 
@@ -236,12 +236,12 @@ class AbstractLUT(ABC):
 
         Parameters
         ----------
-        value : unicode
+        value : str
             Value to set the *LUT* comments with.
 
         Returns
         -------
-        unicode
+        str
             *LUT* comments.
         """
 
@@ -267,7 +267,7 @@ class AbstractLUT(ABC):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -300,7 +300,7 @@ class AbstractLUT(ABC):
 
         Returns
         -------
-        unicode
+        str
             Evaluable string representation.
         """
 
@@ -722,7 +722,7 @@ class AbstractLUT(ABC):
         interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating or calling the interpolating
             function.
-        direction : unicode, optional
+        direction : str, optional
             **{'Forward', 'Inverse'}**,
             Whether the *LUT* should be applied in the forward or inverse
             direction.
@@ -792,9 +792,9 @@ class LUT1D(AbstractLUT):
     ----------
     table : array_like, optional
         Underlying *LUT* table.
-    name : unicode, optional
+    name : str, optional
         *LUT* name.
-    domain : unicode, optional
+    domain : str, optional
         *LUT* domain, also used to define the instantiation time default table
         domain.
     size : int, optional
@@ -1040,7 +1040,7 @@ class LUT1D(AbstractLUT):
             Interpolator class type to use as interpolating function.
         interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
-        direction : unicode, optional
+        direction : str, optional
             **{'Forward', 'Inverse'}**,
             Whether the *LUT* should be applied in the forward or inverse
             direction.
@@ -1173,9 +1173,9 @@ class LUT3x1D(AbstractLUT):
     ----------
     table : array_like, optional
         Underlying *LUT* table.
-    name : unicode, optional
+    name : str, optional
         *LUT* name.
-    domain : unicode, optional
+    domain : str, optional
         *LUT* domain, also used to define the instantiation time default table
         domain.
     size : int, optional
@@ -1512,7 +1512,7 @@ class LUT3x1D(AbstractLUT):
             Interpolator class type to use as interpolating function.
         interpolator_kwargs : dict_like, optional
             Arguments to use when instantiating the interpolating function.
-        direction : unicode, optional
+        direction : str, optional
             **{'Forward', 'Inverse'}**,
             Whether the *LUT* should be applied in the forward or inverse
             direction.
@@ -1674,9 +1674,9 @@ class LUT3D(AbstractLUT):
     ----------
     table : array_like, optional
         Underlying *LUT* table.
-    name : unicode, optional
+    name : str, optional
         *LUT* name.
-    domain : unicode, optional
+    domain : str, optional
         *LUT* domain, also used to define the instantiation time default table
         domain.
     size : int, optional
@@ -2113,7 +2113,7 @@ class LUT3D(AbstractLUT):
             Interpolator object to use as interpolating function.
         interpolator_kwargs : dict_like, optional
             Arguments to use when calling the interpolating function.
-        direction : unicode, optional
+        direction : str, optional
             **{'Forward', 'Inverse'}**,
             Whether the *LUT* should be applied in the forward or inverse
             direction.

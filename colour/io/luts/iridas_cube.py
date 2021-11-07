@@ -38,7 +38,7 @@ def read_LUT_IridasCube(path):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         *LUT* path.
 
     Returns
@@ -161,7 +161,7 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     LUT : LUT3x1D or LUT3d or LUTSequence
         :class:`LUT3x1D`, :class:`LUT3D` or :class:`LUTSequence` class instance
         to write at given path.
-    path : unicode
+    path : str
         *LUT* path.
     decimals : int, optional
         Formatting decimals.

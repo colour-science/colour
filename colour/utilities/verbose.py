@@ -63,11 +63,11 @@ def message_box(message, width=79, padding=3, print_callable=print):
 
     Parameters
     ----------
-    message : unicode
+    message : str
         Message to print.
     width : int, optional
         Message box width.
-    padding : unicode, optional
+    padding : str, optional
         Padding on each sides of the message.
     print_callable : callable, optional
         Callable used to print the message box.
@@ -155,18 +155,18 @@ def show_warning(message,
 
     Parameters
     ----------
-    message : unicode
+    message : str
         Warning message.
     category : Warning
         :class:`Warning` sub-class.
-    path : unicode
+    path : str
         File path to read the line at ``lineno`` from if ``line`` is None.
     line : int
         Line number to read the line at in ``filename`` if ``line`` is None.
     file_ : file, optional
         :class:`file` object to write the warning to, defaults to
         :attr:`sys.stderr` attribute.
-    code : unicode, optional
+    code : str, optional
         Source code to be included in the warning message.
     frame_range : array_like, optional
         Traceback frame range, i.e first frame and numbers of frame above it.
@@ -315,16 +315,16 @@ def filter_warnings(colour_runtime_warnings=None,
 
     Parameters
     ----------
-    colour_runtime_warnings : bool or unicode, optional
+    colour_runtime_warnings : bool or str, optional
         Whether to filter *Colour* runtime warnings according to the action
         value.
-    colour_usage_warnings : bool or unicode, optional
+    colour_usage_warnings : bool or str, optional
         Whether to filter *Colour* usage warnings according to the action
         value.
-    colour_warnings : bool or unicode, optional
+    colour_warnings : bool or str, optional
         Whether to filter *Colour* warnings, this also filters *Colour* usage
         and runtime warnings according to the action value.
-    python_warnings : bool or unicode, optional
+    python_warnings : bool or str, optional
         Whether to filter *Python* warnings  according to the action value.
 
     Examples
@@ -403,16 +403,16 @@ def suppress_warnings(colour_runtime_warnings=None,
 
     Parameters
     ----------
-    colour_runtime_warnings : bool or unicode, optional
+    colour_runtime_warnings : bool or str, optional
         Whether to filter *Colour* runtime warnings according to the action
         value.
-    colour_usage_warnings : bool or unicode, optional
+    colour_usage_warnings : bool or str, optional
         Whether to filter *Colour* usage warnings according to the action
         value.
-    colour_warnings : bool or unicode, optional
+    colour_warnings : bool or str, optional
         Whether to filter *Colour* warnings, this also filters *Colour* usage
         and runtime warnings according to the action value.
-    python_warnings : bool or unicode, optional
+    python_warnings : bool or str, optional
         Whether to filter *Python* warnings  according to the action value.
     """
 
@@ -512,7 +512,7 @@ def describe_environment(runtime_packages=True,
 
     Other Parameters
     ----------------
-    padding : unicode, optional
+    padding : str, optional
         {:func:`colour.utilities.message_box`},
         Padding on each sides of the message.
     print_callable : callable, optional

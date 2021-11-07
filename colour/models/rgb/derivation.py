@@ -133,7 +133,7 @@ def chromatically_adapted_primaries(primaries,
         Test illuminant / whitepoint :math:`xy` chromaticity coordinates.
     whitepoint_r : array_like
         Reference illuminant / whitepoint :math:`xy` chromaticity coordinates.
-    chromatic_adaptation_transform : unicode, optional
+    chromatic_adaptation_transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
@@ -225,7 +225,7 @@ def RGB_luminance_equation(primaries, whitepoint):
 
     Returns
     -------
-    unicode
+    str
         *Luminance* equation.
 
     Examples

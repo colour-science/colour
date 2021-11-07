@@ -55,7 +55,7 @@ dict_like, optional
 
     Other Parameters
     ----------------
-    name : unicode, optional
+    name : str, optional
         multi-continuous signals name.
     dtype : type, optional
         **{np.float16, np.float32, np.float64, np.float128}**,
@@ -608,7 +608,7 @@ or dict_like
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
 
         Examples
@@ -641,7 +641,7 @@ or dict_like
 
         Returns
         -------
-        unicode
+        str
             Evaluable string representation.
 
         Examples
@@ -1199,7 +1199,7 @@ dict_like, optional
 
         Other Parameters
         ----------------
-        name : unicode, optional
+        name : str, optional
             multi-continuous signals name.
         interpolator : object, optional
             Interpolator class type to use as interpolating function for the
@@ -1475,7 +1475,7 @@ dict_like, optional
 
         Parameters
         ----------
-        method : unicode, optional
+        method : str, optional
             **{'Interpolation', 'Constant'}**,
             *Interpolation* method linearly interpolates through the NaNs,
             *Constant* method replaces NaNs with ``default``.

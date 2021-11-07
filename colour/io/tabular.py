@@ -54,7 +54,7 @@ def read_spectral_data_from_csv_file(path, **kwargs):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         *CSV* file path.
 
     Other Parameters
@@ -146,7 +146,7 @@ def read_sds_from_csv_file(path, **kwargs):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         *CSV* file path.
 
     Other Parameters
@@ -280,7 +280,7 @@ def write_sds_to_csv_file(sds, path):
     ----------
     sds : dict
         Spectral distributions to write.
-    path : unicode
+    path : str
         *CSV* file path.
 
     Returns

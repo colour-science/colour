@@ -181,7 +181,7 @@ class Dataset_Otsu2018:
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -247,7 +247,7 @@ class Dataset_Otsu2018:
 
         Parameters
         ----------
-        path : unicode
+        path : str
             Path to the file.
 
         Examples
@@ -283,7 +283,7 @@ class Dataset_Otsu2018:
 
         Parameters
         ----------
-        path : unicode
+        path : str
             Path to the file.
 
         Examples
@@ -476,7 +476,7 @@ class PartitionAxis(namedtuple('PartitionAxis', ('origin', 'direction'))):
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -635,7 +635,7 @@ class Data_Otsu2018:
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 

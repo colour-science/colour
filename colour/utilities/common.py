@@ -113,7 +113,7 @@ class CacheRegistry:
 
         Returns
         -------
-        unicode
+        str
             Formatted string representation.
         """
 
@@ -128,7 +128,7 @@ class CacheRegistry:
 
         Parameters
         ----------
-        name : unicode
+        name : str
             Cache name for the registry.
 
         Returns
@@ -160,7 +160,7 @@ class CacheRegistry:
 
         Parameters
         ----------
-        name : unicode
+        name : str
             Cache name in the registry.
 
         Notes
@@ -194,7 +194,7 @@ class CacheRegistry:
 
         Parameters
         ----------
-        name : unicode
+        name : str
             Cache name in the registry.
 
         Examples
@@ -340,7 +340,7 @@ def attest(condition, message=str()):
     ----------
     condition : bool
         Condition to attest/assert.
-    message : unicode, optional
+    message : str, optional
         Message to display when the assertion fails.
     """
 
@@ -1039,7 +1039,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     ----------
     mapping : dict_like
         Mapping to filter.
-    filterers : unicode or object or array_like
+    filterers : str or object or array_like
         Filterer pattern for given mapping elements or a list of filterers.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
@@ -1081,7 +1081,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
         ----------
         mapping : dict_like
             Mapping to filter.
-        filterer : unicode or object
+        filterer : str or object
             Filterer pattern for given mapping elements.
         anchors : bool, optional
             Whether to use Regex line anchors, i.e. *^* and *$* are added,
@@ -1155,7 +1155,7 @@ _DOMAIN_RANGE_SCALE = 'reference'
 """
 Global variable storing the current *Colour* domain-range scale.
 
-_DOMAIN_RANGE_SCALE : unicode
+_DOMAIN_RANGE_SCALE : str
 """
 
 
@@ -1174,7 +1174,7 @@ def get_domain_range_scale():
 
     Returns
     -------
-    unicode
+    str
         *Colour* domain-range scale.
     """
 
@@ -1196,7 +1196,7 @@ def set_domain_range_scale(scale='Reference'):
 
     Parameters
     ----------
-    scale : unicode or int
+    scale : str or int
         **{'Reference', '1'}**,
         *Colour* domain-range scale to set.
     """
@@ -1225,7 +1225,7 @@ class domain_range_scale:
 
     Parameters
     ----------
-    scale : unicode
+    scale : str
         **{'Reference', '1'}**,
         *Colour* domain-range scale to set.
 
@@ -1923,7 +1923,7 @@ def copy_definition(definition, name=None):
     ----------
     definition : callable
         Definition to be copied.
-    name : unicode, optional
+    name : str, optional
         Optional definition copy name.
 
     Returns
@@ -1950,16 +1950,16 @@ def validate_method(method,
 
     Parameters
     ----------
-    method : unicode
+    method : str
         Method to validate.
     valid_methods : array_like
         Valid methods.
-    message : unicode, optional
+    message : str, optional
         Message for the exception.
 
     Returns
     -------
-    unicode
+    str
         Method lower cased.
 
     Examples

@@ -76,7 +76,7 @@ class CorrespondingColourDataset(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Corresponding colour dataset name.
     XYZ_r : array_like
         *CIE XYZ* tristimulus values of the reference illuminant.
@@ -119,7 +119,7 @@ class CorrespondingChromaticitiesPrediction(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Test colour name.
     uv_t : array_like, (2,)
         Chromaticity coordinates :math:`uv_t^p` of test colour.
@@ -440,7 +440,7 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Breneman (1987)* experiment number or
         :class:`colour.CorrespondingColourDataset` class instance.
-    transform : unicode, optional
+    transform : str, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
         'Bianco 2010', 'Bianco PC 2010'}**,
@@ -535,13 +535,13 @@ def corresponding_chromaticities_prediction(experiment=1,
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Breneman (1987)* experiment number or
         :class:`colour.CorrespondingColourDataset` class instance.
-    model : unicode, optional
+    model : str, optional
         **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}**,
         Chromatic adaptation model.
 
     Other Parameters
     ----------------
-    transform : unicode, optional
+    transform : str, optional
         {:func:`colour.corresponding.\
 corresponding_chromaticities_prediction_VonKries`},
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',

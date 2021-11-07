@@ -36,7 +36,7 @@ class ColourQuality_Specification_ANSIIESTM3018(
 
     Parameters
     ----------
-    name : unicode
+    name : str
         Name of the test spectral distribution.
     sd_test : SpectralDistribution
         Spectral distribution of the tested illuminant.

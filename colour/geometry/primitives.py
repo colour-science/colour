@@ -73,7 +73,7 @@ def primitive_grid(width=1,
         Grid segments count along the width.
     height_segments : float, optional
         Grid segments count along the height.
-    axis : unicode, optional
+    axis : str, optional
         **{'+z', '-x', '+x', '-y', '+y', '-z',
         'xy', 'xz', 'yz', 'yx', 'zx', 'zy'}**,
         Axis the primitive will be normal to, or plane the primitive will be
@@ -378,7 +378,7 @@ def primitive(method='Cube', **kwargs):
 
     Parameters
     ----------
-    method : unicode, optional
+    method : str, optional
         **{'Cube', 'Grid'}**,
         Generation method.
 

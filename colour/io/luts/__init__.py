@@ -78,9 +78,9 @@ def read_LUT(path, method=None, **kwargs):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         *LUT* path.
-    method : unicode, optional
+    method : str, optional
         **{None, 'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
         'Sony SPI3D', 'Sony SPImtx'}**,
         Reading method, if *None*, the method will be auto-detected according
@@ -208,11 +208,11 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
     LUT : LUT1D or LUT3x1D or LUT3D or LUTOperatorMatrix
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or :class:`Matrix`
         class instance to write at given path.
-    path : unicode
+    path : str
         *LUT* path.
     decimals : int, optional
         Formatting decimals.
-    method : unicode, optional
+    method : str, optional
         **{None, 'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
         'Sony SPI3D', 'Sony SPImtx'}**,
         Writing method, if *None*, the method will be auto-detected according

@@ -116,9 +116,9 @@ def handle_spectral_arguments(
     illuminant : SpectralDistribution, optional
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    cmfs_default : unicode, optional
+    cmfs_default : str, optional
         The default colour matching functions to use if ``cmfs`` is not given.
-    illuminant_default : unicode , optional
+    illuminant_default : str , optional
         The default illuminant to use if ``illuminant`` is not given.
     shape_default : SpectralShape , optional
         The default spectral shape to align the final colour matching functions
@@ -173,7 +173,7 @@ def lagrange_coefficients_ASTME2022(interval=10, interval_type='inner'):
     ----------
     interval : int
         Interval size in nm.
-    interval_type : unicode, optional
+    interval_type : str, optional
         **{'inner', 'boundary'}**,
         If the interval is an *inner* interval *Lagrange Coefficients* are
         computed for degree 4. Degree 3 is used for a *boundary* interval.
@@ -948,7 +948,7 @@ def sd_to_XYZ(sd,
         683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
         be the spectral concentration of the radiometric quantity corresponding
         to the photometric quantity required.
-    method : unicode, optional
+    method : str, optional
         **{'ASTM E308', 'Integration'}**,
         Computation method.
 
@@ -1413,7 +1413,7 @@ def msds_to_XYZ(msds,
         683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
         be the spectral concentration of the radiometric quantity corresponding
         to the photometric quantity required.
-    method : unicode, optional
+    method : str, optional
         **{'ASTM E308', 'Integration'}**,
         Computation method.
 

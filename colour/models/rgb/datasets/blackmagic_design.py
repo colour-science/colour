@@ -55,7 +55,7 @@ Notes
 -   *Blackmagic Wide Gamut* colourspace whitepoint is an uncommonly rounded
     *D65* variant at 7 decimals: [0.3127170, 0.3290312]
 
-WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT : unicode
+WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT : str
 """
 
 CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT = (

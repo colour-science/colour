@@ -363,7 +363,7 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
         *luminance* :math:`Y`.
     epsilon : numeric or array_like, optional
         :math:`\\epsilon` exponent.
-    method : unicode, optional
+    method : str, optional
         **{'hdr-CIELAB', 'hdr-IPT'}**,
         *Lightness* :math:`L_{hdr}` computation method.
 
@@ -426,7 +426,7 @@ def lightness_Abebe2017(Y, Y_n=100, method='Michaelis-Menten'):
         *luminance* :math:`Y` in :math:`cd/m^2`.
     Y_n : numeric or array_like, optional
         Adapting luminance :math:`Y_n` in :math:`cd/m^2`.
-    method : unicode, optional
+    method : str, optional
         **{'Michaelis-Menten', 'Stevens'}**,
         *Lightness* :math:`L` computation method.
 
@@ -529,7 +529,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    method : unicode, optional
+    method : str, optional
         **{'CIE 1976', 'Glasser 1958', 'Wyszecki 1963', 'Fairchild 2010',
         'Fairchild 2011', 'Abebe 2017'}**,
         Computation method.

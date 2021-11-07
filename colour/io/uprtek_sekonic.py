@@ -36,7 +36,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         Path for *UPRTek* *Pseudo-XLS* file.
 
     Attributes
@@ -141,7 +141,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
         Returns
         -------
-        unicode
+        str
             Metadata.
         """
 
@@ -268,7 +268,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
     Parameters
     ----------
-    path : unicode
+    path : str
         Path for *Sekonic* *CSV* file.
 
     Attributes

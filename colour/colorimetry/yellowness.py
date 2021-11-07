@@ -284,7 +284,7 @@ def yellowness(XYZ, method='ASTM E313', **kwargs):
     ----------
     XYZ : array_like
         *CIE XYZ* tristimulus values of sample.
-    method : unicode, optional
+    method : str, optional
         **{'ASTM E313', 'ASTM D1925', 'ASTM E313 Alternative'}**,
         Computation method.
 
