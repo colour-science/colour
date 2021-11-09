@@ -117,20 +117,45 @@ MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
 import numpy as np
 import re
 
-from colour.algebra import (Extrapolator, LinearInterpolator,
-                            cartesian_to_cylindrical, euclidean_distance,
-                            polar_to_cartesian, spow)
+from colour.algebra import (
+    Extrapolator,
+    LinearInterpolator,
+    cartesian_to_cylindrical,
+    euclidean_distance,
+    polar_to_cartesian,
+    spow,
+)
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
-from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE,
-                              INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
+from colour.constants import (
+    DEFAULT_FLOAT_DTYPE,
+    DEFAULT_INT_DTYPE,
+    INTEGER_THRESHOLD,
+    FLOATING_POINT_NUMBER_PATTERN,
+)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (
-    CaseInsensitiveMapping, Lookup, as_float_array, as_float, as_int,
-    as_numeric, attest, domain_range_scale, from_range_1, from_range_10,
-    get_domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
-    is_integer, is_numeric, tsplit, usage_warning, validate_method)
+    CaseInsensitiveMapping,
+    Lookup,
+    as_float_array,
+    as_float,
+    as_int,
+    as_numeric,
+    attest,
+    domain_range_scale,
+    from_range_1,
+    from_range_10,
+    get_domain_range_scale,
+    to_domain_1,
+    to_domain_10,
+    to_domain_100,
+    is_integer,
+    is_numeric,
+    tsplit,
+    usage_warning,
+    validate_method,
+)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

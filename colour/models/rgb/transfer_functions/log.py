@@ -38,8 +38,13 @@ ACESutil.Log2_to_Lin_param.ctl
 
 import numpy as np
 
-from colour.utilities import (as_float, as_float_array, from_range_1,
-                              to_domain_1, validate_method)
+from colour.utilities import (
+    as_float,
+    as_float_array,
+    from_range_1,
+    to_domain_1,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

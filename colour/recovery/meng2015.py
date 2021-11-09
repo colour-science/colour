@@ -18,9 +18,13 @@ References
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import (SpectralDistribution, SpectralShape,
-                                handle_spectral_arguments, sd_ones,
-                                sd_to_XYZ_integration)
+from colour.colorimetry import (
+    SpectralDistribution,
+    SpectralShape,
+    handle_spectral_arguments,
+    sd_ones,
+    sd_to_XYZ_integration,
+)
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = 'Colour Developers'

@@ -15,8 +15,12 @@ import numpy as np
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.utilities import (as_float_array, as_int_array, attest,
-                              usage_warning)
+from colour.utilities import (
+    as_float_array,
+    as_int_array,
+    attest,
+    usage_warning,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

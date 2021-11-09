@@ -22,8 +22,13 @@ R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (Structure, as_float, domain_range_scale,
-                              from_range_1, to_domain_1)
+from colour.utilities import (
+    Structure,
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

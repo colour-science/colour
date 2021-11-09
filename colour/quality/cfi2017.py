@@ -21,8 +21,16 @@ from collections import namedtuple
 from colour.algebra import Extrapolator, euclidean_distance, linstep_function
 from colour.appearance import XYZ_to_CIECAM02, VIEWING_CONDITIONS_CIECAM02
 from colour.colorimetry import (
-    MSDS_CMFS, MultiSpectralDistributions, SpectralShape, SpectralDistribution,
-    sd_to_XYZ, sd_blackbody, reshape_msds, sd_ones, sd_CIE_illuminant_D_series)
+    MSDS_CMFS,
+    MultiSpectralDistributions,
+    SpectralShape,
+    SpectralDistribution,
+    sd_to_XYZ,
+    sd_blackbody,
+    reshape_msds,
+    sd_ones,
+    sd_CIE_illuminant_D_series,
+)
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
 from colour.utilities import CACHE_REGISTRY, as_int, attest, usage_warning

@@ -4,12 +4,15 @@ Showcases *CIE* chromaticity diagrams plotting examples.
 """
 
 from colour import SDS_ILLUMINANTS
-from colour.plotting import (colour_style, plot_chromaticity_diagram_CIE1931,
-                             plot_chromaticity_diagram_CIE1960UCS,
-                             plot_chromaticity_diagram_CIE1976UCS,
-                             plot_sds_in_chromaticity_diagram_CIE1931,
-                             plot_sds_in_chromaticity_diagram_CIE1960UCS,
-                             plot_sds_in_chromaticity_diagram_CIE1976UCS)
+from colour.plotting import (
+    colour_style,
+    plot_chromaticity_diagram_CIE1931,
+    plot_chromaticity_diagram_CIE1960UCS,
+    plot_chromaticity_diagram_CIE1976UCS,
+    plot_sds_in_chromaticity_diagram_CIE1931,
+    plot_sds_in_chromaticity_diagram_CIE1960UCS,
+    plot_sds_in_chromaticity_diagram_CIE1976UCS,
+)
 from colour.utilities import message_box
 
 message_box('"CIE" Chromaticity Diagrams Plots')

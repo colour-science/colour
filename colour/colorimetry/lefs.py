@@ -12,8 +12,12 @@ References
     http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
-from colour.colorimetry import (SDS_LEFS_PHOTOPIC, SDS_LEFS_SCOTOPIC,
-                                SpectralDistribution, SpectralShape)
+from colour.colorimetry import (
+    SDS_LEFS_PHOTOPIC,
+    SDS_LEFS_SCOTOPIC,
+    SpectralDistribution,
+    SpectralShape,
+)
 from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
 from colour.utilities import closest, validate_method
 

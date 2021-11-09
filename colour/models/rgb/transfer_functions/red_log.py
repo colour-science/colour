@@ -37,11 +37,18 @@ nuke-default/make.py
 
 import numpy as np
 
-from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
-                                                  log_decoding_Cineon)
+from colour.models.rgb.transfer_functions import (
+    log_encoding_Cineon,
+    log_decoding_Cineon,
+)
 
-from colour.utilities import (CaseInsensitiveMapping, from_range_1,
-                              to_domain_1, as_numeric, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    from_range_1,
+    to_domain_1,
+    as_numeric,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

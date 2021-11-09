@@ -49,28 +49,60 @@ from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
 from colour.constants import EPSILON
-from colour.algebra import (point_at_angle_on_ellipse,
-                            ellipse_coefficients_canonical_form,
-                            ellipse_fitting)
+from colour.algebra import (
+    point_at_angle_on_ellipse,
+    ellipse_coefficients_canonical_form,
+    ellipse_fitting,
+)
 from colour.graph import convert
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS,
-    COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE, CCTF_ENCODINGS,
-    CCTF_DECODINGS, LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
-    DATA_MACADAM_1942_ELLIPSES, CCS_POINTER_GAMUT_BOUNDARY,
-    DATA_POINTER_GAMUT_VOLUME, CCS_ILLUMINANT_POINTER_GAMUT, RGB_to_RGB,
-    RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv, XYZ_to_RGB, XYZ_to_UCS, XYZ_to_xy,
-    xy_to_Luv_uv, xy_to_UCS_uv)
+    COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
+    CCTF_ENCODINGS,
+    CCTF_DECODINGS,
+    LCHab_to_Lab,
+    Lab_to_XYZ,
+    Luv_to_uv,
+    DATA_MACADAM_1942_ELLIPSES,
+    CCS_POINTER_GAMUT_BOUNDARY,
+    DATA_POINTER_GAMUT_VOLUME,
+    CCS_ILLUMINANT_POINTER_GAMUT,
+    RGB_to_RGB,
+    RGB_to_XYZ,
+    UCS_to_uv,
+    XYZ_to_Luv,
+    XYZ_to_RGB,
+    XYZ_to_UCS,
+    XYZ_to_xy,
+    xy_to_Luv_uv,
+    xy_to_UCS_uv,
+)
 from colour.plotting import (
-    CONSTANTS_COLOUR_STYLE, plot_chromaticity_diagram_CIE1931, artist,
-    plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
-    colour_cycle, colour_style, filter_passthrough, filter_RGB_colourspaces,
-    filter_cmfs, plot_multi_functions, override_style, render,
-    update_settings_collection)
+    CONSTANTS_COLOUR_STYLE,
+    plot_chromaticity_diagram_CIE1931,
+    artist,
+    plot_chromaticity_diagram_CIE1960UCS,
+    plot_chromaticity_diagram_CIE1976UCS,
+    colour_cycle,
+    colour_style,
+    filter_passthrough,
+    filter_RGB_colourspaces,
+    filter_cmfs,
+    plot_multi_functions,
+    override_style,
+    render,
+    update_settings_collection,
+)
 from colour.plotting.diagrams import plot_chromaticity_diagram
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              as_int_array, domain_range_scale, first_item,
-                              tsplit, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    as_int_array,
+    domain_range_scale,
+    first_item,
+    tsplit,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

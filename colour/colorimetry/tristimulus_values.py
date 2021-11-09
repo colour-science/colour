@@ -39,13 +39,25 @@ import numpy as np
 
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (
-    SPECTRAL_SHAPE_DEFAULT, MultiSpectralDistributions, SpectralDistribution,
-    SpectralShape, reshape_msds, reshape_sd)
+    SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    SpectralShape,
+    reshape_msds,
+    reshape_sd,
+)
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (CACHE_REGISTRY, CaseInsensitiveMapping,
-                              as_float_array, attest, filter_kwargs,
-                              from_range_100, get_domain_range_scale,
-                              runtime_warning, validate_method)
+from colour.utilities import (
+    CACHE_REGISTRY,
+    CaseInsensitiveMapping,
+    as_float_array,
+    attest,
+    filter_kwargs,
+    from_range_100,
+    get_domain_range_scale,
+    runtime_warning,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

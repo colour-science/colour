@@ -8,8 +8,13 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    log_encoding_CanonLog, log_decoding_CanonLog, log_encoding_CanonLog2,
-    log_decoding_CanonLog2, log_encoding_CanonLog3, log_decoding_CanonLog3)
+    log_encoding_CanonLog,
+    log_decoding_CanonLog,
+    log_encoding_CanonLog2,
+    log_decoding_CanonLog2,
+    log_encoding_CanonLog3,
+    log_decoding_CanonLog3,
+)
 
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

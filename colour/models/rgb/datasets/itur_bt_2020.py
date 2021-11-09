@@ -20,8 +20,12 @@ R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
-                               eotf_inverse_BT2020, eotf_BT2020)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    normalised_primary_matrix,
+    eotf_inverse_BT2020,
+    eotf_BT2020,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

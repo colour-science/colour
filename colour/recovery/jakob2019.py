@@ -25,13 +25,24 @@ from scipy.interpolate import RegularGridInterpolator
 
 from colour.algebra import smoothstep_function, spow
 from colour.colorimetry import (
-    SpectralDistribution, SpectralShape, handle_spectral_arguments,
-    intermediate_lightness_function_CIE1976, sd_to_XYZ_integration)
+    SpectralDistribution,
+    SpectralShape,
+    handle_spectral_arguments,
+    intermediate_lightness_function_CIE1976,
+    sd_to_XYZ_integration,
+)
 from colour.difference import JND_CIE1976
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
-from colour.utilities import (as_float_array, domain_range_scale, full,
-                              index_along_last_axis, is_tqdm_installed,
-                              message_box, to_domain_1, zeros)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    full,
+    index_along_last_axis,
+    is_tqdm_installed,
+    message_box,
+    to_domain_1,
+    zeros,
+)
 
 if is_tqdm_installed():
     from tqdm import tqdm

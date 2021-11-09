@@ -9,11 +9,20 @@ import unittest
 from itertools import permutations
 
 from colour.appearance import (
-    MEDIA_PARAMETERS_KIM2009, VIEWING_CONDITIONS_KIM2009,
-    InductionFactors_Kim2009, CAM_Specification_Kim2009,
-    MediaParameters_Kim2009, XYZ_to_Kim2009, Kim2009_to_XYZ)
-from colour.utilities import (as_float_array, domain_range_scale,
-                              ignore_numpy_errors, tsplit)
+    MEDIA_PARAMETERS_KIM2009,
+    VIEWING_CONDITIONS_KIM2009,
+    InductionFactors_Kim2009,
+    CAM_Specification_Kim2009,
+    MediaParameters_Kim2009,
+    XYZ_to_Kim2009,
+    Kim2009_to_XYZ,
+)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    ignore_numpy_errors,
+    tsplit,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

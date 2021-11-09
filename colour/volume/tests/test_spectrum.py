@@ -7,10 +7,17 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT,
-                                SpectralShape, reshape_msds)
-from colour.volume import (generate_pulse_waves, XYZ_outer_surface,
-                           is_within_visible_spectrum)
+from colour.colorimetry import (
+    MSDS_CMFS,
+    SPECTRAL_SHAPE_DEFAULT,
+    SpectralShape,
+    reshape_msds,
+)
+from colour.volume import (
+    generate_pulse_waves,
+    XYZ_outer_surface,
+    is_within_visible_spectrum,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'

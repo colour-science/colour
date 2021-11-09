@@ -6,8 +6,11 @@ Defines the unit tests for the :mod:`colour.geometry.primitives` module.
 import numpy as np
 import unittest
 
-from colour.geometry import (PLANE_TO_AXIS_MAPPING, primitive_grid,
-                             primitive_cube)
+from colour.geometry import (
+    PLANE_TO_AXIS_MAPPING,
+    primitive_grid,
+    primitive_cube,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

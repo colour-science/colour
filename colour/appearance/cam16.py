@@ -27,20 +27,39 @@ from typing import Union
 from colour.algebra import spow, vector_dot
 from colour.adaptation import CAT_CAT16
 from colour.appearance.ciecam02 import (
-    VIEWING_CONDITIONS_CIECAM02, P, achromatic_response_forward,
-    achromatic_response_inverse, brightness_correlate, chroma_correlate,
-    colourfulness_correlate, degree_of_adaptation, eccentricity_factor,
-    hue_angle, hue_quadrature, lightness_correlate,
-    opponent_colour_dimensions_forward, opponent_colour_dimensions_inverse,
+    VIEWING_CONDITIONS_CIECAM02,
+    P,
+    achromatic_response_forward,
+    achromatic_response_inverse,
+    brightness_correlate,
+    chroma_correlate,
+    colourfulness_correlate,
+    degree_of_adaptation,
+    eccentricity_factor,
+    hue_angle,
+    hue_quadrature,
+    lightness_correlate,
+    opponent_colour_dimensions_forward,
+    opponent_colour_dimensions_inverse,
     post_adaptation_non_linear_response_compression_forward,
     post_adaptation_non_linear_response_compression_inverse,
     matrix_post_adaptation_non_linear_response_compression,
-    saturation_correlate, temporary_magnitude_quantity_inverse,
-    viewing_condition_dependent_parameters)
-from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
-                              as_float_array, from_range_100,
-                              from_range_degrees, has_only_nan, ones,
-                              to_domain_100, to_domain_degrees, tsplit)
+    saturation_correlate,
+    temporary_magnitude_quantity_inverse,
+    viewing_condition_dependent_parameters,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float_array,
+    from_range_100,
+    from_range_degrees,
+    has_only_nan,
+    ones,
+    to_domain_100,
+    to_domain_degrees,
+    tsplit,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

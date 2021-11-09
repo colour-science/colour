@@ -20,8 +20,12 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, oetf_BT709, oetf_inverse_BT709,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    oetf_BT709,
+    oetf_inverse_BT709,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

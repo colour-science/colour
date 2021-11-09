@@ -14,14 +14,40 @@ Defines the classes and definitions handling *LUT* processing:
 import numpy as np
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from operator import (add, mul, pow, sub, truediv, iadd, imul, ipow, isub,
-                      itruediv)
+from operator import (
+    add,
+    mul,
+    pow,
+    sub,
+    truediv,
+    iadd,
+    imul,
+    ipow,
+    isub,
+    itruediv,
+)
 
-from colour.algebra import (Extrapolator, LinearInterpolator,
-                            linear_conversion, table_interpolation_trilinear)
+from colour.algebra import (
+    Extrapolator,
+    LinearInterpolator,
+    linear_conversion,
+    table_interpolation_trilinear,
+)
 from colour.utilities import (
-    as_float_array, as_int, attest, is_numeric, is_iterable, is_string, full,
-    required, runtime_warning, tsplit, tstack, usage_warning, validate_method)
+    as_float_array,
+    as_int,
+    attest,
+    is_numeric,
+    is_iterable,
+    is_string,
+    full,
+    required,
+    runtime_warning,
+    tsplit,
+    tstack,
+    usage_warning,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

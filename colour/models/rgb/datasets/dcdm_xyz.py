@@ -18,8 +18,12 @@ DCI_DCinema_System_Spec_v1_1.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, eotf_DCDM,
-                               normalised_primary_matrix, eotf_inverse_DCDM)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    eotf_DCDM,
+    normalised_primary_matrix,
+    eotf_inverse_DCDM,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

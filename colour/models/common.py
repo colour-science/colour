@@ -19,11 +19,18 @@ References
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.utilities import (CaseInsensitiveMapping, attest,
-                              from_range_degrees, to_domain_degrees, tsplit,
-                              tstack)
-from colour.utilities.documentation import (DocstringTuple,
-                                            is_documentation_building)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    attest,
+    from_range_degrees,
+    to_domain_degrees,
+    tsplit,
+    tstack,
+)
+from colour.utilities.documentation import (
+    DocstringTuple,
+    is_documentation_building,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

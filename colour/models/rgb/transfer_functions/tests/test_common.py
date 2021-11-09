@@ -7,8 +7,11 @@ Defines the unit tests for the
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import (CV_range, legal_to_full,
-                                                  full_to_legal)
+from colour.models.rgb.transfer_functions import (
+    CV_range,
+    legal_to_full,
+    full_to_legal,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'

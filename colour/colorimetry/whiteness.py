@@ -43,9 +43,16 @@ References
 c/09_color_calculations_en.pdf
 """
 
-from colour.utilities import (CaseInsensitiveMapping, get_domain_range_scale,
-                              filter_kwargs, from_range_100, to_domain_100,
-                              tsplit, tstack, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    get_domain_range_scale,
+    filter_kwargs,
+    from_range_100,
+    to_domain_100,
+    tsplit,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

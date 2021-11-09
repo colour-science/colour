@@ -24,15 +24,25 @@ import sys
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    filter_kwargs,
+    validate_method,
+)
 
 from .datasets import *  # noqa
 from . import datasets
-from .jakob2019 import (sd_Jakob2019, find_coefficients_Jakob2019,
-                        XYZ_to_sd_Jakob2019, LUT3D_Jakob2019)
-from .mallett2019 import (spectral_primary_decomposition_Mallett2019,
-                          RGB_to_sd_Mallett2019)
+from .jakob2019 import (
+    sd_Jakob2019,
+    find_coefficients_Jakob2019,
+    XYZ_to_sd_Jakob2019,
+    LUT3D_Jakob2019,
+)
+from .mallett2019 import (
+    spectral_primary_decomposition_Mallett2019,
+    RGB_to_sd_Mallett2019,
+)
 from .meng2015 import XYZ_to_sd_Meng2015
 from .otsu2018 import Dataset_Otsu2018, Tree_Otsu2018, XYZ_to_sd_Otsu2018
 from .smits1999 import RGB_to_sd_Smits1999

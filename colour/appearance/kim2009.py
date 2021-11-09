@@ -27,14 +27,29 @@ from typing import Union
 
 from colour.adaptation import CAT_CAT02
 from colour.appearance.ciecam02 import (
-    VIEWING_CONDITIONS_CIECAM02, CAT_INVERSE_CAT02, RGB_to_rgb,
-    degree_of_adaptation, full_chromatic_adaptation_forward,
-    full_chromatic_adaptation_inverse, hue_quadrature, rgb_to_RGB)
+    VIEWING_CONDITIONS_CIECAM02,
+    CAT_INVERSE_CAT02,
+    RGB_to_rgb,
+    degree_of_adaptation,
+    full_chromatic_adaptation_forward,
+    full_chromatic_adaptation_inverse,
+    hue_quadrature,
+    rgb_to_RGB,
+)
 from colour.algebra import vector_dot, spow
-from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
-                              as_float_array, from_range_100,
-                              from_range_degrees, has_only_nan, ones,
-                              to_domain_100, to_domain_degrees, tsplit, tstack)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float_array,
+    from_range_100,
+    from_range_degrees,
+    has_only_nan,
+    ones,
+    to_domain_100,
+    to_domain_degrees,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -27,8 +27,12 @@ References
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, tsplit,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    tsplit,
+    validate_method,
+)
 
 __author__ = 'Ilia Sibiryakov'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

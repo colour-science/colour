@@ -16,11 +16,22 @@ from itertools import permutations
 
 from colour.algebra.interpolation import vertices_and_relative_coordinates
 from colour.algebra import (
-    kernel_nearest_neighbour, kernel_linear, kernel_sinc, kernel_lanczos,
-    kernel_cardinal_spline, KernelInterpolator, NearestNeighbourInterpolator,
-    LinearInterpolator, SpragueInterpolator, CubicSplineInterpolator,
-    PchipInterpolator, NullInterpolator, lagrange_coefficients,
-    table_interpolation_trilinear, table_interpolation_tetrahedral)
+    kernel_nearest_neighbour,
+    kernel_linear,
+    kernel_sinc,
+    kernel_lanczos,
+    kernel_cardinal_spline,
+    KernelInterpolator,
+    NearestNeighbourInterpolator,
+    LinearInterpolator,
+    SpragueInterpolator,
+    CubicSplineInterpolator,
+    PchipInterpolator,
+    NullInterpolator,
+    lagrange_coefficients,
+    table_interpolation_trilinear,
+    table_interpolation_tetrahedral,
+)
 from colour.algebra import random_triplet_generator
 from colour.io import read_LUT
 from colour.utilities import ignore_numpy_errors

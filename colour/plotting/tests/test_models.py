@@ -8,7 +8,8 @@ import unittest
 from matplotlib.pyplot import Axes, Figure
 
 from colour.plotting import (
-    colourspace_model_axis_reorder, plot_pointer_gamut,
+    colourspace_model_axis_reorder,
+    plot_pointer_gamut,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
@@ -18,11 +19,16 @@ from colour.plotting import (
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS,
-    plot_single_cctf, plot_multi_cctfs, plot_constant_hue_loci)
+    plot_single_cctf,
+    plot_multi_cctfs,
+    plot_constant_hue_loci,
+)
 from colour.plotting.models import (
     plot_RGB_colourspaces_in_chromaticity_diagram,
-    plot_RGB_chromaticities_in_chromaticity_diagram, ellipses_MacAdam1942,
-    plot_ellipses_MacAdam1942_in_chromaticity_diagram)
+    plot_RGB_chromaticities_in_chromaticity_diagram,
+    ellipses_MacAdam1942,
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -1,12 +1,21 @@
 # -*- coding: utf-8 -*-
 
-from .spectrum import (SpectralShape, SPECTRAL_SHAPE_DEFAULT,
-                       SpectralDistribution, MultiSpectralDistributions,
-                       reshape_sd, reshape_msds, sds_and_msds_to_sds,
-                       sds_and_msds_to_msds)
+from .spectrum import (
+    SpectralShape,
+    SPECTRAL_SHAPE_DEFAULT,
+    SpectralDistribution,
+    MultiSpectralDistributions,
+    reshape_sd,
+    reshape_msds,
+    sds_and_msds_to_sds,
+    sds_and_msds_to_msds,
+)
 from .blackbody import sd_blackbody, blackbody_spectral_radiance, planck_law
-from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
-                   XYZ_ColourMatchingFunctions)
+from .cmfs import (
+    LMS_ConeFundamentals,
+    RGB_ColourMatchingFunctions,
+    XYZ_ColourMatchingFunctions,
+)
 from .datasets import *  # noqa
 from . import datasets
 from .generation import sd_constant, sd_zeros, sd_ones
@@ -20,33 +29,59 @@ from .generation import sd_multi_leds, sd_multi_leds_Ohno2005
 from .tristimulus_values import SD_TO_XYZ_METHODS, MSDS_TO_XYZ_METHODS
 from .tristimulus_values import sd_to_XYZ, msds_to_XYZ
 from .tristimulus_values import (
-    SPECTRAL_SHAPE_ASTME308, handle_spectral_arguments,
-    lagrange_coefficients_ASTME2022, tristimulus_weighting_factors_ASTME2022,
-    adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
-    sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
-    msds_to_XYZ_integration, msds_to_XYZ_ASTME308, wavelength_to_XYZ)
+    SPECTRAL_SHAPE_ASTME308,
+    handle_spectral_arguments,
+    lagrange_coefficients_ASTME2022,
+    tristimulus_weighting_factors_ASTME2022,
+    adjust_tristimulus_weighting_factors_ASTME308,
+    sd_to_XYZ_integration,
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME308,
+    sd_to_XYZ_ASTME308,
+    msds_to_XYZ_integration,
+    msds_to_XYZ_ASTME308,
+    wavelength_to_XYZ,
+)
 from .uniformity import spectral_uniformity
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_Stearns1988
-from .illuminants import (sd_CIE_standard_illuminant_A,
-                          sd_CIE_illuminant_D_series, daylight_locus_function)
-from .lefs import (sd_mesopic_luminous_efficiency_function,
-                   mesopic_weighting_function)
+from .illuminants import (
+    sd_CIE_standard_illuminant_A,
+    sd_CIE_illuminant_D_series,
+    daylight_locus_function,
+)
+from .lefs import (
+    sd_mesopic_luminous_efficiency_function,
+    mesopic_weighting_function,
+)
 from .lightness import LIGHTNESS_METHODS
 from .lightness import lightness
-from .lightness import (lightness_Glasser1958, lightness_Wyszecki1963,
-                        lightness_CIE1976, lightness_Fairchild2010,
-                        lightness_Fairchild2011, lightness_Abebe2017)
+from .lightness import (
+    lightness_Glasser1958,
+    lightness_Wyszecki1963,
+    lightness_CIE1976,
+    lightness_Fairchild2010,
+    lightness_Fairchild2011,
+    lightness_Abebe2017,
+)
 from .lightness import intermediate_lightness_function_CIE1976
 from .luminance import LUMINANCE_METHODS
 from .luminance import luminance
-from .luminance import (luminance_Newhall1943, luminance_ASTMD1535,
-                        luminance_CIE1976, luminance_Fairchild2010,
-                        luminance_Fairchild2011, luminance_Abebe2017)
+from .luminance import (
+    luminance_Newhall1943,
+    luminance_ASTMD1535,
+    luminance_CIE1976,
+    luminance_Fairchild2010,
+    luminance_Fairchild2011,
+    luminance_Abebe2017,
+)
 from .luminance import intermediate_luminance_function_CIE1976
-from .dominant import (dominant_wavelength, complementary_wavelength,
-                       excitation_purity, colorimetric_purity)
+from .dominant import (
+    dominant_wavelength,
+    complementary_wavelength,
+    excitation_purity,
+    colorimetric_purity,
+)
 from .photometry import luminous_flux, luminous_efficiency, luminous_efficacy
 from .transformations import RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
 from .transformations import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
@@ -55,13 +90,22 @@ from .transformations import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from .whiteness import WHITENESS_METHODS
 from .whiteness import whiteness
-from .whiteness import (whiteness_Berger1959, whiteness_Taube1960,
-                        whiteness_Stensby1968, whiteness_ASTME313,
-                        whiteness_Ganz1979, whiteness_CIE2004)
+from .whiteness import (
+    whiteness_Berger1959,
+    whiteness_Taube1960,
+    whiteness_Stensby1968,
+    whiteness_ASTME313,
+    whiteness_Ganz1979,
+    whiteness_CIE2004,
+)
 from .yellowness import YELLOWNESS_METHODS
 from .yellowness import yellowness
-from .yellowness import (yellowness_ASTMD1925, yellowness_ASTME313_alternative,
-                         YELLOWNESS_COEFFICIENTS_ASTME313, yellowness_ASTME313)
+from .yellowness import (
+    yellowness_ASTMD1925,
+    yellowness_ASTME313_alternative,
+    YELLOWNESS_COEFFICIENTS_ASTME313,
+    yellowness_ASTME313,
+)
 
 __all__ = [
     'SpectralShape',

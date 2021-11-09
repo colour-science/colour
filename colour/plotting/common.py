@@ -38,9 +38,16 @@ from matplotlib.colors import LinearSegmentedColormap
 from colour.characterisation import CCS_COLOURCHECKERS
 from colour.colorimetry import MSDS_CMFS, SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
-from colour.utilities import (CaseInsensitiveMapping, Structure,
-                              as_float_array, attest, is_sibling, is_string,
-                              filter_mapping, runtime_warning)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    Structure,
+    as_float_array,
+    attest,
+    is_sibling,
+    is_string,
+    filter_mapping,
+    runtime_warning,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -18,8 +18,10 @@ import numpy as np
 
 from collections import namedtuple
 
-from colour.utilities.documentation import (DocstringDict,
-                                            is_documentation_building)
+from colour.utilities.documentation import (
+    DocstringDict,
+    is_documentation_building,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -15,13 +15,23 @@ from colour.algebra import normalise_maximum
 from colour.colorimetry import sd_to_XYZ
 from colour.phenomena import sd_rayleigh_scattering
 from colour.phenomena.rayleigh import (
-    CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL, CONSTANT_DEFAULT_ALTITUDE,
-    CONSTANT_DEFAULT_LATITUDE, CONSTANT_STANDARD_AIR_TEMPERATURE,
-    CONSTANT_STANDARD_CO2_CONCENTRATION)
-from colour.plotting import (SD_ASTMG173_ETR, CONSTANTS_COLOUR_STYLE,
-                             ColourSwatch, XYZ_to_plotting_colourspace,
-                             filter_cmfs, override_style, render,
-                             plot_single_colour_swatch, plot_single_sd)
+    CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+    CONSTANT_DEFAULT_ALTITUDE,
+    CONSTANT_DEFAULT_LATITUDE,
+    CONSTANT_STANDARD_AIR_TEMPERATURE,
+    CONSTANT_STANDARD_CO2_CONCENTRATION,
+)
+from colour.plotting import (
+    SD_ASTMG173_ETR,
+    CONSTANTS_COLOUR_STYLE,
+    ColourSwatch,
+    XYZ_to_plotting_colourspace,
+    filter_cmfs,
+    override_style,
+    render,
+    plot_single_colour_swatch,
+    plot_single_sd,
+)
 from colour.utilities import first_item
 
 __author__ = 'Colour Developers'

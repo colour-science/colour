@@ -20,8 +20,11 @@ DaVinci_Resolve_17_Wide_Gamut_Intermediate.pdf?_v=1607414410000
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, oetf_DaVinciIntermediate,
-                               oetf_inverse_DaVinciIntermediate)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    oetf_DaVinciIntermediate,
+    oetf_inverse_DaVinciIntermediate,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

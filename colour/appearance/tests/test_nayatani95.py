@@ -9,8 +9,11 @@ import unittest
 from itertools import permutations
 
 from colour.appearance import XYZ_to_Nayatani95
-from colour.utilities import (as_float_array, domain_range_scale,
-                              ignore_numpy_errors)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    ignore_numpy_errors,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

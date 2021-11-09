@@ -11,8 +11,14 @@ from distutils.version import LooseVersion
 from colour.algebra import CubicSplineInterpolator
 from colour.colorimetry.spectrum import SPECTRAL_SHAPE_DEFAULT
 from colour.colorimetry.spectrum import (
-    SpectralShape, SpectralDistribution, MultiSpectralDistributions,
-    reshape_sd, reshape_msds, sds_and_msds_to_sds, sds_and_msds_to_msds)
+    SpectralShape,
+    SpectralDistribution,
+    MultiSpectralDistributions,
+    reshape_sd,
+    reshape_msds,
+    sds_and_msds_to_sds,
+    sds_and_msds_to_msds,
+)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'

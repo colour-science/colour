@@ -66,8 +66,18 @@ from functools import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, as_float, attest, closest_indexes,
-    interval, is_integer, is_numeric, runtime_warning, tsplit, validate_method)
+    CaseInsensitiveMapping,
+    as_float_array,
+    as_float,
+    attest,
+    closest_indexes,
+    interval,
+    is_integer,
+    is_numeric,
+    runtime_warning,
+    tsplit,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

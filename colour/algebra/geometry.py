@@ -39,8 +39,14 @@ extend-a-line-segment-a-specific-distance
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, ones,
-                              tsplit, tstack, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    ones,
+    tsplit,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

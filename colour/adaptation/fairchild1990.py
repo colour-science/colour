@@ -20,8 +20,15 @@ import numpy as np
 
 from colour.algebra import spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
-from colour.utilities import (as_float_array, from_range_100, ones,
-                              row_as_diagonal, to_domain_100, tsplit, tstack)
+from colour.utilities import (
+    as_float_array,
+    from_range_100,
+    ones,
+    row_as_diagonal,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

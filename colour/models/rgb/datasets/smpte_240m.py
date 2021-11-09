@@ -19,8 +19,12 @@ SMPTE%20normes%20et%20confs/s240m.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
-                               oetf_SMPTE240M, eotf_SMPTE240M)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    normalised_primary_matrix,
+    oetf_SMPTE240M,
+    eotf_SMPTE240M,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -21,7 +21,10 @@ References
 
 import numpy as np
 
-from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
+from colour.colorimetry import (
+    SPECTRAL_SHAPE_DEFAULT,
+    SpectralDistribution,
+)
 from colour.constants import CONSTANT_AVOGADRO
 from colour.utilities import as_float_array, filter_kwargs
 

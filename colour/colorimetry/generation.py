@@ -36,9 +36,17 @@ usp=sharing
 import numpy as np
 
 from colour.colorimetry import (
-    SPECTRAL_SHAPE_DEFAULT, MultiSpectralDistributions, SpectralDistribution)
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, full,
-                              ones, validate_method)
+    SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
+    SpectralDistribution,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    full,
+    ones,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -18,8 +18,11 @@ D-Log_D-Gamut_Whitepaper.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, log_encoding_DJIDLog,
-                               log_decoding_DJIDLog)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_DJIDLog,
+    log_decoding_DJIDLog,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -21,14 +21,29 @@ import numpy as np
 from collections import namedtuple
 
 from colour.colorimetry import (
-    SpectralDistribution, SpectralShape, handle_spectral_arguments,
-    msds_to_XYZ_integration, reshape_msds, sd_to_XYZ)
+    SpectralDistribution,
+    SpectralShape,
+    handle_spectral_arguments,
+    msds_to_XYZ_integration,
+    reshape_msds,
+    sd_to_XYZ,
+)
 from colour.models import XYZ_to_xy
-from colour.recovery import (SPECTRAL_SHAPE_OTSU2018, BASIS_FUNCTIONS_OTSU2018,
-                             CLUSTER_MEANS_OTSU2018, SELECTOR_ARRAY_OTSU2018)
-from colour.utilities import (Node, as_float_array, domain_range_scale,
-                              is_tqdm_installed, message_box, to_domain_1,
-                              zeros)
+from colour.recovery import (
+    SPECTRAL_SHAPE_OTSU2018,
+    BASIS_FUNCTIONS_OTSU2018,
+    CLUSTER_MEANS_OTSU2018,
+    SELECTOR_ARRAY_OTSU2018,
+)
+from colour.utilities import (
+    Node,
+    as_float_array,
+    domain_range_scale,
+    is_tqdm_installed,
+    message_box,
+    to_domain_1,
+    zeros,
+)
 
 if is_tqdm_installed():
     from tqdm import tqdm

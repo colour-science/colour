@@ -9,8 +9,12 @@ import unittest
 from itertools import permutations
 
 from colour.models import (
-    normalised_primary_matrix, chromatically_adapted_primaries,
-    primaries_whitepoint, RGB_luminance_equation, RGB_luminance)
+    normalised_primary_matrix,
+    chromatically_adapted_primaries,
+    primaries_whitepoint,
+    RGB_luminance_equation,
+    RGB_luminance,
+)
 from colour.models.rgb.derivation import xy_to_z
 from colour.utilities import ignore_numpy_errors
 

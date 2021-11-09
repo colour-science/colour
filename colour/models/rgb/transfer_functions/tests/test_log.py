@@ -8,8 +8,12 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    logarithmic_function_basic, logarithmic_function_quasilog,
-    logarithmic_function_camera, log_encoding_Log2, log_decoding_Log2)
+    logarithmic_function_basic,
+    logarithmic_function_quasilog,
+    logarithmic_function_camera,
+    log_encoding_Log2,
+    log_decoding_Log2,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'

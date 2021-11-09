@@ -64,9 +64,11 @@ References
 
 from functools import partial
 
-from colour.colorimetry import (LMS_ConeFundamentals,
-                                RGB_ColourMatchingFunctions,
-                                XYZ_ColourMatchingFunctions)
+from colour.colorimetry import (
+    LMS_ConeFundamentals,
+    RGB_ColourMatchingFunctions,
+    XYZ_ColourMatchingFunctions,
+)
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'

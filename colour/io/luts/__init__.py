@@ -14,8 +14,11 @@ References
 
 import os
 
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    validate_method,
+)
 
 from .lut import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
 from .operator import AbstractLUTSequenceOperator, LUTOperatorMatrix

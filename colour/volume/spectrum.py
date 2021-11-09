@@ -23,8 +23,11 @@ References
 
 import numpy as np
 
-from colour.colorimetry import (SpectralShape, handle_spectral_arguments,
-                                msds_to_XYZ)
+from colour.colorimetry import (
+    SpectralShape,
+    handle_spectral_arguments,
+    msds_to_XYZ,
+)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
 from colour.utilities import CACHE_REGISTRY, zeros, validate_method

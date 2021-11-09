@@ -24,8 +24,14 @@ from scipy.optimize import fmin
 
 from colour.algebra import spow, vector_dot
 from colour.models import XYZ_to_xyY
-from colour.utilities import (as_float_array, domain_range_scale,
-                              from_range_100, to_domain_100, tsplit, tstack)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    from_range_100,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

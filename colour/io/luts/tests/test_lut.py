@@ -9,8 +9,13 @@ import textwrap
 import unittest
 
 from colour.algebra import (
-    CubicSplineInterpolator, LinearInterpolator, random_triplet_generator,
-    spow, table_interpolation_trilinear, table_interpolation_tetrahedral)
+    CubicSplineInterpolator,
+    LinearInterpolator,
+    random_triplet_generator,
+    spow,
+    table_interpolation_trilinear,
+    table_interpolation_tetrahedral,
+)
 from colour.io.luts.lut import AbstractLUT
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
 from colour.utilities import tsplit, tstack

@@ -14,16 +14,30 @@ import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.geometry import (primitive_vertices_cube_mpl,
-                             primitive_vertices_grid_mpl)
+from colour.geometry import (
+    primitive_vertices_cube_mpl,
+    primitive_vertices_grid_mpl,
+)
 from colour.graph import convert
 from colour.models import RGB_to_XYZ
 from colour.models.common import COLOURSPACE_MODELS_AXIS_LABELS
 from colour.plotting import (
-    CONSTANTS_COLOUR_STYLE, colourspace_model_axis_reorder,
-    filter_RGB_colourspaces, filter_cmfs, override_style, render)
-from colour.utilities import (Structure, as_float_array, as_int_array,
-                              first_item, full, ones, zeros)
+    CONSTANTS_COLOUR_STYLE,
+    colourspace_model_axis_reorder,
+    filter_RGB_colourspaces,
+    filter_cmfs,
+    override_style,
+    render,
+)
+from colour.utilities import (
+    Structure,
+    as_float_array,
+    as_int_array,
+    first_item,
+    full,
+    ones,
+    zeros,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

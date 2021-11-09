@@ -8,7 +8,9 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    exponent_function_basic, exponent_function_monitor_curve)
+    exponent_function_basic,
+    exponent_function_monitor_curve,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'

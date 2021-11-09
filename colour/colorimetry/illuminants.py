@@ -28,9 +28,11 @@ References
 import numpy as np
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
-                                SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
-                                SpectralDistribution)
+from colour.colorimetry import (
+    SPECTRAL_SHAPE_DEFAULT,
+    SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
+    SpectralDistribution,
+)
 from colour.utilities import as_float_array, as_numeric, tsplit
 
 __author__ = 'Colour Developers'

@@ -17,8 +17,11 @@ References
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, oetf_BlackmagicFilmGeneration5,
-                               oetf_inverse_BlackmagicFilmGeneration5)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    oetf_BlackmagicFilmGeneration5,
+    oetf_inverse_BlackmagicFilmGeneration5,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

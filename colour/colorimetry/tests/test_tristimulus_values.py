@@ -15,16 +15,29 @@ import unittest
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
-    MSDS_CMFS, SDS_ILLUMINANTS, MultiSpectralDistributions,
-    SpectralDistribution, SpectralShape, reshape_msds, reshape_sd,
-    sd_CIE_standard_illuminant_A, sd_ones)
+    MSDS_CMFS,
+    SDS_ILLUMINANTS,
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    SpectralShape,
+    reshape_msds,
+    reshape_sd,
+    sd_CIE_standard_illuminant_A,
+    sd_ones,
+)
 from colour.colorimetry import (
-    handle_spectral_arguments, lagrange_coefficients_ASTME2022,
+    handle_spectral_arguments,
+    lagrange_coefficients_ASTME2022,
     tristimulus_weighting_factors_ASTME2022,
-    adjust_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_integration,
-    sd_to_XYZ_tristimulus_weighting_factors_ASTME308, sd_to_XYZ_ASTME308,
-    sd_to_XYZ, msds_to_XYZ_integration, msds_to_XYZ_ASTME308,
-    wavelength_to_XYZ)
+    adjust_tristimulus_weighting_factors_ASTME308,
+    sd_to_XYZ_integration,
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME308,
+    sd_to_XYZ_ASTME308,
+    sd_to_XYZ,
+    msds_to_XYZ_integration,
+    msds_to_XYZ_ASTME308,
+    wavelength_to_XYZ,
+)
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'

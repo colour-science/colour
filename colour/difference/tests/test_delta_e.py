@@ -14,8 +14,12 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.difference import (delta_E_CIE1976, delta_E_CIE1994,
-                               delta_E_CIE2000, delta_E_CMC)
+from colour.difference import (
+    delta_E_CIE1976,
+    delta_E_CIE1994,
+    delta_E_CIE2000,
+    delta_E_CMC,
+)
 
 from colour.algebra import euclidean_distance
 from colour.utilities import domain_range_scale, ignore_numpy_errors

@@ -6,8 +6,10 @@ Defines the unit tests for the :mod:`colour.colorimetry.correction` module.
 import numpy as np
 import unittest
 
-from colour.colorimetry import (SpectralDistribution,
-                                bandpass_correction_Stearns1988)
+from colour.colorimetry import (
+    SpectralDistribution,
+    bandpass_correction_Stearns1988,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -4,9 +4,12 @@ Showcases optical phenomena plotting examples.
 """
 
 from colour.phenomena import sd_rayleigh_scattering
-from colour.plotting import (colour_style, plot_multi_sds,
-                             plot_single_sd_rayleigh_scattering,
-                             plot_the_blue_sky)
+from colour.plotting import (
+    colour_style,
+    plot_multi_sds,
+    plot_single_sd_rayleigh_scattering,
+    plot_the_blue_sky,
+)
 from colour.utilities import message_box
 
 message_box('Optical Phenomena Plots')

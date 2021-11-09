@@ -56,9 +56,16 @@ import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (
-    RGB_Colourspace, linear_function, normalised_primary_matrix,
-    log_encoding_ACEScc, log_decoding_ACEScc, log_encoding_ACEScct,
-    log_decoding_ACEScct, log_encoding_ACESproxy, log_decoding_ACESproxy)
+    RGB_Colourspace,
+    linear_function,
+    normalised_primary_matrix,
+    log_encoding_ACEScc,
+    log_decoding_ACEScc,
+    log_encoding_ACEScct,
+    log_decoding_ACEScct,
+    log_encoding_ACESproxy,
+    log_decoding_ACESproxy,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

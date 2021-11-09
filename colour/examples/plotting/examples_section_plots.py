@@ -7,8 +7,11 @@ import numpy as np
 from matplotlib.lines import Line2D
 
 import colour.plotting
-from colour.plotting import (colour_style, plot_visible_spectrum_section,
-                             plot_RGB_colourspace_section)
+from colour.plotting import (
+    colour_style,
+    plot_visible_spectrum_section,
+    plot_RGB_colourspace_section,
+)
 from colour.utilities import message_box
 
 message_box('Gamut Section Plots')

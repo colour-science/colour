@@ -7,32 +7,54 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.notation.munsell import (CCS_ILLUMINANT_MUNSELL)
-from colour.notation.munsell import (parse_munsell_colour,
-                                     is_grey_munsell_colour,
-                                     normalize_munsell_specification)
-from colour.notation.munsell import (munsell_colour_to_munsell_specification,
-                                     munsell_specification_to_munsell_colour)
-from colour.notation.munsell import (xyY_from_renotation,
-                                     is_specification_in_renotation)
+from colour.notation.munsell import (
+    CCS_ILLUMINANT_MUNSELL, )
+from colour.notation.munsell import (
+    parse_munsell_colour,
+    is_grey_munsell_colour,
+    normalize_munsell_specification,
+)
+from colour.notation.munsell import (
+    munsell_colour_to_munsell_specification,
+    munsell_specification_to_munsell_colour,
+)
+from colour.notation.munsell import (
+    xyY_from_renotation,
+    is_specification_in_renotation,
+)
 from colour.notation.munsell import bounding_hues_from_renotation
 from colour.notation.munsell import hue_to_hue_angle, hue_angle_to_hue
 from colour.notation.munsell import hue_to_ASTM_hue
 from colour.notation.munsell import (
-    interpolation_method_from_renotation_ovoid, xy_from_renotation_ovoid)
+    interpolation_method_from_renotation_ovoid,
+    xy_from_renotation_ovoid,
+)
 from colour.notation.munsell import LCHab_to_munsell_specification
 from colour.notation.munsell import maximum_chroma_from_renotation
 from colour.notation.munsell import munsell_specification_to_xy
-from colour.notation.munsell import (munsell_colour_to_xyY,
-                                     xyY_to_munsell_colour)
-from colour.notation.munsell import (munsell_specification_to_xyY,
-                                     xyY_to_munsell_specification)
+from colour.notation.munsell import (
+    munsell_colour_to_xyY,
+    xyY_to_munsell_colour,
+)
+from colour.notation.munsell import (
+    munsell_specification_to_xyY,
+    xyY_to_munsell_specification,
+)
 from colour.notation import (
-    munsell_value_Priest1920, munsell_value_Munsell1933,
-    munsell_value_Moon1943, munsell_value_Saunderson1944,
-    munsell_value_Ladd1955, munsell_value_McCamy1987, munsell_value_ASTMD1535)
-from colour.utilities import (as_float_array, domain_range_scale,
-                              ignore_numpy_errors, tstack)
+    munsell_value_Priest1920,
+    munsell_value_Munsell1933,
+    munsell_value_Moon1943,
+    munsell_value_Saunderson1944,
+    munsell_value_Ladd1955,
+    munsell_value_McCamy1987,
+    munsell_value_ASTMD1535,
+)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    ignore_numpy_errors,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

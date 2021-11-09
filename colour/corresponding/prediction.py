@@ -38,15 +38,31 @@ import numpy as np
 from collections import namedtuple
 
 from colour.adaptation import (
-    chromatic_adaptation_CIE1994, chromatic_adaptation_CMCCAT2000,
-    chromatic_adaptation_Fairchild1990, chromatic_adaptation_VonKries)
-from colour.corresponding import (BRENEMAN_EXPERIMENTS,
-                                  BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES)
-from colour.models import (Luv_to_uv, Luv_uv_to_xy, XYZ_to_Luv, XYZ_to_xy,
-                           xy_to_XYZ, xyY_to_XYZ)
-from colour.utilities import (CaseInsensitiveMapping, attest,
-                              domain_range_scale, filter_kwargs, full,
-                              is_numeric)
+    chromatic_adaptation_CIE1994,
+    chromatic_adaptation_CMCCAT2000,
+    chromatic_adaptation_Fairchild1990,
+    chromatic_adaptation_VonKries,
+)
+from colour.corresponding import (
+    BRENEMAN_EXPERIMENTS,
+    BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
+)
+from colour.models import (
+    Luv_to_uv,
+    Luv_uv_to_xy,
+    XYZ_to_Luv,
+    XYZ_to_xy,
+    xy_to_XYZ,
+    xyY_to_XYZ,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    attest,
+    domain_range_scale,
+    filter_kwargs,
+    full,
+    is_numeric,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -32,9 +32,15 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from colour.algebra import polar_to_cartesian, spow, vector_dot
-from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
-                              as_float_array, from_range_degrees,
-                              to_domain_100, tsplit, tstack)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float_array,
+    from_range_degrees,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

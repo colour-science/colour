@@ -13,8 +13,15 @@ import numpy as np
 
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
-    CONSTANTS_COLOUR_STYLE, ColourSwatch, XYZ_to_plotting_colourspace, artist,
-    filter_colour_checkers, plot_multi_colour_swatches, override_style, render)
+    CONSTANTS_COLOUR_STYLE,
+    ColourSwatch,
+    XYZ_to_plotting_colourspace,
+    artist,
+    filter_colour_checkers,
+    plot_multi_colour_swatches,
+    override_style,
+    render,
+)
 from colour.utilities import attest
 
 __author__ = 'Colour Developers'

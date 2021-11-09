@@ -20,9 +20,11 @@ import numpy as np
 from scipy.linalg import block_diag
 from scipy.optimize import Bounds, LinearConstraint, minimize
 
-from colour.colorimetry import (MultiSpectralDistributions,
-                                SpectralDistribution,
-                                handle_spectral_arguments)
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    handle_spectral_arguments,
+)
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1
 

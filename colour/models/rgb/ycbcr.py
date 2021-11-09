@@ -50,10 +50,19 @@ import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models.rgb.transfer_functions import (
-    CV_range, eotf_inverse_BT2020, eotf_BT2020)
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              domain_range_scale, from_range_1, to_domain_1,
-                              tsplit, tstack)
+    CV_range,
+    eotf_inverse_BT2020,
+    eotf_BT2020,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

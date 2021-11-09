@@ -8,8 +8,13 @@ import operator
 import pickle
 import unittest
 
-from colour.utilities import (Structure, Lookup, CaseInsensitiveMapping,
-                              LazyCaseInsensitiveMapping, Node)
+from colour.utilities import (
+    Structure,
+    Lookup,
+    CaseInsensitiveMapping,
+    LazyCaseInsensitiveMapping,
+    Node,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

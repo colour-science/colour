@@ -24,10 +24,18 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from colour.algebra import spow, vector_dot
-from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
-                              as_float_array, from_range_degrees, ones,
-                              to_domain_100, tsplit, tstack, usage_warning,
-                              zeros)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float_array,
+    from_range_degrees,
+    ones,
+    to_domain_100,
+    tsplit,
+    tstack,
+    usage_warning,
+    zeros,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

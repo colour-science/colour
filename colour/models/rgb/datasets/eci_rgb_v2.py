@@ -17,8 +17,11 @@ References
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import (CCS_ILLUMINANTS, lightness_CIE1976,
-                                luminance_CIE1976)
+from colour.colorimetry import (
+    CCS_ILLUMINANTS,
+    lightness_CIE1976,
+    luminance_CIE1976,
+)
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
 

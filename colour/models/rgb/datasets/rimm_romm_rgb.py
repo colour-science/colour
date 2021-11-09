@@ -23,10 +23,16 @@ import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (
-    RGB_Colourspace, cctf_encoding_ROMMRGB, cctf_decoding_ROMMRGB,
-    cctf_encoding_RIMMRGB, cctf_decoding_RIMMRGB, log_encoding_ERIMMRGB,
-    log_decoding_ERIMMRGB, cctf_encoding_ProPhotoRGB,
-    cctf_decoding_ProPhotoRGB)
+    RGB_Colourspace,
+    cctf_encoding_ROMMRGB,
+    cctf_decoding_ROMMRGB,
+    cctf_encoding_RIMMRGB,
+    cctf_decoding_RIMMRGB,
+    log_encoding_ERIMMRGB,
+    log_decoding_ERIMMRGB,
+    cctf_encoding_ProPhotoRGB,
+    cctf_decoding_ProPhotoRGB,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

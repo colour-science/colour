@@ -3,9 +3,12 @@
 Showcases common plotting examples.
 """
 
-from colour.plotting import (ColourSwatch, colour_style,
-                             plot_multi_colour_swatches,
-                             plot_single_colour_swatch)
+from colour.plotting import (
+    ColourSwatch,
+    colour_style,
+    plot_multi_colour_swatches,
+    plot_single_colour_swatch,
+)
 from colour.utilities import message_box
 
 message_box('Common Plots')

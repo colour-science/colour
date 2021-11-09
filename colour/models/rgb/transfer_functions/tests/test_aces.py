@@ -8,8 +8,13 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    log_encoding_ACESproxy, log_decoding_ACESproxy, log_encoding_ACEScc,
-    log_decoding_ACEScc, log_encoding_ACEScct, log_decoding_ACEScct)
+    log_encoding_ACESproxy,
+    log_decoding_ACESproxy,
+    log_encoding_ACEScc,
+    log_decoding_ACEScc,
+    log_encoding_ACEScct,
+    log_decoding_ACEScct,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'

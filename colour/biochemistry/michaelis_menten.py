@@ -26,8 +26,12 @@ References
     https://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics
 """
 
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    filter_kwargs,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -7,10 +7,14 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.contrast import (optical_MTF_Barten1999, pupil_diameter_Barten1999,
-                             sigma_Barten1999, retinal_illuminance_Barten1999,
-                             maximum_angular_size_Barten1999,
-                             contrast_sensitivity_function_Barten1999)
+from colour.contrast import (
+    optical_MTF_Barten1999,
+    pupil_diameter_Barten1999,
+    sigma_Barten1999,
+    retinal_illuminance_Barten1999,
+    maximum_angular_size_Barten1999,
+    contrast_sensitivity_function_Barten1999,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'

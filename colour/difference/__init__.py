@@ -31,13 +31,21 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
 """
 
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    validate_method,
+)
 
 from .cam02_ucs import delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS
 from .cam16_ucs import delta_E_CAM16LCD, delta_E_CAM16SCD, delta_E_CAM16UCS
-from .delta_e import (JND_CIE1976, delta_E_CIE1976, delta_E_CIE1994,
-                      delta_E_CIE2000, delta_E_CMC)
+from .delta_e import (
+    JND_CIE1976,
+    delta_E_CIE1976,
+    delta_E_CIE1994,
+    delta_E_CIE2000,
+    delta_E_CMC,
+)
 from .din99 import delta_E_DIN99
 from .huang2015 import power_function_Huang2015
 from .stress import index_stress_Garcia2007, INDEX_STRESS_METHODS, index_stress

@@ -8,11 +8,14 @@ from matplotlib.pyplot import Axes, Figure
 
 from colour.plotting import (
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
-    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS)
+    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
+)
 from colour.plotting.temperature import (
-    plot_planckian_locus, plot_planckian_locus_CIE1931,
+    plot_planckian_locus,
+    plot_planckian_locus_CIE1931,
     plot_planckian_locus_CIE1960UCS,
-    plot_planckian_locus_in_chromaticity_diagram)
+    plot_planckian_locus_in_chromaticity_diagram,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -7,8 +7,11 @@ import os
 import sys
 import unittest
 
-from colour.utilities import (show_warning, suppress_warnings,
-                              describe_environment)
+from colour.utilities import (
+    show_warning,
+    suppress_warnings,
+    describe_environment,
+)
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'

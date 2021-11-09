@@ -7,10 +7,16 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (MSDS_CMFS, CCS_ILLUMINANTS,
-                                dominant_wavelength, complementary_wavelength,
-                                excitation_purity, colorimetric_purity)
-from colour.colorimetry.dominant import (closest_spectral_locus_wavelength)
+from colour.colorimetry import (
+    MSDS_CMFS,
+    CCS_ILLUMINANTS,
+    dominant_wavelength,
+    complementary_wavelength,
+    excitation_purity,
+    colorimetric_purity,
+)
+from colour.colorimetry.dominant import (
+    closest_spectral_locus_wavelength, )
 from colour.models import XYZ_to_xy
 from colour.utilities import ignore_numpy_errors
 

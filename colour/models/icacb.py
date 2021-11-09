@@ -16,10 +16,15 @@ References
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.models.rgb.transfer_functions import (eotf_ST2084,
-                                                  eotf_inverse_ST2084)
-from colour.utilities.common import (domain_range_scale, from_range_1,
-                                     to_domain_1)
+from colour.models.rgb.transfer_functions import (
+    eotf_ST2084,
+    eotf_inverse_ST2084,
+)
+from colour.utilities.common import (
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

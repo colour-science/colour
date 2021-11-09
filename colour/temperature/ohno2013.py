@@ -23,8 +23,11 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (handle_spectral_arguments, sd_blackbody,
-                                sd_to_XYZ)
+from colour.colorimetry import (
+    handle_spectral_arguments,
+    sd_blackbody,
+    sd_to_XYZ,
+)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float_array, runtime_warning, tsplit
 

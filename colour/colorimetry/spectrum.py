@@ -29,14 +29,30 @@ References
 import numpy as np
 from collections.abc import Mapping
 
-from colour.algebra import (Extrapolator, CubicSplineInterpolator,
-                            SpragueInterpolator)
+from colour.algebra import (
+    Extrapolator,
+    CubicSplineInterpolator,
+    SpragueInterpolator,
+)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
 from colour.utilities import (
-    CACHE_REGISTRY, as_float, as_int, attest, copy_definition, filter_kwargs,
-    first_item, is_iterable, is_numeric, is_string, is_uniform, interval,
-    runtime_warning, tstack, validate_method)
+    CACHE_REGISTRY,
+    as_float,
+    as_int,
+    attest,
+    copy_definition,
+    filter_kwargs,
+    first_item,
+    is_iterable,
+    is_numeric,
+    is_string,
+    is_uniform,
+    interval,
+    runtime_warning,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

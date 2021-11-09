@@ -17,9 +17,17 @@ import numpy as np
 
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import PLANE_TO_AXIS_MAPPING
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, full, ones, tsplit, tstack, zeros,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    filter_kwargs,
+    full,
+    ones,
+    tsplit,
+    tstack,
+    zeros,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

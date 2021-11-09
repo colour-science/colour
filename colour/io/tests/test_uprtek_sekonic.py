@@ -9,8 +9,10 @@ import os
 import unittest
 
 from colour.colorimetry import SpectralDistribution
-from colour.io import (SpectralDistribution_UPRTek,
-                       SpectralDistribution_Sekonic)
+from colour.io import (
+    SpectralDistribution_UPRTek,
+    SpectralDistribution_Sekonic,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

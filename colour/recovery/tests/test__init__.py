@@ -7,9 +7,14 @@ Defines the unit tests for the :mod:`colour.recovery` module.
 import numpy as np
 import unittest
 
-from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
-                                reshape_msds, reshape_sd,
-                                sd_to_XYZ_integration)
+from colour.colorimetry import (
+    MSDS_CMFS,
+    SDS_ILLUMINANTS,
+    SpectralShape,
+    reshape_msds,
+    reshape_sd,
+    sd_to_XYZ_integration,
+)
 from colour.recovery import XYZ_to_sd
 from colour.utilities import domain_range_scale
 

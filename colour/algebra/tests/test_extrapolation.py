@@ -7,8 +7,12 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.algebra import (Extrapolator, LinearInterpolator,
-                            CubicSplineInterpolator, PchipInterpolator)
+from colour.algebra import (
+    Extrapolator,
+    LinearInterpolator,
+    CubicSplineInterpolator,
+    PchipInterpolator,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'

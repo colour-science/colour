@@ -8,12 +8,15 @@ import numpy as np
 import unittest
 
 from colour.corresponding.prediction import (
-    CorrespondingColourDataset, convert_experiment_results_Breneman1987)
+    CorrespondingColourDataset,
+    convert_experiment_results_Breneman1987,
+)
 from colour.corresponding import (
     corresponding_chromaticities_prediction_VonKries,
     corresponding_chromaticities_prediction_CIE1994,
     corresponding_chromaticities_prediction_CMCCAT2000,
-    corresponding_chromaticities_prediction_Fairchild1990)
+    corresponding_chromaticities_prediction_Fairchild1990,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

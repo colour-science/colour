@@ -9,9 +9,13 @@ Defines the corresponding chromaticities prediction plotting objects:
 """
 
 from colour.corresponding import corresponding_chromaticities_prediction
-from colour.plotting import (CONSTANTS_COLOUR_STYLE, artist,
-                             plot_chromaticity_diagram_CIE1976UCS,
-                             override_style, render)
+from colour.plotting import (
+    CONSTANTS_COLOUR_STYLE,
+    artist,
+    plot_chromaticity_diagram_CIE1976UCS,
+    override_style,
+    render,
+)
 from colour.utilities import is_numeric
 
 __author__ = 'Colour Developers'

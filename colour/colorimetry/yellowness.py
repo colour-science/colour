@@ -31,9 +31,14 @@ c/09_color_calculations_en.pdf
 """
 
 import numpy as np
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              from_range_100, to_domain_100, tsplit,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    from_range_100,
+    to_domain_100,
+    tsplit,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

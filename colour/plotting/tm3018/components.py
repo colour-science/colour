@@ -22,8 +22,13 @@ import matplotlib.pyplot as plt
 from colour.colorimetry import sd_to_XYZ
 from colour.io import read_image
 from colour.utilities import as_float_array
-from colour.plotting import (CONSTANTS_COLOUR_STYLE, artist, override_style,
-                             plot_image, render)
+from colour.plotting import (
+    CONSTANTS_COLOUR_STYLE,
+    artist,
+    override_style,
+    plot_image,
+    render,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

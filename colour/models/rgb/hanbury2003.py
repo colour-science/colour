@@ -19,7 +19,13 @@ References
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.utilities import (from_range_1, to_domain_1, tstack, tsplit, zeros)
+from colour.utilities import (
+    from_range_1,
+    to_domain_1,
+    tstack,
+    tsplit,
+    zeros,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -6,9 +6,12 @@ Defines the unit tests for the :mod:`colour.blindness.machado2009` module.
 import numpy as np
 import unittest
 
-from colour.blindness import (CVD_MATRICES_MACHADO2010, matrix_cvd_Machado2009,
-                              msds_cmfs_anomalous_trichromacy_Machado2009,
-                              matrix_anomalous_trichromacy_Machado2009)
+from colour.blindness import (
+    CVD_MATRICES_MACHADO2010,
+    matrix_cvd_Machado2009,
+    msds_cmfs_anomalous_trichromacy_Machado2009,
+    matrix_anomalous_trichromacy_Machado2009,
+)
 from colour.characterisation import MSDS_DISPLAY_PRIMARIES
 from colour.colorimetry import MSDS_CMFS_LMS
 from colour.utilities import ignore_numpy_errors

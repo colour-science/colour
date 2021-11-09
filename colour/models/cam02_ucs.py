@@ -31,8 +31,16 @@ from collections import namedtuple
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, from_range_100, from_range_degrees,
-    get_domain_range_scale, to_domain_100, to_domain_degrees, tsplit, tstack)
+    CaseInsensitiveMapping,
+    as_float_array,
+    from_range_100,
+    from_range_degrees,
+    get_domain_range_scale,
+    to_domain_100,
+    to_domain_degrees,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -734,8 +742,11 @@ def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    from colour.appearance import (CAM_KWARGS_CIECAM02_sRGB,
-                                   CAM_Specification_CIECAM02, CIECAM02_to_XYZ)
+    from colour.appearance import (
+        CAM_KWARGS_CIECAM02_sRGB,
+        CAM_Specification_CIECAM02,
+        CIECAM02_to_XYZ,
+    )
 
     domain_range_reference = get_domain_range_scale() == 'reference'
 

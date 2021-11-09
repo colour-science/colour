@@ -9,8 +9,12 @@ import shutil
 import tempfile
 import unittest
 
-from colour.io import (LUT3D, LUTSequence, read_LUT_SonySPI3D,
-                       write_LUT_SonySPI3D)
+from colour.io import (
+    LUT3D,
+    LUTSequence,
+    read_LUT_SonySPI3D,
+    write_LUT_SonySPI3D,
+)
 from colour.utilities import as_int_array
 
 __author__ = 'Colour Developers'

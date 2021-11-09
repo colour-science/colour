@@ -2,31 +2,51 @@
 
 from functools import partial
 
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              usage_warning, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    usage_warning,
+    validate_method,
+)
 
 from .common import CV_range, legal_to_full, full_to_legal
 from .gamma import gamma_function
-from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
-                   log_encoding_ACEScc, log_decoding_ACEScc,
-                   log_encoding_ACEScct, log_decoding_ACEScct)
+from .aces import (
+    log_encoding_ACESproxy,
+    log_decoding_ACESproxy,
+    log_encoding_ACEScc,
+    log_decoding_ACEScc,
+    log_encoding_ACEScct,
+    log_decoding_ACEScct,
+)
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_inverse_ARIBSTDB67
 from .arri_alexa_log_c import log_encoding_ALEXALogC, log_decoding_ALEXALogC
-from .blackmagic_design import (oetf_BlackmagicFilmGeneration5,
-                                oetf_inverse_BlackmagicFilmGeneration5)
-from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
-                        log_encoding_CanonLog2, log_decoding_CanonLog2,
-                        log_encoding_CanonLog3, log_decoding_CanonLog3)
+from .blackmagic_design import (
+    oetf_BlackmagicFilmGeneration5,
+    oetf_inverse_BlackmagicFilmGeneration5,
+)
+from .canon_log import (
+    log_encoding_CanonLog,
+    log_decoding_CanonLog,
+    log_encoding_CanonLog2,
+    log_decoding_CanonLog2,
+    log_encoding_CanonLog3,
+    log_decoding_CanonLog3,
+)
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
-from .davinci_intermediate import (oetf_DaVinciIntermediate,
-                                   oetf_inverse_DaVinciIntermediate)
+from .davinci_intermediate import (
+    oetf_DaVinciIntermediate,
+    oetf_inverse_DaVinciIntermediate,
+)
 from .dcdm import eotf_inverse_DCDM, eotf_DCDM
 from .dicom_gsdf import eotf_inverse_DICOMGSDF, eotf_DICOMGSDF
 from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
 from .exponent import exponent_function_basic, exponent_function_monitor_curve
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
-from .filmlight_tlog import (log_encoding_FilmLightTLog,
-                             log_decoding_FilmLightTLog)
+from .filmlight_tlog import (
+    log_encoding_FilmLightTLog,
+    log_decoding_FilmLightTLog,
+)
 from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_inverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_inverse_BT709
@@ -34,34 +54,67 @@ from .itur_bt_1886 import eotf_inverse_BT1886, eotf_BT1886
 from .itur_bt_2020 import eotf_inverse_BT2020, eotf_BT2020
 from .st_2084 import eotf_inverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
-    oetf_PQ_BT2100, oetf_inverse_PQ_BT2100, eotf_PQ_BT2100,
-    eotf_inverse_PQ_BT2100, ootf_PQ_BT2100, ootf_inverse_PQ_BT2100,
-    oetf_HLG_BT2100, oetf_inverse_HLG_BT2100, BT2100_HLG_EOTF_METHODS,
-    eotf_HLG_BT2100, BT2100_HLG_EOTF_INVERSE_METHODS, eotf_inverse_HLG_BT2100,
-    BT2100_HLG_OOTF_METHODS, ootf_HLG_BT2100, BT2100_HLG_OOTF_INVERSE_METHODS,
-    ootf_inverse_HLG_BT2100)
+    oetf_PQ_BT2100,
+    oetf_inverse_PQ_BT2100,
+    eotf_PQ_BT2100,
+    eotf_inverse_PQ_BT2100,
+    ootf_PQ_BT2100,
+    ootf_inverse_PQ_BT2100,
+    oetf_HLG_BT2100,
+    oetf_inverse_HLG_BT2100,
+    BT2100_HLG_EOTF_METHODS,
+    eotf_HLG_BT2100,
+    BT2100_HLG_EOTF_INVERSE_METHODS,
+    eotf_inverse_HLG_BT2100,
+    BT2100_HLG_OOTF_METHODS,
+    ootf_HLG_BT2100,
+    BT2100_HLG_OOTF_INVERSE_METHODS,
+    ootf_inverse_HLG_BT2100,
+)
 from .linear import linear_function
-from .log import (logarithmic_function_basic, logarithmic_function_quasilog,
-                  logarithmic_function_camera, log_encoding_Log2,
-                  log_decoding_Log2)
+from .log import (
+    logarithmic_function_basic,
+    logarithmic_function_quasilog,
+    logarithmic_function_camera,
+    log_encoding_Log2,
+    log_decoding_Log2,
+)
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .fujifilm_flog import log_encoding_FLog, log_decoding_FLog
 from .nikon_nlog import log_encoding_NLog, log_decoding_NLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
-from .red_log import (log_encoding_REDLog, log_decoding_REDLog,
-                      log_encoding_REDLogFilm, log_decoding_REDLogFilm,
-                      LOG3G10_ENCODING_METHODS, LOG3G10_DECODING_METHODS,
-                      log_encoding_Log3G10, log_decoding_Log3G10,
-                      log_encoding_Log3G12, log_decoding_Log3G12)
+from .red_log import (
+    log_encoding_REDLog,
+    log_decoding_REDLog,
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm,
+    LOG3G10_ENCODING_METHODS,
+    LOG3G10_DECODING_METHODS,
+    log_encoding_Log3G10,
+    log_decoding_Log3G10,
+    log_encoding_Log3G12,
+    log_decoding_Log3G12,
+)
 from .rimm_romm_rgb import (
-    cctf_encoding_ROMMRGB, cctf_decoding_ROMMRGB, cctf_encoding_ProPhotoRGB,
-    cctf_decoding_ProPhotoRGB, cctf_encoding_RIMMRGB, cctf_decoding_RIMMRGB,
-    log_encoding_ERIMMRGB, log_decoding_ERIMMRGB)
+    cctf_encoding_ROMMRGB,
+    cctf_decoding_ROMMRGB,
+    cctf_encoding_ProPhotoRGB,
+    cctf_decoding_ProPhotoRGB,
+    cctf_encoding_RIMMRGB,
+    cctf_decoding_RIMMRGB,
+    log_encoding_ERIMMRGB,
+    log_decoding_ERIMMRGB,
+)
 from .smpte_240m import oetf_SMPTE240M, eotf_SMPTE240M
-from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
-                        log_encoding_SLog2, log_decoding_SLog2,
-                        log_encoding_SLog3, log_decoding_SLog3)
+from .sony_slog import (
+    log_encoding_SLog,
+    log_decoding_SLog,
+    log_encoding_SLog2,
+    log_decoding_SLog2,
+    log_encoding_SLog3,
+    log_decoding_SLog3,
+)
 from .srgb import eotf_inverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 

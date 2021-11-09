@@ -9,8 +9,11 @@ import unittest
 import tempfile
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
-from colour.io import (read_spectral_data_from_csv_file,
-                       read_sds_from_csv_file, write_sds_to_csv_file)
+from colour.io import (
+    read_spectral_data_from_csv_file,
+    read_sds_from_csv_file,
+    write_sds_to_csv_file,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

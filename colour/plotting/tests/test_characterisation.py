@@ -6,8 +6,10 @@ Defines the unit tests for the :mod:`colour.plotting.characterisation` module.
 import unittest
 from matplotlib.pyplot import Axes, Figure
 
-from colour.plotting import (plot_single_colour_checker,
-                             plot_multi_colour_checkers)
+from colour.plotting import (
+    plot_single_colour_checker,
+    plot_multi_colour_checkers,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

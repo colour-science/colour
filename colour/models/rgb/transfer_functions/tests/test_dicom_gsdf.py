@@ -7,8 +7,10 @@ Defines the unit tests for the
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import (eotf_inverse_DICOMGSDF,
-                                                  eotf_DICOMGSDF)
+from colour.models.rgb.transfer_functions import (
+    eotf_inverse_DICOMGSDF,
+    eotf_DICOMGSDF,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'

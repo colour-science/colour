@@ -7,8 +7,11 @@ import numpy as np
 import os
 
 import colour
-from colour.plotting import (colour_style, plot_cvd_simulation_Machado2009,
-                             plot_image)
+from colour.plotting import (
+    colour_style,
+    plot_cvd_simulation_Machado2009,
+    plot_image,
+)
 from colour.utilities.verbose import message_box
 
 RESOURCES_DIRECTORY = os.path.join(

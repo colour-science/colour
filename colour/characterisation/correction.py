@@ -60,9 +60,17 @@ References
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_int,
-                              closest, filter_kwargs, ones, tsplit, tstack,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    as_int,
+    closest,
+    filter_kwargs,
+    ones,
+    tsplit,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

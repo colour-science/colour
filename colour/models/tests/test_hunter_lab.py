@@ -8,8 +8,11 @@ import unittest
 from itertools import permutations
 
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
-from colour.models import (XYZ_to_K_ab_HunterLab1966, XYZ_to_Hunter_Lab,
-                           Hunter_Lab_to_XYZ)
+from colour.models import (
+    XYZ_to_K_ab_HunterLab1966,
+    XYZ_to_Hunter_Lab,
+    Hunter_Lab_to_XYZ,
+)
 
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 

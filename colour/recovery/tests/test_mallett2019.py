@@ -7,15 +7,27 @@ import unittest
 import numpy as np
 
 from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import (MSDS_CMFS, CCS_ILLUMINANTS, SDS_ILLUMINANTS,
-                                SpectralShape, reshape_msds, reshape_sd,
-                                sd_to_XYZ)
+from colour.colorimetry import (
+    MSDS_CMFS,
+    CCS_ILLUMINANTS,
+    SDS_ILLUMINANTS,
+    SpectralShape,
+    reshape_msds,
+    reshape_sd,
+    sd_to_XYZ,
+)
 from colour.difference import JND_CIE1976, delta_E_CIE1976
-from colour.models import (RGB_COLOURSPACE_PAL_SECAM, RGB_COLOURSPACE_sRGB,
-                           XYZ_to_RGB, XYZ_to_Lab)
-from colour.recovery import (MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
-                             spectral_primary_decomposition_Mallett2019,
-                             RGB_to_sd_Mallett2019)
+from colour.models import (
+    RGB_COLOURSPACE_PAL_SECAM,
+    RGB_COLOURSPACE_sRGB,
+    XYZ_to_RGB,
+    XYZ_to_Lab,
+)
+from colour.recovery import (
+    MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
+    spectral_primary_decomposition_Mallett2019,
+    RGB_to_sd_Mallett2019,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -24,13 +24,21 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from colour.algebra import spow, vector_dot
-from colour.adaptation.cie1994 import (MATRIX_XYZ_TO_RGB_CIE1994, beta_1,
-                                       exponential_factors,
-                                       intermediate_values)
+from colour.adaptation.cie1994 import (
+    MATRIX_XYZ_TO_RGB_CIE1994,
+    beta_1,
+    exponential_factors,
+    intermediate_values,
+)
 from colour.models import XYZ_to_xy
-from colour.utilities import (MixinDataclassArray, as_float_array,
-                              from_range_degrees, to_domain_100, tsplit,
-                              tstack)
+from colour.utilities import (
+    MixinDataclassArray,
+    as_float_array,
+    from_range_degrees,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

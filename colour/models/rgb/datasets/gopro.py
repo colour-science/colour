@@ -28,8 +28,12 @@ aces_ocio/colorspaces/gopro.py
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, log_decoding_Protune,
-                               log_encoding_Protune, normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_decoding_Protune,
+    log_encoding_Protune,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    validate_method,
+)
 
 from .cie_d import xy_to_CCT_CIE_D, CCT_to_xy_CIE_D
 from .hernandez1999 import xy_to_CCT_Hernandez1999, CCT_to_xy_Hernandez1999

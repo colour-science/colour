@@ -10,7 +10,9 @@ from itertools import permutations
 from colour.colorimetry import MSDS_CMFS
 from colour.temperature import CCT_to_uv_Ohno2013, uv_to_CCT_Ohno2013
 from colour.temperature.ohno2013 import (
-    planckian_table, planckian_table_minimal_distance_index)
+    planckian_table,
+    planckian_table_minimal_distance_index,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'

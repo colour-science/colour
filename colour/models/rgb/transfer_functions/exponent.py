@@ -19,8 +19,12 @@ References
 
 import numpy as np
 
-from colour.utilities import (as_float, as_float_array, suppress_warnings,
-                              validate_method)
+from colour.utilities import (
+    as_float,
+    as_float_array,
+    suppress_warnings,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

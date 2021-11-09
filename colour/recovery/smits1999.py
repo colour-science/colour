@@ -15,8 +15,11 @@ References
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
-                           RGB_COLOURSPACE_sRGB)
+from colour.models import (
+    XYZ_to_RGB,
+    normalised_primary_matrix,
+    RGB_COLOURSPACE_sRGB,
+)
 from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1
 

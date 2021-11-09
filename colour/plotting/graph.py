@@ -9,8 +9,10 @@ Defines the automatic colour conversion graph plotting objects:
 """
 
 import colour
-from colour.graph import (CONVERSION_GRAPH_NODE_LABELS,
-                          describe_conversion_path)
+from colour.graph import (
+    CONVERSION_GRAPH_NODE_LABELS,
+    describe_conversion_path,
+)
 from colour.utilities import required
 
 __author__ = 'Colour Developers'

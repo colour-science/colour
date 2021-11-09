@@ -7,9 +7,15 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models.rgb.ycbcr import (matrix_YCbCr, offset_YCbCr, RGB_to_YCbCr,
-                                     YCbCr_to_RGB, RGB_to_YcCbcCrc,
-                                     YcCbcCrc_to_RGB, WEIGHTS_YCBCR)
+from colour.models.rgb.ycbcr import (
+    matrix_YCbCr,
+    offset_YCbCr,
+    RGB_to_YCbCr,
+    YCbCr_to_RGB,
+    RGB_to_YcCbcCrc,
+    YcCbcCrc_to_RGB,
+    WEIGHTS_YCBCR,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'

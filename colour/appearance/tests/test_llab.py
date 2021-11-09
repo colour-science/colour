@@ -9,10 +9,17 @@ import unittest
 from unittest import mock
 from itertools import permutations
 
-from colour.appearance import (VIEWING_CONDITIONS_LLAB, InductionFactors_LLAB,
-                               XYZ_to_LLAB, llab)
-from colour.utilities import (as_float_array, domain_range_scale,
-                              ignore_numpy_errors)
+from colour.appearance import (
+    VIEWING_CONDITIONS_LLAB,
+    InductionFactors_LLAB,
+    XYZ_to_LLAB,
+    llab,
+)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    ignore_numpy_errors,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

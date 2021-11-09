@@ -56,13 +56,30 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.models.rgb.transfer_functions import (
-    eotf_BT1886, eotf_ST2084, eotf_inverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
-    eotf_inverse_ST2084, oetf_inverse_ARIBSTDB67, oetf_inverse_BT709)
+    eotf_BT1886,
+    eotf_ST2084,
+    eotf_inverse_BT1886,
+    oetf_ARIBSTDB67,
+    oetf_BT709,
+    eotf_inverse_ST2084,
+    oetf_inverse_ARIBSTDB67,
+    oetf_inverse_BT709,
+)
 from colour.models.rgb.transfer_functions.arib_std_b67 import (
-    CONSTANTS_ARIBSTDB67)
+    CONSTANTS_ARIBSTDB67, )
 from colour.utilities import (
-    CaseInsensitiveMapping, Structure, as_float_array, as_float, filter_kwargs,
-    from_range_1, to_domain_1, tsplit, tstack, usage_warning, validate_method)
+    CaseInsensitiveMapping,
+    Structure,
+    as_float_array,
+    as_float,
+    filter_kwargs,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+    usage_warning,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

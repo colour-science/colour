@@ -8,10 +8,21 @@ import unittest
 
 from colour.utilities import ColourUsageWarning
 from colour.utilities.deprecation import (
-    ObjectRenamed, ObjectRemoved, ObjectFutureRename, ObjectFutureRemove,
-    ObjectFutureAccessChange, ObjectFutureAccessRemove, ArgumentRenamed,
-    ArgumentRemoved, ArgumentFutureRename, ArgumentFutureRemove, ModuleAPI,
-    get_attribute, build_API_changes, handle_arguments_deprecation)
+    ObjectRenamed,
+    ObjectRemoved,
+    ObjectFutureRename,
+    ObjectFutureRemove,
+    ObjectFutureAccessChange,
+    ObjectFutureAccessRemove,
+    ArgumentRenamed,
+    ArgumentRemoved,
+    ArgumentFutureRename,
+    ArgumentFutureRemove,
+    ModuleAPI,
+    get_attribute,
+    build_API_changes,
+    handle_arguments_deprecation,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

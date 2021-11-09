@@ -8,12 +8,33 @@ import unittest
 from functools import partial
 
 from colour.utilities import (
-    CacheRegistry, attest, batch, multiprocessing_pool, is_iterable, is_string,
-    is_numeric, is_integer, is_sibling, filter_kwargs, filter_mapping,
-    first_item, get_domain_range_scale, set_domain_range_scale,
-    domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
-    to_domain_int, to_domain_degrees, from_range_1, from_range_10,
-    from_range_100, from_range_int, from_range_degrees, validate_method)
+    CacheRegistry,
+    attest,
+    batch,
+    multiprocessing_pool,
+    is_iterable,
+    is_string,
+    is_numeric,
+    is_integer,
+    is_sibling,
+    filter_kwargs,
+    filter_mapping,
+    first_item,
+    get_domain_range_scale,
+    set_domain_range_scale,
+    domain_range_scale,
+    to_domain_1,
+    to_domain_10,
+    to_domain_100,
+    to_domain_int,
+    to_domain_degrees,
+    from_range_1,
+    from_range_10,
+    from_range_100,
+    from_range_int,
+    from_range_degrees,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

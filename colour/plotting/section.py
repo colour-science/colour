@@ -20,15 +20,31 @@ from colour.geometry import hull_section, primitive_cube
 from colour.graph import convert
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS,
-    COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE, RGB_to_XYZ)
+    COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
+    RGB_to_XYZ,
+)
 from colour.notation import HEX_to_RGB
 from colour.plotting import (
-    CONSTANTS_COLOUR_STYLE, XYZ_to_plotting_colourspace, artist,
-    colourspace_model_axis_reorder, filter_cmfs, filter_RGB_colourspaces,
-    filter_illuminants, override_style, render)
+    CONSTANTS_COLOUR_STYLE,
+    XYZ_to_plotting_colourspace,
+    artist,
+    colourspace_model_axis_reorder,
+    filter_cmfs,
+    filter_RGB_colourspaces,
+    filter_illuminants,
+    override_style,
+    render,
+)
 from colour.volume import solid_RoschMacAdam
-from colour.utilities import (CaseInsensitiveMapping, as_int_array, first_item,
-                              full, required, suppress_warnings, tstack)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_int_array,
+    first_item,
+    full,
+    required,
+    suppress_warnings,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

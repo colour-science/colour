@@ -19,8 +19,13 @@ References
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
-from colour.utilities import (attest, tsplit, tstack, as_float_array,
-                              as_int_array)
+from colour.utilities import (
+    attest,
+    tsplit,
+    tstack,
+    as_float_array,
+    as_int_array,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

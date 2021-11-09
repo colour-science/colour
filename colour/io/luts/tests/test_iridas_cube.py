@@ -9,8 +9,12 @@ import unittest
 import shutil
 import tempfile
 
-from colour.io import (LUT1D, LUTSequence, read_LUT_IridasCube,
-                       write_LUT_IridasCube)
+from colour.io import (
+    LUT1D,
+    LUTSequence,
+    read_LUT_IridasCube,
+    write_LUT_IridasCube,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

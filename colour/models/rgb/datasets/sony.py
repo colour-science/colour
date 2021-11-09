@@ -47,9 +47,14 @@ vendorSupplied/sony/IDT.Sony.Venice_SLog3_SGamut3Cine.ctl
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, log_encoding_SLog2,
-                               log_decoding_SLog2, log_encoding_SLog3,
-                               log_decoding_SLog3, normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_SLog2,
+    log_decoding_SLog2,
+    log_encoding_SLog3,
+    log_decoding_SLog3,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

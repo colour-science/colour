@@ -12,9 +12,17 @@ from copy import deepcopy
 from itertools import permutations
 
 from colour.models import (
-    RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB, RGB_to_XYZ,
-    matrix_RGB_to_RGB, RGB_to_RGB, chromatically_adapted_primaries,
-    normalised_primary_matrix, eotf_inverse_sRGB, eotf_sRGB)
+    RGB_COLOURSPACES,
+    RGB_Colourspace,
+    XYZ_to_RGB,
+    RGB_to_XYZ,
+    matrix_RGB_to_RGB,
+    RGB_to_RGB,
+    chromatically_adapted_primaries,
+    normalised_primary_matrix,
+    eotf_inverse_sRGB,
+    eotf_sRGB,
+)
 from colour.utilities import as_int, domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'

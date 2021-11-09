@@ -17,8 +17,12 @@ F-Log_DataSheet_E_Ver.1.0.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, log_encoding_FLog,
-                               normalised_primary_matrix, log_decoding_FLog)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_FLog,
+    normalised_primary_matrix,
+    log_decoding_FLog,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

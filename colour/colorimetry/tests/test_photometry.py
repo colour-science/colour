@@ -5,9 +5,14 @@ Defines the unit tests for the :mod:`colour.colorimetry.photometry` module.
 
 import unittest
 
-from colour.colorimetry import (SDS_ILLUMINANTS, SDS_LIGHT_SOURCES,
-                                luminous_flux, luminous_efficiency,
-                                luminous_efficacy, sd_zeros)
+from colour.colorimetry import (
+    SDS_ILLUMINANTS,
+    SDS_LIGHT_SOURCES,
+    luminous_flux,
+    luminous_efficiency,
+    luminous_efficacy,
+    sd_zeros,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'

@@ -64,12 +64,23 @@ References
 import numpy as np
 
 from colour.algebra import spow
-from colour.biochemistry import (reaction_rate_MichaelisMenten_Michaelis1913,
-                                 reaction_rate_MichaelisMenten_Abebe2017)
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
-                              as_numeric, filter_kwargs, from_range_100,
-                              get_domain_range_scale, to_domain_1,
-                              to_domain_100, usage_warning, validate_method)
+from colour.biochemistry import (
+    reaction_rate_MichaelisMenten_Michaelis1913,
+    reaction_rate_MichaelisMenten_Abebe2017,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    as_float,
+    as_numeric,
+    filter_kwargs,
+    from_range_100,
+    get_domain_range_scale,
+    to_domain_1,
+    to_domain_100,
+    usage_warning,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
