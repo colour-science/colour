@@ -340,9 +340,9 @@ class TestSetFloatPrecision(unittest.TestCase):
         if not is_networkx_installed():  # pragma: no cover
             return
 
-        from colour.appearance import (CAM_Specification_CAM16,
-                                       CAM_Specification_CIECAM02,
-                                       CAM_Specification_Kim2009)
+        from colour.appearance import (
+            CAM_Specification_CAM16, CAM_Specification_CIECAM02,
+            CAM_Specification_Kim2009, CAM_Specification_ZCAM)
         from colour.graph.conversion import (CONVERSION_SPECIFICATIONS_DATA,
                                              convert)
 
@@ -371,6 +371,9 @@ class TestSetFloatPrecision(unittest.TestCase):
             if source == 'Kim 2009':
                 a = CAM_Specification_Kim2009(J=0.25, M=0.5, h=0.25)
 
+            if source == 'ZCAM':
+                a = CAM_Specification_ZCAM(J=0.25, M=0.5, h=0.25)
+
             if source == 'CMYK':
                 a = np.array([(0.25, 0.5, 0.25, 0.5), (0.25, 0.5, 0.25, 0.5)])
 
@@ -392,8 +395,8 @@ class TestSetFloatPrecision(unittest.TestCase):
                 """
 
                 for specification in ('ATD95', 'CIECAM02', 'CAM16', 'Hunt',
-                                      'Kim 2009', 'LLAB', 'Nayatani95',
-                                      'RLAB'):
+                                      'Kim 2009', 'LLAB', 'Nayatani95', 'RLAB',
+                                      'ZCAM'):
                     if target.endswith(specification):
                         return getattr(x, fields(x)[0].name).dtype
 

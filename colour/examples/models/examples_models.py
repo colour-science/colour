@@ -336,18 +336,18 @@ print(colour.hdr_IPT_to_XYZ(IPT_hdr))
 
 print('\n')
 
-message_box(('Converting to "JzAzBz" colourspace from given "CIE XYZ" '
+message_box(('Converting to "Jzazbz" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
-print(colour.XYZ_to_JzAzBz(XYZ))
+print(colour.XYZ_to_Jzazbz(XYZ))
 
 print('\n')
 
-JzAzBz = np.array([0.00357804, -0.00295507, 0.00038998])
-message_box(('Converting to "CIE XYZ" tristimulus values from given "JzAzBz" '
+Jzazbz = np.array([0.00357804, -0.00295507, 0.00038998])
+message_box(('Converting to "CIE XYZ" tristimulus values from given "Jzazbz" '
              'colourspace values:\n'
-             '\n\t{0}'.format(JzAzBz)))
-print(colour.JzAzBz_to_XYZ(JzAzBz))
+             '\n\t{0}'.format(Jzazbz)))
+print(colour.Jzazbz_to_XYZ(Jzazbz))
 
 print('\n')
 

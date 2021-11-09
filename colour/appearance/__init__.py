@@ -21,6 +21,8 @@ from .llab import (InductionFactors_LLAB, VIEWING_CONDITIONS_LLAB,
 from .nayatani95 import CAM_Specification_Nayatani95, XYZ_to_Nayatani95
 from .rlab import (VIEWING_CONDITIONS_RLAB, D_FACTOR_RLAB,
                    CAM_Specification_RLAB, XYZ_to_RLAB)
+from .zcam import (InductionFactors_ZCAM, VIEWING_CONDITIONS_ZCAM,
+                   CAM_Specification_ZCAM, XYZ_to_ZCAM, ZCAM_to_XYZ)
 
 __all__ = [
     'InductionFactors_Hunt', 'VIEWING_CONDITIONS_HUNT',
@@ -55,4 +57,8 @@ __all__ += ['CAM_Specification_Nayatani95', 'XYZ_to_Nayatani95']
 __all__ += [
     'VIEWING_CONDITIONS_RLAB', 'D_FACTOR_RLAB', 'CAM_Specification_RLAB',
     'XYZ_to_RLAB'
+]
+__all__ += [
+    'InductionFactors_ZCAM', 'VIEWING_CONDITIONS_ZCAM',
+    'CAM_Specification_ZCAM', 'XYZ_to_ZCAM', 'ZCAM_to_XYZ'
 ]

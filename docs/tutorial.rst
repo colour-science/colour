@@ -1112,7 +1112,7 @@ computations are available, expanding to even more computations:
      'ICtCp',
      'IPT',
      'IgPgTg',
-     'JzAzBz',
+     'Jzazbz',
      'OSA UCS',
      'Oklab',
      'hdr-CIELAB',

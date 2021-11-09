@@ -57,7 +57,7 @@ ACES Input Transform Computation
     training_data_sds_to_XYZ
     best_illuminant
     optimisation_factory_rawtoaces_v1
-    optimisation_factory_JzAzBz
+    optimisation_factory_Jzazbz
 
 Colour Fitting
 --------------

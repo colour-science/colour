@@ -10,6 +10,7 @@ Defines the automatic colour conversion graph objects:
 """
 
 import inspect
+import numpy as np
 import textwrap
 from collections import namedtuple
 from copy import copy
@@ -34,14 +35,14 @@ from colour.models import (
     ICaCb_to_XYZ, ICtCp_to_XYZ, IHLS_to_RGB, IgPgTg_to_XYZ, IPT_to_XYZ,
     JMh_CAM16_to_CAM16LCD, JMh_CAM16_to_CAM16SCD, JMh_CAM16_to_CAM16UCS,
     JMh_CIECAM02_to_CAM02LCD, JMh_CIECAM02_to_CAM02SCD,
-    JMh_CIECAM02_to_CAM02UCS, JzAzBz_to_XYZ, LCHab_to_Lab, LCHuv_to_Luv,
+    JMh_CIECAM02_to_CAM02UCS, Jzazbz_to_XYZ, LCHab_to_Lab, LCHuv_to_Luv,
     Lab_to_LCHab, Lab_to_XYZ, Luv_to_LCHuv, Luv_to_XYZ, Luv_to_uv,
     Luv_uv_to_xy, OSA_UCS_to_XYZ, Oklab_to_XYZ, Prismatic_to_RGB,
     RGB_luminance, RGB_to_CMY, RGB_to_HCL, RGB_to_HSL, RGB_to_HSV, RGB_to_IHLS,
     RGB_to_Prismatic, RGB_to_RGB, RGB_to_XYZ, RGB_to_YCbCr, RGB_to_YCoCg,
     RGB_to_YcCbcCrc, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy, UVW_to_XYZ,
     XYZ_to_DIN99, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_ICaCb,
-    XYZ_to_ICtCp, XYZ_to_IgPgTg, XYZ_to_IPT, XYZ_to_JzAzBz, XYZ_to_Lab,
+    XYZ_to_ICtCp, XYZ_to_IgPgTg, XYZ_to_IPT, XYZ_to_Jzazbz, XYZ_to_Lab,
     XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_Oklab, XYZ_to_RGB, XYZ_to_UCS,
     XYZ_to_UVW, XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_sRGB, XYZ_to_xy,
     XYZ_to_xyY, YCbCr_to_RGB, YCoCg_to_RGB, YcCbcCrc_to_RGB, cctf_decoding,
@@ -51,11 +52,11 @@ from colour.models import (
 from colour.notation import (HEX_to_RGB, RGB_to_HEX, munsell_value,
                              munsell_colour_to_xyY, xyY_to_munsell_colour)
 from colour.quality import colour_quality_scale, colour_rendering_index
-from colour.appearance import (CAM_Specification_CAM16, CAM16_to_XYZ,
-                               CAM_Specification_CIECAM02, CIECAM02_to_XYZ,
-                               Kim2009_to_XYZ, XYZ_to_ATD95, XYZ_to_CAM16,
-                               XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_Kim2009,
-                               XYZ_to_LLAB, XYZ_to_Nayatani95, XYZ_to_RLAB)
+from colour.appearance import (
+    CAM_Specification_CAM16, CAM16_to_XYZ, CAM_Specification_CIECAM02,
+    CIECAM02_to_XYZ, Kim2009_to_XYZ, XYZ_to_ATD95, XYZ_to_CAM16,
+    XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_Kim2009, XYZ_to_LLAB,
+    XYZ_to_Nayatani95, XYZ_to_RLAB, XYZ_to_ZCAM, ZCAM_to_XYZ)
 from colour.appearance.ciecam02 import CAM_KWARGS_CIECAM02_sRGB
 from colour.temperature import CCT_to_uv, uv_to_CCT
 from colour.utilities import (domain_range_scale, filter_kwargs, message_box,
@@ -419,8 +420,8 @@ CONVERSION_SPECIFICATIONS_DATA = [
     ('IgPgTg', 'CIE XYZ', IgPgTg_to_XYZ),
     ('CIE XYZ', 'IPT', XYZ_to_IPT),
     ('IPT', 'CIE XYZ', IPT_to_XYZ),
-    ('CIE XYZ', 'JzAzBz', XYZ_to_JzAzBz),
-    ('JzAzBz', 'CIE XYZ', JzAzBz_to_XYZ),
+    ('CIE XYZ', 'Jzazbz', XYZ_to_Jzazbz),
+    ('Jzazbz', 'CIE XYZ', Jzazbz_to_XYZ),
     ('CIE XYZ', 'hdr-IPT', XYZ_to_hdr_IPT),
     ('hdr-IPT', 'CIE XYZ', hdr_IPT_to_XYZ),
     ('CIE XYZ', 'OSA UCS', XYZ_to_OSA_UCS),
@@ -535,6 +536,18 @@ CONVERSION_SPECIFICATIONS_DATA = [
          E_or=1000)),
     ('CIE XYZ', 'RLAB',
      partial(XYZ_to_RLAB, XYZ_n=_TVS_ILLUMINANT_DEFAULT, Y_n=20)),
+    ('CIE XYZ', 'ZCAM',
+     partial(
+         XYZ_to_ZCAM,
+         XYZ_w=_TVS_ILLUMINANT_DEFAULT,
+         L_A=64 / np.pi * 0.2,
+         Y_b=20)),
+    ('ZCAM', 'CIE XYZ',
+     partial(
+         ZCAM_to_XYZ,
+         XYZ_w=_TVS_ILLUMINANT_DEFAULT,
+         L_A=64 / np.pi * 0.2,
+         Y_b=20)),
     ('CIECAM02 JMh', 'CAM02LCD', JMh_CIECAM02_to_CAM02LCD),
     ('CAM02LCD', 'CIECAM02 JMh', CAM02LCD_to_JMh_CIECAM02),
     ('CIECAM02 JMh', 'CAM02SCD', JMh_CIECAM02_to_CAM02SCD),
